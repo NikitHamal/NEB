@@ -64,7 +64,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
@@ -192,7 +191,7 @@ fun LibraryScreen(
         },
         containerColor = MaterialTheme.colorScheme.surface
     ) { paddingValues ->
-        PullToRefreshBox(
+        com.neb.ians.ui.components.NebRefreshBox(
             isRefreshing = isRefreshing,
             onRefresh = {
                 scope.launch {

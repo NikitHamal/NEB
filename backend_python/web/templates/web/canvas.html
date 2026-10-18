@@ -9,7 +9,7 @@
 <meta property="og:title" content="Neby Canvas — Explore it. Prove it. Teach it.">
 <meta property="og:description" content="Turn any question, document, lesson, or idea into a living knowledge map you can verify, practise, teach, and build together.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://nebians.consica.com.np/canvas/">
+<meta property="og:url" content="https://nebians.consica.com.np/app/canvas/">
 <meta property="og:site_name" content="NEBians">
 <meta name="twitter:card" content="summary_large_image">
 {% comment %} This page does not extend base.html, so its card is named here rather than
@@ -31,6 +31,7 @@
 <link rel="stylesheet" href="{% static 'web/css/tool-groups.css' %}?v=49">
 <link rel="stylesheet" href="{% static 'web/css/widgets.css' %}?v=49">
 <link rel="stylesheet" href="{% static 'web/css/neby-avatar.css' %}?v=49">
+<link rel="stylesheet" href="{% static 'web/css/neby-pixel.css' %}?v=50">
 <meta name="theme-color" content="#f5f7fb">
 </head>
 <body class="canvas-body{% if readonly %} readonly{% endif %}" data-board-id="{{ current_board_id|default:'' }}" data-authenticated="{{ is_authenticated|yesno:'true,false' }}">
@@ -43,14 +44,14 @@
     <strong>{{ shared_title }}</strong>
     <span>View-only canvas{% if shared_owner %} by {{ shared_owner }}{% endif %} · explore with drag &amp; scroll</span>
   </div>
-  <a class="sb-cta" href="/canvas/">Make your own →</a>
+  <a class="sb-cta" href="/app/canvas/">Make your own →</a>
 </div>
 {% endif %}
 
 <div class="canvas-app" id="canvasApp">
   <aside class="canvas-sidebar" id="canvasSidebar">
     <div class="cs-top">
-      <a class="cs-back" href="/" aria-label="Back to NEBians" title="Back">
+      <a class="cs-back" href="/app/" aria-label="Back to NEBians" title="Back">
         <span class="material-symbols-outlined">arrow_back</span>
       </a>
       <div class="cs-brand">
@@ -102,11 +103,11 @@
           <div class="cs-meter" title="{{ canvas_credits.remaining }} of {{ canvas_credits.allowance }} credits remaining">
             <div class="cs-meter-fill{% if canvas_credits.low %} low{% endif %}" style="width:{{ canvas_credits.pct }}%"></div>
           </div>
-          <a class="cs-credits-link" href="/credits/">Get more credits</a>
+          <a class="cs-credits-link" href="/app/credits/">Get more credits</a>
           {% endif %}
         </div>
 
-        <a class="cs-circle-meter" href="/credits/" title="{% if canvas_credits.is_admin %}Admin · Unlimited credits{% else %}{{ canvas_credits.remaining }} of {{ canvas_credits.allowance }} credits remaining ({{ canvas_credits.pct }}%){% endif %}" aria-label="Credits: {% if canvas_credits.is_admin %}Unlimited{% else %}{{ canvas_credits.remaining }} left{% endif %}">
+        <a class="cs-circle-meter" href="/app/credits/" title="{% if canvas_credits.is_admin %}Admin · Unlimited credits{% else %}{{ canvas_credits.remaining }} of {{ canvas_credits.allowance }} credits remaining ({{ canvas_credits.pct }}%){% endif %}" aria-label="Credits: {% if canvas_credits.is_admin %}Unlimited{% else %}{{ canvas_credits.remaining }} left{% endif %}">
           <svg viewBox="0 0 36 36" class="cs-circle-svg">
             <path class="cs-circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
             <path class="cs-circle-fill{% if canvas_credits.low %} low{% endif %}" stroke-dasharray="{% if canvas_credits.unlimited %}100, 100{% else %}{{ canvas_credits.pct }}, 100{% endif %}" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
@@ -204,6 +205,6 @@ window.CANVAS_CONFIG = {
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/collab.js' %}?v=49"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/agent-loop.js' %}?v=49"></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/canvas/history-export.js' %}?v=49"></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-avatar.js' %}?v=49"></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-pixel.js' %}?v=50"></script>
 </body>
 </html>

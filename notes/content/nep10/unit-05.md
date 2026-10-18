@@ -108,6 +108,27 @@ tint 0.03
 | २०६५ | देवकोटा जन्म शताब्दी |
 | २०७९ असोज १४ | देवकोटा सङ्ग्रहालय सञ्चालनमा |
 
+```figure caption="देवकोटाको जीवनका छ चरण। जीवनी पढ्दा यही क्रम सम्झँदा कुनै पनि घटना ठाउँबाट चुक्दैन।"
+import numpy as np
+fig, ax = plt.subplots(figsize=(5.0, 2.5))
+stages = ["बाल्यकाल", "प्रतिभाको\nविस्फोट", "दुःखमाझ\nसिर्जना", "देशप्रेम र\nक्रान्ति", "शिक्षा र\nसंस्था", "विश्वसामु\nनेपाली साहित्य"]
+x = np.arange(len(stages))
+ax.plot(x, [0.6, 1.6, 2.0, 2.6, 2.2, 3.2], "-o", color=ACCENT, lw=1.6, ms=5)
+for i, name in enumerate(stages):
+    ax.text(i, ax.lines[0].get_ydata()[i] + 0.28, name, ha="center", va="bottom",
+            fontsize=6.5, color=INK)
+ax.set_xlim(-0.6, len(stages) - 0.4)
+ax.set_ylim(0, 4.3)
+ax.set_xticks(x)
+ax.set_xticklabels([])
+ax.set_ylabel("जीवनक्रम", fontsize=7.5)
+ax.tick_params(labelsize=7, length=0)
+ax.spines[["top", "right"]].set_visible(False)
+ax.yaxis.grid(True, color=GRID, lw=0.6)
+ax.set_axisbelow(True)
+fig.tight_layout()
+```
+
 ## ५.४ जीवनका चरणको विश्लेषण
 
 ### (क) बाल्यकाल र संस्कार
@@ -186,6 +207,27 @@ tint 0.03
 | शरीर जाँदा पनि कृतिमा बाँचिन्छ | 'पार्थिव शरीर नरहे पनि कृतिमा अनवरत बाँचेका छन्' |
 
 **मूल सन्देश.** परिस्थिति जस्तै होस्, मान्छेको सिर्जनशील प्रतिभा र देशप्रेमले उसलाई अमर बनाउँछ।
+
+```figure caption="जीवनी लेखनको ढाँचा। जीवनी जन्मदेखि निधनसम्मको क्रम हो, तर परीक्षामा मूल्याङ्कन योगदानमा हुन्छ — त्यसैले अन्तिम दुई खण्ड लामो हुनुपर्छ।"
+fig, ax = plt.subplots(figsize=(4.8, 2.8))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+blocks = [("जन्म र परिवार", 1.0, 2.0), ("शिक्षा", 1.0, 1.2), ("सङ्घर्ष", 1.0, 1.2),
+          ("सिर्जना र कृति", 1.0, 2.4), ("योगदान र सम्मान", 1.0, 2.8)]
+total = sum(b[2] for b in blocks)
+x = 0.4
+for name, _, weight in blocks:
+    w = 9.2 * weight / total
+    ax.add_patch(plt.Rectangle((x, 3.0), w, 1.3, fc=ACCENT, alpha=0.16, ec=ACCENT, lw=1.0))
+    ax.text(x + w / 2, 3.65, name, ha="center", va="center", fontsize=6.6, color=INK)
+    x += w
+ax.text(5.0, 2.2, "यही अनुपातमा लेख्दा जीवनी सन्तुलित हुन्छ।", ha="center", fontsize=7.0,
+        color=MUTED)
+ax.text(5.0, 1.3, "कृति र योगदानका नाम, साल र विधा लेख्न बिर्सनुहोस्।", ha="center",
+        fontsize=6.8, color=MUTED)
+fig.tight_layout()
+```
 
 ## ५.८ भाषाशैली
 

@@ -86,7 +86,7 @@ class AvatarSessionTests(TestCase):
             'avatar_eye_color': '',
             'avatar_use_pp': True,
         })
-        home = client.get('/')
+        home = client.get('/app/')
         self.assertEqual(home.status_code, 200)
         session_user = client.session.get('user_data')
         self.assertEqual(session_user.get('gender'), 'Male')

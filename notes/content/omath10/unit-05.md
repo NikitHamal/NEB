@@ -13,6 +13,9 @@ This chapter puts the trigonometry of Chapter 4 to work in three ways. First, wh
 Expect: (i) prove an identity for angles of a triangle ($A+B+C=180^\circ$), such as $\tan A+\tan B+\tan C=\tan A\tan B\tan C$; (ii) solve an equation such as $2\sin^2\theta-\sin\theta-1=0$ for $0^\circ\leq\theta\leq360^\circ$ (give **all** solutions in the range); (iii) a height-and-distance problem with a **figure**, using $\tan\theta$ and often $\tan30^\circ=\frac{1}{\sqrt{3}}$, $\tan60^\circ=\sqrt{3}$. Draw a clear, labelled diagram first; it earns marks on its own.
 :::
 
+```photo id="omath10/theodolite-survey" caption="A Wild T2 theodolite. Height-and-distance problems are solved in the field by reading two angles and one base length, then applying the trigonometric formulas of this chapter." width="86"
+```
+
 ## 5.1 Conditional trigonometric identities
 
 An identity is true for **all** angles. A **conditional identity** is true only when the angles satisfy a stated condition. The most common condition is that $A$, $B$, $C$ are the angles of a triangle: $A+B+C=180^\circ$.

@@ -13,6 +13,9 @@ How tall is a tower you cannot climb? How wide is a river you cannot cross? Surv
 Expect: (i) find all trigonometric ratios from one given ratio (e.g. $\sin\theta=\frac{5}{13}$); (ii) evaluate expressions with the standard values of $30^\circ,45^\circ,60^\circ$; (iii) **prove an identity** such as $(\sec\theta-\tan\theta)(\sec\theta+\tan\theta)=1$; (iv) use complementary angles ($\sin 25^\circ=\cos65^\circ$); (v) a word problem on a tower, ladder or cliff using the angle of **elevation** or **depression**. Draw a clear figure, mark the right angle and the angle, and write the ratio you use.
 :::
 
+```photo id="math10/theodolite" caption="A student measuring angles with a theodolite. Surveyors find the height of a tower or the width of a river with exactly the tangent ratios you use in this chapter." width="60"
+```
+
 ## 16.1 Trigonometry: concepts, formulas and worked problems
 
 ### The right-angled triangle and its sides

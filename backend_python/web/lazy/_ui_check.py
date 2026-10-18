@@ -39,8 +39,8 @@ session['user_id'] = user.id
 session.create()
 client.cookies[settings.SESSION_COOKIE_NAME] = session.session_key
 
-res = client.get('/lazy/')
-check('/lazy/ returns 200', res.status_code == 200, res.status_code)
+res = client.get('/app/lazy/')
+check('/app/lazy/ returns 200', res.status_code == 200, res.status_code)
 
 if res.status_code != 200:
     print('\nSKIPPING remaining checks — page did not render')

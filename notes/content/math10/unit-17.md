@@ -13,6 +13,9 @@ An average tells us where the middle of a set of data lies, but it does not say 
 Expect: (i) range and its coefficient; (ii) **quartile deviation** and its coefficient, from a frequency table (3–4 marks); (iii) **mean deviation** and coefficient; (iv) **standard deviation** and variance, often by the step-deviation method; (v) a comparison using the **coefficient of variation**: "which team is more consistent?". Write the formula, the table, the substitution and the final answer with the right unit (a coefficient has none).
 :::
 
+```photo id="math10/rain-gauge" caption="A rain gauge. It gives one raw reading a day. Mean, median and mode are the three ways of turning a whole year of such readings into a single number." width="54"
+```
+
 ## 17.1 Statistics: concepts, formulas and worked problems
 
 ### Recall: measures of central tendency

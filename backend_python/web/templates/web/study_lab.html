@@ -398,7 +398,7 @@
     if(s.hasMindmap) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">account_tree</span>Mindmap</span>';
     if(s.hasQuiz) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">quiz</span>Quiz</span>';
     if(s.hasFlashcards) badges += '<span class="sl-space-badge"><span class="material-symbols-outlined">style</span>Flashcards</span>';
-    var href = s.isJoined ? '/study-space/'+s.id+'/' : '/study-space/shared/'+s.shareToken+'/';
+    var href = s.isJoined ? '/app/study-space/'+s.id+'/' : '/app/study-space/shared/'+s.shareToken+'/';
     return '<a href="'+href+'" class="sl-space-card">'
       + '<span class="material-symbols-outlined sl-space-card-icon">workspaces</span>'
       + '<h3 class="sl-space-card-title">'+escapeHtml(s.title)+'</h3>'
@@ -480,7 +480,7 @@
           createModal.style.display='none';
           titleInput.value=''; descInput.value='';
           titleCount.textContent='0'; descCount.textContent='0';
-          window.location.href='/study-space/'+data.id+'/';
+          window.location.href='/app/study-space/'+data.id+'/';
         } else {
           alert(data.error||'Failed to create space');
         }

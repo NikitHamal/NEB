@@ -13,6 +13,9 @@ An **equation** is a statement that two expressions are equal; to **solve** it i
 Expect: (i) solve a pair of linear equations, sometimes with fractions; (ii) a **word problem** that you must first turn into equations; (iii) solve a **quadratic** by factorising or by the formula; (iv) a word problem on area, consecutive numbers, right triangles or speed that leads to a quadratic, where one root is rejected. Every solution should show: *let*, *form the equation*, *solve*, *check*, *answer in a sentence*.
 :::
 
+```photo id="math10/balance" caption="A two-pan balance. Solving an equation is precisely this: whatever you do to one side you must also do to the other, so that the two remain equal." width="84"
+```
+
 ## 12.1 Equations: concepts, formulas and worked problems
 
 ### Pairs of linear equations

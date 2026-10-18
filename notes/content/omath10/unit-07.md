@@ -13,6 +13,9 @@ A bicycle wheel, the path of a football kicked high, the shape of a satellite di
 Expect (i) the centre and radius from an equation such as $x^2+y^2-6x+8y-11=0$; (ii) the equation of a circle from its centre and radius, or from the ends of a diameter; (iii) the circle through three given points; (iv) a circle that touches the axes or has its centre on given lines. The whole chapter rests on the distance formula $d=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$.
 :::
 
+```photo id="omath10/satellite-dish" caption="A satellite dish is a paraboloid. Rays arriving parallel to its axis all reflect to a single point, the focus — the property that makes the parabola a conic worth studying." width="66"
+```
+
 ## 7.1 Conic sections: circle, parabola, ellipse and hyperbola
 
 ### The cone

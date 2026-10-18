@@ -1,481 +1,939 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 2
-title: Development and the Foundations of Development
+title: विकास र विकासका आधार
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-A country is not developed just because it has tall buildings. A country develops when its people live long and healthy lives, learn, earn a decent income, take part in decisions, and leave a healthy planet for their children. This unit follows that idea through four topics: how development is measured (the Human Development Index), how it can last (sustainable development), how power is shared to bring it closer to the people (federalism in Nepal) and which very large projects Nepal has chosen as engines of change (national pride projects). Many of the facts here are numbers and dates, so a careful reader will collect easy marks.
+धनुषाका रामअवतारको परिवार पहिले पाँच कट्ठा खेतबाट मुस्किलले गुजारा गर्थ्यो। आज
+उहाँहरू साक्षर हुनुहुन्छ, वर्षमा तीन लाखभन्दा बढी कमाउनुहुन्छ, छोराछोरी उच्च शिक्षा
+पढेर काम गर्छन् र सत्तरी वर्षको उमेरमा पनि बुबा स्वस्थ हुनुहुन्छ। यही **शिक्षा,
+स्वास्थ्य र आय** को सुधार नै विकास हो। तर विकास भन्दैमा जङ्गल फँडानी गरेर सडक
+खन्दा पहिरो गयो भने त्यो विनाश बन्छ; त्यसैले विकास **दिगो** हुनुपर्छ। विकास
+जनताको घरदैलोसम्म पुर्‍याउन नेपालले **सङ्घीयता** अपनायो र देशको मुहार फेर्न
+**राष्ट्रिय गौरवका आयोजना** सञ्चालन गरेको छ। यस एकाइमा यिनै चार विषय पढ्नेछौँ।
 
-::: key What the SEE paper expects from this unit
-Typical questions: "What is HDI? Write its three indicators." (2 marks); "Write the meaning of sustainable development" (2 marks); "Name the three tiers of government of Nepal" (1 or 2 marks); "Explain the importance of national pride projects" or "Describe the federal structure of Nepal" (4 marks). Learn the definition of each key term, the lists (three HDI dimensions, 17 SDGs, 3 tiers, 7 provinces, 753 local levels) and at least three named projects with place and purpose.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+मानव विकास सूचकाङ्कको परिभाषा, तीन पक्ष (प्रतिव्यक्ति आय, औसत आयु, शिक्षा), ० देखि
+१ को मापन, आवश्यकता र मानव विकास प्रतिवेदन २०२५ अनुसार सार्क मुलुकको तालिका
+(नेपाल ०.६२२, १४५ औँ, सार्कमा छैटौँ); दिगो विकासको परिभाषा, स्टकहोम सम्मेलन
+(सन् १९७२), विश्वव्यापी प्रयास, संविधानको धारा ३० र धारा ५१ (छ), आठ उद्देश्य,
+प्रवर्धनका उपाय र सात आयाम; सङ्घीयताको अर्थ, नेपालमा यसको पृष्ठभूमि (२०६५ जेठ
+१५), सात प्रदेश र ७५३ स्थानीय तह, फाइदा र तीन तहको कार्यक्षेत्र; विकास आयोजना
+र राष्ट्रिय गौरवका आयोजनाको अर्थ, २४ आयोजनाको सूची, महत्त्व र पुष्पलाल लोकमार्ग,
+हुलाकी लोकमार्ग, मेलम्ची, भेरी बबई, सुनकोसी मरिन, चुरे संरक्षण, द्रुतमार्ग र
+पशुपति क्षेत्र विकास कोषका मुख्य अङ्क।
 :::
 
-## 2.1 Human Development Index
+## २.१ मानव विकास सूचकाङ्क
 
-### Development and growth
+पाठ्यपुस्तकले यो पाठ एउटा सन्दर्भबाट सुरु गरेको छ। **रामअवतार** धनुषा जिल्लाको
+दक्षिणी क्षेत्रमा बस्नुहुन्छ। जम्मा पाँच कट्ठा खेतमा तरकारी लगाएर उहाँ गुजारा
+चलाउनुहुन्थ्यो। गाउँको **प्रौढ कक्षा** मा सहभागी भएर उहाँ र उहाँकी श्रीमती
+**दुलारीदेवी** साक्षर हुनुभयो। साक्षर भएपछि उहाँहरू आयआर्जनमा सक्रिय हुनुभयो —
+स्थानीय सहकारीबाट कृषि ऋण लिएर व्यावसायिक तरकारी खेती सुरु गर्नुभयो र तरकारी
+स्थानीय बजारमा बेच्न थाल्नुभयो। अहिले वार्षिक **३ लाखभन्दा बढी** आम्दानी हुन्छ।
 
-**Economic growth** means an increase in a country's total output, usually measured by the **Gross Domestic Product (GDP)** or by income per person. **Development** is wider: it means a better life in health, education, income, safety, freedom and the environment. A country can grow richer while many of its people stay ill or unschooled, so growth alone does not prove development.
+त्यही आम्दानीबाट छोराछोरी उच्च शिक्षासम्म पढे। छोरी **रमिता** सरकारी अस्पतालमा
+स्वास्थ्य प्राविधिक भइन् र आमाबुबाको स्वास्थ्यको ख्याल राख्छिन्। छोरा **धनेश** ले कृषिमा
+स्नातक गरी **प्राङ्गारिक तरकारी फार्म** दर्ता गरेर बुबाकै पेसा विस्तार गरे। रामअवतार
+७० वर्षमा पनि स्वस्थ हुनुहुन्छ र दुलारीदेवी ६८ वर्षमा पनि सक्रिय हुनुहुन्छ। इमानदारी
+र परिश्रमले यो परिवार सुखी बन्यो र गाउँलेका लागि अनुकरणीय भयो।
 
-| Economic growth | Development |
-|---|---|
-| Narrow: a rise in income or output | Broad: better life in all respects |
-| Measured by GDP or income per capita | Measured by HDI, poverty, health, schooling and more |
-| A number that can be quickly counted | A process that includes quality of life |
-| Can happen without benefiting everybody | Aims to benefit everybody |
+```figure caption="रामअवतारको परिवारमा मानव विकासको शृङ्खला। शिक्षाले आय बढायो, आयले छोराछोरीको शिक्षा र स्वास्थ्य सम्भव बनायो — तीनै पक्ष एकअर्कालाई बलियो बनाउँछन्।"
+fig, ax = flow([("साक्षरता", "प्रौढ कक्षा"),
+                ("ऋण", "सहकारीको\nकृषि ऋण"),
+                ("आय", "वार्षिक ३ लाख\nभन्दा बढी"),
+                ("शिक्षा", "छोराछोरीको\nउच्च शिक्षा"),
+                ("स्वास्थ्य", "लामो, सक्रिय\nजीवन")],
+               note="शिक्षा + आय + औसत आयु = सुखी परिवार", figsize=(5.9, 2.15))
+```
 
-### What is the Human Development Index?
+यस सन्दर्भले कुनै पनि परिवार सुखी हुन **शिक्षा, स्वास्थ्य र औसत आयु** मा सुधार
+हुनुपर्छ भन्ने सङ्केत गर्छ। व्यक्तिको आर्थिक र सामाजिक विकासका पक्ष — स्वास्थ्य,
+शिक्षा, खानपान, बसोबासको अवस्था र सिप विकास — मा भएको सुधारात्मक प्रगति नै **मानव
+विकास** हो।
 
-::: definition Human Development Index (HDI)
-The Human Development Index is a summary measure of the average achievement of a country in three basic dimensions of human development: a long and healthy life, knowledge, and a decent standard of living. It is published every year by the United Nations Development Programme (UNDP) in its *Human Development Report*.
+::: definition मानव विकास सूचकाङ्क
+कुनै देशको आर्थिक, सामाजिक, शैक्षिकलगायतका क्षेत्रमा प्रगतिको स्तर देखाउने सूचक नै
+**मानव विकास सूचकाङ्क** हो। मानव विकासका तीन महत्त्वपूर्ण पक्ष — **प्रतिव्यक्ति आय,
+औसत आयु र शिक्षा** — को समग्र सूचकलाई आधार मानी कुनै भौगोलिक एकाइ, जाति वा
+समुदायको मानव विकासको अवस्था देखाउने **सङ्ख्यात्मक प्रस्तुति** मानव विकास
+सूचकाङ्क हो।
 :::
 
-The idea that people, not only money, are the real wealth of a nation was put forward by the Pakistani economist **Mahbub ul Haq**, helped by the Indian economist **Amartya Sen**. The first *Human Development Report* appeared in **1990**. The HDI takes a value between **0 and 1**. The nearer to 1, the higher the development.
+सूचकाङ्क निकाल्न **आयु सूचक, शैक्षिक सूचक र आय सूचक** छुट्टाछुट्टै निकालिन्छन् र
+प्राप्त तथ्याङ्कलाई **० देखि १** का बिचमा मापन गरिन्छ। अङ्क १ को जति नजिक हुन्छ, मानव
+विकास त्यति उच्च मानिन्छ। संयुक्त राष्ट्रसङ्घीय विकास कार्यक्रमले हरेक वर्ष **मानव
+विकास प्रतिवेदन** प्रकाशित गरी देशहरूलाई यही अङ्कका आधारमा क्रममा राख्छ।
 
-### The three dimensions and their indicators
-
-| Dimension | What it shows | Indicator used |
+| आयाम | सूचक | के जनाउँछ |
 |---|---|---|
-| Health | A long and healthy life | Life expectancy at birth |
-| Education | Knowledge | Mean years of schooling (adults aged 25+) and expected years of schooling (for children) |
-| Standard of living | A decent income | Gross national income (GNI) per person, in purchasing power parity dollars |
+| लामो र स्वस्थ जीवन | आयु सूचक (जन्मँदाको औसत आयु) | स्वास्थ्य, पोषण, सरसफाइ |
+| ज्ञान | शैक्षिक सूचक (औसत र अपेक्षित विद्यालय वर्ष) | शिक्षाको पहुँच |
+| मर्यादित जीवनस्तर | आय सूचक (प्रतिव्यक्ति आय) | आम्दानी र खर्च गर्ने क्षमता |
 
-Life expectancy at birth is the number of years a newborn would live if present death rates continued. Mean years of schooling is the average number of years of education adults have completed. Expected years of schooling is the number of years a child starting school today can expect to complete. GNI per capita in PPP dollars corrects for the fact that a rupee buys different amounts in different countries.
+संयुक्त राष्ट्रसङ्घीय विकास कार्यक्रमले सूचकाङ्कका आधारमा देशलाई चार समूहमा राख्छ:
+**अति उच्च** (०.८०० वा माथि), **उच्च** (०.७०० देखि ०.७९९), **मध्यम** (०.५५० देखि
+०.६९९) र **न्यून** (०.५५० भन्दा कम) मानव विकास।
 
-```figure caption="The three dimensions of the Human Development Index and the indicators that measure them. Each dimension is converted to an index from 0 to 1 and the three are combined into one HDI."
-import matplotlib.pyplot as plt
+### मानव विकास सूचकाङ्कको आवश्यकता
+
+- १. कुनै देश, प्रदेश वा समुदायको **मानव विकासको अवस्था पहिचान** गर्न।
+- २. कुन पक्ष (शिक्षा, स्वास्थ्य वा आय) कमजोर छ हेरेर **सुधारका क्षेत्र निर्धारण** गर्न।
+- ३. मानव विकासमा सुधार गर्नुपर्ने पक्षका **रणनीति र कार्यक्रम तयार** गर्न।
+- ४. अरू देश वा क्षेत्रसँग **तुलना** गरी आफ्नो स्थान थाहा पाउन।
+- ५. समयक्रममा भएको **प्रगति वा गिरावट मापन** गरी नीति कति सफल भयो भनेर मूल्याङ्कन गर्न।
+
+### सार्क मुलुकको मानव विकास सूचकाङ्क
+
+मानव विकास प्रतिवेदन, २०२५ मा **१९३ देश** को अवस्था देखाइएको छ। यसअनुसार सार्क
+मुलुकको स्थिति यस्तो छ:
+
+| विश्व क्रम | देश | अङ्क | विश्व क्रम | देश | अङ्क |
+|---|---|---|---|---|---|
+| ८९ | श्रीलङ्का | ०.७७६ | १३० | भारत | ०.६८५ |
+| ९३ | माल्दिभ्स | ०.७६६ | १४५ | नेपाल | ०.६२२ |
+| १२५ | भुटान | ०.६९८ | १६८ | पाकिस्तान | ०.५४४ |
+| १३० | बङ्गलादेश | ०.६८५ | १८१ | अफगानिस्तान | ०.४९६ |
+
+*स्रोत: संयुक्त राष्ट्रसङ्घीय विकास कार्यक्रम, मानव विकास प्रतिवेदन २०२५*
+
+```figure caption="सार्क मुलुकको मानव विकास सूचकाङ्क (मानव विकास प्रतिवेदन २०२५)। नेपाल ०.६२२ अङ्कसहित सार्कमा छैटौँ स्थानमा छ; श्रीलङ्का र माल्दिभ्स उच्च मानव विकास समूहमा छन्।"
+fig, ax = barh_ranked(["श्रीलङ्का", "माल्दिभ्स", "भुटान", "बङ्गलादेश", "भारत",
+                       "नेपाल", "पाकिस्तान", "अफगानिस्तान"],
+                      [0.776, 0.766, 0.698, 0.685, 0.685, 0.622, 0.544, 0.496],
+                      highlight=["नेपाल"], fmt="{:.3f}", figsize=(5.6, 3.3))
+ax.set_xlim(0, 0.92)
+```
+
+::: caution तालिका पढ्दा ध्यान दिनुहोस्
+बङ्गलादेश र भारत दुवैको अङ्क **०.६८५** बराबर भएकाले दुवै **१३० औँ** स्थानमा छन्।
+त्यसैले सार्कमा क्रम गन्दा श्रीलङ्का, माल्दिभ्स, भुटान, बङ्गलादेश, भारत हुँदै नेपाल
+**छैटौँ** पर्छ। माथिल्लो तालिकामा "क्रम" भनेको सार्कभित्रको होइन, **१९३ देशमध्येको
+विश्व क्रम** हो। भुटान (०.६९८) उच्च समूहको सीमा ०.७०० भन्दा थोरैले मात्र तल छ।
+:::
+
+### विश्वमा उच्च स्थानमा रहेका राष्ट्र
+
+| क्रम | देश | प्राप्त अङ्क |
+|---|---|---|
+| १ | आइसल्यान्ड | ०.९७२ |
+| २ | नर्वे | ०.९७० |
+| २ | स्विट्जरल्यान्ड | ०.९७० |
+| ४ | डेनमार्क | ०.९६२ |
+| ५ | जर्मनी | ०.९५९ |
+
+नर्वे र स्विट्जरल्यान्डको अङ्क बराबर भएकाले दुवै दोस्रो छन् र त्यसपछिको देश डेनमार्क
+चौथो हुन्छ (तेस्रो क्रम खाली रहन्छ)। यी सबै देश युरोपका हुन्, जहाँ निःशुल्क वा सस्तो
+गुणस्तरीय शिक्षा, बलियो स्वास्थ्य प्रणाली र उच्च प्रतिव्यक्ति आय छ।
+
+### नेपालको स्थिति र सुधारका उपाय
+
+नेपाल लामो समयदेखि **मध्यम मानव विकास** को अवस्थामा छ। अपेक्षित सुधार नहुनुका
+प्रमुख कारण **प्रतिव्यक्ति आय कमजोर हुनु** र **लैङ्गिक असमानता** कायम रहनु मानिएका छन्।
+शिक्षा, स्वास्थ्य, सिप विकास र रोजगारीका अवसरलाई प्राथमिकता दिए; स्थिर सरकार,
+सुशासन, रोजगारमूलक शिक्षा र औद्योगीकरणमा ध्यान दिए नेपालले प्रगति गर्न सक्छ।
+पाठ्यपुस्तकले सुझाएका उपाय:
+
+- (क) वैज्ञानिक, प्राविधिक र सिपमूलक शिक्षामा जोड दिने।
+- (ख) शैक्षिक क्षति (बिचैमा पढाइ छोड्ने, कक्षा दोहोर्‍याउने) घटाई गुणस्तरीय शिक्षामा जोड दिने।
+- (ग) औसत आयु सुधार्न पोषण, सरसफाइ र सर्वसुलभ स्वास्थ्य सेवा–सुविधा विकास गर्ने।
+- (घ) जनतालाई रोजगारमूलक र स्वरोजगारमूलक आयआर्जनका कार्यक्रमसँग जोड्ने।
+- (ङ) शासकीय सुधारका पक्षलाई व्यवस्थित गर्ने।
+- (च) जनचेतना अभिवृद्धिका कार्यक्रम सञ्चालन गर्ने।
+- (छ) मानव अधिकार, स्वतन्त्र न्याय प्रणाली, समावेशीकरण, सुशासन र जनसहभागिताको
+  स्तर बढाउने।
+
+```photo id="soc10/school-girls" caption="विद्यालय जाँदै गरेका छात्राहरू। छोरीको शिक्षाले लैङ्गिक असमानता घटाउँछ, परिवारको स्वास्थ्य र आय सुधार्छ — मानव विकास सूचकाङ्कका तीनै पक्ष यसबाट बलियो हुन्छन्।" width="60"
+```
+
+::: example सूचकाङ्कको अर्थ लगाउने
+**प्रश्न.** नेपालको अङ्क ०.६२२ र आइसल्यान्डको ०.९७२ छ। यो फरकले के बताउँछ?
+
+**उत्तर.** फरक ०.९७२ − ०.६२२ = **०.३५०** हो। यसको अर्थ आइसल्यान्डका नागरिकले नेपालीको
+तुलनामा धेरै लामो औसत आयु, धेरै वर्षको विद्यालय शिक्षा र धेरै उच्च आय पाउँछन्।
+नेपाल मध्यम समूहमा र आइसल्यान्ड अति उच्च समूहमा पर्छ। नेपालले आय, शिक्षाको
+गुणस्तर र स्वास्थ्य सेवा तीनैतिर एकसाथ सुधार गरे मात्र यो खाडल घट्छ, किनभने
+सूचकाङ्क तीनै पक्षको समग्र अङ्क हो — एउटा मात्र बढाएर पुग्दैन।
+:::
+
+::: note क्रियाकलाप — पाठ २.१
+**१.** हालै प्रकाशित मानव विकास प्रतिवेदनअनुसार नेपालको शिक्षा, स्वास्थ्य र औसत आयुको
+अवस्था इन्टरनेटमा खोजी गर्नुहोस् र कुनै एक सार्क मुलुकसँग तुलना गर्नुहोस्। (सङ्केत:
+श्रीलङ्कासँग तुलना गर्दा उसको औसत आयु र विद्यालय वर्ष नेपालभन्दा बढी भएकाले अङ्क
+उच्च देखिन्छ।)
+**२.** विश्वमा उच्च र न्यून मानव विकास सूचकाङ्क भएका पाँच पाँचओटा मुलुक खोजी गरी
+तालिकामा देखाउनुहोस्। (उच्च पाँच यही पाठको तालिकामा छन्; न्यून पाँचका लागि हालको
+प्रतिवेदनको अन्तिम पाँच देश हेर्नुहोस् — ती प्रायः अफ्रिकाका द्वन्द्वग्रस्त देश हुन्।)
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. मानव विकास सूचकाङ्क भनेको के हो?**
+कुनै देश, भौगोलिक एकाइ, जाति वा समुदायको आर्थिक, सामाजिक र शैक्षिक प्रगतिको स्तर
+देखाउने सङ्ख्यात्मक सूचकलाई मानव विकास सूचकाङ्क भनिन्छ। यो प्रतिव्यक्ति आय, औसत
+आयु र शिक्षा गरी तीन पक्षको समग्र सूचकमा आधारित हुन्छ र ० देखि १ का बिचमा मापन
+गरिन्छ। मानव विकास प्रतिवेदन २०२५ अनुसार नेपालको सूचकाङ्क ०.६२२ छ र नेपाल १९३
+देशमध्ये १४५ औँ स्थानमा छ।
+
+**२. मानव विकास सूचकाङ्क प्रतिवेदन, २०२५ मा धेरै सार्क मुलुकको मानव विकास अवस्था
+कमजोर हुनुका कारण उल्लेख गर्नुहोस्।**
+प्रतिवेदनमा श्रीलङ्का र माल्दिभ्सबाहेक सबै सार्क मुलुक मध्यम वा न्यून समूहमा छन्।
+यसका कारण: (क) **प्रतिव्यक्ति आय कम** र व्यापक गरिबी; (ख) **लैङ्गिक असमानता** —
+छोरीको शिक्षा, महिलाको रोजगारी र निर्णयमा कम सहभागिता; (ग) **शिक्षाको गुणस्तर कमजोर**,
+विद्यालय छाड्ने दर बढी र सिपमूलक शिक्षाको अभाव; (घ) **स्वास्थ्य सेवाको पहुँच कम**,
+कुपोषण र सरसफाइको कमीले औसत आयु घट्नु; (ङ) **राजनीतिक अस्थिरता, द्वन्द्व र
+भ्रष्टाचार** — अफगानिस्तान र पाकिस्तानमा द्वन्द्वले विकास रोकेको छ; (च) बढ्दो
+जनसङ्ख्या र **बेरोजगारी**; (छ) औद्योगीकरण कम भई कृषिमा धेरै निर्भरता; (ज) बाढी,
+पहिरो र भूकम्पजस्ता प्राकृतिक प्रकोप।
+
+**३. मानव विकास सूचकाङ्कको आवश्यकता औँल्याउनुहोस्।**
+(क) कुनै देश वा समुदायको मानव विकासको वास्तविक अवस्था पहिचान गर्न; (ख) शिक्षा,
+स्वास्थ्य र आयमध्ये कुन पक्ष कमजोर छ भनी सुधारका क्षेत्र निर्धारण गर्न; (ग) सुधार
+गर्नुपर्ने पक्षका लागि रणनीति, नीति र कार्यक्रम तयार गर्न; (घ) अन्य देश वा प्रदेशसँग
+तुलना गर्न; (ङ) समयसँगै भएको प्रगति मापन गरी लगानी र बजेट कहाँ बढाउने भन्ने निर्णय
+गर्न। आय मात्र होइन, मानिसको जीवनको गुणस्तर नाप्ने भएकाले यो सूचकाङ्क विकास
+योजनाको आधार बन्छ।
+
+**४. नेपालले मानव विकास सूचकाङ्कमा सुधार गर्न कुन कुन पक्षमा ध्यान दिनुपर्ला?**
+(क) वैज्ञानिक, प्राविधिक र सिपमूलक शिक्षा विस्तार; (ख) शैक्षिक क्षति घटाई गुणस्तरीय
+शिक्षा; (ग) पोषण, सरसफाइ र सर्वसुलभ स्वास्थ्य सेवाद्वारा औसत आयु वृद्धि; (घ) रोजगारमूलक
+र स्वरोजगारमूलक आयआर्जन कार्यक्रम, उद्योग र उद्यमशीलताको विकास; (ङ) शासकीय सुधार,
+सुशासन र स्थिर सरकार; (च) जनचेतना अभिवृद्धि; (छ) लैङ्गिक समानता — छोरीको शिक्षा र
+महिलाको आर्थिक सशक्तीकरण; (ज) मानव अधिकार, स्वतन्त्र न्याय प्रणाली, समावेशीकरण र
+जनसहभागिता। रामअवतारको परिवारजस्तै शिक्षा, आय र स्वास्थ्य सँगसँगै बढाउँदा मात्र
+सूचकाङ्क उल्लेख्य बढ्छ।
+
+## २.२ दिगो विकास
+
+### सन्दर्भ: चमेलीको गाउँ
+
+चमेलीको गाउँमा १० वर्षअघि ठुलो पहिरो गयो। ढुङ्गा, मुढा र माटो थुप्रिएर **खानेपानीको
+मुहान** पुरियो; खेतबारीका कोदो, धान, घैयालगायतका बाली नष्ट भए। **३० घरपरिवार** भएको
+गाउँमा **५ जनाले ज्यान गुमाए**, **२२ घर पूर्ण रूपमा भत्किए** र धेरै चौपाया मरे। गाउँलेले
+छलफल गर्दा पहिरोको मुख्य जिम्मेवार **आफैँ** रहेको निष्कर्ष निकाले:
+
+- गाउँमाथिको जङ्गलमा **जोखिम आकलन नगरी सडक** बनाइएको थियो र धेरै रुख काटिएका थिए।
+- वन फँडानी र **डढेलो नियन्त्रण** मा ध्यान नदिँदा जङ्गल सखाप भएको थियो।
+- जङ्गललाई **खुला चरिचरन** मा प्रयोग गर्दा वनस्पति र जीवजन्तु मासिए र भूबनोट कमजोर भयो।
+- यसो हुँदा वर्षाको पानीले माटो कमजोर भई पहिरो गयो।
+
+गाउँलेले **अम्रिसो, बाँस, सखुवा** लगायतका बिरुवा रोपे, **जिल्ला वन कार्यालय** को
+सल्लाहअनुसार भूबनोट अनुकूल वृक्षरोपण गरे र चरिचरन तथा रुख कटान पूर्ण रूपमा बन्द
+गरे। अहिले गाउँ पहिलेकै अवस्थामा फर्केको छ। उनीहरूले बुझे — प्राकृतिक स्रोतको दोहनले
+क्षणिक लाभ दिए पनि दूरगामी हानि गर्छ; पर्यावरणीय सन्तुलन र जोखिम आकलनबिनाको विकास
+विनाशको कारण बन्छ; प्राकृतिक संसाधनको **विवेकशील र बुद्धिमत्तापूर्ण उपयोग** बाट मात्र
+दिगो विकास सम्भव छ।
+
+```figure caption="चमेलीको गाउँ: अविवेकी विकासबाट विनाश र सुधारबाट पुनर्लाभ। माथिल्लो पङ्क्तिले गल्ती र दुर्घटना, तल्लो पङ्क्तिले गाउँलेले अपनाएका दिगो उपाय देखाउँछ।"
 from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,3.0))
-ax.set_xlim(0,10); ax.set_ylim(0,6.4); ax.axis('off')
-cols=[(1.7,'Health','Life expectancy\nat birth'),(5.0,'Education','Mean years +\nexpected years\nof schooling'),(8.3,'Standard\nof living','GNI per capita\n(PPP dollars)')]
-for x,t,s in cols:
-    ax.add_patch(FancyBboxPatch((x-1.4,3.9),2.8,1.2,boxstyle='round,pad=0.05',fc=ACCENT,ec='none'))
-    ax.text(x,4.5,t,ha='center',va='center',color='white',fontsize=9,weight='bold')
-    ax.add_patch(FancyBboxPatch((x-1.4,1.9),2.8,1.4,boxstyle='round,pad=0.05',fc='white',ec=INK,lw=1))
-    ax.text(x,2.6,s,ha='center',va='center',color=INK,fontsize=8)
-    ax.annotate('',xy=(x,3.35),xytext=(x,3.85),arrowprops=dict(arrowstyle='<-',color=MUTED,lw=1.2))
-    ax.annotate('',xy=(5,0.95),xytext=(x,1.85),arrowprops=dict(arrowstyle='->',color=MUTED,lw=1.2))
-ax.add_patch(FancyBboxPatch((3.2,0.15),3.6,0.8,boxstyle='round,pad=0.05',fc='#e8f0f8',ec=ACCENT,lw=1.2))
-ax.text(5,0.55,'HDI (0 to 1)',ha='center',va='center',fontsize=9,weight='bold',color=INK)
+fig, ax = plt.subplots(figsize=(5.8, 2.9))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
+top = [("जोखिम आकलनबिना\nसडक", "#c0392b"), ("रुख कटान,\nडढेलो", "#c0392b"),
+       ("खुला चरिचरन", "#c0392b"), ("पहिरो: ५ मृत्यु,\n२२ घर ध्वस्त", "#7b241c")]
+bot = [("अम्रिसो, बाँस,\nसखुवा रोपण", SERIES[2]), ("वन कार्यालयको\nसल्लाह", SERIES[2]),
+       ("चरिचरन र कटान\nबन्द", SERIES[2]), ("गाउँ पहिलेकै\nअवस्थामा", "#1e6b3a")]
+for row, y in ((top, 3.3), (bot, 0.7)):
+    for i, (t, c) in enumerate(row):
+        x = 0.15 + i * 2.5
+        ax.add_patch(FancyBboxPatch((x, y), 2.1, 1.1, boxstyle="round,pad=0.02,rounding_size=0.15", fc=c, ec="none"))
+        ax.text(x + 1.05, y + 0.55, t, ha="center", va="center", color="white", fontsize=7.6, linespacing=1.2)
+        if i < 3:
+            ax.annotate("", xy=(x + 2.47, y + 0.55), xytext=(x + 2.13, y + 0.55), arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.2))
+ax.annotate("", xy=(9.0, 1.85), xytext=(9.0, 3.27), arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.2))
+ax.text(5.0, 2.6, "पाठ: विवेकपूर्ण उपयोग नै दिगो विकास", ha="center", va="center", fontsize=8.2, color=INK, fontweight="bold")
 ```
 
-### How the index is calculated
-
-For each dimension the UNDP fixes a minimum and a maximum, and converts the actual value into an index between 0 and 1:
-
-$$ \text{Dimension index} = \frac{\text{actual value} - \text{minimum}}{\text{maximum} - \text{minimum}} $$
-
-The fixed limits are: life expectancy 20 to 85 years; mean years of schooling 0 to 15; expected years of schooling 0 to 18; income 100 to 75,000 PPP dollars (income uses the logarithm of the value, because extra income matters less to a rich person). The education index is the average of the two schooling indices. Since 2010 the final HDI is the **geometric mean** of the three indices, which means that a low score in one dimension cannot be fully hidden by high scores in the others.
-
-$$ \text{HDI} = \left(I_{\text{health}} \times I_{\text{education}} \times I_{\text{income}}\right)^{1/3} $$
-
-::: example Worked example: HDI of an imaginary country
-**Problem.** Country X has life expectancy 70 years, mean years of schooling 6, expected years of schooling 13.5 and GNI per capita of 5,000 PPP dollars. Find its HDI and say which group it belongs to.
-
-**Solution.**
-Health index = (70 − 20) / (85 − 20) = 50 / 65 = 0.769.
-Mean schooling index = 6 / 15 = 0.400; expected schooling index = 13.5 / 18 = 0.750. Education index = (0.400 + 0.750) / 2 = 0.575.
-Income index = (ln 5000 − ln 100) / (ln 75000 − ln 100) = ln 50 / ln 750 = 3.912 / 6.620 = 0.591.
-HDI = (0.769 × 0.575 × 0.591)^(1/3) = (0.2613)^(1/3) = 0.639.
-An HDI of 0.639 lies between 0.550 and 0.699, so Country X is in the **medium human development** group.
+::: example छलफल: विकासका कार्य गर्दा के के कुरामा ध्यान दिनुपर्छ?
+**उत्तर.** (क) आयोजना सुरु गर्नुअघि **वातावरणीय प्रभाव मूल्याङ्कन** र पहिरो, बाढीजस्ता
+**जोखिमको आकलन** गर्नुपर्छ। (ख) सडक वा भवन बनाउँदा काटिएका रुखको सट्टा बिरुवा रोप्ने,
+भिरालो जमिनमा पर्खाल र नाली बनाउने गर्नुपर्छ। (ग) वन, पानीको मुहान र खेतीयोग्य
+जमिनको संरक्षण गर्नुपर्छ। (घ) स्थानीय जनताको सहभागिता र सहमति लिनुपर्छ। (ङ) प्राविधिक
+सल्लाह (जस्तै जिल्ला वन कार्यालय, इन्जिनियर) लिनुपर्छ। (च) आजको सुविधाका लागि भोलिको
+पुस्ताको स्रोत नसकिने गरी स्रोतको सन्तुलित उपयोग गर्नुपर्छ। (छ) सामाजिक, सांस्कृतिक र
+धार्मिक सम्पदाको सम्मान गर्नुपर्छ।
 :::
 
-::: note The SEE paper will not ask you to compute the HDI
-The CDC textbook treats the HDI at the level of meaning, indicators, groups, Nepal's position and the ways of improving it. The worked example is here so that you understand *why* the index behaves as it does.
+### दिगो विकास भनेको के हो?
+
+::: definition दिगो विकास
+विकासका क्रममा साधनस्रोतको समुचित उपयोग गरी **भावी पुस्ताले पनि स्रोतको प्रयोग गर्न
+पाउने अवस्था** निर्माण गर्नु **दिगो विकास** हो। विकासका लाभ र गतिलाई वर्तमानका
+अतिरिक्त भविष्यसम्म सुनिश्चितता दिने अवधारणा दिगो विकास हो। यसलाई **पृथ्वीले धान्न
+सक्ने** र निरन्तर लाभ दिइरहने विकास पनि भनिन्छ।
 :::
 
-### HDI groups
+प्राकृतिक संसाधनको विवेकपूर्ण तथा बुद्धिमत्तापूर्ण उपयोगबाट गरिएको विकासले मानवीय
+आवश्यकता पूरा गर्छ र दिगोपना सुनिश्चित गर्छ। विकासका गतिविधि गर्दा प्रकृतिको संरक्षण
+र स्रोतसाधनको सन्तुलित उपयोग गर्ने दायित्व **नागरिकको** हो। विकासको दिगोपना र
+अधिकतम लाभका लागि **वातावरणीय दिगोपना** मा ध्यान दिनुपर्छ; साथै **आर्थिक, सामाजिक र
+सांस्कृतिक दिगोपना** मा पनि समुचित ध्यान दिए मात्र दिगो विकास सम्भव हुन्छ।
 
-| Group | HDI value | Example |
-|---|---|---|
-| Very high human development | 0.800 and above | Norway, Switzerland, Japan, Australia |
-| High human development | 0.700 to 0.799 | Sri Lanka, Thailand, China |
-| Medium human development | 0.550 to 0.699 | Nepal, India, Bangladesh, Bhutan |
-| Low human development | below 0.550 | Afghanistan, Mali, Niger and others |
+### दिगो विकासका विश्वव्यापी प्रयास
 
-### Nepal's human development
+सन् १९८० को दशकदेखि दिगो विकासका विभिन्न दृष्टिकोण र अवधारणा चर्चामा आउन थाले।
+तर यसअघि नै सन् **१९७२ जुन ५ देखि १६** सम्म स्विडेनको **स्टकहोम** मा भएको
+संयुक्त राष्ट्रसङ्घीय मानव वातावरण सम्मेलनले वातावरणसम्बन्धी घोषणापत्र जारी गरी
+वातावरण र दिगो विकासतर्फ विश्वको **पहिलो सामूहिक चासो** देखाएको थियो। हरेक वर्ष जुन ५
+मा मनाइने **विश्व वातावरण दिवस** यसै सम्मेलनको सम्झनामा हो।
 
-The *Human Development Report 2025* of the UNDP (which uses data for 2023) gave Nepal an HDI of **0.622**, ranking it **145th among 193 countries** and placing it in the medium human development group. The report said Nepal's HDI had risen by about **54%** between 1990 and 2023, from about 0.40 in 1990. Nepal's rise has been among the faster ones in South Asia, helped by longer life expectancy, more children in school and remittance income. Nepal still lags behind the very high human development countries, and inequality between provinces, between rural and urban areas and between social groups pulls the national average down.
-
-```figure caption="HDI groups and Nepal's position. Nepal's HDI of 0.622 (UNDP Human Development Report 2025, 2023 data) lies in the medium band."
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.2))
-bands=[(0,0.55,'Low',SERIES[1]),(0.55,0.70,'Medium',SERIES[3]),(0.70,0.80,'High',SERIES[2]),(0.80,1.0,'Very high',ACCENT)]
-for a,b,t,c in bands:
-    ax.barh(0,b-a,left=a,height=0.5,color=c,alpha=0.85,edgecolor='white')
-    ax.text((a+b)/2,0,t,ha='center',va='center',fontsize=8,color='white',weight='bold')
-ax.plot([0.622,0.622],[0.3,0.62],color=INK,lw=1.5)
-ax.text(0.622,0.68,'Nepal 0.622',ha='center',va='bottom',fontsize=8,color=INK)
-ax.set_xlim(0,1); ax.set_ylim(-0.4,1.1)
-ax.set_xticks([0,0.55,0.70,0.80,1.0]); ax.tick_params(axis='x',labelsize=8)
-ax.set_yticks([]); ax.spines[['top','right','left']].set_visible(False)
-ax.set_xlabel('Human Development Index',fontsize=8)
-```
-
-### Why a low HDI? Problems in Nepal
-
-- Many people still depend on low-income farming and have limited access to quality health care in remote hills and mountains.
-- Many adults, especially older women, have had little schooling; the quality of schools varies greatly.
-- Employment at home is scarce, so millions of young people work abroad.
-- Regional and social gaps: Karnali Province has the lowest HDI among the provinces and Bagmati the highest.
-- Natural disasters such as the 2015 earthquake, floods and landslides destroy homes and schools.
-
-### How can Nepal raise its HDI?
-
-1. Make basic health services reach every ward and keep vaccination, safe delivery and nutrition programmes strong.
-2. Make school education free, compulsory and of good quality; promote technical and vocational training.
-3. Create jobs through agriculture, tourism, energy, small industries and cooperatives, so income rises at home.
-4. Reduce poverty and inequality with targeted programmes for women, Dalits, the disabled and remote areas.
-5. Build roads, electricity, drinking water and internet in the villages.
-6. Prepare for disasters and protect the environment so that gains are not washed away.
-
-```photo id="soc10/terraces" caption="Terraced farmland in the hills of Dailekh. A large share of Nepalis still live by farming small plots, so raising farm incomes is central to improving the standard-of-living part of the HDI." width="78"
-```
-
-::: caution HDI is an average
-An HDI value hides differences inside a country. Two provinces, or a boy and a girl, may have very different life chances although the national HDI is the same. HDI also does not measure freedom, safety or the environment. That is why other indices, such as the Gender Development Index and the Multidimensional Poverty Index, are used alongside it.
-:::
-
-## 2.2 Sustainable development
-
-### Meaning
-
-A farmer who eats all his seed this year has nothing to plant next year. A country that cuts all its forests, empties its rivers and pollutes its air is doing the same on a bigger scale. **Sustainable development** is development that does not eat the seed.
-
-::: definition Sustainable development
-Sustainable development is development that meets the needs of the present generation without reducing the ability of future generations to meet their own needs. (Brundtland Commission, *Our Common Future*, 1987)
-:::
-
-### The three pillars
-
-| Pillar | Idea | Nepali example |
-|---|---|---|
-| Economic | Steady growth, jobs and fair income that can be kept up | Hydropower and tourism that give income for decades |
-| Social | Equality, inclusion, education, health, safety for everyone | Girls' scholarships, free basic health, reservation for the disadvantaged |
-| Environmental | Using natural resources within their capacity to renew | Community forests, clean energy, waste management, river protection |
-
-Sustainable development exists only where all three overlap. A project that makes money but poisons a river is not sustainable; neither is one that saves a forest while leaving the villagers hungry.
-
-### Milestones on the road to sustainable development
-
-| Year | Event |
+| वर्ष (सन्) | प्रयास |
 |---|---|
-| 1972 | UN Conference on the Human Environment, Stockholm; 5 June becomes World Environment Day |
-| 1987 | *Our Common Future* (Brundtland Report) defines sustainable development |
-| 1992 | Earth Summit, Rio de Janeiro: Agenda 21 and the climate and biodiversity conventions |
-| 2000 | Millennium Development Goals (MDGs): eight goals to be met by 2015 |
-| 2015 | UN General Assembly adopts the 2030 Agenda with **17 Sustainable Development Goals (SDGs)** and 169 targets; the Paris Agreement on climate is adopted the same year |
+| १९७२ | स्टकहोम सम्मेलन: प्राकृतिक स्रोतप्रति साझा दृष्टिकोण; दिगो विकासतर्फ विश्व समुदायको पहिलो ध्यान |
+| १९८० | वातावरण संरक्षणका लागि अन्तर्राष्ट्रिय युनियन र संयुक्त राष्ट्रसङ्घीय वातावरण कार्यक्रमद्वारा **विश्व संरक्षण रणनीति** |
+| १९८२ | संयुक्त राष्ट्रसङ्घको महासभाद्वारा प्राकृतिक साधनसम्बन्धी **बडापत्र** |
+| १९८७ | विश्व वातावरण र विकास आयोगद्वारा **हाम्रो साझा भविष्य** प्रतिवेदन; दिगो विकासको विश्व कार्यसूची |
+| २००० | **सहस्राब्दी विकास लक्ष्य**; वातावरण सन्तुलनलाई विकास लक्ष्यको एक आधार मानियो |
+| २००५ पछि | **जलवायु परिवर्तन** को प्रभाव न्यूनीकरण गर्न विश्वको साझा अभिमत निर्माण |
 
-### The 17 Sustainable Development Goals
+```figure caption="दिगो विकासतर्फका विश्वव्यापी प्रयासको समयरेखा। स्टकहोम सम्मेलनदेखि जलवायु परिवर्तनसम्बन्धी साझा अभिमतसम्म विश्वले विकास र वातावरणलाई सँगै हेर्न थाल्यो।"
+fig, ax = plt.subplots(figsize=(5.8, 2.3))
+ax.set_xlim(-0.6, 5.6); ax.set_ylim(-1.6, 1.7); ax.axis("off")
+ax.plot([-0.4, 5.4], [0, 0], color=MUTED, lw=1.4)
+ev = [("१९७२", "स्टकहोम\nसम्मेलन", 1), ("१९८०", "विश्व संरक्षण\nरणनीति", -1),
+      ("१९८२", "प्रकृतिसम्बन्धी\nबडापत्र", 1), ("१९८७", "हाम्रो साझा\nभविष्य", -1),
+      ("२०००", "सहस्राब्दी\nविकास लक्ष्य", 1), ("२००५ पछि", "जलवायु\nसाझा अभिमत", -1)]
+for i, (yr, lab, s) in enumerate(ev):
+    c = SERIES[i % len(SERIES)]
+    ax.plot([i], [0], "o", color=c, ms=7)
+    ax.plot([i, i], [0, 0.45 * s], color=c, lw=1.0)
+    ax.text(i, 0.95 * s, lab, ha="center", va="center", fontsize=7.4, color=INK, linespacing=1.15)
+    ax.text(i, -0.3 * s, yr, ha="center", va="center", fontsize=7.4, color=c, fontweight="bold")
+```
 
-| No. | Goal | No. | Goal |
-|---|---|---|---|
-| 1 | No poverty | 10 | Reduced inequalities |
-| 2 | Zero hunger | 11 | Sustainable cities and communities |
-| 3 | Good health and well-being | 12 | Responsible consumption and production |
-| 4 | Quality education | 13 | Climate action |
-| 5 | Gender equality | 14 | Life below water |
-| 6 | Clean water and sanitation | 15 | Life on land |
-| 7 | Affordable and clean energy | 16 | Peace, justice and strong institutions |
-| 8 | Decent work and economic growth | 17 | Partnerships for the goals |
-| 9 | Industry, innovation and infrastructure | | |
-
-::: memory Group the 17 goals
-**People** — 1 to 5 (poverty, hunger, health, education, gender). **Prosperity and planet** — 6 to 15 (water, energy, work, industry, inequality, cities, consumption, climate, water life, land life). **Peace and partnership** — 16 and 17.
+::: caution पाठ्यपुस्तकको वर्षबारे
+पाठ्यपुस्तकको बाकसमा "सन् १९७८ को संयुक्त राष्ट्रसङ्घीय वातावरणीय सम्मेलन" लेखिएको
+छ, तर त्यही पाठको मूल भागमा भनिएजस्तै यो सम्मेलन **सन् १९७२ जुन ५–१६** मा
+स्टकहोममा भएको हो। त्यसैले यहाँ सन् १९७२ लेखिएको छ; परीक्षामा पनि १९७२ नै लेख्नुहोस्।
+सन् १९८७ को आयोगलाई यसका अध्यक्ष ग्रो हार्लेम ब्रन्टल्यान्डको नामबाट **ब्रन्टल्यान्ड
+आयोग** पनि भनिन्छ। यसले "भावी पुस्ताको आवश्यकता पूरा गर्ने क्षमतामा सम्झौता नगरी
+वर्तमान पुस्ताको आवश्यकता पूरा गर्ने विकास" लाई दिगो विकास भनेको थियो। सन् २०१५ मा
+सहस्राब्दी विकास लक्ष्यको ठाउँमा सन् २०३० सम्मका लागि **१७ दिगो विकास लक्ष्य** तय
+भएका छन्।
 :::
 
-### Nepal and the SDGs
+### दिगो विकासका लागि नेपालका प्रयास
 
-Nepal has accepted the SDGs and its National Planning Commission has linked the periodic plans with them. The government has published a status and roadmap for the goals and has tried to take them to the provinces and local levels. Nepal has done well in some areas — for example, access to electricity and to drinking water has expanded and many more children attend school — but gaps remain in nutrition, quality of education, jobs and the protection of the environment. The country is also due to graduate from the group of **Least Developed Countries (LDCs)** in November 2026, a sign of progress that must now be made lasting.
+- **संविधानको धारा ३०:** प्रत्येक नागरिकलाई **स्वच्छ वातावरणको हक**; राष्ट्रको विकास
+  कार्यमा वातावरण र विकासबिच समुचित सन्तुलन मिलाउन कानुनी व्यवस्था गरिने।
+- **संविधानको भाग ४, धारा ५१ खण्ड (छ):** प्राकृतिक साधन स्रोतको संरक्षण, संवर्धन र
+  उपयोगसम्बन्धी नीतिअन्तर्गत दिगो विकासका विविध व्यवस्था।
+- **वातावरण संरक्षण ऐन र नियमावली** को व्यवस्था।
+- ठुला विकास आयोजना निर्माण गर्दा **वातावरणीय प्रभाव मूल्याङ्कन** अनिवार्य।
+- **वातावरण संरक्षण कोष** र **जैविक विविधता संरक्षण कोष** को स्थापना।
+- दिगो विकाससम्बन्धी नीतिनियमको निर्माण र कार्यान्वयनमा ध्यान।
 
-### Ways of achieving sustainable development in Nepal
+### दिगो विकासका उद्देश्य
 
-1. **Protect forests.** Community forestry, in which local forest user groups manage the forest, is a world-famous Nepali method. More than 22,000 groups manage forests across the country, and forest cover is about 45% of the land.
-2. **Use clean energy.** Hydropower, solar, biogas and electric transport lower the need for firewood and imported fuel.
-3. **Promote organic and climate-friendly farming** and protect soil and water.
-4. **Manage waste** by reducing, reusing and recycling, and treating sewage and solid waste.
-5. **Control population and plan settlements** so that farmland and forests are not lost to unplanned building.
-6. **Prepare for climate change.** Himalayan glaciers are melting faster as the world warms; glacial lake outburst floods, drought and flood are a threat to farms and villages.
-7. **Educate people** so that every citizen understands that water, soil and air are shared wealth.
-8. **Make strong rules and follow them:** environmental impact assessment before big projects, fair rules for mining and building.
-
-### Threats to sustainable development
-
-- Deforestation, soil erosion and landslides
-- Air pollution in the Kathmandu Valley and Terai towns, and polluted rivers
-- Unplanned urbanisation and the loss of farmland
-- Climate change and natural disasters
-- Poverty, which forces people to over-use forests and land
-- Weak enforcement of environmental laws
-
-::: tip Four-mark answer pattern
-"Explain the importance of sustainable development" — (1) conserves natural resources for future generations; (2) protects the environment; (3) reduces poverty with lasting jobs; (4) brings social justice and peace. Add one Nepali example.
-:::
-
-## 2.3 Federalism in Nepal
-
-### What is federalism?
-
-::: definition Federalism
-Federalism is a system of government in which power is divided by the constitution between a central (federal) government and units such as provinces, and each level has its own powers to make laws and decisions in its own area.
-:::
-
-In a **unitary** system power rests with the centre, and lower units get only what the centre gives. In a **federal** system the constitution itself gives powers to each level, so the centre cannot take them away.
-
-| Unitary system | Federal system |
+| क्र.सं. | उद्देश्य |
 |---|---|
-| All power with one central government | Power divided among federal, provincial and local governments |
-| Lower units depend on the centre | Each level has its own constitutional powers |
-| Decisions made far from the people | Decisions closer to the people |
-| Nepal until 2015 | Nepal since 2015 |
+| १ | वातावरणको प्रभावकारी संरक्षण गर्ने |
+| २ | प्राकृतिक स्रोत र साधनको विवेकसङ्गत एवम् सावधानीपूर्ण उपयोग गर्ने |
+| ३ | उच्च, फराकिलो र दिगो आर्थिक वृद्धि हासिल गर्ने |
+| ४ | सामाजिक सद्भाव कायम गर्ने |
+| ५ | गरिबी निवारणमा सहयोग गर्ने र सामाजिक समृद्धि हासिल गर्ने |
+| ६ | मानवीय विकासका पक्षको सबलीकरण गर्ने |
+| ७ | सामाजिक–सांस्कृतिक सम्पदाको संरक्षण गर्ने |
+| ८ | सुशासन र सामाजिक न्याय स्थापित गर्ने |
 
-### How Nepal became federal
+### दिगो विकास प्रवर्धन गर्ने उपाय
 
-- For about two centuries after the unification, Nepal was governed from Kathmandu as a unitary state.
-- Many groups, especially in Madhesh, among indigenous peoples and in remote areas, felt left out of power. The Madhesh movement of 2007 (2063/64 BS) and the demands of the Janajati groups made federalism a national demand.
-- The **Interim Constitution of 2063** (2007) opened the way, and the first Constituent Assembly declared Nepal a **federal democratic republic** on **15 Jestha 2065 (28 May 2008)**.
-- The second Constituent Assembly adopted the new constitution, which was promulgated on **3 Ashwin 2072 (20 September 2015)**. It sets up a three-tier federal system.
-- The first elections to the three tiers under the new constitution were held in 2074 BS (2017). Local elections were held again in 2079 (May 2022).
+- (क) स्रोत र साधनको **विवेकपूर्ण प्रयोग** गर्नुपर्छ।
+- (ख) **समतामूलक विकास** सँगै पर्यावरणीय सन्तुलनमा पनि ध्यान दिनुपर्छ।
+- (ग) विकास आयोजना **गरिबी घटाउन र उत्पादकत्व बढाउन** तर्फ लक्षित हुनुपर्छ।
+- (घ) **पृथ्वीको भारवहन क्षमता** (पृथ्वीले धान्न सक्ने सीमा) र जनसङ्ख्याका गतिविधिबिच तालमेल मिलाएर विकास व्यवस्थापन गर्नुपर्छ।
+- (ङ) दिगो विकासमा **सुशासन** कायम गर्नुपर्छ।
+- (च) सामाजिक, सांस्कृतिक र धार्मिक भावनाको सम्मान गर्दै विकास कार्यक्रम चलाउनुपर्छ।
+- (छ) वातावरण संरक्षणमा ध्यान दिँदै विकास गतिविधि चलाए दिगो विकासको प्रतिफल **भावी पुस्ताले** पनि सहज रूपमा पाउँछन्।
 
-### The three tiers
+### दिगो विकासका आयाम
 
-```figure caption="The three tiers of government in Nepal. Article 232 of the Constitution says that their relations rest on cooperation, coexistence and coordination."
-import matplotlib.pyplot as plt
+पाठ्यपुस्तकको क्रियाकलापमा दिगो विकासका सात आयाम दिइएका छन्:
+
+```figure caption="दिगो विकासका सात आयाम। विकास तब मात्र दिगो हुन्छ जब वातावरण, अर्थ, समाज, संस्कृति, प्रविधि, मानिस र शासन सबैतिर सन्तुलन हुन्छ।"
+fig, ax = cards([("वातावरणीय", "पुनः उपयोग, नवीकरण,\nपुनः आविष्कार"),
+                 ("आर्थिक", "स्रोतमा पहुँच, गरिबी\nनिवारण, समता"),
+                 ("सामाजिक", "न्यायोचित वितरण,\nसामाजिक न्याय"),
+                 ("सांस्कृतिक", "विविधता, मूल्य र\nसंस्कृति हस्तान्तरण"),
+                 ("प्राविधिक", "कम प्रदूषणको प्रविधि,\nतापक्रम वृद्धि कम"),
+                 ("मानवीय", "काम, सुरक्षित भविष्य,\nआवाज बुलन्द"),
+                 ("शासकीय–राजनीतिक", "प्रतिनिधिमूलक र\nविकेन्द्रित शासन"),
+                 ("लक्ष्य", "आज र भोलि दुवैको\nआवश्यकता पूरा")],
+                cols=3, figsize=(5.9, 3.9), title_size=8.4)
+```
+
+| आयाम | यसले समेट्ने कुरा |
+|---|---|
+| वातावरणीय | विकास र वातावरणीय सन्तुलनबिच घनिष्ठ सम्बन्ध राख्दै उत्पादनका स्रोतको पुनः उपयोग, नवीकरण र पुनः आविष्कार गरी प्राकृतिक साधनको उपयोग |
+| आर्थिक | आर्थिक स्रोत–साधनमाथिको पहुँच बढाई गरिबी निवारण र समता कायम |
+| सामाजिक | वितरण र पुनर्वितरणमा न्यायोचित प्रक्रिया अपनाई सामाजिक न्याय र सशक्तीकरण |
+| सांस्कृतिक | सांस्कृतिक विविधताको उपयोग, मूल्यमान्यताको विकास र सांस्कृतिक हस्तान्तरण |
+| प्राविधिक | कम प्रदूषण गर्ने प्रविधिको उपयोग गरी विश्व तापक्रम वृद्धि कम गर्ने |
+| मानवीय | व्यक्तिलाई काम दिने, भविष्य सुनिश्चित गर्ने, संस्कृति जोगाउने र विकास–समृद्धिका लागि आवाज बुलन्द गर्ने वातावरण |
+| शासकीय तथा राजनीतिक | वैधानिक र जनप्रतिनिधिमूलक सरकार तथा विकेन्द्रित शासन प्रणाली |
+
+```photo id="soc10/solar-lodge" caption="हिमाली भेगको लजमा सौर्य प्यानल। कम प्रदूषण गर्ने नवीकरणीय ऊर्जा दिगो विकासको प्राविधिक र वातावरणीय आयामको राम्रो उदाहरण हो।" width="58"
+```
+
+::: note क्रियाकलाप — पाठ २.२
+**१.** दिगो विकासका सन्दर्भमा आफ्नो समुदायमा भएका राम्रा अभ्यास (सामुदायिक वन,
+वृक्षरोपण, सौर्य ऊर्जा, फोहोर छुट्याउने र मल बनाउने, पानीको मुहान संरक्षण) खोजी गरी
+प्रस्तुत गर्नुहोस्।
+**२.** समुदायमा निर्माणाधीन कुनै एक आयोजनाको कार्यस्थलमा गई दिगो विकासको अवधारणाअनुरूप
+काम भए–नभएको बारे आयोजकसँग सोधपुछ गरी विवरण प्रस्तुत गर्नुहोस्।
+**३.** दिगो विकासका आयाम अध्ययन गरी प्रश्नको उत्तर दिनुहोस् —
+**(क) सामाजिक आयाममा के के पर्छन्?** वितरण र पुनर्वितरणमा न्यायोचित प्रक्रिया अपनाउने,
+सामाजिक न्याय दिलाउने र पछाडि परेका वर्गको सशक्तीकरण गर्ने कुरा पर्छन्।
+**(ख) आफ्नो समुदायको आयोजनामा कुन आयाम समेटिएका छन्?** उदाहरण: खानेपानी आयोजनामा
+मुहान संरक्षण (वातावरणीय), सबै घरलाई समान धारा (सामाजिक), उपभोक्ता समितिले चलाउने
+(शासकीय) र स्थानीयलाई रोजगारी (आर्थिक, मानवीय) आयाम भेटिन्छन्।
+**(ग) मानवीय आयामले कुन विषयमा जोड दिन्छ?** व्यक्तिलाई काम दिने, भविष्य सुनिश्चित गर्ने,
+संस्कृति संरक्षण गर्ने र विकास तथा समृद्धिका लागि आवाज बुलन्द गर्ने वातावरणमा।
+**सामुदायिक कार्य:** समुदायको कुनै एक आयोजना अवलोकन गरी दिगो विकासका आधारमा यस्तो
+तालिका भर्नुहोस् — स्तम्भ: सुधारका क्षेत्र, गर्नुपर्ने कार्य, कार्यान्वयन गर्ने निकाय,
+अनुगमन गर्ने निकाय र समयावधि; पङ्क्ति: (१) नीतिगत पक्षमा सुधार, (२) वातावरणीय पक्षमा
+सुधार, (३) जनसहभागिता सुनिश्चितताका पक्षमा सुधार, (४) कार्यान्वयन पक्षमा सुधार।
+उदाहरणका लागि ग्रामीण सडकमा "वातावरणीय पक्ष" को कार्य "भिरालोमा बाँस र अम्रिसो
+रोपण", कार्यान्वयन निकाय "गाउँपालिका र उपभोक्ता समिति", अनुगमन निकाय "डिभिजन वन
+कार्यालय" र समयावधि "वर्षायाम सुरु हुनुअघि" हुन सक्छ।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. दिगो विकासको अवधारणा प्रस्ट पार्नुहोस्।**
+विकासका क्रममा साधनस्रोतको समुचित उपयोग गरी भावी पुस्ताले पनि स्रोत प्रयोग गर्न पाउने
+अवस्था बनाउनु दिगो विकास हो। यसले विकासको लाभ वर्तमानमा मात्र होइन भविष्यसम्म
+सुनिश्चित गर्छ; त्यसैले यसलाई पृथ्वीले धान्न सक्ने र निरन्तर लाभ दिने विकास पनि
+भनिन्छ। यसमा वातावरणीय, आर्थिक, सामाजिक र सांस्कृतिक दिगोपना सँगै हेरिन्छ। विश्वमा
+सन् १९७२ को स्टकहोम सम्मेलनबाट यसतर्फ ध्यान गयो र सन् १९८७ को "हाम्रो साझा भविष्य"
+ले दिगो विकासलाई विश्व कार्यसूची बनायो। नेपालको संविधानको धारा ३० ले स्वच्छ
+वातावरणको हक दिएको छ र ठुला आयोजनामा वातावरणीय प्रभाव मूल्याङ्कन गरिन्छ। चमेलीको
+गाउँले वृक्षरोपण र चरिचरन बन्द गरेर पहिरो रोकेको यसको उदाहरण हो।
+
+**२. "अव्यवस्थित विकासले विनाश निम्त्याउँछ।" पुष्टि गर्नुहोस्।**
+जोखिम आकलन, वातावरणीय सन्तुलन र योजनाबिना गरिने विकास अव्यवस्थित विकास हो। चमेलीको
+गाउँमा जङ्गलमाथि जोखिम आकलन नगरी सडक खनियो, धेरै रुख काटिए, डढेलो नियन्त्रण भएन र
+जङ्गल खुला चरिचरन बन्यो। फलस्वरूप भूबनोट कमजोर भई पहिरो गयो — ५ जनाको ज्यान गयो,
+३० मध्ये २२ घर भत्किए, खानेपानीको मुहान पुरियो र बाली नष्ट भयो। यस्तै, डोजर लगाएर
+बनाइएका ग्रामीण सडकले पहाडमा पहिरो बढाएका छन्; नदी किनारमा अनियन्त्रित बालुवा–गिटी
+उत्खननले पुल र खेत बगाएका छन्; योजनाविना बढेको सहरमा वायु प्रदूषण, बाढी र फोहोरको
+समस्या छ। यी उदाहरणले क्षणिक सुविधाका लागि गरिएको अव्यवस्थित विकासले दूरगामी
+विनाश निम्त्याउँछ भन्ने पुष्टि गर्छन्।
+
+**३. दिगो विकासका लागि तपाईँ कसरी योगदान दिन सक्नुहुन्छ?**
+(क) बिरुवा रोप्ने र सामुदायिक वन तथा डढेलो नियन्त्रणमा सहभागी हुने; (ख) पानी र बिजुली
+खेर नफाल्ने; (ग) फोहोर कुहिने र नकुहिने छुट्याउने, प्लास्टिक कम प्रयोग गर्ने र पुनः
+प्रयोग गर्ने; (घ) छोटो दूरी हिँडेर वा साइकलमा जाने र सार्वजनिक यातायात प्रयोग गर्ने;
+(ङ) सौर्य, बायोग्याँस र विद्युत् जस्ता स्वच्छ ऊर्जा प्रयोग गर्न परिवारलाई प्रेरित गर्ने;
+(च) पानीका मुहान, खोला र सार्वजनिक सम्पत्तिको संरक्षण गर्ने; (छ) टोलका विकास आयोजनामा
+वातावरणमैत्री काम भए–नभएको चासो राख्ने र जनचेतना फैलाउने।
+
+**४. दिगो विकासका उद्देश्यको सूची तयार गर्नुहोस्।**
+(१) वातावरणको प्रभावकारी संरक्षण; (२) प्राकृतिक स्रोत र साधनको विवेकसङ्गत र
+सावधानीपूर्ण उपयोग; (३) उच्च, फराकिलो र दिगो आर्थिक वृद्धि; (४) सामाजिक सद्भाव कायम;
+(५) गरिबी निवारण र सामाजिक समृद्धि; (६) मानवीय विकासका पक्षको सबलीकरण; (७)
+सामाजिक–सांस्कृतिक सम्पदाको संरक्षण; (८) सुशासन र सामाजिक न्यायको स्थापना।
+
+## २.३ नेपालमा सङ्घीयता
+
+श्री जनता माध्यमिक विद्यालयका कक्षा १० का विद्यार्थीले "नेपालमा सङ्घीयता" विषयमा
+**वक्तृत्वकला प्रतियोगिता** आयोजना गरे। त्यसमा **रूपेश** ले राखेका विचार नै यस पाठको
+विषयवस्तु हो। तल उनको भाषणका मुख्य बुँदा क्रमशः प्रस्तुत गरिएका छन्।
+
+::: definition सङ्घीयता
+राज्यशक्ति र अधिकारलाई संविधानमार्फत **केन्द्र (सङ्घ) र प्रदेश (तथा स्थानीय तह)** बिच
+बाँडफाँट गरी प्रत्येक तहलाई आआफ्नो क्षेत्रमा कानुन बनाउने र शासन गर्ने अधिकार दिने
+शासन प्रणालीलाई **सङ्घीयता** भनिन्छ। यसले राज्यसत्ता र सार्वभौमसत्ताको अधिकार
+विभाजन गरी शासकीय क्रियाकलापमा बढीभन्दा बढी जनतालाई संलग्न गराउँछ।
+:::
+
+### पृष्ठभूमि र संरचना
+
+- नेपाल **वि.सं. २०६५ जेठ १५** गतेदेखि सङ्घीय लोकतान्त्रिक गणतन्त्रात्मक राज्य बनेको हो।
+- **१० वर्षे सशस्त्र विद्रोह, १९ दिने जनआन्दोलन र मधेस आन्दोलन** लगायतका आन्दोलनको
+  पृष्ठभूमिमा सङ्घीय प्रणाली स्थापना भयो।
+- स्रोतको उचित बाँडफाँट र परिचालन गर्न तथा आर्थिक, सामाजिक र क्षेत्रीय विभेद घटाई सबै
+  क्षेत्रको **समानुपातिक विकास** गर्न देशलाई सङ्घीय संरचनामा रूपान्तरण गरियो।
+- नेपालमा **सङ्घ, प्रदेश र स्थानीय तह** गरी **तीन तह** को राज्य प्रणाली छ। हाल **७ प्रदेश**
+  र **७५३ स्थानीय तह** छन्।
+- वि.सं. २०७२ असोज ३ मा जारी **नेपालको संविधान** ले यो संरचना र तीनै तहको अधिकार
+  तोकेको छ।
+
+```figure caption="नेपालको सङ्घीय संरचना: एक सङ्घ, सात प्रदेश र ७५३ स्थानीय तह (६ महानगरपालिका, ११ उपमहानगरपालिका, २७६ नगरपालिका र ४६० गाउँपालिका)।"
 from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.8,3.3))
-ax.set_xlim(0,10); ax.set_ylim(0,7.6); ax.axis('off')
-tiers=[(5.0,'Federal government','Federal Parliament, President, Prime Minister,\nCouncil of Ministers, Supreme Court',ACCENT),(2.75,'7 Provincial governments','Provincial Assembly, Governor, Chief Minister,\nCouncil of Ministers, High Court','#2e6da4'),(0.5,'753 Local governments','Municipal or Rural Municipal Assembly,\nMayor or Chair, ward committees','#4f8bbf')]
-for y,t,s,c in tiers:
-    ax.add_patch(FancyBboxPatch((0.3,y),9.4,1.8,boxstyle='round,pad=0.04',fc=c,ec='none'))
-    ax.text(5,y+1.3,t,ha='center',va='center',color='white',fontsize=10,weight='bold')
-    ax.text(5,y+0.62,s,ha='center',va='center',color='white',fontsize=7.5)
-ax.text(5,7.3,'Constitution of Nepal (2015)',ha='center',va='center',fontsize=9,color=INK,weight='bold')
+fig, ax = plt.subplots(figsize=(5.6, 3.2))
+ax.set_xlim(0, 10); ax.set_ylim(0, 6); ax.axis("off")
+def box(x, y, w, h, c, t, fs=8.4, bold=True):
+    ax.add_patch(FancyBboxPatch((x, y), w, h, boxstyle="round,pad=0.02,rounding_size=0.15", fc=c, ec="none"))
+    ax.text(x + w/2, y + h/2, t, ha="center", va="center", color="white", fontsize=fs,
+            fontweight="bold" if bold else "normal", linespacing=1.2)
+box(3.3, 4.7, 3.4, 1.0, SERIES[0], "सङ्घ (सङ्घीय सरकार)")
+box(1.0, 2.75, 8.0, 1.0, SERIES[1], "७ प्रदेश (प्रदेश सरकार)")
+locs = [("६\nमहानगरपालिका", SERIES[2]), ("११\nउपमहानगरपालिका", SERIES[2]),
+        ("२७६\nनगरपालिका", SERIES[3]), ("४६०\nगाउँपालिका", SERIES[3])]
+for i, (t, c) in enumerate(locs):
+    box(0.2 + i * 2.45, 0.35, 2.2, 1.25, c, t, fs=7.8, bold=False)
+for x0, y0, x1, y1 in [(5, 4.68, 5, 3.8), (5, 2.73, 5, 1.65)]:
+    ax.annotate("", xy=(x1, y1), xytext=(x0, y0), arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.3))
+ax.text(9.9, 2.2, "स्थानीय तह: ७५३", ha="right", va="center", fontsize=7.6, color=MUTED)
 ```
 
-#### Federal level
+### विकासको सङ्घीय र प्रादेशिक अवधारणा
 
-The federal government at Kathmandu handles matters of national concern: defence, foreign affairs, currency and monetary policy, citizenship, federal police and security, large national projects, customs, national planning and inter-province matters. Its powers are listed in **Schedule 5** of the Constitution.
+रूपेशका अनुसार सङ्घीय शासन प्रणालीले देशको समग्र विकासमा यसरी सहयोग गर्छ:
+**प्रदेशहरूबिच स्वस्थ प्रतिस्पर्धा** बढ्छ; **स्थानीय स्रोत र साधनको अधिकतम परिचालन**
+हुन्छ; सबै कुरामा **केन्द्रमा निर्भर** हुनुपर्दैन; र **आत्मनिर्भरता तथा स्वावलम्बन**
+बढ्छ। यसैलाई **विकासको सङ्घीय र प्रादेशिक अवधारणा** भनिन्छ। प्रादेशिक विकासको
+अवधारणाले विकास र समुन्नतिका लागि साधनस्रोतको समुचित उपयोग गराउँछ, जनताको सक्रिय
+सहभागितामा **सामूहिक शासन पद्धति** विकास गर्छ र जनताले **सहज रूपमा सेवा–सुविधा**
+पाउने पद्धति बनाउँछ। सङ्घीयताले देशको विविधता पहिचान गरी सम्बोधन गर्ने भएकाले यसलाई
+**सांस्कृतिक र सामूहिक पहिचानको आधार** पनि मानिन्छ। सङ्घीयता नेपालका लागि **नयाँ
+प्रयोग** पनि हो।
 
-#### Provincial level
+### सङ्घीयताको महत्त्व र भूमिका
 
-Nepal has **seven provinces**, formed by grouping districts. Each has an elected Provincial Assembly, a Chief Minister and Council of Ministers, and a **Governor** (*Pradesh Pramukh*) appointed by the President as the federal representative. The powers are in **Schedule 6**: provincial police, provincial roads and transport, health and education beyond the basic level, provincial electricity and irrigation, agriculture and cooperatives, provincial planning, and similar.
+- सङ्घीय व्यवस्थासँगै **समावेशिता र सामाजिक न्याय** ले प्रश्रय पाएको अनुभूति भएको छ।
+- सङ्घीयताले **जनसहभागिता** को अवसर दिएर राष्ट्रिय विकासलाई प्रोत्साहित गर्छ।
+- सामाजिक, आर्थिक र राजनीतिक समस्या समाधानका लागि पहल गर्छ।
+- **समावेशी लोकतन्त्र** लाई सुदृढ बनाउँछ र सामूहिक तथा सांस्कृतिक पहिचानलाई प्रोत्साहन दिन्छ।
+- **स्थानीय सम्भावनाको उपयोग** को आधार दिन्छ।
+- सामाजिक सद्भाव बढाई राज्य प्रणालीमा **सबै वर्गको स्वामित्व** विस्तार गर्छ।
+- यो राष्ट्रिय विकासको हतियार मात्र होइन, **सामाजिक द्वन्द्वको दिगो व्यवस्थापन** गर्ने
+  आधार र जनताको अधिकार स्थापित गर्ने भरपर्दो शासन प्रणाली पनि हो।
+- राज्यका सबै क्षेत्रका जनताको **अपनत्व, स्वामित्व र सामीप्य** स्थापित गर्न तथा
+  प्रतिनिधित्व र सहभागिता बढाउन यो महत्त्वपूर्ण छ।
+- जातीय, भाषिक र सांस्कृतिक पहिचानको अभिमत आत्मसात् गर्दै राज्यका सेवा–सुविधाको
+  **समान वितरण** र विकास निर्माण गर्न सङ्घीयता आवश्यक परेको हो।
 
-| Province | Capital | Population (Census 2021) |
+सफलताका लागि रूपेशले यी कुरा आवश्यक भनेका छन्: सङ्घीयताको मूल मर्म आत्मसात् गर्दै
+**सुशासन र अवसरको न्यायोचित वितरण**; प्रदेशको आत्मनिर्भर क्षमता बढाउन र प्रदेशलाई
+आवश्यक कानुन बनाउन **सङ्घको सहयोग**; जनआकाङ्क्षाको कदर गर्दै सुशासन, शान्ति र
+अमनचयन कायम गर्न **राजनीतिक दल, नागरिक समाज र आमजनता** को सक्रियता; र
+जनप्रतिनिधिलाई **जनताको सेवक** का रूपमा क्रियाशील बनाउने संयन्त्र।
+
+### सङ्घीयताका फाइदा
+
+```figure caption="रूपेशको भाषणअनुसार सङ्घीयताका मुख्य फाइदा।"
+fig, ax = cards([("सरकार नजिक", "जनताको घरदैलोमै\nसेवा"),
+                 ("समावेशी लोकतन्त्र", "सबै वर्गको\nप्रतिनिधित्व"),
+                 ("स्वस्थ प्रतिस्पर्धा", "प्रदेशबिच विकासको\nहोड"),
+                 ("स्रोतको परिचालन", "स्थानीय सम्भावनाको\nउपयोग"),
+                 ("वञ्चितको संरक्षण", "सामाजिक न्याय र\nसद्भाव"),
+                 ("आत्मनिर्भरता", "केन्द्रमाथिको निर्भरता\nकम")],
+                cols=3, figsize=(5.8, 2.8), title_size=8.4)
+```
+
+सङ्घीयताले **जनतालाई सरकारको नजिक पुर्‍याउँछ**, राष्ट्रिय विकासलाई प्रोत्साहित गर्छ र
+विकासमा अग्रसरता बढाउँछ। सङ्घीय भएपछि समावेशी लोकतन्त्रको विकासमा सहयोग गरेका
+प्रशस्त उदाहरण छन् र समाजमा **पछि परेका र पछि पारिएका** लाई राज्यले संरक्षण गरिरहेको
+छ। यसले भावनात्मक रूपमा पनि राष्ट्रिय विकासको आधार बनाउँछ।
+
+### तीन तहका सरकारको कार्यक्षेत्र
+
+भाषणको अन्त्यमा रूपेश भन्छन्: **केन्द्रीय (सङ्घीय) सरकार** ले सीमा, सुरक्षा, राष्ट्रिय
+अर्थनीति, परराष्ट्र नीति र कूटनीतिक पक्ष व्यवस्थापन गर्छ; **प्रादेशिक र स्थानीय सरकार**
+ले स्वास्थ्य, शिक्षा, खानेपानी, विद्युत्, सञ्चारलगायतका विकासका पूर्वाधार बनाएर
+जनअपेक्षा सम्बोधन गर्छन्। संविधानका अनुसूचीमा यसको विस्तृत सूची छ:
+
+| तह | मुख्य कार्यक्षेत्र (उदाहरण) | संविधानको अनुसूची |
 |---|---|---|
-| Koshi | Biratnagar | 4,972,021 |
-| Madhesh | Janakpur | 6,126,288 |
-| Bagmati | Hetauda | 6,084,042 |
-| Gandaki | Pokhara | 2,479,745 |
-| Lumbini | Deukhuri (Bhalubang) | 5,124,225 |
-| Karnali | Birendranagar (Surkhet) | 1,694,889 |
-| Sudurpashchim | Godawari (Kailali) | 2,711,270 |
+| सङ्घ | रक्षा र सेना, परराष्ट्र र कूटनीति, नागरिकता र राहदानी, मुद्रा र केन्द्रीय बैङ्क, राष्ट्रिय अर्थनीति, सीमा, ठुला राष्ट्रिय आयोजना | अनुसूची ५ |
+| प्रदेश | प्रदेश प्रहरी, प्रदेशस्तरीय सडक र सिँचाइ, विश्वविद्यालय र उच्च शिक्षा, प्रदेश अस्पताल, प्रदेश लोकसेवा आयोग | अनुसूची ६ |
+| स्थानीय तह | आधारभूत र माध्यमिक शिक्षा, आधारभूत स्वास्थ्य र सरसफाइ, खानेपानी, स्थानीय सडक, कृषि र पशुपालन, व्यक्तिगत घटना दर्ता, स्थानीय कर | अनुसूची ८ |
+| साझा | सङ्घ–प्रदेश साझा अधिकार अनुसूची ७ मा र तीनै तहको साझा अधिकार (जस्तै शिक्षा, स्वास्थ्य, कृषि, विद्युत्, विपद् व्यवस्थापन) अनुसूची ९ मा | अनुसूची ७ र ९ |
 
-```photo id="soc10/provinces" caption="The seven provinces of Nepal. The provinces group the 77 districts; each province's assembly chose its name and capital." width="92"
-label 0.13 0.68 "Sudurpashchim"
-label 0.29 0.60 "Karnali"
-label 0.37 0.31 "Lumbini"
-label 0.52 0.52 "Gandaki"
-label 0.67 0.38 "Bagmati"
-call 0.58 0.08 0.62 0.21 "Madhesh"
-label 0.85 0.27 "Koshi"
+```photo id="soc10/provinces" caption="नेपालका सात प्रदेश: कोशी, मधेश, बागमती, गण्डकी, लुम्बिनी, कर्णाली र सुदूरपश्चिम। प्रत्येक प्रदेशमा हिमाल, पहाड वा तराईको कुनै न कुनै भाग पर्छ।" width="80"
 ```
 
-```figure caption="Population of the seven provinces, Census 2021 (millions). Madhesh and Bagmati have the most people; Karnali, the largest province by area, has the fewest."
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-names=['Madhesh','Bagmati','Lumbini','Koshi','Sudurpashchim','Gandaki','Karnali']
-vals=[6.126,6.084,5.124,4.972,2.711,2.480,1.695]
-y=list(range(len(names)))[::-1]
-ax.barh(y,vals,color=ACCENT,height=0.62)
-for yy,v in zip(y,vals):
-    ax.text(v+0.08,yy,f'{v:.2f}',va='center',fontsize=8,color=INK)
-ax.set_yticks(y); ax.set_yticklabels(names,fontsize=8)
-ax.set_xlim(0,7.2); ax.set_xlabel('Population (millions)',fontsize=8)
-ax.spines[['top','right']].set_visible(False); ax.tick_params(axis='x',labelsize=8)
-```
+::: example सङ्घीयता किन "नयाँ प्रयोग" हो?
+**प्रश्न.** रूपेशले सङ्घीयतालाई नेपालका लागि नयाँ प्रयोग किन भनेका होलान्?
 
-#### Local level
+**उत्तर.** वि.सं. २०६५ अघि नेपालमा सबै शासन काठमाडौँको केन्द्रीय सरकारबाट चल्ने
+**एकात्मक** प्रणाली थियो। सात प्रदेश र ७५३ स्थानीय तहमा निर्वाचित सरकार भएको
+तीन तहको संरचना पहिलो पटक २०७२ को संविधानपछि मात्र व्यवहारमा आयो। प्रदेशका कानुन,
+कर्मचारी, राजस्व बाँडफाँट र तीन तहबिचको समन्वय अझै बलियो हुँदै छन्। त्यसैले यो
+सिक्दै र सुधार्दै जानुपर्ने नयाँ प्रयोग हो; यसको सफलता सुशासन र जनसहभागितामा भर पर्छ।
+:::
 
-There are **753 local levels**: 6 metropolitan cities, 11 sub-metropolitan cities, 276 municipalities and 460 rural municipalities, with 6,743 wards in all. The local level is the government closest to the people and the one a citizen meets first, for birth and marriage registration, recommendation letters, local roads, drinking water and basic schools. Its powers are in **Schedule 8**. There are also powers shared by federal, province and local levels (Schedule 9) and by federal and province (Schedule 7).
+::: note क्रियाकलाप — पाठ २.३
+**१.** समूहमा विभाजन भई प्रादेशिक विकासको अवधारणा र महत्त्वबारे छलफल गरी निष्कर्ष
+कक्षामा प्रस्तुत गर्नुहोस्। (सङ्केत: प्रदेशको स्रोत प्रदेशमै उपयोग, प्रदेशबिच प्रतिस्पर्धा,
+सेवा नजिक, आत्मनिर्भरता।)
+**२.** सङ्घीयताका मुख्य पाँच विशेषता कार्डबोर्ड पेपरमा लेखेर कक्षामा टाँस्नुहोस्।
+(सङ्केत: लिखित संविधान, तहबिच अधिकारको बाँडफाँट, प्रत्येक तहको आफ्नै सरकार र
+व्यवस्थापिका, स्वतन्त्र न्यायपालिका, राजस्वको बाँडफाँट।)
+**३.** स्थानीय, प्रदेश र सङ्घीय सरकारका चार चारओटा मुख्य कार्यक्षेत्र तालिकामा
+देखाउनुहोस्। (माथिको तालिका हेर्नुहोस्।)
+**४.** "सङ्घीयता कार्यान्वयनमा प्रदेश सरकारको भूमिका" विषयमा वक्तृत्वकला प्रतियोगिता
+आयोजना गर्नुहोस्।
+**परियोजना कार्य:** विश्वका तीन फरक ढाँचाका सङ्घीय मुलुक पहिचान गरी तालिका बनाउनुहोस्।
+नमुना:
 
-| Level | Number | Head | Law-making body |
+| सङ्घीय मुलुक | सङ्घीयताको ढाँचा | प्रमुख विशेषता |
+|---|---|---|
+| संयुक्त राज्य अमेरिका | स्वतन्त्र राज्यहरू मिलेर बनेको (जोडिएर बनेको) सङ्घ | ५० राज्य; प्रत्येक राज्यको आफ्नै संविधान; राष्ट्रपतीय शासन |
+| भारत | केन्द्र बलियो भएको (एकात्मकतर्फ ढल्केको) सङ्घ | २८ राज्य र ८ केन्द्रशासित प्रदेश; एउटै संविधान; संसदीय शासन |
+| स्विट्जरल्यान्ड | सहकारी सङ्घ, प्रत्यक्ष लोकतन्त्र | २६ क्यान्टन; सात सदस्यीय सङ्घीय परिषद्; जनमत सङ्ग्रहको व्यापक प्रयोग |
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. सङ्घीयता भनेको के हो?**
+संविधानद्वारा राज्यशक्ति र अधिकारलाई केन्द्र, प्रदेश र स्थानीय तहबिच बाँडफाँट गरी
+प्रत्येक तहलाई आफ्नो क्षेत्रमा कानुन बनाउने र शासन गर्ने अधिकार दिने शासन प्रणाली
+सङ्घीयता हो। यसले शासनमा बढीभन्दा बढी जनतालाई संलग्न गराउँछ र सरकारलाई जनताको
+नजिक पुर्‍याउँछ। नेपाल वि.सं. २०६५ जेठ १५ देखि सङ्घीय लोकतान्त्रिक गणतन्त्र भएको
+हो; यहाँ सङ्घ, ७ प्रदेश र ७५३ स्थानीय तह गरी तीन तहको संरचना छ।
+
+**२. नेपालमा सङ्घीयता कार्यान्वयनमा आएसँगै भएका सकारात्मक परिवर्तन औँल्याउनुहोस्।**
+(क) गाउँ–गाउँमा सिंहदरबारको अधिकार पुगेको छ — घटना दर्ता, सिफारिस, योजना छनोट
+जस्ता सेवा वडा र पालिकामै पाइन्छन्; (ख) स्थानीय तहले आफ्नै बजेट बनाएर सडक, खानेपानी,
+विद्यालय र स्वास्थ्य संस्थामा लगानी गरेका छन्; (ग) समावेशिता बढेको छ — स्थानीय तहमा
+प्रमुख वा उपप्रमुखमध्ये एक महिला र वडामा महिला तथा दलित महिला सदस्य अनिवार्य
+भएकाले हजारौँ महिला र दलित निर्वाचित भएका छन्; (घ) प्रदेशहरूबिच विकासमा स्वस्थ
+प्रतिस्पर्धा सुरु भएको छ; (ङ) स्थानीय स्रोत र सम्भावना (पर्यटन, कृषि, जडीबुटी) को
+उपयोग बढेको छ; (च) पछाडि परेका समुदायको पहिचान र सहभागिता बढेको छ; (छ) जनताले
+आफ्ना प्रतिनिधिलाई सजिलै भेटेर जवाफ माग्न सक्ने भएका छन्।
+
+**३. स्थानीय सरकारको मुख्य कार्यक्षेत्र उल्लेख गर्नुहोस्।**
+संविधानको अनुसूची ८ अनुसार स्थानीय तहका मुख्य काम: (क) आधारभूत र माध्यमिक शिक्षा;
+(ख) आधारभूत स्वास्थ्य र सरसफाइ; (ग) खानेपानी, साना जलविद्युत् र वैकल्पिक ऊर्जा;
+(घ) स्थानीय सडक, ग्रामीण सडक, कृषि सडक र सिँचाइ; (ङ) कृषि, पशुपालन र सहकारी;
+(च) जन्म, मृत्यु, विवाहजस्ता व्यक्तिगत घटना दर्ता र स्थानीय तथ्याङ्क; (छ) स्थानीय कर,
+सेवा शुल्क र स्थानीय विकास आयोजना; (ज) जेष्ठ नागरिक, अपाङ्गता भएका व्यक्ति र असहायको
+व्यवस्थापन; (झ) स्थानीय बजार, फोहोर व्यवस्थापन र विपद् व्यवस्थापन; (ञ) भाषा, संस्कृति
+र सम्पदाको संरक्षण। संक्षेपमा जनताको दैनिक जीवनसँग जोडिएका सेवा स्थानीय सरकारले दिन्छ।
+
+**४. सङ्घीयताको सफल कार्यान्वयनमा ध्यान दिनुपर्ने पक्ष विश्लेषण गर्नुहोस्।**
+(क) **सुशासन:** भ्रष्टाचार नियन्त्रण, पारदर्शिता र जवाफदेहिता नभए तीन तहको सरकार
+बोझ मात्र बन्छ। (ख) **अवसरको न्यायोचित वितरण:** सबै जात, लिङ्ग र क्षेत्रका जनताले
+समान लाभ पाउनुपर्छ। (ग) **सङ्घको सहयोग:** प्रदेशलाई कानुन बनाउन, कर्मचारी र बजेट
+दिन सङ्घले सहयोग गर्नुपर्छ। (घ) **स्पष्ट अधिकार र समन्वय:** तीन तहबिच दोहोरोपना र
+विवाद नहुने गरी कानुन र समन्वय संयन्त्र चाहिन्छ। (ङ) **स्रोतको परिचालन र आत्मनिर्भरता:**
+प्रदेश र स्थानीय तहले आफ्नो आन्तरिक आय बढाउनुपर्छ। (च) **जनप्रतिनिधिको भूमिका:**
+उनीहरू जनताको सेवकका रूपमा काम गर्ने संयन्त्र हुनुपर्छ। (छ) **जनसहभागिता:** राजनीतिक दल,
+नागरिक समाज र आमजनता सक्रिय भई शान्ति र अमनचयन कायम गर्नुपर्छ। (ज) **क्षमता विकास:**
+दक्ष कर्मचारी र प्रविधिको प्रयोग। यी पक्षमा ध्यान दिए सङ्घीयताले आत्मनिर्भर र समृद्ध
+नेपाल बनाउन सघाउँछ।
+
+## २.४ राष्ट्रिय गौरवका आयोजनाहरू
+
+::: definition विकास आयोजना
+विविध लक्ष्य प्राप्तिका लागि **निश्चित समयावधिमा सम्पन्न** गर्ने गरी सञ्चालन गरिने
+विकाससम्बन्धी कार्यक्रम **विकास आयोजना** हुन्। यस्ता आयोजनामा साधन, स्रोत र जनशक्तिको
+दिगो सोच र उद्देश्यका साथ योजनाबद्ध उपयोग गरिन्छ। यिनीहरू केन्द्र, प्रदेश र स्थानीय
+तहबाट सञ्चालन हुन्छन्।
+:::
+
+::: definition राष्ट्रिय गौरवका आयोजना
+**राष्ट्रिय पहिचान** कायम गर्ने र **ठुलो सङ्ख्यामा जनता लाभान्वित** हुने गरी **केन्द्रीय
+सरकारले** सञ्चालन गर्ने ठुला आयोजनालाई **राष्ट्रिय गौरवका आयोजना** भनिन्छ। यिनको
+घोषणा **नेपाल सरकार मन्त्रिपरिषद्को निर्णय** बमोजिम गरिन्छ। नेपाल सरकारले पहिलो पटक
+**आर्थिक वर्ष २०६८/६९** देखि महत्त्वपूर्ण आयोजनालाई राष्ट्रिय गौरवका आयोजनाका रूपमा
+छनोट गरेको थियो।
+:::
+
+राष्ट्रिय गौरवका आयोजनाले मुलुकको आर्थिक विकास र सामाजिक रूपान्तरणमा महत्त्वपूर्ण
+योगदान दिन्छन्। नेपाल सरकारले यिनका लागि हरेक आर्थिक वर्षमा बजेट सुनिश्चित गर्छ।
+प्रत्येकको उद्देश्य फरक भए पनि यिनले **समृद्ध नेपालको आधारशिला** तयार गर्छन्। यिनका
+**सबल पक्ष**: रोजगारी वृद्धि, पूर्वाधारको विकास, प्राकृतिक सम्पदाको संरक्षण–संवर्धन र
+पर्यटकीय क्षेत्रको विस्तार।
+
+### नेपालका राष्ट्रिय गौरवका आयोजना
+
+| क्र.सं. | आयोजना | क्र.सं. | आयोजना |
 |---|---|---|---|
-| Federal | 1 | Prime Minister (executive), President (head of state) | Federal Parliament |
-| Province | 7 | Chief Minister (executive), Governor (federal representative) | Provincial Assembly |
-| Local | 753 | Mayor/Deputy Mayor or Chair/Vice-chair | Municipal or Rural Municipal Assembly |
+| १ | पुष्पलाल (मध्यपहाडी) राजमार्ग | १३ | लुम्बिनी क्षेत्र विकास कोष |
+| २ | हुलाकी राजमार्ग | १४ | माथिल्लो तामाकोसी जलविद्युत् आयोजना |
+| ३ | उत्तर–दक्षिण लोकमार्ग (कोसी करिडोर) | १५ | पश्चिम सेती जलविद्युत् आयोजना |
+| ४ | उत्तर–दक्षिण लोकमार्ग (कालीगण्डकी करिडोर) | १६ | महाकाली सिँचाइ आयोजना |
+| ५ | उत्तर–दक्षिण लोकमार्ग (कर्णाली करिडोर) | १७ | सिक्टा सिँचाइ आयोजना |
+| ६ | रेल तथा मेट्रो रेल, मोनोरेल विकास आयोजना | १८ | रानी जमरा कुलरिया सिँचाइ आयोजना |
+| ७ | काठमाडौँ–तराई मधेस द्रुतमार्ग | १९ | भेरी बबई डाइभर्सन बहुउद्देश्यीय आयोजना |
+| ८ | बबई सिँचाइ आयोजना | २० | सुनकोसी मरिन डाइभर्सन बहुउद्देश्यीय आयोजना |
+| ९ | गौतमबुद्ध अन्तर्राष्ट्रिय विमानस्थल | २१ | राष्ट्रपति चुरे संरक्षण कार्यक्रम |
+| १० | पोखरा क्षेत्रीय अन्तर्राष्ट्रिय विमानस्थल | २२ | मेलम्ची खानेपानी आयोजना |
+| ११ | निजगढ अन्तर्राष्ट्रिय विमानस्थल | २३ | विद्युत् प्रसारण आयोजना |
+| १२ | पशुपति क्षेत्र विकास कोष | २४ | बुढीगण्डकी जलविद्युत् आयोजना |
 
-### Why federalism?
+*स्रोत: राष्ट्रिय योजना आयोग (पाठ्यपुस्तकमा दिइएअनुसार)*
 
-1. **Brings government close to the people**: decisions on local roads, schools and clinics are made in the locality.
-2. **Gives power and recognition to all** regions, languages, and communities, which promotes inclusion.
-3. **Speeds development** because each level plans and spends according to need.
-4. **Strengthens democracy** with thousands of elected representatives and with women and Dalit members guaranteed in each ward.
-5. **Reduces the sense of neglect** that earlier fed conflict, and so protects national unity.
-
-### Challenges of federalism
-
-- Lack of enough trained staff and laws at the provincial and local levels.
-- Dependence on money from the centre, since provinces and local levels raise limited revenue of their own.
-- Unclear division of work and overlaps between levels.
-- High cost of running three tiers of government.
-- Unequal capacity between urban and rural local units.
-
-### Federal powers, provincial powers, local powers — who does what?
-
-| Task | Level |
-|---|---|
-| Army, foreign affairs, currency, citizenship | Federal |
-| Provincial police, provincial highways, higher health services | Province |
-| Basic education, basic health, local roads, drinking water, market, birth and death registration | Local |
-| Forests, water resources, national parks, health, education, social security | Shared (concurrent) powers |
-
-```photo id="soc10/singha-durbar" caption="Singha Durbar, Kathmandu, the seat of the Government of Nepal's secretariat. Federalism means that the powers once held only here are now shared with seven provincial and 753 local governments." width="78"
+```figure caption="पाठ्यपुस्तकका २४ राष्ट्रिय गौरवका आयोजना प्रकारअनुसार। सडक–यातायात र जलस्रोत (सिँचाइ, जलविद्युत्, बहुउद्देश्यीय) सबैभन्दा धेरै छन्।"
+fig, ax = barh_ranked(["सडक र रेल", "सिँचाइ", "जलविद्युत् र प्रसारण", "विमानस्थल",
+                       "बहुउद्देश्यीय", "सम्पदा क्षेत्र कोष", "खानेपानी", "वातावरण (चुरे)"],
+                      [7, 4, 4, 3, 2, 2, 1, 1], unit=" ओटा", figsize=(5.6, 3.1))
 ```
 
-::: tip Do not mix up
-Federal democratic republic = **three** tiers (federal, province, local), not two. The 77 districts still exist as administrative units, with a District Coordination Committee that coordinates between local levels and the province, but they are not a separate government tier.
+::: tip वर्गीकरण कसरी गरिएको छ?
+सडक र रेल (७): पुष्पलाल, हुलाकी, तीन करिडोर, रेल–मेट्रो–मोनोरेल र द्रुतमार्ग। सिँचाइ
+(४): बबई, महाकाली, सिक्टा, रानी जमरा कुलरिया। जलविद्युत् र प्रसारण (४): माथिल्लो
+तामाकोसी, पश्चिम सेती, बुढीगण्डकी र विद्युत् प्रसारण। विमानस्थल (३): गौतमबुद्ध, पोखरा,
+निजगढ। बहुउद्देश्यीय (२): भेरी बबई र सुनकोसी मरिन। सम्पदा (२): पशुपति र लुम्बिनी
+कोष। खानेपानी (१): मेलम्ची। वातावरण (१): चुरे। जम्मा ७+४+४+३+२+२+१+१ = **२४**।
 :::
 
-## 2.4 National pride projects
+### केही आयोजनाको परिचय र वर्तमान स्थिति
 
-### Meaning
+**(क) पुष्पलाल मध्यपहाडी लोकमार्ग:** मध्यपहाडी बस्तीमा यातायातको सहज पहुँच पुर्‍याउने
+लक्ष्यका साथ पूर्वमा **पाँचथरको चियो भन्ज्याङ** देखि पश्चिममा **बैतडीको झुलाघाट** सम्म
+निर्माणाधीन। कुल लम्बाइ **१,८७९ किलोमिटर**। आयोजना **आर्थिक वर्ष २०६४/६५** मा सुरु
+भयो र **२०६८/६९** देखि राष्ट्रिय गौरवको आयोजना बन्यो। यसले मध्यपहाडका जिल्लालाई
+यातायात सञ्जालमा जोडी आर्थिक, सामाजिक, सांस्कृतिक, पर्यटकीय र शैक्षिक विकासमा
+योगदान गर्ने अपेक्षा छ। आसपासमा **१० नमुना सहर** विकास गर्ने कार्यक्रम पनि छ। अनुमानित
+बजेट **रु. १ खर्ब १ अर्ब ५० करोड**।
 
-Some projects are so big and so important that they can change the economy of the whole country. A nation cannot build a long highway, a huge dam or an international airport as a small local scheme; it needs a long plan, strong management and large money. Nepal calls such projects **National Pride Projects** (*Rastriya Gaurav ka Aayojana*).
+**(ख) भेरी बबई डाइभर्सन बहुउद्देश्यीय आयोजना:** **भेरी नदी** को पानी **सुर्खेतको जहरे**
+मा बाँध बाँधेर **सुरुङ** मार्फत **बबई नदी** मा खसालिन्छ। यसबाट **४८ मेगावाट** विद्युत्
+उत्पादन हुन्छ र त्यही पानीले **बर्दिया र बाँके** को **६० हजार हेक्टर** जमिनमा सिँचाइ
+हुन्छ। खर्च करिब **२७ अर्ब** रुपियाँ र विद्युत्बाट वार्षिक करिब **दुई अर्ब** मुनाफा हुने
+अपेक्षा छ। सरकारले **आन्तरिक स्रोतबाट सुरुङ** बनाएको यो **नेपालकै पहिलो
+बहुउद्देश्यीय आयोजना** हो।
 
-::: definition National pride projects
-National pride projects are large, strategic development projects selected by the Government of Nepal, with a very large investment, that are expected to bring major change in the economy and in the lives of the people and so bring pride to the nation.
-:::
+```figure caption="भेरी बबई डाइभर्सन आयोजनाको काम गर्ने तरिका (सिँचाइ: बर्दिया र बाँकेको ६० हजार हेक्टर): एउटा नदीको पानी सुरुङबाट अर्को नदीमा लगेर बिजुली र सिँचाइ दुवै लिइन्छ — त्यसैले यो बहुउद्देश्यीय हो।"
+fig, ax = flow([("भेरी नदी", "पानीको स्रोत"),
+                ("जहरे बाँध", "सुर्खेत"),
+                ("सुरुङ", "पानी बबईतर्फ"),
+                ("विद्युत् गृह", "४८ मेगावाट"),
+                ("बबई नदी", "बर्दिया–बाँके\nसिँचाइ")],
+               figsize=(5.9, 1.9))
+```
 
-The National Planning Commission has prepared the criteria and the government has selected the list, which has been revised from time to time. The projects are chosen because they are expected to change the country's economy and the lives of many people, because they need heavy investment and long construction, and because they link regions or use Nepal's natural strength such as water and geography.
+**(ग) हुलाकी लोकमार्ग:** पूर्वदेखि पश्चिमसम्मका तराईका बस्तीमा सहज यातायात पुर्‍याउने
+लक्ष्य; पूर्वमा **झापा** देखि पश्चिममा **कञ्चनपुर** सम्म जोड्ने। कुल लागत अनुमान करिब **६५
+अर्ब २० करोड** रुपियाँ — **भारत सरकारको अनुदान** र नेपाल सरकारको लगानीबाट। अन्त्यमा
+**१,७९२.४२ किलोमिटर** कालोपत्रे सडक र **२१९ पुल** बन्ने अनुमान छ। २०६८/६९ देखि
+राष्ट्रिय गौरवको आयोजना; **पूर्व–पश्चिम राजमार्गको समानान्तर** चल्ने यस मार्गले
+तराईका **२० जिल्ला** छुन्छ।
 
-### Objectives and importance
+**(घ) पशुपति क्षेत्र विकास कोष:** पशुपति क्षेत्रलाई यसको प्रतिष्ठा र गरिमाअनुरूप
+सुव्यवस्थित र विकसित गर्न **वि.सं. २०४३** मा **अविच्छिन्न उत्तराधिकारवाला स्वायत्त
+संस्था** का रूपमा स्थापना भयो। उद्देश्य: पुरातात्त्विक सम्पदाको संरक्षण–संवर्धन,
+दर्शनार्थीका लागि भौतिक पूर्वाधार, **विद्युत् शवदाह गृह** सञ्चालन र वातावरण सुधारसहितको
+बृहत् गुरुयोजना। हाल **पशुपति क्षेत्र विकास कोष ऐन, २०४४** अन्तर्गत चल्छ; **२०७०/७१**
+देखि राष्ट्रिय गौरवको आयोजनामा समावेश।
 
-1. **Economic growth** — create employment during construction and later through industry, trade and tourism.
-2. **Energy security** — produce electricity for homes and industry, and export the surplus.
-3. **Better transport and trade** — roads, railways and airports connect hills, Terai and the Himalaya with each other and with the world.
-4. **Water for drinking and irrigation** — secure drinking water for cities and irrigation for farms.
-5. **Balanced development** — carry growth to backward regions.
-6. **Reduced dependence** on imports and raised self-reliance.
-7. **National unity and pride** — a feeling that Nepalis can build great things.
+```photo id="soc10/pashupati" caption="पशुपतिनाथ मन्दिर क्षेत्र। यसका पुरातात्त्विक सम्पदा जोगाउन र दर्शनार्थीलाई सुविधा दिन पशुपति क्षेत्र विकास कोष राष्ट्रिय गौरवको आयोजनाका रूपमा सञ्चालित छ।" width="60"
+```
 
-### Some national pride projects
+**(ङ) मेलम्ची खानेपानी आयोजना:** काठमाडौँ उपत्यकामा दैनिक खानेपानी आपूर्तिको लक्ष्य —
+पहिलो चरणमा मेलम्ची नदीबाट **दैनिक १७ करोड लिटर**, दोस्रो चरणमा **याङ्ग्री र लार्के**
+नदीबाट थप **१७/१७ करोड लिटर**, गरी जम्मा **५१ करोड लिटर**। पहिलो चरण **२०५५/५६** मा सुरु
+भई **२०७०/७१** मा सक्ने लक्ष्य थियो; ढिलो भए पनि अहिले सम्पन्न भई उपत्यकामा पानी वितरण
+भइरहेको छ। दोस्रो चरण **२०८०/८१** मा सक्ने लक्ष्य थियो। २०६८/६९ देखि राष्ट्रिय गौरवको
+आयोजना।
 
-| Project | Type | Main purpose and facts |
+```photo id="soc10/melamchi" caption="मेलम्ची खानेपानी आयोजनाको सुरुङमुख। सिन्धुपाल्चोकको मेलम्ची नदीको पानी सुरुङबाट काठमाडौँ उपत्यकासम्म ल्याइन्छ।" width="62"
+```
+
+**(च) राष्ट्रपति चुरे–तराई मधेस संरक्षण विकास समिति:** चुरे क्षेत्रको प्राकृतिक स्रोतको
+संरक्षण र दिगो व्यवस्थापन गरी गरिबी न्यूनीकरण र समृद्ध नेपालको लक्ष्यमा टेवा दिने
+उद्देश्य। नेपाल सरकारको **पूर्ण लगानी** मा **राष्ट्रपति चुरे संरक्षण कार्यक्रम**
+**२०६६/६७** मा सुरु भयो; **२०७०/७१** मा समिति गठन भई राष्ट्रिय गौरवको आयोजनाका रूपमा
+चलेको छ। चुरे र भित्री मधेसका **३७ जिल्ला** मा लागु छ। संरक्षणका लागि **२० वर्षे
+गुरुयोजना** **२०७४ जेठ** मा स्वीकृत भयो। चुरे कमजोर डाँडा भएकाले यसको वन मासिँदा तराईमा
+बाढी, बालुवा थुप्रिने र पानीको सतह घट्ने समस्या हुन्छ — यो आयोजना दिगो विकाससँग
+सिधै जोडिएको छ।
+
+**(छ) काठमाडौँ–तराई/मधेस द्रुतमार्ग:** **बाराको निजगढ** देखि राजधानीसम्म **चार लेन** को
+सडक; प्रस्थान विन्दु **ललितपुरको खोकना** र अन्तिम विन्दु **निजगढ**। आयोजना सञ्चालन
+कार्यविधि, २०७४ स्वीकृत भई **नेपाली सेनाको व्यवस्थापन** मा निर्माण हुँदै छ। सेनाले
+**२०७४/७५** मा सुरु गरी **२०८०/८१** मा सक्ने अनुमान थियो। २०६८/६९ देखि राष्ट्रिय गौरवको
+आयोजना। यसले राजधानी र मध्य तराईको आवतजावत छिटो र सहज बनाउनुका साथै सामाजिक–आर्थिक
+विकासमा मदत गर्छ।
+
+**(ज) सुनकोसी मरिन डाइभर्सन आयोजना:** **सिन्धुलीको सुनकोसी गाउँपालिका** बाट सुरुङ खनी
+सुनकोसीको पानी **मरिन खोला** मा झारेर **२८.६ मेगावाट** विद्युत् उत्पादन गर्ने र त्यो
+पानी **बागमती नदी** मा पुर्‍याउने बहुउद्देश्यीय आयोजना। मधेश प्रदेशका **बारा, रौतहट,
+सर्लाही, महोत्तरी र धनुषा** का करिब **१,२२,००० हेक्टर** जमिनमा सिँचाइ पुग्नेछ।
+**२०७६/७७** मा सुरु भई **२०८०/८१** मा सक्ने लक्ष्य थियो; २०७६/७७ देखि नै राष्ट्रिय गौरवको
+आयोजना।
+
+| आयोजना | मुख्य अङ्क | राष्ट्रिय गौरवमा समावेश (आर्थिक वर्ष) |
 |---|---|---|
-| Melamchi Water Supply Project | Drinking water | Brings water from the Melamchi River (Sindhupalchok) through a tunnel of about 26.5 km to the Kathmandu Valley; the first phase (about 170 million litres a day) reached Kathmandu in 2021 |
-| Upper Tamakoshi Hydropower Project | Energy | 456 MW run-of-river plant in Dolakha, in full operation since 2021; largely financed from within Nepal, including shares sold to the public |
-| Budhi Gandaki Hydropower Project | Energy | A planned storage project of about 1,200 MW on the Budhi Gandaki River, between Gorkha and Dhading |
-| Kathmandu–Terai (Madhesh) Expressway (Fast Track) | Transport | A planned expressway of about 72 km that will shorten the road from Kathmandu to the Terai |
-| Pokhara Regional International Airport | Aviation | Opened on 1 January 2023; meant to bring tourists and migrant workers directly to Pokhara and the Gandaki region |
-| Gautam Buddha International Airport, Bhairahawa | Aviation | Opened for international services in 2022 to serve pilgrims to Lumbini |
-| Mid-Hill (Pushpalal) Highway | Transport | An east-west highway of about 1,776 km through the mid-hills from Panchthar to Baitadi |
-| Postal (Hulaki) Highway | Transport | A road of about 1,790 km in the Terai, linking small towns along the plains |
-| Bheri-Babai Diversion Multipurpose Project | Irrigation, energy | Tunnel that diverts water from the Bheri River to the Babai River basin to irrigate dry lands in Bardiya |
+| पुष्पलाल लोकमार्ग | १,८७९ कि.मि.; रु. १ खर्ब १ अर्ब ५० करोड; १० नमुना सहर | २०६८/६९ |
+| हुलाकी लोकमार्ग | १,७९२.४२ कि.मि.; २१९ पुल; २० जिल्ला; रु. ६५ अर्ब २० करोड | २०६८/६९ |
+| भेरी बबई | ४८ मेगावाट; ६० हजार हेक्टर; रु. २७ अर्ब | पाठमा उल्लेख छैन |
+| मेलम्ची | जम्मा ५१ करोड लिटर दैनिक | २०६८/६९ |
+| पशुपति कोष | स्थापना २०४३; ऐन २०४४ | २०७०/७१ |
+| चुरे संरक्षण | ३७ जिल्ला; २० वर्षे गुरुयोजना (२०७४) | २०७०/७१ |
+| द्रुतमार्ग | चार लेन; खोकना–निजगढ; नेपाली सेना | २०६८/६९ |
+| सुनकोसी मरिन | २८.६ मेगावाट; १,२२,००० हेक्टर; ५ जिल्ला | २०७६/७७ |
 
-*(Figures are approximate and may change as projects are completed. Check the latest government list.)*
+::: example आयोजनाका अङ्कको हिसाब
+**प्रश्न.** (क) मेलम्चीका तीन नदीबाट कुल कति पानी आउँछ? (ख) भेरी बबईको लागत विद्युत्को
+मुनाफाले मात्र कति वर्षमा उठ्छ?
 
-```photo id="soc10/melamchi" caption="Melamchi Water Supply Project, near the headworks in Sindhupalchok. The project takes water from the Melamchi River across the ridge by tunnel to Kathmandu, a city that has faced chronic water shortage." width="80"
-```
-
-```photo id="soc10/utk-tunnel" caption="A road tunnel to the dam site of the Upper Tamakoshi Hydropower Project, Dolakha. At 456 MW, it is one of the biggest power plants in Nepal and a national pride project." width="80"
-```
-
-### Problems of national pride projects
-
-- **Delays and cost increases**: many projects take far longer than planned.
-- **Funding**: large loans or aid are needed, and repayment becomes a burden.
-- **Weak project management**, contractor problems and corruption.
-- **Land acquisition** and the resettlement of affected families.
-- **Environmental and social impact**: forest loss, effects on rivers and communities.
-- **Natural hazards**: the Melamchi works were damaged by a flood in June 2021.
-
-### How to make them succeed
-
-1. Plan carefully, with proper surveys and environmental assessment before starting.
-2. Provide the money on time and manage it honestly.
-3. Appoint capable project managers and monitor progress openly.
-4. Compensate and rehabilitate families affected by land acquisition.
-5. Involve local people and protect the environment.
-6. Keep the project away from party politics so that a change of government does not stop it.
-
-::: caution Do not confuse pride projects with local projects
-Neither a village irrigation canal nor a school building is a national pride project, however useful. The test is *scale, national importance and strategic effect on the economy*.
+**उत्तर.** (क) मेलम्ची १७ + याङ्ग्री १७ + लार्के १७ = **५१ करोड लिटर** दैनिक; पहिलो चरणले
+कुल लक्ष्यको १७ ÷ ५१ = एक तिहाइ मात्र पूरा गर्छ। (ख) लागत २७ अर्ब ÷ वार्षिक मुनाफा
+२ अर्ब = **१३.५ वर्ष**। यसमा सिँचाइबाट बढ्ने कृषि उत्पादनको लाभ जोडिएको छैन; त्यो जोड्दा
+लागत अझ छिटो उठ्छ। त्यसैले बहुउद्देश्यीय आयोजना आर्थिक रूपमा बढी लाभदायक हुन्छन्।
 :::
 
-## Chapter summary
-
-- **Development** is better life in health, education, income and freedom; economic growth is only a part of it.
-- **HDI** (UNDP, since 1990) combines **health** (life expectancy), **education** (mean and expected years of schooling) and **standard of living** (GNI per capita, PPP) into a value from 0 to 1; groups: very high (0.800+), high (0.700–0.799), medium (0.550–0.699), low (below 0.550).
-- **Nepal's HDI** is 0.622 and rank 145 (Human Development Report 2025, 2023 data): medium group.
-- **Sustainable development** meets present needs without harming the future (Brundtland, 1987); it rests on economic, social and environmental pillars. The **17 SDGs** (169 targets) were adopted in 2015 for 2030.
-- **Federalism** divides power among federal, provincial and local governments; Nepal was declared a federal democratic republic on 15 Jestha 2065 and the Constitution was promulgated on 3 Ashwin 2072.
-- Nepal has **7 provinces** and **753 local levels** (6 metropolitan, 11 sub-metropolitan, 276 municipalities, 460 rural municipalities) and 77 districts.
-- **National pride projects** are very large strategic projects, such as Melamchi, Upper Tamakoshi, Budhi Gandaki, the Fast Track, new international airports and the highways, meant to speed up growth and bring national pride.
-
-## Practice questions
-
-**Group A — Objective questions (1 mark each)**
-
-1. The Human Development Index is published by <span class="marks">[1]</span>
-   (a) World Bank (b) UNDP (c) WHO (d) IMF
-2. Which one is NOT a dimension of the HDI? <span class="marks">[1]</span>
-   (a) health (b) education (c) standard of living (d) political stability
-3. The 2030 Agenda adopted in 2015 has how many Sustainable Development Goals? <span class="marks">[1]</span>
-   (a) 8 (b) 12 (c) 17 (d) 21
-4. How many local levels does Nepal have? <span class="marks">[1]</span>
-   (a) 77 (b) 460 (c) 753 (d) 6,743
-5. The Constitution of Nepal was promulgated on <span class="marks">[1]</span>
-   (a) 15 Jestha 2065 (b) 3 Ashwin 2072 (c) 7 Falgun 2007 (d) 15 Jestha 2063
-6. The capital of Madhesh Province is <span class="marks">[1]</span>
-   (a) Hetauda (b) Biratnagar (c) Janakpur (d) Pokhara
-7. Who defined sustainable development in 1987 in the report *Our Common Future*? <span class="marks">[1]</span>
-   (a) Brundtland Commission (b) UNICEF (c) SAARC (d) Earth Summit
-8. The Upper Tamakoshi Hydropower Project has a capacity of <span class="marks">[1]</span>
-   (a) 45.6 MW (b) 456 MW (c) 1,200 MW (d) 900 MW
-
-::: note Answers to Group A
-**1.** (b) — the UNDP publishes the Human Development Report with the HDI.
-**2.** (d) — the three dimensions are health, education and standard of living.
-**3.** (c) — 17 SDGs with 169 targets.
-**4.** (c) — 753 local levels (460 is the number of rural municipalities).
-**5.** (b) — 3 Ashwin 2072 (20 September 2015).
-**6.** (c) — Janakpur is the capital of Madhesh Province.
-**7.** (a) — the Brundtland Commission gave the definition.
-**8.** (b) — 456 MW.
+::: caution पाठ्यपुस्तकपछिका अद्यावधिक तथ्य
+सूचीका केही आयोजना सम्पन्न भई सञ्चालनमा छन्: **गौतमबुद्ध अन्तर्राष्ट्रिय विमानस्थल**
+(सन् २०२२ देखि), **पोखरा क्षेत्रीय अन्तर्राष्ट्रिय विमानस्थल** (सन् २०२३ जनवरी १ देखि),
+**माथिल्लो तामाकोसी जलविद्युत् आयोजना** (४५६ मेगावाट) र मेलम्चीको पहिलो चरण।
+भेरी बबईको सुरुङ नेपालमै पहिलो पटक सुरुङ खन्ने मेसिन प्रयोग गरी सन् २०१९ मा
+छिचोलिएको थियो। परीक्षामा पाठ्यपुस्तकका अङ्क नै लेख्नुहोस्; यी तथ्य थप जानकारीका लागि हुन्।
 :::
 
-**Group B — Short answer (2 marks each)**
+### आयोजना समयमा सम्पन्न नहुनुका कारण
 
-1. What is the Human Development Index? Write its three indicators. <span class="marks">[2]</span>
-2. Define sustainable development. <span class="marks">[2]</span>
-3. What is federalism? Name the three tiers of government in Nepal. <span class="marks">[2]</span>
-4. Write any four of the 17 Sustainable Development Goals. <span class="marks">[2]</span>
-5. What are national pride projects? Give two examples. <span class="marks">[2]</span>
-6. Differentiate between economic growth and development (two points). <span class="marks">[2]</span>
+धेरै राष्ट्रिय गौरवका आयोजना तोकिएको समयमा सकिएनन् (जस्तै मेलम्चीको पहिलो चरण
+२०७०/७१ को लक्ष्यभन्दा धेरै ढिलो सकियो)। यसका मुख्य कारण: **जग्गा प्राप्ति र मुआब्जा
+विवाद**, **ठेकेदारको ढिलासुस्ती** र कमजोर अनुगमन, **बजेट अभाव** वा समयमा रकम निकासा
+नहुनु, **राजनीतिक अस्थिरता** र नीति बारम्बार परिवर्तन, **वन क्षेत्र र वातावरणीय
+स्वीकृति** मा ढिलाइ, **प्राकृतिक प्रकोप** (भूकम्प, बाढी, पहिरो), **दक्ष जनशक्ति र
+प्रविधिको कमी** तथा स्थानीय अवरोध।
 
-::: note Answers to Group B
-**1.** The HDI is a measure of the average achievement of a country in health, education and standard of living, published by UNDP. Indicators: life expectancy at birth, years of schooling (mean and expected), and GNI per capita.
-**2.** Development that meets the needs of the present generation without harming the ability of future generations to meet their needs.
-**3.** Federalism is a system in which the constitution divides power between the federal government and units such as provinces. Tiers: federal, province and local.
-**4.** No poverty; zero hunger; good health and well-being; quality education; gender equality; clean water and sanitation; climate action (any four).
-**5.** Very large strategic projects selected by the government to bring big change to the economy. Examples: Melamchi Water Supply Project, Upper Tamakoshi Hydropower Project.
-**6.** Growth is only an increase in income or output; development is a wider improvement in quality of life. Growth is measured by GDP, development by HDI and other indicators.
+::: note क्रियाकलाप — पाठ २.४
+**१.** केही राष्ट्रिय गौरवका आयोजना तोकिएको समयमा सम्पन्न हुन नसक्नुका कारण खोजी गरी
+कक्षामा प्रस्तुत गर्नुहोस्। (माथिको बुँदा आधार बनाउनुहोस्।)
+**२.** विभिन्न स्रोतसामग्री र इन्टरनेटको सहायताले राष्ट्रिय गौरवका आयोजनाको जानकारी
+सङ्कलन गरी कक्षामा प्रस्तुत गर्नुहोस्।
+**सामुदायिक कार्य:** समुदायको कुनै एक विकास आयोजना अवलोकन गरी सम्बद्ध व्यक्तिसँग
+छलफल गरेर यी बुँदामा विवरण तयार पार्नुहोस्: (क) आयोजनाको नाम, (ख) उद्देश्य, (ग)
+प्रारम्भ मिति र सम्पन्न हुने मिति, (घ) अनुमानित लागत, (ङ) लाभान्वित सङ्ख्या, (च)
+आवश्यक जनशक्ति, (छ) हालसम्मको प्रगति, (ज) आयोजनाप्रति तपाईँको दृष्टिकोण र सुझाव।
 :::
 
-**Group C — Long answer (4 marks each)**
+### पाठको अभ्यास: नमुना उत्तर
 
-1. A country has life expectancy of 75 years. Find its health index using minimum 20 and maximum 85 years. If its education index is 0.656 and income index is 0.662, find its HDI to two decimal places. <span class="marks">[4]</span>
-2. Explain how sustainable development can be achieved in Nepal. <span class="marks">[4]</span>
-3. Describe the federal structure of Nepal and mention any two benefits of federalism. <span class="marks">[4]</span>
-4. Explain the importance and the problems of national pride projects. <span class="marks">[4]</span>
-5. What is HDI? How can Nepal improve its human development? <span class="marks">[4]</span>
+**१. विकास आयोजना भनेको के हो?**
+विविध लक्ष्य प्राप्तिका लागि निश्चित समयावधिमा सम्पन्न गर्ने गरी सञ्चालन गरिने
+विकाससम्बन्धी कार्यक्रमलाई विकास आयोजना भनिन्छ। यसमा साधन, स्रोत र जनशक्तिको
+दिगो सोच र उद्देश्यसहित योजनाबद्ध उपयोग गरिन्छ। विकास आयोजना केन्द्र, प्रदेश र
+स्थानीय तहबाट सञ्चालन हुन्छन्; जस्तै गाउँपालिकाको खानेपानी आयोजना वा सङ्घको
+मेलम्ची खानेपानी आयोजना।
 
-::: note Answers to Group C
-**1.** Health index = (75 − 20)/(85 − 20) = 55/65 = 0.846. HDI = (0.846 × 0.656 × 0.662)^(1/3) = (0.3674)^(1/3) = 0.716, so HDI ≈ 0.72, in the high human development group.
-**2.** Protect forests through community forestry; use clean energy; follow environment-friendly farming; manage waste; plan settlements; prepare for climate change; educate people; enforce environmental laws (any four, with a reason each).
-**3.** Three tiers: federal (Parliament, President, Prime Minister), seven provinces (assembly, governor, chief minister) and 753 local levels (municipalities and rural municipalities), each with powers listed in the schedules. Benefits: government closer to the people; inclusion of all communities; faster, need-based development.
-**4.** Importance: economic growth and jobs; energy and water; transport; balanced development; national pride. Problems: delays and cost overruns; funding; weak management and corruption; land acquisition; environmental impact.
-**5.** HDI is a measure of health, education and standard of living (explain). Improvement: health services in every ward; free, quality education; jobs and income at home; reducing poverty and inequality; roads, electricity and water in villages; disaster preparedness.
+**२. कस्ता आयोजनालाई राष्ट्रिय गौरवका आयोजना भनिन्छ?**
+राष्ट्रिय पहिचान कायम गर्ने, ठुलो सङ्ख्यामा जनता लाभान्वित हुने र मुलुकको आर्थिक
+विकास तथा सामाजिक रूपान्तरणमा ठुलो योगदान दिने गरी केन्द्रीय सरकारले सञ्चालन
+गर्ने आयोजनालाई राष्ट्रिय गौरवका आयोजना भनिन्छ। यिनको घोषणा मन्त्रिपरिषद्को
+निर्णयबाट हुन्छ र हरेक वर्ष बजेट सुनिश्चित गरिन्छ। नेपालले आर्थिक वर्ष २०६८/६९ देखि
+यस्ता आयोजना छनोट गर्न थालेको हो; पुष्पलाल लोकमार्ग, मेलम्ची खानेपानी र माथिल्लो
+तामाकोसी यसका उदाहरण हुन्।
+
+**३. राष्ट्रिय गौरवका आयोजना किन महत्त्वपूर्ण मानिन्छन्?**
+(क) यिनले **समृद्ध नेपालको आधारशिला** तयार गर्छन्; (ख) निर्माण र सञ्चालनमा ठुलो
+सङ्ख्यामा **रोजगारी** सिर्जना गर्छन्; (ग) सडक, विमानस्थल, बिजुली, सिँचाइ र खानेपानीजस्ता
+**पूर्वाधार** विकास गर्छन्; (घ) पशुपति, लुम्बिनी र चुरेजस्ता **प्राकृतिक र सांस्कृतिक
+सम्पदाको संरक्षण–संवर्धन** गर्छन्; (ङ) **पर्यटन क्षेत्रको विस्तार** गरी विदेशी मुद्रा
+भित्र्याउँछन्; (च) बिजुली र कृषि उत्पादन बढाई **आयात घटाउँछन्**; (छ) दुर्गम र पछाडि
+परेका क्षेत्रलाई जोडेर **सन्तुलित विकास** र राष्ट्रिय एकता बलियो बनाउँछन्; (ज) देशको
+पहिचान र गौरव बढाउँछन्।
+
+**४. नेपालमा तोकिएको समयमा विकास आयोजना सम्पन्न गर्न कुन कुन पक्षमा ध्यान दिनुपर्ला?**
+(क) आयोजना सुरु गर्नुअघि **विस्तृत अध्ययन**, लागत अनुमान र वातावरणीय प्रभाव मूल्याङ्कन;
+(ख) **जग्गा प्राप्ति र मुआब्जा** को समस्या पहिले नै समाधान; (ग) **पर्याप्त बजेट** र समयमै
+रकम निकासा; (घ) सक्षम ठेकेदार छनोट र काम नगर्नेलाई **कारबाही**; (ङ) नियमित **अनुगमन**,
+पारदर्शिता र भ्रष्टाचार नियन्त्रण; (च) **राजनीतिक स्थिरता** र नीतिको निरन्तरता; (छ)
+वन, वातावरण र अन्य **स्वीकृति छिटो** दिने एकद्वार प्रणाली; (ज) **दक्ष जनशक्ति र आधुनिक
+प्रविधि**; (झ) स्थानीय जनताको **सहभागिता र सहयोग**। द्रुतमार्ग नेपाली सेनालाई दिनु पनि
+समयमै सक्ने प्रयासको उदाहरण हो।
+
+**५. हुलाकी लोकमार्गले पुर्‍याउने फाइदाको विवेचना गर्नुहोस्।**
+हुलाकी लोकमार्ग झापादेखि कञ्चनपुरसम्म पूर्व–पश्चिम राजमार्गको समानान्तर बन्ने करिब
+१,७९२.४२ किलोमिटर कालोपत्रे सडक हो, जसमा २१९ पुल बन्नेछन् र तराईका २० जिल्ला
+जोडिनेछन्। यसका फाइदा: (क) राजमार्गबाट टाढा रहेका **दक्षिणी तराईका बस्ती** मा सहज
+यातायात पुग्छ; (ख) **कृषि उपज** छिटो र सस्तोमा बजार पुग्छ, किसानको आय बढ्छ; (ग)
+विद्यालय, अस्पताल र सरकारी कार्यालयमा **पहुँच** सजिलो हुन्छ; (घ) पूर्व–पश्चिम
+राजमार्गको **विकल्प** बन्छ — बाढी वा दुर्घटनाले राजमार्ग अवरुद्ध हुँदा पनि आवागमन चल्छ;
+(ङ) सडक किनारमा **उद्योग, व्यापार र बजार** विस्तार भई रोजगारी बढ्छ; (च) सीमा
+क्षेत्रको **सुरक्षा** र प्रशासन प्रभावकारी हुन्छ; (छ) तराईका ऐतिहासिक, धार्मिक र
+सांस्कृतिक स्थलमा **पर्यटन** बढ्छ। यसरी यसले तराई–मधेसको सन्तुलित विकासमा ठुलो
+योगदान दिन्छ।
+
+## अध्यायको सारांश
+
+- व्यक्तिको स्वास्थ्य, शिक्षा, खानपान, बसोबास र सिपमा भएको सुधारात्मक प्रगति मानव विकास हो; प्रतिव्यक्ति आय, औसत आयु र शिक्षाको समग्र सूचकबाट बन्ने ० देखि १ बिचको सङ्ख्यात्मक प्रस्तुति मानव विकास सूचकाङ्क हो।
+- मानव विकास प्रतिवेदन २०२५ (१९३ देश): श्रीलङ्का ०.७७६ (८९), माल्दिभ्स ०.७६६ (९३), भुटान ०.६९८ (१२५), बङ्गलादेश र भारत ०.६८५ (१३०), नेपाल ०.६२२ (१४५), पाकिस्तान ०.५४४ (१६८), अफगानिस्तान ०.४९६ (१८१); नेपाल सार्कमा छैटौँ र मध्यम समूहमा।
+- विश्वमा शीर्ष: आइसल्यान्ड ०.९७२, नर्वे र स्विट्जरल्यान्ड ०.९७०, डेनमार्क ०.९६२, जर्मनी ०.९५९; नेपालको सूचकाङ्क कम हुनुमा कमजोर प्रतिव्यक्ति आय र लैङ्गिक असमानता मुख्य कारण हुन्।
+- भावी पुस्ताले पनि स्रोत प्रयोग गर्न पाउने गरी गरिने विकास दिगो विकास हो; चमेलीको गाउँले अविवेकी विकासले विनाश ल्याउँछ भन्ने देखाउँछ।
+- स्टकहोम सम्मेलन (सन् १९७२ जुन ५–१६), विश्व संरक्षण रणनीति (१९८०), प्रकृतिसम्बन्धी बडापत्र (१९८२), हाम्रो साझा भविष्य (१९८७), सहस्राब्दी विकास लक्ष्य (२०००) दिगो विकासका मुख्य विश्वव्यापी प्रयास हुन्।
+- नेपालमा संविधानको धारा ३० (स्वच्छ वातावरणको हक), धारा ५१ (छ), वातावरण संरक्षण ऐन, वातावरणीय प्रभाव मूल्याङ्कन, वातावरण संरक्षण कोष र जैविक विविधता संरक्षण कोष छन्; दिगो विकासका ८ उद्देश्य र ७ आयाम छन्।
+- नेपाल २०६५ जेठ १५ देखि सङ्घीय लोकतान्त्रिक गणतन्त्र; सङ्घ, ७ प्रदेश र ७५३ स्थानीय तह (६ महानगर, ११ उपमहानगर, २७६ नगर, ४६० गाउँपालिका) छन्।
+- सङ्घीयताले सरकार जनताको नजिक पुर्‍याउँछ, समावेशी लोकतन्त्र, स्वस्थ प्रतिस्पर्धा, स्थानीय स्रोतको परिचालन र आत्मनिर्भरता बढाउँछ; सङ्घले सीमा, सुरक्षा, अर्थनीति र परराष्ट्र तथा प्रदेश र स्थानीय तहले शिक्षा, स्वास्थ्य, खानेपानी, विद्युत्, सञ्चार हेर्छन्।
+- राष्ट्रिय गौरवका आयोजना मन्त्रिपरिषद्ले घोषणा गर्ने र केन्द्रीय सरकारले चलाउने ठुला आयोजना हुन्; आर्थिक वर्ष २०६८/६९ देखि सुरु; पाठ्यपुस्तकमा २४ ओटा सूचीकृत।
+- मुख्य अङ्क: पुष्पलाल १,८७९ कि.मि.; हुलाकी १,७९२.४२ कि.मि., २१९ पुल, २० जिल्ला; भेरी बबई ४८ मेगावाट र ६० हजार हेक्टर; मेलम्ची ५१ करोड लिटर; सुनकोसी मरिन २८.६ मेगावाट र १,२२,००० हेक्टर; चुरे ३७ जिल्ला; पशुपति कोष २०४३।
+
+## अभ्यास
+
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
+
+१. मानव विकास सूचकाङ्कका तीन पक्षमा तलकामध्ये कुन पर्दैन? <span class="marks">[1]</span>
+   (क) प्रतिव्यक्ति आय (ख) औसत आयु (ग) शिक्षा (घ) जनसङ्ख्या वृद्धिदर
+२. मानव विकास प्रतिवेदन २०२५ अनुसार नेपालको सूचकाङ्क कति छ? <span class="marks">[1]</span>
+   (क) ०.५४४ (ख) ०.६२२ (ग) ०.६८५ (घ) ०.६९८
+३. वातावरणसम्बन्धी स्टकहोम सम्मेलन कुन वर्ष भएको थियो? <span class="marks">[1]</span>
+   (क) सन् १९७२ (ख) सन् १९८० (ग) सन् १९८७ (घ) सन् २०००
+४. नेपालको संविधानको कुन धारामा स्वच्छ वातावरणको हक छ? <span class="marks">[1]</span>
+   (क) धारा १८ (ख) धारा २६ (ग) धारा ३० (घ) धारा ५१
+५. नेपालमा हाल कति स्थानीय तह छन्? <span class="marks">[1]</span>
+   (क) ७ (ख) ७७ (ग) ४६० (घ) ७५३
+६. पुष्पलाल मध्यपहाडी लोकमार्गको पूर्वी विन्दु कहाँ छ? <span class="marks">[1]</span>
+   (क) झुलाघाट (ख) चियो भन्ज्याङ (ग) खोकना (घ) निजगढ
+७. भेरी बबई डाइभर्सन आयोजनाबाट कति मेगावाट विद्युत् उत्पादन गर्ने लक्ष्य छ? <span class="marks">[1]</span>
+   (क) २८.६ (ख) ४८ (ग) ४५६ (घ) ६०
+८. नेपाल सरकारले राष्ट्रिय गौरवका आयोजना पहिलो पटक कुन आर्थिक वर्षदेखि छनोट गर्‍यो? <span class="marks">[1]</span>
+   (क) २०६४/६५ (ख) २०६६/६७ (ग) २०६८/६९ (घ) २०७०/७१
+
+::: note समूह क का उत्तर
+**१.** (घ) — सूचकाङ्क प्रतिव्यक्ति आय, औसत आयु र शिक्षामा आधारित हुन्छ; जनसङ्ख्या वृद्धिदर यसको पक्ष होइन।
+**२.** (ख) — नेपाल ०.६२२ अङ्कसहित १४५ औँ स्थानमा छ; ०.५४४ पाकिस्तान, ०.६८५ भारत–बङ्गलादेश र ०.६९८ भुटानको हो।
+**३.** (क) — स्टकहोम सम्मेलन सन् १९७२ जुन ५–१६ मा भयो; १९८७ मा "हाम्रो साझा भविष्य" आयो।
+**४.** (ग) — धारा ३० ले स्वच्छ वातावरणको हक दिन्छ; धारा ५१ राज्यका नीतिसम्बन्धी हो।
+**५.** (घ) — ७ प्रदेश र ७५३ स्थानीय तह छन्; ४६० गाउँपालिका मात्रको सङ्ख्या हो।
+**६.** (ख) — लोकमार्ग पूर्वमा पाँचथरको चियो भन्ज्याङदेखि पश्चिममा बैतडीको झुलाघाटसम्म जान्छ।
+**७.** (ख) — भेरी बबईबाट ४८ मेगावाट; २८.६ मेगावाट सुनकोसी मरिनको हो।
+**८.** (ग) — आर्थिक वर्ष २०६८/६९ देखि; २०६४/६५ पुष्पलाल लोकमार्ग सुरु भएको वर्ष हो।
+:::
+
+**समूह ख — छोटो उत्तर (२ अङ्क)**
+
+१. मानव विकास भनेको के हो? <span class="marks">[2]</span>
+२. नेपालको मानव विकास सूचकाङ्क अपेक्षित रूपमा नबढ्नुका दुई प्रमुख कारण लेख्नुहोस्। <span class="marks">[2]</span>
+३. चमेलीको गाउँमा पहिरो जानुका कारण के के थिए? <span class="marks">[2]</span>
+४. दिगो विकासको प्राविधिक र शासकीय आयाम के हुन्? <span class="marks">[2]</span>
+५. सङ्घीय सरकार र स्थानीय सरकारका दुई दुई कार्यक्षेत्र लेख्नुहोस्। <span class="marks">[2]</span>
+६. नेपालमा सङ्घीय प्रणाली कुन पृष्ठभूमिमा स्थापना भयो? <span class="marks">[2]</span>
+७. मेलम्ची खानेपानी आयोजनाको लक्ष्य के हो? <span class="marks">[2]</span>
+८. राष्ट्रपति चुरे संरक्षण कार्यक्रमको उद्देश्य र कार्यक्षेत्र लेख्नुहोस्। <span class="marks">[2]</span>
+
+::: note समूह ख का उत्तर
+**१.** व्यक्तिको आर्थिक र सामाजिक विकासका पक्ष — स्वास्थ्य, शिक्षा, खानपान, बसोबासको अवस्था र सिप विकास — मा भएको सुधारात्मक प्रगति मानव विकास हो। शिक्षा, आय र औसत आयु बढेपछि रामअवतारको परिवार सुखी हुनु यसको उदाहरण हो।
+**२.** मानव विकास प्रतिवेदनअनुसार (क) नेपालको प्रतिव्यक्ति आय कमजोर हुनु र (ख) लैङ्गिक असमानता कायम रहनु प्रमुख कारण हुन्। यसबाहेक गुणस्तरीय शिक्षा, स्वास्थ्य सेवा र रोजगारीको कमी पनि जिम्मेवार छन्।
+**३.** गाउँमाथिको जङ्गलमा जोखिम आकलन नगरी सडक बनाइयो र धेरै रुख काटिए; वन फँडानी र डढेलो नियन्त्रणमा ध्यान दिइएन; जङ्गललाई खुला चरिचरनमा प्रयोग गर्दा भूबनोट कमजोर भयो र वर्षाको पानीले माटो कमजोर भई पहिरो गयो।
+**४.** प्राविधिक आयामले कम प्रदूषण गर्ने प्रविधि प्रयोग गरी विश्व तापक्रम वृद्धि कम गर्ने कुरा समेट्छ। शासकीय तथा राजनीतिक आयामले वैधानिक, जनप्रतिनिधिमूलक सरकार र विकेन्द्रित शासन प्रणाली कायम गर्ने कुरा समेट्छ।
+**५.** सङ्घीय सरकार: (क) सीमा र राष्ट्रिय सुरक्षा, (ख) परराष्ट्र नीति र कूटनीति (राष्ट्रिय अर्थनीति पनि)। स्थानीय सरकार: (क) आधारभूत र माध्यमिक शिक्षा तथा आधारभूत स्वास्थ्य, (ख) खानेपानी, स्थानीय सडक र व्यक्तिगत घटना दर्ता।
+**६.** १० वर्षे सशस्त्र विद्रोह, १९ दिने जनआन्दोलन र मधेस आन्दोलनलगायतका आन्दोलनको पृष्ठभूमिमा वि.सं. २०६५ जेठ १५ देखि नेपाल सङ्घीय लोकतान्त्रिक गणतन्त्र बन्यो। स्रोतको उचित बाँडफाँट र आर्थिक, सामाजिक तथा क्षेत्रीय विभेद हटाई समानुपातिक विकास गर्नु यसको उद्देश्य थियो।
+**७.** काठमाडौँ उपत्यकामा दैनिक खानेपानी पुर्‍याउनु — पहिलो चरणमा मेलम्ची नदीबाट दैनिक १७ करोड लिटर र दोस्रो चरणमा याङ्ग्री र लार्केबाट थप १७/१७ करोड लिटर गरी जम्मा ५१ करोड लिटर। पहिलो चरण सम्पन्न भई पानी वितरण भइरहेको छ।
+**८.** उद्देश्य: चुरे क्षेत्रको प्राकृतिक स्रोतको संरक्षण र दिगो व्यवस्थापन गरी गरिबी न्यूनीकरण र समृद्ध नेपालमा टेवा दिनु। कार्यक्षेत्र: चुरे र भित्री मधेसका ३७ जिल्ला; २०६६/६७ मा सुरु, २०७४ जेठमा २० वर्षे गुरुयोजना स्वीकृत।
+:::
+
+**समूह ग — लामो उत्तर (४ अङ्क)**
+
+१. मानव विकास सूचकाङ्कका आधारमा नेपालको स्थितिलाई अन्य सार्क मुलुकसँग तुलना गर्नुहोस्। <span class="marks">[4]</span>
+२. दिगो विकासका लागि भएका विश्वव्यापी र राष्ट्रिय प्रयासको चर्चा गर्नुहोस्। <span class="marks">[4]</span>
+३. "सङ्घीयताले जनतालाई सरकारको नजिक पुर्‍याउँछ।" यस भनाइलाई पुष्टि गर्नुहोस्। <span class="marks">[4]</span>
+४. भेरी बबई डाइभर्सन र सुनकोसी मरिन डाइभर्सन आयोजनाको तुलनात्मक परिचय दिनुहोस्। <span class="marks">[4]</span>
+
+::: note समूह ग का उत्तर
+**१.** मानव विकास प्रतिवेदन २०२५ अनुसार १९३ देशमा नेपाल ०.६२२ अङ्कसहित १४५ औँ स्थानमा छ। सार्कमा श्रीलङ्का (०.७७६, ८९ औँ) र माल्दिभ्स (०.७६६, ९३ औँ) उच्च मानव विकास समूहमा छन्। भुटान (०.६९८, १२५ औँ), बङ्गलादेश र भारत (दुवै ०.६८५, १३० औँ) नेपालभन्दा माथि तर मध्यम समूहमा छन्। नेपाल सार्कमा छैटौँ छ; पाकिस्तान (०.५४४, १६८ औँ) र अफगानिस्तान (०.४९६, १८१ औँ) मात्र नेपालभन्दा तल न्यून समूहमा छन्। **विश्लेषण:** नेपाल लामो समयदेखि मध्यम समूहमा छ; कमजोर प्रतिव्यक्ति आय र लैङ्गिक असमानता मुख्य कारण हुन्। श्रीलङ्काले शिक्षा र स्वास्थ्यमा गरेको लगानीले उसको अङ्क उच्च छ। नेपालले सिपमूलक र गुणस्तरीय शिक्षा, सर्वसुलभ स्वास्थ्य, रोजगारी, सुशासन र लैङ्गिक समानतामा ध्यान दिए स्थान सुधार्न सक्छ।
+**२.** **विश्वव्यापी प्रयास:** (क) सन् १९७२ जुन ५–१६ को स्टकहोम सम्मेलनले वातावरणसम्बन्धी घोषणापत्र जारी गरी पहिलो सामूहिक चासो देखायो; (ख) सन् १९८० मा विश्व संरक्षण रणनीति; (ग) सन् १९८२ मा संयुक्त राष्ट्रसङ्घीय महासभाको प्राकृतिक साधनसम्बन्धी बडापत्र; (घ) सन् १९८७ मा "हाम्रो साझा भविष्य" ले दिगो विकासको विश्व कार्यसूची दियो; (ङ) सन् २००० मा सहस्राब्दी विकास लक्ष्यले वातावरण सन्तुलनलाई विकासको आधार मान्यो; (च) सन् २००५ पछि जलवायु परिवर्तनबारे साझा अभिमत बन्यो। **राष्ट्रिय प्रयास:** (क) संविधानको धारा ३० मा स्वच्छ वातावरणको हक र वातावरण–विकास सन्तुलनका लागि कानुनी व्यवस्था; (ख) धारा ५१ (छ) मा प्राकृतिक स्रोतको संरक्षण, संवर्धन र उपयोगको नीति; (ग) वातावरण संरक्षण ऐन र नियमावली; (घ) ठुला आयोजनामा वातावरणीय प्रभाव मूल्याङ्कन; (ङ) वातावरण संरक्षण कोष र जैविक विविधता संरक्षण कोष; (च) राष्ट्रपति चुरे संरक्षण कार्यक्रम।
+**३.** सङ्घीयतामा शासन तीन तहमा बाँडिएको छ र ७५३ स्थानीय तह तथा तिनका वडा जनताको सबैभन्दा नजिकका सरकार हुन्। (क) घटना दर्ता, सिफारिस, सामाजिक सुरक्षा भत्ता, योजना छनोट जस्ता सेवा वडा र पालिकामै पाइन्छन् — पहिले जस्तो सदरमुकाम वा काठमाडौँ धाउनुपर्दैन; (ख) शिक्षा, स्वास्थ्य, खानेपानी, स्थानीय सडक जस्ता दैनिक सेवा स्थानीय र प्रदेश सरकारले दिन्छन्; (ग) जनताले आफ्ना निर्वाचित प्रतिनिधिलाई सजिलै भेटेर माग राख्न र जवाफ माग्न सक्छन्; (घ) योजना छनोट र सार्वजनिक सुनुवाइमा जनसहभागिता बढेको छ; (ङ) पछाडि परेका र पछाडि पारिएका वर्गको प्रतिनिधित्व बढेको छ। त्यसैले सङ्घीयताले जनतालाई सरकारको नजिक पुर्‍याउँछ भन्ने भनाइ सही छ; तर यसका लागि जनप्रतिनिधि जनताको सेवक बन्नुपर्छ र सुशासन कायम हुनुपर्छ।
+**४.** **समानता:** दुवै एउटा नदीको पानी सुरुङबाट अर्को नदीमा लैजाने (डाइभर्सन) बहुउद्देश्यीय आयोजना हुन्, जसले बिजुली र सिँचाइ दुवै दिन्छन् र दुवै राष्ट्रिय गौरवका आयोजना हुन्। **भेरी बबई:** सुर्खेतको जहरेमा बाँध बाँधी भेरीको पानी सुरुङबाट बबई नदीमा खसालिन्छ; ४८ मेगावाट विद्युत् र बर्दिया–बाँकेको ६० हजार हेक्टरमा सिँचाइ; लागत करिब २७ अर्ब र वार्षिक करिब २ अर्ब मुनाफाको अपेक्षा; आन्तरिक स्रोतबाट सुरुङ बनाइएको नेपालको पहिलो बहुउद्देश्यीय आयोजना। **सुनकोसी मरिन:** सिन्धुलीको सुनकोसी गाउँपालिकाबाट सुरुङ खनी सुनकोसीको पानी मरिन खोलामा झारेर २८.६ मेगावाट विद्युत् र पछि बागमतीमा पुर्‍याई बारा, रौतहट, सर्लाही, महोत्तरी र धनुषाका करिब १,२२,००० हेक्टरमा सिँचाइ; २०७६/७७ मा सुरु। **तुलना:** विद्युत्मा भेरी बबई ठुलो (४८ बनाम २८.६ मेगावाट) तर सिँचाइमा सुनकोसी मरिन करिब दोब्बर (१,२२,००० बनाम ६०,००० हेक्टर)।
+:::
+
+**समूह घ — विस्तृत उत्तर (८ अङ्क)**
+
+१. दिगो विकास भनेको के हो? यसका उद्देश्य, आयाम र प्रवर्धनका उपायको विवेचना गर्दै "अव्यवस्थित विकासले विनाश निम्त्याउँछ" भन्ने कुरा उदाहरणसहित प्रस्ट पार्नुहोस्। <span class="marks">[8]</span>
+२. नेपालमा सङ्घीयता र राष्ट्रिय गौरवका आयोजनाले देशको विकासमा कसरी योगदान दिन्छन्? सफल कार्यान्वयनका लागि आवश्यक सुझावसहित लेख्नुहोस्। <span class="marks">[8]</span>
+
+::: note समूह घ का उत्तर
+**१.** **परिचय:** विकासका क्रममा साधनस्रोतको समुचित उपयोग गरी भावी पुस्ताले पनि स्रोत प्रयोग गर्न पाउने अवस्था बनाउनु दिगो विकास हो। यसले विकासको लाभ वर्तमानदेखि भविष्यसम्म सुनिश्चित गर्छ र यसलाई पृथ्वीले धान्न सक्ने विकास पनि भनिन्छ। **उद्देश्य:** वातावरणको प्रभावकारी संरक्षण; प्राकृतिक स्रोतको विवेकसङ्गत उपयोग; उच्च, फराकिलो र दिगो आर्थिक वृद्धि; सामाजिक सद्भाव; गरिबी निवारण र समृद्धि; मानवीय विकासको सबलीकरण; सामाजिक–सांस्कृतिक सम्पदाको संरक्षण; सुशासन र सामाजिक न्याय। **आयाम:** वातावरणीय (पुनः उपयोग, नवीकरण), आर्थिक (स्रोतमा पहुँच, गरिबी निवारण), सामाजिक (न्यायोचित वितरण), सांस्कृतिक (विविधता र हस्तान्तरण), प्राविधिक (कम प्रदूषण गर्ने प्रविधि), मानवीय (काम र सुनिश्चित भविष्य) र शासकीय–राजनीतिक (प्रतिनिधिमूलक, विकेन्द्रित शासन)। **प्रवर्धनका उपाय:** स्रोतको विवेकपूर्ण प्रयोग; समतामूलक विकास र पर्यावरणीय सन्तुलन; गरिबी घटाउने र उत्पादकत्व बढाउने आयोजना; पृथ्वीको भारवहन क्षमता र जनसङ्ख्याबिच तालमेल; सुशासन; सामाजिक, सांस्कृतिक र धार्मिक भावनाको सम्मान; वातावरण संरक्षण। **अव्यवस्थित विकासले विनाश:** चमेलीको गाउँमा जोखिम आकलन नगरी सडक बनाइयो, रुख काटिए, डढेलो र चरिचरन नियन्त्रण भएन; फलस्वरूप पहिरोले ५ जनाको ज्यान लियो, ३० मध्ये २२ घर भत्काए, मुहान पुर्‍यो र बाली नष्ट गर्‍यो। पहाडका डोजरे सडकले पहिरो, नदीको अनियन्त्रित उत्खननले बाढी र अव्यवस्थित सहरीकरणले प्रदूषण बढाएका छन्। तर गाउँलेले अम्रिसो, बाँस, सखुवा रोपेर र चरिचरन बन्द गरेर गाउँ जोगाए — यही दिगो विकासको बाटो हो। **निष्कर्ष:** संविधानको धारा ३०, वातावरणीय प्रभाव मूल्याङ्कन र नागरिकको सचेततासहितको विकास मात्र दिगो हुन्छ; आजको सुविधाका लागि भोलिको पुस्ताको स्रोत नष्ट गर्नु हुँदैन।
+**२.** **सङ्घीयताको योगदान:** नेपाल २०६५ जेठ १५ देखि सङ्घीय भयो र सङ्घ, ७ प्रदेश र ७५३ स्थानीय तहको संरचना बन्यो। (क) सेवा र विकासका निर्णय जनताको नजिकबाट हुन्छन्; (ख) स्थानीय स्रोत र सम्भावनाको अधिकतम परिचालन हुन्छ; (ग) प्रदेशहरूबिच स्वस्थ प्रतिस्पर्धाले विकासको गति बढाउँछ; (घ) समावेशी लोकतन्त्र र पछाडि परेका वर्गको संरक्षण हुन्छ; (ङ) केन्द्रमाथिको निर्भरता घटी आत्मनिर्भरता बढ्छ; (च) सामाजिक द्वन्द्वको दिगो व्यवस्थापन हुन्छ। सङ्घले सीमा, सुरक्षा, अर्थनीति र परराष्ट्र तथा प्रदेश र स्थानीय तहले शिक्षा, स्वास्थ्य, खानेपानी, विद्युत् र सञ्चार हेर्छन्। **राष्ट्रिय गौरवका आयोजनाको योगदान:** (क) पुष्पलाल (१,८७९ कि.मि.) र हुलाकी (१,७९२.४२ कि.मि., २० जिल्ला) लोकमार्गले पहाड र तराईका बस्ती जोडेर बजार, शिक्षा र स्वास्थ्यमा पहुँच बढाउँछन्; (ख) भेरी बबई (४८ मेगावाट, ६० हजार हेक्टर) र सुनकोसी मरिन (२८.६ मेगावाट, १,२२,००० हेक्टर) ले बिजुली र सिँचाइमार्फत कृषि उत्पादन बढाउँछन्; (ग) मेलम्चीले उपत्यकाको खानेपानी समस्या समाधान गर्छ; (घ) विमानस्थल, पशुपति र लुम्बिनी कोषले पर्यटन र सम्पदा संरक्षण बढाउँछन्; (ङ) चुरे संरक्षणले तराईलाई मरुभूमीकरण र बाढीबाट जोगाउँछ; (च) यी सबैले रोजगारी र पूर्वाधार सिर्जना गरी समृद्ध नेपालको आधारशिला बनाउँछन्। **सुझाव:** सुशासन र भ्रष्टाचार नियन्त्रण; तीन तहबिच स्पष्ट अधिकार र समन्वय; प्रदेशलाई कानुन, जनशक्ति र बजेटमा सङ्घको सहयोग; आयोजनामा समयमै बजेट, जग्गा प्राप्ति, सक्षम ठेकेदार र कडा अनुगमन; राजनीतिक स्थिरता; वातावरणीय प्रभाव मूल्याङ्कनसहित दिगो विकास; जनप्रतिनिधिलाई जनताको सेवक बनाउने संयन्त्र र नागरिकको सक्रिय सहभागिता। **निष्कर्ष:** सङ्घीयताले विकास गाउँसम्म पुर्‍याउने संरचना दिन्छ भने राष्ट्रिय गौरवका आयोजनाले देशभरिको ठुलो पूर्वाधार बनाउँछन्; दुवै प्रभावकारी भए मात्र आत्मनिर्भर र समृद्ध नेपाल सम्भव छ।
 :::

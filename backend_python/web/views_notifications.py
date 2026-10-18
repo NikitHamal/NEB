@@ -118,7 +118,7 @@ def _enrich_notification(n):
         body = n.message or "You have a new follower on NEBians."
         icon_name = 'person_add'
         icon_theme = 'blue'
-        secondary_action = {'label': 'View profile', 'url': f'/profile/{actor_name}/' if actor_name else '#', 'action': 'view'}
+        secondary_action = {'label': 'View profile', 'url': f'/app/profile/{actor_name}/' if actor_name else '#', 'action': 'view'}
     elif verb == 'resource_approved':
         category = 'system'
         title = "Resource approved"

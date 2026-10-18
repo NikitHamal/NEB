@@ -532,7 +532,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
                            content_type='application/json', HTTP_X_REQUESTED_WITH='XMLHttpRequest')
 
     def test_the_marketplace_tab_sits_in_the_library_between_library_and_syllabus(self):
-        response = self.client.get('/library/?tab=marketplace')
+        response = self.client.get('/app/library/?tab=marketplace')
         self.assertEqual(response.status_code, 200)
         html = response.content.decode()
         self.assertIn('mkt-shelf', html)
@@ -542,14 +542,14 @@ class MarketplaceWebTests(MarketplaceTestBase):
 
     def test_the_directory_lists_published_pages(self):
         self.make_published_page(self.teacher, slug='t-web', display_name='Web Teacher')
-        response = self.client.get('/marketplace/')
+        response = self.client.get('/app/marketplace/')
         self.assertContains(response, 'Web Teacher')
         self.assertContains(response, 'mkt-shelf-focus' if False else 'creator-grid')
 
     def test_the_studio_is_for_eligible_accounts_only(self):
-        self.assertEqual(self.session_client(self.teacher).get('/marketplace/studio/').status_code, 200)
-        self.assertEqual(self.session_client(self.student).get('/marketplace/studio/').status_code, 403)
-        self.assertEqual(self.client.get('/marketplace/studio/').status_code, 302)
+        self.assertEqual(self.session_client(self.teacher).get('/app/marketplace/studio/').status_code, 200)
+        self.assertEqual(self.session_client(self.student).get('/app/marketplace/studio/').status_code, 403)
+        self.assertEqual(self.client.get('/app/marketplace/studio/').status_code, 302)
 
     def test_the_studio_saves_a_page_through_the_shared_validator(self):
         client = self.session_client(self.teacher)
@@ -581,7 +581,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
             {'type': 'faq', 'title': 'Questions', 'items': [{'q': 'When?', 'a': 'Sunday'}]},
             {'type': 'about', 'title': 'About me', 'body': 'Fifteen years of NEB physics.'},
         ])
-        html = self.client.get('/marketplace/t-render/').content.decode()
+        html = self.client.get('/app/marketplace/t-render/').content.decode()
         self.assertIn('Hero headline', html)
         self.assertIn('When?', html)
         self.assertIn('Fifteen years of NEB physics.', html)
@@ -597,7 +597,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
         from the art layer's own rule.
         """
         self.make_published_page(self.teacher, slug='t-hero')
-        html = self.client.get('/marketplace/t-hero/').content.decode()
+        html = self.client.get('/app/marketplace/t-hero/').content.decode()
         container = html[html.index('class="mkt-page'):]
         container = container[:container.index('>')]
         self.assertIn('mkt-hero-mode-art', container)
@@ -611,7 +611,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
             'hero': 'art', 'show_verified': False, 'show_contact': False, 'show_stats': True,
         })
         CreatorPage.objects.filter(slug='t-flags').update(verified=True, view_count=1200)
-        html = self.client.get('/marketplace/t-flags/').content.decode()
+        html = self.client.get('/app/marketplace/t-flags/').content.decode()
         self.assertNotIn('mkt-verified', html)
         self.assertNotIn('sabina@example.com', html)
         # show_stats on: the platform numbers sit under the name
@@ -624,7 +624,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
             {'type': 'contact', 'title': 'Get in touch'},
         ], contact_email='sabina@example.com')
         CreatorPage.objects.filter(slug='t-flags-on').update(verified=True)
-        html = self.client.get('/marketplace/t-flags-on/').content.decode()
+        html = self.client.get('/app/marketplace/t-flags-on/').content.decode()
         self.assertIn('mkt-verified', html)
         self.assertIn('sabina@example.com', html)
         self.assertNotIn('mkt-hero-stats', html)
@@ -634,12 +634,12 @@ class MarketplaceWebTests(MarketplaceTestBase):
             {'type': 'stats', 'title': 'By the numbers',
              'items': [{'label': 'Students', 'value': '400'}]},
         ])
-        html = self.client.get('/marketplace/t-stats/').content.decode()
+        html = self.client.get('/app/marketplace/t-stats/').content.decode()
         self.assertIn('By the numbers', html)
         self.assertIn('400', html)
 
     def test_the_price_setter_is_the_shared_component(self):
-        html = self.session_client(self.teacher).get('/upload/').content.decode()
+        html = self.session_client(self.teacher).get('/app/upload/').content.decode()
         self.assertIn('data-neb-price', html)
         self.assertIn('neb-price-preset', html)
         self.assertNotIn('price_field_container', html)
@@ -654,10 +654,10 @@ class MarketplaceWebTests(MarketplaceTestBase):
         )
 
         client = self.session_client(self.student)
-        page_html = client.get(f'/marketplace/course/{course.id}/').content.decode()
+        page_html = client.get(f'/app/marketplace/course/{course.id}/').content.decode()
         self.assertIn('Submit payment', page_html)
 
-        response = client.post(f'/marketplace/course/{course.id}/', {'transaction_id': 'WEB-1'}, follow=True)
+        response = client.post(f'/app/marketplace/course/{course.id}/', {'transaction_id': 'WEB-1'}, follow=True)
         self.assertEqual(response.status_code, 200)
         self.assertIn('Awaiting verification', response.content.decode())
         self.assertTrue(PaymentVerification.objects.filter(buyer=self.student, course=course, status='pending').exists())
@@ -665,7 +665,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
         payment = PaymentVerification.objects.get(buyer=self.student, course=course)
         payment.status = 'approved'
         payment.save()
-        self.assertIn('Unlocked', client.get(f'/marketplace/course/{course.id}/').content.decode())
+        self.assertIn('Unlocked', client.get(f'/app/marketplace/course/{course.id}/').content.decode())
 
     def test_the_owner_cannot_buy_their_own_course(self):
         self.make_published_page(self.teacher, slug='t-own')
@@ -676,7 +676,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
             created_at=now_ms(), updated_at=now_ms(),
         )
         client = self.session_client(self.teacher)
-        client.post(f'/marketplace/course/{course.id}/', {'transaction_id': 'X'})
+        client.post(f'/app/marketplace/course/{course.id}/', {'transaction_id': 'X'})
         self.assertFalse(PaymentVerification.objects.filter(buyer=self.teacher, course=course).exists())
 
     def selected_option(self, html, attr, value):
@@ -716,7 +716,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
             'hero': 'plain', 'radius': 'sharp', 'density': 'compact',
             'gallery_columns': 4, 'show_stats': True, 'show_verified': False,
         })
-        html = self.session_client(self.teacher).get('/marketplace/studio/').content.decode()
+        html = self.session_client(self.teacher).get('/app/marketplace/studio/').content.decode()
         self.assertEqual(self.hidden_style(html, 'hero'), 'plain')
         self.assertEqual(self.pressed_choice(html, 'hero'), 'plain')
         self.assertEqual(self.selected_option(html, 'data-mkt-style', 'radius'), 'sharp')
@@ -736,7 +736,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
         the thing being chosen.
         """
         client = self.session_client(self.teacher)
-        html = client.get('/marketplace/studio/').content.decode()
+        html = client.get('/app/marketplace/studio/').content.decode()
         entries = template_list('tutor')
         self.assertGreaterEqual(len(entries), 5, 'a gallery of one is not a gallery')
         for entry in entries:
@@ -748,7 +748,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
     def test_every_section_can_be_reached_from_the_picker(self):
         """A section the server knows about and the picker does not is a section
         no creator can ever add."""
-        html = self.session_client(self.teacher).get('/marketplace/studio/').content.decode()
+        html = self.session_client(self.teacher).get('/app/marketplace/studio/').content.decode()
         for entry in editor_schema()['blocks']:
             self.assertIn(f'data-mkt-add-block="{entry["type"]}"', html)
 
@@ -801,14 +801,14 @@ class MarketplaceWebTests(MarketplaceTestBase):
             created_at=now_ms(), updated_at=now_ms(),
         )
         student = self.session_client(self.student)
-        self.assertEqual(student.get(f'/marketplace/course/{course.id}/').status_code, 200)
+        self.assertEqual(student.get(f'/app/marketplace/course/{course.id}/').status_code, 200)
 
         CreatorPage.objects.filter(id=page.id).update(published=False)
-        self.assertEqual(student.get(f'/marketplace/course/{course.id}/').status_code, 404)
-        self.assertEqual(self.client.get(f'/marketplace/course/{course.id}/').status_code, 404)
+        self.assertEqual(student.get(f'/app/marketplace/course/{course.id}/').status_code, 404)
+        self.assertEqual(self.client.get(f'/app/marketplace/course/{course.id}/').status_code, 404)
         # its owner still needs the preview, and an admin still needs to moderate it
-        self.assertEqual(self.session_client(self.teacher).get(f'/marketplace/course/{course.id}/').status_code, 200)
-        self.assertEqual(self.session_client(self.admin).get(f'/marketplace/course/{course.id}/').status_code, 200)
+        self.assertEqual(self.session_client(self.teacher).get(f'/app/marketplace/course/{course.id}/').status_code, 200)
+        self.assertEqual(self.session_client(self.admin).get(f'/app/marketplace/course/{course.id}/').status_code, 200)
 
     def test_an_empty_section_does_not_render_a_bare_heading(self):
         """A section a creator added but never filled stays invisible.
@@ -823,7 +823,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
             {'type': 'faq', 'title': 'Common queries', 'items': []},
             {'type': 'showcase', 'title': 'My work', 'items': []},
         ])
-        html = self.client.get('/marketplace/t-empty/').content.decode()
+        html = self.client.get('/app/marketplace/t-empty/').content.decode()
         for heading in ('My gallery', 'What students say', 'Common queries', 'My work'):
             self.assertNotIn(heading, html)
 
@@ -833,7 +833,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
             {'type': 'gallery', 'title': 'My gallery',
              'images': ['https://cdn.example.com/1.jpg']},
         ])
-        html = self.client.get('/marketplace/t-empty/').content.decode()
+        html = self.client.get('/app/marketplace/t-empty/').content.decode()
         self.assertIn('My gallery', html)
 
     def test_the_studio_lists_the_sellers_sales(self):
@@ -850,7 +850,7 @@ class MarketplaceWebTests(MarketplaceTestBase):
             seller_earnings=Decimal('877.5'), transaction_id='SOLD-1',
             status='pending', created_at=now_ms(),
         )
-        html = self.session_client(self.teacher).get('/marketplace/studio/').content.decode()
+        html = self.session_client(self.teacher).get('/app/marketplace/studio/').content.decode()
         self.assertIn('Sold Course', html)
         self.assertIn('t_student', html)
 

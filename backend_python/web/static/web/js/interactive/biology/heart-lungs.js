@@ -23,7 +23,7 @@ export default function init(stage) {
   const { scene, camera, renderer, quality } = engine;
   const low = quality.tier === 'low';
 
-  camera.position.set(0.6, 1.4, 9.2);
+  camera.position.set(0.8, 1.6, 6.6);
   const controls = createOrbitControls(camera, engine.canvas, {
     minDistance: 4, maxDistance: 16, enablePan: false, maxPolar: Math.PI * 0.72, minPolar: Math.PI * 0.2,
   });
@@ -31,8 +31,16 @@ export default function init(stage) {
 
   const disposeEnv = applyEnvironmentLighting(renderer, scene, { sky: '#5c2733', horizon: '#3a1520', ground: '#12060a' });
   skyDome(scene, { top: 0x34101c, mid: 0x1d0910, bottom: 0x080204 });
-  scene.fog = new THREE.Fog(0x160810, 14, 34);
-  basicLights(scene, { ambient: 0.42, key: 1.35 });
+  // an anatomy-atlas studio: a soft blue-grey sweep, warm key, cool rim, so tissue reads
+  scene.background = new THREE.Color(0x1d2a3e);
+  scene.fog = new THREE.Fog(0x1d2a3e, 16, 40);
+  const sweep = new THREE.Mesh(new THREE.SphereGeometry(40, 32, 16), new THREE.ShaderMaterial({
+    side: THREE.BackSide, depthWrite: false, fog: false,
+    vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
+    fragmentShader: 'varying vec3 vP; void main(){ float t = clamp(vP.y*0.5+0.5,0.0,1.0); gl_FragColor = vec4(mix(vec3(0.07,0.09,0.13), vec3(0.27,0.33,0.43), pow(t,1.2)), 1.0); }',
+  }));
+  scene.add(sweep);
+  basicLights(scene, { ambient: 0.55, key: 2.0, fill: 0.7, rim: 1.1, rimColor: 0xcfe2ff });
 
   // ---- Ribcage: paired curved rib tubes + sternum ----
   const boneMat = makeScanMaterial('rib-bone-pbr', 0xe6d3ba, { family: 'bone', roughness: 0.66, textureSize: low ? 128 : 256 });
@@ -74,26 +82,42 @@ export default function init(stage) {
     family: 'tissue', roughness: 0.42, emissive: 0x5c1210, emissiveIntensity: 0.22,
     textureSize: low ? 128 : 256,
   });
-  const ventGeo = new THREE.SphereGeometry(0.56, 28, 24); ventGeo.scale(1.0, 1.14, 0.88);
-  const ventricle = new THREE.Mesh(ventGeo, myocardium);
+  // One sculpted organ instead of stacked spheres: a broad base tapering to an apex that points
+  // down and to the left, the left ventricle's bulge, the interventricular groove running from
+  // the base to the apex, and the dip between the atria at the top.
+  const heartGeo = (() => {
+    const g = new THREE.SphereGeometry(1, low ? 48 : 96, low ? 36 : 72);
+    const p = g.attributes.position; const v = new THREE.Vector3();
+    for (let i = 0; i < p.count; i++) {
+      v.fromBufferAttribute(p, i);
+      let { x, y, z } = v;
+      const taper = y < 0 ? 1 + y * 0.6 : 1 + y * 0.08;
+      x *= 0.64 * taper; z *= 0.52 * taper; y *= 0.8;
+      if (y < 0) x -= y * y * 0.24;                                    // apex swings left
+      if (y > 0.35) { x *= 1 + (y - 0.35) * 0.5; y -= 0.14 * Math.exp(-x * x * 26) * (y - 0.35) * 3; }
+      x -= 0.07 * Math.exp(-((x + 0.25) ** 2 + (y + 0.15) ** 2) * 5) * (z > 0 ? 1 : 0.5); // left ventricle
+      const groove = x * 0.95 - y * 0.35 + 0.06;
+      if (z > 0) { const k = 1 - 0.045 * Math.exp(-groove * groove * 160); x *= k; z *= k; }
+      v.set(x, y, z);
+      p.setXYZ(i, v.x, v.y, v.z);
+    }
+    g.computeVertexNormals();
+    g.scale(0.62, 0.62, 0.62);
+    return g;
+  })();
+  const ventricle = new THREE.Mesh(heartGeo, myocardium);
   ventricle.castShadow = true;
+  ventricle.rotation.z = -0.35;
   heart.add(ventricle);
-  const apex = new THREE.Mesh(new THREE.ConeGeometry(0.30, 0.52, 18), myocardium);
-  apex.position.set(-0.06, -0.72, 0.02);
-  apex.rotation.z = 0.22;
-  heart.add(apex);
   const atriumMat = makeScanMaterial('heart-atria-pbr', 0x8f2626, { family: 'tissue', roughness: 0.5, textureSize: 128 });
-  [[-0.30, 0.48, -0.06], [0.34, 0.44, -0.10]].forEach((p) => {
-    const g = new THREE.SphereGeometry(0.24, 18, 14); g.scale(1.1, 0.85, 0.9);
+  // the auricles: two small ear-shaped flaps on the back of the base
+  [[-0.3, 0.42, -0.14, 0.4], [0.34, 0.38, -0.16, -0.4]].forEach(([x, y, z, r]) => {
+    const g = new THREE.SphereGeometry(0.2, 24, 18); g.scale(1.25, 0.72, 0.8);
     const a = new THREE.Mesh(g, atriumMat);
-    a.position.set(...p);
+    a.position.set(x, y, z); a.rotation.z = r;
     a.castShadow = true;
     heart.add(a);
   });
-  const groove = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.035, 8, 28), atriumMat);
-  groove.position.set(0, 0.30, 0);
-  groove.rotation.x = Math.PI / 2.4;
-  heart.add(groove);
 
   const vesselMat = makeScanMaterial('great-vessels-pbr', 0xa8322c, { family: 'tissue', roughness: 0.44, textureSize: 128 });
   const veinBlueMat = makeScanMaterial('vena-cava-pbr', 0x37507e, { family: 'tissue', roughness: 0.48, textureSize: 128 });
@@ -123,16 +147,27 @@ export default function init(stage) {
       family: 'tissue', roughness: 0.55, transparent: true, opacity: 0.86,
       emissive: 0x521f31, emissiveIntensity: 0.10, textureSize: low ? 128 : 256,
     });
-    const upper = new THREE.SphereGeometry(0.62, 26, 20); upper.scale(0.80, 1.15, 0.74);
-    const um = new THREE.Mesh(upper, mat);
-    um.position.y = 0.55;
+    // One lung, sculpted: a narrow rounded apex rising above the collarbone, a broad base
+    // hollowed where it sits on the dome of the diaphragm, a flatter inner (mediastinal) face,
+    // and on the left lung the cardiac notch where the heart presses in.
+    const lg = new THREE.SphereGeometry(1, low ? 40 : 72, low ? 32 : 56);
+    const lp = lg.attributes.position; const lv = new THREE.Vector3();
+    const inner = -Math.sign(x); // toward the midline
+    for (let i = 0; i < lp.count; i++) {
+      lv.fromBufferAttribute(lp, i);
+      let { x: px, y: py, z: pz } = lv;
+      const w = py > 0 ? 1 - py * 0.55 : 1 + py * 0.06;             // narrow toward the apex
+      px *= 0.6 * w; pz *= 0.52 * w; py *= 1.15;
+      if (py < -0.75) py = -0.75 - (py + 0.75) * 0.25 + 0.18 * Math.exp(-(px * px + pz * pz) * 6); // diaphragm hollow
+      if (px * inner > 0) px *= 0.62;                                 // flat mediastinal face
+      if (x < 0 && px * inner > 0 && py < 0.1 && py > -0.6 && pz > -0.1) px *= 0.6; // cardiac notch
+      lp.setXYZ(i, px, py, pz);
+    }
+    lg.computeVertexNormals();
+    const um = new THREE.Mesh(lg, mat);
     um.castShadow = true;
     lung.add(um);
-    const lower = new THREE.SphereGeometry(0.68, 26, 20); lower.scale(0.86, 1.05, 0.80);
-    const lm = new THREE.Mesh(lower, mat);
-    lm.position.y = -0.42;
-    lm.castShadow = true;
-    lung.add(lm);
+    const lm = um;
     const fissureMat = new THREE.LineBasicMaterial({ color: 0x6e1d38, transparent: true, opacity: 0.45 });
     for (let i = 0; i < 2; i++) {
       const pts = [];

@@ -15,6 +15,11 @@ os.makedirs(CACHE, exist_ok=True)
 _parser = MathTextParser("path")
 FAILS = []
 
+# mathtext places glyphs one by one: it cannot shape Devanagari conjuncts or
+# position matras, and STIX has no Devanagari glyphs at all. Nepali formulas
+# are therefore typeset as HTML text by devaeqn.py, never sent here.
+DEVA = re.compile(r"[\u0900-\u097F]")
+
 # A display equation wider than the text column is not an error — CSS shrinks it
 # to fit — but it lands on the page as a strip of 6pt type nobody can read. The
 # fix belongs in the source (break it at an `=`), so record it and let check.py
@@ -62,6 +67,9 @@ def _strip_wrapper(s: str, name: str) -> str:
 
 def _clean(tex: str) -> str:
     s = tex.strip().strip("$").strip()
+    # `\ge1` is read as a command named "ge1"; a command butted against a
+    # digit always needs the space mathtext expects.
+    s = re.sub(r"(\\[a-zA-Z]+)(?=[0-9])", r"\1 ", s)
     s = re.sub(r"\s+", " ", s)                 # mathtext cannot span newlines
     for name in ("boxed", "mbox", "textnormal", "ensuremath", "phantom"):
         s = _strip_wrapper(s, name)
@@ -83,7 +91,7 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
     s = _clean(tex)
     if not s:
         return None, 0, 0
-    key = hashlib.sha1(f"{s}|{fontsize}|{display}|v4".encode()).hexdigest()[:20]
+    key = hashlib.sha1(f"{s}|{fontsize}|{display}|v6".encode()).hexdigest()[:20]
     out = os.path.join(CACHE, key + ".svg")
     meta = out + ".meta"
     if os.path.exists(out) and os.path.exists(meta):
@@ -114,7 +122,7 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
         # observe a half-written SVG or an empty .meta.
         tmp = f"{out}.{os.getpid()}.tmp"
         fig.savefig(tmp, format="svg", transparent=True,
-                    bbox_inches="tight", pad_inches=0.012)
+                    bbox_inches="tight", pad_inches=0.005)
         plt.close(fig)
         os.replace(tmp, out)
     except Exception as e:
@@ -126,3 +134,4 @@ def render(tex: str, fontsize: float = 11.0, display: bool = False):
         fh.write(f"{h} {d} {w}")
     os.replace(mtmp, meta)
     return out, h, d
+

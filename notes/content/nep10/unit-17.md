@@ -121,6 +121,27 @@ ax.text(5.0, 0.8, 'सुनाइ = यी पाँचै चरण पार 
 → व्यक्तित्व विकास
 :::
 
+```figure caption="सुनाइ पाठ हल गर्ने तीन चरण। पहिलो सुनाइमा समग्र अर्थ, दोस्रोमा तथ्य र तेस्रोमा उत्तर — यही क्रमले अङ्क बचाउँछ।"
+fig, ax = plt.subplots(figsize=(4.9, 2.8))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+steps = [("१. सुन्नु", "समग्र अर्थ बुझ्नु —\nटिपोट नगर्नु", ACCENT),
+         ("२. फेरि सुन्नु", "तथ्य, नाम, सङ्ख्या,\nसमय टिप्नु", SERIES[1]),
+         ("३. लेख्नु", "प्रश्नको शब्दमै\nउत्तर दिनु", SERIES[2])]
+for i, (name, note, c) in enumerate(steps):
+    x = 1.7 + i * 3.3
+    ax.text(x, 4.0, name, ha="center", va="center", fontsize=7.8, color=c,
+            bbox=dict(boxstyle="round,pad=0.32", fc="white", ec=c, lw=1.1))
+    ax.text(x, 2.6, note, ha="center", va="center", fontsize=6.6, color=INK)
+    if i < 2:
+        ax.annotate("", xy=(x + 2.05, 4.0), xytext=(x + 1.25, 4.0),
+                    arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.2))
+ax.text(5.0, 0.8, "सुनाइ पाठ एकैचोटि सकिँदैन — साधारणतया दुई पटक सुनाइन्छ।",
+        ha="center", fontsize=6.8, color=MUTED)
+fig.tight_layout()
+```
+
 ## १७.५ पाठ्यपुस्तकका सुनाइ पाठ — नक्सा
 
 | पाठ | विषय | प्रकार | मुख्य कुरा |

@@ -1,0 +1,65 @@
+/* Pixel sprites for empty states, shared with the Android app (ui/pixel, exported by
+   PixelSkySceneTest). Each strip plays in whole-frame steps, scaled up crisp. */
+.px-sprite{display:inline-block;flex:none;background-repeat:no-repeat;image-rendering:pixelated;image-rendering:crisp-edges}
+.px-nebyIdle{width:96px;height:96px;background-image:url(../img/pixel/nebyIdle.png);background-size:1536px 96px;animation:px-nebyIdle 1840ms steps(16) infinite}
+@keyframes px-nebyIdle{to{background-position-x:-1536px}}
+.px-nebyHop{width:96px;height:96px;background-image:url(../img/pixel/nebyHop.png);background-size:1152px 96px;animation:px-nebyHop 864ms steps(12) infinite}
+@keyframes px-nebyHop{to{background-position-x:-1152px}}
+.px-nebyThink{width:96px;height:96px;background-image:url(../img/pixel/nebyThink.png);background-size:768px 96px;animation:px-nebyThink 1280ms steps(8) infinite}
+@keyframes px-nebyThink{to{background-position-x:-768px}}
+.px-nebySleep{width:96px;height:96px;background-image:url(../img/pixel/nebySleep.png);background-size:1152px 96px;animation:px-nebySleep 1680ms steps(12) infinite}
+@keyframes px-nebySleep{to{background-position-x:-1152px}}
+.px-nebyWink{width:96px;height:96px;background-image:url(../img/pixel/nebyWink.png);background-size:960px 96px;animation:px-nebyWink 1100ms steps(10) infinite}
+@keyframes px-nebyWink{to{background-position-x:-960px}}
+.px-sleepyBell{width:96px;height:96px;background-image:url(../img/pixel/sleepyBell.png);background-size:1152px 96px;animation:px-sleepyBell 1440ms steps(12) infinite}
+@keyframes px-sleepyBell{to{background-position-x:-1152px}}
+.px-magnifier{width:96px;height:96px;background-image:url(../img/pixel/magnifier.png);background-size:960px 96px;animation:px-magnifier 1300ms steps(10) infinite}
+@keyframes px-magnifier{to{background-position-x:-960px}}
+.px-rainCloud{width:96px;height:96px;background-image:url(../img/pixel/rainCloud.png);background-size:768px 96px;animation:px-rainCloud 760ms steps(8) infinite}
+@keyframes px-rainCloud{to{background-position-x:-768px}}
+.px-ribbon{width:96px;height:96px;background-image:url(../img/pixel/ribbon.png);background-size:960px 96px;animation:px-ribbon 1100ms steps(10) infinite}
+@keyframes px-ribbon{to{background-position-x:-960px}}
+.px-downloadTray{width:96px;height:96px;background-image:url(../img/pixel/downloadTray.png);background-size:960px 96px;animation:px-downloadTray 900ms steps(10) infinite}
+@keyframes px-downloadTray{to{background-position-x:-960px}}
+.px-typing{width:96px;height:78px;background-image:url(../img/pixel/typing.png);background-size:576px 78px;animation:px-typing 840ms steps(6) infinite}
+@keyframes px-typing{to{background-position-x:-576px}}
+.px-bookLoader{width:144px;height:96px;background-image:url(../img/pixel/bookLoader.png);background-size:2016px 96px;animation:px-bookLoader 980ms steps(14) infinite}
+@keyframes px-bookLoader{to{background-position-x:-2016px}}
+.px-padlock{width:96px;height:96px;background-image:url(../img/pixel/padlock.png);background-size:1152px 96px;animation:px-padlock 1200ms steps(12) infinite}
+@keyframes px-padlock{to{background-position-x:-1152px}}
+.px-newspaper{width:96px;height:96px;background-image:url(../img/pixel/newspaper.png);background-size:768px 96px;animation:px-newspaper 1040ms steps(8) infinite}
+@keyframes px-newspaper{to{background-position-x:-768px}}
+.px-coin{width:96px;height:96px;background-image:url(../img/pixel/coin.png);background-size:960px 96px;animation:px-coin 850ms steps(10) infinite}
+@keyframes px-coin{to{background-position-x:-960px}}
+.px-pushPin{width:96px;height:96px;background-image:url(../img/pixel/pushPin.png);background-size:768px 96px;animation:px-pushPin 960ms steps(8) infinite}
+@keyframes px-pushPin{to{background-position-x:-768px}}
+.px-storefront{width:96px;height:96px;background-image:url(../img/pixel/storefront.png);background-size:768px 96px;animation:px-storefront 1040ms steps(8) infinite}
+@keyframes px-storefront{to{background-position-x:-768px}}
+.px-trophy{width:96px;height:96px;background-image:url(../img/pixel/trophy.png);background-size:1152px 96px;animation:px-trophy 1320ms steps(12) infinite}
+@keyframes px-trophy{to{background-position-x:-1152px}}
+/* icon plates (a tinted circle sized for a glyph) step aside once a sprite takes the icon's place */
+.notif-empty-icon:has(>.px-sprite),.bookmarks-empty-icon:has(>.px-sprite){background:none;width:auto;height:auto;border-radius:0;box-shadow:none}
+.request-empty>.px-sprite,.empty-leaderboard>.px-sprite,.follow-list-empty>.px-sprite,.credits-empty>.px-sprite{display:block;margin:0 auto 8px}
+/* Pixel art pictures (see js/pixel-art.js): fill the box, crop like cover, keep every pixel square. */
+.neb-art > img.neb-pixel-art { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; image-rendering:pixelated; display:block; pointer-events:none; }
+.neb-art > img.neb-pixel-night { display:none; }
+[data-theme="dark"] .neb-art > img.neb-pixel-night { display:block; }
+[data-theme="dark"] .neb-art > img.neb-pixel-day { display:none; }
+/* season motifs (themes/_motif.html): the app's own animated pixel motifs */
+.st-motif-px{display:block;width:100%;height:100%;background-repeat:no-repeat;background-size:calc(var(--n,1) * 100%) 100%;image-rendering:pixelated;animation:st-motif-px var(--d,1s) steps(var(--n,2),jump-none) infinite}
+@keyframes st-motif-px{from{background-position-x:0%}to{background-position-x:100%}}
+.st-motif:has(.st-motif-px){width:16px;height:16px;animation:none}
+.st-season .st-motif:has(.st-motif-px){width:32px;height:32px}
+.st-motif-px.motif-kite{background-image:url(../img/pixel/motif-kite.png);--n:8;--d:1120ms}
+.st-motif-px.motif-diyo{background-image:url(../img/pixel/motif-diyo.png);--n:6;--d:660ms}
+.st-motif-px.motif-gulal{background-image:url(../img/pixel/motif-gulal.png);--n:8;--d:1200ms}
+.st-motif-px.motif-gurans{background-image:url(../img/pixel/motif-gurans.png);--n:10;--d:1600ms}
+.st-motif-px.motif-drop{background-image:url(../img/pixel/motif-drop.png);--n:8;--d:880ms}
+.st-motif-px.motif-snow{background-image:url(../img/pixel/motif-snow.png);--n:8;--d:1360ms}
+.st-motif-px.motif-pencil{background-image:url(../img/pixel/motif-pencil.png);--n:8;--d:960ms}
+/* Dashain decor: the same pixel kite, flown at whole-number sizes, in three colours */
+.st-kite.st-motif-px{width:64px;height:64px;opacity:.95;animation:st-motif-px var(--d,1s) steps(var(--n,2),jump-none) infinite,st-kite 9s ease-in-out infinite alternate}
+.st-kite-2.st-motif-px{width:48px;height:48px;filter:hue-rotate(28deg) saturate(1.3);animation-duration:var(--d,1s),11s}
+.st-kite-3.st-motif-px{width:32px;height:32px;filter:hue-rotate(210deg) saturate(1.2);animation-duration:var(--d,1s),13s}
+.st-decor.is-compact .st-kite.st-motif-px{width:32px;height:32px}
+@media (prefers-reduced-motion:reduce){.px-sprite,.st-motif-px{animation:none}}

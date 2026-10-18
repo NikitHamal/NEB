@@ -62,11 +62,15 @@
   .category-stat-badge {
     font-size: 0.75rem;
     font-weight: 600;
-    width: 24px;
+    min-width: 24px;
     height: 24px;
-    border-radius: 50%;
-    background: var(--md-primary);
-    color: var(--md-on-primary);
+    padding: 0 8px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+    /* a quiet count: the primary fill made every card shout, even at zero */
+    background: color-mix(in srgb, var(--md-primary) 12%, transparent);
+    color: var(--md-primary);
     display: inline-flex;
     align-items: center;
     justify-content: center;

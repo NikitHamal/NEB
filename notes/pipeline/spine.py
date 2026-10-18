@@ -45,11 +45,29 @@ SUBJECTS = {
  "eng": ("Compulsory English", "#6B3FA0"),
  "nep": ("अनिवार्य नेपाली",       "#A8551F"),
  "sci": ("Science and Technology", "#0B6A62"),
- "soc": ("Social Studies and Human Value Education", "#2F6B3A"),
+ "soc": ("सामाजिक अध्ययन तथा मानव मूल्य शिक्षा", "#2F6B3A"),
  "omath": ("Optional Mathematics", "#7A3E8E"),
+ "acc": ("Accountancy", "#9D174D"),
+ "eco": ("Economics", "#C2410C"),
+ "health": ("स्वास्थ्य, शारीरिक तथा सिर्जनात्मक कला", "#0F766E"),
  "qbank": ("Question Bank",    "#B02A5B"),
+ "qbankacc": ("Accountancy Question Bank", "#B02A5B"),
+ "qbankeco": ("Economics Question Bank", "#B02A5B"),
+ "qbankc": ("Commerce Question Bank", "#B02A5B"),
 }
-ALL = [f"{k}{g}" for k in SUBJECTS for g in (11, 12) if k not in ("sci", "soc", "omath")]
+# Every subject-grade that actually has a spine file, so a bare
+# `build_pdf.py` covers the whole library — grade 10 (the SEE series), the
+# grade 11/12 science stream, the language papers and the question bank — and
+# any spine added later (grade 8, for instance) joins the build by itself.
+ALL = sorted(f[:-3] for f in os.listdir(CUR) if f.endswith(".md"))
+# The basic level (grades 1-8) names two subjects differently from the
+# secondary level: Nepali is not yet "compulsory", and science is "Science".
+BASIC_NAMES = {"nep": "नेपाली"}
+
 def meta_for(slug):
     k = re.match(r"([a-z]+)(\d+)", slug)
-    return SUBJECTS[k.group(1)][0], SUBJECTS[k.group(1)][1], int(k.group(2))
+    name, colour = SUBJECTS[k.group(1)]
+    grade = int(k.group(2))
+    if grade <= 8:
+        name = BASIC_NAMES.get(k.group(1), name)
+    return name, colour, grade

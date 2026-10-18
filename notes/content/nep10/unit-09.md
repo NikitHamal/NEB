@@ -119,6 +119,25 @@ tint 0.03
 | हालको | मार्कर, पाटी |
 | डिजिटल | मोबाइल, ल्यापटप, इन्टरनेट |
 
+```figure caption="निबन्धका पाँच मुख्य तर्क। निबन्ध आलोचनाबाट सुरु भएर सुझावमा टुङ्गिन्छ; पाँचै तर्क उत्तरमा समेट्दा पूरा अङ्क आउँछ।"
+fig, ax = plt.subplots(figsize=(5.0, 2.7))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+args = ["स्थानअनुसार शिक्षा", "परम्परा र आधुनिकताको सन्तुलन",
+        "प्रविधिको सदुपयोग र खतरा", "समालोचनात्मक चिन्तन",
+        "शिक्षा र लेखनको विकास"]
+for i, name in enumerate(args):
+    y = 5.0 - i * 0.95
+    ax.add_patch(plt.Rectangle((0.5, y - 0.34), 0.7, 0.68, fc=ACCENT, alpha=0.18,
+                               ec=ACCENT, lw=0.9))
+    ax.text(0.85, y, str(i + 1), ha="center", va="center", fontsize=7.6, color=ACCENT)
+    ax.text(1.45, y, name, ha="left", va="center", fontsize=7.2, color=INK)
+ax.text(5.0, 0.25, "पाँचै तर्कको अन्त्यमा एउटा सुझाव लेख्दा निबन्ध पूरा हुन्छ।",
+        ha="center", fontsize=6.9, color=MUTED)
+fig.tight_layout()
+```
+
 ## ९.४ पाठबाट शब्दार्थ र पारिभाषिक शब्द
 
 | शब्द | अर्थ |
@@ -178,6 +197,24 @@ tint 0.03
 - **लामा वाक्य:** विचार विस्तार गर्न धेरै वाक्य लामा छन्, तर अनुच्छेदका अन्त्यका वाक्य सारसङ्क्षेप दिने खालका छन्।
 
 ## ९.७ पाठमा आधारित व्याकरण
+
+```figure caption="वाच्यका तीन प्रकार। कर्ता प्रधान हो भने कर्तृवाच्य; कर्म वा क्रियाको फल प्रधान हो भने कर्मवाच्य; कर्ता अज्ञात हो भने भाववाच्य।"
+fig, ax = plt.subplots(figsize=(4.9, 2.8))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 6)
+ax.axis("off")
+cases = [("कर्तृवाच्य", "मैले पत्र लेखेँ।\nकर्ता प्रधान", ACCENT),
+         ("कर्मवाच्य", "मबाट पत्र लेखियो।\nकर्म प्रधान", SERIES[1]),
+         ("भाववाच्य", "मबाट लेखिँदैन।\nकर्ता अज्ञात वा अक्षम", SERIES[2])]
+for i, (name, ex, c) in enumerate(cases):
+    y = 4.7 - i * 1.45
+    ax.add_patch(plt.Rectangle((0.4, y - 0.55), 9.2, 1.1, fc="white", ec=c, lw=1.1))
+    ax.text(0.75, y, name, ha="left", va="center", fontsize=7.6, color=c)
+    ax.text(3.3, y, ex, ha="left", va="center", fontsize=6.8, color=INK)
+ax.text(5.0, 0.3, "क्रिया 'छ' बाट 'भयो' वा 'गरियो' तिर बदलिनु नै वाच्य परिवर्तनको सङ्केत हो।",
+        ha="center", fontsize=6.7, color=MUTED)
+fig.tight_layout()
+```
 
 ### (क) वाच्य
 

@@ -1,591 +1,1504 @@
 ---
-subject: Social Studies and Human Value Education
+subject: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 grade: 10
 unit: 8
-title: Economic Activities
+title: आर्थिक क्रियाकलाप
 hours: 0
-area: Units
+area: एकाइ
 ---
 
-Every household earns, spends, saves and borrows; every country does the same on a larger scale. This unit looks at the economic life of Nepal from both sides. First, the activities that make a country grow: **energy** (above all hydropower), **tourism** and **employment**. Second, the tools by which people and the state handle money: **financial education**, **financial instruments**, **cooperatives**, **savings and insurance**, **revenue** and **periodic plans**. Learning them is not only for the exam: within a few years you will open a bank account, take a job, perhaps join a cooperative and pay tax.
+बिहान उठेर बत्ती बाल्दा हामी बिजुली किन्छौँ, चिया पकाउँदा ग्यास, बजार जाँदा गाडीको
+डिजेल र पसलमा केही किन्दा मूल्य अभिवृद्धि कर पनि तिर्छौँ। गाउँका दाजुभाइ विदेशबाट
+पैसा पठाउँछन्, आमा सहकारीमा मासिक बचत जम्मा गर्नुहुन्छ, बुबाले मोटरसाइकलको बिमा
+नवीकरण गर्नुहुन्छ र पोखरा, लुम्बिनी वा इलाम घुम्न आएका पर्यटकले होटल र
+पसलमा खर्च गर्छन्। यी सबै **आर्थिक क्रियाकलाप** हुन्। यस एकाइमा देशको समृद्धिका
+आधार — ऊर्जा, पर्यटन र रोजगारी — र हरेक नागरिकले जान्नैपर्ने वित्तीय ज्ञान — बैङ्क
+खाता, विद्युतीय कार्ड, सेयर, सहकारी, बचत, बिमा र कर — अनि राज्यले विकासलाई
+दिशा दिने आवधिक योजनाबारे पढ्नेछौँ।
 
-::: key What the SEE paper expects from this unit
-Questions ask for definitions (savings, insurance, cooperative, revenue, budget), lists ("any four sources of energy", "types of tax"), simple calculations (interest, premium, VAT, budget balance) and 4-mark explanations of the **importance** or **problems** of tourism, hydropower, remittance or cooperatives, all with Nepali examples and recent figures. Quote numbers as "about", as the statistics change every year.
+::: key यस एकाइबाट परीक्षाले खोज्ने कुरा
+ऊर्जाका स्रोत र जलविद्युत्को सम्भावना (६,००० नदीनाला; ८३,००० र ४२,००० मेगावाट);
+पर्यटनको महत्त्व, सम्भावना र प्रवर्धन; वैदेशिक रोजगारीका पूर्वतयारी र प्रभाव; वित्तीय
+शिक्षा र वित्तीय प्रणाली; बैङ्क खाता, कार्ड, सफा नोट, सेयर, डिम्याट, विप्रेषण र हुन्डी;
+सहकारीका सिद्धान्त; जीवन र निर्जीवन बिमा; राजस्व, प्रत्यक्ष–अप्रत्यक्ष कर र मूल्य अभिवृद्धि
+कर (१३ प्रतिशत); सोह्रौँ योजनाको सोच, उद्देश्य र लक्ष्य। "फरक" प्रश्नमा **तालिका**,
+"महत्त्व" मा **बुँदा + उदाहरण** र धारणाका प्रश्नमा **परिचय → तर्क → निष्कर्ष** लेख्नुहोस्।
 :::
 
-```photo id="soc10/rice-terraces" caption="Terraced rice fields in the hills of Nepal. Agriculture still employs more than half of the working population and produces roughly a quarter of the national output, but the economy now depends more and more on services, remittance, energy and tourism." width="84"
-```
+## ८.१ ऊर्जा र विकास
 
-### The Nepali economy in brief
+कक्षा १० का विद्यार्थीलाई शिक्षकले "ऊर्जा र आर्थिक समृद्धि" शीर्षकमा जानकार व्यक्तिसँग
+कुराकानी र स्रोतसामग्रीको अध्ययन गरी प्रतिवेदन तयार गर्न दिनुभयो। पाठ्यपुस्तकले
+त्यही प्रतिवेदनको नमुना दिएको छ।
 
-| Sector | What it includes | Role in Nepal |
-|---|---|---|
-| **Primary** | Agriculture, forestry, fishing | Largest employer; about a quarter of GDP |
-| **Secondary** | Industry, construction, electricity | About 12–15% of GDP; hydropower, cement, garments, tea |
-| **Tertiary (services)** | Trade, banking, tourism, transport, education | Largest share of GDP (about 60%) |
+### प्रतिवेदन: ऊर्जा र आर्थिक समृद्धि
 
-The Constitution of Nepal (2072) says that the economy is built on three pillars: **public, private and cooperative**.
+**१. परिचय:** ऊर्जा शक्तिको स्रोत हो। मानवलगायत सबै प्राणी र वनस्पतिलाई ऊर्जा
+चाहिन्छ। जनसङ्ख्या वृद्धि, औद्योगिकीकरण र सहरीकरणले ऊर्जाको उपयोग बढ्दै गएको छ;
+समुचित प्रयोग नभए भविष्यमा **ऊर्जा सङ्कट** आउन सक्छ। त्यसैले ऊर्जाको प्रयोगमा
+मितव्ययिता र वैकल्पिक स्रोततर्फ ध्यान दिन जरुरी छ। नेपालमा वायु, जैविक, सौर्य,
+बायोग्यास र जलविद्युत्लगायत ऊर्जाका धेरै स्रोतको सम्भावना छ।
 
-## 8.1 Energy and development
+**२. उद्देश्य:** (क) नेपालमा ऊर्जाका स्रोत पहिचान गर्नु, (ख) देश विकासमा ऊर्जाको
+महत्त्व बताउनु, (ग) नेपालमा ऊर्जाको सम्भावना पत्ता लगाउनु।
 
-**Energy** is the capacity to do work: to light a room, run a machine, cook food or move a vehicle. Development is impossible without it; per-person energy use is a good sign of how developed a country is.
+**३. अध्ययन विधि:** (क) प्रश्नावली तथा अन्तर्वार्ता, (ख) सन्दर्भ सामग्रीको अध्ययन।
 
-### Sources of energy
+**४. अध्ययनबाट पत्ता लागेका तथ्य:** ऊर्जा मानव जीवनको अभिन्न अङ्ग हो। घरायसी काम,
+कार्यालय, सञ्चार, यातायात, कृषि र उद्योग सबैमा ऊर्जा चाहिन्छ। सौर्य, जलविद्युत्,
+कोइला, बायोग्यास आदि ऊर्जाका स्रोत हुन्।
 
-| Type | Examples | Notes |
-|---|---|---|
-| **Traditional (biomass)** | Firewood, cow dung, agricultural residue | Still the largest share of household energy in Nepal (more than half of the total energy used); smoke harms health and cutting wood harms forests |
-| **Commercial** | Electricity, petroleum (petrol, diesel, kerosene, LPG), coal | Petroleum and coal are **all imported**; electricity is produced at home |
-| **Alternative (renewable)** | Solar, wind, biogas, micro-hydro, biomass briquettes | Clean and local; important in the remote hills and for reducing imports |
-
-### Hydropower, Nepal's greatest resource
-
-Nepal has more than 6,000 rivers, steep land and plenty of monsoon rain, a natural fit for hydropower. The **theoretical potential is about 83,000 MW**, of which about **42,000 MW** is considered economically feasible, though only a small part has been developed.
-
-```photo id="soc10/kulekhani" caption="The Kulekhani dam, Makwanpur, impounds the Kulekhani I hydropower scheme (60 MW, commissioned in 1982). It is Nepal's only large storage-type project, which can supply electricity in the dry season when river flow falls." width="84"
-```
-
-| Milestone | Detail |
-|---|---|
-| 1911 AD (1968 BS) | **Pharping** hydropower station (500 kW), the first in Nepal, under Prime Minister Chandra Shamsher |
-| 1982 | Kulekhani I (60 MW) |
-| 2002 | Kali Gandaki A (144 MW) |
-| 2021 | **Upper Tamakoshi** (456 MW), the largest plant, fully commissioned in 2021 |
-| 2021 (October) | Nepal begins selling electricity to **India** under a power trade agreement |
-| 2025 (June) | First electricity sent to **Bangladesh** through India |
-| 2024/25 | Installed hydropower capacity about **3,500 MW**; load-shedding ended in 2018 |
-
-```figure caption="Installed capacity of some major hydropower plants of Nepal (megawatts, rounded)."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.9))
-names = ["Upper Tamakoshi","Kali Gandaki A","Middle Marsyangdi","Marsyangdi","Kulekhani I","Chameliya","Trishuli"]
-vals = [456,144,70,69,60,30,24]
-y = np.arange(len(names))[::-1]
-ax.barh(y, vals, color=ACCENT)
-for yy,v in zip(y,vals):
-    ax.text(v+6, yy, f"{v} MW", va="center", fontsize=8, color=INK)
-ax.set_yticks(y); ax.set_yticklabels(names, fontsize=8)
-ax.set_xlim(0,540); ax.set_xlabel("Installed capacity (MW)", fontsize=8)
-ax.tick_params(labelsize=8)
-ax.spines[['top','right']].set_visible(False)
-```
-
-### Hydropower and development: benefits
-
-1. **Cheap, clean energy** for homes, industries, hospitals and schools; less firewood and imported fuel.
-2. **Export earnings** to India and Bangladesh: Nepal's electricity export brings in foreign money, and can partly pay for the oil bill.
-3. **Employment** and local business during construction; royalties to the government and to local governments; roads and electricity reaching villages.
-4. **Irrigation and flood control** (multi-purpose projects such as Sunkoshi–Marin, Bheri–Babai).
-5. **Electric vehicles, cooking induction and cleaner air**; replaces petrol and LPG.
-
-### Problems
-
-| Problem | Explanation |
-|---|---|
-| High investment | A large project costs billions of rupees; foreign loans and investors are needed |
-| Delays and cost overruns | Land acquisition, difficult terrain, landslides, earthquake, **Covid-19**, weak contract management |
-| Seasonal flow | Many projects are *run-of-river*, giving surplus in the monsoon and shortage in winter, so Nepal sometimes imports power |
-| Transmission | Not enough high-voltage lines to carry power to markets |
-| Environmental and social effects | Dams displace people and affect fish and forests; floods and glacial lake outburst hazards |
-| Dependence on India's market | Nepal can export only through Indian lines and at agreed prices |
-
-### Other sources of energy
-
-- **Solar:** Nepal receives about 300 days of sunshine; solar lighting, water heating, irrigation pumps and rooftop panels are spreading.
-- **Biogas:** cow dung produces gas for cooking and slurry fertiliser; hundreds of thousands of plants have been installed in the hills and Terai.
-- **Wind and micro-hydro:** useful in places like Kagbeni (Mustang) and in remote hill villages.
-- **Petroleum:** all imported from India, through the pipeline from Motihari to Amlekhgunj (opened in 2019) and by tanker; Nepal spends a very large share of its foreign exchange on fuel.
-
-```photo id="soc10/solar-lodge" caption="Solar panels on a lodge in the Boudha area of the Himalaya. In remote areas with no grid line, photovoltaic panels give lighting, phone charging and hot water; solar is now a fast-growing source in Nepal." width="76"
-```
-
-::: tip Energy answer pattern
-For "Explain the importance of hydropower for Nepal's development" write four paragraphs headed: **cheap and clean energy, export income, employment and local development, reducing import**, each with one fact (83,000 MW potential, Upper Tamakoshi 456 MW, exports to India since 2021).
+::: definition नवीकरणीय र अनवीकरणीय ऊर्जा
+पुनः निर्माण हुने वा फेरि उत्पादन गर्न सकिने ऊर्जाका स्रोतलाई **नवीकरणीय ऊर्जा**
+भनिन्छ — जस्तै सूर्य, वायु र जलबाट उत्पादित ऊर्जा। पुनः निर्माण गर्न नसकिने वा फेरि
+बन्न धेरै लामो समय लाग्ने स्रोतलाई **अनवीकरणीय ऊर्जा** भनिन्छ — जस्तै खनिज पदार्थ,
+पेट्रोलियम पदार्थ र प्राकृतिक ग्यासबाट उत्पादित ऊर्जा।
 :::
 
-## 8.2 Tourism promotion
+::: caution पाठ्यपुस्तकको एउटा छापगत त्रुटि
+पाठ्यपुस्तकमा "दिगो विकास, वातावरण संरक्षण र जलवायु परिवर्तन नियन्त्रणमा
+**अनवीकरणीय** ऊर्जाको महत्त्वपूर्ण भूमिका रहेको छ" लेखिएको छ। यो उल्टो छापिएको हो।
+पेट्रोलियम, कोइला र ग्यास जस्ता अनवीकरणीय स्रोतले धुवाँ र हरितगृह ग्यास फाल्छन्;
+दिगो विकास र जलवायु परिवर्तन नियन्त्रणमा भूमिका **नवीकरणीय** ऊर्जा (जल, सौर्य, वायु)
+को हुन्छ। परीक्षामा "नवीकरणीय" नै लेख्नुहोस्।
+:::
 
-**Tourism** is the activity of travelling to and staying in a place away from home for leisure, adventure, religion, culture, health or business. It is one of the greatest "invisible exports": the tourist comes to Nepal, spends money here and takes away only memories.
+आज विकसित देशले ऊर्जाकै बलमा आर्थिक समृद्धि हासिल गरेका छन्। नेपालको समृद्धिमा पनि
+ऊर्जा कोसेढुङ्गा बन्न सक्छ। नेपालमा उपलब्ध ऊर्जाका स्रोत, महत्त्व र सम्भावना यस्ता छन्:
 
-### Why Nepal is attractive
+**(क) पेट्रोलियम र ग्यास तथा गोबरग्यास:** नेपालमा पेट्रोल, डिजेल र ग्यास प्रयोग
+भइरहेका छन्; यिनको स्वदेशमै सम्भावना पनि छ। अध्ययन, उत्खनन र उत्पादन गर्न सके
+आयातित पेट्रोलियम पदार्थलाई प्रतिस्थापन गर्न सकिन्छ। ग्रामीण क्षेत्रमा खाना पकाउने
+ग्यासको विकल्पका रूपमा **गोबरग्यास** प्रयोग गर्न सकिन्छ — यसबाट खाना पकाउन र बत्ती
+बाल्न सकिन्छ, धुवाँ कम आउँछ र स्वास्थ्यलाई कम हानि हुन्छ। गोबरग्यास प्लान्ट बनाउन
+सरकारले सहयोग र सहुलियत दिँदै आएको छ। सहरमा कुहिने फोहोरबाट बायोग्यास र मल
+उत्पादन गर्न सकिन्छ।
 
-| Kind | Examples |
-|---|---|
-| **Nature and mountain** | Eight of the world's ten highest peaks, including **Everest (8,849 m)**; Annapurna, Langtang, Manaslu circuits; Pokhara's lakes |
-| **Wildlife** | Chitwan, Bardiya and Koshi Tappu: one-horned rhino, Bengal tiger, gharial; Shey Phoksundo (snow leopard) |
-| **Culture and heritage** | Kathmandu Valley's durbar squares, Pashupatinath, Boudhanath; festivals such as Dashain, Tihar, Indra Jatra |
-| **Religious** | **Lumbini** (Buddha's birthplace), Pashupatinath, Janaki Mandir, Muktinath, Swargadwari |
-| **Adventure** | Trekking, mountaineering, rafting, paragliding in Pokhara, bungee, canyoning |
-| **Rural / home-stay** | Village homestays (Ghandruk, Sirubari), tea gardens (Ilam), community forests |
+**(ख) बायोमास ऊर्जा:** काठको धुलो, भुस, पराल र छ्वालीका टुक्रालाई मेसिनले खँदिलो
+बनाएर प्रयोग गरिने इन्धनलाई बायोमास र त्यसबाट पाइने ऊर्जालाई **बायोमास ऊर्जा**
+भनिन्छ। नेपाल कृषिप्रधान देश भएकाले दाउरा, पराल, छ्वाली र भुस सजिलै पाइन्छन्;
+त्यसैले यो वैकल्पिक ऊर्जा बन्न सक्छ।
 
-### How many come?
+**(ग) वायु ऊर्जा:** नियमित रूपमा ठुलो वेगमा हावा चल्ने ठाउँमा **वायु मिल** राखेर
+ऊर्जा निकाल्न सकिन्छ। **रामेछाप, धादिङ र मुस्ताङ** मा यसको सम्भाव्यता अध्ययन भई
+कार्यान्वयनको प्रक्रिया अघि बढेको छ।
 
-```figure caption="International tourist arrivals in Nepal (thousands, rounded, by calendar year). Arrivals crossed one million in 2018, collapsed during Covid-19 in 2020-21 and recovered to above one million in 2023."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.9,2.9))
-yrs = ["2015","2016","2017","2018","2019","2020","2021","2022","2023","2024"]
-vals = [539,753,940,1173,1197,230,151,615,1015,1135]
-cols = [ACCENT]*5+[SERIES[1]]*2+[ACCENT]*3
-ax.bar(yrs, vals, color=cols)
-for i,v in enumerate(vals):
-    ax.text(i, v+25, str(v), ha="center", fontsize=7, color=INK)
-ax.set_ylabel("Arrivals (thousands)", fontsize=8)
-ax.set_ylim(0,1400)
-ax.tick_params(labelsize=8)
-ax.spines[['top','right']].set_visible(False)
+**(घ) सौर्य ऊर्जा:** सूर्य शक्तिको प्रमुख स्रोत हो। सौर्य ऊर्जालाई **ताप र विद्युत्**
+दुवै रूपमा प्रयोग गर्न सकिन्छ। राज्यले ठुला **सौर्य विद्युत् प्लान्ट** बनाएर उत्पादित
+बिजुली राष्ट्रिय प्रसारण लाइनमा जोड्न सक्छ र सहुलियत दरमा घर घरमा साना सौर्य प्यानल
+जडान गर्न प्रोत्साहन दिन सक्छ। सौर्य ऊर्जा वातावरणमैत्री, अनन्त भण्डार भएको नवीकरणीय
+ऊर्जा हो।
+
+```photo id="soc10/solar-lodge" caption="हिमाली भेगको लजमा जडित सौर्य प्यानल। राष्ट्रिय प्रसारण लाइन नपुगेका ठाउँमा सौर्य ऊर्जा सबैभन्दा व्यावहारिक विकल्प हो।" width="62"
 ```
 
-About **1.2 million** tourists visited in 2019 (the target for *Visit Nepal 2020* was two million, interrupted by the pandemic). In a normal year tourism contributes roughly **6–7 per cent of GDP**, supports several hundred thousand jobs directly and many more indirectly (hotels, trekking guides, porters, restaurants, airlines, handicrafts, farmers who sell food), and it is a leading source of foreign exchange after remittance.
+**(ङ) जलविद्युत्:** नेपालमा सबैभन्दा भरपर्दो ऊर्जाको स्रोत जलविद्युत् हो। नेपालमा
+साना–ठुला गरी करिब **६,००० नदीनाला** छन्। तिनमा सैद्धान्तिक रूपमा करिब **८३,०००
+मेगावाट** जलविद्युत् उत्पादन क्षमता छ; प्राविधिक अध्ययनपछि करिब **४२,००० मेगावाट**
+उत्पादन गर्न सकिने देखिएको छ। वि.सं. २०७८ फागुनसम्म नेपालको कुल उत्पादित जलविद्युत्
+**२,२०५ मेगावाट** थियो।
 
-```photo id="soc10/teahouse-trek" caption="A tea house on the Annapurna Base Camp trek near Chhomrong. The trail towns earn income for village families from lodging, food and porters; every trekker spends money in the mountain economy." width="80"
+```figure caption="नेपालको जलविद्युत् क्षमता र उत्पादन (मेगावाट, पाठ्यपुस्तकअनुसार)। २०७८ फागुनसम्मको उत्पादन प्राविधिक रूपमा सम्भाव्य क्षमताको करिब ५ प्रतिशत मात्र हो।"
+fig, ax = barh_ranked(["सैद्धान्तिक क्षमता", "प्राविधिक रूपमा सम्भाव्य", "उत्पादित (२०७८ फागुन)"],
+                      [83000, 42000, 2205], figsize=(5.6, 1.9), highlight=["उत्पादित (२०७८ फागुन)"], fmt="{:,.0f}")
+ax.set_xlabel("मेगावाट", fontsize=8, color=MUTED)
 ```
 
-### Ways to promote tourism
+::: example हिसाब: सम्भावनाको कति भाग प्रयोग भयो?
+**प्रश्न.** २,२०५ मेगावाट प्राविधिक रूपमा सम्भाव्य क्षमताको र सैद्धान्तिक क्षमताको
+कति प्रतिशत हो?
 
-1. **Improve infrastructure:** airports (Gautam Buddha International Airport in Bhairahawa, Pokhara International Airport, both opened for international service in recent years), roads, electricity, hotels, clean water.
-2. **Market Nepal abroad:** the **Nepal Tourism Board** (set up in 1998) runs campaigns (*Visit Nepal Year* in 1998, 2011 and planned for 2020), tourism fairs and websites.
-3. **Diversify products:** pilgrim circuits (Buddhist, Hindu), wellness, homestays, agri-tourism, birdwatching, conference tourism.
-4. **Ensure safety and quality:** trained guides, standards for trekking agencies, mountain rescue, tourist police, and fair prices.
-5. **Protect nature and culture:** a clean environment and well-kept heritage are the "product"; manage waste on Everest and in trekking areas.
-6. **Involve local people:** community-based tourism so that the village benefits, and that jobs and profits stay local.
-7. **Make visa and entry easy:** on-arrival visas and clear rules; direct air links.
+**उत्तर.** (२,२०५ ÷ ४२,०००) × १०० ≈ **५.२५ प्रतिशत**; (२,२०५ ÷ ८३,०००) × १०० ≈
+**२.६६ प्रतिशत**। अर्थात् सम्भाव्य जलविद्युत्को करिब ९५ प्रतिशत अझै उपयोग हुन बाँकी
+छ — यही नेपालको "अपार सम्भावना" हो।
+:::
 
-### Problems
+उपलब्ध क्षमता प्रयोग गर्न राज्यले निजी क्षेत्रलाई आकर्षित गर्ने नीति लिन सक्छ, स्थानीय
+तहलाई साना जलविद्युत् आयोजना सञ्चालनमा जिम्मेवार बनाउन सक्छ र **विप्रेषण रकम तथा
+राष्ट्रिय पुँजी** लाई दीर्घकालीन नीति बनाएर जलस्रोतमा लगाउन सक्छ। यसो भए नेपाल
+जलविद्युत्मा आत्मनिर्भर हुन्छ र बिजुली निर्यात गरेर विदेशी मुद्रा कमाउन सक्छ।
+जलविद्युत्को सुरुको लागत बढी भए पनि दीर्घकालमा सस्तो पर्छ, प्रदूषण गर्दैन र
+नवीकरणीय भएकाले कहिल्यै रित्तिँदैन।
 
-Poor infrastructure and airport congestion, over-dependence on a few routes (Everest, Annapurna), pollution, risk of earthquakes and floods, political instability, competition from other destinations, and the shock of Covid-19.
-
-## 8.3 Employment
-
-**Employment** means being engaged in work that gives an income. **Unemployment** means being able and willing to work but not finding a job. **Underemployment** means working fewer hours or at lower skill than one's ability.
-
-### Forms of work
-
-| Type | Meaning | Example |
-|---|---|---|
-| **Wage / salaried** | Work for an employer | Teacher, bank clerk, factory worker |
-| **Self-employment** | Own business or farm | Shopkeeper, farmer, tailor, tutor, freelance designer |
-| **Formal / informal** | Registered, with contract and benefits vs unregistered daily labour | Government office vs street vendor |
-| **Foreign employment** | Work abroad | Labour migrants in the Gulf and Malaysia |
-
-### The employment situation in Nepal
-
-- Nepal has a **young population**; about half a million young people enter the labour market every year, but the economy creates too few well-paid jobs.
-- More than half of workers are in **agriculture**, with a very large **informal sector**; unemployment in the official labour force survey (2017/18) was about 11 per cent and was higher among educated youth.
-- To find work, many Nepalis go abroad: hundreds of thousands of **labour permits** are issued each year, mainly for Malaysia, Qatar, the UAE and Saudi Arabia; many others go to India.
-
-### Remittance
-
-**Remittance** is the money which Nepalis working abroad send home. It now equals more than **one-fifth of GDP** (over Rs 1.4 trillion in a recent year), among the highest ratios in the world. It pays for food, education and health, lifts families out of poverty and earns foreign exchange to pay for imports. But it also means a loss of young workers (brain-drain), family separation, risks to migrants, and dependence on the foreign labour markets and on spending rather than investment.
-
-```photo id="soc10/tea-ilam" caption="Tea gardens in Ilam. Agriculture and agro-processing (tea, cardamom, coffee, dairy, vegetables) are major local sources of employment that can reduce the need for migration." width="80"
+```photo id="soc10/kulekhani" caption="मकवानपुरको कुलेखानी जलाशय। जलाशययुक्त आयोजनाले वर्षामा पानी थुनेर सुक्खायाममा पनि बिजुली उत्पादन गर्न सक्छन्।" width="62"
 ```
 
-### Creating jobs at home
+**५. निष्कर्ष:** नेपालको आर्थिक विकासमा ऊर्जाका स्रोतले महत्त्वपूर्ण भूमिका खेल्न
+सक्छन्; त्यसका लागि स्रोतको पहिचान र सही सदुपयोग आजको मुख्य आवश्यकता हो।
+स्रोतमध्ये **जल ऊर्जा** को सम्भावना सबैभन्दा उच्च छ। कुल उत्पादन क्षमताको ५० प्रतिशत
+मात्र जलविद्युत् उत्पादन गर्न सके पनि नेपालको ऊर्जा आवश्यकता पूरा हुन्छ। त्यसैले
+नीतिगत सुधार गर्दै जलविद्युत् आयोजनाको निर्माण, सञ्चालन र विस्तारमा जोड दिनुपर्छ।
+जलविद्युत्ले:
 
-| Measure | Example |
-|---|---|
-| Technical and vocational education (TVET) | CTEVT programmes, Technical schools, polytechnic |
-| Government programmes | **Prime Minister Employment Programme** (guaranteed at least 100 days a year of work), youth self-employment loans |
-| Support to agriculture and small enterprises | Subsidised loans, cooperatives, Agriculture Development Bank |
-| Hydropower, tourism and IT | Large new job sectors; software outsourcing |
-| Labour laws and protection | **Labour Act 2074**: written contracts, eight-hour day, minimum wage; Social Security Fund; safe migration through registered agencies and the Foreign Employment Board |
+- १. देशभित्रै उद्योगधन्दा र कलकारखाना चलाउन ऊर्जा दिन्छ।
+- २. दाउराको सट्टा बिजुली प्रयोग हुँदा वन फँडानी घटाउँछ।
+- ३. घरायसी प्रयोग (पकाउने, बत्ती, उपकरण) मा बढीभन्दा बढी प्रयोग गर्न सकिन्छ।
+- ४. **विद्युतीय सवारी साधन** चलाएर पेट्रोलियम आयात घटाउन सकिन्छ।
+- ५. बिजुलीले जमिनमुनिको पानी बोरिङ गरी निकालेर कुलो, पैनी र नहरबाट सिँचाइ गर्न
+  सकिन्छ; यसले कृषि उत्पादन बढाउँछ।
+- ६. देशमै रोजगारी सिर्जना गरी आर्थिक विकासमा टेवा दिन्छ।
 
-::: caution Do not confuse the terms
-An unemployed person *wants* work and cannot find it. A student or a retired person who does not seek work is not "unemployed". Underemployment is working below capacity. Examiners test the difference.
+::: note क्रियाकलाप — पाठ ८.१
+**१. घरको ऊर्जा खर्च:** तपाईँको घरमा महिनाभरि विद्युत्, दाउरा/ग्यास/मट्टितेल र
+डिजेल/पेट्रोलमा कति कति खर्च भयो, तालिकामा भर्नुहोस् र वृत्तचित्रमा देखाउनुहोस्।
+(सङ्केत: प्रत्येक खर्चलाई कुल खर्चले भाग गरी ३६० ले गुणन गर्दा वृत्तचित्रको कोण
+आउँछ। जस्तै कुल रु. ४,००० मा विद्युत् रु. १,००० भए कोण = (१,००० ÷ ४,०००) × ३६० =
+९० डिग्री।)
+**परियोजना कार्य:** आफ्नो समुदायमा उपलब्ध ऊर्जाका स्रोतमध्ये सबैभन्दा बढी सम्भावना
+भएको स्रोत कुन हो र त्यसले त्यहाँको आर्थिक विकासमा कस्तो भूमिका खेलेको छ, सोधखोज
+गरी कक्षामा प्रस्तुत गर्नुहोस्।
 :::
 
-### Foreign trade
+### पाठको अभ्यास: नमुना उत्तर
 
-Nepal buys much more than it sells. Its **trade deficit** (imports minus exports) is very large, and remittance pays for much of the gap.
+**१. ऊर्जाको परिचय दिई यसका स्रोत उल्लेख गर्नुहोस्।**
+काम गर्ने शक्ति वा शक्तिको स्रोतलाई ऊर्जा भनिन्छ। मानिस, प्राणी र वनस्पति सबैलाई
+ऊर्जा चाहिन्छ; घरायसी काम, यातायात, सञ्चार, कृषि र उद्योग ऊर्जाबिना चल्दैनन्। ऊर्जाका
+स्रोत दुई प्रकारका छन्: (क) **नवीकरणीय** — पुनः उत्पादन हुने सूर्य (सौर्य), वायु, जल
+(जलविद्युत्), बायोग्यास र बायोमास; (ख) **अनवीकरणीय** — फेरि बन्न नसक्ने वा धेरै
+समय लाग्ने कोइला, पेट्रोलियम पदार्थ र प्राकृतिक ग्यास। नेपालमा जलविद्युत्, सौर्य,
+वायु, बायोग्यास र बायोमासको राम्रो सम्भावना छ।
 
-| Main imports | Main exports |
-|---|---|
-| Petroleum products, vehicles and spare parts, machinery, electronics and mobile phones, iron and steel, medicine, gold, fertiliser, cereals | Soybean and palm oil (processed in Nepal), cardamom, tea, ginger, carpets, readymade garments, pashmina, zinc sheets, herbs, electricity |
+**२. ऊर्जाको महत्त्व उल्लेख गर्नुहोस्।**
+(क) उद्योग र कलकारखाना चलाएर उत्पादन बढाउँछ। (ख) यातायात र सञ्चार चलाउँछ। (ग)
+सिँचाइ र आधुनिक कृषिमा सघाउँछ। (घ) घरायसी काम सजिलो बनाई जीवनस्तर उकास्छ। (ङ)
+स्वच्छ ऊर्जाले दाउरा र पेट्रोलियमको प्रयोग घटाई वातावरण जोगाउँछ। (च) रोजगारी र
+बिजुली निर्यातबाट विदेशी मुद्रा दिन्छ। त्यसैले ऊर्जा आर्थिक विकासको मेरुदण्ड हो।
 
-More than half of Nepal's foreign trade is with **India**; China is the second source of imports. Nepal is a landlocked country and uses the Kolkata and Visakhapatnam ports with transit rights through India. Raising exports needs better quality, branding, processing in Nepal and trade agreements.
+**३. ऊर्जामा आत्मनिर्भर हुनका लागि अपनाउन सकिने उपाय लेख्नुहोस्।**
+(क) जलविद्युत्मा निजी लगानी आकर्षित गर्ने नीति; (ख) स्थानीय तहबाट साना जलविद्युत्
+आयोजना; (ग) विप्रेषण र राष्ट्रिय पुँजी जलस्रोतमा लगाउने दीर्घकालीन नीति; (घ) सौर्य
+प्लान्ट र घरायसी प्यानलमा सहुलियत; (ङ) वायु ऊर्जा, गोबरग्यास र फोहोरबाट बायोग्यास;
+(च) विद्युतीय सवारी र बिजुलीको चुलो प्रयोग; (छ) पेट्रोलियम–ग्यासको अन्वेषण र ऊर्जाको
+मितव्ययी प्रयोग।
 
-## 8.4 Financial education
+**४. "नेपालमा जलविद्युत् विकासको अपार सम्भावना रहेको छ।" यस भनाइलाई पुष्टि
+गर्नुहोस्।**
+नेपालमा हिमालबाट निरन्तर बग्ने करिब ६,००० नदीनाला छन् र छोटो दूरीमा उचाइ धेरै घट्ने
+भएकाले नदीको वेग जलविद्युत्का लागि उपयुक्त छ। सैद्धान्तिक रूपमा ८३,००० र प्राविधिक
+रूपमा करिब ४२,००० मेगावाट उत्पादन गर्न सकिन्छ, तर २०७८ फागुनसम्म २,२०५ मेगावाट
+अर्थात् सम्भाव्य क्षमताको करिब ५ प्रतिशत मात्र उत्पादन भएको थियो। नजिकै भारत र
+बङ्गलादेश जस्ता ठुला बजार छन्। जलविद्युत् नवीकरणीय, प्रदूषणरहित र दीर्घकालमा सस्तो
+छ। त्यसैले नेपालमा जलविद्युत्को अपार सम्भावना छ।
 
-**Financial education (financial literacy)** is the knowledge and skill to make wise decisions about earning, spending, saving, borrowing and investing money.
+**५. नेपालको आर्थिक विकासमा जलविद्युत् क्षेत्रको योगदान छोटकरीमा व्याख्या
+गर्नुहोस्।**
+(क) **उद्योग** लाई सस्तो र भरपर्दो ऊर्जा; (ख) बोरिङ, कुलो र नहरबाट **सिँचाइ** गरी कृषि
+उत्पादन वृद्धि; (ग) पेट्रोलियम **आयात घटाउने** र बिजुली **निर्यात** बाट विदेशी मुद्रा;
+(घ) दाउराको खपत घटेर **वन संरक्षण**; (ङ) आयोजनामा **रोजगारी**; (च) बत्ती, सञ्चार
+र उपकरणले **जीवनस्तर** सुधार।
 
-### Key concepts
+## ८.२ पर्यटन प्रवर्धन
 
-| Term | Meaning |
-|---|---|
-| **Income** | Money received: wages, salary, profit, interest, remittance, pocket money |
-| **Expenditure** | Money spent. *Needs* (food, rent, school fees) come before *wants* (new phone, outings) |
-| **Budget** | A plan of expected income and expenditure for a period |
-| **Saving** | The part of income that is not spent |
-| **Investment** | Using money to earn more (land, business, shares, bonds) |
-| **Credit / loan** | Borrowed money, to be repaid with interest |
-| **Interest** | Payment for the use of money |
+मानिस तीर्थाटन, दृश्यावलोकन, पर्वतारोहण र मनोरञ्जनका लागि घुमफिर गर्छन्; कला,
+संस्कृति, भाषा, वेशभूषा र रहनसहनबारे अध्ययन–अनुसन्धान पनि गर्छन्।
 
-### Why it matters
-
-It helps people to avoid debt traps, to plan for emergencies and old age, to keep out of online or "easy money" frauds (fake schemes, unlicensed lenders), to start a business and to use banks and digital payments safely.
-
-::: example Making a household budget
-**Problem.** Sita's family earns Rs 45,000 a month. Planned expenses: food Rs 14,000; rent Rs 9,000; education Rs 6,000; transport Rs 3,000; electricity, water and phone Rs 2,500; health Rs 2,000; other Rs 3,500. Find the total expenses and the amount that can be saved. What percentage of income is saved?
-
-**Solution.**
-Total expenses = 14,000 + 9,000 + 6,000 + 3,000 + 2,500 + 2,000 + 3,500 = **Rs 40,000**.
-Saving = 45,000 − 40,000 = **Rs 5,000**.
-Percentage saved = (5,000 ÷ 45,000) × 100 = **11.1%** of income.
-Since a good aim is to save 10–20%, the budget is acceptable.
+::: definition पर्यटन, पर्यटक र पर्यटन उद्योग
+विभिन्न उद्देश्य राखेर एक ठाउँबाट अर्को ठाउँमा भ्रमण गर्ने कार्यलाई **पर्यटन**
+भनिन्छ। **विश्व पर्यटन सङ्गठन** का अनुसार "आफ्नो नियमित वासस्थानबाट बिदा मनाउने,
+व्यापार गर्ने वा त्यस्तै अन्य उद्देश्यले **२४ घण्टाभन्दा बढी** र लगातार **एक वर्षभन्दा
+कम** समय बाहिर बिताउन निस्कने व्यक्ति **पर्यटक** हुन्।" पर्यटकलाई सेवा–सुविधा दिने
+उद्देश्यले चलाइएका सबै व्यवसाय — सशुल्क भ्रमण गराउने, आवास, यातायात र
+दृश्यावलोकनको व्यवस्था मिलाउने — **पर्यटन उद्योग** अन्तर्गत पर्छन्।
 :::
 
-```figure caption="A monthly budget (Rs thousands). The family spends Rs 40,000 of a Rs 45,000 income and saves Rs 5,000."
-import matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.8,2.8))
-labels=["Food","Rent","Education","Transport","Utilities","Health","Other","Saving"]
-vals=[14,9,6,3,2.5,2,3.5,5]
-cols=[ACCENT]*7+[SERIES[2]]
-ax.bar(labels, vals, color=cols)
-for i,v in enumerate(vals): ax.text(i, v+0.3, f"{v:g}", ha="center", fontsize=8, color=INK)
-ax.set_ylabel("Rs thousands", fontsize=8); ax.set_ylim(0,17)
-ax.tick_params(labelsize=7.5)
-plt.setp(ax.get_xticklabels(), rotation=25, ha="right")
-ax.spines[['top','right']].set_visible(False)
+पर्यटक दुई किसिमका हुन्छन्: आफ्नै देशभित्र घुम्ने **आन्तरिक पर्यटक** (जस्तै
+झापाबाट रारा घुम्न जाने विद्यार्थी) र आफ्नो देशको सिमानाबाहिर घुम्ने **बाह्य पर्यटक**
+(जस्तै नेपाल घुम्न आएको जापानी नागरिक)।
+
+### नेपालमा पर्यटनको महत्त्व
+
+- १. रोजगारी सिर्जना र **विदेशी मुद्रा आर्जन** गरी देशको आम्दानी बढाउँछ।
+- २. सरकारी **राजस्व** वृद्धि हुन्छ।
+- ३. घरेलु तथा कला–संस्कृतिमा आधारित उद्योग फस्टाउँछन्; व्यापार बढ्छ।
+- ४. पर्यटकले पदयात्राका लागि रमणीय क्षेत्र रोज्ने भएकाले ती **दुर्गम क्षेत्रको विकास**
+  हुन्छ।
+- ५. ग्रामीण क्षेत्रमा रोजगारी र आम्दानी बढेर **गरिबी घट्छ**।
+- ६. ग्रामीण क्षेत्रका परम्परागत उत्पादन (ढाका, अल्लो, चिया, हस्तकला) को प्रचार र
+  विकास हुन्छ। यी सबैले देशलाई आर्थिक समृद्धितर्फ लैजान्छन्।
+
+```photo id="soc10/teahouse-trek" caption="पदयात्रा मार्गको चियापसल र होटल। पर्यटनको आम्दानी यस्ता होमस्टे र चियापसलमार्फत सिधै ग्रामीण परिवारसम्म पुग्छ।" width="62"
 ```
 
-## 8.5 Financial instruments
+### नेपालमा पर्यटन उद्योगको सम्भावना
 
-A **financial instrument** is a document or digital record that carries monetary value or the right to receive money. Nepal's financial system is regulated by the **Nepal Rastra Bank (NRB)**, the central bank (founded in 2013 BS, 1956 AD).
+नेपाल अनुपम प्राकृतिक सौन्दर्य र जैविक, ऐतिहासिक, सामाजिक तथा सांस्कृतिक विविधताले
+भरिपूर्ण देश हो। पाठ्यपुस्तकले सात सम्भावना दिएको छ:
 
-```photo id="soc10/nrb" caption="The head office of the Nepal Rastra Bank in Baluwatar, Kathmandu. The central bank issues the currency, manages monetary policy, supervises banks and keeps the government's accounts." width="80"
+```figure caption="नेपालमा पर्यटन उद्योगका सात सम्भावना (पाठ्यपुस्तकअनुसार)।"
+fig, ax = cards([("बृहत् हिमालय पदमार्ग", "ताप्लेजुङदेखि दार्चुलासम्म"),
+                 ("प्राकृतिक सौन्दर्य", "हिमशिखर, ताल, निकुञ्ज"),
+                 ("धार्मिक स्थल", "पशुपतिनाथ, लुम्बिनी"),
+                 ("प्राचीन सम्पदा र कला", "दरबार क्षेत्र, टुँडाल, बुट्टा"),
+                 ("साहसिक पर्यटन", "र्‍याफ्टिङ, प्याराग्लाइडिङ"),
+                 ("हावापानीमा विविधता", "तराई गर्मी, पहाड न्यानो"),
+                 ("सांस्कृतिक विविधता", "जात्रा, चाडपर्व, वेशभूषा"),
+                 ("परिणाम", "रोजगारी, विदेशी मुद्रा")],
+                cols=2, figsize=(5.8, 3.4), title_size=8.4)
 ```
 
-### Institutions
+**१. बृहत् हिमालय पदमार्ग:** संसारकै लामा र अग्ला पदमार्गमध्ये एक हो। नेपालमा यसले
+सुदूरपूर्वको **ताप्लेजुङदेखि सुदूरपश्चिमको दार्चुला** सम्मका हिमाली जिल्ला ओगटेको छ।
+यसले पर्यटकलाई पर्वतारोहण र पदयात्राको नयाँ अनुभव दिन्छ। यसको मुख्य उद्देश्य पर्यटन
+प्रवर्धन, रोजगारी सिर्जना, अविकसित हिमाली जिल्लाको विकास र हिमाली समुदायलाई अवसर
+दिनु हो।
 
-| Institution | Role | Example |
-|---|---|---|
-| **Central bank** | Issues notes, controls inflation and credit, regulates banks, banker to the government | Nepal Rastra Bank |
-| **Commercial banks** | Take deposits, give loans, cheques, cards, remittance | Nepal Bank Limited (1937, the first), Rastriya Banijya Bank, many private banks |
-| **Development banks, finance companies, microfinance** | Smaller, specialised or rural lending | Agricultural Development Bank, Grameen-type microfinance |
-| **Cooperatives** | Member-owned savings and credit | Local SACCOS |
-| **Securities and insurance** | Stock market, brokers, insurers | NEPSE, SEBON, Insurance Authority |
+**२. प्राकृतिक सौन्दर्य:** उत्तरमा विश्वप्रसिद्ध हिमशिखर, ठाउँ ठाउँमा स्वच्छ ताल–तलैया,
+तीव्र नदी, झरना, राष्ट्रिय निकुञ्ज, वन्यजन्तु, मनोरम फाँट र उपत्यका पर्यटकीय आकर्षण
+हुन्। यस्ता दृश्य जताततै भएकाले **चलचित्र छायाङ्कन** को सम्भावना पनि बढेको छ।
 
-### Common instruments
+**३. धार्मिक स्थल:** पशुपतिनाथ, लुम्बिनी, गोसाइँकुण्ड, स्वयम्भूनाथ, जामे मस्जिद,
+रामजानकी मन्दिर, लारुम्बा र मुक्तिनाथ जस्ता प्रसिद्ध धार्मिक स्थलले धार्मिक
+पर्यटनको ठुलो सम्भावना बोकेका छन्।
 
-| Instrument | Meaning |
-|---|---|
-| **Cash (notes and coins)** | Legal tender issued by NRB |
-| **Cheque** | A written order to the bank to pay a sum from the drawer's account |
-| **Bank draft** | A prepaid order issued by the bank itself |
-| **Debit card / ATM card** | Uses the money already in the account |
-| **Credit card** | Allows spending on credit, to be repaid with interest if not paid on time |
-| **Mobile banking, internet banking, wallets and QR** | Digital payment through eSewa, Khalti, bank apps, **Fonepay** QR, connectIPS |
-| **Share (equity)** | Part-ownership of a company; may give a **dividend** and capital gain; traded at the **Nepal Stock Exchange (NEPSE)** |
-| **Debenture / bond** | A loan to a company or government with fixed interest |
-| **Treasury bill and national savings bond** | Government debt instruments |
-| **Mutual fund** | Many small savers pool money, managed by professionals |
-| **Fixed deposit, savings certificate** | Money kept for a fixed period at a higher interest |
+**४. प्राचीन तथा ऐतिहासिक सम्पदा र कलाकृति:** नेपाल वास्तुकला, चित्रकला र मूर्तिकलाको
+केन्द्र हो। काठमाडौँ उपत्यकाका ऐतिहासिक दरबार क्षेत्र र देवलमा कुँदिएका चित्र, बुट्टा
+र टुँडालले पर्यटक तान्छन्।
 
-### Borrowing: loans and interest
+**५. साहसिक पर्यटन:** र्‍याफ्टिङका लागि **सुनकोसी, त्रिशूली र कर्णाली** प्रख्यात
+छन्। पर्वतारोहण र पदयात्राका मार्ग छन्; प्याराग्लाइडिङ, बन्जी जम्पिङ, जिपलाइन र
+हिमाली उडान (माउन्टेन फ्लाइट) जस्ता थुप्रै साहसिक खेलको सम्भावना छ।
 
-A **loan** is money borrowed and repaid with interest. Banks lend against **collateral** (security) such as land or gold. Types: home loan, education loan, vehicle loan, business or SME loan, agriculture loan, and small loans from microfinance and cooperatives. Before borrowing, compare the interest rate, fees and repayment time, borrow only for needs that will give returns, and never take loans from unlicensed moneylenders (*sahu*), whose interest rates may be illegal and very high.
+**६. हावापानीमा विविधता:** उचाइअनुसार दक्षिणी तराईमा गर्मी, मध्य पहाडमा न्यानो र
+उत्तरी हिमालमा ठन्डा हावापानी पाइन्छ। संसारका फरक हावापानीबाट आउने पर्यटकलाई
+आफूअनुकूल हावापानी यहीँ भेटिन्छ।
 
-::: example Cost of a loan
-**Problem.** Hari borrows Rs 2,00,000 for 3 years at 12% a year simple interest. Find the interest and the total amount to be repaid, and the monthly instalment if paid in equal instalments over 36 months.
+**७. सांस्कृतिक विविधता:** विभिन्न जातजातिका रहनसहन, वेशभूषा, कला, परम्परा, जात्रा
+र चाडपर्व फरक फरक भएकाले यी पर्यटकका आकर्षणका केन्द्र बनेका छन्।
 
-**Solution.** Interest = 2,00,000 × 12 × 3 ÷ 100 = **Rs 72,000**.
-Total repayment = 2,00,000 + 72,000 = **Rs 2,72,000**.
-Monthly instalment = 2,72,000 ÷ 36 = **Rs 7,555.56** (about Rs 7,556).
-In practice banks calculate interest on the reducing balance, so the real interest is lower, but the method shows how borrowing increases the cost.
+### पर्यटन प्रवर्धनका उपाय
+
+सम्भावनालाई अवसरमा बदल्न सके नेपाल एउटा प्रमुख पर्यटकीय गन्तव्य बन्न सक्छ। यसका
+लागि पाठ्यपुस्तकले यी उपाय दिएको छ:
+
+- १. पर्यटन स्थलमा आवश्यक पूर्वाधार र सुविधा उपलब्ध गराउने।
+- २. नयाँ पर्यटकीय स्थलको खोजी गरी प्रवर्धन र पूर्वाधार विकास गर्ने।
+- ३. पर्यटकीय गन्तव्यको प्रचारप्रसार गर्ने।
+- ४. गुणस्तरीय र सुविधायुक्त यातायातको व्यवस्था गर्ने।
+- ५. प्राकृतिक, धार्मिक, सांस्कृतिक र ऐतिहासिक सम्पदाको संरक्षण र संवर्धन गर्ने।
+- ६. पर्यटकको आकर्षण र सुरक्षाका लागि राजनीतिक स्थिरता र शान्ति कायम गर्ने।
+- ७. स्वदेशी तथा विदेशी लगानीकर्तालाई पर्यटन उद्योगमा लगानी गर्न अभिप्रेरित गर्ने।
+- ८. पर्यटकको आगमन (भिसा, अध्यागमन) प्रक्रिया सरल र सुलभ बनाउने।
+
+::: note क्रियाकलाप — पाठ ८.२
+**१.** आफ्नो समुदायको कुनै पर्यटकीय स्थलको प्रचारप्रसारका लागि विज्ञापनको नमुना
+बनाउनुहोस् (नाम, विशेषता, पुग्ने बाटो, बस्ने–खाने सुविधा र सम्पर्क लेख्नुहोस्)।
+**२.** नजिकैको पर्यटकीय क्षेत्रको संरक्षणका लागि के के उपाय अपनाइएका छन्, खोजी गरी
+कक्षामा प्रस्तुत गर्नुहोस्।
+**३.** कुनै धार्मिक स्थलमा पथप्रदर्शकले पर्यटकलाई जानकारी दिइरहेको भूमिका अभिनय
+गर्नुहोस्।
+**४.** विदेशमा बस्ने साथी नेपाल आउँदै हुनुहुन्छ; आफ्नो प्रदेशका मुख्य पर्यटकीय स्थल
+घुमाउने नमुना योजना (दिन, स्थान, यातायात, बास, अनुमानित खर्च) बनाउनुहोस्।
 :::
 
-### Using them safely
+### पाठको अभ्यास: नमुना उत्तर
 
-Never share PIN, password or OTP; use only licensed institutions; compare interest and fees; read terms before borrowing; check that an investment company is registered with the regulator; remember that **higher return means higher risk**.
+**१. पर्यटन उद्योग भनेको के हो, यसको महत्त्व चर्चा गर्नुहोस्।**
+पर्यटकलाई सेवा–सुविधा दिने उद्देश्यले सञ्चालित सबै व्यवसाय — सशुल्क भ्रमण गराउने,
+होटल–लज जस्ता आवास, यातायात, पथप्रदर्शन र दृश्यावलोकनको व्यवस्था — मिलेर बनेको
+उद्योगलाई पर्यटन उद्योग भनिन्छ। **महत्त्व:** (क) रोजगारी सिर्जना र विदेशी मुद्रा
+आर्जन; (ख) सरकारी राजस्व वृद्धि; (ग) घरेलु तथा कला–संस्कृतिमा आधारित उद्योग र
+व्यापारको प्रवर्धन; (घ) पदयात्रा क्षेत्र जस्ता दुर्गम ठाउँको विकास; (ङ) ग्रामीण
+आम्दानी बढेर गरिबी न्यूनीकरण; (च) परम्परागत उत्पादनको प्रचार; (छ) नेपालको कला,
+संस्कृति र प्रकृतिलाई संसारमा चिनाउने काम।
 
-## 8.6 Cooperatives
+**२. नेपालमा साहसिक पर्यटनको कस्तो सम्भावना रहेको छ, उल्लेख गर्नुहोस्।**
+नेपालको भिरालो भूबनोट, हिमाल र तीव्र नदी साहसिक पर्यटनका लागि उत्तम छन्। सुनकोसी,
+त्रिशूली र कर्णालीमा र्‍याफ्टिङ; सगरमाथालगायत हिमशिखरमा पर्वतारोहण; बृहत् हिमालय
+पदमार्गलगायत मार्गमा पदयात्रा; पोखरा जस्ता ठाउँमा प्याराग्लाइडिङ; बन्जी जम्पिङ,
+जिपलाइन र हिमाली उडान गर्न सकिन्छ। यस्ता गतिविधिका लागि युवा पर्यटक बढी आउने र
+धेरै दिन बस्ने भएकाले यसबाट रोजगारी र आम्दानीको ठुलो सम्भावना छ।
 
-::: definition Cooperative
-A cooperative is an autonomous association of persons who have united voluntarily to meet their common economic, social and cultural needs through a jointly owned and democratically controlled enterprise.
-:::
+**३. नेपालमा पर्यटन प्रवर्धनका उपाय उल्लेख गर्नुहोस्।**
+(क) पर्यटन स्थलमा सडक, बास, खानेपानी, सञ्चार जस्ता पूर्वाधार; (ख) नयाँ गन्तव्यको
+खोजी र विकास; (ग) देश–विदेशमा प्रचारप्रसार; (घ) गुणस्तरीय यातायात; (ङ) प्राकृतिक,
+धार्मिक, सांस्कृतिक र ऐतिहासिक सम्पदाको संरक्षण; (च) राजनीतिक स्थिरता, शान्ति र
+पर्यटकको सुरक्षा; (छ) स्वदेशी तथा विदेशी लगानीकर्तालाई प्रोत्साहन; (ज) भिसा र
+आगमन प्रक्रिया सरल बनाउने।
 
-### Principles (International Cooperative Alliance)
+**४. तपाईँको विचारमा नेपालमा पर्यटकको सङ्ख्या वृद्धि गर्न कस्ता कदमहरू चालिनुपर्छ,
+बुँदागत रूपमा टिपोट गर्नुहोस्।**
+- विमानस्थल, सडक र पर्यटकीय स्थलसम्मको पहुँच सुधार।
+- होमस्टे, स्वच्छ होटल र तालिमप्राप्त पथप्रदर्शक।
+- सामाजिक सञ्जाल, चलचित्र र अन्तर्राष्ट्रिय मेलामार्फत प्रचार।
+- पर्यटक प्रहरी, उद्धार सेवा र सुरक्षाको प्रत्याभूति; सरल भिसा।
+- सम्पदा, वन्यजन्तु र सफा वातावरणको संरक्षण; आन्तरिक पर्यटनको प्रोत्साहन।
 
-1. Voluntary and open membership.
-2. Democratic member control (**one member, one vote**).
-3. Member economic participation.
-4. Autonomy and independence.
-5. Education, training and information.
-6. Cooperation among cooperatives.
-7. Concern for community.
+**५. पर्यटकको आगमनले पार्न सक्ने सकारात्मक र नकारात्मक प्रभाव उल्लेख गर्नुहोस्।**
 
-### Types in Nepal
-
-| Type | Activity |
+| सकारात्मक प्रभाव | नकारात्मक प्रभाव |
 |---|---|
-| **Savings and credit** (SACCOS) | Take small savings from members and lend to them: the most numerous |
-| **Agricultural** | Buy seed and fertiliser jointly; market produce |
-| **Dairy** | Collect, test and sell milk (Dairy Development Corporation links) |
-| **Consumer** | Run shops with fair prices |
-| **Multipurpose** | Several activities together |
-| **Others** | Tea, coffee, vegetable, forest, energy, health, women and transport cooperatives |
+| रोजगारी, विदेशी मुद्रा र राजस्व बढ्छ | पदमार्ग र तालमा फोहोर तथा प्रदूषण बढ्छ |
+| दुर्गम क्षेत्रमा सडक, बास र सञ्चारको विकास | वस्तुको मूल्य र जग्गाको भाउ बढ्छ |
+| हस्तकला र परम्परागत उत्पादनको बजार | विदेशी देखासिकीले मौलिक संस्कृति खलबलिन सक्छ |
+| संस्कृतिको आदानप्रदान र भाषा सिकाइ | लागुपदार्थ, मूर्ति चोरी जस्ता अपराधको जोखिम |
 
-Nepal's first cooperative society was established in **2013 BS (1956 AD)** in Chitwan. Today there are roughly **30,000** cooperatives with millions of members, and the **Constitution of Nepal** recognises the cooperative as one of the three pillars of the economy. They are governed by the **Cooperative Act 2074 (2017)**.
+नकारात्मक प्रभाव घटाउँदै सकारात्मक प्रभाव बढाउन **दिगो र जिम्मेवार पर्यटन** अपनाउनुपर्छ।
 
-### Importance and problems
+## ८.३ रोजगारी
 
-| Importance | Problems |
-|---|---|
-| Mobilise small savings; give credit without large collateral | Misuse of members' savings and failures in some savings cooperatives |
-| Create jobs and local enterprises | Weak monitoring, poor management and lack of skill |
-| Women's and rural empowerment | Cooperatives lend for consumption, not for production |
-| Fair price for farmers; collective bargaining | Risk of political interference |
-| Teach democracy and teamwork | Competition with banks and microfinance |
+पाठ्यपुस्तकले यो पाठ एउटा **स्वगत कथन** (एक्लै आफैँसँग बोलेको) बाट प्रस्तुत गरेको छ।
+सन्तोष वैदेशिक रोजगारीका लागि कोरिया गएका थिए। त्यहाँको कम्पनीमा मेसिनले पेलेर
+उनको दाहिने हात गुम्यो। अहिले उनी घरमै किराना पसल चलाउँछन्, तर रातको ११ बजेदेखि
+१२:३० सम्म विगतका घटनाले उनलाई सुत्न दिँदैनन्।
 
-## 8.7 Savings and insurance
+**कथाको सार:** सन्तोषले नेपालमै स्नातकोत्तर पढेर विकास बैङ्कमा राम्रो जागिर पाएका
+थिए; आमाबुबा खुसी हुनुहुन्थ्यो र उनले भाइबहिनीलाई काठमाडौँ ल्याएर पढाउँदै थिए। त्यसै
+बेला साथी **रमेश** ले कोरियाको सरकारी कोटामा "महिनाकै २ लाख ५० हजार" कमाइ हुने सपना
+देखायो। दुवैले कोरियन भाषा सिके र विधिवत् तयारी गरे। उनले यी पूर्वतयारी गरेका थिए:
 
-### Savings
-
-**Saving** is the part of current income that is set aside for the future. It is the base for investment.
-
-**Why save?** To prepare for emergencies (illness, accident, disaster); for education, marriage, a home or a business; for old age; to earn interest; and because national savings turn into investment and growth.
-
-**Where to save:** a bank or a cooperative, as a savings account, fixed deposit, recurring deposit, or a bond or shares.
-
-::: example Simple and compound interest
-**Problem.** Ram deposits Rs 50,000 at 8% a year for 3 years. Find the interest and the final amount under (a) simple interest and (b) compound interest (interest added each year).
-
-**Solution.**
-(a) Simple interest: I = P × R × T ÷ 100 = 50,000 × 8 × 3 ÷ 100 = **Rs 12,000**; amount = 50,000 + 12,000 = **Rs 62,000**.
-(b) Compound: amount = P(1 + R/100)ⁿ = 50,000 × (1.08)³ = 50,000 × 1.259712 = **Rs 62,985.60** (to the paisa); interest = Rs 12,985.60.
-Compound interest earns Rs 985.60 more because interest is paid on interest.
-:::
-
-```figure caption="Growth of Rs 50,000 at 8% a year: simple interest (straight line) versus compound interest (curve). The difference grows with time."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.6,2.8))
-t = np.arange(0,16)
-simple = 50000*(1+0.08*t)
-comp = 50000*(1.08)**t
-ax.plot(t, simple/1000, color=SERIES[1], lw=2, label="Simple interest")
-ax.plot(t, comp/1000, color=ACCENT, lw=2, label="Compound interest")
-ax.set_xlabel("Years", fontsize=8); ax.set_ylabel("Amount (Rs thousands)", fontsize=8)
-ax.legend(fontsize=8, frameon=False, loc="upper left")
-ax.grid(color=GRID, lw=0.5)
-ax.tick_params(labelsize=8)
-ax.spines[['top','right']].set_visible(False)
+```figure caption="वैदेशिक रोजगारीमा जानुअघिका पूर्वतयारी (सन्तोषको कथाअनुसार)। यी सबै चरण पूरा गरेर मात्र सुरक्षित र वैध रूपमा विदेश जानुपर्छ।"
+fig, ax = cards([("१. जानकारी", "श्रम तथा रोजगार मन्त्रालयमा"),
+                 ("२. राहदानी", "जिल्ला प्रशासन कार्यालयबाट"),
+                 ("३. भाषा र परीक्षा", "भाषा, तालिम र छनोट परीक्षा"),
+                 ("४. स्वास्थ्य परीक्षण", "मान्यताप्राप्त संस्थामा"),
+                 ("५. श्रम स्वीकृति", "वैदेशिक रोजगार विभागबाट"),
+                 ("६. अभिमुखीकरण", "जानुअघिको अनिवार्य तालिम"),
+                 ("७. बिमा", "दुर्घटना र मृत्युविरुद्ध"),
+                 ("८. दूतावास", "समस्या परे आफ्नो दूतावास")],
+                cols=2, figsize=(5.8, 3.4), title_size=8.4)
 ```
 
-### Insurance
+सन्तोष र रमेश एउटै कम्पनीमा काम गर्न पाउँदा खुसी थिए, तर दुर्घटनापछि सन्तोषलाई
+पश्चात्ताप लाग्यो। उनी सोच्छन्: बिमा गरेकैले उपचार खर्च बिमा कम्पनीले बेहोर्‍यो;
+धेरैले त बिमा पनि गरेका हुँदैनन्। उनले वैदेशिक रोजगारीका दुवै पक्ष देखे:
 
-::: definition Insurance
-Insurance is a contract in which an insurance company (the insurer) agrees to pay money to the policyholder (the insured) if a specified loss occurs, in return for a regular payment called the **premium**.
+| सकारात्मक पक्ष | नकारात्मक पक्ष |
+|---|---|
+| परिवारको जीवनस्तर सुध्रिन्छ, गुजारा चल्छ | अङ्गभङ्ग भएर वा ज्यान गुमाएर बाकसमा फर्कनुपर्छ |
+| गरिबी घट्छ | देशमा विकास निर्माणका लागि कामदार अभाव र ढिलासुस्ती |
+| देशमा विदेशी मुद्रा (विप्रेषण) भित्रिन्छ | सुन्तली भाउजूको जस्तै एचआइभी–एड्स सर्ने जोखिम |
+| विदेशमा सिकेको सिपबाट गाउँमै व्यवसाय (हर्क दाइको व्यावसायिक तरकारी खेती) | परम्परा, संस्कृति र मूल्यमान्यता बिर्सने प्रवृत्ति |
+| नयाँ प्रविधि, अनुशासन र भाषा सिकिन्छ | परिवार विखण्डन (रमेशको परिवार), छोराछोरी बिग्रिने |
+| | पढेलेखेका जोसिला युवा जनशक्ति विदेश पलायन |
+
+अन्त्यमा सन्तोष निष्कर्षमा पुग्छन् — नेपालमा पनि केही गर्छु भन्नेका लागि प्रशस्त
+सम्भावना छ: हर्क दाइले विदेशमा सिकेको सिपबाट विदेशमा भन्दा बढी कमाए, मामाले
+**गाईपालन** बाट राम्रो आम्दानी गर्नुभयो; कृषिको **आधुनिकीकरण र व्यावसायीकरण**, **घरेलु
+उद्योग** र आफ्नै पालिकाबाट **सिप तथा व्यावसायिक तालिम** लिएर स्वरोजगार बन्न सकिन्छ।
+
+::: definition रोजगारी र वैदेशिक रोजगारी
+व्यक्तिले आफ्नो श्रम, सिप वा ज्ञान प्रयोग गरेर पारिश्रमिक, ज्याला, तलब वा आम्दानी
+पाउने गरी काममा संलग्न हुनुलाई **रोजगारी** भनिन्छ। अरूको काम गरेर तलब–ज्याला
+पाउनु **ज्यालादारी वा तलबी रोजगारी** र आफ्नै व्यवसाय गरी आम्दानी गर्नु **स्वरोजगार**
+हो। आफ्नै देशभित्र गरिने काम **स्वदेशी रोजगारी** र रोजगारीका लागि अर्को देशमा गएर
+गरिने काम **वैदेशिक रोजगारी** हो। सरकारी निकाय, बैङ्क वा दर्ता भएका कम्पनीमा
+नियमअनुसार हुने रोजगारी **औपचारिक** र दर्ता नभएका साना कामधन्दामा हुने रोजगारी
+**अनौपचारिक** रोजगारी हो।
 :::
 
-Many people pay small premiums into a common pool; the few who suffer a loss are paid from it, so risk is **shared**.
+::: note क्रियाकलाप — पाठ ८.३
+**१. वादविवाद:** "वैदेशिक रोजगारीभन्दा स्वदेशी रोजगारी नै बेस" शीर्षकमा वादविवाद
+प्रतियोगिता आयोजना गर्नुहोस्।
+**२. समाचार लेखन:** वैदेशिक रोजगारीबाट फर्केका व्यक्तिले विदेशमा सिकेको श्रम र सिप
+कसरी उपयोग गरेका छन्, खोजी गरी समाचारको नमुना बनाउनुहोस्।
+**३. समूह छलफल:** वैदेशिक रोजगारीलाई व्यवस्थित बनाउन कसले के गर्ने, तालिकामा
+प्रस्तुत गर्नुहोस्। (सङ्केत: सरकार — श्रम सम्झौता, ठगी गर्नेमाथि कारबाही, फर्केकालाई
+सहुलियत ऋण; रोजगारदाता — सम्झौताबमोजिम तलब, सुरक्षित कार्यस्थल, बिमा; व्यक्ति —
+इजाजतप्राप्त संस्थाबाट जाने, तालिम र बिमा लिने, बैङ्कबाटै पैसा पठाउने।)
 
-| Term | Meaning |
-|---|---|
-| **Policy** | The written insurance contract |
-| **Premium** | The price paid for the cover |
-| **Sum assured** | The amount payable on loss or maturity |
-| **Claim** | A request for payment after a loss |
-| **Insurable interest** | The insured must suffer financially if the loss happens |
-
-**Kinds of insurance:**
-
-| Class | Examples |
-|---|---|
-| **Life insurance** | Endowment, term, money-back, pension; pays at death or at maturity |
-| **Non-life (general)** | Property and fire, motor vehicle (third-party insurance is compulsory), travel, health, **crop and livestock** (subsidised), engineering |
-
-Nepal's first state insurer, **Rastriya Beema Sansthan**, was founded in 2025 BS (1968 AD), and a regulator (**Beema Samiti**, now the **Nepal Insurance Authority**) supervises all insurance companies. **Health insurance** is run by the Health Insurance Board under the Act of 2074 BS, and the **Social Security Fund** provides contribution-based pensions and accident cover for workers.
-
-::: example Insurance premium
-**Problem.** A house is insured for Rs 20,00,000 at an annual premium rate of Rs 2.50 per Rs 1,000 of the sum insured. Find the yearly premium. If the house is destroyed by fire, how much can the owner claim (ignoring conditions)?
-
-**Solution.** The sum insured is 20,00,000 ÷ 1,000 = 2,000 units of Rs 1,000.
-Premium = 2,000 × Rs 2.50 = **Rs 5,000** a year.
-The owner can claim up to the sum insured, **Rs 20,00,000**, for a loss of that size. The family pays Rs 5,000 to avoid a possible loss of 20 lakh.
+**सामुदायिक कार्य:** वैदेशिक रोजगारीबाट फर्केका व्यक्तिसँग उहाँको अनुभवका सकारात्मक र
+नकारात्मक पक्ष सोधी कक्षामा प्रस्तुत गर्नुहोस्।
 :::
 
-| Saving | Insurance |
-|---|---|
-| Keeps money for the future; the person can withdraw it | Protects against a specific loss; the premium is not returned unless it is a savings-type policy |
-| Earns interest | Pays only if the insured event occurs (or at maturity) |
+### पाठको अभ्यास: नमुना उत्तर
 
-## 8.8 Revenue
+**१. रोजगारी भनेको के हो?**
+व्यक्तिले आफ्नो श्रम, सिप वा ज्ञान प्रयोग गरेर तलब, ज्याला वा आम्दानी पाउने गरी
+कुनै काममा संलग्न हुनुलाई रोजगारी भनिन्छ। रोजगारी स्वरोजगार र ज्यालादारी/तलबी,
+स्वदेशी र वैदेशिक तथा औपचारिक र अनौपचारिक हुन्छ। रोजगारीले व्यक्तिलाई आम्दानी र
+सम्मान दिन्छ र देशको उत्पादन बढाउँछ।
 
-**Revenue** is the income of the government, collected from taxes, fees, fines, royalties and the sale of public service and property. It is spent on defence, security, education, health, roads, salaries and development.
+**२. वैदेशिक रोजगारीको परिचय दिनुहोस्, नेपालमा यसले पारेको प्रभाव उल्लेख
+गर्नुहोस्।**
+आफ्नो देशबाहिर गएर तलब–ज्यालामा काम गर्नुलाई वैदेशिक रोजगारी भनिन्छ; जस्तै कोरिया,
+मलेसिया वा खाडी मुलुकमा काम गर्नु। **सकारात्मक प्रभाव:** विप्रेषणबाट परिवारको गुजारा,
+शिक्षा र स्वास्थ्यमा सुधार; गरिबी न्यूनीकरण; विदेशी मुद्रा आर्जन; फर्केकाले नयाँ सिप
+भित्र्याउनु (हर्क दाइको तरकारी खेती)। **नकारात्मक प्रभाव:** युवा पलायन र विकास
+निर्माणमा कामदार अभाव; दुर्घटना, अङ्गभङ्ग र मृत्यु; एचआइभी–एड्स जस्ता रोग; परिवार
+विखण्डन; मौलिक संस्कृति बिर्सिने; खेतबारी बाँझो हुने।
 
-### Sources of revenue
+**३. वैदेशिक रोजगारीमा जानुभन्दा अगि अपनाउनुपर्ने पूर्वसर्तको सूची बनाउनुहोस्।**
+(१) श्रम तथा रोजगार मन्त्रालय वा सम्बन्धित निकायमा प्रक्रिया बुझ्ने; (२) जिल्ला प्रशासन
+कार्यालयबाट राहदानी बनाउने; (३) गन्तव्य देशको भाषा र आवश्यक सिप–तालिम लिने र
+छनोट परीक्षा पास गर्ने; (४) सरकारबाट मान्यता प्राप्त स्वास्थ्य संस्थामा स्वास्थ्य परीक्षण
+गराउने; (५) वैदेशिक रोजगार विभागबाट श्रम स्वीकृति लिने; (६) अभिमुखीकरण तालिममा
+बस्ने; (७) बिमा गराउने; (८) समस्या परे सम्पर्क गर्ने दूतावासको जानकारी लिने; (९)
+इजाजतप्राप्त संस्था र सम्झौताका सर्त (तलब, काम, अवधि) राम्ररी बुझ्ने।
 
-```figure caption="Sources of government revenue in Nepal (schematic classification)."
-import matplotlib.pyplot as plt
+**४. नेपालमा रोजगारी प्रवर्धनका प्रभावकारी उपाय के के हुन सक्छन्, उल्लेख
+गर्नुहोस्।**
+(क) कृषिको आधुनिकीकरण र व्यावसायीकरण — व्यावसायिक तरकारी, फलफूल, गाईपालन;
+(ख) घरेलु तथा साना उद्योगलाई सहुलियत ऋण र बजार; (ग) पालिकाबाट सिप तथा
+व्यावसायिक तालिम; (घ) जलविद्युत्, पर्यटन र पूर्वाधार निर्माणमा लगानी; (ङ) फर्केका
+श्रमिकको सिप र विप्रेषणलाई उद्यममा लगाउने कार्यक्रम; (च) सहकारीमार्फत सामूहिक
+व्यवसाय; (छ) प्राविधिक शिक्षा विस्तार; (ज) स्वदेशी उत्पादन किन्ने बानी।
+
+**५. वैदेशिक रोजगारीमा जान चाहने आनी काकीलाई तपाईँ के के सुझाव दिनुहुन्छ, उल्लेख
+गर्नुहोस्।**
+आनी काकी, (क) इजाजतप्राप्त संस्थाबाट मात्र जानुहोस्, दलालको भरमा नपर्नुहोस्; (ख)
+काम, तलब, अवधि र बस्ने व्यवस्था लिखित सम्झौतामा जाँच्नुहोस्; (ग) भाषा, सिप र
+अभिमुखीकरण तालिम लिनुहोस्; (घ) बिमा र श्रम स्वीकृति अनिवार्य गर्नुहोस्; (ङ) राहदानी
+अरूलाई नदिनुहोस् र समस्या परे दूतावासमा सम्पर्क गर्नुहोस्; (च) कमाइ बैङ्कबाटै
+पठाउनुहोस्, हुन्डीबाट होइन; (छ) फर्केर गाउँमै व्यवसाय गर्ने योजना पहिल्यै बनाउनुहोस्।
+
+## ८.४ वित्तीय शिक्षा
+
+श्री जनजागृति विद्यालयमा **नेपाल राष्ट्र बैङ्क** बाट वित्तीय शिक्षा कार्यक्रमका लागि
+प्रतिनिधि **कृशला** आउनुभएको छ। उहाँ र विद्यार्थी (उर्मिला, रिकेश, रामनरेश) बिचको
+अन्तरक्रियाबाट यो पाठ बनेको छ।
+
+### वित्त र वित्तीय शिक्षा
+
+साधारणतया **वित्त** भन्नाले धनमाल, सम्पत्ति वा जायजेथा बुझिन्छ; यसअन्तर्गत विशेष
+गरी मुद्राको कारोबार पर्छ। हरेक मानिसको जीवनमा बिरामी, दुर्घटना र प्राकृतिक प्रकोप
+जस्ता समस्या आइपर्छन्; छोराछोरीको पढाइ, घर खर्च र सामान खरिदमा पनि खर्च हुन्छ।
+यस्ता गर्जो टार्न आम्दानी चाहिन्छ र आम्दानीको सही व्यवस्थापन पनि चाहिन्छ।
+
+::: definition वित्तीय शिक्षा (वित्तीय साक्षरता)
+प्रत्येक व्यक्तिले आफूसँग भएको आर्थिक तथा वित्तीय साधनको महत्त्व बुझी सोहीअनुसार
+उचित व्यवस्थापन गर्न सक्ने ज्ञान र सिपलाई **वित्तीय शिक्षा** वा **वित्तीय साक्षरता**
+भनिन्छ। अर्थात् आम्दानी, खर्च, बजेट व्यवस्थापन, बचत, ऋण आदिको व्यवस्थित परिचालन
+गर्न चाहिने ज्ञान, सिप र क्षमता नै वित्तीय शिक्षा हो।
+:::
+
+### वित्तीय शिक्षाको आवश्यकता र महत्त्व
+
+कृशलाका अनुसार **विश्व बैङ्कको प्रतिवेदनअनुसार नेपालमा वित्तीय साक्षरता करिब १८
+प्रतिशत मात्र** छ, अर्थात् सयमा ८२ जना वित्तीय रूपमा साक्षर छैनन्। त्यसैले सबै उमेर,
+शैक्षिक योग्यता र आर्थिक अवस्थाका मानिसलाई वित्तीय शिक्षा चाहिन्छ।
+
+- १. व्यक्तिलाई **कमाउने, बचाउने, खर्च गर्ने, ऋण लिने र लगानी गर्ने** कारोबारमा सक्षम
+  बनाउँछ।
+- २. समुदायका सबै वर्गलाई सुखी र सुरक्षित भविष्य र आर्थिक सम्पन्नतातर्फ डोर्‍याउँछ।
+- ३. पैसाको महत्त्व बुझी सही सदुपयोग गर्दा आर्थिक तथा सामाजिक सुरक्षा दिन्छ।
+- ४. सीमित आम्दानीबाट **व्यक्तिगत बजेट** बनाउने, विवेकशील खर्च र नियमित बचत गर्ने
+  बानी बसाल्छ।
+- ५. आवश्यकताअनुसार ऋण लिने, समयमै कर्जा तिर्ने, सुरक्षित लगानी गर्ने र भविष्यका
+  वित्तीय चुनौती सामना गर्ने क्षमता दिन्छ।
+- ६. बैङ्किङ सेवा प्रयोग गरी धनको सुरक्षा र आर्थिक उन्नति गर्ने ज्ञान दिन्छ।
+- ७. वित्तीय संस्थाका काम, कर्तव्य र अधिकार, निक्षेप सङ्कलन र ऋण प्रक्रियाबारे सचेत
+  गराउँछ; ऋणको उपयोगबाट हुने फाइदा र दुरुपयोगका बेफाइदा बुझाउँछ।
+
+### नेपालमा वित्तीय शिक्षाका प्रयास
+
+- नेपाल राष्ट्र बैङ्कले बालबालिका र युवाका लागि **"विद्यालयमा नेपाल राष्ट्र बैङ्क"**
+  कार्यक्रम चलाउँदै आएको छ।
+- वित्तीय साक्षरतासम्बन्धी सन्दर्भसामग्री प्रकाशन र प्रसारण गरेको छ।
+- **"बैङ्कसँगको नाता, हरेक नेपालीको बैङ्क खाता"** अभियान चलाएको छ।
+- निजी स्तरका वित्तीय संस्थाले पनि वित्तीय साक्षरता कार्यक्रम चलाएका छन्।
+- सञ्चार माध्यमबाट जनचेतनामूलक सामग्री देख्न, सुन्न र पढ्न पाइन्छ।
+- विद्यालय तहको पाठ्यक्रममा वित्तीय शिक्षाका विषयवस्तु समावेश गरिएका छन् — यही पाठ
+  यसको उदाहरण हो।
+
+### नेपालको वित्तीय प्रणाली
+
+::: definition वित्तीय प्रणाली
+बचत सङ्कलन गर्ने, ऋण दिने, भुक्तानी र रकम स्थानान्तरण गर्ने तथा यिनको नियमन गर्ने
+संस्था, बजार र नियमको समग्र संरचनालाई **वित्तीय प्रणाली** भनिन्छ।
+:::
+
+नेपालको वित्तीय प्रणालीमा **केन्द्रीय बैङ्क, वाणिज्य बैङ्क, विकास बैङ्क, वित्त कम्पनी र
+लघुवित्त** सञ्चालित छन्; साथै **बचत तथा ऋण सहकारी** र लघुवित्त कारोबार गर्ने
+**गैरसरकारी सङ्घसंस्था** पनि कार्यरत छन्।
+
+```figure caption="नेपालको वित्तीय प्रणाली। नेपाल राष्ट्र बैङ्क केन्द्रीय बैङ्क हो — यसले बैङ्क तथा वित्तीय संस्थालाई अनुमति दिन्छ र नियमन गर्छ, त्यसैले यसलाई 'बैङ्कहरूको बैङ्क' भनिन्छ।"
 from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.9,3.0))
-def box(x,y,w,h,t,c,fs=8):
-    ax.add_patch(FancyBboxPatch((x,y),w,h,boxstyle="round,pad=0.02,rounding_size=0.1",fc=c,ec=INK,lw=0.8))
-    ax.text(x+w/2,y+h/2,t,ha="center",va="center",fontsize=fs,color=INK)
-box(3.0,3.4,2.6,0.7,"Government revenue","#cfe0f5",8.5)
-box(0.2,1.9,3.6,0.8,"Tax revenue","#d9efd3")
-box(4.6,1.9,3.6,0.8,"Non-tax revenue","#fbe5c4")
-box(0.0,0.2,1.9,1.1,"Direct\nincome tax,\nproperty tax","#e8f5e3",7.5)
-box(2.1,0.2,1.9,1.1,"Indirect\nVAT, excise,\ncustoms","#e8f5e3",7.5)
-box(4.6,0.2,1.9,1.1,"Fees, fines,\nlicence,\nroyalty","#fdf1de",7.5)
-box(6.7,0.2,1.7,1.1,"Dividends,\nprofits of\nstate firms","#fdf1de",7.5)
-for a,b in (((4.3,3.4),(2.0,2.7)),((4.3,3.4),(6.4,2.7)),((2.0,1.9),(0.95,1.3)),((2.0,1.9),(3.05,1.3)),((6.4,1.9),(5.55,1.3)),((6.4,1.9),(7.55,1.3))):
-    ax.annotate("",xy=b,xytext=a,arrowprops=dict(arrowstyle="-|>",color=MUTED))
-ax.set_xlim(-0.1,8.5); ax.set_ylim(0,4.3); ax.axis("off")
+fig, ax = plt.subplots(figsize=(5.8, 2.9))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5); ax.axis("off")
+ax.add_patch(FancyBboxPatch((3.0, 3.75), 4.0, 1.05, boxstyle="round,pad=0.02,rounding_size=0.2", fc=ACCENT, ec="none"))
+ax.text(5, 4.42, "नेपाल राष्ट्र बैङ्क", ha="center", va="center", color="white", fontsize=9.6, fontweight="bold")
+ax.text(5, 4.0, "केन्द्रीय बैङ्क, नोट निष्कासन", ha="center", va="center", color="white", fontsize=7.4)
+kids = ["वाणिज्य\nबैङ्क", "विकास\nबैङ्क", "वित्त\nकम्पनी", "लघुवित्त", "बचत तथा\nऋण सहकारी", "गैरसरकारी\nसंस्था"]
+for i, k in enumerate(kids):
+    x = 0.15 + i * 1.63
+    ax.add_patch(FancyBboxPatch((x, 0.9), 1.45, 1.2, boxstyle="round,pad=0.02,rounding_size=0.15", fc=SERIES[(i % 5) + 1], ec="none"))
+    ax.text(x + 0.725, 1.5, k, ha="center", va="center", color="white", fontsize=7.6, linespacing=1.2)
+    ax.annotate("", xy=(x + 0.725, 2.15), xytext=(5, 3.7), arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.9))
+ax.text(5, 0.4, "काम: निक्षेप सङ्कलन, कर्जा प्रवाह, विप्रेषण, विदेशी मुद्रा सटही, ऋणपत्र कारोबार, बैङ्क ग्यारेन्टी", ha="center", va="center", color=MUTED, fontsize=7.2)
 ```
 
-| Tax | Meaning | Examples |
+**नेपाल राष्ट्र बैङ्क** ले सबै बैङ्क तथा वित्तीय संस्थालाई स्थापनाको अनुमति दिने
+भएकाले यो "बैङ्कहरूको बैङ्क" हो; यो सरकारको **आर्थिक सल्लाहकार** पनि हो र **नोट
+निष्कासन** को एकाधिकार यसैलाई मात्र छ।
+
+```photo id="soc10/nrb" caption="नेपाल राष्ट्र बैङ्क, केन्द्रीय कार्यालय। नोट निष्कासनको एकाधिकार भएको र सबै बैङ्क तथा वित्तीय संस्थाको नियमन गर्ने केन्द्रीय बैङ्क।" width="58"
+```
+
+### ऋण लिने र समयमै तिर्ने
+
+बैङ्क कर्जा र ऋणबारे ज्ञान पनि वित्तीय शिक्षाकै भाग हो। व्यवसाय सञ्चालन, आकस्मिक
+समस्या, सामाजिक कार्य वा छोराछोरीको पढाइका लागि वित्तीय संस्थाबाट ऋण लिन सकिन्छ।
+ऋण निश्चित समयपछि **साँवा र ब्याजसहित** फिर्ता गर्नुपर्छ। समयमै नतिरे:
+
+- ब्याज र **हर्जाना** सहित बुझाउनुपर्छ;
+- **धितो लिलामी** र कानुनी कारबाही हुन सक्छ;
+- वित्तीय संस्थाको **कालोसूची** मा परिन्छ र अर्को ऋण पाइँदैन;
+- सामाजिक प्रतिष्ठामा आँच आउँछ।
+
+त्यसैले अति आवश्यक कामका लागि मात्र ऋण लिनुपर्छ र किस्ता बुझाउने कामलाई पहिलो
+प्राथमिकतामा राख्नुपर्छ।
+
+::: example घटना अध्ययन: बलबहादुरको च्याउ खेती
+बलबहादुर दुई कट्ठा जमिनमा च्याउ खेती गर्थे र आम्दानी घरमै राख्थे; चोरी हुने डर
+लागिरहन्थ्यो। गाउँमा आएका वित्तीय संस्थाका प्रतिनिधिले खाता खोल्ने प्रक्रिया, चाहिने
+कागजात र धितो राखेर ऋण लिन सकिने कुरा बताए। बलबहादुरले भोलिपल्टै खाता खोलेर बचत
+जम्मा गरे; पछि आफ्नै दुई कट्ठा जमिन धितो राखी ऋण लिएर थप दुई कट्ठा जमिन भाडामा
+लिई तरकारी खेती पनि सुरु गरे।
+
+**(क) बलबहादुरको समस्या कसरी समाधान भयो?** वित्तीय शिक्षाबाट बैङ्कमा पैसा
+सुरक्षित रहने र ब्याज पनि पाइने थाहा पाएपछि उनले खाता खोलेर बचत जम्मा गरे; घरमा
+पैसा चोरी हुने डर हट्यो।
+
+**(ख) व्यवसाय कसरी विस्तार भयो?** बैङ्कमा खाता खोलेपछि उनले जमिन धितो राखेर
+ऋण पाए; त्यसबाट थप जमिन भाडामा लिई तरकारी खेती थपे। यसरी बचत, ऋण र
+उद्यमशीलता जोडिँदा उनको आम्दानी बढ्ने बाटो खुल्यो — यही वित्तीय शिक्षाको फाइदा हो।
+:::
+
+::: note क्रियाकलाप — पाठ ८.४
+**१.** नेपालमा वित्तीय शिक्षाको उपयोगिता उल्लेख गर्दै गाउँमा बस्ने साथीलाई चिठी
+लेख्नुहोस्।
+**२.** वित्तीय शिक्षाका लागि नेपालमा भएका प्रयास खोजी गरी कक्षामा प्रस्तुत गर्नुहोस्।
+**३.** बलबहादुरको घटना अध्ययन गरी प्रश्नको जवाफ लेख्नुहोस् (उत्तर माथिको उदाहरणमा)।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. वित्तीय शिक्षा भनेको के हो?**
+आफूसँग भएको आर्थिक तथा वित्तीय साधनको महत्त्व बुझी आम्दानी, खर्च, बजेट, बचत, ऋण
+र लगानीको उचित व्यवस्थापन गर्न सक्ने ज्ञान, सिप र क्षमतालाई वित्तीय शिक्षा वा
+वित्तीय साक्षरता भनिन्छ। यसले व्यक्तिलाई कमाउने, बचाउने, विवेकपूर्ण खर्च गर्ने र
+सुरक्षित लगानी गर्ने बनाउँछ। नेपालमा वित्तीय साक्षरता करिब १८ प्रतिशत मात्र छ।
+
+**२. वित्तीय शिक्षाको महत्त्व उल्लेख गर्नुहोस्।**
+(क) कमाउने, बचाउने, खर्च गर्ने, ऋण लिने र लगानी गर्ने सिप दिन्छ। (ख) व्यक्तिगत
+बजेट बनाएर विवेकशील खर्च र नियमित बचत गर्न सिकाउँछ। (ग) बैङ्किङ सेवाबाट धनको
+सुरक्षा र वृद्धि गर्न सघाउँछ। (घ) निक्षेप र ऋण प्रक्रिया, वित्तीय संस्थाका काम र
+आफ्ना अधिकारबारे सचेत बनाउँछ। (ङ) ऋणको सही प्रयोग र समयमै भुक्तानीको बानी
+बसाल्छ, कालोसूची र धितो लिलामीबाट जोगाउँछ। (च) ठगी, हुन्डी र अनधिकृत संस्थाबाट
+बचाउँछ। (छ) सबै वर्गलाई सुखी, सुरक्षित भविष्य र आर्थिक सम्पन्नतातर्फ डोर्‍याउँछ।
+
+**३. वित्तीय प्रणाली भनेको के हो? नेपालको वित्तीय प्रणाली सम्बन्धमा चर्चा
+गर्नुहोस्।**
+बचत सङ्कलन, कर्जा प्रवाह, भुक्तानी तथा रकम स्थानान्तरण गर्ने र यसको नियमन गर्ने
+संस्था तथा नियमको समग्र संरचना वित्तीय प्रणाली हो। नेपालको वित्तीय प्रणालीको
+केन्द्रमा **नेपाल राष्ट्र बैङ्क** छ। यो बैङ्कहरूको बैङ्क हो — सबै बैङ्क तथा वित्तीय
+संस्थालाई अनुमति र निर्देशन दिन्छ, नोट निष्कासनको एकाधिकार राख्छ र सरकारको आर्थिक
+सल्लाहकार हो। यसको मातहतमा **वाणिज्य बैङ्क, विकास बैङ्क, वित्त कम्पनी र लघुवित्त**
+छन्; साथै **बचत तथा ऋण सहकारी** र लघुवित्त कारोबार गर्ने **गैरसरकारी संस्था** पनि
+छन्। यी संस्थाले निक्षेप सङ्कलन, कर्जा प्रवाह, विप्रेषण, विदेशी मुद्रा सटही, सरकारी
+ऋणपत्र कारोबार र बैङ्क ग्यारेन्टी जस्ता काम गर्छन्।
+
+**४. बैङ्कबाट ऋण लिएर कुनै व्यवसाय सञ्चालन गर्दा ध्यान दिनुपर्ने कुराहरूको सूची
+तयार गर्नुहोस्।**
+- व्यवसायको योजना, बजार र सम्भावित आम्दानीको राम्रो अध्ययन गर्ने।
+- आवश्यक जति मात्र ऋण लिने; सम्भव भए आफ्नो पनि केही पुँजी लगाउने।
+- विभिन्न बैङ्कको ब्याजदर, सेवा शुल्क र सर्त तुलना गर्ने।
+- साँवा–ब्याज र किस्ताको तालिका बुझेर मात्र सम्झौतामा सही गर्ने।
+- ऋणको रकम जुन कामका लागि लिएको हो, त्यसैमा लगाउने।
+- किस्ता समयमै तिर्ने; ढिला भए हर्जाना, कालोसूची र धितो लिलामी हुन्छ।
+- व्यवसाय र धितोको बिमा गर्ने; आम्दानी–खर्चको हिसाब राख्ने।
+- इजाजतप्राप्त बैङ्क वा वित्तीय संस्थाबाट मात्र ऋण लिने।
+
+## ८.५ वित्तीय उपकरण
+
+विद्यालयमा "वित्तीय उपकरण" शीर्षकमा प्रवचन कार्यक्रम चल्दै छ। तीन संस्थाका वक्ता
+पालैपालो प्रस्तुति दिन्छन्:
+
+| वक्ता | संस्था | विषय |
 |---|---|---|
-| **Direct tax** | Paid by the person on whom it falls; cannot be shifted | **Income tax**, corporate tax, property and land tax, vehicle tax |
-| **Indirect tax** | Collected from the seller but paid in the end by the consumer in the price | **Value Added Tax (VAT, 13%)**, excise duty, **customs duty** |
+| हरिशरण कार्की | नेपाल बैङ्क लिमिटेड | बैङ्क खाता, विद्युतीय बैङ्किङ, एटिएम र क्रेडिट कार्ड, बैङ्किङ एप |
+| दिनेश थापा | नेपाल राष्ट्र बैङ्क | सफा नोट नीति |
+| मिना आचार्य | धितोपत्र बोर्ड | धितोपत्र, सेयर र डिम्याट खाता |
 
-Non-tax revenue includes fees (passport, licence, registration), fines, royalty from mountain climbing and hydropower, **dividends** and profits of state-owned companies. Foreign grants and loans are **not** revenue.
+### (क) बैङ्क खाता
 
-::: example Computing VAT
-**Problem.** A shop sells a school bag for Rs 2,000 before tax. VAT is 13%. Find the VAT and the price the buyer pays.
+बैङ्क तथा वित्तीय संस्थामा सर्वसाधारणलाई कारोबार गर्न व्यक्ति वा संस्थाको नाममा
+रहेको विवरण नै **बैङ्क खाता** हो। यसमा रकम जम्मा गर्न र आवश्यक परे झिक्न सकिन्छ।
+बैङ्कले रकम झिक्न **चेकबुक** र कारोबारको विवरण हेर्न **बैङ्क स्टेटमेन्ट** दिन्छ।
 
-**Solution.** VAT = 13% of 2,000 = 0.13 × 2,000 = **Rs 260**.
-Price paid = 2,000 + 260 = **Rs 2,260**.
-The shopkeeper deposits the Rs 260 with the Inland Revenue Department; the buyer actually bears the tax.
+**खाता कसरी खोल्ने?** नागरिकताको प्रमाणपत्र, फोटो, आवेदन फाराम, आवश्यक न्यूनतम
+रकम र दस्तखत नमुना फाराम चाहिन्छ। नाबालकको खातामा संरक्षकका रूपमा अभिभावकको
+नागरिकताको प्रतिलिपि, फोटो र दस्तखत चाहिन्छ। ग्राहकको पहिचान पूर्ण रूपमा झल्कने गरी
+पारिवारिक विवरण र बाबुबाजेको नाम दिनुपर्छ। आजकल अनलाइनबाटै खाता खोल्न, रकम
+झिक्न र पठाउन सकिन्छ।
+
+बैङ्क खाता तीन किसिमका हुन्छन्:
+
+| आधार | चल्ती खाता | बचत खाता | मुद्दती खाता |
+|---|---|---|---|
+| रकम जम्मा | जति पटक पनि | जति पटक पनि | एकै पटक, तोकिएको अवधिका लागि |
+| रकम झिक्ने | एकै दिन जति पटक र जति पनि | बैङ्कले तोकेको सीमाभित्र | अवधि पुगेपछि मात्र |
+| ब्याज | पाइँदैन | निश्चित ब्याज पाइन्छ | सबैभन्दा बढी ब्याज |
+| उपयुक्त | उद्योगी, व्यापारी, कार्यालय | साना बचत गर्ने व्यक्ति र संस्था | लामो समय रकम नचाहिने लगानीकर्ता |
+
+**मुद्दती खाता** ३ महिना, ६ महिना, १ वर्ष, २ वर्ष र ५ वर्षसम्मको अवधि तोकेर खोलिन्छ।
+बिचमै रकम चाहिए **मुद्दती रसिद धितो राखेर** कर्जा लिन मिल्छ, तर मुद्दती निक्षेपमा
+पाउनेभन्दा बढी ब्याज बैङ्कलाई तिर्नुपर्छ।
+
+### (ख) विद्युतीय बैङ्किङ (ई–बैङ्किङ)
+
+विद्युतीय मेसिन र प्रविधिको सहायताले बैङ्कले ग्राहकलाई दिने वित्तीय सेवालाई
+**विद्युतीय बैङ्किङ** भनिन्छ। यसअन्तर्गत **एसएमएस बैङ्किङ, डेबिट/क्रेडिट कार्ड,
+इन्टरनेट बैङ्किङ र मोबाइल बैङ्किङ** पर्छन्। यसले नगद कारोबार घटाएको छ र भुक्तानीका
+लागि पैसा बोकिरहनुपर्ने झन्झटबाट मुक्त गरेको छ।
+
+### (ग) एटिएम (डेबिट) कार्ड
+
+खाता खोलेपछि बैङ्कले दिने कार्डबाट **स्वचालित टेलर मेसिन (एटिएम)** को सहायताले रकम
+झिक्न सकिन्छ। **गोप्य पिन नम्बर** प्रयोग गरी बैङ्कले तोकेको सीमाभित्र रकम झिकिन्छ।
+खातामा भएको रकम मात्र झिक्न सकिने भएकाले यसलाई **डेबिट कार्ड** पनि भनिन्छ। बैङ्क
+बन्द भएका बेला पनि जुनसुकै समय रकम झिक्न सकिन्छ।
+
+### (घ) क्रेडिट कार्ड
+
+विश्वासिला ग्राहकले खातामा मौज्दात नभए पनि वस्तु तथा सेवा किन्न सकून् भनेर बैङ्कले
+दिने विद्युतीय कार्ड **क्रेडिट कार्ड** (उधारो कार्ड) हो। प्रयोगको तरिका डेबिट कार्डकै
+जस्तो हो, तर खर्च गर्ने **निश्चित सीमा** तोकिएको हुन्छ। ग्राहकले पछि रकम भएका बेला
+बैङ्कलाई कर्जा तिर्छ। यो सुविधाबापत बैङ्कले ग्राहकबाट शुल्क लिन्छ।
+
+### (ङ) बैङ्किङ एप
+
+मोबाइलको बैङ्किङ एपबाट मौज्दात हेर्न, रकम थपिएको–घटेको जानकारी पाउन, अर्काको
+खातामा रकमान्तर गर्न र बिजुली, पानी, फोन जस्ता बिल तिर्न सकिन्छ।
+
+### सफा नोट नीति
+
+नेपाल राष्ट्र बैङ्कका दिनेश थापाका अनुसार नोटलाई जतनसाथ प्रयोग गर्नुपर्छ:
+
+- नोट राख्न अनिवार्य रूपमा **मनी ब्याग** (पर्स) प्रयोग गर्ने बानी बसाल्ने।
+- नोटमा **केरमेट नगर्ने**।
+- पूजा गर्दा वा काम गर्दा रङ लागेका र मैलिएका हातले नोट नछुने।
+- नोटमा **टाँचा वा स्टिच** नलगाउने — यसले नोट च्यातिन्छ, निकाल्न गाह्रो हुन्छ र
+  नोटको आयु घट्छ।
+
+### धितोपत्र र सेयर
+
+::: definition धितोपत्र र सेयर
+सरकार वा कुनै कम्पनीले **पुँजी सङ्कलन** गर्न जारी गरेको वित्तीय औजारलाई **धितोपत्र**
+भनिन्छ — जस्तै सरकारी ऋणपत्र, डिबेन्चर, सेयर र बन्ड। कम्पनीको पुँजीको एउटा भाग
+(कित्ता) लाई **सेयर** भनिन्छ। सामान्यतया प्रति कित्ता सेयरको **अङ्कित मूल्य रु. १००**
+कायम गरिन्छ। सेयर खरिद गर्ने कम्पनीका हिस्सेदार (मालिक) हुन्; कम्पनीको नाफा–नोक्सानमा
+उनीहरूको सेयर कित्ताअनुसार हिस्सा हुन्छ।
 :::
 
-### Tax and the three tiers of government
+**सेयरको महत्त्व:** सेयरबाट सङ्गठित संस्थाले व्यवसाय विस्तार र उत्पादन गर्न पुँजी
+पाउँछ; लगानीकर्ताले लगानीको अवसर पाउँछन्; छरिएर रहेको बचत उद्योगधन्दामा लगानी
+हुन्छ; देशको आर्थिक विकासमा सर्वसाधारणको पनि योगदान पुग्छ।
 
-| Level | Main taxes (Constitution of Nepal) |
-|---|---|
-| **Federal** | Customs, VAT, excise, income tax, passport and visa fees |
-| **Province** | Vehicle tax, house-land registration, entertainment tax, agricultural income tax |
-| **Local** | Property tax, house rent tax, business tax, land revenue, advertisement, service fees |
+| आधार | अग्राधिकार सेयर | साधारण सेयर |
+|---|---|---|
+| लाभांश पाउने क्रम | अरू सेयरभन्दा पहिले | अग्राधिकार सेयरलाई बाँडेपछि बाँकी नाफाबाट |
+| लाभांशको दर | निश्चित | नाफाअनुसार घटबढ |
+| बैठकमा भाग र मताधिकार | हुँदैन | हुन्छ (कम्पनीको मालिक) |
+| जोखिम | कम | बढी |
+| उपयुक्त | जोखिम उठाउन नचाहने लगानीकर्ता | बढी जोखिम उठाउन तयार लगानीकर्ता |
 
-The **fiscal year** runs from **1 Shrawan to the end of Ashadh**. The Finance Minister presents the **budget** (the annual estimate of income and expenditure) to the Federal Parliament on **15 Jestha**. If expenditure is greater than revenue, the gap is the **budget deficit**, financed by borrowing and foreign aid. In recent years the total budget has been roughly Rs 1.7 trillion (about Rs 17 kharba), most of it financed from domestic revenue.
+सेयरमा लगानी गर्नुअघि कुन कम्पनीको सेयर किन्ने हो, त्यसको अवस्था राम्ररी बुझ्नुपर्छ।
+सेयर कारोबारका लागि अहिले **डिम्याट खाता** अनिवार्य छ। डिम्याट खाता त्यस्तो
+**विद्युतीय खाता** हो जसमा लगानीकर्ताले आफ्नो सेयर कागजी प्रमाणपत्रको सट्टा
+विद्युतीय रूपमा राख्छ।
 
-### Why pay tax?
+### विप्रेषण, हुन्डी र क्रिप्टोकरेन्सी
 
-It builds schools, hospitals and roads, pays teachers and police, supports poor families through social security, reduces inequality (richer persons pay more), and maintains the state. Citizens should take a **PAN**, demand bills and pay honestly; tax evasion is a crime. Tax collection is helped by the **Inland Revenue Department** and the **Department of Customs**.
+एक ठाउँबाट अर्को ठाउँमा पैसा पठाउने वा झिकाउने कामलाई **विप्रेषण** भनिन्छ।
+नेपाल सरकारबाट इजाजत पाएका माध्यम (बैङ्क, इजाजतप्राप्त रेमिट कम्पनी) भरपर्दो र
+सुरक्षित मानिन्छन्। देश–विदेशमा कमाएको रकम निजी व्यापारी, प्रतिनिधि वा दर्ता नभएका
+संस्थामार्फत पठाउने कामलाई **हुन्डी** भनिन्छ। हुन्डी वा व्यक्तिमार्फत पैसा पठाउनु
+विश्वासिलो हुँदैन र यस्तो कारोबार **गैरकानुनी** हो।
 
-## 8.9 Periodic plans
+सूचना प्रविधिसँगै मुद्राको नयाँ रूप **क्रिप्टोकरेन्सी** आएको छ। "क्रिप्टो" को अर्थ गुप्त र
+"करेन्सी" को अर्थ मुद्रा हो। यो सङ्केताक्षर (कोड) द्वारा सुरक्षित, भौतिक अस्तित्व
+नभएको विद्युतीय वा आभासी (भर्चुअल) मुद्रा हो; कारोबार सुरक्षित राख्न, रुजु गर्न र नयाँ
+मुद्रा निकाल्न कोडको सहारा लिइन्छ। बिटक्वाइन, इथिरियम, रिपल, लाइटक्वाइन र मोनेरो
+यसका प्रकार हुन्। **क्रिप्टोकरेन्सी नेपालमा प्रतिबन्धित छ।**
 
-A **plan** is a written programme for reaching goals within a certain time using available resources. A **periodic plan** (usually of five years) states the country's objectives, strategies, targets, projects and budgets for that period.
+::: example विप्रेषण र भर्चुअल मुद्रासम्बन्धी प्रश्न
+**(क) विप्रेषणको महत्त्व उल्लेख गर्नुहोस्।** विप्रेषणले विदेशमा काम गर्नेका परिवारको
+गुजारा, पढाइ र उपचार चलाउँछ, गरिबी घटाउँछ, देशमा विदेशी मुद्राको सञ्चिति बढाउँछ र
+बैङ्कमा निक्षेप थपेर लगानीका लागि पुँजी दिन्छ। इजाजतप्राप्त माध्यमबाट आए यो
+सरकारको अभिलेखमा पनि आउँछ।
 
-### Why plan?
+**(ख) हुन्डीबाट किन कारोबार गर्नुहुँदैन?** हुन्डी गैरकानुनी हो; पैसा नआइपुगे उजुरी गर्ने
+ठाउँ हुँदैन; ठगीको जोखिम हुन्छ; देशमा आउनुपर्ने विदेशी मुद्रा भित्रिँदैन; यसको अभिलेख
+नहुँदा कालोधन, कर छली र अवैध कारोबार बढ्छन्।
 
-Resources are limited and needs are unlimited; planning sets priorities, avoids duplication, directs money to the most useful projects, measures progress, and helps to coordinate the three tiers of government.
+**(ग) १० वर्षपछि भर्चुअल मुद्राको अवस्था कस्तो होला?** (अनुमान) डिजिटल भुक्तानी
+बढ्नेछ र नगद कारोबार घट्नेछ; केन्द्रीय बैङ्कले जारी गरेका नियमित विद्युतीय मुद्रा आउन
+सक्छन्, तर अस्थिर मूल्य र ठगीका कारण निजी क्रिप्टोकरेन्सी धेरै देशमा प्रतिबन्धित नै
+रहन सक्छ।
+:::
 
-### Nepal's planning
+::: note क्रियाकलाप — पाठ ८.५
+**१.** सेयर कारोबार गर्ने व्यक्तिलाई "सेयरमा लगानी गर्नु जुवा खेल्नुजस्तै हो" भन्ने
+भनाइबारे सोधी कक्षामा प्रस्तुत गर्नुहोस्। (सङ्केत: हल्लाको भरमा किनबेच गरे जुवाजस्तै;
+कम्पनी बुझेर दीर्घकालीन लगानी गरे उत्पादनमूलक लगानी।)
+**२.** नजिकैको वित्तीय संस्थामा सेयर के हो, लिन के गर्नुपर्छ र फाइदा के छन् सोधी लेख
+तयार गर्नुहोस्।
+**३.** वैदेशिक रोजगारीबाट फर्केका व्यक्तिलाई पैसा केबाट पठाउनुहुन्थ्यो, विप्रेषण र
+हुन्डीमा के फरक छ भनी सोधेर प्रस्तुत गर्नुहोस्।
+**४.** व्यापारी मामाका लागि **चल्ती खाता** उपयुक्त हुन्छ, किनभने दिनमै धेरै पटक रकम
+जम्मा गर्न र झिक्न सकिन्छ।
+**५.** विप्रेषण र क्रिप्टोकरेन्सीसम्बन्धी अनुच्छेदका प्रश्न (उत्तर माथिको उदाहरणमा)।
+**परियोजना कार्य:** नजिकैको बैङ्कमा खाता खोल्न चाहिने कागजात, प्रक्रिया, भौचर, चेक र
+विद्युतीय कार्डबारे जानकारी लिई प्रतिवेदन तयार गर्नुहोस्।
+:::
 
-| Item | Fact |
-|---|---|
-| First plan | **First Five-Year Plan 2013 BS (1956 AD)**: Nepal was one of the first South Asian countries to plan |
-| Body | **National Planning Commission (NPC)**, headed by a Vice-Chairperson under the Prime Minister |
-| Recent plans | **Fifteenth Plan (2076/77–2080/81)**: "Prosperous Nepal, Happy Nepali"; **Sixteenth Plan (2081/82–2085/86)** |
-| Long-term vision | Vision 2100 and the goals of the **Sustainable Development Goals** by 2030 |
-| Milestone | Graduation from the **Least Developed Country (LDC)** status, scheduled for November 2026 |
-| Local level | Each province and each local government prepares its own periodic and annual plans |
+### पाठको अभ्यास: नमुना उत्तर
 
-```figure caption="The planning cycle: each stage leads to the next, and evaluation feeds back into the next plan."
-import matplotlib.pyplot as plt
-import numpy as np
-fig, ax = plt.subplots(figsize=(4.6,3.2))
-steps=["Identify needs\nand set goals","Prepare the plan\nand budget","Approve","Implement\nprojects","Monitor and\nevaluate"]
-n=len(steps)
-for i,s in enumerate(steps):
-    th = np.pi/2 - 2*np.pi*i/n
-    x,y = 1.5*np.cos(th), 1.15*np.sin(th)
-    ax.text(x,y,s,ha="center",va="center",fontsize=7.8,color=INK,bbox=dict(boxstyle="round,pad=0.35",fc="#dbe9f7",ec=INK,lw=0.8))
-for i in range(n):
-    t1 = np.pi/2 - 2*np.pi*i/n - 0.38
-    t2 = np.pi/2 - 2*np.pi*(i+1)/n + 0.38
-    ax.annotate("",xy=(1.5*np.cos(t2),1.15*np.sin(t2)),xytext=(1.5*np.cos(t1),1.15*np.sin(t1)),arrowprops=dict(arrowstyle="-|>",color=MUTED,connectionstyle="arc3,rad=-0.25"))
-ax.set_xlim(-2.5,2.5); ax.set_ylim(-1.8,1.8); ax.axis("off")
+**१. नोट सफा राख्ने उपाय लेख्नुहोस्।**
+(क) नोट राख्न मनी ब्याग वा पर्स प्रयोग गर्ने, खल्तीमा खाँदेर नराख्ने; (ख) नोटमा
+केरमेट नगर्ने, केही नलेख्ने; (ग) पूजा गर्दा वा काम गर्दा रङ लागेका र मैलिएका हातले
+नोट नछुने; (घ) नोटमा टाँचा वा स्टिच नलगाउने, किनभने यसले नोट च्यात्छ र आयु घटाउँछ;
+(ङ) नोट नपट्याउने, नखुम्च्याउने र भिजाउने काम नगर्ने; (च) सम्भव भए विद्युतीय
+भुक्तानी प्रयोग गर्ने।
+
+**२. सेयरको महत्त्व उल्लेख गर्नुहोस्।**
+(क) कम्पनीले व्यवसाय विस्तार र उत्पादनका लागि पुँजी जुटाउँछ। (ख) लगानीकर्ताले
+लाभांश र सेयरको मूल्य वृद्धिबाट आम्दानी गर्ने अवसर पाउँछन्। (ग) सर्वसाधारणसँग छरिएर
+रहेको सानो बचत उद्योगधन्दामा लगानी हुन्छ। (घ) सेयरधनी कम्पनीका हिस्सेदार बन्छन्।
+(ङ) उद्योग फस्टाउँदा रोजगारी र उत्पादन बढ्छ। (च) देशको आर्थिक विकासमा
+सर्वसाधारणको पनि सहभागिता हुन्छ।
+
+**३. नेपालमा प्रचलित वित्तीय उपकरणको सूची बनाई प्रत्येकको छोटकरीमा व्याख्या
+गर्नुहोस्।**
+(क) **बैङ्क खाता** — रकम जम्मा गर्ने र झिक्ने खाता; चल्ती, बचत र मुद्दती। (ख) **चेक**
+— खाताबाट रकम झिक्ने लिखित आदेश। (ग) **विद्युतीय बैङ्किङ** — एसएमएस, इन्टरनेट र
+मोबाइल बैङ्किङबाट नगदबिना कारोबार। (घ) **एटिएम/डेबिट कार्ड** — आफ्नै रकम पिन
+नम्बरले जुनसुकै समय झिक्ने कार्ड। (ङ) **क्रेडिट कार्ड** — तोकिएको सीमासम्म उधारोमा
+किनमेल गर्ने कार्ड। (च) **बैङ्किङ एप** — मौज्दात हेर्ने, रकमान्तर र बिल भुक्तानी। (छ)
+**धितोपत्र** — सरकारी ऋणपत्र, डिबेन्चर, बन्ड र सेयर। (ज) **डिम्याट खाता** — सेयर
+विद्युतीय रूपमा राख्ने खाता।
+
+**४. सेयर लिनका लागि अपनाउनुपर्ने प्रक्रिया उल्लेख गर्नुहोस्।**
+(१) आफ्नो नाममा **बैङ्क खाता** खोल्ने। (२) निक्षेप सदस्य (बैङ्क वा धितोपत्र कम्पनी)
+मार्फत **डिम्याट खाता** खोल्ने र ग्राहक पहिचान विवरण भर्ने। (३) सेयर किन्न आवेदन
+दिने अनलाइन सुविधा (जस्तै "मेरो सेयर") र बैङ्कबाट आवेदन रकम रोक्का गर्ने सुविधा
+लिने। (४) कम्पनीले सर्वसाधारणका लागि पहिलो पटक सेयर निष्कासन गर्दा तोकिएको कित्ता
+(अङ्कित मूल्य सामान्यतया रु. १०० प्रति कित्ता) का लागि आवेदन दिने; बाँडफाँट हुँदा
+सेयर डिम्याट खातामा आउँछ। (५) पहिले नै बजारमा कारोबार भइरहेको सेयर किन्न
+**धितोपत्र दलाल** मा ग्राहक बनी किनबेच गर्ने। (६) किन्नुअघि कम्पनीको नाफा–नोक्सान र
+अवस्था अध्ययन गर्ने।
+
+**५. डिम्याट खाता भनेको के हो, यसका उपयोगिता उल्लेख गर्नुहोस्।**
+लगानीकर्ताले आफ्नो सेयर कागजी प्रमाणपत्रको सट्टा **विद्युतीय रूपमा** राख्ने खातालाई
+डिम्याट खाता भनिन्छ; अहिले सेयर कारोबार गर्न यो अनिवार्य छ। **उपयोगिता:** (क)
+प्रमाणपत्र हराउने, च्यातिने वा चोरी हुने डर हट्छ; (ख) सेयर किनबेच र नामसारी छिटो हुन्छ;
+(ग) आफ्ना सबै सेयरको विवरण एकै ठाउँ हेर्न सकिन्छ; (घ) बोनस सेयर र हकप्रद सेयर
+सिधै खातामा आउँछन्; (ङ) नक्कली सेयरको सम्भावना हट्छ र कारोबार पारदर्शी हुन्छ।
+
+**६. डेबिट कार्ड र क्रेडिट कार्डका बिचमा फरक छुट्याउनुहोस्।**
+
+| आधार | डेबिट कार्ड | क्रेडिट कार्ड |
+|---|---|---|
+| रकम | खातामा भएको आफ्नै रकम मात्र | मौज्दात नभए पनि बैङ्कले दिएको उधारो |
+| नाम | एटिएम कार्ड पनि भनिन्छ | उधारो कार्ड भनिन्छ |
+| कसलाई | खाता भएका सबै ग्राहक | बैङ्कका विश्वासिला ग्राहक |
+| सीमा | खाताको मौज्दात र दैनिक सीमा | बैङ्कले तोकेको कर्जा सीमा |
+| भुक्तानी | तुरुन्तै खाताबाट कटौती | पछि बैङ्कलाई तिर्नुपर्ने; ढिला भए ब्याज |
+
+## ८.६ सहकारी
+
+### घटना: व्यास गाउँपालिकाको सहकारी
+
+दार्चुला जिल्लाको **व्यास गाउँपालिका** मा लगभग **२,१०० घरपरिवार** बस्छन्। पाँच वर्षअघिसम्म
+उनीहरूको आर्थिक अवस्था कमजोर थियो; दिनभर श्रम गरेर गुजारा चलाउँथे र खेती गर्न
+पाखोबारी मात्र थियो। वडा कार्यालयका प्रतिनिधिले गाउँलेको भेला गराई सहकारीबारे
+जानकारी दिए। सबैले मिलेर **सहकारी विधान** तयार पारे र **गाउँपालिकामा दर्ता** गरे।
+सबै सदस्यले प्रतिमहिना **रु. ५०० अनिवार्य बचत** गर्न थाले। जम्मा रकमबाट आवश्यक
+पर्ने सदस्यलाई निश्चित ब्याजमा ऋण दिइयो। पालैपालो ऋण लिएर कसैले बाख्रा, भैँसी वा
+गाईपालन, कसैले फलफूल–तरकारी खेती, कुखुरापालन वा सानो व्यापार गरे। आज गाउँमा
+**सामाजिक एकता र मेलमिलाप** छ; आवश्यक पर्दा ऋण पाउन सजिलो छ; बचतबाट घर खर्च,
+उपचार र चाडपर्व सहज भएका छन्।
+
+```figure caption="व्यास गाउँपालिकामा सहकारीले ल्याएको परिवर्तनको क्रम।"
+fig, ax = cards([("१. भेला", "वडाले जानकारी दियो"), ("२. विधान र दर्ता", "गाउँपालिकामा दर्ता"),
+                 ("३. मासिक बचत", "प्रति सदस्य रु. ५००"), ("४. ऋण", "निश्चित ब्याजमा पालैपालो"),
+                 ("५. व्यवसाय", "पशुपालन, खेती, व्यापार"), ("६. परिणाम", "आम्दानी, एकता, मेलमिलाप")],
+                cols=3, figsize=(5.8, 2.2), title_size=8.4)
 ```
 
-### Sustainable Development Goals and the plan
-
-Nepal's plans are linked to the 17 **Sustainable Development Goals** (poverty, hunger, health, education, gender equality, clean water, clean energy, decent work, industry, inequality, cities, consumption, climate, ecosystems, peace, partnership), to be achieved by **2030**. The long-term vision (**Samriddha Nepal, Sukhi Nepali**) sets targets such as raising per-person income, reaching universal electrification, increasing access to clean cooking energy and bringing the poverty rate down. Nepal's plans give particular importance to hydropower, agriculture, tourism, infrastructure, education and health.
-
-### Problems of planning
-
-Plans are often too ambitious and unrealistic; weak implementation and delay; frequent changes of government; shortage of budget and skilled people; weak coordination among the three levels; poor monitoring.
-
-::: tip Planning questions
-Know three things: **definition**, **importance** and the **name of the current plan**. If asked to prepare a plan for a ward or a school, write: *objective, activities, responsible persons, time, budget and indicators* in a simple table.
+::: definition सहकारी
+"सह" को अर्थ **मिलेर** र "कारिता" को अर्थ **काम गर्नु** हो। आर्थिक तथा सामाजिक रूपमा
+समान आवश्यकता भएका व्यक्ति मिलेर **स्वेच्छाले** गठन गर्ने संस्थालाई **सहकारी** भनिन्छ।
+सहकारी **"एकका लागि सबै, सबैका लागि एक"** भन्ने सिद्धान्तबाट प्रेरित हुन्छ। यसको उद्देश्य
+व्यक्ति, परिवार, समाज र राष्ट्रको आर्थिक तथा सामाजिक हित र रोजगारी सिर्जनाबाट गरिबी
+निवारण हो।
 :::
 
-## Chapter summary
+### सहकारिताका सात सिद्धान्त
 
-- **Energy** sources are traditional (firewood), commercial (electricity, petroleum, coal) and alternative (solar, biogas, wind). Nepal's hydropower **potential is about 83,000 MW** (about 42,000 MW viable); installed capacity about **3,500 MW**; Upper Tamakoshi 456 MW; exports to India (2021) and Bangladesh (2025).
-- **Tourism** (about 1.2 million visitors in 2019, 6–7% of GDP) is promoted by infrastructure, marketing (Nepal Tourism Board, 1998), safety, product variety and local involvement.
-- **Employment:** wage, self, formal, informal, foreign. **Remittance** exceeds one-fifth of GDP. Jobs at home need TVET, enterprise support, the PM Employment Programme and the Labour Act.
-- **Financial education** covers income, budget, saving, borrowing and investing. Budget: saving = income − expenditure.
-- **Financial instruments:** cash, cheque, draft, cards, digital wallets, shares (NEPSE), bonds, mutual funds; NRB regulates.
-- **Cooperatives**: voluntary, one member one vote; savings-credit, agriculture, dairy; one of the three pillars of the economy.
-- **Savings** (S.I. = PRT/100; compound A = P(1+R/100)ⁿ) and **insurance** (life and non-life; premium, policy, claim).
-- **Revenue** = tax (direct, indirect: VAT 13%) + non-tax; fiscal year 1 Shrawan–Ashadh end; budget on 15 Jestha.
-- **Periodic plans** guide development: First plan 2013 BS, NPC, Sixteenth Plan (2081/82–2085/86).
+```figure caption="सहकारिताका सात सिद्धान्त (पाठ्यपुस्तकअनुसार)।"
+fig, ax = cards([("१. स्वैच्छिक र खुला सदस्यता", "चाहने जो कोही सदस्य बन्न सक्ने"),
+                 ("२. प्रजातान्त्रिक नियन्त्रण", "सदस्यले नै सञ्चालन गर्ने"),
+                 ("३. आर्थिक सहभागिता", "सदस्यको समान सेयर लगानी"),
+                 ("४. स्वायत्तता र स्वतन्त्रता", "बाहिरी नियन्त्रणबाट मुक्त"),
+                 ("५. शिक्षा, तालिम, सूचना", "सदस्यको क्षमता विकास"),
+                 ("६. अन्तरसहकारी सहयोग", "सहकारीबिच हातेमालो"),
+                 ("७. समुदायप्रति चासो", "समाज र वातावरणको हित"),
+                 ("मूल मन्त्र", "एकका लागि सबै, सबैका लागि एक")],
+                cols=2, figsize=(5.8, 3.4), title_size=8.2)
+```
 
-## Practice questions
+### सहकारी सञ्चालनका आधारभूत सर्त
 
-**Group A — Objective questions (1 mark each)**
+सहकारिताको मूल्यमान्यता र सिद्धान्तबमोजिम सहकारी चलाउन यी सर्त पूरा हुनुपर्छ:
 
-1. Which of the following is a traditional source of energy? <span class="marks">[1]</span>
-   (a) Solar (b) Firewood (c) Electricity (d) Biogas
-2. The largest hydropower plant of Nepal now operating is <span class="marks">[1]</span>
-   (a) Kulekhani I (b) Kali Gandaki A (c) Upper Tamakoshi (d) Marsyangdi
-3. Money sent home by Nepalis working abroad is called <span class="marks">[1]</span>
-   (a) revenue (b) remittance (c) grant (d) dividend
-4. VAT is an example of <span class="marks">[1]</span>
-   (a) direct tax (b) indirect tax (c) non-tax revenue (d) grant
-5. The central bank of Nepal is <span class="marks">[1]</span>
-   (a) Nepal Bank Limited (b) Rastriya Banijya Bank (c) Nepal Rastra Bank (d) Agricultural Development Bank
-6. The periodic plan currently in force starts in the fiscal year <span class="marks">[1]</span>
-   (a) 2076/77 (b) 2079/80 (c) 2081/82 (d) 2084/85
-7. The regular payment for an insurance policy is the <span class="marks">[1]</span>
-   (a) claim (b) premium (c) dividend (d) interest
-8. The voting rule in a cooperative is <span class="marks">[1]</span>
-   (a) one share one vote (b) one member one vote (c) the rich decide (d) the manager decides
+- १. सहकारी **स्वैच्छिक र स्वायत्त** संस्था हो।
+- २. सदस्यबिच **सेयर लगानीमा समान सहभागिता** हुनुपर्छ।
+- ३. सहकारीका सेयर सदस्य नै सहकारीका **मालिक र ग्राहक दुवै** हुन्छन्।
+- ४. नियमअनुसार सदस्यता पाएका व्यक्तिबाट मात्र बचत सङ्कलन र उनीहरूमै ऋण लगानी
+  गर्नुपर्छ।
+- ५. वित्तीय विकाससँगै सामाजिक विकास र वातावरण संरक्षणको दायित्व पनि निभाउनुपर्छ।
+- ६. संस्था सञ्चालनको कार्यविधि र नियम सदस्यले नै बनाउनुपर्छ।
+- ७. संस्थाको दीर्घकालीन सोच सदस्यको आर्थिक, सामाजिक, सांस्कृतिक र व्यावसायिक
+  उन्नतिमा सहयोग गर्ने हुनुपर्छ।
 
-::: note Answers to Group A
-**1.** (b): firewood is biomass.
-**2.** (c): 456 MW.
-**3.** (b): remittance.
-**4.** (b): the consumer ultimately pays it in the price.
-**5.** (c): the Nepal Rastra Bank.
-**6.** (c): the Sixteenth Plan covers 2081/82 to 2085/86.
-**7.** (b): premium.
-**8.** (b): democratic member control.
+### नेपालको अर्थतन्त्रमा सहकारी
+
+| सूचक | पाठ्यपुस्तकअनुसार योगदान |
+|---|---|
+| कुल गार्हस्थ उत्पादनमा योगदान | ४ प्रतिशत |
+| वित्तीय सेवामा योगदान | २० प्रतिशत |
+| प्रत्यक्ष रोजगारी | लगभग ६२ हजार |
+
+नेपालको संविधानले मार्गदर्शन गरेको आर्थिक विकासको **तीन खम्बे नीति** मा **सरकारी,
+निजी र सहकारी** क्षेत्र पर्छन्; त्यसैले सहकारी आर्थिक विकासको एउटा महत्त्वपूर्ण खम्बा
+हो। सहकारीले आर्थिक असमानता घटाई आत्मनिर्भरता ल्याउँछ; दिगो आर्थिक विकास र
+सांस्कृतिक–सामाजिक समावेशिता कायम गर्छ; **महिला तथा विपन्न वर्गको नेतृत्व क्षमता**
+विकास गर्छ; नागरिकमा वित्तीय साक्षरता फैलाउँछ; निम्न र मध्यम आय भएकामा
+**उद्यमशीलता** जगाउँछ र स्वच्छ प्रतिस्पर्धी व्यावसायिक वातावरण बनाउँछ। नेपालमा कृषि,
+स्वास्थ्य, शिक्षा, यातायात, पर्यटन, सञ्चार र विद्युत् क्षेत्रमा सहकारी पद्धतिबाट व्यवसाय
+चलाउने आकर्षण बढ्दै गएको छ।
+
+::: caution सहकारीका समस्या पनि बुझ्नुहोस्
+कतिपय सहकारी बन्द भएका र सञ्चालक रकम लिएर भागेका समाचार आउँछन्। कारण: सदस्यबाहेकबाट
+बचत लिनु, बढी ब्याजको लोभ, आफन्तलाई धितोबिना ऋण, कमजोर लेखापरीक्षण र अनुगमन।
+समाधान: सदस्यबिच मात्र कारोबार, नियमित साधारणसभा र लेखापरीक्षण, सरकारी अनुगमन,
+सदस्यमा वित्तीय शिक्षा र दोषीमाथि कारबाही।
 :::
 
-**Group B — Short answer (2 marks each)**
-
-1. Mention any two problems of hydropower development in Nepal. <span class="marks">[2]</span>
-2. Give two ways of promoting tourism. <span class="marks">[2]</span>
-3. Differentiate between unemployment and underemployment. <span class="marks">[2]</span>
-4. Rs 40,000 is deposited at 10% simple interest for 2 years. Find the interest. <span class="marks">[2]</span>
-5. Write two functions of the Nepal Rastra Bank. <span class="marks">[2]</span>
-6. What is a periodic plan? <span class="marks">[2]</span>
-
-::: note Answers to Group B
-**1.** High investment cost; delay by landslides, land acquisition and weak management; lack of transmission lines; seasonal flow. (Any two.)
-**2.** Improve airports and roads; market Nepal abroad; protect heritage; involve local people. (Any two.)
-**3.** An unemployed person is willing and able to work but finds no job; an underemployed person has work but fewer hours or below their skill.
-**4.** I = PRT/100 = 40,000 × 10 × 2 ÷ 100 = **Rs 8,000**.
-**5.** Issues notes and coins; controls inflation and credit; regulates banks; banker to the government. (Any two.)
-**6.** A plan, normally of five years, setting out the objectives, strategies, targets, projects and budget for the country.
+::: note क्रियाकलाप — पाठ ८.६
+**१.** पत्रपत्रिका, रेडियो वा टेलिभिजनमा आएका सहकारीसम्बन्धी समाचार सङ्कलन गरी
+कक्षामा छलफल गर्नुहोस्।
+**२.** सहकारीले समाजमा पारेको सकारात्मक प्रभावबारे गीत, कथा, कविता वा समाचार
+तयार गर्नुहोस्।
+**३.** सहकारी क्षेत्रमा देखिएका समस्या (बन्द हुनु, सञ्चालक भाग्नु) र समाधानका उपायबारे
+साथीसँग छलफल गरी निष्कर्ष प्रस्तुत गर्नुहोस् (माथिको सावधानी बाकस हेर्नुहोस्)।
+**परियोजना कार्य:** नजिकैको सहकारीको भ्रमण गरी (क) परिचय, (ख) उद्देश्य, (ग) गर्दै
+आएका काम र (घ) समाजमा पारेको सकारात्मक प्रभाव शीर्षकमा प्रतिवेदन तयार गर्नुहोस्।
 :::
 
-**Group C — Long answer (4 marks each)**
+### पाठको अभ्यास: नमुना उत्तर
 
-1. Explain the importance of hydropower for the development of Nepal. <span class="marks">[4]</span>
-2. Describe the contribution of tourism to the national economy and four ways to promote it. <span class="marks">[4]</span>
-3. What is a cooperative? Write its importance and two problems. <span class="marks">[4]</span>
-4. Why are savings and insurance important? Distinguish between them. <span class="marks">[4]</span>
-5. What is revenue? Classify the sources of revenue with examples. <span class="marks">[4]</span>
+**१. सहकारी भनेको के हो?**
+आर्थिक तथा सामाजिक रूपमा समान आवश्यकता भएका व्यक्ति मिलेर स्वेच्छाले गठन गर्ने र
+सदस्य आफैँ मालिक तथा ग्राहक हुने संस्थालाई सहकारी भनिन्छ। "सह" (मिलेर) र
+"कारिता" (काम गर्नु) मिलेर बनेको यो शब्दले मिलेर काम गर्ने भाव दिन्छ। सहकारी "एकका
+लागि सबै, सबैका लागि एक" को सिद्धान्तमा चल्छ र रोजगारी सिर्जना तथा गरिबी निवारण
+यसको उद्देश्य हो।
 
-::: note Answers to Group C
-**1.** Cheap and clean energy for homes and industry (potential about 83,000 MW); export earnings (India since 2021, Bangladesh since 2025); employment and local development, roads and royalties; irrigation and flood control; less import of fuel; cleaner air.
-**2.** Tourism earns foreign exchange, gives jobs (about 6–7% of GDP), develops hotels, transport, handicrafts and agriculture, and spreads culture. Promotion: infrastructure and airports, advertising by Nepal Tourism Board, new products (pilgrimage, homestay), safety and trained guides, protecting nature and heritage, local participation.
-**3.** A cooperative is a voluntary, democratic organisation of people for common economic and social needs. Importance: mobilises savings, gives loans, creates jobs, helps women and farmers, builds democracy. Problems: misuse of funds, weak monitoring, poor management.
-**4.** Savings: security in emergencies, funds for education and business, investment for growth, old age. Insurance: shares and covers the risk of loss (fire, accident, death, crop loss); pays a claim. Difference: saving is accumulated and withdrawable; insurance gives protection against a specific risk.
-**5.** Revenue is the income of the government. Tax revenue: direct (income tax, property tax) and indirect (VAT, customs, excise). Non-tax revenue: fees, fines, royalty, dividends from public enterprises.
+**२. सहकारीको महत्त्व उल्लेख गर्नुहोस्।**
+(क) साना बचतलाई जम्मा गरेर सदस्यलाई सजिलै ऋण दिन्छ। (ख) स्वरोजगार र
+रोजगारी सिर्जना गरी गरिबी घटाउँछ (६२ हजार प्रत्यक्ष रोजगारी)। (ग) कुल गार्हस्थ
+उत्पादनमा ४ र वित्तीय सेवामा २० प्रतिशत योगदान दिन्छ। (घ) आर्थिक असमानता घटाई
+आत्मनिर्भरता ल्याउँछ। (ङ) महिला तथा विपन्न वर्गको नेतृत्व क्षमता र उद्यमशीलता विकास
+गर्छ। (च) वित्तीय साक्षरता फैलाउँछ। (छ) सामाजिक एकता र मेलमिलाप बढाउँछ। (ज) तीन
+खम्बे अर्थनीतिको एउटा खम्बाका रूपमा राष्ट्रिय विकासमा योगदान दिन्छ।
+
+**३. सहकारीको मूल्यमान्यता र सिद्धान्तबमोजिम सहकारी सञ्चालन हुनका लागि आवश्यक
+आधारभूत सर्तको सूची बनाउनुहोस्।**
+(१) सहकारी स्वैच्छिक र स्वायत्त संस्था हुनुपर्छ। (२) सदस्यबिच सेयर लगानीमा समान
+सहभागिता हुनुपर्छ। (३) सेयर सदस्य नै मालिक र ग्राहक दुवै हुनुपर्छन्। (४) नियमअनुसार
+सदस्यता पाएकाबाट मात्र बचत सङ्कलन र ऋण लगानी गर्नुपर्छ। (५) वित्तीय विकाससँगै
+सामाजिक विकास र वातावरण संरक्षणको दायित्व निभाउनुपर्छ। (६) सञ्चालन कार्यविधि र
+नियम सदस्यले नै बनाउनुपर्छ। (७) दीर्घकालीन सोच सदस्यको आर्थिक, सामाजिक,
+सांस्कृतिक र व्यावसायिक उन्नति हुनुपर्छ।
+
+**४. सहकारीले समाजको आर्थिक तथा सामाजिक विकासमा महत्त्वपूर्ण भूमिका खेल्न सक्छ
+भन्ने भनाइलाई विभिन्न उदाहरणद्वारा प्रस्ट पार्नुहोस्।**
+**आर्थिक:** व्यास गाउँपालिकामा मासिक रु. ५०० बचतबाट सुरु भएको सहकारीको ऋणले
+पशुपालन, फलफूल–तरकारी खेती र सानो व्यापार सुरु भई आम्दानी बढ्यो। राष्ट्रिय स्तरमा
+सहकारीले कुल गार्हस्थ उत्पादनमा ४, वित्तीय सेवामा २० प्रतिशत योगदान र करिब ६२ हजार
+प्रत्यक्ष रोजगारी दिएको छ; दुग्ध र तरकारी सहकारीले किसानलाई बजार दिन्छन्।
+**सामाजिक:** सदस्यबिच एकता र मेलमिलाप बढ्छ; उपचार र चाडपर्वमा बचत काम लाग्छ;
+महिला र विपन्न वर्ग नेतृत्वमा आउँछन्; वित्तीय साक्षरता बढ्छ। त्यसैले सहकारी आर्थिक र
+सामाजिक रूपान्तरणको प्रभावकारी माध्यम हो।
+
+**५. सहकारी संस्था स्थापनाका लागि के के प्रक्रिया पूरा गर्नुपर्छ, लेख्नुहोस्।**
+(१) समान आवश्यकता भएका इच्छुक व्यक्तिको **भेला** गराई सहकारीबारे जानकारी लिने;
+(२) सहकारीको नाम, उद्देश्य, कार्यक्षेत्र र सेयर रकम तय गर्ने; (३) सदस्य मिलेर
+सहकारीको **विधान** तयार गर्ने; (४) विधानसहित सम्बन्धित निकाय (जस्तै स्थानीय तह —
+व्यास गाउँपालिकामा जस्तै गाउँपालिका) मा **दर्ता** गर्ने; (५) सदस्यले सेयर लिने र
+नियमित बचत सुरु गर्ने; (६) साधारणसभाबाट सञ्चालक समिति र लेखा समिति छान्ने; (७)
+सञ्चालन कार्यविधि बनाएर सदस्यबिच कारोबार सुरु गर्ने।
+
+## ८.७ बचत र बिमा
+
+बिमा अभिकर्ता आमा **नर्मदा नेपाली** ले बिमाबारे जिज्ञासा राखेकी छोरी **पूजा** लाई लेखेको
+चिठीबाट यो पाठ सुरु हुन्छ।
+
+::: definition बचत
+आम्दानीबाट तत्कालको आवश्यक खर्च कटाएर भविष्यका लागि छुट्याएर राखिएको रकमलाई
+**बचत** भनिन्छ। आम्दानी − खर्च = बचत। बैङ्क, सहकारी वा बिमामा राखेको बचत सुरक्षित
+रहन्छ, ब्याज वा लाभ दिन्छ र आपत्–विपत्मा काम लाग्छ। त्यसैले "बचत सुरक्षित भविष्यको
+बलियो आधार हो" भनिन्छ।
 :::
 
+### बिमाको परिचय
+
+मानिसको जीवनमा कहिलेकाहीँ नसोचेका घटना अकस्मात् आइपर्छन्। त्यस्तो जोखिम पूरै
+हटाउन नसकिए पनि त्यसबाट हुने आर्थिक नोक्सानी कम गर्न सकिन्छ।
+
+::: definition बिमा, बिमक, बिमित र बिमालेख
+भविष्यमा आउन सक्ने अनिश्चित जोखिमलाई अन्यत्र हस्तान्तरण गरी त्यसबाट हुने क्षतिको
+क्षतिपूर्ति पाउने माध्यमलाई **बिमा** भनिन्छ। बिमा गर्दा **बिमा कम्पनी (बिमक)** र
+**इच्छुक व्यक्ति (बिमित)** बिच सम्झौता हुन्छ। जोखिम हस्तान्तरण गरेबापत बिमा कम्पनीले
+**बिमा शुल्क** लिन्छ। बिमक र बिमितबिच हुने सम्झौताको लिखतलाई **बिमालेख** भनिन्छ।
+:::
+
+```figure caption="बिमाले कसरी काम गर्छ: धेरै बिमितले थोरै थोरै बिमा शुल्क तिर्छन्; जसलाई क्षति पर्छ उसलाई बिमकले क्षतिपूर्ति दिन्छ।"
+fig, ax = flow([("बिमित", "बिमा गर्ने\nव्यक्ति"), ("बिमालेख", "सम्झौता"),
+                ("शुल्क", "नियमित\nभुक्तानी"), ("बिमक", "बिमा\nकम्पनी"),
+                ("क्षतिपूर्ति", "क्षति परे\nरकम")], figsize=(5.8, 1.7))
+```
+
+**नेपालमा बिमाको इतिहास:** वि.सं. **२००४ असोज ८** गते पहिलो बिमा कम्पनीका रूपमा
+**नेपाल माल चलानी तथा वित्त कम्पनी लिमिटेड** स्थापना भयो। सरकारी स्तरबाट वि.सं.
+**२०२५ पुस १** गते **राष्ट्रिय बिमा संस्थान** स्थापना भयो।
+
+### बिमाका प्रकार
+
+**(क) जीवन बिमा:** मानिसको जीवन अनिश्चित छ — घातक रोग, दुर्घटना वा मृत्यु जुनसुकै बेला
+हुन सक्छ। परिवारमा कमाउने व्यक्तिको अचानक मृत्यु भए परिवारमा आर्थिक सङ्कट आउँछ।
+यस्तो जोखिमविरुद्ध आर्थिक सुरक्षाका लागि गरिने बिमा **जीवन बिमा** हो। यो निश्चित
+अवधि (समय, वर्ष) तोकेर बिमा कम्पनी र व्यक्तिबिच गरिने आर्थिक सम्झौता हो। **आजीवन
+बिमा** मा भने बिमितको मृत्युपछि उसले इच्छाएको व्यक्ति (इच्छाइएको व्यक्ति) ले रकम
+पाउँछ। जीवन बिमा एक किसिमको **अनिवार्य बचत** पनि हो — अवधि सकिएपछि एकमुष्ट रकम
+पाइने भएकाले लगानीको अवसर मिल्छ, र अप्ठ्यारो पर्दा बिमा कम्पनीबाटै ऋण लिन पाइन्छ।
+
+**(ख) निर्जीवन बिमा:** घर, पसल, कलकारखाना, कृषि, पशु र सवारीसाधन जस्ता सम्पत्तिमा
+आगलागी, भूकम्प, बाढी, पहिरो, भूक्षय, खडेरी, आँधीबेहरी, असिना वा दुर्घटनाबाट क्षति
+हुन सक्छ। यस्तो सम्पत्तिको क्षतिमा बिमालेखमा तोकिएबमोजिम क्षतिको मूल्याङ्कन गरी
+क्षतिपूर्ति दिने बिमालाई **निर्जीवन बिमा** भनिन्छ। यो सामान्यतया **एक वर्षका लागि**
+गरिन्छ र अवधि सकिएपछि **नवीकरण** गर्नुपर्छ।
+
+| आधार | जीवन बिमा | निर्जीवन बिमा |
+|---|---|---|
+| विषय | मानिसको जीवन र स्वास्थ्य | घर, पसल, बाली, पशु, सवारी जस्ता सम्पत्ति |
+| जोखिम | रोग, दुर्घटना, मृत्यु | आगलागी, भूकम्प, बाढी, पहिरो, असिना, दुर्घटना |
+| अवधि | लामो (वर्षौँ) वा आजीवन | सामान्यतया एक वर्ष, त्यसपछि नवीकरण |
+| बचत | अनिवार्य बचत; अवधिपछि एकमुष्ट रकम | बचत होइन; क्षति भए मात्र क्षतिपूर्ति |
+| उदाहरण | सावधिक जीवन बिमा, आजीवन बिमा | अग्नि बिमा, बाली तथा पशु बिमा, सवारी बिमा |
+
+### बिमा गर्दा ध्यान दिनुपर्ने कुरा
+
+- बिमा अभिकर्ता **आधिकारिक** हो कि होइन, थाहा पाउने।
+- बिमाबाट पाइने सुविधा के के हुन्, कस्तो अवस्थामा कति पाइन्छ — स्पष्ट जानकारी लिएर मात्र
+  बिमा गर्ने।
+- बिमाका कागजात सुरक्षित राख्ने।
+- बिमासम्बन्धी नीति–नियम फेरिन सक्ने भएकाले समय समयमा जानकारी लिइरहने।
+- बिमा गरेको कुरा परिवारका सदस्यलाई जानकारी गराउने।
+- नवीकरण मिति याद गरी तोकिएको समयमा बिमा शुल्क बुझाउने।
+
+```photo id="soc10/rice-terraces" caption="पहाडका गह्रामा धानखेती। बाढी, पहिरो, खडेरी वा असिनाले बाली नष्ट हुन सक्ने भएकाले किसानका लागि बाली तथा पशु बिमा (निर्जीवन बिमा) निकै उपयोगी हुन्छ।" width="60"
+```
+
+::: note क्रियाकलाप — पाठ ८.७
+**१.** "बचत सुरक्षित भविष्यको बलियो आधार हो" शीर्षकमा राष्ट्रिय दैनिकका लागि समाचार
+लेख्नुहोस्।
+**२. कक्षा खुत्रुके:** कक्षाका सबै मिलेर एउटा खुत्रुके किन्नुहोस्; खाजा खर्च वा जगेडा
+रकमबाट प्रत्येक महिना सबैले निश्चित रकम अनिवार्य बचत गर्ने नियम बनाउनुहोस् र त्यो
+रकम कापी–कलम किन्न नसक्ने साथीलाई सहयोग गर्न वा विद्यालयको रचनात्मक काममा
+प्रयोग गर्नुहोस्।
+**३.** "नेपालमा कृषि वा स्वास्थ्य बिमाको महत्त्व" शीर्षकमा वक्तृत्वकला प्रतियोगिता
+गर्नुहोस्।
+**४.** परिवार वा आफन्तले गरेको बिमाको किस्ता, बिमा रकम, अवधि र बिमा कम्पनीले दिने
+सुविधा खोजी गरी कक्षामा प्रस्तुत गर्नुहोस्।
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. बिमा भनेको के हो, यसका प्रकार छोटकरीमा व्याख्या गर्नुहोस्।**
+भविष्यमा आउन सक्ने अनिश्चित जोखिम बिमा शुल्क तिरेर बिमा कम्पनीमा हस्तान्तरण गरी
+क्षति भए क्षतिपूर्ति पाउने सम्झौतालाई बिमा भनिन्छ। बिमा दुई प्रकारका छन्: (क) **जीवन
+बिमा** — रोग, दुर्घटना वा मृत्युबाट परिवारमा आउने आर्थिक सङ्कटविरुद्ध गरिने बिमा; यो
+निश्चित अवधि वा आजीवन हुन्छ, अनिवार्य बचतको काम गर्छ र अवधिपछि एकमुष्ट रकम
+दिन्छ। (ख) **निर्जीवन बिमा** — घर, पसल, कारखाना, बाली, पशु र सवारीसाधन जस्ता
+सम्पत्तिमा आगलागी, भूकम्प, बाढी, पहिरो, असिना वा दुर्घटनाबाट हुने क्षतिको क्षतिपूर्ति
+दिने बिमा; यो सामान्यतया एक वर्षका लागि गरिन्छ र नवीकरण गर्नुपर्छ।
+
+**२. बिमा गर्दा ध्यान दिनुपर्ने कुराहरूको सूची बनाउनुहोस्।**
+(क) अभिकर्ता र बिमा कम्पनी आधिकारिक भए–नभएको जाँच्ने; (ख) बिमाबाट पाइने सुविधा,
+अवस्था र रकम स्पष्ट बुझ्ने; (ग) बिमालेखका सर्त पढेर मात्र सही गर्ने; (घ) कागजात
+सुरक्षित राख्ने; (ङ) नीति–नियमको परिवर्तनबारे जानकारी लिइरहने; (च) परिवारलाई
+बिमाबारे जानकारी दिने; (छ) नवीकरण मिति याद गरी समयमै बिमा शुल्क तिर्ने; (ज) आफ्नो
+आम्दानीअनुसार तिर्न सकिने किस्ता मात्र रोज्ने।
+
+**३. स्वास्थ्य बिमा भनेको कस्तो बिमा हो, यसको महत्त्व उल्लेख गर्नुहोस्।**
+निश्चित बिमा शुल्क तिरेबापत बिरामी वा दुर्घटनामा उपचार, औषधि र अस्पताल भर्नाको खर्च
+तोकिएको सीमासम्म बिमकले बेहोर्ने बिमा **स्वास्थ्य बिमा** हो। नेपालमा सरकारले स्वास्थ्य
+बिमा बोर्डमार्फत परिवारलाई सस्तो शुल्कमा यो कार्यक्रम चलाएको छ। **महत्त्व:** उपचारको
+ठुलो खर्चले परिवार ऋणमा डुब्नबाट जोगाउँछ; गरिबलाई पनि उपचारमा पहुँच दिन्छ; पैसाको
+अभावमा उपचार ढिला हुँदैन; धेरैको सानो शुल्कबाट थोरैको ठुलो खर्च बेहोरिने भएकाले
+सहयोगको भावना बढ्छ।
+
+**४. बिमा गर्नाले जीवनमा आइपर्ने आकस्मिक क्षतिलाई न्यूनीकरण वा कम गराउन सकिन्छ,
+कसरी? छोटकरीमा उल्लेख गर्नुहोस्।**
+बिमाले जोखिम आफैँ हटाउँदैन, तर जोखिमको **आर्थिक भार** बिमा कम्पनीमा सार्छ। धेरै
+व्यक्तिले थोरै थोरै बिमा शुल्क तिर्छन् र जसलाई क्षति पर्छ उसलाई जम्मा रकमबाट
+क्षतिपूर्ति दिइन्छ। उदाहरणका लागि, कोरियामा दुर्घटनामा हात गुमाएका सन्तोषको सबै
+उपचार खर्च बिमा कम्पनीले बेहोर्‍यो। कमाउने सदस्यको मृत्यु भए जीवन बिमाले परिवारलाई
+एकमुष्ट रकम दिन्छ; पसलमा आगलागी वा भूकम्प, बालीमा असिना–बाढी वा गाडी दुर्घटना हुँदा
+निर्जीवन बिमाले क्षतिपूर्ति दिन्छ। यसले परिवारलाई ऋणमा डुब्न र गरिबीमा फस्नबाट
+जोगाउँछ र व्यवसाय फेरि सुरु गर्न सघाउँछ।
+
+## ८.८ राजस्व
+
+विद्यालयबाट घर फर्कँदै गरेका **शान्ता** र **कमल** को भेट वडा कार्यालयमा कर तिरेर
+आउँदै गरेका एक **व्यवसायी** काकासँग हुन्छ। चौतारामा बसेर भएको उनीहरूको कुराकानीबाट
+यो पाठ बनेको छ।
+
+::: definition राजस्व र कर
+सरकारले विभिन्न स्रोतबाट गर्ने आम्दानीलाई **राजस्व** भनिन्छ। राजस्व **कर** र **गैरकर**
+गरी दुई प्रकारका हुन्छन्। कुनै व्यक्ति, फर्म वा कम्पनीले कानुनले तोकेबमोजिम राज्यलाई
+तिर्नुपर्ने **अनिवार्य भुक्तानी** लाई **कर** भनिन्छ। करदाताले कर तिरेबापत सिधै प्रत्यक्ष
+लाभ पाउँदैनन्, तर राज्यले कर रकम सार्वजनिक हित र लोककल्याणकारी काममा खर्च
+गर्छ।
+:::
+
+```figure caption="नेपालमा राजस्वको वर्गीकरण (पाठ्यपुस्तकअनुसार)।"
+from matplotlib.patches import FancyBboxPatch
+fig, ax = plt.subplots(figsize=(5.9, 3.0))
+ax.set_xlim(0, 10); ax.set_ylim(0, 6); ax.axis("off")
+def box(x, y, w, h, t, c, fs=8.2):
+    ax.add_patch(FancyBboxPatch((x - w/2, y - h/2), w, h, boxstyle="round,pad=0.02,rounding_size=0.15", fc=c, ec="none"))
+    ax.text(x, y, t, ha="center", va="center", color="white", fontsize=fs, linespacing=1.2)
+def arr(x1, y1, x2, y2):
+    ax.annotate("", xy=(x2, y2), xytext=(x1, y1), arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=1.0))
+box(5, 5.4, 2.4, 0.8, "राजस्व", ACCENT, 9.5)
+box(3.0, 3.9, 2.2, 0.75, "कर राजस्व", SERIES[1])
+box(8.0, 3.9, 2.4, 0.75, "गैरकर राजस्व", SERIES[4])
+arr(4.5, 5.0, 3.3, 4.3); arr(5.5, 5.0, 7.7, 4.3)
+box(1.5, 2.3, 2.6, 0.75, "प्रत्यक्ष कर", SERIES[2])
+box(4.6, 2.3, 2.6, 0.75, "अप्रत्यक्ष कर", SERIES[3])
+arr(2.6, 3.5, 1.8, 2.7); arr(3.4, 3.5, 4.3, 2.7)
+box(1.5, 0.85, 2.85, 1.35, "आयकर, सम्पत्ति कर,\nभूमि कर, घर कर,\nसवारी कर", SERIES[2], 7.3)
+box(4.6, 0.85, 2.85, 1.35, "मूल्य अभिवृद्धि कर,\nबिक्री कर, अन्तःशुल्क,\nभन्सार महसुल", SERIES[3], 7.3)
+box(8.0, 1.6, 3.2, 2.0, "उपहार तथा अनुदान,\nशुल्क, दण्ड–जरिवाना,\nउत्तराधिकारीविहीन\nसम्पत्ति, सार्वजनिक\nसम्पत्ति", SERIES[4], 7.3)
+arr(8.0, 3.5, 8.0, 2.65)
+```
+
+### प्रत्यक्ष र अप्रत्यक्ष कर
+
+भार र असरका आधारमा कर दुई प्रकारका हुन्छन्:
+
+**प्रत्यक्ष कर:** भार र असर एउटै व्यक्तिमा पर्ने र अर्कोमा सार्न नसकिने कर — आयकर,
+सम्पत्ति कर, भूमि कर, घर कर, सवारी कर। धेरै आम्दानी हुनेले धेरै र कम हुनेले कम तिर्ने
+भएकाले यो **प्रगतिशील** हुन्छ। व्यवसायी काकाले वडा कार्यालयमा तिरेको घरजग्गा र
+व्यवसायको कर तथा ट्रकको सवारी कर प्रत्यक्ष करका उदाहरण हुन्।
+
+**अप्रत्यक्ष कर:** सुरुमा एक व्यक्ति वा संस्थाले तिर्ने तर पछि भार अरूमाथि — वस्तु वा
+सेवा उपभोग गर्नेमाथि — सारिने कर — मूल्य अभिवृद्धि कर, बिक्री कर, अन्तःशुल्क र
+भन्सार महसुल। यो सुविधाजनक र लचकदार हुन्छ, दायरा फराकिलो हुन्छ र छल्न गाह्रो हुन्छ।
+निम्न आय भएकाले उपभोग गर्ने वस्तुमा कम र उच्च आय भएकाले उपभोग गर्ने विलासी वस्तुमा
+बढी कर लगाइने भएकाले यसलाई **समन्यायमा आधारित** मानिन्छ।
+
+| आधार | प्रत्यक्ष कर | अप्रत्यक्ष कर |
+|---|---|---|
+| भार | जसमाथि लाग्छ उसैले बेहोर्छ | उपभोक्तामाथि सारिन्छ |
+| उदाहरण | आयकर, घर कर, भूमि कर, सवारी कर | मूल्य अभिवृद्धि कर, अन्तःशुल्क, भन्सार |
+| प्रकृति | प्रगतिशील — बढी आम्दानी, बढी कर | समन्यायमा आधारित; वस्तुअनुसार दर |
+| दायरा | आम्दानी र सम्पत्ति हुनेमा सीमित | सबै उपभोक्तासम्म फराकिलो |
+| फाइदा | धनी–गरिबबिचको असमानता घटाउँछ; करदाताले कति तिरेँ थाहा पाउँछ | सुविधाजनक, लचकदार, छल्न गाह्रो |
+
+::: caution कुन करको हिस्सा ठुलो?
+पाठ्यपुस्तकमा "नेपालमा कुल राजस्वको सबैभन्दा ठुलो अंश प्रत्यक्ष करले ओगटेको छ"
+लेखिएको छ; यो मिल्दैन। अर्थ मन्त्रालयको आर्थिक सर्वेक्षणअनुसार एक्लै सबैभन्दा ठुलो
+कर स्रोत **मूल्य अभिवृद्धि कर** हो र मूल्य अभिवृद्धि कर, भन्सार तथा अन्तःशुल्क जोड्दा
+**अप्रत्यक्ष करको हिस्सा प्रत्यक्ष करभन्दा बढी** हुन्छ। त्यस्तै अप्रत्यक्ष कर "छल्नै
+सकिँदैन" भन्नु पनि अतिशयोक्ति हो — बिल नलिँदा र तस्करीबाट यसको पनि चुहावट हुन्छ।
+:::
+
+### मूल्य अभिवृद्धि कर, अन्तःशुल्क र भन्सार महसुल
+
+**मूल्य अभिवृद्धि कर (भ्याट):** वस्तु तथा सेवाको मूल्यमा वृद्धि हुँदा बढेको मूल्यमा लाग्ने
+कर। यो वस्तु तथा सेवामा आधारित अप्रत्यक्ष कर हो। नेपालमा हाल **१३ प्रतिशत** मूल्य
+अभिवृद्धि कर छ। करको दायरा फराकिलो बनाउनु र **राजस्व चुहावट नियन्त्रण** गर्नु यसको
+मुख्य उद्देश्य हो। सामान किन्दा अनिवार्य रूपमा भ्याट बिल लिएर सच्चा नागरिकको कर्तव्य
+पूरा गर्नुपर्छ।
+
+::: example हिसाब: मूल्य अभिवृद्धि कर
+**प्रश्न.** कर नलागेको मूल्य रु. २,००० भएको झोला किन्दा १३ प्रतिशत मूल्य अभिवृद्धि
+करसहित कति तिर्नुपर्छ?
+
+**उत्तर.** कर = २,००० × १३ ÷ १०० = रु. २६०। जम्मा = २,००० + २६० = **रु. २,२६०**।
+भ्याट बिल लिँदा यो रु. २६० सरकारको खातामा पुग्छ; बिल नलिँदा व्यापारीले कर लुकाउन
+सक्छ र राजस्व चुहावट हुन्छ।
+:::
+
+**अन्तःशुल्क:** देशभित्र उत्पादित र आयातित तोकिएका वस्तु तथा सेवामा लगाइने कर। सुरुमा
+देशभित्रको कारोबारमा लगाइने भएकाले "अन्तः" शुल्क भनिएको हो। अन्तःशुल्क लाग्ने वस्तुलाई
+**मदिरा समूह, सुर्तीजन्य समूह र स्वयम् निकासी समूह** गरी तीन समूहमा बाँडिएको छ।
+
+**भन्सार महसुल:** विदेशबाट आयात र विदेशमा निर्यात गरिने मालवस्तुमा **भन्सार बिन्दु** मा
+कानुनबमोजिम लिइने कर। यो राजस्व सङ्कलनको महत्त्वपूर्ण स्रोत हो।
+
+### गैरकर राजस्व
+
+कानुनले तोकेका करबाहेक अन्य स्रोतबाट प्राप्त हुने सरकारको आम्दानीलाई **गैरकर राजस्व**
+भनिन्छ। **उपहार तथा अनुदान, शुल्क, दण्ड तथा जरिवाना, उत्तराधिकारीविहीन सम्पत्ति र
+सार्वजनिक सम्पत्ति** यसका स्रोत हुन्।
+
+### करको महत्त्व र नागरिकको कर्तव्य
+
+- १. मुलुकमा **लगानीको उपयुक्त वातावरण** बनाउँछ।
+- २. अधिकतम कर परिचालनले मुलुकलाई **आत्मनिर्भर** बनाउँछ।
+- ३. अति आवश्यक वस्तु तथा सेवाको उत्पादनलाई प्रोत्साहन दिन्छ।
+- ४. **धनीलाई कर, गरिबलाई राहत** को नीतिबाट सामाजिक न्याय कायम गर्छ।
+- ५. **आयात प्रतिस्थापन र निर्यात अभिवृद्धि** मा सघाउँछ।
+- ६. स्वदेशी उद्योगको संरक्षण र प्रवर्धन गरी उद्योग–व्यवसायको अनुकूल वातावरण बनाउँछ।
+
+नेपालको संविधानअनुसार **सङ्घीय, प्रदेश र स्थानीय सरकार** ले छुट्टाछुट्टै कर लगाउन
+सक्छन्। नागरिकसँग कर लिनु राज्यको **अधिकार** हो भने कर तिर्नु नागरिकको **कर्तव्य** हो।
+घर चलाउन नियमित आम्दानी चाहिएजस्तै राज्य चलाउन — शिक्षा, स्वास्थ्य, खानेपानी,
+विद्युत् र सञ्चारका पूर्वाधार बनाउन — कर चाहिन्छ। प्रभावकारी कर प्रणाली भएको देशलाई
+सक्षम अर्थतन्त्र भएको देश मानिन्छ। "राज्य जनताका लागि र जनता राज्यका लागि" भएकाले
+कर तिरेर राज्यलाई सक्षम र आत्मनिर्भर बनाउनु हामी सबैको कर्तव्य हो; कर प्रणालीले जनता
+र सरकारको सम्बन्ध पनि सुमधुर बनाउँछ।
+
+::: note क्रियाकलाप — पाठ ८.८
+**१.** पुस्तकालयमा नेपालको संविधान वा आर्थिक ऐन अध्ययन गरी सङ्घ, प्रदेश र स्थानीय
+सरकारले लगाउन पाउने करको सूची बनाउनुहोस्।
+**२.** आफ्नो परिवारले तिर्ने करको सूची बनाउनुहोस्।
+**३.** परिवारले प्रयोग गर्ने कुन कुन वस्तुमा अप्रत्यक्ष कर लागेको छ, खोजी गर्नुहोस्।
+**४.** "कर तिरेर के पो पाउँछौँ र, म त कर तिर्दिन" भन्ने छिमेकीलाई सल्लाह दिनुहोस्।
+(सङ्केत: सडक, विद्यालय, स्वास्थ्यचौकी, खानेपानी, सुरक्षा र भत्ता करबाटै चल्छन्; कर
+नतिर्नु कानुनी अपराध हो र जरिवाना लाग्छ।)
+**५.** "भ्याट बिल नलिए पैसा घटाइदिन्छु" भन्ने व्यापारीलाई के भन्नुहुन्छ? (सङ्केत: बिलबिना
+किन्दा राज्यको राजस्व चोरी हुन्छ, सामान बिग्रिए उजुरी गर्ने प्रमाण रहँदैन; त्यसैले म
+बिल लिएरै किन्छु।)
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**१. राजस्व भन्नाले के बुझिन्छ, कर राजस्व र गैरकर राजस्वबिच फरक छुट्याउनुहोस्।**
+सरकारले विभिन्न स्रोतबाट गर्ने आम्दानीलाई राजस्व भनिन्छ।
+
+| आधार | कर राजस्व | गैरकर राजस्व |
+|---|---|---|
+| अर्थ | कानुनबमोजिम राज्यलाई तिर्नुपर्ने अनिवार्य भुक्तानी | कानुनले तोकेका करबाहेक अन्य स्रोतबाट आउने आम्दानी |
+| बाध्यता | अनिवार्य | सेवा लिँदा, गल्ती गर्दा वा सहयोग पाउँदा मात्र |
+| बदलामा सेवा | सिधै प्रत्यक्ष लाभ पाइँदैन | प्रायः कुनै सेवा वा सुविधाको बदलामा (शुल्क) |
+| उदाहरण | आयकर, मूल्य अभिवृद्धि कर, भन्सार, अन्तःशुल्क | उपहार–अनुदान, शुल्क, दण्ड–जरिवाना, उत्तराधिकारीविहीन सम्पत्ति |
+
+**२. प्रत्यक्ष कर र अप्रत्यक्ष करका फाइदाको सूची बनाउनुहोस्।**
+**प्रत्यक्ष कर:** (क) आम्दानीअनुसार लाग्ने भएकाले प्रगतिशील र न्यायपूर्ण; (ख)
+धनी–गरिबबिचको असमानता घटाउँछ; (ग) करदातालाई कति तिरेँ भन्ने थाहा हुन्छ; (घ)
+सरकारलाई निश्चित आम्दानी दिन्छ। **अप्रत्यक्ष कर:** (क) किनमेल गर्दै तिरिने भएकाले
+सुविधाजनक; (ख) दर घटबढ गर्न सकिने लचकदार; (ग) सबै उपभोक्तासम्म फराकिलो दायरा;
+(घ) छल्न गाह्रो; (ङ) मदिरा, सुर्ती जस्ता हानिकारक वस्तुमा बढी कर लगाएर उपभोग
+निरुत्साहित गर्न सकिन्छ।
+
+**३. "कर तिर्नु नागरिकको मुख्य दायित्व हो।" यस भनाइलाई उदाहरणसहित व्याख्या
+गर्नुहोस्।**
+कर लिनु राज्यको अधिकार र तिर्नु नागरिकको कर्तव्य हो। सामुदायिक विद्यालयका शिक्षकको
+तलब, स्वास्थ्यचौकीको निःशुल्क औषधि, वडाले बनाएको बाटो, सुरक्षा र सामाजिक भत्ता
+करदाताकै पैसाबाट चल्छन्। घर चलाउन नियमित आम्दानी चाहिएजस्तै राज्य चलाउन कर चाहिन्छ;
+कर नउठे राज्य ऋण र विदेशी सहायतामा निर्भर हुन्छ। व्यवसायी काकाले घरजग्गा, व्यवसाय र
+ट्रकको कर समयमै तिर्नु र किनमेल गर्दा भ्याट बिल लिनु असल नागरिकका उदाहरण हुन्।
+त्यसैले इमानदारीपूर्वक कर तिर्नु देशलाई आत्मनिर्भर बनाउने नागरिकको मुख्य दायित्व हो।
+
+**४. मूल्य अभिवृद्धि करको परिचय दिनुहोस्।**
+वस्तु तथा सेवाको मूल्य बढ्दा बढेको मूल्यमा लाग्ने, वस्तु तथा सेवामा आधारित अप्रत्यक्ष
+करलाई मूल्य अभिवृद्धि कर (भ्याट) भनिन्छ। नेपालमा यसको दर **१३ प्रतिशत** छ र अन्तिम
+भार उपभोक्ताले बेहोर्छ। करको दायरा फराकिलो बनाउनु र राजस्व चुहावट रोक्नु यसको मुख्य
+उद्देश्य हो। रु. २,००० को सामानमा रु. २६० कर लागेर रु. २,२६० तिर्नुपर्छ। किनमेल गर्दा
+भ्याट बिल लिनु नागरिकको कर्तव्य हो।
+
+**५. भन्सार महसुल भनेको के हो? नेपालको सन्दर्भमा यसको महत्त्व उल्लेख गर्नुहोस्।**
+विदेशबाट आयात र विदेशमा निर्यात गरिने मालवस्तुमा भन्सार बिन्दुमा कानुनबमोजिम लिइने
+करलाई भन्सार महसुल भनिन्छ। **महत्त्व:** (क) नेपाल धेरै वस्तु आयात गर्ने देश भएकाले यो
+राजस्वको ठुलो स्रोत हो; (ख) विदेशी वस्तुमा बढी महसुल लगाएर **स्वदेशी उद्योगको
+संरक्षण** गर्न सकिन्छ; (ग) विलासी र हानिकारक वस्तुको आयात निरुत्साहित गर्छ; (घ) आयात
+प्रतिस्थापन र निर्यात प्रवर्धनमा सघाउँछ; (ङ) व्यापार घाटा घटाउन नीतिगत औजारको काम
+गर्छ; (च) सीमामा मालवस्तुको अभिलेख राखेर अवैध व्यापार नियन्त्रणमा सहयोग गर्छ।
+
+## ८.९ आवधिक योजना
+
+::: definition आवधिक योजना
+निश्चित उद्देश्य प्राप्त गर्न उपलब्ध स्रोत र साधनको समुचित प्रयोग गरी **निश्चित अवधिमा**
+लक्षित उपलब्धि हासिल गर्ने प्रयास गरिएको कार्यक्रमलाई **आवधिक योजना** भनिन्छ। यसले
+देश विकासलाई नियमित र तीव्र बनाउँछ।
+:::
+
+नेपालमा योजनाबद्ध विकासको सुरुआत **वि.सं. २०१३ को प्रथम पञ्चवर्षीय योजना** बाट
+भएको हो। हालसम्म **दसओटा पञ्चवर्षीय र पाँचओटा त्रिवर्षीय** गरी पन्ध्र योजना कार्यान्वयन
+भइसकेका छन्। चालु योजना **सोह्रौँ योजना (आर्थिक वर्ष २०८१/८२ – २०८५/८६)** हो।
+सुरुका योजनाले पूर्वाधार विकास र संस्थागत सुधारमा जोड दिए भने पछिल्ला योजनाले गरिबी
+निवारण, रोजगारी सिर्जना, समावेशी विकास र दिगो विकासलाई प्राथमिकता दिए। आवधिक
+योजनाको तर्जुमा, कार्यान्वयन र अनुगमन **राष्ट्रिय योजना आयोग** ले गर्छ। सङ्घीय
+संरचनापछि **प्रदेश र स्थानीय तह** ले पनि आफ्नो क्षेत्राधिकारभित्र छुट्टै आवधिक योजना
+बनाउँछन्।
+
+::: tip पन्ध्र योजनाको हिसाब
+पञ्चवर्षीय: पहिलो, तेस्रो–दसौँ र पन्ध्रौँ = १०; त्रिवर्षीय: दोस्रो र एघारौँ–चौधौँ = ५।
+:::
+
+आवधिक योजनामा मूलतः **सोच, उद्देश्य र लक्ष्य**, विभिन्न क्षेत्रको आर्थिक वृद्धिदर र
+लगानी आवश्यकता, साधन स्रोतको व्यवस्था, क्षेत्रगत विनियोजन र प्राथमिकता, क्षेत्रगत
+रणनीति, नीति, कार्यक्रम, लक्ष्य तथा **अनुगमन र मूल्याङ्कन** समेटिएका हुन्छन्।
+
+**पन्ध्रौँ योजना** ले **"समृद्ध नेपाल, सुखी नेपाली"** को दीर्घकालीन सोच साकार पार्ने लक्ष्य
+लिएको थियो, तर **कोभिड महामारी, भूराजनीतिक घटनाक्रम र प्राकृतिक प्रकोप** का कारण
+धेरैजसो लक्ष्य पूरा हुन सकेनन्। सोह्रौँ योजनाले पन्ध्रौँ योजनाका अपूर्ण लक्ष्य पूरा गर्ने
+उद्देश्य पनि राखेको छ।
+
+### सोह्रौँ योजना
+
+**सोच:** **"सुशासन, सामाजिक न्याय र समृद्धि"।** दीर्घकालीन सोच २१०० ले तय गरेका
+समृद्धि र सुखका मूलभूत तत्त्व आत्मसात् गर्दै यो सोच राखिएको हो। सुशासनमार्फत नै
+सामाजिक न्याय र समृद्धि हासिल हुन्छ; सामाजिक न्यायसहितको समृद्धिमा समाजवादी विशेषता
+अन्तर्निहित हुन्छ र यस्तो समृद्धि दिगो, समावेशी, समुन्नत र अनुभूतियोग्य हुन्छ।
+
+**मूल उद्देश्य:** आम नागरिकले आफ्नो जीवनमा अनुभूति गर्न सक्ने राष्ट्र विकास र
+सुशासन हासिल गर्नु। क्षेत्रगत प्रमुख उद्देश्य:
+
+- १. राजनीतिक, प्रशासनिक, न्यायिक, निजी तथा गैरसरकारी क्षेत्रमा **सुशासन** कायम गर्नु।
+- २. स्वास्थ्य, शिक्षा, रोजगारी, आवास र सार्वजनिक सेवा प्रवाहमा **सामाजिक न्याय**
+  स्थापित गर्नु।
+- ३. मानवीय जीवन र राष्ट्रिय अर्थतन्त्रमा **समृद्धि** हासिल गर्नु।
+
+**समष्टिगत रणनीति:** अर्थतन्त्रको **संरचनागत रूपान्तरण** मार्फत द्रुत विकास, सुशासन,
+सामाजिक न्याय र समृद्धि हासिल गर्नु मुख्य रणनीति हो। यसका लागि:
+
+- १. विकासका सबै क्षेत्रका संरचनागत अवरोध पहिचान, सम्बोधन र निराकरण गर्दै उत्पादन,
+  उत्पादकत्व र प्रतिस्पर्धात्मक क्षमता बढाउने।
+- २. सङ्घ, प्रदेश र स्थानीय तह तथा सरकारी, निजी, सहकारी र गैरसरकारी क्षेत्र र विकास
+  साझेदारबिचको अन्तरसम्बन्ध र कार्यक्षमता मजबुत बनाउँदै दिगो विकास योजना लागु गर्ने।
+- ३. सबै क्षेत्रमा लैङ्गिक मूलप्रवाहीकरण, आधुनिक प्रविधि, वातावरण संरक्षण र विपद् जोखिम
+  न्यूनीकरणलाई आन्तरिकीकरण गर्ने।
+- ४. अध्ययन, अनुसन्धान र तथ्य–प्रमाणमा आधारित नीति निर्माण र कार्यक्रम कार्यान्वयन गर्ने।
+
+### परिमाणात्मक लक्ष्य: समृद्धिका राष्ट्रिय लक्ष्य
+
+| क्र.सं. | सूचक | एकाइ | आ.व. २०७९/८० को स्थिति | आ.व. २०८५/८६ को लक्ष्य |
+|---|---|---|---|---|
+| १ | आर्थिक वृद्धिदर (आधारभूत मूल्यमा) | प्रतिशत | ३.५ | ७.३ |
+| २ | प्रतिव्यक्ति आय | अमेरिकी डलर | १,४५६ | २,३५१ |
+| ३ | गरिबीको रेखामुनिको जनसङ्ख्या (निरपेक्ष गरिबी) | प्रतिशत | २०.३ | १२.० |
+| ४ | उपभोक्ता मुद्रास्फीति | प्रतिशत | ७.७ | ५.० |
+| ५ | मानव विकास सूचकाङ्क | सूचकाङ्क | ०.६०१ | ०.६५० |
+| ६ | साक्षरता दर (५ वर्षमाथि) | प्रतिशत | ७६.२ | ८५.० |
+| ७ | बेरोजगारी दर | प्रतिशत | ११.४ | ५.० |
+| ८ | विद्युत् उत्पादन (जलविद्युत् र वैकल्पिक ऊर्जा जडित क्षमता) | मेगावाट | २,९६२ | ११,७६९ |
+| ९ | विद्युत्मा पहुँच पुगेको जनसङ्ख्या | प्रतिशत | ९६.७ | १०० |
+| १० | इन्टरनेटमा पहुँच पुगेको जनसङ्ख्या | प्रतिशत | ६९.२ | ९०.० |
+
+*स्रोत: सोह्रौँ योजना (आ.व. २०८१/८२–२०८५/८६), पाठ्यपुस्तकमा दिइएअनुसार*
+
+```figure caption="सोह्रौँ योजनाका प्रतिशतमा नापिने लक्ष्य: आ.व. २०७९/८० को स्थिति र २०८५/८६ को लक्ष्य। गरिबी, बेरोजगारी र मुद्रास्फीति घटाउनुपर्ने; साक्षरता र पहुँच बढाउनुपर्ने।"
+import numpy as np
+labs = ["गरिबी", "बेरोजगारी", "मुद्रास्फीति", "साक्षरता", "विद्युत् पहुँच", "इन्टरनेट पहुँच"]
+now = [20.3, 11.4, 7.7, 76.2, 96.7, 69.2]
+tgt = [12.0, 5.0, 5.0, 85.0, 100, 90.0]
+y = np.arange(len(labs))
+fig, ax = plt.subplots(figsize=(5.8, 3.0))
+ax.barh(y - 0.19, now, height=0.36, color=SERIES[1], label="२०७९/८० स्थिति")
+ax.barh(y + 0.19, tgt, height=0.36, color=SERIES[3], label="२०८५/८६ लक्ष्य")
+for yy, a, b in zip(y, now, tgt):
+    ax.text(a + 1, yy - 0.19, f"{a:g}", va="center", fontsize=7.2, color=INK)
+    ax.text(b + 1, yy + 0.19, f"{b:g}", va="center", fontsize=7.2, color=INK)
+ax.set_yticks(y); ax.set_yticklabels(labs, fontsize=8.2); ax.invert_yaxis()
+ax.set_xlim(0, 112); ax.set_xlabel("प्रतिशत", fontsize=8, color=MUTED)
+ax.grid(axis="x", color=GRID, lw=0.6); ax.set_axisbelow(True)
+for s in ("top", "right"): ax.spines[s].set_visible(False)
+ax.tick_params(axis="x", labelsize=7.6)
+ax.legend(fontsize=7.4, frameon=False, loc="upper right")
+```
+
+::: example तालिकाको विश्लेषण
+**प्रश्न.** सोह्रौँ योजनाले प्रतिव्यक्ति आय र विद्युत् जडित क्षमता कति गुणा वा प्रतिशत
+बढाउने लक्ष्य राखेको छ?
+
+**उत्तर.** प्रतिव्यक्ति आय: (२,३५१ − १,४५६) ÷ १,४५६ × १०० ≈ **६१.५ प्रतिशत** वृद्धि
+(८९५ डलर थप)। विद्युत् जडित क्षमता: ११,७६९ ÷ २,९६२ ≈ **३.९७ गुणा**, अर्थात् पाँच
+वर्षमा करिब चार गुणा। आर्थिक वृद्धिदर ३.५ बाट दोब्बरभन्दा बढी (७.३) र बेरोजगारी
+११.४ बाट आधाभन्दा कम (५.०) बनाउने लक्ष्य छ — यी निकै महत्त्वाकाङ्क्षी लक्ष्य हुन्।
+:::
+
+**पाठको निष्कर्ष:** योजनाको औपचारिक सुरुआत भएको छ दशक बितिसक्दा पनि कुनै योजनाले
+तय गरेका लक्ष्य, उद्देश्य र रणनीति पूर्ण रूपमा हासिल हुन सकेका छैनन्। योजनाका सबै
+प्रक्रियामा तथ्यगत विश्लेषण र सरोकारवालाको प्रत्यक्ष सहभागिता गराई विगतका कमजोरी
+सुधार्दै **महत्त्वाकाङ्क्षीभन्दा वस्तुपरक र आवश्यकतामा आधारित** योजना बनाएर लागु गर्न
+सके "समृद्ध नेपाल, सुखी नेपाली" को सपना साकार हुन सक्छ।
+
+::: example स्थानीय योजनासम्बन्धी अनुच्छेदका प्रश्न
+**(क) स्थानीय योजना भनेको के हो?** स्थानीय बासिन्दाको सहभागितामा निर्माण र
+कार्यान्वयन हुने, स्थानीय स्तरका कार्यक्रमको विकासका लागि बनेको योजनालाई स्थानीय
+योजना भनिन्छ। वन उपभोक्ता समिति, टोल सुधार समिति, आमा समूह, युवा समूह, क्लब,
+विद्यालय (विद्यालय सुधार योजना) र बाल क्लबले बनाएका योजना यसका नमुना हुन्।
+स्थानीय तहले आफ्नो स्रोतसाधन, सम्भाव्यता, संस्थागत क्षमता र आवश्यकताअनुसार
+विकास योजना बनाउँछ।
+
+**(ख) स्थानीय योजनाको महत्त्व:** (१) स्थानीय आवश्यकता र प्राथमिकता सही रूपमा
+समेटिन्छ; (२) जनसहभागिताले अपनत्व बढ्छ र काम दिगो हुन्छ; (३) स्थानीय स्रोत, सिप र
+श्रमको उपयोग हुन्छ; (४) लागत कम र काम छिटो हुन्छ; (५) स्थानीय नेतृत्व विकास हुन्छ;
+(६) राष्ट्रिय योजनाको लक्ष्य पूरा गर्न आधार दिन्छ।
+
+**(ग) समुदायका दुई स्थानीय योजना (उदाहरण):** सामुदायिक वन संरक्षण तथा वृक्षारोपण
+योजना; टोल सुधार समितिको बाटो पक्की तथा खानेपानी योजना।
+:::
+
+::: note क्रियाकलाप — पाठ ८.९
+**१.** स्थानीय योजनासम्बन्धी अनुच्छेद पढी प्रश्नको उत्तर दिनुहोस् (माथिको उदाहरण)।
+**२.** इन्टरनेट वा पुस्तक अध्ययन गरी विगतदेखि वर्तमानसम्मका आवधिक योजनाका मुख्य
+उद्देश्य टिपोट गरी कक्षामा प्रस्तुत गर्नुहोस्।
+**३.** "लक्षित उपलब्धि प्राप्त हुने गरी योजना निर्माण गर्न के गर्नुपर्ला?" शीर्षकमा
+वक्तृत्वकला प्रतियोगिता गर्नुहोस्।
+**४. पारिवारिक आर्थिक योजना:** आम्दानीका स्रोत र खर्चका क्षेत्रको तालिका बनाउनुहोस्।
+नमुना (मासिक):
+
+| क्र.सं. | आम्दानीको स्रोत | रकम रु. | क्र.सं. | खर्चका क्षेत्र | रकम रु. |
+|---|---|---|---|---|---|
+| १ | तलब | २५,००० | १ | खाना, पढाइ र घरखर्च | २३,००० |
+| २ | तरकारी बिक्री | ८,००० | २ | बचत (सहकारी/बैङ्क) | १०,००० |
+| | **जम्मा आम्दानी** | **३३,०००** | | **जम्मा खर्च (बचतसहित)** | **३३,०००** |
+:::
+
+### पाठको अभ्यास: नमुना उत्तर
+
+**(क) योजना भनेको के हो?**
+निश्चित उद्देश्य प्राप्त गर्न उपलब्ध स्रोत र साधनलाई कसरी, कहिले र कति प्रयोग गर्ने भनी
+पहिल्यै तय गरिएको कार्यक्रमलाई योजना भनिन्छ। निश्चित अवधि (जस्तै पाँच वर्ष) तोकेर
+बनाइने राष्ट्रिय योजनालाई आवधिक योजना भनिन्छ। नेपालमा यसको सुरुआत २०१३ सालबाट
+भएको हो र राष्ट्रिय योजना आयोगले यसको तर्जुमा र अनुगमन गर्छ।
+
+**(ख) नेपालमा आवधिक योजनाको महत्त्व उल्लेख गर्नुहोस्।**
+(क) सीमित स्रोतसाधनलाई प्राथमिकताका आधारमा बाँडेर उच्चतम उपयोग गर्छ। (ख) देश
+विकासलाई नियमित, व्यवस्थित र तीव्र बनाउँछ। (ग) गरिबी निवारण, रोजगारी, समावेशी
+र दिगो विकासका स्पष्ट लक्ष्य दिन्छ। (घ) सङ्घ, प्रदेश, स्थानीय तह र निजी, सहकारी
+क्षेत्रबिच समन्वय गर्छ। (ङ) अनुगमन र मूल्याङ्कनबाट उपलब्धि नाप्न र कमजोरी सुधार्न
+सकिन्छ। (च) दातृ निकाय र लगानीकर्तालाई देशको प्राथमिकता बुझाउँछ। (छ) सन्तुलित
+क्षेत्रीय विकासमा सघाउँछ।
+
+**(ग) चालु सोह्रौँ योजनाका मुख्य विशेषताहरू प्रस्तुत गर्नुहोस्।**
+(१) **अवधि:** आ.व. २०८१/८२–२०८५/८६। (२) **सोच:** "सुशासन, सामाजिक न्याय र समृद्धि",
+दीर्घकालीन सोच २१०० सँग आबद्ध। (३) **उद्देश्य:** सुशासन, सामाजिक न्याय र समृद्धि।
+(४) **रणनीति:** अर्थतन्त्रको संरचनागत रूपान्तरण, तीन तह र सबै क्षेत्रबिच समन्वय,
+लैङ्गिक मूलप्रवाहीकरण र प्रमाणमा आधारित नीति। (५) **लक्ष्य:** वृद्धिदर ७.३ प्रतिशत,
+प्रतिव्यक्ति आय २,३५१ डलर, गरिबी १२ र बेरोजगारी ५ प्रतिशत, विद्युत् ११,७६९ मेगावाट,
+इन्टरनेट पहुँच ९० प्रतिशत। (६) पन्ध्रौँ योजनाका अपूर्ण लक्ष्य पूरा गर्ने उद्देश्य।
+
+**(घ) सोह्रौँ योजनाले लिएका लक्ष्य र उद्देश्य पूरा गर्ने गरी उपलब्धि हासिल गर्न के
+गर्नुपर्ला, सुझाव दिनुहोस्।**
+(क) महत्त्वाकाङ्क्षीभन्दा वस्तुपरक र आवश्यकतामा आधारित कार्यक्रम बनाउने; (ख)
+तथ्य र प्रमाणमा आधारित योजना र नियमित अनुगमन–मूल्याङ्कन गर्ने; (ग) सरोकारवाला र
+स्थानीय जनताको प्रत्यक्ष सहभागिता गराउने; (घ) भ्रष्टाचार नियन्त्रण गरी सुशासन कायम
+गर्ने; (ङ) बजेट र स्रोत समयमै उपलब्ध गराउने, आयोजना ढिलाइ गर्ने ठेकेदारमाथि कारबाही
+गर्ने; (च) राजनीतिक स्थिरता र नीतिगत निरन्तरता कायम गर्ने; (छ) सङ्घ, प्रदेश, स्थानीय
+तह र निजी तथा सहकारी क्षेत्रबिच समन्वय गर्ने; (ज) जलविद्युत्, पर्यटन, कृषि र
+सूचना प्रविधिमा लगानी बढाएर रोजगारी सिर्जना गर्ने; (झ) विपद् र महामारीका जोखिमलाई
+योजनामै समेट्ने।
+
+## अध्यायको सारांश
+
+- ऊर्जा शक्तिको स्रोत हो; नवीकरणीय (जल, सौर्य, वायु, बायोग्यास, बायोमास) र अनवीकरणीय (पेट्रोलियम, कोइला, प्राकृतिक ग्यास) गरी दुई प्रकारका स्रोत छन्।
+- नेपालमा करिब ६,००० नदीनाला, सैद्धान्तिक ८३,००० र प्राविधिक रूपमा सम्भाव्य ४२,००० मेगावाट जलविद्युत् क्षमता; २०७८ फागुनसम्म २,२०५ मेगावाट उत्पादन। वायु ऊर्जाको अध्ययन रामेछाप, धादिङ र मुस्ताङमा।
+- विश्व पर्यटन सङ्गठनअनुसार २४ घण्टाभन्दा बढी र एक वर्षभन्दा कम समय वासस्थानबाहिर बिताउने पर्यटक हो; आन्तरिक र बाह्य पर्यटक। बृहत् हिमालय पदमार्ग ताप्लेजुङदेखि दार्चुलासम्म; र्‍याफ्टिङ — सुनकोसी, त्रिशूली, कर्णाली।
+- वैदेशिक रोजगारीका पूर्वतयारी: राहदानी, भाषा–सिप, स्वास्थ्य परीक्षण, श्रम स्वीकृति, अभिमुखीकरण, बिमा र दूतावासको जानकारी; यसका सकारात्मक र नकारात्मक दुवै प्रभाव छन्।
+- वित्तीय साक्षरता करिब १८ प्रतिशत; नेपाल राष्ट्र बैङ्क बैङ्कहरूको बैङ्क र नोट निष्कासनको एकाधिकार भएको केन्द्रीय बैङ्क हो।
+- बैङ्क खाता: चल्ती (ब्याज नपाइने), बचत (सीमित निकासी, ब्याज) र मुद्दती (३ महिनादेखि ५ वर्ष, बढी ब्याज); डेबिट कार्डमा आफ्नै रकम, क्रेडिट कार्डमा उधारो।
+- सेयरको अङ्कित मूल्य सामान्यतया रु. १००; अग्राधिकार सेयरमा निश्चित र पहिले लाभांश तर मताधिकार नहुने; सेयर कारोबारमा डिम्याट खाता अनिवार्य। हुन्डी गैरकानुनी र क्रिप्टोकरेन्सी नेपालमा प्रतिबन्धित।
+- सहकारी "एकका लागि सबै, सबैका लागि एक" मा चल्छ; सात सिद्धान्त; कुल गार्हस्थ उत्पादनमा ४ र वित्तीय सेवामा २० प्रतिशत योगदान, करिब ६२ हजार प्रत्यक्ष रोजगारी; तीन खम्बे अर्थनीतिको एक खम्बा।
+- पहिलो बिमा कम्पनी २००४ असोज ८, राष्ट्रिय बिमा संस्थान २०२५ पुस १; बिमा जीवन र निर्जीवन गरी दुई प्रकार; निर्जीवन बिमा सामान्यतया एक वर्षका लागि।
+- राजस्व = कर + गैरकर; प्रत्यक्ष कर (आयकर, घर, भूमि, सवारी कर) र अप्रत्यक्ष कर (मूल्य अभिवृद्धि कर १३ प्रतिशत, अन्तःशुल्क, भन्सार); कर तिर्नु नागरिकको कर्तव्य।
+- योजनाबद्ध विकास २०१३ बाट; १० पञ्चवर्षीय र ५ त्रिवर्षीय योजना सम्पन्न; सोह्रौँ योजना (२०८१/८२–२०८५/८६) को सोच "सुशासन, सामाजिक न्याय र समृद्धि"; लक्ष्य: वृद्धिदर ७.३, गरिबी १२, बेरोजगारी ५ प्रतिशत, विद्युत् ११,७६९ मेगावाट।
+
+## अभ्यास
+
+**समूह क — वस्तुगत प्रश्न (१ अङ्क)**
+
+१. पाठ्यपुस्तकअनुसार नेपालमा प्राविधिक रूपमा सम्भाव्य जलविद्युत् क्षमता कति छ? <span class="marks">[1]</span>
+   (क) २,२०५ मेगावाट (ख) ११,७६९ मेगावाट (ग) ४२,००० मेगावाट (घ) ८३,००० मेगावाट
+२. विश्व पर्यटन सङ्गठनअनुसार पर्यटक हुन कम्तीमा कति समय वासस्थानबाहिर बिताउनुपर्छ? <span class="marks">[1]</span>
+   (क) १२ घण्टा (ख) २४ घण्टाभन्दा बढी (ग) एक हप्ता (घ) एक वर्ष
+३. कुन खातामा राखेको रकममा ब्याज पाइँदैन? <span class="marks">[1]</span>
+   (क) चल्ती खाता (ख) बचत खाता (ग) मुद्दती खाता (घ) डिम्याट खाता
+४. नेपालमा नोट निष्कासनको एकाधिकार कसलाई छ? <span class="marks">[1]</span>
+   (क) अर्थ मन्त्रालय (ख) नेपाल बैङ्क लिमिटेड (ग) नेपाल राष्ट्र बैङ्क (घ) धितोपत्र बोर्ड
+५. तलकामध्ये कुन अप्रत्यक्ष कर हो? <span class="marks">[1]</span>
+   (क) आयकर (ख) घर कर (ग) सवारी कर (घ) अन्तःशुल्क
+६. नेपालमा हाल मूल्य अभिवृद्धि करको दर कति छ? <span class="marks">[1]</span>
+   (क) १० प्रतिशत (ख) १३ प्रतिशत (ग) १५ प्रतिशत (घ) १८ प्रतिशत
+७. सोह्रौँ योजनाको सोच कुन हो? <span class="marks">[1]</span>
+   (क) समृद्ध नेपाल, सुखी नेपाली (ख) सुशासन, सामाजिक न्याय र समृद्धि (ग) गरिबी निवारण (घ) आत्मनिर्भर अर्थतन्त्र
+८. राष्ट्रिय बिमा संस्थानको स्थापना कहिले भयो? <span class="marks">[1]</span>
+   (क) २००४ असोज ८ (ख) २०१३ साल (ग) २०२५ पुस १ (घ) २०४७ साल
+
+::: note समूह क का उत्तर
+**१.** (ग) — सैद्धान्तिक ८३,००० र प्राविधिक रूपमा सम्भाव्य ४२,००० मेगावाट; २,२०५ मेगावाट २०७८ फागुनसम्मको उत्पादन हो।
+**२.** (ख) — २४ घण्टाभन्दा बढी र लगातार एक वर्षभन्दा कम समय बाहिर बिताउने पर्यटक हो।
+**३.** (क) — चल्ती खातामा जति पटक पनि कारोबार गर्न पाइन्छ, तर ब्याज पाइँदैन।
+**४.** (ग) — केन्द्रीय बैङ्क नेपाल राष्ट्र बैङ्कलाई मात्र नोट निष्कासनको एकाधिकार छ।
+**५.** (घ) — अन्तःशुल्कको भार उपभोक्तामा सारिन्छ; बाँकी तीन प्रत्यक्ष कर हुन्।
+**६.** (ख) — नेपालमा हाल १३ प्रतिशत मूल्य अभिवृद्धि कर छ।
+**७.** (ख) — "समृद्ध नेपाल, सुखी नेपाली" पन्ध्रौँ योजनाको दीर्घकालीन सोच थियो।
+**८.** (ग) — २००४ असोज ८ मा पहिलो निजी बिमा कम्पनी खुलेको थियो; सरकारी स्तरको राष्ट्रिय बिमा संस्थान २०२५ पुस १ मा स्थापना भयो।
+:::
+
+**समूह ख — छोटो उत्तर (२ अङ्क)**
+
+१. नवीकरणीय र अनवीकरणीय ऊर्जाबिच फरक छुट्याउनुहोस्। <span class="marks">[2]</span>
+२. बृहत् हिमालय पदमार्गका कुनै दुई उद्देश्य लेख्नुहोस्। <span class="marks">[2]</span>
+३. वैदेशिक रोजगारीमा जानुअघि बिमा किन गर्नुपर्छ? सन्तोषको उदाहरणसहित लेख्नुहोस्। <span class="marks">[2]</span>
+४. ऋण समयमा नतिर्दा के के परिणाम भोग्नुपर्छ? <span class="marks">[2]</span>
+५. मुद्दती खाताका कुनै चार विशेषता लेख्नुहोस्। <span class="marks">[2]</span>
+६. हुन्डी भनेको के हो? यो किन गैरकानुनी मानिन्छ? <span class="marks">[2]</span>
+७. निर्जीवन बिमा भनेको के हो? <span class="marks">[2]</span>
+८. गैरकर राजस्वका कुनै चार स्रोत लेख्नुहोस्। <span class="marks">[2]</span>
+
+::: note समूह ख का उत्तर
+**१.** फेरि उत्पादन हुने वा कहिल्यै नसकिने स्रोत (सूर्य, वायु, जल, बायोग्यास) नवीकरणीय हुन्; यिनले प्रदूषण कम गर्छन्। फेरि बन्न नसक्ने वा धेरै लामो समय लाग्ने स्रोत (पेट्रोलियम, कोइला, प्राकृतिक ग्यास) अनवीकरणीय हुन्; प्रयोग गर्दै जाँदा सकिन्छन् र धुवाँ तथा प्रदूषण बढाउँछन्।
+**२.** (क) पर्यटन प्रवर्धन र रोजगारी सिर्जना गर्नु; (ख) ताप्लेजुङदेखि दार्चुलासम्मका अविकसित हिमाली जिल्लाको विकास गरी हिमाली समुदायलाई अवसर दिनु र गरिबी घटाउनु।
+**३.** विदेशमा कारखाना र निर्माणको काममा दुर्घटना, अङ्गभङ्ग र मृत्युको जोखिम हुन्छ। बिमाले यस्तो बेला उपचार खर्च र क्षतिपूर्ति दिन्छ। कोरियामा मेसिनले हात पेलिँदा सन्तोषले बिमा गरेकाले उपचारको सबै खर्च बिमा कम्पनीले बेहोर्‍यो; बिमा नगर्नेले भने सबै भार आफैँ बोक्नुपर्छ।
+**४.** ब्याजसँगै हर्जाना तिर्नुपर्छ; धितो जफत गरी लिलाम हुन सक्छ; कानुनी कारबाही हुन्छ; वित्तीय संस्थाको कालोसूचीमा परिन्छ र अर्को ऋण पाइँदैन; सामाजिक प्रतिष्ठामा आँच आउँछ।
+**५.** (क) ३ महिना, ६ महिना, १ वर्ष, २ वर्ष वा ५ वर्षको अवधि तोकेर रकम राखिन्छ; (ख) अन्य खाताभन्दा बढी ब्याज पाइन्छ; (ग) अवधि नपुगी रकम झिक्न पाइँदैन; (घ) बिचमा रकम चाहिए मुद्दती रसिद धितो राखी ऋण लिन सकिन्छ, तर निक्षेपको ब्याजभन्दा बढी ब्याज तिर्नुपर्छ।
+**६.** देश–विदेशमा कमाएको रकम बैङ्क वा इजाजतप्राप्त संस्थाको सट्टा निजी व्यापारी, प्रतिनिधि वा दर्ता नभएका संस्थामार्फत पठाउनुलाई हुन्डी भनिन्छ। यसमा ठगी भए उजुरी गर्ने ठाउँ हुँदैन, देशमा विदेशी मुद्रा भित्रिँदैन र अभिलेख नहुँदा कर छली तथा अवैध कारोबार बढ्छ; त्यसैले यो गैरकानुनी हो।
+**७.** घर, पसल, कलकारखाना, बाली, पशु र सवारीसाधन जस्ता सम्पत्तिमा आगलागी, भूकम्प, बाढी, पहिरो, असिना वा दुर्घटनाले हुने क्षतिको मूल्याङ्कन गरी बिमालेखअनुसार क्षतिपूर्ति दिने बिमालाई निर्जीवन बिमा भनिन्छ। यो सामान्यतया एक वर्षका लागि गरिन्छ र नवीकरण गर्नुपर्छ।
+**८.** (क) उपहार तथा अनुदान, (ख) शुल्क (जस्तै राहदानी वा सिफारिस शुल्क), (ग) दण्ड तथा जरिवाना, (घ) उत्तराधिकारीविहीन सम्पत्ति; साथै सार्वजनिक सम्पत्तिबाट हुने आम्दानी।
+:::
+
+**समूह ग — लामो उत्तर (४ अङ्क)**
+
+१. नेपालमा पर्यटन उद्योगका सम्भावना उल्लेख गर्दै प्रवर्धनका कुनै चार उपाय लेख्नुहोस्। <span class="marks">[4]</span>
+२. सहकारी भनेको के हो? सहकारिताका सिद्धान्त उल्लेख गर्दै व्यास गाउँपालिकाको उदाहरणबाट यसको महत्त्व प्रस्ट पार्नुहोस्। <span class="marks">[4]</span>
+३. अग्राधिकार सेयर र साधारण सेयरबिच फरक छुट्याउँदै सेयरको महत्त्व लेख्नुहोस्। <span class="marks">[4]</span>
+४. सोह्रौँ योजनाको सोच, उद्देश्य र कुनै चार परिमाणात्मक लक्ष्य उल्लेख गर्नुहोस्। <span class="marks">[4]</span>
+
+::: note समूह ग का उत्तर
+**१.** **सम्भावना:** (क) ताप्लेजुङदेखि दार्चुलासम्मको बृहत् हिमालय पदमार्ग; (ख) हिमशिखर, ताल, झरना, निकुञ्ज र वन्यजन्तुसहितको प्राकृतिक सौन्दर्य, जसले चलचित्र छायाङ्कनको सम्भावना पनि बढाएको छ; (ग) पशुपतिनाथ, लुम्बिनी, मुक्तिनाथ, जामे मस्जिद, रामजानकी मन्दिर जस्ता धार्मिक स्थल; (घ) काठमाडौँ उपत्यकाका दरबार क्षेत्र र कलाकृति; (ङ) सुनकोसी, त्रिशूली र कर्णालीमा र्‍याफ्टिङ, प्याराग्लाइडिङ, बन्जी जम्पिङ जस्ता साहसिक पर्यटन; (च) तराईदेखि हिमालसम्मको हावापानीको विविधता; (छ) जातजातिका जात्रा, चाडपर्व र वेशभूषाको सांस्कृतिक विविधता। **प्रवर्धनका उपाय:** (१) पर्यटकीय स्थलमा पूर्वाधार र सुविधा; (२) नयाँ गन्तव्यको खोजी र प्रचारप्रसार; (३) गुणस्तरीय यातायात र सरल आगमन प्रक्रिया; (४) सम्पदाको संरक्षण, राजनीतिक स्थिरता, शान्ति र सुरक्षा।
+**२.** समान आवश्यकता भएका व्यक्ति मिलेर स्वेच्छाले गठन गर्ने, सदस्य आफैँ मालिक र ग्राहक हुने संस्था सहकारी हो; यसको मूल मन्त्र "एकका लागि सबै, सबैका लागि एक" हो। **सिद्धान्त:** (१) स्वैच्छिक तथा खुला सदस्यता, (२) सदस्यद्वारा प्रजातान्त्रिक नियन्त्रण, (३) सदस्यको आर्थिक सहभागिता, (४) स्वायत्तता र स्वतन्त्रता, (५) शिक्षा, तालिम र सूचना, (६) अन्तरसहकारी सहयोग, (७) समुदायप्रति चासो। **महत्त्व (व्यास गाउँपालिका):** करिब २,१०० घरपरिवार भएको गाउँमा मासिक रु. ५०० बचतबाट सुरु भएको सहकारीले सदस्यलाई ऋण दियो; पशुपालन, फलफूल–तरकारी खेती र सानो व्यापार सुरु भए; आम्दानी बढ्यो, उपचार र चाडपर्व सहज भए र सामाजिक एकता तथा मेलमिलाप बढ्यो। राष्ट्रिय स्तरमा सहकारीले कुल गार्हस्थ उत्पादनमा ४ प्रतिशत योगदान र करिब ६२ हजार प्रत्यक्ष रोजगारी दिएको छ।
+
+**३.**
+
+| आधार | अग्राधिकार सेयर | साधारण सेयर |
+|---|---|---|
+| लाभांश | अरू सेयरभन्दा पहिले, निश्चित दरमा | अग्राधिकार सेयरलाई दिएपछि बाँकी नाफाबाट |
+| मताधिकार | बैठकमा भाग लिने र मत दिने अधिकार हुँदैन | हुन्छ |
+| जोखिम | कम | बढी |
+| उपयुक्त | जोखिम उठाउन नचाहने | बढी जोखिम उठाउन तयार |
+
+**महत्त्व:** कम्पनीलाई व्यवसाय विस्तार र उत्पादनका लागि पुँजी दिन्छ; सर्वसाधारणको छरिएको बचत उद्योगधन्दामा लगानी गराउँछ; लगानीकर्तालाई लाभांश र मूल्यवृद्धिबाट आम्दानीको अवसर दिन्छ; रोजगारी बढाउँछ र देशको आर्थिक विकासमा सर्वसाधारणलाई सहभागी बनाउँछ।
+**४.** **अवधि:** आ.व. २०८१/८२–२०८५/८६। **सोच:** "सुशासन, सामाजिक न्याय र समृद्धि"। **मूल उद्देश्य:** आम नागरिकले जीवनमा अनुभूति गर्न सक्ने राष्ट्र विकास र सुशासन; क्षेत्रगत रूपमा (क) राजनीतिक, प्रशासनिक, न्यायिक, निजी र गैरसरकारी क्षेत्रमा सुशासन, (ख) स्वास्थ्य, शिक्षा, रोजगारी, आवास र सार्वजनिक सेवामा सामाजिक न्याय, (ग) मानवीय जीवन र अर्थतन्त्रमा समृद्धि। **लक्ष्य (२०७९/८० → २०८५/८६):** आर्थिक वृद्धिदर ३.५ → ७.३ प्रतिशत; प्रतिव्यक्ति आय १,४५६ → २,३५१ अमेरिकी डलर; निरपेक्ष गरिबी २०.३ → १२.० प्रतिशत; बेरोजगारी ११.४ → ५.० प्रतिशत; विद्युत् जडित क्षमता २,९६२ → ११,७६९ मेगावाट।
+:::
+
+**समूह घ — विस्तृत उत्तर (८ अङ्क)**
+
+१. "ऊर्जा, पर्यटन र रोजगारी नेपालको आर्थिक समृद्धिका आधार हुन्।" यस भनाइलाई पाठ्यपुस्तकका तथ्य र उदाहरणका आधारमा पुष्टि गर्नुहोस्। <span class="marks">[8]</span>
+२. कर भनेको के हो? प्रत्यक्ष र अप्रत्यक्ष करको परिचय दिँदै करको महत्त्व र "कर तिर्नु नागरिकको कर्तव्य हो" भन्ने भनाइको विवेचना गर्नुहोस्। <span class="marks">[8]</span>
+
+::: note समूह घ का उत्तर
+**१.** **परिचय:** उत्पादन, आम्दानी, रोजगारी र जीवनस्तरमा दिगो वृद्धि नै आर्थिक समृद्धि हो; नेपालका लागि यसका मुख्य आधार ऊर्जा, पर्यटन र रोजगारी हुन्। **ऊर्जा:** करिब ६,००० नदीनालामा सैद्धान्तिक ८३,००० र प्राविधिक रूपमा ४२,००० मेगावाट क्षमता छ, तर २०७८ फागुनसम्म २,२०५ मेगावाट मात्र उत्पादन भएको थियो। जलविद्युत्ले उद्योग चलाउँछ, बोरिङबाट सिँचाइ गरी कृषि बढाउँछ, विद्युतीय सवारी र चुलोबाट पेट्रोलियम आयात घटाउँछ, निर्यातबाट विदेशी मुद्रा दिन्छ र वन फँडानी घटाउँछ; सौर्य, वायु र बायोग्यास थप विकल्प हुन्। **पर्यटन:** हिमाल, बृहत् हिमालय पदमार्ग, धार्मिक–ऐतिहासिक सम्पदा, साहसिक खेल र सांस्कृतिक विविधताले विदेशी मुद्रा, राजस्व र ग्रामीण रोजगारी दिन्छन्, घरेलु उद्योगलाई बजार दिन्छन् र दुर्गम क्षेत्रको विकास गर्छन्। **रोजगारी:** वैदेशिक रोजगारीले विप्रेषण र गरिबी न्यूनीकरणमा योगदान दिए पनि सन्तोषको कथाले दुर्घटना, परिवार विखण्डन र युवा पलायनको पीडा देखाउँछ; हर्क दाइको तरकारी खेती र मामाको गाईपालनले स्वदेशमै आधुनिक कृषि, घरेलु उद्योग र सिप तालिमबाट राम्रो आम्दानी हुन्छ भन्ने देखाउँछन्। **अन्तरसम्बन्ध:** ऊर्जाले उद्योग र होटल चलाउँछ, ऊर्जा र पर्यटनले रोजगारी दिन्छन् र स्वदेशी रोजगारीले युवालाई देशमै राख्छ। **निष्कर्ष:** जलविद्युत्को उपयोग, पर्यटन पूर्वाधार र स्वदेशमै रोजगारी सिर्जनामा जोड दिए नेपाल आत्मनिर्भर र समृद्ध बन्न सक्छ।
+**२.** **कर:** व्यक्ति, फर्म वा कम्पनीले कानुनबमोजिम राज्यलाई तिर्नुपर्ने अनिवार्य भुक्तानी कर हो; यसको बदलामा सिधै लाभ पाइँदैन, तर राज्यले यसलाई लोककल्याणमा खर्च गर्छ। **प्रत्यक्ष कर:** भार अरूमा सार्न नसकिने — आयकर, सम्पत्ति, भूमि, घर र सवारी कर; बढी आम्दानीमा बढी कर लाग्ने भएकाले प्रगतिशील। **अप्रत्यक्ष कर:** भार उपभोक्तामा सारिने — मूल्य अभिवृद्धि कर (१३ प्रतिशत), बिक्री कर, अन्तःशुल्क, भन्सार महसुल; सुविधाजनक, लचकदार र फराकिलो दायरा भएको। **महत्त्व:** (क) लगानीको अनुकूल वातावरण; (ख) देशलाई आत्मनिर्भर बनाउने; (ग) आवश्यक वस्तुको उत्पादनमा प्रोत्साहन; (घ) धनीलाई कर र गरिबलाई राहतबाट सामाजिक न्याय; (ङ) आयात प्रतिस्थापन र निर्यात अभिवृद्धि; (च) स्वदेशी उद्योगको संरक्षण। संविधानअनुसार सङ्घ, प्रदेश र स्थानीय सरकारले छुट्टाछुट्टै कर लगाउन सक्छन्। **कर्तव्य किन:** कर लिनु राज्यको अधिकार र तिर्नु नागरिकको कर्तव्य हो। घर चलाउन नियमित आम्दानी चाहिएजस्तै राज्यलाई शिक्षा, स्वास्थ्य, खानेपानी, विद्युत्, सञ्चार र सुरक्षाका लागि कर चाहिन्छ; कर नउठे राज्य ऋण र सहायतामा निर्भर हुन्छ। राज्य जनताका लागि र जनता राज्यका लागि भएकाले प्रभावकारी कर प्रणालीले सक्षम अर्थतन्त्र र सुमधुर जनता–सरकार सम्बन्ध बनाउँछ। व्यवसायी काकाले समयमै कर तिर्नु र हामीले भ्याट बिल लिनु असल नागरिकताका उदाहरण हुन्। **निष्कर्ष:** इमानदारीपूर्वक समयमै कर तिर्नु सच्चा नागरिकता र देशभक्तिको परिचय हो।
+:::

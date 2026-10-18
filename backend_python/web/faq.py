@@ -30,8 +30,8 @@ CATEGORIES: List[Dict] = [
             {
                 'q': 'What is NEBians?',
                 'a': "NEBians is an open learning community in Nepal. It is three things at once: "
-                     "a <a href=\"/library/\">library</a> of study material that anyone can read, a "
-                     "<a href=\"/forum/\">forum</a> where students and teachers answer each other's "
+                     "a <a href=\"/app/library/\">library</a> of study material that anyone can read, a "
+                     "<a href=\"/app/forum/\">forum</a> where students and teachers answer each other's "
                      "questions, and a set of AI study tools that turn a PDF into summaries, "
                      "mindmaps, quizzes and flashcards.",
             },
@@ -73,21 +73,21 @@ CATEGORIES: List[Dict] = [
         'questions': [
             {
                 'q': 'Where can I find NEB past papers?',
-                'a': "On the <a href=\"/past-papers/\">past papers page</a>, which is the library "
+                'a': "On the <a href=\"/app/past-papers/\">past papers page</a>, which is the library "
                      "filtered to board question papers. Narrow it by subject, grade and faculty from "
                      "the filter bar. If you would rather see one subject's papers, notes and "
                      "discussions together, open its subject page instead — for example "
-                     "<a href=\"/subject/class-12/physics/\">Class 12 Physics</a>.",
+                     "<a href=\"/app/subject/class-12/physics/\">Class 12 Physics</a>.",
             },
             {
                 'q': 'Where are the NEB model questions and solutions?',
-                'a': "On the <a href=\"/model-questions/\">model questions page</a>. Each set is "
+                'a': "On the <a href=\"/app/model-questions/\">model questions page</a>. Each set is "
                      "listed with the year and grade it belongs to, and many have worked solutions "
                      "attached by the member who uploaded them.",
             },
             {
                 'q': 'How do I find notes for one specific subject?',
-                'a': "Use the subject filter in the <a href=\"/library/\">library</a>, or go straight "
+                'a': "Use the subject filter in the <a href=\"/app/library/\">library</a>, or go straight "
                      "to the subject page for your grade. Subject pages collect every resource type "
                      "for that subject in one place — notes, papers, solutions, and the threads people "
                      "have started about it.",
@@ -100,14 +100,14 @@ CATEGORIES: List[Dict] = [
             },
             {
                 'q': 'Something I need is missing. Can I ask for it?',
-                'a': "Yes — post it on the <a href=\"/requests/\">resource requests page</a>. "
+                'a': "Yes — post it on the <a href=\"/app/requests/\">resource requests page</a>. "
                      "Requests are visible to everyone, and members upload against them regularly.",
             },
             {
                 'q': 'How do I check my NEB or SEE result?',
-                'a': "Use the <a href=\"/results/check/\">result checker</a>. Enter your symbol number "
+                'a': "Use the <a href=\"/app/results/check/\">result checker</a>. Enter your symbol number "
                      "and date of birth and it will fetch your gradesheet. The "
-                     "<a href=\"/results/\">results guide</a> explains grading, GPA and what to do "
+                     "<a href=\"/app/results/\">results guide</a> explains grading, GPA and what to do "
                      "about a re-totalling request.",
             },
         ],
@@ -120,14 +120,14 @@ CATEGORIES: List[Dict] = [
         'questions': [
             {
                 'q': 'What is Study Lab?',
-                'a': "<a href=\"/study-lab/\">Study Lab</a> takes a document — yours, or anything in "
+                'a': "<a href=\"/app/study-lab/\">Study Lab</a> takes a document — yours, or anything in "
                      "the library — and builds study material from it: a summary, a mindmap of how the "
                      "ideas connect, a quiz that marks itself, and flashcards you can revise from. It "
                      "is meant for the night before, when reading forty pages again is not an option.",
             },
             {
                 'q': 'What is Canvas?',
-                'a': "<a href=\"/canvas/\">Canvas</a> is an infinite board for thinking on. You ask a "
+                'a': "<a href=\"/app/canvas/\">Canvas</a> is an infinite board for thinking on. You ask a "
                      "question, it answers in a card, and every card can branch into follow-up "
                      "questions that stay connected to where they came from. It is closer to a "
                      "conversation you can see all of at once than to a chat window.",
@@ -141,7 +141,7 @@ CATEGORIES: List[Dict] = [
             },
             {
                 'q': 'What else is in the tools section?',
-                'a': "The <a href=\"/tools/\">tools hub</a> has document conversion, text-to-speech, "
+                'a': "The <a href=\"/app/tools/\">tools hub</a> has document conversion, text-to-speech, "
                      "transcription, and a few subject calculators. They are free and they do not "
                      "require anything beyond an account.",
             },
@@ -155,7 +155,7 @@ CATEGORIES: List[Dict] = [
         'questions': [
             {
                 'q': 'How do I upload my notes?',
-                'a': "Use the <a href=\"/upload/\">upload page</a>. Give the file a "
+                'a': "Use the <a href=\"/app/upload/\">upload page</a>. Give the file a "
                      "clear title, pick the subject and grade, and say what kind of resource it is. "
                      "The better those three are, the more people find it.",
             },
@@ -194,7 +194,7 @@ CATEGORIES: List[Dict] = [
         'questions': [
             {
                 'q': 'How does the forum work?',
-                'a': "Ask a question or start a discussion in the <a href=\"/forum/\">forum</a>, tag "
+                'a': "Ask a question or start a discussion in the <a href=\"/app/forum/\">forum</a>, tag "
                      "it with a subject, and anyone can reply. Replies thread, so a long answer and "
                      "the three follow-ups to it stay together instead of scattering.",
             },
@@ -212,7 +212,7 @@ CATEGORIES: List[Dict] = [
             },
             {
                 'q': 'What is the leaderboard?',
-                'a': "The <a href=\"/forum/leaderboard/\">leaderboard</a> ranks members by what they have "
+                'a': "The <a href=\"/app/forum/leaderboard/\">leaderboard</a> ranks members by what they have "
                      "contributed — resources people use, answers people found helpful, discussions "
                      "that went somewhere. It is a thank-you, not a score you need.",
             },
@@ -226,18 +226,18 @@ CATEGORIES: List[Dict] = [
         'questions': [
             {
                 'q': 'Can I make my profile private?',
-                'a': "Yes. Turn it on in <a href=\"/settings/\" rel=\"nofollow\">settings</a>. A "
+                'a': "Yes. Turn it on in <a href=\"/app/settings/\" rel=\"nofollow\">settings</a>. A "
                      "private profile is hidden from search engines and only approved followers can "
                      "see what you have posted.",
             },
             {
                 'q': 'How do I change my username or photo?',
-                'a': "From <a href=\"/profile/edit/\" rel=\"nofollow\">edit profile</a>. You can also "
+                'a': "From <a href=\"/app/profile/edit/\" rel=\"nofollow\">edit profile</a>. You can also "
                      "build a NEBians avatar there instead of uploading a photo.",
             },
             {
                 'q': 'How do I delete my account?',
-                'a': "In <a href=\"/settings/delete-account/\" rel=\"nofollow\">settings</a>. Deletion "
+                'a': "In <a href=\"/app/settings/delete-account/\" rel=\"nofollow\">settings</a>. Deletion "
                      "removes your profile, posts, replies and uploads together — it is not a "
                      "deactivation, and it cannot be undone.",
             },
