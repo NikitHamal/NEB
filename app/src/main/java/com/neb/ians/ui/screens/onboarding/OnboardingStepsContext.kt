@@ -70,7 +70,7 @@ fun LevelStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
     val levels = remember(state.role) { levelsForRole(state.role) }
     val index = levels.indexOf(state.classLevel).coerceAtLeast(0)
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot(collapseOnKeyboard = false) { NebAscentArt(stepIndex = index, stepCount = levels.size) }
+        NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Level, a = index, b = levels.size, height = 150.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = if (state.role == "teacher") "Which levels do you teach?" else "Where are you right now?",
@@ -104,7 +104,7 @@ fun SubjectsStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMo
     val isTeacher = state.role == "teacher"
     val selected = if (isTeacher) state.teachingSubjects else state.subjects
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot(collapseOnKeyboard = false) { NebOrbitsArt(selectedCount = selected.size, nodeCount = 8) }
+        NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Subjects, a = selected.size, height = 150.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = if (isTeacher) "What do you teach?" else "What are you studying?",
@@ -143,7 +143,7 @@ fun PlaceStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewModel
     val provinceIndex = NEB_PRADESH.indexOf(state.pradesh).coerceAtLeast(0)
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot(collapseOnKeyboard = false) { NebProvinceArt(provinceIndex = provinceIndex, provinceCount = NEB_PRADESH.size) }
+        NebArtSlot(collapseOnKeyboard = false) { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Province, a = provinceIndex, height = 150.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = "Where do you study from?",
@@ -200,7 +200,7 @@ fun CampusStep(state: CompleteProfileUiState, viewModel: CompleteProfileViewMode
     val registeredNames = remember(state.institutions) { state.institutions.map { it.displayName } }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot { NebCampusArt(named = state.school.isNotBlank()) }
+        NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.School, flag = state.school.isNotBlank(), height = 160.dp) }
         Spacer(modifier = Modifier.height(10.dp))
         NebStepHeader(
             title = when (state.role) {
@@ -291,7 +291,7 @@ fun PortraitStep(state: CompleteProfileUiState, onPickPhoto: () -> Unit) {
                 contentAlignment = Alignment.Center
             ) {
                 if (state.photoUrl.isBlank()) {
-                    NebApertureArt(hasPhoto = false, height = 164.dp)
+                    com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Photo, flag = false, height = 164.dp)
                 } else {
                     AsyncImage(
                         model = state.photoUrl,
@@ -383,7 +383,7 @@ fun FinishStep(state: CompleteProfileUiState) {
     }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        NebArtSlot { NebArrivalArt(height = 172.dp) }
+        NebArtSlot { com.neb.ians.ui.pixel.art.PixelOnboardingArt(com.neb.ians.ui.pixel.art.PixelOnboarding.Kind.Arrival, height = 172.dp) }
         Spacer(modifier = Modifier.height(12.dp))
         NebStepHeader(
             title = "That's your profile",
