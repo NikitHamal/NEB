@@ -1,5 +1,12 @@
 package com.neb.ians.ui.screens.reader
 
+import kotlinx.coroutines.launch
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.FileProvider
+import android.widget.Toast
+import android.content.Intent
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -76,6 +83,7 @@ import com.neb.ians.ui.screens.reader.pdf.ReaderBottomBar
 import com.neb.ians.ui.screens.reader.pdf.ReaderOptionsSheet
 import com.neb.ians.ui.screens.reader.pdf.ReaderProgressLine
 import com.neb.ians.ui.screens.reader.pdf.ReaderTopBar
+import com.neb.ians.ui.screens.reader.pdf.ReaderSearchBar
 import com.neb.ians.ui.screens.reader.pdf.ReadingLayout
 import com.neb.ians.ui.screens.reader.pdf.ScrollReader
 import com.neb.ians.ui.screens.reader.pdf.ThumbnailsSheet
@@ -89,7 +97,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 private enum class ReaderSheet { Options, Pages, Bookmarks, GoTo }
 
 /** A request to show a page; [id] makes repeated jumps to the same page still count. */
-private data class Jump(val page: Int, val id: Int)
+private data class Jump(val page: Int, val id: Int, val frac: Float = 0f)
 
 @Composable
 fun PdfViewerScreen(
@@ -134,6 +142,9 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
         sheet = null
     }
 
+    val context = LocalContext.current
+    val clipboard = LocalClipboardManager.current
+    val scope = rememberCoroutineScope()
     val look = readerLook(state.theme)
     val source = remember(viewModel) { PageSource({ i, w -> viewModel.cachedPage(i, w) }, { i, w -> viewModel.renderPage(i, w) }) }
     val zoom = rememberReaderZoomState()
@@ -145,6 +156,11 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
     ImmersiveWhileHidden(hidden = !chromeVisible)
     KeepScreenOn(state.keepScreenOn)
     BackHandler(enabled = zoomedIn) { zoom.reset() }
+    BackHandler(enabled = state.search.open && !zoomedIn) { viewModel.closeSearch() }
+    LaunchedEffect(state.search.jump) {
+        val hit = state.search.current ?: return@LaunchedEffect
+        jump = Jump(hit.page, ++jumpCount, hit.rect.top)
+    }
 
     Box(Modifier.fillMaxSize()) {
         // Each layout keeps its own scroll state; switching starts the new one on the current page.
@@ -161,7 +177,15 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
                         }.distinctUntilChanged().collect(viewModel::onPageVisible)
                     }
                     LaunchedEffect(jump) {
-                        jump?.let { zoom.reset(); listState.scrollToItem(it.page); jump = null }
+                        jump?.let {
+                            zoom.reset()
+                            // land a search hit a third of the way down the screen, not at the page top
+                            val info = listState.layoutInfo
+                            val pageHeight = info.viewportSize.width * state.pageAspects.getOrElse(it.page) { 1.414f }
+                            val offset = if (it.frac > 0f) (it.frac * pageHeight - info.viewportSize.height / 3f).toInt().coerceAtLeast(0) else 0
+                            listState.scrollToItem(it.page, offset)
+                            jump = null
+                        }
                     }
                     ScrollReader(
                         aspects = state.pageAspects,
@@ -173,7 +197,8 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
                             top = topInset + ReaderBarHeight + 10.dp,
                             bottom = bottomInset + ReaderBarHeight + 10.dp
                         ),
-                        onTap = toggleChrome
+                        onTap = toggleChrome,
+                        search = state.search
                     )
                 }
                 ReadingLayout.Pages -> {
@@ -191,7 +216,8 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
                         look = look,
                         source = source,
                         verticalInset = maxOf(topInset, bottomInset) + ReaderBarHeight + 8.dp,
-                        onTap = toggleChrome
+                        onTap = toggleChrome,
+                        search = state.search
                     )
                 }
             }
@@ -213,6 +239,16 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             onBack = onBack,
             onToggleBookmark = { viewModel.toggleBookmark() },
             onOptions = { sheet = ReaderSheet.Options },
+            modifier = Modifier.align(Alignment.TopCenter),
+            onSearch = if (state.canReadText) ({ chromeVisible = true; viewModel.openSearch() }) else null
+        )
+        ReaderSearchBar(
+            search = state.search,
+            pageCount = state.pageCount,
+            onQuery = viewModel::search,
+            onPrev = { viewModel.stepSearch(-1) },
+            onNext = { viewModel.stepSearch(1) },
+            onClose = viewModel::closeSearch,
             modifier = Modifier.align(Alignment.TopCenter)
         )
         ReaderBottomBar(
@@ -255,7 +291,19 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             onTheme = viewModel::setTheme,
             onLayout = viewModel::setLayout,
             onKeepScreenOn = viewModel::setKeepScreenOn,
-            onDismiss = { sheet = null }
+            onDismiss = { sheet = null },
+            onShare = { sheet = null; shareDocument(context, viewModel.localFile(), state.title) },
+            onCopyText = if (state.canReadText) ({
+                sheet = null
+                scope.launch {
+                    val text = viewModel.pageText()
+                    if (text == null) Toast.makeText(context, "This page has no selectable text", Toast.LENGTH_SHORT).show()
+                    else {
+                        clipboard.setText(AnnotatedString(text))
+                        Toast.makeText(context, "Page ${state.currentPage + 1} text copied", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }) else null
         )
         ReaderSheet.Pages -> ThumbnailsSheet(
             aspects = state.pageAspects,
@@ -375,6 +423,22 @@ private fun KeepScreenOn(enabled: Boolean) {
         view.keepScreenOn = enabled
         onDispose { view.keepScreenOn = false }
     }
+}
+
+/** Hands the PDF to another app (share sheet, or open with a different reader). */
+private fun shareDocument(context: Context, file: java.io.File?, title: String) {
+    if (file == null) { Toast.makeText(context, "The document is not saved on this phone yet", Toast.LENGTH_SHORT).show(); return }
+    val uri = runCatching { FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file) }.getOrNull()
+    if (uri == null) { Toast.makeText(context, "This document cannot be shared", Toast.LENGTH_SHORT).show(); return }
+    val send = Intent(Intent.ACTION_SEND).apply {
+        type = "application/pdf"
+        putExtra(Intent.EXTRA_STREAM, uri)
+        putExtra(Intent.EXTRA_SUBJECT, title)
+        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+    }
+    val view = Intent(Intent.ACTION_VIEW).apply { setDataAndType(uri, "application/pdf"); addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+    val chooser = Intent.createChooser(send, "Share or open $title").apply { putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(view)) }
+    runCatching { context.startActivity(chooser) }
 }
 
 private tailrec fun Context.findActivity(): Activity? = when (this) {
