@@ -85,7 +85,7 @@ def lazy_agent_page(request):
     user = _get_user(request)
     if user is None:
         from django.shortcuts import redirect
-        return redirect(f"{reverse('web:login')}?next=/lazy/")
+        return redirect(f"{reverse('web:login')}?next=/app/lazy/")
 
     sessions = [
         {

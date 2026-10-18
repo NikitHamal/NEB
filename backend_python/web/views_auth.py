@@ -446,7 +446,7 @@ def logout(request):
     if token:
         revoke_auth_token(token)
     api.clear_session_auth(request)
-    return redirect('web:home')
+    return redirect('web:landing')
 
 def email_signup_page(request):
     if api.get_session_token(request):

@@ -156,7 +156,7 @@
         var fd = new FormData();
         fd.append('file', file);
         var csrf = getCsrfToken();
-        fetch('/ajax/study-space/' + self.spaceId + '/upload/', {
+        fetch('/ajax/study-space/' + self.spaceId + '/app/upload/', {
           method: 'POST',
           headers: { 'X-CSRFToken': csrf },
           body: fd
@@ -1709,7 +1709,7 @@
         var html = '';
         spaceDocs.forEach(function(d) {
           var size = d.fileSize ? (d.fileSize / 1024).toFixed(0) + ' KB' : 'PDF';
-          var url = d.fileUrl || '/study-space/' + self.spaceId + '/document/' + d.id + '/';
+          var url = d.fileUrl || '/app/study-space/' + self.spaceId + '/document/' + d.id + '/';
           html += '<div class="ss-doc-select-item" data-action="cb-select-file" data-id="' + d.id + '" data-type="studydoc" data-title="' + esc(d.title) + '" data-url="' + url + '" data-size="' + size + '">'
             + '<span class="material-symbols-outlined">description</span>'
             + '<div class="ss-doc-select-info">'
@@ -1731,7 +1731,7 @@
     list.innerHTML = '<div class="ss-doc-select-empty"><span class="material-symbols-outlined">hourglass_top</span><p>Loading community resources...</p></div>';
     
     var self = this;
-    fetch('/ajax/study-space/' + this.spaceId + '/resource/list/', { headers: { 'Accept': 'application/json' } })
+    fetch('/ajax/study-space/' + this.spaceId + '/app/resource/list/', { headers: { 'Accept': 'application/json' } })
       .then(function(r) { return r.json(); })
       .then(function(data) {
         var resources = data.resources || [];
@@ -1743,7 +1743,7 @@
         resources.forEach(function(r) {
           var size = r.fileSize ? (r.fileSize / 1024).toFixed(0) + ' KB' : (r.type || 'PDF');
           var icon = r.type === 'PDF' ? 'picture_as_pdf' : r.type === 'Video' ? 'play_circle' : 'article';
-          var url = r.fileUrl || '/library/resource/' + r.id + '/';
+          var url = r.fileUrl || '/app/library/resource/' + r.id + '/';
           html += '<div class="ss-doc-select-item" data-action="cb-select-file" data-id="' + r.id + '" data-type="resource" data-title="' + esc(r.title) + '" data-url="' + url + '" data-size="' + size + '">'
             + '<span class="material-symbols-outlined">' + icon + '</span>'
             + '<div class="ss-doc-select-info">'

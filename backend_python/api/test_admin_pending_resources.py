@@ -159,7 +159,7 @@ class AdminAccountAccessTests(TestCase):
         self.assertRedirects(response, '/admin/dashboard/')
         self.assertEqual(self.client.get('/admin/users/').status_code, 200)
         self.assertEqual(self.client.get('/backgroundagent/').status_code, 200)
-        self.assertContains(self.client.get('/'), 'Admin Panel')
+        self.assertContains(self.client.get('/app/'), 'Admin Panel')
 
     def test_promotion_grants_existing_account_session_access(self):
         self.user.is_admin = False

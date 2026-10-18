@@ -19,7 +19,7 @@ data class NewsAnnouncement(
     val publishedAgo: String = "",
     val viewCount: String = ""
 ) {
-    val url: String get() = "https://nebians.consica.com.np/news/$slug/"
+    val url: String get() = "https://nebians.consica.com.np/app/news/$slug/"
 }
 
 data class NewsCategory(

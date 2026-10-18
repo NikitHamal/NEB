@@ -1839,19 +1839,27 @@ class SocialLinkClick(models.Model):
         return f"click {self.platform} on user {self.user_id}"
 
 
-class HeroBackground(models.Model):
-    name = models.CharField(max_length=100)
-    filename = models.CharField(max_length=255, unique=True)
-    is_active = models.BooleanField(default=False)
-    sort_order = models.IntegerField(default=0)
-    created_at = models.BigIntegerField(default=0)
+class SiteTheme(models.Model):
+    """A site theme an admin switched on or scheduled. The themes themselves live in
+    ``web/site_themes.py``; this row only says which one, and when."""
+    key = models.CharField(max_length=32)
+    starts_on = models.DateField(null=True, blank=True)
+    ends_on = models.DateField(null=True, blank=True)
+    is_forced = models.BooleanField(default=False, help_text='On right now, whatever the dates say.')
+    show_in_app = models.BooleanField(default=True)
+    show_greeting = models.BooleanField(default=True)
+    note = models.CharField(max_length=120, blank=True, default='')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'hero_backgrounds'
-        ordering = ['sort_order', 'id']
+        db_table = 'site_themes'
+        ordering = ['-is_forced', 'starts_on', 'id']
+        indexes = [models.Index(fields=['is_forced', 'starts_on', 'ends_on'], name='site_theme_window_idx')]
 
     def __str__(self):
-        return f"{self.name} ({self.filename}){' [ACTIVE]' if self.is_active else ''}"
+        when = 'now' if self.is_forced else f'{self.starts_on} to {self.ends_on}'
+        return f'{self.key} ({when})'
 
 
 class PostView(models.Model):

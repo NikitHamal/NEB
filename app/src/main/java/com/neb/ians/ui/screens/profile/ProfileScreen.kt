@@ -79,7 +79,7 @@ import kotlinx.coroutines.launch
 // that bar so you never lose your place in a long feed.
 // ---------------------------------------------------------------------------
 
-private const val PROFILE_LINK_BASE = "https://nebians.consica.com.np/profile/"
+private const val PROFILE_LINK_BASE = "https://nebians.consica.com.np/app/profile/"
 
 @Composable
 fun ProfileScreen(

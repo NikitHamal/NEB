@@ -140,7 +140,7 @@ fun ResourceDetailScreen(
         val intent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_SUBJECT, title)
-            putExtra(Intent.EXTRA_TEXT, "$title\nhttps://nebians.consica.com.np/resource/$id/")
+            putExtra(Intent.EXTRA_TEXT, "$title\nhttps://nebians.consica.com.np/app/reader/$id/")
         }
         runCatching { context.startActivity(Intent.createChooser(intent, "Share resource")) }
     }
