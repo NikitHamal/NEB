@@ -230,7 +230,7 @@ private fun MessageAction(icon: ImageVector, label: String, onClick: () -> Unit)
 
 /** The pixel loader with what Neby is doing, its label breathing while it waits. */
 @Composable
-fun NebyStatus(phase: ChatPhase, modifier: Modifier = Modifier) {
+fun NebyStatus(phase: ChatPhase, modifier: Modifier = Modifier, label: String? = null) {
     val reduced = nebAnimationsReduced()
     val clock by produceState(0L, reduced) { if (!reduced) while (true) withFrameMillis { value = it } }
     Row(modifier, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -246,7 +246,7 @@ fun NebyStatus(phase: ChatPhase, modifier: Modifier = Modifier) {
             }
         }
         Text(
-            when (phase) { ChatPhase.Reading -> "Reading your files"; ChatPhase.Writing -> "Writing"; else -> "Thinking" },
+            label ?: when (phase) { ChatPhase.Reading -> "Reading your files"; ChatPhase.Writing -> "Writing"; else -> "Thinking" },
             style = MaterialTheme.typography.labelLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             modifier = Modifier.graphicsLayer { alpha = if (reduced) 1f else 0.7f + 0.3f * kotlin.math.sin(clock / 260f) }
