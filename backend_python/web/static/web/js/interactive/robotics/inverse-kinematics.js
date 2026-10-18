@@ -1,4 +1,5 @@
 import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite } from '../core/engine.js';
+import { workshop, RM, shadows } from '../core/robot-kit.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
 const L1 = 2.4;
@@ -15,12 +16,11 @@ export default function init(stage) {
     minDistance: 4, maxDistance: 18, target: new THREE.Vector3(0, 2, 0),
   });
 
-  basicLights(scene);
-  scene.add(new THREE.GridHelper(12, 12, 0x35507c, 0x22344f));
+  workshop(scene, engine, quality, { radius: 16, tiles: 4, shadowSize: 6 });
 
   const planeMesh = new THREE.Mesh(
     new THREE.PlaneGeometry(12, 9),
-    new THREE.MeshBasicMaterial({ color: 0x1a2c4a, transparent: true, opacity: 0.18, side: THREE.DoubleSide })
+    new THREE.MeshBasicMaterial({ color: 0x2563eb, transparent: true, opacity: 0.06, side: THREE.DoubleSide, depthWrite: false })
   );
   planeMesh.position.y = 2;
   scene.add(planeMesh);
@@ -37,9 +37,9 @@ export default function init(stage) {
   );
   scene.add(innerRing);
 
-  const metalMat = new THREE.MeshStandardMaterial({ color: 0x4d9fe0, roughness: 0.4, metalness: 0.4 });
-  const jointMat = new THREE.MeshStandardMaterial({ color: 0xf5b942, roughness: 0.45, metalness: 0.3 });
-  const darkMat = new THREE.MeshStandardMaterial({ color: 0x22344f, roughness: 0.6 });
+  const metalMat = RM.alu();
+  const jointMat = RM.shell(0xf97316);
+  const darkMat = RM.darkAlu();
 
   const base = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.65, 0.4, seg), darkMat);
   base.position.y = -0.2;
@@ -191,6 +191,7 @@ export default function init(stage) {
     controls.update(dt);
   });
 
+  scene.traverse((o) => { if (o.isMesh && o.name !== 'floor' && !(o.material && o.material.transparent)) { o.castShadow = true; o.receiveShadow = true; } });
   engine.start();
 
   return {
