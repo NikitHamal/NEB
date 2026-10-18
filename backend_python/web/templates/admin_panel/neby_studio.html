@@ -1,0 +1,164 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}Neby Studio{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/neby-pixel.css' %}">
+<style nonce="{{ csp_nonce }}">
+  .ns-head { display:flex; align-items:flex-end; justify-content:space-between; gap:16px; flex-wrap:wrap; margin-bottom:18px; }
+  .ns-head h1 { margin:0; font-size:1.6rem; }
+  .ns-head p { margin:4px 0 0; color:var(--md-on-surface-variant); }
+  .ns-card { background:var(--md-surface-container-lowest); border:1px solid var(--md-outline-variant); border-radius:var(--md-radius-lg,16px); padding:18px 20px; }
+  .ns-top { display:grid; grid-template-columns:minmax(260px,360px) minmax(0,1fr); gap:18px; align-items:start; }
+  @media (max-width: 860px) { .ns-top { grid-template-columns:minmax(0,1fr); } }
+  .ns-stage { display:flex; flex-direction:column; align-items:center; gap:12px; text-align:center;
+    background: radial-gradient(70% 60% at 50% 35%, color-mix(in srgb, var(--md-primary) 10%, transparent), transparent 70%), var(--md-surface-container-lowest); }
+  .ns-stage .ns-hero { width:240px; height:240px; }
+  .ns-stage strong { font-size:1.05rem; }
+  .ns-stage small { color:var(--md-on-surface-variant); }
+  .ns-avatars { display:flex; gap:14px; align-items:center; justify-content:center; padding-top:4px; }
+  .ns-avatars .neby-avatar-mini { width:40px; height:40px; min-width:40px; min-height:40px; }
+  .ns-avatars .ns-a28 { width:28px; height:28px; min-width:28px; min-height:28px; }
+  .ns-avatars .ns-a64 { width:64px; height:64px; min-width:64px; min-height:64px; }
+  .ns-form { display:grid; gap:14px; }
+  .ns-form select { padding:10px 12px; border-radius:12px; border:1px solid var(--md-outline-variant); background:var(--md-surface); color:var(--md-on-surface); font:inherit; }
+  .ns-row { display:flex; gap:18px; flex-wrap:wrap; font-size:.92rem; }
+  .ns-row label { display:flex; gap:8px; align-items:center; }
+  .ns-live { display:flex; gap:10px; align-items:center; flex-wrap:wrap; font-size:.92rem; }
+  .ns-pill { font-size:.75rem; font-weight:600; padding:3px 10px; border-radius:99px; background:color-mix(in srgb, var(--md-primary) 12%, transparent); color:var(--md-primary); }
+  .ns-section { margin-top:22px; }
+  .ns-section h2 { font-size:1.05rem; margin:0 0 4px; }
+  .ns-section > p { margin:0 0 12px; color:var(--md-on-surface-variant); font-size:.9rem; }
+  .ns-group { font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--md-on-surface-variant); margin:14px 0 8px; }
+  .ns-chips { display:flex; flex-wrap:wrap; gap:8px; }
+  .ns-chip { border:1px solid var(--md-outline-variant); background:var(--md-surface-container-lowest); color:var(--md-on-surface); border-radius:99px; padding:6px 12px; font:inherit; font-size:.85rem; cursor:pointer; }
+  .ns-chip[aria-pressed="true"] { background:var(--md-primary); border-color:var(--md-primary); color:var(--md-on-primary); }
+  .ns-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(118px, 1fr)); gap:12px; }
+  .ns-tile { display:flex; flex-direction:column; align-items:center; gap:6px; padding:12px 8px 10px; border-radius:14px; border:1px solid var(--md-outline-variant);
+    background:var(--md-surface-container-lowest); cursor:pointer; font:inherit; color:var(--md-on-surface); transition:border-color .15s, transform .15s; }
+  .ns-tile:hover { border-color:var(--md-primary); transform:translateY(-1px); }
+  .ns-tile[aria-pressed="true"] { border:2px solid var(--md-primary); padding:11px 7px 9px; }
+  .ns-tile .neby-px, .ns-tile [data-neby-avatar] { width:96px; height:96px; }
+  .ns-tile span { font-size:.82rem; font-weight:600; }
+  .ns-tile small { font-size:.7rem; color:var(--md-on-surface-variant); }
+  .ns-live-dot { width:8px; height:8px; border-radius:50%; background:#2fb36b; display:inline-block; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="ns-head">
+  <div>
+    <h1>Neby Studio</h1>
+    <p>{{ look_count }} looks and {{ state_count }} animations, drawn once in pixel art and shared by the website and the app.</p>
+  </div>
+  <div class="ns-live"><span class="ns-live-dot"></span> Live now: <strong>{% for k, l, g in looks %}{% if k == live.look %}{{ l }}{% endif %}{% endfor %}</strong>
+    <span class="ns-pill">{% if live.mode == 'auto' %}auto · {{ theme.name }} theme{% else %}picked by an admin{% endif %}</span></div>
+</div>
+
+<div class="ns-top">
+  <div class="ns-card ns-stage">
+    <div class="ns-hero" id="nsHero" data-neby-avatar data-hero="true" data-look="{{ live.look }}" data-animation="idle" title="Tap to play"></div>
+    <div><strong id="nsCaption">Idle</strong><br><small id="nsSub">Tap Neby, or pick a look and an animation below.</small></div>
+    <div class="ns-avatars" aria-label="How the look sits in avatars">
+      <div class="neby-avatar-mini ns-a28" data-neby-avatar data-look="{{ live.look }}" data-animation="idle"></div>
+      <div class="neby-avatar-mini" data-neby-avatar data-look="{{ live.look }}" data-animation="idle"></div>
+      <div class="neby-avatar-mini ns-a64" data-neby-avatar data-look="{{ live.look }}" data-animation="idle"></div>
+    </div>
+  </div>
+
+  <div class="ns-card">
+    <form method="post" class="ns-form">
+      {% csrf_token %}
+      <label for="nsLook"><strong>Neby wears</strong></label>
+      <select name="look" id="nsLook">
+        <option value="auto"{% if live.mode == 'auto' %} selected{% endif %}>Auto: dress for the live festival theme (now: {% for k, l, g in looks %}{% if k == auto_look %}{{ l }}{% endif %}{% endfor %})</option>
+        {% for group, items in look_groups.items %}
+          <optgroup label="{{ group }}">
+            {% for l in items %}<option value="{{ l.key }}"{% if live.mode == l.key %} selected{% endif %}>{{ l.label }}</option>{% endfor %}
+          </optgroup>
+        {% endfor %}
+      </select>
+      <div class="ns-row">
+        <label><input type="checkbox" name="ambient"{% if live.ambient %} checked{% endif %}> Idle life (looks around, waves, hops)</label>
+        <label><input type="checkbox" name="reactions"{% if live.reactions %} checked{% endif %}> Tap reactions</label>
+      </div>
+      <div><button type="submit" class="md-btn md-btn-filled">Save for website and app</button></div>
+      <p style="margin:0;color:var(--md-on-surface-variant);font-size:.85rem">Auto follows Site Themes: Dashain dresses Neby with tika and jamara, Tihar with a marigold garland, Holi in gulal, New Year in a party hat, exam season in a graduate's cap. During a festival, the big Neby greets visitors with that festival's animation.</p>
+    </form>
+
+    <div class="ns-group">Animations</div>
+    {% for group, items in state_groups.items %}
+      <div class="ns-group" style="margin-top:8px">{{ group }}</div>
+      <div class="ns-chips">
+        {% for s in items %}<button type="button" class="ns-chip" data-ns-state="{{ s.key }}" aria-pressed="{% if s.key == 'idle' %}true{% else %}false{% endif %}" title="{{ s.frames }} frames">{{ s.label }}</button>{% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="ns-section">
+  <h2>Looks</h2>
+  <p>Pick one to preview it on the stage. Saving above is what makes it live.</p>
+  {% for group, items in look_groups.items %}
+    <div class="ns-group">{{ group }}</div>
+    <div class="ns-grid">
+      {% for l in items %}
+        <button type="button" class="ns-tile" data-ns-look="{{ l.key }}" aria-pressed="{% if l.live %}true{% else %}false{% endif %}">
+          <div data-neby-avatar data-look="{{ l.key }}" data-animation="idle" data-crop="false"></div>
+          <span>{{ l.label }}</span>{% if l.live %}<small>live</small>{% endif %}
+        </button>
+      {% endfor %}
+    </div>
+  {% endfor %}
+</div>
+
+<div class="ns-section">
+  <h2>Every animation in this look</h2>
+  <p id="nsAllCaption">All {{ state_count }} animations, playing at once.</p>
+  <div class="ns-grid" id="nsAll">
+    {% for group, items in state_groups.items %}{% for s in items %}
+      <button type="button" class="ns-tile" data-ns-state="{{ s.key }}">
+        <div data-neby-avatar data-look="{{ live.look }}" data-animation="{{ s.key }}" data-crop="false"></div>
+        <span>{{ s.label }}</span><small>{{ s.frames }} frames · {{ s.ms }} ms</small>
+      </button>
+    {% endfor %}{% endfor %}
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-pixel.js' %}"></script>
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var hero = document.getElementById('nsHero');
+  var caption = document.getElementById('nsCaption');
+  var look = hero.getAttribute('data-look');
+  var label = function (k) { return k.replace(/-/g, ' ').replace(/^./, function (c) { return c.toUpperCase(); }); };
+  function inst(el) { return window.NebyAvatar.mount(el); }
+  function press(sel, attr, value) {
+    document.querySelectorAll(sel).forEach(function (b) { b.setAttribute('aria-pressed', b.getAttribute(attr) === value ? 'true' : 'false'); });
+  }
+  document.addEventListener('click', function (e) {
+    var s = e.target.closest('[data-ns-state]');
+    if (s) {
+      var k = s.getAttribute('data-ns-state');
+      inst(hero).setAnimation(k);
+      caption.textContent = label(k);
+      press('.ns-chip[data-ns-state]', 'data-ns-state', k);
+      hero.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      return;
+    }
+    var l = e.target.closest('[data-ns-look]');
+    if (l) {
+      look = l.getAttribute('data-ns-look');
+      inst(hero).setLook(look);
+      document.querySelectorAll('.ns-avatars [data-neby-avatar], #nsAll [data-neby-avatar]').forEach(function (el) { inst(el).setLook(look); });
+      press('[data-ns-look]', 'data-ns-look', look);
+      document.getElementById('nsSub').textContent = l.querySelector('span').textContent + ' — preview only until you save.';
+      hero.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  });
+})();
+</script>
+{% endblock %}

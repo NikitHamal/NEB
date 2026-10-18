@@ -17,14 +17,14 @@ object PixelNeby {
     internal val white = Px.rgb(0xFFFFFF)
     private val shadow = 0x26101830
     private val light = Px.rgb(0xE8F2FF)
-    private val body = Px.rgb(0xCCE2FF)
+    internal val body = Px.rgb(0xCCE2FF)
     private val shade = Px.rgb(0xAFCBF6)
     private val deep = Px.rgb(0x93B5EC)
     private val rim = Px.rgb(0xDDEAFF)
-    private val wave = Px.rgb(0xA9C9FB)
+    internal val wave = Px.rgb(0xA9C9FB)
     internal val bandHi = Px.rgb(0x5A8BEA)
     internal val band = Px.rgb(0x2F64D6)
-    private val bandLo = Px.rgb(0x2450B4)
+    internal val bandLo = Px.rgb(0x2450B4)
     internal val eyes = Px.rgb(0x0A1C4D)
     internal val blush = Px.rgb(0xF5A9C3)
     internal val pink = Px.rgb(0xFF6F91)
@@ -46,7 +46,24 @@ object PixelNeby {
         val lookY: Int = 0,
         val blush: Boolean = false,
         val phase: Float = 0f,
+        /** What Neby is wearing: festival dress, a hat, headphones... see [NebyLook]. */
+        val look: NebyLook = NebyLook.Classic,
+        /** Sideways shift, for swings and dances. */
+        val dx: Float = 0f,
+        /** A Dashain tika on the forehead and jamara behind the ear, whatever the look. */
+        val tika: Boolean = false,
+        val jamara: Boolean = false,
+        /** How much Holi colour has landed on Neby, 0..1. */
+        val paint: Float = 0f,
     )
+
+    /** Body measurements for one pose, for anything drawn on or around Neby. */
+    class Geo(val cx: Float, val cy: Float, val rx: Float, val ry: Float, val ey: Int, val lx: Int, val rx2: Int, val pose: Pose) {
+        val top: Float get() = cy - ry
+        val bandTop: Float get() = cy + ry * 0.3f
+        /** Half the body's width at row [y]. */
+        fun halfWidth(y: Float): Float { val t = (y - cy) / ry; return if (t * t >= 1f) 0f else rx * kotlin.math.sqrt(1f - t * t) }
+    }
 
     /** Where the face sits for a pose, so props can be placed relative to it. */
     fun faceY(p: Pose): Float = 44f - 15.5f * p.sy + p.dy - 5f
@@ -59,7 +76,7 @@ object PixelNeby {
             val layer = PixelCanvas(SIZE, SIZE)
             figure(layer, p.copy())
             // rotate about the base so Neby rocks on the ground rather than spinning in air
-            val px = 24f; val py = 44f + p.dy
+            val px = 24f + p.dx; val py = 44f + p.dy
             val c = cos(-p.tilt); val s = sin(-p.tilt)
             for (y in 0 until height) for (x in 0 until width) {
                 val dx = x + 0.5f - px; val dyy = y + 0.5f - py
@@ -70,15 +87,23 @@ object PixelNeby {
         }
         val lift = (-p.dy).coerceAtLeast(0f)
         val w = (13f * p.sx - lift * 0.7f).coerceAtLeast(5f)
-        for (x in (24 - w).toInt()..(24 + w).toInt()) if ((get(x, 46) ushr 24) == 0) set(x, 46, shadow)
-        for (x in (24 - w + 3).toInt()..(24 + w - 3).toInt()) if ((get(x, 47) ushr 24) == 0) set(x, 47, shadow)
+        val sc = 24f + p.dx
+        for (x in (sc - w).toInt()..(sc + w).toInt()) if ((get(x, 46) ushr 24) == 0) set(x, 46, shadow)
+        for (x in (sc - w + 3).toInt()..(sc + w - 3).toInt()) if ((get(x, 47) ushr 24) == 0) set(x, 47, shadow)
     }
 
     private fun figure(c: PixelCanvas, p: Pose) = with(c) {
-        val cx = 24f
+        val cx = 24f + p.dx
         val r = 15.5f
         val rx = r * p.sx; val ry = r * p.sy
         val cy = 44f - ry + p.dy
+        val ey = (cy - 5f).roundToInt() + p.lookY
+        val lx = (cx - 6.5f).roundToInt() + p.lookX
+        val rx2 = (cx + 3.5f).roundToInt() + p.lookX
+        val g = Geo(cx, cy, rx, ry, ey, lx, rx2, p)
+        val pal = NebyLooks.band(p.look)
+        val band = pal[0]; val bandHi = pal[1]; val bandLo = pal[2]; val wave = pal[3]
+        NebyLooks.back(this, g)
         ellipse(cx, cy, rx, ry, body)
         val bandTop = cy + ry * 0.3f
         for (y in 0 until height) for (x in 0 until width) {
@@ -119,15 +144,14 @@ object PixelNeby {
         val hx = (cx - rx * 0.5f).roundToInt(); val hy = (cy - ry * 0.55f).roundToInt()
         rect(hx, hy, 3, 2, white); set(hx, hy + 2, white)
 
-        val ey = (cy - 5f).roundToInt() + p.lookY
-        val lx = (cx - 6.5f).roundToInt() + p.lookX
-        val rx2 = (cx + 3.5f).roundToInt() + p.lookX
         eyesAt(this, p.eyes, lx, rx2, ey)
         if (p.blush || p.eyes == Eyes.Happy || p.eyes == Eyes.Wink || p.eyes == Eyes.Heart) {
             hline(lx - 2, lx, ey + 6, blush); hline(rx2 + 2, rx2 + 4, ey + 6, blush)
         }
         mouthAt(this, p.mouth, (cx + p.lookX).roundToInt(), ey + 7)
+        NebyLooks.front(this, g)
         outline(line)
+        NebyLooks.detail(this, g)
     }
 
     private fun eyesAt(c: PixelCanvas, e: Eyes, lx: Int, rx: Int, ey: Int) = with(c) {
