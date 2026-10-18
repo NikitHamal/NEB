@@ -7,6 +7,7 @@ const PRACTICALS = {
   'simple-pendulum-g': () => import('./practicals/pendulum.js'),
   'vernier-calipers': () => import('./practicals/vernier.js'),
   'meter-bridge': () => import('./practicals/meter-bridge.js'),
+  'screw-gauge': () => import('./practicals/screw-gauge.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
