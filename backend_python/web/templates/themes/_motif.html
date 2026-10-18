@@ -1,0 +1,14 @@
+{% comment %}A small festival motif beside the logo while a festive theme is on. Inline SVG in the
+theme's primary colour; decorative, so hidden from screen readers (the greeting carries the words).{% endcomment %}
+{% with m=site_theme.app.motif %}{% if m %}
+<span class="st-motif st-motif-{{ m }}" aria-hidden="true" title="{{ site_theme.greeting.en|default:site_theme.name }}">
+{% if m == 'kite' %}<svg viewBox="0 0 24 24"><path d="M12 2 19 9 12 16 5 9Z" fill="currentColor"/><path d="M12 2 19 9H12Z" fill="#fff" opacity=".35"/><path d="M12 16q-2 3 0 4.5t0 3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+{% elif m == 'diyo' %}<svg viewBox="0 0 24 24"><path d="M12 3c2 2.6 2.6 4.4 1.6 6a1.9 1.9 0 0 1-3.2 0C9.4 7.4 10 5.6 12 3Z" fill="#F6A623"/><path d="M3 13h18c0 3.9-4 7-9 7s-9-3.1-9-7Z" fill="currentColor"/><path d="M8 13h8" stroke="#fff" stroke-opacity=".4" stroke-width="1.4" stroke-linecap="round"/></svg>
+{% elif m == 'gulal' %}<svg viewBox="0 0 24 24"><circle cx="8" cy="10" r="5" fill="currentColor"/><circle cx="16" cy="9" r="4" fill="#0F9D8A" opacity=".85"/><circle cx="13" cy="16" r="4" fill="#FFB300" opacity=".85"/></svg>
+{% elif m == 'gurans' %}<svg viewBox="0 0 24 24"><g fill="currentColor">{% for r in "01234" %}<ellipse cx="12" cy="6.5" rx="3.2" ry="5" transform="rotate({% widthratio forloop.counter0 1 72 %} 12 12)"/>{% endfor %}</g><circle cx="12" cy="12" r="2.4" fill="#FFD54F"/></svg>
+{% elif m == 'drop' %}<svg viewBox="0 0 24 24"><path d="M12 3c3.6 4.6 6 8 6 11a6 6 0 0 1-12 0c0-3 2.4-6.4 6-11Z" fill="currentColor"/><path d="M9.5 14.5a2.6 2.6 0 0 0 2.5 2.6" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1.5" stroke-linecap="round"/></svg>
+{% elif m == 'snow' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M12 3l-2 2m2-2 2 2M12 21l-2-2m2 2 2-2"/></svg>
+{% elif m == 'pencil' %}<svg viewBox="0 0 24 24"><path d="M4 17.5 15.5 6l2.5 2.5L6.5 20H4Z" fill="currentColor"/><path d="m15.5 6 1.8-1.8a1.2 1.2 0 0 1 1.7 0l.8.8a1.2 1.2 0 0 1 0 1.7L18 8.5" fill="#F4B400"/></svg>
+{% endif %}
+</span>
+{% endif %}{% endwith %}

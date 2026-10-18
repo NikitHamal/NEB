@@ -57,7 +57,7 @@ def admin_site_themes(request):
 
     today = site_themes.kathmandu_today()
     live = site_themes.resolve(today)
-    themes = [{'key': k, **v, **site_themes.decor_data(k), 'css': ';'.join(f'{a}:{b}' for a, b in v['tokens'].items()),
+    themes = [{'key': k, **v, **site_themes.decor_data(k), 'app': site_themes.APP.get(k), 'css': ';'.join(f'{a}:{b}' for a, b in v['tokens'].items()),
                'live': k == live['key']} for k, v in site_themes.THEMES.items()]
     schedule = list(SiteTheme.objects.filter(is_forced=False, ends_on__gte=today).order_by('starts_on'))
     for row in schedule:

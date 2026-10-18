@@ -37,6 +37,7 @@
   .st-table { width:100%; border-collapse:collapse; margin-top:12px; }
   .st-table td, .st-table th { text-align:left; padding:10px 8px; border-bottom:1px solid var(--md-outline-variant); font-size:.92rem; }
   .st-greet { font-size:.85rem; color:var(--st-accent); font-weight:600; }
+.st-sw-app{align-items:center;gap:4px}.st-sw-app small{font-size:.7rem;opacity:.6;margin:0 4px}.st-app-note{font-size:.8rem;opacity:.75;margin:6px 0 0}
 </style>
 {% endblock %}
 
@@ -67,6 +68,8 @@
       <p>{{ t.about }}</p>
       {% if t.greeting %}<div class="st-greet">{{ t.greeting.ne }} · {{ t.greeting.en }}</div>{% endif %}
       <div class="st-sw">{% for k, v in t.tokens.items %}<i style="background:{{ v }}" title="{{ k }}"></i>{% endfor %}</div>
+      {% if t.app %}<div class="st-sw st-sw-app" title="How the app is recoloured: light, then dark"><small>App</small>{% for c in t.app.light %}<i style="background:{{ c }}"></i>{% endfor %}<small>Dark</small>{% for c in t.app.dark %}<i style="background:{{ c }}"></i>{% endfor %}</div>
+      <p class="st-app-note">Home card: {{ t.app.message }} <b>{{ t.app.cta.0 }}</b></p>{% endif %}
       <div class="st-forms">
         <form method="post">{% csrf_token %}
           <input type="hidden" name="action" value="force"><input type="hidden" name="key" value="{{ t.key }}">
