@@ -43,7 +43,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -180,7 +179,7 @@ fun CreatorStudioScreen(
                     modifier = Modifier.fillMaxWidth()
                 )
 
-                PullToRefreshBox(
+                com.neb.ians.ui.components.NebRefreshBox(
                     isRefreshing = isRefreshing,
                     onRefresh = {
                         scope.launch {

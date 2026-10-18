@@ -34,7 +34,6 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.BookmarkBorder
 import androidx.compose.material.icons.outlined.ThumbUp
 import androidx.compose.material3.*
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -338,7 +337,7 @@ fun ResourceDetailScreen(
                             deletingCommentId = comment.id
                         }
 
-                        PullToRefreshBox(
+                        com.neb.ians.ui.components.NebRefreshBox(
                             isRefreshing = uiState.isRefreshing,
                             onRefresh = { viewModel.load(forceRefresh = true) },
                             modifier = Modifier.fillMaxSize()

@@ -102,3 +102,14 @@ class AppThemeTests(TestCase):
             if key != site_themes.DEFAULT_KEY:
                 self.assertIn(key, site_themes.APP)
                 self.assertEqual(len(site_themes.APP[key]['light']), 4)
+
+    def test_the_apps_can_ask_for_the_live_theme(self):
+        r = Client().get('/api/site-theme/')
+        self.assertEqual(r.json()['festive'], False)
+        SiteTheme.objects.create(key='monsoon', is_forced=True)
+        site_themes.invalidate()
+        d = Client().get('/api/site-theme/').json()
+        self.assertTrue(d['festive'])
+        self.assertEqual(d['light']['primary'], '#006A60')
+        self.assertEqual(d['motif'], 'drop')
+        self.assertIn('cta', d['card'])

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import math
 import time
+from collections import Counter
 
 from rest_framework.decorators import api_view, permission_classes, throttle_classes
 from rest_framework.permissions import AllowAny
@@ -25,68 +26,101 @@ from .view_helpers import _get_user_from_request
 
 _RECENT_POOL = 90  # candidates per side before scoring
 _DECK_MIN = 12     # padding guarantees at least this many when content exists
+_POST_HALF_LIFE_H = 20.0       # a discussion's freshness halves every 20 hours
+_RESOURCE_HALF_LIFE_H = 96.0   # a resource stays fresh about five times longer
+_INTEREST_TTL = 600            # interests are recomputed at most every 10 minutes per user
 
 
-def _user_interest_sets(user):
-    """Categories/subjects the user has authored, bookmarked or replied in."""
-    categories = set()
-    subjects = set()
+def _norm(value):
+    return (value or '').strip().lower()
+
+
+def _user_interests(user):
+    """How much the user cares about each forum category and subject, from what they wrote,
+    bookmarked and uploaded (most recent first, so new interests weigh in quickly), plus their
+    class. Weighted counts rather than a flat set: three Physics bookmarks say more than one.
+    Cached per user for ten minutes, which takes six queries off every feed request."""
     if user is None:
-        return categories, subjects
+        return Counter(), Counter(), ''
+    from django.core.cache import cache
+    key = f'feed_interests_v2:{user.id}'
+    hit = cache.get(key)
+    if hit is not None:
+        return hit
+    categories, subjects = Counter(), Counter()
     try:
         for row in Post.objects.filter(user=user).order_by('-created_at')[:12].values_list('category', flat=True):
             if row:
-                categories.add(row.strip().lower())
-    except Exception:
-        pass
-    try:
-        bookmarked_posts = Bookmark.objects.filter(user=user, target_type='post').order_by('-created_at')[:12]
-        post_ids = [b.target_id for b in bookmarked_posts]
-        for row in Post.objects.filter(id__in=post_ids).values_list('category', flat=True):
-            if row:
-                categories.add(row.strip().lower())
-        bookmarked_resources = Bookmark.objects.filter(user=user, target_type='resource').order_by('-created_at')[:12]
-        resource_ids = [b.target_id for b in bookmarked_resources]
-        for row in Resource.objects.filter(id__in=resource_ids).values_list('subject', flat=True):
-            if row:
-                subjects.add(row.strip().lower())
-    except Exception:
-        pass
-    try:
+                categories[_norm(row)] += 2
+        marks = list(Bookmark.objects.filter(user=user).order_by('-created_at').values_list('target_type', 'target_id')[:24])
+        post_ids = [t for k, t in marks if k == 'post']
+        resource_ids = [t for k, t in marks if k == 'resource']
+        if post_ids:
+            for row in Post.objects.filter(id__in=post_ids).values_list('category', flat=True):
+                if row:
+                    categories[_norm(row)] += 1
+        if resource_ids:
+            for row in Resource.objects.filter(id__in=resource_ids).values_list('subject', flat=True):
+                if row:
+                    subjects[_norm(row)] += 1
         for row in Resource.objects.filter(uploaded_by=user).order_by('-added_at')[:12].values_list('subject', flat=True):
             if row:
-                subjects.add(row.strip().lower())
+                subjects[_norm(row)] += 2
     except Exception:
         pass
-    return categories, subjects
+    klass = ''.join(ch for ch in (getattr(user, 'class_level', '') or '') if ch.isdigit())
+    result = (categories, subjects, klass)
+    cache.set(key, result, _INTEREST_TTL)
+    return result
+
+
+def _user_interest_sets(user):
+    """Back-compat: the interest keys as plain sets."""
+    categories, subjects, _ = _user_interests(user)
+    return set(categories), set(subjects)
+
+
+def _affinity(weight):
+    """Diminishing returns: the first signal counts most, the tenth adds little."""
+    return 0.0 if weight <= 0 else 30.0 + 12.0 * math.log2(1 + weight)
+
+
+def _post_base(post, now_ms):
+    """The part of a post's score that is the same for everyone: freshness and engagement."""
+    engagement = (post.thumbs_up_count or 0) * 3 + (post.reply_count or 0) * 2 + min(post.view_count or 0, 1000) * 0.05
+    age_h = max(0.0, (now_ms - (post.created_at or now_ms)) / 3600000.0)
+    fresh = 36.0 * 0.5 ** (age_h / _POST_HALF_LIFE_H)
+    help_wanted = 6.0 if (post.reply_count or 0) == 0 and age_h < 48 else 0.0  # an unanswered question
+    return fresh + math.log2(1 + max(engagement, 0)) + help_wanted
+
+
+def _resource_base(resource, now_ms):
+    engagement = ((resource.like_count or 0) * 4 + (resource.comment_count or 0) * 2
+                  + min(resource.view_count or 0, 1500) * 0.05)
+    age_h = max(0.0, (now_ms - (resource.added_at or now_ms)) / 3600000.0)
+    fresh = 36.0 * 0.5 ** (age_h / _RESOURCE_HALF_LIFE_H)
+    return fresh + math.log2(1 + max(engagement, 0))
 
 
 def _score_post(post, now_ms, categories):
-    engagement = (post.thumbs_up_count or 0) * 3 + (post.reply_count or 0) * 2 + min(post.view_count or 0, 1000) * 0.05
-    age_hours = max(0.0, (now_ms - (post.created_at or now_ms)) / 3600000.0)
-    recency = max(0.0, 36.0 - age_hours / 4.0)
-    relevance = 42.0 if (post.category or '').strip().lower() in categories else 0.0
-    # log-damping keeps mega-threads from permanently owning the deck
-    base = math.log2(1 + max(engagement, 0)) if engagement > 0 else 0.0
-    return relevance + recency + base
+    """Kept for callers and tests: base plus interest, as a single number."""
+    weight = categories.get(_norm(post.category), 0) if isinstance(categories, Counter) else (1 if _norm(post.category) in categories else 0)
+    return _post_base(post, now_ms) + _affinity(weight)
 
 
 def _score_resource(resource, now_ms, subjects):
-    engagement = ((resource.like_count or 0) * 4 + (resource.comment_count or 0) * 2
-                  + min(resource.view_count or 0, 1500) * 0.05)
-    age_hours = max(0.0, (now_ms - (resource.added_at or now_ms)) / 3600000.0)
-    recency = max(0.0, 36.0 - age_hours / 6.0)
-    relevance = 46.0 if (resource.subject or '').strip().lower() in subjects else 0.0
-    base = math.log2(1 + max(engagement, 0)) if engagement > 0 else 0.0
-    return relevance + recency + base
+    weight = subjects.get(_norm(resource.subject), 0) if isinstance(subjects, Counter) else (1 if _norm(resource.subject) in subjects else 0)
+    return _resource_base(resource, now_ms) + _affinity(weight)
 
 
 def _candidate_pools():
-    """The newest posts and resources everyone's deck is ranked from. Identical for
-    every viewer, so they are cached for a minute; only the ranking is personal."""
+    """The newest posts and resources everyone's deck is ranked from, with each item's shared
+    base score worked out once. Identical for every viewer, so cached for a minute; per request
+    only the personal part (interest, class, diversity) is added."""
     from django.core.cache import cache
-    pools = cache.get('suggest_pools_v1')
+    pools = cache.get('suggest_pools_v2')
     if pools is None:
+        now_ms = int(time.time() * 1000)
         posts = list(
             Post.objects.filter(is_archived=False, user__email_verified=True)
             .select_related('user').prefetch_related('images', 'media', 'poll__options')
@@ -96,44 +130,66 @@ def _candidate_pools():
             Resource.objects.filter(approval_status='approved')
             .select_related('uploaded_by').order_by('-added_at')[:_RECENT_POOL]
         )
-        pools = (posts, resources)
-        cache.set('suggest_pools_v1', pools, 60)
+        pools = ([(p, _post_base(p, now_ms)) for p in posts], [(r, _resource_base(r, now_ms)) for r in resources])
+        cache.set('suggest_pools_v2', pools, 60)
     return pools
+
+
+def _diversify(ranked, key_of, author_of, limit):
+    """Greedy re-rank: each pick costs the next item from the same topic or author a little, so
+    one subject or one prolific poster cannot fill the deck. Ranked is [(score, obj)]."""
+    picked, topics, authors = [], Counter(), Counter()
+    pool = list(ranked)
+    while pool and len(picked) < limit:
+        best_i, best = 0, None
+        for i, (score, obj) in enumerate(pool[:limit * 3]):
+            adjusted = score - 7.0 * topics[key_of(obj)] - 10.0 * authors[author_of(obj)]
+            if best is None or adjusted > best:
+                best_i, best = i, adjusted
+        score, obj = pool.pop(best_i)
+        topics[key_of(obj)] += 1
+        authors[author_of(obj)] += 1
+        picked.append(obj)
+    return picked, [obj for _, obj in pool]
 
 
 def build_suggested_deck(user, limit=18):
     """Returns (deck, note) where deck is a list of (kind, obj) pairs with
     kind in {'post', 'resource'}. Never empty when the platform holds any
     content (padding falls back to most recent)."""
-    now_ms = int(time.time() * 1000)
-    categories, subjects = _user_interest_sets(user)
-
+    categories, subjects, klass = _user_interests(user)
     post_pool, resource_pool = _candidate_pools()
+    me = getattr(user, 'id', None)
 
-    ranked_posts = sorted(post_pool, key=lambda p: _score_post(p, now_ms, categories), reverse=True)
-    ranked_resources = sorted(resource_pool, key=lambda r: _score_resource(r, now_ms, subjects), reverse=True)
+    ranked_posts = sorted(
+        ((base + _affinity(categories.get(_norm(p.category), 0)), p) for p, base in post_pool if p.user_id != me),
+        key=lambda x: x[0], reverse=True)
+    ranked_resources = sorted(
+        ((base + _affinity(subjects.get(_norm(r.subject), 0))
+          + (10.0 if klass and klass in (r.grade_level or '') else 0.0), r) for r, base in resource_pool),
+        key=lambda x: x[0], reverse=True)
 
-    # Interleave top-scored content so the deck mixes types naturally.
+    top_posts, rest_posts = _diversify(ranked_posts, lambda p: _norm(p.category), lambda p: p.user_id, limit)
+    top_resources, rest_resources = _diversify(ranked_resources, lambda r: _norm(r.subject), lambda r: r.uploaded_by_id, limit)
+
+    # Interleave so the deck mixes types naturally.
     deck = []
-    top_posts = ranked_posts[:limit]
-    top_resources = ranked_resources[:limit]
     i = j = 0
-    while i < len(top_resources) or j < len(top_posts):
+    while (i < len(top_resources) or j < len(top_posts)) and len(deck) < limit:
         if i < len(top_resources):
             deck.append(('resource', top_resources[i])); i += 1
-        if j < len(top_posts):
+        if j < len(top_posts) and len(deck) < limit:
             deck.append(('post', top_posts[j])); j += 1
-        if len(deck) >= limit:
-            break
 
-    # Guarantee: never empty / never thin — pad with plain-recency leftovers.
+    # Guarantee: never empty / never thin, pad with plain-recency leftovers.
     if len(deck) < _DECK_MIN:
         seen = {id(obj) for _, obj in deck}
-        leftovers = ([('post', p) for p in ranked_posts if id(p) not in seen]
-                     + [('resource', r) for r in ranked_resources if id(r) not in seen])
-        leftovers.sort(key=lambda item: getattr(item[1], 'created_at', getattr(item[1], 'added_at', 0)), reverse=True)
+        leftovers = ([('post', p) for p in top_posts[j:] + rest_posts if id(p) not in seen]
+                     + [('resource', r) for r in top_resources[i:] + rest_resources if id(r) not in seen])
+        leftovers.sort(key=lambda item: getattr(item[1], 'created_at', None) or getattr(item[1], 'added_at', 0) or 0, reverse=True)
+        cap = max(_DECK_MIN, min(limit, len(post_pool) + len(resource_pool)))
         for item in leftovers:
-            if len(deck) >= max(_DECK_MIN, min(limit, len(post_pool) + len(resource_pool))):
+            if len(deck) >= cap:
                 break
             deck.append(item)
 
