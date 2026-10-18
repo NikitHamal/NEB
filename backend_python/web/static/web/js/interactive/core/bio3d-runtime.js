@@ -4,6 +4,7 @@ import { getBiologyPractical } from './bio3d-data.js';
 import { buildBiologyModel } from './bio3d-models.js';
 import { getBiologyMetricRows, getBiologyFormula, getBiologyBadge, getBiologyConclusion } from './bio3d-science.js';
 import { buildRoom } from './lab3d-room.js';
+import { hasHandsOn, startHandsOn } from './bio-handson/index.js';
 
 function initialState(config) {
   const state = { running: true };
@@ -77,6 +78,7 @@ function randomize(config, state, handles) {
 
 export function initBio3DLab(stage, opts = {}) {
   const config = getBiologyPractical(opts.lessonSlug);
+  if (hasHandsOn(config.slug)) return startHandsOn(stage, config);
   stage.classList.add('bio3d-stage');
   stage.dataset.bioKind = config.kind;
   const engine = createEngine(stage, { fov: 44, shadows: true, environment: true, exposure: 1.05 });

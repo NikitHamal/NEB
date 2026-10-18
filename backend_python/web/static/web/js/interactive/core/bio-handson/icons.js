@@ -1,0 +1,28 @@
+// Pictograms for the tool belt, drawn as the instruments look from above.
+const S = (body) => `<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${body}</svg>`;
+export const ICONS = {
+  hand: S('<path d="M11 17V8.5a1.8 1.8 0 0 1 3.6 0V15m0-7.8V6a1.8 1.8 0 0 1 3.6 0v9m0-7a1.8 1.8 0 0 1 3.6 0v8m0-4.5a1.8 1.8 0 0 1 3.6 0V19c0 5-3.4 8-8 8-3.2 0-5.2-1.4-7-4l-3.2-5a1.9 1.9 0 0 1 3-2.3L11 17"/>'),
+  scalpel: S('<path d="M4 28 16.5 15.5"/><path d="M16.5 15.5 19 13l1.5 1.5-2.5 2.5z" fill="currentColor"/><path d="M19 13c3-3 6.5-6 9-9-1 4.5-4 8.5-7.5 10.5"/>'),
+  scissors: S('<circle cx="8" cy="24" r="3.3"/><circle cx="15.5" cy="26.5" r="3.3"/><path d="M10.3 21.6 27 6M13.6 23.7 27.5 8.5"/>'),
+  forceps: S('<path d="M5 27 25.5 5.5M8.5 28.5 27 7"/><path d="M5 27c1 1.5 2.3 2 3.5 1.5"/><path d="M12 19.5l3 3M14 17.5l3 3" stroke-width="1.1"/>'),
+  needle: S('<path d="M5 27 13 19"/><rect x="2.5" y="23.5" width="5" height="8" rx="2" transform="rotate(45 5 27.5)" fill="currentColor" stroke="none"/><path d="M13 19 28 4" stroke-width="1.1"/>'),
+  pin: S('<circle cx="22" cy="10" r="4" fill="currentColor"/><path d="M19 13 6 26"/>'),
+  dropper: S('<path d="M20 4.5a3.5 3.5 0 0 1 5 5l-2 2-5-5z" fill="currentColor"/><path d="M18 9.5l4.5 4.5L10 26.5 6.5 28 5 26.5 5.5 22z"/><path d="M5 26.5 3 29" />'),
+  coverslip: S('<rect x="6" y="9" width="20" height="14" rx="1" transform="skewX(-12) translate(4 0)"/><path d="M9 21 24 11" stroke-width="1" opacity=".5"/>'),
+  brush: S('<path d="M7 25c-1.5 1.5-3.5 1.5-4 3 2 .5 5 .5 7-1.5 1.5-1.5 1.5-3 0-4.5s-3-1.5-3 3z" fill="currentColor"/><path d="M10.5 22.5 27 6"/>'),
+  lens: S('<circle cx="13" cy="13" r="8.5"/><circle cx="13" cy="13" r="5.5" stroke-width="1" opacity=".5"/><path d="M19.2 19.2 28 28" stroke-width="3"/>'),
+  razor: S('<rect x="4" y="12" width="24" height="8" rx="1"/><path d="M4 20h24" stroke-width="2.6"/><path d="M12 14.5h8" stroke-width="1"/>'),
+  paper: S('<path d="M7 5h13l5 5v17H7z"/><path d="M20 5v5h5" /><path d="M11 15h10M11 19h10M11 23h6" stroke-width="1" opacity=".6"/>'),
+  washbottle: S('<path d="M11 13h10l1.5 15h-13z"/><path d="M14 13V9h4v4M16 9V6l8-2" />'),
+  slide: S('<rect x="3" y="11" width="26" height="10" rx="1"/><rect x="11" y="12.5" width="10" height="7" stroke-width="1" opacity=".6"/>'),
+  lamp: S('<path d="M12 22h8l-1-6h-6z"/><path d="M16 16c-3-3 0-6 0-9 2 3 4 5 1 9" fill="currentColor"/><path d="M10 26h12"/>'),
+  watch: S('<circle cx="16" cy="17" r="10"/><path d="M16 11v6l4 2M14 4h4"/>'),
+  tube: S('<path d="M12 4v20a4 4 0 0 0 8 0V4"/><path d="M10 4h12M12 17h8" />'),
+  check: S('<path d="M7 16.5 13 22.5 25.5 9.5" stroke-width="2.6"/>'),
+  sound: S('<path d="M5 13h5l7-6v18l-7-6H5z" fill="currentColor"/><path d="M21 12c2 2 2 6 0 8M24 9c4 4 4 10 0 14"/>'),
+  mute: S('<path d="M5 13h5l7-6v18l-7-6H5z" fill="currentColor"/><path d="M21 13l6 6M27 13l-6 6"/>'),
+  hint: S('<path d="M12 21c-2.5-2-4-4.3-4-7.5a8 8 0 0 1 16 0c0 3.2-1.5 5.5-4 7.5v3h-8z"/><path d="M13 28h6"/>'),
+  restart: S('<path d="M7 10A11 11 0 1 1 5 18"/><path d="M5 5v6h6"/>'),
+  eye: S('<path d="M3 16s5-8.5 13-8.5S29 16 29 16s-5 8.5-13 8.5S3 16 3 16z"/><circle cx="16" cy="16" r="4"/>'),
+  teacher: S('<circle cx="16" cy="10" r="5"/><path d="M6 28c1-6 5-9 10-9s9 3 10 9"/><path d="M12 9.5h8" stroke-width="1.2"/>'),
+};
