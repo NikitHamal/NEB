@@ -1,0 +1,6 @@
+node_modules/
+out/
+public/neby/
+public/audio/
+audio/kit/
+__pycache__/
