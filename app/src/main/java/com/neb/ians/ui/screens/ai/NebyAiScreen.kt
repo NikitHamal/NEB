@@ -1,5 +1,23 @@
 package com.neb.ians.ui.screens.ai
 
+import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import com.neb.ians.ui.components.nebPressable
+import com.neb.ians.ui.theme.nebSpatialSpec
+import com.neb.ians.ui.theme.nebEffectsSpec
+import androidx.compose.animation.scaleOut
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.foundation.lazy.itemsIndexed
+import com.neb.ians.ui.screens.ai.chat.enterOnce
+import com.neb.ians.ui.screens.ai.chat.UserMessage
+import com.neb.ians.ui.screens.ai.chat.NebyChatWelcome
+import com.neb.ians.ui.screens.ai.chat.NebyChatComposer
+import com.neb.ians.ui.screens.ai.chat.ChatPhase
+import com.neb.ians.ui.screens.ai.chat.ChatActions
+import com.neb.ians.ui.screens.ai.chat.AssistantMessage
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
@@ -140,15 +158,41 @@ fun NebyAiScreen(
         }
     }
 
-    // Scroll to bottom when new messages arrive or streamed content grows.
-    val messageCount = uiState.messages.size
-    val lastContentLength = uiState.messages.lastOrNull()?.content?.length ?: 0
-    LaunchedEffect(messageCount, lastContentLength) {
-        val total = listState.layoutInfo.totalItemsCount
-        if (total > 0) {
-            runCatching { listState.animateScrollToItem(total - 1) }
+    // Follow the conversation only while the reader is at the bottom; a new message always scrolls.
+    val atBottom by remember {
+        derivedStateOf {
+            val info = listState.layoutInfo
+            val last = info.visibleItemsInfo.lastOrNull()
+            last == null || (last.index >= info.totalItemsCount - 1 && last.offset + last.size <= info.viewportEndOffset + 120)
         }
     }
+    val messageCount = uiState.messages.size
+    val lastContentLength = uiState.messages.lastOrNull()?.content?.length ?: 0
+    LaunchedEffect(messageCount) {
+        val total = listState.layoutInfo.totalItemsCount
+        if (total > 0) runCatching { listState.animateScrollToItem(total - 1, Int.MAX_VALUE / 4) }
+    }
+    LaunchedEffect(lastContentLength) {
+        val total = listState.layoutInfo.totalItemsCount
+        if (total > 0 && atBottom) runCatching { listState.scrollToItem(total - 1, Int.MAX_VALUE / 4) }
+    }
+    val context = LocalContext.current
+    val copy: (String) -> Unit = { text ->
+        clipboard.setText(AnnotatedString(text))
+        scope.launch { snackbarHostState.showSnackbar("Copied") }
+    }
+    val actions = remember(viewModel) {
+        ChatActions(
+            onCopy = { text -> clipboard.setText(AnnotatedString(text)); scope.launch { snackbarHostState.showSnackbar("Copied") } },
+            onShare = { text ->
+                runCatching {
+                    context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply { type = "text/plain"; putExtra(Intent.EXTRA_TEXT, text) }, "Share Neby's answer"))
+                }
+            },
+            onRegenerate = viewModel::regenerate
+        )
+    }
+    val modelLabel = uiState.selectedSession?.let { it.modelName.ifBlank { it.modelCode } }
 
     val activeSession = uiState.selectedSession
 
@@ -175,21 +219,21 @@ fun NebyAiScreen(
         containerColor = MaterialTheme.colorScheme.surface,
         snackbarHost = { SnackbarHost(snackbarHostState) },
         bottomBar = {
-            if (uiState.error == null) {
-                ChatInput(
+            if (uiState.error == null && uiState.selectedSession != null) {
+                NebyChatComposer(
                     value = input,
-                    pendingFiles = uiState.pendingFiles,
-                    sending = uiState.isStreaming,
-                    showAttach = true,
                     onValueChange = { input = it },
+                    pendingFiles = uiState.pendingFiles,
+                    streaming = uiState.isStreaming,
+                    canAttach = true,
                     onAttach = { filePicker.launch("*/*") },
                     onRemoveFile = viewModel::removeFile,
-                    onClearFiles = viewModel::clearPendingFiles,
                     onSend = {
                         val message = input
                         input = ""
                         viewModel.send(message)
-                    }
+                    },
+                    onStop = viewModel::stop
                 )
             }
         }
@@ -233,75 +277,47 @@ fun NebyAiScreen(
                     )
                 }
                 else -> {
-                    LazyColumn(
-                        state = listState,
-                        modifier = Modifier.fillMaxSize(),
-                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        if (uiState.messages.isEmpty() && !uiState.isStreaming) {
-                            item(key = "empty-hint") {
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .padding(vertical = 18.dp),
-                                    horizontalAlignment = Alignment.CenterHorizontally
-                                ) {
-                                    com.neb.ians.ui.pixel.NebyPixel(
-                                        size = 120.dp,
-                                        interactive = true,
-                                        intro = com.neb.ians.ui.pixel.NebyState.Wave
-                                    )
-                                    Spacer(Modifier.height(12.dp))
-                                    Text(
-                                        text = "Ask Neby anything about your studies. " +
-                                            if (activeSession.provider == "qwen")
-                                                "You can also attach files with the paperclip."
-                                            else "",
-                                        style = MaterialTheme.typography.bodySmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
-                                        modifier = Modifier.padding(horizontal = 6.dp)
+                    Box(Modifier.fillMaxSize()) {
+                        LazyColumn(
+                            state = listState,
+                            modifier = Modifier.fillMaxSize(),
+                            contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 20.dp),
+                            verticalArrangement = Arrangement.spacedBy(18.dp)
+                        ) {
+                            if (uiState.messages.isEmpty() && !uiState.isStreaming) {
+                                item(key = "welcome") {
+                                    NebyChatWelcome(name = null, onStarter = { viewModel.send(it) })
+                                }
+                            }
+                            itemsIndexed(uiState.messages, key = { _, m -> m.id }) { i, message ->
+                                val isLast = i == uiState.messages.lastIndex
+                                val fresh = message.id.startsWith("local-")
+                                if (message.role == "user") {
+                                    UserMessage(message, onCopy = copy, modifier = Modifier.enterOnce(message.id, fresh))
+                                } else {
+                                    val phase = when {
+                                        !(isLast && uiState.isStreaming) -> ChatPhase.Idle
+                                        message.content.isNotBlank() -> ChatPhase.Writing
+                                        uiState.messages.getOrNull(i - 1)?.attachments?.isNotEmpty() == true -> ChatPhase.Reading
+                                        else -> ChatPhase.Thinking
+                                    }
+                                    AssistantMessage(
+                                        message = message,
+                                        phase = phase,
+                                        isLast = isLast,
+                                        modelLabel = modelLabel,
+                                        actions = actions,
+                                        modifier = Modifier.enterOnce(message.id, fresh)
                                     )
                                 }
                             }
                         }
-                        items(uiState.messages, key = { it.id }) { message ->
-                            ChatBubble(
-                                message = message,
-                                onCopy = { text ->
-                                    clipboard.setText(AnnotatedString(text))
-                                    scope.launch { snackbarHostState.showSnackbar("Copied to clipboard") }
-                                }
-                            )
-                        }
-                        if (uiState.isStreaming) {
-                            item(key = "typing-indicator") {
-                                Row(
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp),
-                                    modifier = Modifier.padding(horizontal = 6.dp)
-                                ) {
-                                    com.neb.ians.ui.pixel.NebyPixel(
-                                        state = com.neb.ians.ui.pixel.NebyState.Think,
-                                        size = 32.dp,
-                                        ambient = false
-                                    )
-                                    Text(
-                                        text = "Neby is responding…",
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
-                                }
-                            }
-                        } else {
-                            val lastMessage = uiState.messages.lastOrNull()
-                            if (lastMessage != null && lastMessage.role == "assistant" && lastMessage.content.isNotBlank()) {
-                                item(key = "regenerate-pill") {
-                                    RegeneratePill(onClick = viewModel::regenerate)
-                                }
-                            }
-                        }
+                        JumpToLatest(
+                            visible = !atBottom && uiState.messages.isNotEmpty(),
+                            streaming = uiState.isStreaming,
+                            onClick = { scope.launch { val n = listState.layoutInfo.totalItemsCount; if (n > 0) listState.animateScrollToItem(n - 1, Int.MAX_VALUE / 4) } },
+                            modifier = Modifier.align(Alignment.BottomCenter).padding(bottom = 12.dp)
+                        )
                     }
                 }
             }
@@ -366,6 +382,29 @@ fun NebyAiScreen(
             icon = Icons.Outlined.DeleteOutline,
             destructive = true
         )
+    }
+}
+
+@Composable
+private fun JumpToLatest(visible: Boolean, streaming: Boolean, onClick: () -> Unit, modifier: Modifier) {
+    AnimatedVisibility(
+        visible = visible,
+        enter = fadeIn(nebEffectsSpec()) + scaleIn(nebSpatialSpec(), initialScale = 0.8f),
+        exit = fadeOut(nebEffectsSpec()) + scaleOut(nebSpatialSpec(), targetScale = 0.8f),
+        modifier = modifier
+    ) {
+        Row(
+            Modifier
+                .clip(RoundedCornerShape(18.dp))
+                .background(MaterialTheme.colorScheme.inverseSurface)
+                .nebPressable(onClick = onClick)
+                .padding(horizontal = 14.dp, vertical = 9.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
+            Icon(Icons.Outlined.KeyboardArrowDown, contentDescription = null, tint = MaterialTheme.colorScheme.inverseOnSurface, modifier = Modifier.size(18.dp))
+            Text(if (streaming) "Neby is writing" else "Latest", style = MaterialTheme.typography.labelLarge, color = MaterialTheme.colorScheme.inverseOnSurface)
+        }
     }
 }
 
@@ -712,294 +751,3 @@ private fun ModelRow(
 // ----------------------------------------------------------------------
 // Chat bubbles
 // ----------------------------------------------------------------------
-
-@OptIn(ExperimentalFoundationApi::class)
-@Composable
-private fun ChatBubble(
-    message: ApiArenaMessage,
-    onCopy: (String) -> Unit
-) {
-    val isUser = message.role == "user"
-    val shape = RoundedCornerShape(
-        topStart = 18.dp,
-        topEnd = 18.dp,
-        bottomStart = if (isUser) 18.dp else 6.dp,
-        bottomEnd = if (isUser) 6.dp else 18.dp
-    )
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start
-    ) {
-        Surface(
-            modifier = Modifier
-                .fillMaxWidth(if (isUser) 0.84f else 0.92f)
-                .clip(shape)
-                .then(
-                    if (!isUser && message.content.isNotBlank()) {
-                        Modifier.combinedClickable(
-                            onClick = {},
-                            onLongClick = { onCopy(message.content) }
-                        )
-                    } else Modifier
-                ),
-            shape = shape,
-            color = if (isUser) MaterialTheme.colorScheme.primaryContainer
-            else MaterialTheme.colorScheme.surfaceContainerLowest,
-            border = if (isUser) null else BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
-        ) {
-            Column(modifier = Modifier.padding(horizontal = 14.dp, vertical = 10.dp)) {
-                if (message.attachments.isNotEmpty()) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .horizontalScroll(rememberScrollState())
-                            .padding(bottom = 6.dp),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp)
-                    ) {
-                        message.attachments.forEach { attachment ->
-                            AttachmentChip(fileName = attachment.fileName.ifBlank { "Attachment" })
-                        }
-                    }
-                }
-                if (isUser) {
-                    Text(
-                        text = message.content.ifBlank { "…" },
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                } else if (message.content.isBlank()) {
-                    Text(
-                        text = "…",
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                } else {
-                    MarkdownText(
-                        markdown = message.content,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun AttachmentChip(fileName: String) {
-    Row(
-        modifier = Modifier
-            .clip(WebPillShape)
-            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-            .padding(horizontal = 10.dp, vertical = 4.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Outlined.Description,
-            contentDescription = null,
-            modifier = Modifier.size(14.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-        Text(
-            text = fileName,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-        )
-    }
-}
-
-@Composable
-private fun RegeneratePill(onClick: () -> Unit) {
-    Row(
-        modifier = Modifier
-            .clip(WebPillShape)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, WebPillShape)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 14.dp, vertical = 7.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
-    ) {
-        Icon(
-            imageVector = Icons.Filled.Refresh,
-            contentDescription = null,
-            modifier = Modifier.size(15.dp),
-            tint = MaterialTheme.colorScheme.primary
-        )
-        Text(
-            text = "Regenerate",
-            style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.SemiBold,
-            color = MaterialTheme.colorScheme.primary
-        )
-    }
-}
-
-// ----------------------------------------------------------------------
-// Input bar
-// ----------------------------------------------------------------------
-
-@Composable
-private fun ChatInput(
-    value: String,
-    pendingFiles: List<PendingFile>,
-    sending: Boolean,
-    showAttach: Boolean,
-    onValueChange: (String) -> Unit,
-    onAttach: () -> Unit,
-    onRemoveFile: (PendingFile) -> Unit,
-    onClearFiles: () -> Unit,
-    onSend: () -> Unit
-) {
-    Surface(
-        color = MaterialTheme.colorScheme.surface,
-        tonalElevation = 0.dp,
-        modifier = Modifier.navigationBarsPadding()
-    ) {
-        Column(modifier = Modifier.fillMaxWidth()) {
-            if (pendingFiles.isNotEmpty()) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp, vertical = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .weight(1f)
-                            .horizontalScroll(rememberScrollState()),
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        pendingFiles.forEach { file ->
-                            PendingFileChip(file = file, onRemove = { onRemoveFile(file) })
-                        }
-                    }
-                    NebButton(
-                        text = "Clear",
-                        onClick = onClearFiles,
-                        tone = NebButtonTone.Text,
-                        size = NebButtonSize.Compact,
-                        modifier = Modifier.align(Alignment.CenterVertically)
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 12.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.Bottom,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                if (showAttach) {
-                    IconButton(onClick = onAttach, enabled = !sending) {
-                        Icon(
-                            imageVector = Icons.Outlined.AttachFile,
-                            contentDescription = "Attach files",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-                OutlinedTextField(
-                    value = value,
-                    onValueChange = onValueChange,
-                    modifier = Modifier
-                        .weight(1f)
-                        .heightIn(min = 54.dp, max = 140.dp),
-                    placeholder = { Text("Ask Neby…") },
-                    enabled = !sending,
-                    minLines = 1,
-                    maxLines = 5
-                )
-                IconButton(
-                    enabled = (value.isNotBlank() || pendingFiles.isNotEmpty()) && !sending,
-                    onClick = onSend
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Send,
-                        contentDescription = "Send",
-                        tint = if ((value.isNotBlank() || pendingFiles.isNotEmpty()) && !sending)
-                            MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun PendingFileChip(
-    file: PendingFile,
-    onRemove: () -> Unit
-) {
-    val context = LocalContext.current
-    val ext = file.name.substringAfterLast('.', "").lowercase()
-    val isImage = ext in listOf("png", "jpg", "jpeg", "webp", "gif", "bmp")
-
-    Row(
-        modifier = Modifier
-            .clip(WebPillShape)
-            .background(MaterialTheme.colorScheme.secondaryContainer)
-            .clickable {
-                runCatching {
-                    val intent = Intent(Intent.ACTION_VIEW).apply {
-                        setDataAndType(file.uri, context.contentResolver.getType(file.uri) ?: "*/*")
-                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                    }
-                    context.startActivity(Intent.createChooser(intent, "Open file"))
-                }
-            }
-            .padding(start = 8.dp, end = 4.dp, top = 3.dp, bottom = 3.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        if (isImage) {
-            Box(
-                modifier = Modifier
-                    .size(16.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(Color.LightGray)
-            ) {
-                AsyncImage(
-                    model = file.uri,
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = androidx.compose.ui.layout.ContentScale.Crop
-                )
-            }
-        } else {
-            val icon = when {
-                ext == "pdf" -> Icons.Outlined.Description
-                ext in listOf("mp4", "mkv", "avi", "mov", "webm", "3gp", "wmv", "flv") -> Icons.Outlined.PlayCircle
-                ext in listOf("mp3", "wav", "ogg", "flac", "aac", "m4a", "wma") -> Icons.Outlined.Headphones
-                else -> Icons.Outlined.Description
-            }
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                modifier = Modifier.size(14.dp),
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
-            )
-        }
-        Text(
-            text = file.name,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.width(120.dp)
-        )
-        IconButton(onClick = onRemove, modifier = Modifier.size(20.dp)) {
-            Icon(
-                imageVector = Icons.Filled.Close,
-                contentDescription = "Remove file",
-                modifier = Modifier.size(13.dp),
-                tint = MaterialTheme.colorScheme.onSecondaryContainer
-            )
-        }
-    }
-}

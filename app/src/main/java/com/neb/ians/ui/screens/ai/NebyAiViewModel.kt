@@ -90,6 +90,8 @@ class NebyAiViewModel @Inject constructor(
     }
 
     private val json = Json { ignoreUnknownKeys = true }
+    @Volatile private var activeBody: ResponseBody? = null
+    @Volatile private var stopRequested = false
     private val _uiState = MutableStateFlow(NebyAiUiState())
     val uiState: StateFlow<NebyAiUiState> = _uiState.asStateFlow()
 
@@ -378,6 +380,7 @@ class NebyAiViewModel @Inject constructor(
         val trimmed = content.trim()
         val files = _uiState.value.pendingFiles
         if ((trimmed.isBlank() && files.isEmpty()) || _uiState.value.isStreaming) return
+        stopRequested = false
         viewModelScope.launch {
             val token = authRepository.getBearerToken()
             if (token == null) {
@@ -438,8 +441,10 @@ class NebyAiViewModel @Inject constructor(
                     }
                     consumeSse(body, assistantLocalId, result)
                 }
+                if (stopRequested) { markStopped(assistantLocalId); return@launch }
                 finishStream(token, session, assistantLocalId, userLocalId, trimmed, result)
             } catch (e: Exception) {
+                if (stopRequested) { markStopped(assistantLocalId); return@launch }
                 val message = friendlyError(e, "AI response failed")
                 setAssistantContentIfBlank(assistantLocalId, message)
                 _uiState.update { it.copy(isStreaming = false, snackbar = message) }
@@ -470,6 +475,7 @@ class NebyAiViewModel @Inject constructor(
             }
 
             val targetId = last.id
+            stopRequested = false
             setAssistantContent(targetId, "")
             _uiState.update { it.copy(isStreaming = true, snackbar = null) }
             val result = StreamResult()
@@ -477,12 +483,14 @@ class NebyAiViewModel @Inject constructor(
                 withContext(Dispatchers.IO) {
                     consumeSse(apiService.regenerateArenaMessage(token, targetId), targetId, result)
                 }
+                if (stopRequested) { markStopped(targetId); return@launch }
                 // Qwen deltas may not stream — recover content from the server.
                 if (!result.errored && currentMessageContent(targetId).isBlank()) {
                     recoverFromServer(token, session.id)
                 }
                 _uiState.update { it.copy(isStreaming = false) }
             } catch (e: Exception) {
+                if (stopRequested) { markStopped(targetId); return@launch }
                 val message = friendlyError(e, "Could not regenerate")
                 setAssistantContentIfBlank(targetId, message)
                 _uiState.update { it.copy(isStreaming = false, snackbar = message) }
@@ -544,11 +552,30 @@ class NebyAiViewModel @Inject constructor(
 
     /** Reads the SSE body line by line, appending deltas to [assistantId]. */
     private fun consumeSse(body: ResponseBody, assistantId: String, result: StreamResult) {
-        body.byteStream().bufferedReader().useLines { lines ->
-            for (line in lines) {
-                if (!handleSseLine(line, assistantId, result)) break
+        activeBody = body
+        try {
+            body.byteStream().bufferedReader().useLines { lines ->
+                for (line in lines) {
+                    if (stopRequested || !handleSseLine(line, assistantId, result)) break
+                }
             }
+        } finally {
+            activeBody = null
         }
+    }
+
+    /** Stops Neby mid-answer: closes the stream, keeps what has arrived. */
+    fun stop() {
+        if (!_uiState.value.isStreaming) return
+        stopRequested = true
+        runCatching { activeBody?.close() }
+    }
+
+    /** After a stop: the partial answer stays; an empty one says it was stopped. */
+    private fun markStopped(assistantId: String) {
+        stopRequested = false
+        setAssistantContentIfBlank(assistantId, "_Stopped._")
+        _uiState.update { it.copy(isStreaming = false) }
     }
 
     /** Returns false when the stream is done. */
