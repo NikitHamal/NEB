@@ -131,6 +131,19 @@ export function createUI(stage, opts) {
       box.querySelector('[data-a=explore]').addEventListener('click', () => { box.remove(); onExplore && onExplore(); });
       return box;
     },
+    /** A small chooser at (x, y) in stage pixels; calls back with the chosen value. */
+    choose(x, y, title, options, cb) {
+      root.querySelectorAll('.bh-pick').forEach((n) => n.remove());
+      const box = el('div', 'bh-pick', `<b>${esc(title)}</b>`);
+      options.forEach((o) => { const b = el('button', '', esc(o.label)); b.type = 'button'; b.addEventListener('click', (e) => { e.stopPropagation(); box.remove(); cb(o.value); }); box.appendChild(b); });
+      const x2 = document.createElement('button'); x2.type = 'button'; x2.textContent = '✕'; x2.addEventListener('click', () => box.remove()); box.appendChild(x2);
+      root.appendChild(box);
+      const w = stage.clientWidth; const h = stage.clientHeight;
+      const bw = Math.min(250, w - 16); box.style.left = `${Math.max(8, Math.min(w - bw - 8, x - bw / 2))}px`;
+      box.style.top = `${Math.max(8, Math.min(h - box.offsetHeight - 8, y + 18))}px`;
+      return box;
+    },
+    clearChooser() { root.querySelectorAll('.bh-pick').forEach((n) => n.remove()); },
     clearResult() { root.querySelectorAll('.bh-result').forEach((n) => n.remove()); },
     dispose() { clearTimeout(toastTimer); root.remove(); panel.dispose(); stage.classList.remove('bh-stage'); },
   };
