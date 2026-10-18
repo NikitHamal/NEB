@@ -197,7 +197,7 @@ def _code_model_catalog(user):
 def code_home(request, session_id=None):
     user, _ = _current_user(request)
     if not user:
-        next_url = f"/code/{session_id}/" if session_id else "/code/"
+        next_url = f"/app/code/{session_id}/" if session_id else "/app/code/"
         return redirect('%s?next=%s' % (reverse('web:login'), next_url))
     if not _is_admin_user(user, request):
         return HttpResponseForbidden("Access restricted to administrators.")

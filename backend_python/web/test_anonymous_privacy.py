@@ -56,7 +56,7 @@ class AnonymousPrivacyTests(TestCase):
     def test_profile_page_excludes_anonymous(self):
         client = Client()
         self._logged_in(client, self.viewer)
-        resp = client.get(f'/profile/{self.owner.username}/')
+        resp = client.get(f'/app/profile/{self.owner.username}/')
         self.assertEqual(resp.status_code, 200)
         post_ids = [p['id'] for p in resp.context['user_posts']]
         reply_ids = [r['id'] for r in resp.context['user_replies']]

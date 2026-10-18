@@ -258,7 +258,7 @@
                 {% if profile_user.school %}
                   <span class="pf-meta-item">
                     <span class="material-symbols-outlined">school</span>
-                    {% if profile_user.school_username %}<a href="/profile/{{ profile_user.school_username }}/" class="pf-meta-school-link">{{ profile_user.school }}</a>{% else %}{{ profile_user.school }}{% endif %}
+                    {% if profile_user.school_username %}<a href="/app/profile/{{ profile_user.school_username }}/" class="pf-meta-school-link">{{ profile_user.school }}</a>{% else %}{{ profile_user.school }}{% endif %}
                   </span>
                 {% endif %}
               {% endif %}
@@ -452,7 +452,7 @@
                   </div>
                   <div class="act-resource-info">
                     <div class="act-resource-name">
-                      <a href="/reader/{{ post.resource_id }}/">{{ post.title }}</a>
+                      <a href="/app/reader/{{ post.resource_id }}/">{{ post.title }}</a>
                     </div>
                     <div class="act-resource-meta">{{ post.resource_size|file_size_human|default:"2.4 MB" }} &bull; {{ post.resource_type|default:"PDF Document" }}</div>
                   </div>
@@ -470,7 +470,7 @@
                     <span id="profile-post-like-count-{{ post.id }}">{{ post.thumbsUpCount|default:0 }}</span>
                   </button>
                   {% if post.is_resource %}
-                  <a href="/reader/{{ post.resource_id }}/" class="act-btn-stat">
+                  <a href="/app/reader/{{ post.resource_id }}/" class="act-btn-stat">
                     <span class="material-symbols-outlined">download</span>
                     <span>{{ post.downloadCount|default:89 }} Downloads</span>
                   </a>
@@ -903,7 +903,7 @@
                   <span class="material-symbols-outlined">apartment</span>
                   <span class="about-detail-label">School</span>
                   {% if profile_user.school_username %}
-                    <a href="/profile/{{ profile_user.school_username }}/" class="about-detail-value about-detail-link">{{ profile_user.school }}</a>
+                    <a href="/app/profile/{{ profile_user.school_username }}/" class="about-detail-value about-detail-link">{{ profile_user.school }}</a>
                   {% else %}
                     <span class="about-detail-value">{{ profile_user.school }}</span>
                   {% endif %}
@@ -1280,7 +1280,7 @@ async function loadMoreActivity() {
               </div>
               <div class="act-resource-info">
                 <div class="act-resource-name">
-                  <a href="/reader/${resourceIdUrl}/">${escapeHtml(post.title || '')}</a>
+                  <a href="/app/reader/${resourceIdUrl}/">${escapeHtml(post.title || '')}</a>
                 </div>
                 <div class="act-resource-meta">${escapeHtml(sizeStr)} &bull; ${escapeHtml(typeStr)}</div>
               </div>
@@ -1289,7 +1289,7 @@ async function loadMoreActivity() {
         } else {
           const previewText = post.content ? (post.content.length > 300 ? post.content.substring(0, 297) + '...' : post.content) : '';
           contentHtml = `
-            <h3><a href="/forum/post/${postIdUrl}/">${escapeHtml(post.title || '')}</a></h3>
+            <h3><a href="/app/forum/post/${postIdUrl}/">${escapeHtml(post.title || '')}</a></h3>
             ${previewText ? `<div class="post-card-content">${renderMarkdown(previewText)}</div>` : ''}
           `;
         }
@@ -1300,14 +1300,14 @@ async function loadMoreActivity() {
         let footerSecondStat = '';
         if (post.is_resource) {
           footerSecondStat = `
-            <a href="/reader/${resourceIdUrl}/" class="act-btn-stat">
+            <a href="/app/reader/${resourceIdUrl}/" class="act-btn-stat">
               <span class="material-symbols-outlined">download</span>
               <span>${Number(post.downloadCount || 0)} Downloads</span>
             </a>
           `;
         } else {
           footerSecondStat = `
-            <a href="/forum/post/${postIdUrl}/" class="act-btn-stat">
+            <a href="/app/forum/post/${postIdUrl}/" class="act-btn-stat">
               <span class="material-symbols-outlined">chat_bubble_outline</span>
               <span>${Number(post.replyCount || 0)} Replies</span>
             </a>
@@ -1323,7 +1323,7 @@ async function loadMoreActivity() {
                 ${badgeHtml}
               </div>
 <div class="post-meta-sub">
-                 <a href="/forum/?category=${encodeURIComponent(post.category || '')}" class="post-card-category-link">${categoryHtml}</a>
+                 <a href="/app/forum/?category=${encodeURIComponent(post.category || '')}" class="post-card-category-link">${categoryHtml}</a>
                  <span class="post-card-time">${escapeHtml(timeAgo(post.createdAt))}</span>
                </div>
             </div>
@@ -1413,7 +1413,7 @@ async function loadMoreReplies() {
           </div>
           <div class="pf-reply-card-context">
             <span class="material-symbols-outlined">chat_bubble_outline</span>
-            <a href="/forum/post/${postIdUrl}/">${postTitleHtml}</a>
+            <a href="/app/forum/post/${postIdUrl}/">${postTitleHtml}</a>
           </div>
           <div class="pf-reply-card-body">${renderMarkdown(replyContent)}</div>
           <div class="pf-reply-card-actions">
@@ -1421,7 +1421,7 @@ async function loadMoreReplies() {
               <span class="material-symbols-outlined">thumb_up</span>
               <span>${reply.thumbsUpCount || 0}</span>
             </button>
-            <a href="/forum/post/${postIdUrl}/" class="act-btn-stat">
+            <a href="/app/forum/post/${postIdUrl}/" class="act-btn-stat">
               <span class="material-symbols-outlined">open_in_new</span>
               <span>View Post</span>
             </a>
@@ -1504,7 +1504,7 @@ async function openFollowModal(type) {
         const photo = safeClientUrl(photoRaw || '');
         const usernamePath = encodeURIComponent(unameRaw || '');
         const av = photo ? `<img src="${photo}" alt="">` : `<span class="follow-user-initial">${escapeHtml((unameRaw || 'U').slice(0,1))}</span>`;
-        return `<a class="follow-list-user" href="/profile/${usernamePath}/"><div class="follow-user-avatar">${av}</div><div class="follow-user-info"><span class="follow-user-name">${name}</span><span class="follow-user-handle">@${uname}</span></div><span class="material-symbols-outlined follow-user-open">chevron_right</span></a>`;
+        return `<a class="follow-list-user" href="/app/profile/${usernamePath}/"><div class="follow-user-avatar">${av}</div><div class="follow-user-info"><span class="follow-user-name">${name}</span><span class="follow-user-handle">@${uname}</span></div><span class="material-symbols-outlined follow-user-open">chevron_right</span></a>`;
       }).join('');
     } else {
       body.innerHTML = '<div class="follow-list-empty">No users found</div>';
@@ -1736,7 +1736,7 @@ registerActions({
   'share-resource-url': function(el) {
     closeAllMenus();
     var rid = el.dataset.resourceId;
-    var url = window.location.origin + '/reader/' + rid + '/';
+    var url = window.location.origin + '/app/reader/' + rid + '/';
     if (navigator.share) { navigator.share({ title: document.title, url: url }).catch(function(){}); }
     else { navigator.clipboard.writeText(url).then(function() { showSnackbar('Link copied!'); }).catch(function() { showSnackbar('Could not copy link'); }); }
   },

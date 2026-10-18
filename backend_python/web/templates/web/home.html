@@ -22,13 +22,7 @@
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
 
-{% if hero_bg_filename %}
-<style nonce="{{ csp_nonce }}">
-  .home-landing {
-    --home-landing-bg: url("{% static 'web/img/' %}{{ hero_bg_filename }}");
-  }
-</style>
-{% endif %}
+
 {% endblock %}
 
 {% block content %}
@@ -44,9 +38,6 @@
 {% include "web/_home_profile_banner.html" %}
 {% endif %}
 
-{% if not is_authenticated %}
-{% include "web/_home_hero.html" %}
-{% endif %}
 
 <div class="md-container hf-page">
   {% if is_authenticated %}

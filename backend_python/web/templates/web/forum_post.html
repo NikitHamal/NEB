@@ -24,7 +24,7 @@
   "@type": "BreadcrumbList",
   "itemListElement": [
     {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/"},
-    {"@type": "ListItem", "position": 2, "name": "Forum", "item": "https://nebians.consica.com.np/forum/"},
+    {"@type": "ListItem", "position": 2, "name": "Forum", "item": "https://nebians.consica.com.np/app/forum/"},
     {"@type": "ListItem", "position": 3, "name": "{{ post.title|default:'Discussion'|escapejs }}"}
   ]
 }
@@ -389,7 +389,7 @@ function renderMentions(text) {
         const lower = username.toLowerCase();
         const found = ALL_USERNAMES.find(function(u) { return u.toLowerCase() === lower; });
         if (found) {
-          return '[@' + found + '](/profile/' + encodeURIComponent(found) + '/)';
+          return '[@' + found + '](/app/profile/' + encodeURIComponent(found) + '/)';
         }
         return match;
       });
@@ -400,7 +400,7 @@ function renderMentions(text) {
     const lower = username.toLowerCase();
     const found = ALL_USERNAMES.find(function(u) { return u.toLowerCase() === lower; });
     if (found) {
-      return '[@' + found + '](/profile/' + encodeURIComponent(found) + '/)';
+      return '[@' + found + '](/app/profile/' + encodeURIComponent(found) + '/)';
     }
     return match;
   });
@@ -582,7 +582,7 @@ async function confirmDelete() {
     if (d.success) {
       closeDeleteConfirmModal();
       if (deleteTarget.type === 'post') {
-        window.location.href = '/forum/';
+        window.location.href = '/app/forum/';
       } else {
         // Live DOM removal — the WS will also broadcast, but the optimistic
         // update here avoids a flash. The WS handler will dedupe.
@@ -1052,7 +1052,7 @@ function renderThreadParent(parent) {
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
           (parentAnon
             ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(parent.authorName || 'Anonymous Nebian') + '</span>'
-            : '<a href="/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>') +
+            : '<a href="/app/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>') +
           (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
           followBtn + ownerBtns +
         '</div>' +
@@ -1163,7 +1163,7 @@ function renderThreadReply(reply, parentInfo, depth) {
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
           (isAnon
             ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(reply.authorName) + '</span>'
-            : '<a href="/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>') +
+            : '<a href="/app/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>') +
           (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
           followBtn + ownerBtns +
         '</div>' +
@@ -1331,7 +1331,7 @@ function renderUserPopup(data, anchorEl) {
   const followBtn = (!data.isSelf && IS_AUTHENTICATED)
     ? '<button class="follow-btn-inline ' + (data.isFollowing ? 'following' : 'not-following') + '" data-action="toggle-follow" data-user-id="' + data.id + '" style="font-size:.75rem;padding:4px 14px;">' + (data.isFollowing ? 'Following' : 'Follow') + '</button>'
     : '';
-  const profileBtn = '<a href="/profile/' + encodeURIComponent(data.username) + '/" class="md-btn md-btn-outlined" style="font-size:.75rem;padding:4px 14px;flex:1;text-align:center;">View Profile</a>';
+  const profileBtn = '<a href="/app/profile/' + encodeURIComponent(data.username) + '/" class="md-btn md-btn-outlined" style="font-size:.75rem;padding:4px 14px;flex:1;text-align:center;">View Profile</a>';
 
   let html = '<div class="fp-user-popup-header">' +
     '<div class="fp-user-popup-avatar">' + avatarHtml + '</div>' +
@@ -1389,7 +1389,7 @@ function hideUserPopup() {
 document.addEventListener('DOMContentLoaded', function() {
   function findProfileEl(target) {
     if (!target || target.nodeType !== 1) return null;
-    const a = target.closest('a[href*="/profile/"]');
+    const a = target.closest('a[href*="/app/profile/"]');
     if (a) return a;
     return null;
   }
@@ -1643,7 +1643,7 @@ async function toggleBookmark(targetType, targetId, btnEl) {
 
 // ---- Share ----
 function sharePost(postId) {
-  var url = window.location.origin + '/forum/post/' + postId + '/';
+  var url = window.location.origin + '/app/forum/post/' + postId + '/';
   if (navigator.share) {
     navigator.share({ title: document.title, url: url }).catch(function(){});
   } else {

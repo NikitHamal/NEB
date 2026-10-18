@@ -1271,7 +1271,7 @@
           try {
             var data = JSON.parse(xhr.responseText);
             if (data.id) {
-              window.location.href = '/forum/post/' + data.id + '/';
+              window.location.href = '/app/forum/post/' + data.id + '/';
               return;
             }
           } catch (e) {}

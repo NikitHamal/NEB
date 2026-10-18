@@ -588,8 +588,8 @@ IceCreamHarness.prototype.newChat = function(skipPushState) {
     self.sessions.set(ses.id, ses);
     self.tabs.push(ses);
     self.activeSessionId = ses.id;
-    if (!skipPushState && window.location.pathname !== "/lazy/" + ses.id + "/") {
-      history.pushState({ sessionId: ses.id }, "", "/lazy/" + ses.id + "/");
+    if (!skipPushState && window.location.pathname !== "/app/lazy/" + ses.id + "/") {
+      history.pushState({ sessionId: ses.id }, "", "/app/lazy/" + ses.id + "/");
     }
     self.renderTabs();
     self.renderSidebarSessions();
@@ -606,8 +606,8 @@ IceCreamHarness.prototype.openSession = function(id, skipPushState) {
   this.workspaceMode = false;
   this.closeMobileSidebar();
 
-  if (!skipPushState && window.location.pathname !== "/lazy/" + id + "/") {
-    history.pushState({ sessionId: id }, "", "/lazy/" + id + "/");
+  if (!skipPushState && window.location.pathname !== "/app/lazy/" + id + "/") {
+    history.pushState({ sessionId: id }, "", "/app/lazy/" + id + "/");
   }
 
   var existingTab = this.tabs.find(function(t){ return t.id === id; });
@@ -1073,8 +1073,8 @@ IceCreamHarness.prototype.handleUserPrompt = function(payload) {
         self.renderSidebarSessions();
         self.renderTabs();
       }
-      if (self.activeSessionId && window.location.pathname !== "/lazy/" + self.activeSessionId + "/") {
-        history.replaceState({ sessionId: self.activeSessionId }, "", "/lazy/" + self.activeSessionId + "/");
+      if (self.activeSessionId && window.location.pathname !== "/app/lazy/" + self.activeSessionId + "/") {
+        history.replaceState({ sessionId: self.activeSessionId }, "", "/app/lazy/" + self.activeSessionId + "/");
       }
     } else if (f.type === "model") {
       liveModel = f.model || f.content || "";

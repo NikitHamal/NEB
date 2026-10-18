@@ -316,7 +316,7 @@ def mention_links_plain(value):
     def repl(m):
         username = m.group(1)
         safe_user = escape(username)
-        return f'<a href="/profile/{quote(username)}/" class="author-mention">@{safe_user}</a>'
+        return f'<a href="/app/profile/{quote(username)}/" class="author-mention">@{safe_user}</a>'
 
     html = _MENTION_ONLY_RE.sub(repl, escape(text))
     return mark_safe(html)
@@ -424,7 +424,7 @@ def _render_user_content(value):
             if uname.lower() == 'all':
                 parts.append('<span class="mention-all">@all</span>')
             else:
-                parts.append('[@' + uname + '](/profile/' + quote(uname) + '/)')
+                parts.append('[@' + uname + '](/app/profile/' + quote(uname) + '/)')
             last = m.end()
         if last < len(text):
             parts.append(text[last:])
@@ -434,8 +434,8 @@ def _render_user_content(value):
     html = md_lib.markdown(md_text, extensions=['nl2br', 'tables', 'sane_lists', 'smarty'], output_format='html5')
 
     html = re.sub(
-        r'<a href="/profile/([^"]+)/">',
-        r'<a href="/profile/\1/" class="fp-mention">',
+        r'<a href="/app/profile/([^"]+)/">',
+        r'<a href="/app/profile/\1/" class="fp-mention">',
         html,
     )
     html = re.sub(

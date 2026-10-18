@@ -134,6 +134,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'nebians.middleware.csp_nonce_context',
                 'web.views_og.og_image_context',
+                'web.site_themes.context',
             ],
         },
     },

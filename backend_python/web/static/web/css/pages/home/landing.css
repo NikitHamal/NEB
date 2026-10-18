@@ -31,8 +31,11 @@
   align-items: center;
   justify-content: center;
   padding: 64px 24px 60px;
+  /* Painted from the live site theme (web/site_themes.py); no image request. */
   background:
-    var(--home-landing-bg, url("../../../img/paper_sky_hero_background.svg")) center center / cover no-repeat;
+    radial-gradient(55% 70% at 12% 8%, var(--st-glow-1, #cfe0ff) 0%, transparent 70%),
+    radial-gradient(50% 65% at 92% 20%, var(--st-glow-2, #e9e2ff) 0%, transparent 72%),
+    linear-gradient(180deg, var(--st-tint, #eef3ff) 0%, #ffffff 100%);
 }
 
 .home-landing::before {

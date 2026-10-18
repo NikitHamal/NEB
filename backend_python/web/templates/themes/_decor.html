@@ -1,0 +1,28 @@
+{% comment %}Theme decoration. Pure inline SVG + CSS (static/web/css/themes.css): no images,
+no JS. Every moving part animates transform/opacity only and stops under reduced motion.
+`compact` is the admin preview.{% endcomment %}
+{% with decor=t.decor %}{% if decor and decor != 'none' %}
+<div class="st-decor st-decor-{{ decor }}{% if compact %} is-compact{% endif %}" aria-hidden="true">
+{% if decor == 'dashain' %}
+  <svg class="st-garland" viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="{{ t.path }}" fill="none" stroke="#2e7d32" stroke-width="2"/></svg>
+  <div class="st-flowers">{% for d in t.dots %}<i style="--x:{{ d.x }}%;--y:{{ d.y }};--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
+  <svg class="st-kite st-kite-1" viewBox="-50 -70 100 220"><path d="M0-62 44-6 0 62-44-6Z" fill="#e8890c"/><path d="M0-62 44-6H0Z" fill="#ffc56b"/><path d="M0 62q-12 22 6 44t-6 44" fill="none" stroke="#c8102e" stroke-width="3"/></svg>
+  <svg class="st-kite st-kite-2" viewBox="-50 -70 100 220"><path d="M0-62 44-6 0 62-44-6Z" fill="#c8102e"/><path d="M0-62 44-6H0Z" fill="#ff8a8a"/><path d="M0 62q-12 22 6 44t-6 44" fill="none" stroke="#0b57d0" stroke-width="3"/></svg>
+  <svg class="st-kite st-kite-3" viewBox="-50 -70 100 220"><path d="M0-62 44-6 0 62-44-6Z" fill="#0b57d0"/><path d="M0-62 44-6H0Z" fill="#8fb4ff"/><path d="M0 62q-12 22 6 44t-6 44" fill="none" stroke="#e8890c" stroke-width="3"/></svg>
+{% elif decor == 'tihar' %}
+  <svg class="st-garland" viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="{{ t.path }}" fill="none" stroke="#5b3a1a" stroke-width="1.5"/></svg>
+  <div class="st-lights">{% for d in t.dots %}<i style="--x:{{ d.x }}%;--y:{{ d.y }};--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
+  <div class="st-diyos">{% for i in "abcde" %}<span style="--i:{{ forloop.counter0 }}"><i></i></span>{% endfor %}</div>
+{% elif decor == 'holi' %}
+  <i class="st-cloud st-cloud-1"></i><i class="st-cloud st-cloud-2"></i><i class="st-cloud st-cloud-3"></i><i class="st-cloud st-cloud-4"></i>
+{% elif decor == 'gurans' %}
+  <div class="st-petals">{% for i in "abcdefghijklmn" %}<i style="--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
+{% elif decor == 'rain' %}
+  <div class="st-rain">{% for i in "abcdefghijklmnopqrstuvwxyz" %}<i style="--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
+  <svg class="st-terraces" viewBox="0 0 1200 160" preserveAspectRatio="none"><path d="M0 120Q300 70 600 110T1200 90V160H0Z" fill="#7cc4a0" opacity=".35"/><path d="M0 140Q300 100 600 135T1200 120V160H0Z" fill="#3f9b74" opacity=".35"/></svg>
+{% elif decor == 'snow' %}
+  <div class="st-snow">{% for i in "abcdefghijklmnopqrstuvwx" %}<i style="--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
+  <svg class="st-ridge" viewBox="0 0 1200 160" preserveAspectRatio="none"><path d="M0 160 150 70 230 110 380 30 470 95 560 60 700 120 840 40 960 100 1080 55 1200 110V160Z" fill="#c9d9ef" opacity=".55"/><path d="M380 30 410 52 395 55 420 70 470 95 430 80 405 84ZM840 40 868 62 852 64 880 80 960 100 905 88 870 90Z" fill="#fff" opacity=".8"/></svg>
+{% endif %}
+</div>
+{% endif %}{% endwith %}
