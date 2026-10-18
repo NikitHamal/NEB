@@ -201,11 +201,11 @@ class MainActivity : ComponentActivity() {
 
     private companion object {
         /**
-         * Long enough to clear the splash, which runs just under 4 seconds,
+         * Long enough to clear the splash, which runs about 1.5 seconds,
          * with a margin. If the timeline in SplashScreen changes, change this
          * with it.
          */
-        const val STARTUP_DEFERRAL_MS = 4_400L
+        const val STARTUP_DEFERRAL_MS = 2_200L
         const val REQUEST_CODE_NOTIFICATIONS = 101
     }
 }
