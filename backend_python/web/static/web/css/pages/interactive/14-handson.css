@@ -42,3 +42,25 @@
 .ho-spec.on { opacity: 1; transform: none; }
 .ho-spec canvas { display: block; width: 100%; height: auto; margin-top: 6px; border-radius: 8px; }
 @media (max-width: 640px) { .ho-spec { top: auto; bottom: 76px; right: 8px; } }
+.ho-watch {
+  position: absolute; right: 12px; top: 12px; width: 178px; padding: 12px; border-radius: 22px; pointer-events: auto;
+  background: linear-gradient(160deg, #1f2937, #0b1220); color: #e2e8f0; box-shadow: 0 14px 34px rgba(2, 6, 23, .35), inset 0 1px 0 rgba(255, 255, 255, .08);
+  opacity: 0; transform: translateY(-10px) scale(.96); transition: opacity .25s, transform .4s cubic-bezier(.2, 1.3, .4, 1); visibility: hidden;
+}
+.ho-watch.show { opacity: 1; transform: none; visibility: visible; }
+.ho-watch-face { display: flex; align-items: baseline; justify-content: center; gap: 4px; padding: 10px 0 8px; border-radius: 14px; background: #c9d6c1; color: #111a12; box-shadow: inset 0 2px 6px rgba(0, 0, 0, .35); }
+.ho-watch-t { font: 700 2rem/1 ui-monospace, 'SFMono-Regular', Menlo, monospace; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
+.ho-watch-sub { min-height: 18px; margin: 6px 2px 2px; font-size: .74rem; color: #94a3b8; text-align: center; }
+.ho-watch-btns { display: flex; gap: 6px; }
+.ho-watch-btns button { flex: 1; min-height: 46px; border: 0; border-radius: 14px; font: inherit; font-weight: 800; cursor: pointer; transition: transform .15s cubic-bezier(.2, 1.4, .4, 1), background .2s; }
+.ho-watch-go { background: #22c55e; color: #fff; flex: 1.6 !important; }
+.ho-watch-go.stop { background: #ef4444; }
+.ho-watch-reset { background: rgba(255, 255, 255, .1); color: #e2e8f0; }
+.ho-watch-btns button:active { transform: scale(.95); }
+.ho-graph {
+  position: absolute; left: 50%; top: 50%; width: min(540px, calc(100% - 24px)); padding: 10px 12px 12px; border-radius: 16px; background: #fffef8; color: #0f172a;
+  box-shadow: 0 20px 50px rgba(2, 6, 23, .35); font-size: .85rem; opacity: 0; transform: translate(-50%, -46%) scale(.97); transition: opacity .3s, transform .45s cubic-bezier(.2, 1.3, .4, 1); pointer-events: none;
+}
+.ho-graph.on { opacity: 1; transform: translate(-50%, -50%); }
+.ho-graph canvas { display: block; width: 100%; height: auto; margin-top: 6px; }
+@media (max-width: 640px) { .ho-watch { top: auto; bottom: 74px; right: 8px; width: 156px; } .ho-watch-t { font-size: 1.6rem; } }
