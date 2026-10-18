@@ -2,10 +2,9 @@
 
 The launch film for NEBians, released on Dashain together with the class 8, 10, 11 and 12
 notes and question banks in `notes/`. Minimal vector motion design, starring the **real
-Neby**: the avatar is not redrawn — `neby_capture.mjs` runs the product's own
-`backend_python/web/static/web/js/neby-avatar.js` under a virtual clock and the film
-draws exactly the SVG that engine produces, frame by frame (its intro reveal, excited,
-scanning, laughing, speaking, celebrate-with-confetti and wink animations).
+Neby**: the product's own avatar geometry (`backend_python/web/static/web/js/neby-avatar.js`),
+animated by `../neby/rig.py` — eased blends between Neby's own expressions, blinks, eye-lines and
+squash/stretch on every hop (the performance is `PERF` in `neby_player.py`).
 
 ```
 pip install skia-python numpy scipy pillow     # PIL must have raqm (Devanagari shaping); node 18+ and ffmpeg on PATH
@@ -15,11 +14,10 @@ python3 render.py /tmp/draft.mp4 --draft                        # 30 fps preview
 python3 render.py ../dist/nebians-launch-dashain-16x9.mp4       # 60 fps master, ~6 min on 2 vCPU
 ```
 
-The first run captures Neby into `/tmp/neby-frames-60.json` (about 90 s); delete that file after
-changing Neby's script or the avatar. Set `NEBY_AVATAR_JS` if the repo's web static files are
+Set `NEBY_AVATAR_JS` if the repo's web static files are
 not checked out, and `NEBY_DEVA_FONT` to a Noto Sans Devanagari Bold file for "शुभ दशैँ".
 
-Master: 1920×1080, 60 fps, H.264 CRF 16 bt709, 3-sample 180° motion blur, AAC 192 kb/s at −14 LUFS.
+Master: 1920×1080, 60 fps, H.264 CRF 16 bt709, 7-sample motion blur, AAC 192 kb/s at −14 LUFS.
 
 ## The film (120 BPM)
 
