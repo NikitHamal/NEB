@@ -25,8 +25,22 @@ export function createCanvas2D(stage, opts = {}) {
     canvas.style.width = '100%';
     canvas.style.height = '100%';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    applyDefaults();
     resizeFns.forEach((fn) => fn(width, height));
   }
+
+  // Resizing a canvas resets its drawing state, so the house style is reapplied every time:
+  // round joins and caps (no spiky corners on graphs and rays), high-quality image smoothing,
+  // and the site's typeface as the default font.
+  function applyDefaults() {
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    ctx.imageSmoothingEnabled = true; if ('imageSmoothingQuality' in ctx) ctx.imageSmoothingQuality = 'high';
+    ctx.font = '500 13px Poppins, system-ui, sans-serif';
+  }
+
+  // depth for flat 2D labs: a soft vignette and a hint of top light, as a CSS overlay on the
+  // stage (never drawn into the sim's own canvas, which some labs do not clear every frame)
+  if (opts.vignette !== false) stage.classList.add('ix-stage-2d');
 
   const ro = new ResizeObserver(() => resize());
   ro.observe(stage);
