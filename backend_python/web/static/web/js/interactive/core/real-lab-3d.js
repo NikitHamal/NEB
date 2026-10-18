@@ -6,6 +6,7 @@ import { buildPrecisionCaliper, buildPrecisionMicrometer, buildPrecisionSpherome
 import { buildRoom } from './lab3d-room.js';
 import * as PHY from './lab3d-physics.js';
 import * as CHEM from './lab3d-chemistry.js';
+import { hasHandsOn, startHandsOn } from './handson/index.js';
 
 function makeScaleTexture({ length = 100, major = 10, minor = 1, label = 'cm', width = 1024, height = 128, dark = false } = {}) {
   const canvas = document.createElement('canvas');
@@ -150,6 +151,7 @@ function disposeObject(obj) {
 export function initRealLab3D(stage, opts = {}) {
   const slug = opts.preset || opts.lessonSlug;
   const config = PRESETS[slug] || PRESETS['lab-apparatus-safety'];
+  if (hasHandsOn(slug) && !opts.freeLab) return startHandsOn(stage, slug, config);
   const subject = SUBJECT[config.subject] || SUBJECT.physics;
   const engine = createEngine(stage, { shadows: true, fov: 45, far: 260 });
   if (!engine) return null;
