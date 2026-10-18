@@ -1862,6 +1862,22 @@ class SiteTheme(models.Model):
         return f'{self.key} ({when})'
 
 
+class NebyConfig(models.Model):
+    """How pixel Neby looks and behaves across the site and the app. One row; the newest wins.
+    The looks themselves live in the apps (``web/neby_looks.py`` names them). ``auto`` dresses
+    Neby for whichever festival theme is live."""
+    look = models.CharField(max_length=24, default='auto')
+    ambient = models.BooleanField(default=True, help_text='Idle Neby looks around, waves and hops now and then.')
+    reactions = models.BooleanField(default=True, help_text='Tapping Neby plays a reaction.')
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        db_table = 'neby_config'
+
+    def __str__(self):
+        return f'Neby: {self.look}'
+
+
 class PostView(models.Model):
     """Record of who viewed a forum post (admin-only analytics)."""
     id = models.CharField(max_length=36, primary_key=True)

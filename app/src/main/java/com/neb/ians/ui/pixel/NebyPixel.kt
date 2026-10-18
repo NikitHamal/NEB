@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntRect
+import com.neb.ians.ui.theme.LocalSiteTheme
 import androidx.compose.ui.unit.dp
 import com.neb.ians.ui.components.nebPressable
 import com.neb.ians.ui.theme.nebAnimationsReduced
@@ -27,6 +29,8 @@ import kotlin.random.Random
  * - [interactive] makes Neby tappable; each tap plays the next reaction, then Neby settles back.
  *   [onReaction] hears which one, so a screen can answer it.
  * - [intro] plays once when Neby first appears (a wave hello, say).
+ * - [look] is what Neby wears; null follows the server (an admin's pick, or the festival's dress).
+ * - [avatar] frames Neby for a round avatar: the figure centred, no ground shadow, hats kept.
  */
 @Composable
 fun NebyPixel(
@@ -36,8 +40,14 @@ fun NebyPixel(
     interactive: Boolean = false,
     ambient: Boolean = true,
     intro: NebyState? = null,
+    look: NebyLook? = null,
+    avatar: Boolean = false,
     onReaction: ((NebyState) -> Unit)? = null,
 ) {
+    val server = LocalSiteTheme.current.theme?.neby
+    val dress = look ?: NebyLook.fromKey(server?.look)
+    val alive = ambient && server?.ambient != false
+    val tappable = interactive && server?.reactions != false
     var reaction by remember { mutableStateOf(intro) }
     var flourish by remember { mutableStateOf<NebyState?>(null) }
     var taps by remember { mutableIntStateOf(0) }
@@ -50,8 +60,8 @@ fun NebyPixel(
         reaction = null
     }
     // ambient life for an idle Neby: something small every 7 to 14 seconds
-    LaunchedEffect(state, ambient, reduced) {
-        if (!ambient || reduced || state != NebyState.Idle) return@LaunchedEffect
+    LaunchedEffect(state, alive, reduced) {
+        if (!alive || reduced || state != NebyState.Idle) return@LaunchedEffect
         while (true) {
             delay(Random.nextLong(7_000, 14_000))
             flourish = listOf(NebyState.LookAround, NebyState.Wave, NebyState.Blink, NebyState.Hop).random()
@@ -62,11 +72,17 @@ fun NebyPixel(
 
     val shown = reaction ?: flourish ?: state
     var m = modifier.size(size).semantics { contentDescription = "Neby" }
-    if (interactive) m = m.nebPressable {
+    if (tappable) m = m.nebPressable {
         val next = NebyState.reactions[taps % NebyState.reactions.size]
         taps++
         reaction = next
         onReaction?.invoke(next)
     }
-    PixelSpriteView(sprite = shown.sprite, modifier = m)
+    PixelSpriteView(sprite = shown.sprite(dress), modifier = m, src = if (avatar) avatarCrop(dress) else null)
 }
+
+/**
+ * The part of the 48 x 48 sprite a round avatar shows. The body is centred in it and the ground
+ * shadow is left out; a look with a hat gets a taller window so the hat is not cut off.
+ */
+fun avatarCrop(look: NebyLook): IntRect = if (look.hat) IntRect(3, 2, 45, 44) else IntRect(6, 10, 42, 46)

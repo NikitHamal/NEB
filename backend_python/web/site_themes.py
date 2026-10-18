@@ -227,6 +227,8 @@ def current() -> dict:
             data = resolve()
         except Exception:
             data = _payload(DEFAULT_KEY, 'Theme table unavailable')
+        from . import neby_looks
+        data = {**data, 'neby': neby_looks.resolve(data['key'])}
         cache.set(CACHE_KEY, data, 300)
     return data
 

@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
 import com.neb.ians.ui.theme.nebAnimationsReduced
 import kotlin.math.ceil
@@ -73,7 +74,7 @@ fun PixelSkyHero(modifier: Modifier = Modifier, ground: Int = Px.rgb(0xFFFFFF)) 
  * Loops unless the sprite says otherwise; a one-shot sprite stops on its last frame.
  */
 @Composable
-fun PixelSpriteView(sprite: PixelSprite, modifier: Modifier = Modifier, playing: Boolean = true) {
+fun PixelSpriteView(sprite: PixelSprite, modifier: Modifier = Modifier, playing: Boolean = true, src: IntRect? = null) {
     val bitmap = remember(sprite) { Bitmap.createBitmap(sprite.width, sprite.height, Bitmap.Config.ARGB_8888) }
     val image = remember(bitmap) { bitmap.asImageBitmap() }
     var frame by remember(sprite) { mutableLongStateOf(-1L) }
@@ -99,12 +100,16 @@ fun PixelSpriteView(sprite: PixelSprite, modifier: Modifier = Modifier, playing:
 
     Canvas(modifier) {
         if (frame < 0) return@Canvas
-        val fit = minOf(size.width / sprite.width, size.height / sprite.height)
+        // [src] shows part of the sprite (an avatar's head-and-shoulders crop) scaled to the view
+        val sw = src?.width ?: sprite.width; val sh = src?.height ?: sprite.height
+        val fit = minOf(size.width / sw, size.height / sh)
         // whole-number scale keeps pixels even; tiny views (avatars) would shrink too much, so fill them
         val scale = fit.toInt().let { if (it < 1 || it < fit * 0.8f) fit else it.toFloat() }
-        val w = (sprite.width * scale).roundToInt(); val h = (sprite.height * scale).roundToInt()
+        val w = (sw * scale).roundToInt(); val h = (sh * scale).roundToInt()
         drawImage(
             image,
+            srcOffset = IntOffset(src?.left ?: 0, src?.top ?: 0),
+            srcSize = IntSize(sw, sh),
             dstOffset = IntOffset(((size.width - w) / 2f).roundToInt(), ((size.height - h) / 2f).roundToInt()),
             dstSize = IntSize(w, h),
             filterQuality = FilterQuality.None

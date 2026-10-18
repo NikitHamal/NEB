@@ -271,7 +271,7 @@ fun NebAvatar(
         ) {
             if (isNeby) {
                 Box(contentAlignment = Alignment.Center) {
-                    com.neb.ians.ui.pixel.NebyPixel(size = size, ambient = false)
+                    com.neb.ians.ui.pixel.NebyPixel(size = size, ambient = false, avatar = true)
                 }
             } else if (!resolvedUrl.isNullOrBlank() && !isError) {
                 AsyncImage(
