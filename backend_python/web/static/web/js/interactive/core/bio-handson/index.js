@@ -13,6 +13,11 @@ const PRACTICALS = {
   'grasshopper-animal-mitosis': () => import('./practicals/slides.js'),
   'frog-development-stages': () => import('./practicals/slides.js'),
   'compound-microscope-parts': () => import('./practicals/scope-parts.js'),
+  'starch-detection-sample': () => import('./practicals/biochem.js'),
+  'protein-detection-sample': () => import('./practicals/biochem.js'),
+  'urine-tests-urea-sugar-albumin-bile': () => import('./practicals/biochem.js'),
+  'salivary-amylase-temp-ph': () => import('./practicals/biochem.js'),
+  'blood-sugar-detection': () => import('./practicals/biochem.js'),
   'onion-root-tip-mitosis-11': () => import('./practicals/onion-mitosis.js'),
   'onion-root-tip-mitosis-12': () => import('./practicals/onion-mitosis.js'),
 };
