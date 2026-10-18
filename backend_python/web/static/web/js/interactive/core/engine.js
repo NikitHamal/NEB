@@ -35,49 +35,51 @@ let ENV_TEXTURE = null;
 let ENV_FAILED = false;
 
 function buildEquirectGradient() {
-  const w = 64;
-  const h = 32;
+  // A small photographic-studio environment: a cool sky dome, a warm floor bounce and three
+  // softboxes (key, fill, rim). Prefiltered once, it gives every metal, glass and plastic in
+  // every simulation believable reflections and soft image-based fill for a single cube map.
+  const w = 128;
+  const h = 64;
   const data = new Uint8Array(w * h * 4);
-  const sky = [0.62, 0.70, 0.86];
-  const horizon = [0.38, 0.41, 0.50];
-  const ground = [0.10, 0.11, 0.15];
-  // Direction of the studio key light, in equirect UV space.
-  const keyU = 0.30;
-  const keyV = 0.26;
+  const sky = [0.58, 0.66, 0.82];
+  const horizon = [0.42, 0.45, 0.52];
+  const ground = [0.16, 0.15, 0.15];
+  const boxes = [
+    { u: 0.30, v: 0.22, su: 0.07, sv: 0.06, k: 3.2, c: [1.0, 0.97, 0.92] },  // key, warm, upper front
+    { u: 0.78, v: 0.30, su: 0.05, sv: 0.08, k: 1.3, c: [0.80, 0.88, 1.0] },  // fill, cool, side
+    { u: 0.55, v: 0.12, su: 0.16, sv: 0.03, k: 1.6, c: [1.0, 1.0, 1.0] },    // overhead strip
+  ];
   for (let y = 0; y < h; y++) {
     const v = y / (h - 1);
     for (let x = 0; x < w; x++) {
       const u = x / (w - 1);
-      let r;
-      let g;
-      let b;
+      let r; let g; let b;
       if (v < 0.5) {
-        const t = v / 0.5;
-        r = sky[0] + (horizon[0] - sky[0]) * t;
-        g = sky[1] + (horizon[1] - sky[1]) * t;
-        b = sky[2] + (horizon[2] - sky[2]) * t;
+        const t = Math.pow(v / 0.5, 1.4);
+        r = sky[0] + (horizon[0] - sky[0]) * t; g = sky[1] + (horizon[1] - sky[1]) * t; b = sky[2] + (horizon[2] - sky[2]) * t;
       } else {
-        const t = (v - 0.5) / 0.5;
-        r = horizon[0] + (ground[0] - horizon[0]) * t;
-        g = horizon[1] + (ground[1] - horizon[1]) * t;
-        b = horizon[2] + (ground[2] - horizon[2]) * t;
+        const t = Math.pow((v - 0.5) / 0.5, 0.6);
+        r = horizon[0] + (ground[0] - horizon[0]) * t; g = horizon[1] + (ground[1] - horizon[1]) * t; b = horizon[2] + (ground[2] - horizon[2]) * t;
       }
-      // Soft key highlight so specular surfaces get a believable single catchlight.
-      const du = Math.min(Math.abs(u - keyU), 1 - Math.abs(u - keyU));
-      const dv = v - keyV;
-      const d = Math.sqrt(du * du * 4 + dv * dv * 4);
-      const key = Math.exp(-d * d * 9) * 0.85;
-      r += key; g += key * 0.97; b += key * 0.9;
+      for (const box of boxes) {
+        const du = Math.min(Math.abs(u - box.u), 1 - Math.abs(u - box.u)) / box.su;
+        const dv = (v - box.v) / box.sv;
+        // a rounded rectangle with a soft edge, like a diffuser panel
+        const d = Math.pow(Math.pow(Math.abs(du), 4) + Math.pow(Math.abs(dv), 4), 0.25);
+        const f = d < 1 ? 1 : Math.exp(-(d - 1) * (d - 1) * 6);
+        r += box.k * box.c[0] * f; g += box.k * box.c[1] * f; b += box.k * box.c[2] * f;
+      }
       const p = (y * w + x) * 4;
-      data[p] = Math.min(255, r * 255);
-      data[p + 1] = Math.min(255, g * 255);
-      data[p + 2] = Math.min(255, b * 255);
+      data[p] = Math.min(255, Math.pow(r / (1 + r * 0.18), 1 / 1.0) * 255);
+      data[p + 1] = Math.min(255, Math.pow(g / (1 + g * 0.18), 1 / 1.0) * 255);
+      data[p + 2] = Math.min(255, Math.pow(b / (1 + b * 0.18), 1 / 1.0) * 255);
       data[p + 3] = 255;
     }
   }
   const tex = new THREE.DataTexture(data, w, h, THREE.RGBAFormat);
   tex.mapping = THREE.EquirectangularReflectionMapping;
   if (tex.colorSpace !== undefined) tex.colorSpace = THREE.SRGBColorSpace;
+  tex.magFilter = THREE.LinearFilter;
   tex.needsUpdate = true;
   return tex;
 }
@@ -182,7 +184,9 @@ export function createEngine(stage, opts = {}) {
   stage.appendChild(renderer.domElement);
 
   const scene = new THREE.Scene();
-  if (opts.environment) {
+  // Image-based light is on by default now: one prefiltered cube map shared by every sim, and
+  // the difference between plastic that looks like plastic and plastic that looks like paint.
+  if (opts.environment !== false) {
     const env = getEnvironmentTexture(renderer);
     if (env) scene.environment = env;
   }
@@ -229,8 +233,33 @@ export function createEngine(stage, opts = {}) {
   }
   document.addEventListener('visibilitychange', onVisibility);
 
-  function frame() {
+  // Adaptive resolution. Every few seconds the governor looks at how long frames actually
+  // took: a phone that cannot hold ~40 fps renders at a lower pixel ratio (the scene stays the
+  // same, it is just drawn on fewer pixels), and a fast device climbs back to full sharpness.
+  // Low-tier devices are also capped at 30 fps, which halves the battery the sim costs.
+  const maxRatio = quality.pixelRatio;
+  const minRatio = Math.min(maxRatio, quality.tier === 'high' ? 1 : 0.75);
+  let ratio = maxRatio;
+  let budgetSum = 0;
+  let budgetN = 0;
+  let lastFrameAt = 0;
+  const frameInterval = quality.tier === 'low' ? 1000 / 31 : 0;
+  function govern(ms) {
+    budgetSum += ms; budgetN += 1;
+    if (budgetN < 120) return;
+    const avg = budgetSum / budgetN;
+    budgetSum = 0; budgetN = 0;
+    let next = ratio;
+    if (avg > 25 && ratio > minRatio) next = Math.max(minRatio, ratio - 0.25);
+    else if (avg < 13 && ratio < maxRatio) next = Math.min(maxRatio, ratio + 0.25);
+    if (next !== ratio) { ratio = next; renderer.setPixelRatio(ratio); resize(); }
+  }
+
+  function frame(now) {
     rafId = requestAnimationFrame(frame);
+    if (frameInterval && now - lastFrameAt < frameInterval) return;
+    if (lastFrameAt) govern(now - lastFrameAt);
+    lastFrameAt = now;
     const dt = Math.min(clock.getDelta(), 0.1);
     if (updateFn) updateFn(dt, clock.elapsedTime);
     renderer.render(scene, camera);
@@ -240,6 +269,7 @@ export function createEngine(stage, opts = {}) {
     const shouldRun = running && visible && pageVisible && !disposed;
     if (shouldRun && !rafId) {
       clock.getDelta();
+      lastFrameAt = 0;
       rafId = requestAnimationFrame(frame);
     } else if (!shouldRun && rafId) {
       cancelAnimationFrame(rafId);
