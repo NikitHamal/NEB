@@ -87,7 +87,7 @@
     burger.setAttribute('aria-expanded', String(open));
     if (open) { menu.hidden = false; requestAnimationFrame(function () { menu.classList.add('is-open'); }); }
     else { menu.classList.remove('is-open'); setTimeout(function () { if (!menuOpen) menu.hidden = true; }, 700); }
-    nav.classList.remove('is-hidden');
+    nav.classList.remove('is-hidden'); nav.classList.toggle('is-menu', open);
     document.body.style.overflow = open ? 'hidden' : '';
   }
   if (burger && menu) {
@@ -95,6 +95,75 @@
     menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
     addEventListener('keydown', function (e) { if (e.key === 'Escape' && menuOpen) { setMenu(false); burger.focus(); } });
   }
+
+  /* ---- nav: sliding pill under the hovered or current link, scroll progress ---- */
+  var links = document.querySelector('.lp-links');
+  var ind = links && links.querySelector('.lp-ind');
+  var current = null;
+  function pillTo(a) {
+    if (!ind) return;
+    if (!a) { ind.classList.remove('on'); return; }
+    ind.style.width = a.offsetWidth + 'px';
+    ind.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+    ind.classList.add('on');
+  }
+  if (links && ind) {
+    links.addEventListener('pointerover', function (e) { var a = e.target.closest('a'); if (a) pillTo(a); });
+    links.addEventListener('pointerleave', function () { pillTo(current); });
+    links.addEventListener('focusin', function (e) { var a = e.target.closest('a'); if (a) pillTo(a); });
+    var sections = [].slice.call(links.querySelectorAll('a[href^="#"]')).map(function (a) { return [a, document.querySelector(a.getAttribute('href'))]; }).filter(function (p) { return p[1]; });
+    if ('IntersectionObserver' in window && sections.length) {
+      var seen = new Map();
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) { seen.set(en.target, en.isIntersecting); });
+        var on = null;
+        sections.forEach(function (p) { p[0].classList.remove('is-on'); if (!on && seen.get(p[1])) on = p[0]; });
+        current = on; if (on) on.classList.add('is-on');
+        if (!links.matches(':hover')) pillTo(current);
+      }, { rootMargin: '-45% 0px -45% 0px' });
+      sections.forEach(function (p) { spy.observe(p[1]); });
+    }
+  }
+  var progQueued = false;
+  function progress() {
+    progQueued = false;
+    var max = document.documentElement.scrollHeight - innerHeight;
+    nav.style.setProperty('--sp', max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0);
+  }
+  addEventListener('scroll', function () { if (!progQueued) { progQueued = true; requestAnimationFrame(progress); } }, { passive: true });
+
+  /* ---- menu: keep focus inside while open ---- */
+  if (menu) {
+    menu.addEventListener('keydown', function (e) {
+      if (e.key !== 'Tab' || !menuOpen) return;
+      var f = [burger].concat([].slice.call(menu.querySelectorAll('a')));
+      var i = f.indexOf(document.activeElement);
+      if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
+    });
+    burger && burger.addEventListener('keydown', function (e) {
+      if (e.key === 'Tab' && menuOpen && !e.shiftKey) { var first = menu.querySelector('a'); if (first) { e.preventDefault(); first.focus(); } }
+    });
+  }
+
+  /* ---- Neby on the wordmark: says hello, reacts, keeps out of the tab order ---- */
+  var neby = document.querySelector('.lp-word .lp-neby');
+  if (neby) {
+    var say = document.createElement('span'); say.className = 'lp-neby-say';
+    var lines = ['Namaste!', 'Need notes?', 'Ask me anything', 'Study mates!', 'Tap again'];
+    var n = 0, sayT = 0;
+    function speak(text, ms) { say.textContent = text; say.classList.add('on'); clearTimeout(sayT); sayT = setTimeout(function () { say.classList.remove('on'); }, ms || 1800); }
+    neby.addEventListener('click', function () { speak(lines[n++ % lines.length]); });
+    var settle = setInterval(function () {
+      if (!neby.hasAttribute('data-neby-initialized')) return;
+      clearInterval(settle);
+      neby.setAttribute('tabindex', '-1'); neby.appendChild(say);
+      if (!still) setTimeout(function () { speak('Namaste!', 2200); }, 1700);
+    }, 120);
+  }
+  var peek = document.querySelector('.lp-peek');
+  var openApp = document.querySelector('.lp-nav .lp-btn-sm');
+  if (peek && openApp) openApp.addEventListener('pointerenter', function () { if (peek.__nebyInstance) peek.__nebyInstance.react('wave'); });
 
   measure();
   live = new Set(tracks.filter(function (el) { var r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < vh; }));
