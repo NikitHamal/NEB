@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>NEBians — Study materials. Study mates.</title>
-<meta name="description" content="Free notes, past papers and full study books for Class 8 to 12 in Nepal, and a forum where students and teachers answer each other's questions.">
+<title>NEBians — Learn it. Pass it. Pass it on.</title>
+<meta name="description" content="Free notes, past papers and fully solved study books for Class 8 to 12 in Nepal, and a forum where students answer each other.">
 <link rel="canonical" href="https://nebians.consica.com.np/">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#f2ece1">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NEBians">
-<meta property="og:title" content="NEBians — Study materials. Study mates.">
-<meta property="og:description" content="Free notes, past papers and study books for Class 8 to 12, and a forum where Nepal's students help each other.">
+<meta property="og:title" content="NEBians — Learn it. Pass it. Pass it on.">
+<meta property="og:description" content="Free notes, past papers and solved study books for Class 8 to 12, and a forum where Nepal's students help each other.">
 <meta property="og:url" content="https://nebians.consica.com.np/">
 <meta property="og:image" content="https://nebians.consica.com.np/og/page/default.png">
 <meta name="twitter:card" content="summary_large_image">
@@ -18,274 +18,216 @@
 <link rel="apple-touch-icon" href="{% static 'web/img/n-logo-180.png' %}">
 <link rel="manifest" href="{% url 'web:manifest_json' %}" crossorigin="use-credentials">
 <link rel="preload" href="{% static 'web/fonts/landing/poppins-800-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{% static 'web/fonts/landing/poppins-400-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'web/fonts/landing/instrument-serif-normal-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
 <style>
 @font-face{font-family:P;font-weight:400;font-display:swap;src:url("{% static 'web/fonts/landing/poppins-400-latin.woff2' %}") format("woff2")}
 @font-face{font-family:P;font-weight:600;font-display:swap;src:url("{% static 'web/fonts/landing/poppins-600-latin.woff2' %}") format("woff2")}
-@font-face{font-family:P;font-weight:800;font-display:swap;src:url("{% static 'web/fonts/landing/poppins-800-latin.woff2' %}") format("woff2")}
+@font-face{font-family:P;font-weight:800;font-display:block;src:url("{% static 'web/fonts/landing/poppins-800-latin.woff2' %}") format("woff2")}
 @font-face{font-family:P;font-weight:600;font-display:swap;unicode-range:U+0900-097F,U+1CD0-1CFF,U+A8E0-A8FF;src:url("{% static 'web/fonts/landing/poppins-600-deva.woff2' %}") format("woff2")}
+@font-face{font-family:S;font-style:normal;font-display:swap;src:url("{% static 'web/fonts/landing/instrument-serif-normal-latin.woff2' %}") format("woff2")}
+@font-face{font-family:S;font-style:italic;font-display:swap;src:url("{% static 'web/fonts/landing/instrument-serif-italic-latin.woff2' %}") format("woff2")}
 </style>
 <link rel="stylesheet" href="{% static 'web/css/landing.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">
+{% if site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">{% endif %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"NEBians","url":"https://nebians.consica.com.np/","potentialAction":{"@type":"SearchAction","target":"https://nebians.consica.com.np/app/search/?q={q}","query-input":"required name=q"}}</script>
 <script src="{% static 'web/js/landing.js' %}" defer></script>
 </head>
 <body class="lp">
 <a class="lp-skip" href="#main">Skip to content</a>
 
-<header class="lp-nav" id="top">
-  <div class="lp-wrap lp-nav-in">
-    <a class="lp-brand" href="/" aria-label="NEBians home">
-      <svg viewBox="34 26 920 1344" aria-hidden="true"><path d="M500 42 501 135 856 370 858 1287 943 1219 943 331Z" fill="#021b54"/><path d="M441 191 441 282 691 447 691 799 774 886 775 408Z" fill="#06327c"/><path d="M306 320 307 377 613 706 613 485Z" fill="#94b6fb"/><path d="M51 228 51 1132 263 1346 267 812 775 1353 775 887 691 800 685 902Z" fill="var(--st-accent)"/></svg>
-      <span>NEBians</span>
-    </a>
-    <nav class="lp-links" aria-label="Main">
-      <a href="{% url 'web:library' %}">Library</a>
-      <a href="{% url 'web:forum' %}">Forum</a>
-      <a href="#books">Books</a>
-      <a href="#app">App</a>
-    </nav>
-    <div class="lp-nav-cta">
-      {% if not signed_in %}<a class="lp-link-quiet" href="{% url 'web:login' %}">Sign in</a>{% endif %}
-      <a class="lp-btn lp-btn-dark" href="{% url 'web:home' %}">{% if signed_in %}Open NEBians{% else %}Start studying{% endif %}</a>
-      <button class="lp-menu" type="button" aria-expanded="false" aria-controls="lp-sheet" aria-label="Menu"><i></i><i></i></button>
-    </div>
-  </div>
-  <div class="lp-sheet" id="lp-sheet" hidden>
-    <a href="{% url 'web:library' %}">Library</a><a href="{% url 'web:forum' %}">Forum</a>
-    <a href="#books">Books</a><a href="#app">Android app</a>
-    {% if not signed_in %}<a href="{% url 'web:login' %}">Sign in</a>{% endif %}
+<header class="lp-nav" data-nav>
+  <a class="lp-brand" href="/" aria-label="NEBians home">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 27V5l11 13V5M16 27V14l11 13V5" fill="none" stroke="currentColor" stroke-width="4.2" stroke-linejoin="round"/></svg>
+    <span>NEBians</span>
+  </a>
+  <nav class="lp-links" aria-label="Main">
+    <a href="{% url 'web:library' %}">Library</a>
+    <a href="#books">Books</a>
+    <a href="{% url 'web:forum' %}">Forum</a>
+    <a href="#app">App</a>
+  </nav>
+  <div class="lp-nav-end">
+    {% if not signed_in %}<a class="lp-quiet" href="{% url 'web:login' %}">Sign in</a>{% endif %}
+    <a class="lp-btn lp-btn-sm" href="{% url 'web:home' %}"><span>Open app</span></a>
+    <button class="lp-burger" type="button" aria-expanded="false" aria-controls="lp-menu" aria-label="Menu"><i></i><i></i></button>
   </div>
 </header>
+<div class="lp-menu" id="lp-menu" hidden>
+  <nav aria-label="Menu">
+    <a href="{% url 'web:library' %}" style="--i:0">Library</a>
+    <a href="#books" style="--i:1">Books</a>
+    <a href="{% url 'web:forum' %}" style="--i:2">Forum</a>
+    <a href="#app" style="--i:3">App</a>
+    {% if not signed_in %}<a href="{% url 'web:login' %}" style="--i:4">Sign in</a>{% endif %}
+  </nav>
+</div>
 
 <main id="main">
 
+<div class="lp-hero-track" data-track>
 <section class="lp-hero" aria-labelledby="lp-title">
   {% include "themes/_decor.html" with t=site_theme %}
-  <div class="lp-wrap lp-hero-in">
-    <div class="lp-hero-copy">
-      {% if site_theme.greeting %}
-      <p class="lp-greet" data-reveal><span lang="ne">{{ site_theme.greeting.ne }}</span><span aria-hidden="true">·</span>{{ site_theme.greeting.en }}</p>
-      {% else %}
-      <p class="lp-eyebrow" data-reveal>For students in Nepal, Class 8 to Bachelor's</p>
-      {% endif %}
-      <h1 id="lp-title" class="lp-display">
-        <span class="lp-line" data-reveal>Study <em class="lp-mark lp-mark-a">materials</em>.</span>
-        <span class="lp-line" data-reveal>Study <em class="lp-mark lp-mark-b">mates</em>.</span>
-      </h1>
-      <p class="lp-lede" data-reveal>Notes, past papers and full textbooks for every class. And a forum where someone has probably already solved the question you are stuck on.</p>
-      <div class="lp-actions" data-reveal>
-        <a class="lp-btn lp-btn-accent" href="{% url 'web:library' %}">Open the library <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h13m-5-6 6 6-6 6"/></svg></a>
-        <a class="lp-btn lp-btn-ghost" href="https://play.google.com/store/apps/details?id=com.neb.ians" rel="noopener">Get the Android app</a>
-      </div>
-      <p class="lp-proof" data-reveal>Free to use<span></span>Made in Nepal{% if stats.members >= 100 %}<span></span>{{ stats.members }}+ members{% endif %}</p>
-    </div>
-
-    <div class="lp-stage" aria-hidden="true">
-      <div class="lp-orb"></div>
-      <div class="lp-neby" data-lazy-neby data-src="{% static 'web/js/neby-avatar.js' %}" data-css="{% static 'web/css/neby-avatar.css' %}"><div class="lp-neby-fallback"><i></i><i></i></div></div>
-      {% with r=resources.0 %}
-      <div class="lp-float lp-float-a" data-depth="18">
-        <span class="lp-chip">PDF</span>
-        <b>{% if r %}{{ r.title|truncatechars:42 }}{% else %}Class 12 Physics: Electrostatics{% endif %}</b>
-        <small>{% if r %}{{ r.grade|default:"All classes" }}{% if r.subject %} · {{ r.subject }}{% endif %}{% else %}Class 12 · Physics{% endif %}</small>
-      </div>
-      {% endwith %}
-      {% with p=discussions.0 %}
-      <div class="lp-float lp-float-b" data-depth="-14">
-        <span class="lp-ava">{% if p %}{{ p.initial }}{% else %}A{% endif %}</span>
-        <div><b>{% if p %}{{ p.title|truncatechars:46 }}{% else %}How do I balance redox equations?{% endif %}</b>
-        <small>{% if p %}{{ p.replies }} repl{{ p.replies|pluralize:"y,ies" }}{% else %}12 replies{% endif %}</small></div>
-      </div>
-      {% endwith %}
-      <div class="lp-float lp-float-c" data-depth="10">
-        <span class="lp-tick"></span><b>Every exercise answered</b><small>NEBians study books</small>
+  <div class="lp-hero-in">
+    <h1 id="lp-title" class="lp-h1">
+      <span class="lp-mask"><span style="--d:0">Learn it.</span></span>
+      <span class="lp-mask"><span style="--d:1"><em>Pass it.</em></span></span>
+      <span class="lp-mask"><span style="--d:2">Pass it on.</span></span>
+    </h1>
+    <div class="lp-hero-side">
+      {% if site_theme.greeting %}<p class="lp-greet"><span lang="ne">{{ site_theme.greeting.ne }}</span></p>{% endif %}
+      <p class="lp-lede">Notes, past papers and solved books for Class&nbsp;8 to&nbsp;12. Free.</p>
+      <div class="lp-actions">
+        <a class="lp-btn" href="{% url 'web:library' %}"><span>Start reading</span></a>
+        <a class="lp-link" href="#app">Get the app</a>
       </div>
     </div>
   </div>
-</section>
 
-{% if stats.resources or stats.members %}
-<section class="lp-stats" aria-label="NEBians in numbers">
-  <div class="lp-wrap lp-stats-in">
-    {% if stats.resources %}<div data-reveal><b data-count="{{ stats.resources }}"{% if stats.resources >= 100 %} class="is-plus"{% endif %}>{{ stats.resources }}</b><span>resources in the library</span></div>{% endif %}
-    {% if stats.reads %}<div data-reveal><b data-count="{{ stats.reads }}"{% if stats.reads >= 100 %} class="is-plus"{% endif %}>{{ stats.reads }}</b><span>times they were opened</span></div>{% endif %}
-    {% if stats.members %}<div data-reveal><b data-count="{{ stats.members }}"{% if stats.members >= 100 %} class="is-plus"{% endif %}>{{ stats.members }}</b><span>students and teachers</span></div>{% endif %}
-    {% if stats.discussions %}<div data-reveal><b data-count="{{ stats.discussions }}"{% if stats.discussions >= 100 %} class="is-plus"{% endif %}>{{ stats.discussions }}</b><span>forum discussions</span></div>{% endif %}
+  <svg class="lp-mark" viewBox="0 0 600 420" aria-hidden="true">
+    <g class="lp-mark-peaks">
+      <path class="lp-peak-back" d="M250 360 L392 168 L452 238 L500 196 L590 360Z"/>
+      <path class="lp-peak" d="M40 362 L212 104 L282 206 L332 150 L440 362Z"/>
+      <path class="lp-snow" d="M212 104 L246 155 L228 150 L214 166 L198 146 L182 150Z M332 150 L356 182 L342 180 L332 192 L320 178Z M392 168 L414 198 L400 196 L390 206 L378 192Z"/>
+    </g>
+    <g class="lp-mark-flag">
+      <path class="lp-pole" d="M212 106 V22"/>
+      <g class="lp-pennant">
+        <path class="lp-pennant-edge" d="M212 18 L268 50 L228 50 L268 86 L212 86Z"/>
+        <path class="lp-pennant-red" d="M216 25 L256 46 L220 46 L256 82 L216 82Z"/>
+        <circle class="lp-pennant-w" cx="227" cy="40" r="4.5"/>
+        <circle class="lp-pennant-w" cx="230" cy="67" r="6"/>
+      </g>
+    </g>
+    <g class="lp-mark-book">
+      <path class="lp-cover" d="M14 356 Q160 330 300 364 Q440 330 586 356 L586 400 Q440 376 300 412 Q160 376 14 400Z"/>
+      <path class="lp-page lp-page-l" d="M30 348 Q166 324 300 356 L300 400 Q166 368 30 390Z"/>
+      <path class="lp-page lp-page-r" d="M570 348 Q434 324 300 356 L300 400 Q434 368 570 390Z"/>
+      <path class="lp-lines" d="M64 360 Q170 342 270 366 M64 374 Q170 356 270 380 M336 366 Q430 342 536 360 M336 380 Q430 356 536 374"/>
+    </g>
+  </svg>
+
+  <p class="lp-word" aria-hidden="true">{% for c in "NEBians" %}<span style="--i:{{ forloop.counter0 }}">{{ c }}</span>{% endfor %}</p>
+</section>
+</div>
+
+<section class="lp-say" data-track aria-label="What NEBians is">
+  <div class="lp-say-pin">
+    <p class="lp-say-text"><span style="--i:0">Six</span> <span style="--i:1">thousand</span> <span style="--i:2">pages</span> <span style="--i:3">of</span> <span style="--i:4">notes.</span> <span style="--i:5">Every</span> <span style="--i:6">textbook</span> <span style="--i:7">exercise,</span> <span style="--i:8"><em>solved.</em></span> <span style="--i:9">A</span> <span style="--i:10">forum</span> <span style="--i:11">that</span> <span style="--i:12"><em>answers</em></span> <span style="--i:13"><em>back.</em></span></p>
   </div>
 </section>
-{% endif %}
 
-<section class="lp-sec" id="classes" aria-labelledby="lp-classes">
+<section class="lp-classes" id="classes" aria-labelledby="lp-classes">
   <div class="lp-wrap">
-    <div class="lp-head" data-reveal>
-      <p class="lp-kicker">Start with your class</p>
-      <h2 id="lp-classes" class="lp-h2">Pick a class. Everything for it is one tap away.</h2>
-    </div>
-    <div class="lp-tabs" role="tablist" aria-label="Classes" data-reveal>
+    <h2 id="lp-classes" class="lp-h2" data-reveal>Pick your <em>class.</em></h2>
+    <ol class="lp-rows">
       {% for g in grades %}
-      <button role="tab" id="tab-{{ g.key }}" aria-controls="panel-{{ g.key }}" aria-selected="{% if forloop.counter == 4 %}true{% else %}false{% endif %}" tabindex="{% if forloop.counter == 4 %}0{% else %}-1{% endif %}">{{ g.label }}</button>
+      <li data-reveal style="--i:{{ forloop.counter0 }}">
+        <a class="lp-row" href="{% url 'web:library' %}?grade={{ g.label|urlencode }}">
+          <span class="lp-row-n">{% if g.key == 'bachelor' %}B{% else %}{{ g.label|slice:"6:" }}{% endif %}</span>
+          <span class="lp-row-t"><b>{{ g.label }}</b><small>{{ g.exam }}</small></span>
+          <span class="lp-row-s">{% for s in g.subjects|slice:":5" %}{{ s.name }}{% if not forloop.last %} · {% endif %}{% endfor %}</span>
+          <span class="lp-row-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </li>
       {% endfor %}
-      <span class="lp-tab-ink" aria-hidden="true"></span>
-    </div>
-    {% for g in grades %}
-    <div class="lp-panel" role="tabpanel" id="panel-{{ g.key }}" aria-labelledby="tab-{{ g.key }}" {% if forloop.counter != 4 %}hidden{% endif %}>
-      <div class="lp-panel-meta"><span class="lp-exam">{{ g.exam }}</span><a class="lp-arrow" href="{% url 'web:library' %}?grade={{ g.label|urlencode }}">Everything for {{ g.label }}</a></div>
-      <div class="lp-subjects">
-        {% for s in g.subjects %}<a href="/app/subject/{{ g.key }}/{{ s.slug }}/" style="--i:{{ forloop.counter0 }}">{{ s.name }}</a>{% endfor %}
-      </div>
-    </div>
-    {% endfor %}
+    </ol>
   </div>
 </section>
 
-{% if resources %}
-<section class="lp-sec lp-sec-tint" aria-labelledby="lp-lib">
-  <div class="lp-wrap">
-    <div class="lp-head lp-head-row" data-reveal>
-      <div><p class="lp-kicker">The library</p>
-      <h2 id="lp-lib" class="lp-h2">What people are reading this week.</h2></div>
-      <a class="lp-arrow" href="{% url 'web:library' %}">Browse the library</a>
-    </div>
-  </div>
-  <div class="lp-rail" data-reveal>
-    {% for r in resources %}
-    <a class="lp-res" href="/app/reader/{{ r.id }}/" style="--h:{% cycle 214 262 340 160 28 190 300 140 %}">
-      <span class="lp-res-cover"><i>{{ r.subject|default:r.title|slice:":1" }}</i><span>{{ r.type|upper|truncatechars:10 }}</span></span>
-      <b>{{ r.title|truncatechars:60 }}</b>
-      <small>{{ r.grade|default:"All classes" }}{% if r.subject %} · {{ r.subject }}{% endif %}</small>
-    </a>
-    {% endfor %}
-  </div>
-</section>
-{% endif %}
-
-<section class="lp-sec" id="books" aria-labelledby="lp-books">
-  <div class="lp-wrap lp-split">
-    <div data-reveal>
-      <p class="lp-kicker">NEBians study books</p>
-      <h2 id="lp-books" class="lp-h2">Full books, written chapter by chapter.</h2>
+<section class="lp-books" id="books" data-track aria-labelledby="lp-books">
+  <div class="lp-wrap lp-books-in">
+    <div class="lp-books-copy" data-reveal>
+      <p class="lp-label">NEBians study books</p>
+      <h2 id="lp-books" class="lp-h2">Full books, written <em>chapter by chapter.</em></h2>
       <p class="lp-p">For Class 8, 10, 11 and 12 we wrote the notes we wished we had: every lesson explained in plain language, diagrams drawn properly, worked examples, and an answer for every exercise in the textbook. Nepali and Social Studies are written in Nepali.</p>
       <ul class="lp-list">
         <li>Notes and question banks for each class</li>
         <li>Over 6,000 pages, free to read</li>
         <li>Built on the CDC syllabus and textbooks</li>
       </ul>
-      <a class="lp-btn lp-btn-dark" href="{% url 'web:library' %}?q=NEBians">Read the books</a>
+      <a class="lp-btn lp-btn-cream" href="{% url 'web:library' %}?q=NEBians"><span>Read the books</span></a>
     </div>
-    <div class="lp-shelf" aria-hidden="true" data-reveal>
-      <span class="lp-book" style="--c:#0b57d0;--r:-4deg"><b>8</b><i>Class</i></span>
-      <span class="lp-book" style="--c:#c8102e;--r:2deg"><b>10</b><i>Class</i></span>
-      <span class="lp-book" style="--c:#0b8a5f;--r:-2deg"><b>11</b><i>Class</i></span>
-      <span class="lp-book" style="--c:#6246d7;--r:5deg"><b>12</b><i>Class</i></span>
-    </div>
-  </div>
-</section>
-
-<section class="lp-sec lp-sec-ink" aria-labelledby="lp-forum">
-  <div class="lp-wrap lp-split lp-split-rev">
-    <div data-reveal>
-      <p class="lp-kicker">The forum</p>
-      <h2 id="lp-forum" class="lp-h2">Stuck at eleven at night? Ask.</h2>
-      <p class="lp-p">Post the question, a photo of the page, or the step you don't follow. Students and teachers from across the country answer, and the clearest answers rise to the top.</p>
-      <a class="lp-btn lp-btn-light" href="{% url 'web:forum' %}">Visit the forum</a>
-    </div>
-    <div class="lp-thread" data-reveal>
-      {% for p in discussions %}
-      <a class="lp-post" href="/app/forum/post/{{ p.id }}/" style="--i:{{ forloop.counter0 }}">
-        <span class="lp-ava">{{ p.initial }}</span>
-        <span><small>{{ p.name }} · {{ p.category }}</small><b>{{ p.title|truncatechars:80 }}</b>
-        <em>{{ p.replies }} repl{{ p.replies|pluralize:"y,ies" }} · {{ p.likes }} like{{ p.likes|pluralize }}</em></span>
-      </a>
-      {% empty %}
-      <div class="lp-post"><span class="lp-ava">A</span><span><small>Class 12 · Chemistry</small><b>Why is the second ionisation energy always higher?</b><em>Be the first to answer</em></span></div>
-      {% endfor %}
+    <div class="lp-shelf" aria-hidden="true">
+      <span class="lp-book" style="--i:0"><b>08</b><i>Class</i></span>
+      <span class="lp-book" style="--i:1"><b>10</b><i>Class</i></span>
+      <span class="lp-book" style="--i:2"><b>11</b><i>Class</i></span>
+      <span class="lp-book" style="--i:3"><b>12</b><i>Class</i></span>
     </div>
   </div>
 </section>
 
-<section class="lp-sec" aria-labelledby="lp-give">
-  <div class="lp-wrap">
-    <div class="lp-head" data-reveal>
-      <p class="lp-kicker">Give back</p>
-      <h2 id="lp-give" class="lp-h2">The library grows because students share.</h2>
-    </div>
-    <ol class="lp-steps">
-      <li data-reveal><span>1</span><b>Upload</b><p>Your notes, a solved paper, the model questions your school handed out.</p></li>
-      <li data-reveal><span>2</span><b>Earn</b><p>Points for every resource and helpful answer, and badges as you go.</p></li>
-      <li data-reveal><span>3</span><b>Climb</b><p>The leaderboard shows who is carrying the community this month.</p></li>
-    </ol>
-  </div>
-</section>
-
-<section class="lp-sec lp-sec-tint" aria-labelledby="lp-tools">
-  <div class="lp-wrap">
-    <div class="lp-head" data-reveal>
-      <p class="lp-kicker">Also here</p>
-      <h2 id="lp-tools" class="lp-h2">Small tools for the days around exams.</h2>
-    </div>
-    <div class="lp-tools">
-      <a class="lp-tool" href="{% url 'web:result_check' %}" data-reveal><b>Result checker</b><p>SEE and NEB Class 11 and 12 gradesheets, as soon as they are out.</p><span class="lp-arrow">Check a result</span></a>
-      <a class="lp-tool" href="{% url 'web:doc_tools' %}" data-reveal><b>PDF tools</b><p>Merge, split, compress and convert, without installing anything.</p><span class="lp-arrow">Open PDF tools</span></a>
-      <a class="lp-tool" href="{% url 'web:interactive_hub' %}" data-reveal><b>Practical labs</b><p>Interactive versions of NEB practicals you can run before the real one.</p><span class="lp-arrow">Try a lab</span></a>
-    </div>
-  </div>
-</section>
-
-<section class="lp-sec" id="app" aria-labelledby="lp-app">
-  <div class="lp-wrap lp-split">
-    <div data-reveal>
-      <p class="lp-kicker">Android app</p>
-      <h2 id="lp-app" class="lp-h2">Your whole library, in your pocket.</h2>
-      <p class="lp-p">Read any book or paper in the app. When a line on the page does not make sense, tap <strong>Ask Neby</strong> and ask about that page.</p>
-      <a class="lp-play" href="https://play.google.com/store/apps/details?id=com.neb.ians" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#34A853" d="M4 3.3 13.6 12 4 20.7c-.4-.2-.6-.6-.6-1.1V4.4c0-.5.2-.9.6-1.1Z"/><path fill="#FBBC04" d="m17 8.8-3.4 3.2 3.4 3.2 3.4-1.9c.9-.5.9-1.8 0-2.4Z"/><path fill="#4285F4" d="M13.6 12 4 3.3c.3-.1.7-.1 1 .1L17 8.8Z"/><path fill="#EA4335" d="M13.6 12 17 15.2 5 20.6c-.3.2-.7.2-1 .1Z"/></svg>
-        <span><small>Get it on</small>Google Play</span>
-      </a>
-    </div>
-    <div class="lp-phone" aria-hidden="true" data-reveal>
-      <div class="lp-phone-screen">
-        <div class="lp-pbar"><i></i><b>Physics · Class 12</b><span>84 / 275</span></div>
-        <div class="lp-page"><b>5.2 Refraction of light</b><i></i><i class="hl"></i><i></i><div class="lp-fig"></div><i></i><i></i></div>
-        <div class="lp-ask">Ask Neby</div>
-        <div class="lp-sheet-ui"><span class="lp-q">Why does a pencil look bent in water?</span><span class="lp-a"><i></i><i></i><i></i></span></div>
+<section class="lp-forum" data-track aria-labelledby="lp-forum">
+  <div class="lp-forum-pin">
+    <div class="lp-wrap lp-forum-in">
+      <div class="lp-forum-copy">
+        <h2 id="lp-forum" class="lp-h2">Stuck at 11&nbsp;pm? <em>Ask.</em></h2>
+        <a class="lp-btn lp-btn-cream" href="{% url 'web:forum' %}"><span>Open the forum</span></a>
+      </div>
+      <div class="lp-stack" style="--n:{{ discussions|length|default:2 }}">
+        {% for p in discussions %}
+        <a class="lp-card" href="/app/forum/post/{{ p.id }}/" style="--i:{{ forloop.counter0 }}">
+          <span class="lp-card-top"><span class="lp-ava">{{ p.initial }}</span>{{ p.name }}<small>{{ p.category }}</small></span>
+          <b>{{ p.title|truncatechars:90 }}</b>
+          <span class="lp-card-foot">{{ p.replies }} repl{{ p.replies|pluralize:"y,ies" }}</span>
+        </a>
+        {% empty %}
+        <div class="lp-card" style="--i:0"><span class="lp-card-top"><span class="lp-ava">A</span>Asha<small>Chemistry</small></span><b>Why is the second ionisation energy always higher?</b><span class="lp-card-foot">Be the first to answer</span></div>
+        <div class="lp-card" style="--i:1"><span class="lp-card-top"><span class="lp-ava">R</span>Rohan<small>Mathematics</small></span><b>Is there a solved set for the BLE maths model questions?</b><span class="lp-card-foot">Be the first to answer</span></div>
+        {% endfor %}
       </div>
     </div>
   </div>
 </section>
 
-<section class="lp-sec lp-faq" aria-labelledby="lp-faqh">
-  <div class="lp-wrap lp-narrow">
-    <h2 id="lp-faqh" class="lp-h2" data-reveal>Questions people ask first</h2>
-    <details data-reveal><summary>Is it really free?</summary><p>Yes. Reading, downloading, the forum and the study books are free. Some creators sell their own courses in the marketplace, and those are clearly marked with a price.</p></details>
-    <details data-reveal><summary>Which classes and boards does it cover?</summary><p>Class 8 (BLE), Class 10 (SEE) and Class 11 and 12 (NEB) have the most material, with a growing collection for Bachelor's programmes at TU, KU and PU.</p></details>
-    <details data-reveal><summary>Who writes the material?</summary><p>Students and teachers upload most of the library, and moderators check it before it goes public. The NEBians study books are written by our team against the CDC syllabus.</p></details>
-    <details data-reveal><summary>Do I need an account?</summary><p>Not to read. You need one to post in the forum, upload, bookmark and keep your place across devices.</p></details>
+<section class="lp-app" id="app" data-track aria-labelledby="lp-app">
+  <div class="lp-wrap lp-app-in">
+    <div class="lp-app-copy" data-reveal>
+      <h2 id="lp-app" class="lp-h2">The whole library, <em>in your pocket.</em></h2>
+      <p class="lp-p">Lost on a page? Tap <b>Ask Neby</b>.</p>
+      <a class="lp-play" href="https://play.google.com/store/apps/details?id=com.neb.ians" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 3.3 13.6 12 4 20.7c-.4-.2-.6-.6-.6-1.1V4.4c0-.5.2-.9.6-1.1Zm13 5.5-3.4 3.2 3.4 3.2 3.4-1.9c.9-.5.9-1.8 0-2.4ZM13.6 12 4 3.3c.3-.1.7-.1 1 .1L17 8.8Zm0 0L17 15.2 5 20.6c-.3.2-.7.2-1 .1Z"/></svg>
+        <span><small>Get it on</small>Google Play</span>
+      </a>
+    </div>
+    <div class="lp-phone" aria-hidden="true">
+      <div class="lp-phone-in">
+        <div class="lp-pbar"><b>Physics 12</b><span>84 / 275</span></div>
+        <div class="lp-page-ui"><b>5.2 Refraction</b><i></i><i class="hl"></i><i></i><span class="lp-fig"><i></i></span><i></i><i class="short"></i></div>
+        <div class="lp-ask"><span class="lp-ask-q">Why does a pencil look bent in water?</span><span class="lp-ask-a"><i></i><i></i><i class="short"></i></span></div>
+        <span class="lp-ask-btn">Ask Neby</span>
+      </div>
+    </div>
   </div>
 </section>
 
-<section class="lp-final" aria-labelledby="lp-final">
-  {% include "themes/_decor.html" with t=site_theme %}
-  <div class="lp-wrap lp-final-in" data-reveal>
-    <h2 id="lp-final" class="lp-display lp-display-sm">Open a book. Ask a question. Help someone back.</h2>
-    <a class="lp-btn lp-btn-accent lp-btn-lg" href="{% url 'web:home' %}">{% if signed_in %}Open NEBians{% else %}Start studying, free{% endif %}</a>
+<section class="lp-faq" aria-labelledby="lp-faqh">
+  <div class="lp-wrap lp-faq-in">
+    <h2 id="lp-faqh" class="lp-h2" data-reveal>Questions people <em>ask first.</em></h2>
+    <div class="lp-faq-list">
+      <details data-reveal><summary>Is it really free?</summary><p>Yes. Reading, downloading, the forum and the study books are free. Some creators sell their own courses in the marketplace, and those are clearly marked with a price.</p></details>
+      <details data-reveal><summary>Which classes and boards does it cover?</summary><p>Class 8 (BLE), Class 10 (SEE) and Class 11 and 12 (NEB) have the most material, with a growing collection for Bachelor's programmes at TU, KU and PU.</p></details>
+      <details data-reveal><summary>Who writes the material?</summary><p>Students and teachers upload most of the library, and moderators check it before it goes public. The NEBians study books are written by our team against the CDC syllabus.</p></details>
+      <details data-reveal><summary>Do I need an account?</summary><p>Not to read. You need one to post in the forum, upload, bookmark and keep your place across devices.</p></details>
+    </div>
   </div>
 </section>
 
 </main>
 
-<footer class="lp-foot">
+<footer class="lp-foot" data-track>
   <div class="lp-wrap lp-foot-in">
-    <div class="lp-foot-brand"><b>NEBians</b><span>Nepal's learning community</span></div>
-    <nav aria-label="Footer">
-      <a href="{% url 'web:library' %}">Library</a><a href="{% url 'web:forum' %}">Forum</a>
-      <a href="{% url 'web:past_papers' %}">Past papers</a><a href="{% url 'web:news_list' %}">News</a>
-      <a href="{% url 'web:result_check' %}">Results</a><a href="{% url 'web:faq' %}">FAQ</a>
-      <a href="{% url 'web:privacy_policy' %}">Privacy</a><a href="{% url 'web:terms_of_service' %}">Terms</a>
-      <a href="{% url 'web:copyright_takedown' %}">Copyright</a>
+    <div class="lp-foot-cta">
+      <p class="lp-h2">Open a book. <em>Ask a question.</em></p>
+      <a class="lp-btn" href="{% url 'web:home' %}"><span>{% if signed_in %}Open NEBians{% else %}Start, free{% endif %}</span></a>
+    </div>
+    <nav class="lp-foot-cols" aria-label="Footer">
+      <div><small>Study</small><a href="{% url 'web:library' %}">Library</a><a href="{% url 'web:past_papers' %}">Past papers</a><a href="{% url 'web:result_check' %}">Results</a><a href="{% url 'web:doc_tools' %}">PDF tools</a></div>
+      <div><small>Community</small><a href="{% url 'web:forum' %}">Forum</a><a href="{% url 'web:news_list' %}">News</a><a href="{% url 'web:faq' %}">FAQ</a></div>
+      <div><small>Legal</small><a href="{% url 'web:privacy_policy' %}">Privacy</a><a href="{% url 'web:terms_of_service' %}">Terms</a><a href="{% url 'web:copyright_takedown' %}">Copyright</a></div>
     </nav>
-    <small>© {% now "Y" %} NEBians · Made in Nepal</small>
   </div>
+  <p class="lp-foot-word" aria-hidden="true">{% for c in "NEBians" %}<span style="--i:{{ forloop.counter0 }}">{{ c }}</span>{% endfor %}</p>
+  <div class="lp-wrap lp-foot-base"><small>© {% now "Y" %} NEBians</small><small>Made in Nepal</small></div>
 </footer>
 </body>
 </html>
