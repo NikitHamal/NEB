@@ -112,6 +112,8 @@ fun NebTopBar(
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
+            // the festival's pixel mark, only while the server has a festive theme on
+            com.neb.ians.ui.theme.SeasonMotif(size = 22.dp, modifier = Modifier.padding(start = 6.dp))
             Spacer(Modifier.weight(1f))
         } else if (title != null) {
             Text(

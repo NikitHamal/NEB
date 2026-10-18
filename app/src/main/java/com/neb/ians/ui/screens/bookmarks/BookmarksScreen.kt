@@ -28,7 +28,6 @@ import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -123,7 +122,7 @@ fun BookmarksScreen(
                 state = uiState,
                 onSelect = viewModel::selectType
             )
-            PullToRefreshBox(
+            com.neb.ians.ui.components.NebRefreshBox(
                 isRefreshing = isRefreshing,
                 onRefresh = {
                     scope.launch {

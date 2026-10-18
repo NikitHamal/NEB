@@ -21,7 +21,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -117,7 +116,7 @@ fun HomeScreen(
         },
         containerColor = MaterialTheme.colorScheme.surfaceContainerLow
     ) { innerPadding ->
-        PullToRefreshBox(
+        com.neb.ians.ui.components.NebRefreshBox(
             isRefreshing = isRefreshing,
             onRefresh = {
                 scope.launch {
@@ -163,12 +162,31 @@ fun HomeScreen(
                         )
                     }
 
+                    val siteTheme = com.neb.ians.ui.theme.LocalSiteTheme.current
+                    val context = androidx.compose.ui.platform.LocalContext.current
                     LazyColumn(
                         state = listState,
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         contentPadding = PaddingValues(top = 10.dp, bottom = 24.dp)
                     ) {
+                        if (siteTheme.festive && siteTheme.cardOpen) {
+                            item(key = "season_card") {
+                                com.neb.ians.ui.theme.SeasonCard(
+                                    onAction = { url ->
+                                        when {
+                                            "forum" in url -> onForumClick()
+                                            "library" in url -> onViewAllClick()
+                                            else -> runCatching {
+                                                val full = if (url.startsWith("http")) url else "https://nebians.consica.com.np$url"
+                                                context.startActivity(android.content.Intent(android.content.Intent.ACTION_VIEW, android.net.Uri.parse(full)))
+                                            }
+                                        }
+                                    },
+                                    modifier = Modifier.padding(horizontal = 16.dp).animateItem()
+                                )
+                            }
+                        }
                         if (uiState.error != null) {
                             item(key = "partial_error") {
                                 ErrorCard(
