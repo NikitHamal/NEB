@@ -1151,7 +1151,8 @@ fun Avatar(
                     com.neb.ians.ui.pixel.NebyPixel(
                         state = if (animate) com.neb.ians.ui.pixel.NebyState.Idle else com.neb.ians.ui.pixel.NebyState.Still,
                         size = size,
-                        ambient = false
+                        ambient = false,
+                        avatar = true
                     )
                 }
             } else if (!resolvedUrl.isNullOrBlank() && !isError) {

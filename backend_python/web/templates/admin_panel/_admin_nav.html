@@ -69,6 +69,10 @@
   <span class="material-symbols-outlined">palette</span>
   Site Themes
 </a>
+<a href="{% url 'web:admin_neby_studio' %}" class="{% if active_page == 'neby_studio' %}active{% endif %}" {% if active_page == 'neby_studio' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">mood</span>
+  Neby Studio
+</a>
 <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}" {% if active_page == 'study_spaces' %}aria-current="page"{% endif %}>
   <span class="material-symbols-outlined">science</span>
   Study Spaces

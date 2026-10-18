@@ -7,7 +7,7 @@
    attribute, and an empty value meant they all fell through to the OS
    preference. A reader on a light page with a dark desktop got the dark palette
    painted into the cards: the exact complaint in issue #47. {% endcomment %}
-<html lang="en" data-theme="{% if dark_mode %}dark{% else %}light{% endif %}"{% if site_theme.show_in_app %} data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}"{% endif %}>
+<html lang="en" data-theme="{% if dark_mode %}dark{% else %}light{% endif %}" data-neby-look="{{ site_theme.neby.look|default:'classic' }}"{% if site_theme.neby.greet %} data-neby-greet="{{ site_theme.neby.greet }}"{% endif %}{% if site_theme.neby and not site_theme.neby.ambient %} data-neby-ambient="false"{% endif %}{% if site_theme.neby and not site_theme.neby.reactions %} data-neby-reactions="false"{% endif %}{% if site_theme.show_in_app %} data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}"{% endif %}>
 
 <head>
   <meta charset="UTF-8">

@@ -4,9 +4,9 @@ import datetime as dt
 from django.contrib import messages
 from django.shortcuts import redirect, render
 
-from api.models import SiteTheme
+from api.models import NebyConfig, SiteTheme
 
-from . import site_themes
+from . import neby_looks, site_themes
 from .view_helpers import _ctx, _require_staff_admin
 
 
@@ -67,3 +67,38 @@ def admin_site_themes(request):
     ctx = _ctx(request, active_page='site_themes', themes=themes, live=live, schedule=schedule,
                past=past, forced=forced, today=today, names=dict(site_themes.CHOICES))
     return render(request, 'admin_panel/site_themes.html', ctx)
+
+
+def admin_neby_studio(request):
+    """Every pixel Neby look and animation in one place, and the switch for which look is live."""
+    blocked = _require_staff_admin(request)
+    if blocked:
+        return blocked
+
+    if request.method == 'POST':
+        look = request.POST.get('look', neby_looks.AUTO)
+        if look != neby_looks.AUTO and look not in neby_looks.LOOK_KEYS:
+            messages.error(request, 'That look does not exist.')
+        else:
+            row = NebyConfig.objects.order_by('-updated_at').first() or NebyConfig()
+            row.look = look
+            row.ambient = request.POST.get('ambient') == 'on'
+            row.reactions = request.POST.get('reactions') == 'on'
+            row.save()
+            site_themes.invalidate()
+            label = dict((k, l) for k, l, _ in neby_looks.LOOKS).get(look, 'Festival auto')
+            messages.success(request, f'Neby now wears: {label}. The apps pick it up within five minutes.')
+        return redirect('web:admin_neby_studio')
+
+    theme = site_themes.resolve(site_themes.kathmandu_today())
+    live = neby_looks.resolve(theme['key'])
+    groups = {}
+    for key, label, group in neby_looks.LOOKS:
+        groups.setdefault(group, []).append({'key': key, 'label': label, 'live': key == live['look']})
+    states = {}
+    for key, (frames, ms, group) in neby_looks.STATES.items():
+        states.setdefault(group, []).append({'key': key, 'label': key.replace('-', ' ').capitalize(), 'frames': frames, 'ms': ms})
+    ctx = _ctx(request, active_page='neby_studio', look_groups=groups, state_groups=states, live=live, theme=theme,
+               looks=neby_looks.LOOKS, state_count=len(neby_looks.STATES), look_count=len(neby_looks.LOOKS),
+               auto_look=neby_looks.for_theme(theme['key']))
+    return render(request, 'admin_panel/neby_studio.html', ctx)

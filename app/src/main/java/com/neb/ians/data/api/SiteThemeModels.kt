@@ -13,6 +13,15 @@ data class ApiSiteTheme(
     val motif: String? = null,
     val greeting: ApiThemeGreeting? = null,
     val card: ApiSeasonCard? = null,
+    /** How Neby looks and behaves right now: an admin's pick, or the festival's dress. */
+    val neby: ApiNebyConfig? = null,
+)
+
+@Serializable
+data class ApiNebyConfig(
+    val look: String = "classic",
+    val ambient: Boolean = true,
+    val reactions: Boolean = true,
 )
 
 @Serializable

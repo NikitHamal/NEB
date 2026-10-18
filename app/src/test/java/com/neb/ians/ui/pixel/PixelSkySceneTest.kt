@@ -66,6 +66,36 @@ class PixelSkySceneTest {
             meta.append("$name ${s.width} ${s.height} $n ${s.frameMs}\n")
         }
         File(ui, "meta.txt").writeText(meta.toString())
+        // every Neby look in every state: neby/<look>/<state>.pam, the same frames for web and app
+        val nebyDir = File(dir, "neby").apply { mkdirs() }
+        val nebyMeta = StringBuilder()
+        for (look in NebyLook.entries) {
+            val ld = File(nebyDir, look.key).apply { mkdirs() }
+            for (state in NebyState.entries) {
+                val s = state.sprite(look)
+                val n = s.frames.size
+                val strip = IntArray(s.width * n * s.height)
+                s.frames.forEachIndexed { f, data ->
+                    for (y in 0 until s.height) for (x in 0 until s.width) strip[y * s.width * n + f * s.width + x] = data[y * s.width + x]
+                }
+                writeArgb(strip, s.width * n, s.height, File(ld, "${state.key}.pam"))
+                if (look == NebyLook.Classic) nebyMeta.append("${state.key} $n ${s.frameMs}\n")
+            }
+        }
+        File(nebyDir, "meta.txt").writeText(nebyMeta.toString())
+    }
+
+    @Test
+    fun every_look_and_state_renders() {
+        for (look in NebyLook.entries) for (state in NebyState.entries) {
+            val s = state.sprite(look)
+            assertEquals(state.frameMs, s.frameMs)
+            // the figure is there in every frame, and nothing is drawn in the corner a crop would show oddly
+            s.frames.forEach { f -> assertTrue("$look $state", f.count { (it ushr 24) != 0 } > 500) }
+        }
+        assertEquals(NebyLook.Dashain, NebyLook.forTheme("dashain"))
+        assertEquals(NebyLook.Classic, NebyLook.forTheme("everyday"))
+        assertEquals(NebyState.LookAround, NebyState.fromName(NebyState.LookAround.key))
     }
 
     /** PAM with alpha (RGB_ALPHA), so transparent pixels survive the trip to PNG. */
