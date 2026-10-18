@@ -29,7 +29,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.CloudDownload
 import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -63,7 +62,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
-import com.neb.ians.ui.components.NebLoader
+import com.neb.ians.ui.pixel.PixelSpriteView
+import com.neb.ians.ui.pixel.PixelUiSprites
+import androidx.compose.foundation.layout.size
 import com.neb.ians.ui.components.NebTopBar
 import com.neb.ians.ui.screens.reader.pdf.BookmarksSheet
 import com.neb.ians.ui.screens.reader.pdf.FloatingPageBadge
@@ -113,7 +114,7 @@ fun PdfViewerScreen(
                     when {
                         state.isDownloading -> DownloadState(state.downloadProgress)
                         state.error != null -> ErrorState(state.error ?: "Unable to open document", viewModel::retry)
-                        else -> NebLoader()
+                        else -> PixelSpriteView(sprite = PixelUiSprites.bookLoader, modifier = Modifier.size(width = 128.dp, height = 88.dp))
                     }
                 }
             }
@@ -389,7 +390,7 @@ private fun DownloadState(progress: Int) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
-        Icon(Icons.Outlined.CloudDownload, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        PixelSpriteView(sprite = PixelUiSprites.bookLoader, modifier = Modifier.size(width = 128.dp, height = 88.dp))
         Text("Saving for offline reading", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         LinearProgressIndicator(
             progress = { progress.coerceIn(0, 100) / 100f },

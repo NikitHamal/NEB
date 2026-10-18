@@ -245,12 +245,12 @@ object PixelSprites {
      * Spine at x = 48; the cover rests at y = 44.
      */
     val book: PixelSprite by lazy {
-        PixelSprite.build(BOOK_W, BOOK_H, BOOK_IDLE + BOOK_FLIP, 80, loop = false) { f -> drawBook(this, f) }
+        PixelSprite.build(BOOK_W, BOOK_H, BOOK_IDLE + BOOK_FLIP, 64, loop = false) { f -> drawBook(this, f) }
     }
     const val BOOK_W = 96
     const val BOOK_H = 52
     const val BOOK_IDLE = 3
-    const val BOOK_FLIP = 10
+    const val BOOK_FLIP = 14
 
     private val bookPaper = Px.rgb(0xFFF9EE)
     private val bookPaper2 = Px.rgb(0xF7EAD2)
@@ -305,28 +305,69 @@ object PixelSprites {
         set(48, 21, bookGold); set(47, 22, bookGold); set(49, 22, bookGold)
         if (f >= BOOK_IDLE) {
             val t = (f - BOOK_IDLE + 1) / (BOOK_FLIP + 1f)
-            val theta = PI * t
-            val tipX = 48f + 44f * cos(theta).toFloat()
-            val tipY = 21f - 19f * sin(theta).toFloat()
-            val ctrlX = 48f + 12f * cos(theta).toFloat()
-            val ctrlY = 6f - 4f * sin(theta).toFloat()
-            val top = FloatArray(26); val bottom = FloatArray(26)
-            for (i in 0..12) {
-                val u = i / 12f
-                top[i * 2] = quad(48f, ctrlX, tipX, u); top[i * 2 + 1] = quad(21f, ctrlY, tipY, u)
-                // the sheet has depth: seen from slightly above, it shows as a band
-                bottom[i * 2] = quad(48f, ctrlX, tipX, u); bottom[i * 2 + 1] = quad(27f, ctrlY + 7f, tipY + 7f, u)
-            }
-            val poly = ArrayList<Float>()
-            for (v in top) poly += v
-            for (i in 12 downTo 0) { poly += bottom[i * 2]; poly += bottom[i * 2 + 1] }
-            polygon(poly.toFloatArray(), if (t > 0.5f) bookPaper2 else bookPaper)
-            for (i in 0 until 12) {
-                line(top[i * 2].roundToInt(), top[i * 2 + 1].roundToInt(), top[i * 2 + 2].roundToInt(), top[i * 2 + 3].roundToInt(), bookEdge)
-                line(bottom[i * 2].roundToInt(), bottom[i * 2 + 1].roundToInt(), bottom[i * 2 + 2].roundToInt(), bottom[i * 2 + 3].roundToInt(), bookShade)
-            }
-            line(tipX.roundToInt(), tipY.roundToInt(), tipX.roundToInt(), (tipY + 7f).roundToInt(), bookEdge)
+            // a faint smear where the sheet just was: pixel-art motion blur
+            sheet(c, (t - 0.07f).coerceAtLeast(0f), ghost = true)
+            sheet(c, t, ghost = false)
         }
+    }
+
+    /**
+     * The turning page at progress [t] (0 = lying right, 1 = lying left). It is drawn as twelve
+     * segments from the spine to its free edge, each shaded on its own: darker in the gutter, the
+     * back of the page a step darker than the front, and the curl thickening toward the edge as it
+     * lifts. While it is up it casts a soft shadow on the page it is about to cover.
+     */
+    private fun sheet(c: PixelCanvas, t: Float, ghost: Boolean) = with(c) {
+        val theta = PI * t
+        val ct = cos(theta).toFloat(); val st = sin(theta).toFloat()
+        // anchored on the top page: at rest it lies exactly on that page's curve (pageCurve layer 5)
+        val tipX = 48f + 43f * ct
+        val tipY = 23.5f - 22f * st
+        val ctrlX = 48f + 15f * ct
+        val ctrlY = 8f - 4f * st
+        val n = 12
+        val top = FloatArray((n + 1) * 2); val bottom = FloatArray((n + 1) * 2)
+        for (i in 0..n) {
+            val u = i / n.toFloat()
+            val x = quad(48f, ctrlX, tipX, u)
+            top[i * 2] = x; top[i * 2 + 1] = quad(38.5f, ctrlY, tipY, u)
+            bottom[i * 2] = x; bottom[i * 2 + 1] = quad(40.5f, ctrlY + 2f, tipY + 2f, u) + (1f + 3.5f * st) * u
+        }
+        if (ghost) {
+            for (i in 0 until n) {
+                val poly = floatArrayOf(top[i * 2], top[i * 2 + 1], top[i * 2 + 2], top[i * 2 + 3], bottom[i * 2 + 2], bottom[i * 2 + 3], bottom[i * 2], bottom[i * 2 + 1])
+                val minY = minOf(poly[1], poly[3]).toInt(); val maxY = maxOf(poly[5], poly[7]).toInt()
+                for (y in minY..maxY) for (x in minOf(poly[0], poly[2]).toInt()..maxOf(poly[0], poly[2]).toInt()) {
+                    if (Bayer.threshold(x, y) < 0.35f && get(x, y) ushr 24 != 0) set(x, y, bookPaper2)
+                }
+            }
+            return@with
+        }
+        // the shadow it casts on the page below, strongest as it nears that page
+        val near = 1f - st
+        if (st > 0.15f && near > 0.05f) {
+            for (i in 0..n) {
+                val x = top[i * 2].roundToInt(); val y0 = (bottom[i * 2 + 1] + 2f).roundToInt()
+                for (y in y0..(y0 + 3)) if (Bayer.threshold(x, y) < 0.45f * (1f - st * 0.6f)) {
+                    val under = get(x, y)
+                    if (under == bookPaper || under == bookPaper2) set(x, y, bookShade)
+                }
+            }
+        }
+        val back = t > 0.5f
+        for (i in 0 until n) {
+            val u = (i + 0.5f) / n
+            val face = if (back) bookPaper2 else bookPaper
+            val color = if (u < 0.18f) bookShade else face
+            polygon(floatArrayOf(top[i * 2], top[i * 2 + 1], top[i * 2 + 2], top[i * 2 + 3], bottom[i * 2 + 2], bottom[i * 2 + 3], bottom[i * 2], bottom[i * 2 + 1]), color)
+        }
+        for (i in 0 until n) {
+            line(top[i * 2].roundToInt(), top[i * 2 + 1].roundToInt(), top[i * 2 + 2].roundToInt(), top[i * 2 + 3].roundToInt(), bookEdge)
+            line(bottom[i * 2].roundToInt(), bottom[i * 2 + 1].roundToInt(), bottom[i * 2 + 2].roundToInt(), bottom[i * 2 + 3].roundToInt(), bookShade)
+        }
+        line(tipX.roundToInt(), tipY.roundToInt(), tipX.roundToInt(), bottom[n * 2 + 1].roundToInt(), bookEdge)
+        // a highlight along the curl while the page faces the light
+        if (!back && st > 0.3f) for (i in 3 until n - 1) set(top[i * 2].roundToInt(), top[i * 2 + 1].roundToInt() + 1, bookGlow)
     }
 
     private fun quad(a: Float, b: Float, c: Float, t: Float) = (1 - t) * (1 - t) * a + 2 * (1 - t) * t * b + t * t * c
