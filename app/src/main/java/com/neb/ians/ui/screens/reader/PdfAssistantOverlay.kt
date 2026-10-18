@@ -1,5 +1,20 @@
 package com.neb.ians.ui.screens.reader
 
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import com.neb.ians.ui.screens.ai.chat.enterOnce
+import com.neb.ians.ui.screens.ai.chat.UserMessage
+import com.neb.ians.ui.screens.ai.chat.NebyStatus
+import com.neb.ians.ui.screens.ai.chat.ChatPhase
+import com.neb.ians.ui.screens.ai.chat.ChatActions
+import com.neb.ians.ui.screens.ai.chat.AssistantMessage
+import com.neb.ians.data.api.ApiArenaMessage
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalClipboardManager
+import android.widget.Toast
+import android.content.Intent
 import com.neb.ians.ui.components.MarkdownText
 
 import androidx.compose.animation.AnimatedVisibility
@@ -150,6 +165,16 @@ private fun PdfAiPanel(
     viewModel: PdfAssistantViewModel,
     modifier: Modifier = Modifier
 ) {
+    val seenAtOpen = remember { state.messages.map { it.id }.toSet() }
+    val clipboard = LocalClipboardManager.current
+    val context = LocalContext.current
+    val actions = remember {
+        ChatActions(
+            onCopy = { clipboard.setText(AnnotatedString(it)); Toast.makeText(context, "Copied", Toast.LENGTH_SHORT).show() },
+            onShare = { text -> runCatching { context.startActivity(Intent.createChooser(Intent(Intent.ACTION_SEND).apply { type = "text/plain"; putExtra(Intent.EXTRA_TEXT, text) }, "Share Neby's answer")) } },
+            onRegenerate = {}
+        )
+    }
     Surface(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
@@ -273,11 +298,11 @@ private fun PdfAiPanel(
                         }
                     }
                     items(state.messages, key = { it.id }) { message ->
-                        PdfAiMessageBubble(message)
+                        PdfAiMessageRow(message, fresh = message.id !in seenAtOpen, actions = actions)
                     }
                     if (state.isThinking) {
-                        item {
-                            PdfAiThinkingBubble()
+                        item(key = "thinking") {
+                            NebyStatus(ChatPhase.Reading, Modifier.padding(start = 4.dp, top = 4.dp), label = "Reading the document")
                         }
                     }
                     if (!state.error.isNullOrBlank()) {
@@ -304,63 +329,24 @@ private fun PdfAiPanel(
     }
 }
 
+/** One message, drawn with the Neby chat's own components so both chats look and move alike. */
 @Composable
-private fun PdfAiMessageBubble(message: PdfAiMessage) {
-    val isUser = message.role == "user"
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = if (isUser) Arrangement.End else Arrangement.Start
-    ) {
-        Surface(
-            modifier = Modifier.fillMaxWidth(if (isUser) 0.82f else 0.96f),
-            shape = RoundedCornerShape(
-                topStart = 18.dp,
-                topEnd = 18.dp,
-                bottomStart = if (isUser) 18.dp else 4.dp,
-                bottomEnd = if (isUser) 4.dp else 18.dp
-            ),
-            color = if (isUser) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceContainerLow
-        ) {
-            Box(modifier = Modifier.padding(horizontal = 13.dp, vertical = 10.dp)) {
-                if (isUser) {
-                    Text(
-                        text = message.content,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                } else {
-                    MarkdownText(
-                        markdown = message.content,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-private fun PdfAiThinkingBubble() {
-    val transition = rememberInfiniteTransition(label = "pdfAiTyping")
-    Row(horizontalArrangement = Arrangement.spacedBy(4.dp), modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp)) {
-        repeat(3) { index ->
-            val alpha by transition.animateFloat(
-                initialValue = 0.25f,
-                targetValue = 1f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(620, delayMillis = index * 130),
-                    repeatMode = RepeatMode.Reverse
-                ),
-                label = "dot$index"
-            )
-            Box(
-                Modifier
-                    .size(7.dp)
-                    .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = alpha))
-            )
-        }
+private fun PdfAiMessageRow(message: PdfAiMessage, fresh: Boolean, actions: ChatActions) {
+    val arena = remember(message.id, message.content) { ApiArenaMessage(id = message.id, role = message.role, content = message.content, createdAt = message.createdAt) }
+    if (message.role == "user") {
+        UserMessage(arena, onCopy = actions.onCopy, modifier = Modifier.enterOnce(message.id, fresh))
+    } else {
+        // an answer arrives whole; play it out quickly so it reads like Neby writing it
+        var revealing by remember(message.id) { mutableStateOf(fresh) }
+        LaunchedEffect(message.id) { if (fresh) { kotlinx.coroutines.delay(1100); revealing = false } }
+        AssistantMessage(
+            message = arena,
+            phase = if (revealing) ChatPhase.Writing else ChatPhase.Idle,
+            isLast = false,
+            modelLabel = null,
+            actions = actions,
+            modifier = Modifier.enterOnce(message.id, fresh)
+        )
     }
 }
 
