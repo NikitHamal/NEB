@@ -125,7 +125,7 @@ fun NebRefreshBox(
                         RefreshPhase.Pulling -> PixelUiSprites.nebyIdle
                         RefreshPhase.Armed -> PixelUiSprites.nebyHop
                         RefreshPhase.Refreshing -> PixelUiSprites.nebyThink
-                        RefreshPhase.Done -> PixelUiSprites.nebyIdle
+                        RefreshPhase.Done -> PixelUiSprites.nebyWink
                     }
                     PixelSpriteView(sprite = sprite, modifier = Modifier.size(40.dp))
                     Text(
