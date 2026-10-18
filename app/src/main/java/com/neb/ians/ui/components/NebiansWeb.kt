@@ -1148,10 +1148,10 @@ fun Avatar(
                 }
             } else if (isNeby) {
                 Box(contentAlignment = Alignment.Center) {
-                    com.neb.ians.ui.avatar.neby.NebyAvatarMini(
-                        animation = if (animate) "idle" else "still",
+                    com.neb.ians.ui.pixel.NebyPixel(
+                        state = if (animate) com.neb.ians.ui.pixel.NebyState.Idle else com.neb.ians.ui.pixel.NebyState.Still,
                         size = size,
-                        interactive = false
+                        ambient = false
                     )
                 }
             } else if (!resolvedUrl.isNullOrBlank() && !isError) {

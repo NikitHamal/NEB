@@ -99,8 +99,10 @@ fun PixelSpriteView(sprite: PixelSprite, modifier: Modifier = Modifier, playing:
 
     Canvas(modifier) {
         if (frame < 0) return@Canvas
-        val scale = minOf(size.width / sprite.width, size.height / sprite.height).toInt().coerceAtLeast(1)
-        val w = sprite.width * scale; val h = sprite.height * scale
+        val fit = minOf(size.width / sprite.width, size.height / sprite.height)
+        // whole-number scale keeps pixels even; tiny views (avatars) would shrink too much, so fill them
+        val scale = fit.toInt().let { if (it < 1 || it < fit * 0.8f) fit else it.toFloat() }
+        val w = (sprite.width * scale).roundToInt(); val h = (sprite.height * scale).roundToInt()
         drawImage(
             image,
             dstOffset = IntOffset(((size.width - w) / 2f).roundToInt(), ((size.height - h) / 2f).roundToInt()),
