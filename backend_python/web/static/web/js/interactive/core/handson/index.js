@@ -6,6 +6,7 @@ const PRACTICALS = {
   'acid-base-titration': () => import('./practicals/titration.js'),
   'simple-pendulum-g': () => import('./practicals/pendulum.js'),
   'vernier-calipers': () => import('./practicals/vernier.js'),
+  'meter-bridge': () => import('./practicals/meter-bridge.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
