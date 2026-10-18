@@ -778,8 +778,10 @@ def _resolve_ws_public_url():
     ] + sorted(glob.glob('/tmp/cf_quick*.log'), reverse=True)
     for path in log_paths:
         try:
-            with open(path) as f:
-                content = f.read()
+            with open(path, 'rb') as f:
+                f.seek(0, 2)
+                f.seek(max(0, f.tell() - 65536))
+                content = f.read().decode('utf-8', 'ignore')
             matches = re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
             if matches:
                 host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')

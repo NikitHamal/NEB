@@ -16,7 +16,7 @@ import logging
 import uuid
 from typing import Dict, Generator, List, Optional
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_get, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -88,10 +88,10 @@ def stream_chat(
         return
 
     upstream_model = f"poolside/{model}"
-    session = CurlSession(headers=_BROWSER_HEADERS, impersonate="chrome")
+    session = new_session(impersonate="chrome", headers=_BROWSER_HEADERS)
     try:
         try:
-            resp = session.post(CHATS_ENDPOINT, json={
+            resp, session = resilient_post(session, CHATS_ENDPOINT, json={
                 "title": "neby",
                 "model": upstream_model,
                 "inferenceMode": "platform",
@@ -128,7 +128,8 @@ def stream_chat(
             "generationId": generation_id,
         }
         try:
-            resp = session.post(
+            resp, session = resilient_post(
+                session,
                 CHAT_ENDPOINT,
                 json=payload,
                 headers={"x-poolside-stream-protocol": "resumable-v1"},
@@ -154,7 +155,8 @@ def stream_chat(
             return
 
         try:
-            stream_resp = session.get(
+            stream_resp, session = resilient_get(
+                session,
                 f"{BASE_URL}{stream_url}",
                 headers={"Accept": "text/event-stream"},
                 stream=True,

@@ -117,6 +117,7 @@ MIDDLEWARE = [
     'nebians.middleware.SecurityHeadersMiddleware',
     'nebians.middleware.PageViewTrackingMiddleware',
     'nebians.middleware.ApiUnhandledExceptionMiddleware',
+    'nebians.page_cache.AnonPageCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'nebians.urls'

@@ -27,7 +27,7 @@ import urllib.parse
 import uuid
 from typing import Dict, Generator, List, Optional
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_get, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +76,7 @@ class _GeminiSession:
 
     def __init__(self, proxy: Optional[str] = None):
         self.proxy = proxy
-        self.session = CurlSession(impersonate="chrome", timeout=REQUEST_TIMEOUT)
+        self.session = new_session(impersonate="chrome", timeout=REQUEST_TIMEOUT)
         self.fsid = ""
         self.bl = "boq_assistant-bard-web-server_20260827.05_p0"
         self.conversation_id = ""
@@ -86,7 +86,8 @@ class _GeminiSession:
 
     def warm(self) -> bool:
         try:
-            resp = self.session.get(
+            resp, self.session = resilient_get(
+                self.session,
                 BASE_URL + APP_PATH,
                 headers={"user-agent": _UA, "accept": "text/html"},
                 proxy=self.proxy,
@@ -147,7 +148,8 @@ class _GeminiSession:
             "user-agent": _UA,
             "x-same-domain": "1",
         }
-        resp = self.session.post(
+        resp, self.session = resilient_post(
+            self.session,
             url,
             data=f"f.req={urllib.parse.quote(freq, safe='')}&".encode("utf-8"),
             headers=headers,

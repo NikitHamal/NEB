@@ -6,7 +6,7 @@ import time
 import uuid
 from typing import Dict, Generator, List, Optional
 
-from curl_cffi.requests import Session as CurlSession
+from .proxy_http import new_session, resilient_get, resilient_post
 
 logger = logging.getLogger(__name__)
 
@@ -62,11 +62,11 @@ def _ensure_session() -> str:
         if _SESSION_TOKEN and _SESSION_EXPIRES > now + 60:
             return _SESSION_TOKEN
 
-        with CurlSession(headers=_BROWSER_HEADERS, impersonate="chrome") as session:
+        with new_session(impersonate="chrome", headers=_BROWSER_HEADERS) as session:
             max_retries = 3
             for attempt in range(max_retries):
                 try:
-                    resp = session.get(SESSION_URL, timeout=15)
+                    resp, session = resilient_get(session, SESSION_URL, timeout=15)
                 except Exception as exc:
                     if attempt < max_retries - 1:
                         time.sleep(2 ** attempt)
@@ -159,8 +159,9 @@ def stream_chat(
     headers["cookie"] = f"session={token}"
 
     try:
-        session = CurlSession(headers=headers, impersonate="chrome")
-        resp = session.post(
+        session = new_session(impersonate="chrome", headers=headers)
+        resp, session = resilient_post(
+            session,
             CHAT_URL,
             json=payload,
             stream=True,
@@ -248,8 +249,8 @@ def get_voice_config() -> Optional[Dict]:
     # GET needs no content-type json
     headers.pop("content-type", None)
     try:
-        with CurlSession(headers=headers, impersonate="chrome") as s:
-            r = s.get(VOICE_CONFIG_URL, timeout=15)
+        with new_session(impersonate="chrome", headers=headers) as s:
+            r, _ = resilient_get(s, VOICE_CONFIG_URL, timeout=15)
             if r.status_code != 200:
                 logger.warning("Voice config HTTP %s: %s", r.status_code, r.text[:300])
                 return None
@@ -280,6 +281,8 @@ def transcribe(audio_bytes: bytes, mime: str = "audio/webm", filename: str = "au
     headers.pop("content-type", None)
     try:
         import curl_cffi
+        from curl_cffi.requests import Session as CurlSession  # multipart upload needs curl
+
         mp = curl_cffi.CurlMime()
         mp.addpart(name="file", content_type=mime, filename=filename, data=audio_bytes)
         with CurlSession(headers=headers, impersonate="chrome") as s:
@@ -319,8 +322,8 @@ def synthesize(text: str) -> Optional[bytes]:
     headers["x-session-token"] = token
     headers["cookie"] = f"session={token}"
     try:
-        with CurlSession(headers=headers, impersonate="chrome") as s:
-            r = s.post(TTS_URL, json={"text": text}, timeout=60)
+        with new_session(impersonate="chrome", headers=headers) as s:
+            r, _ = resilient_post(s, TTS_URL, json={"text": text}, timeout=60)
             if r.status_code != 200:
                 logger.warning("TTS HTTP %s: %s", r.status_code, r.text[:300])
                 return None
@@ -348,8 +351,8 @@ def stream_synthesize(text: str) -> Generator[bytes, None, None]:
     headers["x-session-token"] = token
     headers["cookie"] = f"session={token}"
     try:
-        session = CurlSession(headers=headers, impersonate="chrome")
-        resp = session.post(TTS_URL, json={"text": text}, stream=True, timeout=60)
+        session = new_session(impersonate="chrome", headers=headers)
+        resp, session = resilient_post(session, TTS_URL, json={"text": text}, stream=True, timeout=60)
         if resp.status_code != 200:
             logger.warning("TTS stream HTTP %s", resp.status_code)
             return
@@ -377,8 +380,8 @@ def voice_extract(scenario_id: str, messages: List[Dict]) -> Optional[Dict]:
     headers["x-session-token"] = token
     headers["cookie"] = f"session={token}"
     try:
-        with CurlSession(headers=headers, impersonate="chrome") as s:
-            r = s.post(VOICE_EXTRACT_URL, json={"scenarioId": scenario_id, "messages": messages}, timeout=30)
+        with new_session(impersonate="chrome", headers=headers) as s:
+            r, _ = resilient_post(s, VOICE_EXTRACT_URL, json={"scenarioId": scenario_id, "messages": messages}, timeout=30)
             if r.status_code != 200:
                 logger.debug("Voice extract HTTP %s: %s", r.status_code, r.text[:300])
                 return None
@@ -426,8 +429,8 @@ def voice_turn(
     headers["x-session-token"] = token
     headers["cookie"] = f"session={token}"
     try:
-        session = CurlSession(headers=headers, impersonate="chrome")
-        resp = session.post(VOICE_TURN_URL, json=payload, stream=True, timeout=REQUEST_TIMEOUT)
+        session = new_session(impersonate="chrome", headers=headers)
+        resp, session = resilient_post(session, VOICE_TURN_URL, json=payload, stream=True, timeout=REQUEST_TIMEOUT)
     except Exception as exc:
         yield {"type": "error", "error": f"voice turn request failed: {exc}"}
         return

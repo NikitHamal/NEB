@@ -871,19 +871,48 @@ def auto_transcode_video_to_h264(rel_path: str) -> bool:
 
 def get_video_qualities(video_url: str, request=None) -> list:
     """Discovers available resolution variants for a video file (720p, 480p, 360p).
-    Returns list of dicts: [{'label': '720p', 'height': 720, 'url': '...'}, ...]"""
+    Returns list of dicts: [{'label': '720p', 'height': 720, 'url': '...'}, ...]
+
+    Variant discovery stats the media disk (up to 4 exists() calls), so
+    results are cached 10 minutes per source URL. Only local media files can
+    have variants; anything unresolvable to MEDIA_ROOT short-circuits without
+    touching the disk."""
     if not video_url or not isinstance(video_url, str):
         return []
-    
+
     base_url = video_url.split('?')[0]
     ext_idx = base_url.rfind('.')
     if ext_idx == -1:
         return []
-    
+
+    import hashlib as _hashlib
+
+    from django.conf import settings
+    try:
+        from django.core.cache import cache as _cache
+    except Exception:
+        _cache = None
+    _cache_key = None
+    if _cache is not None:
+        try:
+            _cache_key = 'vq:' + _hashlib.sha256(base_url.encode()).hexdigest()[:32]
+            _rel_hit = _cache.get(_cache_key)
+            if _rel_hit is not None:
+                if request and not str(base_url).startswith('http'):
+                    _out = []
+                    for _item in _rel_hit:
+                        _u = _item.get('url', '')
+                        if _u and not _u.startswith('http'):
+                            _u = request.build_absolute_uri(_u)
+                        _out.append({'label': _item.get('label', ''), 'height': _item.get('height', 0), 'url': _u})
+                    return _out
+                return [dict(_i) for _i in _rel_hit]
+        except Exception:
+            _cache_key = None
+
     prefix_url = base_url[:ext_idx]
     ext = base_url[ext_idx:]
 
-    from django.conf import settings
     abs_base = _resolve_media_file(base_url)
     if not abs_base:
         return []
@@ -916,28 +945,33 @@ def get_video_qualities(video_url: str, request=None) -> list:
     ]
     
     for label, h, fname, url_var in variant_targets:
-        file_exists = False
-        if valid_dir:
-            file_exists = os.path.exists(os.path.join(valid_dir, fname))
-        if file_exists:
-            target_url = url_var
-            if request and not target_url.startswith('http'):
-                target_url = request.build_absolute_uri(target_url)
+        if valid_dir and os.path.exists(os.path.join(valid_dir, fname)):
             qualities.append({
                 'label': label,
                 'height': h,
-                'url': target_url
+                'url': url_var
             })
 
-    orig_url = f"{prefix_url}{ext}"
-    if request and not orig_url.startswith('http'):
-        orig_url = request.build_absolute_uri(orig_url)
     qualities.insert(0, {
         'label': 'Auto',
         'height': 0,
-        'url': orig_url
+        'url': f"{prefix_url}{ext}"
     })
-    
+
+    if _cache is not None and _cache_key:
+        try:
+            _cache.set(_cache_key, qualities, 600)
+        except Exception:
+            pass
+    if request:
+        _abs = []
+        for _item in qualities:
+            _u = _item.get('url', '')
+            if _u and not _u.startswith('http'):
+                _u = request.build_absolute_uri(_u)
+            _abs.append({'label': _item.get('label', ''), 'height': _item.get('height', 0), 'url': _u})
+        return _abs
+
     return qualities
 
 
