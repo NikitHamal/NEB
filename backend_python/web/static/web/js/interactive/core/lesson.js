@@ -1,3 +1,16 @@
+// Canvas roundRect throws on a negative radius or size, which a sim drawing into a stage that is
+// still 0 px wide (mid-layout, or collapsed on a phone) produces for a frame. One guard here keeps
+// every 2D lab alive through that instead of each one clamping its own maths.
+if (typeof CanvasRenderingContext2D !== 'undefined' && CanvasRenderingContext2D.prototype.roundRect && !CanvasRenderingContext2D.prototype.__safeRoundRect) {
+  const raw = CanvasRenderingContext2D.prototype.roundRect;
+  const fix = (r) => (Array.isArray(r) ? r.map(fix) : (typeof r === 'number' ? Math.max(0, r || 0) : r));
+  CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, radii) {
+    if (!(w > 0) || !(h > 0)) return this.rect(x, y, Math.max(0, w || 0), Math.max(0, h || 0));
+    return raw.call(this, x, y, w, h, radii === undefined ? 0 : fix(radii));
+  };
+  CanvasRenderingContext2D.prototype.__safeRoundRect = true;
+}
+
 const STORE_KEY = 'nebians_interactive_progress';
 
 function loadStore() {
