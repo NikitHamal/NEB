@@ -28,9 +28,11 @@
 @font-face{font-family:P;font-weight:600;font-display:swap;unicode-range:U+0900-097F,U+1CD0-1CFF,U+A8E0-A8FF;src:url("{% static 'web/fonts/app/poppins-600-devanagari.woff2' %}") format("woff2")}
 </style>
 <link rel="stylesheet" href="{% static 'web/css/landing.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/neby-pixel.css' %}">
 {% if site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">{% endif %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"NEBians","url":"https://nebians.consica.com.np/","potentialAction":{"@type":"SearchAction","target":"https://nebians.consica.com.np/app/search/?q={q}","query-input":"required name=q"}}</script>
 <script src="{% static 'web/js/landing.js' %}" defer></script>
+<script src="{% static 'web/js/neby-pixel.js' %}" defer></script>
 </head>
 <body class="lp">
 <a class="lp-skip" href="#main">Skip to content</a>
@@ -41,6 +43,7 @@
     <span>NEBians</span>
   </a>
   <nav class="lp-links" aria-label="Main">
+    <span class="lp-ind" aria-hidden="true"></span>
     <a href="{% url 'web:library' %}">Library</a>
     <a href="#books">Books</a>
     <a href="{% url 'web:forum' %}">Forum</a>
@@ -48,11 +51,13 @@
   </nav>
   <div class="lp-nav-end">
     {% if not signed_in %}<a class="lp-quiet" href="{% url 'web:login' %}">Sign in</a>{% endif %}
+    <b class="lp-peek" data-neby-avatar data-crop="true" data-animation="idle" aria-hidden="true"></b>
     <a class="lp-btn lp-btn-sm" href="{% url 'web:home' %}"><span>Open app</span></a>
     <button class="lp-burger" type="button" aria-expanded="false" aria-controls="lp-menu" aria-label="Menu"><i></i><i></i></button>
   </div>
 </header>
 <div class="lp-menu" id="lp-menu" hidden>
+  <b class="lp-menu-neby" data-neby-avatar data-animation="wave" aria-hidden="true"></b>
   <nav aria-label="Menu">
     <a href="{% url 'web:library' %}" style="--i:0">Library</a>
     <a href="#books" style="--i:1">Books</a>
@@ -79,13 +84,13 @@
         <p class="lp-lede">Notes, past papers and books for every class, field and level. Free.</p>
         <div class="lp-actions">
           <a class="lp-btn" href="{% url 'web:library' %}"><span>Start reading</span></a>
-          <a class="lp-link" href="#app">Get the app</a>
+          <a class="lp-btn lp-btn-soft" href="#app"><span>Get the app</span></a>
         </div>
       </div>
     </div>
     <div class="lp-hero-logo">{% include "landing/_logo.html" with cls="lp-logo" p="h" %}</div>
   </div>
-  <p class="lp-word" aria-hidden="true">{% for c in "NEBians" %}<span style="--i:{{ forloop.counter0 }}">{{ c }}</span>{% endfor %}</p>
+  <p class="lp-word" aria-hidden="true">{% for c in "NEBians" %}<span style="--i:{{ forloop.counter0 }}">{{ c }}{% if forloop.counter0 == 2 %}<b class="lp-neby" data-neby-avatar data-hero="true" data-animation="idle" title="Neby — tap me"></b>{% endif %}</span>{% endfor %}</p>
 </section>
 </div>
 
