@@ -10,6 +10,7 @@ const PRACTICALS = {
   'screw-gauge': () => import('./practicals/screw-gauge.js'),
   'anion-tests': () => import('./practicals/anion-tests.js'),
   'redox-titration-kmno4': () => import('./practicals/titration.js'),
+  'resonance-air-column': () => import('./practicals/resonance.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
