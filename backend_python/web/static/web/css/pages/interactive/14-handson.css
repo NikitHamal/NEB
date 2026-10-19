@@ -70,3 +70,11 @@
 .ho-actions.ho-tight { gap: 5px; }
 .ho-actions.ho-tight .ho-act { padding: 0 12px; min-width: 42px; }
 @media (max-width: 640px) { .ho-actions.ho-tight .ho-act { padding: 0 8px; min-width: 36px; font-size: .78rem; } .ho-actions.ho-tight { gap: 3px; padding: 4px; } }
+.ho-sheet {
+  position: absolute; right: 12px; top: 50%; width: min(460px, calc(100% - 24px)); padding: 10px 12px 10px; border-radius: 16px; background: #fffef8; color: #0f172a;
+  box-shadow: 0 20px 50px rgba(2, 6, 23, .35); font-size: .85rem; opacity: 0; transform: translateY(-46%) scale(.97); transition: opacity .3s, transform .45s cubic-bezier(.2, 1.3, .4, 1); pointer-events: none;
+}
+.ho-sheet.on { opacity: 1; transform: translateY(-50%); pointer-events: auto; }
+.ho-sheet canvas { display: block; width: 100%; height: auto; margin-top: 6px; touch-action: none; cursor: crosshair; border-radius: 8px; }
+.ho-sheet-read { min-height: 1.2em; margin-top: 6px; font-variant-numeric: tabular-nums; color: #334155; }
+@media (max-width: 640px) { .ho-sheet { right: 8px; top: auto; bottom: 70px; transform: translateY(8px); width: calc(100% - 16px); } .ho-sheet.on { transform: none; } }
