@@ -69,7 +69,7 @@ export function galvanometer() {
   const posts = [-0.3, 0.3].map((x) => { const p = bindingPost(); p.position.set(x, 0.42, -0.2); g.add(p); return p; });
   let div = 0; let vel = 0; let target = 0;
   return {
-    group: g, needle, posts,
+    group: g, needle, posts, face,
     setDivisions(n) { target = Math.max(-33, Math.min(33, n)); },
     get divisions() { return div; },
     update(dt) {
@@ -157,4 +157,58 @@ export function solve(A, b) {
 /** World-space top of a binding post, expressed in `space`'s local frame. */
 export function postTop(post, space, out = new THREE.Vector3()) {
   out.copy(post.userData.top); post.localToWorld(out); return space.worldToLocal(out);
+}
+
+function meterDial(letter, max, unit, step) {
+  return canvasTexture(`ho-meter:${letter}:${max}`, 512, 320, (g, w, h) => {
+    g.fillStyle = '#fbfaf4'; g.fillRect(0, 0, w, h);
+    const cx = w / 2; const cy = h - 36; const R = 230;
+    g.strokeStyle = '#111827'; g.fillStyle = '#111827';
+    g.lineWidth = 3; g.beginPath(); g.arc(cx, cy, R - 34, Math.PI * 1.25, Math.PI * 1.75); g.stroke();
+    const n = Math.round(max / step);
+    for (let i = 0; i <= n; i++) {
+      const a = Math.PI * 1.25 + (i / n) * Math.PI / 2; const big = i % 10 === 0; const mid = i % 5 === 0;
+      const r0 = R - 34; const r1 = r0 + (big ? 30 : mid ? 20 : 12);
+      g.lineWidth = big ? 3.5 : 2; g.beginPath(); g.moveTo(cx + Math.cos(a) * r0, cy + Math.sin(a) * r0); g.lineTo(cx + Math.cos(a) * r1, cy + Math.sin(a) * r1); g.stroke();
+      if (big) { g.font = '700 26px system-ui, sans-serif'; g.textAlign = 'center'; g.fillText(String(+(i * step).toFixed(2)), cx + Math.cos(a) * (R + 14), cy + Math.sin(a) * (R + 14) + 8); }
+    }
+    g.font = '800 46px system-ui, sans-serif'; g.textAlign = 'center'; g.fillText(letter, cx, cy - 70);
+    g.font = '600 18px system-ui, sans-serif'; g.fillStyle = '#475569'; g.fillText(`0 – ${max} ${unit}`, cx, cy - 36);
+  });
+}
+
+/** A moving-coil meter reading 0..max (an ammeter or voltmeter). set(value) swings the needle. */
+export function dialMeter(letter, max, unit, step) {
+  const g = galvanometer();
+  g.face.material = new THREE.MeshStandardMaterial({ map: meterDial(letter, max, unit, step), roughness: 0.5 });
+  let value = 0;
+  return {
+    group: g.group, posts: g.posts,
+    set(v) { value = v; g.setDivisions(-30 + 60 * Math.max(-0.02, Math.min(1.04, v / max))); },
+    get value() { return value; },
+    update(dt) { g.update(dt); },
+  };
+}
+
+/** A slide-wire rheostat: a ceramic former wound with wire, a sliding contact on a bar. */
+export function rheostat(maxOhm = 20) {
+  const g = new THREE.Group();
+  g.add(mesh(new THREE.BoxGeometry(2.2, 0.08, 0.5), MAT.gloss(0x1f2933), [0, 0.04, 0]));
+  [-1, 1].forEach((s) => g.add(mesh(new THREE.BoxGeometry(0.12, 0.5, 0.42), MAT.gloss(0x1f2933), [s * 1.0, 0.33, 0])));
+  const former = mesh(new THREE.CylinderGeometry(0.16, 0.16, 1.86, 28), MAT.matte(0xe8e2d0), [0, 0.32, 0]); former.rotation.z = Math.PI / 2; g.add(former);
+  const coil = mesh(new THREE.CylinderGeometry(0.165, 0.165, 1.8, 28, 1, true), new THREE.MeshStandardMaterial({ color: 0xb87333, metalness: 0.9, roughness: 0.35, map: canvasTexture('ho-rheo-coil', 64, 512, (c, w, h) => { c.fillStyle = '#7a4a22'; c.fillRect(0, 0, w, h); c.fillStyle = '#d7955a'; for (let y = 0; y < h; y += 4) c.fillRect(0, y, w, 2); }) }), [0, 0.32, 0]);
+  coil.rotation.z = Math.PI / 2; g.add(coil);
+  g.add(mesh(new THREE.BoxGeometry(1.95, 0.04, 0.04), brass(), [0, 0.6, 0.1]));
+  const slider = new THREE.Group(); g.add(slider);
+  slider.add(mesh(new THREE.BoxGeometry(0.14, 0.1, 0.12), MAT.gloss(0x111827), [0, 0.62, 0.1]));
+  slider.add(mesh(new THREE.BoxGeometry(0.04, 0.12, 0.04), brass(), [0, 0.52, 0.05]));
+  const posts = [[-1.0, -0.15], [1.0, -0.15], [0.98, 0.18]].map(([x, z]) => { const p = bindingPost(); p.scale.setScalar(0.8); p.position.set(x, 0.58, z); g.add(p); return p; });
+  let k = 1;
+  return {
+    group: g, slider, posts,
+    /** Fraction of the winding in circuit (0..1). */
+    set(f) { k = Math.max(0, Math.min(1, f)); slider.position.x = -0.9 + 1.8 * k; },
+    get fraction() { return k; },
+    get ohms() { return maxOhm * k; },
+  };
 }
