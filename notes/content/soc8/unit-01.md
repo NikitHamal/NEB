@@ -41,7 +41,7 @@ area: एकाइ
 
 ### विकासका सूचकहरू
 
-विकास भए-नभएको थाहा पाउन **सूचक** (indicator) चाहिन्छ।
+विकास भए-नभएको थाहा पाउन **सूचक** चाहिन्छ।
 
 | सूचक | के देखाउँछ |
 |---|---|
@@ -199,7 +199,7 @@ rows = [("कोशी", "विराटनगर", "#0EA5E9"), ("मधेश"
         ("बागमती", "हेटौँडा", "#F59E0B"), ("गण्डकी", "पोखरा", "#8B5CF6"),
         ("लुम्बिनी", "देउखुरी", "#EC4899"), ("कर्णाली", "वीरेन्द्रनगर", "#EF4444"),
         ("सुदूरपश्चिम", "गोदावरी", "#14B8A6")]
-for i, (name, cap, col) in enumerate(rows):
+for i, (name, cap, col) in enumerate:
     y = 7.2 - i * 0.98
     ax.add_patch(plt.Rectangle((0.4, y - 0.34), 1.5, 0.68, fc=col, ec="none"))
     ax.text(1.15, y, name, ha="center", va="center", fontsize=6.8, color="white",
@@ -228,7 +228,7 @@ fig.tight_layout
 yrs = ["२०५८", "२०६८", "२०७८"]
 lang = [92, 123, 124]
 caste = [100, 125, 142]
-x = np.arange(len(yrs))
+x = np.arange(len)
 fig, ax = plt.subplots(figsize=(4.6, 3.0))
 ax.bar(x - 0.18, lang, width=0.34, color=SERIES[0], label="भाषा",
        edgecolor="white", linewidth=1.0)
@@ -236,17 +236,17 @@ ax.bar(x + 0.18, caste, width=0.34, color=SERIES[2], label="जातजात�
        edgecolor="white", linewidth=1.0)
 for i, (a, b) in enumerate(zip(lang, caste)):
     for off, v in ((-0.18, a), (0.18, b)):
-        d = str(v).translate(str.maketrans("0123456789", "०१२३४५६७८९"))
+        d = str.translate(str.maketrans("0123456789", "०१२३४५६७८९"))
         ax.text(i + off, v + 3, d, ha="center", color=INK, fontsize=8.2)
-ax.set_xticks(x)
+ax.set_xticks
 ax.set_xticklabels(yrs, fontsize=8.8)
 ax.set_ylabel("सङ्ख्या", color=MUTED, fontsize=9)
 ax.set_ylim(0, 170)
 ax.legend(fontsize=8, frameon=False)
 ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow(True)
+ax.set_axisbelow
 for s in ("top", "right"):
-    ax.spines[s].set_visible(False)
+    ax.spines[s].set_visible
 ax.tick_params(colors=MUTED, labelsize=8.4)
 ```
 

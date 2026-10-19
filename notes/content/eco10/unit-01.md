@@ -76,7 +76,7 @@ Two things follow from scarcity.
 
 **Opportunity cost (अवसर लागत).** The **opportunity cost** of a choice is the value of the **next best alternative forgone**. It is not the money paid — it is what the money and the resources would otherwise have produced.
 
-> **Opportunity cost is the benefit lost by choosing the next best alternative, not the total of everything forgone.**
+> **Opportunity cost is the benefit of the next best alternative forgone, not the total of everything forgone.**
 
 The idea is the same for a whole economy. If the government spends Rs. 50 crore building a road, the opportunity cost is what that Rs. 50 crore would have produced in its next best use — say, two hospitals. There was no waste; the road may be exactly the right choice. But the choice had a cost, and a wise government counts it.
 
