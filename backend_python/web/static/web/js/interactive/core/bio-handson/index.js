@@ -26,6 +26,7 @@ const PRACTICALS = {
   'respiration-rate-germinating-seeds': () => import('./practicals/respirometer.js'),
   'anaerobic-respiration-setup': () => import('./practicals/anaerobic.js'),
   'phototropism-setup': () => import('./practicals/tropism.js'),
+  'suction-due-transpiration-setup': () => import('./practicals/suction.js'),
   'apical-bud-removal-setup': () => import('./practicals/tropism.js'),
 };
 
