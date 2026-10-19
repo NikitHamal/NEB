@@ -54,10 +54,46 @@ const LIB = {
   knob: () => noise(0.015, { freq: 3000, q: 8, gain: 0.08 }),
 };
 
+// Recorded sounds (CC0, Kenney.nl) for the moments a synth cannot fake: a petal plucked, a blade
+// through tissue, a pin into wax, glass on the bench. Fetched only once sound is turned on; until a
+// sample has loaded the synthesised version plays. Each play nudges pitch and level a little so a
+// repeated action never sounds mechanical.
+const SAMPLES = {
+  pick: ['pluck1', 'pluck2'], tear: ['tear1', 'tear2', 'pluck2'], cut: ['cut1', 'cut2'], snip: ['snip1'], pin: ['pin1', 'pin2'],
+  drop: ['drop1', 'drop2'], drip: ['drop1', 'drop2'], place: ['place1', 'place2'], glass: ['glass1', 'glass2'], click: ['click1', 'click2'],
+  knob: ['knob1', 'knob2'], ok: ['ok1'], done: ['done1'], bad: ['bad1'], squish: ['squish1'], grab: ['pick1', 'pick2'], switch: ['switch1'],
+};
+const GAIN = { pick: 0.8, tear: 0.6, cut: 0.55, drop: 0.5, drip: 0.35, knob: 0.35, click: 0.5, place: 0.7, glass: 0.6, ok: 0.45, done: 0.5, bad: 0.45 };
+const BASE = (() => {
+  const s = (typeof document !== 'undefined' && [...document.querySelectorAll('script[src*="interactive/core/lesson.js"]')][0]) || null;
+  return s ? s.src.replace(/js\/interactive\/core\/lesson\.js.*$/, 'audio/sfx/') : '/static/web/audio/sfx/';
+})();
+const buffers = new Map(); let loading = false;
+function loadSamples() {
+  if (loading) return; loading = true;
+  const c = ac(); if (!c) return;
+  const names = new Set(Object.values(SAMPLES).flat());
+  names.forEach((n) => fetch(`${BASE}${n}.ogg`).then((r) => (r.ok ? r.arrayBuffer() : Promise.reject())).then((b) => c.decodeAudioData(b)).then((buf) => buffers.set(n, buf)).catch(() => {}));
+}
+function playSample(name) {
+  const list = SAMPLES[name]; if (!list) return false;
+  const ready = list.filter((n) => buffers.has(n)); if (!ready.length) return false;
+  const c = ctx; const src = c.createBufferSource(); src.buffer = buffers.get(ready[Math.floor(Math.random() * ready.length)]);
+  src.playbackRate.value = 0.94 + Math.random() * 0.12;
+  const g = c.createGain(); g.gain.value = (GAIN[name] ?? 0.6) * (0.85 + Math.random() * 0.3);
+  src.connect(g); g.connect(master); src.start();
+  return true;
+}
+
 export { tone, noise };
 export const sfx = {
   register(name, f) { LIB[name] = f; },
-  play(name) { if (muted) return; const c = ac(); if (!c) return; if (c.state === 'suspended') c.resume(); const f = LIB[name]; if (f) f(); },
+  play(name) {
+    if (muted) return; const c = ac(); if (!c) return; if (c.state === 'suspended') c.resume();
+    loadSamples();
+    if (playSample(name)) return;
+    const f = LIB[name]; if (f) f();
+  },
   get muted() { return muted; },
-  setMuted(v) { muted = !!v; if (!muted) { const c = ac(); if (c && c.state === 'suspended') c.resume(); } },
+  setMuted(v) { muted = !!v; if (!muted) { const c = ac(); if (c && c.state === 'suspended') c.resume(); loadSamples(); } },
 };
