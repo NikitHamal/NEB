@@ -7,323 +7,312 @@ hours: 0
 area: Units
 ---
 
-Two kinds of personal writing share this unit. A **memoir** is a piece of
-autobiography — the writer looks back at a real journey and writes down what it
-meant, not merely what happened. A **diary entry** is written on the day
-itself, in the middle of the experience, with no idea how it will end. Both are
-written in the first person, and both depend on **description**: a place that
-the reader can see, and an event the reader can feel.
+Unit 4 is about **writing down your own experiences**. Reading I is a memoir
+by a traveller from Hong Kong, Phoenix Yu, about a winter trip to Mustang.
+Reading II is a diary entry by Neil, a visitor from the Western world, about a
+day in a village in Dhading. Both are personal, first-person and mostly in the
+past tense. The grammar is the difference between the **present perfect** (*I
+have visited*) and the **past simple** (*I visited last year*). In writing you
+describe a memorable event and write your own diary entry.
 
-::: key What this unit asks of you
-By the end you should be able to (1) describe a place using all five senses and
-not only sight, (2) tell the difference between a memoir and a diary in tense,
-time and purpose, (3) use the **past simple** for finished events and the
-**present perfect** for experience that still matters now, and (4) write a diary
-entry with a date, a heading and a clear sequence of events.
+::: key What the exam asks from this unit
+(1) Put events of a narrative in order and answer factual questions. (2) Choose
+correctly between present perfect and past simple, mostly from time words
+(*yesterday, last year, ago* → past simple; *ever, never, already, yet, since,
+for, just* → present perfect). (3) Write a diary entry with date, *Dear Diary*,
+events, feelings and a closing reflection.
 :::
 
-## 4.1 A Memoir: A Visit to Mustang
+## 4.1 Reading I: A Visit to Mustang (memoir)
 
-### About the text
+A **memoir** is a true account of the writer's own experiences, written in the
+first person (*I, we*), usually in the past tense, with personal feelings.
 
-The text is a **memoir** of a journey to Mustang, the trans-Himalayan district
-of Nepal that lies behind the Annapurna and Dhaulagiri ranges and reaches up to
-the Tibetan plateau. A memoir is not a guidebook: it does not list every fact
-about the place. It chooses a few scenes and makes them vivid, and it says at
-the end what the journey changed in the writer.
+### Summary
 
-### What the text says
+The writer knew little about Mustang before visiting it in **early 2020**. She
+wanted to see a place untouched by tourists, far from busy Hong Kong. Mustang
+has been open to tourists only **since 1992**, and foreigners need a **special
+permit** to enter Upper Mustang.
 
-The journey begins on the road and in the air along the **Kali Gandaki**, the
-river that has cut one of the deepest gorges on earth between the two great
-mountain ranges. The writer notices how the landscape changes as the road
-climbs: green terraced fields and pine forest at the lower end, then bare
-ridges, then a dry, wind-carved country of ochre and grey where the rain clouds
-can no longer reach, because the Himalaya have already taken the monsoon out of
-them. Fruit trees appear where there is water — apple orchards around Marpha
-and Jomsom — and almost nothing grows where there is none.
-
-Places on the route include **Kagbeni**, at the junction of the Kali Gandaki
-and the Jhong river, and the walled town of **Lo Manthang**, the old capital of
-the kingdom of Lo, whose mud-brick walls, narrow lanes, monasteries, prayer
-flags, chortens and mani walls show the Tibetan Buddhist culture of the
-trans-Himalaya. **Muktinath** is a pilgrimage site for both Hindus and
-Buddhists, with its hundred and eight water spouts. Wind is the constant
-companion: the valley is famous for the gale that funnels down it every
-afternoon, and for the fossil ammonites (the *saligram*) that pilgrims still
-find in the riverbed.
-
-The writer also writes about **people**. Mustang is not empty: Thakali,
-Gurung, Magar and Bhotiya families live there, many of them running lodges and
-shops along the trekking route. The memoir notices what tourism has brought —
-money, roads, schools, and also the leaving of young people and the slow
-disappearing of old crafts.
-
-The point of the memoir is in its last paragraph. The writer does not say
-"Mustang was beautiful". Anyone can say that from a photograph. Instead the
-writer says what the **wind**, the **silence** and the **scale** of the place
-did to their own idea of what is big and what is small — and that is what makes
-it a memoir rather than a travel note.
-
-### Describing a place
-
-| Sense | What the memoir uses it for | Example |
-|---|---|---|
-| Sight | shape, colour, distance, light | "walls the colour of old straw" |
-| Hearing | silence as well as sound | "the flapping of prayer flags, and then nothing" |
-| Smell | the particular and the unexpected | "dust, butter lamps, juniper smoke" |
-| Touch | wind, cold, sun, texture | "the wind pushed us sideways at the bends" |
-| Feeling | what the place does to the writer | "I felt smaller and calmer" |
-
-```figure caption="Why a memoir describes rather than reports. Two writers see the same place; only one of them leaves the reader able to feel it."
-fig, ax = plt.subplots(figsize=(4.8, 2.4))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.0); ax.axis("off")
-left = ["The road climbs.", "There are mountains.", "It was cold.", "We stayed two nights."]
-right = ["The road folded itself\naround the ridge.", "Walls the colour of old\nstraw stood in the wind.", "Cold got into my gloves\nand stayed there.", "Two nights — long enough\nfor the silence to win."]
-ax.text(2.4, 4.5, "reporting", ha="center", fontsize=7, color=MUTED, fontweight="bold")
-ax.text(7.4, 4.5, "describing (memoir)", ha="center", fontsize=7, color=ACCENT, fontweight="bold")
-for i, t in enumerate(left):
-    ax.text(2.4, 3.7 - i * 0.75, t, ha="center", va="center", fontsize=6.2, color=MUTED)
-for i, t in enumerate(right):
-    ax.text(7.4, 3.7 - i * 0.75, t, ha="center", va="center", fontsize=6.2, color=INK)
-ax.annotate("", xy=(5.2, 2.2), xytext=(4.6, 2.2),
-            arrowprops=dict(arrowstyle="->", color=ACCENT, lw=1.4))
-fig.tight_layout()
-```
-
-### Vocabulary
-
-| Word | Meaning |
+| Stage | What happened |
 |---|---|
-| trans-Himalayan | the dry region behind the high Himalaya |
-| gorge | a deep narrow valley between mountains |
-| monsoon shadow | a dry area that the rain clouds cannot reach |
-| mani wall | a wall of stones carved with prayers |
-| chorten | a Buddhist tower-like monument |
-| ammonite | a fossil of a sea creature, found high in the mountains |
-| scale | the size of something compared with a person |
+| Pokhara (first night) | She met her tour group. Hotel staff gave her cushions and blankets so that she would not get cold. Pokhara is the starting point of many Himalayan treks. |
+| By jeep with guide Reena | January in the Himalayas is about 0 °C to −15 °C, so few tourists come in winter. She was not lonely, because locals got on and off the jeep. |
+| Tatopani (after 7 hours) | *Tatopani* means "hot spring": a small, charming natural pool. Reena told her about rustic village life. |
+| Tatopani → Kagbeni | along the **Kali Gandaki River**: mountains, cliffs, eroded land and canyons. |
+| Muktinath Temple (about 3,710 m) | sacred to both **Hindus and Buddhists**; colourful flags; panoramic views. |
+| Marpha | a historical village famous for **apple trees** and unique **architecture**: flat-roofed houses built close together with narrow alleyways, making a close-knit community. She enjoyed a hot shower after three days. |
 
-::: note Model answers
-**1. Why is the Kali Gandaki valley dry although it is in Nepal?**
-The monsoon clouds from the south lose their rain on the southern slopes of the
-Annapurna and Dhaulagiri ranges. By the time the air reaches the valley and
-crosses into Mustang it carries almost no water, so the land lies in a rain
-shadow.
-**2. Why is this text a memoir and not a guidebook?**
-Because it describes selected scenes as the writer experienced them and ends
-with what the journey did to the writer, rather than listing facts, prices and
-routes for the use of travellers.
-:::
+**The five flag colours** (as the Buddhists explain in the text): blue = sky,
+white = air, red = fire, green = water, yellow = earth. Together they represent
+balance.
 
-## 4.2 A Diary Entry
+The memoir ends: *"My time in Mustang was truly unforgettable!"*
 
-### About the text
+### Vocabulary (Exercise A)
 
-A **diary entry** is written on the day, in the middle of the experience. It
-has a date and sometimes a heading, and it is written for the writer alone, so
-it can be honest in a way that a letter cannot.
+a. **architecture** b. **alleyways** c. **pilgrims** d. **charming**
+e. **panoramic**
 
-### How a diary entry is built
+### Correct order (Exercise B)
 
-| Feature | The memoir | The diary entry |
+**f → d → a → b → e → c**: she spent a night in Pokhara and met her group; she
+appreciated the hotel staff; it took seven hours to reach Tatopani; the guide
+shared her life; they visited Marpha; she took a hot shower.
+
+### Comprehension (Exercise C) — model answers
+
+**a. Is it easy for non-Nepalis to enter Upper Mustang? Why?** No. Foreign
+tourists need a special travel permit to enter Upper Mustang.
+
+**b. Why was the writer given cushions and blankets in Pokhara?** So that she
+would not get cold during the night.
+
+**c. Why do only a few tourists visit Nepal in January?** Because it is very
+cold in the Himalayas then, usually between 0 °C and −15 °C.
+
+**d. What was the Tatopani spring like?** It was a small but charming natural
+pool of warm water.
+
+**e. Where does Kagbeni lie?** It lies along the Kali Gandaki River, on the
+route from Tatopani towards Muktinath.
+
+**f. What, according to the Buddhists, are the five elements of life?** Sky,
+air, fire, water and earth (shown by blue, white, red, green and yellow flags).
+
+**g. What is Marpha village known for?** For its apple trees and its unique
+architecture of closely built, flat-roofed houses with narrow alleyways.
+
+**h. Was the writer happy with her journey in the end? How do you know?** Yes.
+She felt refreshed and warm on the last day and says her time in Mustang was
+"truly unforgettable".
+
+## 4.2 Reading II: A Diary Entry
+
+A **diary** is a private daily record of events and feelings. A diary entry has
+the **day, date (and time)**, the greeting **Dear Diary**, the events of the day
+in order, the writer's feelings, and a reflection; it may end with the name.
+
+### Summary of Neil's entry (Saturday, 5 March 2022, 10 p.m.)
+
+- Neil grew up in the Western world and knew nothing of Nepal; when he heard of
+  it, he had to visit. The long-awaited day came in 2022.
+- He travelled from Kathmandu to a village in **Dhading** with his **Nepali
+  friend** on an old, colourfully decorated bus at 7 a.m. The road was bumpy
+  and winding; he nearly fell off his seat.
+- Two boys played Nepali songs on the bus; he gave them **fifty rupees**
+  because they made him feel close to the Nepali community.
+- They walked up a steep hillside to his friend's extended family, who served
+  rice and curry in a traditional kitchen. He played football with the youngest
+  child, ate popcorn and daal, stroked a baby goat and enjoyed the view.
+- They left at 3 p.m. The return was tiring; buses were crowded. He slept for
+  ten minutes and bought bread and eggs on the way home.
+- He writes every night but is always too tired, so he plans to write during
+  the day. He admires the **friendliness and support of Nepali people**.
+
+### Vocabulary (Exercise A)
+
+a–iii (bumpy: uneven), b–iv (rural: of the countryside), c–i (charming: very
+pleasant), d–vi (tiring: making you need rest), e–ii (steep: rising quickly),
+f–v (admirable: deserving respect).
+
+### True / False / Not Given (Exercise B)
+
+a. **True** — he did not know Nepal before, and the "long-awaited day" came in
+2022. b. **False** — he went with his Nepali friend. c. **False** — the music
+made him feel close to the community. d. **True**. e. **False** — he fell
+asleep for ten minutes. f. **Not given**.
+
+### Comprehension (Exercise C) — model answers
+
+**a. When did the writer visit a village in Dhading?** On Saturday, 5 March
+2022.
+
+**b. Why did he give money to the boys on the bus?** Because their Nepali songs
+made him feel close to the Nepali community.
+
+**c. Was the journey to the village comfortable? Why?** No. The bus was old and
+the road was bumpy and winding, so he nearly fell off his seat several times; he
+also had to walk up a steep hill.
+
+**d. Why does he feel he needs to write his diary during the day?** Because he
+is always too tired to write at night.
+
+**e. What did the writer like most about Nepal?** The friendliness and support
+of the Nepali people.
+
+## 4.3 Grammar: Present perfect and past simple
+
+| | Present perfect | Past simple |
 |---|---|---|
-| When written | later, looking back | on the day itself |
-| Tense | mostly past simple | past simple plus present |
-| Purpose | to make sense of an experience | to record it while it is hot |
-| Length | longer, shaped into paragraphs | short, uneven, honest |
-| Ends with | a reflection or a lesson | a feeling or a question |
+| Form | **has/have + past participle** | **verb-ed** / 2nd form |
+| Use | past action with a link to **now**: experience, result, unfinished period | action **finished** at a known past time |
+| Time words | ever, never, already, yet, just, recently, so far, since, for, this week/today (still going on) | yesterday, last week/year, ago, in 2020, just now, when…? |
+| Example | *I **have lost** my keys.* (I still can't find them.) | *I **lost** my keys yesterday.* |
+| Question | ***Have** you **brushed** your teeth yet?* | ***Did** you **post** the letter last Sunday?* |
 
-A good diary entry keeps **one clear day** in view. Describe the one thing that
-mattered, in the order it happened, and end with what you felt or wondered — not
-with a moral. Write *today*, *this morning*, *at noon*, *after that* to hold it
-together, and use the present simple for what is still true: *I am still
-shaking.*
+**since + point of time** (*since 2019*); **for + length of time** (*for fifteen
+years*).
 
-::: example Worked example
-**21 September.** Woke before the sun because the wind had started again — it
-sounds like a train going past the wall. We walked to the gompa and the monk
-let us sit at the back. Nobody spoke. I have never heard a room so quiet, and I
-realised that here the quiet is bigger than the sound. In the afternoon we
-climbed to the ridge; from the top you can see the valley for an hour in both
-directions and no house in any of it. Bought two apples, 60 rupees, the best I
-have ever eaten. Tonight the generator is off and everyone is sitting outside
-doing nothing at all, which is apparently the best thing to do here.
-:::
+### Textbook answers
 
-## 4.3 Grammar and writing tasks of the unit
+**Grammar I A:** a. **has (only) been** b. **stayed** c. **continued** d. **have
+been symbolised** e. **felt**. (a and d: present perfect; b, c, e: past simple.)
 
-### Grammar: Present perfect and past simple
+**Grammar I B (tenses in the paragraph):** *Have … had, have had* – present
+perfect; *was heading* – past continuous; *was, occurred, said, felt, started,
+landed, sighed* – past simple; *'re having, are heading* – present continuous;
+*is (no need)* – present simple; *keep* – imperative; *have decided* – present
+perfect.
 
-Both tenses describe the past, but they answer different questions.
+**Grammar I C:** a. set b. has already risen c. has eaten d. ate e. have been
+f. Did you post g. have spent (*recently*; *spent* is also accepted)
+h. ran i. lost j. has lost
 
-| Tense | Form | Use | Example |
-|---|---|---|---|
-| Past simple | verb + -ed (or the irregular past) | a finished action at a finished time | I **went** to Mustang in 2023. |
-| Present perfect | have/has + past participle | an experience with no time stated, or a result that is still true | I **have been** to Mustang. / Look — it **has rained**. |
+**Grammar I D:** a. played b. have washed c. went d. have finished e. called
+f. have not visited g. bought h. have forgotten i. haven't eaten j. planted
 
-The test is the **time word**. With *yesterday, last year, in 2023, two days
-ago, then* use the past simple. With *ever, never, already, just, yet, so far,
-since, for* use the present perfect. "I have seen Lo Manthang last year" is
-wrong; "I saw Lo Manthang last year" is right.
+**Grammar II A:** a. have never watched b. visited c. have known d. has already
+written e. went … didn't f. Did … play g. Have … brushed h. hasn't arrived
+i. have lost
+
+**Grammar II B:** a. We have known each other since 2019. b. Mohammad bought a
+house in July last year. c. The Nepali Cricket Team has already won several
+matches. d. I have never visited a museum. e. Did people grow a lot of rice
+last year? f. Phurba sang a song just now. g. Did Diana leave for England last
+week? h. My parents have lived in Stockholm for several years. i. Did it rain a
+lot last winter?
 
 ::: caution Common mistakes
-- *I have seen him yesterday.* ✗ → *I **saw** him yesterday.* ✓
-- *Did you ever be to Pokhara?* ✗ → *Have you ever **been** to Pokhara?* ✓
-- *I am living here since 2020.* ✗ → *I **have lived** here since 2020.* ✓
-- *She has came.* ✗ → *She has **come**.* ✓ (past participle, not past simple)
+- *I have visited Pokhara last year.* ✗ → *I **visited** Pokhara last year.* ✓
+  (a finished past time never takes the present perfect)
+- *I know him since 2019.* ✗ → *I **have known** him since 2019.* ✓
+- *He has went.* ✗ → *He has **gone**.* ✓ (use the past participle)
+- *just* → present perfect, but *just now* → past simple: *She **sang** just now.*
 :::
 
-### Writing: An account of a memorable event
+## 4.4 Writing I: An account of a memorable event
 
-An account of an event answers, in order: **when and where** it happened, **who**
-was there, **what** happened (in time order), and **why it stayed in your
-memory**. Use the past simple for the event and mix in the past continuous for
-what was going on at the same time: *We **were walking** along the ridge when
-the wind **knocked** my cap off.*
+Answer the three textbook questions in two or three paragraphs: **what** the
+event was, **when** it happened, and **what lesson** you learnt. Use the past
+simple for events and the present perfect for how it affects you now.
 
-### Writing: A diary entry
+::: example Model answer — My first stage performance
+Last year, on Children's Day, I sang a Nepali folk song on stage for the first
+time. It happened on 29 Bhadra in our school ground in front of more than five
+hundred students, teachers and parents.
 
-Give the date; use the first person; write in the past tense for what happened
-and the present for what you feel now; end with a feeling, not a moral. About
-100–150 words is enough for a school answer.
+When my name was announced, my legs were shaking and my mouth was dry. For a
+moment I forgot the first line. Then I saw my music teacher smiling and nodding
+at me. I took a deep breath and started again. By the second verse, the
+audience was clapping along, and when I finished, everyone cheered.
 
-::: tip The examiner is looking for
-One clear day, in order — not a week summarised in five lines. Specific detail
-("60 rupees", "the sound of a train going past the wall") instead of general
-adjectives ("very nice", "very beautiful"). And the tense must be right: past
-simple for the events, present perfect only where the link to now is the point.
+I learnt that fear becomes smaller when we face it. Since that day I have
+taken part in every school programme, and I have never been so frightened
+again.
 :::
 
-## 4.5 Writing a memoir and a diary: the difference
+## 4.5 Writing II: A diary entry
 
-Both are personal, but they do different jobs, and the examiner marks them
-differently.
+**Format:** day and date (time) → *Dear Diary,* → what you did, in order →
+how you felt → what you would have done differently → a closing thought →
+your name.
 
-| | Memoir | Diary entry |
-|---|---|---|
-| Written | long after the event | the same day |
-| Tense | past, reflective | past, immediate |
-| Length | several paragraphs | one or two |
-| Opens with | a scene or a hook | the date and day |
-| Ends with | what the experience meant | how the writer feels now |
-| Marked on | shape, detail, reflection | format, detail, feeling |
+::: example Model diary entry (Writing II)
+Wednesday, 7 Shrawan 2082
+9:30 p.m.
 
-```figure caption="A memoir looks back and selects; a diary records as it happens. Both need one specific detail the reader could not have guessed."
-fig, ax = cards([("Memoir", "written later, selective, reflective"),
-                 ("Diary", "written today, immediate, personal")], cols=2)
-```
+Dear Diary,
 
-::: example The same journey, two ways
-**Diary.** *12 Asar, Friday — We reached Jomsom at two, dusty and deaf from
-the wind. I have never seen a place where the air feels so thin and so
-clean at once. My boots are by the door, full of sand.*
+Today was a busy but happy day. In the morning our class planted thirty
+saplings around the school ground for the plantation programme. My hands were
+covered in mud, but I felt proud when our teacher put my name on a small sign
+next to my tree.
 
-**Memoir.** *The wind at Jomsom begins at eleven every morning and does not
-stop. I was fourteen when I first stood in it, and what I remember is not
-the mountains but the sound — a steady roar that made us shout a sentence
-twice. We laughed at that then; later I understood that the wind was the
-reason the fields were walled on three sides.*
+In the afternoon it rained heavily, so football practice was cancelled. I
+stayed in the library and finished the story book I had borrowed last week.
+On the way home I slipped on the wet road and tore my trousers. If I had
+carried an umbrella and walked more carefully, it would not have happened.
 
-The diary records; the memoir **selects and explains**. That difference is
-where the four marks sit.
+In the evening I helped Mum make momo and we laughed a lot while folding them.
+I hope my sapling survives the monsoon. Good night!
+
+Pratima
 :::
 
-::: note Activity — one event, both forms
-Choose something that happened to you this month. Write it first as a diary
-entry of about 60 words, then as a memoir of about 120 words. Read both to a
-partner and ask which one made them see the scene — then underline the
-sentence that did it.
-:::
+## 4.6 Speaking, pronunciation and project work
+
+**Talking about personal experiences.** Use the present perfect for the
+question, the past simple for details: *Have you ever gone on a picnic? — Yes, I
+have. I went to Godawari last winter. We cooked rice and played games.*
+
+**Diphthongs.** A diphthong is a vowel sound that glides from one vowel to
+another inside one syllable.
+
+| Diphthong | Words from the unit |
+|---|---|
+| /aɪ/ | behind, island, night, side |
+| /aʊ/ | allowance, shower |
+| /ʊə/ (often /ɔː/ today) | tour, ensure, manure |
+
+Other English diphthongs: /eɪ/ day, /ɔɪ/ boy, /əʊ/ go, /ɪə/ here, /eə/ hair.
+
+**Compound words (Extra bit):** open (*post office, washing machine*), closed
+(*airport, weekend*) and hyphenated (*check-in, up-to-date, runner-up*).
+
+**Project work:** read each other's diary entries in groups and vote for the
+best one.
 
 ## Chapter summary
 
-- A **memoir** is a first-person account written after the event, which ends
-  with what the experience meant to the writer.
-- A **diary entry** is written on the day, keeps one day in view and ends with
-  a feeling.
-- Mustang is the trans-Himalayan district of Nepal; the Kali Gandaki has cut
-  one of the world's deepest gorges between the Annapurna and Dhaulagiri
-  ranges.
-- The valley lies in a rain shadow, so it is dry while southern Nepal is wet.
-- Lo Manthang, Kagbeni and Muktinath are on the route; Thakali, Gurung, Magar
-  and Bhotiya people live in the district.
-- Describing a place well uses more than sight: hearing, smell, touch and
-  feeling.
-- **Past simple** = a finished action at a finished time; **present perfect** =
-  an experience or a result whose time is not stated and which is still
-  relevant now.
-- Time words decide the tense: *yesterday* goes with the past simple; *ever,
-  never, just, yet, since, for* go with the present perfect.
+- A memoir and a diary are first-person, true, mostly past-tense records with
+  feelings; a diary has date, *Dear Diary*, events, feelings, reflection.
+- Mustang memoir: Pokhara → Tatopani (hot spring, 7 hours) → Kagbeni (Kali
+  Gandaki) → Muktinath (Hindu and Buddhist; five-colour flags) → Marpha (apples,
+  flat roofs, alleyways).
+- Neil's diary: Dhading village with a Nepali friend; bumpy bus, songs, family
+  lunch; admires Nepali friendliness.
+- Present perfect = has/have + pp, linked to now (ever, never, yet, since,
+  for). Past simple = finished time (yesterday, ago, last…).
+- *since* + point of time; *for* + length of time.
 
 ## Practice questions
 
 **Reading**
 
-1. Why is the Mustang valley dry although it lies in Nepal? <span class="marks">[2]</span>
-2. Name two places a visitor to Mustang passes, and say one thing about each. <span class="marks">[2]</span>
-3. Give two ways in which a memoir is different from a diary entry. <span class="marks">[2]</span>
-4. "The wind pushed us sideways at the bends." Which senses does this
-   description use? <span class="marks">[1]</span>
+1. Answer from *A Visit to Mustang*. <span class="marks">[5]</span>
+   (a) Where was the writer from? (b) Who was her guide? (c) Which river did they
+   follow to Kagbeni? (d) Which colour stands for fire? (e) What luxury did she
+   enjoy in Marpha?
+2. Write True or False. <span class="marks">[3]</span>
+   (a) Neil ate lunch in a hotel. (b) Neil bought chocolate on the way home.
+   (c) Neil left the village at 3 p.m.
 
-::: note Answers
-**1.** The south-west monsoon clouds drop their rain on the southern slopes of
-the Annapurna and Dhaulagiri ranges, so the valley behind them lies in a rain
-shadow.
-**2.** Kagbeni — at the junction of the Kali Gandaki and the Jhong river.
-Muktinath — a pilgrimage site for Hindus and Buddhists, with 108 water spouts.
-(Lo Manthang, a walled town and the old capital of Lo, is also correct.)
-**3.** A memoir is written later and shaped into paragraphs to make sense of
-the experience; a diary is written on the day, is shorter and less polished,
-and ends with a feeling rather than a lesson.
-**4.** Touch (the physical push of the wind) — and sight, because we picture the
-road and the bend.
+::: note Answers — Reading
+**1.** (a) Hong Kong. (b) Reena. (c) The Kali Gandaki. (d) Red. (e) A hot shower.
+**2.** (a) False — in his friend's family's traditional kitchen. (b) False — he
+bought bread and eggs (he only wishes he had bought chocolate). (c) True.
 :::
 
 **Grammar**
 
-5. Choose the correct tense. <span class="marks">[5]</span>
-   (a) I (have visited / visited) Mustang in 2021.
-   (b) She (has never seen / never saw) the sea.
-   (c) We (have finished / finished) the work two hours ago.
-   (d) They (have lived / live) here since 2018.
-   (e) (Did you ever eat / Have you ever eaten) sel roti?
+3. Choose the correct form. <span class="marks">[5]</span>
+   (a) I (have seen / saw) a tiger in Chitwan last year. (b) She (has lived /
+   lived) here since 2018. (c) (Have you ever been / Did you ever go) to
+   Lumbini? (d) We (have finished / finished) the work two hours ago. (e) He
+   (hasn't come / didn't come) yet.
 
-::: note Answers
-**5.** (a) visited (b) has never seen (c) finished (d) have lived (e) Have you
-ever eaten
+::: note Answers — Grammar
+**3.** (a) saw (b) has lived (c) Have you ever been (d) finished (e) hasn't come
 :::
 
 **Writing**
 
-6. Write a diary entry of about 120 words describing a day you will never
-   forget. <span class="marks">[5]</span>
-7. Write a short account of a school trip, using the past simple and the past
-   continuous at least once. <span class="marks">[5]</span>
+4. Write a diary entry about a day you spent with your grandparents. <span class="marks">[5]</span>
 
-::: note Answers
-**6.** Begin with the date. Keep to one day. Use the past simple for what
-happened and the present simple for how you feel now ("I still cannot believe
-it"). End with a feeling or a question, not with a moral.
-**7.** Paragraph 1: when, where and who. Paragraph 2: what happened, in order,
-with at least one sentence such as "We were singing in the bus when the driver
-stopped." Paragraph 3: why it stayed with you.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** A diary entry must begin with
-   (a) an address (b) the date and day (c) a subject line (d) a greeting
-**2.** A memoir is written
-   (a) on the day of the event (b) long after the event (c) in the future tense (d) in the third person
-**3.** *I have been to Mustang twice* is in the
-   (a) present perfect (b) past simple (c) past perfect (d) present continuous
-**4.** The best detail for a memoir is one that is
-   (a) general (b) specific and remembered (c) copied from a book (d) imaginary
-**5.** A memoir usually ends with
-   (a) a date (b) the writer's reflection (c) an address (d) a signature
-
-::: note Objective practice — answers
-**1.** (b) — the date and day. **2.** (b) — long after, which is why it can reflect. **3.** (a) — present perfect with *twice*. **4.** (b) — specific and remembered. **5.** (b) — the writer's reflection.
+::: note Answer — Writing
+**4.** Day/date/time, *Dear Diary*, 2–3 short paragraphs of events in order in
+the past simple, feelings (*I felt…, I was delighted…*), one thing you would do
+differently, a closing thought and your name.
 :::
