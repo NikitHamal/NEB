@@ -100,7 +100,7 @@ export function createUI(stage, opts) {
       if (activeTool === id) return;
       activeTool = id;
       toolButtons.forEach((b, k) => { b.classList.toggle('active', k === id); if (k === id) b.classList.remove('glow'); });
-      if (user) sfx.play('pick');
+      if (user) sfx.play('switch');
       if (onToolChange) onToolChange(id, user);
     },
     get tool() { return activeTool; },
