@@ -37,6 +37,8 @@ class PdfDocumentEngine private constructor(
     private val mutex = Mutex()
     @Volatile private var closed = false
 
+    private val hiResPixels: Float = minOf(MAX_PIXELS, cacheBudgetKb() * 1024f / 4f / 2f).coerceAtLeast(BASE_PIXELS.toFloat())
+
     private val cache = object : LruCache<String, Bitmap>(cacheBudgetKb()) {
         override fun sizeOf(key: String, value: Bitmap): Int = value.allocationByteCount / 1024
     }
@@ -56,7 +58,9 @@ class PdfDocumentEngine private constructor(
                 val bitmap = runCatching {
                     renderer.openPage(index).use { page ->
                         val height = (width * page.height.toFloat() / page.width).toInt().coerceAtLeast(1)
-                        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+                        // zoomed renders are large: 16-bit colour halves their memory, and text stays crisp
+                        val config = if (width.toLong() * height > BASE_PIXELS) Bitmap.Config.RGB_565 else Bitmap.Config.ARGB_8888
+                        val bitmap = Bitmap.createBitmap(width, height, config)
                         bitmap.eraseColor(Color.WHITE)
                         page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
                         bitmap
@@ -117,11 +121,14 @@ class PdfDocumentEngine private constructor(
 
     private fun key(index: Int, width: Int) = "$index@$width"
 
-    /** Bucketed width, lowered so one page never exceeds [MAX_PIXELS] (about 24 MB). */
+    /**
+     * Bucketed width, lowered so one page stays within budget: [BASE_PIXELS] in full colour, or up
+     * to [MAX_PIXELS] in 16-bit colour for zoomed renders, never more than a quarter of the cache.
+     */
     private fun widthFor(index: Int, widthPx: Int): Int {
         val width = bucket(widthPx)
         val aspect = pageAspects[index].coerceAtLeast(0.1f)
-        val cap = kotlin.math.sqrt(MAX_PIXELS / aspect).toInt()
+        val cap = kotlin.math.sqrt(hiResPixels / aspect).toInt()
         return if (width <= cap) width else (cap / BUCKET * BUCKET).coerceAtLeast(THUMB_WIDTH)
     }
 
@@ -146,8 +153,9 @@ class PdfDocumentEngine private constructor(
 
         const val THUMB_WIDTH = 240
         private const val BUCKET = 160
-        private const val MAX_WIDTH = 2800
-        private const val MAX_PIXELS = 6_000_000f
+        private const val MAX_WIDTH = 4200
+        private const val BASE_PIXELS = 6_000_000L
+        private const val MAX_PIXELS = 15_000_000f
 
         /** Width rounded up to a 160 px bucket and capped, so near-equal widths share a bitmap. */
         fun bucket(widthPx: Int): Int {
