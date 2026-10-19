@@ -80,8 +80,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiInteractiveCategory
 import com.neb.ians.data.api.ApiInteractiveCourseSummary
-import com.neb.ians.data.api.ApiSyllabusSubject
-import com.neb.ians.data.api.ApiSyllabusCategory
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.WafWarningBanner
@@ -127,7 +125,8 @@ fun LibraryScreen(
     onStudioClick: () -> Unit = {},
     viewModel: LibraryViewModel = hiltViewModel(),
     interactiveViewModel: InteractiveViewModel = hiltViewModel(),
-    marketplaceViewModel: MarketplaceViewModel = hiltViewModel()
+    marketplaceViewModel: MarketplaceViewModel = hiltViewModel(),
+    syllabusViewModel: SyllabusViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val interactiveState by interactiveViewModel.uiState.collectAsStateWithLifecycle()
@@ -135,12 +134,8 @@ fun LibraryScreen(
     var currentTab by rememberSaveable { mutableStateOf("library") }
     val scope = rememberCoroutineScope()
     var isRefreshing by remember { mutableStateOf(false) }
-    val isSyllabusDetailMode = currentTab == "syllabus" && (
-        uiState.selectedSyllabusDetail != null ||
-            uiState.isSyllabusSubjectLoading ||
-            uiState.selectedSyllabusGradeSlug != null ||
-            uiState.selectedSyllabusSubjectSlug != null
-        )
+    val syllabusState by syllabusViewModel.uiState.collectAsStateWithLifecycle()
+    val isSyllabusDetailMode = currentTab == "syllabus" && syllabusState.openSubject != null
 
     LaunchedEffect(isSyllabusDetailMode) {
         onSyllabusDetailChromeChanged(isSyllabusDetailMode)
@@ -198,6 +193,8 @@ fun LibraryScreen(
                     isRefreshing = true
                     if (currentTab == "marketplace") {
                         marketplaceViewModel.refresh()
+                    } else if (currentTab == "syllabus") {
+                        syllabusViewModel.refresh().join()
                     } else {
                         viewModel.refresh().join()
                     }
@@ -247,13 +244,8 @@ fun LibraryScreen(
                 }
                 "syllabus" -> {
                     SyllabusContent(
-                        uiState = uiState,
-                        onRetry = { viewModel.loadSyllabusCategories() },
-                        onOpenSubject = viewModel::openSyllabusSubject,
-                        onCloseSubject = viewModel::closeSyllabusSubject,
-                        onSwitchGrade = viewModel::switchSyllabusGrade,
-                        onSwitchSubject = viewModel::switchSyllabusSubject,
-                        onResourceClick = onResourceClick
+                        state = syllabusState,
+                        viewModel = syllabusViewModel
                     )
                 }
                 "interactive" -> {

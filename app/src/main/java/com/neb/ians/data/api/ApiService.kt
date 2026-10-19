@@ -760,80 +760,6 @@ data class ApiCreditHistoryResponse(
 )
 
 @Serializable
-data class ApiSyllabusCategoriesResponse(
-    val categories: List<ApiSyllabusCategory> = emptyList()
-)
-
-@Serializable
-data class ApiSyllabusCategory(
-    val grade: String = "",
-    val subjects: List<ApiSyllabusSubject> = emptyList(),
-    val order: Int = 999
-)
-
-@Serializable
-data class ApiSyllabusSubject(
-    val name: String = "",
-    val slug: String = "",
-    val url: String = ""
-)
-
-
-
-@Serializable
-data class ApiSyllabusSubjectDetailResponse(
-    val grade: String = "",
-    val subject: String = "",
-    @SerialName("grade_slug") val gradeSlug: String = "",
-    @SerialName("subject_slug") val subjectSlug: String = "",
-    @SerialName("grade_list") val gradeList: List<ApiSyllabusNavItem> = emptyList(),
-    @SerialName("subject_list") val subjectList: List<ApiSyllabusNavItem> = emptyList(),
-    val chapters: List<ApiSyllabusChapter> = emptyList(),
-    @SerialName("total_count") val totalCount: Int = 0
-)
-
-@Serializable
-data class ApiSyllabusNavItem(
-    val name: String = "",
-    val slug: String = ""
-)
-
-@Serializable
-data class ApiSyllabusChapter(
-    val id: String = "",
-    val name: String = "",
-    @SerialName("guide_sections") val guideSections: List<ApiSyllabusSection> = emptyList(),
-    @SerialName("qa_sections") val qaSections: List<ApiSyllabusQaSection> = emptyList(),
-    val notes: List<ApiResource> = emptyList(),
-    val solutions: List<ApiResource> = emptyList(),
-    val papers: List<ApiResource> = emptyList(),
-    val textbooks: List<ApiResource> = emptyList(),
-    val other: List<ApiResource> = emptyList(),
-    val count: Int = 0
-)
-
-@Serializable
-data class ApiSyllabusSection(
-    val title: String = "",
-    val content: String = "",
-    val id: String = ""
-)
-
-@Serializable
-data class ApiSyllabusQaSection(
-    val title: String = "",
-    val content: String = "",
-    val id: String = "",
-    @SerialName("parsed_items") val parsedItems: List<ApiSyllabusQaItem> = emptyList()
-)
-
-@Serializable
-data class ApiSyllabusQaItem(
-    val question: String = "",
-    val answer: String = ""
-)
-
-@Serializable
 data class ApiUserSearchResult(
     val id: String,
     val username: String,
@@ -2089,15 +2015,21 @@ interface ApiService {
         @Body request: ApiStudyFlashcardReviewRequest
     ): ApiStudyFlashcardReviewResponse
 
-    // --- Syllabus (public, web-synced categories) ---
-    @GET("api/syllabus/categories/")
-    suspend fun getSyllabusCategories(): ApiSyllabusCategoriesResponse
+    // --- Syllabus (public; exported from the NEBians books, shared with the website) ---
+    @GET("api/syllabus/v2/")
+    suspend fun getSyllabusIndex(): ApiSyllabusIndex
 
-    @GET("api/syllabus/subjects/{gradeSlug}/{subjectSlug}/")
-    suspend fun getSyllabusSubjectDetail(
-        @Path("gradeSlug") gradeSlug: String,
-        @Path("subjectSlug") subjectSlug: String
-    ): ApiSyllabusSubjectDetailResponse
+    @GET("api/syllabus/v2/{grade}/{subject}/")
+    suspend fun getSyllabusDoc(
+        @Path("grade") grade: String,
+        @Path("subject") subject: String
+    ): ApiSyllabusDoc
+
+    @GET("api/syllabus/v2/search/")
+    suspend fun searchSyllabus(
+        @Query("q") query: String,
+        @Query("grade") grade: String? = null
+    ): ApiSyllabusSearch
 
     // --- Interactive Learning (public, no auth required) ---
     @GET("api/interactive/categories/")
