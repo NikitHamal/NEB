@@ -49,10 +49,11 @@ in `/workspace/tools/ghpush.py` failed for everyone. I added a small, backward-c
 NEB physics/chemistry course still runs on the slider labs (`lab3d-*.js`). `opts.freeLab` skips
 the hands-on version if a free mode is ever wanted.
 
-**Done (13 slugs):** `acid-base-titration`, `redox-titration-kmno4` (both `practicals/titration.js`,
+**Done (15 slugs):** `acid-base-titration`, `redox-titration-kmno4` (both `practicals/titration.js`,
 mode chosen by slug), `flame-tests`, `simple-pendulum-g`, `vernier-calipers`, `screw-gauge`,
 `meter-bridge`, `anion-tests`, `resonance-air-column`, `ohms-law-resistivity`, `hookes-law-spring`,
-`focal-length-mirror-lens` (convex lens), `sonometer-laws` (law of length).
+`focal-length-mirror-lens` (convex lens), `sonometer-laws` (law of length), `potentiometer-emf`,
+`electrolysis-cuso4`.
 
 **Shared modules.**
 - `glass.js`: conical flask (liquid re-turned from the flask's own inner profile, so level follows
@@ -79,9 +80,8 @@ practical sets `ctx.debug` for tests.
 the web static dir). `drive.py sim lesson outprefix "n|js:...|w2000|sNAME"` skips to step n,
 runs JS, waits, screenshots (SwiftShader, slow). Kill other memory hogs before Gradle builds.
 
-**Next practicals, in order of value.** Potentiometer, specific heat (thermometer + stopwatch), focal length (optics bench:
-move screen to sharpen), prism (spectrometer), separation, gas preparation, electrolysis
-(Faraday: weigh cathode), pH, functional groups (reuse wet-tests pattern), heat of
+**Next practicals, in order of value.** specific heat (thermometer + stopwatch), focal length (optics bench:
+move screen to sharpen), prism (spectrometer), separation, gas preparation, pH, functional groups (reuse wet-tests pattern), heat of
 neutralisation, Lassaigne, water of crystallisation, salt analysis (anion-tests + flame-tests).
 
 ## Web landing (Oct 19, 2026)
@@ -135,3 +135,15 @@ Tool tips follow the pointer exactly (`bio-handson/tools.js` lifts along the vie
 spring), `runtime.aimDefault` aims at the object under the pointer, a DOM reticle marks the action
 point and the cursor hides while a tool is held, and `input.pick` has a fuzzy second pass (eight
 offset rays). Flower dissection: tap-to-pluck, 20 px tug, forgiving box drops.
+
+## Sounds and themes (Oct 19, 2026)
+
+- `static/web/audio/sfx/`: 26 CC0 Kenney samples (licence file alongside). `bio-handson/sound.js`
+  maps events to samples (`SAMPLES`), loads them only once sound is turned on, varies pitch, and
+  falls back to the synth until loaded.
+- Android read the theme from a 404 path (`site-theme/`); it is `api/site-theme/`. `NebyDress`
+  makes every Neby sprite wear the server's look; the API sends the festival `greet` state.
+- The landing `<html>` carries `data-neby-look`/`data-neby-greet` like `base.html`. The Play
+  Store banner in `base.html` was removed at the owner's request.
+- Pushing large files: `ghpush.py` calls the actl `ApiClient` from Python (run with
+  `/app/py/.venv/bin/python`) because a CLI argument is limited to 128 KB.

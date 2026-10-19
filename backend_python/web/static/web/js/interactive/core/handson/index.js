@@ -16,6 +16,7 @@ const PRACTICALS = {
   'focal-length-mirror-lens': () => import('./practicals/focal-length.js'),
   'sonometer-laws': () => import('./practicals/sonometer.js'),
   'potentiometer-emf': () => import('./practicals/potentiometer.js'),
+  'electrolysis-cuso4': () => import('./practicals/electrolysis.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
