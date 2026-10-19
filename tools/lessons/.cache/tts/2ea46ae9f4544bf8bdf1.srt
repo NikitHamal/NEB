@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,971
+S N one: substitution, nucleophilic, unimolecular, typical of tertiary halides like tertiary butyl bromide.
+
+2
+00:00:08,971 --> 00:00:11,054
+It happens in two steps.
+
+3
+00:00:11,054 --> 00:00:18,072
+First, slowly, the carbon bromine bond breaks all by itself, leaving a carbocation.
+
+4
+00:00:18,072 --> 00:00:20,169
+The carbocation is flat.
+

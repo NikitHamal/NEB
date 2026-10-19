@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,617
+From ethanol it takes three steps.
+
+2
+00:00:02,617 --> 00:00:06,445
+Chlorine first oxidises ethanol to ethanal.
+
+3
+00:00:06,445 --> 00:00:12,838
+Then it replaces the three hydrogens of the methyl group, giving trichloroethanal, chloral.
+
+4
+00:00:12,838 --> 00:00:18,945
+Finally calcium hydroxide splits chloral into chloroform and calcium methanoate.
+

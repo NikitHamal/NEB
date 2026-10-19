@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,447
+C, it goes through a carbocation.
+
+2
+00:00:02,447 --> 00:00:06,276
+The rate does not depend on hydroxide at all, so A is wrong.
+
+3
+00:00:06,276 --> 00:00:12,226
+Inversion and a single step are features of S N two, not S N one.
+

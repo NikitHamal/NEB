@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,536
+B, nitroethane.
+
+2
+00:00:01,536 --> 00:00:07,955
+Silver nitrite is covalent, so the attack comes through nitrogen, giving the nitro compound.
+
+3
+00:00:07,955 --> 00:00:15,611
+Potassium nitrite, being ionic, attacks through oxygen and gives ethyl nitrite, the trap in option A.
+

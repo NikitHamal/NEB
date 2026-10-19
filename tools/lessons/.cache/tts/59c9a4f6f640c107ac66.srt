@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,786
+The product has the opposite configuration.
+
+2
+00:00:02,786 --> 00:00:08,203
+This is Walden inversion, the proof of the S N two mechanism.
+
+3
+00:00:08,203 --> 00:00:17,291
+Because both the haloalkane and the nucleophile are in the single step, the rate equals k times both concentrations: second order.
+

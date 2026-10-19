@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,380
+But add a peroxide, and hydrogen bromide adds the other way, giving one bromopropane.
+
+2
+00:00:06,380 --> 00:00:09,375
+This is the Kharasch or peroxide effect.
+
+3
+00:00:09,375 --> 00:00:15,533
+It works only for hydrogen bromide, because the mechanism switches to free radicals.
+

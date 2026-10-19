@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,888
+Haloalkanes are colourless liquids with a sweetish smell, apart from the first few, which are gases.
+
+2
+00:00:06,888 --> 00:00:15,625
+Boiling points rise from fluoride to iodide, because a bigger, more polarisable halogen gives stronger van der Waals forces.
+
+3
+00:00:15,625 --> 00:00:23,919
+They rise with chain length, and fall with branching, since a branched molecule is more spherical and touches its neighbours less.
+
+4
+00:00:23,919 --> 00:00:29,153
+They do not dissolve in water, and the bromides and iodides are denser than water.
+

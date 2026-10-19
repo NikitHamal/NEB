@@ -13,3 +13,4 @@ been checked part by part with frames.py.
 | 5 | Electrochemistry | 17.7 min | cold open, 7 parts (electrode potential → batteries and fuel cells), recap |
 | 6 | Transition Metals | 17.0 min | cold open, 7 parts (characteristics, oxidation states, complex ions, shapes, crystal field theory, colour, catalysis), recap |
 | 7 | Studies of Heavy Metals | 27.2 min | cold open, 5 parts (copper, zinc, mercury, iron, silver), recap |
+| 8 | Haloalkanes | 17.6 min | cold open, 8 parts (naming and classes, preparation, physical properties, SN1/SN2, eight substitution products, elimination/reduction/Wurtz, making chloroform, reactions of chloroform), recap |

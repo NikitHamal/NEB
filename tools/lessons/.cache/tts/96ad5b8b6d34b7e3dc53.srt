@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,888
+Now the cold open's answer.
+
+2
+00:00:01,888 --> 00:00:07,031
+Chloroform is a heavy, sweet smelling, non flammable liquid.
+
+3
+00:00:07,031 --> 00:00:16,901
+But in air and sunlight it is slowly oxidised to phosgene, carbonyl chloride, an extremely poisonous gas used as a weapon in nineteen fifteen.
+

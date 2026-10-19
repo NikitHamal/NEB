@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,046
+On energy profiles the difference is clear.
+
+2
+00:00:03,046 --> 00:00:08,763
+S N two has one hump, a single transition state, no intermediate.
+
+3
+00:00:08,763 --> 00:00:11,770
+S N one has two humps with a well between them.
+
+4
+00:00:11,770 --> 00:00:16,640
+That well is the carbocation, a real, if short lived, species.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:14,127
+So the three precautions: a dark brown bottle keeps out the light, filling it to the brim keeps out the air, and one percent ethanol destroys any phosgene that does form, turning it into harmless diethyl carbonate.
+
+2
+00:00:14,127 --> 00:00:15,468
+Mystery solved.
+

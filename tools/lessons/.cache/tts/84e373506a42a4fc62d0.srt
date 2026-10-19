@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,734
+This is chloroform, trichloromethane.
+
+2
+00:00:02,734 --> 00:00:07,408
+In eighteen forty seven it became one of the first general anaesthetics.
+
+3
+00:00:07,408 --> 00:00:08,932
+Look at how it is stored.
+
+4
+00:00:08,932 --> 00:00:10,859
+Always in a dark brown bottle.
+
+5
+00:00:10,859 --> 00:00:13,242
+Always filled right to the brim.
+
+6
+00:00:13,242 --> 00:00:16,341
+And always with about one percent of ethanol added.
+

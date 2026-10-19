@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,744
+A haloalkane, or alkyl halide, is an alkane with a hydrogen replaced by a halogen.
+
+2
+00:00:06,744 --> 00:00:15,143
+A monohaloalkane has one halogen, general formula C n H two n plus one X, written R X.
+

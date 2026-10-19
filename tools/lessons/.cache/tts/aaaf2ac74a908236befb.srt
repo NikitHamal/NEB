@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:05,260
+The standard laboratory route is from alcohols, because it gives one clean product.
+
+2
+00:00:05,260 --> 00:00:09,492
+Hydrochloric acid with zinc chloride, the Lucas reagent.
+
+3
+00:00:09,492 --> 00:00:12,382
+Sodium bromide with sulphuric acid.
+
+4
+00:00:12,382 --> 00:00:14,557
+Red phosphorus and iodine.
+
+5
+00:00:14,557 --> 00:00:16,432
+Phosphorus pentachloride.
+
+6
+00:00:16,432 --> 00:00:23,177
+And best of all, thionyl chloride, Darzen's process, because both by products are gases that simply escape.
+

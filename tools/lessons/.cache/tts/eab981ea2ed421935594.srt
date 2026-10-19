@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:13,203
+Reduction replaces the halogen by hydrogen, giving back the alkane, using zinc and hydrochloric acid, a zinc copper couple, lithium aluminium hydride, or hydrogen over nickel.
+

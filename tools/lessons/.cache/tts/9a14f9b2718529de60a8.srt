@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:00,976
+Our path.
+
+2
+00:00:00,976 --> 00:00:04,765
+Naming, isomers and classes of haloalkanes.
+
+3
+00:00:04,765 --> 00:00:05,924
+How to prepare them.
+
+4
+00:00:05,924 --> 00:00:07,734
+Their physical properties.
+
+5
+00:00:07,734 --> 00:00:12,929
+The two great mechanisms, S N one and S N two.
+
+6
+00:00:12,929 --> 00:00:15,781
+Eight substitution products from one reaction.
+
+7
+00:00:15,781 --> 00:00:19,205
+Elimination, reduction and the Wurtz reaction.
+
+8
+00:00:19,205 --> 00:00:23,476
+And finally chloroform: how it is made, and how it reacts.
+

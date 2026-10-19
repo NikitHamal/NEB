@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,317
+Worked example eight point two.
+
+2
+00:00:02,317 --> 00:00:08,203
+Bromoethane has molar mass one hundred and nine, so we have zero point two moles.
+
+3
+00:00:08,203 --> 00:00:18,424
+Two molecules make one butane, so zero point one mole of butane: five point eight grams, or two point two four litres at S T P.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,002
+One more note.
+
+2
+00:00:01,002 --> 00:00:12,018
+With ammonia, the amine formed is itself a nucleophile, so it keeps reacting, giving secondary and tertiary amines and finally a quaternary ammonium salt.
+
+3
+00:00:12,018 --> 00:00:16,653
+A large excess of ammonia keeps the product mostly primary.
+

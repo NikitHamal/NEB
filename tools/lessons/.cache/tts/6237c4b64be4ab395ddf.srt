@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:12,630
+The carbon halogen bond gets longer and weaker down the group, so iodide is the best leaving group and iodoalkanes react fastest, even though iodine is the least electronegative.
+

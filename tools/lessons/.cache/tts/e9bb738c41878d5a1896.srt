@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,242
+From alkenes, by adding a hydrogen halide.
+
+2
+00:00:03,242 --> 00:00:07,682
+Propene with hydrogen bromide gives mainly two bromopropane.
+
+3
+00:00:07,682 --> 00:00:14,309
+Markovnikov's rule: the hydrogen goes to the double bonded carbon that already has more hydrogens.
+
+4
+00:00:14,309 --> 00:00:20,260
+The reason is the intermediate: the secondary carbocation is more stable than the primary one.
+

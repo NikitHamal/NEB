@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,692
+A favourite short question.
+
+2
+00:00:01,692 --> 00:00:05,481
+Which methyl halide has the largest dipole moment?
+
+3
+00:00:05,481 --> 00:00:10,052
+Not the fluoride, even though fluorine is the most electronegative.
+
+4
+00:00:10,052 --> 00:00:13,372
+Chloromethane, one point eight six debye.
+
+5
+00:00:13,372 --> 00:00:20,703
+The carbon fluorine bond is so short that the charges are close together, and dipole moment is charge times distance.
+

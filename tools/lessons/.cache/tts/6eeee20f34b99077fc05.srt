@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:02,096
+Here is the whole comparison.
+
+2
+00:00:02,096 --> 00:00:03,658
+Two steps against one.
+
+3
+00:00:03,658 --> 00:00:07,213
+Rate depending on the haloalkane only, against both.
+
+4
+00:00:07,213 --> 00:00:10,299
+A carbocation against no intermediate.
+
+5
+00:00:10,299 --> 00:00:12,760
+Racemisation against inversion.
+
+6
+00:00:12,760 --> 00:00:20,000
+Tertiary halides favour S N one, methyl and primary favour S N two.
+
+7
+00:00:20,000 --> 00:00:25,598
+Weak nucleophiles and protic solvents like water favour S N one.
+
+8
+00:00:25,598 --> 00:00:31,979
+Strong nucleophiles and aprotic solvents like acetone favour S N two.
+

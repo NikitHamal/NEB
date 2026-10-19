@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,523
+Now a classic trap.
+
+2
+00:00:01,523 --> 00:00:07,513
+The same reagent, potassium hydroxide, gives two different products depending on the solvent.
+
+3
+00:00:07,513 --> 00:00:14,882
+In water, hydroxide acts as a nucleophile, and bromoethane gives ethanol: substitution.
+
+4
+00:00:14,882 --> 00:00:18,502
+In hot alcohol, hydroxide acts as a base.
+
+5
+00:00:18,502 --> 00:00:28,151
+It pulls off a hydrogen from the carbon next to the halogen, the beta carbon, and the molecule loses H B r to become ethene: elimination.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,393
+It is cheap but messy: the product is attacked again, giving dichloromethane, chloroform and carbon tetrachloride, and bigger alkanes give mixtures of isomers.
+
+2
+00:00:11,393 --> 00:00:19,114
+Fluorination is explosive and iodination reversible, so only chlorine and bromine are useful.
+

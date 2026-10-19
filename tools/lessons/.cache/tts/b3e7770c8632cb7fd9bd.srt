@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,140
+Two named reactions swap one halogen for another.
+
+2
+00:00:04,140 --> 00:00:14,492
+The Finkelstein reaction makes iodides from chlorides with sodium iodide in dry acetone, where the sodium chloride precipitates and drives the change.
+
+3
+00:00:14,492 --> 00:00:20,091
+The Swarts reaction makes fluorides with silver fluoride, which is how freons are made.
+
