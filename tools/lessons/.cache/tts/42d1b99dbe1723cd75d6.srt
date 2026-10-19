@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:10,013
+Zinc is a bluish white metal, brittle when cold, malleable between one hundred and one hundred and fifty degrees, so zinc sheet is rolled hot.
+
+2
+00:00:10,013 --> 00:00:16,302
+Its most asked property: it dissolves in acids and in alkalis, both with hydrogen.
+
+3
+00:00:16,302 --> 00:00:19,804
+In hydrochloric acid it gives zinc chloride.
+
+4
+00:00:19,804 --> 00:00:23,567
+In hot sodium hydroxide it gives sodium zincate.
+
+5
+00:00:23,567 --> 00:00:25,742
+Zinc is amphoteric.
+

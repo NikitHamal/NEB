@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,317
+Its precipitates are a colour chart.
+
+2
+00:00:02,317 --> 00:00:05,390
+With chloride, white curdy silver chloride.
+
+3
+00:00:05,390 --> 00:00:07,591
+With bromide, pale yellow.
+
+4
+00:00:07,591 --> 00:00:09,466
+With iodide, yellow.
+
+5
+00:00:09,466 --> 00:00:14,908
+With chromate, brick red silver chromate, the end point of Mohr's titration.
+
+6
+00:00:14,908 --> 00:00:19,440
+And with alkali, brown silver oxide, not a hydroxide.
+

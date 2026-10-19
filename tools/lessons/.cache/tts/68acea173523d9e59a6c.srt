@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,721
+Potassium iodide is special.
+
+2
+00:00:02,721 --> 00:00:11,510
+It reduces copper two to copper one: a white precipitate of copper one iodide, coloured brown by the iodine released.
+
+3
+00:00:11,510 --> 00:00:13,450
+Cyanide does the same.
+
+4
+00:00:13,450 --> 00:00:17,669
+And iron or zinc displaces red brown copper metal.
+

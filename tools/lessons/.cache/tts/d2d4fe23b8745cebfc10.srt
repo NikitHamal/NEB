@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,148
+Worked example seven point one.
+
+2
+00:00:02,148 --> 00:00:09,348
+Copper pyrite has molar mass one eighty three point five, so it is thirty four point six percent copper.
+
+3
+00:00:09,348 --> 00:00:17,382
+The ore is only twenty percent pyrite, so it is six point nine two percent copper: sixty nine point two kilograms per tonne.
+
+4
+00:00:17,382 --> 00:00:22,083
+At ninety percent recovery, sixty two point three kilograms.
+

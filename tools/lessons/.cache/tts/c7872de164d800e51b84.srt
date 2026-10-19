@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,781
+Copper is a soft, reddish metal, second only to silver as a conductor.
+
+2
+00:00:05,781 --> 00:00:11,119
+In moist air it slowly grows a green patina of basic carbonate.
+
+3
+00:00:11,119 --> 00:00:18,671
+Heated in air it forms black copper two oxide, and above thirteen seventy kelvin, red copper one oxide.
+
+4
+00:00:18,671 --> 00:00:24,674
+Being below hydrogen, it does not react with dilute hydrochloric or sulphuric acid.
+
+5
+00:00:24,674 --> 00:00:38,020
+But oxidising acids attack it: hot concentrated sulphuric acid gives sulphur dioxide, dilute nitric acid gives nitric oxide, and concentrated nitric acid gives brown nitrogen dioxide.
+

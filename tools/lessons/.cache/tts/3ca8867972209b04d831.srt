@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,809
+Two pieces of iron sheet.
+
+2
+00:00:01,809 --> 00:00:08,177
+One is coated with zinc, galvanised, like the jasta roofing sheet on houses all over the hills.
+
+3
+00:00:08,177 --> 00:00:11,927
+The other is coated with tin, like the inside of a food can.
+
+4
+00:00:11,927 --> 00:00:15,703
+Both coatings keep air and water away from the iron.
+

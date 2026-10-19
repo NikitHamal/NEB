@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,296
+Step four, the Bessemer converter, lined with silica.
+
+2
+00:00:04,296 --> 00:00:11,145
+A hot air blast removes the last iron as slag and turns some copper sulphide into copper oxide.
+
+3
+00:00:11,145 --> 00:00:19,713
+Then the oxide and sulphide react together: two copper one oxide plus copper one sulphide give six copper and sulphur dioxide.
+
+4
+00:00:19,713 --> 00:00:22,252
+No outside reducing agent at all.
+
+5
+00:00:22,252 --> 00:00:25,481
+This is auto reduction, or self reduction.
+

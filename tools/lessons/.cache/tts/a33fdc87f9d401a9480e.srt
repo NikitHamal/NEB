@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,216
+Silver oxide dissolves in excess ammonia to give Tollens' reagent, used in the silver mirror test for aldehydes.
+
+2
+00:00:08,216 --> 00:00:15,026
+Heated strongly, silver nitrate decomposes to silver, nitrogen dioxide and oxygen.
+
+3
+00:00:15,026 --> 00:00:23,554
+It is used for photographic film, indelible ink, Tollens' reagent, testing for halides, and argentometric titrations.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,643
+C, iron three chloride.
+
+2
+00:00:02,643 --> 00:00:12,356
+The iron three over iron two couple, plus zero point seven seven volts, lies above copper, so iron three ions oxidise copper.
+
+3
+00:00:12,356 --> 00:00:21,744
+Dilute hydrochloric and sulphuric acids cannot, since copper is below hydrogen, and zinc ions are far too weak an oxidant.
+

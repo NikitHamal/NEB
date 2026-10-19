@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,838
+Iron is the working metal of the modern world.
+
+2
+00:00:02,838 --> 00:00:09,648
+Nepal's Dhaubadi deposit in Nawalparasi is the basis of its first planned iron and steel plant.
+
+3
+00:00:09,648 --> 00:00:12,031
+The chief ore is red haematite.
+
+4
+00:00:12,031 --> 00:00:14,518
+Magnetite is the richest.
+
+5
+00:00:14,518 --> 00:00:20,950
+Iron pyrite is never used for iron, because its sulphur makes the metal brittle when hot.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,255
+In light, silver chloride slowly turns violet, then grey, as it decomposes to silver and chlorine.
+
+2
+00:00:08,255 --> 00:00:15,742
+That light sensitivity is the whole basis of film photography and of self darkening spectacle lenses.
+
+3
+00:00:15,742 --> 00:00:24,882
+Silver chloride is also used in the silver silver chloride reference electrode inside pH probes and E C G pads.
+

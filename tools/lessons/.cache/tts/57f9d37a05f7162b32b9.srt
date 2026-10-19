@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,481
+The electrons flow through the metal to the rim, where oxygen dissolves easily.
+
+2
+00:00:05,481 --> 00:00:10,390
+There, oxygen is reduced with hydrogen ions from dissolved carbon dioxide.
+
+3
+00:00:10,390 --> 00:00:18,489
+The iron two ions drift outwards and are oxidised further to hydrated iron three oxide, rust.
+
+4
+00:00:18,489 --> 00:00:25,000
+Rust is flaky and porous, so it does not protect the iron beneath, and corrosion runs right through.
+

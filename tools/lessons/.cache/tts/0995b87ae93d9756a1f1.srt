@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,151
+Zinc is the metal that protects other metals.
+
+2
+00:00:03,151 --> 00:00:08,750
+The Ganesh Himal lead zinc deposit in Dhading is Nepal's best known metal prospect.
+
+3
+00:00:08,750 --> 00:00:12,122
+The chief ore is zinc blende, zinc sulphide.
+
+4
+00:00:12,122 --> 00:00:15,664
+Others are calamine, zincite and willemite.
+

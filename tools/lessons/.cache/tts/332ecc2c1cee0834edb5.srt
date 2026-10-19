@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,184
+A careful point.
+
+2
+00:00:01,184 --> 00:00:03,489
+Carbon will not reduce a sulphide.
+
+3
+00:00:03,489 --> 00:00:08,216
+Every sulphide ore is first roasted to the oxide, and then reduced.
+
+4
+00:00:08,216 --> 00:00:14,218
+Copper only looks like an exception, because there the reducing agent is the ore's own sulphide.
+

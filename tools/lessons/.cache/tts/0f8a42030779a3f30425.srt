@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,210
+Pause and think.
+
+2
+00:00:01,210 --> 00:00:04,114
+What colour does calomel turn with ammonia?
+

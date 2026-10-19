@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,205
+The product is ninety eight percent pure, and is called blister copper, because escaping sulphur dioxide leaves blisters on its surface.
+

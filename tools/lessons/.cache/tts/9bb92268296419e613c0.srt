@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,914
+Mercury follows one rule.
+
+2
+00:00:01,914 --> 00:00:09,531
+Excess mercury gives the mercurous salt, mercury one, which is really a pair of mercury atoms bonded together.
+
+3
+00:00:09,531 --> 00:00:14,934
+Excess acid or halogen gives the mercuric salt, mercury two.
+
+4
+00:00:14,934 --> 00:00:20,559
+So limited chlorine gives calomel, excess chlorine gives mercuric chloride.
+
+5
+00:00:20,559 --> 00:00:29,492
+Cold dilute nitric acid with excess mercury gives mercurous nitrate, hot concentrated acid gives mercuric nitrate.
+
+6
+00:00:29,492 --> 00:00:33,776
+Dilute hydrochloric and sulphuric acids do nothing.
+

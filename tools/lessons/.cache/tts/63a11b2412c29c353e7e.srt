@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,786
+Now corrosion, and our cold open.
+
+2
+00:00:02,786 --> 00:00:07,656
+Rusting needs both water and oxygen, and it is electrochemical.
+
+3
+00:00:07,656 --> 00:00:12,395
+A drop of water on iron becomes a tiny galvanic cell.
+
+4
+00:00:12,395 --> 00:00:20,833
+The centre of the drop, short of oxygen, is the anode: iron dissolves as iron two ions, leaving electrons behind.
+

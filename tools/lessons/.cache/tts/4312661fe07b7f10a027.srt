@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,820
+Silver chloride, horn silver, is made by adding a chloride to silver nitrate.
+
+2
+00:00:05,820 --> 00:00:11,093
+It is white, curdy, and insoluble in water and dilute nitric acid.
+
+3
+00:00:11,093 --> 00:00:22,552
+But it dissolves in three reagents, all by forming complexes: ammonia, sodium thiosulphate, which is how photographs are fixed, and potassium cyanide.
+

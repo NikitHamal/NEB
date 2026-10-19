@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,838
+Carbon content decides the variety.
+
+2
+00:00:02,838 --> 00:00:07,773
+Cast iron, two and a half to four and a half percent, is hard but brittle.
+
+3
+00:00:07,773 --> 00:00:13,020
+Wrought iron, below a quarter of a percent, is soft and weldable.
+
+4
+00:00:13,020 --> 00:00:16,536
+In between, steel is both hard and tough.
+

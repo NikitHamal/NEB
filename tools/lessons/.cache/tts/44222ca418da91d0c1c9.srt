@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,166
+On the galvanised sheet, zinc is more reactive than iron.
+
+2
+00:00:04,166 --> 00:00:11,393
+Zinc is the anode and corrodes, slowly, while the iron is the cathode and stays safe.
+
+3
+00:00:11,393 --> 00:00:14,908
+On the tinned sheet, iron is more reactive than tin.
+
+4
+00:00:14,908 --> 00:00:23,893
+Now iron is the anode, and the large tin surface is the cathode, so the exposed iron rusts even faster than bare iron would.
+

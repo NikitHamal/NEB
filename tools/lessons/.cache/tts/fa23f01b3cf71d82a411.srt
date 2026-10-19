@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,333
+Step five, refining, in two stages.
+
+2
+00:00:03,333 --> 00:00:11,875
+First, poling: the molten copper is stirred with poles of green wood, whose gases reduce any dissolved copper oxide.
+
+3
+00:00:11,875 --> 00:00:13,984
+Then electrolytic refining.
+

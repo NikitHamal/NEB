@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,510
+The blast furnace.
+
+2
+00:00:01,510 --> 00:00:06,901
+Roasted ore, coke and limestone go in at the top, roughly eight to four to one.
+
+3
+00:00:06,901 --> 00:00:11,471
+A blast of hot air enters near the bottom through the tuyeres.
+
+4
+00:00:11,471 --> 00:00:16,236
+The charge sinks slowly through four zones, hottest at the bottom.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,510
+A two mark favourite.
+
+2
+00:00:01,510 --> 00:00:08,945
+Galvanising protects even when scratched, because zinc is more reactive than iron and corrodes first.
+
+3
+00:00:08,945 --> 00:00:16,380
+A scratched tin can rusts faster than bare iron, because now iron is the more reactive metal and becomes the anode.
+

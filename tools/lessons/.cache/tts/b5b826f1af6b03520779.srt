@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,375
+The reactions of copper sulphate solution are examined every year.
+
+2
+00:00:04,375 --> 00:00:10,325
+Sodium hydroxide gives a blue gelatinous precipitate of copper hydroxide.
+
+3
+00:00:10,325 --> 00:00:17,434
+A little ammonia gives the same, but excess ammonia dissolves it to the deep blue tetrammine complex.
+
+4
+00:00:17,434 --> 00:00:20,664
+Hydrogen sulphide gives black copper sulphide.
+

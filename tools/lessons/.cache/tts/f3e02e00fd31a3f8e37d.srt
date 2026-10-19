@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,020
+Silver is unaffected by air and water, but hydrogen sulphide in polluted air tarnishes it black with silver sulphide.
+
+2
+00:00:08,020 --> 00:00:16,263
+It dissolves in nitric acid and hot concentrated sulphuric acid, but not in dilute hydrochloric or sulphuric acid.
+

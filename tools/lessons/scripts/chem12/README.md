@@ -12,3 +12,4 @@ been checked part by part with frames.py.
 | 4 | Thermodynamics | 20.8 min | cold open, 10 parts (energy in reactions → ΔG and K), recap |
 | 5 | Electrochemistry | 17.7 min | cold open, 7 parts (electrode potential → batteries and fuel cells), recap |
 | 6 | Transition Metals | 17.0 min | cold open, 7 parts (characteristics, oxidation states, complex ions, shapes, crystal field theory, colour, catalysis), recap |
+| 7 | Studies of Heavy Metals | 27.2 min | cold open, 5 parts (copper, zinc, mercury, iron, silver), recap |

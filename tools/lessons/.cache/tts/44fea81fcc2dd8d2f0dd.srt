@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,841
+The anode is a thick plate of impure blister copper.
+
+2
+00:00:03,841 --> 00:00:07,200
+The cathode is a thin sheet of pure copper.
+
+3
+00:00:07,200 --> 00:00:12,083
+The electrolyte is copper sulphate acidified with sulphuric acid.
+
+4
+00:00:12,083 --> 00:00:19,401
+As current flows, the anode dissolves as copper ions, and pure copper deposits on the cathode.
+
