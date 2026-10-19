@@ -1,8 +1,24 @@
 {
  "videos": [
   {
-   "file": "class-12/nep12/unit_01.mp4",
-   "subtitles": "class-12/nep12/unit_01.srt",
+   "id": "class-12/nep12/unit_01.mp4",
+   "file": "class-12/nep12/unit_01.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/nep12/unit_01.part1.mp4",
+     "subtitles": "class-12/nep12/unit_01.part1.srt",
+     "start": 0.0,
+     "end": 718.97,
+     "mb": 18.7
+    },
+    {
+     "file": "class-12/nep12/unit_01.part2.mp4",
+     "subtitles": "class-12/nep12/unit_01.part2.srt",
+     "start": 718.97,
+     "end": 1320.56,
+     "mb": 16.8
+    }
+   ],
    "poster": "class-12/nep12/unit_01.jpg",
    "book": "nep12",
    "grade": 12,
@@ -59,7 +75,7 @@
      "उत्तर लेख्ने ढाँचा"
     ]
    ],
-   "mb": 24.2,
+   "mb": 35.5,
    "script": "tools/lessons/scripts/nep12/unit_01.py"
   },
   {
@@ -187,8 +203,17 @@
    "script": "tools/lessons/scripts/nep12/unit_03.py"
   },
   {
-   "file": "class-12/phy12/unit_01.mp4",
-   "subtitles": "class-12/phy12/unit_01.srt",
+   "id": "class-12/phy12/unit_01.mp4",
+   "file": "class-12/phy12/unit_01.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/phy12/unit_01.part1.mp4",
+     "subtitles": "class-12/phy12/unit_01.part1.srt",
+     "start": 0.0,
+     "end": 1444.06,
+     "mb": 24.4
+    }
+   ],
    "poster": "class-12/phy12/unit_01.jpg",
    "book": "phy12",
    "grade": 12,
