@@ -14,6 +14,7 @@ Every item here is an **original practice item** written to the pattern of the S
 :::
 
 
+
 ```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
 fig, ax = barh_ranked(
     ["Reading items by unit", "Vocabulary items", "Grammar items by unit", "Practice questions"],

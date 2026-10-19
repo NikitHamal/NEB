@@ -161,7 +161,7 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
         subject__icontains=subject_db_val,
     )
 
-    from web.note_syllabus import entries_for, navigation
+    from web.note_syllabus import entries_for, navigation, slug as catalogue_slug
     syllabus_entries = entries_for(grade_db_val, subject_db_val)
 
     grouped_resources = []
@@ -296,7 +296,7 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
     return Response({
         'grade': grade_db_val,
         'subject': subject_db_val,
-        'grade_slug': slugify(grade_db_val),
+        'grade_slug': catalogue_slug(grade_db_val),
         'subject_slug': slugify(subject_db_val),
         'grade_list': grade_list,
         'subject_list': subject_list,

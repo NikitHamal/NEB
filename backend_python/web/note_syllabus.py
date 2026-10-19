@@ -1,4 +1,5 @@
 import json
+import re
 from functools import lru_cache
 from pathlib import Path
 from types import SimpleNamespace
@@ -40,6 +41,8 @@ def categories():
             'chapter_count': len(book['chapters']),
         })
     for grade, subject in SyllabusContent.objects.exclude(grade_level__in=MANAGED_GRADES).values_list('grade_level', 'subject').distinct():
+        if re.fullmatch(r'(?:class|grade)?\s*(8|10|11|12)(?:\s*[/ -]?\s*see)?', grade.strip(), re.I):
+            continue
         groups.setdefault(grade, []).append({'name': subject, 'display_name': subject, 'slug': slug(subject),
                                            'url': f'/subject/{slug(grade)}/{slug(subject)}/', 'chapter_count': 0})
     return [{'grade': grade, 'subjects': sorted(subjects, key=lambda s: s['name']),

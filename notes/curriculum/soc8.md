@@ -1,7 +1,7 @@
-# SUBJECT: Social Studies and Human Value Education | GRADE: 8 | CODE: BEE-8 | WORKING_HOURS: 160
-# EXAM: Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. The written paper asks objective, short-answer and long-answer questions. Practice sets here follow objective (1 mark), short answer (2 marks) and long answer (4 marks) unless your palika's grid says otherwise.
-# TEXTBOOK: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी; शिक्षक निर्देशिका २०८१ संस्करण) — 9 एकाइ, 41 पाठ. Unit titles, lesson titles and working hours are taken from the teacher's guide (2081); lesson titles below are a topic guide, not the official sub-topic text.
-# PART: Units
+# SUBJECT: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | GRADE: 8 | CODE: BEE-8 | WORKING_HOURS: 160
+# EXAM: आधारभूत तह परीक्षा (कक्षा ८) स्थानीय तहले सञ्चालन गर्छ। प्रश्नको सङ्ख्या, अङ्कभार र समयका लागि आफ्नो स्थानीय तहको हालको विशिष्टीकरण तालिका हेर्नुहोस्। यहाँका अभ्यासमा वस्तुगत, छोटो उत्तर र लामो उत्तरका प्रश्न समावेश छन्; यी अभ्यास परीक्षा प्रश्नको पूर्वानुमान होइनन्।
+# TEXTBOOK: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी; शिक्षक निर्देशिका २०८१ संस्करण) — ९ एकाइ, ४१ पाठ। तलका बुँदा अध्ययनका मार्गदर्शक हुन्, आधिकारिक उपशीर्षकको हुबहु प्रतिलिपि होइनन्।
+# PART: एकाइ
 ## 1. हामी र हाम्रो समाज [16]
 - विकासको अवधारणा, महत्त्व र नेपालमा विकासका सम्भावना
 - नेपालको सङ्घीय राज्यको स्वरूप र सिद्धान्त
@@ -28,7 +28,7 @@
 - सामाजिक समस्याको पहिचान
 - सामाजिक विकृति र समस्या समाधानका उपाय
 - सामाजिक समस्या समाधानमा अन्तर्राष्ट्रिय सङ्घसंस्थाको भूमिका
-- द्वन्द्व व्यवस्थापन र साम्यवादी समाज निर्माण
+- द्वन्द्व व्यवस्थापन र समतामूलक समाज निर्माण
 ## 5. हाम्रो विगत [20]
 - नेपाल शब्दको अर्थ र उत्पत्ति
 - प्राचीन नेपालको आर्थिक र सामाजिक अवस्था

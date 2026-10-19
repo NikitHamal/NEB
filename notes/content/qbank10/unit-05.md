@@ -18,6 +18,7 @@ Every item is an original **practice** item written to the CDC pattern. None is 
 :::
 
 
+
 ```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
 fig, ax = barh_ranked(
     ["Sets", "Tax and Money Exchange", "Compound Interest", "Population Growth and Depreciation", "Plane Surfaces", "Cylinder and Sphere", "Prism and Pyramid", "Highest Common Factor and Lowest Common Multiple", "Radical and Surd", "Indices", "Algebraic Fraction", "Equations", "Area of Triangles and Quadrilaterals", "Construction", "Circle", "Trigonometry", "Statistics", "Probability"],

@@ -14,6 +14,7 @@ Read the facts line, answer the ten questions in writing, then check the key. Ma
 :::
 
 
+
 ```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
 fig, ax = barh_ranked(
     ["Office Management and Procedure", "Bank, Insurance and Financial Institutions", "Introduction to Tax", "Business Accounting", "Bank Reconciliation Statement", "Accounting Errors", "Final Account", "System of Government Accounting in Nepal", "Revenue Accounting", "Accounting of Government Expenditure", "Store Accounting", "Fund Accounting and Retention Account", "Internal Control and Auditing", "Agencies Involved in Government Accounting", "Use of Information Technology in Office and Accounting"],

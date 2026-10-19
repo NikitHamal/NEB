@@ -18,6 +18,7 @@ Every question below is an original **practice** question written to the pattern
 :::
 
 
+
 ```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
 fig, ax = barh_ranked(
     ["Scientific Learning", "Classification of Living Beings", "Honey Bee", "Heredity", "Physiological Structure and Life Process", "Nature and Environment", "Motion and Force", "Pressure", "Heat", "Wave", "Electricity and Magnetism", "Universe", "Information and Communication Technology", "Classification of Elements", "Chemical Reaction", "Gases", "Metal and Non-metals", "Hydrocarbon and its Compounds", "Chemicals used in Daily Life"],

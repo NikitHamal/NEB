@@ -1283,7 +1283,7 @@ def parse_sections(text):
             if current_title is not None or current_lines:
                 content = '\n'.join(current_lines).strip()
                 if content:
-                    slug = re.sub(r'[^a-z0-9]+', '-', current_title.lower()).strip('-') if current_title else 'section'
+                    slug = f'section-{len(sections) + 1}'
                     sections.append({'title': current_title, 'content': content, 'id': slug, 'parsed_items': _parse_qa_items(content)})
                 elif current_title:
                     pass
@@ -1295,7 +1295,7 @@ def parse_sections(text):
     if current_title or current_lines:
         content = '\n'.join(current_lines).strip()
         if content:
-            slug = re.sub(r'[^a-z0-9]+', '-', (current_title or 'section').lower()).strip('-')
+            slug = f'section-{len(sections) + 1}'
             sections.append({'title': current_title or 'Overview', 'content': content, 'id': slug, 'parsed_items': _parse_qa_items(content)})
         elif current_title:
             pass

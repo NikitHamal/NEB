@@ -14,6 +14,7 @@ Each set draws its questions from every unit, as the real paper does. Group A is
 :::
 
 
+
 ```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
 fig, ax = barh_ranked(
     ["Model Question Set 1", "Model Question Set 2"],

@@ -46,6 +46,11 @@ class NoteSyllabusTests(SimpleTestCase):
             self.assertTrue(any(s['slug'] == 'optional-mathematics' for s in subjects))
             self.assertEqual(len({s['url'] for c in cats for s in c['subjects']}), 28)
 
+    def test_old_grade_aliases_do_not_restore_replaced_syllabus(self):
+        with patch('api.models.SyllabusContent.objects.exclude') as query:
+            query.return_value.values_list.return_value.distinct.return_value = [('Grade 12', 'English'), ('class 8', 'Nepali')]
+            self.assertEqual([c['grade'] for c in categories()], ['Class 8', 'Class 10 / SEE', 'Class 11', 'Class 12'])
+
     def test_nepali_sections_have_unique_nonempty_anchors(self):
         parts = parse_sections('## विषयवस्तु\n\nपहिलो।\n\n## पाठको सार\n\nदोस्रो।')
         self.assertEqual(len({part['id'] for part in parts}), 2)
