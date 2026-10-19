@@ -12,3 +12,9 @@
     setTimeout(function () { card.hidden = true; }, 320);
   });
 })();
+/* festival decor pauses whenever it is off screen */
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var io = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.parentElement && e.target.parentElement.classList.toggle('is-paused', !e.isIntersecting); }); });
+  document.querySelectorAll('.st-decor').forEach(function (d) { io.observe(d); });
+})();

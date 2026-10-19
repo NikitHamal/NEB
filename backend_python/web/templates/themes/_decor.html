@@ -6,6 +6,8 @@ no JS. Every moving part animates transform/opacity only and stops under reduced
 {% if decor == 'dashain' %}
   <svg class="st-garland" viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="{{ t.path }}" fill="none" stroke="#2e7d32" stroke-width="2"/></svg>
   <div class="st-flowers">{% for d in t.dots %}<i style="--x:{{ d.x }}%;--y:{{ d.y }};--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
+  <i class="st-sun"></i>
+  <div class="st-marigolds">{% for i in "abcdefghijkl" %}<i style="--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
   <i class="st-kite st-kite-1 st-motif-px motif-kite"></i>
   <i class="st-kite st-kite-2 st-motif-px motif-kite"></i>
   <i class="st-kite st-kite-3 st-motif-px motif-kite"></i>
@@ -13,8 +15,11 @@ no JS. Every moving part animates transform/opacity only and stops under reduced
   <svg class="st-garland" viewBox="0 0 1200 90" preserveAspectRatio="none"><path d="{{ t.path }}" fill="none" stroke="#5b3a1a" stroke-width="1.5"/></svg>
   <div class="st-lights">{% for d in t.dots %}<i style="--x:{{ d.x }}%;--y:{{ d.y }};--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
   <div class="st-diyos">{% for i in "abcde" %}<span style="--i:{{ forloop.counter0 }}"><i></i></span>{% endfor %}</div>
+  <div class="st-fireflies">{% for i in "abcdefghijklmnop" %}<i style="--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
+  <svg class="st-rangoli" viewBox="-50 -50 100 100">{% for a in "012345678901" %}<ellipse rx="9" ry="22" cy="-22" transform="rotate({% widthratio forloop.counter0 1 30 %})" fill="{% cycle '#f97316' '#e11d48' '#facc15' '#7c3aed' %}" opacity=".85"/>{% endfor %}<circle r="11" fill="#fde047"/><circle r="5" fill="#e11d48"/></svg>
 {% elif decor == 'holi' %}
   <i class="st-cloud st-cloud-1"></i><i class="st-cloud st-cloud-2"></i><i class="st-cloud st-cloud-3"></i><i class="st-cloud st-cloud-4"></i>
+  <div class="st-puffs">{% for i in "abcdefgh" %}<i style="--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
 {% elif decor == 'gurans' %}
   <div class="st-petals">{% for i in "abcdefghijklmn" %}<i style="--i:{{ forloop.counter0 }}"></i>{% endfor %}</div>
 {% elif decor == 'rain' %}
