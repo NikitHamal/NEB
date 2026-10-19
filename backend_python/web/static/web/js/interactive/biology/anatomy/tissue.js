@@ -77,6 +77,7 @@ export function createTissue(opts = {}) {
 export function setXray(mat, x) {
   mat.userData.uniforms.uXray.value = x;
   const t = x > 0.01;
-  if (mat.transparent !== t) { mat.transparent = t; mat.needsUpdate = true; }
+  if (mat.userData.side0 === undefined) mat.userData.side0 = mat.side;
+  if (mat.transparent !== t) { mat.transparent = t; mat.side = t ? THREE.FrontSide : mat.userData.side0; mat.needsUpdate = true; }
   mat.depthWrite = !t;
 }

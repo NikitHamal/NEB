@@ -38,6 +38,11 @@ export function surfaceNets(sdf, bounds, cell, opts = {}) {
       }
     }
   }
+  return meshFromField(field, nx, ny, nz, [x0, y0, z0], cell, sdf, opts);
+}
+
+export function meshFromField(field, nx, ny, nz, origin, cell, sdf = null, opts = {}) {
+  const [x0, y0, z0] = origin;
   const idx = (i, j, k) => (k * ny + j) * nx + i;
   const cellIndex = new Int32Array((nx - 1) * (ny - 1) * (nz - 1)).fill(-1);
   const cid = (i, j, k) => (k * (ny - 1) + j) * (nx - 1) + i;
@@ -102,7 +107,7 @@ export function surfaceNets(sdf, bounds, cell, opts = {}) {
   for (let vi = 0; vi < count; vi++) {
     let x = P[vi * 3]; let y = P[vi * 3 + 1]; let z = P[vi * 3 + 2];
     let gx = 0; let gy = 0; let gz = 0;
-    if (steps < 0 || opts.gridNormals !== false) {
+    if (!sdf || opts.gridNormals !== false) {
       const fx = (x - x0) / cell; const fy = (y - y0) / cell; const fz = (z - z0) / cell;
       const i0 = Math.floor(fx); const j0 = Math.floor(fy); const k0 = Math.floor(fz);
       const tx = fx - i0; const ty = fy - j0; const tz = fz - k0;
