@@ -124,6 +124,75 @@ $0.6+0.4=1$ ✓. The answer must lie between 6 hours (if both were as fast as th
 first) and 12 hours.
 :::
 
+::: example Provisions for soldiers
+**Problem.** A barrack has food for 200 soldiers for 30 days. How many soldiers
+must be transferred so that the food lasts 40 days?
+
+**Solution.** Fewer soldiers → food lasts longer: **inverse** variation.
+Food $=200\times30=6000$ soldier-days.
+Soldiers who can be fed for 40 days $=\frac{6000}{40}=150$.
+Soldiers to transfer $=200-150=$ **50**.
+:::
+
+::: example Workers to be added
+**Problem.** 20 workers can finish a job in 15 days. How many more workers must
+be added to finish it in 12 days?
+
+**Solution.** Work $=20\times15=300$ worker-days. Workers needed for 12 days
+$=\frac{300}{12}=25$. Workers to add $=25-20=$ **5**.
+:::
+
+### 6.2.1 Problems with three quantities (compound variation)
+
+When three quantities change at once, compare the unknown with **each other
+quantity separately**, keeping the rest fixed, and decide direct (D) or
+inverse (I) each time. Then:
+
+- for a **direct** pair, multiply by the new value over the old value;
+- for an **inverse** pair, multiply by the old value over the new value.
+
+::: example Income of workers (both direct)
+**Problem.** 10 people earn Rs 1,60,000 in 20 days. How much will 15 people earn
+in 10 days at the same rate?
+
+**Solution.**
+
+| People | Days | Income (Rs) |
+|---|---|---|
+| 10 | 20 | 1,60,000 |
+| 15 | 10 | $x$ |
+
+More people → more income (D). More days → more income (D).
+
+$$x=1\,60\,000\times\frac{15}{10}\times\frac{10}{20}=1\,20\,000$$
+
+**Unitary check.** One person in one day earns
+$\frac{1\,60\,000}{10\times20}=$ Rs 800; 15 people in 10 days earn
+$800\times15\times10=$ Rs 1,20,000 ✓.
+:::
+
+::: example Length of wall
+**Problem.** 30 workers build a 600 m wall in 20 days. How long a wall will 15
+workers build in 18 days?
+
+**Solution.** Workers and length: D. Days and length: D.
+
+$$x=600\times\frac{15}{30}\times\frac{18}{20}=270\text{ m}$$
+:::
+
+::: example Hours per day (inverse pairs)
+**Problem.** 10 people build a bamboo shelter in 14 days working 8 hours a day.
+How many hours a day must 7 people work to build the same shelter in 16 days?
+
+**Solution.** Fewer people → more hours per day (I). More days → fewer hours
+per day (I).
+
+$$x=8\times\frac{10}{7}\times\frac{14}{16}=\frac{8\times10\times14}{7\times16}=10\text{ hours}$$
+
+**Check.** Total work $=10\times14\times8=1120$ person-hours, and
+$7\times16\times10=1120$ ✓.
+:::
+
 ## 6.3 Time, speed and distance
 
 $$\text{speed}=\frac{\text{distance}}{\text{time}},\qquad
@@ -183,7 +252,7 @@ or fall when the first rises?** Answer that, and the arithmetic follows.
 ```figure caption="Direct and inverse variation. In direct variation the ratio y/x stays constant (a straight line through the origin); in inverse variation the product xy stays constant (a curve)."
 x = np.linspace(1, 10, 100)
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.0, 2.5))
-ax1.plot(x, 2.0 * x, color=SERIES[0], linewidth=2)
+ax1.plot([0, 10], [0, 20], color=SERIES[0], linewidth=2)
 ax1.set_title("Direct:  $y = kx$", fontsize=8.5, color=INK)
 ax2.plot(x, 20.0 / x, color=SERIES[3], linewidth=2)
 ax2.set_title("Inverse:  $xy = k$", fontsize=8.5, color=INK)
@@ -195,6 +264,9 @@ for ax in (ax1, ax2):
     for s in ("top", "right"):
         ax.spines[s].set_visible(False)
     ax.tick_params(colors=MUTED, labelsize=7.5)
+    ax.set_xticks([2, 4, 6, 8, 10])
+    ax.set_yticks([5, 10, 15, 20])
+    ax.set_xlim(0, 10.5); ax.set_ylim(0, 21)
 fig.tight_layout()
 ```
 
@@ -229,6 +301,8 @@ way? Is the biggest pack always the better buy for a small family?
 ## Chapter summary
 
 - In direct variation, find the value of one unit by division and multiply.
+- With three quantities, compare the unknown with each one separately
+  (D: new/old, I: old/new) and multiply.
 - In inverse variation, find the constant total (man-days, man-hours,
   speed × time) and divide by the new value.
 - $\text{total work}=\text{workers}\times\text{days}$; with hours,
@@ -317,27 +391,20 @@ the car has travelled 6 hours at 60 km/h $=360$ km ✓. Both cover the same
 distance, as they must at the meeting point.
 :::
 
-**Extra practice**
+**Extra practice — textbook-style questions**
 
-**Group B (2 marks)**
-
-**11.** If 8 pipes fill a tank in 18 hours, how long will 12 such pipes take?
-**12.** A car covers 180 km in 3 hours. At the same speed, how far will it go in
-    5 hours?
-
-**Group C (4 marks)**
-
-**13.** 20 workers can finish a job in 15 days. After 6 days, 5 workers leave. In
-    how many more days will the remaining workers finish the job?
+**1.** Write D (direct) or I (inverse): (a) diameter of a circle and its circumference (b) number of students in a hostel and the number of days the food lasts (c) speed of a vehicle and time for a fixed distance.
+**2.** If 4 dozen pens cost Rs 576, how many pens can be bought for Rs 228?
+**3.** 12 workers can do a job in 14 days. If 21 more workers are added, how many days will the job take?
+**4.** 4 men earn Rs 28,000 in 10 days. How much will 6 men earn in 15 days?
+**5.** 20 workers can finish a job in 15 days. After 6 days, 5 workers leave. In how many more days will the rest finish it?
 
 ::: note Extra practice — answers
-**11.** Inverse: $8 \times 18 = 12 \times t$, so $t = \frac{144}{12} = 12$ hours.
-**12.** Direct: speed $= 60$ km/h, so distance $= 60 \times 5 = 300$ km.
-**13.** Total work $= 20 \times 15 = 300$ worker-days.
-Work done in 6 days $= 20 \times 6 = 120$ worker-days.
-Work left $= 300 - 120 = 180$ worker-days.
-Workers left $= 20 - 5 = 15$.
-Days needed $= \frac{180}{15} = \textbf{12 days}$.
+**1.** (a) D (b) I (c) I.
+**2.** 48 pens cost Rs 576, so 1 pen costs Rs 12; Rs 228 buys $228\div12=19$ pens.
+**3.** Work $=12\times14=168$ worker-days; with $12+21=33$ workers, days $=\frac{168}{33}=5\frac{1}{11}\approx5.09$ days.
+**4.** One man per day earns $\frac{28\,000}{4\times10}=$ Rs 700; $700\times6\times15=$ Rs 63,000.
+**5.** Total $=300$ worker-days; done in 6 days $=120$; left $=180$; 15 workers need $\frac{180}{15}=12$ more days.
 :::
 
 ## Objective practice

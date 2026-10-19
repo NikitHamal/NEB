@@ -88,7 +88,7 @@ $$\text{angle}=\frac{\text{frequency}}{\text{total}}\times360°$$
 fig, ax = plt.subplots(figsize=(4.6, 2.8))
 labels = ["0-20", "20-40", "40-60", "60-80", "80-100"]
 vals = [2, 6, 11, 8, 3]
-colors = [MUTED, SERIES[0], ACCENT, SERIES[1], SERIES[2]]
+colors = [MUTED, SERIES[3], ACCENT, SERIES[1], SERIES[2]]
 ax.pie(vals, labels=labels, colors=colors, autopct="%1.0f%%", startangle=90,
        textprops=dict(fontsize=7.0, color=INK), wedgeprops=dict(lw=0.8, ec="white"))
 ax.set_aspect("equal")
@@ -152,20 +152,21 @@ import numpy as np
 fig, ax = plt.subplots(figsize=(5.0, 2.5))
 data = [2, 3, 3, 5, 12]
 ax.plot([0, 14], [1.0, 1.0], color=INK, lw=1.4)
-for v in data:
-    ax.plot([v], [1.0], "o", color=ACCENT, ms=6)
+for v in sorted(set(data)):
+    for k in range(data.count(v)):
+        ax.plot([v], [1.0 + 0.16 * k], "o", color=ACCENT, ms=6)
 mean = sum(data) / len(data)
 med = sorted(data)[len(data) // 2]
 for v, name, c, y in [(mean, "mean 5", SERIES[1], 1.5), (med, "median 3", SERIES[2], 1.9),
                       (3, "mode 3", SERIES[3], 2.3)]:
     ax.plot([v, v], [1.0, y - 0.08], color=c, lw=1.2, ls="--")
-    ax.text(v, y, name, ha="center", fontsize=7.0, color=c)
-for v in data:
-    ax.text(v, 0.75, str(v), ha="center", fontsize=7.0, color=INK)
+    ax.text(v + 0.15, y, name, ha="left", fontsize=8.0, color=c)
+for v in sorted(set(data)):
+    ax.text(v, 0.75, str(v), ha="center", fontsize=8.0, color=INK)
 ax.set_xlim(-0.5, 14)
 ax.set_ylim(0.4, 2.7)
 ax.axis("off")
-ax.text(7, 0.45, "mean = sum/number = 25/5", ha="center", fontsize=6.6, color=MUTED)
+ax.text(7, 0.45, "mean = sum ÷ number = 25 ÷ 5 = 5", ha="center", fontsize=8.0, color=MUTED)
 fig.tight_layout()
 ```
 
@@ -228,6 +229,36 @@ can move it a long way. Whenever a set contains an outlier, report the median as
 well, and say which one you are using and why.
 :::
 
+::: example Finding a missing value from the mean
+**Problem.** Five houses scored 14, 16, 18, $a$ and 17 points in an
+inter-house volleyball competition. The mean score is 16. Find $a$.
+
+**Solution.** $\sum X=14+16+18+a+17=65+a$ and $n=5$.
+
+$$\bar X=\frac{\sum X}{n}\;\Longrightarrow\;16=\frac{65+a}{5}$$
+
+$80=65+a$, so $a=15$.
+
+**Check.** $\frac{14+16+18+15+17}{5}=\frac{80}{5}=16$ ✓.
+:::
+
+::: example Finding a missing value from the median
+**Problem.** The values $x$, $x+2$, $x+5$, $x+7$, $x+8$ are in ascending order
+and their median is 15. Find $x$.
+
+**Solution.** $n=5$ (odd), so the median is the $\frac{5+1}{2}=3$rd value,
+which is $x+5$. So $x+5=15$ and $x=10$.
+:::
+
+::: example Median of an even number of values (with units)
+**Problem.** The weights of 8 students are 45, 39, 52, 50, 41, 48, 60 and 43 kg.
+Find the median weight.
+
+**Solution.** In ascending order: 39, 41, 43, 45, 48, 50, 52, 60. $n=8$ (even),
+so the median is the mean of the $\frac n2=4$th and $\left(\frac n2+1\right)=5$th
+values: $Md=\frac{45+48}{2}=46.5$ kg.
+:::
+
 ### 21.3.1 A frequency table with classes
 
 When the data are grouped into classes, use the **mid-value** of each class as
@@ -245,12 +276,10 @@ the representative value.
 $$\bar x=\frac{\sum fm}{\sum f}=\frac{1580}{30}\approx52.67$$
 
 The **modal class** is the class with the highest frequency — here 40–60 — and
-for a grouped table that is what "mode" means. The median class is the class in
-which the $\frac{n+1}{2}$th value falls; here $\frac{31}{2}=15.5$, and the
-cumulative frequencies (2, 8, 19, …) show that the 15.5th value lies in the
-class 40–60.
+for a grouped table that is what "mode" means. (Grouped data are studied fully in Grade 9; in Grade 8 the
+exam asks for the mean, median and mode of an **individual series**.)
 
-## 21.5 Choosing the right average
+## 21.4 Choosing the right average
 
 Mean, median and mode answer different questions. The examiner often asks
 **which** average is suitable, and that is a reasoning mark.
@@ -265,7 +294,7 @@ Mean, median and mode answer different questions. The examiner often asks
 wages = [500, 550, 600, 650, 700, 5000]
 mean = sum(wages) / len(wages)
 med = (600 + 650) / 2
-fig, ax = plt.subplots(figsize=(5.4, 2.6))
+fig, ax = plt.subplots(figsize=(5.0, 2.6))
 ax.scatter(wages, [1] * len(wages), s=70, color=SERIES[0], zorder=3)
 ax.axvline(mean, color=SERIES[1], linewidth=1.6,
            label=f"mean = Rs {mean:,.0f}")
@@ -360,7 +389,6 @@ Write three sentences on which average describes your data best and why.
    students does it represent? <span class="marks">[2]</span>
 4. The temperatures for a week were 20°, 22°, 21°, 23°, 25°, 24°, 26°. Find the
    mean temperature. <span class="marks">[2]</span>
-:::
 
 ::: note Answers to Group B
 **1.** $\frac{12+15+18+20+25}{5}=\frac{90}{5}=18$.
