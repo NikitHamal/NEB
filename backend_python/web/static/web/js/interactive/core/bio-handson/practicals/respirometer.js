@@ -191,7 +191,7 @@ export function create(ctx) {
   const stepRun = {
     title: 'Read every 2 minutes for 10 minutes', text: 'Run the clock 2 minutes, then read both index drops. Five sets.', tool: null, autoTool: 'hand', hideBelt: true, shot: SET,
     enter() {
-      graph.show(true); drawGraph();
+      graph.show(ctx.stage.clientWidth > 640); drawGraph();
       timer = timelapse(ctx, { step: 2, unit: 'min', onTick: (m, done) => {
         const dt = m - elapsed; elapsed = m;
         tubes.forEach((t, i) => { t.pos -= v[i] * dt * (1 + (R() - 0.5) * 0.12); placeDrop(i); });
