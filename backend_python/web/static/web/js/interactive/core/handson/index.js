@@ -26,6 +26,7 @@ const PRACTICALS = {
   'prism-minimum-deviation': () => import('./practicals/prism.js'),
   'organic-functional-groups': () => import('./practicals/organic.js'),
   'lassaigne-test': () => import('./practicals/lassaigne.js'),
+  'salt-analysis-scheme': () => import('./practicals/salt-analysis.js'),
   'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
