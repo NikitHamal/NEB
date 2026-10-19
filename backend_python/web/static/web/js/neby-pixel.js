@@ -23,7 +23,7 @@
     'talk': [8, 95], 'listen': [8, 140], 'read': [14, 140], 'sleep': [12, 140], 'wave': [10, 110],
     'hop': [12, 72], 'wink': [10, 110], 'love': [12, 110], 'kiss': [12, 110], 'laugh': [10, 80],
     'cool': [10, 120], 'surprised': [10, 80], 'sad': [12, 130], 'dizzy': [12, 100], 'oops': [10, 100],
-    'success': [12, 80], 'celebrate': [14, 85], 'tika': [18, 120], 'kite': [16, 130], 'swing': [16, 90],
+    'success': [12, 80], 'celebrate': [14, 85], 'tika': [24, 110], 'kite': [16, 130], 'swing': [16, 90],
     'diyo': [12, 110], 'deusi': [12, 95], 'splash': [16, 90], 'fireworks': [16, 100], 'namaste': [12, 120]
   };
   var LOOKS = ['classic', 'dashain', 'tihar', 'holi', 'teej', 'losar', 'new-year', 'christmas', 'monsoon', 'winter',

@@ -160,39 +160,6 @@ fun ProfileBanner(
                         )
                     )
                 }
-
-                if (decoText.isNotBlank()) {
-                    // A rule and a tracked word, bottom-right: the corner the
-                    // avatar and the primary action both leave empty.
-                    Column(
-                        modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(end = 18.dp, bottom = 16.dp),
-                        horizontalAlignment = Alignment.End,
-                        verticalArrangement = Arrangement.Bottom
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .width(26.dp)
-                                .height(1.dp)
-                                .drawBehind {
-                                    drawRect(color = palette.accent.copy(alpha = 0.55f))
-                                }
-                        )
-                        Text(
-                            text = decoText.uppercase(),
-                            modifier = Modifier.padding(top = 6.dp),
-                            color = palette.ink.copy(alpha = 0.60f),
-                            fontFamily = Poppins,
-                            fontWeight = FontWeight.SemiBold,
-                            fontSize = 10.sp,
-                            letterSpacing = 0.34.em,
-                            maxLines = 1,
-                            overflow = TextOverflow.Clip,
-                            softWrap = false
-                        )
-                    }
-                }
             }
         }
     }

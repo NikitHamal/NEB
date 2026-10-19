@@ -63,3 +63,6 @@
 .st-kite-3.st-motif-px{width:32px;height:32px;filter:hue-rotate(210deg) saturate(1.2);animation-duration:var(--d,1s),13s}
 .st-decor.is-compact .st-kite.st-motif-px{width:32px;height:32px}
 @media (prefers-reduced-motion:reduce){.px-sprite,.st-motif-px{animation:none}}
+/* profile covers are 3:1 but the card is narrower: keep the right of the scene (where Neby sits on the bot cover) in frame */
+.neb-art > img.neb-pixel-cover { object-position: 74% 50%; }
+.pf-banner-deco-text { display: none; }
