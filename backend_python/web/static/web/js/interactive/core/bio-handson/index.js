@@ -33,6 +33,7 @@ const PRACTICALS = {
   'human-skeleton-joints': () => import('./practicals/skeleton.js'),
   'soil-microorganism-culture': () => import('./practicals/culture.js'),
   'biofertilizer-preparation': () => import('./practicals/biofert.js'),
+  'soil-analysis-sites': () => import('./practicals/soil.js'),
   'skeleton-joints-health-disorders': () => import('./practicals/skeleton.js'),
   'quadrat-frequency-field': () => import('./practicals/quadrat.js'),
   'apical-bud-removal-setup': () => import('./practicals/tropism.js'),
