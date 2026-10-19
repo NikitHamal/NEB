@@ -20,6 +20,7 @@ const PRACTICALS = {
   'flame-tests': () => import('./practicals/flame-tests.js'),
   'spherometer': () => import('./practicals/spherometer.js'),
   'coefficient-of-friction': () => import('./practicals/friction.js'),
+  'specific-heat-mixtures': () => import('./practicals/specific-heat.js'),
   'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
