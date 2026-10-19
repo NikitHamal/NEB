@@ -21,6 +21,9 @@ import json
 import logging
 import os
 import re
+import threading
+import time
+from concurrent.futures import ThreadPoolExecutor
 from typing import Dict, List, Optional
 from urllib.parse import urljoin
 
@@ -298,11 +301,7 @@ def _audio_url_from_payload(base: str, payload) -> Optional[str]:
     return None
 
 
-def _fetch_hls(sess, playlist_url: str):
-    pr = sess.get(playlist_url, timeout=120)
-    if pr.status_code != 200:
-        raise RuntimeError(f"playlist HTTP {pr.status_code}")
-    playlist = pr.text
+def _parse_playlist(playlist_url: str, playlist: str):
     segments = []
     duration = 0.0
     for line in playlist.splitlines():
@@ -318,15 +317,44 @@ def _fetch_hls(sess, playlist_url: str):
         if line.startswith("#"):
             continue
         segments.append(urljoin(playlist_url, line))
+    return segments, duration
+
+
+def _fetch_hls(sess, playlist_url: str):
+    deadline = time.time() + 30
+    segments, duration = [], 0.0
+    while time.time() < deadline:
+        try:
+            pr = sess.get(playlist_url, timeout=120)
+        except Exception:
+            pr = None
+        if pr is not None and pr.status_code == 200:
+            segs, dur = _parse_playlist(playlist_url, pr.text)
+            if len(segs) >= len(segments):
+                segments, duration = segs, dur
+            if "#EXT-X-ENDLIST" in pr.text and segments:
+                break
+        elif segments:
+            break
+        time.sleep(0.75)
     if not segments:
         raise RuntimeError("playlist had no segments")
-    blob = bytearray()
-    for seg_url in segments:
-        sr = sess.get(seg_url, timeout=120)
+
+    local = threading.local()
+
+    def fetch(index_url):
+        index, seg_url = index_url
+        if not getattr(local, "sess", None):
+            local.sess = _session()
+        sr = local.sess.get(seg_url, timeout=120)
         if sr.status_code != 200 or not sr.content:
             raise RuntimeError(f"segment HTTP {sr.status_code}")
-        blob.extend(sr.content)
-    return bytes(blob), round(duration, 2) if duration else None
+        return index, sr.content
+
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        parts = sorted(pool.map(fetch, enumerate(segments)))
+    blob = b"".join(content for _, content in parts)
+    return blob, round(duration, 2) if duration else None
 
 
 def _api_generate(text: str, voice: str = "", api_model: str = "s2.1-pro-free") -> Dict:
