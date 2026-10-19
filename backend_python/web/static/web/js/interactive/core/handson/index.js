@@ -19,6 +19,7 @@ const PRACTICALS = {
   'electrolysis-cuso4': () => import('./practicals/electrolysis.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
   'spherometer': () => import('./practicals/spherometer.js'),
+  'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
 export function hasHandsOn(slug) { return Object.prototype.hasOwnProperty.call(PRACTICALS, slug); }
