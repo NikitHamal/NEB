@@ -35,6 +35,7 @@ const PRACTICALS = {
   'biofertilizer-preparation': () => import('./practicals/biofert.js'),
   'soil-analysis-sites': () => import('./practicals/soil.js'),
   'pond-ecosystem-botany': () => import('./practicals/pond.js'),
+  'mushroom-identification': () => import('./practicals/mushroom.js'),
   'pond-ecosystem-zoology': () => import('./practicals/pond.js'),
   'skeleton-joints-health-disorders': () => import('./practicals/skeleton.js'),
   'quadrat-frequency-field': () => import('./practicals/quadrat.js'),
