@@ -185,7 +185,7 @@ export function create(ctx) {
   const steps = [
     {
       title: 'Angle of repose', text: 'Drag the <b>free end of the plank</b> upwards to tilt it, <b>slowly</b>. The moment the block starts to slide, stop and tap the <b>quadrant</b> where the red pointer crosses it. Three trials.', hint: 'Near the slipping point raise it a degree at a time. The block starts from the top each trial.', shot: SHOT_INC, hideBelt: true,
-      enter() { setTheta(0); st.s = LEN - 0.8; placeBlock(); anim.wait(0.4, () => ctx.rig.go(SHOT_INC, 0.6)); },
+      enter() { setTheta(0); st.s = LEN - 0.8; placeBlock(); },
       exit() { hud.actions([]); quadMark.visible = false; },
       skip() { while (st.trials.length < 3) { trialMu(); st.trials.push(Math.round(THREE.MathUtils.radToDeg(Math.atan(st.muTrial)) * 2) / 2); } setTheta(0); st.locked = false; st.slipping = false; },
       update(dt) { inclineUpdate(dt); },

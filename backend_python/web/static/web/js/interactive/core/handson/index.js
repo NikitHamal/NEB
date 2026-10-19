@@ -22,6 +22,7 @@ const PRACTICALS = {
   'coefficient-of-friction': () => import('./practicals/friction.js'),
   'specific-heat-mixtures': () => import('./practicals/specific-heat.js'),
   'heat-of-neutralization': () => import('./practicals/neutralization.js'),
+  'galvanometer-figure-of-merit': () => import('./practicals/galvanometer.js'),
   'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
@@ -33,6 +34,7 @@ export function startHandsOn(stage, slug, preset) {
   PRACTICALS[slug]().then((mod) => {
     if (disposed) return;
     handle = runPractical(stage, config, mod);
+    setTimeout(() => { const c = handle && handle.ctx; if (!disposed && c && c.step && c.step.shot && c.stepIndex === 0) c.rig.go(c.step.shot, 0.8); }, 700);
   }).catch((err) => { console.error('Hands-on practical failed to load:', err); });
   return { dispose() { disposed = true; if (handle) handle.dispose(); } };
 }
