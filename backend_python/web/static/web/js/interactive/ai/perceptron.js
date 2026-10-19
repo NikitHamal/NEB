@@ -1,214 +1,139 @@
-import { createCanvas2D, pointerPos } from '../core/canvas2d.js';
-import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
-import { panelBg, labelText } from '../biology/bio-utils.js';
+/**
+ * Line of decision — two kinds of points described by two features. Drag the ends of your own
+ * line to separate them (its accuracy is counted live), then let a perceptron learn its own line:
+ * each step takes one misclassified point and nudges the weights, w ← w + η·y·x, and the weight
+ * vector (drawn as an arrow) always stands perpendicular to the line. On data that no straight
+ * line can split (XOR) the perceptron never settles.
+ */
+import { createKit, T, Spring, fmt, clamp, text, pill, withAlpha, card, knob, arrow } from '../core/kit2d.js';
+import { createPanel, createHud } from '../core/sim-ui.js';
+
+const MAXN = 120;
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const k = createKit(stage, { label: 'Points of two classes, a draggable dividing line and a perceptron' });
   const hud = createHud(stage);
-  const accBadge = hud.badge('Accuracy: —', '#a3e635');
+  const badge = hud.badge('Drag the ends of the line to split the colours', '#7c3aed');
 
-  // Two classes of points
-  let points = [];
-  function makeData(kind) {
-    points = [];
-    if (kind === 'linear') {
-      // two separable blobs
-      for (let i = 0; i < 12; i++) {
-        points.push({ x: 0.25 + (Math.random() - 0.5) * 0.25, y: 0.7 + (Math.random() - 0.5) * 0.25, c: 1 });
-        points.push({ x: 0.75 + (Math.random() - 0.5) * 0.25, y: 0.3 + (Math.random() - 0.5) * 0.25, c: 0 });
-      }
-    } else {
-      // XOR-like (not linearly separable)
-      for (let i = 0; i < 8; i++) {
-        points.push({ x: 0.25 + (Math.random() - 0.5) * 0.18, y: 0.25 + (Math.random() - 0.5) * 0.18, c: 1 });
-        points.push({ x: 0.75 + (Math.random() - 0.5) * 0.18, y: 0.75 + (Math.random() - 0.5) * 0.18, c: 1 });
-        points.push({ x: 0.25 + (Math.random() - 0.5) * 0.18, y: 0.75 + (Math.random() - 0.5) * 0.18, c: 0 });
-        points.push({ x: 0.75 + (Math.random() - 0.5) * 0.18, y: 0.25 + (Math.random() - 0.5) * 0.18, c: 0 });
+  const px = new Float64Array(MAXN), py = new Float64Array(MAXN), lab = new Int8Array(MAXN);
+  let n = 0, cls = 1, preset = 'sep';
+  const mine = { ax: -0.8, ay: -0.6, bx: 0.8, by: 0.5 };
+  let w1 = 0.1, w2 = -0.3, b = 0.05, eta = 0.2, steps = 0, epochErr = 0, running = false, cursor = 0, lastPick = -1, pickFlash = 0, sinceErr = 0, acc = 0;
+  const show = { w1: new Spring(w1, 120, 16), w2: new Spring(w2, 120, 16), b: new Spring(b, 120, 16) };
+  let tick = 0;
+
+  const panel = createPanel(stage, { title: 'Perceptron' });
+  panel.chips({ label: 'Data', options: [{ value: 'sep', label: 'Separable' }, { value: 'overlap', label: 'Overlapping' }, { value: 'xor', label: 'XOR' }], value: 'sep', onChange: (v) => { preset = v; makeData(); } });
+  panel.chips({ label: 'Tap to add', options: [{ value: '1', label: 'orange', color: '#f08c00' }, { value: '-1', label: 'blue', color: '#2563eb' }], value: '1', onChange: (v) => { cls = +v; } });
+  const [runB] = panel.buttonRow([{ label: 'Learn', icon: 'play_arrow', onClick: () => { running = !running; runB.setLabel(running ? 'Pause' : 'Learn'); k.animate(true); } }, { label: 'One step', icon: 'skip_next', variant: 'ghost', onClick: () => { stepOnce(); k.animate(true); } }]);
+  panel.button({ label: 'Forget (random weights)', icon: 'refresh', variant: 'ghost', onClick: () => { w1 = Math.random() - 0.5; w2 = Math.random() - 0.5; b = Math.random() * 0.4 - 0.2; steps = 0; sinceErr = 0; k.animate(true); } });
+  panel.slider({ label: 'Learning rate η', min: 0.02, max: 1, step: 0.02, value: eta, format: (v) => v.toFixed(2), onChange: (v) => { eta = v; } });
+  const st = panel.stats([{ key: 'mine', label: 'Your line' }, { key: 'perc', label: 'Perceptron' }, { key: 'w', label: 'Weights w₁, w₂, b' }, { key: 'steps', label: 'Updates' }]);
+  panel.info('The two features are the inputs x₁ and x₂. The perceptron outputs orange when w₁x₁ + w₂x₂ + b > 0 and blue otherwise, so its boundary is the straight line w₁x₁ + w₂x₂ + b = 0.');
+
+  function makeData() {
+    n = 0;
+    const add = (x, y, c) => { if (n < MAXN) { px[n] = clamp(x, -0.95, 0.95); py[n] = clamp(y, -0.95, 0.95); lab[n] = c; n++; } };
+    const g = () => (Math.random() + Math.random() + Math.random() - 1.5) * 0.5;
+    for (let i = 0; i < 40; i++) {
+      if (preset === 'sep') { add(-0.4 + g(), 0.35 + g(), 1); add(0.4 + g(), -0.35 + g(), -1); }
+      else if (preset === 'overlap') { add(-0.2 + g() * 1.6, 0.2 + g() * 1.6, 1); add(0.2 + g() * 1.6, -0.2 + g() * 1.6, -1); }
+      else { const x = Math.random() * 1.8 - 0.9, y = Math.random() * 1.8 - 0.9; if (Math.abs(x) > 0.08 && Math.abs(y) > 0.08) add(x, y, x * y > 0 ? 1 : -1); }
+    }
+    steps = 0; sinceErr = 0; cursor = 0; k.animate(true);
+  }
+  function predict(i) { return w1 * px[i] + w2 * py[i] + b > 0 ? 1 : -1; }
+  function stepOnce() {
+    for (let t = 0; t < n; t++) {
+      const i = (cursor + t) % n;
+      if (predict(i) !== lab[i]) {
+        w1 += eta * lab[i] * px[i]; w2 += eta * lab[i] * py[i]; b += eta * lab[i];
+        steps++; cursor = (i + 1) % n; lastPick = i; pickFlash = 1; sinceErr = 0;
+        return true;
       }
     }
+    sinceErr++;
+    return false;
   }
-  makeData('linear');
+  function accLine(f) { if (!n) return 0; let ok = 0; for (let i = 0; i < n; i++) if (f(px[i], py[i]) === lab[i]) ok++; return ok / n; }
+  const mineF = (x, y) => ((mine.bx - mine.ax) * (y - mine.ay) - (mine.by - mine.ay) * (x - mine.ax) > 0 ? 1 : -1);
 
-  // Manual line: y = m*x + b, in 0..1 space; and an auto perceptron
-  let lineM = -1; let lineB = 1.0;
-  let autoLine = null; // {w1,w2,b} — decision: w1*x + w2*y + b >= 0 -> class 1
-  let useAuto = false;
-  let autoAcc = 0;
+  let bx = 0, by = 0, bs = 100;
+  k.onResize((w, h) => { if (k.small) { bs = Math.min(w - 24, h - 70); bx = (w - bs) / 2; by = 46; } else { bs = Math.min(h - 70, w * 0.66); bx = (w - bs) / 2 - 60; by = 46; } });
+  const X = (v) => bx + (v + 1) / 2 * bs, Y = (v) => by + (1 - (v + 1) / 2) * bs, IX = (p) => (p - bx) / bs * 2 - 1, IY = (p) => 1 - (p - by) / bs * 2;
 
-  function autoClassify(p, l) {
-    if (!l) return 0;
-    return (l.w1 * p.x + l.w2 * p.y + l.b) >= 0 ? 1 : 0;
-  }
-  function trainAuto() {
-    if (!autoLine) autoLine = { w1: Math.random() - 0.5, w2: Math.random() - 0.5, b: 0 };
-    for (let iter = 0; iter < 200; iter++) {
-      const p = points[Math.floor(Math.random() * points.length)];
-      const pred = autoClassify(p, autoLine) ? 1 : 0;
-      const err = p.c - pred;
-      const lr = 0.05;
-      autoLine.w1 += lr * err * p.x;
-      autoLine.w2 += lr * err * p.y;
-      autoLine.b += lr * err;
-    }
-    // accuracy
-    let correct = 0;
-    points.forEach((p) => { if (autoClassify(p, autoLine) === p.c) correct++; });
-    autoAcc = correct / points.length;
-  }
-
-  const panel = createPanel(stage, { title: 'Drawing the Line' });
-  panel.info('A classifier separates groups by drawing a boundary. Drag the white line to separate red and blue. Or press Auto-train and let a perceptron learn the line itself.');
-  panel.select({
-    label: 'Dataset', value: 'linear',
-    options: [{ value: 'linear', label: 'Linearly separable' }, { value: 'xor', label: 'XOR (not separable)' }],
-    onChange: (v) => { makeData(v); autoLine = null; autoAcc = 0; },
+  const hA = k.drag({ hit: (x, y, s) => { const d = Math.hypot(x - X(mine.ax), y - Y(mine.ay)); return d < 12 + s ? d : false; }, move: (x, y) => { mine.ax = clamp(IX(x), -1, 1); mine.ay = clamp(IY(y), -1, 1); } });
+  const hB = k.drag({ hit: (x, y, s) => { const d = Math.hypot(x - X(mine.bx), y - Y(mine.by)); return d < 12 + s ? d : false; }, move: (x, y) => { mine.bx = clamp(IX(x), -1, 1); mine.by = clamp(IY(y), -1, 1); } });
+  let held = -1;
+  k.drag({
+    hit: (x, y, s) => { let best = false; for (let i = 0; i < n; i++) { const d = Math.hypot(x - X(px[i]), y - Y(py[i])); if (d < 8 + s && (best === false || d < best)) best = d + 1; } return best; },
+    down: (x, y) => { let bd = 1e9; for (let i = 0; i < n; i++) { const d = Math.hypot(x - X(px[i]), y - Y(py[i])); if (d < bd) { bd = d; held = i; } } },
+    move: (x, y) => { if (held >= 0) { px[held] = clamp(IX(x), -1, 1); py[held] = clamp(IY(y), -1, 1); sinceErr = 0; } },
+    up: () => { held = -1; },
   });
-  panel.button({ label: 'Auto-train perceptron', icon: 'model_training', onClick: () => { useAuto = true; trainAuto(); } });
-  panel.toggle({ label: 'Keep training', value: false, onChange: (v) => { useAuto = v; if (v && !autoLine) trainAuto(); } });
-  panel.divider();
-  const accOut = panel.readout({ label: 'Accuracy', value: '—' });
-  panel.button({ label: 'Why can\'t one line solve XOR?', icon: 'menu_book', variant: 'ghost', onClick: () => {
-    showInfoCard(stage, {
-      title: 'The XOR problem',
-      body: 'XOR arranges four points so no single straight line can separate them. A single perceptron provably cannot solve it. The fix is a hidden layer — several perceptrons whose lines combine into a curved boundary.',
-      color: '#6366F1',
-    });
-  } });
+  k.onTap((x, y) => { if (x > bx && x < bx + bs && y > by && y < by + bs && n < MAXN) { px[n] = IX(x); py[n] = IY(y); lab[n] = cls; n++; sinceErr = 0; k.invalidate(); } });
 
-  // Drag the manual line by dragging its endpoints
-  let dragging = null;
-  function lineEnds() {
-    // two control points: left (x=0) and right (x=1) at y = b and y = m+b
-    return [
-      { x: 0, y: lineB },
-      { x: 1, y: lineM + lineB },
-    ];
-  }
-  function plotGeom(w, h) {
-    const padL = 40; const padT = 20; const padB = 30; const padR = 20;
-    return { x: padL, y: padT, w: w - padL - padR, h: h - padT - padB };
-  }
-  function dataToPx(p, g, W, H) {
-    return { x: g.x + p.x * g.w, y: g.y + (1 - p.y) * g.h };
-  }
-  function pxToData(px, py, g) {
-    return { x: (px - g.x) / g.w, y: 1 - (py - g.y) / g.h };
-  }
-  function onDown(e) {
-    const p = pointerPos(sim.canvas, e);
-    const g = plotGeom(sim.width, sim.height);
-    const ends = lineEnds();
-    ends.forEach((en, i) => {
-      const ep = dataToPx(en, g);
-      if (Math.hypot(p.x - ep.x, p.y - ep.y) < 18) dragging = i;
-    });
-    if (dragging !== null && sim.canvas.setPointerCapture) sim.canvas.setPointerCapture(e.pointerId);
-  }
-  function onMove(e) {
-    if (dragging === null) return;
-    const p = pointerPos(sim.canvas, e);
-    const g = plotGeom(sim.width, sim.height);
-    const d = pxToData(p.x, p.y, g);
-    // dragging left end sets b; right end sets m+b
-    if (dragging === 0) lineB = Math.max(-0.5, Math.min(1.5, d.y));
-    else { lineM = Math.max(-0.5, Math.min(1.5, d.y)) - lineB; }
-    useAuto = false;
-  }
-  function onUp() { dragging = null; }
-  sim.canvas.addEventListener('pointerdown', onDown);
-  sim.canvas.addEventListener('pointermove', onMove);
-  sim.canvas.addEventListener('pointerup', onUp);
-
-  function manualClassify(p) {
-    // above the line (y > m*x + b) -> class 1
-    return p.y > (lineM * p.x + lineB) ? 1 : 0;
+  function clipLine(a, bb, c, out) {
+    const pts = [];
+    if (Math.abs(bb) > 1e-9) { for (const x of [-1, 1]) { const y = -(a * x + c) / bb; if (y >= -1 && y <= 1) pts.push(x, y); } }
+    if (Math.abs(a) > 1e-9) { for (const y of [-1, 1]) { const x = -(bb * y + c) / a; if (x >= -1 && x <= 1) pts.push(x, y); } }
+    return pts.length >= 4 ? pts : null;
   }
 
-  let trainAcc = 0;
-  sim.setUpdate((ctx, dt) => {
-    const { width: w, height: h } = sim;
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#070a14'; ctx.fillRect(0, 0, w, h);
-    const g = plotGeom(w, h);
-    panelBg(ctx, g.x, g.y, g.w, g.h);
-
-    if (useAuto && autoLine) {
-      // train a bit each frame
-      trainAuto();
+  k.frame((ctx, dt, w, h) => {
+    if (running) { tick += dt; while (tick > 0.12) { tick -= 0.12; stepOnce(); } if (sinceErr > 1) { running = false; runB.setLabel('Learn'); } if (steps > 2000) { running = false; runB.setLabel('Learn'); } }
+    show.w1.to(w1); show.w2.to(w2); show.b.to(b);
+    const anim = show.w1.step(dt) | show.w2.step(dt) | show.b.step(dt);
+    pickFlash = Math.max(0, pickFlash - dt * 2);
+    ctx.fillStyle = '#f7f8fd'; ctx.fillRect(0, 0, w, h);
+    card(ctx, bx - 4, by - 4, bs + 8, bs + 8, 10);
+    // perceptron regions
+    const W1 = show.w1.x, W2 = show.w2.x, B = show.b.x;
+    ctx.save(); ctx.beginPath(); ctx.rect(bx, by, bs, bs); ctx.clip();
+    const seg = clipLine(W1, W2, B);
+    if (seg) {
+      // shade the orange side with a big polygon
+      const nx = W1, ny = W2, L = Math.hypot(nx, ny) || 1;
+      const mx = (seg[0] + seg[2]) / 2, my = (seg[1] + seg[3]) / 2;
+      const dx = seg[2] - seg[0], dy = seg[3] - seg[1];
+      ctx.fillStyle = 'rgba(240,140,0,0.10)'; ctx.beginPath();
+      ctx.moveTo(X(seg[0] - dx * 3), Y(seg[1] - dy * 3)); ctx.lineTo(X(seg[2] + dx * 3), Y(seg[3] + dy * 3)); ctx.lineTo(X(seg[2] + dx * 3 + nx / L * 6), Y(seg[3] + dy * 3 + ny / L * 6)); ctx.lineTo(X(seg[0] - dx * 3 + nx / L * 6), Y(seg[1] - dy * 3 + ny / L * 6)); ctx.closePath(); ctx.fill();
+      ctx.fillStyle = 'rgba(37,99,235,0.08)'; ctx.beginPath();
+      ctx.moveTo(X(seg[0] - dx * 3), Y(seg[1] - dy * 3)); ctx.lineTo(X(seg[2] + dx * 3), Y(seg[3] + dy * 3)); ctx.lineTo(X(seg[2] + dx * 3 - nx / L * 6), Y(seg[3] + dy * 3 - ny / L * 6)); ctx.lineTo(X(seg[0] - dx * 3 - nx / L * 6), Y(seg[1] - dy * 3 - ny / L * 6)); ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#7c3aed'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(X(seg[0]), Y(seg[1])); ctx.lineTo(X(seg[2]), Y(seg[3])); ctx.stroke();
+      arrow(ctx, X(mx), Y(my), X(mx + nx / L * 0.22), Y(my + ny / L * 0.22), '#7c3aed', 2.2);
+      text(ctx, 'w', X(mx + nx / L * 0.26), Y(my + ny / L * 0.26), '#7c3aed', 12, 800, 'center', 'middle');
     }
-
-    // decision boundary
-    const classify = useAuto ? ((p) => autoClassify(p, autoLine)) : manualClassify;
-    // fill regions lightly
-    if (useAuto && autoLine) {
-      // draw contour: sample grid
-      const step = 12;
-      for (let py = 0; py < g.h; py += step) {
-        for (let px = 0; px < g.w; px += step) {
-          const d = pxToData(g.x + px, g.y + py, g);
-          const cls = autoClassify(d, autoLine);
-          ctx.fillStyle = cls === 1 ? 'rgba(96,165,250,0.10)' : 'rgba(248,113,113,0.10)';
-          ctx.fillRect(g.x + px, g.y + py, step, step);
-        }
-      }
-      // draw boundary line where w1*x + w2*y + b = 0
-      const l = autoLine;
-      ctx.strokeStyle = '#34d399'; ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      let first = true;
-      for (let i = 0; i <= 60; i++) {
-        const x = i / 60;
-        if (Math.abs(l.w2) < 1e-6) continue;
-        const y = -(l.w1 * x + l.b) / l.w2;
-        if (y < -0.2 || y > 1.2) continue;
-        const pp = dataToPx({ x, y }, g);
-        if (first) { ctx.moveTo(pp.x, pp.y); first = false; } else ctx.lineTo(pp.x, pp.y);
-      }
-      ctx.stroke();
-    } else {
-      // manual line
-      const ends = lineEnds().map((e) => dataToPx(e, g));
-      ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2.5;
-      ctx.beginPath();
-      ctx.moveTo(ends[0].x, ends[0].y); ctx.lineTo(ends[1].x, ends[1].y); ctx.stroke();
-      // endpoints
-      ends.forEach((en) => {
-        ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(en.x, en.y, 7, 0, Math.PI * 2); ctx.fill();
-      });
-    }
-
-    // points
-    let correct = 0;
-    points.forEach((p) => {
-      const pred = classify(p);
-      const ok = pred === p.c;
-      if (ok) correct++;
-      const pp = dataToPx(p, g);
-      ctx.fillStyle = p.c === 1 ? '#60a5fa' : '#f87171';
-      ctx.beginPath(); ctx.arc(pp.x, pp.y, 6, 0, Math.PI * 2); ctx.fill();
-      if (!ok) {
-        ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2;
-        ctx.beginPath(); ctx.arc(pp.x, pp.y, 9, 0, Math.PI * 2); ctx.stroke();
-      }
-    });
-    trainAcc = correct / points.length;
-
+    ctx.restore();
     // axes labels
-    labelText(ctx, 'feature x →', g.x + g.w / 2 - 30, g.y + g.h + 22, { color: '#94a3b8', size: 10 });
-    labelText(ctx, '↑ feature y', g.x - 30, g.y + 10, { color: '#94a3b8', size: 10 });
-
-    accBadge.set(`Accuracy: ${Math.round(trainAcc * 100)}%`);
-    accOut.set(`${Math.round(trainAcc * 100)}%`);
+    text(ctx, 'feature x₁ →', bx + bs, by + bs + 18, T.ink2, 10.5, 600, 'right'); text(ctx, 'feature x₂ ↑', bx + 8, by + 16, T.ink2, 10.5, 600);
+    // your line
+    ctx.setLineDash([7, 5]); ctx.strokeStyle = T.ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(X(mine.ax), Y(mine.ay)); ctx.lineTo(X(mine.bx), Y(mine.by)); ctx.stroke(); ctx.setLineDash([]);
+    knob(ctx, X(mine.ax), Y(mine.ay), 7, T.ink, k.isHot(hA) ? 1 : 0); knob(ctx, X(mine.bx), Y(mine.by), 7, T.ink, k.isHot(hB) ? 1 : 0);
+    // points
+    for (let i = 0; i < n; i++) {
+      const c = lab[i] > 0 ? '#f08c00' : '#2563eb', wrong = predict(i) !== lab[i];
+      if (i === lastPick && pickFlash > 0) { ctx.beginPath(); ctx.arc(X(px[i]), Y(py[i]), 10 + 8 * (1 - pickFlash), 0, Math.PI * 2); ctx.strokeStyle = withAlpha('#7c3aed', pickFlash); ctx.lineWidth = 2; ctx.stroke(); }
+      ctx.beginPath(); ctx.arc(X(px[i]), Y(py[i]), 5, 0, Math.PI * 2); ctx.fillStyle = c; ctx.fill(); ctx.strokeStyle = wrong ? '#7c3aed' : '#fff'; ctx.lineWidth = wrong ? 2 : 1.2; ctx.stroke();
+    }
+    const am = accLine(mineF), ap = accLine((x, y) => (w1 * x + w2 * y + b > 0 ? 1 : -1));
+    const amF = Math.max(am, 1 - am);
+    if (!k.small) {
+      const cx = bx + bs + 20, cw = w - cx - 14;
+      if (cw > 120) {
+        card(ctx, cx, by, cw, 120, 12);
+        text(ctx, 'Accuracy', cx + 12, by + 22, T.ink, 11.5, 700);
+        bar(ctx, cx + 12, by + 36, cw - 24, 'your line', amF, T.ink);
+        bar(ctx, cx + 12, by + 74, cw - 24, 'perceptron', ap, '#7c3aed');
+      }
+    }
+    st.mine.set(`${fmt(amF * 100, 0)} %`); st.perc.set(`${fmt(ap * 100, 0)} %`); st.w.set(`${fmt(w1, 2)}, ${fmt(w2, 2)}, ${fmt(b, 2)}`); st.steps.set(String(steps));
+    badge.set(running ? `Learning… update ${steps}` : ap === 1 && steps ? `Converged after ${steps} updates: every point is on the right side` : preset === 'xor' && steps > 200 ? 'No straight line can split XOR: the perceptron keeps flipping' : 'Drag the ends of the line to split the colours');
+    k.animate(running || !!anim || pickFlash > 0 || held >= 0);
   });
+  function bar(ctx, x, y, w, label, f, color) { text(ctx, `${label} ${fmt(f * 100, 0)} %`, x, y + 10, T.ink2, 10.5, 600); ctx.fillStyle = T.line2; ctx.beginPath(); ctx.roundRect(x, y + 16, w, 8, 4); ctx.fill(); ctx.fillStyle = color; ctx.beginPath(); ctx.roundRect(x, y + 16, w * f, 8, 4); ctx.fill(); }
 
-  sim.start();
-
-  return {
-    dispose() {
-      sim.canvas.removeEventListener('pointerdown', onDown);
-      sim.canvas.removeEventListener('pointermove', onMove);
-      sim.canvas.removeEventListener('pointerup', onUp);
-      panel.dispose(); hud.dispose(); sim.dispose();
-    },
-  };
+  makeData();
+  k.debug = { learn: () => { running = true; k.animate(true); }, end: () => [X(mine.bx), Y(mine.by)], acc: () => [accLine(mineF), accLine((x, y) => (w1 * x + w2 * y + b > 0 ? 1 : -1)), steps] };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }
