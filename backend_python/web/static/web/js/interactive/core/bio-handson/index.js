@@ -40,6 +40,7 @@ const PRACTICALS = {
   'fossil-evolution-evidence': () => import('./practicals/fossil.js'),
   'biodiversity-conservation-nepal': () => import('./practicals/conservation.js'),
   'vegetation-specimen-identification': () => import('./practicals/specimen-id.js'),
+  'plant-collection-herbarium': () => import('./practicals/herbarium.js'),
   'animal-specimen-identification': () => import('./practicals/specimen-id.js'),
   'pond-ecosystem-zoology': () => import('./practicals/pond.js'),
   'skeleton-joints-health-disorders': () => import('./practicals/skeleton.js'),
