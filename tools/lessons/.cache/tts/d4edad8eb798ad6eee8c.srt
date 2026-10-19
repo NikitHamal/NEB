@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,684
+Why can sodium hydroxide never be a primary standard?
+
+2
+00:00:03,684 --> 00:00:07,408
+Put four grams of pellets on the balance and watch the reading.
+

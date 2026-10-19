@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,174
+Worked example one point four.
+
+2
+00:00:02,174 --> 00:00:06,445
+Commercial hydrochloric acid is eleven point six normal.
+
+3
+00:00:06,445 --> 00:00:11,888
+What volume of it do we need to make five hundred cubic centimetres of decinormal acid?
+

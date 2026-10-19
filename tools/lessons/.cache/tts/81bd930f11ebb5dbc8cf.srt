@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,302
+Part a has a trap.
+
+2
+00:00:01,302 --> 00:00:09,361
+Only two of the three hydrogens are replaced in this reaction, so the effective basicity is two, not three.
+
+3
+00:00:09,361 --> 00:00:12,148
+Ninety eight over two, forty nine.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,614
+The others fail too.
+
+2
+00:00:01,614 --> 00:00:07,213
+Concentrated hydrochloric acid gives off fumes, so its strength drifts.
+
+3
+00:00:07,213 --> 00:00:18,385
+Potassium permanganate always contains a little manganese dioxide and is slowly reduced by traces of organic matter, so we standardise it freshly against oxalic acid.
+

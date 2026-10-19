@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,687
+Worked example one point three, straight from a reagent bottle label.
+
+2
+00:00:04,687 --> 00:00:12,773
+Concentrated sulphuric acid, ninety eight percent by mass, density one point eight four grams per cubic centimetre.
+
+3
+00:00:12,773 --> 00:00:16,497
+Find its molarity, normality and molality.
+

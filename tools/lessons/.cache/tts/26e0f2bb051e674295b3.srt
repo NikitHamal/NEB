@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,278
+Here is the gravimetric route.
+
+2
+00:00:02,278 --> 00:00:07,005
+To find how much sulphate is in a solution, we add barium chloride.
+
+3
+00:00:07,005 --> 00:00:13,815
+Barium sulphate is almost completely insoluble, so it comes out as a white precipitate.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,145
+Line three.
+
+2
+00:00:01,145 --> 00:00:07,239
+Two hundred and fifty cubic centimetres is a quarter of a litre: one point one nine grams.
+
+3
+00:00:07,239 --> 00:00:09,453
+Three lines, just as promised.
+

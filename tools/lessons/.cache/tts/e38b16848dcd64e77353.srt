@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,804
+For very dilute solutions we use parts per million and parts per billion.
+
+2
+00:00:04,804 --> 00:00:07,916
+A kilogram of water is a million milligrams.
+
+3
+00:00:07,916 --> 00:00:12,968
+One milligram of solute in it, this tiny speck, is one part per million.
+
+4
+00:00:12,968 --> 00:00:22,343
+For dilute water solutions, one ppm is one milligram per litre, and one ppb is one microgram per litre.
+

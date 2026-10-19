@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,848
+A favourite one mark question.
+
+2
+00:00:01,848 --> 00:00:05,507
+Which concentration unit does not change with temperature?
+
+3
+00:00:05,507 --> 00:00:11,458
+Any unit that uses the volume of solution changes, because liquids expand when heated.
+
+4
+00:00:11,458 --> 00:00:18,033
+Molality, percentage by mass and mole fraction use only masses, so they stay fixed.
+

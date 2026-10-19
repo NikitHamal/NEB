@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,354
+Then bicarbonate takes a second proton and releases carbon dioxide, near pH four.
+
+2
+00:00:06,354 --> 00:00:09,010
+That is where methyl orange changes.
+
+3
+00:00:09,010 --> 00:00:14,635
+So phenolphthalein measures half the carbonate, and methyl orange measures all of it.
+
+4
+00:00:14,635 --> 00:00:16,614
+That is the double indicator method.
+

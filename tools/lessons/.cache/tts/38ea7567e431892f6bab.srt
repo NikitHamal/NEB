@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,734
+Line one, the normality equation.
+
+2
+00:00:02,734 --> 00:00:08,281
+N two equals zero point one times twenty two point five, over twenty five.
+
+3
+00:00:08,281 --> 00:00:10,611
+Zero point zero nine normal.
+

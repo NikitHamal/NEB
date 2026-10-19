@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,807
+Worked example one point seven, standardising permanganate against Mohr's salt.
+
+2
+00:00:05,807 --> 00:00:14,348
+Three point nine two grams of pure Mohr's salt, molar mass three ninety two, made up to two fifty cubic centimetres.
+
+3
+00:00:14,348 --> 00:00:19,908
+Twenty five cubic centimetres of it needed twenty cubic centimetres of permanganate.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,651
+Now redox titrations, where the n factor is the number of electrons transferred.
+
+2
+00:00:05,651 --> 00:00:15,325
+The classic one is permanganometry: potassium permanganate, in dilute sulphuric acid, against oxalic acid or a ferrous salt.
+

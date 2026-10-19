@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,820
+Classical quantitative analysis then splits again, by what you actually measure on the bench.
+
+2
+00:00:05,820 --> 00:00:09,765
+Weigh a precipitate, and it is gravimetric analysis.
+
+3
+00:00:09,765 --> 00:00:14,739
+Measure the volume of a solution, and it is volumetric analysis.
+

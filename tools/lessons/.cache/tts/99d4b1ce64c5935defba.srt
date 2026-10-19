@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,244
+Every half equation balances in charge as well as mass.
+
+2
+00:00:04,244 --> 00:00:11,328
+Check the acidic one: minus one, plus eight, minus five, gives plus two on the left.
+
+3
+00:00:11,328 --> 00:00:13,111
+And plus two on the right.
+

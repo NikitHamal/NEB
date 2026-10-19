@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,510
+The liquid expands.
+
+2
+00:00:01,510 --> 00:00:08,242
+The moles of solute stay the same, but they now share a bigger volume, so the molarity falls.
+
+3
+00:00:08,242 --> 00:00:13,593
+The masses do not change at all, so the molality stays exactly where it was.
+

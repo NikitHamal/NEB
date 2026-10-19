@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,552
+Now turn the law into an equation.
+
+2
+00:00:02,552 --> 00:00:12,265
+Normality is equivalents per litre, so in V cubic centimetres of a solution of normality N, there are N times V milliequivalents.
+
+3
+00:00:12,265 --> 00:00:16,770
+At the end point, the milliequivalents of the two reactants are equal.
+

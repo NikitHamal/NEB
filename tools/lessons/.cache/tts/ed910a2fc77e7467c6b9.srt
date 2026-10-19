@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,994
+A primary standard must tick five boxes.
+
+2
+00:00:02,994 --> 00:00:06,796
+Very pure, ninety nine point nine percent or better.
+
+3
+00:00:06,796 --> 00:00:15,716
+Stable in air, so it neither absorbs moisture, nor loses its water of crystallisation, nor picks up carbon dioxide.
+
+4
+00:00:15,716 --> 00:00:19,179
+Readily soluble, with a solution that keeps.
+
+5
+00:00:19,179 --> 00:00:20,781
+A high equivalent weight.
+
+6
+00:00:20,781 --> 00:00:25,182
+And a reaction that is fast, complete and stoichiometric.
+

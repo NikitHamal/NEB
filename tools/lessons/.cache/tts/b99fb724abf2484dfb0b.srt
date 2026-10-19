@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,380
+It keeps creeping up.
+
+2
+00:00:01,380 --> 00:00:09,739
+The pellets pull water vapour out of the air, they are deliquescent, and they react with carbon dioxide to form sodium carbonate.
+
+3
+00:00:09,739 --> 00:00:12,630
+What you weigh is not pure sodium hydroxide.
+

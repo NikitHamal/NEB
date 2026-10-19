@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,890
+Here is a flask of washing soda, sodium carbonate, dissolved in water, with two drops of methyl orange.
+
+2
+00:00:07,890 --> 00:00:09,804
+The solution is yellow.
+
+3
+00:00:09,804 --> 00:00:14,765
+Above it sits a burette, full of hydrochloric acid of known strength.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,096
+Worked example one point one.
+
+2
+00:00:02,096 --> 00:00:16,367
+Find the equivalent weight of phosphoric acid when it reacts with sodium hydroxide to give disodium hydrogen phosphate, of potassium dichromate in acid, and of sodium carbonate with dilute hydrochloric acid.
+

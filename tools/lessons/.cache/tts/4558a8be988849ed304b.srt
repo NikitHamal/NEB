@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,453
+Every indicator changes colour over its own pH range.
+
+2
+00:00:04,453 --> 00:00:08,059
+Methyl orange, three point one to four point four.
+
+3
+00:00:08,059 --> 00:00:11,354
+Phenolphthalein, eight point three to ten.
+
+4
+00:00:11,354 --> 00:00:18,255
+For a strong acid and a strong base, the jump covers both ranges, so either indicator works.
+

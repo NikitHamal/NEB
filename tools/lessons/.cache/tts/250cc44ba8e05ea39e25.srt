@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,171
+Now try this one.
+
+2
+00:00:01,171 --> 00:00:06,393
+A zero point one molar solution of sulphuric acid has what normality?
+
+3
+00:00:06,393 --> 00:00:07,643
+Pause and think.
+

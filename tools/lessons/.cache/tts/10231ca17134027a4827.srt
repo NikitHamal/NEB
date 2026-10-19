@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,070
+Its partner is dichrometry.
+
+2
+00:00:02,070 --> 00:00:12,799
+Potassium dichromate is a primary standard and its solution keeps for ever, but its colour change is not sharp enough, so an indicator like diphenylamine is added.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,716
+Thirty five point five grams of chlorine, twelve of magnesium, nine of aluminium.
+
+2
+00:00:05,716 --> 00:00:10,846
+Each balances the same one point zero zero eight grams of hydrogen.
+
+3
+00:00:10,846 --> 00:00:23,932
+That balancing mass is the equivalent weight: the parts by mass of a substance that combine with or displace one point zero zero eight parts of hydrogen, eight of oxygen, or thirty five point five of chlorine.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,770
+The four you will use most.
+
+2
+00:00:01,770 --> 00:00:05,481
+Molarity, moles of solute per litre of solution.
+
+3
+00:00:05,481 --> 00:00:09,505
+Molality, moles of solute per kilogram of solvent.
+
+4
+00:00:09,505 --> 00:00:13,398
+Normality, gram equivalents per litre of solution.
+
+5
+00:00:13,398 --> 00:00:15,885
+And strength, grams per litre.
+

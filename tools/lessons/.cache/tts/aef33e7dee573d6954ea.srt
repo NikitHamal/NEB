@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,138
+For molality, take one hundred grams instead.
+
+2
+00:00:03,138 --> 00:00:06,914
+Ninety eight grams is acid, exactly one mole.
+
+3
+00:00:06,914 --> 00:00:12,135
+Only two grams is water, zero point zero zero two kilogram.
+

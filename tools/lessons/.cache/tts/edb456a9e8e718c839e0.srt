@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,296
+Suppose it weighs zero point two three three gram.
+
+2
+00:00:04,296 --> 00:00:11,210
+A mole of barium sulphate, two hundred and thirty three grams, contains ninety six grams of sulphate.
+
+3
+00:00:11,210 --> 00:00:17,447
+So simple proportion gives zero point zero nine six gram of sulphate.
+
+4
+00:00:17,447 --> 00:00:23,789
+Chloride is weighed the same way as silver chloride, and iron as iron three oxide.
+

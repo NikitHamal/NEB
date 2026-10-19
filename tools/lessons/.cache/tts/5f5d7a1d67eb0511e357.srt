@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,989
+D, none.
+
+2
+00:00:00,989 --> 00:00:03,398
+Permanganate is self indicating.
+
+3
+00:00:03,398 --> 00:00:11,653
+Its purple colour vanishes as long as any oxalic acid remains, and the first permanent pale pink is the end point.
+
+4
+00:00:11,653 --> 00:00:14,270
+Starch is for iodine titrations.
+

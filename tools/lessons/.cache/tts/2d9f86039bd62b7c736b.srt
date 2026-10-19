@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,731
+One mole over zero point zero zero two kilogram: five hundred moles per kilogram!
+
+2
+00:00:06,731 --> 00:00:07,929
+Not a mistake.
+
+3
+00:00:07,929 --> 00:00:15,377
+Concentrated sulphuric acid is nearly pure solute, so there is almost no solvent to divide by.
+

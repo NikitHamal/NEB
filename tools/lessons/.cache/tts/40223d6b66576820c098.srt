@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,617
+C, zero point two normal.
+
+2
+00:00:02,617 --> 00:00:09,361
+Normality is molarity times the n factor, and sulphuric acid has basicity two.
+
+3
+00:00:09,361 --> 00:00:14,856
+Zero point zero five is the trap, from dividing instead of multiplying.
+

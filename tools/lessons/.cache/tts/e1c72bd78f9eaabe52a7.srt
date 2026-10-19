@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,770
+For a redox reagent, the n factor is the number of electrons transferred per formula unit.
+
+2
+00:00:06,770 --> 00:00:14,895
+Potassium dichromate in acid: each of its two chromium atoms sits at plus six, and ends at plus three.
+

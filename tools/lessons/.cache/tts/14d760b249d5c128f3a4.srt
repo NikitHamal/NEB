@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,578
+To say that a reaction is exactly complete, we need a common currency, like an exchange rate between substances.
+
+2
+00:00:07,578 --> 00:00:10,546
+Chemists chose hydrogen as the reference.
+
+3
+00:00:10,546 --> 00:00:19,986
+One point zero zero eight grams of hydrogen is worth exactly eight grams of oxygen, because that is how much oxygen combines with it.
+

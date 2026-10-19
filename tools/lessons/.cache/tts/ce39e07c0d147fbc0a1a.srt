@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,307
+Sodium carbonate is a special case worth knowing.
+
+2
+00:00:03,307 --> 00:00:07,838
+It is neutralised in two stages, so its curve has two steps.
+
+3
+00:00:07,838 --> 00:00:14,648
+First, carbonate takes one proton and becomes bicarbonate, near pH eight point three.
+
+4
+00:00:14,648 --> 00:00:17,239
+Phenolphthalein turns colourless here.
+

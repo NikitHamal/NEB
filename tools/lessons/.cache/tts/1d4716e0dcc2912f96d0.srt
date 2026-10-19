@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,177
+Divide both sides by two, the valency.
+
+2
+00:00:03,177 --> 00:00:08,567
+Eight grams of oxygen go with one point zero zero eight grams of hydrogen.
+
+3
+00:00:08,567 --> 00:00:14,739
+Eight is the equivalent weight of oxygen: its atomic weight divided by its valency.
+

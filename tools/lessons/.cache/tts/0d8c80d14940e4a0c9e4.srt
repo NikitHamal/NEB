@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,122
+Two points that students mix up.
+
+2
+00:00:02,122 --> 00:00:08,606
+The equivalence point is where chemically equivalent amounts have reacted, a fact of chemistry.
+
+3
+00:00:08,606 --> 00:00:13,138
+The end point is where the indicator changes colour, what we actually see.
+
+4
+00:00:13,138 --> 00:00:16,380
+A good indicator puts them within a drop of each other.
+
+5
+00:00:16,380 --> 00:00:18,932
+The small gap is the titration error.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,109
+The same rule everywhere.
+
+2
+00:00:02,109 --> 00:00:06,184
+Hydrochloric acid gives one, so thirty six point five.
+
+3
+00:00:06,184 --> 00:00:12,864
+Phosphoric acid, fully neutralised, gives three, so thirty two point six seven.
+
+4
+00:00:12,864 --> 00:00:15,976
+For bases, count hydroxide ions.
+
+5
+00:00:15,976 --> 00:00:18,658
+Sodium hydroxide, forty.
+
+6
+00:00:18,658 --> 00:00:23,255
+Calcium hydroxide, seventy four over two, thirty seven.
+

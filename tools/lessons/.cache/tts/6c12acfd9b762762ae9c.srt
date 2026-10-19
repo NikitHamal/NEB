@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,526
+Strength in grams per litre is normality times equivalent weight, or molarity times molar mass.
+
+2
+00:00:07,526 --> 00:00:14,856
+And since E is molar mass over n, normality is simply molarity times the n factor.
+

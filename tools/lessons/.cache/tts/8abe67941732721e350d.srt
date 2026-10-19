@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,424
+For a salt, count the total charge on one side.
+
+2
+00:00:03,424 --> 00:00:11,888
+Aluminium sulphate splits into two aluminium ions, each plus three, and three sulphate ions, each minus two.
+

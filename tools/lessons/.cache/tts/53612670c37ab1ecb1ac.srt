@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,526
+Nitric acid is an oxidising agent, so it would oxidise the ferrous ions or oxalic acid by itself.
+
+2
+00:00:07,526 --> 00:00:21,171
+And oxalic acid titrations are done hot, at sixty to seventy degrees, because the reaction is very slow in the cold, until the manganese two plus it produces starts to catalyse it.
+

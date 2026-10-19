@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,666
+Equivalents do not change when you add water, so N one V one equals N two V two.
+
+2
+00:00:06,666 --> 00:00:13,307
+Eleven point six times V one equals zero point one times five hundred, which is fifty.
+
+3
+00:00:13,307 --> 00:00:19,218
+V one is fifty over eleven point six, four point three one cubic centimetres.
+

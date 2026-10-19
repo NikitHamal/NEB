@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,213
+C, potassium dichromate.
+
+2
+00:00:02,213 --> 00:00:08,033
+It is pure, not hygroscopic, stable, and has a high equivalent weight.
+
+3
+00:00:08,033 --> 00:00:19,140
+Sodium hydroxide absorbs water and carbon dioxide, hydrochloric acid fumes, and permanganate contains manganese dioxide and slowly decomposes.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,921
+Molarity is normality over n, zero point zero four.
+
+2
+00:00:04,921 --> 00:00:10,846
+Strength is normality times E, five point zero four grams per litre.
+

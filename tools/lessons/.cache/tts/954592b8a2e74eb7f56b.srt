@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,895
+A titration is only as good as the solution you claim to know.
+
+2
+00:00:04,895 --> 00:00:13,515
+A primary standard is so pure and stable that you can make a standard solution just by weighing it accurately and dissolving it to a known volume.
+
+3
+00:00:13,515 --> 00:00:17,304
+A secondary standard cannot be trusted on the balance.
+
+4
+00:00:17,304 --> 00:00:22,408
+Its concentration must be found by titrating it against a primary standard.
+

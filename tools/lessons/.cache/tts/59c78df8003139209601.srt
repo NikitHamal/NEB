@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,598
+Welcome to Class 12 Chemistry, Unit 1: Volumetric Analysis.
+
+2
+00:00:05,598 --> 00:00:12,539
+This is the chapter that turns a burette reading into grams, molarity and percentage purity.
+
+3
+00:00:12,539 --> 00:00:19,609
+It also gives you the n factor, the one idea that makes every titration numerical a one line problem.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,375
+And the practical rule: always add the acid to about two hundred cubic centimetres of water, never water to acid, then make it up to five hundred.
+

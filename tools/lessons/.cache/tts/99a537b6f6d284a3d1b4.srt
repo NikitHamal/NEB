@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,093
+Watch an acid.
+
+2
+00:00:01,093 --> 00:00:07,825
+Sulphuric acid, molar mass ninety eight, has two hydrogens it can hand over as hydrogen ions.
+

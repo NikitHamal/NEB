@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,158
+Both of them leave.
+
+2
+00:00:01,158 --> 00:00:07,291
+Basicity two, so the equivalent weight is ninety eight over two, forty nine.
+
