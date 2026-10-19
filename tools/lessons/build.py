@@ -71,11 +71,11 @@ def build(script, draft=False, scene="Lesson", preview=False):
     fc = ("[1:a]volume=0.55[bed];[0:a]asplit=2[v1][v2];"
           "[bed][v2]sidechaincompress=threshold=0.02:ratio=8:attack=40:release=600[duck];"
           "[v1][duck]amix=inputs=2:duration=first:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[a]")
-    crf = "30" if draft else "26"
+    crf = "30" if draft else "31"
     run(["ffmpeg", "-y", "-v", "error", "-i", raw, "-i", bed, "-i", srt, "-filter_complex", fc,
          "-map", "0:v", "-map", "[a]", "-map", "2:s",
-         "-c:v", "libx264", "-preset", "medium", "-crf", crf, "-tune", "animation", "-pix_fmt", "yuv420p",
-         "-c:a", "aac", "-b:a", "128k", "-ar", "48000", "-c:s", "mov_text",
+         "-c:v", "libx264", "-preset", ("medium" if draft else "slow"), "-crf", crf, "-tune", "animation", "-pix_fmt", "yuv420p",
+         "-c:a", "aac", "-b:a", ("128k" if draft else "96k"), "-ar", "48000", "-c:s", "mov_text",
          "-metadata:s:s:0", f"language={lang}", "-metadata:s:a:0", f"language={lang}",
          "-metadata", f"title={m['title']}", "-movflags", "+faststart", final])
     if not draft:

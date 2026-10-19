@@ -90,6 +90,28 @@
    ],
    "mb": 24.4,
    "script": "tools/lessons/scripts/phy12/unit_01.py"
+  },
+  {
+   "file": "class-08/sci8/unit_01.mp4",
+   "subtitles": "class-08/sci8/unit_01.srt",
+   "poster": "class-08/sci8/unit_01.jpg",
+   "book": "sci8",
+   "grade": 8,
+   "unit": 1,
+   "title": "Scientific Learning",
+   "subtitle": "How we find out what is true",
+   "lang": "en",
+   "sections": [
+    "Science and the scientific method",
+    "Variables in an experiment",
+    "Safety in the laboratory",
+    "Doing the experiment",
+    "Research work",
+    "Running a survey",
+    "Measurement and units"
+   ],
+   "seconds": 891.9,
+   "script": "tools/lessons/scripts/sci8/unit_01.py"
   }
  ]
 }

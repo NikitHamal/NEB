@@ -1,0 +1,864 @@
+1
+00:00:00,000 --> 00:00:03,882
+Three beakers, on the same bench, in the same room.
+
+2
+00:00:03,882 --> 00:00:09,134
+Fifty grams of crushed ice, one hundred grams, and one hundred and fifty grams.
+
+3
+00:00:09,367 --> 00:00:11,621
+The ice is crushed the same way.
+
+4
+00:00:11,621 --> 00:00:13,223
+The beakers are identical.
+
+5
+00:00:13,223 --> 00:00:15,176
+The room does not change.
+
+6
+00:00:15,176 --> 00:00:18,414
+Only one thing is different: how much ice there is.
+
+7
+00:00:18,633 --> 00:00:20,848
+Now we start the clock and let them melt.
+
+8
+00:00:20,848 --> 00:00:22,840
+Which one finishes first?
+
+9
+00:00:22,840 --> 00:00:25,926
+And be careful, that is not the real question.
+
+10
+00:00:25,926 --> 00:00:29,179
+The real question is: how much longer will the big one take?
+
+11
+00:00:40,400 --> 00:00:42,823
+Fifty grams: four minutes.
+
+12
+00:00:42,823 --> 00:00:45,402
+One hundred grams: eight minutes.
+
+13
+00:00:45,402 --> 00:00:48,331
+One hundred and fifty grams: twelve minutes.
+
+14
+00:00:48,331 --> 00:00:49,404
+Exactly in step.
+
+15
+00:00:49,633 --> 00:00:50,533
+Look at that.
+
+16
+00:00:50,533 --> 00:00:52,577
+Double the mass, double the time.
+
+17
+00:00:52,577 --> 00:00:54,895
+Triple the mass, triple the time.
+
+18
+00:00:54,895 --> 00:00:57,433
+The time is proportional to the mass.
+
+19
+00:00:57,667 --> 00:01:00,260
+And notice what made that conclusion possible.
+
+20
+00:01:00,260 --> 00:01:05,143
+We changed one thing only, and kept everything else the same.
+
+21
+00:01:05,143 --> 00:01:08,215
+That single habit is the whole of this unit.
+
+22
+00:01:08,215 --> 00:01:14,197
+Today you learn the method, the safety, the experiment, the survey, and the measurement that go with it.
+
+23
+00:01:18,1000 --> 00:01:23,689
+This is Class Eight Science and Technology, Unit One: Scientific Learning.
+
+24
+00:01:26,067 --> 00:01:27,644
+Seven stops on the way.
+
+25
+00:01:27,644 --> 00:01:29,220
+The scientific method.
+
+26
+00:01:29,220 --> 00:01:30,352
+Variables.
+
+27
+00:01:30,352 --> 00:01:32,006
+Laboratory safety.
+
+28
+00:01:32,006 --> 00:01:33,556
+Doing the experiment.
+
+29
+00:01:33,556 --> 00:01:34,949
+Research work.
+
+30
+00:01:34,949 --> 00:01:36,264
+Running a survey.
+
+31
+00:01:36,264 --> 00:01:37,680
+And measurement and units.
+
+32
+00:01:42,033 --> 00:01:45,420
+Let us begin with the hardest idea in this chapter.
+
+33
+00:01:45,420 --> 00:01:48,324
+Science is not a pile of facts in a book.
+
+34
+00:01:48,324 --> 00:01:50,177
+It is a way of finding out what is true.
+
+35
+00:01:50,400 --> 00:01:54,907
+And here is the test that every scientific claim has to pass.
+
+36
+00:01:54,907 --> 00:01:58,058
+Can it be checked by an observation or a measurement?
+
+37
+00:01:58,058 --> 00:02:02,925
+If it cannot be tested at all, it is not science, however beautiful it sounds.
+
+38
+00:02:03,133 --> 00:02:09,267
+Take the first claim: a bigger glass of water takes longer to freeze in the same freezer.
+
+39
+00:02:09,267 --> 00:02:10,153
+Testable.
+
+40
+00:02:10,153 --> 00:02:11,877
+We can weigh the water and time it.
+
+41
+00:02:12,100 --> 00:02:17,844
+Now the second: water that is spoken to kindly freezes into prettier ice.
+
+42
+00:02:17,844 --> 00:02:19,445
+How would you measure prettier?
+
+43
+00:02:19,445 --> 00:02:20,682
+Who decides?
+
+44
+00:02:20,682 --> 00:02:25,275
+There is no observation that could settle it, so it is not a scientific statement.
+
+45
+00:02:26,100 --> 00:02:28,745
+Now the working order that scientists follow.
+
+46
+00:02:28,745 --> 00:02:30,965
+Seven steps, and then round again.
+
+47
+00:02:31,167 --> 00:02:32,874
+One: observe.
+
+48
+00:02:32,874 --> 00:02:35,622
+Notice something, and describe it exactly.
+
+49
+00:02:35,622 --> 00:02:40,918
+Not that the ice melts fast, but that the ice melted in fifteen minutes in the sun.
+
+50
+00:02:41,133 --> 00:02:44,562
+Two: turn it into a question a measurement can answer.
+
+51
+00:02:44,767 --> 00:02:47,268
+Three: give a testable answer before you start.
+
+52
+00:02:47,500 --> 00:02:49,599
+Four: say what you will see if you are right.
+
+53
+00:02:49,800 --> 00:02:53,978
+Five: change one thing, keep the rest the same, and measure.
+
+54
+00:02:54,200 --> 00:02:58,876
+Six: put the readings in a table, then a graph, and look for a pattern.
+
+55
+00:02:59,100 --> 00:03:01,823
+Seven: was the hypothesis supported?
+
+56
+00:03:01,823 --> 00:03:02,501
+Then repeat it.
+
+57
+00:03:02,733 --> 00:03:05,039
+And then the arrow that matters most.
+
+58
+00:03:05,039 --> 00:03:10,834
+If the result does not support the hypothesis, you do not throw the experiment away.
+
+59
+00:03:10,834 --> 00:03:13,214
+You go back, and you ask a better question.
+
+60
+00:03:13,433 --> 00:03:16,143
+A failed hypothesis is still a result.
+
+61
+00:03:16,143 --> 00:03:18,278
+It is often the most useful one you will get.
+
+62
+00:03:22,767 --> 00:03:30,716
+Every experiment has exactly three kinds of quantity in it, and mixing them up is the most common mistake in school science.
+
+63
+00:03:30,933 --> 00:03:34,997
+The independent variable is the one you choose and change.
+
+64
+00:03:34,997 --> 00:03:40,563
+In our ice race, that was the mass of the ice: fifty, one hundred, one hundred and fifty grams.
+
+65
+00:03:40,767 --> 00:03:43,477
+The dependent variable is the one you measure.
+
+66
+00:03:43,477 --> 00:03:45,039
+It depends on the first one.
+
+67
+00:03:45,039 --> 00:03:46,756
+Here, the time taken to melt.
+
+68
+00:03:46,967 --> 00:03:54,869
+And the controlled variables are everything else you deliberately keep the same, so that the result can only be caused by the thing you changed.
+
+69
+00:03:55,100 --> 00:04:02,978
+So the independent variable causes the dependent variable, and the controlled variables are held still so that nothing else can sneak in.
+
+70
+00:04:03,800 --> 00:04:09,010
+A controlled experiment changes one thing and keeps every other factor the same.
+
+71
+00:04:09,010 --> 00:04:12,502
+That is the only way to know which change caused the result.
+
+72
+00:04:12,733 --> 00:04:16,576
+Change two things at once, and the experiment tells you nothing.
+
+73
+00:04:16,576 --> 00:04:23,146
+If you use a bigger piece of ice and also move it to a warmer room, and it melts faster, which change did it?
+
+74
+00:04:23,367 --> 00:04:24,514
+You cannot say.
+
+75
+00:04:24,514 --> 00:04:30,930
+And in an exam, an answer that names the variables but never says which one is controlled loses marks.
+
+76
+00:04:32,933 --> 00:04:36,151
+A question from the exercise at the end of this chapter.
+
+77
+00:04:36,151 --> 00:04:39,442
+Read the four options carefully, and pause to think.
+
+78
+00:04:46,333 --> 00:04:48,118
+B, the mass of the ice.
+
+79
+00:04:48,118 --> 00:04:54,434
+You decide it, so you change it on purpose: fifty, one hundred, one hundred and fifty grams.
+
+80
+00:04:54,434 --> 00:04:58,092
+The time is what you measure, so that is the dependent variable.
+
+81
+00:04:58,092 --> 00:05:03,068
+The room temperature and the beaker are held the same, so they are controlled variables.
+
+82
+00:05:07,433 --> 00:05:13,606
+A laboratory is a room built for experiments, and everything in it carries its own danger.
+
+83
+00:05:13,606 --> 00:05:17,407
+That is why every bottle and every cupboard carries a sign.
+
+84
+00:05:17,633 --> 00:05:20,681
+Flammable: it catches fire easily.
+
+85
+00:05:20,681 --> 00:05:24,201
+Spirit, kerosene, an L P G cylinder.
+
+86
+00:05:24,433 --> 00:05:27,729
+Corrosive: it attacks skin and cloth.
+
+87
+00:05:27,729 --> 00:05:30,339
+Strong acids and strong alkalis.
+
+88
+00:05:30,567 --> 00:05:34,790
+Toxic, or poisonous: mercury, and many pesticides.
+
+89
+00:05:35,000 --> 00:05:40,402
+Harmful or irritant: dilute acids, lime, bleaching powder.
+
+90
+00:05:40,633 --> 00:05:45,127
+Oxidising: potassium permanganate, hydrogen peroxide.
+
+91
+00:05:45,127 --> 00:05:48,535
+These give up oxygen readily and make a fire far worse.
+
+92
+00:05:48,767 --> 00:05:54,075
+And explosive: sodium metal dropped in water, or dry ice sealed in a bottle.
+
+93
+00:05:54,900 --> 00:05:58,834
+Here is the mistake almost every student makes once.
+
+94
+00:05:58,834 --> 00:06:02,825
+Never put your nose over the mouth of the bottle, and never taste a chemical.
+
+95
+00:06:03,033 --> 00:06:10,561
+To smell a gas safely, hold the bottle away from you and fan the vapour towards your nose with your open hand.
+
+96
+00:06:10,561 --> 00:06:12,793
+A little reaches you, and no more.
+
+97
+00:06:13,600 --> 00:06:14,852
+Now the habits.
+
+98
+00:06:14,852 --> 00:06:18,765
+Read the whole instruction before you begin, and follow it in order.
+
+99
+00:06:21,300 --> 00:06:23,098
+Apron on, goggles on.
+
+100
+00:06:23,098 --> 00:06:24,726
+Never taste anything.
+
+101
+00:06:24,726 --> 00:06:28,593
+Never point a test tube at yourself or at a classmate.
+
+102
+00:06:28,593 --> 00:06:30,039
+Keep the bench clear.
+
+103
+00:06:30,039 --> 00:06:35,104
+And when you finish, turn the gas off at the burner and at the cylinder, and wash your hands.
+
+104
+00:06:36,433 --> 00:06:40,328
+Before you touch a single thing, answer three questions.
+
+105
+00:06:40,328 --> 00:06:41,786
+What am I trying to find out?
+
+106
+00:06:41,786 --> 00:06:45,054
+What is the danger in this apparatus or this chemical?
+
+107
+00:06:45,054 --> 00:06:50,653
+And what will I do if something goes wrong, a spill, a burn, or broken glass?
+
+108
+00:06:50,653 --> 00:06:56,080
+A student who can answer all three works safely, and writes a better report too.
+
+109
+00:07:00,433 --> 00:07:06,138
+An experiment is a controlled test of an idea, and its report has six parts.
+
+110
+00:07:06,138 --> 00:07:10,441
+They always come in this order, so a reader can repeat exactly what you did.
+
+111
+00:07:10,667 --> 00:07:16,189
+Aim, apparatus, procedure, observation, result, conclusion.
+
+112
+00:07:16,189 --> 00:07:18,879
+Six parts, in that order, every single time.
+
+113
+00:07:19,600 --> 00:07:22,063
+Let us run the whole experiment on paper.
+
+114
+00:07:22,063 --> 00:07:26,637
+Our aim: to find out how the time taken by ice to melt depends on its mass.
+
+115
+00:07:26,867 --> 00:07:35,762
+Apparatus: three identical beakers, ice crushed to the same grain size, a balance, a stopwatch, and a thermometer.
+
+116
+00:07:35,762 --> 00:07:43,944
+Procedure: weigh the ice, note the room temperature, start the watch, stir gently, and stop it when no ice is left.
+
+117
+00:07:44,167 --> 00:07:45,757
+Now the observations.
+
+118
+00:07:45,757 --> 00:07:49,143
+Fifty grams: two hundred and forty seconds.
+
+119
+00:07:49,143 --> 00:07:51,786
+One hundred grams: four hundred and eighty.
+
+120
+00:07:51,786 --> 00:07:54,800
+One hundred and fifty grams: seven hundred and twenty.
+
+121
+00:07:55,033 --> 00:07:56,884
+Put those readings on a graph.
+
+122
+00:07:56,884 --> 00:07:58,139
+Mass across, time up.
+
+123
+00:07:58,367 --> 00:07:59,684
+And look what happens.
+
+124
+00:07:59,684 --> 00:08:04,176
+The three points fall on a straight line, and that line goes through zero.
+
+125
+00:08:04,176 --> 00:08:06,860
+That shape has a name: directly proportional.
+
+126
+00:08:07,067 --> 00:08:08,527
+Check it with the numbers.
+
+127
+00:08:08,527 --> 00:08:11,665
+Four eighty over two forty is two.
+
+128
+00:08:11,665 --> 00:08:14,816
+Seven twenty over two forty is three.
+
+129
+00:08:14,816 --> 00:08:19,739
+So the time is proportional to the mass, and the hypothesis was supported.
+
+130
+00:08:19,967 --> 00:08:22,989
+One precaution belongs in every report.
+
+131
+00:08:22,989 --> 00:08:33,699
+Ice of a different grain size melts at a different speed, so all three samples must be crushed the same way, and stirred equally gently, because stirring warms the mixture.
+
+132
+00:08:38,167 --> 00:08:43,676
+Research is a careful search for an answer to a question that is not yet settled.
+
+133
+00:08:43,676 --> 00:08:47,160
+A school project is small, but it follows the same steps.
+
+134
+00:08:47,367 --> 00:08:49,712
+First, choose a narrow question.
+
+135
+00:08:49,712 --> 00:08:53,189
+How much water does a household in my ward use in a day?
+
+136
+00:08:53,189 --> 00:08:54,375
+That can be studied in a week.
+
+137
+00:08:54,600 --> 00:08:56,971
+How can Nepal solve its water problem?
+
+138
+00:08:56,971 --> 00:08:58,026
+That cannot.
+
+139
+00:08:58,026 --> 00:09:02,783
+A question that is too big cannot be answered with the evidence you can actually collect.
+
+140
+00:09:03,000 --> 00:09:07,546
+Then read what is already known, and write down where each fact came from.
+
+141
+00:09:07,546 --> 00:09:12,702
+Plan how you will collect evidence: measure, count, interview, or survey.
+
+142
+00:09:12,933 --> 00:09:14,172
+Collect it honestly.
+
+143
+00:09:14,172 --> 00:09:17,140
+Never change a reading to make the story neater.
+
+144
+00:09:17,140 --> 00:09:20,201
+Then organise it into tables and simple graphs.
+
+145
+00:09:20,433 --> 00:09:28,631
+And finally, write the report: title, aim, method, findings, conclusion, and a list of sources.
+
+146
+00:09:29,333 --> 00:09:30,389
+One warning.
+
+147
+00:09:30,389 --> 00:09:36,496
+Copying three paragraphs from a website and changing a few words is not research.
+
+148
+00:09:36,496 --> 00:09:38,679
+It is copying, and it teaches you nothing.
+
+149
+00:09:38,900 --> 00:09:42,261
+When you use someone else's finding, say where it came from.
+
+150
+00:09:42,261 --> 00:09:48,106
+Your own reading, your own count, your own measurement, that is the part that is really yours.
+
+151
+00:09:52,500 --> 00:09:59,090
+A survey collects information from many people or places by asking the same questions of each.
+
+152
+00:09:59,090 --> 00:10:02,116
+We use it when measuring directly is impossible.
+
+153
+00:10:02,333 --> 00:10:07,283
+Here is our ward: two thousand households, along eight lanes.
+
+154
+00:10:07,283 --> 00:10:09,151
+We cannot visit them all in a week.
+
+155
+00:10:09,367 --> 00:10:10,749
+So we take a sample.
+
+156
+00:10:10,749 --> 00:10:15,449
+One household in every few, all the way down every lane.
+
+157
+00:10:15,449 --> 00:10:19,303
+That is a fair sample, because every part of the ward is represented.
+
+158
+00:10:19,533 --> 00:10:24,430
+A sample made of your own friends, all from one lane, is not fair.
+
+159
+00:10:24,430 --> 00:10:27,921
+The way you choose the sample matters more than how big it is.
+
+160
+00:10:28,733 --> 00:10:29,959
+Let us work one out.
+
+161
+00:10:29,959 --> 00:10:37,583
+A sample of forty households, taken every fifth house on four lanes, and one question asked of an adult in each home.
+
+162
+00:10:37,800 --> 00:10:44,403
+The tally gives twenty two who always separate, twelve who sometimes do, and six who never.
+
+163
+00:10:44,403 --> 00:10:45,482
+Forty in total.
+
+164
+00:10:45,700 --> 00:10:48,775
+A bar chart shows the same thing at a glance.
+
+165
+00:10:48,775 --> 00:10:52,949
+The always bar is the tallest, but it is not a majority on its own.
+
+166
+00:10:53,167 --> 00:11:00,607
+Twenty two out of forty is zero point five five, so fifty five per cent of the sample always separate their waste.
+
+167
+00:11:00,833 --> 00:11:05,001
+And now the honest part, which belongs in every survey report.
+
+168
+00:11:05,001 --> 00:11:07,827
+It shows what people said, not what they do.
+
+169
+00:11:07,827 --> 00:11:10,857
+And forty households cannot stand for two thousand.
+
+170
+00:11:12,967 --> 00:11:16,341
+Think about the ward we just drew, with eight lanes.
+
+171
+00:11:16,341 --> 00:11:18,580
+Which sample would really stand for the whole ward?
+
+172
+00:11:25,467 --> 00:11:28,320
+B, every fifth house along every lane.
+
+173
+00:11:28,320 --> 00:11:32,370
+Every lane is represented, so the sample looks like the ward.
+
+174
+00:11:32,370 --> 00:11:40,755
+Classmates are all from one school, the first forty houses are all from one corner, and the richest lane is one lane only.
+
+175
+00:11:40,755 --> 00:11:47,241
+A fair sample must cover every part of the population, or the answer describes the sample and not the ward.
+
+176
+00:11:51,600 --> 00:11:55,690
+Every measurement has two parts: a number and a unit.
+
+177
+00:11:55,690 --> 00:11:58,112
+A length of five means nothing at all.
+
+178
+00:11:58,112 --> 00:11:59,692
+Five metres means something.
+
+179
+00:11:59,900 --> 00:12:00,748
+Five.
+
+180
+00:12:00,748 --> 00:12:01,790
+Five what?
+
+181
+00:12:01,790 --> 00:12:03,469
+Five grains of rice?
+
+182
+00:12:03,469 --> 00:12:04,543
+Five kilometres?
+
+183
+00:12:04,767 --> 00:12:07,138
+Add the unit, and it becomes a measurement.
+
+184
+00:12:07,367 --> 00:12:09,830
+These are the units you will use all year.
+
+185
+00:12:09,830 --> 00:12:17,839
+Length in metres, mass in kilograms, time in seconds, temperature in kelvin, and electric current in amperes.
+
+186
+00:12:18,067 --> 00:12:21,011
+Notice the instrument beside each one.
+
+187
+00:12:21,011 --> 00:12:24,774
+A measurement is only as good as the instrument that made it.
+
+188
+00:12:25,000 --> 00:12:28,543
+Bigger and smaller units are built with prefixes.
+
+189
+00:12:28,543 --> 00:12:31,108
+A thousand metres is a kilometre.
+
+190
+00:12:31,108 --> 00:12:33,530
+A hundred centimetres is a metre.
+
+191
+00:12:33,530 --> 00:12:35,656
+A thousand grams is a kilogram.
+
+192
+00:12:36,467 --> 00:12:40,153
+Here is a measurement question of the kind the exam loves.
+
+193
+00:12:40,153 --> 00:12:50,175
+A stone of mass eighty four grams is lowered into a measuring cylinder holding forty millilitres of water, and the level rises to seventy two.
+
+194
+00:12:50,400 --> 00:12:51,469
+Watch the water.
+
+195
+00:12:51,469 --> 00:12:57,213
+The stone displaces its own volume, so the rise tells us the volume of the stone.
+
+196
+00:12:58,433 --> 00:13:04,281
+Volume equals seventy two minus forty, thirty two cubic centimetres.
+
+197
+00:13:04,281 --> 00:13:05,846
+That is the volume of the stone.
+
+198
+00:13:06,067 --> 00:13:14,862
+Density is mass over volume: eighty four over thirty two, which is two point six two five grams per cubic centimetre.
+
+199
+00:13:15,067 --> 00:13:19,001
+Water has a density of one gram per cubic centimetre.
+
+200
+00:13:19,001 --> 00:13:22,048
+The stone is denser than water, so it sinks.
+
+201
+00:13:23,567 --> 00:13:26,511
+Two habits protect every reading you take.
+
+202
+00:13:26,511 --> 00:13:32,006
+Write the unit once, in the head of the column, never beside every number.
+
+203
+00:13:32,006 --> 00:13:35,977
+And before you write a reading down, ask whether it is sensible.
+
+204
+00:13:35,977 --> 00:13:44,571
+A classroom is about eight metres long, not eight centimetres, and a school bag weighs a few kilograms, not a few grams.
+
+205
+00:13:44,571 --> 00:13:48,182
+If the number looks impossible, the unit or the instrument is wrong.
+
+206
+00:13:50,367 --> 00:13:52,139
+Let us gather it together.
+
+207
+00:13:52,139 --> 00:13:57,621
+Science is organised knowledge, tested by observation and experiment.
+
+208
+00:13:57,621 --> 00:14:07,022
+The method is a loop: observe, question, hypothesise, predict, experiment, analyse, conclude, and then repeat.
+
+209
+00:14:07,022 --> 00:14:14,496
+In a controlled experiment you change the independent variable, measure the dependent one, and hold everything else the same.
+
+210
+00:14:14,496 --> 00:14:22,205
+In the laboratory: read first, wear your goggles and apron, never taste, never point a tube at anyone.
+
+211
+00:14:22,205 --> 00:14:24,991
+A report has six parts in a fixed order.
+
+212
+00:14:24,991 --> 00:14:29,639
+A survey needs a fair sample and an honest statement of its limits.
+
+213
+00:14:29,639 --> 00:14:31,408
+And every measurement needs a unit.
+
+214
+00:14:35,600 --> 00:14:39,404
+That is scientific learning, the toolkit for the rest of the year.
+
+215
+00:14:39,404 --> 00:14:45,276
+Next time, we look at the tools themselves: information and communication technology.
+
+216
+00:14:45,276 --> 00:14:49,535
+Keep asking good questions, and see you in the next lesson on NEBians.
+

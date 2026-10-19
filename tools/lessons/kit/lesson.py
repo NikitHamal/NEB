@@ -227,8 +227,8 @@ class Lesson(Scene):
             txt = T(s, size=28, color=th.INK)
             rows.add(VGroup(num, txt).arrange(RIGHT, buff=0.35))
         rows.arrange(DOWN, aligned_edge=LEFT, buff=0.26)
-        if rows.height > 5.4:
-            rows.scale_to_fit_height(5.4)
+        if rows.height > 4.6:
+            rows.scale_to_fit_height(4.6)
         rows.next_to(head, DOWN, buff=0.5).shift(LEFT * 1.2)
         nb = self.neby("read", height=2.0).to_corner(DR, buff=0.7)
         self.play(FadeIn(head, shift=DOWN * 0.2), run_time=0.5)
