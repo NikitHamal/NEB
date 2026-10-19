@@ -25,7 +25,9 @@ export function createRig(camera) {
       if (shot.fit) {
         const vf = THREE.MathUtils.degToRad(shot.fov || camera.fov);
         const hf = 2 * Math.atan(Math.tan(vf / 2) * camera.aspect);
-        const need = Math.max(shot.fit / 2 / Math.tan(hf / 2), (shot.fitH || 0) / 2 / Math.tan(vf / 2));
+        // on a portrait phone, fitting the full width would push the camera far back: let the sides crop a little
+        const fitW = camera.aspect < 0.85 ? shot.fit * 0.72 : shot.fit;
+        const need = Math.max(fitW / 2 / Math.tan(hf / 2), (shot.fitH || 0) / 2 / Math.tan(vf / 2));
         to.s.radius = Math.max(to.s.radius, need * 1.08);
       }
       let dth = to.s.theta - from.s.theta; if (dth > Math.PI) dth -= Math.PI * 2; if (dth < -Math.PI) dth += Math.PI * 2;
