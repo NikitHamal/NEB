@@ -1,183 +1,168 @@
-import { createCanvas2D, pointerPos } from '../core/canvas2d.js';
-import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
-import { panelBg, labelText } from '../biology/bio-utils.js';
+/**
+ * Teaching machines to see — draw a digit on the pad. The drawing is turned into what the computer
+ * actually gets: a 28 × 28 grid of brightness numbers (0–255), cropped and centred by its centre of
+ * mass the way the MNIST dataset is prepared. A nearest-template classifier compares that grid
+ * with digits rendered in several typefaces (cosine similarity on lightly blurred pixels) and turns
+ * the similarities into probabilities with a softmax. A confusion matrix from a held-out test set
+ * shows which digits it mixes up.
+ */
+import { createKit, T, fmt, clamp, text, pill, withAlpha, card } from '../core/kit2d.js';
+import { createPanel, createHud } from '../core/sim-ui.js';
 
-const G = 16; // 16x16 grid for the drawing
+const N = 28, D = N * N;
+const FONTS = ['700 22px Poppins, sans-serif', '400 23px Georgia, serif', '600 22px ui-monospace, monospace', '500 22px system-ui, sans-serif', 'italic 600 22px Georgia, serif'];
 
-// A lightweight, deterministic "classifier" based on hand-crafted features.
-// Not a real neural net, but it demonstrates pixels -> features -> class scores
-// and behaves plausibly for digits drawn clearly.
-function features(grid) {
-  const f = new Array(G).fill(0);
-  let ink = 0;
-  // column ink distribution
-  const colSum = new Array(G).fill(0);
-  const rowSum = new Array(G).fill(0);
-  for (let y = 0; y < G; y++) for (let x = 0; x < G; x++) {
-    const v = grid[y * G + x];
-    ink += v; colSum[x] += v; rowSum[y] += v;
+function prep(src, out) {
+  let minX = N, minY = N, maxX = -1, maxY = -1, sum = 0;
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { const v = src[y * N + x]; if (v > 0.1) { minX = Math.min(minX, x); maxX = Math.max(maxX, x); minY = Math.min(minY, y); maxY = Math.max(maxY, y); } sum += v; }
+  out.fill(0);
+  if (maxX < 0 || sum < 1) return false;
+  const bw = maxX - minX + 1, bh = maxY - minY + 1, s = 20 / Math.max(bw, bh);
+  const tmp = new Float32Array(D);
+  let cx = 0, cy = 0, m = 0;
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+    const sx = minX + (x - (N - bw * s) / 2) / s, sy = minY + (y - (N - bh * s) / 2) / s;
+    const ix = Math.floor(sx), iy = Math.floor(sy);
+    if (ix < minX || iy < minY || ix > maxX || iy > maxY) continue;
+    const v = src[iy * N + ix]; tmp[y * N + x] = v; cx += x * v; cy += y * v; m += v;
   }
-  if (ink < 4) return null;
-  // top/bottom/middle ink, left/right, holes (rough)
-  let top = 0, mid = 0, bot = 0, left = 0, right = 0;
-  for (let y = 0; y < G; y++) for (let x = 0; x < G; x++) {
-    const v = grid[y * G + x];
-    if (y < G / 3) top += v;
-    else if (y > (2 * G) / 3) bot += v;
-    else mid += v;
-    if (x < G / 3) left += v; else if (x > (2 * G) / 3) right += v;
-  }
-  // aspect / symmetry
-  let minX = G, maxX = 0;
-  for (let x = 0; x < G; x++) if (colSum[x] > 0) { minX = Math.min(minX, x); maxX = Math.max(maxX, x); }
-  const width = Math.max(1, maxX - minX);
-  // vertical profile peaks
-  const peaks = [];
-  for (let y = 1; y < G - 1; y++) {
-    if (rowSum[y] > rowSum[y - 1] && rowSum[y] >= rowSum[y + 1] && rowSum[y] > ink / G * 0.15) peaks.push(y);
-  }
-  // holes: cells fully surrounded by ink (rough enclosed-area detector)
-  let holes = 0;
-  for (let y = 2; y < G - 2; y++) for (let x = 2; x < G - 2; x++) {
-    if (grid[y * G + x] > 0) continue;
-    if (grid[y * G + x - 1] > 0 && grid[y * G + x + 1] > 0 && grid[(y - 1) * G + x] > 0 && grid[(y + 1) * G + x] > 0) holes++;
-  }
-  return {
-    ink, top: top / ink, mid: mid / ink, bot: bot / ink,
-    left: left / ink, right: right / ink, width, peaks: peaks.length, holes,
-  };
+  const dx = Math.round(N / 2 - 0.5 - cx / m), dy = Math.round(N / 2 - 0.5 - cy / m);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { const sx = x - dx, sy = y - dy; if (sx >= 0 && sy >= 0 && sx < N && sy < N) out[y * N + x] = tmp[sy * N + sx]; }
+  // light blur, then normalise to unit length
+  const b = new Float32Array(D);
+  for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) { let s2 = 0, w = 0; for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) { const xx = x + i, yy = y + j; if (xx >= 0 && yy >= 0 && xx < N && yy < N) { const ww = i === 0 && j === 0 ? 4 : i === 0 || j === 0 ? 2 : 1; s2 += out[yy * N + xx] * ww; w += ww; } } b[y * N + x] = s2 / w; }
+  let L = 0; for (let i = 0; i < D; i++) L += b[i] * b[i]; L = Math.sqrt(L) || 1;
+  for (let i = 0; i < D; i++) out[i] = b[i] / L;
+  return true;
 }
-
-// Score each digit class from features using simple rule weights.
-function classify(grid) {
-  const f = features(grid);
-  if (!f) return null;
-  const s = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-  // Heuristic scoring (intentionally transparent, not a black box):
-  s[1] += f.top * 1.2 + f.bot * 0.3 + (f.width < 6 ? 1.2 : 0);
-  s[7] += f.top * 1.6 + f.bot * 0.1 + (f.peaks === 1 ? 0.8 : 0);
-  s[4] += f.mid * 1.4 + (f.peaks >= 2 ? 0.6 : 0);
-  s[0] += (f.holes > 2 ? 1.6 : 0) + (Math.abs(f.top - f.bot) < 0.12 ? 0.6 : 0);
-  s[6] += (f.holes > 1 ? 0.9 : 0) + f.bot * 1.1;
-  s[9] += (f.holes > 1 ? 0.9 : 0) + f.top * 1.1;
-  s[8] += (f.holes > 4 ? 1.8 : 0) + f.mid * 0.6;
-  s[2] += f.top * 0.8 + f.bot * 0.8 + (f.peaks >= 2 ? 0.5 : 0) + (f.right > f.left ? 0.4 : 0);
-  s[3] += f.top * 0.9 + f.bot * 0.9 + (f.peaks >= 2 ? 0.5 : 0) + (f.holes > 1 ? 0.6 : 0);
-  s[5] += f.top * 1.0 + f.bot * 0.9 + (f.left > f.right ? 0.4 : 0);
-  // normalise to probabilities via softmax
-  const mx = Math.max(...s);
-  const exps = s.map((v) => Math.exp((v - mx) * 1.6));
-  const sum = exps.reduce((a, b) => a + b, 0);
-  return exps.map((v) => v / sum);
+function render(digit, font, rot, scale, thick) {
+  const c = document.createElement('canvas'); c.width = c.height = N;
+  const g = c.getContext('2d');
+  g.fillStyle = '#000'; g.fillRect(0, 0, N, N);
+  g.translate(N / 2, N / 2); g.rotate(rot); g.scale(scale, scale);
+  g.font = font; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#fff'; g.strokeStyle = '#fff'; g.lineWidth = thick;
+  g.fillText(String(digit), 0, 1); if (thick > 0) g.strokeText(String(digit), 0, 1);
+  const d = g.getImageData(0, 0, N, N).data, out = new Float32Array(D);
+  for (let i = 0; i < D; i++) out[i] = d[i * 4] / 255;
+  return out;
 }
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const k = createKit(stage, { trackPointer: true, label: 'A drawing pad for digits, the 28 by 28 pixel grid and the classifier\'s probabilities' });
   const hud = createHud(stage);
-  const guessBadge = hud.badge('Draw a digit!', '#a3e635');
+  const badge = hud.badge('Draw a digit from 0 to 9', '#db2777');
 
-  let grid = new Float32Array(G * G);
-  let drawing = false;
-  let probs = null;
+  const pad = document.createElement('canvas'); pad.width = pad.height = 280;
+  const pg = pad.getContext('2d'); pg.fillStyle = '#000'; pg.fillRect(0, 0, 280, 280);
+  const small = document.createElement('canvas'); small.width = small.height = N;
+  const sg = small.getContext('2d', { willReadFrequently: true });
+  const raw = new Float32Array(D), vec = new Float32Array(D), view = document.createElement('canvas'); view.width = view.height = N;
+  const vg = view.getContext('2d'); const vimg = vg.createImageData(N, N);
+  const probs = new Float32Array(10), sims = new Float32Array(10), best = new Int16Array(10);
+  const templates = [];
+  const conf = new Int16Array(100);
+  let has = false, brush = 1.6, showNums = true, lastX = -1, lastY = -1, testAcc = 0;
 
-  const panel = createPanel(stage, { title: 'Teaching Machines to See' });
-  panel.info('Draw a digit (0–9) on the grid. The classifier turns your strokes into pixel numbers, computes features, and outputs a probability for each digit — exactly how a real image classifier works, just smaller.');
-  panel.button({ label: 'Clear', icon: 'delete', onClick: () => { grid.fill(0); probs = null; guessBadge.set('Draw a digit!'); } });
-  panel.divider();
-  const topOut = panel.readout({ label: 'Top guess', value: '—' });
-  const confOut = panel.readout({ label: 'Confidence', value: '—' });
-  panel.button({ label: 'How does it see?', icon: 'menu_book', variant: 'ghost', onClick: () => {
-    showInfoCard(stage, {
-      title: 'From pixels to prediction',
-      body: 'Your drawing becomes a grid of numbers (0 = blank, 1 = ink). The classifier measures features — ink at the top, bottom, left, right, the number of enclosed holes — and combines them into a score for each digit. The highest score wins. Real CNNs learn these features automatically from millions of examples.',
-      color: '#6366F1',
-    });
-  } });
+  for (let dgt = 0; dgt < 10; dgt++) for (let f = 0; f < FONTS.length; f++) for (const r of [-0.12, 0.08]) { const v = new Float32Array(D); if (prep(render(dgt, FONTS[f], r, 1, f % 2 ? 1.6 : 0.6), v)) templates.push({ d: dgt, v }); }
+  function classify(v, out) {
+    sims.fill(-1);
+    for (let t = 0; t < templates.length; t++) { const T2 = templates[t].v; let s = 0; for (let i = 0; i < D; i++) s += T2[i] * v[i]; const d = templates[t].d; if (s > sims[d]) { sims[d] = s; best[d] = t; } }
+    let mx = -1e9; for (let d = 0; d < 10; d++) mx = Math.max(mx, sims[d]);
+    let z = 0; for (let d = 0; d < 10; d++) { out[d] = Math.exp((sims[d] - mx) * 30); z += out[d]; }
+    for (let d = 0; d < 10; d++) out[d] /= z;
+  }
+  // held-out test: other sizes, angles and stroke widths
+  (function test() {
+    const v = new Float32Array(D), p = new Float32Array(10); let ok = 0, tot = 0;
+    for (let dgt = 0; dgt < 10; dgt++) for (let rep = 0; rep < 8; rep++) {
+      const f = FONTS[(rep * 3 + dgt) % FONTS.length], rot = (Math.random() - 0.5) * 0.5, sc = 0.8 + Math.random() * 0.35, th = Math.random() * 2.2;
+      if (!prep(render(dgt, f, rot, sc, th), v)) continue;
+      classify(v, p); let am = 0; for (let d = 1; d < 10; d++) if (p[d] > p[am]) am = d;
+      conf[dgt * 10 + am]++; tot++; if (am === dgt) ok++;
+    }
+    testAcc = ok / Math.max(1, tot);
+  })();
 
-  function geom(w, h) {
-    const size = Math.min(w * 0.5, h - 80);
-    return { x: w * 0.06, y: (h - size) / 2, size: Math.max(120, size) };
+  const panel = createPanel(stage, { title: 'Digit classifier' });
+  panel.buttonRow([{ label: 'Clear', icon: 'delete', variant: 'ghost', onClick: clear }]);
+  panel.slider({ label: 'Pen thickness', min: 0.8, max: 2.6, step: 0.1, value: brush, format: (v) => v.toFixed(1), onChange: (v) => { brush = v; } });
+  panel.toggle({ label: 'Show pixel numbers', value: true, onChange: (v) => { showNums = v; k.invalidate(); } });
+  const st = panel.stats([{ key: 'guess', label: 'Best guess' }, { key: 'conf', label: 'Confidence' }, { key: 'test', label: 'Accuracy on the test set' }, { key: 'templ', label: 'Templates stored' }]);
+  panel.info('To the computer an image is just numbers. This simple classifier compares those numbers with stored examples; modern convolutional networks instead learn small pattern detectors (edges, loops, corners) that work wherever the pattern appears, which is why they are so good at images.');
+  st.test.set(`${fmt(testAcc * 100, 0)} %`); st.templ.set(String(templates.length));
+
+  function clear() { pg.fillStyle = '#000'; pg.fillRect(0, 0, 280, 280); has = false; probs.fill(0); update(); k.invalidate(); }
+  function update() {
+    sg.clearRect(0, 0, N, N); sg.imageSmoothingEnabled = true; sg.drawImage(pad, 0, 0, N, N);
+    const d = sg.getImageData(0, 0, N, N).data;
+    for (let i = 0; i < D; i++) raw[i] = d[i * 4] / 255;
+    for (let i = 0; i < D; i++) { const v = Math.round(raw[i] * 255); vimg.data[i * 4] = vimg.data[i * 4 + 1] = vimg.data[i * 4 + 2] = v; vimg.data[i * 4 + 3] = 255; }
+    vg.putImageData(vimg, 0, 0);
+    has = prep(raw, vec);
+    if (has) classify(vec, probs);
   }
 
-  function paintAt(px, py) {
-    const g = geom(sim.width, sim.height);
-    const cell = g.size / G;
-    const gx = Math.floor((px - g.x) / cell);
-    const gy = Math.floor((py - g.y) / cell);
-    if (gx < 0 || gx >= G || gy < 0 || gy >= G) return;
-    // brush with neighbours for smoother strokes
-    for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
-      const x = gx + dx, y = gy + dy;
-      if (x < 0 || x >= G || y < 0 || y >= G) continue;
-      const falloff = (Math.abs(dx) + Math.abs(dy)) === 0 ? 1 : 0.5;
-      grid[y * G + x] = Math.min(1, grid[y * G + x] + 0.6 * falloff);
-    }
+  let ox = 0, oy = 0, ps = 280, gx = 0, gy = 0, gs = 140, bx = 0, by = 0, bw = 0, cmx = 0, cmy = 0, cms = 0;
+  k.onResize((w, h) => {
+    if (k.small) { ps = Math.min(w * 0.56, h * 0.52); ox = 10; oy = 44; gs = w - ps - 30; gx = ox + ps + 10; gy = oy; bx = 10; by = oy + ps + 18; bw = w - 20; cms = 0; }
+    else { ps = Math.min(h - 120, w * 0.36); ox = 20; oy = 50; gs = Math.min(ps * 0.5, w * 0.2); gx = ox + ps + 24; gy = oy; bx = gx; by = gy + gs + 34; bw = w - gx - 20; cms = Math.min(w - gx - gs - 50, gs * 1.1, 190); cmx = gx + gs + 26; cmy = oy; }
+  });
+  k.drag({
+    hit: (x, y) => (x > ox && x < ox + ps && y > oy && y < oy + ps ? 1 : false),
+    down: (x, y) => { lastX = x; lastY = y; stroke(x, y); },
+    move: (x, y) => stroke(x, y),
+    up: () => { lastX = -1; },
+    cursor: 'crosshair', cursorActive: 'crosshair',
+  });
+  function stroke(x, y) {
+    const s = 280 / ps, x0 = (lastX - ox) * s, y0 = (lastY - oy) * s, x1 = (x - ox) * s, y1 = (y - oy) * s;
+    pg.strokeStyle = '#fff'; pg.lineCap = 'round'; pg.lineJoin = 'round'; pg.lineWidth = brush * 10 * 2;
+    pg.beginPath(); pg.moveTo(x0, y0); pg.lineTo(x1, y1); pg.stroke();
+    lastX = x; lastY = y; update(); k.invalidate();
   }
-  function onDown(e) {
-    drawing = true; const p = pointerPos(sim.canvas, e); paintAt(p.x, p.y);
-    if (sim.canvas.setPointerCapture) sim.canvas.setPointerCapture(e.pointerId);
-  }
-  function onMove(e) { if (!drawing) return; const p = pointerPos(sim.canvas, e); paintAt(p.x, p.y); }
-  function onUp() { drawing = false; probs = classify(grid); if (probs) {
-    let bi = 0; probs.forEach((v, i) => { if (v > probs[bi]) bi = i; });
-    guessBadge.set(`Guess: ${bi}`);
-    topOut.set(String(bi)); confOut.set(`${Math.round(probs[bi] * 100)}%`);
-  } }
-  sim.canvas.addEventListener('pointerdown', onDown);
-  sim.canvas.addEventListener('pointermove', onMove);
-  sim.canvas.addEventListener('pointerup', onUp);
 
-  sim.setUpdate((ctx) => {
-    const { width: w, height: h } = sim;
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#070a14'; ctx.fillRect(0, 0, w, h);
-    const g = geom(w, h);
-    // draw grid
-    const cell = g.size / G;
-    ctx.fillStyle = '#0c1226'; ctx.fillRect(g.x, g.y, g.size, g.size);
-    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1;
-    for (let i = 0; i <= G; i++) {
-      ctx.beginPath(); ctx.moveTo(g.x + i * cell, g.y); ctx.lineTo(g.x + i * cell, g.y + g.size); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(g.x, g.y + i * cell); ctx.lineTo(g.x + g.size, g.y + i * cell); ctx.stroke();
-    }
-    // ink
-    for (let y = 0; y < G; y++) for (let x = 0; x < G; x++) {
-      const v = grid[y * G + x];
-      if (v > 0) {
-        ctx.fillStyle = `rgba(96,165,250,${v})`;
-        ctx.fillRect(g.x + x * cell, g.y + y * cell, cell, cell);
-      }
-    }
-    ctx.strokeStyle = 'rgba(99,102,241,0.5)'; ctx.lineWidth = 2;
-    ctx.strokeRect(g.x, g.y, g.size, g.size);
-
-    // probabilities bar chart on the right
-    const cx = g.x + g.size + 30; const cy = g.y; const cw = Math.min(w - cx - 16, 260); const ch = g.size;
-    panelBg(ctx, cx, cy, cw, ch);
-    labelText(ctx, 'Class probabilities', cx + 10, cy + 18, { color: '#9ec1ff', size: 12 });
-    const barH = (ch - 36) / 10;
-    let topIdx = 0;
-    if (probs) probs.forEach((v, i) => { if (v > probs[topIdx]) topIdx = i; });
+  k.frame((ctx, dt, w, h) => {
+    ctx.fillStyle = '#f7f8fd'; ctx.fillRect(0, 0, w, h);
+    // pad
+    card(ctx, ox - 4, oy - 4, ps + 8, ps + 8, 12, '#111827', '#111827');
+    ctx.imageSmoothingEnabled = true; ctx.drawImage(pad, ox, oy, ps, ps);
+    ctx.strokeStyle = 'rgba(255,255,255,0.06)'; ctx.lineWidth = 1; ctx.beginPath(); for (let i = 1; i < N; i++) { const p = ox + i * ps / N; ctx.moveTo(p, oy); ctx.lineTo(p, oy + ps); ctx.moveTo(ox, oy + i * ps / N); ctx.lineTo(ox + ps, oy + i * ps / N); } ctx.stroke();
+    if (!has) text(ctx, 'draw here', ox + ps / 2, oy + ps / 2, 'rgba(255,255,255,0.35)', 16, 600, 'center');
+    // what the computer sees
+    text(ctx, '28 × 28 pixels', gx, gy - 8, T.ink2, 10.5, 700);
+    ctx.imageSmoothingEnabled = false; ctx.drawImage(view, gx, gy, gs, gs); ctx.imageSmoothingEnabled = true;
+    ctx.strokeStyle = T.line; ctx.strokeRect(gx + 0.5, gy + 0.5, gs, gs);
+    if (showNums && k.pointer.inside && k.pointer.x > ox && k.pointer.x < ox + ps && k.pointer.y > oy && k.pointer.y < oy + ps && !k.small) {
+      const cx = Math.floor((k.pointer.x - ox) / ps * N), cy = Math.floor((k.pointer.y - oy) / ps * N);
+      const mx = clamp(k.pointer.x + 18, 0, w - 170), my = clamp(k.pointer.y + 18, 0, h - 150);
+      card(ctx, mx, my, 160, 140, 10);
+      for (let j = -2; j <= 2; j++) for (let i = -2; i <= 2; i++) { const xx = cx + i, yy = cy + j; if (xx < 0 || yy < 0 || xx >= N || yy >= N) continue; const v = Math.round(raw[yy * N + xx] * 255); ctx.fillStyle = `rgb(${v},${v},${v})`; ctx.fillRect(mx + 8 + (i + 2) * 29, my + 8 + (j + 2) * 25, 28, 24); text(ctx, String(v), mx + 22 + (i + 2) * 29, my + 24 + (j + 2) * 25, v > 128 ? '#000' : '#fff', 9, 600, 'center'); }
+    } else if (showNums && !k.small) text(ctx, 'hover the pad to read the pixel numbers', gx, gy + gs + 16, T.mute, 9.5, 600);
+    // probabilities
+    let am = 0; for (let d = 1; d < 10; d++) if (probs[d] > probs[am]) am = d;
+    const rowH = k.small ? Math.min(18, (h - by - 10) / 10) : Math.min(24, (h - by - 20) / 10);
     for (let d = 0; d < 10; d++) {
-      const by = cy + 24 + d * barH;
-      labelText(ctx, String(d), cx + 12, by + barH / 2 + 4, { color: '#cbd5e1', size: 12 });
-      const p = probs ? probs[d] : 0;
-      const bw = (cw - 60) * p;
-      ctx.fillStyle = d === topIdx ? '#34d399' : 'rgba(99,102,241,0.4)';
-      ctx.fillRect(cx + 30, by + 4, Math.max(2, bw), barH - 8);
-      labelText(ctx, `${Math.round(p * 100)}%`, cx + 30 + Math.max(2, bw) + 6, by + barH / 2 + 4,
-        { color: '#e2e8f0', size: 11 });
+      const yy = by + d * rowH;
+      text(ctx, String(d), bx, yy + rowH * 0.7, d === am && has ? '#db2777' : T.ink2, 12, 800);
+      ctx.fillStyle = T.line2; ctx.beginPath(); ctx.roundRect(bx + 18, yy + 3, bw - 70, rowH - 6, 4); ctx.fill();
+      ctx.fillStyle = d === am && has ? '#db2777' : withAlpha('#7c3aed', 0.6); ctx.beginPath(); ctx.roundRect(bx + 18, yy + 3, (bw - 70) * probs[d], rowH - 6, 4); ctx.fill();
+      text(ctx, has ? `${fmt(probs[d] * 100, 0)} %` : '', bx + bw - 6, yy + rowH * 0.7, T.ink2, 10, 600, 'right');
     }
+    // confusion matrix
+    if (cms > 90) {
+      text(ctx, 'Confusion matrix (test set)', cmx, cmy - 8, T.ink2, 10.5, 700);
+      const c = cms / 10;
+      let mx2 = 1; for (let i = 0; i < 100; i++) mx2 = Math.max(mx2, conf[i]);
+      for (let r = 0; r < 10; r++) for (let q = 0; q < 10; q++) { const v = conf[r * 10 + q] / mx2; ctx.fillStyle = r === q ? withAlpha('#16a34a', 0.1 + 0.85 * v) : withAlpha('#e5484d', v > 0 ? 0.25 + 0.6 * v : 0.03); ctx.fillRect(cmx + q * c, cmy + r * c, c - 1, c - 1); }
+      for (let i = 0; i < 10; i++) { text(ctx, String(i), cmx + i * c + c / 2, cmy + cms + 11, T.mute, 8.5, 600, 'center'); text(ctx, String(i), cmx - 6, cmy + i * c + c * 0.7, T.mute, 8.5, 600, 'right'); }
+      text(ctx, 'predicted →', cmx + cms, cmy + cms + 24, T.mute, 9, 600, 'right');
+    }
+    st.guess.set(has ? String(am) : '—'); st.conf.set(has ? `${fmt(probs[am] * 100, 0)} %` : '—');
+    badge.set(has ? `I think it is a ${am} (${fmt(probs[am] * 100, 0)} % sure)` : 'Draw a digit from 0 to 9');
+    k.animate(false);
   });
 
-  sim.start();
-
-  return {
-    dispose() {
-      sim.canvas.removeEventListener('pointerdown', onDown);
-      sim.canvas.removeEventListener('pointermove', onMove);
-      sim.canvas.removeEventListener('pointerup', onUp);
-      panel.dispose(); hud.dispose(); sim.dispose();
-    },
-  };
+  update();
+  k.debug = { pad: () => [ox, oy, ps], probs: () => Array.from(probs).map((p) => Math.round(p * 100)), acc: () => testAcc };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }

@@ -1,205 +1,137 @@
-import { createCanvas2D, pointerPos } from '../core/canvas2d.js';
-import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
-import { roundRect, labelText } from '../biology/bio-utils.js';
+/**
+ * What is AI? — drag each card into the right place: inside Deep Learning, Machine Learning or
+ * AI (the rings are nested, because deep learning is a kind of machine learning, which is one way
+ * of doing AI), or into "Not AI" for things that only follow fixed instructions. A right answer
+ * settles into its ring; a wrong one springs back and says why.
+ */
+import { createKit, T, Spring, fmt, clamp, text, pill, withAlpha, card, softShadow } from '../core/kit2d.js';
+import { createPanel, createHud } from '../core/sim-ui.js';
 
-// Items to sort. ring = where it belongs: 'ai', 'ml', or 'dl'.
 const ITEMS = [
-  { label: 'Chess engine (searches millions of moves)', ring: 'ai' },
-  { label: 'Spam filter learning from emails', ring: 'ml' },
-  { label: 'ChatGPT writing an essay', ring: 'dl' },
-  { label: 'Face unlock on your phone', ring: 'dl' },
-  { label: 'Calculator doing 2+2', ring: null },
-  { label: 'Route planner (Dijkstra shortest path)', ring: 'ai' },
-  { label: 'YouTube video recommender', ring: 'ml' },
-  { label: 'Self-driving car vision system', ring: 'dl' },
-  { label: 'Thermostat switching on at 7am', ring: null },
-  { label: 'Image generator (DALL·E / Midjourney)', ring: 'dl' },
-  { label: 'Weather forecast from past data', ring: 'ml' },
-  { label: 'A digital clock', ring: null },
+  { t: 'Chess engine searching millions of moves', r: 'ai', why: 'It plans with search and hand-written rules about good positions: AI, but it does not learn from data.' },
+  { t: 'Spam filter that learns from emails you mark', r: 'ml', why: 'It learns which words predict spam from labelled examples: machine learning.' },
+  { t: 'Chatbot writing an essay', r: 'dl', why: 'Large language models are huge neural networks trained on text: deep learning.' },
+  { t: 'Face unlock on a phone', r: 'dl', why: 'Faces are recognised by a deep convolutional network trained on many images.' },
+  { t: 'Calculator doing 2 + 2', r: 'none', why: 'It follows exact arithmetic rules. No reasoning, no learning: not AI.' },
+  { t: 'Route planner finding the shortest path', r: 'ai', why: 'Classic search (Dijkstra, A*) is a core AI technique, with no learning needed.' },
+  { t: 'Video recommender', r: 'ml', why: 'It learns your tastes from what you and similar people watched.' },
+  { t: 'Self-driving car seeing pedestrians', r: 'dl', why: 'Camera images are understood by deep neural networks.' },
+  { t: 'Thermostat switching on at 7 am', r: 'none', why: 'A fixed timer rule set by a person: automation, not AI.' },
+  { t: 'Image generator from a text prompt', r: 'dl', why: 'Diffusion models are deep networks trained on millions of captioned pictures.' },
+  { t: 'Weather forecast fitted to past data', r: 'ml', why: 'A model learns patterns from years of measurements.' },
+  { t: 'Digital clock', r: 'none', why: 'It just counts seconds. Nothing is decided or learned.' },
 ];
-
-const RINGS = [
-  { id: 'ai', label: 'AI', color: '#6366F1', desc: 'Any technique that makes a machine seem to think — including rule-based systems.' },
-  { id: 'ml', label: 'Machine Learning', color: '#8B5CF6', desc: 'Systems that learn patterns from data instead of following hand-written rules.' },
-  { id: 'dl', label: 'Deep Learning', color: '#EC4899', desc: 'Machine learning using many-layered neural networks — the engine of modern AI.' },
-];
+const RING = { ai: { label: 'Artificial Intelligence', color: '#4f46e5' }, ml: { label: 'Machine Learning', color: '#7c3aed' }, dl: { label: 'Deep Learning', color: '#db2777' }, none: { label: 'Not AI', color: '#64748b' } };
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const k = createKit(stage, { label: 'Nested rings for AI, machine learning and deep learning, with cards to sort' });
   const hud = createHud(stage);
-  const scoreBadge = hud.badge('Sorted: 0', '#a3e635');
+  const badge = hud.badge('Drag the card into the right ring', '#4f46e5');
 
-  // Shuffle items, pick 6
-  const deck = ITEMS.slice().sort(() => Math.random() - 0.5).slice(0, 6).map((it, i) => ({
-    ...it, x: 0, y: 0, w: 0, h: 0, placed: null, id: i,
-  }));
+  let order = ITEMS.map((_, i) => i).sort(() => Math.random() - 0.5), cur = 0, correct = 0, tries = 0;
+  const placed = [];
+  const cx = new Spring(0, 200, 18), cy = new Spring(0, 200, 18), shake = new Spring(0, 500, 12), pop = new Spring(0, 200, 14);
+  let held = false, gx = 0, gy = 0, msg = '', msgOk = true, msgT = 0;
 
-  // Card layout: left stack of cards, three ring dropzones on the right
-  const cardW = 250; const cardH = 52;
-  function layout(w, h) {
-    // rings on the right
-    const ringCx = w * 0.68;
-    const ringCy = h * 0.5;
-    const radii = [h * 0.42, h * 0.30, h * 0.18];
-    // card stack on the left
-    const stackX = w * 0.13;
-    const stackY = h * 0.18;
-    deck.forEach((c, i) => {
-      if (!c.placed) {
-        c.x = stackX; c.y = stackY + i * (cardH + 8); c.w = cardW; c.h = cardH;
-      }
-    });
-    return { ringCx, ringCy, radii };
+  const panel = createPanel(stage, { title: 'Sort it out' });
+  panel.button({ label: 'Shuffle and start again', icon: 'shuffle', variant: 'ghost', onClick: restart });
+  const st = panel.stats([{ key: 'done', label: 'Sorted' }, { key: 'acc', label: 'First-try accuracy' }]);
+  const why = panel.info('Traditional programs follow rules a person wrote. Machine learning finds the rules from examples. Deep learning does that with many-layered neural networks.');
+
+  function restart() { order = ITEMS.map((_, i) => i).sort(() => Math.random() - 0.5); cur = 0; correct = 0; tries = 0; placed.length = 0; resetCard(); k.animate(true); }
+  let deckX = 0, deckY = 0, cw = 220, ch = 70, vx = 0, vy = 0, vrx = 0, vry = 0, noneBox = { x: 0, y: 0, w: 0, h: 0 };
+  function resetCard() { cx.to(deckX); cy.to(deckY); }
+  k.onResize((w, h) => {
+    cw = k.small ? 180 : 230; ch = k.small ? 62 : 72;
+    if (k.small) { deckX = w / 2; deckY = 76; vx = w / 2; vy = h * 0.6; vrx = w * 0.46; vry = h * 0.3; noneBox = { x: w - 96, y: 120, w: 86, h: 60 }; }
+    else { deckX = w * 0.82; deckY = h * 0.3; vx = w * 0.38; vy = h * 0.54; vrx = w * 0.34; vry = h * 0.42; noneBox = { x: w * 0.72, y: h * 0.62, w: w * 0.24, h: h * 0.3 }; }
+    cx.set(deckX); cy.set(deckY);
+  });
+  const inEll = (x, y, s) => ((x - vx) / (vrx * s)) ** 2 + ((y - (vy + vry * (1 - s) * 0.7)) / (vry * s)) ** 2 <= 1;
+  function regionAt(x, y) {
+    if (x > noneBox.x && x < noneBox.x + noneBox.w && y > noneBox.y && y < noneBox.y + noneBox.h) return 'none';
+    if (inEll(x, y, 0.38)) return 'dl';
+    if (inEll(x, y, 0.68)) return 'ml';
+    if (inEll(x, y, 1)) return 'ai';
+    return null;
   }
 
-  let dragging = null; let dragOff = { x: 0, y: 0 };
-  let mouseX = 0; let mouseY = 0;
-
-  function onDown(e) {
-    const p = pointerPos(sim.canvas, e);
-    mouseX = p.x; mouseY = p.y;
-    // topmost card under pointer (from top of stack)
-    for (let i = deck.length - 1; i >= 0; i--) {
-      const c = deck[i];
-      if (c.placed) continue;
-      if (p.x >= c.x && p.x <= c.x + c.w && p.y >= c.y && p.y <= c.y + c.h) {
-        dragging = c; dragOff = { x: p.x - c.x, y: p.y - c.y };
-        if (sim.canvas.setPointerCapture) sim.canvas.setPointerCapture(e.pointerId);
-        break;
-      }
-    }
-  }
-  function onMove(e) {
-    const p = pointerPos(sim.canvas, e);
-    mouseX = p.x; mouseY = p.y;
-    if (dragging) { dragging.x = p.x - dragOff.x; dragging.y = p.y - dragOff.y; }
-  }
-  function onUp(e) {
-    if (!dragging) return;
-    const { ringCx, ringCy, radii } = layout(sim.width, sim.height);
-    const dx = (dragging.x + dragging.w / 2) - ringCx;
-    const dy = (dragging.y + dragging.h / 2) - ringCy;
-    const dist = Math.hypot(dx, dy);
-    // which ring? inside outer ring required; pick innermost that contains it
-    let ring = null;
-    if (dist <= radii[0]) {
-      ring = 'dl';
-      if (dist <= radii[2]) ring = 'dl';
-      else if (dist <= radii[1]) ring = 'ml';
-      else ring = 'ai';
-    }
-    if (ring) {
-      dragging.placed = ring;
-      const correct = dragging.ring === ring;
-      showInfoCard(stage, {
-        title: correct ? 'Correct! ✓' : 'Not quite',
-        body: correct
-          ? `${dragging.label} — belongs in ${RINGS.find((r) => r.id === ring).label}. ${RINGS.find((r) => r.id === ring).desc}`
-          : `${dragging.label} is actually ${dragging.ring ? RINGS.find((r) => r.id === dragging.ring).label : 'not AI at all'} — it was dragged into ${RINGS.find((r) => r.id === ring).label}.`,
-        color: correct ? '#a3e635' : '#f87171',
-      });
-      const placed = deck.filter((c) => c.placed).length;
-      scoreBadge.set(`Sorted: ${placed}/${deck.length}`);
-    } else {
-      // return to stack
-    }
-    dragging = null;
-  }
-  sim.canvas.addEventListener('pointerdown', onDown);
-  sim.canvas.addEventListener('pointermove', onMove);
-  sim.canvas.addEventListener('pointerup', onUp);
-
-  const panel = createPanel(stage, { title: 'What Is AI?' });
-  panel.info('Drag each card into the ring where it belongs. AI is the big umbrella; ML learns from data; deep learning uses neural networks. Some cards are not AI at all — drag those off the rings.');
-  panel.button({ label: 'New round', icon: 'refresh', onClick: () => {
-    const shuffled = ITEMS.slice().sort(() => Math.random() - 0.5).slice(0, 6);
-    deck.forEach((c, i) => { Object.assign(c, shuffled[i]); c.placed = null; });
-    scoreBadge.set('Sorted: 0');
-  } });
-  panel.divider();
-  panel.readout({ label: 'AI', value: 'Machines that seem to think' });
-  panel.readout({ label: 'ML', value: 'Learns from data' });
-  panel.readout({ label: 'DL', value: 'Deep neural networks' });
-  panel.button({ label: 'Reveal the nesting', icon: 'menu_book', variant: 'ghost', onClick: () => {
-    showInfoCard(stage, {
-      title: 'The three nested circles',
-      body: 'AI is the broadest field. Inside AI sits machine learning (systems that learn from data). Inside ML sits deep learning (learning with many-layered neural networks). So all deep learning is ML, and all ML is AI — but not the other way round.',
-      color: '#6366F1',
-    });
-  } });
-
-  sim.setUpdate((ctx) => {
-    const { width: w, height: h } = sim;
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#070a14'; ctx.fillRect(0, 0, w, h);
-    const { ringCx, ringCy, radii } = layout(w, h);
-
-    // Draw the three nested rings (concentric, AI outer, ML mid, DL inner)
-    const colors = { ai: '#6366F1', ml: '#8B5CF6', dl: '#EC4899' };
-    [['ai', 0], ['ml', 1], ['dl', 2]].forEach(([id, idx]) => {
-      ctx.fillStyle = hexA(colors[id], 0.10 + idx * 0.05);
-      ctx.strokeStyle = colors[id]; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.arc(ringCx, ringCy, radii[idx], 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-      labelText(ctx, RINGS[idx].label, ringCx - radii[idx] + 14, ringCy - radii[idx] + 18,
-        { color: colors[id], size: 13 });
-    });
-    // center label
-    labelText(ctx, 'DEEP', ringCx, ringCy - 4, { color: '#fff', size: 14, align: 'center' });
-    labelText(ctx, 'LEARNING', ringCx, ringCy + 12, { color: '#fff', size: 14, align: 'center' });
-
-    // Drop hint at cursor when dragging
-    if (dragging) {
-      const dx = (dragging.x + dragging.w / 2) - ringCx;
-      const dy = (dragging.y + dragging.h / 2) - ringCy;
-      const dist = Math.hypot(dx, dy);
-      if (dist <= radii[0]) {
-        ctx.strokeStyle = '#a3e635'; ctx.lineWidth = 3;
-        ctx.beginPath(); ctx.arc(ringCx, ringCy, radii[0], 0, Math.PI * 2); ctx.stroke();
-      }
-    }
-
-    // Draw cards (placed ones shrink into the ring)
-    deck.forEach((c) => {
-      if (c.placed) {
-        // small chip inside its ring
-        const ringIdx = RINGS.findIndex((r) => r.id === c.placed);
-        const placed = deck.filter((x) => x.placed === c.placed);
-        const myIdx = placed.indexOf(c);
-        const ang = (myIdx / Math.max(1, placed.length)) * Math.PI * 2 - Math.PI / 2;
-        const rr = radii[ringIdx] * 0.55;
-        c.x = ringCx + Math.cos(ang) * rr - 60;
-        c.y = ringCy + Math.sin(ang) * rr - 12;
-        c.w = 120; c.h = 24;
-        drawCard(ctx, c, c.placed === c.ring);
+  const cardH = k.drag({
+    enabled: () => cur < order.length,
+    hit: (x, y, s) => (Math.abs(x - cx.x) < cw / 2 + s && Math.abs(y - cy.x) < ch / 2 + s ? 1 : false),
+    down: (x, y) => { held = true; gx = x - cx.x; gy = y - cy.x; },
+    move: (x, y) => { cx.set(x - gx); cy.set(y - gy); },
+    up: (x, y) => {
+      held = false;
+      const reg = regionAt(x, y), it = ITEMS[order[cur]];
+      if (!reg) { resetCard(); return; }
+      tries++;
+      if (reg === it.r) {
+        if (tries === 1) correct++;
+        placed.push({ i: order[cur], r: reg, x: x, y: y });
+        msg = `✓ ${it.why}`; msgOk = true; pop.v = 8;
+        cur++; tries = 0; cx.set(deckX); cy.set(deckY - 40); resetCard();
       } else {
-        c.w = cardW; c.h = cardH;
-        drawCard(ctx, c, null);
+        msg = `Not quite — ${it.why}`; msgOk = false; shake.v = 60; resetCard();
       }
-    });
+      msgT = 6; why.set(msg);
+      k.animate(true);
+    },
   });
 
-  function drawCard(ctx, c, correct) {
-    const border = correct === true ? '#a3e635' : correct === false ? '#f87171' : '#3b4252';
-    ctx.fillStyle = correct === false ? 'rgba(248,113,113,0.12)' : 'rgba(99,102,241,0.14)';
-    ctx.strokeStyle = border; ctx.lineWidth = dragging === c ? 2.5 : 1.5;
-    roundRect(ctx, c.x, c.y, c.w, c.h, 8); ctx.fill(); ctx.stroke();
-    labelText(ctx, c.label, c.x + 10, c.y + c.h / 2 + 4, { color: '#e2e8f0', size: c.h > 30 ? 12 : 10 });
+  k.frame((ctx, dt, w, h) => {
+    const moving = cx.step(dt) | cy.step(dt) | shake.step(dt) | pop.step(dt);
+    msgT = Math.max(0, msgT - dt);
+    ctx.fillStyle = '#f7f8fd'; ctx.fillRect(0, 0, w, h);
+    // nested rings
+    const hover = held ? regionAt(k.pointer.x, k.pointer.y) : null;
+    for (const [key, s] of [['ai', 1], ['ml', 0.68], ['dl', 0.38]]) {
+      const R = RING[key], yy = vy + vry * (1 - s) * 0.7;
+      ctx.beginPath(); ctx.ellipse(vx, yy, vrx * s, vry * s, 0, 0, Math.PI * 2);
+      ctx.fillStyle = withAlpha(R.color, hover === key ? 0.2 : 0.08); ctx.fill();
+      ctx.strokeStyle = withAlpha(R.color, hover === key ? 1 : 0.6); ctx.lineWidth = hover === key ? 3 : 2; ctx.stroke();
+      text(ctx, R.label, vx, yy - vry * s + (k.small ? 16 : 22), R.color, k.small ? 11 : 13, 800, 'center');
+    }
+    ctx.fillStyle = withAlpha(RING.none.color, hover === 'none' ? 0.18 : 0.07); ctx.strokeStyle = withAlpha(RING.none.color, hover === 'none' ? 1 : 0.5); ctx.setLineDash([6, 5]); ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.roundRect(noneBox.x, noneBox.y, noneBox.w, noneBox.h, 12); ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
+    text(ctx, 'Not AI', noneBox.x + noneBox.w / 2, noneBox.y + 20, RING.none.color, k.small ? 11 : 13, 800, 'center');
+    // placed chips
+    ctx.font = `600 9.5px ${T.font}`;
+    for (const p of placed) {
+      const it = ITEMS[p.i], maxW = k.small ? 100 : 170;
+      let label = it.t; while (ctx.measureText(label).width > maxW - 14 && label.length > 4) label = label.slice(0, -2);
+      if (label !== it.t) label = label.trimEnd() + '…';
+      const tw = ctx.measureText(label).width + 14;
+      ctx.fillStyle = '#fff'; ctx.strokeStyle = withAlpha(RING[p.r].color, 0.7); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.roundRect(p.x - tw / 2, p.y - 10, tw, 20, 10); ctx.fill(); ctx.stroke();
+      text(ctx, label, p.x, p.y + 4, T.ink2, 9.5, 600, 'center');
+    }
+    // the card
+    if (cur < order.length) {
+      const it = ITEMS[order[cur]], x = cx.x + Math.sin(shake.x * 0.3) * shake.x * 0.08, y = cy.x;
+      softShadow(ctx, x, y + ch / 2 + 4, cw * 0.5, 6, held ? 0.35 : 0.2);
+      ctx.save(); ctx.translate(x, y); ctx.rotate(held ? 0.03 : 0); const sc = 1 + (held ? 0.04 : 0) + pop.x * 0.004; ctx.scale(sc, sc);
+      card(ctx, -cw / 2, -ch / 2, cw, ch, 14, '#ffffff', held ? '#4f46e5' : 'rgba(23,32,51,0.12)');
+      wrap(ctx, it.t, 0, -ch / 2 + 26, cw - 28, 17);
+      ctx.restore();
+      if (!held && placed.length === 0) text(ctx, 'drag me ↓', deckX, deckY + ch / 2 + 18, '#4f46e5', 11, 700, 'center');
+      text(ctx, `${cur + 1} / ${order.length}`, deckX + cw / 2, deckY - ch / 2 - 8, T.mute, 10, 600, 'right');
+    } else {
+      pill(ctx, `All sorted! ${correct} of ${ITEMS.length} right first time`, deckX, deckY, { bg: T.green, color: '#fff', border: false, size: 13 });
+    }
+    if (msgT > 0 && !k.small) { const a = Math.min(1, msgT); ctx.globalAlpha = a; card(ctx, 16, h - 76, Math.min(560, w - 32), 60, 12, msgOk ? '#f0fdf4' : '#fff7ed', msgOk ? '#86efac' : '#fdba74'); wrap(ctx, msg, 30, h - 54, Math.min(530, w - 60), 16, 'left'); ctx.globalAlpha = 1; }
+    st.done.set(`${cur} of ${ITEMS.length}`); st.acc.set(cur ? `${fmt(correct / cur * 100, 0)} %` : '—');
+    badge.set(msgT > 0 ? (msgOk ? 'Right!' : 'Try another ring') : 'Drag the card into the right ring');
+    k.animate(moving || held || msgT > 0);
+  });
+
+  function wrap(ctx, s, x, y, maxW, lh, align = 'center') {
+    ctx.font = `600 ${k.small ? 11.5 : 13}px ${T.font}`; ctx.fillStyle = T.ink; ctx.textAlign = align; ctx.textBaseline = 'alphabetic';
+    let line = '', yy = y;
+    for (const word of s.split(' ')) { const test = line ? line + ' ' + word : word; if (ctx.measureText(test).width > maxW && line) { ctx.fillText(line, x, yy); line = word; yy += lh; } else line = test; }
+    if (line) ctx.fillText(line, x, yy);
   }
 
-  sim.start();
-
-  return {
-    dispose() {
-      sim.canvas.removeEventListener('pointerdown', onDown);
-      sim.canvas.removeEventListener('pointermove', onMove);
-      sim.canvas.removeEventListener('pointerup', onUp);
-      panel.dispose(); hud.dispose(); sim.dispose();
-    },
-  };
-}
-
-function hexA(hex, a) {
-  const n = parseInt(hex.slice(1), 16);
-  const r = (n >> 16) & 255, g = (n >> 8) & 255, b = n & 255;
-  return `rgba(${r},${g},${b},${a})`;
+  resetCard();
+  k.debug = { card: () => [cx.x, cy.x], answer: () => ITEMS[order[cur]].r, target: (r) => r === 'none' ? [noneBox.x + noneBox.w / 2, noneBox.y + noneBox.h / 2] : r === 'dl' ? [vx, vy + vry * 0.62 * 0.7] : r === 'ml' ? [vx - vrx * 0.5, vy + vry * 0.2] : [vx - vrx * 0.85, vy], done: () => cur };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }

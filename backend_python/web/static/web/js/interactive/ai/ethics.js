@@ -1,6 +1,12 @@
-import { createCanvas2D, pointerPos } from '../core/canvas2d.js';
-import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
-import { panelBg, labelText, roundRect, drawTable } from '../biology/bio-utils.js';
+/**
+ * AI in your life — a hiring model learns from past decisions that were biased against group B.
+ * Both groups have the same spread of skill, but a logistic-regression model trained on those
+ * past decisions (by gradient descent, right here) reproduces the bias. Hide the group from the
+ * model and it can still find it through a proxy (home area); only fixing the data removes it.
+ * Tap an applicant to see their case. Four real dilemmas follow in the panel.
+ */
+import { createKit, T, Spring, fmt, text, withAlpha, card } from '../core/kit2d.js';
+import { createPanel, createHud } from '../core/sim-ui.js';
 
 const SCENARIOS = [
   {
@@ -56,147 +62,127 @@ const SCENARIOS = [
     lesson: 'Asking who owns your data, who can see it, and what it decides about you is now basic digital literacy.',
   },
 ];
-
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const k = createKit(stage, { trackPointer: true, label: 'A hiring model trained on biased past decisions, with selection rates by group' });
   const hud = createHud(stage);
-  const scoreBadge = hud.badge('Score: 0/0', '#a3e635');
+  const badge = hud.badge('Raise the bias in the past data and retrain', '#db2777');
 
-  let idx = 0;
-  let answered = new Array(SCENARIOS.length).fill(null); // index of chosen option
-  let score = 0; let total = 0;
+  const NA = 240;
+  const skill = new Float64Array(NA), area = new Float64Array(NA), grp = new Uint8Array(NA), hired = new Uint8Array(NA), score = new Float64Array(NA);
+  const w = new Float64Array(4);
+  let bias = 1.6, useGroup = true, useArea = true, picked = -1, rateA = 0, rateB = 0;
+  const barA = new Spring(0, 120, 16), barB = new Spring(0, 120, 16);
 
-  function current() { return SCENARIOS[idx]; }
-
-  const panel = createPanel(stage, { title: 'AI Ethics & Your Future' });
-  panel.info('AI is powerful, but it inherits human bias and raises hard questions about accountability and privacy. Read each scenario, choose the best response, and learn the lesson.');
-  panel.button({ label: 'Previous', icon: 'arrow_back', onClick: () => { idx = (idx - 1 + SCENARIOS.length) % SCENARIOS.length; } });
-  panel.button({ label: 'Next scenario', icon: 'arrow_forward', onClick: () => { idx = (idx + 1) % SCENARIOS.length; } });
-  panel.button({ label: 'Reset score', icon: 'refresh', variant: 'ghost', onClick: () => { answered = new Array(SCENARIOS.length).fill(null); score = 0; total = 0; } });
-  panel.divider();
-  const scoreOut = panel.readout({ label: 'Your score', value: '0/0' });
-  panel.button({ label: 'Why does bias happen?', icon: 'menu_book', variant: 'ghost', onClick: () => {
-    showInfoCard(stage, {
-      title: 'AI is a mirror',
-      body: 'A model can only learn from the data it is given — and that data was made by humans, complete with our prejudices. The AI is not neutral; it reflects society back, magnified. Diverse data and diverse teams are the first defence.',
-      color: '#6366F1',
+  const panel = createPanel(stage, { title: 'Bias in, bias out' });
+  panel.slider({ label: 'Bias in the past hiring decisions', min: 0, max: 3, step: 0.1, value: bias, format: (v) => (v === 0 ? 'none' : v.toFixed(1)), onChange: (v) => { bias = v; build(); } });
+  panel.toggle({ label: 'Model may see the group', value: true, onChange: (v) => { useGroup = v; train(); } });
+  panel.toggle({ label: 'Model may see the home area (a proxy)', value: true, onChange: (v) => { useArea = v; train(); } });
+  const st = panel.stats([{ key: 'a', label: 'Group A selected' }, { key: 'b', label: 'Group B selected' }, { key: 'ratio', label: 'B ÷ A (fair ≥ 0.8)' }, { key: 'w', label: 'Weight on group' }]);
+  panel.section('Real dilemmas');
+  const qWrap = document.createElement('div'); qWrap.className = 'ix-ctrl-row'; panel.body.appendChild(qWrap);
+  let qi = 0;
+  function showQ() {
+    const s = SCENARIOS[qi];
+    qWrap.innerHTML = '';
+    const h = document.createElement('div'); h.className = 'ix-ctrl-label'; h.style.fontWeight = '700'; h.textContent = `${qi + 1}/${SCENARIOS.length} · ${s.title}`;
+    const p = document.createElement('p'); p.className = 'ix-ctrl-info'; p.textContent = s.desc;
+    const box = document.createElement('div'); box.className = 'k2-chips'; box.style.flexDirection = 'column'; box.style.alignItems = 'stretch';
+    const out = document.createElement('p'); out.className = 'ix-ctrl-info';
+    s.options.forEach((o) => {
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'k2-chip'; b.style.justifyContent = 'flex-start'; b.style.whiteSpace = 'normal'; b.style.textAlign = 'left'; b.style.lineHeight = '1.3'; b.textContent = o.label;
+      b.addEventListener('click', () => { [...box.children].forEach((c) => c.classList.remove('is-on')); b.classList.add('is-on'); b.style.background = o.correct ? '#16a34a' : '#e5484d'; b.style.borderColor = b.style.background; out.textContent = `${o.explain} ${o.correct ? s.lesson : ''}`; });
+      box.appendChild(b);
     });
-  } });
-
-  function updateScore() {
-    scoreBadge.set(`Score: ${score}/${total}`);
-    scoreOut.set(`${score}/${total}`);
+    const next = document.createElement('button'); next.type = 'button'; next.className = 'ix-ctrl-btn ix-ctrl-btn-ghost'; next.textContent = 'Next dilemma';
+    next.addEventListener('click', () => { qi = (qi + 1) % SCENARIOS.length; showQ(); });
+    qWrap.append(h, p, box, out, next);
   }
+  showQ();
 
-  function chooseOption(optIdx) {
-    if (answered[idx] !== null) return; // already answered this one
-    answered[idx] = optIdx;
-    const opt = current().options[optIdx];
-    total++;
-    if (opt.correct) score++;
-    updateScore();
-    showInfoCard(stage, {
-      title: opt.correct ? 'Correct ✓' : 'Not quite',
-      body: opt.explain + '\n\n' + current().lesson,
-      color: opt.correct ? '#a3e635' : '#fbbf24',
-    });
-  }
-
-  function geom(w, h) {
-    return { x: 20, y: 20, w: w - 40, h: h - 100 };
-  }
-
-  function onClick(e) {
-    const p = pointerPos(sim.canvas, e);
-    const g = geom(sim.width, sim.height);
-    const sc = current();
-    // option boxes
-    const optY = g.y + 130;
-    sc.options.forEach((opt, i) => {
-      const oy = optY + i * 56;
-      if (p.x >= g.x + 16 && p.x <= g.x + g.w - 16 && p.y >= oy && p.y <= oy + 48) {
-        chooseOption(i);
-      }
-    });
-  }
-  sim.canvas.addEventListener('click', onClick);
-
-  sim.setUpdate((ctx) => {
-    const { width: w, height: h } = sim;
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = '#070a14'; ctx.fillRect(0, 0, w, h);
-    const g = geom(w, h);
-    panelBg(ctx, g.x, g.y, g.w, g.h);
-
-    const sc = current();
-    // progress dots
-    SCENARIOS.forEach((s, i) => {
-      const dx = g.x + 20 + i * 22;
-      const dy = g.y + 20;
-      ctx.fillStyle = i === idx ? '#a3e635' : answered[i] !== null ? '#34d399' : '#334155';
-      ctx.beginPath(); ctx.arc(dx, dy, 7, 0, Math.PI * 2); ctx.fill();
-    });
-
-    labelText(ctx, `Scenario ${idx + 1} of ${SCENARIOS.length}: ${sc.title}`, g.x + 20, g.y + 56,
-      { color: '#e2e8f0', size: 16 });
-    // description (wrap)
-    wrapText(ctx, sc.desc, g.x + 20, g.y + 86, g.w - 40, 20, { color: '#94a3b8', size: 12 });
-
-    // options
-    const optY = g.y + 130;
-    sc.options.forEach((opt, i) => {
-      const oy = optY + i * 56;
-      const answeredThis = answered[idx] !== null;
-      const isChosen = answered[idx] === i;
-      let bg = 'rgba(99,102,241,0.10)'; let border = '#475569';
-      if (answeredThis) {
-        if (opt.correct) { bg = 'rgba(52,211,153,0.18)'; border = '#34d399'; }
-        else if (isChosen) { bg = 'rgba(248,113,113,0.18)'; border = '#f87171'; }
-        else { bg = 'rgba(71,85,105,0.10)'; border = '#334155'; }
-      }
-      ctx.fillStyle = bg; ctx.strokeStyle = border; ctx.lineWidth = 1.5;
-      roundRect(ctx, g.x + 16, oy, g.w - 32, 48, 8); ctx.fill(); ctx.stroke();
-      const letter = String.fromCharCode(65 + i);
-      ctx.fillStyle = border; ctx.font = '700 14px Poppins, sans-serif';
-      ctx.fillText(letter, g.x + 30, oy + 28);
-      wrapText(ctx, opt.label, g.x + 54, oy + 18, g.w - 100, 16, { color: '#e2e8f0', size: 13 });
-      if (answeredThis && opt.correct) {
-        ctx.fillStyle = '#34d399'; ctx.font = '700 14px Poppins, sans-serif';
-        ctx.fillText('✓', g.x + g.w - 36, oy + 28);
-      }
-    });
-
-    // lesson if answered
-    if (answered[idx] !== null) {
-      const ly = optY + sc.options.length * 56 + 12;
-      panelBg(ctx, g.x + 16, ly, g.w - 32, 50);
-      labelText(ctx, '💡 Lesson', g.x + 28, ly + 18, { color: '#fbbf24', size: 11 });
-      wrapText(ctx, sc.lesson, g.x + 28, ly + 36, g.w - 60, 14, { color: '#e2e8f0', size: 12 });
+  function build() {
+    let s = 12345; const r = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
+    for (let i = 0; i < NA; i++) {
+      grp[i] = i % 2; skill[i] = Math.min(1, Math.max(0, 0.5 + (r() + r() + r() - 1.5) * 0.45));
+      area[i] = Math.min(1, Math.max(0, (grp[i] ? 0.3 : 0.7) + (r() - 0.5) * 0.5));
+      const z = 7 * (skill[i] - 0.55) + (grp[i] ? -bias : bias) * 0.9;
+      hired[i] = r() < 1 / (1 + Math.exp(-z)) ? 1 : 0;
     }
+    train();
+  }
+  function feat(i, out) { out[0] = skill[i] - 0.5; out[1] = useGroup ? (grp[i] ? -0.5 : 0.5) : 0; out[2] = useArea ? area[i] - 0.5 : 0; out[3] = 1; return out; }
+  const F = new Float64Array(4), G = new Float64Array(4);
+  function train() {
+    w.fill(0);
+    for (let it = 0; it < 400; it++) {
+      G.fill(0);
+      for (let i = 0; i < NA; i++) { feat(i, F); let z = 0; for (let j = 0; j < 4; j++) z += w[j] * F[j]; const p = 1 / (1 + Math.exp(-z)), e = p - hired[i]; for (let j = 0; j < 4; j++) G[j] += e * F[j]; }
+      for (let j = 0; j < 4; j++) w[j] -= 1.5 * G[j] / NA;
+    }
+    let sa = 0, na = 0, sb = 0, nb = 0;
+    for (let i = 0; i < NA; i++) { feat(i, F); let z = 0; for (let j = 0; j < 4; j++) z += w[j] * F[j]; score[i] = 1 / (1 + Math.exp(-z)); const sel = score[i] > 0.5; if (grp[i]) { nb++; if (sel) sb++; } else { na++; if (sel) sa++; } }
+    rateA = sa / na; rateB = sb / nb; barA.to(rateA); barB.to(rateB); k.animate(true);
+  }
+
+  let cx = 0, cy = 0, cw = 0, ch = 0, bx = 0, byy = 0;
+  k.onResize((W, H) => {
+    if (k.small) { cx = 34; cy = 44; cw = W - 48; ch = H * 0.52; bx = 14; byy = cy + ch + 34; }
+    else { cx = 50; cy = 50; cw = W * 0.58; ch = H - 100; bx = cx + cw + 30; byy = 60; }
+  });
+  const PX = (v) => cx + v * cw, PY = (v) => cy + ch - v * ch;
+  k.drag({
+    hit: (x, y, s) => { for (let i = 0; i < NA; i++) if (Math.hypot(x - PX(skill[i]), y - PY(area[i])) < 6 + s) return 1; return false; },
+    down: (x, y) => { let bd = 1e9; for (let i = 0; i < NA; i++) { const d = Math.hypot(x - PX(skill[i]), y - PY(area[i])); if (d < bd) { bd = d; picked = i; } } k.invalidate(); },
+    cursor: 'pointer', cursorActive: 'pointer',
   });
 
-  sim.start();
-  updateScore();
+  k.frame((ctx, dt, W, H) => {
+    const anim = barA.step(dt) | barB.step(dt);
+    ctx.fillStyle = '#f7f8fd'; ctx.fillRect(0, 0, W, H);
+    card(ctx, cx - 8, cy - 8, cw + 16, ch + 16, 12);
+    // model's decision boundary in (skill, area) for each group
+    for (let g = 0; g < 2; g++) {
+      const gv = useGroup ? (g ? -0.5 : 0.5) : 0;
+      ctx.strokeStyle = g ? withAlpha('#db2777', 0.8) : withAlpha('#2563eb', 0.8); ctx.lineWidth = 2; ctx.setLineDash(g ? [6, 4] : []);
+      ctx.beginPath();
+      for (let t = 0; t <= 20; t++) { const a = t / 20, ae = useArea ? a - 0.5 : 0; const s0 = -(w[1] * gv + w[2] * ae + w[3]) / (w[0] || 1e-6) + 0.5; const X = PX(Math.min(1.05, Math.max(-0.05, s0))), Y = PY(a); if (t) ctx.lineTo(X, Y); else ctx.moveTo(X, Y); }
+      ctx.stroke(); ctx.setLineDash([]);
+    }
+    for (let i = 0; i < NA; i++) {
+      const X = PX(skill[i]), Y = PY(area[i]), c = grp[i] ? '#db2777' : '#2563eb';
+      ctx.globalAlpha = hired[i] ? 1 : 0.35;
+      if (grp[i]) { ctx.fillStyle = c; ctx.beginPath(); ctx.moveTo(X, Y - 5); ctx.lineTo(X + 4.5, Y + 4); ctx.lineTo(X - 4.5, Y + 4); ctx.closePath(); ctx.fill(); }
+      else { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(X, Y, 4, 0, Math.PI * 2); ctx.fill(); }
+      ctx.globalAlpha = 1;
+      if (i === picked) { ctx.strokeStyle = T.ink; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(X, Y, 9, 0, Math.PI * 2); ctx.stroke(); }
+    }
+    text(ctx, 'skill test score →', cx + cw, cy + ch + 24, T.ink2, 10.5, 600, 'right');
+    ctx.save(); ctx.translate(cx - 24, cy + ch / 2); ctx.rotate(-Math.PI / 2); text(ctx, 'home area (a proxy for group)', 0, 0, T.ink2, 10.5, 600, 'center'); ctx.restore();
+    if (!k.small) text(ctx, 'solid = hired in the past · faded = rejected · blue line / pink dashes = the model\'s pass mark for A / B', cx, cy + ch + 24, T.mute, 10, 600);
+    // selection bars
+    const bw = k.small ? (W - 28) / 2 - 10 : W - bx - 24;
+    const bars = [['Group A', barA.x, '#2563eb'], ['Group B', barB.x, '#db2777']];
+    for (let i = 0; i < 2; i++) {
+      const [lab, v, col] = bars[i], x0 = k.small ? bx + i * (bw + 20) : bx, y0 = k.small ? byy : byy + i * 60;
+      text(ctx, `${lab}: ${fmt(v * 100, 0)} % selected`, x0, y0, T.ink, 11.5, 700);
+      ctx.fillStyle = T.line2; ctx.beginPath(); ctx.roundRect(x0, y0 + 10, bw, 14, 7); ctx.fill();
+      ctx.fillStyle = col; ctx.beginPath(); ctx.roundRect(x0, y0 + 10, bw * v, 14, 7); ctx.fill();
+    }
+    if (!k.small && picked >= 0) {
+      const y0 = byy + 140;
+      card(ctx, bx, y0, bw, 130, 12);
+      text(ctx, `Applicant #${picked + 1} · group ${grp[picked] ? 'B' : 'A'}`, bx + 12, y0 + 22, T.ink, 11.5, 700);
+      text(ctx, `skill ${fmt(skill[picked] * 100, 0)} / 100`, bx + 12, y0 + 46, T.ink2, 10.5, 600);
+      text(ctx, `past decision: ${hired[picked] ? 'hired' : 'rejected'}`, bx + 12, y0 + 66, T.ink2, 10.5, 600);
+      text(ctx, `model score: ${fmt(score[picked] * 100, 0)} % → ${score[picked] > 0.5 ? 'interview' : 'reject'}`, bx + 12, y0 + 86, score[picked] > 0.5 ? T.green : T.red, 11, 700);
+      text(ctx, 'Both groups have the same spread of skill.', bx + 12, y0 + 112, T.mute, 10, 500);
+    }
+    const ratio = rateA > 0 ? rateB / rateA : 1;
+    st.a.set(`${fmt(rateA * 100, 0)} %`); st.b.set(`${fmt(rateB * 100, 0)} %`); st.ratio.set(fmt(ratio, 2)); st.w.set(useGroup ? fmt(w[1], 2) : 'hidden');
+    badge.set(ratio < 0.8 ? (useGroup ? 'The model copied the bias in the past decisions' : useArea ? 'Group hidden, but home area still leaks it: bias via a proxy' : 'Still unfair: the past labels themselves are biased') : 'Selection rates are close: much fairer');
+    k.animate(!!anim);
+  });
 
-  return {
-    dispose() {
-      sim.canvas.removeEventListener('click', onClick);
-      panel.dispose(); hud.dispose(); sim.dispose();
-    },
-  };
-}
-
-function wrapText(ctx, text, x, y, maxW, lineH, opts = {}) {
-  ctx.font = `${opts.weight || 500} ${opts.size || 12}px Poppins, sans-serif`;
-  ctx.fillStyle = opts.color || '#e2e8f0';
-  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-  const words = text.split(/\s+/);
-  let line = ''; let cy = y;
-  for (let i = 0; i < words.length; i++) {
-    const test = line + (line ? ' ' : '') + words[i];
-    if (ctx.measureText(test).width > maxW && line) {
-      ctx.fillText(line, x, cy); line = words[i]; cy += lineH;
-    } else { line = test; }
-  }
-  if (line) ctx.fillText(line, x, cy);
+  build();
+  k.debug = { rates: () => [rateA, rateB], pick: () => [PX(skill[3]), PY(area[3])] };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }
