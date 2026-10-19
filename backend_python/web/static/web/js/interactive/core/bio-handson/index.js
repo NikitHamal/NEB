@@ -28,6 +28,8 @@ const PRACTICALS = {
   'phototropism-setup': () => import('./practicals/tropism.js'),
   'suction-due-transpiration-setup': () => import('./practicals/suction.js'),
   'mendelian-inheritance-seeds': () => import('./practicals/mendel.js'),
+  'quadrat-density-plant': () => import('./practicals/quadrat.js'),
+  'quadrat-frequency-field': () => import('./practicals/quadrat.js'),
   'apical-bud-removal-setup': () => import('./practicals/tropism.js'),
 };
 
