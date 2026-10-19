@@ -21,6 +21,7 @@ const PRACTICALS = {
   'spherometer': () => import('./practicals/spherometer.js'),
   'coefficient-of-friction': () => import('./practicals/friction.js'),
   'specific-heat-mixtures': () => import('./practicals/specific-heat.js'),
+  'heat-of-neutralization': () => import('./practicals/neutralization.js'),
   'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
