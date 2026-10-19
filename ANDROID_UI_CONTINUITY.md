@@ -366,3 +366,34 @@ stands, and now covers §11 too.
 
 Local build without CI secrets: `KEYSTORE_PASSWORD=x KEY_PASSWORD=x ./gradlew :app:compileModernDebugKotlin`
 (the release signing config throws when the variable is unset, even for debug tasks).
+
+
+## 13. PDF reader features and the Neby chat rebuild (Oct 19, 2026) — both variants compile
+
+**PDF reader** (`ui/screens/reader/`):
+- `PdfDocumentEngine.search(index, query)` and `pageText(index)` use the platform PDF text APIs
+  (`Page.searchText`, `Page.getTextContents`), available on Android 15 and on 11+ with the PDF
+  mainline module at R-extension 13 (`canReadText`). They run behind the same mutex as rendering.
+- `pdf/PdfSearchBar.kt`: `ReaderSearch` state (hits stream in, scanning from the current page and
+  wrapping), the search bar (prev/next, progress hairline), and `Modifier.searchMarks` drawing hit
+  rectangles (page fractions) on `PdfPage`. The view model's `search()`/`stepSearch()`; a hit lands
+  a third of the way down the screen in the scrolling layout.
+- Options sheet: "Share or open with" (FileProvider `files-path resources/`… note downloads live in
+  `filesDir/offline_resources`, which `file_paths.xml` does not list — if sharing fails on a device,
+  add `<files-path name="offline" path="offline_resources/" />`) and "Copy page text".
+- The scrolling reader pre-renders the two pages after the viewport.
+- Not done: tiled high-resolution rendering when zoomed past ~2x (pages are capped at 6 MP).
+
+**Chat** (`ui/screens/ai/chat/`, `ui/pixel/PixelChatSprites.kt`):
+- `NebyChatMessages.kt`: `UserMessage`, `AssistantMessage` (pixel Neby header that thinks /
+  reads / talks / idles, sparkle on landing, actions copy/share/regenerate), `NebyStatus` (pixel
+  loader + breathing label), `rememberSmoothText` (paced streaming reveal, ≤30 parses/s),
+  `Modifier.enterOnce`.
+- `NebyChatComposer.kt`: growing well, file chips, Send that becomes Stop. `NebyAiViewModel.stop()`
+  closes the active SSE `ResponseBody`; `markStopped()` keeps the partial answer.
+- `NebyChatEmpty.kt`: time-of-day greeting, tappable waving Neby, four starter prompts.
+- `PixelChatSprites`: thinking orbs, pencil writing, page scan, sparkle, caret — drawn in code
+  with the shared palette and outline.
+- The PDF "Ask Neby" overlay renders its messages with the same components.
+- Motion: only `neb*Spec` springs; the status label pulse is driven from the frame clock in the
+  draw phase (no `tween`).
