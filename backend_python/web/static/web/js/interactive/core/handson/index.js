@@ -19,6 +19,7 @@ const PRACTICALS = {
   'electrolysis-cuso4': () => import('./practicals/electrolysis.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
   'spherometer': () => import('./practicals/spherometer.js'),
+  'coefficient-of-friction': () => import('./practicals/friction.js'),
   'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
