@@ -41,6 +41,11 @@ fun InteractiveLessonScreen(
     lessonSlug: String,
     onNavigateBack: () -> Unit
 ) {
+    val nativeSim = remember(courseSlug, lessonSlug) { com.neb.ians.ui.sim.NativeSims.simFor(courseSlug, lessonSlug) }
+    if (nativeSim != null) {
+        com.neb.ians.ui.sim.NativeLessonScreen(sim = nativeSim, onNavigateBack = onNavigateBack)
+        return
+    }
     var pageProgress by remember { mutableStateOf(0) }
     var isFullscreen by remember { mutableStateOf(false) }
     val lessonUrl = "$BASE_URL/interactive/$courseSlug/$lessonSlug/"
