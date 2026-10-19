@@ -240,6 +240,7 @@ export default function init(stage) {
   });
 
   function sub2(p) { return '₀₁₂₃₄₅₆₇₈₉'[p] || String(p); }
+  setTimeout(() => { if (!n) spawn(roomW * 0.35, 2, 0, 0); }, 400);
   k.debug = { balls: () => n, ball: (i) => [SX(x[i]), SY(y[i])], peaks: () => Array.from(peaks.slice(0, nPeaks)) };
   return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }
