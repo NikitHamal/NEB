@@ -890,7 +890,7 @@ def ajax_llm_models(request):
     ]
 
     inception_models = [
-        {"id": "inception:mercury-2", "name": "Mercury 2 (Diffusion LLM)", "provider": "Inception Labs (Mercury 2)"},
+        {"id": "inception:mercury-3", "name": "Mercury 3 (Diffusion LLM)", "provider": "Inception Labs (Mercury 3)"},
     ]
 
     all_models = qwen_models + qwencloud_models + deepai_models + inception_models

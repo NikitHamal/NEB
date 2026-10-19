@@ -218,7 +218,7 @@ def _call_community(slug: str, model: str, system: str, prompt: str, effort: str
         return motiftech_proxy.simple_chat(prompt, model=model or 'motif-102b', system_prompt=system, max_tokens=max_tokens, reasoning_effort=deep)
     if slug == 'inception':
         from api import inception_proxy
-        return inception_proxy.simple_chat(prompt, model=model or 'mercury-2', system_prompt=system, reasoning_effort=deep)
+        return inception_proxy.simple_chat(prompt, model=model or 'mercury-3', system_prompt=system, reasoning_effort=deep)
     if slug == 'qwencloud':
         from api import qwencloud_proxy
         return qwencloud_proxy.simple_chat(prompt, model=model or 'qwen3.8-max', system_prompt=system)
