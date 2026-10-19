@@ -1,0 +1,2220 @@
+{
+ "grade": "11",
+ "grade_label": "Class 11",
+ "grade_label_ne": "कक्षा ११",
+ "subject": "english",
+ "name": "English",
+ "name_ne": "अङ्ग्रेजी",
+ "icon": "menu_book",
+ "group": "compulsory",
+ "color": "#6B3FA0",
+ "lang": "en",
+ "code": "0031 (CDC Eng.003)",
+ "hours": null,
+ "exam": "3hr, FM 75 written (+25 internal) | No Group A/B/C. 8 questions:",
+ "areas": [
+  "Literature - Short Stories",
+  "Literature - Poems",
+  "Literature - Essays",
+  "Literature - One Act Plays",
+  "Grammar",
+  "Writing and Skills"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "The Selfish Giant - Oscar Wilde",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Literary devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "About the author"
+    },
+    {
+     "no": "1.2",
+     "title": "The story"
+    },
+    {
+     "no": "1.3",
+     "title": "Characters"
+    },
+    {
+     "no": "1.4",
+     "title": "Themes"
+    },
+    {
+     "no": "1.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "1.6",
+     "title": "Literary devices"
+    },
+    {
+     "no": "1.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Oscar Wilde (1854–1900), Irish, leader of Aestheticism; \"The Selfish Giant\" comes from The Happy Prince and Other Tales (1888).",
+    "A Giant returns after seven years with the Cornish ogre, drives the children out of his garden, walls it and posts TRESPASSERS WILL BE PROSECUTED.",
+    "Spring, Summer and Autumn never come; Snow, Frost, North Wind and Hail settle in — the Giant's selfishness becomes his own punishment.",
+    "A linnet's song and the sight of one small crying boy melt the Giant's heart; he lifts the boy into the tree, breaks down the wall and gives the garden to the children.",
+    "The boy disappears. Years later he returns with nail-prints in his hands and feet, calls them \"the wounds of Love\", and takes the dying Giant to Paradise.",
+    "Themes: selfishness punishes itself; love and repentance restore life; the value of childhood innocence; walls and exclusion; Christian sacrifice and salvation.",
+    "Devices: personification of the seasons, pathetic fallacy, symbolism of the wall and garden, situational irony, Christian allegory, biblical diction at the close.",
+    "Structure: four movements, third-person omniscient narration, with the real climax followed by a long coda covering many years."
+   ],
+   "terms": [
+    "Aestheticism",
+    "Allegory"
+   ],
+   "stats": {
+    "words": 5168,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "The Oval Portrait - Edgar Allan Poe",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Literary devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "About the author"
+    },
+    {
+     "no": "2.2",
+     "title": "The story"
+    },
+    {
+     "no": "2.3",
+     "title": "Characters"
+    },
+    {
+     "no": "2.4",
+     "title": "Themes"
+    },
+    {
+     "no": "2.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "2.6",
+     "title": "Literary devices"
+    },
+    {
+     "no": "2.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Edgar Allan Poe (1809–1849), American, a founder of Dark Romanticism and of the detective story; \"The Oval Portrait\" appeared in 1842 as \"Life in Death\".",
+    "A wounded narrator and his valet Pedro shelter in an abandoned château in the Apennines and take a small turret room hung with paintings.",
+    "Moving the candelabrum at midnight reveals an oval portrait of a young girl whose \"absolute life-likeliness of expression\" terrifies him.",
+    "A book on the pillow explains it: a painter married a beautiful girl who hated his Art as her rival, then made her sit for weeks in a dark turret.",
+    "Absorbed in his work, he did not see her fading; the colours he laid on the canvas were drawn from her cheeks.",
+    "At the last brush-stroke he cried, \"This is indeed Life itself!\", turned to his bride, and found her dead. The story ends there, inside the book.",
+    "Themes: art consuming life; artistic obsession and blindness; beauty and death; the woman as object; the unreliable, feverish eye.",
+    "Devices: frame narrative, Gothic setting, situational irony, paradox, the lamp simile, light-and-shade imagery, unity of effect."
+   ],
+   "terms": [
+    "Unity of effect",
+    "Frame narrative"
+   ],
+   "stats": {
+    "words": 4933,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "God Sees the Truth but Waits - Leo Tolstoy",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Literary devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "About the author"
+    },
+    {
+     "no": "3.2",
+     "title": "The story"
+    },
+    {
+     "no": "3.3",
+     "title": "Characters"
+    },
+    {
+     "no": "3.4",
+     "title": "Themes"
+    },
+    {
+     "no": "3.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "3.6",
+     "title": "Literary devices"
+    },
+    {
+     "no": "3.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Leo Tolstoy (1828–1910), Russian realist and moral thinker; \"God Sees the Truth, but Waits\" (1872) takes its title from a Russian proverb.",
+    "Aksionov, a merchant of Vladimir, ignores his wife's warning dream and travels to the Nizhny fair; a fellow merchant is murdered at the inn.",
+    "A blood-stained knife is found in Aksionov's bag; he is flogged and sent to Siberia for twenty-six years, charged with a murder he did not commit.",
+    "His wife's question, \"was it not you who did it?\", ends his hope of human help; he stops petitioning and turns to prayer.",
+    "In prison he becomes \"Grandfather\" and \"The Saint\"; Makar Semyonich, the real murderer, arrives and gives himself away.",
+    "Aksionov refuses to betray Makar's escape tunnel to the Governor, and later forgives him — \"God will forgive you! Maybe I am a hundred times worse than you.\"",
+    "Makar confesses, but Aksionov dies before the release order arrives.",
+    "Themes: injustice; forgiveness as release; faith and patience; suspicion; revenge refused. Devices: foreshadowing, dramatic and situational irony, symbolism, understatement, extreme plainness of style."
+   ],
+   "terms": [
+    "Realism"
+   ],
+   "stats": {
+    "words": 5096,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "The Wish - Roald Dahl",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Literary devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "About the author"
+    },
+    {
+     "no": "4.2",
+     "title": "The story"
+    },
+    {
+     "no": "4.3",
+     "title": "Characters"
+    },
+    {
+     "no": "4.4",
+     "title": "Themes"
+    },
+    {
+     "no": "4.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "4.6",
+     "title": "Literary devices"
+    },
+    {
+     "no": "4.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Roald Dahl (1916–1990), British, born in Wales of Norwegian parents, RAF pilot, author of macabre adult stories and famous children's books; \"The Wish\" is from Someone Like You (1953).",
+    "A small boy alone in the hall picks off a scab, examines the new skin, and then studies the large red, black and yellow carpet.",
+    "He invents a game: black is poisonous snakes, red is red-hot coals, yellow is safe; the prize for crossing is a puppy for his birthday the next day.",
+    "As he crosses, the imagined danger becomes real to him — the snakes seem to stir and watch — and he begins to show the physical signs of real fear.",
+    "A wide band of black forces an enormous stretch; he loses his balance, whirls his arms and puts his hand down on black. He screams.",
+    "The story ends outside in the sunshine with his mother searching for him, and explains nothing.",
+    "Themes: imagination and its dangers; self-imposed rules and play; loneliness and absent adults; desire (the puppy); the blurred line between imagined and real.",
+    "Devices: symbolism and colour symbolism, tactile imagery, personification, suspense, foreshadowing, irony, free indirect style, and a deliberately ambiguous ending."
+   ],
+   "terms": [
+    "Macabre",
+    "Free indirect style"
+   ],
+   "stats": {
+    "words": 4747,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Civil Peace - Chinua Achebe",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Literary devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "About the author"
+    },
+    {
+     "no": "5.2",
+     "title": "The story"
+    },
+    {
+     "no": "5.3",
+     "title": "Characters"
+    },
+    {
+     "no": "5.4",
+     "title": "Themes"
+    },
+    {
+     "no": "5.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "5.6",
+     "title": "Literary devices"
+    },
+    {
+     "no": "5.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Chinua Achebe (1930–2013), Nigerian, author of Things Fall Apart; \"Civil Peace\" comes from Girls at War and Other Stories (1972) and is set just after the Nigerian Civil War of 1967–70.",
+    "Jonathan Iwegbu counts five \"inestimable blessings\" — his own head, his wife Maria's and those of three of his four children — and repeats \"Nothing puzzles God.\"",
+    "His buried bicycle survives the war; as a taxi it earns him a hundred and fifteen pounds in two weeks, which takes the family back to Enugu.",
+    "Their small zinc house still stands among ruins; the whole family works — mangoes, akara, a palm-wine bar — since the coal mine will not reopen.",
+    "At the treasury he receives a twenty-pound ex-gratia award, which the crowd calls \"egg-rasher\".",
+    "That night thieves knock; nobody answers the family's cries for help, and the leader mockingly calls for the police himself, saying \"This time na Civil Peace.\"",
+    "Jonathan hands over the whole twenty pounds; by morning the family is back at work, and he says again that nothing puzzles God.",
+    "Themes: peace in name only, survival and work, loss, faith or fatalism, and the collapse of law and community; devices include irony, the repeated refrain, the bicycle as symbol, Pidgin English and a circular structure."
+   ],
+   "terms": [
+    "Biafra and the Nigerian Civil War",
+    "Irony"
+   ],
+   "stats": {
+    "words": 4877,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Two Little Soldiers - Guy de Maupassant",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Literary devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "About the author"
+    },
+    {
+     "no": "6.2",
+     "title": "The story"
+    },
+    {
+     "no": "6.3",
+     "title": "Characters"
+    },
+    {
+     "no": "6.4",
+     "title": "Themes"
+    },
+    {
+     "no": "6.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "6.6",
+     "title": "Literary devices"
+    },
+    {
+     "no": "6.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Guy de Maupassant (1850–1893), French Realist and Naturalist, pupil of Flaubert, author of about three hundred stories including \"Boule de Suif\" and \"The Necklace\"; he died in an asylum at forty-two.",
+    "Two young Breton soldiers, Luc Le Ganidec and Jean Kerderen, walk every Sunday from their barracks at Courbevoie, over the bridge at Bezons, to a spot near the wood of Champioux that reminds them of home.",
+    "Their ritual is fixed: the pause on the bridge, the cheap provisions, the hidden bricks, the fire, the sausage, the silence on the grass.",
+    "A dairymaid begins to speak to them, gives them milk \"to remind them of home\", accepts their two sous' worth of sweets, and joins their Sunday meal.",
+    "Luc secretly takes leave twice in one week; on the next Sunday the girl kisses him in front of Jean, and the two go off into the wood together.",
+    "Jean is stunned and silent; the girl walks past him with a careless nod, and Maupassant notes simply that she did not offer him any milk that day.",
+    "On the walk home they stop on the bridge as always; Jean leans further and further over the railing and falls into the Seine. Boatmen recover the body.",
+    "Luc reports an accident, and the story ends with the narrator's line, \"If he had only known.\""
+   ],
+   "terms": [
+    "Realism and Naturalism",
+    "Objective narration"
+   ],
+   "stats": {
+    "words": 5088,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "An Astrologer's Day - R. K. Narayan",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Literary devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "About the author"
+    },
+    {
+     "no": "7.2",
+     "title": "The story"
+    },
+    {
+     "no": "7.3",
+     "title": "Characters"
+    },
+    {
+     "no": "7.4",
+     "title": "Themes"
+    },
+    {
+     "no": "7.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "7.6",
+     "title": "Literary devices"
+    },
+    {
+     "no": "7.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "R. K. Narayan (1906–2001), Indian novelist and story writer, creator of the imaginary town of Malgudi; \"An Astrologer's Day\" is the title story of his 1947 collection.",
+    "The astrologer works under a tamarind tree on Town Hall Road, among other street sellers, lit only by their flares; his ash, vermilion, turban, cowrie shells and charts are pure stagecraft.",
+    "He knows nothing about astrology. He succeeds through observation, flattery and a \"working analysis of mankind's troubles: marriage, money and the tangles of human ties\".",
+    "A last customer, Guru Nayak, challenges him and they make a wager; a struck match shows the astrologer the man's face and he tries to call the bet off.",
+    "He then tells Guru Nayak, accurately, that he was stabbed, pushed into a well and left for dead, and names him.",
+    "He lies that the enemy died four months ago under a lorry, and warns him never to travel southward again. Guru Nayak pays and leaves.",
+    "At home he gives the money to his wife, complains of being cheated of a few annas, and finally tells her that he had believed for years that he had \"the blood of a man\" on his hands — he was the attacker.",
+    "Themes: appearance and reality, irony and chance, guilt and relief, survival by wits, and superstition; devices include situational and dramatic irony, light-and-dark imagery, foreshadowing, withheld information and a twist ending."
+   ],
+   "terms": [
+    "Malgudi",
+    "Twist ending"
+   ],
+   "stats": {
+    "words": 5254,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Corona Says - Vishnu S. Rai",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "Summary",
+    "Themes",
+    "Form, structure and rhyme",
+    "Poetic devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "8.2",
+     "title": "Summary"
+    },
+    {
+     "no": "8.3",
+     "title": "Themes"
+    },
+    {
+     "no": "8.4",
+     "title": "Form, structure and rhyme"
+    },
+    {
+     "no": "8.5",
+     "title": "Poetic devices"
+    },
+    {
+     "no": "8.6",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "\"Corona Says\" by Vishnu S. Rai is a dramatic monologue in free verse in which the coronavirus speaks to the whole human race.",
+    "Its four movements are: the virus accepts that it is hated; it accuses human beings of far greater destruction; it points out that it alone treats all people equally; and it shows that nature began to heal the moment people stopped.",
+    "Central themes: destruction of the environment, human arrogance and hypocrisy, death as an equaliser, nature's capacity to recover, and the reversal of villain and victim.",
+    "There is no rhyme scheme and no metre — the plain speaking voice of free verse is chosen on purpose.",
+    "The governing device is personification; the governing mode is satire; the governing effect is irony.",
+    "The poet never speaks in his own voice. Never confuse the poet with the speaker."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3651,
+    "figures": 1,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "A Red, Red Rose - Robert Burns",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "Summary",
+    "Themes",
+    "Form, structure and rhyme",
+    "Poetic devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "9.2",
+     "title": "Summary"
+    },
+    {
+     "no": "9.3",
+     "title": "Themes"
+    },
+    {
+     "no": "9.4",
+     "title": "Form, structure and rhyme"
+    },
+    {
+     "no": "9.5",
+     "title": "Poetic devices"
+    },
+    {
+     "no": "9.6",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "\"A Red, Red Rose\" (1794) by Robert Burns is a four-stanza Scots love song built from older folk material.",
+    "Stanza 1 praises the beloved with two similes (a newly opened red rose; a sweetly played melody); stanzas 2 and 3 swear love until the seas dry, the rocks melt, and the speaker's own life runs out; stanza 4 turns out to be a farewell with a promise to return across ten thousand miles.",
+    "Form: four quatrains in the ballad stanza, alternating iambic tetrameter and iambic trimeter, rhyming ABCB.",
+    "Central devices: simile, hyperbole, symbolism of the rose, repetition and the chain link between stanzas 2 and 3.",
+    "Themes: the intensity of love, love against time, beauty drawn from nature, constancy in separation, and the folk-song tradition.",
+    "The Scots dialect and the singable rhythm are not decoration; they are why a very simple statement has lasted more than two centuries."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3870,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "All the World's a Stage - William Shakespeare",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "Summary",
+    "Themes",
+    "Form, structure and rhyme",
+    "Poetic devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "10.2",
+     "title": "Summary"
+    },
+    {
+     "no": "10.3",
+     "title": "Themes"
+    },
+    {
+     "no": "10.4",
+     "title": "Form, structure and rhyme"
+    },
+    {
+     "no": "10.5",
+     "title": "Poetic devices"
+    },
+    {
+     "no": "10.6",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "The speech is spoken by Jaques in Shakespeare's As You Like It, Act II, Scene vii, in the Forest of Arden. It is a dramatic speech, not a stand-alone poem, and Jaques's gloom is his own, not the play's verdict.",
+    "Its controlling idea is an extended metaphor: the world is a stage, people are actors, birth and death are entrances and exits, and each person plays seven parts.",
+    "The seven ages in order: infant, schoolboy, lover, soldier, justice, pantaloon, second childishness.",
+    "Form: blank verse — unrhymed iambic pentameter, one unbroken verse paragraph of 28 lines, with feminine endings, caesura and heavy enjambment.",
+    "Themes: life as performance, the speed of time, the circle from childhood to second childhood, bodily decay, and satire on human vanity.",
+    "The closing line, \"Sans teeth, sans eyes, sans taste, sans everything\", strips away in one breath everything the seven ages built up."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4050,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Who are you, little i? - E. E. Cummings",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "Summary",
+    "Themes",
+    "Form, structure and rhyme",
+    "Poetic devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "11.2",
+     "title": "Summary"
+    },
+    {
+     "no": "11.3",
+     "title": "Themes"
+    },
+    {
+     "no": "11.4",
+     "title": "Form, structure and rhyme"
+    },
+    {
+     "no": "11.5",
+     "title": "Poetic devices"
+    },
+    {
+     "no": "11.6",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "\"who are you,little i\" is poem 12 of E. E. Cummings's 95 Poems (1958): eight lines, one sentence, no capital letters, no full stop.",
+    "The speaker, an old poet, addresses his own self at five or six, remembered standing at a high window and watching a gold November sunset.",
+    "The child's thought — if the day has to become night, this is a beautiful way — is an acceptance of endings, and by extension of death.",
+    "Rhyme: A B A B in lines 1–4 (i/high, old/gold) and C D E D in lines 5–8 (day/way). The poem is otherwise free verse, with short, nearly equal lines and continuous enjambment.",
+    "The typography is the meaning: the lower-case \"i\" makes the self small and humble; the missing spaces crowd the words; the brackets make a private inner voice; the missing full stop leaves the moment open.",
+    "Themes: childhood wisdom, memory and identity, the beauty of transience, acceptance of death, and smallness before a large world."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3834,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "The Gift in Wartime - Tran Mong Tu",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "Summary",
+    "Themes",
+    "Form, structure and rhyme",
+    "Poetic devices",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "12.2",
+     "title": "Summary"
+    },
+    {
+     "no": "12.3",
+     "title": "Themes"
+    },
+    {
+     "no": "12.4",
+     "title": "Form, structure and rhyme"
+    },
+    {
+     "no": "12.5",
+     "title": "Poetic devices"
+    },
+    {
+     "no": "12.6",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "\"The Gift in Wartime\" by Tran Mong Tu (b. 1943, Vietnam; in the United States since 1975) is spoken by a young widow at the grave of her soldier.",
+    "It is built as an exchange of gifts: she offers roses, her wedding ring, her youth and the rest of her life; he gives back the smell of blood, his body, official medals, and a lifetime of mourning.",
+    "The central device is irony — the word \"gift\" is made to cover both lists — supported by anaphora, symbolism and understatement.",
+    "Form: free verse, no metre, no rhyme scheme, read in English translation; the rhythm comes from parallel syntax, not from feet or rhyme.",
+    "Themes: the waste of war, the cost paid by survivors (especially women), love continuing after death, the emptiness of official honour, and protest by irony rather than by argument.",
+    "The poem's hardest idea is that the dead soldier is at peace while the living widow is not: survival is the heavier burden."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3800,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Sharing Tradition - Frank LaPena",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "Summary",
+    "The central argument",
+    "Themes",
+    "Style and technique",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "About the author"
+    },
+    {
+     "no": "13.2",
+     "title": "Summary"
+    },
+    {
+     "no": "13.3",
+     "title": "The central argument"
+    },
+    {
+     "no": "13.4",
+     "title": "Themes"
+    },
+    {
+     "no": "13.5",
+     "title": "Style and technique"
+    },
+    {
+     "no": "13.6",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Frank LaPena (1937–2019), a Nomtipom Wintu artist, dancer and professor, writes from inside the tradition he describes.",
+    "Thesis: tradition is a living practice, not a collection of facts or objects; it belongs to a community; and receiving it creates the duty to live it and pass it on.",
+    "A \"traditional person\" is defined by participation — ceremony, obligation, discipline — not by knowledge or ownership.",
+    "Tradition is learnt from elders, orally and by doing; knowledge is earned, and some of it is sacred and restricted.",
+    "Ceremonial art is made for use, not display. An object in a museum has been separated from the only setting that gave it meaning.",
+    "Living traditions change; what must not change is the relationship behind them. Rigid imitation is not authenticity.",
+    "Style: reflective first-person essay; calm tone; redefinition of key words; concrete examples; inclusive \"we\"; understated criticism of collectors and commercial users; circular structure."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4046,
+    "figures": 1,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "How to Live Before You Die - Steve Jobs",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "The speech",
+    "What the speech argues",
+    "Themes",
+    "Style and technique",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "About the author"
+    },
+    {
+     "no": "14.2",
+     "title": "The speech"
+    },
+    {
+     "no": "14.3",
+     "title": "What the speech argues"
+    },
+    {
+     "no": "14.4",
+     "title": "Themes"
+    },
+    {
+     "no": "14.5",
+     "title": "Style and technique"
+    },
+    {
+     "no": "14.6",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "\"How to Live Before You Die\" is Steve Jobs's commencement address to Stanford University, delivered on 12 June 2005 by a speaker who never graduated from college himself.",
+    "It has a tripartite structure: three autobiographical stories, announced in advance, each ending in a rule for living.",
+    "Story one, connecting the dots: adopted at birth, Jobs drops out of Reed College, sits in on a calligraphy class with no practical use, and ten years later builds that typography into the Macintosh. Lesson — trust that the dots will connect, because you can only join them looking backward.",
+    "Story two, love and loss: he builds Apple from a garage, is publicly fired at thirty, and finds that his love of the work has survived. NeXT, Pixar and a return to Apple follow. Lesson — find what you love, and don't settle.",
+    "Story three, death: a wrong diagnosis of incurable pancreatic cancer, one day lived under sentence, then a curable tumour and successful surgery. Lesson — remembering that you will die clears away pride, fear and other people's expectations.",
+    "The three lessons form one argument: your time is limited, so do work you love and live a life that is genuinely your own.",
+    "Its power comes from personal narrative rather than advice, from plain concrete diction, from antithesis and paradox, and from direct address at the points where the lesson lands.",
+    "It closes on four borrowed words from the back cover of the last Whole Earth Catalog: \"Stay Hungry. Stay Foolish.\""
+   ],
+   "terms": [
+    "Commencement address",
+    "Dogma"
+   ],
+   "stats": {
+    "words": 6842,
+    "figures": 1,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "What I Require from Life - J.B.S. Haldane",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "The context of the essay",
+    "The essay, step by step",
+    "The argument",
+    "Themes",
+    "Style and technique",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "About the author"
+    },
+    {
+     "no": "15.2",
+     "title": "The context of the essay"
+    },
+    {
+     "no": "15.3",
+     "title": "The essay, step by step"
+    },
+    {
+     "no": "15.4",
+     "title": "The argument"
+    },
+    {
+     "no": "15.5",
+     "title": "Themes"
+    },
+    {
+     "no": "15.6",
+     "title": "Style and technique"
+    },
+    {
+     "no": "15.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "\"What I Require from Life\" (1940) is a short first-person essay by the geneticist J.B.S. Haldane, first published in the British communist newspaper the Daily Worker.",
+    "Haldane begins by refusing utopia: he will accept the universe as it is and ask only for what is possible.",
+    "He contrasts the peaceful age into which he was born with the heroic age that began in 1914, and resolves to make the best of the time he actually lives in.",
+    "Assuming food, water, clothes and shelter, he requires four things: work with a decent wage, freedom (especially of speech), health, and friendship between equals. For himself alone he adds adventure — which he distinguishes sharply from a mere thrill.",
+    "He separates desire from demand: a car, books, a bath, a garden are pleasant, and he is content without them.",
+    "Because most people lack what he regards as essential, he requires socialism for his society: work for all, workers' control of industry, health for all, and an end to class and sex subjection. \"Freedom should begin in the workshop.\"",
+    "He deliberately omits peace and security from his own list as unobtainable while fascism lives, admits that his appetite for adventure is a symptom of his age, and demands security rather than adventure for others.",
+    "His summing-up: for himself, food, warmth, work, liberty, health and friendship; for his society, socialism. He closes by naming Socrates' death — for his convictions, with his work done, and laughing — as the most enviable he knows."
+   ],
+   "terms": [
+    "Socialism and capitalism"
+   ],
+   "stats": {
+    "words": 7175,
+    "figures": 1,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "What is Poverty? - Jo Goodwin Parker",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "The context",
+    "The essay, paragraph by paragraph",
+    "The definition Parker arrives at",
+    "Themes",
+    "Style and technique",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "About the author"
+    },
+    {
+     "no": "16.2",
+     "title": "The context"
+    },
+    {
+     "no": "16.3",
+     "title": "The essay, paragraph by paragraph"
+    },
+    {
+     "no": "16.4",
+     "title": "The definition Parker arrives at"
+    },
+    {
+     "no": "16.5",
+     "title": "Themes"
+    },
+    {
+     "no": "16.6",
+     "title": "Style and technique"
+    },
+    {
+     "no": "16.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "\"What is Poverty?\" (1971) is an anonymous American definition essay sent from West Virginia to the editor George Henderson with a request that no author's biography be printed. Nothing is known about \"Jo Goodwin Parker\".",
+    "The narrator is a young woman, made old by hardship, living eight miles from town with three children on seventy-eight dollars a month.",
+    "She defines poverty not as a lack of money but as a total condition: a permanent smell, permanent tiredness, dirt that cannot be washed away without soap or hot water, insects, illness, and danger.",
+    "Working made her poorer — twenty-two dollars a week against twenty dollars for childcare — and left her children injured, so she had to stop. Poverty is a trap, not a choice.",
+    "Asking for help costs shame: the wrong office, the repeated story, the waiting, \"the red cloud of shame.\"",
+    "She answers the three usual solutions. Schools cannot help children who have no books and no health; clinics are eight miles away and the lift must be paid for \"one way or another\"; welfare is seventy-eight dollars and a humiliation.",
+    "Her greatest obstacle is prejudice, embodied in the respectable neighbour who complains about immoral mothers while demanding a price for a car ride.",
+    "Poverty is \"an acid that drips on pride\" and \"a chisel that chips on honour\". Her dream is soap, hot water, worm medicine and a welfare office where you tell your story once."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7335,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Scientific Research is a Token of Humankind's Survival - Vladimir Keilis-Borok",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "The context: the Cold War and the test ban",
+    "The essay, step by step",
+    "The argument in summary",
+    "Themes",
+    "Style and technique",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "About the author"
+    },
+    {
+     "no": "17.2",
+     "title": "The context: the Cold War and the test ban"
+    },
+    {
+     "no": "17.3",
+     "title": "The essay, step by step"
+    },
+    {
+     "no": "17.4",
+     "title": "The argument in summary"
+    },
+    {
+     "no": "17.5",
+     "title": "Themes"
+    },
+    {
+     "no": "17.6",
+     "title": "Style and technique"
+    },
+    {
+     "no": "17.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "The essay is by Vladimir Keilis-Borok (1921–2013), a Russian mathematical geophysicist of the Russian Academy of Sciences, later at UCLA, and founder and co-director of the earthquake-prediction programme at the ICTP in Trieste.",
+    "It opens with the taunt \"If you are so clever, why are you so poor?\" and answers with Tolstoy: a scientist, like a writer, is someone who cannot live without the work. In place of money come freedom, camaraderie, independence, self-earned promotion and the joy of discovery.",
+    "In 1960, at the height of the Cold War, the author was summoned from Moscow to Geneva because the American scientist Frank Press had quoted his work.",
+    "The problem: if the powers ban nuclear tests and one of them cheats with a secret underground explosion, how can the others detect it? The answer lay in seismology — explosions and earthquakes shake the ground differently.",
+    "Experts from both sides of the Iron Curtain succeeded because they were all scientists, sharing a language built on hard evidence, ranking by expertise alone, and persistent self-criticism. Their solution let politicians reach the nuclear test ban.",
+    "The lesson: a scientist is never lonely abroad, and \"while there is science, there is hope of survival and well-being for all of us.\"",
+    "Scientists are the most practical people in the world: antibiotics, electronics, biotechnology, synthetic fibres, the green revolution and genetic forensics all came out of fundamental research, and basic science gives a head start in any career.",
+    "Modern disasters — nuclear waste, an earthquake in a megacity, mass violence — could kill a million people, and trillions of dollars have not contained them. The hope rests \"not on the money but on intellectual resources.\""
+   ],
+   "terms": [
+    "Seismology and seismic waves"
+   ],
+   "stats": {
+    "words": 6702,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Trifles - Susan Glaspell",
+   "hours": null,
+   "area": "Literature - One Act Plays",
+   "topics": [
+    "About the author",
+    "The characters",
+    "The play, scene by scene",
+    "The chain of clues",
+    "The characters in detail",
+    "Symbolism",
+    "Setting, structure and technique",
+    "Themes",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "About the author"
+    },
+    {
+     "no": "18.2",
+     "title": "The characters"
+    },
+    {
+     "no": "18.3",
+     "title": "The play, scene by scene"
+    },
+    {
+     "no": "18.4",
+     "title": "The chain of clues"
+    },
+    {
+     "no": "18.5",
+     "title": "The characters in detail"
+    },
+    {
+     "no": "18.6",
+     "title": "Symbolism"
+    },
+    {
+     "no": "18.7",
+     "title": "Setting, structure and technique"
+    },
+    {
+     "no": "18.8",
+     "title": "Themes"
+    },
+    {
+     "no": "18.9",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Trifles (1916) is Susan Glaspell's first play, based on a murder trial she covered as a young reporter in Des Moines; she later rewrote it as the story A Jury of Her Peers.",
+    "John Wright has been strangled with a rope in his bed; his wife Minnie, who says she \"slept sound\", is in custody. Neither of them appears on stage.",
+    "The Sheriff, the County Attorney and the neighbour Hale search upstairs and in the barn for evidence of a motive and find nothing, dismissing the kitchen as holding \"nothing here but kitchen things\" and women's \"trifles\".",
+    "Left in the kitchen, Mrs Hale and Mrs Peters read the room: unfinished work, a burst jar of preserves, shabby clothes, an empty rocking chair, and a quilt whose last block is stitched wildly.",
+    "They find a birdcage with its door broken and then, in a pretty box, the canary with its neck wrung. The motive is complete: a hard, silent husband killed the one thing that sang, and his wife answered in kind.",
+    "Mrs Peters, who begins by insisting that \"the law is the law\", is changed by memories of her murdered kitten and of the stillness after her baby's death; Mrs Hale is driven by guilt at never having visited.",
+    "The women lie to the men (\"we think the cat got it\") and hide the box. The closing pun — \"We call it — knot it, Mr Henderson\" — is a confession the men cannot hear.",
+    "Symbols: the birdcage (the marriage), the canary (Minnie's voice), the quilt (her state of mind, and the method of killing), the preserves (a life's work destroyed in one cold night), the empty rocker, and the cold itself."
+   ],
+   "terms": [
+    "Dramatic irony"
+   ],
+   "stats": {
+    "words": 8729,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "A Sunny Morning - Serafin and Joaquin Alvarez Quintero",
+   "hours": null,
+   "area": "Literature - One Act Plays",
+   "topics": [
+    "About the authors",
+    "The characters",
+    "The play, step by step",
+    "The shape of the morning",
+    "The two central questions",
+    "Themes",
+    "Humour, irony and technique",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "About the authors"
+    },
+    {
+     "no": "19.2",
+     "title": "The characters"
+    },
+    {
+     "no": "19.3",
+     "title": "The play, step by step"
+    },
+    {
+     "no": "19.4",
+     "title": "The shape of the morning"
+    },
+    {
+     "no": "19.5",
+     "title": "The two central questions"
+    },
+    {
+     "no": "19.6",
+     "title": "Themes"
+    },
+    {
+     "no": "19.7",
+     "title": "Humour, irony and technique"
+    },
+    {
+     "no": "19.8",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "A Sunny Morning (Mañana de sol, 1905) is a one-act comedy by the Spanish brothers Serafín (1871–1938) and Joaquín (1873–1944) Álvarez Quintero of Andalusia, translated by Lucretia Xavier Floyd.",
+    "Setting: a retired corner of a park in Madrid, on a sunny autumn morning; a single bench; four characters; continuous action.",
+    "Dona Laura, seventy, is feeding pigeons when Don Gonzalo, seventy and gouty, scatters them. They quarrel over the bench and the birds; a pinch of snuff makes peace.",
+    "He reads Campoamor aloud; she recites \"Twenty years pass. He returns…\" without glasses, knowing it by heart.",
+    "Mentions of Valencia, the villa Maricela, Laura Llorente and \"The Silver Maiden\" bring the past back. Speaking of \"my cousin\" and \"my friend\", they retell their own love story: the flowers thrown to the balcony, the merchant, the insult, the duel at sunrise.",
+    "Each invents a noble death for the missing lover — his in a trench in Africa, hers in the rising tide — and each privately knows the other is lying. Their asides reveal the truth: she married two years later, he ran off to Paris with a ballet dancer in three months.",
+    "Neither reveals himself. He: \"I am grotesque now.\" She: \"I am too sadly changed.\" Each wants the other to keep the young image.",
+    "Petra brings violets; some fall; Gonzalo stoops \"trembling and with a great effort\" to pick them up and Laura sees him. \"Yes, it is he!\" — \"It is she, and no mistake.\""
+   ],
+   "terms": [
+    "Aside and soliloquy"
+   ],
+   "stats": {
+    "words": 8135,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 20,
+   "title": "Refund - Frigyes Karinthy",
+   "hours": null,
+   "area": "Literature - One Act Plays",
+   "topics": [
+    "About the author",
+    "The characters",
+    "The play, step by step",
+    "The double trap",
+    "Themes",
+    "Satire, humour and technique",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "About the author"
+    },
+    {
+     "no": "20.2",
+     "title": "The characters"
+    },
+    {
+     "no": "20.3",
+     "title": "The play, step by step"
+    },
+    {
+     "no": "20.4",
+     "title": "The double trap"
+    },
+    {
+     "no": "20.5",
+     "title": "Themes"
+    },
+    {
+     "no": "20.6",
+     "title": "Satire, humour and technique"
+    },
+    {
+     "no": "20.7",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [
+    "Refund (1938) is a one-act farce by the Hungarian satirist Fritz (Frigyes) Karinthy (1887–1938), adapted for English-speaking audiences by Percival Wilde.",
+    "Wasserkopf, a bearded man under forty, jobless and broke, returns to his old school after eighteen years and demands his tuition fees back, saying he learned nothing and is now good for nothing.",
+    "The idea came from his old classmate Leaderer, who was making money speculating in foreign exchange and told Wasserkopf that if he did not understand how, he should go and get his fees back.",
+    "Wasserkopf demands a re-examination to prove he knows nothing, and threatens the Ministry of Education.",
+    "The Principal calls a staff conference. The Mathematics Master proposes the plan: \"Whatever his answers, we agree beforehand that they are correct\" — because \"if he fails he succeeds\", and one refund would bring a queue of others.",
+    "Before any subject is examined, his rudeness earns Manners: Excellent, his refusal of a chair Physical Culture: Excellent, and his sitting down Alertness: Very Good, along with Perseverance, Logic and Ambition.",
+    "History: the Thirty Years' War lasted \"exactly seven meters\", justified by Einstein and by deducting meals, siestas and social distractions — Very Good. Physics: \"You're an ass!\", justified by the ass's sad look and optical illusion — Very Good. Geography: the capital of Brunswick is \"Same\", justified by the Barbarossa legend — Excellent.",
+    "Mathematics: the Master's absurd \"easy\" question is answered with 2,629 litres, declared wrong by one litre, and Wasserkopf is marked Failure — but the \"difficult\" question is how much the refund should be, and when Wasserkopf calculates 6,450 crowns 50 heller exactly, he is declared a mathematical genius and passed."
+   ],
+   "terms": [
+    "Farce, satire and parody"
+   ],
+   "stats": {
+    "words": 8823,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 21,
+   "title": "Word Classes, Contracted Forms and Dictionary Use",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The eight word classes",
+    "Nouns: countable, uncountable and the forms Nepali learners mix up",
+    "Pronouns",
+    "Verbs: main, auxiliary and the five forms",
+    "Adjectives and adverbs",
+    "Words that change class",
+    "Contracted forms",
+    "Using a dictionary"
+   ],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "The eight word classes"
+    },
+    {
+     "no": "21.2",
+     "title": "Nouns: countable, uncountable and the forms Nepali learners mix up"
+    },
+    {
+     "no": "21.3",
+     "title": "Pronouns"
+    },
+    {
+     "no": "21.4",
+     "title": "Verbs: main, auxiliary and the five forms"
+    },
+    {
+     "no": "21.5",
+     "title": "Adjectives and adverbs"
+    },
+    {
+     "no": "21.6",
+     "title": "Words that change class"
+    },
+    {
+     "no": "21.7",
+     "title": "Contracted forms"
+    },
+    {
+     "no": "21.8",
+     "title": "Using a dictionary"
+    }
+   ],
+   "summary": [
+    "The eight classes are noun, pronoun, verb, adjective, adverb, preposition, conjunction and determiner; class is decided by the job the word does in that sentence, not by its spelling.",
+    "Uncountable nouns — information, advice, furniture, luggage, equipment, news, work, traffic — have no plural and take no a/an; count them with a piece of.",
+    "Every verb has five forms: V1, -s, V2, V3, -ing. Learn irregulars as a row.",
+    "Only transitive verbs have objects, and only transitive verbs can be made passive.",
+    "Do not add prepositions English does not want: discuss, return, reach, enter, marry, resemble, emphasise, comprise take a direct object.",
+    "Contractions replace missing letters with an apostrophe: 's = is/has, 'd = had/would; won't and shan't are irregular; its ≠ it's.",
+    "A dictionary entry gives class, countability [C]/[U], transitivity [T]/[I], verb pattern and register — all the grammar a Q7 item can test."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3521,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 22,
+   "title": "Tenses: Present, Past and Future",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The twelve tenses at a glance",
+    "The present tenses",
+    "The past tenses",
+    "The future tenses and other ways of talking about the future",
+    "Signal words — the fastest way to spot the tense",
+    "Worked transformations"
+   ],
+   "sections": [
+    {
+     "no": "22.1",
+     "title": "The twelve tenses at a glance"
+    },
+    {
+     "no": "22.2",
+     "title": "The present tenses"
+    },
+    {
+     "no": "22.3",
+     "title": "The past tenses"
+    },
+    {
+     "no": "22.4",
+     "title": "The future tenses and other ways of talking about the future"
+    },
+    {
+     "no": "22.5",
+     "title": "Signal words — the fastest way to spot the tense"
+    },
+    {
+     "no": "22.6",
+     "title": "Worked transformations"
+    }
+   ],
+   "summary": [
+    "Tense = time; aspect = simple / continuous / perfect / perfect continuous. Three times × four aspects = twelve forms.",
+    "Structures: V1(+s) · am-is-are + V-ing · have/has + V3 · have/has been + V-ing · V2 · was/were + V-ing · had + V3 · had been + V-ing · will + V1 · will be + V-ing · will have + V3 · will have been + V-ing.",
+    "Third-person singular takes -s in the simple present, and loses it after does/doesn't.",
+    "After did / didn't / does / doesn't, the main verb is always V1.",
+    "A finished past time word (yesterday, ago, last year) forces the simple past; since, for, just, already, yet force the present perfect.",
+    "Stative verbs (have = own, know, like, agree, understand, see, belong) take no continuous form.",
+    "Use the present, not will, after when, until, as soon as, before, after, by the time and in an if-clause of condition.",
+    "Of two past actions, the earlier takes the past perfect."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3463,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 23,
+   "title": "Articles, Determiners and Quantifiers",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The noun phrase and the order of determiners",
+    "The indefinite article: a and an",
+    "The definite article: the",
+    "The zero article — where students actually lose the mark",
+    "Demonstratives and possessives",
+    "Quantifiers"
+   ],
+   "sections": [
+    {
+     "no": "23.1",
+     "title": "The noun phrase and the order of determiners"
+    },
+    {
+     "no": "23.2",
+     "title": "The indefinite article: a and an"
+    },
+    {
+     "no": "23.3",
+     "title": "The definite article: the"
+    },
+    {
+     "no": "23.4",
+     "title": "The zero article — where students actually lose the mark"
+    },
+    {
+     "no": "23.5",
+     "title": "Demonstratives and possessives"
+    },
+    {
+     "no": "23.6",
+     "title": "Quantifiers"
+    }
+   ],
+   "summary": [
+    "A singular countable noun needs a determiner: a/an, the, a possessive or a demonstrative. A bare singular countable noun is almost always an error.",
+    "a/an = first mention or one of a class; the = the listener knows which one.",
+    "an goes before a vowel sound (an hour, an MA), a before a consonant sound (a university, a one-rupee coin).",
+    "the with: second mention, unique things, superlatives, ordinals, rivers, seas, mountain ranges, plural country names, newspapers, nationalities, instruments.",
+    "No article with: general plurals, general uncountables, names, languages, subjects, meals, games, festivals, by + transport, and places used for their purpose (go to school, in hospital, in bed).",
+    "many/few/a few + plural countable; much/little/a little + uncountable; some/any/a lot of/plenty of with both.",
+    "a few and a little are positive (\"some\"); few and little are negative (\"hardly any\").",
+    "After one of / each of / neither of, the noun is plural and the verb singular."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3136,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 24,
+   "title": "Modal Verbs and Semi-modals",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The complete modal table",
+    "Ability: can, could, be able to",
+    "Permission, requests, offers and suggestions",
+    "Obligation, necessity and their negatives",
+    "Degrees of certainty — deduction",
+    "Past forms of modals and what they criticise",
+    "Semi-modals"
+   ],
+   "sections": [
+    {
+     "no": "24.1",
+     "title": "The complete modal table"
+    },
+    {
+     "no": "24.2",
+     "title": "Ability: can, could, be able to"
+    },
+    {
+     "no": "24.3",
+     "title": "Permission, requests, offers and suggestions"
+    },
+    {
+     "no": "24.4",
+     "title": "Obligation, necessity and their negatives"
+    },
+    {
+     "no": "24.5",
+     "title": "Degrees of certainty — deduction"
+    },
+    {
+     "no": "24.6",
+     "title": "Past forms of modals and what they criticise"
+    },
+    {
+     "no": "24.7",
+     "title": "Semi-modals"
+    }
+   ],
+   "summary": [
+    "A modal takes the bare infinitive, never adds -s, needs no do for questions and negatives, and cannot be joined to another modal.",
+    "Ability: can (now), could (past, general), was/were able to (one past success), be able to (all other forms).",
+    "Permission rises in formality: can → could → may → might.",
+    "Obligation: must (from the speaker), have to (from outside), had to (past), should / ought to / had better (advice).",
+    "mustn't = forbidden; needn't and don't have to = not necessary. They are opposites, not synonyms.",
+    "Certainty scale: must (sure it is) > will > should > may > might/could > may not > can't (sure it is not).",
+    "For the past, add have + V3: must have gone, might have gone, can't have gone.",
+    "should have + V3 criticises what was not done; needn't have + V3 says something done was unnecessary."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3364,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 25,
+   "title": "Passive Voice and Causatives",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The five steps of the transformation",
+    "The passive of every tense",
+    "Modals, infinitives and gerunds in the passive",
+    "Verbs with two objects",
+    "Questions, imperatives and other special sentences",
+    "When and why the passive is used",
+    "Causative verbs"
+   ],
+   "sections": [
+    {
+     "no": "25.1",
+     "title": "The five steps of the transformation"
+    },
+    {
+     "no": "25.2",
+     "title": "The passive of every tense"
+    },
+    {
+     "no": "25.3",
+     "title": "Modals, infinitives and gerunds in the passive"
+    },
+    {
+     "no": "25.4",
+     "title": "Verbs with two objects"
+    },
+    {
+     "no": "25.5",
+     "title": "Questions, imperatives and other special sentences"
+    },
+    {
+     "no": "25.6",
+     "title": "When and why the passive is used"
+    },
+    {
+     "no": "25.7",
+     "title": "Causative verbs"
+    }
+   ],
+   "summary": [
+    "Passive = subject + correct form of be + V3 (+ by + agent). Only transitive verbs have a passive.",
+    "The tense never changes in a voice transformation; only the form of be does.",
+    "Passive forms: is/are + V3 · is/are being + V3 · has/have been + V3 · was/were + V3 · was/were being + V3 · had been + V3 · will be + V3 · will have been + V3.",
+    "The four continuous-perfect and future continuous tenses have no passive.",
+    "Modals: modal + be + V3; past modals: modal + have been + V3.",
+    "Verbs with two objects give two passives; the person-first one is more natural, and the thing-first one needs to/for before the person.",
+    "Imperatives become Let + object + be + V3, or You are requested to ….",
+    "Who → By whom in the passive question; pronouns after by take the object form."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3163,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 26,
+   "title": "Reported Speech",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The reporting verb and the link word",
+    "The complete backshift table",
+    "Pronoun changes",
+    "Changes of time and place",
+    "Reporting statements",
+    "Reporting questions",
+    "Reporting commands, requests, advice and suggestions",
+    "Reporting exclamations and wishes"
+   ],
+   "sections": [
+    {
+     "no": "26.1",
+     "title": "The reporting verb and the link word"
+    },
+    {
+     "no": "26.2",
+     "title": "The complete backshift table"
+    },
+    {
+     "no": "26.3",
+     "title": "Pronoun changes"
+    },
+    {
+     "no": "26.4",
+     "title": "Changes of time and place"
+    },
+    {
+     "no": "26.5",
+     "title": "Reporting statements"
+    },
+    {
+     "no": "26.6",
+     "title": "Reporting questions"
+    },
+    {
+     "no": "26.7",
+     "title": "Reporting commands, requests, advice and suggestions"
+    },
+    {
+     "no": "26.8",
+     "title": "Reporting exclamations and wishes"
+    }
+   ],
+   "summary": [
+    "Four changes, in order: reporting verb and link → tense → pronouns → time and place words.",
+    "Tell needs a person after it; say does not take one unless you add to.",
+    "No backshift when the reporting verb is present or future, when the statement is a universal truth or still true, when a past time is stated, or in unreal conditionals and wish clauses.",
+    "Backshift ladder: present → past; present perfect and simple past → past perfect; will → would; can → could; may → might; must → had to. Past perfect does not move.",
+    "Statements take that; wh- questions keep the wh- word; yes/no questions take if/whether; commands and requests take to / not to + V1.",
+    "Reported questions use statement word order, drop do/does/did, and lose the question mark.",
+    "Exclamations are reported by naming the feeling: exclaimed with joy / sorrow / wonder that ….",
+    "Pronouns follow SON: first person matches the Subject of the reporting verb, second person matches the Object, third person is Not changed."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3225,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 27,
+   "title": "Conditional Sentences",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The shape of a conditional sentence",
+    "The five types in one table",
+    "Type 0 — the zero conditional",
+    "Type 1 — the real future conditional",
+    "Type 2 — the unreal present conditional",
+    "Type 3 — the unreal past conditional",
+    "Mixed conditionals",
+    "Other ways of expressing a condition",
+    "Leaving out if — inversion",
+    "Unreal forms related to conditionals"
+   ],
+   "sections": [
+    {
+     "no": "27.1",
+     "title": "The shape of a conditional sentence"
+    },
+    {
+     "no": "27.2",
+     "title": "The five types in one table"
+    },
+    {
+     "no": "27.3",
+     "title": "Type 0 — the zero conditional"
+    },
+    {
+     "no": "27.4",
+     "title": "Type 1 — the real future conditional"
+    },
+    {
+     "no": "27.5",
+     "title": "Type 2 — the unreal present conditional"
+    },
+    {
+     "no": "27.6",
+     "title": "Type 3 — the unreal past conditional"
+    },
+    {
+     "no": "27.7",
+     "title": "Mixed conditionals"
+    },
+    {
+     "no": "27.8",
+     "title": "Other ways of expressing a condition"
+    },
+    {
+     "no": "27.9",
+     "title": "Leaving out if — inversion"
+    },
+    {
+     "no": "27.10",
+     "title": "Unreal forms related to conditionals"
+    }
+   ],
+   "summary": [
+    "Type 0: if + present, present — always true.",
+    "Type 1: if + present, will + V1 — a real future possibility.",
+    "Type 2: if + past (were for all persons), would + V1 — unreal present.",
+    "Type 3: if + had + V3, would have + V3 — unreal past, regret.",
+    "Mixed: if + had + V3, would + V1 (past cause, present result); if + past, would have + V3 (present cause, past result).",
+    "Never put will or would in the if-clause.",
+    "A comma follows the if-clause only when it comes first.",
+    "Unless = if … not, so do not add a second negative."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3316,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 28,
+   "title": "Relative Clauses and Connectives",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "Relative pronouns",
+    "Defining relative clauses",
+    "Non-defining relative clauses",
+    "When the relative pronoun may be left out",
+    "Whose, where, when and why",
+    "Prepositions in relative clauses",
+    "Reduced relative clauses",
+    "Connectives by function"
+   ],
+   "sections": [
+    {
+     "no": "28.1",
+     "title": "Relative pronouns"
+    },
+    {
+     "no": "28.2",
+     "title": "Defining relative clauses"
+    },
+    {
+     "no": "28.3",
+     "title": "Non-defining relative clauses"
+    },
+    {
+     "no": "28.4",
+     "title": "When the relative pronoun may be left out"
+    },
+    {
+     "no": "28.5",
+     "title": "Whose, where, when and why"
+    },
+    {
+     "no": "28.6",
+     "title": "Prepositions in relative clauses"
+    },
+    {
+     "no": "28.7",
+     "title": "Reduced relative clauses"
+    },
+    {
+     "no": "28.8",
+     "title": "Connectives by function"
+    }
+   ],
+   "summary": [
+    "A relative clause goes immediately after the noun it describes.",
+    "who/whom for people, which for things, whose for possession, where/when/why for place, time and reason.",
+    "Defining clause: identifies the noun, no commas, that allowed, object pronoun may be dropped.",
+    "Non-defining clause: extra information, commas both sides, that forbidden, pronoun never dropped.",
+    "Do not repeat the noun or its pronoun inside the relative clause.",
+    "A connective must match both the relationship and the word class: although + clause, despite + noun, however + new sentence.",
+    "Never use two joiners for one relationship: although … but, because … so are wrong in English.",
+    "As well as does not make a plural subject."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3085,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 29,
+   "title": "Question Tags, Questions and Subject-Verb Agreement",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The four kinds of question",
+    "Yes / no questions",
+    "Wh- questions",
+    "Indirect and embedded questions",
+    "Question tags — the basic rule",
+    "Special tags you must memorise",
+    "Subject–verb agreement: the core rules"
+   ],
+   "sections": [
+    {
+     "no": "29.1",
+     "title": "The four kinds of question"
+    },
+    {
+     "no": "29.2",
+     "title": "Yes / no questions"
+    },
+    {
+     "no": "29.3",
+     "title": "Wh- questions"
+    },
+    {
+     "no": "29.4",
+     "title": "Indirect and embedded questions"
+    },
+    {
+     "no": "29.5",
+     "title": "Question tags — the basic rule"
+    },
+    {
+     "no": "29.6",
+     "title": "Special tags you must memorise"
+    },
+    {
+     "no": "29.7",
+     "title": "Subject–verb agreement: the core rules"
+    }
+   ],
+   "summary": [
+    "Questions invert the auxiliary and the subject; without an auxiliary, insert do / does / did and use V1.",
+    "A subject question (Who came?) takes no do / does / did and no inversion.",
+    "An embedded question keeps statement word order and needs no question mark.",
+    "A tag = auxiliary + (n't) + pronoun, with the polarity reversed.",
+    "Memorise: I am → aren't I, Let's → shall we, imperative → will you, There is → is there, everyone → they, nothing → it.",
+    "Never, hardly, seldom, rarely, few, little are negatives and take a positive tag.",
+    "The verb agrees with the real subject, not with the nearest noun.",
+    "Each, every, either, neither, one of + singular verb; a number of + plural, the number of + singular."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3087,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 30,
+   "title": "Prepositions, Adjectives and Adverbs",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "Prepositions of time",
+    "Prepositions of place and direction",
+    "Prepositions fixed to a word",
+    "Adjectives: kinds and order",
+    "Degrees of comparison",
+    "Adverbs"
+   ],
+   "sections": [
+    {
+     "no": "30.1",
+     "title": "Prepositions of time"
+    },
+    {
+     "no": "30.2",
+     "title": "Prepositions of place and direction"
+    },
+    {
+     "no": "30.3",
+     "title": "Prepositions fixed to a word"
+    },
+    {
+     "no": "30.4",
+     "title": "Adjectives: kinds and order"
+    },
+    {
+     "no": "30.5",
+     "title": "Degrees of comparison"
+    },
+    {
+     "no": "30.6",
+     "title": "Adverbs"
+    }
+   ],
+   "summary": [
+    "Time: at a clock time, on a day or date, in a month, season or year; since + point, for + length, by = not later than, until = up to.",
+    "Place: at a point, on a surface, in an area; between two, among more than two; beside = next to, besides = in addition.",
+    "Many verbs, adjectives and nouns have a fixed preposition — learn the pair.",
+    "Discuss, enter, marry, reach, resemble, answer, request, attack take no preposition; avoid return back, cope up with, repeat again.",
+    "Adjective order: opinion, size, age, shape, colour, origin, material, purpose.",
+    "One syllable → -er / -est; two or more → more / most; never both.",
+    "Senior, junior, superior, inferior, prefer take to, not than.",
+    "Adverbs of frequency go before the main verb but after be."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3037,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 31,
+   "title": "Guided Writing: Stories from Outlines, Charts and Graphs",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What the guided-writing question asks",
+    "Turning an outline into a story",
+    "The language of narrative",
+    "Reading a chart, a graph or a table",
+    "The language of describing data",
+    "Checking your own answer"
+   ],
+   "sections": [
+    {
+     "no": "31.1",
+     "title": "What the guided-writing question asks"
+    },
+    {
+     "no": "31.2",
+     "title": "Turning an outline into a story"
+    },
+    {
+     "no": "31.3",
+     "title": "The language of narrative"
+    },
+    {
+     "no": "31.4",
+     "title": "Reading a chart, a graph or a table"
+    },
+    {
+     "no": "31.5",
+     "title": "The language of describing data"
+    },
+    {
+     "no": "31.6",
+     "title": "Checking your own answer"
+    }
+   ],
+   "summary": [
+    "Guided writing (Q4, 7 marks) supplies the material; you supply the sentences. Content 3, organisation 2, language 2. Write 150–200 words in about 15 minutes.",
+    "A story from an outline: read all the notes first, invent a who / where / when, write in the simple past and third person, expand each note into two to four sentences, paragraph by stage, title and moral last.",
+    "Direct speech: comma before the speech, capital letter inside, punctuation inside the closing marks, and a new line for each new speaker.",
+    "Describing data: paraphrase the title, give an overview with the highest and lowest values, then the details with figures, then one closing sentence.",
+    "Change verbs — rose, climbed, doubled / fell, dropped, halved / remained steady, levelled off — with sharply, steadily, gradually, slightly.",
+    "It is an increase in the number, a rise of 12 per cent, a fall from 62 to 58.",
+    "Describe, never explain: no causes and no opinions unless the question asks."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3676,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 32,
+   "title": "Functional Writing: Letters, Emails, Applications and Notices",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "The forms, and how formal each one is",
+    "The formal letter: the parts and where they go",
+    "Kinds of formal letter, and the envelope",
+    "Emails",
+    "Applications, and the curriculum vitae",
+    "Notices",
+    "Checking your own answer"
+   ],
+   "sections": [
+    {
+     "no": "32.1",
+     "title": "The forms, and how formal each one is"
+    },
+    {
+     "no": "32.2",
+     "title": "The formal letter: the parts and where they go"
+    },
+    {
+     "no": "32.3",
+     "title": "Kinds of formal letter, and the envelope"
+    },
+    {
+     "no": "32.4",
+     "title": "Emails"
+    },
+    {
+     "no": "32.5",
+     "title": "Applications, and the curriculum vitae"
+    },
+    {
+     "no": "32.6",
+     "title": "Notices"
+    },
+    {
+     "no": "32.7",
+     "title": "Checking your own answer"
+    }
+   ],
+   "summary": [
+    "Q5, functional writing, 8 marks: roughly half for format, half for language and register. Fix the skeleton before you write.",
+    "Formal letter, block style, in order: sender's address · date · receiver's address · subject · salutation · three body paragraphs · close · signature, name, post.",
+    "Dear Sir / Madam → Yours faithfully; Dear Mr Rai → Yours sincerely. Only the first word of the close is capitalised.",
+    "Formal register: I should be grateful if you would…, I regret any inconvenience caused, I look forward to hearing from you. No contractions.",
+    "Avoid Myself Ram, kindly do the needful, reply back, Your's faithfully, request for leave.",
+    "An email needs a specific subject line, a greeting, short paragraphs and a signed sign-off; no SMS spelling, no capitals throughout.",
+    "A job application names the advertisement and its date, then qualification, experience, skill, enclosures and a request for an interview.",
+    "A CV for a student is one page: personal details, objective, qualifications, experience, skills, activities, referees."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3108,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 33,
+   "title": "Free Writing: Essays, Memoirs and Critical Writing",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What Question 6 asks",
+    "The paragraph: the unit an essay is built from",
+    "The shape of a whole essay",
+    "Four kinds of essay, and how each is organised",
+    "The memoir",
+    "Critical writing",
+    "Language that lifts a free-writing answer",
+    "Checking your own answer"
+   ],
+   "sections": [
+    {
+     "no": "33.1",
+     "title": "What Question 6 asks"
+    },
+    {
+     "no": "33.2",
+     "title": "The paragraph: the unit an essay is built from"
+    },
+    {
+     "no": "33.3",
+     "title": "The shape of a whole essay"
+    },
+    {
+     "no": "33.4",
+     "title": "Four kinds of essay, and how each is organised"
+    },
+    {
+     "no": "33.5",
+     "title": "The memoir"
+    },
+    {
+     "no": "33.6",
+     "title": "Critical writing"
+    },
+    {
+     "no": "33.7",
+     "title": "Language that lifts a free-writing answer"
+    },
+    {
+     "no": "33.8",
+     "title": "Checking your own answer"
+    }
+   ],
+   "summary": [
+    "Question 6 is worth 10 marks: about 4 for content, 3 for organisation, 3 for language. Plan five minutes, write twenty, check five.",
+    "A paragraph is one idea: topic sentence, supports in a chosen order, closing sentence. Unity and coherence are what the organisation mark measures.",
+    "An essay is a funnel: general opening, a one-sentence thesis, body paragraphs that defend it, a conclusion that widens out and adds nothing new.",
+    "The four kinds — narrative, descriptive, expository, argumentative — are distinguished by their order. Take the kind from the wording of the question.",
+    "A memoir is one remembered slice of time in the first person, built on concrete detail, turning on a single moment, and ending with reflection on what it meant.",
+    "Critical writing is judgement plus evidence. Summarise in three sentences at most; quote briefly; after every quotation, say what it shows.",
+    "Link paragraphs with cohesive devices, hedge large claims, vary sentence length, and avoid the stock openings and closings every examiner has read a thousand times."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3495,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 34,
+   "title": "Unseen Reading Comprehension Strategy",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What Question 1 looks like",
+    "Two reading speeds: skimming and scanning",
+    "The five-step method",
+    "The question types, and what each one wants",
+    "Worked passage A",
+    "Worked passage B",
+    "The traps, and the checklist"
+   ],
+   "sections": [
+    {
+     "no": "34.1",
+     "title": "What Question 1 looks like"
+    },
+    {
+     "no": "34.2",
+     "title": "Two reading speeds: skimming and scanning"
+    },
+    {
+     "no": "34.3",
+     "title": "The five-step method"
+    },
+    {
+     "no": "34.4",
+     "title": "The question types, and what each one wants"
+    },
+    {
+     "no": "34.5",
+     "title": "Worked passage A"
+    },
+    {
+     "no": "34.6",
+     "title": "Worked passage B"
+    },
+    {
+     "no": "34.7",
+     "title": "The traps, and the checklist"
+    }
+   ],
+   "summary": [
+    "Question 1 is 15 marks on an unseen passage of 350–500 words, with six to nine mixed questions, in about 30–35 minutes.",
+    "Read the questions first. Then skim for shape, then read closely with a pencil, marking where each answer lives.",
+    "Skimming finds the shape of a passage; scanning finds one item in it. They are different speeds for different jobs.",
+    "Each question type has its own rule: substitute-and-test for reference, one exact word for vocabulary, evidence-plus-answer for inference, silence-means-Not-Given for true/false, three to six words for a title.",
+    "Every answer must be defensible from the passage. Outside knowledge is the commonest cause of lost marks.",
+    "The number of marks tells you how long the answer should be."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3371,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 35,
+   "title": "Vocabulary, Sounds, Prefixes, Suffixes and Idioms",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What Question 8 asks",
+    "Sounds and spelling",
+    "Word stress",
+    "Prefixes",
+    "Suffixes, and the spelling rules for adding them",
+    "Building words: prefix + root + suffix",
+    "Synonyms, antonyms and words that are nearly the same",
+    "Idioms and phrasal verbs",
+    "Working out a word you do not know"
+   ],
+   "sections": [
+    {
+     "no": "35.1",
+     "title": "What Question 8 asks"
+    },
+    {
+     "no": "35.2",
+     "title": "Sounds and spelling"
+    },
+    {
+     "no": "35.3",
+     "title": "Word stress"
+    },
+    {
+     "no": "35.4",
+     "title": "Prefixes"
+    },
+    {
+     "no": "35.5",
+     "title": "Suffixes, and the spelling rules for adding them"
+    },
+    {
+     "no": "35.6",
+     "title": "Building words: prefix + root + suffix"
+    },
+    {
+     "no": "35.7",
+     "title": "Synonyms, antonyms and words that are nearly the same"
+    },
+    {
+     "no": "35.8",
+     "title": "Idioms and phrasal verbs"
+    },
+    {
+     "no": "35.9",
+     "title": "Working out a word you do not know"
+    }
+   ],
+   "summary": [
+    "Question 8 is five one-mark items on vocabulary. Word class and spelling must both be right; there are no part marks.",
+    "Silent letters often reappear when a suffix is added (sign → signature), which is a clue to word families.",
+    "Stress matters: two-syllable noun/verb pairs stress the first syllable as a noun and the second as a verb; the endings -ion, -ity, -ic, -ical, -graphy pull the stress onto the syllable before them.",
+    "A prefix changes meaning; a suffix changes word class. The negative prefix is im- before b, m, p; il- before l; ir- before r; in- elsewhere.",
+    "Four spelling rules cover adding suffixes: drop silent e before a vowel suffix, y → i after a consonant, double the final consonant when the stress is at the end, and -ful has one l.",
+    "Synonyms are rarely exact — they differ in formality and in feeling. Some antonyms are made with a prefix, others are separate words.",
+    "Idioms and phrasal verbs are fixed. A pronoun object must split a separable phrasal verb (call it off) but never an inseparable one (look after her).",
+    "An unknown word can be reasoned out from its parts, class, signal words and direction."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3599,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 35,
+ "topic_count": 246,
+ "notes_ready": 35
+}

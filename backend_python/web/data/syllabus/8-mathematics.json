@@ -1,0 +1,1015 @@
+{
+ "grade": "8",
+ "grade_label": "Class 8",
+ "grade_label_ne": "कक्षा ८",
+ "subject": "mathematics",
+ "name": "Mathematics",
+ "name_ne": "गणित",
+ "icon": "calculate",
+ "group": "compulsory",
+ "color": "#8F5507",
+ "lang": "en",
+ "code": "BEE-8",
+ "hours": 150,
+ "exam": "Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. The practice sets here are written to a 50-mark, 2-hour written paper unless your palika's grid says otherwise.",
+ "areas": [
+  "Compulsory Mathematics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Sets",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "review of sets and set notation",
+    "universal set and complement",
+    "disjoint and overlapping sets",
+    "subset, proper subset and number of subsets",
+    "union, intersection and difference; Venn diagrams",
+    "word problems with two sets"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Review of sets and set notation"
+    },
+    {
+     "no": "1.2",
+     "title": "Universal set and complement"
+    },
+    {
+     "no": "1.3",
+     "title": "Disjoint and overlapping sets"
+    },
+    {
+     "no": "1.4",
+     "title": "Subset"
+    },
+    {
+     "no": "1.5",
+     "title": "Word problems with a Venn diagram"
+    },
+    {
+     "no": "1.6",
+     "title": "Venn diagrams as a method, not a decoration"
+    }
+   ],
+   "summary": [
+    "A set is a well-defined collection; it is written by the listing method or the set-builder method.",
+    "n(A) is the number of members; ∈ and notin test membership.",
+    "The universal set U is the largest set in the problem, and A' is everything in U that is not in A; n(U)=n(A)+n(A').",
+    "Disjoint sets have no common member, so n(A∩ B)=0; overlapping sets share at least one.",
+    "n(A∪ B)=n(A)+n(B)-n(A∩ B), and n(A∩ B)=n(A)+n(B)-n(A∪ B).",
+    "A set with n members has 2^n subsets and 2^n-1 proper subsets.",
+    "In a Venn diagram, fill the intersection first and work outwards, then check that all the regions add up to n(U)."
+   ],
+   "terms": [
+    "Equal sets and equivalent sets"
+   ],
+   "stats": {
+    "words": 2569,
+    "figures": 2,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Whole Numbers",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "review of the decimal number system and place value",
+    "binary number system: conversion to and from decimal",
+    "quinary and other bases",
+    "addition, subtraction and multiplication in base 2 and base 5"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Place value in the decimal system"
+    },
+    {
+     "no": "2.2",
+     "title": "Conversion from another base to decimal"
+    },
+    {
+     "no": "2.3",
+     "title": "Conversion from decimal to another base"
+    },
+    {
+     "no": "2.4",
+     "title": "Conversion between two non-decimal bases"
+    },
+    {
+     "no": "2.5",
+     "title": "Arithmetic in other bases"
+    },
+    {
+     "no": "2.6",
+     "title": "Properties of whole numbers at a glance"
+    }
+   ],
+   "summary": [
+    "A number in base b uses only the digits 0 to b-1, and each place is worth b times the place on its right.",
+    "To convert to decimal, expand by place values and add.",
+    "To convert from decimal, divide repeatedly by the base and read the remainders from the bottom upwards.",
+    "To convert between two other bases, go through decimal in two steps.",
+    "In base 2: 1+1=10, and the place values are 1, 2, 4, 8, 16, …",
+    "In base 5: 4+1=10, and the place values are 1, 5, 25, 125, …",
+    "Add, subtract and multiply as in decimal but carry and borrow with the base.",
+    "Always check a base calculation by converting to decimal."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2106,
+    "figures": 2,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Rational and Irrational Numbers",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "rational numbers and decimal expansion",
+    "irrational numbers and surds",
+    "scientific notation of numbers",
+    "simplification of numbers in scientific notation"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Rational numbers"
+    },
+    {
+     "no": "3.2",
+     "title": "Irrational numbers"
+    },
+    {
+     "no": "3.3",
+     "title": "Scientific notation"
+    },
+    {
+     "no": "3.4",
+     "title": "Placing numbers on the number line"
+    },
+    {
+     "no": "3.5",
+     "title": "The number line as a map of the number system"
+    }
+   ],
+   "summary": [
+    "A rational number is (p)/(q) with q≠0; as a decimal it terminates or recurs.",
+    "A recurring decimal becomes a fraction by multiplying by 10, 100 or 1000 for one, two or three repeating digits, subtracting, and solving.",
+    "An irrational number never repeats and cannot be written as a fraction; √n is irrational unless n is a perfect square.",
+    "A surd is an exact irrational root; simplify by taking out the largest perfect-square factor, and add only like surds.",
+    "Rationalise a denominator by multiplying the top and bottom by the surd.",
+    "Scientific notation is a×10^n with 1≤ a<10; multiply by multiplying the first parts and adding the indices, divide by dividing and subtracting."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2207,
+    "figures": 1,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Ratio and Proportion",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "ratio and its simplification",
+    "proportion: means and extremes",
+    "continued proportion",
+    "direct and inverse proportion",
+    "word problems of ratio and proportion"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Ratio"
+    },
+    {
+     "no": "4.2",
+     "title": "Proportion"
+    },
+    {
+     "no": "4.3",
+     "title": "Direct and inverse variation"
+    },
+    {
+     "no": "4.4",
+     "title": "Map scale and similar figures"
+    },
+    {
+     "no": "4.5",
+     "title": "Sharing in a given ratio"
+    }
+   ],
+   "summary": [
+    "A ratio compares two quantities of the same kind and has no unit; write both in the same unit and simplify by the HCF.",
+    "To divide a quantity in the ratio a:b:c, add the terms, find one part, then multiply.",
+    "Four quantities are in proportion if a:b=c:d, which holds exactly when ad=bc.",
+    "Three quantities are in continued proportion if a:b=b:c, and then the mean proportional is b=√ac.",
+    "Direct variation: x∝ y, x=ky, (x1)/(y1)=(x2)/(y2); both quantities rise together.",
+    "Inverse variation: x∝frac1y, xy=k, x1y1=x2y2; one rises as the other falls.",
+    "A map scale is a ratio, so both lengths must be converted to the same unit before multiplying."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2212,
+    "figures": 2,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Profit and Loss",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "cost price, selling price, profit and loss",
+    "profit percent and loss percent",
+    "marked price and discount",
+    "commission"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Cost price, selling price, profit and loss"
+    },
+    {
+     "no": "5.2",
+     "title": "Marked price and discount"
+    },
+    {
+     "no": "5.3",
+     "title": "Commission"
+    },
+    {
+     "no": "5.5",
+     "title": "Marked price, discount and VAT in order"
+    }
+   ],
+   "summary": [
+    "profit=SP-CP when SP exceeds CP; loss=CP-SP when CP exceeds SP.",
+    "Profit percent and loss percent are measured against the cost price.",
+    "SP=CP(1±(%)/(100)); CP=(100timesSP)/(100±%).",
+    "discount=MP-SP, and discount percent is measured against the marked price.",
+    "SP=MP(1-(discount%)/(100)).",
+    "A sale can give a discount and a profit at the same time, because the two percentages are measured on different bases.",
+    "Commission is a percentage of the sale value and is paid to the agent."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2065,
+    "figures": 2,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Unitary Method",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "the unitary method",
+    "application of direct variation",
+    "application of inverse variation",
+    "mixed problems; time and work, time and distance"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "The unitary method in direct variation"
+    },
+    {
+     "no": "6.2",
+     "title": "The unitary method in inverse variation"
+    },
+    {
+     "no": "6.3",
+     "title": "Time, speed and distance"
+    },
+    {
+     "no": "6.4",
+     "title": "Direct and inverse variation side by side"
+    }
+   ],
+   "summary": [
+    "In direct variation, find the value of one unit by division and multiply.",
+    "In inverse variation, find the constant total (man-days, man-hours, speed × time) and divide by the new value.",
+    "total work=workerstimesdays; with hours, work=workerstimeshours per daytimesdays.",
+    "For taps or pipes, work in \"fraction of the tank per hour\" and add the fractions; the time is the reciprocal of the sum.",
+    "speed=(distance)/(time); 1 m/s =3.6 km/h.",
+    "Average speed =(total distance)/(total time), never the simple average of the speeds."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2158,
+    "figures": 1,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Simple Interest",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "principal, rate, time and simple interest",
+    "amount and the interest formula",
+    "finding rate or time when the others are known",
+    "simple interest in daily life: saving and borrowing"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "The simple interest formula"
+    },
+    {
+     "no": "7.2",
+     "title": "Finding principal, rate or time"
+    },
+    {
+     "no": "7.3",
+     "title": "Simple interest in daily life"
+    },
+    {
+     "no": "7.4",
+     "title": "Reading the interest formula four ways"
+    }
+   ],
+   "summary": [
+    "I=(PTR)/(100) and A=P+I, with T always in years.",
+    "Rearranged: P=(100I)/(TR), R=(100I)/(PT), T=(100I)/(PR).",
+    "When the amount is given, use A=Pleft(1+(TR)/(100)right) and solve for P.",
+    "Simple interest is the same every year, so it grows in a straight line.",
+    "Comparing two offers means comparing P× T× R, not the rate alone."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1961,
+    "figures": 2,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Area and Volume",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "area of triangles",
+    "area of quadrilaterals (parallelogram, rhombus, trapezium)",
+    "area of a circle and its parts",
+    "surface area and volume of a cylinder",
+    "area and volume problems of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Area of triangles"
+    },
+    {
+     "no": "8.2",
+     "title": "Area of quadrilaterals"
+    },
+    {
+     "no": "8.3",
+     "title": "Area and circumference of a circle"
+    },
+    {
+     "no": "8.4",
+     "title": "Surface area and volume of a cylinder"
+    },
+    {
+     "no": "8.5",
+     "title": "Choosing the right formula"
+    }
+   ],
+   "summary": [
+    "Triangle: frac12 bh, or Heron's formula with s=(a+b+c)/(2).",
+    "Rectangle lb; square a^2; parallelogram bh; rhombus and kite frac12 d1d2; trapezium frac12(a+b)h.",
+    "Circle: circumference 2π r, area π r^2; sector area (θ)/(360°)π r^2; arc length (θ)/(360°)2π r.",
+    "Cylinder: curved surface 2π rh, total surface 2π r(r+h), volume π r^2h.",
+    "A ring or path is the difference of two circles, not a circumference times a width.",
+    "Areas are in square units and volumes in cubic units, and all lengths must be in the same unit."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2462,
+    "figures": 3,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Indices",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "laws of indices",
+    "simplification using the laws",
+    "negative and zero indices",
+    "exponential equations"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "The laws of indices"
+    },
+    {
+     "no": "9.2",
+     "title": "Simplifying expressions with several laws"
+    },
+    {
+     "no": "9.3",
+     "title": "Exponential equations"
+    },
+    {
+     "no": "9.4",
+     "title": "The laws of indices in one place"
+    }
+   ],
+   "summary": [
+    "a^m× a^n=a^m+n; a^m÷ a^n=a^m-n; (a^m)^n=a^mn; (ab)^n=a^nb^n; left(frac abright)^n=(a^n)/(b^n).",
+    "a^0=1 for every non-zero a, and a^-n=(1)/(a^n).",
+    "Simplify inside brackets first, then apply powers, then multiply or divide like bases by adding or subtracting indices.",
+    "An exponential equation is solved by writing both sides as powers of the same base and equating the indices."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1592,
+    "figures": 1,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Algebraic Expressions",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "review of factorisation",
+    "highest common factor of algebraic expressions",
+    "lowest common multiple",
+    "factorisation by grouping and by using identities"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Terms, coefficients and like terms"
+    },
+    {
+     "no": "10.2",
+     "title": "Highest common factor of expressions"
+    },
+    {
+     "no": "10.3",
+     "title": "Lowest common multiple of expressions"
+    },
+    {
+     "no": "10.4",
+     "title": "Factorisation by taking out a common factor"
+    },
+    {
+     "no": "10.5",
+     "title": "Factorisation by grouping"
+    },
+    {
+     "no": "10.6",
+     "title": "The standard identities"
+    },
+    {
+     "no": "10.7",
+     "title": "The three identities as areas"
+    }
+   ],
+   "summary": [
+    "Terms, coefficient, constant and degree describe the parts of an expression; only like terms can be combined.",
+    "HCF: every factor common to all the expressions, to its lowest power.",
+    "LCM: every factor appearing in any expression, to its highest power.",
+    "For two expressions, HCFtimesLCM= product of the expressions.",
+    "ab+ac=a(b+c); group four terms in pairs when no single factor is common to all of them.",
+    "The standard identities in both directions: (a± b)^2=a^2±2ab+b^2 and (a+b)(a-b)=a^2-b^2.",
+    "Factorise completely: take out the common factor first, then look for an identity, then check by expanding."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1942,
+    "figures": 2,
+    "examples": 14
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Algebraic Fraction",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "simplification of algebraic fractions",
+    "addition and subtraction of algebraic fractions",
+    "multiplication and division of algebraic fractions",
+    "equations involving algebraic fractions"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Reducing a fraction to its lowest terms"
+    },
+    {
+     "no": "11.2",
+     "title": "Adding and subtracting algebraic fractions"
+    },
+    {
+     "no": "11.3",
+     "title": "Multiplying and dividing"
+    },
+    {
+     "no": "11.4",
+     "title": "Equations containing fractions"
+    },
+    {
+     "no": "11.5",
+     "title": "Why factorising comes first"
+    }
+   ],
+   "summary": [
+    "Factorise the top and bottom before cancelling anything; only factors cancel.",
+    "The LCM of the denominators is the common denominator; multiply top and bottom by whatever each fraction is missing.",
+    "When subtracting, put the second numerator in brackets and distribute the minus sign.",
+    "Multiply fractions straight across; divide by inverting the second fraction.",
+    "Solve a fractional equation by multiplying every term by the LCM, and state the values the variable may not take.",
+    "Check every answer numerically in the original expression."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1663,
+    "figures": 1,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Equation and Graph",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "linear equations in one variable",
+    "simultaneous linear equations",
+    "inequality and its graph on the number line",
+    "graph of a linear equation"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Linear equations in one variable"
+    },
+    {
+     "no": "12.2",
+     "title": "Simultaneous linear equations"
+    },
+    {
+     "no": "12.3",
+     "title": "The graph of a linear equation"
+    },
+    {
+     "no": "12.4",
+     "title": "Inequality and its graph"
+    }
+   ],
+   "summary": [
+    "A linear equation is solved by clearing fractions, expanding brackets, collecting like terms and dividing by the coefficient.",
+    "Simultaneous equations are solved by elimination (make one coefficient match, then add or subtract) or substitution (make one variable the subject).",
+    "A linear equation has infinitely many solutions, and its graph is a straight line; two points fix the line and a third checks it.",
+    "The solution of two simultaneous equations is the coordinates of the point where their graphs cross.",
+    "An inequality is solved like an equation, but multiplying or dividing by a negative number reverses the sign.",
+    "On a number line, an open circle means the value is excluded and a filled circle means it is included."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1798,
+    "figures": 1,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Lines and Angles",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "straight lines, rays and angles",
+    "pairs of angles: complementary, supplementary, adjacent, vertically opposite",
+    "parallel lines and a transversal",
+    "corresponding, alternate and co-interior angles"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Points, lines and angles"
+    },
+    {
+     "no": "13.2",
+     "title": "Pairs of angles"
+    },
+    {
+     "no": "13.3",
+     "title": "Parallel lines and a transversal"
+    },
+    {
+     "no": "13.5",
+     "title": "Reasons are the marks"
+    }
+   ],
+   "summary": [
+    "Complementary angles add to 90°; supplementary angles add to 180°; angles round a point add to 360°.",
+    "Vertically opposite angles are equal; angles in a linear pair are supplementary.",
+    "When a transversal cuts two parallel lines: corresponding angles are equal, alternate angles are equal, and co-interior angles add to 180°.",
+    "Two lines are parallel if any one of those three conditions holds.",
+    "Remember the shapes: F for corresponding, Z for alternate, C for co-interior."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2327,
+    "figures": 3,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Plane Figures",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "triangles: classification and properties",
+    "quadrilaterals and their properties",
+    "construction of triangles and quadrilaterals",
+    "polygons: interior and exterior angles",
+    "the circle: radius, chord, arc, sector"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Triangles"
+    },
+    {
+     "no": "14.2",
+     "title": "Quadrilaterals"
+    },
+    {
+     "no": "14.3",
+     "title": "Polygons"
+    },
+    {
+     "no": "14.4",
+     "title": "Construction"
+    },
+    {
+     "no": "14.5",
+     "title": "The circle"
+    }
+   ],
+   "summary": [
+    "The angles of a triangle add to 180°; an exterior angle equals the sum of the two interior opposite angles.",
+    "Equilateral, isosceles and scalene are classified by sides; acute, right and obtuse by angles.",
+    "The angles of a quadrilateral add to 360°; a parallelogram has equal opposite angles and supplementary adjacent angles, and its diagonals bisect each other.",
+    "For a polygon of n sides: interior angles sum to (n-2)×180°; exterior angles always sum to 360°.",
+    "The perpendicular from the centre to a chord bisects the chord; the angle in a semicircle is 90°.",
+    "Constructions are done with ruler and compasses, with every arc left in place."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2172,
+    "figures": 1,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Congruency and Similarity",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "congruent figures and congruent triangles",
+    "tests of congruence (SSS, SAS, ASA, RHS)",
+    "similar figures and similar triangles",
+    "ratio of areas of similar triangles"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Congruent figures"
+    },
+    {
+     "no": "15.2",
+     "title": "The four tests of congruence"
+    },
+    {
+     "no": "15.3",
+     "title": "Similar figures"
+    }
+   ],
+   "summary": [
+    "Congruent figures have the same shape and size; similar figures have the same shape at different sizes.",
+    "The four tests of congruence are SSS, SAS, ASA and RHS; there is no SSA test.",
+    "The order of the letters in △ ABCcong△ PQR gives the correspondence, and corresponding parts of congruent triangles are equal.",
+    "Two triangles are similar if two angles match (AA), or if the three pairs of sides are in the same ratio (SSS similarity), or if two pairs of sides are in the same ratio with equal included angles (SAS similarity).",
+    "In similar triangles, corresponding sides are in the same ratio k and areas are in the ratio k^2."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2215,
+    "figures": 2,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Solid Objects",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "prisms and pyramids: faces, edges and vertices",
+    "nets of solids",
+    "surface area of prisms and pyramids",
+    "volume of prisms and pyramids"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Prisms and pyramids"
+    },
+    {
+     "no": "16.2",
+     "title": "Nets"
+    },
+    {
+     "no": "16.3",
+     "title": "Surface area"
+    },
+    {
+     "no": "16.4",
+     "title": "Volume of a prism and a pyramid"
+    }
+   ],
+   "summary": [
+    "A prism has two identical parallel ends and rectangular sides; a pyramid has one base and triangular sides meeting at an apex.",
+    "F+V-E=2 for every such solid.",
+    "A net is a flat pattern that folds into the solid; a cube has eleven nets.",
+    "Cube surface area 6a^2, volume a^3; cuboid surface area 2(lb+bh+hl), volume lbh.",
+    "Volume of a prism = base area × length; volume of a pyramid =frac13× base area × height.",
+    "Surface area is in square units, volume in cubic units, and the two are never interchangeable."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1869,
+    "figures": 3,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Coordinates",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "the coordinate plane and plotting points",
+    "distance between two points on the axes and in the plane",
+    "simple shapes drawn from coordinates"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "The coordinate plane"
+    },
+    {
+     "no": "17.2",
+     "title": "Distance between two points"
+    },
+    {
+     "no": "17.3",
+     "title": "Shapes from coordinates"
+    },
+    {
+     "no": "17.4",
+     "title": "Reading a point in four quadrants"
+    }
+   ],
+   "summary": [
+    "A point is written (x,y), x first; the axes divide the plane into four quadrants, and the signs of the coordinates decide which.",
+    "On a horizontal line the distance is the difference of the x-coordinates; on a vertical line it is the difference of the y-coordinates.",
+    "For any two points, d=√(x2-x1)^2+(y2-y1)^2, which is Pythagoras' theorem.",
+    "Joining points and comparing the side lengths and the angles identifies the shape; equal sides alone give a rhombus, not a square.",
+    "A triangle is right-angled exactly when the squares of two sides add to the square of the third."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2092,
+    "figures": 3,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Tessellation",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "tessellation and its use in design",
+    "regular tessellation",
+    "semi-regular tessellation",
+    "symmetry in tessellation"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Tessellation"
+    },
+    {
+     "no": "18.2",
+     "title": "Which regular polygons tessellate?"
+    },
+    {
+     "no": "18.3",
+     "title": "Semi-regular tessellations"
+    },
+    {
+     "no": "18.4",
+     "title": "Symmetry in tessellation"
+    }
+   ],
+   "summary": [
+    "A tessellation covers a plane with no gaps and no overlaps; at every vertex the angles add to exactly 360°.",
+    "Exactly three regular polygons tessellate alone: the equilateral triangle (6×60°), the square (4×90°) and the regular hexagon (3×120°).",
+    "A polygon tessellates alone only if its interior angle divides 360° exactly.",
+    "Regular pentagons and octagons cannot tessellate alone; an octagon can be used with a square (135+135+90=360).",
+    "In semi-regular tessellations the same arrangement of two or more regular polygons occurs at every vertex, written as a list such as 4.8.8.",
+    "Tilings use translation, reflection, rotation and glide reflection, and a periodic tiling repeats by translation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1929,
+    "figures": 1,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "Transformation",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "translation",
+    "reflection and axes of reflection",
+    "rotation about a point",
+    "enlargement and scale factor"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Translation"
+    },
+    {
+     "no": "19.2",
+     "title": "Reflection"
+    },
+    {
+     "no": "19.3",
+     "title": "Rotation"
+    },
+    {
+     "no": "19.4",
+     "title": "Enlargement"
+    }
+   ],
+   "summary": [
+    "Translation slides a figure: (x,y)→(x+a,y+b); the image is congruent and faces the same way.",
+    "Reflection flips it in a mirror line: in the x-axis y changes sign, in the y-axis x changes sign, in y=x the coordinates swap.",
+    "Rotation turns it about a centre: about the origin, 90° anticlockwise is (-y,x), 180° is (-x,-y) and 270° anticlockwise (or 90° clockwise) is (y,-x).",
+    "Enlargement multiplies every coordinate by the scale factor k; lengths become k times and areas k^2 times as large.",
+    "Translation, reflection and rotation give congruent images; enlargement gives a similar image."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2053,
+    "figures": 2,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 20,
+   "title": "Bearing and Scale Drawing",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "bearing and its measurement",
+    "drawing and reading a scale drawing",
+    "distance and direction problems using bearing"
+   ],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "Bearing"
+    },
+    {
+     "no": "20.2",
+     "title": "Scale drawing"
+    },
+    {
+     "no": "20.4",
+     "title": "Bearings on the compass rose"
+    }
+   ],
+   "summary": [
+    "A bearing is measured clockwise from north and written in three figures, from 000° to 360°.",
+    "North 000°, east 090°, south 180°, west 270°.",
+    "The back bearing is the bearing ± 180°: add 180° if the bearing is under 180°, subtract 180° if it is over.",
+    "scale=(drawing length)/(real length), and one unit must be used throughout.",
+    "In a scale drawing a fresh north line is drawn at every point before the next bearing is measured.",
+    "State the scale on the drawing; it earns a mark and it makes the drawing readable."
+   ],
+   "terms": [
+    "Bearing"
+   ],
+   "stats": {
+    "words": 2658,
+    "figures": 1,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 21,
+   "title": "Statistics",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "collection and tabulation of data",
+    "bar graph and pie chart",
+    "mean, median and mode of individual series",
+    "interpretation of statistical data"
+   ],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "Collecting and tabulating data"
+    },
+    {
+     "no": "21.2",
+     "title": "Pictographs, bar graphs and pie charts"
+    },
+    {
+     "no": "21.3",
+     "title": "Mean, median and mode"
+    },
+    {
+     "no": "21.5",
+     "title": "Choosing the right average"
+    }
+   ],
+   "summary": [
+    "Data are tallied, tabulated with a total, and then presented as a table, a bar graph or a pie chart.",
+    "On a bar graph the height of the bar reads the frequency; bars have equal width and equal gaps.",
+    "On a pie chart angle=(frequency)/(total)×360°, and the angles must add to exactly 360°.",
+    "mean=(Σ x)/(n); the median is the middle value of the ordered list; the mode is the most frequent value.",
+    "With an even number of values the median is the mean of the two middle ones.",
+    "For grouped data, use the mid-value of each class for the mean, and speak of the modal class rather than the mode.",
+    "An outlier pulls the mean but not the median; report the median when the data contain an extreme value."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2502,
+    "figures": 4,
+    "examples": 7
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 21,
+ "topic_count": 87,
+ "notes_ready": 21
+}

@@ -112,68 +112,21 @@ def resources_list(request):
 def syllabus_categories(request):
     """GET /api/syllabus/categories/ — compact syllabus accordion data for mobile.
 
-    Mirrors the website Library → Syllabus tab, driven by admin-created
-    SyllabusContent when present and falling back to CURRICULUM_MAP.
+    Mirrors the website Library → Syllabus tab: the syllabus exported from
+    the NEBians books for Class 8, 10, 11 and 12.
     """
-    from collections import defaultdict
-    from api.models import SyllabusContent
-    try:
-        from web import curriculum
-    except Exception:
-        curriculum = None
-
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    categories_map = defaultdict(set)
-    active_syllabus = SyllabusContent.objects.all().values('grade_level', 'subject')
-
-    if active_syllabus.exists():
-        for item in active_syllabus:
-            grade = (item.get('grade_level') or '').strip()
-            if grade.lower() == 'grade 12':
-                grade = 'Class 12'
-            elif grade.lower() == 'grade 11':
-                grade = 'Class 11'
-            subject_str = item.get('subject') or ''
-            if grade and subject_str:
-                for subj in subject_str.split(','):
-                    subj = subj.strip()
-                    if subj:
-                        categories_map[grade].add(subj)
-    elif curriculum is not None:
-        for (grade, subj) in getattr(curriculum, 'CURRICULUM_MAP', {}).keys():
-            if grade and subj:
-                categories_map[grade].add(subj)
-
-    def _slug(value):
-        return (value or '').lower().replace(' / see', '-see').replace('/', '-').replace(' ', '-')
-
-    grade_order = {value: idx for idx, value in enumerate(education_levels)}
-    categories = []
-    for grade, subjects in categories_map.items():
-        subject_items = []
-        for subj in sorted(subjects):
-            subject_items.append({
-                'name': subj,
-                'slug': _slug(subj),
-                'url': f"/subject/{_slug(grade)}/{_slug(subj)}/",
-            })
-        categories.append({
-            'grade': grade,
-            'subjects': subject_items,
-            'order': grade_order.get(grade, 999),
-        })
-    categories.sort(key=lambda item: item['order'])
-    return Response({'categories': categories})
+    from .views_syllabus import legacy_categories
+    return Response({'categories': legacy_categories()})
 
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
 @throttle_classes([SearchRateThrottle])
 def syllabus_subject_detail(request, grade_slug, subject_slug):
+    from .views_syllabus import legacy_subject_detail
+    detail = legacy_subject_detail(grade_slug, subject_slug)
+    if detail is not None:
+        return Response(detail)
     from api.models import SyllabusContent
     try:
         from web import curriculum
