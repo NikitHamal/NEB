@@ -49,9 +49,10 @@ in `/workspace/tools/ghpush.py` failed for everyone. I added a small, backward-c
 NEB physics/chemistry course still runs on the slider labs (`lab3d-*.js`). `opts.freeLab` skips
 the hands-on version if a free mode is ever wanted.
 
-**Done (10 slugs):** `acid-base-titration`, `redox-titration-kmno4` (both `practicals/titration.js`,
+**Done (13 slugs):** `acid-base-titration`, `redox-titration-kmno4` (both `practicals/titration.js`,
 mode chosen by slug), `flame-tests`, `simple-pendulum-g`, `vernier-calipers`, `screw-gauge`,
-`meter-bridge`, `anion-tests`, `resonance-air-column`, `ohms-law-resistivity`.
+`meter-bridge`, `anion-tests`, `resonance-air-column`, `ohms-law-resistivity`, `hookes-law-spring`,
+`focal-length-mirror-lens` (convex lens), `sonometer-laws` (law of length).
 
 **Shared modules.**
 - `glass.js`: conical flask (liquid re-turned from the flask's own inner profile, so level follows
@@ -78,8 +79,7 @@ practical sets `ctx.debug` for tests.
 the web static dir). `drive.py sim lesson outprefix "n|js:...|w2000|sNAME"` skips to step n,
 runs JS, waits, screenshots (SwiftShader, slow). Kill other memory hogs before Gradle builds.
 
-**Next practicals, in order of value.** Sonometer (WebAudio like
-resonance.js), potentiometer, specific heat (thermometer + stopwatch), focal length (optics bench:
+**Next practicals, in order of value.** Potentiometer, specific heat (thermometer + stopwatch), focal length (optics bench:
 move screen to sharpen), prism (spectrometer), separation, gas preparation, electrolysis
 (Faraday: weigh cathode), pH, functional groups (reuse wet-tests pattern), heat of
 neutralisation, Lassaigne, water of crystallisation, salt analysis (anion-tests + flame-tests).
@@ -112,3 +112,26 @@ See `ANDROID_UI_CONTINUITY.md` §13.
   side-by-side preview APK (`com.neb.ians.preview`) can be built locally with the init script
   `/workspace/tools/preview-release.gradle` and a throwaway keystore at the gitignored
   `nebians-release.keystore` path.
+
+
+## Android native simulations (Oct 19, 2026)
+
+`app/.../ui/sim/`: `NativeSims` maps `courseSlug/lessonSlug` to a native sim;
+`InteractiveLessonScreen` hands those lessons to `NativeLessonScreen` (sim + lesson text + quiz from
+`getInteractiveLessonDetail`), everything else stays in the WebView. `gl/` is a dependency-free
+OpenGL ES 3 renderer (`GlMesh` lathe/sphere/cylinder/box/torus, `GlScene`/`GlNode`/`OrbitCamera`,
+`GlRenderer` PBR shader + backdrop + floor + blob shadows, `GlStage` Compose wrapper with touch:
+orbit, pinch, `GlSim.pointerDown` ray picking). Shaders are GLSL ES 3.00 and were validated with
+WebGL2. Native so far: pendulum lab, molecule gallery, Earth-Moon-Sun (3D); projectile motion,
+waves, concave mirror (2D Canvas). To add one: write a `GlSim` (or a Canvas composable) plus its
+Compose controls (`SimKit.kt`), and map its lesson in `NativeSims`.
+
+**Owner preferences (also in workspace memory):** library PDFs are read only inside the app (no
+share/open-with/copy-text); do not build Android locally in the sandbox — push and let CI build.
+
+## Biology hands-on input (Oct 19, 2026)
+
+Tool tips follow the pointer exactly (`bio-handson/tools.js` lifts along the view ray; stiff
+spring), `runtime.aimDefault` aims at the object under the pointer, a DOM reticle marks the action
+point and the cursor hides while a tool is held, and `input.pick` has a fuzzy second pass (eight
+offset rays). Flower dissection: tap-to-pluck, 20 px tug, forgiving box drops.
