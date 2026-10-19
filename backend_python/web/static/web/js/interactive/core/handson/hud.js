@@ -43,6 +43,9 @@ export function createHud(ctx) {
       for (const c of chips) {
         if (!c.visible) continue;
         ctx.input.project(c.at, v, w, h);
+        const off = v.z > 1 || v.x < -30 || v.x > w + 30 || v.y < -30 || v.y > h + 30;
+        if (off !== !!c.off) { c.off = off; c.el.style.visibility = off ? 'hidden' : ''; }
+        if (off) continue;
         const x = Math.max(4, Math.min(w - c.el.offsetWidth - 4, v.x + c.dx)); const y = Math.max(4, Math.min(h - c.el.offsetHeight - 4, v.y + c.dy));
         c.el.style.transform = `translate(${Math.round(x)}px, ${Math.round(y)}px)`;
       }
