@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,250
+And the steel ship?
+
+2
+00:00:01,250 --> 00:00:04,453
+Its hull is a hollow shell full of air.
+
+3
+00:00:04,453 --> 00:00:13,242
+Its average density, steel plus all that air, is less than water's, so it displaces its own weight of water long before it is full.
+
+4
+00:00:13,242 --> 00:00:15,377
+A solid nail cannot do that.
+

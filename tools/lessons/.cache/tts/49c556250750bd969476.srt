@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,072
+So far our oscillators run for ever.
+
+2
+00:00:03,072 --> 00:00:04,479
+Real ones do not.
+
+3
+00:00:04,479 --> 00:00:10,755
+Air resistance and friction take a little energy every cycle, and the swings die away.
+
+4
+00:00:10,755 --> 00:00:12,812
+This is damped oscillation.
+

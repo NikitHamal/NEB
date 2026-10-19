@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,203
+Make the body denser, and it sinks lower.
+
+2
+00:00:03,203 --> 00:00:05,325
+Lighter, and it rides higher.
+
+3
+00:00:05,325 --> 00:00:13,867
+Ice in sea water has a density ratio of about zero point eight nine, so almost nine tenths of an iceberg hides below the surface.
+

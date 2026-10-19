@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,106
+Lower the ship.
+
+2
+00:00:01,106 --> 00:00:04,309
+Thousands of tonnes of steel, and it floats.
+

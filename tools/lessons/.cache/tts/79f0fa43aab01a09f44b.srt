@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,007
+The heights are equal, so P one minus P two equals half rho, times v two squared minus v one squared.
+
+2
+00:00:08,007 --> 00:00:12,838
+Together with continuity, the measured pressure difference tells you the rate of flow.
+

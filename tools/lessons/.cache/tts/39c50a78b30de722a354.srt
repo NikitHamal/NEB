@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:13,945
+And the acceleration there is omega squared x: nine point eight seven times zero point zero three, about zero point two nine six metres per second squared, pointing back towards the mean position.
+

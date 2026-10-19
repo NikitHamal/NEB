@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,343
+The period is two pi root e over g: root of zero point one over nine point eight is about zero point one zero one, so T is about zero point six three five seconds.
+
+2
+00:00:12,343 --> 00:00:16,302
+That is a frequency of about one point five eight hertz.
+

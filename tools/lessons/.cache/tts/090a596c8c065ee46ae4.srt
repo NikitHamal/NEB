@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,434
+The same effect tears tin roofs off houses in a storm: fast wind over the roof, still air inside.
+
+2
+00:00:07,434 --> 00:00:18,697
+And it works your atomiser, and the air hole of a Bunsen burner: a fast stream across the top of a tube lowers the pressure there, and the atmosphere pushes liquid or air in.
+

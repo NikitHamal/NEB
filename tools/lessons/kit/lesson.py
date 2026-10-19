@@ -65,7 +65,9 @@ class Narration:
     def frac(self, k):
         return max(0.3, self.dur * k)
 
-    def __exit__(self, *a):
+    def __exit__(self, exc_type, *a):
+        if exc_type is not None:
+            return False
         s = self.scene
         rem = self.left
         if rem > 0.02:

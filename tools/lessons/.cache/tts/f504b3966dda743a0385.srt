@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,359
+Now pull the wire out slowly through a distance x.
+
+2
+00:00:03,359 --> 00:00:07,317
+The work done is force times distance, two T l x.
+
+3
+00:00:07,317 --> 00:00:12,447
+But two l x is exactly the new surface area created, front and back.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,604
+The net force, taking down as positive, is m g minus k times e plus x.
+
+2
+00:00:07,604 --> 00:00:09,648
+But m g is k e.
+
+3
+00:00:09,648 --> 00:00:12,747
+So k e minus k e minus k x.
+
+4
+00:00:12,747 --> 00:00:17,786
+The weight cancels completely, and F equals minus k x.
+

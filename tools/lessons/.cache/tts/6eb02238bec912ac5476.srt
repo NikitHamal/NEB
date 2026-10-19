@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,710
+Here is a classic exam problem about a pendulum clock.
+
+2
+00:00:03,710 --> 00:00:08,684
+Find the length of a seconds pendulum where g is nine point eight.
+
+3
+00:00:08,684 --> 00:00:13,632
+Then the clock is carried to a place where g is nine point seven eight.
+
+4
+00:00:13,632 --> 00:00:15,963
+How much time does it lose in one day?
+

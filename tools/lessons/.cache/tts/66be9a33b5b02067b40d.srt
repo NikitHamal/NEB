@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,315
+Pause and think.
+
+2
+00:00:01,315 --> 00:00:05,703
+The period of a simple pendulum does not depend on which of these?
+

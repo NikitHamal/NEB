@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,046
+Area goes as diameter squared.
+
+2
+00:00:03,046 --> 00:00:10,182
+Halving the diameter quarters the area, so the speed is multiplied by four: eight metres per second.
+

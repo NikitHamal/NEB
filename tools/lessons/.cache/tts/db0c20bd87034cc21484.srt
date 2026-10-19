@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,703
+Now let a viscous liquid flow steadily through a narrow horizontal tube.
+
+2
+00:00:05,703 --> 00:00:12,916
+Because of viscosity, the liquid at the wall is at rest, and the liquid in the centre moves fastest.
+
+3
+00:00:12,916 --> 00:00:15,625
+The velocity profile is a parabola.
+

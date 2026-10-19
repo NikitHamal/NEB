@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,492
+Now hang the spring vertically, and hook a mass m on its end.
+
+2
+00:00:04,492 --> 00:00:08,502
+The spring stretches until its pull upward balances the weight.
+

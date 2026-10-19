@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,752
+The ship and the needle both float, but for two completely different reasons.
+
+2
+00:00:04,752 --> 00:00:06,236
+One is about pressure.
+
+3
+00:00:06,236 --> 00:00:09,140
+The other is about the surface itself.
+
+4
+00:00:09,140 --> 00:00:14,830
+By the end of this lesson, you will be able to explain both, and a lot more besides.
+

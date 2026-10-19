@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,510
+Let us use all of this.
+
+2
+00:00:01,510 --> 00:00:09,075
+A particle performs simple harmonic motion with amplitude five centimetres and period two seconds.
+
+3
+00:00:09,075 --> 00:00:18,619
+Find its maximum velocity, its maximum acceleration, and its velocity and acceleration at a displacement of three centimetres.
+

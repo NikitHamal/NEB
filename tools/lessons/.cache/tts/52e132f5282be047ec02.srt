@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,026
+Substitute: pi times a thousand times ten to the minus three, to the power four, over eight times ten to the minus three times zero point five.
+

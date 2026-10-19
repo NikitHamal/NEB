@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,960
+The amplitude is A nought e to the minus b t over two m.
+
+2
+00:00:04,960 --> 00:00:10,286
+It becomes A nought over e when b t over two m equals one.
+
+3
+00:00:10,286 --> 00:00:18,125
+So t equals two m over b: zero point four over zero point zero four, ten seconds.
+

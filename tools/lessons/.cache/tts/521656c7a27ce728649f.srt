@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,289
+Pause and think.
+
+2
+00:00:01,289 --> 00:00:05,520
+A body floats with three quarters of its volume under water.
+
+3
+00:00:05,520 --> 00:00:07,265
+What is its relative density?
+

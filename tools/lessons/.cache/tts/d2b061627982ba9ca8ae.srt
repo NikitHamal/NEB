@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,658
+So F equals minus m g sine theta.
+
+2
+00:00:03,658 --> 00:00:09,166
+That is not quite simple harmonic, because sine theta is not the same as theta.
+
+3
+00:00:09,166 --> 00:00:15,325
+But for small angles, measured in radians, sine theta is very nearly theta.
+
+4
+00:00:15,325 --> 00:00:19,101
+And the arc length x equals L theta.
+

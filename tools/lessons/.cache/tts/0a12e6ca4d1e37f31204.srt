@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,263
+Pause and think.
+
+2
+00:00:01,263 --> 00:00:05,312
+Water rises to height h in a tube of radius r.
+
+3
+00:00:05,312 --> 00:00:08,320
+What happens in a tube of half the radius?
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,283
+Its mass is four point nine over nine point eight, half a kilogram.
+
+2
+00:00:04,283 --> 00:00:12,838
+Density is mass over volume, five thousand kilograms per cubic metre, so its relative density is five.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,049
+The bubble has two surfaces, each four pi r squared.
+
+2
+00:00:04,049 --> 00:00:13,854
+So the area created is eight pi times zero point zero three squared, about two point two six times ten to the minus two square metres.
+
+3
+00:00:13,854 --> 00:00:15,911
+Do not forget that factor of two.
+
+4
+00:00:15,911 --> 00:00:18,763
+It is the most common mistake in this question.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:11,406
+Increase the damping to a special value, where b squared equals four m k, and the body returns to rest in the shortest possible time, without overshooting at all.
+
+2
+00:00:11,406 --> 00:00:12,916
+That is critical damping.
+
+3
+00:00:12,916 --> 00:00:17,005
+Galvanometers and car shock absorbers are designed this way.
+

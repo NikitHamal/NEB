@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,127
+And notice, energy depends on the square of the amplitude.
+
+2
+00:00:04,127 --> 00:00:08,906
+Double the amplitude, and the energy becomes four times as large.
+

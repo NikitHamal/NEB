@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,796
+Now the applications.
+
+2
+00:00:01,796 --> 00:00:11,289
+First, the Venturi meter: a horizontal pipe with a narrow throat, and a vertical tube at the wide part and at the throat to show the pressure.
+

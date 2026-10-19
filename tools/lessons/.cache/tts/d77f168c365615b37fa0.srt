@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,481
+To bring a molecule up to the surface, work must be done against that inward pull.
+
+2
+00:00:05,481 --> 00:00:09,843
+So a liquid keeps its surface area as small as it possibly can.
+
+3
+00:00:09,843 --> 00:00:17,252
+That is why a free drop of rain pulls itself into a sphere, the shape with the least surface for its volume.
+

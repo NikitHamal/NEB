@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,161
+This has a surprising consequence.
+
+2
+00:00:02,161 --> 00:00:10,260
+Here are three vessels of very different shapes: a wide one, a strange narrow one, and a tapering one.
+
+3
+00:00:10,260 --> 00:00:12,929
+Fill all three to the same depth.
+

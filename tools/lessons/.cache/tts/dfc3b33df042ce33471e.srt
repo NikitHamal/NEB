@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,031
+Write the dimensions of each side.
+
+2
+00:00:02,031 --> 00:00:06,263
+Volume per second is L cubed T to the minus one.
+
+3
+00:00:06,263 --> 00:00:11,822
+The pressure gradient is M L to the minus two T to the minus two.
+
+4
+00:00:11,822 --> 00:00:17,018
+Viscosity is M L to the minus one T to the minus one.
+

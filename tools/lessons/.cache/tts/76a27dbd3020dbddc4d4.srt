@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,218
+Substitute: two times zero point zero seven two, over two times ten to the minus four, times a thousand, times nine point eight.
+

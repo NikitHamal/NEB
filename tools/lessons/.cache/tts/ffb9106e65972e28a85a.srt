@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,929
+Damping also slows the oscillation slightly: the new angular frequency omega dash is a little less than the natural one.
+
+2
+00:00:07,929 --> 00:00:16,666
+And because energy goes as amplitude squared, the energy decays twice as fast as the amplitude.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,057
+The formula hides four laws.
+
+2
+00:00:02,057 --> 00:00:04,622
+First: mass does not appear.
+
+3
+00:00:04,622 --> 00:00:10,442
+Hang a light bob and a heavy bob on equal strings, and they swing in perfect step.
+
+4
+00:00:10,442 --> 00:00:16,562
+A heavier bob feels more pull, but it also has more inertia, and the two cancel.
+

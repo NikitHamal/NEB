@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,028
+Quick check.
+
+2
+00:00:01,028 --> 00:00:05,351
+A mass m hangs from a spring of force constant k.
+
+3
+00:00:05,351 --> 00:00:06,627
+What is its period?
+
+4
+00:00:06,627 --> 00:00:07,838
+Pause and think.
+

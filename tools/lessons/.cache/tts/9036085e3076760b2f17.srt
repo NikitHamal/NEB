@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,367
+Watch the forces.
+
+2
+00:00:01,367 --> 00:00:05,000
+The weight pulls down, and the upthrust pushes up.
+
+3
+00:00:05,000 --> 00:00:12,526
+As the ball speeds up, the drag grows, until weight is exactly balanced by upthrust plus drag.
+
+4
+00:00:12,526 --> 00:00:17,721
+From then on, the ball falls at a constant speed: the terminal velocity.
+

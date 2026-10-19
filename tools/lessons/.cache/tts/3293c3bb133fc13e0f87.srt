@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,830
+Welcome to Class 12 Physics, Unit 2: Periodic Motion.
+
+2
+00:00:04,830 --> 00:00:09,296
+Swings, springs, sitar strings, clocks and earthquakes.
+
+3
+00:00:09,296 --> 00:00:13,671
+They all dance to one simple rule, and today we learn it.
+

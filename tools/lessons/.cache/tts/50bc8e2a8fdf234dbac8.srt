@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,671
+The kinetic energy is half m v squared.
+
+2
+00:00:03,671 --> 00:00:12,864
+Use v equals omega root A squared minus x squared, and it becomes half m omega squared, times A squared minus x squared.
+

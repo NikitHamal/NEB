@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,325
+No liquid is created or lost in between, so the two masses are equal.
+
+2
+00:00:05,325 --> 00:00:08,815
+A one v one equals A two v two.
+
+3
+00:00:08,815 --> 00:00:14,440
+That is the equation of continuity, conservation of mass for a flowing fluid.
+
+4
+00:00:14,440 --> 00:00:17,812
+Where the pipe narrows, the fluid must speed up.
+

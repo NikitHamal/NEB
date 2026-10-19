@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,302
+Look at the curves.
+
+2
+00:00:01,302 --> 00:00:05,000
+Velocity peaks a quarter period before displacement.
+
+3
+00:00:05,000 --> 00:00:06,822
+It leads by pi by two.
+
+4
+00:00:06,822 --> 00:00:13,450
+And acceleration is always the mirror image of displacement, exactly pi out of phase.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,903
+The r squared explains why clouds float.
+
+2
+00:00:02,903 --> 00:00:10,716
+Their droplets are so tiny that their terminal velocity is almost zero, while big raindrops fall fast.
+
+3
+00:00:10,716 --> 00:00:16,744
+Millikan used this law to find the size of his oil drops, and so the charge of the electron.
+
+4
+00:00:16,744 --> 00:00:22,031
+And timing a ball bearing falling through a liquid is how we measure its viscosity.
+

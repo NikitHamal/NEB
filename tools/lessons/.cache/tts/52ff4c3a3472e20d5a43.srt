@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,114
+But the clock still counts every swing as two seconds.
+
+2
+00:00:04,114 --> 00:00:12,903
+In one real day, eighty six thousand four hundred seconds, it makes only forty three thousand one hundred fifty six swings.
+

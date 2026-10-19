@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:00,742
+Why?
+
+2
+00:00:00,742 --> 00:00:01,927
+Look at one tube.
+
+3
+00:00:01,927 --> 00:00:07,877
+The liquid touches the glass all the way round a circle of length two pi r.
+
+4
+00:00:07,877 --> 00:00:15,885
+Along that line, surface tension pulls along the liquid surface, at the angle of contact theta to the wall.
+
+5
+00:00:15,885 --> 00:00:21,041
+Its vertical part, T cos theta per unit length, lifts the liquid.
+
+6
+00:00:21,041 --> 00:00:24,895
+The upward force is two pi r T cos theta.
+

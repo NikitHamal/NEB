@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,484
+Exam tip.
+
+2
+00:00:01,484 --> 00:00:12,096
+When you derive the pendulum formula, always state the assumption: small amplitude, so that sine theta is approximately theta in radians.
+
+3
+00:00:12,096 --> 00:00:14,375
+Examiners give a mark for that line.
+
+4
+00:00:14,375 --> 00:00:22,773
+For large swings, the motion is still periodic, but it is no longer simple harmonic, and the real period is longer.
+

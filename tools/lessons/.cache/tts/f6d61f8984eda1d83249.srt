@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,794
+A spring that is stretched stores energy, and a block that moves carries energy.
+
+2
+00:00:05,794 --> 00:00:09,752
+In simple harmonic motion, the two keep trading places.
+
+3
+00:00:09,752 --> 00:00:11,132
+Let us watch the trade.
+

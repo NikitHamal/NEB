@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,341
+Past the natural frequency, the oscillator cannot keep up, and the amplitude falls again.
+

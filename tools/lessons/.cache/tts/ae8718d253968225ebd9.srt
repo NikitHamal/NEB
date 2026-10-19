@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,919
+Rearrange, and the terminal velocity is two r squared, times rho minus sigma, times g, over nine eta.
+

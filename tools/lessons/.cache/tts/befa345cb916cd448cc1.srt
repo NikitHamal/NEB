@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,497
+So W equals T times delta A. Surface tension is also the work done per unit increase in area: the surface energy, in joules per square metre.
+
+2
+00:00:11,497 --> 00:00:19,869
+And since a joule per square metre is the same as a newton per metre, surface tension and surface energy are numerically equal.
+

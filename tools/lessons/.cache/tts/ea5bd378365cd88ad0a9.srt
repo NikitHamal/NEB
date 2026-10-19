@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,096
+Then F equals minus m g x over L, so a equals minus g over L, times x. Simple harmonic motion, with omega squared equal to g over L.
+
+2
+00:00:12,096 --> 00:00:15,546
+And the period is two pi root L over g.
+

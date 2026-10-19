@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,471
+The maximum velocity, at the mean position, is A omega: zero point zero five times three point one four, which is zero point one five seven metres per second.
+

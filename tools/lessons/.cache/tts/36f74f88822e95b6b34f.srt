@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,380
+Group A, question one.
+
+2
+00:00:01,380 --> 00:00:05,859
+Which statement describes the acceleration in simple harmonic motion?
+
+3
+00:00:05,859 --> 00:00:07,187
+Pause and think.
+

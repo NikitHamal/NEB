@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,882
+The block seems lighter in water by zero point nine eight newtons.
+
+2
+00:00:04,882 --> 00:00:08,242
+That loss is the upthrust, V rho g.
+
+3
+00:00:08,242 --> 00:00:16,458
+So the volume is zero point nine eight over nine thousand eight hundred: one times ten to the minus four cubic metres.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,713
+But a molecule at the surface has neighbours only below and beside it.
+
+2
+00:00:04,713 --> 00:00:06,276
+Nothing pulls it upward.
+
+3
+00:00:06,276 --> 00:00:10,078
+So it feels a net pull inward, into the liquid.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,286
+Solve: a is one, c is minus one, and b is four.
+
+2
+00:00:05,286 --> 00:00:10,429
+So Q is proportional to P r to the four over eta l.
+
+3
+00:00:10,429 --> 00:00:14,309
+The constant, pi over eight, comes from the full theory.
+

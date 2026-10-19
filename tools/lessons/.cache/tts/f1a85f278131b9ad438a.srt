@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,690
+Dip three glass tubes of fine bore, narrower and narrower, into water.
+
+2
+00:00:05,690 --> 00:00:08,424
+The water climbs up each one on its own.
+
+3
+00:00:08,424 --> 00:00:11,419
+And the thinner the tube, the higher it climbs.
+
+4
+00:00:11,419 --> 00:00:15,950
+This rise or fall of liquid in a narrow tube is capillarity.
+

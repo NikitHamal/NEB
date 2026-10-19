@@ -146,8 +146,10 @@ def push(paths, message, deletes=(), root=".", progress=True):
         print("nothing to push")
         return None
     base = head_sha()
-    tree = gh("POST", api("/git/trees"),
-              {"base_tree": base, "tree": entries})["sha"]
+    tree = base
+    for i in range(0, len(entries), 120):           # big trees time out server-side
+        tree = gh("POST", api("/git/trees"),
+                  {"base_tree": tree, "tree": entries[i:i + 120]})["sha"]
     commit = gh("POST", api("/git/commits"),
                 {"message": message, "tree": tree, "parents": [base]})["sha"]
     gh("PATCH", api("/git/refs/heads/" + BRANCH), {"sha": commit})

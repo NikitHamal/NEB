@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,927
+Pour honey and pour water.
+
+2
+00:00:01,927 --> 00:00:04,062
+Both flow, but honey drags.
+
+3
+00:00:04,062 --> 00:00:07,578
+That internal friction in a fluid is viscosity.
+
+4
+00:00:07,578 --> 00:00:12,083
+Picture a liquid between a fixed table and a plate dragged along the top.
+
+5
+00:00:12,083 --> 00:00:14,934
+The liquid moves in thin layers.
+
+6
+00:00:14,934 --> 00:00:17,786
+The layer touching the table stays still.
+
+7
+00:00:17,786 --> 00:00:20,898
+The layer touching the plate moves with it.
+
+8
+00:00:20,898 --> 00:00:25,390
+Each layer slides over the next, dragging on its neighbours.
+

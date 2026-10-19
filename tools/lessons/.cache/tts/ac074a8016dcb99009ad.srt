@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,549
+Third, the period is inversely proportional to root g, so a pendulum runs slower on the Moon.
+
+2
+00:00:06,549 --> 00:00:11,510
+And fourth, for small swings, the period does not depend on the amplitude.
+
+3
+00:00:11,510 --> 00:00:16,471
+That is isochronism, the property that made pendulum clocks possible.
+
+4
+00:00:16,471 --> 00:00:22,447
+A seconds pendulum has a period of exactly two seconds, one second each way.
+

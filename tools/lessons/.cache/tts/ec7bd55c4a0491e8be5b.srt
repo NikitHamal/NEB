@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,255
+First, omega is two pi over T, two pi over two, which is pi, about three point one four radians per second.
+
+2
+00:00:08,255 --> 00:00:13,020
+And convert the amplitude to metres: zero point zero five.
+

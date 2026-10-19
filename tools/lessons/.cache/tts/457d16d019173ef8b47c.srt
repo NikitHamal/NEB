@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,171
+Let us recap.
+
+2
+00:00:01,171 --> 00:00:09,283
+Pressure in a liquid is h rho g and depends only on depth, and Pascal's law passes it on undiminished.
+
+3
+00:00:09,283 --> 00:00:12,760
+Upthrust equals the weight of fluid displaced.
+
+4
+00:00:12,760 --> 00:00:22,760
+Surface tension is force per unit length, equal to surface energy, with excess pressure two T over r, or four T over r for a soap bubble.
+
+5
+00:00:22,760 --> 00:00:34,557
+Capillary rise is two T cos theta over r rho g. Viscous force is eta A d v by d x, and Poiseuille's flow goes as r to the four.
+
+6
+00:00:34,557 --> 00:00:40,338
+Stokes' drag is six pi eta r v, giving the terminal velocity.
+
+7
+00:00:40,338 --> 00:00:48,033
+Continuity conserves mass, and Bernoulli conserves energy, giving root two g h for a jet.
+

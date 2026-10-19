@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,489
+So the period is two pi root m over k.
+
+2
+00:00:03,489 --> 00:00:17,239
+And since k equals m g over e, the mass cancels again: T equals two pi root e over g. Measure how far a load stretches a spring, and you can predict its period without a stopwatch.
+

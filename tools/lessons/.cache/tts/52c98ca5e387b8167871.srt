@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,289
+A worked example.
+
+2
+00:00:01,289 --> 00:00:10,104
+A half kilogram body on a spring of force constant two hundred newtons per metre oscillates with amplitude ten centimetres.
+
+3
+00:00:10,104 --> 00:00:16,979
+Find the period, the total energy, and the kinetic and potential energies at five centimetres.
+

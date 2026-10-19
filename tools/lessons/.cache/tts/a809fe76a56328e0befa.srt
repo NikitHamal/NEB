@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,919
+The rest, zero point seven five joules, is kinetic.
+
+2
+00:00:03,919 --> 00:00:09,505
+That gives a speed of root three, about one point seven three metres per second.
+

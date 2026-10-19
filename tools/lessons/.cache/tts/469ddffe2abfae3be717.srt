@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,315
+C, two h.
+
+2
+00:00:01,315 --> 00:00:10,494
+The rise is inversely proportional to the radius: h equals two T cos theta over r rho g. Halve r and h doubles.
+
+3
+00:00:10,494 --> 00:00:15,885
+Four h would be right if the rise went as one over r squared, which it does not.
+

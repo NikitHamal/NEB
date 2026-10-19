@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,617
+Excess pressure is four T over r: four times zero point zero three, over zero point zero three.
+
+2
+00:00:07,617 --> 00:00:09,752
+Exactly four pascals.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,505
+Closer to the natural frequency, the amplitude climbs.
+
+2
+00:00:04,505 --> 00:00:11,536
+And when the driving frequency equals the natural frequency, the amplitude shoots up to a maximum.
+
+3
+00:00:11,536 --> 00:00:13,059
+This is resonance.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,132
+Drop the nail.
+
+2
+00:00:01,132 --> 00:00:04,127
+It sinks straight to the bottom, as expected.
+

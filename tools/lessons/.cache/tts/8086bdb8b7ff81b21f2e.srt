@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,445
+Notice the r on the bottom.
+
+2
+00:00:01,445 --> 00:00:04,648
+The smaller the bubble, the bigger the pressure inside.
+
+3
+00:00:04,648 --> 00:00:13,151
+Surface tension also falls as temperature rises, and soap or detergent lowers it, which is why hot soapy water cleans so well.
+

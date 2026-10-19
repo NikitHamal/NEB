@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:06,419
+Divide by the mass, and the acceleration is minus k over m, times x.
+
+2
+00:00:06,419 --> 00:00:09,778
+We write k over m as omega squared.
+
+3
+00:00:09,778 --> 00:00:13,059
+So a equals minus omega squared x.
+
+4
+00:00:13,059 --> 00:00:17,317
+Any motion that obeys this rule is called simple harmonic motion.
+
+5
+00:00:17,317 --> 00:00:19,231
+Learn that sentence exactly.
+
+6
+00:00:19,231 --> 00:00:21,822
+Every result in this chapter grows from it.
+

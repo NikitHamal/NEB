@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,132
+Final check.
+
+2
+00:00:01,132 --> 00:00:05,989
+At resonance, the amplitude of a forced oscillation is what?
+
+3
+00:00:05,989 --> 00:00:07,239
+Pause and think.
+

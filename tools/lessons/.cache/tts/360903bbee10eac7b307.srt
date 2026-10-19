@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:12,695
+Work equals T times the area: zero point zero three times two point two six times ten to the minus two, which is six point seven nine times ten to the minus four joules.
+

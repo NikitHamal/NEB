@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,015
+Now the needle.
+
+2
+00:00:01,015 --> 00:00:04,570
+Seen end on, it sits in a little dent in the surface.
+
+3
+00:00:04,570 --> 00:00:11,927
+The surface pulls along itself on both sides, and because the dent is tilted, each pull has an upward part.
+
+4
+00:00:11,927 --> 00:00:14,960
+Together they hold up the needle's small weight.
+
+5
+00:00:14,960 --> 00:00:17,135
+The ship floats by upthrust.
+
+6
+00:00:17,135 --> 00:00:20,039
+The needle floats by surface tension.
+

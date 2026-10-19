@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,643
+So the speed at any displacement is omega times the square root of A squared minus x squared.
+
+2
+00:00:07,643 --> 00:00:10,820
+Remember this one, it is asked again and again.
+

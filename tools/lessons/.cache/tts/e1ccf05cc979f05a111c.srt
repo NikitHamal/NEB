@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,463
+Now let the clock run, and watch the body on the left.
+
+2
+00:00:03,463 --> 00:00:07,044
+Green is velocity, red is acceleration.
+

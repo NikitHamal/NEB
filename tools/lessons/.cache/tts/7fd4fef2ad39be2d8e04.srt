@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,520
+C. At resonance the driver feeds energy in step with the motion, so the amplitude is maximum, and the only thing holding it back is damping.
+
+2
+00:00:10,520 --> 00:00:19,270
+That is exactly why D is wrong: less damping means a taller peak, so the amplitude at resonance depends very much on damping.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,171
+Let us recap.
+
+2
+00:00:01,171 --> 00:00:14,960
+Simple harmonic motion means acceleration proportional to displacement and directed towards the mean: a equals minus omega squared x. Speed is greatest in the middle, acceleration at the ends.
+
+3
+00:00:14,960 --> 00:00:17,513
+The period is two pi over omega.
+
+4
+00:00:17,513 --> 00:00:24,153
+Energy swaps between kinetic and potential, with a constant total of half k A squared.
+
+5
+00:00:24,153 --> 00:00:28,072
+On a vertical spring, gravity just shifts the mean.
+
+6
+00:00:28,072 --> 00:00:33,294
+A pendulum's period is two pi root L over g for small swings.
+
+7
+00:00:33,294 --> 00:00:41,848
+Damping makes the amplitude decay exponentially, and resonance happens when the driver matches the natural frequency.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,671
+Gravity only shifts the mean position downward.
+
+2
+00:00:03,671 --> 00:00:12,265
+About that new centre, the motion is the same simple harmonic motion, with a equals minus k over m, x.
+

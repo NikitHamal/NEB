@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,716
+The bottom face is deeper, so the upward push is bigger than the downward one.
+
+2
+00:00:05,716 --> 00:00:11,080
+Push the cylinder deeper and both grow, but their difference stays the same.
+

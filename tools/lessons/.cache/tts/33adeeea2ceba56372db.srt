@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,023
+So it shows eighty six thousand three hundred twelve seconds.
+
+2
+00:00:04,023 --> 00:00:09,817
+It has lost eighty eight seconds, about one minute twenty eight seconds every day.
+
+3
+00:00:09,817 --> 00:00:13,880
+A tiny change in g, and a very noticeable error.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,703
+Add even more damping, and the body creeps back slowly, without oscillating.
+
+2
+00:00:05,703 --> 00:00:09,986
+That is over-damped, like a pendulum moving through thick oil.
+

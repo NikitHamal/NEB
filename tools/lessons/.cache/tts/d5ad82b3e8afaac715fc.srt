@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,716
+Why?
+
+2
+00:00:00,716 --> 00:00:11,380
+In a short time delta t, the liquid entering the wide end fills a slab of length v one delta t, with mass rho A one v one delta t.
+
+3
+00:00:11,380 --> 00:00:19,062
+The liquid leaving the narrow end fills a longer, thinner slab, rho A two v two delta t.
+

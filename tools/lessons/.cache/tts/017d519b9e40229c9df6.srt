@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,763
+Now pull it down a further distance x, and let go.
+
+2
+00:00:03,763 --> 00:00:08,867
+The spring, stretched by e plus x, pulls up with k times e plus x.
+
+3
+00:00:08,867 --> 00:00:12,226
+The weight m g still pulls down.
+

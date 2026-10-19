@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,062
+By the work energy theorem, this net work equals the gain in kinetic energy, plus the gain in potential energy, of that mass m.
+

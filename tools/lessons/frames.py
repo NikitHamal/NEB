@@ -3,6 +3,7 @@ encode pass), then lay out evenly spaced frames on a contact sheet you can actua
 
     python3 frames.py scripts/phy12/unit_02.py 1,2          # parts 1 and 2 -> .work/frames/phy12-unit_02-p1,2.png
     python3 frames.py scripts/phy12/unit_02.py 3 --count 30  # denser sheet
+    python3 frames.py scripts/phy12/unit_02.py all --dry     # whole lesson, no drawing: catches errors fast
 
 Parts are the indices passed to `self.parts(...)` (0 = cold open). Narration is still
 synthesised (and cached), so timing on the sheet is the real timing. Full-quality renders
@@ -23,6 +24,7 @@ def main():
     ap.add_argument("parts", help="comma separated part indices, e.g. 0 or 2,3")
     ap.add_argument("--count", type=int, default=24)
     ap.add_argument("--fps", default="3")
+    ap.add_argument("--dry", action="store_true", help="run the whole scene logic without drawing a frame: catches errors in seconds")
     a = ap.parse_args()
     script = os.path.abspath(a.script)
     name = os.path.splitext(os.path.basename(script))[0]
@@ -33,6 +35,14 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     from prefetch import prefetch
     prefetch(script)
+    if a.dry:
+        env = dict(os.environ, PYTHONPATH=HERE + os.pathsep + os.environ.get("PYTHONPATH", ""))
+        if a.parts != "all":
+            env["LESSON_ONLY"] = a.parts
+        subprocess.run(["manim", "render", "--dry_run", "--fps", "4", "-r", "320,180", "--media_dir", media + "-dry", "--disable_caching", "-v", "WARNING", "--progress_bar", "none", script, "Lesson"],
+                       env=env, cwd=HERE, check=True)
+        print("dry run ok")
+        return
     env = dict(os.environ, LESSON_ONLY=a.parts, PYTHONPATH=HERE + os.pathsep + os.environ.get("PYTHONPATH", ""))
     subprocess.run(["manim", "render", "--disable_caching", "-r", "640,360", "--fps", a.fps, "--media_dir", media,
                     "-o", tag, "--progress_bar", "none", "-v", "WARNING", script, "Lesson"], env=env, cwd=HERE, check=True)

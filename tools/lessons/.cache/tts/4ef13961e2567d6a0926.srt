@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,619
+A body floats when the upthrust equals its weight.
+
+2
+00:00:03,619 --> 00:00:11,093
+If it floats with volume V s under the liquid, then V rho b g equals V s rho l g.
+
+3
+00:00:11,093 --> 00:00:15,156
+So the fraction submerged equals the ratio of the densities.
+

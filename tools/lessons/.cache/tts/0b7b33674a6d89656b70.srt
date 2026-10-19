@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,182
+On that day in twenty fifteen, the ground shook at a particular frequency.
+
+2
+00:00:05,182 --> 00:00:11,145
+The buildings whose natural frequency matched the shaking were driven at resonance.
+
+3
+00:00:11,145 --> 00:00:12,903
+Their swings grew and grew.
+
+4
+00:00:12,903 --> 00:00:15,859
+That one word is the answer: resonance.
+
+5
+00:00:15,859 --> 00:00:21,861
+It is why engineers now tune buildings, and add damping, to keep them away from it.
+

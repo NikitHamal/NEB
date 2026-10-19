@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,346
+Set them equal, cancel pi r, and the height is h equals two T cos theta, over r rho g.
+
+2
+00:00:08,346 --> 00:00:14,114
+The r on the bottom says it all: the rise is inversely proportional to the radius.
+
+3
+00:00:14,114 --> 00:00:15,533
+That is Jurin's law.
+

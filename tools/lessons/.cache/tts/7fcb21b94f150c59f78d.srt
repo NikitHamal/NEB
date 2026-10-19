@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:14,791
+Differentiate x, and you get the velocity, A omega cosine omega t. Differentiate again, and you get the acceleration, minus A omega squared sine omega t, which is minus omega squared x, as promised.
+

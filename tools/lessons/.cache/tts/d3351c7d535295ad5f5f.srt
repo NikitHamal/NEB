@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,255
+Continuity is conservation of mass.
+
+2
+00:00:03,255 --> 00:00:06,653
+Bernoulli's equation is conservation of energy.
+
+3
+00:00:06,653 --> 00:00:19,791
+For the steady, streamline flow of an ideal fluid, pressure, plus kinetic energy per unit volume, plus potential energy per unit volume, stays constant along a streamline.
+

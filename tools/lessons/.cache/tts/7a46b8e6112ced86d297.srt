@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,182
+With light damping, the body still oscillates, but each swing is smaller.
+
+2
+00:00:05,182 --> 00:00:08,932
+This is under-damped motion, like a pendulum in air.
+

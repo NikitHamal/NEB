@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,291
+Torque equals I alpha, so I times d two theta by d t squared equals minus c theta.
+
+2
+00:00:07,291 --> 00:00:13,098
+It is the same equation in angular clothes, so the period is two pi root I over c.
+
+3
+00:00:13,098 --> 00:00:19,700
+This is angular simple harmonic motion, and it is how the coil of a galvanometer swings.
+

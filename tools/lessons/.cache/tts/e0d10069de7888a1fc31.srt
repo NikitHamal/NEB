@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,684
+At five degrees, the error is a tenth of a percent.
+
+2
+00:00:03,684 --> 00:00:06,250
+At ten degrees, half a percent.
+
+3
+00:00:06,250 --> 00:00:11,783
+But at forty five degrees, it is eleven percent, and the formula breaks down.
+
+4
+00:00:11,783 --> 00:00:14,140
+Keep the swing to a few degrees.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,341
+C, energy.
+
+2
+00:00:01,341 --> 00:00:06,028
+It is the work energy theorem written per unit volume of fluid.
+
+3
+00:00:06,028 --> 00:00:15,286
+Mass is the trap: that is conservation of mass, the equation of continuity, A one v one equals A two v two.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,309
+Here is that summary as a table, worth two easy marks.
+
+2
+00:00:04,309 --> 00:00:15,104
+And one full circle is two pi radians, so the period is T equals two pi over omega, which for the spring is two pi root m over k.
+
+3
+00:00:15,104 --> 00:00:17,539
+The frequency is one over T.
+

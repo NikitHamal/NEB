@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,002
+Try this one.
+
+2
+00:00:01,002 --> 00:00:06,210
+A half kilogram mass hung from a spring stretches it by ten centimetres.
+
+3
+00:00:06,210 --> 00:00:10,130
+Find the force constant and the period of vertical oscillation.
+

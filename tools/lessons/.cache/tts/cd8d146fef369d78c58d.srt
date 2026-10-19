@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,132
+Eight stops.
+
+2
+00:00:01,132 --> 00:00:02,773
+Pressure and buoyancy.
+
+3
+00:00:02,773 --> 00:00:05,468
+Surface tension and surface energy.
+
+4
+00:00:05,468 --> 00:00:08,216
+Angle of contact and capillarity.
+
+5
+00:00:08,216 --> 00:00:09,361
+Viscosity.
+
+6
+00:00:09,361 --> 00:00:10,937
+Poiseuille's formula.
+
+7
+00:00:10,937 --> 00:00:11,979
+Stokes' law.
+
+8
+00:00:11,979 --> 00:00:14,127
+The equation of continuity.
+
+9
+00:00:14,127 --> 00:00:16,875
+And finally, Bernoulli's equation.
+

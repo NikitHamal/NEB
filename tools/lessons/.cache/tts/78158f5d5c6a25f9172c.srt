@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,882
+One more fact for multiple choice: averaged over a whole cycle, the kinetic and potential energies are equal, each one half of the total.
+

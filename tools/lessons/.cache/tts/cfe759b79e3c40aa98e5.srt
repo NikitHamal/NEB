@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,322
+Second: the period grows as the square root of the length.
+
+2
+00:00:04,322 --> 00:00:08,763
+Make the string four times longer, and the period only doubles.
+
+3
+00:00:08,763 --> 00:00:09,687
+Count with me.
+
+4
+00:00:09,687 --> 00:00:15,104
+The short pendulum swings twice, for every single swing of the long one.
+

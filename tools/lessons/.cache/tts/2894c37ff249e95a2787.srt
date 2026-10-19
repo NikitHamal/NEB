@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,179
+Now the most famous oscillator of all: the simple pendulum.
+
+2
+00:00:04,179 --> 00:00:09,466
+A small heavy bob on a light string of length L, hung from a rigid support.
+

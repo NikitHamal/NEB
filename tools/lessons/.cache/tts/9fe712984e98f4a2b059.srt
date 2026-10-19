@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,080
+Last check.
+
+2
+00:00:01,080 --> 00:00:04,622
+Bernoulli's equation expresses the conservation of what?
+
+3
+00:00:04,622 --> 00:00:05,950
+Pause and think.
+
