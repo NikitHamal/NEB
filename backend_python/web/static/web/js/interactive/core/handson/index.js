@@ -14,6 +14,7 @@ const PRACTICALS = {
   'ohms-law-resistivity': () => import('./practicals/ohms-law.js'),
   'hookes-law-spring': () => import('./practicals/hookes-law.js'),
   'focal-length-mirror-lens': () => import('./practicals/focal-length.js'),
+  'sonometer-laws': () => import('./practicals/sonometer.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
