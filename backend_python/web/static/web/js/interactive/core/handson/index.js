@@ -15,6 +15,7 @@ const PRACTICALS = {
   'hookes-law-spring': () => import('./practicals/hookes-law.js'),
   'focal-length-mirror-lens': () => import('./practicals/focal-length.js'),
   'sonometer-laws': () => import('./practicals/sonometer.js'),
+  'potentiometer-emf': () => import('./practicals/potentiometer.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
