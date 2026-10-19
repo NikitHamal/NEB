@@ -1,280 +1,152 @@
-import { createCanvas2D, pointerPos } from '../core/canvas2d.js';
+/**
+ * Orbital sandbox — press anywhere and drag to aim a launch (the arrow is the velocity), then let
+ * go. While you aim, the path is predicted with the same integrator, coloured green for a closed
+ * orbit, red for a crash and orange for an escape, and the arrow carries marks for circular speed
+ * √(GM/r) and escape speed √(2GM/r). Units are real: GM☉ = 4π² AU³/yr², 1 AU/yr = 4.74 km/s.
+ */
+import { createKit, T, Spring, fmt, clamp, arrow, text, withAlpha, sphere } from '../core/kit2d.js';
+import { starfield, glow, npill } from '../core/space2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
-const COLORS = ['#7dd3fc', '#a5b4fc', '#f9a8d4', '#86efac', '#fcd34d', '#fda4af', '#c4b5fd', '#5eead4'];
-
-function detectTier() {
-  const smallViewport = Math.min(window.innerWidth, window.innerHeight) < 900;
-  const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || ((navigator.maxTouchPoints || 0) > 1 && smallViewport);
-  const mem = navigator.deviceMemory || 4;
-  const cores = navigator.hardwareConcurrency || 4;
-  if (mobile && (mem <= 2 || cores <= 4)) return 'low';
-  if (mobile || mem <= 4) return 'medium';
-  return 'high';
-}
+const GM1 = 4 * Math.PI * Math.PI;
+const KMS = 4.7406;
+const MAXP = 8, TRAIL = 220, PRED = 900;
+const COLORS = ['#60a5fa', '#34d399', '#f472b6', '#fbbf24', '#a78bfa', '#f87171', '#2dd4bf', '#e2e8f0'];
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
-  const tier = detectTier();
-  const TRAIL_LEN = tier === 'low' ? 60 : tier === 'medium' ? 100 : 140;
-  const MAX_BODIES = tier === 'low' ? 14 : tier === 'medium' ? 20 : 28;
-  const bodies = [];
-  const particles = [];
-  let starMass = 5200;
-  let showVectors = false;
-  let drag = null;
-  let colorIdx = 0;
-  let bgStars = [];
-
-  sim.onResize((w, h) => {
-    bgStars = [];
-    const n = Math.round((w * h) / 5200);
-    for (let i = 0; i < n; i++) {
-      bgStars.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.2 + 0.3, a: Math.random() * 0.5 + 0.2 });
-    }
-  });
-
-  function starRadius() {
-    return 10 + Math.sqrt(starMass) * 0.16;
-  }
-
-  function spawnBody(x, y, vx, vy) {
-    if (bodies.length >= MAX_BODIES) bodies.shift();
-    bodies.push({
-      x, y, vx, vy,
-      r: 4.5 + Math.random() * 2.5,
-      color: COLORS[colorIdx++ % COLORS.length],
-      trail: new Float32Array(TRAIL_LEN * 2),
-      trailLen: 0,
-      trailHead: 0,
-      alive: true,
-    });
-  }
-
-  function burn(b) {
-    b.alive = false;
-    for (let i = 0; i < 16; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const s = 20 + Math.random() * 70;
-      particles.push({ x: b.x, y: b.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 0.7 + Math.random() * 0.5, t: 0 });
-    }
-  }
-
-  function addComet(w, h) {
-    const cx = w / 2;
-    const cy = h / 2;
-    const edge = Math.min(w, h) * 0.46;
-    const a = Math.random() * Math.PI * 2;
-    const x = cx + Math.cos(a) * edge;
-    const y = cy + Math.sin(a) * edge;
-    const tangential = a + Math.PI / 2 + (Math.random() - 0.5) * 0.5;
-    const v = Math.sqrt((starMass * 240) / edge) * (0.4 + Math.random() * 0.3);
-    spawnBody(x, y, Math.cos(tangential) * v, Math.sin(tangential) * v);
-  }
-
+  const k = createKit(stage, { night: true, captureTouch: true, label: 'A star in space; drag and release to launch planets' });
   const hud = createHud(stage);
-  const countBadge = hud.badge('Bodies: 0', '#7dd3fc');
-  const hintBadge = hud.badge('Drag anywhere to launch a planet', '#9ec1ff');
+  const badge = hud.badge('Press and drag to aim, release to launch', '#60a5fa');
 
-  const panel = createPanel(stage, { title: 'Gravity Sandbox' });
-  panel.slider({
-    label: 'Star mass',
-    min: 1500, max: 14000, step: 100, value: starMass,
-    format: (v) => `${Math.round(v / 100)} suns`,
-    onChange: (v) => { starMass = v; },
-  });
-  panel.toggle({ label: 'Show velocity vectors', value: false, onChange: (v) => { showVectors = v; } });
+  let M = 1, speed = 1, paused = false;
+  const px = new Float64Array(MAXP), py = new Float64Array(MAXP), vx = new Float64Array(MAXP), vy = new Float64Array(MAXP);
+  const alive = new Uint8Array(MAXP), fate = new Uint8Array(MAXP);
+  const tx = new Float32Array(MAXP * TRAIL), ty = new Float32Array(MAXP * TRAIL), tn = new Uint16Array(MAXP), th = new Uint16Array(MAXP);
+  const predX = new Float32Array(PRED), predY = new Float32Array(PRED);
+  let predN = 0, predFate = 0, n = 0, last = -1, aiming = false, ax = 0, ay = 0, avx = 0, avy = 0;
+  const starPulse = new Spring(1, 120, 10);
+
+  const panel = createPanel(stage, { title: 'Orbit sandbox' });
+  panel.slider({ label: 'Star mass', min: 0.3, max: 3, step: 0.1, value: 1, format: (v) => `${v.toFixed(1)} M☉`, onChange: (v) => { M = v; starPulse.v = 6; } });
+  panel.chips({ label: 'Time speed', options: [{ value: '0.25', label: '¼ yr/s' }, { value: '1', label: '1 yr/s' }, { value: '3', label: '3 yr/s' }], value: '1', onChange: (v) => { speed = +v; } });
   panel.buttonRow([
-    { label: 'Comet', icon: 'star_half', onClick: () => addComet(sim.width, sim.height) },
-    { label: 'Clear', icon: 'delete', variant: 'danger', onClick: () => { bodies.length = 0; particles.length = 0; } },
+    { label: 'Earth orbit', icon: 'public', onClick: () => launch(1, 0, 0, Math.sqrt(GM1 * M)) },
+    { label: 'Clear', icon: 'delete_sweep', variant: 'ghost', onClick: () => { n = 0; alive.fill(0); last = -1; } },
   ]);
-  panel.info('Drag from any point and release: the arrow sets the new planet\u2019s velocity. Short drags fall into the star, long drags escape. Find the orbit in between!');
+  const st = panel.stats([{ key: 'v', label: 'Launch speed' }, { key: 'vc', label: 'Circular speed here' }, { key: 'fate', label: 'Result' }, { key: 'T', label: 'Period (Kepler III)' }]);
+  panel.info('An orbit is falling sideways forever: too slow and the planet falls into the star, too fast (above escape speed) and it leaves for good. In between it loops round on an ellipse. A heavier star needs faster planets.');
 
-  function onDown(e) {
-    if (e.target !== sim.canvas) return;
-    sim.canvas.setPointerCapture && sim.canvas.setPointerCapture(e.pointerId);
-    const p = pointerPos(sim.canvas, e);
-    drag = { sx: p.x, sy: p.y, cx: p.x, cy: p.y, id: e.pointerId };
-  }
-  function onMove(e) {
-    if (!drag || e.pointerId !== drag.id) return;
-    const p = pointerPos(sim.canvas, e);
-    drag.cx = p.x;
-    drag.cy = p.y;
-  }
-  function onUp(e) {
-    if (!drag || e.pointerId !== drag.id) return;
-    const dx = drag.cx - drag.sx;
-    const dy = drag.cy - drag.sy;
-    if (Math.hypot(dx, dy) > 6) {
-      spawnBody(drag.sx, drag.sy, dx * 1.6, dy * 1.6);
-      hintBadge.set('Nice launch! Watch gravity bend its path');
-    }
-    drag = null;
-  }
-  sim.canvas.style.touchAction = 'none';
-  sim.canvas.addEventListener('pointerdown', onDown);
-  sim.canvas.addEventListener('pointermove', onMove);
-  sim.canvas.addEventListener('pointerup', onUp);
-  sim.canvas.addEventListener('pointercancel', onUp);
+  let cx = 0, cy = 0, sc = 100;
+  k.onResize((w, h) => { cx = w / 2; cy = h / 2; sc = Math.min(w, h) / 2 / 3.2; });
+  const W = (x) => cx + x * sc, H = (y) => cy - y * sc;
+  const Rstar = () => 0.1 * Math.cbrt(M);
 
-  function physics(dt, w, h) {
-    const cx = w / 2;
-    const cy = h / 2;
-    const sr = starRadius();
-    const sub = 4;
-    const step = Math.min(dt, 0.033) / sub;
-    for (let s = 0; s < sub; s++) {
-      for (let i = 0; i < bodies.length; i++) {
-        const b = bodies[i];
-        if (!b.alive) continue;
-        const dx = cx - b.x;
-        const dy = cy - b.y;
-        const d2 = dx * dx + dy * dy;
-        const d = Math.sqrt(d2);
-        if (d < sr + b.r * 0.5) { burn(b); continue; }
-        const acc = (starMass * 240) / Math.max(d2, 400);
-        b.vx += (dx / d) * acc * step;
-        b.vy += (dy / d) * acc * step;
-        b.x += b.vx * step;
-        b.y += b.vy * step;
-      }
+  function acc(x, y, out) { const r2 = x * x + y * y, r = Math.sqrt(r2), f = -GM1 * M / (r2 * r); out[0] = f * x; out[1] = f * y; }
+  const A = new Float64Array(2);
+  function step1(i, h) {
+    acc(px[i], py[i], A);
+    vx[i] += A[0] * h / 2; vy[i] += A[1] * h / 2;
+    px[i] += vx[i] * h; py[i] += vy[i] * h;
+    acc(px[i], py[i], A);
+    vx[i] += A[0] * h / 2; vy[i] += A[1] * h / 2;
+  }
+  function launch(x, y, ux, uy) {
+    const i = n < MAXP ? n++ : (last + 1) % MAXP;
+    px[i] = x; py[i] = y; vx[i] = ux; vy[i] = uy; alive[i] = 1; fate[i] = 0; tn[i] = 0; th[i] = 0; last = i;
+    k.animate(true);
+  }
+  function predict(x, y, ux, uy) {
+    let X = x, Y = y, VX = ux, VY = uy, h = 0.004;
+    predN = 0; predFate = 0;
+    const E = 0.5 * (ux * ux + uy * uy) - GM1 * M / Math.hypot(x, y);
+    for (let s = 0; s < PRED * 4 && predN < PRED; s++) {
+      const r = Math.hypot(X, Y);
+      if (r < Rstar()) { predFate = 1; break; }
+      if (r > 8) { predFate = 2; break; }
+      let r3 = r * r * r; VX -= GM1 * M * X / r3 * h / 2; VY -= GM1 * M * Y / r3 * h / 2;
+      X += VX * h; Y += VY * h;
+      const r2 = Math.hypot(X, Y); r3 = r2 * r2 * r2; VX -= GM1 * M * X / r3 * h / 2; VY -= GM1 * M * Y / r3 * h / 2;
+      if (s % 4 === 0) { predX[predN] = X; predY[predN] = Y; predN++; }
     }
-    const limit = Math.max(w, h) * 2.5;
-    for (let i = bodies.length - 1; i >= 0; i--) {
-      const b = bodies[i];
-      if (!b.alive) { bodies.splice(i, 1); continue; }
-      if (Math.abs(b.x - cx) > limit || Math.abs(b.y - cy) > limit) { bodies.splice(i, 1); continue; }
-      b.trail[b.trailHead * 2] = b.x;
-      b.trail[b.trailHead * 2 + 1] = b.y;
-      b.trailHead = (b.trailHead + 1) % TRAIL_LEN;
-      if (b.trailLen < TRAIL_LEN) b.trailLen++;
-    }
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.t += dt;
-      if (p.t >= p.life) { particles.splice(i, 1); continue; }
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-    }
+    if (!predFate && E >= 0) predFate = 2;
   }
 
-  sim.setUpdate((ctx, dt, w, h) => {
-    physics(dt, w, h);
-    const cx = w / 2;
-    const cy = h / 2;
-    ctx.fillStyle = '#0a1322';
-    ctx.fillRect(0, 0, w, h);
-    for (let i = 0; i < bgStars.length; i++) {
-      const s = bgStars[i];
-      ctx.globalAlpha = s.a;
-      ctx.fillStyle = '#cdd9ec';
-      ctx.fillRect(s.x, s.y, s.r, s.r);
-    }
-    ctx.globalAlpha = 1;
-
-    const sr = starRadius();
-    const grad = ctx.createRadialGradient(cx, cy, sr * 0.2, cx, cy, sr * 3.2);
-    grad.addColorStop(0, 'rgba(255,200,90,0.95)');
-    grad.addColorStop(0.3, 'rgba(255,160,60,0.35)');
-    grad.addColorStop(1, 'rgba(255,140,40,0)');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(cx, cy, sr * 3.2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#ffd27a';
-    ctx.beginPath();
-    ctx.arc(cx, cy, sr, 0, Math.PI * 2);
-    ctx.fill();
-
-    for (let i = 0; i < bodies.length; i++) {
-      const b = bodies[i];
-      if (b.trailLen > 1) {
-        ctx.lineWidth = 1.6;
-        ctx.strokeStyle = b.color;
-        const bands = 4;
-        const start = b.trailHead - b.trailLen + TRAIL_LEN * 2;
-        const lastJ = b.trailLen - 1;
-        for (let band = 0; band < bands; band++) {
-          const j0 = Math.floor((band * lastJ) / bands);
-          const j1 = Math.floor(((band + 1) * lastJ) / bands);
-          if (j1 <= j0) continue;
-          ctx.globalAlpha = (((j0 + j1) / 2) / b.trailLen) * 0.55;
-          ctx.beginPath();
-          let idx = (start + j0) % TRAIL_LEN;
-          ctx.moveTo(b.trail[idx * 2], b.trail[idx * 2 + 1]);
-          for (let j = j0 + 1; j <= j1; j++) {
-            idx = (start + j) % TRAIL_LEN;
-            ctx.lineTo(b.trail[idx * 2], b.trail[idx * 2 + 1]);
-          }
-          ctx.stroke();
-        }
-        ctx.globalAlpha = 1;
-      }
-      ctx.fillStyle = b.color;
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-      ctx.fill();
-      if (showVectors) {
-        drawArrow(ctx, b.x, b.y, b.x + b.vx * 0.25, b.y + b.vy * 0.25, '#ffffff', 0.7);
-      }
-    }
-
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      ctx.globalAlpha = 1 - p.t / p.life;
-      ctx.fillStyle = '#ffb347';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-
-    if (drag) {
-      drawArrow(ctx, drag.sx, drag.sy, drag.cx, drag.cy, '#8be9a8', 1);
-      ctx.fillStyle = '#8be9a8';
-      ctx.beginPath();
-      ctx.arc(drag.sx, drag.sy, 5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    countBadge.set(`Bodies: ${bodies.length}`);
+  k.drag({
+    hit: () => 1,
+    down: (x, y) => { aiming = true; ax = (x - cx) / sc; ay = (cy - y) / sc; avx = 0; avy = 0; k.animate(true); },
+    move: (x, y) => { avx = ((x - cx) / sc - ax) * 3; avy = ((cy - y) / sc - ay) * 3; predict(ax, ay, avx, avy); },
+    up: () => { aiming = false; if (Math.hypot(ax, ay) > Rstar() * 1.2) launch(ax, ay, avx, avy); },
+    cursor: 'crosshair', cursorActive: 'crosshair',
   });
 
-  function drawArrow(ctx, x0, y0, x1, y1, color, alpha) {
-    const dx = x1 - x0;
-    const dy = y1 - y0;
-    const len = Math.hypot(dx, dy);
-    if (len < 2) return;
-    ctx.globalAlpha = alpha;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(x0, y0);
-    ctx.lineTo(x1, y1);
-    ctx.stroke();
-    const a = Math.atan2(dy, dx);
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x1 - Math.cos(a - 0.45) * 9, y1 - Math.sin(a - 0.45) * 9);
-    ctx.lineTo(x1 - Math.cos(a + 0.45) * 9, y1 - Math.sin(a + 0.45) * 9);
-    ctx.closePath();
-    ctx.fill();
-    ctx.globalAlpha = 1;
-  }
+  k.frame((ctx, dt, w, h) => {
+    starPulse.to(1); starPulse.step(dt);
+    if (!paused) {
+      const simDt = dt * speed, sub = Math.max(1, Math.ceil(simDt / 0.0015)), hh = simDt / sub;
+      for (let i = 0; i < n; i++) {
+        if (!alive[i]) continue;
+        for (let s = 0; s < sub; s++) step1(i, hh);
+        const r = Math.hypot(px[i], py[i]);
+        if (r < Rstar()) { alive[i] = 0; fate[i] = 1; starPulse.v = 4; }
+        else if (r > 12) { alive[i] = 0; fate[i] = 2; }
+        const j = i * TRAIL + th[i];
+        tx[j] = px[i]; ty[j] = py[i]; th[i] = (th[i] + 1) % TRAIL; if (tn[i] < TRAIL) tn[i]++;
+      }
+    }
+    starfield(k, ctx, w, h, { seed: 7 });
+    // distance rings
+    ctx.strokeStyle = 'rgba(140,170,255,0.08)'; ctx.lineWidth = 1;
+    for (let r = 1; r <= 3; r++) { ctx.beginPath(); ctx.arc(cx, cy, r * sc, 0, Math.PI * 2); ctx.stroke(); text(ctx, `${r} AU`, cx + r * sc + 4, cy - 4, 'rgba(170,190,230,0.5)', 9.5, 600); }
+    // star
+    const rs = Rstar() * sc * starPulse.x;
+    glow(ctx, cx, cy, rs * 7, '#ffd27a', 0.9);
+    sphere(ctx, cx, cy, rs, '#ffcf5c');
+    // trails and planets
+    for (let i = 0; i < n; i++) {
+      const c = COLORS[i % COLORS.length];
+      const cnt = tn[i];
+      for (let m = 1; m < cnt; m++) {
+        const a = i * TRAIL + (th[i] - cnt + m - 1 + TRAIL) % TRAIL, b = i * TRAIL + (th[i] - cnt + m + TRAIL) % TRAIL;
+        ctx.strokeStyle = withAlpha(c, (alive[i] ? 0.7 : 0.25) * m / cnt); ctx.lineWidth = 1.6;
+        ctx.beginPath(); ctx.moveTo(W(tx[a]), H(ty[a])); ctx.lineTo(W(tx[b]), H(ty[b])); ctx.stroke();
+      }
+      if (alive[i]) { glow(ctx, W(px[i]), H(py[i]), 14, c, 0.5); sphere(ctx, W(px[i]), H(py[i]), 6, c); }
+    }
+    // aiming
+    if (aiming) {
+      const r = Math.hypot(ax, ay), vc = Math.sqrt(GM1 * M / Math.max(r, 1e-3));
+      const col = predFate === 1 ? '#f87171' : predFate === 2 ? '#fbbf24' : '#34d399';
+      ctx.setLineDash([3, 5]); ctx.strokeStyle = withAlpha(col, 0.85); ctx.lineWidth = 1.6; ctx.beginPath();
+      for (let p = 0; p < predN; p++) { const X = W(predX[p]), Y = H(predY[p]); if (p) ctx.lineTo(X, Y); else ctx.moveTo(W(ax), H(ay)); }
+      ctx.stroke(); ctx.setLineDash([]);
+      const sx = W(ax), sy = H(ay), v = Math.hypot(avx, avy);
+      sphere(ctx, sx, sy, 6, '#e2e8f0');
+      if (v > 0.01) {
+        arrow(ctx, sx, sy, sx + avx / 3 * sc, sy - avy / 3 * sc, '#e8eefb', 2.2);
+        const ux = avx / v, uy = avy / v;
+        for (const [mult, lab, cc] of [[1, 'circular', '#34d399'], [Math.SQRT2, 'escape', '#fbbf24']]) {
+          const L = vc * mult / 3 * sc, mx = sx + ux * L, my = sy - uy * L;
+          ctx.strokeStyle = cc; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(mx - uy * 8, my - ux * 8); ctx.lineTo(mx + uy * 8, my + ux * 8); ctx.stroke();
+          if (!k.small) text(ctx, lab, mx + uy * 12, my + ux * 12, cc, 9.5, 700);
+        }
+        npill(ctx, `${fmt(v * KMS, 1)} km/s`, sx, sy - 22, col, 11);
+      }
+    }
+    // stats
+    if (aiming || last >= 0) {
+      const X = aiming ? ax : px[last], Y = aiming ? ay : py[last], VX = aiming ? avx : vx[last], VY = aiming ? avy : vy[last];
+      const r = Math.hypot(X, Y), v = Math.hypot(VX, VY), E = 0.5 * v * v - GM1 * M / r, a = -GM1 * M / (2 * E);
+      st.v.set(`${fmt(v * KMS, 1)} km/s`); st.vc.set(`${fmt(Math.sqrt(GM1 * M / r) * KMS, 1)} km/s`);
+      const f = aiming ? predFate : fate[last] || (E >= 0 ? 2 : 0);
+      st.fate.set(f === 1 ? 'crash into the star' : f === 2 ? 'escapes' : 'stable orbit');
+      st.T.set(E < 0 ? `${fmt(2 * Math.PI * Math.sqrt(a * a * a / (GM1 * M)), 2)} yr` : '—');
+      badge.set(aiming ? (predFate === 1 ? 'Too slow: it will fall into the star' : predFate === 2 ? 'Too fast: it will escape' : 'Just right: a closed orbit') : 'Press and drag to aim, release to launch');
+    }
+    let any = false; for (let i = 0; i < n; i++) if (alive[i]) any = true;
+    k.animate(any || aiming || starPulse.moving);
+  });
 
-  sim.start();
-
-  return {
-    dispose() {
-      sim.canvas.removeEventListener('pointerdown', onDown);
-      sim.canvas.removeEventListener('pointermove', onMove);
-      sim.canvas.removeEventListener('pointerup', onUp);
-      sim.canvas.removeEventListener('pointercancel', onUp);
-      panel.dispose();
-      hud.dispose();
-      sim.dispose();
-    },
-  };
+  launch(1, 0, 0, Math.sqrt(GM1));
+  k.debug = { at: (x, y) => [cx + x * sc, cy - y * sc], alive: () => Array.from(alive.slice(0, n)), fate: () => Array.from(fate.slice(0, n)) };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }

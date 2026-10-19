@@ -1,355 +1,153 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Rocket launch — a single-stage rocket flown with Newton's laws: thrust from the exhaust
+ * (mass flow = thrust ⁄ exhaust speed, 2.8 km/s), weight from gravity that weakens with height,
+ * and air drag ½ρv²C_dA in an atmosphere that thins exponentially (scale height 8.5 km). The
+ * state (height, speed, mass) is integrated with RK4. Drag the throttle lever during the flight;
+ * as fuel burns the rocket gets lighter and accelerates harder. Reach the Kármán line at 100 km.
+ */
+import { createKit, T, Spring, Ring, fmt, clamp, text, withAlpha, mix, card, makeRK4, knob } from '../core/kit2d.js';
+import { Plot } from '../core/kit2d-plot.js';
+import { starfield, glow, npill } from '../core/space2d.js';
+import { Pool } from '../core/chem2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
-const G0 = 9.81;
-const VE = 2900;
-const DRY_MASS = 1600;
-const TARGET_ALT = 100000;
+const VE = 2800, DRY = 2000, CD = 0.5, AREA = 1.5, RE = 6.371e6, G0 = 9.81;
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
-
-  let thrustKN = 220;
-  let fuelStart = 4500;
-  let state = null;
-  let clouds = [];
-  let stars = [];
-  let confetti = [];
-
-  sim.onResize((w, h) => {
-    clouds = [];
-    for (let i = 0; i < 14; i++) {
-      clouds.push({ alt: 800 + Math.random() * 11000, x: Math.random(), s: 30 + Math.random() * 50 });
-    }
-    stars = [];
-    for (let i = 0; i < 90; i++) {
-      stars.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.3 + 0.4 });
-    }
-  });
-
-  function reset() {
-    state = {
-      phase: 'pad',
-      alt: 0,
-      vel: 0,
-      fuel: fuelStart,
-      fuelStart,
-      stage1Fuel: fuelStart * 0.6,
-      stage: 1,
-      time: 0,
-      success: false,
-      booster: null,
-      graph: [],
-      graphT: 0,
-      maxAlt: 0,
-      flame: 0,
-    };
-    confetti = [];
-    statusBadge.set('On the pad \u2014 set thrust & fuel, then IGNITE');
-    statusBadge.el.style.setProperty('--ix-hud-color', '#9ec1ff');
-  }
-
+  const k = createKit(stage, { night: true, label: 'A rocket on a launch pad with a throttle lever, altitude ruler and graphs' });
   const hud = createHud(stage);
-  const statusBadge = hud.badge('On the pad', '#9ec1ff');
+  const badge = hud.badge('Set the throttle and press Ignite', '#60a5fa');
 
-  const panel = createPanel(stage, { title: 'Mission Control' });
-  const thrustSlider = panel.slider({
-    label: 'Thrust',
-    min: 60, max: 420, step: 10, value: thrustKN,
-    format: (v) => `${v} kN`,
-    onChange: (v) => { thrustKN = v; if (state.phase === 'pad') reset(); },
+  let warp = 5;
+  let thrustMax = 300e3, fuel0 = 12000, throttle = 1, launched = false, simT = 0, maxH = 0, reached = false, landed = false;
+  const y = new Float64Array(3);
+  const trH = new Ring(600), trV = new Ring(600);
+  const smoke = new Pool(160);
+  const cam = new Spring(0, 30, 10), shake = new Spring(0, 400, 10);
+  const pH = new Plot({ title: 'Altitude', xLabel: 't / s', yLabel: 'km', yMin: 0, yMax: 10 });
+  const pV = new Plot({ title: 'Speed', xLabel: 't / s', yLabel: 'm/s', yMin: 0, yMax: 500 });
+  const rk = makeRK4(3, (t, s, o) => {
+    const h = Math.max(0, s[0]), v = s[1], m = s[2];
+    const burning = m > DRY + 1e-6 && launched;
+    const F = burning ? thrustMax * throttle : 0;
+    const g = G0 * (RE / (RE + h)) ** 2;
+    const rho = 1.225 * Math.exp(-h / 8500);
+    const drag = 0.5 * rho * v * Math.abs(v) * CD * AREA;
+    o[0] = v; o[1] = (F - drag) / m - g; o[2] = burning ? -F / VE : 0;
+    if (s[0] <= 0 && o[1] < 0 && v <= 0) { o[0] = 0; o[1] = 0; }
   });
-  const fuelSlider = panel.slider({
-    label: 'Fuel load',
-    min: 1000, max: 9000, step: 250, value: fuelStart,
-    format: (v) => `${(v / 1000).toFixed(2)} t`,
-    onChange: (v) => { fuelStart = v; if (state.phase === 'pad') reset(); },
+
+  const panel = createPanel(stage, { title: 'Launch control' });
+  panel.slider({ label: 'Maximum thrust', min: 50, max: 600, step: 10, value: thrustMax / 1000, format: (v) => `${v} kN`, onChange: (v) => { thrustMax = v * 1000; } });
+  panel.slider({ label: 'Fuel load', min: 1000, max: 25000, step: 500, value: fuel0, format: (v) => `${(v / 1000).toFixed(1)} t`, onChange: (v) => { fuel0 = v; if (!launched) reset(); } });
+  panel.chips({ label: 'Time warp', options: [{ value: '1', label: '1×' }, { value: '5', label: '5×' }, { value: '20', label: '20×' }], value: '5', onChange: (v) => { warp = +v; } });
+  panel.buttonRow([{ label: 'Ignite', icon: 'local_fire_department', onClick: () => { if (!launched) { launched = true; k.animate(true); } } }, { label: 'Reset', icon: 'replay', variant: 'ghost', onClick: reset }]);
+  const st = panel.stats([{ key: 'h', label: 'Altitude' }, { key: 'v', label: 'Speed' }, { key: 'a', label: 'Acceleration' }, { key: 'twr', label: 'Thrust ÷ weight' }, { key: 'fuel', label: 'Fuel left' }, { key: 'dv', label: 'Δv = vₑ ln(m₀/m)' }]);
+  panel.info('The rocket pushes exhaust down; the exhaust pushes the rocket up (Newton\'s third law). It only lifts off if thrust is bigger than its weight. Reaching 100 km takes about 1.4 km/s; escaping Earth altogether would need 11.2 km/s.');
+
+  function reset() { y[0] = 0; y[1] = 0; y[2] = DRY + fuel0; launched = false; simT = 0; maxH = 0; reached = false; landed = false; trH.clear(); trV.clear(); smoke.clear(); cam.set(0); throttle = 1; k.animate(true); }
+
+  let rx = 0, ry = 0, leverX = 0, leverY = 0, leverH = 0, pxPerM = 4;
+  k.onResize((w, h) => {
+    rx = k.small ? w * 0.42 : w * 0.34; ry = h * 0.6; pxPerM = 3.2;
+    leverX = k.small ? w - 34 : w * 0.56; leverY = h * 0.25; leverH = h * 0.45;
+    if (!k.small) { pH.box(w * 0.64, 16, w * 0.34, h * 0.44); pV.box(w * 0.64, h * 0.5, w * 0.34, h * 0.44); }
   });
-  const altReadout = panel.readout({ label: 'Altitude', value: '0.0 km' });
-  const velReadout = panel.readout({ label: 'Velocity', value: '0 m/s' });
-  const fuelReadout = panel.readout({ label: 'Fuel', value: '100%' });
-  const twrReadout = panel.readout({ label: 'Thrust / weight', value: '\u2014' });
-  panel.buttonRow([
-    {
-      label: 'IGNITE',
-      icon: 'local_fire_department',
-      onClick: () => {
-        if (state.phase !== 'pad') return;
-        state.phase = 'flight';
-        statusBadge.set('Lift-off!');
-        statusBadge.el.style.setProperty('--ix-hud-color', '#ffb340');
-      },
-    },
-    { label: 'Reset', icon: 'replay', variant: 'ghost', onClick: reset },
-  ]);
-  panel.info('Newton\u2019s 3rd law: the engine throws gas down, the gas pushes the rocket up. Thrust must beat weight to lift off. Reach 100 km \u2014 the edge of space!');
+  const lever = k.drag({
+    hit: (x, yy, s) => (Math.abs(x - leverX) < 20 + s && yy > leverY - 16 && yy < leverY + leverH + 16 ? 1 : false),
+    move: (x, yy) => { throttle = clamp(1 - (yy - leverY) / leverH, 0, 1); },
+    cursor: 'ns-resize',
+  });
+
+  k.frame((ctx, dt, w, h) => {
+    if (launched && !landed) {
+      const n = Math.max(1, Math.ceil(dt * warp / 0.01)), hh = dt * warp / n;
+      for (let i = 0; i < n; i++) { rk(y, simT, hh); simT += hh; if (y[0] < 0) { y[0] = 0; if (y[1] < 0) { if (simT > 2) landed = true; y[1] = 0; } } }
+      if (y[2] < DRY) y[2] = DRY;
+      maxH = Math.max(maxH, y[0]); if (y[0] >= 100000) reached = true;
+      trH.push(simT, y[0] / 1000); trV.push(simT, y[1]);
+    }
+    const burning = launched && y[2] > DRY + 1 && throttle > 0.01 && !landed;
+    const hgt = y[0];
+    // sky darkens with altitude
+    const dark = clamp(hgt / 60000, 0, 1);
+    if (dark > 0.02) starfield(k, ctx, w, h, { seed: 5 });
+    if (dark < 1) { ctx.fillStyle = withAlpha(mix('#7fb4ef', '#0b1730', dark), 1 - dark * dark); ctx.fillRect(0, 0, w, h); }
+    // world offset: the rocket is pinned near ry, the ground scrolls away
+    const scale = hgt < 300 ? pxPerM : pxPerM * Math.pow(300 / hgt, 0.85);
+    const groundY = ry + 40 + hgt * scale;
+    // altitude ruler
+    const step = niceStep(h / scale / 5);
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)'; ctx.lineWidth = 1;
+    for (let m = Math.max(0, Math.floor((hgt - (h - ry) / scale) / step) * step); m < hgt + ry / scale; m += step) {
+      const yy = groundY - m * scale; if (yy < 0 || yy > h) continue;
+      ctx.beginPath(); ctx.moveTo(0, yy); ctx.lineTo(12, yy); ctx.stroke();
+      text(ctx, m >= 1000 ? `${fmt(m / 1000, step < 1000 ? 1 : 0)} km` : `${m} m`, 16, yy + 3.5, 'rgba(232,238,251,0.75)', 9.5, 600);
+    }
+    // Kármán line
+    const ky = groundY - 100000 * scale;
+    if (ky > -10 && ky < h) { ctx.setLineDash([6, 6]); ctx.strokeStyle = '#a78bfa'; ctx.beginPath(); ctx.moveTo(0, ky); ctx.lineTo(w, ky); ctx.stroke(); ctx.setLineDash([]); text(ctx, 'Kármán line · 100 km · space begins', w * 0.04 + 50, ky - 6, '#c4b5fd', 10.5, 700); }
+    // clouds
+    for (let c = 0; c < 6; c++) { const ch = 1500 + c * 1400, cy = groundY - ch * scale, cx = ((c * 173) % 100) / 100 * w; if (cy < -40 || cy > h + 40) continue; ctx.fillStyle = 'rgba(255,255,255,0.75)'; ctx.beginPath(); ctx.ellipse(cx, cy, 60, 14, 0, 0, Math.PI * 2); ctx.ellipse(cx + 30, cy - 8, 40, 14, 0, 0, Math.PI * 2); ctx.fill(); }
+    // ground and pad
+    if (groundY < h + 10) {
+      ctx.fillStyle = '#4b6b3f'; ctx.fillRect(0, groundY, w, h - groundY + 2);
+      ctx.fillStyle = '#6b7280'; ctx.fillRect(rx - 50, groundY - 6, 100, 8);
+      ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(rx - 34, groundY - 6); ctx.lineTo(rx - 34, groundY - 120 * scale / pxPerM); ctx.stroke();
+    }
+    // smoke and flame
+    const rocketY = groundY - hgt * scale - 6;
+    const ry0 = Math.min(rocketY, ry);
+    if (burning) {
+      for (let i = 0; i < 3; i++) smoke.add(rx + (Math.random() - 0.5) * 8, ry0 + 6, (Math.random() - 0.5) * 40, 60 + Math.random() * 40, 6, 1.6, 0);
+      shake.v += (Math.random() - 0.5) * 30 * throttle;
+    }
+    for (let i = smoke.n - 1; i >= 0; i--) { smoke.life[i] -= dt; if (smoke.life[i] <= 0) { smoke.kill(i); continue; } smoke.x[i] += smoke.vx[i] * dt; smoke.y[i] += (smoke.vy[i] + y[1] * scale * 0.6) * dt; smoke.r[i] += dt * 18; ctx.fillStyle = '#dcdce6'; ctx.globalAlpha = smoke.life[i] / 1.6 * 0.35 * (1 - dark); ctx.beginPath(); ctx.arc(smoke.x[i], smoke.y[i], smoke.r[i], 0, Math.PI * 2); ctx.fill(); }
+    ctx.globalAlpha = 1;
+    shake.step(dt);
+    const sx = rx + shake.x * 0.3;
+    if (burning) {
+      const spread = 1 + dark * 2.5, L = 30 + 50 * throttle;
+      glow(ctx, sx, ry0 + 40, 40 * spread, '#ffb347', 0.8);
+      ctx.fillStyle = 'rgba(255,190,90,0.9)'; ctx.beginPath(); ctx.moveTo(sx - 7, ry0 + 30); ctx.quadraticCurveTo(sx - 7 * spread, ry0 + 30 + L * 0.6, sx, ry0 + 30 + L + Math.random() * 8); ctx.quadraticCurveTo(sx + 7 * spread, ry0 + 30 + L * 0.6, sx + 7, ry0 + 30); ctx.fill();
+      ctx.fillStyle = 'rgba(255,255,230,0.95)'; ctx.beginPath(); ctx.moveTo(sx - 4, ry0 + 30); ctx.quadraticCurveTo(sx, ry0 + 30 + L * 0.5, sx + 4, ry0 + 30); ctx.fill();
+    }
+    drawRocket(ctx, sx, ry0);
+    // throttle lever
+    ctx.fillStyle = 'rgba(15,25,48,0.85)'; ctx.beginPath(); ctx.roundRect(leverX - 14, leverY - 10, 28, leverH + 20, 10); ctx.fill();
+    ctx.fillStyle = withAlpha('#f97316', 0.7); ctx.fillRect(leverX - 4, leverY + leverH * (1 - throttle), 8, leverH * throttle);
+    knob(ctx, leverX, leverY + leverH * (1 - throttle), 11, '#f97316', k.isHot(lever) ? 1 : 0);
+    text(ctx, 'throttle', leverX, leverY + leverH + 30, '#e8eefb', 10, 700, 'center');
+    text(ctx, `${Math.round(throttle * 100)} %`, leverX, leverY - 18, '#fdba74', 11, 700, 'center');
+    // graphs
+    if (!k.small) {
+      const t1 = Math.max(20, simT);
+      pH.range(0, t1, 0, Math.max(10, Math.ceil(maxH / 1000 / 10) * 10 + 10)).frame(ctx, { theme: k.theme }); pH.clip(ctx); pH.ring(ctx, trH, '#60a5fa', 2); pH.unclip(ctx);
+      let vmax = 200; for (let i = 0; i < trV.n; i++) vmax = Math.max(vmax, Math.abs(trV.y[trV.idx(i)]));
+      pV.range(0, t1, Math.min(0, -vmax * 0.3), Math.ceil(vmax / 200) * 200).frame(ctx, { theme: k.theme }); pV.clip(ctx); pV.ring(ctx, trV, '#34d399', 2); pV.unclip(ctx);
+    }
+    const m = y[2], g = G0 * (RE / (RE + hgt)) ** 2, twr = thrustMax * throttle / (m * g);
+    const rho = 1.225 * Math.exp(-hgt / 8500), acc = burning ? (thrustMax * throttle - 0.5 * rho * y[1] * Math.abs(y[1]) * CD * AREA) / m - g : -g;
+    st.h.set(hgt >= 1000 ? `${fmt(hgt / 1000, 2)} km` : `${fmt(hgt, 0)} m`); st.v.set(`${fmt(y[1], 0)} m/s`);
+    st.a.set(`${fmt(launched && !landed ? acc / G0 : 0, 2)} g`); st.twr.set(fmt(twr, 2));
+    st.fuel.set(`${fmt((m - DRY) / 1000, 2)} t`); st.dv.set(`${fmt(VE * Math.log((DRY + fuel0) / DRY), 0)} m/s total`);
+    badge.set(!launched ? (thrustMax / ((DRY + fuel0) * G0) <= 1 ? 'Thrust is less than weight: it will not lift off!' : 'Set the throttle and press Ignite') : landed ? `Back on the ground. Highest point: ${fmt(maxH / 1000, 1)} km${reached ? ' — you reached space!' : ''}` : reached ? `In space! ${fmt(hgt / 1000, 1)} km up` : burning ? (y[0] < 1 && twr <= 1 ? 'Thrust ≤ weight: still on the pad' : 'Climbing — lighter every second') : y[1] > 0 ? 'Engine off: coasting up, gravity slowing it' : 'Falling back');
+    npill(ctx, `${fmt(hgt / 1000, 2)} km · ${fmt(y[1], 0)} m/s`, sx + 60, ry0 - 10, '#e8eefb', 10.5);
+    k.animate((launched && !landed) || smoke.n > 0 || shake.moving || cam.moving);
+  });
+
+  function drawRocket(ctx, x, top) {
+    ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.moveTo(x, top - 46); ctx.quadraticCurveTo(x + 10, top - 34, x + 10, top - 20); ctx.lineTo(x + 10, top + 28); ctx.lineTo(x - 10, top + 28); ctx.lineTo(x - 10, top - 20); ctx.quadraticCurveTo(x - 10, top - 34, x, top - 46); ctx.fill();
+    ctx.fillStyle = '#ef4444'; ctx.beginPath(); ctx.moveTo(x, top - 46); ctx.quadraticCurveTo(x + 8, top - 37, x + 9, top - 28); ctx.lineTo(x - 9, top - 28); ctx.quadraticCurveTo(x - 8, top - 37, x, top - 46); ctx.fill();
+    ctx.fillStyle = '#1e3a8a'; ctx.beginPath(); ctx.arc(x, top - 12, 4.5, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = '#94a3b8'; ctx.beginPath(); ctx.moveTo(x - 10, top + 12); ctx.lineTo(x - 20, top + 30); ctx.lineTo(x - 10, top + 28); ctx.fill(); ctx.beginPath(); ctx.moveTo(x + 10, top + 12); ctx.lineTo(x + 20, top + 30); ctx.lineTo(x + 10, top + 28); ctx.fill();
+    ctx.fillStyle = '#475569'; ctx.fillRect(x - 6, top + 28, 12, 4);
+    const f = clamp((y[2] - DRY) / Math.max(1, fuel0), 0, 1);
+    ctx.fillStyle = 'rgba(37,99,235,0.35)'; ctx.fillRect(x - 8, top + 26 - 44 * f, 3, 44 * f);
+  }
+  function niceStep(raw) { const p = Math.pow(10, Math.floor(Math.log10(Math.max(raw, 1)))); const m = raw / p; return (m < 2 ? 2 : m < 5 ? 5 : 10) * p; }
 
   reset();
-
-  function mass() {
-    const stageDry = state.stage === 1 ? DRY_MASS : DRY_MASS * 0.45;
-    return stageDry + state.fuel;
-  }
-
-  function physics(dt) {
-    const s = state;
-    s.time += dt;
-    if (s.phase === 'flight' || s.phase === 'coast') {
-      let thrust = 0;
-      if (s.fuel > 0 && s.phase === 'flight') {
-        thrust = thrustKN * 1000 * (s.stage === 2 ? 0.5 : 1);
-        const mdot = thrust / VE;
-        s.fuel = Math.max(0, s.fuel - mdot * dt);
-        if (s.stage === 1 && s.fuel <= s.fuelStart - s.stage1Fuel) {
-          s.stage = 2;
-          s.booster = { alt: s.alt, vel: s.vel, x: 0, t: 0 };
-          statusBadge.set('Stage separation!');
-          statusBadge.el.style.setProperty('--ix-hud-color', '#c4b5fd');
-        }
-        if (s.fuel === 0) {
-          s.phase = 'coast';
-          if (!s.success) {
-            statusBadge.set('Engine cut-off \u2014 coasting');
-            statusBadge.el.style.setProperty('--ix-hud-color', '#9ec1ff');
-          }
-        }
-      }
-      const g = G0 * Math.pow(6371000 / (6371000 + s.alt), 2);
-      const acc = thrust / mass() - g;
-      if (s.alt <= 0 && acc < 0) {
-        s.vel = 0;
-        s.alt = 0;
-      } else {
-        s.vel += acc * dt;
-        s.alt += s.vel * dt;
-      }
-      s.flame = thrust > 0 ? Math.min(1, s.flame + dt * 6) : Math.max(0, s.flame - dt * 8);
-      s.maxAlt = Math.max(s.maxAlt, s.alt);
-      s.graphT += dt;
-      if (s.graphT > 0.25 && s.graph.length < 400) {
-        s.graphT = 0;
-        s.graph.push(s.alt);
-      }
-      if (s.alt >= TARGET_ALT && !s.success) {
-        s.success = true;
-        statusBadge.set('\ud83c\udf89 You reached space! 100 km \u2014 the K\u00e1rm\u00e1n line!');
-        statusBadge.el.style.setProperty('--ix-hud-color', '#8be9a8');
-        for (let i = 0; i < 70; i++) {
-          confetti.push({
-            x: Math.random(),
-            y: Math.random() * 0.4,
-            vx: (Math.random() - 0.5) * 60,
-            vy: 30 + Math.random() * 80,
-            color: ['#8be9a8', '#ffd27a', '#7dd3fc', '#f9a8d4', '#c4b5fd'][i % 5],
-            t: 0,
-            life: 2.5 + Math.random() * 2,
-          });
-        }
-      }
-      if (s.alt <= 0 && s.vel <= 0 && s.phase === 'coast') {
-        s.phase = 'down';
-        if (s.success) {
-          statusBadge.set('Mission complete \u2014 you touched space and came home!');
-          statusBadge.el.style.setProperty('--ix-hud-color', '#8be9a8');
-        } else {
-          statusBadge.set('Back on the ground \u2014 try more thrust or fuel');
-          statusBadge.el.style.setProperty('--ix-hud-color', '#fda4af');
-        }
-      }
-    }
-    if (s.booster) {
-      s.booster.t += dt;
-      s.booster.vel -= G0 * dt;
-      s.booster.alt = Math.max(0, s.booster.alt + s.booster.vel * dt);
-      s.booster.x += dt * 18;
-      if (s.booster.t > 9) s.booster = null;
-    }
-    for (let i = confetti.length - 1; i >= 0; i--) {
-      const c = confetti[i];
-      c.t += dt;
-      if (c.t > c.life) confetti.splice(i, 1);
-    }
-  }
-
-  function altToY(alt, h, viewTop) {
-    return h * 0.86 - (alt / viewTop) * h * 0.78;
-  }
-
-  function drawRocket(ctx, x, y, scale, flame, hasBooster) {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.scale(scale, scale);
-    if (flame > 0.05) {
-      const fl = 18 + Math.random() * 10;
-      const grad = ctx.createLinearGradient(0, 14, 0, 14 + fl);
-      grad.addColorStop(0, 'rgba(255,220,120,0.95)');
-      grad.addColorStop(0.5, 'rgba(255,140,50,0.8)');
-      grad.addColorStop(1, 'rgba(255,80,30,0)');
-      ctx.fillStyle = grad;
-      ctx.globalAlpha = flame;
-      ctx.beginPath();
-      ctx.moveTo(-5, 14);
-      ctx.lineTo(0, 14 + fl);
-      ctx.lineTo(5, 14);
-      ctx.closePath();
-      ctx.fill();
-      ctx.globalAlpha = 1;
-    }
-    if (hasBooster) {
-      ctx.fillStyle = '#aab6c8';
-      ctx.fillRect(-7, -2, 4, 16);
-      ctx.fillRect(3, -2, 4, 16);
-    }
-    ctx.fillStyle = '#e8eefb';
-    ctx.beginPath();
-    ctx.moveTo(0, -22);
-    ctx.quadraticCurveTo(7, -8, 7, 4);
-    ctx.lineTo(7, 14);
-    ctx.lineTo(-7, 14);
-    ctx.lineTo(-7, 4);
-    ctx.quadraticCurveTo(-7, -8, 0, -22);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#e2484d';
-    ctx.beginPath();
-    ctx.moveTo(-7, 14);
-    ctx.lineTo(-12, 20);
-    ctx.lineTo(-7, 6);
-    ctx.closePath();
-    ctx.fill();
-    ctx.beginPath();
-    ctx.moveTo(7, 14);
-    ctx.lineTo(12, 20);
-    ctx.lineTo(7, 6);
-    ctx.closePath();
-    ctx.fill();
-    ctx.fillStyle = '#4d7fff';
-    ctx.beginPath();
-    ctx.arc(0, -6, 3.2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.restore();
-  }
-
-  sim.setUpdate((ctx, dt, w, h) => {
-    physics(dt);
-    const s = state;
-    const viewTop = Math.max(2200, s.alt * 1.9);
-    const skyT = Math.min(1, s.alt / 80000);
-    const r = Math.round(120 - 108 * skyT);
-    const g = Math.round(170 - 152 * skyT);
-    const b = Math.round(230 - 196 * skyT);
-    ctx.fillStyle = `rgb(${Math.round(r * 0.35)},${Math.round(g * 0.45)},${b})`;
-    const grad = ctx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, `rgb(${Math.round(r * 0.3)},${Math.round(g * 0.4)},${Math.round(b * 0.75)})`);
-    grad.addColorStop(1, `rgb(${r},${g},${b})`);
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, h);
-
-    if (skyT > 0.35) {
-      ctx.globalAlpha = (skyT - 0.35) / 0.65;
-      ctx.fillStyle = '#dde7f5';
-      for (let i = 0; i < stars.length; i++) {
-        ctx.fillRect(stars[i].x * w, stars[i].y * h, stars[i].r, stars[i].r);
-      }
-      ctx.globalAlpha = 1;
-    }
-
-    ctx.fillStyle = 'rgba(255,255,255,0.75)';
-    for (let i = 0; i < clouds.length; i++) {
-      const c = clouds[i];
-      const y = altToY(c.alt, h, viewTop);
-      if (y < -40 || y > h) continue;
-      ctx.beginPath();
-      ctx.ellipse(c.x * w, y, c.s, c.s * 0.32, 0, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    const groundY = altToY(0, h, viewTop);
-    if (groundY < h + 60) {
-      ctx.fillStyle = '#2e4d3a';
-      ctx.fillRect(0, groundY, w, h - groundY + 2);
-      ctx.fillStyle = '#3f6b4f';
-      ctx.fillRect(0, groundY, w, 5);
-      ctx.fillStyle = '#5b6573';
-      ctx.fillRect(w / 2 - 30, groundY - 6, 60, 6);
-    }
-
-    const kline = altToY(TARGET_ALT, h, viewTop);
-    if (kline > -20 && kline < h) {
-      ctx.strokeStyle = 'rgba(139,233,168,0.55)';
-      ctx.setLineDash([8, 8]);
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(0, kline);
-      ctx.lineTo(w, kline);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.fillStyle = 'rgba(139,233,168,0.9)';
-      ctx.font = '600 12px Poppins, sans-serif';
-      ctx.fillText('SPACE \u2014 100 km (K\u00e1rm\u00e1n line)', 12, kline - 7);
-    }
-
-    if (s.booster) {
-      const by = altToY(s.booster.alt, h, viewTop);
-      ctx.save();
-      ctx.translate(w / 2 + s.booster.x, by);
-      ctx.rotate(s.booster.t * 0.8);
-      ctx.fillStyle = '#8a96a8';
-      ctx.fillRect(-4, -10, 8, 20);
-      ctx.restore();
-    }
-
-    const ry = altToY(s.alt, h, viewTop);
-    drawRocket(ctx, w / 2, ry, 1.15, s.flame, s.stage === 1);
-
-    for (let i = 0; i < confetti.length; i++) {
-      const c = confetti[i];
-      ctx.globalAlpha = Math.max(0, 1 - c.t / c.life);
-      ctx.fillStyle = c.color;
-      ctx.fillRect(c.x * w + c.vx * c.t, c.y * h + c.vy * c.t, 5, 5);
-    }
-    ctx.globalAlpha = 1;
-
-    const gw = Math.min(190, w * 0.34);
-    const gh = 74;
-    const gx = 12;
-    const gy = h - gh - 12;
-    ctx.fillStyle = 'rgba(13,24,41,0.78)';
-    ctx.fillRect(gx, gy, gw, gh);
-    ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(gx, gy, gw, gh);
-    ctx.fillStyle = 'rgba(232,238,251,0.75)';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.fillText('Altitude vs time', gx + 8, gy + 14);
-    if (s.graph.length > 1) {
-      const maxA = Math.max(s.maxAlt, TARGET_ALT * 0.25);
-      ctx.strokeStyle = '#7dd3fc';
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      for (let i = 0; i < s.graph.length; i++) {
-        const px = gx + 8 + (i / Math.max(s.graph.length - 1, 1)) * (gw - 16);
-        const py = gy + gh - 8 - (s.graph[i] / maxA) * (gh - 28);
-        if (i === 0) ctx.moveTo(px, py);
-        else ctx.lineTo(px, py);
-      }
-      ctx.stroke();
-    }
-
-    altReadout.set(`${(s.alt / 1000).toFixed(1)} km`);
-    velReadout.set(`${Math.round(s.vel)} m/s`);
-    fuelReadout.set(`${Math.round((s.fuel / s.fuelStart) * 100)}%`);
-    const twr = (thrustKN * 1000 * (s.stage === 2 ? 0.5 : 1)) / (mass() * G0);
-    twrReadout.set(s.phase === 'pad' ? `${twr.toFixed(2)} ${twr > 1 ? '\u2014 will fly!' : '\u2014 too heavy!'}` : twr.toFixed(2));
-  });
-
-  sim.start();
-
-  return {
-    dispose() {
-      panel.dispose();
-      hud.dispose();
-      sim.dispose();
-    },
-  };
+  k.debug = { lever: () => [leverX, leverY + leverH * (1 - throttle)], ignite: () => { launched = true; k.animate(true); }, state: () => [y[0], y[1], y[2], simT] };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }
