@@ -12,6 +12,7 @@ const PRACTICALS = {
   'redox-titration-kmno4': () => import('./practicals/titration.js'),
   'resonance-air-column': () => import('./practicals/resonance.js'),
   'ohms-law-resistivity': () => import('./practicals/ohms-law.js'),
+  'hookes-law-spring': () => import('./practicals/hookes-law.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
