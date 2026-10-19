@@ -42,12 +42,14 @@ export function plate(agar = '#e9d9a6') {
   const lid = new THREE.Group(); lid.position.y = 0.09; g.add(lid);
   const lp = [[0.001, 0.0], [0.47, 0.0], [0.475, -0.012], [0.475, -0.06]].map(([a, b]) => new THREE.Vector2(a, b));
   const lm = mesh(new THREE.LatheGeometry(lp, 40), MAT.glass(), null, { cast: false }); lm.renderOrder = 6; lid.add(lm);
-  const colonies = []; const marks = []; let t = 0; let wet = 0;
+  const colonies = []; const marks = []; const streaks = []; let t = 0; let wet = 0;
   function paint() {
     ctx2.clearRect(0, 0, PX, PX);
     ctx2.fillStyle = agar; ctx2.beginPath(); ctx2.arc(PX / 2, PX / 2, PX / 2 - 2, 0, Math.PI * 2); ctx2.fill();
     if (wet > 0) { ctx2.fillStyle = `rgba(150,140,110,${wet * 0.25})`; ctx2.beginPath(); ctx2.arc(PX / 2, PX / 2, PX * 0.2, 0, Math.PI * 2); ctx2.fill(); }
     ctx2.save(); ctx2.beginPath(); ctx2.arc(PX / 2, PX / 2, PX / 2 - 2, 0, Math.PI * 2); ctx2.clip();
+    ctx2.strokeStyle = 'rgba(255,255,255,0.45)'; ctx2.lineWidth = 2.2; ctx2.lineCap = 'round';
+    streaks.forEach((l) => { ctx2.beginPath(); l.forEach(([u, v], i) => (i ? ctx2.lineTo(u * PX, v * PX) : ctx2.moveTo(u * PX, v * PX))); ctx2.stroke(); });
     colonies.forEach((c) => drawColony(ctx2, c, t));
     ctx2.restore();
     marks.forEach(([u, v]) => { ctx2.fillStyle = '#111827'; ctx2.beginPath(); ctx2.arc(u * PX, v * PX, 3.2, 0, Math.PI * 2); ctx2.fill(); });
@@ -63,6 +65,10 @@ export function plate(agar = '#e9d9a6') {
     /** Seed colonies: list of { kind, u, v, rmax (mm), t0, tau, col }. */
     seed(list) { colonies.push(...list); paint(); },
     mark(u, v) { marks.push([u, v]); paint(); },
+    /** Streak lines drawn by a loop: start a new line, then add points (uv, canvas-down v). */
+    newStreak() { streaks.push([]); },
+    streakTo(u, v) { if (!streaks.length) streaks.push([]); streaks[streaks.length - 1].push([u, v]); paint(); },
+    get streaks() { return streaks; },
     clearMarks() { marks.length = 0; paint(); },
     /** The colony at a uv (from a raycast on the agar), if visible at the current time. */
     colonyAt(uv) { let best = null; let bd = Infinity; colonies.forEach((c) => { const r = radius(c, t) * MM / PX; if (r <= 0) return; const d = Math.hypot(c.u - uv.x, c.v - (1 - uv.y)); if (d < r + 0.012 && d < bd) { bd = d; best = c; } }); return best; },
