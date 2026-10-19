@@ -284,3 +284,89 @@ driven with at least one real mouse drag/tap and all 38 × 2 viewports load with
 users on the site's dark theme (the 2D stages stay light); the line follower's drawn track is not
 saved between visits; the image classifier could be swapped for a small trained CNN if a weights
 file is acceptable.
+
+## Living World + Scale of the Universe: showreel 3D pass (Oct 20, 2026)
+
+All five sims below were rebuilt from scratch, verified at 1400×900 and 390×844 with no console
+errors, and pushed to `main`. Butterfly and photosynthesis details are in
+`docs/LIVING_WORLD_SIMS_HANDOFF_PART_BF_PS.md`.
+
+**Scale of the Universe** (`space/cosmic-scale.js` + `space/cosmos/`, catalog `sim_type` now `3d`).
+One continuous log-scale zoom, 10⁻⁰·³ to 10²⁷·³ m. Each scale is a *layer* with its own unit
+(m, Earth radii, AU, ly, kly, Mly, Gly), origin (heliocentric doubles) and orientation. Every frame
+`universe.js` places each layer at `(origin − focus) · k` with `k = 10 / viewWidth`, so the GPU
+only sees numbers near 1. The focus glides between frames in proportion to the view
+(`focusAt`: summit → Earth → Sun → Galactic centre → Local Group → Laniakea → us), and the scene
+orientation slerps between keyframes (`OK`). Layers are built lazily when the zoom comes within
+about 2 decades of them. The engine gained a backwards-compatible `logDepth` option.
+- `terrain.js`: real Everest DEMs (26 km fine and 345 km regional, from AWS Terrain Tiles) with
+  baked sun shadows and AO. The shader does snow/rock/glacier by altitude and slope, curvature
+  drop, aerial haze, and NASA satellite colour blended in on the regional patch. There is also a
+  procedural summit cap.
+- `climber.js` adds the mountaineer and prayer flags anchored to the snow. `earth.js` is NASA
+  day, night and cloud maps with ocean glint, a limb atmosphere (faded when the camera is inside
+  it), and the LRO Moon at today's position.
+- `solar.js`: the 9 planets at their positions for today (JPL elements), gas giants with GRS and
+  rings, belts, heliosphere, Voyager 1 and the Oort cloud.
+- `stars.js`: 44 real stars at RA/Dec/distance, plus the galactic-plane sky. `galaxy.js`: a
+  painted barred-spiral texture plus resolved stars and dust; the Milky Way, M31, M33,
+  Magellanic Clouds and dwarfs, placed with real l/b/d.
+- `web.js` builds the cosmic web through the real clusters, Laniakea flow lines, the deep web
+  and a CMB cutaway shell. `labels.js` is HTML labels with collision and edge flipping, plus the
+  HUD. `view.js` handles log-zoom input.
+- Fly-to (`cosmic-scale.js`) zooms out to a vantage point covering both places, then in.
+  Moon/Sun/Jupiter/Saturn/Andromeda use focus overrides. There is a guided tour with captions.
+- Textures and their credits are in `space/cosmos/tex/` (`CREDITS.md`; all NASA public domain
+  plus open DEM).
+- Gotchas:
+  - `setOpacity` must not flip additive materials to opaque.
+  - Every `onBeforeCompile` material needs `customProgramCacheKey`.
+  - Facing tests must use world-space normals.
+
+**Anatomy toolkit** (`biology/anatomy/`). `sdf.js` holds allocation-free SDF primitives, smooth
+min/max, culled tubes and catmull. `mesher.js` does narrow-band surface nets (coarse 4× grid,
+exact SDF only near the surface, grid-gradient normals; about 0.5–1 s per organ set), plus
+`meshFromField`. `tissue.js` is MeshPhysical + onBeforeCompile: wet clearcoat, derivative bump,
+rim scatter, highlight by `part`, X-ray fresnel (`setXray`) and an optional flat `cap` colour for
+clipped back faces. `labels.js` is atlas labels in two columns with leader lines. `merge.js`
+merges meshes with pick IDs and per-vertex extras, plus PCA. `skin.js` voxelises vertices,
+dilates, flood-fills the outside, blurs and surface-nets. `sweep.js` is a variable-radius tube.
+
+**Heart & Lungs** (`biology/heart-lungs.js` + `biology/heartlungs/`).
+- **Heart model:** the heart is an SDF (`heart-model.js`): chambers, auricles, arch and branches,
+  trunk and PAs, cavae and 4 PVs, hollow cavities and lumens, fat grooves. Per-vertex
+  realistic/textbook colours, and contraction vectors for atria and ventricles.
+- **Lungs:** lungs, airway and diaphragm are in `lung-model.js`: tapered lobes with oblique and
+  horizontal fissures, a cardiac impression, a grown bronchial tree, and a domed diaphragm with
+  a central tendon.
+- **Flow and monitor:** `flow.js` handles RBC routes through every chamber, valve and lung
+  (oxygenating in the capillaries, pulsing with systole) and air particles. `monitor.js` has the
+  ECG, the cardiac timing and lub-dub WebAudio.
+- **Views:** overview, heart, a coronal cutaway (clip plane + cap), blood flow (X-ray) and
+  airways.
+
+**Human Body Explorer** (`biology/human-body.js` + `biology/body/`).
+- **Model:** `body.glb` (Z-Anatomy, 826 meshes: mat0 bone, mat1 muscle; metres, +z front, +x
+  patient's left) is merged into one bone and one muscle draw call. Muscles carry a PCA fibre
+  direction and tendon ends; bones are flagged as bone, cartilage or tooth.
+- **Skin:** grown from the anatomy and shown as warm glass by default. The *Glass skin* toggle
+  switches it to opaque, but the opaque face is featureless, which is why glass is the default.
+- **Organs:** `organs.js` holds organs sculpted in body centimetres. The spinal cord follows the
+  real vertebral canal. Arteries and nerves carry travelling pulses.
+- **Heart and lungs:** the heart-lungs scene is reused at `scale 0.01`, `position
+  (0.004, 1.262, 0.012)`, with its own diaphragm hidden in favour of the GLB's.
+- **Controls:** peel slider, body-system chips, activity (drives the beat and breath), picking
+  with cleaned left/right names.
+
+**Tooling used this session.**
+- `/data/workspace/task/tools/ghpush.py` + `ship.sh` push commits through the GitHub connector
+  (Git Data API); `git fetch` works anonymously because the repo is public.
+- `shoot.py` is a headless Chromium (SwiftShader) screenshot runner that clips to the stage.
+  SwiftShader crashes after about 3 heavy view changes in one page, so split long checks.
+- Restart the dev server with `--noreload` after editing the catalog.
+
+**Ideas not done.**
+- An alveolus close-up with gas exchange; valve leaflets and chordae in the cutaway.
+- Animating a limb (biceps flex) on the body; eyelids and lips for the opaque skin.
+- Real-time planet motion with a date slider; Earth city labels; a sub-metre zoom (cells to
+  atoms) below the climber.
