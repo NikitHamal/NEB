@@ -1,0 +1,10 @@
+<div class="study-tools" data-study-chapter="{{ ch.id }}" data-study-subject="{{ grade_slug }}/{{ subject_slug }}" lang="{{ ch.study_meta.language }}">
+  <label><input type="checkbox" data-study-done> {% if ch.study_meta.language == 'ne' %}पुनरावलोकन पूरा{% else %}Revised{% endif %}</label>
+  <progress data-study-progress value="0" max="100" aria-label="Revision progress"></progress><small data-study-count role="status"></small>
+  <a href="{{ ch.study_meta.source_url }}" target="_blank" rel="noopener">{% if ch.study_meta.language == 'ne' %}पाठको स्रोत{% else %}View chapter source{% endif %}</a>
+</div>
+<div class="study-overview">
+  {% if ch.study_meta.hours %}<p>{% if ch.study_meta.language == 'ne' %}अध्यापन समय{% else %}Teaching time{% endif %}: {{ ch.study_meta.hours }} {% if ch.study_meta.language == 'ne' %}घण्टा{% else %}hours{% endif %}</p>{% endif %}
+  <small>{% if ch.study_meta.language == 'ne' %}यो अध्ययन सहयोगी हो। आफ्नो विद्यालयको हालको मूल्याङ्कन ढाँचा पनि हेर्नुहोस्। प्रगति यस उपकरणमा मात्र सुरक्षित हुन्छ।{% else %}A study companion to the notes. Check your school’s current assessment requirements. Revision progress stays on this device.{% endif %}</small>
+</div>
+<div class="study-next" data-study-navigation="{{ ch.id }}"><button type="button" data-study-prev>{% if ch.study_meta.language == 'ne' %}अघिल्लो पाठ{% else %}Previous chapter{% endif %}</button><button type="button" data-study-next>{% if ch.study_meta.language == 'ne' %}अर्को पाठ{% else %}Next chapter{% endif %}</button></div>

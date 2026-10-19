@@ -8,6 +8,8 @@
 {% block og_description %}Get free {{ grade }} {{ subject }} study notes, NEB past papers, model questions, and syllabus resources on NEBians.{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/syllabus-study.css' %}">
+<script src="{% static 'web/js/syllabus-study.js' %}" defer nonce="{{ csp_nonce }}"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" nonce="{{ csp_nonce }}">
 <link rel="stylesheet" href="{% static 'web/css/pages/subject-page.css' %}">
 {% endblock %}
@@ -151,6 +153,7 @@
             </nav>
             
             <div class="pane-body">
+              {% if ch.study_meta %}{% include 'web/partials/syllabus_study_tools.html' %}{% endif %}
               <!-- SUBTAB 1: CHAPTER GUIDE -->
               <div class="subtab-content active" id="subtab-guide-{{ ch.id }}">
                 {% if ch.rich_content.has_blocks %}
@@ -187,7 +190,11 @@
               
               <!-- SUBTAB 2: SOLVED Q&As -->
               <div class="subtab-content" id="subtab-qas-{{ ch.id }}">
-                {% if ch.question_answers %}
+                {% if ch.study_meta.self_checks %}
+                {% for check in ch.study_meta.self_checks %}
+                <details class="study-self-check"><summary>{{ check.question }}</summary><div>{{ check.answer|markdown_format }}</div></details>
+                {% endfor %}
+                {% elif ch.question_answers %}
                 <div class="qa-search-box">
                   <span class="material-symbols-outlined" style="font-size:20px;color:var(--md-on-surface-variant);">search</span>
                   <input type="text" class="qa-search-input" data-action="filter-qas" data-chapter-id="{{ ch.id }}" placeholder="Search questions and answers..." autocomplete="off">
@@ -357,6 +364,7 @@
               <h2>General &amp; Reference Resources</h2>
             </div>
             <div class="pane-body">
+              {% if ch.study_meta %}{% include 'web/partials/syllabus_study_tools.html' %}{% endif %}
               {% if general_resources.notes %}
               <div class="subcat-section">
                 <h4 class="subcat-title"><span class="material-symbols-outlined">description</span>General Notes</h4>

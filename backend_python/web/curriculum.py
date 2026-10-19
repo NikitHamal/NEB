@@ -74,6 +74,10 @@ def get_subject_db_value(subject_slug):
         "accountancy": "Accountancy",
         "general": "General",
         "exam-tips": "Exam Tips",
+        "health-physical-and-creative-arts": "Health Physical and Creative Arts",
+        "science-and-technology": "Science and Technology",
+        "social-studies": "Social Studies",
+        "optional-mathematics": "Optional Mathematics",
     }
     val = mapping.get(subject_slug.lower().strip())
     if val:

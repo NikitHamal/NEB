@@ -97,9 +97,10 @@ fun SyllabusSubjectDetail(
         }
         if (chapters.isNotEmpty()) {
             item(key = "chapter_picker") {
-                ChapterPicker(
+                SyllabusStudyNavigator(
                     chapters = chapters,
                     selectedChapterId = selectedChapterId,
+                    scope = "${detail.gradeSlug}/${detail.subjectSlug}",
                     onSelect = { selectedChapterId = it }
                 )
             }
@@ -168,7 +169,7 @@ private fun BreadcrumbLink(text: String, onClick: () -> Unit) {
         text = text,
         modifier = Modifier.clickable(onClick = onClick),
         style = MaterialTheme.typography.labelMedium,
-        color = MaterialTheme.colorScheme.primary,
+        color = MaterialTheme.colorScheme.onSurface,
         fontWeight = FontWeight.Medium,
         maxLines = 1
     )
@@ -202,7 +203,7 @@ private fun BreadcrumbDropdown(
             Text(
                 text = label,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onSurface,
                 fontWeight = FontWeight.Bold,
                 maxLines = 1
             )
@@ -242,7 +243,7 @@ private fun BreadcrumbDropdown(
                             Text(
                                 text = item.name,
                                 style = MaterialTheme.typography.labelMedium,
-                                color = if (item.name == activeName) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                                color = if (item.name == activeName) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurface,
                                 fontWeight = if (item.name == activeName) FontWeight.Bold else FontWeight.Normal,
                                 modifier = Modifier.weight(1f),
                                 maxLines = 1,
@@ -354,8 +355,8 @@ private fun ChapterViewer(
 @Composable
 private fun ChapterSubtabs(selected: String, onSelect: (String) -> Unit) {
     val tabs = listOf(
-        "guide" to "Chapter Guide",
-        "qas" to "Solved Q&As",
+        "guide" to "Study guide",
+        "qas" to "Try an example",
         "files" to "Study Files"
     )
     Row(
@@ -375,7 +376,7 @@ private fun ChapterSubtabs(selected: String, onSelect: (String) -> Unit) {
                     text = label,
                     modifier = Modifier.padding(vertical = 8.dp),
                     style = MaterialTheme.typography.labelLarge,
-                    color = if (selected == key) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    color = if (selected == key) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1
                 )
@@ -383,7 +384,7 @@ private fun ChapterSubtabs(selected: String, onSelect: (String) -> Unit) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(2.dp),
-                    color = if (selected == key) MaterialTheme.colorScheme.primary else Color.Transparent,
+                    color = if (selected == key) MaterialTheme.colorScheme.onSurface else Color.Transparent,
                     shape = WebPillShape
                 ) {}
             }
@@ -410,10 +411,10 @@ private fun ChapterGuide(chapter: ApiSyllabusChapter) {
                 Text(
                     text = section.title.ifBlank { "Overview" },
                     style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     fontWeight = FontWeight.Bold
                 )
-                HorizontalDivider(color = MaterialTheme.colorScheme.primaryContainer, thickness = 2.dp)
+                HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHigh, thickness = 2.dp)
                 MarkdownText(
                     markdown = section.content,
                     style = MaterialTheme.typography.bodyMedium,
@@ -444,12 +445,12 @@ private fun SectionToc(labels: List<String>) {
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 labels.forEach { label ->
-                    Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.primaryContainer) {
+                    Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.surfaceContainerHigh) {
                         Text(
                             text = label,
                             modifier = Modifier.padding(horizontal = 14.dp, vertical = 5.dp),
                             style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.onSurface,
                             fontWeight = FontWeight.Medium,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis
@@ -463,6 +464,14 @@ private fun SectionToc(labels: List<String>) {
 
 @Composable
 private fun ChapterQas(chapter: ApiSyllabusChapter) {
+    if (chapter.studyMeta.selfChecks.isNotEmpty()) {
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            chapter.studyMeta.selfChecks.forEach { check ->
+                QaAccordion(ApiSyllabusQaItem(question = check.question, answer = check.answer))
+            }
+        }
+        return
+    }
     val groups = chapter.qaSections.mapNotNull { section ->
         val parsedItems = if (section.parsedItems.isNotEmpty()) {
             section.parsedItems
@@ -488,10 +497,10 @@ private fun ChapterQas(chapter: ApiSyllabusChapter) {
                     Text(
                         text = title,
                         style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontWeight = FontWeight.Bold
                     )
-                    HorizontalDivider(color = MaterialTheme.colorScheme.primaryContainer, thickness = 2.dp)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.surfaceContainerHigh, thickness = 2.dp)
                 }
                 items.forEach { qa -> QaAccordion(qa = qa) }
             }

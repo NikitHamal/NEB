@@ -1,0 +1,24 @@
+<section class="syllabus-catalogue" aria-labelledby="syllabus-title">
+  <header class="syllabus-intro">
+    <span class="syllabus-kicker">YOUR STUDY MAP</span>
+    <h2 id="syllabus-title">Know what to learn next.</h2>
+    <p>Explore the chapters in our study books. Review the key ideas, try a worked example, and keep track of your revision on this device.</p>
+    <label class="syllabus-search"><span class="material-symbols-outlined" aria-hidden="true">search</span><input type="search" data-syllabus-search placeholder="Find a class or subject" aria-label="Find a class or subject"></label>
+  </header>
+  <div class="syllabus-grade-grid">
+    {% for category in categories_list %}
+    <section class="syllabus-grade" data-syllabus-grade>
+      <header><h3>{{ category.grade }}</h3><span>{{ category.subjects|length }} subjects</span></header>
+      <div class="syllabus-subjects">
+        {% for subj in category.subjects %}
+        <a href="{{ subj.url }}" data-syllabus-subject data-search="{{ category.grade|lower }} {{ subj.name|lower }} {{ subj.display_name }}">
+          <span><strong>{{ subj.display_name|default:subj.name }}</strong>{% if subj.chapter_count %}<small>{{ subj.chapter_count }} chapters</small>{% endif %}</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+  </div>
+  <p data-syllabus-empty hidden role="status">No matching subjects. Try a class number or another subject name.</p>
+  <p class="syllabus-footnote">Based on NEBians study notes and their curriculum outlines. A study companion; check your school’s current assessment requirements.</p>
+</section>

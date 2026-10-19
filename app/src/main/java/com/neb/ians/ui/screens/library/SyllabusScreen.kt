@@ -155,14 +155,12 @@ private fun SyllabusCategoryList(
     onRetry: () -> Unit,
     onOpenSubject: (String, ApiSyllabusSubject) -> Unit
 ) {
-    val categories = uiState.syllabusCategories.ifEmpty {
-        LibraryUiState.GRADE_LEVELS.mapIndexed { index, grade ->
-            ApiSyllabusCategory(
-                grade = grade.replace("Grade", "Class"),
-                order = index,
-                subjects = LibraryUiState.SUBJECTS.map { ApiSyllabusSubject(name = it) }
-            )
+    var query by rememberSaveable { mutableStateOf("") }
+    val categories = uiState.syllabusCategories.mapNotNull { category ->
+        val subjects = category.subjects.filter {
+            "${category.grade} ${it.name} ${it.displayName}".contains(query.trim(), ignoreCase = true)
         }
+        if (subjects.isEmpty()) null else category.copy(subjects = subjects)
     }
 
     LazyColumn(
@@ -173,10 +171,25 @@ private fun SyllabusCategoryList(
         item(key = "syllabus_intro") {
             SyllabusIntroCard(isLoading = uiState.isSyllabusLoading)
         }
+        item(key = "syllabus_search") {
+            androidx.compose.material3.OutlinedTextField(
+                value = query,
+                onValueChange = { query = it },
+                label = { Text("Find a class or subject") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                shape = WebPanelShape
+            )
+        }
+        if (categories.isEmpty() && !uiState.isSyllabusLoading) {
+            item(key = "no_syllabus_results") {
+                Text(if (uiState.syllabusCategories.isEmpty()) "The study map could not be loaded. Try again." else "No matching subjects. Try a class number or subject name.", color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+        }
         if (uiState.syllabusError != null) {
             item(key = "syllabus_error") {
                 ErrorCard(
-                    message = "Using cached syllabus while the latest syllabus loads.",
+                    message = uiState.syllabusError ?: "Could not refresh the study map.",
                     onRetry = onRetry
                 )
             }
@@ -208,24 +221,24 @@ private fun SyllabusIntroCard(isLoading: Boolean) {
             Box(
                 modifier = Modifier
                     .size(44.dp)
-                    .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.10f), WebPillShape),
+                    .background(MaterialTheme.colorScheme.onSurface.copy(alpha = 0.10f), WebPillShape),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Outlined.School,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(22.dp)
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = "NEB syllabus by class",
+                    text = "Your study map",
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.ExtraBold
                 )
                 Text(
-                    text = "Browse class-wise subjects, open chapters, solved Q&As and matching study files.",
+                    text = "Explore your chapters, test your understanding and track revision on this device.",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     maxLines = 2,
@@ -266,7 +279,7 @@ private fun SyllabusAccordionCard(
                 Icon(
                     imageVector = Icons.Outlined.MenuBook,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.size(20.dp)
                 )
                 Text(
@@ -277,12 +290,12 @@ private fun SyllabusAccordionCard(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)) {
+                Surface(shape = WebPillShape, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.10f)) {
                     Text(
                         text = "${category.subjects.size} subjects",
                         style = MaterialTheme.typography.labelSmall,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.primary,
+                        color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp)
                     )
                 }
@@ -301,7 +314,7 @@ private fun SyllabusAccordionCard(
                 ) {
                     category.subjects.forEach { subject ->
                         SyllabusSubjectChip(
-                            subject = subject.name,
+                            subject = (subject.displayName.ifBlank { subject.name }) + if (subject.chapterCount > 0) " · ${subject.chapterCount}" else "",
                             onClick = { onSubjectClick(subject) }
                         )
                     }

@@ -14,6 +14,8 @@
 {% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/css/pages/syllabus-study.css' %}">
+<script src="{% static 'web/js/syllabus-study.js' %}" defer nonce="{{ csp_nonce }}"></script>
 <link rel="stylesheet" href="{% static 'web/css/pages/web-library.css' %}">
 {% if current_tab == 'interactive' %}
 <link rel="stylesheet" href="{% static 'web/css/pages/interactive.css' %}">{% endif %}
@@ -121,33 +123,7 @@
   </div>
 
   {% else %}
-  <!-- Syllabus Categories tab accordion -->
-  <div class="chapters-container" style="margin-top: 16px;">
-    {% for category in categories_list %}
-    <div class="chapter-section" id="cat-{{ forloop.counter }}">
-      <div class="chapter-header" data-action="toggle-chapter">
-        <h3>{{ category.grade }}</h3>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <span class="chapter-badge">{{ category.subjects|length }} subjects</span>
-          <span class="material-symbols-outlined expand-icon">expand_more</span>
-        </div>
-      </div>
-      <div class="chapter-content">
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          {% for subj in category.subjects %}
-          <a href="{{ subj.url }}" class="md-chip" style="text-decoration:none;">{{ subj.name }}</a>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-    {% empty %}
-    <div class="empty-state">
-      <span class="material-symbols-outlined">category</span>
-      <h3>No syllabus categories found</h3>
-      <p>There are currently no subjects mapped in the system.</p>
-    </div>
-    {% endfor %}
-  </div>
+  {% include 'web/partials/syllabus_catalogue.html' %}
   {% endif %}
 </div>
 </div>

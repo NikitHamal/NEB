@@ -586,49 +586,8 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
         'Entrance Prep', 'Competitive Exam', 'Other',
     ]
 
-    # Build Class syllabus category tree dynamically from SyllabusContent
-    from collections import defaultdict
-    from api.models import SyllabusContent
-    categories_map = defaultdict(set)
-    active_syllabus = SyllabusContent.objects.all().values('grade_level', 'subject')
-    
-    if active_syllabus.exists():
-        for item in active_syllabus:
-            grade = item['grade_level'].strip() if item['grade_level'] else ''
-            if grade.lower() == 'grade 12':
-                grade = 'Class 12'
-            elif grade.lower() == 'grade 11':
-                grade = 'Class 11'
-            subject_str = item['subject']
-            if grade and subject_str:
-                for s in subject_str.split(','):
-                    s_clean = s.strip()
-                    if s_clean:
-                        categories_map[grade].add(s_clean)
-    else:
-        # Fallback to CURRICULUM_MAP keys
-        for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
-            categories_map[g_val].add(s_val)
-                    
-    grade_order = {val: i for i, val in enumerate(education_levels)}
-    categories_list = []
-    for grade, subjs in categories_map.items():
-        subjs_sorted = sorted(list(subjs))
-        subjs_list = []
-        for s in subjs_sorted:
-            grade_slug = grade.lower().replace(' / see', '-see').replace(' ', '-')
-            subject_slug = s.lower().replace(' ', '-')
-            subjs_list.append({
-                'name': s,
-                'slug': subject_slug,
-                'url': f"/subject/{grade_slug}/{subject_slug}/"
-            })
-        categories_list.append({
-            'grade': grade,
-            'subjects': subjs_list,
-            'order': grade_order.get(grade, 999)
-        })
-    categories_list.sort(key=lambda x: x['order'])
+    from web.note_syllabus import categories
+    categories_list = categories()
 
     active_filter_count = len(subjects) + len(grades) + len(types) + len(faculties) + len(exam_types) + (1 if pricing else 0)
     ctx = _ctx(request,
@@ -1811,15 +1770,13 @@ def subject_page(request, grade_slug, subject_slug):
     
     # Fetch database syllabus content entries
     from api.models import SyllabusContent
-    syllabus_entries = SyllabusContent.objects.filter(
-        grade_level__iexact=grade_db_val,
-        subject__iexact=subject_db_val
-    ).order_by('order')
-    
+    from web.note_syllabus import entries_for, navigation
+    syllabus_entries = entries_for(grade_db_val, subject_db_val)
+
     grouped_resources = []
     chapter_map = {}
     
-    if syllabus_entries.exists():
+    if syllabus_entries:
         from web.syllabus_rich import prepare_rich_content, syllabus_search_text
         for entry in syllabus_entries:
             rich_content = prepare_rich_content(entry)
@@ -1836,6 +1793,7 @@ def subject_page(request, grade_slug, subject_slug):
                 'syllabus_text': entry.text_content,
                 'syllabus_sections': parse_sections(entry.text_content),
                 'rich_content': rich_content,
+                'study_meta': getattr(entry, 'study_meta', {}),
                 'source_resource_id': entry.source_resource_id,
                 'source_label': entry.source_label,
                 'search_text': syllabus_search_text(entry),
@@ -1938,75 +1896,8 @@ def subject_page(request, grade_slug, subject_slug):
     user_id = _get_user_id(request)
     posts = _serialize_posts(posts_qs, user_id)
     
-    # Compile lists for drop-downs
-    from api.models import SyllabusContent
-    has_syllabus = SyllabusContent.objects.exists()
-    
-    active_subjects = set()
-    if has_syllabus:
-        # Driven solely by admin-created SyllabusContent
-        for s_val in SyllabusContent.objects.filter(grade_level__iexact=grade_db_val).values_list('subject', flat=True).distinct():
-            for s in s_val.split(','):
-                s_clean = s.strip()
-                if s_clean:
-                    active_subjects.add(s_clean)
-        # If no syllabus content exists for this specific grade, fall back to CURRICULUM_MAP
-        if not active_subjects:
-            for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
-                if g_val.lower() == grade_db_val.lower():
-                    active_subjects.add(s_val)
-    else:
-        # Fallback to CURRICULUM_MAP keys
-        for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
-            if g_val.lower() == grade_db_val.lower():
-                active_subjects.add(s_val)
-                
-    subject_list = []
-    for s in sorted(list(active_subjects)):
-        slug = curriculum.slugify_tag(s)
-        if slug:
-            subject_list.append({
-                'name': s,
-                'slug': slug
-            })
+    grade_list, subject_list = navigation(grade_db_val)
 
-    active_grades = {grade_db_val}
-    if has_syllabus:
-        # Driven solely by admin-created SyllabusContent
-        for g in SyllabusContent.objects.values_list('grade_level', flat=True).distinct():
-            g_clean = g.strip() if g else ''
-            if g_clean:
-                if g_clean.lower() == 'grade 12':
-                    g_clean = 'Class 12'
-                elif g_clean.lower() == 'grade 11':
-                    g_clean = 'Class 11'
-                active_grades.add(g_clean)
-    else:
-        # Fallback to CURRICULUM_MAP keys
-        for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
-            g_clean = g_val.strip()
-            if g_clean:
-                if g_clean.lower() == 'grade 12':
-                    g_clean = 'Class 12'
-                elif g_clean.lower() == 'grade 11':
-                    g_clean = 'Class 11'
-                active_grades.add(g_clean)
-            
-    education_levels = [
-        'Class 8', 'Class 9', 'Class 10 / SEE', 'Class 11', 'Class 12',
-        'Diploma', 'Bachelor', 'Master', 'PhD',
-        'Entrance Prep', 'Competitive Exam', 'Other',
-    ]
-    grade_order = {val.lower(): i for i, val in enumerate(education_levels)}
-    sorted_grades = sorted(list(active_grades), key=lambda x: grade_order.get(x.lower(), 999))
-    
-    grade_list = []
-    for g in sorted_grades:
-        grade_list.append({
-            'name': g,
-            'slug': g.lower().replace(' / see', '-see').replace(' ', '-')
-        })
-    
     ctx = _ctx(request,
         grade=grade_db_val,
         subject=subject_db_val,

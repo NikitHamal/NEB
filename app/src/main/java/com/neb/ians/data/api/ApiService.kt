@@ -774,6 +774,8 @@ data class ApiSyllabusCategory(
 @Serializable
 data class ApiSyllabusSubject(
     val name: String = "",
+    @SerialName("display_name") val displayName: String = "",
+    @SerialName("chapter_count") val chapterCount: Int = 0,
     val slug: String = "",
     val url: String = ""
 )
@@ -801,6 +803,7 @@ data class ApiSyllabusNavItem(
 @Serializable
 data class ApiSyllabusChapter(
     val id: String = "",
+    @SerialName("study_meta") val studyMeta: ApiSyllabusStudyMeta = ApiSyllabusStudyMeta(),
     val name: String = "",
     @SerialName("guide_sections") val guideSections: List<ApiSyllabusSection> = emptyList(),
     @SerialName("qa_sections") val qaSections: List<ApiSyllabusQaSection> = emptyList(),
