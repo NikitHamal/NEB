@@ -54,19 +54,19 @@ export function create(ctx) {
   const st = { T: 22, heating: false, boilT: 0, inTrough: false, yeastAt: null, killed: false, oil: 0, t: 0, co2: [0, 0], warm: false };
   const tmp = new THREE.Vector3();
   const BENCH = S([0.1, 2.6, 3.6], [-0.2, 0.9, 0], 4.2);
-  const HEAT = S([-0.7, 2.9, 2.7], [-1.45, 1.95, -0.3], 2.4, 2.8);
+  const HEAT = S([-0.7, 2.6, 2.9], [-1.45, 1.45, -0.3], 2.4, 3.0);
   const COOL = S([0.9, 2.2, 2.4], [0.45, 0.9, 0.2], 2.3);
   const RUN = S([0.7, 2.4, 3.0], [0.45, 0.9, -0.1], 2.9);
 
   const stepLight = {
     title: 'Heat the glucose solution', text: 'The flask holds 100 mL of 5% glucose solution. Tap the <b>burner</b> to light it under the tripod.',
-    tool: null, autoTool: 'hand', shot: HEAT,
+    tool: null, autoTool: 'hand', hideBelt: true, shot: HEAT,
     skip() { burner.setGas(1); burner.light(); st.heating = true; },
     handler: { down(p) { if (!input.pick([burner.group])) return false; burner.setGas(1); burner.light(); st.heating = true; sfx.play('click'); ctx.next('Burner lit; the solution warms.'); return true; } },
   };
   const stepBoil = {
     title: 'Boil it, then turn off', text: 'Let the solution <b>boil for a few minutes</b> — boiling drives out the dissolved oxygen and kills other microbes. Then tap the burner to turn it off.',
-    tool: null, autoTool: 'hand', shot: HEAT,
+    tool: null, autoTool: 'hand', hideBelt: true, shot: HEAT,
     skip() { st.T = 100; st.boilT = 5; burner.setGas(0); st.heating = false; },
     handler: { down() {
       if (!input.pick([burner.group])) return false;
@@ -158,7 +158,7 @@ export function create(ctx) {
     exit() { ui.clearChooser(); },
   };
   const steps = [stepLight, stepBoil, stepCool, stepYeast, stepOil, stepSeal, stepRun, stepSmell, stepExplain];
-  ctx.debug = { st, flaskA, lime };
+  ctx.debug = { st, flaskA, lime, burner };
   return {
     tools: ['hand', 'dropper'],
     steps,

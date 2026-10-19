@@ -125,7 +125,7 @@ export function create(ctx) {
     skip() { plates.forEach((p) => p.setTime(48)); },
     handler: { down() {
       if (incClock || !input.pick(plates.map((p) => p.group), true)) return false;
-      sfx.play('place'); inc.open(1); plates.forEach((p, i) => { const from = p.group.position.clone(); const to = new THREE.Vector3(2.65 + i * 0.25, 0.4, 0.4 - i * 0.12); anim.add(1.0, (k) => { p.group.position.lerpVectors(from, to, k); p.group.position.y += Math.sin(Math.PI * k) * 0.5; p.group.scale.setScalar(1 - k * 0.6); }, { done: () => { p.group.visible = false; p.group.position.copy(from); p.group.scale.setScalar(1); } }); });
+      sfx.play('door'); inc.open(1); plates.forEach((p, i) => { const from = p.group.position.clone(); const to = new THREE.Vector3(2.65 + i * 0.25, 0.4, 0.4 - i * 0.12); anim.add(1.0, (k) => { p.group.position.lerpVectors(from, to, k); p.group.position.y += Math.sin(Math.PI * k) * 0.5; p.group.scale.setScalar(1 - k * 0.6); }, { done: () => { p.group.visible = false; p.group.position.copy(from); p.group.scale.setScalar(1); } }); });
       anim.wait(1.2, () => { inc.open(0); incClock = timelapse(ctx, { step: 12, unit: 'h', onTick: (h, done) => { plates.forEach((p) => p.setTime(h)); if (done && h >= 48 && !incDone) { incDone = true; incClock.show(false); plates.forEach((p) => { p.group.visible = true; }); ctx.next('48 hours: colonies have grown where single cells (or spores) landed.'); } } }); });
       return true;
     } },

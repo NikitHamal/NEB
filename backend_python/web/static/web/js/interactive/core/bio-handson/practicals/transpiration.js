@@ -162,7 +162,7 @@ export function create(ctx) {
   function doClamp(pl, instant) {
     const s = sandwiches[pl.maize ? 1 : 0]; leafPoint(pl, 'upper', tmp); world.worldToLocal(tmp); tmp.y -= 0.0; const to = tmp.clone();
     const from = s.position.clone();
-    if (instant) { s.position.copy(to); s.position.y += 0.004; } else anim.add(0.7, (k) => { s.position.lerpVectors(from, to, k); s.position.y += Math.sin(Math.PI * k) * 0.4 + 0.004 * k; }, { ease: ease.inOut, done: () => sfx.play('click') });
+    if (instant) { s.position.copy(to); s.position.y += 0.004; } else anim.add(0.7, (k) => { s.position.lerpVectors(from, to, k); s.position.y += Math.sin(Math.PI * k) * 0.4 + 0.004 * k; }, { ease: ease.inOut, done: () => sfx.play('latch') });
     clampedAt = simT; sfx.play('glass');
   }
   function timeStep(pl) {
