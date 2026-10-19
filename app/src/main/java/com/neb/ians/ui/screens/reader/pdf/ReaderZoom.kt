@@ -114,7 +114,7 @@ class ReaderZoomState(private val spec: FiniteAnimationSpec<Float>) {
         const val MIN = 1f
         const val MAX = 4f
         const val DOUBLE_TAP = 2.5f
-        private val RENDER_STEPS = listOf(1f, 1.5f, 2f, 2.5f)
+        private val RENDER_STEPS = listOf(1f, 1.5f, 2f, 2.5f, 3f, 3.5f)
     }
 }
 
