@@ -96,6 +96,7 @@ export function runPractical(stage, config, practical) {
     if (step.enter) step.enter(ctx);
     if (step.autoTool) ui.selectTool(step.autoTool);
     ui.showBelt(!step.hideBelt);
+    clearBelt();
     input.setHandler(wrapHandler(step));
   }
 
@@ -139,6 +140,7 @@ export function runPractical(stage, config, practical) {
     ui.setTools(impl.tools || []);
     ui.setSteps(steps);
     ui.selectTool('hand');
+    clearBelt();
   }
   function teardown() {
     if (step && step.exit) step.exit(ctx);
@@ -165,8 +167,22 @@ export function runPractical(stage, config, practical) {
     if (step.showHint) step.showHint(ctx);
   });
   ui.onRestart(restart);
+  // Lift the picture above the tool belt: render the top of a taller view so the shot's centre and
+  // its bottom edge land above the belt rather than under it (pointer picking follows the same matrix).
+  let beltPad = -1;
+  function clearBelt() {
+    const belt = ctx.stage.querySelector('.bh-belt'); const h = ctx.stage.clientHeight || 1; const w = ctx.stage.clientWidth || 1;
+    const on = belt && belt.style.display !== 'none' && !belt.classList.contains('bh-hidden') && belt.offsetParent !== null;
+    const pad = on ? Math.round(Math.min(h * 0.22, h - belt.offsetTop + 6)) : 0;
+    if (pad === beltPad && camera.view && camera.view.fullWidth === w) return;
+    beltPad = pad;
+    camera.aspect = w / (h + pad);
+    if (pad) camera.setViewOffset(w, h + pad, 0, pad, w, h); else camera.clearViewOffset();
+    camera.updateProjectionMatrix();
+  }
   let lastW = 0; let lastH = 0;
   engine.onResize((w, h) => {
+    beltPad = -1; clearBelt();
     if (lastW && step && step.shot && (Math.abs(w - lastW) > 40 || Math.abs(h - lastH) > 40)) rig.go(step.shot, 0.4);
     lastW = w; lastH = h;
   });
