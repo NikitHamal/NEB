@@ -201,3 +201,35 @@ export function flyTo(ctx, obj, to, { dur = 0.7, lift = 0.3, rot, done } = {}) {
 export function table(head, rows, cls = '') {
   return `<table class="bh-tab ${cls}"><tr>${head.map((h) => `<th>${h}</th>`).join('')}</tr>${rows.map((r) => `<tr>${r.map((c) => `<td>${c}</td>`).join('')}</tr>`).join('')}</table>`;
 }
+
+/**
+ * Take the practical outdoors: hide the lab room's furniture (its lights stay on), open the sky and
+ * push the haze back. Returns a function that brings the room back.
+ */
+export function outdoors(ctx, { sky = 0xbfdcf0, fogNear = 60, fogFar = 160 } = {}) {
+  const { scene } = ctx;
+  const room = scene.children.find((o) => o.isGroup && o !== ctx.world && o.children.length > 8);
+  const hidden = [];
+  if (room) room.traverse((o) => { if (o.isMesh && o.visible) { o.visible = false; hidden.push(o); } });
+  const bg = scene.background; const fog = scene.fog;
+  scene.background = new THREE.Color(sky); scene.fog = new THREE.Fog(sky, fogNear, fogFar);
+  return () => { hidden.forEach((o) => { o.visible = true; }); scene.background = bg; scene.fog = fog; };
+}
+
+/** Merge simple geometries (each with an optional vertex colour) into one indexed geometry. */
+export function mergeGeos(parts) {
+  let nv = 0; let ni = 0;
+  const gs = parts.map(([g, color]) => { const ng = g.index ? g : g.toNonIndexed(); nv += ng.attributes.position.count; ni += ng.index ? ng.index.count : ng.attributes.position.count; return [ng, new THREE.Color(color ?? 0xffffff)]; });
+  const pos = new Float32Array(nv * 3); const nor = new Float32Array(nv * 3); const col = new Float32Array(nv * 3); const idx = new Uint32Array(ni);
+  let vo = 0; let io = 0;
+  gs.forEach(([g, c]) => {
+    const p = g.attributes.position; const n = g.attributes.normal;
+    for (let i = 0; i < p.count; i++) { pos.set([p.getX(i), p.getY(i), p.getZ(i)], (vo + i) * 3); if (n) nor.set([n.getX(i), n.getY(i), n.getZ(i)], (vo + i) * 3); col.set([c.r, c.g, c.b], (vo + i) * 3); }
+    if (g.index) for (let k = 0; k < g.index.count; k++) idx[io + k] = g.index.getX(k) + vo; else for (let k = 0; k < p.count; k++) idx[io + k] = vo + k;
+    io += g.index ? g.index.count : p.count; vo += p.count; g.dispose();
+  });
+  const out = new THREE.BufferGeometry();
+  out.setAttribute('position', new THREE.BufferAttribute(pos, 3)); out.setAttribute('normal', new THREE.BufferAttribute(nor, 3)); out.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  out.setIndex(new THREE.BufferAttribute(idx, 1));
+  return out;
+}
