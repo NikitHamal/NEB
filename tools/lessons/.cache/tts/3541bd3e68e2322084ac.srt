@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,263
+A useful trick.
+
+2
+00:00:01,263 --> 00:00:06,627
+The first order equation only needs the ratio of initial to remaining amount.
+
+3
+00:00:06,627 --> 00:00:15,625
+So any quantity proportional to the amount left will do: a titration volume, a gas pressure, an angle of optical rotation.
+
+4
+00:00:15,625 --> 00:00:17,031
+The units cancel.
+

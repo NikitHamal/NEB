@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,020
+To find the orders, run the reaction several times, changing one concentration at a time, and measure the initial rate.
+
+2
+00:00:08,020 --> 00:00:11,562
+If doubling A doubles the rate, the order in A is one.
+
+3
+00:00:11,562 --> 00:00:13,736
+If it quadruples the rate, two.
+
+4
+00:00:13,736 --> 00:00:16,184
+If nothing changes, zero.
+

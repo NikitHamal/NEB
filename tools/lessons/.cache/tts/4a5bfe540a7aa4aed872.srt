@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,645
+Thermodynamics tells you whether a reaction can happen.
+
+2
+00:00:03,645 --> 00:00:06,080
+It says nothing about how long it takes.
+
+3
+00:00:06,080 --> 00:00:09,440
+That missing half of the story is chemical kinetics.
+
+4
+00:00:09,440 --> 00:00:14,296
+By the end of this lesson, you will see the barrier that guards every diamond.
+

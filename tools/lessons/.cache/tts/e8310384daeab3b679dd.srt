@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,395
+Plot concentration against time and you get a curve that falls ever more slowly, and never quite reaches zero.
+
+2
+00:00:07,395 --> 00:00:13,645
+But plot the log of concentration against time, and it is a straight line with slope minus k.
+
+3
+00:00:13,645 --> 00:00:16,627
+That straight line is the test for first order.
+
+4
+00:00:16,627 --> 00:00:20,403
+Change k, and only the steepness changes.
+

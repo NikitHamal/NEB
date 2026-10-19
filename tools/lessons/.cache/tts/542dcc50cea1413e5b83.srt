@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,653
+Third, temperature.
+
+2
+00:00:01,653 --> 00:00:07,408
+A ten degree rise near room temperature usually doubles or even trebles the rate.
+
+3
+00:00:07,408 --> 00:00:08,658
+Why so much?
+
+4
+00:00:08,658 --> 00:00:10,846
+It is not the extra collisions.
+
+5
+00:00:10,846 --> 00:00:18,007
+Collision frequency rises only with the square root of T, under two percent for ten degrees.
+

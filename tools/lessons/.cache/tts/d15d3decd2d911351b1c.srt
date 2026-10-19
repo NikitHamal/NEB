@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,601
+Now the energy picture.
+
+2
+00:00:01,601 --> 00:00:06,614
+As reactants turn into products, the energy does not go straight down.
+
+3
+00:00:06,614 --> 00:00:08,033
+It first climbs a hill.
+
+4
+00:00:08,033 --> 00:00:16,497
+The top of that hill is the activated complex, or transition state: old bonds half broken, new bonds half formed.
+
+5
+00:00:16,497 --> 00:00:18,216
+It cannot be isolated.
+

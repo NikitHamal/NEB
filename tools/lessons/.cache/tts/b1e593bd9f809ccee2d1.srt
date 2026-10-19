@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,398
+Enzymes are astonishingly efficient, and astonishingly specific: urease attacks urea and nothing else.
+
+2
+00:00:08,398 --> 00:00:17,200
+They work only in a narrow range of temperature, around body temperature, and of p H, because heat denatures the protein.
+
+3
+00:00:17,200 --> 00:00:24,674
+Yeast enzymes ferment rice for jaand and raksi, and Lactobacillus turns milk into dahi.
+

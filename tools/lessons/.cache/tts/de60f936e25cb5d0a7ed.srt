@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,981
+Remember the permanganate titration from Unit 1?
+
+2
+00:00:02,981 --> 00:00:08,372
+The first drops lose their colour slowly, the rest almost instantly.
+
+3
+00:00:08,372 --> 00:00:14,036
+The manganese two plus ions produced catalyse the reaction itself.
+
+4
+00:00:14,036 --> 00:00:18,554
+That is autocatalysis, and it is why we warm the flask to get started.
+

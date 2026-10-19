@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,625
+And yet your grandmother's diamond ring looks exactly the same after a hundred years.
+
+2
+00:00:05,625 --> 00:00:07,304
+Not a speck of graphite.
+
+3
+00:00:07,304 --> 00:00:10,872
+If the reaction is spontaneous, why does nothing happen?
+

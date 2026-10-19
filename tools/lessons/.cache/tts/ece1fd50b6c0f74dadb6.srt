@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,070
+Here is a fact that sounds like a joke.
+
+2
+00:00:02,070 --> 00:00:04,283
+Diamond is unstable.
+
+3
+00:00:04,283 --> 00:00:09,296
+Turning diamond into graphite, pencil lead, releases energy.
+
+4
+00:00:09,296 --> 00:00:12,447
+Thermodynamics says it is spontaneous.
+
+5
+00:00:12,447 --> 00:00:16,406
+Every diamond in the world is supposed to be turning into graphite.
+

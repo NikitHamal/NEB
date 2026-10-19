@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,533
+Convert to base ten logs, and you get the equation to know by heart: k equals two point three zero three over t, times log of A nought over A.
+
+2
+00:00:10,533 --> 00:00:18,125
+Or, written the other way, A equals A nought e to the minus k t: exponential decay.
+

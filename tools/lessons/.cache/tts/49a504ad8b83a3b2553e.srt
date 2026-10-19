@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,440
+For A, use log k equals log A minus E a over two point three zero three R T at three hundred kelvin.
+
+2
+00:00:09,440 --> 00:00:17,109
+Log A is minus four point six nine nine plus nine point six three three, which is four point nine three four.
+
+3
+00:00:17,109 --> 00:00:23,203
+So A is eight point six times ten to the four per second, with the same units as k.
+

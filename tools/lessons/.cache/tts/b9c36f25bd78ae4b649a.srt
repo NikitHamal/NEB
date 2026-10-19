@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,252
+Worked example three point one.
+
+2
+00:00:02,252 --> 00:00:10,885
+N two O five falls by zero point one zero in a hundred seconds: one times ten to the minus three moles per litre per second.
+
+3
+00:00:10,885 --> 00:00:17,018
+Divide by its coefficient two: the rate of reaction is five times ten to the minus four.
+

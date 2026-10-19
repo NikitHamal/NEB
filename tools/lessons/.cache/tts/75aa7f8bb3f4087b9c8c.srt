@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:08,229
+The height of the hill above the reactants is the activation energy, E a: the extra energy a collision must bring.
+
+2
+00:00:08,229 --> 00:00:12,565
+The absolute height it must reach is the threshold energy.
+
+3
+00:00:12,565 --> 00:00:16,171
+A small activation energy means a fast reaction.
+
+4
+00:00:16,171 --> 00:00:18,463
+A large one means a slow one.
+
+5
+00:00:18,463 --> 00:00:24,492
+The difference between reactants and products is delta H, which has nothing to do with the hill.
+

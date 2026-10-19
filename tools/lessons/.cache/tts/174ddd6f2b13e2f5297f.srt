@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,140
+Order and molecularity sound alike, but they are different ideas.
+
+2
+00:00:04,140 --> 00:00:07,721
+Order is the sum of the powers in the experimental rate law.
+
+3
+00:00:07,721 --> 00:00:10,468
+It can be zero, or even a fraction.
+
+4
+00:00:10,468 --> 00:00:20,468
+Molecularity is the number of species colliding in a single elementary step: one, two or three, always a whole number, never zero.
+

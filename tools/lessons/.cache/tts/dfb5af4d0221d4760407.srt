@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,830
+A shortcut: count the power of mole in the unit, and subtract it from one.
+
+2
+00:00:04,830 --> 00:00:12,460
+Litres per mole per second has mole to the minus one, so the order is one minus minus one, two.
+
+3
+00:00:12,460 --> 00:00:19,257
+And a first order k has no concentration in it at all, so it can be quoted per second, per minute or per year.
+

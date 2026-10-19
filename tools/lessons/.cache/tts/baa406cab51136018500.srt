@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,552
+Worked example three point seven.
+
+2
+00:00:02,552 --> 00:00:07,408
+The rate constant doubles between three hundred and three hundred and ten kelvin.
+
+3
+00:00:07,408 --> 00:00:19,348
+So log two, zero point three zero one, equals E a over two point three zero three times eight point three one four, times ten over three hundred times three ten.
+

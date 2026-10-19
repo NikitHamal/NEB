@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,294
+So A equals A nought minus k t.
+
+2
+00:00:03,294 --> 00:00:08,281
+A plot of concentration against time is a straight line of slope minus k.
+
+3
+00:00:08,281 --> 00:00:15,052
+The reactant is used at a steady rate, and is gone completely at time A nought over k.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,257
+With unequal coefficients, each species changes at its own speed.
+
+2
+00:00:04,257 --> 00:00:16,289
+In two N two O five giving four N O two plus O two, for every two molecules of N two O five lost, four N O two and one O two appear.
+
+3
+00:00:16,289 --> 00:00:21,276
+So we define one rate of reaction by dividing each rate by its coefficient.
+

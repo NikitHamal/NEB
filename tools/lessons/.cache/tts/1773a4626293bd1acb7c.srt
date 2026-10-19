@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,289
+For hydrogen and iodine, the activated complex is a square of four atoms.
+
+2
+00:00:06,289 --> 00:00:12,200
+The H H bond and the I I bond stretch, while two new H I bonds start to form.
+
+3
+00:00:12,200 --> 00:00:16,562
+Then it falls apart into two molecules of hydrogen iodide.
+

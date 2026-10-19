@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,361
+From one to three, B doubles and the rate goes up four times.
+
+2
+00:00:04,361 --> 00:00:05,937
+Second order in B.
+
+3
+00:00:05,937 --> 00:00:10,416
+So the rate law is k A B squared, third order overall.
+

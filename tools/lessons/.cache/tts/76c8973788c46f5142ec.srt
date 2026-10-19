@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,395
+The rate law relates the rate to concentrations: r equals k times A to the x, times B to the y.
+
+2
+00:00:07,395 --> 00:00:09,375
+Here is the crucial point.
+
+3
+00:00:09,375 --> 00:00:12,721
+The powers x and y are found by experiment.
+
+4
+00:00:12,721 --> 00:00:15,768
+They cannot be read off the balanced equation.
+

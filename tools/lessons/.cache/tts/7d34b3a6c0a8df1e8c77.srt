@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,601
+A very common slip.
+
+2
+00:00:01,601 --> 00:00:10,221
+In the Haber reaction, hydrogen disappears three times as fast as nitrogen, and ammonia appears twice as fast.
+
+3
+00:00:10,221 --> 00:00:14,596
+Always divide each rate by its coefficient before you set them equal.
+

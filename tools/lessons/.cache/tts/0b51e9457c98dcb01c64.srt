@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,317
+Worked example three point two.
+
+2
+00:00:02,317 --> 00:00:03,945
+Three experiments.
+
+3
+00:00:03,945 --> 00:00:08,971
+From one to two, A doubles while B is fixed, and the rate doubles.
+
+4
+00:00:08,971 --> 00:00:10,351
+First order in A.
+

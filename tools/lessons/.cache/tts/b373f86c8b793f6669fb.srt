@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,583
+Then N O two forms at four times that, two times ten to the minus three, and oxygen at one times, five times ten to the minus four.
+
+2
+00:00:09,583 --> 00:00:14,023
+Check: N O two appears four times as fast as oxygen.
+
+3
+00:00:14,023 --> 00:00:15,013
+It does.
+

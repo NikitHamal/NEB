@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,341
+What changes the rate?
+
+2
+00:00:01,341 --> 00:00:03,997
+First, the nature of the reactants.
+
+3
+00:00:03,997 --> 00:00:09,127
+Ionic reactions are instant because no covalent bond must break.
+
+4
+00:00:09,127 --> 00:00:10,546
+And surface area.
+
+5
+00:00:10,546 --> 00:00:14,856
+A marble chip in dilute hydrochloric acid fizzes slowly.
+
+6
+00:00:14,856 --> 00:00:20,820
+The same mass, powdered, fizzes furiously, because far more surface is exposed.
+
+7
+00:00:20,820 --> 00:00:25,273
+That is why limestone is crushed before it goes into a lime kiln.
+

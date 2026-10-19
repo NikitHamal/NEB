@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,856
+For first order, every half life removes half of whatever is left.
+
+2
+00:00:04,856 --> 00:00:10,221
+One half, then a quarter, an eighth, a sixteenth, a thirty second.
+
+3
+00:00:10,221 --> 00:00:14,947
+After n half lives, one half to the power n remains.
+

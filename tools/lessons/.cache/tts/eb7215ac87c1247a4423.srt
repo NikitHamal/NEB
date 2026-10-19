@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,601
+Take logs: ln k equals ln A minus E a over R, times one over T.
+
+2
+00:00:06,601 --> 00:00:07,981
+That is a straight line.
+
+3
+00:00:07,981 --> 00:00:14,205
+Plot ln k against one over T, and the slope gives you minus E a over R.
+
+4
+00:00:14,205 --> 00:00:16,901
+That is how activation energies are measured.
+

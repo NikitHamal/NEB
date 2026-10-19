@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:04,348
+For seventy five percent completion, twenty five is left.
+
+2
+00:00:04,348 --> 00:00:11,419
+The time is two point three zero three over k, times log four: one hundred and ninety three minutes.
+
+3
+00:00:11,419 --> 00:00:17,239
+And a check: seventy five percent done means one quarter left, which is two half lives.
+
+4
+00:00:17,239 --> 00:00:20,299
+The half life is ninety six point four minutes.
+
+5
+00:00:20,299 --> 00:00:22,578
+Twice that is one ninety three.
+
+6
+00:00:22,578 --> 00:00:23,854
+It matches.
+

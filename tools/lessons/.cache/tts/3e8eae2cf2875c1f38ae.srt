@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,927
+In heterogeneous catalysis the catalyst is in a different phase, usually a solid surface.
+
+2
+00:00:06,927 --> 00:00:12,877
+Making vanaspati ghee: hydrogen and vegetable oil are adsorbed on nickel.
+
+3
+00:00:12,877 --> 00:00:18,736
+Adsorption weakens the hydrogen bond and holds the molecules in the right orientation.
+
+4
+00:00:18,736 --> 00:00:23,841
+They react, and the solid fat desorbs, freeing the surface.
+

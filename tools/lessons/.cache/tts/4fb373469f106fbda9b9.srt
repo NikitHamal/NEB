@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,315
+Why does k matter?
+
+2
+00:00:01,315 --> 00:00:08,424
+It measures the intrinsic speed of a reaction, independent of how concentrated the solution happens to be.
+
+3
+00:00:08,424 --> 00:00:13,033
+Reactions should be compared by their rate constants, never by their rates.
+
+4
+00:00:13,033 --> 00:00:19,375
+It changes with temperature and with a catalyst, roughly doubling for every ten degree rise.
+
+5
+00:00:19,375 --> 00:00:21,588
+And its units reveal the order.
+

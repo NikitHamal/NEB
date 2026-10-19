@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,835
+That is chemical kinetics.
+
+2
+00:00:01,835 --> 00:00:12,382
+Next, we follow the energy itself, with thermodynamics: enthalpy, entropy, and the free energy that decides whether a reaction can go at all.
+
+3
+00:00:12,382 --> 00:00:15,481
+See you in the next lesson on NEBians.
+
