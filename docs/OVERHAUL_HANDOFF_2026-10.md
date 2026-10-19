@@ -175,3 +175,53 @@ offset rays). Flower dissection: tap-to-pluck, 20 px tug, forgiving box drops.
 **Testing.** Each was driven with Playwright at 1400×900 and 390×844 (`/tmp/pc/drive.py`: adds `dj:` JS-computed mouse drags and `c:` clicks to the harness driver) with at least one real mouse interaction (disc turned, knot dragged, plank lifted, balance tared, bottles tapped, pours held, fusion held in the flame…), and every one skips through to its result card without console errors. Note: in a `drive.py` token, `|` splits tokens, so avoid `||` in inline JS.
 
 **Not done / ideas.** Sound effects for the new practicals are synth (`sfx.register`: hiss, pop, whoof, drip). The flame test in salt analysis uses the burner's emission tint without a wire loop. Possible polish: spherometer second set of readings at another spot, gas preparation tests done with the jar lifted out of the trough.
+
+## BIO pass 2: the remaining 24 biology practicals made hands-on (Oct 19, 2026)
+
+All 24 lessons below are registered in `core/bio-handson/index.js` (43 hands-on biology lessons
+in total). Every practical uses the existing runtime (steps, teacher toasts, score, mistakes,
+result card with error vs truth where there is a true value) and was driven with Playwright at
+1400×900 and 390×844 (`/tmp/bio2/drive.py`: adds `dj:` JS-computed mouse drags/taps and `hj:` press-and-hold), with
+at least one real mouse interaction each, and skipped through to its result card with no console
+errors (`/tmp/bio2/smoke.py`).
+
+| Slug(s) | File | What the student does |
+|---|---|---|
+| `transpiration-upper-lower-rate` | `practicals/transpiration.js` | dry cobalt chloride papers over a spirit lamp (hold; scorching caught), forceps them onto both leaf faces, clamp with slides, stopwatch; tap each paper when fully pink (early taps caught); repeat on maize; ratio from own times |
+| `respiration-rate-germinating-seeds` | `practicals/respirometer.js` | KOH by dropper, gauze, weigh 10 g germinating/boiled seeds, bungs + capillaries, equilibrate, eosin index; tap the mm scale at the drop every 2 min; graph, slope, µL O₂ g⁻¹ min⁻¹ |
+| `anaerobic-respiration-setup` | `practicals/anaerobic.js` | boil glucose on a Bunsen, cool in a trough watching the thermometer, yeast at ~35 °C (too hot kills it), paraffin seal, delivery tubes to lime water, test vs boiled-yeast control, 1 h time-lapse, smell, equation |
+| `phototropism-setup`, `apical-bud-removal-setup` | `practicals/tropism.js` | foil caps, box with slit turned to a lamp, 4-day bending, drag a protractor; snip apices, brush plain or IAA lanolin, 14-day lateral growth, measure laterals |
+| `suction-due-transpiration-setup` | `practicals/suction.js` | fill tube, cut twig under water (cut in air = embolism), rubber + vaseline, mercury beaker, read the column every 15 min, lamp and fan |
+| `mendelian-inheritance-seeds` | `practicals/mendel.js` | sort F₂ seeds into dishes by tapping (random Mendelian samples), χ² vs 3:1 and 9:3:3:1 from own counts, drag-in Punnett square |
+| `quadrat-density-plant`, `quadrat-frequency-field` | `practicals/quadrat.js` + `specimens/field.js` | outdoor 6 × 6 m plot (instanced plants), flick the quadrat, tap every plant rooted inside, density / frequency / abundance, Raunkiaer class, Whitford A/F |
+| `cockroach-external-morphology` | `practicals/cockroach.js` + `specimens/cockroach.js` | chloroform jar, tray, lens regions, spread tegmen and hind wing with forceps, label quiz, sex from the tail, flip and remove mouthparts in order |
+| `human-skeleton-joints`, `skeleton-joints-health-disorders` | `practicals/skeleton.js` + `specimens/skeleton.js` | full-size articulated skeleton; drag loose bones into place, classify 9 joints, flex elbow / circumduct shoulder / turn head; disorder case cards (tap the site, name, care), healthy vs arthritic knee ROM on a goniometer |
+| `soil-microorganism-culture` | `practicals/culture.js` + `specimens/microbe.js` | lamp, 10⁻¹…10⁻⁴ dilution, pour agar, 0.1 mL plating, alcohol + flame the spreader, 48 h colonies painted on the agar, choose the 30–300 plate, dot colonies with a marker, colony types, CFU/g |
+| `biofertilizer-preparation` | `practicals/biofert.js` | uproot pea, wash, pick pink nodules, HgCl₂ + 5 rinses, crush, flame loop and streak YEMA–Congo red, 5 days, broth, hold-pour to 40 % carrier moisture, jaggery seed coating, shade drying |
+| `soil-analysis-sites` | `practicals/soil.js` | two sites: fresh/dry weighing to constant mass, WHC funnels read at the meniscus, pH paper vs chart, jar-test layers measured and classified, H₂O₂ humus |
+| `pond-ecosystem-botany`, `pond-ecosystem-zoology` | `practicals/pond.js` + `specimens/pondscene.js` + `fields/pond.js` | outdoor pond; thermometer, pH paper, Secchi disc down/up, DO meter (zoology), plankton net, classify plants by habit / animals by diet; back in the lab a living plankton field under the microscope; food chain / web by dragging |
+| `mushroom-identification` | `practicals/mushroom.js` | Agaricus vs Amanita: lens on every part, label quiz, cut caps, spore prints on black/white paper overnight, danger signs, formalin |
+| `inflorescence-identification` | `practicals/inflorescence.js` + `specimens/inflor.js` | six specimens whose flowers carry ages; tap the oldest, racemose/cymose, name the type |
+| `fossil-evolution-evidence` | `practicals/fossil.js` | trilobite, Devonian fish, Glossopteris, saligram ammonite, Archaeopteryx; lens, name, drop into periods of the time scale, conclusions |
+| `biodiversity-conservation-nepal` | `practicals/conservation.js` | raised relief map of Nepal with park pins; drag species to parks, in-situ/ex-situ sort, threats → remedies, census % increase |
+| `vegetation-specimen-identification`, `animal-specimen-identification` | `practicals/specimen-id.js` + `specimens/vegkey.js`, `specimens/animkey.js` | 6 of 12 specimens per run on a turntable (slides with micrographs for micro-organisms); dichotomous key couplet by couplet, wrong leads explained |
+| `plant-collection-herbarium` | `practicals/herbarium.js` | snip a flowering twig, blotters and press, flatten leaves and flip one, a week of drying with blotter changes (mould if skipped), HgCl₂, gummed strips, label |
+
+**New shared modules.** `bench.js` (time-lapse clock in min/h/days, `ask` until right, notebook
+`sheet`, `chipDrop` drag-or-tap-tap chips into `[data-slot]`s, sprite `tag`, glass beaker, clay pot,
+crucible, enamel tray, `outdoors()` which hides the lab furniture and opens the sky, `mergeGeos` for
+vertex-coloured composites), `specimens/plants.js` (alpha-cut grid leaves that bend smoothly, swept
+stems, flowers, buds, bendable seedlings). New held tools in `tools.js`/`ui.js`/`icons.js`:
+inoculating loop, glass spreader, marker pen. `sound.js`: paper, latch and door samples (CC0 Kenney).
+CSS (in `08-biology.css`): `.bh-sheet` (+ `.wide`, `.left`), `.bh-dchip`, `.bh-slot`, `.bh-tab`,
+`.bh-key`, `.bh-tally`, `.bh-jdot`/`.bh-jlayer`, `.bh-park`, `.bh-key-mwrap`, `.bh-under-clock`.
+
+**Notes for whoever continues.** A step's `skip()` must never call `ctx.next()` (it re-enters the
+step during `skipTo` and leaks overlays). Objects at the bottom centre of a shot sit under the tool
+belt and cannot be tapped — use `hideBelt` or frame them higher. Practicals that seed randomness
+from time accept `window.__bhSeed` in `specimen-id.js` for repeatable tests. Graphs (`createGraph`)
+are hidden on phones where they would cover the apparatus.
+
+**Not done / ideas.** Quadrat and seed sorting offer a "partner" shortcut after enough hand counting
+(the counts stay real). The pond and soil labs use colour-chart pH (no meter). Possible polish: more
+specimen variety per run, a Secchi disc reading from a boat, and a monochasial cyme specimen.
