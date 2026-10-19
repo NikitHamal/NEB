@@ -1,308 +1,87 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * States of matter — heat or cool a sealed box of particles and watch them change state. The
+ * temperature follows a real heating model (specific heats; latent heats of fusion and of
+ * vaporisation), so the heating curve has a flat step at the melting point and a much longer one
+ * at the boiling point, where far more energy is needed to pull particles fully apart. Particle
+ * speed grows with temperature: lattice → flowing liquid → fast gas filling the box.
+ */
+import { createKit, T, Spring, Ring, fmt, clamp, background, text, pill, withAlpha, card } from '../core/kit2d.js';
+import { Plot } from '../core/kit2d-plot.js';
+import { createThermal, createParticles, thermometer, drawHeatDial, dialValue } from '../core/matter2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
-const SUBSTANCES = {
-  water: { label: 'Water', melt: 0, boil: 100, tMin: -50, tMax: 150, solidColor: '#93c5fd', liquidColor: '#3b82f6', gasColor: '#bfdbfe' },
-  iron: { label: 'Iron', melt: 1538, boil: 2862, tMin: 1300, tMax: 3000, solidColor: '#cbd5e1', liquidColor: '#f97316', gasColor: '#fde68a' },
-  oxygen: { label: 'Oxygen', melt: -218, boil: -183, tMin: -245, tMax: -150, solidColor: '#a5f3fc', liquidColor: '#22d3ee', gasColor: '#cffafe' },
+const SUBS = {
+  water: { label: 'Water', mp: 0, bp: 100, cS: 2.1, cL: 4.18, cG: 2.0, Lf: 334, Lv: 2257, start: -20, lo: -30, hi: 140, colors: ['#93c5fd', '#2563eb', '#7dd3fc'] },
+  ethanol: { label: 'Ethanol', mp: -114, bp: 78, cS: 1.1, cL: 2.44, cG: 1.42, Lf: 108, Lv: 841, start: -130, lo: -140, hi: 110, colors: ['#e9d5ff', '#9333ea', '#d8b4fe'] },
+  iron: { label: 'Iron', mp: 1538, bp: 2862, cS: 0.45, cL: 0.82, cG: 0.45, Lf: 247, Lv: 6090, start: 1300, lo: 1200, hi: 3200, colors: ['#94a3b8', '#f97316', '#fde047'] },
+  oxygen: { label: 'Oxygen', mp: -218, bp: -183, cS: 1.67, cL: 1.7, cG: 0.92, Lf: 13.9, Lv: 213, start: -225, lo: -230, hi: -150, colors: ['#a5f3fc', '#06b6d4', '#cffafe'] },
 };
-
-function detectTier() {
-  const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || (navigator.maxTouchPoints || 0) > 1;
-  const mem = navigator.deviceMemory || 4;
-  const cores = navigator.hardwareConcurrency || 4;
-  if (mobile && (mem <= 2 || cores <= 4)) return 'low';
-  if (mobile || mem <= 4) return 'medium';
-  return 'high';
-}
+const MASS = 10;
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const k = createKit(stage, { label: 'A sealed box of particles with a heat dial, thermometer and heating curve' });
   const hud = createHud(stage);
-  const phaseBadge = hud.badge('LIQUID', '#10B981');
+  const badge = hud.badge('Turn the dial towards heat', T.blue);
 
-  const tier = detectTier();
-  const N = tier === 'low' ? 80 : tier === 'medium' ? 110 : 150;
+  let sub = SUBS.water, th = createThermal(sub, MASS), dial = 0, simT = 0;
+  const parts = createParticles(k.small ? 56 : 80);
+  const trace = new Ring(1200);
+  const plot = new Plot({ title: 'Heating curve', xLabel: 'heat added / kJ', yLabel: 'T / °C' });
+  let Q = 0;
+  const hotDial = new Spring(0, 260, 26);
 
-  let substance = SUBSTANCES.water;
-  let T = 20;
+  const panel = createPanel(stage, { title: 'States of matter' });
+  panel.chips({ label: 'Substance', options: Object.keys(SUBS).map((s) => ({ value: s, label: SUBS[s].label, color: SUBS[s].colors[1] })), value: 'water', onChange: (v) => { sub = SUBS[v]; reset(); } });
+  const pS = panel.slider({ label: 'Heater', min: -100, max: 100, step: 5, value: 0, format: (v) => (v > 0 ? `heating ${v} %` : v < 0 ? `cooling ${-v} %` : 'off'), onChange: (v) => { dial = v / 100; } });
+  panel.button({ label: 'Start again', icon: 'replay', variant: 'ghost', onClick: reset });
+  const st = panel.stats([{ key: 'T', label: 'Temperature' }, { key: 'phase', label: 'State' }, { key: 'mp', label: 'Melting point' }, { key: 'bp', label: 'Boiling point' }]);
+  const lat = panel.readout({ label: 'Latent heats (per gram)', value: '' });
+  panel.info('Temperature measures how fast the particles move. On the flat parts of the curve the heat breaks the bonds between particles instead, so the temperature stays the same until the change of state is complete.');
 
-  const px = new Float32Array(N);
-  const py = new Float32Array(N);
-  const vx = new Float32Array(N);
-  const vy = new Float32Array(N);
-  const sx = new Float32Array(N);
-  const sy = new Float32Array(N);
-  const phase0 = new Float32Array(N);
-  for (let i = 0; i < N; i++) phase0[i] = Math.random() * Math.PI * 2;
-  let initialized = false;
-  let prevPhase = '';
+  function reset() { th = createThermal(sub, MASS); parts.reset(th.fm, th.fb); trace.clear(); simT = 0; Q = 0; dial = 0; pS.set(0); lat.set(`melting ${sub.Lf} J, boiling ${sub.Lv} J`); k.animate(true); }
 
-  function getPhase() {
-    if (T < substance.melt) return 'solid';
-    if (T < substance.boil) return 'liquid';
-    return 'gas';
-  }
-
-  function containerRect(w, h) {
-    const cw = Math.min(w * 0.62, w - 40);
-    const ch = h * 0.72;
-    return { x: 24, y: h - 36 - ch, w: cw, h: ch };
-  }
-
-  function latticeSites(box) {
-    const cols = Math.ceil(Math.sqrt(N * (box.w / box.h) * 1.6));
-    const gap = Math.min(box.w / (cols + 1), 18);
-    let i = 0;
-    let row = 0;
-    while (i < N) {
-      const inRow = cols - (row % 2);
-      for (let c = 0; c < inRow && i < N; c++) {
-        sx[i] = box.x + gap * 0.9 + c * gap + (row % 2) * gap * 0.5;
-        sy[i] = box.y + box.h - 10 - row * gap * 0.85;
-        i++;
-      }
-      row++;
-    }
-  }
-
-  function seed(box, phase) {
-    latticeSites(box);
-    for (let i = 0; i < N; i++) {
-      if (phase === 'gas') {
-        px[i] = box.x + 8 + Math.random() * (box.w - 16);
-        py[i] = box.y + 8 + Math.random() * (box.h - 16);
-        const a = Math.random() * Math.PI * 2;
-        vx[i] = Math.cos(a);
-        vy[i] = Math.sin(a);
-      } else {
-        px[i] = sx[i] + (phase === 'liquid' ? (Math.random() - 0.5) * 14 : 0);
-        py[i] = sy[i] + (phase === 'liquid' ? (Math.random() - 0.5) * 8 : 0);
-        vx[i] = 0;
-        vy[i] = 0;
-      }
-    }
-  }
-
-  sim.onResize((w, h) => {
-    if (initialized) latticeSites(containerRect(w, h));
+  let bx = 0, by = 0, bw = 0, bh = 0, dx = 0, dy = 0, dr = 40, tx = 0, ty = 0, tH = 0;
+  k.onResize((w, h) => {
+    if (k.small) { bx = 12; by = 46; bw = w * 0.62; bh = h * 0.42; tx = w * 0.78; ty = by + bh - 8; tH = bh - 90; dx = w * 0.84; dy = by + 26; dr = 26; plot.box(10, by + bh + 14, w - 20, h - by - bh - 20); }
+    else { bx = 30; by = 50; bw = Math.min(w * 0.38, h * 0.82); bh = h - 100; tx = bx + bw + 40; ty = by + bh - 14; tH = bh * 0.62; dx = bx + bw + 58; dy = by + 50; dr = 40; plot.box(tx + 90, 50, w - tx - 106, h - 100); }
+    parts.layout(bx + 6, by + 6, bw - 12, bh - 12, Math.min(bw, bh) / 14);
+    parts.reset(th.fm, th.fb);
   });
+  const dialH = k.drag({ hit: (x, y, s) => { const d = Math.hypot(x - dx, y - dy); return d < dr + s ? d : false; }, move: (x, y) => { dial = Math.round(dialValue(x, y, dx, dy) * 20) / 20; pS.set(Math.round(dial * 100)); }, cursor: 'grab' });
 
-  function kelvin() { return T + 273.15; }
+  k.frame((ctx, dt, w, h) => {
+    const P = dial * MASS * sub.Lf / 7;
+    th.add(P * dt); Q += P * dt / 1000;
+    simT += dt;
+    if (dial !== 0) trace.push(Q, th.T);
+    parts.sync(th.fm, th.fb, clamp((th.T - sub.lo) / (sub.hi - sub.lo), 0, 1));
+    parts.step(dt, 0.08 + 0.9 * clamp((th.T - sub.lo) / (sub.hi - sub.lo), 0, 1.3));
+    hotDial.to(k.isHot(dialH) ? 1 : 0); hotDial.step(dt);
 
-  function step(dt, box, phase, t) {
-    const kT = Math.max(10, kelvin());
-    if (phase === 'solid') {
-      const norm = Math.max(0, Math.min(1, (T - substance.tMin) / (substance.melt - substance.tMin + 0.001)));
-      const amp = 0.8 + norm * 3.2;
-      for (let i = 0; i < N; i++) {
-        px[i] += (sx[i] + Math.sin(t * (6 + (i % 5)) + phase0[i]) * amp - px[i]) * Math.min(1, dt * 10);
-        py[i] += (sy[i] + Math.cos(t * (7 + (i % 4)) + phase0[i] * 1.7) * amp - py[i]) * Math.min(1, dt * 10);
-      }
-    } else if (phase === 'liquid') {
-      const jiggle = 30 + 60 * Math.max(0, Math.min(1, (T - substance.melt) / (substance.boil - substance.melt)));
-      const rad = 13;
-      for (let i = 0; i < N; i++) {
-        vy[i] += 220 * dt;
-        vx[i] += (Math.random() - 0.5) * jiggle * dt * 8;
-        vy[i] += (Math.random() - 0.5) * jiggle * dt * 8;
-        for (let j = i + 1; j < N; j++) {
-          const dx = px[j] - px[i];
-          if (dx > rad || dx < -rad) continue;
-          const dy = py[j] - py[i];
-          if (dy > rad || dy < -rad) continue;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < rad * rad && d2 > 0.01) {
-            const d = Math.sqrt(d2);
-            const f = ((rad - d) / rad) * 260 * dt;
-            const ux = dx / d;
-            const uy = dy / d;
-            vx[i] -= ux * f; vy[i] -= uy * f;
-            vx[j] += ux * f; vy[j] += uy * f;
-          }
-        }
-        vx[i] *= 1 - Math.min(1, dt * 2.2);
-        vy[i] *= 1 - Math.min(1, dt * 2.2);
-        px[i] += vx[i] * dt;
-        py[i] += vy[i] * dt;
-        if (px[i] < box.x + 6) { px[i] = box.x + 6; vx[i] *= -0.3; }
-        if (px[i] > box.x + box.w - 6) { px[i] = box.x + box.w - 6; vx[i] *= -0.3; }
-        if (py[i] > box.y + box.h - 6) { py[i] = box.y + box.h - 6; vy[i] *= -0.3; }
-        if (py[i] < box.y + 6) { py[i] = box.y + 6; vy[i] = 0; }
-      }
-    } else {
-      const speed = 26 * Math.sqrt(kT / 80);
-      for (let i = 0; i < N; i++) {
-        const cur = Math.hypot(vx[i], vy[i]) || 1;
-        const k = 1 + (speed / cur - 1) * Math.min(1, dt * 2);
-        vx[i] *= k;
-        vy[i] *= k;
-        px[i] += vx[i] * dt;
-        py[i] += vy[i] * dt;
-        if (px[i] < box.x + 5) { px[i] = box.x + 5; vx[i] = Math.abs(vx[i]); }
-        if (px[i] > box.x + box.w - 5) { px[i] = box.x + box.w - 5; vx[i] = -Math.abs(vx[i]); }
-        if (py[i] < box.y + 5) { py[i] = box.y + 5; vy[i] = Math.abs(vy[i]); }
-        if (py[i] > box.y + box.h - 5) { py[i] = box.y + box.h - 5; vy[i] = -Math.abs(vy[i]); }
-      }
-    }
-  }
-
-  function curvePoints() {
-    const s = substance;
-    const riseSpan = (s.melt - s.tMin) + (s.boil - s.melt) + (s.tMax - s.boil);
-    const plateau = 0.16;
-    const riseScale = (1 - 2 * plateau) / riseSpan;
-    const pts = [];
-    let x = 0;
-    pts.push({ x, t: s.tMin });
-    x += (s.melt - s.tMin) * riseScale;
-    pts.push({ x, t: s.melt });
-    x += plateau;
-    pts.push({ x, t: s.melt });
-    x += (s.boil - s.melt) * riseScale;
-    pts.push({ x, t: s.boil });
-    x += plateau;
-    pts.push({ x, t: s.boil });
-    x += (s.tMax - s.boil) * riseScale;
-    pts.push({ x, t: s.tMax });
-    return pts;
-  }
-
-  function markerX(pts) {
-    for (let i = 0; i < pts.length - 1; i++) {
-      const a = pts[i];
-      const b = pts[i + 1];
-      if (b.t > a.t && T >= a.t && T <= b.t) {
-        return a.x + ((T - a.t) / (b.t - a.t)) * (b.x - a.x);
-      }
-      if (b.t === a.t && Math.abs(T - a.t) < 0.5) return (a.x + b.x) / 2;
-    }
-    return T <= pts[0].t ? 0 : 1;
-  }
-
-  function drawGraph(ctx, w, h) {
-    const gx = Math.min(w * 0.62, w - 40) + 40;
-    const gw = w - gx - 20;
-    if (gw < 90) return;
-    const gy = h * 0.2;
-    const gh = h * 0.5;
-    ctx.strokeStyle = 'rgba(158,193,255,0.35)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(gx, gy, gw, gh);
-    ctx.fillStyle = 'rgba(199,212,234,0.6)';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('heating curve', gx + gw / 2, gy - 8);
-    ctx.fillText('energy added →', gx + gw / 2, gy + gh + 14);
-    ctx.save();
-    ctx.translate(gx - 8, gy + gh / 2);
-    ctx.rotate(-Math.PI / 2);
-    ctx.fillText('temperature →', 0, 0);
-    ctx.restore();
-    const pts = curvePoints();
-    const ty = (t) => gy + gh - ((t - substance.tMin) / (substance.tMax - substance.tMin)) * gh;
-    ctx.strokeStyle = '#10B981';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    pts.forEach((p, i) => {
-      const x = gx + p.x * gw;
-      const y = ty(p.t);
-      if (i === 0) ctx.moveTo(x, y);
-      else ctx.lineTo(x, y);
-    });
-    ctx.stroke();
-    ctx.fillStyle = 'rgba(199,212,234,0.7)';
-    ctx.textAlign = 'left';
-    ctx.fillText(`melt ${substance.melt}°`, gx + 4, ty(substance.melt) - 4);
-    ctx.fillText(`boil ${substance.boil}°`, gx + 4, ty(substance.boil) - 4);
-    const mx = gx + markerX(pts) * gw;
-    ctx.fillStyle = '#fbbf24';
-    ctx.beginPath();
-    ctx.arc(mx, ty(T), 5, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  const panel = createPanel(stage, { title: 'Matter Controls' });
-  panel.select({
-    label: 'Substance',
-    options: Object.entries(SUBSTANCES).map(([value, s]) => ({ value, label: `${s.label} (melts ${s.melt}°C, boils ${s.boil}°C)` })),
-    value: 'water',
-    onChange: (v) => {
-      substance = SUBSTANCES[v];
-      T = (substance.tMin + substance.tMax) / 2;
-      const input = tempSlider.el.querySelector('input');
-      input.min = substance.tMin;
-      input.max = substance.tMax;
-      tempSlider.set(T);
-      initialized = false;
-    },
+    background(k, ctx, w, h);
+    card(ctx, bx, by, bw, bh, 14, '#fbfdff');
+    parts.draw(ctx, sub.colors);
+    ctx.strokeStyle = '#334155'; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, 14); ctx.stroke();
+    pill(ctx, th.phase(), bx + bw / 2, by + 16, { color: T.ink, size: 11 });
+    thermometer(ctx, tx, ty, tH, th.T, sub.lo, sub.hi, { marks: [{ T: sub.mp, label: 'mp', color: T.purple }, { T: sub.bp, label: 'bp', color: T.red }] });
+    if (!k.small) pill(ctx, `${fmt(th.T, 1)} °C`, tx, ty - tH - 26, { color: T.red, size: 12 });
+    drawHeatDial(ctx, dx, dy, dr, dial, hotDial.x > 0.5);
+    const qMax = Math.max(1, Math.ceil(Q * 1.15 + 0.2));
+    plot.range(0, Math.max(qMax, (MASS * (sub.Lf + sub.Lv) / 1000) * 0.5), sub.lo, sub.hi).frame(ctx);
+    plot.clip(ctx);
+    for (const m of [sub.mp, sub.bp]) { ctx.strokeStyle = withAlpha(m === sub.mp ? T.purple : T.red, 0.5); ctx.setLineDash([5, 4]); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(plot.ix, plot.Y(m)); ctx.lineTo(plot.ix + plot.iw, plot.Y(m)); ctx.stroke(); }
+    ctx.setLineDash([]);
+    plot.ring(ctx, trace, T.red, 2.2);
+    plot.unclip(ctx);
+    text(ctx, `melts ${sub.mp} °C`, plot.ix + plot.iw - 4, plot.Y(sub.mp) - 6, T.purple, 10, 700, 'right');
+    text(ctx, `boils ${sub.bp} °C`, plot.ix + plot.iw - 4, plot.Y(sub.bp) - 6, T.red, 10, 700, 'right');
+    st.T.set(`${fmt(th.T, 1)} °C`); st.phase.set(th.phase().split(' (')[0]); st.mp.set(`${sub.mp} °C`); st.bp.set(`${sub.bp} °C`);
+    const plateau = (th.fm > 0 && th.fm < 1) || (th.fb > 0 && th.fb < 1);
+    badge.set(plateau ? `${th.phase()}: the temperature is stuck at ${fmt(th.T, 0)} °C until it is done` : dial === 0 ? 'Turn the dial towards heat (or cool)' : `${th.phase()} at ${fmt(th.T, 0)} °C`);
+    k.animate(true);
   });
-  const tempSlider = panel.slider({
-    label: 'Temperature',
-    min: substance.tMin, max: substance.tMax, step: 1, value: T,
-    format: (v) => `${v} °C`,
-    onChange: (v) => { T = v; },
-  });
-  panel.divider();
-  const tempOut = panel.readout({ label: 'Temperature', value: '20 °C' });
-  const phaseOut = panel.readout({ label: 'Phase', value: 'Liquid' });
-  panel.info('Slide the temperature slowly through the melting and boiling points and watch the particles change behaviour. The plateaus on the curve are where latent heat is absorbed.');
+  lat.set(`melting ${sub.Lf} J, boiling ${sub.Lv} J`);
 
-  let elapsed = 0;
-  sim.setUpdate((ctx, dt, w, h) => {
-    elapsed += dt;
-    const box = containerRect(w, h);
-    const phase = getPhase();
-    if (!initialized || phase !== prevPhase) {
-      if (!initialized) seed(box, phase);
-      else if (phase === 'gas') {
-        for (let i = 0; i < N; i++) {
-          const a = Math.random() * Math.PI * 2;
-          vx[i] = Math.cos(a) * 20;
-          vy[i] = Math.sin(a) * 20;
-        }
-      } else if (phase === 'solid') {
-        latticeSites(box);
-      }
-      initialized = true;
-      prevPhase = phase;
-    }
-    step(dt, box, phase, elapsed);
-
-    ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = 'rgba(199,212,234,0.7)';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.moveTo(box.x, box.y);
-    ctx.lineTo(box.x, box.y + box.h);
-    ctx.lineTo(box.x + box.w, box.y + box.h);
-    ctx.lineTo(box.x + box.w, box.y);
-    ctx.stroke();
-
-    const color = phase === 'solid' ? substance.solidColor : phase === 'liquid' ? substance.liquidColor : substance.gasColor;
-    ctx.fillStyle = color;
-    for (let i = 0; i < N; i++) {
-      ctx.beginPath();
-      ctx.arc(px[i], py[i], 4.5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    drawGraph(ctx, w, h);
-
-    const phaseLabel = phase.toUpperCase();
-    phaseBadge.set(`${substance.label}: ${phaseLabel}`);
-    phaseBadge.el.style.setProperty('--ix-hud-color', phase === 'solid' ? '#93c5fd' : phase === 'liquid' ? '#10B981' : '#fbbf24');
-    tempOut.set(`${T} °C`);
-    phaseOut.set(phaseLabel[0] + phaseLabel.slice(1).toLowerCase());
-  });
-
-  sim.start();
-
-  return {
-    dispose() {
-      panel.dispose();
-      hud.dispose();
-      sim.dispose();
-    },
-  };
+  k.debug = { dial: () => [dx, dy], heat: (v) => { dial = v; }, state: () => ({ T: th.T, fm: th.fm, fb: th.fb }) };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }
