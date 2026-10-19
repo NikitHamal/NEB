@@ -1,6 +1,7 @@
 import time
 import uuid
 import os
+import logging
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlparse
 
@@ -22,6 +23,31 @@ from .throttles import ArenaChatRateThrottle
 
 MAX_PDF_BYTES = 25 * 1024 * 1024
 MAX_CONTEXT_CHARS = 42000
+
+logger = logging.getLogger(__name__)
+
+
+def _ask_pdf_tutor(client, message, system_prompt):
+    """Ask the PDF tutor, degrading to the Neby provider chain when Qwen is down.
+
+    Qwen's anonymous browser sessions die in bulk — the pool refill fails and
+    every call returns empty — which used to 502 the assistant outright. Neby
+    chat already walks a provider chain; reuse it so a dead Qwen pool costs
+    latency, not the feature.
+    """
+    answer, ai_error = client.simple_chat(message=message, system_prompt=system_prompt)
+    if answer:
+        return answer, None
+    try:
+        from .neby import call_ai_api
+        fallback = call_ai_api(system_prompt, message)
+    except Exception as exc:
+        logger.warning('pdf-assistant: fallback chain raised: %s', exc)
+        fallback = None
+    if fallback:
+        logger.info('pdf-assistant: answered by the fallback provider chain')
+        return fallback, None
+    return None, ai_error or 'AI could not answer right now'
 
 
 def _user_or_error(request):
@@ -152,11 +178,11 @@ def resource_pdf_assistant(request, resource_id):
             f"{metadata}{conversation}\n\nQuestion: {prompt}\n\n"
             f"Document content:\n{context}\nEnd of document."
         )
-        answer, ai_error = client.simple_chat(message=message, system_prompt=system_prompt)
+        answer, ai_error = _ask_pdf_tutor(client, message, system_prompt)
     elif pdf_bytes:
         prepared = client.prepare_file_for_qwen(f'{resource.id}.pdf', pdf_bytes)
         if not prepared:
-            return Response({'error': 'The PDF could not be prepared for AI'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+            return Response({'error': 'The PDF could not be read by the AI right now. Please try again later.'}, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
         answer, ai_error = client.send_doc_task(
             prepared=prepared,
             file_prompt=f"{metadata}{conversation}\n\nQuestion: {prompt}",
