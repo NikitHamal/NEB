@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,783
+If the volume cannot change, no expansion work can be done, so all the heat goes into internal energy.
+
+2
+00:00:06,783 --> 00:00:09,856
+q at constant volume equals delta U.
+
+3
+00:00:09,856 --> 00:00:17,838
+That is why combustion energies are measured in a bomb calorimeter, a sealed steel vessel of fixed volume, sitting in water.
+

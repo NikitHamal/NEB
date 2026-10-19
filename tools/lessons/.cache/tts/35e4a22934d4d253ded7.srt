@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,476
+Ionise sodium: plus four ninety six.
+
+2
+00:00:03,476 --> 00:00:09,153
+Give the electron to chlorine: the electron affinity, minus three forty nine.
+
+3
+00:00:09,153 --> 00:00:11,132
+Now we have gaseous ions.
+
+4
+00:00:11,132 --> 00:00:16,822
+Letting them collapse into the crystal releases the lattice enthalpy, U.
+
+5
+00:00:16,822 --> 00:00:21,901
+The direct route, formation of sodium chloride, is minus four eleven.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,122
+The first law of thermodynamics.
+
+2
+00:00:02,122 --> 00:00:08,515
+Energy can neither be created nor destroyed, only converted from one form to another.
+
+3
+00:00:08,515 --> 00:00:15,481
+For any process, the change in internal energy equals the heat absorbed, plus the work done on the system.
+

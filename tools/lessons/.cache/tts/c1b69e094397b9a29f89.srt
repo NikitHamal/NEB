@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,593
+Signs are everything, and we take the system's point of view.
+
+2
+00:00:03,593 --> 00:00:09,361
+Anything coming in is positive: heat absorbed, or work done on the system by compressing it.
+
+3
+00:00:09,361 --> 00:00:16,432
+Anything going out is negative: heat released, or work done by the system as it expands.
+

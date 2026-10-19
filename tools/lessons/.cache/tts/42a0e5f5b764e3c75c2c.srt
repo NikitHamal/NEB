@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,684
+In symbols, the entropy change of the system plus that of the surroundings must be positive for any spontaneous change.
+

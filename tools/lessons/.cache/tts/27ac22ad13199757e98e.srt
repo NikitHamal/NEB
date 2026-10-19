@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,369
+That tendency is measured by entropy, S, a measure of the randomness or disorder of a system.
+
+2
+00:00:07,369 --> 00:00:08,763
+It is a state function.
+
+3
+00:00:08,763 --> 00:00:16,445
+For a change carried out reversibly at temperature T, delta S is the heat absorbed reversibly, divided by T.
+

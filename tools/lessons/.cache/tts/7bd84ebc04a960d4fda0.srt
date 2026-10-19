@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:15,585
+Away from standard conditions, the free energy change depends on the mixture: delta G equals delta G standard plus R T ln Q, where Q is the reaction quotient, the same expression as K but with the concentrations you actually have.
+

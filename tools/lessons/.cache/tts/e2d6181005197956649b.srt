@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,197
+Heat the gas.
+
+2
+00:00:01,197 --> 00:00:05,377
+It expands, pushing the piston out a distance delta l.
+
+3
+00:00:05,377 --> 00:00:13,776
+The work done by the gas is force times distance, p A delta l, and A delta l is just the volume change.
+
+4
+00:00:13,776 --> 00:00:19,218
+Work done by the system is negative, so w equals minus p delta V.
+

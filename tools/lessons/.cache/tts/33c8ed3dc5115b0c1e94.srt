@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:07,109
+Hess's law also lets us find the lattice enthalpy of an ionic solid, which can never be measured directly.
+
+2
+00:00:07,109 --> 00:00:10,651
+This is the Born Haber cycle for sodium chloride.
+
+3
+00:00:10,651 --> 00:00:13,645
+Start from sodium metal and chlorine gas.
+
+4
+00:00:13,645 --> 00:00:17,395
+Turn sodium into a gas: plus one oh eight.
+
+5
+00:00:17,395 --> 00:00:23,554
+Break half a mole of chlorine bonds: half of two forty two, plus one twenty one.
+

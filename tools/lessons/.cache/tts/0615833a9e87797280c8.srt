@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,200
+And five kinds of process.
+
+2
+00:00:02,200 --> 00:00:04,856
+Isothermal, constant temperature.
+
+3
+00:00:04,856 --> 00:00:07,239
+Isobaric, constant pressure.
+
+4
+00:00:07,239 --> 00:00:11,432
+Isochoric, constant volume, so no expansion work.
+
+5
+00:00:11,432 --> 00:00:14,270
+Adiabatic, no heat exchanged.
+
+6
+00:00:14,270 --> 00:00:20,091
+And cyclic, returning to the start, so every state function change is zero.
+

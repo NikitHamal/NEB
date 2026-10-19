@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,598
+At constant pressure, delta H is delta U plus p delta V.
+
+2
+00:00:05,598 --> 00:00:10,312
+And the first law says delta U is q p minus p delta V.
+
+3
+00:00:10,312 --> 00:00:14,166
+Add them, and the p delta V terms cancel.
+
+4
+00:00:14,166 --> 00:00:22,265
+Delta H is just the heat exchanged at constant pressure, exactly what a calorimeter open to the air measures.
+

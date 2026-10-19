@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,528
+The second law can be stated three equivalent ways.
+
+2
+00:00:03,528 --> 00:00:09,674
+In any spontaneous process, the total entropy of the universe increases.
+
+3
+00:00:09,674 --> 00:00:14,309
+Heat cannot flow by itself from a colder body to a hotter one.
+
+4
+00:00:14,309 --> 00:00:22,539
+And no engine working in a cycle can convert heat completely into work, without rejecting some to a colder place.
+

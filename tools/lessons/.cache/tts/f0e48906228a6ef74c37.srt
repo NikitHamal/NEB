@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,151
+One caution, and it ties back to Unit 3.
+
+2
+00:00:03,151 --> 00:00:08,867
+Negative delta G means a reaction can happen, not that it happens quickly.
+
+3
+00:00:08,867 --> 00:00:20,091
+Diamond to graphite has delta G of minus two point nine kilojoules per mole, yet a diamond lasts for ever, because its activation energy is enormous.
+

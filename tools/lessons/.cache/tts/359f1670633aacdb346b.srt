@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,367
+We can never measure U itself, only changes in it: delta U, final minus initial.
+

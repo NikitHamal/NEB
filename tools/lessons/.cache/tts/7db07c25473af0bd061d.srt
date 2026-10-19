@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,002
+Here is why.
+
+2
+00:00:01,002 --> 00:00:13,007
+At constant temperature and pressure, the heat a reaction releases, minus delta H, flows into the surroundings, so their entropy changes by minus delta H over T.
+
+3
+00:00:13,007 --> 00:00:15,989
+The second law needs the total to be positive.
+

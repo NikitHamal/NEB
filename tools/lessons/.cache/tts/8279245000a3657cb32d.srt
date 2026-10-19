@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,239
+The commonest Born Haber error.
+
+2
+00:00:02,239 --> 00:00:11,875
+The formation equation uses half a mole of chlorine gas, so only half the bond enthalpy, one twenty one, goes into the cycle.
+
+3
+00:00:11,875 --> 00:00:17,734
+Use the whole two forty two, and your answer is off by one hundred and twenty one kilojoules.
+

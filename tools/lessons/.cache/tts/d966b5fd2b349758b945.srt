@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,473
+Delta G depends on temperature.
+
+2
+00:00:02,473 --> 00:00:06,054
+Plot it against T for the four sign combinations.
+
+3
+00:00:06,054 --> 00:00:15,338
+If delta H is negative and delta S positive, delta G is negative at every temperature: always spontaneous.
+
+4
+00:00:15,338 --> 00:00:20,208
+If delta H is positive and delta S negative, never.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,638
+C. Four moles of gas become two, so the system becomes more ordered.
+
+2
+00:00:05,638 --> 00:00:14,882
+Decomposing limestone makes a gas, melting and dissolving increase disorder, so all three of those have positive delta S.
+

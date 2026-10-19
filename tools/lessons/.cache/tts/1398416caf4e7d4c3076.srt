@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,312
+Once a table of formation enthalpies exists, any reaction enthalpy follows: the sum for the products, minus the sum for the reactants.
+

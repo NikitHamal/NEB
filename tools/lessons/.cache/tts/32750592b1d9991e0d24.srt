@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:05,247
+A spontaneous process happens on its own, without continuous help.
+
+2
+00:00:05,247 --> 00:00:08,164
+Many spontaneous processes give out heat.
+
+3
+00:00:08,164 --> 00:00:09,192
+But not all.
+
+4
+00:00:09,192 --> 00:00:12,330
+Ice melts at room temperature, absorbing heat.
+
+5
+00:00:12,330 --> 00:00:16,666
+A gas spreads into a vacuum with no energy change at all.
+
+6
+00:00:16,666 --> 00:00:18,945
+And our cold pack absorbs heat.
+
+7
+00:00:18,945 --> 00:00:22,265
+So energy is not the only driving force.
+

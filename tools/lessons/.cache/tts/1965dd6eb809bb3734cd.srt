@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,325
+On an enthalpy diagram, an exothermic reaction goes downhill.
+
+2
+00:00:05,325 --> 00:00:11,484
+Products sit below reactants, heat flows out, and delta H is negative.
+
+3
+00:00:11,484 --> 00:00:19,335
+An endothermic reaction goes uphill: products above reactants, heat flows in, delta H positive.
+

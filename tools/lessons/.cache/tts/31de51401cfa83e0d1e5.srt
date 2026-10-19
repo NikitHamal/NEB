@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,242
+The work a chemist meets is pressure volume work.
+
+2
+00:00:03,242 --> 00:00:09,817
+A gas in a cylinder, under a piston of area A, with a constant outside pressure pushing down.
+
+3
+00:00:09,817 --> 00:00:12,981
+The force on the piston is p times A.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:12,799
+Put delta G equals zero and Q equals K into the equation: delta G standard equals minus R T ln K, or minus two point three zero three R T log K.
+

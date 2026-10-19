@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,057
+The Lavoisier Laplace law.
+
+2
+00:00:02,057 --> 00:00:09,518
+The enthalpy change of a reaction is equal in size and opposite in sign to that of the reverse reaction.
+
+3
+00:00:09,518 --> 00:00:20,260
+Burning carbon releases three ninety three point five kilojoules, so decomposing carbon dioxide into carbon and oxygen needs exactly that much.
+
+4
+00:00:20,260 --> 00:00:25,690
+If not, you could run the reaction round in a loop and make energy from nothing.
+

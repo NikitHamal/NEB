@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,953
+A careful point of language.
+
+2
+00:00:01,953 --> 00:00:04,531
+A system contains internal energy.
+
+3
+00:00:04,531 --> 00:00:06,276
+It does not contain heat.
+
+4
+00:00:06,276 --> 00:00:09,791
+Heat is energy on the move across the boundary.
+
+5
+00:00:09,791 --> 00:00:13,372
+So never say the system has two hundred joules of heat.
+
+6
+00:00:13,372 --> 00:00:16,236
+Say it absorbed two hundred joules of heat.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,859
+Tip it in.
+
+2
+00:00:00,859 --> 00:00:04,843
+It dissolves all by itself, and the temperature falls.
+
+3
+00:00:04,843 --> 00:00:07,565
+Twenty, fifteen, below twelve.
+

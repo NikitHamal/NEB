@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,247
+Put it in the first law: delta U equals q minus p delta V.
+
+2
+00:00:05,247 --> 00:00:11,901
+At constant volume, delta V is zero, and we are back to delta U equals q v.
+

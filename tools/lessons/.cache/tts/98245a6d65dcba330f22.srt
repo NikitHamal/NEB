@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,604
+Worked example four point two.
+
+2
+00:00:02,604 --> 00:00:04,466
+Count gas moles only.
+
+3
+00:00:04,466 --> 00:00:12,526
+Three moles of gas react, methane and two oxygen, and only one, carbon dioxide, is produced.
+
+4
+00:00:12,526 --> 00:00:14,622
+Liquid water does not count.
+
+5
+00:00:14,622 --> 00:00:17,486
+So delta n g is minus two.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,966
+C, greater than one.
+
+2
+00:00:01,966 --> 00:00:13,789
+From delta G standard equals minus R T ln K, a negative delta G standard needs a positive ln K, so K is greater than one, and products are favoured.
+

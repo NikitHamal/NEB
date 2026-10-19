@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,890
+So the entropy of the system alone can fall.
+
+2
+00:00:02,890 --> 00:00:07,005
+Water freezing on a Mustang winter night becomes more ordered.
+
+3
+00:00:07,005 --> 00:00:12,721
+But the heat it releases makes the cold surroundings more disordered by an even larger amount.
+
+4
+00:00:12,721 --> 00:00:14,570
+The total still rises.
+
