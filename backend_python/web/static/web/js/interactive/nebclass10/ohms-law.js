@@ -1,257 +1,181 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Ohm's law (NEB class 10) — the school practical: a 6 V battery, a plug key, a slide-wire
+ * rheostat, an ammeter in series and a voltmeter across the resistor (or two resistors in series
+ * or parallel, or a torch bulb). Slide the rheostat, read the analogue meters (their needles
+ * settle like real ones), record readings and build the I–V graph: its slope is 1/R. The bulb's
+ * filament heats up, so its graph bends — Ohm's law needs a steady temperature.
+ */
+import { createKit, T, Spring, fmt, clamp, background, grid, text, pill, knob, withAlpha, card } from '../core/kit2d.js';
+import { Plot } from '../core/kit2d-plot.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
-// Ohm's law bench: vary the applied voltage, read the ammeter, build the V–I
-// graph and get R from its slope. A second resistor can be switched in series
-// or in parallel, and the equivalent resistance is computed live.
-
-const ACCENT = '#F59E0B';
-const BLUE = '#38bdf8';
-const GREEN = '#34d399';
-const ROSE = '#fb7185';
-
-const RESISTORS = [2, 5, 10, 20, 30];
+const E = 6, RINT = 0.4, RH = 20;
+const NETS = [
+  { value: 'single', label: 'R₁ only' }, { value: 'series', label: 'R₁ + R₂ series' },
+  { value: 'parallel', label: 'R₁ ∥ R₂ parallel' }, { value: 'bulb', label: 'Torch bulb' },
+];
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const k = createKit(stage, { label: 'An Ohm\'s law circuit with a rheostat, ammeter and voltmeter, and an I–V graph' });
   const hud = createHud(stage);
-  const badge = hud.badge('Raise V and watch the ammeter — the graph is a straight line', ACCENT);
+  const badge = hud.badge('Insert the key, then slide the rheostat', T.blue);
 
-  let V = 6;
-  let R1 = 10;
-  let R2 = 20;
-  let mode = 'single';       // single | series | parallel
-  const points = [];
-  let fit = null;
+  let net = 'single', R1 = 10, R2 = 15, keyIn = false, slide = 0.9;
+  let I = 0, V = 0, Rnet = 10, aFull = 1, aLc = 0.02;
+  const pts = [];
+  const nA = new Spring(0, 70, 7), nV = new Spring(0, 70, 7);
+  const plot = new Plot({ title: 'I–V graph (your readings)', xLabel: 'V / volt', yLabel: 'I / A', xMin: 0, xMax: 6, yMin: 0, yMax: 1 });
 
-  const panel = createPanel(stage, { title: 'Circuit controls' });
-  panel.slider({
-    label: 'Supply voltage V',
-    min: 0, max: 24, step: 0.5, value: V, unit: ' V',
-    onChange: (v) => { V = v; },
-  });
-  panel.select({
-    label: 'Resistor R₁',
-    options: RESISTORS.map((r) => ({ value: String(r), label: `${r} Ω` })),
-    value: String(R1),
-    onChange: (v) => { R1 = Number(v); reset(); },
-  });
-  panel.select({
-    label: 'Connection',
-    options: [
-      { value: 'single', label: 'R₁ only' },
-      { value: 'series', label: 'R₁ and R₂ in series' },
-      { value: 'parallel', label: 'R₁ and R₂ in parallel' },
-    ],
-    value: 'single',
-    onChange: (v) => { mode = v; reset(); },
-  });
-  const r2Slider = panel.slider({
-    label: 'Resistor R₂',
-    min: 2, max: 40, step: 1, value: R2, unit: ' Ω',
-    onChange: (v) => { R2 = v; reset(); },
-  });
-  panel.buttonRow([
-    { label: 'Record point', icon: 'add_chart', onClick: () => record() },
-    { label: 'Clear graph', icon: 'restart_alt', variant: 'ghost', onClick: () => reset() },
-  ]);
-  const readR = panel.readout({ label: 'Equivalent resistance', value: '—' });
-  const readI = panel.readout({ label: 'Current I', value: '—' });
-  const readSlope = panel.readout({ label: 'Slope of V–I graph', value: '—' });
-  panel.info('Ohm\'s law: V = IR. The V–I graph is a straight line through the origin and its slope is the resistance.');
+  const panel = createPanel(stage, { title: 'Ohm\'s law practical' });
+  panel.chips({ label: 'What is being tested', options: NETS, value: 'single', onChange: (v) => { net = v; pts.length = 0; renderTable(); solve(); } });
+  panel.chips({ label: 'R₁', options: [5, 10, 15, 20].map((r) => ({ value: String(r), label: `${r} Ω` })), value: '10', onChange: (v) => { R1 = +v; pts.length = 0; renderTable(); solve(); } });
+  panel.chips({ label: 'R₂', options: [5, 10, 15, 20].map((r) => ({ value: String(r), label: `${r} Ω` })), value: '15', onChange: (v) => { R2 = +v; pts.length = 0; renderTable(); solve(); } });
+  panel.buttonRow([{ label: 'Record', icon: 'add_chart', onClick: record }, { label: 'Clear', icon: 'restart_alt', variant: 'ghost', onClick: () => { pts.length = 0; renderTable(); k.invalidate(); } }]);
+  const st = panel.stats([{ key: 'R', label: 'Expected R' }, { key: 'slope', label: 'Slope of I–V' }, { key: 'fit', label: 'R = 1/slope' }, { key: 'n', label: 'Readings' }]);
+  const table = document.createElement('div'); table.className = 'k2-table'; panel.body.appendChild(table);
+  panel.info('Read each meter to its least count (ammeter 0.02 A on the 1 A scale, voltmeter 0.1 V). Take five or six readings spread across the range; the best straight line through the origin has slope 1/R.');
 
-  function equivalent() {
-    if (mode === 'series') return R1 + R2;
-    if (mode === 'parallel') return (R1 * R2) / (R1 + R2);
-    return R1;
+  function netR(i) {
+    if (net === 'single') return R1;
+    if (net === 'series') return R1 + R2;
+    if (net === 'parallel') return R1 * R2 / (R1 + R2);
+    const P = i * i * 6;
+    return 4 * (1 + 2.2 * Math.sqrt(P));
   }
-  function current() { return V / equivalent(); }
-  function reset() { points.length = 0; fit = null; }
+  function solve() {
+    const Rr = RH * slide;
+    aFull = E / (RINT + netR(net === 'bulb' ? 0.4 : 0)) > 1 ? 3 : 1; aLc = aFull === 1 ? 0.02 : 0.05;
+    plot.range(0, 6, 0, aFull);
+    if (!keyIn) { I = 0; V = 0; Rnet = netR(0); }
+    else {
+      I = E / (Rr + netR(0) + RINT);
+      for (let it = 0; it < 30; it++) I = 0.5 * I + 0.5 * E / (Rr + netR(I) + RINT);
+      Rnet = netR(I); V = I * Rnet;
+    }
+    k.animate(true);
+  }
+  function settled() { return Math.abs(nA.x - nA.target) < aLc * 0.3 && Math.abs(nV.x - nV.target) < 0.03 && Math.abs(nA.v) < 0.05 && Math.abs(nV.v) < 0.2; }
+  function readA() { return Math.round(nA.x / aLc) * aLc; }
+  function readV() { return Math.round(nV.x / 0.1) * 0.1; }
   function record() {
-    const I = current();
-    if (!Number.isFinite(I)) return;
-    if (!points.some((p) => Math.abs(p.x - V) < 0.26)) points.push({ x: V, y: I });
-    points.sort((a, b) => a.x - b.x);
-    const n = points.length;
-    let sx = 0; let sy = 0; let sxx = 0; let sxy = 0;
-    points.forEach((p) => { sx += p.x; sy += p.y; sxx += p.x * p.x; sxy += p.x * p.y; });
-    const den = n * sxx - sx * sx;
-    fit = Math.abs(den) < 1e-12 ? null : { m: (n * sxy - sx * sy) / den, b: (sy - (n * sxy - sx * sy) / den * sx) / n };
-    badge.set(`Recorded V = ${V} V, I = ${I.toFixed(3)} A`);
+    if (!keyIn) { badge.set('Insert the key first: no current flows'); return; }
+    if (!settled()) { badge.set('Wait for the needles to settle'); return; }
+    const a = readA(), vv = readV();
+    if (pts.some((p) => Math.abs(p.v - vv) < 0.05)) { badge.set('You already have that reading: move the rheostat'); return; }
+    pts.push({ v: vv, i: a }); pts.sort((p, q) => p.v - q.v); renderTable(); k.invalidate();
   }
-
-  function drawAmmeter(ctx, cx, cy, r, value, max) {
-    ctx.fillStyle = 'rgba(8,16,30,0.85)';
-    ctx.strokeStyle = 'rgba(158,193,255,0.35)';
-    ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    const a0 = Math.PI * 0.78;
-    const a1 = Math.PI * 2.22;
-    ctx.strokeStyle = 'rgba(232,238,251,0.5)';
-    ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.arc(cx, cy, r * 0.78, a0, a1); ctx.stroke();
-    for (let i = 0; i <= 10; i++) {
-      const a = a0 + ((a1 - a0) * i) / 10;
-      const inner = i % 5 === 0 ? 0.6 : 0.68;
-      ctx.strokeStyle = 'rgba(199,212,234,0.75)';
-      ctx.beginPath();
-      ctx.moveTo(cx + Math.cos(a) * r * 0.78, cy + Math.sin(a) * r * 0.78);
-      ctx.lineTo(cx + Math.cos(a) * r * inner, cy + Math.sin(a) * r * inner);
-      ctx.stroke();
-    }
-    const t = Math.max(0, Math.min(1, value / max));
-    const na = a0 + (a1 - a0) * t;
-    ctx.strokeStyle = ACCENT; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(na) * r * 0.72, cy + Math.sin(na) * r * 0.72); ctx.stroke();
-    ctx.fillStyle = ACCENT;
-    ctx.beginPath(); ctx.arc(cx, cy, 3.4, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = 'rgba(232,238,251,0.92)';
-    ctx.font = '700 10px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(`A  ${value.toFixed(2)} A`, cx, cy + r + 15);
+  function renderTable() {
+    table.innerHTML = pts.length ? '<div class="k2-tr k2-th"><span>V / volt</span><span>I / A</span><span>V/I / Ω</span></div>' + pts.map((p) => `<div class="k2-tr"><span>${fmt(p.v, 1)}</span><span>${fmt(p.i, 2)}</span><span>${p.i > 0 ? fmt(p.v / p.i, 1) : '—'}</span></div>`).join('') : '';
   }
+  function fitSlope() { let sxy = 0, sxx = 0; for (const p of pts) { sxy += p.v * p.i; sxx += p.v * p.v; } return sxx > 0 ? sxy / sxx : 0; }
 
-  function drawGraph(ctx, x, y, w, h) {
-    ctx.fillStyle = 'rgba(8,16,30,0.78)';
-    ctx.strokeStyle = 'rgba(158,193,255,0.25)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(x, y, w, h, 8); else ctx.rect(x, y, w, h);
-    ctx.fill(); ctx.stroke();
+  let cx0 = 0, cy0 = 0, cw = 0, ch = 0;
+  k.onResize((w, h) => {
+    if (k.small) { cx0 = 16; cy0 = 44; cw = w - 32; ch = h * 0.52; plot.box(10, cy0 + ch + 8, w - 20, h - cy0 - ch - 14); }
+    else { cx0 = 24; cy0 = 50; cw = w * 0.56; ch = h - 90; plot.box(cx0 + cw + 24, 50, w - cx0 - cw - 40, Math.min(h - 70, 420)); }
+  });
+  const rhX = (s) => cx0 + cw * 0.3 + s * cw * 0.42;
+  const keyPos = () => [cx0 + cw * 0.12, cy0 + ch * 0.15];
+  const keyH = k.drag({ hit: (x, y, s) => { const p = keyPos(); return Math.abs(x - p[0]) < 26 + s && Math.abs(y - p[1]) < 20 + s ? 1 : false; }, up: () => { keyIn = !keyIn; solve(); }, cursor: 'pointer', cursorActive: 'pointer' });
+  const rhH = k.drag({
+    hit: (x, y, s) => { const d = Math.hypot(x - rhX(slide), y - (cy0 + ch * 0.15 - 20)); return d < 16 + s ? d : false; },
+    move: (x) => { slide = clamp((x - cx0 - cw * 0.3) / (cw * 0.42), 0, 1); solve(); },
+    cursor: 'ew-resize',
+  });
 
-    const padL = 34; const padR = 12; const padT = 20; const padB = 26;
-    const gx = x + padL; const gy = y + padT;
-    const gw = w - padL - padR; const gh = h - padT - padB;
-    const xMax = 26;
-    const yMax = 5;
-    ctx.strokeStyle = 'rgba(199,212,234,0.45)';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx, gy + gh); ctx.lineTo(gx + gw, gy + gh); ctx.stroke();
-    ctx.fillStyle = 'rgba(199,212,234,0.8)';
-    ctx.font = '600 9px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText('I (A)', gx - 30, gy - 6);
-    ctx.textAlign = 'right';
-    ctx.fillText('V (volt)', x + w - 12, gy + gh + 18);
-    ctx.textAlign = 'center';
-    for (let v = 0; v <= 24; v += 6) {
-      const px = gx + (v / xMax) * gw;
-      ctx.strokeStyle = 'rgba(199,212,234,0.18)';
-      ctx.beginPath(); ctx.moveTo(px, gy); ctx.lineTo(px, gy + gh); ctx.stroke();
-      ctx.fillStyle = 'rgba(199,212,234,0.7)';
-      ctx.fillText(String(v), px, gy + gh + 12);
-    }
-    for (let i = 0; i <= 4; i++) {
-      const py = gy + gh - (i / yMax / 4 * 4) * gh / 1;
-      ctx.strokeStyle = 'rgba(199,212,234,0.18)';
-      ctx.beginPath(); ctx.moveTo(gx, gy + gh - (i / 4) * gh); ctx.lineTo(gx + gw, gy + gh - (i / 4) * gh); ctx.stroke();
-      ctx.fillStyle = 'rgba(199,212,234,0.7)';
-      ctx.textAlign = 'right';
-      ctx.fillText((yMax * i / 4).toFixed(2), gx - 4, gy + gh - (i / 4) * gh + 3);
-      ctx.textAlign = 'center';
-      void py;
-    }
-    if (fit) {
-      const y1 = fit.m * 0 + fit.b;
-      const y2 = fit.m * xMax + fit.b;
-      ctx.strokeStyle = 'rgba(52,211,153,0.85)';
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      ctx.moveTo(gx, gy + gh - Math.max(0, Math.min(1, y1 / yMax)) * gh);
-      ctx.lineTo(gx + gw, gy + gh - Math.max(0, Math.min(1, y2 / yMax)) * gh);
-      ctx.stroke();
-    }
-    points.forEach((p) => {
-      const px = gx + (p.x / xMax) * gw;
-      const py = gy + gh - Math.max(0, Math.min(1, p.y / yMax)) * gh;
-      ctx.fillStyle = ACCENT;
-      ctx.beginPath(); ctx.arc(px, py, 3.4, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 1; ctx.stroke();
-    });
-    ctx.fillStyle = BLUE;
-    ctx.font = '700 10px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText('V–I graph', x + 10, y + 14);
-  }
-
-  function drawCircuit(ctx, x, y, w, h) {
-    const left = x + 16; const right = x + w - 16;
-    const top = y + 26; const bottom = y + h - 26;
-    ctx.strokeStyle = 'rgba(232,238,251,0.85)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(left, top); ctx.lineTo(right, top);
-    ctx.lineTo(right, bottom); ctx.lineTo(left, bottom); ctx.closePath();
-    ctx.stroke();
+  k.frame((ctx, dt, w, h) => {
+    nA.to(I); nV.to(V); nA.step(dt); nV.step(dt);
+    background(k, ctx, w, h);
+    grid(ctx, 0, 0, w, h, 24, T.grid);
+    const top = cy0 + ch * 0.15, bot = cy0 + ch * 0.86, L = cx0 + cw * 0.04, R = cx0 + cw * 0.96;
+    // wires
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(L, top); ctx.lineTo(R, top); ctx.lineTo(R, bot); ctx.lineTo(L, bot); ctx.closePath(); ctx.stroke();
     // battery on the left
-    ctx.strokeStyle = ACCENT; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(left, (top + bottom) / 2 - 8); ctx.lineTo(left, (top + bottom) / 2 + 8); ctx.stroke();
-    ctx.lineWidth = 1.6;
-    ctx.beginPath(); ctx.moveTo(left - 7, (top + bottom) / 2 - 4); ctx.lineTo(left + 7, (top + bottom) / 2 - 4); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(left - 11, (top + bottom) / 2 + 4); ctx.lineTo(left + 11, (top + bottom) / 2 + 4); ctx.stroke();
-    ctx.fillStyle = 'rgba(232,238,251,0.85)';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(`${V.toFixed(1)} V`, left + 8, (top + bottom) / 2 + 4);
+    const by = (top + bot) / 2;
+    ctx.fillStyle = '#f8fafc'; ctx.fillRect(L - 18, by - 34, 36, 68);
+    for (let i = 0; i < 4; i++) { const yy = by - 30 + i * 16; ctx.fillStyle = '#334155'; ctx.fillRect(L - 16, yy, 32, 3); ctx.fillRect(L - 9, yy + 7, 18, 5); }
+    text(ctx, '6 V', L + 24, by + 4, T.red, 11, 700);
+    // key
+    const kp = keyPos();
+    ctx.fillStyle = '#1f2937'; ctx.beginPath(); ctx.roundRect(kp[0] - 24, kp[1] - 9, 48, 18, 4); ctx.fill();
+    ctx.fillStyle = '#d4a017'; ctx.fillRect(kp[0] - 20, kp[1] - 5, 14, 10); ctx.fillRect(kp[0] + 6, kp[1] - 5, 14, 10);
+    if (keyIn) { ctx.fillStyle = '#b08d57'; ctx.beginPath(); ctx.arc(kp[0], kp[1] - 4, 7, 0, Math.PI * 2); ctx.fill(); ctx.fillStyle = '#7c5a32'; ctx.fillRect(kp[0] - 3, kp[1] - 16, 6, 12); }
+    else if (k.isHot(keyH)) { ctx.strokeStyle = T.blue; ctx.lineWidth = 2; ctx.strokeRect(kp[0] - 27, kp[1] - 12, 54, 24); }
+    pill(ctx, keyIn ? 'key in' : 'tap to insert key', kp[0], kp[1] + 24, { size: 10, color: keyIn ? T.green : T.blue });
+    // rheostat
+    const rx0 = rhX(0), rx1 = rhX(1);
+    ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.roundRect(rx0 - 10, top - 10, rx1 - rx0 + 20, 20, 8); ctx.fill();
+    ctx.strokeStyle = '#a16207'; ctx.lineWidth = 1;
+    ctx.beginPath(); for (let x = rx0; x <= rx1; x += 4) { ctx.moveTo(x, top - 8); ctx.lineTo(x + 2, top + 8); } ctx.stroke();
+    ctx.strokeStyle = '#64748b'; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(rx0, top - 24); ctx.lineTo(rx1, top - 24); ctx.stroke();
+    const jx = rhX(slide);
+    ctx.fillStyle = '#334155'; ctx.fillRect(jx - 7, top - 30, 14, 22);
+    knob(ctx, jx, top - 20, 8, T.blue, k.isHot(rhH) || k.active === rhH ? 1 : 0);
+    text(ctx, `rheostat ${fmt(RH * slide, 1)} Ω`, (rx0 + rx1) / 2, top - 40, T.ink2, 10.5, 600, 'center');
+    // network on the right side
+    const nx = R, ny = (top + bot) / 2;
+    drawNet(ctx, nx, ny);
+    // ammeter in the bottom wire, voltmeter across the network
+    dial(ctx, cx0 + cw * 0.45, bot, k.small ? 38 : 58, 'A', nA.x, aFull, aLc, T.blue);
+    const vx = R - cw * 0.2;
+    ctx.setLineDash([5, 4]); ctx.strokeStyle = withAlpha(T.purple, 0.7); ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(R, ny - 62); ctx.lineTo(vx, ny - 62); ctx.lineTo(vx, ny - 40); ctx.moveTo(vx, ny + 40); ctx.lineTo(vx, ny + 62); ctx.lineTo(R, ny + 62); ctx.stroke(); ctx.setLineDash([]);
+    dial(ctx, vx, ny, k.small ? 34 : 52, 'V', nV.x, 6, 0.1, T.purple);
+    // graph
+    plot.frame(ctx);
+    plot.clip(ctx);
+    const slope = fitSlope();
+    if (pts.length >= 2) { ctx.strokeStyle = withAlpha(T.blue, 0.6); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(plot.X(0), plot.Y(0)); ctx.lineTo(plot.X(6), plot.Y(6 * slope)); ctx.stroke(); }
+    plot.unclip(ctx);
+    for (const p of pts) plot.dot(ctx, p.v, p.i, T.orange, 4.5);
+    if (keyIn) { ctx.globalAlpha = 0.5; plot.dot(ctx, readV(), readA(), T.slate, 3.5); ctx.globalAlpha = 1; }
+    const Rexp = net === 'bulb' ? Rnet : netR(0);
+    st.R.set(net === 'bulb' ? `${fmt(Rnet, 1)} Ω (now)` : `${fmt(Rexp, 2)} Ω`);
+    st.slope.set(pts.length >= 2 ? `${fmt(slope, 3)} A/V` : '—');
+    st.fit.set(pts.length >= 2 && slope > 0 ? `${fmt(1 / slope, 2)} Ω` : '—');
+    st.n.set(String(pts.length));
+    if (!(badge.el.textContent.startsWith('Wait') && !settled())) badge.set(!keyIn ? 'Insert the key, then slide the rheostat' : `Read: I = ${fmt(readA(), 2)} A, V = ${fmt(readV(), 1)} V — then record`);
+    k.animate(nA.moving || nV.moving);
+  });
 
-    // ammeter on the top wire
-    drawAmmeter(ctx, (left + right) / 2, top, 26, current(), Math.max(2, 24 / equivalent() * 1.2));
-
-    // resistors on the bottom wire
-    const box = (bx, label, value, color) => {
-      ctx.fillStyle = 'rgba(8,16,30,0.9)';
-      ctx.strokeStyle = color; ctx.lineWidth = 2;
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(bx - 26, bottom - 11, 52, 22, 4); else ctx.rect(bx - 26, bottom - 11, 52, 22);
-      ctx.fill(); ctx.stroke();
-      ctx.fillStyle = 'rgba(232,238,251,0.95)';
-      ctx.font = '700 10px Poppins, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(label, bx, bottom + 3);
-      ctx.fillStyle = color;
-      ctx.font = '600 9px Poppins, sans-serif';
-      ctx.fillText(`${value.toFixed(1)} Ω`, bx, bottom + 26);
-    };
-    if (mode === 'single') {
-      box((left + right) / 2, 'R₁', R1, BLUE);
-    } else if (mode === 'series') {
-      box(left + (right - left) * 0.3, 'R₁', R1, BLUE);
-      box(left + (right - left) * 0.7, 'R₂', R2, GREEN);
+  function drawNet(ctx, x, y) {
+    const res = (cx, cy, label) => { ctx.fillStyle = '#e7d3ad'; ctx.strokeStyle = '#a8855a'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.roundRect(cx - 9, cy - 24, 18, 48, 7); ctx.fill(); ctx.stroke(); ctx.fillStyle = '#7c4a1e'; ctx.fillRect(cx - 9, cy - 12, 18, 3); ctx.fillRect(cx - 9, cy - 4, 18, 3); text(ctx, label, cx + 14, cy + 4, T.ink, 10.5, 700); };
+    ctx.fillStyle = '#f8fafc'; ctx.fillRect(x - 6, y - 50, 12, 100);
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 3;
+    if (net === 'single') { ctx.beginPath(); ctx.moveTo(x, y - 50); ctx.lineTo(x, y + 50); ctx.stroke(); res(x, y, `${R1} Ω`); }
+    else if (net === 'series') { ctx.beginPath(); ctx.moveTo(x, y - 60); ctx.lineTo(x, y + 60); ctx.stroke(); res(x, y - 28, `R₁ ${R1} Ω`); res(x, y + 28, `R₂ ${R2} Ω`); }
+    else if (net === 'parallel') {
+      ctx.beginPath(); ctx.moveTo(x, y - 50); ctx.lineTo(x - 16, y - 50); ctx.lineTo(x - 16, y + 50); ctx.lineTo(x, y + 50); ctx.moveTo(x, y - 50); ctx.lineTo(x + 16, y - 50); ctx.lineTo(x + 16, y + 50); ctx.lineTo(x, y + 50); ctx.stroke();
+      ctx.fillStyle = '#f8fafc'; ctx.fillRect(x - 3, y - 48, 6, 96);
+      res(x - 16, y, ''); res(x + 16, y, ''); text(ctx, `${R1} Ω ∥ ${R2} Ω`, x - 30, y - 60, T.ink, 10.5, 700, 'right');
     } else {
-      box(left + (right - left) * 0.34, 'R₁', R1, BLUE);
-      box(left + (right - left) * 0.66, 'R₂', R2, GREEN);
-      ctx.strokeStyle = 'rgba(232,238,251,0.5)';
-      ctx.lineWidth = 1.4;
-      ctx.beginPath();
-      ctx.moveTo(left + (right - left) * 0.34 - 26, bottom);
-      ctx.lineTo(left + (right - left) * 0.34 - 26, bottom + 30);
-      ctx.lineTo(left + (right - left) * 0.66 + 26, bottom + 30);
-      ctx.lineTo(left + (right - left) * 0.66 + 26, bottom);
-      ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x, y - 50); ctx.lineTo(x, y + 50); ctx.stroke();
+      const P = I * V, glow = clamp(P / 2.2, 0, 1);
+      if (glow > 0.02) { ctx.fillStyle = withAlpha('#fde047', 0.35 * glow); ctx.beginPath(); ctx.arc(x, y - 6, 22 + 16 * glow, 0, Math.PI * 2); ctx.fill(); }
+      ctx.beginPath(); ctx.arc(x, y - 6, 16, 0, Math.PI * 2); ctx.fillStyle = withAlpha('#fef9c3', 0.6 + 0.4 * glow); ctx.fill(); ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.strokeStyle = glow > 0.1 ? '#f59e0b' : '#78716c'; ctx.beginPath(); ctx.moveTo(x - 6, y); ctx.lineTo(x - 4, y - 10); ctx.lineTo(x, y - 6); ctx.lineTo(x + 4, y - 10); ctx.lineTo(x + 6, y); ctx.stroke();
+      ctx.fillStyle = '#9ca3af'; ctx.fillRect(x - 8, y + 9, 16, 10);
+      text(ctx, 'bulb', x + 22, y + 4, T.ink, 10.5, 700);
     }
-    void ROSE;
+  }
+  function dial(ctx, x, y, r, sym, val, full, lc, color) {
+    ctx.beginPath(); ctx.arc(x, y + 3, r, 0, Math.PI * 2); ctx.fillStyle = 'rgba(23,40,80,0.12)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fillStyle = '#fffdf6'; ctx.fill(); ctx.strokeStyle = '#334155'; ctx.lineWidth = 2.5; ctx.stroke();
+    const a0 = Math.PI * 1.15, a1 = Math.PI * 1.85, rr = r * 0.8;
+    ctx.strokeStyle = '#334155'; ctx.lineWidth = 1; ctx.beginPath();
+    const n = Math.round(full / lc) > 80 ? Math.round(full / lc / 2) : Math.round(full / lc);
+    for (let i = 0; i <= n; i++) { const a = a0 + (a1 - a0) * i / n, l = i % 5 === 0 ? 7 : 3.5; ctx.moveTo(x + Math.cos(a) * rr, y + Math.sin(a) * rr); ctx.lineTo(x + Math.cos(a) * (rr - l), y + Math.sin(a) * (rr - l)); }
+    ctx.stroke();
+    const labels = r < 45 ? (full === 6 ? 3 : full === 3 ? 3 : 2) : full === 1 ? 5 : full === 3 ? 3 : 6;
+    for (let i = 0; i <= labels; i++) { const a = a0 + (a1 - a0) * i / labels; text(ctx, full === 1 ? fmt(i / labels, 1) : String(i * full / labels), x + Math.cos(a) * (rr - 15), y + Math.sin(a) * (rr - 15) + 3, T.ink2, r > 45 ? 9.5 : 8, 600, 'center'); }
+    text(ctx, sym, x, y + r * 0.42, color, r > 40 ? 15 : 12, 800, 'center');
+    const a = a0 + (a1 - a0) * clamp(val / full, -0.02, 1.04);
+    ctx.strokeStyle = T.red; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.moveTo(x, y + r * 0.1); ctx.lineTo(x + Math.cos(a) * rr * 0.95, y + Math.sin(a) * rr * 0.95); ctx.stroke();
+    ctx.beginPath(); ctx.arc(x, y + r * 0.1, 3, 0, Math.PI * 2); ctx.fillStyle = '#334155'; ctx.fill();
   }
 
-  function draw(ctx, w, h) {
-    ctx.clearRect(0, 0, w, h);
-    const Req = equivalent();
-    const I = current();
-    const graphW = Math.max(210, w * 0.34);
-    drawCircuit(ctx, w * 0.03, h * 0.06, w - graphW - w * 0.09, h * 0.86);
-    drawGraph(ctx, w - graphW - w * 0.03, h * 0.08, graphW, h * 0.5);
-    readR.set(`${Req.toFixed(2)} Ω`);
-    readI.set(`${I.toFixed(3)} A`);
-    readSlope.set(fit ? `${fit.m.toFixed(3)} A/V → R ≈ ${(1 / fit.m).toFixed(2)} Ω` : 'record at least two points');
-    void r2Slider;
-  }
-
-  // the canvas helper calls (ctx, dt, width, height); draw wants (ctx, width, height)
-  sim.setUpdate((ctx, dt, w, h) => draw(ctx, w, h));
-  sim.onResize(() => sim.renderOnce());
-  sim.start();
-
-  return {
-    dispose() { sim.dispose(); hud.dispose(); panel.dispose(); },
-  };
+  solve();
+  k.debug = { key: () => keyPos(), jockey: () => [rhX(slide), cy0 + ch * 0.15 - 20], record, pts: () => pts, IV: () => [I, V] };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }
