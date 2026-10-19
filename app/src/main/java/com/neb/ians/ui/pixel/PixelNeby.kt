@@ -55,6 +55,8 @@ object PixelNeby {
         val jamara: Boolean = false,
         /** How much Holi colour has landed on Neby, 0..1. */
         val paint: Float = 0f,
+        /** The frame controls tika and jamara itself (the blessing being given): the look adds none of its own. */
+        val own: Boolean = false,
     )
 
     /** Body measurements for one pose, for anything drawn on or around Neby. */

@@ -1,5 +1,10 @@
 package com.neb.ians.ui.theme
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.compositeOver
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -77,43 +82,43 @@ fun SeasonCard(onAction: (String) -> Unit, modifier: Modifier = Modifier) {
     val container = hex(c.primaryContainer)
     val onContainer = hex(c.onPrimaryContainer)
     val primary = hex(c.primary)
-    val onPrimary = hex(c.onPrimary)
-    Column(
+    val motif = theme.motif?.let { PixelMotifs.sprite(it, hex(c.primary).toArgb()) }
+    val greet = theme.neby?.greet?.let { com.neb.ians.ui.pixel.NebyState.fromName(it) } ?: com.neb.ians.ui.pixel.NebyState.Wave
+    val reduced = com.neb.ians.ui.theme.nebAnimationsReduced()
+    val clock by androidx.compose.runtime.produceState(0f, reduced) {
+        if (!reduced) { val s0 = androidx.compose.runtime.withFrameNanos { it }; while (true) androidx.compose.runtime.withFrameNanos { value = (it - s0) / 1e9f } }
+    }
+    val bitmap = remember(motif) { motif?.let { m -> android.graphics.Bitmap.createBitmap(m.width, m.height, android.graphics.Bitmap.Config.ARGB_8888).apply { setPixels(m.frames[0], 0, m.width, 0, 0, m.width, m.height) }.asImageBitmap() } }
+    Box(
         modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(container)
-            .padding(start = 18.dp, end = 8.dp, top = 16.dp, bottom = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+            .background(androidx.compose.ui.graphics.Brush.linearGradient(listOf(container, primary.copy(alpha = 0.22f).compositeOver(container))))
+            .drawBehind {
+                // the festival's motif drifting slowly across the card, a few small and faint
+                val b = bitmap ?: return@drawBehind
+                for (i in 0 until 5) {
+                    val sp = 0.035f + i * 0.011f
+                    val x = ((i * 0.23f + clock * sp) % 1.2f - 0.1f) * size.width
+                    val y = size.height * (0.15f + 0.7f * ((i * 0.37f) % 1f)) + kotlin.math.sin(clock * 1.3f + i) * 6.dp.toPx()
+                    val px = (18 + i * 4).dp.toPx()
+                    drawImage(b, dstOffset = androidx.compose.ui.unit.IntOffset(x.toInt(), y.toInt()), dstSize = androidx.compose.ui.unit.IntSize(px.toInt(), px.toInt()), alpha = 0.22f, filterQuality = androidx.compose.ui.graphics.FilterQuality.None)
+                }
+            }
+            .padding(start = 8.dp, end = 6.dp, top = 8.dp, bottom = 8.dp)
     ) {
-        Row(verticalAlignment = Alignment.Top) {
-            Box(
-                Modifier.size(52.dp).clip(RoundedCornerShape(16.dp)).background(MaterialTheme.colorScheme.surface),
-                contentAlignment = Alignment.Center
-            ) { SeasonMotif(size = 36.dp) }
-            Column(Modifier.weight(1f).padding(start = 14.dp, end = 4.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            com.neb.ians.ui.pixel.NebyPixel(state = com.neb.ians.ui.pixel.NebyState.Idle, intro = greet, size = 76.dp, interactive = true)
+            Column(Modifier.weight(1f).padding(start = 6.dp, end = 4.dp)) {
                 val g = theme.greeting
                 if (g != null && g.ne.isNotBlank()) {
-                    Text(g.ne, color = onContainer, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                    if (g.en.isNotBlank()) Text(g.en, color = onContainer.copy(alpha = 0.72f), style = MaterialTheme.typography.labelLarge)
+                    Text(g.ne, color = onContainer, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
+                    if (g.en.isNotBlank()) Text(g.en, color = onContainer.copy(alpha = 0.75f), style = MaterialTheme.typography.labelLarge)
                 } else {
-                    Text(theme.name, color = onContainer, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
-                }
-                theme.card?.message?.takeIf { it.isNotBlank() }?.let {
-                    Text(it, color = onContainer.copy(alpha = 0.86f), style = MaterialTheme.typography.bodyMedium, modifier = Modifier.padding(top = 6.dp))
+                    Text(theme.name, color = onContainer, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold)
                 }
             }
             NebIconButton(Icons.Rounded.Close, "Close", state.onDismissCard, tint = onContainer, size = 36.dp)
-        }
-        theme.card?.cta?.takeIf { it.label.isNotBlank() }?.let { cta ->
-            Box(
-                Modifier
-                    .padding(start = 66.dp)
-                    .clip(CircleShape)
-                    .background(primary)
-                    .nebPressable(onClick = { onAction(cta.url) })
-                    .padding(horizontal = 18.dp, vertical = 10.dp)
-            ) { Text(cta.label, color = onPrimary, style = MaterialTheme.typography.labelLarge, fontWeight = FontWeight.SemiBold) }
         }
     }
 }

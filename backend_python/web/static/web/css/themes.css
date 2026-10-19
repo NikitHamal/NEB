@@ -98,3 +98,8 @@
   .st-season-cta{order:3;margin-left:58px}
 }
 @media (prefers-reduced-motion:reduce){.st-motif,.st-season,.st-season.is-leaving{animation:none}}
+/* the card is only the wish now: Neby greets in the season's way beside it */
+.st-season-neby{width:72px;height:72px;flex:none;margin:-8px 0 -10px -6px}
+.st-season-title{font-size:1.15rem}
+.st-season-title [lang="ne"]{font-size:1.2rem}
+@media (max-width:640px){.st-season-neby{width:60px;height:60px}}

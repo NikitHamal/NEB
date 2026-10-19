@@ -18,7 +18,7 @@ enum class NebyState(val frameMs: Int, val loop: Boolean = true) {
     Surprised(80), Sad(130), Laugh(80), Dizzy(100), Wave(110), Success(80), Oops(100), Read(140),
     Listen(140), Celebrate(85), Cool(120), Kiss(110), LookAround(130),
     // festivals
-    Tika(120), Kite(130), Swing(90), Diyo(110), Deusi(95), Splash(90), Fireworks(100), Namaste(120);
+    Tika(110), Kite(130), Swing(90), Diyo(110), Deusi(95), Splash(90), Fireworks(100), Namaste(120);
 
     /** This state in what Neby wears today (the site theme's dress; see [NebyDress]). */
     val sprite: PixelSprite get() = PixelNebyStates.sprite(this, NebyDress.current)
@@ -219,17 +219,31 @@ object PixelNebyStates {
 
         // ---- festivals ----------------------------------------------------------------------------
 
-        // Dashain: Neby bows, an elder's hand comes down with the tika, jamara is tucked behind the ear
-        NebyState.Tika -> frames(18, s) { f ->
-            val bow = f in 2..10
-            val given = f >= 8
-            neby(Pose(if (bow) 1f else if (f in 12..14) -2f else 0f, if (bow) 1.03f else 1f, if (bow) 0.95f else 1f,
-                eyes = when { bow -> Eyes.Closed; given -> Eyes.Happy; else -> Eyes.Open }, mouth = if (given) Mouth.Smile else Mouth.None,
-                blush = given, tika = given, jamara = f >= 10, phase = f.toFloat()))
-            // the hand: down from the top left, a pause on the forehead, then away
-            val k = when { f < 3 -> -1f; f <= 7 -> (f - 3) / 4f; f <= 10 -> 1f - (f - 7) / 4f * 0.2f; f <= 13 -> 0.8f - (f - 10) / 3f; else -> -1f }
+        // Dashain: Neby looks up, an elder's hand comes down, Neby bows to receive the tika on the
+        // forehead, the jamara is tucked behind the ear as the hand lifts away, and Neby rises beaming.
+        // Bare until the hand gives them, whatever the look.
+        NebyState.Tika -> frames(24, s) { f ->
+            val bow = f in 6..13
+            val given = f >= 11
+            val rise = if (f in 17..20) floatArrayOf(-1f, -3f, -2f, -0.5f)[f - 17] else 0f
+            val bowDy = if (bow) (if (f in 8..12) 1.6f else 0.8f) else 0f
+            neby(Pose(bowDy + rise, if (bow) 1.04f else if (f in 17..19) 0.97f else 1f, if (bow) 0.94f else if (f in 17..19) 1.04f else 1f,
+                tilt = if (bow) 0.04f else 0f,
+                eyes = when { f < 4 -> Eyes.Up; bow -> Eyes.Closed; given -> Eyes.Happy; else -> Eyes.Open },
+                mouth = if (given) Mouth.Smile else Mouth.None,
+                blush = f >= 14, tika = given, jamara = f >= 14, phase = f.toFloat(), own = true))
+            // the hand eases down from the top left, rests on the forehead, then lifts away
+            val k = when {
+                f < 3 -> -1f
+                f <= 10 -> { val t = (f - 3) / 7f; 1f - (1f - t) * (1f - t) }
+                f <= 12 -> 1f
+                f <= 16 -> { val t = (f - 12) / 4f; 1f - t * t }
+                else -> -1f
+            }
             if (k >= 0f) hand(this, (k * 15).roundToInt(), (-10 + k * 19).roundToInt())
-            if (f in 13..16) sparkle(this, 39, 9, (f - 13).coerceAtMost(2))
+            if (f in 11..13) sparkle(this, 24, 6, f - 11)
+            if (f in 17..22) sparkle(this, 39, 9, ((f - 17) / 2).coerceAtMost(2))
+            if (f in 18..23) sparkle(this, 9, 12, ((f - 18) / 2).coerceAtMost(2))
         }
         // Dashain: flying a changa from the rooftop, the string running up to the kite
         NebyState.Kite -> frames(16, s) { f ->

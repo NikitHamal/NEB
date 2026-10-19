@@ -74,7 +74,7 @@ object NebyLooks {
 
     fun back(cv: PixelCanvas, g: Geo) = with(cv) {
         val p = g.pose
-        if (p.jamara || p.look == NebyLook.Dashain) jamaraClump(this, g)
+        if (p.jamara || (p.look == NebyLook.Dashain && !p.own)) jamaraClump(this, g)
         when (p.look) {
             NebyLook.Astronaut -> {
                 // the glass of the helmet shows as a pale rim around the head, the collar below
@@ -113,7 +113,7 @@ object NebyLooks {
         val p = g.pose
         val t = g.top
         val cx = g.cx; val cxi = cx.roundToInt()
-        if (p.tika || p.look == NebyLook.Dashain) tika(this, g)
+        if (p.tika || (p.look == NebyLook.Dashain && !p.own)) tika(this, g)
         if (p.paint > 0f || p.look == NebyLook.Holi) splashes(this, g, if (p.look == NebyLook.Holi) 1f else p.paint)
         when (p.look) {
             NebyLook.Tihar -> {
@@ -220,11 +220,11 @@ object NebyLooks {
         val p = g.pose
         val t = g.top
         val cx = g.cx; val cxi = cx.roundToInt()
-        if (p.tika || p.look == NebyLook.Dashain) {
+        if (p.tika || (p.look == NebyLook.Dashain && !p.own)) {
             val ty = (g.cy - 12f).roundToInt()
             set(cxi - 1, ty, rice); set(cxi + 1, ty + 2, rice); set(cxi, ty + 3, rice)
         }
-        if (p.jamara || p.look == NebyLook.Dashain) {
+        if (p.jamara || (p.look == NebyLook.Dashain && !p.own)) {
             // sunlit tips on the blades
             val bx = g.cx + g.rx * 0.5f; val by = g.top + 6f
             val sway = sin(p.phase * 0.7f) * 0.8f
