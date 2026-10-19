@@ -28,6 +28,7 @@ const PRACTICALS = {
   'lassaigne-test': () => import('./practicals/lassaigne.js'),
   'salt-analysis-scheme': () => import('./practicals/salt-analysis.js'),
   'ph-and-indicators': () => import('./practicals/ph.js'),
+  'water-of-crystallization': () => import('./practicals/crystallization.js'),
   'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
