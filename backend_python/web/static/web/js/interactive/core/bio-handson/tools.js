@@ -130,11 +130,12 @@ export function createToolRig(scene, camera) {
   scene.add(holder);
   const models = new Map();
   let current = null; let currentId = null;
-  const pos = new SpringV3(380, 0.82);
+  const pos = new SpringV3(1600, 1.0);
   const press = new Spring(0, 260, 0.9);
   const action = new Spring(0, 500, 0.7);
   const visibleK = new Spring(0, 200, 1);
   const goal = new THREE.Vector3();
+  const toCam = new THREE.Vector3();
   const prev = new THREE.Vector3();
   const vel = new THREE.Vector3();
   const vx = new THREE.Vector3(); const vy = new THREE.Vector3(); const vz = new THREE.Vector3();
@@ -170,8 +171,10 @@ export function createToolRig(scene, camera) {
       visibleK.step(dt);
       holder.visible = visibleK.v > 0.02 && !!current;
       if (!current) return;
+      // hover the tool toward the eye along the line of sight, so its tip stays exactly under the pointer
       const lift = (LIFT[currentId] ?? 0.06) * liftScale;
-      pos.target.copy(goal); pos.target.y += lift * (1 - press.v);
+      toCam.subVectors(camera.position, goal).normalize();
+      pos.target.copy(goal).addScaledVector(toCam, lift * (1 - press.v));
       press.step(dt); action.step(dt);
       prev.copy(pos.v); pos.step(dt);
       vel.subVectors(pos.v, prev).divideScalar(Math.max(dt, 1e-3));
@@ -180,7 +183,7 @@ export function createToolRig(scene, camera) {
       camera.matrixWorld.extractBasis(camRight, vx, camBack);
       camBack.y = 0; camBack.normalize(); camRight.y = 0; camRight.normalize();
       vy.set(0, 0, 0).addScaledVector(camBack, w[0]).addScaledVector(camRight, w[2]); vy.y += w[1];
-      vy.addScaledVector(vel, -0.06); vy.normalize();
+      vy.addScaledVector(vel, -0.025); vy.normalize();
       if (currentId === 'razor' || currentId === 'lens' || currentId === 'washbottle') { vz.copy(camBack); vz.y = 0; vz.normalize(); vy.set(0, 1, 0); }
       else { vz.copy(camBack).addScaledVector(vy, -camBack.dot(vy)).normalize(); }
       vx.crossVectors(vy, vz).normalize();
