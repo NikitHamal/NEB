@@ -1,0 +1,33 @@
+{
+ "videos": [
+  {
+   "file": "class-12/phy12/unit_01.mp4",
+   "subtitles": "class-12/phy12/unit_01.srt",
+   "poster": "class-12/phy12/unit_01.jpg",
+   "book": "phy12",
+   "grade": 12,
+   "unit": 1,
+   "title": "Rotational Dynamics",
+   "subtitle": "Angle, inertia, torque and spin",
+   "lang": "en",
+   "sections": [
+    "Angular kinematics",
+    "Rotational kinetic energy",
+    "Moment of inertia",
+    "Inertia of a uniform rod",
+    "Torque and τ = Iα",
+    "Work and power",
+    "Angular momentum"
+   ],
+   "seconds": 1444.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ]
+   ],
+   "mb": 24.4,
+   "script": "tools/lessons/scripts/phy12/unit_01.py"
+  }
+ ]
+}
