@@ -198,27 +198,6 @@ to factorise a sum.
 | $(a-b)^2$ | $a^2-2ab+b^2$ |
 | $(a+b)(a-b)$ | $a^2-b^2$ |
 
-```figure caption="Why (a+b)² is not a²+b². The square of side a+b contains a square of area a², a square of area b², and two rectangles each of area ab; the two rectangles are the 2ab term."
-fig, ax = plt.subplots(figsize=(4.6, 2.9))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 6.4)
-ax.axis("off")
-ax.add_patch(plt.Rectangle((1.0, 1.0), 4.4, 4.4, fc=ACCENT, alpha=0.20, ec=INK, lw=1.2))
-ax.add_patch(plt.Rectangle((5.4, 1.0), 2.4, 2.4, fc=SERIES[1], alpha=0.20, ec=INK, lw=1.2))
-ax.add_patch(plt.Rectangle((5.4, 3.4), 2.4, 2.0, fc=SERIES[2], alpha=0.18, ec=INK, lw=1.0))
-ax.add_patch(plt.Rectangle((1.0, 5.4), 4.4, 2.0, fc=SERIES[2], alpha=0.18, ec=INK, lw=1.0))
-ax.text(3.2, 3.2, "$a^2$", ha="center", va="center", fontsize=9, color=INK)
-ax.text(6.6, 2.2, "$b^2$", ha="center", va="center", fontsize=9, color=INK)
-ax.text(6.6, 4.4, "$ab$", ha="center", va="center", fontsize=8.5, color=INK)
-ax.text(3.2, 6.4, "$ab$", ha="center", va="center", fontsize=8.5, color=INK)
-ax.annotate("", xy=(1.0, 0.6), xytext=(7.8, 0.6),
-            arrowprops=dict(arrowstyle="<->", color=MUTED, lw=1.0))
-ax.text(4.4, 0.15, "$a+b$", ha="center", fontsize=8, color=MUTED)
-ax.text(8.4, 3.2, "$(a+b)^2$\\n$=a^2+2ab+b^2$", ha="left", va="center",
-        fontsize=7.2, color=INK)
-fig.tight_layout()
-```
-
 ::: example The difference of two squares
 **Problem.** Factorise $9x^2-16y^2$.
 
@@ -271,10 +250,143 @@ $$2x^3-8x=2x(x^2-4)=2x(x+2)(x-2)$$
 satisfied by $2x(x^2-4)$; the bracket still factorises.
 :::
 
+### 10.6.1 Perfect squares and the blank term
+
+An expression $a^2\pm2ab+b^2$ is a **perfect square**. To decide what must go
+in a blank, compare with $a^2+2ab+b^2$:
+
+- the middle term is $2\times\sqrt{\text{first}}\times\sqrt{\text{last}}$;
+- the last term is $\left(\frac{\text{middle}}{2\sqrt{\text{first}}}\right)^2$.
+
+::: example Completing a perfect square
+**Problem.** Fill the blank so that each is a perfect square:
+(a) $x^2+\ \dots\ +16$ (b) $9a^2-\ \dots\ +49b^2$ (c) $p^2+\ \dots\ +\frac{1}{p^2}$.
+
+**Solution.**
+(a) $x^2+16=x^2+4^2$, so the middle term is $2\times x\times4=8x$:
+$x^2+8x+16=(x+4)^2$.
+
+(b) $9a^2=(3a)^2$, $49b^2=(7b)^2$, so the middle term is
+$2\times3a\times7b=42ab$: $9a^2-42ab+49b^2=(3a-7b)^2$.
+
+(c) Middle term $=2\times p\times\frac1p=2$: $p^2+2+\frac{1}{p^2}=\left(p+\frac1p\right)^2$.
+:::
+
+::: example Factorising perfect squares
+**Problem.** Factorise (a) $4x^2+12x+9$ (b) $36a^2-48ab+16b^2$.
+
+**Solution.**
+(a) $4x^2+12x+9=(2x)^2+2\times2x\times3+3^2=(2x+3)^2$.
+
+(b) $36a^2-48ab+16b^2=(6a)^2-2\times6a\times4b+(4b)^2=(6a-4b)^2$
+
+$=[2(3a-2b)]^2=4(3a-2b)^2$.
+:::
+
+::: example Perfect square, then difference of squares
+**Problem.** Factorise $16x^2+40x+25-y^2$.
+
+**Solution.** The first three terms form a perfect square:
+
+$16x^2+40x+25=(4x)^2+2\times4x\times5+5^2=(4x+5)^2$.
+
+So the expression is $(4x+5)^2-y^2=(4x+5+y)(4x+5-y)$.
+:::
+
+## 10.8 Factorising $x^2+bx+c$
+
+Expanding $(x+p)(x+q)=x^2+(p+q)x+pq$. So to factorise $x^2+bx+c$ we look for
+two numbers $p$ and $q$ with
+
+$$p\times q=c\quad\text{and}\quad p+q=b$$
+
+then split the middle term and group.
+
+| Sign of $c$ | What to look for | Signs of the two numbers |
+|---|---|---|
+| $c$ positive | product $c$, **sum** $b$ | both the same sign as $b$ |
+| $c$ negative | product $c$, **difference** $|b|$ | opposite signs; the bigger one takes the sign of $b$ |
+
+::: example When the constant term is positive
+**Problem.** Factorise (a) $x^2+5x+6$ (b) $x^2-6x+5$.
+
+**Solution.**
+(a) Product 6, sum 5: the numbers are 2 and 3.
+$x^2+5x+6=x^2+3x+2x+6=x(x+3)+2(x+3)=(x+3)(x+2)$.
+
+(b) Product 5, sum $-6$: the numbers are $-1$ and $-5$.
+$x^2-6x+5=x^2-5x-x+5=x(x-5)-1(x-5)=(x-5)(x-1)$.
+
+**Check (b).** $(x-5)(x-1)=x^2-x-5x+5=x^2-6x+5$ ✓.
+:::
+
+::: example When the constant term is negative
+**Problem.** Factorise (a) $x^2+5x-6$ (b) $x^2-6x-16$.
+
+**Solution.**
+(a) Product $-6$, so the numbers have opposite signs and **difference** 5:
+6 and 1, with the bigger one positive: $+6$ and $-1$.
+$x^2+5x-6=x^2+6x-x-6=x(x+6)-1(x+6)=(x+6)(x-1)$.
+
+(b) Product $-16$, difference 6: 8 and 2, bigger one negative: $-8$ and $+2$.
+$x^2-6x-16=x^2-8x+2x-16=x(x-8)+2(x-8)=(x-8)(x+2)$.
+
+**Check (b).** $(x-8)(x+2)=x^2+2x-8x-16=x^2-6x-16$ ✓.
+:::
+
+::: caution Split the middle term with the right signs
+For $x^2-6x-16$, the pair $+8,-2$ also has product $-16$, but its sum is $+6$,
+not $-6$. Always check the **sum** of the pair against the middle coefficient,
+sign included.
+:::
+
+## 10.9 HCF and LCM of expressions that need factorising
+
+When the expressions are not single terms, **factorise each one completely
+first**. Then
+
+- HCF $=$ product of the common factors;
+- LCM $=$ common factors $\times$ the remaining factors.
+
+::: example HCF of three trinomials
+**Problem.** Find the HCF of $x^2+6x+8$, $x^2-4$ and $x^2+4x+4$.
+
+**Solution.**
+First $=x^2+4x+2x+8=x(x+4)+2(x+4)=(x+2)(x+4)$.
+Second $=x^2-2^2=(x+2)(x-2)$.
+Third $=x^2+2\cdot x\cdot2+2^2=(x+2)^2=(x+2)(x+2)$.
+
+The only factor common to all three is $(x+2)$, so **HCF $=x+2$**.
+:::
+
+::: example LCM of two polynomials
+**Problem.** Find the LCM of $3x^3-15x^2$ and $2x^3-50x$.
+
+**Solution.**
+First $=3x^2(x-5)=3\times x\times x\times(x-5)$.
+Second $=2x(x^2-25)=2\times x\times(x+5)(x-5)$.
+
+Common factors: $x(x-5)$. Remaining factors: $3\times x$ from the first and
+$2\times(x+5)$ from the second.
+
+LCM $=x(x-5)\times3x\times2(x+5)=6x^2(x-5)(x+5)$.
+:::
+
+::: example LCM using a trinomial
+**Problem.** Find the LCM of $x^2+x-20$ and $x^2-25$.
+
+**Solution.**
+First $=x^2+5x-4x-20=x(x+5)-4(x+5)=(x+5)(x-4)$.
+Second $=(x+5)(x-5)$.
+
+Common factor $(x+5)$; remaining factors $(x-4)$ and $(x-5)$.
+**LCM $=(x+5)(x-4)(x-5)$.**
+:::
+
 ## 10.7 The three identities as areas
 
 ```figure caption="The identity (a + b)² = a² + 2ab + b² seen as a square. The big square of side (a + b) is made of two squares and two equal rectangles."
-fig, ax = plt.subplots(figsize=(3.9, 3.5))
+fig, ax = plt.subplots(figsize=(4.2, 3.5))
 A, B = 0.46, 0.28
 x0, y0 = 0.1, 0.1
 ax.add_patch(matplotlib.patches.Rectangle((x0, y0 + B), A, A,
@@ -348,6 +460,9 @@ that $(a+b)^2 \neq a^2 + b^2$.
   all of them.
 - The standard identities in both directions: $(a\pm b)^2=a^2\pm2ab+b^2$ and
   $(a+b)(a-b)=a^2-b^2$.
+- $x^2+bx+c$: find two numbers with product $c$ and sum $b$, split the middle
+  term and group.
+- For HCF and LCM of polynomials, factorise each expression completely first.
 - Factorise completely: take out the common factor first, then look for an
   identity, then check by expanding.
 
@@ -430,14 +545,19 @@ $3x^2y$ ✓. LCM: numbers—18; $x$—$x^3$; $y$—$y^2$; so $18x^3y^2$ ✓.
 
 **Group C (4 marks)**
 
-**13.** Factorise completely: (i) $3x^2 - 27$ (ii) $x^2 + 10x + 25$
+**13.** Factorise completely: (i) $3x^2 - 27$ (ii) $x^2 + 10x + 25$ (iii) $4a^2-9b^2$
     (iii) $4a^2 - 9b^2$.
+
+**14.** Factorise: (i) $x^2-x-20$ (ii) $9r^2+60r+100$ (iii) $a^2-12a+36-b^2$.
+**15.** Find the HCF and the LCM of $x^2-y^2$ and $xy-y^2$.
 
 ::: note Extra practice — answers
 **11.** $9x^2 - 30x + 25$.
 **12.** $(100+4)(100-4) = 10000 - 16 = 9984$.
 **13.** (i) $3(x^2-9) = 3(x+3)(x-3)$. (ii) $(x+5)^2$.
 (iii) $(2a+3b)(2a-3b)$.
+**14.** (i) product $-20$, sum $-1$: $-5$ and $4$, so $(x-5)(x+4)$. (ii) $(3r)^2+2\cdot3r\cdot10+10^2=(3r+10)^2$. (iii) $(a-6)^2-b^2=(a-6+b)(a-6-b)$.
+**15.** $x^2-y^2=(x+y)(x-y)$ and $xy-y^2=y(x-y)$. HCF $=x-y$; LCM $=y(x+y)(x-y)$.
 :::
 
 ## Objective practice
