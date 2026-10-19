@@ -1,206 +1,113 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Weight on other worlds — five drop towers side by side, each on a different world. Drag any
+ * ball to set the drop height (the same for all), then drop them together: each falls with its
+ * world's g and lands at t = √(2h/g), timed in real seconds. Below, the same person stands on a
+ * bathroom scale on each world: their mass never changes, their weight W = mg does, and the scale
+ * (calibrated on Earth) reads W/9.81 "kg".
+ */
+import { createKit, T, Spring, fmt, clamp, text, withAlpha, sphere, softShadow, card } from '../core/kit2d.js';
+import { starfield, npill } from '../core/space2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
-const WORLDS = {
-  moon: { name: 'Moon', g: 1.62, ground: '#9aa1ad', sky: ['#05070d', '#10141f'], accent: '#c9d1dd' },
-  mercury: { name: 'Mercury', g: 3.7, ground: '#8d7f72', sky: ['#05070d', '#181410'], accent: '#c9b8a6' },
-  mars: { name: 'Mars', g: 3.71, ground: '#a3502f', sky: ['#2b1810', '#5a3322'], accent: '#e0824f' },
-  venus: { name: 'Venus', g: 8.87, ground: '#9c8348', sky: ['#4a3a14', '#8a702e'], accent: '#e6c98e' },
-  earth: { name: 'Earth', g: 9.81, ground: '#3f6b4f', sky: ['#1d4e89', '#4f8fd0'], accent: '#86efac' },
-  jupiter: { name: 'Jupiter (cloud tops)', g: 24.79, ground: '#b08a5e', sky: ['#43301c', '#7a5c38'], accent: '#e8c9a0' },
-  sun: { name: 'Sun (surface!)', g: 274, ground: '#d97b1f', sky: ['#7a3208', '#cf6a12'], accent: '#ffd27a' },
+const ALL = {
+  moon: { name: 'Moon', g: 1.62, ground: '#9aa1ad', sky: '#0b1020', atm: false },
+  mercury: { name: 'Mercury', g: 3.7, ground: '#8d7f72', sky: '#0b0f18', atm: false },
+  mars: { name: 'Mars', g: 3.71, ground: '#b5603a', sky: '#3a2116', atm: true },
+  venus: { name: 'Venus', g: 8.87, ground: '#a68b4c', sky: '#5a4518', atm: true },
+  earth: { name: 'Earth', g: 9.81, ground: '#5b8c4a', sky: '#2c6db5', atm: true },
+  jupiter: { name: 'Jupiter', g: 24.79, ground: '#b08a5e', sky: '#5b4026', atm: true },
+  saturn: { name: 'Saturn', g: 10.44, ground: '#c9ad7c', sky: '#5e4a2c', atm: true },
+  uranus: { name: 'Uranus', g: 8.69, ground: '#8fc9cf', sky: '#24545a', atm: true },
+  neptune: { name: 'Neptune', g: 11.15, ground: '#4f6fd0', sky: '#1d2d66', atm: true },
+  pluto: { name: 'Pluto', g: 0.62, ground: '#c8b8a6', sky: '#06080f', atm: false },
+  sun: { name: 'Sun', g: 274, ground: '#f59e0b', sky: '#7a2e06', atm: true },
 };
 
-const DROP_HEIGHT = 10;
-
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
-
-  let worldKey = 'moon';
-  let earthWeight = 45;
-  let ball = { h: DROP_HEIGHT, v: 0, falling: false, landedT: 0, bounces: 0 };
-  let timer = 0;
-  let running = false;
-
-  function world() { return WORLDS[worldKey]; }
-
-  function weightThere() {
-    return earthWeight * (world().g / 9.81);
-  }
-
-  function fallTime() {
-    return Math.sqrt((2 * DROP_HEIGHT) / world().g);
-  }
-
-  function drop() {
-    ball = { h: DROP_HEIGHT, v: 0, falling: true, landedT: 0, bounces: 0 };
-    timer = 0;
-    running = true;
-    timeBadge.set('Falling\u2026');
-  }
-
+  const k = createKit(stage, { night: true, label: 'Five drop towers on different worlds and a bathroom scale on each' });
   const hud = createHud(stage);
-  const worldBadge = hud.badge('Moon \u2014 g = 1.62 m/s\u00b2', '#c9d1dd');
-  const timeBadge = hud.badge('Press DROP', '#9ec1ff');
+  const badge = hud.badge('Drag a ball to set the height, then drop', '#60a5fa');
 
-  const panel = createPanel(stage, { title: 'Weight Lab' });
-  panel.select({
-    label: 'Pick a world',
-    options: Object.keys(WORLDS).map((k) => ({ value: k, label: WORLDS[k].name })),
-    value: worldKey,
-    onChange: (v) => {
-      worldKey = v;
-      const wd = world();
-      worldBadge.set(`${wd.name} \u2014 g = ${wd.g} m/s\u00b2`);
-      worldBadge.el.style.setProperty('--ix-hud-color', wd.accent);
-      updateReadouts();
-      drop();
-    },
+  const lanes = ['moon', 'mars', 'earth', 'jupiter', 'sun'];
+  let H = 10, mass = 50;
+  const y = new Float64Array(5), v = new Float64Array(5), t = new Float64Array(5), landed = new Uint8Array(5);
+  let dropping = false;
+  const scaleR = lanes.map(() => new Spring(0, 90, 10));
+
+  const panel = createPanel(stage, { title: 'Weight on other worlds' });
+  panel.chips({ label: 'Fifth tower', options: ['sun', 'mercury', 'venus', 'saturn', 'uranus', 'neptune', 'pluto'].map((key) => ({ value: key, label: ALL[key].name })), value: 'sun', onChange: (key) => { lanes[4] = key; reset(); } });
+  panel.slider({ label: 'Your mass', min: 10, max: 120, step: 1, value: mass, format: (m) => `${m} kg`, onChange: (m) => { mass = m; k.animate(true); } });
+  panel.buttonRow([{ label: 'Drop all', icon: 'south', onClick: drop }, { label: 'Reset', icon: 'replay', variant: 'ghost', onClick: reset }]);
+  const st = panel.stats(lanes.map((key, i) => ({ key: 'l' + i, label: i === 4 ? 'Fifth tower' : ALL[key].name })));
+  panel.info('Mass is how much stuff you are made of: the same everywhere. Weight is the pull of gravity on that mass, W = mg, in newtons. A smaller g means a slower fall: t = √(2h/g).');
+
+  function reset() { dropping = false; for (let i = 0; i < 5; i++) { y[i] = H; v[i] = 0; t[i] = 0; landed[i] = 0; } k.animate(true); }
+  function drop() { reset(); dropping = true; }
+
+  let lw = 0, top = 0, ground = 0, scaleY = 0, sc = 10;
+  k.onResize((w, h) => { lw = w / 5; top = 56; scaleY = h - (k.small ? 46 : 62); ground = scaleY - (k.small ? 70 : 96); sc = (ground - top - 20) / 20; });
+  const Y = (m) => ground - m * sc;
+
+  k.drag({
+    hit: (x, yy, s) => { const i = Math.floor(x / lw); if (i < 0 || i > 4) return false; const d = Math.hypot(x - (i + 0.5) * lw, yy - Y(y[i])); return d < 16 + s ? d : false; },
+    move: (x, yy) => { H = clamp(Math.round((ground - yy) / sc), 1, 20); reset(); },
+    up: () => drop(),
+    cursor: 'ns-resize',
   });
-  panel.slider({
-    label: 'Your weight on Earth',
-    min: 20, max: 120, step: 1, value: earthWeight,
-    format: (v) => `${v} kg`,
-    onChange: (v) => { earthWeight = v; updateReadouts(); },
-  });
-  const weightReadout = panel.readout({ label: 'Weight here', value: '' });
-  const newtonReadout = panel.readout({ label: 'In newtons', value: '' });
-  const fallReadout = panel.readout({ label: '10 m fall time', value: '' });
-  panel.button({ label: 'DROP the ball', icon: 'arrow_downward', onClick: drop });
-  panel.info('Your mass never changes \u2014 only the pull of gravity does. Weight = mass \u00d7 g. Compare how the same 10 m drop feels on each world.');
 
-  function updateReadouts() {
-    weightReadout.set(`${weightThere().toFixed(1)} kg-force`);
-    newtonReadout.set(`${Math.round(weightThere() * 9.81)} N`);
-    fallReadout.set(`${fallTime().toFixed(2)} s`);
-  }
-  updateReadouts();
-
-  sim.setUpdate((ctx, dt, w, h) => {
-    const wd = world();
-    if (running && ball.falling) {
-      timer += dt;
-      ball.v += wd.g * dt;
-      ball.h -= ball.v * dt;
-      if (ball.h <= 0) {
-        ball.h = 0;
-        if (ball.bounces === 0) timeBadge.set(`Landed in ${timer.toFixed(2)} s!`);
-        if (Math.abs(ball.v) > wd.g * 0.12 && ball.bounces < 5) {
-          ball.v = -ball.v * 0.45;
-          ball.bounces++;
-        } else {
-          ball.falling = false;
-          running = false;
-        }
+  k.frame((ctx, dt, w, h) => {
+    if (dropping) {
+      for (let i = 0; i < 5; i++) {
+        if (landed[i]) continue;
+        const g = ALL[lanes[i]].g;
+        t[i] += dt; v[i] = g * t[i]; y[i] = H - 0.5 * g * t[i] * t[i];
+        if (y[i] <= 0) { t[i] = Math.sqrt(2 * H / g); y[i] = 0; landed[i] = 1; }
       }
+      if (landed.every((l) => l)) dropping = false;
     }
-
-    const grad = ctx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, wd.sky[0]);
-    grad.addColorStop(1, wd.sky[1]);
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, h);
-
-    if (worldKey === 'moon' || worldKey === 'mercury') {
-      ctx.fillStyle = 'rgba(220,228,240,0.7)';
-      for (let i = 0; i < 40; i++) {
-        const sx = ((i * 97) % 100) / 100 * w;
-        const sy = ((i * 61) % 67) / 100 * h;
-        ctx.fillRect(sx, sy, 1.4, 1.4);
-      }
-    }
-
-    const groundY = h * 0.82;
-    ctx.fillStyle = wd.ground;
-    ctx.fillRect(0, groundY, w, h - groundY);
-    ctx.fillStyle = 'rgba(0,0,0,0.18)';
-    for (let i = 0; i < 6; i++) {
-      const bx = ((i * 173) % 100) / 100 * w;
-      ctx.beginPath();
-      ctx.ellipse(bx, groundY + 14 + ((i * 37) % 30), 16, 5, 0, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    const towerX = w * 0.26;
-    const scaleTop = h * 0.12;
-    const pxPerM = (groundY - scaleTop) / DROP_HEIGHT;
-    ctx.strokeStyle = 'rgba(232,238,251,0.5)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(towerX, scaleTop);
-    ctx.lineTo(towerX, groundY);
-    ctx.stroke();
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.fillStyle = 'rgba(232,238,251,0.7)';
-    ctx.textAlign = 'right';
-    for (let m = 0; m <= DROP_HEIGHT; m += 2) {
-      const y = groundY - m * pxPerM;
-      ctx.beginPath();
-      ctx.moveTo(towerX - 6, y);
-      ctx.lineTo(towerX, y);
+    starfield(k, ctx, w, h, { seed: 3 });
+    for (let i = 0; i < 5; i++) {
+      const W0 = ALL[lanes[i]], x0 = i * lw, cx = x0 + lw / 2;
+      ctx.fillStyle = withAlpha(W0.sky, W0.atm ? 0.6 : 0.3); ctx.fillRect(x0 + 1, top - 10, lw - 2, ground - top + 10);
+      ctx.fillStyle = W0.ground; ctx.fillRect(x0 + 1, ground, lw - 2, scaleY - ground + 30);
+      ctx.fillStyle = 'rgba(0,0,0,0.15)'; ctx.fillRect(x0 + 1, ground, lw - 2, 3);
+      text(ctx, W0.name, cx, top + 6, '#e8eefb', k.small ? 10 : 12.5, 700, 'center');
+      text(ctx, `g = ${W0.g} m/s²`, cx, top + (k.small ? 20 : 24), '#aab8d3', k.small ? 8.5 : 10, 600, 'center');
+      // tower scale
+      ctx.strokeStyle = 'rgba(255,255,255,0.25)'; ctx.lineWidth = 1; ctx.beginPath();
+      for (let m = 0; m <= 20; m += 2) { ctx.moveTo(x0 + 6, Y(m)); ctx.lineTo(x0 + (m % 10 === 0 ? 16 : 11), Y(m)); }
       ctx.stroke();
-      ctx.fillText(`${m} m`, towerX - 10, y + 3);
+      if (i === 0) for (let m = 0; m <= 20; m += 10) text(ctx, `${m} m`, x0 + 18, Y(m) + 3, '#aab8d3', 9, 600);
+      ctx.setLineDash([3, 4]); ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.beginPath(); ctx.moveTo(x0 + 4, Y(H)); ctx.lineTo(x0 + lw - 4, Y(H)); ctx.stroke(); ctx.setLineDash([]);
+      softShadow(ctx, cx, ground + 2, 10 * (1 - y[i] / 25), 3, 0.35);
+      sphere(ctx, cx, Y(y[i]) - 8, 8, '#e5484d');
+      if (dropping || landed[i]) npill(ctx, `${fmt(t[i], 2)} s`, cx, Math.min(Y(y[i]) - 30, ground - 34), landed[i] ? '#86efac' : '#e8eefb', k.small ? 9.5 : 11);
+      // the bathroom scale
+      const Wn = mass * W0.g, read = Wn / 9.81;
+      scaleR[i].to(read); scaleR[i].step(dt);
+      const sw = Math.min(lw - 14, 74), sy = scaleY;
+      ctx.fillStyle = '#e2e8f0'; ctx.beginPath(); ctx.roundRect(cx - sw / 2, sy - 10, sw, 18, 5); ctx.fill();
+      ctx.fillStyle = '#0f172a'; ctx.beginPath(); ctx.roundRect(cx - sw * 0.32, sy - 6, sw * 0.64, 11, 3); ctx.fill();
+      ctx.fillStyle = '#86efac'; ctx.font = `700 ${k.small ? 8 : 9.5}px ${T.mono}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(scaleR[i].x > 999 ? 'ERR' : `${fmt(scaleR[i].x, 0)} kg`, cx, sy);
+      const fh = k.small ? 40 : 60, sq = clamp(W0.g / 9.81, 0.4, 2);
+      ctx.fillStyle = '#e8eefb'; ctx.beginPath(); ctx.arc(cx, sy - 14 - fh, fh * 0.12, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = '#e8eefb'; ctx.lineWidth = k.small ? 2.5 : 3.5; ctx.beginPath();
+      const knee = sq > 1.5 ? 0.12 : 0;
+      ctx.moveTo(cx, sy - 12 - fh * 0.86); ctx.lineTo(cx, sy - 12 - fh * 0.4);
+      ctx.moveTo(cx, sy - 12 - fh * 0.4); ctx.lineTo(cx - fh * (0.12 + knee), sy - 12 - fh * 0.2); ctx.lineTo(cx - fh * 0.1, sy - 12);
+      ctx.moveTo(cx, sy - 12 - fh * 0.4); ctx.lineTo(cx + fh * (0.12 + knee), sy - 12 - fh * 0.2); ctx.lineTo(cx + fh * 0.1, sy - 12);
+      ctx.moveTo(cx - fh * 0.2, sy - 12 - fh * (0.75 - 0.15 * (sq - 1) * 0.3)); ctx.lineTo(cx, sy - 12 - fh * 0.7); ctx.lineTo(cx + fh * 0.2, sy - 12 - fh * (0.75 - 0.15 * (sq - 1) * 0.3));
+      ctx.stroke();
+      text(ctx, `${fmt(Wn, 0)} N`, cx, sy + 22, '#e8eefb', k.small ? 9.5 : 11, 700, 'center');
+      st['l' + i].set(`${fmt(Math.sqrt(2 * H / W0.g), 2)} s · ${fmt(Wn, 0)} N`);
+      if (i) { ctx.fillStyle = 'rgba(255,255,255,0.08)'; ctx.fillRect(x0, top - 10, 1, h); }
     }
-    ctx.textAlign = 'left';
-
-    const ballX = towerX + 36;
-    const ballY = groundY - ball.h * pxPerM - 10;
-    ctx.fillStyle = 'rgba(0,0,0,0.3)';
-    ctx.beginPath();
-    ctx.ellipse(ballX, groundY + 3, 12 * Math.max(0.4, 1 - ball.h / DROP_HEIGHT), 4, 0, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#f9a8d4';
-    ctx.beginPath();
-    ctx.arc(ballX, ballY, 10, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = 'rgba(255,255,255,0.55)';
-    ctx.beginPath();
-    ctx.arc(ballX - 3, ballY - 3, 3, 0, Math.PI * 2);
-    ctx.fill();
-
-    const px = w * 0.62;
-    const py = groundY;
-    ctx.strokeStyle = '#e8eefb';
-    ctx.lineWidth = 2.5;
-    ctx.lineCap = 'round';
-    const squash = wd.g > 20 ? 6 : 0;
-    ctx.beginPath();
-    ctx.arc(px, py - 58 + squash, 9, 0, Math.PI * 2);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(px, py - 49 + squash);
-    ctx.lineTo(px, py - 22 + squash * 0.5);
-    ctx.moveTo(px, py - 42 + squash);
-    ctx.lineTo(px - 14, py - 30 + squash);
-    ctx.moveTo(px, py - 42 + squash);
-    ctx.lineTo(px + 14, py - 30 + squash);
-    ctx.moveTo(px, py - 22 + squash * 0.5);
-    ctx.lineTo(px - 10, py);
-    ctx.moveTo(px, py - 22 + squash * 0.5);
-    ctx.lineTo(px + 10, py);
-    ctx.stroke();
-
-    ctx.fillStyle = 'rgba(13,24,41,0.7)';
-    const tag = `${weightThere().toFixed(0)} kg-force here`;
-    ctx.font = '700 12px Poppins, sans-serif';
-    const tw = ctx.measureText(tag).width;
-    ctx.fillRect(px - tw / 2 - 8, py - 92, tw + 16, 22);
-    ctx.fillStyle = wd.accent;
-    ctx.textAlign = 'center';
-    ctx.fillText(tag, px, py - 77);
-    ctx.fillStyle = 'rgba(232,238,251,0.85)';
-    ctx.font = '700 14px Poppins, sans-serif';
-    ctx.fillText(wd.name, w / 2, h * 0.07);
-    ctx.textAlign = 'left';
+    badge.set(dropping ? 'Falling…' : landed[0] ? `Same ${H} m drop: ${fmt(t[4], 2)} s on ${ALL[lanes[4]].name}, ${fmt(t[0], 2)} s on the Moon` : `Drop height ${H} m — drag a ball to change it`);
+    k.animate(dropping || scaleR.some((s) => s.moving));
   });
 
-  sim.start();
-
-  return {
-    dispose() {
-      panel.dispose();
-      hud.dispose();
-      sim.dispose();
-    },
-  };
+  reset();
+  k.debug = { ball: (i) => [(i + 0.5) * lw, Y(y[i]) - 8], times: () => Array.from(t) };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }
