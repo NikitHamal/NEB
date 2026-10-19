@@ -225,9 +225,9 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         key_required=False, official=False, scraper_module='deepai_proxy',
     ),
     ProviderPreset(
-        slug='inception', label='Inception Labs (Mercury 2)', format=FORMAT_SCRAPER,
-        base_url='https://api.inceptionlabs.ai/v1', default_model='mercury-2',
-        models=[ModelSpec('mercury-2', 'Mercury 2')],
+        slug='inception', label='Inception Labs (Mercury 3)', format=FORMAT_SCRAPER,
+        base_url='https://api.inceptionlabs.ai/v1', default_model='mercury-3',
+        models=[ModelSpec('mercury-3', 'Mercury 3')],
         key_required=False, official=False, scraper_module='inception_proxy',
     ),
     ProviderPreset(

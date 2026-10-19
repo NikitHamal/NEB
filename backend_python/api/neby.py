@@ -458,7 +458,7 @@ def _call_single_provider(system_prompt, user_message, config):
         from . import inception_proxy
         return inception_proxy.simple_chat(
             user_message=user_message,
-            model=config.model or 'mercury-2',
+            model=config.model or 'mercury-3',
             system_prompt=system_prompt or '',
             reasoning_effort=getattr(config, 'reasoning_effort', 'high'),
         )

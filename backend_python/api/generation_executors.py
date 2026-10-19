@@ -86,7 +86,7 @@ FALLBACK_MAX_TOKENS = 4000
 FALLBACK_PROVIDERS = [
     ('longcat', 'api.longcat_proxy', 'longcat/LongCat-2.0'),
     ('geminiweb', 'api.geminiweb_proxy', 'geminiweb/gemini-flash-lite'),
-    ('inception', 'api.inception_proxy', 'mercury-2'),
+    ('inception', 'api.inception_proxy', 'mercury-3'),
     ('k2think', 'api.k2think_proxy', 'IFM/K2-Horizon-375B-A23B'),
     ('poolside', 'api.poolside_proxy', 'laguna-s-2.1'),
     ('motiftech', 'api.motiftech_proxy', 'motif-102b'),
