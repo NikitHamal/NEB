@@ -44,7 +44,7 @@ import urllib.request
 BASE = os.environ["ACTL_BASE_URL"].rstrip("/")
 TOKEN = os.environ["ACTL_AUTH_TOKEN"]
 REPO = os.environ.get("NEB_REPO", "NikitHamal/NEB")
-BRANCH = os.environ.get("NEB_BRANCH", "resources/class10-class8-dsh")
+BRANCH = os.environ.get("NEB_BRANCH", "resources/grade8-10-polish-syllabus-c")
 MAX_BLOB = 25 * 1024 * 1024      # stay clear of the connector's 413 ceiling
 
 

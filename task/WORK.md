@@ -9,4 +9,6 @@ Generated syllabus: 28 subject books, 492 chapters, shared web/API/Android.
 Both Android Kotlin flavours compile. Seven focused Django tests and all 28 API endpoints pass.
 No production deployment or Play Store release performed.
 
-Normal git push has no usable write credential. Push through notes/tools/push_branch.py with NEB_BRANCH explicitly set. Local HEAD remains the requested base, because remote commits were made with the connector; local git status therefore includes already-pushed work. Compare Git blob hashes against the remote recursive tree before deciding a file is unpublished.
+Normal git push has no usable write credential. Push through notes/tools/push_branch.py with NEB_BRANCH explicitly set. Connector pushes do not advance local HEAD automatically. The checkout has been synchronised to the delivery branch. After future connector pushes, compare Git blob hashes against the remote recursive tree, then fetch and synchronise the local branch before treating git status as unpublished work.
+
+Draft review: https://github.com/NikitHamal/NEB/pull/61 targets the requested base branch. Final remote blob verification matched all 130 changed/new files, including every released PDF.
