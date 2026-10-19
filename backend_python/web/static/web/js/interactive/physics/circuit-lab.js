@@ -1,311 +1,210 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Circuit builder — a battery, a switch and two resistors that can be wired in series or in
+ * parallel. Ohm's law sets every current (I = V/R, series R₁ + R₂, parallel R₁R₂/(R₁ + R₂)),
+ * and the charge carriers flow round each branch at a speed proportional to its current, so the
+ * split in a parallel circuit is visible. Tap the switch, drag a resistor up or down to change it
+ * (its colour bands follow), and drag the battery to add or remove cells.
+ */
+import { createKit, T, Spring, fmt, clamp, background, grid, text, pill, withAlpha, mix } from '../core/kit2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
+const VALUES = [1, 2.2, 3.3, 4.7, 6.8, 10, 15, 22, 33, 47, 68, 100];
+const BAND = ['#111827', '#7c4a1e', '#dc2626', '#f97316', '#facc15', '#16a34a', '#2563eb', '#7c3aed', '#6b7280', '#f8fafc'];
+const CELL = 1.5;
+const MAXDOTS = 200;
+
+function bands(R) {
+  let exp = 0, v = R;
+  while (v >= 100) { v /= 10; exp++; }
+  while (v < 10) { v *= 10; exp--; }
+  const d = Math.round(v);
+  return [Math.floor(d / 10), d % 10, exp];
+}
+
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const k = createKit(stage, { label: 'A circuit with a battery, switch, ammeter, voltmeter and two resistors' });
   const hud = createHud(stage);
-  const currentBadge = hud.badge('I = 0 A', '#F59E0B');
+  const badge = hud.badge('Tap the switch to close the circuit', T.blue);
 
-  let V = 12;
-  let R1 = 6;
-  let R2 = 6;
-  let mode = 'single';
-  let paths = [];
-  let lastKey = '';
+  let cells = 4, R1i = 5, R2i = 7, parallel = false, closed = false, electrons = false;
+  let I = 0, I1 = 0, I2 = 0, V1 = 0, V2 = 0, Rt = 0;
+  const flow = new Spring(0, 30, 10);
+  const sw = new Spring(0, 220, 18);
+  const off = new Float64Array(3);
+  const needle = [new Spring(0, 90, 12), new Spring(0, 90, 12)];
+  const paths = [new Float32Array(32), new Float32Array(32), new Float32Array(32)];
+  const plen = new Float32Array(3), pn = new Uint8Array(3);
+  let L = 0, R = 0, Tp = 0, B = 0, xa = 0, battX = 0, battY = 0;
 
-  const panel = createPanel(stage, { title: 'Circuit Controls' });
-  panel.slider({
-    label: 'Battery voltage',
-    min: 0, max: 24, step: 0.5, value: V,
-    format: (v) => `${v.toFixed(1)} V`,
-    onChange: (v) => { V = v; },
-  });
-  panel.slider({
-    label: 'Resistance R₁',
-    min: 1, max: 20, step: 0.5, value: R1,
-    format: (v) => `${v.toFixed(1)} Ω`,
-    onChange: (v) => { R1 = v; },
-  });
-  panel.select({
-    label: 'Circuit layout',
-    options: [
-      { value: 'single', label: 'R₁ only' },
-      { value: 'series', label: 'Series: R₁ + R₂' },
-      { value: 'parallel', label: 'Parallel: R₁ ∥ R₂' },
-    ],
-    value: mode,
-    onChange: (v) => {
-      mode = v;
-      r2Slider.el.style.display = v === 'single' ? 'none' : '';
-    },
-  });
-  const r2Slider = panel.slider({
-    label: 'Resistance R₂',
-    min: 1, max: 20, step: 0.5, value: R2,
-    format: (v) => `${v.toFixed(1)} Ω`,
-    onChange: (v) => { R2 = v; },
-  });
-  r2Slider.el.style.display = 'none';
-  panel.divider();
-  const rTotOut = panel.readout({ label: 'Total resistance', value: '—' });
-  const iTotOut = panel.readout({ label: 'Current I = V/R', value: '—' });
-  const v1Out = panel.readout({ label: 'V across R₁', value: '—' });
-  const v2Out = panel.readout({ label: 'V across R₂', value: '—' });
-  panel.info('The moving dots are electrons — their speed shows the current. Compare how adding R₂ in series slows them, while parallel speeds the battery dots up.');
+  const panel = createPanel(stage, { title: 'Circuit' });
+  const vS = panel.slider({ label: 'Battery', min: 1, max: 8, step: 1, value: cells, format: (v) => `${v} cell${v > 1 ? 's' : ''} · ${fmt(v * CELL, 1)} V`, onChange: (v) => { cells = v; solve(); } });
+  const r1S = panel.slider({ label: 'R₁', min: 0, max: VALUES.length - 1, step: 1, value: R1i, format: (v) => `${VALUES[v]} Ω`, onChange: (v) => { R1i = v; solve(); } });
+  const r2S = panel.slider({ label: 'R₂', min: 0, max: VALUES.length - 1, step: 1, value: R2i, format: (v) => `${VALUES[v]} Ω`, onChange: (v) => { R2i = v; solve(); } });
+  const topo = panel.chips({ label: 'Wiring', options: [{ value: 's', label: 'Series' }, { value: 'p', label: 'Parallel' }], value: 's', onChange: (v) => { parallel = v === 'p'; buildPaths(); solve(); } });
+  panel.toggle({ label: 'Show electrons (they flow from −)', value: false, onChange: (v) => { electrons = v; k.invalidate(); } });
+  const st = panel.stats([{ key: 'R', label: 'Total resistance' }, { key: 'I', label: 'Current from battery' }, { key: 'b1', label: 'R₁: V, I' }, { key: 'b2', label: 'R₂: V, I' }]);
+  panel.info('Series: the same current passes through both and the voltage is shared. Parallel: each resistor gets the full battery voltage and the current splits, more through the smaller resistor.');
 
   function solve() {
-    let rTot, i1, i2, vr1, vr2;
-    if (mode === 'single') {
-      rTot = R1;
-      i1 = V / R1; i2 = 0; vr1 = V; vr2 = 0;
-    } else if (mode === 'series') {
-      rTot = R1 + R2;
-      i1 = V / rTot; i2 = i1;
-      vr1 = i1 * R1; vr2 = i2 * R2;
+    const V = cells * CELL, r1 = VALUES[R1i], r2 = VALUES[R2i];
+    Rt = parallel ? r1 * r2 / (r1 + r2) : r1 + r2;
+    if (!closed) { I = I1 = I2 = V1 = V2 = 0; }
+    else if (parallel) { I1 = V / r1; I2 = V / r2; I = I1 + I2; V1 = V2 = V; }
+    else { I = V / Rt; I1 = I2 = I; V1 = I * r1; V2 = I * r2; }
+    k.animate(true);
+  }
+
+  function setPath(i, pts) {
+    const a = paths[i]; pn[i] = pts.length / 2; let len = 0;
+    for (let j = 0; j < pts.length; j++) a[j] = pts[j];
+    for (let j = 1; j < pn[i]; j++) len += Math.hypot(a[j * 2] - a[j * 2 - 2], a[j * 2 + 1] - a[j * 2 - 1]);
+    plen[i] = len;
+  }
+  function buildPaths() {
+    if (!parallel) {
+      setPath(0, [L, B, L, Tp, R, Tp, R, B, L, B]); pn[1] = pn[2] = 0;
     } else {
-      rTot = (R1 * R2) / (R1 + R2);
-      vr1 = V; vr2 = V;
-      i1 = V / R1; i2 = V / R2;
+      setPath(0, [xa, B, L, B, L, Tp, xa, Tp]);
+      setPath(1, [xa, Tp, xa, B]);
+      setPath(2, [xa, Tp, R, Tp, R, B, xa, B]);
     }
-    return { rTot, iTot: V / rTot, i1, i2, vr1, vr2 };
+    k.invalidate();
   }
+  k.onResize((w, h) => {
+    L = k.small ? 44 : w * 0.16; R = k.small ? w - 40 : w * 0.8; Tp = k.small ? 70 : h * 0.2; B = k.small ? h - 60 : h * 0.78;
+    xa = L + (R - L) * 0.6; battX = L; battY = (Tp + B) / 2;
+    buildPaths();
+  });
+  const r1Pos = (o) => { if (parallel) { o.x = xa; o.y = (Tp + B) / 2; o.v = true; } else { o.x = L + (R - L) * 0.68; o.y = Tp; o.v = false; } return o; };
+  const r2Pos = (o) => { o.x = R; o.y = (Tp + B) / 2; o.v = true; return o; };
+  const swPos = () => [L + (R - L) * (parallel ? 0.3 : 0.5), B];
+  const amPos = () => [L + (R - L) * 0.3, Tp];
+  const P1 = { x: 0, y: 0, v: false }, P2 = { x: 0, y: 0, v: true };
 
-  function box(w, h) {
-    const x0 = Math.max(40, w * 0.1);
-    const x1 = w - Math.max(40, w * 0.1);
-    const y0 = Math.max(46, h * 0.14);
-    const y1 = h - Math.max(60, h * 0.2);
-    return { x0, x1, y0, y1, xb: x0 + (x1 - x0) * 0.55 };
-  }
-
-  function makePath(points) {
-    let len = 0;
-    const segs = [];
-    for (let i = 0; i < points.length - 1; i++) {
-      const d = Math.hypot(points[i + 1].x - points[i].x, points[i + 1].y - points[i].y);
-      segs.push({ a: points[i], b: points[i + 1], len: d, start: len });
-      len += d;
-    }
-    const dots = [];
-    const n = Math.max(6, Math.floor(len / 30));
-    for (let i = 0; i < n; i++) dots.push((i / n) * len);
-    return { segs, len, dots, current: 0 };
-  }
-
-  function posOnPath(path, s) {
-    s = ((s % path.len) + path.len) % path.len;
-    for (let i = 0; i < path.segs.length; i++) {
-      const seg = path.segs[i];
-      if (s <= seg.start + seg.len) {
-        const t = (s - seg.start) / seg.len;
-        return { x: seg.a.x + (seg.b.x - seg.a.x) * t, y: seg.a.y + (seg.b.y - seg.a.y) * t };
-      }
-    }
-    return path.segs[0].a;
-  }
-
-  function rebuildPaths(w, h) {
-    const b = box(w, h);
-    if (mode === 'parallel') {
-      paths = [
-        makePath([
-          { x: b.x0, y: b.y1 }, { x: b.x0, y: b.y0 }, { x: b.xb, y: b.y0 },
-          { x: b.xb, y: b.y1 }, { x: b.x0, y: b.y1 },
-        ]),
-        makePath([
-          { x: b.x0, y: b.y1 }, { x: b.x0, y: b.y0 }, { x: b.x1, y: b.y0 },
-          { x: b.x1, y: b.y1 }, { x: b.x0, y: b.y1 },
-        ]),
-      ];
-    } else {
-      paths = [
-        makePath([
-          { x: b.x0, y: b.y1 }, { x: b.x0, y: b.y0 }, { x: b.x1, y: b.y0 },
-          { x: b.x1, y: b.y1 }, { x: b.x0, y: b.y1 },
-        ]),
-      ];
-    }
-  }
-
-  function drawWireRect(ctx, pts) {
-    ctx.strokeStyle = 'rgba(199,212,234,0.8)';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    pts.forEach((p, i) => { if (i === 0) ctx.moveTo(p.x, p.y); else ctx.lineTo(p.x, p.y); });
-    ctx.stroke();
-  }
-
-  function drawBattery(ctx, x, yMid) {
-    ctx.clearRect(x - 14, yMid - 22, 28, 44);
-    ctx.strokeStyle = '#fbbf24';
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(x - 12, yMid - 8);
-    ctx.lineTo(x + 12, yMid - 8);
-    ctx.stroke();
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(x - 5, yMid + 8);
-    ctx.lineTo(x + 5, yMid + 8);
-    ctx.stroke();
-    ctx.fillStyle = '#fbbf24';
-    ctx.font = '700 12px Poppins, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText('+', x - 18, yMid - 6);
-    ctx.fillText('−', x - 18, yMid + 14);
-  }
-
-  function drawResistor(ctx, x, yMid, label, vDrop, iThrough, glow) {
-    const hh = 26;
-    if (glow > 0.04) {
-      const g = ctx.createRadialGradient(x, yMid, 4, x, yMid, 36 + glow * 18);
-      g.addColorStop(0, `rgba(255,180,80,${0.45 * glow})`);
-      g.addColorStop(1, 'rgba(255,180,80,0)');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(x, yMid, 36 + glow * 18, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.strokeStyle = '#e8eefb';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(x, yMid - hh);
-    let y = yMid - hh + 4;
-    let side = 1;
-    ctx.lineTo(x, y);
-    while (y < yMid + hh - 6) {
-      ctx.lineTo(x + side * 7, y + 3);
-      y += 6;
-      side = -side;
-    }
-    ctx.lineTo(x, yMid + hh);
-    ctx.stroke();
-    ctx.fillStyle = '#9ec1ff';
-    ctx.font = '700 11px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(label, x + 14, yMid - 6);
-    ctx.fillStyle = 'rgba(139,233,168,0.95)';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.fillText(`${vDrop.toFixed(1)} V`, x + 14, yMid + 8);
-    ctx.fillText(`${iThrough.toFixed(2)} A`, x + 14, yMid + 21);
-  }
-
-  function drawMeter(ctx, x, y, letter, value) {
-    ctx.fillStyle = '#16233a';
-    ctx.strokeStyle = '#7dd3fc';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(x, y, 15, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-    ctx.fillStyle = '#7dd3fc';
-    ctx.font = '800 13px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(letter, x, y + 1);
-    ctx.textBaseline = 'alphabetic';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.fillText(value, x, y - 22);
-  }
-
-  function drawBulb(ctx, x, y, brightness) {
-    if (brightness > 0.02) {
-      const g = ctx.createRadialGradient(x, y, 4, x, y, 30 + brightness * 34);
-      g.addColorStop(0, `rgba(255,230,150,${0.75 * brightness})`);
-      g.addColorStop(1, 'rgba(255,210,100,0)');
-      ctx.fillStyle = g;
-      ctx.beginPath();
-      ctx.arc(x, y, 30 + brightness * 34, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.fillStyle = brightness > 0.05 ? `rgba(255,225,140,${0.25 + 0.6 * brightness})` : '#1c2f4d';
-    ctx.strokeStyle = '#c7d4ea';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.arc(x, y, 13, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.stroke();
-    const r = 13 / Math.SQRT2;
-    ctx.beginPath();
-    ctx.moveTo(x - r, y - r); ctx.lineTo(x + r, y + r);
-    ctx.moveTo(x - r, y + r); ctx.lineTo(x + r, y - r);
-    ctx.stroke();
-  }
-
-  sim.setUpdate((ctx, dt, w, h) => {
-    const key = `${w}x${h}:${mode}`;
-    if (key !== lastKey) {
-      rebuildPaths(w, h);
-      lastKey = key;
-    }
-    const sol = solve();
-    const b = box(w, h);
-    ctx.clearRect(0, 0, w, h);
-
-    if (mode === 'parallel') {
-      drawWireRect(ctx, [{ x: b.x0, y: b.y1 }, { x: b.x0, y: b.y0 }, { x: b.x1, y: b.y0 }, { x: b.x1, y: b.y1 }, { x: b.x0, y: b.y1 }]);
-      drawWireRect(ctx, [{ x: b.xb, y: b.y0 }, { x: b.xb, y: b.y1 }]);
-    } else {
-      drawWireRect(ctx, [{ x: b.x0, y: b.y1 }, { x: b.x0, y: b.y0 }, { x: b.x1, y: b.y0 }, { x: b.x1, y: b.y1 }, { x: b.x0, y: b.y1 }]);
-    }
-
-    if (mode === 'parallel') {
-      paths[0].current = sol.i1;
-      paths[1].current = sol.i2;
-    } else {
-      paths[0].current = sol.iTot;
-    }
-    ctx.fillStyle = '#60a5fa';
-    paths.forEach((path) => {
-      const v = Math.min(150, 34 * Math.sqrt(Math.max(0, path.current)));
-      for (let i = 0; i < path.dots.length; i++) {
-        path.dots[i] = (path.dots[i] + v * dt) % path.len;
-        const p = posOnPath(path, path.dots[i]);
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-        ctx.fill();
-      }
+  const swH = k.drag({ hit: (x, y, s) => { const p = swPos(); return Math.abs(x - p[0]) < 30 + s && Math.abs(y - p[1]) < 22 + s ? 1 : false; }, up: () => { closed = !closed; solve(); }, cursor: 'pointer', cursorActive: 'pointer' });
+  function resHandle(pos, getI, setI, slider) {
+    let y0 = 0, i0 = 0;
+    return k.drag({
+      hit: (x, y, s) => { pos(P1); const hw = P1.v ? 16 : 40, hh = P1.v ? 40 : 16; return Math.abs(x - P1.x) < hw + s && Math.abs(y - P1.y) < hh + s ? 1 : false; },
+      down: (x, y) => { y0 = y; i0 = getI(); },
+      move: (x, y) => { const ni = clamp(i0 + Math.round((y0 - y) / 18), 0, VALUES.length - 1); if (ni !== getI()) { setI(ni); slider.set(ni); solve(); } },
+      cursor: 'ns-resize',
     });
-
-    const midY = (b.y0 + b.y1) / 2;
-    drawBattery(ctx, b.x0, midY);
-    ctx.fillStyle = '#fbbf24';
-    ctx.font = '700 11px Poppins, sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(`${V.toFixed(1)} V`, b.x0 - 16, midY + 34);
-
-    drawMeter(ctx, b.x0 + (b.x1 - b.x0) * 0.3, b.y0, 'A', `${sol.iTot.toFixed(2)} A`);
-
-    if (mode === 'single') {
-      drawResistor(ctx, b.x1, midY, 'R₁', sol.vr1, sol.i1, Math.min(1, (sol.i1 * sol.i1 * R1) / 60));
-      drawMeter(ctx, b.x1 - 52, midY, 'V', `${sol.vr1.toFixed(1)} V`);
-    } else if (mode === 'series') {
-      const yA = b.y0 + (b.y1 - b.y0) * 0.32;
-      const yB = b.y0 + (b.y1 - b.y0) * 0.7;
-      drawResistor(ctx, b.x1, yA, 'R₁', sol.vr1, sol.i1, Math.min(1, (sol.i1 * sol.i1 * R1) / 60));
-      drawResistor(ctx, b.x1, yB, 'R₂', sol.vr2, sol.i2, Math.min(1, (sol.i2 * sol.i2 * R2) / 60));
-      drawMeter(ctx, b.x1 - 52, yA, 'V', `${sol.vr1.toFixed(1)} V`);
-    } else {
-      drawResistor(ctx, b.xb, midY, 'R₁', sol.vr1, sol.i1, Math.min(1, (sol.i1 * sol.i1 * R1) / 60));
-      drawResistor(ctx, b.x1, midY, 'R₂', sol.vr2, sol.i2, Math.min(1, (sol.i2 * sol.i2 * R2) / 60));
-    }
-
-    drawBulb(ctx, b.x0 + (b.x1 - b.x0) * 0.5, b.y1, Math.min(1, sol.iTot / 4));
-
-    currentBadge.set(`I = ${sol.iTot.toFixed(2)} A`);
-    rTotOut.set(`${sol.rTot.toFixed(2)} Ω`);
-    iTotOut.set(`${sol.iTot.toFixed(2)} A`);
-    v1Out.set(`${sol.vr1.toFixed(1)} V · ${sol.i1.toFixed(2)} A`);
-    v2Out.set(mode === 'single' ? '—' : `${sol.vr2.toFixed(1)} V · ${sol.i2.toFixed(2)} A`);
+  }
+  const r1H = resHandle(r1Pos, () => R1i, (v) => { R1i = v; }, r1S);
+  const r2H = resHandle(r2Pos, () => R2i, (v) => { R2i = v; }, r2S);
+  let by0 = 0, c0 = 0;
+  const batH = k.drag({
+    hit: (x, y, s) => (Math.abs(x - battX) < 26 + s && Math.abs(y - battY) < 50 + s ? 1 : false),
+    down: (x, y) => { by0 = y; c0 = cells; },
+    move: (x, y) => { const c = clamp(c0 + Math.round((by0 - y) / 16), 1, 8); if (c !== cells) { cells = c; vS.set(c); solve(); } },
+    cursor: 'ns-resize',
   });
 
-  sim.start();
+  function pointOn(i, d, out) {
+    const a = paths[i];
+    for (let j = 1; j < pn[i]; j++) {
+      const x0 = a[j * 2 - 2], y0 = a[j * 2 - 1], x1 = a[j * 2], y1 = a[j * 2 + 1];
+      const sl = Math.hypot(x1 - x0, y1 - y0);
+      if (d <= sl) { out.x = x0 + (x1 - x0) * d / sl; out.y = y0 + (y1 - y0) * d / sl; return out; }
+      d -= sl;
+    }
+    out.x = a[(pn[i] - 1) * 2]; out.y = a[(pn[i] - 1) * 2 + 1];
+    return out;
+  }
+  const Q = { x: 0, y: 0 };
 
-  return {
-    dispose() {
-      panel.dispose();
-      hud.dispose();
-      sim.dispose();
-    },
-  };
+  k.frame((ctx, dt, w, h) => {
+    flow.to(closed ? 1 : 0); flow.step(dt); sw.to(closed ? 1 : 0); sw.step(dt);
+    for (let i = 0; i < 3; i++) off[i] = (off[i] + (i === 0 ? I : !parallel ? 0 : i === 1 ? I1 : I2) * flow.x * 46 * dt * (electrons ? -1 : 1) + 1e6) % 24;
+    needle[0].to(I); needle[1].to(V1); needle[0].step(dt); needle[1].step(dt);
+    background(k, ctx, w, h);
+    grid(ctx, 0, 0, w, h, 24, T.grid);
+    // wires
+    ctx.strokeStyle = '#475569'; ctx.lineWidth = 5; ctx.lineJoin = 'round';
+    for (let i = 0; i < 3; i++) { if (!pn[i]) continue; ctx.beginPath(); for (let j = 0; j < pn[i]; j++) { const x = paths[i][j * 2], y = paths[i][j * 2 + 1]; if (j) ctx.lineTo(x, y); else ctx.moveTo(x, y); } ctx.stroke(); }
+    ctx.strokeStyle = '#94a3b8'; ctx.lineWidth = 1.2;
+    for (let i = 0; i < 3; i++) { if (!pn[i]) continue; ctx.beginPath(); for (let j = 0; j < pn[i]; j++) { const x = paths[i][j * 2], y = paths[i][j * 2 + 1] - 1; if (j) ctx.lineTo(x, y); else ctx.moveTo(x, y); } ctx.stroke(); }
+    if (parallel) { for (const yy of [Tp, B]) { ctx.beginPath(); ctx.arc(xa, yy, 5, 0, Math.PI * 2); ctx.fillStyle = '#334155'; ctx.fill(); } }
+    // charges
+    if (flow.x > 0.02) {
+      ctx.fillStyle = electrons ? withAlpha('#38bdf8', flow.x) : withAlpha('#fde047', flow.x);
+      for (let i = 0; i < 3; i++) {
+        if (!pn[i]) continue;
+        const n = Math.min(MAXDOTS, Math.floor(plen[i] / 24));
+        for (let d = 0; d < n; d++) { pointOn(i, (d * 24 + off[i]) % plen[i], Q); ctx.beginPath(); ctx.arc(Q.x, Q.y, 3.4, 0, Math.PI * 2); ctx.fill(); }
+      }
+    }
+    // battery
+    drawBattery(ctx, battX, battY);
+    // switch
+    const sp = swPos();
+    ctx.fillStyle = '#f8fafc'; ctx.fillRect(sp[0] - 26, sp[1] - 8, 52, 16);
+    ctx.beginPath(); ctx.arc(sp[0] - 20, sp[1], 4.5, 0, Math.PI * 2); ctx.arc(sp[0] + 20, sp[1], 4.5, 0, Math.PI * 2); ctx.fillStyle = '#334155'; ctx.fill();
+    const ang = -0.6 * (1 - sw.x);
+    ctx.strokeStyle = k.isHot(swH) ? T.blue : '#334155'; ctx.lineWidth = 4;
+    ctx.beginPath(); ctx.moveTo(sp[0] - 20, sp[1]); ctx.lineTo(sp[0] - 20 + Math.cos(ang) * 42, sp[1] + Math.sin(ang) * 42); ctx.stroke();
+    pill(ctx, closed ? 'switch closed' : 'tap to close', sp[0], sp[1] + 26, { size: 10, color: closed ? T.green : T.blue });
+    // resistors
+    drawResistor(ctx, r1Pos(P1), VALUES[R1i], 'R₁', I1, k.isHot(r1H));
+    drawResistor(ctx, r2Pos(P2), VALUES[R2i], 'R₂', I2, k.isHot(r2H));
+    // ammeter
+    const am = amPos();
+    meter(ctx, am[0], am[1], 'A', `${fmt(I, 2)} A`, T.blue);
+    if (parallel) { meterSmall(ctx, xa + 30, B - 34, `${fmt(I1, 2)} A`); meterSmall(ctx, R - 30, B - 34, `${fmt(I2, 2)} A`); }
+    // voltmeter across R1
+    r1Pos(P1);
+    const vx = P1.v ? P1.x - 70 : P1.x, vy = P1.v ? P1.y : P1.y + 70;
+    ctx.setLineDash([5, 4]); ctx.strokeStyle = withAlpha(T.purple, 0.7); ctx.lineWidth = 1.5; ctx.beginPath();
+    if (P1.v) { ctx.moveTo(P1.x, P1.y - 50); ctx.lineTo(vx, P1.y - 50); ctx.lineTo(vx, vy - 20); ctx.moveTo(vx, vy + 20); ctx.lineTo(vx, P1.y + 50); ctx.lineTo(P1.x, P1.y + 50); }
+    else { ctx.moveTo(P1.x - 50, P1.y); ctx.lineTo(P1.x - 50, vy); ctx.lineTo(vx - 20, vy); ctx.moveTo(vx + 20, vy); ctx.lineTo(P1.x + 50, vy); ctx.lineTo(P1.x + 50, P1.y); }
+    ctx.stroke(); ctx.setLineDash([]);
+    meter(ctx, vx, vy, 'V', `${fmt(V1, 2)} V`, T.purple);
+    if (!k.small) text(ctx, `V = IR → ${fmt(V1, 2)} V = ${fmt(I1, 3)} A × ${VALUES[R1i]} Ω`, 16, h - 16, T.ink2, 11.5, 600);
+    st.R.set(`${fmt(Rt, 2)} Ω`); st.I.set(`${fmt(I, 3)} A`);
+    st.b1.set(`${fmt(V1, 2)} V, ${fmt(I1, 3)} A`); st.b2.set(`${fmt(V2, 2)} V, ${fmt(I2, 3)} A`);
+    badge.set(!closed ? 'Tap the switch to close the circuit' : parallel ? `Current splits: ${fmt(I1, 2)} A + ${fmt(I2, 2)} A = ${fmt(I, 2)} A` : `Same current everywhere: ${fmt(I, 2)} A`);
+    k.animate(closed || flow.moving || sw.moving || needle[0].moving);
+  });
+
+  function drawBattery(ctx, x, y) {
+    const n = cells, gap = 9, hgt = n * gap * 2;
+    ctx.fillStyle = withAlpha('#f8fafc', 1); ctx.fillRect(x - 24, y - hgt / 2 - 6, 48, hgt + 12);
+    for (let i = 0; i < n; i++) {
+      const cy = y - hgt / 2 + i * gap * 2 + 4;
+      ctx.fillStyle = '#334155'; ctx.fillRect(x - 18, cy, 36, 3); ctx.fillRect(x - 10, cy + gap, 20, 5);
+    }
+    text(ctx, '+', x + 26, y - hgt / 2 + 6, T.red, 14, 800);
+    text(ctx, '−', x + 26, y + hgt / 2 + 2, T.ink, 14, 800);
+    pill(ctx, `${fmt(cells * CELL, 1)} V`, x - (k.small ? 0 : 52), y + (k.small ? hgt / 2 + 24 : 0), { color: T.red, size: 11 });
+    if (k.isHot(batH)) text(ctx, 'drag ↕ for cells', x, y - hgt / 2 - 14, T.blue, 10, 600, 'center');
+  }
+  function drawResistor(ctx, p, Rv, label, Ib, hot) {
+    const pw = Ib * Ib * Rv;
+    const glow = clamp(pw / 6, 0, 1) * flow.x;
+    ctx.save(); ctx.translate(p.x, p.y); if (p.v) ctx.rotate(Math.PI / 2);
+    if (glow > 0.03) { ctx.fillStyle = withAlpha('#f97316', 0.22 * glow); ctx.beginPath(); ctx.roundRect(-46, -20, 92, 40, 20); ctx.fill(); }
+    if (hot) { ctx.fillStyle = withAlpha(T.blue, 0.12); ctx.beginPath(); ctx.roundRect(-44, -18, 88, 36, 12); ctx.fill(); }
+    ctx.fillStyle = mix('#e7d3ad', '#f97316', glow * 0.5); ctx.strokeStyle = '#a8855a'; ctx.lineWidth = 1.2;
+    ctx.beginPath(); ctx.roundRect(-34, -11, 68, 22, 9); ctx.fill(); ctx.stroke();
+    const b = bands(Rv);
+    const cols = [BAND[b[0]], BAND[b[1]], b[2] < 0 ? '#d4a017' : BAND[b[2]], '#d4a017'];
+    const xs = [-20, -10, 0, 18];
+    for (let i = 0; i < 4; i++) { ctx.fillStyle = cols[i]; ctx.fillRect(xs[i] - 2.5, -11, 5, 22); }
+    ctx.restore();
+    const flipL = p.v && p.x > k.w - 90;
+    const lx = p.v ? (flipL ? p.x - 62 : p.x + 62) : p.x, ly = p.v ? p.y : p.y - 30;
+    pill(ctx, `${label} = ${Rv} Ω`, lx, ly, { size: 10.5, color: T.ink });
+    if (hot) text(ctx, 'drag ↕', lx, ly + 20, T.blue, 10, 600, 'center');
+  }
+  function meter(ctx, x, y, sym, val, color) {
+    ctx.beginPath(); ctx.arc(x, y + 2, 20, 0, Math.PI * 2); ctx.fillStyle = 'rgba(23,40,80,0.12)'; ctx.fill();
+    ctx.beginPath(); ctx.arc(x, y, 20, 0, Math.PI * 2); ctx.fillStyle = '#fff'; ctx.fill(); ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.stroke();
+    text(ctx, sym, x, y + 1, color, 15, 800, 'center', 'middle');
+    pill(ctx, val, x, y - 34, { color, size: 11, bg: '#fff' });
+  }
+  function meterSmall(ctx, x, y, val) { pill(ctx, val, x, y, { size: 10, color: T.blue }); }
+
+  k.debug = { sw: () => swPos(), r1: () => { r1Pos(P1); return [P1.x, P1.y]; }, state: () => ({ I, I1, I2, V1, Rt, closed, R1: VALUES[R1i] }), parallel: () => { topo.set('p'); parallel = true; buildPaths(); solve(); } };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
 }
