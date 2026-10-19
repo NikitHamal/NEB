@@ -1,155 +1,239 @@
-/**
- * Scale of the universe — one continuous zoom across 27 powers of ten, from a person to the
- * observable universe. Every object is drawn at its true size relative to the view (all nested
- * about the centre), so each one shrinks to a dot as the next appears. Drag up or down (or scroll,
- * or use the slider) to zoom; the scale bar converts the view into metres, kilometres, AU and
- * light-years.
- */
-import { createKit, T, Spring, fmt, clamp, text, withAlpha, sphere } from '../core/kit2d.js';
-import { starfield, glow, npill } from '../core/space2d.js';
+import { THREE, createEngine } from '../core/engine.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { createUniverse } from './cosmos/universe.js';
+import { createRig, MIN_LOG, MAX_LOG } from './cosmos/view.js';
+import { createLabels, hudElement } from './cosmos/labels.js';
+import { AU, LY } from './cosmos/astro.js';
 
-const LY = 9.4607e15, AU = 1.496e11;
-const OBJ = [
-  { name: 'You', size: 1.7, type: 'person', color: '#e8eefb', label: '1.7 m tall' },
-  { name: 'Mt. Everest (Sagarmatha)', size: 8849, type: 'mountain', color: '#cdd9ec', label: '8 849 m high' },
-  { name: 'Nepal', size: 8.85e5, type: 'country', color: '#60a5fa', label: '885 km long' },
-  { name: 'Earth', size: 1.2742e7, type: 'planet', color: '#4d9fff', label: '12 742 km across' },
-  { name: 'The Moon\'s orbit', size: 7.69e8, type: 'orbit', color: '#9aa7bd', label: '384 400 km from Earth' },
-  { name: 'The Sun', size: 1.3927e9, type: 'star', color: '#ffd27a', label: '1.39 million km across' },
-  { name: 'Earth\'s orbit', size: 2 * AU, type: 'orbit', color: '#7dd3fc', label: '1 AU = 150 million km from the Sun' },
-  { name: 'The Solar System', size: 60 * AU, type: 'orbit', color: '#a5b4fc', label: 'Neptune\'s orbit, 30 AU from the Sun' },
-  { name: 'The Oort cloud', size: 3.2 * LY, type: 'cloud', color: '#94a3b8', label: 'icy comets out to ~1.6 light-years' },
-  { name: 'Nearest stars', size: 2 * 4.24 * LY, type: 'neighbours', color: '#f9a8d4', label: 'Proxima Centauri, 4.24 light-years away' },
-  { name: 'The Milky Way', size: 1.0e5 * LY, type: 'galaxy', color: '#c4b5fd', label: '100 000 light-years across' },
-  { name: 'The Local Group', size: 1.0e7 * LY, type: 'group', color: '#94a8d0', label: '~10 million light-years, with Andromeda' },
-  { name: 'Laniakea Supercluster', size: 5.2e8 * LY, type: 'web', color: '#7c8db0', label: '520 million light-years' },
-  { name: 'Observable Universe', size: 9.3e10 * LY, type: 'universe', color: '#f0a65a', label: '93 billion light-years across' },
+const BANDS = [
+  [-9, 1.0, 'You', 'A person is about 1.7 m tall: 10⁰ metres. Light crosses you in about 6 billionths of a second.'],
+  [1.0, 2.6, 'The summit of Everest', 'You are standing 8 849 m above sea level, on real elevation data. Up here the air holds only a third of the oxygen it has at sea level.'],
+  [2.6, 4.1, 'Mount Everest (Sagarmatha)', 'The highest point on Earth, with Lhotse and Nuptse beside it. Its summit rock was once the floor of an ancient sea: it holds marine fossils.'],
+  [4.1, 5.4, 'The Himalaya', 'India is still pushing into Asia at about 5 cm a year, and the Himalaya are rising by a few millimetres every year.'],
+  [5.4, 6.6, 'Nepal and Tibet', 'The whole of Nepal fits in a strip about 885 km long. Notice how thin the snowy mountains look from here.'],
+  [6.6, 7.9, 'Planet Earth', '12 742 km across. All the air you breathe is a layer thinner, compared to Earth, than the skin on an apple.'],
+  [7.9, 9.4, 'Earth and the Moon', 'The Moon is 384 400 km away. You could fit every other planet in the Solar System into that gap.'],
+  [9.4, 10.6, 'Earth’s neighbourhood', 'Sunlight takes 8 minutes and 20 seconds to reach Earth. Everything here is drawn at its true size and true position for today.'],
+  [10.6, 12.6, 'The inner Solar System', 'Mercury, Venus, Earth and Mars, in the places they really are today. One astronomical unit (AU) is the Earth–Sun distance, 150 million km.'],
+  [12.6, 14.2, 'The Solar System', 'Neptune orbits 30 AU from the Sun. Planets are dots even at this scale; the Solar System is almost entirely empty space.'],
+  [14.2, 15.6, 'The heliosphere', 'The solar wind blows a bubble about 120 AU across. Voyager 1, launched in 1977, has crossed it and is now in interstellar space.'],
+  [15.6, 16.8, 'The Oort cloud', 'A shell of perhaps a trillion icy comets reaching out more than a light-year. A light-year is 9.46 trillion km.'],
+  [16.8, 18.2, 'The nearest stars', 'Proxima Centauri is 4.24 light-years away, about 270 000 AU. At the speed of the fastest spacecraft the trip would take thousands of years.'],
+  [18.2, 19.6, 'Our stellar neighbourhood', 'Bright stars like Betelgeuse, Rigel and Deneb are hundreds to thousands of light-years away; you see them as they were when their light left.'],
+  [19.6, 21.4, 'The Orion Spur', 'The Sun sits in a small arm between the Sagittarius and Perseus arms, 26 700 light-years from the galaxy’s centre.'],
+  [21.4, 22.7, 'The Milky Way', 'A barred spiral of 100–400 billion stars, about 100 000 light-years across. The Sun takes 230 million years to go round once.'],
+  [22.7, 23.8, 'The Local Group', 'About 80 galaxies. Andromeda, 2.5 million light-years away, is heading towards us and will merge with the Milky Way in about 4.5 billion years.'],
+  [23.8, 24.8, 'The Virgo Supercluster', 'Groups and clusters of galaxies, with the huge Virgo Cluster of over 1 000 galaxies at its heart.'],
+  [24.8, 25.8, 'Laniakea Supercluster', '“Immeasurable heaven” in Hawaiian: 100 000 galaxies whose motions flow towards the Great Attractor. The glowing streams show that flow.'],
+  [25.8, 26.6, 'The cosmic web', 'Galaxies gather along filaments around enormous empty voids, like foam. It is the largest pattern in the universe.'],
+  [26.6, 99, 'The observable universe', '93 billion light-years across, holding about 2 trillion galaxies. Its edge is the cosmic microwave background, the oldest light there is.'],
 ];
 
+const JUMPS = [
+  { id: 'you', label: 'You', log: 0.6 },
+  { id: 'everest', label: 'Everest', log: 3.95 },
+  { id: 'himalaya', label: 'Himalaya', log: 5.25 },
+  { id: 'earth', label: 'Earth', log: 7.35 },
+  { id: 'moon', label: 'Moon', log: 6.9, focus: 'moon', name: 'The Moon', text: 'The Moon is 3 474 km across, a quarter the width of Earth. Its craters are records of impacts over 4 billion years; there is no weather to erase them.' },
+  { id: 'earthmoon', label: 'Earth & Moon', log: 9.05 },
+  { id: 'sun', label: 'The Sun', log: 9.65, focus: 'sun', name: 'The Sun', text: 'The Sun is 1.39 million km across: 109 Earths would fit across its face. Its boiling granules are each about the size of Nepal, and dark sunspots are cooler, magnetic regions.' },
+  { id: 'jupiter', label: 'Jupiter', log: 8.4, focus: 'jupiter', name: 'Jupiter', text: 'The biggest planet, 143 000 km across, made mostly of hydrogen and helium. The Great Red Spot is a storm wider than Earth that has raged for centuries.' },
+  { id: 'saturn', label: 'Saturn', log: 8.75, focus: 'saturn', name: 'Saturn', text: 'Saturn’s rings are 280 000 km wide but mostly only about 10 metres thick: billions of pieces of ice, from dust grains to house-sized blocks.' },
+  { id: 'inner', label: 'Inner planets', log: 11.7 },
+  { id: 'solar', label: 'Solar System', log: 13.25 },
+  { id: 'oort', label: 'Oort cloud', log: 16.3 },
+  { id: 'stars', label: 'Nearest stars', log: 17.35 },
+  { id: 'milkyway', label: 'Milky Way', log: 21.1 },
+  { id: 'andromeda', label: 'Andromeda', log: 21.55, focus: 'm31', name: 'Andromeda Galaxy', text: 'Our nearest big neighbour: a spiral of about a trillion stars, 2.5 million light-years away. On a dark night in Nepal you can see it with your naked eye as a faint smudge.' },
+  { id: 'local', label: 'Local Group', log: 22.85 },
+  { id: 'laniakea', label: 'Laniakea', log: 25.15 },
+  { id: 'universe', label: 'Observable universe', log: 26.98 },
+];
+
+const TOUR = ['you', 'everest', 'himalaya', 'earth', 'earthmoon', 'inner', 'solar', 'oort', 'stars', 'milkyway', 'local', 'laniakea', 'universe'];
+
+function fmtNum(x, d = 0) { return x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: 0 }).replace(/,/g, ' '); }
+
 function human(m) {
-  if (m < 1e3) return `${fmt(m, m < 10 ? 1 : 0)} m`;
-  if (m < 1e9) return `${fmt(m / 1e3, m < 1e4 ? 1 : 0)} km`;
-  if (m < 0.05 * LY) return `${fmt(m / AU, m < 10 * AU ? 2 : 0)} AU`;
+  if (m < 1) return `${fmtNum(m * 100, 0)} cm`;
+  if (m < 1e3) return `${fmtNum(m, m < 10 ? 1 : 0)} m`;
+  if (m < 1e9) return `${fmtNum(m / 1e3, m < 1e4 ? 1 : 0)} km`;
+  if (m < 0.05 * LY) return `${fmtNum(m / AU, m < 10 * AU ? 2 : 0)} AU`;
   const ly = m / LY;
-  return ly < 1e3 ? `${fmt(ly, ly < 10 ? 2 : 0)} light-years` : ly < 1e6 ? `${fmt(ly / 1e3, 0)} thousand ly` : ly < 1e9 ? `${fmt(ly / 1e6, 0)} million ly` : `${fmt(ly / 1e9, 0)} billion ly`;
+  if (ly < 1e3) return `${fmtNum(ly, ly < 10 ? 2 : 0)} light-years`;
+  if (ly < 1e6) return `${fmtNum(ly / 1e3, 0)} thousand light-years`;
+  if (ly < 1e9) return `${fmtNum(ly / 1e6, 0)} million light-years`;
+  return `${fmtNum(ly / 1e9, 1)} billion light-years`;
 }
-const SUP = '⁰¹²³⁴⁵⁶⁷⁸⁹';
-const pow10 = (n) => '10' + String(n).split('').map((d) => (d === '-' ? '⁻' : SUP[+d])).join('');
+
+function lightTime(m) {
+  const s = m / 2.998e8;
+  if (s < 1e-6) return `${fmtNum(s * 1e9, 1)} ns`;
+  if (s < 1e-3) return `${fmtNum(s * 1e6, 1)} µs`;
+  if (s < 1) return `${fmtNum(s * 1e3, 1)} ms`;
+  if (s < 120) return `${fmtNum(s, 1)} s`;
+  if (s < 7200) return `${fmtNum(s / 60, 1)} min`;
+  if (s < 86400 * 3) return `${fmtNum(s / 3600, 1)} hours`;
+  if (s < 86400 * 365.25 * 2) return `${fmtNum(s / 86400, 0)} days`;
+  const y = s / (86400 * 365.25);
+  if (y < 1e6) return `${fmtNum(y, 0)} years`;
+  if (y < 1e9) return `${fmtNum(y / 1e6, 0)} million years`;
+  return `${fmtNum(y / 1e9, 1)} billion years`;
+}
+
+const SUP = { '-': '⁻', 0: '⁰', 1: '¹', 2: '²', 3: '³', 4: '⁴', 5: '⁵', 6: '⁶', 7: '⁷', 8: '⁸', 9: '⁹' };
+const pow10 = (n) => `10${String(n).split('').map((c) => SUP[c]).join('')}`;
 
 export default function init(stage) {
-  const k = createKit(stage, { night: true, captureTouch: true, label: 'A zoom through the powers of ten from a person to the observable universe' });
+  stage.classList.add('ix-cosmos-stage');
+  const engine = createEngine(stage, { logDepth: true, alpha: false, environment: false, fov: 45, near: 1e-3, far: 1e9, exposure: 1.0 });
+  if (!engine) return null;
+  const { scene, camera, renderer } = engine;
+  scene.background = new THREE.Color(0x000000);
+  renderer.setClearColor(0x000000, 1);
+
+  const labels = createLabels(stage);
+  const powEl = hudElement(stage, 'cz-hud-pow', '<b></b><small></small>');
+  const barEl = hudElement(stage, 'cz-scalebar', '<span></span><em></em>');
+  const capEl = hudElement(stage, 'cz-caption');
+  const loadEl = hudElement(stage, 'cz-loading', 'Building Everest from real elevation data…');
   const hud = createHud(stage);
-  const badge = hud.badge('Drag up to zoom out, down to zoom in', '#60a5fa');
+  const badge = hud.badge('You', '#60a5fa');
 
-  const z = new Spring(0.7, 40, 12);
-  let target = 0.7, touring = false;
-  const panel = createPanel(stage, { title: 'Powers of ten' });
-  const zS = panel.slider({ label: 'View width', min: 0, max: 27.2, step: 0.01, value: target, format: (v) => `${pow10(Math.floor(v))} m · ${human(Math.pow(10, v))}`, onChange: (v) => { target = v; touring = false; k.animate(true); } });
-  panel.chips({ label: 'Jump to', options: OBJ.filter((o, i) => i % 2 === 1 || i === 13).map((o) => ({ value: o.name, label: o.name.replace('The ', '').split(' (')[0] })), value: '', onChange: (v) => { const o = OBJ.find((q) => q.name === v); target = Math.log10(o.size * 1.6); zS.set(target); touring = false; k.animate(true); } });
-  const [tourB] = panel.buttonRow([{ label: 'Tour', icon: 'rocket_launch', onClick: () => { touring = !touring; if (touring && target > 27) target = 0.2; k.animate(true); } }]);
-  const st = panel.stats([{ key: 'w', label: 'View width' }, { key: 'p', label: 'Power of ten' }, { key: 'obj', label: 'In view' }, { key: 'light', label: 'Light takes' }]);
-  panel.info('Each step to the right in the power of ten is ten times bigger. From the Sun to the nearest star is about 270 000 AU; between galaxies is mostly empty space.');
-
-  let dragY0 = 0, z0 = 0;
-  k.drag({ hit: () => 1, down: (x, y) => { dragY0 = y; z0 = target; touring = false; }, move: (x, y) => { target = clamp(z0 + (dragY0 - y) / 90, 0, 27.2); zS.set(target); k.animate(true); }, cursor: 'ns-resize', cursorActive: 'ns-resize' });
-  function onWheel(e) { e.preventDefault(); target = clamp(target + e.deltaY * 0.004, 0, 27.2); zS.set(target); touring = false; k.animate(true); }
-  k.canvas.addEventListener('wheel', onWheel, { passive: false });
-
-  const galaxy = (() => {
-    const c = document.createElement('canvas'); c.width = c.height = 256;
-    const g = c.getContext('2d');
-    let s = 7; const r = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
-    for (let i = 0; i < 2600; i++) {
-      const arm = i % 2, t = r() * 4.2, rad = 10 + t * 26 + (r() - 0.5) * 14, a = t * 1.25 + arm * Math.PI + (r() - 0.5) * 0.45;
-      g.fillStyle = r() < 0.2 ? 'rgba(255,200,160,0.8)' : 'rgba(190,200,255,0.7)';
-      g.fillRect(128 + Math.cos(a) * rad, 128 + Math.sin(a) * rad * 0.9, 1.4, 1.4);
-    }
-    const core = g.createRadialGradient(128, 128, 0, 128, 128, 40); core.addColorStop(0, 'rgba(255,230,190,0.95)'); core.addColorStop(1, 'rgba(255,230,190,0)');
-    g.fillStyle = core; g.fillRect(0, 0, 256, 256);
-    return c;
-  })();
-  const web = (() => {
-    const c = document.createElement('canvas'); c.width = c.height = 256;
-    const g = c.getContext('2d');
-    let s = 3; const r = () => { s = (s * 16807) % 2147483647; return s / 2147483647; };
-    const nodes = []; for (let i = 0; i < 40; i++) nodes.push([r() * 256, r() * 256]);
-    g.strokeStyle = 'rgba(150,170,230,0.25)'; g.lineWidth = 1.2;
-    for (const a of nodes) for (const b of nodes) if (a !== b && Math.hypot(a[0] - b[0], a[1] - b[1]) < 55) { g.beginPath(); g.moveTo(a[0], a[1]); g.lineTo(b[0], b[1]); g.stroke(); }
-    for (let i = 0; i < 1400; i++) { const n = nodes[(r() * nodes.length) | 0]; g.fillStyle = 'rgba(200,210,255,0.6)'; g.fillRect(n[0] + (r() - 0.5) * 30, n[1] + (r() - 0.5) * 30, 1.2, 1.2); }
-    return c;
-  })();
-
-  k.frame((ctx, dt, w, h) => {
-    if (touring) { target = Math.min(27.2, target + dt * 1.1); zS.set(target); if (target >= 27.2) { touring = false; tourB.setLabel('Tour'); } }
-    z.to(target); z.step(dt);
-    const view = Math.pow(10, z.x), W = Math.min(w, h) * 0.9, cx = w / 2, cy = h / 2;
-    starfield(k, ctx, w, h, { seed: 9 });
-    let inView = '';
-    for (let i = OBJ.length - 1; i >= 0; i--) {
-      const o = OBJ[i], s = o.size / view * W;
-      if (s < 0.6 || s > W * 40) continue;
-      const fade = clamp(Math.min((s - 0.6) / 6, (W * 40 - s) / (W * 30)), 0, 1);
-      ctx.globalAlpha = fade;
-      draw(ctx, o, cx, cy, s);
-      ctx.globalAlpha = 1;
-      if (s > W * 0.12 && s < W * 1.6 && !inView) inView = o.name;
-      if (s > 26 && s < W * 1.25) npill(ctx, `${o.name} · ${o.label}`, cx, Math.max(30, cy - Math.min(s, W) / 2 - 16) + (i % 2 ? 0 : 0), withAlpha(o.color === '#e8eefb' ? '#e8eefb' : o.color, 1), k.small ? 9.5 : 11);
-    }
-    // scale bar
-    const pw = Math.floor(z.x - 0.7), bar = Math.pow(10, pw) / view * W;
-    const bx = 20, by = h - 26;
-    ctx.strokeStyle = '#e8eefb'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(bx, by - 6); ctx.lineTo(bx, by); ctx.lineTo(bx + bar, by); ctx.lineTo(bx + bar, by - 6); ctx.stroke();
-    text(ctx, `${pow10(pw)} m = ${human(Math.pow(10, pw))}`, bx + bar + 8, by + 3, '#e8eefb', 11, 700);
-    text(ctx, pow10(Math.round(z.x)) + ' m', w - 20, 40, 'rgba(232,238,251,0.85)', k.small ? 22 : 34, 800, 'right');
-    st.w.set(human(view)); st.p.set(`${pow10(Math.round(z.x))} m`); st.obj.set(inView || '—');
-    const lt = view / 2.998e8;
-    st.light.set(lt < 1e-3 ? `${fmt(lt * 1e9, 0)} ns to cross` : lt < 1 ? `${fmt(lt * 1000, 2)} ms to cross` : lt < 3600 ? `${fmt(lt, 1)} s to cross` : lt < 86400 * 365 ? `${fmt(lt / 3600, 1)} hours to cross` : `${human(view).replace('light-years', 'years').replace('ly', 'years')} to cross`);
-    badge.set(inView ? `${inView}` : 'Drag up to zoom out, down to zoom in');
-    k.animate(touring || z.moving);
+  const rig = createRig(engine.canvas, { start: 0.6, autoYaw: 0 });
+  const added = new Set();
+  const universe = createUniverse(engine, {
+    onProgress: () => {
+      universe.labelDefs.forEach((d) => {
+        if (added.has(d.def)) return;
+        added.add(d.def);
+        labels.add(d.layer, d.def);
+      });
+    },
   });
+  universe.ready().then(() => { loadEl.style.opacity = '0'; setTimeout(() => loadEl.remove(), 500); });
 
-  function draw(ctx, o, cx, cy, s) {
-    const r = s / 2;
-    switch (o.type) {
-      case 'person': {
-        const hgt = s; ctx.strokeStyle = o.color; ctx.lineWidth = Math.max(1, hgt * 0.06); ctx.lineCap = 'round';
-        ctx.beginPath(); ctx.arc(cx, cy - hgt * 0.4, hgt * 0.08, 0, Math.PI * 2); ctx.stroke();
-        ctx.beginPath(); ctx.moveTo(cx, cy - hgt * 0.32); ctx.lineTo(cx, cy + hgt * 0.1); ctx.lineTo(cx - hgt * 0.12, cy + hgt * 0.5); ctx.moveTo(cx, cy + hgt * 0.1); ctx.lineTo(cx + hgt * 0.12, cy + hgt * 0.5); ctx.moveTo(cx - hgt * 0.18, cy - hgt * 0.15); ctx.lineTo(cx + hgt * 0.18, cy - hgt * 0.15); ctx.stroke();
-        break;
-      }
-      case 'mountain':
-        ctx.fillStyle = '#64748b'; ctx.beginPath(); ctx.moveTo(cx - s * 1.4, cy + r); ctx.lineTo(cx - s * 0.2, cy - r); ctx.lineTo(cx + s * 0.1, cy - r * 0.7); ctx.lineTo(cx + s * 1.3, cy + r); ctx.fill();
-        ctx.fillStyle = '#f1f5f9'; ctx.beginPath(); ctx.moveTo(cx - s * 0.2, cy - r); ctx.lineTo(cx - s * 0.42, cy - r * 0.55); ctx.lineTo(cx - s * 0.05, cy - r * 0.6); ctx.lineTo(cx + s * 0.1, cy - r * 0.7); ctx.closePath(); ctx.fill();
-        break;
-      case 'country':
-        ctx.fillStyle = withAlpha('#3b82f6', 0.35); ctx.strokeStyle = '#93c5fd'; ctx.lineWidth = 1.5;
-        ctx.beginPath(); ctx.moveTo(cx - r, cy - r * 0.05); ctx.lineTo(cx - r * 0.6, cy - r * 0.28); ctx.lineTo(cx, cy - r * 0.2); ctx.lineTo(cx + r * 0.6, cy - r * 0.08); ctx.lineTo(cx + r, cy + r * 0.05); ctx.lineTo(cx + r * 0.8, cy + r * 0.22); ctx.lineTo(cx, cy + r * 0.16); ctx.lineTo(cx - r * 0.7, cy + r * 0.18); ctx.closePath(); ctx.fill(); ctx.stroke();
-        break;
-      case 'planet': glow(ctx, cx, cy, r * 1.25, '#60a5fa', 0.4); sphere(ctx, cx, cy, r, o.color); break;
-      case 'star': glow(ctx, cx, cy, r * 2.4, '#ffd27a', 0.9); sphere(ctx, cx, cy, r, '#ffcf5c'); break;
-      case 'orbit': ctx.strokeStyle = withAlpha(o.color, 0.7); ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke(); break;
-      case 'cloud': ctx.strokeStyle = withAlpha(o.color, 0.35); ctx.lineWidth = Math.max(2, r * 0.25); ctx.beginPath(); ctx.arc(cx, cy, r * 0.85, 0, Math.PI * 2); ctx.stroke(); break;
-      case 'neighbours':
-        ctx.strokeStyle = withAlpha(o.color, 0.6); ctx.setLineDash([4, 5]); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke(); ctx.setLineDash([]);
-        glow(ctx, cx + r * 0.71, cy - r * 0.71, 10, '#f9a8d4', 0.9); glow(ctx, cx + r * 0.68, cy - r * 0.74, 7, '#fde68a', 0.9);
-        break;
-      case 'galaxy': ctx.drawImage(galaxy, cx - r * 1.1, cy - r * 1.1, r * 2.2, r * 2.2); break;
-      case 'group':
-        ctx.drawImage(galaxy, cx - r * 0.02 - r * 0.01, cy - r * 0.02, r * 0.04, r * 0.04);
-        ctx.drawImage(galaxy, cx + r * 0.25 - r * 0.026, cy - r * 0.1 - r * 0.026, r * 0.052, r * 0.052);
-        ctx.strokeStyle = withAlpha(o.color, 0.5); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
-        break;
-      case 'web': ctx.drawImage(web, cx - r, cy - r, r * 2, r * 2); break;
-      case 'universe': {
-        ctx.strokeStyle = withAlpha('#f0a65a', 0.6); ctx.lineWidth = Math.max(2, r * 0.03); ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.stroke();
-        ctx.globalAlpha *= 0.6; ctx.drawImage(web, cx - r, cy - r, r * 2, r * 2); ctx.globalAlpha = 1;
-        break;
-      }
-      default: break;
+  let touring = false;
+  let tourIdx = 0;
+  let hold = 0;
+  let captionUntil = 0;
+  let lastBand = '';
+
+  const panel = createPanel(stage, { title: 'Scale of the Universe' });
+  panel.info('One continuous zoom through 27 powers of ten. Scroll, pinch or use the slider to zoom; drag to look around. Everything is at its true size and true position.');
+  const zoom = panel.slider({
+    label: 'View width', min: MIN_LOG, max: MAX_LOG, step: 0.01, value: 0.6,
+    format: (v) => `${pow10(Math.round(v))} m`,
+    onChange: (v) => { stopTour(); rig.jump(v); },
+  });
+  panel.chips({
+    label: 'Fly to', options: JUMPS.map((j) => ({ value: j.id, label: j.label })), value: '',
+    onChange: (id) => { stopTour(); flyTo(id); },
+  });
+  const [tourBtn] = panel.buttonRow([{ label: 'Take the tour', icon: 'rocket_launch', onClick: () => (touring ? stopTour() : startTour()) }]);
+  panel.toggle({ label: 'Labels', value: true, onChange: (v) => { labels.enabled = v; } });
+  const stats = panel.stats([
+    { key: 'w', label: 'View width' }, { key: 'p', label: 'Power of ten' },
+    { key: 'obj', label: 'In view' }, { key: 'light', label: 'Light takes' },
+  ]);
+  const about = panel.info(BANDS[0][3]);
+
+  let activeJump = null;
+  let pending = null;
+  function apply(j) {
+    activeJump = j;
+    universe.setOverride(j.focus ? { log: j.log, get: (v) => v.copy(universe.targets[j.focus]()) } : null);
+    rig.jump(j.log);
+    rig.resetOrbit();
+  }
+  function flyTo(id) {
+    const j = JUMPS.find((x) => x.id === id);
+    if (!j) return;
+    const to = j.focus ? universe.targets[j.focus]() : universe.pathFocus(j.log, new THREE.Vector3());
+    const d = universe.focusNow().distanceTo(to);
+    const peak = Math.log10(Math.max(1, d) * 2.2);
+    if (peak > Math.max(rig.logW, j.log) + 0.4) {
+      pending = { j, peak };
+      rig.jump(peak);
+    } else {
+      pending = null;
+      apply(j);
     }
   }
+  function startTour() {
+    touring = true; tourIdx = 0; hold = 0;
+    tourBtn.setLabel && tourBtn.setLabel('Stop the tour');
+    universe.setOverride(null);
+    rig.resetOrbit();
+    rig.jump(JUMPS.find((x) => x.id === TOUR[0]).log);
+  }
+  function stopTour() {
+    if (!touring) return;
+    touring = false;
+    tourBtn.setLabel && tourBtn.setLabel('Take the tour');
+  }
+  rig.onInteract((kind) => { if (kind === 'zoom') stopTour(); });
 
-  k.debug = { zoom: (v) => { target = v; zS.set(v); k.animate(true); }, z: () => z.x };
-  return { dispose() { k.canvas.removeEventListener('wheel', onWheel); k.dispose(); panel.dispose(); hud.dispose(); } };
+  const BAR_STEPS = [1, 2, 5];
+  let elapsed = 0;
+  engine.setUpdate((dt, t) => {
+    elapsed = t;
+    if (touring) {
+      const goal = JUMPS.find((x) => x.id === TOUR[tourIdx]).log;
+      if (Math.abs(rig.logW - goal) < 0.04) {
+        hold += dt;
+        if (hold > 5.5) {
+          hold = 0;
+          tourIdx += 1;
+          if (tourIdx >= TOUR.length) stopTour();
+          else rig.jump(JUMPS.find((x) => x.id === TOUR[tourIdx]).log);
+        }
+      }
+    }
+    if (pending && Math.abs(rig.logW - pending.peak) < 0.2) { const j = pending.j; pending = null; apply(j); }
+    const lw = rig.update(dt);
+    const w = stage.clientWidth || 1; const h = stage.clientHeight || 1;
+    const aspect = w / h;
+    const vf = camera.fov * Math.PI / 180;
+    const hf = 2 * Math.atan(Math.tan(vf / 2) * aspect);
+    const D = 5 / Math.tan(Math.min(vf, hf) / 2);
+    camera.near = D * 1e-4; camera.far = D * 1e7; camera.updateProjectionMatrix();
+    const { W } = universe.frame(lw, t, dt, rig.orbit(), D);
+    labels.update(camera, lw, w, h);
+
+    const p = Math.round(lw);
+    powEl.firstChild.textContent = `${pow10(p)} m`;
+    powEl.lastChild.textContent = human(W);
+    const pxPerM = Math.min(w, h) / W;
+    const target = Math.min(w, h) * 0.22 / pxPerM;
+    const e = Math.floor(Math.log10(target));
+    let len = Math.pow(10, e);
+    for (const s of BAR_STEPS) if (s * Math.pow(10, e) <= target) len = s * Math.pow(10, e);
+    barEl.firstChild.style.width = `${(len * pxPerM).toFixed(1)}px`;
+    barEl.lastChild.textContent = human(len);
+    let band = BANDS.find((b) => lw >= b[0] && lw < b[1]) || BANDS[BANDS.length - 1];
+    if (activeJump && activeJump.focus && Math.abs(lw - activeJump.log) < 0.8) band = [0, 0, activeJump.name, activeJump.text];
+    if (band[2] !== lastBand) {
+      lastBand = band[2];
+      badge.set(band[2]);
+      about.set(band[3]);
+      if (touring) { capEl.textContent = band[3]; captionUntil = t + 7; }
+    }
+    capEl.classList.toggle('on', touring && t < captionUntil);
+    if (Math.abs(zoom.input ? +zoom.input.value - lw : 1) > 0.02 && zoom.set) zoom.set(+lw.toFixed(2));
+    stats.w.set(human(W));
+    stats.p.set(`${pow10(p)} m`);
+    stats.obj.set(band[2]);
+    stats.light.set(lightTime(W));
+  });
+  engine.start();
+
+  stage.__cosmos = { rig, universe, flyTo, apply: (id) => apply(JUMPS.find((x) => x.id === id)), get t() { return elapsed; } };
+  return {
+    dispose() {
+      rig.dispose(); labels.dispose(); panel.dispose(); hud.dispose();
+      universe.dispose(); engine.dispose();
+      [powEl, barEl, capEl, loadEl].forEach((el) => el.remove());
+    },
+  };
 }
