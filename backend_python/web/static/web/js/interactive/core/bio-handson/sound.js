@@ -52,6 +52,9 @@ const LIB = {
   bad: () => { tone(180, 0.22, { type: 'sawtooth', gain: 0.05, slide: 0.8 }); tone(150, 0.25, { type: 'square', gain: 0.025, delay: 0.05 }); },
   pour: () => noise(0.6, { freq: 700, q: 0.7, gain: 0.08, type: 'lowpass', sweep: 1.8 }),
   knob: () => noise(0.015, { freq: 3000, q: 8, gain: 0.08 }),
+  paper: () => noise(0.16, { freq: 2600, q: 0.7, gain: 0.08, sweep: 0.6 }),
+  latch: () => { noise(0.03, { freq: 3800, q: 5, gain: 0.2 }); tone(900, 0.05, { type: 'square', gain: 0.03 }); },
+  door: () => noise(0.4, { freq: 400, q: 1.2, gain: 0.08, sweep: 1.6 }),
 };
 
 // Recorded sounds (CC0, Kenney.nl) for the moments a synth cannot fake: a petal plucked, a blade
@@ -61,9 +64,9 @@ const LIB = {
 const SAMPLES = {
   pick: ['pluck1', 'pluck2'], tear: ['tear1', 'tear2', 'pluck2'], cut: ['cut1', 'cut2'], snip: ['snip1'], pin: ['pin1', 'pin2'],
   drop: ['drop1', 'drop2'], drip: ['drop1', 'drop2'], place: ['place1', 'place2'], glass: ['glass1', 'glass2'], click: ['click1', 'click2'],
-  knob: ['knob1', 'knob2'], ok: ['ok1'], done: ['done1'], bad: ['bad1'], squish: ['squish1'], grab: ['pick1', 'pick2'], switch: ['switch1'],
+  knob: ['knob1', 'knob2'], ok: ['ok1'], done: ['done1'], bad: ['bad1'], squish: ['squish1'], grab: ['pick1', 'pick2'], switch: ['switch1'], paper: ['paper1', 'paper2'], latch: ['latch1', 'latch2'], door: ['door1'],
 };
-const GAIN = { pick: 0.8, tear: 0.6, cut: 0.55, drop: 0.5, drip: 0.35, knob: 0.35, click: 0.5, place: 0.7, glass: 0.6, ok: 0.45, done: 0.5, bad: 0.45 };
+const GAIN = { paper: 0.6, latch: 0.5, door: 0.45, pick: 0.8, tear: 0.6, cut: 0.55, drop: 0.5, drip: 0.35, knob: 0.35, click: 0.5, place: 0.7, glass: 0.6, ok: 0.45, done: 0.5, bad: 0.45 };
 const BASE = (() => {
   const s = (typeof document !== 'undefined' && [...document.querySelectorAll('script[src*="interactive/core/lesson.js"]')][0]) || null;
   return s ? s.src.replace(/js\/interactive\/core\/lesson\.js.*$/, 'audio/sfx/') : '/static/web/audio/sfx/';
