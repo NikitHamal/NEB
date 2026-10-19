@@ -263,3 +263,31 @@ Step 5 — (e) The integrated system for the local levels — budget, execution,
 **2.** *Government systems (4).* BMIS, LMBIS (and PLMBIS in the provinces), FMIS, TSA, CGAS and SUTRA, with PAMS, PMIS, E-GP, ITS and RAS as others. Name each with its full form and its one job, and state that they are integrated, so a figure entered at one end is visible at the other — and that they make control automatic, since a payment beyond the release or against a wrong head is refused by the system.
 *Business software and controls (4).* Accounting software for trading and small businesses (Tally, Swastik, Easy Account, Quick Book); for banks and financial institutions (Pumori, Finacle, FlexCube, Globus); for non-profit organisations (FASS, Peach Tree). What such software does: single entry from the voucher with automatic posting; ledgers and trial balance always current; final accounts for any period; payroll, inventory, depreciation, bank reconciliation and VAT. Controls it needs: passwords and user rights so that only the authorised person may enter or alter an entry; a daily backup kept in a second place; the audit trail left on so that every entry shows who made it and when; checking each entry against its voucher; printed signed copies of the statements filed as evidence; and a tested recovery plan. Close with the principle: a computer is only as good as the data entered, and computerisation improves the accounts only when the controls are in place.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Opening cash is 2,000, receipts 800 and payments 500. Find closing cash.
+
+**2.** Does an automatic total guarantee correct source data?
+
+**3.** What should you do before editing an important workbook?
+
+::: note Reasoned key
+**1.** 2,000 + 800 − 500 = Rs. 2,300.
+
+**2.** No. A formula can correctly total incorrect, duplicated or incomplete entries.
+
+**3.** Keep a recoverable backup and preserve an audit trail of changes and source documents.
+
+:::
+
+::: tip Investigation — Build a checkable spreadsheet
+Create a fictional ledger spreadsheet with date, reference, description, receipts, payments and running balance. Use formulas, validate one row manually, protect the original data and make a backup. Never enter real passwords or bank details.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

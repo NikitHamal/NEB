@@ -381,3 +381,31 @@ Three separate lines: left-hand limit, right-hand limit, value of the function. 
 **4.** The graph is a staircase of four horizontal segments. At $x=1$: left value $50$, right limit $80$ (jump of $30$); at $x=2$: jump from $80$ to $110$; at $x=3$: jump from $110$ to $140$. It is discontinuous at $x=1$, $2$ and $3$ and continuous elsewhere.
 :::
 
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find the limit of (x² − 1)/(x − 1) as x approaches 1.
+
+**2.** What three checks establish continuity at x = a?
+
+**3.** If left and right limits differ, does the two-sided limit exist?
+
+::: note Reasoned key
+**1.** For x ≠ 1 the fraction equals x + 1, so the limit is 2. This does not assign a value to the original fraction at 1.
+
+**2.** f(a) exists, the two-sided limit exists, and that limit equals f(a).
+
+**3.** No. Both one-sided limits must exist and agree.
+
+:::
+
+::: tip Investigation — Separate a hole from the limit
+Tabulate (x² − 1)/(x − 1) for x = 0.9, 0.99, 1.01, 1.1. Sketch y = x + 1 with a hole at x = 1. Explain what extra function value would make the function continuous there.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

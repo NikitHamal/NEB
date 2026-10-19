@@ -358,3 +358,31 @@ Adjusted balance $= 49{,}500 - 5{,}500 = Rs.\ 44{,}000$.
 | Less: cheques deposited but not collected | | 9,000 |
 | **Balance as per passbook** | | **53,000** |
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find the bank-statement balance from those facts.
+
+**2.** Where is a bank charge absent from the cash book first recorded?
+
+**3.** Does every disagreement prove fraud?
+
+::: note Reasoned key
+**1.** Rs. 10,000 + 2,000 − 1,500 = Rs. 10,500. The bank has not yet deducted the issued cheque or added the deposit.
+
+**2.** In the cash book, reducing its bank balance. Update it before preparing the timing-difference reconciliation.
+
+**3.** No. Timing differences and recording errors also create disagreements; investigate the evidence.
+
+:::
+
+::: tip Investigation — Reconcile both records
+Use a favourable cash-book balance of Rs. 10,000, a cheque issued but not presented of Rs. 2,000, and a deposit not credited of Rs. 1,500. Prepare a reconciliation to the bank statement, then reverse the direction and check your signs.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

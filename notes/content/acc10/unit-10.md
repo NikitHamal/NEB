@@ -422,3 +422,31 @@ Three mistakes cost most of the marks in this unit. First, **recording the gross
 
 Note: the advance of Rs. 50,000 is *not* an expenditure; when the bill of Rs. 58,000 is received the advance is cleared and only the excess of Rs. 8,000 is a fresh payment. The furniture head (31121) finally carries Rs. 58,000 of expenditure. Closing balance Rs. 52,000 (debit), subject to reconciliation with the passbook.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** What amount is returned in that settlement?
+
+**2.** Does merely issuing an advance prove the expense has been incurred?
+
+**3.** Why compare actual expenditure against budget?
+
+::: note Reasoned key
+**1.** Rs. 10,000 − 8,500 = Rs. 1,500, supported by a cash receipt.
+
+**2.** No. It must be settled against valid expenditure and any unused amount returned.
+
+**3.** To monitor limits, identify variations and support lawful spending control.
+
+:::
+
+::: tip Investigation — Account for an advance
+A fictional office gives a Rs. 10,000 accountable advance. Supported expenditure is Rs. 8,500 and Rs. 1,500 is returned. Draw the advance, settlement and cash-return trail without treating the advance itself as final expenditure.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

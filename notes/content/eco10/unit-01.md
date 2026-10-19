@@ -345,3 +345,31 @@ Opportunity cost is very often answered as "the money spent on the thing we chos
 *Choice and opportunity cost (3).* Scarcity forces choice between alternatives; the cost of the choice is the opportunity cost, the value of the next best alternative forgone. It is the economic cost, and it is not the same as the money paid (the accounting cost) nor the total of all the alternatives given up. Example: a family with Rs. 40,000 ranks a scooter, a year's tuition and a television; if it chooses the scooter, the opportunity cost is the tuition, not the tuition plus the television.
 *Allocation of resources (2).* Deciding how much of each factor to use and where: by the price mechanism in a capitalist economy, by the central plan in a socialist economy, and by both in a mixed economy such as Nepal, where the market allocates consumer goods while the state allocates through the budget to roads, education, health and defence and steers the rest by policy.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** What is the opportunity cost of a choice?
+
+**2.** Can capital in economics mean only cash?
+
+**3.** Does scarcity disappear when income rises?
+
+::: note Reasoned key
+**1.** The benefit of the next best alternative forgone, not the sum of every option rejected.
+
+**2.** No. Productive capital includes produced means of production such as tools and machinery; financial capital is a different use of the term.
+
+**3.** Not necessarily. Wants and alternative uses can still exceed available resources.
+
+:::
+
+::: tip Investigation — Choose with a fixed budget
+Allocate a fictional Rs. 1,000 study budget among books, transport and data. State the best rejected alternative and distinguish its benefit from all rejected alternatives combined. Compare two allocations without claiming one suits every household.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

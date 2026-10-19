@@ -491,3 +491,31 @@ The correct choice of form: centre–radius if the centre is known; diameter for
 **4.** $g=-5$, $f=-12$, $c=0$. Centre $(5,12)$, $r=\sqrt{25+144}=13$, diameter $26$. $y=0$: $x^2-10x=0$, $x=0,10$. $x=0$: $y^2-24y=0$, $y=0,24$. It meets the axes at $(0,0)$, $(10,0)$ and $(0,24)$.
 :::
 
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Give the centre and radius of (x − 2)² + (y + 1)² = 9.
+
+**2.** Is (5, −1) on that circle?
+
+**3.** What happens if the squared radius becomes negative?
+
+::: note Reasoned key
+**1.** Centre (2, −1), radius 3. The radius is √9, not 9.
+
+**2.** Yes. (5 − 2)² + (−1 + 1)² = 9 + 0 = 9.
+
+**3.** No real circle exists, because a sum of two real squares cannot be negative.
+
+:::
+
+::: tip Investigation — Locate a circle from its equation
+Expand (x − 2)² + (y + 1)² = 9, then complete the square to recover its centre and radius. Plot the centre and four easy boundary points, and check every point in the original equation.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

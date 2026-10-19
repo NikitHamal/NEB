@@ -556,3 +556,31 @@ $$ \frac{\vec{b}+\vec{d}}{2}=\frac{\vec{b}+\vec{a}+\vec{c}-\vec{b}}{2}=\frac{\ve
 **4.** $\vec{AB}=(4,0)$, $\vec{AC}=(0,3)$; $\vec{AB}\cdot\vec{AC}=0$, so $\angle A=90^\circ$. At $B$: $\vec{BA}=(-4,0)$, $\vec{BC}=(-4,3)$; dot $=16$, lengths $4$ and $5$: $\cos B=\frac{16}{20}=\frac45$, $B\approx36.87^\circ$. Centroid $=\dfrac{(2+6+2,\;1+1+4)}{3}=\left(\dfrac{10}{3},2\right)$.
 :::
 
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find the magnitude of (3, 4).
+
+**2.** Find (2, −1) + (−3, 4).
+
+**3.** Does a · b = 0 prove both vectors are nonzero and perpendicular?
+
+::: note Reasoned key
+**1.** √(3² + 4²) = 5. Magnitudes are nonnegative.
+
+**2.** (−1, 3), by adding corresponding components.
+
+**3.** No. A zero vector also has zero dot product with every vector. Perpendicular directions follow only when both vectors are nonzero.
+
+:::
+
+::: tip Investigation — Draw vector addition two ways
+Draw a = (3, 0) and b = (0, 4) with a common origin. Construct their parallelogram and then use head-to-tail addition. Compare the resultant in both drawings and calculate its magnitude.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

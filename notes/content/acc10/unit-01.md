@@ -469,3 +469,31 @@ The three real dangers are **fire**, **water** and **careless disposal**. Red-ta
 *Methods of disposal (2).* Retention; transfer to the record room or to the archives; microfilming or scanning followed by destruction of the paper once the image is verified; destruction by shredding or burning, under a written disposal order; sale as waste paper.
 *Safety (1).* Proper shelving, protection from damp, sunlight and insects, a fire-proof record room with an extinguisher, locked access with a register of files issued, and daily backup and user rights for electronic records. No record forming part of an audited account may be destroyed without the prescribed authority's written permission.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Which register records an incoming letter?
+
+**2.** Why retain a file reference on a reply?
+
+**3.** Does filing mean throwing old documents into storage?
+
+::: note Reasoned key
+**1.** The receipt or inward register. The dispatch register records outgoing correspondence.
+
+**2.** It connects the reply to the original matter and lets another officer trace the decision and evidence.
+
+**3.** No. Filing classifies, indexes, protects and retrieves records under a retention policy.
+
+:::
+
+::: tip Investigation — Trace a document through an office
+Create a fictional incoming letter and a receipt register with date, sender, subject, reference and receiving officer. Route it for action and draft a reply with a dispatch entry. Use fictional names and no personal data.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

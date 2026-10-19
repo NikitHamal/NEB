@@ -532,3 +532,31 @@ For composition: the intermediate point written out, in the stated order. For in
 **4.** $P$: $x^2+y^2=20$, factor $\frac{40}{20}=2$, $P'=(4,8)$. $Q$: $9+36=45$, factor $\frac{40}{45}=\frac89$, $Q'=\left(-\frac{8}{3},-\frac{16}{3}\right)$. Both $P'$ and $Q'$ have $y=2x$ ($8=2\times4$ and $-\frac{16}{3}=2\times-\frac83$), so they lie on the line $y=2x$ through $O$: collinear with $O$.
 :::
 
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Maximise Z = 3x + 2y under those constraints.
+
+**2.** Reflect (3, −2) in the y-axis.
+
+**3.** Can an infeasible corner provide the optimum?
+
+::: note Reasoned key
+**1.** Corners are (0,0), (4,0), (4,2), (0,6). Z values are 0, 12, 16, 12, so the maximum is 16 at (4,2).
+
+**2.** (−3, −2). Reflection in the y-axis changes x and preserves y.
+
+**3.** No. It must satisfy every constraint, even if its objective value is large.
+
+:::
+
+::: tip Investigation — Test every feasible corner
+Draw x ≥ 0, y ≥ 0, x + y ≤ 6, x ≤ 4. List all corner coordinates and evaluate Z = 3x + 2y at each. Explain why checking only the axis intercepts misses a possible optimum.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

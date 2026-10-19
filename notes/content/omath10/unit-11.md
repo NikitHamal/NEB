@@ -444,3 +444,31 @@ Compare **C.V.**, not $\sigma$, when the means differ. A $\sigma$ of 12 is large
 **4.** $\bar x=\frac{400}{20}=20$. $\sigma^2=\frac{8500}{20}-20^2=425-400=25$; $\sigma=5$. C.V. $=\frac{5}{20}\times100=25\%$.
 :::
 
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find the population variance of 2, 4, 6.
+
+**2.** What is the standard deviation of 4, 4, 4?
+
+**3.** Does adding 10 to each observation alter the standard deviation?
+
+::: note Reasoned key
+**1.** Mean = 4; variance = [(−2)² + 0² + 2²]/3 = 8/3. Divide by n for population variance, not n − 1.
+
+**2.** 0. Every observation equals the mean.
+
+**3.** No. The mean also increases by 10, so every deviation from the mean remains unchanged.
+
+:::
+
+::: tip Investigation — Compare spread at a fixed mean
+Compare A = {4, 4, 4} and B = {2, 4, 6}. Find their means and population variances. Draw both on a number line and explain why identical averages need not mean identical consistency.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

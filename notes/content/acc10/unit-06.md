@@ -272,3 +272,31 @@ Students pass a perfect rectifying entry and then forget to say whether the tria
 
 The debit column of the trial balance was short by Rs. 11,300, which was carried in the credit of the suspense account and is now cleared.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Will complete omission of a credit purchase necessarily unbalance a trial balance?
+
+**2.** A debit of Rs. 500 is posted as a credit of Rs. 500. What is the difference?
+
+**3.** Does an agreed trial balance prove error-free accounts?
+
+::: note Reasoned key
+**1.** No. Both debit and credit are omitted, so equality can remain despite incomplete accounts.
+
+**2.** Rs. 1,000: the debit side is short by 500 and the credit side is excessive by 500.
+
+**3.** No. Errors of omission, principle and compensating errors may leave totals equal.
+
+:::
+
+::: tip Investigation — Locate the effect of an error
+Compare three errors: omitted purchase, wrong amount on both sides, and posting a debit to the credit side. State whether the trial balance can detect each, then write the correction with an explanation.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

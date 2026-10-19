@@ -291,3 +291,31 @@ Step 6 — (e) Paper, ink and registers are consumables → **21121, Office mate
 *Provisions for its operation (3).* All government receipts credited to it; expenditure only under an appropriation act; use only for the approved purposes; emergency expenditure from the contingency fund, later regularised; managed by the Ministry of Finance and accounted by the FCGO; payment only by the officer authorised to draw.
 *Difference from the single account fund (3).* The consolidated fund is about **authority and ownership** — it is the government's main fund and its use is controlled by the legislature. The single account fund is about **the mechanics of day-to-day banking** — each office keeps one operating bank account for all its receipts and payments, recorded in the bank cash book, which replaced the practice of several accounts for several schemes. A payment from the single account fund of an office is valid only if it falls within an appropriation from the consolidated fund.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Is an approved budget itself a payment voucher?
+
+**2.** Why classify receipts and expenditure under prescribed heads?
+
+**3.** May one person approve, pay and independently audit the same transaction?
+
+::: note Reasoned key
+**1.** No. It authorises a spending limit; a voucher records a supported transaction.
+
+**2.** Consistent heads allow budgeting, control, comparison, consolidation and reporting.
+
+**3.** That weakens segregation of duties. Independent checks reduce error and misuse.
+
+:::
+
+::: tip Investigation — Distinguish authorisation from payment
+Draw a government-payment trail from approved budget to spending authority, supporting bill, checking, payment and reporting. Explain why a budget allocation alone is not evidence that cash has been spent.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

@@ -692,3 +692,31 @@ At $x=2$: $(f\circ g)(2)=16-24+10=2$; direct check: $g(2)=1$, $f(1)=2$ ✓. $(g\
 **4.** $1+a+b=4$ and $-1-a+b=0$. Adding, $2b=4$, $b=2$, $a=1$.
 **5.** $p(3)=54-27-33+6=0$. Dividing by $x-3$ gives $2x^2+3x-2=(2x-1)(x+2)$. So $x=3,\ \frac{1}{2},\ -2$.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find f(g(2)) for those functions.
+
+**2.** Find the remainder when x² + 2x + 3 is divided by x − 1.
+
+**3.** What input is excluded from h(x) = 1/(x − 3)?
+
+::: note Reasoned key
+**1.** g(2) = 4 and f(4) = 17. Work from the inside function outward.
+
+**2.** f(1) = 1 + 2 + 3 = 6 by the remainder theorem.
+
+**3.** x = 3, because it makes the denominator zero.
+
+:::
+
+::: tip Investigation — Test a function by substitution
+For f(x) = x² + 1 and g(x) = 2x, calculate f(g(x)) and g(f(x)) algebraically. Evaluate each at x = 2 and compare. Then decide which inputs are allowed in h(x) = 1/(x − 3).
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

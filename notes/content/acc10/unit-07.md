@@ -371,3 +371,31 @@ Check: COGS $= 50{,}000 + 3{,}00{,}000 + 10{,}000 + 40{,}000 - 65{,}000 = Rs.\ 3
 
 Gross profit Rs. 85,000; net profit Rs. 29,000; balance sheet total Rs. 2,25,000.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find cost of goods sold.
+
+**2.** Find gross profit.
+
+**3.** Is gross profit identical to net profit?
+
+::: note Reasoned key
+**1.** 5,000 + 20,000 + 2,000 − 7,000 = Rs. 20,000.
+
+**2.** Sales 30,000 − cost of goods sold 20,000 = Rs. 10,000, before indirect expenses.
+
+**3.** No. Net profit also considers indirect expenses and other income.
+
+:::
+
+::: tip Investigation — Follow closing stock into two statements
+Make a simple trading account using opening stock 5,000, net purchases 20,000, direct expenses 2,000, closing stock 7,000 and sales 30,000. Calculate cost of goods sold and gross profit, then show closing stock in the balance sheet.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

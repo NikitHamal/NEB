@@ -165,6 +165,7 @@ def credits_html(asset_ids):
 
 
 def build(slug, verbose=True):
+    mathsvg.FAILS.clear(); figrun.FAILS.clear(); photo.FAILS.clear(); md2html.LEAKS.clear()
     head, units = spine.load(slug)
     L = i18n.set_book(slug)
     DEVA_FONT = DEVA_FONT_NE if L["digits"] else ""
@@ -178,9 +179,11 @@ def build(slug, verbose=True):
     present, bodies, figno = set(), {}, 1
     for u in units:
         p = os.path.join(cdir, f"unit-{u['no']:02d}.md")
-        if not os.path.exists(p): continue
+        if not os.path.exists(p):
+            raise ValueError(f"Missing chapter: {p}")
         txt = open(p, encoding="utf-8").read()
-        if len(txt.strip()) < 400: continue
+        if len(txt.strip()) < 400:
+            raise ValueError(f"Incomplete chapter: {p}")
         i18n.CUR = i18n.for_title(u["title"], L)
         _, htm, figno = md2html.convert(txt, f"{slug}-u{u['no']}", figno)
         bodies[u["no"]] = localise_marks(htm)
@@ -215,13 +218,17 @@ html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format
 {''.join(extras)}
 {credits_html(list(photo.USED))}
 </body></html>"""
+    if mathsvg.FAILS or figrun.FAILS or photo.FAILS or md2html.LEAKS:
+        raise ValueError(f"Rendering failed: {len(mathsvg.FAILS)} maths, {len(figrun.FAILS)} figures, {len(photo.FAILS)} photos, {len(md2html.LEAKS)} unpaired delimiters")
     os.makedirs(OUT, exist_ok=True)
     name = f"NEBians-{subject.replace(' ', '-')}-Grade-{grade}.pdf"
     path = os.path.join(OUT, name)
-    HTML(string=doc, base_url=HERE).write_pdf(path, stylesheets=[CSS(filename=THEME)],
+    temporary = path + ".tmp.pdf"
+    HTML(string=doc, base_url=HERE).write_pdf(temporary, stylesheets=[CSS(filename=THEME)],
                                              optimize_images=True, jpeg_quality=80, dpi=170)
     import pypdf_pages
-    pages = pypdf_pages.count(path)
+    pages = pypdf_pages.count(temporary)
+    os.replace(temporary, path)
     if verbose:
         print(f"{slug:7} -> {name}  chapters={len(present)}/{len(units)}  pages={pages}  "
               f"{os.path.getsize(path)/1e6:.1f} MB")
@@ -229,10 +236,12 @@ html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format
 
 if __name__ == "__main__":
     targets = sys.argv[1:] or spine.ALL
+    failed = False
     for s in targets:
         try:
             build(s)
         except Exception as e:
+            failed = True
             print(f"{s}: BUILD ERROR {type(e).__name__}: {e}")
     if mathsvg.FAILS:
         print(f"\n[math] {len(mathsvg.FAILS)} expressions fell back to plain text")
@@ -243,3 +252,5 @@ if __name__ == "__main__":
     if photo.FAILS:
         print(f"\n[photos] {len(photo.FAILS)} failed")
         for c, e in photo.FAILS[:8]: print("   ", c, e.strip().splitlines()[-1][:100])
+
+    sys.exit(1 if failed else 0)

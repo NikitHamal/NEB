@@ -256,3 +256,31 @@ Step 3 — Record the settlement. Both observations are answered in writing to t
 *Internal control and the types of audit (3).* Internal control as the system of checks; internal and external audit; continuous, interim and final audit; complete, partial and special audit; and by object the financial, performance, management and propriety audits. Distinguish an internal audit (an employee, continuous, reports to management, tests control, limited independence) from a final audit (an independent outsider, after the year end, reports to the owners or the legislature, gives an opinion).
 *Government audit of Nepal (3).* The Office of the Auditor General as a constitutional body; the appointment and protection of the Auditor General; what it audits — the federation, the provinces, the local levels, the constitutional bodies, the courts, government corporations, foreign aid and the stores; the four kinds of government audit; the report to the President and then to Parliament; the Public Accounts Committee's examination and action; and the settlement of observations by explanation with evidence, by recovery from the person responsible, or by regularisation.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Is internal control only an annual audit?
+
+**2.** What is the purpose of a bank reconciliation control?
+
+**3.** Does an auditor prepare every original voucher?
+
+::: note Reasoned key
+**1.** No. It includes ongoing authorisation, documentation, segregation, safeguarding and review.
+
+**2.** To compare independent bank evidence with the cash book and investigate unexplained differences.
+
+**3.** No. Management prepares records; an auditor examines evidence independently.
+
+:::
+
+::: tip Investigation — Design an independent check
+For a fictional school cash collection, assign collection, recording, deposit and review to different roles. Identify one risk at each stage and one control that would expose it. Discuss how a small office can arrange independent review when staffing is limited.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

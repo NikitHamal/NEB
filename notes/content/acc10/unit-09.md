@@ -273,3 +273,31 @@ Check: $48{,}81{,}900 = 48{,}46{,}800 + 35{,}100$. ✔
 
 *Verification (2).* Revenue collected $= 49{,}41{,}900$; deposited $+$ cash in hand $= 48{,}94{,}800 + 47{,}100 = 49{,}41{,}900$. They agree, so the statement is complete; the Rs. 47,100 in hand must be deposited on the first working day of the next month and the fact recorded in the statement.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Five receipts of Rs. 200 each were collected. What should the register total be?
+
+**2.** Does collected revenue become the collecting employee's income?
+
+**3.** Why use sequential receipt numbers?
+
+::: note Reasoned key
+**1.** 5 × 200 = Rs. 1,000. Compare with the corresponding deposit evidence.
+
+**2.** No. It is public money that must be recorded, safeguarded and deposited under the rules.
+
+**3.** They help detect missing, duplicated or cancelled receipts and support a complete audit trail.
+
+:::
+
+::: tip Investigation — Trace a revenue receipt
+Create a fictional revenue collection register with receipt number, date, payer, revenue head, amount and deposit reference. Reconcile the total collected with the total deposited and investigate any difference.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

@@ -544,3 +544,31 @@ Check: $\frac{24}{8}+\frac{24}{12}=3+2=5$ ✓.
 **4.** $x^2+(x-1)^2=25\Rightarrow 2x^2-2x-24=0\Rightarrow x^2-x-12=0\Rightarrow(x-4)(x+3)=0$. If $x=4$, $y=3$; if $x=-3$, $y=-4$. Solutions $(4,3)$ and $(-3,-4)$.
 **5.** $x^2+1=2x+m\Rightarrow x^2-2x+1-m=0$. $D=4-4(1-m)=4m=0$, so $m=0$. Then $(x-1)^2=0$, $x=1$, $y=2$. The point of contact is $(1,2)$.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Solve x² − 5x + 6 = 0.
+
+**2.** For x² + 4x + 4 = 0, how many distinct real roots exist?
+
+**3.** Does x² + 1 = 0 have a real root?
+
+::: note Reasoned key
+**1.** x = 2 or 3, since (x − 2)(x − 3) = 0. Check: 4 − 10 + 6 = 0 and 9 − 15 + 6 = 0.
+
+**2.** One: the discriminant is 4² − 4 × 1 × 4 = 0, and the repeated root is −2.
+
+**3.** No. Every real square is nonnegative, so x² + 1 is at least 1.
+
+:::
+
+::: tip Investigation — Test the roots against the graph
+Make a value table for y = x² − 5x + 6 at integer x from 0 to 5. Plot it, mark both intercepts, and compare the graph with (x − 2)(x − 3). Explain why the turning point lies between the roots.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

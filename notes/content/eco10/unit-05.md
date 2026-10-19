@@ -246,3 +246,31 @@ Step 4 — That deficit would have had to be financed by **borrowing abroad or r
 *Problems (2.5).* Recruitment cost and debt of Rs. 1.5 to 2 lakh; exploitation by unlicensed agencies; unsafe work, accidents, illness and uncompensated deaths; low wages and long hours; no skill gained; social costs at home; neglect of agriculture; brain drain; weak regulation; difficult reintegration.
 *Measures (1.5).* Skill-based migration with pre-departure training; bilateral labour agreements; strict regulation and prosecution of fraudulent agencies; a single recruitment charge; insurance and a welfare fund; consular support; financial literacy and productive investment of remittance; reintegration programmes; and creation of jobs at home.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Is every rupee of tourist spending pure national profit?
+
+**2.** Give one benefit and one risk of remittance dependence.
+
+**3.** Does a higher farm selling price always mean higher real farm profit?
+
+::: note Reasoned key
+**1.** No. Costs, imported inputs, leakage and environmental impacts must also be considered.
+
+**2.** Benefit: household purchasing power and foreign-exchange receipts. Risk: vulnerability to foreign labour-market changes; families may also face social costs.
+
+**3.** No. Input costs, output quantities, transport and losses may also change.
+
+:::
+
+::: tip Investigation — Follow a local value chain
+Trace a fictional vegetable crop from farmer to collection centre, transport, retailer and household. Identify where storage loss occurs and how better irrigation, storage or market information might help. Discuss costs as well as benefits.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

@@ -512,3 +512,31 @@ Solutions: $\theta=0^\circ,\ 90^\circ,\ 360^\circ$.
 **4.** Distance $d=\frac{30}{\tan60^\circ}=10\sqrt{3}$. Drop to the building top $=d\tan30^\circ=10$ m. Height of building $=30-10=20$ m.
 **5.** $2-2\sin^2\theta+3\sin\theta=3\Rightarrow(2\sin\theta-1)(\sin\theta-1)=0$. $\sin\theta=\frac{1}{2}$: $30^\circ,\ 150^\circ$; $\sin\theta=1$: $90^\circ$. Solutions $30^\circ,\ 90^\circ,\ 150^\circ$.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** A tower subtends 45° from a point 20 m from its foot. Find its height above the observation level.
+
+**2.** Solve sin θ = 1/2 for 0° ≤ θ ≤ 180°.
+
+**3.** Can you cancel sin A in an equation without checking it?
+
+::: note Reasoned key
+**1.** h = 20 tan 45° = 20 m. Add eye height only if the question asks height above the ground.
+
+**2.** θ = 30° and 150°. Sine is positive in both the first and second quadrants.
+
+**3.** Only if sin A ≠ 0. Otherwise cancellation discards possible solutions or divides by zero.
+
+:::
+
+::: tip Investigation — Measure a height with a model
+Use a vertical pencil as a tower and a measured horizontal distance as its base. Draw the right triangle, mark the angle of elevation, and calculate height. When working outdoors include the observer's eye height and stay away from roads and power lines.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

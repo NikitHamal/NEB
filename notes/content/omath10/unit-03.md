@@ -521,3 +521,31 @@ For $k=3$ the matrix is $[(4,3),(2,3)]$ with determinant $12-6=6$, so the invers
 **4.** $A^{-1}=[(1,-1),(-1,2)]$, $B^{-1}=[(3,-2),(-1,1)]$, $AB=[(3,7),(2,5)]$, $(AB)^{-1}=[(5,-7),(-2,3)]$; $B^{-1}A^{-1}=[(5,-7),(-2,3)]$. Equal.
 **5.** $3x+2y=18$, $3x-4y=0$. $D=-18$, $D_x=-72$, $D_y=-54$. $x=4$, $y=3$.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find the determinant of the matrix with rows (2, 1), (1, 1).
+
+**2.** Can the matrix with rows (1, 2), (2, 4) have an inverse?
+
+**3.** Is matrix multiplication always commutative?
+
+::: note Reasoned key
+**1.** 2 × 1 − 1 × 1 = 1. A nonzero determinant means the inverse exists.
+
+**2.** No. Its determinant is 4 − 4 = 0; its second row is twice its first row.
+
+**3.** No. Even when both products exist, AB need not equal BA. Check entries, not only the matrix order.
+
+:::
+
+::: tip Investigation — Check an inverse by multiplication
+Use the matrix with rows (2, 1) and (1, 1). Calculate its determinant and inverse, then multiply in both orders to obtain the identity. Swap its rows and explain the determinant's sign change.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

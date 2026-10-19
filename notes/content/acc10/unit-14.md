@@ -217,3 +217,31 @@ Students write "the Ministry of Finance releases the budget to the office". The 
 *Accounting and reporting (1).* The FCGO consolidates the accounts of every office into the government's annual financial statement, using the uniform chart of accounts and the FMIS, CGAS, TSA and SUTRA systems.
 *Audit and settlement (2).* The Office of the Auditor General audits the accounts and the stores, reports to the President, who lays the report before Parliament; the Public Accounts Committee examines the report, calls the officials concerned to explain, and directs the recovery of money or the correction of the system; each observation is settled by producing the asset, the money or the authority, or by recovery from the person responsible.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Which constitutional institution performs Nepal's external public audit?
+
+**2.** Is external audit identical to day-to-day bookkeeping?
+
+**3.** Why consolidate financial reports?
+
+::: note Reasoned key
+**1.** The Office of the Auditor General, within its constitutional and legal mandate.
+
+**2.** No. Bookkeeping records transactions; external audit independently examines the accounts and their supporting evidence.
+
+**3.** To present an overall view while retaining the underlying office-level evidence and responsibility.
+
+:::
+
+::: tip Investigation — Map institutions to responsibilities
+Create a responsibility map distinguishing an office's transaction recording, financial administration and reporting, internal review, and the Auditor General's external audit. Explain why keeping these roles distinct matters for accountability.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

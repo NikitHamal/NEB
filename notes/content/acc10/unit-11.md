@@ -241,3 +241,31 @@ Closing stock $= 40 \times 2{,}500 = Rs.\ 1{,}00{,}000$. Total received 60, tota
 *Issue (2).* A section sends a written requisition; the storekeeper fills the जिन्सी निकासा फाराम; the receiving officer signs it; the issue is entered in the store ledger and the bin card; and the form is filed as the evidence that the article left the store. No article may leave without a document.
 *Control (1).* The bin card and the store ledger are compared periodically, and the store is verified annually by a committee.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** What is the book balance?
+
+**2.** What is the shortage if physical stock is 22?
+
+**3.** Does a store issue form prove a new purchase?
+
+::: note Reasoned key
+**1.** 20 + 15 − 12 = 23 notebooks.
+
+**2.** 1 notebook. Investigate before deciding its cause or writing it off.
+
+**3.** No. It documents goods leaving the store; a receipt record documents goods received.
+
+:::
+
+::: tip Investigation — Reconcile a stock card
+Start with 20 notebooks, receive 15 and issue 12. Prepare a stock card showing each movement and the running balance. Compare the final balance with a fictional physical count of 22 and record the discrepancy for investigation.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

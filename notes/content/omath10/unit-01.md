@@ -653,3 +653,31 @@ After 5 years: $t_5=11000\times 1.1^4=11000\times 1.4641=\text{Rs } 16{,}105.10$
 **4.** $a=12000$, $d=500$. $t_{12}=12000+11\times 500=\text{Rs } 17{,}500$. $S_{12}=\frac{12}{2}[24000+11\times 500]=6\times 29500=\text{Rs } 1{,}77{,}000$.
 **5.** $r^5=\frac{96}{3}=32$, so $r=2$. The means are $6, 12, 24, 48$. The GP is $3, 6, 12, 24, 48, 96$ with sum $\frac{3(2^6-1)}{2-1}=189$.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** The fifth term of 3, 7, 11, … is?
+
+**2.** For 3, 6, 12, … find the fifth term.
+
+**3.** If the common difference is zero, must every term be zero?
+
+::: note Reasoned key
+**1.** 19: a₅ = 3 + (5 − 1) × 4. The multiplier is four intervals, not five.
+
+**2.** 48: a₅ = 3 × 2⁴. Adding the ratio instead of multiplying would describe a different sequence.
+
+**3.** No. All terms equal the first term; 5, 5, 5, … is an arithmetic sequence with difference zero.
+
+:::
+
+::: tip Investigation — Build two growth patterns
+Write the first six terms of 3, 7, 11, … and 3, 6, 12, …. Plot term number against term. Compare a constant difference with a constant ratio. Predict the tenth term before calculating it.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

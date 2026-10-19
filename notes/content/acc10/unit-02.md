@@ -288,3 +288,31 @@ First, students write "commercial bank" when the question asks for the **central
 *Principle (3).* Pooling of risk — many persons exposed to a similar risk each contribute a small premium to a common fund, and the few who actually suffer a loss are compensated from that fund, so the loss of one is shared by all. Three conditions are needed: a large number of similar exposures, a loss that can be measured in money, and an insurable interest.
 *Comparison (4).* Life insurance insures a human life: the event (death) is certain but its time is not, the policy is usually long-term, it has a savings element and a surrender value, and the sum assured is fixed in advance. Non-life insurance insures property or liability: the event is uncertain, the policy is usually for one year and renewable, there is no savings element and no surrender value, and the compensation is limited to the actual loss. Examples: endowment and whole-life policies on the life side; fire, marine, motor, health, crop and livestock policies on the non-life side.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Is an insurance premium the same as a bank deposit?
+
+**2.** What does a central bank supervise?
+
+**3.** Does insurance eliminate the chance of an accident?
+
+::: note Reasoned key
+**1.** No. A premium buys contractual risk coverage; a deposit is money held under a banking agreement.
+
+**2.** It regulates the monetary and banking system within its legal mandate; it is not an ordinary retail bank for students.
+
+**3.** No. It transfers specified financial consequences under a contract, subject to exclusions and limits.
+
+:::
+
+::: tip Investigation — Compare financial services safely
+Prepare a comparison of a savings account, a fixed deposit and an insurance policy. Identify access to funds, possible return, risk covered and conditions. Do not open accounts or disclose real bank details for the exercise.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

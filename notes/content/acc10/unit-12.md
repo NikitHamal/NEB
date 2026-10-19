@@ -271,3 +271,31 @@ When the retention is released:
 *Formats (1).* धरौटी भौचर, धरौटी खाता with one account per party, personal and general retention ledgers, retention bank cash book.
 *Journal vouchers (3).* (i) When the bill is passed and retention withheld: expenditure A/c Dr. (full bill); To Contractors' retention A/c (amount withheld); To Bank/DTCO A/c (net paid). (ii) When released: Contractors' retention A/c Dr.; To Bank A/c. (iii) When forfeited after the defect is not remedied: Contractors' retention A/c Dr.; To Repair and maintenance expenditure A/c (cost of remedying); To Miscellaneous revenue A/c (balance forfeited). Show the figures of a worked example, for instance a bill of Rs. 4,00,000 with 5 per cent retention and a defect costing Rs. 12,000.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Is a refundable deposit automatically revenue?
+
+**2.** If Rs. 5,000 is fully refunded, what remains payable?
+
+**3.** Why maintain individual deposit records?
+
+::: note Reasoned key
+**1.** No. It creates a liability until it is refunded or otherwise disposed of under the applicable terms and rules.
+
+**2.** Zero for that deposit, provided no other transaction changes the balance.
+
+**3.** They identify the depositor, purpose, conditions and remaining liability, preventing one person's funds from being confused with another's.
+
+:::
+
+::: tip Investigation — Separate deposits from revenue
+Record a fictional refundable security deposit of Rs. 5,000. Show the obligation to return it, then explain the evidence needed for release or lawful forfeiture. Distinguish this from earned service revenue.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

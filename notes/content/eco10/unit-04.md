@@ -255,3 +255,31 @@ Step 4 — Explain why per capita income is a poor measure. It is an **average**
 *Bases (3).* The three-pillar structure; social justice and equality; the welfare role of the state in basic education, health and social security; public welfare preferred to private profit, with ceilings on land and productive assets; lawful private enterprise with social responsibility; a planned, self-reliant and independent economy; and the promotion and protection of cooperatives.
 *Features, problems and prospects (3).* Features: agrarian base, low per capita income and productivity, a growing service sector and remittance, a low rate of capital formation, landlocked and transit-dependent trade, a young and mobile population, dependence on aid and loans, uneven development. Problems: poverty and inequality, unemployment and under-employment, low agricultural productivity, capital deficiency, a weak industrial base, poor infrastructure, a chronic trade deficit, brain drain, instability and corruption, natural disasters. Prospects: hydroelectricity and its export, tourism, agricultural modernisation and high-value crops, remittance-financed small enterprise and education, and the demographic dividend.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Does a rise in total output necessarily raise output per person?
+
+**2.** Which broad dimensions form the human development index?
+
+**3.** Is a development indicator proof of a single cause?
+
+::: note Reasoned key
+**1.** No. Population growth may equal or exceed output growth.
+
+**2.** Health, education and a decent standard of living; it is not simply a ranking by total national income.
+
+**3.** No. Correlation or a changed indicator alone does not establish why the change occurred.
+
+:::
+
+::: tip Investigation — Compare growth with development
+Compare two fictional communities with the same per-person income but different school completion, access to care and safe water. Explain why income is useful but insufficient for judging development. Label the data as illustrative.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

@@ -469,3 +469,31 @@ $\bar{X} = \frac{685}{40} = 17.125$.
 *Verification:* $3\ Median - 2\ Mean = 3(32.22) - 2(31.67) = 33.32$, which agrees with the computed mode.
 *Shape:* $Mean\ (31.67) < Median\ (32.22) < Mode\ (33.33)$, so the distribution is **negatively skewed** — a few low marks pull the mean below the other two. Inter-quartile range $= 41.00 - 22.14 = 18.86$ marks. State each formula before substituting, and always show the table with the mid-values and the cumulative frequencies, because the marks are awarded for the table.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find the mean of those five travel times.
+
+**2.** Find the median and mode.
+
+**3.** May you apply the empirical mean–median–mode relation as an exact law to every dataset?
+
+::: note Reasoned key
+**1.** (10 + 10 + 15 + 20 + 25)/5 = 80/5 = 16 minutes.
+
+**2.** Median is the middle ordered value, 15 minutes. Mode is the most frequent value, 10 minutes.
+
+**3.** No. It is an approximate relationship for suitable moderately skewed distributions, not a universal identity.
+
+:::
+
+::: tip Investigation — Choose a diagram that fits the data
+Use fictional daily travel times 10, 10, 15, 20, 25 minutes. Calculate mean, median and mode, then display frequencies. Explain when a histogram, rather than separated bars, is appropriate.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

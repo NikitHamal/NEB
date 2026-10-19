@@ -559,3 +559,31 @@ Comment: AR equals price; MR falls faster than AR (by Rs. 2 for every extra unit
 *Three stages (3).* Stage I — increasing returns: MP rises, AP rises and is below MP, TP rises at an increasing rate. Stage II — diminishing returns: MP falls but remains positive, AP reaches its maximum where MP = AP and then falls, TP rises at a diminishing rate. Stage III — negative returns: MP is negative, AP falls, TP falls.
 *Reasons (3).* Stage I: the fixed factor is under-utilised, so adding the variable factor lets it be used better; division of labour and specialisation become possible. Stage II: the fixed factor is now fully used, so each extra worker has less of it to work with; diminishing returns set in. Stage III: too many workers for the fixed factor, so they obstruct one another and the marginal product becomes negative. Show a table of TP, MP and AP. The producer should operate in Stage II, where MP is positive and AP is at or near its maximum.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find equilibrium in that table.
+
+**2.** At price Rs. 10, what shortage exists?
+
+**3.** Does a change in the good's own price shift its demand curve?
+
+::: note Reasoned key
+**1.** At price Rs. 20, quantity demanded and quantity supplied both equal 60.
+
+**2.** Demand 90 − supply 30 = 60 units. This is excess demand, not excess supply.
+
+**3.** No. With other determinants fixed it causes movement along the curve; income, tastes or related prices may shift it.
+
+:::
+
+::: tip Investigation — Find equilibrium from a table
+For prices Rs. 10, 20, 30, use demand quantities 90, 60, 30 and supply quantities 30, 60, 90. Plot both on the same axes with price vertical. Identify shortage, equilibrium and surplus, keeping other determinants unchanged.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

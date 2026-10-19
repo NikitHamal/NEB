@@ -256,3 +256,31 @@ Retailer: sale Rs. 2,60,000; output tax $= 13\% \times 2{,}60{,}000 = Rs.\ 33{,}
 Total deposited $= 26{,}000 + 5{,}200 + 2{,}600 = Rs.\ 33{,}800$.
 Verification: $13\% \times 2{,}60{,}000 = Rs.\ 33{,}800$. Equal — the whole tax is ultimately borne by the consumer and collected in instalments along the chain.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** At an illustrative VAT rate of 13%, find VAT on Rs. 10,000.
+
+**2.** Is VAT a direct tax on personal income?
+
+**3.** Does every receipt automatically qualify for an input VAT credit?
+
+::: note Reasoned key
+**1.** VAT = 10,000 × 13/100 = Rs. 1,300. Total invoice = Rs. 11,300.
+
+**2.** No. It is an indirect tax on taxable supplies, collected through the supply chain.
+
+**3.** No. Eligibility depends on registration, a valid tax invoice and the applicable tax rules.
+
+:::
+
+::: tip Investigation — Separate taxable value from final price
+Use a fictional taxable sale of Rs. 10,000 and an illustrative VAT rate of 13%. Draw an invoice separating value, VAT and total. State that real tax treatment depends on current law and whether the supply is taxable.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

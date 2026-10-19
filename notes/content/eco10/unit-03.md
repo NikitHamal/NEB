@@ -307,3 +307,31 @@ Four errors are made repeatedly. First, **the balance of trade is not the balanc
 *Gains from trade (2).* Larger total output from the international division of labour; lower prices; wider choice; transfer of technology and skills; competition; larger markets; and the possibility of earning the foreign exchange needed for imports of capital goods.
 *Balance of trade and balance of payments (3).* Balance of trade = merchandise exports − merchandise imports (goods only) and is the visible part of the current account; balance of payments = the complete record of all transactions — goods, services, income, transfers and capital — and always balances through a change in reserves or borrowing. Nepali case: a large and chronic trade deficit, a very large remittance inflow in the transfers of the current account, and therefore a manageable overall balance of payments; imports several times exports; heavy dependence on India; a landlocked, transit-dependent economy.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Find the goods trade balance from those figures.
+
+**2.** Is remittance earned by exporting goods?
+
+**3.** A budget has revenue 100 and expenditure 130. What is its deficit?
+
+::: note Reasoned key
+**1.** Exports − imports = 80 − 120 = −Rs. 40 million, a goods trade deficit.
+
+**2.** No. It is a transfer from abroad and must not be entered as a goods export.
+
+**3.** 30 in the same units, before specifying how that gap is financed.
+
+:::
+
+::: tip Investigation — Separate a trade deficit from total payments
+Create fictional exports of Rs. 80 million and imports of Rs. 120 million, then add a separate column for remittances and capital flows. Explain why the goods trade balance alone does not measure the whole balance of payments.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

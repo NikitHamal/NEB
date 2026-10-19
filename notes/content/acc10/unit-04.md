@@ -276,3 +276,31 @@ Students write "cash account is debited because cash came in" without looking at
 *Standards in Nepal (3).* Issued by the Institute of Chartered Accountants of Nepal through its Accounting Standards Board: NFRS for listed companies and large public-interest entities; NFRS for SMEs for smaller entities; NAS for the rest. Give examples such as NAS 2 (inventories), NAS 16 (property, plant and equipment), NAS 18 (revenue) and NAS 7 (cash flows).
 *Importance (4).* Comparability — two businesses in the same trade can be compared; consistency — the same basis year after year; reliability — a lender can trust a statement prepared under standards without inspecting the books; auditability — the auditor has an objective yardstick. For a bank considering a loan, standards mean that the profit, the assets and the liabilities it reads have been measured by rules it knows, so it can assess the borrower's ability to repay and the security honestly and quickly, and can compare the borrower with others. (Marks are given for the definition, the Nepali framework and the explanation of importance.)
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** What is total assets after those transactions?
+
+**2.** Does a cash purchase of furniture immediately reduce capital by the full purchase price?
+
+**3.** Is the owner and the business treated as one accounting entity?
+
+::: note Reasoned key
+**1.** Cash 40,000 + furniture 10,000 + goods 8,000 = Rs. 58,000. Liabilities 8,000 + capital 50,000 also equals 58,000.
+
+**2.** No. One asset, cash, is exchanged for another, furniture. Later depreciation may affect profit and capital.
+
+**3.** No. The business entity concept separates business transactions from the owner's personal transactions.
+
+:::
+
+::: tip Investigation — Check the accounting equation
+Start a fictional shop with cash capital of Rs. 50,000. Buy furniture for Rs. 10,000 cash and goods for Rs. 8,000 on credit. Make a table showing assets, liabilities and capital after each transaction.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

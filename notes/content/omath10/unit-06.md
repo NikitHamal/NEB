@@ -471,3 +471,31 @@ $$ 1=\left|\frac{2\sqrt{\frac{k^2}{4}-1}}{2}\right| \Rightarrow \frac{k^2}{4}-1=
 **4.** Slope of $PQ=0$, slope of $PR=\frac34$. $\tan P=\frac34$, $P\approx36.87^\circ$. $Q=90^\circ$ (since $PQ$ is horizontal and $QR$ vertical). $R=180^\circ-90^\circ-36.87^\circ=53.13^\circ$; check with slopes of $RP$ ($\frac34$) and $RQ$ (vertical, inclination $90^\circ$): inclination of $RP$ is $36.87^\circ$, so $R=90^\circ-36.87^\circ=53.13^\circ$. ✓ Sum: $36.87+90+53.13=180^\circ$.
 :::
 
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Are lines of slopes 2 and −1/2 perpendicular?
+
+**2.** Find the acute angle between slopes 0 and 1.
+
+**3.** Does slope zero mean a vertical line?
+
+::: note Reasoned key
+**1.** Yes. Their slope product is −1. This slope test applies when both slopes are defined.
+
+**2.** tan θ = |(1 − 0)/(1 + 0)| = 1, so θ = 45°.
+
+**3.** No. Slope zero means horizontal. A vertical line has undefined slope.
+
+:::
+
+::: tip Investigation — Compare slopes and angles
+Draw y = x and y = −x on the same square grid. Measure their angle and verify it from their slopes. Add y = x + 3 and distinguish equal slope from equal intercept.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

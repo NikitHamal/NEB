@@ -526,3 +526,31 @@ $$ \cos4A=8\cos^4A-8\cos^2A+1. $$
 **4.** $t=\frac{4}{3}$, $1+t^2=\frac{25}{9}$. $\sin\theta=\frac{8/3}{25/9}=\frac{24}{25}$; $\cos\theta=\frac{1-16/9}{25/9}=-\frac{7}{25}$; $\tan\theta=-\frac{24}{7}$.
 **5.** From $\sin3A=4\sin A\sin(60^\circ-A)\sin(60^\circ+A)$ with $A=20^\circ$: $\sin60^\circ=4\sin20^\circ\sin40^\circ\sin80^\circ$, so the product is $\frac{\sqrt{3}/2}{4}=\frac{\sqrt{3}}{8}$.
 :::
+
+
+## Retrieval practice and investigation
+
+::: key Work before reading the key
+Answer these short retrieval questions without consulting the chapter. Explain the reason, not only the result. These are revision checks, not a prediction of the examination paper.
+:::
+
+**1.** Evaluate sin 2A when A = 30°.
+
+**2.** Is sin(A + B) equal to sin A + sin B?
+
+**3.** Evaluate cos 2A at A = 45°.
+
+::: note Reasoned key
+**1.** sin 60° = √3/2; also 2 sin 30° cos 30° = 2 × 1/2 × √3/2 = √3/2.
+
+**2.** No. At A = B = 30°, the left side is √3/2 but the right side is 1.
+
+**3.** 0. Each form agrees: cos²45° − sin²45° = 1/2 − 1/2 = 0.
+
+:::
+
+::: tip Investigation — Verify a transformation formula
+Choose A = 30° and B = 45°. Evaluate sin(A + B) directly and through sin A cos B + cos A sin B. Keep exact surd values until the last step. Repeat with A − B and explain the sign change.
+
+Submit a one-page record: your method, working or evidence, conclusion, and one limitation. Exchange it with a classmate and check the reasoning against the chapter.
+:::

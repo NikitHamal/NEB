@@ -24,6 +24,8 @@ JOBS = [
     ("Inter[opsz,wght].ttf", "Inter", {"wght": 600, "opsz": 14}, "SemiBold"),
     ("Inter[opsz,wght].ttf", "Inter", {"wght": 700, "opsz": 14}, "Bold"),
     ("NotoSansDevanagari[wdth,wght].ttf", "Noto Sans Devanagari",
+     {"wght": 600, "wdth": 100}, "SemiBold"),
+    ("NotoSansDevanagari[wdth,wght].ttf", "Noto Sans Devanagari",
      {"wght": 700, "wdth": 100}, "Bold"),
 ]
 
