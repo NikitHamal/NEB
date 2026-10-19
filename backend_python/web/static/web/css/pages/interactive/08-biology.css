@@ -284,3 +284,35 @@
   border: 1.5px solid rgba(255,255,255,.95); box-shadow: 0 0 0 1px rgba(15,23,42,.55), inset 0 0 0 1px rgba(15,23,42,.35); opacity: 0; transition: opacity .15s; will-change: transform; }
 .bh-reticle::after { content: ""; position: absolute; left: 7px; top: 7px; width: 2px; height: 2px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px rgba(15,23,42,.6); }
 .bh-reticle.on { opacity: 1; }
+
+/* notebook sheet, drag chips and tables for the field, physiology and genetics practicals */
+.bh-sheet { position: absolute; right: 12px; top: 88px; z-index: 5; width: min(360px, 42%); max-height: calc(100% - 170px); overflow: auto; padding: 10px 12px 12px;
+  border-radius: 14px; background: #fffef8; color: #0f172a; box-shadow: 0 14px 34px rgba(2,6,23,.35); font-size: .8rem; line-height: 1.35;
+  opacity: 0; transform: translateX(14px); transition: opacity .3s, transform .4s cubic-bezier(.2,1.2,.4,1); pointer-events: none; }
+.bh-sheet.on { opacity: 1; transform: none; pointer-events: auto; }
+.bh-sheet-title { display: block; font-size: .78rem; letter-spacing: .02em; color: #166534; margin-bottom: 6px; }
+.bh-sheet.wide { width: min(520px, 56%); }
+.bh-sheet.left { right: auto; left: 12px; top: 120px; }
+.bh-tab { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.bh-tab th, .bh-tab td { border: 1px solid #cbd5e1; padding: 3px 5px; text-align: center; }
+.bh-tab th { background: #f1f5f9; font-size: .72rem; }
+.bh-tab td.ok { background: #dcfce7; } .bh-tab td.bad { background: #fee2e2; } .bh-tab tr.cur td { background: #fef9c3; }
+.bh-dtray { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0; }
+.bh-dchip { border: 0; border-radius: 999px; padding: 6px 10px; font: inherit; font-size: .74rem; font-weight: 700; background: #e0f2fe; color: #0c4a6e; cursor: grab; touch-action: none; position: relative; z-index: 1; }
+.bh-dchip.dragging { z-index: 9; box-shadow: 0 8px 20px rgba(0,0,0,.35); cursor: grabbing; }
+.bh-dchip.sel { outline: 3px solid #f59e0b; }
+.bh-dchip.placed { background: #dcfce7; color: #14532d; cursor: default; }
+[data-slot] { transition: box-shadow .15s, background .15s; }
+[data-slot].near { box-shadow: 0 0 0 3px #22c55e inset; background: #f0fdf4; }
+.bh-slot { min-height: 30px; border: 2px dashed #94a3b8; border-radius: 10px; padding: 4px; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; justify-content: center; font-size: .7rem; color: #64748b; }
+.bh-key { display: flex; flex-direction: column; gap: 6px; }
+.bh-key button { text-align: left; border: 1px solid #cbd5e1; border-radius: 10px; padding: 7px 9px; font: inherit; font-size: .76rem; background: #fff; color: #0f172a; cursor: pointer; }
+.bh-key button:hover { background: #f0fdf4; border-color: #22c55e; }
+.bh-key .path { font-size: .7rem; color: #64748b; }
+.bh-tally { display: flex; flex-wrap: wrap; gap: 6px; }
+.bh-tally span { padding: 3px 8px; border-radius: 999px; background: #f1f5f9; font-weight: 700; font-size: .74rem; }
+.bh-tally i { font-style: normal; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+@media (max-width: 640px) {
+  .bh-sheet, .bh-sheet.wide, .bh-sheet.left { left: 8px; right: 8px; top: auto; bottom: 74px; width: auto; max-height: 40%; font-size: .74rem; transform: translateY(10px); }
+  .bh-sheet.on { transform: none; }
+}

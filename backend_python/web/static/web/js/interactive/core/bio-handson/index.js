@@ -22,6 +22,7 @@ const PRACTICALS = {
   'imbibition-seeds-raisins': () => import('./practicals/physiology.js'),
   'onion-root-tip-mitosis-11': () => import('./practicals/onion-mitosis.js'),
   'onion-root-tip-mitosis-12': () => import('./practicals/onion-mitosis.js'),
+  'transpiration-upper-lower-rate': () => import('./practicals/transpiration.js'),
 };
 
 export function hasHandsOn(slug) { return Object.prototype.hasOwnProperty.call(PRACTICALS, slug); }
