@@ -147,3 +147,31 @@ offset rays). Flower dissection: tap-to-pluck, 20 px tug, forgiving box drops.
   Store banner in `base.html` was removed at the owner's request.
 - Pushing large files: `ghpush.py` calls the actl `ApiClient` from Python (run with
   `/app/py/.venv/bin/python`) because a CLI argument is limited to 128 KB.
+
+## PHYCHEM pass 2: fifteen more hands-on physics and chemistry practicals (Oct 19, 2026)
+
+**Done (15 slugs, all registered in `core/handson/index.js`, 30 hands-on phy/chem lessons in total):**
+
+| Slug | File | What the student does |
+|---|---|---|
+| `spherometer` | `practicals/spherometer.js` (+ `spherometer.js` instrument) | turn the disc through one revolution for the least count; prick the legs on paper and read l with a rule; turn the screw on plane glass and on a watch glass until the tip meets its reflection (tip close-up, rock test); tap the pitch scale and rim graduations; R = l²/6h + h/2 |
+| `parallelogram-of-forces` | `practicals/parallelogram.js` | load hangers; the knot settles from summed forces with pulley friction; drag it away and release; dot the threads; construct the parallelogram to scale on a drawing sheet (`drawsheet.js`) from the student's own dots |
+| `coefficient-of-friction` | `practicals/friction.js` | lift a hinged plank by hand until the block slips (per-trial μ scatter, lifting too fast caught), read the quadrant; then pull with a spring balance with a max marker (stick-slip physics), three loads, F–N slope |
+| `specific-heat-mixtures` | `practicals/specific-heat.js` | tare/weigh, hold to pour water, steam heater over a burner (metal needs minutes to reach θ₂), carry it across (cools in air), stir, catch the peak; heat exchange integrated |
+| `galvanometer-figure-of-merit` | `practicals/galvanometer.js` | pull plugs on a high-resistance box (closing the key at low R slams the needle), tap the dial; k = E/((R+G)θ) and 1/θ–R graph |
+| `prism-minimum-deviation` | `practicals/prism.js` | drag P1 to set i, look through the second face and swing P3/P4 to hide the images (Snell at both faces, TIR); D–i curve, Dm, n |
+| `lab-apparatus-safety` | `practicals/apparatus-safety.js` | name ten pieces of apparatus, find the right one for jobs, light a Bunsen in the safe order, fix four hazards, acid into water |
+| `separation-techniques` | `practicals/separation.js` (+ `separation-kit.js`) | fold filter paper and pour without overflowing; evaporate to the crystallisation point; sublimation; distillation (bulb at side arm, water in at the bottom); chromatography and Rf |
+| `gas-preparation` | `practicals/gas-preparation.js` | H₂, O₂, CO₂ in one generator: right solid, liquid down the thistle funnel (stem must dip), collection method, let the air bubbles go, test |
+| `water-of-crystallization` | `practicals/crystallization.js` | crucible on a balance, heat gently/strongly (CuO if overdone), desiccator, weigh to constant mass; x from the student's masses |
+| `salt-analysis-scheme` | `practicals/salt-analysis.js` (+ `salt-chem.js`) | appearance, dry heating, flame; NH₄⁺; group reagents in order with real out-of-order traps; confirmatory tests; anion tests (`wet-tests.js`); name the salt |
+| `ph-and-indicators` | `practicals/ph.js` | litmus and universal indicator on a spot tile (pH from Ka/Kb), calibrate a pH meter (7 then 4, rinse), buffer vs water with live graph |
+| `organic-functional-groups` | `practicals/organic.js` | four unknowns × Na, NaHCO₃, FeCl₃, Br₂ water, Tollens', Fehling's, 2,4-DNP, ester test (warm in the water bath) |
+| `heat-of-neutralization` | `practicals/neutralization.js` | measuring cylinder by hold-to-pour + dropper, tap-read meniscus, rinse, two temperatures, pour/lid/stir with live T–t graph, ΔH = −mcΔT/n; repeat with ethanoic acid |
+| `lassaigne-test` | `practicals/lassaigne.js` | sodium fusion held in the flame until red (glow follows temperature, short fusion = weak extract), plunge, then N/S/halogen tests whose order matters (HCN, AgCN/Ag₂S traps) |
+
+**New shared modules (core/handson/):** `thermo.js` (tap-read thermometer + `thermoReader`, copper calorimeter, foam cup, top-pan balance with TARE and settling display, steam puffs), `vessels.js` (100 mL measuring cylinder with tap reader, `createPour` that lands a vessel's lip on a target), `tube-bench.js` (rack, labelled bottles with chips, `showOnly`, drops, tube looks: ppt/mirror/layer/ring/fizz, flame or water bath), `drawsheet.js` (2D construction sheet with constrained handles), `salt-chem.js`, `separation-kit.js`, `spherometer.js`. Small additions: `stopwatch.js` graphs take `yMin`, per-point colours and expose `el`; `hud.js` chips hide when their point is off screen; `index.js` re-frames the opening shot once a phone stage has settled its size. CSS in `14-handson.css`: `.ho-tight` action bars, `.ho-sheet`, `.ho-graph.ho-side`, `.ho-tag`.
+
+**Testing.** Each was driven with Playwright at 1400×900 and 390×844 (`/tmp/pc/drive.py`: adds `dj:` JS-computed mouse drags and `c:` clicks to the harness driver) with at least one real mouse interaction (disc turned, knot dragged, plank lifted, balance tared, bottles tapped, pours held, fusion held in the flame…), and every one skips through to its result card without console errors. Note: in a `drive.py` token, `|` splits tokens, so avoid `||` in inline JS.
+
+**Not done / ideas.** Sound effects for the new practicals are synth (`sfx.register`: hiss, pop, whoof, drip). The flame test in salt analysis uses the burner's emission tint without a wire loop. Possible polish: spherometer second set of readings at another spot, gas preparation tests done with the jar lifted out of the trough.
