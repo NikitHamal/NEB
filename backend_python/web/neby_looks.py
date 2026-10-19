@@ -32,7 +32,7 @@ STATES = {
     'cool': (10, 120, 'Feelings'), 'surprised': (10, 80, 'Feelings'), 'sad': (12, 130, 'Feelings'),
     'dizzy': (12, 100, 'Feelings'), 'oops': (10, 100, 'Feelings'), 'success': (12, 80, 'Feelings'),
     'celebrate': (14, 85, 'Feelings'),
-    'tika': (18, 120, 'Festivals'), 'kite': (16, 130, 'Festivals'), 'swing': (16, 90, 'Festivals'),
+    'tika': (24, 110, 'Festivals'), 'kite': (16, 130, 'Festivals'), 'swing': (16, 90, 'Festivals'),
     'diyo': (12, 110, 'Festivals'), 'deusi': (12, 95, 'Festivals'), 'splash': (16, 90, 'Festivals'),
     'fireworks': (16, 100, 'Festivals'), 'namaste': (12, 120, 'Festivals'),
 }
