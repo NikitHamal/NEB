@@ -45,12 +45,14 @@ fun SyllabusStudyNavigator(
         mutableStateOf(chapters.filter { preferences.getBoolean("$scope/${it.id}", false) }.map { it.id }.toSet())
     }
     var query by rememberSaveable(scope) { mutableStateOf("") }
+    var showChapters by rememberSaveable(scope) { mutableStateOf(false) }
     val index = chapters.indexOfFirst { it.id == selectedChapterId }.coerceAtLeast(0)
     val current = chapters.getOrNull(index)
     val nepali = current?.studyMeta?.language == "ne"
     val filtered = chapters.filter {
         (it.name + " " + it.studyMeta.topics.joinToString(" ")).contains(query.trim(), ignoreCase = true)
     }
+    fun localNumber(value: Int): String = if (nepali) value.toString().map { "०१२३४५६७८९"[it - '0'] }.joinToString("") else value.toString()
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Text(if (nepali) "पुनरावलोकन प्रगति" else "Revision progress", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         LinearProgressIndicator(
@@ -60,10 +62,14 @@ fun SyllabusStudyNavigator(
             trackColor = MaterialTheme.colorScheme.surfaceContainerHigh
         )
         Text(
-            text = if (nepali) "${revised.size} / ${chapters.size} पाठ पूरा · यस उपकरणमा सुरक्षित" else "${revised.size} of ${chapters.size} chapters revised · saved on this device",
+            text = if (nepali) "${localNumber(revised.size)} / ${localNumber(chapters.size)} पाठ पूरा · यस उपकरणमा सुरक्षित" else "${revised.size} of ${chapters.size} chapters revised · saved on this device",
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
+        TextButton(onClick = { showChapters = !showChapters }) {
+            Text(if (showChapters) { if (nepali) "पाठ सूची बन्द गर्नुहोस्" else "Close chapter list" } else { if (nepali) "पाठ छान्नुहोस्" else "Choose a chapter" })
+        }
+        if (showChapters) {
         OutlinedTextField(
             value = query,
             onValueChange = { query = it },
@@ -75,7 +81,7 @@ fun SyllabusStudyNavigator(
         Column(Modifier.fillMaxWidth().heightIn(max = 220.dp).verticalScroll(rememberScrollState())) {
             filtered.forEach { chapter ->
                 Row(
-                    modifier = Modifier.fillMaxWidth().clickable(role = Role.Button) { onSelect(chapter.id) }.padding(vertical = 12.dp, horizontal = 4.dp),
+                    modifier = Modifier.fillMaxWidth().clickable(role = Role.Button) { onSelect(chapter.id); showChapters = false; query = "" }.padding(vertical = 12.dp, horizontal = 4.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -90,6 +96,7 @@ fun SyllabusStudyNavigator(
                 HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
             }
             if (filtered.isEmpty()) Text(if (nepali) "मिल्ने पाठ भेटिएन।" else "No matching chapters.", modifier = Modifier.padding(12.dp))
+        }
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(

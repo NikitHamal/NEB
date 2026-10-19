@@ -30,7 +30,7 @@ def clean(text):
 
 
 def section(text, pattern):
-    for match in re.finditer(r'^##\s+(.+)\n(.*?)(?=^##\s|\Z)', text, re.M | re.S):
+    for match in re.finditer(r'^##[ \t]+([^\n]+)\n(.*?)(?=^##[ \t]+|\Z)', text, re.M | re.S):
         if re.search(pattern, match[1], re.I):
             return clean(match[2])
     return ''
@@ -56,7 +56,9 @@ def export():
             body = source.split('---', 2)[-1].strip()
             summary = section(body, r'summary|सारांश|पाठको सार|एकाइको सार')
             headings = re.findall(r'^##\s+\d+[.।]\d+\s+(.+)', body, re.M)
-            topics = unit['sub'] or headings
+            detail_headings = re.findall(r'^###[ \t]+([^\n]+)', body, re.M)
+            topics = [x for x in (unit['sub'] + headings + detail_headings) if not re.search(r'concepts, formulas and worked problems|Exercises of the SEE type|^\d*\.?\s*(Worked example|Practice|Exercise|Answer|About the text)', x, re.I)]
+            topics = list(dict.fromkeys(topics)) or headings or unit['sub']
             intro = clean(re.split(r'^## |^:::', body, maxsplit=1, flags=re.M)[0])
             examples = []
             for match in re.finditer(r'^::: example\s*([^\n]*)\n(.*?)^:::', body, re.M | re.S):
@@ -76,7 +78,7 @@ def export():
                 'area': unit['area'], 'topics': topics, 'summary': summary,
                 'text_content': guide, 'question_answers': qa,
                 'self_checks': examples, 'source_path': relative,
-                'source_sha256': hashlib.sha256(source.encode()).hexdigest(),
+                'source_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
                 'source_url': f'https://github.com/NikitHamal/NEB/blob/resources/grade8-10-polish-syllabus-c/{relative}',
             })
         books.append({'slug': slug, 'grade': 'Class 10 / SEE' if grade == 10 else f'Class {grade}',

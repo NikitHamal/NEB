@@ -1,4 +1,5 @@
 import re
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -46,6 +47,9 @@ def main():
         title = re.search(r'^title: (.+)$', source, re.M)[1].strip('"')
         practice = source.split('## अभ्यास',1)[1]
         units.append({'title': title, 'objective': pool(practice,'क'), 'short': pool(practice,'ख'), 'long': pool(practice,'ग')})
+    extras = json.loads((ROOT/'notes/editorial/social10-extra.json').read_text())
+    for unit, extra in zip(units, extras, strict=True):
+        unit['objective'].extend((q, a) for q, a in extra)
     caution = '::: caution अभ्यास सामग्रीबारे\nयी प्रश्न नेबियन्सको सामाजिक अध्ययन पुस्तकका अभ्यासबाट सङ्कलित र पुनर्व्यवस्थित हुन्। यी विगतका प्रश्नपत्रको प्रतिलिपि वा आगामी परीक्षाको भविष्यवाणी होइनन्। आफ्नो विद्यालयले दिएको हालको विशिष्टीकरण तालिकासँग प्रश्नको ढाँचा मिलाउनुहोस्।\n:::\n\n'
     objective = header(14,'सामाजिक अध्ययन: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह')+caution
     objective += 'छोटो प्रश्नको उत्तरमा तथ्य, मिति वा अवधारणा स्पष्ट लेख्नुहोस्। विकल्पयुक्त प्रश्न पहिले विकल्प नहेरी हल गर्नुहोस् र त्यसपछि उत्तरकुञ्जीको कारणसँग तुलना गर्नुहोस्। गलत भएका प्रश्नको विषय र गल्तीको कारण छुट्टै कापीमा राख्नुहोस्।\n\n'
@@ -72,7 +76,7 @@ def main():
     p=ROOT/'notes/curriculum/qbank10.md';t=p.read_text();t=t.replace('# PART: Social Studies','# PART: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा')
     for a,b in [('Social Studies: Unit-wise Objective Question Bank','सामाजिक अध्ययन: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह'),('Social Studies: Unit-wise Subjective Question Bank','सामाजिक अध्ययन: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह'),('Social Studies: Model Question Sets and Predicted Questions','सामाजिक अध्ययन: नमुना प्रश्नपत्र र पुनरावलोकन योजना')]:t=t.replace(a,b)
     p.write_text(t)
-    print('Social studies bank localised: 50 objective items, 60 subjective questions, 3 complete practice papers.')
+    print('Social studies bank localised: 100 objective items, 60 subjective questions, 3 complete practice papers.')
 
 
 if __name__=='__main__':

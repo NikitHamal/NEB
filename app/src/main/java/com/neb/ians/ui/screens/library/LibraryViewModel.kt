@@ -11,6 +11,8 @@ import com.neb.ians.data.api.ApiSyllabusNavItem
 import com.neb.ians.data.api.ApiSyllabusSubject
 import com.neb.ians.data.api.ApiSyllabusSubjectDetailResponse
 import com.neb.ians.data.repository.ResourceRepository
+import com.neb.ians.data.repository.SyllabusRepository
+import kotlinx.coroutines.CancellationException
 import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -78,6 +80,7 @@ class LibraryViewModel @Inject constructor(
     private val resourceRepository: ResourceRepository,
     private val apiService: ApiService,
     private val appCache: AppCache,
+    private val syllabusRepository: SyllabusRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
@@ -90,6 +93,8 @@ class LibraryViewModel @Inject constructor(
             isLoading = appCache.libraryResources.isEmpty()
         )
     )
+
+    private var syllabusSubjectJob: Job? = null
 
     val uiState: StateFlow<LibraryUiState> = _uiState.asStateFlow()
 
@@ -104,20 +109,22 @@ class LibraryViewModel @Inject constructor(
 
     fun loadSyllabusCategories() {
         viewModelScope.launch {
-            _uiState.update { it.copy(isSyllabusLoading = true, syllabusError = null) }
+            val cached = syllabusRepository.cachedCategories()
+            _uiState.update { it.copy(syllabusCategories = cached?.categories ?: it.syllabusCategories, isSyllabusLoading = true, syllabusError = null) }
             try {
-                val response = apiService.getSyllabusCategories()
-                val categories = response.categories.ifEmpty { fallbackSyllabusCategories() }
+                val response = syllabusRepository.categories()
+                val categories = response.categories
                 _uiState.update {
                     it.copy(
                         syllabusCategories = categories.sortedBy { category -> category.order },
                         isSyllabusLoading = false
                     )
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(
-                        syllabusCategories = fallbackSyllabusCategories(),
                         isSyllabusLoading = false,
                         syllabusError = ApiErrorMapper.mapException(e)
                     )
@@ -125,18 +132,6 @@ class LibraryViewModel @Inject constructor(
             }
         }
     }
-
-    private fun fallbackSyllabusCategories(): List<ApiSyllabusCategory> {
-        return LibraryUiState.GRADE_LEVELS.mapIndexed { index, grade ->
-            ApiSyllabusCategory(
-                grade = grade.replace("Grade", "Class"),
-                order = index,
-                subjects = LibraryUiState.SUBJECTS.map { subject -> ApiSyllabusSubject(name = subject) }
-            )
-        }
-    }
-
-
 
     fun openSyllabusSubject(grade: String, subject: ApiSyllabusSubject) {
         val gradeSlug = syllabusSlug(grade)
@@ -155,6 +150,7 @@ class LibraryViewModel @Inject constructor(
     }
 
     fun closeSyllabusSubject() {
+        syllabusSubjectJob?.cancel()
         _uiState.update {
             it.copy(
                 selectedSyllabusDetail = null,
@@ -167,18 +163,20 @@ class LibraryViewModel @Inject constructor(
     }
 
     private fun loadSyllabusSubject(gradeSlug: String, subjectSlug: String) {
-        viewModelScope.launch {
+        syllabusSubjectJob?.cancel()
+        syllabusSubjectJob = viewModelScope.launch {
+            val cached = syllabusRepository.cachedDetail(gradeSlug, subjectSlug)
             _uiState.update {
                 it.copy(
                     selectedSyllabusGradeSlug = gradeSlug,
                     selectedSyllabusSubjectSlug = subjectSlug,
-                    selectedSyllabusDetail = null,
-                    isSyllabusSubjectLoading = true,
+                    selectedSyllabusDetail = cached,
+                    isSyllabusSubjectLoading = cached == null,
                     syllabusSubjectError = null
                 )
             }
             try {
-                val detail = apiService.getSyllabusSubjectDetail(gradeSlug, subjectSlug)
+                val detail = syllabusRepository.detail(gradeSlug, subjectSlug)
                 _uiState.update {
                     it.copy(
                         selectedSyllabusDetail = detail,
@@ -187,6 +185,8 @@ class LibraryViewModel @Inject constructor(
                         isSyllabusSubjectLoading = false
                     )
                 }
+            } catch (e: CancellationException) {
+                throw e
             } catch (e: Exception) {
                 _uiState.update {
                     it.copy(

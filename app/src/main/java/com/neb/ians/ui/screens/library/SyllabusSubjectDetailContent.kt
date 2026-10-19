@@ -340,6 +340,7 @@ private fun ChapterViewer(
             Spacer(modifier = Modifier.height(16.dp))
             ChapterSubtabs(
                 selected = subtab,
+                nepali = chapter.studyMeta.language == "ne",
                 onSelect = { subtab = it }
             )
             Spacer(modifier = Modifier.height(20.dp))
@@ -353,11 +354,11 @@ private fun ChapterViewer(
 }
 
 @Composable
-private fun ChapterSubtabs(selected: String, onSelect: (String) -> Unit) {
+private fun ChapterSubtabs(selected: String, nepali: Boolean, onSelect: (String) -> Unit) {
     val tabs = listOf(
-        "guide" to "Study guide",
-        "qas" to "Try an example",
-        "files" to "Study Files"
+        "guide" to if (nepali) "अध्ययन मार्गदर्शन" else "Study guide",
+        "qas" to if (nepali) "उदाहरण अभ्यास" else "Try an example",
+        "files" to if (nepali) "अध्ययन सामग्री" else "Study Files"
     )
     Row(
         modifier = Modifier
