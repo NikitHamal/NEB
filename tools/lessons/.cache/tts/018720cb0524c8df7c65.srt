@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,304
+Here is why position matters.
+
+2
+00:00:02,304 --> 00:00:11,757
+When hydroxide adds to the carbon carrying chlorine, the ring briefly holds an extra negative charge, before chloride leaves.
+
+3
+00:00:11,757 --> 00:00:18,398
+That charge moves around the ring, landing on the carbons ortho and para to the point of attack.
+
+4
+00:00:18,398 --> 00:00:28,632
+With a nitro group para, the charge reaches the nitro carbon and spreads onto its oxygens, so the intermediate is stabilised and the reaction is fast.
+

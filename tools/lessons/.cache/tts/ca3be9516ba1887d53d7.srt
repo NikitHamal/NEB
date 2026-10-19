@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,158
+Worked example.
+
+2
+00:00:01,158 --> 00:00:10,156
+Benzene has molar mass seventy eight, so thirty nine grams is half a mole, giving half a mole of chlorobenzene in theory.
+
+3
+00:00:10,156 --> 00:00:16,796
+Chlorobenzene's molar mass is one twelve point five, so fifty six point two five grams.
+
+4
+00:00:16,796 --> 00:00:20,195
+At eighty percent yield, forty five grams.
+

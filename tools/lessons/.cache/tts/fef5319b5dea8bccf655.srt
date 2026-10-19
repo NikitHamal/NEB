@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,018
+Reason one, resonance.
+
+2
+00:00:02,018 --> 00:00:11,028
+A lone pair on chlorine overlaps with the ring's pi system and spreads into it, putting negative charge on the ortho and para carbons.
+
+3
+00:00:11,028 --> 00:00:15,585
+So the carbon chlorine bond gains partial double bond character.
+
+4
+00:00:15,585 --> 00:00:24,739
+It shrinks from one seventy seven picometres in chloromethane to one sixty nine in chlorobenzene, and becomes much harder to break.
+

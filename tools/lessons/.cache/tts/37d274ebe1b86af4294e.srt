@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,067
+Chlorobenzene has no positional isomer, since all six ring carbons are equivalent.
+
+2
+00:00:06,067 --> 00:00:14,895
+Isomerism starts with a second substituent: dichlorobenzene has exactly three, ortho, meta and para.
+
+3
+00:00:14,895 --> 00:00:22,434
+Their boiling points are close, but para melts at plus fifty three degrees while the others melt far below zero.
+
+4
+00:00:22,434 --> 00:00:29,544
+Its symmetrical shape stacks neatly in the crystal, so more energy is needed to break the lattice.
+

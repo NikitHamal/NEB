@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,757
+Haloarenes are useful.
+
+2
+00:00:01,757 --> 00:00:15,598
+Chlorobenzene is a solvent for paints and rubber, and the starting point for phenol, aniline, dyes and drugs, and D D T. Para dichlorobenzene is the moth repellent in moth balls and toilet blocks.
+
+3
+00:00:15,598 --> 00:00:20,143
+Bromo and iodobenzene make Grignard reagents in the lab.
+
+4
+00:00:20,143 --> 00:00:27,148
+But chlorinated aromatics persist in soil and water, so their residues must never go down the sink.
+

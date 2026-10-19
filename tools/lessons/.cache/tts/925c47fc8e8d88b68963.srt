@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,783
+Notice the dipole moment.
+
+2
+00:00:01,783 --> 00:00:09,101
+Chlorobenzene, one point six nine debye, is less polar than chloromethane, one point eight six.
+
+3
+00:00:09,101 --> 00:00:20,468
+Chlorine's lone pair partly flows back into the ring, opposing the pull of its electronegativity, and the s p two carbon holds its electrons more tightly.
+
+4
+00:00:20,468 --> 00:00:22,773
+Both ideas matter in the next part.
+

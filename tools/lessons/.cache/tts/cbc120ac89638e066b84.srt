@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,083
+C, potassium iodide.
+
+2
+00:00:02,083 --> 00:00:07,174
+Iodide is a good enough nucleophile that no copper catalyst is needed.
+
+3
+00:00:07,174 --> 00:00:15,611
+Copper one chloride is the Sandmeyer route to chlorobenzene, and fluoroboric acid is the Balz Schiemann route to fluorobenzene.
+

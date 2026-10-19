@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,934
+Welcome to Class 12 Chemistry, Unit 9: Haloarenes.
+
+2
+00:00:04,934 --> 00:00:16,653
+Compounds with a halogen fixed directly to a benzene ring, how they are made, why they resist substitution, and what they are used for, from dyes to the insecticide D D T.
+

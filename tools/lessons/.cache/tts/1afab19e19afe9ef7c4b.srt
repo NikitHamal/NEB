@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,223
+Pause and think.
+
+2
+00:00:01,223 --> 00:00:05,104
+What is the main reason chlorobenzene resists hydroxide?
+

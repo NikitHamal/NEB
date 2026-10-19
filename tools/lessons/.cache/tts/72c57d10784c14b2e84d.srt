@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,268
+Benzyl chloride is not a haloarene.
+
+2
+00:00:03,268 --> 00:00:10,690
+It reacts like any haloalkane, and gives an instant white precipitate with alcoholic silver nitrate.
+
+3
+00:00:10,690 --> 00:00:12,890
+Chlorobenzene gives none.
+

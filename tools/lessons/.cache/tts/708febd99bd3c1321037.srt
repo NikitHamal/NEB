@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,145
+Worked example.
+
+2
+00:00:01,145 --> 00:00:06,223
+Fourteen point seven four grams of chloral is zero point one mole.
+
+3
+00:00:06,223 --> 00:00:13,710
+It uses two moles of chlorobenzene per mole: zero point two moles, twenty two point five grams.
+
+4
+00:00:13,710 --> 00:00:19,700
+And it gives zero point one mole of D D T, thirty five point four five grams.
+

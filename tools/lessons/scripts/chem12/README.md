@@ -14,3 +14,4 @@ been checked part by part with frames.py.
 | 6 | Transition Metals | 17.0 min | cold open, 7 parts (characteristics, oxidation states, complex ions, shapes, crystal field theory, colour, catalysis), recap |
 | 7 | Studies of Heavy Metals | 27.2 min | cold open, 5 parts (copper, zinc, mercury, iron, silver), recap |
 | 8 | Haloalkanes | 17.6 min | cold open, 8 parts (naming and classes, preparation, physical properties, SN1/SN2, eight substitution products, elimination/reduction/Wurtz, making chloroform, reactions of chloroform), recap |
+| 9 | Haloarenes | 15.0 min | cold open, 7 parts (naming and isomerism, preparing chlorobenzene, physical properties, low reactivity, reduction and electrophilic substitution, Fittig/Wurtz–Fittig/chloral, uses), recap |

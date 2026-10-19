@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,841
+Mix a haloarene with a haloalkane, and you get the Wurtz Fittig reaction: chlorobenzene and chloromethane give toluene.
+
+2
+00:00:08,841 --> 00:00:13,125
+It puts a straight alkyl chain on a ring without rearrangement.
+
+3
+00:00:13,125 --> 00:00:20,872
+But three couplings compete: aryl with alkyl, which we want, aryl with aryl, and alkyl with alkyl.
+
+4
+00:00:20,872 --> 00:00:26,432
+And the ether must be perfectly dry, since sodium reacts violently with water.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,643
+Two named methods give chlorobenzene.
+
+2
+00:00:02,643 --> 00:00:07,981
+The Sandmeyer reaction uses copper one chloride in hydrochloric acid.
+
+3
+00:00:07,981 --> 00:00:12,382
+The Gattermann reaction uses copper powder with hydrochloric acid.
+
+4
+00:00:12,382 --> 00:00:19,270
+Iodobenzene needs no catalyst: just warm the diazonium salt with potassium iodide.
+
+5
+00:00:19,270 --> 00:00:26,250
+And fluorobenzene comes from the Balz Schiemann reaction, heating the dry fluoroborate salt.
+

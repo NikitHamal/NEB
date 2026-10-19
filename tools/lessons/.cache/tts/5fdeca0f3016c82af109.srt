@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,679
+A favourite two marks.
+
+2
+00:00:01,679 --> 00:00:11,718
+Chlorine on a ring is deactivating, because of its inductive pull, but ortho para directing, because its lone pair pushes density into those positions.
+
+3
+00:00:11,718 --> 00:00:14,166
+And para is the major product.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,966
+So every electrophilic substitution gives ortho and para products, with para the major one.
+
+2
+00:00:06,966 --> 00:00:16,223
+Nitration with mixed acid, chlorination with aluminium chloride, sulphonation, and Friedel Crafts alkylation and acylation.
+

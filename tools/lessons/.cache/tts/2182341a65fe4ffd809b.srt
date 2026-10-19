@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,809
+Naming is simple: number the ring for the lowest locants, and use the halogen as a prefix.
+
+2
+00:00:06,809 --> 00:00:15,755
+For two substituents the old prefixes still work: ortho for one two, meta for one three, and para for one four.
+

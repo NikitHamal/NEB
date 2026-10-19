@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,002
+Our path.
+
+2
+00:00:01,002 --> 00:00:03,190
+Naming and isomerism.
+
+3
+00:00:03,190 --> 00:00:07,473
+Making chlorobenzene from benzene and from a diazonium salt.
+
+4
+00:00:07,473 --> 00:00:09,023
+Physical properties.
+
+5
+00:00:09,023 --> 00:00:12,278
+The low reactivity, and its four reasons.
+
+6
+00:00:12,278 --> 00:00:15,182
+Reduction and electrophilic substitution.
+
+7
+00:00:15,182 --> 00:00:18,684
+The Fittig and Wurtz Fittig reactions and D D T.
+
+8
+00:00:18,684 --> 00:00:20,794
+And finally, uses.
+

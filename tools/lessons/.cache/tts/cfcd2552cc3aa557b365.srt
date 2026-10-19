@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,197
+Worked example.
+
+2
+00:00:01,197 --> 00:00:05,598
+Forty five grams of chlorobenzene is zero point four moles.
+
+3
+00:00:05,598 --> 00:00:10,013
+Ninety percent converts: zero point three six moles.
+
+4
+00:00:10,013 --> 00:00:15,690
+Seventy percent of that is para: zero point two five two moles.
+
+5
+00:00:15,690 --> 00:00:23,619
+Para nitrochlorobenzene has molar mass one fifty seven point five, so thirty nine point seven grams.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,223
+Reason four.
+
+2
+00:00:01,223 --> 00:00:03,515
+Neither mechanism is available.
+
+3
+00:00:03,515 --> 00:00:13,177
+S N one would need a phenyl cation, whose empty orbital lies in the plane of the ring and gets no resonance help, so it is far too unstable.
+
+4
+00:00:13,177 --> 00:00:20,481
+S N two needs attack from directly behind the carbon chlorine bond, and that space is occupied by the ring itself.
+
+5
+00:00:20,481 --> 00:00:22,708
+That is our cold open solved.
+

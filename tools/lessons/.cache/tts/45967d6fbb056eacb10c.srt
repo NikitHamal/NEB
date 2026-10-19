@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,885
+Electrophilic substitution has its own intermediate, this time with a positive charge.
+
+2
+00:00:05,885 --> 00:00:18,945
+When the electrophile attacks para to chlorine, that positive charge can land on the carbon holding chlorine, and chlorine's lone pair shares itself to form a C double bond C l plus structure.
+
+3
+00:00:18,945 --> 00:00:23,229
+That extra resonance form stabilises the intermediate.
+
+4
+00:00:23,229 --> 00:00:25,989
+The same is true for ortho attack.
+

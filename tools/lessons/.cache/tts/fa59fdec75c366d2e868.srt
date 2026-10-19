@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,893
+Haloarenes couple with sodium, just like the Wurtz reaction.
+
+2
+00:00:03,893 --> 00:00:12,330
+Two chlorobenzene molecules with sodium in dry ether lose their chlorines to the sodium and join together, giving biphenyl.
+
+3
+00:00:12,330 --> 00:00:14,101
+This is the Fittig reaction.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,726
+With chloral, trichloroethanal, and concentrated sulphuric acid, two chlorobenzene molecules join at their para positions to one carbon.
+
+2
+00:00:09,726 --> 00:00:14,518
+The product is D D T, the first modern synthetic insecticide.
+

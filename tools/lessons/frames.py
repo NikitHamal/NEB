@@ -39,6 +39,7 @@ def main():
         env = dict(os.environ, PYTHONPATH=HERE + os.pathsep + os.environ.get("PYTHONPATH", ""))
         if a.parts != "all":
             env["LESSON_ONLY"] = a.parts
+        os.makedirs(media + "-dry", exist_ok=True)
         subprocess.run(["manim", "render", "--dry_run", "--fps", "4", "-r", "320,180", "--media_dir", media + "-dry", "--disable_caching", "-v", "WARNING", "--progress_bar", "none", script, "Lesson"],
                        env=env, cwd=HERE, check=True)
         print("dry run ok")
