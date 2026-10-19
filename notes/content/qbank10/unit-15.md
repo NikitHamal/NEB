@@ -2,281 +2,657 @@
 subject: Question Bank
 grade: 10
 unit: 15
-title: "Social Studies: Unit-wise Subjective Question Bank"
+title: "सामाजिक अध्ययन: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह"
 hours: 0
-area: Social Studies
+area: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
 ---
 
-Most of the 75 marks of the Social Studies paper are written answers. The CDC grid, as published for the 2080 curriculum, has nine short answers of 4 marks (36 marks) and four long answers of 7 marks (28 marks). Another source I checked prints a different split of the same marks (4 x 4 and 8 x 6), so confirm the figures against the grid your school gives you. Whichever split is used, the skill is the same: give a clear definition, then numbered points with a fact in each, then a closing line. This chapter gives, for each of the ten units, three short questions and one long question with model answers.
-
-::: key How to use this chapter
-Write your own answer first and compare **points**, not words. A 4-mark answer needs about four separate points in 60 to 80 words. A 7-mark answer needs a short introduction, five or six developed points with facts, and a conclusion in about 150 words. Every answer here is original practice material based on the Social Studies book chapters of this series, not a copy of any board answer.
+::: caution अभ्यास सामग्रीबारे
+यी प्रश्न नेबियन्सको सामाजिक अध्ययन पुस्तकका अभ्यासबाट सङ्कलित र पुनर्व्यवस्थित हुन्। यी विगतका प्रश्नपत्रको प्रतिलिपि वा आगामी परीक्षाको भविष्यवाणी होइनन्। आफ्नो विद्यालयले दिएको हालको विशिष्टीकरण तालिकासँग प्रश्नको ढाँचा मिलाउनुहोस्।
 :::
 
-## 15.1 Command words and the marks they carry
+चार अङ्कको उत्तरमा प्रश्नले मागेको अवधारणा र कारण स्पष्ट पार्नुहोस्। सात अङ्कको उत्तरमा परिचय, सम्बन्धित आधार, उदाहरण र निष्कर्ष जोड्नुहोस्। तलका उत्तर अध्ययनका विस्तृत आधार हुन्; परीक्षामा प्रश्नको निर्देशन र अङ्कअनुसार छानेर लेख्नुहोस्।
 
-| Command word | What to write | Typical marks |
-|---|---|---|
-| Define, what is | a definition in one or two sentences | 1 to 2 |
-| Mention, state, list | four or five points, no explanation | 4 |
-| Differentiate | a two-column comparison on three or four points | 4 |
-| Explain, describe | each point with a fact or example | 4 to 7 |
-| Analyse, evaluate, justify | reasons for and against, then your view | 7 |
+## १५.१ हामी र हाम्रो समाज
 
-```figure caption="A 7-mark answer: marks are earned by an opening statement, developed points and a conclusion. A plan of this shape fills about 150 words."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch
-fig, ax = plt.subplots(figsize=(4.6, 2.4))
-ax.axis("off"); ax.set_xlim(0, 10); ax.set_ylim(0, 5)
-parts = [("Introduction\n(1 mark)", 0.2, 1.8), ("Points with facts\n(5 marks)", 2.4, 4.4), ("Conclusion\n(1 mark)", 7.0, 2.6)]
-for t, x, w in parts:
-    ax.add_patch(FancyBboxPatch((x, 1.4), w, 2.0, boxstyle="round,pad=0.05", fc="#eaf1ff", ec=ACCENT, lw=1.2))
-    ax.text(x + w / 2, 2.4, t, ha="center", va="center", fontsize=8.5, color=INK)
-ax.text(5, 4.3, "Plan of a 7-mark answer (about 150 words)", ha="center", fontsize=9, color=INK)
-ax.text(5, 0.6, "20 words      110 words      20 words", ha="center", fontsize=8, color=MUTED)
-fig.tight_layout()
-```
+**छोटो उत्तर अभ्यास — चार अङ्क**
 
-## 15.2 Unit 1: Our Society and We
+**१.** सामाजिकीकरणको परिभाषा दिँदै यसका कुनै चार साधन उदाहरणसहित लेख्नुहोस्। <span class="marks">[4]</span>
 
-**Short questions (4 marks each)**
+**२.** पहिचान भनेको के हो? यसका कुनै चार प्रकार उदाहरणसहित लेख्नुहोस्। <span class="marks">[4]</span>
 
-1. Define socialization. Name four agencies of socialization. <span class="marks">[4]</span>
-2. What is national identity? Name three documents that prove it. <span class="marks">[4]</span>
-3. How is unity in diversity protected in Nepal? Give four points. <span class="marks">[4]</span>
+**३.** नेपालका कुनै पाँच राष्ट्रिय चिह्न लेख्दै राष्ट्रिय झन्डाको विशेषता
+   बताउनुहोस्। <span class="marks">[4]</span>
 
-**Long question (7 marks)**
+**४.** लोकरीति, लोकनीति र कानुनबिचको भिन्नता उदाहरणसहित छुट्याउनुहोस्। <span class="marks">[4]</span>
 
-4. Describe the diversity of Nepal and explain why unity in diversity matters. <span class="marks">[7]</span>
+::: note कारणसहित उत्तरकुञ्जी
+**१.** व्यक्तिले समाजको भाषा, मूल्य, मान्यता र सीप सिकेर समाजको स्वीकार्य
+सदस्य बन्ने जीवनपर्यन्त प्रक्रिया। साधन: **परिवार** — भाषा र पहिलो संस्कार;
+**विद्यालय** — अनुशासन, समयपालन, औपचारिक ज्ञान; **साथी समूह** — सहकार्य र
+आत्मविश्वास; **सञ्चार माध्यम** — सूचना र दृष्टिकोण (धर्म-संस्कृति र राज्य पनि)।
 
-::: note Model answers: Unit 1
-**1.** Socialization is the lifelong process by which a person learns the language, norms, values and skills of society. Its agencies are the family (the first and strongest), the peer group, the school, religion and culture, the mass media, and the community and state.
-**2.** National identity is the sense of belonging to a nation, answering "Who are we as a nation?". It is built from language, culture, religion, place and nationality. Legal proof comes from the citizenship certificate (issued from age 16), the National ID card and the passport.
-**3.** (i) The Constitution protects equality and rights (for example Articles 18, 24, 31, 32 and 42). (ii) Languages, cultures and religions are recognised and may be used and taught. (iii) Festivals and symbols are shared by all communities. (iv) Dialogue, education and inclusion reduce discrimination and intolerance.
-**4.** *Introduction.* Nepal is a small country with a very large variety of people. *Points.* (i) Census 2021 counted 29,164,578 people. (ii) They belong to 142 caste and ethnic groups. (iii) They speak 124 mother tongues. (iv) They follow 10 religions. (v) The land has mountain, hill and Terai regions with different ways of life. *Why unity matters.* Unity in diversity means living in peace and cooperation despite differences. It keeps the country stable, lets every group keep its culture, allows all citizens to take part in development and protects the nation from conflict. It is endangered by discrimination, intolerance and regional imbalance. *Conclusion.* Respect for difference, protected by the Constitution, is the strength of Nepal.
+**२.** व्यक्ति वा समूहलाई अरूभन्दा फरक देखाउने विशेषताहरूको समष्टि नै पहिचान
+हो। प्रकार: व्यक्तिगत (नाम, रुचि), जातीय-भाषिक (मगर, मैथिली भाषी),
+धार्मिक-सांस्कृतिक (हिन्दु, बौद्ध), भौगोलिक (हिमाली, तराईवासी) र राष्ट्रिय
+(नेपाली नागरिक)।
+
+**३.** राष्ट्रिय झन्डा, राष्ट्रिय गान, लालीगुराँस (फूल), सिम्रिक (रङ), गाई
+(जनावर), डाँफे (पक्षी)। **झन्डाको विशेषता:** दुई त्रिकोण जोडिएको, विश्वकै
+एक मात्र चतुर्भुज नभएको राष्ट्रिय झन्डा; माथिल्लो त्रिकोणमा चन्द्रमा र
+तल्लोमा सूर्य — यिनले राष्ट्रको चिरस्थायित्व जनाउँछन्।
+
+**४.** **लोकरीति** दैनिक बानी र शिष्टाचार हुन्; उल्लङ्घनमा हल्का असहमति मात्र
+हुन्छ (नमस्कार नगर्नु)। **लोकनीति** कडा नैतिक नियम हुन्; उल्लङ्घनमा समाजको
+गम्भीर असहमति हुन्छ (शिक्षकको अपमान गर्नु)। **कानुन** राज्यले लेखेर लागु
+गर्ने नियम हो; उल्लङ्घनमा सजाय हुन्छ (चोरी, कर छली)।
 :::
 
-## 15.3 Unit 2: Development and the Foundations of Development
+**लामो उत्तर अभ्यास — सात अङ्क**
 
-**Short questions (4 marks each)**
+**१.** सामाजिकीकरणका साधनको विस्तृत व्याख्या गर्दै किशोरावस्थामा साथी समूहको
+   प्रभाव कसरी सकारात्मक बनाउन सकिन्छ लेख्नुहोस्। <span class="marks">[7]</span>
 
-1. What is the Human Development Index? Name its three dimensions. <span class="marks">[4]</span>
-2. What is sustainable development? Name its three pillars. <span class="marks">[4]</span>
-3. Mention four benefits of federalism in Nepal. <span class="marks">[4]</span>
+**२.** नेपालको विविधता पाँच शीर्षकमा वर्णन गर्दै विविधतामा एकता कायम राख्ने उपाय
+   सुझाउनुहोस्। <span class="marks">[7]</span>
 
-**Long question (7 marks)**
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **साधन:** (क) **परिवार** — पहिलो पाठशाला; भाषा, मूल्य, भूमिका र
+भावनात्मक सुरक्षा दिन्छ; प्रभाव सबैभन्दा लामो रहन्छ। (ख) **विद्यालय** —
+अनुशासन, समयपालन, सहकार्य, प्रतिस्पर्धा र औपचारिक ज्ञान; परिवारबाहिरको पहिलो
+नियमबद्ध संसार। (ग) **साथी समूह** — किशोरावस्थामा सबैभन्दा प्रभावकारी;
+आत्मविश्वास, नेतृत्व, सहकार्य सिकाउँछ। (घ) **सञ्चार माध्यम** — सूचना,
+दृष्टिकोण र मनोरञ्जन; भ्रामक सूचनाको जोखिम पनि यहीँ। (ङ) **धर्म र संस्कृति**
+— पर्व, संस्कार र व्रतबाट नैतिक मूल्य र सहिष्णुता। (च) **समुदाय र राज्य** —
+टोल, सहकारी, स्थानीय तह र कानुनबाट नागरिक कर्तव्य।
+**साथी समूहको प्रभाव सकारात्मक बनाउने उपाय:** असल सङ्गत छान्न सिकाउने; विद्यालयमा
+खेलकुद, वादविवाद र सिर्जनात्मक क्लब चलाउने जसले ऊर्जा सही दिशामा लगोस्; अभिभावक
+र शिक्षकले खुला संवाद राख्ने ताकि किशोरले समस्या लुकाउनु नपरोस्; "नाइँ" भन्न
+सक्ने सीप सिकाउने; कुलत र लागुऔषधका असरबारे तथ्यमा आधारित शिक्षा दिने।
 
-4. What are national pride projects? Explain their importance with examples. <span class="marks">[7]</span>
-
-::: note Model answers: Unit 2
-**1.** HDI is a composite index, published by UNDP since 1990, that measures a country's development on a scale from 0 to 1. Its dimensions are health (life expectancy), education (mean and expected years of schooling) and standard of living (GNI per capita, PPP). Nepal's HDI is 0.622 and its rank is 145, in the medium group.
-**2.** Sustainable development meets the needs of the present without harming the ability of future generations to meet theirs (Brundtland, 1987). Its three pillars are economic, social and environmental.
-**3.** (i) Power and resources go to provinces and local governments, so decisions are taken closer to the people. (ii) Services such as schools, health posts and roads reach more places. (iii) Local people take part in planning. (iv) Regions and communities get fairer chances, reducing regional imbalance.
-**4.** *Introduction.* National pride projects are very large strategic projects chosen to speed up growth and bring national pride. *Examples.* Melamchi drinking water, Upper Tamakoshi hydropower (456 MW), Budhi Gandaki hydropower, the Kathmandu–Terai/Madhesh Fast Track, new international airports and the highways. *Importance.* (i) They create jobs during construction and after. (ii) They produce energy or water and cut imports. (iii) They link regions and open trade and tourism. (iv) They raise confidence that Nepal can build large works by itself. *Conclusion.* If finished on time and on budget, these projects speed up development and give a lasting pride to the nation.
+**२.** **विविधताका पाँच रूप:** (क) **जातीय** — १४२ जातजाति। (ख) **भाषिक** —
+१२४ मातृभाषा; नेपाली, मैथिली, भोजपुरी, थारू, तामाङ प्रमुख। (ग) **धार्मिक** —
+हिन्दु ८१.१९%, बौद्ध ८.२१%, इस्लाम ५.०९%, किरात ३.१७%, क्रिस्चियन १.७६%।
+(घ) **सांस्कृतिक** — पहिरन, खानपान, नाचगान, पर्व र संस्कारको भिन्नता। (ङ)
+**भौगोलिक** — हिमाल, पहाड, तराई; फरक हावापानी, पेसा र जीवनशैली।
+**एकता कायम राख्ने उपाय:** सबै भाषा, धर्म र संस्कृतिलाई समान सम्मान; राज्यका
+निकाय र अवसरमा समावेशी प्रतिनिधित्व; एक समुदायको पर्वमा अर्कोको सहभागिता;
+कुनै क्षेत्र वा समुदाय छुट्न नदिने समान विकास; छुवाछुत र जातीय विभेदविरुद्धको
+कानुनको प्रभावकारी कार्यान्वयन; विद्यालय र सञ्चार माध्यमबाट सहिष्णुताको शिक्षा।
+स्वयम्भूनाथ र पशुपतिनाथमा हिन्दु-बौद्ध दुवैको साझा पूजा यसको जीवन्त उदाहरण हो।
 :::
 
-## 15.4 Unit 3: Our Social Values and Beliefs
+## १५.२ विकास र विकासका आधार
 
-**Short questions (4 marks each)**
+**छोटो उत्तर अभ्यास — चार अङ्क**
 
-1. Name Nepal's World Heritage Sites and the year each was listed. <span class="marks">[4]</span>
-2. Differentiate between a folk dance and a classical dance. <span class="marks">[4]</span>
-3. What is social responsibility? Give four examples. <span class="marks">[4]</span>
+**१.** मानव विकास सूचकाङ्क भनेको के हो? यसका तीन आयाम र सूचक लेख्नुहोस्। <span class="marks">[4]</span>
 
-**Long question (7 marks)**
+**२.** दिगो विकासको परिभाषा दिँदै यसका तीन खम्बा व्याख्या गर्नुहोस्। <span class="marks">[4]</span>
 
-4. Describe the contributions of Gandhi, Mandela, Mother Teresa and Martin Luther King Jr. <span class="marks">[7]</span>
+**३.** सङ्घ, प्रदेश र स्थानीय तहका अधिकार तालिकामा छुट्याउनुहोस्। <span class="marks">[4]</span>
 
-::: note Model answers: Unit 3
-**1.** Kathmandu Valley (1979), Sagarmatha National Park (1979), Chitwan National Park (1984) and Lumbini (1997).
-**2.** A folk dance comes from a community, is learned by watching and joining, has simple steps and is danced at festivals (for example Maruni, the Tharu stick dance, Deuda and Sakela). A classical dance has strict rules of movement, mudra and music, needs long training from a teacher and is performed on stage (for example Charya nritya).
-**3.** Social responsibility is doing our duty to self, family, community, nation, environment and humanity. Examples: paying taxes, keeping the neighbourhood clean, helping in disasters and obeying laws.
-**4.** *Introduction.* These four persons served humanity beyond their own countries. *Gandhi* led India's freedom struggle by non-violence and truth. *Mandela* fought apartheid in South Africa, spent many years in prison, became president and won the Nobel Peace Prize in 1993. *Mother Teresa* served the poor, the sick and the dying in Kolkata and won the Nobel Peace Prize in 1979. *Martin Luther King Jr.* led the civil rights movement for equality of black Americans through peaceful protest. *Lesson.* All four show that equality, peace and service are stronger than hatred. *Conclusion.* Their ideas support universal brotherhood: the world is one family.
+**४.** राष्ट्रिय गौरवका आयोजना भनेका के हुन्? कुनै चार आयोजनाको नाम लेख्नुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** स्वास्थ्य, शिक्षा र आय — तीन आयाम मिलाएर संयुक्त राष्ट्रसङ्घीय विकास
+कार्यक्रमले तयार पार्ने ० देखि १ सम्मको अङ्क। सूचक: स्वास्थ्य — जन्मँदाको
+औसत आयु; शिक्षा — औसत र अपेक्षित विद्यालय वर्ष; जीवनस्तर — प्रतिव्यक्ति कुल
+राष्ट्रिय आय।
+
+**२.** भावी पुस्ताको आवश्यकता पूरा गर्ने क्षमतामा आँच नआउने गरी वर्तमानको
+आवश्यकता पूरा गर्ने विकास। खम्बा: **आर्थिक** — आय, रोजगारी, उत्पादन;
+**सामाजिक** — शिक्षा, स्वास्थ्य, समानता; **वातावरणीय** — वन, पानी, हावा र
+जैविक विविधताको संरक्षण। तीनै सँगै नबढे विकास अडिँदैन।
+
+**३.** **सङ्घ** — रक्षा, परराष्ट्र, मुद्रा, नागरिकता, केन्द्रीय योजना।
+**प्रदेश** — प्रदेश प्रहरी, प्रदेशस्तरको शिक्षा-स्वास्थ्य, प्रदेश सडक।
+**स्थानीय** — आधारभूत शिक्षा र स्वास्थ्य, स्थानीय सडक, खानेपानी, घर नक्सा,
+स्थानीय कर।
+
+**४.** राष्ट्रिय अर्थतन्त्र र जनजीवनमा दूरगामी प्रभाव पार्ने, ठुलो लगानी लाग्ने
+र सरकारले विशेष प्राथमिकता दिने ठुला आयोजना। उदाहरण: माथिल्लो तामाकोशी
+जलविद्युत्, मेलम्ची खानेपानी, सिक्टा सिँचाइ, मध्यपहाडी (पुष्पलाल) लोकमार्ग।
 :::
 
-## 15.5 Unit 4: Social Problems and Solutions
+**लामो उत्तर अभ्यास — सात अङ्क**
 
-**Short questions (4 marks each)**
+**१.** नेपालको मानव विकास सूचकाङ्क कम हुनुका कारण लेख्दै यसलाई बढाउने उपाय
+   सुझाउनुहोस्। <span class="marks">[7]</span>
 
-1. What is corruption? Give four ways to control it. <span class="marks">[4]</span>
-2. State the causes and two effects of domestic violence. <span class="marks">[4]</span>
-3. Mention four superstitions and remedies for them. <span class="marks">[4]</span>
+**२.** नेपालमा सङ्घीयताको परिचय दिँदै यसका फाइदा र चुनौती व्याख्या गर्नुहोस्। <span class="marks">[7]</span>
 
-**Long question (7 marks)**
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **कारण:** (क) गरिबी र आय असमानता — ठुलो जनसङ्ख्या निर्वाहमुखी कृषिमा
+निर्भर; (ख) शिक्षाको गुणस्तर कमजोर — भर्ना बढे पनि सिकाइ उपलब्धि कम;
+(ग) स्वास्थ्य सेवाको पहुँच सीमित — विकट भेगमा जनशक्ति र औषधिको अभाव;
+(घ) भौगोलिक विकटता — सडक, विद्युत् र सञ्चार नपुग्नु; (ङ) राजनीतिक अस्थिरता,
+भ्रष्टाचार र कमजोर कार्यान्वयन; (च) युवा पलायन — दक्ष जनशक्ति विदेशिनु।
+**उपाय:** सीपमूलक र प्राविधिक शिक्षा विस्तार; शिक्षक तालिम र विद्यालय
+व्यवस्थापन सुधार; स्वास्थ्य चौकी, जनशक्ति र स्वास्थ्य बिमाको विस्तार;
+सडक-विद्युत्-सञ्चारको पूर्वाधार; कृषि आधुनिकीकरण र उद्यमशीलता प्रवर्धन;
+सुशासन, पारदर्शिता र जवाफदेहिता; देशभित्रै रोजगारी सिर्जना गरी युवा पलायन
+रोक्ने।
 
-4. What is human trafficking? Explain its causes, effects and solutions. <span class="marks">[7]</span>
-
-::: note Model answers: Unit 4
-**1.** Corruption is the misuse of power or position for personal gain. It can be controlled by (i) a strong CIAA and laws such as the Prevention of Corruption Act 2059, (ii) the Right to Information Act 2064, which opens public offices to questions, (iii) honest education and public awareness, and (iv) quick, equal punishment of offenders. Nepal scored 34 out of 100 in the Corruption Perceptions Index 2024.
-**2.** Domestic violence is physical, mental, sexual or economic harm inside the family. Causes: unequal power between men and women, poverty, alcohol, lack of education. Effects: injury and fear, loss of confidence, broken families and harm to children. The Domestic Violence Act 2066 gives legal help.
-**3.** Witchcraft accusation (remedy: education and law), chhaupadi (awareness and law), dowry (law and equality), child marriage (education and enforcement), faith healing instead of treatment (health services). Any four with a remedy earn full marks.
-**4.** *Introduction.* Human trafficking is buying, selling or transporting people by force or deceit for exploitation. *Causes.* Poverty, illiteracy, fake job and marriage offers, and the open border. *Effects.* Loss of freedom, abuse, disease, shame and broken families; the victim may be forced into labour or sexual exploitation. *Solutions.* Education, jobs at home, safe migration, strong law (Constitution Article 29 and the Act of 2064), rescue and rehabilitation, and cooperation with international organisations. *Conclusion.* Awareness at village level and strict enforcement together protect people. World Day against Trafficking is observed on 30 July.
+**२.** **परिचय:** संविधान (२०७२) ले नेपाललाई सङ्घीय लोकतान्त्रिक गणतन्त्रात्मक
+राज्य घोषणा गर्‍यो र राज्यशक्ति सङ्घ (१), प्रदेश (७) र स्थानीय तह (७५३) मा
+बाँड्यो। तीनै तहका अधिकार संविधानका अनुसूचीमा तोकिएका छन् र सहअस्तित्व,
+सहकारिता तथा समन्वयका सिद्धान्तमा सम्बन्ध चल्छ। **फाइदा:** सेवा नागरिकको
+घरआँगनमा पुग्यो; स्थानीय आवश्यकताअनुसार योजना बन्न थाल्यो; महिला, दलित र
+अल्पसङ्ख्यकको प्रतिनिधित्व बढ्यो; निर्णय प्रक्रिया छिटो भयो; स्थानीय स्रोत
+स्थानीय विकासमै प्रयोग हुन थाल्यो। **चुनौती:** प्रदेश र स्थानीय तहमा दक्ष
+जनशक्तिको अभाव; स्रोत-साधनको असमान वितरण; अधिकार क्षेत्रमा दोहोरोपन र विवाद;
+प्रशासनिक खर्च वृद्धि; कानुन निर्माणमा ढिलाइ। समाधानका लागि जनशक्ति विकास,
+स्पष्ट कानुन, अन्तरतह समन्वय संयन्त्र र वित्तीय अनुशासन आवश्यक छ।
 :::
 
-## 15.6 Unit 5: Civic Consciousness
+## १५.३ हाम्रा सामाजिक मूल्य र मान्यता
 
-**Short questions (4 marks each)**
+**छोटो उत्तर अभ्यास — चार अङ्क**
 
-1. Name the three organs of state power and give one function of each. <span class="marks">[4]</span>
-2. State four duties of a citizen in an election. <span class="marks">[4]</span>
-3. Mention four rights of a consumer. <span class="marks">[4]</span>
+**१.** सम्पदा भनेको के हो? यसका तीन प्रकार उदाहरणसहित लेख्नुहोस्। <span class="marks">[4]</span>
 
-**Long question (7 marks)**
+**२.** लोकगीतका कुनै चार प्रकार उदाहरणसहित लेख्दै यसका तीन विशेषता बताउनुहोस्। <span class="marks">[4]</span>
 
-4. Describe the composition of the Federal Parliament and explain how a bill becomes law. <span class="marks">[7]</span>
+**३.** नेपाली लोकवाद्यलाई चार वर्गमा छुट्याई दुई-दुई उदाहरण लेख्नुहोस्। <span class="marks">[4]</span>
 
-::: note Model answers: Unit 5
-**1.** The legislature makes laws; the executive carries them out; the judiciary interprets them and gives justice. All three are checked by the Constitution.
-**2.** (i) Register and vote at the age of 18 or above. (ii) Choose candidates by merit and not by gift or fear. (iii) Refuse to take or give a bribe. (iv) Accept the result peacefully.
-**3.** The right to basic needs, to safety, to information, to choose, to be heard, to redress, to consumer education and to a healthy environment. (Any four.) The Consumer Protection Act is of 2075, and World Consumer Rights Day is 15 March.
-**4.** *Composition.* The Federal Parliament is the President together with two houses. The House of Representatives has 275 members: 165 elected by first-past-the-post and 110 by proportional representation, for five years. The National Assembly has 59 members for six years, and one-third retire every two years. *How a bill becomes law.* (i) A bill is introduced in one house. (ii) It is discussed in the house and in a committee. (iii) It is passed by a majority. (iv) The other house considers and passes it. (v) It goes to the President for assent. (vi) After assent it becomes an Act. *Conclusion.* Both houses and the President take part, so no law is made hastily.
+**४.** कुनै पाँच राष्ट्रिय दिवस मितिसहित लेख्दै एउटाको महत्त्व बताउनुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** पुर्खाबाट प्राप्त भई भावी पुस्तालाई हस्तान्तरण गर्नुपर्ने प्राकृतिक,
+सांस्कृतिक र ऐतिहासिक सम्पत्ति। **प्राकृतिक** — सगरमाथा, रारा ताल; **भौतिक
+सांस्कृतिक** — पशुपतिनाथ, पाटन दरबार; **अभौतिक सांस्कृतिक** — भाषा, लोकगीत,
+जात्रा, परम्परागत सीप।
+
+**२.** प्रकार: ऋतु-पर्वसम्बन्धी (तीजका गीत, देउसी-भैलो), कृषिसम्बन्धी (असारे
+गीत), संस्कारसम्बन्धी (मङ्गल गीत, रत्यौली), भावप्रधान (झ्याउरे, सालैजो, देउडा)।
+विशेषता: रचयिता अज्ञात; मुखाग्र परम्पराबाट सर्ने; समुदायको जीवन र परिवेश
+झल्काउने (सामूहिक रूपमा गाइने पनि)।
+
+**३.** **तत्** — सारङ्गी, तुङ्ना; **सुषिर** — बाँसुरी, नरसिंगा; **अवनद्ध** —
+मादल, दमाहा; **घन** — झ्याली, मन्जिरा।
+
+**४.** प्रजातन्त्र दिवस (फागुन ७), लोकतन्त्र दिवस (वैशाख ११), गणतन्त्र दिवस
+(जेठ १५), संविधान दिवस (असोज ३), सहिद दिवस (माघ १६)। **गणतन्त्र दिवस**को
+महत्त्व: २०६५ जेठ १५ मा संविधान सभाले नेपाललाई सङ्घीय लोकतान्त्रिक गणतन्त्र
+घोषणा गरी २४० वर्ष लामो राजतन्त्रको औपचारिक अन्त्य भयो; यसले सार्वभौमसत्ता
+जनतामा निहित भएको पुष्टि गर्‍यो।
 :::
 
-## 15.7 Unit 6: Our Earth
+**लामो उत्तर अभ्यास — सात अङ्क**
 
-**Short questions (4 marks each)**
+**१.** राष्ट्रिय सम्पदाका प्रकार व्याख्या गर्दै सम्पदा संरक्षणमा विद्यार्थी र
+   समुदायले गर्न सक्ने काम लेख्नुहोस्। <span class="marks">[7]</span>
 
-1. Explain four factors that affect climate. <span class="marks">[4]</span>
-2. Mention four safety measures during an earthquake. <span class="marks">[4]</span>
-3. State four essential elements of a map. <span class="marks">[4]</span>
+**२.** कुनै तीन अन्तर्राष्ट्रिय व्यक्तित्वको योगदान लेख्दै तिनबाट सिक्न सकिने
+   मानवीय मूल्य बताउनुहोस्। <span class="marks">[7]</span>
 
-**Long question (7 marks)**
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **प्रकार:** (क) **प्राकृतिक** — प्रकृतिले दिएका सगरमाथा, रारा,
+राष्ट्रिय निकुञ्ज, जैविक विविधता। (ख) **भौतिक सांस्कृतिक** — मानिसले बनाएका
+मन्दिर, दरबार, स्तूप, गुम्बा, पाटी-पौवा। (ग) **अभौतिक सांस्कृतिक** — भाषा,
+लोकगीत, नृत्य, जात्रा, परम्परागत सीप र ज्ञान। युनेस्को सूचीमा नेपालका चार
+स्थल छन्।
+**विद्यार्थीले:** सम्पदामा नकोर्ने र नबिगार्ने; अभिलेख र फोटो सङ्कलन गरी
+परियोजना बनाउने; सरसफाइ र वृक्षरोपणमा सहभागी हुने; भित्तेपत्रिका, प्रदर्शनी
+र वादविवादबाट चेतना फैलाउने; "सम्पदा मित्र" टोली बनाई अनुगमन गर्ने।
+**समुदायले:** मौलिक शैली र सामग्रीमा मर्मत; अतिक्रमण र अनधिकृत निर्माण रोक्ने;
+चोरी-निकासी भए तुरुन्तै जानकारी दिने; गुठी र स्थानीय संस्थालाई सक्रिय बनाउने;
+पर्यटनबाट आएको आम्दानीको अंश संरक्षणमै लगाउने; जात्रा र परम्परागत सीप नयाँ
+पुस्तालाई सिकाउने।
 
-4. Describe the relief, climate and economic importance of the continent of Africa. <span class="marks">[7]</span>
-
-::: note Model answers: Unit 6
-**1.** (i) *Latitude*: places near the equator are hot, near the poles cold. (ii) *Altitude*: temperature falls by about 6.5 °C for every 1,000 m. (iii) *Distance from the sea*: coastal places have mild weather, interiors have extremes. (iv) *Ocean currents, winds and relief*: warm currents warm coasts, and mountains cause rain shadow.
-**2.** (i) *Drop* to hands and knees, *cover* your head under a table, and *hold* on. (ii) Keep away from windows and heavy objects. (iii) Do not use a lift. (iv) After shaking stops, go to an open space and keep an emergency kit ready; build houses to code.
-**3.** Title, scale, direction (north arrow), legend (key) and border. Contours show relief.
-**4.** *Introduction.* Africa is the second largest continent, about 30.3 million km². *Relief.* It has the Sahara in the north, the Nile (the great river) and the highest peak, Kilimanjaro (5,895 m). *Climate.* The equator crosses the middle, so the continent has equatorial rainforest, savanna grassland and hot desert; the north and south have milder types. *Economy.* Many people depend on farming; the continent has minerals (gold, diamonds, copper) and oil, but poverty and low industry remain. *Conclusion.* Africa's wealth of land and resources is large; development needs peace and investment.
+**२.** **महात्मा गान्धी** — सत्य र अहिंसाको बाटोबाट भारतको स्वतन्त्रता सङ्घर्ष
+नेतृत्व गरे; हतियारविनै अन्यायसँग लड्न सकिन्छ भन्ने देखाए। **नेल्सन मन्डेला**
+— रङ्गभेदविरुद्ध सङ्घर्ष गर्दै २७ वर्ष जेल बसे; बाहिर निस्केपछि बदलाको साटो
+क्षमा र मेलमिलाप रोजेर देशलाई गृहयुद्धबाट जोगाए। **मदर टेरेसा** — कोलकातामा
+गरिब, रोगी र अनाथको सेवामा जीवन समर्पण गरिन्; सन् १९७९ मा नोबेल शान्ति
+पुरस्कार पाइन्।
+**सिक्न सकिने मूल्य:** अन्यायविरुद्ध अहिंसात्मक प्रतिरोध; क्षमा र मेलमिलापको
+शक्ति; निःस्वार्थ सेवा र करुणा; लक्ष्यप्रति धैर्य र दृढता; जात, धर्म र वर्णको
+सिमाना नाघेर मानवतालाई प्राथमिकता दिनु।
 :::
 
-## 15.8 Unit 7: Our Past
+## १५.४ सामाजिक समस्या र समाधान
 
-**Short questions (4 marks each)**
+**छोटो उत्तर अभ्यास — चार अङ्क**
 
-1. State four causes of the First World War. <span class="marks">[4]</span>
-2. State four results of the Second World War. <span class="marks">[4]</span>
-3. Why was the Panchayat system criticised? Give four reasons. <span class="marks">[4]</span>
+**१.** मानव बेचबिखन भनेको के हो? यसका चार कारण लेख्नुहोस्। <span class="marks">[4]</span>
 
-**Long question (7 marks)**
+**२.** घरेलु हिंसाका चार प्रकार उदाहरणसहित लेख्नुहोस्। <span class="marks">[4]</span>
 
-4. Explain the causes and results of the revolution of 2007 BS. <span class="marks">[7]</span>
+**३.** भ्रष्टाचारले समाजमा पार्ने चार असर लेख्नुहोस्। <span class="marks">[4]</span>
 
-::: note Model answers: Unit 7
-**1.** Militarism (arms race), alliances (two armed camps), imperialism (rivalry for colonies) and nationalism. The spark was the assassination at Sarajevo on 28 June 1914.
-**2.** About 70 to 85 million people died; the United Nations was founded in 1945; the United States and the Soviet Union became superpowers; many colonies won independence (decolonisation).
-**3.** Political parties were banned; power was held by the king; free speech and press were limited; the 1980 referendum narrowly kept the system (54.8%) and many demanded change, leading to Jana Andolan I in 2046.
-**4.** *Introduction.* The revolution of 2007 BS ended 104 years of Rana rule. *Causes.* (i) The Ranas ruled by family and kept people poor and uneducated. (ii) Political parties such as the Nepali Congress worked for democracy. (iii) King Tribhuvan supported the movement and left for India. (iv) Indian independence in 1947 encouraged change. *Results.* (i) Rana rule ended. (ii) The Delhi Agreement (Falgun 2007) set up a Rana–Congress interim cabinet and promised a Constituent Assembly. (iii) Democracy came to Nepal, remembered on Democracy Day (7 Falgun). *Conclusion.* The revolution opened the way to citizens' rights, although political instability followed in the first decade.
+**४.** अन्धविश्वास हटाउने चार उपाय लेख्नुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** शोषणका उद्देश्यले धम्की, बल, छल वा प्रलोभनद्वारा व्यक्तिलाई किनबेच,
+ओसारपसार वा लुकाउने कार्य। कारण: गरिबी र बेरोजगारी; शिक्षा र चेतनाको अभाव;
+राम्रो जागिरको झुटो प्रलोभन; खुला सिमाना र कमजोर अनुगमन (लैङ्गिक विभेद पनि)।
+
+**२.** **शारीरिक** — कुटपिट, भोकै राख्ने; **मानसिक** — गाली, अपमान, धम्की;
+**यौनजन्य** — इच्छाविरुद्धको यौन सम्पर्क; **आर्थिक** — कमाइ खोस्ने, खर्च
+नदिने, सम्पत्तिमा पहुँच नदिने।
+
+**३.** विकास निर्माणको गुणस्तर खस्कनु; सार्वजनिक सेवा महँगो र ढिलो हुनु;
+गरिब र सीमान्तकृतमाथि बढी मार पर्नु; राज्यप्रति अविश्वास बढी लगानी र विकास
+घट्नु।
+
+**४.** वैज्ञानिक शिक्षा र प्रयोगात्मक सिकाइ; स्वास्थ्य सेवाको पहुँच बढाउने;
+बोक्सीको आरोप र छाउपडीविरुद्धको कानुनको कडा कार्यान्वयन; धार्मिक र सामाजिक
+अगुवालाई अभियानमा सहभागी गराउने (सञ्चार माध्यमबाट तथ्यपरक जानकारी पनि)।
 :::
 
-## 15.9 Unit 8: Economic Activities
+**लामो उत्तर अभ्यास — सात अङ्क**
 
-**Short questions (4 marks each)**
+**१.** मानव बेचबिखनका कारण, असर र नियन्त्रणका उपाय विस्तृत रूपमा लेख्नुहोस्। <span class="marks">[7]</span>
 
-1. Name the types of energy sources with one example each. <span class="marks">[4]</span>
-2. Mention the sources of government revenue. <span class="marks">[4]</span>
-3. State four benefits of cooperatives. <span class="marks">[4]</span>
+**२.** भ्रष्टाचार के हो? यसका रूप, असर र नियन्त्रणका उपाय व्याख्या गर्नुहोस्। <span class="marks">[7]</span>
 
-**Long question (7 marks)**
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **कारण:** गरिबी र बेरोजगारीले सजिलो कमाइको प्रलोभनमा पार्नु; शिक्षा
+र चेतनाको अभाव; विदेशमा राम्रो जागिरको झुटो आश्वासन; खुला सिमाना र प्रवेश
+बिन्दुमा कमजोर अनुगमन; लैङ्गिक विभेद र बालिकालाई बोझ ठान्ने सोच; विपद् र
+द्वन्द्वपछिको अस्तव्यस्तता। **असर:** पीडितमाथि शारीरिक र मानसिक यातना; यौन
+शोषण, बाध्यकारी श्रम र अङ्ग निकाल्ने अपराध; यौन सङ्क्रमण र दीर्घ रोग;
+परिवार विघटन र उद्धारपछि पनि सामाजिक बहिष्करण; देशको जनशक्ति, प्रतिष्ठा र
+अर्थतन्त्रमा क्षति। **उपाय:** बेचबिखन तथा ओसारपसार (नियन्त्रण) ऐनको कडा
+कार्यान्वयन र दोषीलाई छिटो सजाय; सिमाना, विमानस्थल र बसपार्कमा अनुगमन तथा
+सहायता कक्ष; गाउँ-गाउँमा सचेतना र विद्यालय शिक्षा; वैदेशिक रोजगारी दर्ता
+भएको वैध माध्यमबाट मात्र; गरिब परिवारका बालिकालाई छात्रवृत्ति, सीप तालिम र
+रोजगारी; उद्धार भएकाको परामर्श, पुनःस्थापना र सामाजिक स्वीकार्यता; सीमापारि
+सहकार्य र हेल्पलाइनको प्रचार।
 
-4. How can tourism be promoted in Nepal? Explain. <span class="marks">[7]</span>
-
-::: note Model answers: Unit 8
-**1.** Traditional energy (firewood), commercial energy (electricity, petroleum, coal) and alternative energy (solar, biogas, wind).
-**2.** Revenue is tax revenue and non-tax revenue. Tax is direct (income tax) or indirect (VAT at 13%). Non-tax revenue comes from fees, fines, royalties and profits of public enterprises.
-**3.** (i) Savings and cheap loans for members. (ii) One member, one vote: democratic control. (iii) Jobs and income, especially in agriculture and dairy. (iv) Local capital stays in the community. Cooperatives are one of the three pillars of the economy.
-**4.** *Introduction.* About 1.2 million tourists visited Nepal in 2019, and tourism gives 6 to 7% of GDP. *Ways to promote.* (i) Build infrastructure: roads, airports, hotels. (ii) Market Nepal abroad through the Nepal Tourism Board (1998). (iii) Ensure the safety of visitors. (iv) Offer a variety of products: trekking, wildlife, culture, pilgrimage, adventure. (v) Involve local people through homestays. *Conclusion.* Tourism creates jobs and brings foreign currency, so it should be planned carefully.
+**२.** **अर्थ:** सार्वजनिक पद वा अधिकारको दुरुपयोग गरी आफू वा अरूलाई अनुचित
+लाभ पुर्‍याउनु। **रूप:** घुस लिने-दिने; ठेक्का र खरिदमा कमिसन; नक्कली बिल र
+भुक्तानी; नियुक्ति, सरुवा र बढुवामा पक्षपात; सार्वजनिक सम्पत्तिको हिनामिना;
+जानाजान ढिलासुस्ती गरी घुस माग्ने। **असर:** पूर्वाधारको गुणस्तर खस्कने र
+बनेको केही वर्षमै बिग्रने; सेवा महँगो, ढिलो र पहुँचबाहिर हुने; गरिबमाथि बढी
+मार पर्ने; करदाताको पैसा खेर जाने; राज्यप्रति अविश्वास र निराशा; लगानी घट्ने
+र असमानता बढ्ने। **उपाय:** अख्तियार दुरुपयोग अनुसन्धान आयोगलाई स्रोत, स्वायत्तता
+र प्रभावकारिता दिने; पदाधिकारीको सम्पत्ति विवरण सार्वजनिक; विद्युतीय सेवा
+प्रवाह र सार्वजनिक खरिदमा पूर्ण पारदर्शिता; सूचनाको हकको प्रयोग; सामाजिक
+परीक्षण र सार्वजनिक सुनुवाइ; उजुरी गर्नेको संरक्षण; स्वतन्त्र सञ्चार माध्यम र
+नागरिक समाजको निगरानी; विद्यालयदेखि नै नैतिक शिक्षा।
 :::
 
-::: example Worked example: simple and compound interest
-**Problem.** (a) Find the simple interest on Rs 20,000 at 8% a year for 3 years. (b) Find the compound interest on Rs 10,000 at 10% a year for 2 years.
+## १५.५ नागरिक चेतना
 
-**Solution.** (a) S.I. = PRT / 100 = 20,000 × 8 × 3 / 100 = Rs 4,800.
-(b) A = P(1 + R/100)ⁿ = 10,000 × (1.1)² = 10,000 × 1.21 = Rs 12,100. Compound interest = 12,100 − 10,000 = **Rs 2,100**.
+**छोटो उत्तर अभ्यास — चार अङ्क**
+
+**१.** राज्यका तीन अङ्गको नाम र काम लेख्नुहोस्। <span class="marks">[4]</span>
+
+**२.** सङ्घीय संसद्का दुई सदनको तुलना तालिकामा गर्नुहोस्। <span class="marks">[4]</span>
+
+**३.** मानव अधिकारका कुनै चार विशेषता लेख्नुहोस्। <span class="marks">[4]</span>
+
+**४.** उपभोक्ताका कुनै पाँच अधिकार लेख्नुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **व्यवस्थापिका** — कानुन बनाउने, संशोधन र खारेज गर्ने, सरकारलाई
+जवाफदेही बनाउने। **कार्यपालिका** — कानुन लागु गर्ने र दैनिक शासन चलाउने।
+**न्यायपालिका** — कानुनको व्याख्या गर्ने, विवाद निरूपण गर्ने र न्याय दिने।
+
+**२.** **प्रतिनिधि सभा** — २७५ सदस्य, कार्यकाल ५ वर्ष, १६५ प्रत्यक्ष + ११०
+समानुपातिक, सरकार बनाउने-गिराउने अधिकार। **राष्ट्रिय सभा** — ५९ सदस्य,
+कार्यकाल ६ वर्ष (हरेक दुई वर्षमा एक तिहाइ अवकाश), ५६ निर्वाचित (प्रत्येक
+प्रदेशबाट ८) + ३ मनोनीत; स्थायी सदन।
+
+**३.** जन्मसिद्ध; सार्वभौम (सबै ठाउँ र सबै मानिसलाई समान); अहस्तान्तरणीय
+(खोस्न वा दिन नमिल्ने); अविभाज्य र परस्पर सम्बन्धित (समान पनि)।
+
+**४.** सुरक्षित वस्तु र सेवा पाउने; सही सूचना पाउने; छनोट गर्न पाउने;
+सुनुवाइ पाउने; क्षतिपूर्ति पाउने (उपभोक्ता शिक्षा पनि)।
 :::
 
-## 15.10 Unit 9: Our International Relations and Cooperation
+**लामो उत्तर अभ्यास — सात अङ्क**
 
-**Short questions (4 marks each)**
+**१.** निर्वाचन प्रक्रियाका चरण लेख्दै स्वच्छ निर्वाचनमा नागरिकको भूमिका
+   व्याख्या गर्नुहोस्। <span class="marks">[7]</span>
 
-1. State the five principles of Panchsheel. <span class="marks">[4]</span>
-2. Name the six organs of the United Nations. <span class="marks">[4]</span>
-3. Mention two advantages and two disadvantages of globalisation. <span class="marks">[4]</span>
+**२.** मानव अधिकार भनेको के हो? यसका विशेषता लेख्दै संरक्षणमा संस्थाहरूको भूमिका
+   बताउनुहोस्। <span class="marks">[7]</span>
 
-**Long question (7 marks)**
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **चरण:** (क) निर्वाचन आयोगले मिति घोषणा र मतदाता नामावली प्रकाशन;
+(ख) उम्मेदवारी मनोनयन, जाँच र अन्तिम नामावली; (ग) चुनाव चिह्न वितरण र
+आचारसंहिताभित्र रहेर प्रचार; (घ) मतदानभन्दा अघिको मौन अवधि; (ङ) गोप्य
+मतदान; (च) मतगणना; (छ) परिणाम घोषणा र शपथ। प्रतिनिधि सभामा १६५ सिट पहिलो
+हुने निर्वाचित र ११० समानुपातिक प्रणालीबाट भरिन्छन्।
+**नागरिकको भूमिका:** १८ वर्ष पुगेपछि नामावलीमा नाम दर्ता गर्ने; उम्मेदवारको
+पृष्ठभूमि र दलको घोषणापत्र बुझेर विवेकपूर्ण मत दिने; पैसा, रक्सी वा नातावादको
+प्रलोभनमा नपर्ने; डर-धम्कीमा नझुक्ने र भए आयोगलाई जानकारी दिने; प्रचारमा
+हिंसा र घृणाको भाषा नफैलाउने; मतदानलाई शान्तिपूर्ण बनाउन सहयोग गर्ने; अनियमितता
+देखे प्रमाणसहित उजुरी गर्ने; निर्वाचनपछि पनि जनप्रतिनिधिसँग प्रगतिको हिसाब
+माग्ने।
 
-4. Explain the role of the United Nations in world peace and development. <span class="marks">[7]</span>
-
-::: note Model answers: Unit 9
-**1.** Respect for territorial integrity and sovereignty; non-aggression; non-interference in internal affairs; equality and mutual benefit; peaceful coexistence.
-**2.** The General Assembly, the Security Council, the Economic and Social Council (ECOSOC), the Trusteeship Council, the International Court of Justice (The Hague) and the Secretariat.
-**3.** *Advantages:* freer trade and growth; spread of technology and remittance. *Disadvantages:* more inequality between rich and poor; threat to local culture and products.
-**4.** *Introduction.* The UN was founded on 24 October 1945, has 193 members and its headquarters in New York. Nepal joined in 1955. *Role.* (i) The Security Council acts for peace and security; its five permanent members hold the veto. (ii) UN peacekeeping missions keep ceasefires, and Nepal contributes troops. (iii) Specialised agencies work for development: UNESCO (Paris) for education, science and culture, WHO (Geneva) for health, FAO (Rome) for food, ILO (Geneva) for labour, and the World Bank and IMF (Washington) for finance. (iv) UNICEF and UNDP, as programmes, help children and development. *Conclusion.* By bringing countries together for talks, the UN reduces war and spreads cooperation.
+**२.** **अर्थ:** मानिस भएकै नाताले जन्मसिद्ध रूपमा प्राप्त हुने, सबैलाई समान
+र कसैले खोस्न नसक्ने अधिकार। **विशेषता:** जन्मसिद्ध; सार्वभौम; अहस्तान्तरणीय;
+अविभाज्य र परस्पर सम्बन्धित; समान। सन् १९४८ डिसेम्बर १० मा संयुक्त
+राष्ट्रसङ्घले विश्वव्यापी घोषणापत्र जारी गर्‍यो। **संस्थाहरूको भूमिका:**
+**राष्ट्रिय मानव अधिकार आयोग** — उल्लङ्घनको अनुसन्धान, सिफारिस र अनुगमन;
+**राष्ट्रिय महिला आयोग** र **राष्ट्रिय दलित आयोग** — सम्बन्धित समुदायको
+अधिकारको संरक्षण; **सर्वोच्च अदालत** — मौलिक हक हनन हुँदा रिट जारी गरी उपचार;
+**संयुक्त राष्ट्रसङ्घ मानव अधिकार परिषद्** — अन्तर्राष्ट्रिय निगरानी र
+आवधिक समीक्षा; **गैरसरकारी संस्था र सञ्चार माध्यम** — घटना उजागर, पैरवी र
+कानुनी सहायता। तर अधिकारको वास्तविक संरक्षण सचेत नागरिकबाटै सुरु हुन्छ।
 :::
 
-## 15.11 Unit 10: Population and Its Management
+## १५.६ हाम्रो पृथ्वी
 
-**Short questions (4 marks each)**
+**छोटो उत्तर अभ्यास — चार अङ्क**
 
-1. Mention four benefits of family planning. <span class="marks">[4]</span>
-2. What are push and pull factors of migration? Give two of each. <span class="marks">[4]</span>
-3. State four reasons for the uneven distribution of population. <span class="marks">[4]</span>
+**१.** हावापानीमा असर पार्ने कुनै पाँच तत्त्व लेख्दै उचाइको प्रभाव बताउनुहोस्। <span class="marks">[4]</span>
 
-**Long question (7 marks)**
+**२.** उष्ण, समशीतोष्ण र शीत प्रदेशको तुलना तालिकामा गर्नुहोस्। <span class="marks">[4]</span>
 
-4. Explain the relationship between population and environment. <span class="marks">[7]</span>
+**३.** अफ्रिका महादेशको परिचय पाँच बुँदामा दिनुहोस्। <span class="marks">[4]</span>
 
-::: note Model answers: Unit 10
-**1.** Better health of mothers and children; more chances for education; higher family income and quality of life; less pressure on the environment.
-**2.** Push factors drive people out of a place (poverty, lack of jobs); pull factors attract them to another place (jobs, schools, hospitals, safety).
-**3.** Relief (steep mountains are thinly settled), climate, soil fertility, transport and jobs and services.
-**4.** *Introduction.* Population and environment affect each other. *Effects of population on environment.* (i) More people need more land and firewood, causing deforestation. (ii) Urban growth causes air, water and noise pollution and waste. (iii) Greater use of fossil fuel adds to climate change. *Effects of environment on population.* Poor soil, floods or landslides cause migration, disease and food shortage. *Solutions.* Family planning, community forestry, the 3Rs (reduce, reuse, recycle) and clean energy. *Conclusion.* Managing population size and protecting nature must go together.
+**४.** नक्साका आवश्यक अङ्ग लेख्दै तीन प्रकारका नक्सा बताउनुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** अक्षांश, उचाइ, समुद्रबाट दूरी, समुद्री धारा, हावाको दिशा (धरातल पनि)।
+**उचाइको प्रभाव:** माथि उक्लँदै जाँदा हावाको घनत्व घट्छ र तापक्रम करिब
+प्रत्येक १६५ मिटरमा १ °से घट्छ — त्यसैले एउटै अक्षांशमा भए पनि तराई तातो र
+हिमाल चिसो हुन्छ।
+
+**२.** **उष्ण** — ०°–२३.५°, वर्षभरि तातो, धेरै वर्षा, वर्षावन/सवाना।
+**समशीतोष्ण** — २३.५°–६६.५°, चार ऋतु स्पष्ट, मध्यम वर्षा, पतझड वन; बसोबासका
+लागि अनुकूल। **शीत** — ६६.५°–९०°, वर्षभरि चिसो, वर्षा कम र प्रायः हिउँ,
+टुन्ड्रा वनस्पति।
+
+**३.** क्षेत्रफल करिब ३.०३ करोड वर्ग कि.मि. — दोस्रो ठुलो महादेश; भूमध्यरेखाले
+बिचैबाट छेड्छ; उच्चतम बिन्दु किलिमन्जारो (५,८९५ मि); नाइल नदी र सहारा
+मरुभूमि; भिक्टोरिया झरना र सेरेन्गेटी घाँसे मैदान।
+
+**४.** **अङ्ग:** शीर्षक, मापक, दिशा चिह्न, सङ्केत सूची, अक्षांश-देशान्तरको
+जाल र स्रोत। **प्रकार:** भौतिक नक्सा (पर्वत, नदी, उचाइ); राजनीतिक नक्सा
+(सिमाना र राजधानी); विषयगत नक्सा (जनसङ्ख्या, वर्षा, कृषि)।
 :::
 
-::: example Worked example: growth rate, doubling time and density
-**Problem.** (a) A country has a crude birth rate of 20 and a crude death rate of 6 per 1,000, with no migration. Find its growth rate and doubling time. (b) A district has 540,000 people in 3,000 km². Find its density.
+**लामो उत्तर अभ्यास — सात अङ्क**
 
-**Solution.** (a) Growth rate = (CBR − CDR) ÷ 10 = (20 − 6) ÷ 10 = 1.4% a year. Doubling time ≈ 70 ÷ 1.4 = **50 years**.
-(b) Density = population ÷ area = 540,000 ÷ 3,000 = **180 persons per km²**.
+**१.** भूकम्प किन जान्छ? नेपाल किन भूकम्पीय जोखिममा छ र जोखिम घटाउन के गर्न
+   सकिन्छ लेख्नुहोस्। <span class="marks">[7]</span>
+
+**२.** उत्तर अमेरिका र दक्षिण अमेरिका महादेशको तुलनात्मक परिचय दिनुहोस्। <span class="marks">[7]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **कारण:** पृथ्वीभित्रको चट्टानमा सञ्चित तनाव एक्कासि मुक्त हुँदा
+उत्पन्न तरङ्गले भूसतह हल्लिन्छ। मुख्य कारण **भूगर्भीय प्लेटको चाल** हो;
+ज्वालामुखी, भूमिगत गुफा भत्कनु र ठुला जलाशयको भार पनि कारण हुन सक्छन्।
+**नेपाल किन जोखिममा:** नेपाल **भारतीय** र **युरेसियन** प्लेटको जोडमा पर्छ।
+भारतीय प्लेट वर्षमा करिब दुई सेन्टिमिटर उत्तरतिर धकेलिन्छ; यही दबाबले
+हिमालय उठ्छ र समय-समयमा ठुला भूकम्प जान्छन्। २०७२ वैशाख १२ को ७.८ रिक्टरको
+भूकम्प (अधिकेन्द्र बारपाक, गोर्खा) यसकै उदाहरण हो।
+**जोखिम घटाउने उपाय:** भवन संहिताअनुसार निर्माण र पुराना भवनको सुदृढीकरण;
+भवन निर्माण अनुमति र अनुगमन कडा बनाउने; विद्यालय, अस्पताल र पुल भूकम्प
+प्रतिरोधी बनाउने; जोखिम नक्साङ्कन; घर, विद्यालय र कार्यालयमा नियमित अभ्यास
+("घोप्टो–छोप–समात"); दराज र अलमारी भित्तामा बाँध्ने; खुला भेला हुने ठाउँ
+तोक्ने; प्राथमिक उपचार र खोज-उद्धार तालिम; आपत्कालीन सामग्री तयार राख्ने।
+
+**२.** **उत्तर अमेरिका** — पश्चिमी गोलार्धको उत्तरी भाग; क्षेत्रफल करिब
+२.४२ करोड वर्ग कि.मि. (तेस्रो ठुलो); उच्चतम बिन्दु डेनाली (६,१९० मि); प्रमुख
+नदी मिसिसिपी–मिसौरी; प्रमुख पर्वत रक्की र एपालेचियन; ग्रेट लेक्स र नायगारा
+झरना; प्रमुख देश अमेरिका, क्यानडा, मेक्सिको।
+**दक्षिण अमेरिका** — पश्चिमी गोलार्धको दक्षिणी भाग; क्षेत्रफल करिब १.७८
+करोड वर्ग कि.मि. (चौथो ठुलो); उच्चतम बिन्दु आकोनकागुआ (६,९६१ मि); प्रमुख
+पर्वत एन्डिज — संसारकै सबैभन्दा लामो शृङ्खला; प्रमुख नदी अमेजन — जलपरिमाणमा
+संसारकै ठुलो; अमेजन वर्षावन र आटाकामा मरुभूमि; प्रमुख देश ब्राजिल, अर्जेन्टिना,
+पेरु, चिली।
+**समानता:** दुवै पश्चिमी गोलार्धमा, दुवैको पश्चिमी किनारमा लामो पर्वतशृङ्खला,
+दुवैमा विविध हावापानी। **भिन्नता:** उत्तर अमेरिका बढी औद्योगिक र सहरीकृत;
+दक्षिण अमेरिकामा वर्षावन र जैविक विविधता बढी।
 :::
 
-::: example Worked example: temperature and altitude
-**Problem.** The temperature at sea level is 30 °C. What is it at 3,000 m if it falls by 6.5 °C per 1,000 m?
+## १५.७ हाम्रो विगत
 
-**Solution.** Fall = 6.5 × 3 = 19.5 °C. Temperature = 30 − 19.5 = **10.5 °C**.
+**छोटो उत्तर अभ्यास — चार अङ्क**
+
+**१.** दिल्ली सम्झौताको पृष्ठभूमि र महत्त्व लेख्नुहोस्। <span class="marks">[4]</span>
+
+**२.** २०४६ को जनआन्दोलनको कारण र उपलब्धि लेख्नुहोस्। <span class="marks">[4]</span>
+
+**३.** प्रथम विश्वयुद्धका चार कारण लेख्नुहोस्। <span class="marks">[4]</span>
+
+**४.** दोस्रो विश्वयुद्धका कुनै पाँच परिणाम लेख्नुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** १०४ वर्ष लामो राणाशासनमा जनतासँग कुनै राजनीतिक अधिकार थिएन। नेपाली
+कांग्रेसको सशस्त्र आन्दोलन, राजा त्रिभुवनको दिल्ली प्रस्थान र जनताको
+सहभागिताले राणाशासन थला पर्‍यो। राजा, राणा र कांग्रेसबिच भएको त्रिपक्षीय
+सहमति नै दिल्ली सम्झौता हो। **महत्त्व:** राणाशासनको अन्त्य; २००७ फागुन ७ मा
+प्रजातन्त्रको घोषणा; संयुक्त सरकार गठन र संविधान सभा निर्वाचनको प्रतिबद्धता।
+
+**२.** **कारण:** दलविहीन पञ्चायती व्यवस्थामा राजनीतिक स्वतन्त्रता नहुनु;
+अभिव्यक्ति र सङ्गठनमा बन्देज; भ्रष्टाचार र आर्थिक असन्तोष; २०३७ को जनमत
+सङ्ग्रहपछि पनि अपेक्षित सुधार नहुनु। **उपलब्धि:** बहुदलीय प्रजातन्त्रको
+पुनःस्थापना; २०४७ मा नयाँ संविधान; संवैधानिक राजतन्त्र र संसदीय व्यवस्था;
+मौलिक हक र प्रेस स्वतन्त्रताको प्रत्याभूति।
+
+**३.** उग्र राष्ट्रवाद; उपनिवेश र बजारका लागि साम्राज्यवादी प्रतिस्पर्धा;
+हतियारको होड; गुप्त सन्धि र सैनिक गठबन्धन (तत्कालीन कारण — फ्रान्ज
+फर्डिनान्डको हत्या)।
+
+**४.** करिब ५–६ करोड मानिसको मृत्यु; हिरोसिमा–नागासाकीमा आणविक बम र जापानको
+आत्मसमर्पण; संयुक्त राष्ट्रसङ्घको स्थापना; अमेरिका र सोभियत सङ्घ महाशक्ति
+बनी शीतयुद्ध सुरु; एसिया–अफ्रिकामा उपनिवेशबाट मुक्तिको लहर।
 :::
 
-## Chapter summary
+**लामो उत्तर अभ्यास — सात अङ्क**
 
-- A 4-mark answer is four points in 60 to 80 words; a 7-mark answer is an introduction, five developed points with facts and a conclusion in about 150 words.
-- Use the numbers of the book: 142 groups, 124 languages, 7 provinces, 753 local levels, HoR 275 (165 + 110), NA 59.
-- Federalism, sustainable development (three pillars, 17 SDGs) and national pride projects are favourite long answers of Units 1 and 2.
-- Always give the cause, effect and solution of a social problem; never leave one out.
-- Formulas: S.I. = PRT/100; A = P(1 + R/100)ⁿ; growth rate = (CBR − CDR)/10; doubling time ≈ 70 ÷ rate; density = population ÷ area.
-- Temperature falls 6.5 °C per 1,000 m.
-- Use the model plans of the longer answers in this chapter as templates.
+**१.** २००७ सालदेखि २०७२ सम्मका प्रमुख राजनीतिक परिवर्तन मितिसहित क्रमबद्ध
+   रूपमा लेख्नुहोस्। <span class="marks">[7]</span>
 
-## Practice questions
+**२.** दुई विश्वयुद्धको तुलना गर्दै तीबाट विश्वले सिकेका पाठ लेख्नुहोस्। <span class="marks">[7]</span>
 
-**Group B: Short answer (4 marks each)**
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **२००७ फागुन ७** — १०४ वर्षे राणाशासनको अन्त्य, प्रजातन्त्रको घोषणा।
+**२०१५** — पहिलो आम निर्वाचन; बीपी कोइराला पहिलो निर्वाचित प्रधानमन्त्री।
+**२०१७ पुस १** — निर्वाचित सरकार विघटन; दलविहीन पञ्चायत सुरु। **२०१९** —
+पञ्चायती संविधान। **२०३७** — जनमत सङ्ग्रह। **२०४६** — जनआन्दोलन; बहुदलीय
+व्यवस्थाको पुनःस्थापना। **२०४७** — नयाँ संविधान। **२०५२** — सशस्त्र
+द्वन्द्वको सुरुवात। **२०६२/६३** — दोस्रो जनआन्दोलन; **२०६३ वैशाख ११** मा
+संसद् पुनःस्थापना र **मङ्सिर ५** मा विस्तृत शान्ति सम्झौता। **२०६५ जेठ १५**
+— सङ्घीय लोकतान्त्रिक गणतन्त्रको घोषणा। **२०७२ असोज ३** — नेपालको संविधान
+जारी। **२०७४** — तीनै तहको निर्वाचनसँगै सङ्घीयताको कार्यान्वयन।
 
-1. Define sustainable development. Name its three pillars. <span class="marks">[4]</span>
-2. A district has 800,000 people in 4,000 km². Find its density and say what the figure means. <span class="marks">[4]</span>
-3. State four causes of domestic violence. <span class="marks">[4]</span>
-
-::: note Answers to Group B
-**1.** Sustainable development meets the present need without harming the future (Brundtland, 1987). Pillars: economic, social, environmental.
-**2.** Density = 800,000 ÷ 4,000 = 200 persons per km². It means that on average 200 people live on each square kilometre of the district.
-**3.** Unequal gender power, poverty, alcohol and drugs, and lack of education and awareness.
+**२.** **समानता:** दुवै युरोपबाट सुरु भई विश्वव्यापी बने; दुवैको जरा उग्र
+राष्ट्रवाद र साम्राज्य विस्तारको महत्त्वाकाङ्क्षामा थियो; दुवैले अपार जनधनको
+क्षति गरे; दुवैपछि शान्तिका लागि अन्तर्राष्ट्रिय संस्था (राष्ट्रसङ्घ, संयुक्त
+राष्ट्रसङ्घ) बने। **भिन्नता:** पहिलो युद्ध (१९१४–१८) मुख्यतः खाडल युद्ध थियो;
+दोस्रो (१९३९–४५) हवाई आक्रमण, ट्यांक र आणविक हतियारसम्म पुग्यो। मृत्यु संख्या
+करिब १ करोडबाट ५–६ करोड पुग्यो। पहिलोले साम्राज्यको पतन ल्यायो, दोस्रोले
+उपनिवेशवादको अन्त्य र शीतयुद्धको सुरुवात।
+**सिकेका पाठ:** विजेताले पराजितमाथि कठोर सर्त थोपर्नु (भर्साइ) ले स्थायी
+शान्ति होइन, अर्को युद्धको बीउ रोप्छ; शान्ति संस्था प्रभावकारी नभए (राष्ट्रसङ्घ)
+युद्ध रोकिँदैन; संवाद, निःशस्त्रीकरण र सामूहिक सुरक्षा नै दिगो उपाय हुन्;
+आणविक हतियारको प्रयोगले मानवतालाई नै सङ्कटमा पार्छ; अन्ततः युद्धमा कसैको
+जित हुँदैन।
 :::
 
-**Group C: Long answer (7 marks each)**
+## १५.८ आर्थिक क्रियाकलाप
 
-1. Explain the importance of the Constitution of Nepal 2072. <span class="marks">[7]</span>
-2. Describe the results of the First World War. <span class="marks">[7]</span>
+**छोटो उत्तर अभ्यास — चार अङ्क**
 
-::: note Answers to Group C
-**1.** Introduction: the Constitution was promulgated on 3 Ashwin 2072 (20 September 2015). Importance: it makes Nepal a federal democratic republic with 7 provinces and 753 local levels; it divides power among the legislature, executive and judiciary; it gives 31 fundamental rights; it protects diversity and equality; it guarantees a multi-party system and periodic elections. Conclusion: it is the highest law that guides the nation.
-**2.** Introduction: the war lasted from 1914 to 1918. Results: the Treaty of Versailles (1919) punished Germany; the League of Nations was formed; the empires of Germany, Austria-Hungary, Russia and Turkey collapsed; new countries were created; millions died; the war's bitterness helped lead to the Second World War. Conclusion: the peace was not secure.
+**१.** ऊर्जाका तीन वर्ग उदाहरणसहित लेख्नुहोस्। <span class="marks">[4]</span>
+
+**२.** पर्यटन प्रवर्धनका कुनै पाँच उपाय लेख्नुहोस्। <span class="marks">[4]</span>
+
+**३.** प्रत्यक्ष र अप्रत्यक्ष करबिचको भिन्नता उदाहरणसहित लेख्नुहोस्। <span class="marks">[4]</span>
+
+**४.** बिमा भनेको के हो? यसका चार प्रकार लेख्नुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **नवीकरणीय** — जलविद्युत्, सौर्य, वायु, जैविक ग्यास; सकिँदैन र
+वातावरणमैत्री। **अनवीकरणीय** — पेट्रोल, डिजेल, कोइला; सकिन्छ र प्रदूषण गर्छ।
+**परम्परागत** — दाउरा, गुइँठा, कृषि अवशेष; सजिलै पाइन्छ तर धुवाँ र वन विनाश
+गर्छ।
+
+**२.** पूर्वाधार (हवाई, सडक, होटल) सुधार; नयाँ गन्तव्य र पदमार्गको विकास;
+प्रचार र डिजिटल मार्केटिङ; पर्यटक सुरक्षा र सरसफाइ; तालिमप्राप्त जनशक्ति
+(होमस्टेमार्फत स्थानीय लाभ पनि)।
+
+**३.** **प्रत्यक्ष कर** करदाताले आफैँ तिर्छ र अरूलाई सार्न मिल्दैन — जस्तै
+आयकर, सम्पत्ति कर। **अप्रत्यक्ष कर** वस्तु वा सेवाको मूल्यमा मिसिएर अन्तिम
+उपभोक्तामा सर्छ — जस्तै मूल्य अभिवृद्धि कर, भन्सार, अन्तःशुल्क।
+
+**४.** प्रिमियम तिरेबापत सम्भावित जोखिमबाट हुने आर्थिक क्षति बिमा कम्पनीले
+बेहोर्ने सम्झौता। प्रकार: जीवन बिमा, स्वास्थ्य बिमा, निर्जीवन बिमा (घर,
+सवारी), कृषि तथा पशु बिमा।
 :::
+
+**लामो उत्तर अभ्यास — सात अङ्क**
+
+**१.** नेपालमा बेरोजगारीका कारण लेख्दै समाधानका उपाय सुझाउनुहोस्। <span class="marks">[7]</span>
+
+**२.** सहकारी भनेको के हो? यसका सिद्धान्त, प्रकार र महत्त्व व्याख्या गर्नुहोस्। <span class="marks">[7]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **कारण:** जनसङ्ख्या वृद्धिअनुसार रोजगारी सिर्जना नहुनु; उद्योग र
+लगानीको अभाव; शिक्षा सैद्धान्तिक भई बजारको माग र सीपबिच खाडल; कृषि
+निर्वाहमुखी र मौसमी हुनु; राजनीतिक अस्थिरता र लगानी वातावरण कमजोर हुनु;
+भौगोलिक विकटता र पूर्वाधारको कमी; श्रमलाई सानो ठान्ने सामाजिक सोच।
+**उपाय:** विद्यालय तहदेखि **प्राविधिक र सीपमूलक शिक्षा**; स्वरोजगार र
+उद्यमशीलताका लागि सहुलियत कर्जा र व्यवसाय परामर्श; कृषिको आधुनिकीकरण र
+कृषि-प्रशोधन उद्योग; जलविद्युत्, पर्यटन र सूचना प्रविधिमा लगानी; लगानीमैत्री
+नीति र सुशासन; श्रम बजार सूचना प्रणाली; वैदेशिक रोजगारीलाई सुरक्षित र
+मर्यादित बनाउँदै फर्केकाको सीप र पुँजी स्वदेशमै लगाउने वातावरण।
+
+**२.** **अर्थ:** साझा आर्थिक, सामाजिक र सांस्कृतिक आवश्यकता पूरा गर्न
+सदस्यहरूले स्वेच्छाले मिलेर बनाएको, सदस्यकै स्वामित्व र नियन्त्रणमा रहने
+संस्था। **सिद्धान्त:** स्वैच्छिक र खुला सदस्यता; प्रजातान्त्रिक नियन्त्रण
+(एक सदस्य, एक मत); सदस्यको आर्थिक सहभागिता; स्वायत्तता र स्वतन्त्रता; शिक्षा
+र तालिम; सहकारीबिच सहकार्य; समुदायप्रति चासो। **प्रकार:** बचत तथा ऋण, कृषि,
+दुग्ध, उपभोक्ता, बहुउद्देश्यीय, साना किसान सहकारी। **महत्त्व:** ग्रामीण
+क्षेत्रमा सहज र सस्तो कर्जा; साहुको चर्को ब्याजबाट मुक्ति; महिला सशक्तीकरण
+र आर्थिक सहभागिता; सामूहिक बजारीकरणले किसानलाई राम्रो मूल्य; स्थानीय पुँजीको
+परिचालन; बचतको बानी र वित्तीय शिक्षा।
+:::
+
+## १५.९ हाम्रो अन्तर्राष्ट्रिय सम्बन्ध र सहयोग
+
+**छोटो उत्तर अभ्यास — चार अङ्क**
+
+**१.** पञ्चशीलका पाँच सिद्धान्त लेख्नुहोस्। <span class="marks">[4]</span>
+
+**२.** संयुक्त राष्ट्र सङ्घका मुख्य अङ्ग र उनका काम लेख्नुहोस्। <span class="marks">[4]</span>
+
+**३.** सार्कको स्थापना, सदस्य र उद्देश्य लेख्नुहोस्। <span class="marks">[4]</span>
+
+**४.** भूपरिवेष्टित हुँदा नेपालले भोग्ने समस्या र समाधान लेख्नुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** एकआपसको भौगोलिक अखण्डता र सार्वभौमिकताको सम्मान; एकआपसमा आक्रमण
+नगर्ने; आन्तरिक मामिलामा हस्तक्षेप नगर्ने; समानता र आपसी लाभ; शान्तिपूर्ण
+सहअस्तित्व।
+
+**२.** महासभा — सबै सदस्यको साझा सभा; सुरक्षा परिषद् — शान्ति र सुरक्षा;
+आर्थिक तथा सामाजिक परिषद् — आर्थिक र सामाजिक सहकार्य; अन्तर्राष्ट्रिय
+न्यायालय — राष्ट्रबिचका विवादको निरूपण; सचिवालय — दैनिक प्रशासन; संरक्षण
+परिषद् — संरक्षित भूभागको व्यवस्था (काम स्थगित)।
+
+**३.** स्थापना सन् १९८५ डिसेम्बर ८, ढाका; सचिवालय काठमाडौँ; सदस्य आठ —
+नेपाल, भारत, पाकिस्तान, बङ्गलादेश, श्रीलङ्का, भुटान, माल्दिभ्स,
+अफगानिस्तान। उद्देश्य — जनताको कल्याण र जीवनस्तर सुधार, आर्थिक वृद्धि र
+सामाजिक प्रगति, आत्मनिर्भरता, आपसी विश्वास, अन्य सङ्गठनसँग सहकार्य।
+
+**४.** **समस्या** — समुद्री बन्दरगाहको प्रत्यक्ष पहुँच नहुनु, पारवहनमा
+निर्भरता, ढुवानी खर्च र समय बढ्नु, आपूर्ति अवरोधको जोखिम। **समाधान** —
+पारवहन सन्धि र सुक्खा बन्दरगाह, व्यापार साझेदार विविधीकरण, आन्तरिक उत्पादन
+वृद्धि, सडक र रेल सम्पर्क विस्तार।
+:::
+
+**लामो उत्तर अभ्यास — सात अङ्क**
+
+**१.** नेपालको परराष्ट्र नीतिका आधार र उद्देश्य व्याख्या गर्दै छिमेकीसँग
+   सन्तुलित सम्बन्ध किन आवश्यक छ, स्पष्ट पार्नुहोस्। <span class="marks">[7]</span>
+
+**२.** संयुक्त राष्ट्र सङ्घका विशिष्टीकृत निकायहरूले नेपालमा गरेका कामको चर्चा
+   गर्नुहोस्। <span class="marks">[7]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **आधार** — संयुक्त राष्ट्र सङ्घको बडापत्र, असंलग्नता, पञ्चशील,
+अन्तर्राष्ट्रिय कानुन, विश्वशान्ति र राष्ट्रिय हितको सर्वोच्चता।
+**उद्देश्य** — सार्वभौमसत्ता र भौगोलिक अखण्डताको रक्षा, राष्ट्रिय
+स्वाधीनता, विकासका लागि सहयोग र लगानी, वैदेशिक रोजगारीमा रहेका नागरिकको
+हित रक्षा, सीमा व्यवस्थापन, विश्वशान्तिमा योगदान। **सन्तुलित सम्बन्ध किन**
+— नेपाल दुई ठुला छिमेकीबिच भूपरिवेष्टित छ; व्यापार, पारवहन, लगानी र
+पूर्वाधारमा दुवैसँग निर्भरता छ। कुनै एकतर्फ ढल्केमा सौदाबाजी क्षमता घट्छ
+र राष्ट्रिय हित जोखिममा पर्छ। दुवैसँग समान मित्रता राखे पारवहन विकल्प
+बढ्छ, लगानी र प्रविधिका स्रोत विविध हुन्छन् र स्वतन्त्र परराष्ट्र नीति
+बलियो हुन्छ।
+
+**२.** **युनेस्को** — शिक्षा नीति र शिक्षक तालिममा सहयोग; सगरमाथा र चितवन
+राष्ट्रिय निकुञ्ज, काठमाडौँ उपत्यका र लुम्बिनीलाई विश्व सम्पदा सूचीमा
+राखी संरक्षण। **युनिसेफ** — खोप, पोषण, बाल संरक्षण, विद्यालय सरसफाइ र
+बालमैत्री शिक्षा। **विश्व स्वास्थ्य सङ्गठन** — बिफर र पोलियो उन्मूलन,
+महामारी नियन्त्रण, औषधि मापदण्ड, स्वास्थ्यकर्मी तालिम। **खाद्य तथा कृषि
+सङ्गठन** — बिउबिजन, सिँचाइ, खाद्य सुरक्षा र कृषि प्रसार। **अन्तर्राष्ट्रिय
+श्रम सङ्गठन** — बालश्रम उन्मूलन, श्रम कानुन सुधार, वैदेशिक रोजगारीमा
+मर्यादित श्रम। **विश्व बैंक** — सडक, विद्युत्, खानेपानी, शिक्षा र
+भूकम्प पुनर्निर्माणमा ऋण र प्राविधिक सहयोग।
+:::
+
+## १५.१० जनसङ्ख्या र यसको व्यवस्थापन
+
+**छोटो उत्तर अभ्यास — चार अङ्क**
+
+**१.** जनसङ्ख्या वृद्धिका कुनै पाँच कारण लेख्नुहोस्। <span class="marks">[4]</span>
+
+**२.** जनसङ्ख्या वितरणलाई असर गर्ने तत्त्वहरू लेख्नुहोस्। <span class="marks">[4]</span>
+
+**३.** एक गाउँपालिकाको जनसङ्ख्या २०६८ मा २५,००० र २०७८ मा ३०,००० छ। क्षेत्रफल
+   १२५ वर्ग कि.मि. छ। वृद्धिदर र जनघनत्व निकाल्नुहोस्। <span class="marks">[4]</span>
+
+**४.** अव्यवस्थित शहरीकरणका पाँच समस्या लेख्नुहोस्। <span class="marks">[4]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** बालविवाह र छिटो सन्तान जन्माउने चलन; छोरा पाउने चाहना; परिवार
+नियोजनको ज्ञान र साधनमा पहुँचको कमी; महिला शिक्षाको कमी; स्वास्थ्य सेवा
+सुधारले मृत्युदर घट्नु (धार्मिक-सामाजिक मान्यता पनि)।
+
+**२.** प्राकृतिक — हावापानी, भूबनोट, माटोको उब्जाउ शक्ति, पानी, प्रकोपको
+जोखिम; आर्थिक — रोजगारी, उद्योग, बजार, कृषियोग्य जमिन; पूर्वाधार — सडक,
+विद्युत्, विद्यालय, अस्पताल; सामाजिक — आफन्त, सुरक्षा, शान्ति।
+
+**३.** वृद्धिदर = (३०,००० − २५,०००) ÷ २५,००० × १०० = ५,००० ÷ २५,००० × १०० =
+**२० प्रतिशत** (दश वर्षमा)। जनघनत्व = ३०,००० ÷ १२५ = **२४० जना** प्रति वर्ग
+कि.मि.।
+
+**४.** आवासको अभाव र अव्यवस्थित बस्ती; खानेपानी र ढलको अभाव; फोहोर
+व्यवस्थापनको समस्या; वायु र ध्वनि प्रदूषण; ट्राफिक जाम (कृषियोग्य जमिनको
+विनाश पनि)।
+:::
+
+**लामो उत्तर अभ्यास — सात अङ्क**
+
+**१.** बसाइँसराइका कारण लेख्दै स्रोत र गन्तव्य दुवै क्षेत्रमा पर्ने असर
+   व्याख्या गर्नुहोस्। <span class="marks">[7]</span>
+
+**२.** जनसङ्ख्या व्यवस्थापनका उपाय लेख्दै जनसङ्ख्या, स्रोत र वातावरणबिचको
+   सम्बन्ध स्पष्ट पार्नुहोस्। <span class="marks">[7]</span>
+
+::: note कारणसहित उत्तरकुञ्जी
+**१.** **कारण — धकेल्ने:** सानो जमिन र कम उत्पादन, गरिबी, बेरोजगारी,
+विद्यालय-अस्पतालको अभाव, सडक र बिजुलीको अभाव, प्राकृतिक प्रकोप।
+**तान्ने:** रोजगारी र आम्दानी, शिक्षा र स्वास्थ्य सेवा, बजार र पूर्वाधार,
+सुरक्षा र सुविधा। **स्रोत क्षेत्रमा असर:** खेत बाँझो हुने, जनशक्तिको
+अभाव, वृद्ध र बालबालिका मात्र बस्ने, विद्यालयमा विद्यार्थी घट्ने, घर र
+बस्ती उजाड हुने; तर विप्रेषणले आम्दानी बढ्ने। **गन्तव्यमा असर:** जग्गाको
+मूल्य र भाडा बढ्ने, अव्यवस्थित बस्ती, खानेपानी-ढल-फोहोरमा चाप, ट्राफिक
+जाम, प्रदूषण, अपराध; तर श्रमशक्ति, सीप र बजार विस्तारले आर्थिक
+क्रियाकलाप बढ्ने।
+
+**२.** **उपाय:** महिला शिक्षा र सशक्तीकरण; परिवार नियोजनका साधन र
+परामर्शमा सहज पहुँच; बालविवाह अन्त्य र विवाहको कानुनी उमेर पालना;
+मातृ-शिशु स्वास्थ्य सेवा विस्तार; लैङ्गिक समानता र छोराको मोह अन्त्य;
+रोजगारी सिर्जना; सन्तुलित क्षेत्रीय विकास; व्यक्तिगत घटना दर्ता;
+विद्यालय तहदेखि जनसङ्ख्या शिक्षा। **सम्बन्ध:** जनसङ्ख्या बढेसँगै
+खाद्यान्न, पानी, जमिन, दाउरा र ऊर्जाको माग बढ्छ। मागले वन फँडानी,
+अतिचरण, अत्यधिक उत्खनन र प्रदूषण निम्त्याउँछ। वातावरण बिग्रिए माटोको
+उत्पादन शक्ति घट्छ, पानीको स्रोत सुक्छ र प्रकोप बढ्छ — जसले गरिबी
+बढाउँछ, र गरिबीले फेरि स्रोतमाथिको चाप बढाउँछ। यो चक्र तोड्न
+जनसङ्ख्यालाई स्रोतको क्षमतासँग सन्तुलित राख्नु र स्रोतको दिगो उपयोग
+गर्नु दुवै आवश्यक छ।
+:::
+

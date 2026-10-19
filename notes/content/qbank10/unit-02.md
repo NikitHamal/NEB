@@ -17,6 +17,14 @@ Almost nothing in Groups A and B is a long calculation. They test a **definition
 Every question below is an original **practice** question written to the pattern. None is claimed to have appeared in any year's paper. Where a numerical is used, the stem states the value of $g$ or other constants, and the key gives the working.
 :::
 
+
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
+fig, ax = barh_ranked(
+    ["Scientific Learning", "Classification of Living Beings", "Honey Bee", "Heredity", "Physiological Structure and Life Process", "Nature and Environment", "Motion and Force", "Pressure", "Heat", "Wave", "Electricity and Magnetism", "Universe", "Information and Communication Technology", "Classification of Elements", "Chemical Reaction", "Gases", "Metal and Non-metals", "Hydrocarbon and its Compounds", "Chemicals used in Daily Life"],
+    [7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7], unit=" questions")
+```
+
+
 ## 2.1 Scientific Learning
 
 **Facts.** The SI unit of length is the metre, of mass the kilogram, of time the second. A scientific method runs: observation, problem, hypothesis, experiment, analysis, conclusion. A hypothesis is a testable guess.

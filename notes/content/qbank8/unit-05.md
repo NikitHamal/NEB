@@ -10,7 +10,7 @@ area: Mathematics
 In Mathematics the one-mark items are one-step questions: a definition, a formula recalled correctly, a single substitution, a sign. They are also the items most often lost to carelessness rather than to ignorance. This chapter covers all twenty-one units of the Grade 8 textbook, grouped into ten sections. Each section opens with the **formulas and facts** the one-mark items keep returning to, then gives the items, then a key that shows the single step.
 
 ::: key The one-step habit
-Before you write anything, ask: *which formula is this?* Write the formula, substitute, and only then calculate. Nine out of ten lost one-mark items in Mathematics come from substituting into a half-remembered formula.
+Before you write anything, ask: *which formula is this?* Write the formula, substitute, and only then calculate. Substituting into a half-remembered formula can turn an easy item into an avoidable error.
 :::
 
 ## 5.1 Sets, Whole Numbers, Rational and Irrational Numbers
@@ -46,14 +46,10 @@ Before you write anything, ask: *which formula is this?* Write the formula, subs
 :::
 
 
-```figure caption="Where the Mathematics marks sit. Arithmetic (profit, interest, ratio, unitary method) and mensuration together are nearly half the paper; geometry and statistics carry most of the rest."
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
 fig, ax = barh_ranked(
-    ["Arithmetic (profit, interest, ratio)", "Geometry (angles, figures)",
-     "Mensuration (area and volume)", "Algebra (indices, equations)",
-     "Sets and number systems", "Coordinates and transformation",
-     "Statistics"],
-    [11, 9, 8, 8, 6, 4, 4], unit=" marks",
-    highlight={"Arithmetic (profit, interest, ratio)"})
+    ["Sets, Whole Numbers, Rational and Irrational Numbers", "Ratio, Proportion and the Unitary Method", "Profit and Loss, Simple Interest", "Area and Volume", "Indices and Algebraic Expressions", "Algebraic Fractions and Equations", "Lines, Angles and Plane Figures", "Congruency, Similarity and Solid Objects", "Coordinates, Transformation, Tessellation, Bearing and Scale Drawing", "Statistics"],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8], unit=" questions")
 ```
 
 ## 5.2 Ratio, Proportion and the Unitary Method

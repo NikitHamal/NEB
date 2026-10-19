@@ -43,16 +43,10 @@ Roughly: three or four from a reading passage, three or four from grammar (tense
 :::
 
 
-```figure caption="How the English paper divides. Half of it is writing, a quarter is reading an unseen passage and a quarter is grammar and vocabulary — so reading the textbook units alone prepares for only a part of it."
-parts = ["Writing\n(letter, notice,\nessay, diary)", "Reading\n(unseen passage)",
-         "Grammar", "Vocabulary"]
-share = [24, 12, 9, 5]
-fig, ax = plt.subplots(figsize=(4.6, 3.2))
-ax.pie(share, labels=parts, colors=[SERIES[0], SERIES[2], SERIES[1], SERIES[3]],
-       autopct=lambda p: f"{round(p * 0.5)} marks", startangle=100,
-       textprops=dict(color=INK, fontsize=8.4),
-       wedgeprops=dict(edgecolor="white", linewidth=1.5))
-ax.set_aspect("equal")
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
+fig, ax = barh_ranked(
+    ["Vocabulary from the textbook units", "Tense", "Voice", "Question tags, articles and prepositions", "Reported speech and conditionals", "Unseen passage 1", "Unseen passage 2", "Word formation and spelling"],
+    [10, 8, 8, 8, 8, 6, 6, 8], unit=" questions")
 ```
 
 ## 8.2 Tense

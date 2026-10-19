@@ -13,6 +13,14 @@ The Grade 10 English paper carries 75 marks in three hours, and a large share of
 Every item here is an **original practice item** written to the pattern of the SEE English paper and to the facts of the book chapters in this series. None is claimed to be a question from a particular year's paper. A book that prints a board year beside each item is usually guessing, and a wrong label teaches you to trust the wrong thing.
 :::
 
+
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
+fig, ax = barh_ranked(
+    ["Reading items by unit", "Vocabulary items", "Grammar items by unit", "Practice questions"],
+    [108, 15, 37, 9], unit=" questions")
+```
+
+
 ## 8.1 Where objective items sit in the paper
 
 The Curriculum Development Centre (CDC) specification grid for Grade 10 English (2080 curriculum) divides the 75 marks as follows. Check the current grid on the CDC site before the examination, because boards can adjust small details such as the marks of a single task.

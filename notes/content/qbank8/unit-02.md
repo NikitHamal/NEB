@@ -18,13 +18,10 @@ Every item is an original practice question written to the CDC pattern. Values o
 :::
 
 
-```figure caption="Where the Science marks sit. The eleven units are not equal: mechanics, electricity, life processes and matter together carry about half the written paper, which is why they are drilled hardest in this book."
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
 fig, ax = barh_ranked(
-    ["Force and motion", "Life process", "Electricity", "Living beings",
-     "Biodiversity", "Energy", "Matter", "ICT", "Materials",
-     "Earth and universe", "Scientific learning"],
-    [7, 6, 6, 5, 5, 5, 5, 3, 3, 3, 2], unit=" marks",
-    highlight={"Force and motion", "Life process", "Electricity"})
+    ["Scientific Learning", "Information and Communication Technology", "Living Beings and Their Structure", "Biodiversity and Environment", "Life Process", "Force and Motion", "Energy in Daily Life", "Electricity and Magnetism", "Matter", "Materials Used in Daily Life", "The Earth and Universe"],
+    [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8], unit=" questions")
 ```
 
 ## 2.1 Scientific Learning

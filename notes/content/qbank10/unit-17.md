@@ -58,6 +58,14 @@ ax.set_axisbelow(True)
 fig.tight_layout()
 ```
 
+
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
+fig, ax = barh_ranked(
+    ["Sequence and Series", "Quadratic Equations and Graphs", "Matrices and Determinants", "Trigonometry: Multiple, Submultiple and Transformation Formulas", "Conditional Identities, Trigonometric Equations and Height and Distance", "Angle between Two Lines and Pair of Straight Lines", "Conic Sections and Circle", "Vector", "Linear Programming and Transformation", "Continuity", "Statistics: Measures of Dispersion", "Functions and Polynomials"],
+    [8, 8, 8, 10, 8, 6, 8, 8, 8, 6, 8, 8], unit=" questions")
+```
+
+
 ## 17.1 Sequence and Series
 
 **Facts.** For an arithmetic sequence, $t_n=a+(n-1)d$ and

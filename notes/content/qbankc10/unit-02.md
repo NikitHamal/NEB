@@ -13,6 +13,14 @@ Group A of the SEE Accountancy paper is eleven very short answer questions of on
 Read the facts line, answer the ten questions in writing, then check the key. Mark every question you got wrong on a single sheet; that sheet, not the whole book, is what you revise in the last week. Every question is an **original practice question** written to the pattern; none is claimed to have appeared in any year's paper.
 :::
 
+
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
+fig, ax = barh_ranked(
+    ["Office Management and Procedure", "Bank, Insurance and Financial Institutions", "Introduction to Tax", "Business Accounting", "Bank Reconciliation Statement", "Accounting Errors", "Final Account", "System of Government Accounting in Nepal", "Revenue Accounting", "Accounting of Government Expenditure", "Store Accounting", "Fund Accounting and Retention Account", "Internal Control and Auditing", "Agencies Involved in Government Accounting", "Use of Information Technology in Office and Accounting"],
+    [10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10], unit=" questions")
+```
+
+
 ## 2.1 Office Management and Procedure
 
 **Facts.** Office management is planning, organising, directing, coordinating and controlling office work. Its areas are personnel, layout, machines, records, forms, procedures and financial work. Office procedure: receipt, sorting, recording, action, noting, drafting, approval, dispatch, follow-up. Filing = store; indexing = find. Layout is open, closed or mixed.

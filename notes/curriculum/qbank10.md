@@ -19,10 +19,10 @@
 ## 11. अनिवार्य नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह [R]
 ## 12. अनिवार्य नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह [R]
 ## 13. अनिवार्य नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न [R]
-# PART: Social Studies
-## 14. Social Studies: Unit-wise Objective Question Bank [R]
-## 15. Social Studies: Unit-wise Subjective Question Bank [R]
-## 16. Social Studies: Model Question Sets and Predicted Questions [R]
+# PART: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा
+## 14. सामाजिक अध्ययन: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह [R]
+## 15. सामाजिक अध्ययन: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह [R]
+## 16. सामाजिक अध्ययन: नमुना प्रश्नपत्र र पुनरावलोकन योजना [R]
 # PART: Optional Mathematics
 ## 17. Optional Mathematics: Unit-wise Objective Question Bank [R]
 ## 18. Optional Mathematics: Unit-wise Subjective Question Bank [R]

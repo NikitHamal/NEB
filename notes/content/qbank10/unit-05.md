@@ -17,6 +17,14 @@ These items are the 12 knowledge marks and some of the 18 understanding marks of
 Every item is an original **practice** item written to the CDC pattern. None is claimed to have appeared in a particular year's paper. The numbers have been recomputed with a program as well as by hand.
 :::
 
+
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
+fig, ax = barh_ranked(
+    ["Sets", "Tax and Money Exchange", "Compound Interest", "Population Growth and Depreciation", "Plane Surfaces", "Cylinder and Sphere", "Prism and Pyramid", "Highest Common Factor and Lowest Common Multiple", "Radical and Surd", "Indices", "Algebraic Fraction", "Equations", "Area of Triangles and Quadrilaterals", "Construction", "Circle", "Trigonometry", "Statistics", "Probability"],
+    [6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6], unit=" questions")
+```
+
+
 ## 5.1 Sets
 
 **Facts.** $n(A\cup B)=n(A)+n(B)-n(A\cap B)$; $(A\cup B)'=A'\cap B'$; $(A\cap B)'=A'\cup B'$; $n(U)=n(A\cup B)+n(A\cup B)'$.

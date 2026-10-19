@@ -13,6 +13,14 @@ This chapter contains two complete model question papers for Accountancy, each f
 Each set draws its questions from every unit, as the real paper does. Group A is eleven one-line answers; Group B is eight five-mark answers, of which at least two are numerical; Group C is three eight-mark answers, of which at least one is a full numerical, with an alternative offered. Every question is an **original practice question** written to the pattern; none is claimed to have appeared in any year's paper.
 :::
 
+
+```figure caption="Actual practice-question coverage in this chapter. Counts describe this book, not examination weightage or the probability of a question appearing."
+fig, ax = barh_ranked(
+    ["Model Question Set 1", "Model Question Set 2"],
+    [22, 22], unit=" questions")
+```
+
+
 ## 5.1 Model Question Set 1
 
 **Accountancy (कार्यालय सञ्चालन तथा लेखा) — Grade 10**
