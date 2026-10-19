@@ -316,3 +316,5 @@
   .bh-sheet, .bh-sheet.wide, .bh-sheet.left { left: 8px; right: 8px; top: auto; bottom: 74px; width: auto; max-height: 40%; font-size: .74rem; transform: translateY(10px); }
   .bh-sheet.on { transform: none; }
 }
+.bh-stage .ho-graph.ho-side.bh-under-clock { top: 74px; }
+@media (max-width: 640px) { .bh-stage .ho-graph.ho-side.bh-under-clock { top: auto; bottom: 132px; } }
