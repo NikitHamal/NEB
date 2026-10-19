@@ -58,7 +58,7 @@ export function createGraph(hud, { title, xLabel, yLabel }) {
       g.textAlign = 'center'; g.font = '700 14px system-ui, sans-serif'; g.fillText(xLabel, (L + W - R) / 2, H - 8);
       g.save(); g.translate(16, (T + H - B) / 2); g.rotate(-Math.PI / 2); g.fillText(yLabel, 0, 0); g.restore();
       if (fit) { g.strokeStyle = '#2563eb'; g.lineWidth = 2; g.beginPath(); g.moveTo(X(0), Y(fit.a)); g.lineTo(X(xm), Y(fit.a + fit.b * xm)); g.stroke(); }
-      pts.forEach(([x, y]) => { g.strokeStyle = '#dc2626'; g.lineWidth = 2; g.beginPath(); g.moveTo(X(x) - 6, Y(y)); g.lineTo(X(x) + 6, Y(y)); g.moveTo(X(x), Y(y) - 6); g.lineTo(X(x), Y(y) + 6); g.stroke(); });
+      pts.forEach(([x, y, c]) => { g.strokeStyle = c || '#dc2626'; g.lineWidth = 2; g.beginPath(); g.moveTo(X(x) - 6, Y(y)); g.lineTo(X(x) + 6, Y(y)); g.moveTo(X(x), Y(y) - 6); g.lineTo(X(x), Y(y) + 6); g.stroke(); });
     },
     dispose() { box.remove(); },
   };
