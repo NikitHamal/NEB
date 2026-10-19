@@ -74,3 +74,50 @@ export function createTitrationFlask({ baseM, acidM = 0.1, indicator = INDICATOR
   };
   return api;
 }
+
+/**
+ * A redox titration flask: Fe2+ (Mohr's salt, acidified) titrated with KMnO4, which is its own
+ * indicator. MnO4- + 5Fe2+ + 8H+ -> Mn2+ + 5Fe3+ + 4H2O. Each drop is purple where it lands and
+ * is decolourised as swirling mixes it into the Fe2+; once every Fe2+ is used, the first excess
+ * of permanganate (about 1e-5 M) turns the whole flask a faint permanent pink.
+ */
+export function createRedoxFlask({ fasM, kmM = 0.02 }) {
+  const s = { baseMl: 0, waterMl: 0, acidMl: 0, plumeMl: 0, indicatorDrops: 1, swirl: 0, flow: 0, acidified: false };
+  const EPS = 2.4e3; const PATH = 4;
+  const api = {
+    state: s,
+    redox: true,
+    reset() { s.baseMl = 0; s.waterMl = 0; s.acidMl = 0; s.plumeMl = 0; s.acidified = false; },
+    get volumeMl() { return s.baseMl + s.waterMl + s.acidMl; },
+    addBase(ml) { s.baseMl += ml; },
+    addWater(ml) { s.waterMl += ml; },
+    addIndicator() {},
+    addAcid(ml) { s.acidMl += ml; s.plumeMl += ml; },
+    get equivalenceMl() { return fasM * s.baseMl / (5 * kmM); },
+    /** Molar excess of MnO4- once mixed (0 before the end point). */
+    excess(mixedOnly = true) {
+      const km = kmM * (s.acidMl - (mixedOnly ? s.plumeMl : 0)) / 1000;
+      const fe = fasM * s.baseMl / 1000;
+      return Math.max(0, km - fe / 5) / Math.max(1e-6, api.volumeMl / 1000);
+    },
+    /** True when the fully mixed flask stays pink. */
+    atEndpoint() { return api.excess(false) > 4e-6; },
+    plumeStrength() {
+      if (s.plumeMl <= 1e-6) return 0;
+      const mixed = s.acidMl - s.plumeMl;
+      const feLeft = Math.max(0, fasM * s.baseMl / 1000 - 5 * kmM * mixed / 1000);
+      const cFe = feLeft / Math.max(1e-6, api.volumeMl / 1000);
+      const z = (5 * kmM * s.plumeMl / 1000) / Math.max(1e-12, cFe * (s.plumeMl + 3) / 1000);
+      return Math.min(1, z);
+    },
+    step(dt) { const k = 0.45 + 2.5 * (s.flow || 0) + 7 * s.swirl; s.plumeMl *= Math.exp(-k * dt); if (s.plumeMl < 1e-5) s.plumeMl = 0; },
+    colour(out) {
+      const a = EPS * api.excess(true) * PATH;
+      const fe = s.baseMl > 0 ? 0.03 : 0;
+      return out.setRGB(0.97 * Math.pow(10, -0.12 * a) - fe * 0.2, 0.98 * Math.pow(10, -1.0 * a), 0.99 * Math.pow(10, -0.35 * a) - fe * 0.25);
+    },
+    /** Fraction of the end-point colour showing (0..1), used for opacity. */
+    showing() { return Math.min(1, api.excess(true) / 2e-5); },
+  };
+  return api;
+}
