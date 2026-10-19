@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,244
+Drop a strip of zinc into blue copper sulphate solution.
+
+2
+00:00:04,244 --> 00:00:06,315
+A reaction starts at once.
+

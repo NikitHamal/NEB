@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,385
+The dry cell, inside every torch.
+
+2
+00:00:03,385 --> 00:00:07,968
+The zinc can itself is the anode, slowly eaten away.
+
+3
+00:00:07,968 --> 00:00:17,786
+A graphite rod in a mixture of manganese dioxide and carbon is the cathode, and a moist paste of ammonium chloride and zinc chloride is the electrolyte.
+
+4
+00:00:17,786 --> 00:00:25,078
+It gives about one and a half volts, and dies as the zinc is consumed and ammonia collects round the cathode.
+

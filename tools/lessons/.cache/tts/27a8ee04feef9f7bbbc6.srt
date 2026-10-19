@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,554
+Q is zinc ion over copper ion, the solids left out: zero point one over zero point zero one, ten.
+
+2
+00:00:08,554 --> 00:00:09,804
+Log Q is one.
+
+3
+00:00:09,804 --> 00:00:17,552
+So E is one point one zero minus zero point zero two nine six, about one point zero seven volts.
+
+4
+00:00:17,552 --> 00:00:23,385
+More product ions, lower E M F, just as Le Chatelier predicts.
+

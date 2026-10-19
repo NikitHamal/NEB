@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,106
+Here is the plan.
+
+2
+00:00:01,106 --> 00:00:02,851
+Electrode potentials.
+
+3
+00:00:02,851 --> 00:00:06,354
+The standard hydrogen and calomel electrodes.
+
+4
+00:00:06,354 --> 00:00:09,414
+The electrochemical series and its uses.
+
+5
+00:00:09,414 --> 00:00:13,242
+Voltaic cells, zinc copper and silver copper.
+
+6
+00:00:13,242 --> 00:00:16,080
+Cell potential and the Nernst equation.
+
+7
+00:00:16,080 --> 00:00:20,911
+The link between cell potential and free energy, with Faraday's laws.
+
+8
+00:00:20,911 --> 00:00:24,635
+And finally, commercial batteries and the fuel cell.
+

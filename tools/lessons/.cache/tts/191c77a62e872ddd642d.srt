@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,703
+That is electrochemistry, and the end of physical chemistry for Class 12.
+
+2
+00:00:05,703 --> 00:00:14,062
+Next, we move to inorganic chemistry, starting with the transition metals: their colours, complexes and catalytic power.
+
+3
+00:00:14,062 --> 00:00:17,161
+See you in the next lesson on NEBians.
+

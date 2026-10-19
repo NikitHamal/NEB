@@ -10,4 +10,4 @@ been checked part by part with frames.py.
 | 2 | Ionic Equilibrium | 31.4 min | cold open, 15 parts (Arrhenius → hydrolysis), recap |
 | 3 | Chemical Kinetics | 22.8 min | cold open, 10 parts (introduction → catalysis), recap |
 | 4 | Thermodynamics | 20.8 min | cold open, 10 parts (energy in reactions → ΔG and K), recap |
-| 5 | Electrochemistry | ~16 min | cold open, 7 parts (electrode potential → batteries and fuel cells), recap |
+| 5 | Electrochemistry | 17.7 min | cold open, 7 parts (electrode potential → batteries and fuel cells), recap |

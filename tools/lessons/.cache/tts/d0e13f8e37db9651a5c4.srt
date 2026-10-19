@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,562
+Hydrogen is oxidised at the anode, oxygen is reduced at the cathode, and the overall reaction is hydrogen plus oxygen giving water, at one point two three volts.
+
+2
+00:00:11,562 --> 00:00:14,231
+The only product is drinkable water.
+

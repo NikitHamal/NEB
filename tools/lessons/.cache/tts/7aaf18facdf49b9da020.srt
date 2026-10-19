@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,760
+Log K is two times zero point four six over zero point zero five nine one, fifteen point five seven.
+
+2
+00:00:07,760 --> 00:00:11,718
+So K is three point seven times ten to the fifteen.
+
+3
+00:00:11,718 --> 00:00:21,901
+Copper reduces silver ions essentially completely, which is why a copper wire left in silver nitrate grows shining silver crystals.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,278
+Electrons are jumping straight from zinc atoms to copper ions, and all that energy is wasted as heat.
+
+2
+00:00:07,278 --> 00:00:11,289
+What if we could make those electrons travel through a wire instead?
+
+3
+00:00:11,289 --> 00:00:13,606
+Then the same reaction would light a bulb.
+
+4
+00:00:13,606 --> 00:00:19,166
+That is the whole idea of a battery, and by the end of this lesson, we will build one.
+

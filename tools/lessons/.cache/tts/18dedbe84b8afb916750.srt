@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,588
+D, copper.
+
+2
+00:00:01,588 --> 00:00:13,971
+Its standard reduction potential, plus zero point three four volts, is above hydrogen's zero, so it is a weaker reducing agent than hydrogen and cannot push hydrogen ions to hydrogen gas.
+
+3
+00:00:13,971 --> 00:00:18,632
+Zinc, magnesium and iron all have negative potentials.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,903
+The same constant governs electrolysis.
+
+2
+00:00:02,903 --> 00:00:09,986
+Faraday's first law: the mass deposited is proportional to the charge passed, current times time.
+
+3
+00:00:09,986 --> 00:00:15,833
+His second law: the same charge deposits masses in the ratio of their equivalent weights.
+
+4
+00:00:15,833 --> 00:00:22,981
+In practice, one faraday deposits one gram equivalent, molar mass over n grams.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,528
+Join the two metals with a wire through a voltmeter.
+
+2
+00:00:03,528 --> 00:00:04,583
+Nothing yet.
+
+3
+00:00:04,583 --> 00:00:06,901
+The circuit is not complete.
+
+4
+00:00:06,901 --> 00:00:14,518
+Now add the salt bridge: an upside down U tube full of potassium chloride set in agar jelly.
+

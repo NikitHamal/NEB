@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:16,614
+When concentrations are not one molar, the Nernst equation corrects the E M F: E cell equals E nought cell, minus zero point zero five nine one over n, times log Q. Pure solids and liquids do not appear in Q.
+
+2
+00:00:16,614 --> 00:00:24,778
+The zero point zero five nine one is just two point three zero three R T over F, at twenty five degrees.
+

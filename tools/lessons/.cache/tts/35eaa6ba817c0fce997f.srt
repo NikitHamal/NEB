@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,736
+It is the primary reference, but it is awkward to use.
+
+2
+00:00:03,736 --> 00:00:16,328
+It needs a supply of very pure hydrogen at constant pressure, an exactly one molar acid, and its platinum surface is easily poisoned by traces of arsenic or sulphide.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,414
+A battery is one or more galvanic cells packaged for use.
+
+2
+00:00:04,414 --> 00:00:09,739
+Primary cells cannot be recharged, because their reactions are not reversible.
+
+3
+00:00:09,739 --> 00:00:12,994
+Secondary cells, or accumulators, can.
+
+4
+00:00:12,994 --> 00:00:23,411
+Here are the four you should know: the dry cell, the lead storage battery, nickel cadmium, and lithium ion, the one in your phone at about three point seven volts.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,109
+Finally, the fuel cell.
+
+2
+00:00:02,109 --> 00:00:08,776
+Unlike a battery, its reactants are fed in continuously from outside, so it never runs down.
+
+3
+00:00:08,776 --> 00:00:15,924
+Hydrogen flows past the anode, oxygen past the cathode, with potassium hydroxide between them.
+
+4
+00:00:15,924 --> 00:00:19,335
+This is the cell that powered the Apollo spacecraft.
+

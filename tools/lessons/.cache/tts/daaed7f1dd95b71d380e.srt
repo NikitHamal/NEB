@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,119
+Arrange the standard reduction potentials in order, and you get the electrochemical series.
+
+2
+00:00:06,119 --> 00:00:18,815
+Lithium, potassium, calcium, sodium, magnesium, aluminium, zinc, iron, nickel, tin, lead, then hydrogen at zero, then copper, silver and gold.
+

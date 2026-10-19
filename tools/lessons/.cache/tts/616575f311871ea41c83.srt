@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,083
+Now we capture the electrons.
+
+2
+00:00:02,083 --> 00:00:08,098
+Put the zinc in zinc sulphate in one beaker, and copper in copper sulphate in another.
+
+3
+00:00:08,098 --> 00:00:10,846
+The zinc never touches the copper ions.
+

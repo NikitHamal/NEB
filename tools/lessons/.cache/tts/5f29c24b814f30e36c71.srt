@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,768
+From Unit 4, the maximum useful work a process can deliver equals delta G.
+
+2
+00:00:05,768 --> 00:00:13,216
+A cell pushing n moles of electrons through a potential E does n F E of work on the surroundings.
+
+3
+00:00:13,216 --> 00:00:19,830
+Work done by the system is negative, so delta G equals minus n F E.
+

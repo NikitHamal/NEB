@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,513
+The cell potential, or electromotive force, is the potential difference between the electrodes when no current flows.
+
+2
+00:00:07,513 --> 00:00:16,510
+Under standard conditions, E nought cell equals E nought of the cathode minus E nought of the anode, both written as reduction potentials.
+
+3
+00:00:16,510 --> 00:00:20,026
+If it comes out positive, the reaction runs as written.
+
+4
+00:00:20,026 --> 00:00:23,059
+If negative, you have written the cell backwards.
+

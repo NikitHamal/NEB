@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,408
+Worked example five point one.
+
+2
+00:00:02,408 --> 00:00:07,539
+Copper has the higher reduction potential, so it is the cathode.
+
+3
+00:00:07,539 --> 00:00:15,247
+E nought cell is zero point three four minus minus zero point seven six, one point one zero volts.
+
+4
+00:00:15,247 --> 00:00:16,992
+Two electrons transfer.
+

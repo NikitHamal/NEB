@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,421
+Dip a strip of zinc into water.
+
+2
+00:00:02,421 --> 00:00:09,348
+A few zinc atoms leave the metal as zinc ions, leaving their two electrons behind in the metal.
+
