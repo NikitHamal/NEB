@@ -1,226 +1,138 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Indicators (NEB class 10) — a rack of household solutions. Drag a strip of red or blue litmus
+ * paper, or a dropper of phenolphthalein, methyl orange or universal indicator, onto a tube and
+ * watch the colour change; every result fills the observation table. Dilute NaOH and HCl droppers
+ * neutralise a tube drop by drop (each drop is 0.05 mL of 0.1 M into 5 mL), and universal
+ * indicator follows the pH through green at 7.
+ */
+import { createKit, T, fmt, clamp, background, text, pill, withAlpha } from '../core/kit2d.js';
+import { createShelf } from '../core/chem2d.js';
+import { createRack } from '../core/tubes2d.js';
+import { INDICATORS, litmusPaper, drawPHStrip } from '../core/indicators2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
 
-// Acid–base indicator bench: choose a solution and an indicator, then watch the
-// colour change. The pH values are the standard ones used in the grade-10 book.
-
-const NEUTRAL = '#a7c7e7';
-
-const SOLUTIONS = [
-  { id: 'lemon', name: 'Lemon juice', ph: 2.2, kind: 'acid' },
-  { id: 'vinegar', name: 'Vinegar', ph: 3.0, kind: 'acid' },
-  { id: 'curd', name: 'Curd (dahi)', ph: 4.5, kind: 'acid' },
-  { id: 'water', name: 'Distilled water', ph: 7.0, kind: 'neutral' },
-  { id: 'salt', name: 'Common salt solution', ph: 7.0, kind: 'neutral' },
-  { id: 'milk', name: 'Milk of magnesia', ph: 10.0, kind: 'base' },
-  { id: 'soap', name: 'Soap solution', ph: 9.5, kind: 'base' },
-  { id: 'lime', name: 'Lime water', ph: 12.0, kind: 'base' },
-  { id: 'soda', name: 'Baking soda solution', ph: 8.5, kind: 'base' },
+const SOL = [
+  { name: 'Lemon juice', short: 'Lemon', pH: 2.2, base: '#fbf3c4' },
+  { name: 'Vinegar', short: 'Vinegar', pH: 2.9, base: '#f6efd9' },
+  { name: 'Curd (dahi) water', short: 'Curd', pH: 4.5, base: '#f8f6ef' },
+  { name: 'Common salt solution', short: 'Salt', pH: 7.0, base: '#eef4fb' },
+  { name: 'Baking soda solution', short: 'Soda', pH: 8.3, base: '#eef4fb' },
+  { name: 'Soap solution', short: 'Soap', pH: 10.0, base: '#f1f1f4' },
+  { name: 'Milk of magnesia', short: 'Mg(OH)₂', pH: 10.5, base: '#f8fafc' },
+  { name: 'Lime water', short: 'Lime w.', pH: 12.4, base: '#f1f7fd' },
 ];
-
-const INDICATORS = [
-  { id: 'litmus', name: 'Litmus paper (blue)', color: (s) => (s.kind === 'acid' ? '#e0454a' : s.kind === 'base' ? '#2f66c9' : '#4b6d9a'),
-    note: (s) => (s.kind === 'acid' ? 'Blue litmus turns red in an acid.' : s.kind === 'base' ? 'Blue litmus stays blue in a base.' : 'Blue litmus shows no change in a neutral solution.') },
-  { id: 'litmusr', name: 'Litmus paper (red)', color: (s) => (s.kind === 'base' ? '#2f66c9' : '#e0454a'),
-    note: (s) => (s.kind === 'base' ? 'Red litmus turns blue in a base.' : 'Red litmus stays red in an acid or a neutral solution.') },
-  { id: 'phenol', name: 'Phenolphthalein', color: (s) => (s.kind === 'base' ? '#f0569f' : 'rgba(255,255,255,0.14)'),
-    note: (s) => (s.kind === 'base' ? 'Phenolphthalein turns pink in a base.' : 'Phenolphthalein stays colourless in an acid and in a neutral solution.') },
-  { id: 'methyl', name: 'Methyl orange', color: (s) => (s.kind === 'acid' ? '#e8623c' : s.kind === 'base' ? '#f2c53d' : '#e8a33c'),
-    note: (s) => (s.kind === 'acid' ? 'Methyl orange turns red-orange in an acid.' : s.kind === 'base' ? 'Methyl orange turns yellow in a base.' : 'Methyl orange stays orange in a neutral solution.') },
-  { id: 'universal', name: 'Universal indicator', color: (s) => {
-    if (s.ph < 3) return '#d7263d';
-    if (s.ph < 5) return '#e8623c';
-    if (s.ph < 6.5) return '#f2c53d';
-    if (s.ph <= 7.5) return '#4caf50';
-    if (s.ph < 9) return '#2196a6';
-    if (s.ph < 11) return '#2f66c9';
-    return '#5b2fa8';
-  },
-  note: (s) => (s.kind === 'acid' ? 'Universal indicator shows red to orange in an acid.' : s.kind === 'base' ? 'Universal indicator shows blue to violet in a base.' : 'Universal indicator shows green in a neutral solution.') },
+const REAG = [
+  { id: 'red', label: 'Red litmus', kind: 'object', color: '#e8596e' },
+  { id: 'blue', label: 'Blue litmus', kind: 'object', color: '#4c6ef5' },
+  { id: 'phenolphthalein', label: 'Phenolphth.', kind: 'object', color: '#f8fafc' },
+  { id: 'methylorange', label: 'Methyl orange', kind: 'object', color: '#f76707' },
+  { id: 'universal', label: 'Universal', kind: 'object', color: '#4caf50' },
+  { id: 'naoh', label: 'NaOH (dil.)', kind: 'object', color: '#e2e8f0' },
+  { id: 'hcl', label: 'HCl (dil.)', kind: 'object', color: '#e2e8f0' },
 ];
+const KW = 1e-14;
+const COLS = ['red', 'blue', 'phenolphthalein', 'methylorange', 'universal'];
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const k = createKit(stage, { label: 'A rack of test tubes with solutions, and indicators to test them' });
   const hud = createHud(stage);
-  const badge = hud.badge('Pick a solution, then an indicator', '#10B981');
+  const badge = hud.badge('Drag an indicator onto a test tube', T.blue);
 
-  let solution = SOLUTIONS[0];
-  let indicator = INDICATORS[0];
-  let drops = 0;
+  const rack = createRack(k, SOL.length);
+  const state = SOL.map((s) => ({ c: excess(s.pH), ind: null, res: {} }));
+  for (const r of REAG) r.draw = drawReagent;
 
   const panel = createPanel(stage, { title: 'Indicator tests' });
-  const solSel = panel.select({
-    label: 'Solution in the test tube',
-    options: SOLUTIONS.map((s) => ({ value: s.id, label: `${s.name} (pH ${s.ph.toFixed(1)})` })),
-    value: solution.id,
-    onChange: (id) => { solution = SOLUTIONS.find((s) => s.id === id); drops = 0; update(); },
-  });
-  const indSel = panel.select({
-    label: 'Indicator added',
-    options: INDICATORS.map((i) => ({ value: i.id, label: i.name })),
-    value: indicator.id,
-    onChange: (id) => { indicator = INDICATORS.find((i) => i.id === id); drops = 0; update(); },
-  });
-  panel.buttonRow([
-    { label: 'Add drops', icon: 'water_drop', onClick: () => { drops = Math.min(6, drops + 1); update(); } },
-    { label: 'Rinse tube', icon: 'cleaning_services', variant: 'ghost', onClick: () => { drops = 0; update(); } },
-  ]);
-  const readPH = panel.readout({ label: 'pH', value: '—' });
-  const readKind = panel.readout({ label: 'Nature', value: '—' });
-  const readResult = panel.readout({ label: 'Observation', value: '—' });
-  const info = panel.info('');
+  panel.button({ label: 'Wash all the tubes', icon: 'water', variant: 'ghost', onClick: wash });
+  const table = document.createElement('div'); table.className = 'k2-table k2-first6'; table.style.setProperty('--k2-cols', 6); table.style.fontSize = '.68rem'; panel.body.appendChild(table);
+  const verdict = panel.readout({ label: 'Last test', value: '—' });
+  panel.info('Acids turn blue litmus red; bases turn red litmus blue. Phenolphthalein is colourless in acid and pink in base; methyl orange is red in acid and yellow in base. Universal indicator shows the whole pH scale. Acid + base → salt + water.');
 
-  function isLitmus() { return indicator.id === 'litmus' || indicator.id === 'litmusr'; }
-
-  function acidBaseBar(ctx, x, y, w, h, ph) {
-    const grad = ctx.createLinearGradient(x, 0, x + w, 0);
-    grad.addColorStop(0, '#d7263d');
-    grad.addColorStop(0.35, '#f2c53d');
-    grad.addColorStop(0.5, '#4caf50');
-    grad.addColorStop(0.68, '#2196a6');
-    grad.addColorStop(1, '#5b2fa8');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(x, y, w, h, 4); else ctx.rect(x, y, w, h);
-    ctx.fill();
-    const px = x + (Math.max(0, Math.min(14, ph)) / 14) * w;
-    ctx.strokeStyle = '#f8fafc';
-    ctx.lineWidth = 2.4;
-    ctx.beginPath(); ctx.moveTo(px, y - 5); ctx.lineTo(px, y + h + 5); ctx.stroke();
-    ctx.fillStyle = 'rgba(232,238,251,0.85)';
-    ctx.font = '600 9px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('acidic', x + w * 0.16, y + h + 20);
-    ctx.fillText('neutral', x + w * 0.5, y + h + 20);
-    ctx.fillText('basic', x + w * 0.84, y + h + 20);
-    for (let i = 0; i <= 14; i += 2) {
-      const tx = x + (i / 14) * w;
-      ctx.strokeStyle = 'rgba(2,6,23,0.35)';
-      ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(tx, y + h); ctx.lineTo(tx, y + h + 4); ctx.stroke();
-      ctx.fillStyle = 'rgba(199,212,234,0.75)';
-      ctx.fillText(String(i), tx, y + h + 14);
-    }
+  function excess(pH) { return Math.pow(10, -pH) - Math.pow(10, pH - 14); }
+  function pHof(c) { const h = (c + Math.sqrt(c * c + 4 * KW)) / 2; return -Math.log10(h); }
+  function wash() { SOL.forEach((s, i) => { state[i].c = excess(s.pH); state[i].ind = null; rack.tubes[i].paper = null; rack.setColor(i, s.base, 0.55, true); }); k.animate(true); }
+  function tubeColor(i) {
+    const st = state[i], p = pHof(st.c);
+    if (!st.ind) return [SOL[i].base, 0.55];
+    const I = INDICATORS[st.ind], a = I.alpha(p);
+    return a < 0.05 ? [SOL[i].base, 0.55] : [I.color(p), Math.max(0.5, a)];
+  }
+  function renderTable() {
+    const head = '<div class="k2-tr k2-th"><span>Solution</span><span>Red lit.</span><span>Blue lit.</span><span>Phen.</span><span>M.O.</span><span>pH</span></div>';
+    table.innerHTML = head + SOL.map((s, i) => `<div class="k2-tr"><span>${s.short}</span>${COLS.map((c) => { const r = state[i].res[c]; return `<span>${r ? `<i style="display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;background:${r.color};box-shadow:inset 0 0 0 1px rgba(0,0,0,.15)"></i>${c === 'universal' ? ' ' + fmt(r.pH, 0) : ''}` : '·'}</span>`; }).join('')}</div>`).join('');
   }
 
-  function draw(ctx, w, h) {
-    ctx.clearRect(0, 0, w, h);
-
-    // bench
-    ctx.fillStyle = 'rgba(148,163,184,0.12)';
-    ctx.fillRect(0, h * 0.78, w, h * 0.22);
-
-    // test tube
-    const tubeW = Math.min(110, w * 0.2);
-    const tubeH = h * 0.6;
-    const tx = w * 0.2;
-    const ty = h * 0.14;
-    ctx.strokeStyle = 'rgba(232,238,251,0.8)';
-    ctx.lineWidth = 2.4;
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(tx, ty, tubeW, tubeH, [6, 6, tubeW / 2, tubeW / 2]);
-    else ctx.rect(tx, ty, tubeW, tubeH);
-    ctx.stroke();
-    ctx.save();
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(tx, ty, tubeW, tubeH, [6, 6, tubeW / 2, tubeW / 2]);
-    else ctx.rect(tx, ty, tubeW, tubeH);
-    ctx.clip();
-    const liquidH = tubeH * 0.72;
-    const ly = ty + tubeH - liquidH;
-    const base = indicator.color(solution);
-    const mixed = drops === 0 && !isLitmus() ? NEUTRAL : base;
-    const alpha = drops === 0 ? 0.35 : Math.min(1, 0.35 + drops * 0.11);
-    ctx.globalAlpha = alpha;
-    ctx.fillStyle = solution.kind === 'neutral' && drops === 0 ? 'rgba(167,199,231,0.75)' : mixed;
-    ctx.fillRect(tx, ly, tubeW, liquidH);
-    ctx.globalAlpha = 1;
-    ctx.restore();
-    ctx.fillStyle = 'rgba(232,238,251,0.9)';
-    ctx.font = '700 11px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(solution.name, tx + tubeW / 2, ty - 14);
-
-    // drops
-    if (drops === 0) {
-      ctx.fillStyle = 'rgba(199,212,234,0.7)';
-      ctx.font = '600 10px Poppins, sans-serif';
-      ctx.fillText('no indicator yet', tx + tubeW / 2, ty + tubeH + 20);
+  function apply(item, i) {
+    const st = state[i], t = rack.tubes[i], p = pHof(st.c);
+    const name = SOL[i].name;
+    if (item.id === 'red' || item.id === 'blue') {
+      t.paper = item.id === 'red' ? '#e8596e' : '#4c6ef5';
+      t.paperC = litmusPaper(item.id, p);
+      t.glow.v = 8;
+      const changed = t.paperC !== t.paper;
+      st.res[item.id] = { color: t.paperC };
+      verdict.set(`${item.label} in ${name}: ${changed ? (item.id === 'red' ? 'turns blue → base' : 'turns red → acid') : 'no change'}`);
+    } else if (item.id === 'naoh' || item.id === 'hcl') {
+      st.c += (item.id === 'naoh' ? -1 : 1) * 0.1 * 0.05 / 5 * 4;
+      const np = pHof(st.c);
+      verdict.set(`${item.id === 'naoh' ? 'Base' : 'Acid'} added to ${name}: pH is now ${fmt(np, 1)}${Math.abs(np - 7) < 0.6 ? ' — neutral! acid + base → salt + water' : ''}`);
+      if (t.paper) t.paperC = litmusPaper(t.paper === '#e8596e' ? 'red' : 'blue', np);
     } else {
-      for (let i = 0; i < drops; i++) {
-        ctx.fillStyle = '#f8fafc';
-        ctx.beginPath();
-        ctx.arc(tx + tubeW / 2 + (i - (drops - 1) / 2) * 12, ty - 34, 3.6, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      st.ind = item.id;
+      st.res[item.id] = { color: INDICATORS[item.id].alpha(p) < 0.05 ? '#ffffff' : INDICATORS[item.id].color(p), pH: p };
+      verdict.set(`${INDICATORS[item.id].label} in ${name}: ${describe(item.id, p)}`);
     }
-
-    // pH scale
-    acidBaseBar(ctx, w * 0.44, h * 0.26, w * 0.5, 16, solution.ph);
-
-    // result card
-    const kindColor = solution.kind === 'acid' ? '#fb7185' : solution.kind === 'base' ? '#60a5fa' : '#4ade80';
-    ctx.fillStyle = 'rgba(8,16,30,0.8)';
-    ctx.strokeStyle = kindColor;
-    ctx.lineWidth = 1.4;
-    const cx = w * 0.44; const cy = h * 0.5; const cw = w * 0.5; const ch = h * 0.28;
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(cx, cy, cw, ch, 8); else ctx.rect(cx, cy, cw, ch);
-    ctx.fill(); ctx.stroke();
-    ctx.textAlign = 'left';
-    ctx.fillStyle = kindColor;
-    ctx.font = '700 12px Poppins, sans-serif';
-    ctx.fillText(solution.kind === 'acid' ? 'ACIDIC solution' : solution.kind === 'base' ? 'BASIC solution' : 'NEUTRAL solution', cx + 14, cy + 24);
-    ctx.fillStyle = 'rgba(232,238,251,0.9)';
-    ctx.font = '600 10.5px Poppins, sans-serif';
-    const note = drops === 0 ? 'Add a few drops of the indicator to see the change.' : indicator.note(solution);
-    wrapText(ctx, note, cx + 14, cy + 46, cw - 28, 15);
-    ctx.fillStyle = 'rgba(199,212,234,0.75)';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.fillText(`Colour now: ${drops === 0 ? 'unchanged' : describe(base)}`, cx + 14, cy + ch - 16);
-
-    readPH.set(solution.ph.toFixed(1));
-    readKind.set(solution.kind === 'acid' ? 'acidic' : solution.kind === 'base' ? 'basic' : 'neutral');
-    readResult.set(drops === 0 ? 'add the indicator' : describe(base));
-    info.set(`${solution.name} has pH ${solution.ph.toFixed(1)}, so it is ${solution.kind === 'acid' ? 'acidic' : solution.kind === 'base' ? 'basic' : 'neutral'}. ${drops === 0 ? '' : indicator.note(solution)}`);
-    void solSel; void indSel;
+    const [c, a] = tubeColor(i); rack.setColor(i, c, a);
+    renderTable();
+    badge.set(verdict.el.querySelector('.ix-readout-value').textContent);
+    k.animate(true);
+  }
+  function describe(id, p) {
+    if (id === 'phenolphthalein') return p > 8.2 ? 'pink → base' : 'colourless → acid or neutral';
+    if (id === 'methylorange') return p < 3.1 ? 'red → acid' : p > 4.4 ? 'yellow → neutral or base' : 'orange';
+    return `pH ${fmt(p, 0)} → ${p < 6.5 ? 'acid' : p > 7.5 ? 'base' : 'neutral'}`;
   }
 
-  function describe(color) {
-    if (typeof color !== 'string' || color.startsWith('rgba')) return 'colourless';
-    const map = {
-      '#e0454a': 'red', '#2f66c9': 'blue', '#f0569f': 'pink', '#e8623c': 'red-orange',
-      '#f2c53d': 'yellow', '#e8a33c': 'orange', '#d7263d': 'red', '#4caf50': 'green',
-      '#2196a6': 'blue-green', '#5b2fa8': 'violet',
-    };
-    return map[color] || 'changed';
+  const shelf = createShelf(k, REAG, {
+    target: () => ({ x: -999, y: -999, w: 0 }), onPour: () => {},
+    onDrop: (it, x, y) => { const i = rack.tubeAt(x, y + 30); if (i >= 0) apply(it, i); },
+  });
+
+  let stripY = 0, stripX = 0, stripW = 0;
+  k.onResize((w, h) => {
+    shelf.layout(6, 14, w - 12, k.small ? 70 : 86);
+    rack.layout(k.small ? 4 : w * 0.04, k.small ? 110 : 130, k.small ? w - 8 : w * 0.92, k.small ? h - 200 : h - 250);
+    stripX = k.small ? 20 : w * 0.15; stripW = k.small ? w - 40 : w * 0.7; stripY = h - (k.small ? 46 : 56);
+  });
+
+  k.frame((ctx, dt, w, h) => {
+    const m1 = shelf.step(dt), m2 = rack.step(dt);
+    background(k, ctx, w, h);
+    ctx.fillStyle = '#c9a77a'; ctx.fillRect(0, shelf.slots[0].y, w, 6);
+    rack.draw(ctx);
+    for (let i = 0; i < SOL.length; i++) { rack.tubes[i].label = SOL[i].short; rack.tubes[i].sub = state[i].ind === 'universal' ? `pH ${fmt(pHof(state[i].c), 0)}` : ''; }
+    shelf.draw(ctx);
+    const held = shelf.held;
+    if (held) { const i = rack.tubeAt(k.pointer.x, k.pointer.y + 30); if (i >= 0) { const t = rack.tubes[i]; ctx.strokeStyle = withAlpha(T.blue, 0.6); ctx.lineWidth = 2; ctx.setLineDash([4, 4]); ctx.strokeRect(t.x - rack.gap / 2 + 4, t.y - rack.h - 20, rack.gap - 8, rack.h + 50); ctx.setLineDash([]); } }
+    drawPHStrip(ctx, stripX, stripY, stripW, 12, null, !k.small);
+    text(ctx, 'acid', stripX, stripY + 34, T.red, 10, 700); text(ctx, 'neutral', stripX + stripW / 2, stripY + 34, T.green, 10, 700, 'center'); text(ctx, 'base', stripX + stripW, stripY + 34, T.purple, 10, 700, 'right');
+    k.animate(m1 || m2);
+  });
+
+  wash(); renderTable();
+  k.debug = { reagent: (j) => [shelf.slots[j].x, shelf.slots[j].y - 20], tube: (i) => [rack.tubes[i].x, rack.tubes[i].y - rack.h * 0.6], apply: (j, i) => apply(REAG[j], i), pH: (i) => pHof(state[i].c) };
+  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
+}
+
+function drawReagent(ctx, it) {
+  if (it.id === 'red' || it.id === 'blue') {
+    ctx.fillStyle = it.color; ctx.fillRect(-5, -56, 10, 52); ctx.strokeStyle = 'rgba(0,0,0,0.15)'; ctx.strokeRect(-5, -56, 10, 52);
+    return;
   }
-
-  function wrapText(ctx, text, x, y, maxW, lh) {
-    const words = String(text).split(' ');
-    let line = '';
-    let ly = y;
-    words.forEach((word) => {
-      const test = line ? `${line} ${word}` : word;
-      if (ctx.measureText(test).width > maxW && line) {
-        ctx.fillText(line, x, ly);
-        line = word;
-        ly += lh;
-      } else {
-        line = test;
-      }
-    });
-    if (line) ctx.fillText(line, x, ly);
-  }
-
-  function update() { sim.renderOnce(); }
-  // the canvas helper calls (ctx, dt, width, height); draw wants (ctx, width, height)
-  sim.setUpdate((ctx, dt, w, h) => draw(ctx, w, h));
-  sim.onResize(() => sim.renderOnce());
-  sim.start();
-  update();
-
-  return {
-    dispose() { sim.dispose(); hud.dispose(); panel.dispose(); },
-  };
+  ctx.fillStyle = 'rgba(219,234,254,0.85)'; ctx.strokeStyle = 'rgba(100,130,170,0.8)'; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.roundRect(-12, -36, 24, 34, 4); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = withAlpha(it.color, it.id === 'phenolphthalein' || it.id === 'naoh' || it.id === 'hcl' ? 0.5 : 0.85); ctx.fillRect(-10, -20, 20, 16);
+  ctx.fillStyle = '#334155'; ctx.beginPath(); ctx.roundRect(-6, -54, 12, 18, 5); ctx.fill();
+  ctx.fillStyle = 'rgba(220,235,250,0.95)'; ctx.fillRect(-2, -66, 4, 13);
+  if (it.id === 'universal') { const g = ['#e8432e', '#f2c12e', '#4caf50', '#2f6fbf', '#5b3aa8']; for (let i = 0; i < 5; i++) { ctx.fillStyle = g[i]; ctx.fillRect(-10 + i * 4, -20, 4, 16); } }
 }

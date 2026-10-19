@@ -154,7 +154,7 @@ export function createShelf(k, items, opts) {
       }
     } else if (it.draw) it.draw(ctx, it);
     ctx.restore();
-    if (held !== i) text(ctx, it.label, x, y + 16, T.ink2, 10, 600, 'center');
+    if (held !== i) text(ctx, it.label, x, y + 16, T.ink2, k.small ? 8.5 : 10, 600, 'center');
   }
   return { layout, step, draw, get held() { return held >= 0 ? items[held] : null; }, get pouring() { return pouring; }, slots, handles, tipOf };
 }
