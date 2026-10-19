@@ -310,7 +310,7 @@ svg{display:block}
 
 /* ---------- responsive ---------- */
 @media (max-width:980px){
-  .lp-links,.lp-quiet{display:none}
+  .lp-links{display:none}
   .lp-nav-end{margin-left:auto}
   .lp-burger{display:block}
   .lp-books-in,.lp-forum-in,.lp-app-in,.lp-faq-in,.lp-foot-in{grid-template-columns:1fr}
@@ -364,8 +364,8 @@ svg{display:block}
 
 /* ---------- pixel Neby on the wordmark ----------
    Neby stands on the cap of the B, riding its parallax; sized in em so it scales with the word. */
-.lp-word span:nth-child(3){position:relative}
-.lp-word .lp-neby{position:absolute;left:50%;bottom:.705em;width:.4em;height:.4em;margin-left:-.2em;z-index:3;cursor:pointer;
+.lp-word span:nth-child(4){position:relative}
+.lp-word .lp-neby{position:absolute;left:50%;bottom:.6em;width:.27em;height:.27em;margin-left:-.135em;z-index:3;cursor:pointer;
   filter:drop-shadow(0 .012em 0 rgba(10,22,54,.18));transform-origin:50% 100%;transition:transform .45s cubic-bezier(.3,1.7,.45,1)}
 .lp-word .lp-neby:hover{transform:translateY(-.02em) scale(1.04)}
 .lp-word .lp-neby::after{content:"";position:absolute;left:18%;right:18%;bottom:-.01em;height:.03em;border-radius:50%;background:rgba(10,22,54,.18);z-index:-1}
@@ -381,3 +381,14 @@ svg{display:block}
 .lp-nav.is-menu .lp-burger:hover{background:rgba(255,255,255,.08)}
 .lp-nav.is-menu .lp-peek,.lp-nav.is-menu .lp-btn-sm,.lp-nav.is-menu .lp-quiet{opacity:0;pointer-events:none}
 .lp-nav .lp-brand,.lp-nav .lp-burger i,.lp-nav .lp-peek{transition:color .4s,background-color .4s,opacity .3s,transform .45s cubic-bezier(.3,1.7,.45,1)}
+
+/* Sign in: a pixel key in outline, with a pixel door-arrow glyph */
+.lp-btn-ghost{--face:rgba(255,255,255,.55);--edge:rgba(10,22,54,.22);--fg:var(--ink);--hi:rgba(255,255,255,.95)}
+.lp-btn-ghost>span{box-shadow:inset 0 0 0 2px rgba(10,22,54,.14),inset 0 4px 0 var(--hi)}
+.lp-signin>span::after{-webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h4v1H3zM6 1h1v5H6zM3 6h4v1H3zM0 3h4v1H0zM2 1h1v1H2zM3 2h1v1H3zM3 4h1v1H3zM2 5h1v1H2z'/%3E%3C/svg%3E");mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 7 7' shape-rendering='crispEdges'%3E%3Cpath d='M3 0h4v1H3zM6 1h1v5H6zM3 6h4v1H3zM0 3h4v1H0zM2 1h1v1H2zM3 2h1v1H3zM3 4h1v1H3zM2 5h1v1H2z'/%3E%3C/svg%3E")}
+@media (hover:hover){.lp-btn-ghost:hover>span{background:#fff}}
+.lp-menu a.lp-menu-signin{margin-top:18px;align-self:flex-start;font-size:clamp(22px,6vw,30px);padding:12px 22px;background:var(--paper);color:var(--ink);
+  clip-path:polygon(8px 0,calc(100% - 8px) 0,calc(100% - 8px) 4px,calc(100% - 4px) 4px,calc(100% - 4px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 4px) calc(100% - 8px),calc(100% - 4px) calc(100% - 4px),calc(100% - 8px) calc(100% - 4px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 4px),4px calc(100% - 4px),4px calc(100% - 8px),0 calc(100% - 8px),0 8px,4px 8px,4px 4px,8px 4px);box-shadow:inset 0 -5px 0 var(--sky)}
+.lp-menu a.lp-menu-signin::before{display:none}
+.lp-menu a.lp-menu-signin:hover{color:var(--blue)}
+@media (max-width:980px){.lp-nav .lp-signin{display:none}}
