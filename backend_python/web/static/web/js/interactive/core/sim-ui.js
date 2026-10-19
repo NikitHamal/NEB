@@ -59,9 +59,12 @@ export function createPanel(stage, opts = {}) {
       input.max = max;
       input.step = step;
       input.value = value;
+      const fill = () => input.style.setProperty('--k2-fill', `${((parseFloat(input.value) - min) / ((max - min) || 1)) * 100}%`);
+      fill();
       input.addEventListener('input', () => {
         const v = parseFloat(input.value);
         val.textContent = fmt(v);
+        fill();
         if (onChange) onChange(v);
       });
       wrap.appendChild(top);
@@ -70,8 +73,52 @@ export function createPanel(stage, opts = {}) {
       return {
         el: wrap,
         get: () => parseFloat(input.value),
-        set: (v) => { input.value = v; val.textContent = fmt(v); },
+        set: (v) => { input.value = v; val.textContent = fmt(v); fill(); },
+        input,
       };
+    },
+
+    chips({ label, options, value, onChange }) {
+      const wrap = el('div', 'ix-ctrl-row');
+      if (label) wrap.appendChild(el('span', 'ix-ctrl-label', label));
+      const row = el('div', 'k2-chips');
+      let current = value;
+      const btns = options.map((opt) => {
+        const o = typeof opt === 'object' ? opt : { value: opt, label: String(opt) };
+        const b = el('button', 'k2-chip');
+        b.type = 'button';
+        if (o.color) { const dot = el('i'); dot.style.setProperty('--c', o.color); b.appendChild(dot); }
+        b.appendChild(document.createTextNode(o.label));
+        b.dataset.value = o.value;
+        b.addEventListener('click', () => { api2.set(o.value); if (onChange) onChange(o.value); });
+        row.appendChild(b);
+        return b;
+      });
+      wrap.appendChild(row);
+      body.appendChild(wrap);
+      const api2 = {
+        el: wrap,
+        get: () => current,
+        set: (v) => { current = v; btns.forEach((b) => b.classList.toggle('is-on', b.dataset.value === String(v))); },
+      };
+      api2.set(value);
+      return api2;
+    },
+
+    stats(items) {
+      const grid = el('div', 'k2-stat');
+      const out = {};
+      items.forEach(({ key, label, value = '—' }) => {
+        const cell = el('div');
+        cell.appendChild(el('span', '', label));
+        const b = el('b', '', String(value));
+        cell.appendChild(b);
+        grid.appendChild(cell);
+        let last = String(value);
+        out[key] = { el: cell, set: (v) => { const s = String(v); if (s !== last) { last = s; b.textContent = s; } } };
+      });
+      body.appendChild(grid);
+      return out;
     },
 
     toggle({ label, value = false, onChange }) {
