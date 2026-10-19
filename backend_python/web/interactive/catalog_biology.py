@@ -24,7 +24,7 @@ COURSES = [
                 'minutes': 14,
                 'sim': 'biology/human-body',
                 'sim_type': '3d',
-                'summary': 'Peel back the layers of a 3D human body — skin, muscles, skeleton, organs — and tap each part to discover what it does for you every second of the day.',
+                'summary': 'A full-size anatomical human: glass skin over hundreds of real muscles, 206 bones, and organs that beat and breathe. Peel the layers, pick a body system and tap any part to learn what it does.',
                 'objectives': [
                     'Name the major body layers: skin, muscle, skeleton, organs',
                     'Locate the heart, lungs, brain, liver and stomach in 3D',
