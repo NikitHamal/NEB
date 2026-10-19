@@ -78,3 +78,4 @@
 .ix-k2-dark .k2-table { border-color: rgba(255,255,255,.1); }
 .ix-k2-dark .k2-tr { color: #e8eefb; border-top-color: rgba(255,255,255,.06); }
 .ix-k2-dark .k2-th { background: rgba(255,255,255,.05); color: #aab8d3; }
+.k2-first6 .k2-tr { grid-template-columns: 1.7fr repeat(5, minmax(0, 1fr)); gap: 4px; padding: 6px 8px; }
