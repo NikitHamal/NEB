@@ -47,6 +47,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, Rectangle
 
 import assets
+import i18n
 import figrun
 
 CACHE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "figures", "_photo")
@@ -220,5 +221,5 @@ def render(asset_id: str, body: str, width_pct: float = 88.0) -> str | None:
 def key_html(keys) -> str:
     if not keys:
         return ""
-    items = "".join(f'<span class="pk"><i>{n}</i>{t}</span>' for n, t in keys)
+    items = "".join(f'<span class="pk"><i>{i18n.num_str(n)}</i>{t}</span>' for n, t in keys)
     return f'<div class="photokey">{items}</div>'

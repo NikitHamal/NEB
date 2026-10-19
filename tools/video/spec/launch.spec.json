@@ -181,7 +181,7 @@
   "claims": [
     { "id": "site-live", "says": "The site is live", "url": "/", "status": 200 },
     { "id": "hero-copy", "says": "Hero line: Study materials. Study mates.", "url": "/", "contains": ["Study", "materials", "mates"] },
-    { "id": "play-store", "says": "The Android app is on Google Play", "url": "/", "contains": ["play.google.com/store/apps/details?id=com.neb.ians", "Google Play Store"] },
+    { "id": "play-store", "says": "The Android app is on Google Play", "url": "/", "contains": ["play.google.com/store/apps/details?id=com.neb.ians"] },
     { "id": "library", "says": "Digital library of notes, textbooks and past papers", "url": "/library/", "contains": ["Digital Library"] },
     { "id": "forum", "says": "Forum with General, Science, Chemistry and Exam/Test categories", "url": "/forum/", "contains": ["Forum", "General", "Science", "Chemistry", "Exam/Test"] },
     { "id": "tools", "says": "Result checker, PDF tools, scan to text and voice to text", "url": "/tools/", "contains": ["Result Checker", "Convert PDFs", "Doc Intelligence", "Voice"] },

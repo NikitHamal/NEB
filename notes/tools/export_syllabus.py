@@ -63,6 +63,16 @@ def export():
             examples = []
             for match in re.finditer(r'^::: example\s*([^\n]*)\n(.*?)^:::', body, re.M | re.S):
                 examples.append({'question': match[1].strip(), 'answer': clean(match[2])})
+            if not examples:
+                for match in re.finditer(r'^::: note[ \t]*([^\n]*)\n(.*?)^:::', body, re.M | re.S):
+                    if re.search(r'model answers?|नमुना उत्तर|^उत्तर$', match[1].strip(), re.I):
+                        examples.append({'question': match[1].strip(), 'answer': clean(match[2])})
+            if not examples:
+                practice = section(body, r'^Practice questions$')
+                for match in re.finditer(r'^\*\*([^\n]+)\*\*[ \t]*\n(.*?)(?=^\*\*[^\n]+\*\*|^### |\Z)', practice, re.M | re.S):
+                    answer = re.sub(r'^\[\d+\][ \t]*\n', '', match[2].strip())
+                    if answer:
+                        examples.append({'question': match[1].strip(), 'answer': clean(answer)})
             labels = ('विषयवस्तु', 'पाठको सार', 'अध्ययन विधि', 'आफैँ जाँच्नुहोस्') if nepali else ('Topics to cover', 'Chapter summary', 'Study route', 'Check your understanding')
             steps = ('पहिले विषयवस्तु पढ्नुहोस् र नबुझेका शब्द छुट्याउनुहोस्।\n\nपुस्तक नहेरी मुख्य विचार आफ्नै शब्दमा लेख्नुहोस्।\n\nहल गरिएको उदाहरण आफैँ हल गरेर तुलना गर्नुहोस्।\n\nअभ्यास गर्नुहोस्; गल्ती सच्याएपछि मात्र पुनरावलोकन पूरा भएको चिनो लगाउनुहोस्।' if nepali else 'Read the topics and identify unfamiliar terms.\n\nClose the book and explain the key ideas in your own words.\n\nAttempt a worked example before revealing its solution.\n\nComplete the chapter practice, correct mistakes, then mark the chapter revised.')
             guide = f"## {labels[0]}\n\n" + '\n'.join('- '+x for x in topics)

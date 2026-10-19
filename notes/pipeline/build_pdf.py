@@ -149,6 +149,11 @@ def credits_html(asset_ids):
             + (f' (<code>{esc(lurl)}</code>)' if lurl else "")
             + f', {i18n.CUR["via"]} {esc(r.get("source", i18n.CUR["web"]))}.</span><br>'
             f'<code>{esc(r.get("page", ""))}</code></div>')
+    if i18n.CUR['digits']:
+        import nepali_credits
+        translated = nepali_credits.rows(asset_ids, assets.load())
+        if translated is not None:
+            rows = [translated]
     if not rows:
         return ""
     L = i18n.CUR
