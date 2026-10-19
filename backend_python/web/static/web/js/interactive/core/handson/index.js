@@ -11,6 +11,7 @@ const PRACTICALS = {
   'anion-tests': () => import('./practicals/anion-tests.js'),
   'redox-titration-kmno4': () => import('./practicals/titration.js'),
   'resonance-air-column': () => import('./practicals/resonance.js'),
+  'ohms-law-resistivity': () => import('./practicals/ohms-law.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 

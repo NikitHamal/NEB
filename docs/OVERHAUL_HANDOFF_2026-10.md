@@ -49,9 +49,9 @@ in `/workspace/tools/ghpush.py` failed for everyone. I added a small, backward-c
 NEB physics/chemistry course still runs on the slider labs (`lab3d-*.js`). `opts.freeLab` skips
 the hands-on version if a free mode is ever wanted.
 
-**Done (9 slugs):** `acid-base-titration`, `redox-titration-kmno4` (both `practicals/titration.js`,
+**Done (10 slugs):** `acid-base-titration`, `redox-titration-kmno4` (both `practicals/titration.js`,
 mode chosen by slug), `flame-tests`, `simple-pendulum-g`, `vernier-calipers`, `screw-gauge`,
-`meter-bridge`, `anion-tests`, `resonance-air-column`.
+`meter-bridge`, `anion-tests`, `resonance-air-column`, `ohms-law-resistivity`.
 
 **Shared modules.**
 - `glass.js`: conical flask (liquid re-turned from the flask's own inner profile, so level follows
@@ -62,8 +62,8 @@ mode chosen by slug), `flame-tests`, `simple-pendulum-g`, `vernier-calipers`, `s
 - `flame.js` + `burner.js`: shader flames; flame-test colours from emission lines → RGB (cobalt
   glass filters per line; `drawSpectrum` for the hand spectroscope). `wet-tests.js`: anion test
   rules (order of addition matters).
-- `circuit.js`: binding posts, sagging leads, centre-zero galvanometer, plug resistance box, plug
-  key, cell, and a Gaussian-elimination `solve()` for nodal analysis.
+- `circuit.js`: binding posts, sagging leads, centre-zero galvanometer, `dialMeter` (ammeter /
+  voltmeter), slide-wire `rheostat`, plug resistance box, plug key, cell, and a Gaussian-elimination `solve()` for nodal analysis.
 - `caliper.js`, `micrometer.js`: true-size instruments with pixel-accurate scales (the thimble
   texture compensates its anisotropic pixels; numbers count down past the datum).
 - `hud.js` (action bar, chips pinned to 3D points, `hits()`/`screenDist()` with touch slack),
@@ -78,7 +78,7 @@ practical sets `ctx.debug` for tests.
 the web static dir). `drive.py sim lesson outprefix "n|js:...|w2000|sNAME"` skips to step n,
 runs JS, waits, screenshots (SwiftShader, slow). Kill other memory hogs before Gradle builds.
 
-**Next practicals, in order of value.** Ohm's law (circuit.js + rheostat), sonometer (WebAudio like
+**Next practicals, in order of value.** Sonometer (WebAudio like
 resonance.js), potentiometer, specific heat (thermometer + stopwatch), focal length (optics bench:
 move screen to sharpen), prism (spectrometer), separation, gas preparation, electrolysis
 (Faraday: weigh cathode), pH, functional groups (reuse wet-tests pattern), heat of
