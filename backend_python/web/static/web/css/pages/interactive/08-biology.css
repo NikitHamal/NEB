@@ -292,7 +292,7 @@
 .bh-sheet.on { opacity: 1; transform: none; pointer-events: auto; }
 .bh-sheet-title { display: block; font-size: .78rem; letter-spacing: .02em; color: #166534; margin-bottom: 6px; }
 .bh-sheet.wide { width: min(520px, 56%); }
-.bh-sheet.left { right: auto; left: 12px; top: 120px; }
+.bh-sheet.left { right: auto; left: 12px; top: auto; bottom: 86px; width: min(300px, 36%); }
 .bh-tab { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
 .bh-tab th, .bh-tab td { border: 1px solid #cbd5e1; padding: 3px 5px; text-align: center; }
 .bh-tab th { background: #f1f5f9; font-size: .72rem; }
@@ -318,3 +318,4 @@
 }
 .bh-stage .ho-graph.ho-side.bh-under-clock { top: 74px; }
 @media (max-width: 640px) { .bh-stage .ho-graph.ho-side.bh-under-clock { top: auto; bottom: 132px; } }
+.bh-card .bh-tally { margin-top: 5px; } .bh-card .bh-tally span { background: rgba(255,255,255,.14); color: #f8fafc; }
