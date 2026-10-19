@@ -42,18 +42,19 @@ export function createGraph(hud, { title, xLabel, yLabel }) {
   hud.root.appendChild(box);
   const cv = box.querySelector('canvas'); const g = cv.getContext('2d');
   return {
+    el: box,
     show(on) { box.classList.toggle('on', on); },
-    draw(pts, fit, { xMax, yMax } = {}) {
+    draw(pts, fit, { xMax, yMax, yMin = 0 } = {}) {
       const W = cv.width; const H = cv.height; const L = 62; const B = 48; const R = 18; const T = 16;
       const xm = xMax || Math.max(...pts.map((p) => p[0])) * 1.15; const ym = yMax || Math.max(...pts.map((p) => p[1])) * 1.15;
-      const X = (x) => L + (W - L - R) * x / xm; const Y = (y) => H - B - (H - B - T) * y / ym;
+      const X = (x) => L + (W - L - R) * x / xm; const Y = (y) => H - B - (H - B - T) * (y - yMin) / (ym - yMin);
       g.fillStyle = '#fffef8'; g.fillRect(0, 0, W, H);
       g.strokeStyle = 'rgba(14,116,144,.12)'; g.lineWidth = 1;
-      for (let i = 0; i <= 10; i++) { g.beginPath(); g.moveTo(X(xm * i / 10), T); g.lineTo(X(xm * i / 10), H - B); g.stroke(); g.beginPath(); g.moveTo(L, Y(ym * i / 10)); g.lineTo(W - R, Y(ym * i / 10)); g.stroke(); }
+      for (let i = 0; i <= 10; i++) { g.beginPath(); g.moveTo(X(xm * i / 10), T); g.lineTo(X(xm * i / 10), H - B); g.stroke(); g.beginPath(); g.moveTo(L, Y(yMin + (ym - yMin) * i / 10)); g.lineTo(W - R, Y(yMin + (ym - yMin) * i / 10)); g.stroke(); }
       g.strokeStyle = '#0f172a'; g.lineWidth = 1.6; g.beginPath(); g.moveTo(L, T); g.lineTo(L, H - B); g.lineTo(W - R, H - B); g.stroke();
       g.fillStyle = '#334155'; g.font = '600 13px system-ui, sans-serif'; g.textAlign = 'center';
       for (let i = 0; i <= 5; i++) { g.fillText((xm * i / 5).toFixed(xm < 10 ? 1 : 0), X(xm * i / 5), H - B + 18); }
-      g.textAlign = 'right'; for (let i = 0; i <= 5; i++) g.fillText((ym * i / 5).toFixed(ym < 10 ? 2 : 0), L - 8, Y(ym * i / 5) + 4);
+      g.textAlign = 'right'; for (let i = 0; i <= 5; i++) { const v = yMin + (ym - yMin) * i / 5; g.fillText(v.toFixed(ym - yMin < 10 ? (ym < 10 ? 2 : 1) : 0), L - 8, Y(v) + 4); }
       g.textAlign = 'center'; g.font = '700 14px system-ui, sans-serif'; g.fillText(xLabel, (L + W - R) / 2, H - 8);
       g.save(); g.translate(16, (T + H - B) / 2); g.rotate(-Math.PI / 2); g.fillText(yLabel, 0, 0); g.restore();
       if (fit) { g.strokeStyle = '#2563eb'; g.lineWidth = 2; g.beginPath(); g.moveTo(X(0), Y(fit.a)); g.lineTo(X(xm), Y(fit.a + fit.b * xm)); g.stroke(); }
