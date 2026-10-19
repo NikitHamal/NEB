@@ -66,7 +66,15 @@ export function create(ctx) {
   }
   let L = 1;
   const bx = (i) => BOXES_X[i] * L; const bz = () => -0.32 + (BOX_Z + 0.32) * L;
-  function boxAt(x, z) { for (let i = 0; i < fam.boxes.length; i++) if (Math.abs(x - bx(i)) < BOX_W * L / 2 && Math.abs(z - bz()) < BOX_D * L / 2) return fam.boxes[i][0]; return null; }
+  /** The box under a drop point, forgiving: anywhere within half a box of its edge counts. */
+  function boxAt(x, z) {
+    let best = null; let bd = Infinity;
+    for (let i = 0; i < fam.boxes.length; i++) {
+      const dx = Math.abs(x - bx(i)) / (BOX_W * L / 2); const dz = Math.abs(z - bz()) / (BOX_D * L / 2);
+      const d = Math.max(dx, dz); if (d < 1.5 && d < bd) { bd = d; best = fam.boxes[i][0]; }
+    }
+    return best;
+  }
   function boxKeyFor(p) { return p.carries && fam.boxes.find((b) => b[0] === p.whorl) ? p.whorl : p.whorl; }
 
   // ---- the forceps work: tug, detach, carry, lay down ---------------------------------------
@@ -92,9 +100,9 @@ export function create(ctx) {
         const { p } = held;
         if (held.mode === 'tug') {
           const d = Math.hypot(ptr.x - held.sx, ptr.y - held.sy);
-          const k = Math.min(1, d / 34);
+          const k = Math.min(1, d / 20);
           p.obj.position.copy(p.home); p.obj.position.y += k * 0.012 * fam.scale; p.obj.scale.setScalar(1 + k * 0.03);
-          if (d > 34) {
+          if (d > 20) {
             held.mode = 'carry'; sfx.play('tear'); world.attach(p.obj); p.obj.scale.setScalar(1);
             p.obj.getWorldPosition(tmp); fx.burst(tmp, 0xd9f99d, 4, 0.1, ctx.BENCH_Y + 0.01);
           }
@@ -104,8 +112,17 @@ export function create(ctx) {
       },
       up(ptr) {
         if (!held) return;
-        const { p, mode } = held; held = null; tools.press(0); tools.action(0);
-        if (mode === 'tug') { anim.add(0.35, (k) => { p.obj.position.lerpVectors(p.obj.position.clone(), p.home, k); p.obj.scale.setScalar(1); }, { ease: ease.outBack }); return; }
+        const held0 = held; const { p, mode } = held; held = null; tools.press(0); tools.action(0);
+        if (mode === 'tug') {
+          // a quick tap plucks the part and lays it in its box; a short half-tug springs back
+          if (Math.hypot(ptr.x - held0.sx, ptr.y - held0.sy) < 8) {
+            sfx.play('tear'); world.attach(p.obj); p.obj.scale.setScalar(1);
+            p.obj.getWorldPosition(tmp); fx.burst(tmp, 0xd9f99d, 4, 0.1, ctx.BENCH_Y + 0.01);
+            layInBox(p, boxKeyFor(p), onPlaced); return;
+          }
+          const back = p.obj.position.clone();
+          anim.add(0.35, (k) => { p.obj.position.lerpVectors(back, p.home, k); p.obj.scale.setScalar(1); }, { ease: ease.outBack }); return;
+        }
         p.target = null;
         input.planePoint(ctx.BENCH_Y, pp); world.worldToLocal(pp);
         const key = boxAt(pp.x, pp.z);
@@ -184,7 +201,7 @@ export function create(ctx) {
     });
     return s;
   }
-  const stepOuter = whorlStep('Remove the outermost whorl', 'With the <b>forceps</b>, pull away the outermost whorl — the sepals (or the outer tepals) — and lay them in the first box.', ['calyx', 'outer'], () => (fam.family === 'Liliaceae' ? 'Three outer tepals, free from one another and coloured like petals: the perianth.' : `The calyx: five sepals fused into one ${fam.family === 'Solanaceae' ? 'long, five-angled tube' : 'cup with five teeth'} — gamosepalous.`));
+  const stepOuter = whorlStep('Remove the outermost whorl', 'With the <b>forceps</b>, pull away the outermost whorl — the sepals (or the outer tepals) — and lay them in the first box. (A quick tap plucks a part and lays it in its box for you.)', ['calyx', 'outer'], () => (fam.family === 'Liliaceae' ? 'Three outer tepals, free from one another and coloured like petals: the perianth.' : `The calyx: five sepals fused into one ${fam.family === 'Solanaceae' ? 'long, five-angled tube' : 'cup with five teeth'} — gamosepalous.`));
   const stepSecond = whorlStep('Remove the second whorl', 'Now the petals (or inner tepals). Pull each one away and lay it in the second box.', ['corolla', 'inner'], () => (fam.family === 'Fabaceae' ? 'Papilionaceous corolla: one standard, two wings and a keel of two fused petals; the standard overlapped the wings (vexillary aestivation).' : fam.family === 'Liliaceae' ? 'Three inner tepals, alternating with the outer three: perianth in two whorls of three.' : 'A funnel of five fused, pleated petals: gamopetalous.'));
   const stepStamens = whorlStep('Remove the stamens', 'Take out the stamens and lay them in the androecium box. Count them.', ['androecium'], () => (fam.family === 'Fabaceae' ? 'Diadelphous: nine filaments fused into a sheath, one free — (9)+1.' : 'Six free stamens in two whorls of three; the anthers swing on the filament tip (versatile).'));
   const stepEpipetalous = {

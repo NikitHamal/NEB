@@ -70,6 +70,13 @@ export function createInput(dom, camera, rig) {
   };
   let handler = null;
   let captured = false;
+  const ndc2 = new THREE.Vector2();
+  function firstHit(objects, recursive) {
+    hits.length = 0;
+    raycaster.intersectObjects(objects, recursive, hits);
+    for (let i = 0; i < hits.length; i++) if (hits[i].object.visible !== false && !hits[i].object.userData.noPick) return hits[i];
+    return null;
+  }
   let orbiting = false;
   const pointers = new Map();
   let pinch = 0;
@@ -138,12 +145,27 @@ export function createInput(dom, camera, rig) {
   return {
     ptr,
     setHandler(h) { if (captured && handler && handler.cancel) handler.cancel(ptr); handler = h; captured = false; },
-    /** First hit among objects (recursive), or null. Reuses one array. */
-    pick(objects, recursive = true) {
-      hits.length = 0;
-      raycaster.intersectObjects(objects, recursive, hits);
-      for (let i = 0; i < hits.length; i++) if (hits[i].object.visible !== false && !hits[i].object.userData.noPick) return hits[i];
-      return null;
+    /**
+     * First hit among objects (recursive), or null. A miss gets a second chance: eight rays in a
+     * ring around the pointer (larger for a finger than a mouse) catch small parts the pointer
+     * only grazed, so thin petals, stamens and pins are not a hunt.
+     */
+    pick(objects, recursive = true, fuzzy = true) {
+      const direct = firstHit(objects, recursive);
+      if (direct || !fuzzy) return direct;
+      const r = dom.getBoundingClientRect(); const radius = ptr.touch ? 22 : 11;
+      let best = null; let bestD = Infinity;
+      for (let ring = 1; ring <= 2 && !best; ring++) {
+        for (let k = 0; k < 8; k++) {
+          const a = k / 8 * Math.PI * 2; const dx = Math.cos(a) * radius * ring / 2; const dy = Math.sin(a) * radius * ring / 2;
+          ndc2.set(((ptr.x + dx) / r.width) * 2 - 1, -((ptr.y + dy) / r.height) * 2 + 1);
+          raycaster.setFromCamera(ndc2, camera);
+          const h = firstHit(objects, recursive);
+          if (h && h.distance < bestD) { bestD = h.distance; best = h; }
+        }
+      }
+      raycaster.setFromCamera(ptr.ndc, camera);
+      return best;
     },
     planePoint(y, out) { plane.constant = -y; return raycaster.ray.intersectPlane(plane, out); },
     /** Projects a world point to stage pixels (out.x, out.y). */

@@ -75,8 +75,9 @@ export function runPractical(stage, config, practical) {
       anim.update(10);
       idx = -1; ui.hideToast(); go(i);
     },
+    /** The tool's tip goes where the pointer touches: the nearest specimen or apparatus under it, else the bench. */
     aimDefault(ptr, out) {
-      const h = ctx.surfaces.length ? input.pick(ctx.surfaces) : null;
+      const h = input.pick(world.children, true, false) || (ctx.surfaces.length ? input.pick(ctx.surfaces, true, false) : null);
       if (h) return out.copy(h.point);
       return input.planePoint(BENCH_Y, out) || out;
     },
@@ -99,7 +100,12 @@ export function runPractical(stage, config, practical) {
   }
 
   const aimV = new THREE.Vector3();
+  const reticle = document.createElement('i'); reticle.className = 'bh-reticle'; ui.root.appendChild(reticle);
   function aimTool(ptr) {
+    const holding = ui.tool && ui.tool !== 'hand';
+    stage.classList.toggle('bh-holding', !!holding && ptr.inside && !ptr.touch);
+    reticle.classList.toggle('on', !!holding && ptr.inside);
+    if (ptr.inside) reticle.style.transform = `translate(${ptr.x}px, ${ptr.y}px)`;
     if (!ptr.inside) { tools.show(false); return; }
     const ok = step && step.aim ? step.aim(ptr, aimV, ctx) : ctx.aimDefault(ptr, aimV);
     if (ok === false) { tools.show(false); return; }
