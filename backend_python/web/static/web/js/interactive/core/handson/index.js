@@ -9,6 +9,7 @@ const PRACTICALS = {
   'meter-bridge': () => import('./practicals/meter-bridge.js'),
   'screw-gauge': () => import('./practicals/screw-gauge.js'),
   'anion-tests': () => import('./practicals/anion-tests.js'),
+  'redox-titration-kmno4': () => import('./practicals/titration.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 

@@ -9,7 +9,7 @@ import { reagentBottle, washBottle } from '../../bio-handson/props.js';
 import { MAT, mesh, clamp } from '../../bio-handson/kit.js';
 import { sfx, tone, noise } from '../../bio-handson/sound.js';
 import { burette, BURETTE, conicalFlask, bulbPipette, createDrops, whiteTile, funnel, beaker } from '../glass.js';
-import { createTitrationFlask, INDICATORS, basicFraction } from '../chem-model.js';
+import { createTitrationFlask, createRedoxFlask, INDICATORS, basicFraction } from '../chem-model.js';
 import { createHud, hits, screenDist } from '../hud.js';
 import { createReadingTool } from '../reading.js';
 
@@ -17,7 +17,14 @@ sfx.register('drip', () => { tone(1250 + Math.random() * 300, 0.07, { gain: 0.06
 sfx.register('stream', () => noise(0.25, { freq: 900, q: 0.8, gain: 0.05, type: 'lowpass' }));
 sfx.register('glass', () => { tone(2600, 0.25, { gain: 0.04 }); tone(3900, 0.18, { gain: 0.02, delay: 0.01 }); });
 
-const ACID_M = 0.1;
+const AB = {
+  redox: false, titrant: 'HCl', titrantLabel: '0.100 M HCl', titrantM: 0.1, titrantColor: 0xeef6ff, buretteColor: 0xe6f0ff, buretteOpacity: 0.3,
+  analyte: 'NaOH', analyteSub: 'unknown M', analyteColor: 0xf2f6fa, plumeColor: 0xf7faff, liquidWord: 'alkali',
+};
+const RX = {
+  redox: true, titrant: 'KMnO₄', titrantLabel: '0.0200 M KMnO₄', titrantM: 0.02, titrantColor: 0x6b1260, buretteColor: 0x5a0b52, buretteOpacity: 0.93,
+  analyte: 'FAS', analyteSub: "Mohr's salt", analyteColor: 0xeef5e8, plumeColor: 0x7d1468, liquidWord: "Mohr's salt solution",
+};
 const BUR_Y = 1.42;
 const BY = 0.8;
 const shot = (o) => Object.assign({}, o, { pos: [o.pos[0], o.pos[1] + BY, o.pos[2]], target: [o.target[0], o.target[1] + BY, o.target[2]] });
@@ -25,8 +32,10 @@ const shot = (o) => Object.assign({}, o, { pos: [o.pos[0], o.pos[1] + BY, o.pos[
 export function create(ctx) {
   const { world, anim, ui, fx } = ctx;
   const hud = createHud(ctx);
-  const baseM = Math.round((0.08 + Math.random() * 0.04) * 1000) / 1000;
-  const chem = createTitrationFlask({ baseM, acidM: ACID_M, indicator: INDICATORS.phenolphthalein });
+  const M = ctx.config.slug === 'redox-titration-kmno4' ? RX : AB;
+  const ACID_M = M.titrantM;
+  const baseM = M.redox ? Math.round((0.07 + Math.random() * 0.03) * 1000) / 1000 : Math.round((0.08 + Math.random() * 0.04) * 1000) / 1000;
+  const chem = M.redox ? createRedoxFlask({ fasM: baseM, kmM: ACID_M }) : createTitrationFlask({ baseM, acidM: ACID_M, indicator: INDICATORS.phenolphthalein });
 
   // ---- the bench ----
   const stand = new THREE.Group(); world.add(stand);
@@ -37,14 +46,15 @@ export function create(ctx) {
   [[-1, 0.075], [1, 0.075]].forEach(([s]) => stand.add(mesh(new THREE.BoxGeometry(0.035, 0.12, 0.09), MAT.matte(0x7f1d1d), [s * 0.08, 5.6, -0.02])));
   const tile = whiteTile(); tile.position.set(0, 0.06, 0); world.add(tile);
   const bur = burette(); bur.group.position.set(0, BUR_Y, 0); world.add(bur.group);
+  bur.material.color.setHex(M.buretteColor); bur.material.opacity = M.buretteOpacity;
   const fun = funnel(); fun.position.set(-1.35, 0, 0.75); world.add(fun);
   const flask = conicalFlask(); flask.group.position.set(1.15, 0, 0.75); world.add(flask.group); flask.setVolume(0);
   const waste = beaker(0, 0xeef6ff); waste.group.position.set(0, 0.1, 0); world.add(waste.group);
-  const naoh = beaker(180, 0xf2f6fa); naoh.group.scale.set(1.25, 1.1, 1.25); naoh.group.position.set(2.3, 0, -0.1); world.add(naoh.group);
-  const naohTag = reagentBottle('NaOH', 0xf2f6fa, 'unknown M'); naohTag.scale.setScalar(0.75); naohTag.position.set(2.95, 0, -0.45); world.add(naohTag);
+  const naoh = beaker(180, M.analyteColor); naoh.group.scale.set(1.25, 1.1, 1.25); naoh.group.position.set(2.3, 0, -0.1); world.add(naoh.group);
+  const naohTag = reagentBottle(M.analyte, M.analyteColor, M.analyteSub); naohTag.scale.setScalar(0.75); naohTag.position.set(2.95, 0, -0.45); world.add(naohTag);
   const pip = bulbPipette(); const PIP_REST = new THREE.Vector3(2.3, 0.06, -0.1); pip.group.position.copy(PIP_REST); world.add(pip.group);
-  const acid = reagentBottle('HCl', 0xeef6ff, '0.100 M'); acid.position.set(-1.9, 0, -0.3); world.add(acid);
-  const php = reagentBottle('Phenolphth.', 0xf8fafc, 'indicator'); php.scale.setScalar(0.62); php.position.set(-0.95, 0, 0.95); world.add(php);
+  const acid = reagentBottle(M.titrant, M.titrantColor, M.redox ? '0.0200 M' : '0.100 M', { amber: M.redox }); acid.position.set(-1.9, 0, -0.3); world.add(acid);
+  const php = reagentBottle(M.redox ? 'dil. H₂SO₄' : 'Phenolphth.', 0xf8fafc, M.redox ? '1 M' : 'indicator'); php.scale.setScalar(0.62); php.position.set(-0.95, 0, 0.95); world.add(php);
   const wash = washBottle(); wash.scale.setScalar(0.8); wash.position.set(-2.55, 0, 0.45); world.add(wash);
   ctx.surfaces.push(tile);
 
@@ -52,7 +62,7 @@ export function create(ctx) {
   const st = { open: 0, acc: 0, flowing: false, under: 'waste', swirl: 0, swirlPhase: 0, trial: 0, titres: [], init: null, repeat: false, funnelOn: false, lastDripT: 0, rinsed: { water: false, acid: false }, overshoot: 0 };
   const flaskHome = new THREE.Vector3(0, 0.1, 0);
   const drops = createDrops(world, 8);
-  const stream = mesh(new THREE.CylinderGeometry(0.006, 0.009, 1, 8), MAT.liquid(0xe9f2ff, 0.55), null, { cast: false }); stream.visible = false; stream.renderOrder = 6; world.add(stream);
+  const stream = mesh(new THREE.CylinderGeometry(0.006, 0.009, 1, 8), MAT.liquid(M.redox ? 0x5a0b52 : 0xe9f2ff, M.redox ? 0.85 : 0.55), null, { cast: false }); stream.visible = false; stream.renderOrder = 6; world.add(stream);
   const plume = new THREE.Mesh(new THREE.CircleGeometry(1, 28), new THREE.MeshBasicMaterial({ color: 0xf7faff, transparent: true, opacity: 0, depthWrite: false }));
   plume.rotation.x = -Math.PI / 2; plume.renderOrder = 4; flask.group.add(plume);
   const col = new THREE.Color();
@@ -102,7 +112,7 @@ export function create(ctx) {
       st.acc += dv;
       while (st.acc >= 0.05) {
         st.acc -= 0.05;
-        drops.spawn(tmp, floorY, (at) => { receiveAcid(0.05); sfx.play('drip'); fx.burst(world.localToWorld(at.clone()), 0xe0f2fe, 3, 0.06, at.y + 0.8); }, 0xeaf3ff);
+        drops.spawn(tmp, floorY, (at) => { receiveAcid(0.05); sfx.play('drip'); fx.burst(world.localToWorld(at.clone()), M.redox ? 0x9d2a8a : 0xe0f2fe, 3, 0.06, at.y + 0.8); }, M.redox ? 0x5a0b52 : 0xeaf3ff);
       }
     } else {
       stream.visible = true;
@@ -154,6 +164,7 @@ export function create(ctx) {
   }
   function refreshFlaskColour() {
     chem.colour(col);
+    if (M.redox) { flask.setColor(col, 0.4 + 0.45 * chem.showing()); return; }
     const f = basicFraction(chem.state.ind, chem.bulkPh());
     flask.setColor(col, 0.45 + 0.4 * f * Math.min(1, chem.state.indicatorDrops / 2));
   }
@@ -161,7 +172,7 @@ export function create(ctx) {
   // ---- procedure ----
   const steps = [];
   steps.push({
-    title: 'Rinse the burette', text: 'Rinse the burette with <b>distilled water</b> (tap the wash bottle), then with a little of the <b>0.100 M HCl</b> it will hold (tap the acid bottle).', hint: 'Water first, then the acid itself, so no water is left to dilute it.', shot: SHOT_ALL,
+    title: 'Rinse the burette', text: `Rinse the burette with <b>distilled water</b> (tap the wash bottle), then with a little of the <b>${M.titrantLabel}</b> it will hold (tap its bottle).`, hint: 'Water first, then the acid itself, so no water is left to dilute it.', shot: SHOT_ALL,
     skip() { st.rinsed.water = st.rinsed.acid = true; },
     handler: { down(p) {
       const w = hits(ctx, wash, p, 50, 0.5); const a = hits(ctx, acid, p, 50, 0.3);
@@ -172,7 +183,7 @@ export function create(ctx) {
       if (a) {
         if (!st.rinsed.water) ctx.say('Rinsed with acid. (Washing with water first removes old residues.)', 'info', 2400);
         st.rinsed.acid = true;
-        if (st.rinsed.water) anim.wait(1.6, () => ctx.next('Rinsed: any water left inside is now acid of the same 0.100 M.'));
+        if (st.rinsed.water) anim.wait(1.6, () => ctx.next(`Rinsed: any water left inside is now ${M.titrantLabel}.`));
         else { st.rinsed.water = true; anim.wait(1.6, () => ctx.next('Rinsed with the acid.')); }
       }
       return true;
@@ -244,18 +255,18 @@ export function create(ctx) {
 
   const readStep = (which) => ({
     title: which === 'init' ? 'Read the initial reading' : 'Read the final reading',
-    text: `Your eye is level with the meniscus. Drag the <b>red hairline</b> to the <b>bottom of the meniscus</b> and press <b>Record</b>. Read to 0.05 mL; 0 is at the top.`,
+    text: M.redox ? `Your eye is level with the meniscus. KMnO₄ is too dark to see the bottom, so drag the <b>red hairline</b> to the <b>top of the meniscus</b> and press <b>Record</b>. Read the same way every time.` : `Your eye is level with the meniscus. Drag the <b>red hairline</b> to the <b>bottom of the meniscus</b> and press <b>Record</b>. Read to 0.05 mL; 0 is at the top.`,
     hint: 'The scale counts downwards. Each small division is 0.1 mL; read between two lines as .x5 when the meniscus sits midway.',
-    enter() { reader.start((val, truth) => onRead(which, val, truth)); },
+    enter() { reader.start((val, truth) => onRead(which, val, M.redox ? truth - 0.14 : truth)); },
     exit() { reader.stop(); },
-    skip() { onRead(which, Math.round(bur.reading * 20) / 20, bur.reading, true); },
+    skip() { const t = M.redox ? bur.reading - 0.14 : bur.reading; onRead(which, Math.round(t * 20) / 20, t, true); },
     handler: reader.handler,
   });
   function onRead(which, val, truth, silent) {
     const err = Math.abs(val - truth);
     if (!silent) {
-      if (err > 0.16) ctx.mistake(`You read ${val.toFixed(2)} mL, but the meniscus bottom is at ${truth.toFixed(2)} mL. Read downwards from 0, at the bottom of the curve, with your eye level.`, 4);
-      else if (err > 0.06) ctx.mistake(`Close: ${val.toFixed(2)} mL. The bottom of the meniscus is at ${truth.toFixed(2)} mL — read to the nearest 0.05.`, 2);
+      if (err > 0.16) ctx.mistake(`You read ${val.toFixed(2)} mL, but the ${M.redox ? 'top' : 'bottom'} of the meniscus is at ${truth.toFixed(2)} mL. Read downwards from 0, with your eye level.`, 4);
+      else if (err > 0.06) ctx.mistake(`Close: ${val.toFixed(2)} mL. The ${M.redox ? 'top' : 'bottom'} of the meniscus is at ${truth.toFixed(2)} mL — read to the nearest 0.05.`, 2);
     }
     if (which === 'init') {
       st.init = val; st.trial += 1;
@@ -275,7 +286,7 @@ export function create(ctx) {
 
   let pipState = { holding: false, draining: false };
   steps.push({
-    title: 'Pipette 25.0 mL of NaOH', text: '<b>Press and hold</b> the red pipette filler to draw the alkali up past the mark, then hold the <b>pipette stem</b> to let it fall slowly until the meniscus sits <b>on the etched ring</b>. Press <b>On the mark</b>.', hint: 'Draw a little above the ring, then release slowly. The bottom of the meniscus should just touch the ring.', shot: SHOT_PIP,
+    title: `Pipette 25.0 mL of ${M.analyte}`, text: `<b>Press and hold</b> the red pipette filler to draw the ${M.liquidWord} up past the mark, then hold the <b>pipette stem</b> to let it fall slowly until the meniscus sits <b>on the etched ring</b>. Press <b>On the mark</b>.`, hint: 'Draw a little above the ring, then release slowly. The bottom of the meniscus should just touch the ring.', shot: SHOT_PIP,
     enter() {
       pipState = { holding: false, draining: false, zoomed: false };
       hud.actions([{ id: 'mark', label: 'On the mark', primary: true, onClick: () => {
@@ -323,7 +334,7 @@ export function create(ctx) {
           ui.choose(ctx.stage.clientWidth / 2, 60, 'A little liquid stays in the tip. What do you do?', [{ label: 'Leave it — the pipette is calibrated for it', value: 'leave' }, { label: 'Blow it out', value: 'blow' }], (v) => {
             if (v === 'blow') { chem.state.baseMl += 0.05; ctx.mistake('Never blow out a pipette marked "AS" or "Ex": it is calibrated to deliver 25.0 mL with that drop left behind.', 3); }
             anim.add(1.0, (k) => pip.group.position.lerpVectors(over, PIP_REST, k));
-            ctx.next(`${chem.state.baseMl.toFixed(2)} mL of NaOH in the flask.`);
+            ctx.next(`${chem.state.baseMl.toFixed(2)} mL of ${M.analyte} in the flask.`);
           });
         } });
       } });
@@ -333,12 +344,18 @@ export function create(ctx) {
   });
 
   steps.push({
-    title: 'Add the indicator', text: 'Add <b>two drops</b> of phenolphthalein (tap the indicator bottle once per drop).', hint: 'Two drops are enough; the indicator is itself a weak acid.', shot: SHOT_BENCH,
-    enter() { hud.actions([{ id: 'done', label: 'Done', primary: true, disabled: true, onClick: () => { hud.actions([]); ctx.next('The alkali turns pink: phenolphthalein is pink above pH 10.'); } }]); },
+    title: M.redox ? 'Acidify the flask' : 'Add the indicator', text: M.redox ? 'Add about <b>10 mL of dilute H₂SO₄</b> (tap the acid bottle). Permanganate needs H⁺ to be reduced to colourless Mn²⁺; no indicator is needed, KMnO₄ is its own.' : 'Add <b>two drops</b> of phenolphthalein (tap the indicator bottle once per drop).', hint: 'Two drops are enough; the indicator is itself a weak acid.', shot: SHOT_BENCH,
+    enter() { if (M.redox) return; hud.actions([{ id: 'done', label: 'Done', primary: true, disabled: true, onClick: () => { hud.actions([]); ctx.next('The alkali turns pink: phenolphthalein is pink above pH 10.'); } }]); },
     exit() { hud.actions([]); },
-    skip() { chem.addIndicator(2); refreshFlaskColour(); },
+    skip() { if (M.redox) { chem.addWater(10); chem.state.acidified = true; flask.setVolume(chem.volumeMl); } else chem.addIndicator(2); refreshFlaskColour(); },
     handler: { down(p) {
       if (!hits(ctx, php, p, 50, 0.25)) return false;
+      if (M.redox) {
+        if (chem.state.acidified) return true;
+        chem.state.acidified = true; sfx.play('pour');
+        anim.add(1.2, (k) => { chem.state.waterMl = 10 * k; flask.setVolume(chem.volumeMl); }, { done: () => { refreshFlaskColour(); ctx.next('Acidified with dilute sulphuric acid (not HCl, which permanganate would oxidise).'); } });
+        return true;
+      }
       flask.group.getWorldPosition(tmp); tmp.y += 1.5; world.worldToLocal(tmp);
       drops.spawn(tmp, flask.surfaceY() + flask.group.position.y, () => { chem.addIndicator(1); sfx.play('drip'); refreshFlaskColour(); hud.enable('done', chem.state.indicatorDrops >= 1);
         if (chem.state.indicatorDrops === 5) ctx.mistake('Too much indicator: phenolphthalein is a weak acid and uses up some of the alkali.', 2); }, 0xffffff);
@@ -358,10 +375,10 @@ export function create(ctx) {
 
   IDX.titrate = steps.length;
   steps.push({
-    title: 'Titrate to the end point', text: 'Open the tap to let acid in, <b>swirl the flask</b> (drag round it in circles) all the time, and slow to <b>drop by drop</b> as the pink starts to vanish where the acid lands. Stop when one drop leaves the solution <b>colourless</b>.', hint: 'Fast at first, then drop by drop. If the pink comes back on swirling, you are not there yet.', shot: SHOT_TAP,
+    title: 'Titrate to the end point', text: M.redox ? 'Open the tap, <b>swirl the flask</b> (drag round it in circles) all the time; each drop is purple where it lands and fades as the Fe²⁺ uses it up. Slow to <b>drop by drop</b> as the purple lingers, and stop at the first <b>faint pink that stays</b>.' : 'Open the tap to let acid in, <b>swirl the flask</b> (drag round it in circles) all the time, and slow to <b>drop by drop</b> as the pink starts to vanish where the acid lands. Stop when one drop leaves the solution <b>colourless</b>.', hint: M.redox ? 'Fast at first, then drop by drop. When one drop leaves a pink that does not fade on swirling, stop.' : 'Fast at first, then drop by drop. If the pink comes back on swirling, you are not there yet.', shot: SHOT_TAP,
     enter() {
       st.swirlTarget = 0;
-      hud.actions([{ id: 'stop', label: 'Colourless — end point', primary: true, onClick: endPoint }]);
+      hud.actions([{ id: 'stop', label: M.redox ? 'Permanent pink — end point' : 'Colourless — end point', primary: true, onClick: endPoint }]);
     },
     exit() { hud.actions([]); setOpen(0); },
     skip() {
@@ -374,13 +391,14 @@ export function create(ctx) {
   function endPoint() {
     if (st.open > 0) { setOpen(0); }
     chem.state.plumeMl = 0;
-    const f = basicFraction(chem.state.ind, chem.finalPh());
-    if (f > 0.04) { ctx.mistake('Swirl it: the pink comes back, so there is still alkali left. Add more, drop by drop.', 2); return; }
+    if (M.redox ? !chem.atEndpoint() : basicFraction(chem.state.ind, chem.finalPh()) > 0.04) {
+      ctx.mistake(M.redox ? 'Swirl it: the pink fades, so Fe²⁺ is still left. Add more, drop by drop.' : 'Swirl it: the pink comes back, so there is still alkali left. Add more, drop by drop.', 2); return;
+    }
     const over = chem.state.acidMl - chem.equivalenceMl;
     st.overshoot = over;
     if (over > 0.12) ctx.mistake(`Overshot by about ${over.toFixed(2)} mL — the last few drops went in after the end point. That titre will be too high.`, 4);
     hud.actions([]);
-    ctx.next(over <= 0.12 ? 'One drop and the pink is gone: the end point.' : 'Colourless.');
+    ctx.next(over <= 0.12 ? (M.redox ? 'One drop and a faint pink stays: the end point.' : 'One drop and the pink is gone: the end point.') : (M.redox ? 'Pink.' : 'Colourless.'));
   }
 
   IDX.readFinal = steps.length; steps.push(Object.assign(readStep('final'), { shot: null }));
@@ -403,8 +421,8 @@ export function create(ctx) {
   }
   function repeatTrial() {
     st.repeat = true;
-    ctx.say('You rinse the flask, pipette a fresh 25.0 mL, add two drops of indicator and refill the burette.', 'info', 3600);
-    chem.reset(); chem.addBase(25 + (Math.random() - 0.5) * 0.03); chem.addIndicator(2);
+    ctx.say(M.redox ? 'You rinse the flask, pipette a fresh 25.0 mL, acidify it and refill the burette.' : 'You rinse the flask, pipette a fresh 25.0 mL, add two drops of indicator and refill the burette.', 'info', 3600);
+    chem.reset(); chem.addBase(25 + (Math.random() - 0.5) * 0.03); if (M.redox) { chem.addWater(10); chem.state.acidified = true; } else chem.addIndicator(2);
     flask.setVolume(0);
     anim.add(1.2, (k) => { flask.setVolume(chem.volumeMl * k); refreshFlaskColour(); }, { delay: 0.3 });
     const r0 = bur.reading; const r1 = Math.round((0.1 + Math.random() * 0.8) * 100) / 100;
@@ -412,17 +430,19 @@ export function create(ctx) {
   }
 
   steps.push({
-    title: 'Calculate the molarity', text: 'Use the mean of your concordant titres. NaOH + HCl → NaCl + H₂O, a 1 : 1 reaction.', hideBelt: true, shot: SHOT_ALL,
+    title: 'Calculate the molarity', text: M.redox ? 'Use the mean of your concordant titres. MnO₄⁻ + 5Fe²⁺ + 8H⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O: one permanganate for five iron(II).' : 'Use the mean of your concordant titres. NaOH + HCl → NaCl + H₂O, a 1 : 1 reaction.', hideBelt: true, shot: SHOT_ALL,
     enter() {
       const pair = concordant() || st.titres.slice(-2);
       const mean = (pair[0] + pair[1]) / 2; st.mean = mean;
-      const right = ACID_M * mean / 25;
-      const opts = [[right, 'M₁V₁ = M₂V₂ ⇒ 0.100 × V / 25.0'], [ACID_M * 25 / mean, '0.100 × 25.0 / V'], [ACID_M * mean / 50, '0.100 × V / 50.0'], [2 * ACID_M * mean / 25, '2 × 0.100 × V / 25.0']]
+      const right = M.redox ? 5 * ACID_M * mean / 25 : ACID_M * mean / 25;
+      const opts = (M.redox
+        ? [[right, '5 × 0.0200 × V / 25.0'], [ACID_M * mean / 25, '0.0200 × V / 25.0'], [ACID_M * mean / 125, '0.0200 × V / (5 × 25.0)'], [5 * ACID_M * 25 / mean, '5 × 0.0200 × 25.0 / V']]
+        : [[right, 'M₁V₁ = M₂V₂ ⇒ 0.100 × V / 25.0'], [ACID_M * 25 / mean, '0.100 × 25.0 / V'], [ACID_M * mean / 50, '0.100 × V / 50.0'], [2 * ACID_M * mean / 25, '2 × 0.100 × V / 25.0']])
         .map(([v, why]) => ({ label: `${v.toFixed(4)} M  (${why})`, value: v })).sort(() => Math.random() - 0.5);
-      const ask = () => ui.choose(ctx.stage.clientWidth / 2, 50, `Mean titre ${mean.toFixed(2)} mL. Molarity of the NaOH?`, opts, (v) => {
-        if (Math.abs(v - right) > 1e-9) { ctx.mistake('Moles of HCl = moles of NaOH (1 : 1), so M(NaOH) × 25.0 = 0.100 × V(HCl).', 3); anim.wait(0.5, ask); return; }
-        st.answer = v; ui.observe('M(NaOH)', `<b>${v.toFixed(4)} M</b>`);
-        ctx.next(`M(NaOH) = 0.100 × ${mean.toFixed(2)} / 25.0 = ${v.toFixed(4)} M.`, 1.2);
+      const ask = () => ui.choose(ctx.stage.clientWidth / 2, 50, `Mean titre ${mean.toFixed(2)} mL. Molarity of the ${M.analyte}?`, opts, (v) => {
+        if (Math.abs(v - right) > 1e-9) { ctx.mistake(M.redox ? 'Moles of Fe²⁺ = 5 × moles of MnO₄⁻, so M(FAS) × 25.0 = 5 × 0.0200 × V(KMnO₄).' : 'Moles of HCl = moles of NaOH (1 : 1), so M(NaOH) × 25.0 = 0.100 × V(HCl).', 3); anim.wait(0.5, ask); return; }
+        st.answer = v; ui.observe(`M(${M.analyte})`, `<b>${v.toFixed(4)} M</b>`);
+        ctx.next(M.redox ? `M(FAS) = 5 × 0.0200 × ${mean.toFixed(2)} / 25.0 = ${v.toFixed(4)} M.` : `M(NaOH) = 0.100 × ${mean.toFixed(2)} / 25.0 = ${v.toFixed(4)} M.`, 1.2);
       });
       anim.wait(0.6, ask);
     },
@@ -449,8 +469,9 @@ export function create(ctx) {
         flask.surface.rotation.set(-Math.PI / 2 + Math.sin(st.swirlPhase) * 0.18 * st.swirl, Math.cos(st.swirlPhase) * 0.18 * st.swirl, 0);
         if (chem.state.indicatorDrops > 0) {
           refreshFlaskColour();
-          const s = chem.plumeStrength(); const pink = basicFraction(chem.state.ind, chem.bulkPh());
-          plume.material.opacity = s * pink * 0.92;
+          const s = chem.plumeStrength(); const pink = M.redox ? 1 : basicFraction(chem.state.ind, chem.bulkPh());
+          plume.material.color.setHex(M.plumeColor);
+          plume.material.opacity = M.redox ? s * 0.85 : s * pink * 0.92;
           const r = Math.min(flask.radiusAt(flask.surfaceY()) * 0.92, 0.05 + Math.sqrt(chem.state.plumeMl) * 0.22 + st.swirl * 0.12);
           plume.scale.set(r, r, 1); plume.position.set(Math.cos(st.swirlPhase * 1.3) * st.swirl * 0.05, flask.surfaceY() + 0.002, Math.sin(st.swirlPhase * 1.3) * st.swirl * 0.05);
           plume.visible = plume.material.opacity > 0.01;
@@ -461,9 +482,9 @@ export function create(ctx) {
     result() {
       const err = st.answer ? (st.answer - baseM) / baseM * 100 : 0;
       return {
-        title: 'Acid–base titration',
-        rows: [['Titres', st.titres.map((x) => x.toFixed(2)).join(', ') + ' mL'], ['Mean concordant titre', `${(st.mean || 0).toFixed(2)} mL`], ['Your M(NaOH)', `${(st.answer || 0).toFixed(4)} M`], ['True M(NaOH)', `${baseM.toFixed(4)} M`], ['Error', `${err >= 0 ? '+' : ''}${err.toFixed(2)} %`]],
-        conclusion: `The NaOH solution is ${(st.answer || 0).toFixed(3)} M. ${Math.abs(err) < 0.6 ? 'Excellent technique: within the ±0.5 % a careful student reaches with a class A burette and pipette.' : Math.abs(err) < 2 ? 'Good. The error comes from burette readings, the volume on the pipette mark and how sharply you caught the end point.' : 'The error is large: check your readings (downwards, bottom of the meniscus), stop at the first permanent colourless, and keep the pipette on its mark.'}`,
+        title: M.redox ? 'Redox titration (KMnO₄)' : 'Acid–base titration',
+        rows: [['Titres', st.titres.map((x) => x.toFixed(2)).join(', ') + ' mL'], ['Mean concordant titre', `${(st.mean || 0).toFixed(2)} mL`], [`Your M(${M.analyte})`, `${(st.answer || 0).toFixed(4)} M`], [`True M(${M.analyte})`, `${baseM.toFixed(4)} M`], ['Error', `${err >= 0 ? '+' : ''}${err.toFixed(2)} %`]],
+        conclusion: `The ${M.analyte} solution is ${(st.answer || 0).toFixed(3)} M. ${Math.abs(err) < 0.6 ? 'Excellent technique: within the ±0.5 % a careful student reaches with a class A burette and pipette.' : Math.abs(err) < 2 ? 'Good. The error comes from burette readings, the volume on the pipette mark and how sharply you caught the end point.' : 'The error is large: check your readings (downwards, bottom of the meniscus), stop at the first permanent colourless, and keep the pipette on its mark.'}`,
       };
     },
     dispose() { hud.dispose(); drops.dispose(); flask.dispose(); reader.dispose(); },
