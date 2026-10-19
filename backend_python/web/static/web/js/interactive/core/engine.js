@@ -167,6 +167,7 @@ export function createEngine(stage, opts = {}) {
       stencil: false,
       depth: true,
       preserveDrawingBuffer: false,
+      logarithmicDepthBuffer: !!opts.logDepth,
     });
   } catch (e) {
     showWebGLFallback(stage);
