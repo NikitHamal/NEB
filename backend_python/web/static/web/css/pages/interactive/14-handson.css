@@ -29,7 +29,7 @@
 .bh-stage .ho-actions ~ .bh-belt { display: none; }
 @media (max-width: 640px) {
   .ho-actions { bottom: 10px; max-width: calc(100% - 16px); }
-  .ho-act { padding: 0 14px; font-size: .82rem; }
+  .ho-act { padding: 6px 12px; font-size: .82rem; white-space: normal; line-height: 1.15; min-width: 0; flex: 0 1 auto; }
 }
 @media (prefers-reduced-motion: reduce) { .ho-actions, .ho-act { transition: none; } }
 .ho-cobalt { position: absolute; inset: 0; background: rgba(40, 64, 210, .62); mix-blend-mode: multiply; opacity: 0; transition: opacity .35s; pointer-events: none; }
