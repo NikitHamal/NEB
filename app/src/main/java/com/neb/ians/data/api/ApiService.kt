@@ -1618,7 +1618,7 @@ interface ApiService {
 
     // --- News / Announcements (public web parity) ---
     /** The live festival theme (public, cached 5 min by the server). */
-    @GET("site-theme/")
+    @GET("api/site-theme/")
     suspend fun getSiteTheme(): ApiSiteTheme
 
     @GET("news/")

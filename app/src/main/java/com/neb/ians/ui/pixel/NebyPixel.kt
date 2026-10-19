@@ -48,7 +48,9 @@ fun NebyPixel(
     val dress = look ?: NebyLook.fromKey(server?.look)
     val alive = ambient && server?.ambient != false
     val tappable = interactive && server?.reactions != false
-    var reaction by remember { mutableStateOf(intro) }
+    // a hello plays the season's own animation when there is one (tika at Dashain), as on the web
+    val festiveHello = server?.greet?.let { NebyState.fromName(it) }?.takeIf { it != NebyState.Idle }
+    var reaction by remember { mutableStateOf(if (intro != null) festiveHello ?: intro else null) }
     var flourish by remember { mutableStateOf<NebyState?>(null) }
     var taps by remember { mutableIntStateOf(0) }
     val reduced = nebAnimationsReduced()
