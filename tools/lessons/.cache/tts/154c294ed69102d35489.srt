@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,486
+Watch what happens as the angle changes.
+
+2
+00:00:02,486 --> 00:00:07,656
+At ninety degrees the moment arm is longest and the torque is greatest.
+
+3
+00:00:07,656 --> 00:00:11,914
+Push straight along r, and the moment arm shrinks to zero.
+
+4
+00:00:11,914 --> 00:00:13,033
+No torque at all.
+

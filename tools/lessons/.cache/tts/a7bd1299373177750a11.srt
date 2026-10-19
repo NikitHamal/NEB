@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,143
+Torque equals I alpha, so alpha is nine point eight divided by zero point six six seven: fourteen point seven radians per second squared.
+

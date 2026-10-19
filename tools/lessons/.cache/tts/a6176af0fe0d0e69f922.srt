@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,408
+And the energy is half I omega squared: about one hundred and ninety seven joules, stored in the spin.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,593
+It is B, M L squared over three.
+
+2
+00:00:03,593 --> 00:00:05,820
+One twelfth is about the centre.
+
+3
+00:00:05,820 --> 00:00:11,106
+Moving the axis to the end adds M times L by two squared.
+

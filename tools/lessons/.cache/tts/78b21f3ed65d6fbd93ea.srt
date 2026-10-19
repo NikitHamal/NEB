@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,039
+So the rotational kinetic energy is one half I omega squared.
+
+2
+00:00:05,039 --> 00:00:08,190
+Put it beside one half m v squared.
+
+3
+00:00:08,190 --> 00:00:14,778
+Moment of inertia does for rotation exactly what mass does for straight line motion.
+

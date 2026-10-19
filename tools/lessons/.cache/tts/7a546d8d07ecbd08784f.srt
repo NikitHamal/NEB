@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,117
+And how fast omega itself changes is the angular acceleration, alpha, equal to d omega by d t, in radians per second squared.
+

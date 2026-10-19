@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,726
+The only difference: in the ring, all the mass sits out at the rim.
+
+2
+00:00:04,726 --> 00:00:10,377
+In the disc, the same mass is spread evenly, all the way to the centre.
+

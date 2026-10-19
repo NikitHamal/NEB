@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,434
+Power is the rate of doing work.
+
+2
+00:00:02,434 --> 00:00:09,635
+Divide by d t: power equals tau omega, the exact twin of P equals F v.
+

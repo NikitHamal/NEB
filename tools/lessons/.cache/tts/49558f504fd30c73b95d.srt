@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,330
+Let us try it on a rice mill in Jhapa.
+
+2
+00:00:02,330 --> 00:00:10,169
+Its motor delivers a constant torque of twenty five newton metres while running at fifteen hundred revolutions per minute.
+
+3
+00:00:10,169 --> 00:00:13,463
+Find its power, and the work it does in one minute.
+

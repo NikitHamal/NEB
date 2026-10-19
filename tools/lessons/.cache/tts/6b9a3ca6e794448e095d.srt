@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,515
+How fast the angle changes is the angular velocity, omega, equal to d theta by d t, in radians per second.
+

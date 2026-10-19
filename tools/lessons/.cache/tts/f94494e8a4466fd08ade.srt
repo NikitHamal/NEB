@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,812
+Add up the torques on all the particles.
+
+2
+00:00:02,812 --> 00:00:09,453
+The internal forces cancel in pairs by Newton's third law, and alpha comes out of the sum.
+

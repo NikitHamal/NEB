@@ -12,7 +12,14 @@ python3 build.py scripts/phy12/unit_01.py --draft              # 720p24 preview
 LESSON_ONLY=3,4 python3 build.py scripts/phy12/unit_01.py --draft   # only parts 3 and 4
 python3 build.py scripts/phy12/unit_01.py                      # 1080p30 master -> videos/
 python3 contact.py videos/class-12/phy12/unit_01.mp4 /tmp/sheet.png 24   # look at it
+python3 frames.py scripts/phy12/unit_02.py 1,2                  # cheap check: parts 1-2 at 360p/3fps -> contact sheet
+python3 prefetch.py scripts/phy12/unit_02.py                    # synthesise narration only
 ```
+
+Narration is already synthesised and committed: `.cache/tts/<hash>.mp3` (+ `.json` duration and
+subtitle cues, `.srt`). A render on a fresh machine needs no network for the voice; the trimmed
+`.wav` files are rebuilt from the mp3s automatically (they are gitignored). Change a narration line
+and only that line is re-synthesised.
 
 ## Layout
 

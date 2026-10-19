@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,161
+Why does distance matter so much?
+
+2
+00:00:02,161 --> 00:00:05,807
+Here are two identical rods with identical masses.
+
+3
+00:00:05,807 --> 00:00:09,388
+On the left, the masses sit close to the axis.
+
+4
+00:00:09,388 --> 00:00:12,539
+On the right, the same masses sit far out.
+
+5
+00:00:12,539 --> 00:00:14,739
+We give both the same twist.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,848
+Integrating from zero to L gives M L squared over three, four times bigger.
+
+2
+00:00:06,848 --> 00:00:22,408
+And we can check it with the parallel axis theorem: the end is L by two from the centre, so I c plus M times L by two, squared, is M L squared over twelve plus M L squared over four, which is M L squared over three.
+
+3
+00:00:22,408 --> 00:00:23,580
+It matches.
+

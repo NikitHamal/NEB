@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,705
+Now the general picture.
+
+2
+00:00:01,705 --> 00:00:04,466
+A body can turn about an axis through O.
+
+3
+00:00:04,466 --> 00:00:09,283
+A force F acts at a point whose position from the axis is the vector r.
+
+4
+00:00:09,283 --> 00:00:12,278
+The angle between r and F is phi.
+

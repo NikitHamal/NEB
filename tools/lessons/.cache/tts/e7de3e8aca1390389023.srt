@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,380
+The disc wins.
+
+2
+00:00:01,380 --> 00:00:02,695
+Every single time.
+
+3
+00:00:02,695 --> 00:00:06,601
+Not because it is heavier, and not because it is smaller.
+
+4
+00:00:06,601 --> 00:00:08,893
+Same mass, same size.
+
+5
+00:00:08,893 --> 00:00:13,255
+The secret is how the mass is arranged around the axis of spin.
+
+6
+00:00:13,255 --> 00:00:17,617
+By the end of this lesson, you will be able to prove exactly why.
+

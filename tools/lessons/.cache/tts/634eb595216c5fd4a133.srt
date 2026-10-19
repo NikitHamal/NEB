@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,250
+One more example.
+
+2
+00:00:01,250 --> 00:00:10,299
+A solid disc flywheel of mass twenty kilograms and radius half a metre spins at one hundred and twenty revolutions per minute.
+
+3
+00:00:10,299 --> 00:00:13,567
+Find I, k, and its kinetic energy.
+

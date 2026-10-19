@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,049
+For the ring, I is M R squared, and with omega equal to v over R, its spin energy equals its forward energy.
+
+2
+00:00:09,049 --> 00:00:12,851
+Half of all the energy goes into spinning.
+

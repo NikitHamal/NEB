@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,786
+Here is a beautiful consequence.
+
+2
+00:00:02,786 --> 00:00:11,080
+A uniform rod, mass two kilograms, length one metre, is hinged at one end and held horizontal.
+
+3
+00:00:11,080 --> 00:00:13,203
+A coin rests on its free end.
+
+4
+00:00:13,203 --> 00:00:14,231
+We let go.
+
+5
+00:00:14,231 --> 00:00:17,070
+Does the coin stay on the rod as it swings down?
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,361
+The weight acts at the centre of the rod, half a metre from the hinge.
+
+2
+00:00:04,361 --> 00:00:10,533
+So the torque is M g times L by two, which is nine point eight newton metres.
+

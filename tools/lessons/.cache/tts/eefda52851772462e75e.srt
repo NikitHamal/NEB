@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,359
+Conserve angular momentum: six times two equals two times omega two, so omega two is six radians per second.
+
+2
+00:00:08,359 --> 00:00:10,039
+Three times faster.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,903
+When a torque turns a body, it does work.
+
+2
+00:00:02,903 --> 00:00:11,158
+A tangential force F at the rim, distance r from the axis, pushes through a small arc d s equal to r d theta.
+

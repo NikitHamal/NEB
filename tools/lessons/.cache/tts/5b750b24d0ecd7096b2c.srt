@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,304
+Now connect the two worlds.
+
+2
+00:00:02,304 --> 00:00:10,000
+Since s equals r theta, and r is fixed for a particle, differentiating gives v equals r omega.
+
+3
+00:00:10,000 --> 00:00:17,083
+Every particle shares the same omega, so its speed grows in proportion to its distance from the axis.
+

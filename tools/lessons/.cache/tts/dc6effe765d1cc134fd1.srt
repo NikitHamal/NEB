@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,184
+Look at the bracket.
+
+2
+00:00:01,184 --> 00:00:05,768
+The sum of m r squared contains only masses and distances.
+
+3
+00:00:05,768 --> 00:00:09,921
+It depends on the body and the axis, not on the motion at all.
+
+4
+00:00:09,921 --> 00:00:13,059
+We give it a name: the moment of inertia, I.
+

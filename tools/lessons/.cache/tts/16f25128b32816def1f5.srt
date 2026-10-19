@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,526
+Now move the axis to one end.
+
+2
+00:00:02,526 --> 00:00:08,580
+The same rod, but every element is now further from the axis, so the area must grow.
+

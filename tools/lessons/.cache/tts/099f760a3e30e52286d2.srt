@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,315
+First, convert.
+
+2
+00:00:01,315 --> 00:00:11,315
+Three hundred revolutions per minute is two pi times three hundred, over sixty, which is ten pi, about thirty one point four radians per second.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,315
+And because torque equals I alpha, the total work done equals the change in rotational kinetic energy: half I omega two squared minus half I omega one squared.
+
+2
+00:00:11,315 --> 00:00:14,687
+This is the work energy theorem for rotation.
+

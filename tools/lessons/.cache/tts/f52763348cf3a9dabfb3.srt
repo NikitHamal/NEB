@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,161
+You can see this law everywhere.
+
+2
+00:00:02,161 --> 00:00:09,648
+A diver tucks in tight to somersault quickly, then stretches out to slow the spin before entering the water.
+
+3
+00:00:09,648 --> 00:00:18,033
+A planet moves faster when it is closer to the Sun, because gravity pulls straight towards the Sun and exerts no torque.
+
+4
+00:00:18,033 --> 00:00:19,700
+That is Kepler's second law.
+
+5
+00:00:19,700 --> 00:00:26,627
+And a spinning top resists falling over, because tipping it would change the direction of its angular momentum.
+

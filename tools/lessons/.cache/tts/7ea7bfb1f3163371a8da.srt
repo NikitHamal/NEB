@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,416
+More energy for forward motion means more speed at every point on the slope.
+
+2
+00:00:05,416 --> 00:00:08,033
+That is why the disc always wins.
+
+3
+00:00:08,033 --> 00:00:13,984
+Mass far from the axis makes a body lazy to spin, and that laziness costs speed.
+

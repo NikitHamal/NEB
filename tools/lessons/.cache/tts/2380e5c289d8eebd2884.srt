@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,328
+By definition, I equals M k squared, so k equals the square root of I over M.
+
+2
+00:00:06,328 --> 00:00:12,968
+It is the distance at which the whole mass, concentrated, would give the same moment of inertia.
+

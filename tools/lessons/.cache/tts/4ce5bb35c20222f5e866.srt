@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,210
+Let us recap.
+
+2
+00:00:01,210 --> 00:00:05,507
+The equations of angular motion mirror the linear ones.
+
+3
+00:00:05,507 --> 00:00:10,963
+v equals r omega links the two worlds, in radians only.
+
+4
+00:00:10,963 --> 00:00:17,669
+Rotational energy is half I omega squared, where I is the sum of m r squared.
+
+5
+00:00:17,669 --> 00:00:23,932
+A rod has M L squared over twelve about its centre and over three about its end.
+
+6
+00:00:23,932 --> 00:00:27,643
+Torque is r F sine phi, and equals I alpha.
+
+7
+00:00:27,643 --> 00:00:31,236
+Work is tau theta and power is tau omega.
+
+8
+00:00:31,236 --> 00:00:37,513
+And angular momentum, I omega, is conserved when no external torque acts.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,898
+Yes.
+
+2
+00:00:00,898 --> 00:00:05,325
+That radius is called k, the radius of gyration.
+
+3
+00:00:05,325 --> 00:00:11,106
+For a disc it comes out at R over root two, about seventy one percent of the way to the rim.
+

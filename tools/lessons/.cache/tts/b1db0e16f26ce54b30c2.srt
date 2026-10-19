@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,916
+They are at right angles, so the total acceleration is the square root of a t squared plus a c squared.
+

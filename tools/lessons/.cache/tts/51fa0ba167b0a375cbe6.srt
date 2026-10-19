@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,934
+If the spin is speeding up, a point on the rim has two accelerations.
+
+2
+00:00:04,934 --> 00:00:09,778
+The tangential acceleration, r alpha, changes its speed.
+

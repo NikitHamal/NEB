@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,763
+Starting from rest, theta equals half alpha t squared: half times pi times one hundred, which is fifty pi radians.
+
+2
+00:00:08,763 --> 00:00:14,505
+Divide by two pi for each turn, and you get exactly twenty five revolutions.
+
+3
+00:00:14,505 --> 00:00:16,119
+Check the counter on the wheel.
+
+4
+00:00:16,119 --> 00:00:17,252
+Twenty five.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,122
+That is rotational dynamics.
+
+2
+00:00:02,122 --> 00:00:06,263
+Next time, we set things swinging, with periodic motion.
+
+3
+00:00:06,263 --> 00:00:10,690
+Keep practising, and see you in the next lesson on NEBians.
+

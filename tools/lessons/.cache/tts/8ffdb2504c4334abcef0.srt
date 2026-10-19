@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,484
+Let us put numbers on it.
+
+2
+00:00:01,484 --> 00:00:05,286
+A student sits on a frictionless stool, holding weights.
+
+3
+00:00:05,286 --> 00:00:10,703
+The moment of inertia is six, and the stool turns at two radians per second.
+
+4
+00:00:10,703 --> 00:00:13,450
+Pulling the arms in drops I to two.
+
+5
+00:00:13,450 --> 00:00:18,229
+Find the new angular velocity and the change in kinetic energy.
+

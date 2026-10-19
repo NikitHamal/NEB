@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,229
+Here is the trap that costs marks every year.
+
+2
+00:00:03,229 --> 00:00:11,966
+v equals r omega, s equals r theta, and torque equals I alpha are true only when angles are in radians.
+
+3
+00:00:11,966 --> 00:00:15,898
+If a question gives revolutions per minute, convert first.
+
+4
+00:00:15,898 --> 00:00:25,742
+One revolution is two pi radians, so N revolutions per minute means omega equals two pi N over sixty radians per second.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,328
+Adding up all the elements from minus L by two to plus L by two is exactly an integral.
+
+2
+00:00:06,328 --> 00:00:12,135
+The moment of inertia is the shaded area under this curve, times M over L.
+

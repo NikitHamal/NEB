@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,893
+The moment of inertia of a body about an axis is the sum of each mass times the square of its perpendicular distance from that axis.
+
+2
+00:00:08,893 --> 00:00:13,984
+For a continuous body, the sum becomes an integral of r squared d m.
+
+3
+00:00:13,984 --> 00:00:16,718
+Its unit is kilogram metre squared.
+

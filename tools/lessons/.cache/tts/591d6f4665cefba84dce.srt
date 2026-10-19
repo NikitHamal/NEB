@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,984
+We release both from rest, at the top of identical slopes.
+
+2
+00:00:03,984 --> 00:00:06,315
+Which one reaches the bottom first?
+
+3
+00:00:06,315 --> 00:00:08,138
+Make a guess before you watch.
+

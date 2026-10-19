@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,156
+Welcome to Class 12 Physics, Unit 1: Rotational Dynamics.
+
+2
+00:00:05,156 --> 00:00:11,276
+Everything you learned about straight line motion in Class 11 has a twin in the world of spin.
+
+3
+00:00:11,276 --> 00:00:15,468
+Learn the translation, and this whole unit writes itself.
+

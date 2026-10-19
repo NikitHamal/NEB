@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,281
+The radius of gyration is the square root of two point five over twenty, about zero point three five four metres.
+
+2
+00:00:08,281 --> 00:00:11,119
+That is R over root two, just as we found.
+

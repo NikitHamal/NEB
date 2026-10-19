@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,625
+Watch a skater, seen from above, spinning with arms stretched out and a weight in each hand.
+
+2
+00:00:05,625 --> 00:00:10,742
+Out here, the moment of inertia is large, and the spin is slow.
+

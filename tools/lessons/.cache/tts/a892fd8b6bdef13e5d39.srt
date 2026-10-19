@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,263
+The kinetic energy rose by twenty four joules, all supplied by the student's own muscles.
+

@@ -38,6 +38,15 @@ async def _synth(text, voice, rate, pitch, mp3, vtt):
         f.write(sub.get_srt())
 
 
+def _to_wav(mp3, wav):
+    """The .mp3 (committed) is the source of truth; the trimmed 48 kHz .wav is rebuilt locally."""
+    subprocess.run(
+        ["ffmpeg", "-y", "-v", "error", "-i", mp3, "-af", "silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse",
+         "-ar", "48000", "-ac", "1", wav],
+        check=True,
+    )
+
+
 def speak(text, lang="en"):
     """Synthesize `text` once and cache it. Returns (wav_path, seconds, srt_cues)."""
     cfg = VOICES[lang]
@@ -47,8 +56,10 @@ def speak(text, lang="en"):
     wav = os.path.join(CACHE, key + ".wav")
     srt = os.path.join(CACHE, key + ".srt")
     meta = os.path.join(CACHE, key + ".json")
-    if os.path.exists(meta) and os.path.exists(wav):
+    if os.path.exists(meta) and os.path.exists(mp3):
         m = json.load(open(meta, encoding="utf-8"))
+        if not os.path.exists(wav):
+            _to_wav(mp3, wav)
         return wav, m["dur"], m["cues"]
     last = None
     for attempt in range(10):
@@ -61,11 +72,7 @@ def speak(text, lang="en"):
         time.sleep(2 + attempt * 3)
     else:
         raise RuntimeError(f"tts failed: {last}")
-    subprocess.run(
-        ["ffmpeg", "-y", "-v", "error", "-i", mp3, "-af", "silenceremove=start_periods=1:start_threshold=-50dB,areverse,silenceremove=start_periods=1:start_threshold=-50dB,areverse",
-         "-ar", "48000", "-ac", "1", wav],
-        check=True,
-    )
+    _to_wav(mp3, wav)
     dur = _duration(wav)
     cues = _parse_srt(open(srt, encoding="utf-8").read())
     json.dump({"dur": dur, "cues": cues, "text": text}, open(meta, "w", encoding="utf-8"), ensure_ascii=False)
