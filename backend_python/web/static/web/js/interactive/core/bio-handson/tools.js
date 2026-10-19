@@ -106,6 +106,26 @@ function lens() {
   const h = mesh(new THREE.CylinderGeometry(0.03, 0.035, 0.7, 12), MAT.gloss(0x111827), [0.62, 0, 0]); h.rotation.z = Math.PI / 2; g.add(h);
   return g;
 }
+function loop() {
+  const g = new THREE.Group();
+  g.add(mesh(new THREE.TorusGeometry(0.018, 0.0035, 6, 16), MAT.steel(), [0, 0.018, 0]));
+  g.add(mesh(new THREE.CylinderGeometry(0.003, 0.003, 0.5, 6), MAT.steel(), [0, 0.28, 0]));
+  g.add(mesh(lathe([[0.0, 0.5], [0.012, 0.5], [0.022, 0.56], [0.022, 1.05], [0, 1.08]], 12), MAT.gloss(0x1d4ed8)));
+  return g;
+}
+function spreader() {
+  const g = new THREE.Group(); const glass = MAT.glassEdge();
+  const foot = mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.36, 10), glass, [0.18, 0.012, 0], { cast: false }); foot.rotation.z = Math.PI / 2; g.add(foot);
+  g.add(mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.9, 10), glass, [0, 0.46, 0], { cast: false }));
+  return g;
+}
+function marker() {
+  const g = new THREE.Group();
+  g.add(mesh(new THREE.ConeGeometry(0.012, 0.05, 10), MAT.gloss(0x111827), [0, 0.025, 0]).rotateX(Math.PI));
+  g.add(mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.6, 14), MAT.gloss(0xf8fafc), [0, 0.35, 0]));
+  g.add(mesh(new THREE.CylinderGeometry(0.032, 0.032, 0.12, 14), MAT.gloss(0x111827), [0, 0.7, 0]));
+  return g;
+}
 function plainGroup() { return new THREE.Group(); }
 function bottle() {
   const g = new THREE.Group();
@@ -117,12 +137,12 @@ function bottle() {
   return g;
 }
 
-const BUILDERS = { scalpel, scissors, forceps, needle, pin: () => pinModel(0xef4444), dropper, brush, razor, lens, hand: plainGroup, coverslip: plainGroup, paper: plainGroup, washbottle: bottle, slide: plainGroup, lamp: plainGroup, tube: plainGroup };
+const BUILDERS = { loop, spreader, marker, scalpel, scissors, forceps, needle, pin: () => pinModel(0xef4444), dropper, brush, razor, lens, hand: plainGroup, coverslip: plainGroup, paper: plainGroup, washbottle: bottle, slide: plainGroup, lamp: plainGroup, tube: plainGroup };
 
 /** Handle lean per tool: [toward camera, up, right] weights. A razor is held flat. */
-const LEAN = { washbottle: [0, 1, 0], scalpel: [0.75, 0.9, 0.35], scissors: [0.55, 1, 0.45], forceps: [0.6, 1, 0.4], needle: [0.7, 0.95, 0.35], pin: [0.2, 1, 0.15], dropper: [0.1, 1, 0.05], brush: [0.6, 1, 0.35], razor: [0.0, 1, 0.0], lens: [0, 1, 0] };
+const LEAN = { loop: [0.5, 1, 0.3], spreader: [0.4, 1, 0.2], marker: [0.4, 1, 0.3], washbottle: [0, 1, 0], scalpel: [0.75, 0.9, 0.35], scissors: [0.55, 1, 0.45], forceps: [0.6, 1, 0.4], needle: [0.7, 0.95, 0.35], pin: [0.2, 1, 0.15], dropper: [0.1, 1, 0.05], brush: [0.6, 1, 0.35], razor: [0.0, 1, 0.0], lens: [0, 1, 0] };
 const SCALE = { lens: 0.8, pin: 0.75, dropper: 0.75, washbottle: 1 };
-const LIFT = { washbottle: 0.5, scalpel: 0.05, scissors: 0.05, forceps: 0.06, needle: 0.05, pin: 0.1, dropper: 0.18, brush: 0.04, razor: 0.06, lens: 0.16 };
+const LIFT = { loop: 0.03, spreader: 0.03, marker: 0.03, washbottle: 0.5, scalpel: 0.05, scissors: 0.05, forceps: 0.06, needle: 0.05, pin: 0.1, dropper: 0.18, brush: 0.04, razor: 0.06, lens: 0.16 };
 
 export function createToolRig(scene, camera) {
   const holder = new THREE.Group();
