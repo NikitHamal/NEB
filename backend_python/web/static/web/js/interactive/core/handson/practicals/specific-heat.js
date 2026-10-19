@@ -239,7 +239,7 @@ export function create(ctx) {
   ctx.debug = { st, key, mS, TB, ROOM, Cs, Cw };
   return {
     tools: [], steps,
-    update(dt, t) { physics(dt); bal.update(dt); bal.display.getWorldPosition(balChip.at); balChip.set(`<b>${bal.shown.toFixed(2)}</b> g`); balChip.show(ctx.stepIndex <= 3); burner.update(dt, t); hud.update(); },
+    update(dt, t) { physics(dt); bal.update(dt); bal.display.getWorldPosition(balChip.at); balChip.set(`<b>${bal.shown.toFixed(2)}</b> g`); balChip.show(ctx.stepIndex >= 0 && ctx.stepIndex <= 3); burner.update(dt, t); hud.update(); },
     result() {
       const c = st.c || 0; const err = (c - MET.c) / MET.c * 100;
       return {
