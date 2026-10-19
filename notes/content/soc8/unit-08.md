@@ -118,7 +118,7 @@ ax.axis("off")
 ax.set_xlim(0, 10); ax.set_ylim(0, 5.6)
 regions = [("हिमाल", 15, 7, SERIES[3]), ("पहाड", 68, 45, SERIES[2]),
            ("तराई", 17, 48, SERIES[1])]
-for i, (name, area, pop, c) in enumerate:
+for i, (name, area, pop, c) in enumerate(regions):
     y = 4.3 - i * 1.4
     ax.text(0.3, y, name, fontsize=7.0, color=INK)
     ax.text(1.9, y, "क्षेत्रफल", fontsize=5.6, color=MUTED)
@@ -191,10 +191,10 @@ ax2.plot(yrs, rate, color=SERIES[3], marker="o", markersize=4.5,
 ax2.set_ylabel("वृद्धिदर (प्रतिशत)", color=MUTED, fontsize=9)
 ax2.set_ylim(0, 3.2)
 ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow
+ax.set_axisbelow(True)
 for a in (ax, ax2):
     a.tick_params(colors=MUTED, labelsize=8.4)
-    a.spines["top"].set_visible
+    a.spines["top"].set_visible(False)
 h1, l1 = ax.get_legend_handles_labels()
 h2, l2 = ax2.get_legend_handles_labels()
 ax.legend(h1 + h2, l1 + l2, loc="upper left", fontsize=7.8, frameon=False)

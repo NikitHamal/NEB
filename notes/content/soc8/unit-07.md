@@ -184,7 +184,7 @@ fig.tight_layout
 regions = ["हिमाल", "पहाड", "तराई"]
 area = [35, 42, 23]
 popu = [6, 40, 54]
-x = np.arange(len)
+x = np.arange(len(regions))
 fig, ax = plt.subplots(figsize=(4.6, 3.0))
 ax.bar(x - 0.18, area, width=0.34, color=SERIES[1], label="क्षेत्रफल",
        edgecolor="white", linewidth=1.0)
@@ -192,18 +192,18 @@ ax.bar(x + 0.18, popu, width=0.34, color=SERIES[2], label="जनसङ्ख्
        edgecolor="white", linewidth=1.0)
 for i, (a, b) in enumerate(zip(area, popu)):
     for off, v in ((-0.18, a), (0.18, b)):
-        d = str.translate(str.maketrans("0123456789", "०१२३४५६७८९"))
+        d = str(v).translate(str.maketrans("0123456789", "०१२३४५६७८९"))
         ax.text(i + off, v + 1.2, d + "%", ha="center", color=INK,
                 fontsize=8.4)
-ax.set_xticks
+ax.set_xticks(x)
 ax.set_xticklabels(regions, fontsize=9)
 ax.set_ylabel("प्रतिशत", color=MUTED, fontsize=9)
 ax.set_ylim(0, 65)
 ax.legend(fontsize=8, frameon=False)
 ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow
+ax.set_axisbelow(True)
 for s in ("top", "right"):
-    ax.spines[s].set_visible
+    ax.spines[s].set_visible(False)
 ax.tick_params(colors=MUTED, labelsize=8.4)
 ```
 

@@ -164,7 +164,7 @@ $$\text{व्यापार सन्तुलन} = \text{निर्या�
 sectors = ["प्राथमिक\n(कृषि)", "द्वितीयक\n(उद्योग)", "तृतीयक\n(सेवा)"]
 gdp = [24, 13, 63]
 work = [60, 12, 28]
-x = np.arange(len)
+x = np.arange(len(sectors))
 fig, ax = plt.subplots(figsize=(4.8, 3.1))
 ax.bar(x - 0.18, gdp, width=0.34, color=SERIES[0],
        label="उत्पादनको हिस्सा", edgecolor="white", linewidth=1.0)
@@ -172,18 +172,18 @@ ax.bar(x + 0.18, work, width=0.34, color=SERIES[3],
        label="जनशक्तिको हिस्सा", edgecolor="white", linewidth=1.0)
 for i, (a, b) in enumerate(zip(gdp, work)):
     for off, v in ((-0.18, a), (0.18, b)):
-        d = str.translate(str.maketrans("0123456789", "०१२३४५६७८९"))
+        d = str(v).translate(str.maketrans("0123456789", "०१२३४५६७८९"))
         ax.text(i + off, v + 1.5, d + "%", ha="center", color=INK,
                 fontsize=8.2)
-ax.set_xticks
+ax.set_xticks(x)
 ax.set_xticklabels(sectors, fontsize=8.4)
 ax.set_ylabel("प्रतिशत", color=MUTED, fontsize=9)
 ax.set_ylim(0, 78)
 ax.legend(fontsize=8, frameon=False)
 ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow
+ax.set_axisbelow(True)
 for s in ("top", "right"):
-    ax.spines[s].set_visible
+    ax.spines[s].set_visible(False)
 ax.tick_params(colors=MUTED, labelsize=8.2)
 ```
 
@@ -267,7 +267,7 @@ fig, ax = plt.subplots(figsize=(4.4, 3.2))
 parts = ["आवश्यक खर्च\n५०%", "इच्छाको खर्च\n२०%", "बचत\n२०%", "सहयोग/दान\n१०%"]
 vals = [50, 20, 20, 10]
 ax.pie(vals, labels=parts, colors=[SERIES[0], SERIES[1], SERIES[2], SERIES[3]],
-       autopct=lambda p: str(round).translate(
+       autopct=lambda p: str(round(p)).translate(
            str.maketrans("0123456789", "०१२३४५६७८९")) + "%",
        startangle=90, textprops=dict(color=INK, fontsize=8.4),
        wedgeprops=dict(edgecolor="white", linewidth=1.5))

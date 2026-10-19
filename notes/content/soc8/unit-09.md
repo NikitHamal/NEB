@@ -158,15 +158,15 @@ cols = [SERIES[3] if c == "नेपाल" else SERIES[1] for c in countries]
 bars = ax.bar(countries, troops, color=cols, width=0.56,
               edgecolor="white", linewidth=1.0)
 for b, v in zip(bars, troops):
-    d = str.translate(str.maketrans("0123456789", "०१२३४५६७८९"))
+    d = str(v).translate(str.maketrans("0123456789", "०१२३४५६७८९"))
     ax.text(b.get_x() + b.get_width() / 2, v + 160, d, ha="center",
             color=INK, fontsize=8.2)
 ax.set_ylabel("सहभागी जनशक्ति", color=MUTED, fontsize=9)
 ax.set_ylim(0, 8200)
 ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow
+ax.set_axisbelow(True)
 for s in ("top", "right"):
-    ax.spines[s].set_visible
+    ax.spines[s].set_visible(False)
 ax.tick_params(colors=MUTED, labelsize=8.2)
 ```
 
