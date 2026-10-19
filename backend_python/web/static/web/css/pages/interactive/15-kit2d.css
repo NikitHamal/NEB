@@ -1,0 +1,80 @@
+/* ============================================================
+   2D labs (core/kit2d.js): a calm light shell around a light
+   canvas, with the site's blue. Scoped to .ix-k2 so 3D labs keep
+   their dark studio; .ix-k2-dark is the night variant for space.
+   ============================================================ */
+.ix-lesson-page[data-sim-type] .ix-sim-shell.ix-k2 { background: #fff; border-color: #d9e1ee; box-shadow: 0 18px 44px -30px rgba(23, 40, 80, .35); }
+.ix-lesson-page[data-sim-type] .ix-sim-shell.ix-k2 .ix-sim-stage { background: linear-gradient(180deg, #f8fafd, #e8eef8); }
+.ix-sim-stage.ix-k2-stage.ix-k2-night, .ix-lesson-page[data-sim-type] .ix-sim-shell.ix-k2-dark .ix-sim-stage { background: #070c18; }
+.ix-sim-stage.ix-k2-stage { -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+.ix-k2-canvas { display: block; width: 100%; height: 100%; outline: none; }
+.ix-sim-shell.ix-k2 .ix-sim-toolbar { background: #f6f8fc; border-top-color: #e3e9f2; }
+.ix-sim-shell.ix-k2 .ix-sim-hint { color: #5b6880; }
+.ix-sim-shell.ix-k2 .ix-sim-toolbar .ix-fullscreen-btn { color: #2b3a55; }
+
+.ix-sim-shell.ix-k2 .ix-sim-dock { background: #f6f8fc; color: #172033; border-top-color: #e3e9f2; scrollbar-color: rgba(23,32,51,.18) transparent; }
+@media (min-width: 1100px) { .ix-sim-shell.ix-k2.has-dock .ix-sim-dock { border-left-color: #e3e9f2; } }
+.ix-lesson-page[data-sim-type] .ix-sim-shell.ix-k2 .ix-ctrl-panel.ix-ctrl-docked { background: #fff; border-color: #e1e7f0; box-shadow: 0 1px 2px rgba(23, 40, 80, .05); color: #172033; }
+.ix-sim-shell.ix-k2 .ix-ctrl-panel { color: #172033; }
+.ix-sim-shell.ix-k2 .ix-ctrl-title { color: #172033; }
+.ix-sim-shell.ix-k2 .ix-ctrl-label { color: #3d4a62; opacity: 1; }
+.ix-sim-shell.ix-k2 .ix-ctrl-value { color: #1d4ed8; }
+.ix-sim-shell.ix-k2 .ix-readout-value { color: #0f6b3a; font-size: .8125rem; }
+.ix-sim-shell.ix-k2 .ix-ctrl-info { color: #4a5770; opacity: 1; }
+.ix-sim-shell.ix-k2 .ix-ctrl-divider { background: #e6ebf3; }
+.ix-sim-shell.ix-k2 .ix-ctrl-section { color: #64748b; opacity: 1; }
+.ix-sim-shell.ix-k2 .ix-ctrl-readout { background: #f6f8fc; border: 1px solid #e6ebf3; border-radius: 10px; padding: 7px 10px; }
+.ix-sim-shell.ix-k2 .ix-ctrl-section { color: #64748b; }
+.ix-sim-shell.ix-k2 .ix-ctrl-slider input[type="range"] { background: transparent; cursor: pointer; }
+.ix-sim-shell.ix-k2 .ix-ctrl-slider input[type="range"]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(90deg, #2563eb var(--k2-fill, 0%), #dfe6f1 var(--k2-fill, 0%)); }
+.ix-sim-shell.ix-k2 .ix-ctrl-slider input[type="range"]::-moz-range-track { height: 4px; border-radius: 2px; background: #dfe6f1; }
+.ix-sim-shell.ix-k2 .ix-ctrl-slider input[type="range"]::-moz-range-progress { height: 4px; border-radius: 2px; background: #2563eb; }
+.ix-sim-shell.ix-k2 .ix-ctrl-slider input[type="range"]::-webkit-slider-thumb { width: 18px; height: 18px; margin-top: -7px; background: #fff; border: 2.5px solid #2563eb; box-shadow: 0 1px 4px rgba(23, 40, 80, .25); transition: transform .15s; }
+.ix-sim-shell.ix-k2 .ix-ctrl-slider input[type="range"]:active::-webkit-slider-thumb { transform: scale(1.18); }
+.ix-sim-shell.ix-k2 .ix-ctrl-slider input[type="range"]::-moz-range-thumb { background: #fff; border: 2.5px solid #2563eb; }
+.ix-sim-shell.ix-k2 .ix-toggle-track { background: #d6deea; }
+.ix-sim-shell.ix-k2 .ix-ctrl-toggle input:checked + .ix-toggle-track { background: #2563eb; }
+.ix-sim-shell.ix-k2 .ix-toggle-thumb { box-shadow: 0 1px 3px rgba(23, 40, 80, .3); }
+.ix-sim-shell.ix-k2 .ix-ctrl-select select { background: #f6f8fc; border-color: #d9e1ee; color: #172033; }
+.ix-sim-shell.ix-k2 .ix-ctrl-btn { background: #2563eb; color: #fff; box-shadow: 0 1px 2px rgba(23, 40, 80, .18); transition: filter .15s, transform .12s; }
+.ix-sim-shell.ix-k2 .ix-ctrl-btn:active { transform: scale(.97); }
+.ix-sim-shell.ix-k2 .ix-ctrl-btn-ghost { background: #eef3fb; color: #1d3f8f; box-shadow: none; border: 1px solid #dbe4f3; }
+.ix-sim-shell.ix-k2 .ix-ctrl-btn-danger { background: #e5484d; }
+.ix-sim-shell.ix-k2 .ix-ctrl-btn.is-on { background: #1d3f8f; }
+.ix-sim-shell.ix-k2 .ix-ctrl-btn-ghost.is-on { background: #2563eb; color: #fff; border-color: #2563eb; }
+
+.ix-sim-stage.ix-k2-stage .ix-hud { pointer-events: none; }
+.ix-sim-stage.ix-k2-stage:not(.ix-k2-night) .ix-hud-badge { background: rgba(255, 255, 255, .92); color: #172033; border: 1px solid color-mix(in srgb, var(--ix-hud-color, #2563eb) 45%, #e1e7f0); box-shadow: 0 4px 14px -6px rgba(23, 40, 80, .25); backdrop-filter: blur(6px); }
+.ix-sim-stage.ix-k2-stage:not(.ix-k2-night) .ix-info-card { background: rgba(255, 255, 255, .97); color: #172033; border-color: #d9e1ee; box-shadow: 0 18px 40px -18px rgba(23, 40, 80, .35); }
+.ix-sim-stage.ix-k2-stage:not(.ix-k2-night) .ix-info-title { color: var(--ix-color, #1d4ed8); }
+
+/* chip rows inside a docked panel (choose a material, a planet, a test) */
+.k2-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.k2-chip { font: 600 .75rem/1 var(--md-font, Poppins, sans-serif); padding: 7px 11px; border-radius: 999px; border: 1px solid #d9e1ee; background: #f6f8fc; color: #26334d; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; transition: background .15s, border-color .15s, transform .12s; }
+.k2-chip:hover { border-color: #9db6ea; }
+.k2-chip:active { transform: scale(.96); }
+.k2-chip.is-on { background: #2563eb; border-color: #2563eb; color: #fff; }
+.k2-chip i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; background: var(--c, #2563eb); box-shadow: inset 0 0 0 1px rgba(0,0,0,.12); }
+.ix-k2-dark .k2-chip { background: rgba(255,255,255,.06); border-color: rgba(255,255,255,.14); color: #e8eefb; }
+.ix-k2-dark .k2-chip.is-on { background: #3b6df0; border-color: #3b6df0; }
+.k2-stat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.k2-stat > div { background: #f6f8fc; border: 1px solid #e6ebf3; border-radius: 10px; padding: 7px 9px; min-width: 0; }
+.k2-stat b { display: block; font: 700 .9rem/1.2 var(--md-font, Poppins, sans-serif); color: #172033; font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.k2-stat span { display: block; font: 600 .66rem/1.2 var(--md-font, Poppins, sans-serif); color: #64748b; letter-spacing: .02em; margin-bottom: 2px; }
+.ix-k2-dark .k2-stat > div { background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.08); }
+.ix-k2-dark .k2-stat b { color: #e8eefb; }
+.ix-k2-dark .k2-stat span { color: #94a3b8; }
+@media (prefers-reduced-motion: reduce) { .k2-chip, .ix-sim-shell.ix-k2 .ix-ctrl-btn { transition: none; } }
+@media (max-width: 640px) {
+  .ix-lesson-page[data-sim-type] .ix-sim-shell.ix-k2 .ix-sim-stage, .ix-lesson-page[data-sim-type] .ix-sim-shell.ix-k2-dark .ix-sim-stage { aspect-ratio: 5 / 6; max-height: 72vh; min-height: 340px; }
+}
+.k2-table { display: flex; flex-direction: column; border: 1px solid #e6ebf3; border-radius: 10px; overflow: hidden; font: 500 .75rem/1.3 var(--md-font, Poppins, sans-serif); }
+.k2-table:empty { display: none; }
+.k2-tr { display: grid; grid-template-columns: repeat(var(--k2-cols, 3), minmax(0, 1fr)); gap: 6px; padding: 6px 10px; border-top: 1px solid #eef2f7; font-variant-numeric: tabular-nums; color: #172033; }
+.k2-tr:first-child { border-top: none; }
+.k2-th { background: #f6f8fc; font-weight: 700; color: #4a5770; font-size: .7rem; }
+.k2-tr.is-new { animation: k2-row .5s ease-out; }
+@keyframes k2-row { from { background: #dbe6ff; } to { background: transparent; } }
+.ix-k2-dark .k2-table { border-color: rgba(255,255,255,.1); }
+.ix-k2-dark .k2-tr { color: #e8eefb; border-top-color: rgba(255,255,255,.06); }
+.ix-k2-dark .k2-th { background: rgba(255,255,255,.05); color: #aab8d3; }
