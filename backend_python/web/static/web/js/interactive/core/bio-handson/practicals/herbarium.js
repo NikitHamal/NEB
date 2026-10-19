@@ -90,7 +90,7 @@ export function create(ctx) {
     title: 'Lay it in the plant press', text: 'Tap the stack of <b>blotting paper</b> to lay a sheet on the press, then tap the twig to lay it on the paper.', tool: null, autoTool: 'hand', shot: SH,
     skip() { blot[0].visible = true; blot[0].position.y = 0.06; layOn(true); },
     handler: { down() {
-      if (!blot[0].visible) { if (!input.pick([stack], true)) return false; blot[0].visible = true; blot[0].position.y = 0.06; sfx.play('place'); return true; }
+      if (!blot[0].visible) { if (!input.pick([stack], true)) return false; blot[0].visible = true; blot[0].position.y = 0.06; sfx.play('paper'); return true; }
       if (!input.pick([spec], true)) return false; layOn(false); return true;
     } },
   };
@@ -117,8 +117,8 @@ export function create(ctx) {
     title: 'Close and tighten the press', text: 'Tap the blotting paper stack to cover the specimen, then tap the press to put on the top frame and tighten the straps.', tool: null, autoTool: 'hand', shot: SH,
     skip() { blot[1].visible = true; blot[1].position.y = 0.2; lid.position.set(0, 0.24, 0); spec.scale.y = 0.15; },
     handler: { down() {
-      if (!blot[1].visible) { if (!input.pick([stack], true)) return false; blot[1].visible = true; blot[1].position.y = 0.2; sfx.play('place'); return true; }
-      if (!input.pick([press, spec], true)) return false; sfx.play('click'); const from = lid.position.clone(); anim.add(1.0, (k) => { lid.position.lerpVectors(from, new THREE.Vector3(0, 0.24, 0), k); lid.position.y += Math.sin(Math.PI * k) * 0.8; }, { done: () => { anim.add(0.5, (k) => { spec.scale.y = 1 - 0.85 * k; }); sfx.play('squish'); ctx.next('Pressed firmly between the frames.'); } }); return true;
+      if (!blot[1].visible) { if (!input.pick([stack], true)) return false; blot[1].visible = true; blot[1].position.y = 0.2; sfx.play('paper'); return true; }
+      if (!input.pick([press, spec], true)) return false; sfx.play('click'); const from = lid.position.clone(); anim.add(1.0, (k) => { lid.position.lerpVectors(from, new THREE.Vector3(0, 0.24, 0), k); lid.position.y += Math.sin(Math.PI * k) * 0.8; }, { done: () => { anim.add(0.5, (k) => { spec.scale.y = 1 - 0.85 * k; }); sfx.play('latch'); ctx.next('Pressed firmly between the frames.'); } }); return true;
     } },
   };
   const stepDry = {
@@ -130,7 +130,7 @@ export function create(ctx) {
         ui.observe(`Day ${d}`, `${Math.round(moist)} % moisture${mould ? ', mould!' : ''}`); paint();
         if (d >= 7 && !this.fin) { this.fin = true; clock.show(false); hud.actions([]); ctx.next(moist < 15 ? 'Dry and brittle, the colour largely kept.' : 'Dry enough to mount.'); }
       } });
-      hud.actions([{ id: 'c', label: 'Change blotters', onClick() { if (day === lastChange) { ctx.say('Already changed today.', 'hint', 1000); return; } lastChange = day; moist = Math.max(8, moist * 0.85); sfx.play('tear'); ui.observe(`Day ${day}`, `blotters changed · ${Math.round(moist)} %`); paint(); } }]);
+      hud.actions([{ id: 'c', label: 'Change blotters', onClick() { if (day === lastChange) { ctx.say('Already changed today.', 'hint', 1000); return; } lastChange = day; moist = Math.max(8, moist * 0.85); sfx.play('paper'); ui.observe(`Day ${day}`, `blotters changed · ${Math.round(moist)} %`); paint(); } }]);
     },
     skip() { moist = 10; day = 7; paint(); },
     exit() { if (clock) clock.remove(); clock = null; hud.actions([]); },

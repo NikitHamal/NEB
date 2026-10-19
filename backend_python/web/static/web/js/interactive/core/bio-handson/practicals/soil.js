@@ -81,7 +81,7 @@ export function create(ctx) {
   const stepOven = {
     title: 'Dry to constant mass at 105 °C', text: 'Both crucibles are in the oven. Run the clock 2 hours, then press <b>Weigh</b>. Repeat until two weighings agree — that is constant mass.', tool: null, autoTool: 'hand', hideBelt: true, shot: S([2.0, 1.8, 2.6], [2.0, 0.5, 0.1], 3.0),
     enter() {
-      oven.open(0.6); crus.forEach((c, i) => { c.position.set(2.7 + i * 0.2, 0.4, -0.5); }); anim.wait(0.8, () => oven.open(0));
+      sfx.play('door'); oven.open(0.6); crus.forEach((c, i) => { c.position.set(2.7 + i * 0.2, 0.4, -0.5); }); anim.wait(0.8, () => oven.open(0));
       ovenClock = timelapse(ctx, { step: 2, unit: 'h', onTick: (h, done) => { hours = h; if (done) { ovenClock.enable(false); hud.enable('w', true); } } });
       hud.actions([{ id: 'w', label: 'Weigh', primary: true, disabled: true, onClick: () => { SITES.forEach((s) => { const m = massAt(s, hours); rec.mass[s.id].push([hours, m]); ui.observe(`${s.id} after ${hours} h`, `${m.toFixed(2)} g`); }); sfx.play('place'); hud.enable('w', false); ovenClock.enable(true); } }, { id: 'c', label: 'Constant mass reached', onClick: () => {
         const ok = SITES.every((s) => { const m = rec.mass[s.id]; return m.length >= 2 && Math.abs(m[m.length - 1][1] - m[m.length - 2][1]) <= 0.01; });
