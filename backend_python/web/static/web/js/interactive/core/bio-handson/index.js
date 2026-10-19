@@ -37,6 +37,7 @@ const PRACTICALS = {
   'pond-ecosystem-botany': () => import('./practicals/pond.js'),
   'mushroom-identification': () => import('./practicals/mushroom.js'),
   'inflorescence-identification': () => import('./practicals/inflorescence.js'),
+  'fossil-evolution-evidence': () => import('./practicals/fossil.js'),
   'pond-ecosystem-zoology': () => import('./practicals/pond.js'),
   'skeleton-joints-health-disorders': () => import('./practicals/skeleton.js'),
   'quadrat-frequency-field': () => import('./practicals/quadrat.js'),
