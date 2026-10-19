@@ -1,5 +1,6 @@
 package com.neb.ians.ui.screens.home
 
+import com.neb.ians.ui.theme.seasonAmbience
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -164,9 +165,10 @@ fun HomeScreen(
 
                     val siteTheme = com.neb.ians.ui.theme.LocalSiteTheme.current
                     val context = androidx.compose.ui.platform.LocalContext.current
+                    val homeAtTop by androidx.compose.runtime.remember(listState) { androidx.compose.runtime.derivedStateOf { listState.firstVisibleItemIndex == 0 } }
                     LazyColumn(
                         state = listState,
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize().seasonAmbience(homeAtTop),
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         contentPadding = PaddingValues(top = 10.dp, bottom = 24.dp)
                     ) {
