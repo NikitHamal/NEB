@@ -47,6 +47,7 @@
     <a href="{% url 'web:library' %}">Library</a>
     <a href="#books">Books</a>
     <a href="{% url 'web:forum' %}">Forum</a>
+    <a href="#app">App</a>
   </nav>
   <div class="lp-nav-end">
     {% if not signed_in %}<a class="lp-btn lp-btn-ghost lp-btn-sm lp-signin" href="{% url 'web:login' %}"><span>Sign in</span></a>{% endif %}
@@ -62,7 +63,8 @@
     <a href="#books" style="--i:1">Books</a>
     <a href="{% url 'web:forum' %}" style="--i:2">Forum</a>
     <a href="#levels" style="--i:3">Levels</a>
-    {% if not signed_in %}<a class="lp-menu-signin" href="{% url 'web:login' %}" style="--i:4">Sign in</a>{% endif %}
+    <a href="#app" style="--i:4">App</a>
+    {% if not signed_in %}<a class="lp-menu-signin" href="{% url 'web:login' %}" style="--i:5">Sign in</a>{% endif %}
   </nav>
 </div>
 
@@ -82,6 +84,7 @@
         <p class="lp-lede">Notes, past papers and books for every class, field and level. Free.</p>
         <div class="lp-actions">
           <a class="lp-btn" href="{% url 'web:library' %}"><span>Start reading</span></a>
+          <a class="lp-btn lp-btn-soft" href="#app"><span>Get the app</span></a>
         </div>
       </div>
     </div>
