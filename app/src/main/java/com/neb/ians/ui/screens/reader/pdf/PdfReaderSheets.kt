@@ -1,9 +1,5 @@
 package com.neb.ians.ui.screens.reader.pdf
 
-import com.neb.ians.ui.components.NebButtonTone
-import com.neb.ians.ui.components.NebButton
-import androidx.compose.material.icons.outlined.ContentCopy
-import androidx.compose.material.icons.outlined.IosShare
 import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -73,9 +69,7 @@ fun ReaderOptionsSheet(
     onTheme: (ReadingTheme) -> Unit,
     onLayout: (ReadingLayout) -> Unit,
     onKeepScreenOn: (Boolean) -> Unit,
-    onDismiss: () -> Unit,
-    onShare: (() -> Unit)? = null,
-    onCopyText: (() -> Unit)? = null
+    onDismiss: () -> Unit
 ) {
     NebModalSheet(onDismiss = onDismiss, title = "Reading options") {
         Column(Modifier.padding(horizontal = 22.dp), verticalArrangement = Arrangement.spacedBy(20.dp)) {
@@ -105,12 +99,6 @@ fun ReaderOptionsSheet(
                 checked = keepScreenOn,
                 onCheckedChange = onKeepScreenOn
             )
-            if (onShare != null || onCopyText != null) {
-                Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                    if (onShare != null) NebButton(text = "Share or open with", onClick = onShare, icon = Icons.Outlined.IosShare, tone = NebButtonTone.Tonal, modifier = Modifier.weight(1f))
-                    if (onCopyText != null) NebButton(text = "Copy page text", onClick = onCopyText, icon = Icons.Outlined.ContentCopy, tone = NebButtonTone.Tonal, modifier = Modifier.weight(1f))
-                }
-            }
         }
     }
 }

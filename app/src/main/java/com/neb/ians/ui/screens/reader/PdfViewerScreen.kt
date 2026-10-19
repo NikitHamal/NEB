@@ -1,12 +1,7 @@
 package com.neb.ians.ui.screens.reader
 
 import kotlinx.coroutines.launch
-import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.FileProvider
-import android.widget.Toast
-import android.content.Intent
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
@@ -142,9 +137,6 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
         sheet = null
     }
 
-    val context = LocalContext.current
-    val clipboard = LocalClipboardManager.current
-    val scope = rememberCoroutineScope()
     val look = readerLook(state.theme)
     val source = remember(viewModel) { PageSource({ i, w -> viewModel.cachedPage(i, w) }, { i, w -> viewModel.renderPage(i, w) }) }
     val zoom = rememberReaderZoomState()
@@ -291,19 +283,7 @@ private fun PdfReader(state: PdfViewerUiState, viewModel: PdfViewerViewModel, on
             onTheme = viewModel::setTheme,
             onLayout = viewModel::setLayout,
             onKeepScreenOn = viewModel::setKeepScreenOn,
-            onDismiss = { sheet = null },
-            onShare = { sheet = null; shareDocument(context, viewModel.localFile(), state.title) },
-            onCopyText = if (state.canReadText) ({
-                sheet = null
-                scope.launch {
-                    val text = viewModel.pageText()
-                    if (text == null) Toast.makeText(context, "This page has no selectable text", Toast.LENGTH_SHORT).show()
-                    else {
-                        clipboard.setText(AnnotatedString(text))
-                        Toast.makeText(context, "Page ${state.currentPage + 1} text copied", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }) else null
+            onDismiss = { sheet = null }
         )
         ReaderSheet.Pages -> ThumbnailsSheet(
             aspects = state.pageAspects,
@@ -423,22 +403,6 @@ private fun KeepScreenOn(enabled: Boolean) {
         view.keepScreenOn = enabled
         onDispose { view.keepScreenOn = false }
     }
-}
-
-/** Hands the PDF to another app (share sheet, or open with a different reader). */
-private fun shareDocument(context: Context, file: java.io.File?, title: String) {
-    if (file == null) { Toast.makeText(context, "The document is not saved on this phone yet", Toast.LENGTH_SHORT).show(); return }
-    val uri = runCatching { FileProvider.getUriForFile(context, "${context.packageName}.fileprovider", file) }.getOrNull()
-    if (uri == null) { Toast.makeText(context, "This document cannot be shared", Toast.LENGTH_SHORT).show(); return }
-    val send = Intent(Intent.ACTION_SEND).apply {
-        type = "application/pdf"
-        putExtra(Intent.EXTRA_STREAM, uri)
-        putExtra(Intent.EXTRA_SUBJECT, title)
-        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-    }
-    val view = Intent(Intent.ACTION_VIEW).apply { setDataAndType(uri, "application/pdf"); addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION) }
-    val chooser = Intent.createChooser(send, "Share or open $title").apply { putExtra(Intent.EXTRA_INITIAL_INTENTS, arrayOf(view)) }
-    runCatching { context.startActivity(chooser) }
 }
 
 private tailrec fun Context.findActivity(): Activity? = when (this) {

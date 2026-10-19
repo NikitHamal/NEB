@@ -50,7 +50,7 @@ data class PdfViewerUiState(
     val theme: ReadingTheme = ReadingTheme.Paper,
     val layout: ReadingLayout = ReadingLayout.Scroll,
     val keepScreenOn: Boolean = true,
-    /** Whether this device can read the document's text (search, copy page text). */
+    /** Whether this device can read the document's text (search). */
     val canReadText: Boolean = false,
     val search: ReaderSearch = ReaderSearch()
 )
@@ -229,9 +229,6 @@ class PdfViewerViewModel @Inject constructor(
     }
 
     suspend fun renderPage(index: Int, widthPx: Int): Bitmap? = engine?.render(index, widthPx)
-
-    /** The PDF on disk, for sharing or opening in another app. */
-    fun localFile(): File? = file?.takeIf(File::exists)
 
     suspend fun pageText(index: Int = _uiState.value.currentPage): String? = engine?.pageText(index)
 
