@@ -111,7 +111,18 @@ def tts_generate(request):
     elif provider.startswith("fish"):
         from .fish_proxy import generate_tts as fish_tts
 
-        result = fish_tts(text=text, voice=request.data.get("voice") or "default")
+        result = fish_tts(
+            text=text,
+            voice=request.data.get("voice") or "",
+            model=provider if provider not in ("fish", "fishaudio") else (request.data.get("model") or ""),
+            mode=request.data.get("mode") or "",
+            description=request.data.get("description") or "",
+            scene=request.data.get("scene") or "",
+            character=request.data.get("character") or "",
+            temperature=request.data.get("temperature"),
+            top_p=request.data.get("top_p"),
+            top_k=request.data.get("top_k"),
+        )
     else:
         # Default to Lazypy Bing (most reliable)
         from .lazypy_proxy import generate_tts
