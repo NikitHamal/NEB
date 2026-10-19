@@ -325,8 +325,8 @@ COURSES = [
                 'icon': 'zoom_out_map',
                 'minutes': 15,
                 'sim': 'space/cosmic-scale',
-                'sim_type': '2d',
-                'summary': 'Start at the summit of Everest and zoom out through 23 powers of ten to the edge of the observable universe.',
+                'sim_type': '3d',
+                'summary': 'Start on the real summit of Everest and zoom out in 3D through 27 powers of ten to the edge of the observable universe.',
                 'objectives': [
                     'Use powers of ten to compare wildly different sizes',
                     'Order cosmic structures from Earth to the observable universe',
