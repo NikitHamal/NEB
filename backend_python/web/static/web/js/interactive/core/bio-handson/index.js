@@ -30,6 +30,8 @@ const PRACTICALS = {
   'mendelian-inheritance-seeds': () => import('./practicals/mendel.js'),
   'quadrat-density-plant': () => import('./practicals/quadrat.js'),
   'cockroach-external-morphology': () => import('./practicals/cockroach.js'),
+  'human-skeleton-joints': () => import('./practicals/skeleton.js'),
+  'skeleton-joints-health-disorders': () => import('./practicals/skeleton.js'),
   'quadrat-frequency-field': () => import('./practicals/quadrat.js'),
   'apical-bud-removal-setup': () => import('./practicals/tropism.js'),
 };
