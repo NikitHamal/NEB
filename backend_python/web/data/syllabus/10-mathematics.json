@@ -1,0 +1,702 @@
+{
+ "grade": "10",
+ "grade_label": "Class 10",
+ "grade_label_ne": "कक्षा १०",
+ "subject": "mathematics",
+ "name": "Mathematics",
+ "name_ne": "गणित",
+ "icon": "calculate",
+ "group": "compulsory",
+ "color": "#8F5507",
+ "lang": "en",
+ "code": "SEE",
+ "hours": 160,
+ "exam": "SEE, 3 hr, FM 75 written (+25 internal) | Compulsory Mathematics",
+ "areas": [
+  "Compulsory Mathematics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Sets",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Sets: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Sets: concepts, formulas and worked problems"
+    },
+    {
+     "no": "1.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "n(A∪ B)=n(A)+n(B)-n(A∩ B); for disjoint sets n(A∩ B)=0.",
+    "Only A: n(A)-n(A∩ B). Neither: n(U)-n(A∪ B).",
+    "n(A∪ B∪ C)=n(A)+n(B)+n(C)-n(A∩ B)-n(B∩ C)-n(A∩ C)+n(A∩ B∩ C).",
+    "Fill a three-set Venn diagram from the centre outwards; check that all regions add to n(U).",
+    "Exactly two =Σ n(pair)-3 n(A∩ B∩ C); exactly one =n(A∪ B∪ C)-(exactly two)-n(A∩ B∩ C).",
+    "A-B=A∩ B' and A'=U-A.",
+    "De Morgan: (A∪ B)'=A'∩ B', (A∩ B)'=A'∪ B'.",
+    "Distributive: A∩(B∪ C)=(A∩ B)∪(A∩ C)."
+   ],
+   "terms": [
+    "Union, intersection, difference, complement",
+    "Laws used in SEE verification questions"
+   ],
+   "stats": {
+    "words": 2604,
+    "figures": 3,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Tax and Money Exchange",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Tax and Money Exchange: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Tax and Money Exchange: concepts, formulas and worked problems"
+    },
+    {
+     "no": "2.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "VAT =(r)/(100)× price; bill = price ×(1+(r)/(100)); price = bill ÷(1+(r)/(100)). Nepal's standard rate is 13%.",
+    "Discount is allowed on the marked price first; VAT is charged on the selling price.",
+    "Excise duty is charged on the factory price; VAT is then charged on factory price + excise.",
+    "Final price with excise e% and VAT v%: factory ×(1+(e)/(100))(1+(v)/(100)).",
+    "A seller pays VAT collected on sales minus VAT paid on purchases.",
+    "Taxable income = total income - allowed deductions; tax is charged slab by slab at each slab's rate.",
+    "Foreign to rupees: multiply by the rate; rupees to foreign: divide. The bank's buying rate is lower than its selling rate.",
+    "INR 1 = Rs 1.6; convert one foreign currency to another through rupees."
+   ],
+   "terms": [
+    "Value added tax (VAT)",
+    "Excise duty",
+    "Income tax and taxable income"
+   ],
+   "stats": {
+    "words": 3637,
+    "figures": 4,
+    "examples": 16
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Compound Interest",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Compound Interest: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Compound Interest: concepts, formulas and worked problems"
+    },
+    {
+     "no": "3.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Simple interest I=(PTR)/(100); compound interest adds interest to the principal every period.",
+    "A=Pleft(1+(R)/(100)right)^T and CI=A-P (compounded yearly).",
+    "Half-yearly: A=Pleft(1+(R)/(200)right)^2T; quarterly: A=Pleft(1+(R)/(400)right)^4T.",
+    "P=dfracA(1+R/100)^T; find R or T by matching A/P with a power.",
+    "For 2 years, CI-SI=Pleft((R)/(100)right)^2.",
+    "If the rate changes each year, multiply by each year's factor in turn.",
+    "More frequent compounding gives a larger amount."
+   ],
+   "terms": [
+    "Compound interest"
+   ],
+   "stats": {
+    "words": 2819,
+    "figures": 2,
+    "examples": 15
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Population Growth and Depreciation",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Population Growth and Depreciation: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Population Growth and Depreciation: concepts, formulas and worked problems"
+    },
+    {
+     "no": "4.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Growth: PT=P0left(1+(R)/(100)right)^T. Past population: divide by the factor.",
+    "Net rate = birth - death + immigration - emigration (all in % per year).",
+    "For different yearly rates multiply the factors; for a fixed number of migrants add or subtract at the correct time.",
+    "Depreciation: V=Pleft(1-(R)/(100)right)^T; total depreciation =P-V.",
+    "Depreciation each year is charged on the value at the start of that year, so the yearly loss shrinks.",
+    "Half-yearly: halve the rate and double the number of periods.",
+    "Find R or T by matching A/P (or V/P) with a power such as 1.1^2=1.21, 0.9^2=0.81, 0.8^2=0.64.",
+    "An increase of x% followed by a decrease of x% gives a net decrease."
+   ],
+   "terms": [
+    "Net growth rate",
+    "Depreciation"
+   ],
+   "stats": {
+    "words": 2638,
+    "figures": 3,
+    "examples": 16
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Plane Surfaces",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Plane Surfaces: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Plane Surfaces: concepts, formulas and worked problems"
+    },
+    {
+     "no": "5.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Rectangle lb, 2(l+b); square a^2, 4a; triangle frac12bh; parallelogram bh; rhombus frac12d1d2; trapezium frac12(a+b)h.",
+    "Heron: s=(a+b+c)/(2), Area =√s(s-a)(s-b)(s-c); equilateral frac√34a^2.",
+    "Circle: C=2π r, A=π r^2; semicircle perimeter π r+2r, area frac12π r^2.",
+    "Sector: arc =(θ)/(360)×2π r, area =(θ)/(360)×π r^2.",
+    "Path or ring = larger area - smaller area; ring =π(R^2-r^2).",
+    "Path outside a rectangle adds 2w to each side; path inside subtracts 2w.",
+    "Combined figure: add areas; the joining line is not in the perimeter.",
+    "Cost = area (or length) × rate; number of tiles = floor area ÷ one tile."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2523,
+    "figures": 5,
+    "examples": 15
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Cylinder and Sphere",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Cylinder and Sphere: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Cylinder and Sphere: concepts, formulas and worked problems"
+    },
+    {
+     "no": "6.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Cylinder: CSA =2π rh, TSA =2π r(r+h), V=π r^2h.",
+    "Hollow cylinder: V=π h(R^2-r^2); outer CSA =2π Rh.",
+    "Sphere: surface =4π r^2, V=frac43π r^3.",
+    "Hemisphere: CSA =2π r^2, TSA =3π r^2, V=frac23π r^3.",
+    "Hollow sphere: V=frac43π(R^3-r^3).",
+    "1 litre =1000 cm³; 1 m³ =1000 litres.",
+    "Melting and recasting: total volume is unchanged; number of small solids =fracVbigVsmall.",
+    "A submerged solid raises the water level by fracVsolidbase area."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2595,
+    "figures": 4,
+    "examples": 16
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Prism and Pyramid",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Prism and Pyramid: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Prism and Pyramid: concepts, formulas and worked problems"
+    },
+    {
+     "no": "7.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Right prism: LSA =Ph, TSA =Ph+2A, V=Ah (P base perimeter, A base area).",
+    "Cuboid: LSA =2h(l+b), TSA =2(lb+bh+hl), V=lbh, diagonal =√l^2+b^2+h^2.",
+    "Cube: TSA =6a^2, V=a^3.",
+    "Square pyramid: l^2=h^2+(frac a2)^2, LSA =2al, TSA =2al+a^2, V=frac13a^2h.",
+    "A pyramid is one third of the prism with the same base and height.",
+    "Cone: l^2=r^2+h^2, CSA =π rl, TSA =π r(r+l), V=frac13π r^2h.",
+    "1 dm³ =1 litre; 1 m³ =1000 litres.",
+    "The four walls of a room: 2h(l+b) minus the doors and windows."
+   ],
+   "terms": [
+    "Prism",
+    "Pyramid"
+   ],
+   "stats": {
+    "words": 2435,
+    "figures": 4,
+    "examples": 11
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Highest Common Factor and Lowest Common Multiple",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Highest Common Factor and Lowest Common Multiple: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Highest Common Factor and Lowest Common Multiple: concepts, formulas and worked problems"
+    },
+    {
+     "no": "8.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "HCF = common factors at lowest powers; LCM = all factors at highest powers (include the numerical parts).",
+    "For two numbers or expressions: HCFtimesLCM=A× B. Not valid for three.",
+    "Factorisation toolkit: common factor, grouping, a^2-b^2, perfect squares, x^2+px+q, ax^2+bx+c, a^3± b^3.",
+    "a^3+b^3=(a+b)(a^2-ab+b^2) and a^3-b^3=(a-b)(a^2+ab+b^2).",
+    "Euclid's method: divide, then divide the divisor by the remainder, until the remainder is 0; the last divisor is the HCF.",
+    "Missing expression: B=dfracHCFtimesLCMA.",
+    "A letter missing from any one term is not in the HCF.",
+    "Word problems: HCF for equal cutting; LCM for common times."
+   ],
+   "terms": [
+    "HCF and LCM"
+   ],
+   "stats": {
+    "words": 2443,
+    "figures": 4,
+    "examples": 16
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Radical and Surd",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Radical and Surd: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Radical and Surd: concepts, formulas and worked problems"
+    },
+    {
+     "no": "9.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "A surd √[n]a (a rational) is irrational; √16, √[3]27 are not surds; √2, √[3]5 are.",
+    "√a×√b=√ab; frac√a√b=√frac ab; (√a)^2=a; but √a+b≠√a+√b.",
+    "Add and subtract only like surds after simplifying: 5√2+3√2=8√2.",
+    "Conjugate of a+√b is a-√b; product =a^2-b (rational).",
+    "Rationalise frac1√a by √a; rationalise frac1√a±√b by √amp√b, giving denominator a-b.",
+    "If x=2+√3 then (1)/(x)=2-√3, x+(1)/(x)=4, x^2+(1)/(x^2)=14, x^3+(1)/(x^3)=52.",
+    "x^2+(1)/(x^2)=(x+(1)/(x))^2-2 and x^3+(1)/(x^3)=(x+(1)/(x))^3-3(x+(1)/(x)).",
+    "Compare surds of different order by writing both with the LCM of the indices."
+   ],
+   "terms": [
+    "Radical, index and radicand",
+    "Surd",
+    "Conjugate surds"
+   ],
+   "stats": {
+    "words": 2232,
+    "figures": 3,
+    "examples": 17
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Indices",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Indices: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Indices: concepts, formulas and worked problems"
+    },
+    {
+     "no": "10.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "a^m× a^n=a^m+n, a^m÷ a^n=a^m-n, (a^m)^n=a^mn, (ab)^n=a^nb^n.",
+    "a^0=1 and a^-n=(1)/(a^n); a negative index flips the base.",
+    "a^1/n is the nth root of a and a^m/n=left(a^1/nright)^m: root first, then power.",
+    "If a^x=a^y (a>0, a≠1) then x=y.",
+    "To solve an exponential equation: common base, simplify, equate indices, check.",
+    "For sums like a^x+k± a^x take the smallest power as the common factor.",
+    "Equations such as 4^x-5·2^x+4=0: put y=2^x and solve the quadratic in y.",
+    "To prove an identity: simplify one side with the laws until it equals the other."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2215,
+    "figures": 2,
+    "examples": 29
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Algebraic Fraction",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Algebraic Fraction: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Algebraic Fraction: concepts, formulas and worked problems"
+    },
+    {
+     "no": "11.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Factorisation formulas: a^2-b^2=(a+b)(a-b); (a± b)^2; a^3± b^3=(a± b)(a^2mp ab+b^2); trinomials by sum and product or by splitting the middle term.",
+    "Cancel only factors, never added terms.",
+    "(p)/(q)×(r)/(s)=(pr)/(qs); (p)/(q)÷(r)/(s)=(p)/(q)×(s)/(r).",
+    "To add or subtract: factorise the denominators, take the LCM, rewrite, combine numerators with brackets, simplify.",
+    "Complex fractions: simplify the inside first; x^2-(1)/(x^2)=left(x+(1)/(x)right)left(x-(1)/(x)right).",
+    "Fractional equations: multiply by the LCM; reject roots that zero a denominator.",
+    "Always check with a small number such as x=2."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1987,
+    "figures": 2,
+    "examples": 34
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Equations",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Equations: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Equations: concepts, formulas and worked problems"
+    },
+    {
+     "no": "12.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "A pair of linear equations: solve by substitution, elimination or graph; check in both.",
+    "Word problems: choose letters, form equations, solve, answer in words.",
+    "Quadratic standard form ax^2+bx+c=0; zero product rule after factorising.",
+    "Completing the square: add left((b)/(2a)right)^2 to both sides.",
+    "Quadratic formula x=frac-b±√b^2-4ac2a; discriminant D=b^2-4ac: D>0 two roots, D=0 one root, D<0 no real root.",
+    "Reject answers that are impossible in the context.",
+    "When squaring an equation containing a square root, check every root in the original."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2326,
+    "figures": 2,
+    "examples": 25
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Area of Triangles and Quadrilaterals",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Area of Triangles and Quadrilaterals: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Area of Triangles and Quadrilaterals: concepts, formulas and worked problems"
+    },
+    {
+     "no": "13.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Parallelograms on the same base and between the same parallels have equal area.",
+    "A triangle on the same base as a parallelogram and between the same parallels has half its area.",
+    "Triangles on the same base (or equal bases) and between the same parallels are equal in area.",
+    "A median divides a triangle into two triangles of equal area; triangles with the same height have areas in the ratio of their bases.",
+    "The diagonals of a parallelogram divide it into four triangles of equal area.",
+    "Formulas: parallelogram bh; triangle (1)/(2)bh; trapezium (1)/(2)(a+b)h; rhombus (1)/(2)d1d2; quadrilateral (1)/(2)d(h1+h2).",
+    "A proof always has Given, To prove, Construction, Proof with a reason for each step."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2927,
+    "figures": 4,
+    "examples": 13
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Construction",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Construction: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Construction: concepts, formulas and worked problems"
+    },
+    {
+     "no": "14.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Constructions use only a ruler and compass (a protractor only for a given angle); keep all arcs.",
+    "Parallel through a point: rhombus method with equal radii.",
+    "Triangle = quadrilateral: join diagonal AC; through D draw DE∥ AC meeting BC produced at E; Δ ABE has the same area.",
+    "Parallelogram = triangle: bisect the base; draw the given angle at the midpoint; parallels through the apex and through the end of the base.",
+    "Rectangle = triangle: same, with 90^°. Square = rectangle: semicircle on a+b; the perpendicular at the junction is √ab.",
+    "The proofs rest on: triangles on the same base between the same parallels are equal in area; a triangle is half a parallelogram.",
+    "Steps + figure + proof earns the full marks."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2695,
+    "figures": 4,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Circle",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Circle: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Circle: concepts, formulas and worked problems"
+    },
+    {
+     "no": "15.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Angle at the centre =2× angle at the circumference on the same arc.",
+    "Angles in the same segment are equal.",
+    "Angle in a semicircle =90^°; the hypotenuse of a right triangle is a diameter of its circumcircle.",
+    "Cyclic quadrilateral: opposite angles add to 180^°; exterior angle = interior opposite angle.",
+    "Tangent ⊥ radius; tangent length =√OP^2-r^2; two tangents from a point are equal.",
+    "Alternate segment theorem; tangent–secant PT^2=PA× PB.",
+    "Chord of length 2c at distance d: r^2=c^2+d^2.",
+    "A good proof: Given, To prove, Construction, Proof, with a reason for each step."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2936,
+    "figures": 5,
+    "examples": 19
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Trigonometry",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Trigonometry: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Trigonometry: concepts, formulas and worked problems"
+    },
+    {
+     "no": "16.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "sinθ=(p)/(h), cosθ=(b)/(h), tanθ=(p)/(b)=(sinθ)/(cosθ); reciprocals csc,sec,cot. Memory aid SOH-CAH-TOA.",
+    "Standard values for 30^°,45^°,60^° come from the triangles with sides 1,1,√2 and 1,√3,2.",
+    "Complementary angles: sin(90^°-θ)=cosθ, cos(90^°-θ)=sinθ, tan(90^°-θ)=cotθ.",
+    "Identities: sin^2θ+cos^2θ=1; 1+tan^2θ=sec^2θ; 1+cot^2θ=csc^2θ.",
+    "For one given ratio, draw the triangle and find the third side with Pythagoras.",
+    "Angle of elevation = angle of depression (alternate angles); use tan for height and ground distance, sin for height and slant length.",
+    "Prove identities by simplifying one side only."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2348,
+    "figures": 5,
+    "examples": 26
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Statistics",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Statistics: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Statistics: concepts, formulas and worked problems"
+    },
+    {
+     "no": "17.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Range =L-S; coefficient (L-S)/(L+S).",
+    "Q1 at (n+1)/(4)th item, Q3 at (3(n+1))/(4)th item (individual/discrete); (n)/(4), (3n)/(4) with the interpolation formula for continuous data.",
+    "QD=(Q3-Q1)/(2); coefficient (Q3-Q1)/(Q3+Q1).",
+    "MD=(Σ f|x-bar x|)/(n); coefficient (MD)/(bar x).",
+    "σ=√(Σ f(x-bar x)^2)/(n)=√(Σ fx^2)/(n)-bar x^2; step deviation σ=h√(Σ fd'^2)/(n)-left((Σ fd')/(n)right)^2.",
+    "CV=(σ)/(bar x)×100%; the smaller CV is the more consistent.",
+    "Adding a constant leaves σ unchanged; multiplying by k multiplies σ by |k|."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2543,
+    "figures": 3,
+    "examples": 17
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Probability",
+   "hours": null,
+   "area": "Compulsory Mathematics",
+   "topics": [
+    "Probability: concepts, formulas and worked problems",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Probability: concepts, formulas and worked problems"
+    },
+    {
+     "no": "18.2",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "P(E)=(n(E))/(n(S)) for equally likely outcomes; 0≤ P(E)≤1.",
+    "Complement: P(E')=1-P(E). \"At least one\" =1-P(none).",
+    "Addition rule: P(A∪ B)=P(A)+P(B)-P(A∩ B); for mutually exclusive events P(A∩ B)=0.",
+    "Multiplication rule for independent events: P(A∩ B)=P(A)× P(B).",
+    "Without replacement the second probability changes; use a tree diagram and multiply along each path.",
+    "Two dice: 36 outcomes; two coins: 4; three coins: 8; pack of cards: 52.",
+    "Expected frequency =N× P(E)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2459,
+    "figures": 3,
+    "examples": 21
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 18,
+ "topic_count": 36,
+ "notes_ready": 18
+}

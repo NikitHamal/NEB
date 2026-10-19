@@ -1,0 +1,1049 @@
+{
+ "grade": "11",
+ "grade_label": "Class 11",
+ "grade_label_ne": "कक्षा ११",
+ "subject": "mathematics",
+ "name": "Mathematics",
+ "name_ne": "गणित",
+ "icon": "calculate",
+ "group": "compulsory",
+ "color": "#8F5507",
+ "lang": "en",
+ "code": "0071 (CDC Mat.401)",
+ "hours": 160,
+ "exam": "3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24",
+ "areas": [
+  "Algebra",
+  "Trigonometry",
+  "Analytic Geometry",
+  "Vectors",
+  "Statistics and Probability",
+  "Calculus",
+  "Computational Methods OR Mechanics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Logic and Set",
+   "hours": 8,
+   "area": "Algebra",
+   "topics": [
+    "Statements; logical connectives",
+    "Truth tables",
+    "Theorems based on set operations"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Statements; logical connectives"
+    },
+    {
+     "no": "1.2",
+     "title": "Truth tables"
+    },
+    {
+     "no": "1.3",
+     "title": "Theorems based on set operations"
+    }
+   ],
+   "summary": [
+    "A statement has exactly one truth value, T or F. Open sentences are not statements.",
+    "p wedge q is true only when both are true; p vee q is false only when both are false; p → q is false only when p is T and q is F.",
+    "p → q equiv sim p vee q equiv sim q → sim p. The converse q → p is equivalent to the inverse, not to the original.",
+    "A truth table on n letters has 2^n rows. All T = tautology, all F = contradiction, identical final columns = logical equivalence.",
+    "De Morgan, in logic and in sets: sim(p vee q) equiv sim p wedge sim q and (A ∪ B)^c = A^c ∩ B^c; (A ∩ B)^c = A^c ∪ B^c.",
+    "A - B = A ∩ B^c; n(P(A)) = 2^n(A); A = B is proved by the two inclusions A subseteq B and B subseteq A.",
+    "n(A ∪ B) = n(A)+n(B)-n(A ∩ B) and n(A ∪ B ∪ C) = Σ n(A) - Σ n(A ∩ B) + n(A ∩ B ∩ C)."
+   ],
+   "terms": [
+    "Statement (proposition)",
+    "Tautology, contradiction, contingency",
+    "The four set operations"
+   ],
+   "stats": {
+    "words": 6057,
+    "figures": 6,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Real Numbers",
+   "hours": 4,
+   "area": "Algebra",
+   "topics": [
+    "Geometric representation of real numbers",
+    "Interval",
+    "Absolute value"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Geometric representation of real numbers"
+    },
+    {
+     "no": "2.2",
+     "title": "Interval"
+    },
+    {
+     "no": "2.3",
+     "title": "Absolute value"
+    }
+   ],
+   "summary": [
+    "mathbbN ⊂ mathbbW ⊂ mathbbZ ⊂ mathbbQ ⊂ mathbbR; a real number is rational iff its decimal terminates or recurs.",
+    "Each real number corresponds to exactly one point of the number line and conversely; √n is located exactly by a Pythagorean construction.",
+    "Between any two distinct reals there are infinitely many rationals and infinitely many irrationals.",
+    "(a,b) excludes endpoints, [a,b] includes them; ∞ always takes a round bracket; the length of either is b-a.",
+    "|x| = x for x ≥ 0 and -x for x < 0; |x| = √x^2; |x-y| is the distance from x to y.",
+    "|x| < k Leftrightarrow -k < x < k (one interval); |x| > k Leftrightarrow x < -k or x > k (two intervals).",
+    "Triangle inequality |a+b| ≤ |a|+|b|; a sum of two moduli is solved by splitting the line at the zeros of each inside expression."
+   ],
+   "terms": [
+    "Interval",
+    "Neighbourhood",
+    "Absolute value (modulus)"
+   ],
+   "stats": {
+    "words": 4065,
+    "figures": 7,
+    "examples": 11
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Functions",
+   "hours": 7,
+   "area": "Algebra",
+   "topics": [
+    "Domain and range",
+    "Inverse function; composite function",
+    "Algebraic functions: linear, quadratic, cubic",
+    "Transcendental functions: trigonometric, exponential, logarithmic"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Domain and range"
+    },
+    {
+     "no": "3.2",
+     "title": "Inverse function; composite function"
+    },
+    {
+     "no": "3.3",
+     "title": "Algebraic functions: linear, quadratic, cubic"
+    },
+    {
+     "no": "3.4",
+     "title": "Transcendental functions: trigonometric, exponential, logarithmic"
+    }
+   ],
+   "summary": [
+    "f : A → B assigns exactly one image to each element of A; the range f(A) may be a proper subset of the co-domain B.",
+    "One-one means distinct inputs have distinct images; onto means range = co-domain; a bijection is both, and only a bijection is invertible.",
+    "Domain rules: no division by zero, no even root of a negative, no log of a non-positive number; take the intersection when several apply.",
+    "(g ° f)(x) = g(f(x)) — apply f first. In general f ° g ≠ g ° f, and (f ° g)^-1 = g^-1 ° f^-1.",
+    "To invert: write y = f(x), make x the subject, swap letters. Domain and range swap, and the graph of f^-1 is the reflection of that of f in y = x.",
+    "Quadratic y = ax^2+bx+c: vertex at x = -(b)/(2a), opens up if a>0; the number of x-intercepts is decided by b^2-4ac.",
+    "sin x, cos x: domain mathbbR, range [-1,1], period 2π; tan x: range mathbbR, period π.",
+    "a^x: domain mathbbR, range (0,∞), through (0,1). loga x: domain (0,∞), range mathbbR, through (1,0). They are mutual inverses."
+   ],
+   "terms": [
+    "Function",
+    "One-one, onto, into",
+    "Composite function",
+    "Inverse function",
+    "Exponential and logarithmic functions"
+   ],
+   "stats": {
+    "words": 4719,
+    "figures": 9,
+    "examples": 16
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Curve Sketching",
+   "hours": 5,
+   "area": "Algebra",
+   "topics": [
+    "Odd and even functions; periodicity",
+    "Symmetry about origin, X-axis and Y-axis; monotonicity",
+    "Graphs of quadratic, cubic, rational function of form 1/(ax+b)",
+    "Graphs of a sin bx, a cos bx, e^x, ln x"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Odd and even functions; periodicity"
+    },
+    {
+     "no": "4.2",
+     "title": "Symmetry about origin, X-axis and Y-axis; monotonicity"
+    },
+    {
+     "no": "4.3",
+     "title": "Graphs of quadratic, cubic, rational function of form 1/(ax+b)"
+    },
+    {
+     "no": "4.4",
+     "title": "Graphs of asin bx, acos bx, e^x, ln x"
+    }
+   ],
+   "summary": [
+    "f is even if f(-x) = f(x) (graph symmetric about the Y-axis) and odd if f(-x) = -f(x) (symmetric about the origin). odd × odd = even.",
+    "f is periodic with period T if f(x+T) = f(x); asin bx and acos bx have period (2π)/(|b|), and atan bx has period (π)/(|b|).",
+    "Symmetry tests: x → -x unchanged gives Y-axis symmetry; y → -y gives X-axis symmetry; both together give origin symmetry.",
+    "f is increasing on I if x1 < x2 ⇒ f(x1) < f(x2); prove it from the sign of f(x2)-f(x1). Monotonicity is claimed on an interval, never pointwise.",
+    "Quadratic: vertex at x = -(b)/(2a), opens up if a>0; number of x-intercepts from the discriminant b^2-4ac.",
+    "y = (1)/(ax+b): vertical asymptote x = -(b)/(a), horizontal asymptote y = 0, y-intercept (1)/(b), no x-intercept, two decreasing branches when a>0, range mathbbR-0.",
+    "y = asin bx: amplitude |a|, period (2π)/(|b|), range [-|a|,|a|]; acos bx is the same curve starting at its maximum.",
+    "e^x: domain mathbbR, range (0,∞), through (0,1), asymptote y=0. ln x: domain (0,∞), range mathbbR, through (1,0), asymptote x=0."
+   ],
+   "terms": [
+    "Even and odd functions",
+    "Periodic function",
+    "Increasing and decreasing"
+   ],
+   "stats": {
+    "words": 4491,
+    "figures": 9,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Sequence and Series",
+   "hours": 6,
+   "area": "Algebra",
+   "topics": [
+    "Arithmetic, geometric and harmonic sequences and series",
+    "A.M., G.M., H.M. and their relations",
+    "Sum of infinite geometric series"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Arithmetic, geometric and harmonic sequences and series"
+    },
+    {
+     "no": "5.2",
+     "title": "A.M., G.M., H.M. and their relations"
+    },
+    {
+     "no": "5.3",
+     "title": "Sum of infinite geometric series"
+    }
+   ],
+   "summary": [
+    "AP: tn = a+(n-1)d and Sn = (n)/(2)[2a+(n-1)d] = (n)/(2)(a+l). Three terms are in AP if 2b = a+c.",
+    "GP: tn = ar^ n-1 and Sn = dfraca(r^n-1)r-1 = dfraca(1-r^n)1-r for r ≠ 1. Three terms are in GP if b^2 = ac.",
+    "HP: reciprocals form an AP, so tn = 1/[a+(n-1)d]. Invert, solve as an AP, invert back. There is no elementary sum formula.",
+    "Means of a and b: A = dfraca+b2, G = √ab, H = dfrac2aba+b.",
+    "G^2 = AH (so A, G, H are in GP) and A ≥ G ≥ H, with equality only when a = b.",
+    "Inserting n means makes n+2 terms: d = dfracb-an+1, r = (b/a)^1/(n+1).",
+    "Sum to infinity: S∞ = dfraca1-r if and only if |r| < 1.",
+    "Two given facts about a sequence give two equations: subtract them for an AP, divide them for a GP."
+   ],
+   "terms": [
+    "The three means"
+   ],
+   "stats": {
+    "words": 3960,
+    "figures": 4,
+    "examples": 11
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Matrices and Determinants",
+   "hours": 6,
+   "area": "Algebra",
+   "topics": [
+    "Transpose of a matrix and its properties",
+    "Minors and cofactors",
+    "Adjoint and inverse of a matrix",
+    "Determinant and its properties (without proof)"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Transpose of a matrix and its properties"
+    },
+    {
+     "no": "6.2",
+     "title": "Minors and cofactors"
+    },
+    {
+     "no": "6.3",
+     "title": "Adjoint and inverse of a matrix"
+    },
+    {
+     "no": "6.4",
+     "title": "Determinant and its properties (without proof)"
+    }
+   ],
+   "summary": [
+    "(AB)ij is row i of A against column j of B; AB needs (columns of A) = (rows of B), and AB ≠ BA in general.",
+    "Transpose swaps rows and columns: (A^T)^T = A, (A+B)^T = A^T+B^T, (kA)^T = kA^T, and the reversal law (AB)^T = B^TA^T.",
+    "Symmetric: A^T = A. Skew-symmetric: A^T = -A (zero diagonal). Every square A = frac12(A+A^T) + frac12(A-A^T).",
+    "Minor Mij = determinant after deleting row i and column j; cofactor Cij = (-1)^i+jMij. Expand |A| along the row or column with most zeros.",
+    "adj A = transpose of the cofactor matrix, and A(adj A) = (adj A)A = |A|I.",
+    "A^-1 = dfracadj A|A| exists iff |A| ≠ 0; (AB)^-1 = B^-1A^-1 and |A^-1| = 1/|A|.",
+    "Determinant properties: |A^T| = |A|; a row swap flips the sign; equal or proportional rows give 0; |kA| = k^n|A|; adding a multiple of one row to another changes nothing; |AB| = |A||B|.",
+    "Systems: AX = B gives X = A^-1B; Cramer's rule gives x = Dx/D etc. for D ≠ 0; Gauss elimination row-reduces the augmented matrix to upper-triangular form and back-substitutes."
+   ],
+   "terms": [
+    "Transpose",
+    "Minor and cofactor",
+    "Adjoint"
+   ],
+   "stats": {
+    "words": 4458,
+    "figures": 10,
+    "examples": 14
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Quadratic Equation",
+   "hours": 4,
+   "area": "Algebra",
+   "topics": [
+    "Nature of roots",
+    "Relation between roots and coefficients",
+    "Formation of quadratic equation",
+    "Symmetric roots; one or both roots common"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Nature of roots"
+    },
+    {
+     "no": "7.2",
+     "title": "Relation between roots and coefficients"
+    },
+    {
+     "no": "7.3",
+     "title": "Formation of quadratic equation"
+    },
+    {
+     "no": "7.4",
+     "title": "Symmetric roots; one or both roots common"
+    }
+   ],
+   "summary": [
+    "ax^2+bx+c = 0 has roots x = dfrac-b±√b^2-4ac2a.",
+    "Discriminant D = b^2-4ac: D > 0 real distinct (D a perfect square makes them rational), D = 0 real and equal, D < 0 a conjugate complex pair.",
+    "α+β = -b/a and αβ = c/a; and (α-β)^2 = D/a^2.",
+    "Useful identities: α^2+β^2 = s^2-2p, α^3+β^3 = s^3-3ps, dfrac1α+dfrac1β = dfracsp.",
+    "To form an equation: x^2 - (sum)x + (product) = 0.",
+    "Symmetric expressions in the roots can always be written in s and p; α-β cannot, so it carries a ±.",
+    "One root common: substitute the known roots of one equation into the other; in general (c1a2-c2a1)^2 = (a1b2-a2b1)(b1c2-b2c1).",
+    "Both roots common: dfraca1a2 = dfracb1b2 = dfracc1c2."
+   ],
+   "terms": [
+    "Discriminant"
+   ],
+   "stats": {
+    "words": 3431,
+    "figures": 3,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Complex Numbers",
+   "hours": 4,
+   "area": "Algebra",
+   "topics": [
+    "Imaginary unit; algebra of complex numbers",
+    "Geometric representation",
+    "Modulus and conjugate with properties",
+    "Square root of a complex number"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Imaginary unit; algebra of complex numbers"
+    },
+    {
+     "no": "8.2",
+     "title": "Geometric representation"
+    },
+    {
+     "no": "8.3",
+     "title": "Modulus and conjugate with properties"
+    },
+    {
+     "no": "8.4",
+     "title": "Square root of a complex number"
+    }
+   ],
+   "summary": [
+    "i = √-1, i^2 = -1; powers of i repeat with period 4.",
+    "z = a+ib; a+ib = c+id exactly when a = c and b = d.",
+    "Divide by multiplying top and bottom by the conjugate of the denominator.",
+    "Argand diagram: z = a+ib is the point (a,b); |z| = √a^2+b^2 and arg z = θ with tanθ = b/a, fixed by the quadrant.",
+    "Polar form z = r(cosθ + isinθ).",
+    "z = a-ib; zz = |z|^2, z+z = 2 Re(z), z-z = 2i Im(z), dfrac1z = dfracz|z|^2.",
+    "|z1z2| = |z1||z2|, |z1/z2| = dfrac|z1||z2|, |z1+z2| ≤ |z1|+|z2|.",
+    "Cube roots of unity: 1, ω, ω^2 with ω^3 = 1 and 1+ω+ω^2 = 0."
+   ],
+   "terms": [
+    "The imaginary unit",
+    "Argand diagram, modulus, argument",
+    "Conjugate"
+   ],
+   "stats": {
+    "words": 3413,
+    "figures": 4,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Inverse Circular Functions",
+   "hours": 6,
+   "area": "Trigonometry",
+   "topics": [
+    "Definition, domain and range of inverse circular functions",
+    "Formulae and identities of inverse circular functions"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Definition, domain and range of inverse circular functions"
+    },
+    {
+     "no": "9.2",
+     "title": "Formulae and identities of inverse circular functions"
+    }
+   ],
+   "summary": [
+    "Inverse circular functions exist only after the domain is restricted to a one-to-one principal branch; the graph of the inverse is the reflection of that branch in y=x.",
+    "Ranges: sin^-1, csc^-1 ∈left[-(π)/(2),(π)/(2)right]; tan^-1∈left(-(π)/(2),(π)/(2)right); cos^-1, sec^-1∈[0,π]; cot^-1∈(0,π).",
+    "sin^-1x+cos^-1x = tan^-1x+cot^-1x = sec^-1x+csc^-1x = (π)/(2).",
+    "sin^-1(-x)=-sin^-1x and tan^-1(-x)=-tan^-1x, but cos^-1(-x)=π-cos^-1x and cot^-1(-x)=π-cot^-1x.",
+    "tan^-1x+tan^-1y = tan^-1(x+y)/(1-xy) if xy<1; add π if x,y>0 with xy>1 and subtract π if x,y<0 with xy>1.",
+    "sin^-1x+sin^-1y = sin^-1left(x√1-y^2+y√1-x^2right) and cos^-1x+cos^-1y = cos^-1left(xy-√1-x^2√1-y^2right).",
+    "2tan^-1x = tan^-1(2x)/(1-x^2) = sin^-1(2x)/(1+x^2) = cos^-1(1-x^2)/(1+x^2).",
+    "sin^-1(sin x)=x only for x∈left[-(π)/(2),(π)/(2)right]; otherwise shift the angle into the range first."
+   ],
+   "terms": [
+    "Inverse sine"
+   ],
+   "stats": {
+    "words": 2859,
+    "figures": 7,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Trigonometric Equations and General Values",
+   "hours": 6,
+   "area": "Trigonometry",
+   "topics": [
+    "Solution of trigonometric equations",
+    "General values"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Solution of trigonometric equations"
+    },
+    {
+     "no": "10.2",
+     "title": "General values"
+    }
+   ],
+   "summary": [
+    "A trigonometric equation has infinitely many roots; the answer required is the general value, with n∈mathbbZ stated.",
+    "sinθ=sinα ⇒ θ = nπ+(-1)^nα; cosθ=cosα ⇒ θ = 2nπ±α; tanθ=tanα ⇒ θ = nπ+α.",
+    "Squared equations sin^2θ=sin^2α (and the cos^2, tan^2 versions) all give θ = nπ±α.",
+    "Zero cases: sinθ=0 ⇒ θ=nπ; cosθ=0 ⇒ θ=(2n+1)(π)/(2); tanθ=0 ⇒ θ=nπ.",
+    "Quadratics in one ratio: factorise. Mixed sin^2/cos: substitute sin^2θ = 1-cos^2θ. Sums of sines or cosines: use sum-to-product, then factorise.",
+    "acosθ+bsinθ = c becomes rcos(θ-α)=c with r=√a^2+b^2, tanα = b/a; solvable only if |c|≤ r.",
+    "Never cancel a common trigonometric factor — factorise and set each factor to zero. Always reject roots that need |sinθ|>1 or |cosθ|>1."
+   ],
+   "terms": [
+    "Trigonometric equation"
+   ],
+   "stats": {
+    "words": 2580,
+    "figures": 6,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Straight Line",
+   "hours": 7,
+   "area": "Analytic Geometry",
+   "topics": [
+    "Length of perpendicular from a given point to a given line",
+    "Bisectors of the angles between two straight lines"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Length of perpendicular from a given point to a given line"
+    },
+    {
+     "no": "11.2",
+     "title": "Bisectors of the angles between two straight lines"
+    }
+   ],
+   "summary": [
+    "General form ax+by+c=0; slope m = -a/b = tanθ where θ is the inclination. Forms: y=mx+c, y-y1=m(x-x1), x/a+y/b=1, xcosα+ysinα=p.",
+    "Angle between two lines: tanθ = |dfracm1-m21+m1m2|; parallel if m1=m2, perpendicular if m1m2=-1 or a1a2+b1b2=0.",
+    "Perpendicular distance from (x1,y1) to ax+by+c=0: d = dfrac|ax1+by1+c|√a^2+b^2; from the origin, d = dfrac|c|√a^2+b^2 = p.",
+    "Distance between the parallel lines ax+by+c1=0 and ax+by+c2=0 is dfrac|c1-c2|√a^2+b^2, after making a and b identical.",
+    "The bisectors of the angles between two lines are dfraca1x+b1y+c1√a1^2+b1^2 = ±dfraca2x+b2y+c2√a2^2+b2^2, and they are perpendicular to each other.",
+    "With c1,c2>0: the + sign gives the bisector of the angle containing the origin; that angle is acute when a1a2+b1b2<0.",
+    "A bisector can always be identified by testing whether tanθ<1 for the angle it makes with one of the original lines."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3100,
+    "figures": 8,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Pair of Straight Lines",
+   "hours": 7,
+   "area": "Analytic Geometry",
+   "topics": [
+    "General equation of second degree; condition for representing a pair of lines",
+    "Homogeneous second degree equation in x and y",
+    "Angle between the pair of lines",
+    "Bisectors of the angles between the pair of lines"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "General equation of second degree; condition for representing a pair of lines"
+    },
+    {
+     "no": "12.2",
+     "title": "Homogeneous second degree equation in x and y"
+    },
+    {
+     "no": "12.3",
+     "title": "Angle between the pair of lines"
+    },
+    {
+     "no": "12.4",
+     "title": "Bisectors of the angles between the pair of lines"
+    }
+   ],
+   "summary": [
+    "ax^2+2hxy+by^2+2gx+2fy+c = 0 represents a pair of straight lines exactly when Δ = abc+2fgh-af^2-bg^2-ch^2 = 0. Remember h, g, f are half the coefficients of xy, x, y.",
+    "The lines are real and distinct if h^2>ab, coincident if h^2=ab, parallel if h^2=ab with the pair not degenerate, and not real if h^2<ab.",
+    "They meet at left(dfracbg-fhh^2-ab, dfracaf-ghh^2-abright).",
+    "A homogeneous equation ax^2+2hxy+by^2 = 0 always represents two lines through the origin, with m1+m2 = -dfrac2hb and m1m2 = dfracab.",
+    "Angle between the pair: tanθ = dfrac2√h^2-aba+b; they are perpendicular when a+b = 0 and coincident when h^2 = ab.",
+    "The pair through the origin perpendicular to ax^2+2hxy+by^2=0 is bx^2-2hxy+ay^2 = 0.",
+    "The bisectors of the angles between the pair are dfracx^2-y^2a-b = dfracxyh; they are always perpendicular to each other.",
+    "To find the lines joining the origin to the intersections of lx+my=n with a curve, homogenise the curve using dfraclx+myn = 1."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3407,
+    "figures": 6,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Coordinates in Space",
+   "hours": 6,
+   "area": "Analytic Geometry",
+   "topics": [
+    "Points in space",
+    "Distance between two points",
+    "Direction cosines and direction ratios"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Points in space"
+    },
+    {
+     "no": "13.2",
+     "title": "Distance between two points"
+    },
+    {
+     "no": "13.3",
+     "title": "Direction cosines and direction ratios"
+    }
+   ],
+   "summary": [
+    "Three mutually perpendicular axes give three coordinate planes (x=0, y=0, z=0) and eight octants; a point is an ordered triple (x,y,z).",
+    "Distance of P(x,y,z) from the xy-plane is |z|; from the x-axis is √y^2+z^2; from the origin is √x^2+y^2+z^2.",
+    "AB = √(x2-x1)^2+(y2-y1)^2+(z2-z1)^2.",
+    "Section formula (internal, ratio m:n): left(dfracmx2+nx1m+n, dfracmy2+ny1m+n, dfracmz2+nz1m+nright); for external division replace n by -n. Midpoint is the case m=n; centroid is the average of the three vertices.",
+    "Direction cosines l = cosα, m = cosβ, n = cosγ satisfy l^2+m^2+n^2 = 1, and l = dfracxr, m = dfracyr, n = dfraczr with r = OP.",
+    "Direction ratios (a,b,c) are any numbers proportional to (l,m,n); divide by √a^2+b^2+c^2 to get the direction cosines.",
+    "The join of A and B has direction ratios (x2-x1, y2-y1, z2-z1).",
+    "cosθ = l1l2+m1m2+n1n2; lines are perpendicular when a1a2+b1b2+c1c2 = 0 and parallel when their direction ratios are proportional."
+   ],
+   "terms": [
+    "Direction angles and direction cosines"
+   ],
+   "stats": {
+    "words": 2948,
+    "figures": 6,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Vectors",
+   "hours": 12,
+   "area": "Vectors",
+   "topics": [
+    "Collinear and non-collinear vectors",
+    "Coplanar and non-coplanar vectors",
+    "Linear combination of vectors",
+    "Linearly dependent and independent vectors"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Collinear and non-collinear vectors"
+    },
+    {
+     "no": "14.2",
+     "title": "Coplanar and non-coplanar vectors"
+    },
+    {
+     "no": "14.3",
+     "title": "Linear combination of vectors"
+    },
+    {
+     "no": "14.4",
+     "title": "Linearly dependent and independent vectors"
+    },
+    {
+     "no": "14.5",
+     "title": "The scalar product and the angle between two vectors"
+    }
+   ],
+   "summary": [
+    "A vector needs magnitude and direction; in components r = xi+yj+zk with |r| = √x^2+y^2+z^2, unit vector r = r/|r|, and direction cosines satisfying l^2+m^2+n^2 = 1.",
+    "Triangle law: AB+BC = AC. For two vectors at angle θ, R = √a^2+b^2+2abcosθ and tanα = dfracbsinθa+bcosθ.",
+    "AB = b-a (head minus tail) — the key to every proof.",
+    "Collinear: a = kb; points A,B,C collinear if BC = k AB.",
+    "Section formula: internal r = dfracmb+nam+n, external r = dfracmb-nam-n, midpoint dfraca+b2.",
+    "Coplanar: c = xa+yb; two non-collinear vectors span a plane and three non-coplanar vectors span space, with unique coefficients.",
+    "Linearly dependent means c1a1+cdots+cnan = 0 with the ci not all zero. Two vectors: dependent = collinear. Three: dependent = coplanar.",
+    "acdotb = |a||b|cosθ = a1b1+a2b2+a3b3; acdotb = 0 Leftrightarrow perpendicular; projection of b on a is acdotb/|a|."
+   ],
+   "terms": [
+    "Unit vector and direction cosines",
+    "Collinear and non-collinear vectors",
+    "Coplanar and non-coplanar vectors",
+    "Linear combination",
+    "Linear dependence and independence",
+    "Scalar (dot) product"
+   ],
+   "stats": {
+    "words": 4755,
+    "figures": 8,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Measures of Dispersion",
+   "hours": 6,
+   "area": "Statistics and Probability",
+   "topics": [
+    "Standard deviation and variance",
+    "Coefficient of variation",
+    "Skewness; Karl Pearson's coefficient of skewness"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Standard deviation and variance"
+    },
+    {
+     "no": "15.2",
+     "title": "Coefficient of variation"
+    },
+    {
+     "no": "15.3",
+     "title": "Skewness; Karl Pearson's coefficient of skewness"
+    }
+   ],
+   "summary": [
+    "Dispersion measures spread about the average. Range = L-S; Q.D. = (Q3-Q1)/(2); M.D. = (Σ| x-x|)/(n).",
+    "Variance σ^2 = dfracΣ(x-x)^2n = dfracΣ x^2n - x^2; standard deviation σ = √σ^2, in the original unit.",
+    "Frequency data: x = dfracΣ fxN and σ = √dfracΣ fx^2N - x^2 with N = Σ f.",
+    "Grouped data (step deviation, d' = (x-A)/(h)): x = A + dfracΣ fd'Nh and σ = h√dfracΣ fd'^2N - left(dfracΣ fd'Nright)^2.",
+    "σ is unchanged by adding a constant and multiplied by | k| when every value is multiplied by k.",
+    "Combined SD: σ12 = √dfracn1(σ1^2+d1^2) + n2(σ2^2+d2^2)n1+n2 with di = xi - x12.",
+    "C.V. = dfracσx×100%: smaller C.V. = more consistent. Use it whenever the means or the units differ.",
+    "Skewness measures lopsidedness: Sk = dfracx-Moσ = dfrac3(x-Md)σ, with Mo = 3Md - 2x as the empirical link."
+   ],
+   "terms": [
+    "Variance and standard deviation",
+    "Coefficient of variation",
+    "Skewness"
+   ],
+   "stats": {
+    "words": 4435,
+    "figures": 6,
+    "examples": 11
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Probability",
+   "hours": 6,
+   "area": "Statistics and Probability",
+   "topics": [
+    "Independent cases",
+    "Mathematical and empirical definition of probability",
+    "Two basic laws of probability (without proof)"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Independent cases"
+    },
+    {
+     "no": "16.2",
+     "title": "Mathematical and empirical definition of probability"
+    },
+    {
+     "no": "16.3",
+     "title": "Two basic laws of probability"
+    }
+   ],
+   "summary": [
+    "A random experiment has a sample space S; an event is a subset of S. Cases may be exhaustive, equally likely, mutually exclusive (A∩ B = varnothing) or independent (one does not affect the other).",
+    "Mathematical definition: P(A) = dfracn(A)n(S) = dfracmn, valid only for equally likely cases. 0 ≤ P(A) ≤ 1 and P(A) = 1 - P(A).",
+    "Empirical definition: P(A) = limn→∞ dfracmn, the limiting relative frequency in repeated trials.",
+    "Odds in favour a:b Longleftrightarrow P(A) = dfracaa+b.",
+    "Addition law: P(A∪ B) = P(A)+P(B)-P(A∩ B); for mutually exclusive events P(A∪ B) = P(A)+P(B).",
+    "Multiplication law: P(A∩ B) = P(A)P(B|A); for independent events P(A∩ B) = P(A)P(B). Conditional probability P(B|A) = dfracP(A∩ B)P(A).",
+    "For two dice n(S) = 36; for n coins n(S) = 2^n; for a pack of cards n(S) = 52 with 4 suits of 13, 12 face cards and 26 red.",
+    "\"At least one\" = 1 - P(none). Draw a tree for multi-stage problems: multiply along a branch, add across branches."
+   ],
+   "terms": [
+    "The kinds of cases",
+    "Mathematical (classical) definition",
+    "Empirical (statistical) definition"
+   ],
+   "stats": {
+    "words": 3794,
+    "figures": 6,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Limits and Continuity",
+   "hours": 10,
+   "area": "Calculus",
+   "topics": [
+    "Concept of limit; limits of algebraic and transcendental functions",
+    "Indeterminate forms",
+    "Continuity and discontinuity of a function"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Concept of limit; limits of algebraic and transcendental functions"
+    },
+    {
+     "no": "17.2",
+     "title": "Indeterminate forms"
+    },
+    {
+     "no": "17.3",
+     "title": "Continuity and discontinuity of a function"
+    }
+   ],
+   "summary": [
+    "limx→ af(x) = L describes the behaviour of f near a, never at a; the value f(a) is irrelevant to the limit.",
+    "The limit exists iff LHL = RHL = L, finite. Use x = a mp h, h>0, to compute one-sided limits.",
+    "Formally: for every varepsilon>0 there is δ>0 with 0<|x-a|<δ ⇒ |f(x)-L|<varepsilon.",
+    "Standard limits: (x^n-a^n)/(x-a)→ na^n-1; (sin x)/(x)→1; (tan x)/(x)→1; frac1-cos xx^2→frac12; (1+x)^1/x→ e; fraca^x-1x→ln a; (ln(1+x))/(x)→1; frac1x^n→0 as x→∞.",
+    "The six indeterminate forms are frac00, (∞)/(∞), ∞-∞, 0×∞, 1^∞, 0^0 (with ∞^0). Factorise, rationalise, divide by the highest power, or force the e form.",
+    "For a rational function as x→∞: bottom heavier ⇒ 0; equal degrees ⇒ ratio of leading coefficients; top heavier ⇒∞.",
+    "f is continuous at a iff limx→ a^-f = limx→ a^+f = f(a).",
+    "Discontinuities are removable (limit exists, value wrong or missing), jump (finite unequal one-sided limits) or infinite (a one-sided limit is ±∞, giving a vertical asymptote)."
+   ],
+   "terms": [
+    "Limit (working definition)",
+    "Formal definition of a limit",
+    "Continuity at a point"
+   ],
+   "stats": {
+    "words": 4361,
+    "figures": 7,
+    "examples": 13
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Derivatives",
+   "hours": 22,
+   "area": "Calculus",
+   "topics": [
+    "Derivative by first principle (definition)",
+    "Rules of differentiation",
+    "Derivatives of parametric and implicit functions",
+    "Higher order derivatives",
+    "Geometric interpretation of derivative",
+    "Monotonicity of a function; intervals of increase and decrease",
+    "Extreme values (maxima and minima)",
+    "Concavity and points of inflection"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Derivative by first principle (definition)"
+    },
+    {
+     "no": "18.2",
+     "title": "Rules of differentiation"
+    },
+    {
+     "no": "18.3",
+     "title": "Derivatives of parametric and implicit functions"
+    },
+    {
+     "no": "18.4",
+     "title": "Higher order derivatives"
+    },
+    {
+     "no": "18.5",
+     "title": "Geometric interpretation of derivative"
+    },
+    {
+     "no": "18.6",
+     "title": "Monotonicity of a function; intervals of increase and decrease"
+    },
+    {
+     "no": "18.7",
+     "title": "Extreme values (maxima and minima)"
+    },
+    {
+     "no": "18.8",
+     "title": "Concavity and points of inflection"
+    }
+   ],
+   "summary": [
+    "First principle: f'(x) = limh→0dfracf(x+h)-f(x)h. Four steps — form f(x+h), subtract, divide by h, take the limit. The trick in step 2 is expansion (polynomials), the conjugate (surds), a common denominator (fractions), sum-to-product (trigonometric) or a standard limit (exponential and logarithmic).",
+    "Differentiable ⇒ continuous, but not the reverse: |x| has a corner at 0 where the left and right derivatives are -1 and +1.",
+    "Rules: (u± v)' = u'± v'; (uv)' = uv'+vu'; left(frac uvright)' = fracvu'-uv'v^2; chain rule (dy)/(dx) = (dy)/(du)·(du)/(dx).",
+    "Standard derivatives: x^n → nx^n-1; e^x → e^x; a^x → a^xln a; ln x → 1/x; sin x → cos x; cos x → -sin x; tan x → sec^2x; sin^-1x → 1/√1-x^2; tan^-1x → 1/(1+x^2). Every \"co-\" function carries a minus sign.",
+    "Logarithmic differentiation for [f(x)]^g(x) and for long products/quotients: take ln of both sides, then differentiate, remembering (d)/(dx)ln y = frac1y(dy)/(dx).",
+    "Implicit: differentiate every term in x, attaching (dy)/(dx) to each y-term, then collect and factor. Parametric: (dy)/(dx) = dfracdy/dtdx/dt, and fracd^2ydx^2 = dfrac(d)/(dt)left((dy)/(dx)right)dx/dt — never ddot y/ddot x.",
+    "Geometry: f'(a) is the slope of the tangent at x=a; the normal has slope -1/f'(a); the angle between curves is tanθ = left|dfracm1-m21+m1m2right|.",
+    "Monotonicity: f' > 0 increasing, f' < 0 decreasing. Extremes: solve f' = 0, then use the sign change of f' or the sign of f'' (f''<0 maximum, f''>0 minimum). On a closed interval, test the endpoints too."
+   ],
+   "terms": [
+    "Derivative — first principle",
+    "Increasing and decreasing",
+    "Local extremes",
+    "Concavity",
+    "Point of inflection"
+   ],
+   "stats": {
+    "words": 9822,
+    "figures": 8,
+    "examples": 41
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "Anti-derivatives",
+   "hours": 16,
+   "area": "Calculus",
+   "topics": [
+    "Basic (standard) integrals",
+    "Integration by substitution",
+    "Integration by parts",
+    "Definite integral",
+    "Area under a curve; area between two curves"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Basic (standard) integrals"
+    },
+    {
+     "no": "19.2",
+     "title": "Integration by substitution"
+    },
+    {
+     "no": "19.3",
+     "title": "Integration by parts"
+    },
+    {
+     "no": "19.4",
+     "title": "Definite integral"
+    },
+    {
+     "no": "19.5",
+     "title": "Area under a curve; area between two curves"
+    }
+   ],
+   "summary": [
+    "∫ f(x)dx = F(x)+C means F'(x)=f(x). The constant C is compulsory in an indefinite integral and cancels in a definite one.",
+    "Integration is linear: constants come out, sums split. There is no product or quotient rule.",
+    "Standard forms to know cold: ∫ x^n dx = fracx^n+1n+1 (n≠-1), ∫(dx)/(x)=ln|x|, ∫(dx)/(a^2+x^2)=frac1atan^-1(x)/(a), ∫fracdx√a^2-x^2=sin^-1(x)/(a), ∫(dx)/(x^2-a^2)=(1)/(2a)ln(|x-a|)/(|x+a|).",
+    "Substitution: u=g(x), du=g'(x)dx. Two workhorses: ∫(f')/(f)dx=ln|f|+C and ∫ f^n f'dx = fracf^n+1n+1+C. Surds √a^2-x^2, √a^2+x^2, √x^2-a^2 call for x=asinθ, atanθ, asecθ.",
+    "Quadratic denominators: complete the square; for (px+q)/(ax^2+bx+c) write px+q=λ(2ax+b)+μ. Rational functions: divide if improper, then split into partial fractions by the four denominator cases.",
+    "By parts: ∫ u dv = uv - ∫ v du, choosing u by ILATE. Apply twice for x^2 factors; for ∫ e^axsin bx dx apply twice and solve for I.",
+    "∫a^b f(x)dx = limn→∞hΣr=1^nf(a+rh) with h=(b-a)/(n), and equals F(b)-F(a) by the fundamental theorem. Change the limits whenever you change the variable.",
+    "Useful properties: ∫0^a f(x)dx=∫0^a f(a-x)dx; ∫-a^af=2∫0^a f for even f and 0 for odd f."
+   ],
+   "terms": [
+    "Anti-derivative and indefinite integral",
+    "Definite integral"
+   ],
+   "stats": {
+    "words": 8307,
+    "figures": 8,
+    "examples": 38
+   },
+   "has_notes": true
+  },
+  {
+   "no": 20,
+   "title": "Computational Methods",
+   "hours": 12,
+   "area": "Computational Methods OR Mechanics",
+   "topics": [
+    "Roots of algebraic and transcendental equations: bisection method",
+    "Roots by Newton-Raphson method",
+    "Numerical integration: trapezoidal rule",
+    "Numerical integration: Simpson's rule"
+   ],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "Roots of algebraic and transcendental equations: bisection method"
+    },
+    {
+     "no": "20.2",
+     "title": "Roots by Newton-Raphson method"
+    },
+    {
+     "no": "20.3",
+     "title": "Numerical integration: trapezoidal rule"
+    },
+    {
+     "no": "20.4",
+     "title": "Numerical integration: Simpson's rule"
+    },
+    {
+     "no": "20.5",
+     "title": "Extension: linear programming by the graphical method"
+    }
+   ],
+   "summary": [
+    "A root of f(x)=0 is bracketed whenever f(a) f(b) < 0 and f is continuous on [a,b].",
+    "Bisection: repeatedly take c = (a+b)/(2) and keep the half in which the sign change lies. It always converges, and |xn-α| ≤ fracb-a2^n, so n > (ln((b-a)/varepsilon))/(ln 2) iterations guarantee accuracy varepsilon.",
+    "Newton-Raphson: xn+1 = xn - fracf(xn)f'(xn), obtained by replacing the curve with its tangent. Convergence is quadratic (correct digits double each step) but is not guaranteed; it fails when f'(xn) is zero or the start is poor.",
+    "Special cases: xn+1 = frac12left(xn+fracNxnright) for √N, and xn+1 = (1)/(3)left(2xn+fracNxn^2right) for √[3]N.",
+    "Trapezoidal rule with h = (b-a)/(n): ∫a^bf dx ≈ (h)/(2)left[(y0+yn)+2(y1+cdots+yn-1)right], with |ET| ≤ frac(b-a)h^212M2. Any n is allowed.",
+    "Simpson's one-third rule (n even): ∫a^bf dx ≈ (h)/(3)left[(y0+yn)+4(odd y)+2(even y)right], with |ES| ≤ frac(b-a)h^4180M4. Simpson's three-eighths rule uses (3h)/(8) with coefficients 1,3,3,2,3,3,ldots,1 and needs n a multiple of three.",
+    "Simpson's rule is exact for any cubic; the trapezoidal rule is exact only for a straight line and always errs to the same side of a curve of fixed concavity.",
+    "In a linear programming problem the optimum of Z = ax+by occurs at a corner of the feasible region, so evaluate Z at every vertex and compare."
+   ],
+   "terms": [
+    "Bisection method"
+   ],
+   "stats": {
+    "words": 6665,
+    "figures": 8,
+    "examples": 15
+   },
+   "has_notes": true
+  },
+  {
+   "no": 21,
+   "title": "Mechanics (alternative to Unit 20)",
+   "hours": 12,
+   "area": "Computational Methods OR Mechanics",
+   "topics": [
+    "Statics: forces and resultant forces; parallelogram law of forces",
+    "Composition and resolution of forces; resultant of coplanar forces acting on a point",
+    "Dynamics: motion of a particle in a straight line; motion with uniform acceleration",
+    "Motion under gravity; motion down a smooth inclined plane"
+   ],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "Statics: forces and resultant forces; parallelogram law of forces"
+    },
+    {
+     "no": "21.2",
+     "title": "Composition and resolution of forces; resultant of coplanar forces acting on a point"
+    },
+    {
+     "no": "21.3",
+     "title": "Dynamics: motion of a particle in a straight line; motion with uniform acceleration"
+    },
+    {
+     "no": "21.4",
+     "title": "Motion under gravity; motion down a smooth inclined plane"
+    }
+   ],
+   "summary": [
+    "A force is a vector: magnitude, direction, point of application. Forces at a point are concurrent; forces in one plane are coplanar.",
+    "Parallelogram law: two forces P, Q at angle θ have resultant R = √P^2+Q^2+2PQcosθ making angle α = tan^-1dfracQsinθP+Qcosθ with P.",
+    "The resultant always lies between |P-Q| and P+Q; it equals P+Q at θ = 0^°, √P^2+Q^2 at 90^°, |P-Q| at 180^°.",
+    "Resolution: Fx = Fcosθ, Fy = Fsinθ. Any number of coplanar concurrent forces combine as X = Σ Fcosθ, Y = Σ Fsinθ, R = √X^2+Y^2, tanθ = Y/X; read the quadrant from the signs.",
+    "Equilibrium Leftrightarrow X = 0 and Y = 0. For three forces use Lami's theorem: each force divided by the sine of the angle between the other two is the same. The equilibrant is minus the resultant.",
+    "Kinematics: v = ds/dt, a = dv/dt = d^2s/dt^2. Distance is not displacement; reverse of direction happens where v changes sign.",
+    "Uniform acceleration only: v = u+at, s = ut+tfrac12 at^2, v^2 = u^2+2as, s = tfrac12(u+v)t, and sn = u + tfraca(2n-1)2. On a v–t graph the gradient is a and the area is s.",
+    "Gravity: a = -g upwards positive, a = +g downwards positive, with g = 9.8 m/s^2. Maximum height u^2/2g, time of flight 2u/g."
+   ],
+   "terms": [
+    "Resultant and equilibrium",
+    "Displacement, velocity, acceleration"
+   ],
+   "stats": {
+    "words": 7342,
+    "figures": 6,
+    "examples": 18
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 21,
+ "topic_count": 76,
+ "notes_ready": 21
+}

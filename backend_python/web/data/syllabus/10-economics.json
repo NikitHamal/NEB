@@ -1,0 +1,342 @@
+{
+ "grade": "10",
+ "grade_label": "Class 10",
+ "grade_label_ne": "कक्षा १०",
+ "subject": "economics",
+ "name": "Economics",
+ "name_ne": "अर्थशास्त्र",
+ "icon": "trending_up",
+ "group": "optional",
+ "color": "#C2410C",
+ "lang": "en",
+ "code": "SEE-ECO (विषय कोड १०४)",
+ "hours": 96,
+ "exam": "SEE (Secondary Education Examination) elective paper, Full Marks 75, Time 3 hours. Group A very short answer 11 × 1 = 11 (all compulsory). Group B short answer 8 × 5 = 40 (all compulsory; alternatives may be offered for the knowledge-level questions of units 1, 4 and 5, and for the use-level question of unit 6). Group C long answer 3 × 8 = 24 (one question may carry an alternative). 22 questions in all. Internal/practical assessment carries the remaining 25 marks of the 100-mark subject.",
+ "areas": [
+  "Basic Concepts",
+  "Microeconomics",
+  "Macroeconomics",
+  "Development Economics",
+  "Nepal's Economy",
+  "Quantitative Methods"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Basic Concepts of Economics and Allocation of Resources (अर्थशास्त्रको आधारभूत अवधारणा र साधनको बाँडफाँट)",
+   "hours": 12,
+   "area": "Basic Concepts",
+   "topics": [
+    "Economy: meaning, types (capitalist, socialist, mixed) and features",
+    "Scarcity, choice and opportunity cost",
+    "Allocation of resources and the three central problems of an economy",
+    "Macroeconomic variables: national income, consumption, saving, investment, inflation, unemployment, balance of payments",
+    "Circular flow of income in a two-sector economy"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Economy: meaning, types and features"
+    },
+    {
+     "no": "1.2",
+     "title": "Scarcity, choice, opportunity cost and the allocation of resources"
+    },
+    {
+     "no": "1.3",
+     "title": "The three central problems of an economy"
+    },
+    {
+     "no": "1.4",
+     "title": "Macroeconomic variables"
+    },
+    {
+     "no": "1.5",
+     "title": "Circular flow of income in a two-sector economy"
+    }
+   ],
+   "summary": [
+    "An economy is the organised system by which a country produces, distributes and consumes goods and services to satisfy its wants with limited resources.",
+    "A capitalist economy has private ownership, freedom of enterprise, the profit motive, consumer sovereignty and the price mechanism; it is efficient but unequal. A socialist economy has public ownership and central planning and is equal but often inefficient. A mixed economy has both sectors, the market taking many decisions and the state ",
+    "Scarcity means resources are limited relative to wants. It forces choice; the cost of choice is opportunity cost, the value of the next best alternative forgone — not the money paid and not the sum of all alternatives.",
+    "The factors of production are land (rent), labour (wages), capital (interest) and entrepreneurship (profit).",
+    "Allocation of resources is decided by the price mechanism in a capitalist economy, by the central plan in a socialist economy, and by both in a mixed economy.",
+    "The three central problems are what to produce, how to produce and for whom to produce; modern writers add full employment of resources and growth.",
+    "Microeconomics studies one consumer, firm or market; macroeconomics studies the economy as a whole through its variables — national income, per capita income, consumption, saving, investment, inflation, unemployment, money supply, the balance of payments, government revenue and expenditure and population.",
+    "Y = C + S, so S = Y - C; and Per capita income = (National income)/(Population)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5045,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Microeconomics (व्यष्टि अर्थशास्त्र)",
+   "hours": 30,
+   "area": "Microeconomics",
+   "topics": [
+    "Revenue: total, average and marginal revenue and their curves under perfect competition and monopoly",
+    "Demand and supply: law, determinants, elasticity; market equilibrium",
+    "Cost: fixed, variable, total, average and marginal cost and their curves",
+    "Production: factors of production, law of variable proportions, returns to scale",
+    "Market structures: perfect competition, monopoly, monopolistic competition and oligopoly",
+    "Price and output determination under perfect competition and monopoly",
+    "Distribution: rent, wages, interest and profit; marginal productivity theory of distribution"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Revenue and revenue curves"
+    },
+    {
+     "no": "2.2",
+     "title": "Demand and supply"
+    },
+    {
+     "no": "2.3",
+     "title": "Cost and cost curves"
+    },
+    {
+     "no": "2.4",
+     "title": "Production: factors, the law of variable proportions and returns to scale"
+    },
+    {
+     "no": "2.5",
+     "title": "Market structures"
+    },
+    {
+     "no": "2.6",
+     "title": "Price and output determination"
+    },
+    {
+     "no": "2.7",
+     "title": "Distribution: the price of the factors of production"
+    }
+   ],
+   "summary": [
+    "Revenue: TR = Price × Quantity; AR = (TR)/(Q) and always equals the price; MR = (Δ TR)/(Δ Q); TR = AR × Q. TR is maximum where MR = 0, and falls after that.",
+    "Under perfect competition AR = MR = Price and the firm's revenue curves are horizontal. Under monopoly, AR slopes downwards and MR falls twice as fast, lying below AR.",
+    "Demand is the quantity consumers are willing and able to buy; the law of demand is inverse, giving a downward-sloping curve, for the income effect, the substitution effect and diminishing marginal utility. A change in own price moves along the curve; a change in anything else shifts it.",
+    "Supply is the quantity producers are willing and able to sell; the law of supply is direct, giving an upward-sloping curve.",
+    "Price elasticity of demand Ed = (% change in quantity)/(% change in price); it is elastic if greater than 1, inelastic if less than 1. Market equilibrium is where demand equals supply.",
+    "Cost: TC = TFC + TVC; AFC = (TFC)/(Q), AVC = (TVC)/(Q), ATC = (TC)/(Q) = AFC + AVC, and MC = (Δ TC)/(Δ Q). AFC falls continuously; AVC, ATC and MC are U-shaped, and MC cuts AVC and ATC at their minimum points.",
+    "Production combines land, labour, capital and enterprise; a labour-intensive technique uses much labour and a capital-intensive one much machinery.",
+    "The law of variable proportions (short run) says that as more of a variable factor is applied to a fixed factor, total product first rises at an increasing rate (stage I), then at a diminishing rate (stage II), then falls (stage III); MP cuts AP at AP's maximum."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7977,
+    "figures": 5,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Macroeconomics (समष्टि अर्थशास्त्र)",
+   "hours": 12,
+   "area": "Macroeconomics",
+   "topics": [
+    "Government finance: public revenue, public expenditure, public debt and the budget",
+    "Direct and indirect tax; the budget surplus and deficit; fiscal policy",
+    "International trade: absolute and comparative advantage, free trade and protection, terms of trade",
+    "Balance of trade and balance of payments; exchange rate; trade policy of Nepal"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Government finance: public revenue, public expenditure and public debt"
+    },
+    {
+     "no": "3.2",
+     "title": "Tax, the budget and fiscal policy"
+    },
+    {
+     "no": "3.3",
+     "title": "International trade"
+    },
+    {
+     "no": "3.4",
+     "title": "Balance of trade, balance of payments, exchange rate and Nepal's trade policy"
+    }
+   ],
+   "summary": [
+    "Public finance studies the government's income, expenditure and debt. Public revenue is tax revenue, non-tax revenue and capital receipts (borrowing).",
+    "Public expenditure is recurrent or capital, and developmental or non-developmental. It grows because of population, defence, social services, development, debt service, inflation and regulation.",
+    "Public debt is internal (borrowed inside the country) or external (borrowed abroad). It is a burden because it must be serviced from future revenue; it is useful when it finances capital expenditure and brings in foreign exchange and technology. Borrow for capital, not for salaries.",
+    "Tax is a compulsory contribution. Direct tax is borne by the person legally liable and cannot be shifted (income tax, house and land tax); indirect tax is shifted to the consumer (VAT, excise, customs) and, being the same rate for rich and poor, weighs more heavily on the poor.",
+    "The budget is the government's annual statement of estimated revenue and proposed expenditure. It may be balanced, in surplus (used to check inflation and repay debt) or in deficit (used to fight a slump and finance development, at the risk of inflation and growing debt). Budget deficit = Expenditure - Revenue.",
+    "Fiscal policy uses taxation, public expenditure and borrowing to influence income, employment and prices. It may be expansionary or contractionary, and it works partly through automatic stabilisers such as progressive tax and unemployment benefits.",
+    "International trade arises because no country can produce everything efficiently. Absolute advantage (Smith) is producing with fewer resources; comparative advantage (Ricardo) is producing at the lower opportunity cost, and it explains why a country worse at everything still gains from trade.",
+    "The terms of trade = (Index of export prices)/(Index of import prices) × 100; above 100 they are favourable."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5643,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Development Economics (विकास अर्थशास्त्र)",
+   "hours": 8,
+   "area": "Development Economics",
+   "topics": [
+    "Economic growth and economic development; indicators of development",
+    "Theories of economic development: classical, Marxian, Schumpeter, Rostow's stages, balanced and unbalanced growth",
+    "Capital formation, population and development; human development index",
+    "Bases of a socialist-oriented economy; features and problems of the Nepali economy"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Economic growth, economic development and their indicators"
+    },
+    {
+     "no": "4.2",
+     "title": "Capital formation, population and development"
+    },
+    {
+     "no": "4.3",
+     "title": "Bases of a socialist-oriented economy"
+    },
+    {
+     "no": "4.4",
+     "title": "Features and problems of the Nepali economy"
+    }
+   ],
+   "summary": [
+    "Economic growth is a quantitative increase in national income or real per capita income. Economic development is growth together with improvement in health, education, nutrition, housing, employment, equality and freedom. Growth is necessary for development but not sufficient for it.",
+    "Indicators of development: per capita income (a mere average); the Human Development Index (life expectancy, schooling and GNI per capita, prepared by the UNDP); the PQLI; the poverty rate and the Gini coefficient; and literacy, life expectancy, infant mortality, access to water, road density and the sectoral structure of output and emplo",
+    "Theories: the classical school (division of labour and capital accumulation, leading to a stationary state as Malthus and Ricardo argued); the Marxian theory (stages of history driven by the mode of production and class conflict, surplus value, and the collapse of capitalism); Schumpeter (development as creative destruction brought about ",
+    "Capital formation is the addition to the stock of capital goods. Its three stages are saving, mobilisation through financial institutions and investment; its rate is Investment ÷ National income. It is financed from domestic saving, foreign aid and grants, foreign loans and foreign direct investment.",
+    "Population is a resource when its skills are used and a burden when it grows faster than the economy: it eats into per capita income and saving, fragments land and strains services. The demographic dividend is the growth opportunity created when the working-age share of the population rises.",
+    "The small arithmetic of the unit: growth in income must exceed growth in population for per capita income to rise at all.",
+    "The bases of a socialist-oriented economy in Nepal are the three-pillar structure (public, private and cooperative sectors), social justice and equality, a welfare role for the state, public welfare over private profit, lawful enterprise with social responsibility, a planned and independent economy, and the promotion of cooperatives. It i",
+    "The features of the Nepali economy are an agrarian base with a growing service sector, low per capita income and productivity, a low rate of capital formation, a mixed economy with a socialist orientation, landlocked and transit-dependent trade, a young and mobile population, dependence on aid, loans and remittance, and uneven development"
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5536,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Nepal's Economy (नेपालको अर्थतन्त्र)",
+   "hours": 15,
+   "area": "Nepal's Economy",
+   "topics": [
+    "Agriculture: role, features, problems and prospects; land reform; irrigation, seeds and market",
+    "Industry: role, types, problems and prospects; small and cottage industries; industrial policy",
+    "Tourism: role, features, problems and prospects; tourism development in Nepal",
+    "Foreign employment: role, remittance, problems and prospects"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Agriculture"
+    },
+    {
+     "no": "5.2",
+     "title": "Industry"
+    },
+    {
+     "no": "5.3",
+     "title": "Tourism"
+    },
+    {
+     "no": "5.4",
+     "title": "Foreign employment"
+    }
+   ],
+   "summary": [
+    "Agriculture contributes about a fifth to a quarter of GDP while employing about three-fifths of the workers. Its importance lies in food, employment, raw material for agro-processing, exports, the market it provides to industry and the saving and labour it releases. Its features are subsistence farming, small and fragmented holdings, depe",
+    "Industry provides employment, value added, diversified exports, a market for farm produce, linkages and skills. It is classified by size (cottage, small, medium, large) and by raw material. Cottage and small industries need little capital, use local material and skill and spread employment. Its problems are capital shortage, old technolog",
+    "Tourism brings foreign exchange without needing a port, employs guides, porters, hotel staff, drivers and artisans — much of it in remote areas — builds infrastructure and helps preserve heritage. It is based on mountains, trekking, pilgrimage and culture; it is seasonal and concentrated; and its problems are poor air links, weak infrastr",
+    "Foreign employment and remittance are the largest source of foreign exchange — about a quarter of GDP — and the main reason Nepal's external accounts balance despite a trade deficit several times its exports. Remittance reduces poverty, finances consumption, education, health, housing and small business, and relieves unemployment at home.",
+    "The two figures to keep straight: agriculture employs about 60 per cent of the workers but produces about 24 per cent of output, and remittance is about a quarter of GDP and is what makes the balance of payments add up."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5710,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Quantitative Methods in Economics (अर्थशास्त्रमा परिमाणात्मक पद्धति)",
+   "hours": 19,
+   "area": "Quantitative Methods",
+   "topics": [
+    "Statistics: meaning, importance and limitations; collection of data; primary and secondary data",
+    "Presentation of data: tables, frequency distribution and series",
+    "Diagrammatic presentation: bar diagrams, pie chart, line graph",
+    "Graphs of frequency distributions: histogram, frequency polygon, frequency curve and ogive",
+    "Measures of central tendency: arithmetic mean (individual, discrete and continuous series)",
+    "Median and quartiles",
+    "Mode, including the empirical relation between mean, median and mode"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Statistics: meaning, importance and limitations; collection of data"
+    },
+    {
+     "no": "6.2",
+     "title": "Presentation of data: tables, frequency distribution and series"
+    },
+    {
+     "no": "6.3",
+     "title": "Diagrammatic presentation"
+    },
+    {
+     "no": "6.4",
+     "title": "Graphs of frequency distributions"
+    },
+    {
+     "no": "6.5",
+     "title": "Measures of central tendency: the arithmetic mean"
+    },
+    {
+     "no": "6.6",
+     "title": "Median and quartiles"
+    },
+    {
+     "no": "6.7",
+     "title": "Mode and the empirical relation"
+    }
+   ],
+   "summary": [
+    "Statistics means either the numerical facts themselves or the science of collecting, organising, presenting, analysing and interpreting them. Its importance is in presenting facts precisely, simplifying, comparing, testing theory, guiding policy and forecasting. Its limitations are that it studies groups and not individuals, deals with qu",
+    "Primary data is collected first-hand by the investigator; secondary data is already collected by somebody else. Primary methods are direct personal investigation, interview, questionnaire, telephone, panel and observation. In Nepal secondary data comes from the National Statistics Office, the Nepal Rastra Bank, the Ministry of Finance, th",
+    "A statistical table has a title, head note, captions, stubs, body, footnote and source. A frequency distribution shows the frequency of each value or class. Series are individual, discrete or continuous; classes may be exclusive, inclusive or open-ended.",
+    "Diagrammatic presentation — simple, multiple and component bar diagrams, the pie chart, the line graph and the pictogram — attracts attention and simplifies comparison, but shows only approximate values and can mislead.",
+    "Graphs of frequency distributions: the histogram (touching rectangles over the classes), the frequency polygon (joining the mid-point frequencies), the frequency curve (the smooth limiting form, bell-shaped, positively or negatively skewed) and the ogive (\"less than\" and \"more than\" cumulative curves, whose crossing point gives the median",
+    "The arithmetic mean is (Sigma X)/(N) for an individual series, (Sigma fX)/(Sigma f) for a discrete series and (Sigma fm)/(Sigma f) for a continuous series; the short-cut method uses an assumed mean and the step-deviation method uses d' = (m-A)/(i) and X = A + (Sigma fd')/(Sigma f) × i. It uses every observation but is badly affected by ex",
+    "The median is the middle value: left((N+1)/(2)right)^th item in an individual or discrete series, and Median = L + frac(N)/(2) - c.f.f × i in a continuous series. Quartiles use (N)/(4) and (3N)/(4); the inter-quartile range is Q3 - Q1.",
+    "The mode is the most frequent value: the highest frequency in a discrete series, and Mode = L + (f1 - f0)/(2f1 - f0 - f2) × i in a continuous series, where f1 is the modal class, f0 the class before it and f2 the class after it."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6402,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 31,
+ "notes_ready": 6
+}

@@ -1,0 +1,1155 @@
+{
+ "grade": "11",
+ "grade_label": "Class 11",
+ "grade_label_ne": "कक्षा ११",
+ "subject": "chemistry",
+ "name": "Chemistry",
+ "name_ne": "रसायन विज्ञान",
+ "icon": "experiment",
+ "group": "science",
+ "color": "#A8271F",
+ "lang": "en",
+ "code": "3011 (CDC Che.301)",
+ "hours": 128,
+ "exam": "3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24",
+ "areas": [
+  "General and Physical Chemistry",
+  "Inorganic Chemistry",
+  "Organic Chemistry",
+  "Applied Chemistry"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Foundation and Fundamentals",
+   "hours": 2,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "General introduction of chemistry",
+    "Importance and scope of chemistry",
+    "Basic concepts: atoms, molecules, relative masses of atoms and molecules, amu, radicals, molecular formula, empirical formula",
+    "Percentage composition from molecular formula"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "General introduction of chemistry"
+    },
+    {
+     "no": "1.2",
+     "title": "Importance and scope of chemistry"
+    },
+    {
+     "no": "1.3",
+     "title": "Basic concepts"
+    },
+    {
+     "no": "1.4",
+     "title": "Percentage composition from molecular formula"
+    }
+   ],
+   "summary": [
+    "Chemistry studies the composition, structure, properties and transformations of matter; its main branches are physical, inorganic, organic, analytical, biochemistry, industrial, nuclear and environmental.",
+    "An atom is the smallest particle of an element taking part in a reaction; a molecule is the smallest particle able to exist independently.",
+    "1 atomic mass unit = 1/12 of the mass of one ¹²C atom = 1.66054 × 10⁻²⁴ g.",
+    "Relative atomic and molecular masses are ratios and carry no unit; molecular mass is the sum of the atomic masses in the formula.",
+    "A radical is a charged atom or group of atoms that acts as one unit; formulae are built by criss-crossing valencies.",
+    "Molecular formula = n × empirical formula, with n = molecular mass / empirical formula mass.",
+    "Percentage of X = (atomic mass of X × number of X atoms) / molecular mass × 100; all percentages must total 100."
+   ],
+   "terms": [
+    "Chemistry",
+    "Atom and molecule",
+    "Atomic mass unit (amu or u)",
+    "Radical",
+    "The two formulae"
+   ],
+   "stats": {
+    "words": 2556,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Stoichiometry",
+   "hours": 8,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Dalton's atomic theory and its postulates",
+    "Laws of stoichiometry",
+    "Avogadro's law and deductions: molecular mass and vapour density; molecular mass and volume of gas; molecular mass and number of particles",
+    "Mole and its relation with mass, volume and number of particles",
+    "Calculations based on mole concept",
+    "Limiting reactant and excess reactant",
+    "Theoretical yield, experimental yield and percentage yield",
+    "Calculation of empirical and molecular formula from percentage composition"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Dalton's atomic theory and its postulates"
+    },
+    {
+     "no": "2.2",
+     "title": "Laws of stoichiometry"
+    },
+    {
+     "no": "2.3",
+     "title": "Avogadro's law and its deductions"
+    },
+    {
+     "no": "2.4",
+     "title": "Mole and its relation with mass, volume and number of particles"
+    },
+    {
+     "no": "2.5",
+     "title": "Calculations based on mole concept"
+    },
+    {
+     "no": "2.6",
+     "title": "Limiting reactant and excess reactant"
+    },
+    {
+     "no": "2.7",
+     "title": "Theoretical yield, experimental yield and percentage yield"
+    },
+    {
+     "no": "2.8",
+     "title": "Calculation of empirical and molecular formula from percentage composition"
+    }
+   ],
+   "summary": [
+    "Dalton's postulates: atoms are indivisible, conserved, identical within an element and combine in small whole-number ratios. Isotopes and subatomic particles have since disproved the first and third.",
+    "The mass laws: conservation of mass, definite proportions, multiple proportions, reciprocal proportions, and Gay-Lussac's law of gaseous volumes.",
+    "Avogadro's law: equal volumes of gases at the same T and P contain equal numbers of molecules. Deductions: molecular mass = 2 × vapour density; 1 mol of gas occupies 22.4 L at STP; 1 mol contains NA = 6.022×10^23 particles.",
+    "Mole conversions: n = w/M = N/NA = V/22.4 (V in litres, at STP).",
+    "Stoichiometry route: mass → moles → mole ratio from the balanced equation → moles → mass or volume.",
+    "The limiting reactant is the one with the smallest value of (moles ÷ coefficient); it fixes the amount of product. The rest is excess.",
+    "% yield = (actual/theoretical)×100. Purity is applied to the reactant, yield to the product.",
+    "Empirical formula: % → ÷ atomic mass → ÷ smallest → clear fractions; molecular formula = n× empirical formula with n = molecular mass/EF mass."
+   ],
+   "terms": [
+    "Avogadro's law",
+    "Mole",
+    "Limiting and excess reactant"
+   ],
+   "stats": {
+    "words": 3394,
+    "figures": 4,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Atomic Structure",
+   "hours": 8,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Rutherford's atomic model and its limitations",
+    "Postulates of Bohr's atomic model and its application",
+    "Spectrum of hydrogen atom",
+    "Defects of Bohr's theory",
+    "Elementary idea of quantum mechanical model: de Broglie's wave equation",
+    "Heisenberg's Uncertainty Principle",
+    "Concept of probability",
+    "Quantum Numbers",
+    "Orbitals and shape of s and p orbitals only",
+    "Aufbau Principle; Pauli's exclusion principle; Hund's rule",
+    "Electronic configurations of atoms and ions (up to atomic number 30)"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Rutherford's atomic model and its limitations"
+    },
+    {
+     "no": "3.2",
+     "title": "Postulates of Bohr's atomic model and its application"
+    },
+    {
+     "no": "3.3",
+     "title": "Spectrum of hydrogen atom"
+    },
+    {
+     "no": "3.4",
+     "title": "Defects of Bohr's theory"
+    },
+    {
+     "no": "3.5",
+     "title": "Elementary idea of the quantum mechanical model: de Broglie's wave equation"
+    },
+    {
+     "no": "3.6",
+     "title": "Heisenberg's Uncertainty Principle"
+    },
+    {
+     "no": "3.7",
+     "title": "Concept of probability"
+    },
+    {
+     "no": "3.8",
+     "title": "Quantum numbers"
+    },
+    {
+     "no": "3.9",
+     "title": "Orbitals and shape of s and p orbitals"
+    },
+    {
+     "no": "3.10",
+     "title": "Aufbau Principle, Pauli's exclusion principle and Hund's rule"
+    },
+    {
+     "no": "3.11",
+     "title": "Electronic configurations of atoms and ions (up to atomic number 30)"
+    }
+   ],
+   "summary": [
+    "Rutherford's α-scattering proved the nuclear atom but predicted an unstable atom and a continuous spectrum, and said nothing about electron arrangement.",
+    "Bohr quantised angular momentum, mvr = nh/2π, giving rn = 0.529 n^2/Z Å and En = -13.6 Z^2/n^2 eV, and radiation only on transitions, Δ E = hν.",
+    "Hydrogen line spectrum: 1/λ = RH(1/n1^2 - 1/n2^2) with RH = 1.097×10^7 m^-1; Lyman (UV, n1=1), Balmer (visible, n1=2), Paschen, Brackett, Pfund (IR).",
+    "Bohr fails for many-electron atoms, fine structure, Zeeman and Stark effects, and contradicts both wave–particle duality and the uncertainty principle.",
+    "De Broglie: λ = h/mv. A Bohr orbit is a standing wave, 2π r = nλ.",
+    "Heisenberg: Δ x·Δ p ≥ h/4π, so orbits give way to probability; psi^2 is the probability density and an orbital is the 90 % probability region.",
+    "Quantum numbers: n (shell, size), l = 0 to n-1 (shape), m = -l to +l (orientation), s = ±tfrac12 (spin); a shell holds n^2 orbitals and 2n^2 electrons.",
+    "s orbitals are spherical, p orbitals are dumb-bell shaped with one nodal plane and three orientations."
+   ],
+   "terms": [
+    "Uncertainty principle",
+    "Orbital",
+    "The three filling rules"
+   ],
+   "stats": {
+    "words": 3847,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Classification of elements and Periodic Table",
+   "hours": 5,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Modern periodic law and modern periodic table; classification into groups, periods and blocks",
+    "IUPAC classification of elements",
+    "Nuclear charge and effective nuclear charge",
+    "Periodic trend and periodicity: atomic radii, ionic radii, ionization energy, electron affinity, electronegativity, metallic character"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Modern periodic law and modern periodic table"
+    },
+    {
+     "no": "4.2",
+     "title": "IUPAC classification of elements"
+    },
+    {
+     "no": "4.3",
+     "title": "Nuclear charge and effective nuclear charge"
+    },
+    {
+     "no": "4.4",
+     "title": "Periodic trend and periodicity: atomic radii, ionic radii, ionization energy, electron affinity, electronegativity, metallic character"
+    }
+   ],
+   "summary": [
+    "Modern periodic law: properties are periodic functions of atomic number, established by Moseley's relation √ν = a(Z-b).",
+    "The long form has 7 periods (2, 8, 8, 18, 18, 32, 32 elements) and 18 IUPAC groups; blocks s, p, d, f are named after the subshell filled last.",
+    "Elements with Z > 100 are named systematically from the roots nil, un, bi, tri, quad, pent, hex, sept, oct, enn plus -ium.",
+    "Zeff = Z - σ; screening power falls as s > p > d > f. Slater's rules give Zeff = 2.20 for Na(3s) and 6.10 for Cl(3p).",
+    "Across a period: radius ↓, IE ↑, EA ↑, EN ↑, metallic character ↓. Down a group: radius ↑, IE ↓, EA ↓, EN ↓, metallic character ↑.",
+    "Cations are smaller and anions larger than the parent atom; in an isoelectronic series radius falls as the number of protons rises.",
+    "Anomalies: Be > B and N > O (and Mg > Al, P > S) in ionization energy because of filled 2s and half-filled 2p stability; Cl > F and S > O in electron affinity because the second-period atoms are too compact."
+   ],
+   "terms": [
+    "Modern periodic law",
+    "Effective nuclear charge",
+    "Ionization energy",
+    "Electron affinity",
+    "Electronegativity"
+   ],
+   "stats": {
+    "words": 3793,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Chemical Bonding and Shapes of Molecules",
+   "hours": 9,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Valence shell, valence electron and octet theory",
+    "Ionic bond and its properties",
+    "Covalent bond and coordinate covalent bond; properties of covalent compounds",
+    "Lewis dot structure of common compounds of s and p block elements",
+    "Resonance",
+    "VSEPR theory and shapes of simple molecules (BeF2, BF3, CH4, CH3Cl, PCl5, SF6, H2O, NH3, CO2, H2S, PH3)",
+    "Elementary idea of Valence Bond Theory",
+    "Hybridization involving s and p orbitals only",
+    "Bond characteristics: bond length, ionic character, dipole moment",
+    "Van der Waals' force and molecular solids",
+    "Hydrogen bonding and its application",
+    "Metallic bonding and properties of metallic solids"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Valence shell, valence electron and octet theory"
+    },
+    {
+     "no": "5.2",
+     "title": "Ionic bond and its properties"
+    },
+    {
+     "no": "5.3",
+     "title": "Covalent bond and coordinate covalent bond; properties of covalent compounds"
+    },
+    {
+     "no": "5.4",
+     "title": "Lewis dot structure of common compounds of s and p block elements"
+    },
+    {
+     "no": "5.5",
+     "title": "Resonance"
+    },
+    {
+     "no": "5.6",
+     "title": "VSEPR theory and shapes of simple molecules"
+    },
+    {
+     "no": "5.7",
+     "title": "Elementary idea of Valence Bond Theory"
+    },
+    {
+     "no": "5.8",
+     "title": "Hybridization involving s and p orbitals only"
+    },
+    {
+     "no": "5.9",
+     "title": "Bond characteristics: bond length, ionic character, dipole moment"
+    },
+    {
+     "no": "5.10",
+     "title": "Van der Waals' force and molecular solids"
+    },
+    {
+     "no": "5.11",
+     "title": "Hydrogen bonding and its application"
+    },
+    {
+     "no": "5.12",
+     "title": "Metallic bonding and properties of metallic solids"
+    }
+   ],
+   "summary": [
+    "Atoms bond to reach a noble-gas octet (duplet for H). The octet rule fails for incomplete octets (BF₃), expanded octets (SF₆), odd-electron molecules (NO) and noble-gas compounds.",
+    "Ionic bond = complete transfer (ΔEN > 1.7), giving a non-directional giant lattice: high melting point, conducts only when molten or aqueous.",
+    "Covalent bond = shared pairs; a coordinate bond is a shared pair donated entirely by one atom (NH₄⁺, H₃N→BF₃).",
+    "Lewis structures: shared pairs S = N - A; lone pairs = (A-S)/2; formal charge = valence − lone-pair electrons − ½(bonding electrons).",
+    "Resonance: one hybrid structure, not a mixture; it equalises bond lengths and lowers the energy by the resonance energy.",
+    "VSEPR: X = (1)/(2)(V + M - c + a) pairs; repulsion lp–lp > lp–bp > bp–bp, so CH₄ 109.5° > NH₃ 107° > H₂O 104.5°.",
+    "sp, sp² and sp³ hybrids give linear (180°), trigonal planar (120°) and tetrahedral (109.5°) geometries; a double bond is σ + π, a triple bond σ + 2π.",
+    "μ = q × d in debye; a symmetrical molecule has μ = 0 even with polar bonds; % ionic character = (μobs/μionic) × 100."
+   ],
+   "terms": [
+    "Octet rule",
+    "Ionic (electrovalent) bond",
+    "Coordinate (dative) covalent bond",
+    "Resonance",
+    "Hybridisation",
+    "Hydrogen bond",
+    "Metallic bond (electron-sea model)"
+   ],
+   "stats": {
+    "words": 4410,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Oxidation and Reduction",
+   "hours": 5,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "General and electronic concept of oxidation and reduction",
+    "Oxidation number and rules for assigning oxidation number",
+    "Balancing redox reactions by oxidation number and ion-electron (half reaction) method",
+    "Electrolysis: qualitative aspect; quantitative aspect (Faraday's laws of electrolysis)"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "General and electronic concept of oxidation and reduction"
+    },
+    {
+     "no": "6.2",
+     "title": "Oxidation number and rules for assigning oxidation number"
+    },
+    {
+     "no": "6.3",
+     "title": "Balancing redox reactions by oxidation number and ion-electron methods"
+    },
+    {
+     "no": "6.4",
+     "title": "Electrolysis: qualitative and quantitative aspects"
+    }
+   ],
+   "summary": [
+    "Classically, oxidation is addition of oxygen or removal of hydrogen; electronically it is loss of electrons (OIL RIG). Reduction is the reverse, and the two always occur together.",
+    "The oxidising agent gains electrons and is reduced; the reducing agent loses electrons and is oxidised. In disproportionation one element does both.",
+    "Oxidation number is the charge an atom would have if all bonds were ionic. Key rules: free element 0; H = +1 (−1 in hydrides); O = −2 (−1 in peroxides); the sum equals 0 for a molecule and the charge for an ion.",
+    "Oxidation number can be fractional (Fe₃O₄ = +8/3, Na₂S₄O₆ = +2.5) because it is an average; valency never can.",
+    "Oxidation number method: equalise total increase with total decrease, then balance the rest by inspection.",
+    "Ion-electron method: split into halves, balance O with H₂O and H with H⁺ (converting to OH⁻ in base), balance charge with electrons, cross-multiply and add.",
+    "Always verify both mass and charge.",
+    "In electrolysis the anode is positive and oxidises anions; the cathode is negative and reduces cations. Preferential discharge decides which ion reacts."
+   ],
+   "terms": [
+    "Electronic concept",
+    "Oxidation number",
+    "Electrolysis"
+   ],
+   "stats": {
+    "words": 3340,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "States of Matter",
+   "hours": 8,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Gaseous state: Kinetic theory of gas and postulates",
+    "Gas laws: Boyle's and Charles' law; Avogadro's law; Combined gas equation; Dalton's law of partial pressure; Graham's law of diffusion",
+    "Ideal gas and ideal gas equation; Universal gas constant and its significance",
+    "Deviation of real gas from ideality",
+    "Liquid state: evaporation and condensation; vapour pressure and boiling point; surface tension and viscosity (qualitative)",
+    "Liquid crystals and their applications",
+    "Solid state: types of solids; amorphous and crystalline solids",
+    "Efflorescent, deliquescent and hygroscopic solids",
+    "Crystallization and crystal growth; water of crystallization",
+    "Introduction to unit crystal lattice and unit cell"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Gaseous state: kinetic theory of gas and postulates"
+    },
+    {
+     "no": "7.2",
+     "title": "Gas laws"
+    },
+    {
+     "no": "7.3",
+     "title": "Ideal gas and ideal gas equation; universal gas constant and its significance"
+    },
+    {
+     "no": "7.4",
+     "title": "Deviation of real gas from ideality"
+    },
+    {
+     "no": "7.5",
+     "title": "Liquid state"
+    },
+    {
+     "no": "7.6",
+     "title": "Liquid crystals and their applications"
+    },
+    {
+     "no": "7.7",
+     "title": "Solid state: types of solids; amorphous and crystalline solids"
+    },
+    {
+     "no": "7.8",
+     "title": "Efflorescent, deliquescent and hygroscopic solids"
+    },
+    {
+     "no": "7.9",
+     "title": "Crystallization and crystal growth; water of crystallization"
+    },
+    {
+     "no": "7.10",
+     "title": "Introduction to unit crystal lattice and unit cell"
+    }
+   ],
+   "summary": [
+    "Kinetic gas equation: PV = (1)/(3)mNc^2, giving crms = √3RT/M = √3P/ρ and kinetic energy per mole E = (3)/(2)RT.",
+    "Gas laws: Boyle P1V1 = P2V2; Charles V1/T1 = V2/T2; combined P1V1/T1 = P2V2/T2; Dalton P = Σ pi with pi = xiP; Graham r1/r2 = √M2/M1.",
+    "Ideal gas equation PV = nRT = (w/M)RT, so M = ρ RT/P; R = 8.314 J K^-1mol^-1 = 0.0821 L atm K^-1mol^-1, the work done by one mole per kelvin at constant pressure.",
+    "Real gases deviate because molecules attract and occupy volume: Z = PV/nRT ≠ 1, and left(P + an^2/V^2right)(V-nb) = nRT.",
+    "Vapour pressure rises with temperature; a liquid boils when its vapour pressure equals the external pressure. Surface tension (γ, N m⁻¹) and viscosity (η, Pa s) both fall as temperature rises.",
+    "Liquid crystals are mesophases: thermotropic (nematic, smectic, cholesteric) and lyotropic; used in LCDs, thermometers and medical thermography.",
+    "Crystalline solids are anisotropic with sharp melting points; amorphous solids are isotropic pseudo-solids. Efflorescent solids lose water, deliquescent solids dissolve in absorbed water, hygroscopic solids merely absorb it.",
+    "A unit cell is the smallest repeating unit of a crystal lattice; corner contributes 1/8, face 1/2, body 1, giving Z = 1 (sc), 2 (bcc), 4 (fcc), and ρ = ZM/a^3NA."
+   ],
+   "terms": [
+    "Vapour pressure",
+    "Boiling point",
+    "Surface tension",
+    "Viscosity",
+    "Water of crystallization",
+    "Crystal lattice and unit cell"
+   ],
+   "stats": {
+    "words": 5155,
+    "figures": 6,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Chemical equilibrium",
+   "hours": 3,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Physical and chemical equilibrium",
+    "Dynamic nature of chemical equilibrium",
+    "Law of mass action",
+    "Expression for equilibrium constant and its importance",
+    "Relationship between Kp and Kc",
+    "Le Chatelier's Principle (numericals not required)"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Physical and chemical equilibrium"
+    },
+    {
+     "no": "8.2",
+     "title": "Dynamic nature of chemical equilibrium"
+    },
+    {
+     "no": "8.3",
+     "title": "Law of mass action"
+    },
+    {
+     "no": "8.4",
+     "title": "Expression for equilibrium constant and its importance"
+    },
+    {
+     "no": "8.5",
+     "title": "Relationship between Kp and Kc"
+    },
+    {
+     "no": "8.6",
+     "title": "Le Chatelier's Principle"
+    }
+   ],
+   "summary": [
+    "Chemical equilibrium is the state of a reversible reaction in a closed system where the forward and backward rates are equal. It is dynamic, reachable from either side, and unaffected in position by a catalyst.",
+    "Law of mass action: rate ∝ product of active masses (molar concentrations), each raised to its stoichiometric coefficient.",
+    "For aA + bB ⇌ cC + dD, Kc = dfrac[C]^c[D]^d[A]^a[B]^b and Kp = dfracpC^cpD^dpA^apB^b; pure solids and pure liquids are omitted.",
+    "Kp = Kc(RT)^Δ n with Δ n the change in gaseous moles; Kp = Kc when Δ n = 0.",
+    "K measures the extent of reaction and depends only on temperature; comparing the reaction quotient Q with K predicts the direction of change.",
+    "Le Chatelier: a disturbed equilibrium shifts so as to oppose the disturbance. High pressure favours the side with fewer gas moles; a temperature rise favours the endothermic direction.",
+    "Haber: N₂ + 3H₂ ⇌ 2NH₃, ΔH = −92.4 kJ mol⁻¹, run at ≈200 atm and 450–500 °C over promoted iron. Contact: 2SO₂ + O₂ ⇌ 2SO₃, ΔH = −196 kJ mol⁻¹, at 400–450 °C over V₂O₅."
+   ],
+   "terms": [
+    "Chemical equilibrium",
+    "Law of mass action (Guldberg and Waage, 1864)",
+    "Le Chatelier's Principle (1884)"
+   ],
+   "stats": {
+    "words": 3181,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Chemistry of Non-metals",
+   "hours": 22,
+   "area": "Inorganic Chemistry",
+   "topics": [
+    "Hydrogen: atomic and nascent hydrogen; isotopes and uses; hydrogen as fuel; heavy water [with 9.2, 9.3 = 4 hrs]",
+    "Allotropes of Oxygen: allotropy; types of oxides (acidic, basic, neutral, amphoteric, peroxide, mixed); applications of H2O2; medical and industrial application of oxygen",
+    "Ozone: occurrence; preparation from oxygen; structure; test; ozone layer depletion; uses",
+    "Nitrogen [5 hrs]: inertness and active nitrogen; chemical properties of ammonia and applications; harmful effects; oxy-acids of nitrogen (name and formula); chemical properties of nitric acid; ring test for nitrate ion",
+    "Halogens [5 hrs]: general characteristics; comparative preparation, chemical properties and uses of Cl2, Br2, I2; tests; haloacids HCl, HBr, HI",
+    "Carbon [with phosphorus = 3 hrs]: allotropes including fullerenes; properties and uses of carbon monoxide",
+    "Phosphorus: allotropes (name only); phosphine",
+    "Sulphur [5 hrs]: allotropes and uses; hydrogen sulphide including Kipp's apparatus; sulphur dioxide; sulphuric acid; sodium thiosulphate"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Hydrogen"
+    },
+    {
+     "no": "9.2",
+     "title": "Allotropes of Oxygen"
+    },
+    {
+     "no": "9.3",
+     "title": "Ozone"
+    },
+    {
+     "no": "9.4",
+     "title": "Nitrogen"
+    },
+    {
+     "no": "9.5",
+     "title": "Halogens"
+    },
+    {
+     "no": "9.6",
+     "title": "Carbon"
+    },
+    {
+     "no": "9.7",
+     "title": "Phosphorus"
+    },
+    {
+     "no": "9.8",
+     "title": "Sulphur"
+    }
+   ],
+   "summary": [
+    "Hydrogen: nascent hydrogen is more reactive than H₂ because the 436 kJ mol⁻¹ H–H bond need not be broken. Isotopes protium, deuterium (D₂O, reactor moderator) and tritium. As a fuel: 143 kJ g⁻¹, only water, but hard to store.",
+    "Oxides: acidic (CO₂, SO₂), basic (Na₂O, CaO), amphoteric (ZnO, Al₂O₃), neutral (CO, NO), peroxide (Na₂O₂, BaO₂), mixed (Fe₃O₄, Pb₃O₄). H₂O₂ strength in g L⁻¹ = volume strength × 3.04.",
+    "Ozone: 3O₂ ⇌ 2O₃, ΔH = +284 kJ, made by silent electric discharge; angular, 116.8°, both O–O bonds 128 pm, a resonance hybrid; turns starch–iodide paper blue; destroyed catalytically by Cl radicals from CFCs.",
+    "Nitrogen is inert because of the 941 kJ mol⁻¹ N≡N bond; active nitrogen is atomic and very reactive. Ammonia: 2NH₄Cl + Ca(OH)₂ → CaCl₂ + 2NH₃↑ + 2H₂O, dried over quicklime only, tested with HCl (white fumes) and Nessler's reagent (brown ppt).",
+    "Nitric acid gives NO₂ (conc.) or NO (dil.) with metals, never H₂. Nitrate is confirmed by the brown ring [Fe(NO)]SO₄. Oxy-acids: H₂N₂O₂, HNO₂, HNO₃.",
+    "Halogens: oxidising power and electronegativity fall down the group; the F–F bond is anomalously weak (158 kJ mol⁻¹). MnO₂ + 4HCl → MnCl₂ + Cl₂ + 2H₂O. Cold dilute alkali gives X⁻ + XO⁻, hot concentrated alkali X⁻ + XO₃⁻. Acid strength and reducing power HCl < HBr < HI, so conc. H₂SO₄ cannot make HBr/HI.",
+    "Carbon: diamond sp³ network, graphite sp² layers 335 pm apart, C₆₀ cage of 20 hexagons and 12 pentagons. CO is neutral, a strong reducing agent (Fe₂O₃ + 3CO → 2Fe + 3CO₂) and a poison through carboxyhaemoglobin.",
+    "Phosphorus: white, red, scarlet, violet and black allotropes. PH₃ from P₄ + 3NaOH + 3H₂O → PH₃ + 3NaH₂PO₂; weaker base than NH₃; Holme's signals."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7897,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Chemistry of Metals",
+   "hours": 10,
+   "area": "Inorganic Chemistry",
+   "topics": [
+    "Metals and Metallurgical Principles [5 hrs]: metallurgy types; ores; gangue, flux, slag, alloy, amalgam; general principles of extraction (concentration, calcination and roasting, smelting, carbon reduction, thermite and electrochemical reduction); refining (poling and electro-refinement)",
+    "Alkali Metals [with alkaline earth = 5 hrs]: general characteristics; sodium via Down's process; NaOH; Na2CO3",
+    "Alkaline Earth Metals: general characteristics; formulae and uses of quick lime, bleaching powder, magnesia, plaster of paris, epsom salt; solubility trends; stability of carbonates and nitrates"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Metals and Metallurgical Principles"
+    },
+    {
+     "no": "10.2",
+     "title": "Alkali Metals"
+    },
+    {
+     "no": "10.3",
+     "title": "Alkaline Earth Metals"
+    }
+   ],
+   "summary": [
+    "A mineral becomes an ore only when extraction from it is profitable. Gangue is the earthy impurity, flux combines with gangue to give fusible slag, an alloy is a homogeneous mixture of metals and an amalgam is an alloy containing mercury.",
+    "Concentration uses a physical difference: levigation (density), magnetic separation, froth flotation (sulphides), leaching (bauxite by Bayer's process, Ag by cyanide).",
+    "Calcination (limited air) removes H₂O and CO₂ from carbonate and hydrated ores; roasting (excess air) converts sulphides to oxides, 2ZnS + 3O₂ → 2ZnO + 2SO₂↑.",
+    "Reduction: carbon/CO for moderately reactive metals (blast furnace, Fe₂O₃ + 3CO → 2Fe + 3CO₂); self-reduction for Cu and Pb (2Cu₂O + Cu₂S → 6Cu + SO₂↑); aluminothermite for Cr and Mn (Cr₂O₃ + 2Al → 2Cr + Al₂O₃); electrolysis of the fused salt for Na, Mg, Al.",
+    "Refining: liquation, distillation, poling (Cu₂O + CO → 2Cu + CO₂) and electro-refinement, in which the impure metal is the anode, the pure metal the cathode, and Ag/Au/Pt collect as anode mud.",
+    "Alkali metals (ns¹) are soft, light, low melting, strongly reducing and give characteristic flame colours; sodium is made in the Down's cell by electrolysing fused NaCl + CaCl₂, giving Na at the iron cathode and Cl₂ at the graphite anode.",
+    "NaOH is deliquescent and dissolves amphoteric metals (2Al + 2NaOH + 2H₂O → 2NaAlO₂ + 3H₂↑); Na₂CO₃·10H₂O is efflorescent and its solution is alkaline by hydrolysis.",
+    "Alkaline earth metals (ns²) are harder, denser and less reactive than their group 1 neighbours; Be is anomalous and resembles Al."
+   ],
+   "terms": [
+    "The five words you must be able to define"
+   ],
+   "stats": {
+    "words": 6308,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Bio-inorganic Chemistry",
+   "hours": 3,
+   "area": "Inorganic Chemistry",
+   "topics": [
+    "Introduction",
+    "Micro and macro nutrients",
+    "Importance of metal ions in biological systems (Na, K, Mg, Ca, Fe, Cu, Zn, Ni, Co, Cr)",
+    "Ion pumps: sodium-potassium and sodium-glucose pump",
+    "Metal toxicity: iron, arsenic, mercury, lead, cadmium"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Introduction"
+    },
+    {
+     "no": "11.2",
+     "title": "Micro and macro nutrients"
+    },
+    {
+     "no": "11.3",
+     "title": "Importance of metal ions in biological systems"
+    },
+    {
+     "no": "11.4",
+     "title": "Ion pumps"
+    },
+    {
+     "no": "11.5",
+     "title": "Metal toxicity"
+    }
+   ],
+   "summary": [
+    "Bio-inorganic chemistry studies the role of inorganic elements, especially metal ions, in living systems. About 25 elements are essential to humans; 11 of them make up 99.9% of body mass.",
+    "Macronutrients are needed in more than about 100 mg per day and make up more than 0.01% of body mass (O, C, H, N, Ca, P, K, S, Na, Cl, Mg); micronutrients are needed in smaller amounts (Fe, Zn, Cu, Mn, I, F, Se, Cr, Co, Mo, Ni).",
+    "Na⁺ is the main extracellular and K⁺ the main intracellular cation; Mg²⁺ is the centre of chlorophyll and the partner of ATP; Ca²⁺ builds bone as Ca₅(PO₄)₃OH and triggers clotting and muscle contraction.",
+    "Fe²⁺ in the porphyrin ring of haem carries O₂ (Hb + 4O₂ ⇌ Hb(O₂)₄) and Fe in cytochromes transfers electrons; Cu works in cytochrome c oxidase and haemocyanin; Zn²⁺ is the Lewis acid of carbonic anhydrase; Ni²⁺ is in urease; Co³⁺ is in vitamin B₁₂; Cr³⁺ helps insulin act.",
+    "The Na⁺/K⁺-ATPase is primary active transport: 3 Na⁺ out and 2 K⁺ in per ATP, which makes it electrogenic and maintains the −70 mV resting potential.",
+    "SGLT1 is secondary active transport: 2 Na⁺ enter down their gradient and bring one glucose molecule with them. This is the chemistry behind oral rehydration solution.",
+    "Toxic metals act by binding –SH groups, by replacing the correct metal ion, or by generating free radicals (Fenton reaction for iron). Mercury causes Minamata disease, cadmium causes itai-itai disease, lead blocks haem synthesis, arsenic inactivates thiol enzymes.",
+    "Poisoning is treated by chelation therapy: EDTA for lead, BAL for arsenic and mercury, desferrioxamine for iron, penicillamine for copper."
+   ],
+   "terms": [
+    "Macronutrients and micronutrients",
+    "Active and passive transport"
+   ],
+   "stats": {
+    "words": 3796,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Basic Concept of Organic Chemistry",
+   "hours": 6,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction to organic chemistry and organic compounds",
+    "Reasons for separate study of organic compounds",
+    "Tetra-covalency and catenation properties of carbon",
+    "Classification of organic compounds",
+    "Alkyl groups, functional groups and homologous series",
+    "Structural formula, contracted formula and bond line structural formula",
+    "Preliminary idea of cracking and reforming; quality of gasoline; octane number; cetane number; gasoline additive"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Introduction to organic chemistry and organic compounds"
+    },
+    {
+     "no": "12.2",
+     "title": "Reasons for separate study of organic compounds"
+    },
+    {
+     "no": "12.3",
+     "title": "Tetra-covalency and catenation properties of carbon"
+    },
+    {
+     "no": "12.4",
+     "title": "Classification of organic compounds"
+    },
+    {
+     "no": "12.5",
+     "title": "Alkyl groups, functional groups and homologous series"
+    },
+    {
+     "no": "12.6",
+     "title": "Structural formula, contracted formula and bond line structural formula"
+    },
+    {
+     "no": "12.7",
+     "title": "Cracking and reforming; quality of gasoline; octane number; cetane number; gasoline additive"
+    },
+    {
+     "no": "12.8",
+     "title": "Bond fission and electronic effects — a bridge to Unit 13"
+    }
+   ],
+   "summary": [
+    "Organic chemistry is the chemistry of hydrocarbons and their derivatives. The vital force theory died when Wöhler made urea from ammonium cyanate in 1828, NH₄CNO --Δ--> NH₂CONH₂.",
+    "Organic compounds are studied separately because of their number, their isomerism, their covalent character, their slow molecular reactions and their functional-group chemistry.",
+    "Carbon is tetracovalent: promotion of a 2s electron gives four unpaired electrons, four sp³ hybrid orbitals and a tetrahedral angle of 109°28′. Catenation is possible because the C–C bond (348 kJ mol⁻¹) is far stronger than Si–Si, N–N or O–O.",
+    "Compounds are classified as acyclic, or cyclic — homocyclic (alicyclic or aromatic, benzenoid or non-benzenoid) and heterocyclic.",
+    "An alkyl group is CₙH₂ₙ₊₁; a functional group decides chemical behaviour; a homologous series has one general formula, a constant difference of –CH₂– (14 u), identical chemical properties and a regular gradation of physical properties.",
+    "An IUPAC name is built as secondary prefix + primary prefix + word root + primary suffix + secondary suffix, numbering the parent chain so that the principal functional group gets the lowest locant.",
+    "Structures are written in three ways: complete structural, condensed and bond-line, where every vertex and line end is a carbon and hydrogens on carbon are omitted.",
+    "Isomers share a molecular formula but differ in structure: chain, position, functional, metamerism and tautomerism (structural); geometrical and optical (stereo). C₅H₁₂ has 3 isomers, C₄H₁₀O has 7."
+   ],
+   "terms": [
+    "Organic chemistry",
+    "Catenation",
+    "Functional group",
+    "Homologous series",
+    "Isomerism",
+    "Cracking",
+    "Reforming",
+    "Octane number",
+    "Cetane number"
+   ],
+   "stats": {
+    "words": 6114,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Fundamental Principles of Organic Chemistry",
+   "hours": 10,
+   "area": "Organic Chemistry",
+   "topics": [
+    "IUPAC Nomenclature of Organic Compounds (up to chain having 6 carbon atoms)",
+    "Qualitative analysis: detection of N, S and halogens by Lassaigne's test",
+    "Isomerism: definition and classification",
+    "Structural isomerism: chain, position, functional, metamerism and tautomerism",
+    "Geometrical isomerism (cis and trans) and optical isomerism (d and l form)",
+    "Reaction Mechanism: homolytic and heterolytic fission",
+    "Electrophiles, nucleophiles and free radicals",
+    "Inductive effect (+I and -I); Resonance effect (+R and -R)"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "IUPAC Nomenclature of Organic Compounds (up to chain having 6 carbon atoms)"
+    },
+    {
+     "no": "13.2",
+     "title": "Qualitative analysis: detection of N, S and halogens by Lassaigne's test"
+    },
+    {
+     "no": "13.3",
+     "title": "Isomerism: definition and classification"
+    },
+    {
+     "no": "13.4",
+     "title": "Structural isomerism: chain, position, functional, metamerism and tautomerism"
+    },
+    {
+     "no": "13.5",
+     "title": "Geometrical isomerism (cis and trans) and optical isomerism (d and l form)"
+    },
+    {
+     "no": "13.6",
+     "title": "Reaction Mechanism: homolytic and heterolytic fission"
+    },
+    {
+     "no": "13.7",
+     "title": "Electrophiles, nucleophiles and free radicals"
+    },
+    {
+     "no": "13.8",
+     "title": "Inductive effect (+I and −I); Resonance effect (+R and −R)"
+    }
+   ],
+   "summary": [
+    "An IUPAC name is secondary prefix + word root + primary suffix + secondary suffix. Choose the longest chain containing the senior functional group, number for the lowest locant to that group, list substituents alphabetically, and elide the final \"e\" before a vowel.",
+    "Lassaigne's test fuses the compound with sodium to make NaCN, Na₂S and NaX. Nitrogen gives Prussian blue Fe₄[Fe(CN)₆]₃; sulphur gives a violet nitroprusside colour and a black PbS precipitate; halogens give AgCl (white), AgBr (pale yellow) or AgI (yellow) after the extract is boiled with dilute HNO₃.",
+    "Isomers share a molecular formula. Structural isomerism = chain, position, functional, metamerism, tautomerism. Stereoisomerism = geometrical and optical.",
+    "Geometrical isomerism needs restricted rotation and two different groups on each doubly bonded carbon. Trans is the more stable and higher-melting; cis is the more polar and higher-boiling.",
+    "Optical isomerism needs a chiral carbon (four different groups). Enantiomers rotate polarised light equally and oppositely; a 50:50 racemic mixture and a meso form are both optically inactive; n chiral centres give up to 2^n isomers.",
+    "Homolysis splits the pair one electron each and gives free radicals; heterolysis gives both electrons to one atom and produces a carbocation or a carbanion. Carbocations and radicals are sp² and planar, 3° > 2° > 1°; carbanions are sp³ and pyramidal, with the order reversed.",
+    "Electrophiles accept an electron pair (Lewis acids); nucleophiles donate one (Lewis bases); free radicals have one unpaired electron.",
+    "The inductive effect works through σ bonds, is short-range and gives partial charges; the resonance effect works through a conjugated π system, is long-range and gives full charges. Both are permanent, and together they explain acid strength, base strength and carbocation stability."
+   ],
+   "terms": [
+    "Sodium fusion (Lassaigne's) extract",
+    "Isomerism",
+    "Metamerism",
+    "Tautomerism",
+    "Optical isomerism",
+    "Reaction mechanism",
+    "Electrophile and nucleophile",
+    "Inductive effect",
+    "Resonance effect"
+   ],
+   "stats": {
+    "words": 6584,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Hydrocarbons",
+   "hours": 8,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Alkanes: preparation from haloalkanes (reduction and Wurtz reaction), decarboxylation, catalytic hydrogenation of alkene and alkyne",
+    "Alkanes chemical properties: substitution (halogenation, nitration, sulphonation); oxidation of ethane",
+    "Alkenes: preparation by dehydration of alcohol, dehydrohalogenation, catalytic hydrogenation of alkyne",
+    "Alkenes chemical properties: addition with HX (Markovnikov's rule and peroxide effect), H2O, O3, H2SO4",
+    "Alkynes: preparation from carbon and hydrogen, 1,2-dibromoethane, chloroform/iodoform",
+    "Alkynes chemical properties: addition with H2, HX, H2O; acidic nature (sodium, ammoniacal AgNO3, ammoniacal Cu2Cl2)",
+    "Test of unsaturation (ethene and ethyne): bromine water test and Baeyer's test",
+    "Comparative physical properties of alkane, alkene and alkyne",
+    "Kolbe's electrolysis method"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Alkanes: preparation from haloalkanes (reduction and Wurtz reaction), decarboxylation, catalytic hydrogenation of alkene and alkyne"
+    },
+    {
+     "no": "14.2",
+     "title": "Alkanes chemical properties: substitution (halogenation, nitration, sulphonation); oxidation of ethane"
+    },
+    {
+     "no": "14.3",
+     "title": "Alkenes: preparation by dehydration of alcohol, dehydrohalogenation, catalytic hydrogenation of alkyne"
+    },
+    {
+     "no": "14.4",
+     "title": "Alkenes chemical properties: addition with HX (Markovnikov's rule and peroxide effect), H₂O, O₃, H₂SO₄"
+    },
+    {
+     "no": "14.5",
+     "title": "Alkynes: preparation from carbon and hydrogen, 1,2-dibromoethane, chloroform/iodoform"
+    },
+    {
+     "no": "14.6",
+     "title": "Alkynes chemical properties: addition with H₂, HX, H₂O; acidic nature (sodium, ammoniacal AgNO₃, ammoniacal Cu₂Cl₂)"
+    },
+    {
+     "no": "14.7",
+     "title": "Test of unsaturation (ethene and ethyne): bromine water test and Baeyer's test"
+    },
+    {
+     "no": "14.8",
+     "title": "Comparative physical properties of alkane, alkene and alkyne"
+    },
+    {
+     "no": "14.9",
+     "title": "Kolbe's electrolysis method"
+    }
+   ],
+   "summary": [
+    "Alkanes are made by reducing haloalkanes (same carbon count), by the Wurtz reaction with Na in dry ether (double the carbons), by heating RCOONa with soda lime (one carbon fewer) and by hydrogenating alkenes or alkynes over Ni.",
+    "Alkanes undergo free-radical substitution — halogenation (hν), vapour-phase nitration (673–773 K) and sulphonation with oleum — and are oxidised stepwise to alcohol, aldehyde, acid and finally CO₂ + H₂O.",
+    "Alkenes are made by elimination: dehydration of alcohols (conc. H₂SO₄, 443 K), dehydrohalogenation with alcoholic KOH, and partial hydrogenation of an alkyne over Lindlar's catalyst. Saytzeff's rule gives the more substituted alkene.",
+    "Alkenes undergo electrophilic addition. HX follows Markovnikov's rule because the more stable carbocation forms; HBr with peroxide goes the other way. Hydration gives alcohols; H₂SO₄ gives alkyl hydrogen sulphates; ozonolysis followed by Zn/H₂O cleaves the molecule at the double bond.",
+    "Alkynes come from C + H₂ in an electric arc, from 1,2-dibromoethane with alcoholic KOH, from CHCl₃ or CHI₃ with silver, and industrially from CaC₂ + H₂O. They add H₂, HX and H₂O (giving CH₃CHO from ethyne, ketones from all others).",
+    "A terminal alkyne has an acidic hydrogen because sp carbon has 50 % s character: it gives H₂ with Na, a white Ag₂C₂ with ammoniacal AgNO₃ and a red Cu₂C₂ with ammoniacal Cu₂Cl₂.",
+    "Bromine water and Baeyer's reagent are both decolourised by alkenes and alkynes but not alkanes; only ammoniacal AgNO₃ or Cu₂Cl₂ separates ethyne from ethene.",
+    "Kolbe's electrolysis of concentrated aqueous RCOONa gives an alkane of 2(n − 1) carbons at the anode along with CO₂, plus H₂ and NaOH at the cathode."
+   ],
+   "terms": [
+    "Saytzeff's (Zaitsev's) rule",
+    "Markovnikov's rule",
+    "Kolbe's electrolytic method"
+   ],
+   "stats": {
+    "words": 5297,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Aromatic Hydrocarbons",
+   "hours": 6,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction and characteristics of aromatic compounds",
+    "Huckel's rule of aromaticity",
+    "Kekule structure of benzene",
+    "Resonance and isomerism",
+    "Preparation of benzene from decarboxylation of sodium benzoate, phenol, and ethyne",
+    "Physical properties of benzene",
+    "Chemical properties: addition (hydrogen, halogen); electrophilic substitution and orientation of benzene derivatives (o, m, p); nitration; sulphonation; halogenation; Friedel-Crafts reaction (alkylation and acylation); combustion; uses"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Introduction and characteristics of aromatic compounds"
+    },
+    {
+     "no": "15.2",
+     "title": "Huckel's rule of aromaticity"
+    },
+    {
+     "no": "15.3",
+     "title": "Kekule structure of benzene"
+    },
+    {
+     "no": "15.4",
+     "title": "Resonance and isomerism"
+    },
+    {
+     "no": "15.5",
+     "title": "Preparation of benzene from decarboxylation of sodium benzoate, phenol, and ethyne"
+    },
+    {
+     "no": "15.6",
+     "title": "Physical properties of benzene"
+    },
+    {
+     "no": "15.7",
+     "title": "Chemical properties: addition (hydrogen, halogen); electrophilic substitution and orientation of benzene derivatives (o, m, p); nitration; sulphonation; halogenation; Friedel-Crafts reaction (alkylation and acylation); combustion; uses"
+    }
+   ],
+   "summary": [
+    "Aromatic means cyclic, planar, fully conjugated and holding (4n + 2) delocalised π electrons. 4n electrons in the same geometry means antiaromatic; a broken conjugation or a non-planar ring means non-aromatic.",
+    "Kekulé's alternating-bond hexagon explains the formula, the single monosubstituted product and the three molecules of glyoxal from ozonolysis, but not the equal 139 pm bond lengths, the refusal to add bromine, or the low heat of hydrogenation.",
+    "Benzene is a resonance hybrid of the two Kekulé forms, stabilised by a resonance energy of about 150 kJ mol⁻¹.",
+    "Benzene is made by decarboxylating sodium benzoate with soda lime, reducing phenol with zinc dust, or passing ethyne through a red-hot tube.",
+    "The typical reaction is electrophilic substitution in three steps: generate E⁺, slow attack by the π cloud to give the arenium ion, fast loss of H⁺ to restore aromaticity.",
+    "Nitration (NO₂⁺), sulphonation (SO₃), halogenation (X⁺ with a halogen carrier), Friedel–Crafts alkylation (R⁺) and acylation (RCO⁺) all share that mechanism.",
+    "Addition needs forcing conditions: 3H₂/Ni gives cyclohexane, 3Cl₂ in sunlight gives benzene hexachloride.",
+    "Groups with a lone pair on the attached atom are o,p-directing; groups with a multiple bond to an electronegative atom or a positive charge are m-directing. Halogens deactivate but still direct o,p."
+   ],
+   "terms": [
+    "Aromaticity"
+   ],
+   "stats": {
+    "words": 5435,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Fundamentals of Applied Chemistry",
+   "hours": 4,
+   "area": "Applied Chemistry",
+   "topics": [
+    "Chemical industry and its importance",
+    "Stages in producing a new product",
+    "Economics of production; cash flow in the production cycle",
+    "Running a chemical plant; designing a chemical plant",
+    "Continuous and batch processing",
+    "Environmental impact of the chemical industry"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Chemical industry and its importance"
+    },
+    {
+     "no": "16.2",
+     "title": "Stages in producing a new product"
+    },
+    {
+     "no": "16.3",
+     "title": "Economics of production; cash flow in the production cycle"
+    },
+    {
+     "no": "16.4",
+     "title": "Running a chemical plant; designing a chemical plant"
+    },
+    {
+     "no": "16.5",
+     "title": "Continuous and batch processing"
+    },
+    {
+     "no": "16.6",
+     "title": "Environmental impact of the chemical industry"
+    }
+   ],
+   "summary": [
+    "The chemical industry converts cheap raw materials — air, brine, water, sulphur, limestone, hydrocarbons — into heavy, fine, speciality and pharmaceutical chemicals. Nepal imports 100% of its chemical fertilizer.",
+    "New products pass through seven stages: market research → laboratory synthesis → pilot plant → process and plant design → construction and commissioning → full production → marketing and review, with a go/no-go decision at each.",
+    "Costs are fixed capital and working capital, fixed costs and variable costs. Profit P = n(S-V) - F and the break-even output is nBE = F/(S-V).",
+    "The cash-flow curve is negative through research and construction, reaches its minimum at start-up, and crosses zero at the end of the payback period.",
+    "Plant design fixes the route, the conditions, the location, the materials of construction, energy integration and effluent treatment. Purification comes before every catalyst bed because catalysts are poisoned.",
+    "Batch = one charge at a time, cheap, flexible, traceable, small scale. Continuous = steady state, high capital, low labour, uniform product, bulk scale.",
+    "Environmental damage includes acid rain (SO₂, NOₓ), CO₂ emission, ozone depletion, effluent and heavy metals, dust and solid waste.",
+    "Atom economy = (Mproduct/Σ Mreactants)× 100% is a property of the equation, not of the operator; percentage yield is not."
+   ],
+   "terms": [
+    "Chemical industry",
+    "Batch and continuous processing"
+   ],
+   "stats": {
+    "words": 3558,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Modern Chemical Manufactures",
+   "hours": 11,
+   "area": "Applied Chemistry",
+   "topics": [
+    "Ammonia by Haber's process (principle and flow-sheet diagram)",
+    "Nitric acid by Ostwald's process",
+    "Sulphuric acid by contact process",
+    "Sodium hydroxide by Diaphragm Cell",
+    "Sodium carbonate by ammonia soda (Solvay) process",
+    "Fertilizers: chemical fertilizers, types, production of urea with flow-sheet diagram"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Ammonia by Haber's process"
+    },
+    {
+     "no": "17.2",
+     "title": "Nitric acid by Ostwald's process"
+    },
+    {
+     "no": "17.3",
+     "title": "Sulphuric acid by contact process"
+    },
+    {
+     "no": "17.4",
+     "title": "Sodium hydroxide by Diaphragm Cell"
+    },
+    {
+     "no": "17.5",
+     "title": "Sodium carbonate by ammonia soda (Solvay) process"
+    },
+    {
+     "no": "17.6",
+     "title": "Fertilizers: chemical fertilizers, types, production of urea"
+    }
+   ],
+   "summary": [
+    "Haber: N₂ + 3H₂ ⇌ 2NH₃, ΔH = −92.4 kJ mol⁻¹; Fe + Mo promoter, 450–500 °C, 200 atm, 1 : 3 feed; ammonia condensed out at −30 °C and unreacted gas recycled. Temperature is a compromise between yield and rate.",
+    "Ostwald: 4NH₃ + 5O₂ → 4NO + 6H₂O over Pt–Rh gauze at 800 °C in ~10⁻³ s; 2NO + O₂ ⇌ 2NO₂ on cooling; 3NO₂ + H₂O → 2HNO₃ + NO in the absorber. Overall NH₃ + 2O₂ → HNO₃ + H₂O, giving 68% acid, concentrated with conc. H₂SO₄.",
+    "Contact: S + O₂ → SO₂ (or 4FeS₂ + 11O₂ → 2Fe₂O₃ + 8SO₂); purify and dry; 2SO₂ + O₂ ⇌ 2SO₃ over V₂O₅ at 450 °C and 2 atm, ΔH = −196 kJ mol⁻¹; absorb in 98% H₂SO₄ to oleum (SO₃ + H₂SO₄ → H₂S₂O₇) and dilute. Low pressure suffices because conversion is already ~97%.",
+    "Diaphragm cell: anode 2Cl⁻ → Cl₂ + 2e⁻, cathode 2H₂O + 2e⁻ → H₂ + 2OH⁻, overall 2NaCl + 2H₂O → 2NaOH + H₂ + Cl₂. The asbestos diaphragm plus a higher anolyte level keeps OH⁻ away from Cl₂. Cell liquor is 11% NaOH + 16% NaCl.",
+    "Solvay: NaCl + NH₃ + CO₂ + H₂O → NaHCO₃↓ + NH₄Cl, then 2NaHCO₃ → Na₂CO₃ + H₂O + CO₂, with 2NH₄Cl + Ca(OH)₂ → CaCl₂ + 2NH₃ + 2H₂O recovering the ammonia. Overall 2NaCl + CaCO₃ → Na₂CO₃ + CaCl₂; CaCl₂ is the only waste.",
+    "Fertilizers: graded N–P₂O₅–K₂O. Urea 46–0–0, (NH₄)₂SO₄ 21–0–0, DAP 18–46–0, TSP 0–46–0, MOP 0–0–60. Excess causes eutrophication and soil acidification.",
+    "Urea: 2NH₃ + CO₂ → NH₂COONH₄ ⇌ NH₂CONH₂ + H₂O at 180–190 °C and 200 atm; carbamate recycled from the decomposer; melt prilled. Nitrogen content 28/60 = 46.7%.",
+    "A catalyst never changes Kp; it changes the time taken to reach equilibrium, which is what lets a plant use a lower, yield-friendly temperature."
+   ],
+   "terms": [
+    "Fertilizer"
+   ],
+   "stats": {
+    "words": 6793,
+    "figures": 8,
+    "examples": 6
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 17,
+ "topic_count": 118,
+ "notes_ready": 17
+}

@@ -19,6 +19,8 @@
 <link rel="stylesheet" href="{% static 'web/css/pages/interactive.css' %}">{% endif %}
 {% if current_tab == 'marketplace' %}
 <link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">{% endif %}
+{% if current_tab == 'categories' %}
+<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -121,32 +123,8 @@
   </div>
 
   {% else %}
-  <!-- Syllabus Categories tab accordion -->
-  <div class="chapters-container" style="margin-top: 16px;">
-    {% for category in categories_list %}
-    <div class="chapter-section" id="cat-{{ forloop.counter }}">
-      <div class="chapter-header" data-action="toggle-chapter">
-        <h3>{{ category.grade }}</h3>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <span class="chapter-badge">{{ category.subjects|length }} subjects</span>
-          <span class="material-symbols-outlined expand-icon">expand_more</span>
-        </div>
-      </div>
-      <div class="chapter-content">
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-          {% for subj in category.subjects %}
-          <a href="{{ subj.url }}" class="md-chip" style="text-decoration:none;">{{ subj.name }}</a>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-    {% empty %}
-    <div class="empty-state">
-      <span class="material-symbols-outlined">category</span>
-      <h3>No syllabus categories found</h3>
-      <p>There are currently no subjects mapped in the system.</p>
-    </div>
-    {% endfor %}
+  <div style="margin-top: 16px;">
+    {% include "web/syllabus/_hub.html" %}
   </div>
   {% endif %}
 </div>
@@ -267,6 +245,9 @@
 {% endblock %}
 
 {% block extra_js %}
+{% if current_tab == 'categories' %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}" defer></script>
+{% endif %}
 {% if current_tab == 'marketplace' %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>
 {% endif %}
