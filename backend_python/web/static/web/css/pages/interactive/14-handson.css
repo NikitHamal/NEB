@@ -64,3 +64,6 @@
 .ho-graph.on { opacity: 1; transform: translate(-50%, -50%); }
 .ho-graph canvas { display: block; width: 100%; height: auto; margin-top: 6px; }
 @media (max-width: 640px) { .ho-watch { top: auto; bottom: 74px; right: 8px; width: 156px; } .ho-watch-t { font-size: 1.6rem; } }
+.ho-meter { font-size: .78rem; }
+.ho-bars { letter-spacing: -1px; color: #2563eb; font-size: .7rem; }
+.ho-bars i { font-style: normal; color: #cbd5e1; }
