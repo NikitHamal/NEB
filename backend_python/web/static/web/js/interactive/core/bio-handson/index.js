@@ -25,6 +25,8 @@ const PRACTICALS = {
   'transpiration-upper-lower-rate': () => import('./practicals/transpiration.js'),
   'respiration-rate-germinating-seeds': () => import('./practicals/respirometer.js'),
   'anaerobic-respiration-setup': () => import('./practicals/anaerobic.js'),
+  'phototropism-setup': () => import('./practicals/tropism.js'),
+  'apical-bud-removal-setup': () => import('./practicals/tropism.js'),
 };
 
 export function hasHandsOn(slug) { return Object.prototype.hasOwnProperty.call(PRACTICALS, slug); }
