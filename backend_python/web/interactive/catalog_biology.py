@@ -174,7 +174,7 @@ COURSES = [
                 'minutes': 13,
                 'sim': 'biology/heart-lungs',
                 'sim_type': '3d',
-                'summary': 'Watch a 3D heart beat and lungs breathe in real time — turn up the activity and see how fast your body pumps when you run.',
+                'summary': 'A beating heart and breathing lungs sculpted from real anatomy: cut the heart open, follow red blood cells through every chamber and into the lungs, and watch the ECG change as you exercise.',
                 'objectives': [
                     'Trace the path of blood through the heart and lungs',
                     'Explain why heart rate and breathing rate rise during exercise',
