@@ -46,7 +46,12 @@ export function createTubeBench(ctx, { hud = null, reagents, order, tubes = 4, l
   const tmp = new THREE.Vector3();
 
   const api = {
-    tags, showTags(on) { tags.forEach((c) => c.show(on)); },
+    tags, showTags(on) { tags.forEach((c, i) => c.show(on && bottles[order[i]].visible)); },
+    /** Shows only these bottles, laid out in the grid in this order. */
+    showOnly(keys) {
+      order.forEach((k, i) => { const on = keys.includes(k); bottles[k].visible = on; if (tags[i]) tags[i].show(on); });
+      keys.forEach((k, j) => { const b = bottles[k]; b.position.set(bottlesAt[0] + (j % cols) * 0.42, 0, bottlesAt[1] + Math.floor(j / cols) * 0.42); const t = tags[order.indexOf(k)]; if (t) t.at.set(b.position.x, ctx.BENCH_Y + 0.62 * bottleScale, b.position.z); });
+    },
     tubes: T, bottles, rack, HOLD, flame, stand, bath: wb,
     get tube() { return st.tube; },
     get busy() { return st.busy; },
@@ -66,7 +71,7 @@ export function createTubeBench(ctx, { hud = null, reagents, order, tubes = 4, l
     },
     /** Which bottle (of allowed) the pointer is on, if any. */
     bottleAt(p, allowed) {
-      const list = allowed.map((k) => bottles[k]).filter(Boolean); const h = ctx.input.pick(list, true, false);
+      allowed = allowed.filter((k) => bottles[k] && bottles[k].visible); const list = allowed.map((k) => bottles[k]); const h = ctx.input.pick(list, true, false);
       if (h) { let o = h.object; while (o && !list.includes(o)) o = o.parent; if (o) return allowed.find((k) => bottles[k] === o); }
       let best = null; let bd = 46 * (p.touch ? 1.35 : 1);
       for (const k of allowed) { const b = bottles[k]; if (!b) continue; const d = screenDist(ctx, b, p, 0.3 * b.scale.y); if (d < bd) { bd = d; best = k; } }
