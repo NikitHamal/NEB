@@ -175,7 +175,8 @@ fun ScrollReader(
             snapshotFlow { listState.layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0 }
                 .distinctUntilChanged()
                 .collect { last ->
-                    for (i in last + 1..minOf(last + 2, aspects.size - 1)) source.render(i, renderWidth)
+                    // only at 1x: a zoomed render is large, and the reader may never scroll that far
+                    if (zoom.renderScale <= 1f) for (i in last + 1..minOf(last + 2, aspects.size - 1)) source.render(i, renderWidth)
                 }
         }
         LazyColumn(
