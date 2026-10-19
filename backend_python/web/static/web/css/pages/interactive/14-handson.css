@@ -81,3 +81,5 @@
 .ho-graph.ho-side { left: auto; right: 12px; top: 12px; width: min(360px, calc(100% - 24px)); transform: translateY(-8px) scale(.97); }
 .ho-graph.ho-side.on { transform: none; }
 @media (max-width: 640px) { .ho-graph.ho-side { top: auto; bottom: 70px; right: 8px; width: min(300px, calc(100% - 16px)); padding: 6px 8px 8px; font-size: .75rem; } }
+.ho-chip.ho-tag { padding: 2px 7px; border-radius: 7px; font-size: .7rem; font-weight: 700; background: rgba(255, 255, 255, .88); box-shadow: 0 2px 6px rgba(2, 6, 23, .2); }
+@media (max-width: 640px) { .ho-chip.ho-tag { font-size: .62rem; padding: 1px 5px; } }

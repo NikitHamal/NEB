@@ -24,6 +24,7 @@ const PRACTICALS = {
   'heat-of-neutralization': () => import('./practicals/neutralization.js'),
   'galvanometer-figure-of-merit': () => import('./practicals/galvanometer.js'),
   'prism-minimum-deviation': () => import('./practicals/prism.js'),
+  'organic-functional-groups': () => import('./practicals/organic.js'),
   'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
