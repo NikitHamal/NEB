@@ -22,9 +22,17 @@ a prism and a pyramid.
 
 ## 16.1 Prisms and pyramids
 
-A **prism** has two identical parallel ends (its bases) joined by rectangular
-side faces. A **pyramid** has one base and triangular side faces that meet at a
-single point, the apex.
+::: definition Prism and pyramid
+A **prism** is a solid with two parallel, congruent faces called its **bases**
+(top and bottom); the other faces, called **lateral surfaces**, are rectangles.
+A prism is named after the shape of its base: triangular prism, rectangular
+prism (cuboid), and so on.
+
+A **pyramid** is a solid with a polygon as its base and triangular faces that
+meet at one common vertex, the **apex**. It is named after its base: triangular
+pyramid (tetrahedron), square pyramid, rectangular pyramid, hexagonal pyramid.
+If the base is a regular polygon, the triangular faces are congruent.
+:::
 
 | Solid | Faces | Edges | Vertices |
 |---|---|---|---|
@@ -42,31 +50,26 @@ $$F+V-E=2$$
 Check it on the cube: $6+8-12=2$ ✓. On the square pyramid:
 $5+5-8=2$ ✓.
 
-```figure caption="A prism and a pyramid drawn side by side. In a prism the two ends are the same shape and the sides are rectangles; in a pyramid the sides are triangles meeting at one apex."
-fig, ax = plt.subplots(figsize=(5.0, 2.6))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.2)
-ax.axis("off")
-# triangular prism
-ax.add_patch(plt.Polygon([(0.6, 0.8), (2.6, 0.8), (1.6, 2.4)], fill=False, ec=ACCENT, lw=1.3))
-ax.add_patch(plt.Polygon([(1.6, 2.8), (3.6, 2.8), (2.6, 4.4)], fill=False, ec=ACCENT, lw=1.3))
-for a, b in [((0.6, 0.8), (1.6, 2.8)), ((2.6, 0.8), (3.6, 2.8)), ((1.6, 2.4), (2.6, 4.4))]:
-    ax.plot([a[0], b[0]], [a[1], b[1]], color=ACCENT, lw=1.3)
-ax.text(2.1, 0.25, "triangular prism", ha="center", fontsize=6.8, color=ACCENT)
-ax.text(4.6, 3.6, "faces 5\\nedges 9\\nvertices 6", ha="left", fontsize=6.0, color=MUTED)
-# square pyramid
-ax.add_patch(plt.Polygon([(6.0, 0.8), (9.0, 0.8), (9.8, 2.0), (6.8, 2.0)], fill=False,
-                         ec=SERIES[1], lw=1.3))
-ax.plot([6.0, 7.9], [0.8, 3.9], color=SERIES[1], lw=1.3)
-ax.plot([9.0, 7.9], [0.8, 3.9], color=SERIES[1], lw=1.3)
-ax.plot([9.8, 7.9], [2.0, 3.9], color=SERIES[1], lw=1.3)
-ax.plot([6.8, 7.9], [2.0, 3.9], color=SERIES[1], lw=1.3)
-ax.plot([7.9], [3.9], "o", color=INK, ms=3.5)
-ax.text(7.9, 4.35, "apex", ha="center", fontsize=6.2, color=INK)
-ax.text(7.9, 0.25, "square pyramid", ha="center", fontsize=6.8, color=SERIES[1])
-ax.text(5.0, 5.0, "F + V - E = 2 for every one of them", ha="center", fontsize=6.6,
-        color=MUTED)
-fig.tight_layout()
+```figure caption="A triangular prism (left): two congruent triangular bases and three rectangular lateral faces — F = 5, E = 9, V = 6. A square pyramid (right): one square base and four triangular faces meeting at the apex — F = 5, E = 8, V = 5. Dashed edges are hidden."
+fig, ax = plt.subplots(figsize=(5.0, 2.8))
+# prism: front triangle and back triangle offset
+F = np.array([[0, 0], [2.2, 0], [1.1, 1.8]]); off = np.array([1.3, 0.7]); Bk = F + off
+for i, j in [(0, 1), (1, 2), (2, 0)]:
+    ax.plot(*zip(F[i], F[j]), color=ACCENT, lw=1.5)
+ax.plot(*zip(Bk[1], Bk[2]), color=ACCENT, lw=1.5)
+ax.plot(*zip(Bk[0], Bk[1]), color=ACCENT, lw=1.0, ls="--"); ax.plot(*zip(Bk[0], Bk[2]), color=ACCENT, lw=1.0, ls="--")
+ax.plot(*zip(F[1], Bk[1]), color=ACCENT, lw=1.5); ax.plot(*zip(F[2], Bk[2]), color=ACCENT, lw=1.5)
+ax.plot(*zip(F[0], Bk[0]), color=ACCENT, lw=1.0, ls="--")
+ax.text(1.7, -0.45, "triangular prism", ha="center", fontsize=9, color=ACCENT)
+# pyramid
+b = [np.array(p) for p in [(5.0, 0), (7.2, 0), (8.2, 0.7), (6.0, 0.7)]]; apex = np.array([6.6, 2.5])
+ax.plot(*zip(b[0], b[1]), color=SERIES[1], lw=1.5); ax.plot(*zip(b[1], b[2]), color=SERIES[1], lw=1.5)
+ax.plot(*zip(b[2], b[3]), color=SERIES[1], lw=1.0, ls="--"); ax.plot(*zip(b[3], b[0]), color=SERIES[1], lw=1.0, ls="--")
+for k in range(4):
+    ax.plot(*zip(b[k], apex), color=SERIES[1], lw=1.0 if k == 3 else 1.5, ls="--" if k == 3 else "-")
+ax.plot(*apex, "o", color=INK, ms=3.5); ax.text(apex[0] + 0.12, apex[1] + 0.05, "apex", fontsize=8.5, color=INK)
+ax.text(6.6, -0.45, "square pyramid", ha="center", fontsize=9, color=SERIES[1])
+ax.set_xlim(-0.3, 8.6); ax.set_ylim(-0.75, 2.9); ax.set_aspect("equal"); ax.axis("off")
 ```
 
 ::: example Counting on a prism
@@ -101,25 +104,28 @@ and folding it is the quickest way to be sure you have the right one.
 | Cuboid | six rectangles: two of each of the three sizes |
 | Triangular prism | two triangles and three rectangles in a row |
 | Square pyramid | one square with a triangle attached to each side |
-| Cylinder | two circles and one rectangle whose width is the circumference |
+| Cylinder | two circles and one rectangle whose length is the circumference |
+| Tetrahedron | four equilateral triangles (a big triangle split into four) |
+| Cone | a sector of a circle and one circle |
 
-```figure caption="A net of a cuboid. The four side rectangles stand in a row, and the two end rectangles attach top and bottom; folding on the dotted lines gives the box."
-fig, ax = plt.subplots(figsize=(5.0, 2.6))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.2)
-ax.axis("off")
-w, h, d = 1.5, 1.1, 0.9
-x0, y0 = 2.0, 1.6
-for i in range(4):
-    ax.add_patch(plt.Rectangle((x0 + i * w, y0), w, h, fill=False, ec=ACCENT, lw=1.2))
-ax.add_patch(plt.Rectangle((x0 + w, y0 + h), w, d, fill=False, ec=SERIES[1], lw=1.2))
-ax.add_patch(plt.Rectangle((x0 + w, y0 - d), w, d, fill=False, ec=SERIES[1], lw=1.2))
-ax.text(x0 + 2 * w, y0 + h + d + 0.25, "top", ha="center", fontsize=6.4, color=SERIES[1])
-ax.text(x0 + 2 * w, y0 - d - 0.4, "bottom", ha="center", fontsize=6.4, color=SERIES[1])
-ax.text(x0 + 2 * w, y0 + 0.45, "four side faces", ha="center", fontsize=6.6, color=ACCENT)
-ax.text(5.0, 4.75, "fold on the dotted edges to make the box", ha="center",
-        fontsize=6.5, color=MUTED)
-fig.tight_layout()
+```figure caption="A net of a cuboid of length l, breadth b and height h. Four lateral faces stand in a row (l×h, b×h, l×h, b×h); the top and bottom (l×b) attach to one long face. Folding along the inner edges (dashed) gives the box."
+fig, ax = plt.subplots(figsize=(5.0, 2.8))
+l, b, h = 2.0, 1.2, 1.1
+x = 0.3; y0 = 1.3
+widths = [l, b, l, b]; labs = ["l×h", "b×h", "l×h", "b×h"]
+for w, t in zip(widths, labs):
+    ax.add_patch(plt.Rectangle((x, y0), w, h, fill=False, ec=ACCENT, lw=1.4))
+    ax.text(x + w / 2, y0 + h / 2, t, ha="center", va="center", fontsize=9, color=ACCENT)
+    x += w
+ax.add_patch(plt.Rectangle((0.3, y0 + h), l, b, fill=False, ec=SERIES[1], lw=1.4))
+ax.add_patch(plt.Rectangle((0.3, y0 - b), l, b, fill=False, ec=SERIES[1], lw=1.4))
+ax.text(0.3 + l / 2, y0 + h + b / 2, "top  l×b", ha="center", va="center", fontsize=9, color=SERIES[1])
+ax.text(0.3 + l / 2, y0 - b / 2, "bottom  l×b", ha="center", va="center", fontsize=9, color=SERIES[1])
+for xx in [0.3 + l, 0.3 + l + b, 0.3 + 2 * l + b]:
+    ax.plot([xx, xx], [y0, y0 + h], color=MUTED, lw=1.0, ls="--")
+ax.plot([0.3, 0.3 + l], [y0, y0], color=MUTED, lw=1.0, ls="--")
+ax.plot([0.3, 0.3 + l], [y0 + h, y0 + h], color=MUTED, lw=1.0, ls="--")
+ax.set_xlim(0, 6.8); ax.set_ylim(-0.1, 3.8); ax.set_aspect("equal"); ax.axis("off")
 ```
 
 ::: caution A net must have exactly the right number of faces
@@ -127,6 +133,22 @@ Six squares will not make a cube unless they are joined in one of the eleven
 correct arrangements. Two squares that overlap when folded, or a gap that cannot
 close, both give a wrong net. Count the faces first (a cube needs 6, a cuboid 6,
 a triangular prism 5), then check that the joins can actually fold.
+:::
+
+::: example Which nets make a cube?
+**Problem.** Explain whether each arrangement of six squares folds into a cube:
+(a) four squares in a row with one square above the second and one below the
+second; (b) six squares in a straight row; (c) a 2 × 3 rectangle of squares.
+
+**Solution.**
+(a) **Yes.** The row of four wraps round to form the four side faces, and the
+squares above and below become the top and bottom.
+
+(b) **No.** Folding the row closes four faces into a ring; the fifth and sixth
+squares fall on top of faces already used, and two faces of the cube stay open.
+
+(c) **No.** Three squares meet at the middle of each long side, so when folded
+two squares overlap and one face is missing.
 :::
 
 ## 16.3 Surface area
@@ -142,23 +164,25 @@ know to buy paint, cloth or cardboard.
 | Square pyramid (base side $a$, slant height $l$) | $a^2+2al$ |
 | Cylinder | $2\pi r(r+h)$ |
 
-```figure caption="A cuboid opened out. The total surface area is the sum of the six rectangles: two of each of lb, bh and hl."
-fig, ax = plt.subplots(figsize=(5.0, 2.5))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.0)
-ax.axis("off")
-ax.add_patch(plt.Rectangle((1.0, 1.2), 3.2, 2.0, fill=False, ec=ACCENT, lw=1.2))
-ax.text(2.6, 2.2, "$l\\times b$", ha="center", va="center", fontsize=7.0, color=ACCENT)
-ax.add_patch(plt.Rectangle((4.4, 1.2), 1.7, 2.0, fill=False, ec=SERIES[1], lw=1.2))
-ax.text(5.25, 2.2, "$b\\times h$", ha="center", va="center", fontsize=6.6, color=SERIES[1])
-ax.add_patch(plt.Rectangle((6.3, 1.2), 3.2, 2.0, fill=False, ec=ACCENT, lw=1.2))
-ax.text(7.9, 2.2, "$l\\times b$", ha="center", va="center", fontsize=7.0, color=ACCENT)
-ax.add_patch(plt.Rectangle((1.0, 3.4), 3.2, 1.0, fill=False, ec=SERIES[2], lw=1.2))
-ax.text(2.6, 3.9, "$h\\times l$", ha="center", va="center", fontsize=6.6, color=SERIES[2])
-ax.add_patch(plt.Rectangle((6.3, 3.4), 3.2, 1.0, fill=False, ec=SERIES[2], lw=1.2))
-ax.text(7.9, 3.9, "$h\\times l$", ha="center", va="center", fontsize=6.6, color=SERIES[2])
-ax.text(5.0, 0.5, "total = 2(lb + bh + hl)", ha="center", fontsize=7.4, color=INK)
-fig.tight_layout()
+```figure caption="Nets of a tetrahedron (four equilateral triangles), a cylinder (a rectangle whose length is the circumference 2πr, and two circles) and a cone (a sector and one circle)."
+from matplotlib.patches import Circle, Wedge
+fig, ax = plt.subplots(figsize=(5.2, 2.6))
+h = np.sqrt(3) / 2 * 2
+T = [np.array(p) for p in [(0, 0), (2, 0), (4, 0), (1, h), (3, h)]]
+for tri in [(0, 1, 3), (1, 2, 4), (1, 4, 3)]:
+    xs = [T[i][0] for i in tri] + [T[tri[0]][0]]; ys = [T[i][1] for i in tri] + [T[tri[0]][1]]
+    ax.plot(xs, ys, color=ACCENT, lw=1.4)
+ax.plot([0, 2, 1, 0], [0, 0, -h, 0], color=ACCENT, lw=1.4)
+ax.text(2.0, -2.25, "tetrahedron", ha="center", fontsize=9, color=ACCENT)
+ax.add_patch(plt.Rectangle((5.0, -0.6), 3.4, 1.4, fill=False, ec=SERIES[1], lw=1.4))
+ax.add_patch(Circle((6.7, 1.35), 0.55, fill=False, ec=SERIES[1], lw=1.4))
+ax.add_patch(Circle((6.7, -1.15), 0.55, fill=False, ec=SERIES[1], lw=1.4))
+ax.text(6.7, 0.1, "2πr", ha="center", fontsize=8.5, color=INK)
+ax.text(6.7, -2.25, "cylinder", ha="center", fontsize=9, color=SERIES[1])
+ax.add_patch(Wedge((10.6, 1.6), 2.0, 235, 305, fill=False, ec=SERIES[2], lw=1.4))
+ax.add_patch(Circle((10.6, -1.2), 0.6, fill=False, ec=SERIES[2], lw=1.4))
+ax.text(10.6, -2.25, "cone", ha="center", fontsize=9, color=SERIES[2])
+ax.set_xlim(-0.3, 12.8); ax.set_ylim(-2.5, 2.2); ax.set_aspect("equal"); ax.axis("off")
 ```
 
 ::: example A cuboid box
