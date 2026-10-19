@@ -32,6 +32,7 @@ const PRACTICALS = {
   'cockroach-external-morphology': () => import('./practicals/cockroach.js'),
   'human-skeleton-joints': () => import('./practicals/skeleton.js'),
   'soil-microorganism-culture': () => import('./practicals/culture.js'),
+  'biofertilizer-preparation': () => import('./practicals/biofert.js'),
   'skeleton-joints-health-disorders': () => import('./practicals/skeleton.js'),
   'quadrat-frequency-field': () => import('./practicals/quadrat.js'),
   'apical-bud-removal-setup': () => import('./practicals/tropism.js'),
