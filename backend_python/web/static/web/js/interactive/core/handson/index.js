@@ -13,6 +13,7 @@ const PRACTICALS = {
   'resonance-air-column': () => import('./practicals/resonance.js'),
   'ohms-law-resistivity': () => import('./practicals/ohms-law.js'),
   'hookes-law-spring': () => import('./practicals/hookes-law.js'),
+  'focal-length-mirror-lens': () => import('./practicals/focal-length.js'),
   'flame-tests': () => import('./practicals/flame-tests.js'),
 };
 
