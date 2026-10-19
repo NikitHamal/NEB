@@ -378,9 +378,8 @@ Local build without CI secrets: `KEYSTORE_PASSWORD=x KEY_PASSWORD=x ./gradlew :a
   wrapping), the search bar (prev/next, progress hairline), and `Modifier.searchMarks` drawing hit
   rectangles (page fractions) on `PdfPage`. The view model's `search()`/`stepSearch()`; a hit lands
   a third of the way down the screen in the scrolling layout.
-- Options sheet: "Share or open with" (FileProvider `files-path resources/`… note downloads live in
-  `filesDir/offline_resources`, which `file_paths.xml` does not list — if sharing fails on a device,
-  add `<files-path name="offline" path="offline_resources/" />`) and "Copy page text".
+- Options sheet: "Share or open with" (through the FileProvider; `file_paths.xml` now also lists
+  `offline_resources/`, where downloads are kept) and "Copy page text".
 - The scrolling reader pre-renders the two pages after the viewport.
 - Not done: tiled high-resolution rendering when zoomed past ~2x (pages are capped at 6 MP).
 
