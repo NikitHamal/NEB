@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,315
+Pause and think.
+
+2
+00:00:01,315 --> 00:00:04,505
+Which of these four ions gives a colourless solution?
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,565
+Four ligands can give two shapes.
+
+2
+00:00:02,565 --> 00:00:08,138
+With s p three hybrids, tetrahedral, as in tetrachloronickelate.
+
+3
+00:00:08,138 --> 00:00:14,700
+With d s p two hybrids, square planar, as in tetracyanonickelate and copper tetrammine.
+

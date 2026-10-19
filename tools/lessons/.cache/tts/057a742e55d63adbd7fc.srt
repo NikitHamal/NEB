@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,148
+Worked example six point four.
+
+2
+00:00:02,148 --> 00:00:08,815
+Both hexaaqua iron two and ferrocyanide contain iron two plus, 3d six.
+
+3
+00:00:08,815 --> 00:00:11,406
+With six electrons, there is a choice.
+
+4
+00:00:11,406 --> 00:00:16,341
+Spread out over all five orbitals, or pair up in the lower three?
+
+5
+00:00:16,341 --> 00:00:25,468
+It depends on whether delta o is smaller or larger than the pairing energy, the cost of squeezing two electrons into one orbital.
+

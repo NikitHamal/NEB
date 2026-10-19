@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,760
+These elements share a set of properties.
+
+2
+00:00:02,760 --> 00:00:10,481
+They are hard, dense metals with high melting points, because their unpaired d electrons join in metallic bonding.
+
+3
+00:00:10,481 --> 00:00:15,364
+They show variable oxidation states, coloured ions and paramagnetism.
+
+4
+00:00:15,364 --> 00:00:23,372
+They form complexes and alloys, trap small atoms in interstitial compounds, and they are excellent catalysts.
+

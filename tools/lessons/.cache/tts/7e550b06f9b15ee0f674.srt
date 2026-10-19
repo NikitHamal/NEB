@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,406
+Cyanide is a strong field ligand, the gap is large, and it is cheaper to pair up.
+
+2
+00:00:06,406 --> 00:00:09,895
+All six electrons crowd into t two g.
+
+3
+00:00:09,895 --> 00:00:11,783
+No unpaired electrons.
+
+4
+00:00:11,783 --> 00:00:14,062
+Low spin, and diamagnetic.
+

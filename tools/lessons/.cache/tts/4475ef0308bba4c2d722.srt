@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,583
+Valence bond theory gives shapes, but not colours or magnetism.
+
+2
+00:00:04,583 --> 00:00:07,018
+Crystal field theory does both.
+
+3
+00:00:07,018 --> 00:00:10,429
+It treats the ligands as point negative charges.
+
+4
+00:00:10,429 --> 00:00:14,830
+In a free ion all five d orbitals have the same energy.
+
+5
+00:00:14,830 --> 00:00:22,330
+When ligands approach, they repel the d electrons, and orbitals that point straight at the ligands are pushed up the most.
+

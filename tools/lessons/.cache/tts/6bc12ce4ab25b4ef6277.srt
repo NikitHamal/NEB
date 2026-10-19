@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,812
+Remember the deep blue from the cold open?
+
+2
+00:00:02,812 --> 00:00:07,864
+Four ammonia molecules replaced four water molecules around the copper ion.
+
+3
+00:00:07,864 --> 00:00:15,872
+The result is a complex ion: a central metal ion, joined to surrounding molecules by coordinate bonds.
+

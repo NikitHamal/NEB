@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,630
+The pale blue turns a deep royal blue.
+
+2
+00:00:02,630 --> 00:00:05,000
+Why is copper coloured and zinc not?
+
+3
+00:00:05,000 --> 00:00:08,567
+And how can adding a colourless liquid make the colour deeper?
+
+4
+00:00:08,567 --> 00:00:12,968
+The answer lies in five d orbitals, and how they split apart.
+
+5
+00:00:12,968 --> 00:00:16,406
+By the end of this lesson you will be able to explain both.
+

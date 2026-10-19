@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,424
+The light that is absorbed is removed, and we see the rest, the complementary colour, directly opposite on the colour wheel.
+
+2
+00:00:08,424 --> 00:00:12,343
+Absorb green, and the solution looks violet or purple.
+
+3
+00:00:12,343 --> 00:00:14,869
+Absorb yellow, and it looks blue.
+
+4
+00:00:14,869 --> 00:00:17,604
+Absorb red, and it looks blue green.
+

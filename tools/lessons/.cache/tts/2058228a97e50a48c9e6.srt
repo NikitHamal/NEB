@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,827
+Water is a weak field ligand, so the gap is small.
+
+2
+00:00:03,827 --> 00:00:11,940
+Electrons spread out: four up the ladder, t two g four, e g two, with four unpaired electrons.
+
+3
+00:00:11,940 --> 00:00:12,929
+High spin.
+

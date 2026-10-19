@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,052
+After manganese the nuclear charge holds the d electrons too tightly.
+
+2
+00:00:05,052 --> 00:00:13,489
+Iron rarely goes beyond plus three, and nickel, copper and zinc stop at plus two, with copper also showing plus one.
+
+3
+00:00:13,489 --> 00:00:19,609
+The highest states appear only with oxygen and fluorine, as in permanganate and dichromate.
+

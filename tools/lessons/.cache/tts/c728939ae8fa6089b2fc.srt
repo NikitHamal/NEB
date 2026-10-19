@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,148
+Worked example six point two.
+
+2
+00:00:02,148 --> 00:00:07,031
+Manganese falls from plus seven to plus two, gaining five electrons.
+
+3
+00:00:07,031 --> 00:00:08,697
+Each iron loses one.
+
+4
+00:00:08,697 --> 00:00:12,486
+So five iron two plus ions for every permanganate.
+
+5
+00:00:12,486 --> 00:00:16,080
+Check the charge: plus seventeen on both sides.
+

@@ -11,3 +11,4 @@ been checked part by part with frames.py.
 | 3 | Chemical Kinetics | 22.8 min | cold open, 10 parts (introduction → catalysis), recap |
 | 4 | Thermodynamics | 20.8 min | cold open, 10 parts (energy in reactions → ΔG and K), recap |
 | 5 | Electrochemistry | 17.7 min | cold open, 7 parts (electrode potential → batteries and fuel cells), recap |
+| 6 | Transition Metals | 17.0 min | cold open, 7 parts (characteristics, oxidation states, complex ions, shapes, crystal field theory, colour, catalysis), recap |

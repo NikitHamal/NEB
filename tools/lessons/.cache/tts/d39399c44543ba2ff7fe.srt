@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:13,138
+Six ligands, using d two s p three or s p three d two hybrids, sit at the corners of an octahedron: ferricyanide, cobalt hexammine, hexaaqua chromium.
+
+2
+00:00:13,138 --> 00:00:16,276
+Octahedral is the most common shape of all.
+

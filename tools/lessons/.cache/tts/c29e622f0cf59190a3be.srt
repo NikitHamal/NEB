@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,031
+Second, surfaces.
+
+2
+00:00:02,031 --> 00:00:14,309
+The partly filled d orbitals and unsatisfied valencies on a metal surface adsorb gas molecules, hold them close together in the right orientation, and weaken their bonds.
+
+3
+00:00:14,309 --> 00:00:24,257
+In the Haber process, nitrogen and hydrogen are adsorbed on iron, the strong nitrogen triple bond is loosened, and ammonia forms and leaves.
+

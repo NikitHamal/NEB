@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:04,583
+Transition metals are superb catalysts, for two reasons.
+
+2
+00:00:04,583 --> 00:00:07,421
+First, variable oxidation states.
+
+3
+00:00:07,421 --> 00:00:14,127
+Persulphate and iodide are both negative ions, so they repel and react slowly.
+
+4
+00:00:14,127 --> 00:00:16,276
+Add iron three plus.
+
+5
+00:00:16,276 --> 00:00:21,666
+It oxidises iodide to iodine, becoming iron two plus.
+
+6
+00:00:21,666 --> 00:00:26,197
+Then persulphate oxidises it back to iron three plus.
+
+7
+00:00:26,197 --> 00:00:29,648
+The iron goes round and round, and is not used up.
+

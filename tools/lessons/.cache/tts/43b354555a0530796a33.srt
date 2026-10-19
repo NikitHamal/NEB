@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,229
+Titanium three plus is 3d one.
+
+2
+00:00:03,229 --> 00:00:11,028
+Its single electron jumps from t two g to e g by absorbing green light at five hundred nanometres.
+
+3
+00:00:11,028 --> 00:00:16,770
+The light that gets through is the complement of green, so the solution looks violet.
+

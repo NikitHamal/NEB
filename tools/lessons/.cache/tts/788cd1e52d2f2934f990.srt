@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,328
+The vocabulary.
+
+2
+00:00:01,328 --> 00:00:05,572
+The central ion accepts electron pairs, a Lewis acid.
+
+3
+00:00:05,572 --> 00:00:08,750
+The ligand donates them, a Lewis base.
+
+4
+00:00:08,750 --> 00:00:13,085
+The number of dative bonds is the coordination number, here four.
+
+5
+00:00:13,085 --> 00:00:18,997
+The bracketed part is the coordination sphere, and the sulphate outside is the counter ion.
+

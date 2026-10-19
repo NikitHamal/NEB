@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,820
+The shape of a complex follows from its coordination number and the hybridisation of the metal.
+
+2
+00:00:05,820 --> 00:00:13,033
+Two ligands, s p hybrid: linear, like the silver diammine ion in Tollens reagent.
+

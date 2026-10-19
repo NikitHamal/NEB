@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,174
+A transition element is one whose atom, or one of whose common ions, has a partially filled d subshell.
+
+2
+00:00:07,174 --> 00:00:11,341
+In the first series, that runs from scandium to zinc.
+

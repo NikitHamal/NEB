@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,210
+Let us recap.
+
+2
+00:00:01,210 --> 00:00:11,223
+Transition elements have a partly filled d subshell, with chromium and copper as exceptions in configuration and zinc not a typical member.
+
+3
+00:00:11,223 --> 00:00:19,075
+They are hard, dense, paramagnetic metals with many oxidation states, up to plus seven in manganese.
+
+4
+00:00:19,075 --> 00:00:25,533
+Their ions form complexes through dative bonds, with shapes set by the coordination number.
+
+5
+00:00:25,533 --> 00:00:36,614
+Crystal field theory splits the d orbitals into t two g and e g. Electrons jumping across that gap absorb visible light, giving colour.
+
+6
+00:00:36,614 --> 00:00:42,812
+And variable oxidation states and active surfaces make them excellent catalysts.
+

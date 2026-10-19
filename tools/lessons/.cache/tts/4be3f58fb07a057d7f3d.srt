@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,223
+Two beakers.
+
+2
+00:00:01,223 --> 00:00:05,078
+Copper sulphate on the left, zinc sulphate on the right.
+
+3
+00:00:05,078 --> 00:00:11,158
+Copper and zinc sit side by side in the periodic table, and both salts are sulphates.
+
+4
+00:00:11,158 --> 00:00:15,260
+Yet one solution is blue, and the other has no colour at all.
+

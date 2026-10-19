@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,213
+Worked example six point five.
+
+2
+00:00:02,213 --> 00:00:08,567
+Titanium three plus in water absorbs most strongly at five hundred nanometres.
+
+3
+00:00:08,567 --> 00:00:17,369
+The energy of one photon is h c over lambda: three point nine seven six times ten to the minus nineteen joules.
+

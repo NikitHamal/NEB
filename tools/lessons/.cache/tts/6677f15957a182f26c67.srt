@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,294
+Each ammonia has a lone pair on nitrogen.
+
+2
+00:00:03,294 --> 00:00:07,200
+It moves in and donates both electrons to the copper.
+
+3
+00:00:07,200 --> 00:00:12,434
+Each bond is a dative bond, drawn as an arrow from ligand to metal.
+

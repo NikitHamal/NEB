@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,263
+Now the numbers.
+
+2
+00:00:01,263 --> 00:00:17,838
+High spin: minus zero point four times four, plus zero point six times two, gives a C F S E of minus zero point four delta o, and four unpaired electrons give a moment of root twenty four, four point nine zero Bohr magnetons.
+
+3
+00:00:17,838 --> 00:00:22,812
+Low spin: minus two point four delta o, and zero moment.
+
+4
+00:00:22,812 --> 00:00:26,770
+That much larger stabilisation pays for the pairing.
+

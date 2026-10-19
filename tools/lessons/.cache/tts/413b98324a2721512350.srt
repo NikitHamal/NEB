@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:11,458
+Learn the series as a sentence: halides at the weak end, then hydroxide, water, ammonia, en, nitrite, and cyanide and carbon monoxide at the strong end.
+
+2
+00:00:11,458 --> 00:00:14,687
+Weak field means high spin and pale colours.
+
+3
+00:00:14,687 --> 00:00:18,424
+Strong field means low spin and deep colours.
+
