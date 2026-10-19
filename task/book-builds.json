@@ -1,0 +1,138 @@
+[
+  {
+    "slug": "math8",
+    "path": "notes/pdf/NEBians-Mathematics-Grade-8.pdf",
+    "chapters": 21,
+    "pages": 180,
+    "bytes": 4841588,
+    "commit": "b2c6f5aafb9320d28fa2fcb51ba3abc5addb4049"
+  },
+  {
+    "slug": "sci8",
+    "path": "notes/pdf/NEBians-Science-and-Technology-Grade-8.pdf",
+    "chapters": 11,
+    "pages": 132,
+    "bytes": 4165303,
+    "commit": "30a78d2aac0f6fbc83e984071da57aff8d535f06"
+  },
+  {
+    "slug": "eng8",
+    "path": "notes/pdf/NEBians-Compulsory-English-Grade-8.pdf",
+    "chapters": 19,
+    "pages": 172,
+    "bytes": 3233557,
+    "commit": "f4ccbcf9ab217598468231419173d11d5b690b7d"
+  },
+  {
+    "slug": "eng10",
+    "path": "notes/pdf/NEBians-Compulsory-English-Grade-10.pdf",
+    "chapters": 18,
+    "pages": 281,
+    "bytes": 5978445,
+    "commit": "8b31b8567c5619e16bd63436d7ca7ed6c18d5b4a"
+  },
+  {
+    "slug": "math10",
+    "path": "notes/pdf/NEBians-Mathematics-Grade-10.pdf",
+    "chapters": 18,
+    "pages": 227,
+    "bytes": 8195050,
+    "commit": "27d0d20d633527fde8bc22ab349321aaf6440e85"
+  },
+  {
+    "slug": "omath10",
+    "path": "notes/pdf/NEBians-Optional-Mathematics-Grade-10.pdf",
+    "chapters": 12,
+    "pages": 191,
+    "bytes": 8285890,
+    "commit": "7c06165e8c4c33dd3b6477c035b17143046341e2"
+  },
+  {
+    "slug": "sci10",
+    "path": "notes/pdf/NEBians-Science-and-Technology-Grade-10.pdf",
+    "chapters": 19,
+    "pages": 275,
+    "bytes": 10790009,
+    "commit": "4a7b181cdbdad660dab36c2296de196323950e80"
+  },
+  {
+    "slug": "acc10",
+    "path": "notes/pdf/NEBians-Accountancy-Grade-10.pdf",
+    "chapters": 15,
+    "pages": 198,
+    "bytes": 4561398,
+    "commit": "7b38e4e589065507b20190cb7ca45ce827705b5f"
+  },
+  {
+    "slug": "eco10",
+    "path": "notes/pdf/NEBians-Economics-Grade-10.pdf",
+    "chapters": 6,
+    "pages": 100,
+    "bytes": 3445987,
+    "commit": "1d8806abe64b8a4774631e8afe9abd132bc233ed"
+  },
+  {
+    "slug": "qbank10",
+    "path": "notes/pdf/NEBians-Question-Bank-Grade-10.pdf",
+    "chapters": 19,
+    "pages": 246,
+    "bytes": 5236848,
+    "commit": "c9d824fab5200d207a5dd5aac665f39d48455528"
+  },
+  {
+    "slug": "qbankc10",
+    "path": "notes/pdf/NEBians-Commerce-Question-Bank-Grade-10.pdf",
+    "chapters": 7,
+    "pages": 88,
+    "bytes": 1221951,
+    "commit": "fd79ae8ea405f307c6bb3d64d38e752861fa4d11"
+  },
+  {
+    "slug": "nep8",
+    "path": "notes/pdf/NEBians-नेपाली-Grade-8.pdf",
+    "chapters": 17,
+    "pages": 173,
+    "bytes": 2520546,
+    "commit": "04bed5160819eba320df7e644c04ed4552a9f29e"
+  },
+  {
+    "slug": "nep10",
+    "path": "notes/pdf/NEBians-अनिवार्य-नेपाली-Grade-10.pdf",
+    "chapters": 17,
+    "pages": 261,
+    "bytes": 4845830,
+    "commit": "7c1272ab3e558d47343acd00af8891f86ec5e951"
+  },
+  {
+    "slug": "soc10",
+    "path": "notes/pdf/NEBians-सामाजिक-अध्ययन-तथा-मानव-मूल्य-शिक्षा-Grade-10.pdf",
+    "chapters": 10,
+    "pages": 124,
+    "bytes": 6329766,
+    "commit": "47b0344c426129982dd529e555da7a2edef27e2d"
+  },
+  {
+    "slug": "health8",
+    "path": "notes/pdf/NEBians-स्वास्थ्य,-शारीरिक-तथा-सिर्जनात्मक-कला-Grade-8.pdf",
+    "chapters": 13,
+    "pages": 118,
+    "bytes": 3187917,
+    "commit": "f3b0f70cf5522997bfa40d936274b329be188110"
+  },
+  {
+    "slug": "qbank8",
+    "path": "notes/pdf/NEBians-Question-Bank-Grade-8.pdf",
+    "chapters": 19,
+    "pages": 135,
+    "bytes": 2344154,
+    "commit": "499ba3a06117e2ddf57778711751fd768748a425"
+  },
+  {
+    "slug": "soc8",
+    "path": "notes/pdf/NEBians-सामाजिक-अध्ययन-तथा-मानव-मूल्य-शिक्षा-Grade-8.pdf",
+    "chapters": 9,
+    "pages": 113,
+    "bytes": 3421933,
+    "commit": "0903cde3588f83cc2860e2e1af2975295115a46c"
+  }
+]

@@ -1,0 +1,142 @@
+[
+  {
+    "route": "/api/syllabus/subjects/class-8/english/",
+    "chapters": 19,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-8/health-physical-and-creative-arts/",
+    "chapters": 13,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-8/mathematics/",
+    "chapters": 21,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-8/nepali/",
+    "chapters": 17,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-8/science-and-technology/",
+    "chapters": 11,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-8/social-studies/",
+    "chapters": 9,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-10-see/accountancy/",
+    "chapters": 15,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-10-see/economics/",
+    "chapters": 6,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-10-see/english/",
+    "chapters": 18,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-10-see/mathematics/",
+    "chapters": 18,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-10-see/nepali/",
+    "chapters": 17,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-10-see/optional-mathematics/",
+    "chapters": 12,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-10-see/science-and-technology/",
+    "chapters": 19,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-10-see/social-studies/",
+    "chapters": 10,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-11/biology/",
+    "chapters": 10,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-11/chemistry/",
+    "chapters": 17,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-11/computer-science/",
+    "chapters": 8,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-11/english/",
+    "chapters": 35,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-11/mathematics/",
+    "chapters": 21,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-11/nepali/",
+    "chapters": 27,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-11/physics/",
+    "chapters": 26,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-12/biology/",
+    "chapters": 10,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-12/chemistry/",
+    "chapters": 21,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-12/computer-science/",
+    "chapters": 7,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-12/english/",
+    "chapters": 35,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-12/mathematics/",
+    "chapters": 17,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-12/nepali/",
+    "chapters": 28,
+    "status": 200
+  },
+  {
+    "route": "/api/syllabus/subjects/class-12/physics/",
+    "chapters": 25,
+    "status": 200
+  }
+]
