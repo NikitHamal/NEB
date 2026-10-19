@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:11,666
+Lemon juice is around two, vinegar around three, pure water seven, blood seven point four, baking soda solution about eight, household ammonia about eleven or twelve.
+
+2
+00:00:11,666 --> 00:00:13,776
+Below seven, acidic.
+
+3
+00:00:13,776 --> 00:00:15,052
+Above, basic.
+

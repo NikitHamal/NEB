@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,783
+Hydrogen ion concentrations run from about ten moles per litre down to ten to the minus fifteen.
+
+2
+00:00:06,783 --> 00:00:11,184
+In nineteen oh nine, Sorensen tamed that range with a logarithm.
+
+3
+00:00:11,184 --> 00:00:17,239
+p H is minus the log, base ten, of the hydrogen ion concentration.
+

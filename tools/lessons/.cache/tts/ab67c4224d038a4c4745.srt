@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,479
+The solubility has dropped about seven hundred and forty five times.
+
+2
+00:00:04,479 --> 00:00:14,140
+That is why a precipitate is always washed with a dilute solution containing a common ion, never with pure water, which would dissolve it away.
+

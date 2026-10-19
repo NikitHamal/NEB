@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,838
+Now we can finally explain indicators.
+
+2
+00:00:02,838 --> 00:00:11,445
+An acid base indicator is a weak organic acid or base, whose un-ionised form and ionised form have different colours.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:12,864
+So h is the square root of K w over K a C. Hydroxide is C h, and taking logs gives p H equals seven plus half p K a plus half log C.
+

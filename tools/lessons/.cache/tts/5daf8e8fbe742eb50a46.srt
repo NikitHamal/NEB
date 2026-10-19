@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,463
+Salts are also classed by the p H of their solution.
+
+2
+00:00:03,463 --> 00:00:06,731
+Strong acid with strong base, neutral.
+
+3
+00:00:06,731 --> 00:00:09,856
+Weak acid with strong base, basic.
+
+4
+00:00:09,856 --> 00:00:13,072
+Strong acid with weak base, acidic.
+
+5
+00:00:13,072 --> 00:00:18,098
+And a careful point: an acid salt is not the same as an acidic salt.
+
+6
+00:00:18,098 --> 00:00:24,062
+Sodium bicarbonate is an acid salt by composition, but its solution is alkaline.
+

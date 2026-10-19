@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,210
+Let us recap.
+
+2
+00:00:01,210 --> 00:00:05,651
+Three definitions of acids and bases, each wider than the last.
+
+3
+00:00:05,651 --> 00:00:11,666
+Conjugate pairs differ by one proton, and a strong acid has a weak conjugate base.
+
+4
+00:00:11,666 --> 00:00:32,968
+Alpha is root K over C. K w is ten to the minus fourteen, and K a times K b equals K w. p H is minus log hydrogen ion, and for a weak acid hydrogen ion is root K a C. K s p links to solubility, and when Q exceeds it, a precipitate forms.
+
+5
+00:00:32,968 --> 00:00:35,859
+A common ion suppresses ionisation.
+
+6
+00:00:35,859 --> 00:00:38,424
+A buffer follows Henderson's equation.
+
+7
+00:00:38,424 --> 00:00:41,627
+An indicator must change inside the jump.
+
+8
+00:00:41,627 --> 00:00:45,520
+And salts hydrolyse according to which partner is weak.
+

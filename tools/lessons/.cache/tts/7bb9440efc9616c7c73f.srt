@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,721
+Now the table from Unit 1 makes sense.
+
+2
+00:00:02,721 --> 00:00:09,348
+The equivalence point is not always at seven, because the salt formed may hydrolyse.
+
+3
+00:00:09,348 --> 00:00:14,062
+With a weak acid it is around eight point seven, so phenolphthalein.
+
+4
+00:00:14,062 --> 00:00:18,567
+With a weak base, around five point three, so methyl orange.
+

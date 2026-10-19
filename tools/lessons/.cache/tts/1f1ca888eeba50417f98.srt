@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,122
+Now the answer to our cold open.
+
+2
+00:00:02,122 --> 00:00:09,322
+A buffer solution resists a change in p H when a little strong acid or base is added, or when it is diluted.
+
+3
+00:00:09,322 --> 00:00:20,364
+The commonest kinds are a weak acid with its salt, like acetic acid and sodium acetate, or a weak base with its salt, like ammonium hydroxide and ammonium chloride.
+

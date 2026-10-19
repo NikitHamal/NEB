@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,307
+The same idea appears all over the syllabus.
+
+2
+00:00:03,307 --> 00:00:06,901
+Ammonium chloride suppresses ammonium hydroxide.
+
+3
+00:00:06,901 --> 00:00:10,351
+Hydrochloric acid suppresses hydrogen sulphide.
+
+4
+00:00:10,351 --> 00:00:14,921
+Sodium chloride lowers the solubility of silver chloride.
+
+5
+00:00:14,921 --> 00:00:19,518
+And hydrogen chloride gas makes pure salt crystallise from brine.
+

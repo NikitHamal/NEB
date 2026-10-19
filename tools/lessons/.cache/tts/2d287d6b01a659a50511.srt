@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,067
+Multiply them.
+
+2
+00:00:01,067 --> 00:00:05,833
+Acetate on top of the first cancels acetate below in the second.
+
+3
+00:00:05,833 --> 00:00:11,302
+Acetic acid below the first cancels acetic acid on top of the second.
+
+4
+00:00:11,302 --> 00:00:17,395
+All that is left is hydrogen ion times hydroxide ion, which is K w.
+

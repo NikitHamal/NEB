@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,661
+At twenty five degrees it is one times ten to the minus fourteen.
+
+2
+00:00:04,661 --> 00:00:10,937
+In pure water the two are equal, ten to the minus seven moles per litre each.
+
+3
+00:00:10,937 --> 00:00:16,028
+And this product holds in every aqueous solution, not just pure water.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,809
+Boron trifluoride has only six electrons around boron, an empty space in its octet.
+
+2
+00:00:06,809 --> 00:00:10,781
+Ammonia has a lone pair on nitrogen, ready to share.
+

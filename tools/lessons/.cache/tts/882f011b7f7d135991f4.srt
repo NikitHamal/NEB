@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,781
+One.
+
+2
+00:00:00,781 --> 00:00:02,630
+It is restricted to water.
+
+3
+00:00:02,630 --> 00:00:07,408
+Let ammonia gas and hydrogen chloride gas meet in air.
+
+4
+00:00:07,408 --> 00:00:10,611
+A white smoke of ammonium chloride forms.
+
+5
+00:00:10,611 --> 00:00:17,265
+That is clearly a neutralisation, but there is no water and no hydroxide ion anywhere.
+

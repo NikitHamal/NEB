@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,486
+Drop some silver chloride into water.
+
+2
+00:00:02,486 --> 00:00:04,401
+A tiny amount dissolves.
+
+3
+00:00:04,401 --> 00:00:12,682
+Ions leave the crystal and wander into the solution, and at the same time, ions crash back onto the crystal and stick.
+

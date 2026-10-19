@@ -1247,12 +1247,12 @@ class Lesson(Lesson):
     def ending(self):
         self.recap([
             "Gravimetric weighs a precipitate; volumetric measures a volume of standard solution.",
-            M(r"E = \frac{\text{molar mass}}{n},\qquad E_{\text{element}} = \frac{\text{atomic weight}}{\text{valency}}", size=34),
+            M(r"E = \frac{\text{molar mass}}{n},\qquad E_{\text{element}} = \frac{\text{atomic weight}}{\text{valency}}", size=40),
             "n = basicity, acidity, total charge, or electrons transferred.  KMnO₄: 31.6 (acid), 52.67 (neutral), 158 (strong alkali).",
-            M(r"N = M \times n,\quad S = N \times E,\quad M = \frac{10\,p\,d}{M_w}", size=34),
+            M(r"N = M \times n,\quad S = N \times E,\quad M = \frac{10\,p\,d}{M_w}", size=40),
             "Molality and % by mass do not change with temperature; molarity and normality do.",
             "Primary standards (oxalic acid, Na₂CO₃, K₂Cr₂O₇) can be weighed directly; secondary (NaOH, HCl, KMnO₄) cannot.",
-            M(r"N_1V_1 = N_2V_2 \quad\text{or}\quad n_1M_1V_1 = n_2M_2V_2", size=34),
+            M(r"N_1V_1 = N_2V_2 \quad\text{or}\quad n_1M_1V_1 = n_2M_2V_2", size=40),
             "KMnO₄ is self-indicating; acidify with dilute H₂SO₄ only.",
         ], "Let us recap. Gravimetric analysis weighs, volumetric analysis measures a volume. Equivalent weight is molar mass over the n factor, and for an element, atomic weight over valency. The n factor is basicity, acidity, total charge, or electrons transferred, which gives permanganate three different values. Normality is molarity times n. Molality does not change with temperature. Primary standards can be weighed directly, secondary ones cannot. N one V one equals N two V two. And permanganate is its own indicator, in dilute sulphuric acid only.")
         self.outro("That is volumetric analysis. Next time, we look inside those acids and bases, with ionic equilibrium, and find out why indicators behave the way they do. Keep practising, and see you in the next lesson on NEBians.")

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,369
+Worked example two point five.
+
+2
+00:00:02,369 --> 00:00:12,955
+In pure water, the solubility of silver chloride is the square root of K s p, one point three four times ten to the minus five moles per litre.
+

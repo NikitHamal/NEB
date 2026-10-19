@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,138
+Qualitative analysis is built on this.
+
+2
+00:00:03,138 --> 00:00:08,450
+In Group two, hydrogen sulphide is passed in dilute hydrochloric acid.
+
+3
+00:00:08,450 --> 00:00:21,966
+The common hydrogen ion keeps sulphide ion very low, so only the least soluble sulphides, copper, lead and cadmium, exceed their K s p. Zinc sulphide does not.
+

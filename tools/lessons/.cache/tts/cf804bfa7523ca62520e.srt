@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,875
+Add some hydrogen ions.
+
+2
+00:00:01,875 --> 00:00:08,606
+Acetate ions grab them and become acetic acid, a weak acid that barely ionises.
+
+3
+00:00:08,606 --> 00:00:11,458
+The strong acid has been swapped for a weak one.
+

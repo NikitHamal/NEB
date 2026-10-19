@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,966
+Here are pairs you should know.
+
+2
+00:00:01,966 --> 00:00:04,388
+Hydrochloric acid and chloride.
+
+3
+00:00:04,388 --> 00:00:06,132
+Ammonia and ammonium.
+
+4
+00:00:06,132 --> 00:00:07,929
+Hydroxide and water.
+
+5
+00:00:07,929 --> 00:00:14,466
+Now look for species in both columns: water, hydrogen carbonate, hydrogen sulphate.
+
+6
+00:00:14,466 --> 00:00:16,940
+They can give a proton or take one.
+
+7
+00:00:16,940 --> 00:00:18,802
+They are called amphiprotic.
+

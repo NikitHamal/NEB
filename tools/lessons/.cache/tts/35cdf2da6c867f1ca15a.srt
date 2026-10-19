@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,210
+Two traps.
+
+2
+00:00:01,210 --> 00:00:04,557
+p H is not stuck between zero and fourteen.
+
+3
+00:00:04,557 --> 00:00:09,375
+Two molar hydrochloric acid has p H minus zero point three.
+
+4
+00:00:09,375 --> 00:00:13,828
+Five molar sodium hydroxide has p H fourteen point seven.
+
+5
+00:00:13,828 --> 00:00:20,039
+And the concentration must be in moles per litre, so convert any grams per litre first.
+

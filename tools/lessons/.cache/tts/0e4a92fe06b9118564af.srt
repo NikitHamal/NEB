@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,210
+Each step of one on the p H scale is a factor of ten in hydrogen ion concentration.
+
+2
+00:00:06,210 --> 00:00:14,361
+Slide from p H one to p H thirteen, and the hydrogen ion concentration falls a million million times.
+

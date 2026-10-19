@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,653
+The pattern is perfect.
+
+2
+00:00:01,653 --> 00:00:05,429
+The stronger the acid, the weaker its conjugate base.
+
+3
+00:00:05,429 --> 00:00:07,929
+Sulphate hardly wants a proton back.
+
+4
+00:00:07,929 --> 00:00:09,635
+Cyanide wants it badly.
+

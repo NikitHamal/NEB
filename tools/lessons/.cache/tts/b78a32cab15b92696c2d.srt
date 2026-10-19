@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,291
+The other cases follow the same way.
+
+2
+00:00:02,291 --> 00:00:06,588
+For a weak acid and weak base salt, look: no C at all.
+
+3
+00:00:06,588 --> 00:00:10,664
+The p H of ammonium acetate does not change on dilution.
+
+4
+00:00:10,664 --> 00:00:12,330
+A favourite one mark point.
+

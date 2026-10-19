@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,510
+Sodium acetate.
+
+2
+00:00:01,510 --> 00:00:04,023
+The sodium ion is a spectator.
+
+3
+00:00:04,023 --> 00:00:15,208
+But acetate is the conjugate base of a weak acid, so it pulls a proton off a water molecule, forming acetic acid and leaving a hydroxide ion behind.
+
+4
+00:00:15,208 --> 00:00:17,513
+The solution turns alkaline.
+
+5
+00:00:17,513 --> 00:00:19,791
+This is anionic hydrolysis.
+

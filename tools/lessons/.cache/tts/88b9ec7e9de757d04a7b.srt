@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,794
+Plot it.
+
+2
+00:00:00,794 --> 00:00:08,841
+The p H is p K a when salt equals acid, and moves by just one unit when the ratio changes tenfold.
+
+3
+00:00:08,841 --> 00:00:17,278
+A buffer is most useful within one unit of its p K a, so pick the weak acid whose p K a is closest to the p H you need.
+

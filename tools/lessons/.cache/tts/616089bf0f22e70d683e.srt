@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,588
+There are four cases.
+
+2
+00:00:01,588 --> 00:00:08,372
+A salt of a strong acid and strong base, like sodium chloride, does not hydrolyse at all.
+
+3
+00:00:08,372 --> 00:00:13,515
+Weak acid and strong base, the anion hydrolyses, alkaline.
+
+4
+00:00:13,515 --> 00:00:20,299
+Strong acid and weak base, like ammonium chloride, the cation gives up a proton, acidic.
+
+5
+00:00:20,299 --> 00:00:27,031
+Weak acid and weak base, both ions hydrolyse, and the result depends on which constant is bigger.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,010
+Line up some acids by p K a, strongest at the top.
+
+2
+00:00:04,010 --> 00:00:10,677
+Hydrogen sulphate, hydrofluoric, formic, acetic, carbonic, hydrocyanic acid.
+
+3
+00:00:10,677 --> 00:00:13,750
+Now put each conjugate base beside its acid.
+

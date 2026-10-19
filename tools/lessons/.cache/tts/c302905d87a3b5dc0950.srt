@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:00,833
+Three.
+
+2
+00:00:00,833 --> 00:00:10,468
+Carbon dioxide, sulphur dioxide, aluminium chloride and boron trifluoride all act as acids, but contain no hydrogen to give.
+
+3
+00:00:10,468 --> 00:00:11,302
+Four.
+
+4
+00:00:11,302 --> 00:00:16,315
+Ammonia and sodium carbonate are bases, but have no hydroxide group.
+
+5
+00:00:16,315 --> 00:00:17,330
+And five.
+
+6
+00:00:17,330 --> 00:00:19,101
+It ignores the solvent.
+
+7
+00:00:19,101 --> 00:00:23,528
+Dry hydrogen chloride gas does not even redden dry litmus.
+
+8
+00:00:23,528 --> 00:00:26,940
+The water is an active partner, not a spectator.
+

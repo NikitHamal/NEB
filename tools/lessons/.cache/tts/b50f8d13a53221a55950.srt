@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,617
+Four formulas cover every case.
+
+2
+00:00:02,617 --> 00:00:09,583
+A strong acid is fully ionised, so hydrogen ion equals concentration times basicity.
+
+3
+00:00:09,583 --> 00:00:24,531
+A weak acid gives the square root of K a C, which in logs is half of p K a minus log C. Bases work the same way through hydroxide, then p H is fourteen minus p O H.
+

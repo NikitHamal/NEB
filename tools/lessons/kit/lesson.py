@@ -226,10 +226,21 @@ class Lesson(Scene):
             num = T(self.num(f"{i + 1:02d}"), size=26, color=self.color, weight="BOLD", display=True)
             txt = T(s, size=28, color=th.INK)
             rows.add(VGroup(num, txt).arrange(RIGHT, buff=0.35))
-        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.26)
-        if rows.height > 5.4:
-            rows.scale_to_fit_height(5.4)
-        rows.next_to(head, DOWN, buff=0.5).shift(LEFT * 1.2)
+        if len(rows) > 10:
+            half = (len(rows) + 1) // 2
+            cols = VGroup(VGroup(*rows[:half]).arrange(DOWN, aligned_edge=LEFT, buff=0.26),
+                          VGroup(*rows[half:]).arrange(DOWN, aligned_edge=LEFT, buff=0.26))
+            cols.arrange(RIGHT, aligned_edge=UP, buff=0.8)
+            if cols.width > 10.2:
+                cols.scale_to_fit_width(10.2)
+            if cols.height > 5.4:
+                cols.scale_to_fit_height(5.4)
+            cols.next_to(head, DOWN, buff=0.5).shift(LEFT * 0.9)
+        else:
+            rows.arrange(DOWN, aligned_edge=LEFT, buff=0.26)
+            if rows.height > 5.4:
+                rows.scale_to_fit_height(5.4)
+            rows.next_to(head, DOWN, buff=0.5).shift(LEFT * 1.2)
         nb = self.neby("read", height=2.0).to_corner(DR, buff=0.7)
         self.play(FadeIn(head, shift=DOWN * 0.2), run_time=0.5)
         self.add(nb)

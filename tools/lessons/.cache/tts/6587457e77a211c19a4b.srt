@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,979
+Where does the square root come from?
+
+2
+00:00:01,979 --> 00:00:12,096
+From Ostwald: hydrogen ion is C alpha, and alpha is root K a over C. Multiply, and you get root K a C.
+

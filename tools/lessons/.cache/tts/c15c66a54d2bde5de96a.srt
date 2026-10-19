@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,278
+Worked example two point six.
+
+2
+00:00:02,278 --> 00:00:07,981
+Equal volumes of two millimolar barium chloride and sodium sulphate are mixed.
+
+3
+00:00:07,981 --> 00:00:12,513
+The trap: mixing equal volumes halves each concentration.
+
+4
+00:00:12,513 --> 00:00:16,783
+So each ion is one times ten to the minus three molar.
+

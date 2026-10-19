@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,250
+Two beakers.
+
+2
+00:00:01,250 --> 00:00:04,283
+On the left, one litre of pure water.
+
+3
+00:00:04,283 --> 00:00:10,911
+On the right, one litre of a special solution, a mixture of acetic acid and sodium acetate.
+
+4
+00:00:10,911 --> 00:00:15,520
+Both have a few drops of universal indicator, and a pH meter.
+

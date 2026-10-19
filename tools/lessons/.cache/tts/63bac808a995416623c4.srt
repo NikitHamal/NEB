@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,317
+But the reaction is reversible.
+
+2
+00:00:02,317 --> 00:00:07,721
+In the backward direction, hydronium gives a proton back to acetate.
+
+3
+00:00:07,721 --> 00:00:10,338
+So there are two acids and two bases.
+
+4
+00:00:10,338 --> 00:00:17,786
+Acetic acid and acetate differ by exactly one proton: they are a conjugate acid base pair.
+
+5
+00:00:17,786 --> 00:00:20,859
+Water and hydronium are the other pair.
+

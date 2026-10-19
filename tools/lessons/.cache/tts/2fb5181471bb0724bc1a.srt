@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,744
+The common ion effect.
+
+2
+00:00:01,744 --> 00:00:10,794
+If you add a strong electrolyte that supplies an ion already present in a weak equilibrium, that equilibrium is pushed back.
+
+3
+00:00:10,794 --> 00:00:15,026
+It is simply Le Chatelier's principle, applied to ions.
+

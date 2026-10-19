@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,044
+If Q is less than K s p, the solution is unsaturated, and more solid would dissolve.
+
+2
+00:00:07,044 --> 00:00:11,419
+If Q equals K s p, it is exactly saturated.
+
+3
+00:00:11,419 --> 00:00:19,505
+If Q is greater, it is supersaturated, and the salt precipitates until Q falls back down to K s p.
+

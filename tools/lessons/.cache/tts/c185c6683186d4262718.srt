@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,697
+Pure water conducts electricity, very slightly.
+
+2
+00:00:03,697 --> 00:00:05,820
+So it must contain a few ions.
+
+3
+00:00:05,820 --> 00:00:11,171
+Every now and then, one water molecule passes a proton to another.
+

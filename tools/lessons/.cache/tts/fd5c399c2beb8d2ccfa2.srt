@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,747
+Dissolve potassium ferrocyanide.
+
+2
+00:00:02,747 --> 00:00:05,221
+Only the potassium ions leave.
+
+3
+00:00:05,221 --> 00:00:13,606
+The ferrocyanide complex ion stays in one piece, so the solution gives no test for ferrous ion or cyanide.
+
+4
+00:00:13,606 --> 00:00:16,627
+A double salt exists only as a solid.
+
+5
+00:00:16,627 --> 00:00:20,911
+A complex salt keeps its complex ion in solution.
+

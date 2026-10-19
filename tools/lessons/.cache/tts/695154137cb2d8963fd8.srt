@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,809
+Rearrange for hydrogen ion, take minus logs, and out comes the Henderson Hasselbalch equation.
+
+2
+00:00:06,809 --> 00:00:11,106
+p H equals p K a plus log of salt over acid.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,437
+Why should a salt make water acidic or basic at all?
+
+2
+00:00:03,437 --> 00:00:11,718
+Because of hydrolysis: the reaction of a salt's cation or anion with water to give back the parent acid or base.
+
+3
+00:00:11,718 --> 00:00:14,804
+It is neutralisation running in reverse.
+

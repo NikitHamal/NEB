@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,236
+The law of mass action gives K equals C alpha squared over one minus alpha.
+
+2
+00:00:06,236 --> 00:00:15,013
+For a weak electrolyte alpha is tiny, so one minus alpha is almost one, and K is C alpha squared.
+

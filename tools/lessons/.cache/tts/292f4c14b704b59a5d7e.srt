@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,755
+In eighteen eighty seven, Svante Arrhenius gave the first modern definition.
+
+2
+00:00:05,755 --> 00:00:08,893
+An acid gives hydrogen ions in water.
+
+3
+00:00:08,893 --> 00:00:11,770
+A base gives hydroxide ions in water.
+
+4
+00:00:11,770 --> 00:00:15,690
+It works for hydrochloric acid and sodium hydroxide.
+
+5
+00:00:15,690 --> 00:00:20,156
+But it fails in five ways, and the board asks about every one of them.
+

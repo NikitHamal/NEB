@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,638
+Hydroxide is C h, seven point four five times ten to the minus six.
+
+2
+00:00:05,638 --> 00:00:11,106
+p O H is five point one three, so p H is eight point eight seven.
+
+3
+00:00:11,106 --> 00:00:19,036
+The formula agrees: seven plus two point three seven minus zero point five zero, eight point eight seven.
+

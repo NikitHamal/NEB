@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,903
+For a basic buffer, the same argument gives p O H equals p K b plus log salt over base.
+

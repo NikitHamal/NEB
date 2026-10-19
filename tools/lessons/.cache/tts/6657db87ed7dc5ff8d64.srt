@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,343
+In Group three A, ammonium chloride keeps hydroxide low, so iron, aluminium and chromium hydroxides precipitate while magnesium hydroxide stays dissolved.
+
+2
+00:00:12,343 --> 00:00:21,432
+And adding hydrogen chloride gas to brine, or common salt to soap, throws out pure sodium chloride or soap by the same principle.
+

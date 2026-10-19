@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,627
+Here is the proof.
+
+2
+00:00:01,627 --> 00:00:05,703
+Take acetic acid and its conjugate base, acetate.
+
+3
+00:00:05,703 --> 00:00:12,096
+Write K a for the acid, and K b for acetate taking a proton from water.
+

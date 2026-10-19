@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,523
+Buffers are everywhere.
+
+2
+00:00:01,523 --> 00:00:06,236
+Blood is held at seven point four by carbonic acid and bicarbonate.
+
+3
+00:00:06,236 --> 00:00:08,450
+Cell fluid uses phosphate.
+
+4
+00:00:08,450 --> 00:00:21,432
+Acidic hill soils in Nepal are limed to hold their p H. Electroplating, brewing, curd making and dyeing all need a fixed p H. Eye drops and injections are buffered to match body fluids.
+
+5
+00:00:21,432 --> 00:00:26,835
+And E D T A titrations run in an ammonia buffer at p H ten.
+

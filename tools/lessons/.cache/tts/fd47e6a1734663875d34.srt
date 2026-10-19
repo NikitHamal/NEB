@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,223
+But it is rare.
+
+2
+00:00:01,223 --> 00:00:06,940
+Only about two water molecules in every billion are ionised at any moment.
+

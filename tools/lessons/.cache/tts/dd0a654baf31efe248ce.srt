@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,231
+Worked example two point two, decimolar acetic acid.
+
+2
+00:00:04,231 --> 00:00:16,015
+Hydrogen ion is the square root of K a C, the square root of one point eight times ten to the minus six, which is one point three four times ten to the minus three.
+
+3
+00:00:16,015 --> 00:00:18,880
+So p H is two point eight seven.
+
