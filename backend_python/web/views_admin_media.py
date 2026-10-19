@@ -145,7 +145,18 @@ def _run_tts(payload):
         elif provider.startswith("fish"):
             from api.fish_proxy import generate_tts as fish_tts
 
-            result = fish_tts(text=text, voice=voice)
+            result = fish_tts(
+                text=text,
+                voice=voice,
+                model=payload.get("provider") or provider,
+                mode=payload.get("mode") or "",
+                description=payload.get("description") or "",
+                scene=payload.get("scene") or "",
+                character=payload.get("character") or "",
+                temperature=payload.get("temperature"),
+                top_p=payload.get("top_p"),
+                top_k=payload.get("top_k"),
+            )
         else:
             from api.lazypy_proxy import generate_tts
 
