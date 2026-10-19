@@ -165,6 +165,12 @@
   var openApp = document.querySelector('.lp-nav .lp-btn-sm');
   if (peek && openApp) openApp.addEventListener('pointerenter', function () { if (peek.__nebyInstance) peek.__nebyInstance.react('wave'); });
 
+  /* festival decor pauses whenever it is off screen */
+  if ('IntersectionObserver' in window) {
+    var decorIo = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.parentElement.classList.toggle('is-paused', !e.isIntersecting); }); });
+    document.querySelectorAll('.st-decor').forEach(function (d) { decorIo.observe(d); });
+  }
+
   measure();
   live = new Set(tracks.filter(function (el) { var r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < vh; }));
   queue();
