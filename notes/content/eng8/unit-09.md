@@ -7,374 +7,288 @@ hours: 0
 area: Units
 ---
 
-One text looks forward to the biggest change in a student's life: leaving
-school for college. The other looks at the object that has changed student life
-already. Both are **comparison** texts — they weigh one thing against another —
-so the grammar of the unit is the language of comparison: comparative and
-superlative adjectives, and the adverbs of degree that tell you *how much*.
+Unit 9 is about **comparing and contrasting**. Reading I, *The Leap between
+High School and College*, is a comparison essay: college costs more, demands
+more and offers more social activities than high school. Reading II,
+*Smartphones in our Life*, shows how smartphones have changed the way we find
+information, communicate and behave. The grammar is the **comparative and
+superlative** forms of adjectives and adverbs. In writing you compare two
+villages and write an essay comparing life before and after the internet.
 
-::: key What this unit asks for
-By the end you should be able to (1) compare two things with a comparative and
-three or more with a superlative, (2) use the irregular forms (*better, best,
-worse, worst, further, furthest*), (3) use adverbs of degree — *very, quite,
-rather, far, much, slightly, extremely* — correctly, and (4) write an essay on
-technology that gives both advantages and disadvantages.
+::: key What the exam asks from this unit
+(1) Find the three points of comparison in an essay and the evidence for each.
+(2) Form comparatives and superlatives correctly (*-er/-est*, *more/most*,
+irregular forms). (3) Use *than*, *as … as*, *not as … as*, *the … of all*.
+(4) Write comparison paragraphs and essays with contrast connectives
+(*whereas, while, in contrast, similarly, both*).
 :::
 
-```photo id="eng8/classroom-sankhu" caption="Students outside a classroom at Shree Bhagawati Secondary School, Sankhu. The leap to college takes them out of a room like this one, where every teacher knows their name." width="92"
+```photo id="eng8/classroom-sankhu" caption="Students outside a school building in Sankhu. Reading I compares life at a school like this with life at college." width="92"
 ```
 
-## 9.1 The Leap between High School and College
+## 9.1 Reading I: The Leap between High School and College
 
-### About the text
+### Structure and summary
 
-The text is **expository and comparative**. It explains what changes between
-school and college and weighs the two stages against each other, without
-pretending that one is simply "better".
-
-### What the text says
-
-The change from school to college is not only a change of building. Four things
-change at once.
-
-**Freedom and responsibility.** At school the timetable is made for you and
-somebody checks whether you have done the work. At college you choose fewer
-subjects, you have hours free in the middle of the day, and nobody telephones
-your parents. The freedom is real, and so is the responsibility that comes
-attached to it: a student who cannot manage an unsupervised hour will do worse
-in college than in school.
-
-**Depth rather than breadth.** At school you keep eight or nine subjects going
-at once. At college you choose a stream, and inside that stream you go further
-into fewer things.
-
-**Teachers.** At school a teacher knows your name and your marks. At college a
-lecturer may face two hundred students and will not notice whether you were
-there. Asking a question becomes your own job.
-
-**Friends and identity.** At school your friends are chosen for you by
-proximity — the ones who sit beside you. At college you meet people from other
-districts, other castes and other language groups, and you decide who your
-friends will be.
-
-| Point of comparison | School | College |
+| Paragraph | Point | Evidence |
 |---|---|---|
-| Subjects | many, fixed | fewer, chosen |
-| Supervision | close | almost none |
-| Free hours in the day | few | many |
-| Teacher–student contact | personal | impersonal |
-| Cost | low | higher, with books and travel |
-| Homework | checked | assumed |
+| Introduction | The move to college is a big **transition**; students wrongly assume it will be like school. **Thesis:** college costs more, is more challenging and offers more freedom. | — |
+| 1. Cost | College is **more expensive**. | tuition; residence or rent near college (school students mostly live at home); textbooks for every course |
+| 2. Workload | College work is **more challenging**. | more assignments; harder ones that take hours; extra pressure because final grades depend on each assignment |
+| 3. Activities | College is **more social**. | more sports and clubs; college teams and athletic facilities; few high schools have such facilities; smaller schools have a limited variety of clubs |
+| Conclusion | College is more costly, more academically challenging and more socially stimulating; students who know this will be better prepared. | — |
 
-The text's conclusion is a warning and an invitation: the students who find the
-leap hardest are those who were carried through school, and the ones who find it
-easiest are those who had already begun to work on their own.
+**Language of contrast** used in the essay: *In contrast, Furthermore, In
+addition, First / Second / Third, Overall.*
 
-```figure caption="Freedom and responsibility rise together. The gap between the two lines is where weak students fall — and it is closed by habit, not by talent."
-fig, ax = plt.subplots(figsize=(4.8, 2.6))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.4); ax.axis("off")
-ax.plot([0.6, 9.4], [4.6, 4.6], color=GRID, lw=1)
-for i, x in enumerate([0.6, 3.5, 6.4, 9.3]):
-    ax.plot([x, x + 2.6], [1.0, 1.0], color=SERIES[0], lw=3)
-    ax.plot([x, x + 2.6], [1.0 + i * 1.05 + 0.5, 1.0 + i * 1.05 + 0.5],
-            color=SERIES[2], lw=3)
-    ax.text(x + 1.3, 0.62, ["class 6", "class 8", "class 10", "college"][i],
-            ha="center", fontsize=6.4, color=INK)
-ax.text(0.7, 3.0, "freedom given", fontsize=6.6, color=SERIES[2], rotation=0)
-ax.text(0.7, 2.35, "responsibility taught", fontsize=6.6, color=SERIES[0])
-fig.tight_layout()
-```
+### Vocabulary (Exercise A)
 
-### Vocabulary
+a–v **assumption** b–iii **expense** c–iv **residence** d–i **assignment**
+e–vii **stimulating** f–vi **challenging** g–ii **adequately** (viii *boast* is
+extra).
 
-| Word | Meaning |
-|---|---|
-| leap | a big jump; a sudden change |
-| supervised | watched over by somebody in charge |
-| proximity | nearness |
-| stream | the group of subjects a student chooses |
-| identity | who a person understands themselves to be |
+### Comprehension (Exercise B) — model answers
 
-::: note Model answers
-**1. Give two differences between school and college.**
-At school the timetable is fixed and the work is checked; at college the student
-chooses the subjects, has free hours and is not checked. At school a teacher
-knows the student personally; at college a lecturer may not notice whether the
-student attended.
-**2. Why do some students find the leap to college difficult?**
-Because the supervision they depended on in school disappears at once. They were
-carried through school and never learned to plan their own hours.
-:::
+**a. What do students expect when they enter post-secondary education?** They
+expect college to be the same as their experience at secondary school.
 
-## 9.2 Smartphones in our Life
+**b. How is college more expensive?** Students pay tuition, they must pay for a
+residence or rent near the college, and they must buy textbooks for each
+course.
 
-### About the text
+**c. Write three reasons why the college workload is more challenging.**
+(i) There are more assignments. (ii) The assignments are harder and can take
+hours. (iii) There is extra pressure because the final grade is based on each
+assignment.
 
-The text is a **discursive essay**: it presents advantages, then disadvantages,
-then a balanced conclusion asking for responsible use. This is the standard shape
-of every "advantages and disadvantages" answer in the examination.
+**d. What athletic opportunities/challenges do college students face?** They
+are expected to take part more in sports and clubs; they can join college sports
+teams and use the college's athletic facilities.
 
-### What the text says
+**e. What should students consider while entering college?** The differences in
+cost, workload and social life, so that they are prepared for the challenges.
 
-**Advantages.** A smartphone in a Nepali village is, in one hand, a telephone, a
-calculator, a camera, a map, a dictionary, a bank, a library and a classroom. It
-lets a student watch a lesson again at home, check a fact, read a book that the
-school cannot afford to buy, and keep in touch with a family member working
-abroad. During the 2015 earthquake and during the Covid-19 school closures, the
-same device carried information and lessons to places the post could not reach.
-For a small trader it is a market, a ledger and an advertisement.
+## 9.2 Grammar I: Comparative and superlative adjectives
 
-**Disadvantages.** The same device takes attention away from what is happening
-in the room. It is designed to be hard to put down: the notification, the short
-video and the game are deliberately made to interrupt. Long hours on a screen
-affect sleep, eyesight and posture; and research on social media suggests that
-the constant comparison with other people's edited lives raises anxiety among
-teenagers. It also costs money every month, and a phone with a
-weak battery is of no use in an emergency. And privacy is lost quietly: a free
-"flashlight" app that asks for access to your contacts has not asked you for
-nothing.
-
-**Conclusion.** The telephone itself is neutral. It is neither good nor bad; it
-is *more powerful than any previous tool a student has owned*, and a more
-powerful tool demands a more careful owner. The useful rule is not "use it less"
-but "decide before you pick it up what you are picking it up for".
-
-| Use | Advantage | Risk |
+| Type of adjective | Comparative | Superlative |
 |---|---|---|
-| Study | lessons replayed, dictionary, e-books | distraction in class; copying work |
-| Communication | reaches family abroad | replaces talking with those at home |
-| Money | mobile banking, price information | fraud, overdependence |
-| Health | emergency calls | sleep loss, eye strain |
+| one syllable: *large, high, hard* | larg**er**, high**er**, hard**er** | the larg**est**, high**est**, hard**est** |
+| one vowel + one consonant: *slim, big* | sli**mm**er, bi**gg**er | the sli**mm**est |
+| consonant + *-y*: *heavy, easy* | heav**ier**, eas**ier** | the heav**iest** |
+| two or more syllables: *expensive, important* | **more** expensive | **the most** expensive |
+| irregular | good → better, bad → worse, far → farther/further, little → less, many/much → more | best, worst, farthest/furthest, least, most |
 
-::: note Model answers
-**1. Give two advantages and two disadvantages of smartphones for a student.**
-Advantages: lessons can be watched again at home; a dictionary, a library and a
-calculator are always at hand. Disadvantages: notifications interrupt study;
-long screen hours disturb sleep.
-**2. What does the writer mean by "the telephone itself is neutral"?**
-That a phone has no moral quality of its own: the same device helps one person
-learn and stops another from sleeping, so what matters is how the owner uses it.
-:::
+**Patterns:** *X is heavier **than** Y.* / *X is **as** slim **as** Y.* / *X is
+**not as** expensive **as** Y.* / *the highest peak **in** the world* / *the
+best **of** all*.
 
-## 9.3 Grammar and writing tasks of the unit
+### Textbook answers
 
-### Grammar: Comparative and superlative
+**Grammar I A (adjectives in the text):**
 
-| Adjective | Comparative (two things) | Superlative (three or more) |
+| Adjective | Comparative | Superlative |
 |---|---|---|
-| cheap | cheaper than | the cheapest |
-| easy | easier than | the easiest |
-| careful | more careful than | the most careful |
-| good | better than | the best |
-| bad | worse than | the worst |
-| far | further / farther than | the furthest / farthest |
-| little | less than | the least |
-| many / much | more than | the most |
+| large | larger | largest |
+| small | smaller | smallest |
+| few | fewer | fewest |
+| expensive | more expensive | most expensive |
+| challenging | more challenging | most challenging |
+| costly | more costly / costlier | most costly / costliest |
+| social | more social | most social |
+| stimulating | more stimulating | most stimulating |
+| significant | more significant | most significant |
 
-Rules: one-syllable adjectives take *-er / -est*; adjectives of three syllables
-or more take *more / most*; two-syllable adjectives usually take *more / most*
-except those ending in *-y* (*happy → happier, happiest*). Never use both:
-*more cheaper* is always wrong.
-
-### Grammar: Adverbs of degree
-
-An adverb of degree says how strong an adjective is.
-
-| Adverb | Strength | Example |
-|---|---|---|
-| slightly | a little | The hall is **slightly** bigger. |
-| quite / rather | fairly | The test was **quite** hard. |
-| very | strong | The phone is **very** useful. |
-| extremely | very strong | It was **extremely** hot. |
-| far / much | used before a comparative | This phone is **far** cheaper **than** that one. |
-| almost / nearly | not quite | The battery is **almost** flat. |
-
-With a comparative, use *much* or *far*, never *very*: *this is **much**
-cheaper*, not *very cheaper*.
+**Grammar I B:** a. more important b. heavier c. most expensive d. slimmer
+e. more crowded f. highest g. most exciting h. worse i. harder j. most
+challenging
 
 ::: caution Common mistakes
-- *She is more taller than me.* ✗ → *She is **taller** than me.* ✓
-- *This is the most cheapest phone.* ✗ → *This is the **cheapest** phone.* ✓
-- *very better* ✗ → *much better* ✓
-- *Koshi is the bigger river in Nepal.* ✗ → *Koshi is the **biggest** river in
-  Nepal.* ✓ (three or more rivers → superlative)
+- *more better / most cheapest* ✗ → *better / cheapest* ✓ (never double)
+- *She is taller then me.* ✗ → *taller **than*** ✓
+- *Everest is the highest peak of the world.* → *in the world* is preferred
+- *the most expensive car of town* → *in town*
+- *as slim than* ✗ → *as slim **as*** ✓
 :::
 
-### Writing: An essay on technology
+## 9.3 Reading II: Smartphones in our Life
 
-Shape: paragraph 1 defines the topic; paragraph 2 gives two advantages with an
-example each; paragraph 3 gives two disadvantages with an example each;
-paragraph 4 gives a balanced conclusion and a recommendation. Use *however*,
-*on the other hand* and *whereas* to signal the turns.
+### Summary
 
-::: note Model answers to the writing tasks
-**Paragraph model (advantages).** "The strongest argument for the smartphone is
-that it carries a whole library. A student in Jumla can watch the same recorded
-lesson as a student in Kathmandu, and a farmer can check the market price
-before selling, whereas twenty years ago both had to rely on what somebody
-told them."
-:::
+- Many of us feel **scared** or **lost** without our phone; smartphones have
+  become a **vital** part of life.
+- One device lets us surf the internet and social media, check e-mail, listen
+  to music, play games, watch videos, take photos, read news, text — and make
+  calls. Twenty-five years ago some of this was impossible; life has changed
+  **drastically**.
+- **Information and communication:** we can find any information anytime,
+  anywhere, and communicate by calls, messages, e-mail and social media.
+- **Effect on thinking:** we tend to forget information we know we can find
+  again, and we search the internet instead of thinking — we are getting
+  **lazier**.
+- **Effect on behaviour:** from the morning alarm to bedtime we use the phone
+  everywhere; we are **constantly connected** and expected to be available,
+  which is convenient but **tiring**.
+- Sales of landlines, desktop computers and digital cameras have dropped; the
+  smartphone has taken their place and become our **personal assistant**.
 
-## 9.4 Talking about technology: useful vocabulary
+### Vocabulary (Exercise A)
 
-| Word | Meaning | Used in a sentence |
+a. **smartphone** b. **constantly** c. **device** d. **scared** e. **retrieve**
+f. **surf** g. **convenient** h. **impact** i. **vital** j. **drastically**
+
+### Comprehension (Exercise B) — model answers
+
+**a. How do people feel when they miss their mobile phones?** Some feel scared
+and others feel completely lost or incomplete.
+
+**b. Write any three ways of using smartphones.** To surf the internet and
+social media, to take photos and watch videos, and to make phone calls.
+
+**c. Why are we getting lazier?** Because we know we can find any information
+anytime, so we search the internet instead of thinking or remembering.
+
+**d. What is the impact of being connected all the time?** It is convenient, but
+being available all the time is tiring.
+
+**e. Why is the smartphone called a personal assistant?** Because it does the
+work of many devices — alarm clock, camera, computer, telephone — and helps us
+manage our everyday lives.
+
+## 9.4 Grammar II: Adverbs and their comparison
+
+An **adverb** tells *how, when, how often* or *to what degree*:
+*completely, importantly, drastically, constantly* (Grammar II A — all four are
+**adverbs**).
+
+| Adverb | Comparative | Superlative |
 |---|---|---|
-| device | a machine made for a purpose | *A smartphone is a device, not a toy.* |
-| application | a program for a particular task | *She uses a dictionary application offline.* |
-| notification | an alert from an application | *Turning off notifications helped him study.* |
-| screen time | the hours spent looking at a screen | *My screen time fell by half this month.* |
-| distraction | something that takes attention away | *A phone on the desk is a distraction even when silent.* |
-| cyberbullying | harassing someone online | *Cyberbullying should be reported, not answered.* |
-| privacy | the right to keep one's life to oneself | *Posting a friend's photo without asking breaks their privacy.* |
-| verify | to check that something is true | *Verify a forwarded message before you share it.* |
+| hard, fast, early, late (same form as adjective) | harder, faster, earlier, later | hardest, fastest, earliest, latest |
+| -ly adverbs: *carefully, clearly, fluently* | **more** carefully | **most** carefully |
+| well / badly | better / worse | best / worst |
 
-```figure caption="A week of screen time for two students. Both use a phone, but one of them keeps study hours phone-free — and that is the difference the marks, and the sleep, show."
-days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-a = [3.0, 2.8, 3.2, 3.0, 2.9, 4.5, 5.0]
-b = [6.5, 6.0, 6.8, 7.0, 6.4, 8.0, 8.5]
-x = np.arange(len(days))
-fig, ax = plt.subplots(figsize=(4.9, 2.9))
-ax.bar(x - 0.18, a, width=0.34, color=SERIES[0], label="Student A",
-       edgecolor="white", linewidth=0.9)
-ax.bar(x + 0.18, b, width=0.34, color=SERIES[3], label="Student B",
-       edgecolor="white", linewidth=0.9)
-ax.set_xticks(x)
-ax.set_xticklabels(days, fontsize=8.4)
-ax.set_ylabel("hours", color=MUTED, fontsize=9)
-ax.legend(fontsize=8, frameon=False)
-ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow(True)
-for s in ("top", "right"):
-    ax.spines[s].set_visible(False)
-ax.tick_params(colors=MUTED, labelsize=8.2)
-```
+### Textbook answers (Grammar II B)
 
-::: note Activity — a week of your own data
-For seven days, write down your own screen time each night (most phones report
-it). Draw a bar chart like the one above. Then write a paragraph of about 80
-words: what the chart shows, which day was worst, and one change you will make.
-**Speaking:** present your chart to the class in one minute, using the
-expressions *it rose, it fell, it stayed about the same, the highest was …*
+a. more carefully b. harder … hardest c. most beautifully d. more clearly
+e. earlier f. fastest g. better … best h. more fluently i. later j. more
+seriously
+
+## 9.5 Writing I: A paragraph comparing two places
+
+Organise by **points** (location, size, people, attractions), comparing both
+villages in each sentence. Use *both, while, whereas, similarly, unlike,
+larger than*.
+
+::: example Model answer — Bhujung and Bhada
+**Problem.** Write a description of Bhujung and Bhada villages, comparing them.
+
+**Solution.** Bhujung and Bhada are both popular village tourist destinations of
+Nepal, but they are different in many ways. Bhujung is a typical Gurung village
+in the hills of Lamjung at an altitude of about 1,700 metres, whereas Bhada is a
+typical Tharu settlement in the plains of Kailali, about 12 kilometres from the
+district headquarters. Bhujung is larger, with around 500 households, while
+Bhada has around 200 houses.
+
+Both villages offer homestay services and warm hospitality. In Bhujung, tourists
+enjoy Gurung culture, clean streets, traditional mud-and-stone houses with tile
+roofs, terraced fields, green forests and stunning mountain views. In Bhada, on
+the other hand, visitors experience the Tharu way of life, taste Tharu dishes
+such as dhikri, ghonghi and crab, and watch dances like Lathwa, Jhumra and
+Sakhiya. Bhada also has Joginya and Sahadeva lakes and the Rameshwar Temple,
+and the best time to visit it is from mid-September to mid-December. In short,
+Bhujung is ideal for mountain scenery, while Bhada is perfect for culture and
+food of the plains.
 :::
 
-::: example A balanced argument in four sentences
-> *A smartphone is the cheapest library a village student has ever had.*
-> *With it a child in Humla can read the same book as a child in Kathmandu,
-> look up a word, or watch a lesson she missed.*
-> *But the same device sells attention: a short video is designed to be
-> followed by another, and an hour disappears without a page being read.*
-> *The answer is not to throw the phone away but to put it in a drawer during
-> study hours — a rule about time, not about technology.*
+## 9.6 Writing II: Essay — life before and after the internet
 
-Notice the shape: **claim → evidence → counter-claim → resolution.** Any
-four-mark argument can be built on it.
+::: example Model answer — Life Before and After the Internet
+The internet is one of the greatest inventions of modern times. It has changed
+the way we communicate, learn, work and enjoy ourselves.
+
+**Communication.** Before the internet, people wrote letters that took weeks to
+arrive, or made expensive telephone calls. Today, we can send messages, e-mails
+and video calls to any part of the world in seconds, almost free of cost.
+
+**Learning and information.** In the past, students depended on textbooks,
+teachers and libraries. Now, information on almost any topic is available
+online, and students can join online classes. However, much online information
+is not reliable, so we must check it carefully.
+
+**Work, shopping and banking.** Earlier, people had to stand in long queues to
+pay bills or transfer money. Now, online banking and digital wallets make these
+tasks faster and easier, and many people work from home.
+
+**Social life.** People used to meet friends face to face more often. Today,
+social media keeps us connected, but many people spend less time with their
+families and suffer from screen addiction.
+
+In conclusion, the internet has made life faster and more convenient than
+before, but it must be used wisely and in moderation.
 :::
+
+## 9.7 Speaking, pronunciation and project work
+
+**Comparing (speaking):** *An elephant is bigger than a tiger. A bicycle isn't
+as expensive as a motorcycle. An aeroplane is faster than a train. A crocodile
+isn't as slow as a snail.*
+
+**College words — stress:** a'cademy, 'campus, 'faculty, 'lecture,
+'library, gradu'ation, a'lumni, 'scholarship, 'dormitory, se'mester,
+'freshman, tu'ition.
+
+**Project work:** survey your classmates on what they use mobile phones for
+(calls, study, games, social media, videos) and show the results in a bar graph
+or pie chart.
 
 ## Chapter summary
 
-- School and college differ in supervision, breadth, the contact between
-  teacher and student, and the freedom given.
-- The students who find the leap hardest are those who were supervised the most
-  closely in school.
-- A discursive essay presents advantages, then disadvantages, then a balanced
-  conclusion.
-- A smartphone is a telephone, library, market, bank and classroom at once — and
-  also a source of distraction, cost and lost privacy.
-- **Comparative** compares two things (*cheaper than*); **superlative** compares
-  three or more (*the cheapest*).
-- Irregulars: *good → better → best*; *bad → worse → worst*; *far → further →
-  furthest*.
-- Never use *more* with *-er*, and never use *very* before a comparative — use
-  *much* or *far*.
-- Adverbs of degree: *slightly, quite, rather, very, extremely, almost, nearly*.
+- College vs high school: more cost (tuition, residence, books), more workload
+  (more and harder assignments, grade pressure), more social life (sports,
+  clubs, facilities).
+- Smartphones: one device for everything; easy information makes us lazier;
+  constant connection is tiring; they replaced landlines, desktops and cameras.
+- Comparatives: *-er* / *more*; superlatives: *the -est* / *the most*; irregular
+  *good–better–best, bad–worse–worst*.
+- *than*; *as … as*; *not as … as*; never *more better*.
+- Adverbs: *hard–harder*, *carefully–more carefully*, *well–better–best*.
+- Comparison writing: point by point, with *whereas, while, both, unlike*.
 
 ## Practice questions
 
 **Reading**
 
-1. Name four things that change between school and college. <span class="marks">[4]</span>
-2. Give two advantages and two disadvantages of smartphones. <span class="marks">[4]</span>
-3. Why does the writer say "the telephone itself is neutral"? <span class="marks">[2]</span>
+1. Answer from the texts. <span class="marks">[5]</span>
+   (a) Name the three ways in which college differs from high school.
+   (b) Why do high school students have no living expenses? (c) What is the
+   first thing we do in the morning with our phones? (d) Which devices have
+   lost sales because of smartphones? (e) What did the writer say about life 25
+   years ago?
 
-::: note Answers
-**1.** Freedom and responsibility; depth instead of breadth; the teacher's
-knowledge of the student; and the way friends are chosen.
-**2.** Advantages: it carries lessons, books, a dictionary and a bank at all
-times; it connects families separated by work abroad. Disadvantages:
-notifications interrupt study; long screen hours damage sleep, eyesight and
-posture, and social comparison raises anxiety.
-**3.** Because the device has no moral quality of its own — the same phone helps
-one student learn and stops another from sleeping. What matters is the owner's
-choices.
+::: note Answers — Reading
+**1.** (a) Cost, workload and social activities. (b) Most of them live at home
+with their parents. (c) Turn off the alarm clock. (d) Landline phones, desktop
+computers and digital cameras. (e) Some of today's smartphone activities were
+not even possible then.
 :::
 
 **Grammar**
 
-4. Fill in the correct form of the adjective. <span class="marks">[5]</span>
-   (a) My bag is ______ (heavy) than yours.
-   (b) Everest is the ______ (high) mountain in the world.
-   (c) This is the ______ (good) answer in the class.
-   (d) Health is ______ (important) than money.
-   (e) His handwriting is ______ (bad) than mine.
+2. Use the correct form. <span class="marks">[5]</span>
+   (a) Mount Everest is (high) mountain in the world. (b) This book is (good)
+   than that one. (c) Ram runs (fast) than Hari. (d) She is (intelligent)
+   student in the class. (e) Today is (bad) day of my life.
 
-::: note Answers
-**4.** (a) heavier (b) highest (c) best (d) more important (e) worse
+::: note Answers — Grammar
+**2.** (a) the highest (b) better (c) faster (d) the most intelligent (e) the
+worst
 :::
 
 **Writing**
 
-5. Write an essay of about 150 words on the advantages and disadvantages of
-   the internet for students. <span class="marks">[5]</span>
-6. Compare your primary school with your present school in about 100 words,
-   using at least three comparatives. <span class="marks">[4]</span>
+3. Write a paragraph comparing village life and city life. <span class="marks">[5]</span>
 
-::: note Answers
-**5.** Paragraph 1: what the internet is for a student. Paragraph 2: two
-advantages, each with an example. Paragraph 3: two disadvantages, each with an
-example. Paragraph 4: a balanced conclusion with one practical rule.
-**6.** Use comparatives such as "bigger than", "more crowded than", "further
-from home than", and at least one superlative ("the strictest teacher I have
-had"). Finish with which school suited you better and why.
-:::
-
-**Extra practice**
-
-**Group B (2 marks each)**
-
-**11.** Use *verify* and *distraction* in sentences of your own.
-**12.** Rewrite in the passive: *Students use smartphones for research.*
-
-**Group C (4 marks)**
-
-**13.** Write a paragraph (about 120 words) on *Smartphones in Our Life*, using the
-    claim–evidence–counter-claim–resolution shape.
-
-::: note Extra practice — answers
-**11.** e.g. *Always verify a news photograph before forwarding it.* /
-*The notification light was a constant distraction during the test.*
-**12.** *Smartphones are used by students for research.*
-**13.** Marks: a clear claim; at least two concrete pieces of evidence (offline
-dictionaries, recorded lessons, payments, emergency calls); a genuine
-counter-claim (lost study hours, poor sleep, cyberbullying, false
-information); and a resolution that is specific (fixed phone-free hours, no
-phone at night, verify before sharing) rather than a slogan.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** *Screen time* means
-   (a) cinema time (b) hours spent looking at a screen (c) break time (d) study time
-**2.** Harassing someone online is called
-   (a) cyberbullying (b) surfing (c) streaming (d) browsing
-**3.** Before forwarding a message you should
-   (a) verify it (b) add your name (c) delete the date (d) translate it
-**4.** *A phone on the desk is a distraction even when silent* — *distraction* means
-   (a) attraction (b) something that takes attention away (c) an alarm (d) an application
-**5.** Posting a friend's photo without asking breaks their
-   (a) privacy (b) screen time (c) notification (d) password
-
-::: note Objective practice — answers
-**1.** (b) — hours spent looking at a screen. **2.** (a) — cyberbullying. **3.** (a) — verify it. **4.** (b) — something that takes attention away. **5.** (a) — privacy.
+::: note Answer — Writing
+**3.** Topic sentence; at least three points (environment, facilities, cost of
+living, people's relations), each compared using *whereas / while / than*; a
+concluding sentence with your preference.
 :::

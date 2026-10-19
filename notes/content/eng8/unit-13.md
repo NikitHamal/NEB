@@ -7,380 +7,317 @@ hours: 0
 area: Units
 ---
 
-The first text is a **data text**: it reports a result in numbers, and shows
-them in a chart. Reading it means reading the figures as carefully as the
-sentences. The second is a **one-act drama** — a short play written to be acted,
-with a setting, a list of characters, dialogue and stage directions. Between
-them they teach the two things this unit's grammar is about: how much and how
-many, and how to express quantity exactly.
+Unit 13 is about **reading and presenting information** and about **helping
+others**. Reading I is a report from the National Trust for Nature Conservation
+(NTNC) on how Nepal became the first country to double its wild tiger
+population. Reading II is a short play, *A Mousetrap*, in which farm animals
+refuse to help a frightened mouse — and pay for it. The grammar is
+**quantifiers** (*much, many, some, any, a few, a little…*) and a review of
+**present tenses**. In writing you interpret a chart and describe a process
+from a flowchart.
 
-::: key What this unit asks of you
-By the end you should be able to (1) read a table or graph and describe what it
-shows, (2) write a description of data without copying the numbers in the order
-they appear, (3) explain how a drama differs from a story, and (4) use *much,
-many, some, any, a few, a little, a lot of, plenty of* correctly.
+::: key What the exam asks from this unit
+(1) Read numbers and trends from a report or chart. (2) Use quantifiers with
+countable and uncountable nouns, *some* in positive sentences and *any* in
+questions and negatives. (3) Choose present simple, present continuous, present
+perfect or present perfect continuous. (4) Describe a chart (overview → main
+figures → comparison) and a process (passive voice, sequence words).
 :::
 
-```photo id="eng8/bengal-tiger" caption="A royal Bengal tiger in Chitwan National Park. Nepal's camera-trap surveys identify each animal by its stripe pattern, which is unique to that tiger." width="92"
+```photo id="eng8/bengal-tiger" caption="A Royal Bengal tiger in Chitwan National Park. In Nepal's surveys, camera traps identify each tiger by its stripe pattern, which is unique." width="92"
 ```
 
-## 13.1 Nepal is the First Country to Double its Tiger Population
+## 13.1 Reading I: Nepal is the first country to double its tiger population
 
-### About the text
+### Summary
 
-The text is **reporting writing** about a conservation result. It states the
-achievement, gives the numbers behind it, explains how the count was made, and
-says why the result matters beyond Nepal.
+- Nepal's **fourth tiger and prey survey** began in December (2021), led by the
+  **DNPWC** and the **Department of Forests and Soil Conservation**. Surveys are
+  held every four years.
+- Earlier counts: **121 (2009), 198 (2013), 235 (2018)**. The 2022 count
+  (announced on 29 July 2022, Global Tiger Day) was **355** — nearly **three
+  times** the 2009 figure.
+- Dr. Chiranjibi P. Pokharel of NTNC calls this "historical": tigers are **apex
+  predators** at the top of the **food chain**, so their numbers show the health
+  of forests and ecosystems.
+- A century ago about **100,000** tigers lived in Asia; by 2010 they had fallen
+  by **97%** to about **3,200**, mainly because of **habitat loss and
+  poaching**. In 2010 the **13 tiger-range countries** signed the **St.
+  Petersburg Declaration** (Russia), pledging to double tigers by 2022
+  (**TX2**).
+- Nepal's steps: new habitat (**Banke National Park**, extension of **Parsa
+  National Park**); the **National Tiger Conservation Committee** chaired by the
+  **Prime Minister**; **Wildlife Crime Control Bureau** units from centre to
+  district; **over 450 community-based anti-poaching units**; partnerships and
+  investment from national and international **stakeholders**.
+- Future threats: poaching, illegal wildlife trade, climate change,
+  human–tiger conflict. Needed: protect prey (gaur, swamp deer, sambar, nilgai,
+  wild buffalo), involve communities, use good science, make development
+  **wildlife-friendly**, and manage **corridors** linking habitats.
 
-### What the text says
+(The textbook misprints NTNC as the "National Trust for Nature
+*Conversation*"; it is **Conservation**.)
 
-In 2010 the thirteen countries that share the tiger's range met in St
-Petersburg and set themselves a target — **TX2**: to double the number of wild
-tigers by 2022, the next Chinese Year of the Tiger. In 2022 Nepal announced that
-it had reached the target, the first of the thirteen countries to do so.
-
-The numbers behind the announcement come from the **National Tiger and Prey
-Survey**. Nepal's estimate rose from about **121 tigers in 2009** to about
-**198 in 2013**, then to **235 in 2018**, and to **355 in 2022** — close to
-three times the 2009 figure. The survey is not a single census: teams walk
-transects, record signs and prey animals, and combine the photographs from
-hundreds of camera traps, using the stripe pattern of each animal, which is
-unique to that tiger, to identify individuals.
-
-| Survey year | Estimated tigers in Nepal |
-|---|---|
-| 2009 | about 121 |
-| 2013 | about 198 |
-| 2018 | about 235 |
-| 2022 | about 355 |
-
-Three things made the result possible. First, **protected areas were enlarged
-and connected**: Chitwan, Bardia, Banke, Shuklaphanta and Parsa national parks
-and the forests between them, linked by corridors so that a young tiger can
-walk from one park to another. Second, **prey and habitat were restored** —
-grassland managed by cutting and burning, wetlands cleared of invasive plants,
-and community forests handed to local user groups. Third, **poaching was
-suppressed** by anti-poaching units, informer networks and joint patrols with
-the army and the community, with zero-poaching years achieved in several parks.
-
-The success is real and incomplete. Tigers need about 100 square kilometres
-each, so a growing population presses against the boundary of every park;
-livestock and people are killed each year at the edges. A tiger may be worth a
-great deal to tourism, but it is worth more to the ecosystem as an **apex
-predator**, keeping the numbers of deer and wild boar in balance and so keeping
-the forest the way it is. The question the report leaves the reader with is
-whether the next decade can hold the number steady while also keeping the people
-who live beside the parks safe.
-
-```figure caption="The TX2 result in one picture. Nepal's estimate rose from about 121 tigers in 2009 to about 355 in 2022 — and the surveys behind the figures are counts of individuals identified by their stripes, not guesses."
-fig, ax = plt.subplots(figsize=(4.9, 2.6))
+```figure caption="Tiger numbers in Nepal from the four national surveys. 2009 to 2022: 121 → 355, almost three times."
+fig, ax = plt.subplots(figsize=(4.6, 2.8))
 years = ["2009", "2013", "2018", "2022"]
 vals = [121, 198, 235, 355]
-bars = ax.bar(years, vals, width=0.55, color=[SERIES[1], SERIES[1], SERIES[1], ACCENT])
+bars = ax.bar(years, vals, color=[SERIES[0]]*3 + [ACCENT], width=0.55)
 for b, v in zip(bars, vals):
-    ax.text(b.get_x() + b.get_width() / 2, v + 8, str(v), ha="center",
-            fontsize=7.5, color=INK, fontweight="bold")
-ax.set_ylabel("estimated tigers", fontsize=8)
-ax.tick_params(labelsize=8)
+    ax.text(b.get_x() + b.get_width()/2, v + 8, str(v), ha="center",
+            fontsize=8.5, color=INK)
+ax.set_ylabel("Number of tigers", fontsize=8.5, color=INK)
 ax.set_ylim(0, 400)
-ax.spines[["top", "right"]].set_visible(False)
-ax.grid(axis="y", color=GRID, linewidth=0.6)
+ax.spines[['top', 'right']].set_visible(False)
+ax.tick_params(labelsize=8.5)
+ax.grid(axis="y", color=GRID, lw=0.6)
 ax.set_axisbelow(True)
 fig.tight_layout()
 ```
 
-### Describing data
+### Vocabulary (Exercise A)
 
-A description of data does **not** walk through the table row by row. It does
-four things:
+a–iv (nationwide), b–vi (intricately), c–ii (poaching), d–i (enforcement),
+e–iii (coexistence), f–v (dispersal)
 
-1. **The overall direction** first: *The number of tigers rose steadily between
-   2009 and 2022.*
-2. **The starting point and the end point**, with the change: *from about 121 to
-   about 355, an increase of about 234.*
-3. **The sharpest movement**: *The largest jump came between 2018 and 2022, when
-   the estimate rose by about 120.*
-4. **The reason or the conclusion**: *The increase followed the linking of
-   protected areas and the suppression of poaching.*
+### Gap filling (Exercise B)
 
-Words you will need: *rose, increased, went up, fell, decreased, dropped,
-remained steady, doubled, nearly tripled, peaked, the highest, the lowest,
-whereas, compared with*.
+a. **235** b. **food** c. **the Prime Minister** d. **stakeholders**
+e. **wildlife-friendly**
 
-### Vocabulary
+### Comprehension (Exercise C) — model answers
 
-| Word | Meaning |
-|---|---|
-| estimate | a figure worked out from samples rather than counted exactly |
-| census | an official count of every individual |
-| transect | a fixed line along which a survey team records what it finds |
-| camera trap | a camera that photographs an animal as it passes |
-| corridor | a strip of habitat that lets animals move between two areas |
-| apex predator | the animal at the top of the food chain |
-| poaching | illegal hunting |
+**a. How many tiger surveys have been conducted?** Four — in 2009, 2013, 2018
+and the fourth begun in December 2021.
 
-::: note Model answers
-**1. How do scientists know how many tigers there are?**
-They walk transects and record signs and prey, and they set hundreds of camera
-traps. Because every tiger's stripe pattern is unique, each photographed animal
-can be identified as an individual, and the number of different individuals gives
-the estimate.
-**2. Why is a tiger called an apex predator, and why does that matter?**
-Because nothing hunts it. It controls the numbers of deer and wild boar, and so
-protects the vegetation they would otherwise overgraze — removing it changes the
-whole forest.
-:::
+**b. What was the percentage of tigers in 2010 in Asia?** The population had
+fallen by 97%, so only about **3%** of the tigers of a century earlier were
+left — about 3,200.
 
-## 13.2 Drama: A Mousetrap
+**c. When was the St. Petersburg Declaration made?** In 2010.
 
-### About the text
+**d. Mention one initiative Nepal adopted.** It established Banke National Park
+and extended Parsa National Park to give tigers more habitat. (Also: the
+committee chaired by the Prime Minister, WCCB units, over 450 community
+anti-poaching units.)
 
-The second text is a **one-act drama** — a short play. Drama is written to be
-**performed**, not read silently, and that single fact explains almost every
-difference between a play and a story.
+**e. What are the threats to tiger conservation?** Poaching, illegal wildlife
+trade and the impacts of climate change (also human–tiger conflict and loss of
+habitat).
 
-| Feature | A story | A drama |
+## 13.2 Writing I: Interpreting charts, graphs and tables
+
+**Plan:** (1) *Introduction* — what the chart shows, where and when. (2)
+*Overview* — the main trend in one sentence. (3) *Details* — highest, lowest,
+key numbers, comparisons. (4) *Conclusion* (optional). Use the trend
+vocabulary below and do **not** give opinions not supported by the data.
+
+| Trend | Verbs / nouns | Adverbs |
 |---|---|---|
-| How it tells | the narrator describes and explains | the characters speak and act |
-| How you learn about a character | the narrator tells you | you infer it from what they say and do |
-| Setting | described in the text | given in the stage directions and the set |
-| Time | can jump about freely | happens in front of the audience, in order |
-| What carries the meaning | description and comment | dialogue, pause, movement, silence |
-| The reader's job | to follow a narrator | to imagine watching |
+| up | rise, increase, climb, grow, shoot up, a rise | sharply, rapidly, steadily, gradually |
+| down | fall, decrease, drop, decline, a fall | slightly, considerably, dramatically |
+| no change | remain stable / steady / constant | — |
 
-In a play, the **stage directions** matter as much as the dialogue. When a
-direction says *(pause)*, or *(she turns away)*, or *(the lights go down)*, it
-is telling the actor how the line is meant. A line that reads flatly on the page
-can be a joke, a threat or a sadness, and the stage direction decides which.
+::: example Model answer — Tiger numbers in Nepal (the bar graph above)
+The bar graph shows the number of wild tigers in Nepal in the four national
+surveys from 2009 to 2022. Overall, the number rose steadily and almost tripled
+over the period.
 
-Every drama contains a **conflict** — a problem that the characters struggle
-with — and the conflict is what makes the audience stay. It can be between two
-people, between a person and a situation, or inside one person.
-
-### Vocabulary
-
-| Word | Meaning |
-|---|---|
-| drama | a play, written to be performed by actors |
-| dialogue | the words the characters speak |
-| stage direction | a note in the script telling the actor or the director what to do |
-| scene | a division of a play marked by a change of place or time |
-| conflict | the struggle between opposing forces in a play or story |
-| mousetrap | a trap for catching mice — here, the title's central image |
-
-::: note Model answers
-**1. How is a drama different from a story?**
-In a story a narrator describes the events and tells the reader what characters
-are like; in a drama the characters speak and act, and the reader learns what
-they are like from their dialogue and their behaviour.
-**2. Why are stage directions important?**
-Because they tell the actor how a line is meant to be spoken and where the
-character moves, so they decide whether a line is funny, threatening or sad.
-Without them the same words could be performed in completely different ways.
+In 2009 there were only 121 tigers. The number increased sharply to 198 in 2013,
+and then rose slightly to 235 in 2018. The largest jump came between 2018 and
+2022, when it shot up by 120 to 355. Thus Nepal more than doubled its tiger
+population and achieved its TX2 target.
 :::
 
-## 13.3 Grammar and writing tasks of the unit
+The textbook's Writing I chart (men and women studying engineering) appears as
+a picture; use the same plan — e.g. *"The chart shows the number of male and
+female engineering students… Men outnumber women in every year, but the number
+of women is rising gradually…"*
 
-### Grammar: much, many, some, any, and expressing quantity
+## 13.3 Grammar I: Quantifiers — much/many, some/any
 
-| Word | Used with | In which sentences | Example |
-|---|---|---|---|
-| many | countable plurals | questions and negatives (and formal positives) | How **many** tigers are there? |
-| much | uncountable nouns | questions and negatives | There isn't **much** water. |
-| a lot of / lots of | both | all kinds of sentence | **A lot of** birds come here. |
-| some | both | positive sentences; offers and requests | We saw **some** deer. |
-| any | both | negatives and questions | We didn't see **any** tigers. |
-| a few / few | countable plurals | *a few* = some; *few* = almost none | **A few** visitors came. |
-| a little / little | uncountable | *a little* = some; *little* = almost none | There is **a little** hope. |
-| plenty of | both | more than enough | There is **plenty of** grassland. |
-| each / every | singular countable | all of a group, taken one by one | **Every** park has a boundary. |
+| With countable nouns (*eggs, tomatoes*) | With uncountable nouns (*milk, work, time*) | With both |
+|---|---|---|
+| many, a few, few, several, each, either, neither, both, fewer | much, a little, little, a bit of, less | some, any, a lot of, lots of, enough, all, most, no, more |
+
+- **some** in positive sentences and in **offers/requests**: *Would you like
+  some tea?* **any** in negatives and questions: *Did you see any friends?*
+- **much** mostly in negatives/questions: *Do we have much time?* In positive
+  sentences prefer **a lot of**: *I used to drink a lot of milk.*
+- **no** = not any: *There's **no** milk.* (not *There's not no milk*).
+- **a few / a little** = some (positive); **few / little** = almost none
+  (negative feeling).
+
+### Textbook answers (Grammar I B)
+
+a. no b. less c. some d. enough e. a lot of f. a lot of g. some (*much* cannot
+go with countable *eggs*; *any* would be the most natural) h. some
 
 ::: caution Common mistakes
-- *How much tigers are there?* ✗ (tigers are countable) → *How **many** tigers
-  are there?* ✓
-- *There are much people.* ✗ → *There are **many** people.* / *There are **a lot
-  of** people.* ✓
-- *I have some money?* ✗ as a question → *Do you have **any** money?* ✓
-- *Few people came* (= almost nobody) is not the same as *A few people came*
-  (= some people). ✓ Note the difference: it changes the meaning.
+- *many milk / much books* ✗ → *much milk, many books* ✓
+- *less people* → *fewer people* (countable) ✓
+- *I have some money? / I don't have some money* ✗ → *Do you have **any**
+  money? / I don't have **any** money* ✓
 :::
 
-### Writing: Describing data and presenting it in a graph
+## 13.4 Reading II: Drama — A Mousetrap
 
-For a data question: write the overall trend first, then the figures that prove
-it, then one exception or turning point, then the conclusion. If you must draw
-the graph, label both axes, give the graph a title, and choose a scale that uses
-the paper — a bar chart for separate years, a line graph for a trend over time.
+### Characters and plot
 
-::: note Model answers to the practice questions
-**Data description model.** "The number of tigers in Nepal rose in every survey
-between 2009 and 2022. It began at about 121 and ended at about 355, an
-increase of about 234, or nearly three times the original estimate. The largest
-single rise came between 2018 and 2022, when about 120 animals were added,
-whereas the rise between 2013 and 2018 had been only about 37. The survey
-figures are estimates from camera-trap photographs, not exact counts."
+**Characters:** Man, Woman, Doctor, Mouse, Chicken, Lamb, Buffalo.
+
+1. A mouse peeps through the wall as a man and a woman open a package — it is a
+   **mousetrap**. The horrified mouse runs to warn the others.
+2. The **chicken**: "it is a big problem for you, but I don't care."
+3. The **lamb**: "the mousetrap is not for me… I can only pray."
+4. The **buffalo**: "That won't hurt me. Am I in danger? I don't think so."
+5. That night the trap catches the **tail of a deadly snake**; in the dark the
+   woman goes to look and the snake **bites** her. She faints; the doctor
+   advises **chicken soup** for her fever — the chicken is cooked.
+6. Friends and neighbours visit; to feed them the man cooks the **lamb**.
+7. When she recovers, the couple hold a party for well-wishers and the
+   **buffalo** becomes "the main dish".
+8. Only the mouse is saved. **Moral:** help others when they ask, because we
+   never know when we will be in the same situation; a problem for one member
+   of a community is a problem for all.
+
+**Features of drama:** a list of characters; **dialogue** with the speaker's
+name in capitals; **stage directions** in brackets and italics, describing
+actions and setting (*The woman fainted. The man called the doctor.*).
+
+### Vocabulary (Exercise A)
+
+a. **package** – a parcel; something wrapped for sending or carrying b. **worried**
+– anxious, unhappy about a problem c. **ingredient** – one of the things used to
+make a dish d. **delicious** – very tasty e. **celebrate** – mark a happy event with
+a party or ceremony
+
+### Order of events (Exercise B)
+
+**c → g → a → b → e → f → d**
+
+### Comprehension (Exercise C) — model answers
+
+**a. Why was the mouse shocked?** Because the package was a mousetrap, and he
+was afraid he would be trapped and killed.
+
+**b. Who did the mouse tell about the mousetrap?** The chicken, the lamb and
+the buffalo.
+
+**c. What did the lamb reply?** That the mousetrap was not for him, there was
+nothing he could do, but he would pray for the mouse.
+
+**d. What happened to the woman in the dark?** A deadly snake caught in the trap
+bit her, and she fainted.
+
+**e. Why did the couple kill the buffalo?** To feed their friends and neighbours
+at the party they gave to celebrate the woman's recovery.
+
+## 13.5 Grammar II: Present tenses (review)
+
+| Tense | Form | Use | Signal words |
+|---|---|---|---|
+| Present simple | V / V-s | habits, facts, states | always, every day, usually |
+| Present continuous | am/is/are + V-ing | happening now; temporary | now, Look!, Listen!, at the moment |
+| Present perfect | has/have + V3 | result now; experience | just, already, yet, ever |
+| Present perfect continuous | has/have been + V-ing | started in the past and still continuing | for, since, all day |
+
+**Stative verbs** (*know, belong, remember, like, want*) are not normally used
+in continuous forms: *We **know** him well* (not *are knowing*).
+
+### Textbook answers
+
+**Grammar II A:** a. is – present simple b. shows – present simple c. Look –
+imperative; is running – present continuous d. 've found – present perfect
+e. 'd been studying – past perfect continuous; were born – past simple
+
+**Grammar II B:** a. i give b. i are c. i get up d. ii is raining e. iii has
+cleaned f. ii is playing g. iv have been living (iii *have lived* also
+acceptable) h. i reads i. i know j. i remembers
+
+**Grammar II C:** a. belongs b. is calling c. play d. is taking e. is carrying
+f. have lost g. has been dancing h. Have … heard i. am living j. has been
+teaching (or *has taught*)
+
+## 13.6 Writing II: Describing a process from a flowchart
+
+Use the **passive voice** (the doer is not important) and **sequence words**
+(*first, then, next, after that, finally*).
+
+::: example Model answer — Making orange juice (textbook Writing I)
+The flowchart shows how orange juice is made. First, the oranges are received
+from the farms or the market. Then the best oranges are selected and the bad
+ones are thrown away. After that, the selected oranges are cleaned thoroughly.
+Next, the juice is extracted from the oranges, and it is filtered to remove the
+seeds and pulp. Finally, the fresh juice is served in a glass.
 :::
 
-## 13.5 Writing about data and conservation
+The tea process (Speaking B) can be described the same way: *First, the tea
+leaves are **picked**. Then they are **withered**, **fermented** and **dried**.
+After that, they are **sorted**, and finally the tea is **stored and packed**.*
 
-Conservation questions almost always come with a number. Using it well is what
-separates a four-mark answer from a two-mark one.
+## 13.7 Speaking, pronunciation and project work
 
-```figure caption="Nepal's wild tiger count. A number used in an answer should always carry its year and its source — that is what makes it evidence rather than decoration."
-yrs = ["2009", "2013", "2018", "2022"]
-tigers = [121, 198, 235, 355]
-fig, ax = plt.subplots(figsize=(5.0, 2.8))
-ax.plot(yrs, tigers, color=SERIES[2], marker="o", markersize=6, linewidth=2.2)
-ax.fill_between(range(len(yrs)), tigers, color=SERIES[2], alpha=0.14)
-for i, v in enumerate(tigers):
-    ax.text(i, v + 12, str(v), ha="center", color=INK, fontsize=9)
-ax.set_ylabel("wild tigers", color=MUTED)
-ax.set_ylim(0, 420)
-ax.grid(axis="y", color=GRID, linewidth=0.7)
-ax.set_axisbelow(True)
-for s in ("top", "right"):
-    ax.spines[s].set_visible(False)
-ax.tick_params(colors=MUTED)
-```
+**Reading a table (Speaking A):** *Which is the largest state? — Texas
+(695,621 km²). Which state has the most people? — California (34 million).
+Which became a state first? — New York (1788).*
 
-| Weak sentence | Stronger sentence |
-|---|---|
-| *Tigers have increased a lot.* | *Nepal's wild tiger count rose from 121 in 2009 to 355 in 2022.* |
-| *Community forestry is good.* | *Community forests now cover about a third of Nepal's forest area and are managed by nearly 23,000 user groups.* |
-| *People and tigers have problems.* | *As the count rose, so did encounters: conservation now has to protect people as well as tigers.* |
+**Words for charts:** 'constant, 'rising, trend, a'scend, de'scend,
+de'crease (verb) / 'decrease (noun), de'cline, 'steadily, 'rapidly,
+pro'portion.
 
-::: example A four-mark answer built on evidence
-**Question.** How did Nepal double its tiger population? Write four points.
-
-**Answer.** (i) **Protection** — soldiers and rangers patrolled the Tarai
-parks, and anti-poaching units worked with local informers, so poaching fell
-to near zero in several years. (ii) **Habitat corridors** — community forests
-joined Chitwan, Bardiya, Parsa, Banke and Shuklaphanta, so young tigers could
-move and find territory instead of dying at the edges. (iii) **Local benefit**
-— village programmes compensated livestock losses and shared tourism income,
-so farmers reported tigers instead of poisoning them. (iv) **Measurement** —
-camera-trap surveys every four years showed the count rising from 121 in 2009
-to 355 in 2022, which kept the funding and the policy in place.
-:::
-
-::: note Activity — a conservation fact file
-Choose one protected species of Nepal (one-horned rhinoceros, snow leopard,
-red panda, gharial, Bengal florican). Make a one-page fact file: where it
-lives, how many are left, the main threats, what is being done, and one
-sentence on what a student can do. Use at least two numbers with their years.
-:::
+**Project work:** count the boys and girls in classes 6–8 and draw a bar graph.
 
 ## Chapter summary
 
-- Nepal was the first of the thirteen tiger-range countries to double its wild
-  tiger population under the **TX2** target set in 2010.
-- The estimates rose from about 121 tigers in 2009 to about 355 in 2022.
-- The figures come from the National Tiger and Prey Survey, which identifies
-  individual tigers by their unique stripe patterns in camera-trap photographs.
-- The increase followed the linking of protected areas, the restoration of prey
-  and grassland, and the suppression of poaching.
-- The success brings a new problem: tigers need large territories, so a growing
-  population presses against the parks' boundaries.
-- A **drama** is written to be performed; the audience learns about characters
-  from dialogue and stage directions, not from a narrator.
-- A data description gives the overall trend first, then the figures, then the
-  turning point, then the conclusion.
-- **many** with countable plurals; **much** with uncountables; **some** in
-  positives; **any** in negatives and questions; **a few / a little** = some,
-  **few / little** = almost none.
+- Nepal's tigers: 121 (2009) → 198 (2013) → 235 (2018) → 355 (2022); TX2
+  target from the 2010 St. Petersburg Declaration; Banke NP, Parsa extension,
+  PM-chaired committee, WCCB, 450+ anti-poaching units.
+- Drama *A Mousetrap*: chicken, lamb and buffalo refuse to help and are all
+  eaten; moral — help others in need.
+- Countable: many, a few, fewer; uncountable: much, a little, less; both:
+  some, any, a lot of, enough, no.
+- *some* in positives and offers; *any* in negatives and questions.
+- Describing a chart: introduction, overview, details with numbers, trend words.
+- Process description: passive + *first, then, next, finally*.
 
 ## Practice questions
 
 **Reading**
 
-1. What was the TX2 target and who set it? <span class="marks">[2]</span>
-2. How is a tiger survey actually carried out? <span class="marks">[3]</span>
-3. Give two problems that come with a growing tiger population. <span class="marks">[2]</span>
-4. How is a drama different from a story? Give two differences. <span class="marks">[2]</span>
+1. Answer from the texts. <span class="marks">[5]</span>
+   (a) Who led the fourth tiger survey? (b) What does TX2 mean? (c) How many
+   tiger-range countries signed the 2010 declaration? (d) What did the doctor
+   suggest for the woman? (e) Which animal was saved at the end?
 
-::: note Answers
-**1.** It was the target, agreed in 2010 at St Petersburg by the thirteen
-tiger-range countries, of doubling the number of wild tigers by 2022; Nepal was
-the first country to reach it.
-**2.** Survey teams walk fixed transects recording signs and prey animals, and
-hundreds of camera traps photograph tigers as they pass; because each tiger's
-stripe pattern is unique, every photographed animal can be identified as an
-individual, and the number of different individuals gives the estimate.
-**3.** Tigers need very large territories, so a growing population moves beyond
-the parks, and livestock and people are attacked at the edges.
-**4.** A drama is written to be performed and tells its story through dialogue
-and stage directions, while a story is told by a narrator; and the reader of a
-drama must infer what a character is like, while a story can state it.
+::: note Answers — Reading
+**1.** (a) The DNPWC and the Department of Forests and Soil Conservation.
+(b) Doubling the wild tiger population by 2022. (c) Thirteen. (d) Chicken soup.
+(e) The mouse.
 :::
 
 **Grammar**
 
-5. Fill in *much, many, some, any, a few* or *a little*. <span class="marks">[5]</span>
-   (a) How ______ tigers are left in the park?
-   (b) We did not see ______ deer today.
-   (c) There is ______ water left in the bottle.
-   (d) ______ visitors came in the morning.
-   (e) There isn't ______ grass in the enclosure.
+2. Fill in with *much, many, some, any, a few* or *a little*. <span class="marks">[5]</span>
+   (a) How ___ students are there? (b) There isn't ___ sugar left. (c) Would you
+   like ___ tea? (d) I have ___ friends in Pokhara. (e) Add ___ salt to the soup.
+3. Use the correct present tense. <span class="marks">[3]</span>
+   (a) Listen! Someone (knock) at the door. (b) She (live) here since 2075.
+   (c) Water (boil) at 100 °C.
 
-::: note Answers
-**5.** (a) many (b) any (c) a little (d) A few (e) much
+::: note Answers — Grammar
+**2.** (a) many (b) much/any (c) some (d) a few (e) a little
+**3.** (a) is knocking (b) has lived / has been living (c) boils
 :::
 
 **Writing**
 
-6. Describe the tiger figures in the table above in about 100 words. <span class="marks">[5]</span>
-7. Write a short scene of about 120 words between two students who have found a
-   stray dog in the school compound. Include stage directions. <span class="marks">[5]</span>
+4. The table shows SEE pass rates of a school: 2078 – 62%, 2079 – 70%, 2080 –
+   68%, 2081 – 85%. Write a description. <span class="marks">[5]</span>
 
-::: note Answers
-**6.** Start with the overall trend, then give the first and last figures and
-the size of the change, then point out the largest rise (2018–2022), then say
-where the figures come from (camera-trap estimates) and what the conclusion is.
-**7.** Give a heading, a list of characters and a setting, then the dialogue.
-Use stage directions in brackets — *(looks around)*, *(whispers)*, *(the bell
-rings)* — to show how the lines are meant. Make sure the scene contains a small
-conflict, for example one student wants to keep the dog and the other is afraid
-of the caretaker.
-:::
-
-**Extra practice**
-
-**Group B (2 marks each)**
-
-**11.** Rewrite with evidence: *Many tourists visit Chitwan.*
-**12.** Use *poaching* and *corridor* in sentences of your own.
-
-**Group C (4 marks)**
-
-**13.** Write a news report of about 120 words on a tiger count released by the
-    government.
-
-::: note Extra practice — answers
-**11.** e.g. *Chitwan National Park drew more than 170,000 visitors in 2023,
-about a fifth of them Nepali school groups.*
-**12.** e.g. *Poaching fell sharply after the army began joint patrols.* /
-*The forest corridor lets young tigers move between Chitwan and Parsa.*
-**13.** Marks: a factual headline; a place-and-date line; a lead sentence
-answering what, where, when and who; the figures with their years; a
-quotation from an official or a local resident; a closing sentence on what
-happens next. Third person, past tense, no personal opinion.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** Nepal's wild tiger count in 2022 was
-   (a) 121 (b) 198 (c) 235 (d) 355
-**2.** *Poaching* means
-   (a) legal hunting (b) illegal hunting (c) farming (d) cooking
-**3.** A wildlife *corridor* is
-   (a) a hospital passage (b) a strip of habitat joining two areas (c) a road (d) a fence
-**4.** The global target set in 2010 was to double tiger numbers by
-   (a) 2018 (b) 2020 (c) 2022 (d) 2030
-**5.** *Camera-trap surveys* are used to
-   (a) count animals (b) catch poachers only (c) film tourists (d) map roads
-
-::: note Objective practice — answers
-**1.** (d) — 355. **2.** (b) — illegal hunting. **3.** (b) — a strip of habitat joining two areas. **4.** (c) — by 2022. **5.** (a) — to count animals.
+::: note Answer — Writing
+**4.** Model: *The table shows the SEE pass rate of the school from 2078 to
+2081. Overall, the rate improved by 23 percentage points. It rose from 62% in
+2078 to 70% in 2079, fell slightly to 68% in 2080, and then jumped sharply to
+85% in 2081, the highest in the period.*
 :::

@@ -53,9 +53,9 @@
 ## 9. The Leap between High School and College / Smartphones in our Life [G]
 - Making comparison and contrast in writing
 - Advantages and disadvantages of technology
-- Grammar: comparative and superlative; adverbs of degree
+- Grammar: comparative and superlative forms of adjectives and adverbs
 - Writing: a paragraph comparing places; an essay on technology
-- Pronunciation: college-related words
+- Project work: making a survey; pronunciation: college-related words
 ## 10. Vacancy Announcement / Invitation [G]
 - Reading a job advertisement: the information it must give
 - Invitations: formal and informal; accepting and declining
@@ -81,11 +81,11 @@
 - Writing: writing a description of data; presenting data in a graph
 - Pronunciation: words used to interpret charts and graphs
 ## 14. The Magic Mirror / Poem: If I was a Superhero [G]
-- Folk tale and wish-fulfilment narrative
+- Folk tale: honesty, courage and the test of the mirror
 - Poetry: the conditional and the imagination
-- Grammar: second conditional; adjectives and adverbs
-- Writing: writing a folk tale; a description of an imaginary event
-- Pronunciation: British and American differences
+- Grammar: conditional sentences, types 1, 2 and 3
+- Writing: completing a story; writing a news story
+- Project work: preparing a draft of a speech; pronunciation: British and American differences
 ## 15. Conservation of Earth / An Official Notice [G]
 - Argumentative writing on conservation
 - Notices: purpose, audience and format
