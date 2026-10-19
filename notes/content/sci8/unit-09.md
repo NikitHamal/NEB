@@ -1,472 +1,452 @@
 ---
 subject: Science and Technology
 grade: 8
-unit: 9
 title: Matter
+unit: 9
 hours: 0
 area: Science and Technology
 ---
 
-Everything around you that has mass and takes up space is **matter**: the air
-you breathe, the water you drink, the salt in the kitchen, the iron in the
-plough. Matter is made of very small particles, and almost everything strange
-about it — why a gas fills a room, why salt disappears in water, why a nail
-rusts and a candle burns — comes from what those particles are doing.
+Books, desks, water and air all have **mass** and occupy space (**volume**); heat,
+light and shadows do not. **Anything that has mass and volume is matter.** Matter is
+made of atoms of the same or different kinds. It is classified into pure substances
+(elements and compounds) and impure substances (mixtures), and it is found as solid,
+liquid or gas. The CDC textbook for this unit concentrates on the **structure of the
+atom**, **valency and molecular formulae**, **atomic and molecular weight**, the
+**modern periodic table** and **chemical equations**; these are taught in full below,
+together with the other topics of the syllabus.
 
 ::: key What this unit asks of you
-You should be able to describe the three states of matter with the particle
-idea, distinguish element, compound and mixture with examples, tell a physical
-from a chemical change, explain solution, solute and solvent and what
-"saturated" means, describe four methods of separating mixtures, classify
-substances as acid, base or neutral using indicators and the pH scale, and
-compare metals with non-metals.
+Describe the proton, neutron and electron; use the $2n^2$ rule to write the electronic
+configuration of the first 20 elements; find valency; write molecular formulae by the
+criss-cross method; calculate atomic and molecular weights; state the modern periodic
+law and the trends in groups and periods; and write and balance chemical equations.
+Also: states of matter, element–compound–mixture, physical and chemical change,
+solutions, separation methods, acids–bases–salts and metals–non-metals.
 :::
 
-## 9.1 States of matter and the particle idea
+## 9.1 States of matter and the kinetic idea of particles
 
-Matter exists in three common states. What separates them is not what the
-particles are but how they are arranged and how freely they move.
+Matter is made of tiny particles that are always moving. How closely they are packed
+and how freely they move decides the state.
 
-```figure caption="The same particles in three states. In a solid they are packed and only vibrate; in a liquid they slide over one another; in a gas they are far apart and move fast in every direction."
+```figure caption="Particles in the three states. In a solid they are packed and only vibrate; in a liquid they slide over one another; in a gas they are far apart and move fast."
 fig, ax = plt.subplots(figsize=(5.1, 2.6))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.4)
-ax.axis("off")
-import numpy as np
+ax.set_xlim(0, 10); ax.set_ylim(0, 5.4); ax.axis("off")
 rng = np.random.default_rng(7)
-names = ["Solid", "Liquid", "Gas"]
-for k, name in enumerate(names):
+labels = [("Solid", "fixed shape,\nfixed volume"), ("Liquid", "no fixed shape,\nfixed volume"),
+          ("Gas", "no fixed shape,\nno fixed volume")]
+for k, (name, note) in enumerate(labels):
     x0 = 0.6 + k * 3.2
-    ax.add_patch(plt.Rectangle((x0, 1.4), 2.6, 2.4, fill=False, ec=GRID, lw=1.1))
-    ax.text(x0 + 1.3, 4.25, name, ha="center", fontsize=7.6, color=INK)
+    ax.add_patch(plt.Rectangle((x0, 1.5), 2.6, 2.4, fill=False, ec=MUTED, lw=1.1))
+    ax.text(x0 + 1.3, 4.3, name, ha="center", fontsize=8.4, color=INK)
+    ax.text(x0 + 1.3, 0.75, note, ha="center", va="center", fontsize=7.4, color=INK)
     if k == 0:
         for i in range(5):
             for j in range(4):
-                ax.add_patch(plt.Circle((x0 + 0.35 + i * 0.46, 1.75 + j * 0.5), 0.17,
-                                        color=ACCENT, alpha=0.85))
+                ax.add_patch(plt.Circle((x0 + 0.38 + i * 0.46, 1.85 + j * 0.5), 0.18, color=ACCENT))
     elif k == 1:
-        pts = rng.uniform([x0 + 0.3, 1.7], [x0 + 2.3, 3.4], size=(14, 2))
-        for px, py in pts:
-            ax.add_patch(plt.Circle((px, py), 0.17, color=SERIES[1], alpha=0.85))
+        for i in range(5):
+            for j in range(3):
+                ax.add_patch(plt.Circle((x0 + 0.38 + i * 0.46 + rng.uniform(-0.08, 0.08),
+                                         1.75 + j * 0.42 + rng.uniform(-0.05, 0.05)), 0.18, color=SERIES[1]))
     else:
-        pts = rng.uniform([x0 + 0.25, 1.6], [x0 + 2.35, 3.6], size=(7, 2))
-        for px, py in pts:
-            ax.add_patch(plt.Circle((px, py), 0.14, color=SERIES[2], alpha=0.85))
-ax.text(2.0, 0.85, "fixed shape\\nfixed volume", ha="center", fontsize=6.2, color=INK)
-ax.text(5.2, 0.85, "no fixed shape,\\nfixed volume", ha="center", fontsize=6.2, color=INK)
-ax.text(8.4, 0.85, "no fixed shape,\\nno fixed volume", ha="center", fontsize=6.2, color=INK)
-ax.text(5.0, 0.1, "heating gives the particles more energy: solid to liquid to gas",
-        ha="center", fontsize=6.5, color=MUTED)
+        for px, py in rng.uniform([x0 + 0.3, 1.8], [x0 + 2.3, 3.6], size=(6, 2)):
+            ax.add_patch(plt.Circle((px, py), 0.16, color=SERIES[2]))
 fig.tight_layout()
 ```
 
-| | Solid | Liquid | Gas |
+| Property | Solid | Liquid | Gas |
 |---|---|---|---|
-| Arrangement | closely packed, regular | close but irregular | far apart, random |
-| Movement | vibrate in place | slide past one another | move fast in all directions |
-| Shape | fixed | takes the shape of the container | fills the whole container |
-| Volume | fixed | fixed | not fixed |
-| Compressibility | almost none | very little | easily compressed |
-| Diffusion | very slow | slow | fast |
+| arrangement of particles | close, regular | close, irregular | far apart |
+| movement | vibrate in place | slide past each other | move fast in all directions |
+| shape / volume | fixed / fixed | shape of container / fixed | fills container / not fixed |
+| compression | almost none | very little | easily compressed |
 
-**Change of state.** Melting (solid to liquid), freezing (liquid to solid),
-evaporation and boiling (liquid to gas), condensation (gas to liquid) and
-sublimation (solid straight to gas, as camphor and iodine do). During melting
-and boiling the temperature stays constant even though heat is being supplied,
-because the energy is being used to pull the particles apart rather than to
-raise the temperature.
+**Changes of state:** melting (solid → liquid), freezing, evaporation and boiling
+(liquid → gas), condensation (gas → liquid), and **sublimation** (solid → gas directly,
+e.g. camphor, naphthalene, iodine). Heating gives particles more energy.
 
-::: caution Evaporation and boiling are not the same
-Evaporation happens at **any** temperature, only from the surface, and it cools
-the remaining liquid — which is why water in a *gagri* stays cool and why you
-feel cold when you come out of a bath. Boiling happens at one fixed temperature
-for a given pressure (100 °C for water at sea level), throughout the liquid, with
-bubbles. In the hills, water boils below 100 °C because the atmospheric pressure
-is lower, which is why dal takes longer to cook in Jumla.
-:::
-
-## 9.2 Element, compound and mixture
+## 9.2 Element, compound and mixture; atom and molecule
 
 | | Element | Compound | Mixture |
 |---|---|---|---|
-| Made of | one kind of atom only | two or more elements chemically joined | two or more substances not chemically joined |
-| Can it be split? | not by chemical means | yes, into its elements | yes, by physical means |
-| Composition | fixed (it is one substance) | fixed by mass | variable |
-| Properties | its own | quite different from its elements | each part keeps its own properties |
-| Examples | iron, oxygen, gold, hydrogen | water, salt, carbon dioxide, sugar | air, sea water, brass, soil, milk |
+| made of | one kind of atom | two or more elements chemically combined in a fixed ratio | two or more substances mixed in any ratio |
+| separation | cannot be split by chemical means | split only by chemical means | separated by physical means |
+| properties | its own | different from its elements | each part keeps its properties |
+| examples | H, O, Fe, Cu, Au | water (H₂O), salt (NaCl), CO₂ | air, soil, sea water, brass |
 
-**Atom** is the smallest particle of an element that can take part in a chemical
-reaction. **Molecule** is the smallest particle of a substance that can exist
-freely; it may contain one atom (as in helium) or several (H₂O has three).
-Copper, hydrogen and oxygen are written as symbols; water is H₂O and carbon
-dioxide is CO₂.
+A **molecule** is the smallest particle of an element or compound that can exist
+freely; it may have one atom (He), two (O₂) or more (H₂O).
 
-```photo id="sci10/litmus" caption="Litmus paper tests. Blue turns red in acid; red turns blue in a base." width="64"
-```
+### 9.2.1 The atom and its structure
 
-## 9.3 Physical and chemical change
-
-| | Physical change | Chemical change |
-|---|---|---|
-| What happens | only the state, shape or size changes | a new substance with new properties is formed |
-| Is it reversible? | usually yes | usually no |
-| Energy | small amounts taken in or given out | usually a large amount given out or taken in |
-| Examples | melting ice, dissolving sugar, breaking glass, magnetising iron | burning paper, rusting iron, souring milk, cooking rice, digestion |
-
-::: tip The two-question test
-**(1)** Is the substance after the change still the same substance — does it
-still taste, look and behave the same? **(2)** Can I get the original back by a
-simple physical method such as cooling, filtering or evaporating? If both
-answers are yes, the change was physical.
+::: definition Atom
+An **atom** is the smallest particle of an element that can take part in a chemical
+reaction. It is far too small to be seen. Atoms of one element are alike and are
+different from atoms of other elements.
 :::
 
-## 9.4 Solution
+An atom has a central **nucleus** containing **protons** and **neutrons**; **electrons**
+revolve around the nucleus in fixed paths called **shells** (orbits or energy levels).
 
-A **solution** is a mixture in which one substance is dissolved evenly in
-another. The substance that dissolves is the **solute**; the one it dissolves in
-is the **solvent**. In salt water, salt is the solute and water the solvent.
+| Particle | Symbol | Location | Charge | Mass |
+|---|---|---|---|---|
+| Proton | p⁺ | nucleus | positive (+1) | 1 amu (≈ mass of an H atom) |
+| Neutron | n⁰ | nucleus | none | 1 amu |
+| Electron | e⁻ | shells | negative (−1) | $\frac{1}{1837}$ amu |
 
-- A solution in which no more solute can be dissolved at that temperature is
-  **saturated**. If more solute is added it sinks to the bottom.
-- If a saturated solution is warmed it can usually dissolve more; on cooling,
-  the extra solute comes out as crystals. This is how crystallisation purifies
-  a substance.
-- **Solubility** is the amount of a solute, in grams, that will dissolve in
-  100 g of solvent at a given temperature.
-- In a **suspension**, the solid particles are big enough to settle; in a
-  **colloidal** mixture such as milk they do not settle but the mixture is not
-  clear.
+The **atomic number** is the number of protons (= number of electrons in a neutral
+atom). An atom is **electrically neutral** because it has equal numbers of protons and
+electrons, so the positive and negative charges cancel.
 
-| Factor | Effect on how fast a solid dissolves |
+### 9.2.2 The 2n² rule and electronic configuration
+
+The shells, from the nucleus outwards, are **K, L, M, N** (n = 1, 2, 3, 4). By the
+**Bohr–Bury rule**, the maximum number of electrons in a shell is $2n^2$:
+K = $2\times1^2=2$, L = $2\times2^2=8$, M = $2\times3^2=18$, N = $2\times4^2=32$.
+(For the first 20 elements the outermost shell holds no more than 8.)
+
+| Element (Z) | Configuration | Element (Z) | Configuration |
+|---|---|---|---|
+| H (1) | 1 | Na (11) | 2, 8, 1 |
+| He (2) | 2 | Mg (12) | 2, 8, 2 |
+| Li (3) | 2, 1 | Al (13) | 2, 8, 3 |
+| Be (4) | 2, 2 | Si (14) | 2, 8, 4 |
+| B (5) | 2, 3 | P (15) | 2, 8, 5 |
+| C (6) | 2, 4 | S (16) | 2, 8, 6 |
+| N (7) | 2, 5 | Cl (17) | 2, 8, 7 |
+| O (8) | 2, 6 | Ar (18) | 2, 8, 8 |
+| F (9) | 2, 7 | K (19) | 2, 8, 8, 1 |
+| Ne (10) | 2, 8 | Ca (20) | 2, 8, 8, 2 |
+
+```figure caption="Atomic structure of sodium (Z = 11): 11 protons and 12 neutrons in the nucleus, electrons arranged 2, 8, 1."
+fig, ax = plt.subplots(figsize=(4.4, 3.3))
+ax.set_xlim(-4.2, 6.2); ax.set_ylim(-3.8, 3.8); ax.set_aspect("equal"); ax.axis("off")
+ax.add_patch(plt.Circle((0, 0), 0.75, fc="#f6d9a8", ec=INK))
+ax.text(0, 0.15, "11 p", ha="center", va="center", fontsize=7.6, color=INK)
+ax.text(0, -0.25, "12 n", ha="center", va="center", fontsize=7.6, color=INK)
+for r, n in [(1.5, 2), (2.4, 8), (3.3, 1)]:
+    ax.add_patch(plt.Circle((0, 0), r, fill=False, ec=MUTED, lw=0.9))
+    for k in range(n):
+        a = 2 * np.pi * k / n + 0.4
+        ax.plot(r * np.cos(a), r * np.sin(a), "o", ms=6, color=ACCENT)
+for r, t, y in [(1.5, "K shell: 2", 0.9), (2.4, "L shell: 8", 0.0), (3.3, "M shell (valence): 1", -0.9)]:
+    ax.plot([r * 0.97, 3.7], [0.2 * y + 0.05, y], color=MUTED, lw=0.6)
+    ax.text(3.75, y, t, fontsize=7.6, color=INK, va="center")
+fig.tight_layout()
+```
+
+### 9.2.3 Valence shell, valence electrons and valency
+
+The outermost shell is the **valence shell**, and its electrons are the **valence
+electrons**. Atoms become stable with 2 electrons (for very small atoms) or **8** in the
+valence shell. To do this:
+
+- atoms with **1–3** valence electrons **lose** them (metals: Na, Mg, Al);
+- atoms with **4** valence electrons **share** them (C, Si);
+- atoms with **5–7** valence electrons **gain** electrons (N, O, Cl).
+
+::: definition Valency
+**Valency** is the number of electrons an atom loses, gains or shares to become stable
+(combining capacity). It depends on the number of valence electrons.
+:::
+
+| Valence electrons | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 (or 2 for He) |
+|---|---|---|---|---|---|---|---|---|
+| Valency | 1 | 2 | 3 | 4 | 3 | 2 | 1 | 0 |
+| Examples | H, Li, Na, K | Be, Mg, Ca | B, Al | C, Si | N, P | O, S | F, Cl | He, Ne, Ar |
+
+A **valency of zero** means the atom already has a stable (full) valence shell; it does not
+lose, gain or share electrons, so these **inert (noble) gases** do not normally react.
+Chlorine (2, 8, 7) has valency 1 because it needs to gain just **one** electron to complete
+its octet.
+
+::: example From atomic number to valency and position
+**Problem.** An element has atomic number 13. Write its electronic configuration, valency, and
+whether it is a metal or non-metal.
+**Solution.** 13 electrons: K = 2, L = 8, M = 3 → **2, 8, 3**. It has 3 valence electrons, which
+it loses, so its **valency is 3** and it is a **metal** (aluminium). It has 3 shells, so it is in
+period 3; with 3 valence electrons it is in group 13.
+:::
+
+### 9.2.4 Molecular formula by the criss-cross method
+
+A **molecular formula** shows the symbols and number of atoms in one molecule
+(H₂O, CO₂). To write it we must know the **elements (symbols)** and their **valencies**.
+
+**Steps (magnesium oxide):** (1) write the name; (2) write the symbols Mg and O;
+(3) write the valencies above them, Mg 2 and O 2; (4) cross over the valencies;
+(5) write them as subscripts, Mg₂O₂; (6) divide by the common factor 2 → **MgO**. A
+subscript 1 is not written.
+
+| Compound | Symbols and valencies | Formula |
+|---|---|---|
+| potassium chloride | K (1), Cl (1) | KCl |
+| calcium chloride | Ca (2), Cl (1) | CaCl₂ |
+| sodium chloride | Na (1), Cl (1) | NaCl |
+| potassium oxide | K (1), O (2) | K₂O |
+| aluminium chloride | Al (3), Cl (1) | AlCl₃ |
+| ammonia | N (3), H (1) | NH₃ |
+| water | H (1), O (2) | H₂O |
+| carbon dioxide | C (4), O (2) → C₂O₄ ÷ 2 | CO₂ |
+| calcium oxide | Ca (2), O (2) → Ca₂O₂ ÷ 2 | CaO |
+
+### 9.2.5 Atomic weight and molecular weight
+
+**Atomic weight** (mass number) = number of protons + number of neutrons. Electrons are
+not counted because their mass ($\frac{1}{1837}$ amu each) is negligible.
+
+**Molecular weight** = sum of the atomic weights of all atoms in a molecule.
+
+Useful atomic weights: H 1, C 12, N 14, O 16, Na 23, Mg 24, Al 27, S 32, Cl 35.5, K 39,
+Ar 40, Ca 40.
+
+::: example Atomic and molecular weights
+**(a)** Calcium has 20 protons and 20 neutrons. Atomic weight $=20+20=40$ amu.
+
+**(b)** Water, H₂O: $2\times1+16=18$ amu.
+
+**(c)** Calcium carbonate, CaCO₃: $40+12+3\times16=40+12+48=100$ amu.
+
+**(d)** Magnesium chloride, MgCl₂: $24+2\times35.5=95$ amu. *(The textbook rounds Cl to 35
+and gets 94 amu; either is accepted if the value used for Cl is shown.)*
+
+**(e)** Calcium chloride, CaCl₂: $40+2\times35.5=111$ amu (110 amu with Cl = 35).
+
+**(f)** Sulphuric acid, H₂SO₄, has 2 H, 1 S and 4 O atoms: $2\times1+32+4\times16=98$ amu.
+:::
+
+## 9.3 Physical and chemical change; chemical reactions and equations
+
+| Physical change | Chemical change |
 |---|---|
-| Temperature | warming speeds it up |
-| Stirring | speeds it up |
-| Size of particles | powder dissolves faster than lumps |
-| Amount already dissolved | less will dissolve once saturated |
+| no new substance forms; composition unchanged | new substance(s) with new properties form |
+| usually reversible | usually not easily reversible |
+| e.g. melting of ice, dissolving salt, breaking glass | e.g. burning paper, rusting of iron, cooking, digestion |
+
+A **chemical reaction** is a chemical change in which atoms combine, separate or exchange
+to form new substances. The substances that react are **reactants** (written on the
+left); the new substances formed are **products** (on the right).
+
+A **chemical equation** is the short representation of a chemical reaction using words or
+symbols and formulae. A **word equation** uses names; a **formula equation** uses formulae.
+An unbalanced formula equation is a **skeletal equation**. In a **balanced equation** the
+number of atoms of each element is equal on both sides; we balance it by putting numbers
+(coefficients) in front of formulae — never by changing the subscripts.
+
+::: example Balancing equations
+**(a)** Sodium + chlorine → sodium chloride.
+Skeletal: Na + Cl₂ → NaCl (2 Cl on the left, 1 on the right).
+Put 2 before NaCl: Na + Cl₂ → 2NaCl (now 2 Na on the right); put 2 before Na:
+**2Na + Cl₂ → 2NaCl**.
+
+**(b)** Nitrogen + hydrogen → ammonia: **N₂ + 3H₂ → 2NH₃** (2 N and 6 H on each side).
+
+**(c)** Calcium carbonate → calcium oxide + carbon dioxide: **CaCO₃ → CaO + CO₂** (already balanced).
+
+**(d)** Zinc + hydrochloric acid → zinc chloride + hydrogen: **Zn + 2HCl → ZnCl₂ + H₂**.
+With sulphuric acid instead: **Zn + H₂SO₄ → ZnSO₄ + H₂**.
+:::
+
+## 9.4 Solution, solute and solvent; saturated and unsaturated solution
+
+A **solution** is a uniform mixture of a **solute** (the substance that dissolves, e.g.
+salt) in a **solvent** (the substance in which it dissolves, e.g. water). Water dissolves
+so many substances that it is called the universal solvent. A solution that can dissolve
+more solute at that temperature is **unsaturated**; one that cannot dissolve any more is
+**saturated**. Heating usually lets more solid dissolve, and stirring and powdering make it
+dissolve faster. On cooling a hot saturated solution, the extra solute separates as crystals.
 
 ## 9.5 Separation of mixtures
 
-Mixtures can be separated because their components differ in some physical
-property — size, boiling point, solubility, magnetism or density.
-
-| Method | Separates | Example |
+| Method | Used to separate | Example |
 |---|---|---|
-| Hand picking | large visible pieces | stones from rice |
-| Winnowing | lighter husk from heavier grain | paddy from husk |
-| Sieving | different sizes of particle | flour from bran |
-| Filtration | an insoluble solid from a liquid | sand from water, tea from tea leaves |
+| Filtration | an insoluble solid from a liquid | sand from water, tea leaves from tea |
 | Evaporation | a dissolved solid from its solvent | salt from salt water |
-| Distillation | a liquid from a solution, keeping both | pure water from salt water |
-| Sublimation | a substance that sublimes | camphor from sand |
-| Crystallisation | a dissolved solid as pure crystals | sugar, alum, copper sulphate |
-| Magnetic separation | iron from a mixture | iron filings from sulphur |
-| Sedimentation and decantation | a heavy solid from a liquid | muddy water, after standing |
-| Centrifuging | very fine suspended particles | cream from milk |
-| Chromatography | dissolved colours | the dyes in a marker pen or in ink |
+| Distillation | a pure liquid from a solution (boil, then condense the vapour) | pure water from salt water |
+| Sublimation | a solid that sublimes from one that does not | camphor or naphthalene from sand or salt |
+| Chromatography | different dissolved colours that move at different speeds on paper | dyes in ink |
+| Magnetic separation | iron from non-magnetic material | iron filings from sulphur |
+| Sedimentation and decantation | heavy solid from liquid | muddy water left to settle |
 
-```figure caption="Two separating methods. In filtration the insoluble solid stays on the paper and the clear liquid passes through; in distillation the solution is boiled so that the solvent leaves as vapour and is collected back as pure liquid."
-fig, ax = plt.subplots(figsize=(5.0, 2.8))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 6)
-ax.axis("off")
-ax.add_patch(plt.Polygon([[0.8, 3.9], [1.0, 1.6], [2.6, 1.6], [2.8, 3.9]],
-                         fill=False, ec=INK, lw=1.3))
-ax.plot([0.8, 2.8], [2.9, 2.9], color=SERIES[1], lw=1.6)
-ax.add_patch(plt.Polygon([[0.85, 2.85], [1.15, 1.65], [2.45, 1.65], [2.75, 2.85]],
-                         fc=ACCENT, alpha=0.2, ec="none"))
-ax.text(1.8, 4.25, "funnel + filter paper", ha="center", fontsize=6.4, color=INK)
-ax.text(1.8, 1.0, "filtrate collected", ha="center", fontsize=6.2, color=ACCENT)
-ax.text(1.8, 0.35, "filtration", ha="center", fontsize=6.8, color=INK)
-ax.add_patch(plt.Polygon([[6.0, 3.6], [6.2, 1.6], [7.6, 1.6], [7.8, 3.6]],
-                         fill=False, ec=INK, lw=1.3))
-ax.add_patch(plt.Polygon([[6.05, 2.3], [6.15, 1.65], [7.65, 1.65], [7.75, 2.3]],
-                         fc=ACCENT, alpha=0.2, ec="none"))
-ax.plot([6.9, 6.9], [3.6, 4.8], color=INK, lw=1.2)
-ax.plot([6.9, 9.0], [4.8, 4.8], color=INK, lw=1.2)
-ax.plot([9.0, 9.0], [4.8, 3.4], color=INK, lw=1.2)
-ax.add_patch(plt.Polygon([[8.4, 3.4], [8.6, 2.0], [9.4, 2.0], [9.6, 3.4]],
-                         fill=False, ec=SERIES[2], lw=1.2))
-ax.text(8.6, 1.5, "pure solvent", ha="center", fontsize=6.2, color=SERIES[2])
-ax.text(7.5, 5.15, "condenser", ha="center", fontsize=6.3, color=INK)
-ax.text(6.9, 0.35, "distillation", ha="center", fontsize=6.8, color=INK)
-fig.tight_layout()
-```
+## 9.6 Acids, bases and salts; indicators and pH
 
-```photo id="sci10/malachite" caption="Malachite, a copper ore. Minerals are naturally occurring compounds, not mixtures." width="58"
-```
+**Acids** taste sour, turn **blue litmus red**, and give hydrogen ions in water (lemon juice,
+vinegar, HCl, H₂SO₄). **Bases** taste bitter and feel soapy; soluble bases are **alkalis**
+and turn **red litmus blue** (soap, lime water, NaOH). An acid and a base **neutralise**
+each other to form a **salt** and water: HCl + NaOH → NaCl + H₂O.
 
-## 9.6 Acids, bases and salts
-
-**Acids** taste sour, turn blue litmus red and react with metals to give
-hydrogen. **Bases** taste bitter and feel soapy; a base that dissolves in water
-is an **alkali**. Alkalis turn red litmus blue. When an acid reacts with a base
-they neutralise each other and form a **salt** and water:
-
-$$\text{HCl}+\text{NaOH}\rightarrow\text{NaCl}+\text{H}_2\text{O}$$
-
-| Indicator | In acid | In base (alkali) |
+| Indicator | In acid | In base |
 |---|---|---|
-| Blue litmus | turns red | stays blue |
-| Red litmus | stays red | turns blue |
-| Methyl orange | red | yellow |
-| Phenolphthalein | colourless | pink |
-| Turmeric paper | unchanged | turns red |
+| blue litmus | red | blue |
+| red litmus | red | blue |
+| methyl orange | red | yellow |
+| phenolphthalein | colourless | pink |
+| turmeric | yellow | reddish-brown |
 
-The **pH scale** runs from 0 to 14. Below 7 is acidic, 7 is neutral and above 7
-is basic.
+The **pH scale** runs from **0 to 14**: below 7 acidic, 7 neutral (pure water), above 7 basic.
 
-```figure caption="The pH scale with everyday Nepali examples. Every step is a tenfold change in acidity, so a solution of pH 4 is ten times more acidic than one of pH 5."
-fig, ax = plt.subplots(figsize=(5.1, 2.5))
-ax.set_xlim(0, 14)
-ax.set_ylim(0, 4)
-ax.axis("off")
-for i in range(14):
-    c = plt.cm.RdYlGn_r(i / 13.0)
-    ax.add_patch(plt.Rectangle((i, 1.7), 1.0, 0.8, color=c, alpha=0.75, ec="white", lw=0.6))
-    ax.text(i + 0.5, 2.1, str(i + 1), ha="center", va="center", fontsize=6.3, color=INK)
-ax.text(1.5, 3.4, "acidic", ha="center", fontsize=7.0, color="#b00020")
-ax.text(7.0, 3.4, "neutral", ha="center", fontsize=7.0, color=INK)
-ax.text(12.5, 3.4, "basic", ha="center", fontsize=7.0, color="#2f7d32")
-notes = [(0.5, "lemon 2"), (2.5, "vinegar 3"), (5.0, "rain 6"), (7.5, "water 7"),
-         (9.5, "soap 9"), (12.0, "lime 12")]
-for x, t in notes:
-    ax.text(x, 1.25, t, ha="center", fontsize=6.2, color=INK)
-ax.text(7.0, 0.45, "litmus and pH paper tell you which side of 7 a substance lies on",
-        ha="center", fontsize=6.4, color=MUTED)
+```figure caption="The pH scale with some common substances (approximate values)."
+fig, ax = plt.subplots(figsize=(5.1, 2.3))
+ax.set_xlim(-0.2, 14.4); ax.set_ylim(0, 3.6); ax.axis("off")
+for i in range(15):
+    ax.add_patch(plt.Rectangle((i * 0.95, 1.6), 0.95, 0.75, color=plt.cm.RdYlBu(i / 14.0), ec="white", lw=0.6))
+    ax.text(i * 0.95 + 0.475, 1.975, str(i), ha="center", va="center", fontsize=7.4, color=INK)
+ax.text(2.0, 2.85, "acidic", ha="center", fontsize=8.2, color=SERIES[1])
+ax.text(7.1, 2.85, "neutral", ha="center", fontsize=8.2, color=INK)
+ax.text(12.3, 2.85, "basic", ha="center", fontsize=8.2, color=ACCENT)
+for v, t in [(2, "lemon 2"), (4.5, "curd 4.5"), (7, "water 7"), (9.5, "soap 9-10"), (12.5, "lime 12")]:
+    ax.text(v * 0.95 + 0.475, 1.15, t, ha="center", fontsize=7.2, color=INK)
 fig.tight_layout()
 ```
 
-::: caution Acid into water, never water into acid
-Mixing a strong acid with water gives out a great deal of heat. If you pour
-water into concentrated acid, the first few drops boil instantly and can spit
-acid out of the vessel. Always pour the acid slowly down the side of a vessel of
-water, stirring, and wear goggles.
-:::
+```photo id="sci10/litmus" caption="Litmus paper. Blue litmus turns red in an acid; red litmus turns blue in a base." width="56"
+```
 
-## 9.7 Metals and non-metals
+## 9.7 Metals and non-metals; alloys
 
 | Property | Metals | Non-metals |
 |---|---|---|
-| Appearance | shiny (lustrous) | usually dull |
-| Conductivity | good conductors of heat and electricity | poor, except graphite |
-| Malleability and ductility | can be beaten into sheets and drawn into wires | brittle; not ductile |
-| State at room temperature | mostly solid (mercury is liquid) | solid, liquid or gas |
-| Sound | sonorous | not sonorous |
-| Oxides | basic (metal oxide + water gives a base) | acidic or neutral |
-| Examples | iron, copper, aluminium, zinc, gold | sulphur, carbon, oxygen, nitrogen, iodine |
+| electrons in reactions | **donate** (lose) electrons; 1–3 valence electrons | **gain** electrons; 5–7 valence electrons |
+| lustre | shiny | dull (except iodine, graphite) |
+| conduction | good conductors of heat and electricity | poor (except graphite) |
+| malleable / ductile | yes | brittle |
+| state at room temperature | solid, except **mercury** (liquid) | solid, liquid (bromine) or gas |
+| examples | Na, Mg, Al, Fe, Cu, Zn | C, N, O, S, Cl |
 
-Metals are used where strength or conductivity is needed. An **alloy** is a
-mixture of a metal with another element, made to improve a property: brass is
-copper and zinc, bronze is copper and tin, steel is iron with a little carbon,
-stainless steel adds chromium, and solder is tin and lead. Alloys are usually
-harder and more resistant to corrosion than the pure metal.
+An **alloy** is a mixture of a metal with other metals or non-metals, made to improve its
+properties: **brass** (copper + zinc), **bronze** (copper + tin), **steel** (iron + a little
+carbon), **stainless steel** (iron + chromium + nickel), **solder** (lead + tin).
 
-::: example Worked classification
-**Problem.** Classify each of the following as an element, a compound or a
-mixture, and say whether each is a metal or a non-metal where that applies:
-(a) brass (b) water (c) graphite (d) air (e) copper.
-
-**Solution.**
-(a) Brass — a **mixture** of copper and zinc; it contains metals but brass
-itself is not an element.
-(b) Water — a **compound** of hydrogen and oxygen, H₂O; both are non-metals.
-(c) Graphite — an **element**, a form of carbon, and a **non-metal** (the
-exception that conducts electricity).
-(d) Air — a **mixture** of nitrogen, oxygen, carbon dioxide, water vapour and
-other gases.
-(e) Copper — an **element** and a **metal**.
-
-**The reasoning.** If the substance has one kind of atom, it is an element; if
-two or more elements are chemically joined in a fixed ratio, it is a compound;
-if the parts can be separated by a physical method, it is a mixture.
-:::
-
-::: example A crystallisation calculation
-**Problem.** 40 g of a saturated solution of salt in water contains 8 g of
-salt. Find the solubility of salt in water at that temperature.
-
-**Solution.** The mass of water in the solution is
-$40-8=32$ g. The solubility is the mass of salt that dissolves in 100 g of
-water:
-
-$$\text{solubility}=\frac{8}{32}\times100=25\ \text{g per 100 g of water}$$
-
-**Answer.** 25 g per 100 g of water at that temperature.
-
-**Check.** $32\times\frac{25}{100}=8$ g of salt in 32 g of water ✓, and
-$8+32=40$ g of solution ✓.
-:::
-
-## 9.5 Separating mixtures: choosing the method
-
-The method follows the property that differs between the parts of the
-mixture.
-
-| Property that differs | Method | Example |
-|---|---|---|
-| Solubility | filtration, then evaporation | sand and salt in water |
-| Particle size | sieving | flour and bran |
-| Magnetism | magnetic separation | iron filings and sawdust |
-| Boiling point | distillation | water from salt water (pure water wanted) |
-| Density, immiscible liquids | separating funnel | kerosene and water |
-| Ability to sublime | sublimation | camphor and sand |
-| Lightness | winnowing | husk and grain |
-
-```figure caption="A decision path for separation. Name the property that differs and the method is already chosen."
-fig, ax = flow([("What differs?", "size, solubility, magnetism …"),
-                ("Choose method", "sieve, filter, magnet, distil"),
-                ("Separate", "carry it out"),
-                ("Check", "is each part pure?")])
+```photo id="sci10/malachite" caption="Malachite, an ore of copper. Metals are extracted from such naturally occurring minerals." width="54"
 ```
 
-::: example A four-mark separation answer
-**Question.** A mixture contains sand, common salt and iron filings.
-Describe how you would separate the three.
+## 9.8 Classification of elements: the modern periodic table
 
-**Answer.** (i) Pass a **magnet** over the mixture; the iron filings cling
-to it and are removed. (ii) Add water and stir; the salt dissolves and the
-sand does not. (iii) **Filter**: the sand stays on the filter paper, and
-the salt solution passes through. (iv) **Evaporate** the filtrate; the
-water leaves as vapour and solid salt remains. All three parts are now
-separate, each by the property that distinguishes it.
+As more elements were discovered, it became hard to study them one by one, so they were
+arranged in a table of rows and columns — the **periodic table**. The **modern periodic
+table** is based on the work of **Henry Moseley (1913)**, who showed that the properties
+of elements depend on their **atomic number**.
+
+::: definition Modern periodic law
+The physical and chemical properties of elements are a periodic function of their
+**atomic numbers**.
+:::
+
+The modern periodic table has **18 groups** (vertical columns) and **7 periods** (horizontal
+rows). Elements in a group have similar properties.
+
+| Position | Elements | Features |
+|---|---|---|
+| Group 1 (except H) | Li, Na, K — **alkali metals** | 1 valence electron, valency 1, very reactive metals |
+| Group 2 | Be, Mg, Ca — **alkaline earth metals** | 2 valence electrons, valency 2 |
+| Groups 3–12 | Fe, Cu, Zn … — transition metals | metals |
+| Groups 13–16 | B, Al, C, N, O, S … | Al is a metal; groups 15–16 are mostly non-metals |
+| Group 17 | F, Cl, Br, I — **halogens** | 7 valence electrons, valency 1, very reactive non-metals |
+| Group 18 | He, Ne, Ar — **inert (noble) gases** | full valence shell, valency 0, unreactive |
+
+**Hydrogen** has one valence electron, so it is placed in group 1, but it is a non-metal.
+Metals lie on the left and middle; non-metals on the right.
+
+| Trends in a group (top → bottom) | Trends in a period (left → right) |
+|---|---|
+| number of shells increases by one each step | number of shells stays the same |
+| valence electrons — and valency — stay the same | valence electrons increase from 1 to 8; valency changes |
+| atomic size increases | atomic size decreases (except the noble gas) |
+| metallic character (electron-losing) increases; non-metallic character decreases | metallic character decreases; non-metallic character increases |
+| similar chemical properties | properties change gradually |
+
+::: tip Sodium and chlorine both have valency 1 — why?
+Sodium (2, 8, 1) loses **one** electron; chlorine (2, 8, 7) gains **one** electron. Both
+change by one electron to reach an octet, so both have valency 1, although Na is in group 1
+and Cl in group 17.
 :::
 
 ## Chapter summary
 
-- Matter is anything with mass that occupies space; it is made of particles.
-- **Solid**: fixed shape and volume, particles vibrate in place. **Liquid**:
-  fixed volume, takes the shape of the container. **Gas**: neither fixed, easily
-  compressed, diffuses fast.
-- Changes of state: melting, freezing, evaporation, boiling, condensation,
-  sublimation; temperature stays constant during melting and boiling.
-- **Element** = one kind of atom; **compound** = elements chemically combined in
-  a fixed ratio; **mixture** = substances not chemically combined.
-- A **physical** change alters only state, shape or size and is usually
-  reversible; a **chemical** change forms a new substance and is usually not.
-- In a solution the **solute** dissolves in the **solvent**; a **saturated**
-  solution holds as much solute as it can at that temperature.
-- Mixtures are separated by hand picking, winnowing, sieving, filtration,
-  evaporation, distillation, sublimation, crystallisation, magnetic separation
-  and chromatography.
-- Acids turn blue litmus red, bases turn red litmus blue; acid plus base gives
-  a salt and water; the pH scale runs from 0 to 14.
-- Metals are lustrous, malleable, ductile, sonorous and good conductors;
-  non-metals are not, except graphite. Alloys are mixtures made to improve a
-  property.
+- Matter has mass and volume; it exists as solid, liquid and gas.
+- Atom: nucleus (protons +1, 1 amu; neutrons 0, 1 amu) and electrons (−1, 1/1837 amu)
+  in shells K, L, M, N with at most $2n^2$ electrons.
+- Valency = electrons lost, gained or shared to become stable; noble gases have valency 0.
+- Criss-cross method gives formulae (MgO, CaCl₂, AlCl₃, NH₃, K₂O).
+- Atomic weight = protons + neutrons; molecular weight = sum of atomic weights.
+- Chemical equation: reactants → products; balance by coefficients (2Na + Cl₂ → 2NaCl).
+- Modern periodic law (Moseley): properties depend on atomic number; 18 groups, 7 periods.
+  Down a group size and metallic character increase; across a period they decrease.
+- pH < 7 acid, 7 neutral, > 7 base; acid + base → salt + water.
 
 ## Practice questions
 
-**Group A — Objective (1 mark each)**
+**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
 
-1. Which state of matter is easily compressible?
-   <span class="marks">[1]</span>
-   (a) solid (b) liquid (c) gas (d) none
-2. Which of these is a compound? <span class="marks">[1]</span>
-   (a) air (b) brass (c) water (d) sea water
-3. Rusting of iron is a <span class="marks">[1]</span>
-   (a) physical change (b) chemical change (c) change of state (d) reversible
-   change
-4. In salt water, the solvent is <span class="marks">[1]</span>
-   (a) salt (b) water (c) both (d) neither
-5. Which method separates a dissolved solid from its solvent, keeping the
-   solvent? <span class="marks">[1]</span>
-   (a) filtration (b) sieving (c) distillation (d) decantation
-6. A solution of pH 3 is <span class="marks">[1]</span>
-   (a) acidic (b) neutral (c) basic (d) alkaline
+1. Which element has zero valency? <span class="marks">[1]</span>
+   (a) hydrogen (b) sodium (c) neon (d) calcium
+2. The atomic weight of argon is <span class="marks">[1]</span>
+   (a) 40 amu (b) 42 amu (c) 44 amu (d) 46 amu
+3. The mass of an electron is <span class="marks">[1]</span>
+   (a) 1/1834 amu (b) 1/1835 amu (c) 1/1836 amu (d) 1/1837 amu
+4. The particles in the nucleus are <span class="marks">[1]</span>
+   (a) proton and electron (b) electron and neutron (c) neutron and proton (d) all three
+5. The formula of calcium oxide is <span class="marks">[1]</span>
+   (a) CaO (b) CaO₂ (c) Ca₂O (d) CaCO₃
+6. Of potassium (19 p, 20 n), carbon (6 p, 6 n), oxygen (8 p, 8 n) and argon (18 p, 22 n), which has the highest atomic weight? <span class="marks">[1]</span>
+   (a) potassium (b) carbon (c) oxygen (d) argon
+7. The modern periodic table was given by <span class="marks">[1]</span>
+   (a) Mendeleev (b) Moseley (c) Dalton (d) Bohr
+8. Elements in the modern periodic table are arranged by <span class="marks">[1]</span>
+   (a) atomic weight (b) atomic mass (c) molecular mass (d) atomic number
+9. Which statement about a group is true? <span class="marks">[1]</span>
+   (a) its elements have different properties (b) atomic size decreases downwards (c) its elements have the same valency (d) non-metallic character increases downwards
+10. Which metal is liquid at room temperature? <span class="marks">[1]</span>
+   (a) sodium (b) magnesium (c) aluminium (d) mercury
+11. Which element is in group 18? <span class="marks">[1]</span>
+   (a) sodium (b) magnesium (c) phosphorus (d) argon
+12. A similarity between argon and chlorine is that both <span class="marks">[1]</span>
+   (a) are inert gases (b) are in the same period (c) are equally reactive (d) are in the same group
 
 ::: note Answers to Group A
-**1.** (c) — the particles of a gas are far apart.
-**2.** (c) — water is H₂O, a compound of hydrogen and oxygen.
-**3.** (b) — a new substance, rust, is formed and the change is not easily
-reversed.
-**4.** (b) — water is the medium; salt is the solute.
-**5.** (c) — distillation gives back pure solvent; evaporation would lose it.
-**6.** (a) — pH below 7 is acidic.
+**1.** (c) — its valence shell is full (2, 8). **2.** (a) — 18 + 22. **3.** (d). **4.** (c). **5.** (a) — Ca₂O₂ ÷ 2. **6.** (d) — Ar 40, K 39, O 16, C 12. **7.** (b). **8.** (d). **9.** (c). **10.** (d). **11.** (d). **12.** (b) — both have three shells (period 3).
 :::
 
 **Group B — Short answer (2 marks each)**
 
-1. Give two differences between a solid and a gas, using the particle idea.
-   <span class="marks">[2]</span>
-2. Distinguish between a compound and a mixture with one example of each.
-   <span class="marks">[2]</span>
-3. What is a saturated solution? How can more solute be dissolved in it?
-   <span class="marks">[2]</span>
-4. Write any four differences between metals and non-metals.
-   <span class="marks">[2]</span>
+1. Differentiate: (a) proton and electron (b) K shell and M shell (c) valence shell and valence electron (d) atomic weight and molecular weight. <span class="marks">[4]</span>
+2. Give reasons: (a) An atom is electrically neutral. (b) The valency of chlorine is 1. (c) Electrons are not counted in atomic weight. <span class="marks">[3]</span>
+3. Write the formulae by the criss-cross method: magnesium oxide, sodium chloride, potassium oxide, aluminium chloride, ammonia. <span class="marks">[3]</span>
+4. What is the $2n^2$ rule used for? Find the maximum electrons in the L and M shells. <span class="marks">[2]</span>
+5. What will be the valency of an element with configuration 2, 8, 8, 1? Why? <span class="marks">[2]</span>
+6. Complete for O, C, Cl, K, Ar: symbol, atomic number, atomic mass, protons, neutrons, electrons. <span class="marks">[3]</span>
+7. A nucleus has 19 protons and 20 neutrons. Name the element, find its atomic weight and draw its electron arrangement. <span class="marks">[2]</span>
+8. Can an atom exist without electrons? Give reasons. <span class="marks">[2]</span>
+9. Differentiate: (a) group and period (b) metals and non-metals (c) group 1 and group 17 elements (d) word equation and formula equation (e) reactants and products. <span class="marks">[5]</span>
+10. Give reasons: (a) Classification of elements is necessary. (b) Products are different from reactants. (c) Metals and non-metals are kept separately in the periodic table. <span class="marks">[3]</span>
 
 ::: note Answers to Group B
-**1.** In a solid the particles are closely packed and only vibrate about fixed
-positions, so a solid has a fixed shape and volume and cannot be compressed; in
-a gas the particles are far apart and move quickly in all directions, so a gas
-has neither fixed shape nor fixed volume, fills its container, diffuses quickly
-and can be compressed easily.
-**2.** A compound is formed when two or more elements combine chemically in a
-fixed ratio, and its properties differ from those of its elements — water, H₂O.
-A mixture contains two or more substances that are not chemically combined, in
-any proportion, and each part keeps its own properties — air, or brass.
-**3.** A saturated solution is one that contains as much solute as it can
-dissolve at that temperature; adding more solute leaves it undissolved at the
-bottom. More can be dissolved by warming the solution, by adding more solvent,
-or by grinding the solute finer and stirring.
-**4.** Any four of: metals are lustrous, non-metals are dull; metals conduct
-heat and electricity, non-metals generally do not (graphite excepted); metals
-are malleable and ductile, non-metals are brittle; metals are usually sonorous;
-metals are mostly solids at room temperature while non-metals may be solid,
-liquid or gas; metal oxides are basic while non-metal oxides are acidic or
-neutral.
+**1.** (a) A proton is positive, 1 amu, in the nucleus; an electron is negative, 1/1837 amu, in the shells. (b) K is the first shell (n = 1) holding at most 2 electrons; M is the third shell (n = 3) holding at most 18. (c) The valence shell is the outermost shell; valence electrons are the electrons in it. (d) Atomic weight is the protons + neutrons of one atom (Na = 23); molecular weight is the sum of atomic weights in one molecule (H₂O = 18).
+**2.** (a) It has equal numbers of protons (+) and electrons (−), so the charges cancel. (b) Chlorine is 2, 8, 7; it gains one electron to complete its octet. (c) The mass of an electron is only 1/1837 of a proton, which is negligible.
+**3.** MgO, NaCl, K₂O, AlCl₃, NH₃.
+**4.** It gives the maximum number of electrons in a shell. L: $2\times2^2=8$; M: $2\times3^2=18$.
+**5.** 1. It has one valence electron, which it loses to get a stable octet (it is potassium).
+**6.** O: O, 8, 16, 8, 8, 8. C: C, 6, 12, 6, 6, 6. Cl: Cl, 17, 35 (35.5), 17, 18, 17. K: K, 19, 39, 19, 20, 19. Ar: Ar, 18, 40, 18, 22, 18.
+**7.** Potassium (Z = 19). Atomic weight $=19+20=39$ amu. Electrons 2, 8, 8, 1 (K, L, M, N shells).
+**8.** A neutral atom must have electrons equal to its protons. If all electrons are removed, only a positively charged nucleus (an ion) is left — it is no longer a neutral atom (e.g. H⁺ is just a proton).
+**9.** (a) A group is a vertical column of elements with the same valence electrons and similar properties; a period is a horizontal row with the same number of shells. (b) See the table in 9.7. (c) Group 1: alkali metals, 1 valence electron, lose it; group 17: halogens, 7 valence electrons, gain one; both have valency 1. (d) A word equation uses names; a formula equation uses symbols and formulae. (e) Reactants take part in a reaction (left side); products are formed by it (right side).
+**10.** (a) More than a hundred elements exist; grouping elements with similar properties makes them easy to study and remember. (b) In a chemical reaction atoms rearrange to form new substances with new properties. (c) Metals lose electrons and non-metals gain them; their properties are opposite, so they fall in different groups.
 :::
 
 **Group C — Long answer (4 marks each)**
 
-1. Describe with diagrams how you would separate a mixture of salt, sand and
-   iron filings into its three parts. Name each method and say what property it
-   uses. <span class="marks">[4]</span>
-2. Explain, with examples, three differences between a physical change and a
-   chemical change. Classify the burning of a candle as both: which part of it
-   is physical and which is chemical? <span class="marks">[4]</span>
+1. Calculate the molecular weights of CaCl₂, MgCl₂ and CaCO₃ (Ca = 40, Mg = 24, C = 12, O = 16, Cl = 35.5). <span class="marks">[3]</span>
+2. Write balanced equations: (i) magnesium oxide + hydrogen → magnesium + water (ii) calcium carbonate + hydrochloric acid → calcium chloride + water + carbon dioxide (iii) potassium + chlorine → potassium chloride (iv) sodium + oxygen → sodium oxide (v) hydrogen + oxygen → water. <span class="marks">[5]</span>
+3. Explain how metallic character changes down a group and across a period of the modern periodic table. <span class="marks">[4]</span>
+4. Be, Mg and Ca form a group. Write four characteristics of this group. <span class="marks">[4]</span>
+5. Write the electronic configuration and valency of the elements from hydrogen to calcium. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
-**1.** **Step 1 — magnetic separation.** Draw a bar magnet through the mixture,
-preferably wrapped in paper; the iron filings stick to it and are the first part
-separated. Property used: iron is attracted by a magnet while sand and salt are
-not. **Step 2 — dissolving and filtration.** Add water and stir; the salt
-dissolves and the sand does not. Fold filter paper in a funnel, pour the mixture
-in, and the sand stays on the paper while the salt solution passes through.
-Property used: salt is soluble in water and sand is not, and the sand particles
-are too large to pass through the paper. **Step 3 — evaporation or
-crystallisation.** Heat the filtrate gently in a dish until the water has
-evaporated and salt crystals are left. Property used: salt has a much higher
-boiling point than water and does not evaporate with it.
-**2.** **Three differences.** (i) In a physical change no new substance is
-formed — melting ice gives water — while in a chemical change a new substance
-with new properties is formed, as when iron rusts to give rust. (ii) A physical
-change is usually reversible: water can be frozen back to ice. A chemical change
-is usually not: rust cannot easily be turned back into iron. (iii) A physical
-change involves small energy changes and no change in chemical composition; a
-chemical change involves a large energy change and a change in composition.
-**The candle.** The melting of the wax near the flame is **physical** — the wax
-changes from solid to liquid and back as it cools, and no new substance is
-formed. The burning of the wax vapour is **chemical** — it combines with oxygen
-to give carbon dioxide, water vapour, soot and heat, and the wax cannot be
-recovered.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** An atom with 11 protons and 12 neutrons has a mass number of
-   (a) 11 (b) 12 (c) 23 (d) 1
-**2.** Which of these is a compound?
-   (a) air (b) water (c) brass (d) soil
-**3.** A solution of pH 3 is
-   (a) strongly basic (b) weakly basic (c) acidic (d) neutral
-**4.** Sublimation is the change from
-   (a) solid to liquid (b) liquid to gas (c) solid directly to gas (d) gas to liquid
-**5.** Common salt is recovered from sea water by
-   (a) filtration (b) evaporation (c) decantation (d) magnetic separation
-
-::: note Objective practice — answers
-**1.** (c) — $11 + 12 = 23$. **2.** (b) — a fixed 2:1 ratio, chemically bonded. **3.** (c) — pH below 7 is acidic. **4.** (c) — as in camphor. **5.** (b) — the water evaporates and leaves the salt.
+**1.** CaCl₂ $=40+2\times35.5=111$ amu; MgCl₂ $=24+2\times35.5=95$ amu; CaCO₃ $=40+12+3\times16=100$ amu.
+**2.** (i) MgO + H₂ → Mg + H₂O (already balanced). (ii) CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂. (iii) 2K + Cl₂ → 2KCl. (iv) 4Na + O₂ → 2Na₂O. (v) 2H₂ + O₂ → 2H₂O.
+**3.** Down a group a new shell is added at each step, so the atom gets bigger and the valence electrons are farther from the nucleus and held less tightly; they are lost more easily, so metallic character increases. Across a period the number of shells is the same but protons and valence electrons increase, so electrons are held more tightly and the atom becomes smaller; losing electrons gets harder and gaining easier, so metallic character decreases and non-metallic character increases.
+**4.** Group 2 (alkaline earth metals): (i) each has 2 valence electrons (Be 2,2; Mg 2,8,2; Ca 2,8,8,2) and valency 2; (ii) all are metals that lose 2 electrons; (iii) atomic size increases from Be to Ca as shells increase; (iv) metallic character and reactivity increase downwards; their chemical properties are similar.
+**5.** See the table in 9.2.2 and the valency table in 9.2.3: H 1 (1); He 2 (0); Li 2,1 (1); Be 2,2 (2); B 2,3 (3); C 2,4 (4); N 2,5 (3); O 2,6 (2); F 2,7 (1); Ne 2,8 (0); Na 2,8,1 (1); Mg 2,8,2 (2); Al 2,8,3 (3); Si 2,8,4 (4); P 2,8,5 (3); S 2,8,6 (2); Cl 2,8,7 (1); Ar 2,8,8 (0); K 2,8,8,1 (1); Ca 2,8,8,2 (2).
 :::
