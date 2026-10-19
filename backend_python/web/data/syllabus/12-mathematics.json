@@ -1,0 +1,941 @@
+{
+ "grade": "12",
+ "grade_label": "Class 12",
+ "grade_label_ne": "कक्षा १२",
+ "subject": "mathematics",
+ "name": "Mathematics",
+ "name_ne": "गणित",
+ "icon": "calculate",
+ "group": "compulsory",
+ "color": "#8F5507",
+ "lang": "en",
+ "code": "0081 (CDC Mat.402)",
+ "hours": 160,
+ "exam": "3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24",
+ "areas": [
+  "Algebra",
+  "Trigonometry",
+  "Analytic Geometry",
+  "Vectors",
+  "Statistics and Probability",
+  "Calculus",
+  "Computational Methods OR Mechanics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Permutation and Combination",
+   "hours": 10,
+   "area": "Algebra",
+   "topics": [
+    "Basic principle of counting",
+    "Permutation of objects all different",
+    "Permutation of objects not all different",
+    "Circular permutation; permutation with repeated use of objects",
+    "Combination of things all different",
+    "Properties of combination"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Basic principle of counting"
+    },
+    {
+     "no": "1.2",
+     "title": "Permutation of objects all different"
+    },
+    {
+     "no": "1.3",
+     "title": "Permutation of objects not all different"
+    },
+    {
+     "no": "1.4",
+     "title": "Circular permutation; permutation with repeated use of objects"
+    },
+    {
+     "no": "1.5",
+     "title": "Combination of things all different"
+    },
+    {
+     "no": "1.6",
+     "title": "Properties of combination"
+    }
+   ],
+   "summary": [
+    "Multiplication principle (AND): multiply the counts. Addition principle (OR): add them. A tree diagram makes which one applies visible.",
+    "n! = n(n-1)cdots 1 and 0! = 1.",
+    "Permutation (order matters): ^nPr = n(n-1)cdots(n-r+1) = dfracn!(n-r)!, and ^nPn = n!.",
+    "n objects with p, q, s alike arrange in dfracn!p! q! s! ways.",
+    "Round a circle: (n-1)! arrangements; a garland or necklace, which can be flipped: dfrac(n-1)!2.",
+    "With unlimited repetition, r places filled from n objects: n^r.",
+    "Combination (order irrelevant): ^nCr· r! = ^nPr, so ^nCr = dfracn!r! (n-r)!.",
+    "Properties: ^nC0 = ^nCn = 1; ^nCr = ^nCn-r; ^nCr = ^nCs ⇒ r = s or r+s = n; ^nCr + ^nCr-1 = ^n+1Cr; r ^nCr = n ^n-1Cr-1; and Σr=0^n^nCr = 2^n."
+   ],
+   "terms": [
+    "The two counting principles",
+    "Permutation",
+    "Combination"
+   ],
+   "stats": {
+    "words": 4951,
+    "figures": 6,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Binomial Theorem",
+   "hours": 10,
+   "area": "Algebra",
+   "topics": [
+    "Binomial theorem for a positive integral index",
+    "General term; binomial coefficients",
+    "Binomial theorem for any index (without proof)",
+    "Approximation using binomial expansion",
+    "Euler's number e",
+    "Expansion of e^x, a^x and log(1+x) (without proof)"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Binomial theorem for a positive integral index"
+    },
+    {
+     "no": "2.2",
+     "title": "General term; binomial coefficients"
+    },
+    {
+     "no": "2.3",
+     "title": "Binomial theorem for any index (without proof)"
+    },
+    {
+     "no": "2.4",
+     "title": "Approximation using binomial expansion"
+    },
+    {
+     "no": "2.5",
+     "title": "Euler's number e"
+    },
+    {
+     "no": "2.6",
+     "title": "Expansion of e^x, a^x and log(1+x) (without proof)"
+    }
+   ],
+   "summary": [
+    "(a+b)^n = Σr=0^n^nCra^n-rb^r for a positive integer n; it has n+1 terms and is proved by induction using Pascal's rule.",
+    "General term: Tr+1 = ^nCra^n-rb^r. To find a particular term, simplify the power of x in Tr+1 and equate it to the power wanted.",
+    "Middle term: T(n)/(2)+1 if n is even; T(n+1)/(2) and T(n+3)/(2) if n is odd.",
+    "Binomial coefficients: ^nCr = ^nCn-r, they build Pascal's triangle, Σ^nCr = 2^n, and the alternating sum is 0.",
+    "For any index and |x| < 1: (1+x)^n = 1 + nx + dfracn(n-1)2!x^2 + cdots — always state |x| < 1, and factor out constants first so the bracket starts with 1.",
+    "Approximation: split N into (nearest exact power) + (small part), factor out, expand, and keep terms until they fall below the required place value.",
+    "e = limn→∞left(1+dfrac1nright)^n = Σr=0^∞dfrac1r! = 2.71828ldots, and 2 < e < 3.",
+    "e^x = Σ dfracx^rr! (all x); a^x = e^xlog a; log(1+x) = x - dfracx^22 + dfracx^33 - cdots for -1 < x ≤ 1."
+   ],
+   "terms": [
+    "Euler's number"
+   ],
+   "stats": {
+    "words": 4827,
+    "figures": 6,
+    "examples": 15
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Complex Numbers",
+   "hours": 8,
+   "area": "Algebra",
+   "topics": [
+    "Polar form of a complex number",
+    "De Moivre's theorem and its application to roots",
+    "Properties of cube roots of unity",
+    "Euler's formula"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Polar form of a complex number"
+    },
+    {
+     "no": "3.2",
+     "title": "De Moivre's theorem and its application to roots"
+    },
+    {
+     "no": "3.3",
+     "title": "Properties of cube roots of unity"
+    },
+    {
+     "no": "3.4",
+     "title": "Euler's formula"
+    }
+   ],
+   "summary": [
+    "Polar form: z = r(cosθ + isinθ) with r = |z| = √x^2+y^2 and tanθ = y/x; fix θ from the quadrant of (x, y), principal value in -π < θ ≤ π.",
+    "Multiply: moduli multiply, arguments add. Divide: moduli divide, arguments subtract.",
+    "De Moivre: left[r(cosθ+isinθ)right]^n = r^n(cos nθ + isin nθ), proved by induction for positive integers and extended to negative and rational indices.",
+    "Equating real and imaginary parts in (cosθ+isinθ)^n = cos nθ + isin nθ gives the multiple-angle formulas, e.g. cos 3θ = 4cos^3θ - 3cosθ.",
+    "n^th roots: z^1/n = r^1/nleft[cosdfracθ+2kπn + isindfracθ+2kπnright], k = 0, 1, ldots, n-1 — exactly n roots, equally spaced on a circle of radius r^1/n, forming a regular n-gon.",
+    "n^th roots of unity: 1, w, ldots, w^n-1 with w = cosdfrac2πn + isindfrac2πn; sum = 0, product = (-1)^n+1.",
+    "Cube roots of unity: 1, ω = dfrac-1+i√32, ω^2 = dfrac-1-i√32 with ω^3=1 and 1+ω+ω^2=0; reduce indices modulo 3.",
+    "Euler: e^iθ = cosθ+isinθ, z = re^iθ, e^iπ+1=0, cosθ = dfrace^iθ+e^-iθ2."
+   ],
+   "terms": [
+    "Modulus and argument"
+   ],
+   "stats": {
+    "words": 5176,
+    "figures": 7,
+    "examples": 14
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Sequence and Series",
+   "hours": 8,
+   "area": "Algebra",
+   "topics": [
+    "Sum of first n natural numbers",
+    "Sum of squares and cubes of first n natural numbers",
+    "Principle of mathematical induction"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Sum of first n natural numbers"
+    },
+    {
+     "no": "4.2",
+     "title": "Sum of squares and cubes of first n natural numbers"
+    },
+    {
+     "no": "4.3",
+     "title": "Principle of mathematical induction"
+    },
+    {
+     "no": "4.4",
+     "title": "Exponential and logarithmic series"
+    }
+   ],
+   "summary": [
+    "Σk=1^n k = dfracn(n+1)2, Σk=1^n k^2 = dfracn(n+1)(2n+1)6, Σk=1^n k^3 = dfracn^2(n+1)^24 = left(Σ kright)^2.",
+    "Sigma is linear: Σ(ak ± bk) = Σ ak ± Σ bk and Σ c ak = cΣ ak, with Σk=1^n c = nc.",
+    "To sum a series, write tk as a polynomial in k, split with the sigma rules, substitute the three standard sums, factorise, then test on n = 1.",
+    "For a part-sum, Σk=m^n = Σk=1^n - Σk=1^m-1.",
+    "Induction: state P(n); prove P(1); assume P(k); use the assumption to prove P(k+1); conclude for all n ∈ mathbbN.",
+    "e = 1 + (1)/(1!) + (1)/(2!) + cdots = 2.71828 and e^x = Σr≥ 0 fracx^rr! for every real x; a^x = e^xlog a.",
+    "e + e^-1 = 2left(1 + (1)/(2!) + (1)/(4!) + cdotsright) and e - e^-1 = 2left((1)/(1!) + (1)/(3!) + cdotsright).",
+    "log(1+x) = x - fracx^22 + fracx^33 - cdots for -1 < x ≤ 1, and log(1+x)/(1-x) = 2left(x + fracx^33 + fracx^55 + cdotsright)."
+   ],
+   "terms": [
+    "Principle of mathematical induction"
+   ],
+   "stats": {
+    "words": 4739,
+    "figures": 6,
+    "examples": 13
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Matrix Based System of Linear Equations",
+   "hours": 8,
+   "area": "Algebra",
+   "topics": [
+    "Cramer's rule (up to three variables)",
+    "Matrix method: row-equivalent (Gauss) method",
+    "Matrix method: inverse matrix method"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Cramer's rule (up to three variables)"
+    },
+    {
+     "no": "5.2",
+     "title": "Matrix method: row-equivalent (Gauss) method"
+    },
+    {
+     "no": "5.3",
+     "title": "Matrix method: inverse matrix method"
+    },
+    {
+     "no": "5.4",
+     "title": "Consistency: unique solution, infinitely many, or none"
+    }
+   ],
+   "summary": [
+    "Every linear system is AX = B with A the coefficient matrix, X the column of unknowns and B the column of constants.",
+    "Cramer: x = Dx/D, y = Dy/D, z = Dz/D, where D = |A| and each Dx replaces the matching column of D by B. Requires D ≠ 0.",
+    "Row-equivalent (Gauss): apply elementary row operations (Ri leftrightarrow Rj, Ri → cRi, Ri → Ri + cRj) to [A | B] until the coefficient block is upper triangular, then back substitute. Row operations never change the solution set.",
+    "Gauss-Jordan: carry on until [I | X]; the solution is the last column.",
+    "Inverse method: X = A^-1B = dfrac1|A|(adj A)B, valid only when |A| ≠ 0. Multiply on the left.",
+    "Consistency: |A| ≠ 0 → unique; |A| = 0 with a zero row in the reduced augmented matrix → infinitely many (use a parameter t); |A| = 0 with a row 0 = k ≠ 0 → no solution.",
+    "A homogeneous system has a non-trivial solution if and only if |A| = 0."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5252,
+    "figures": 8,
+    "examples": 13
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Properties of a Triangle",
+   "hours": 8,
+   "area": "Trigonometry",
+   "topics": [
+    "Sine law",
+    "Cosine law",
+    "Tangent law",
+    "Projection laws",
+    "Half angle laws"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Sine law"
+    },
+    {
+     "no": "6.2",
+     "title": "Cosine law"
+    },
+    {
+     "no": "6.3",
+     "title": "Tangent law"
+    },
+    {
+     "no": "6.4",
+     "title": "Projection laws"
+    },
+    {
+     "no": "6.5",
+     "title": "Half angle laws"
+    },
+    {
+     "no": "6.6",
+     "title": "Area of a triangle, and the radii R, r, r1"
+    }
+   ],
+   "summary": [
+    "Standard notation: a faces A, s = (a+b+c)/(2), area Δ.",
+    "Sine law: (a)/(sin A) = (b)/(sin B) = (c)/(sin C) = 2R, so a = 2Rsin A — the switch from sides to sines.",
+    "Cosine law: a^2 = b^2+c^2-2bccos A, i.e. cos A = fracb^2+c^2-a^22bc; negative cosine means an obtuse angle.",
+    "Tangent law: tan(A-B)/(2) = (a-b)/(a+b)cot(C)/(2), with (A+B)/(2) = 90^°-(C)/(2).",
+    "Projection laws: a = bcos C + ccos B, and its two cyclic partners.",
+    "Half angle laws: sin(A)/(2) = √((s-b)(s-c))/(bc), cos(A)/(2) = √(s(s-a))/(bc), tan(A)/(2) = √((s-b)(s-c))/(s(s-a)).",
+    "Area: Δ = frac12 absin C = √s(s-a)(s-b)(s-c) (Heron).",
+    "Radii: R = (abc)/(4Δ), r = (Δ)/(s) = 4Rsin(A)/(2) sin(B)/(2)sin(C)/(2), r1 = (Δ)/(s-a) = stan(A)/(2), and r1+r2+r3-r = 4R."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4726,
+    "figures": 5,
+    "examples": 13
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Solution of Triangles",
+   "hours": 4,
+   "area": "Trigonometry",
+   "topics": [
+    "Solution of triangles (simple cases)",
+    "Heights and distances"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Solution of triangles (simple cases)"
+    },
+    {
+     "no": "7.2",
+     "title": "Heights and distances"
+    }
+   ],
+   "summary": [
+    "Three parts solve a triangle if at least one is a side; AAA gives shape only.",
+    "SSS: cosine law cos A = fracb^2+c^2-a^22bc, or half angles tan(A)/(2) = √((s-b)(s-c))/(s(s-a)).",
+    "SAS: a^2 = b^2+c^2-2bccos A; or Napier, tan(A-B)/(2) = (a-b)/(a+b)cot(C)/(2) with (A+B)/(2) = 90^°-(C)/(2).",
+    "ASA/AAS: third angle first, then (a)/(sin A) = (b)/(sin B).",
+    "SSA is ambiguous: with h = bsin A and A acute — none if a<h, one (right-angled) if a = h, two if h<a<b, one if a ≥ b.",
+    "Area: Δ = frac12 absin C = √s(s-a)(s-b)(s-c).",
+    "Heights and distances: draw the figure, use the exterior-angle trick to find the angle at the near point, then solve the triangle on the baseline."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3469,
+    "figures": 5,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Conic Sections",
+   "hours": 20,
+   "area": "Analytic Geometry",
+   "topics": [
+    "Condition of tangency of a line to a circle",
+    "Tangent and normal to a circle",
+    "Standard equation of parabola",
+    "Tangent and normal to a parabola",
+    "Standard equation of ellipse",
+    "Standard equation of hyperbola"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Condition of tangency of a line to a circle"
+    },
+    {
+     "no": "8.2",
+     "title": "Tangent and normal to a circle"
+    },
+    {
+     "no": "8.3",
+     "title": "Standard equation of parabola"
+    },
+    {
+     "no": "8.4",
+     "title": "Tangent and normal to a parabola"
+    },
+    {
+     "no": "8.5",
+     "title": "Standard equation of ellipse"
+    },
+    {
+     "no": "8.6",
+     "title": "Standard equation of hyperbola"
+    }
+   ],
+   "summary": [
+    "A conic is the locus of P with PS/PM = e, where S is the focus and the directrix gives PM. e=0 circle, 0<e<1 ellipse, e=1 parabola, e>1 hyperbola. The latus rectum is the focal chord perpendicular to the axis.",
+    "Circle: (x-h)^2+(y-k)^2=r^2; general form x^2+y^2+2gx+2fy+c=0 has centre (-g,-f) and r=√g^2+f^2-c; diameter form (x-x1)(x-x2)+(y-y1)(y-y2)=0.",
+    "A line touches a circle when the perpendicular distance from the centre equals the radius; for x^2+y^2=a^2 and y=mx+c this is c^2=a^2(1+m^2), with contact point (-a^2m/c, a^2/c).",
+    "Tangent to x^2+y^2=a^2 at (x1,y1) is xx1+yy1=a^2; the normal always passes through the centre; the length of the tangent from (x1,y1) is √S1; the director circle is x^2+y^2=2a^2.",
+    "Parabola: y^2=4ax has vertex (0,0), focus (a,0), directrix x=-a, latus rectum 4a, parametric point (at^2,2at). Three sign/axis variants give the other three orientations.",
+    "Parabola tangency: y=mx+a/m touches at (a/m^2, 2a/m); the tangent at (x1,y1) is yy1=2a(x+x1); the subnormal is always 2a.",
+    "Ellipse: dfracx^2a^2+dfracy^2b^2=1 with b^2=a^2(1-e^2); foci (± ae,0), directrices x=± a/e, latus rectum 2b^2/a, and PS+PS1=2a. If b>a everything rotates onto the y-axis.",
+    "Hyperbola: dfracx^2a^2-dfracy^2b^2=1 with b^2=a^2(e^2-1); foci (± ae,0), directrices x=± a/e, latus rectum 2b^2/a, asymptotes y=± bx/a, and |PS1-PS|=2a. Rectangular when a=b, where e=√2."
+   ],
+   "terms": [
+    "Focus–directrix definition of a conic"
+   ],
+   "stats": {
+    "words": 8355,
+    "figures": 11,
+    "examples": 19
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Product of Vectors",
+   "hours": 12,
+   "area": "Vectors",
+   "topics": [
+    "Scalar (dot) product; angle between two vectors",
+    "Geometric interpretation and properties of scalar product",
+    "Applications of scalar product in geometry and trigonometry",
+    "Vector (cross) product; geometrical interpretation and properties",
+    "Applications of vector product in geometry and trigonometry"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Scalar (dot) product; angle between two vectors"
+    },
+    {
+     "no": "9.2",
+     "title": "Geometric interpretation and properties of scalar product"
+    },
+    {
+     "no": "9.3",
+     "title": "Applications of scalar product in geometry and trigonometry"
+    },
+    {
+     "no": "9.4",
+     "title": "Vector (cross) product; geometrical interpretation and properties"
+    },
+    {
+     "no": "9.5",
+     "title": "Applications of vector product in geometry and trigonometry"
+    }
+   ],
+   "summary": [
+    "Scalar product: acdotb = |a||b|cosθ = a1b1+a2b2+a3b3, a number. The two forms agree by the cosine law applied to the triangle on a, b and b-a.",
+    "Angle and perpendicularity: cosθ = dfracacdotb|a||b|; for non-zero vectors aperpb Leftrightarrow acdotb = 0. Also acdota = |a|^2, icdoti = 1, icdotj = 0.",
+    "Properties of ·: commutative, distributive over addition, (ma)cdotb = m(acdotb), and |acdotb| ≤ |a||b|. You may not cancel a vector factor.",
+    "Projection: the scalar projection of b on a is dfracacdotb|a| (signed), and the vector projection is dfracacdotb|a|^2a. Work done is W = Fcdotd.",
+    "Dot-product geometry: cosine law a^2 = b^2+c^2-2bccos A; projection law a = bcos C + ccos B; cos(A± B) = cos Acos B mp sin Asin B; diagonals of a rhombus are perpendicular because (a+b)·(a-b) = |a|^2-|b|^2; the angle in a semicircle is 90^°.",
+    "Vector product: atimesb = |a||b|sinθ n with n given by the right-hand rule — a vector. In components it is the 3×3 determinant with first row i,j,k, i.e. (a2b3-a3b2)i+(a3b1-a1b3)j+(a1b2-a2b1)k.",
+    "Properties of ×: anti-commutative btimesa = -(atimesb); atimesa = 0; distributive; not associative; itimesj = k round the cycle; and atimesb = 0 Leftrightarrow aparallelb for non-zero vectors.",
+    "Areas and Lagrange: |atimesb| is the area of the parallelogram on a,b; a triangle is tfrac12|ABtimesAC|; a parallelogram from its diagonals is tfrac12|d1timesd2|; and |atimesb|^2+(acdotb)^2 = |a|^2|b|^2."
+   ],
+   "terms": [
+    "Scalar (dot) product",
+    "Projection of one vector on another",
+    "Work as a scalar product",
+    "Vector (cross) product",
+    "Moment (torque) of a force"
+   ],
+   "stats": {
+    "words": 9961,
+    "figures": 7,
+    "examples": 16
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Correlation and Regression",
+   "hours": 8,
+   "area": "Statistics and Probability",
+   "topics": [
+    "Correlation and its nature",
+    "Karl Pearson's coefficient of correlation and interpretation",
+    "Properties of correlation coefficient (without proof)",
+    "Rank correlation (elementary concept)",
+    "Regression equations: line of y on x and x on y"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Correlation and its nature"
+    },
+    {
+     "no": "10.2",
+     "title": "Karl Pearson's coefficient of correlation and interpretation"
+    },
+    {
+     "no": "10.3",
+     "title": "Properties of correlation coefficient (without proof)"
+    },
+    {
+     "no": "10.4",
+     "title": "Rank correlation (elementary concept)"
+    },
+    {
+     "no": "10.5",
+     "title": "Regression equations: line of y on x and x on y"
+    }
+   ],
+   "summary": [
+    "Correlation measures how two variables move together: positive, negative or zero; linear or curvilinear; simple, multiple or partial. The scatter diagram shows it at a glance.",
+    "Karl Pearson: r = dfracΣ dx dy√Σ dx^2Σ dy^2 (actual means), or r = dfracnΣ xy - Σ xΣ y√[nΣ x^2-(Σ x)^2][nΣ y^2-(Σ y)^2] (raw scores, or deviations from assumed means).",
+    "1 ≤ r ≤ 1; r is symmetric, unit-free and unchanged by a change of origin and scale; r = ± 1 means all points lie on a line; r = 0 means no linear relation; r^2 is the fraction of variation explained.",
+    "Spearman: rs = 1 - dfrac6Σ D^2n^3-n, with Σ D^2 replaced by Σ D^2 + Σdfracm^3-m12 when ranks are tied. Rank both variables from the same end; check Σ D = 0.",
+    "Least squares gives the normal equations Σ y = na + bΣ x and Σ xy = aΣ x + bΣ x^2, whence byx = dfracΣ dx dyΣ dx^2 and bxy = dfracΣ dx dyΣ dy^2.",
+    "The lines are y - y = byx(x - x) and x - x = bxy(y - y); both pass through (x, y).",
+    "byx = rdfracσyσx, bxy = rdfracσxσy, and r^2 = byx bxy so r = ±√byxbxy with the common sign of the two coefficients.",
+    "Predict y from x with the y-on-x line only; predict x from y with the x-on-y line only."
+   ],
+   "terms": [
+    "Correlation",
+    "Karl Pearson's coefficient of correlation",
+    "Spearman's rank correlation coefficient"
+   ],
+   "stats": {
+    "words": 7878,
+    "figures": 6,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Probability",
+   "hours": 4,
+   "area": "Statistics and Probability",
+   "topics": [
+    "Dependent cases",
+    "Conditional probability (without proof)"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Dependent cases"
+    },
+    {
+     "no": "11.2",
+     "title": "Conditional probability (without proof)"
+    },
+    {
+     "no": "11.3",
+     "title": "Bayes' theorem: reasoning backwards"
+    },
+    {
+     "no": "11.4",
+     "title": "Repeated trials: the binomial distribution"
+    }
+   ],
+   "summary": [
+    "Events are dependent when one changes the probability of the other; drawing without replacement is the standard example.",
+    "Multiplication theorem: P(A ∩ B) = P(A)P(B mid A) = P(B)P(Amid B), and P(A∩ B∩ C) = P(A)P(Bmid A)P(Cmid A∩ B). Independent means P(A ∩ B) = P(A)P(B).",
+    "Conditional probability: P(A mid B) = dfracP(A∩ B)P(B), i.e. B becomes the new sample space.",
+    "On a tree diagram: multiply along a branch, add across branches; all branch probabilities from one node add to 1.",
+    "\"At least one\" = 1 - \"none\".",
+    "Total probability: P(A) = Σk P(Ek)P(A mid Ek) over a set of mutually exclusive and exhaustive causes.",
+    "Bayes' theorem: P(Ei mid A) = dfracP(Ei)P(Amid Ei)Σk P(Ek)P(Amid Ek) — one branch over all the branches.",
+    "Binomial: P(X = r) = ^nCr p^rq^ n-r, mean np, variance npq."
+   ],
+   "terms": [
+    "Independent and dependent events",
+    "Conditional probability"
+   ],
+   "stats": {
+    "words": 3905,
+    "figures": 5,
+    "examples": 11
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Derivatives",
+   "hours": 18,
+   "area": "Calculus",
+   "topics": [
+    "Derivatives of hyperbolic and inverse hyperbolic functions",
+    "L'Hospital's rule (0/0 and infinity/infinity forms)",
+    "Differentials",
+    "Tangent and normal to a curve",
+    "Derivative as a rate measure"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Derivatives of hyperbolic and inverse hyperbolic functions"
+    },
+    {
+     "no": "12.2",
+     "title": "L'Hospital's rule (0/0 and ∞/∞ forms)"
+    },
+    {
+     "no": "12.3",
+     "title": "Differentials"
+    },
+    {
+     "no": "12.4",
+     "title": "Tangent and normal to a curve"
+    },
+    {
+     "no": "12.5",
+     "title": "Derivative as a rate measure"
+    },
+    {
+     "no": "12.6",
+     "title": "Increasing and decreasing functions"
+    },
+    {
+     "no": "12.7",
+     "title": "Maxima and minima"
+    },
+    {
+     "no": "12.8",
+     "title": "Concavity and points of inflection"
+    }
+   ],
+   "summary": [
+    "The standard derivatives, the product, quotient and chain rules, and the techniques for implicit (y gives a factor (dy)/(dx)), parametric ((dy)/(dx) = (dy/dt)/(dx/dt)) and logarithmic differentiation (take ln of both sides, for u^v forms) are the working toolkit.",
+    "Hyperbolic: sinh x = frace^x-e^-x2, cosh x = frace^x+e^-x2, cosh^2x-sinh^2x=1, and (sinh x)' = cosh x, (cosh x)' = sinh x, (tanh x)' = sech^2x. Inverses: (sinh^-1x)' = frac1√x^2+1, (cosh^-1x)' = frac1√x^2-1, (tanh^-1x)' = frac11-x^2.",
+    "L'Hospital: for frac00 or (∞)/(∞) only, lim(f)/(g) = lim(f')/(g'), repeated as needed. Convert 0·∞, ∞-∞, 0^0, 1^∞ to a quotient first.",
+    "Differentials: dy = f'(x)dx and f(x+Δ x)≈ f(x) + f'(x)Δ x; relative error (dy)/(y).",
+    "Tangent at (x1,y1): y-y1 = m(x-x1) with m = f'(x1); normal: y-y1 = -(1)/(m)(x-x1).",
+    "Angle between curves: tanθ = left|(m1-m2)/(1+m1m2)right|; orthogonal if m1m2=-1.",
+    "Rates: (dy)/(dt) = (dy)/(dx)·(dx)/(dt); differentiate the relation with respect to t, then substitute. In motion, v = (ds)/(dt) and a = fracd^2sdt^2.",
+    "f' > 0 ⇒ increasing; f' < 0 ⇒ decreasing; f' = 0 ⇒ stationary."
+   ],
+   "terms": [
+    "Hyperbolic functions",
+    "Inverse hyperbolic functions in logarithmic form",
+    "Differentials",
+    "Monotonic functions",
+    "Local extrema and stationary points",
+    "Absolute (global) extrema on a closed interval",
+    "Concavity and points of inflection"
+   ],
+   "stats": {
+    "words": 8998,
+    "figures": 8,
+    "examples": 26
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Anti-derivatives",
+   "hours": 18,
+   "area": "Calculus",
+   "topics": [
+    "Standard integrals",
+    "Integrals reducible to standard forms",
+    "Integrals of rational functions"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Standard integrals"
+    },
+    {
+     "no": "13.2",
+     "title": "Integrals reducible to standard forms"
+    },
+    {
+     "no": "13.3",
+     "title": "Integrals of rational functions"
+    },
+    {
+     "no": "13.4",
+     "title": "The definite integral and its properties"
+    },
+    {
+     "no": "13.5",
+     "title": "The definite integral as the limit of a sum"
+    },
+    {
+     "no": "13.6",
+     "title": "Area under a curve and area between two curves"
+    }
+   ],
+   "summary": [
+    "Anti-differentiation reverses differentiation: ∫ f(x) dx = F(x)+C where F' = f. The +C is compulsory, and it makes the answer a whole family of parallel curves.",
+    "Learn the table of standard integrals to the point of recall, including ∫(dx)/(x) = ln|x|, the nine quadratic forms, and ∫tan x dx = ln|sec x|, ∫sec x dx = ln|sec x+tan x|.",
+    "Substitution works when the integrand contains g(x) together with g'(x). The master pattern is ∫(g'(x))/(g(x))dx = ln|g(x)|+C.",
+    "By parts: ∫ u dv = uv - ∫ v du, with u chosen by ILATE. Polynomial times sine or exponential needs repeated parts; e^axsin bx is cyclic, so apply parts twice and solve for I; and ∫ e^xleft[f+f'right]dx = e^xf(x)+C in one step.",
+    "A quadratic denominator is handled by completing the square; an x in the numerator by splitting px+q = λ(denominator)' + μ.",
+    "Radicals √a^2-x^2, √a^2+x^2, √x^2-a^2 call for x = asinθ, atanθ, asecθ; draw the reference triangle to convert back.",
+    "Any rational function of sin x and cos x yields to t = tan(x)/(2), using sin x = frac2t1+t^2, cos x = frac1-t^21+t^2, dx = frac2 dt1+t^2.",
+    "Rational functions: divide first if improper, then split into partial fractions according to the four denominator cases."
+   ],
+   "terms": [
+    "Anti-derivative",
+    "Definite integral"
+   ],
+   "stats": {
+    "words": 9073,
+    "figures": 8,
+    "examples": 42
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Differential Equations",
+   "hours": 12,
+   "area": "Calculus",
+   "topics": [
+    "Order and degree of a differential equation",
+    "Differential equations of first order and first degree",
+    "Separable variables",
+    "Homogeneous differential equations",
+    "Linear differential equations",
+    "Exact differential equations"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Order and degree of a differential equation"
+    },
+    {
+     "no": "14.2",
+     "title": "Differential equations of first order and first degree"
+    },
+    {
+     "no": "14.3",
+     "title": "Separable variables"
+    },
+    {
+     "no": "14.4",
+     "title": "Homogeneous differential equations"
+    },
+    {
+     "no": "14.5",
+     "title": "Linear differential equations"
+    },
+    {
+     "no": "14.6",
+     "title": "Exact differential equations"
+    },
+    {
+     "no": "14.7",
+     "title": "Applications of differential equations"
+    }
+   ],
+   "summary": [
+    "A differential equation relates y to its derivatives. Its order is the highest derivative present; its degree is the power of that derivative once all radicals in the derivatives have been cleared. The degree may be undefined.",
+    "The general solution of an n-th order equation contains n arbitrary constants. Extra conditions turn it into a particular solution. To form the equation of a family with n constants, differentiate n times and eliminate the constants.",
+    "A first-order first-degree equation has a one-parameter family of solutions, and the slope field is the picture of that family.",
+    "Separable: write f(y) dy = g(x) dx and integrate both sides. Test this first, because it is the cheapest method.",
+    "Homogeneous: if (dy)/(dx) = Fleft(frac yxright), put y = vx so that (dy)/(dx) = v + x(dv)/(dx). The result always separates.",
+    "Reducible to homogeneous: for (dy)/(dx) = fraca1x+b1y+c1a2x+b2y+c2, shift the origin with x = X+h, y = Y+k chosen to kill both constants.",
+    "Linear: for (dy)/(dx) + Py = Q the integrating factor is I = e^∫ P dx, and then Iy = ∫ IQ dx + C.",
+    "Exact: M dx + N dy = 0 is exact when (partial M)/(partial y) = (partial N)/(partial x), and the solution is u = C where (partial u)/(partial x) = M and (partial u)/(partial y) = N."
+   ],
+   "terms": [
+    "Differential equation, order and degree",
+    "Solution of a differential equation",
+    "Variables separable",
+    "Homogeneous function and homogeneous equation",
+    "Linear equation of the first order",
+    "Exact differential equation"
+   ],
+   "stats": {
+    "words": 6188,
+    "figures": 7,
+    "examples": 24
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Computational Methods",
+   "hours": 12,
+   "area": "Computational Methods OR Mechanics",
+   "topics": [
+    "System of linear equations: Gauss Elimination Method",
+    "System of linear equations: Gauss-Seidel Method",
+    "Linear programming problems (LPP): simplex method (two variables)"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "System of linear equations: Gauss Elimination Method"
+    },
+    {
+     "no": "15.2",
+     "title": "System of linear equations: Gauss–Seidel Method"
+    },
+    {
+     "no": "15.3",
+     "title": "Linear programming problems (LPP): simplex method (two variables)"
+    },
+    {
+     "no": "15.4",
+     "title": "How accurate is a computed answer?"
+    }
+   ],
+   "summary": [
+    "Gauss elimination. Form [A | b]; use Ri → Ri - mikRk with mik = aik/akk to make it upper triangular; back substitute. Swap rows if a pivot is 0 (partial pivoting).",
+    "A row 0;0;0 | k with k ≠ 0 means no solution; 0;0;0 | 0 means infinitely many.",
+    "Gauss–Seidel. x^(k+1) = frac1a11(b1 - a12y^(k) - a13z^(k)), and so on, always using the newest value available. Converges for certain when |aii| > Σj≠ i|aij| in every row — reorder the equations if it is not so.",
+    "Direct methods (elimination) finish in a set number of steps; iterative methods (Gauss–Seidel) are stopped when successive iterates agree to the required accuracy.",
+    "LPP. Maximise Z = c1x + c2y over a convex feasible region; the optimum lies at a corner.",
+    "Simplex. Add slacks, write Z - c1x - c2y = 0. Pivot column = most negative Z entry; pivot row = smallest positive ratio RHS ÷ column entry; pivot to make the column (1,0,ldots,0). Stop when no Z entry is negative.",
+    "Newton–Raphson. xn+1 = xn - f(xn)/f'(xn); correct digits roughly double each step.",
+    "Quadrature. Trapezium (h)/(2)[y0+yn+2(rest)] with |E| ≤ ((b-a)h^2)/(12)max|f''|; Simpson (h)/(3)[y0+yn+4(odd)+2(even)], n even, with |E| ≤ ((b-a)h^4)/(180)max|f^(4)|."
+   ],
+   "terms": [
+    "Diagonal dominance",
+    "The parts of an LPP"
+   ],
+   "stats": {
+    "words": 7057,
+    "figures": 8,
+    "examples": 13
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Mechanics (alternative to Unit 15)",
+   "hours": 12,
+   "area": "Computational Methods OR Mechanics",
+   "topics": [
+    "Statics: triangle law of forces; Lami's theorem",
+    "Dynamics: Newton's laws of motion",
+    "Dynamics: projectile motion"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Statics: triangle law of forces; Lami's theorem"
+    },
+    {
+     "no": "16.2",
+     "title": "Dynamics: Newton's laws of motion"
+    },
+    {
+     "no": "16.3",
+     "title": "Dynamics: projectile motion"
+    }
+   ],
+   "summary": [
+    "Resultant of P and Q at angle θ: R = √P^2+Q^2+2PQcosθ, at tanα = dfracQsinθP+Qcosθ to P. Resolution: components Fcosθ, Fsinθ.",
+    "Triangle law. Three concurrent forces are in equilibrium exactly when they form a closed head-to-tail triangle; with more forces, a closed polygon.",
+    "Lami's theorem. For three concurrent forces in equilibrium, dfracPsinα = dfracQsinβ = dfracRsinγ, each angle being between the other two forces.",
+    "Moment M = F× d; a rigid body is in equilibrium when Σ Fx = 0, Σ Fy = 0 and Σ M = 0.",
+    "Newton's laws. F = ma; impulse FΔ t = mv - mu; momentum m1u1 + m2u2 = m1v1 + m2v2 is conserved in every collision.",
+    "Atwood machine: a = dfrac(m1-m2)gm1+m2, T = dfrac2m1m2gm1+m2. Lift: R = m(g ± a).",
+    "Work W = Fscosθ; work–energy theorem W = tfrac12 mv^2 - tfrac12 mu^2; power P = Fv.",
+    "Projectile (u, θ): y = xtanθ - dfracgx^22u^2cos^2θ, T = dfrac2usinθg, H = dfracu^2sin^2θ2g, R = dfracu^2sin2θg, with Rmax = dfracu^2g at θ = 45^° and equal ranges for θ and 90^°-θ."
+   ],
+   "terms": [
+    "Triangle law of forces",
+    "Moment of a force",
+    "Newton's three laws"
+   ],
+   "stats": {
+    "words": 5543,
+    "figures": 8,
+    "examples": 16
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Appendix: Retained Examinable Topics",
+   "hours": null,
+   "area": "Computational Methods OR Mechanics",
+   "topics": [
+    "Elementary Group Theory: binary operation, group, abelian group, finite and infinite groups",
+    "Rolle's theorem and Mean Value Theorem",
+    "Numerical integration: trapezoidal and Simpson's rule (revision)"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Elementary Group Theory: binary operation, group, abelian group, finite and infinite groups"
+    },
+    {
+     "no": "17.2",
+     "title": "Rolle's theorem and Mean Value Theorem"
+    },
+    {
+     "no": "17.3",
+     "title": "Numerical integration: trapezoidal and Simpson's rule (revision)"
+    }
+   ],
+   "summary": [
+    "A binary operation on G assigns to each ordered pair (a, b) a unique element a * b of G; the closure requirement is part of the definition.",
+    "(G, ) is a group if it is closed, associative, has an identity e and every element has an inverse; it is abelian if ab = b*a for all a, b, and the order |G| is the number of elements.",
+    "The Cayley table shows closure (all entries in G), the identity (a row repeating the heading), inverses (one e in each row and column) and the abelian property (symmetry about the leading diagonal).",
+    "Standard examples: (mathbbZ, +) infinite abelian; (Z4, +4) and 1, -1, i, -i under × finite abelian of order 4; (1,2,3,4 ×5) abelian of order 4; S3 non-abelian of order 6.",
+    "In any group the identity and each inverse are unique.",
+    "Rolle's theorem. f continuous on [a,b], differentiable on (a,b) and f(a) = f(b) ⇒ there is c ∈ (a,b) with f'(c) = 0.",
+    "Mean Value Theorem. f continuous on [a,b] and differentiable on (a,b) ⇒ there is c ∈ (a,b) with f'(c) = dfracf(b)-f(a)b-a; it follows from Rolle applied to g(x) = f(x) - f(a) - (f(b)-f(a))/(b-a)(x-a).",
+    "Trapezoidal rule dfrach2[(y0+yn) + 2(interior)] with |ET| ≤ dfrac(b-a)h^212max|f''|; Simpson's rule (n even) dfrach3[(y0+yn) + 4(odd) + 2(even)] with |ES| ≤ dfrac(b-a)h^4180max|f^(4)|."
+   ],
+   "terms": [
+    "Binary operation",
+    "Cayley table"
+   ],
+   "stats": {
+    "words": 5473,
+    "figures": 7,
+    "examples": 16
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 17,
+ "topic_count": 70,
+ "notes_ready": 17
+}

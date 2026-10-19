@@ -1,0 +1,990 @@
+{
+ "grade": "10",
+ "grade_label": "Class 10",
+ "grade_label_ne": "कक्षा १०",
+ "subject": "science",
+ "name": "Science and Technology",
+ "name_ne": "विज्ञान तथा प्रविधि",
+ "icon": "science",
+ "group": "compulsory",
+ "color": "#0B6A62",
+ "lang": "en",
+ "code": "SEE",
+ "hours": 150,
+ "exam": "SEE, 2 hr 30 min, FM 75 written (+25 internal/practical) | Biology, Physics, Chemistry, Astronomy and ICT",
+ "areas": [
+  "Science and Technology"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Scientific Learning",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Science and scientific method",
+    "scientific investigation",
+    "measurement and units",
+    "project work"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Science and scientific method"
+    },
+    {
+     "no": "1.2",
+     "title": "Scientific investigation"
+    },
+    {
+     "no": "1.3",
+     "title": "Measurement and units"
+    },
+    {
+     "no": "1.4",
+     "title": "Project work"
+    }
+   ],
+   "summary": [
+    "Science is the organised study of nature through observation and experiment; technology applies scientific knowledge to solve problems.",
+    "The scientific method: problem → observation → hypothesis → experiment → data analysis → conclusion → report.",
+    "In an experiment there is one independent variable, a dependent variable that we measure, and controlled variables kept constant; a control group is used for comparison.",
+    "Accuracy is closeness to the true value; precision is closeness of repeated readings. Taking the mean of several readings reduces random error.",
+    "SI base units: metre (m), kilogram (kg), second (s), kelvin (K), ampere (A), candela (cd), mole (mol). Going to a smaller unit, multiply; to a bigger unit, divide.",
+    "Least count of a vernier = 1 MSD − 1 VSD (usually 0.01 cm); of a screw gauge = pitch / number of circular divisions (usually 0.01 mm).",
+    "Density = mass / volume; km/h to m/s: multiply by 5/18.",
+    "A project follows these steps: topic, plan, data collection, analysis, conclusion, report. A report has an introduction, methods, analysis, conclusion and references."
+   ],
+   "terms": [
+    "Science"
+   ],
+   "stats": {
+    "words": 4144,
+    "figures": 3,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Classification of Living Beings",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Taxonomy and classification",
+    "five kingdoms",
+    "characteristics of Monera, Protista, Fungi, Plantae, Animalia"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Taxonomy and classification"
+    },
+    {
+     "no": "2.2",
+     "title": "Five kingdoms"
+    },
+    {
+     "no": "2.3",
+     "title": "Characteristics of Monera, Protista, Fungi, Plantae and Animalia"
+    }
+   ],
+   "summary": [
+    "Taxonomy is the identification, naming and classification of organisms. Linnaeus is the father of taxonomy; Whittaker proposed five kingdoms in 1969.",
+    "The hierarchy is Kingdom → Phylum → Class → Order → Family → Genus → Species; the species is the basic unit.",
+    "Binomial nomenclature: two Latin names, genus (capital) then species (small letter), in italics or underlined.",
+    "Monera: prokaryotic, unicellular (bacteria, cyanobacteria); binary fission.",
+    "Protista: unicellular eukaryotes (Amoeba, Paramecium, Euglena).",
+    "Fungi: chitin cell wall, hyphae, saprophytic or parasitic, spores (yeast, mushroom).",
+    "Plantae: multicellular, cellulose wall, photosynthesis; algae, bryophytes, pteridophytes, gymnosperms, angiosperms.",
+    "Animalia: multicellular, heterotrophic, no cell wall; invertebrate phyla and five classes of vertebrates (fish, amphibians, reptiles, birds, mammals)."
+   ],
+   "terms": [
+    "Taxonomy",
+    "Binomial nomenclature"
+   ],
+   "stats": {
+    "words": 2924,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Honey Bee",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Types of bees",
+    "life cycle",
+    "colony and division of labour",
+    "bee keeping and products"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Types of bees"
+    },
+    {
+     "no": "3.2",
+     "title": "Life cycle"
+    },
+    {
+     "no": "3.3",
+     "title": "Colony and division of labour"
+    },
+    {
+     "no": "3.4",
+     "title": "Bee keeping and products"
+    }
+   ],
+   "summary": [
+    "Honey bees belong to genus Apis, class Insecta, order Hymenoptera. Wild species: A. dorsata, A. laboriosa, A. florea; domesticated: A. cerana, A. mellifera.",
+    "The colony has three castes: one queen (fertile female), thousands of workers (sterile females) and drones (males).",
+    "Life cycle: egg → larva → pupa → adult (complete metamorphosis). Egg-to-adult time: queen 16 days, worker 21 days, drone 24 days.",
+    "Fertilised eggs give queens and workers (diet decides which); unfertilised eggs give drones (parthenogenesis).",
+    "Division of labour among workers by age: cleaner, nurse, house bee (comb builder), guard, forager. Bees communicate by round and waggle dances.",
+    "The comb is made of hexagonal wax cells; the brood is at the centre, pollen around it and honey above.",
+    "Bee-keeping tools: movable-frame hive, queen excluder, smoker, veil, hive tool, honey extractor.",
+    "Products: honey, beeswax, royal jelly, propolis, pollen and bee venom. Bees also pollinate crops."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3617,
+    "figures": 1,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Heredity",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Mendel's experiments and laws",
+    "chromosomes and genes",
+    "sex determination",
+    "genetic disorders"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Mendel's experiments and laws"
+    },
+    {
+     "no": "4.2",
+     "title": "Chromosomes and genes"
+    },
+    {
+     "no": "4.3",
+     "title": "Sex determination"
+    },
+    {
+     "no": "4.4",
+     "title": "Genetic disorders"
+    }
+   ],
+   "summary": [
+    "Heredity is the passing of characters from parents to offspring through genes. Mendel, the father of genetics, worked with pea plants and discovered the laws of inheritance.",
+    "Monohybrid cross Tt × Tt gives phenotypic ratio 3 : 1 and genotypic ratio 1 : 2 : 1; a test cross with the recessive parent shows whether a dominant plant is pure.",
+    "Dihybrid cross RrYy × RrYy gives 9 : 3 : 3 : 1.",
+    "Laws: dominance, segregation (purity of gametes), independent assortment.",
+    "Cell → nucleus → chromosome → DNA → gene. Humans have 46 chromosomes (22 pairs autosomes + XX or XY). DNA is a double helix with A–T and C–G pairing.",
+    "Sex is decided by the father's sperm: X-sperm gives a girl, Y-sperm gives a boy; chance 50 : 50.",
+    "Sex-linked recessive disorders (colour blindness, haemophilia) are commoner in males.",
+    "Chromosomal disorders: Down's (47, trisomy 21), Turner's (XO, 45), Klinefelter's (XXY, 47). Genetic counselling helps prevention."
+   ],
+   "terms": [
+    "Heredity"
+   ],
+   "stats": {
+    "words": 3822,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Physiological Structure and Life Process",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Nervous and endocrine systems",
+    "reproduction",
+    "circulation",
+    "excretion",
+    "homeostasis"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Nervous and endocrine systems"
+    },
+    {
+     "no": "5.2",
+     "title": "Reproduction"
+    },
+    {
+     "no": "5.3",
+     "title": "Circulation"
+    },
+    {
+     "no": "5.4",
+     "title": "Excretion"
+    },
+    {
+     "no": "5.5",
+     "title": "Homeostasis"
+    }
+   ],
+   "summary": [
+    "The CNS (brain + spinal cord) and the PNS (nerves) coordinate quickly using electrical impulses; the endocrine glands coordinate slowly using hormones.",
+    "Neuron: dendrites, cell body, axon, myelin sheath. Reflex arc: receptor → sensory neuron → spinal cord → motor neuron → effector.",
+    "Brain: cerebrum (thinking), cerebellum (balance), medulla (involuntary actions). Pituitary is the master gland; thyroxine needs iodine; insulin controls blood sugar.",
+    "Human reproduction: sperm and egg meet in the fallopian tube; the zygote implants in the uterus; gestation about 280 days. Menstrual cycle 28 days, ovulation about day 14.",
+    "Blood = plasma + RBC (oxygen) + WBC (defence) + platelets (clotting). Blood groups A, B, AB, O.",
+    "Heart has four chambers; double circulation (pulmonary and systemic). Cardiac output = heart rate × stroke volume; normal BP 120/80 mm Hg.",
+    "Nephron: filtration (glomerulus), reabsorption (tubule), secretion; about 180 L filtered and 1.5 L urine per day. Dialysis treats kidney failure.",
+    "Homeostasis: constant internal conditions by negative feedback: body temperature 37 °C (hypothalamus), blood glucose (insulin and glucagon), water (ADH)."
+   ],
+   "terms": [
+    "Reflex action",
+    "Homeostasis"
+   ],
+   "stats": {
+    "words": 4577,
+    "figures": 5,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Nature and Environment",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Ecosystem",
+    "environmental pollution",
+    "climate change",
+    "waste management",
+    "conservation"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Ecosystem"
+    },
+    {
+     "no": "6.2",
+     "title": "Environmental pollution"
+    },
+    {
+     "no": "6.3",
+     "title": "Climate change"
+    },
+    {
+     "no": "6.4",
+     "title": "Waste management"
+    },
+    {
+     "no": "6.5",
+     "title": "Conservation"
+    }
+   ],
+   "summary": [
+    "An ecosystem is the living (producers, consumers, decomposers) and non-living parts of a place interacting. Energy flows in one direction (10% passes to the next level); matter is recycled in carbon, nitrogen and water cycles.",
+    "Food chains join to form a food web: producer → herbivore → carnivore → top carnivore.",
+    "Air pollutants: CO, CO₂, SO₂, NOₓ, particles, CFCs; water pollution from sewage, chemicals and fertilisers (eutrophication); soil pollution from plastic and agrochemicals; noise above 85 dB harms hearing.",
+    "Greenhouse gases (CO₂, CH₄, N₂O, CFCs) trap heat. Global warming melts glaciers, raises sea level and changes rainfall. CFCs thin the ozone layer, allowing more UV rays; the Montreal Protocol controls them.",
+    "Waste is biodegradable or non-biodegradable. Follow the 3 Rs (reduce, reuse, recycle) and segregate at source; compost, biogas and sanitary landfill are the main treatments.",
+    "Conservation is wise use of resources: in-situ (parks, reserves, community forests) and ex-situ (zoos, gene banks). Nepal protects about 23% of its land; Chitwan was the first national park (1973)."
+   ],
+   "terms": [
+    "Ecosystem",
+    "Food chain",
+    "Pollution"
+   ],
+   "stats": {
+    "words": 4698,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Motion and Force",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Newton's laws",
+    "momentum",
+    "gravitation",
+    "weight and mass",
+    "free fall"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Newton's laws"
+    },
+    {
+     "no": "7.2",
+     "title": "Momentum"
+    },
+    {
+     "no": "7.3",
+     "title": "Gravitation"
+    },
+    {
+     "no": "7.4",
+     "title": "Weight and mass"
+    },
+    {
+     "no": "7.5",
+     "title": "Free fall"
+    }
+   ],
+   "summary": [
+    "Force is a push or a pull; unit newton. Net force zero means the forces are balanced.",
+    "Newton's first law: a body keeps its state of rest or uniform motion unless an unbalanced force acts. Inertia depends on mass.",
+    "Newton's second law: F = ma; also F = dfracΔ pt. 1 N gives 1 kg an acceleration of 1 m s⁻².",
+    "Newton's third law: action and reaction are equal and opposite and act on different bodies.",
+    "Momentum p = mv (kg m s⁻¹); impulse Ft = mv - mu. Without external force, m1u1 + m2u2 = m1v1 + m2v2.",
+    "Gravitation: F = Gdfracm1 m2d^2 with G = 6.67×10^-11 N m² kg⁻²; g = dfracGMR^2 = 9.8 m s⁻²; g is greatest at the poles and zero at the Earth's centre.",
+    "Weight W = mg (newton) changes from place to place; mass (kg) does not.",
+    "Free fall: v = gt, h = tfrac12 gt^2, v^2 = 2gh; for upward throw H = dfracu^22g, time of flight dfrac2ug."
+   ],
+   "terms": [
+    "Newton's first law",
+    "Newton's second law",
+    "Newton's third law",
+    "Momentum",
+    "Law of conservation of momentum",
+    "Newton's law of universal gravitation",
+    "Free fall"
+   ],
+   "stats": {
+    "words": 4636,
+    "figures": 4,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Pressure",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Pressure in solids, liquids and gases",
+    "Pascal's law",
+    "atmospheric pressure",
+    "Archimedes and floatation"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Pressure in solids, liquids and gases"
+    },
+    {
+     "no": "8.2",
+     "title": "Pascal's law"
+    },
+    {
+     "no": "8.3",
+     "title": "Atmospheric pressure"
+    },
+    {
+     "no": "8.4",
+     "title": "Archimedes and floatation"
+    }
+   ],
+   "summary": [
+    "Pressure = thrust ÷ area: P = F/A; unit pascal (1 Pa = 1 N m⁻²). Small area gives high pressure.",
+    "Liquid pressure: P = hρ g; it increases with depth and acts equally in all directions at a point.",
+    "Pascal's law: pressure on an enclosed fluid is transmitted equally in all directions. Hydraulic machine: F = f (A/a).",
+    "Atmospheric pressure at sea level = 76 cm Hg = 1.013×10^5 Pa; it decreases with altitude. A barometer measures it.",
+    "Archimedes' principle: upthrust = weight of fluid displaced = Vρ g; apparent weight = weight − upthrust.",
+    "A body sinks if ρb > ρl, floats if ρb < ρl; for a floating body, upthrust = weight.",
+    "Ships float because their average density is less than water's; submarines, hydrometers and balloons use the same law."
+   ],
+   "terms": [
+    "Pressure",
+    "Pascal's law",
+    "Atmospheric pressure",
+    "Archimedes' principle",
+    "Law of floatation"
+   ],
+   "stats": {
+    "words": 3868,
+    "figures": 3,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Heat",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Thermal expansion",
+    "specific heat capacity",
+    "latent heat",
+    "heat transfer"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Thermal expansion"
+    },
+    {
+     "no": "9.2",
+     "title": "Specific heat capacity"
+    },
+    {
+     "no": "9.3",
+     "title": "Latent heat"
+    },
+    {
+     "no": "9.4",
+     "title": "Heat transfer"
+    }
+   ],
+   "summary": [
+    "Heat is energy (joule); temperature tells hotness. Heat flows from higher to lower temperature. T(K) = t(°C) + 273.",
+    "Linear expansion: Δ L = α L0 Δ T. Bimetallic strips, rail gaps and tyre-fitting use expansion.",
+    "Water contracts from 0 °C to 4 °C and has maximum density at 4 °C; this saves aquatic life in frozen lakes.",
+    "Specific heat capacity c: heat to raise 1 kg by 1 °C; Q = mcΔ T (water c = 4200 J kg⁻¹ °C⁻¹). Heat lost = heat gained in mixing.",
+    "Latent heat: Q = mL with no change in temperature. Lf(ice) = 3.36×10^5 J kg⁻¹, Lv(water) = 2.26×10^6 J kg⁻¹.",
+    "Conduction (solids, particles vibrate), convection (fluids, particles move), radiation (waves, no medium needed).",
+    "Dull black surfaces absorb and emit heat well; shiny surfaces reflect heat. A thermos flask reduces all three modes."
+   ],
+   "terms": [
+    "Thermal expansion",
+    "Heat capacity",
+    "Specific heat capacity",
+    "Specific latent heat",
+    "Conduction",
+    "Convection",
+    "Radiation"
+   ],
+   "stats": {
+    "words": 3792,
+    "figures": 4,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Wave",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Wave motion",
+    "sound",
+    "reflection and refraction of light",
+    "lenses",
+    "optical instruments"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Wave motion"
+    },
+    {
+     "no": "10.2",
+     "title": "Sound"
+    },
+    {
+     "no": "10.3",
+     "title": "Reflection and refraction of light"
+    },
+    {
+     "no": "10.4",
+     "title": "Lenses"
+    },
+    {
+     "no": "10.5",
+     "title": "Optical instruments"
+    }
+   ],
+   "summary": [
+    "A wave transfers energy without transferring matter. Transverse: vibration ⟂ wave direction; longitudinal: vibration ∥ wave direction. v = fλ, T = 1/f.",
+    "Sound is a longitudinal mechanical wave; cannot travel in a vacuum; fastest in solids. Audible range 20 Hz–20 kHz. Echo needs at least 17 m: d = vt/2.",
+    "Loudness depends on amplitude, pitch on frequency, quality on waveform.",
+    "Reflection: ∠ i = ∠ r. Mirror formula dfrac1f = dfrac1u + dfrac1v, f = R/2, m = v/u.",
+    "Refraction: dfracsin isin r = n = dfraccv; total internal reflection when light goes dense → rare with i > C, where sin C = 1/n.",
+    "Lens formula dfrac1f = dfrac1u + dfrac1v; power P = 1/f (m) in dioptre; convex is positive, concave is negative.",
+    "Myopia is corrected by a concave lens, hypermetropia by a convex lens. Compound microscope and telescope use two convex lenses."
+   ],
+   "terms": [
+    "Wave",
+    "Laws of reflection",
+    "Laws of refraction",
+    "Total internal reflection"
+   ],
+   "stats": {
+    "words": 4454,
+    "figures": 4,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Electricity and Magnetism",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Ohm's law",
+    "resistance",
+    "electrical power",
+    "magnetic effect of current",
+    "electromagnetic induction",
+    "generator and transformer"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Ohm's law"
+    },
+    {
+     "no": "11.2",
+     "title": "Resistance"
+    },
+    {
+     "no": "11.3",
+     "title": "Electrical power"
+    },
+    {
+     "no": "11.4",
+     "title": "Magnetic effect of current"
+    },
+    {
+     "no": "11.5",
+     "title": "Electromagnetic induction"
+    },
+    {
+     "no": "11.6",
+     "title": "Generator and transformer"
+    }
+   ],
+   "summary": [
+    "I = Q/t (A); V = work per unit charge (V). Ohm's law: V = IR at constant temperature.",
+    "R = ρ l/A. Series: Rs = R1 + R2 + cdots; parallel: dfrac1Rp = dfrac1R1 + dfrac1R2 + cdots.",
+    "Power P = VI = I^2R = V^2/R; energy W = Pt; 1 kWh = 3.6×10⁶ J. Heat H = I^2Rt. A fuse breaks an overloaded circuit.",
+    "A current produces a magnetic field (Oersted). Right-hand grip rule gives its direction; a solenoid with an iron core is an electromagnet.",
+    "A conductor carrying current in a magnetic field feels a force (Fleming's left-hand rule). The DC motor uses it and a split-ring commutator.",
+    "Electromagnetic induction: changing flux induces an emf (Faraday); its direction opposes the change (Lenz). Fleming's right-hand rule gives the direction.",
+    "AC generator: mechanical → electrical energy, slip rings, output AC (50 Hz in Nepal).",
+    "Transformer (AC only): dfracVsVp = dfracNsNp and VpIp = VsIs for an ideal one; high-voltage transmission reduces I^2R loss."
+   ],
+   "terms": [
+    "Ohm's law",
+    "Resistance",
+    "Electromagnetic induction"
+   ],
+   "stats": {
+    "words": 3964,
+    "figures": 4,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Universe",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Stars, galaxies, solar system",
+    "formation of the universe",
+    "space exploration"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Stars, galaxies, solar system"
+    },
+    {
+     "no": "12.2",
+     "title": "Formation of the universe"
+    },
+    {
+     "no": "12.3",
+     "title": "Space exploration"
+    }
+   ],
+   "summary": [
+    "The universe is everything. 1 light year = 9.46×10^12 km (distance); 1 AU = 1.5×10^8 km. Sunlight takes 8 min 20 s to reach the Earth.",
+    "A star is a ball of hot gas shining by nuclear fusion of hydrogen. Life cycle: nebula → protostar → main sequence → red giant → white dwarf (Sun-like) or supernova → neutron star / black hole (massive).",
+    "A galaxy is a system of billions of stars. The Milky Way is a spiral galaxy. Constellations are patterns of stars; the Pole Star shows north.",
+    "The solar system has eight planets: Mercury, Venus, Earth, Mars (terrestrial), Jupiter, Saturn, Uranus, Neptune (giants), plus dwarf planets, asteroids, comets and meteors. T^2 = r^3 (years, AU).",
+    "Big Bang: the universe began about 13.8 billion years ago and is still expanding. Evidence: red shift of galaxies, cosmic microwave background, abundance of H and He.",
+    "Satellites stay in orbit because gravity supplies the circular-motion force. Geostationary satellites orbit at 36,000 km with a 24 h period.",
+    "Milestones: Sputnik 1 (1957), Gagarin (1961), Apollo 11 (1969), Hubble (1990), ISS (1998), NepaliSat-1 (2019)."
+   ],
+   "terms": [
+    "Universe",
+    "Star",
+    "Galaxy",
+    "Solar system",
+    "Big Bang theory"
+   ],
+   "stats": {
+    "words": 4019,
+    "figures": 2,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Information and Communication Technology",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Computer systems",
+    "internet and networks",
+    "e-commerce",
+    "ICT in daily life",
+    "ethics"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Computer systems"
+    },
+    {
+     "no": "13.2",
+     "title": "Internet and networks"
+    },
+    {
+     "no": "13.3",
+     "title": "E-commerce"
+    },
+    {
+     "no": "13.4",
+     "title": "ICT in daily life"
+    },
+    {
+     "no": "13.5",
+     "title": "Ethics"
+    }
+   ],
+   "summary": [
+    "A computer takes input, processes data using the CPU (ALU + CU) and memory, and gives output. Hardware is physical; software is programs (system, utility, application).",
+    "RAM is volatile; ROM is permanent. 1 byte = 8 bits; 1 KB = 1024 B; 1 MB = 1024 KB; 1 GB = 1024 MB. Computers use the binary system.",
+    "A network connects computers: LAN, MAN, WAN; topologies include star, bus and ring.",
+    "The internet is a network of networks; the WWW is a service on it. Important terms: ISP, IP address, URL, browser, search engine, e-mail, bandwidth.",
+    "Safe use: antivirus, firewall, strong passwords; beware of phishing, hacking and viruses.",
+    "E-commerce is buying and selling online (B2C, B2B, C2C, G2C), with digital payment; it saves time and widens choice but carries risks of fraud.",
+    "ICT is used in education, health, banking, governance, agriculture, transport and many other fields; emerging technologies are AI and IoT.",
+    "Cyber ethics requires respect for others, privacy and copyright. Cyber crime is punished by cyber law; in Nepal, the Electronic Transactions Act 2063 B.S."
+   ],
+   "terms": [
+    "Computer",
+    "Computer network",
+    "Internet",
+    "E-commerce",
+    "Cyber ethics"
+   ],
+   "stats": {
+    "words": 3719,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Classification of Elements",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Periodic table",
+    "periodic properties",
+    "groups and periods"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Periodic table"
+    },
+    {
+     "no": "14.2",
+     "title": "Periodic properties"
+    },
+    {
+     "no": "14.3",
+     "title": "Groups and periods"
+    }
+   ],
+   "summary": [
+    "Dobereiner (triads), Newlands (octaves) and Mendeleev (periodic law by atomic mass) were early attempts; Moseley's modern periodic law uses atomic number.",
+    "The modern table has 18 groups and 7 periods; blocks are s, p, d and f.",
+    "Period number = number of shells; group number (1, 2) = valence electrons; groups 13 to 18: valence electrons + 10.",
+    "Valency = valence electrons (1 to 3) or 8 − valence electrons (4 to 7); noble gases are 0.",
+    "Down a group: atomic size increases; ionisation energy and electronegativity decrease; metallic character increases.",
+    "Across a period: atomic size decreases; ionisation energy and electronegativity increase; non-metallic character increases.",
+    "Group 1 = alkali metals, group 2 = alkaline earth metals, group 17 = halogens, group 18 = noble gases."
+   ],
+   "terms": [
+    "Mendeleev's periodic law",
+    "Modern periodic law"
+   ],
+   "stats": {
+    "words": 3407,
+    "figures": 2,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Chemical Reaction",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Types of reactions",
+    "balancing equations",
+    "rate of reaction",
+    "acids, bases and salts"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Types of reactions"
+    },
+    {
+     "no": "15.2",
+     "title": "Balancing equations"
+    },
+    {
+     "no": "15.3",
+     "title": "Rate of reaction"
+    },
+    {
+     "no": "15.4",
+     "title": "Acids, bases and salts"
+    }
+   ],
+   "summary": [
+    "A chemical reaction forms new substances; it is shown by a balanced equation (reactants → products).",
+    "Types: combination, decomposition, displacement, double displacement, exothermic/endothermic and redox.",
+    "Mass is conserved: balance equations by writing coefficients, never by changing subscripts.",
+    "Rate of reaction increases with concentration, surface area, temperature and a catalyst.",
+    "Acids give H⁺, bases (alkalis) give OH⁻; pH below 7 is acidic, 7 is neutral, above 7 is basic.",
+    "Acid + base → salt + water is neutralisation; Acid + metal → salt + H₂; Acid + carbonate → salt + water + CO₂.",
+    "Important salts: NaCl, NaHCO₃, Na₂CO₃·10H₂O, plaster of Paris, bleaching powder."
+   ],
+   "terms": [
+    "Catalyst"
+   ],
+   "stats": {
+    "words": 3220,
+    "figures": 2,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Gases",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Properties of gases",
+    "Boyle's and Charles' laws",
+    "preparation of hydrogen, oxygen, carbon dioxide"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Properties of gases"
+    },
+    {
+     "no": "16.2",
+     "title": "Boyle's and Charles' laws"
+    },
+    {
+     "no": "16.3",
+     "title": "Preparation of hydrogen, oxygen and carbon dioxide"
+    }
+   ],
+   "summary": [
+    "Gas particles are far apart and move fast; gases have no fixed shape or volume, are compressible and exert pressure.",
+    "Temperature in gas laws must be in kelvin: T = t + 273.",
+    "Boyle's law (constant T): P1V1 = P2V2.",
+    "Charles' law (constant P): V1/T1 = V2/T2.",
+    "Combined: dfracP1V1T1 = dfracP2V2T2; STP is 273 K and 760 mm Hg.",
+    "H₂: Zn + dil. H₂SO₄; pop test. O₂: KClO₃ + MnO₂ heated; glowing splinter relights. CO₂: CaCO₃ + dil. HCl; lime water turns milky.",
+    "Uses: H₂ as fuel and in ammonia; O₂ in respiration and welding; CO₂ in fire extinguishers and soft drinks."
+   ],
+   "terms": [
+    "Boyle's law",
+    "Charles' law"
+   ],
+   "stats": {
+    "words": 2560,
+    "figures": 2,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Metal and Non-metals",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Physical and chemical properties",
+    "reactivity series",
+    "extraction",
+    "corrosion"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Physical and chemical properties"
+    },
+    {
+     "no": "17.2",
+     "title": "Reactivity series"
+    },
+    {
+     "no": "17.3",
+     "title": "Extraction of metals"
+    },
+    {
+     "no": "17.4",
+     "title": "Corrosion"
+    }
+   ],
+   "summary": [
+    "Metals are lustrous, malleable, ductile and conduct heat and electricity; non-metals are dull, brittle and poor conductors (graphite and diamond are exceptions).",
+    "Metal oxides are basic; non-metal oxides are acidic; Al₂O₃ and ZnO are amphoteric.",
+    "Reactivity series: K, Na, Ca, Mg, Al, Zn, Fe, Pb, H, Cu, Hg, Ag, Au. A more reactive metal displaces a less reactive one; only metals above H liberate H₂ from dilute acids.",
+    "Ores of Fe: haematite and magnetite; Al: bauxite; Cu: copper pyrite.",
+    "Steps: crushing, concentration, calcination/roasting, reduction, refining. Reactive metals are extracted by electrolysis; middle metals by carbon reduction.",
+    "Iron is made in a blast furnace from haematite, coke and limestone; Al is extracted by electrolysis of alumina in cryolite.",
+    "Rusting needs oxygen and water; prevent it by painting, galvanising, plating and alloying."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3002,
+    "figures": 2,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Hydrocarbon and its Compounds",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Alkanes, alkenes, alkynes",
+    "homologous series",
+    "alcohols",
+    "carboxylic acids"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Alkanes, alkenes and alkynes"
+    },
+    {
+     "no": "18.2",
+     "title": "Homologous series"
+    },
+    {
+     "no": "18.3",
+     "title": "Alcohols"
+    },
+    {
+     "no": "18.4",
+     "title": "Carboxylic acids"
+    }
+   ],
+   "summary": [
+    "Carbon is tetravalent and shows catenation; hydrocarbons contain only C and H.",
+    "Alkanes CₙH₂ₙ₊₂ (single bonds, substitution); alkenes CₙH₂ₙ (C=C, addition and polymerisation); alkynes CₙH₂ₙ₋₂ (C≡C, addition).",
+    "Unsaturated hydrocarbons decolourise bromine water and Baeyer's reagent; alkanes do not.",
+    "A homologous series has the same functional group and general formula, and members differ by –CH₂– (14 u).",
+    "Alcohols CₙH₂ₙ₊₁OH (–OH): ethanol is made by fermentation of sugar; it reacts with Na to give H₂; oxidises to ethanoic acid; methanol is poisonous.",
+    "Carboxylic acids CₙH₂ₙ₊₁COOH (–COOH): ethanoic acid (vinegar) is a weak acid, gives CO₂ with NaHCO₃, and forms esters with alcohols."
+   ],
+   "terms": [
+    "Homologous series"
+   ],
+   "stats": {
+    "words": 2870,
+    "figures": 2,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "Chemicals used in Daily Life",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "Soaps and detergents",
+    "fertilisers",
+    "cement",
+    "glass",
+    "plastics and polymers"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Soaps and detergents"
+    },
+    {
+     "no": "19.2",
+     "title": "Fertilisers"
+    },
+    {
+     "no": "19.3",
+     "title": "Cement"
+    },
+    {
+     "no": "19.4",
+     "title": "Glass"
+    },
+    {
+     "no": "19.5",
+     "title": "Plastics and polymers"
+    }
+   ],
+   "summary": [
+    "Soap is the sodium or potassium salt of a fatty acid, made by saponification of oil or fat with alkali; glycerol is a by-product. It cleans by forming micelles around grease.",
+    "Soap forms scum with hard water; detergents (synthetic) do not, but non-biodegradable ones pollute water.",
+    "Fertilisers supply N, P and K. Urea has 46 % N. Excess use causes soil damage and eutrophication.",
+    "Cement is made by heating limestone and clay at 1400 to 1500 °C and grinding the clinker with 2 to 3 % gypsum; mortar, concrete and RCC are its main products.",
+    "Glass is an amorphous solid made by fusing sand (SiO₂), soda ash (Na₂CO₃) and limestone (CaCO₃) at about 1500 °C; it is annealed by slow cooling.",
+    "Polymers are formed from monomers; thermoplastics soften on heating, thermosetting plastics do not.",
+    "Plastics are non-biodegradable, so reduce, reuse, recycle and refuse."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3440,
+    "figures": 2,
+    "examples": 5
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 19,
+ "topic_count": 80,
+ "notes_ready": 19
+}
