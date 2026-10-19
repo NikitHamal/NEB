@@ -67,3 +67,6 @@
 .ho-meter { font-size: .78rem; }
 .ho-bars { letter-spacing: -1px; color: #2563eb; font-size: .7rem; }
 .ho-bars i { font-style: normal; color: #cbd5e1; }
+.ho-actions.ho-tight { gap: 5px; }
+.ho-actions.ho-tight .ho-act { padding: 0 12px; min-width: 42px; }
+@media (max-width: 640px) { .ho-actions.ho-tight .ho-act { padding: 0 8px; min-width: 36px; font-size: .78rem; } .ho-actions.ho-tight { gap: 3px; padding: 4px; } }
