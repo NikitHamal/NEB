@@ -30,6 +30,7 @@ const PRACTICALS = {
   'ph-and-indicators': () => import('./practicals/ph.js'),
   'water-of-crystallization': () => import('./practicals/crystallization.js'),
   'gas-preparation': () => import('./practicals/gas-preparation.js'),
+  'separation-techniques': () => import('./practicals/separation.js'),
   'parallelogram-of-forces': () => import('./practicals/parallelogram.js'),
 };
 
