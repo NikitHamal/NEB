@@ -7,343 +7,314 @@ hours: 0
 area: Units
 ---
 
-Two short, practical texts. A **vacancy announcement** is a notice that a job
-is free and that the employer is inviting applications. An **invitation** is a
-message asking somebody to come to an event, and it comes in two strengths —
-formal and informal. Both have to carry their information in a small space, and
-both depend on small words doing a lot of work: the **prepositions** of place
-and time, and **question tags**.
+Unit 10 is about two kinds of practical writing: the **job advertisement** and
+the **invitation**. Reading I is a real vacancy announcement from UN Women
+Nepal for two posts. Reading II has an informal invitation e-mail from Rahim to
+his friend Pratik and a formal invitation card for a Bratabandha ceremony. The
+grammar is **prepositions of place and time** and **question tags**. In writing
+you prepare a vacancy advertisement and a message of invitation.
 
-::: key What this unit asks of you
-By the end you should be able to (1) list the information a job advertisement
-must give, (2) read an advertisement and decide whether you are eligible,
-(3) write a formal invitation and a friendly one, (4) use *in, on, at, by,
-for, since, during, until* correctly, and (5) add the right question tag to a
-sentence.
+::: key What the exam asks from this unit
+(1) Scan an advertisement for post, requirements, duration, deadline and how to
+apply. (2) Use *at/on/in* for time and *in/on/under/behind/in front of…* for
+place. (3) Add correct question tags (positive statement → negative tag, and
+the reverse). (4) Write a vacancy advertisement and an invitation with all
+details (occasion, date, time, venue, RSVP).
 :::
 
-## 10.1 Vacancy Announcement
+## 10.1 Reading I: Vacancy Announcement (UN Women Nepal)
 
-### About the text
+### What the advertisement contains
 
-A vacancy announcement (also called a job advertisement or a *vacancy notice*)
-is a **public, formal notice**. It is written to be read quickly by a stranger
-who wants a job, so it uses headings and short lines rather than paragraphs. Its
-purpose is to make a large number of suitable people apply, and to discourage
-the unsuitable ones from wasting time.
+UN Women works for the **elimination of discrimination** against women and
+girls, the **empowerment** of women, and **equality** between women and men.
+UN Women Nepal seeks applications from qualified **Nepali citizens**.
 
-### What a vacancy announcement must give
-
-| Item | Example |
-|---|---|
-| Job title | "Secondary Level Mathematics Teacher" |
-| Organisation | "Shree Janata Secondary School, Dhading" |
-| Number of posts | "1 (one)" |
-| Qualifications | "B.Ed. in Mathematics; teaching experience preferred" |
-| Duties | "to teach classes 8–10 mathematics and keep the records of the subject" |
-| Salary and benefits | "as per the school's salary scale; festival allowance" |
-| Type of appointment | "permanent / contract for one year / part-time" |
-| How to apply | "send a handwritten application, CV and copies of certificates by post or by e-mail" |
-| Deadline | "within seven days of the first publication of this notice" |
-| Contact details | address, e-mail, telephone number |
-| Issuer and date | "Published by the Principal, 5 Bhadra 2082" |
-
-::: caution Read the deadline rather than the salary
-Two facts decide whether you can apply at all: the **qualification** and the
-**deadline**. "Within seven days of the first publication" means the clock starts
-on the day the notice first appears, not the day you happen to see it. An
-application that arrives one day late is not considered, however good it is —
-which is why the notice says *within*, and not *by around*.
-:::
-
-### Vocabulary
-
-| Word | Meaning |
-|---|---|
-| vacancy | a job that is free and waiting to be filled |
-| applicant | a person who applies for the job |
-| CV | a short written record of your education and experience |
-| eligible | allowed to apply, because you meet the conditions |
-| appointment | the act of giving somebody a job; also the job itself |
-| remuneration | pay; the money paid for the work |
-| deadline | the last date or time by which something must be done |
-
-### Model task and answer
-
-::: note Model answers
-**1. Rewrite this sentence so that it is clearer: "Apply within 7 days. Salary
-negotiable as per rules."**
-"Applications must reach the school office within seven days of the date of
-this notice. Salary will be as per the school's existing rules and may be
-discussed at the interview."
-**2. Why do advertisements use headings and short lines?**
-Because they are read at a glance by many people in a hurry; a heading lets the
-reader find the two or three items that decide whether to read on.
-:::
-
-## 10.2 Invitation
-
-### About the text
-
-An **invitation** asks somebody to be present at an event. There are two
-strengths, and they are used in different places.
-
-| | Formal invitation | Informal invitation |
+| Item | ICT and Administrative Support | Driver |
 |---|---|---|
-| Used for | a wedding, a prize-giving, an official function | a birthday, a picnic, a study session |
-| Address | written in full, on its own lines | left out |
-| Salutation | *Dear Sir / Dear Madam* or the person's full name | *Dear Anju* or *Hi, Binod* |
-| Language | "We request the pleasure of your company…" | "Please come — it won't be the same without you!" |
-| Reply | *Yours faithfully / sincerely*, in writing | a message or a phone call |
-| Ends with | the host's name and the time and place again | "See you there!" |
+| Duty station | Kathmandu | Kathmandu |
+| Level | General Staff (SB-3) | General Staff (SB-2) |
+| Duration | 1 year, may be extended | 1 year, may be extended |
+| Closing date | 21 Nov. 2021 (midnight New York time) | 21 Nov. 2021 |
+| Education | secondary education required; Bachelor's in Computer Science an asset | SLC/SEE |
+| Other requirements | network and Microsoft certificates (CCNE, MCSE/MCP); at least 5 years' experience in network administration; MS Office; English and Nepali fluency | valid driving licence; 3 years' experience with an international organisation, embassy or UN with a safe record (an asset); English an asset |
 
-A formal invitation answers four questions in one short message: **what** the
-event is, **when** it is, **where** it is, and **what the guest should do**
-(*please reply by* …). The **RSVP** line (from the French *répondez s'il vous
-plaît*) asks the guest to confirm whether they are coming, because the host has
-to count the chairs.
+**How to apply:** online, with the UN Women **Personal History Form (P11)**.
+Applications are treated with **strict confidence**. Minority groups,
+indigenous groups, LGBTIQ people and persons with disabilities are **equally
+encouraged** to apply.
 
-### Model formal invitation
+### Vocabulary (Exercise A)
 
-> **The Principal and staff of Shree Janata Secondary School**
-> request the pleasure of your company at the
-> **Annual Prize-Giving Ceremony**
-> on **Friday, 18 Bhadra 2082 at 11:00 a.m.**
-> in the **school hall**
-> Chief guest: **Mr. Ram Prasad Sharma, Chairman, Ward No. 4**
-> Please reply to the school office by 15 Bhadra.
-> **R.S.V.P.**
+a. **announcement** b. **empowerment** c. **demonstrable** d. **licence**
+e. **asset**
 
-### Model informal invitation
+### Gap filling (Exercise B)
 
-> Dear Anju,
->
-> We are having a small birthday party for my sister on Saturday at 4 p.m. at
-> our house in Balkumari. There will be *sel roti* and tea, and mother has
-> promised not to sing. Please come — it won't be the same without you!
->
-> See you there,
-> Sita
+a. **equality** b. **applications** c. **completion** d. **online** e. **speak**
+(the text says *fluency in English* is an asset for the driver)
 
-## 10.3 Grammar and writing tasks of the unit
+### Comprehension (Exercise C) — model answers
 
-### Grammar: Prepositions of place and time
+**a. What do CCNE, MCSE and MCP stand for?** Cisco Certified Network Engineer,
+Microsoft Certified Systems Engineer and Microsoft Certified Professional. (The
+advertisement misprints MCSE as "MSCE".)
 
-| Preposition | Use | Example |
+**b. Where is the duty station for both jobs?** Kathmandu, Nepal.
+
+**c. Who is UN Women working for?** For women and girls — to end discrimination
+against them, to empower them, and to achieve equality between women and men.
+
+**d. Why is the duration only one year?** It is a fixed contract so that the
+organisation can judge the employee's performance (and its own need and budget)
+before extending it; the advertisement says it can be extended.
+
+**e. How is the job made inclusive?** It welcomes workforce diversity in gender,
+nationality and culture, and encourages people from minority and indigenous
+groups, LGBTIQ people and persons with disabilities to apply.
+
+## 10.2 Writing I: A vacancy advertisement
+
+**What it must give:** organisation and address; *Vacancy Announcement*; post
+and number of posts; qualifications and experience; skills; salary/benefits
+(optional); how to apply and documents; deadline; contact.
+
+::: example Model answer — Office Assistant
+**Shree Bal Kalyan Secondary School**
+Biratnagar-5, Morang
+
+**VACANCY ANNOUNCEMENT**
+
+The school invites applications from qualified Nepali citizens for the
+following post.
+
+**Post:** Office Assistant **Number of posts:** 1 **Type:** full time
+
+**Requirements:**
+- at least +2 (Class 12) pass from a recognised board;
+- basic computer skills (MS Word, Excel, e-mail);
+- good spoken and written Nepali and English;
+- one year's office experience preferred;
+- age between 21 and 40 years.
+
+**Salary:** as per school rules.
+
+**How to apply:** Submit an application with a CV, copies of academic
+certificates, citizenship certificate and two passport-size photos to the
+school office within **15 days** of the publication of this notice
+(by 30 Shrawan 2082). Only shortlisted candidates will be called for an
+interview.
+
+**Contact:** 021-5XXXXX, Office hours 10 a.m. – 4 p.m.
+
+Principal
+:::
+
+## 10.3 Grammar I: Prepositions of place and time
+
+### Place
+
+| Preposition | Meaning | Example |
 |---|---|---|
-| at | an exact point of time; a small place | at 4 p.m.; at the gate |
-| on | a day or a date; a surface | on Friday; on 18 Bhadra; on the table |
-| in | a month, a year, a season; an enclosed space | in Bhadra; in 2082; in winter; in the hall |
-| by | not later than | by 15 Bhadra |
-| until / till | up to that time | until 5 p.m. |
-| for | a length of time | for two hours; for three years |
-| since | from a point in the past until now | since 2080 |
-| during | inside a period | during the examination |
-| between / among | two things / more than two | between the two schools; among the students |
+| in | inside | Put the papers **in** the dustbin. |
+| on | touching the surface | The apple is **on** the table. |
+| under | below, covered | The baby is **under** the blanket. |
+| behind / in front of | at the back / at the front | Hide **behind** the curtain. He parked **in front of** the house. |
+| between | in the middle of two | **between** the two boxes |
+| next to / beside | at the side | **next to** the door |
+| around / through | circling / from one side to the other | **through** the window |
 
-The picture to remember: *at* is a dot, *on* is a line (a day on the calendar),
-*in* is a box (a month, a year, a room).
+### Time
 
-### Grammar: Question tags
+| at | on | in |
+|---|---|---|
+| clock times, *at the moment, at night, at noon, at lunch* | days and dates: *on Monday, on 24th May, on our birthdays* | months, years, centuries, parts of the day: *in May, in the 21st century, in the evening*; **in a week** = after one week |
 
-A **question tag** is a short question added to the end of a statement. Make it
-from the helping verb of the statement, then flip positive to negative or
-negative to positive, and use the pronoun.
+Also: *on time* (exactly at the right time), *in time* (early enough),
+*before* (earlier than), *during* (throughout a period), *on the phone*.
 
-| Statement | Tag |
-|---|---|
-| You are a student, | aren't you? |
-| She works here, | doesn't she? |
-| They went home, | didn't they? |
-| He can swim, | can't he? |
-| You haven't finished, | have you? |
-| Let's go, | shall we? |
-| Don't be late, | will you? |
+### Textbook answers (Grammar I B)
 
-The tag is **negative after a positive statement** and **positive after a
-negative** statement. In speech the tag rises in pitch when it is a real
-question and falls when you only want agreement.
+a. **at** (or *in*) the lunch break b. **on** time c. **in** the evening
+**before** you sleep d. **on** Monday e. **in** a week f. **under** the blanket
+g. **behind** the curtain h. **on** our birthdays i. **at** the moment **on**
+the phone j. **in** the dustbin k. **in** the 21st century l. **in front of** the
+house
 
 ::: caution Common mistakes
-- *She is a teacher, isn't she is?* ✗ → *…, isn't she?* ✓
-- *You like tea, no?* ✗ (Nepali-influenced) → *You like tea, **don't you**?* ✓
-- *He didn't come, didn't he?* ✗ → *He didn't come, **did he**?* ✓ (negative
-  statement takes a positive tag)
-- *in Friday* ✗ → *on Friday* ✓; *on 4 p.m.* ✗ → *at 4 p.m.* ✓
+- *in Monday / on 2023 / at the evening* ✗ → *on Monday, in 2023, in the
+  evening* ✓
+- *at night* but *in the night* is also used; *at the weekend* (BrE),
+  *on the weekend* (AmE).
+- *Alka will come back after a week* — *in a week* is more natural for the
+  future.
 :::
 
-### Writing: A vacancy advertisement and an invitation
+## 10.4 Reading II: Invitation e-mail and invitation card
 
-For the advertisement, use the eleven items of the checklist above as headings.
-For an invitation, decide first whether it is formal or informal, and then keep
-every line consistent with that choice — a formal invitation never says "See
-you there", and an informal one never says "R.S.V.P.".
+### Rahim's e-mail (informal invitation)
 
-::: note Model answers to the practice questions
-**Advertisement.** Head it **VACANCY**, then give the post, the school, the
-number of posts, the qualification, the duties, the salary, the method of
-application, the deadline and the contact details, and sign it with the
-Principal's name and the date.
-**Invitation.** Formal: name the hosts, the event, the date, the time, the
-place and the chief guest, then add the R.S.V.P. line. Informal: begin *Dear
-…*, say what the event is and when, give one warm reason to come, and close
-with your own name.
+Rahim writes to **Pratik**. He has enjoyed his summer break. His father has
+returned after **three tough years abroad** and has decided to work in his own
+country: he is starting **poultry and vegetable farming** next week. The family
+has arranged an **opening ceremony** and Rahim invites Pratik to join them at
+home on **24th May 2023**. (The e-mail also says "Saturday"; 24 May 2023 was in
+fact a Wednesday — a small slip in the text.)
+
+**Features of an informal invitation:** friendly greeting (*Hi Pratik*), news
+first, then the invitation (*Would you like to join us…? We'd be delighted to
+have you…*), date, request for a reply, friendly closing (*With lots of love*).
+
+### The invitation card (formal invitation)
+
+| Detail | On the card |
+|---|---|
+| Hosts | Mr. Bikas Prasad Joshi and Mrs. Honey Joshi |
+| Occasion | **Bratabandha ceremony** of their **grandson**, Mr. Sangam Joshi (son of Manjit and Salina Joshi) |
+| Venue | Yak Palace, Kali Marg, New Baneshwor |
+| Date and time | 14th February 2023, 5 p.m. onwards |
+| RSVP | 9876543210 |
+
+**Formal language:** *cordially request your presence on the auspicious
+occasion of…*; written in the **third person**; *R.S.V.P.* = French *répondez
+s'il vous plaît*, "please reply".
+
+### Vocabulary (Exercise A)
+
+a. **occasion** b. **cordially** c. **poultry** d. **tough** e. **abroad**
+f. **delighted**
+
+### Multiple choice (Exercise B)
+
+a. **iii** b. **iii** c. **iii** (Manjit Joshi is Sangam's father) d. **iii**
+early evening (5 p.m.)
+
+### Comprehension (Exercise C) — model answers
+
+**a. Who wrote the e-mail to whom?** Rahim wrote it to his friend Pratik.
+**b. When is Rahim's father starting his business?** Next week.
+**c. Do you like his father's decision? Why?** Yes. He will live with his
+family, create work in his own country and use the land productively.
+**d. What is the card for?** To invite guests to the Bratabandha ceremony of
+Sangam Joshi.
+**e. Where is the party?** At Yak Palace, Kali Marg, New Baneshwor.
+**f. What does R.S.V.P. mean?** "Please reply" — guests should tell the host
+whether they will come.
+
+## 10.5 Grammar II: Question tags
+
+A **question tag** is a short question added to a statement to check it or ask
+for agreement.
+
+1. **Positive statement → negative tag**; **negative statement → positive tag**.
+2. Use the **same helping verb** (*is, has, can, will, had…*); if there is none,
+   use **do/does/did**.
+3. Use a **pronoun**, never a name: *Abdul will buy a car, won't **he**?*
+
+| Special case | Tag |
+|---|---|
+| *I am …* | **aren't I?** |
+| *Let's …* | **shall we?** |
+| imperative (*Open the door*) | **will you? / won't you?** |
+| *never, hardly, nobody, nothing* (negative meaning) | **positive** tag: *They hardly attend, do they?* |
+| *nobody, someone, everyone* | **they**: *Nobody has solved it, have they?* |
+| *has* = possess | *doesn't she?* (*hasn't she?* is old-fashioned British) |
+
+### Textbook answers
+
+**Grammar II B (corrections):** a. hasn't he b. aren't they c. won't he
+d. doesn't she e. hadn't she f. aren't they g. do I h. shall we i. aren't I
+
+**Grammar II C:** a. didn't she b. hasn't he c. can he d. hasn't she e. doesn't
+she f. isn't he g. aren't I h. aren't they i. haven't we j. will she k. have
+they l. do they
+
+## 10.6 Writing II: A message of invitation
+
+::: example Model answer — inviting a friend to a celebration
+Dear Sushma,
+
+I have great news! My uncle has been selected as an engineer in the Department
+of Roads after passing the Public Service Commission exam. To celebrate his
+success, our family is holding a small party at our home in Chabahil on
+Friday, 10 Bhadra, from 6 p.m. onwards. There will be dinner, music and lots
+of fun.
+
+I would be very happy if you could join us. Please let me know by Wednesday
+whether you can come.
+
+With love,
+Anisha
 :::
 
-## 10.4 Vocabulary of announcements and invitations
+**Accepting / declining (Speaking and Extra bit):** *Sure, I'd love to. / Thank
+you so much for the invitation. I'll be there.* — *I'd love to, but I have an
+appointment. / I wish I could, but I have other work. / I'm afraid I don't have
+time.*
 
-| Word | Meaning | Used in a sentence |
+## 10.7 Pronunciation and project work
+
+| Ending | Sound | Words |
 |---|---|---|
-| vacancy | an unfilled post | *The notice announced two vacancies for lab assistants.* |
-| applicant | a person who applies | *Each applicant must attach a copy of the certificate.* |
-| eligible | qualified to be chosen | *Only candidates above 18 are eligible.* |
-| deadline | the last date | *The deadline for applications is 20 Asar.* |
-| curriculum vitae | a summary of one's education and experience | *Send your curriculum vitae with the letter.* |
-| remuneration | payment for work | *The remuneration is negotiable for the right candidate.* |
-| RSVP | please reply (to an invitation) | *Kindly RSVP by Friday.* |
-| venue | the place where an event is held | *The venue is the school hall.* |
+| -tion | /ʃən/ | occupation, action, revolution |
+| -sion after a consonant or *ss* | /ʃən/ | mission, suspension, comprehension |
+| -sion after a vowel | /ʒən/ | collision, decision, explosion, infusion |
 
-```figure caption="Which text type to use when. Choosing the wrong format costs the format mark however good the English is."
-fig, ax = cards([("Vacancy", "an organisation needs staff"),
-                 ("Application", "you want the post"),
-                 ("Invitation", "you are inviting a guest"),
-                 ("Notice", "you are informing many people"),
-                 ("Email", "a quick message, any register"),
-                 ("News report", "something has happened")], cols=3)
-```
-
-::: tip A vacancy announcement in six lines
-Organisation and post; number of vacancies; qualification and experience;
-documents required; deadline and where to apply; contact. Anything more belongs
-in an advertisement, not a notice.
-:::
-
-::: note Activity — the hiring game
-In groups of four, write a vacancy announcement for a post at your school
-(librarian, sports coach, lab assistant). Swap announcements with another
-group, and each member writes an application for one of the posts. The first
-group then shortlists and explains, in two sentences, why each applicant was or
-was not called — using only what the letters actually said.
-:::
-
-::: example A short invitation, annotated
-> **The Principal and staff of Shree Janata Secondary School** *(host)*
-> request the pleasure of your company at the **Annual Prize Day** *(occasion)*
-> on **Friday, 12 Mangsir, at 11 a.m.** *(date and time)*
-> in the **school hall, Dhapasi** *(venue)*.
-> The chief guest will give away the prizes.
-> **RSVP: 01-4XXXXXX by 9 Mangsir.** *(reply)*
-
-Six elements, six lines. An invitation that runs to a paragraph has usually
-turned into a letter.
-:::
+**Project work:** design an attractive birthday invitation card with occasion,
+date, time, venue and RSVP.
 
 ## Chapter summary
 
-- A vacancy announcement is a formal public notice; it must give the post, the
-  employer, the qualification, the duties, the pay, the method of application,
-  the deadline and the contact.
-- The qualification and the deadline decide who can apply.
-- An invitation may be formal or informal; a formal one ends with an R.S.V.P.
-  line asking for a reply.
-- **at** a point of time, **on** a day or date, **in** a month, year or
-  enclosed space.
-- **by** = not later than; **until** = up to then; **for** = a length of time;
-  **since** = from a point in the past until now.
-- A question tag repeats the helping verb, flips the polarity, and uses a
-  pronoun: *You are coming, aren't you?*
+- A vacancy announcement gives organisation, post, requirements, duration,
+  deadline and how to apply.
+- UN Women Nepal: ICT and Administrative Support (SB-3) and Driver (SB-2),
+  Kathmandu, one year, closing 21 Nov. 2021; inclusive.
+- Informal invitation: friendly, first person; formal card: third person,
+  *cordially request your presence*, RSVP.
+- *at* times, *on* days/dates, *in* months/years/parts of the day; *on time* /
+  *in time*.
+- Question tags: opposite polarity, same auxiliary, pronoun; *aren't I*,
+  *shall we*, positive tag after *never/hardly/nobody*.
 
 ## Practice questions
 
 **Reading**
 
-1. List any six items that a vacancy announcement must give. <span class="marks">[3]</span>
-2. What is R.S.V.P. and why is it used? <span class="marks">[2]</span>
-3. Give three differences between a formal and an informal invitation. <span class="marks">[3]</span>
+1. Answer from the texts. <span class="marks">[5]</span>
+   (a) What is the closing date of the vacancy? (b) Which form must support the
+   application? (c) For how long was Rahim's father abroad? (d) Whose grandson
+   is Sangam? (e) At what time does the Bratabandha party start?
 
-::: note Answers
-**1.** Any six of: post, employer, number of posts, qualifications, duties,
-salary, type of appointment, how to apply, deadline, contact, issuer and date.
-**2.** *Répondez s'il vous plaît* — "please reply". It asks the guest to confirm
-attendance so that the host can arrange the right number of seats and meals.
-**3.** A formal invitation is written in the third person with the full address
-and an R.S.V.P., and uses language like "request the pleasure of your company";
-an informal one uses *Dear …*, everyday language, no address and no R.S.V.P.
+::: note Answers — Reading
+**1.** (a) 21 November 2021 (midnight New York time). (b) The UN Women Personal
+History Form (P11). (c) Three years. (d) Mr. Bikas Prasad Joshi and Mrs. Honey
+Joshi's. (e) From 5 p.m.
 :::
 
 **Grammar**
 
-4. Fill in *at, on, in, by, for, since* or *during*. <span class="marks">[5]</span>
-   (a) The meeting is ______ Friday.
-   (b) We have lived here ______ 2080.
-   (c) Please reply ______ 15 Bhadra.
-   (d) She waited ______ two hours.
-   (e) The examination begins ______ 11 a.m.
+2. Fill in with *at, on* or *in*. <span class="marks">[5]</span>
+   (a) I was born ___ 2069 BS. (b) We meet ___ Sundays. (c) The shop opens ___
+   9 a.m. (d) She is ___ the kitchen. (e) My book is ___ the table.
+3. Add question tags. <span class="marks">[5]</span>
+   (a) You are tired, ___? (b) She doesn't eat meat, ___? (c) Let's go, ___?
+   (d) Hari can swim, ___? (e) Nobody came, ___?
 
-5. Add the correct question tag. <span class="marks">[4]</span>
-   (a) You are coming with us, ______? (b) She doesn't like milk, ______?
-   (c) They have finished, ______? (d) Let's start, ______?
-
-::: note Answers
-**4.** (a) on (b) since (c) by (d) for (e) at
-**5.** (a) aren't you (b) does she (c) haven't they (d) shall we
+::: note Answers — Grammar
+**2.** (a) in (b) on (c) at (d) in (e) on
+**3.** (a) aren't you (b) does she (c) shall we (d) can't he (e) did they
 :::
 
 **Writing**
 
-6. Write a vacancy announcement for a computer teacher in your school. <span class="marks">[5]</span>
-7. Write a formal invitation to the chief guest for your school's annual
-   function. <span class="marks">[5]</span>
+4. Your school needs a Computer Teacher. Write a vacancy advertisement. <span class="marks">[5]</span>
+5. Write an invitation card for your sister's wedding. <span class="marks">[5]</span>
 
-::: note Answers
-**6.** Use the eleven-item checklist as headings, keep the lines short, and
-sign it with the issuer's name, designation and the date.
-**7.** Begin with the school's name and the words "request the pleasure of your
-company at…", then give the event, the date, the time and the venue, name the
-chief guest, add the R.S.V.P. line, and close with the Principal's name.
-:::
-
-**Extra practice**
-
-**Group B (2 marks each)**
-
-**11.** Write an email of two sentences applying for the post of school librarian.
-**12.** Rewrite correctly: *Applicants should submit their CV before the dateline.*
-
-**Group C (4 marks)**
-
-**13.** Write a vacancy announcement for two science teachers at your school.
-
-::: note Extra practice — answers
-**11.** *Subject: Application for the post of school librarian* — *Dear Sir /
-Madam, I should like to apply for the post of school librarian advertised on
-your notice board on 5 Asar. I have completed Grade 12 and have worked as a
-student volunteer in our school library for two years; my curriculum vitae is
-attached. Yours faithfully, —*
-**12.** *Applicants should submit their curriculum vitae before the deadline.*
-(*dateline* is the place-and-date line of a news report, not a last date.)
-**13.** Must contain: school name and address; post and number of vacancies
-(two science teachers); qualification (Bachelor's in science education or
-equivalent) and experience; documents required; deadline and place of
-application; salary "as per school rules"; contact number; and the signature
-of the Principal with the date.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** A vacancy announcement invites
-   (a) complaints (b) applications for a post (c) donations (d) tenders only
-**2.** *RSVP* on an invitation asks the reader to
-   (a) reply (b) arrive early (c) bring a gift (d) dress formally
-**3.** *Deadline* means
-   (a) the last date (b) a dead end (c) a headline (d) a time zone
-**4.** A notice is addressed to
-   (a) one person (b) many people (c) the editor (d) the government only
-**5.** *Curriculum vitae* is
-   (a) a syllabus (b) a summary of education and experience (c) a certificate (d) a timetable
-
-::: note Objective practice — answers
-**1.** (b) — applications for a post. **2.** (a) — please reply. **3.** (a) — the last date. **4.** (b) — many people. **5.** (b) — a summary of education and experience.
+::: note Answers — Writing
+**4.** School name and address, *Vacancy Announcement*, post and number,
+qualification (e.g. Bachelor's in Computer Science/IT), experience, skills,
+documents, deadline, contact, signed by the principal.
+**5.** Hosts (parents) in the third person, *cordially request your presence on
+the auspicious occasion of the wedding of their daughter … with …*, date, time,
+venue, RSVP with phone number.
 :::

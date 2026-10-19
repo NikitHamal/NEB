@@ -7,345 +7,305 @@ hours: 0
 area: Units
 ---
 
-The last unit of the book puts a **folk narrative** beside a **newspaper
-report**, and the contrast is deliberate. A folk tale is old, anonymous and
-moral; a news report is immediate, named and factual, and it answers six
-questions in its first two sentences. The grammar of the unit is the one that
-turns a person's words into a report: **reported speech**.
+Unit 19 is about **reporting what others say**. Reading I is a folk tale, *A
+Tale of Two Birds*: two nestlings separated by a storm grow up in very different
+company, one near robbers and one near a hermit, and they speak accordingly.
+Reading II is a news report from *The Himalayan Times* on the inauguration of
+Pokhara Regional International Airport on 1 January 2023. The grammar is
+**reported (indirect) speech** — statements, questions, commands. In writing
+you write a story and a news report; the project is a newspaper front page.
 
-::: key What this unit asks for
-By the end you should be able to (1) tell a folk tale with a moral, (2) write a
-news report with a headline, a lead and a body, (3) report statements, questions
-and orders in indirect speech, and (4) design the front page of a newspaper.
+::: key What the exam asks from this unit
+(1) Order the events of the story and explain its moral. (2) Find facts and
+speakers in a news report. (3) Change direct speech into indirect speech:
+reporting verb, tense back-shift, pronouns, time and place words, word order of
+questions, *to/not to* for commands. (4) Write a story from a given opening and
+a news report from clues.
 :::
 
-```photo id="eng8/pokhara-airport" caption="The signboard at Pokhara Regional International Airport, inaugurated on 1 January 2023 — Nepal's second international airport." width="68"
-```
+## 19.1 Reading I: A Tale of Two Birds
 
-## 19.1 A Tale of Two Birds
+### Summary
 
-### About the text
+- A mother bird and her two newly hatched **nestlings** live in a tall tree in a
+  forest. A great **storm** blows the tree down; a branch kills the mother, and
+  the wind carries the nestlings to the other side of the forest. One lands near
+  a **cave of robbers**; the other outside a **hermitage** where a cultured old
+  **hermit** lives.
+- Years later, a **king** out hunting chases a deer deep into the forest and
+  loses his way. Tired, he sits under a tree near the cave. A big brown bird
+  calls out: *"Quick! Hurry up! There's someone under the tree. Come and take his
+  jewels and his horse."* The king rides away; a robber threatens him; the brave
+  king aims an arrow, but as the robbers are more in number he rides off.
+- He reaches a **tranquil** hermitage. A gentle voice says: *"Welcome to the
+  hermitage, Sir. Please go inside and rest… There's some cold water in the
+  pot."* It is a bird that looks just like the first one — its brother, who now
+  talks like the robbers he lives with.
+- The hermit welcomes the king and explains: **"One is known by the company one
+  keeps."** Each bird repeats what it has always heard.
 
-The text is a **folk narrative** — the kind of story that has no author because
-everybody owns it. Its two birds are usually not simply animals: one has learned
-to imitate the worst it has heard and the other the best, and the tale turns on
-what happens when a traveller meets each in turn.
+**Moral/theme:** our surroundings and companions shape our character and
+language; choose good company.
 
-### The shape and the moral
+### Vocabulary (Exercise A)
 
-| Element | What the tale does |
+a. **nestlings** b. **wicked** c. **tranquil** d. **hermitage** e. **hermit**
+f. **robber** g. **imitate**
+
+### Order of events (Exercise B)
+
+**c → a → b → d → g → e → f**
+
+### Comprehension (Exercise C) — model answers
+
+**a. What caused the tall tree to fall?** A big storm with strong wind.
+
+**b. Where were the nestlings blown to?** To the other side of the forest — one
+near a robbers' cave and the other outside a hermitage.
+
+**c. Was the king able to catch the deer? How do you know?** No. The deer ran
+deep into the forest, the king lost his way, and the story never says he caught
+it.
+
+**d. Why did the brown bird tell the robbers about the king?** Because it had
+grown up near the robbers and always heard their talk, so it imitated them.
+
+**e. Why did the king not fight the robbers' gang?** Because the robbers were
+more in number, and fighting alone would have been foolish.
+
+## 19.2 Grammar: Reported speech
+
+### 1. Reporting verb
+
+| Sentence type | Reporting verb | Linker | Example |
+|---|---|---|---|
+| statement | said / told + person | **that** | Alish said **that** he would bring his guitar. |
+| yes/no question | asked / inquired / wanted to know | **if / whether** | The teacher asked the boys **if** they had done their homework. |
+| wh-question | asked / questioned | the **wh-word** | Rabina asked Shambhu **where his watch was**. |
+| command / request | told, ordered, requested, advised | **to / not to** + verb | The boss ordered the clerk **to bring** her that file. |
+
+### 2. Tense back-shift (when the reporting verb is past)
+
+| Direct | Indirect |
 |---|---|
-| Setting | the same tree, or the same forest, and two nests |
-| Characters | two birds, alike in appearance and utterly different in speech |
-| The test | a traveller or a stranger meets each bird and is treated differently |
-| The climax | the traveller wonders how the same tree produced two such birds |
-| The moral | what we become is mostly what we have been near |
+| am/is/are; do/does | was/were; did |
+| am/is/are + -ing | was/were + -ing |
+| has/have + V3; past simple | had + V3 |
+| has/have been + -ing | had been + -ing |
+| will / can / may / must | would / could / might / must (or had to) |
 
-The device the tale uses is **parallelism**: the same situation is given twice,
-with one thing changed, so that the reader compares them without being told to.
-Folk tales use this constantly, because it is the easiest way to make an idea
-visible to a listener who is hearing the story only once.
+**No change:** if the reporting verb is present (*says*), for **universal
+truths** (*the Earth moves round the Sun*), and for the past perfect.
 
-The moral — that we are shaped by the company and the words around us — is
-stated in some versions and left for the reader to supply in others. In an
-answer, quote the moment at which the two birds are compared, and say what the
-comparison shows.
+### 3. Pronouns, time and place
 
-### Vocabulary
+*I → he/she; we → they; you → I/me/he/she (the listener); my → his/her*.
+*now → then, today → that day, yesterday → the day before (the previous day),
+tomorrow → the next day (the following day), next week → the following week,
+last week → the previous week, a year ago → a year before, here → there,
+this → that, these → those.*
 
-| Word | Meaning |
-|---|---|
-| folk tale | an old story handed down by word of mouth |
-| to imitate | to copy the way somebody speaks or behaves |
-| parallel | two things in the same shape, set side by side |
-| moral | the lesson a story teaches |
-| to reflect | to show something back, as a mirror does |
+### 4. Questions become statements
 
-::: note Model answers
-**1. What makes the two birds different if they are alike?**
-Their habits and their speech: each has copied the kind of talk it heard most,
-so one treats the traveller kindly and the other drives him away.
-**2. What is the moral of the tale, and how does the tale make it clear?**
-That we become like the company we keep and the words we hear. The tale makes it
-clear by setting the two birds in the same place with the same visitor, so the
-only difference the reader can see is what each bird has learned to say.
-:::
+No *do/does/did*, no question mark, **subject before verb**: *"Where is he?"* →
+*She asked me where **he was**.* (not *where was he*)
 
-## 19.2 News Report: Pokhara International Airport Inaugurated
+### Textbook answers
 
-### About the text
+**Speaking B:** a. A asked B why he had come there. B said that he had come
+there to meet his relatives. b. A asked B if he liked ice-cream. B said yes,
+he was fond of ice-cream. c. A asked B if he could give him his pen for a while.
+B said it was okay and that he could take it. d. A asked B why he was sad that
+day. B said that his brother was sick. e. A told B that they had planned a
+picnic the following week. B said that he would join.
 
-The text is a **news report**. A news report is factual, brief and impersonal,
-and it is written to answer six questions in its opening: **who, what, where,
-when, why and how**. In newspaper language this opening paragraph is called the
-**lead** (or *intro*), and it carries the whole story in two or three sentences;
-everything after it adds detail of decreasing importance.
+**Grammar I A:** a–iv, b–viii, c–vi, d–i, e–ii, f–iii, g–x, h–ix, i–v, j–vii
 
-### What the text says
+**Grammar I B:** a. She told me that she was coming then. b. He requested me to
+help him get to the hospital. c. She asked me if I could give her my phone
+number. d. He said that Reshma did not work. e. She asked me where he was.
+f. She commanded me to come there at once. g. She asked me what I was doing.
+h. She asked him if he worked in a factory. i. She asked me why I had gone out
+the previous night. j. She told me that water boils at 100 degrees Celsius.
+(universal truth — no change)
 
-**Pokhara Regional International Airport** was inaugurated on **1 January
-2023** by the then Prime Minister, Pushpa Kamal Dahal, at Pokhara in Kaski
-district. It was Nepal's **second international airport**, after Tribhuvan
-International Airport in Kathmandu, and the first in Gandaki Province. The
-airport was built by the China CAMC Engineering company under a loan agreement
-with China, at a cost of about 22 billion rupees, on about 400 hectares of land
-in Chinnedanda, about three kilometres east of Pokhara's city centre.
+**Grammar II A:** a. ii b. iii c. iii d. iii e. i f. iii g. i h. iii i. i
+j. iii (*when I came* is also accepted in modern English)
 
-The main features are a **runway 2,500 metres long and 45 metres wide**, a
-**terminal designed to handle about one million passengers a year**, an
-apron, a taxiway, a control tower and a cargo building. The runway is shorter
-than Kathmandu's and cannot take the largest long-haul aircraft fully loaded,
-so the airport is designed mainly for medium-range international flights and
-for regional traffic.
-
-The report also gives the hopes and the difficulties. Supporters expect the
-airport to bring tourists directly to the Annapurna region, cut connecting
-journeys through Kathmandu, and create local employment and freight capacity.
-Critics point to the **debt** the loan creates, the number of airlines that must
-be persuaded to fly there, the fee the airport must earn to service the loan,
-and the fact that an airport built for a million passengers needs a million
-passengers to come. Both points of view are part of the story, and a good report
-includes both without taking sides.
-
-| News question | Answer in the report |
-|---|---|
-| Who? | Prime Minister Pushpa Kamal Dahal (inaugurated it) |
-| What? | Nepal's second international airport |
-| Where? | Chinnedanda, Pokhara, Kaski |
-| When? | 1 January 2023 |
-| Why? | to bring tourists and trade directly to the region |
-| How? | built by CAMC (China) on a Chinese loan of about Rs 22 billion |
-
-```figure caption="The structure of a news report: an inverted pyramid. The lead carries the whole story, and each later paragraph is less essential than the one before it, so that an editor can cut from the bottom."
-fig, ax = plt.subplots(figsize=(4.7, 2.7))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.6); ax.axis("off")
-widths = [(6.6, "Lead — who, what, where, when", ACCENT),
-          (5.2, "Detail — how, how much, features", SERIES[2]),
-          (3.8, "Background — why it matters", SERIES[3]),
-          (2.2, "Quotes and reactions", SERIES[0])]
-y = 4.6
-for w, label, colour in widths:
-    ax.add_patch(plt.Rectangle((5 - w / 2, y), w, 0.85, fc=colour, ec="none",
-                 alpha=0.85))
-    ax.text(5.0, y + 0.42, label, ha="center", va="center", fontsize=6.1,
-            color="white" if colour != SERIES[3] else INK)
-    y -= 0.95
-ax.text(5.0, 0.35, "cut from the bottom, never from the top", ha="center",
-        fontsize=6.2, color=MUTED)
-fig.tight_layout()
-```
-
-### Vocabulary
-
-| Word | Meaning |
-|---|---|
-| inaugurate | to open a building or an office formally |
-| terminal | the building where passengers arrive and depart |
-| runway | the strip on which aircraft take off and land |
-| apron | the paved area where aircraft stand |
-| freight | goods carried by a vehicle or an aircraft |
-| loan | money borrowed that must be paid back, with interest |
-| lead | the opening paragraph of a news report |
-
-::: note Model answers
-**1. What are the six questions a news report answers?**
-Who, what, where, when, why and how.
-**2. Why does the report include the criticisms of the airport as well as the
-hopes?**
-Because both are part of what happened: the loan must be repaid and the
-passengers must be found, so a report that gave only the hopes would be
-advertising rather than news.
-:::
-
-## 19.3 Grammar and writing tasks of the unit
-
-### Grammar: Reported speech — a summary
-
-| Kind of sentence | Direct | Reported |
-|---|---|---|
-| Statement | "The airport opened in 2023." | He said (that) the airport **had opened** in 2023. |
-| Yes/no question | "Is the runway long enough?" | He asked **if** the runway **was** long enough. |
-| Wh- question | "When did it open?" | He asked **when** it **had opened**. |
-| Order | "Close the gate." | He **told** us **to** close the gate. |
-| Request | "Please help me." | He **asked** me **to** help him. |
-| Warning | "Don't go near the edge." | He **warned** us **not to** go near the edge. |
-
-The four changes are always the same: the **reporting verb** changes (*said,
-asked, told, warned*); the **tense** moves one step back; the **pronoun**
-changes to fit the new speaker; and the **time and place words** change
-(*today → that day, tomorrow → the next day, here → there, this → that*).
-In a statement the tense may also be left unchanged if what was said is still
-true — *He said the airport **is** Nepal's second international airport* — which
-is common in news writing.
+**Grammar II B:** a. He said that he would send a postcard. b. They told me that
+they had bought a new car. c. Aruna said that she didn't speak German. d. Hem
+tells the boys not to play on the grass. (*says* is present — no tense change)
+e. My mum asked me if I was feeling well. f. Nishan asked me where I had met
+him the previous week. g. The doctor told my father that he must (had to) stay
+in bed. h. The boy asked to be allowed to go. (or *The boy asked them to let him
+go.*) i. Arpan asked me how often I played cricket.
 
 ::: caution Common mistakes
-- *He said me that…* ✗ → *He **told** me that…* or *He said that…* ✓
-- *She asked that where I lived.* ✗ → *She asked **where** I lived.* ✓
-- Reported speech never keeps a question mark or quotation marks.
-- *He told to me* ✗ → *He told me* ✓
+- *She asked me what did I want.* ✗ → *what I wanted* ✓
+- *He said me that…* ✗ → *He **told** me that… / He said that…* ✓
+- *She said that she will come tomorrow.* ✗ → *would come the next day* ✓
+- *He told me don't sit.* ✗ → *He told me **not to sit**.* ✓
+- Forgetting pronouns: *"Will you help **me**?"* → *She asked me to help
+  **her**.*
 :::
 
-### Writing: A news report and a front page
+## 19.3 Writing I: A story
 
-A news report needs a **headline** (short, active, no full stop), a **byline**
-(*By our correspondent*), a **lead** of two sentences carrying the six
-questions, and a body of three or four short paragraphs in order of decreasing
-importance. Use the **passive** and the **past tense** freely (*was
-inaugurated*, *were invited*), attribute opinions (*according to officials*),
-and do not use *I* or *we*.
+::: example Model answer — "Two friends were walking along the forest…"
+**A Friend in Need**
 
-A front-page design needs a masthead (the newspaper's name and date), one main
-headline with its lead, two or three smaller stories in columns, and a picture
-with a caption. A caption is a sentence, not a label.
+Two friends were walking along the forest path when they suddenly saw a big bear
+coming towards them. Ramesh, who was thin and quick, ran to the nearest tree and
+climbed it at once. He did not even look back at his friend.
 
-::: note Model answers to the practice questions
-**Lead model.** "KATHMANDU — The government announced on Sunday that a new
-bridge over the Trishuli will open in Ashad. The 180-metre bridge, built in two
-years at a cost of Rs 420 million, will replace a crossing that has been closed
-every monsoon for a decade."
+Suresh could not climb trees. He remembered hearing that bears do not touch dead
+bodies, so he lay down on the ground and held his breath. The bear came near,
+sniffed his face and ears, and then slowly walked away into the forest.
+
+When the bear had gone, Ramesh climbed down and asked with a laugh, "What did the
+bear whisper in your ear?" Suresh stood up and replied, "He told me never to
+trust a friend who leaves you in danger." Ramesh felt ashamed and said nothing.
+
+*Moral: A friend in need is a friend indeed.*
 :::
 
-## 19.5 The news report, line by line
+## 19.4 Reading II: News Report — Pokhara International Airport Inaugurated
 
-| Part | Job | Example |
-|---|---|---|
-| Headline | the story in five or six words | *Pokhara airport opens to regional flights* |
-| Place-and-date line | where and when | *Pokhara, 15 Poush —* |
-| Lead | what, where, when, who in one sentence | *Nepal's second international airport opened on Monday with a flight from ...* |
-| Body | details in order of importance | cost, capacity, runway length, who attended |
-| Quotation | one voice, named | *"This will change how tourists reach Annapurna," said ...* |
-| Close | what happens next | schedule, next phase, pending approvals |
+### The report in brief
 
-**Register:** third person, past tense, no *I* and no opinion. A reporter
-shows; an editorial argues.
+| Part | Content |
+|---|---|
+| Headline | Pokhara international airport inaugurated |
+| Byline | Himalayan News Service |
+| Dateline | Pokhara, January 1 (published 2 January 2023) |
+| Lead | The newly built **Pokhara Regional International Airport (PRIA)**, Nepal's **third international airport**, was inaugurated by **Prime Minister Pushpa Kamal Dahal** at a special ceremony. |
+| Body | Dahal unveiled a plaque, arriving with **Deputy PM and Finance Minister Bishnu Paudel**; Dahal said connectivity is integral to development and the airport will help the economy of Pokhara and the whole country; Paudel **commended** locals for their sacrifices and patience, urged authorities to complete processes for international flights, and promised better roads; **Tao Ma** of ICAO's Asia-Pacific office congratulated Nepal on the national pride project and said PRIA (with Gautam Buddha International Airport) would ease **congestion** after COVID-19; CAAN certified PRIA to ICAO standards; Buddha Air, Shree Airlines, Yeti Airlines and Guna Air began daily flights; **Himalaya Airlines** made a demonstration flight, the first airline to land an **Airbus A320** in Pokhara. |
 
-```figure caption="The inverted pyramid. A news report puts the most important fact first, because a reader who stops after one sentence should still have the story."
-fig, ax = plt.subplots(figsize=(4.6, 2.8))
-rows = [("Lead — what, where, when, who", 0.92, 1.0, SERIES[0]),
-        ("Key details — numbers, cause", 0.74, 0.76, SERIES[1]),
-        ("Quotation", 0.56, 0.52, SERIES[2]),
-        ("Background and next steps", 0.38, 0.28, SERIES[3])]
-for lab, y, w, col in rows:
-    ax.add_patch(matplotlib.patches.FancyBboxPatch(
-        (0.5 - w / 2, y - 0.14), w, 0.15,
-        boxstyle="round,pad=0.006,rounding_size=0.03",
-        facecolor=col, edgecolor="none", alpha=0.9))
-    ax.text(0.5, y - 0.065, lab, ha="center", va="center", color="white",
-            fontsize=8.2)
-ax.set_xlim(0, 1)
-ax.set_ylim(0.18, 1.0)
-ax.axis("off")
+(Nepal's three international airports: Tribhuvan, Kathmandu; Gautam Buddha,
+Bhairahawa; Pokhara Regional.)
+
+```photo id="eng8/pokhara-airport" caption="The signboard at Pokhara Regional International Airport, inaugurated on 1 January 2023 — Nepal's third international airport." width="68"
 ```
 
-::: example Lead sentences compared
-**Weak.** *There was a programme in Pokhara yesterday and many people came
-and it was about the airport.*
+### Vocabulary (Exercise A)
 
-**Strong.** *Pokhara International Airport received its first regional
-flight on Monday, nine years after construction began.*
+a. **commended** b. **congested** (text: *congestion*) c. **inaugurated**
+d. **transition** e. **ceremony** f. **maintenance**
 
-The strong lead answers **what, where, when** and implies **who** in
-nineteen words, which is the standard a four-mark report is judged by.
+### Comprehension (Exercise B) — model answers
+
+**a. Who inaugurated the airport and when?** Prime Minister Pushpa Kamal Dahal,
+on 1 January 2023.
+
+**b. How is the airport useful, according to the Prime Minister?** It will
+improve connectivity and contribute to the economic development of Pokhara and
+the whole country.
+
+**c. Which was the first airline to land at the new airport?** The report says
+Buddha Air, Shree Airlines, Yeti Airlines and Guna Air started daily flights,
+and **Himalaya Airlines** was the first to land an **Airbus A320** there in a
+demonstration flight.
+
+**d. Why did the Deputy Prime Minister commend the locals?** For their
+sacrifices and patience during the completion of the project.
+
+**e. Why is ICAO grateful to the Government of Nepal and CAAN?** For their
+long-standing commitment, consistency and comprehensive support to ICAO's work.
+
+**f. Why are airport infrastructure and air services vital, according to Tao
+Ma?** They ensure connectivity, socio-economic development and disaster relief
+in landlocked countries.
+
+## 19.5 Writing II: A news report
+
+**Rules:** headline (short, present tense, no articles); byline and dateline; a
+**lead** answering *who, what, when, where, why, how*; body with details and
+quotations in descending importance; third person; past tense / present perfect;
+reported speech for what people said.
+
+::: example Model answer — Hospital inaugurated in Doti
+**60-Bed Hospital Inaugurated in Doti**
+
+*By Our Correspondent*
+*Dipayal, [date]*
+
+A new 60-bed hospital was inaugurated by the Minister of Health amid a large
+crowd in Doti today.
+
+The hospital has been built with financial support from the Government of
+Nepal. Its construction started in 2019 and was completed in 2021. It will
+provide health services to people of Doti and neighbouring districts, who
+earlier had to travel long distances for treatment.
+
+Speaking at the ceremony, the minister said that the hospital would make
+quality health care easier to reach for the people of the far west. Local
+residents looked happy and hopeful about the future.
 :::
 
-::: note Activity — rewrite a rumour as a report
-Take something said at school this week — a change of timetable, a match
-result, a lost item found. Verify it with two people, then write it as a
-120-word news report with a headline, a place-and-date line, a lead, two
-details and one named quotation. Compare with a classmate's version of the
-same event: where you differ, one of you did not verify.
-:::
+## 19.6 Pronunciation and project work
+
+**Consonant clusters** (two or more consonants together): **st**orm,
+**spl**ash, ne**stl**ing, **tr**ustwo**rth**y, **str**uggle, **cr**ayons,
+**cr**uel. Say every consonant; do not add a vowel before *s*-clusters (*storm*,
+not "istorm").
+
+**Project work — front page of a newspaper:** name of the paper (masthead),
+date and price, a main headline with a photo, the lead story, two or three
+shorter stories, an index, and the weather.
 
 ## Chapter summary
 
-- A folk tale uses **parallelism** — the same situation twice with one thing
-  changed — so that the reader makes the comparison without being told to.
-- The moral of "A Tale of Two Birds" is that we become like the company we keep
-  and the words we hear.
-- A news report answers **who, what, where, when, why and how** in its opening
-  paragraph, called the lead.
-- Pokhara Regional International Airport was inaugurated on 1 January 2023 by
-  Prime Minister Pushpa Kamal Dahal; it is Nepal's second international airport.
-- Its runway is 2,500 m long, its terminal is designed for about a million
-  passengers a year, and it was built by CAMC on a Chinese loan of about Rs 22
-  billion.
-- A good report gives both the hopes and the criticisms, without taking sides.
-- Reported speech changes the reporting verb, the tense, the pronoun and the
-  time and place words; questions are joined with *if* or the question word;
-  orders use *told / asked / warned* + *to* + verb.
-- News writing uses the passive and the past tense and never uses *I*.
+- *A Tale of Two Birds*: twin birds raised near robbers and near a hermit speak
+  like their company; "One is known by the company one keeps."
+- PRIA: Nepal's third international airport, inaugurated 1 January 2023 by PM
+  Pushpa Kamal Dahal; Himalaya Airlines landed the first A320.
+- Reported speech: *said/told that*; *asked if/whether*; *asked + wh-word +
+  statement order*; *told/ordered/requested + (not) to*.
+- Back-shift tenses after a past reporting verb; no back-shift after *says* or
+  for universal truths.
+- *now → then, today → that day, tomorrow → the next day, here → there, this →
+  that*.
+- News report: headline, byline, dateline, lead, body.
 
 ## Practice questions
 
 **Reading**
 
-1. How does the tale show the difference between the two birds? <span class="marks">[2]</span>
-2. What is the moral of "A Tale of Two Birds"? <span class="marks">[2]</span>
-3. Give four facts about Pokhara Regional International Airport. <span class="marks">[4]</span>
-4. Why do news reports put the most important information first? <span class="marks">[2]</span>
+1. Answer briefly. <span class="marks">[5]</span>
+   (a) What killed the mother bird? (b) What did the king chase into the forest?
+   (c) What did the bird at the hermitage offer the king? (d) Who unveiled the
+   plaque at PRIA? (e) Name two airlines that started daily flights there.
 
-::: note Answers
-**1.** By parallelism: the same visitor meets each bird in the same place, and
-the only difference is what each bird has learned to say, so the reader is shown
-the two habits side by side.
-**2.** That we become like the company we keep and the words we hear.
-**3.** Any four: it is Nepal's second international airport; it was inaugurated
-on 1 January 2023; it is in Chinnedanda, Pokhara (Kaski); it was built by CAMC
-of China under a loan of about Rs 22 billion; its runway is 2,500 m long and
-45 m wide; its terminal is designed for about one million passengers a year.
-**4.** Because an editor may have to cut the report to fit the space, so the
-least important paragraphs are placed last and can be removed without losing
-the story.
+::: note Answers — Reading
+**1.** (a) A big heavy branch that hit the nest when the tree fell. (b) A deer.
+(c) Rest inside the hermitage and some cold water from the pot. (d) Prime
+Minister Pushpa Kamal Dahal. (e) Any two of Buddha Air, Shree Airlines, Yeti
+Airlines and Guna Air.
 :::
 
 **Grammar**
 
-5. Report these sentences. <span class="marks">[5]</span>
-   (a) "The airport opened last year," the official said.
-   (b) "Have you seen the new terminal?" she asked.
-   (c) "Where is the check-in desk?" the passenger asked.
-   (d) "Fasten your seat belt," the crew said.
-   (e) "Don't stand near the runway," the guard warned.
+2. Change into indirect speech. <span class="marks">[5]</span>
+   (a) Rita said, "I am reading a novel now." (b) He said to me, "Did you see
+   the match yesterday?" (c) The teacher said, "The sun rises in the east."
+   (d) Mother said to me, "Don't go out in the rain." (e) Ram said to Sita,
+   "Where will you go tomorrow?"
 
-::: note Answers
-**5.** (a) The official said (that) the airport had opened the previous year.
-(b) She asked if I had seen the new terminal. (c) The passenger asked where the
-check-in desk was. (d) The crew told us to fasten our seat belts. (e) The guard
-warned us not to stand near the runway.
+::: note Answers — Grammar
+**2.** (a) Rita said that she was reading a novel then. (b) He asked me if I had
+seen the match the day before. (c) The teacher said that the sun rises in the
+east. (d) Mother told me not to go out in the rain. (e) Ram asked Sita where she
+would go the next day.
 :::
 
 **Writing**
 
-6. Write a news report of about 150 words about an event in your school. <span class="marks">[5]</span>
-7. Write a story of about 120 words with the moral "we become what we are
-   near". <span class="marks">[5]</span>
+3. Write a news report: *a landslide in Myagdi; three houses buried; two people
+   injured; rescue by Nepal Army and locals; road blocked for two days.* <span class="marks">[5]</span>
 
-::: note Answers
-**6.** Give a headline without a full stop, a byline, a lead of two sentences
-carrying the six questions, then three short paragraphs in order of decreasing
-importance, with one quotation attributed to a named person. Use the past tense
-and the passive, and do not use *I* or *we*.
-**7.** Use parallelism: two children, the same situation, one thing different —
-for example the same class, the same teacher, one who listened and one who did
-not. Keep to the past simple and end with the difference the reader has already
-noticed rather than a moral in bold.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** The lead of a news report answers
-   (a) why only (b) what, where, when and who (c) the writer's feelings (d) the headline
-**2.** A news report is written in the
-   (a) first person (b) second person (c) third person (d) imperative
-**3.** The place-and-date line comes
-   (a) before the headline (b) after the headline, before the lead (c) at the end (d) inside the quotation
-**4.** Which belongs in an editorial but not a news report?
-   (a) a quotation (b) the writer's opinion (c) a number (d) a date
-**5.** The inverted pyramid means
-   (a) the least important fact comes first (b) the most important fact comes first (c) facts are in time order (d) the report is upside down
-
-::: note Objective practice — answers
-**1.** (b) — what, where, when and who. **2.** (c) — third person, factual. **3.** (b) — between the headline and the lead. **4.** (b) — opinion belongs in an editorial. **5.** (b) — most important first.
+::: note Answer — Writing
+**3.** Headline (*Landslide Buries Three Houses in Myagdi*), byline, dateline,
+lead (what, where, when, casualties), body (rescue work, injured taken to
+hospital, road blocked, a reported statement from an official), third person,
+past tense.
 :::
