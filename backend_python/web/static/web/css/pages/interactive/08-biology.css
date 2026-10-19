@@ -323,3 +323,10 @@
 .bh-jdot { position: absolute; left: -15px; top: -15px; width: 30px; height: 30px; border-radius: 50%; border: 2px solid #fff; background: #facc15; color: #0f172a; font: inherit; font-size: .74rem; font-weight: 800; pointer-events: auto; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.35); will-change: transform; }
 .bh-jdot:hover { background: #fb923c; }
 .bh-jdot.done { background: #22c55e; color: #fff; width: 16px; height: 16px; left: -8px; top: -8px; font-size: 0; pointer-events: none; }
+.bh-park { position: absolute; left: 0; top: 0; display: none; pointer-events: auto; will-change: transform; }
+.bh-jlayer.on .bh-park { display: block; }
+.bh-park b { position: absolute; left: 0; bottom: 0; transform: translateX(-50%); white-space: nowrap; font-size: .66rem; padding: 2px 7px; border-radius: 999px; background: rgba(255,255,255,.94); color: #7f1d1d; box-shadow: 0 2px 6px rgba(2,6,23,.25); }
+.bh-park span { position: absolute; left: 0; bottom: 20px; transform: translateX(-50%); white-space: nowrap; font-size: .62rem; font-weight: 700; color: #14532d; background: rgba(220,252,231,.95); border-radius: 6px; padding: 0 5px; }
+.bh-park span:empty { display: none; }
+.bh-park.near b { background: #bbf7d0; box-shadow: 0 0 0 3px #22c55e; }
+@media (max-width: 640px) { .bh-park b { font-size: .56rem; padding: 1px 5px; } }
