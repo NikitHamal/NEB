@@ -38,6 +38,7 @@ const PRACTICALS = {
   'mushroom-identification': () => import('./practicals/mushroom.js'),
   'inflorescence-identification': () => import('./practicals/inflorescence.js'),
   'fossil-evolution-evidence': () => import('./practicals/fossil.js'),
+  'biodiversity-conservation-nepal': () => import('./practicals/conservation.js'),
   'pond-ecosystem-zoology': () => import('./practicals/pond.js'),
   'skeleton-joints-health-disorders': () => import('./practicals/skeleton.js'),
   'quadrat-frequency-field': () => import('./practicals/quadrat.js'),
