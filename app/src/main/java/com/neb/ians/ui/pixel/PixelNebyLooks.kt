@@ -45,6 +45,11 @@ enum class NebyLook(val key: String, val label: String, val festival: Boolean = 
     }
 }
 
+/** What Neby wears app-wide, set from the server's site theme (an admin's pick or the festival's dress). */
+object NebyDress {
+    @Volatile var current: NebyLook = NebyLook.Classic
+}
+
 object NebyLooks {
     private fun c(hex: Long) = Px.rgb(hex)
 
