@@ -19,7 +19,7 @@ export default function init(stage) {
   const hud = createHud(stage);
   const badge = hud.badge('Grab the hand and shake the string', T.blue);
 
-  let mode = 'shake', end = 'fixed', osc = false, f = 1, A = 0.3, v = 4, harmonic = 3, phase = 0, f2 = 1, paused = false, sound = false;
+  let mode = 'shake', end = 'open', osc = true, f = 1, A = 0.3, v = 4, harmonic = 3, phase = 0, f2 = 1, paused = false, sound = false;
   let y = new Float64Array(N + 1), yp = new Float64Array(N + 1), yn = new Float64Array(N + 1);
   let t = 0, handY = 0, handHeld = false, simT = 0;
   const handSpring = new Spring(0, 60, 9);
@@ -30,8 +30,8 @@ export default function init(stage) {
 
   const panel = createPanel(stage, { title: 'Waves' });
   const modeC = panel.chips({ label: 'Experiment', options: [{ value: 'shake', label: 'Shake it' }, { value: 'standing', label: 'Standing waves' }, { value: 'interference', label: 'Interference' }], value: 'shake', onChange: (m) => { mode = m; resetString(); show(); } });
-  const endC = panel.chips({ label: 'Far end', options: [{ value: 'fixed', label: 'Tied to wall' }, { value: 'free', label: 'Loose ring' }, { value: 'open', label: 'Endless' }], value: 'fixed', onChange: (e) => { end = e; resetString(); } });
-  const oscT = panel.toggle({ label: 'Oscillator drives the hand', value: false, onChange: (o) => { osc = o; k.animate(true); } });
+  const endC = panel.chips({ label: 'Far end', options: [{ value: 'fixed', label: 'Tied to wall' }, { value: 'free', label: 'Loose ring' }, { value: 'open', label: 'Endless' }], value: 'open', onChange: (e) => { end = e; resetString(); } });
+  const oscT = panel.toggle({ label: 'Oscillator drives the hand', value: true, onChange: (o) => { osc = o; k.animate(true); } });
   const fS = panel.slider({ label: 'Frequency f', min: 0.25, max: 3, step: 0.05, value: f, format: (x) => `${x.toFixed(2)} Hz`, onChange: (x) => { f = x; } });
   const aS = panel.slider({ label: 'Amplitude A', min: 0.05, max: 0.6, step: 0.05, value: A, format: (x) => `${x.toFixed(2)} m`, onChange: (x) => { A = x; } });
   panel.slider({ label: 'Wave speed v', min: 1, max: 8, step: 0.5, value: v, format: (x) => `${x.toFixed(1)} m/s`, onChange: (x) => { v = x; } });

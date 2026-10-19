@@ -225,3 +225,62 @@ are hidden on phones where they would cover the apparatus.
 **Not done / ideas.** Quadrat and seed sorting offer a "partner" shortcut after enough hand counting
 (the counts stay real). The pond and soil labs use colour-chart pH (no meter). Possible polish: more
 specimen variety per run, a Secchi disc reading from a boat, and a monochasial cyme specimen.
+
+## 2D pass: every canvas simulation rebuilt on a shared kit (Oct 19, 2026)
+
+**Scope (38 sims, all done and pushed).** physics/ bouncy-balls, circuit-lab, forces-playground,
+magnet-play, optics-bench, pendulum-lab, projectile-motion, ramp-roller, waves-lab · chemistry/
+mixing-lab, density-tower, fizzy-reactions, melt-freeze, states-matter, acid-base,
+reaction-balancer · nebclass10/ concave-mirror, ohms-law, indicators, food-tests, quadratic-graph,
+statistics-explorer, height-distance · space/ orbital-sandbox, rocket-launch, kepler-orbits,
+gravity-worlds, star-lifecycle, cosmic-scale · robotics/ line-follower, pid-controller,
+state-machine · ai/ what-is-ai, how-ml-learns, perceptron, image-classifier, llm-intro, ethics.
+(The 3D sims in those folders — atom-builder, molecule-viewer, neuron, network-3d, the 3D space and
+robotics lessons — were not touched; `core/canvas2d.js` is unchanged for the sims still using it.)
+
+**Shared kit (`static/web/js/interactive/core/`).**
+- `kit2d.js` — `createKit(stage, { night, captureTouch, trackPointer, label })`: HiDPI canvas
+  (devicePixelRatio capped at 2, 1.5 on ≤4-core/≤2 GB devices), a render loop that runs only while
+  the stage is on screen and the tab visible, continuously only while `k.animate(true)`, otherwise
+  one frame per `k.invalidate()`. `k.drag({ hit, down, move, up, cursor, enabled })` handles mouse,
+  pen and touch with touch slack; a touch that starts on a handle never scrolls the page (non-passive
+  touchstart), other touches scroll. `k.onTap`, `k.isHot(handle)`, `k.cache()` (per-resize memo),
+  `stage.__k2.debug` for tests. Helpers: theme `T`/`NIGHT`, `Spring` (honours
+  prefers-reduced-motion), `makeRK4` (allocation-free), `Ring` buffers, `sphere` (cached lit-sphere
+  sprites), `knob`, `arrow`, `pill`, `card`, `softShadow`, `dimension`, colour `mix`/`withAlpha`.
+- `kit2d-plot.js` — `Plot` with nice ticks cached per range, `ring()`/`fn()`/`dot()`.
+- Family modules: `optics2d.js` (exact paraxial ray tracing, real-is-positive, used by the optics
+  bench and the class 10 concave mirror), `chem2d.js` (glassware drawn back/contents/front with
+  meniscus and printed graduations; a draggable shelf of bottles/shakers/spoons/droppers that tilt
+  and pour over a target), `matter2d.js` (energy-based heating with specific and latent heats; a
+  lattice/liquid/gas particle model; thermometer; heat dial), `indicators2d.js` (pH by
+  charge-balance bisection; indicator colours; pH strip), `tubes2d.js` (test-tube rack easing to new
+  colours, litmus strips, precipitates, water bath), `space2d.js` (cached starfield, glows,
+  blackbody colours, dark pills).
+- `sim-ui.js` (backwards-compatible additions only): `panel.chips()`, `panel.stats()`, slider fill
+  CSS variable and `slider().input`.
+- CSS: `css/pages/interactive/15-kit2d.css` (imported last). The kit adds `.ix-k2` (light) or
+  `.ix-k2-dark` (space) to the shell, which restyles the stage, toolbar, dock, panels, chips, stat
+  tiles and tables (`.k2-table`, `.k2-first6`); taller stage on phones. 3D sims are unaffected.
+
+**Science notes.** Pendulum: RK4 on θ'' = −(g/L)sinθ − bθ', measured period from interpolated
+zero crossings vs 2π√(L/g) and the AGM exact period. Bouncing: exact impact times, rebound e·v.
+Projectile: RK4 with football drag ½ρC_dAv². Friction: μs/μk stick-slip. Ramp: (5/7)g sinθ etc.
+Magnets: Gilbert pole model; clips follow ∇B². Waves: finite-difference wave equation with fixed /
+free / Mur absorbing ends. Circuits and Ohm's law: exact series/parallel, a heating bulb (non-ohmic).
+Mixing: solubility 36 g/100 mL. Fizz: 5 % vinegar, 84 g/mol, 24 L/mol. Titration: charge balance,
+Ka 1.8e-5. Orbits: GM☉ = 4π² AU³/yr², leapfrog. Kepler: Kepler's equation. Rocket: RK4 with mass
+flow, 1/r² gravity, exponential atmosphere. ML: a real 2-hidden-layer tanh MLP with Adam;
+perceptron rule; nearest-template digit classifier with a held-out confusion matrix; trigram LM;
+logistic regression on biased labels with a proxy feature. Food tests: sucrose is (correctly)
+Benedict's-negative (the old sim said positive).
+
+**Testing.** `/tmp/2d/shoot.py outdir [--desk|--phone] sim:slug[:actions]` (actions joined with
+`~`: `w500`, `js:EXPR` and `dj:`/`hj:` JS-computed drags using `D = stage.__k2.debug` and `K = kit`,
+`click:x,y`, `s:name`) runs both 1400×900 and 390×844 and prints console errors. Every sim was
+driven with at least one real mouse drag/tap and all 38 × 2 viewports load with no console errors.
+
+**Ideas / not done.** Sound effects for the 2D labs; a dark-theme variant of the light shell for
+users on the site's dark theme (the 2D stages stay light); the line follower's drawn track is not
+saved between visits; the image classifier could be swapped for a small trained CNN if a weights
+file is acceptable.
