@@ -78,3 +78,6 @@
 .ho-sheet canvas { display: block; width: 100%; height: auto; margin-top: 6px; touch-action: none; cursor: crosshair; border-radius: 8px; }
 .ho-sheet-read { min-height: 1.2em; margin-top: 6px; font-variant-numeric: tabular-nums; color: #334155; }
 @media (max-width: 640px) { .ho-sheet { right: 8px; top: auto; bottom: 70px; transform: translateY(8px); width: calc(100% - 16px); } .ho-sheet.on { transform: none; } }
+.ho-graph.ho-side { left: auto; right: 12px; top: 12px; width: min(360px, calc(100% - 24px)); transform: translateY(-8px) scale(.97); }
+.ho-graph.ho-side.on { transform: none; }
+@media (max-width: 640px) { .ho-graph.ho-side { top: auto; bottom: 70px; right: 8px; width: min(300px, calc(100% - 16px)); padding: 6px 8px 8px; font-size: .75rem; } }
