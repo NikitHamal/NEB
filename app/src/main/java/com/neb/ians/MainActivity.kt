@@ -89,6 +89,7 @@ class MainActivity : ComponentActivity() {
             val siteTheme by siteThemeRepository.theme.collectAsState()
             val dismissedCards by siteThemeRepository.dismissed.collectAsState()
             androidx.compose.runtime.LaunchedEffect(Unit) { siteThemeRepository.refresh() }
+            androidx.compose.runtime.SideEffect { com.neb.ians.ui.pixel.NebyDress.current = com.neb.ians.ui.pixel.NebyLook.fromKey(siteTheme?.neby?.look) }
             val themeState = siteTheme.let { t ->
                 com.neb.ians.ui.theme.SiteThemeState(
                     theme = t,

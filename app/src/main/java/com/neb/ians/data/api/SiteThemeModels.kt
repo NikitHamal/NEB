@@ -22,6 +22,8 @@ data class ApiNebyConfig(
     val look: String = "classic",
     val ambient: Boolean = true,
     val reactions: Boolean = true,
+    /** The festival's own greeting animation (tika at Dashain, diyo at Tihar...), or null. */
+    val greet: String? = null,
 )
 
 @Serializable

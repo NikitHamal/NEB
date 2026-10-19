@@ -20,7 +20,8 @@ enum class NebyState(val frameMs: Int, val loop: Boolean = true) {
     // festivals
     Tika(120), Kite(130), Swing(90), Diyo(110), Deusi(95), Splash(90), Fireworks(100), Namaste(120);
 
-    val sprite: PixelSprite get() = PixelNebyStates.sprite(this)
+    /** This state in what Neby wears today (the site theme's dress; see [NebyDress]). */
+    val sprite: PixelSprite get() = PixelNebyStates.sprite(this, NebyDress.current)
     fun sprite(look: NebyLook): PixelSprite = PixelNebyStates.sprite(this, look)
     /** The web and server name: LookAround -> look-around. */
     val key: String get() = name.replace(Regex("(?<!^)([A-Z])"), "-$1").lowercase()

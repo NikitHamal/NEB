@@ -19,7 +19,8 @@ def payload() -> dict:
     app = t.get('app') if t.get('show_in_app') else None
     data = {'key': t['key'], 'name': t['name'], 'festive': bool(t.get('festive') and app)}
     neby = t.get('neby') or {}
-    data['neby'] = {'look': neby.get('look', 'classic'), 'ambient': neby.get('ambient', True), 'reactions': neby.get('reactions', True)}
+    data['neby'] = {'look': neby.get('look', 'classic'), 'ambient': neby.get('ambient', True), 'reactions': neby.get('reactions', True),
+                    'greet': neby.get('greet')}
     if data['festive']:
         data.update({
             'light': dict(zip(_ROLE_NAMES, app['light'])),

@@ -1,5 +1,5 @@
 {% load static %}<!DOCTYPE html>
-<html lang="en" class="no-js" data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}">
+<html lang="en" class="no-js" data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}" data-neby-look="{{ site_theme.neby.look|default:'classic' }}"{% if site_theme.neby.greet %} data-neby-greet="{{ site_theme.neby.greet }}"{% endif %}{% if site_theme.neby and not site_theme.neby.ambient %} data-neby-ambient="false"{% endif %}{% if site_theme.neby and not site_theme.neby.reactions %} data-neby-reactions="false"{% endif %}>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
