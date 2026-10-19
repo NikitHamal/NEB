@@ -278,3 +278,9 @@
 
 .bh-card.bh-collapsed .bh-card-text { display: none; }
 .bh-card.bh-collapsed::after { content: 'tap for instructions'; display: block; font-size: .66rem; opacity: .6; margin-top: 2px; }
+/* holding a tool: the tool itself is the cursor, with a crisp reticle on the exact action point */
+.bh-stage.bh-holding .ix-sim-canvas, .bh-stage.bh-holding canvas { cursor: none; }
+.bh-reticle { position: absolute; left: -9px; top: -9px; width: 18px; height: 18px; border-radius: 50%; pointer-events: none; z-index: 3;
+  border: 1.5px solid rgba(255,255,255,.95); box-shadow: 0 0 0 1px rgba(15,23,42,.55), inset 0 0 0 1px rgba(15,23,42,.35); opacity: 0; transition: opacity .15s; will-change: transform; }
+.bh-reticle::after { content: ""; position: absolute; left: 7px; top: 7px; width: 2px; height: 2px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 1px rgba(15,23,42,.6); }
+.bh-reticle.on { opacity: 1; }
