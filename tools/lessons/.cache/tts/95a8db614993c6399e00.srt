@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,945
+Double the frequency, and the wavelength halves.
+
+2
+00:00:03,945 --> 00:00:06,901
+Triple it, and the wavelength is a third.
+
+3
+00:00:06,901 --> 00:00:11,263
+The product, f lambda, the speed, never changes.
+
+4
+00:00:11,263 --> 00:00:15,989
+Changing the frequency of the source changes the wavelength, not the speed.
+

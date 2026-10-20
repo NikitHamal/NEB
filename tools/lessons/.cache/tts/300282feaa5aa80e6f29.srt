@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,044
+The heat absorbed is m L: one times three point three four times ten to the five joules.
+

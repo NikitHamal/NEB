@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,927
+B, longitudinal.
+
+2
+00:00:01,927 --> 00:00:08,151
+Air has no stiffness against sideways shearing, so it cannot pass on a transverse vibration.
+
+3
+00:00:08,151 --> 00:00:15,807
+The air molecules can only push on their neighbours along the direction of travel, making compressions and rarefactions.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,208
+So successive nodes are half a wavelength apart, successive antinodes are half a wavelength apart, and a node is a quarter wavelength from the next antinode.
+
+2
+00:00:10,208 --> 00:00:15,794
+Measuring the distance between nodes is the standard laboratory way to find a wavelength.
+

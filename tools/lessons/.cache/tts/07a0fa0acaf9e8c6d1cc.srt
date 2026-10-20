@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,328
+And a quick check: their difference, two hundred and ninety seven, is exactly R over M.
+
+2
+00:00:06,328 --> 00:00:07,369
+It works.
+

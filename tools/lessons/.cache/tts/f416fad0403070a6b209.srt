@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,562
+Here is the plan.
+
+2
+00:00:01,562 --> 00:00:16,588
+What a progressive wave is, the five quantities that describe it, the equation of a travelling wave, phase and particle velocity, and then what happens when two waves meet head on: stationary waves, with their nodes and antinodes.
+

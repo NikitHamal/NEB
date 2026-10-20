@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,341
+And the maximum particle velocity, which we meet next, is a omega: zero point zero five times one hundred pi, fifteen point seven metres per second.
+

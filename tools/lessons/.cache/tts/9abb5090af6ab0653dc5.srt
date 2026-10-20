@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,583
+Frequency is omega over two pi: fifty hertz.
+
+2
+00:00:04,583 --> 00:00:10,104
+Wavelength is two pi over k: two pi over half pi, four metres.
+

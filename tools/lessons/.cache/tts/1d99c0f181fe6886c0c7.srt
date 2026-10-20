@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,039
+Separate them by one whole wavelength, and the phase difference is two pi.
+
+2
+00:00:05,039 --> 00:00:09,348
+They move exactly in step, as if they were the same particle.
+

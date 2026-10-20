@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,184
+Speed is distance over time, so v equals lambda over T, which is f lambda.
+
+2
+00:00:06,184 --> 00:00:11,731
+This wave equation holds for every wave there is, mechanical or electromagnetic.
+

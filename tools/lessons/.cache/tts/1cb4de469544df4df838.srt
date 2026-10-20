@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,848
+Fade out the two travelling waves, and here it is on its own: a stationary, or standing, wave.
+
+2
+00:00:06,848 --> 00:00:08,697
+Some points never move at all.
+
+3
+00:00:08,697 --> 00:00:11,367
+Others swing with double the amplitude.
+

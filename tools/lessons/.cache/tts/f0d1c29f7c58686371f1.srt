@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,861
+Two more facts to remember.
+
+2
+00:00:01,861 --> 00:00:08,294
+In a progressive wave, every particle vibrates with the same amplitude and the same frequency.
+
+3
+00:00:08,294 --> 00:00:13,072
+But each one starts its vibration slightly later than the one before it.
+
+4
+00:00:13,072 --> 00:00:17,122
+The phase lags steadily along the direction of travel.
+

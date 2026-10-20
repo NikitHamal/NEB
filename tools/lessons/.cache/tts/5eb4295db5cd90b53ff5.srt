@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,492
+Now a full eight mark question, the kind that closes many papers.
+
+2
+00:00:04,492 --> 00:00:14,166
+A wave of frequency two hundred and fifty hertz and amplitude two centimetres travels along a string at four hundred metres per second.
+
+3
+00:00:14,166 --> 00:00:15,481
+Find everything.
+

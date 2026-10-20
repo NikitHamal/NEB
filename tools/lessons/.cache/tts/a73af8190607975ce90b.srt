@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,718
+The work needed is Q two over beta: thirteen hundred over six point five, just two hundred joules.
+

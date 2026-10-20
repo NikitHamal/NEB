@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,057
+Here is a quick exam habit.
+
+2
+00:00:02,057 --> 00:00:06,223
+Before you calculate anything, look at the form of the equation.
+
+3
+00:00:06,223 --> 00:00:11,263
+If x and t sit together inside one sine, the wave travels.
+
+4
+00:00:11,263 --> 00:00:15,494
+If they sit in separate factors, it is a stationary wave.
+
+5
+00:00:15,494 --> 00:00:22,278
+Then omega gives f, k gives lambda, and omega over k gives the speed.
+

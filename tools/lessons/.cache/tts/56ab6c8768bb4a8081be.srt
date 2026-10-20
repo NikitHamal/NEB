@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,664
+The quantity inside the sine, omega t minus k x, is called the phase.
+
+2
+00:00:05,664 --> 00:00:09,023
+It tells you where in its cycle a particle is.
+
+3
+00:00:09,023 --> 00:00:17,187
+Two particles separated by a distance delta x differ in phase by two pi over lambda, times delta x.
+

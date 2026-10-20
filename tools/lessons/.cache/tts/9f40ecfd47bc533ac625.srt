@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,158
+Worked example.
+
+2
+00:00:01,158 --> 00:00:10,286
+A wave is given by y equals zero point zero five sine, one hundred pi t minus zero point five pi x, in S I units.
+
+3
+00:00:10,286 --> 00:00:16,940
+Find the amplitude, frequency, wavelength, wave speed and maximum particle velocity.
+

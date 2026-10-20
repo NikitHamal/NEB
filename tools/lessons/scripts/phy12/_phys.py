@@ -300,3 +300,24 @@ class Stream(VGroup):
         dt = min(dt, 0.1)
         self.ts = [(t + self.speed * dt / self.length) % 1.0 for t in self.ts]
         self._place()
+
+
+def clock(scene, rate=1.0):
+    """A ValueTracker that ticks by itself (t += rate * dt) while it is in the scene; set .rate to slow, freeze or reverse."""
+    t = ValueTracker(0)
+    t.rate = rate
+    t.add_updater(lambda m, dt: m.increment_value(dt * m.rate))
+    scene.add(t)
+    return t
+
+
+def curve(fn, x0, x1, n=160, color=th.SKY, width=4, smooth=False):
+    """A plain VMobject through (x, fn(x)) in scene coordinates; cheap enough to rebuild every frame."""
+    xs = np.linspace(x0, x1, n)
+    pts = [np.array([x, fn(x), 0]) for x in xs]
+    m = VMobject(stroke_color=color, stroke_width=width)
+    if smooth:
+        m.set_points_smoothly(pts)
+    else:
+        m.set_points_as_corners(pts)
+    return m

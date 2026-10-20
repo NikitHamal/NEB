@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,643
+The work is eta times Q one: zero point four times six thousand, two thousand four hundred joules.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,119
+B, zero.
+
+2
+00:00:01,119 --> 00:00:07,252
+A node never moves, so no work is done across it, and no energy can cross.
+
+3
+00:00:07,252 --> 00:00:11,888
+The energy only sloshes back and forth between the neighbouring nodes.
+
+4
+00:00:11,888 --> 00:00:16,106
+That is exactly why a stationary wave does not transport energy.
+

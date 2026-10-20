@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,940
+Let us build the equation.
+
+2
+00:00:01,940 --> 00:00:09,322
+The particle at the origin, O, performs simple harmonic motion: y equals a sine omega t.
+

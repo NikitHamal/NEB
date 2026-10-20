@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,890
+The shape moves along the row from left to right.
+
+2
+00:00:02,890 --> 00:00:04,335
+But follow the red bead.
+
+3
+00:00:04,335 --> 00:00:05,768
+It never moves along.
+
+4
+00:00:05,768 --> 00:00:10,677
+It only goes up and down about its own place, exactly like the leaf.
+

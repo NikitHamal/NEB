@@ -2,7 +2,7 @@
 
 Shared drawing helpers live in `_phys.py`: springs, hatching, blocks, safe arrows, the step-by-step `example()`,
 flow tracers and pipes, and (from Unit 4) bouncing-molecule `Gas`, piston `Cylinder`, `pv_axes`, live `readout`,
-`flame`, `Stream` (dots flowing along a path), and `neby_in` / `neby_out` for Neby's reactions. Minutes are narration length from prefetch.py.
+`flame`, `Stream` (dots flowing along a path), and `neby_in` / `neby_out` for Neby's reactions. Minutes are total narration length (every `say`, quiz, tip, recap and the step-by-step `example()` lines).
 Each pushed unit has been checked part by part with frames.py.
 
 | Unit | Title | Narration | Parts |
@@ -10,5 +10,6 @@ Each pushed unit has been checked part by part with frames.py.
 | 1 | Rotational Dynamics | 21.7 min | cold open (ring vs disc race), 7 parts (angular kinematics → angular momentum), recap |
 | 2 | Periodic Motion | 19.9 min | cold open, 5 parts (equation of SHM, energy, vertical spring, angular SHM and pendulum, damping and resonance), recap |
 | 3 | Fluid Statics | 21.0 min | cold open (ship and needle), 8 parts (pressure and buoyancy → Bernoulli), recap |
-| 4 | First Law of Thermodynamics | 21.4 min | cold open (diesel ignition with no spark), 6 parts (systems, quasi-static and state/path functions; work as area; first law and signs; isochoric/isobaric/isothermal/adiabatic, cycles, free expansion; Cp − Cv = R and γ; isothermal and adiabatic derivations, slopes, the diesel at 689 K), 4 worked examples, 3 quizzes, recap |
-| 5 | Second Law of Thermodynamics | 17.1 min | cold open (a bouncing ball played backwards), 6 parts (one-way processes and reversibility; Kelvin–Planck, Clausius and their equivalence; heat engines and η; Otto cycle with a live piston, η(r) and knocking, Diesel, Carnot cycle on hot/insulating/cold stands and its derivation; refrigerator COP and the refrigerant loop; entropy, disorder and ΔS ≥ 0), 4 worked examples, 3 quizzes, recap |
+| 4 | First Law of Thermodynamics | 23.2 min | cold open (diesel ignition with no spark), 6 parts (systems, quasi-static and state/path functions; work as area; first law and signs; isochoric/isobaric/isothermal/adiabatic, cycles, free expansion; Cp − Cv = R and γ; isothermal and adiabatic derivations, slopes, the diesel at 689 K), 4 worked examples, 3 quizzes, recap |
+| 5 | Second Law of Thermodynamics | 19.3 min | cold open (a bouncing ball played backwards), 6 parts (one-way processes and reversibility; Kelvin–Planck, Clausius and their equivalence; heat engines and η; Otto cycle with a live piston, η(r) and knocking, Diesel, Carnot cycle on hot/insulating/cold stands and its derivation; refrigerator COP and the refrigerant loop; entropy, disorder and ΔS ≥ 0), 4 worked examples, 3 quizzes, recap |
+| 6 | Wave Motion | 16.8 min | cold open (a leaf on Phewa Lake that rides the ripples but never travels), 6 parts (beads on a string, transverse vs longitudinal with moving C/R labels; a, λ, T, f and v = fλ with a live frequency slider; deriving y = a sin(ωt − kx) from a delayed particle; phase difference, particle-velocity arrows; reflection at a fixed end and two counter-running waves summing to a standing wave; nodes, antinodes, λ/2 and λ/4, progressive vs stationary), 5 worked examples, 4 quizzes, recap |

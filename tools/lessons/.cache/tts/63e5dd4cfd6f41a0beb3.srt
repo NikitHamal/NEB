@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,848
+So what exactly is moving?
+
+2
+00:00:01,848 --> 00:00:03,046
+Not the water.
+
+3
+00:00:03,046 --> 00:00:07,539
+Something else is travelling across the lake, carrying energy with it.
+
+4
+00:00:07,539 --> 00:00:14,401
+That something is a wave, and in this lesson we will learn to describe it exactly, with one equation.
+

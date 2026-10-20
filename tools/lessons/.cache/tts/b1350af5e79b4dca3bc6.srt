@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,138
+That is a progressive, or travelling, wave.
+
+2
+00:00:03,138 --> 00:00:14,453
+A disturbance that travels through a medium in a definite direction, transferring energy and momentum from point to point, without any net transport of the medium itself.
+

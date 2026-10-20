@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,549
+That is wave motion.
+
+2
+00:00:01,549 --> 00:00:08,671
+Next, we ask what decides the speed of a wave, in a string, in a solid, and in air, in Mechanical Waves.
+
+3
+00:00:08,671 --> 00:00:11,406
+See you there, on NEBians.
+

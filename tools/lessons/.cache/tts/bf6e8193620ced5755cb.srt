@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,328
+B, pi by two.
+
+2
+00:00:01,328 --> 00:00:05,039
+Two pi over lambda, times lambda over four.
+
+3
+00:00:05,039 --> 00:00:10,937
+If you chose pi by four, you divided the angle and the distance by the same four twice.
+
+4
+00:00:10,937 --> 00:00:15,690
+A whole wavelength is two pi, so a quarter of it is pi by two.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,122
+Wavelength is v over f: three fifty over five hundred, zero point seven metres.
+

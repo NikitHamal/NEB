@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,263
+So never mix them up.
+
+2
+00:00:01,263 --> 00:00:04,270
+The particle velocity keeps changing.
+
+3
+00:00:04,270 --> 00:00:07,929
+The wave velocity is a fixed property of the medium.
+
+4
+00:00:07,929 --> 00:00:18,658
+Differentiating with respect to x instead gives the slope of the wave, and the two are linked: particle velocity equals minus v times the slope.
+

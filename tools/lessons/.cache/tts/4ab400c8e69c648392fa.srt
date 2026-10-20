@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,914
+Now a classic confusion.
+
+2
+00:00:01,914 --> 00:00:12,200
+Differentiate y with respect to time, holding x fixed, and you get the particle velocity: a omega cos, omega t minus k x.
+
+3
+00:00:12,200 --> 00:00:14,309
+The red arrows show it.
+

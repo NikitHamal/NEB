@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,158
+Worked example.
+
+2
+00:00:01,158 --> 00:00:08,671
+A refrigerator keeps its freezer at minus thirteen degrees Celsius, in a kitchen at twenty seven degrees.
+
+3
+00:00:08,671 --> 00:00:18,098
+Assuming ideal operation, find its coefficient of performance, the work to remove thirteen hundred joules, and the heat delivered to the kitchen.
+

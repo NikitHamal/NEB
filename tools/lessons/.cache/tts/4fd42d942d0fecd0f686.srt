@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,132
+Worked example.
+
+2
+00:00:01,132 --> 00:00:11,341
+A Carnot engine works between a source at two hundred and twenty seven degrees Celsius and a sink at twenty seven degrees, absorbing six thousand joules per cycle.
+
+3
+00:00:11,341 --> 00:00:15,260
+Find the efficiency, the work, and the heat rejected.
+

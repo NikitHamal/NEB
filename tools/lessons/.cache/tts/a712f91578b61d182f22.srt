@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,106
+Worked example.
+
+2
+00:00:01,106 --> 00:00:08,372
+For nitrogen, gamma is one point four zero, and the molar mass is twenty eight grams per mole.
+
+3
+00:00:08,372 --> 00:00:14,062
+Find C v, C p, and the two specific heat capacities per kilogram.
+

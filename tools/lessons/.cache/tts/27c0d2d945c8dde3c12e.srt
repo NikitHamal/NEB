@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,216
+Now let it run, and follow one particle.
+
+2
+00:00:03,216 --> 00:00:08,320
+The period, T, is the time it takes to make one complete vibration.
+
+3
+00:00:08,320 --> 00:00:15,455
+The frequency, f, is the number of vibrations per second, one over T, measured in hertz.
+

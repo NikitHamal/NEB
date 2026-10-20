@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,210
+Pause and think.
+
+2
+00:00:01,210 --> 00:00:05,468
+Two points in a progressive wave are a quarter of a wavelength apart.
+
+3
+00:00:05,468 --> 00:00:07,500
+What is their phase difference?
+

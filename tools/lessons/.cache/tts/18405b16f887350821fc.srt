@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,088
+Then C p is gamma times C v: one point four times twenty point seven nine, which is twenty nine point one zero.
+

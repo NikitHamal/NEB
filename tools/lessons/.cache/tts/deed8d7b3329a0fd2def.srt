@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,723
+Five quantities describe any progressive wave.
+
+2
+00:00:03,723 --> 00:00:05,807
+Freeze the wave for a moment.
+
+3
+00:00:05,807 --> 00:00:11,406
+The amplitude, a, is the greatest displacement of a particle from its mean position.
+

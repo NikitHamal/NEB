@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,838
+Here are the differences the exam asks for.
+
+2
+00:00:02,838 --> 00:00:08,489
+A progressive wave advances through the medium and carries energy along.
+
+3
+00:00:08,489 --> 00:00:17,278
+A stationary wave stays put, and transports no energy: energy just sloshes back and forth between neighbouring nodes.
+
+4
+00:00:17,278 --> 00:00:22,018
+In a progressive wave every particle has the same amplitude.
+
+5
+00:00:22,018 --> 00:00:28,593
+In a stationary wave the amplitude runs from zero at the nodes to two a at the antinodes.
+
+6
+00:00:28,593 --> 00:00:35,494
+And all the particles between two nodes move in phase, reversing across each node.
+

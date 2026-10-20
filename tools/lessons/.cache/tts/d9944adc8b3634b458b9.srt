@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,460
+Now let two waves meet head on.
+
+2
+00:00:02,460 --> 00:00:10,156
+They have the same amplitude, the same frequency and the same speed, but they travel in opposite directions.
+
+3
+00:00:10,156 --> 00:00:20,117
+In practice the second is usually the reflection of the first, from the fixed end of a sarangi string, or the end of the air column in a flute.
+

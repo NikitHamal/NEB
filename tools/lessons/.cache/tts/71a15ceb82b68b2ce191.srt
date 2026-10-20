@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,877
+k is zero point five pi per centimetre, so lambda is two pi over half pi, four centimetres.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,184
+Worked example.
+
+2
+00:00:01,184 --> 00:00:08,554
+One kilogram of ice at zero degrees Celsius melts completely into water at zero degrees.
+
+3
+00:00:08,554 --> 00:00:11,145
+Find the change in entropy.
+

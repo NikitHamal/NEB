@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,536
+The wavelength, lambda, is the distance between two successive particles in the same phase.
+
+2
+00:00:06,536 --> 00:00:11,132
+Crest to crest, trough to trough, or compression to compression.
+

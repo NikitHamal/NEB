@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,570
+Compare it with y equals a sine, omega t minus k x.
+
+2
+00:00:04,570 --> 00:00:13,072
+The amplitude is zero point zero five metres, omega is one hundred pi, and k is zero point five pi.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,244
+For the equation, omega is two pi f, five hundred pi, and k is two pi over one point six, one point two five pi.
+
+2
+00:00:09,244 --> 00:00:18,736
+With the amplitude in metres, y equals zero point zero two sine, five hundred pi t minus one point two five pi x.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,450
+If you put the origin at a node instead of an antinode, the same working gives y equals two a sine k x cos omega t.
+
+2
+00:00:08,450 --> 00:00:10,156
+Only the labels change.
+
+3
+00:00:10,156 --> 00:00:14,986
+The spacings, lambda by two and lambda by four, stay the same.
+

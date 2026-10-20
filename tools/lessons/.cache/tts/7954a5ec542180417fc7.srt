@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,734
+The ripple has travelled several metres.
+
+2
+00:00:02,734 --> 00:00:05,091
+But the leaf has not gone anywhere.
+
+3
+00:00:05,091 --> 00:00:07,864
+It only bobs up and down, on the same spot.
+

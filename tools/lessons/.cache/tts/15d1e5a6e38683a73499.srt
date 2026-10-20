@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,981
+We have two equations: C p minus C v equals R, and C p equals gamma C v. Substitute: gamma C v minus C v equals R, so C v equals R over gamma minus one.
+
+2
+00:00:12,981 --> 00:00:20,742
+Eight point three one four over zero point four: twenty point seven nine joules per mole per kelvin.
+
