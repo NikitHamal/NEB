@@ -81,11 +81,11 @@ export function initBio3DLab(stage, opts = {}) {
   if (hasHandsOn(config.slug)) return startHandsOn(stage, config);
   stage.classList.add('bio3d-stage');
   stage.dataset.bioKind = config.kind;
-  const engine = createEngine(stage, { fov: 44, shadows: true, environment: true, exposure: 1.05 });
+  const engine = createEngine(stage, { lite: true, noise: true, fov: 44, shadows: true, environment: true, exposure: 1.05 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
   // the same bright school lab as the physics and chemistry practicals, with a biology bench
-  buildRoom(scene, { subject: 'biology', title: config.title, subtitle: config.aim }, quality);
+  buildRoom(scene, { subject: 'biology', title: config.title, subtitle: config.aim }, quality, engine.renderer);
   if (quality.tier !== 'low') { engine.renderer.shadowMap.enabled = true; engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
   const view = cameraViewFor(config.kind, quality.mobile);
   camera.position.set(...view.pos);

@@ -2,6 +2,7 @@
 // springs, a tiny tween runner, seeded randomness, cached canvas textures and the wet, waxy,
 // steel and glass materials the specimens and instruments are made of.
 import { THREE } from '../engine.js';
+import { detail } from '../detail.js';
 
 export const clamp = (v, a = 0, b = 1) => (v < a ? a : v > b ? b : v);
 export const lerp = (a, b, t) => a + (b - a) * t;
@@ -99,12 +100,12 @@ export function disposeMaterials() { MATS.forEach((m) => m.dispose()); MATS.clea
 
 /** Living tissue: a wet sheen (clearcoat) over a soft, slightly translucent-looking base. */
 export function wet(color, opts = {}) {
-  return new THREE.MeshPhysicalMaterial({
+  return detail(new THREE.MeshPhysicalMaterial({
     color, roughness: opts.roughness ?? 0.48, metalness: 0, clearcoat: opts.clearcoat ?? 0.7, clearcoatRoughness: opts.ccr ?? 0.22,
     sheen: opts.sheen ?? 0.35, sheenColor: new THREE.Color(opts.sheenColor ?? 0xffd6d6), sheenRoughness: 0.5,
     emissive: opts.emissive ?? 0x000000, map: opts.map || null, bumpMap: opts.bumpMap || null, bumpScale: opts.bumpScale ?? 1,
     side: opts.side ?? THREE.FrontSide, transparent: !!opts.transparent, opacity: opts.opacity ?? 1,
-  });
+  }), { scale: opts.detailScale ?? 7, bump: opts.detailBump ?? 0.0022, mottle: opts.mottle ?? 0.24, sss: opts.sss ?? new THREE.Color(color).lerp(new THREE.Color(0xff5030), 0.5).getHex(), roughVar: 0.35 });
 }
 export const MAT = {
   steel: () => cached('steel', () => new THREE.MeshStandardMaterial({ color: 0xd5dbe1, metalness: 1, roughness: 0.22, envMapIntensity: 1.3 })),
@@ -113,7 +114,7 @@ export const MAT = {
   plastic: (c) => cached(`pl${c}`, () => new THREE.MeshStandardMaterial({ color: c, roughness: 0.42, metalness: 0 })),
   gloss: (c) => cached(`gl${c}`, () => new THREE.MeshPhysicalMaterial({ color: c, roughness: 0.3, clearcoat: 0.8, clearcoatRoughness: 0.15 })),
   matte: (c) => cached(`mt${c}`, () => new THREE.MeshStandardMaterial({ color: c, roughness: 0.85, metalness: 0 })),
-  wax: () => cached('wax', () => new THREE.MeshPhysicalMaterial({ color: 0x2b2420, roughness: 0.55, clearcoat: 0.35, clearcoatRoughness: 0.5 })),
+  wax: () => cached('wax', () => detail(new THREE.MeshPhysicalMaterial({ color: 0x2b2420, roughness: 0.55, clearcoat: 0.35, clearcoatRoughness: 0.5 }), { scale: 4, bump: 0.002, mottle: 0.3, roughVar: 0.5 })),
   glass: () => cached('glass', () => new THREE.MeshPhysicalMaterial({ color: 0xf2fbff, roughness: 0.03, transparent: true, opacity: 0.22, clearcoat: 1, clearcoatRoughness: 0.03, envMapIntensity: 1.6, depthWrite: false, side: THREE.DoubleSide })),
   glassEdge: () => cached('glassEdge', () => new THREE.MeshPhysicalMaterial({ color: 0xcdeee6, roughness: 0.05, transparent: true, opacity: 0.6, clearcoat: 1, envMapIntensity: 1.3, depthWrite: false })),
   paper: () => cached('paper', () => new THREE.MeshStandardMaterial({ color: 0xfbfaf6, roughness: 0.95 })),
