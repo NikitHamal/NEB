@@ -18,7 +18,7 @@ const OFFSETS = { bench: new THREE.Vector3(0, 0, 0), leaf: new THREE.Vector3(400
 
 export default function init(stage) {
   stage.classList.add('bio-beginner-stage', 'bio-photosynthesis-stage');
-  const engine = createEngine(stage, { shadows: true, fov: 40, near: 0.1, far: 2500, environment: false, exposure: 1.0 });
+  const engine = createEngine(stage, { lite: true, shadows: true, fov: 40, near: 0.1, far: 2500, environment: false, exposure: 1.0 });
   if (!engine) return null;
   const { scene, camera, renderer, quality } = engine;
   const tier = quality.tier;

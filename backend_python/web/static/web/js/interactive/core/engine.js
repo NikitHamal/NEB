@@ -1,4 +1,6 @@
 import * as THREE from '../../vendor/three.module.min.js';
+import { noise3D } from './noise3d.js';
+import { liteScene } from './lite.js';
 
 export { THREE };
 
@@ -181,6 +183,7 @@ export function createEngine(stage, opts = {}) {
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   }
+  if (opts.noise) noise3D(renderer);
   renderer.domElement.classList.add('ix-sim-canvas');
   stage.appendChild(renderer.domElement);
 
@@ -242,17 +245,22 @@ export function createEngine(stage, opts = {}) {
   const minRatio = Math.min(maxRatio, quality.tier === 'high' ? 1 : 0.75);
   let ratio = maxRatio;
   let budgetSum = 0;
+  let warm = false;
+  let calm = 0;
   let budgetN = 0;
   let lastFrameAt = 0;
+  let liteTick = 0;
   const frameInterval = quality.tier === 'low' ? 1000 / 31 : 0;
   function govern(ms) {
     budgetSum += ms; budgetN += 1;
-    if (budgetN < 120) return;
+    if (budgetN < (warm ? 90 : 30)) return;
     const avg = budgetSum / budgetN;
     budgetSum = 0; budgetN = 0;
     let next = ratio;
-    if (avg > 25 && ratio > minRatio) next = Math.max(minRatio, ratio - 0.25);
-    else if (avg < 13 && ratio < maxRatio) next = Math.min(maxRatio, ratio + 0.25);
+    if (avg > 21 && ratio > minRatio) { next = Math.max(minRatio, ratio - (avg > 40 ? 0.5 : 0.25)); calm = 0; }
+    else if (avg < 12.5 && ratio < maxRatio) { calm++; if (calm >= 2) { next = Math.min(maxRatio, ratio + 0.25); calm = 0; } }
+    else calm = 0;
+    warm = true;
     if (next !== ratio) { ratio = next; renderer.setPixelRatio(ratio); resize(); }
   }
 
@@ -263,6 +271,7 @@ export function createEngine(stage, opts = {}) {
     lastFrameAt = now;
     const dt = Math.min(clock.getDelta(), 0.1);
     if (updateFn) updateFn(dt, clock.elapsedTime);
+    if (opts.lite && (liteTick++ % 90 === 0)) liteScene(scene);
     renderer.render(scene, camera);
   }
 

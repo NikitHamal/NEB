@@ -86,7 +86,7 @@ const pow10 = (n) => `10${String(n).split('').map((c) => SUP[c]).join('')}`;
 
 export default function init(stage) {
   stage.classList.add('ix-cosmos-stage');
-  const engine = createEngine(stage, { logDepth: true, alpha: false, environment: false, fov: 45, near: 1e-3, far: 1e9, exposure: 1.0 });
+  const engine = createEngine(stage, { logDepth: true, noise: true, alpha: false, environment: false, fov: 45, near: 1e-3, far: 1e9, exposure: 1.0 });
   if (!engine) return null;
   const { scene, camera, renderer } = engine;
   scene.background = new THREE.Color(0x000000);
