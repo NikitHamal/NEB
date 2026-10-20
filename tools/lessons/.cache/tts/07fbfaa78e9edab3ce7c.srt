@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,953
+A potentiometer is a long uniform wire, several metres, carrying a steady current from a driver cell.
+
+2
+00:00:06,953 --> 00:00:12,005
+Because the wire is uniform, the potential falls evenly along it.
+
+3
+00:00:12,005 --> 00:00:22,890
+The potential difference across any length l is k l, where k, the potential gradient in volts per metre, stays constant as long as the current is steady.
+

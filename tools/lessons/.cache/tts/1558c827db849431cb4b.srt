@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,692
+Here is the path.
+
+2
+00:00:01,692 --> 00:00:13,697
+Kirchhoff's laws, the Wheatstone and metre bridges, the potentiometer, superconductors, converting a galvanometer into an ammeter, voltmeter and ohmmeter, and Joule's law of heating.
+

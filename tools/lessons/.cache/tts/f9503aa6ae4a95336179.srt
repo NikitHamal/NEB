@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,710
+Superconductivity has limits: too strong a magnetic field, the critical field, or too large a current, destroys it.
+
+2
+00:00:08,710 --> 00:00:20,208
+In nineteen eighty six and seven, ceramic oxides were found that superconduct up to about ninety two kelvin, warmer than liquid nitrogen at seventy seven kelvin, which is cheap.
+
+3
+00:00:20,208 --> 00:00:34,166
+Today superconductors power M R I scanners in hospitals, particle accelerator magnets, maglev trains, ultra sensitive SQUID magnetometers, and loss free power cables.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,369
+Notice what is missing: the cell's e m f, its internal resistance, the galvanometer's resistance.
+
+2
+00:00:07,369 --> 00:00:08,476
+None of them matter.
+
+3
+00:00:08,476 --> 00:00:11,367
+That is why this null method is so accurate.
+

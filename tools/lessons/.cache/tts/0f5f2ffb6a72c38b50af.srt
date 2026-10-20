@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,122
+An ohmmeter is a galvanometer, a cell and an adjustable resistor in series, with two test leads.
+
+2
+00:00:07,122 --> 00:00:13,177
+Touch the leads together, and adjust R so the needle sits exactly at full scale.
+
+3
+00:00:13,177 --> 00:00:15,039
+That is zero ohms.
+

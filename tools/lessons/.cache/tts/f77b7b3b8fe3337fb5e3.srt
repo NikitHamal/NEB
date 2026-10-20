@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,570
+The second law is about loops: any closed path round a circuit.
+
+2
+00:00:04,570 --> 00:00:07,460
+Carry a unit charge once round this loop.
+
+3
+00:00:07,460 --> 00:00:09,765
+The cell lifts it up by ten volts.
+
+4
+00:00:09,765 --> 00:00:13,880
+The resistors take it back down, six volts and then four.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,541
+Cool a normal metal, and its resistance falls, because the lattice ions vibrate less and scatter the electrons less.
+
+2
+00:00:08,541 --> 00:00:10,481
+But it never reaches zero.
+
+3
+00:00:10,481 --> 00:00:16,888
+Impurities and defects leave a residual resistivity, even at absolute zero.
+

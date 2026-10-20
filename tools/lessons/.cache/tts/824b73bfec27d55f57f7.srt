@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,739
+The water needs m c delta theta: one times forty two hundred times eighty, three point three six times ten to the five joules.
+

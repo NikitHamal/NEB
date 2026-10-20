@@ -349,3 +349,59 @@ def strip(x, y0, y1, width, rgb_fn, n=110):
         c = np.clip(rgb_fn(y), 0, 1)
         g.add(Rectangle(width=width, height=h * 1.02, stroke_width=0, fill_color=ManimColor.from_rgb(np.array(c, dtype=float)), fill_opacity=1).move_to([x, y, 0]))
     return g
+
+
+# ---------------------------------------------------------------- circuit symbols (units 14+)
+def resistor(a, b, color=th.BODY, zig=6, w=0.16, frac=0.5, stroke=4):
+    """Zigzag resistor between points a and b (the zigzag fills `frac` of the length, centred)."""
+    a, b = np.array(a, dtype=float), np.array(b, dtype=float)
+    d = b - a
+    L = np.linalg.norm(d)
+    u = d / L
+    p = np.array([-u[1], u[0], 0])
+    s0, s1 = (1 - frac) / 2 * L, (1 + frac) / 2 * L
+    pts = [a, a + u * s0]
+    for i in range(zig):
+        s = s0 + (s1 - s0) * (i + 0.5) / zig
+        pts.append(a + u * s + p * w * (1 if i % 2 == 0 else -1))
+    pts += [a + u * s1, b]
+    return VMobject(stroke_color=color, stroke_width=stroke).set_points_as_corners(pts)
+
+
+def cell(a, b, color=th.BODY, stroke=4, plus_at_b=True, gap=0.16):
+    """Cell symbol on the wire from a to b: long plate (+) and short plate (-), leads to both ends."""
+    a, b = np.array(a, dtype=float), np.array(b, dtype=float)
+    d = b - a
+    L = np.linalg.norm(d)
+    u = d / L
+    p = np.array([-u[1], u[0], 0])
+    m = (a + b) / 2
+    pa, pb = m - u * gap / 2, m + u * gap / 2
+    long_at = pb if plus_at_b else pa
+    short_at = pa if plus_at_b else pb
+    g = VGroup(Line(a, pa, color=color, stroke_width=stroke), Line(pb, b, color=color, stroke_width=stroke),
+               Line(long_at - p * 0.32, long_at + p * 0.32, color=color, stroke_width=stroke),
+               Line(short_at - p * 0.17, short_at + p * 0.17, color=color, stroke_width=stroke + 3))
+    return g
+
+
+def galvo(center, r=0.32, color=th.BODY, label="G"):
+    c = np.array(center, dtype=float)
+    return VGroup(Circle(radius=r, stroke_color=color, stroke_width=4, fill_color=th.BG, fill_opacity=1).move_to(c),
+                  T(label, size=24, color=color, weight="BOLD").move_to(c))
+
+
+def wire(*pts, color=th.BODY, stroke=4):
+    return VMobject(stroke_color=color, stroke_width=stroke).set_points_as_corners([np.array(p, dtype=float) for p in pts])
+
+
+def needle_meter(center, frac_fn, r=1.0, color=th.AMBER, label="G"):
+    """Analogue meter dial; frac_fn() in [-1, 1] sets the needle (0 = centre zero)."""
+    c = np.array(center, dtype=float)
+    dial = VGroup(Arc(radius=r, start_angle=PI / 2 - 1.0, angle=2.0, arc_center=c, color=th.BODY, stroke_width=3),
+                  *[Line(c + (r - 0.12) * np.array([np.cos(PI / 2 - k), np.sin(PI / 2 - k), 0]), c + r * np.array([np.cos(PI / 2 - k), np.sin(PI / 2 - k), 0]), color=th.BODY, stroke_width=2)
+                    for k in np.linspace(-1.0, 1.0, 9)],
+                  T(label, size=22, color=th.MUTED).move_to(c + DOWN * 0.25))
+    needle = always_redraw(lambda: Line(c, c + (r - 0.05) * np.array([np.cos(PI / 2 - float(np.clip(frac_fn(), -1, 1))), np.sin(PI / 2 - float(np.clip(frac_fn(), -1, 1))), 0]),
+                                        color=color, stroke_width=4))
+    return dial, needle

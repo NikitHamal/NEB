@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,197
+B, because at balance it draws no current from the cell, so there is no internal drop.
+
+2
+00:00:06,197 --> 00:00:11,223
+A longer wire helps the precision, but the real reason is the null method.
+

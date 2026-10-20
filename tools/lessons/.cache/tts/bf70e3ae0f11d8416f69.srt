@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,403
+Welcome to Class 12 Physics, Unit 14: Electrical Circuits.
+
+2
+00:00:05,403 --> 00:00:20,690
+We will learn Kirchhoff's laws, use them on the Wheatstone bridge, the metre bridge and the potentiometer, meet superconductors, turn a galvanometer into ammeters and voltmeters, and finish with what current actually does in a resistor: it heats it.
+

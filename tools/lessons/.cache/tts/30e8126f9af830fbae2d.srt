@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,414
+Slide the jockey along until the galvanometer reads zero.
+
+2
+00:00:04,414 --> 00:00:10,846
+Here, with R equal to four ohms, the balance point is sixty centimetres from the left end.
+

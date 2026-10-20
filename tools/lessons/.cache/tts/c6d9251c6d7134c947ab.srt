@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,835
+Why does a current heat a wire?
+
+2
+00:00:01,835 --> 00:00:10,742
+The electric field speeds the electrons up, but they keep crashing into the vibrating ions of the lattice, handing over the energy they gained.
+
+3
+00:00:10,742 --> 00:00:13,554
+The ions jiggle harder, and that is heat.
+
+4
+00:00:13,554 --> 00:00:19,244
+The drift speed stays steady, so all the electrical energy turns into heat.
+

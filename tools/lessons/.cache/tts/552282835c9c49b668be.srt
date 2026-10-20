@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,171
+Worked example.
+
+2
+00:00:01,171 --> 00:00:07,265
+The same bridge: X on the left, four ohms on the right, balance at sixty centimetres.
+
+3
+00:00:07,265 --> 00:00:10,559
+Find X, and the balance point after swapping them.
+

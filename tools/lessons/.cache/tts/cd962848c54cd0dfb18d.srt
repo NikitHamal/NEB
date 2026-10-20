@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,484
+B, two to one.
+
+2
+00:00:01,484 --> 00:00:09,036
+In parallel the voltage is common, so H goes as one over R, and the two ohm resistor makes twice the heat.
+
+3
+00:00:09,036 --> 00:00:13,750
+If you used I squared R, you would get one to two, exactly backwards.
+

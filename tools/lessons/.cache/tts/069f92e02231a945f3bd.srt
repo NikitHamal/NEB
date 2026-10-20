@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,783
+Here are the sign rules.
+
+2
+00:00:01,783 --> 00:00:04,296
+Pick a direction to walk round the loop.
+
+3
+00:00:04,296 --> 00:00:10,664
+A resistor walked along the assumed current gives minus I R; against it, plus I R.
+
+4
+00:00:10,664 --> 00:00:18,372
+A cell walked from minus to plus gives plus E; from plus to minus, minus E. Set the total to zero.
+
+5
+00:00:18,372 --> 00:00:21,979
+And if a current comes out negative, it just flows the other way.
+
+6
+00:00:21,979 --> 00:00:24,947
+The size is still right, so never redraw.
+

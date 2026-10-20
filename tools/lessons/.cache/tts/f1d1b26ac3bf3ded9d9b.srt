@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,276
+A favourite trap.
+
+2
+00:00:01,276 --> 00:00:05,677
+Which resistor gets hotter, two ohms or four ohms?
+
+3
+00:00:05,677 --> 00:00:13,046
+In series, the current is the same in both, so use I squared R t: the bigger resistance gets hotter.
+

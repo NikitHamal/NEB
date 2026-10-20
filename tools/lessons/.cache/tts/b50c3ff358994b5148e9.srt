@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,890
+The two are in parallel, so they have the same voltage: I g G equals I minus I g, times S.
+
+2
+00:00:07,890 --> 00:00:12,695
+So S equals I g G over I minus I g.
+
+3
+00:00:12,695 --> 00:00:22,213
+The finished ammeter has a very small resistance, G S over G plus S, because it goes in series, and must not disturb the current.
+
+4
+00:00:22,213 --> 00:00:25,325
+An ideal ammeter has zero resistance.
+

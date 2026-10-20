@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,320
+That is Kirchhoff's first law, the junction law.
+
+2
+00:00:03,320 --> 00:00:11,289
+The algebraic sum of the currents at a junction is zero, counting currents in as positive and currents out as negative.
+
+3
+00:00:11,289 --> 00:00:16,093
+Charge cannot pile up at a point, so it is really the conservation of charge.
+

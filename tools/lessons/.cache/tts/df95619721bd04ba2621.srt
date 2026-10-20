@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,942
+Adjust S, and watch the galvanometer.
+
+2
+00:00:02,942 --> 00:00:06,263
+For most values it swings one way or the other.
+
+3
+00:00:06,263 --> 00:00:09,257
+At exactly one value, it reads zero.
+
+4
+00:00:09,257 --> 00:00:11,718
+Then the bridge is balanced.
+

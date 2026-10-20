@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,434
+Examiners like this distinction.
+
+2
+00:00:02,434 --> 00:00:08,255
+A perfect conductor is an imaginary material with zero resistance and nothing else.
+
+3
+00:00:08,255 --> 00:00:15,299
+Cool it in a magnetic field, and it traps whatever flux was inside, so its final state depends on its history.
+
+4
+00:00:15,299 --> 00:00:20,052
+A real superconductor expels the flux whichever order you do things in.
+
+5
+00:00:20,052 --> 00:00:24,726
+Its state is always the same: a true thermodynamic phase.
+

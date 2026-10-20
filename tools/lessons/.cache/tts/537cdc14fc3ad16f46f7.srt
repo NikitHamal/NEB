@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,578
+Two lab habits examiners love.
+
+2
+00:00:02,578 --> 00:00:11,315
+Choose R so that the balance point lands near the middle, between forty and sixty centimetres, because that is where the error is smallest.
+
+3
+00:00:11,315 --> 00:00:15,221
+Then swap X and R, take the reading again, and average.
+
+4
+00:00:15,221 --> 00:00:20,286
+That cancels the small extra resistance of the copper strips at the ends.
+

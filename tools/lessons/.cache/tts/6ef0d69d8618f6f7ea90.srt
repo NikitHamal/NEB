@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,411
+D, a low resistance in parallel: the shunt.
+
+2
+00:00:03,411 --> 00:00:08,541
+A high resistance in series makes a voltmeter instead, the most common mix up.
+

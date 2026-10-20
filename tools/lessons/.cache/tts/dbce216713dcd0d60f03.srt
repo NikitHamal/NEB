@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,250
+B, charge.
+
+2
+00:00:01,250 --> 00:00:06,054
+Charge cannot pile up at a junction, so what flows in must flow out.
+
+3
+00:00:06,054 --> 00:00:09,322
+Energy is the trap: that is the loop law.
+

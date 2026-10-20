@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,492
+Inside every analogue meter is a moving coil galvanometer.
+
+2
+00:00:04,492 --> 00:00:12,226
+It has a resistance G, and gives a full scale deflection for a small current, I g, a few milliamperes.
+
+3
+00:00:12,226 --> 00:00:17,148
+Only the resistor bolted onto it decides what kind of meter it becomes.
+

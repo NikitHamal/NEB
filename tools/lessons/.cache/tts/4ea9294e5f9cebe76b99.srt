@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,971
+X is four times sixty over forty: six ohms.
+

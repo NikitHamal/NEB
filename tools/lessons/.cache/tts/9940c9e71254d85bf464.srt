@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,067
+Last check.
+
+2
+00:00:01,067 --> 00:00:05,520
+Two ohms and four ohms in parallel across a battery.
+
+3
+00:00:05,520 --> 00:00:08,046
+What is the ratio of the heat produced in them?
+

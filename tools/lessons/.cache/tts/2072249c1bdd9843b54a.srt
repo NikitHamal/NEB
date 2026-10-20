@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,468
+Useful power is eighty percent of fifteen hundred, twelve hundred watts.
+
+2
+00:00:05,468 --> 00:00:13,541
+So the time is three point three six times ten to the five over twelve hundred: two hundred and eighty seconds, four minutes forty.
+

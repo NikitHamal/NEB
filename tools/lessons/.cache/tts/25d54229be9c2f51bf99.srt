@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,632
+In parallel, the voltage is the same across both, so use V squared t over R: now the smaller resistance gets hotter.
+
+2
+00:00:08,632 --> 00:00:11,940
+Pick the wrong formula, and you reverse the answer.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,177
+The metre bridge is a Wheatstone bridge built from one uniform wire, exactly a metre long, stretched along a scale.
+
+2
+00:00:08,177 --> 00:00:14,518
+The unknown resistance X goes in the left gap, a known resistance R in the right gap.
+
+3
+00:00:14,518 --> 00:00:20,807
+The two parts of the wire, either side of a sliding jockey, act as the other two arms.
+

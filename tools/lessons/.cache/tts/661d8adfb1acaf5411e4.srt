@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,471
+The three statements called Joule's laws are just the three proportionalities in I squared R t. Heat goes as the current squared, as the resistance, and as the time.
+
+2
+00:00:11,471 --> 00:00:16,744
+To get calories, divide by J, four point two joules per calorie.
+

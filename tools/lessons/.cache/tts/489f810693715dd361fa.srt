@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,921
+And the element's resistance is V squared over P: fifty two thousand nine hundred over fifteen hundred, about thirty five point three ohms.
+

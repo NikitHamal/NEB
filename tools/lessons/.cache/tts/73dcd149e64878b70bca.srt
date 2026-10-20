@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,093
+B, zero.
+
+2
+00:00:01,093 --> 00:00:07,903
+That null reading is the very definition of balance, and it is why B and D are at the same potential.
+

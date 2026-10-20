@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,067
+Now connect a cell under test, through a galvanometer, to a jockey that touches the wire.
+
+2
+00:00:06,067 --> 00:00:11,067
+Its positive terminal goes to the same end, A, as the driver's.
+
+3
+00:00:11,067 --> 00:00:15,208
+Slide the jockey until the galvanometer reads zero.
+
