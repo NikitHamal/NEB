@@ -75,12 +75,13 @@ export async function buildBody(quality, { onProgress, onStage } = {}) {
   const boneNames = []; const muscleNames = [];
   const tmp = new THREE.Vector3();
   const centroid = (m) => { m.geometry.computeBoundingBox(); return m.geometry.boundingBox.getCenter(tmp).applyMatrix4(m.matrixWorld).x; };
-  bones.forEach((m) => boneNames.push(cleanName(m.name, centroid(m))));
-  muscles.forEach((m) => muscleNames.push(cleanName(m.name, centroid(m))));
+  const nm = (m) => m.userData.name || m.name;
+  bones.forEach((m) => boneNames.push(cleanName(nm(m), centroid(m))));
+  muscles.forEach((m) => muscleNames.push(cleanName(nm(m), centroid(m))));
 
   const boneGeo = mergeMeshes(bones, {
     attrs: { bk: 1 },
-    fill(ex, m, pos, start, count) { const k = TOOTH.test(m.name) ? 2 : CARTILAGE.test(m.name) ? 1 : 0; ex.bk.fill(k, start, start + count); },
+    fill(ex, m, pos, start, count) { const n = m.userData.name || m.name; const k = TOOTH.test(n) ? 2 : CARTILAGE.test(n) ? 1 : 0; ex.bk.fill(k, start, start + count); },
   });
   const muscleGeo = mergeMeshes(muscles, {
     attrs: { fib: 3, tend: 1 },
@@ -91,7 +92,7 @@ export async function buildBody(quality, { onProgress, onStage } = {}) {
         const t = (pos[i * 3] - c[0]) * axis[0] + (pos[i * 3 + 1] - c[1]) * axis[1] + (pos[i * 3 + 2] - c[2]) * axis[2];
         lo = Math.min(lo, t); hi = Math.max(hi, t);
       }
-      const flat = /diaphragm|oblique|transvers|intercostal/i.test(m.name);
+      const flat = /diaphragm|oblique|transvers|intercostal/i.test(m.userData.name || m.name);
       for (let i = start; i < start + count; i++) {
         ex.fib[i * 3] = axis[0]; ex.fib[i * 3 + 1] = axis[1]; ex.fib[i * 3 + 2] = axis[2];
         const t = (pos[i * 3] - c[0]) * axis[0] + (pos[i * 3 + 1] - c[1]) * axis[1] + (pos[i * 3 + 2] - c[2]) * axis[2];
@@ -139,7 +140,7 @@ export async function buildBody(quality, { onProgress, onStage } = {}) {
   await new Promise((r) => setTimeout(r, 0));
   const canal = [];
   ['Atlas (C1)', 'Vertebra C3', 'Vertebra C5', 'Vertebra C7', 'Vertebra T2', 'Vertebra T4', 'Vertebra T6', 'Vertebra T8', 'Vertebra T10', 'Vertebra T12', 'Vertebra L1'].forEach((n) => {
-    const m = gltf.scene.getObjectByName(n);
+    let m = null; gltf.scene.traverse((o) => { if (!m && o.isMesh && (o.userData.name || o.name) === n) m = o; });
     if (!m || !m.isMesh) return;
     const box = new THREE.Box3().setFromObject(m);
     canal.push([0, (box.min.y + box.max.y) * 50, (box.min.z + (box.max.z - box.min.z) * 0.32) * 100]);

@@ -4,7 +4,7 @@ function v3(c) { return `vec3(${c.r.toFixed(3)}, ${c.g.toFixed(3)}, ${c.b.toFixe
 
 function convert(src) {
   if (src.userData.lite) return src;
-  const glass = (src.transmission || 0) > 0.01;
+  const glass = (src.transmission || 0) > 0.01 || (src.transparent && (src.clearcoat || 0) > 0.5 && (src.opacity ?? 1) < 0.75);
   const dst = src;
   const coat = src.clearcoat || 0;
   const coatR = Math.max(0.04, src.clearcoatRoughness ?? 0.1);
@@ -18,6 +18,7 @@ function convert(src) {
     dst.transparent = true;
     dst.depthWrite = false;
     dst.roughness = Math.min(dst.roughness, 0.08);
+    if (!src.transmission) dst.opacity = Math.min(1, (src.opacity ?? 1) * 1.8);
     dst.metalness = 0;
     dst.envMapIntensity = (src.envMapIntensity ?? 1) * 1.6;
     if (src.attenuationColor && src.attenuationDistance < 1e6) dst.color.copy(src.attenuationColor).lerp(new THREE.Color(1, 1, 1), 0.35);
