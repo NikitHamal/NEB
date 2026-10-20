@@ -252,6 +252,7 @@ export function createEngine(stage, opts = {}) {
   let liteTick = 0;
   const frameInterval = quality.tier === 'low' ? 1000 / 31 : 0;
   function govern(ms) {
+    if (window.__ixNoGovern) return;
     budgetSum += ms; budgetN += 1;
     if (budgetN < (warm ? 90 : 30)) return;
     const avg = budgetSum / budgetN;

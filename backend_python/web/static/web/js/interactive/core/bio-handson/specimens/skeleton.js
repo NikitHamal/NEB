@@ -6,6 +6,7 @@
 // the atlanto-axial joint are real pivots the practicals can move. Feet stand at y = 0.
 import { THREE } from '../../engine.js';
 import { mesh, MAT } from '../kit.js';
+import { upgradeSkeleton } from './skeleton-real.js';
 
 const V = (x, y, z) => new THREE.Vector3(x, y, z);
 let BONE = null;
@@ -134,5 +135,7 @@ export function buildSkeleton() {
     'Intervertebral discs': V(0, 11.0, -0.25), 'Pubic symphysis': V(0, 8.85, 0.65), Hip: V(-0.95, 9.05, 0.25), Knee: V(-0.85, 4.7, 0.3), Ankle: V(-0.85, 0.85, 0.1),
     'Big toe joint': V(-0.95, 0.2, 1.45), 'Finger joints': V(-1.88, 7.55, 0.05), 'Lumbar spine': V(0, 10.6, -0.3), Thigh: V(-0.95, 7, 0.2), Leg: V(-0.9, 2.8, 0.15),
   };
-  return { root, B, J, RA, LA, RL, LL, sites, bone };
+  const out = { root, B, J, RA, LA, RL, LL, sites, bone };
+  upgradeSkeleton(out);
+  return out;
 }

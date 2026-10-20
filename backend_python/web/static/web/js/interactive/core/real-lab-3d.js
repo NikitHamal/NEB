@@ -153,12 +153,12 @@ export function initRealLab3D(stage, opts = {}) {
   const config = PRESETS[slug] || PRESETS['lab-apparatus-safety'];
   if (hasHandsOn(slug) && !opts.freeLab) return startHandsOn(stage, slug, config);
   const subject = SUBJECT[config.subject] || SUBJECT.physics;
-  const engine = createEngine(stage, { shadows: true, fov: 45, far: 260 });
+  const engine = createEngine(stage, { lite: true, noise: true, shadows: true, fov: 45, far: 260 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
 
   // the room is built once; only the apparatus is rebuilt when a control changes
-  buildRoom(scene, config, quality);
+  buildRoom(scene, config, quality, engine.renderer);
   if (quality.tier !== 'low') { engine.renderer.shadowMap.enabled = true; engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
   if (engine.renderer.toneMappingExposure !== undefined) engine.renderer.toneMappingExposure = 1.05;
   if (engine.renderer.toneMapping !== undefined) engine.renderer.toneMapping = THREE.ACESFilmicToneMapping;

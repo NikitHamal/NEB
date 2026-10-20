@@ -11,11 +11,11 @@ import { createAnimator, disposeTree } from './kit.js';
 import { sfx } from './sound.js';
 
 export function runPractical(stage, config, practical) {
-  const engine = createEngine(stage, { fov: 40, shadows: true, environment: true, exposure: 1.05 });
+  const engine = createEngine(stage, { lite: true, noise: true, fov: 40, shadows: true, environment: true, exposure: 1.05 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
   camera.near = 0.02; camera.updateProjectionMatrix();
-  buildRoom(scene, { subject: config.subject || 'biology', title: config.title, subtitle: config.aim }, quality);
+  buildRoom(scene, { subject: config.subject || 'biology', title: config.title, subtitle: config.aim }, quality, engine.renderer);
   if (quality.tier !== 'low') { engine.renderer.shadowMap.enabled = true; engine.renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
 
   const rig = createRig(camera);
