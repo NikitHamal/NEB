@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,411
+Industry makes alcohols on a huge scale.
+
+2
+00:00:03,411 --> 00:00:17,369
+In the oxo process, an alkene, carbon monoxide and hydrogen pass over a cobalt carbonyl catalyst at about a hundred and fifty degrees and a hundred atmospheres, giving an aldehyde, which is then hydrogenated.
+
+3
+00:00:17,369 --> 00:00:22,109
+The chain grows by one carbon: ethene gives propan one ol.
+

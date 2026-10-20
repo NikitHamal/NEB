@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,812
+Warm an alcohol with a carboxylic acid and a little concentrated sulphuric acid, and you get a sweet smelling ester.
+
+2
+00:00:07,812 --> 00:00:12,864
+Ethanoic acid and ethanol give ethyl ethanoate and water.
+
+3
+00:00:12,864 --> 00:00:16,679
+But which molecule loses its oxygen to the water?
+
+4
+00:00:16,679 --> 00:00:22,981
+Label the alcohol's oxygen with the heavy isotope, oxygen eighteen, and follow it.
+

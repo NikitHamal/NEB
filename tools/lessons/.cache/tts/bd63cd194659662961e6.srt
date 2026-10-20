@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,421
+Worked example ten point two.
+
+2
+00:00:02,421 --> 00:00:06,575
+Nine point two grams of ethanol is zero point two moles.
+
+3
+00:00:06,575 --> 00:00:14,492
+Two ethanols give one hydrogen molecule, so zero point one mole, two point two four litres at S T P.
+
+4
+00:00:14,492 --> 00:00:21,875
+And zero point two moles of sodium ethoxide, molar mass sixty eight: thirteen point six grams.
+

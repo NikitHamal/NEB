@@ -269,3 +269,79 @@ def water(center=ORIGIN, r=0.3, plus=False):
 def proton(r=0.16):
     return VGroup(Circle(radius=r, fill_color=th.CORAL, fill_opacity=1, stroke_color=WHITE, stroke_width=1.5),
                   T("H⁺", size=int(r * 110), color=WHITE, weight="BOLD"))
+
+
+# ------------------------------------------------------------------ organic helpers
+def push(a, b, angle=-TAU / 5, color=None):
+    """An electron-pushing curved arrow from point a to point b."""
+    return CurvedArrow(np.array(a, dtype=float), np.array(b, dtype=float), angle=angle, color=color or th.AMBER, stroke_width=4, tip_length=0.18)
+
+
+class ReactionMap:
+    """A hub-and-spoke 'reagent → product' map that grows over a lesson.
+
+    entries: list of (key, product_tex, reagent_text, colour). Positions are fixed by the full list,
+    so nodes never move as the map grows."""
+
+    def __init__(self, hub_tex, entries, center=(0, -0.25, 0), rx=5.2, ry=2.55, hub_color=None):
+        self.c = np.array(center, dtype=float)
+        self.hub_tex, self.entries = hub_tex, entries
+        self.rx, self.ry = rx, ry
+        self.hub_color = hub_color or th.AMBER
+        n = len(entries)
+        self.pos = {}
+        for i, e in enumerate(entries):
+            a = PI / 2 - i * TAU / n
+            self.pos[e[0]] = self.c + np.array([rx * np.cos(a), ry * np.sin(a), 0])
+
+    def hub(self):
+        t = chem(self.hub_tex, size=50, color=th.BG)
+        box = RoundedRectangle(corner_radius=0.2, width=t.width + 0.6, height=t.height + 0.4, fill_color=self.hub_color, fill_opacity=1, stroke_width=0).move_to(self.c)
+        t.move_to(box)
+        return VGroup(box, t)
+
+    @staticmethod
+    def _edge(center, w, h, u):
+        tx = (w / 2) / abs(u[0]) if abs(u[0]) > 1e-6 else 1e9
+        ty = (h / 2) / abs(u[1]) if abs(u[1]) > 1e-6 else 1e9
+        return center + u * min(tx, ty)
+
+    def spoke(self, key):
+        e = next(x for x in self.entries if x[0] == key)
+        _, ptex, rtext, col = e
+        p = self.pos[key]
+        t = chem(ptex, size=36, color=th.INK)
+        box = RoundedRectangle(corner_radius=0.15, width=max(t.width + 0.4, 1.4), height=t.height + 0.35, fill_color=th.PANEL, fill_opacity=1, stroke_color=col, stroke_width=3).move_to(p)
+        t.move_to(box)
+        hub = self.hub()
+        d = p - self.c
+        u = d / np.linalg.norm(d)
+        start = self._edge(self.c, hub.width + 0.1, hub.height + 0.1, u)
+        end = self._edge(p, box.width + 0.1, box.height + 0.1, -u)
+        arr = Arrow(start, end, buff=0, color=col, stroke_width=3, max_tip_length_to_length_ratio=0.15)
+        lab = T(rtext, size=20, color=col)
+        plate = RoundedRectangle(corner_radius=0.08, width=lab.width + 0.16, height=lab.height + 0.12, fill_color=th.BG, fill_opacity=0.9, stroke_width=0)
+        lg = VGroup(plate, lab)
+        if abs(u[1]) > 0.85:
+            lg.next_to((start + end) / 2, RIGHT, buff=0.12)
+        elif p[1] > self.c[1] + 0.1:
+            lg.next_to(box, UP, buff=0.08)
+        else:
+            lg.next_to(box, DOWN, buff=0.08)
+        return VGroup(arr, lg, VGroup(box, t))
+
+    def show(self, s, shown, new, run_time=0.6):
+        """Bring the map on stage: already-shown spokes appear at once, new ones grow in turn. Returns the group."""
+        title = T("Reaction map", size=24, color=th.MUTED).to_corner(UR, buff=0.5)
+        g = VGroup(title, self.hub())
+        old = VGroup(*[self.spoke(k) for k in shown])
+        g.add(old)
+        s.play(FadeIn(g), run_time=0.5)
+        for k in new:
+            sp = self.spoke(k)
+            s.sfx("pop", gain=-16)
+            s.play(GrowArrow(sp[0]), FadeIn(sp[1]), FadeIn(sp[2], scale=0.6), run_time=run_time)
+            s.remove(sp[0], sp[1], sp[2])
+            g.add(sp)
+            s.add(g)
+        return g

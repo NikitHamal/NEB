@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,916
+Students swap these colours every year.
+
+2
+00:00:02,916 --> 00:00:08,632
+Red for primary, blue for secondary, and for tertiary, no colour at all.
+

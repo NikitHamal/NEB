@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,304
+Worked example ten point four.
+
+2
+00:00:02,304 --> 00:00:11,549
+Point one mole of ethanol, eighty percent converted: zero point zero eight moles of ethene, one point seven nine litres.
+
+3
+00:00:11,549 --> 00:00:21,679
+At one forty degrees, the trick: the product is ether, a liquid boiling at thirty four point six degrees, so no gas is collected at all.
+
+4
+00:00:21,679 --> 00:00:25,091
+Two point nine six grams of ether instead.
+

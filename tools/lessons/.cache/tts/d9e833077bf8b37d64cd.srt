@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,289
+And from esters.
+
+2
+00:00:01,289 --> 00:00:03,841
+Acid hydrolysis is reversible.
+
+3
+00:00:03,841 --> 00:00:11,328
+Alkaline hydrolysis, saponification, goes to completion because the acid is removed as its salt.
+
+4
+00:00:11,328 --> 00:00:18,880
+Reducing an ester with lithium aluminium hydride gives two alcohols, one from each half of the ester.
+

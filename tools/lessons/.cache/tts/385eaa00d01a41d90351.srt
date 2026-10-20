@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,104
+Here is the whole reaction map of ethanol, built up through this lesson.
+
+2
+00:00:05,104 --> 00:00:09,882
+Every product comes from the same three places in the molecule.
+
+3
+00:00:09,882 --> 00:00:15,494
+If you can redraw this map from memory, you can answer almost any question on alcohols.
+

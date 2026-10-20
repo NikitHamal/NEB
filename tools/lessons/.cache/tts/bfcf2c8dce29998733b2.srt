@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,497
+The acid loses its whole O H group, and the alcohol loses only its hydrogen.
+
+2
+00:00:06,497 --> 00:00:07,760
+They form water.
+
+3
+00:00:07,760 --> 00:00:12,447
+The labelled oxygen stays in the ester, bonded to the acid's carbon.
+
+4
+00:00:12,447 --> 00:00:16,927
+So the water comes from the acid's O H, not the alcohol's.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,036
+An alcohol with one hydroxyl group is monohydric, general formula C n H two n plus one O H.
+
+2
+00:00:09,036 --> 00:00:15,768
+Two hydroxyl groups make a dihydric alcohol like glycol, three a trihydric one like glycerol.
+
+3
+00:00:15,768 --> 00:00:19,752
+The carbon carrying the O H is called the carbinol carbon.
+

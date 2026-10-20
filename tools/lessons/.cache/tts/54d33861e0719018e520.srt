@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,731
+B, propan two ol.
+
+2
+00:00:01,731 --> 00:00:08,476
+It is secondary, so its nitroalkane has one alpha hydrogen and gives the blue pseudonitrole.
+
+3
+00:00:08,476 --> 00:00:12,018
+Ethanol and methanol are primary, red.
+
+4
+00:00:12,018 --> 00:00:16,158
+Two methyl propan two ol is tertiary, colourless.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,265
+Step two, the slow step.
+
+2
+00:00:02,265 --> 00:00:09,062
+The carbon oxygen bond breaks, both electrons going to the oxygen, and a neutral water molecule leaves.
+
+3
+00:00:09,062 --> 00:00:14,778
+That leaves a carbocation, carbon with only six electrons and a positive charge.
+

@@ -15,3 +15,4 @@ been checked part by part with frames.py.
 | 7 | Studies of Heavy Metals | 27.2 min | cold open, 5 parts (copper, zinc, mercury, iron, silver), recap |
 | 8 | Haloalkanes | 17.6 min | cold open, 8 parts (naming and classes, preparation, physical properties, SN1/SN2, eight substitution products, elimination/reduction/Wurtz, making chloroform, reactions of chloroform), recap |
 | 9 | Haloarenes | 15.0 min | cold open, 7 parts (naming and isomerism, preparing chlorobenzene, physical properties, low reactivity, reduction and electrophilic substitution, Fittig/Wurtz–Fittig/chloral, uses), recap |
+| 10 | Alcohols | 18.0 min | cold open, 7 parts (naming and classes, Victor Meyer and Lucas tests, preparation, industrial preparation, common terms, physical properties, chemical properties with E1 mechanism and a growing reaction map), recap |

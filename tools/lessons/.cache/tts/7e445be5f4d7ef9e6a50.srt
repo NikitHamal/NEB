@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,492
+Alcohols can be made in the laboratory from three kinds of compound.
+
+2
+00:00:04,492 --> 00:00:09,348
+From a haloalkane, by boiling with aqueous potassium hydroxide.
+
+3
+00:00:09,348 --> 00:00:14,205
+Remember, aqueous: alcoholic potash would give an alkene.
+

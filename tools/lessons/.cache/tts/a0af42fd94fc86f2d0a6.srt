@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,976
+Branching lowers the boiling point, since a compact molecule has less surface contact.
+
+2
+00:00:05,976 --> 00:00:15,937
+The small alcohols mix with water in all proportions, because they hydrogen bond with it, but solubility falls as the oily carbon chain grows.
+
+3
+00:00:15,937 --> 00:00:22,135
+Alcohols are less dense than water, and such weak acids that they do not affect litmus.
+

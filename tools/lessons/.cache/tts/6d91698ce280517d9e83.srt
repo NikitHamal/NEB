@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,841
+The key is the number of alpha hydrogens, hydrogens on the carbon carrying the nitro group, because nitrous acid attacks there.
+
+2
+00:00:08,841 --> 00:00:16,549
+A primary nitroalkane has two: it forms a nitrolic acid, which gives a blood red colour with alkali.
+
+3
+00:00:16,549 --> 00:00:20,911
+A secondary has one: it forms a pseudonitrole, blue.
+
+4
+00:00:20,911 --> 00:00:24,791
+A tertiary has none: no reaction, colourless.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,002
+Our path.
+
+2
+00:00:01,002 --> 00:00:04,479
+Naming, isomers and classes of alcohols.
+
+3
+00:00:04,479 --> 00:00:10,664
+Telling primary, secondary and tertiary apart, with the Victor Meyer and Lucas tests.
+
+4
+00:00:10,664 --> 00:00:14,062
+Laboratory preparation, and industrial preparation.
+
+5
+00:00:14,062 --> 00:00:17,200
+Common terms like absolute and power alcohol.
+
+6
+00:00:17,200 --> 00:00:18,750
+Physical properties.
+
+7
+00:00:18,750 --> 00:00:24,192
+And finally the chemical reactions, which we will gather into one reaction map.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,161
+First, at the carbon oxygen bond: replacing O H by halogen, as we saw in haloalkanes.
+
+2
+00:00:07,161 --> 00:00:15,859
+Hydrogen halides with zinc chloride, phosphorus halides, and best of all thionyl chloride, whose by products are both gases.
+
+3
+00:00:15,859 --> 00:00:22,617
+Phosphorus pentachloride gives fumes of hydrogen chloride, which is also a test for an O H group.
+

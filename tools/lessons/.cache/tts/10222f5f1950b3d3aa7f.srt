@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,789
+Oxidation needs a hydrogen on the alpha carbon.
+
+2
+00:00:03,789 --> 00:00:14,687
+A primary alcohol has two, so it goes to an aldehyde and then on to a carboxylic acid, unless the volatile aldehyde is distilled off as it forms.
+
+3
+00:00:14,687 --> 00:00:18,619
+A secondary alcohol has one, so it stops at a ketone.
+
+4
+00:00:18,619 --> 00:00:23,125
+A tertiary alcohol has none, and resists mild oxidation.
+

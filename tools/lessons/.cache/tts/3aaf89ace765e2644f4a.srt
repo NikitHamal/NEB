@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:15,729
+In hydroboration oxidation, diborane adds across the double bond, and alkaline hydrogen peroxide then swaps boron for O H. Boron goes to the carbon with more hydrogens, so the result is anti Markovnikov.
+
+2
+00:00:15,729 --> 00:00:22,851
+Propene gives propan one ol this way, but propan two ol by ordinary acid catalysed hydration.
+
+3
+00:00:22,851 --> 00:00:25,325
+With ethene both give ethanol.
+

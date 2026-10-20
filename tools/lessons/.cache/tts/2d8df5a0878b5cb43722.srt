@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,294
+Now the most important mechanism in this unit.
+
+2
+00:00:03,294 --> 00:00:09,205
+Heat ethanol with concentrated sulphuric acid at one hundred and seventy degrees.
+
+3
+00:00:09,205 --> 00:00:15,000
+Step one: a lone pair on the oxygen grabs a hydrogen ion from the acid.
+
+4
+00:00:15,000 --> 00:00:18,411
+The curved arrow shows that pair of electrons moving.
+
+5
+00:00:18,411 --> 00:00:22,604
+The O H becomes O H two plus, protonated.
+

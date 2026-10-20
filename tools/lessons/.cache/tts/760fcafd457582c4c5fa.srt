@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,158
+Step three.
+
+2
+00:00:01,158 --> 00:00:06,770
+A base, hydrogen sulphate ion, pulls off a hydrogen from the neighbouring carbon.
+
+3
+00:00:06,770 --> 00:00:13,059
+The electrons from that carbon hydrogen bond swing in to form the second bond between the two carbons.
+
+4
+00:00:13,059 --> 00:00:13,880
+Ethene.
+

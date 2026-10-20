@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,028
+Last one.
+
+2
+00:00:01,028 --> 00:00:06,393
+Ethanol with concentrated sulphuric acid at one hundred and forty degrees.
+
+3
+00:00:06,393 --> 00:00:07,591
+What forms?
+
+4
+00:00:07,591 --> 00:00:08,815
+Pause and think.
+
