@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,007
+For air, gamma is one point four.
+
+2
+00:00:03,007 --> 00:00:12,044
+Multiply Newton's two hundred and eighty by root one point four, one point one eight three, and you get three hundred and thirty one metres per second.
+
+3
+00:00:12,044 --> 00:00:13,880
+It agrees with experiment.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,421
+A very common slip in exams: writing that Laplace's correction is needed because sound is longitudinal.
+
+2
+00:00:07,421 --> 00:00:09,231
+That has nothing to do with it.
+
+3
+00:00:09,231 --> 00:00:19,453
+The only change is that the compressions are adiabatic, so the bulk modulus is gamma P, not P. Say that sentence, and the mark is yours.
+

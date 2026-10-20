@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,385
+Test it on air at normal temperature and pressure.
+
+2
+00:00:03,385 --> 00:00:13,372
+P is one point zero one three times ten to the five pascals, and rho is one point two nine three kilograms per cubic metre.
+
+3
+00:00:13,372 --> 00:00:17,695
+The square root comes out at two hundred and eighty metres per second.
+

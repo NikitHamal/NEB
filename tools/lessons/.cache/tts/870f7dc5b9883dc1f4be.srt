@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,341
+D, steel.
+
+2
+00:00:01,341 --> 00:00:03,997
+Its Young's modulus is enormous.
+
+3
+00:00:03,997 --> 00:00:11,848
+And vacuum is the trap: sound is a mechanical wave, so with no medium at all, it does not travel at all.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,223
+Pause and think.
+
+2
+00:00:01,223 --> 00:00:05,468
+Make the absolute temperature of a gas four times bigger.
+
+3
+00:00:05,468 --> 00:00:07,434
+What happens to the speed of sound?
+

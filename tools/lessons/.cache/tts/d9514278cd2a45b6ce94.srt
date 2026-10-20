@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,015
+It does not.
+
+2
+00:00:01,015 --> 00:00:07,057
+Even the lowest sound we can hear, twenty hertz, squeezes each layer twenty times a second.
+
+3
+00:00:07,057 --> 00:00:11,927
+At a thousand hertz, a compression lasts only half a millisecond.
+
+4
+00:00:11,927 --> 00:00:15,078
+And air is a very poor conductor of heat.
+
+5
+00:00:15,078 --> 00:00:20,013
+So practically no heat leaves a compression, or enters a rarefaction.
+
+6
+00:00:20,013 --> 00:00:22,252
+The changes are not isothermal.
+
+7
+00:00:22,252 --> 00:00:23,671
+They are adiabatic.
+

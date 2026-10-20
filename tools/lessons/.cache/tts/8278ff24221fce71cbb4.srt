@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,263
+B, twice.
+
+2
+00:00:01,263 --> 00:00:06,158
+The speed goes as the square root of T, and the square root of four is two.
+
+3
+00:00:06,158 --> 00:00:10,598
+Four times is the trap for anyone who forgets the square root.
+

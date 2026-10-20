@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,083
+Here is the table to learn.
+
+2
+00:00:02,083 --> 00:00:09,700
+A longitudinal wave in a long thin rod stretches and squeezes it, so use Young's modulus.
+
+3
+00:00:09,700 --> 00:00:15,364
+In a liquid or a gas, the volume changes, so use the bulk modulus.
+
+4
+00:00:15,364 --> 00:00:24,231
+And for a transverse wave on a stretched string, the tension plays the role of stiffness, and the mass per unit length plays the role of density.
+

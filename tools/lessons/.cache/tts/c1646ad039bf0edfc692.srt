@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,768
+Square both sides of v equals root B over rho, and B equals rho v squared.
+

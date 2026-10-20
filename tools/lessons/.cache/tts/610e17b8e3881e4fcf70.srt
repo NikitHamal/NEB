@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,130
+Steel's Young's modulus is about a hundred times the bulk modulus of water.
+
+2
+00:00:05,130 --> 00:00:07,838
+Stiffness wins over inertia.
+
+3
+00:00:07,838 --> 00:00:11,914
+That is why the boy on the railway heard the train through the rail first.
+

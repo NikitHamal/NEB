@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,213
+One more, a full long question.
+
+2
+00:00:02,213 --> 00:00:10,091
+A gun is fired in a valley at Pokhara, and the echo from a cliff comes back after two and a half seconds, at twenty degrees.
+
+3
+00:00:10,091 --> 00:00:11,953
+Find the distance of the cliff.
+
+4
+00:00:11,953 --> 00:00:14,414
+Then the air cools to five degrees.
+
+5
+00:00:14,414 --> 00:00:16,497
+How does the echo time change?
+

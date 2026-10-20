@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,578
+Humidity raises the speed a little.
+
+2
+00:00:02,578 --> 00:00:08,411
+A water molecule has a molar mass of eighteen, while dry air averages about twenty nine.
+
+3
+00:00:08,411 --> 00:00:15,507
+At the same pressure and temperature, water vapour replaces some of the heavier nitrogen and oxygen molecules.
+
+4
+00:00:15,507 --> 00:00:20,533
+So moist air is less dense, and sound travels slightly faster.
+
+5
+00:00:20,533 --> 00:00:26,822
+That is one reason distant sounds carry so well in the heavy air before a monsoon shower.
+

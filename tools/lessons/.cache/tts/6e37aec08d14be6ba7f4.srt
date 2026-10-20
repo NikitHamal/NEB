@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,197
+In sixteen eighty six, Newton had to decide how the gas is squeezed as sound passes.
+
+2
+00:00:06,197 --> 00:00:13,307
+He argued that the squeezing is gentle, so any heat produced in a compression leaks away at once.
+
+3
+00:00:13,307 --> 00:00:15,247
+The temperature stays constant.
+
+4
+00:00:15,247 --> 00:00:18,294
+In other words, an isothermal change.
+

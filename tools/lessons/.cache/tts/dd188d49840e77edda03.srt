@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,739
+A rail is a long thin solid, so use Young's modulus.
+
+2
+00:00:04,739 --> 00:00:13,463
+Two times ten to the eleven, over seven thousand eight hundred: the square root comes to about five thousand and sixty metres per second.
+

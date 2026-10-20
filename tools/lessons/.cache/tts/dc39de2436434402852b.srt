@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,197
+Side by side.
+
+2
+00:00:01,197 --> 00:00:10,520
+Newton assumed isothermal changes, so B equals P, giving two hundred and eighty metres per second, sixteen percent too low.
+
+3
+00:00:10,520 --> 00:00:19,257
+Laplace realised the changes are adiabatic, so B equals gamma P, giving three hundred and thirty one, which agrees.
+

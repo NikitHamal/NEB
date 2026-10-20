@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,369
+Here is the picture behind the gamma.
+
+2
+00:00:02,369 --> 00:00:09,830
+Through the same state, the adiabatic curve is steeper than the isothermal, by exactly the factor gamma.
+
+3
+00:00:09,830 --> 00:00:14,023
+A steeper curve means a bigger pressure rise for the same squeeze.
+
+4
+00:00:14,023 --> 00:00:17,695
+The gas is stiffer, so the wave travels faster.
+

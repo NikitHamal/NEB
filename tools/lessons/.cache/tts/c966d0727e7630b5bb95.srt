@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,236
+Pause and think.
+
+2
+00:00:01,236 --> 00:00:07,421
+Compared with dry air at the same temperature and pressure, is sound faster or slower in moist air?
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,411
+In eighteen sixteen, Laplace found the mistake.
+
+2
+00:00:03,411 --> 00:00:08,151
+When a sound wave squeezes a layer of air, the layer warms up.
+
+3
+00:00:08,151 --> 00:00:10,885
+When it stretches it, the layer cools.
+
+4
+00:00:10,885 --> 00:00:14,427
+The question is whether that heat has time to escape.
+

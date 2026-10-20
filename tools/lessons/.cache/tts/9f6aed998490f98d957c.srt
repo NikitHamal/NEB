@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,927
+With v nought equal to three hundred and thirty two, that is three hundred and thirty two plus zero point six one t.
+
+2
+00:00:06,927 --> 00:00:13,059
+The speed of sound in air rises by about zero point six one metres per second for every degree.
+
+3
+00:00:13,059 --> 00:00:18,450
+The dashed line shows how good this rule is over ordinary Nepali temperatures.
+

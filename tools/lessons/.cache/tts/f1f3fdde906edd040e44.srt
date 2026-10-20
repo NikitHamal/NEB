@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,028
+A, greater.
+
+2
+00:00:01,028 --> 00:00:12,838
+Water vapour, with molar mass eighteen, is lighter than the nitrogen and oxygen it replaces, so moist air is less dense, and v goes as one over root rho.
+
+3
+00:00:12,838 --> 00:00:17,421
+Many students guess slower, thinking wet air is heavier.
+
+4
+00:00:17,421 --> 00:00:19,036
+It is the other way round.
+

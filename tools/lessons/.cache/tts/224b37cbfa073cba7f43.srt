@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,109
+The rail wins, by miles.
+
+2
+00:00:02,109 --> 00:00:06,809
+He hears the train through the steel long before the air carries the sound to him.
+
+3
+00:00:06,809 --> 00:00:10,820
+But steel is about six thousand times denser than air.
+
+4
+00:00:10,820 --> 00:00:13,177
+Shouldn't heavy stuff be slower?
+
+5
+00:00:13,177 --> 00:00:15,820
+What really decides the speed of a wave?
+

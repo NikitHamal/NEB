@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,242
+Every wave obeys v equals f lambda.
+
+2
+00:00:03,242 --> 00:00:07,838
+But that only links speed, frequency and wavelength together.
+
+3
+00:00:07,838 --> 00:00:10,052
+It does not tell you what the speed is.
+

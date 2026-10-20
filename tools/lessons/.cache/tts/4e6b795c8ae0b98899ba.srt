@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,648
+The seismograph records the P wave first, then the S wave.
+
+2
+00:00:04,648 --> 00:00:09,257
+The longer the gap between them, the further away the earthquake was.
+
+3
+00:00:09,257 --> 00:00:14,049
+That is how the National Seismological Centre locates an epicentre.
+

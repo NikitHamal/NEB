@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,903
+Liquids and gases cannot be sheared.
+
+2
+00:00:02,903 --> 00:00:08,541
+They have no rigidity, so sound in a fluid is always longitudinal.
+
+3
+00:00:08,541 --> 00:00:15,390
+But a solid resists both squeezing and shearing, so it carries longitudinal and transverse waves.
+

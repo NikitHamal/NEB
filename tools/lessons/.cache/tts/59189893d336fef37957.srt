@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,158
+Worked example.
+
+2
+00:00:01,158 --> 00:00:06,210
+Sound travels at three hundred and thirty two metres per second at zero degrees.
+
+3
+00:00:06,210 --> 00:00:11,653
+Find its speed at twenty seven degrees, exactly, and with the linear rule.
+

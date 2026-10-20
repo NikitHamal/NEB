@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,416
+First, correct the speed for temperature: three thirty two plus zero point six one times fifteen, three hundred and forty one point two metres per second.
+
