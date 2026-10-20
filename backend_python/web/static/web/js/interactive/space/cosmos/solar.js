@@ -1,4 +1,5 @@
 import { THREE } from '../../core/engine.js';
+import { NZ } from '../../core/noise3d.js';
 import { NOISE, shader, pointsMaterial, makePoints, lineLoop, glowSprite } from './shaders.js';
 import { AU, R_SUN, PLANETS, planetPosition, orbitPoint, radec, rng, gauss } from './astro.js';
 
@@ -52,6 +53,7 @@ function litPlanet(p) {
   const gi = GIANTS[p.id];
   const mat = new THREE.MeshStandardMaterial({ color: gi ? 0xffffff : p.color, roughness: 0.9, metalness: 0 });
   mat.onBeforeCompile = (sh) => {
+    sh.uniforms.tNz = NZ;
     sh.vertexShader = 'varying vec3 vObj;\n' + sh.vertexShader.replace('#include <begin_vertex>', '#include <begin_vertex>\nvObj = position;');
     sh.fragmentShader = `varying vec3 vObj;\n${NOISE}\n` + sh.fragmentShader.replace('#include <color_fragment>', gi ? `#include <color_fragment>
       vec3 on = normalize(vObj);

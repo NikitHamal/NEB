@@ -17,7 +17,7 @@ const PART_INFO = {
 
 export default function init(stage) {
   stage.classList.add('bio-beginner-stage', 'bio-butterfly-stage');
-  const engine = createEngine(stage, { shadows: true, fov: 38, near: 0.05, far: 3000, environment: false, exposure: 1.0 });
+  const engine = createEngine(stage, { lite: true, shadows: true, fov: 38, near: 0.05, far: 3000, environment: false, exposure: 1.0 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
   const tier = quality.tier;
@@ -151,7 +151,11 @@ export default function init(stage) {
   let wind = 1;
   let time = 0;
   const sunColor = new THREE.Color(0xfff0d6);
+  let shadowTick = 0;
+  engine.renderer.shadowMap.autoUpdate = false;
+  engine.renderer.shadowMap.needsUpdate = true;
   engine.setUpdate((dt) => {
+    if ((shadowTick++ & 1) === 0) engine.renderer.shadowMap.needsUpdate = true;
     time += dt;
     plant.update(time, wind);
     director.update(dt, time);

@@ -33,7 +33,7 @@ function activityName(a) { return a < 0.15 ? 'Resting' : a < 0.4 ? 'Walking' : a
 
 export default function init(stage) {
   stage.classList.add('bio-beginner-stage', 'bio-heart-lungs-stage');
-  const engine = createEngine(stage, { exposure: 0.92, fov: 38, near: 0.01, far: 200 });
+  const engine = createEngine(stage, { noise: true, exposure: 0.92, fov: 38, near: 0.01, far: 200 });
   if (!engine) return null;
   const { scene, camera, renderer, quality } = engine;
   renderer.localClippingEnabled = true;
@@ -45,7 +45,8 @@ export default function init(stage) {
   const fill = new THREE.DirectionalLight(0xc8d8ff, 0.45); fill.position.set(-5, 1, 3);
   const rim = new THREE.DirectionalLight(0xa8c4ff, 1.6); rim.position.set(-2, 4, -6);
   const under = new THREE.DirectionalLight(0xffb0a0, 0.35); under.position.set(0, -6, 2);
-  scene.add(hemi, key, fill, rim, under);
+  scene.add(hemi, key, rim);
+  hemi.intensity = 0.55;
 
   const loading = document.createElement('div');
   loading.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;font:500 13px Poppins,system-ui;color:#dbe6ff;background:rgba(8,12,24,.6);padding:8px 14px;border-radius:999px;pointer-events:none';
@@ -220,6 +221,8 @@ export default function init(stage) {
     lungFade += (lungGoal - lungFade) * Math.min(1, dt * 4);
     cut += (cutGoal - cut) * Math.min(1, dt * 3);
     setXray(S.materials.heart, xray * 0.85);
+    const hm = S.materials.heart; const wantSide = cut > 0.01 ? THREE.DoubleSide : THREE.FrontSide;
+    if (!hm.transparent && hm.side !== wantSide) { hm.side = wantSide; hm.userData.side0 = wantSide; hm.needsUpdate = true; }
     lungAlpha(lungFade * (1 - xray * 0.78));
     S.materials.lung.opacity = lungFade * (1 - xray * 0.78);
     const airView = view === 'airways';

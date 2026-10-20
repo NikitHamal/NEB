@@ -1,12 +1,11 @@
 import { THREE } from '../../core/engine.js';
+import { NZ, NOISE3D_GLSL } from '../../core/noise3d.js';
 
-export const NOISE = `
+export const NOISE = `${NOISE3D_GLSL}
 vec3 hash33(vec3 p){p=fract(p*vec3(.1031,.1030,.0973));p+=dot(p,p.yxz+33.33);return fract((p.xxy+p.yxx)*p.zyx);}
 float hash13(vec3 p){p=fract(p*.1031);p+=dot(p,p.zyx+31.32);return fract((p.x+p.y)*p.z);}
-float vnoise(vec3 p){vec3 i=floor(p);vec3 f=fract(p);f=f*f*(3.-2.*f);
-  return mix(mix(mix(hash13(i),hash13(i+vec3(1,0,0)),f.x),mix(hash13(i+vec3(0,1,0)),hash13(i+vec3(1,1,0)),f.x),f.y),
-             mix(mix(hash13(i+vec3(0,0,1)),hash13(i+vec3(1,0,1)),f.x),mix(hash13(i+vec3(0,1,1)),hash13(i+vec3(1,1,1)),f.x),f.y),f.z);}
-float fbm3(vec3 p){float a=.5,s=0.;for(int i=0;i<5;i++){s+=a*vnoise(p);p=p*2.03+vec3(1.7,9.2,3.1);a*=.5;}return s;}
+float vnoise(vec3 p){ return nz4(p).g; }
+float fbm3(vec3 p){ return nz4(p).r; }
 `;
 
 export const LOGDEPTH_V = ['#include <common>', '#include <logdepthbuf_pars_vertex>'].join('\n');
@@ -16,7 +15,7 @@ export const LOGDEPTH_FM = '#include <logdepthbuf_fragment>';
 
 export function shader(opts) {
   const mat = new THREE.ShaderMaterial({
-    uniforms: Object.assign({ uOpacity: { value: 1 } }, opts.uniforms || {}),
+    uniforms: Object.assign({ uOpacity: { value: 1 }, tNz: NZ }, opts.uniforms || {}),
     vertexShader: `${LOGDEPTH_V}\n${opts.vertexHead || ''}\nvoid main(){\n${opts.vertex}\n${LOGDEPTH_VM}\n}`,
     fragmentShader: `${LOGDEPTH_F}\nuniform float uOpacity;\n${opts.fragmentHead || ''}\nvoid main(){\n${LOGDEPTH_FM}\n${opts.fragment}\n}`,
     transparent: opts.transparent !== false,

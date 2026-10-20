@@ -41,7 +41,7 @@ export function createAtlasLabels(stage, { onPick } = {}) {
     return it;
   }
 
-  function hideItem(it) { it.el.style.display = 'none'; it.line.style.display = 'none'; it.dot.style.display = 'none'; }
+  function hideItem(it) { if (it.hidden) return; it.hidden = true; it.el.style.display = 'none'; it.line.style.display = 'none'; it.dot.style.display = 'none'; }
 
   function update(camera, width, height, filter) {
     const phone = width < 640;
@@ -70,14 +70,19 @@ export function createAtlasLabels(stage, { onPick } = {}) {
         const { it } = o;
         const lx = side === 0 ? margin : width - margin - it.w;
         const ey = Math.max(phone ? 46 : 40, Math.min(height - 12, o.ly));
-        it.el.style.display = '';
-        it.el.style.transform = `translate(${lx.toFixed(1)}px,${(ey - 12).toFixed(1)}px)`;
-        it.el.classList.toggle('on', active === it.def.id);
+        const tf = `translate(${lx.toFixed(0)}px,${(ey - 12).toFixed(0)}px)`;
+        if (it.hidden !== false) { it.el.style.display = ''; it.line.style.display = ''; it.dot.style.display = ''; it.hidden = false; }
+        if (it.tf !== tf) { it.el.style.transform = tf; it.tf = tf; }
+        const on = active === it.def.id;
+        if (it.on !== on) { it.el.classList.toggle('on', on); it.on = on; }
         const ax = side === 0 ? lx + it.w : lx;
         const elbow = side === 0 ? Math.min(o.x - 10, ax + 18) : Math.max(o.x + 10, ax - 18);
-        it.line.style.display = ''; it.dot.style.display = '';
-        it.line.setAttribute('points', `${ax.toFixed(1)},${ey.toFixed(1)} ${elbow.toFixed(1)},${ey.toFixed(1)} ${o.x.toFixed(1)},${o.y.toFixed(1)}`);
-        it.dot.setAttribute('cx', o.x.toFixed(1)); it.dot.setAttribute('cy', o.y.toFixed(1));
+        const pts = `${ax.toFixed(0)},${ey.toFixed(0)} ${elbow.toFixed(0)},${ey.toFixed(0)} ${o.x.toFixed(0)},${o.y.toFixed(0)}`;
+        if (it.pts !== pts) {
+          it.pts = pts;
+          it.line.setAttribute('points', pts);
+          it.dot.setAttribute('cx', o.x.toFixed(0)); it.dot.setAttribute('cy', o.y.toFixed(0));
+        }
       });
     }
   }
