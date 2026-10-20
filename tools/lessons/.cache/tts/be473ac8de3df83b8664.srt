@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,947
+Welcome to Class 12 Physics, Unit 13: Polarization.
+
+2
+00:00:04,947 --> 00:00:09,752
+Interference and diffraction showed us that light is a wave.
+
+3
+00:00:09,752 --> 00:00:12,656
+Polarization tells us what kind of wave.
+
+4
+00:00:12,656 --> 00:00:21,966
+We will see how polarized light is produced, and learn the two laws the exam always asks for: Brewster's law and Malus's law.
+

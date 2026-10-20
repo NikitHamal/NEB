@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,914
+C, ninety degrees.
+
+2
+00:00:01,914 --> 00:00:08,854
+That right angle is exactly what turns Snell's law into Brewster's law, n equals tan theta p.
+

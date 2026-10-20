@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,361
+Here is the experiment that proves light is a transverse wave.
+
+2
+00:00:04,361 --> 00:00:08,489
+Send ordinary light through one Polaroid sheet, P.
+
+3
+00:00:08,489 --> 00:00:10,833
+What comes out looks just a little dimmer.
+
+4
+00:00:10,833 --> 00:00:15,742
+Now put a second sheet, A, behind it, and rotate it about the beam.
+

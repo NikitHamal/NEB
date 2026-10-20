@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:13,177
+In eighteen eleven, David Brewster found that at one particular angle, the reflected beam is completely plane polarized: only dots are left, vibrating perpendicular to the plane of incidence.
+
+2
+00:00:13,177 --> 00:00:16,992
+For glass, that happens at about fifty six degrees.
+
+3
+00:00:16,992 --> 00:00:23,554
+And look at the readout: at that angle, the reflected and refracted rays are exactly at right angles.
+

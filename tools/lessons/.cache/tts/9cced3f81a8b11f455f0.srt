@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,138
+At one angle the glare simply vanishes.
+
+2
+00:00:03,138 --> 00:00:08,411
+Turn it a quarter turn further, and the glare is back at full strength.
+
+3
+00:00:08,411 --> 00:00:13,841
+A plain piece of tinted plastic, and it can tell one direction of light from another.
+

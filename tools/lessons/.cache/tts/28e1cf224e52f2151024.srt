@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,398
+Do not confuse Brewster's angle with the critical angle.
+
+2
+00:00:03,398 --> 00:00:11,419
+Brewster's angle, tan inverse n, is for light going from a rarer to a denser medium, and it is about polarization.
+
+3
+00:00:11,419 --> 00:00:19,908
+The critical angle, sine inverse one over n, is for denser to rarer, and it is about total internal reflection.
+
+4
+00:00:19,908 --> 00:00:27,630
+For n equal to one point five, they are fifty six point three and forty one point eight degrees: quite different.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,213
+Tan theta p is one point five, so theta p is fifty six point three degrees.
+

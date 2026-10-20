@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,187
+If the vibrations are confined to just one plane, the light is plane polarized, or linearly polarized.
+
+2
+00:00:07,187 --> 00:00:13,411
+Polarization is the process of confining the vibrations of the electric vector to a single plane.
+

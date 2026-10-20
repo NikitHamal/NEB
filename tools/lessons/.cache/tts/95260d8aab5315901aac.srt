@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,914
+B, transverse.
+
+2
+00:00:01,914 --> 00:00:06,705
+Interference and diffraction only show that light is a wave.
+
+3
+00:00:06,705 --> 00:00:14,440
+Polarization shows which kind: one with a vibration direction across the beam that a filter can select.
+

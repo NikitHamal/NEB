@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,255
+Polarized light can be made in five ways.
+
+2
+00:00:03,255 --> 00:00:08,528
+By reflection: the glare from a wet road or a lake is largely polarized.
+
+3
+00:00:08,528 --> 00:00:11,953
+By refraction, through a pile of glass plates.
+
+4
+00:00:11,953 --> 00:00:15,078
+By selective absorption, in a Polaroid sheet.
+
+5
+00:00:15,078 --> 00:00:18,593
+By double refraction, in a calcite crystal.
+
+6
+00:00:18,593 --> 00:00:25,286
+And by scattering: look at the blue sky at right angles to the Sun through a Polaroid, and turn it.
+

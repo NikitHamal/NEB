@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,450
+Intensity goes as amplitude squared.
+
+2
+00:00:03,450 --> 00:00:10,026
+So the transmitted intensity is k, A cos theta, squared, which is I nought cos squared theta.
+
+3
+00:00:10,026 --> 00:00:11,692
+That is Malus's law.
+
+4
+00:00:11,692 --> 00:00:14,505
+Parallel axes let all of it through.
+
+5
+00:00:14,505 --> 00:00:19,036
+Crossed axes, at ninety degrees, let nothing through.
+

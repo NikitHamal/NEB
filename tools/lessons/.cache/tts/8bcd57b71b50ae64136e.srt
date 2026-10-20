@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,302
+A Polaroid is a thin sheet that passes light vibrating in one direction only.
+
+2
+00:00:06,302 --> 00:00:14,088
+Edwin Land made the first in nineteen twenty eight, from tiny aligned needle crystals of herapathite.
+
+3
+00:00:14,088 --> 00:00:22,864
+Modern sheets are polyvinyl alcohol, stretched so that its long molecules all lie parallel, then soaked in iodine.
+

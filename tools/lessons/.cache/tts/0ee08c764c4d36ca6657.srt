@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,093
+B, half.
+
+2
+00:00:01,093 --> 00:00:05,091
+The average of cos squared over all directions is a half.
+
+3
+00:00:05,091 --> 00:00:08,125
+It does not matter how the single sheet is turned.
+
+4
+00:00:08,125 --> 00:00:11,354
+Zero only happens with two crossed sheets.
+

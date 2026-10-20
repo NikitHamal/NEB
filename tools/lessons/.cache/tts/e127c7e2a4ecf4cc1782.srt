@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,395
+Another one, mixing ideas.
+
+2
+00:00:02,395 --> 00:00:06,119
+A medium has a polarizing angle of sixty degrees.
+
+3
+00:00:06,119 --> 00:00:10,520
+Find its index, the speed of light in it, and its critical angle.
+

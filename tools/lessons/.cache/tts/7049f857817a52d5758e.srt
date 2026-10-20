@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,744
+Here is the path.
+
+2
+00:00:01,744 --> 00:00:13,268
+What polarized light is, the ways of producing it, Brewster's law, the proof that light is transverse, Polaroids and Malus's law, and the uses of polarization all around you.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,320
+When unpolarized light strikes glass or water, both the reflected and the refracted beams come out partly polarized.
+
+2
+00:00:08,320 --> 00:00:10,065
+Watch the reflected beam.
+
+3
+00:00:10,065 --> 00:00:16,484
+Its arrow component, vibrating in the plane of incidence, shrinks as we change the angle.
+

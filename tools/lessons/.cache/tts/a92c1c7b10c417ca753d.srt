@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,130
+Look at a beam of light end on, as if it were coming straight at you.
+
+2
+00:00:05,130 --> 00:00:11,822
+The electric field of the wave vibrates across the beam, at right angles to the direction of travel.
+
+3
+00:00:11,822 --> 00:00:22,447
+In light from a lamp or the Sun, that direction changes at random millions of times a second, as one atom after another emits its short wave train.
+
+4
+00:00:22,447 --> 00:00:24,414
+That is unpolarized light.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,427
+Snell's law says n is sine theta p over sine r.
+
+2
+00:00:04,427 --> 00:00:08,476
+But sine of ninety minus theta p is cos theta p.
+

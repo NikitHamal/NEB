@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,421
+So n equals tan theta p.
+
+2
+00:00:02,421 --> 00:00:08,606
+That is Brewster's law: the tangent of the polarizing angle equals the refractive index.
+

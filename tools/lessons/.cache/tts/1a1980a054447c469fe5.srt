@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,200
+Here is a beautiful puzzle.
+
+2
+00:00:02,200 --> 00:00:05,234
+Two crossed Polaroids: nothing gets through.
+
+3
+00:00:05,234 --> 00:00:08,385
+Now slip a third sheet between them, at an angle.
+
+4
+00:00:08,385 --> 00:00:11,692
+Surely a third filter can only block more light?
+

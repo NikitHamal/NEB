@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,007
+The light coming through rises and falls.
+
+2
+00:00:03,007 --> 00:00:08,906
+Twice in every full turn, when the two sheets are crossed, it drops to zero.
+

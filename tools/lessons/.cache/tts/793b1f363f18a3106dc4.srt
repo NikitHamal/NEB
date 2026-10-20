@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,197
+Worked example.
+
+2
+00:00:01,197 --> 00:00:07,968
+Find the polarizing angle for glass of index one point five, and the angle of refraction.
+
+3
+00:00:07,968 --> 00:00:10,442
+Check that the rays are perpendicular.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,328
+D, zero.
+
+2
+00:00:01,328 --> 00:00:09,361
+The first passes half, and the second, at ninety degrees, passes cos squared ninety of that, which is nothing.
+
+3
+00:00:09,361 --> 00:00:12,565
+Unless, of course, you slip a third sheet in between.
+

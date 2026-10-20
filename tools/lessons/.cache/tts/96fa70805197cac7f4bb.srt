@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,247
+n is tan sixty, root three, one point seven three two.
+

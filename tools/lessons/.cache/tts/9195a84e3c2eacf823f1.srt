@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,799
+Two sine theta cos theta is sine two theta, so the product is I nought over eight, sine squared two theta.
+
+2
+00:00:07,799 --> 00:00:13,072
+It is largest, I nought over eight, when theta is forty five degrees.
+
