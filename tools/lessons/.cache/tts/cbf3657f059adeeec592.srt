@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,929
+That energy has only two places to go.
+
+2
+00:00:02,929 --> 00:00:07,486
+Some of it stays in the account, raising the internal energy.
+
+3
+00:00:07,486 --> 00:00:12,513
+The rest is spent, leaving the gas as work done on the surroundings.
+

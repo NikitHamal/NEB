@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,916
+Add up all the strips from V one to V two.
+
+2
+00:00:02,916 --> 00:00:08,385
+As the strips get thinner, the sum becomes exactly the area under the curve.
+
+3
+00:00:08,385 --> 00:00:15,677
+And the sum of infinitely many thin strips is an integral: W equals the integral of P d V.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,544
+A fifth case matters for every engine: a cyclic process.
+
+2
+00:00:04,544 --> 00:00:09,361
+The gas goes through a series of changes and comes back to exactly where it started.
+

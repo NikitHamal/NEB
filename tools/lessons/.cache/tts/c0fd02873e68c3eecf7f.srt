@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,481
+Welcome to Class 12 Physics, Unit 4: the First Law of Thermodynamics.
+
+2
+00:00:05,481 --> 00:00:09,335
+Thermodynamics is the book keeping of energy.
+
+3
+00:00:09,335 --> 00:00:13,710
+Energy that goes into a gas must come out again, or stay inside it.
+
+4
+00:00:13,710 --> 00:00:20,546
+Write that one sentence carefully, and you can explain engines, refrigerators, and even the weather.
+

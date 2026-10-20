@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,250
+One last check.
+
+2
+00:00:01,250 --> 00:00:08,893
+At the same point on a P V diagram, how does the slope of the adiabatic compare with the slope of the isothermal?
+
+3
+00:00:08,893 --> 00:00:10,078
+Pause and think.
+

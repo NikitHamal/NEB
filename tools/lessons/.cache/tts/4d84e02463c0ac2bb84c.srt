@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,549
+This is the cylinder of a diesel engine, the kind that hauls buses and trucks up the Prithvi Highway every day.
+
+2
+00:00:06,549 --> 00:00:12,135
+Inside is nothing but air, at an ordinary temperature of three hundred kelvin.
+

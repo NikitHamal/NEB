@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,424
+The work is the area under this hyperbola.
+
+2
+00:00:03,424 --> 00:00:06,328
+Write P as n R T over V.
+
+3
+00:00:06,328 --> 00:00:14,127
+With T constant, n R T comes out of the integral, and the integral of d V over V is the natural log of V.
+

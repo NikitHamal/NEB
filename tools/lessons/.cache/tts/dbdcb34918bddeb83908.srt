@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,161
+So what is stored inside the gas?
+
+2
+00:00:02,161 --> 00:00:03,841
+Its internal energy, U.
+
+3
+00:00:03,841 --> 00:00:12,174
+It is the total kinetic energy of the random motion of all the molecules, plus the potential energy of the forces between them.
+

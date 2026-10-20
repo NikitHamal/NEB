@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,752
+Written as an equation, this is the first law of thermodynamics.
+
+2
+00:00:04,752 --> 00:00:12,213
+The heat supplied to a system equals the increase in its internal energy, plus the external work done by the system.
+
+3
+00:00:12,213 --> 00:00:19,335
+Q equals delta U plus W, or in differential form, d Q equals d U plus d W.
+

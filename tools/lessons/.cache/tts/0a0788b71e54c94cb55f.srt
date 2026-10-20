@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,567
+Substitute, cancel d T from every term, and out comes Mayer's relation: C p minus C v equals R.
+

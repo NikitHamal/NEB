@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,981
+The signs decide your marks, so learn them now.
+
+2
+00:00:02,981 --> 00:00:06,640
+Q is positive when heat is absorbed by the gas.
+
+3
+00:00:06,640 --> 00:00:10,820
+W is positive when the gas expands and does work.
+
+4
+00:00:10,820 --> 00:00:14,453
+And delta U is positive when the temperature rises.
+

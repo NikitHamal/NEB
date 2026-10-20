@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,869
+But A times d x is just the extra volume swept out, d V.
+
+2
+00:00:04,869 --> 00:00:08,932
+So the work done by the gas in that small step is P d V.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,424
+Third, isothermal: constant temperature.
+
+2
+00:00:03,424 --> 00:00:08,307
+Stand the cylinder in a big water bath and let it expand very slowly.
+
+3
+00:00:08,307 --> 00:00:12,786
+Heat flows in just fast enough to keep the temperature fixed.
+
+4
+00:00:12,786 --> 00:00:18,085
+No temperature change means delta U is zero, so Q equals W.
+
+5
+00:00:18,085 --> 00:00:22,682
+The curve is P V equals constant, a rectangular hyperbola.
+

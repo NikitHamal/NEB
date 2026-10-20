@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,210
+Pause and think.
+
+2
+00:00:01,210 --> 00:00:04,257
+The same idea, as NEB asks it.
+
+3
+00:00:04,257 --> 00:00:08,984
+A gas expands freely into an evacuated insulated vessel.
+
+4
+00:00:08,984 --> 00:00:10,755
+What happens to its temperature?
+

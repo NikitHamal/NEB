@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,346
+Your turn, straight from the five mark questions.
+
+2
+00:00:03,346 --> 00:00:13,085
+A gas expands at one point five times ten to the five pascals, from two litres to five litres, and absorbs eight hundred joules.
+
+3
+00:00:13,085 --> 00:00:15,677
+What is the change in internal energy?
+
+4
+00:00:15,677 --> 00:00:16,927
+Pause and think.
+

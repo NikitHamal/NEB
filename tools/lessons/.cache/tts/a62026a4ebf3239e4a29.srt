@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,072
+First, isochoric: constant volume.
+
+2
+00:00:03,072 --> 00:00:06,953
+Clamp the piston so it cannot move, and heat the gas.
+
+3
+00:00:06,953 --> 00:00:12,018
+The volume stays fixed, so d V is zero and no work is done.
+
+4
+00:00:12,018 --> 00:00:14,921
+All the heat goes into internal energy.
+
+5
+00:00:14,921 --> 00:00:16,757
+Q equals delta U.
+
+6
+00:00:16,757 --> 00:00:19,088
+On the graph, a vertical line.
+

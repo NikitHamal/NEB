@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,252
+A, three hundred and fifty joules.
+
+2
+00:00:02,252 --> 00:00:12,526
+The work is P delta V: one point five times ten to the five, times three times ten to the minus three, which is four hundred and fifty joules.
+
+3
+00:00:12,526 --> 00:00:17,604
+Then delta U is Q minus W, eight hundred minus four fifty.
+
+4
+00:00:17,604 --> 00:00:22,929
+If you picked four hundred and fifty, you found the work, not the internal energy.
+

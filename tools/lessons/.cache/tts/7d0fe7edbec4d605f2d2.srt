@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,906
+Energy can cross the boundary of a gas in two ways.
+
+2
+00:00:03,906 --> 00:00:11,614
+Heat, Q, is energy that flows because of a temperature difference: from the hot flame into the cooler gas.
+

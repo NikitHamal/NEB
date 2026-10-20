@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,304
+Gamma is always bigger than one, so the adiabatic is gamma times steeper at every point.
+
+2
+00:00:07,304 --> 00:00:11,796
+Turn gamma down towards one, and the two curves merge.
+
+3
+00:00:11,796 --> 00:00:19,192
+Turn it up to one point six seven, for a monatomic gas, and the adiabatic falls even more steeply.
+

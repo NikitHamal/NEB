@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,968
+B, gamma times greater in magnitude.
+
+2
+00:00:02,968 --> 00:00:11,067
+The isothermal slope is minus P over V, and the adiabatic slope is minus gamma P over V.
+
+3
+00:00:11,067 --> 00:00:17,174
+Since gamma is bigger than one, the adiabatic is always the steeper curve.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,257
+Here is a strange one, and a favourite multiple choice question.
+
+2
+00:00:04,257 --> 00:00:06,848
+An insulated box has a partition.
+
+3
+00:00:06,848 --> 00:00:09,583
+On one side, an ideal gas.
+
+4
+00:00:09,583 --> 00:00:13,255
+On the other side, nothing at all: a vacuum.
+
+5
+00:00:13,255 --> 00:00:16,536
+What happens to the temperature when we break the partition?
+

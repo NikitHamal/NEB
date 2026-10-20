@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,656
+Now we derive the exact difference.
+
+2
+00:00:02,656 --> 00:00:05,833
+This is a five mark question almost every year.
+
+3
+00:00:05,833 --> 00:00:08,710
+Take one mole and heat it through d T.
+
+4
+00:00:08,710 --> 00:00:14,270
+At constant volume no work is done, so d U equals C v d T.
+

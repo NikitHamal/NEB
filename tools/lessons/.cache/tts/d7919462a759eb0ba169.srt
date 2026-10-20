@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,148
+Let us try the first worked example.
+
+2
+00:00:02,148 --> 00:00:12,760
+A gas at a constant pressure of two times ten to the five pascals expands from one litre to three litres, while absorbing five hundred joules of heat.
+
+3
+00:00:12,760 --> 00:00:16,132
+Find the work done and the change in internal energy.
+

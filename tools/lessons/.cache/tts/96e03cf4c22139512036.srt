@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,406
+That is the first law of thermodynamics: energy is never lost, only moved around.
+
+2
+00:00:06,406 --> 00:00:11,953
+But it does not tell us which way energy likes to flow, or why no engine can be perfect.
+
+3
+00:00:11,953 --> 00:00:15,247
+That is the second law, and it is our next lesson.
+
+4
+00:00:15,247 --> 00:00:17,838
+See you there, on NEBians.
+

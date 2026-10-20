@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,197
+At constant pressure, the P V graph is a flat line, and the area under it is a rectangle.
+
+2
+00:00:06,197 --> 00:00:10,052
+Watch the work grow as the gas expands from one litre to three.
+

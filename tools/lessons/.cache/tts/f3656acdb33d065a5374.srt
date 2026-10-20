@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,354
+Watch your units here.
+
+2
+00:00:01,354 --> 00:00:04,817
+C p minus C v equals R is for one mole.
+
+3
+00:00:04,817 --> 00:00:12,382
+For specific heats per kilogram, the difference is R over M, and M must be in kilograms per mole.
+
+4
+00:00:12,382 --> 00:00:16,783
+For nitrogen that is zero point zero two eight, not twenty eight.
+

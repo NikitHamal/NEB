@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,484
+Here is our path.
+
+2
+00:00:01,484 --> 00:00:16,588
+Thermodynamic systems, the work done when a gas changes volume, the first law itself, the four standard processes, the two heat capacities of a gas, and finally the isothermal and adiabatic changes that every exam asks about.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,796
+It is back in the same state, and internal energy is a state function, so delta U is zero.
+
+2
+00:00:06,796 --> 00:00:09,882
+The first law then says Q equals W.
+
+3
+00:00:09,882 --> 00:00:17,578
+The net work is the area enclosed by the loop: work done by the gas on the top, minus the work done on it along the bottom.
+

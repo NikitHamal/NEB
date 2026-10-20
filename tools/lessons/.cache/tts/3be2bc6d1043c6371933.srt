@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,979
+So here is the picture to remember.
+
+2
+00:00:01,979 --> 00:00:05,976
+The work done by a gas is the area under its P V curve.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,348
+Let the gas expand slowly, keeping it at the same temperature.
+
+2
+00:00:04,348 --> 00:00:07,578
+The point moves, and its track is a curve.
+
+3
+00:00:07,578 --> 00:00:12,239
+A process is a curve on this graph, which is called an indicator diagram.
+

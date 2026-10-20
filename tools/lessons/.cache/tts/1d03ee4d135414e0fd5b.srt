@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,322
+The gas rushes into the empty space and fills the whole box.
+

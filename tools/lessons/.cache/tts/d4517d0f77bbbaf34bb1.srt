@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,486
+The area is P times delta V: two times ten to the five, times two times ten to the minus three.
+
+2
+00:00:07,486 --> 00:00:10,273
+That is four hundred joules of work done by the gas.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,026
+So expanding from A to the same final volume, the adiabatic path ends at a lower pressure, encloses less area, and does less work.
+
+2
+00:00:10,026 --> 00:00:19,023
+With no heat coming in, it pays for every joule out of its own internal energy, and that is why an adiabatic expansion cools the gas.
+

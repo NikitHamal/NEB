@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,557
+In an adiabatic change, no heat enters or leaves.
+
+2
+00:00:04,557 --> 00:00:09,700
+That needs thick insulation, or a change so fast that heat has no time to flow.
+
+3
+00:00:09,700 --> 00:00:18,151
+The compression stroke of a diesel engine, and the squeezes and stretches in a sound wave, are both effectively adiabatic.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,085
+Each tiny step, P d V, is the area of a thin strip under the curve: height P, width d V.
+

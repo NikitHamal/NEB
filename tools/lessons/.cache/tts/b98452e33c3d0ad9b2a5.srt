@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,184
+Let us recap.
+
+2
+00:00:01,184 --> 00:00:04,622
+A system is separated from its surroundings by a boundary.
+
+3
+00:00:04,622 --> 00:00:08,554
+Work done by a gas is the area under its P V curve.
+
+4
+00:00:08,554 --> 00:00:16,015
+The first law says Q equals delta U plus W, and for an ideal gas U depends only on temperature.
+
+5
+00:00:16,015 --> 00:00:21,197
+Each of the four processes turns the first law into one simple line.
+
+6
+00:00:21,197 --> 00:00:26,093
+In a cycle, delta U is zero and the work is the loop area.
+
+7
+00:00:26,093 --> 00:00:37,460
+C p minus C v equals R. Isothermal work is n R T ln V two over V one, and in an adiabatic change P V to the gamma stays constant.
+

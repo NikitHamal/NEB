@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,635
+How can simply squeezing air make it hot enough to light a fire?
+
+2
+00:00:04,635 --> 00:00:07,669
+The answer is the first law of thermodynamics.
+
+3
+00:00:07,669 --> 00:00:13,437
+By the end of this lesson, you will calculate that six hundred and eighty nine kelvin yourself.
+

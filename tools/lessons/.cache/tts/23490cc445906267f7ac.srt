@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,916
+The condition of a gas is described by its state variables: pressure, volume, temperature, and the amount of gas.
+
+2
+00:00:07,916 --> 00:00:14,231
+For an ideal gas they are tied together by one equation of state, P V equals n R T.
+

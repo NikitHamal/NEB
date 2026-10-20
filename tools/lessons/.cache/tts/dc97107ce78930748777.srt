@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,328
+At constant pressure, the heat is C p d T, and the gas also does work P d V.
+
+2
+00:00:06,328 --> 00:00:12,604
+So C p d T equals d U plus P d V. Replace d U with C v d T.
+

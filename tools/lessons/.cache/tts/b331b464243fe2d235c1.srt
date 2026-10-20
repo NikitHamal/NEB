@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,799
+Now we can solve the mystery from the start of the lesson.
+
+2
+00:00:02,799 --> 00:00:13,541
+One mole of air, with gamma equal to one point four, at twenty seven degrees Celsius, is compressed adiabatically to one eighth of its volume.
+
+3
+00:00:13,541 --> 00:00:17,083
+Find the final temperature, and the work done on the gas.
+

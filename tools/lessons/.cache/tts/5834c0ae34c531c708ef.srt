@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,864
+Energy cannot be created or destroyed.
+
+2
+00:00:02,864 --> 00:00:04,518
+So think of a bank account.
+
+3
+00:00:04,518 --> 00:00:07,304
+Heat supplied to the gas is a deposit.
+

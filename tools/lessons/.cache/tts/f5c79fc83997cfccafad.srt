@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,945
+The box is insulated, so no heat enters.
+
+2
+00:00:03,945 --> 00:00:07,695
+And the gas pushes against nothing, so it does no work.
+
+3
+00:00:07,695 --> 00:00:17,174
+Q is zero and W is zero, so delta U is zero, and for an ideal gas, the temperature does not change at all.
+
+4
+00:00:17,174 --> 00:00:23,502
+A similar irreversible expansion through a porous plug is called a throttling process.
+

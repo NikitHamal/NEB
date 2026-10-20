@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,684
+That is, P V to the power gamma is constant.
+
+2
+00:00:03,684 --> 00:00:16,770
+Use P V equals n R T to swap variables, and you get two companion forms: T V to the gamma minus one is constant, and P to the one minus gamma times T to the gamma is constant.
+

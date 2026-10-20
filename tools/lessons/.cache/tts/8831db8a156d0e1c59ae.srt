@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,005
+The clamped gas gets hotter.
+
+2
+00:00:02,005 --> 00:00:10,312
+On the right, part of the heat was spent pushing the piston and the atmosphere back, so less was left to raise the temperature.
+
+3
+00:00:10,312 --> 00:00:15,625
+To get the same temperature rise at constant pressure, you must supply more heat.
+
+4
+00:00:15,625 --> 00:00:19,023
+So C p is always bigger than C v.
+
