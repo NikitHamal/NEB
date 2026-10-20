@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,380
+Look at what is missing.
+
+2
+00:00:01,380 --> 00:00:03,723
+Nothing about the working substance.
+
+3
+00:00:03,723 --> 00:00:07,877
+Air, steam or helium, the answer is the same.
+
+4
+00:00:07,877 --> 00:00:14,661
+And the efficiency would reach one only if the sink were at absolute zero, which can never be reached.
+

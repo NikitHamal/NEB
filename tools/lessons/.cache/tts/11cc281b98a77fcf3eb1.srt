@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,208
+A heat pump is exactly the same machine, used to warm a room with its hot end.
+
+2
+00:00:05,208 --> 00:00:08,541
+Its coefficient is Q one over W.
+

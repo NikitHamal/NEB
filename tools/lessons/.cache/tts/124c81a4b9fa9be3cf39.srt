@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,583
+What you want is heat removed from the food, and what you pay for is the work.
+
+2
+00:00:04,583 --> 00:00:11,002
+So the performance figure is beta, Q two over W, called the coefficient of performance.
+
+3
+00:00:11,002 --> 00:00:15,182
+It is not an efficiency, because it is usually bigger than one.
+
+4
+00:00:15,182 --> 00:00:20,507
+A good fridge moves four or five joules of heat for every joule of electricity.
+

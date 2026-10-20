@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,177
+Notice what happens as the temperature gap grows.
+
+2
+00:00:03,177 --> 00:00:05,468
+The coefficient falls steeply.
+
+3
+00:00:05,468 --> 00:00:10,481
+A chiller, keeping drinks just below room temperature, is cheap to run.
+
+4
+00:00:10,481 --> 00:00:14,921
+A deep freezer, pumping heat across a big gap, costs far more.
+

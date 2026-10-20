@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,950
+Your turn.
+
+2
+00:00:00,950 --> 00:00:06,458
+A Carnot engine works between twenty seven and three hundred and twenty seven degrees Celsius.
+
+3
+00:00:06,458 --> 00:00:07,955
+What is its efficiency?
+
+4
+00:00:07,955 --> 00:00:09,179
+Pause and think.
+

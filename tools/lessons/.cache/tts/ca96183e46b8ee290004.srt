@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,786
+There are two classical statements of the second law.
+
+2
+00:00:02,786 --> 00:00:06,445
+First, the Kelvin Planck statement, the engine statement.
+
+3
+00:00:06,445 --> 00:00:13,645
+Imagine an engine that takes heat from one reservoir, and turns all of it into work, with nothing thrown away.
+

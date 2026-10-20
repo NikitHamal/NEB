@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,539
+Slide a block across a rough floor.
+
+2
+00:00:02,539 --> 00:00:08,346
+Friction turns its kinetic energy into heat, which spreads out into the floor.
+
+3
+00:00:08,346 --> 00:00:12,226
+Push the block back, and friction heats the floor again.
+
+4
+00:00:12,226 --> 00:00:15,976
+You can return the block, but never un-warm the floor.
+

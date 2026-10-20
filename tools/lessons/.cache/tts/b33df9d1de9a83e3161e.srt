@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,638
+Look around you, and every natural process runs in one direction only.
+
+2
+00:00:05,638 --> 00:00:12,890
+Put hot tea against a cold cup, and heat flows from hot to cold, until they reach the same temperature.
+
+3
+00:00:12,890 --> 00:00:14,127
+Never the other way.
+

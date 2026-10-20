@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,778
+And the Carnot efficiency is one minus T two over T one.
+

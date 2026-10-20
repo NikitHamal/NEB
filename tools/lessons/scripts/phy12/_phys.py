@@ -268,3 +268,35 @@ def readout(label, fn, unit="", decimals=0, size=30, color=th.INK):
     if unit:
         un.add_updater(lambda m: m.next_to(num, RIGHT, buff=0.12))
     return g
+
+
+class Stream(VGroup):
+    """Dots flowing for ever along a polyline (energy flow, current, refrigerant). `color(t)` may tint by
+    position t in [0, 1); `speed` is in scene units per second and may be changed live."""
+
+    def __init__(self, points, n=8, speed=1.2, color=th.AMBER, radius=0.06, smooth=False):
+        super().__init__()
+        self.path = VMobject()
+        if smooth:
+            self.path.set_points_smoothly([np.array(p, dtype=float) for p in points])
+        else:
+            self.path.set_points_as_corners([np.array(p, dtype=float) for p in points])
+        self.length = max(1e-3, sum(np.linalg.norm(np.array(points[i + 1], dtype=float) - np.array(points[i], dtype=float)) for i in range(len(points) - 1)))
+        self.speed = speed
+        self.color_fn = color if callable(color) else None
+        self.ts = [i / n for i in range(n)]
+        for i in range(n):
+            self.add(Dot(radius=radius, color=color if not callable(color) else WHITE))
+        self._place()
+        self.add_updater(Stream._step)
+
+    def _place(self):
+        for d, t in zip(self.submobjects, self.ts):
+            d.move_to(self.path.point_from_proportion(t % 1.0))
+            if self.color_fn is not None:
+                d.set_color(self.color_fn(t % 1.0))
+
+    def _step(self, dt):
+        dt = min(dt, 0.1)
+        self.ts = [(t + self.speed * dt / self.length) % 1.0 for t in self.ts]
+        self._place()

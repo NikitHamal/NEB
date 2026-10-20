@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,981
+You have never seen that happen, and you never will.
+
+2
+00:00:02,981 --> 00:00:08,437
+But here is the puzzle: the backwards film conserves energy perfectly.
+
+3
+00:00:08,437 --> 00:00:10,911
+The first law has no objection at all.
+
+4
+00:00:10,911 --> 00:00:12,122
+So what forbids it?
+
+5
+00:00:12,122 --> 00:00:14,687
+That is the second law of thermodynamics.
+

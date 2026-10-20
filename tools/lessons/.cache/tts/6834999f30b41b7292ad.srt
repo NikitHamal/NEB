@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,109
+The hot vapour flows through the coils at the back, where it gives heat Q one to the kitchen and condenses into a liquid.
+
+2
+00:00:07,109 --> 00:00:09,752
+That is why the back of a fridge feels warm.
+

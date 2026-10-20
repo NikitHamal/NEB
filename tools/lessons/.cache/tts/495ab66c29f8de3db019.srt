@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,671
+Sadi Carnot asked the deepest question of all.
+
+2
+00:00:03,671 --> 00:00:10,390
+What is the greatest efficiency any engine could have, working between two given temperatures?
+
+3
+00:00:10,390 --> 00:00:15,898
+His answer was an imaginary engine, perfectly reversible, running this cycle.
+
+4
+00:00:15,898 --> 00:00:24,049
+The working substance is an ideal gas in a cylinder with perfectly insulating walls and a perfectly conducting base.
+

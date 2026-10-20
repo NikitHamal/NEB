@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,015
+A, five.
+
+2
+00:00:01,015 --> 00:00:06,979
+Beta max is T two over T one minus T two: two fifty over fifty.
+
+3
+00:00:06,979 --> 00:00:15,976
+Six is the tempting wrong answer: that is T one over the difference, which is the coefficient of a heat pump, not a refrigerator.
+

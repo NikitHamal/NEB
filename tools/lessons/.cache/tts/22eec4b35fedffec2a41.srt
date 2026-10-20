@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,627
+This is Carnot's theorem.
+
+2
+00:00:01,627 --> 00:00:08,671
+No engine working between two temperatures can be more efficient than a reversible engine between the same temperatures.
+
+3
+00:00:08,671 --> 00:00:15,104
+And all reversible engines between them have the same efficiency, whatever the working substance.
+

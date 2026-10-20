@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,619
+Raise it to ten, and you get sixty point two percent.
+
+2
+00:00:03,619 --> 00:00:05,325
+So why not squeeze even more?
+
+3
+00:00:05,325 --> 00:00:11,770
+Above about ten, the petrol air mixture gets so hot that it explodes on its own before the spark.
+
+4
+00:00:11,770 --> 00:00:17,161
+That is called knocking, and it limits petrol engines to ratios of about eight to ten.
+
+5
+00:00:17,161 --> 00:00:25,169
+Real ones manage only twenty five to thirty percent, because of friction, heat loss and incomplete burning.
+

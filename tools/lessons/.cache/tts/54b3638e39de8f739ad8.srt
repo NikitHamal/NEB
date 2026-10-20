@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,562
+A, fifty percent.
+
+2
+00:00:01,562 --> 00:00:07,994
+In kelvin, the temperatures are three hundred and six hundred, so eta is one minus a half.
+
+3
+00:00:07,994 --> 00:00:14,583
+If you got ninety two percent, you used Celsius: one minus twenty seven over three twenty seven.
+
+4
+00:00:14,583 --> 00:00:16,432
+Always convert to kelvin.
+

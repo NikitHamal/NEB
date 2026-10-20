@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,367
+That is the second law of thermodynamics, the reason engines need a sink and time has a direction.
+
+2
+00:00:06,367 --> 00:00:11,640
+Next, we leave heat behind and start a new adventure: wave motion.
+
+3
+00:00:11,640 --> 00:00:14,296
+See you there, on NEBians.
+

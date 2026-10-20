@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,812
+And comparing with the engine formula gives a neat link: beta equals one minus eta, over eta.
+

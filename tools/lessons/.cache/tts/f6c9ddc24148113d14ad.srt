@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,083
+Now run the film backwards.
+
+2
+00:00:02,083 --> 00:00:09,492
+The warm floor cools down a little, and uses that heat to launch the ball, higher and higher, back into your hand.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,085
+The fuel burns as it is sprayed in, while the piston is already moving out, so heat is added at roughly constant pressure.
+
+2
+00:00:08,085 --> 00:00:10,416
+A flat line from two to three.
+
+3
+00:00:10,416 --> 00:00:13,880
+Then the power stroke, and the exhaust at constant volume.
+

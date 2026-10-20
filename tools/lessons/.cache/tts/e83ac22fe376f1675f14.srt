@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,346
+It turns part of that heat into useful work, W.
+
+2
+00:00:03,346 --> 00:00:09,244
+And it rejects the rest, Q two, into a cold sink at temperature T two.
+

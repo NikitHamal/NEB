@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,734
+Now see why heat flows from hot to cold.
+
+2
+00:00:02,734 --> 00:00:10,651
+Let one thousand joules leave a body at five hundred kelvin, and enter one at two hundred and fifty kelvin.
+

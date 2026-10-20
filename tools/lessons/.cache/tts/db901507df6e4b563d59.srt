@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,315
+Here is our path.
+
+2
+00:00:01,315 --> 00:00:14,440
+The direction of natural processes, the two statements of the second law, heat engines and their efficiency, the Otto, Diesel and Carnot cycles, refrigerators, and finally a first look at entropy.
+

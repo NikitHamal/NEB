@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,096
+This leads to an important idea.
+
+2
+00:00:02,096 --> 00:00:13,333
+A reversible process is one that can be made to retrace its path exactly, so that both the system and its surroundings return to where they started, leaving no trace anywhere.
+
+3
+00:00:13,333 --> 00:00:17,395
+Any process that cannot do that is irreversible.
+

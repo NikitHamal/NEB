@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,343
+And that is the answer to our bouncing ball.
+
+2
+00:00:02,343 --> 00:00:08,828
+The ball's neat, ordered energy spreads into the jiggling of countless molecules in the floor.
+
+3
+00:00:08,828 --> 00:00:10,520
+Entropy rises.
+
+4
+00:00:10,520 --> 00:00:15,911
+The backwards film would need the entropy of the universe to fall, so it never plays.
+
+5
+00:00:15,911 --> 00:00:18,502
+The second law gives time its arrow.
+

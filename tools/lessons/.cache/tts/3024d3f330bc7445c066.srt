@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,773
+Engines are sorted by where the fuel burns.
+
+2
+00:00:02,773 --> 00:00:10,585
+In an external combustion engine, like a steam turbine, it burns outside, and heats the working substance through a wall.
+
+3
+00:00:10,585 --> 00:00:21,927
+In an internal combustion engine, like the petrol and diesel engines in our vehicles, the fuel burns inside the cylinder, and the burning mixture is itself the working substance.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,747
+This is the second law as an inequality.
+
+2
+00:00:02,747 --> 00:00:08,958
+In any process, the total entropy of the system and its surroundings never decreases.
+
+3
+00:00:08,958 --> 00:00:12,395
+It stays the same only for a reversible process.
+
+4
+00:00:12,395 --> 00:00:17,239
+Every real process increases the entropy of the universe.
+

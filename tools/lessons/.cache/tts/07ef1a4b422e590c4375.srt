@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,197
+Worked example.
+
+2
+00:00:01,197 --> 00:00:12,174
+A heat engine absorbs two thousand joules per cycle from a source at five hundred kelvin, and rejects one thousand four hundred joules to a sink at three hundred kelvin.
+
+3
+00:00:12,174 --> 00:00:14,518
+Find the work and the efficiency.
+
+4
+00:00:14,518 --> 00:00:16,106
+Is such an engine possible?
+
