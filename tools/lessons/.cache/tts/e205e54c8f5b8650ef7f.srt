@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:15,325
+Because mu equals pi D squared rho over four, the law of mass is often split into two: a law of diameter, f proportional to one over D, and a law of density, f proportional to one over root rho.
+
+2
+00:00:15,325 --> 00:00:22,708
+Put it all together, and f one equals one over L D, times root of T over pi rho.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,513
+Just as in the last unit, they superpose into a stationary wave, with fixed nodes and antinodes.
+
+2
+00:00:07,513 --> 00:00:14,804
+Adjacent nodes are half a wavelength apart, and a node and the next antinode are a quarter wavelength apart.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,242
+A sonometer lets us test this formula three ways.
+
+2
+00:00:03,242 --> 00:00:11,002
+Here is a wire over a wooden box, stretched by a hanging weight, with a movable bridge to set the vibrating length.
+

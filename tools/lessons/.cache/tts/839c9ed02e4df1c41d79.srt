@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,664
+Only odd harmonics exist, so the first overtone is the third harmonic, one thousand and twenty hertz, and the second overtone is the fifth, seventeen hundred hertz.
+

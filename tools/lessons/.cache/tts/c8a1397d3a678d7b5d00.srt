@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,497
+Without it: three forty over four times zero point two, four hundred and twenty five hertz.
+

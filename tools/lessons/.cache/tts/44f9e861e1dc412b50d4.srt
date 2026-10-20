@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,440
+Where the nodes sit is decided by the boundary condition at each end.
+
+2
+00:00:04,440 --> 00:00:08,750
+At a closed end, the rigid wall stops the air from moving.
+
+3
+00:00:08,750 --> 00:00:12,851
+Its displacement must be zero: a displacement node.
+
+4
+00:00:12,851 --> 00:00:20,104
+But the air piles up and thins out against the wall, so the pressure swings the most there: a pressure antinode.
+

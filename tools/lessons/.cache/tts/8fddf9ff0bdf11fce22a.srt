@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,377
+For two fifty hertz at the original tension, the length must fall by the same ratio: one hundred over two fifty of a metre, forty centimetres from one end.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,630
+A full eight mark question to finish.
+
+2
+00:00:02,630 --> 00:00:11,393
+A wire one metre long, with mu equal to five times ten to the minus three kilograms per metre, is under two hundred newtons.
+
+3
+00:00:11,393 --> 00:00:19,401
+Find v and f one, the tension for one hundred and fifty hertz, and the bridge position for two hundred and fifty hertz.
+

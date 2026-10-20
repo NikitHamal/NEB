@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,093
+Combine f equals v over lambda with v equals root T over mu.
+
+2
+00:00:06,093 --> 00:00:12,356
+The n th mode has frequency n over two L, times root T over mu.
+
+3
+00:00:12,356 --> 00:00:18,385
+Every whole number works, so unlike a closed pipe, a string gives every harmonic.
+
+4
+00:00:18,385 --> 00:00:21,184
+That is why a plucked string sounds so rich.
+

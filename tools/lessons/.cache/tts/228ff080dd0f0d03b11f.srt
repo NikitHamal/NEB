@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,940
+Now the mystery from the start.
+
+2
+00:00:01,940 --> 00:00:08,072
+A closed pipe twenty five centimetres long, with sound at three hundred and forty metres per second.
+
+3
+00:00:08,072 --> 00:00:14,036
+Find its fundamental, its first two overtones, and the fundamental if it were open.
+

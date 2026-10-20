@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,210
+Keep this straight.
+
+2
+00:00:01,210 --> 00:00:04,414
+A displacement node is a pressure antinode.
+
+3
+00:00:04,414 --> 00:00:08,593
+The two descriptions are always a quarter wavelength out of step.
+
+4
+00:00:08,593 --> 00:00:15,664
+If a question says pressure antinode at the closed end, it means exactly the same as displacement node.
+
+5
+00:00:15,664 --> 00:00:18,906
+In this lesson we always draw displacement.
+

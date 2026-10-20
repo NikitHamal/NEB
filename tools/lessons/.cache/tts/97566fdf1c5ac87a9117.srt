@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,317
+The standard school experiment for the speed of sound uses a closed pipe whose length you can change: the resonance tube.
+
+2
+00:00:07,317 --> 00:00:12,070
+Hold a sounding tuning fork over a tube of air above water.
+
+3
+00:00:12,070 --> 00:00:15,429
+Lower the water, and the air column gets longer.
+

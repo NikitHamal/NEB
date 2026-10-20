@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,039
+A sonometer wire, or a sarangi string, is clamped at both ends.
+
+2
+00:00:05,039 --> 00:00:06,979
+So both ends must be nodes.
+
+3
+00:00:06,979 --> 00:00:10,690
+The string must hold a whole number of half wavelength loops.
+

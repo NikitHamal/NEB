@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,375
+Write both conditions with the end correction: l one plus e is lambda by four, and l two plus e is three lambda by four.
+

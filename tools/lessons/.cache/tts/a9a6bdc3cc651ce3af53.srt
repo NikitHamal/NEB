@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,828
+At one particular length, the note suddenly booms out.
+
+2
+00:00:03,828 --> 00:00:07,434
+That is the first resonance, at length l one.
+
+3
+00:00:07,434 --> 00:00:12,656
+The air column now fits a quarter wavelength, plus the end correction.
+

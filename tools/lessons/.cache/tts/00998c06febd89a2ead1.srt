@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,200
+Second, the law of tension.
+
+2
+00:00:02,200 --> 00:00:04,687
+Keep the length fixed, and add weight.
+
+3
+00:00:04,687 --> 00:00:08,359
+Four times the tension only doubles the frequency.
+
+4
+00:00:08,359 --> 00:00:10,820
+f is proportional to root T.
+

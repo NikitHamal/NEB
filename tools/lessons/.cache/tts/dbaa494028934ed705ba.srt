@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,554
+To reach one fifty hertz, multiply the tension by one point five squared, two point two five: four hundred and fifty newtons.
+

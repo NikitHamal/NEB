@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,901
+First, the law of length.
+
+2
+00:00:01,901 --> 00:00:06,158
+Keep the tension and the wire the same, and slide the bridge.
+
+3
+00:00:06,158 --> 00:00:09,023
+Halve the length, and the frequency doubles.
+
+4
+00:00:09,023 --> 00:00:11,914
+f is proportional to one over L.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,750
+Open at both ends, f one is v over two L: three forty over zero point five, six hundred and eighty hertz.
+
+2
+00:00:08,750 --> 00:00:10,156
+Exactly double.
+
+3
+00:00:10,156 --> 00:00:19,101
+Closing one end turns the half wavelength into a quarter wavelength, the wavelength doubles, and the note drops an octave.
+
+4
+00:00:19,101 --> 00:00:20,442
+Mystery solved.
+

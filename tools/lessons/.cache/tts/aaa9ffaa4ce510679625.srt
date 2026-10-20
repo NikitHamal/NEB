@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,822
+Here is the comparison.
+
+2
+00:00:01,822 --> 00:00:07,148
+The closed pipe has fundamental v over four L and only odd harmonics.
+
+3
+00:00:07,148 --> 00:00:10,638
+The open pipe has v over two L and all of them.
+
+4
+00:00:10,638 --> 00:00:16,848
+So the first overtone of a closed pipe is the third harmonic, but for an open pipe it is the second.
+
+5
+00:00:16,848 --> 00:00:23,398
+With more harmonics, the open pipe gives a richer note, and for the same length it sounds an octave higher.
+

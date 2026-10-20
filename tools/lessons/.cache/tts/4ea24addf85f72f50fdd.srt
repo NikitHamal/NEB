@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,770
+A string has all harmonics, so the second overtone is the third harmonic: twelve hundred hertz.
+

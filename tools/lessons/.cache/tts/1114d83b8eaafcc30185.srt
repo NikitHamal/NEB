@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,848
+With a four hundred and eighty hertz fork, l one is seventeen centimetres and l two fifty three.
+
+2
+00:00:06,848 --> 00:00:20,364
+So lambda is two times thirty six centimetres, zero point seven two metres, and the speed of sound is four eighty times zero point seven two: three hundred and forty five point six metres per second.
+
+3
+00:00:20,364 --> 00:00:26,549
+The end correction is fifty three minus fifty one, over two: one centimetre.
+
+4
+00:00:26,549 --> 00:00:30,651
+So the tube's radius is about one point seven centimetres.
+

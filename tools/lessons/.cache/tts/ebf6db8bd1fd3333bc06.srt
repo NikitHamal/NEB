@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,718
+Here is the path.
+
+2
+00:00:01,718 --> 00:00:15,703
+Stationary waves in pipes, the harmonics of closed and open organ pipes, the end correction and the resonance tube, the speed of a wave on a string, the harmonics of a string, and the three laws of a vibrating string.
+

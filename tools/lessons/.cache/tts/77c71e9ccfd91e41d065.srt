@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,604
+Worked example, using ratios.
+
+2
+00:00:02,604 --> 00:00:07,578
+A wire sounds two hundred and fifty six hertz under one hundred newtons.
+
+3
+00:00:07,578 --> 00:00:11,497
+What tension gives three hundred and twenty hertz at the same length?
+
+4
+00:00:11,497 --> 00:00:16,510
+Or, keeping the tension, where should the bridge go on the sixty centimetre wire?
+
