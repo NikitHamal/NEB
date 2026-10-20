@@ -17,7 +17,11 @@ function rod(a, b, r0, r1, mat) {
 }
 function wingTex(kind) {
   return canvasTexture(`roach-wing:${kind}`, 128, 512, (g, w, h) => {
-    g.fillStyle = kind === 'teg' ? '#6b2f14' : 'rgba(225,200,160,0.55)'; g.fillRect(0, 0, w, h);
+    if (kind === 'teg') {
+      const gr = g.createLinearGradient(0, 0, w, 0); gr.addColorStop(0, '#5a2410'); gr.addColorStop(0.55, '#7a3618'); gr.addColorStop(0.9, '#a2582a'); gr.addColorStop(1, '#c98a4a');
+      g.fillStyle = gr; g.fillRect(0, 0, w, h);
+      for (let i = 0; i < 260; i++) { g.fillStyle = `rgba(${30 + Math.random() * 40},${10 + Math.random() * 15},5,${Math.random() * 0.25})`; g.fillRect(Math.random() * w, Math.random() * h, 1 + Math.random() * 3, 2 + Math.random() * 6); }
+    } else { g.fillStyle = 'rgba(205,165,110,0.5)'; g.fillRect(0, 0, w, h); }
     g.strokeStyle = kind === 'teg' ? 'rgba(40,15,5,0.65)' : 'rgba(120,80,40,0.7)'; g.lineWidth = 2;
     for (let i = 0; i < 9; i++) { g.beginPath(); g.moveTo(10 + i * 3, 0); g.quadraticCurveTo(20 + i * 12, h * 0.4, 8 + i * 13, h); g.stroke(); }
     for (let y = 30; y < h; y += 26) { g.lineWidth = 0.8; g.beginPath(); g.moveTo(0, y); g.lineTo(w, y + 8); g.stroke(); }
@@ -32,10 +36,11 @@ function wingGeo(len, wid) {
 
 export function buildCockroach(sex = 'male') {
   const root = new THREE.Group(); const body = new THREE.Group(); body.scale.setScalar(0.01); root.add(body);
-  const chitin = wet(0x7a3f1d, { roughness: 0.35, clearcoat: 0.9, ccr: 0.15, sheen: 0.1 });
-  const dark = wet(0x3a1a0b, { roughness: 0.3, clearcoat: 0.9, sheen: 0.05 });
-  const pale = wet(0xd4a66a, { roughness: 0.4, clearcoat: 0.7, sheen: 0.1 });
-  const leg = wet(0x8a4a24, { roughness: 0.4, clearcoat: 0.6, sheen: 0.1 });
+  const C = { detailScale: 0.55, detailBump: 0.0012, mottle: 0.22, sss: 0x5a1a08 };
+  const chitin = wet(0x6e3216, { roughness: 0.3, clearcoat: 0.95, ccr: 0.12, sheen: 0.08, ...C });
+  const dark = wet(0x2e1408, { roughness: 0.28, clearcoat: 0.95, sheen: 0.05, ...C });
+  const pale = wet(0xc99a5c, { roughness: 0.36, clearcoat: 0.8, sheen: 0.1, ...C });
+  const leg = wet(0x7c3e1c, { roughness: 0.34, clearcoat: 0.8, sheen: 0.1, ...C });
   const anchors = {};
   // head (bent down under the pronotum: hypognathous)
   const head = new THREE.Group(); head.position.set(0, 0.2, -10.5); head.rotation.x = 0.5; body.add(head);
@@ -91,8 +96,8 @@ export function buildCockroach(sex = 'male') {
   const wings = [-1, 1].map((s) => {
     const hinge = new THREE.Group(); hinge.position.set(-s * 1.4, 2.9 + (s > 0 ? 0.25 : 0), -4.0); body.add(hinge);
     const hind = new THREE.Group(); hinge.add(hind);
-    const hw = mesh(wingGeo(wlen * 0.92, 7.5), new THREE.MeshPhysicalMaterial({ map: wingTex('hind'), transparent: true, side: THREE.DoubleSide, roughness: 0.25, depthWrite: false }), [0, -0.3, 0]); hw.scale.x = s * 0.45; hind.add(hw);
-    const teg = mesh(wingGeo(wlen, 7.6), new THREE.MeshPhysicalMaterial({ map: wingTex('teg'), side: THREE.DoubleSide, roughness: 0.42, clearcoat: 0.6 }), [0, 0, 0]); teg.scale.x = s; hinge.add(teg);
+    const hw = mesh(wingGeo(wlen * 0.92, 9.0), new THREE.MeshPhysicalMaterial({ map: wingTex('hind'), transparent: true, side: THREE.DoubleSide, roughness: 0.25, depthWrite: false }), [0, -0.3, 0]); hw.scale.x = s * 0.45; hind.add(hw);
+    const teg = mesh(wingGeo(wlen, 9.4), new THREE.MeshPhysicalMaterial({ map: wingTex('teg'), side: THREE.DoubleSide, roughness: 0.3, clearcoat: 0.9, clearcoatRoughness: 0.12 }), [0, 0, 0]); teg.scale.x = s; hinge.add(teg);
     hinge.rotation.y = -s * 0.05;
     return { hinge, teg, hind, hw, s, spread: 0, fan: 0 };
   });
