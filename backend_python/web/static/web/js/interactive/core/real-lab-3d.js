@@ -153,7 +153,7 @@ export function initRealLab3D(stage, opts = {}) {
   const config = PRESETS[slug] || PRESETS['lab-apparatus-safety'];
   if (hasHandsOn(slug) && !opts.freeLab) return startHandsOn(stage, slug, config);
   const subject = SUBJECT[config.subject] || SUBJECT.physics;
-  const engine = createEngine(stage, { lite: true, noise: true, shadows: true, fov: 45, far: 260 });
+  const engine = createEngine(stage, { lite: true, noise: true, envIntensity: 0.6, shadows: true, fov: 45, far: 260 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
 

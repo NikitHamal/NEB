@@ -2,8 +2,10 @@ import * as THREE from '../../vendor/three.module.min.js';
 
 function v3(c) { return `vec3(${c.r.toFixed(3)}, ${c.g.toFixed(3)}, ${c.b.toFixed(3)})`; }
 
+const LITE = new WeakSet();
+
 function convert(src) {
-  if (src.userData.lite) return src;
+  if (LITE.has(src)) return src;
   const glass = (src.transmission || 0) > 0.01 || (src.transparent && (src.clearcoat || 0) > 0.5 && (src.opacity ?? 1) < 0.75);
   const dst = src;
   const coat = src.clearcoat || 0;
@@ -12,7 +14,7 @@ function convert(src) {
   const sheenC = src.sheenColor ? src.sheenColor.clone() : new THREE.Color(1, 1, 1);
   const prev = src.onBeforeCompile && src.onBeforeCompile !== THREE.Material.prototype.onBeforeCompile ? src.onBeforeCompile : null;
   const prevKey = src.customProgramCacheKey && src.customProgramCacheKey !== THREE.Material.prototype.customProgramCacheKey ? src.customProgramCacheKey() : '';
-  src.userData.lite = true;
+  LITE.add(src);
   src.clearcoat = 0; src.sheen = 0; src.iridescence = 0;
   if (glass) {
     dst.transparent = true;
@@ -57,8 +59,9 @@ function convert(src) {
 export function liteScene(root, opts = {}) {
   root.traverse((o) => {
     if (!o.material) return;
+    if (opts.env != null) (Array.isArray(o.material) ? o.material : [o.material]).forEach((m) => { if (m.isMeshStandardMaterial && m.userData.envK === undefined) { m.userData.envK = 1; m.envMapIntensity *= opts.env; } });
     const swap = (m) => {
-      if (!m || !m.isMeshPhysicalMaterial || m.userData.keepPhysical || m.userData.lite) return m;
+      if (!m || !m.isMeshPhysicalMaterial || m.userData.keepPhysical || LITE.has(m)) return m;
       convert(m); m.needsUpdate = true;
       return m;
     };
@@ -67,4 +70,4 @@ export function liteScene(root, opts = {}) {
   });
 }
 
-export function liteMaterial(m) { if (m && m.isMeshPhysicalMaterial && !m.userData.lite) { convert(m); m.needsUpdate = true; } return m; }
+export function liteMaterial(m) { if (m && m.isMeshPhysicalMaterial && !LITE.has(m)) { convert(m); m.needsUpdate = true; } return m; }

@@ -72,11 +72,11 @@ export function buildRoom(scene, config, quality, renderer = null) {
 
   // the bench: a carcass with drawers and a worktop slightly overhanging
   const top = bio
-    ? new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 6.6), new THREE.MeshPhysicalMaterial({ color: 0xe9ecef, roughness: 0.42, clearcoat: 0.5, clearcoatRoughness: 0.3 }))
+    ? new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 6.6), new THREE.MeshPhysicalMaterial({ color: 0x2a3234, roughness: 0.36, clearcoat: 0.6, clearcoatRoughness: 0.25 }))
     : chem
     ? new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 6.6), new THREE.MeshPhysicalMaterial({ color: 0x1c2125, roughness: 0.38, clearcoat: 0.55, clearcoatRoughness: 0.3 }))
     : new THREE.Mesh(new THREE.BoxGeometry(16, 0.16, 6.6), new THREE.MeshPhysicalMaterial({ map: benchWood(), color: 0xd9cbb8, roughness: 0.5, clearcoat: 0.4, clearcoatRoughness: 0.35 }));
-  detail(top.material, { scale: bio ? 1.6 : chem ? 1.2 : 0.8, bump: 0.0008, mottle: bio ? 0.06 : 0.12, speck: bio ? 0.08 : chem ? 0.25 : 0, roughVar: 0.6 });
+  detail(top.material, { scale: bio || chem ? 5.5 : 0.8, bump: 0.0005, mottle: 0.1, speck: chem || bio ? 0.12 : 0, roughVar: 0.6 });
   top.position.set(0, BENCH_Y - 0.08, 0); top.receiveShadow = true; top.castShadow = true; room.add(top);
   const carcass = box(15.6, 8.8, 6.2, M.paint(chem ? 0xe8e4dc : 0xd9d2c3), [0, BENCH_Y - 0.16 - 4.4, -0.1]); room.add(carcass);
   for (let i = -3; i <= 3; i++) {

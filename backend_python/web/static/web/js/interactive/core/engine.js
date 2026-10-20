@@ -272,7 +272,7 @@ export function createEngine(stage, opts = {}) {
     lastFrameAt = now;
     const dt = Math.min(clock.getDelta(), 0.1);
     if (updateFn) updateFn(dt, clock.elapsedTime);
-    if (opts.lite && (liteTick++ % 90 === 0)) liteScene(scene);
+    if (opts.lite && (liteTick++ % 90 === 0)) liteScene(scene, { env: opts.envIntensity });
     renderer.render(scene, camera);
   }
 

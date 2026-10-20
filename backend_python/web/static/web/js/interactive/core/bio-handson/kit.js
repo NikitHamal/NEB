@@ -156,3 +156,29 @@ export function disposeTree(root) {
     mats.forEach((m) => { if (!m.userData?.sharedFx) { ['map', 'bumpMap', 'normalMap', 'alphaMap', 'roughnessMap'].forEach((k) => { if (m[k] && !m[k].userData?.sharedFx) m[k].dispose(); }); m.dispose(); } });
   });
 }
+
+function vn3(x, y, z) {
+  const h = (i, j, k) => { const s = Math.sin(i * 127.1 + j * 311.7 + k * 74.7) * 43758.5453; return s - Math.floor(s); };
+  const ix = Math.floor(x); const iy = Math.floor(y); const iz = Math.floor(z);
+  const fx = x - ix; const fy = y - iy; const fz = z - iz;
+  const u = fx * fx * (3 - 2 * fx); const v = fy * fy * (3 - 2 * fy); const w = fz * fz * (3 - 2 * fz);
+  const l = (a, b, t) => a + (b - a) * t;
+  return l(l(l(h(ix, iy, iz), h(ix + 1, iy, iz), u), l(h(ix, iy + 1, iz), h(ix + 1, iy + 1, iz), u), v),
+    l(l(h(ix, iy, iz + 1), h(ix + 1, iy, iz + 1), u), l(h(ix, iy + 1, iz + 1), h(ix + 1, iy + 1, iz + 1), u), v), w);
+}
+
+/** Pushes vertices along their normals by layered noise: tubers, stones, seeds, organs. */
+export function organic(geometry, amp = 0.05, freq = 2, seed = 1, facets = 0) {
+  const p = geometry.attributes.position; const n = geometry.attributes.normal;
+  const v = new THREE.Vector3(); const d = new THREE.Vector3();
+  for (let i = 0; i < p.count; i++) {
+    v.fromBufferAttribute(p, i); d.fromBufferAttribute(n, i);
+    const f = freq / Math.max(1e-3, geometry.boundingSphere ? geometry.boundingSphere.radius : 1);
+    let k = (vn3(v.x * f + seed, v.y * f, v.z * f) - 0.5) * 2 + (vn3(v.x * f * 2.7, v.y * f * 2.7 + seed, v.z * f * 2.7) - 0.5) * 0.6;
+    if (facets) { const a = Math.atan2(v.z, v.x); const q = Math.round(a / (Math.PI / facets)) * (Math.PI / facets); k -= Math.abs(Math.sin(a - q)) * 0.6; }
+    v.addScaledVector(d, k * amp);
+    p.setXYZ(i, v.x, v.y, v.z);
+  }
+  geometry.computeVertexNormals();
+  return geometry;
+}
