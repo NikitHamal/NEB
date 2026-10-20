@@ -4,6 +4,7 @@ import {
   makeGlowTexture, makeRadialSprite,
 } from '../core/realism.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { createOrbitalCloud } from './atom/orbital-cloud.js';
 import {
   ELEMENTS, ELEMENT_MAP, CATEGORY_COLORS, CATEGORY_LABELS,
   electronConfiguration, configToString, shellPacking, commonNeutrons,
@@ -263,6 +264,14 @@ export default function init(stage) {
     { label: '+ electron', icon: 'add', onClick: () => { if (electrons < MAX_E) { electrons++; refresh(); } } },
   ]);
   panel.divider();
+  let mode = 'orbitals';
+  let highlight = null;
+  panel.chips({ label: 'Electron model', options: [{ value: 'orbitals', label: 'Quantum orbitals' }, { value: 'shells', label: 'Bohr shells' }], value: 'orbitals', onChange: (v) => { mode = v; applyMode(); } });
+  const subRow = document.createElement('div');
+  subRow.className = 'k2-chips ix-atom-subs';
+  subRow.style.cssText = 'display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 10px';
+  panel.body.appendChild(subRow);
+  const orbInfo = panel.info('Each cloud shows where an electron is likely to be found. Tap a subshell to see the shapes of its orbitals: orange and blue are the two phases of the wave.');
   const elemOut = panel.readout({ label: 'Element', value: 'Hydrogen' });
   const massOut = panel.readout({ label: 'Mass number A', value: '1' });
   const chargeOut = panel.readout({ label: 'Charge', value: '0' });
@@ -324,8 +333,37 @@ export default function init(stage) {
     shellGroups.forEach((g) => g.group.scale.setScalar(atomScale));
 
     pt.setActive(protons);
+    cloud.setConfig(electrons > 0 ? cfg : [], highlight);
+    cloud.mesh.visible = mode === 'orbitals' && electrons > 0;
+    cloudSize = 7.5;
+    nucleusGroup.scale.setScalar(mode === 'orbitals' ? atomScale * 0.42 : atomScale);
+    subRow.innerHTML = '';
+    if (electrons > 0) {
+      cloud.subshells.forEach((sub) => {
+        const b = document.createElement('button');
+        b.type = 'button'; b.className = 'k2-chip' + (sub === highlight ? ' is-on' : '');
+        b.textContent = sub;
+        b.style.cssText = 'padding:4px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.18);background:' + (sub === highlight ? '#3b82f6' : 'rgba(255,255,255,.06)') + ';color:#eef2ff;font:600 12px Poppins,system-ui;cursor:pointer';
+        b.addEventListener('click', () => { highlight = highlight === sub ? null : sub; refresh(); });
+        subRow.appendChild(b);
+      });
+    }
+    applyMode();
+  }
+  function applyMode() {
+    const orb = mode === 'orbitals';
+    shellGroups.forEach((g) => { g.group.visible = !orb; });
+    const sc = shellPacking(electronConfiguration(Math.max(1, electrons))).length;
+    const as = sc >= 6 ? 0.55 : sc >= 5 ? 0.72 : sc >= 4 ? 0.85 : 1;
+    nucleusGroup.scale.setScalar(orb ? as * 0.42 : as);
+    cloud.mesh.visible = orb && electrons > 0;
+    subRow.style.display = orb ? 'flex' : 'none';
+    orbInfo.el.style.display = orb ? '' : 'none';
   }
 
+  const cloud = createOrbitalCloud(quality);
+  let cloudSize = 7;
+  scene.add(cloud.mesh);
   const pt = buildPeriodicTable(stage, (z) => {
     protons = z;
     electrons = z;
@@ -350,6 +388,7 @@ export default function init(stage) {
       });
     });
     controls.update(dt);
+    if (cloud.mesh.visible) cloud.update(camera, t, cloudSize);
   });
 
   engine.start();
@@ -363,7 +402,7 @@ export default function init(stage) {
       protonMat.dispose(); neutronMat.dispose();
       electronMat.dispose(); electronMatCore.dispose();
       nucleonGeo.dispose(); electronGeo.dispose();
-      orbitMat.dispose();
+      orbitMat.dispose(); cloud.dispose();
       nucleusGlowTex.dispose(); electronGlowTex.dispose();
       engine.dispose();
     },
