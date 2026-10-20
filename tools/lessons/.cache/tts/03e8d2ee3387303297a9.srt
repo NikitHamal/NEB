@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,135
+Light falls normally on the grating.
+
+2
+00:00:02,135 --> 00:00:06,731
+Take the parallel rays leaving every slit at angle theta.
+
+3
+00:00:06,731 --> 00:00:13,020
+Between any two neighbouring slits, the path difference is the same: d sine theta.
+

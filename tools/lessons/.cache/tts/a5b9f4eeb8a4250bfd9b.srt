@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,328
+All the slits reinforce each other only when that common path difference is a whole number of wavelengths.
+
+2
+00:00:06,328 --> 00:00:11,419
+d sine theta equals n lambda: the grating equation.
+
+3
+00:00:11,419 --> 00:00:13,684
+n is the order of the spectrum.
+

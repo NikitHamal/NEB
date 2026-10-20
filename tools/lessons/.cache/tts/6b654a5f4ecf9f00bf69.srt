@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,302
+Bring them closer.
+
+2
+00:00:01,302 --> 00:00:02,955
+The patches merge.
+
+3
+00:00:02,955 --> 00:00:08,229
+At some point, the dip between them vanishes, and the two stars look like one.
+

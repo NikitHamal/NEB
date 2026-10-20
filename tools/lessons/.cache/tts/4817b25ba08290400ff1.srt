@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,411
+Why are the maxima of a grating so sharp?
+
+2
+00:00:03,411 --> 00:00:06,692
+Watch the pattern as the number of slits grows.
+
+3
+00:00:06,692 --> 00:00:10,247
+Two slits give broad cos squared fringes.
+
+4
+00:00:10,247 --> 00:00:11,835
+Five slits sharpen them.
+
+5
+00:00:11,835 --> 00:00:15,130
+Twenty, and the bright lines are needle thin.
+

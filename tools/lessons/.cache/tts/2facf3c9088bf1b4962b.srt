@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,263
+Pause and think.
+
+2
+00:00:01,263 --> 00:00:03,736
+Two thousand lines per centimetre.
+
+3
+00:00:03,736 --> 00:00:05,520
+What is the grating element?
+

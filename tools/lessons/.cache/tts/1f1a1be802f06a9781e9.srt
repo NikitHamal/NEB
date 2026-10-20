@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,171
+Let us recap.
+
+2
+00:00:01,171 --> 00:00:06,757
+Diffraction is the spreading of waves at openings comparable with their wavelength.
+
+3
+00:00:06,757 --> 00:00:17,552
+A single slit gives minima at a sine theta equals n lambda, and a central maximum two lambda D over a wide, so a narrower slit spreads the light more.
+
+4
+00:00:17,552 --> 00:00:24,440
+Interference and diffraction are both superposition, but they differ in their sources and their patterns.
+
+5
+00:00:24,440 --> 00:00:29,544
+A grating gives sharp maxima at d sine theta equals n lambda.
+
+6
+00:00:29,544 --> 00:00:37,473
+And by Rayleigh's criterion, a telescope resolves one point two two lambda over a, so bigger is better.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,830
+The second minimum has sine theta equal to two lambda over a, six times ten to the minus three, so it lies nine millimetres from the centre.
+
+2
+00:00:09,830 --> 00:00:15,520
+Notice: the central maximum is as wide as the distance from the centre to the second minimum.
+

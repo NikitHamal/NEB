@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,283
+With thousands of slits, the slightest step away from the exact condition throws distant slits out of step with each other, and they cancel.
+
+2
+00:00:09,283 --> 00:00:16,106
+So the maxima are extremely sharp, which makes the grating a precision instrument for measuring wavelength.
+

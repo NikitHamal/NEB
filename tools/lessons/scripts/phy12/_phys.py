@@ -321,3 +321,31 @@ def curve(fn, x0, x1, n=160, color=th.SKY, width=4, smooth=False):
     else:
         m.set_points_as_corners(pts)
     return m
+
+
+def wl_rgb(nm):
+    """Rough visible colour for a wavelength in nm, as an (r, g, b) tuple in 0..1."""
+    if nm < 440:
+        r, g, b = -(nm - 440) / 60, 0.0, 1.0
+    elif nm < 490:
+        r, g, b = 0.0, (nm - 440) / 50, 1.0
+    elif nm < 510:
+        r, g, b = 0.0, 1.0, -(nm - 510) / 20
+    elif nm < 580:
+        r, g, b = (nm - 510) / 70, 1.0, 0.0
+    elif nm < 645:
+        r, g, b = 1.0, -(nm - 645) / 65, 0.0
+    else:
+        r, g, b = 1.0, 0.0, 0.0
+    return np.clip(np.array([r, g, b]), 0, 1)
+
+
+def strip(x, y0, y1, width, rgb_fn, n=110):
+    """A vertical screen made of n thin bands; rgb_fn(y) gives the colour (r, g, b) in 0..1 at height y."""
+    g = VGroup()
+    h = (y1 - y0) / n
+    for k in range(n):
+        y = y0 + (k + 0.5) * h
+        c = np.clip(rgb_fn(y), 0, 1)
+        g.add(Rectangle(width=width, height=h * 1.02, stroke_width=0, fill_color=ManimColor.from_rgb(np.array(c, dtype=float)), fill_opacity=1).move_to([x, y, 0]))
+    return g

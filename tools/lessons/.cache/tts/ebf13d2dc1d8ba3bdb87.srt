@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,721
+Now take not two slits, but thousands.
+
+2
+00:00:02,721 --> 00:00:09,205
+A diffraction grating is a glass plate ruled with a huge number of equally spaced parallel lines.
+
+3
+00:00:09,205 --> 00:00:14,361
+The ruled lines are opaque, and the clear gaps between them act as slits.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,523
+Now the clever argument.
+
+2
+00:00:01,523 --> 00:00:10,950
+Split the slit into two halves, A M and M B. Pair each point in the top half with the point exactly a by two below it, in the bottom half.
+

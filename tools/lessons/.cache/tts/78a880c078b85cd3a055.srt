@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,898
+The numerical aperture is one point five times sine sixty: one point two nine nine.
+

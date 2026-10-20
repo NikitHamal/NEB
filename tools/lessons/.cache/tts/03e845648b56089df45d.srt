@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,992
+B, five micrometres.
+
+2
+00:00:01,992 --> 00:00:09,414
+One centimetre over two thousand is five times ten to the minus four centimetres, which is five micrometres.
+
+3
+00:00:09,414 --> 00:00:13,541
+Two micrometres is what you get if you forget the centimetre.
+

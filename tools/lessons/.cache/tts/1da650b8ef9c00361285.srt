@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,828
+B, when the aperture is comparable with the wavelength.
+
+2
+00:00:03,828 --> 00:00:10,468
+Much larger, and the waves go almost straight, which is why ray optics works for windows and doors with light.
+

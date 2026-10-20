@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,236
+Pause and think.
+
+2
+00:00:01,236 --> 00:00:05,338
+How does the width of the central maximum depend on the width of the slit?
+

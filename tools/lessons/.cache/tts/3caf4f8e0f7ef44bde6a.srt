@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,875
+The highest order is d over lambda, two point seven eight, so only the second order is reached.
+

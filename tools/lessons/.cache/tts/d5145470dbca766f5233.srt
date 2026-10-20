@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,575
+A full long question.
+
+2
+00:00:01,575 --> 00:00:05,976
+Six thousand lines per centimetre, six hundred nanometre light.
+
+3
+00:00:05,976 --> 00:00:14,570
+Find d, the first two orders, the highest order, and the resolving limit in the second order with eight thousand lines lit.
+

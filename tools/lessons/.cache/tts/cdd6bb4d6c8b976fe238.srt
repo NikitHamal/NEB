@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,692
+d is one centimetre over six thousand: one point six six seven micrometres.
+
+2
+00:00:06,692 --> 00:00:10,390
+So lambda over d is zero point three six.
+

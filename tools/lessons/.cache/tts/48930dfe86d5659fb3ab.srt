@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,197
+Worked example.
+
+2
+00:00:01,197 --> 00:00:06,575
+A grating with five thousand lines per centimetre, and five hundred nanometre light.
+
+3
+00:00:06,575 --> 00:00:11,471
+Find the angles of the first three orders, and the highest order you can see.
+

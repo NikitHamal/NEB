@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,515
+If there are N lines per metre, the distance from one slit to the next is the grating element, d, equal to one over N.
+
+2
+00:00:08,515 --> 00:00:12,734
+It is the width of a gap, e, plus the width of a line, b.
+
+3
+00:00:12,734 --> 00:00:19,544
+A good grating has five to fifteen thousand lines per centimetre, so d is a micrometre or two.
+

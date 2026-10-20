@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,028
+B, it decreases as the slit gets wider, since w is two lambda D over a.
+
+2
+00:00:06,028 --> 00:00:12,369
+The tempting answer A is the ray optics intuition, that a bigger hole makes a bigger patch.
+
+3
+00:00:12,369 --> 00:00:14,648
+Diffraction does the opposite.
+

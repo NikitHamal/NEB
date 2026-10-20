@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,768
+A plane wavefront of wavelength lambda falls on a slit A B of width a.
+
+2
+00:00:05,768 --> 00:00:10,716
+By Huygens, every point across the slit sends out secondary wavelets.
+
+3
+00:00:10,716 --> 00:00:13,580
+Pick the ones that leave at some angle theta.
+
+4
+00:00:13,580 --> 00:00:17,070
+A lens will bring them all to one point P on the screen.
+

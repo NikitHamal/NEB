@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,041
+You can hear somebody talking in the next room, round the edge of the doorway, even though you cannot see them.
+
+2
+00:00:06,041 --> 00:00:11,940
+Sound, with a wavelength of about a metre, spreads round the edge into the shadow.
+

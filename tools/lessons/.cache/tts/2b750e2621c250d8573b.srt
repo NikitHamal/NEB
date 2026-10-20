@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,007
+A narrower slit gives a wider patch of light.
+
+2
+00:00:03,007 --> 00:00:05,143
+Ray optics says the opposite.
+
+3
+00:00:05,143 --> 00:00:11,302
+This is diffraction, and by the end of the lesson you will predict the width of that patch exactly.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,421
+Watch plane waves arriving at a gap.
+
+2
+00:00:02,421 --> 00:00:10,729
+When the gap is many wavelengths wide, the waves pass almost straight through, with just a little bending at the edges.
+

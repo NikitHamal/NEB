@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,682
+And a grating's power to separate two close wavelengths is lambda over d lambda equals n N.
+

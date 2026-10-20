@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,937
+One more.
+
+2
+00:00:00,937 --> 00:00:08,268
+Five hundred nanometre light, a slit zero point one millimetres wide, a screen one metre away.
+
+3
+00:00:08,268 --> 00:00:11,666
+How far apart are the first minima on the two sides?
+

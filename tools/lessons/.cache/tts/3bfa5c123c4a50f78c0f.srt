@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,614
+There are two classes.
+
+2
+00:00:01,614 --> 00:00:10,312
+In Fresnel diffraction, the source and screen are at finite distances, the wavefronts are curved, and the mathematics is hard.
+
+3
+00:00:10,312 --> 00:00:18,098
+In Fraunhofer diffraction, source and screen are effectively at infinity, the wavefronts are plane, and lenses are used.
+
+4
+00:00:18,098 --> 00:00:25,872
+Everything in this unit is Fraunhofer: parallel light in, parallel light out, brought to a focus by a lens.
+

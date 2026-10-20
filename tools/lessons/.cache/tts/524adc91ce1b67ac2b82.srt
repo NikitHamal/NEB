@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,572
+Sine theta one is lambda over a: five times ten to the minus three.
+

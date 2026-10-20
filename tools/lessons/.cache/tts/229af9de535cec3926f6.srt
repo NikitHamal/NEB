@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,929
+Theta min is one point two two lambda over a: six point seven one times ten to the minus six radians.
+

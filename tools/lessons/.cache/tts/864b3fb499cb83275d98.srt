@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,877
+Because every image is a diffraction patch, two nearby stars seen through a telescope give two overlapping patches.
+
+2
+00:00:07,877 --> 00:00:10,976
+Far apart, you clearly see two peaks.
+

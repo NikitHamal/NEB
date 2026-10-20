@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,815
+The width of the central maximum is two lambda D over a: two times three times ten to the minus three, times one point five.
+
+2
+00:00:08,815 --> 00:00:10,325
+Nine millimetres.
+

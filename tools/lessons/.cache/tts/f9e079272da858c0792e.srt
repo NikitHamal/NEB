@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,393
+That is diffraction.
+
+2
+00:00:01,393 --> 00:00:12,773
+Next, we discover that light waves vibrate in a particular direction, and that sunglasses and calculator screens can choose which direction gets through, in Polarization.
+
+3
+00:00:12,773 --> 00:00:15,468
+See you there, on NEBians.
+
