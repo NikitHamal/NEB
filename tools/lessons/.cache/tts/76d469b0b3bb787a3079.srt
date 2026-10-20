@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,046
+What actually changes when light enters glass?
+
+2
+00:00:03,046 --> 00:00:04,140
+Look at the wave.
+
+3
+00:00:04,140 --> 00:00:12,252
+The vibrations inside the glass are driven by the vibrations arriving from the air, so they must keep exactly the same rhythm.
+
+4
+00:00:12,252 --> 00:00:16,497
+Watch the two marked points: they bob up and down at the same rate.
+

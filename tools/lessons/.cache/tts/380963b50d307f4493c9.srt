@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,223
+So we define the optical path as n times x. Whenever light passes through glass or water in the next two units, replace the real distance by the optical path.
+

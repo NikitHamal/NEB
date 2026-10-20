@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,950
+Divide them.
+
+2
+00:00:00,950 --> 00:00:07,994
+Sine i over sine r equals B C over A D, which is c t over c t, one.
+
+3
+00:00:07,994 --> 00:00:11,627
+So the angle of incidence equals the angle of reflection.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,390
+In eighteen fifty, Léon Foucault did it, with a rapidly rotating mirror.
+
+2
+00:00:05,390 --> 00:00:08,789
+Light travels more slowly in water than in air.
+
+3
+00:00:08,789 --> 00:00:11,770
+That single result ended the corpuscular theory.
+
+4
+00:00:11,770 --> 00:00:19,114
+And the wave picture also explains interference, diffraction and polarization, which particles never could.
+
+5
+00:00:19,114 --> 00:00:21,171
+Those are our next three units.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,726
+A point source of light sends out disturbances in all directions.
+
+2
+00:00:04,726 --> 00:00:11,250
+At any instant, all the points the disturbance has just reached started vibrating at the same moment.
+
+3
+00:00:11,250 --> 00:00:13,489
+So they vibrate in step.
+

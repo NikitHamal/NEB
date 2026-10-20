@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,726
+Huygens simply declared that the wavelets have no strength backwards.
+
+2
+00:00:04,726 --> 00:00:07,734
+Later, Fresnel and Kirchhoff showed why.
+
+3
+00:00:07,734 --> 00:00:17,604
+The amplitude of a wavelet depends on the angle theta from the forward direction, through the obliquity factor, K equals a half, one plus cos theta.
+

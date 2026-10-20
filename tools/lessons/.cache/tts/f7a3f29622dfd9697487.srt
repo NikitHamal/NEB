@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,114
+B, at the speed of light in that medium, c over n.
+
+2
+00:00:04,114 --> 00:00:12,135
+That is the whole secret of refraction: in the glass, the wavelets grow more slowly, so the front tilts.
+

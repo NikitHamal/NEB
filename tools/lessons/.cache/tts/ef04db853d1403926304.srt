@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,263
+Welcome to Class 12 Physics, Unit 10: the Nature and Propagation of Light.
+
+2
+00:00:06,263 --> 00:00:16,132
+In this unit we replace the ray by the wavefront, meet Huygens' principle, and use it to prove the laws of reflection and refraction from scratch.
+
+3
+00:00:16,132 --> 00:00:22,916
+Interference, diffraction and polarization in the next three units all stand on this geometry.
+

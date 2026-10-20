@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,359
+So the frequency does not change on refraction.
+
+2
+00:00:03,359 --> 00:00:05,208
+It is fixed by the source.
+
+3
+00:00:05,208 --> 00:00:17,486
+But the speed falls to c over n, and since v equals f lambda, the wavelength shrinks by the same factor: lambda in the medium is lambda in vacuum over n.
+
+4
+00:00:17,486 --> 00:00:18,723
+The waves bunch up.
+
+5
+00:00:18,723 --> 00:00:22,903
+The colour, which is set by frequency, stays the same.
+

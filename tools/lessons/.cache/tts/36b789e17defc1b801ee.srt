@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,830
+Snell's law: sine r is sine forty five over one point five, zero point four seven one four, so r is twenty eight point one degrees.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,231
+Light does exactly this at the surface of glass or water.
+
+2
+00:00:04,231 --> 00:00:07,148
+Ray diagrams tell you that it bends.
+
+3
+00:00:07,148 --> 00:00:08,984
+Wave optics tells you why.
+
+4
+00:00:08,984 --> 00:00:15,052
+And it rebuilds every law of reflection and refraction from one simple idea.
+

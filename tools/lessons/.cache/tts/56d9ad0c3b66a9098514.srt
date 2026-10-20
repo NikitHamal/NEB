@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,031
+This gives a very useful idea.
+
+2
+00:00:02,031 --> 00:00:08,437
+A length x of glass holds n times as many waves as the same length of vacuum.
+
+3
+00:00:08,437 --> 00:00:12,903
+It holds the same number of waves as a length n x of vacuum.
+

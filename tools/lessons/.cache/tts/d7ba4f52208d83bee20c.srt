@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,664
+The tangent from C to that smaller wavelet is the refracted wavefront, C D.
+
+2
+00:00:05,664 --> 00:00:11,783
+Because the wavelet is small, the new front is tilted, and the ray bends towards the normal.
+
+3
+00:00:11,783 --> 00:00:13,619
+Just like the marching students.
+

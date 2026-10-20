@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,294
+A converging lens reshapes wavefronts.
+
+2
+00:00:03,294 --> 00:00:04,986
+Flat plane waves go in.
+
+3
+00:00:04,986 --> 00:00:13,776
+The middle of each front is held back most by the thick glass, so the front comes out curved, as a sphere shrinking down onto the focus.
+

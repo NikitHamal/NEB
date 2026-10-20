@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,145
+Worked example.
+
+2
+00:00:01,145 --> 00:00:07,369
+Light strikes a glass block of refractive index one point five, at sixty degrees.
+
+3
+00:00:07,369 --> 00:00:13,398
+Find the angle of refraction, the speed in the glass, and the wavelength in the glass.
+

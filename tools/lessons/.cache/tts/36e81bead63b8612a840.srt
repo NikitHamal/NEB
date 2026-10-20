@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,341
+As the wavefront sweeps along the mirror, each point it touches starts a secondary wavelet.
+
+2
+00:00:06,341 --> 00:00:09,895
+The wavelet from A starts first, so it grows biggest.
+
+3
+00:00:09,895 --> 00:00:13,411
+The ones further along start later and are smaller.
+

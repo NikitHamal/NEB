@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,770
+B, less than in air.
+
+2
+00:00:01,770 --> 00:00:08,424
+The wave theory needs light to slow down in water to bend towards the normal, and Foucault confirmed it.
+
+3
+00:00:08,424 --> 00:00:12,421
+Greater is the corpuscular prediction, the one that failed.
+

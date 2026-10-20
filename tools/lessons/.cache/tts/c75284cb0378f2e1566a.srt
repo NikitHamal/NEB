@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,062
+Speed is c over n: three times ten to the eight over one point two five, two point four times ten to the eight metres per second.
+

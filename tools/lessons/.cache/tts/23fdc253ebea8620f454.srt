@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,703
+And because the incident wavefront, the mirror and the reflected wavefront are all built in the same plane, the incident ray, the reflected ray and the normal are coplanar.
+
+2
+00:00:10,703 --> 00:00:12,122
+That is the first law.
+
+3
+00:00:12,122 --> 00:00:14,531
+Both laws, from one construction.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,067
+There is a puzzle.
+
+2
+00:00:01,067 --> 00:00:05,742
+Drawn honestly, each secondary wavelet is a complete sphere.
+
+3
+00:00:05,742 --> 00:00:11,901
+So there should also be a backward envelope, a wave travelling back towards the source.
+
+4
+00:00:11,901 --> 00:00:13,281
+We never see one.
+

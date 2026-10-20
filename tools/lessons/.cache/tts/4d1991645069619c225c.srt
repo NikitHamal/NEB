@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,947
+It leaves parallel to the incoming ray, but shifted sideways.
+
+2
+00:00:04,947 --> 00:00:15,364
+The lateral displacement is t sine of i minus r, over cos r: six times sine sixteen point nine degrees, over zero point eight eight one nine.
+
+3
+00:00:15,364 --> 00:00:18,216
+About one point nine seven centimetres.
+

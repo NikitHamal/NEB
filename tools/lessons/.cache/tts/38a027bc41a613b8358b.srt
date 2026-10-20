@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,575
+The optical path is n x: one point five times two millimetres, three millimetres.
+
