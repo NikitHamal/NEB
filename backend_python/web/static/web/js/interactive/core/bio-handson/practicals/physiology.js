@@ -6,7 +6,7 @@
 // percentage of water imbibed.
 import { THREE } from '../../engine.js';
 import { reagentBottle } from '../props.js';
-import { ease, clamp, mesh, MAT, canvasTexture, rng, wet } from '../kit.js';
+import { organic, ease, clamp, mesh, MAT, canvasTexture, rng, wet } from '../kit.js';
 
 export function create(ctx) { return ctx.config.slug.startsWith('potato') ? osmometer(ctx) : imbibition(ctx); }
 
@@ -31,10 +31,10 @@ function osmometer(ctx) {
   const { world, input, anim, sfx, ui, fx } = ctx;
   const sucrose = 20;
   const hmax = 7.5 * sucrose / 20; // mm: the rise approaches about 7.5 mm for 20% sucrose
-  const potatoMat = wet(0xf1dfa8, { roughness: 0.55, clearcoat: 0.4 });
+  const potatoMat = wet(0xeed9a0, { roughness: 0.46, clearcoat: 0.5, detailScale: 16, detailBump: 0.006, mottle: 0.32, sss: 0xf0c060 });
   function potatoCup(boiled) {
     const g = new THREE.Group();
-    const body = mesh(new THREE.SphereGeometry(0.42, 36, 24), boiled ? wet(0xe2c98c, { roughness: 0.6 }) : potatoMat.clone()); body.scale.set(1, 0.85, 0.9); body.position.y = 0.36; g.add(body);
+    const pg = new THREE.SphereGeometry(0.42, 64, 44); pg.computeBoundingSphere(); organic(pg, 0.022, 1.3, boiled ? 7 : 3, 9); const body = mesh(pg, boiled ? wet(0xe2c98c, { roughness: 0.6 }) : potatoMat.clone()); body.scale.set(1, 0.85, 0.9); body.position.y = 0.36; g.add(body);
     const cavity = mesh(new THREE.CylinderGeometry(0.2, 0.17, 0.22, 28, 1, true), new THREE.MeshStandardMaterial({ color: 0xe9d49a, roughness: 0.8, side: THREE.BackSide }), [0, 0.5, 0]); cavity.visible = false; g.add(cavity);
     const sol = mesh(new THREE.CylinderGeometry(0.185, 0.185, 1, 28), MAT.liquid(0xdb2777, 0.75), [0, 0.5, 0], { cast: false }); sol.visible = false; g.add(sol);
     return { g, body, cavity, sol, boiled, level: 0 };

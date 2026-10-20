@@ -3,8 +3,11 @@ import { NZ, NOISE3D_GLSL } from './noise3d.js';
 
 function v3(c) { const k = new THREE.Color(c); return `vec3(${k.r.toFixed(3)}, ${k.g.toFixed(3)}, ${k.b.toFixed(3)})`; }
 
+const DONE = new WeakSet();
+
 export function detail(mat, o = {}) {
-  if (!mat || mat.userData.detail) return mat;
+  if (!mat || DONE.has(mat)) return mat;
+  DONE.add(mat);
   const scale = (o.scale ?? 30).toFixed(3);
   const bump = (o.bump ?? 0.003).toFixed(5);
   const mottle = (o.mottle ?? 0.18).toFixed(3);
@@ -14,7 +17,6 @@ export function detail(mat, o = {}) {
   const key = `detail-${scale}-${bump}-${mottle}-${speck}-${sss}-${rough}`;
   const prev = mat.onBeforeCompile && mat.onBeforeCompile !== THREE.Material.prototype.onBeforeCompile ? mat.onBeforeCompile : null;
   const prevKey = mat.customProgramCacheKey && mat.customProgramCacheKey !== THREE.Material.prototype.customProgramCacheKey ? mat.customProgramCacheKey() : '';
-  mat.userData.detail = true;
   mat.onBeforeCompile = (sh, r) => {
     if (prev) prev.call(mat, sh, r);
     sh.uniforms.tNz = NZ;
@@ -42,6 +44,8 @@ export function detail(mat, o = {}) {
         #include <opaque_fragment>` : '#include <opaque_fragment>');
   };
   mat.customProgramCacheKey = () => `${key}|${prevKey}`;
+  const baseClone = Object.getPrototypeOf(mat).clone;
+  mat.clone = function () { const c = baseClone.call(this); if (prev) c.onBeforeCompile = prev; return detail(c, o); };
   mat.needsUpdate = true;
   return mat;
 }
