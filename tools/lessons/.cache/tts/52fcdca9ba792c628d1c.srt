@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,744
+Same O H group.
+
+2
+00:00:01,744 --> 00:00:04,205
+Why is one an acid and the other not?
+
+3
+00:00:04,205 --> 00:00:08,815
+The answer is the benzene ring, and how it spreads charge around.
+
+4
+00:00:08,815 --> 00:00:10,716
+We will see it move in part four.
+

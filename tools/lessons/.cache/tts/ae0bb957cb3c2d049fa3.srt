@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,218
+Once again only the phenoxide ion is activated enough.
+
+2
+00:00:04,218 --> 00:00:16,028
+The carbene attacks the ortho position, and after hydrolysis and acidification, the C C l two group becomes an aldehyde: salicylaldehyde, two hydroxybenzaldehyde.
+
+3
+00:00:16,028 --> 00:00:20,403
+Use carbon tetrachloride instead, and you get salicylic acid.
+

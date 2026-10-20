@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,497
+Watch bromine water.
+
+2
+00:00:01,497 --> 00:00:09,869
+Add phenol, and the orange colour vanishes at once, and a white precipitate forms: two four six tribromophenol.
+
+3
+00:00:09,869 --> 00:00:15,507
+All three activated positions are brominated in one go, with no catalyst.
+
+4
+00:00:15,507 --> 00:00:23,906
+In a non polar solvent like carbon disulphide at zero degrees, the reaction is gentler and gives mainly para bromophenol.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,395
+Worked example eleven point four.
+
+2
+00:00:02,395 --> 00:00:09,348
+Soluble in sodium hydroxide but not bicarbonate: a phenol, not a carboxylic acid.
+
+3
+00:00:09,348 --> 00:00:14,583
+Violet with ferric chloride and a white precipitate with bromine confirm it.
+
+4
+00:00:14,583 --> 00:00:22,851
+C seven H eight O is a cresol, and the standard answer is para cresol, with both ortho positions free.
+
+5
+00:00:22,851 --> 00:00:32,044
+Reimer Tiemann puts a C H O group ortho to the O H, giving two hydroxy five methyl benzaldehyde.
+

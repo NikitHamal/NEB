@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,471
+That is phenols.
+
+2
+00:00:01,471 --> 00:00:10,338
+Next, we join two carbon groups through an oxygen, and meet the ethers, including the famous anaesthetic, diethyl ether.
+
+3
+00:00:10,338 --> 00:00:13,606
+See you in the next lesson on NEBians.
+

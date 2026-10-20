@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,421
+Worked example eleven point three.
+
+2
+00:00:02,421 --> 00:00:07,916
+Zero point nine four grams of phenol is zero point zero one mole.
+
+3
+00:00:07,916 --> 00:00:14,934
+Tribromophenol has molar mass three thirty point seven, so three point three one grams.
+
+4
+00:00:14,934 --> 00:00:22,721
+And three bromine molecules per phenol: zero point zero three moles, four point seven nine grams.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,083
+Here are the ones to recognise.
+
+2
+00:00:02,083 --> 00:00:03,489
+Phenol itself.
+
+3
+00:00:03,489 --> 00:00:06,067
+The cresols, with a methyl group.
+
+4
+00:00:06,067 --> 00:00:10,859
+The dihydric phenols: catechol, resorcinol and quinol.
+
+5
+00:00:10,859 --> 00:00:14,309
+Pyrogallol with three O H groups.
+
+6
+00:00:14,309 --> 00:00:18,710
+And picric acid, two four six trinitrophenol.
+
+7
+00:00:18,710 --> 00:00:25,559
+Number the ring from the O H carbon, and use o, m and p for two substituents.
+

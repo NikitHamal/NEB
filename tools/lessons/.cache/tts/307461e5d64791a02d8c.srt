@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:12,343
+Heat two molecules of phenol with phthalic anhydride and concentrated sulphuric acid, and you get phenolphthalein, the indicator from Unit 1: colourless in acid, pink in alkali.
+

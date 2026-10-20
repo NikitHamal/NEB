@@ -345,3 +345,30 @@ class ReactionMap:
             g.add(sp)
             s.add(g)
         return g
+
+
+def benzene(center=ORIGIN, r=0.9, subs=None, color=th.INK, label_size=28, kekule=False):
+    """Benzene ring. subs: {vertex 0..5 (0 = top, clockwise): (text, colour)}. kekule=True draws
+    alternating double bonds instead of the inner circle (needed for resonance pictures)."""
+    c = np.array(center, dtype=float)
+    verts = [c + r * np.array([np.sin(k * PI / 3), np.cos(k * PI / 3), 0]) for k in range(6)]
+    g = VGroup(Polygon(*verts, stroke_color=color, stroke_width=4, fill_opacity=0))
+    if kekule:
+        inner = VGroup()
+        for k in (0, 2, 4):
+            a, b = verts[k], verts[(k + 1) % 6]
+            m = (a + b) / 2
+            d = (c - m) / np.linalg.norm(c - m) * 0.16 * r / 0.9
+            inner.add(Line(a + (b - a) * 0.15 + d, b + (a - b) * 0.15 + d, color=color, stroke_width=4))
+        g.add(inner)
+    else:
+        g.add(Circle(radius=r * 0.58, stroke_color=color, stroke_width=3).move_to(c))
+    for k, (txt, col) in (subs or {}).items():
+        d = (verts[k] - c) / r
+        end = verts[k] + d * 0.45 * r / 0.9
+        g.add(Line(verts[k], end, color=th.MUTED, stroke_width=4))
+        lab = T(txt, size=label_size, color=col, weight="BOLD")
+        lab.next_to(end, d, buff=0.06)
+        g.add(lab)
+    g.verts = verts
+    return g

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,757
+Three ways to make phenol.
+
+2
+00:00:01,757 --> 00:00:13,580
+From chlorobenzene, by the Dow process: sodium hydroxide at three hundred degrees and a hundred and fifty atmospheres, since chlorobenzene is so unreactive.
+
+3
+00:00:13,580 --> 00:00:23,789
+From benzene diazonium chloride, simply by warming its acidic solution above five degrees, so nitrogen bubbles off: the mild laboratory method.
+
+4
+00:00:23,789 --> 00:00:30,299
+And from benzene sulphonic acid, by fusing its sodium salt with solid sodium hydroxide.
+

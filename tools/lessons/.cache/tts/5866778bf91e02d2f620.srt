@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:09,140
+Spreading charge lowers energy, so the phenoxide ion is unusually stable, and phenol gives up its proton more readily.
+
+2
+00:00:09,140 --> 00:00:13,242
+In the ethoxide ion there is no ring to spread into.
+
+3
+00:00:13,242 --> 00:00:19,192
+The charge is stuck on oxygen, and the ethyl group pushes even more electron density onto it.
+
+4
+00:00:19,192 --> 00:00:21,393
+So ethanol is far weaker.
+
+5
+00:00:21,393 --> 00:00:34,062
+A second reason: in phenol itself, oxygen's lone pair already leaks into the ring, so the oxygen holds the O H electrons more tightly, and the proton leaves more easily.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,046
+Two compounds, both with an O H group.
+
+2
+00:00:03,046 --> 00:00:06,093
+Ethanol, in every bottle of raksi.
+
+3
+00:00:06,093 --> 00:00:17,903
+And phenol, an O H on a benzene ring, the carbolic acid that Joseph Lister sprayed in his operating theatre in eighteen sixty seven, the birth of antiseptic surgery.
+

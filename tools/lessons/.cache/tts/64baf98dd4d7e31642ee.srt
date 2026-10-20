@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,726
+Welcome to Class 12 Chemistry, Unit 11: Phenols.
+
+2
+00:00:04,726 --> 00:00:09,440
+Compounds with an O H group directly on a benzene ring.
+
+3
+00:00:09,440 --> 00:00:17,734
+They are acids, they are antiseptics, and they are the starting point for aspirin, dyes, indicators and plastics.
+

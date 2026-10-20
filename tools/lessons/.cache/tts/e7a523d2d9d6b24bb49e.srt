@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,593
+The two rings join through an N equals N bridge, giving para hydroxy azobenzene, a bright orange dye.
+
+2
+00:00:08,593 --> 00:00:13,111
+This coupling is the basis of the whole azo dye industry.
+
