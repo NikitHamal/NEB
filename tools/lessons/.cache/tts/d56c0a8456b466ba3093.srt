@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,656
+Point two orange torches at the same wall.
+
+2
+00:00:02,656 --> 00:00:06,705
+Where the beams overlap, the wall is simply brighter.
+
+3
+00:00:06,705 --> 00:00:09,049
+Light plus light gives more light.
+
+4
+00:00:09,049 --> 00:00:10,039
+Obviously.
+

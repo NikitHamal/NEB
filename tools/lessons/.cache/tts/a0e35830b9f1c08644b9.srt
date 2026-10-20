@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,015
+C, white.
+
+2
+00:00:01,015 --> 00:00:08,281
+At the centre the path difference is zero for every wavelength, so every colour is bright together.
+
+3
+00:00:08,281 --> 00:00:14,231
+Dark is the trap: the centre of Young's pattern is always bright, never dark.
+

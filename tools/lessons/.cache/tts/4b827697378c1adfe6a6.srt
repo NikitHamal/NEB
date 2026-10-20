@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,174
+Here is Young's experiment.
+
+2
+00:00:02,174 --> 00:00:06,497
+Light from a monochromatic source falls on a narrow slit S.
+
+3
+00:00:06,497 --> 00:00:14,921
+The wavefront spreading from S reaches two more narrow slits, S one and S two, a small distance d apart.
+

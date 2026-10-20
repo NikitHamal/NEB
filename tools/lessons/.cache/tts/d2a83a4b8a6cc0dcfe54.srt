@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,080
+The third bright fringe is at three beta, one point seven six seven millimetres.
+
+2
+00:00:06,080 --> 00:00:11,861
+The third dark fringe is at two and a half beta, one point four seven two five.
+

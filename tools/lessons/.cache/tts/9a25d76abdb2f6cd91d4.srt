@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,132
+Worked example.
+
+2
+00:00:01,132 --> 00:00:08,971
+Take our first set up, with a fringe width of one point eight millimetres, and immerse it in water of index four thirds.
+
+3
+00:00:08,971 --> 00:00:12,226
+Then, back in air, double D and halve d.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,171
+Worked example.
+
+2
+00:00:01,171 --> 00:00:08,242
+Slits half a millimetre apart, a screen one and a half metres away, light of six hundred nanometres.
+
+3
+00:00:08,242 --> 00:00:13,541
+Find the fringe width, and the positions of the third bright and third dark fringes.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,317
+A full long question to finish.
+
+2
+00:00:02,317 --> 00:00:10,325
+Sodium light of five hundred and eighty nine nanometres, slits one millimetre apart, screen one metre away.
+
+3
+00:00:10,325 --> 00:00:21,927
+Find beta, then the distance between the third bright fringe on one side and the third dark fringe on the other side, then beta for blue light of four hundred and forty two nanometres.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,151
+Cover one slit, and the fringes vanish.
+
+2
+00:00:03,151 --> 00:00:07,708
+With no second wave to interfere with, you just get an even patch of light.
+

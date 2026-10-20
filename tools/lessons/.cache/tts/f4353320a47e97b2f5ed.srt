@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,104
+Where a crest of one meets a crest of the other, the waves reinforce.
+
+2
+00:00:05,104 --> 00:00:08,242
+Those points lie along these lines, fanning out.
+
+3
+00:00:08,242 --> 00:00:13,489
+In between, a crest of one meets a trough of the other, and they cancel.
+

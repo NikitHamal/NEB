@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,328
+D, zero.
+
+2
+00:00:01,328 --> 00:00:07,226
+Half a wavelength is a phase difference of pi, and cos squared of pi by two is zero.
+
+3
+00:00:07,226 --> 00:00:14,153
+Two I nought is the trap: that is what you would get from two incoherent sources, which never interfere.
+

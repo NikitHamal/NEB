@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,807
+They are on opposite sides of the centre, so add them: three point two four millimetres.
+

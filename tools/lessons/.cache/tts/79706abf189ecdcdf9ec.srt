@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,130
+S one and S two are carved out of the same wavefront, so they are coherent.
+
+2
+00:00:05,130 --> 00:00:16,341
+They act as two sources in step, and where their waves overlap on a screen, a distance D away, a steady pattern of bright and dark fringes appears.
+

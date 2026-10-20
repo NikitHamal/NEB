@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,080
+Stripes.
+
+2
+00:00:01,080 --> 00:00:04,908
+Bright bands, and between them, completely dark bands.
+
+3
+00:00:04,908 --> 00:00:11,106
+In those dark places, light from one slit plus light from the other gives no light at all.
+
+4
+00:00:11,106 --> 00:00:12,812
+How can light cancel light?
+
+5
+00:00:12,812 --> 00:00:19,453
+Thomas Young showed this in eighteen hundred and one, and it finally proved that light is a wave.
+

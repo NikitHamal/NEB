@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,614
+Now use a single lamp, and let its light pass through two very narrow slits, close together.
+
+2
+00:00:06,614 --> 00:00:08,710
+Same colour, same wall.
+

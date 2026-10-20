@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,705
+If the path difference is a whole number of wavelengths, the waves arrive in step: a bright point.
+
+2
+00:00:06,705 --> 00:00:14,205
+The amplitudes add, and the intensity is root I one plus root I two, all squared.
+

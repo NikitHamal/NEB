@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,341
+If it is an odd number of half wavelengths, they arrive exactly out of step: a dark point.
+
+2
+00:00:06,341 --> 00:00:13,789
+The amplitudes subtract, and the intensity is root I one minus root I two, squared.
+

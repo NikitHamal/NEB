@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,994
+When two waves arrive at the same point, the principle of superposition says the displacements simply add.
+
+2
+00:00:07,994 --> 00:00:10,950
+Here are two light waves of the same frequency.
+
+3
+00:00:10,950 --> 00:00:14,778
+When they arrive in step, the sum has double the amplitude.
+

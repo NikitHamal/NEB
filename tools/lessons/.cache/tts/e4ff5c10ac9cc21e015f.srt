@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,981
+Beta is six hundred nanometres times one point four, over zero point two eight millimetres: three millimetres.
+

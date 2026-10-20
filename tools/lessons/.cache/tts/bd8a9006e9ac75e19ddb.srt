@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,356
+One more, from the short questions.
+
+2
+00:00:02,356 --> 00:00:10,078
+Slits zero point two eight millimetres apart, screen one point four metres away, six hundred nanometres.
+
+3
+00:00:10,078 --> 00:00:13,125
+Find beta, and the fourth dark fringe.
+

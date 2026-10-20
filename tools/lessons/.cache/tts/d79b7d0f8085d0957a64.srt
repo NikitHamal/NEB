@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,059
+For two equal sources of intensity I nought each, this becomes I equals four I nought cos squared phi by two.
+
+2
+00:00:08,059 --> 00:00:11,979
+Bright points reach four I nought, dark points fall to zero.
+

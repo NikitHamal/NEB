@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,161
+B, lambda D over d.
+
+2
+00:00:02,161 --> 00:00:11,822
+A sanity check helps: a far screen spreads the fringes, so D must be on top; slits further apart squeeze them, so d must be underneath.
+

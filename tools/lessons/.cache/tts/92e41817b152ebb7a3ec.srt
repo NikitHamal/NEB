@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,713
+The fringes jump about far faster than any eye or detector can follow.
+
+2
+00:00:04,713 --> 00:00:12,018
+On average, cos phi is zero, the interference term vanishes, and the intensities just add.
+
+3
+00:00:12,018 --> 00:00:13,854
+A smooth, even glow.
+
+4
+00:00:13,854 --> 00:00:15,169
+No fringes.
+

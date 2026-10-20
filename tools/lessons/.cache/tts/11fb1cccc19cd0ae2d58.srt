@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,653
+Now the geometry.
+
+2
+00:00:01,653 --> 00:00:08,567
+Let O be the point on the screen straight opposite the middle of the slits, and P a point at height y above it.
+
+3
+00:00:08,567 --> 00:00:14,244
+Light from S two travels further to reach P than light from S one.
+

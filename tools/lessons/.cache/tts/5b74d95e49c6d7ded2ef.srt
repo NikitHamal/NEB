@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,955
+So why did the two torches show no stripes?
+
+2
+00:00:02,955 --> 00:00:09,778
+The stripes only stay still if the phase difference at each point stays the same from moment to moment.
+
+3
+00:00:09,778 --> 00:00:15,677
+That needs coherent sources: same frequency, and a constant phase difference.
+

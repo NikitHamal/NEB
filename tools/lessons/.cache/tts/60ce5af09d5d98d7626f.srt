@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,093
+What decides it is the path difference, delta: how much further one wave has travelled than the other.
+
+2
+00:00:06,093 --> 00:00:12,252
+A path difference delta means a phase difference of two pi over lambda, times delta.
+

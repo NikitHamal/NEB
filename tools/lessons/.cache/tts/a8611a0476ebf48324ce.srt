@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,153
+Move the slits further apart, and the fringes get closer.
+
+2
+00:00:04,153 --> 00:00:07,239
+Move the screen further back, and they spread out.
+

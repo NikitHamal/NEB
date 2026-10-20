@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,341
+Now backwards.
+
+2
+00:00:01,341 --> 00:00:06,796
+The second and seventh bright fringes on the same side are nine millimetres apart.
+
+3
+00:00:06,796 --> 00:00:08,190
+Find the wavelength.
+

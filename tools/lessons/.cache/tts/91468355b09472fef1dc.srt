@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,263
+Pause and think.
+
+2
+00:00:01,263 --> 00:00:06,966
+Two equal coherent sources, a path difference of half a wavelength.
+
+3
+00:00:06,966 --> 00:00:08,346
+What is the intensity?
+

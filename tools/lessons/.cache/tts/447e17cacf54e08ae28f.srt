@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,143
+Lambda is beta d over D: one point eight times ten to the minus three, times zero point five times ten to the minus three, over one point five.
+
+2
+00:00:10,143 --> 00:00:14,752
+Six times ten to the minus seven metres, six hundred nanometres.
+
+3
+00:00:14,752 --> 00:00:16,106
+Orange red light.
+

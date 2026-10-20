@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,156
+The third dark fringe has a path difference of five half wavelengths, two and a half lambda, so it sits at two and a half beta: four point five millimetres.
+
+2
+00:00:10,156 --> 00:00:12,799
+Careful: it is not three beta.
+
