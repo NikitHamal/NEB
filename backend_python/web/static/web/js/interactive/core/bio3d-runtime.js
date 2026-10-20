@@ -81,7 +81,7 @@ export function initBio3DLab(stage, opts = {}) {
   if (hasHandsOn(config.slug)) return startHandsOn(stage, config);
   stage.classList.add('bio3d-stage');
   stage.dataset.bioKind = config.kind;
-  const engine = createEngine(stage, { lite: true, noise: true, fov: 44, shadows: true, environment: true, exposure: 1.05 });
+  const engine = createEngine(stage, { lite: true, noise: true, envIntensity: 0.6, fov: 44, shadows: true, environment: true, exposure: 1.05 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
   // the same bright school lab as the physics and chemistry practicals, with a biology bench

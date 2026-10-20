@@ -11,7 +11,7 @@ import { createAnimator, disposeTree } from './kit.js';
 import { sfx } from './sound.js';
 
 export function runPractical(stage, config, practical) {
-  const engine = createEngine(stage, { lite: true, noise: true, fov: 40, shadows: true, environment: true, exposure: 1.05 });
+  const engine = createEngine(stage, { lite: true, noise: true, envIntensity: 0.6, fov: 40, shadows: true, environment: true, exposure: 1.05 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
   camera.near = 0.02; camera.updateProjectionMatrix();
