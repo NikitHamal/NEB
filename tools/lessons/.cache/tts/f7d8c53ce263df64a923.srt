@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,669
+The slope of this curve, d E by d theta, is the thermoelectric power: the e m f per degree.
+
+2
+00:00:07,669 --> 00:00:13,815
+It equals alpha plus beta theta, and it falls steadily as the temperature rises.
+

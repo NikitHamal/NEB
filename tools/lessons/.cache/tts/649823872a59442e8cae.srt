@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:14,283
+Different pairs cover different ranges: copper constantan up to four hundred degrees, iron constantan to seven fifty, chromel alumel to eleven hundred, and platinum with platinum rhodium all the way to sixteen hundred.
+
+2
+00:00:14,283 --> 00:00:25,208
+The advantages: a huge range, a tiny junction that responds in a fraction of a second and measures the temperature at a point, and readings from hundreds of metres away.
+
+3
+00:00:25,208 --> 00:00:33,710
+The disadvantages: the e m f is tiny, the calibration is not linear, and you must keep a reference junction.
+

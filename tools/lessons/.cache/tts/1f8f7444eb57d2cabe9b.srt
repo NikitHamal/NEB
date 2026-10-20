@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,268
+A thermopile is astonishingly sensitive.
+
+2
+00:00:03,268 --> 00:00:08,867
+It can register the warmth of a person standing a few metres away, or of the Moon.
+
+3
+00:00:08,867 --> 00:00:17,083
+It is used to measure radiant heat, in radiation pyrometers for furnaces, in infrared detectors and burglar alarms.
+
+4
+00:00:17,083 --> 00:00:22,174
+Run the Peltier way, the same kind of device makes portable coolers.
+
+5
+00:00:22,174 --> 00:00:28,828
+And thermoelectric generators, heated by plutonium, power deep space probes like Voyager.
+

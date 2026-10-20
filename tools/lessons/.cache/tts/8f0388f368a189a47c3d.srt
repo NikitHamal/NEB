@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,518
+With the cold junction at zero, theta i is five forty.
+
+2
+00:00:04,518 --> 00:00:09,036
+At twenty degrees, five twenty: twenty degrees lower.
+

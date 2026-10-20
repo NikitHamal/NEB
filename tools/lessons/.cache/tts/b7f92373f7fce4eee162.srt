@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,210
+The maximum e m f, at two fifty: six thousand two fifty minus three thousand one twenty five, three thousand one hundred and twenty five microvolts.
+

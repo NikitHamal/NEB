@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,817
+The classic slip: saying both temperatures depend on the cold junction.
+
+2
+00:00:04,817 --> 00:00:07,109
+Only the inversion temperature does.
+
+3
+00:00:07,109 --> 00:00:16,002
+Raise the cold junction by ten degrees, and theta i falls by ten degrees, while theta n does not move at all.
+

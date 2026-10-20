@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,388
+Compare with alpha theta plus half beta theta squared.
+
+2
+00:00:04,388 --> 00:00:12,513
+Alpha is twenty five, and half beta is minus zero point zero five, so beta is minus zero point one.
+

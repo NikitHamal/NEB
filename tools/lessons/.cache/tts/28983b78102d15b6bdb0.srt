@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,856
+B, in series, so that their tiny e m fs add up.
+
+2
+00:00:04,856 --> 00:00:09,622
+In parallel, the e m f would stay the size of just one couple.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,239
+At one hundred degrees, the thermoelectric power is twenty five minus ten, fifteen microvolts per degree.
+

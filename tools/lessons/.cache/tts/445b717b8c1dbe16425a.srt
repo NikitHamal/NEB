@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,390
+This is the Seebeck effect, discovered by Thomas Seebeck in eighteen twenty one.
+
+2
+00:00:05,390 --> 00:00:09,036
+Two wires of different metals form a closed circuit.
+
+3
+00:00:09,036 --> 00:00:16,536
+Keep the two junctions at different temperatures, and an e m f appears, and a current flows.
+
+4
+00:00:16,536 --> 00:00:22,968
+The e m f is the thermo e m f, and the pair of metals is a thermocouple.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,755
+Welcome to Class 12 Physics, Unit 15: Thermoelectric Effects.
+
+2
+00:00:05,755 --> 00:00:11,614
+At the junction of two different metals, heat and electricity are directly linked.
+
+3
+00:00:11,614 --> 00:00:17,135
+A temperature difference makes a voltage, and a current makes a temperature difference.
+
+4
+00:00:17,135 --> 00:00:25,911
+These effects run every industrial thermocouple, every thermopile, and the little solid state coolers in portable fridges.
+

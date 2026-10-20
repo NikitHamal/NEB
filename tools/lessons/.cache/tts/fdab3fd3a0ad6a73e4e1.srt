@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,632
+A single thermocouple gives only microvolts.
+
+2
+00:00:03,632 --> 00:00:10,403
+A thermopile joins a large number of them in series, so that their e m fs add.
+
+3
+00:00:10,403 --> 00:00:14,127
+Antimony bismuth pairs are used, because they give the most.
+

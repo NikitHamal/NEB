@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,593
+At one hundred degrees, E is thirteen fifty minus two fifty: eleven hundred microvolts, one point one millivolts.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,997
+B, the first power: H equals pi I t.
+
+2
+00:00:03,997 --> 00:00:11,380
+I squared belongs to Joule heating, which is exactly why Peltier heat can be reversed and Joule heat cannot.
+

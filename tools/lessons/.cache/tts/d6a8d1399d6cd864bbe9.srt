@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,419
+You can do it on a desk.
+
+2
+00:00:01,419 --> 00:00:09,661
+Twist a copper wire and an iron wire together at both ends, put a galvanometer in the loop, and dip one junction in ice.
+
+3
+00:00:09,661 --> 00:00:12,473
+Now heat the other junction with a candle.
+

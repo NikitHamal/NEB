@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,809
+Now run it backwards.
+
+2
+00:00:01,809 --> 00:00:07,408
+Instead of heating a junction, push a current round the same copper iron loop with a battery.
+
+3
+00:00:07,408 --> 00:00:15,989
+In eighteen thirty four, Jean Peltier found that one junction warms up, while the other actually cools down below room temperature.
+

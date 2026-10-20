@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,731
+Try it on copper and iron.
+
+2
+00:00:01,731 --> 00:00:03,450
+Iron comes before copper.
+
+3
+00:00:03,450 --> 00:00:10,703
+So through the cold junction, the current flows from iron to copper, and through the hot junction, from copper to iron.
+
+4
+00:00:10,703 --> 00:00:12,226
+Round the loop it goes.
+

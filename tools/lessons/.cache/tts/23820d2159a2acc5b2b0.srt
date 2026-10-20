@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,760
+At the top, the slope is zero.
+
+2
+00:00:02,760 --> 00:00:05,325
+The e m f is a maximum.
+
+3
+00:00:05,325 --> 00:00:08,177
+That temperature is the neutral temperature.
+
+4
+00:00:08,177 --> 00:00:15,794
+Keep heating, and the e m f falls, reaches zero at the temperature of inversion, and then reverses.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,854
+The e m f is small, tens of microvolts per degree.
+
+2
+00:00:03,854 --> 00:00:10,533
+It depends on only two things: which two metals you use, and the temperature difference between the junctions.
+
+3
+00:00:10,533 --> 00:00:14,700
+Make the difference bigger, and the e m f grows.
+
+4
+00:00:14,700 --> 00:00:18,958
+Make it zero, and the e m f vanishes.
+
+5
+00:00:18,958 --> 00:00:23,333
+The thickness, length and shape of the wires make no difference at all.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,851
+Delta theta is delta E over S: two point one over forty two, five hundredths of a degree.
+

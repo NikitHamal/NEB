@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,101
+Keep the cold junction at zero, and raise the hot junction.
+
+2
+00:00:04,101 --> 00:00:06,953
+The e m f does not grow in proportion.
+
+3
+00:00:06,953 --> 00:00:16,328
+It follows a parabola: E equals alpha theta plus half beta theta squared, where alpha and beta are constants for the pair of metals.
+
+4
+00:00:16,328 --> 00:00:23,763
+For most pairs, beta is small and negative, so the curve rises, turns over, and comes back down.
+

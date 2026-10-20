@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,171
+Let us recap.
+
+2
+00:00:01,171 --> 00:00:11,119
+In the Seebeck effect, a temperature difference between two junctions of different metals makes an e m f, set by the metals and the temperature difference.
+
+3
+00:00:11,119 --> 00:00:16,966
+The thermoelectric series gives the direction: earlier to later through the cold junction.
+
+4
+00:00:16,966 --> 00:00:25,911
+In the Peltier effect, a current heats one junction and cools the other, H equals pi I t, reversible, unlike Joule heating.
+
+5
+00:00:25,911 --> 00:00:36,158
+The e m f follows a parabola, with the neutral temperature at minus alpha over beta and inversion at two theta n minus theta c.
+
+6
+00:00:36,158 --> 00:00:41,015
+And a thermopile adds many couples in series to detect radiation.
+

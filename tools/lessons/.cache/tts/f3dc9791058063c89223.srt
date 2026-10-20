@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,145
+Worked example.
+
+2
+00:00:01,145 --> 00:00:10,117
+A copper constantan couple gives forty two microvolts per degree, and the galvanometer can just detect two point one microvolts.
+
+3
+00:00:10,117 --> 00:00:13,098
+What is the smallest temperature difference it can measure?
+
+4
+00:00:13,098 --> 00:00:17,018
+And what does a forty couple thermopile give for half a degree?
+

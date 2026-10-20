@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,833
+B, heat into electrical energy: a temperature difference makes an e m f.
+
+2
+00:00:05,833 --> 00:00:11,809
+The reverse, electricity moving heat about, is the Peltier effect, coming next.
+

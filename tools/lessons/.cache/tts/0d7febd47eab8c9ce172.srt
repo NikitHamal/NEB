@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,437
+That leaves one side positive and the other negative.
+
+2
+00:00:03,437 --> 00:00:09,700
+A contact potential difference builds up, just big enough to stop any more electrons crossing.
+
+3
+00:00:09,700 --> 00:00:13,893
+And the size of that contact p d depends on the temperature of the junction.
+

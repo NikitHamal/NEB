@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:03,190
+Do not confuse Peltier heat with Joule heat.
+
+2
+00:00:03,190 --> 00:00:10,078
+Peltier heat happens only at a junction of two different metals; Joule heat in any conductor.
+
+3
+00:00:10,078 --> 00:00:13,906
+Peltier heat goes as I; Joule heat as I squared.
+
+4
+00:00:13,906 --> 00:00:20,065
+Reverse the current, and Peltier heating becomes cooling; Joule heating stays heating.
+
+5
+00:00:20,065 --> 00:00:24,804
+Peltier can cool a junction below room temperature; Joule never can.
+
+6
+00:00:24,804 --> 00:00:31,731
+For completeness, there is a third effect, the Thomson effect, along a single wire with a temperature gradient.
+
+7
+00:00:31,731 --> 00:00:36,888
+It is zero for lead, which is why lead is used as the reference metal.
+
