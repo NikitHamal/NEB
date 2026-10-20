@@ -9,7 +9,7 @@ export function createDof(engine, opts = {}) {
   const { renderer, scene, camera, quality } = engine;
   if (quality.tier === 'low' || !renderer.capabilities.isWebGL2) return null;
   const orig = renderer.render.bind(renderer);
-  const msaa = quality.tier === 'high' ? 4 : 0;
+  const msaa = quality.tier === 'high' ? 2 : 0;
   const depthTexture = new THREE.DepthTexture(1, 1);
   depthTexture.type = THREE.UnsignedIntType;
   const main = new THREE.WebGLRenderTarget(1, 1, { type: THREE.HalfFloatType, samples: msaa, depthTexture });

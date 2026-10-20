@@ -1,18 +1,16 @@
 import { THREE } from '../../core/engine.js';
+import { NZ, NOISE3D_GLSL } from '../../core/noise3d.js';
 
-export const TISSUE_NOISE = `
+export const TISSUE_NOISE = `${NOISE3D_GLSL}
 float tHash(vec3 p){p=fract(p*.1031);p+=dot(p,p.zyx+31.32);return fract((p.x+p.y)*p.z);}
-float tNoise(vec3 p){vec3 i=floor(p);vec3 f=fract(p);f=f*f*(3.-2.*f);
-  return mix(mix(mix(tHash(i),tHash(i+vec3(1,0,0)),f.x),mix(tHash(i+vec3(0,1,0)),tHash(i+vec3(1,1,0)),f.x),f.y),
-             mix(mix(tHash(i+vec3(0,0,1)),tHash(i+vec3(1,0,1)),f.x),mix(tHash(i+vec3(0,1,1)),tHash(i+vec3(1,1,1)),f.x),f.y),f.z);}
-float tFbm(vec3 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*tNoise(p);p=p*2.07+vec3(3.1,1.7,5.3);a*=.5;}return s;}
-vec2 tCell(vec3 p){vec3 i=floor(p);vec3 f=fract(p);float d1=9.,d2=9.;
-  for(int z=-1;z<=1;z++)for(int y=-1;y<=1;y++)for(int x=-1;x<=1;x++){vec3 g=vec3(x,y,z);vec3 o=vec3(tHash(i+g),tHash(i+g+11.3),tHash(i+g+27.1));float d=length(g+o-f);if(d<d1){d2=d1;d1=d;}else if(d<d2)d2=d;}
-  return vec2(d1,d2);}
+float tNoise(vec3 p){ return nz4(p).g; }
+float tFbm(vec3 p){ return nz4(p).r; }
+vec2 tCell(vec3 p){ vec4 t = nz4(p); return vec2(t.a, t.a + t.b); }
 `;
 
 export function createTissue(opts = {}) {
   const uniforms = Object.assign({
+    tNz: NZ,
     uTime: { value: 0 },
     uBeatV: { value: 0 },
     uBeatA: { value: 0 },
@@ -22,18 +20,18 @@ export function createTissue(opts = {}) {
     uHi: { value: -1 },
     uHiAmt: { value: 0 },
   }, opts.uniforms || {});
-  const mat = new THREE.MeshPhysicalMaterial({
+  const mat = new THREE.MeshStandardMaterial({
     color: opts.color ?? 0xffffff,
     roughness: opts.roughness ?? 0.42,
     metalness: 0,
-    clearcoat: opts.clearcoat ?? 0.7,
-    clearcoatRoughness: opts.clearcoatRoughness ?? 0.22,
-    sheen: opts.sheen ?? 0.25,
-    sheenColor: new THREE.Color(opts.sheenColor ?? 0xffc4b8),
-    sheenRoughness: 0.6,
     side: opts.side ?? THREE.DoubleSide,
     transparent: false,
   });
+  const coat = (opts.clearcoat ?? 0.7).toFixed(3);
+  const coatPow = (2 / Math.pow(Math.max(0.04, opts.clearcoatRoughness ?? 0.22), 2)).toFixed(1);
+  const sheen = (opts.sheen ?? 0.25).toFixed(3);
+  const sheenC = new THREE.Color(opts.sheenColor ?? 0xffc4b8);
+  const sheenV = `vec3(${sheenC.r.toFixed(3)}, ${sheenC.g.toFixed(3)}, ${sheenC.b.toFixed(3)})`;
   mat.userData.uniforms = uniforms;
   mat.customProgramCacheKey = () => `tissue-${opts.key || 'x'}`;
   mat.onBeforeCompile = (sh) => {
@@ -64,6 +62,16 @@ export function createTissue(opts = {}) {
           vec3 V = normalize(vViewPosition);
           float rim = pow(1.0 - clamp(abs(dot(normal, V)), 0.0, 1.0), 2.5);
           outgoingLight += ${opts.sss || 'vec3(0.55, 0.06, 0.04)'} * rim * 0.35;
+          #if NUM_DIR_LIGHTS > 0
+          {
+            vec3 Lc = directionalLights[0].direction;
+            vec3 Hc = normalize(Lc + V);
+            float nh = max(dot(normal, Hc), 0.0);
+            float fc = 0.04 + 0.96 * pow(1.0 - max(dot(V, Hc), 0.0), 5.0);
+            outgoingLight += directionalLights[0].color * (pow(nh, ${coatPow}) * ${coat} * fc * 6.0 * step(0.0, dot(normal, Lc)));
+          }
+          #endif
+          outgoingLight += ${sheenV} * ${sheen} * rim * 0.12 * (diffuseColor.rgb + 0.2);
           outgoingLight += vec3(0.25, 0.55, 1.0) * uHiAmt * step(abs(vPart - uHi), 0.5) * (0.35 + rim);
           float fres = mix(1.0, 0.08 + 0.92 * pow(rim, 0.6), uXray);
           diffuseColor.a *= fres;

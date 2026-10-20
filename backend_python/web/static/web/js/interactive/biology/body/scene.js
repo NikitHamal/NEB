@@ -130,7 +130,7 @@ export async function buildBody(quality, { onProgress, onStage } = {}) {
   const env = buildEnvelope(all, { min: [-0.37, -0.02, -0.17], max: [0.37, 1.74, 0.18] }, cell, { dilate: 1, blur: 2, blurPasses: 2, threshold: 0.42 });
   const skinGeo = toGeometry(THREE, env, { kind: [new Float32Array(env.count), 1], fat: [new Float32Array(env.count), 1], part: [new Float32Array(env.count), 1] });
   const skinMat = createTissue({
-    key: 'skin', uniforms: own(), color_fragment: SKIN_COLOR, roughness: 0.52, clearcoat: 0.12, clearcoatRoughness: 0.5, sheen: 0.45, sheenColor: 0xffd2b8,
+    key: 'skin', side: THREE.FrontSide, uniforms: own(), color_fragment: SKIN_COLOR, roughness: 0.52, clearcoat: 0.12, clearcoatRoughness: 0.5, sheen: 0.45, sheenColor: 0xffd2b8,
     bump: 'tNoise(vObj * 900.0) * 0.5 + tFbm(vObj * 60.0) * 0.5', bumpAmt: 0.00018, sss: 'vec3(0.75, 0.24, 0.12)',
   });
   const skin = new THREE.Mesh(skinGeo, skinMat);
@@ -162,7 +162,7 @@ export async function buildBody(quality, { onProgress, onStage } = {}) {
       : k === 'stomach' ? 'c *= 0.86 + 0.18 * sin(vObj.y * 9.0 + tNoise(vObj * 2.0) * 4.0);'
         : k === 'small' || k === 'colon' ? 'c *= 0.88 + 0.16 * tFbm(vObj * 3.0);'
           : k === 'liver' || k === 'spleen' || k === 'kidney' ? 'c *= 0.85 + 0.25 * tFbm(vObj * 2.5);' : 'c *= 0.9 + 0.15 * tFbm(vObj * 3.0);';
-    const mat = createTissue({ key: `organ-${k}`, uniforms: own(), roughness: rough, clearcoat: 0.75, clearcoatRoughness: 0.2, color_fragment: `vec3 c = ${col}; ${extra} diffuseColor.rgb = c;`, bump: 'tFbm(vObj * 4.0)', bumpAmt: 0.02, sss: 'vec3(0.5, 0.12, 0.08)' });
+    const mat = createTissue({ key: `organ-${k}`, side: THREE.FrontSide, uniforms: own(), roughness: rough, clearcoat: 0.75, clearcoatRoughness: 0.2, color_fragment: `vec3 c = ${col}; ${extra} diffuseColor.rgb = c;`, bump: 'tFbm(vObj * 4.0)', bumpAmt: 0.02, sss: 'vec3(0.5, 0.12, 0.08)' });
     const mesh = new THREE.Mesh(g, mat);
     mesh.userData.organ = k.replace(/2$/, '');
     organs.add(mesh);
@@ -175,7 +175,7 @@ export async function buildBody(quality, { onProgress, onStage } = {}) {
   for (const [k, list] of Object.entries(V)) {
     const col = k === 'arteries' ? 'vec3(0.72, 0.06, 0.05)' : k === 'veins' ? 'vec3(0.12, 0.2, 0.62)' : 'vec3(0.92, 0.78, 0.3)';
     const mat = createTissue({
-      key: `vessel-${k}`, uniforms: own(), roughness: 0.35, clearcoat: 0.8,
+      key: `vessel-${k}`, side: THREE.FrontSide, uniforms: own(), roughness: 0.35, clearcoat: 0.8,
       vertexAttrs: 'attribute float along; varying float vAlong;', fragmentHead: 'varying float vAlong;', vertex: 'vAlong = along;',
       color_fragment: `vec3 c = ${col}; ${k === 'arteries' ? 'float pl = pow(max(0.0, sin((vAlong * 6.0 - uTime * 1.2) * 6.283)), 18.0); c += vec3(0.9, 0.2, 0.1) * pl * 0.8;' : k === 'nerves' ? 'float pl = pow(max(0.0, sin((vAlong * 10.0 - uTime * 3.0) * 6.283)), 30.0); c += vec3(1.0, 0.9, 0.5) * pl;' : ''} diffuseColor.rgb = c;`,
       sss: k === 'nerves' ? 'vec3(0.5, 0.4, 0.1)' : 'vec3(0.3, 0.05, 0.1)',

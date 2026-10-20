@@ -75,15 +75,18 @@ export function createLabels(stage) {
           else {
             placed.push(box);
             if (flip !== it.flip) { it.flip = flip; it.el.classList.toggle('flip', flip); }
-            it.el.style.transform = `translate(${left.toFixed(1)}px,${(y - 9).toFixed(1)}px)`;
+            const tf = `translate(${left.toFixed(0)}px,${(y - 9).toFixed(0)}px)`;
+            if (it.tf !== tf) { it.el.style.transform = tf; it.tf = tf; }
           }
         }
       }
       a = Math.max(0, a) * it.layer.alpha;
       if (a > 0.02 || it.shown) {
-        it.el.style.opacity = a.toFixed(2);
-        it.shown = a > 0.02;
-        it.el.style.visibility = it.shown ? 'visible' : 'hidden';
+        const op = a.toFixed(2);
+        if (it.op !== op) { it.el.style.opacity = op; it.op = op; }
+        const shown = a > 0.02;
+        if (it.shown !== shown || it.vis === undefined) { it.el.style.visibility = shown ? 'visible' : 'hidden'; it.vis = 1; }
+        it.shown = shown;
       }
     }
   }

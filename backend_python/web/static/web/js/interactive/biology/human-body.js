@@ -35,7 +35,7 @@ const BONE_INFO = {
 
 export default function init(stage) {
   stage.classList.add('bio-beginner-stage', 'bio-human-body-stage');
-  const engine = createEngine(stage, { exposure: 0.95, fov: 30, near: 0.01, far: 100 });
+  const engine = createEngine(stage, { noise: true, exposure: 0.95, fov: 30, near: 0.01, far: 100 });
   if (!engine) return null;
   const { scene, camera, renderer, quality } = engine;
   scene.background = new THREE.Color(0x0b0e14);
@@ -44,7 +44,8 @@ export default function init(stage) {
   const key = new THREE.DirectionalLight(0xfff1e4, 2.0); key.position.set(2.5, 4, 4);
   const fill = new THREE.DirectionalLight(0xc6d6ff, 0.55); fill.position.set(-4, 1.5, 2.5);
   const rim = new THREE.DirectionalLight(0xb0c8ff, 1.5); rim.position.set(-1.5, 3, -4);
-  scene.add(hemi, key, fill, rim);
+  scene.add(hemi, key, rim);
+  hemi.intensity = 0.5;
   const floorMat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, vertexShader: 'varying vec2 vU; void main(){ vU = uv * 2.0 - 1.0; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }', fragmentShader: 'varying vec2 vU; void main(){ float r = length(vU); float a = smoothstep(1.0, 0.2, r) * 0.55; float ring = smoothstep(0.012, 0.0, abs(r - 0.62)) * 0.25; gl_FragColor = vec4(vec3(0.16, 0.2, 0.28) + ring, a); }' });
   const floor = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.6), floorMat);
   floor.rotation.x = -Math.PI / 2; floor.position.y = -0.002;

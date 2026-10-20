@@ -117,7 +117,7 @@ export function buildScene(quality) {
       transformed.z += (position.z + 0.5) * 0.06 * uBreath;
       transformed.y -= down * 2.1 * uBreath;`,
     bumpAmt: 0.006, bump: 'tFbm(vObj * 1.2) * 0.5 + (1.0 - smoothstep(0.0, 0.1, tCell(vObj * 1.5).y - tCell(vObj * 1.5).x)) * 0.5',
-    sss: 'vec3(0.7, 0.2, 0.2)',
+    sss: 'vec3(0.7, 0.2, 0.2)', side: THREE.FrontSide,
   });
   const lungs = {};
   for (const side of ['right', 'left']) {
@@ -128,7 +128,7 @@ export function buildScene(quality) {
   }
 
   const airMesh = buildAirway(quality);
-  const airMat = createTissue({ key: 'airway', uniforms: own(), color_fragment: AIRWAY_COLOR, roughness: 0.38, sss: 'vec3(0.5, 0.25, 0.22)', bumpAmt: 0.004 });
+  const airMat = createTissue({ key: 'airway', uniforms: own(), color_fragment: AIRWAY_COLOR, side: THREE.FrontSide, roughness: 0.38, sss: 'vec3(0.5, 0.25, 0.22)', bumpAmt: 0.004 });
   const airway = new THREE.Mesh(attrGeo(airMesh, {}), airMat);
   root.add(airway);
 
@@ -140,7 +140,7 @@ export function buildScene(quality) {
 
   const dMesh = buildDiaphragm(quality);
   const diaMat = createTissue({
-    key: 'diaphragm', uniforms: own(), color_fragment: DIAPH_COLOR, roughness: 0.5,
+    key: 'diaphragm', uniforms: own(), side: THREE.FrontSide, color_fragment: DIAPH_COLOR, roughness: 0.5,
     vertex: 'float rr = length(position.xz); transformed.y -= (1.0 - smoothstep(4.0, 11.5, rr)) * 2.2 * uBreath;',
   });
   const diaphragm = new THREE.Mesh(attrGeo(dMesh, {}), diaMat);
