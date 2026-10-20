@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,171
+Worked example.
+
+2
+00:00:01,171 --> 00:00:07,617
+A train approaching a station sounds a six hundred and forty hertz whistle, moving at twenty metres per second.
+
+3
+00:00:07,617 --> 00:00:12,447
+What does a passenger on the platform hear, as it approaches and after it passes?
+

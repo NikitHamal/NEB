@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,049
+At twenty metres, double the distance, the intensity is a quarter, so the level drops by six decibels: eighty six.
+
+2
+00:00:09,049 --> 00:00:10,859
+No logarithms needed.
+

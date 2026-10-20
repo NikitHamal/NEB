@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,104
+Here are all six cases, each just the general formula with the right signs.
+
+2
+00:00:05,104 --> 00:00:11,731
+Source approaching or receding, observer approaching or receding, and both together.
+
+3
+00:00:11,731 --> 00:00:15,429
+Approaching raises the pitch; receding lowers it.
+

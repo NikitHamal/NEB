@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,992
+It also depends on frequency.
+
+2
+00:00:01,992 --> 00:00:06,471
+Your ear is most sensitive between about one and five kilohertz.
+
+3
+00:00:06,471 --> 00:00:13,489
+So a deep hundred hertz hum and a three kilohertz whistle with the same intensity do not sound equally loud.
+

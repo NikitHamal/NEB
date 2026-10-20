@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,515
+For a plane wave, it works out to half rho v omega squared a squared, which is also P nought squared over two rho v.
+
+2
+00:00:08,515 --> 00:00:13,880
+So intensity depends on the square of the amplitude, and the square of the frequency.
+
+3
+00:00:13,880 --> 00:00:17,708
+Double the amplitude, and you get four times the intensity.
+

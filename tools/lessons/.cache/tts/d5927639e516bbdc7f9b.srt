@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,104
+Seventy decibels means I over I nought is ten to the seven.
+
+2
+00:00:05,104 --> 00:00:12,057
+So I is ten to the seven times ten to the minus twelve: ten to the minus five watts per square metre.
+

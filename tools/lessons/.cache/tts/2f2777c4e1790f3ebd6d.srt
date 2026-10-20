@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,471
+A full long question.
+
+2
+00:00:01,471 --> 00:00:04,869
+A point source emits half a watt in all directions.
+
+3
+00:00:04,869 --> 00:00:12,760
+Find the intensity and level at five metres, and the distance at which the level falls to sixty decibels.
+

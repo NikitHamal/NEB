@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,593
+An ambulance races along the Ring Road with its siren on.
+
+2
+00:00:03,593 --> 00:00:07,565
+The siren itself always plays exactly the same note.
+
+3
+00:00:07,565 --> 00:00:09,648
+Watch the sound waves it sends out.
+

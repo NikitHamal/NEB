@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,833
+Case two: the source is still, and the observer runs towards it at v o.
+
+2
+00:00:05,833 --> 00:00:13,046
+The wavelength is unchanged, but she runs into the crests, meeting them at speed v plus v o.
+
+3
+00:00:13,046 --> 00:00:18,346
+So f dash equals v plus v o, over v, times f.
+

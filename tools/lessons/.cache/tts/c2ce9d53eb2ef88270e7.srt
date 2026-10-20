@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:12,460
+Taking the threshold of hearing, I nought equal to ten to the minus twelve, as the reference, the intensity level beta is ten log base ten of I over I nought, measured in decibels.
+

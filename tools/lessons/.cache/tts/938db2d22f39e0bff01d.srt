@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,601
+C, equal to f.
+
+2
+00:00:01,601 --> 00:00:07,226
+Their separation never changes, so no crests are gained or lost on the way.
+
+3
+00:00:07,226 --> 00:00:12,343
+The Doppler effect needs a change in separation along the line joining them.
+

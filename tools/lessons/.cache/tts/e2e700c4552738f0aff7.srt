@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,833
+At twice the distance, the same energy is spread over four times the area.
+
+2
+00:00:05,833 --> 00:00:09,375
+At three times the distance, nine times the area.
+

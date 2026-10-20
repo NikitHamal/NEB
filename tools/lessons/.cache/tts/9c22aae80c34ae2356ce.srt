@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,104
+At five metres: zero point five over four pi times twenty five, one point five nine times ten to the minus three watts per square metre.
+
+2
+00:00:10,104 --> 00:00:12,591
+That is ninety two decibels again.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,083
+Loudness is something different.
+
+2
+00:00:02,083 --> 00:00:04,101
+It is the sensation in your ear.
+
+3
+00:00:04,101 --> 00:00:07,955
+It grows with intensity, but not in proportion.
+
+4
+00:00:07,955 --> 00:00:20,937
+By the Weber Fechner law, the sensation goes as the logarithm of the stimulus: L equals k log I. Ten times the intensity does not sound ten times as loud.
+

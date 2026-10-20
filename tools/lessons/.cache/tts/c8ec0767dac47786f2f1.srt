@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,692
+Freeze it and compare.
+
+2
+00:00:01,692 --> 00:00:09,114
+Where the layers are crowded together, the displacement is passing through zero, but the pressure is at its peak.
+
+3
+00:00:09,114 --> 00:00:14,179
+The pressure wave is a quarter of a wavelength out of step with the displacement wave.
+

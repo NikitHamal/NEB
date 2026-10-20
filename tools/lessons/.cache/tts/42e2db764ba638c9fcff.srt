@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,497
+First the pieces.
+
+2
+00:00:01,497 --> 00:00:07,760
+Rho v is one point two nine times three forty, four hundred and thirty eight point six.
+
+3
+00:00:07,760 --> 00:00:13,776
+Omega is two pi times a thousand, six point two eight three times ten to the three.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,625
+Intensity is P over four pi r squared: two over twelve fifty six point six, one point five nine times ten to the minus three watts per square metre.
+

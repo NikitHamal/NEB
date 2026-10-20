@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,778
+Now think of a small source sending sound out equally in all directions.
+
+2
+00:00:04,778 --> 00:00:10,221
+The same energy every second flows out through bigger and bigger spheres.
+

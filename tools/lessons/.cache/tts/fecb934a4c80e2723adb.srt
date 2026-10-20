@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,302
+And backwards.
+
+2
+00:00:01,302 --> 00:00:04,856
+A sound has an intensity level of seventy decibels.
+
+3
+00:00:04,856 --> 00:00:06,263
+What is its intensity?
+
+4
+00:00:06,263 --> 00:00:10,130
+And what happens if the intensity is made a hundred times bigger?
+

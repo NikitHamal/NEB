@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,531
+Each factor of ten in intensity adds ten decibels.
+
+2
+00:00:04,531 --> 00:00:15,403
+A whisper is twenty, a conversation sixty, a busy Kathmandu street eighty, a motorcycle horn one hundred and ten, and the threshold of pain one hundred and twenty.
+

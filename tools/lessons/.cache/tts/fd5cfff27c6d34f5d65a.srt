@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,338
+So the three characteristics you can hear each match one physical quantity.
+
+2
+00:00:05,338 --> 00:00:07,669
+Loudness goes with intensity.
+
+3
+00:00:07,669 --> 00:00:09,505
+Pitch goes with frequency.
+
+4
+00:00:09,505 --> 00:00:15,208
+And quality goes with the waveform, that is, with the overtones present.
+

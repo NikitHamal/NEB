@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,757
+And it is everywhere.
+
+2
+00:00:01,757 --> 00:00:04,921
+Traffic police speed guns, and weather radar.
+
+3
+00:00:04,921 --> 00:00:09,218
+SONAR, to find the speed of a submarine or a shoal of fish.
+
+4
+00:00:09,218 --> 00:00:13,424
+Doppler ultrasound, to measure the speed of blood in an artery.
+
+5
+00:00:13,424 --> 00:00:21,497
+And in astronomy, the red shift of light from distant galaxies, which is our evidence that the universe is expanding.
+

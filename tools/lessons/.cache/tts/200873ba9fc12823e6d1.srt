@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,229
+Relative motion does not always mean a shift.
+
+2
+00:00:03,229 --> 00:00:12,760
+If the source and observer move with the same velocity in the same direction, their separation stays constant, and f dash equals f.
+
+3
+00:00:12,760 --> 00:00:20,976
+At the instant a train passes you broadside, moving at right angles to the line joining you, there is no shift either.
+
+4
+00:00:20,976 --> 00:00:31,861
+And a steady wind changes nothing for a source and observer at rest, because it changes the speed of sound and the wavelength in exactly the same proportion.
+

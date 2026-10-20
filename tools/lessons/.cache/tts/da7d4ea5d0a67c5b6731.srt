@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,562
+Here is the plan.
+
+2
+00:00:01,562 --> 00:00:15,143
+The pressure amplitude of a sound wave, intensity and the inverse square law, intensity level in decibels, loudness, pitch and quality, and finally the Doppler effect, its cases and its uses.
+

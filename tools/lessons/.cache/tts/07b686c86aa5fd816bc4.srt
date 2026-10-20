@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,924
+The sphere's area is four pi r squared, so I equals P over four pi r squared.
+
+2
+00:00:05,924 --> 00:00:09,101
+Intensity falls as one over r squared.
+
+3
+00:00:09,101 --> 00:00:15,494
+That is the inverse square law, and it is why you have to stand close to hear someone speaking softly.
+
