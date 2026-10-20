@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,880
+Let us watch hydrogen iodide split diethyl ether.
+
+2
+00:00:03,880 --> 00:00:04,856
+Step one.
+
+3
+00:00:04,856 --> 00:00:09,570
+A lone pair on the oxygen reaches out and takes a proton from H I.
+
+4
+00:00:09,570 --> 00:00:13,958
+The curved arrow starts at the lone pair and ends at the proton.
+

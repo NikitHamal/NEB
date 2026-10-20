@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,945
+Route two: methoxide with tertiary butyl bromide.
+
+2
+00:00:03,945 --> 00:00:07,981
+Now the back of the carbon is buried behind three methyl groups.
+
+3
+00:00:07,981 --> 00:00:14,283
+The methoxide cannot reach it, so it acts as a base instead, and you get an alkene.
+
+4
+00:00:14,283 --> 00:00:15,312
+Let's watch.
+

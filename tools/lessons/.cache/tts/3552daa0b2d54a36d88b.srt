@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,432
+A few more facts.
+
+2
+00:00:01,432 --> 00:00:05,169
+Methoxymethane and methoxyethane are gases.
+
+3
+00:00:05,169 --> 00:00:08,802
+The others are colourless, sweet smelling liquids.
+
+4
+00:00:08,802 --> 00:00:16,575
+They are very volatile and very inflammable, and the heavy vapour creeps along the bench to the nearest flame.
+
+5
+00:00:16,575 --> 00:00:22,382
+And ether is lighter than water, with a density of zero point seven one three.
+

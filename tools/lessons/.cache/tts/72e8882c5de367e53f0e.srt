@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:11,080
+Recall from Unit 10: heat ethanol with concentrated sulphuric acid at one hundred and forty degrees, and two molecules share one water, giving diethyl ether.
+
+2
+00:00:11,080 --> 00:00:13,385
+It is cheap and used in industry.
+
+3
+00:00:13,385 --> 00:00:15,872
+But it only works for simple ethers.
+
+4
+00:00:15,872 --> 00:00:22,070
+Mix two different alcohols and you get all three possible ethers, which are hard to separate.
+

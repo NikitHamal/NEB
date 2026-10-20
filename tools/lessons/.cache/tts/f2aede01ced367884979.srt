@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,601
+Here is the puzzle.
+
+2
+00:00:01,601 --> 00:00:06,861
+Ether, ethoxyethane, has the formula C four H ten O.
+
+3
+00:00:06,861 --> 00:00:08,606
+So does butan one ol.
+
+4
+00:00:08,606 --> 00:00:10,625
+Same atoms, same mass.
+
+5
+00:00:10,625 --> 00:00:19,375
+Yet the ether boils at thirty four point six degrees, it evaporates from your palm, while the alcohol boils at one hundred and seventeen.
+
+6
+00:00:19,375 --> 00:00:21,731
+A gap of eighty three degrees.
+

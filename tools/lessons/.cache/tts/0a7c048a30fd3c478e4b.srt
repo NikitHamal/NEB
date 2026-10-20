@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,031
+Ethers come in two classes.
+
+2
+00:00:02,031 --> 00:00:08,984
+A simple, or symmetrical, ether has the same group on both sides, like diethyl ether.
+
+3
+00:00:08,984 --> 00:00:15,182
+A mixed, or unsymmetrical, ether has two different groups, like methoxyethane.
+
+4
+00:00:15,182 --> 00:00:22,747
+If one group is an aryl ring, as in anisole, methoxybenzene, it is an aromatic ether.
+

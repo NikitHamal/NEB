@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,437
+With hot, excess H I, the ethanol formed is itself converted into iodoethane, by the same two steps.
+
+2
+00:00:08,437 --> 00:00:15,559
+Add the two equations, and one ether plus two H I gives two iodoethane and water.
+
+3
+00:00:15,559 --> 00:00:25,364
+Hydrogen iodide works best, then hydrogen bromide, then hydrogen chloride, following how good the halide ion is as a nucleophile.
+

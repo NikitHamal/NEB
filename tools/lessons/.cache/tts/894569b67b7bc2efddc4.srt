@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,502
+Count them all for C four H ten O.
+
+2
+00:00:03,502 --> 00:00:08,072
+Four alcohols, and three ethers, seven isomers in all.
+
+3
+00:00:08,072 --> 00:00:12,291
+Any alcohol and any ether are functional isomers.
+
+4
+00:00:12,291 --> 00:00:23,190
+And within the ethers, one methoxypropane and two methoxypropane differ only in the chain, so they are chain or position isomers, not metamers.
+

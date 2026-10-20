@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,059
+B, phenol and iodomethane.
+
+2
+00:00:03,059 --> 00:00:09,869
+Only the s p three methyl carbon can take the backside attack, so the ring to oxygen bond survives.
+

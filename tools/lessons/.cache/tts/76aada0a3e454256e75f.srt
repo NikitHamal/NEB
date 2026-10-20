@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,171
+Then a twist.
+
+2
+00:00:01,171 --> 00:00:10,260
+Ethers dissolve in water about as well as the alcohols do: six and a half grams per hundred, against seven point nine for butanol.
+
+3
+00:00:10,260 --> 00:00:11,015
+Why?
+
+4
+00:00:11,015 --> 00:00:14,062
+Because water brings its own hydrogens.
+
+5
+00:00:14,062 --> 00:00:21,210
+The ether oxygen's lone pairs accept hydrogen bonds from water, even though the ether can never donate one.
+

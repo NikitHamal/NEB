@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,596
+The products: two methylpropene, methanol, and bromide.
+
+2
+00:00:04,596 --> 00:00:05,859
+No ether at all.
+

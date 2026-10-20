@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,901
+Finally, uses.
+
+2
+00:00:01,901 --> 00:00:13,945
+Ether is an excellent solvent for fats, oils, waxes and resins, and is used to extract organic compounds from water, because it is unreactive and boils off easily.
+
+3
+00:00:13,945 --> 00:00:16,875
+Grignard reagents are made in dry ether.
+
+4
+00:00:16,875 --> 00:00:22,773
+The ether oxygen donates its lone pairs to the magnesium and keeps it in solution.
+

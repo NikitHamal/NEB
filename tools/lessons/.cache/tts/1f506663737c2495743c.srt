@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,645
+B. The bulky tertiary butoxide is the nucleophile, and iodomethane, open at the back, takes the attack.
+
+2
+00:00:08,645 --> 00:00:12,395
+Option A would give two methylpropene by elimination.
+

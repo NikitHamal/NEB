@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,015
+Quick check.
+
+2
+00:00:01,015 --> 00:00:04,062
+Methyl propyl ether and diethyl ether.
+
+3
+00:00:04,062 --> 00:00:05,690
+What kind of isomers are they?
+

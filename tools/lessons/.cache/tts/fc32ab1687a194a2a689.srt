@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,671
+So anisole gives phenol and iodomethane.
+
+2
+00:00:03,671 --> 00:00:06,458
+Never iodobenzene and methanol.
+
+3
+00:00:06,458 --> 00:00:08,463
+That is the classic exam error.
+

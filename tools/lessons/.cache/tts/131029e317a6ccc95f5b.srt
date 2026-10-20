@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,565
+Start with a water molecule, H O H. Replace one hydrogen with an alkyl group and you get an alcohol.
+
+2
+00:00:07,565 --> 00:00:11,718
+Replace both, and you have an ether: R O R dash.
+
+3
+00:00:11,718 --> 00:00:15,039
+An oxygen atom bonded to two carbon groups.
+

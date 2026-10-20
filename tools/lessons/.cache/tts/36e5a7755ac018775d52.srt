@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,877
+Now the most tested reaction in this unit.
+
+2
+00:00:02,877 --> 00:00:06,757
+Anisole, methoxybenzene, with H I.
+
+3
+00:00:06,757 --> 00:00:09,726
+The oxygen is protonated as before.
+
+4
+00:00:09,726 --> 00:00:14,973
+Now the iodide must choose: attack the methyl carbon, or the ring carbon?
+

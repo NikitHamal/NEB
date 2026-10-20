@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,843
+How can two molecules made of exactly the same atoms be so different?
+
+2
+00:00:04,843 --> 00:00:06,093
+Hold that question.
+
+3
+00:00:06,093 --> 00:00:07,838
+We will crack it in part three.
+

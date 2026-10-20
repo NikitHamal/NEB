@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,315
+Why does this work?
+
+2
+00:00:01,315 --> 00:00:06,562
+The ethoxide ion is a strong nucleophile, rich in electrons.
+
+3
+00:00:06,562 --> 00:00:13,567
+It attacks the carbon carrying the iodine, and it must come in from the side exactly opposite the iodine.
+
+4
+00:00:13,567 --> 00:00:18,281
+This is the S N two mechanism you met in haloalkanes.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,315
+Here are the ones to know.
+
+2
+00:00:01,315 --> 00:00:04,192
+Methoxymethane, dimethyl ether.
+
+3
+00:00:04,192 --> 00:00:08,828
+Ethoxyethane, diethyl ether, often just called ether.
+
+4
+00:00:08,828 --> 00:00:12,356
+One methoxypropane and two methoxypropane.
+
+5
+00:00:12,356 --> 00:00:18,645
+Two methoxy two methylpropane, known as M T B E, a petrol additive.
+
+6
+00:00:18,645 --> 00:00:25,755
+And on the ring side, methoxybenzene, called anisole, and phenoxybenzene, diphenyl ether.
+

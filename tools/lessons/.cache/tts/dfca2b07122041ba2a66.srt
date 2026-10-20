@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,197
+Let us recap.
+
+2
+00:00:01,197 --> 00:00:07,161
+An ether is R O R dash, an isomer of an alcohol, simple or mixed.
+
+3
+00:00:07,161 --> 00:00:10,026
+The smaller group is named as alkoxy.
+
+4
+00:00:10,026 --> 00:00:11,888
+Ethers show metamerism.
+
+5
+00:00:11,888 --> 00:00:18,776
+Williamson's synthesis is an S N two reaction, so the bulky group must be the alkoxide.
+
+6
+00:00:18,776 --> 00:00:26,223
+With no O H, ethers cannot hydrogen bond to each other and boil low, yet dissolve in water.
+
+7
+00:00:26,223 --> 00:00:33,489
+The oxygen is a Lewis base: cold acids give oxonium salts, hot H I breaks both bonds.
+
+8
+00:00:33,489 --> 00:00:36,861
+Anisole gives phenol and iodomethane.
+
+9
+00:00:36,861 --> 00:00:44,140
+Old ether forms explosive peroxides, and chlorine replaces the alpha hydrogens first.
+

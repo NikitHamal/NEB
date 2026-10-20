@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,359
+Boston, October eighteen forty six.
+
+2
+00:00:03,359 --> 00:00:10,416
+In front of a crowd of doctors, a dentist named William Morton holds a glass globe to a patient's mouth.
+
+3
+00:00:10,416 --> 00:00:19,153
+The patient breathes in a sweet smelling vapour, falls asleep, and a tumour is cut from his neck without a cry of pain.
+
+4
+00:00:19,153 --> 00:00:23,411
+The vapour was ether, and surgery was changed forever.
+

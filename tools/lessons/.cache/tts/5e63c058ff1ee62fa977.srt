@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,593
+Last reaction: chlorine substitutes hydrogen.
+
+2
+00:00:03,593 --> 00:00:05,729
+In the dark, it is selective.
+
+3
+00:00:05,729 --> 00:00:13,723
+Only the alpha hydrogens, on the carbons next to oxygen, are replaced, giving the alpha, alpha dichloro ether.
+
+4
+00:00:13,723 --> 00:00:20,898
+In bright sunlight, every hydrogen goes: perchloro diethyl ether, with ten molecules of chlorine.
+

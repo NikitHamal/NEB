@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,710
+Here is the complete reaction map of diethyl ether.
+
+2
+00:00:03,710 --> 00:00:14,192
+Notice that every reaction begins at the oxygen lone pairs, and that cold conditions give oxonium salts or break one bond, while hot conditions break both.
+

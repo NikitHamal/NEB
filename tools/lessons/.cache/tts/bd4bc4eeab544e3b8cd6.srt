@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,380
+Exam tip.
+
+2
+00:00:01,380 --> 00:00:10,195
+In Williamson's synthesis, always make the bulky group, or the ring, the alkoxide, and the methyl or primary group the halide.
+
+3
+00:00:10,195 --> 00:00:15,260
+A tertiary halide gives an alkene, and a haloarene gives nothing.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,148
+Worked example twelve point one.
+
+2
+00:00:02,148 --> 00:00:08,710
+Five carbons must be split around the oxygen, either one plus four, or two plus three.
+
+3
+00:00:08,710 --> 00:00:16,341
+One plus four gives the methoxybutanes, and a butyl group has four arrangements, so four ethers.
+
+4
+00:00:16,341 --> 00:00:21,744
+Two plus three gives the ethoxypropanes, with two arrangements of propyl.
+
+5
+00:00:21,744 --> 00:00:23,216
+Six ethers in all.
+
+6
+00:00:23,216 --> 00:00:28,398
+Any methoxybutane with any ethoxypropane is a pair of metamers.
+

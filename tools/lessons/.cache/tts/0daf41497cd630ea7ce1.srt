@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,109
+Worked example twelve point four.
+
+2
+00:00:02,109 --> 00:00:11,888
+Anisole, C seven H eight O, has molar mass one hundred and eight, so ten point eight grams is zero point one mole.
+
+3
+00:00:11,888 --> 00:00:14,739
+One mole gives one mole of each product.
+
+4
+00:00:14,739 --> 00:00:17,643
+Phenol: nine point four grams.
+
+5
+00:00:17,643 --> 00:00:24,401
+Iodomethane, molar mass one hundred forty one point nine: fourteen point two grams.
+
+6
+00:00:24,401 --> 00:00:26,197
+And no iodobenzene.
+

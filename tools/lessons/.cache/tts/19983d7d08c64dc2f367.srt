@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,513
+Worked example twelve point two.
+
+2
+00:00:02,513 --> 00:00:09,518
+Sodium ethoxide has molar mass sixty eight, so six point eight grams is zero point one mole.
+
+3
+00:00:09,518 --> 00:00:21,106
+Iodoethane is in excess, so the ethoxide limits the yield: zero point one mole of ether, molar mass seventy four, seven point four grams in theory.
+
+4
+00:00:21,106 --> 00:00:25,429
+At seventy five percent, five point five five grams.
+
+5
+00:00:25,429 --> 00:00:33,151
+Divide by the density, zero point seven one three, and the volume is seven point seven eight cubic centimetres.
+

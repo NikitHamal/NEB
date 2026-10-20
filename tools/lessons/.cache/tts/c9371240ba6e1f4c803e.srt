@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:00,950
+Your turn.
+
+2
+00:00:00,950 --> 00:00:04,648
+Which pair is the right way to make M T B E?
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,406
+Exam tip.
+
+2
+00:00:01,406 --> 00:00:06,549
+Cold concentrated acid only dissolves ether as an oxonium salt.
+
+3
+00:00:06,549 --> 00:00:13,580
+Hot excess hydrogen iodide breaks both bonds, giving two iodoalkanes and water.
+
+4
+00:00:13,580 --> 00:00:18,541
+And anisole with H I always gives phenol and iodomethane.
+

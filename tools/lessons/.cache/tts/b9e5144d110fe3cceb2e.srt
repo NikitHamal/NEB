@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,471
+That is ethers.
+
+2
+00:00:01,471 --> 00:00:08,515
+Next, we meet the carbonyl group, a carbon oxygen double bond, in the aldehydes and ketones.
+
+3
+00:00:08,515 --> 00:00:11,666
+See you in the next lesson on NEBians.
+
