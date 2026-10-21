@@ -47,9 +47,11 @@ Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the 
 - Regression: `task/harness/smoke.py sim...` loads each at 1440x900 and 390x844 and reports
   console errors; all converted sims load clean.
 
+- Class 10 done in 3D: concave-mirror, indicators, food-tests, height-distance.
+
 **Next, in order**
-1. Class 10 2D labs: ohms-law, indicators, food-tests, quadratic-graph, statistics-explorer,
-   height-distance. (ohms-law could share `physics/circuit-lab.js` pieces + `handson/circuit.js`.)
+1. Class 10: ohms-law (reuse `physics/circuit-lab.js` pieces + `handson/circuit.js` rheostat),
+   quadratic-graph, statistics-explorer.
 2. Robotics 2D (line-follower, pid-controller, state-machine, robot-power) and AI 2D (what-is-ai,
    how-ml-learns, perceptron, image-classifier, llm-intro, ethics).
 3. Then the remaining 3D sims one by one (solar-system, earth-moon-sun, moon-phases, eclipses,
