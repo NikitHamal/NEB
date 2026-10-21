@@ -70,7 +70,7 @@ export default function init(stage) {
   }
   const layerGroup = new THREE.Group(); layerGroup.position.y = 0.06; world.add(layerGroup);
   const layers = LIQ.map((l) => {
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(R, R, 1, 48), new THREE.MeshPhysicalMaterial({ color: l.color, roughness: 0.08, transparent: true, opacity: l.id === 'water' || l.id === 'alcohol' ? 0.55 : 0.78, clearcoat: 0.6, depthWrite: false }));
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(R, R, 1, 48), new THREE.MeshPhysicalMaterial({ color: l.color, roughness: 0.08, transparent: true, opacity: l.id === 'water' || l.id === 'alcohol' ? 0.55 : 0.78, clearcoat: 0.5, depthWrite: false }));
     m.renderOrder = 4; m.visible = false; layerGroup.add(m); return m;
   });
 
