@@ -323,7 +323,7 @@ COURSES = [
                 'icon': 'forum',
                 'minutes': 15,
                 'sim': 'ai/llm-intro',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Type a few words and watch a language model predict the next one — the simple, surprising mechanism behind every chatbot from ChatGPT to Gemini.',
                 'objectives': [
                     'Explain a language model as next-token prediction',
