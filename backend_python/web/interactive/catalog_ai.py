@@ -23,7 +23,7 @@ COURSES = [
                 'icon': 'smart_toy',
                 'minutes': 11,
                 'sim': 'ai/what-is-ai',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Sort the world into "things a computer can just be told" versus "things it has to learn from examples" — and meet the simple idea that makes modern AI possible.',
                 'objectives': [
                     'Distinguish traditional programming from machine learning',
