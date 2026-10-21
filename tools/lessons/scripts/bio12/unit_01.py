@@ -251,8 +251,8 @@ class Lesson(Lesson):
         l2 = [self.elbow(m.get_bottom(), q.get_top()) for q in mk]
         l3 = [self.elbow(p.get_bottom(), sp.get_top()), self.elbow(p.get_bottom(), cp.get_top())]
         l4 = [Line(a_.get_bottom(), b_.get_top(), color=th.MUTED, stroke_width=2.5) for a_, b_ in zip([sp] + sk[:-1], sk)] + [Line(a_.get_bottom(), b_.get_top(), color=th.MUTED, stroke_width=2.5) for a_, b_ in zip([cp] + ck[:-1], ck)]
-        b1 = T("basis 1: can the cells divide?", size=22, color=th.AMBER).move_to([0, 1.95, 0])
-        b2 = T("basis 2: how many kinds of cell?", size=22, color=th.AMBER).move_to([3.5, 0.6, 0])
+        b1 = T("basis 1: can the cells divide?", size=22, color=th.AMBER).move_to([-3.6, 2.6, 0])
+        b2 = T("basis 2: how many kinds of cell?", size=22, color=th.AMBER).move_to([3.6, 2.6, 0])
         with self.say("Tissues are classified on two quite different bases, and students lose marks by mixing them up. The first basis: can the cells still divide? If yes, the tissue is meristematic. If they have lost that power, it is permanent."):
             self.play(FadeIn(root))
             self.play(*[Create(l_) for l_ in l1], FadeIn(m, shift=DOWN * 0.2), FadeIn(p, shift=DOWN * 0.2), FadeIn(b1))
@@ -285,10 +285,9 @@ class Lesson(Lesson):
                 self.play(*[Restore(m_) if m_ in parts else m_.animate.fade(0.85) for m_ in everything], run_time=0.8)
         self.play(*[Restore(m_) for m_ in everything], run_time=0.5)
         cap.clear()
-        self.play(st.animate.scale(0.6).move_to([-4.6, 0.3, 0]))
+        self.play(FadeOut(st))
         self.tip("Asked to 'describe the internal structure' of any organ? Walk inwards: epidermis → ground tissue → vascular tissue → centre. You will never leave a layer out.",
                  "Exam tip. When a question says describe the internal structure of an organ, walk inwards in exactly this order: epidermis, then the ground tissue, then the vascular tissue, then the centre. You will never miss a layer, and your answer will read like a real section.", width=7.4)
-        self.play(FadeOut(st))
 
     # ------------------------------------------------------------------ part 2
     def p2(self):

@@ -592,10 +592,11 @@ def example_head(s, problem, width=12.2, size=27):
 
 
 def card(s, title, body, w=3.9, h=2.4, color=None, tsize=28, bsize=22):
-    box = s.panel(w, h, color=color)
     hh = T(title, size=tsize, color=color or s.color, weight="BOLD")
     bb = para(body, width=w - 0.5, size=bsize, color=th.BODY) if isinstance(body, str) else body
-    VGroup(hh, bb).arrange(DOWN, buff=0.22).move_to(box)
+    inner = VGroup(hh, bb).arrange(DOWN, buff=0.22)
+    box = s.panel(w, max(h, inner.height + 0.5), color=color)
+    inner.move_to(box)
     return VGroup(box, hh, bb)
 
 
