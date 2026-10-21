@@ -36,7 +36,7 @@ COURSES = [
                 'icon': 'flare',
                 'minutes': 14,
                 'sim': 'nebclass10/concave-mirror',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Move an object along the principal axis of a concave mirror and watch the image change — real, inverted and diminished far away, then magnified near the focus. Switch to the distant-object method to measure f the way the school lab does.',
                 'objectives': [
                     'State the mirror formula 1/f = 1/v + 1/u and use it',
