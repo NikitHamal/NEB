@@ -496,7 +496,7 @@ COURSES = [
                 'icon': 'balance',
                 'minutes': 14,
                 'sim': 'chemistry/reaction-balancer',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Tip the atomic scales: set coefficients, count atoms on both sides and balance real reactions from combustion to photosynthesis.',
                 'objectives': [
                     'State the law of conservation of mass and what it means for equations',
