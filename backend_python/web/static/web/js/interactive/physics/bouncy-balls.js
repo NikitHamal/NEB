@@ -1,246 +1,165 @@
 /**
- * Bouncing balls — tap to drop a ball from that height, or grab one and throw it. Free flight is
- * integrated exactly (constant gravity), each floor impact is found at its true instant and the
- * rebound speed is e × the impact speed, so every bounce peaks at e² of the one before. Balls
- * collide with each other with the same coefficient of restitution.
+ * Bouncing balls in 3D, on a little court on the school field. Tap the ground to drop a ball from the
+ * set height there (or use Drop). Free flight is integrated exactly (constant gravity), each floor
+ * impact is found at its true instant and the rebound speed is e × the impact speed, so every bounce
+ * peaks at e² of the one before. Balls collide with each other and the boards with the same
+ * coefficient of restitution, squash on impact, and the last one's height is traced in the panel.
  */
-import { createKit, T, Ring, fmt, clamp, background, text, pill, sphere, softShadow, withAlpha, dashed, DASH } from '../core/kit2d.js';
-import { Plot } from '../core/kit2d-plot.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { canvasCard } from '../space/space3d/kit.js';
+import { createField, label, THREE } from './physics3d/field.js';
 
-const WORLDS = [
-  { value: 'moon', label: 'Moon', g: 1.62, color: '#9ca3af' },
-  { value: 'earth', label: 'Earth', g: 9.81, color: '#2563eb' },
-  { value: 'jupiter', label: 'Jupiter', g: 24.79, color: '#c58b4c' },
-];
+const WORLDS = [{ value: 'moon', label: 'Moon', g: 1.62 }, { value: 'earth', label: 'Earth', g: 9.81 }, { value: 'jupiter', label: 'Jupiter', g: 24.79 }];
 const BALLS = [
-  { value: 'super', label: 'Super ball', e: 0.9, r: 0.06, color: '#e5484d' },
-  { value: 'tennis', label: 'Tennis', e: 0.75, r: 0.067, color: '#b5d334' },
-  { value: 'basket', label: 'Basketball', e: 0.8, r: 0.12, color: '#e8742a' },
-  { value: 'clay', label: 'Clay', e: 0.15, r: 0.08, color: '#a07a5a' },
+  { value: 'super', label: 'Super ball', e: 0.9, r: 0.06 },
+  { value: 'tennis', label: 'Tennis', e: 0.75, r: 0.067 },
+  { value: 'basket', label: 'Basketball', e: 0.8, r: 0.12 },
+  { value: 'clay', label: 'Clay', e: 0.15, r: 0.08 },
 ];
-const MAX = (navigator.hardwareConcurrency || 4) <= 4 ? 8 : 14;
-const ROOM_H = 3.2;
+const MAX = (navigator.hardwareConcurrency || 4) <= 4 ? 10 : 18;
+const HALF = 2.4;
+const fmt = (x, d = 0) => x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
+
+function ballMaterial(kind) {
+  const c = document.createElement('canvas'); c.width = 512; c.height = 256; const g = c.getContext('2d');
+  if (kind === 'tennis') { g.fillStyle = '#c9df3c'; g.fillRect(0, 0, 512, 256); g.strokeStyle = '#f6f8ee'; g.lineWidth = 14; g.beginPath(); for (let x = 0; x <= 512; x += 4) { const y = 128 + Math.sin(x / 512 * Math.PI * 4) * 70; if (x) g.lineTo(x, y); else g.moveTo(x, y); } g.stroke(); }
+  else if (kind === 'basket') { g.fillStyle = '#d9692a'; g.fillRect(0, 0, 512, 256); g.strokeStyle = '#2a1408'; g.lineWidth = 6; g.beginPath(); g.moveTo(0, 128); g.lineTo(512, 128); [128, 384].forEach((x) => { g.moveTo(x, 0); g.lineTo(x, 256); }); g.stroke(); for (const x0 of [0, 256]) { g.beginPath(); for (let y = 0; y <= 256; y += 4) { const x = x0 + 64 + Math.sin(y / 256 * Math.PI) * 50; if (y) g.lineTo(x, y); else g.moveTo(x, y); } g.stroke(); } }
+  else if (kind === 'super') { const gr = g.createLinearGradient(0, 0, 512, 0); ['#e5484d', '#f59e0b', '#22c55e', '#3b82f6', '#a855f7', '#e5484d'].forEach((col, i) => gr.addColorStop(i / 5, col)); g.fillStyle = gr; g.fillRect(0, 0, 512, 256); }
+  else { g.fillStyle = '#9c7656'; g.fillRect(0, 0, 512, 256); for (let i = 0; i < 400; i++) { g.fillStyle = `rgba(60,40,25,${Math.random() * 0.25})`; g.fillRect(Math.random() * 512, Math.random() * 256, 3, 3); } }
+  const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace;
+  return new THREE.MeshPhysicalMaterial({ map: t, roughness: kind === 'super' ? 0.15 : kind === 'tennis' ? 0.95 : kind === 'basket' ? 0.6 : 0.9, clearcoat: kind === 'super' ? 0.5 : 0, sheen: kind === 'tennis' ? 1 : 0, sheenColor: new THREE.Color(0xeef5c0) });
+}
 
 export default function init(stage) {
-  const k = createKit(stage, { label: 'A room with a height ruler; tap to drop balls' });
+  const F = createField(stage, { camera: [3.4, 1.3, 5.0], target: [0, 1.0, 0], maxDistance: 30 });
+  if (!F) return null;
+  const { engine, scene, camera, controls } = F;
+  { const c = F.key.shadow.camera; c.left = -6; c.right = 6; c.top = 6; c.bottom = -6; c.updateProjectionMatrix(); }
   const hud = createHud(stage);
-  const badge = hud.badge('Tap anywhere to drop a ball', T.blue);
+  const badge = hud.badge('Tap the ground to drop a ball there', '#2563eb');
 
-  let g = 9.81, eSlider = 0.75, kind = BALLS[1], air = false, slow = false;
-  const x = new Float64Array(MAX), y = new Float64Array(MAX), vx = new Float64Array(MAX), vy = new Float64Array(MAX);
-  const r = new Float64Array(MAX), e = new Float64Array(MAX), sq = new Float64Array(MAX), sqv = new Float64Array(MAX);
-  const col = new Array(MAX).fill('#e5484d');
-  let n = 0, head = 0, tracked = -1, simT = 0;
-  const peaks = new Float64Array(8); let nPeaks = 0, lastVy = 0;
-  const trace = new Ring(600);
-  let held = -1, holdX = 0, holdY = 0, holdT = 0, flingVx = 0, flingVy = 0;
-  const puffs = new Float64Array(12 * 3); let puffHead = 0;
+  let g = 9.81; let eSlider = 0.75; let kind = BALLS[1]; let dropH = 2; let slow = false;
+  const B = []; let tracked = null; let simT = 0;
+  const peaks = []; const trace = [];
+  const mats = Object.fromEntries(BALLS.map((b) => [b.value, ballMaterial(b.value)]));
+  const sphereGeo = new THREE.SphereGeometry(1, 32, 20);
+
+  // the court: a mat, low boards and a 3.2 m height pole
+  const mat = new THREE.Mesh(new THREE.BoxGeometry(HALF * 2, 0.02, HALF * 2), new THREE.MeshStandardMaterial({ color: 0x5b6f86, roughness: 0.7 })); mat.position.y = 0.01; mat.receiveShadow = true; scene.add(mat);
+  const wood = new THREE.MeshStandardMaterial({ color: 0xb48552, roughness: 0.7 });
+  for (const [x, z, w, d] of [[0, -HALF, HALF * 2, 0.06], [0, HALF, HALF * 2, 0.06], [-HALF, 0, 0.06, HALF * 2], [HALF, 0, 0.06, HALF * 2]]) { const b = new THREE.Mesh(new THREE.BoxGeometry(w, 0.18, d), wood); b.position.set(x, 0.09, z); b.castShadow = true; scene.add(b); }
+  const poleTex = (() => { const c = document.createElement('canvas'); c.width = 64; c.height = 1024; const x = c.getContext('2d'); for (let i = 0; i < 32; i++) { x.fillStyle = i % 2 ? '#f8fafc' : '#dc2626'; x.fillRect(0, 1024 - (i + 1) * 32, 64, 32); } const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; return t; })();
+  const pole = new THREE.Mesh(new THREE.BoxGeometry(0.08, 3.2, 0.08), new THREE.MeshStandardMaterial({ map: poleTex, roughness: 0.6 })); pole.position.set(-HALF + 0.15, 1.6, -HALF + 0.15); pole.castShadow = true; scene.add(pole);
+  const mark = new THREE.Mesh(new THREE.RingGeometry(0.14, 0.17, 40), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.8, side: THREE.DoubleSide })); mark.rotation.x = -Math.PI / 2; scene.add(mark);
+  const peakLine = new THREE.Mesh(new THREE.PlaneGeometry(HALF * 2, 0.006), new THREE.MeshBasicMaterial({ color: 0x60a5fa, transparent: true, opacity: 0.8 })); scene.add(peakLine);
+  const nextLine = new THREE.Mesh(new THREE.PlaneGeometry(HALF * 2, 0.006), new THREE.MeshBasicMaterial({ color: 0x22c55e, transparent: true, opacity: 0.8 })); scene.add(nextLine);
+  const hLbl = label(stage, camera); const nLbl = label(stage, camera);
 
   const panel = createPanel(stage, { title: 'Bouncing balls' });
-  panel.chips({ label: 'Ball', options: BALLS.map((b) => ({ value: b.value, label: b.label, color: b.color })), value: kind.value, onChange: (v) => { kind = BALLS.find((b) => b.value === v); eS.set(kind.e); eSlider = kind.e; } });
-  const eS = panel.slider({ label: 'Bounciness e (restitution)', min: 0.05, max: 0.95, step: 0.05, value: kind.e, format: (v) => v.toFixed(2), onChange: (v) => { eSlider = v; for (let i = 0; i < n; i++) e[i] = v; } });
-  panel.chips({ label: 'World', options: WORLDS.map((w) => ({ value: w.value, label: `${w.label} · ${w.g} m/s²`, color: w.color })), value: 'earth', onChange: (v) => { g = WORLDS.find((w) => w.value === v).g; } });
-  panel.toggle({ label: 'Air resistance', value: false, onChange: (v) => { air = v; } });
+  panel.chips({ label: 'Ball', options: BALLS.map((b) => ({ value: b.value, label: b.label })), value: kind.value, onChange: (v) => { kind = BALLS.find((b) => b.value === v); eS.set(kind.e); eSlider = kind.e; } });
+  const eS = panel.slider({ label: 'Bounciness e (restitution)', min: 0.05, max: 0.95, step: 0.05, value: kind.e, format: (v) => v.toFixed(2), onChange: (v) => { eSlider = v; B.forEach((b) => { b.e = v; }); } });
+  panel.slider({ label: 'Drop height', min: 0.3, max: 3.0, step: 0.1, value: dropH, format: (v) => `${v.toFixed(1)} m`, onChange: (v) => { dropH = v; } });
+  panel.chips({ label: 'World', options: WORLDS.map((w) => ({ value: w.value, label: `${w.label} · ${w.g} m/s²` })), value: 'earth', onChange: (v) => { g = WORLDS.find((w) => w.value === v).g; } });
   panel.toggle({ label: 'Slow motion (¼×)', value: false, onChange: (v) => { slow = v; } });
-  panel.buttonRow([
-    { label: 'Drop 2 m', icon: 'south', onClick: () => spawn(roomW * 0.5, 2, 0, 0) },
-    { label: 'Clear', icon: 'delete_sweep', variant: 'ghost', onClick: () => { n = 0; head = 0; tracked = -1; nPeaks = 0; trace.clear(); k.invalidate(); } },
-  ]);
+  panel.buttonRow([{ label: `Drop`, icon: 'south', onClick: () => spawn(0, 0) }, { label: 'Clear', icon: 'delete_sweep', variant: 'ghost', onClick: () => { B.forEach((b) => scene.remove(b.mesh)); B.length = 0; tracked = null; peaks.length = 0; trace.length = 0; } }]);
+  const graph = canvasCard(panel.body, 1.8);
   const st = panel.stats([{ key: 'h', label: 'Start height' }, { key: 'next', label: 'Next peak (e²h)' }, { key: 'last', label: 'Last peak' }, { key: 'ratio', label: 'Peak ratio' }]);
   panel.info('Each bounce keeps a fraction e of the speed, so it rises to e² of the height before. On the Moon the same ball falls slowly but bounces to the same fraction.');
 
-  let scale = 100, floorY = 0, left = 0, roomW = 4, plotOn = true;
-  const plot = new Plot({ title: 'Height of the last ball', xLabel: 't / s', yLabel: 'h / m', yMin: 0, yMax: 3 });
-  k.onResize((w, h) => {
-    plotOn = w > 640;
-    const pw = plotOn ? Math.min(320, w * 0.32) : 0;
-    left = 46;
-    floorY = h - 44;
-    scale = (floorY - 26) / ROOM_H;
-    roomW = (w - left - pw - (plotOn ? 28 : 12)) / scale;
-    if (plotOn) plot.box(w - pw - 14, 16, pw, Math.min(220, h * 0.4));
-  });
-  const SX = (m) => left + m * scale;
-  const SY = (m) => floorY - m * scale;
-
-  function spawn(mx, my, vx0, vy0) {
-    const i = n < MAX ? n++ : (head = (head + 1) % MAX, head);
-    x[i] = clamp(mx, kind.r, roomW - kind.r); y[i] = clamp(my, kind.r, ROOM_H - kind.r);
-    vx[i] = vx0; vy[i] = vy0; r[i] = kind.r; e[i] = eSlider; col[i] = kind.color; sq[i] = 0; sqv[i] = 0;
-    tracked = i; nPeaks = 0; peaks[nPeaks++] = y[i] - r[i]; lastVy = vy0; trace.clear(); simT = 0;
-    k.animate(true);
-    return i;
+  function spawn(x, z) {
+    if (B.length >= MAX) { const old = B.shift(); scene.remove(old.mesh); }
+    const mesh = new THREE.Mesh(sphereGeo, mats[kind.value]); mesh.castShadow = true; mesh.scale.setScalar(kind.r); scene.add(mesh);
+    const b = { x: Math.max(-HALF + kind.r, Math.min(HALF - kind.r, x)), y: dropH + kind.r, z: Math.max(-HALF + kind.r, Math.min(HALF - kind.r, z)), vx: 0, vy: 0, vz: 0, r: kind.r, e: eSlider, mesh, sq: 0, spin: new THREE.Vector3() };
+    B.push(b); tracked = b; peaks.length = 0; peaks.push(dropH); trace.length = 0; simT = 0;
+    return b;
   }
 
-  k.onTap((px, py) => { if (py < floorY) spawn((px - left) / scale, (floorY - py) / scale, 0, 0); });
-  k.drag({
-    hit: (px, py, s) => { let best = false; for (let i = 0; i < n; i++) { const d = Math.hypot(px - SX(x[i]), py - SY(y[i])); if (d < r[i] * scale + s && (best === false || d < best)) { best = d; } } return best; },
-    down: (px, py) => {
-      let bi = -1, bd = 1e9;
-      for (let i = 0; i < n; i++) { const d = Math.hypot(px - SX(x[i]), py - SY(y[i])); if (d < bd) { bd = d; bi = i; } }
-      held = bi; holdX = px; holdY = py; holdT = performance.now(); flingVx = 0; flingVy = 0;
-      tracked = bi; nPeaks = 0; trace.clear(); simT = 0;
-    },
-    move: (px, py) => {
-      if (held < 0) return;
-      const now = performance.now(), dtm = Math.max(1, now - holdT) / 1000;
-      const nvx = (px - holdX) / scale / dtm, nvy = -(py - holdY) / scale / dtm;
-      flingVx = flingVx * 0.4 + nvx * 0.6; flingVy = flingVy * 0.4 + nvy * 0.6;
-      holdX = px; holdY = py; holdT = now;
-      x[held] = clamp((px - left) / scale, r[held], roomW - r[held]); y[held] = clamp((floorY - py) / scale, r[held], ROOM_H - r[held]);
-      vx[held] = 0; vy[held] = 0;
-    },
-    up: () => {
-      if (held < 0) return;
-      const fresh = performance.now() - holdT < 80;
-      vx[held] = fresh ? clamp(flingVx, -12, 12) : 0; vy[held] = fresh ? clamp(flingVy, -12, 12) : 0;
-      nPeaks = 0; peaks[nPeaks++] = y[held] - r[held]; lastVy = vy[held];
-      held = -1; k.animate(true);
-    },
+  const ray = new THREE.Raycaster(); const ndc = new THREE.Vector2(); const ground = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0); const hit = new THREE.Vector3();
+  let down = null;
+  engine.canvas.addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY }; });
+  engine.canvas.addEventListener('pointerup', (e) => {
+    if (!down || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 8) { down = null; return; }
+    down = null;
+    const r = engine.canvas.getBoundingClientRect();
+    ndc.set(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    if (ray.ray.intersectPlane(ground, hit) && Math.abs(hit.x) < HALF && Math.abs(hit.z) < HALF) spawn(hit.x, hit.z);
   });
 
-  function puff(px, strength) {
-    const j = puffHead * 3; puffs[j] = px; puffs[j + 1] = 0; puffs[j + 2] = strength; puffHead = (puffHead + 1) % 12;
-  }
-
-  function advance(i, h) {
-    if (i === held) return;
-    let rem = h;
-    for (let guard = 0; guard < 4 && rem > 0; guard++) {
-      let ax = 0, ay = -g;
-      if (air) { const sp = Math.hypot(vx[i], vy[i]); const kd = 0.02 / r[i]; ax -= kd * sp * vx[i]; ay -= kd * sp * vy[i]; }
-      const ny = y[i] + vy[i] * rem + 0.5 * ay * rem * rem;
-      if (ny >= r[i] || vy[i] > 0 && ny >= r[i]) {
-        x[i] += vx[i] * rem + 0.5 * ax * rem * rem; y[i] = ny; vx[i] += ax * rem; vy[i] += ay * rem; rem = 0;
-      } else {
-        const a = 0.5 * ay, b = vy[i], c = y[i] - r[i];
-        const disc = Math.max(0, b * b - 4 * a * c);
-        let tc = (-b - Math.sqrt(disc)) / (2 * a);
-        if (!(tc >= 0 && tc <= rem)) tc = 0;
-        x[i] += vx[i] * tc; vx[i] += ax * tc;
-        const vImpact = vy[i] + ay * tc;
-        y[i] = r[i];
-        const speed = -vImpact;
-        if (speed > 0.25) { sqv[i] -= Math.min(speed, 8) * 0.75; puff(x[i], Math.min(1, speed / 6)); }
-        vy[i] = speed * e[i] > 0.12 ? speed * e[i] : 0;
-        vx[i] *= vy[i] === 0 ? 0.985 : 0.97;
-        rem -= tc;
-        if (vy[i] === 0) { x[i] += vx[i] * rem; rem = 0; }
+  function advance(b, h) {
+    let rem = h; let guard = 0;
+    while (rem > 1e-9 && guard++ < 8) {
+      const y0 = b.y - b.r;
+      const tHit = b.vy < 0 || y0 > 0 ? (b.vy + Math.sqrt(Math.max(0, b.vy * b.vy + 2 * g * Math.max(0, y0)))) / g : Infinity;
+      const step = Math.min(rem, tHit);
+      b.x += b.vx * step; b.z += b.vz * step; b.y += b.vy * step - 0.5 * g * step * step; b.vy -= g * step; rem -= step;
+      if (step === tHit) {
+        b.y = b.r; const vi = -b.vy; b.vy = vi * b.e; b.vx *= 0.9; b.vz *= 0.9; b.sq = Math.min(0.45, vi * 0.05 * (1 - b.e * 0.4));
+        if (b === tracked) { const apex = (b.vy * b.vy) / (2 * g); if (apex > 0.004) peaks.push(apex); }
+        if (vi < 0.05) { b.vy = 0; rem = 0; }
       }
     }
-    if (x[i] < r[i]) { x[i] = r[i]; vx[i] = -vx[i] * e[i]; }
-    if (x[i] > roomW - r[i]) { x[i] = roomW - r[i]; vx[i] = -vx[i] * e[i]; }
-    if (y[i] > ROOM_H - r[i]) { y[i] = ROOM_H - r[i]; vy[i] = -Math.abs(vy[i]) * e[i]; }
+    for (const [axis, v] of [['x', 'vx'], ['z', 'vz']]) {
+      if (b[axis] > HALF - b.r) { b[axis] = HALF - b.r; b[v] = -Math.abs(b[v]) * b.e; }
+      if (b[axis] < -HALF + b.r) { b[axis] = -HALF + b.r; b[v] = Math.abs(b[v]) * b.e; }
+    }
   }
-
   function collide() {
-    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) {
-      const dx = x[j] - x[i], dy = y[j] - y[i], d = Math.hypot(dx, dy), rr = r[i] + r[j];
-      if (d >= rr || d < 1e-9) continue;
-      const nx = dx / d, ny = dy / d;
-      const mi = i === held ? 0 : r[i] * r[i] * r[i], mj = j === held ? 0 : r[j] * r[j] * r[j];
-      const wi = mi ? 1 / mi : 0, wj = mj ? 1 / mj : 0;
-      if (wi + wj === 0) continue;
-      const corr = (rr - d) / (wi + wj);
-      x[i] -= nx * corr * wi; y[i] -= ny * corr * wi; x[j] += nx * corr * wj; y[j] += ny * corr * wj;
-      const rv = (vx[j] - vx[i]) * nx + (vy[j] - vy[i]) * ny;
-      if (rv >= 0) continue;
-      const jimp = -(1 + Math.min(e[i], e[j])) * rv / (wi + wj);
-      vx[i] -= jimp * wi * nx; vy[i] -= jimp * wi * ny; vx[j] += jimp * wj * nx; vy[j] += jimp * wj * ny;
+    for (let i = 0; i < B.length; i++) for (let j = i + 1; j < B.length; j++) {
+      const a = B[i]; const c = B[j]; const dx = c.x - a.x; const dy = c.y - a.y; const dz = c.z - a.z; const d = Math.hypot(dx, dy, dz); const m = a.r + c.r;
+      if (d >= m || d < 1e-6) continue;
+      const nx = dx / d; const ny = dy / d; const nz = dz / d; const ov = (m - d) / 2;
+      a.x -= nx * ov; a.y -= ny * ov; a.z -= nz * ov; c.x += nx * ov; c.y += ny * ov; c.z += nz * ov;
+      const rel = (c.vx - a.vx) * nx + (c.vy - a.vy) * ny + (c.vz - a.vz) * nz;
+      if (rel > 0) continue;
+      const ma = a.r ** 3; const mc = c.r ** 3; const e = Math.min(a.e, c.e); const J = -(1 + e) * rel / (1 / ma + 1 / mc);
+      a.vx -= J / ma * nx; a.vy -= J / ma * ny; a.vz -= J / ma * nz; c.vx += J / mc * nx; c.vy += J / mc * ny; c.vz += J / mc * nz;
     }
   }
 
-  k.frame((ctx, dt, w, h) => {
-    const sdt = slow ? dt * 0.25 : dt;
-    const sub = 8, hh = sdt / sub;
-    let moving = held >= 0;
-    for (let s = 0; s < sub; s++) { for (let i = 0; i < n; i++) advance(i, hh); collide(); }
-    for (let i = 0; i < n; i++) {
-      const a = -260 * sq[i] - 16 * sqv[i];
-      sqv[i] += a * dt; sq[i] += sqv[i] * dt;
-      if (Math.abs(sq[i]) < 1e-3 && Math.abs(sqv[i]) < 1e-2) { sq[i] = 0; sqv[i] = 0; }
-      if (vy[i] !== 0 || Math.abs(vx[i]) > 0.01 || sq[i] !== 0 || y[i] > r[i] + 1e-6) moving = true;
-    }
-    if (tracked >= 0 && tracked < n) {
-      simT += sdt;
-      const hNow = y[tracked] - r[tracked];
-      if (lastVy > 0 && vy[tracked] <= 0 && held !== tracked && nPeaks < 8) peaks[nPeaks++] = hNow;
-      lastVy = vy[tracked];
-      trace.push(simT, hNow);
-    }
+  function drawGraph() {
+    const { g: c, w, h } = graph.ctx();
+    const ix = 32; const iy = 22; const iw = w - 42; const ih = h - 42;
+    const t1 = Math.max(6, simT); const t0 = Math.max(0, t1 - 6);
+    const X = (t) => ix + (t - t0) / 6 * iw; const Y = (v) => iy + ih - v / 3.2 * ih;
+    c.font = '700 11px Poppins, system-ui, sans-serif'; c.fillStyle = '#e8eefb'; c.textAlign = 'left'; c.fillText('Height of the last ball', 10, 14);
+    c.strokeStyle = 'rgba(160,190,255,0.18)'; c.strokeRect(ix, iy, iw, ih);
+    c.strokeStyle = '#f59e0b'; c.lineWidth = 2; c.beginPath(); let f = true;
+    for (const [t, v] of trace) { if (t < t0) continue; if (f) { c.moveTo(X(t), Y(v)); f = false; } else c.lineTo(X(t), Y(v)); }
+    c.stroke();
+    c.font = '600 9px Poppins, system-ui, sans-serif'; c.fillStyle = '#8ea0c2'; c.textAlign = 'center'; c.fillText('t / s', ix + iw / 2, h - 6);
+    c.textAlign = 'right'; c.fillText('3 m', ix - 4, iy + 8); c.fillText('0', ix - 4, iy + ih);
+  }
 
-    background(k, ctx, w, h);
-    // back wall tiles
-    ctx.strokeStyle = 'rgba(37,99,235,0.06)'; ctx.lineWidth = 1; ctx.beginPath();
-    for (let m = 0.5; m < ROOM_H; m += 0.5) { const py = Math.round(SY(m)) + 0.5; ctx.moveTo(left, py); ctx.lineTo(SX(roomW), py); }
-    ctx.stroke();
-    // floor
-    const fg = k.cache('floor', () => { const gr = ctx.createLinearGradient(0, floorY, 0, h); gr.addColorStop(0, '#d9b98f'); gr.addColorStop(1, '#b98d5c'); return gr; });
-    ctx.fillStyle = fg; ctx.fillRect(0, floorY, w, h - floorY);
-    ctx.fillStyle = 'rgba(255,255,255,0.35)'; ctx.fillRect(0, floorY, w, 2);
-    ctx.strokeStyle = 'rgba(120,80,40,0.18)'; ctx.beginPath();
-    for (let px = 60; px < w; px += 120) { ctx.moveTo(px, floorY + 3); ctx.lineTo(px - 18, h); }
-    ctx.stroke();
-    // ruler
-    ctx.fillStyle = '#fff'; ctx.strokeStyle = T.line; ctx.beginPath(); ctx.roundRect(8, SY(ROOM_H) - 4, 32, ROOM_H * scale + 4, 6); ctx.fill(); ctx.stroke();
-    ctx.strokeStyle = T.ink2; ctx.beginPath();
-    for (let cm = 0; cm <= ROOM_H * 100; cm += 10) { const py = Math.round(SY(cm / 100)) + 0.5; const l = cm % 50 === 0 ? 10 : 5; ctx.moveTo(40 - l, py); ctx.lineTo(40, py); }
-    ctx.lineWidth = 1; ctx.stroke();
-    for (let m = 0; m <= 3; m += 0.5) text(ctx, m % 1 === 0 ? m + ' m' : String(m), 12, SY(m) + 3.5, T.ink2, 9, 600);
-    // peak markers of the tracked ball
-    for (let p = 0; p < nPeaks; p++) {
-      const py = SY(peaks[p]);
-      const alpha = 1 - p / 9;
-      ctx.strokeStyle = withAlpha(T.orange, 0.55 * alpha); ctx.setLineDash(DASH); ctx.lineWidth = 1.2;
-      ctx.beginPath(); ctx.moveTo(42, py); ctx.lineTo(tracked >= 0 ? SX(x[tracked]) - 14 : 120, py); ctx.stroke(); ctx.setLineDash([]);
-      if (p < 4 && !k.small) pill(ctx, p === 0 ? `h = ${fmt(peaks[p], 2)} m` : `h${sub2(p)} = ${fmt(peaks[p], 2)}`, 50, py, { align: 'left', size: 10, color: T.orange });
+  const v3 = new THREE.Vector3(); const up = new THREE.Vector3(0, 1, 0); let tick = 0;
+  engine.setUpdate((dt) => {
+    controls.update(dt);
+    const h = dt * (slow ? 0.25 : 1);
+    const sub = 4;
+    for (let s = 0; s < sub; s++) { B.forEach((b) => advance(b, h / sub)); collide(); }
+    simT += h;
+    for (const b of B) {
+      b.sq *= Math.exp(-h * 18);
+      b.mesh.position.set(b.x, b.y - b.sq * b.r * 0.5, b.z);
+      b.mesh.scale.set(b.r * (1 + b.sq * 0.5), b.r * (1 - b.sq), b.r * (1 + b.sq * 0.5));
+      b.mesh.rotation.x += b.vz * h / b.r; b.mesh.rotation.z -= b.vx * h / b.r;
     }
-    // puffs
-    for (let p = 0; p < 12; p++) {
-      const j = p * 3; if (puffs[j + 2] <= 0.01) continue;
-      puffs[j + 1] += dt * 1.8; puffs[j + 2] *= Math.exp(-dt * 3.5);
-      const pr = 8 + puffs[j + 1] * 40, a = puffs[j + 2] * 0.35;
-      ctx.fillStyle = withAlpha('#8d6a45', a);
-      ctx.beginPath(); ctx.ellipse(SX(puffs[j]) - pr * 0.7, floorY - 3, pr * 0.5, pr * 0.18, 0, 0, Math.PI * 2); ctx.ellipse(SX(puffs[j]) + pr * 0.7, floorY - 3, pr * 0.5, pr * 0.18, 0, 0, Math.PI * 2); ctx.fill();
-      moving = true;
-    }
-    // balls
-    for (let i = 0; i < n; i++) {
-      const R = r[i] * scale, cx = SX(x[i]), cy = SY(y[i]);
-      const hgt = y[i] - r[i];
-      softShadow(ctx, cx, floorY + 2, R * (1.2 - Math.min(0.6, hgt * 0.2)), R * 0.28, 0.3 * (1 - Math.min(0.8, hgt * 0.3)));
-      const s = clamp(sq[i], -0.35, 0.3);
-      ctx.save();
-      ctx.translate(cx, cy - (s < 0 && hgt < 0.02 ? s * R : 0));
-      ctx.scale(1 - s, 1 + s);
-      sphere(ctx, 0, 0, R, col[i]);
-      ctx.restore();
-      if (i === tracked) { ctx.strokeStyle = withAlpha(T.blue, 0.6); ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(cx, cy, R + 4, 0, Math.PI * 2); ctx.stroke(); }
-    }
-    if (tracked >= 0 && tracked < n) {
-      const v = Math.hypot(vx[tracked], vy[tracked]);
-      if (!k.small || v > 0.2) pill(ctx, `v = ${fmt(v, 1)} m/s`, SX(x[tracked]), SY(y[tracked]) - r[tracked] * scale - 16, { size: 10, color: T.ink2 });
-    }
-    if (!n) text(ctx, 'Tap anywhere to drop a ball', (left + SX(roomW)) / 2, floorY * 0.45, T.mute, k.small ? 14 : 17, 600, 'center');
-    // graph
-    if (plotOn) {
-      const span = 6, t1 = Math.max(span, simT);
-      plot.range(t1 - span, t1, 0, 3).frame(ctx);
-      plot.clip(ctx); plot.ring(ctx, trace, T.orange, 2); plot.unclip(ctx);
-    }
-    st.h.set(nPeaks ? `${fmt(peaks[0], 2)} m` : '—');
-    const lastP = nPeaks ? peaks[nPeaks - 1] : 0;
-    const ee = tracked >= 0 ? e[tracked] : eSlider;
-    st.next.set(nPeaks ? `${fmt(lastP * ee * ee, 2)} m` : '—');
-    st.last.set(nPeaks > 1 ? `${fmt(lastP, 2)} m` : '—');
-    st.ratio.set(nPeaks > 1 && peaks[nPeaks - 2] > 0.01 ? `${fmt(peaks[nPeaks - 1] / peaks[nPeaks - 2], 2)} (e² = ${fmt(ee * ee, 2)})` : `e² = ${fmt(ee * ee, 2)}`);
-    badge.set(held >= 0 ? 'Let go to drop, or flick to throw' : n ? `g = ${g} m/s² · ${n} ball${n > 1 ? 's' : ''}` : 'Tap anywhere to drop a ball');
-    k.animate(moving);
+    if (tracked) { trace.push([simT, tracked.y - tracked.r]); if (trace.length > 900) trace.shift(); }
+    mark.position.set(tracked ? tracked.x : 0, dropH, tracked ? tracked.z : 0); mark.visible = !!tracked;
+    const last = peaks[peaks.length - 1] || dropH; const e = tracked ? tracked.e : eSlider;
+    peakLine.position.set(0, last, -HALF + 0.01); peakLine.visible = !!tracked;
+    nextLine.position.set(0, last * e * e, -HALF + 0.01); nextLine.visible = !!tracked && last > 0.02;
+    hLbl.el.textContent = `peak ${fmt(last, 2)} m`; hLbl.at(v3.set(HALF - 0.5, last + 0.12, -HALF));
+    nLbl.el.textContent = `next e²h = ${fmt(last * e * e, 2)} m`; nLbl.at(v3.set(HALF - 0.5, last * e * e + 0.12, -HALF));
+    if (!tracked) { hLbl.el.style.opacity = '0'; nLbl.el.style.opacity = '0'; }
+    if ((tick++ & 3) === 0) drawGraph();
+    st.h.set(`${fmt(peaks[0] || dropH, 2)} m`); st.next.set(`${fmt(last * e * e, 2)} m`); st.last.set(`${fmt(last, 2)} m`);
+    st.ratio.set(peaks.length > 1 ? `${fmt(peaks[peaks.length - 1] / peaks[peaks.length - 2], 3)} (e² = ${fmt(e * e, 3)})` : '—');
+    badge.set(tracked ? (peaks.length > 1 ? `Each peak is e² = ${fmt(e * e, 2)} of the one before` : 'Falling…') : 'Tap the ground to drop a ball there');
+    void up;
   });
+  engine.start();
 
-  function sub2(p) { return '₀₁₂₃₄₅₆₇₈₉'[p] || String(p); }
-  setTimeout(() => { if (!n) spawn(roomW * 0.35, 2, 0, 0); }, 400);
-  k.debug = { balls: () => n, ball: (i) => [SX(x[i]), SY(y[i])], peaks: () => Array.from(peaks.slice(0, nPeaks)) };
-  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
+  stage.__bounce = { spawn, peaks: () => peaks.slice() };
+  return { dispose() { panel.dispose(); hud.dispose(); hLbl.remove(); nLbl.remove(); controls.dispose(); engine.dispose(); } };
 }
