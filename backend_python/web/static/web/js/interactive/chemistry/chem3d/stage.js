@@ -6,13 +6,13 @@ export { THREE, BENCH_Y };
 // A chemistry bench in the school lab (the same room as the hands-on practicals), an orbit camera
 // round the apparatus, and tap/drag picking of named objects. World units are 10 cm; the bench top
 // is at BENCH_Y and `world` sits on it.
-export function createChemLab(stage, { title, aim = '', target = [0, 1.4, 0], camera = [0, 3.4, 7.2], minDistance = 2.5, maxDistance = 14 } = {}) {
+export function createChemLab(stage, { title, aim = '', subject = 'chemistry', target = [0, 1.4, 0], camera = [0, 3.4, 7.2], minDistance = 2.5, maxDistance = 14 } = {}) {
   const engine = createEngine(stage, { lite: true, noise: true, envIntensity: 0.6, fov: 38, shadows: true, environment: true, exposure: 1.05 });
   if (!engine) return null;
   const { scene, quality, renderer } = engine;
   const cam = engine.camera;
   cam.near = 0.02; cam.updateProjectionMatrix();
-  buildRoom(scene, { subject: 'chemistry', title, subtitle: aim }, quality, renderer);
+  buildRoom(scene, { subject, title, subtitle: aim }, quality, renderer);
   if (quality.tier !== 'low') { renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap; }
   const world = new THREE.Group(); world.position.y = BENCH_Y; scene.add(world);
   const t = new THREE.Vector3(target[0], target[1] + BENCH_Y, target[2]);
