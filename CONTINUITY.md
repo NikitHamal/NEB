@@ -19,7 +19,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 |---|---|
 | phy12 | units 1–15 scripted, narrated, frame-checked |
 | chem12 | units 1–12 scripted, narrated, frame-checked |
-| bio12 | unit 1 Plant Anatomy: done, all parts frame-checked (part 6 secondary growth rewritten: rings centred on stage, `Captions` one-at-a-time slot, no axes, short recap). Unit 2 Plant Physiology: drafted, under review. Units 3–10: next |
+| bio12 | unit 1 Plant Anatomy: done, all parts frame-checked (part 6 secondary growth rewritten: rings centred on stage, `Captions` one-at-a-time slot, no axes, short recap). Unit 2 Plant Physiology: done, frame-checked. Unit 3 Genetics: in progress (`_gen.py` helpers). Units 4–10: next |
 | then | eng12? (English-medium only), math12, cs12 → class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
@@ -29,7 +29,8 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
   Use `save_state()` + `fade()` + `Restore`.
 - A CPU box (molab marimo kernel, 20 cores) may be used for frame checks; it is shared with a festival-reel agent, so run
   renders under `nice` with at most a few parallel jobs.
-- Next step if interrupted: continue the bio12 queue chapter by chapter (unit_02 review → push, then unit_03 Genetics).
+- Next step if interrupted: finish bio12 unit_03 (Genetics, 5 parts: genetic materials; Mendel's laws; beyond Mendel; linkage; mutation/polyploidy), then unit_04 Embryology.
+- Notes errata found so far: bio12 unit-03 'lethal genes give 2 green : 1 white-carrier' is wrong (white seedlings die; survivors 1 GG : 2 Gg, all green; the 2 : 1 phenotypic ratio is the dominant-lethal yellow mouse).
 
 ### Landing page, /app, site themes, query budgets, self-hosted fonts (Oct 18, 2026)
 
