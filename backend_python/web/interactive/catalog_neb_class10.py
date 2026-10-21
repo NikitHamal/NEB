@@ -365,7 +365,7 @@ COURSES = [
                 'icon': 'bar_chart',
                 'minutes': 14,
                 'sim': 'nebclass10/statistics-explorer',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Load the marks of a class, a year of rainfall or the heights of fifteen students, then watch the mean, median and mode move as the data changes. The histogram redraws itself with the class width you choose.',
                 'objectives': [
                     'Compute the mean, median, mode and range of a raw data set',
