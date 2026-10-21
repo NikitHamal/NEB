@@ -308,7 +308,7 @@ COURSES = [
                 'icon': 'rocket_launch',
                 'minutes': 15,
                 'sim': 'physics/projectile-motion',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Fire a cannon, trace the parabola, and discover why 45° gives the longest shot — and what air resistance ruins.',
                 'objectives': [
                     'Split projectile motion into independent horizontal and vertical parts',
