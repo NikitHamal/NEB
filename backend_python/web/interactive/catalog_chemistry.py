@@ -185,7 +185,7 @@ COURSES = [
                 'icon': 'device_thermostat',
                 'minutes': 10,
                 'sim': 'chemistry/melt-freeze',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Heat and cool ice, chocolate, butter and candle wax, watch their particles break free or lock back together, and catch the thermometer pausing right at the melting point.',
                 'objectives': [
                     'Describe melting and freezing using the particle picture',
