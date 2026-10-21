@@ -171,7 +171,7 @@ COURSES = [
                 'icon': 'rocket_launch',
                 'minutes': 16,
                 'sim': 'space/rocket-launch',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Set your thrust and fuel, hit IGNITE, and fight gravity all the way to the edge of space at 100 km.',
                 'objectives': [
                     'Use Newton\u2019s third law to explain how rockets push',
