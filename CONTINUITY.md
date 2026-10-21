@@ -39,14 +39,22 @@ Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the 
   Gotcha: `core/lite.js` turns transparent MeshPhysical with clearcoat > 0.5 and opacity < 0.75
   into near-invisible glass; liquids/ice use clearcoat 0.5.
 
+- Physics 2D -> 3D done: pendulum-lab, optics-bench (now a builder: `createOpticsBench(stage,
+  opts)`), circuit-lab, magnet-play on the lab bench (`chemistry/chem3d/stage.js`, `subject:
+  'physics'`); projectile-motion, bouncy-balls, ramp-roller (three lanes), forces-playground,
+  waves-lab on the outdoor field (`physics/physics3d/field.js`: grass, hills, scattering sky).
+- Class 10 concave-mirror runs on the 3D optics bench.
+- Regression: `task/harness/smoke.py sim...` loads each at 1440x900 and 390x844 and reports
+  console errors; all converted sims load clean.
+
 **Next, in order**
-1. Physics 2D -> 3D: forces-playground, ramp-roller, bouncy-balls, magnet-play, pendulum-lab,
-   projectile-motion, waves-lab, optics-bench, circuit-lab.
-2. Class 10 (concave-mirror, ohms-law, indicators, food-tests, quadratic-graph,
-   statistics-explorer, height-distance), robotics 2D (line-follower, pid-controller,
-   state-machine, robot-power), AI 2D (what-is-ai, how-ml-learns, perceptron, image-classifier,
-   llm-intro, ethics).
-3. Then the remaining 3D sims, one by one.
+1. Class 10 2D labs: ohms-law, indicators, food-tests, quadratic-graph, statistics-explorer,
+   height-distance. (ohms-law could share `physics/circuit-lab.js` pieces + `handson/circuit.js`.)
+2. Robotics 2D (line-follower, pid-controller, state-machine, robot-power) and AI 2D (what-is-ai,
+   how-ml-learns, perceptron, image-classifier, llm-intro, ethics).
+3. Then the remaining 3D sims one by one (solar-system, earth-moon-sun, moon-phases, eclipses,
+   milky-way, molecule-viewer, neuron, network-3d, robotics 3D) with the same perf pass
+   (`task/harness/prof.py`).
 
 **Test harness** (`task/harness/`, served with `actl serve start 8765 --dir task/harness`):
 `index.html?sim=<path>` mounts any sim without Django. Playwright venv at `/tmp/pw`
