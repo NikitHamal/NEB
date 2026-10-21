@@ -248,7 +248,7 @@ COURSES = [
                 'icon': 'av_timer',
                 'minutes': 15,
                 'sim': 'physics/pendulum-lab',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Drag a real simulated pendulum, change its length and even its planet, and discover exactly what controls its time period.',
                 'objectives': [
                     'Measure the period of a pendulum and compare it with the formula T = 2π√(L/g)',
