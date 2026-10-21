@@ -124,7 +124,7 @@ export default function init(stage) {
     cellMeshes.forEach((c, i) => { c.visible = i < cells; });
     blade.rotation.z += ((closed ? 0 : 0.9) - blade.rotation.z) * (1 - Math.exp(-dt * 10));
     r1.set(VALUES[R1i]); r2.set(VALUES[R2i]);
-    ammeter.set(I); voltmeter.set(V1);
+    ammeter.set(I); voltmeter.set(V1); ammeter.update(dt); voltmeter.update(dt);
     flowK += ((closed ? 1 : 0) - flowK) * (1 - Math.exp(-dt * 4));
     let n = 0; const dir = electrons ? -1 : 1;
     for (const p of paths) {

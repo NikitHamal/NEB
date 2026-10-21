@@ -93,7 +93,7 @@ COURSES = [
                 'icon': 'electrical_services',
                 'minutes': 16,
                 'sim': 'nebclass10/ohms-law',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Wire a cell, an ammeter and one or two resistors in series or parallel. Raise the voltage, record the current, and read the resistance off the slope of the V-I graph you built yourself.',
                 'objectives': [
                     'State Ohm\'s law and the conditions under which it holds',
