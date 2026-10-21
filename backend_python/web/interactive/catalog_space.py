@@ -297,7 +297,7 @@ COURSES = [
                 'icon': 'local_fire_department',
                 'minutes': 16,
                 'sim': 'space/star-lifecycle',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Choose a star\u2019s starting mass and evolve it — will it end as a quiet white dwarf, a neutron star, or a black hole?',
                 'objectives': [
                     'Trace a star\u2019s life from nebula to final remnant',
