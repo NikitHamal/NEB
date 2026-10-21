@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:00,898
+Suberin.
+
+2
+00:00:00,898 --> 00:00:10,208
+Lignin stiffens sclerenchyma and xylem, cutin forms the cuticle on the epidermis, and pectin is what makes collenchyma flexible.
+

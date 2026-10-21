@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:06,432
+Tissues: meristematic or permanent, simple or complex.
+
+3
+00:00:06,432 --> 00:00:15,794
+Collenchyma is alive and flexible, sclerenchyma dead and lignified; xylem carries water up, phloem carries food both ways.
+
+4
+00:00:15,794 --> 00:00:19,101
+Roots have radial bundles and exarch xylem.
+
+5
+00:00:19,101 --> 00:00:27,539
+Stems have conjoint, collateral, endarch bundles, in one open ring in a dicot, scattered and closed in a monocot.
+
+6
+00:00:27,539 --> 00:00:32,903
+Dicot leaves are dorsiventral, monocot leaves isobilateral.
+
+7
+00:00:32,903 --> 00:00:46,263
+And in secondary growth, the cambial ring makes wood inside and bast outside, laying down annual rings, while the cork cambium makes the periderm, and everything outside the cambium is bark.
+

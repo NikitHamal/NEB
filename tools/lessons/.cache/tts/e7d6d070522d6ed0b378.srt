@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,434
+Now we can answer the question from the very start.
+
+2
+00:00:02,434 --> 00:00:06,575
+Why does the sal trunk thicken while the bamboo never does?
+
+3
+00:00:06,575 --> 00:00:08,580
+Look at a monocot bundle.
+
+4
+00:00:08,580 --> 00:00:09,791
+It is closed.
+
+5
+00:00:09,791 --> 00:00:13,203
+There is no cambium between its xylem and phloem.
+

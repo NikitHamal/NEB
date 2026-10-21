@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,679
+Inside each bundle, between the xylem and the phloem, there is already a strip of cambium.
+
+2
+00:00:06,679 --> 00:00:14,518
+It is called the fascicular, or intrafascicular, cambium, because it lies inside the bundle, the fascicle.
+

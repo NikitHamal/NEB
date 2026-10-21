@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,484
+The cambium cell divides tangentially, with the new wall parallel to the surface.
+
+2
+00:00:06,484 --> 00:00:09,036
+One daughter stays a cambium cell.
+
+3
+00:00:09,036 --> 00:00:14,843
+The other, cut off on the inner face, matures into secondary xylem: wood.
+

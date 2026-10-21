@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,796
+Next time the cell divides, the daughter cut off on the outer face becomes secondary phloem, the bast.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,976
+Step two.
+
+2
+00:00:00,976 --> 00:00:07,408
+Zoom into one radial file of cells, a single row running from the pith outwards.
+
+3
+00:00:07,408 --> 00:00:10,208
+In the middle sits one cambium cell.
+

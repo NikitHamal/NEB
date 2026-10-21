@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,526
+One qualification is worth a mark.
+
+2
+00:00:02,526 --> 00:00:07,669
+Annual rings are reliable only where the growing season is sharply defined.
+
+3
+00:00:07,669 --> 00:00:15,507
+In the hot, wet Terai, and in the tropics, the cambium may work almost all year, so the rings are faint.
+
+4
+00:00:15,507 --> 00:00:19,296
+A drought in mid season can even lay down a false ring.
+
+5
+00:00:19,296 --> 00:00:25,416
+So write: counting rings gives the age of a tree in regions with a distinct growing season.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,260
+That is secondary growth: the increase in thickness of a stem or root, made by two lateral meristems, the vascular cambium and the cork cambium.
+
+2
+00:00:10,260 --> 00:00:13,281
+It happens in dicots and gymnosperms.
+
+3
+00:00:13,281 --> 00:00:17,213
+Monocots normally do not have it, and leaves never do.
+
