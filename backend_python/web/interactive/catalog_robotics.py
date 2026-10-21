@@ -327,7 +327,7 @@ COURSES = [
                 'icon': 'route',
                 'minutes': 15,
                 'sim': 'robotics/line-follower',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Give a robot two IR sensors and a simple rule, then watch it chase a curvy line — until you crank the speed too high.',
                 'objectives': [
                     'Explain how an IR sensor tells dark line from light floor',
