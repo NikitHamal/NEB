@@ -22,12 +22,21 @@ Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the 
 - Atom Builder: orbital density baked into a 3D texture per configuration; 4-5x faster, same look.
 - Heart & Lungs / Human Body: SDF organ meshing and skin growth run in module workers
   (`heartlungs/models-worker.js`, `anatomy/envelope-worker.js`), sync fallback.
+- Butterfly / Photosynthesis: no MSAA canvas under the DOF pass.
+- Scale of the Universe (`space/cosmos/`): shared single-scattering atmosphere (`shaders.js`
+  `SCATTER`, `RA`) used by the globe (aerial perspective + limb sky) and the summit sky;
+  `milky.js` (Milky Way in galactic coords); `climber-model.js` + `climber-worker.js` (SDF
+  climber); `cloudsea.js` (cloud deck from the regional DEM); new Sun photosphere + corona in
+  `solar.js`; deep galaxy field in `galaxy.js`; CMB only once outside it (`web.js`).
+  Harness tip: focus fly-tos blend over 1.6 s of sim time; at SwiftShader fps wait ~40 s.
+- Lifecycle of Stars is 3D (`space/star-lifecycle.js` + `space/stars3d/`), catalog `sim_type` 3d.
 
-**Order of remaining work (owner's list)**
-1. Perf on the rest of the heavy 3D sims (butterfly/photosynthesis DOF path, cosmos terrain + logDepth).
-2. Scale of the Universe: full revamp (realism, fidelity, perf).
-3. Lifecycle of stars -> 3D; then every 2D sim -> 3D.
-4. Then chemistry, physics, then all remaining sims, one by one.
+**Next, in order**
+1. 2D -> 3D: space (orbital-sandbox, kepler-orbits, gravity-worlds, rocket-launch), then
+   chemistry (mixing-lab, density-tower, fizzy-reactions, melt-freeze, states-matter, acid-base,
+   reaction-balancer), physics (forces-playground, ramp-roller, bouncy-balls, magnet-play,
+   pendulum-lab, projectile-motion, waves-lab, optics-bench, circuit-lab), class 10, robotics, AI.
+2. Then the 3D chem/phys labs (hands-on runtime), then everything else.
 
 **Test harness** (`task/harness/`, served with `actl serve start 8765 --dir task/harness`):
 `index.html?sim=<path>` mounts any sim without Django. Playwright venv at `/tmp/pw`
