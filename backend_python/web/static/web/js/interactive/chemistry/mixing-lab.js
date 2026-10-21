@@ -1,247 +1,174 @@
 /**
- * Mix it up — drag water, oil, salt, sand and food colouring from the shelf and tip them into
- * the beaker. Salt dissolves (up to its real solubility, about 36 g per 100 mL of water) faster
- * when you stir with the spoon; sand settles to the bottom and never dissolves; oil rises and
- * floats as a layer; a drop of colouring sinks through the oil and spreads through the water by
- * diffusion. Heat the beaker to boil the water off and the salt comes back as crystals.
+ * Mix it up, in 3D. A beaker on a hot plate and, on the bench, water, oil, a salt shaker, a jar of
+ * sand and a dropper of food colouring: tap one to add it. Salt dissolves (up to its real solubility,
+ * about 36 g per 100 mL of water) faster when you stir; sand settles to the bottom and never
+ * dissolves; oil rises and floats as a layer; a drop of colouring sinks through the oil and spreads
+ * through the water by diffusion. Heat the beaker to boil the water off and the salt comes back as
+ * crystals.
  */
-import { createKit, T, Spring, fmt, clamp, background, text, pill, withAlpha, card, softShadow } from '../core/kit2d.js';
-import { Pool, vesselBack, vesselFront, liquid, meniscus, createShelf, stream } from '../core/chem2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { beaker } from '../core/handson/glass.js';
+import { createChemLab, bottle, THREE } from './chem3d/stage.js';
+import { createHotPlate } from './chem3d/particles.js';
 
-const CAP = 250;
-const GX = 18, GY = 22;
-const SOLUBILITY = 0.36;
-const ITEMS = [
-  { id: 'water', label: 'Water', color: '#7cc4f2', kind: 'bottle', sub: 'H₂O' },
-  { id: 'oil', label: 'Oil', color: '#f2c94c', kind: 'bottle', sub: 'OIL', glass: '#fef3c7' },
-  { id: 'salt', label: 'Salt', color: '#f8fafc', kind: 'shaker' },
-  { id: 'sand', label: 'Sand', color: '#d6b37a', kind: 'jar' },
-  { id: 'dye', label: 'Colouring', color: '#e5484d', kind: 'dropper' },
-];
+const CAP = 300; const SOLUBILITY = 0.36;
+const S = 1.25; const RIN = 0.244 * S; const AREA = Math.PI * (RIN * 10) ** 2;
+const H_OF = (ml) => ml / AREA / 10;
+const fmt = (x, d = 0) => x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
 
 export default function init(stage) {
-  const k = createKit(stage, { label: 'A beaker and a shelf of water, oil, salt, sand and food colouring' });
+  const L = createChemLab(stage, { title: 'Mixing lab', aim: 'Dissolving, settling, floating and diffusing', target: [0, 1.0, 0], camera: [0.8, 2.3, 4.6], minDistance: 1.6, maxDistance: 9 });
+  if (!L) return null;
+  const { engine, world, controls } = L;
   const hud = createHud(stage);
-  const badge = hud.badge('Drag something from the shelf over the beaker', T.blue);
+  const badge = hud.badge('Tap the water bottle to start', '#2563eb');
 
-  let water = 0, oil = 0, saltAdded = 0, saltDis = 0, sandG = 0, heating = false, stir = 0, dyeColor = '#e5484d', dropTimer = 0, grainTimer = 0;
-  const grains = new Pool(400);
-  const drops = new Pool(24);
-  const dye = new Float32Array(GX * GY), dye2 = new Float32Array(GX * GY);
-  const v = { x: 0, y: 0, w: 160, h: 220, r: 14, lip: 5 };
-  let pxPer = 1, lastMsg = '';
-  const spoon = { x: 0, y: 0, held: false, px: 0, py: 0, ang: 0 };
-  const flame = new Spring(0, 80, 12);
+  let water = 0; let oil = 0; let saltAdded = 0; let saltDis = 0; let sandG = 0; let heating = false; let stirT = 0; let dyeAmt = 0; let dyeSpread = 1;
+  let dyeColor = new THREE.Color(0xe5484d);
+  const plate = createHotPlate(); world.add(plate.group);
+  const bk = beaker(0); bk.group.scale.setScalar(S); bk.group.position.y = 0.36; world.add(bk.group);
+  const y0 = 0.36 + 0.012 * S;
+  const waterMat = new THREE.MeshPhysicalMaterial({ color: 0xcfe6f7, roughness: 0.05, transparent: true, opacity: 0.45, clearcoat: 0.5, depthWrite: false });
+  const waterM = new THREE.Mesh(new THREE.CylinderGeometry(RIN - 0.004, RIN - 0.004, 1, 40), waterMat); waterM.renderOrder = 3; world.add(waterM);
+  const oilM = new THREE.Mesh(new THREE.CylinderGeometry(RIN - 0.004, RIN - 0.004, 1, 40), new THREE.MeshPhysicalMaterial({ color: 0xf2c94c, roughness: 0.05, transparent: true, opacity: 0.72, clearcoat: 0.5, depthWrite: false }));
+  oilM.renderOrder = 3; world.add(oilM);
+  const plume = new THREE.Mesh(new THREE.SphereGeometry(1, 20, 14), new THREE.MeshPhysicalMaterial({ color: 0xe5484d, transparent: true, opacity: 0.7, roughness: 0.2, depthWrite: false }));
+  plume.renderOrder = 4; world.add(plume);
+
+  const GRAINS = 500;
+  const grainMesh = new THREE.InstancedMesh(new THREE.IcosahedronGeometry(0.019, 0), new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.8 }), GRAINS);
+  grainMesh.count = 0; world.add(grainMesh);
+  const grains = [];
+  const crystals = new THREE.InstancedMesh(new THREE.BoxGeometry(0.03, 0.03, 0.03), new THREE.MeshPhysicalMaterial({ color: 0xf8fafc, roughness: 0.15, clearcoat: 0.5, transparent: true, opacity: 0.9 }), 120);
+  crystals.count = 0; world.add(crystals);
+  const steam = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.22, depthWrite: false }), 60);
+  steam.count = 0; steam.renderOrder = 7; world.add(steam);
+  const puffs = Array.from({ length: 60 }, () => ({ a: 99 }));
+  const spoon = new THREE.Group();
+  const rodMat = new THREE.MeshStandardMaterial({ color: 0xd1d5db, metalness: 0.9, roughness: 0.25 });
+  const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.4, 10), rodMat); rod.position.y = 0.7; spoon.add(rod);
+  spoon.position.set(0.95, 0, 0.5); spoon.rotation.z = 0.2; spoon.userData.home = spoon.position.clone(); world.add(spoon);
+
+  const items = {
+    water: bottle('Water', 0x7cc4f2, { h: 1.05, r: 0.24 }),
+    oil: bottle('Oil', 0xf2c94c, { h: 1.05, r: 0.24 }),
+    salt: bottle('Salt', 0xffffff, { h: 0.7, r: 0.17, glass: 0xffffff }),
+    sand: bottle('Sand', 0xd6b37a, { h: 0.6, r: 0.24 }),
+    dye: bottle('Colouring', 0xe5484d, { h: 0.55, r: 0.11 }),
+  };
+  const spots = { water: [-1.5, -0.4], oil: [-1.0, -0.75], salt: [1.05, -0.7], sand: [1.55, -0.3], dye: [-1.75, 0.35] };
+  Object.entries(items).forEach(([k, b]) => { b.position.set(spots[k][0], 0, spots[k][1]); b.userData.home = b.position.clone(); world.add(b); L.tappable(b, () => act(k)); });
+  L.tappable(spoon, () => act('stir'));
 
   const panel = createPanel(stage, { title: 'Mixing lab' });
-  panel.chips({ label: 'Food colouring', options: [{ value: '#e5484d', label: 'Red', color: '#e5484d' }, { value: '#2563eb', label: 'Blue', color: '#2563eb' }, { value: '#16a34a', label: 'Green', color: '#16a34a' }], value: dyeColor, onChange: (c) => { dyeColor = c; ITEMS[4].color = c; } });
-  const heatT = panel.toggle({ label: 'Heat the beaker (evaporate)', value: false, onChange: (h) => { heating = h; k.animate(true); } });
-  panel.buttonRow([
-    { label: 'Stir', icon: 'cyclone', onClick: () => { stir = 1; k.animate(true); } },
-    { label: 'Empty', icon: 'delete', variant: 'ghost', onClick: empty },
-  ]);
-  const st = panel.stats([{ key: 'water', label: 'Water' }, { key: 'oil', label: 'Oil' }, { key: 'salt', label: 'Salt dissolved' }, { key: 'conc', label: 'Salt per 100 mL' }]);
-  panel.info('Dissolved salt is still there: it has split into particles too small to see. Sand grains are too strongly held together to dissolve. Oil is less dense than water and does not mix with it.');
+  panel.buttonRow([{ label: 'Water 50 mL', icon: 'water', onClick: () => act('water') }, { label: 'Oil 25 mL', icon: 'opacity', onClick: () => act('oil') }]);
+  panel.buttonRow([{ label: 'Salt 5 g', icon: 'grain', onClick: () => act('salt') }, { label: 'Sand 10 g', icon: 'landscape', onClick: () => act('sand') }]);
+  panel.buttonRow([{ label: 'Colouring', icon: 'colorize', onClick: () => act('dye') }, { label: 'Stir', icon: 'cyclone', onClick: () => act('stir') }]);
+  panel.chips({ label: 'Food colouring', options: [{ value: 'e5484d', label: 'Red' }, { value: '2563eb', label: 'Blue' }, { value: '16a34a', label: 'Green' }], value: 'e5484d', onChange: (v) => { dyeColor = new THREE.Color(`#${v}`); } });
+  const heatT = panel.toggle({ label: 'Heat the beaker (evaporate)', value: false, onChange: (h) => { heating = h; } });
+  panel.button({ label: 'Empty and wash the beaker', icon: 'delete', variant: 'ghost', onClick: () => { water = oil = saltAdded = saltDis = sandG = dyeAmt = 0; grains.length = 0; heating = false; heatT.set(false); } });
+  const st = panel.stats([{ key: 'water', label: 'Water' }, { key: 'oil', label: 'Oil layer' }, { key: 'salt', label: 'Salt dissolved' }, { key: 'solid', label: 'Solid at the bottom' }]);
+  panel.info('A solution forms when the particles of a solute spread out among the water particles. Salt dissolves (until the water is saturated); sand does not. Oil does not mix with water: it is less dense, so it floats. Colouring spreads on its own by diffusion; stirring speeds dissolving up.');
 
-  function empty() { water = oil = saltAdded = saltDis = sandG = 0; grains.clear(); drops.clear(); dye.fill(0); heating = false; heatT.set(false); k.invalidate(); }
+  const queue = [];
+  function act(kind) { queue.push({ kind, t: 0 }); }
+  const v3 = new THREE.Vector3(); const m4 = new THREE.Matrix4(); const q = new THREE.Quaternion(); const sc = new THREE.Vector3(); const e3 = new THREE.Euler();
+  const stream = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.01, 1, 8), new THREE.MeshPhysicalMaterial({ transparent: true, opacity: 0.75 }));
+  stream.visible = false; world.add(stream);
+  let crystalN = 0;
+  const SAND = new THREE.Color(0xd6b37a); const SALT = new THREE.Color(0xffffff);
 
-  const shelf = createShelf(k, ITEMS, {
-    target: () => ({ x: v.x, y: v.y - v.h, w: v.w }),
-    onPour: (it, dt, lx, ly) => {
-      const room = CAP - water - oil - sandG / 2.65;
-      if (it.id === 'water' && room > 0) water += Math.min(room, 30 * dt);
-      else if (it.id === 'oil' && room > 0) { oil += Math.min(room, 20 * dt); if (water > 5 && Math.random() < dt * 12) drops.add(v.x + (Math.random() - 0.5) * v.w * 0.6, v.y - (water * 0.6) * pxPer, 0, -40, 3 + Math.random() * 4, 3, 1); }
-      else if (it.id === 'salt' || it.id === 'sand') {
-        grainTimer += dt;
-        const per = it.id === 'salt' ? 0.05 : 0.04;
-        while (grainTimer > per) {
-          grainTimer -= per;
-          if (it.id === 'salt') { saltAdded += 0.5; grains.add(lx + (Math.random() - 0.5) * 6, ly, (Math.random() - 0.5) * 20, 30, 3.6, 0.5, 0); }
-          else { sandG += 1.5; grains.add(lx + (Math.random() - 0.5) * 10, ly, (Math.random() - 0.5) * 30, 40, 1.8, 1.5, 1); }
+  engine.setUpdate((dt, time) => {
+    controls.update(dt);
+    Object.values(items).forEach((b) => { b.position.lerp(b.userData.home, 0.18); b.rotation.z *= 0.82; });
+    spoon.position.lerp(spoon.userData.home, 0.15); spoon.rotation.z += (0.2 - spoon.rotation.z) * 0.15;
+    stream.visible = false;
+    const a = queue[0];
+    if (a) {
+      a.t += dt;
+      const k = Math.min(1, a.t / 0.5) * (a.t > 1.9 ? Math.max(0, 1 - (a.t - 1.9) / 0.4) : 1);
+      const e = k * k * (3 - 2 * k);
+      const top = y0 + H_OF(water) + H_OF(oil);
+      if (a.kind === 'stir') {
+        spoon.position.lerpVectors(spoon.userData.home, v3.set(Math.cos(time * 9) * 0.12, y0 + 0.02, Math.sin(time * 9) * 0.12), e);
+        spoon.rotation.z = 0.08 * e;
+        if (a.t > 0.5 && a.t < 1.9) stirT = 1;
+      } else {
+        const b = items[a.kind];
+        const over = a.kind === 'salt' || a.kind === 'dye' ? v3.set(-0.05, 1.55, 0) : v3.set(-0.45, 1.75, 0);
+        b.position.lerpVectors(b.userData.home, over, e); b.rotation.z = -e * (a.kind === 'salt' || a.kind === 'dye' ? 2.6 : 1.9);
+        if (a.t > 0.5 && a.t < 1.9) {
+          const f = dt / 1.4;
+          if (a.kind === 'water') { water = Math.min(CAP - oil, water + 50 * f); stream.visible = true; stream.material.color.setHex(0x9fd3f7); }
+          if (a.kind === 'oil') { oil = Math.min(CAP - water, oil + 25 * f); stream.visible = true; stream.material.color.setHex(0xf2c94c); }
+          if (a.kind === 'salt' || a.kind === 'sand') {
+            const g = (a.kind === 'salt' ? 5 : 10) * f;
+            if (a.kind === 'salt') saltAdded += g; else sandG += g;
+            const n = Math.ceil(g * (a.kind === 'salt' ? 30 : 14));
+            for (let i = 0; i < n && grains.length < GRAINS; i++) grains.push({ s: a.kind, x: (Math.random() - 0.5) * 0.08, z: (Math.random() - 0.5) * 0.08, y: 1.4, v: 0, rest: false, life: 1 });
+          }
+          if (a.kind === 'dye' && !a.done) { a.done = true; dyeAmt = Math.min(1, dyeAmt + 0.25); dyeSpread = 0; plume.material.color.copy(dyeColor); }
+          if (stream.visible) { stream.position.set(-0.02, (1.6 + top) / 2, 0); stream.scale.set(1, Math.max(0.01, 1.6 - top), 1); }
         }
-      } else if (it.id === 'dye') {
-        dropTimer += dt;
-        if (dropTimer > 0.45) { dropTimer = 0; drops.add(lx, ly, 0, 20, 3.5, 1, 0); }
       }
-    },
-  });
-
-  k.drag({
-    hit: (x, y, s) => (Math.hypot(x - spoon.x, y - spoon.y) < 20 + s || (Math.abs(x - spoon.x - Math.sin(spoon.ang) * 40) < 10 + s && Math.abs(y - spoon.y + 40) < 40) ? 1 : false),
-    down: (x, y) => { spoon.held = true; spoon.px = x; spoon.py = y; k.animate(true); },
-    move: (x, y) => {
-      const nx = clamp(x, v.x - v.w / 2 + 14, v.x + v.w / 2 - 14), ny = clamp(y, v.y - v.h + 10, v.y - 12);
-      const sp = Math.hypot(nx - spoon.px, ny - spoon.py);
-      if (water + oil > 5 && ny > v.y - (water + oil) * pxPer) stir = Math.min(1, stir + sp * 0.01);
-      spoon.x = nx; spoon.y = ny; spoon.px = nx; spoon.py = ny;
-    },
-    up: () => { spoon.held = false; },
-  });
-
-  k.onResize((w, h) => {
-    const small = k.small;
-    v.w = small ? 140 : 200; v.h = small ? h * 0.5 : Math.min(340, h * 0.58);
-    v.x = small ? w * 0.42 : w * 0.42; v.y = h - (small ? 40 : 56);
-    pxPer = (v.h - 10) / CAP;
-    shelf.layout(small ? 6 : w * 0.06, 20, small ? w - 12 : w * 0.72, small ? 74 : 92);
-    spoon.x = v.x + v.w / 2 - 22; spoon.y = v.y - v.h * 0.5;
-  });
-
-  function waterTop() { return (sandG / 2.65 + water) * pxPer; }
-  function bedTop() { return sandG / 1.6 * pxPer; }
-  function cell(px, py) {
-    const wt = waterTop(), bt = bedTop();
-    if (wt - bt < 2) return -1;
-    const gx = Math.floor((px - (v.x - v.w / 2 + 3)) / ((v.w - 6) / GX)), gy = Math.floor(((v.y - bt) - py) / ((wt - bt) / GY));
-    if (gx < 0 || gx >= GX || gy < 0 || gy >= GY) return -1;
-    return gy * GX + gx;
-  }
-
-  function physics(dt) {
-    // evaporation
-    if (heating && water > 0) {
-      water = Math.max(0, water - 6 * dt);
-      if (Math.random() < dt * 20) drops.add(v.x + (Math.random() - 0.5) * v.w * 0.6, v.y - waterTop() - 6, (Math.random() - 0.5) * 6, -30, 5, 1.2, 2);
+      if (a.t > 2.3) queue.shift();
     }
-    // dissolving and crystallising
+    stirT = Math.max(0, stirT - dt * 0.6);
+    // heating boils the water off; salt left behind crystallises
+    plate.set(heating ? 0.9 : 0);
+    if (heating && water > 0) water = Math.max(0, water - 9 * dt);
     const cap = water * SOLUBILITY;
-    if (saltDis > cap) {
-      const back = saltDis - cap; saltDis = cap;
-      for (let n = 0; n < Math.min(60, back / 0.5); n++) grains.add(v.x + (Math.random() - 0.5) * (v.w - 30), v.y - bedTop() - 3, 0, 0, 2.6, 0.5, 0);
+    if (saltDis > cap) { const out = saltDis - cap; saltDis = cap; crystalN = Math.min(120, crystalN + out * 3); }
+    const undissolved = saltAdded - saltDis - crystalN / 3;
+    if (water > 1 && undissolved > 0 && saltDis < cap) saltDis += Math.min(undissolved, cap - saltDis, (0.25 + 2.5 * stirT) * Math.min(undissolved, 4) * dt);
+    if (water <= 1 && saltDis > 0) { crystalN = Math.min(120, crystalN + saltDis * 3); saltDis = 0; }
+    // layers
+    const hw = H_OF(water); const ho = H_OF(oil);
+    waterM.visible = water > 0.5; waterM.scale.y = Math.max(1e-3, hw); waterM.position.y = y0 + hw / 2;
+    oilM.visible = oil > 0.5; oilM.scale.y = Math.max(1e-3, ho); oilM.position.y = y0 + hw + ho / 2;
+    // colouring: a plume that sinks, then spreads through all the water
+    dyeSpread = Math.min(1, dyeSpread + dt * (0.08 + stirT * 1.2));
+    const dyeConc = water > 1 ? dyeAmt * 60 / Math.max(30, water) : 0;
+    waterMat.color.set(0xcfe6f7).lerp(dyeColor, Math.min(0.85, dyeConc * dyeSpread));
+    waterMat.opacity = 0.45 + Math.min(0.35, dyeConc * dyeSpread * 0.4);
+    plume.visible = water > 1 && dyeSpread < 0.97 && dyeAmt > 0;
+    if (plume.visible) { const r = RIN * (0.15 + 0.85 * dyeSpread); plume.scale.set(r, Math.max(0.03, hw * (0.2 + 0.8 * dyeSpread) / 2), r); plume.position.y = y0 + hw - plume.scale.y - (1 - dyeSpread) * hw * 0.3; plume.material.opacity = 0.75 * (1 - dyeSpread); }
+    // grains: salt grains fall, settle and vanish as they dissolve; sand stays as a pile
+    const saltLeftFrac = saltAdded > 0 ? Math.max(0, undissolved) / saltAdded : 0;
+    let n = 0; let saltSeen = 0;
+    for (let i = 0; i < grains.length; i++) {
+      const g = grains[i];
+      const floor = y0 + 0.006 + (g.s === 'sand' ? Math.min(0.06, sandG * 0.0012) * (1 - Math.hypot(g.x, g.z) / RIN) : 0);
+      const inLiq = g.y < y0 + hw + ho;
+      g.v = inLiq ? g.v + (-0.25 - g.v) * (1 - Math.exp(-dt * 8)) : g.v - 9.8 * 0.4 * dt;
+      g.y = Math.max(floor, g.y + g.v * dt);
+      if (g.y <= floor && !g.rest) { g.rest = true; const r = Math.sqrt(Math.random()) * RIN * 0.85; const an = Math.random() * 6.283; g.x = Math.cos(an) * r * (g.s === 'sand' ? 0.8 : 1); g.z = Math.sin(an) * r * (g.s === 'sand' ? 0.8 : 1); }
+      if (g.s === 'salt') { saltSeen++; if (saltSeen > Math.ceil(saltLeftFrac * 30 * saltAdded)) continue; }
+      if (n >= GRAINS) break;
+      e3.set(i, i * 1.3, 0); q.setFromEuler(e3);
+      m4.compose(v3.set(g.x, g.y, g.z), q, sc.setScalar(g.s === 'sand' ? 0.9 : 0.7)); grainMesh.setMatrixAt(n, m4);
+      grainMesh.setColorAt(n, g.s === 'sand' ? SAND : SALT); n++;
     }
-    stir *= Math.exp(-dt * 0.8);
-    const rate = (0.12 + 1.6 * stir) * dt;
-    for (let i = grains.n - 1; i >= 0; i--) {
-      const kind = grains.kind[i];
-      const wt = waterTop(), surfY = v.y - wt, inWater = grains.y[i] > surfY && water > 1;
-      const g = inWater ? (kind ? 160 : 90) : 500;
-      grains.vy[i] += g * dt; grains.vx[i] *= inWater ? Math.exp(-dt * 6) : 1; grains.vy[i] *= inWater ? Math.exp(-dt * 5) : 1;
-      if (inWater && stir > 0.05) grains.vx[i] += Math.sin(k.t * 3 + grains.y[i] * 0.05) * stir * 120 * dt;
-      grains.x[i] += grains.vx[i] * dt; grains.y[i] += grains.vy[i] * dt;
-      grains.x[i] = clamp(grains.x[i], v.x - v.w / 2 + 6, v.x + v.w / 2 - 6);
-      const floor = v.y - bedTop() - 3 - (kind ? 0 : 0);
-      if (grains.y[i] > floor && grains.y[i] > v.y - v.h) { grains.y[i] = floor - Math.random() * 2; grains.vy[i] = 0; grains.vx[i] = 0; if (kind === 1) { grains.kill(i); continue; } }
-      if (kind === 0 && inWater) {
-        const room = water * SOLUBILITY - saltDis;
-        if (room > 0) { const d = Math.min(grains.life[i], rate * 0.5 * Math.min(1, room / 2) * (grains.y[i] >= floor - 3 ? 0.6 : 1)); grains.life[i] -= d; saltDis += d; grains.r[i] = 3.6 * Math.sqrt(grains.life[i] / 0.5) + 0.6; if (grains.life[i] <= 0.002) { grains.kill(i); } }
-      }
+    grainMesh.count = n; grainMesh.instanceMatrix.needsUpdate = true; if (grainMesh.instanceColor) grainMesh.instanceColor.needsUpdate = true;
+    const cn = Math.floor(crystalN);
+    for (let i = 0; i < cn; i++) { const an = i * 2.4; const r = Math.sqrt((i + 0.5) / 120) * RIN * 0.85; q.setFromEuler(e3.set(i * 0.7, i * 1.1, i * 0.3)); m4.compose(v3.set(Math.cos(an) * r, y0 + 0.015, Math.sin(an) * r), q, sc.setScalar(0.6 + (i % 5) * 0.12)); crystals.setMatrixAt(i, m4); }
+    crystals.count = cn; crystals.instanceMatrix.needsUpdate = true;
+    let sn = 0;
+    for (const p of puffs) {
+      if (p.a > 1 && heating && water > 0 && Math.random() < dt * 8) { p.a = 0; p.x = (Math.random() - 0.5) * 0.3; p.z = (Math.random() - 0.5) * 0.3; }
+      if (p.a > 1) continue;
+      p.a += dt * 0.5;
+      m4.compose(v3.set(p.x + Math.sin(time + p.x * 9) * 0.05, y0 + hw + ho + p.a * 1.1, p.z), q.identity(), sc.setScalar(0.05 + p.a * 0.18)); steam.setMatrixAt(sn++, m4);
     }
-    for (let i = drops.n - 1; i >= 0; i--) {
-      const kind = drops.kind[i];
-      drops.life[i] -= dt * (kind === 2 ? 1 : 0);
-      if (kind === 1) {
-        drops.y[i] += drops.vy[i] * dt;
-        if (drops.y[i] < v.y - waterTop() - 2) drops.kill(i);
-        continue;
-      }
-      if (kind === 2) { drops.y[i] += drops.vy[i] * dt; drops.x[i] += drops.vx[i] * dt; drops.r[i] += dt * 6; if (drops.life[i] <= 0) drops.kill(i); continue; }
-      drops.vy[i] += (drops.y[i] > v.y - waterTop() - oil * pxPer ? 40 : 600) * dt;
-      if (drops.y[i] > v.y - waterTop()) drops.vy[i] = Math.min(drops.vy[i], 60);
-      drops.y[i] += drops.vy[i] * dt;
-      const c = cell(drops.x[i], drops.y[i] + 4);
-      if (water > 2 && c >= 0) { dye[c] += 7; drops.kill(i); }
-      else if (drops.y[i] > v.y - bedTop() - 4) { const c2 = cell(drops.x[i], v.y - bedTop() - 6); if (c2 >= 0) dye[c2] += 7; drops.kill(i); }
-    }
-    // diffusion (with a gentle sink of the denser dye) plus stirring
-    if (water > 2) {
-      const D = 1.4 + 30 * stir, n = Math.ceil(D * dt / 0.2), h = dt / n;
-      for (let s = 0; s < n; s++) {
-        for (let y = 0; y < GY; y++) for (let x = 0; x < GX; x++) {
-          const i = y * GX + x, c = dye[i];
-          const l = x > 0 ? dye[i - 1] : c, r = x < GX - 1 ? dye[i + 1] : c, d = y > 0 ? dye[i - GX] : c, u = y < GY - 1 ? dye[i + GX] : c;
-          dye2[i] = c + D * h * (l + r + u + d - 4 * c);
-        }
-        for (let y = 0; y < GY; y++) for (let x = 0; x < GX; x++) { const i = y * GX + x; if (y > 0) { const m = dye2[i] * 1.0 * h; dye2[i] -= m; dye2[i - GX] += m; } }
-        dye.set(dye2);
-      }
-    }
-  }
-
-  k.frame((ctx, dt, w, h) => {
-    physics(dt);
-    const shelfMoving = shelf.step(dt);
-    flame.to(heating ? 1 : 0); flame.step(dt);
-    background(k, ctx, w, h);
-    // bench and shelf
-    ctx.fillStyle = '#e6dccb'; ctx.fillRect(0, v.y, w, h - v.y); ctx.fillStyle = '#d4c4a8'; ctx.fillRect(0, v.y, w, 3);
-    const sy = shelf.slots[0].y;
-    ctx.fillStyle = '#c9a77a'; ctx.fillRect(0, sy, k.small ? w : w * 0.78, 6); ctx.fillStyle = 'rgba(0,0,0,0.08)'; ctx.fillRect(0, sy + 6, k.small ? w : w * 0.78, 4);
-    // heater
-    if (flame.x > 0.02) {
-      ctx.fillStyle = '#475569'; ctx.fillRect(v.x - 30, v.y - 2, 60, 6);
-      for (let i = -2; i <= 2; i++) { const fh = (12 + 6 * Math.sin(k.t * 14 + i)) * flame.x; ctx.fillStyle = withAlpha('#3b82f6', 0.7); ctx.beginPath(); ctx.ellipse(v.x + i * 10, v.y - 2 - fh / 2, 3.5, fh / 2, 0, 0, Math.PI * 2); ctx.fill(); }
-    }
-    softShadow(ctx, v.x, v.y + 2, v.w * 0.6, 6, 0.2);
-    vesselBack(ctx, v);
-    const bt = bedTop(), wt = waterTop();
-    // sand bed
-    if (sandG > 0) { liquid(ctx, v, 0, bt, '#c9a46a', 1); ctx.fillStyle = 'rgba(120,90,40,0.35)'; for (let i = 0; i < Math.min(160, sandG * 2); i++) { const gx = v.x - v.w / 2 + 6 + ((i * 37) % (v.w - 12)), gy = v.y - 4 - ((i * 13) % Math.max(1, bt - 4)); ctx.fillRect(gx, gy, 1.6, 1.6); } }
-    // water with dye
-    if (water > 0.5) {
-      liquid(ctx, v, bt, wt, '#bfe3fb', 0.75);
-      const cw = (v.w - 6) / GX, chh = (wt - bt) / GY, x0 = v.x - v.w / 2 + 3;
-      ctx.fillStyle = dyeColor;
-      for (let y = 0; y < GY; y++) for (let x = 0; x < GX; x++) { const c = dye[y * GX + x]; if (c < 0.01) continue; ctx.globalAlpha = Math.min(0.85, c * 0.5); ctx.fillRect(x0 + x * cw - 0.5, v.y - bt - (y + 1) * chh - 0.5, cw + 1, chh + 1); }
-      ctx.globalAlpha = 1;
-    }
-    if (oil > 0.5) liquid(ctx, v, water > 0.5 ? wt : bt, (water > 0.5 ? wt : bt) + oil * pxPer, '#f2c94c', 0.75);
-    const top = (water > 0.5 ? wt : bt) + oil * pxPer;
-    if (water + oil > 1) meniscus(ctx, v, top, oil > 0.5 ? '#f2c94c' : '#7cc4f2');
-    if (oil > 0.5 && water > 0.5) { ctx.strokeStyle = 'rgba(180,140,40,0.6)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(v.x - v.w / 2 + 3, v.y - wt); ctx.lineTo(v.x + v.w / 2 - 3, v.y - wt); ctx.stroke(); }
-    // grains and drops
-    for (let i = 0; i < grains.n; i++) { ctx.fillStyle = grains.kind[i] ? '#b88a4a' : '#ffffff'; const r = grains.r[i]; ctx.fillRect(grains.x[i] - r / 2, grains.y[i] - r / 2, r, r); if (!grains.kind[i]) { ctx.strokeStyle = 'rgba(70,90,120,0.75)'; ctx.lineWidth = 0.8; ctx.strokeRect(grains.x[i] - r / 2, grains.y[i] - r / 2, r, r); } }
-    for (let i = 0; i < drops.n; i++) {
-      const kind = drops.kind[i];
-      ctx.fillStyle = kind === 1 ? withAlpha('#f2c94c', 0.85) : kind === 2 ? withAlpha('#ffffff', Math.max(0, drops.life[i] * 0.5)) : dyeColor;
-      ctx.beginPath(); ctx.arc(drops.x[i], drops.y[i], drops.r[i], 0, Math.PI * 2); ctx.fill();
-    }
-    vesselFront(ctx, v, { capacity: CAP, step: 50 });
-    // stream from the held bottle
-    const held = shelf.held;
-    if (held && shelf.pouring && (held.id === 'water' || held.id === 'oil')) { const l = shelf.tipOf(ITEMS.indexOf(held), { x: 0, y: 0 }); stream(ctx, l.x, l.y, l.x + 6, v.y - top, held.color, 5); }
-    // spoon
-    ctx.save(); ctx.translate(spoon.x, spoon.y); ctx.rotate(spoon.held ? Math.sin(k.t * 10) * 0.2 * stir : 0.15);
-    ctx.fillStyle = '#94a3b8'; ctx.fillRect(-2, -110, 4, 100); ctx.beginPath(); ctx.ellipse(0, -6, 7, 11, 0, 0, Math.PI * 2); ctx.fill();
-    ctx.restore();
-    if (!spoon.held && stir < 0.05 && water > 20) text(ctx, 'stir ↻', spoon.x + 14, spoon.y - 60, T.blue, 10, 700);
-    shelf.draw(ctx);
-    // observation card
-    const msg = observe();
-    if (!k.small) {
-      const cx = v.x + v.w / 2 + 30, cw = Math.min(260, w - cx - 16);
-      if (cw > 140) { card(ctx, cx, v.y - 150, cw, 120, 12); text(ctx, 'What do you see?', cx + 12, v.y - 128, T.ink, 11.5, 700); wrap(ctx, msg, cx + 12, v.y - 108, cw - 24, 15); }
-    }
-    if (msg !== lastMsg) { lastMsg = msg; badge.set(msg.length > 70 ? msg.slice(0, msg.indexOf('.') + 1) || msg : msg); }
-    st.water.set(`${fmt(water, 0)} mL`); st.oil.set(`${fmt(oil, 0)} mL`);
-    st.salt.set(`${fmt(saltDis, 1)} of ${fmt(saltAdded, 1)} g`);
-    st.conc.set(water > 1 ? `${fmt(saltDis / water * 100, 1)} g${saltDis >= water * SOLUBILITY - 0.05 && saltAdded > saltDis + 0.3 ? ' (saturated)' : ''}` : '—');
-    k.animate(shelfMoving || grains.n > 0 && hasMoving() || drops.n > 0 || stir > 0.01 || heating || flame.moving || spoon.held || dyeActive());
+    steam.count = sn; steam.instanceMatrix.needsUpdate = true;
+    const solid = Math.max(0, undissolved) + sandG + crystalN / 3;
+    st.water.set(`${fmt(water, 0)} mL`); st.oil.set(oil > 0 ? `${fmt(oil, 0)} mL on top` : '—');
+    st.salt.set(`${fmt(saltDis, 1)} g${water > 1 && saltDis >= cap - 0.01 && saltAdded > 0 ? ' (saturated)' : ''}`);
+    st.solid.set(solid > 0.05 ? `${fmt(solid, 1)} g` : '—');
+    badge.set(heating && water > 0 ? 'Boiling the water off…' : crystalN > 1 && water < 1 ? 'The salt has come back as crystals' : water > 1 && saltAdded > 0 && saltDis >= cap - 0.01 ? 'Saturated: no more salt will dissolve' : stirT > 0.1 ? 'Stirring speeds up dissolving' : water < 1 ? 'Tap the water bottle to start' : 'Add salt, sand, oil or a drop of colouring');
   });
+  engine.start();
 
-  function hasMoving() { for (let i = 0; i < grains.n; i++) if (grains.vy[i] !== 0 || (grains.kind[i] === 0 && water > 1 && saltDis < water * SOLUBILITY - 0.01)) return true; return false; }
-  function dyeActive() { if (water < 2) return false; let mx = 0, mn = 1e9; for (let i = 0; i < dye.length; i++) { if (dye[i] > mx) mx = dye[i]; if (dye[i] < mn) mn = dye[i]; } return mx - mn > 0.02; }
-  function observe() {
-    if (water + oil + saltAdded + sandG < 0.1) return 'Drag a bottle, the salt shaker, the sand jar or the colouring over the beaker and tip it in.';
-    if (heating && water > 0) return 'The water is evaporating. Watch: when too little water is left, the salt comes back as crystals.';
-    if (heating && saltAdded > 0) return 'All the water has boiled away and the salt is back as white crystals. It was there all along!';
-    if (saltAdded > saltDis + 0.6 && water > 5 && saltDis >= water * SOLUBILITY - 0.1) return 'Saturated! The water cannot dissolve any more salt, so the extra stays at the bottom. Add water to dissolve it.';
-    if (saltAdded > 0 && saltDis > saltAdded - 0.6 && water > 5) return 'The salt has dissolved: it has broken into particles too small to see, spread through the water.';
-    if (saltAdded > 0 && water > 5) return 'The salt is dissolving. Stir with the spoon to make it dissolve faster.';
-    if (oil > 1 && water > 1) return 'Oil floats on water: it is less dense and does not mix, even when you stir.';
-    if (sandG > 0 && water > 1) return 'Sand sinks and settles. Stir all you like, it will not dissolve.';
-    if (dyeActive()) return 'The colouring spreads out on its own (diffusion). Stirring makes it spread much faster.';
-    if (water > 1) return 'Plain water. Try adding salt, sand, oil or a drop of colouring.';
-    return 'Things behave differently without water. Add some water!';
-  }
-  function wrap(ctx, s, x, y, maxW, lh) {
-    ctx.font = '500 11px Poppins, system-ui, sans-serif'; ctx.fillStyle = T.ink2; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    let line = '', yy = y;
-    const words = s.split(' ');
-    for (let i = 0; i < words.length; i++) { const test = line ? line + ' ' + words[i] : words[i]; if (ctx.measureText(test).width > maxW && line) { ctx.fillText(line, x, yy); line = words[i]; yy += lh; } else line = test; }
-    if (line) ctx.fillText(line, x, yy);
-  }
-
-  k.debug = { slot: (i) => [shelf.slots[i].x, shelf.slots[i].y - 30], beaker: () => [v.x, v.y - v.h - 30], state: () => ({ water, oil, saltAdded, saltDis, sandG }) };
-  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
+  stage.__mix = { act, state: () => ({ water, oil, saltAdded, saltDis, sandG }), heat: (h) => { heating = h; heatT.set(h); } };
+  return { dispose() { panel.dispose(); hud.dispose(); L.dispose(); } };
 }
