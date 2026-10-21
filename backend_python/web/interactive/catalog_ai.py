@@ -173,7 +173,7 @@ COURSES = [
                 'icon': 'show_chart',
                 'minutes': 13,
                 'sim': 'ai/perceptron',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Scatter red and blue dots, then drag a dividing line until it separates the two groups — and watch a perceptron find that line automatically.',
                 'objectives': [
                     'Explain a classifier as drawing a boundary between groups',
