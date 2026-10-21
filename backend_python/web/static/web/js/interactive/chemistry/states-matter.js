@@ -1,87 +1,96 @@
 /**
- * States of matter — heat or cool a sealed box of particles and watch them change state. The
- * temperature follows a real heating model (specific heats; latent heats of fusion and of
- * vaporisation), so the heating curve has a flat step at the melting point and a much longer one
- * at the boiling point, where far more energy is needed to pull particles fully apart. Particle
- * speed grows with temperature: lattice → flowing liquid → fast gas filling the box.
+ * States of matter in 3D. A sealed glass box of particles sits on a hot plate on the lab bench: heat
+ * it or cool it and watch the particles change state. The temperature follows a real heating model
+ * (specific heats; latent heats of fusion and of vaporisation), so the heating curve has a flat step
+ * at the melting point and a much longer one at the boiling point, where far more energy is needed to
+ * pull particles fully apart. The lattice loosens from its surface, the liquid pools, the gas fills
+ * the box at speeds that grow as √T.
  */
-import { createKit, T, Spring, Ring, fmt, clamp, background, text, pill, withAlpha, card } from '../core/kit2d.js';
-import { Plot } from '../core/kit2d-plot.js';
-import { createThermal, createParticles, thermometer, drawHeatDial, dialValue } from '../core/matter2d.js';
+import { createThermal } from '../core/matter2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { canvasCard } from '../space/space3d/kit.js';
+import { createChemLab, THREE } from './chem3d/stage.js';
+import { createParticleBox, createHotPlate } from './chem3d/particles.js';
 
 const SUBS = {
-  water: { label: 'Water', mp: 0, bp: 100, cS: 2.1, cL: 4.18, cG: 2.0, Lf: 334, Lv: 2257, start: -20, lo: -30, hi: 140, colors: ['#93c5fd', '#2563eb', '#7dd3fc'] },
-  ethanol: { label: 'Ethanol', mp: -114, bp: 78, cS: 1.1, cL: 2.44, cG: 1.42, Lf: 108, Lv: 841, start: -130, lo: -140, hi: 110, colors: ['#e9d5ff', '#9333ea', '#d8b4fe'] },
-  iron: { label: 'Iron', mp: 1538, bp: 2862, cS: 0.45, cL: 0.82, cG: 0.45, Lf: 247, Lv: 6090, start: 1300, lo: 1200, hi: 3200, colors: ['#94a3b8', '#f97316', '#fde047'] },
-  oxygen: { label: 'Oxygen', mp: -218, bp: -183, cS: 1.67, cL: 1.7, cG: 0.92, Lf: 13.9, Lv: 213, start: -225, lo: -230, hi: -150, colors: ['#a5f3fc', '#06b6d4', '#cffafe'] },
+  water: { label: 'Water', mp: 0, bp: 100, cS: 2.1, cL: 4.18, cG: 2.0, Lf: 334, Lv: 2257, start: -20, lo: -30, hi: 140, colors: [0x9ccff6, 0x2f7de1, 0xbfe3ff] },
+  ethanol: { label: 'Ethanol', mp: -114, bp: 78, cS: 1.1, cL: 2.44, cG: 1.42, Lf: 108, Lv: 841, start: -130, lo: -140, hi: 110, colors: [0xe4d2fb, 0x8b3fd9, 0xdcc0fb] },
+  iron: { label: 'Iron', mp: 1538, bp: 2862, cS: 0.45, cL: 0.82, cG: 0.45, Lf: 247, Lv: 6090, start: 1300, lo: 1200, hi: 3200, colors: [0x9aa5b5, 0xff7a1a, 0xffe25a] },
+  oxygen: { label: 'Oxygen', mp: -218, bp: -183, cS: 1.67, cL: 1.7, cG: 0.92, Lf: 13.9, Lv: 213, start: -225, lo: -230, hi: -150, colors: [0xa5f3fc, 0x0ea5c6, 0xd6fbff] },
 };
 const MASS = 10;
+const fmt = (x, d = 0) => x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
 
 export default function init(stage) {
-  const k = createKit(stage, { label: 'A sealed box of particles with a heat dial, thermometer and heating curve' });
+  const L = createChemLab(stage, { title: 'States of matter', aim: 'Heat and cool a substance through its changes of state', target: [0, 1.0, 0], camera: [1.4, 2.0, 4.6], minDistance: 2, maxDistance: 9 });
+  if (!L) return null;
+  const { engine, world, controls, quality } = L;
   const hud = createHud(stage);
-  const badge = hud.badge('Turn the dial towards heat', T.blue);
+  const badge = hud.badge('Turn the heater up', '#2563eb');
 
-  let sub = SUBS.water, th = createThermal(sub, MASS), dial = 0, simT = 0;
-  const parts = createParticles(k.small ? 56 : 80);
-  const trace = new Ring(1200);
-  const plot = new Plot({ title: 'Heating curve', xLabel: 'heat added / kJ', yLabel: 'T / °C' });
-  let Q = 0;
-  const hotDial = new Spring(0, 260, 26);
+  let sub = SUBS.water; let th = createThermal(sub, MASS); let dial = 0; let Q = 0;
+  const trace = [];
+  const plate = createHotPlate(); world.add(plate.group);
+  const parts = createParticleBox(quality.tier === 'low' ? 125 : 216, { size: 1.15, radius: 0.05 });
+  parts.group.position.y = 0.37 + 0.575; world.add(parts.group);
+  const probe = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 1.0, 10), new THREE.MeshStandardMaterial({ color: 0xc0c6cf, metalness: 0.9, roughness: 0.3 }));
+  probe.position.set(0.42, 1.25, 0.42); probe.rotation.z = 0.15; world.add(probe);
+  const readout = L.label(); readout.el.style.font = '700 13px ui-monospace,Menlo,monospace'; readout.el.style.color = '#fca5a5';
+  const phaseLbl = L.label();
 
   const panel = createPanel(stage, { title: 'States of matter' });
-  panel.chips({ label: 'Substance', options: Object.keys(SUBS).map((s) => ({ value: s, label: SUBS[s].label, color: SUBS[s].colors[1] })), value: 'water', onChange: (v) => { sub = SUBS[v]; reset(); } });
+  panel.chips({ label: 'Substance', options: Object.keys(SUBS).map((s) => ({ value: s, label: SUBS[s].label })), value: 'water', onChange: (v) => { sub = SUBS[v]; reset(); } });
   const pS = panel.slider({ label: 'Heater', min: -100, max: 100, step: 5, value: 0, format: (v) => (v > 0 ? `heating ${v} %` : v < 0 ? `cooling ${-v} %` : 'off'), onChange: (v) => { dial = v / 100; } });
   panel.button({ label: 'Start again', icon: 'replay', variant: 'ghost', onClick: reset });
+  const graph = canvasCard(panel.body, 1.5);
   const st = panel.stats([{ key: 'T', label: 'Temperature' }, { key: 'phase', label: 'State' }, { key: 'mp', label: 'Melting point' }, { key: 'bp', label: 'Boiling point' }]);
   const lat = panel.readout({ label: 'Latent heats (per gram)', value: '' });
   panel.info('Temperature measures how fast the particles move. On the flat parts of the curve the heat breaks the bonds between particles instead, so the temperature stays the same until the change of state is complete.');
 
-  function reset() { th = createThermal(sub, MASS); parts.reset(th.fm, th.fb); trace.clear(); simT = 0; Q = 0; dial = 0; pS.set(0); lat.set(`melting ${sub.Lf} J, boiling ${sub.Lv} J`); k.animate(true); }
+  function reset() {
+    th = createThermal(sub, MASS); trace.length = 0; Q = 0; dial = 0; pS.set(0);
+    parts.setColors(...sub.colors); parts.reset(th.fm, th.fb);
+    lat.set(`melting ${sub.Lf} J, boiling ${sub.Lv} J`);
+  }
+  reset();
 
-  let bx = 0, by = 0, bw = 0, bh = 0, dx = 0, dy = 0, dr = 40, tx = 0, ty = 0, tH = 0;
-  k.onResize((w, h) => {
-    if (k.small) { bx = 12; by = 46; bw = w * 0.62; bh = h * 0.42; tx = w * 0.78; ty = by + bh - 8; tH = bh - 90; dx = w * 0.84; dy = by + 26; dr = 26; plot.box(10, by + bh + 14, w - 20, h - by - bh - 20); }
-    else { bx = 30; by = 50; bw = Math.min(w * 0.38, h * 0.82); bh = h - 100; tx = bx + bw + 40; ty = by + bh - 14; tH = bh * 0.62; dx = bx + bw + 58; dy = by + 50; dr = 40; plot.box(tx + 90, 50, w - tx - 106, h - 100); }
-    parts.layout(bx + 6, by + 6, bw - 12, bh - 12, Math.min(bw, bh) / 14);
-    parts.reset(th.fm, th.fb);
-  });
-  const dialH = k.drag({ hit: (x, y, s) => { const d = Math.hypot(x - dx, y - dy); return d < dr + s ? d : false; }, move: (x, y) => { dial = Math.round(dialValue(x, y, dx, dy) * 20) / 20; pS.set(Math.round(dial * 100)); }, cursor: 'grab' });
+  function drawGraph() {
+    const { g, w, h } = graph.ctx();
+    const ix = 38; const iy = 22; const iw = w - 48; const ih = h - 44;
+    const qMax = Math.max(Q * 1.15 + 0.2, MASS * (sub.Lf + sub.Lv) / 1000 * 0.5);
+    const X = (q) => ix + q / qMax * iw; const Y = (T) => iy + ih - (T - sub.lo) / (sub.hi - sub.lo) * ih;
+    g.font = '700 11px Poppins, system-ui, sans-serif'; g.fillStyle = '#e8eefb'; g.textAlign = 'left'; g.fillText('Heating curve', 10, 14);
+    g.strokeStyle = 'rgba(160,190,255,0.18)'; g.strokeRect(ix, iy, iw, ih);
+    g.font = '600 9px Poppins, system-ui, sans-serif';
+    for (const [m, c, t] of [[sub.mp, '#c084fc', 'melts'], [sub.bp, '#f87171', 'boils']]) {
+      g.setLineDash([4, 4]); g.strokeStyle = c; g.globalAlpha = 0.6; g.beginPath(); g.moveTo(ix, Y(m)); g.lineTo(ix + iw, Y(m)); g.stroke(); g.setLineDash([]); g.globalAlpha = 1;
+      g.fillStyle = c; g.textAlign = 'right'; g.fillText(`${t} ${m} °C`, ix + iw - 3, Y(m) - 4);
+    }
+    g.strokeStyle = '#f87171'; g.lineWidth = 2; g.beginPath();
+    trace.forEach(([q, T], i) => { if (i) g.lineTo(X(q), Y(T)); else g.moveTo(X(q), Y(T)); });
+    g.stroke();
+    g.fillStyle = '#8ea0c2'; g.textAlign = 'center'; g.fillText('heat added / kJ', ix + iw / 2, h - 6);
+    g.textAlign = 'right'; g.fillText(`${sub.hi}`, ix - 4, iy + 8); g.fillText(`${sub.lo} °C`, ix - 4, iy + ih);
+  }
 
-  k.frame((ctx, dt, w, h) => {
+  const v3 = new THREE.Vector3(); let tick = 0;
+  engine.setUpdate((dt) => {
+    controls.update(dt);
     const P = dial * MASS * sub.Lf / 7;
     th.add(P * dt); Q += P * dt / 1000;
-    simT += dt;
-    if (dial !== 0) trace.push(Q, th.T);
-    parts.sync(th.fm, th.fb, clamp((th.T - sub.lo) / (sub.hi - sub.lo), 0, 1));
-    parts.step(dt, 0.08 + 0.9 * clamp((th.T - sub.lo) / (sub.hi - sub.lo), 0, 1.3));
-    hotDial.to(k.isHot(dialH) ? 1 : 0); hotDial.step(dt);
-
-    background(k, ctx, w, h);
-    card(ctx, bx, by, bw, bh, 14, '#fbfdff');
-    parts.draw(ctx, sub.colors);
-    ctx.strokeStyle = '#334155'; ctx.lineWidth = 3; ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, 14); ctx.stroke();
-    pill(ctx, th.phase(), bx + bw / 2, by + 16, { color: T.ink, size: 11 });
-    thermometer(ctx, tx, ty, tH, th.T, sub.lo, sub.hi, { marks: [{ T: sub.mp, label: 'mp', color: T.purple }, { T: sub.bp, label: 'bp', color: T.red }] });
-    if (!k.small) pill(ctx, `${fmt(th.T, 1)} °C`, tx, ty - tH - 26, { color: T.red, size: 12 });
-    drawHeatDial(ctx, dx, dy, dr, dial, hotDial.x > 0.5);
-    const qMax = Math.max(1, Math.ceil(Q * 1.15 + 0.2));
-    plot.range(0, Math.max(qMax, (MASS * (sub.Lf + sub.Lv) / 1000) * 0.5), sub.lo, sub.hi).frame(ctx);
-    plot.clip(ctx);
-    for (const m of [sub.mp, sub.bp]) { ctx.strokeStyle = withAlpha(m === sub.mp ? T.purple : T.red, 0.5); ctx.setLineDash([5, 4]); ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(plot.ix, plot.Y(m)); ctx.lineTo(plot.ix + plot.iw, plot.Y(m)); ctx.stroke(); }
-    ctx.setLineDash([]);
-    plot.ring(ctx, trace, T.red, 2.2);
-    plot.unclip(ctx);
-    text(ctx, `melts ${sub.mp} °C`, plot.ix + plot.iw - 4, plot.Y(sub.mp) - 6, T.purple, 10, 700, 'right');
-    text(ctx, `boils ${sub.bp} °C`, plot.ix + plot.iw - 4, plot.Y(sub.bp) - 6, T.red, 10, 700, 'right');
+    if (dial !== 0 && (tick++ & 1) === 0) { trace.push([Q, th.T]); if (trace.length > 1500) trace.shift(); }
+    const heat = Math.min(1.3, Math.max(0, (th.T - sub.lo) / (sub.hi - sub.lo)));
+    parts.step(dt, th.fm, th.fb, heat);
+    plate.set(dial);
+    if ((tick & 3) === 0) drawGraph();
+    readout.el.textContent = `${fmt(th.T, 1)} °C`; readout.at(v3.set(0.5, 0.8 + 1.78, 0.42));
+    phaseLbl.el.textContent = th.phase(); phaseLbl.at(v3.set(-0.2, 0.8 + 0.37 + 1.15, 0.6), 0);
     st.T.set(`${fmt(th.T, 1)} °C`); st.phase.set(th.phase().split(' (')[0]); st.mp.set(`${sub.mp} °C`); st.bp.set(`${sub.bp} °C`);
     const plateau = (th.fm > 0 && th.fm < 1) || (th.fb > 0 && th.fb < 1);
-    badge.set(plateau ? `${th.phase()}: the temperature is stuck at ${fmt(th.T, 0)} °C until it is done` : dial === 0 ? 'Turn the dial towards heat (or cool)' : `${th.phase()} at ${fmt(th.T, 0)} °C`);
-    k.animate(true);
+    badge.set(plateau ? `${th.phase()}: the temperature is stuck at ${fmt(th.T, 0)} °C until it is done` : dial === 0 ? 'Turn the heater up (or down to cool)' : `${th.phase()} at ${fmt(th.T, 0)} °C`);
   });
-  lat.set(`melting ${sub.Lf} J, boiling ${sub.Lv} J`);
+  engine.start();
 
-  k.debug = { dial: () => [dx, dy], heat: (v) => { dial = v; }, state: () => ({ T: th.T, fm: th.fm, fb: th.fb }) };
-  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
+  stage.__states = { heat: (v) => { dial = v; pS.set(Math.round(v * 100)); }, add: (q) => { th.add(q); }, state: () => ({ T: th.T, fm: th.fm, fb: th.fb }) };
+  return { dispose() { panel.dispose(); hud.dispose(); readout.remove(); phaseLbl.remove(); parts.dispose(); L.dispose(); } };
 }

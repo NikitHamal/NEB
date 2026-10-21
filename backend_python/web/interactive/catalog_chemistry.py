@@ -376,7 +376,7 @@ COURSES = [
                 'icon': 'thermostat',
                 'minutes': 15,
                 'sim': 'chemistry/states-matter',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Heat and cool a box of particles to watch solids vibrate, liquids flow and gases fly — and find the melting plateaus.',
                 'objectives': [
                     'Describe solids, liquids and gases using the particle model',
