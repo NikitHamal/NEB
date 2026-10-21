@@ -484,7 +484,7 @@ COURSES = [
                 'icon': 'electric_bolt',
                 'minutes': 16,
                 'sim': 'physics/circuit-lab',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Crank the voltage, swap resistors between series and parallel, and watch animated electrons obey Ohm\'s law in real time.',
                 'objectives': [
                     'Apply Ohm\'s law V = IR to predict current from voltage and resistance',
