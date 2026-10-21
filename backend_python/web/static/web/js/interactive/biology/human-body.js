@@ -2,7 +2,7 @@ import { THREE, createEngine, createOrbitControls } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
 import { buildBody } from './body/scene.js';
 import { ORGAN_INFO } from './body/organs.js';
-import { buildScene as buildHeartLungs, backdrop } from './heartlungs/scene.js';
+import { buildScene as buildHeartLungs, buildModels as buildHeartLungModels, backdrop } from './heartlungs/scene.js';
 import { cardiac } from './heartlungs/monitor.js';
 import { createAtlasLabels } from './anatomy/labels.js';
 import { setXray } from './anatomy/tissue.js';
@@ -140,13 +140,15 @@ export default function init(stage) {
     if (o.userData.organ) pickOrgan(o.userData.organ);
   });
 
+  const hlQuality = { tier: quality.tier === 'high' ? 'medium' : 'low' };
+  const hlModels = buildHeartLungModels(hlQuality);
   buildBody(quality, {
     onProgress: (x) => { if (x.total) loading.textContent = `Loading the anatomy model… ${Math.round(x.loaded / x.total * 100)}%`; },
     onStage: (t) => { loading.textContent = t; },
-  }).then((body) => {
+  }).then((body) => hlModels.then((models) => [body, models])).then(([body, models]) => {
     B = body;
     scene.add(B.skin, B.muscleMesh, B.boneMesh, B.organs, B.vessels);
-    HL = buildHeartLungs({ tier: quality.tier === 'high' ? 'medium' : 'low' });
+    HL = buildHeartLungs(hlQuality, models);
     HL.root.scale.setScalar(0.01);
     HL.root.position.set(0.004, 1.262, 0.012);
     HL.diaphragm.visible = false;
