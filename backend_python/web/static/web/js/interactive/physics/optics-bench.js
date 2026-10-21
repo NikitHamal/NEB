@@ -27,14 +27,17 @@ function candle() {
   return { group: g, wax, wick, flame, flameMat, light };
 }
 
-export default function init(stage) {
-  const S = createChemLab(stage, { title: 'Optics bench', aim: 'Images formed by lenses and mirrors', subject: 'physics', target: [0, AXIS, 0], camera: [1.0, 4.4, 9.6], minDistance: 3, maxDistance: 20 });
-  if (!S) return null;
+export default function init(stage) { return createOpticsBench(stage).handle; }
+
+/** The bench, configurable for other lessons: which elements, a starting f and u, extra panel rows. */
+export function createOpticsBench(stage, { title = 'Optics bench', aim = 'Images formed by lenses and mirrors', kinds = Object.keys(KINDS), kind: kind0 = 'convex-lens', f: f0 = 20, u: u0 = 45, fMax = 40, screen: screen0 = true, extend = null, hint = null } = {}) {
+  const S = createChemLab(stage, { title, aim, subject: 'physics', target: [0, AXIS, 0], camera: [1.0, 4.4, 9.6], minDistance: 3, maxDistance: 20 });
+  if (!S) return { handle: null };
   const { engine, world, camera, controls } = S;
   const hud = createHud(stage);
   const badge = hud.badge('Drag the candle or the screen along the rail', '#2563eb');
 
-  let kind = 'convex-lens'; let f = 20; let u = 45; const h = 8; let screenX = 40; let showScreen = true;
+  let kind = kind0; let f = f0; let u = u0; const h = 8; let screenX = 40; let showScreen = screen0;
   const r = {};
 
   // the rail with a cm scale, the holder and the element
@@ -86,12 +89,12 @@ export default function init(stage) {
   const fMarks = [0, 1, 2, 3].map(() => { const m = new THREE.Mesh(new THREE.ConeGeometry(0.06, 0.14, 12), new THREE.MeshBasicMaterial({ color: 0x0f172a })); world.add(m); return m; });
   const lbl = { F: S.label(), F2: S.label(), img: S.label() };
 
-  const panel = createPanel(stage, { title: 'Optics bench' });
-  panel.chips({ label: 'Element', options: Object.keys(KINDS).map((key) => ({ value: key, label: KINDS[key].label })), value: kind, onChange: (v) => { kind = v; buildElement(); } });
-  const fS = panel.slider({ label: 'Focal length |f|', min: 5, max: 40, step: 1, value: f, format: (v) => `${v} cm`, onChange: (v) => { f = v; } });
+  const panel = createPanel(stage, { title });
+  if (kinds.length > 1) panel.chips({ label: 'Element', options: kinds.map((key) => ({ value: key, label: KINDS[key].label })), value: kind, onChange: (v) => { kind = v; buildElement(); } });
+  const fS = panel.slider({ label: 'Focal length |f|', min: 5, max: fMax, step: 1, value: f, format: (v) => `${v} cm${KINDS[kind].lens ? '' : ` (R = ${2 * v} cm)`}`, onChange: (v) => { f = v; } });
   const uS = panel.slider({ label: 'Candle distance u', min: 2, max: 50, step: 1, value: u, format: (v) => `${v} cm`, onChange: (v) => { u = v; } });
   const xS = panel.slider({ label: 'Screen position', min: 2, max: 50, step: 0.5, value: screenX, format: (v) => `${v} cm`, onChange: (v) => { screenX = v; } });
-  panel.toggle({ label: 'Screen on the rail', value: true, onChange: (v) => { showScreen = v; } });
+  if (kinds.some((key) => KINDS[key].lens)) panel.toggle({ label: 'Screen on the rail', value: screen0, onChange: (v) => { showScreen = v; } }); else xS.el.style.display = 'none';
   const st = panel.stats([{ key: 'u', label: 'u' }, { key: 'v', label: 'v' }, { key: 'm', label: 'm = −v/u' }, { key: 'f', label: 'f (signed)' }]);
   const nature = panel.readout({ label: 'Image', value: '—' });
   const check = panel.readout({ label: '1/u + 1/v', value: '—' });
@@ -167,10 +170,16 @@ export default function init(stage) {
     st.u.set(`${fmt(u, 0)} cm`); st.v.set(r.inf ? '∞' : `${fmt(r.v, 1)} cm`); st.m.set(r.inf ? '∞' : fmt(r.m, 2)); st.f.set(`${fmt(r.F, 0)} cm`);
     check.set(r.inf ? '1/u = 1/f → v = ∞' : `${fmt(1 / u, 3)} + ${fmt(1 / r.v, 3)} = ${fmt(1 / u + 1 / r.v, 3)} = 1/${fmt(r.F, 1)}`);
     nature.set(describe(r));
-    badge.set(lens && r.real && !r.inf && showScreen ? (Math.abs(screenX - r.v) < 0.8 ? `Sharp image on the screen at v = ${fmt(r.v, 1)} cm` : 'Slide the screen until the flame is sharp') : describe(r));
+    badge.set(hint ? hint(r, api) : lens && r.real && !r.inf && showScreen ? (Math.abs(screenX - r.v) < 0.8 ? `Sharp image on the screen at v = ${fmt(r.v, 1)} cm` : 'Slide the screen until the flame is sharp') : describe(r));
   });
   engine.start();
 
+  const api = {
+    panel, badge, result: () => ({ ...r }),
+    get f() { return f; }, get u() { return u; }, get kind() { return kind; },
+    setU(v) { u = v; uS.set(v); }, setF(v) { f = v; fS.set(v); },
+  };
+  if (extend) extend(api);
   stage.__optics = { set: (k2, ff, uu, sx) => { kind = k2; f = ff; u = uu; if (sx) screenX = sx; buildElement(); fS.set(ff); uS.set(uu); }, result: () => ({ ...r }) };
-  return { dispose() { panel.dispose(); hud.dispose(); Object.values(lbl).forEach((l) => l.remove()); sTex.dispose(); S.dispose(); } };
+  return { api, handle: { dispose() { panel.dispose(); hud.dispose(); Object.values(lbl).forEach((l) => l.remove()); sTex.dispose(); S.dispose(); } } };
 }
