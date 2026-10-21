@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,898
+Vermicomposting turns organic waste into rich manure using earthworms.
+
+2
+00:00:05,898 --> 00:00:08,229
+But only one kind of earthworm will do.
+
+3
+00:00:08,229 --> 00:00:13,997
+Epigeic worms live in the surface litter and eat and breed fast: perfect.
+
+4
+00:00:13,997 --> 00:00:21,848
+Anecic worms dig deep vertical burrows, and endogeic worms eat soil; neither suits a shallow bin.
+
+5
+00:00:21,848 --> 00:00:26,328
+The standard species is Eisenia fetida, the red wiggler.
+

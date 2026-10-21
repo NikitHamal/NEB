@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,578
+The other glands, in one table.
+
+2
+00:00:02,578 --> 00:00:06,966
+Parathormone raises blood calcium, calcitonin lowers it.
+
+3
+00:00:06,966 --> 00:00:16,328
+The adrenal cortex makes aldosterone, which keeps salt and water, and cortisol, which raises blood sugar and calms inflammation.
+
+4
+00:00:16,328 --> 00:00:22,330
+Too much cortisol is Cushing's syndrome; too little of everything is Addison's disease.
+
+5
+00:00:22,330 --> 00:00:27,070
+The adrenal medulla makes adrenaline for fight or flight.
+
+6
+00:00:27,070 --> 00:00:32,343
+The pineal makes melatonin for sleep, and the thymus matures T cells.
+

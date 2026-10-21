@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,091
+Populations do not grow by a fixed number each year, which would be a straight line.
+
+2
+00:00:05,091 --> 00:00:13,255
+They grow by a fixed proportion, so the increase itself keeps getting bigger: exponential growth, a J curve.
+
+3
+00:00:13,255 --> 00:00:20,677
+Set P t equal to twice P nought, and the doubling time comes out as the natural log of two over r.
+
+4
+00:00:20,677 --> 00:00:26,549
+With r as a percentage, that is about seventy divided by the rate: the rule of seventy.
+

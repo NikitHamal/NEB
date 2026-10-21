@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,221
+Without insulin, or when the body ignores it, that is diabetes mellitus.
+
+2
+00:00:05,221 --> 00:00:13,072
+Glucose climbs past the kidney's threshold of one hundred and eighty, spills into the urine, and drags water with it.
+

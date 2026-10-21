@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,085
+Tuberculosis has not even doubled once.
+
+2
+00:00:03,085 --> 00:00:10,507
+That is why cholera strikes in hours, while tuberculosis takes weeks to appear and six months to cure.
+

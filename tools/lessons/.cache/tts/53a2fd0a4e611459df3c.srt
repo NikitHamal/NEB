@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,666
+Look at the blood vessels.
+
+2
+00:00:01,666 --> 00:00:07,486
+The afferent arteriole bringing blood in is wider than the efferent arteriole taking it out.
+
+3
+00:00:07,486 --> 00:00:11,901
+So blood backs up in the glomerulus, and its pressure stays high.
+
+4
+00:00:11,901 --> 00:00:14,674
+That pressure is what drives filtration.
+

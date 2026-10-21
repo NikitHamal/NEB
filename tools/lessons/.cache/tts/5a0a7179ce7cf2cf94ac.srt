@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,755
+Every industrialising country has followed the same path, the demographic transition.
+
+2
+00:00:05,755 --> 00:00:09,661
+Stage one: high births, high deaths, little growth.
+
+3
+00:00:09,661 --> 00:00:17,981
+Stage two: death rates fall with clean water and vaccines, but births stay high, and the population explodes.
+
+4
+00:00:17,981 --> 00:00:23,632
+Stage three: births fall too, with contraception and girls' education.
+
+5
+00:00:23,632 --> 00:00:27,473
+Stage four: both low, growth near zero.
+

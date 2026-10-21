@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,354
+Inside each villus runs a net of blood capillaries and a central lymph vessel, the lacteal.
+
+2
+00:00:06,354 --> 00:00:14,674
+Glucose and amino acids are absorbed by active transport into the blood, and travel by the hepatic portal vein to the liver first.
+

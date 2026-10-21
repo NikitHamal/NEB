@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,739
+The pituitary is pea sized, hanging from the hypothalamus.
+
+2
+00:00:04,739 --> 00:00:13,906
+Its anterior lobe is true glandular tissue, controlled by releasing hormones from the hypothalamus through a private portal blood supply.
+
+3
+00:00:13,906 --> 00:00:28,294
+It makes six hormones, and the board expects all six: growth hormone, T S H for the thyroid, A C T H for the adrenal cortex, F S H and L H for the gonads, and prolactin for milk.
+

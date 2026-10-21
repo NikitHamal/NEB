@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:10,338
+Our teeth sit in bony sockets, come in two sets, and are of four kinds: incisors cut, canines tear, premolars and molars grind.
+
+2
+00:00:10,338 --> 00:00:15,078
+The dental formula counts one half of each jaw, so it is doubled.
+
+3
+00:00:15,078 --> 00:00:22,291
+Two incisors, one canine, two premolars, three molars, above and below: thirty two.
+
+4
+00:00:22,291 --> 00:00:25,468
+Milk teeth have no premolars: twenty.
+

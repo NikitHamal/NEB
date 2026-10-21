@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:13,697
+Vaccines come in several types: live but weakened, like B C G and measles; killed; just the key antigen, like hepatitis B; toxoids against tetanus; and now m R N A.
+
+2
+00:00:13,697 --> 00:00:21,757
+It began with Jenner in seventeen ninety six, using cowpox against smallpox, which was eradicated in nineteen eighty.
+
+3
+00:00:21,757 --> 00:00:28,346
+A vaccine gives artificial active immunity: your own body does the work, and remembers.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,906
+Merozoites burst out and invade red blood cells.
+
+2
+00:00:03,906 --> 00:00:15,755
+Inside each cell the parasite grows, divides, and every forty eight hours the red cells burst together, releasing new merozoites and toxins.
+
+3
+00:00:15,755 --> 00:00:23,684
+That synchronised bursting is the fever: a cold stage with shivering, a hot stage, then sweating.
+
+4
+00:00:23,684 --> 00:00:26,575
+Every third day: tertian malaria.
+

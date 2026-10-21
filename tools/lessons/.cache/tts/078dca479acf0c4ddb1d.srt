@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,768
+Thirty, thirty and forty percent: nine hundred, nine hundred and twelve hundred.
+

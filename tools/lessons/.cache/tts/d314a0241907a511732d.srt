@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,007
+Five litres is fifty lots of a hundred millilitres: about one litre of oxygen on haemoglobin in the whole body.
+

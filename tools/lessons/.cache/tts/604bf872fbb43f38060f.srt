@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,622
+The endocrine system is the slow but far reaching control system.
+
+2
+00:00:04,622 --> 00:00:11,627
+Ductless glands pour hormones into the blood, which carries them to any cell with the right receptor.
+
+3
+00:00:11,627 --> 00:00:15,559
+Slower than nerves, but the effects last much longer.
+
+4
+00:00:15,559 --> 00:00:27,486
+Peptide hormones like insulin bind a receptor on the surface and work through a second messenger such as cyclic A M P; steroid hormones pass straight through the membrane and act on the genes.
+

@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:05,625
+The communicable diseases to know, as pathogen, route and prevention.
+
+2
+00:00:05,625 --> 00:00:11,458
+Tuberculosis, by droplets, prevented by B C G and DOTS treatment.
+
+3
+00:00:11,458 --> 00:00:15,156
+Typhoid and cholera, from contaminated water.
+
+4
+00:00:15,156 --> 00:00:17,317
+Hepatitis B, by blood.
+
+5
+00:00:17,317 --> 00:00:19,075
+Rabies, by an animal bite.
+
+6
+00:00:19,075 --> 00:00:24,388
+Dengue, carried by the Aedes mosquito, now spreading in Nepal's cities.
+
+7
+00:00:24,388 --> 00:00:26,640
+Kala azar by the sandfly.
+
+8
+00:00:26,640 --> 00:00:29,895
+And roundworm, from soil on unwashed food.
+

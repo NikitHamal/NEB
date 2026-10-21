@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,148
+Four valves keep the flow one way.
+
+2
+00:00:02,148 --> 00:00:13,736
+The tricuspid between the right atrium and ventricle; the bicuspid, or mitral, on the left; and two semilunar valves at the exits to the pulmonary artery and the aorta.
+
+3
+00:00:13,736 --> 00:00:19,843
+Tendon cords anchor the atrioventricular valves, like the strings of a parachute.
+

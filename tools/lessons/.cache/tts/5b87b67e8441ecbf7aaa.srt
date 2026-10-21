@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,682
+A concave, diverging lens: it spreads the rays slightly so the image moves back onto the retina.
+
+2
+00:00:07,682 --> 00:00:14,479
+A convex lens is for hypermetropia, and a cylindrical lens corrects astigmatism.
+

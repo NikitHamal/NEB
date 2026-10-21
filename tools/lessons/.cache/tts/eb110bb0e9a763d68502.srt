@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,882
+The electrical wave can be recorded from the skin: the E C G.
+
+2
+00:00:04,882 --> 00:00:07,942
+The P wave is the atria depolarising.
+
+3
+00:00:07,942 --> 00:00:13,984
+The Q R S complex is the ventricles depolarising, just before they contract.
+
+4
+00:00:13,984 --> 00:00:17,513
+The T wave is the ventricles repolarising.
+
+5
+00:00:17,513 --> 00:00:22,395
+Heart rate is sixty divided by the R to R interval in seconds.
+

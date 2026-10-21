@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,802
+A disease answer must name the route precisely.
+
+2
+00:00:03,802 --> 00:00:07,395
+Airborne droplets for tuberculosis and COVID.
+
+3
+00:00:07,395 --> 00:00:17,721
+Faecal oral, through water and food, for typhoid, cholera and hepatitis A and E. Vectors for malaria, dengue and kala azar.
+
+4
+00:00:17,721 --> 00:00:21,119
+Blood for hepatitis B and H I V.
+
+5
+00:00:21,119 --> 00:00:30,533
+Two traps: hepatitis B does not spread through food or water, and dengue is carried by the day biting Aedes, not Culex.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,945
+Fat is handled almost entirely in the intestine.
+
+2
+00:00:03,945 --> 00:00:13,971
+Bile from the liver has no enzyme at all: its salts emulsify the fat into tiny droplets, giving lipase far more surface to work on.
+
+3
+00:00:13,971 --> 00:00:17,421
+The products: fatty acids and glycerol.
+

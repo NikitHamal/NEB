@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,406
+Exam tip.
+
+2
+00:00:01,406 --> 00:00:04,609
+Antibiotics act only on bacteria.
+
+3
+00:00:04,609 --> 00:00:11,888
+A vaccine gives artificial active immunity; a ready made antiserum gives artificial passive immunity.
+
+4
+00:00:11,888 --> 00:00:17,747
+And names matter: Salmonella Typhi, Apis cerana, Eisenia fetida.
+

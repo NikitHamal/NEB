@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,908
+Gases move only by diffusion, down partial pressure gradients.
+
+2
+00:00:04,908 --> 00:00:11,861
+Ninety seven percent of oxygen rides on haemoglobin, each molecule carrying four oxygens.
+
+3
+00:00:11,861 --> 00:00:21,458
+The curve of saturation against oxygen pressure is S shaped: nearly full in the lungs, and giving oxygen up steeply around the tissues.
+

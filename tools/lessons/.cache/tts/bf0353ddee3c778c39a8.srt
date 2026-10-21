@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,380
+Exam tip.
+
+2
+00:00:01,380 --> 00:00:07,981
+Cardiac output is stroke volume times heart rate, measured in litres per minute, not in beats.
+
+3
+00:00:07,981 --> 00:00:13,984
+An athlete has a slow pulse but a normal cardiac output, because each beat pumps more.
+
+4
+00:00:13,984 --> 00:00:17,330
+And normal blood pressure is one twenty over eighty.
+

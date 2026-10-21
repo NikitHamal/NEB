@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,523
+Hormones fine tune it.
+
+2
+00:00:01,523 --> 00:00:11,080
+A D H, from the posterior pituitary, saves water; without it you get diabetes insipidus, litres of dilute urine.
+
+3
+00:00:11,080 --> 00:00:22,486
+When blood pressure falls, the juxtaglomerular apparatus releases renin, leading to angiotensin and aldosterone, which save salt and water and restore the pressure.
+
+4
+00:00:22,486 --> 00:00:31,432
+And when the kidneys fail, dialysis pumps blood past a membrane bathed in fluid that has no urea, so urea diffuses out.
+

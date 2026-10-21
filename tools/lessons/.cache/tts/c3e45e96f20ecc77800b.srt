@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,244
+A stimulus pushes it to the threshold, minus fifty five.
+
+2
+00:00:04,244 --> 00:00:12,031
+Sodium gates fly open, sodium floods in, and the inside shoots to plus thirty five: depolarisation.
+
+3
+00:00:12,031 --> 00:00:23,255
+Then sodium gates close, potassium gates open, potassium rushes out, and the inside goes negative again, overshooting to minus eighty before settling.
+

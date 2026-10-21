@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,718
+The dependency ratio: people too young or too old to work, per hundred people of working age.
+

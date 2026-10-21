@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,692
+The residual volume, about twelve hundred millilitres, which keeps the alveoli from collapsing.
+
+2
+00:00:06,692 --> 00:00:12,252
+The expiratory reserve is the trap: that is the extra air you CAN force out.
+

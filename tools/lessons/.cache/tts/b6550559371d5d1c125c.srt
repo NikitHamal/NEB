@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,786
+Because the two limbs run in opposite directions, a small difference at each level is multiplied down the loop.
+
+2
+00:00:07,786 --> 00:00:14,791
+The medulla builds a gradient from three hundred at the cortex to twelve hundred milliosmoles at the tip.
+
+3
+00:00:14,791 --> 00:00:20,937
+The vasa recta run counter current too, so the blood does not wash the salt away.
+

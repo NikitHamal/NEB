@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,138
+Demography is the counting of people.
+
+2
+00:00:03,138 --> 00:00:07,421
+Births add them, deaths remove them, migration moves them.
+
+3
+00:00:07,421 --> 00:00:13,750
+The crude birth rate is live births per thousand people a year; the crude death rate, deaths per thousand.
+
+4
+00:00:13,750 --> 00:00:17,018
+Their difference is the rate of natural increase.
+
+5
+00:00:17,018 --> 00:00:23,450
+And the infant mortality rate is infant deaths per thousand live births, not per thousand people.
+
+6
+00:00:23,450 --> 00:00:26,276
+That denominator is the classic trap.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,481
+Nepal is going through an epidemiological transition: infections are retreating, and non communicable diseases now cause about two thirds of deaths.
+
+2
+00:00:10,481 --> 00:00:15,820
+Chronic lung disease from smoke, heart disease and stroke lead the list.
+
+3
+00:00:15,820 --> 00:00:21,080
+One adult in four has high blood pressure, and nearly three in ten use tobacco.
+

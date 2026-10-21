@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,375
+Hives give honey, wax, propolis and royal jelly.
+
+2
+00:00:04,375 --> 00:00:12,057
+But their greatest value is pollination: eighty seven of the world's leading food crops depend on animal pollinators.
+
+3
+00:00:12,057 --> 00:00:18,437
+In Jumla, Apis cerana makes more than half of all visits to apple flowers.
+
+4
+00:00:18,437 --> 00:00:25,455
+Their enemies are the Varroa mite, sacbrood virus and foulbrood disease, wax moths and hornets.
+

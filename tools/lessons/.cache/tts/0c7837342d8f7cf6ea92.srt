@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,492
+The World Health Organization defines health as complete physical, mental and social well being, not merely the absence of disease.
+
+2
+00:00:09,492 --> 00:00:21,080
+Diseases fall into three groups: communicable, caused by a pathogen that passes between people; non communicable, which are not transmitted; and deficiency diseases.
+

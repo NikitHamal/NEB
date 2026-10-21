@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,591
+Expiration is normally passive.
+
+2
+00:00:02,591 --> 00:00:12,421
+The muscles relax, the elastic lungs and chest wall recoil, the volume falls, the pressure rises, and air is pushed out.
+
+3
+00:00:12,421 --> 00:00:18,346
+Only forced breathing uses the internal intercostals and the abdominal muscles.
+

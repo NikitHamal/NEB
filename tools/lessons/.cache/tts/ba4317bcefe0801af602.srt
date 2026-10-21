@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,807
+The eye.
+
+2
+00:00:00,807 --> 00:00:08,085
+A tough sclera, clear in front as the cornea; a dark choroid; and the light sensitive retina.
+
+3
+00:00:08,085 --> 00:00:21,992
+The retina has about a hundred and twenty million rods, with the pigment rhodopsin, for dim light in black and white, and six or seven million cones, with iodopsin, for bright light and colour, crowded in the yellow spot.
+
+4
+00:00:21,992 --> 00:00:26,445
+Where the optic nerve leaves there are no receptors: the blind spot.
+
+5
+00:00:26,445 --> 00:00:34,023
+And without vitamin A, rhodopsin cannot be made: night blindness, still a real problem in the Terai.
+

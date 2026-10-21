@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,549
+Two special routes.
+
+2
+00:00:01,549 --> 00:00:07,721
+The coronary arteries feed the heart muscle itself; block them, and that is a heart attack.
+
+3
+00:00:07,721 --> 00:00:13,828
+And the hepatic portal vein carries blood from the gut to the liver before it reaches the rest of the body.
+

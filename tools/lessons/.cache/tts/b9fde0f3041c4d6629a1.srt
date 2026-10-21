@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,802
+Ejection fraction is seventy over one hundred and thirty: fifty three point eight percent, just under the normal fifty five to seventy.
+

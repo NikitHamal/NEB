@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,138
+Poultry diseases are a favourite short question.
+
+2
+00:00:03,138 --> 00:00:10,690
+Newcastle disease and Ranikhet disease are the same thing, caused by a virus that can kill a whole flock.
+
+3
+00:00:10,690 --> 00:00:13,333
+Marek's disease causes tumours.
+
+4
+00:00:13,333 --> 00:00:18,763
+Coccidiosis is protozoan, not viral, and damages the caeca.
+
+5
+00:00:18,763 --> 00:00:24,661
+And bird flu, H5N1, first hit Nepal in Jhapa in two thousand and nine.
+

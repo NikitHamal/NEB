@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,419
+Exam tip.
+
+2
+00:00:01,419 --> 00:00:05,455
+In a spinal reflex the decision is made in the spinal cord.
+
+3
+00:00:05,455 --> 00:00:10,104
+Never write that the impulse goes to the brain and comes back.
+
+4
+00:00:10,104 --> 00:00:18,489
+And the knee jerk is monosynaptic: the sensory neuron connects straight to the motor neuron, with no relay neuron.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,903
+Step two: selective reabsorption.
+
+2
+00:00:02,903 --> 00:00:09,388
+The proximal tubule takes back all the glucose and amino acids and most of the salt and water.
+
+3
+00:00:09,388 --> 00:00:16,250
+The descending limb lets water out; the ascending limb pumps salt out but will not let water follow.
+
+4
+00:00:16,250 --> 00:00:21,731
+The distal tubule and collecting duct fine tune, under the control of hormones.
+
+5
+00:00:21,731 --> 00:00:32,317
+Step three, secretion: the tubule adds hydrogen ions, potassium, creatinine and drugs, which is how the kidney controls blood pH.
+

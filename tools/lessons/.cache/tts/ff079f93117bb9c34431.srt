@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,388
+Each kidney holds about a million nephrons, its working units.
+
+2
+00:00:04,388 --> 00:00:11,992
+A nephron starts with a knot of about fifty capillaries, the glomerulus, cupped in a double walled Bowman's capsule.
+
+3
+00:00:11,992 --> 00:00:23,437
+Then a long tubule: the proximal convoluted tubule, the loop of Henle diving into the medulla, the distal convoluted tubule, and a collecting duct.
+

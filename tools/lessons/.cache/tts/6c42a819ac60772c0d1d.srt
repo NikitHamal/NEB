@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,177
+When you fast, glucose falls, and alpha cells release glucagon, which breaks glycogen down and puts glucose back.
+
+2
+00:00:08,177 --> 00:00:13,880
+Glucagon, adrenaline, cortisol and growth hormone can all raise blood sugar.
+
+3
+00:00:13,880 --> 00:00:15,585
+Only insulin lowers it.
+

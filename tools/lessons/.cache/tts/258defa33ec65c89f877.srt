@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,117
+The heart: a fist sized muscular pump in a double walled pericardium.
+
+2
+00:00:05,117 --> 00:00:06,289
+Four chambers.
+
+3
+00:00:06,289 --> 00:00:12,083
+Two thin walled atria receive blood; two thick walled ventricles pump it out.
+
+4
+00:00:12,083 --> 00:00:19,335
+The right side carries deoxygenated blood, the left side oxygenated, and a septum keeps them apart.
+
+5
+00:00:19,335 --> 00:00:25,260
+The left ventricle's wall is about three times thicker, because it pumps blood round the whole body.
+

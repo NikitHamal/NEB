@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:00,963
+Immunity.
+
+2
+00:00:00,963 --> 00:00:07,916
+Innate immunity is with you from birth: skin, mucus, stomach acid, phagocytes.
+
+3
+00:00:07,916 --> 00:00:10,494
+Acquired immunity is specific.
+
+4
+00:00:10,494 --> 00:00:18,072
+It is active when your own body makes the antibodies, after an infection or a vaccine, with memory that lasts.
+
+5
+00:00:18,072 --> 00:00:26,484
+It is passive when antibodies are handed over ready made: across the placenta, in colostrum, or as an antiserum.
+
+6
+00:00:26,484 --> 00:00:28,125
+Quick, but short lived.
+

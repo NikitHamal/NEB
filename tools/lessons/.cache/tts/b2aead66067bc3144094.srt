@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,213
+Fick's law says diffusion is fastest with a large area, a steep pressure difference, and a thin barrier.
+
+2
+00:00:07,213 --> 00:00:17,330
+The lung maximises all three: three hundred million alveoli, seventy square metres, and a membrane less than a micrometre thick.
+

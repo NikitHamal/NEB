@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,604
+How do we know a microbe causes a disease?
+
+2
+00:00:02,604 --> 00:00:07,473
+Robert Koch's four rules, used for anthrax and tuberculosis.
+
+3
+00:00:07,473 --> 00:00:09,348
+Find it in every case.
+
+4
+00:00:09,348 --> 00:00:10,494
+Grow it pure.
+
+5
+00:00:10,494 --> 00:00:14,075
+Give it to a healthy host and get the same disease.
+
+6
+00:00:14,075 --> 00:00:16,822
+And recover the same microbe again.
+
+7
+00:00:16,822 --> 00:00:24,192
+They have limits: some microbes will not grow in culture, and some people carry a pathogen while staying healthy.
+

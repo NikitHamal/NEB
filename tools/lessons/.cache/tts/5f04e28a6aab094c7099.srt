@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,651
+In working muscle, carbon dioxide and acid rise and the temperature goes up.
+
+2
+00:00:05,651 --> 00:00:09,375
+All of these shift the curve to the right: the Bohr effect.
+
+3
+00:00:09,375 --> 00:00:15,546
+At the same pressure, haemoglobin lets go of more oxygen exactly where it is needed most.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,184
+The rhythm is set by the respiratory centre in the medulla, adjusted by the pons, and driven mostly by a rise in carbon dioxide and acidity in the blood, not by a fall in oxygen.
+

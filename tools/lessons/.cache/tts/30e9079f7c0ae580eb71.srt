@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,208
+Progress is real but incomplete: stunting has fallen from fifty seven to twenty five percent, but forty three percent of young children are still anaemic.
+

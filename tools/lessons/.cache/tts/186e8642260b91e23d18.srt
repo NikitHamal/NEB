@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,361
+Tuberculosis is Nepal's most important bacterial disease.
+
+2
+00:00:04,361 --> 00:00:14,270
+Mycobacterium tuberculosis has a waxy wall full of mycolic acid, which makes it slow growing, tough, and impossible to stain the normal way.
+
+3
+00:00:14,270 --> 00:00:16,835
+So we use the Ziehl Neelsen method.
+
+4
+00:00:16,835 --> 00:00:23,984
+Flood the sputum smear with red carbol fuchsin and heat it, driving the dye through the wax.
+

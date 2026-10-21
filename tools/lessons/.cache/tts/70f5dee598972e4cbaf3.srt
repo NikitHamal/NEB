@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,460
+The colony is a caste society.
+
+2
+00:00:02,460 --> 00:00:08,072
+One queen, the only fertile female, laying up to two thousand eggs a day.
+
+3
+00:00:08,072 --> 00:00:15,351
+Thousands of sterile female workers, who clean, nurse, build, guard and finally forage.
+
+4
+00:00:15,351 --> 00:00:21,250
+And a few hundred drones, males that hatch from unfertilised eggs, so they are haploid.
+
+5
+00:00:21,250 --> 00:00:22,369
+What makes a queen?
+
+6
+00:00:22,369 --> 00:00:23,203
+Diet.
+
+7
+00:00:23,203 --> 00:00:29,635
+Every larva gets royal jelly for about three days, but only the future queen is kept on it.
+

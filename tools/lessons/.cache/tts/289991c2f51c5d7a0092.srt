@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,596
+At rest, the sodium potassium pump throws out three sodium ions for every two potassium it brings in, and the membrane leaks potassium.
+
+2
+00:00:09,596 --> 00:00:13,958
+The inside sits at minus seventy millivolts: polarised.
+

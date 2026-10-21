@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,994
+Carbon dioxide travels three ways.
+
+2
+00:00:02,994 --> 00:00:10,286
+About seventy percent as bicarbonate, made inside red cells by the enzyme carbonic anhydrase.
+
+3
+00:00:10,286 --> 00:00:14,557
+About a quarter bound to haemoglobin as carbaminohaemoglobin.
+
+4
+00:00:14,557 --> 00:00:17,304
+And about seven percent simply dissolved.
+

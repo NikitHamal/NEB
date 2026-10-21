@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,526
+Now the chemistry, food by food.
+
+2
+00:00:02,526 --> 00:00:14,192
+Starch is started by salivary amylase in the mouth, paused in the acid stomach, and finished in the small intestine by pancreatic amylase and then maltase, down to glucose.
+

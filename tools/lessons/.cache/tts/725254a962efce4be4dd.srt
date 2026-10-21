@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,658
+Children: forty two point seven per hundred workers.
+

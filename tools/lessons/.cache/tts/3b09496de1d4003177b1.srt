@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,861
+Wash with acid alcohol.
+
+2
+00:00:01,861 --> 00:00:07,018
+Every other cell loses the red dye; the mycobacteria hold it.
+
+3
+00:00:07,018 --> 00:00:08,710
+They are acid fast.
+

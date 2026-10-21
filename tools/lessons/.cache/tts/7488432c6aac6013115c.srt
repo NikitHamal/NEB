@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,432
+Exam tip.
+
+2
+00:00:01,432 --> 00:00:10,455
+A four mark disease question wants four facts: the pathogen, how it spreads, two or three symptoms, and one control measure.
+
+3
+00:00:10,455 --> 00:00:17,252
+And write the scientific name correctly: capital genus, small species, Plasmodium vivax.
+
