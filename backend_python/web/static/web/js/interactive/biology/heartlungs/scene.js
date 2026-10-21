@@ -84,13 +84,32 @@ function mergeTubes(branches) {
   return geo;
 }
 
-export function buildScene(quality) {
+function buildModelsNow(quality) {
+  return { H: buildHeart(quality), L: buildLungs(quality), A: buildAirway(quality), D: buildDiaphragm(quality) };
+}
+
+// The organs are meshed from signed distance fields, a few hundred milliseconds to seconds of pure
+// arithmetic. It runs in a worker so the page keeps scrolling and the loader keeps spinning; the main
+// thread only wraps the finished arrays in geometry.
+export function buildModels(quality) {
+  const q = { tier: quality.tier };
+  return new Promise((resolve) => {
+    let worker;
+    try { worker = new Worker(new URL('./models-worker.js', import.meta.url), { type: 'module' }); } catch (e) { resolve(buildModelsNow(q)); return; }
+    worker.onmessage = (e) => { worker.terminate(); resolve(e.data); };
+    worker.onerror = (e) => { e.preventDefault && e.preventDefault(); worker.terminate(); resolve(buildModelsNow(q)); };
+    worker.postMessage({ quality: q });
+  });
+}
+
+export function buildScene(quality, models = null) {
+  const M = models || buildModelsNow(quality);
   const shared = { uTime: { value: 0 }, uBeatV: { value: 0 }, uBeatA: { value: 0 }, uBreath: { value: 0 }, uTextbook: { value: 0 }, uHi: { value: -1 }, uHiAmt: { value: 0 } };
   const own = () => Object.fromEntries(Object.entries(shared).map(([k, v]) => [k, v]).concat([['uXray', { value: 0 }]]));
   const root = new THREE.Group();
   root.scale.setScalar(0.1);
 
-  const H = buildHeart(quality);
+  const H = M.H;
   const heartGeo = attrGeo(H.mesh, {
     kind: [Float32Array.from(H.kind, (k) => (k === 0 ? 0 : 1)), 1], fat: [H.fat, 1], part: [Float32Array.from(H.partIdx), 1], dispV: [H.dispV, 3], dispA: [H.dispA, 3],
     cR: [H.cR, 3], cB: [H.cB, 3], inr: [H.inr, 1],
@@ -107,7 +126,7 @@ export function buildScene(quality) {
   heartGroup.add(heart);
   root.add(heartGroup);
 
-  const L = buildLungs(quality);
+  const L = M.L;
   const lungMat = createTissue({
     key: 'lung', uniforms: own(), color_fragment: LUNG_COLOR, roughness: 0.55, clearcoat: 0.55, clearcoatRoughness: 0.25, sheen: 0.3, sheenColor: 0xffc8c8,
     vertex: `float s = sign(position.x);
@@ -127,7 +146,7 @@ export function buildScene(quality) {
     root.add(m);
   }
 
-  const airMesh = buildAirway(quality);
+  const airMesh = M.A;
   const airMat = createTissue({ key: 'airway', uniforms: own(), color_fragment: AIRWAY_COLOR, side: THREE.FrontSide, roughness: 0.38, sss: 'vec3(0.5, 0.25, 0.22)', bumpAmt: 0.004 });
   const airway = new THREE.Mesh(attrGeo(airMesh, {}), airMat);
   root.add(airway);
@@ -138,7 +157,7 @@ export function buildScene(quality) {
   tree.visible = false;
   root.add(tree);
 
-  const dMesh = buildDiaphragm(quality);
+  const dMesh = M.D;
   const diaMat = createTissue({
     key: 'diaphragm', uniforms: own(), side: THREE.FrontSide, color_fragment: DIAPH_COLOR, roughness: 0.5,
     vertex: 'float rr = length(position.xz); transformed.y -= (1.0 - smoothstep(4.0, 11.5, rr)) * 2.2 * uBreath;',
