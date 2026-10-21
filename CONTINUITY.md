@@ -8,6 +8,35 @@
 
 ## Current Status
 
+### Interactive sims: performance + 3D revamp (IN FLIGHT, Oct 21, 2026)
+
+Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the GitHub connector
+(`task/tools/ghpush.py <repo> NikitHamal/NEB <branch>`; git itself has no credentials here).
+
+**Done and pushed**
+- `core/engine.js`: drawing-buffer budget (2.6/1.6/0.9 MP by tier), MSAA only below 1.5x DPR,
+  refresh-aware resolution governor that also climbs back (probe + backoff), 4-tap hardware-PCF
+  shadow filter (was 17), shadow maps re-rendered only when a caster/light/geometry changes
+  (`obj.userData.dynamicShadow` forces it; `createEngine({ shadowCache: false })` opts out),
+  `stage.__engine` for tests.
+- Atom Builder: orbital density baked into a 3D texture per configuration; 4-5x faster, same look.
+- Heart & Lungs / Human Body: SDF organ meshing and skin growth run in module workers
+  (`heartlungs/models-worker.js`, `anatomy/envelope-worker.js`), sync fallback.
+
+**Order of remaining work (owner's list)**
+1. Perf on the rest of the heavy 3D sims (butterfly/photosynthesis DOF path, cosmos terrain + logDepth).
+2. Scale of the Universe: full revamp (realism, fidelity, perf).
+3. Lifecycle of stars -> 3D; then every 2D sim -> 3D.
+4. Then chemistry, physics, then all remaining sims, one by one.
+
+**Test harness** (`task/harness/`, served with `actl serve start 8765 --dir task/harness`):
+`index.html?sim=<path>` mounts any sim without Django. Playwright venv at `/tmp/pw`
+(`python3 -m venv /tmp/pw && /tmp/pw/bin/pip install playwright pillow && /tmp/pw/bin/playwright install chromium && sudo /tmp/pw/bin/playwright install-deps chromium`).
+`shoot.py sim out.png [--phone] [--high] [--js EXPR] [--shot name]`, `prof.py sim [--high]` (per-object GPU ms
+under SwiftShader, synchronous), `loadtime.py sim ms` (main-thread long tasks). SwiftShader overstates
+texture-fetch cost; trust it for ALU-heavy shaders, triangle counts and pass counts.
+
+
 ### Landing page, /app, site themes, query budgets, self-hosted fonts (Oct 18, 2026)
 
 - **`/` is a standalone landing page** (`web/views_landing.py`, `templates/landing/landing.html`,
