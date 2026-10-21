@@ -424,7 +424,7 @@ COURSES = [
                 'icon': 'flare',
                 'minutes': 18,
                 'sim': 'physics/optics-bench',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Drag an object along a ray-traced optics bench and watch lenses and mirrors form real and virtual images before your eyes.',
                 'objectives': [
                     'Draw the three principal rays for lenses and curved mirrors',
