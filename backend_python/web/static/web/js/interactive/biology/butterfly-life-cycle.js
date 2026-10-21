@@ -17,7 +17,7 @@ const PART_INFO = {
 
 export default function init(stage) {
   stage.classList.add('bio-beginner-stage', 'bio-butterfly-stage');
-  const engine = createEngine(stage, { lite: true, shadows: true, fov: 38, near: 0.05, far: 3000, environment: false, exposure: 1.0 });
+  const engine = createEngine(stage, { lite: true, shadows: true, antialias: false, fov: 38, near: 0.05, far: 3000, environment: false, exposure: 1.0 });
   if (!engine) return null;
   const { scene, camera, quality } = engine;
   const tier = quality.tier;
