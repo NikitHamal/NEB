@@ -8,6 +8,47 @@ float vnoise(vec3 p){ return nz4(p).g; }
 float fbm3(vec3 p){ return nz4(p).r; }
 `;
 
+// Single scattering in a 100 km shell: Rayleigh and Mie with their real coefficients and scale
+// heights, in Earth radii. The surface shader composes it in linear light (aerial perspective over
+// the disc); the shell pass draws only the sky beyond the limb, over black space.
+export const RA = 1 + 100 / 6371;
+export const SCATTER = `
+      const float RA = ${RA.toFixed(6)};
+      const vec3 BR = vec3(36.95, 86.01, 210.9);
+      const float BM = 133.8;
+      const float HR = ${(8 / 6371).toFixed(7)};
+      const float HM = ${(1.2 / 6371).toFixed(7)};
+      vec2 hitSphere(vec3 o, vec3 d, float r) { float b = dot(o, d); float c = dot(o, o) - r * r; float h = b * b - c; if (h < 0.0) return vec2(1e9, -1e9); h = sqrt(h); return vec2(-b - h, -b + h); }
+      vec2 depthTo(vec3 p, vec3 s) {
+        vec2 e = hitSphere(p, s, RA); float L = max(e.y, 0.0); float dl = L / 4.0; vec2 od = vec2(0.0);
+        for (int j = 0; j < 4; j++) { float hh = length(p + s * dl * (float(j) + 0.5)) - 1.0; od += exp(-vec2(hh / HR, hh / HM)) * dl; }
+        return od;
+      }
+      void scatter(vec3 ro, vec3 rd, float tEnd, vec3 s, int n, out vec3 L, out vec3 T) {
+        vec2 a = hitSphere(ro, rd, RA);
+        float t0 = max(a.x, 0.0); float t1 = min(a.y, tEnd);
+        L = vec3(0.0); T = vec3(1.0);
+        if (t1 <= t0) return;
+        float dt = (t1 - t0) / float(n);
+        vec3 sumR = vec3(0.0); vec3 sumM = vec3(0.0); vec2 odV = vec2(0.0);
+        for (int i = 0; i < 12; i++) {
+          if (i >= n) break;
+          vec3 p = ro + rd * (t0 + dt * (float(i) + 0.5));
+          float hh = max(length(p) - 1.0, 0.0);
+          vec2 dens = exp(-vec2(hh / HR, hh / HM)) * dt;
+          odV += dens;
+          if (hitSphere(p, s, 0.9995).x > 0.0) continue;
+          vec2 odL = depthTo(p, s);
+          vec3 att = exp(-(BR * (odV.x + odL.x) + BM * 1.1 * (odV.y + odL.y)));
+          sumR += dens.x * att; sumM += dens.y * att;
+        }
+        float mu = dot(rd, s);
+        float gg = 0.76;
+        float pm = 0.1193662 * ((1.0 - gg * gg) * (1.0 + mu * mu)) / ((2.0 + gg * gg) * pow(1.0 + gg * gg - 2.0 * gg * mu, 1.5));
+        L = sumR * BR * 0.0596831 * (1.0 + mu * mu) + sumM * BM * pm;
+        T = exp(-(BR * odV.x + BM * 1.1 * odV.y));
+      }`;
+
 export const LOGDEPTH_V = ['#include <common>', '#include <logdepthbuf_pars_vertex>'].join('\n');
 export const LOGDEPTH_VM = '#include <logdepthbuf_vertex>';
 export const LOGDEPTH_F = ['#include <common>', '#include <logdepthbuf_pars_fragment>'].join('\n');

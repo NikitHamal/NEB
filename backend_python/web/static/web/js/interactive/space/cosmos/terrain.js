@@ -1,5 +1,5 @@
 import { THREE } from '../../core/engine.js';
-import { NOISE, shader } from './shaders.js';
+import { NOISE, shader, SCATTER } from './shaders.js';
 import { R_EARTH, EVEREST } from './astro.js';
 
 const TEX = '/static/web/js/interactive/space/cosmos/tex/';
@@ -111,7 +111,7 @@ function buildGrid(dem, grid, sunLocal, scaleTo) {
 
 function terrainMaterial(regional) {
   return shader({
-    transparent: false,
+    transparent: regional,
     depthWrite: true,
     uniforms: {
       uSun: { value: new THREE.Vector3(0, 1, 0) },
@@ -119,7 +119,8 @@ function terrainMaterial(regional) {
       uMpu: { value: 1 },
       uFade: { value: 1 },
       uSat: { value: null },
-      uHaze: { value: new THREE.Color(0x9fbad8) },
+      uHaze: { value: new THREE.Color(0x8fa9cf) },
+      uVis: { value: 1 },
     },
     vertexHead: `attribute vec2 light; varying vec3 vP; varying vec3 vN; varying vec2 vL; varying float vDist;`,
     vertex: `
@@ -131,13 +132,13 @@ function terrainMaterial(regional) {
       vec4 mv = modelViewMatrix * vec4(p, 1.0);
       vDist = -mv.z;
       gl_Position = projectionMatrix * mv;`,
-    fragmentHead: `uniform vec3 uSun; uniform float uHole; uniform float uMpu; uniform float uFade; uniform vec3 uHaze; uniform sampler2D uSat;
+    fragmentHead: `uniform vec3 uSun; uniform float uHole; uniform float uMpu; uniform float uFade; uniform vec3 uHaze; uniform sampler2D uSat; uniform float uVis;
       varying vec3 vP; varying vec3 vN; varying vec2 vL; varying float vDist; ${NOISE}`,
     fragment: `
       if (uHole > 0.0 && max(abs(vP.x), abs(vP.z)) < uHole) discard;
       if (${regional ? '1' : '0'} == 0 && uHole < 0.0 && length(vP.xz) < -uHole) discard;
       float dith = hash13(vec3(gl_FragCoord.xy, 0.0));
-      ${regional ? '' : 'if (dith > smoothstep(12900.0, 10600.0, max(abs(vP.x), abs(vP.z)))) discard;'}
+      ${regional ? 'float edgeA = smoothstep(172000.0, 100000.0, length(vP.xz)) * uVis; if (edgeA < 0.004) discard;' : 'float edgeA = 1.0; if (dith > smoothstep(12900.0, 10600.0, max(abs(vP.x), abs(vP.z)))) discard;'}
       vec3 n = normalize(vN);
       float detail = fbm3(vP * ${regional ? '0.0012' : '0.012'}) - 0.5;
       float fine = fbm3(vP * ${regional ? '0.01' : '0.11'}) - 0.5;
@@ -179,11 +180,11 @@ function terrainMaterial(regional) {
       float lit = vL.x;
       vec3 sky = vec3(0.38, 0.52, 0.80);
       vec3 col = base * (vec3(1.0, 0.97, 0.92) * 2.4 * ndl * lit + sky * (0.55 + 0.25 * n.y) * vL.y);
-      float meters = vDist * uMpu;
-      float haze = 1.0 - exp(-meters / ${regional ? '220000.0' : '70000.0'});
+      float meters = min(vDist * uMpu, ${regional ? '45000.0' : '60000.0'});
+      float haze = 1.0 - exp(-meters / ${regional ? '120000.0' : '70000.0'});
       col = mix(col, uHaze, haze * 0.75 * uFade);
       col = col / (col + vec3(0.85)) * 1.25;
-      gl_FragColor = vec4(pow(col, vec3(1.0 / 2.2)), 1.0);`,
+      gl_FragColor = vec4(pow(col, vec3(1.0 / 2.2)), edgeA * uOpacity);`,
   });
 }
 
@@ -233,23 +234,28 @@ function summitCap(sample, sunLocal) {
   return mesh;
 }
 
+// The sky seen from the summit, 8 849 m up: the same single-scattering atmosphere as the globe,
+// so the zenith is the deep blue of a third of the air, the horizon pales, and the sun is a white disc.
 export function skyMaterial() {
   return shader({
     depthWrite: false,
     uniforms: { uUp: { value: new THREE.Vector3(0, 1, 0) }, uSun: { value: new THREE.Vector3(0, 1, 0) } },
     vertexHead: 'varying vec3 vDir;',
     vertex: 'vDir = normalize((modelMatrix * vec4(position, 1.0)).xyz - cameraPosition); gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);',
-    fragmentHead: 'uniform vec3 uUp; uniform vec3 uSun; varying vec3 vDir;',
+    fragmentHead: `uniform vec3 uUp; uniform vec3 uSun; varying vec3 vDir; ${SCATTER}`,
     fragment: `
-      vec3 d = normalize(vDir);
-      float h = dot(d, uUp);
-      float sd = max(0.0, dot(d, uSun));
-      vec3 zenith = vec3(0.03, 0.12, 0.36);
-      vec3 horizon = vec3(0.52, 0.68, 0.88);
-      vec3 col = mix(horizon, zenith, pow(clamp(h, 0.0, 1.0), 0.45));
-      col = mix(col, vec3(0.72, 0.78, 0.86), smoothstep(0.02, -0.12, h));
-      col += vec3(1.0, 0.9, 0.7) * (pow(sd, 600.0) * 30.0 + pow(sd, 18.0) * 0.35 + pow(sd, 4.0) * 0.08);
-      col = col / (col + vec3(0.9)) * 1.3;
+      vec3 up = normalize(uUp); vec3 d = normalize(vDir); vec3 sd = normalize(uSun);
+      vec3 x = normalize(cross(up, abs(up.y) < 0.9 ? vec3(0.0, 1.0, 0.0) : vec3(1.0, 0.0, 0.0))); vec3 z = cross(x, up);
+      vec3 rd = vec3(dot(d, x), dot(d, up), dot(d, z)); vec3 s = vec3(dot(sd, x), dot(sd, up), dot(sd, z));
+      vec3 ro = vec3(0.0, 1.0 + ${(EVEREST.height / 6.371e6).toFixed(7)}, 0.0);
+      float g = hitSphere(ro, rd, 1.0).x;
+      vec3 L; vec3 T;
+      scatter(ro, rd, g > 0.0 ? g : 1e9, s, 10, L, T);
+      vec3 col = L * 16.0;
+      float mu = dot(rd, s);
+      col += T * smoothstep(0.99996, 0.99999, mu) * 60.0 + T * pow(max(mu, 0.0), 900.0) * 3.0;
+      if (g > 0.0) col += vec3(0.55, 0.6, 0.68) * T * 0.35 * max(s.y, 0.0);
+      col = 1.0 - exp(-col * 1.1);
       gl_FragColor = vec4(pow(col, vec3(1.0 / 2.2)), uOpacity);`,
     side: THREE.BackSide,
   });
@@ -279,13 +285,15 @@ export async function createTerrain(quality, sunLocal, satTexture) {
   return {
     group,
     summitY,
+    height: { n: regDem.n, h: regDem.h, px: regDem.px, ax: regDem.ax, ay: regDem.ay, scale: regScale / regDem.max },
     sample: fine.sample,
     capHeight: cap.userData.height,
     update(logW, mpu) {
       fineMat.uniforms.uMpu.value = mpu; regMat.uniforms.uMpu.value = mpu; cap.material.uniforms.uMpu.value = mpu;
-      cap.visible = logW < 3.4;
+      cap.visible = logW < 2.3;
       fineMesh.visible = logW < 5.6;
-      regMesh.visible = logW > 3.0 && logW < 7.0;
+      regMesh.visible = logW > 3.0 && logW < 6.6;
+      regMat.uniforms.uVis.value = 1 - Math.min(1, Math.max(0, (logW - 5.9) / 0.65));
       regMat.uniforms.uFade.value = 1 - Math.min(1, Math.max(0, (logW - 4.9) / 1.4));
       fineMat.uniforms.uFade.value = 1 - Math.min(1, Math.max(0, (logW - 4.2) / 1.0));
       fineMat.uniforms.uHole.value = cap.visible ? -100 : 0;

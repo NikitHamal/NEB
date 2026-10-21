@@ -6,12 +6,14 @@ import {
 import { setOpacity } from './shaders.js';
 import { createTerrain, skyMaterial } from './terrain.js';
 import { createClimber } from './climber.js';
+import { createCloudSea } from './cloudsea.js';
 import { createEarthSystem } from './earth.js';
 import { createSolarSystem } from './solar.js';
 import { createSkyBackground, createStarNeighbourhood } from './stars.js';
 import { createMilkyWay, createLocalGroup } from './galaxy.js';
 import { createCosmicWeb, createObservableUniverse } from './web.js';
 import { viewQuaternion, keyframed } from './view.js';
+import { createMilkySky } from './milky.js';
 
 const VIEW = 10;
 
@@ -74,6 +76,7 @@ export function createUniverse(engine, { onProgress } = {}) {
   const sunSummit = G.sunDir.clone().applyQuaternion(G.summitQuat.clone().invert());
   let terrain = null;
   let climber = null;
+  let cloudSea = null;
   const summit = layer('summit', {
     unit: 1, origin: G.summitOrigin, quat: G.summitQuat, win: [-5, 7.0], eager: true,
     build: async () => {
@@ -82,8 +85,10 @@ export function createUniverse(engine, { onProgress } = {}) {
       sat.colorSpace = THREE.NoColorSpace;
       terrain = await createTerrain(quality, sunSummit, sat);
       g.add(terrain.group);
+      cloudSea = createCloudSea(terrain.height, sunSummit);
+      g.add(cloudSea.mesh);
       const rot = 0.2; const base = terrain.summitY - 0.08;
-      climber = createClimber((x, z) => terrain.capHeight(x * Math.cos(rot) + z * Math.sin(rot), -x * Math.sin(rot) + z * Math.cos(rot)) - base);
+      climber = await createClimber((x, z) => terrain.capHeight(x * Math.cos(rot) + z * Math.sin(rot), -x * Math.sin(rot) + z * Math.cos(rot)) - base, quality.tier);
       climber.group.position.y = base;
       climber.group.rotation.y = rot;
       g.add(climber.group);
@@ -129,7 +134,8 @@ export function createUniverse(engine, { onProgress } = {}) {
   const group = layer('localgroup', { unit: LY * 1000, origin: new THREE.Vector3(), win: [21.4, 25.0], build: () => createLocalGroup(quality) });
   const web = layer('web', { unit: LY * 1e6, origin: new THREE.Vector3(), win: [23.0, 26.7], build: () => createCosmicWeb(quality) });
   const universe = layer('universe', { unit: LY * 1e9, origin: new THREE.Vector3(), win: [25.4, 30], build: () => createObservableUniverse(quality) });
-  const skyStars = createSkyBackground(quality);
+  const skyStars = new THREE.Group();
+  skyStars.add(createMilkySky(quality), createSkyBackground(quality));
   root.add(skyStars);
 
   const summitFocus = G.summitOrigin.clone();
@@ -231,6 +237,7 @@ export function createUniverse(engine, { onProgress } = {}) {
       if (L.impl.setPx) L.impl.setPx(uPx, L.unit * k);
     }
     if (terrain) terrain.update(lw, 1 / k);
+    if (cloudSea) cloudSea.update(lw, 1 / k, t);
     if (climber) {
       climber.group.visible = lw < 3.6;
       if (climber.group.visible) climber.update(t);
@@ -269,6 +276,7 @@ export function createUniverse(engine, { onProgress } = {}) {
     dispose() {
       layers.forEach((L) => L.impl && L.impl.dispose && L.impl.dispose());
       if (terrain) terrain.dispose();
+      if (cloudSea) cloudSea.dispose();
       if (climber) climber.dispose();
     },
   };
