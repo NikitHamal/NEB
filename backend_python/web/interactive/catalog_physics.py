@@ -73,7 +73,7 @@ COURSES = [
                 'icon': 'sports_score',
                 'minutes': 10,
                 'sim': 'physics/ramp-roller',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Race a ball down a ramp you control — tilt it steeper, add friction, and chase your best time to the finish line.',
                 'objectives': [
                     'Show that a steeper ramp makes a ball speed up faster',
