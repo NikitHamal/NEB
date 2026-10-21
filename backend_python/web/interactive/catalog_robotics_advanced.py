@@ -77,7 +77,7 @@ COURSES = [
                 'icon': 'timeline',
                 'minutes': 20,
                 'sim': 'robotics/pid-controller',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Tune Kp, Ki and Kd live on a cart that must hold position, and watch overshoot, oscillation and damping on a scrolling graph.',
                 'objectives': [
                     'Explain what the P, I and D terms each contribute',
