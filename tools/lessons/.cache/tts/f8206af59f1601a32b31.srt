@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,072
+The nerve path is one point seven metres.
+
+2
+00:00:03,072 --> 00:00:09,596
+At eighty five metres per second that takes zero point zero two seconds: twenty milliseconds.
+

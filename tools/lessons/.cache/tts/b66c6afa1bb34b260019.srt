@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,916
+Neurons are named by their processes: unipolar, bipolar as in the retina, and multipolar, the commonest.
+
+2
+00:00:07,916 --> 00:00:11,705
+By job: sensory, motor and interneurons.
+
+3
+00:00:11,705 --> 00:00:28,489
+And the neuroglia: astrocytes, which help form the blood brain barrier; oligodendrocytes, which make myelin inside the brain and spinal cord; microglia, the nervous system's phagocytes; and ependymal cells, which line the ventricles.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,255
+Three kinds of fibre run through the matrix.
+
+2
+00:00:03,255 --> 00:00:11,927
+White collagen fibres: thick, wavy bundles, very strong and inelastic; boil them and they become gelatin.
+
+3
+00:00:11,927 --> 00:00:19,570
+Yellow elastic fibres: thin, branching, stretching to one and a half times their length and snapping back.
+
+4
+00:00:19,570 --> 00:00:24,739
+And fine reticular fibres, the mesh of lymph nodes and the spleen.
+

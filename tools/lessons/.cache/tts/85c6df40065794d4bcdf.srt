@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,210
+Pause and think.
+
+2
+00:00:01,210 --> 00:00:03,606
+Where will you never find Nissl granules?
+

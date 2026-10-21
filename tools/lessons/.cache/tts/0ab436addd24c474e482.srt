@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:13,437
+Genetic engineering means taking a gene out of one organism, joining it in a test tube to a carrier DNA, and putting it into a living cell, which then gains a trait that no amount of breeding could give it.
+
+2
+00:00:13,437 --> 00:00:19,557
+Because the joined DNA combines two sources, it is called recombinant DNA.
+

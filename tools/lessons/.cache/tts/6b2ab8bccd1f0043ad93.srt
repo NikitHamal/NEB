@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,619
+Where one neuron meets the next is a synapse.
+
+2
+00:00:03,619 --> 00:00:10,898
+The membranes never touch: a gap of about twenty nanometres, the synaptic cleft, separates them.
+
+3
+00:00:10,898 --> 00:00:18,723
+When an impulse reaches the knob, vesicles release a chemical, the neurotransmitter, such as acetylcholine.
+

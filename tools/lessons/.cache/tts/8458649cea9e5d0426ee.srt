@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,471
+Simple squamous.
+
+2
+00:00:01,471 --> 00:00:06,393
+Flat, tile like cells, thin enough for gases to diffuse across.
+
+3
+00:00:06,393 --> 00:00:12,343
+Lungs' alveoli, Bowman's capsule in the kidney, and the lining of every blood vessel.
+

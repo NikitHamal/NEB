@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,018
+Hazards come in three kinds.
+
+2
+00:00:02,018 --> 00:00:10,950
+Biological: germs like Salmonella and cholera, and aflatoxin, a poison made by a mould on damp maize and groundnut.
+
+3
+00:00:10,950 --> 00:00:15,846
+Chemical: pesticide residues, heavy metals, adulterants.
+
+4
+00:00:15,846 --> 00:00:18,789
+Physical: glass, stones, hair.
+
+5
+00:00:18,789 --> 00:00:36,549
+Safety is protected by hygiene, dry storage, pasteurisation and refrigeration, the HACCP system of watching every critical step, and the law: in Nepal, the Food Act, the Department of Food Technology and Quality Control, and the Right to Food Act of twenty seventy five.
+

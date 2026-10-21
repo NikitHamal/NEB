@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,085
+The heart of a breeding programme is the cross.
+
+2
+00:00:03,085 --> 00:00:11,236
+First, collect germplasm, the landraces and wild relatives, into a gene bank, and choose two parents.
+
+3
+00:00:11,236 --> 00:00:16,328
+Then, on the female parent, remove the anthers before they shed pollen.
+
+4
+00:00:16,328 --> 00:00:17,968
+That is emasculation.
+

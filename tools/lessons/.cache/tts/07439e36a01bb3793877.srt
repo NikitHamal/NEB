@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,270
+Actual size is image size divided by magnification.
+
+2
+00:00:04,270 --> 00:00:11,419
+Forty millimetres over a thousand is zero point zero four millimetres, which is forty micrometres.
+
+3
+00:00:11,419 --> 00:00:14,231
+The width is eight micrometres.
+

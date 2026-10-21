@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,226
+Race them over the same distance.
+
+2
+00:00:02,226 --> 00:00:07,708
+Myelinated, eighty five metres per second, is across in a flash.
+
+3
+00:00:07,708 --> 00:00:12,343
+Non myelinated, half a metre per second, is still crawling.
+

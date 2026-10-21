@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,447
+About twenty one thousandths of a second.
+
+2
+00:00:02,447 --> 00:00:10,677
+Now take away one fatty wrapping around the nerve fibres, and the same reflex would take three and a half seconds.
+
+3
+00:00:10,677 --> 00:00:12,812
+Long enough for the thorn to go deep.
+
+4
+00:00:12,812 --> 00:00:19,518
+That wrapping is a tissue, and by the end of this lesson you will be able to calculate both numbers yourself.
+

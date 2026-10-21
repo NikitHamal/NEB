@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,953
+Four tissues, four parts.
+
+2
+00:00:01,953 --> 00:00:05,781
+Epithelial tissue, the coverings and linings.
+
+3
+00:00:05,781 --> 00:00:09,075
+Connective tissue, from fat to bone to blood.
+
+4
+00:00:09,075 --> 00:00:12,773
+Muscular tissue, and how a sarcomere contracts.
+
+5
+00:00:12,773 --> 00:00:17,942
+And nervous tissue: the neuron, the myelin sheath, and the synapse.
+

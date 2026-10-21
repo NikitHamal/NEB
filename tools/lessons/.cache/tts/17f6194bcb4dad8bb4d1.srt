@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,177
+Five more cycles multiply by two to the five, thirty two: about one point seven times ten to the eleven.
+
+2
+00:00:08,177 --> 00:00:15,143
+In practice the enzyme and nucleotides run out and the curve flattens after thirty to thirty five cycles.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,458
+Exam tip.
+
+2
+00:00:01,458 --> 00:00:09,309
+If a question asks for a bio fertilizer, the answer must be an organism: Rhizobium, Azolla, Glomus.
+
+3
+00:00:09,309 --> 00:00:17,382
+Manure and compost supply nutrients themselves; a bio fertilizer supplies living microbes that unlock them.
+

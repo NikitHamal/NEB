@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,966
+A millimetre is a thousand micrometres, so a thousand over eight: one hundred and twenty five cells.
+
+2
+00:00:06,966 --> 00:00:11,302
+Forty tall and eight wide: five times taller than broad.
+
+3
+00:00:11,302 --> 00:00:12,955
+That is what columnar means.
+

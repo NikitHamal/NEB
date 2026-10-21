@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,653
+Step three, inoculation onto the medium, inside a laminar air flow cabinet.
+

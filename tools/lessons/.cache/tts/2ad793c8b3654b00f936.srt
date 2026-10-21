@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,984
+It cuts between G and A on each strand.
+
+2
+00:00:03,984 --> 00:00:13,294
+Because the two cuts are offset, the pieces come apart with four unpaired bases hanging off each end: A A T T.
+
+3
+00:00:13,294 --> 00:00:14,921
+These are sticky ends.
+

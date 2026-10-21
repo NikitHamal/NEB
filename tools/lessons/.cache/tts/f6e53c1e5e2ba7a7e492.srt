@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,851
+The frog's egg is mesolecithal, with a moderate amount of yolk, and telolecithal, with that yolk pushed to one end.
+
+2
+00:00:07,851 --> 00:00:14,778
+The dark animal pole holds the nucleus and most of the cytoplasm; the pale vegetal pole holds the yolk.
+
+3
+00:00:14,778 --> 00:00:20,507
+Eggs are classified on exactly these two features: how much yolk, and where.
+

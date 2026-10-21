@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,203
+Its characters follow from its job as a boundary.
+
+2
+00:00:03,203 --> 00:00:07,656
+The cells are joined by junctions, so the sheet is leak proof.
+
+3
+00:00:07,656 --> 00:00:10,872
+It has a free surface and a basal surface.
+
+4
+00:00:10,872 --> 00:00:17,122
+It has no blood vessels at all: food and oxygen diffuse up from the capillaries beneath.
+
+5
+00:00:17,122 --> 00:00:21,445
+It regrows fast, because it is the layer that wears away.
+
+6
+00:00:21,445 --> 00:00:26,315
+And it is the only tissue that arises from all three germ layers.
+

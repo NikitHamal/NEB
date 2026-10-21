@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,606
+Pseudostratified epithelium is a trick of the eye.
+
+2
+00:00:03,606 --> 00:00:10,247
+The cells are of different heights, so their nuclei sit at two levels and the sheet looks layered.
+
+3
+00:00:10,247 --> 00:00:13,789
+But every single cell stands on the basement membrane.
+
+4
+00:00:13,789 --> 00:00:15,403
+It is one layer thick.
+
+5
+00:00:15,403 --> 00:00:17,812
+It lines the trachea and the nose.
+

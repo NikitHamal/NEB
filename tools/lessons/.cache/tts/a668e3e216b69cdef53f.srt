@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,132
+In the axon.
+
+2
+00:00:01,132 --> 00:00:10,729
+Nissl granules are found in the cyton and the dendrites, and their absence from the axon is exactly how you tell an axon from a dendrite under the microscope.
+

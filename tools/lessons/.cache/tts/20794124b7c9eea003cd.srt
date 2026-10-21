@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,036
+The germ layer table, the most asked table in this unit.
+
+2
+00:00:04,036 --> 00:00:10,598
+Ectoderm makes the skin and the entire nervous system, including the retina and lens.
+
+3
+00:00:10,598 --> 00:00:16,562
+Mesoderm makes muscle, bone, blood, the heart, the kidneys and the gonads.
+
+4
+00:00:16,562 --> 00:00:23,294
+Endoderm lines the gut and makes the liver, pancreas, the lining of the lungs, and the thyroid.
+

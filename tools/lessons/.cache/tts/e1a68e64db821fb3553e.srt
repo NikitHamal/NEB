@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:10,247
+Gametogenesis turns diploid germ cells into haploid gametes: spermatogenesis in the testis, oogenesis in the ovary.
+
+2
+00:00:10,247 --> 00:00:13,242
+Both run through three phases.
+
+3
+00:00:13,242 --> 00:00:15,729
+Multiplication, by mitosis.
+
+4
+00:00:15,729 --> 00:00:16,640
+Growth.
+
+5
+00:00:16,640 --> 00:00:21,536
+And maturation, two meiotic divisions that halve the chromosome number.
+

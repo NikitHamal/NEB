@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,210
+Give columnar cells cilia, and the beating hairs sweep things along: mucus in the bronchioles, the egg along the oviduct, cerebrospinal fluid in the brain's ventricles.
+
+2
+00:00:11,210 --> 00:00:13,815
+That is ciliated columnar epithelium.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,328
+Simple cuboidal.
+
+2
+00:00:01,328 --> 00:00:04,765
+Cube shaped cells with a round central nucleus.
+
+3
+00:00:04,765 --> 00:00:11,250
+Kidney tubules, thyroid follicles and the ducts of glands, for absorbing and secreting.
+

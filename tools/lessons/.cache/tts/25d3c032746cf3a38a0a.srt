@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,221
+The third tool is a vector, a carrier that will multiply inside the host.
+
+2
+00:00:05,221 --> 00:00:12,226
+The classic one is the plasmid p B R three two two: a small ring of bacterial DNA.
+
+3
+00:00:12,226 --> 00:00:23,203
+It has an origin of replication, so it copies itself, and two antibiotic resistance genes, for ampicillin and tetracycline, that act as markers.
+

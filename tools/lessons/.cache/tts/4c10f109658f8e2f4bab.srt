@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,791
+Under high power, striated muscle is a stack of repeating units.
+
+2
+00:00:04,791 --> 00:00:13,398
+Between two Z lines lies one sarcomere, the unit of contraction, about two point four micrometres long at rest.
+
+3
+00:00:13,398 --> 00:00:18,515
+Thick myosin filaments sit in the middle and make the dark A band.
+
+4
+00:00:18,515 --> 00:00:23,789
+Thin actin filaments are anchored to the Z lines and make the light I band.
+
+5
+00:00:23,789 --> 00:00:28,059
+The middle of the A band, with myosin only, is the H zone.
+

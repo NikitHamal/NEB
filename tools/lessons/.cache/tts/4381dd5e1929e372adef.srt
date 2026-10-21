@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,067
+In many neurons the axon is wrapped in a fatty myelin sheath, made by Schwann cells.
+
+2
+00:00:06,067 --> 00:00:11,640
+The sheath is broken every millimetre or so, at the nodes of Ranvier.
+

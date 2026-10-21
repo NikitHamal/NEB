@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,244
+Nervous tissue is built from neurons, which carry messages, and the more numerous neuroglia, which support, insulate and protect them.
+
+2
+00:00:09,244 --> 00:00:19,140
+A typical motor neuron has a cell body, the cyton, with its nucleus and dark patches of rough endoplasmic reticulum, the Nissl granules.
+

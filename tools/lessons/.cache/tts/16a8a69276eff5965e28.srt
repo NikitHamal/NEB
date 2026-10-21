@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,403
+Inside, a new cavity grows: the archenteron, the primitive gut.
+
+2
+00:00:05,403 --> 00:00:09,700
+It pushes the old blastocoel aside until it disappears.
+
+3
+00:00:09,700 --> 00:00:16,080
+The blastopore becomes a ring, with a plug of pale yolky cells sticking out: the yolk plug.
+
+4
+00:00:16,080 --> 00:00:23,411
+Now there are three layers: ectoderm outside, endoderm lining the gut, mesoderm in between.
+

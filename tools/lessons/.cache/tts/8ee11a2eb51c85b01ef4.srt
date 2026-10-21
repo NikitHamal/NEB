@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,036
+Muscle cells, or fibres, are packed with two protein filaments, actin and myosin, that slide to make the cell shorten.
+
+2
+00:00:09,036 --> 00:00:10,924
+There are three kinds.
+
+3
+00:00:10,924 --> 00:00:19,322
+Striated, or skeletal, muscle: long unbranched cylinders, striped, with many nuclei at the edge.
+
+4
+00:00:19,322 --> 00:00:23,528
+It is voluntary, fast, powerful, and it tires.
+

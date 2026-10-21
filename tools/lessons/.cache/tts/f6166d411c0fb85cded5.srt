@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,643
+Cartilage is firm but flexible.
+
+2
+00:00:02,643 --> 00:00:11,302
+Its cells, chondrocytes, sit alone or in twos in little spaces called lacunae, in a matrix of the protein chondrin.
+
+3
+00:00:11,302 --> 00:00:18,463
+It is wrapped in a perichondrium, and it has no blood vessels at all: it is fed only by slow diffusion.
+

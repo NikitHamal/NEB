@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,552
+Merocrine: the secretion leaves by exocytosis and the cell stays whole, as in the salivary glands.
+
+2
+00:00:07,552 --> 00:00:13,424
+Apocrine: the tip of the cell pinches off with the secretion, as in the mammary gland.
+
+3
+00:00:13,424 --> 00:00:20,299
+Holocrine: the whole cell breaks down and becomes the secretion, as in the sebaceous glands of the skin.
+

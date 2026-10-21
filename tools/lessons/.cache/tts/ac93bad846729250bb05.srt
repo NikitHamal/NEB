@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,898
+The liver.
+
+2
+00:00:00,898 --> 00:00:04,869
+It grows out of the gut lining, so it is endodermal.
+
+3
+00:00:04,869 --> 00:00:09,674
+Kidney, heart and muscle are all mesoderm, the in between layer.
+

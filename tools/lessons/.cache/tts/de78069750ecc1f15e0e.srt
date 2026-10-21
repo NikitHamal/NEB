@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,406
+It diffuses across the cleft, binds receptors on the next cell, and starts a new impulse there.
+
+2
+00:00:06,406 --> 00:00:09,921
+An enzyme, cholinesterase, then destroys it.
+
+3
+00:00:09,921 --> 00:00:18,007
+Because the vesicles are only on one side and the receptors only on the other, a synapse works in one direction only.
+

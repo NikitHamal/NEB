@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,736
+At prophase one the DNA has already been copied.
+
+2
+00:00:03,736 --> 00:00:09,062
+Still twenty six chromosomes, but each has two chromatids: fifty two.
+

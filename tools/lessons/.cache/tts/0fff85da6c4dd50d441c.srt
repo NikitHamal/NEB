@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,057
+Put everything in micrometres.
+
+2
+00:00:02,057 --> 00:00:09,244
+Two point four centimetres is twenty four thousand micrometres, so there are ten thousand sarcomeres in a row.
+

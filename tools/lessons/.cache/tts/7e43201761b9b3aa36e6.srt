@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,348
+Meiosis one is the reduction division: two n to n.
+
+2
+00:00:04,348 --> 00:00:08,606
+In the male it gives two equal secondary spermatocytes.
+
+3
+00:00:08,606 --> 00:00:16,966
+In the female the split is wildly unequal: one big secondary oocyte, and one tiny first polar body.
+

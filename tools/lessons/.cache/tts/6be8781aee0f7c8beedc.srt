@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,197
+Side by side.
+
+2
+00:00:01,197 --> 00:00:07,421
+A diploid spermatogonium and a diploid oogonium multiply by mitosis.
+
+3
+00:00:07,421 --> 00:00:13,242
+One grows into a primary spermatocyte, or a primary oocyte, still diploid.
+
+4
+00:00:13,242 --> 00:00:20,690
+In the female the growth is enormous, because the oocyte stocks up yolk and machinery for the embryo.
+

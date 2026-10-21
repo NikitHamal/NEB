@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,895
+To check the right piece has been cut or copied, run it on an agarose gel.
+
+2
+00:00:04,895 --> 00:00:07,903
+Load the samples in wells at the negative end.
+
+3
+00:00:07,903 --> 00:00:15,572
+DNA's phosphate groups make it negative at any pH, so every fragment moves towards the positive anode.
+
+4
+00:00:15,572 --> 00:00:22,656
+The gel is a sieve: short fragments slip through quickly and go far, long ones lag behind.
+

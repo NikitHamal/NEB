@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,330
+Thirty cycles: five times two to the thirty, about five point three seven times ten to the nine.
+

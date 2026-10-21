@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,651
+Then sixteen cells, thirty two, and a solid ball called the morula.
+
+2
+00:00:05,651 --> 00:00:11,510
+The number of cells doubles every time: after n divisions, two to the n.
+

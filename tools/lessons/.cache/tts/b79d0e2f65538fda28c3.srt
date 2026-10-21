@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,419
+Exam tip.
+
+2
+00:00:01,419 --> 00:00:03,359
+Do not mix up the two sheaths.
+
+3
+00:00:03,359 --> 00:00:08,125
+The myelin sheath is the fatty insulation made by the Schwann cell.
+
+4
+00:00:08,125 --> 00:00:14,153
+The neurilemma is the Schwann cell's own thin outer membrane, outside the myelin.
+
+5
+00:00:14,153 --> 00:00:20,585
+Non myelinated fibres still have a neurilemma; they just have no myelin and no nodes.
+
