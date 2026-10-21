@@ -199,7 +199,7 @@ COURSES = [
                 'icon': 'animation',
                 'minutes': 15,
                 'sim': 'space/kepler-orbits',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Stretch an orbit\u2019s eccentricity and watch the planet sweep equal areas in equal times — Kepler\u2019s laws live on your screen.',
                 'objectives': [
                     'State Kepler\u2019s three laws in plain language',
