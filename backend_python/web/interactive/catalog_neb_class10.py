@@ -156,7 +156,7 @@ COURSES = [
                 'icon': 'water_drop',
                 'minutes': 13,
                 'sim': 'nebclass10/indicators',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Test lemon juice, curd, lime water, soap, baking soda and a salt solution with litmus paper, phenolphthalein, methyl orange and universal indicator — and watch the colour change decide the answer.',
                 'objectives': [
                     'Define an acid and a base and give everyday examples of each',
