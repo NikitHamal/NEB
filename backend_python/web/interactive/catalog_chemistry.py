@@ -131,7 +131,7 @@ COURSES = [
                 'icon': 'bubble_chart',
                 'minutes': 10,
                 'sim': 'chemistry/fizzy-reactions',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Mix virtual baking soda and vinegar, watch CO₂ bubbles erupt into foam, and inflate a balloon with the gas you make — then find out which ingredient ran out first.',
                 'objectives': [
                     'Recognise a chemical reaction: new things are made that were not there before',
