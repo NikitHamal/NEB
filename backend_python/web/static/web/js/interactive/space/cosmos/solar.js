@@ -16,6 +16,9 @@ export function markerMaterial() {
   });
 }
 
+// The photosphere at 5 772 K: granulation cells ~1 000 km across that boil, supergranulation and
+// faculae, sunspots with umbra and penumbra in the activity belts, and limb darkening per colour
+// (I/I0 = 1 - u(1 - mu), u larger in blue) so the edge goes orange; a thin chromosphere at the rim.
 function sunMaterial() {
   return shader({
     transparent: false, depthWrite: true,
@@ -26,18 +29,59 @@ function sunMaterial() {
     fragmentHead: `uniform float uTime; varying vec3 vN; varying vec3 vV; varying vec3 vP; ${NOISE}`,
     fragment: `
       vec3 n = normalize(vN);
-      float mu = max(0.0, dot(n, normalize(vV)));
-      vec3 p = n * 60.0;
-      vec3 c = hash33(floor(p));
-      float cells = vnoise(p + vec3(uTime * 0.2)) * 0.6 + vnoise(p * 2.3 - vec3(uTime * 0.3)) * 0.4;
-      float spots = smoothstep(0.72, 0.8, fbm3(n * 4.0 + 11.0)) * smoothstep(0.55, 0.15, abs(n.y));
-      float fac = fbm3(n * 9.0 + vec3(0.0, uTime * 0.02, 0.0));
-      float limb = 0.35 + 0.65 * pow(mu, 0.55);
-      vec3 col = mix(vec3(1.0, 0.38, 0.08), vec3(1.0, 0.8, 0.5), pow(mu, 0.35)) * (0.62 + cells * 0.55) * limb * 1.35;
-      col *= 1.0 - spots * 0.8;
-      col += vec3(1.0, 0.75, 0.45) * smoothstep(0.55, 0.75, fac) * (1.0 - mu) * 0.6;
-      col = 1.0 - exp(-col * 1.6);
+      float mu = clamp(dot(n, normalize(vV)), 0.0, 1.0);
+      float t = uTime;
+      vec4 g1 = nz4(n * 96.0 + vec3(0.0, t * 0.05, 0.0));
+      vec4 g2 = nz4(n * 190.0 - vec3(t * 0.07, 0.0, 0.0));
+      float lanes = smoothstep(0.0, 0.16, g1.b) * 0.6 + smoothstep(0.0, 0.16, g2.b) * 0.4;
+      float sup = fbm3(n * 20.0 + vec3(t * 0.01));
+      float gran = mix(0.8, 1.04, lanes) * (0.93 + 0.1 * sup);
+      float act = smoothstep(0.62, 0.2, abs(n.y)) * smoothstep(0.08, 0.2, abs(n.y));
+      float sf = fbm3(n * 5.5 + 13.0);
+      float spot = smoothstep(0.72, 0.8, sf) * act;
+      float umbra = smoothstep(0.79, 0.84, sf) * act;
+      float fil = 0.75 + 0.25 * sin(atan(n.z, n.x) * 260.0 + sf * 80.0);
+      float fac = smoothstep(0.55, 0.7, sup) * pow(1.0 - mu, 1.5);
+      vec3 u = vec3(0.47, 0.62, 0.82);
+      vec3 limb = 1.0 - u * (1.0 - mu);
+      vec3 col = vec3(1.0, 0.8, 0.56) * 1.55 * gran * limb;
+      col *= mix(1.0, 0.45 * fil, spot);
+      col *= 1.0 - umbra * 0.85;
+      col += vec3(1.0, 0.85, 0.6) * fac * 1.4;
+      col += vec3(1.0, 0.25, 0.3) * smoothstep(0.12, 0.0, mu) * 0.8;
+      col = 1.0 - exp(-col * 1.15);
       gl_FragColor = vec4(pow(col, vec3(1.0 / 2.2)), 1.0);`,
+  });
+}
+
+// The corona, prominences and glare: a camera-facing disc in solar radii. Streamers follow a noise
+// in position angle and fall off as r^-2.5; red prominence loops rise just above the limb.
+function coronaMaterial() {
+  return shader({
+    uniforms: { uTime: { value: 0 } },
+    vertexHead: 'varying vec2 vQ;',
+    vertex: `vQ = position.xy;
+      vec4 c = modelViewMatrix * vec4(0.0, 0.0, 0.0, 1.0);
+      float sc = length(modelMatrix[0].xyz);
+      gl_Position = projectionMatrix * (c + vec4(position.xy * sc, 0.0, 0.0));`,
+    fragmentHead: `uniform float uTime; varying vec2 vQ; ${NOISE}`,
+    fragment: `
+      float r = length(vQ);
+      if (r < 0.985) discard;
+      float th = atan(vQ.y, vQ.x);
+      vec3 dir = vec3(cos(th), sin(th), 0.0);
+      float st = fbm3(dir * 2.2 + vec3(0.0, 0.0, uTime * 0.003)) ;
+      float st2 = fbm3(dir * 7.0 + vec3(3.0, 1.0, uTime * 0.006));
+      float ray = pow(clamp(st * 0.7 + st2 * 0.5, 0.0, 1.2), 2.4);
+      float k = pow(r, -2.6);
+      vec3 col = vec3(1.0, 0.94, 0.86) * k * (0.25 + 1.6 * ray) * smoothstep(0.985, 1.02, r) * 0.9;
+      col += vec3(1.0, 0.78, 0.5) * exp(-(r - 1.0) * 5.0) * 0.55 * smoothstep(0.985, 1.0, r);
+      float pr = fbm3(vec3(dir.xy * 9.0, (r - 1.0) * 16.0) + vec3(0.0, 0.0, uTime * 0.02));
+      float band = smoothstep(1.14, 1.0, r) * smoothstep(0.985, 1.005, r);
+      col += vec3(1.0, 0.22, 0.28) * smoothstep(0.62, 0.78, pr) * band * 1.6;
+      col *= smoothstep(6.0, 3.5, r);
+      gl_FragColor = vec4(col * uOpacity, 1.0);`,
+    blending: THREE.AdditiveBlending,
   });
 }
 
@@ -166,8 +210,11 @@ export function createSolarSystem(quality, days) {
   const low = quality.tier === 'low';
   const sun = new THREE.Mesh(new THREE.SphereGeometry(R_SUN / AU, 64, 32), sunMaterial());
   group.add(sun);
-  const corona = glowSprite(0xffe7b8, R_SUN / AU * 4.2, 0.95);
-  const corona2 = glowSprite(0xffc27a, R_SUN / AU * 16, 0.3);
+  const corona = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), coronaMaterial());
+  corona.scale.setScalar(R_SUN / AU);
+  corona.frustumCulled = false;
+  corona.renderOrder = 3;
+  const corona2 = glowSprite(0xffc27a, R_SUN / AU * 16, 0.22);
   group.add(corona, corona2);
   const sunLight = new THREE.PointLight(0xfff4e6, 1.15, 0, 0);
   group.add(sunLight);
@@ -217,6 +264,7 @@ export function createSolarSystem(quality, days) {
     bodies,
     update(t, logW) {
       sun.material.uniforms.uTime.value = t;
+      corona.material.uniforms.uTime.value = t;
       sun.visible = logW < 13.5;
       corona.visible = corona2.visible = logW < 12.8;
       markers.visible = logW > 9.3 && logW < 15.6;
