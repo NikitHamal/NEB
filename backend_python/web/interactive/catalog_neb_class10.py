@@ -302,7 +302,7 @@ COURSES = [
                 'icon': 'functions',
                 'minutes': 15,
                 'sim': 'nebclass10/quadratic-graph',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Slide a, b and c and watch the parabola open, shift and turn. The vertex, the axis of symmetry, the discriminant and the roots are computed live, so you can test every case in the syllabus in a couple of minutes.',
                 'objectives': [
                     'Draw the graph of y = ax² + bx + c from a table of values',
