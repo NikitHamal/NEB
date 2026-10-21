@@ -23,7 +23,7 @@ COURSES = [
                 'icon': 'blender',
                 'minutes': 10,
                 'sim': 'chemistry/mixing-lab',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Drop water, oil, salt, sand and food colouring into a virtual beaker and discover what dissolves, what floats, what sinks and what spreads.',
                 'objectives': [
                     'Predict whether something will dissolve, float, sink or spread before you add it',
