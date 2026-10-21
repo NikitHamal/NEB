@@ -428,7 +428,7 @@ COURSES = [
                 'icon': 'architecture',
                 'minutes': 14,
                 'sim': 'nebclass10/height-distance',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Set the instrument a measured distance from a tower, read the angle of elevation, and get the height from tan θ. Change what is unknown and the same triangle solves the reverse problems.',
                 'objectives': [
                     'Identify the angle of elevation and the angle of depression in a figure',
