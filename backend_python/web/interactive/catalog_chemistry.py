@@ -436,7 +436,7 @@ COURSES = [
                 'icon': 'water_drop',
                 'minutes': 17,
                 'sim': 'chemistry/acid-base',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Run a real titration: drip NaOH into acid, watch the indicator change colour and catch the dramatic pH jump on a live graph.',
                 'objectives': [
                     'Place everyday substances on the pH scale from 0 to 14',
