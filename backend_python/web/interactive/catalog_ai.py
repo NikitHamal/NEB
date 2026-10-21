@@ -123,7 +123,7 @@ COURSES = [
                 'icon': 'model_training',
                 'minutes': 15,
                 'sim': 'ai/how-ml-learns',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Watch a tiny network learn in real time: scatter points, press train, and see the loss fall and the network gradually fit the pattern — the core loop of all machine learning.',
                 'objectives': [
                     'Explain the train-and-test loop of machine learning',
