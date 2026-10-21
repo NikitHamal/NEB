@@ -47,14 +47,18 @@ Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the 
 - Regression: `task/harness/smoke.py sim...` loads each at 1440x900 and 390x844 and reports
   console errors; all converted sims load clean.
 
-- Class 10 done in 3D: concave-mirror, indicators, food-tests, height-distance.
+- Class 10 done in 3D: concave-mirror, indicators, food-tests, height-distance, ohms-law
+  (`core/handson/circuit.js` meters need `update(dt)` every frame or the needles never move),
+  quadratic-graph, statistics-explorer. No `'lab'` sim_type left in `catalog_neb_class10.py`.
+- Robotics done in 3D on `core/robot-kit.js` `workshop()`: line-follower (`stage.__line`),
+  pid-controller (`__pid`), state-machine (`__fsm`, DOCK now skirts furniture), robot-power
+  (`__power`, DC motor with back-EMF). Wide screens: `fit()` in each frames the rig beside the
+  ~310 px docked panel.
 
 **Next, in order**
-1. Class 10: ohms-law (reuse `physics/circuit-lab.js` pieces + `handson/circuit.js` rheostat),
-   quadratic-graph, statistics-explorer.
-2. Robotics 2D (line-follower, pid-controller, state-machine, robot-power) and AI 2D (what-is-ai,
-   how-ml-learns, perceptron, image-classifier, llm-intro, ethics).
-3. Then the remaining 3D sims one by one (solar-system, earth-moon-sun, moon-phases, eclipses,
+1. AI 2D -> 3D: what-is-ai, how-ml-learns, perceptron, image-classifier, llm-intro, ethics
+   (`catalog_ai.py`). The `coding/*` lessons are code editors, not sims: leave them.
+2. Then the remaining 3D sims one by one (solar-system, earth-moon-sun, moon-phases, eclipses,
    milky-way, molecule-viewer, neuron, network-3d, robotics 3D) with the same perf pass
    (`task/harness/prof.py`).
 
