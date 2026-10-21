@@ -2,7 +2,7 @@ import { THREE } from '../../core/engine.js';
 import { GLTFLoader } from 'three/addons/GLTFLoader.js';
 import { DRACOLoader } from 'three/addons/DRACOLoader.js';
 import { mergeMeshes, principalAxis } from '../anatomy/merge.js';
-import { buildEnvelope } from '../anatomy/skin.js';
+import { buildEnvelopeAsync } from '../anatomy/skin.js';
 import { toGeometry } from '../anatomy/mesher.js';
 import { createTissue } from '../anatomy/tissue.js';
 import { buildOrgans, buildVessels } from './organs.js';
@@ -128,7 +128,7 @@ export async function buildBody(quality, { onProgress, onStage } = {}) {
   all.set(boneGeo.attributes.position.array, 0);
   all.set(muscleGeo.attributes.position.array, boneGeo.attributes.position.array.length);
   const cell = quality.tier === 'low' ? 0.011 : quality.tier === 'medium' ? 0.0085 : 0.0068;
-  const env = buildEnvelope(all, { min: [-0.37, -0.02, -0.17], max: [0.37, 1.74, 0.18] }, cell, { dilate: 1, blur: 2, blurPasses: 2, threshold: 0.42 });
+  const env = await buildEnvelopeAsync(all, { min: [-0.37, -0.02, -0.17], max: [0.37, 1.74, 0.18] }, cell, { dilate: 1, blur: 2, blurPasses: 2, threshold: 0.42 });
   const skinGeo = toGeometry(THREE, env, { kind: [new Float32Array(env.count), 1], fat: [new Float32Array(env.count), 1], part: [new Float32Array(env.count), 1] });
   const skinMat = createTissue({
     key: 'skin', side: THREE.FrontSide, uniforms: own(), color_fragment: SKIN_COLOR, roughness: 0.52, clearcoat: 0.12, clearcoatRoughness: 0.5, sheen: 0.45, sheenColor: 0xffd2b8,
