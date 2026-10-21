@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,807
+Part a.
+
+2
+00:00:00,807 --> 00:00:05,442
+A group O mother is little i little i, and can give only little i.
+
+3
+00:00:05,442 --> 00:00:11,341
+So the group B child must be I B little i, and the I B came from the father.
+
+4
+00:00:11,341 --> 00:00:13,463
+An A B man can give I B.
+
+5
+00:00:13,463 --> 00:00:15,755
+So yes, he could be the father.
+

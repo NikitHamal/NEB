@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,901
+Cellular endosperm puts a wall after every division right from the start, as in Datura and Petunia.
+
+2
+00:00:06,901 --> 00:00:15,182
+Helobial endosperm is in between: the first division makes two unequal chambers, and then it goes free nuclear.
+
+3
+00:00:15,182 --> 00:00:22,812
+And when the seed coat folds irregularly into the endosperm, as in betel nut and nutmeg, it is called ruminate.
+

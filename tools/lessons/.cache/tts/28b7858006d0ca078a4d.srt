@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,348
+RNA differs from DNA in three ways that matter.
+
+2
+00:00:04,348 --> 00:00:11,015
+Its sugar is ribose, it has uracil instead of thymine, and it is usually single stranded.
+
+3
+00:00:11,015 --> 00:00:19,778
+That extra hydroxyl on ribose makes it reactive and short lived: perfect for a temporary message, poor for permanent storage.
+

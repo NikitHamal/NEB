@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,421
+Changes in number come in two kinds.
+
+2
+00:00:02,421 --> 00:00:04,700
+Euploidy changes whole sets.
+
+3
+00:00:04,700 --> 00:00:16,536
+Aneuploidy changes one or a few chromosomes, and it starts with non disjunction: a pair fails to separate at anaphase, so one gamete gets an extra chromosome and the other gets none.
+

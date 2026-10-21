@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,822
+Six centimorgans.
+
+2
+00:00:01,822 --> 00:00:12,122
+Ninety six divided by sixteen hundred is zero point zero six, times a hundred is six percent, and one percent recombination is one map unit.
+
+3
+00:00:12,122 --> 00:00:15,794
+Zero point six comes from forgetting a factor of ten.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,875
+Near the micropyle, one cell of the nucellus enlarges into the megaspore mother cell, diploid.
+
+2
+00:00:06,875 --> 00:00:13,033
+It divides by meiosis into a row of four haploid megaspores: a linear tetrad.
+
+3
+00:00:13,033 --> 00:00:15,065
+That is megasporogenesis.
+

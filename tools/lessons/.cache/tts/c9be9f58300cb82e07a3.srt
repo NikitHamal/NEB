@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,807
+Part a.
+
+2
+00:00:00,807 --> 00:00:03,476
+Three quarters are tall: nine hundred.
+
+3
+00:00:03,476 --> 00:00:05,976
+One quarter dwarf: three hundred.
+

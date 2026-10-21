@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,122
+And innermost, the tapetum: big cells with dense cytoplasm, often with several nuclei.
+
+2
+00:00:07,122 --> 00:00:12,955
+The tapetum feeds the developing pollen, and supplies sporopollenin for the pollen wall.
+

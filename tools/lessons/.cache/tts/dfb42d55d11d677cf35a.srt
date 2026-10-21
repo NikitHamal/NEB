@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,981
+At pachytene, two non sister chromatids, one from each homologue, break at exactly corresponding points.
+
+2
+00:00:07,981 --> 00:00:10,429
+The crossing point is a chiasma.
+

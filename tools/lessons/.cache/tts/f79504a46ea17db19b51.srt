@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,075
+Then Rosalind Franklin's X ray photographs showed a helix.
+
+2
+00:00:04,075 --> 00:00:10,312
+In nineteen fifty three James Watson and Francis Crick put it all together: the double helix.
+

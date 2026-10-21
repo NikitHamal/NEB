@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,583
+Mendel's own dihybrid count: three hundred and fifteen, one hundred and eight, one hundred and one, and thirty two, out of five hundred and fifty six.
+
+2
+00:00:09,583 --> 00:00:22,356
+Expected numbers are nine, three, three and one sixteenths of five hundred and fifty six: three hundred and twelve point seven five, one hundred and four point two five twice, and thirty four point seven five.
+
+3
+00:00:22,356 --> 00:00:27,565
+Work each row, and the total chi square is zero point four seven.
+

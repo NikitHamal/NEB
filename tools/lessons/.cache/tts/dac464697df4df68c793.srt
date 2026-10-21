@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,138
+DNA is a polymer of nucleotides.
+
+2
+00:00:03,138 --> 00:00:05,794
+Each nucleotide has three parts.
+
+3
+00:00:05,794 --> 00:00:07,213
+A phosphate group.
+
+4
+00:00:07,213 --> 00:00:10,169
+A five carbon sugar, deoxyribose.
+
+5
+00:00:10,169 --> 00:00:12,161
+And a nitrogenous base.
+
+6
+00:00:12,161 --> 00:00:18,059
+Base plus sugar alone is a nucleoside; add the phosphate and it becomes a nucleotide.
+

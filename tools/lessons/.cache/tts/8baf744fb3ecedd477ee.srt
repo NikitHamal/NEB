@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,184
+A B.
+
+2
+00:00:01,184 --> 00:00:10,598
+The mother can give only little i, so every child gets an i: either I A little i, group A, or I B little i, group B.
+
+3
+00:00:10,598 --> 00:00:16,158
+An A B child would need both I A and I B, and the mother can supply neither.
+
+4
+00:00:16,158 --> 00:00:21,445
+A and B both is the trap: those are exactly the groups that can appear.
+

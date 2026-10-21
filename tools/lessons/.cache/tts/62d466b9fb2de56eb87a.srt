@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,942
+The human example is blood group A B.
+
+2
+00:00:02,942 --> 00:00:10,625
+A person with alleles I A and I B carries both the A antigen and the B antigen on every red cell.
+

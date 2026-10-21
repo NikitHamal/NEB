@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,835
+Look closely at the pairs.
+
+2
+00:00:01,835 --> 00:00:05,468
+A and T are held by two hydrogen bonds.
+
+3
+00:00:05,468 --> 00:00:07,526
+G and C by three.
+
+4
+00:00:07,526 --> 00:00:12,916
+That is why DNA rich in G and C needs a higher temperature to come apart.
+

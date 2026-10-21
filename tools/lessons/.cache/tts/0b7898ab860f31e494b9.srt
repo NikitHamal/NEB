@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,067
+One limit.
+
+2
+00:00:01,067 --> 00:00:09,231
+The highest recombination frequency you can ever observe is fifty percent, which is exactly what unlinked genes give.
+
+3
+00:00:09,231 --> 00:00:15,598
+So genes more than fifty map units apart on the same chromosome look as if they were unlinked.
+

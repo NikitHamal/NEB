@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:00,859
+The code.
+
+2
+00:00:00,859 --> 00:00:06,223
+Four bases read in threes give four cubed, sixty four codons.
+
+3
+00:00:06,223 --> 00:00:14,674
+Sixty one code for amino acids, and three, U A A, U A G and U G A, mean stop.
+
+4
+00:00:14,674 --> 00:00:17,539
+A U G means start, and methionine.
+
+5
+00:00:17,539 --> 00:00:21,562
+The code is triplet, non overlapping and comma less.
+
+6
+00:00:21,562 --> 00:00:26,106
+It is degenerate: most amino acids have several codons.
+
+7
+00:00:26,106 --> 00:00:33,463
+It is unambiguous, and almost universal, the same in bacteria, in rice and in you.
+

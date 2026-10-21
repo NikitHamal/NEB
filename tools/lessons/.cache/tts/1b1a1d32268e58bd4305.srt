@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,403
+Here is a pair of homologous chromosomes in meiosis, paired up as a bivalent.
+
+2
+00:00:05,403 --> 00:00:10,768
+Each has already copied itself, so there are four chromatids: a tetrad.
+
+3
+00:00:10,768 --> 00:00:15,000
+One homologue carries A and B, the other a and b.
+

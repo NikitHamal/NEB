@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,002
+And ribosomal RNA, about eighty percent, builds the ribosome with proteins.
+
+2
+00:00:06,002 --> 00:00:12,578
+Remarkably, it is the R N A that actually forms each peptide bond: it is a ribozyme.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,851
+Making one embryo sac takes three rounds of division: one, then two, then four nuclei dividing.
+
+2
+00:00:07,851 --> 00:00:11,276
+Seven mitoses per sac, fifty six in all.
+

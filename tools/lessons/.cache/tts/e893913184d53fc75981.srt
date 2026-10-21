@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,656
+And the big classes show which alleles travelled together: C with full, and small c with shrunken.
+
+2
+00:00:07,656 --> 00:00:13,242
+The parent was in coupling, C S h over small c small s h.
+

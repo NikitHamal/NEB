@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,473
+Part b. Use the product rule.
+
+2
+00:00:02,473 --> 00:00:10,533
+Each gene gives the heterozygote with probability one half, so R r Y y is one quarter: four hundred seeds.
+

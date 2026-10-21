@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,479
+The zygote rests for a while, letting the endosperm get ahead.
+
+2
+00:00:04,479 --> 00:00:13,828
+Then it divides by a transverse wall into a small apical cell, towards the chalaza, and a large basal cell, towards the micropyle.
+

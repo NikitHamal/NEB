@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,236
+One footnote.
+
+2
+00:00:01,236 --> 00:00:04,778
+Tobacco mosaic virus has no DNA at all.
+
+3
+00:00:04,778 --> 00:00:14,348
+When Fraenkel Conrat and Singer swapped the RNA and the protein coat between two strains, the new viruses always matched the RNA donor.
+
+4
+00:00:14,348 --> 00:00:18,567
+So in some viruses, RNA is the genetic material.
+

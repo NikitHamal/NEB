@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,593
+Crick summed up what DNA is for in his central dogma.
+
+2
+00:00:03,593 --> 00:00:06,783
+DNA copies itself by replication.
+
+3
+00:00:06,783 --> 00:00:09,036
+It is transcribed into RNA.
+
+4
+00:00:09,036 --> 00:00:12,187
+And RNA is translated into protein.
+
+5
+00:00:12,187 --> 00:00:19,296
+In retroviruses like H I V, reverse transcriptase even copies RNA back into DNA.
+

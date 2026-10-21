@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,789
+Finally DNA polymerase one replaces the RNA primers with DNA, and DNA ligase seals the nicks between the fragments.
+
+2
+00:00:08,789 --> 00:00:16,015
+One strand continuous, the other in pieces: replication is semi discontinuous.
+

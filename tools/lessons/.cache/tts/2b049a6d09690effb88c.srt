@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,684
+Meselson and Stahl settled it in nineteen fifty eight.
+
+2
+00:00:03,684 --> 00:00:12,981
+They grew E coli on heavy nitrogen fifteen, then moved it to ordinary nitrogen fourteen, and spun the DNA in a density gradient.
+
+3
+00:00:12,981 --> 00:00:15,091
+At the start: one heavy band.
+
+4
+00:00:15,091 --> 00:00:20,169
+After one generation: one band, of intermediate, hybrid density.
+
+5
+00:00:20,169 --> 00:00:25,429
+That alone kills the conservative model, which predicts a heavy and a light band.
+

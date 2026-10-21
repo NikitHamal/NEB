@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,747
+Part c. Round yellow seeds fill nine of the sixteen boxes, and only one of those nine is R R Y Y.
+
+2
+00:00:07,747 --> 00:00:08,919
+So one ninth.
+

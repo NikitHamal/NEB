@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,111
+Three kinds of RNA build proteins.
+
+2
+00:00:03,111 --> 00:00:10,598
+Messenger RNA, only three to five percent of the cell's RNA, carries the copy of a gene to the ribosome.
+
+3
+00:00:10,598 --> 00:00:14,466
+It is read three bases at a time, in codons.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,815
+After two generations: half hybrid, half light.
+
+2
+00:00:03,815 --> 00:00:08,893
+The dispersive model predicts a single band drifting lighter, so that is out too.
+
+3
+00:00:08,893 --> 00:00:12,486
+Only semi conservative replication fits.
+

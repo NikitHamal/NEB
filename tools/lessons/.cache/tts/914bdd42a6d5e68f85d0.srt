@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:00,872
+Part b.
+
+2
+00:00:00,872 --> 00:00:06,796
+Only T T plants breed true, and they are one quarter of the total: three hundred.
+

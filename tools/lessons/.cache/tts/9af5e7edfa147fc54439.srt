@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,578
+A special case: apomixis.
+
+2
+00:00:02,578 --> 00:00:08,242
+A seed forms without any fertilization, so the embryo is a clone of its mother.
+
+3
+00:00:08,242 --> 00:00:16,197
+In citrus and mango, extra embryos grow out of the nucellus beside the normal one: nucellar polyembryony.
+
+4
+00:00:16,197 --> 00:00:22,304
+Breeders love apomixis, because it could fix a hybrid's vigour for ever.
+

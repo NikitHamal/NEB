@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,992
+Now insert a single base.
+
+2
+00:00:01,992 --> 00:00:05,104
+Every codon after it is read in the wrong frame.
+
+3
+00:00:05,104 --> 00:00:12,096
+Glutamic acid, then leucine, glutamic acid, isoleucine: garbage, all the way to the end.
+
+4
+00:00:12,096 --> 00:00:22,213
+That is a frameshift, from inserting or deleting bases in any number that is not a multiple of three, and it is far more damaging than a substitution.
+

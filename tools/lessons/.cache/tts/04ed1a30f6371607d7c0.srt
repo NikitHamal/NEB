@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,096
+A plate of rice from the Terai.
+
+2
+00:00:02,096 --> 00:00:03,723
+You eat it every day.
+
+3
+00:00:03,723 --> 00:00:07,278
+But here is something strange about every single grain.
+

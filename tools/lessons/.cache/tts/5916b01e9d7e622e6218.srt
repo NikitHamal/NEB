@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,138
+The pattern is called criss cross inheritance.
+
+2
+00:00:03,138 --> 00:00:10,195
+An affected father passes the allele to all his daughters, who become carriers, and to none of his sons.
+
+3
+00:00:10,195 --> 00:00:14,335
+A carrier mother passes it to half her sons, who are affected.
+

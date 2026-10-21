@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,583
+Usually it enters the ovule through the micropyle: porogamy.
+
+2
+00:00:04,583 --> 00:00:14,375
+Rarely through the chalaza, chalazogamy, as in Casuarina, or through the integument, mesogamy, as in Cucurbita.
+

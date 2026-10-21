@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,096
+The bases come in two shapes.
+
+2
+00:00:02,096 --> 00:00:05,885
+Purines, adenine and guanine, have a double ring.
+
+3
+00:00:05,885 --> 00:00:12,252
+Pyrimidines, cytosine, thymine, and in RNA uracil, have a single ring.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,192
+Heat killed S bacteria alone: the mouse lives.
+
+2
+00:00:04,192 --> 00:00:08,645
+But mix heat killed S with live harmless R, and the mouse dies.
+
+3
+00:00:08,645 --> 00:00:12,981
+And from its blood, Griffith recovered living S bacteria.
+

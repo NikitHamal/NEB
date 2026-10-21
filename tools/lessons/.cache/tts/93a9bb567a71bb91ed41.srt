@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:00,989
+Our path.
+
+2
+00:00:00,989 --> 00:00:06,705
+What the genetic material is, how it copies itself and how it makes a protein.
+
+3
+00:00:06,705 --> 00:00:11,367
+Mendel's laws, worked through with Punnett squares and the chi square test.
+
+4
+00:00:11,367 --> 00:00:18,424
+Then everything beyond Mendel: blood groups, sex determination, sex linkage and pedigrees.
+
+5
+00:00:18,424 --> 00:00:21,536
+Linkage and crossing over, with gene maps.
+
+6
+00:00:21,536 --> 00:00:23,893
+And mutation and polyploidy.
+

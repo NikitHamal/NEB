@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,580
+Now let the F one plants pollinate themselves.
+
+2
+00:00:03,580 --> 00:00:08,867
+Each makes two kinds of gamete, T and t, in equal numbers.
+
+3
+00:00:08,867 --> 00:00:12,148
+Put them on the sides of a Punnett square and fill it in.
+

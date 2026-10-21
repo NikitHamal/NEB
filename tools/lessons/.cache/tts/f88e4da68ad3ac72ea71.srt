@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,106
+Last check.
+
+2
+00:00:01,106 --> 00:00:03,971
+Radish crossed with cabbage, then doubled.
+
+3
+00:00:03,971 --> 00:00:05,742
+What is Raphanobrassica?
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,734
+One becomes two, one at each pole.
+
+2
+00:00:02,734 --> 00:00:04,101
+Two become four.
+
+3
+00:00:04,101 --> 00:00:07,226
+Four become eight: four at each end of the sac.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:15,013
+Here are the seven enzymes in one table, the way the examiner wants them: helicase, topoisomerase, single strand binding proteins, primase, polymerase three, polymerase one, and ligase.
+

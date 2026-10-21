@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,968
+Seven cells and eight nuclei.
+
+2
+00:00:02,968 --> 00:00:11,979
+Eight celled is the trap: the two polar nuclei share one central cell, so eight nuclei sit in only seven cells.
+

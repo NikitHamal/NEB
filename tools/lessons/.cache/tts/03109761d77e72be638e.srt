@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,210
+And four more.
+
+2
+00:00:01,210 --> 00:00:07,161
+Dicliny: separate male and female flowers, as in maize and papaya.
+
+3
+00:00:07,161 --> 00:00:09,804
+Herkogamy: a physical barrier.
+
+4
+00:00:09,804 --> 00:00:14,778
+Heterostyly: different style lengths in different plants, as in Primula.
+
+5
+00:00:14,778 --> 00:00:21,523
+And self incompatibility, a genetic lock that stops a plant's own pollen from growing on its stigma.
+

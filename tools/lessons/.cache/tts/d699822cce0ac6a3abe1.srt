@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:08,841
+Sixteen years later, Avery, MacLeod and McCarty repeated it in test tubes and destroyed one kind of molecule at a time.
+
+2
+00:00:08,841 --> 00:00:12,799
+Destroy the protein: transformation still happens.
+
+3
+00:00:12,799 --> 00:00:15,872
+Destroy the RNA: it still happens.
+
+4
+00:00:15,872 --> 00:00:19,466
+Destroy the DNA, with DNase, and it stops.
+
+5
+00:00:19,466 --> 00:00:22,252
+The transforming principle was DNA.
+

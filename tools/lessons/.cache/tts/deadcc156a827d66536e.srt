@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,203
+Real counts never match a ratio exactly.
+
+2
+00:00:03,203 --> 00:00:05,559
+Is the gap small enough to be chance?
+
+3
+00:00:05,559 --> 00:00:07,708
+The chi square test decides.
+
+4
+00:00:07,708 --> 00:00:14,882
+For each class take observed minus expected, square it, divide by expected, and add them up.
+
+5
+00:00:14,882 --> 00:00:20,729
+Compare with the critical value for your degrees of freedom, the number of classes minus one.
+
+6
+00:00:20,729 --> 00:00:28,242
+If your chi square is less than the critical value, the deviation is just chance and the ratio is accepted.
+

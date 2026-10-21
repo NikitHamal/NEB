@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,520
+Gregor Mendel, a monk in Brno, worked on the garden pea from eighteen fifty six to eighteen sixty three, and published in eighteen sixty six.
+
+2
+00:00:10,520 --> 00:00:17,708
+Nobody understood him until nineteen hundred, when de Vries, Correns and Tschermak rediscovered his work.
+
+3
+00:00:17,708 --> 00:00:20,585
+He succeeded because of four decisions.
+

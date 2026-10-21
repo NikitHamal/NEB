@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,020
+Plants have evolved tricks to avoid selfing.
+
+2
+00:00:03,020 --> 00:00:07,005
+In dichogamy the two sexes ripen at different times.
+
+3
+00:00:07,005 --> 00:00:16,614
+In protandry, as in sunflower, the anthers shed their pollen first, and the stigma of the same flower opens only after they are done.
+
+4
+00:00:16,614 --> 00:00:18,971
+Protogyny is the reverse.
+

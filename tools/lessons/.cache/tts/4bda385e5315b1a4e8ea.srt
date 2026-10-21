@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,419
+Exam tip.
+
+2
+00:00:01,419 --> 00:00:06,822
+Never write that the lagging strand is made three prime to five prime.
+
+3
+00:00:06,822 --> 00:00:14,791
+Every piece of new DNA, including every Okazaki fragment, is made five prime to three prime.
+
+4
+00:00:14,791 --> 00:00:19,596
+Only the overall growth of the lagging strand runs away from the fork.
+

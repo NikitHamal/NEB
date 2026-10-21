@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,450
+Point mutations change one or a few bases.
+
+2
+00:00:03,450 --> 00:00:12,903
+Here is a stretch of messenger RNA, read as codons: methionine, glutamic acid, tryptophan, lysine, stop.
+

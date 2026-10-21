@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:05,078
+Linkage is the tendency of genes on the same chromosome to travel together.
+
+2
+00:00:05,078 --> 00:00:13,203
+All the genes on one chromosome make a linkage group, so a species has as many linkage groups as its haploid chromosome number.
+
+3
+00:00:13,203 --> 00:00:14,427
+Pea, seven.
+
+4
+00:00:14,427 --> 00:00:15,559
+Maize, ten.
+
+5
+00:00:15,559 --> 00:00:16,927
+Fruit fly, four.
+
+6
+00:00:16,927 --> 00:00:18,684
+Humans, twenty three.
+

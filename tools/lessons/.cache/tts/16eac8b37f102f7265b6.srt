@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,210
+Now the square.
+
+2
+00:00:01,210 --> 00:00:04,283
+Every egg the mother makes carries an X.
+
+3
+00:00:04,283 --> 00:00:06,028
+She has nothing else to give.
+
+4
+00:00:06,028 --> 00:00:11,354
+The father's sperm are of two kinds: half carry X, half carry Y.
+

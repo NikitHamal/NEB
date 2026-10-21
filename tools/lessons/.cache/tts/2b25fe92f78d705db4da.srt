@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,708
+Then, now and then, the chromosome number doubled.
+
+2
+00:00:02,708 --> 00:00:11,796
+With thirty six, every chromosome had a partner again, and the plant was fertile: Raphanobrassica, a new allopolyploid.
+
+3
+00:00:11,796 --> 00:00:16,523
+Sadly, it had the root of a cabbage and the leaves of a radish.
+

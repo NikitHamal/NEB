@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,864
+Because a crossover is more likely between genes that are far apart, the recombination frequency measures distance.
+
+2
+00:00:07,864 --> 00:00:12,539
+It is the recombinant offspring divided by the total, times a hundred.
+
+3
+00:00:12,539 --> 00:00:25,351
+Sturtevant, in nineteen thirteen, made one percent recombination equal one map unit, one centimorgan, and drew the first genetic map, showing that genes lie in a line.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,132
+Transcription.
+
+2
+00:00:01,132 --> 00:00:13,658
+RNA polymerase binds a promoter, opens a short stretch of DNA, and copies just one strand, the template strand, adding ribonucleotides five prime to three prime.
+
+3
+00:00:13,658 --> 00:00:17,135
+Opposite every A it puts U, not T.
+

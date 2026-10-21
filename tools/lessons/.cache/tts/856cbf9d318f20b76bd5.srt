@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,856
+One seed, one ovule, one megaspore mother cell: eight.
+

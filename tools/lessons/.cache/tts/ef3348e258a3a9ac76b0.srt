@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:14,531
+In allopolyploidy the sets come from two different species: A B becomes A A B B. Bread wheat is a hexaploid of this kind, and so are cotton, tobacco and Triticale, the first man made cereal.
+
