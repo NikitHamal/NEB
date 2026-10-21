@@ -364,7 +364,7 @@ COURSES = [
                 'icon': 'graphic_eq',
                 'minutes': 16,
                 'sim': 'physics/waves-lab',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Shake a virtual string into travelling waves, standing waves and interference patterns, and connect frequency to musical pitch.',
                 'objectives': [
                     'Identify amplitude, wavelength, frequency and speed on a moving wave',
