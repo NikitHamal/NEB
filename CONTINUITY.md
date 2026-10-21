@@ -55,12 +55,16 @@ Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the 
   (`__power`, DC motor with back-EMF). Wide screens: `fit()` in each frames the rig beside the
   ~310 px docked panel.
 
+- AI done in 3D on `ai/ai3d/stage.js` (`createStudio`, `framer`, `slabCard`, `meshDrag`):
+  what-is-ai (`__whatai`), how-ml-learns (`__ml`, probability landscape), perceptron (`__perc`,
+  sum plane), image-classifier (`__digits`, pixel pillars), llm-intro (`__llm`), ethics
+  (`__ethics`). Catalogs now have no `'2d'`/`'lab'` sims left; `coding/*` are code editors.
+  `slabCard` draws in canvas pixels (fonts below ~1px vanish, never scale the context).
+
 **Next, in order**
-1. AI 2D -> 3D: what-is-ai, how-ml-learns, perceptron, image-classifier, llm-intro, ethics
-   (`catalog_ai.py`). The `coding/*` lessons are code editors, not sims: leave them.
-2. Then the remaining 3D sims one by one (solar-system, earth-moon-sun, moon-phases, eclipses,
-   milky-way, molecule-viewer, neuron, network-3d, robotics 3D) with the same perf pass
-   (`task/harness/prof.py`).
+1. Perf/quality pass on the remaining older 3D sims one by one (solar-system, earth-moon-sun,
+   moon-phases, eclipses, milky-way, molecule-viewer, neuron, network-3d, robotics 3D) with
+   `task/harness/prof.py`.
 
 **Test harness** (`task/harness/`, served with `actl serve start 8765 --dir task/harness`):
 `index.html?sim=<path>` mounts any sim without Django. Playwright venv at `/tmp/pw`
