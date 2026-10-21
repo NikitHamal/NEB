@@ -227,7 +227,7 @@ COURSES = [
                 'icon': 'fitness_center',
                 'minutes': 12,
                 'sim': 'space/gravity-worlds',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Pick a world, drop a ball from 10 metres, and see what your weight would be on the Moon, Mars, Jupiter — even the Sun.',
                 'objectives': [
                     'Tell the difference between mass and weight',
