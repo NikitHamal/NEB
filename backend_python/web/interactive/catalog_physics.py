@@ -23,7 +23,7 @@ COURSES = [
                 'icon': 'back_hand',
                 'minutes': 10,
                 'sim': 'physics/forces-playground',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Push a friendly box around the playground, watch its force and speed arrows grow, and discover what friction really does.',
                 'objectives': [
                     'Explain that a force is a push or a pull',
