@@ -8,7 +8,7 @@
 
 ## Current Status
 
-### Interactive sims: performance + 3D revamp (IN FLIGHT, Oct 21, 2026)
+### Interactive sims: performance + 3D revamp (DONE on branch, Oct 21, 2026)
 
 Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the GitHub connector
 (`task/tools/ghpush.py <repo> NikitHamal/NEB <branch>`; git itself has no credentials here).
@@ -61,10 +61,18 @@ Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the 
   (`__ethics`). Catalogs now have no `'2d'`/`'lab'` sims left; `coding/*` are code editors.
   `slabCard` draws in canvas pixels (fonts below ~1px vanish, never scale the context).
 
-**Next, in order**
-1. Perf/quality pass on the remaining older 3D sims one by one (solar-system, earth-moon-sun,
-   moon-phases, eclipses, milky-way, molecule-viewer, neuron, network-3d, robotics 3D) with
-   `task/harness/prof.py`.
+- Perf pass on the older 3D sims (SwiftShader, 1382x630, `prof.py`): solar-system 78 ms,
+  earth-moon-sun 36, moon-phases 34, eclipses 56, milky-way 67, molecule-viewer 55, neuron 54,
+  network-3d 79 — already light (the new 3D sims are 370-480 ms there, mostly env-map PBR on the
+  full-screen floor, which SwiftShader overstates). Tried and reverted, no win: shrinking the
+  Milky Way star sprites (33 -> 31 ms); the Lifecycle-of-Stars photosphere as the Sun in
+  `core/space-kit.js` `sun()` (reads grey-white under these sims' exposure and loses the child
+  label because the star group is scaled). Differential Drive's camera now follows the robot.
+
+**Next**
+- The list from the brief is done end to end. Candidates if more time: give the four old space
+  sims their own exposure-matched Sun (needs label re-parenting + `noise: true` engines), and a
+  real-device check of the AI studio / workshop floors on a low-end phone.
 
 **Test harness** (`task/harness/`, served with `actl serve start 8765 --dir task/harness`):
 `index.html?sim=<path>` mounts any sim without Django. Playwright venv at `/tmp/pw`
