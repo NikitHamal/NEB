@@ -54,8 +54,10 @@ export default function init(stage) {
   const bubbles = new THREE.InstancedMesh(new THREE.SphereGeometry(0.018, 8, 6), new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.05, transparent: true, opacity: 0.7, clearcoat: 0.5 }), BUB);
   bubbles.renderOrder = 4; bubbles.count = 0; world.add(bubbles);
   const bub = [];
-  const foamMat = new THREE.MeshStandardMaterial({ color: 0xfbfbf8, roughness: 1, transparent: true, opacity: 0.95 });
-  const foam = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 1, 40), foamMat); foam.visible = false; world.add(foam);
+  const FOAM = 260;
+  const foam = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 10, 8), new THREE.MeshStandardMaterial({ color: 0xfbfbf6, roughness: 0.35, transparent: true, opacity: 0.88 }), FOAM);
+  foam.count = 0; foam.renderOrder = 4; world.add(foam);
+  const foamSeed = Array.from({ length: FOAM }, () => [Math.random(), Math.random(), Math.random(), 0.6 + Math.random() * 0.8]);
   const pile = new THREE.Mesh(new THREE.SphereGeometry(0.2, 20, 10, 0, Math.PI * 2, 0, Math.PI / 2), powder.material); pile.visible = false; world.add(pile);
   let foamH = 0;
 
@@ -145,8 +147,14 @@ export default function init(stage) {
     }
     bubbles.count = n; bubbles.instanceMatrix.needsUpdate = true;
     foamH += (Math.min(0.55, rate * 9000 * 0.004) - foamH) * (1 - Math.exp(-dt * 3));
-    foam.visible = foamH > 0.01 && vinegar + water > 1;
-    if (foam.visible) { const r = flask.radiusAt((surf + foamH / 2) / S) * S * 0.97; foam.scale.set(r, foamH, r); foam.position.y = surf + foamH / 2; }
+    const nf = foamH > 0.005 && vinegar + water > 1 ? Math.min(FOAM, Math.round(foamH / 0.55 * FOAM) + 20) : 0;
+    for (let i = 0; i < nf; i++) {
+      const [u, w2, h2, sz] = foamSeed[i];
+      const y = surf + h2 * foamH; const rr = flask.radiusAt(y / S) * S * 0.9 * Math.sqrt(u); const an = w2 * Math.PI * 2 + time * 0.2;
+      const bs = 0.022 * sz * (0.7 + 0.3 * Math.sin(time * 5 + i));
+      m4.compose(v3.set(Math.cos(an) * rr, y, Math.sin(an) * rr), q, sc.setScalar(bs)); foam.setMatrixAt(i, m4);
+    }
+    foam.count = nf; foam.instanceMatrix.needsUpdate = true;
     pile.visible = sodaSolid > 1e-4;
     if (pile.visible) { const pr = Math.min(0.24, Math.cbrt(sodaSolid * SODA_M) * 0.09); pile.scale.set(pr / 0.2, pr / 0.2 * 0.5, pr / 0.2); pile.position.y = 0.03; }
     // the balloon swells to the gas it has caught: V = 4/3 π r³
@@ -156,6 +164,7 @@ export default function init(stage) {
     bBody.visible = r > 0.05; bLimp.visible = !bBody.visible;
     bBody.scale.set(Math.max(0.2, r), Math.max(0.24, r * 1.18), Math.max(0.2, r)); bBody.position.y = 0.08 + bBody.scale.y;
     bLimp.position.set(0.1 * (1 - big), 0.22, 0); bLimp.rotation.z = -0.9 * (1 - big);
+    controls.setTarget(v3.set(0, 0.8 + 1.0 + (balloonOn ? Math.min(0.6, r * 0.9) : 0), 0));
     if ((tick & 3) === 0) drawGraph();
     const leftAcid = acidMol / ACID; const leftSoda = sodaSolid * SODA_M;
     st.vin.set(`${fmt(vinegar, 0)} mL`); st.soda.set(`${fmt(sodaAdded, 2)} g`); st.co2.set(`${fmt(co2, 0)} mL`);
