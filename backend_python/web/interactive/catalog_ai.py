@@ -223,7 +223,7 @@ COURSES = [
                 'icon': 'image_search',
                 'minutes': 14,
                 'sim': 'ai/image-classifier',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Draw a digit, and watch a simple image classifier guess what you wrote — then peek inside to see how it turns pixels into a prediction.',
                 'objectives': [
                     'Describe an image as a grid of pixel numbers',
