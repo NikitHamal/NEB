@@ -219,7 +219,7 @@ COURSES = [
                 'icon': 'restaurant',
                 'minutes': 13,
                 'sim': 'nebclass10/food-tests',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Run the three food tests on rice, potato, bread, banana, milk, egg white, soybean and groundnut, and work out what each food contains from the colour change.',
                 'objectives': [
                     'Describe the iodine test for starch and its blue-black colour',
