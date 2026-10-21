@@ -19,7 +19,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 |---|---|
 | phy12 | units 1–15 scripted, narrated, frame-checked |
 | chem12 | units 1–12 scripted, narrated, frame-checked |
-| bio12 | unit 1 Plant Anatomy: done (part 6 secondary growth rewritten: rings centred on stage, `Captions` one-at-a-time slot, no axes, short recap). Unit 2 Plant Physiology: drafted, under review. Units 3–10: next |
+| bio12 | unit 1 Plant Anatomy: done, all parts frame-checked (part 6 secondary growth rewritten: rings centred on stage, `Captions` one-at-a-time slot, no axes, short recap). Unit 2 Plant Physiology: drafted, under review. Units 3–10: next |
 | then | eng12? (English-medium only), math12, cs12 → class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
