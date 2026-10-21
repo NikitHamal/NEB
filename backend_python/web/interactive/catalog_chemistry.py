@@ -77,7 +77,7 @@ COURSES = [
                 'icon': 'layers',
                 'minutes': 12,
                 'sim': 'chemistry/density-tower',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Pour honey, syrup, water, oil and alcohol into one tall glass and watch them sort themselves into a rainbow of layers — then drop in objects and guess where they will stop!',
                 'objectives': [
                     'Explain what density means using grams per millilitre',
