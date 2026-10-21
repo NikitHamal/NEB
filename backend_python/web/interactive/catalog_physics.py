@@ -123,7 +123,7 @@ COURSES = [
                 'icon': 'sports_basketball',
                 'minutes': 10,
                 'sim': 'physics/bouncy-balls',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Tap to drop bouncy balls, tune how springy they are, and compare bouncing on Earth, the Moon and giant Jupiter.',
                 'objectives': [
                     'Show that gravity pulls dropped balls down and makes them fall faster and faster',
