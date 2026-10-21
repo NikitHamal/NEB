@@ -114,10 +114,10 @@ class Lesson(Lesson):
         def sal():
             y = yrs.get_value()
             w = 0.16 + 0.036 * y
-            h = 0.6 + min(y, 25) * 0.17
+            h = 0.6 + min(y, 25) * 0.13
             x = 2.6
             trunk = Polygon([x - w, -2.8, 0], [x + w, -2.8, 0], [x + w * 0.45, -2.8 + h, 0], [x - w * 0.45, -2.8 + h, 0], stroke_width=0, fill_color="#7A5534", fill_opacity=1)
-            cr = 0.35 + 0.035 * min(y, 30)
+            cr = 0.3 + 0.025 * min(y, 30)
             crown = VGroup(*[Circle(radius=cr * s_, fill_color="#2E7D32", fill_opacity=0.95, stroke_width=0).move_to([x + dx * cr, -2.8 + h + dy * cr, 0])
                              for s_, dx, dy in [(1.0, 0, 0.6), (0.75, -0.9, 0.2), (0.8, 0.9, 0.25)]])
             return VGroup(trunk, crown)
@@ -218,7 +218,7 @@ class Lesson(Lesson):
         d = self.callout("key", "A tissue is a group of cells of common origin that are structurally similar and work together to perform a particular function.", width=11)
         d.move_to([0, 1.0, 0])
         hist = VGroup(T("histology: the study of tissues", size=26, color=th.BODY), T("plant anatomy: the internal structure of plants", size=26, color=th.BODY)).arrange(DOWN, aligned_edge=LEFT, buff=0.2).move_to([0, -1.0, 0])
-        grew = VGroup(T("1670s", size=30, color=th.AMBER, weight="BOLD"), T("Nehemiah Grew and Marcello Malpighi found the subject; Grew is the father of plant anatomy", size=22, color=th.INK)).arrange(RIGHT, buff=0.35).move_to([0, -2.4, 0])
+        grew = VGroup(T("1670s", size=30, color=th.AMBER, weight="BOLD"), para("Nehemiah Grew and Marcello Malpighi found the subject; Grew is the father of plant anatomy", width=9.5, size=22, color=th.INK)).arrange(RIGHT, buff=0.35).move_to([0, -2.4, 0])
         with self.say("Each such group is a tissue: a group of cells of common origin, similar in structure, working together for one function. The study of tissues is histology. The study of the inside of plants is plant anatomy, founded in the sixteen seventies by Nehemiah Grew and Marcello Malpighi. Grew is called the father of plant anatomy."):
             self.play(FadeIn(d, shift=UP * 0.2))
             self.play(FadeIn(hist))
@@ -228,8 +228,8 @@ class Lesson(Lesson):
         self.p1_systems()
 
     def box(self, text, pos, color, w=2.6, h=0.62, size=22):
-        b = RoundedRectangle(corner_radius=0.12, width=w, height=h, stroke_color=color, stroke_width=2.5, fill_color=th.PANEL, fill_opacity=1)
-        t = para(text, width=w - 0.2, size=size, color=th.INK, align="center")
+        t = para(text, width=w - 0.25, size=size, color=th.INK, align="center")
+        b = RoundedRectangle(corner_radius=0.12, width=w, height=max(h, t.height + 0.28), stroke_color=color, stroke_width=2.5, fill_color=th.PANEL, fill_opacity=1)
         return VGroup(b, t.move_to(b)).move_to(pos)
 
     def elbow(self, a, b, color=th.MUTED):
@@ -277,11 +277,13 @@ class Lesson(Lesson):
                 "The ground system: everything between the skin and the plumbing. Cortex, endodermis, pericycle, pith and the medullary rays. It photosynthesises, stores and supports.",
                 "And the vascular system: xylem, phloem and cambium, here in a ring of bundles. It carries water and food over long distances."]
         everything = [P["epi"], P["hyp"], P["cortex"], P["endo"], P["pith"], P["bundles"]]
+        for m_ in everything:
+            m_.save_state()
         for (title, col, parts, sub), sy in zip(groups, says):
             with self.say(sy):
                 cap(title, color=col, swatch=col, sub=sub)
-                self.play(*[m_.animate.set_opacity(1.0 if m_ in parts else 0.12) for m_ in everything], run_time=0.8)
-        self.play(*[m_.animate.set_opacity(1.0) for m_ in everything], run_time=0.5)
+                self.play(*[Restore(m_) if m_ in parts else m_.animate.fade(0.85) for m_ in everything], run_time=0.8)
+        self.play(*[Restore(m_) for m_ in everything], run_time=0.5)
         cap.clear()
         self.play(st.animate.scale(0.6).move_to([-4.6, 0.3, 0]))
         self.tip("Asked to 'describe the internal structure' of any organ? Walk inwards: epidermis → ground tissue → vascular tissue → centre. You will never leave a layer out.",
@@ -313,9 +315,9 @@ class Lesson(Lesson):
         with self.say("And because a plant keeps its meristems all its life, it can keep growing for as long as it lives. That is open, or indeterminate, growth. Animals do not have it."):
             self.play(Indicate(tl, color=th.AMBER))
         self.play(FadeOut(VGroup(mer, tl, rows)))
-        cards = VGroup(B.card(self, "Promeristem", "the few cells at the very tip from which all other meristems arise", w=3.7, h=2.3, color="#C9B8FF"),
-                       B.card(self, "Primary meristem", "from the promeristem; present since the embryo; builds the primary body", w=3.7, h=2.3, color="#9C8CFF"),
-                       B.card(self, "Secondary meristem", "arises later from permanent tissue that regains division: interfascicular cambium, cork cambium, wound cambium", w=3.7, h=2.3, color=CAMB)).arrange(RIGHT, buff=0.55).move_to([0, -0.2, 0])
+        cards = VGroup(B.card(self, "Promeristem", "the few cells at the very tip from which all other meristems arise", w=3.7, h=3.0, color="#C9B8FF", bsize=21),
+                       B.card(self, "Primary meristem", "from the promeristem; present since the embryo; builds the primary body", w=3.7, h=3.0, color="#9C8CFF", bsize=21),
+                       B.card(self, "Secondary meristem", "arises later from permanent tissue that regains division: interfascicular cambium, cork cambium, wound cambium", w=3.7, h=3.0, color=CAMB, bsize=21)).arrange(RIGHT, buff=0.55).move_to([0, -0.2, 0])
         arr = VGroup(*[Arrow(cards[i].get_right(), cards[i + 1].get_left(), buff=0.06, color=th.MUTED, stroke_width=3) for i in range(2)])
         head = T("Classified by origin: where did the meristem come from?", size=30, color=th.INK, weight="BOLD").to_edge(UP, buff=0.75)
         with self.say("Meristems are classified three ways, and each answers a different question. By origin: where did it come from? The promeristem is the handful of cells at the very tip. Primary meristems come from it and build the primary body. Secondary meristems appear later, from permanent cells that have regained the power to divide, like the cork cambium."):
@@ -440,7 +442,7 @@ class Lesson(Lesson):
         for i, (kd, nm, ex) in enumerate([("angular", "angular", "corners: Datura, Solanum"), ("lamellar", "lamellar (plate)", "tangential walls: Helianthus"), ("lacunar", "lacunar (tubular)", "round air spaces: Cucurbita")]):
             p_ = B.collenchyma(1.9, 1.6, r=0.22, kind=kd)
             kinds.add(VGroup(p_, T(nm, size=22, color=COL, weight="BOLD"), T(ex, size=18, color=th.BODY)).arrange(DOWN, buff=0.15))
-        kinds.arrange(RIGHT, buff=0.35).move_to([-3.4, -0.4, 0]).scale(0.92)
+        kinds.arrange(RIGHT, buff=0.35).scale(0.8).move_to([-3.55, -0.4, 0])
         with self.say("By the pattern of thickening there are three kinds. Angular, thickened at the corners, as in Datura. Lamellar, thickened on the tangential walls, as in the sunflower stem. And lacunar, thickened round the air spaces, as in Cucurbita."):
             self.play(LaggedStart(*[FadeIn(k_, shift=UP * 0.2) for k_ in kinds], lag_ratio=0.35), run_time=2.4)
             cap("Angular · lamellar · lacunar", color=COL, sub="Named by where the wall is thickened.")
@@ -475,10 +477,10 @@ class Lesson(Lesson):
 
     def p2_complex(self):
         head = T("Complex tissue: xylem", size=32, color=XYL, weight="BOLD", display=True).to_edge(UP, buff=0.75)
-        tr = B.tracheid(3.4, 0.5, center=[-5.2, -0.3, 0])
-        ve = B.vessel(3.4, 0.75, center=[-3.6, -0.3, 0], kind="pitted")
-        fb = B.fibre(3.4, 0.22, center=[-2.3, -0.3, 0]).rotate(PI / 2)
-        xp = VGroup(*[VGroup(RoundedRectangle(corner_radius=0.08, width=0.6, height=0.62, stroke_color=PAR, stroke_width=2, fill_color=PARF, fill_opacity=1), Dot(radius=0.07, color="#B6F5C4")).move_to([-1.1, -1.6 + 0.68 * j, 0]) for j in range(5)])
+        tr = B.tracheid(3.4, 0.5, center=[-5.7, -0.3, 0])
+        ve = B.vessel(3.4, 0.75, center=[-4.25, -0.3, 0], kind="pitted")
+        fb = B.fibre(3.4, 0.22, center=[-2.75, -0.3, 0]).rotate(PI / 2)
+        xp = VGroup(*[VGroup(RoundedRectangle(corner_radius=0.08, width=0.6, height=0.62, stroke_color=PAR, stroke_width=2, fill_color=PARF, fill_opacity=1), Dot(radius=0.07, color="#B6F5C4")).move_to([-1.2, -1.6 + 0.68 * j, 0]) for j in range(5)])
         names = ["tracheid", "vessel", "fibre", "parenchyma"]
         state = ["dead", "dead", "dead", "living"]
         objs = [tr, ve, fb, xp]
@@ -490,7 +492,7 @@ class Lesson(Lesson):
         with self.say("Tracheids: long, tapering, lignified cells with bordered pits, and closed ends. Water seeps from one to the next through the pits. They are found in all vascular plants, and in gymnosperms like pine they are the only conducting element."):
             cap("Tracheids", color=XYL, swatch=XYL, sub="Dead, tapering, bordered pits, end walls not perforated. The only conducting element in gymnosperms.")
             self.play(Indicate(tr, color=XYL, scale_factor=1.05))
-        flow = B.Flow([-3.6, -1.9, 0], [-3.6, 1.3, 0], n=10, color=WATER, speed=1.0, width=0.4)
+        flow = B.Flow([-4.25, -1.9, 0], [-4.25, 1.3, 0], n=10, color=WATER, speed=1.0, width=0.4)
         with self.say("Vessels are short, wide tubes stacked end to end, with their end walls perforated or dissolved away. Together they make one continuous open pipe, the most efficient water conductor there is. They are characteristic of flowering plants."):
             cap("Vessels (tracheae)", color=XYL, swatch=XYL, sub="Dead, wide, perforated end walls: a continuous pipe. Characteristic of angiosperms.")
             self.add(flow)
@@ -523,12 +525,12 @@ class Lesson(Lesson):
         head = T("Protoxylem and metaxylem", size=32, color=th.INK, weight="BOLD", display=True).to_edge(UP, buff=0.75)
         an = B.vessel(2.6, 0.45, center=[-5.3, -0.2, 0], kind="annular")
         sp = B.vessel(2.6, 0.45, center=[-4.3, -0.2, 0], kind="spiral")
-        sc = B.vessel(2.6, 0.75, center=[-2.9, -0.2, 0], kind="scalariform")
-        rt = B.vessel(2.6, 0.75, center=[-1.8, -0.2, 0], kind="reticulate")
-        pt = B.vessel(2.6, 0.75, center=[-0.7, -0.2, 0], kind="pitted")
-        l1 = T("protoxylem: formed first", size=22, color=XYL).move_to([-4.8, 1.75, 0])
-        l2 = T("metaxylem: formed later", size=22, color=XYL).move_to([-1.8, 1.75, 0])
-        n1 = VGroup(*[T(s_, size=17, color=th.BODY).next_to(v_, DOWN, buff=0.2) for s_, v_ in zip(["annular", "spiral", "scalariform", "reticulate", "pitted"], [an, sp, sc, rt, pt])])
+        sc = B.vessel(2.6, 0.75, center=[-3.0, -0.2, 0], kind="scalariform")
+        rt = B.vessel(2.6, 0.75, center=[-1.65, -0.2, 0], kind="reticulate")
+        pt = B.vessel(2.6, 0.75, center=[-0.3, -0.2, 0], kind="pitted")
+        l1 = VGroup(T("protoxylem", size=22, color=XYL, weight="BOLD"), T("formed first", size=18, color=th.BODY)).arrange(DOWN, buff=0.06).move_to([-4.8, 1.8, 0])
+        l2 = VGroup(T("metaxylem", size=22, color=XYL, weight="BOLD"), T("formed later", size=18, color=th.BODY)).arrange(DOWN, buff=0.06).move_to([-1.65, 1.8, 0])
+        n1 = VGroup(*[T(s_, size=16, color=th.BODY).next_to(v_, DOWN, buff=0.2) for s_, v_ in zip(["annular", "spiral", "scalariform", "reticulate", "pitted"], [an, sp, sc, rt, pt])])
         cap = B.Captions(self, at=(3.9, -0.1, 0), width=5.0, size=26)
         with self.say("The first xylem to form, while the organ is still lengthening, is protoxylem. Its vessels are narrow, with lignin only in rings or a spiral. Watch what that allows."):
             self.play(FadeIn(head), FadeIn(VGroup(an, sp)), FadeIn(l1))
@@ -553,11 +555,11 @@ class Lesson(Lesson):
                 g.add(Arrow(c + polar(p0, a + 0.33), c + polar(p1, a + 0.33), buff=0, color=th.MUTED, stroke_width=3, max_tip_length_to_length_ratio=0.3))
             return g
 
-        rt_ = org(np.array([-3.4, -0.4, 0]), True)
-        st_ = org(np.array([2.0, -0.4, 0]), False)
-        t1 = VGroup(T("root: exarch", size=28, color=th.INK, weight="BOLD"), T("protoxylem outside, towards the periphery", size=21, color=th.BODY)).arrange(DOWN, buff=0.1).next_to(rt_, DOWN, buff=0.15)
-        t2 = VGroup(T("stem: endarch", size=28, color=th.INK, weight="BOLD"), T("protoxylem inside, towards the centre", size=21, color=th.BODY)).arrange(DOWN, buff=0.1).next_to(st_, DOWN, buff=0.15)
-        pl = VGroup(Dot(radius=0.09, color=th.AMBER), T("protoxylem", size=22, color=th.AMBER)).arrange(RIGHT, buff=0.15).move_to([5.4, 1.9, 0])
+        rt_ = org(np.array([-3.3, -0.3, 0]), True)
+        st_ = org(np.array([3.0, -0.3, 0]), False)
+        t1 = VGroup(T("root: exarch", size=28, color=th.INK, weight="BOLD"), T("protoxylem outside, towards the periphery", size=19, color=th.BODY)).arrange(DOWN, buff=0.1).next_to(rt_, DOWN, buff=0.15)
+        t2 = VGroup(T("stem: endarch", size=28, color=th.INK, weight="BOLD"), T("protoxylem inside, towards the centre", size=19, color=th.BODY)).arrange(DOWN, buff=0.1).next_to(st_, DOWN, buff=0.15)
+        pl = VGroup(Dot(radius=0.09, color=th.AMBER), T("protoxylem", size=22, color=th.AMBER)).arrange(RIGHT, buff=0.15).move_to([0, 2.1, 0])
         with self.say("Where the protoxylem sits is a diagnostic feature. In a root, protoxylem is on the outside, towards the periphery, and metaxylem towards the centre: that is exarch. The xylem develops inwards."):
             self.play(FadeIn(pl), FadeIn(rt_), FadeIn(t1))
         with self.say("In a stem it is the other way round. Protoxylem towards the centre, metaxylem outside: endarch. The xylem develops outwards."):
@@ -574,14 +576,400 @@ class Lesson(Lesson):
                   "Pause and think. Pine has no vessels. So what carries its water?",
                   "Tracheids. Vessels, with their open perforated ends, are characteristic of flowering plants; gymnosperms rely on tracheids alone, passing water through bordered pits. Sieve tubes carry food, and xylem parenchyma only moves water sideways.")
 
+    # ------------------------------------------------------------------ part 3: root
     def p3(self):
         self.section(2)
+        C = np.array([-3.1, -0.15, 0])
+        rt = B.RootTS(R=2.75).move_to(C)
+        P = rt.parts
+        cap = B.Captions(self, at=(3.75, 0.1, 0), width=5.3, size=27)
+        order = [("epi", "hairs"), ("cortex",), ("endo", "casp"), ("peri",), ("phloem", "xylem")]
+        says = [("Cut a young root across, a few centimetres behind the tip, and walk inwards. The outermost layer is the epiblema, or rhizodermis: one row of thin walled cells, with no cuticle and no stomata. A root must absorb water, so it cannot waterproof itself. Some cells grow out into root hairs, so it is also called the piliferous layer.",
+                 "Epiblema (piliferous layer)", EPI, "One cell thick. No cuticle, no stomata. Bears unicellular root hairs."),
+                ("Inside it, a broad cortex of thin walled parenchyma with plenty of air spaces, storing starch. No chlorenchyma, and normally no collenchyma.",
+                 "Cortex", PAR, "Wide zone of parenchyma with intercellular spaces; stores starch."),
+                ("The innermost layer of the cortex is the endodermis: one ring of barrel shaped cells fitted tightly together. Their radial and tangential walls carry a band of suberin and lignin, the Casparian strip.",
+                 "Endodermis", ENDO, "Barrel-shaped cells, no spaces. Casparian strips on radial and tangential walls."),
+                ("Just inside it, the pericycle, usually a single layer. It is the layer most worth naming, as you will see in a moment.",
+                 "Pericycle", PERI, "One layer of parenchyma inside the endodermis."),
+                ("And the vascular tissue. Xylem and phloem lie in separate strips, on alternate radii: xylem arms, with phloem patches between them. That is a radial arrangement. And the xylem is exarch, with the small protoxylem at the tips of the arms, on the outside.",
+                 "Radial bundles, exarch xylem", XYL, "Xylem and phloem on alternate radii. Protoxylem at the outer tips.")]
+        shown = []
+        for keys, (sy, title, col, sub) in zip(order, says):
+            with self.say(sy):
+                for k_ in keys:
+                    self.play(FadeIn(P[k_]), run_time=0.9)
+                    shown.append(P[k_])
+                cap(title, color=col, swatch=col, sub=sub)
+                if keys[0] == "epi":
+                    w = B.Flow(C + polar(3.6, PI * 0.78), C + polar(2.75, PI * 0.78), n=5, color=WATER, speed=0.6)
+                    self.add(w)
+                    self.wait(1.5)
+                    self.remove(w)
+        self.play(FadeOut(rt))
+        cap.clear()
+        self.p3_casparian()
+        self.p3_lateral()
+        self.p3_compare()
 
+    def p3_casparian(self):
+        head = T("Why the Casparian strip matters", size=32, color=th.INK, weight="BOLD", display=True).to_edge(UP, buff=0.75)
+        cells = VGroup(*[RoundedRectangle(corner_radius=0.25, width=2.0, height=1.5, stroke_color=ENDO, stroke_width=4, fill_color="#3D3820", fill_opacity=1).move_to([0, y, 0]) for y in (1.0, -0.6, -2.2)])
+        strips = VGroup(*[Rectangle(width=0.5, height=0.16, stroke_width=0, fill_color="#FF9F43", fill_opacity=1).move_to([0, y, 0]) for y in (0.2, -1.4)])
+        lc = T("cortex side", size=24, color=PAR).move_to([-4.6, 2.2, 0])
+        rc = T("stele side", size=24, color=XYL).move_to([4.6, 2.2, 0])
+        apo = VMobject(stroke_color=th.CORAL, stroke_width=4).set_points_as_corners([[-5.5, 0.2, 0], [-0.3, 0.2, 0]])
+        x_ = VGroup(Line([-0.5, 0.45, 0], [-0.05, -0.05, 0], color=th.CORAL, stroke_width=7), Line([-0.5, -0.05, 0], [-0.05, 0.45, 0], color=th.CORAL, stroke_width=7))
+        sym = VMobject(stroke_color=th.MINT, stroke_width=4).set_points_smoothly([[-5.5, -1.4, 0], [-1.4, -1.4, 0], [-0.7, -1.0, 0], [0, -0.75, 0], [0.7, -1.0, 0], [1.4, -1.4, 0], [5.5, -1.4, 0]])
+        dot1 = Dot(radius=0.11, color=WATER).move_to([-5.5, 0.2, 0])
+        dot2 = Dot(radius=0.11, color=WATER).move_to([-5.5, -1.4, 0])
+        l1 = T("through the walls: blocked", size=24, color=th.CORAL).move_to([-3.2, 0.6, 0])
+        l2 = T("through the living cell: controlled", size=24, color=th.MINT).move_to([3.0, -2.0, 0])
+        cap = B.Captions(self, at=(-3.4, -2.55, 0), width=5.6, size=23)
+        with self.say("Here are three endodermal cells, cortex on the left, the stele on the right. Water from the soil can travel two ways: along the cell walls, or through the living cells."):
+            self.play(FadeIn(head), FadeIn(cells), FadeIn(lc), FadeIn(rc))
+        with self.say("The Casparian strip is a waterproof band in the walls between the cells. Water creeping along the walls runs straight into it, and stops."):
+            self.play(FadeIn(strips, scale=1.4))
+            self.play(Create(apo), MoveAlongPath(dot1, Line([-5.5, 0.2, 0], [-0.4, 0.2, 0])), run_time=1.6)
+            self.sfx("wrong", gain=-12)
+            self.play(Create(x_), FadeIn(l1))
+        with self.say("So the water is forced through the living protoplast of an endodermal cell, across its membrane. The root gains control over exactly what enters the stele."):
+            self.play(Create(sym), MoveAlongPath(dot2, sym), run_time=2.4)
+            self.sfx("correct", gain=-12)
+            self.play(FadeIn(l2))
+            cap("The endodermis is a checkpoint: nothing reaches the xylem without crossing a living membrane.", color=ENDO)
+        with self.say("Opposite the protoxylem points, a few endodermal cells stay thin walled. They are the passage cells, and water crosses easily there."):
+            cap("Passage cells: thin-walled endodermal cells opposite the protoxylem.", color=ENDO)
+        self.play(FadeOut(VGroup(head, cells, strips, lc, rc, apo, x_, sym, dot1, dot2, l1, l2)))
+        cap.clear()
+
+    def p3_lateral(self):
+        C = np.array([-3.1, -0.15, 0])
+        rt = B.RootTS(R=2.4, hairs=False).move_to(C)
+        a = 0.0
+        grow = ValueTracker(0.0)
+
+        def bud():
+            L = grow.get_value()
+            r0 = 0.72
+            r1 = r0 + L
+            w = 0.38
+            pts = [C + polar(r0, a) + polar(w, a + PI / 2), C + polar(r1, a) + polar(w, a + PI / 2), C + polar(r1 + 0.3, a), C + polar(r1, a) - polar(w, a + PI / 2), C + polar(r0, a) - polar(w, a + PI / 2)]
+            p = Polygon(*pts, stroke_color=PERI, stroke_width=3, fill_color="#4A3D80", fill_opacity=0.95)
+            p.round_corners(0.12)
+            return p
+
+        bd = always_redraw(bud)
+        cap = B.Captions(self, at=(3.75, 0.1, 0), width=5.3, size=27)
+        with self.say("Why is the pericycle the layer to name? Because lateral roots grow from it. Watch. Pericycle cells opposite a protoxylem point start dividing, and a new root pushes outwards, right through the endodermis, the cortex and the epiblema."):
+            self.play(FadeIn(rt))
+            self.add(bd)
+            cap("Lateral roots arise from the pericycle", color=PERI, swatch=PERI)
+            self.play(grow.animate.set_value(2.4), run_time=4.0, rate_func=rate_functions.ease_in_out_sine)
+        with self.say("A branch that starts deep inside like this is endogenous. A stem's branches are the opposite: they arise exogenously, from buds at the surface. In a dicot the pericycle also gives rise to part of the vascular cambium, and to the cork cambium."):
+            cap("Endogenous origin", color=PERI, sub="Root branches arise deep inside, from the pericycle; stem branches arise exogenously, at the surface.")
+        self.play(FadeOut(rt), FadeOut(bd))
+        self.remove(bd)
+        cap.clear()
+        k = self.callout("key", "Xylem and phloem on the SAME radius with cambium between them: stem. On ALTERNATE radii: root. Decide that first, then count the xylem groups to decide dicot or monocot.", width=11)
+        with self.say("Here is the one line test that decides most slides. Xylem and phloem on the same radius, with cambium between them, means stem. On alternate radii means root. Decide that first. Then count the xylem groups to decide dicot or monocot."):
+            self.play(FadeIn(k, shift=UP * 0.2))
+        self.play(FadeOut(k))
+
+    def p3_compare(self):
+        C = np.array([-3.1, -0.15, 0])
+        d = B.RootTS(R=2.75, arms=4).move_to(C)
+        m = B.RootTS(R=2.75, arms=18, monocot=True).move_to(C)
+        cap = B.Captions(self, at=(3.75, 0.1, 0), width=5.3, size=27)
+        cnt = VGroup(T("xylem groups", size=22, color=th.MUTED), T("4 · tetrarch", size=34, color=XYL, weight="BOLD")).arrange(DOWN, buff=0.1).move_to([3.75, 2.3, 0])
+        with self.say("Now dicot versus monocot. A dicot root has few xylem groups, usually two to six: diarch, triarch, up to hexarch. Ranunculus is commonly tetrarch. Xylem fills the centre, so the pith is absent or tiny."):
+            self.play(FadeIn(d), FadeIn(cnt))
+            cap("Dicot root", sub="2 to 6 xylem groups. Pith absent or very small. Cambium forms later: secondary growth.")
+        n2 = T("many · polyarch", size=34, color=XYL, weight="BOLD").move_to(cnt[1])
+        with self.say("A monocot root, like maize, keeps the same ground plan, but the numbers change. Many xylem groups, more than six and often twenty or more: polyarch. They are pushed out into a ring, and the centre is filled with a large pith."):
+            self.play(FadeOut(d), FadeIn(m), Transform(cnt[1], n2), run_time=1.6)
+            cap("Monocot root", sub="Polyarch: more than 6 groups. Large pith. Conjunctive tissue often sclerenchymatous.")
+        with self.say("And crucially, a monocot root has no cambium, so it shows no secondary growth. A dicot root has a cambium in waiting, formed later from the conjunctive tissue and the pericycle."):
+            cap("No cambium in the monocot root", color=th.CORAL, sub="So no secondary growth. In the dicot, cambium forms from conjunctive tissue and pericycle.")
+        self.play(FadeOut(m), FadeOut(cnt))
+        cap.clear()
+        rows = [["", "Dicot root", "Monocot root"], ["xylem groups", "2–6 (diarch to hexarch)", "more than 6 (polyarch)"], ["pith", "absent or very small", "large, well developed"],
+                ["conjunctive tissue", "parenchymatous", "usually sclerenchymatous"], ["cambium", "forms later", "absent"], ["secondary growth", "present", "absent"],
+                ["examples", "Helianthus, Cicer, Ranunculus", "Zea mays, Oryza, Allium"]]
+        tb = B.table(rows, [3.0, 4.6, 4.6], row_h=0.66, size=24, colors=[th.MUTED, th.INK, th.INK]).move_to([0, 0.2, 0])
+        same = para("Shared by both: epiblema with root hairs, endodermis with Casparian strips and passage cells, pericycle, radial bundles, exarch xylem.", width=12, size=22, color=th.MUTED).move_to([0, -3.0, 0])
+        with self.say("Here is the comparison to learn as a table. Xylem groups, pith, conjunctive tissue, cambium, secondary growth, and examples. And everything else is shared: both have root hairs, an endodermis with Casparian strips, a pericycle, radial bundles and exarch xylem.") as v:
+            B.reveal_table(self, tb, v.dur * 0.75)
+            self.play(FadeIn(same))
+        self.play(FadeOut(VGroup(tb, same)))
+        self.quiz("The Casparian strip is found in the",
+                  ["epiblema", "pericycle", "endodermis", "conjunctive tissue"], 2,
+                  "Pause and think. Where is the Casparian strip?",
+                  "The endodermis: a band of suberin and lignin on its radial and tangential walls, forcing water through the living cells. The pericycle is the tempting wrong answer, because it lies right next to it, but the pericycle has no such band.")
+
+    # ------------------------------------------------------------------ part 4: stem
     def p4(self):
         self.section(3)
+        C = np.array([-3.1, -0.15, 0])
+        st = B.DicotStemTS(R=2.75).move_to(C)
+        P = st.parts
+        cap = B.Captions(self, at=(3.75, 0.1, 0), width=5.3, size=27)
+        steps_ = [(["epi"], "Now a sunflower stem, Helianthus. The epidermis is one layer, but unlike the root it has a cuticle, a few stomata and often multicellular hairs. The stem is above ground and must limit water loss.",
+                   "Epidermis", EPI, "Cuticle, a few stomata, multicellular trichomes."),
+                  (["hyp"], "Below it, the hypodermis: several layers of collenchyma, thickest under the ridges. That is what makes a young sunflower stem ridged and flexible.",
+                   "Hypodermis: collenchyma", COL, "A few layers of collenchyma: flexible support."),
+                  (["cortex"], "Then the general cortex: chlorenchyma outside, ordinary parenchyma inside.",
+                   "General cortex", PAR, "Chlorenchyma outside, parenchyma inside."),
+                  (["endo"], "The innermost cortical layer is the endodermis, loaded with starch grains. So in a stem it is called the starch sheath. A Casparian strip is not usually visible.",
+                   "Endodermis: the starch sheath", ENDO, "Full of starch grains; Casparian strip not usually seen."),
+                  (["caps"], "The pericycle shows as patches of sclerenchyma sitting like caps on the outer face of each bundle. These bundle caps are a strong clue that you are looking at a dicot stem.",
+                   "Pericycle: bundle caps", SCL, "Semilunar patches of sclerenchyma over each bundle."),
+                  (["phloem", "cambium", "xylem"], "And the bundles: a single ring of them, few, all the same size, wedge shaped.",
+                   "A single ring of bundles", XYL, "Few, equal in size, wedge-shaped: a eustele."),
+                  (["pith"], "In the centre a large pith of parenchyma, with strips running out between the bundles. Those strips are the medullary rays, and that is exactly where the interfascicular cambium will appear in part six.",
+                   "Pith and medullary rays", PITH, "Large central parenchyma; rays run between the bundles.")]
+        for keys, sy, title, col, sub in steps_:
+            with self.say(sy):
+                if keys[0] == "phloem":
+                    self.play(FadeIn(VGroup(*[b[0] for b in P["bundles"]])), run_time=0.4)
+                self.play(*[FadeIn(P[k_]) for k_ in keys], run_time=0.9)
+                cap(title, color=col, swatch=col, sub=sub)
+        self.play(st.animate.scale(0.55).move_to([-5.3, 1.3, 0]), FadeOut(cap.cur))
+        cap.cur = None
+        self.p4_bundle()
+        self.play(FadeOut(st))
+        self.p4_monocot()
+        self.p4_types()
+        self.p4_example()
 
+    def p4_bundle(self):
+        O = np.array([-0.6, -0.4, 0])
+        back = Polygon(O + [-1.0, -1.8, 0], O + [1.0, -1.8, 0], O + [1.9, 1.9, 0], O + [-1.9, 1.9, 0], stroke_color=th.FAINT, stroke_width=2, fill_color="#171329", fill_opacity=1)
+        back.round_corners(0.15)
+        capm = Polygon(O + [-1.7, 2.0, 0], O + [1.7, 2.0, 0], O + [1.1, 2.6, 0], O + [-1.1, 2.6, 0], stroke_width=0, fill_color=SCL, fill_opacity=0.9)
+        capm.round_corners(0.15)
+        ph = VGroup(*[Circle(radius=0.17, stroke_color="#FFC1DE", stroke_width=1.5, fill_color=PHL, fill_opacity=0.75).move_to(O + [x, y, 0]) for y in (1.6, 1.22) for x in np.linspace(-1.35, 1.35, 7)])
+        cb = VGroup(*[Rectangle(width=0.34, height=0.2, stroke_color=CAMB, stroke_width=2, fill_color=CAMB, fill_opacity=0.5).move_to(O + [x, 0.85, 0]) for x in np.linspace(-1.2, 1.2, 8)])
+        xy = VGroup()
+        for y, sz, xs in [(0.3, 0.28, [-0.9, 0.0, 0.9]), (-0.5, 0.2, [-0.5, 0.5]), (-1.15, 0.12, [-0.25, 0.25]), (-1.55, 0.08, [0.0])]:
+            for x in xs:
+                xy.add(Circle(radius=sz, stroke_color=XYL, stroke_width=3, fill_color=XYL, fill_opacity=0.25).move_to(O + [x, y, 0]))
+        L = [("bundle cap (pericycle)", capm, SCL), ("phloem", ph, PHL), ("cambium", cb, CAMB), ("metaxylem", VGroup(*xy[:3]), XYL), ("protoxylem", VGroup(*xy[-3:]), XYL)]
+        labs = VGroup()
+        for i, (n_, m_, c_) in enumerate(L):
+            labs.add(B.label(n_, [4.4, m_.get_center()[1], 0], m_.get_right() + RIGHT * 0.05, color=c_, size=22))
+        for l_ in labs:
+            l_[1].align_to(np.array([3.0, 0, 0]), LEFT)
+            l_[0].put_start_and_end_on(l_[1].get_left() + LEFT * 0.08, l_[0].get_end())
+        pith = T("towards the pith", size=20, color=th.MUTED).move_to(O + [0, -2.15, 0])
+        with self.say("Zoom into one bundle. From the outside in: the sclerenchyma cap, the phloem, a strip of cambium, then the xylem. The big metaxylem vessels lie near the cambium, and the small protoxylem points towards the pith. That is endarch xylem."):
+            self.play(FadeIn(back), FadeIn(capm), FadeIn(ph), FadeIn(cb), FadeIn(xy), FadeIn(pith))
+            self.play(LaggedStart(*[FadeIn(l_) for l_ in labs], lag_ratio=0.25), run_time=2.0)
+        words = VGroup(*[T(w_, size=26, color=c_, weight="BOLD") for w_, c_ in [("conjoint", th.INK), ("collateral", PHL), ("open", CAMB), ("endarch", XYL)]]).arrange(RIGHT, buff=0.5).move_to([0.6, -3.0, 0])
+        with self.say("Name it in four words. Conjoint: xylem and phloem in one bundle. Collateral: on the same radius, phloem outside. Open: there is cambium between them. And endarch."):
+            self.play(LaggedStart(*[FadeIn(w_, shift=UP * 0.2) for w_ in words], lag_ratio=0.4), run_time=2.4)
+        self.play(FadeOut(VGroup(back, capm, ph, cb, xy, labs, pith, words)))
+
+    def p4_monocot(self):
+        C = np.array([-3.1, -0.15, 0])
+        st = B.MonocotStemTS(R=2.75).move_to(C)
+        P = st.parts
+        cap = B.Captions(self, at=(3.75, 0.1, 0), width=5.3, size=27)
+        with self.say("Now a maize stem, Zea mays. The differences are so large that you will never confuse the two once you know them. One layer of epidermis, with a thick cuticle."):
+            self.play(FadeIn(P["epi"]))
+            cap("Epidermis, thick cuticle", color=EPI, swatch=EPI)
+        with self.say("The hypodermis is sclerenchyma, not collenchyma, two or three layers thick. A maize stem is stiff, not flexible."):
+            self.play(FadeIn(P["hyp"]))
+            cap("Hypodermis: sclerenchyma", color=SCL, swatch=SCL, sub="Stiff, not flexible.")
+        with self.say("Inside, there is no cortex, no endodermis, no pericycle and no pith. The whole mass is one continuous ground tissue of parenchyma."):
+            self.play(FadeIn(P["ground"]))
+            cap("Undifferentiated ground tissue", color=PAR, swatch=PAR, sub="No cortex, endodermis, pericycle or pith.")
+        with self.say("And the bundles are scattered all through it. Many of them, and unequal: small and crowded near the edge, large and widely spaced towards the centre. This scattered arrangement is called an atactostele."):
+            self.play(LaggedStart(*[FadeIn(b, scale=0.5) for b in P["bundles"]], lag_ratio=0.03), run_time=2.4)
+            cap("Scattered bundles (atactostele)", color=XYL, swatch=XYL, sub="Numerous; small near the periphery, large towards the centre.")
+        self.play(st.animate.scale(0.55).move_to([-5.3, 1.3, 0]), FadeOut(cap.cur))
+        cap.cur = None
+        mb = B.mono_bundle(5.2).move_to([-0.4, -0.5, 0])
+        Q = mb.parts
+        L = [("sclerenchyma sheath", Q["sheath"], SCL, 1.9), ("phloem: no phloem parenchyma", Q["phloem"], PHL, 1.0), ("metaxylem vessels", Q["meta"], XYL, 0.1),
+             ("protoxylem", Q["proto"], XYL, -0.8), ("lysigenous cavity", Q["cavity"], "#9AA3D8", -1.6)]
+        labs = VGroup()
+        for n_, m_, c_, y in L:
+            g = B.label(n_, [0, y, 0], m_.get_right() + RIGHT * 0.02 if n_ != "sclerenchyma sheath" else m_.get_right(), color=c_, size=22)
+            g[1].align_to(np.array([2.2, 0, 0]), LEFT)
+            g[0].put_start_and_end_on(g[1].get_left() + LEFT * 0.08, g[0].get_end())
+            labs.add(g)
+        with self.say("Zoom into one maize bundle. It looks like a little skull. A sheath of sclerenchyma all round. Two big metaxylem vessels for eyes, protoxylem below them, in a Y or V shape."):
+            self.play(FadeIn(mb, scale=0.8))
+            self.play(FadeIn(labs[0]), FadeIn(labs[2]), FadeIn(labs[3]))
+        with self.say("The lowest protoxylem breaks down, leaving a water filled hole: the lysigenous cavity. Above, the phloem has only sieve tubes and companion cells. Phloem parenchyma is absent."):
+            self.play(FadeIn(labs[4]), Indicate(Q["cavity"], color=th.AMBER))
+            self.play(FadeIn(labs[1]))
+        words = VGroup(*[T(w_, size=26, color=c_, weight="BOLD") for w_, c_ in [("conjoint", th.INK), ("collateral", PHL), ("closed", th.CORAL), ("endarch", XYL)]]).arrange(RIGHT, buff=0.5).move_to([0.6, -3.0, 0])
+        with self.say("And there is no cambium at all. Conjoint, collateral, endarch, but closed. That single word is why a maize stem can never grow thick in the ordinary way."):
+            self.play(LaggedStart(*[FadeIn(w_, shift=UP * 0.2) for w_ in words], lag_ratio=0.3), run_time=1.8)
+            self.play(Indicate(words[2], scale_factor=1.25, color=th.CORAL))
+        self.play(FadeOut(VGroup(mb, labs, words, st)))
+        rows = [["", "Dicot stem", "Monocot stem"], ["hypodermis", "collenchyma", "sclerenchyma"], ["ground tissue", "cortex, endodermis, pericycle, pith", "undifferentiated"],
+                ["bundles", "one ring, few, equal", "scattered, many, unequal"], ["bundle type", "conjoint, collateral, open", "conjoint, collateral, closed"],
+                ["bundle sheath", "absent (bundle caps instead)", "sclerenchymatous"], ["phloem parenchyma", "present", "absent"], ["lysigenous cavity", "absent", "present"],
+                ["medullary rays", "present", "absent"], ["secondary growth", "present", "absent"]]
+        tb = B.table(rows, [3.0, 4.7, 4.7], row_h=0.56, size=23, colors=[th.MUTED, th.INK, th.INK]).move_to([0, 0.15, 0])
+        with self.say("The comparison table, the long answer every year. Hypodermis, ground tissue, arrangement and number of bundles, bundle type, sheath, phloem parenchyma, the cavity, medullary rays, and secondary growth. Learn it row by row.") as v:
+            B.reveal_table(self, tb, v.dur * 0.9)
+        self.play(FadeOut(tb))
+
+    def p4_types(self):
+        head = T("Types of vascular bundle", size=32, color=th.INK, weight="BOLD", display=True).to_edge(UP, buff=0.75)
+
+        def blobs(pts, col, r=0.13):
+            return VGroup(*[Circle(radius=r, stroke_width=0, fill_color=col, fill_opacity=0.9).move_to(p) for p in pts])
+
+        def ring(n, rr, col, r=0.11):
+            return blobs([polar(rr, TAU * k / n) for k in range(n)], col, r)
+
+        icons = [
+            ("radial", "roots", VGroup(blobs([[-0.35, 0.35, 0], [0.35, -0.35, 0]], XYL, 0.2), blobs([[0.35, 0.35, 0], [-0.35, -0.35, 0]], PHL, 0.2))),
+            ("collateral", "most stems", VGroup(blobs([[x, 0.35, 0] for x in (-0.3, 0, 0.3)], PHL), blobs([[x, -0.3, 0] for x in (-0.3, 0, 0.3)], XYL))),
+            ("bicollateral", "Cucurbita, Luffa, Solanum", VGroup(blobs([[x, 0.5, 0] for x in (-0.3, 0, 0.3)], PHL), blobs([[x, 0, 0] for x in (-0.3, 0, 0.3)], XYL), blobs([[x, -0.5, 0] for x in (-0.3, 0, 0.3)], PHL))),
+            ("amphivasal", "xylem outside: Dracaena, Yucca", VGroup(ring(10, 0.48, XYL), blobs([[0, 0, 0], [0.18, 0.1, 0], [-0.18, -0.1, 0]], PHL))),
+            ("amphicribral", "phloem outside: ferns", VGroup(ring(10, 0.48, PHL), blobs([[0, 0, 0], [0.18, 0.1, 0], [-0.18, -0.1, 0]], XYL))),
+        ]
+        cards = VGroup()
+        for n_, ex, ic in icons:
+            box = self.panel(2.4, 2.8)
+            g = VGroup(ic, T(n_, size=24, color=th.INK, weight="BOLD"), para(ex, width=2.1, size=18, color=th.BODY, align="center")).arrange(DOWN, buff=0.25).move_to(box)
+            cards.add(VGroup(box, g))
+        cards.arrange(RIGHT, buff=0.25).move_to([0, -0.1, 0])
+        leg = VGroup(VGroup(Dot(color=XYL), T("xylem", size=20, color=XYL)).arrange(RIGHT, buff=0.1), VGroup(Dot(color=PHL), T("phloem", size=20, color=PHL)).arrange(RIGHT, buff=0.1)).arrange(RIGHT, buff=0.5).move_to([0, -2.1, 0])
+        oc = T("open = cambium present (can thicken)     closed = no cambium", size=24, color=CAMB).move_to([0, -2.8, 0])
+        with self.say("You will be asked to name a bundle, not just describe it. Radial: xylem and phloem on different radii, in roots. Conjoint and collateral: phloem only on the outside, as in most stems. Bicollateral: phloem on both sides of the xylem, in the pumpkin family, Cucurbitaceae, and in Solanum.") as v:
+            self.play(FadeIn(head), FadeIn(leg))
+            for c_ in cards[:3]:
+                self.play(FadeIn(c_, shift=UP * 0.2), run_time=0.5)
+                self.hold(v.dur * 0.25 - 0.5)
+        with self.say("And concentric, where one tissue surrounds the other. Amphivasal: xylem surrounds phloem, as in Dracaena and Yucca. Amphicribral: phloem surrounds xylem, as in ferns. Finally, open means a cambium is present, closed means none."):
+            self.play(FadeIn(cards[3], shift=UP * 0.2))
+            self.play(FadeIn(cards[4], shift=UP * 0.2))
+            self.play(FadeIn(oc))
+        self.play(FadeOut(VGroup(head, cards, leg, oc)))
+        self.tip("Amphi-VAS-al: VAScular tissue (xylem) outside. Amphi-CRIB-ral: cribrum = sieve, so sieve tubes (phloem) outside.",
+                 "Two marks that hinge on one syllable. Amphi vas al: vas, vascular, the xylem, is on the outside. Amphi crib ral: cribrum is Latin for a sieve, so the sieve tubes, the phloem, are on the outside.", state="wink")
+
+    def p4_example(self):
+        head, prob = B.example_head(self, "A stained TS shows: a one-layered epidermis with a thick cuticle; a hypodermis of cells thickened at their corners; a ring of eight wedge-shaped bundles, each with a strip of thin cells between xylem and phloem; a wide central parenchyma. Identify the organ and class, with reasons.", size=24)
+        steps = ["Xylem and phloem in the same bundle, same radius → stem, not root.",
+                 "Cuticle → aerial organ. Corner-thickened hypodermis = angular collenchyma → dicot.",
+                 "One ring of similar bundles (not scattered) → dicot.",
+                 "Thin strip between xylem and phloem = cambium → open bundle.",
+                 "Wide central parenchyma = pith → present in dicot stem."]
+        rows = VGroup(*[VGroup(T(str(i + 1), size=24, color=self.color, weight="BOLD"), para(s_, width=11.4, size=23, color=th.INK)).arrange(RIGHT, buff=0.3, aligned_edge=UP) for i, s_ in enumerate(steps)])
+        rows.arrange(DOWN, aligned_edge=LEFT, buff=0.24).next_to(prob, DOWN, buff=0.4).align_to(prob, LEFT)
+        ans = para("Answer: TS of a young dicot stem, with conjoint, collateral, open bundles in one ring.", width=12, size=25, color=th.AMBER, weight="BOLD").next_to(rows, DOWN, buff=0.3).align_to(prob, LEFT)
+        blk = VGroup(prob, rows, ans)
+        if blk.get_bottom()[1] < -3.25:
+            top = prob.get_top()
+            blk.scale((top[1] + 3.25) / blk.height).move_to(top, aligned_edge=UP).align_to(head, LEFT)
+        says = ["A worked example: reading an unknown slide. Read the clues, then reason one at a time.",
+                "First, root or stem? Xylem and phloem lie in the same bundle, on the same radius. So it is a stem.",
+                "The cuticle confirms an aerial organ. Thickening at the corners is angular collenchyma, which occurs in dicot stems and never in monocots.",
+                "One ring of similar bundles, not scattered ones: a dicot again.",
+                "The thin strip between xylem and phloem is the cambium, so the bundles are open.",
+                "And the wide central parenchyma is the pith, present in a dicot stem."]
+        with self.say(says[0]):
+            self.play(FadeIn(head), FadeIn(prob, shift=UP * 0.2))
+        for r_, sy in zip(rows, says[1:]):
+            with self.say(sy):
+                self.play(FadeIn(r_, shift=RIGHT * 0.2))
+        with self.say("Answer: a transverse section of a young dicot stem, with conjoint, collateral, open bundles in a single ring."):
+            self.play(Write(ans))
+        self.play(FadeOut(VGroup(head, prob, rows, ans)))
+        self.quiz("A vascular bundle in which the phloem completely surrounds the xylem is called",
+                  ["amphivasal", "amphicribral", "bicollateral", "radial"], 1,
+                  "Pause and think. Phloem all the way round the xylem. What is it called?",
+                  "Amphicribral. Cribrum means sieve: the sieve tubes are outside. Amphivasal is the exact reverse, xylem outside, and that is the trap. Bicollateral has phloem on two sides only, not all round.")
+
+    # ------------------------------------------------------------------ part 5: leaf
     def p5(self):
         self.section(4)
+        leaf = Line([-3.0, 0.0, 0], [3.0, 0.0, 0], color=CHL, stroke_width=14)
+        rays = VGroup(*[Arrow([x, 2.8, 0], [x, 0.35, 0], buff=0, color=th.AMBER, stroke_width=4) for x in np.linspace(-2.6, 2.6, 6)])
+        top = T("upper side: full sun", size=24, color=th.AMBER).move_to([0, 3.15, 0])
+        bot = T("lower side: shade", size=24, color=th.MUTED).move_to([0, -0.7, 0])
+        dv = T("dorsiventral", size=36, color=th.INK, weight="BOLD").move_to([0, -2.0, 0])
+        with self.say("A typical dicot leaf is held flat, so its upper surface gets far more light than its lower. Its anatomy is two faced to match, and we call it dorsiventral."):
+            self.play(Create(leaf), LaggedStart(*[GrowArrow(r_) for r_ in rays], lag_ratio=0.1), FadeIn(top))
+            self.play(FadeIn(bot), Write(dv))
+        self.play(FadeOut(VGroup(leaf, rays, top, bot, dv)))
+        lf = B.DicotLeafTS(w=11.0).move_to([0, 0.7, 0])
+        P = lf.parts
+        cap = B.Captions(self, at=(0, -2.45, 0), width=12, size=26)
+        seq = [(["cuticle", "ue"], "Upper epidermis: one layer with a thick cuticle, and very few stomata or none.", "Upper epidermis + thick cuticle", EPI),
+               (["palisade"], "Below it, the palisade parenchyma: one to three layers of tall, closely packed cells standing on end, crammed with chloroplasts. Most photosynthesis happens here.", "Palisade parenchyma: most photosynthesis", CHL),
+               (["spongy"], "Then the spongy parenchyma: loose, irregular cells with big air spaces between them, and fewer chloroplasts. This is the tissue built for gas exchange.", "Spongy parenchyma: air spaces for gas exchange", PAR),
+               (["le", "stomata"], "The lower epidermis has a thinner cuticle and many stomata, each opening into an air chamber, the substomatal cavity. Stomata mainly on the lower side make the leaf hypostomatic, which saves water, because the lower side is cooler.", "Lower epidermis: many stomata (hypostomatic)", EPI),
+               (["vein"], "And the veins. Each bundle is conjoint, collateral and closed, with xylem towards the upper side and phloem towards the lower side, exactly as you would expect if the leaf were a flattened piece of stem. A sheath of parenchyma surrounds it, and the venation is reticulate.", "Vein: xylem up, phloem down; parenchyma sheath", XYL)]
+        for keys, sy, title, col in seq:
+            with self.say(sy):
+                self.play(*[FadeIn(P[k_]) for k_ in keys], run_time=1.0)
+                cap(title, color=col, swatch=col)
+        st0 = P["stomata"][1].get_center()
+        co2 = VGroup(*[Dot(radius=0.07, color=th.SKY) for _ in range(5)])
+        paths = [VMobject().set_points_smoothly([st0 + DOWN * 0.6, st0 + UP * 0.25, st0 + UP * 0.9 + RIGHT * (0.3 * i - 0.6), st0 + UP * 1.6 + RIGHT * (0.35 * i - 0.7)]) for i in range(5)]
+        for d_, p_ in zip(co2, paths):
+            d_.move_to(p_.get_start())
+        with self.say("Follow a molecule of carbon dioxide. In through a stoma, into the cavity, through the spongy air spaces, and up to a palisade cell. The whole leaf is a gas exchange machine."):
+            cap("CO₂: stoma → substomatal cavity → spongy air spaces → palisade", color=th.SKY)
+            self.play(LaggedStart(*[MoveAlongPath(d_, p_) for d_, p_ in zip(co2, paths)], lag_ratio=0.2), run_time=3.0)
+        self.play(FadeOut(VGroup(lf, co2)))
+        cap.clear()
+        self.p5_mono()
+
+    def p5_mono(self):
+        leaf = Line([0, -2.6, 0], [0, 2.4, 0], color=CHL, stroke_width=14)
+        r1 = VGroup(*[Arrow([-3.0, y, 0], [-0.35, y, 0], buff=0, color=th.AMBER, stroke_width=4) for y in np.linspace(-2, 1.8, 5)])
+        r2 = VGroup(*[Arrow([3.0, y, 0], [0.35, y, 0], buff=0, color=th.AMBER, stroke_width=4) for y in np.linspace(-2, 1.8, 5)])
+        ib = T("isobilateral", size=36, color=th.INK, weight="BOLD").move_to([4.4, -2.6, 0])
+        with self.say("A grass or maize leaf stands more or less upright, so both its surfaces get about the same light. Its anatomy is the same on both sides: isobilateral."):
+            self.play(Create(leaf), LaggedStart(*[GrowArrow(a_) for a_ in [*r1, *r2]], lag_ratio=0.05), run_time=1.6)
+            self.play(Write(ib))
+        self.play(FadeOut(VGroup(leaf, r1, r2, ib)))
+        lf = B.MonocotLeafTS(w=11.0).move_to([0, 0.75, 0])
+        P = lf.parts
+        cap = B.Captions(self, at=(0, -2.3, 0), width=12, size=26)
+        seq = [(["cuticle", "ue", "le", "stomata"], "Both epidermes are cuticularised, and both carry stomata in roughly equal numbers. The leaf is amphistomatic. The guard cells are dumb-bell shaped, not kidney shaped as in a dicot.", "Stomata on both surfaces (amphistomatic); dumb-bell guard cells", EPI),
+               (["mesophyll"], "The mesophyll is not differentiated. No palisade, no spongy layer: just uniform chlorenchyma with small air spaces.", "Mesophyll undifferentiated", CHL),
+               (["bundles", "girders"], "The bundles run in a parallel row, large alternating with small, each inside a sheath of sclerenchyma that often extends as a girder to both surfaces. The venation is parallel.", "Parallel bundles; sclerenchyma sheaths and girders", SCL),
+               (["bulliform"], "And in the upper epidermis of grasses, groups of large, thin walled, water filled cells: the bulliform, or motor, cells.", "Bulliform (motor) cells in the upper epidermis", "#A8F0FF")]
+        for keys, sy, title, col in seq:
+            with self.say(sy):
+                self.play(*[FadeIn(P[k_]) for k_ in keys], run_time=1.0)
+                cap(title, color=col, swatch=col)
+        self.play(FadeOut(lf))
+        cap.clear()
+        flat = ArcBetweenPoints([-3.6, 0.2, 0], [3.6, 0.2, 0], angle=-0.15, color=CHL, stroke_width=16)
+        rolled = VMobject(stroke_color=CHL, stroke_width=16).set_points_smoothly([polar(0.9 + 0.25 * t, PI * 0.5 + t * 1.15 * PI) + np.array([-0.0, 0.2, 0]) for t in np.linspace(-1, 1, 60)])
+        bl = VGroup(*[Ellipse(width=0.42, height=0.6, stroke_color="#A8F0FF", stroke_width=3, fill_color="#1D3F52", fill_opacity=1).move_to([x, 0.62, 0]) for x in (-1.2, 0, 1.2)])
+        sun = T("a hot afternoon in the Terai", size=26, color=th.AMBER).move_to([0, 2.6, 0])
+        with self.say("Here is what the bulliform cells do. On a hot afternoon in a Terai maize field, the plant loses water. The bulliform cells lose turgor and shrink, and the leaf rolls inwards, upper side in. A rolled leaf exposes fewer stomata to the dry air, and transpiration falls."):
+            self.play(Create(flat), FadeIn(bl))
+            self.play(FadeIn(sun))
+            self.play(bl.animate.scale(0.45), run_time=1.0)
+            self.play(Transform(flat, rolled), FadeOut(bl), run_time=2.0)
+            nb = B.neby_in(self, "surprised", height=1.3)
+        B.neby_out(self, nb)
+        self.play(FadeOut(VGroup(flat, sun)))
+        rows = [["", "Dorsiventral (dicot)", "Isobilateral (monocot)"], ["orientation", "horizontal", "more or less vertical"], ["stomata", "mostly lower (hypostomatic)", "both surfaces (amphistomatic)"],
+                ["guard cells", "kidney-shaped", "dumb-bell shaped"], ["mesophyll", "palisade + spongy", "undifferentiated"], ["bulliform cells", "absent", "present (upper epidermis)"],
+                ["bundle sheath", "parenchymatous", "sclerenchymatous, girders"], ["venation", "reticulate", "parallel"], ["examples", "Mangifera, Helianthus, Ficus", "Zea mays, Oryza, Cynodon"]]
+        tb = B.table(rows, [2.8, 4.8, 4.8], row_h=0.6, size=23, colors=[th.MUTED, th.INK, th.INK]).move_to([0, 0.25, 0])
+        with self.say("Four of these differences make a full four mark answer. Orientation, stomata, guard cells, mesophyll, bulliform cells, bundle sheath, venation, and examples.") as v:
+            B.reveal_table(self, tb, v.dur * 0.9)
+        self.play(FadeOut(tb))
+        self.quiz("Bulliform cells occur in the",
+                  ["upper epidermis of a grass leaf", "lower epidermis of a dicot leaf", "mesophyll of a maize leaf", "hypodermis of a dicot stem"], 0,
+                  "Pause and think. Where are bulliform cells found?",
+                  "The upper epidermis of a grass leaf: large, thin walled motor cells that lose turgor and roll the leaf. A dicot leaf has none, and they are epidermal cells, not mesophyll.")
 
     # ------------------------------------------------------------------ part 6: secondary growth
     def p6(self):

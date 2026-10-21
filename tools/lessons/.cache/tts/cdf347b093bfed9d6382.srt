@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,723
+Four phases: slow lag, exponential log, deceleration as resources run short, and stationary at maturity.
+

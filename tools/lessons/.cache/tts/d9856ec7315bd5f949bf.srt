@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,783
+Temperature must be in kelvin: twenty-five plus two hundred and seventy-three is two hundred and ninety-eight.
+

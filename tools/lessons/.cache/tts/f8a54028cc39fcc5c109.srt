@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,184
+Check: carbon one hundred and two each side; hydrogen one hundred and ninety-six each side.
+

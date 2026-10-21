@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,645
+When it grabs oxygen instead, RuBP gives one 3-PGA and one useless two-carbon phosphoglycolate.
+
+2
+00:00:08,645 --> 00:00:19,700
+Salvaging it takes a loop through the chloroplast, the peroxisome and the mitochondrion, and on the way carbon dioxide is lost and ATP is spent, with no gain at all.
+
+3
+00:00:19,700 --> 00:00:21,484
+This is photorespiration.
+

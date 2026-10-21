@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,656
+But P680 has now lost an electron, and it becomes the strongest oxidising agent in biology.
+
+2
+00:00:07,656 --> 00:00:09,934
+It pulls electrons out of water.
+
+3
+00:00:09,934 --> 00:00:19,062
+This is photolysis: two water give one oxygen, four protons and four electrons, at a manganese cluster on the lumen side.
+
+4
+00:00:19,062 --> 00:00:21,914
+So the protons stay in the lumen.
+

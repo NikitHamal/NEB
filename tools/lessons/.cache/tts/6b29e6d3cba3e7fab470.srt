@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,002
+And a trap.
+
+2
+00:00:01,002 --> 00:00:05,963
+Despite its name, A B A is not the main hormone of leaf fall.
+
+3
+00:00:05,963 --> 00:00:09,700
+It was named after the cotton bolls it was first extracted from.
+
+4
+00:00:09,700 --> 00:00:14,153
+Abscission is mainly the work of ethylene, and auxin delays it.
+

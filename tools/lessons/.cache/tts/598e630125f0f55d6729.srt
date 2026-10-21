@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,296
+On humid mornings, drops form at leaf tips and margins.
+
+2
+00:00:04,296 --> 00:00:10,104
+This is guttation: liquid sap pushed out through hydathodes by root pressure.
+

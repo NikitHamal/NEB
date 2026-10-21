@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,710
+Check carbon: two times fifty-one, one hundred and two.
+
+2
+00:00:03,710 --> 00:00:07,460
+Hydrogen: one hundred and ninety-six on each side.
+

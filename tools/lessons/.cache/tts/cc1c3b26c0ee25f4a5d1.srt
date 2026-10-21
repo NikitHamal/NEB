@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,950
+Many plants flower only at the right time of year, and they tell the season by the length of day and night.
+
+2
+00:00:05,950 --> 00:00:14,648
+This is photoperiodism, discovered by Garner and Allard in nineteen twenty, in a tobacco variety called Maryland Mammoth.
+

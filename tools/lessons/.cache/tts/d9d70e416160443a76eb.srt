@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,231
+It runs downhill through plastoquinone, cytochrome b6 f, and plastocyanin, pumping protons into the lumen.
+

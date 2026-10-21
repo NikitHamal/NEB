@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,018
+Put the three side by side.
+
+2
+00:00:02,018 --> 00:00:07,760
+C3 plants fix carbon with RuBisCO and make 3-PGA first.
+
+3
+00:00:07,760 --> 00:00:21,718
+C4 and CAM both catch carbon dioxide with PEP carboxylase and make oxaloacetate first; C4 separates the steps in space, with Kranz anatomy, CAM in time, opening its stomata at night.
+
+4
+00:00:21,718 --> 00:00:25,742
+Both suppress photorespiration, but they do not abolish it.
+

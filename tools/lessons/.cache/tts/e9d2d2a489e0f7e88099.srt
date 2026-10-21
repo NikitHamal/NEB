@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,750
+Osmosis is diffusion of a special kind.
+
+2
+00:00:03,750 --> 00:00:09,856
+A membrane separates pure water, on the left, from a sugar solution, on the right.
+
+3
+00:00:09,856 --> 00:00:15,065
+Water molecules are small enough to pass through it; the sugar molecules are not.
+
+4
+00:00:15,065 --> 00:00:18,307
+Such a membrane is selectively permeable.
+

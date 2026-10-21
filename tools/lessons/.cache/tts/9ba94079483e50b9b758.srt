@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,632
+C3 plants make 3-PGA first.
+
+2
+00:00:03,632 --> 00:00:10,625
+C4 and CAM make oxaloacetate first, separating the steps in space or time.
+

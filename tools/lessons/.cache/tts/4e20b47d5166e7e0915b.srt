@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,132
+The bundles run in a parallel row, large alternating with small, each inside a sheath of sclerenchyma that often extends as a girder to both surfaces.
+
+2
+00:00:11,132 --> 00:00:13,242
+The venation is parallel.
+

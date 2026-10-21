@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,119
+By function.
+
+2
+00:00:01,119 --> 00:00:09,856
+Haberlandt showed that the apical meristem is already sorted into three zones, and each zone is destined for one tissue system.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,242
+Oxaloacetic acid, a four-carbon acid.
+
+2
+00:00:03,242 --> 00:00:08,359
+Malic acid is the trap: it is made from oxaloacetate one step later.
+
+3
+00:00:08,359 --> 00:00:16,145
+P E P is the acceptor, not the product, and 3-PGA is the first product of C3 plants.
+

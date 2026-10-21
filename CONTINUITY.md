@@ -1,12 +1,35 @@
 # NEBians - Continuity Notes
 
-**Last updated:** October 18, 2026
+**Last updated:** October 21, 2026
 
 > **Android UI work lives in [`ANDROID_UI_CONTINUITY.md`](ANDROID_UI_CONTINUITY.md).** This file covers the Django/web side only.
 
 ---
 
 ## Current Status
+
+### Explainer lesson videos (branch `videos/explainers`, Oct 21, 2026)
+
+Pipeline and rules: `tools/lessons/README.md`, `tools/lessons/AUTHORING.md`. Scripts are code-only; the owner renders
+full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only render cheap contact sheets with
+`frames.py` and commit scripts + synthesised narration (`.cache/tts`). Push with `python3 tools/lessons/push.py push "msg" files…`
+(git push is read-only from agent pods). Never delete other agents' commits on this branch (festival video/photo work included).
+
+| Book | Status |
+|---|---|
+| phy12 | units 1–15 scripted, narrated, frame-checked |
+| chem12 | units 1–12 scripted, narrated, frame-checked |
+| bio12 | unit 1 Plant Anatomy: done (part 6 secondary growth rewritten: rings centred on stage, `Captions` one-at-a-time slot, no axes, short recap). Unit 2 Plant Physiology: drafted, under review. Units 3–10: next |
+| then | eng12? (English-medium only), math12, cs12 → class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
+
+- `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
+  (parenchyma/collenchyma/sclerenchyma/meristem), conducting elements, `RootTS`, `DicotStemTS`, `MonocotStemTS`,
+  `DicotLeafTS`, `MonocotLeafTS`, `Flow` (moving dots), `Captions` (single caption slot — use it instead of stacking labels).
+- Do not use `.set_opacity(1)` to un-dim groups that contain stroke-only circles: it fills them with Manim's default red.
+  Use `save_state()` + `fade()` + `Restore`.
+- A CPU box (molab marimo kernel, 20 cores) may be used for frame checks; it is shared with a festival-reel agent, so run
+  renders under `nice` with at most a few parallel jobs.
+- Next step if interrupted: continue the bio12 queue chapter by chapter (unit_02 review → push, then unit_03 Genetics).
 
 ### Landing page, /app, site themes, query budgets, self-hosted fonts (Oct 18, 2026)
 

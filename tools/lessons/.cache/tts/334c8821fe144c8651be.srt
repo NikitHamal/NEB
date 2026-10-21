@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,114
+Stage four, the electron transport system, on the inner mitochondrial membrane, folded into cristae for extra area.
+
+2
+00:00:09,114 --> 00:00:12,695
+NADH hands its electrons to complex one.
+
+3
+00:00:12,695 --> 00:00:22,434
+They pass to ubiquinone, complex three, cytochrome c and complex four, and finally to oxygen, which takes up protons to form water.
+
+4
+00:00:22,434 --> 00:00:25,520
+Oxygen is the final electron acceptor.
+

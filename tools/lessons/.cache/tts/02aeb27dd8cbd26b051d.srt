@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,046
+To predict which way water will move, biologists use one quantity: water potential, written with the Greek letter psi.
+
+2
+00:00:08,046 --> 00:00:10,533
+It measures the free energy of water.
+
+3
+00:00:10,533 --> 00:00:18,242
+Pure, free water at atmospheric pressure is the reference, and its water potential is defined as zero.
+

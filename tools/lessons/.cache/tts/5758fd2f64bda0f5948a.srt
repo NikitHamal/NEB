@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,601
+Then the curve flattens.
+
+2
+00:00:01,601 --> 00:00:06,080
+More light does nothing, because carbon dioxide is now limiting.
+
+3
+00:00:06,080 --> 00:00:11,679
+Raise the carbon dioxide and the whole curve lifts to a new, higher plateau.
+
+4
+00:00:11,679 --> 00:00:19,192
+In the field, carbon dioxide, now about four hundred and twenty-seven parts per million, is usually the limiting factor.
+

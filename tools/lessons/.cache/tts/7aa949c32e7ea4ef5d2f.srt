@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,640
+This one-way flow, from water to NADP plus, is non-cyclic photophosphorylation.
+
+2
+00:00:06,640 --> 00:00:10,729
+It makes ATP, NADPH and oxygen.
+

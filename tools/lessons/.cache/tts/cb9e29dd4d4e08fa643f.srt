@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,856
+Fat is oxygen-poor, so it needs much oxygen: R Q below one.
+
+2
+00:00:04,856 --> 00:00:12,070
+Malic acid is oxygen-rich: two molecules need six oxygen and give eight carbon dioxide.
+
+3
+00:00:12,070 --> 00:00:14,335
+R Q one point three three.
+

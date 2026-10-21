@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,085
+Six times three is eighteen ATP.
+
+2
+00:00:03,085 --> 00:00:06,497
+Six times two is twelve NADPH.
+

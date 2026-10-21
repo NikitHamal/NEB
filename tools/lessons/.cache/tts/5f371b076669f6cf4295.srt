@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,132
+Raising carbon dioxide doubles the rate, so carbon dioxide was the limiting factor.
+

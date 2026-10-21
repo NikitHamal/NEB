@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,770
+At psi p of plus zero point eight, psi w is minus zero point one, equal to the bath.
+
+2
+00:00:06,770 --> 00:00:09,674
+Net flow stops: the cell is turgid.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,289
+Look at a root tip.
+
+2
+00:00:01,289 --> 00:00:05,013
+Behind the root cap, cells divide in the zone of cell division.
+
+3
+00:00:05,013 --> 00:00:08,893
+Behind that, in the zone of elongation, they stretch.
+
+4
+00:00:08,893 --> 00:00:13,528
+Further back, in the zone of maturation, they take on their final form.
+

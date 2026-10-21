@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,437
+Note: the old starch sugar theory is obsolete.
+
+2
+00:00:03,437 --> 00:00:07,343
+Onion guard cells have no starch, yet work perfectly.
+

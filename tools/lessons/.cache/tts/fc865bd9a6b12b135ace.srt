@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,692
+On one scale: fat about zero point seven, protein about zero point eight, carbohydrate one, malic acid one point three three, and oxalic acid four.
+
+2
+00:00:11,692 --> 00:00:18,242
+And a CAM plant at night, fixing carbon dioxide without releasing any, has an R Q of zero.
+

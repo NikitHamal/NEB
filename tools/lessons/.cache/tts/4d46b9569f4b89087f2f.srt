@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,932
+Inside, it crosses the cortex by parallel routes.
+
+2
+00:00:03,932 --> 00:00:12,799
+The apoplast route runs through the cell walls and the spaces between cells, never crossing a membrane; it is the fastest.
+
+3
+00:00:12,799 --> 00:00:19,231
+The symplast route runs from cytoplasm to cytoplasm, through plasmodesmata.
+
+4
+00:00:19,231 --> 00:00:25,950
+A third, transmembrane route crosses membranes through water channels called aquaporins.
+

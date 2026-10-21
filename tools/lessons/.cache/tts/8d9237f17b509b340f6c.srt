@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,570
+Xylem fibres are dead and thick walled, purely for support.
+
+2
+00:00:04,570 --> 00:00:12,630
+And xylem parenchyma is the one living element: it stores starch and tannin, and moves water sideways.
+

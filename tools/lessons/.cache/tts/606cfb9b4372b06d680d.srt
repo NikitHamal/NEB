@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,479
+Respiration is the controlled, stepwise oxidation of food inside living cells, to release energy in a form the cell can use.
+
+2
+00:00:09,479 --> 00:00:19,114
+Burn glucose in a flame and the same energy, about two thousand eight hundred and seventy kilojoules per mole, comes out all at once, as heat.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,283
+So exporting one G3P takes three turns, three carbon dioxide, nine ATP and six NADPH.
+

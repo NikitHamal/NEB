@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,427
+At the base of the leaf stalk sits a swollen joint, the pulvinus.
+
+2
+00:00:04,427 --> 00:00:11,223
+When the signal arrives, the motor cells in its lower half suddenly lose potassium ions.
+
+3
+00:00:11,223 --> 00:00:17,513
+Water follows them out, those cells go limp while the upper cells stay firm, and the leaf drops.
+

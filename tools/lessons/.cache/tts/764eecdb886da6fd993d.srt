@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,687
+It crosses the cortex through cell walls, the apoplast, or from cytoplasm to cytoplasm through plasmodesmata, the symplast.
+

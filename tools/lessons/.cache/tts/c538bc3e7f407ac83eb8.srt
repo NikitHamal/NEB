@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,471
+Exam tip.
+
+2
+00:00:01,471 --> 00:00:14,322
+When a question says describe the internal structure of an organ, walk inwards in exactly this order: epidermis, then the ground tissue, then the vascular tissue, then the centre.
+
+3
+00:00:14,322 --> 00:00:19,023
+You will never miss a layer, and your answer will read like a real section.
+

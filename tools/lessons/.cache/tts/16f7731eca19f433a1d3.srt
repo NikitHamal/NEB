@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,768
+Cellulose microfibrils hoop around each guard cell: radial micellation.
+
+2
+00:00:05,768 --> 00:00:11,276
+So swelling makes the cells longer, not fatter, and they bow apart.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,648
+Ethylene is the only gaseous hormone, made from methionine.
+
+2
+00:00:04,648 --> 00:00:07,330
+Its signature job: ripening fruit.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,302
+Nothing grows; within ten to thirty minutes the cells refill and the leaf rises.
+

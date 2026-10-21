@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,638
+The hypodermis is sclerenchyma, not collenchyma, two or three layers thick.
+
+2
+00:00:05,638 --> 00:00:08,684
+A maize stem is stiff, not flexible.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,460
+Light reaction: thylakoids.
+
+2
+00:00:02,460 --> 00:00:04,674
+Dark reaction: stroma.
+

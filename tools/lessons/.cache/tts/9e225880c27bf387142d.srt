@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,901
+Start with the simplest green life there is: Chlamydomonas, a single cell swimming in a pond.
+
+2
+00:00:06,901 --> 00:00:08,776
+That one cell does everything.
+
+3
+00:00:08,776 --> 00:00:13,841
+It photosynthesises, it absorbs, it moves, and it reproduces.
+

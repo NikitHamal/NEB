@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,828
+Example: rice at twenty degrees in bright light.
+
+2
+00:00:03,828 --> 00:00:08,763
+Doubling light does nothing; doubling carbon dioxide doubles the rate.
+
+3
+00:00:08,763 --> 00:00:11,210
+What limits it, and what if we warm it?
+

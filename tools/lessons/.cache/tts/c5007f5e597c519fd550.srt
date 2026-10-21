@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,299
+Trap: despite its name, A B A is not the main leaf-fall hormone.
+
+2
+00:00:05,299 --> 00:00:08,593
+That is ethylene; auxin delays abscission.
+

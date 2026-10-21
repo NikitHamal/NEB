@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,565
+And the bundles are scattered all through it.
+
+2
+00:00:02,565 --> 00:00:11,132
+Many of them, and unequal: small and crowded near the edge, large and widely spaced towards the centre.
+
+3
+00:00:11,132 --> 00:00:14,661
+This scattered arrangement is called an atactostele.
+

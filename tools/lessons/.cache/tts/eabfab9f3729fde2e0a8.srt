@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,656
+The mesophyll is not differentiated.
+
+2
+00:00:02,656 --> 00:00:09,166
+No palisade, no spongy layer: just uniform chlorenchyma with small air spaces.
+

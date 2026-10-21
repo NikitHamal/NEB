@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,875
+It happens when root pressure is high and transpiration low: at night, in moist soil and humid air.
+

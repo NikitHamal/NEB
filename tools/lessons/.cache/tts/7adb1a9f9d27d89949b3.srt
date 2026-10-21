@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,401
+Three RuBP, fifteen carbons, plus three carbon dioxide make six 3-PGA, eighteen carbons, via RuBisCO.
+

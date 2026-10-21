@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,684
+Fat is poor in oxygen compared with its carbon, so it needs a lot of oxygen from outside, and its R Q falls below one.
+
+2
+00:00:08,684 --> 00:00:11,119
+Organic acids are the opposite.
+
+3
+00:00:11,119 --> 00:00:19,375
+Malic acid already carries plenty of oxygen: two molecules need only six oxygen and give eight carbon dioxide.
+
+4
+00:00:19,375 --> 00:00:23,007
+R Q, eight over six, one point three three.
+

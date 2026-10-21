@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,018
+i is the van 't Hoff factor.
+
+2
+00:00:02,018 --> 00:00:05,989
+Sucrose does not split into ions, so i is one.
+
+3
+00:00:05,989 --> 00:00:09,622
+C is the concentration, one mole per litre.
+

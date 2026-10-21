@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,062
+Abscisic acid, A B A, is the stress hormone.
+
+2
+00:00:04,062 --> 00:00:07,252
+In drought it closes stomata within minutes.
+

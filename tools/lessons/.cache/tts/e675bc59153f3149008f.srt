@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,197
+Why keep both?
+
+2
+00:00:01,197 --> 00:00:08,567
+The Calvin cycle needs ATP and NADPH in a ratio of three to two, one point five.
+
+3
+00:00:08,567 --> 00:00:12,708
+Non-cyclic flow delivers only about one point two eight.
+
+4
+00:00:12,708 --> 00:00:15,924
+Cyclic flow makes up the ATP shortfall.
+
+5
+00:00:15,924 --> 00:00:18,489
+That is its real significance.
+

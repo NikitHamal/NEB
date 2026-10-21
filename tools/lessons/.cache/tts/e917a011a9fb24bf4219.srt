@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,653
+Do not confuse it with dew.
+
+2
+00:00:01,653 --> 00:00:10,013
+Guttation is xylem sap from inside, pushed by root pressure, out of hydathodes, and it dries to a white crust.
+
+3
+00:00:10,013 --> 00:00:17,161
+Dew is atmospheric vapour condensing on any cold surface, even a stone, and it is pure water.
+
+4
+00:00:17,161 --> 00:00:21,276
+And bleeding is different again: sap flowing from a cut.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,713
+Intercalary meristems are pieces of apical meristem left behind between permanent tissues, at the base of an internode or a leaf sheath.
+
+2
+00:00:09,713 --> 00:00:13,984
+They are found in grasses, in Equisetum, and in mint.
+

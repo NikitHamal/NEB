@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,388
+Auxin, made at the shoot tip from tryptophan, moves down.
+
+2
+00:00:04,388 --> 00:00:07,643
+Light from one side drives it to the shaded side.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,135
+Both epidermes are cuticularised, and both carry stomata in roughly equal numbers.
+
+2
+00:00:07,135 --> 00:00:09,687
+The leaf is amphistomatic.
+
+3
+00:00:09,687 --> 00:00:14,895
+The guard cells are dumb-bell shaped, not kidney shaped as in a dicot.
+

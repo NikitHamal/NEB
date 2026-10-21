@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,075
+Stage three, the Krebs cycle, also in the matrix.
+
+2
+00:00:04,075 --> 00:00:12,890
+Acetyl coenzyme A, two carbons, joins oxaloacetate, four carbons, to make citrate, six carbons.
+
+3
+00:00:12,890 --> 00:00:16,236
+That is why it is also called the citric acid cycle.
+

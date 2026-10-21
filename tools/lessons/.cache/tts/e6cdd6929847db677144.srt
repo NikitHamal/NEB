@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,484
+The solution is more negative than the cell, so water leaves the cell and it plasmolyses.
+

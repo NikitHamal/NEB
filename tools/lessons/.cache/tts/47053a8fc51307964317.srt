@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,343
+At plus zero point eight, the cell's water potential is minus zero point one, exactly the bath's.
+
+2
+00:00:07,343 --> 00:00:08,867
+Net flow stops.
+
+3
+00:00:08,867 --> 00:00:17,174
+The cell is fully turgid, firm like a pumped-up football, and that turgor is what holds a soft stem and leaf upright.
+

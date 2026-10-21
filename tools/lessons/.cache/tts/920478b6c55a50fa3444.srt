@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,380
+Why twelve water?
+
+2
+00:00:01,380 --> 00:00:04,375
+Because all the oxygen released comes from water.
+
+3
+00:00:04,375 --> 00:00:08,294
+Heavy-oxygen experiments in nineteen forty-one proved it.
+

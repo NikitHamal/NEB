@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:06,953
+Water moves to more negative potential, and xylem sap is pulled under tension.
+
+3
+00:00:06,953 --> 00:00:10,924
+Potassium opens stomata; A B A closes them.
+
+4
+00:00:10,924 --> 00:00:16,458
+The light reaction makes ATP, NADPH and oxygen from water.
+
+5
+00:00:16,458 --> 00:00:25,377
+Calvin needs three ATP and two NADPH per carbon dioxide; C4 separates steps in space, CAM in time.
+
+6
+00:00:25,377 --> 00:00:31,875
+Respiration gives thirty to thirty-two ATP; R Q is about zero point seven for fat.
+
+7
+00:00:31,875 --> 00:00:37,122
+And five hormones; tropisms are growth, Mimosa is turgor.
+

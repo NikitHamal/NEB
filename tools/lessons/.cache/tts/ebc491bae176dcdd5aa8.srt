@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,718
+Each pyruvate loses one carbon as carbon dioxide and gives up hydrogen to make NADH.
+
+2
+00:00:06,718 --> 00:00:12,356
+The two-carbon remainder is attached to coenzyme A, as acetyl coenzyme A.
+
+3
+00:00:12,356 --> 00:00:16,966
+For one glucose that is two carbon dioxide and two more NADH.
+

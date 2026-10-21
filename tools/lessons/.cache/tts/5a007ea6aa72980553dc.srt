@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,010
+In cyclic flow, photosystem one works alone.
+
+2
+00:00:04,010 --> 00:00:07,382
+Electrons loop back, making only ATP.
+
+3
+00:00:07,382 --> 00:00:09,531
+No NADPH, no oxygen.
+

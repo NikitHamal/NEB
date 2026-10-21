@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,703
+Phloem carries food, mostly sucrose, from where it is made to where it is used.
+
+2
+00:00:05,703 --> 00:00:10,950
+And unlike xylem, it can carry it in either direction, up or down.
+
+3
+00:00:10,950 --> 00:00:18,320
+Its main cells are sieve tube elements, joined end to end through perforated cross walls called sieve plates.
+

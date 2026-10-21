@@ -48,7 +48,7 @@ BRANCH = os.environ.get("NEB_BRANCH", "videos/explainers")
 MAX_BLOB = 25 * 1024 * 1024      # stay clear of the connector's 413 ceiling
 
 
-def gh(method, path, body=None, retries=4, timeout=900):
+def _gh_once(method, path, body=None, retries=6, timeout=900):
     url = path if path.startswith("http") else "https://api.github.com" + path
     payload = {"app": "github", "method": method, "url": url}
     if body is not None:
@@ -69,6 +69,9 @@ def gh(method, path, body=None, retries=4, timeout=900):
             if exc.code in (429, 500, 502, 503, 504) and attempt < retries - 1:
                 time.sleep(3 * (attempt + 1))
                 continue
+            if exc.code == 403 and "rate limit" in raw and attempt < retries - 1:
+                time.sleep(60 * (attempt + 1))
+                continue
             raise SystemExit("github %s %s -> HTTP %s %s"
                              % (method, url, exc.code, raw[:300]))
         except Exception as exc:                      # noqa: BLE001
@@ -87,6 +90,16 @@ def gh(method, path, body=None, retries=4, timeout=900):
         raise SystemExit("github %s %s -> HTTP %s %s"
                          % (method, url, status, str(inner)[:300]))
     return inner
+
+
+def gh(method, path, body=None):
+    for attempt in range(8):
+        try:
+            return _gh_once(method, path, body)
+        except SystemExit as exc:
+            if "rate limit" not in str(exc) or attempt == 7:
+                raise
+            time.sleep(60 + 30 * attempt)
 
 
 def api(suffix):
@@ -119,7 +132,8 @@ def repo_prefix(root):
 def push(paths, message, deletes=(), root=".", progress=True):
     prefix = repo_prefix(root)
     entries = []
-    for path in sorted(paths):
+
+    def upload(path):
         local = os.path.join(root, path) if not os.path.isabs(path) else path
         if not os.path.isfile(local):
             raise SystemExit("not a file: %s" % local)
@@ -132,10 +146,13 @@ def push(paths, message, deletes=(), root=".", progress=True):
         sha = gh("POST", api("/git/blobs"),
                  {"content": blob, "encoding": "base64"})["sha"]
         repo_path = path if prefix in ("", ".") else "%s/%s" % (prefix, path)
-        entries.append({"path": repo_path, "mode": "100644", "type": "blob",
-                        "sha": sha})
         if progress:
             print("  + %-58s %7.2f MB" % (repo_path, size / 1e6), flush=True)
+        return {"path": repo_path, "mode": "100644", "type": "blob", "sha": sha}
+
+    from concurrent.futures import ThreadPoolExecutor
+    with ThreadPoolExecutor(max_workers=int(os.environ.get("PUSH_WORKERS", "3"))) as ex:
+        entries.extend(ex.map(upload, sorted(paths)))
     for path in deletes:
         repo_path = path if prefix in ("", ".") else "%s/%s" % (prefix, path)
         entries.append({"path": repo_path, "mode": "100644", "type": "blob",
@@ -147,9 +164,9 @@ def push(paths, message, deletes=(), root=".", progress=True):
         return None
     base = head_sha()
     tree = base
-    for i in range(0, len(entries), 120):           # big trees time out server-side
+    for i in range(0, len(entries), 60):            # big trees time out server-side
         tree = gh("POST", api("/git/trees"),
-                  {"base_tree": tree, "tree": entries[i:i + 120]})["sha"]
+                  {"base_tree": tree, "tree": entries[i:i + 60]})["sha"]
     commit = gh("POST", api("/git/commits"),
                 {"message": message, "tree": tree, "parents": [base]})["sha"]
     gh("PATCH", api("/git/refs/heads/" + BRANCH), {"sha": commit})

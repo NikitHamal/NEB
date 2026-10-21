@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,851
+A worked example on limiting factors.
+
+2
+00:00:02,851 --> 00:00:06,510
+A rice plant at twenty degrees in bright sunlight.
+
+3
+00:00:06,510 --> 00:00:14,192
+Doubling the light changes nothing, but raising carbon dioxide to eight hundred parts per million doubles the rate.
+
+4
+00:00:14,192 --> 00:00:18,697
+What is limiting, and what happens if we then warm it to thirty degrees?
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,614
+Photosynthesis runs on enzymes, and twenty degrees is below the optimum for rice.
+
+2
+00:00:06,614 --> 00:00:13,151
+So temperature is now limiting, and warming to thirty degrees raises the rate further.
+
+3
+00:00:13,151 --> 00:00:15,481
+That is Blackman's principle at work.
+

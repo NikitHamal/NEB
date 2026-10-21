@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,830
+C4 plants like maize and sugarcane avoid it with Kranz anatomy: bundle-sheath cells ring each vein, surrounded by mesophyll.
+

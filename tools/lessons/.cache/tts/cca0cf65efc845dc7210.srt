@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,619
+It happens when root pressure is high and transpiration is low: at night and early morning, in moist soil and humid air.
+
+2
+00:00:08,619 --> 00:00:14,166
+A hydathode's water pore is a modified stoma that stays open permanently.
+

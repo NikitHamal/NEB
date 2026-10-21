@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,127
+Two ATP are spent, each adding a phosphate group.
+
+2
+00:00:04,127 --> 00:00:11,223
+The second of these, at phosphofructokinase, is the committed, rate-limiting step of glycolysis.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,786
+The sal does three times that, silently.
+
+2
+00:00:02,786 --> 00:00:03,515
+How?
+
+3
+00:00:03,515 --> 00:00:08,515
+The surprising answer, by the end of this lesson: the water is not pushed up.
+
+4
+00:00:08,515 --> 00:00:10,130
+It is pulled from above.
+

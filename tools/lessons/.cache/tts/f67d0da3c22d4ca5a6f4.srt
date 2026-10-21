@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,408
+Blue light switches on a proton pump.
+
+2
+00:00:02,408 --> 00:00:07,460
+Protons leave the guard cells, and the inside turns negative.
+

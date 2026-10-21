@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,786
+Complexes one, three and four pump four, four and two protons: ten per NADH.
+
+2
+00:00:07,786 --> 00:00:14,010
+FADH two enters at complex two, which pumps none, so it gives six.
+

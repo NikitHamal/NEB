@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,799
+The endodermis also does something active.
+
+2
+00:00:02,799 --> 00:00:08,476
+It pumps ions into the xylem, and the Casparian strip stops them leaking back.
+
+3
+00:00:08,476 --> 00:00:13,919
+Water follows them by osmosis and builds a push from below: root pressure.
+
+4
+00:00:13,919 --> 00:00:18,906
+Cut a pidalu stem early in the morning and sap wells out of the stump.
+

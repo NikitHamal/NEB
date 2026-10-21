@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,302
+ATP only.
+
+2
+00:00:01,302 --> 00:00:10,377
+The electron returns to P700, so nothing reduces NADP plus, and water is never split, so no oxygen.
+
+3
+00:00:10,377 --> 00:00:19,752
+ATP and oxygen is the tempting answer, but oxygen comes only from photolysis at photosystem two, which is not running in the loop.
+

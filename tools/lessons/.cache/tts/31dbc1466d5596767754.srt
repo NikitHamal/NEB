@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:13,854
+All five: auxin for elongation and apical dominance; gibberellin for bolting; cytokinin for division; A B A for stomatal closure and dormancy; ethylene for ripening and leaf fall.
+

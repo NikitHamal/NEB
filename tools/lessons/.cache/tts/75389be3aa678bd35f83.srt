@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,356
+The protons flow back through ATP synthase, and it takes about four protons to make one ATP.
+
+2
+00:00:07,356 --> 00:00:17,122
+So one NADH is worth ten over four, two point five ATP, and one FADH two is worth six over four, one point five.
+
+3
+00:00:17,122 --> 00:00:19,817
+This is Peter Mitchell's chemiosmosis.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,041
+Last one.
+
+2
+00:00:01,041 --> 00:00:03,125
+Touch a lajjawati leaf.
+
+3
+00:00:03,125 --> 00:00:04,687
+What kind of movement is that?
+

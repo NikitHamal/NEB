@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,619
+Each such group is a tissue: a group of cells of common origin, similar in structure, working together for one function.
+
+2
+00:00:08,619 --> 00:00:11,484
+The study of tissues is histology.
+
+3
+00:00:11,484 --> 00:00:20,156
+The study of the inside of plants is plant anatomy, founded in the sixteen seventies by Nehemiah Grew and Marcello Malpighi.
+
+4
+00:00:20,156 --> 00:00:22,708
+Grew is called the father of plant anatomy.
+

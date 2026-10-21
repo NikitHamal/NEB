@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,335
+So the tip senses the light, but the bending happens lower down.
+
+2
+00:00:04,335 --> 00:00:06,588
+Something must travel down from the tip.
+
+3
+00:00:06,588 --> 00:00:15,494
+Boysen-Jensen cut the tip off and set it back on a layer of gelatin, and the shoot still bent: the signal is a chemical that can diffuse.
+

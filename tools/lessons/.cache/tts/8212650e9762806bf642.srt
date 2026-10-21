@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,049
+The famous one: Mimosa pudica, lajjawati.
+
+2
+00:00:04,049 --> 00:00:05,364
+Touch one leaflet.
+
+3
+00:00:05,364 --> 00:00:14,283
+An electrical signal races through the leaf, and within seconds the leaflets fold together in pairs, and then the whole leaf droops.
+

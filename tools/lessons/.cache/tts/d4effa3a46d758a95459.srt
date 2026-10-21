@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,171
+Tracheids.
+
+2
+00:00:01,171 --> 00:00:13,033
+Vessels, with their open perforated ends, are characteristic of flowering plants; gymnosperms rely on tracheids alone, passing water through bordered pits.
+
+3
+00:00:13,033 --> 00:00:18,528
+Sieve tubes carry food, and xylem parenchyma only moves water sideways.
+

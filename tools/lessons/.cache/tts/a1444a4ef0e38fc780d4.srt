@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,979
+Groups of cells specialise.
+
+2
+00:00:01,979 --> 00:00:09,908
+Some only protect, some only photosynthesise, some only support, some only carry water and food, some only store.
+
+3
+00:00:09,908 --> 00:00:12,721
+Each group does one job, and does it well.
+

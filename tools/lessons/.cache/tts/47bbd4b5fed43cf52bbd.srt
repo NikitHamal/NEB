@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,473
+Give parenchyma chloroplasts and it becomes chlorenchyma, the photosynthetic tissue of the leaf mesophyll.
+

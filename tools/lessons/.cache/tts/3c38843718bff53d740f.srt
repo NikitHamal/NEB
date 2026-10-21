@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,010
+So the tip senses light but bending happens lower down.
+
+2
+00:00:04,010 --> 00:00:10,924
+Boysen-Jensen put a cut tip back on gelatin and it still bent: the signal is a diffusible chemical.
+

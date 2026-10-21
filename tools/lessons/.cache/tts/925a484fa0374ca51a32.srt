@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,598
+Yet a suction pump on a well cannot lift water more than about ten metres.
+
+2
+00:00:05,598 --> 00:00:08,320
+Pull harder and the water column breaks.
+

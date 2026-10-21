@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,924
+A warning.
+
+2
+00:00:00,924 --> 00:00:05,520
+Many books still teach the starch sugar theory of stomatal opening.
+
+3
+00:00:05,520 --> 00:00:06,679
+It is history.
+
+4
+00:00:06,679 --> 00:00:15,091
+Onion guard cells contain no starch at all, yet they open and close perfectly well, using potassium chloride.
+
+5
+00:00:15,091 --> 00:00:17,591
+In the exam, write about potassium.
+

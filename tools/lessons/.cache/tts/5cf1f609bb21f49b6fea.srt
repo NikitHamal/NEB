@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,119
+Tissues are classified on two quite different bases, and students lose marks by mixing them up.
+
+2
+00:00:06,119 --> 00:00:09,375
+The first basis: can the cells still divide?
+
+3
+00:00:09,375 --> 00:00:12,786
+If yes, the tissue is meristematic.
+
+4
+00:00:12,786 --> 00:00:16,028
+If they have lost that power, it is permanent.
+

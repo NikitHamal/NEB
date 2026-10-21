@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,570
+That opens potassium channels, and potassium ions flood in.
+
+2
+00:00:04,570 --> 00:00:12,330
+Chloride comes with them, and malate, made inside the guard cell from its stored starch, balances the charge.
+

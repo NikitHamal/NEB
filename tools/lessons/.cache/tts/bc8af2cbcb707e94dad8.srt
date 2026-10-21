@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,648
+A branch that starts deep inside like this is endogenous.
+
+2
+00:00:04,648 --> 00:00:11,562
+A stem's branches are the opposite: they arise exogenously, from buds at the surface.
+
+3
+00:00:11,562 --> 00:00:18,763
+In a dicot the pericycle also gives rise to part of the vascular cambium, and to the cork cambium.
+

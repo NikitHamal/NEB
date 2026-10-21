@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,591
+Isocitrate loses a carbon dioxide and makes NADH, giving alpha-ketoglutarate, five carbons.
+
+2
+00:00:07,591 --> 00:00:14,270
+A second carbon dioxide and NADH give succinyl coenzyme A, four carbons.
+

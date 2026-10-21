@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,166
+Tally: six carbon dioxide, so every carbon is gone.
+
+2
+00:00:04,166 --> 00:00:11,601
+Ten NADH, two FADH two, only four ATP, and no oxygen used yet.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,841
+Twenty degrees is below the optimum for rice's enzymes, so temperature now limits, and warming to thirty raises the rate further.
+

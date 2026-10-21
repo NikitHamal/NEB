@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,635
+Water potential, psi, measures the free energy of water.
+
+2
+00:00:04,635 --> 00:00:09,283
+Pure water at atmospheric pressure is the reference: zero.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,289
+Five stops.
+
+2
+00:00:01,289 --> 00:00:04,674
+Water relations, where we solve the sal tree.
+
+3
+00:00:04,674 --> 00:00:08,710
+Photosynthesis: the light reaction and the Calvin cycle.
+
+4
+00:00:08,710 --> 00:00:11,940
+Respiration, and the true count of ATP.
+
+5
+00:00:11,940 --> 00:00:13,815
+The five plant hormones.
+
+6
+00:00:13,815 --> 00:00:16,380
+And finally, growth and movement.
+

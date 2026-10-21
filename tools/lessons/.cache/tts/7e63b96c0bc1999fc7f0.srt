@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,588
+So: tropic movements follow the stimulus, are always growth, and are permanent.
+
+2
+00:00:06,588 --> 00:00:13,138
+Nastic movements follow the organ, may be growth or turgor, and turgor ones reverse.
+

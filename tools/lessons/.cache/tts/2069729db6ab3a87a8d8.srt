@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,789
+Stage one, glycolysis, in the cytoplasm.
+
+2
+00:00:03,789 --> 00:00:07,643
+It needs no oxygen and runs in every living cell.
+

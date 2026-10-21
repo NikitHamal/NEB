@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,578
+For a plant cell, two parts matter.
+
+2
+00:00:02,578 --> 00:00:09,361
+Psi s, the solute potential, is zero or negative, because dissolved solutes lower it.
+
+3
+00:00:09,361 --> 00:00:20,520
+Psi p, the pressure potential, is positive when the wall pushes back on a swollen cell, and, remember this, negative in the xylem, where water is under tension.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,888
+Lay a seedling sideways.
+
+2
+00:00:01,888 --> 00:00:07,838
+Statoliths settle in the root cap, and auxin collects on the lower side of root and shoot.
+

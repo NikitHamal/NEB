@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,187
+Yeast, and roots in waterlogged soil, reduce pyruvate to ethanol, releasing carbon dioxide.
+
+2
+00:00:07,187 --> 00:00:15,104
+Muscles and Lactobacillus, the bacterium in dahi, reduce it to lactic acid, with no carbon dioxide at all.
+

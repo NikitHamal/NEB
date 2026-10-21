@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,546
+The last idea in respiration: the respiratory quotient, R Q.
+
+2
+00:00:05,546 --> 00:00:12,656
+It is the volume of carbon dioxide given out, divided by the volume of oxygen taken in, in the same time.
+
+3
+00:00:12,656 --> 00:00:18,085
+It tells you what the cell is burning, and it is measured with Ganong's respirometer.
+

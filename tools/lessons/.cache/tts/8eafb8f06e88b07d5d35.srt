@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,432
+The Calvin cycle runs in the stroma, powered by ATP and NADPH.
+

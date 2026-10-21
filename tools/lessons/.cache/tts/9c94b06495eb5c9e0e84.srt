@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,729
+So: fat zero point seven, protein about zero point eight, carbohydrate one, malic acid one point three three, oxalic acid four.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,067
+Water enters a root through root hairs, whose sap is more negative than the soil water.
+

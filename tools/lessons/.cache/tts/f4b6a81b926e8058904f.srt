@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,273
+Here are three endodermal cells, cortex on the left, the stele on the right.
+
+2
+00:00:05,273 --> 00:00:11,341
+Water from the soil can travel two ways: along the cell walls, or through the living cells.
+

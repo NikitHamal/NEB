@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,515
+Cytokinins promote cell division, cytokinesis, which gives them their name, though only when auxin is also present.
+
+2
+00:00:08,515 --> 00:00:14,427
+The first, kinetin, was found by Miller and Skoog in autoclaved herring sperm DNA.
+
+3
+00:00:14,427 --> 00:00:18,632
+The first natural one, zeatin, came from maize grains.
+
+4
+00:00:18,632 --> 00:00:23,880
+Cytokinins are made mainly in root tips and travel up in the xylem.
+

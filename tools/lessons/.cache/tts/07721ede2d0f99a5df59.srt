@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,848
+Zoom into one bundle.
+
+2
+00:00:01,848 --> 00:00:08,528
+From the outside in: the sclerenchyma cap, the phloem, a strip of cambium, then the xylem.
+
+3
+00:00:08,528 --> 00:00:15,000
+The big metaxylem vessels lie near the cambium, and the small protoxylem points towards the pith.
+
+4
+00:00:15,000 --> 00:00:16,718
+That is endarch xylem.
+

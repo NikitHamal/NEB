@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,317
+Engineers know how hard that is.
+
+2
+00:00:02,317 --> 00:00:07,369
+A suction pump on a well cannot lift water more than about ten metres.
+
+3
+00:00:07,369 --> 00:00:11,406
+Pull harder, and the column of water simply breaks.
+

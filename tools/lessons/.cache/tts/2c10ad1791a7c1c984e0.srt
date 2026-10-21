@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,458
+Exam tip.
+
+2
+00:00:01,458 --> 00:00:07,565
+Don't define osmosis as dilute to concentrated; that fails once pressure acts.
+
+3
+00:00:07,565 --> 00:00:11,640
+Say: water moves from higher to lower water potential.
+

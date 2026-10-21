@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,835
+The secret is in the wall.
+
+2
+00:00:01,835 --> 00:00:07,460
+Cellulose microfibrils run around each guard cell like the hoops of a barrel.
+
+3
+00:00:07,460 --> 00:00:09,583
+This is radial micellation.
+
+4
+00:00:09,583 --> 00:00:18,658
+When a guard cell takes up water it cannot get fatter, only longer, and because the two cells are joined at their ends, they bow apart.
+

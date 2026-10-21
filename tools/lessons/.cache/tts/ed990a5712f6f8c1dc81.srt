@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,966
+Then the endodermis.
+
+2
+00:00:01,966 --> 00:00:10,625
+Each of its cells wears a band of lignin, later joined by suberin, in its radial walls: the Casparian strip.
+
+3
+00:00:10,625 --> 00:00:12,578
+The wall route is blocked.
+
+4
+00:00:12,578 --> 00:00:21,328
+Every drop and every ion must now pass through a living membrane, and that checkpoint lets the root control what reaches the xylem.
+

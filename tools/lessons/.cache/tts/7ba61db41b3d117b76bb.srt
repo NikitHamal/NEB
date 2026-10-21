@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,627
+Two: cohesion.
+
+2
+00:00:01,627 --> 00:00:06,731
+Hydrogen bonds hold water molecules together, so the column doesn't snap.
+

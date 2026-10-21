@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,835
+It has four phases.
+
+2
+00:00:01,835 --> 00:00:04,869
+A slow lag phase, while cells get ready.
+
+3
+00:00:04,869 --> 00:00:08,736
+A log phase, when growth is exponential.
+
+4
+00:00:08,736 --> 00:00:13,502
+A deceleration phase, as space and resources run short.
+
+5
+00:00:13,502 --> 00:00:16,041
+And a stationary phase, at maturity.
+

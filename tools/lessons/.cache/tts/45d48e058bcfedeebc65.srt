@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,729
+Ink marks spread most in the elongation zone: that is where the root lengthens.
+

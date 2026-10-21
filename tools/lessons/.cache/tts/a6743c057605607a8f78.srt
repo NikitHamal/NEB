@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,882
+Then one ATP, one FADH two at the succinate step, and a third NADH as malate returns to oxaloacetate.
+

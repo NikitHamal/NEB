@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,942
+Auxin's discovery is a favourite question.
+
+2
+00:00:02,942 --> 00:00:11,796
+Darwin, in eighteen eighty: cover a coleoptile's tip and it no longer bends to light; cover the part below and it still bends.
+

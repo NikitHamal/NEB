@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,046
+In bright light, carbon dioxide limits it.
+
+2
+00:00:03,046 --> 00:00:05,989
+More carbon dioxide raises the plateau.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,119
+One caution.
+
+2
+00:00:01,119 --> 00:00:11,315
+Monocots have apical and intercalary meristems, but, apart from a few such as Dracaena and Yucca, no normal vascular cambium.
+
+3
+00:00:11,315 --> 00:00:14,895
+Keep that in mind; it is the answer to our cold open.
+

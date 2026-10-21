@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,526
+Now soak a dry pea overnight.
+
+2
+00:00:02,526 --> 00:00:05,846
+By morning it is two or three times its size.
+
+3
+00:00:05,846 --> 00:00:15,416
+This is imbibition: water is adsorbed by hydrophilic colloids such as protein, starch and cellulose, and they swell as they take it up.
+
+4
+00:00:15,416 --> 00:00:18,020
+It is the very first step of germination.
+

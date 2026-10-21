@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,885
+Negative.
+
+2
+00:00:00,885 --> 00:00:04,348
+The column is pulled from above, so it is under tension.
+
+3
+00:00:04,348 --> 00:00:13,242
+Positive and large is the trap: that describes a turgid living cell whose wall pushes back, or the small push of root pressure at night.
+
+4
+00:00:13,242 --> 00:00:17,343
+At midday the xylem water is stretched, not squeezed.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,690
+Short-day plants, like chrysanthemum and soybean, need nights longer than a critical length; long-day plants, like wheat and radish, need shorter ones.
+
+2
+00:00:10,690 --> 00:00:12,786
+Here, say twelve hours.
+
+3
+00:00:12,786 --> 00:00:14,791
+Tomato is day-neutral.
+

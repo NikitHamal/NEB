@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,526
+RuBisCO has a weakness hidden in its full name: ribulose bisphosphate carboxylase oxygenase.
+
+2
+00:00:07,526 --> 00:00:15,052
+Its active site cannot fully tell carbon dioxide from oxygen, and air holds about five hundred times more oxygen.
+

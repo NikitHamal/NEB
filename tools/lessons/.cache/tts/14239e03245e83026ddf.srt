@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,622
+Yeast and waterlogged roots make ethanol and carbon dioxide.
+
+2
+00:00:04,622 --> 00:00:10,546
+Muscle and Lactobacillus in dahi make lactic acid, with no carbon dioxide.
+

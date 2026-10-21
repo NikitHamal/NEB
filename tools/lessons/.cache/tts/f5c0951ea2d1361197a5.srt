@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,244
+Psi s is minus two point four eight megapascal.
+
+2
+00:00:04,244 --> 00:00:12,838
+The solution is open to the air, so psi p is zero, and its water potential is also minus two point four eight.
+

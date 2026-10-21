@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,552
+A fig tree cannot work like that.
+
+2
+00:00:02,552 --> 00:00:06,380
+It is far too big for every cell to do every job.
+
+3
+00:00:06,380 --> 00:00:08,893
+Its answer is division of labour.
+

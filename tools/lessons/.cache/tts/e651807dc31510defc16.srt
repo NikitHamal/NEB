@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,166
+Now the light reaction, drawn as the famous Z-scheme.
+
+2
+00:00:04,166 --> 00:00:06,835
+Height means the energy of an electron.
+
+3
+00:00:06,835 --> 00:00:16,770
+Two photosystems work in series: photosystem two, with reaction centre P680, and photosystem one, with P700.
+
+4
+00:00:16,770 --> 00:00:22,656
+The numbers are the wavelengths each absorbs best, and both are chlorophyll a.
+

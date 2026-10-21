@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,460
+Pillar one: transpiration pull.
+
+2
+00:00:02,460 --> 00:00:10,208
+In the leaf, water evaporates from the wet walls of the mesophyll cells and diffuses out through the stomata.
+
+3
+00:00:10,208 --> 00:00:17,447
+Each evaporating surface tugs on the water behind it, and that tug reaches all the way down the xylem.
+

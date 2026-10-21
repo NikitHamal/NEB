@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,791
+The Casparian strip is a waterproof band in the walls between the cells.
+
+2
+00:00:04,791 --> 00:00:09,453
+Water creeping along the walls runs straight into it, and stops.
+

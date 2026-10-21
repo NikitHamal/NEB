@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,372
+So could root pressure lift water up a sal tree?
+
+2
+00:00:03,372 --> 00:00:04,791
+Four reasons say no.
+
+3
+00:00:04,791 --> 00:00:11,341
+It is far too small: zero point one megapascal lifts water only about ten metres.
+
+4
+00:00:11,341 --> 00:00:17,447
+It is strongest at night and vanishes at midday, exactly when the most water is moving.
+
+5
+00:00:17,447 --> 00:00:19,648
+Many conifers have none at all.
+
+6
+00:00:19,648 --> 00:00:23,802
+And sap still rises in stems whose living cells have been killed.
+

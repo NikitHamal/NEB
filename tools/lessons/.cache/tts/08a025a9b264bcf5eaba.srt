@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,132
+One catch.
+
+2
+00:00:01,132 --> 00:00:07,747
+The two NADH from glycolysis are made in the cytoplasm, and cannot cross into the mitochondrion.
+
+3
+00:00:07,747 --> 00:00:09,973
+A shuttle carries their electrons in.
+
+4
+00:00:09,973 --> 00:00:17,174
+The malate aspartate shuttle delivers them to complex one, worth two point five each: thirty-two.
+
+5
+00:00:17,174 --> 00:00:24,322
+The glycerol phosphate shuttle delivers them to ubiquinone, worth one point five each: thirty.
+
+6
+00:00:24,322 --> 00:00:28,697
+So the modern answer is thirty to thirty-two ATP per glucose.
+

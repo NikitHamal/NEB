@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,682
+Cytokinin also delays ageing.
+
+2
+00:00:02,682 --> 00:00:04,934
+Put a drop on a detached leaf.
+
+3
+00:00:04,934 --> 00:00:13,229
+As days pass the rest of the leaf turns yellow, but the treated spot stays green, and even pulls nutrients towards it.
+
+4
+00:00:13,229 --> 00:00:15,026
+That is the Richmond Lang effect.
+
+5
+00:00:15,026 --> 00:00:20,546
+Cytokinins also wake lateral buds, working against apical dominance.
+

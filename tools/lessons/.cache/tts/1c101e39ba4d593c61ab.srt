@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,132
+Look at the tally.
+
+2
+00:00:01,132 --> 00:00:05,195
+Six carbon dioxide: every carbon of the glucose is gone.
+
+3
+00:00:05,195 --> 00:00:11,315
+Ten NADH and two FADH two, but only four ATP so far.
+
+4
+00:00:11,315 --> 00:00:14,752
+And not a single molecule of oxygen has been used yet.
+
+5
+00:00:14,752 --> 00:00:16,953
+The real payoff is still to come.
+

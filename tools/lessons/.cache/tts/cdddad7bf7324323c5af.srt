@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,460
+So here is the answer to our sal tree.
+
+2
+00:00:02,460 --> 00:00:04,348
+There is no pump at the bottom.
+
+3
+00:00:04,348 --> 00:00:11,354
+The pump is the sun at the top, and the rope is the water column itself, held together by cohesion.
+
+4
+00:00:11,354 --> 00:00:17,513
+A suction pump fails at ten metres because all it can use is the push of the atmosphere from below.
+

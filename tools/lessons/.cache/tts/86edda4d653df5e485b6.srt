@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,617
+In the mesophyll, PEP carboxylase fixes carbon dioxide into oxaloacetate, a four-carbon acid.
+

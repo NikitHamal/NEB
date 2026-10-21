@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,588
+Each pyruvate loses a carbon as carbon dioxide and makes NADH, leaving acetyl coenzyme A. Per glucose: two carbon dioxide, two NADH.
+

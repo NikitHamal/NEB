@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,286
+Worked example: show the R Q of the fat tripalmitin is about zero point seven.
+

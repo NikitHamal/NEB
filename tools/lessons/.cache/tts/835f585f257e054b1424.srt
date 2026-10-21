@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:06,510
+In tissue culture, the ratio of the two hormones decides what a lump of callus becomes.
+
+2
+00:00:06,510 --> 00:00:09,492
+More auxin than cytokinin: roots.
+
+3
+00:00:09,492 --> 00:00:12,747
+About equal: the callus just keeps growing.
+
+4
+00:00:12,747 --> 00:00:15,950
+More cytokinin than auxin: shoots.
+
+5
+00:00:15,950 --> 00:00:23,424
+This is Skoog and Miller's result from nineteen fifty-seven, and it is the most commonly reversed fact in this chapter.
+

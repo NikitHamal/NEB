@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,117
+About four protons through ATP synthase make one ATP.
+
+2
+00:00:05,117 --> 00:00:12,122
+So NADH is worth two point five ATP, FADH two one point five.
+
+3
+00:00:12,122 --> 00:00:14,583
+This is Mitchell's chemiosmosis.
+

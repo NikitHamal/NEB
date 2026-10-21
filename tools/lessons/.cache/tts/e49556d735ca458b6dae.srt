@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,411
+You will be asked to name a bundle, not just describe it.
+
+2
+00:00:03,411 --> 00:00:08,867
+Radial: xylem and phloem on different radii, in roots.
+
+3
+00:00:08,867 --> 00:00:14,635
+Conjoint and collateral: phloem only on the outside, as in most stems.
+
+4
+00:00:14,635 --> 00:00:22,604
+Bicollateral: phloem on both sides of the xylem, in the pumpkin family, Cucurbitaceae, and in Solanum.
+

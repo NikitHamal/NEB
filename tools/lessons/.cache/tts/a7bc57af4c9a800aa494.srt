@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,119
+Why an S?
+
+2
+00:00:01,119 --> 00:00:08,098
+Early on, both daughter cells keep dividing, so growth is geometric: exponential.
+
+3
+00:00:08,098 --> 00:00:16,523
+Later, only one daughter keeps dividing while the other differentiates, so growth becomes arithmetic, a straight line.
+
+4
+00:00:16,523 --> 00:00:17,734
+Then it stops.
+
+5
+00:00:17,734 --> 00:00:21,601
+Fast, then steady, then flat: the S.
+

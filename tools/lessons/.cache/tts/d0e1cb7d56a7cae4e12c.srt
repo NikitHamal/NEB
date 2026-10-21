@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,406
+Now the mechanism.
+
+2
+00:00:01,406 --> 00:00:09,882
+Auxin, indole-3-acetic acid, made from the amino acid tryptophan, is produced at the shoot tip and moves down.
+
+3
+00:00:09,882 --> 00:00:13,671
+Light from one side drives it across to the shaded side.
+

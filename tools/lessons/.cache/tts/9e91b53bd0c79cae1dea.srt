@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,114
+Some books add a third group, the secretory tissues.
+
+2
+00:00:04,114 --> 00:00:11,341
+Laticiferous tissue carries latex, in Euphorbia, Calotropis, Ficus and the rubber tree.
+
+3
+00:00:11,341 --> 00:00:21,341
+Glandular tissue includes nectaries, the oil glands of a lemon peel, the resin canals of pine and the digestive glands of the sundew.
+

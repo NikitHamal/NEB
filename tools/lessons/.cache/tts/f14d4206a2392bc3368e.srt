@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,994
+Photosynthesis: six carbon dioxide plus twelve water give glucose, six oxygen, and six water.
+

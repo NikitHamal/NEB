@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,328
+ATP only.
+
+2
+00:00:01,328 --> 00:00:06,953
+No water is split, so no oxygen; no NADPH is made.
+
+3
+00:00:06,953 --> 00:00:09,791
+ATP and oxygen is the trap.
+

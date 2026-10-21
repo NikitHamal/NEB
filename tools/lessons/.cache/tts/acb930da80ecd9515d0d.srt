@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,312
+Respiration is the stepwise oxidation of food to release usable energy.
+
+2
+00:00:05,312 --> 00:00:13,085
+Burn glucose in a flame and about two thousand eight hundred and seventy kilojoules per mole comes out at once, as heat.
+

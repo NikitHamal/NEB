@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,796
+Lay a seedling on its side.
+
+2
+00:00:01,796 --> 00:00:10,260
+Gravity is sensed by starch-filled amyloplasts, called statoliths, that settle to the bottom of cells in the root cap.
+
+3
+00:00:10,260 --> 00:00:14,869
+Auxin then collects on the lower side, of the root and of the shoot alike.
+

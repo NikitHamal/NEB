@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,041
+Collenchyma.
+
+2
+00:00:01,041 --> 00:00:08,333
+It is alive, and its walls are rich in pectin and not lignified, so it can stretch as the organ grows.
+
+3
+00:00:08,333 --> 00:00:17,304
+Sclerenchyma is the tempting answer, but its lignified walls are rigid and its cells are dead: it supports organs that have finished growing.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,294
+In tissue culture the ratio decides: more auxin gives roots, equal gives callus, more cytokinin gives shoots.
+
+2
+00:00:08,294 --> 00:00:11,523
+This is the fact most often reversed.
+

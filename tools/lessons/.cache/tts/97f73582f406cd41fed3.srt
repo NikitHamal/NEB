@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,380
+The second basis applies to permanent tissue: how many kinds of cell does it contain?
+
+2
+00:00:06,380 --> 00:00:12,786
+A simple tissue has only one kind: parenchyma, collenchyma or sclerenchyma.
+
+3
+00:00:12,786 --> 00:00:18,450
+A complex tissue has several kinds working as a unit: xylem and phloem.
+

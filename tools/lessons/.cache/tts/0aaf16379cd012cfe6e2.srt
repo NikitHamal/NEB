@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,072
+Permanent cells have differentiated: they have taken a fixed shape, wall and job, and lost the power to divide.
+
+2
+00:00:08,072 --> 00:00:09,739
+The simple ones first.
+
+3
+00:00:09,739 --> 00:00:15,638
+Parenchyma is the least specialised and most common tissue: the packing of the plant.
+

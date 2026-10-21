@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,312
+The pressure needed to stop that flow is the osmotic pressure of the solution.
+

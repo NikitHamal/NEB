@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,278
+In a stem it is the other way round.
+
+2
+00:00:02,278 --> 00:00:07,552
+Protoxylem towards the centre, metaxylem outside: endarch.
+
+3
+00:00:07,552 --> 00:00:09,947
+The xylem develops outwards.
+

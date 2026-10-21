@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,429
+Light excites P680, and an electron jumps to pheophytin.
+

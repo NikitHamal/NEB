@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,528
+Answer: a transverse section of a young dicot stem, with conjoint, collateral, open bundles in a single ring.
+

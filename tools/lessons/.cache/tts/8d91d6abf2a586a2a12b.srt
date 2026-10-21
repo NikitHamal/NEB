@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,942
+Per turn: three NADH, one FADH two, one ATP, two carbon dioxide.
+
+2
+00:00:07,942 --> 00:00:10,052
+It turns twice per glucose.
+

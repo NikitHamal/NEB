@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,158
+Quick recap.
+
+2
+00:00:01,158 --> 00:00:07,721
+Water moves towards more negative water potential, and in the xylem it is pulled, under tension.
+
+3
+00:00:07,721 --> 00:00:14,244
+Stomata open when potassium floods the guard cells, and A B A closes them.
+
+4
+00:00:14,244 --> 00:00:19,661
+The light reaction makes ATP, NADPH and oxygen from water.
+
+5
+00:00:19,661 --> 00:00:30,156
+The Calvin cycle spends three ATP and two NADPH per carbon dioxide; C4 plants separate the steps in space, CAM plants in time.
+
+6
+00:00:30,156 --> 00:00:34,908
+Aerobic respiration yields thirty to thirty-two ATP.
+
+7
+00:00:34,908 --> 00:00:39,335
+R Q is zero point seven for fat, one for sugar.
+
+8
+00:00:39,335 --> 00:00:45,052
+And five hormones, with tropisms as growth, and Mimosa as turgor.
+

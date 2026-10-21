@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,859
+Add it up.
+
+2
+00:00:00,859 --> 00:00:09,739
+Two ATP from glycolysis, two from the Krebs cycle, twenty-five from ten NADH, and three from two FADH two.
+
+3
+00:00:09,739 --> 00:00:11,627
+Thirty-two ATP.
+

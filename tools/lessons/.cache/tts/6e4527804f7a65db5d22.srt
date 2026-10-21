@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,627
+Older ideas fail.
+
+2
+00:00:01,627 --> 00:00:15,325
+Pump-like theories that needed living cells, such as Bose's pulsation theory, were killed by Strasburger: he poisoned twenty-metre oak trunks, killing every living cell, and the sap still rose.
+
+3
+00:00:15,325 --> 00:00:21,041
+And capillarity lifts water only about sixty centimetres in a typical vessel.
+

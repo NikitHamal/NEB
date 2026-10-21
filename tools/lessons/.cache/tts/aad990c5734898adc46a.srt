@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,989
+Shoots.
+
+2
+00:00:00,989 --> 00:00:08,033
+High cytokinin gives shoots, high auxin gives roots, and roughly equal amounts give more callus.
+
+3
+00:00:08,033 --> 00:00:14,726
+Roots is the trap: it is the exact reversal, and it is the most common mistake in this chapter.
+

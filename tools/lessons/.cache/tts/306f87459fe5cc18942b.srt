@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,984
+Cytokinins promote cell division, with auxin present.
+
+2
+00:00:03,984 --> 00:00:08,398
+Kinetin came from herring sperm DNA, zeatin from maize.
+
+3
+00:00:08,398 --> 00:00:10,104
+They are made in root tips.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,658
+Where the protoxylem sits is a diagnostic feature.
+
+2
+00:00:03,658 --> 00:00:12,200
+In a root, protoxylem is on the outside, towards the periphery, and metaxylem towards the centre: that is exarch.
+
+3
+00:00:12,200 --> 00:00:14,739
+The xylem develops inwards.
+

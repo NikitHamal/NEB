@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,864
+Collenchyma is living mechanical tissue.
+
+2
+00:00:02,864 --> 00:00:09,921
+Its walls are thickened unevenly, here at the corners, with cellulose, hemicellulose and a lot of pectin.
+
+3
+00:00:09,921 --> 00:00:13,072
+Pectin is what makes it flexible rather than brittle.
+

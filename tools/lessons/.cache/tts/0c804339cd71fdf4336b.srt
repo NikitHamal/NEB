@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,083
+Cytokinin delays ageing: a treated spot on a detached leaf stays green while the rest yellows.
+
+2
+00:00:07,083 --> 00:00:08,997
+That is the Richmond Lang effect.
+

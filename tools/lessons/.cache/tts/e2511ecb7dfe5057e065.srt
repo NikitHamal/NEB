@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,164
+Negative: the column is under tension.
+
+2
+00:00:03,164 --> 00:00:08,750
+Positive is the trap; that describes a turgid cell or root pressure at night.
+

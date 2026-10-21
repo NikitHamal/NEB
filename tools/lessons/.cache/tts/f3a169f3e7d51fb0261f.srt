@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,291
+For a cell, two terms matter.
+
+2
+00:00:02,291 --> 00:00:06,171
+Psi s, the solute potential, is negative.
+
+3
+00:00:06,171 --> 00:00:13,085
+Psi p, the pressure potential, is positive in a turgid cell, and negative in the xylem.
+

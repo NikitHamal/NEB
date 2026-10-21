@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,190
+Two tripalmitin molecules use one hundred and forty-five oxygen, giving one hundred and two carbon dioxide and ninety-eight water.
+

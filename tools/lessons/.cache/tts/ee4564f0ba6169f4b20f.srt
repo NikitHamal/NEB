@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,820
+There is a third way to organise tissues, and it is the fastest way to read any section.
+
+2
+00:00:05,820 --> 00:00:10,911
+Cut any organ across, and its tissues fall into three systems.
+
+3
+00:00:10,911 --> 00:00:13,242
+This is Sachs' classification.
+

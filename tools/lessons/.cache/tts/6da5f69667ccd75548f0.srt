@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,723
+Now the proof that it is really the night that counts.
+
+2
+00:00:03,723 --> 00:00:08,177
+Give a long night, but break it in the middle with a brief flash of light.
+
+3
+00:00:08,177 --> 00:00:13,463
+The short-day plant now fails to flower, and the long-day plant flowers.
+
+4
+00:00:13,463 --> 00:00:16,575
+A flash in the middle of the day does nothing.
+
+5
+00:00:16,575 --> 00:00:20,976
+So these plants measure the length of unbroken darkness.
+

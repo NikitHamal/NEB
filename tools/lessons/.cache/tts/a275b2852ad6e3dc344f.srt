@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,255
+Sclerenchyma is dead mechanical tissue.
+
+2
+00:00:03,255 --> 00:00:08,268
+The wall is thick, evenly lignified and pierced by simple pits.
+
+3
+00:00:08,268 --> 00:00:13,880
+The lumen inside is tiny, and the living contents disappear at maturity.
+
+4
+00:00:13,880 --> 00:00:17,369
+It gives rigidity, hardness and strength.
+

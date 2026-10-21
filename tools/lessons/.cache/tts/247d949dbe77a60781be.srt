@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,039
+Water keeps leaving, and the protoplast shrinks away from the wall.
+
+2
+00:00:05,039 --> 00:00:06,940
+The cell is plasmolysed.
+
+3
+00:00:06,940 --> 00:00:14,348
+And notice what fills the gap: the outside sugar solution, because the cell wall is freely permeable.
+
+4
+00:00:14,348 --> 00:00:16,718
+Only the membranes are selective.
+
