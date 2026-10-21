@@ -31,12 +31,22 @@ Branch **`sims/perf-cosmos-3d`** (from `main` @ `49b20ab7`). Pushed through the 
   Harness tip: focus fly-tos blend over 1.6 s of sim time; at SwiftShader fps wait ~40 s.
 - Lifecycle of Stars is 3D (`space/star-lifecycle.js` + `space/stars3d/`), catalog `sim_type` 3d.
 
+- 2D -> 3D done: space (orbital-sandbox, kepler-orbits, gravity-worlds, rocket-launch on
+  `space/space3d/kit.js`), chemistry (density-tower, states-matter, melt-freeze, fizzy-reactions,
+  acid-base, mixing-lab, reaction-balancer on `chemistry/chem3d/stage.js` + `particles.js`, using
+  the hands-on glassware in `core/handson/glass.js`). Catalog `sim_type` updated (`3d` / `lab3d`).
+  Each exposes a `stage.__<name>` debug hook for tests.
+  Gotcha: `core/lite.js` turns transparent MeshPhysical with clearcoat > 0.5 and opacity < 0.75
+  into near-invisible glass; liquids/ice use clearcoat 0.5.
+
 **Next, in order**
-1. 2D -> 3D: space (orbital-sandbox, kepler-orbits, gravity-worlds, rocket-launch), then
-   chemistry (mixing-lab, density-tower, fizzy-reactions, melt-freeze, states-matter, acid-base,
-   reaction-balancer), physics (forces-playground, ramp-roller, bouncy-balls, magnet-play,
-   pendulum-lab, projectile-motion, waves-lab, optics-bench, circuit-lab), class 10, robotics, AI.
-2. Then the 3D chem/phys labs (hands-on runtime), then everything else.
+1. Physics 2D -> 3D: forces-playground, ramp-roller, bouncy-balls, magnet-play, pendulum-lab,
+   projectile-motion, waves-lab, optics-bench, circuit-lab.
+2. Class 10 (concave-mirror, ohms-law, indicators, food-tests, quadratic-graph,
+   statistics-explorer, height-distance), robotics 2D (line-follower, pid-controller,
+   state-machine, robot-power), AI 2D (what-is-ai, how-ml-learns, perceptron, image-classifier,
+   llm-intro, ethics).
+3. Then the remaining 3D sims, one by one.
 
 **Test harness** (`task/harness/`, served with `actl serve start 8765 --dir task/harness`):
 `index.html?sim=<path>` mounts any sim without Django. Playwright venv at `/tmp/pw`
