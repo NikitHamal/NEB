@@ -14,7 +14,7 @@ function starCss(T) {
 export function createHR(parent) {
   const wrap = document.createElement('div');
   wrap.className = 'sl-hr';
-  wrap.style.cssText = 'position:relative;width:100%;aspect-ratio:1.25;border-radius:14px;overflow:hidden;background:rgba(8,14,30,0.85);border:1px solid rgba(160,190,255,0.16);margin:4px 0 10px';
+  wrap.style.cssText = 'position:relative;width:100%;aspect-ratio:1.25;border-radius:14px;overflow:hidden;background:rgba(8,14,30,0.85);border:1px solid rgba(160,190,255,0.16);margin:4px 0 10px;flex-shrink:0';
   const cv = document.createElement('canvas');
   cv.style.cssText = 'width:100%;height:100%;display:block';
   wrap.appendChild(cv);

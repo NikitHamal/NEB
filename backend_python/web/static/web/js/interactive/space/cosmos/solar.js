@@ -93,7 +93,7 @@ const GIANTS = {
 };
 const v3 = (c) => `vec3(${c.map((x) => x.toFixed(3)).join(',')})`;
 
-function litPlanet(p) {
+export function litPlanet(p) {
   const gi = GIANTS[p.id];
   const mat = new THREE.MeshStandardMaterial({ color: gi ? 0xffffff : p.color, roughness: 0.9, metalness: 0 });
   mat.onBeforeCompile = (sh) => {
@@ -127,7 +127,7 @@ function litPlanet(p) {
   return mat;
 }
 
-function ringMesh(inner, outer) {
+export function ringMesh(inner, outer) {
   const geo = new THREE.RingGeometry(inner, outer, 128, 1);
   const pos = geo.attributes.position; const uv = geo.attributes.uv;
   for (let i = 0; i < pos.count; i++) uv.setXY(i, (Math.hypot(pos.getX(i), pos.getY(i)) - inner) / (outer - inner), 0.5);
