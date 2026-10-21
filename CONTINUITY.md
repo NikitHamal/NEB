@@ -19,7 +19,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 |---|---|
 | phy12 | units 1–15 scripted, narrated, frame-checked |
 | chem12 | units 1–12 scripted, narrated, frame-checked |
-| bio12 | unit 1 Plant Anatomy: done, all parts frame-checked (part 6 secondary growth rewritten: rings centred on stage, `Captions` one-at-a-time slot, no axes, short recap). Unit 2 Plant Physiology: done, frame-checked. Unit 3 Genetics: done, frame-checked (`_gen.py`). Unit 4 Embryology: rendering/review (`_emb.py`). Unit 5 Biotechnology: being written. Units 6–10: next |
+| bio12 | units 1–7 scripted, narrated, frame-checked (helpers `_bio.py`, `_phys2.py`, `_gen.py`, `_emb.py`). Unit 8 Human Biology: being written. Units 9–10: next |
 | then | eng12? (English-medium only), math12, cs12 → class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
@@ -29,7 +29,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
   Use `save_state()` + `fade()` + `Restore`.
 - A CPU box (molab marimo kernel, 20 cores) may be used for frame checks; it is shared with a festival-reel agent, so run
   renders under `nice` with at most a few parallel jobs.
-- Next step if interrupted: review bio12 unit_04 frames → push; finish unit_05 (tissue culture → food security), then unit_06 Animal Tissues.
+- Next step if interrupted: write bio12 unit_08 (Human Biology, 8 parts: digestion, respiration, circulation, excretion, nervous, sense organs, endocrine, reproduction), then units 09–10, then eng12/math12/cs12.
 - Molab box workflow: `/root/neb` clone + `/root/neb/venv`; `render.sh <script> "parts"` runs prefetch then frames.py with xargs -P 4 under nice; unset the kernel's PYTHONPATH/VIRTUAL_ENV first (they leak from marimo).
 - Notes errata found so far: bio12 unit-03 'lethal genes give 2 green : 1 white-carrier' is wrong (white seedlings die; survivors 1 GG : 2 Gg, all green; the 2 : 1 phenotypic ratio is the dominant-lethal yellow mouse).
 
