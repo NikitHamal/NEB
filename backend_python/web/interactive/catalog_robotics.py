@@ -79,7 +79,7 @@ COURSES = [
                 'icon': 'bolt',
                 'minutes': 12,
                 'sim': 'robotics/robot-power',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Build a simple circuit with a battery, a switch and a motor — then watch electricity flow and make a fan spin.',
                 'objectives': [
                     'Explain why a circuit must be a complete loop',
