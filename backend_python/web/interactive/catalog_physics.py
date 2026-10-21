@@ -173,7 +173,7 @@ COURSES = [
                 'icon': 'explore',
                 'minutes': 10,
                 'sim': 'physics/magnet-play',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Carry a bar magnet through a field of paperclips, flip its poles, and feel how magnets pull together or push apart — without touching!',
                 'objectives': [
                     'Name the two poles of a magnet: north and south',
