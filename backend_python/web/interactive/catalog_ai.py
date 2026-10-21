@@ -373,7 +373,7 @@ COURSES = [
                 'icon': 'psychology',
                 'minutes': 12,
                 'sim': 'ai/ethics',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Spot the bias in a hiring algorithm, weigh the risks of a self-driving car, and decide where you would — and would not — trust an AI to make a decision.',
                 'objectives': [
                     'Explain how bias enters AI through training data',
