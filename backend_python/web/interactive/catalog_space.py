@@ -143,7 +143,7 @@ COURSES = [
                 'icon': 'gesture',
                 'minutes': 18,
                 'sim': 'space/orbital-sandbox',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Drag and release to launch planets around a star — find the perfect speed for a stable orbit before they crash or escape.',
                 'objectives': [
                     'Launch a body into a stable orbit by hand',
