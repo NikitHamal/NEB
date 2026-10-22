@@ -317,14 +317,13 @@ def notifications_list(request):
         page_size = int(request.query_params.get('page_size', 30))
     except (TypeError, ValueError):
         page_size = 30
-    # No total is returned, so no COUNT(*) either; same pages, same 404 past the end.
-    page = _page_rows(request, qs, max(1, min(page_size, 100)))
+    # No total is returned, so no COUNT(*) either; same pages, same 404 past the end. One
+    # row past the page says whether there is another (the app stops paging on has_more).
+    page, has_more = _page_rows(request, qs, max(1, min(page_size, 100)), peek=True)
     serializer = NotificationSerializer(page, many=True)
     return Response({
         'notifications': serializer.data,
-        # Always False, as before: the page has always been a plain list, which has no
-        # has_next(). Clients page by number until a page comes back short or 404s.
-        'has_more': False,
+        'has_more': has_more,
     })
 
 @api_view(['POST'])

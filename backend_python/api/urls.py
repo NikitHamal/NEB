@@ -53,6 +53,7 @@ urlpatterns = [
 
     # Users — follow system
     path('users/suggestions/', views.user_suggestions, name='user-suggestions'),
+    path('users/search/', views.user_search, name='user-search'),
     path('users/me/follow-requests/', views.user_follow_requests_list, name='user-follow-requests'),
     path('users/follow-requests/<str:request_id>/accept/', views.user_follow_request_accept, name='user-follow-request-accept'),
     path('users/follow-requests/<str:request_id>/reject/', views.user_follow_request_reject, name='user-follow-request-reject'),
