@@ -1471,6 +1471,71 @@
    "script": "tools/lessons/scripts/eng12/unit_14.py"
   },
   {
+   "id": "class-12/eng12/unit_15.mp4",
+   "file": "class-12/eng12/unit_15.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_15.mp4",
+     "subtitles": "class-12/eng12/unit_15.srt",
+     "start": 0.0,
+     "end": 475.1,
+     "mb": 19.2
+    }
+   ],
+   "poster": "class-12/eng12/unit_15.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 15,
+   "title": "Knowledge and Wisdom",
+   "subtitle": "Bertrand Russell · an essay",
+   "lang": "en",
+   "sections": [
+    "Russell and the problem",
+    "A sense of proportion",
+    "Ends, feeling and private life",
+    "The tyranny of the here and now",
+    "Can wisdom be taught?",
+    "Why it is urgent"
+   ],
+   "seconds": 475.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     46.73,
+     "Russell and the problem"
+    ],
+    [
+     117.6,
+     "A sense of proportion"
+    ],
+    [
+     161.37,
+     "Ends, feeling and private life"
+    ],
+    [
+     240.93,
+     "The tyranny of the here and now"
+    ],
+    [
+     284.07,
+     "Can wisdom be taught?"
+    ],
+    [
+     369.4,
+     "Why it is urgent"
+    ],
+    [
+     446.2,
+     "Quick recap"
+    ]
+   ],
+   "mb": 19.2,
+   "script": "tools/lessons/scripts/eng12/unit_15.py"
+  },
+  {
    "id": "class-12/math12/unit_01.mp4",
    "file": "class-12/math12/unit_01.part1.mp4",
    "parts": [
