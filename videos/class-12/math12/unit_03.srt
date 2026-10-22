@@ -1,0 +1,612 @@
+1
+00:00:00,000 --> 00:00:01,590
+Multiply one by i.
+
+2
+00:00:01,590 --> 00:00:05,353
+You get i. Multiply by i again: minus one.
+
+3
+00:00:05,353 --> 00:00:07,150
+Again: minus i.
+
+4
+00:00:07,150 --> 00:00:08,882
+Again: back to one.
+
+5
+00:00:08,882 --> 00:00:15,444
+Plot those four points and something beautiful appears: multiplying by i is simply a quarter turn.
+
+6
+00:00:15,667 --> 00:00:19,145
+Complex numbers are really about lengths and turns.
+
+7
+00:00:19,145 --> 00:00:23,801
+See them that way, and powers and roots that look impossible become easy.
+
+8
+00:00:29,300 --> 00:00:34,046
+Welcome to Class 12 Mathematics, Unit 3: Complex Numbers.
+
+9
+00:00:36,433 --> 00:00:37,515
+Four parts.
+
+10
+00:00:37,515 --> 00:00:40,133
+The polar form, length and angle.
+
+11
+00:00:40,133 --> 00:00:44,208
+De Moivre's theorem, for powers and for roots.
+
+12
+00:00:44,208 --> 00:00:46,174
+The cube roots of unity.
+
+13
+00:00:46,174 --> 00:00:49,573
+And Euler's formula, which ties it all to the number e.
+
+14
+00:00:53,933 --> 00:01:02,867
+Plot z equals x plus i y as the point x, y on the Argand diagram: real axis across, imaginary axis up.
+
+15
+00:01:02,867 --> 00:01:04,560
+Now describe it differently.
+
+16
+00:01:04,560 --> 00:01:11,148
+Its distance from the origin is the modulus, r, root of x squared plus y squared.
+
+17
+00:01:11,148 --> 00:01:15,202
+Its angle from the positive real axis is the argument, theta.
+
+18
+00:01:15,433 --> 00:01:24,484
+Since x is r cos theta and y is r sin theta, z equals r times cos theta plus i sin theta.
+
+19
+00:01:24,484 --> 00:01:25,747
+The polar form.
+
+20
+00:01:25,747 --> 00:01:26,756
+Length and angle.
+
+21
+00:01:26,967 --> 00:01:28,674
+Move the point and watch.
+
+22
+00:01:28,674 --> 00:01:37,879
+The principal argument always lies between minus one eighty and plus one eighty degrees: anticlockwise positive, clockwise negative.
+
+23
+00:01:39,100 --> 00:01:40,586
+The calculator trap.
+
+24
+00:01:40,586 --> 00:01:48,346
+Inverse tan of y over x cannot tell minus one minus i from one plus i: it gives the same angle.
+
+25
+00:01:48,346 --> 00:01:53,919
+So find the acute angle alpha first, then fix the quadrant from the picture.
+
+26
+00:01:53,919 --> 00:01:56,745
+Second quadrant: pi minus alpha.
+
+27
+00:01:56,745 --> 00:01:59,831
+Third: minus, pi minus alpha.
+
+28
+00:01:59,831 --> 00:02:01,464
+Fourth: minus alpha.
+
+29
+00:02:02,667 --> 00:02:03,906
+Four conversions.
+
+30
+00:02:03,906 --> 00:02:07,967
+Each time: find r, find the acute angle, then fix the quadrant.
+
+31
+00:02:08,200 --> 00:02:13,371
+One plus i root three: r two, alpha sixty, first quadrant.
+
+32
+00:02:13,371 --> 00:02:15,156
+Theta is sixty degrees.
+
+33
+00:02:15,367 --> 00:02:22,296
+Minus one plus i: second quadrant, so one eighty minus forty five, one thirty five.
+
+34
+00:02:22,500 --> 00:02:30,827
+Minus root three minus i: third quadrant, so minus, one eighty minus thirty: minus one fifty.
+
+35
+00:02:31,033 --> 00:02:35,764
+And one minus i: fourth quadrant, minus forty five degrees.
+
+36
+00:02:37,767 --> 00:02:40,177
+Here is why polar form matters.
+
+37
+00:02:40,177 --> 00:02:43,042
+Multiply two complex numbers.
+
+38
+00:02:43,042 --> 00:02:49,097
+Expand, and the brackets turn out to be exactly the compound angle formulas.
+
+39
+00:02:49,097 --> 00:02:55,399
+So the product has length r one times r two, and angle theta one plus theta two.
+
+40
+00:02:55,399 --> 00:02:57,714
+Multiplying stretches and rotates.
+
+41
+00:02:57,933 --> 00:03:02,735
+And dividing does the opposite: divide the lengths, subtract the angles.
+
+42
+00:03:03,967 --> 00:03:06,828
+Use the division rule, with no rationalising.
+
+43
+00:03:07,033 --> 00:03:14,091
+The top has modulus root two and argument forty five; the bottom has modulus two and argument minus sixty.
+
+44
+00:03:14,300 --> 00:03:22,181
+Divide the moduli and subtract the arguments: modulus one over root two, argument one hundred and five degrees.
+
+45
+00:03:27,767 --> 00:03:34,487
+If multiplying adds angles, then raising to the n th power multiplies the angle by n.
+
+46
+00:03:34,487 --> 00:03:44,917
+That is De Moivre's theorem: cos theta plus i sin theta, to the n, equals cos n theta plus i sin n theta.
+
+47
+00:03:44,917 --> 00:03:47,855
+With a modulus, r becomes r to the n.
+
+48
+00:03:48,067 --> 00:03:54,983
+The proof for whole numbers is by induction: each extra factor adds another theta to the angle.
+
+49
+00:03:54,983 --> 00:04:00,986
+It also holds for negative integers, and for fractional powers, where it gives several values.
+
+50
+00:04:02,200 --> 00:04:03,048
+Picture it.
+
+51
+00:04:03,048 --> 00:04:09,851
+Each power turns by the same angle and scales by the same factor, so successive powers trace a spiral.
+
+52
+00:04:11,067 --> 00:04:15,157
+Expanding one plus i to the tenth would take eleven terms.
+
+53
+00:04:15,157 --> 00:04:16,576
+Use polar form instead.
+
+54
+00:04:16,800 --> 00:04:18,899
+Root two, forty five degrees.
+
+55
+00:04:19,100 --> 00:04:25,110
+Raise the modulus to the tenth and multiply the angle by ten: four fifty degrees.
+
+56
+00:04:25,333 --> 00:04:29,304
+Four fifty is three sixty plus ninety: thirty two i.
+
+57
+00:04:31,333 --> 00:04:32,050
+Another power.
+
+58
+00:04:32,567 --> 00:04:34,641
+Modulus two, argument thirty.
+
+59
+00:04:34,867 --> 00:04:44,484
+Two to the seven is one two eight; seven times thirty is two ten degrees, in the third quadrant, where cosine and sine are both negative.
+
+60
+00:04:44,700 --> 00:04:50,984
+So minus sixty four, root three plus i. Watch those signs: that is where marks go.
+
+61
+00:04:53,000 --> 00:04:53,906
+A favourite proof.
+
+62
+00:04:54,233 --> 00:04:58,234
+De Moivre on one side, the binomial theorem on the other.
+
+63
+00:04:58,467 --> 00:05:02,701
+Match real parts, and replace s squared by one minus c squared.
+
+64
+00:05:02,933 --> 00:05:07,724
+Match imaginary parts, and replace c squared by one minus s squared.
+
+65
+00:05:09,733 --> 00:05:12,378
+Roots are where De Moivre really shines.
+
+66
+00:05:12,378 --> 00:05:20,802
+A complex number has infinitely many arguments, theta plus any multiple of two pi, and they all describe the same point.
+
+67
+00:05:20,802 --> 00:05:24,956
+Take the n th root: divide each argument by n.
+
+68
+00:05:24,956 --> 00:05:26,232
+Now they are different!
+
+69
+00:05:26,232 --> 00:05:32,821
+The roots all have modulus r to the one over n, and are spaced two pi over n apart.
+
+70
+00:05:32,821 --> 00:05:36,485
+Exactly n of them, k from zero to n minus one.
+
+71
+00:05:36,700 --> 00:05:46,623
+Find the cube roots of eight i. Eight i has modulus eight and argument ninety degrees, plus any multiple of three sixty.
+
+72
+00:05:46,623 --> 00:05:59,097
+Take the cube root: modulus two, and arguments ninety over three, four fifty over three and eight ten over three: thirty, one fifty and two seventy degrees.
+
+73
+00:05:59,097 --> 00:06:04,527
+Root three plus i, minus root three plus i, and minus two i.
+
+74
+00:06:04,527 --> 00:06:06,611
+A perfect equilateral triangle.
+
+75
+00:06:07,833 --> 00:06:11,741
+Solve z to the four plus sixteen equals zero.
+
+76
+00:06:11,741 --> 00:06:16,493
+Minus sixteen has modulus sixteen and argument one eighty.
+
+77
+00:06:16,493 --> 00:06:25,387
+Fourth roots: modulus two, angles forty five, one thirty five, two twenty five and three fifteen.
+
+78
+00:06:25,387 --> 00:06:31,523
+Plus or minus root two, plus or minus i root two: the corners of a square.
+
+79
+00:06:32,733 --> 00:06:37,318
+Put z equal to one: the n th roots of unity.
+
+80
+00:06:37,318 --> 00:06:43,841
+They sit on the unit circle at the corners of a regular n sided polygon, with one corner at one.
+
+81
+00:06:43,841 --> 00:06:49,349
+Their sum is always zero, because they balance perfectly around the centre.
+
+82
+00:06:49,349 --> 00:06:52,631
+Their product is minus one to the n plus one.
+
+83
+00:06:54,433 --> 00:06:55,776
+Exam tip.
+
+84
+00:06:55,776 --> 00:07:03,263
+Always write theta plus two k pi before you divide by n, and list k from zero to n minus one.
+
+85
+00:07:03,263 --> 00:07:09,463
+Then check: the n roots of z to the n equals a constant always add up to zero.
+
+86
+00:07:11,433 --> 00:07:12,724
+Pause and think.
+
+87
+00:07:12,724 --> 00:07:14,299
+Minus one minus i.
+
+88
+00:07:14,299 --> 00:07:15,624
+What is its principal argument?
+
+89
+00:07:22,500 --> 00:07:24,976
+Minus one thirty five degrees.
+
+90
+00:07:24,976 --> 00:07:31,720
+It is in the third quadrant, and the principal value must lie between minus one eighty and one eighty.
+
+91
+00:07:31,720 --> 00:07:38,331
+Forty five is what a calculator gives, and two twenty five is outside the principal range.
+
+92
+00:07:42,667 --> 00:07:44,674
+Put n equal to three.
+
+93
+00:07:44,674 --> 00:07:51,614
+Factorise z cubed minus one: z minus one, times z squared plus z plus one.
+
+94
+00:07:51,614 --> 00:08:00,273
+So one root is one, and the quadratic gives the other two: minus one plus or minus i root three, over two.
+
+95
+00:08:00,273 --> 00:08:01,809
+Call the first omega.
+
+96
+00:08:01,809 --> 00:08:04,166
+The other is omega squared.
+
+97
+00:08:04,166 --> 00:08:08,453
+On the diagram, they are an equilateral triangle on the unit circle.
+
+98
+00:08:08,667 --> 00:08:10,439
+The properties you will use.
+
+99
+00:08:10,439 --> 00:08:15,583
+Omega cubed is one, so reduce any power modulo three.
+
+100
+00:08:15,583 --> 00:08:26,012
+One plus omega plus omega squared is zero, the most useful line in the unit: so one plus omega is minus omega squared, and so on.
+
+101
+00:08:26,012 --> 00:08:31,038
+Omega squared is the conjugate of omega and also its reciprocal.
+
+102
+00:08:31,038 --> 00:08:36,458
+And they factorise a cubed plus b cubed plus c cubed minus three a b c.
+
+103
+00:08:37,667 --> 00:08:38,687
+Reduce the powers.
+
+104
+00:08:38,933 --> 00:08:42,676
+A hundred is three thirty three plus one: omega.
+
+105
+00:08:42,900 --> 00:08:46,417
+Two hundred leaves remainder two: omega squared.
+
+106
+00:08:46,417 --> 00:08:47,862
+Three hundred: one.
+
+107
+00:08:48,067 --> 00:08:52,021
+And omega plus omega squared plus one is zero.
+
+108
+00:08:54,033 --> 00:08:55,701
+Never expand the cubes.
+
+109
+00:08:55,701 --> 00:09:02,910
+Simplify each bracket first, using one plus omega plus omega squared equals zero.
+
+110
+00:09:03,133 --> 00:09:09,796
+One plus omega is minus omega squared, so the first bracket is minus two omega squared.
+
+111
+00:09:10,000 --> 00:09:12,921
+Similarly the second is minus two omega.
+
+112
+00:09:13,133 --> 00:09:19,567
+Cube them: minus eight omega to the six, which is minus eight, plus minus eight.
+
+113
+00:09:19,567 --> 00:09:20,669
+Minus sixteen.
+
+114
+00:09:27,267 --> 00:09:30,185
+Remember the exponential series from unit two.
+
+115
+00:09:30,185 --> 00:09:31,872
+Put x equal to i theta.
+
+116
+00:09:32,100 --> 00:09:36,893
+The powers of i cycle: i, minus one, minus i, one.
+
+117
+00:09:36,893 --> 00:09:39,901
+Separate the terms with i from those without.
+
+118
+00:09:39,901 --> 00:09:45,042
+The first bracket is the series for cos theta, the second for sin theta.
+
+119
+00:09:45,267 --> 00:09:50,568
+So e to the i theta equals cos theta plus i sin theta.
+
+120
+00:09:50,568 --> 00:09:51,547
+Euler's formula.
+
+121
+00:09:52,767 --> 00:09:57,599
+As theta grows, e to the i theta walks round the unit circle.
+
+122
+00:09:57,599 --> 00:10:00,985
+At theta equal to pi it reaches minus one.
+
+123
+00:10:00,985 --> 00:10:10,515
+So e to the i pi plus one equals zero: Euler's identity, linking e, i, pi, one and zero in a single line.
+
+124
+00:10:10,733 --> 00:10:17,688
+Every complex number is then r e to the i theta, and De Moivre is just the law of indices.
+
+125
+00:10:17,688 --> 00:10:26,149
+Adding and subtracting e to the plus and minus i theta gives cos and sin as exponentials.
+
+126
+00:10:27,367 --> 00:10:28,486
+Euler makes this short.
+
+127
+00:10:28,700 --> 00:10:34,470
+Two cos theta is e to the i theta plus e to the minus i theta.
+
+128
+00:10:34,470 --> 00:10:35,442
+Cube both sides.
+
+129
+00:10:35,667 --> 00:10:42,895
+Expand by the binomial theorem; the products like e to the i theta times e to the minus i theta are one.
+
+130
+00:10:42,895 --> 00:10:44,673
+Each pair is twice a cosine.
+
+131
+00:10:44,900 --> 00:10:45,738
+Divide by eight.
+
+132
+00:10:48,133 --> 00:10:48,721
+A classic.
+
+133
+00:10:49,367 --> 00:10:59,446
+Multiply by x and solve the quadratic: x is cos theta plus or minus i sin theta, that is, e to the plus or minus i theta.
+
+134
+00:10:59,667 --> 00:11:09,160
+Then x to the n plus its reciprocal is e to the i n theta plus e to the minus i n theta: two cos n theta.
+
+135
+00:11:12,367 --> 00:11:13,553
+Pause and think.
+
+136
+00:11:13,553 --> 00:11:16,119
+One plus omega plus omega squared.
+
+137
+00:11:23,000 --> 00:11:23,783
+Zero.
+
+138
+00:11:23,783 --> 00:11:33,770
+They are the three roots of z cubed minus one, whose z squared coefficient is zero; geometrically, they balance round the origin.
+
+139
+00:11:33,770 --> 00:11:36,669
+Three would be the answer only if omega were one.
+
+140
+00:11:38,667 --> 00:11:39,554
+One more.
+
+141
+00:11:39,554 --> 00:11:40,938
+One plus i to the eighth.
+
+142
+00:11:47,833 --> 00:11:48,785
+Sixteen.
+
+143
+00:11:48,785 --> 00:11:57,881
+Root two to the eighth is sixteen, and eight times forty five is three sixty degrees, which points along the positive real axis.
+
+144
+00:12:00,067 --> 00:12:01,123
+Quick recap.
+
+145
+00:12:01,123 --> 00:12:06,696
+Polar form is length and angle, with the angle taken from the plotted quadrant.
+
+146
+00:12:06,696 --> 00:12:10,511
+Multiplying multiplies lengths and adds angles.
+
+147
+00:12:10,511 --> 00:12:13,246
+De Moivre raises both to the n.
+
+148
+00:12:13,246 --> 00:12:18,259
+The n th roots sit on a regular polygon and add to zero.
+
+149
+00:12:18,259 --> 00:12:21,970
+One plus omega plus omega squared is zero.
+
+150
+00:12:21,970 --> 00:12:28,685
+And Euler's formula says e to the i theta is cos theta plus i sin theta.
+
+151
+00:12:32,867 --> 00:12:34,626
+That was complex numbers.
+
+152
+00:12:34,626 --> 00:12:42,218
+Next, sequence and series: sums of squares and cubes, and proof by mathematical induction.
+
+153
+00:12:42,218 --> 00:12:42,747
+See you there.
+

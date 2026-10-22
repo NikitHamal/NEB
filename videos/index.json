@@ -1423,6 +1423,61 @@
    "script": "tools/lessons/scripts/math12/unit_02.py"
   },
   {
+   "id": "class-12/math12/unit_03.mp4",
+   "file": "class-12/math12/unit_03.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_03.mp4",
+     "subtitles": "class-12/math12/unit_03.srt",
+     "start": 0.0,
+     "end": 765.13,
+     "mb": 23.4
+    }
+   ],
+   "poster": "class-12/math12/unit_03.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 3,
+   "title": "Complex Numbers",
+   "subtitle": "Length and angle",
+   "lang": "en",
+   "sections": [
+    "Polar form",
+    "De Moivre's theorem and roots",
+    "Cube roots of unity",
+    "Euler's formula"
+   ],
+   "seconds": 765.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     50.37,
+     "Polar form"
+    ],
+    [
+     204.2,
+     "De Moivre's theorem and roots"
+    ],
+    [
+     459.1,
+     "Cube roots of unity"
+    ],
+    [
+     562.7,
+     "Euler's formula"
+    ],
+    [
+     718.67,
+     "Quick recap"
+    ]
+   ],
+   "mb": 23.4,
+   "script": "tools/lessons/scripts/math12/unit_03.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
