@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:06,315
+The C V comes in seven headings, never paragraphs, because it is read in thirty seconds.
+
+2
+00:00:06,315 --> 00:00:09,479
+Personal details, with a plain email address.
+
+3
+00:00:09,479 --> 00:00:13,294
+A career objective: one sentence aimed at this post.
+
+4
+00:00:13,294 --> 00:00:17,486
+Academic qualifications in a small table, newest first.
+
+5
+00:00:17,486 --> 00:00:18,919
+Work experience.
+
+6
+00:00:18,919 --> 00:00:21,328
+Skills, only what you can prove.
+
+7
+00:00:21,328 --> 00:00:23,502
+Extra curricular activities.
+
+8
+00:00:23,502 --> 00:00:25,729
+And two references who have agreed.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:03,723
+A formal email is a letter with the envelope printed on top.
+
+2
+00:00:03,723 --> 00:00:07,786
+The header does the work of the addresses, so you don't repeat them.
+
+3
+00:00:07,786 --> 00:00:11,692
+To: one reader, the person who can actually decide.
+
+4
+00:00:11,692 --> 00:00:15,794
+Cc: people who need to know but need not act.
+
+5
+00:00:15,794 --> 00:00:25,091
+The subject: six to ten words naming the action, request to hold a blood donation camp on the fifteenth of Magh, never just hello sir.
+
+6
+00:00:25,091 --> 00:00:27,812
+Mention any attachment in the body.
+
+7
+00:00:27,812 --> 00:00:30,976
+And below the header, stay as formal as a letter.
+

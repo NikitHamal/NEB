@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:03,645
+The letter to the editor, the form asked for most often.
+
+2
+00:00:03,645 --> 00:00:10,598
+Remember what it is: a letter to one person, the editor, written to be read by thousands.
+
+3
+00:00:10,598 --> 00:00:14,036
+Top right, your address, then the date, written out.
+
+4
+00:00:14,036 --> 00:00:16,653
+On the left, the editor's address.
+
+5
+00:00:16,653 --> 00:00:20,846
+The salutation, dear sir or madam, never a name.
+
+6
+00:00:20,846 --> 00:00:23,255
+A subject line, one line only.
+
+7
+00:00:23,255 --> 00:00:28,346
+Then three short paragraphs: the issue, the evidence, and what you want done.
+
+8
+00:00:28,346 --> 00:00:33,880
+And the close, yours faithfully or yours sincerely, with your full name.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:04,726
+And a two minute check at the end, because each line is a real mark.
+
+2
+00:00:04,726 --> 00:00:07,213
+Is it the form the question asked for?
+
+3
+00:00:07,213 --> 00:00:11,640
+Your address top right, the receiver's on the left, and the date written out?
+
+4
+00:00:11,640 --> 00:00:13,151
+A one line subject?
+
+5
+00:00:13,151 --> 00:00:17,122
+Does the close match the salutation, with your full name below?
+
+6
+00:00:17,122 --> 00:00:21,718
+Is every point answered, with dates and numbers rather than adjectives?
+
+7
+00:00:21,718 --> 00:00:27,929
+And no myself, no do the needful, no respected sir, no reply back?
+
