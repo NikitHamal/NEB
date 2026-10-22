@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,549
+Devices to quote.
+
+2
+00:00:01,549 --> 00:00:05,000
+Apostrophe: the poem is spoken to God.
+
+3
+00:00:05,000 --> 00:00:07,981
+Litotes: not wholly bad or good.
+
+4
+00:00:07,981 --> 00:00:09,869
+The idiom touch and go.
+
+5
+00:00:09,869 --> 00:00:13,216
+Parallelism: every morning, every evening.
+
+6
+00:00:13,216 --> 00:00:16,640
+The setting sun as a symbol of death and return.
+
+7
+00:00:16,640 --> 00:00:20,312
+And exclamations of cheer at the very edge of death.
+

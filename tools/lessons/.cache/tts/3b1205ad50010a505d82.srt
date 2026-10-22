@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,789
+Stanza three holds the poem's most famous line.
+
+2
+00:00:03,789 --> 00:00:08,085
+We are not wholly bad or good, who live our lives under Milk Wood.
+
+3
+00:00:08,085 --> 00:00:18,658
+The town in the play has a man who dreams of poisoning his wife, a woman who scrubs her house all day, a blind old sea captain in love with the drowned.
+
+4
+00:00:18,658 --> 00:00:20,859
+None is a saint, none a villain.
+
+5
+00:00:20,859 --> 00:00:24,127
+Thomas puts all of humanity in the middle.
+
+6
+00:00:24,127 --> 00:00:33,736
+The figure is litotes, understatement by denying the opposite: saying not wholly bad admits the badness first, and is warmer for it.
+
