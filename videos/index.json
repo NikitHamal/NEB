@@ -1909,6 +1909,61 @@
    "script": "tools/lessons/scripts/math12/unit_10.py"
   },
   {
+   "id": "class-12/math12/unit_11.mp4",
+   "file": "class-12/math12/unit_11.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_11.mp4",
+     "subtitles": "class-12/math12/unit_11.srt",
+     "start": 0.0,
+     "end": 497.53,
+     "mb": 17.5
+    }
+   ],
+   "poster": "class-12/math12/unit_11.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 11,
+   "title": "Probability",
+   "subtitle": "Updating chances with new information",
+   "lang": "en",
+   "sections": [
+    "Dependent events",
+    "Conditional probability and independence",
+    "Bayes' theorem",
+    "The binomial distribution"
+   ],
+   "seconds": 497.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     59.2,
+     "Dependent events"
+    ],
+    [
+     123.77,
+     "Conditional probability and independence"
+    ],
+    [
+     247.97,
+     "Bayes' theorem"
+    ],
+    [
+     337.9,
+     "The binomial distribution"
+    ],
+    [
+     461.9,
+     "Quick recap"
+    ]
+   ],
+   "mb": 17.5,
+   "script": "tools/lessons/scripts/math12/unit_11.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
