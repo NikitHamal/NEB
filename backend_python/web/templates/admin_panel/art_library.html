@@ -1,0 +1,68 @@
+{% extends "admin_panel/base.html" %}
+{% load static %}
+
+{% block title %}Art Library{% endblock %}
+
+{% block extra_css %}
+<style nonce="{{ csp_nonce }}">
+  .al-head { display:flex; gap:16px; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; margin:4px 0 18px; }
+  .al-head p { margin:4px 0 0; color:var(--md-on-surface-variant); max-width:70ch; line-height:1.55; }
+  .al-looks { display:inline-flex; padding:4px; gap:2px; border-radius:999px; background:var(--md-surface-container-high); }
+  .al-looks button { border:0; background:transparent; padding:8px 14px; border-radius:999px; font:600 13.5px var(--md-font); color:var(--md-on-surface-variant); cursor:pointer; }
+  .al-looks button[aria-pressed="true"] { background:var(--md-surface); color:var(--md-on-surface); box-shadow:0 1px 2px rgba(0,0,0,.12); }
+  .al-set { margin:26px 0 8px; }
+  .al-set h2 { margin:0; font-size:1.1rem; }
+  .al-set small { color:var(--md-on-surface-variant); }
+  .al-grid { display:grid; gap:14px; margin-top:12px; grid-template-columns:repeat(auto-fill, minmax(var(--al-min, 320px), 1fr)); }
+  .al-card { margin:0; border-radius:16px; overflow:hidden; background:var(--md-surface-container-low); border:1px solid var(--md-outline-variant); }
+  .al-card a { display:block; line-height:0; }
+  .al-card img { width:100%; height:auto; display:block; background:#eee; }
+  .al-card img.px { image-rendering:pixelated; }
+  .al-card figcaption { display:flex; justify-content:space-between; gap:8px; padding:9px 12px; font-size:13px; }
+  .al-card figcaption span { color:var(--md-on-surface-variant); }
+  .al-card[hidden] { display:none; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="al-head">
+  <div>
+    <h1 style="margin:0">Art Library</h1>
+    <p>{{ art_total }} illustrations drawn in code as SVG, for covers, resource banners, onboarding, empty states and backgrounds.
+      Every scene comes in three looks. They are here to review; nothing on the site or in the app uses them yet.
+      Source: <code>tools/svgart/</code>.</p>
+  </div>
+  <div class="al-looks" role="group" aria-label="Look">
+    <button type="button" data-look="all" aria-pressed="true">All</button>
+    {% for key, label in art.looks.items %}<button type="button" data-look="{{ key }}" aria-pressed="false" title="{{ label }}">{{ key|capfirst }}</button>{% endfor %}
+  </div>
+</div>
+
+{% for st in art.sets %}
+<section class="al-set">
+  <h2>{{ st.title }} <small>· {{ st.blurb }}</small></h2>
+  <div class="al-grid" {% if st.key == 'onboarding' or st.key == 'empty' %}style="--al-min:220px"{% endif %}>
+    {% for it in st.items %}{% for look, rel in it.files.items %}
+    {% with src="web/art/"|add:rel %}
+    <figure class="al-card" data-card-look="{{ look }}">
+      <a href="{% static src %}" target="_blank" rel="noopener"><img src="{% static src %}" alt="{{ st.title }}: {{ it.name }}, {{ look }}" loading="lazy" width="{{ it.w }}" height="{{ it.h }}" {% if look == 'pixel' %}class="px"{% endif %}></a>
+      <figcaption><b>{{ it.name }}</b><span>{{ look }} · {{ it.w }}×{{ it.h }}</span></figcaption>
+    </figure>
+    {% endwith %}
+    {% endfor %}{% endfor %}
+  </div>
+</section>
+{% empty %}
+<p>The library has not been built yet: run <code>python3 tools/svgart/build.py</code>.</p>
+{% endfor %}
+
+<script nonce="{{ csp_nonce }}">
+  document.querySelectorAll('[data-look]').forEach(function (b, _, all) {
+    b.addEventListener('click', function () {
+      all.forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      var look = b.getAttribute('data-look');
+      document.querySelectorAll('[data-card-look]').forEach(function (c) { c.hidden = look !== 'all' && c.getAttribute('data-card-look') !== look; });
+    });
+  });
+</script>
+{% endblock %}
