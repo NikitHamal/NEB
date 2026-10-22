@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,968
+A parabola has eccentricity one: every point is exactly as far from the focus as from the directrix.
+
+2
+00:00:07,968 --> 00:00:18,789
+Put the focus at a, zero and the directrix at x equals minus a. Move P along the curve: the yellow and red lengths are always equal.
+

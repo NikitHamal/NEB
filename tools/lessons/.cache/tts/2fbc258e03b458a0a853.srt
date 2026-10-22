@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,947
+Welcome to Class 12 Mathematics, Unit 8: Conic Sections.
+

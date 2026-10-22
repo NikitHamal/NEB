@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,736
+You can name a conic from its equation before doing any algebra.
+
+2
+00:00:03,736 --> 00:00:05,846
+Look only at the squared terms.
+
+3
+00:00:05,846 --> 00:00:08,346
+Equal coefficients: a circle.
+
+4
+00:00:08,346 --> 00:00:10,716
+One square missing: a parabola.
+
+5
+00:00:10,716 --> 00:00:14,192
+Unequal but the same sign: an ellipse.
+
+6
+00:00:14,192 --> 00:00:17,018
+Opposite signs: a hyperbola.
+

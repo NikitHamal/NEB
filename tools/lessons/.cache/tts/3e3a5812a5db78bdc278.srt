@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,908
+With the centre at the origin, x squared plus y squared equals r squared.
+

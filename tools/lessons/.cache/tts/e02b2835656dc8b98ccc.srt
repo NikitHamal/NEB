@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,354
+Watch P go round.
+
+2
+00:00:01,354 --> 00:00:05,924
+Its two distances change, but their ratio stays at point six.
+
+3
+00:00:05,924 --> 00:00:07,213
+That is an ellipse.
+
+4
+00:00:07,213 --> 00:00:16,588
+Make e exactly one and you get a parabola; more than one, a hyperbola; and as e shrinks to zero, a circle.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,567
+Put each into the general form: c is zero, g is minus three, f is minus four.
+

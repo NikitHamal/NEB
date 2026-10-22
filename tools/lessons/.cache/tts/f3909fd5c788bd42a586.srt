@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,539
+Here is the whole unit in one table: the standard equation, the eccentricity, the foci, the condition of tangency and the tangent at a point, for each of the four curves.
+
+2
+00:00:12,539 --> 00:00:15,820
+Roughly a third of the marks in this unit are read straight off it.
+

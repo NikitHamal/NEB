@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,809
+The focus is one unit right of the vertex, the directrix one unit left: the y axis.
+
+2
+00:00:06,809 --> 00:00:08,346
+Latus rectum four.
+

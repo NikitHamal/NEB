@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,151
+Take unit vectors at minus B and at A.
+
+2
+00:00:03,151 --> 00:00:08,684
+The angle between them is A plus B, so their cross product has length sin A plus B.
+

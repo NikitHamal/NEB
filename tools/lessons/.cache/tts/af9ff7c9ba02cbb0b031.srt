@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,080
+The rules.
+
+2
+00:00:01,080 --> 00:00:02,421
+Order does not matter.
+
+3
+00:00:02,421 --> 00:00:04,700
+It distributes over addition.
+
+4
+00:00:04,700 --> 00:00:08,671
+A vector dotted with itself is its length squared.
+
+5
+00:00:08,671 --> 00:00:14,557
+So the length of a plus or minus b, squared, expands just like algebra.
+
+6
+00:00:14,557 --> 00:00:18,177
+And a zero dot product means perpendicular.
+

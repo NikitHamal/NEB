@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,846
+c squared is twenty times five, a hundred: c is plus or minus ten.
+

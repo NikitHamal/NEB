@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,096
+Square the sum and expand: twenty five equals nine plus sixteen plus twice the dot product.
+
+2
+00:00:07,096 --> 00:00:10,611
+So the dot product is zero: perpendicular.
+
+3
+00:00:10,611 --> 00:00:13,242
+A three-four-five right angle.
+

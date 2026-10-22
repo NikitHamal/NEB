@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,986
+Normal: twenty five x minus fifteen y equals twenty seven.
+
+2
+00:00:04,986 --> 00:00:09,895
+Slopes minus three fifths and five thirds: perpendicular.
+

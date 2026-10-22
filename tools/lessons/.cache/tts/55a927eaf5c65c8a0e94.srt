@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,179
+Take unit vectors at forty five and thirty degrees.
+
+2
+00:00:04,179 --> 00:00:08,072
+The angle between them is fifteen, and both have length one.
+

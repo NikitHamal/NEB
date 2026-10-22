@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,080
+From the outside point seven, one, draw the two tangents to the circle of radius five.
+
+2
+00:00:06,080 --> 00:00:13,893
+The tangent length is root of S one: root of forty nine plus one minus twenty five, which is five.
+

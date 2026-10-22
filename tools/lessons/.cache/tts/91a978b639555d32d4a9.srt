@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,643
+The tangent at x one, y one is y y one equals two a times x plus x one: y equals x plus three.
+

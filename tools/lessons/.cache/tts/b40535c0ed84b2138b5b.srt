@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,830
+Half its length: root twenty one over two, about two point two nine.
+

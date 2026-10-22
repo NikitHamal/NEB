@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,666
+r is three, two, two.
+
+2
+00:00:01,666 --> 00:00:05,520
+Cross with F: minus eight, eight, four.
+

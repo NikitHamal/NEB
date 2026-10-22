@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,416
+Make the rope steeper and the useful part shrinks; pull straight up and it is zero.
+
+2
+00:00:05,416 --> 00:00:08,619
+The work done is F times d times cos theta.
+
+3
+00:00:08,619 --> 00:00:13,046
+That way of multiplying two arrows to get a number is the dot product.
+
+4
+00:00:13,046 --> 00:00:18,203
+There is a second way, which gives an arrow, and this unit is about both.
+

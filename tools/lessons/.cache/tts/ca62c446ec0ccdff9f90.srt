@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,250
+A common slip.
+
+2
+00:00:01,250 --> 00:00:05,690
+The foci always lie on the axis with the larger denominator.
+
+3
+00:00:05,690 --> 00:00:12,044
+If the bigger number is under y squared, the ellipse is tall, and its foci are on the y axis.
+

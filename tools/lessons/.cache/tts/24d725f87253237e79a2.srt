@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,822
+Keep the two products apart.
+
+2
+00:00:01,822 --> 00:00:05,182
+The dot product is a number and does not care about order.
+
+3
+00:00:05,182 --> 00:00:09,348
+The cross product is a vector, and order flips its sign.
+

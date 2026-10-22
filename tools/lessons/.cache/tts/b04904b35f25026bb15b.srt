@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,908
+So the cross product is the zero vector, and the three points lie on one line.
+

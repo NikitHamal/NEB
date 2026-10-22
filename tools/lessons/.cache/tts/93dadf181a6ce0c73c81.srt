@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,822
+That was conic sections.
+
+2
+00:00:01,822 --> 00:00:06,914
+Next, product of vectors: the scalar and vector products and what they measure.
+
+3
+00:00:06,914 --> 00:00:07,890
+See you there.
+

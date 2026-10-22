@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,908
+A careful point: for the angle at B, both arrows must start at B.
+
+2
+00:00:04,908 --> 00:00:10,325
+Using A B instead of B A gives you one eighty minus the angle.
+

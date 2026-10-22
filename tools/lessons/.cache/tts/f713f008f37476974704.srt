@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,466
+The second product, the vector or cross product, gives a vector.
+
+2
+00:00:04,466 --> 00:00:12,226
+Its length is a b sin theta, which is exactly the area of the parallelogram on a and b.
+
+3
+00:00:12,226 --> 00:00:21,835
+Its direction is perpendicular to both, chosen by the right hand rule: curl your fingers from a to b, and your thumb points along a cross b.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,656
+First check that the point is on the circle.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,419
+Exam tip.
+
+2
+00:00:01,419 --> 00:00:11,601
+If the line is in the form y equals m x plus c and the circle is centred at the origin, use c squared equals a squared, one plus m squared.
+
+3
+00:00:11,601 --> 00:00:15,924
+Otherwise, use distance from the centre equals the radius.
+

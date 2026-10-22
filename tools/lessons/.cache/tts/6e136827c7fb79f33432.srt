@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,364
+With A forty five and B thirty: root six plus root two over four.
+
+2
+00:00:05,364 --> 00:00:08,046
+The same as cos fifteen, as it must be.
+

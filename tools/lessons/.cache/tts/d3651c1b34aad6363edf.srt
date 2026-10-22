@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,273
+Divide by the length of b, the one you project onto: three.
+
+2
+00:00:05,273 --> 00:00:09,986
+For the vector, multiply b by twenty one over forty nine.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,466
+Expand, and every circle looks like x squared plus y squared plus two g x plus two f y plus c equals zero.
+
+2
+00:00:09,466 --> 00:00:16,093
+The centre is minus g, minus f: half the coefficients, signs changed.
+
+3
+00:00:16,093 --> 00:00:21,028
+The radius is root of g squared plus f squared minus c.
+

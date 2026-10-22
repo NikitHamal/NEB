@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,062
+a is perpendicular to b: cos theta is zero.
+
+2
+00:00:04,062 --> 00:00:07,031
+A zero cross product would mean parallel.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,406
+Complete the square in y: y minus four squared equals four times x minus one.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,158
+Quick recap.
+
+2
+00:00:01,158 --> 00:00:09,830
+The dot product is a number, a b cos theta, zero for perpendicular vectors, and gives projections and work.
+
+3
+00:00:09,830 --> 00:00:17,278
+The cross product is a vector perpendicular to both, whose length is an area, and whose order matters.
+
+4
+00:00:17,278 --> 00:00:21,171
+It gives triangle areas, collinearity and moments.
+
+5
+00:00:21,171 --> 00:00:26,041
+And together they prove the compound angle formulas.
+

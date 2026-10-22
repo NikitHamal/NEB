@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,705
+So four x squared plus nine y squared is an ellipse; nine x squared minus sixteen y squared, a hyperbola; and an equation with only y squared, a parabola.
+
+2
+00:00:11,705 --> 00:00:14,791
+Name it first, then complete the square.
+

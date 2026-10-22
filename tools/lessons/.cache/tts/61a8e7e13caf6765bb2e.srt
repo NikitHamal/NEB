@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:15,638
+The same algebra as the ellipse, but now one minus e squared is negative, and the plus sign becomes a minus: x squared over a squared minus y squared over b squared equals one, with b squared equal to a squared times e squared minus one.
+
+2
+00:00:15,638 --> 00:00:26,914
+Far out, the branches hug two straight lines, the asymptotes, y equals plus or minus b over a x: the diagonals of the a by b box.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,713
+Normal: sixteen x plus twenty y equals one two five.
+
+2
+00:00:04,713 --> 00:00:09,375
+Slopes five quarters and minus four fifths: perpendicular.
+

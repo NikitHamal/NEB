@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,346
+The radius to x one, y one has slope y one over x one, so the tangent has slope minus x one over y one.
+
+2
+00:00:08,346 --> 00:00:16,796
+Simplify, using the fact that the point is on the circle, and the tangent is x x one plus y y one equals a squared.
+
+3
+00:00:16,796 --> 00:00:28,411
+For a general circle, replace x squared by x x one, y squared by y y one, two x by x plus x one, and two y by y plus y one.
+
+4
+00:00:28,411 --> 00:00:31,380
+And the normal always passes through the centre.
+

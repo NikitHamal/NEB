@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,031
+A triangle is half of that parallelogram: half the cross product of two sides from the same vertex.
+

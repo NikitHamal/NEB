@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,223
+And one trap.
+
+2
+00:00:01,223 --> 00:00:07,825
+You cannot divide by a vector: a dot b equals a dot c does not mean b equals c.
+
+3
+00:00:07,825 --> 00:00:11,106
+It only says a is perpendicular to b minus c.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,739
+The normal has slope minus one: x plus y equals nine.
+

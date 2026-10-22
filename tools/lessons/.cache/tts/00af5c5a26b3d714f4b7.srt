@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,117
+Swap the order and the thumb flips: b cross a is minus a cross b.
+
+2
+00:00:05,117 --> 00:00:11,263
+And parallel vectors span no area, so their cross product is the zero vector.
+

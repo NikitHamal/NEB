@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,072
+And three points are on one line exactly when the triangle they form has no area: the cross product is zero.
+

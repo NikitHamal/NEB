@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:12,773
+From the focus directrix rule with e less than one, the algebra gives x squared over a squared plus y squared over b squared equals one, where b squared is a squared times one minus e squared.
+
+2
+00:00:12,773 --> 00:00:17,096
+So e is root of one minus b squared over a squared.
+
+3
+00:00:17,096 --> 00:00:27,421
+The foci are at plus or minus a e, the directrices at plus or minus a over e, and the latus rectum is two b squared over a.
+

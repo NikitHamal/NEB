@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,901
+Here is the single rule.
+
+2
+00:00:01,901 --> 00:00:06,744
+Fix a point S, the focus, and a line, the directrix.
+
+3
+00:00:06,744 --> 00:00:15,208
+A conic is the path of a point P whose distance from the focus is always a fixed multiple e of its distance from the directrix.
+
+4
+00:00:15,208 --> 00:00:17,708
+The number e is the eccentricity.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,065
+Put the origin at the lowest point: x squared equals four a y.
+
+2
+00:00:05,065 --> 00:00:10,390
+Each tower top is forty across and sixteen up, so four a is a hundred.
+
+3
+00:00:10,390 --> 00:00:16,367
+At twenty metres, y is four: four above the lowest point, eight above the road.
+

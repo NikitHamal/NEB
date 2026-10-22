@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,736
+The dot product proves geometry with almost no effort.
+
+2
+00:00:03,736 --> 00:00:10,182
+In a parallelogram on a and b, the diagonals are a plus b and a minus b.
+
+3
+00:00:10,182 --> 00:00:15,299
+Their dot product expands to length a squared minus length b squared.
+
+4
+00:00:15,299 --> 00:00:23,554
+That is zero exactly when the sides are equal: the diagonals of a parallelogram are perpendicular only in a rhombus.
+

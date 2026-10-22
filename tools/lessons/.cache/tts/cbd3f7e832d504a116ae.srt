@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,013
+Their slopes multiply to minus one: the tangents are perpendicular.
+
+2
+00:00:05,013 --> 00:00:06,367
+That is no accident.
+
+3
+00:00:06,367 --> 00:00:17,682
+Seven squared plus one squared is fifty, twice twenty five, so the point lies on the director circle, the circle from which every pair of tangents meets at a right angle.
+

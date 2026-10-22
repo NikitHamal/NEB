@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,231
+And the force is twenty two degrees off the direction of motion.
+
