@@ -1341,6 +1341,71 @@
    "script": "tools/lessons/scripts/eng12/unit_12.py"
   },
   {
+   "id": "class-12/eng12/unit_13.mp4",
+   "file": "class-12/eng12/unit_13.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_13.mp4",
+     "subtitles": "class-12/eng12/unit_13.srt",
+     "start": 0.0,
+     "end": 484.53,
+     "mb": 18.1
+    }
+   ],
+   "poster": "class-12/eng12/unit_13.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 13,
+   "title": "On Libraries",
+   "subtitle": "Oliver Sacks · an essay",
+   "lang": "en",
+   "sections": [
+    "Oliver Sacks",
+    "The library at home",
+    "Willesden: a good learner",
+    "Science, Oxford and the vaults",
+    "New York: space and strangers",
+    "The empty shelves"
+   ],
+   "seconds": 484.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     47.4,
+     "Oliver Sacks"
+    ],
+    [
+     106.1,
+     "The library at home"
+    ],
+    [
+     147.47,
+     "Willesden: a good learner"
+    ],
+    [
+     191.3,
+     "Science, Oxford and the vaults"
+    ],
+    [
+     277.33,
+     "New York: space and strangers"
+    ],
+    [
+     343.67,
+     "The empty shelves"
+    ],
+    [
+     458.63,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.1,
+   "script": "tools/lessons/scripts/eng12/unit_13.py"
+  },
+  {
    "id": "class-12/math12/unit_01.mp4",
    "file": "class-12/math12/unit_01.part1.mp4",
    "parts": [
