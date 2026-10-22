@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,106
+A worked item.
+
+2
+00:00:01,106 --> 00:00:05,833
+Ramesh said to me, I bought this book here yesterday and I am reading it now.
+
+3
+00:00:05,833 --> 00:00:08,333
+There is a listener, so told me, that.
+
+4
+00:00:08,333 --> 00:00:10,364
+I refers to Ramesh: he.
+
+5
+00:00:10,364 --> 00:00:14,075
+Bought becomes had bought; am reading becomes was reading.
+
+6
+00:00:14,075 --> 00:00:19,700
+This becomes that, here becomes there, yesterday the previous day, and now then.
+
+7
+00:00:19,700 --> 00:00:25,377
+Ramesh told me that he had bought that book there the previous day, and that he was reading it then.
+

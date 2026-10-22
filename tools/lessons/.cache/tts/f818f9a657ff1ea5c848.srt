@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:08,424
+Commands, requests and advice turn the imperative into an infinitive: reporting verb, object, to, base verb.
+
+2
+00:00:08,424 --> 00:00:11,627
+Stand up: the teacher ordered us to stand up.
+
+3
+00:00:11,627 --> 00:00:15,898
+Please lend me your pen: he requested me to lend him my pen.
+
+4
+00:00:15,898 --> 00:00:19,244
+You should see a doctor: she advised me to see a doctor.
+
+5
+00:00:19,244 --> 00:00:23,554
+A negative takes not to: he warned me not to touch the wires.
+
+6
+00:00:23,554 --> 00:00:27,799
+And let's becomes suggested: she suggested going for a walk.
+

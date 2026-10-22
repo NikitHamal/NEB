@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,276
+Ask + wh-word + statement order + backshift, and no question mark.
+

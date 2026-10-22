@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,421
+Sita said, I am busy today.
+
+2
+00:00:02,421 --> 00:00:05,703
+Those are her exact words, in direct speech.
+
+3
+00:00:05,703 --> 00:00:08,398
+Now report them, as a reporter would.
+

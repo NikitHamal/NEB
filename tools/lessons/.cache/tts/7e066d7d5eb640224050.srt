@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,809
+That was reported speech.
+
+2
+00:00:01,809 --> 00:00:04,244
+Next: conditional sentences.
+
+3
+00:00:04,244 --> 00:00:05,234
+See you there.
+
