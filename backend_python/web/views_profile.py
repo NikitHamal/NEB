@@ -87,12 +87,7 @@ def profile(request, username):
     except User.DoesNotExist:
         raise Http404("User not found")
 
-    viewer_user = None
-    if user_id:
-        try:
-            viewer_user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            viewer_user = None
+    viewer_user = _request_db_user(request, user_id)
     is_self = bool(viewer_user and viewer_user.pk == profile_user.pk)
     profile_private = not _can_view_locked_profile(viewer_user, profile_user)
     is_following_profile = False
@@ -370,12 +365,7 @@ def profile_achievements(request, username):
     except User.DoesNotExist:
         raise Http404("User not found")
 
-    viewer_user = None
-    if user_id:
-        try:
-            viewer_user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            viewer_user = None
+    viewer_user = _request_db_user(request, user_id)
     if not _can_view_locked_profile(viewer_user, profile_user):
         return redirect('web:profile', username=username)
 
