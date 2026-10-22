@@ -1,6 +1,5 @@
 """The suggested feed's shared candidate pools are reused per process only while they are
 the entry the shared cache holds, and never carry one viewer's state into another request."""
-import uuid
 from unittest import mock
 
 from django.core.cache import cache
