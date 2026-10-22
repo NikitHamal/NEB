@@ -558,12 +558,7 @@ def ajax_profile_activity(request, username):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
 
-    viewer_user = None
-    if user_id:
-        try:
-            viewer_user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            viewer_user = None
+    viewer_user = _viewer_for_locked_check(user_id, profile_user)
     if not _can_view_locked_profile(viewer_user, profile_user):
         return JsonResponse({'error': 'This profile is private'}, status=403)
 
@@ -593,12 +588,7 @@ def ajax_profile_replies(request, username):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
 
-    viewer_user = None
-    if user_id:
-        try:
-            viewer_user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            viewer_user = None
+    viewer_user = _viewer_for_locked_check(user_id, profile_user)
     if not _can_view_locked_profile(viewer_user, profile_user):
         return JsonResponse({'error': 'This profile is private'}, status=403)
 
