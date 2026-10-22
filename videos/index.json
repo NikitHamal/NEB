@@ -1,6 +1,68 @@
 {
  "videos": [
   {
+   "id": "class-12/bio12/unit_06.mp4",
+   "file": "class-12/bio12/unit_06.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/bio12/unit_06.part1.mp4",
+     "subtitles": "class-12/bio12/unit_06.part1.srt",
+     "start": 0.0,
+     "end": 645.633,
+     "mb": 21.8
+    },
+    {
+     "file": "class-12/bio12/unit_06.part2.mp4",
+     "subtitles": "class-12/bio12/unit_06.part2.srt",
+     "start": 645.633,
+     "end": 1086.7,
+     "mb": 14.2
+    }
+   ],
+   "poster": "class-12/bio12/unit_06.jpg",
+   "book": "bio12",
+   "grade": 12,
+   "unit": 6,
+   "title": "Animal Tissues",
+   "subtitle": "Four tissues build every organ",
+   "lang": "en",
+   "sections": [
+    "Epithelial tissue",
+    "Connective tissue",
+    "Muscular tissue",
+    "Nervous tissue"
+   ],
+   "seconds": 1086.7,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     70.13,
+     "Epithelial tissue"
+    ],
+    [
+     351.47,
+     "Connective tissue"
+    ],
+    [
+     644.8,
+     "Muscular tissue"
+    ],
+    [
+     817.73,
+     "Nervous tissue"
+    ],
+    [
+     1031.63,
+     "Quick recap"
+    ]
+   ],
+   "mb": 36.0,
+   "script": "tools/lessons/scripts/bio12/unit_06.py"
+  },
+  {
    "id": "class-12/cs12/unit_01.mp4",
    "file": "class-12/cs12/unit_01.part1.mp4",
    "parts": [

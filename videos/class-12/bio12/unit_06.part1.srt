@@ -1,0 +1,496 @@
+1
+00:00:00,000 --> 00:00:03,856
+Walking barefoot in a Chitwan forest, you step on a thorn.
+
+2
+00:00:03,856 --> 00:00:07,957
+Before you even feel the pain, your foot has already jumped back.
+
+3
+00:00:07,957 --> 00:00:08,934
+How fast was that?
+
+4
+00:00:09,167 --> 00:00:11,564
+About twenty one thousandths of a second.
+
+5
+00:00:11,564 --> 00:00:19,794
+Now take away one fatty wrapping around the nerve fibres, and the same reflex would take three and a half seconds.
+
+6
+00:00:19,794 --> 00:00:21,929
+Long enough for the thorn to go deep.
+
+7
+00:00:21,929 --> 00:00:28,194
+That wrapping is a tissue, and by the end of this lesson you will be able to calculate both numbers yourself.
+
+8
+00:00:34,000 --> 00:00:41,215
+Welcome to Class 12 Biology, Unit 6: Animal Tissues, the first unit of zoology.
+
+9
+00:00:41,215 --> 00:00:44,978
+The whole animal body is built from just four tissues.
+
+10
+00:00:44,978 --> 00:00:49,500
+Learn them properly now, and every organ that follows becomes easy.
+
+11
+00:00:51,900 --> 00:00:53,803
+Four tissues, four parts.
+
+12
+00:00:53,803 --> 00:00:57,631
+Epithelial tissue, the coverings and linings.
+
+13
+00:00:57,631 --> 00:01:00,925
+Connective tissue, from fat to bone to blood.
+
+14
+00:01:00,925 --> 00:01:04,623
+Muscular tissue, and how a sarcomere contracts.
+
+15
+00:01:04,623 --> 00:01:09,357
+And nervous tissue: the neuron, the myelin sheath, and the synapse.
+
+16
+00:01:13,700 --> 00:01:22,790
+Epithelium is a sheet of tightly packed cells, with almost nothing between them, resting on a thin non cellular basement membrane.
+
+17
+00:01:22,790 --> 00:01:27,085
+It covers the body's surfaces and lines its cavities and tubes.
+
+18
+00:01:27,300 --> 00:01:30,453
+Its characters follow from its job as a boundary.
+
+19
+00:01:30,453 --> 00:01:34,906
+The cells are joined by junctions, so the sheet is leak proof.
+
+20
+00:01:34,906 --> 00:01:38,122
+It has a free surface and a basal surface.
+
+21
+00:01:38,122 --> 00:01:44,372
+It has no blood vessels at all: food and oxygen diffuse up from the capillaries beneath.
+
+22
+00:01:44,372 --> 00:01:48,695
+It regrows fast, because it is the layer that wears away.
+
+23
+00:01:48,695 --> 00:01:53,151
+And it is the only tissue that arises from all three germ layers.
+
+24
+00:01:55,367 --> 00:01:56,788
+Simple squamous.
+
+25
+00:01:56,788 --> 00:02:01,710
+Flat, tile like cells, thin enough for gases to diffuse across.
+
+26
+00:02:01,710 --> 00:02:07,214
+Lungs' alveoli, Bowman's capsule in the kidney, and the lining of every blood vessel.
+
+27
+00:02:07,433 --> 00:02:08,711
+Simple cuboidal.
+
+28
+00:02:08,711 --> 00:02:12,148
+Cube shaped cells with a round central nucleus.
+
+29
+00:02:12,148 --> 00:02:18,241
+Kidney tubules, thyroid follicles and the ducts of glands, for absorbing and secreting.
+
+30
+00:02:18,467 --> 00:02:19,745
+Simple columnar.
+
+31
+00:02:19,745 --> 00:02:28,456
+Tall cells with the nucleus near the base, lining the stomach and the small intestine, where a lot of secreting and absorbing happens.
+
+32
+00:02:28,667 --> 00:02:39,827
+Give columnar cells cilia, and the beating hairs sweep things along: mucus in the bronchioles, the egg along the oviduct, cerebrospinal fluid in the brain's ventricles.
+
+33
+00:02:39,827 --> 00:02:42,038
+That is ciliated columnar epithelium.
+
+34
+00:02:43,267 --> 00:02:46,823
+Pseudostratified epithelium is a trick of the eye.
+
+35
+00:02:46,823 --> 00:02:53,464
+The cells are of different heights, so their nuclei sit at two levels and the sheet looks layered.
+
+36
+00:02:53,464 --> 00:02:57,006
+But every single cell stands on the basement membrane.
+
+37
+00:02:57,006 --> 00:02:58,620
+It is one layer thick.
+
+38
+00:02:58,620 --> 00:03:00,628
+It lines the trachea and the nose.
+
+39
+00:03:02,233 --> 00:03:06,961
+Where wear is heavy, the epithelium is many cells thick.
+
+40
+00:03:06,961 --> 00:03:13,029
+Only the deepest layer, the germinative layer, sits on the basement membrane and divides.
+
+41
+00:03:13,029 --> 00:03:17,344
+Its daughters are pushed upward, flatten, die and are shed from the top.
+
+42
+00:03:17,567 --> 00:03:25,798
+In the skin, the dying cells fill with the tough protein keratin, giving a dry, waterproof keratinised surface.
+
+43
+00:03:25,798 --> 00:03:31,871
+In the mouth, oesophagus and vagina the surface stays moist and is non keratinised.
+
+44
+00:03:33,100 --> 00:03:37,932
+Transitional epithelium lines the ureter and the urinary bladder.
+
+45
+00:03:37,932 --> 00:03:40,367
+Its cells can slide over one another.
+
+46
+00:03:40,367 --> 00:03:46,591
+When the bladder is empty the lining is four or five cells thick with domed surface cells.
+
+47
+00:03:46,591 --> 00:03:51,738
+As it fills, it stretches to just two or three thin layers.
+
+48
+00:03:53,967 --> 00:03:55,362
+Exam tip.
+
+49
+00:03:55,362 --> 00:03:58,265
+Pseudostratified is not stratified.
+
+50
+00:03:58,265 --> 00:04:05,818
+In pseudostratified epithelium every cell touches the basement membrane, so it is one layer.
+
+51
+00:04:05,818 --> 00:04:09,694
+In a stratified epithelium only the deepest layer does.
+
+52
+00:04:10,467 --> 00:04:17,044
+Epithelial cells that specialise for secretion sink into the tissue below and form glands.
+
+53
+00:04:17,044 --> 00:04:23,828
+A single goblet cell is a unicellular gland; many cells together make a multicellular gland.
+
+54
+00:04:23,828 --> 00:04:31,185
+Exocrine glands release through a duct; endocrine glands have no duct and release hormones into the blood.
+
+55
+00:04:31,185 --> 00:04:34,370
+And there are three ways a cell can let go of its secretion.
+
+56
+00:04:34,600 --> 00:04:42,102
+Merocrine: the secretion leaves by exocytosis and the cell stays whole, as in the salivary glands.
+
+57
+00:04:42,102 --> 00:04:47,974
+Apocrine: the tip of the cell pinches off with the secretion, as in the mammary gland.
+
+58
+00:04:47,974 --> 00:04:54,455
+Holocrine: the whole cell breaks down and becomes the secretion, as in the sebaceous glands of the skin.
+
+59
+00:04:55,667 --> 00:04:56,736
+A quick calculation.
+
+60
+00:04:56,967 --> 00:05:01,187
+Actual size is image size divided by magnification.
+
+61
+00:05:01,187 --> 00:05:08,336
+Forty millimetres over a thousand is zero point zero four millimetres, which is forty micrometres.
+
+62
+00:05:08,336 --> 00:05:10,744
+The width is eight micrometres.
+
+63
+00:05:10,967 --> 00:05:17,883
+A millimetre is a thousand micrometres, so a thousand over eight: one hundred and twenty five cells.
+
+64
+00:05:17,883 --> 00:05:22,219
+Forty tall and eight wide: five times taller than broad.
+
+65
+00:05:22,219 --> 00:05:23,486
+That is what columnar means.
+
+66
+00:05:25,900 --> 00:05:27,100
+Pause and think.
+
+67
+00:05:27,100 --> 00:05:29,509
+Which organ needs a lining that can stretch?
+
+68
+00:05:36,400 --> 00:05:38,863
+The urinary bladder, and the ureter.
+
+69
+00:05:38,863 --> 00:05:42,027
+Its cells slide over each other as it fills.
+
+70
+00:05:42,027 --> 00:05:50,675
+The trachea has pseudostratified ciliated epithelium, the intestine simple columnar, and the oesophagus stratified squamous.
+
+71
+00:05:55,033 --> 00:05:59,136
+Connective tissue is the mirror image of epithelium.
+
+72
+00:05:59,136 --> 00:06:07,873
+Here the cells are few and far apart, and the work is done by a large intercellular matrix of fibres and ground substance.
+
+73
+00:06:07,873 --> 00:06:11,543
+It binds, supports, packs, transports and defends.
+
+74
+00:06:11,767 --> 00:06:14,972
+Three kinds of fibre run through the matrix.
+
+75
+00:06:14,972 --> 00:06:23,644
+White collagen fibres: thick, wavy bundles, very strong and inelastic; boil them and they become gelatin.
+
+76
+00:06:23,644 --> 00:06:31,287
+Yellow elastic fibres: thin, branching, stretching to one and a half times their length and snapping back.
+
+77
+00:06:31,287 --> 00:06:36,045
+And fine reticular fibres, the mesh of lymph nodes and the spleen.
+
+78
+00:06:36,267 --> 00:06:37,401
+And the cells.
+
+79
+00:06:37,401 --> 00:06:41,750
+Fibroblasts make the fibres and ground substance.
+
+80
+00:06:41,750 --> 00:06:45,709
+Macrophages crawl about engulfing bacteria and debris.
+
+81
+00:06:45,709 --> 00:06:53,808
+Mast cells release heparin, which stops blood clotting inside vessels, and histamine, which drives inflammation and allergy.
+
+82
+00:06:53,808 --> 00:06:57,844
+Plasma cells make antibodies, and adipocytes store fat.
+
+83
+00:06:59,467 --> 00:07:05,120
+Connective tissue comes in four groups: loose, dense, skeletal and fluid.
+
+84
+00:07:05,120 --> 00:07:11,591
+Loose areolar tissue is the body's packing material, under the skin and around every organ.
+
+85
+00:07:11,591 --> 00:07:15,575
+Fill it with fat cells and it becomes adipose tissue.
+
+86
+00:07:15,575 --> 00:07:23,614
+Each fat cell is almost entirely one big droplet, with the nucleus squeezed to one side like a signet ring.
+
+87
+00:07:24,833 --> 00:07:27,100
+Two dense tissues, always compared.
+
+88
+00:07:27,100 --> 00:07:31,293
+A tendon is packed with parallel bundles of white collagen.
+
+89
+00:07:31,293 --> 00:07:33,988
+Pull it, and it barely stretches.
+
+90
+00:07:33,988 --> 00:07:37,816
+A ligament has branching yellow elastic fibres.
+
+91
+00:07:37,816 --> 00:07:40,611
+Pull it, and it stretches, then springs back.
+
+92
+00:07:40,833 --> 00:07:46,811
+The four marks: fibre, arrangement, elasticity, and what each connects.
+
+93
+00:07:46,811 --> 00:07:48,725
+Tendon: muscle to bone.
+
+94
+00:07:48,725 --> 00:07:50,736
+Ligament: bone to bone at a joint.
+
+95
+00:07:51,967 --> 00:07:54,560
+Cartilage is firm but flexible.
+
+96
+00:07:54,560 --> 00:08:03,219
+Its cells, chondrocytes, sit alone or in twos in little spaces called lacunae, in a matrix of the protein chondrin.
+
+97
+00:08:03,219 --> 00:08:09,973
+It is wrapped in a perichondrium, and it has no blood vessels at all: it is fed only by slow diffusion.
+
+98
+00:08:11,200 --> 00:08:13,793
+Bone is the hardest connective tissue.
+
+99
+00:08:13,793 --> 00:08:22,907
+Its matrix is about one third protein, for toughness, and two thirds calcium salts, mainly calcium phosphate, for hardness.
+
+100
+00:08:22,907 --> 00:08:28,116
+In mammalian compact bone it is built in cylinders called Haversian systems.
+
+101
+00:08:28,116 --> 00:08:32,145
+A central Haversian canal carries a blood vessel and a nerve.
+
+102
+00:08:32,367 --> 00:08:37,369
+Around it, four to twenty concentric rings of matrix, the lamellae.
+
+103
+00:08:37,369 --> 00:08:46,665
+Between them, the osteocytes in their lacunae, each linked to its neighbours and to the canal by hair fine channels, the canaliculi.
+
+104
+00:08:46,665 --> 00:08:53,372
+Volkmann's canals join neighbouring systems sideways, and the whole bone is wrapped in a periosteum.
+
+105
+00:08:55,000 --> 00:09:01,772
+Cartilage versus bone: matrix, cells, canaliculi, blood supply and covering.
+
+106
+00:09:01,772 --> 00:09:08,153
+That missing blood supply is why a torn knee cartilage heals so much more slowly than a broken bone.
+
+107
+00:09:08,153 --> 00:09:12,879
+And one more favourite: frog bone has no Haversian systems.
+
+108
+00:09:12,879 --> 00:09:14,372
+Those are a feature of mammals.
+
+109
+00:09:15,600 --> 00:09:19,443
+Blood is a connective tissue whose matrix is a liquid.
+
+110
+00:09:19,443 --> 00:09:29,846
+Spin it down: about fifty five percent is plasma, mostly water with proteins, sugar, salts and hormones, and forty five percent is formed elements.
+
+111
+00:09:29,846 --> 00:09:38,596
+Red cells, biconcave discs with no nucleus in mammals, four and a half to five and a half million in each cubic millimetre.
+
+112
+00:09:38,596 --> 00:09:42,151
+White cells, four to eleven thousand, for defence.
+
+113
+00:09:42,151 --> 00:09:46,734
+And platelets, one hundred and fifty to four hundred thousand, for clotting.
+
+114
+00:09:47,967 --> 00:09:49,805
+A counting chamber example.
+
+115
+00:09:49,805 --> 00:09:50,747
+Watch the units.
+
+116
+00:09:50,967 --> 00:10:03,043
+The volume over eighty small squares is eighty times one four hundredth of a square millimetre, times zero point one millimetre deep: zero point zero two cubic millimetres.
+
+117
+00:10:03,267 --> 00:10:11,459
+Five hundred cells in zero point zero two cubic millimetres is twenty five thousand per cubic millimetre of diluted blood.
+
+118
+00:10:11,667 --> 00:10:16,773
+Undo the dilution, times two hundred: five million per cubic millimetre.
+
+119
+00:10:16,773 --> 00:10:19,624
+Inside the normal range, so not anaemic.
+
+120
+00:10:22,033 --> 00:10:23,219
+Pause and think.
+
+121
+00:10:23,219 --> 00:10:24,990
+Which of these does cartilage lack?
+
+122
+00:10:31,867 --> 00:10:33,171
+Blood vessels.
+
+123
+00:10:33,171 --> 00:10:40,267
+Cartilage is avascular, fed by diffusion from the perichondrium, which is why it heals slowly.
+
+124
+00:10:40,267 --> 00:10:44,016
+It does have lacunae, chondrocytes, and a perichondrium.
+
