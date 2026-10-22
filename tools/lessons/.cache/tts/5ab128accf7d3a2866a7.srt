@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,979
+aa bb cc dd ee ff gg: seven couplets, fourteen lines.
+

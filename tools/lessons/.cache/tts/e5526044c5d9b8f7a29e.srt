@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,950
+The form.
+
+2
+00:00:00,950 --> 00:00:08,476
+Fourteen lines, which is why your exercises call it a sonnet, but there is no regular metre and no sonnet rhyme scheme.
+
+3
+00:00:08,476 --> 00:00:15,286
+Instead, seven rhyming couplets: a a, b b, c c, and so on.
+
+4
+00:00:15,286 --> 00:00:24,036
+The couplets are the argument: pairs of lines that answer one another, until the last couplet names the idea: may our lives rhyme.
+
