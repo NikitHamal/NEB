@@ -42,6 +42,7 @@ import com.neb.ians.R
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.ForumPostCard
+import com.neb.ians.ui.components.prewarmCardPreviews
 import com.neb.ians.ui.components.ShimmerHomeScreen
 import com.neb.ians.ui.components.WebEmptyState
 import com.neb.ians.ui.components.WebTopBar
@@ -75,6 +76,7 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val suggestedPeers by viewModel.suggestedPeers.collectAsStateWithLifecycle()
+    LaunchedEffect(uiState.recentPosts) { prewarmCardPreviews(uiState.recentPosts.map { it.content }) }
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
