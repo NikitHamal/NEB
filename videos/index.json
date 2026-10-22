@@ -2284,6 +2284,66 @@
    "script": "tools/lessons/scripts/math12/unit_16.py"
   },
   {
+   "id": "class-12/math12/unit_17.mp4",
+   "file": "class-12/math12/unit_17.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_17.mp4",
+     "subtitles": "class-12/math12/unit_17.srt",
+     "start": 0.0,
+     "end": 453.53,
+     "mb": 15.4
+    }
+   ],
+   "poster": "class-12/math12/unit_17.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 17,
+   "title": "Appendix: Retained Topics",
+   "subtitle": "Groups, Rolle and the Mean Value Theorem, numerical integration",
+   "lang": "en",
+   "sections": [
+    "Binary operations and groups",
+    "Cayley tables",
+    "Rolle's theorem",
+    "The Mean Value Theorem",
+    "Numerical integration (revision)"
+   ],
+   "seconds": 453.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.53,
+     "Binary operations and groups"
+    ],
+    [
+     147.9,
+     "Cayley tables"
+    ],
+    [
+     240.8,
+     "Rolle's theorem"
+    ],
+    [
+     309.07,
+     "The Mean Value Theorem"
+    ],
+    [
+     352.93,
+     "Numerical integration (revision)"
+    ],
+    [
+     422.33,
+     "Quick recap"
+    ]
+   ],
+   "mb": 15.4,
+   "script": "tools/lessons/scripts/math12/unit_17.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [

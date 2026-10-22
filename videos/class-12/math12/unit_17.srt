@@ -1,0 +1,368 @@
+1
+00:00:00,000 --> 00:00:04,793
+A clock with only four hours: nought, one, two, three.
+
+2
+00:00:04,793 --> 00:00:08,465
+Start at two and move on three: you land on one.
+
+3
+00:00:08,465 --> 00:00:11,877
+Start at three, move on one: back to nought.
+
+4
+00:00:11,877 --> 00:00:13,753
+Arithmetic that wraps round.
+
+5
+00:00:13,967 --> 00:00:23,239
+This little system obeys exactly the same rules as ordinary addition, and as rotations, and as multiplying by i.
+
+6
+00:00:23,239 --> 00:00:25,492
+That shared pattern is called a group.
+
+7
+00:00:25,492 --> 00:00:32,822
+It is one of three topics dropped from the timetable but still set in NEB papers, so this appendix covers them all.
+
+8
+00:00:38,300 --> 00:00:43,957
+Welcome to Class 12 Mathematics, Unit 17: the appendix of retained topics.
+
+9
+00:00:46,333 --> 00:00:47,572
+Five parts.
+
+10
+00:00:47,572 --> 00:00:50,775
+Binary operations and the group axioms.
+
+11
+00:00:50,775 --> 00:00:53,574
+Building and reading Cayley tables.
+
+12
+00:00:53,574 --> 00:00:54,941
+Rolle's theorem.
+
+13
+00:00:54,941 --> 00:00:56,556
+The Mean Value Theorem.
+
+14
+00:00:56,556 --> 00:01:00,747
+And a revision of numerical integration, as you would set it out in the exam.
+
+15
+00:01:05,100 --> 00:01:11,378
+A binary operation combines two elements of a set and must give an answer inside the same set.
+
+16
+00:01:11,378 --> 00:01:14,203
+Addition on the natural numbers: yes.
+
+17
+00:01:14,203 --> 00:01:18,409
+Subtraction: no, three minus five escapes.
+
+18
+00:01:18,409 --> 00:01:21,664
+Multiplication on the integers: yes.
+
+19
+00:01:21,664 --> 00:01:25,909
+Division: no, one over two is not an integer.
+
+20
+00:01:25,909 --> 00:01:27,833
+One counter example is enough.
+
+21
+00:01:29,033 --> 00:01:33,266
+A group is a set with an operation satisfying four axioms.
+
+22
+00:01:33,266 --> 00:01:34,217
+Closure.
+
+23
+00:01:34,217 --> 00:01:35,701
+Associativity.
+
+24
+00:01:35,701 --> 00:01:38,553
+An identity element that changes nothing.
+
+25
+00:01:38,553 --> 00:01:43,253
+And an inverse for every element that brings it back to the identity.
+
+26
+00:01:43,253 --> 00:01:47,615
+If the order of combining never matters, the group is abelian.
+
+27
+00:01:47,615 --> 00:01:49,765
+Its order is the number of elements.
+
+28
+00:01:50,967 --> 00:01:52,234
+Integers and naturals.
+
+29
+00:01:52,467 --> 00:01:59,610
+For the integers, all four axioms hold, it commutes, and it has infinitely many elements.
+
+30
+00:01:59,833 --> 00:02:03,715
+For the natural numbers there is no negative to undo three.
+
+31
+00:02:03,715 --> 00:02:06,179
+The inverse axiom fails, so it is not a group.
+
+32
+00:02:08,200 --> 00:02:09,240
+Two short proofs.
+
+33
+00:02:09,467 --> 00:02:16,723
+If e and e dash are both identities, combine them: the result equals each, so they are equal.
+
+34
+00:02:16,933 --> 00:02:25,887
+If b and c both undo a, use the identity, associativity, and the identity again: b equals c.
+
+35
+00:02:31,467 --> 00:02:36,963
+A finite group is best shown in a Cayley table, like a multiplication table.
+
+36
+00:02:36,963 --> 00:02:41,985
+Here is Z four, addition modulo four: the clock from the start.
+
+37
+00:02:42,200 --> 00:02:45,066
+Read the axioms straight off the table.
+
+38
+00:02:45,066 --> 00:02:48,139
+Every entry is in the set: closed.
+
+39
+00:02:48,139 --> 00:02:52,576
+The row for nought simply repeats the header: nought is the identity.
+
+40
+00:02:52,800 --> 00:02:59,611
+Find the identity in each row: one plus three, two plus two, three plus one.
+
+41
+00:02:59,611 --> 00:03:03,752
+So the inverse of one is three, two is its own inverse.
+
+42
+00:03:03,752 --> 00:03:10,015
+And the table is a mirror image across its diagonal: the group is abelian, of order four.
+
+43
+00:03:11,233 --> 00:03:18,735
+The four fourth roots of unity, one, minus one, i and minus i, under multiplication.
+
+44
+00:03:18,735 --> 00:03:25,479
+Every product stays in the set; one is the identity; i and minus i are inverses.
+
+45
+00:03:25,479 --> 00:03:28,461
+Another abelian group of order four.
+
+46
+00:03:28,461 --> 00:03:34,443
+Remember the cold open: multiplying by i is a quarter turn, just like the four hour clock.
+
+47
+00:03:35,667 --> 00:03:37,978
+Multiplication modulo five.
+
+48
+00:03:38,200 --> 00:03:44,773
+Fill the table: every entry is one of one to four, never zero, because five is prime.
+
+49
+00:03:45,000 --> 00:03:53,427
+One is the identity; find the ones in each row for the inverses: two and three undo each other, four undoes itself.
+
+50
+00:03:53,633 --> 00:03:58,770
+With six instead of five, two times three gives nought, which escapes the set.
+
+51
+00:04:04,367 --> 00:04:05,606
+Rolle's theorem.
+
+52
+00:04:05,606 --> 00:04:12,559
+If a smooth curve starts and ends at the same height, then somewhere in between its tangent is flat.
+
+53
+00:04:12,559 --> 00:04:20,111
+Three conditions: continuous on the closed interval, differentiable inside it, and equal values at the ends.
+
+54
+00:04:20,111 --> 00:04:24,058
+Then f dash of c is zero for some c strictly between.
+
+55
+00:04:24,267 --> 00:04:37,342
+For x squared minus four x plus three on one to three: both ends are zero, the polynomial is smooth, and f dash of c is zero at c equals two, inside the interval.
+
+56
+00:04:37,342 --> 00:04:37,966
+Verified.
+
+57
+00:04:39,167 --> 00:04:40,096
+Two flat points.
+
+58
+00:04:40,400 --> 00:04:43,886
+Equal end values and a polynomial: the conditions hold.
+
+59
+00:04:44,100 --> 00:04:52,588
+f dash is zero at plus or minus two over root three, both inside: Rolle promises at least one, not only one.
+
+60
+00:04:54,600 --> 00:04:55,827
+When the conditions fail.
+
+61
+00:04:56,033 --> 00:05:02,204
+The absolute value has a sharp corner at nought: no derivative there, and the slope is never zero.
+
+62
+00:05:02,433 --> 00:05:07,039
+One over x is not even defined at nought, so it is not continuous.
+
+63
+00:05:12,633 --> 00:05:15,721
+Tilt Rolle's picture and you get the Mean Value Theorem.
+
+64
+00:05:15,721 --> 00:05:17,830
+Join the ends of the curve with a chord.
+
+65
+00:05:17,830 --> 00:05:26,059
+Somewhere in between, a tangent runs exactly parallel to that chord: f dash of c equals the chord's slope.
+
+66
+00:05:26,059 --> 00:05:32,187
+If you drive sixty kilometres in an hour, at some instant your speedometer read exactly sixty.
+
+67
+00:05:32,400 --> 00:05:38,014
+For x squared on one to three, the chord's slope is eight over two, four.
+
+68
+00:05:38,014 --> 00:05:40,824
+And two c equals four at c equals two.
+
+69
+00:05:42,633 --> 00:05:44,028
+Exam tip.
+
+70
+00:05:44,028 --> 00:05:50,382
+Write out the conditions, find c, and say that c lies inside the open interval.
+
+71
+00:05:50,382 --> 00:05:52,163
+That last sentence is a mark.
+
+72
+00:05:56,500 --> 00:06:00,746
+Finally, numerical integration as you set it out in the exam.
+
+73
+00:06:00,746 --> 00:06:06,814
+Integral one to two of one over x, with four strips, so h is a quarter.
+
+74
+00:06:06,814 --> 00:06:08,845
+Make the ordinate table first.
+
+75
+00:06:08,845 --> 00:06:13,728
+The trapezium rule weights the ends once and the rest twice.
+
+76
+00:06:13,728 --> 00:06:17,043
+Simpson's rule weights them one, four, two, four, one.
+
+77
+00:06:17,267 --> 00:06:24,235
+The trapezium rule gives point six nine seven; Simpson gives point six nine three two five.
+
+78
+00:06:24,235 --> 00:06:28,740
+The true value, log two, is point six nine three one five.
+
+79
+00:06:28,740 --> 00:06:32,270
+Simpson's error is about a fortieth of the trapezium's.
+
+80
+00:06:34,700 --> 00:06:35,470
+Pause and think.
+
+81
+00:06:42,767 --> 00:06:45,282
+The identity: it changes nothing.
+
+82
+00:06:45,282 --> 00:06:46,555
+In Z four it is nought.
+
+83
+00:06:48,533 --> 00:06:48,968
+One more.
+
+84
+00:06:56,600 --> 00:07:01,545
+Two: the chord slope is four, and f dash of c equals two c.
+
+85
+00:07:03,733 --> 00:07:04,802
+Quick recap.
+
+86
+00:07:04,802 --> 00:07:08,683
+The four group axioms and how to read them from a Cayley table.
+
+87
+00:07:08,683 --> 00:07:12,784
+Rolle's theorem and the Mean Value Theorem, with their conditions.
+
+88
+00:07:12,784 --> 00:07:17,094
+And the trapezium and Simpson weights for numerical integration.
+
+89
+00:07:17,094 --> 00:07:19,490
+That completes Class 12 Mathematics.
+
+90
+00:07:23,667 --> 00:07:27,783
+That was the appendix, and the end of Class 12 Mathematics.
+
+91
+00:07:27,783 --> 00:07:29,984
+Well done for working through all of it.
+
+92
+00:07:29,984 --> 00:07:31,147
+See you in the next subject.
+
