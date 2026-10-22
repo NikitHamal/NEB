@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,132
+Six parts.
+
+2
+00:00:01,132 --> 00:00:04,244
+Software projects and the development process.
+
+3
+00:00:04,244 --> 00:00:07,265
+The SDLC, phase by phase.
+
+4
+00:00:07,265 --> 00:00:09,908
+Analysts, requirements and design.
+
+5
+00:00:09,908 --> 00:00:11,875
+Data flow diagrams.
+
+6
+00:00:11,875 --> 00:00:13,372
+Software quality.
+
+7
+00:00:13,372 --> 00:00:19,635
+And the development models: waterfall, prototype, incremental, spiral and agile.
+

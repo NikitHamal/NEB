@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,875
+How are requirements collected?
+
+2
+00:00:01,875 --> 00:00:04,361
+Interviews go deep but are slow.
+
+3
+00:00:04,361 --> 00:00:06,992
+Questionnaires reach many people cheaply.
+
+4
+00:00:06,992 --> 00:00:09,817
+Observation shows what people really do.
+
+5
+00:00:09,817 --> 00:00:12,122
+Documents show the real data.
+
+6
+00:00:12,122 --> 00:00:18,802
+And prototypes let users react to a screen, which they are much better at than describing what they want.
+
+7
+00:00:18,802 --> 00:00:30,182
+The results go into the SRS, where every requirement must be testable: the system should be fast is useless; a receipt shall print within five seconds can be checked.
+

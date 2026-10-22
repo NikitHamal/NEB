@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,989
+A school orders fee software, and nobody notices that it ignores the sibling discount.
+
+2
+00:00:05,989 --> 00:00:11,184
+Fixed while the requirements are being written, the mistake costs about two thousand rupees.
+
+3
+00:00:11,184 --> 00:00:13,841
+Found in testing, twenty times that.
+
+4
+00:00:13,841 --> 00:00:18,763
+Found after the bills have gone out, a hundred times: two lakh rupees.
+

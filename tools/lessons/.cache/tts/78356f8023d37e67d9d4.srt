@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,518
+The prototype model builds a quick, rough version, lets the user try it, and refines it, round and round, until the requirements are clear.
+
+2
+00:00:09,518 --> 00:00:21,289
+The incremental model delivers the system in slices: a working core first, then fees, then attendance, then results, so the customer has something useful after a few weeks.
+

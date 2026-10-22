@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,158
+Quick recap.
+
+2
+00:00:01,158 --> 00:00:03,867
+Projects and their four constraints.
+
+3
+00:00:03,867 --> 00:00:06,757
+The eight phases of the SDLC.
+
+4
+00:00:06,757 --> 00:00:09,427
+Analysts, requirements and design.
+
+5
+00:00:09,427 --> 00:00:11,744
+Data flow diagrams.
+
+6
+00:00:11,744 --> 00:00:13,190
+Software quality.
+
+7
+00:00:13,190 --> 00:00:17,760
+And the five development models, each suited to a different kind of project.
+

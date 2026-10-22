@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,098
+Design turns the requirements into a blueprint.
+
+2
+00:00:03,098 --> 00:00:08,463
+Logical design says what the system does, with diagrams that ignore the machine.
+
+3
+00:00:08,463 --> 00:00:13,606
+Physical design says how: tables, files, screens and modules.
+
+4
+00:00:13,606 --> 00:00:23,632
+Two words judge a design: high cohesion, each module doing one job, and low coupling, modules depending on each other as little as possible.
+

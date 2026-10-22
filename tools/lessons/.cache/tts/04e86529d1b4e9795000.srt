@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,919
+It sounds high, but it is four and a half days of downtime a year.
+

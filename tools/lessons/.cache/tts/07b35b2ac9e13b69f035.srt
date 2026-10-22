@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,651
+Database design converts the ER diagram into tables with three rules.
+
+2
+00:00:05,651 --> 00:00:07,812
+Every entity becomes a table.
+
+3
+00:00:07,812 --> 00:00:14,583
+A one to many relationship puts the key of the one side into the many table as a foreign key.
+
+4
+00:00:14,583 --> 00:00:23,072
+And a many to many relationship becomes a new table, keyed by the pair of foreign keys: student enrols in course.
+

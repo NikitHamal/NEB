@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,010
+And effort is not time: forty people for one month would not work, because they would have seven hundred and eighty lines of communication between them.
+

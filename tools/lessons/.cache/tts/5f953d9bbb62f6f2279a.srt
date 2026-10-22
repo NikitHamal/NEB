@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,843
+The change costs three weeks, and nothing already built is wasted.
+
+2
+00:00:04,843 --> 00:00:09,075
+In waterfall it would mean redoing design, code and tests.
+

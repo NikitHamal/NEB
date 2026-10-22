@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,216
+The earlier a mistake is caught, the cheaper it is.
+
+2
+00:00:03,216 --> 00:00:09,388
+That one fact explains why software is built through careful processes and models.
+
+3
+00:00:09,388 --> 00:00:10,963
+This unit is about them.
+

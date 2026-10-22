@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,549
+The development models.
+
+2
+00:00:01,549 --> 00:00:11,445
+Waterfall, the oldest, runs the phases once, strictly in order, each signed off before the next, like water falling down steps.
+
+3
+00:00:11,445 --> 00:00:15,442
+It is simple, well documented and easy to manage.
+
+4
+00:00:15,442 --> 00:00:21,119
+But the customer sees nothing until the end, and a changed requirement is very expensive.
+
+5
+00:00:21,119 --> 00:00:26,562
+It suits short projects with a fixed specification, like a system defined by a law.
+

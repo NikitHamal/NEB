@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,575
+Forty person months at sixty thousand is twenty four lakh; with hardware, twenty seven lakh.
+

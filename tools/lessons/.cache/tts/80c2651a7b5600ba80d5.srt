@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,242
+Software quality is not just no bugs.
+
+2
+00:00:03,242 --> 00:00:10,234
+It is conformance to the requirements, to development standards, and to what any professional would expect.
+
+3
+00:00:10,234 --> 00:00:23,502
+The international standard ISO twenty five oh ten lists characteristics such as functional suitability, performance, usability, reliability, security, maintainability and portability.
+

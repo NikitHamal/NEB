@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,916
+Boehm's spiral model is driven by risk.
+
+2
+00:00:02,916 --> 00:00:13,203
+Each loop passes through four quadrants: set objectives, identify and resolve risks with a prototype, develop and test, then plan the next loop.
+
+3
+00:00:13,203 --> 00:00:16,119
+The spiral grows as cost accumulates.
+
+4
+00:00:16,119 --> 00:00:24,114
+It suits large, expensive, safety critical systems, but it is costly and needs real risk expertise.
+

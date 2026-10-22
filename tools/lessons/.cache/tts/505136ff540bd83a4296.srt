@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,630
+Two roles look in opposite directions.
+
+2
+00:00:02,630 --> 00:00:09,062
+The system analyst faces the customer: studies the business problem and defines what the system must do.
+
+3
+00:00:09,062 --> 00:00:15,247
+The software engineer faces the machine: designs, builds and tests the software that does it.
+
+4
+00:00:15,247 --> 00:00:19,036
+The requirement specification is the contract between them.
+

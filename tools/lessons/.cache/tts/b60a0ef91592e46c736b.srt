@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,372
+The four kinds of feasibility are worth memorising: technical, economic, operational, and schedule or legal.
+

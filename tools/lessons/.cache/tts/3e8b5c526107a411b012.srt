@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,265
+That was the software process model.
+
+2
+00:00:02,265 --> 00:00:08,828
+Next and last, recent trends in technology: AI, cloud, blockchain and more.
+
+3
+00:00:08,828 --> 00:00:09,778
+See you there.
+
