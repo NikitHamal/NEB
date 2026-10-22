@@ -8,15 +8,16 @@
     python scripts/perf_probe.py --compare /tmp/neb-perf/before /tmp/neb-perf/after
 
 Each run copies the seed database (so probes never see each other's writes), applies any new
-migrations to the copy, freezes time.time() at the seed's clock (feed scores, poll expiry and
-``generatedAt`` are then reproducible) and calls every endpoint anonymously and as the seeded
-student with ``Authorization: Bearer <token>``, exactly like the app. Per call it records the
-status, the queries of a cold call (cache cleared first) and of a warm one, the cold time, the
+migrations to the copy, freezes time.time() and timezone.now() at the seed's clock (feed scores,
+poll expiry and ``generatedAt`` are then reproducible) and calls every endpoint anonymously and as
+the seeded student with ``Authorization: Bearer <token>``, exactly like the app. Per call it records
+the status, the queries of a cold call (cache cleared first) and of a warm one, the cold time, the
 median of --repeat warm calls, and the response size; bodies go to OUT/bodies, the cold SQL to
 OUT/sql. ``--compare`` diffs two runs' bodies and prints the before/after table.
 ``--profile PATH`` prints a cProfile of 200 warm calls to one URL (middleware overhead).
 """
 import argparse
+import datetime
 import functools
 import json
 import os
@@ -51,6 +52,8 @@ def setup(seed_db, work_db):
     from django.conf import settings
     settings.DATABASES['default']['NAME'] = work_db or seed_db
     django.setup()
+    from django.utils import timezone
+    timezone.now = functools.partial(datetime.datetime.fromtimestamp, FROZEN, datetime.timezone.utc)
     if work_db:
         from django.core.management import call_command
         call_command('migrate', verbosity=0, interactive=False)
@@ -172,7 +175,7 @@ def normalise(body, ctype):
     return _CSRF.sub('<csrf>', _NONCE.sub(r'\1<n>', text))
 
 
-def run(out, repeat, only):
+def run(out, repeat, only, pages=endpoints, make_client=client_for):
     from django.core.cache import cache
     from django.db import connection
     from django.test.utils import CaptureQueriesContext
@@ -180,13 +183,13 @@ def run(out, repeat, only):
     os.makedirs(os.path.join(out, 'bodies'), exist_ok=True)
     os.makedirs(os.path.join(out, 'sql'), exist_ok=True)
     results = []
-    todo = [(n, p, w) for n, p, w in endpoints(targets()) if not only or re.search(only, n)]
+    todo = [(n, p, w) for n, p, w in pages(targets()) if not only or re.search(only, n)]
     for name, path, whos in todo:  # warm Python up (lazy imports, URL resolver, templates)
         for who in whos:
-            client_for(who).get(path)
+            make_client(who).get(path)
     for name, path, whos in todo:
         for who in whos:
-            client = client_for(who)
+            client = make_client(who)
             cache.clear()
             with CaptureQueriesContext(connection) as cold_q:
                 t0 = time.perf_counter()
@@ -250,10 +253,10 @@ def compare(a, b):
             print('    ' + '\n    '.join(diff[:40]))
 
 
-def profile(path, who, n):
+def profile(path, who, n, make_client=client_for):
     import cProfile
     import pstats
-    client = client_for(who)
+    client = make_client(who)
     client.get(path)
     prof = cProfile.Profile()
     t0 = time.perf_counter()
