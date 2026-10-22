@@ -1964,6 +1964,76 @@
    "script": "tools/lessons/scripts/math12/unit_11.py"
   },
   {
+   "id": "class-12/math12/unit_12.mp4",
+   "file": "class-12/math12/unit_12.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_12.mp4",
+     "subtitles": "class-12/math12/unit_12.srt",
+     "start": 0.0,
+     "end": 692.0,
+     "mb": 22.7
+    }
+   ],
+   "poster": "class-12/math12/unit_12.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 12,
+   "title": "Derivatives",
+   "subtitle": "Slopes, rates and the best possible answer",
+   "lang": "en",
+   "sections": [
+    "Hyperbolic functions",
+    "L'Hospital's rule",
+    "Differentials",
+    "Tangent and normal",
+    "Rates of change",
+    "Increasing, decreasing, maxima and minima",
+    "Concavity and inflection"
+   ],
+   "seconds": 692.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     65.67,
+     "Hyperbolic functions"
+    ],
+    [
+     147.13,
+     "L'Hospital's rule"
+    ],
+    [
+     243.43,
+     "Differentials"
+    ],
+    [
+     323.37,
+     "Tangent and normal"
+    ],
+    [
+     380.67,
+     "Rates of change"
+    ],
+    [
+     475.13,
+     "Increasing, decreasing, maxima and minima"
+    ],
+    [
+     583.77,
+     "Concavity and inflection"
+    ],
+    [
+     659.17,
+     "Quick recap"
+    ]
+   ],
+   "mb": 22.7,
+   "script": "tools/lessons/scripts/math12/unit_12.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
