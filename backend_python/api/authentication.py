@@ -15,15 +15,13 @@ anyone mint a valid token for an arbitrary email via our Firebase project.
 """
 import logging
 from django.conf import settings
-from django.core.cache import cache
 from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
 from .models import User
-from .security import get_user_by_auth_token, hash_auth_token
+from .security import get_user_by_auth_token, hash_auth_token  # noqa: F401 (re-exported)
 
 logger = logging.getLogger(__name__)
 
-_AUTH_TOKEN_CACHE_SECONDS = 300
 
 
 def verify_google_token(id_token: str):
@@ -79,8 +77,9 @@ class AuthTokenAuthentication(BaseAuthentication):
     """
     DRF authentication backend.
     Reads Authorization: Bearer <auth_token> header and resolves it
-    to a User via the server-issued auth_token stored in the User model.
-    Results are cached for 5 minutes to avoid per-request DB lookups.
+    to a User via the server-issued auth_token stored in the User model
+    (one indexed lookup; nothing is cached, so a ban or revocation applies
+    on the next request).
     Expired, revoked, bot, and banned tokens are all rejected.
     Does NOT raise an error for missing/invalid tokens — views handle that.
     """
@@ -96,13 +95,13 @@ class AuthTokenAuthentication(BaseAuthentication):
 
         try:
             # Always resolve through the central helper so expiry, bot, and
-            # ban checks apply. The helper result is cached briefly; the
-            # cached user row is re-validated below so a ban/lock takes
-            # effect even within the cache window.
+            # ban checks apply. (This used to also write an `auth_user:<hash>`
+            # cache key on every request that nothing ever read: one Redis
+            # round trip per authenticated API call, gone. Revocation still
+            # deletes the key, harmlessly.)
             user = get_user_by_auth_token(token)
             if getattr(user, 'is_bot', False) or getattr(user, 'is_banned', False):
                 return None
-            cache.set(f'auth_user:{hash_auth_token(token)}', user.id, _AUTH_TOKEN_CACHE_SECONDS)
             return (user, token)
         except User.DoesNotExist:
             logger.warning("Auth token not found, expired, revoked, or account barred")
