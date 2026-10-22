@@ -456,6 +456,71 @@
    "script": "tools/lessons/scripts/eng12/unit_07.py"
   },
   {
+   "id": "class-12/eng12/unit_08.mp4",
+   "file": "class-12/eng12/unit_08.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_08.mp4",
+     "subtitles": "class-12/eng12/unit_08.srt",
+     "start": 0.0,
+     "end": 498.23,
+     "mb": 16.9
+    }
+   ],
+   "poster": "class-12/eng12/unit_08.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 8,
+   "title": "A Day",
+   "subtitle": "Emily Dickinson · a poem",
+   "lang": "en",
+   "sections": [
+    "Emily Dickinson",
+    "The sunrise, told",
+    "The sunset, not known",
+    "Themes",
+    "Form, metre and rhyme",
+    "Devices"
+   ],
+   "seconds": 498.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     46.0,
+     "Emily Dickinson"
+    ],
+    [
+     110.27,
+     "The sunrise, told"
+    ],
+    [
+     202.6,
+     "The sunset, not known"
+    ],
+    [
+     283.2,
+     "Themes"
+    ],
+    [
+     342.53,
+     "Form, metre and rhyme"
+    ],
+    [
+     400.07,
+     "Devices"
+    ],
+    [
+     467.13,
+     "Quick recap"
+    ]
+   ],
+   "mb": 16.9,
+   "script": "tools/lessons/scripts/eng12/unit_08.py"
+  },
+  {
    "id": "class-12/eng12/unit_09.mp4",
    "file": "class-12/eng12/unit_09.mp4",
    "parts": [
