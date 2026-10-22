@@ -1717,6 +1717,78 @@
    "script": "tools/lessons/scripts/math12/unit_07.py"
   },
   {
+   "id": "class-12/math12/unit_08.mp4",
+   "file": "class-12/math12/unit_08.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_08.part1.mp4",
+     "subtitles": "class-12/math12/unit_08.part1.srt",
+     "start": 0.0,
+     "end": 411.5,
+     "mb": 13.4
+    },
+    {
+     "file": "class-12/math12/unit_08.part2.mp4",
+     "subtitles": "class-12/math12/unit_08.part2.srt",
+     "start": 411.5,
+     "end": 862.867,
+     "mb": 14.8
+    }
+   ],
+   "poster": "class-12/math12/unit_08.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 8,
+   "title": "Conic Sections",
+   "subtitle": "One cone, one plane, four curves",
+   "lang": "en",
+   "sections": [
+    "One definition, four curves",
+    "Circle: condition of tangency",
+    "Tangent and normal to a circle",
+    "Parabola",
+    "Ellipse",
+    "Hyperbola"
+   ],
+   "seconds": 862.9,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     68.07,
+     "One definition, four curves"
+    ],
+    [
+     138.73,
+     "Circle: condition of tangency"
+    ],
+    [
+     287.7,
+     "Tangent and normal to a circle"
+    ],
+    [
+     410.73,
+     "Parabola"
+    ],
+    [
+     552.63,
+     "Ellipse"
+    ],
+    [
+     674.67,
+     "Hyperbola"
+    ],
+    [
+     826.03,
+     "Quick recap"
+    ]
+   ],
+   "mb": 28.3,
+   "script": "tools/lessons/scripts/math12/unit_08.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
