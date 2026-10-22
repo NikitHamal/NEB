@@ -651,6 +651,71 @@
    "script": "tools/lessons/scripts/eng12/unit_10.py"
   },
   {
+   "id": "class-12/eng12/unit_11.mp4",
+   "file": "class-12/eng12/unit_11.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_11.mp4",
+     "subtitles": "class-12/eng12/unit_11.srt",
+     "start": 0.0,
+     "end": 473.4,
+     "mb": 18.1
+    }
+   ],
+   "poster": "class-12/eng12/unit_11.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 11,
+   "title": "The Awakening Age",
+   "subtitle": "Ben Okri · a poem",
+   "lang": "en",
+   "sections": [
+    "Ben Okri and the poem's occasion",
+    "Couplets 1–2: the summons",
+    "Couplets 3–4: the rope",
+    "Couplets 5–7: perception and harvest",
+    "Themes",
+    "Form and devices"
+   ],
+   "seconds": 473.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     48.2,
+     "Ben Okri and the poem's occasion"
+    ],
+    [
+     118.27,
+     "Couplets 1–2: the summons"
+    ],
+    [
+     177.03,
+     "Couplets 3–4: the rope"
+    ],
+    [
+     239.2,
+     "Couplets 5–7: perception and harvest"
+    ],
+    [
+     336.27,
+     "Themes"
+    ],
+    [
+     368.03,
+     "Form and devices"
+    ],
+    [
+     444.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.1,
+   "script": "tools/lessons/scripts/eng12/unit_11.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
