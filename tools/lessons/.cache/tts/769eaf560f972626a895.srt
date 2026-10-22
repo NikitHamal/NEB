@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:06,002
+A constructor is a member function with the same name as the class and no return type.
+
+2
+00:00:06,002 --> 00:00:11,770
+It runs automatically when an object is created, to give the data its starting values.
+
+3
+00:00:11,770 --> 00:00:15,130
+You can have a default constructor and a parameterised one.
+
+4
+00:00:15,130 --> 00:00:21,328
+The destructor, with a tilde, runs automatically when the object is destroyed.
+
+5
+00:00:21,328 --> 00:00:28,177
+And a static member has one copy shared by every object: here, a count of students created.
+

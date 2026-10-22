@@ -1,0 +1,1 @@
+{"dur": 5.040792, "cues": [[0, 5.444, "The base class constructor runs first; destructors run in the reverse order."]], "text": "The base class constructor runs first; destructors run in the reverse order."}

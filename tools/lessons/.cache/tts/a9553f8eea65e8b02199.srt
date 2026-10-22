@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:02,239
+Paradigms.
+
+3
+00:00:02,239 --> 00:00:06,510
+Classes, objects, constructors and destructors.
+
+4
+00:00:06,510 --> 00:00:09,010
+Encapsulation and abstraction.
+
+5
+00:00:09,010 --> 00:00:11,132
+The five kinds of inheritance.
+
+6
+00:00:11,132 --> 00:00:14,739
+And polymorphism, at compile time and at run time.
+

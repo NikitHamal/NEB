@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,486
+Overloading against overriding.
+
+2
+00:00:02,486 --> 00:00:08,307
+Overloading is in one class, with different signatures, resolved at compile time.
+
+3
+00:00:08,307 --> 00:00:17,434
+Overriding redefines a base function in a derived class with the identical signature, resolved at run time, and needs the word virtual.
+
+4
+00:00:17,434 --> 00:00:23,763
+Objects interact by sending messages: calling a member function on a named object.
+

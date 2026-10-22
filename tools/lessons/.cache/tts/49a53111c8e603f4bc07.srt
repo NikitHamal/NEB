@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,687
+Object oriented programming seals the data inside an object.
+
+2
+00:00:04,687 --> 00:00:09,726
+The only way in is through the object's own methods, which can check what they are given.
+
+3
+00:00:09,726 --> 00:00:12,408
+Minus five hundred is simply rejected.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,953
+In an ordinary C program, data often sits out in the open, and any function can change it.
+
+2
+00:00:06,953 --> 00:00:14,466
+One buggy function sets a student's marks to minus five hundred, and every report that reads it is now wrong.
+

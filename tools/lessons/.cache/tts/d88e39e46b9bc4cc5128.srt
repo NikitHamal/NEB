@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,403
+Polymorphism means many forms: one name, several behaviours.
+
+2
+00:00:05,403 --> 00:00:11,158
+With function overloading, several functions share a name but differ in their parameters.
+
+3
+00:00:11,158 --> 00:00:19,778
+Call volume with three integers, and the compiler, before the program even runs, picks the matching version: sixty.
+
+4
+00:00:19,778 --> 00:00:22,070
+That is compile time polymorphism.
+

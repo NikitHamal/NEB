@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,445
+Why use objects?
+
+2
+00:00:01,445 --> 00:00:04,713
+Tested classes can be reused and extended.
+
+3
+00:00:04,713 --> 00:00:06,953
+Private data is safe.
+
+4
+00:00:06,953 --> 00:00:10,156
+A bug can only be in the class that owns the data.
+
+5
+00:00:10,156 --> 00:00:14,700
+Objects mirror real things, so designs are easier to discuss.
+
+6
+00:00:14,700 --> 00:00:18,789
+New features often mean a new class, not edits everywhere.
+
+7
+00:00:18,789 --> 00:00:21,458
+And teams can split the work by class.
+
+8
+00:00:21,458 --> 00:00:26,692
+The costs: larger, slightly slower programs and more design time.
+

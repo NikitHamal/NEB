@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,447
+That was object oriented programming.
+
+2
+00:00:02,447 --> 00:00:08,502
+Next, the software process model: how real software is planned, built and tested.
+
+3
+00:00:08,502 --> 00:00:09,518
+See you there.
+
