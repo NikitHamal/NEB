@@ -280,15 +280,15 @@ def _may_have_poll(post):
     return not rel.is_cached(post) or rel.get_cached_value(post) is not None
 
 
-def _paginated_response(request, queryset, serializer_class, *, context=None, default_page_size=50, max_page_size=100):
-    paginator = PageNumberPagination()
+def _page_size(request, default_page_size, max_page_size):
     try:
         page_size = int(request.query_params.get('page_size', default_page_size))
     except (TypeError, ValueError):
         page_size = default_page_size
-    paginator.page_size = max(1, min(page_size, max_page_size))
-    page = paginator.paginate_queryset(queryset, request)
+    return max(1, min(page_size, max_page_size))
 
+
+def _serialize_page(request, page, serializer_class, context):
     ctx = context or {}
     user = _get_user_from_request(request)
     if page:
@@ -306,9 +306,46 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
                 ctx['bookmarked_reply_ids'] = set(Bookmark.objects.filter(
                     user=user, target_type='reply', target_id__in=ids
                 ).values_list('target_id', flat=True))
+    return serializer_class(page, many=True, context=ctx).data
 
-    serializer = serializer_class(page, many=True, context=ctx)
-    return paginator.get_paginated_response(serializer.data)
+
+def _paginated_response(request, queryset, serializer_class, *, context=None, default_page_size=50, max_page_size=100):
+    paginator = PageNumberPagination()
+    paginator.page_size = _page_size(request, default_page_size, max_page_size)
+    page = paginator.paginate_queryset(queryset, request)
+    return paginator.get_paginated_response(_serialize_page(request, page, serializer_class, context))
+
+
+def _page_rows(request, queryset, page_size):
+    """The rows of one PageNumberPagination page, without the COUNT(*) behind its total.
+
+    For callers that never send the total to the client. Pages are numbered the same way
+    and a bad or out-of-range ?page= gets the same 404 ("Invalid page."): a page past the
+    end is exactly a page with no rows, other than page 1."""
+    from rest_framework.exceptions import NotFound
+    raw = request.query_params.get(PageNumberPagination.page_query_param) or 1
+    if raw in PageNumberPagination.last_page_strings:
+        paginator = PageNumberPagination()  # 'last' needs the total
+        paginator.page_size = page_size
+        return paginator.paginate_queryset(queryset, request)
+    invalid = NotFound(PageNumberPagination.invalid_page_message.format(page_number=raw, message=''))
+    try:
+        number = int(raw)
+    except (TypeError, ValueError):
+        raise invalid
+    if number < 1:
+        raise invalid
+    bottom = (number - 1) * page_size
+    rows = list(queryset[bottom:bottom + page_size])
+    if not rows and number > 1:
+        raise invalid
+    return rows
+
+
+def _page_results(request, queryset, serializer_class, *, context=None, default_page_size=50, max_page_size=100):
+    """``_paginated_response(...).data['results']`` without counting the whole result set."""
+    page = _page_rows(request, queryset, _page_size(request, default_page_size, max_page_size))
+    return _serialize_page(request, page, serializer_class, context)
 
 def _link_oauth_user_model(email, user_pk, display_name, photo_url, provider_verified=True):
     """Link an OAuth user to an existing account by verified email.
