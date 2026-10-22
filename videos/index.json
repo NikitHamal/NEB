@@ -1406,6 +1406,71 @@
    "script": "tools/lessons/scripts/eng12/unit_13.py"
   },
   {
+   "id": "class-12/eng12/unit_14.mp4",
+   "file": "class-12/eng12/unit_14.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_14.mp4",
+     "subtitles": "class-12/eng12/unit_14.srt",
+     "start": 0.0,
+     "end": 492.53,
+     "mb": 19.3
+    }
+   ],
+   "poster": "class-12/eng12/unit_14.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 14,
+   "title": "Marriage as a Social Institution",
+   "subtitle": "Steven L. Nock · an essay",
+   "lang": "en",
+   "sections": [
+    "Nock and the essay's argument",
+    "An institution with soft boundaries",
+    "Durkheim: limits on desire",
+    "Marriage vs cohabitation",
+    "Marriage as social capital",
+    "Normative marriage: six dimensions"
+   ],
+   "seconds": 492.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.37,
+     "Nock and the essay's argument"
+    ],
+    [
+     121.97,
+     "An institution with soft boundaries"
+    ],
+    [
+     179.23,
+     "Durkheim: limits on desire"
+    ],
+    [
+     241.93,
+     "Marriage vs cohabitation"
+    ],
+    [
+     311.73,
+     "Marriage as social capital"
+    ],
+    [
+     378.77,
+     "Normative marriage: six dimensions"
+    ],
+    [
+     462.2,
+     "Quick recap"
+    ]
+   ],
+   "mb": 19.3,
+   "script": "tools/lessons/scripts/eng12/unit_14.py"
+  },
+  {
    "id": "class-12/math12/unit_01.mp4",
    "file": "class-12/math12/unit_01.part1.mp4",
    "parts": [
