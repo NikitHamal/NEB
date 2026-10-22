@@ -30,6 +30,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private val OFFLINE_EXTENSIONS = setOf("pdf", "mp4", "mp3", "m4a", "ogg", "wav")
+
 data class DownloadedResource(
     val resourceId: String,
     val title: String,
@@ -46,21 +48,31 @@ data class DownloadedResource(
 class ResourceDownloadManager @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
-    private val client = OkHttpClient.Builder()
-        .addInterceptor(WafChallengeInterceptor(context))
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(90, TimeUnit.SECONDS)
-        .build()
+    private val client by lazy {
+        OkHttpClient.Builder()
+            .addInterceptor(WafChallengeInterceptor(context))
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(90, TimeUnit.SECONDS)
+            .build()
+    }
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private val activeDownloads = mutableMapOf<String, Job>()
     private val indexLock = Any()
     private val resourceDir = File(context.filesDir, "offline_resources").apply { mkdirs() }
     private val indexFile = File(resourceDir, "downloads.json")
     private val _downloadProgress = MutableStateFlow<Map<String, Int>>(emptyMap())
-    private val _downloads = MutableStateFlow(loadIndex())
+
+    // The index (a JSON file, an exists() per entry and two folder scans) is read on the IO scope
+    // as soon as this is built, which happens on the main thread with the media player at launch.
+    // Anyone who needs it sooner waits for that read instead of starting another.
+    private val _downloads by lazy { MutableStateFlow(loadIndex()) }
+
+    init {
+        scope.launch { _downloads.value }
+    }
 
     val downloadProgress: StateFlow<Map<String, Int>> = _downloadProgress.asStateFlow()
-    val downloads: StateFlow<List<DownloadedResource>> = _downloads.asStateFlow()
+    val downloads: StateFlow<List<DownloadedResource>> by lazy { _downloads.asStateFlow() }
 
     fun downloadResourceFromApi(resource: ApiResource) {
         if (findDownloaded(resource.id)?.let { File(it.localPath).exists() } == true) return
@@ -218,7 +230,7 @@ class ResourceDownloadManager @Inject constructor(
         } else emptyList()
         val indexedIds = indexed.map { it.resourceId }.toSet()
         val orphanFiles = resourceDir.listFiles()
-            ?.filter { it.isFile && it.extension.matches(Regex("pdf|mp4|mp3|m4a|ogg|wav")) && !it.name.endsWith(".part") }
+            ?.filter { it.isFile && it.extension in OFFLINE_EXTENSIONS && !it.name.endsWith(".part") }
             ?.mapNotNull { file ->
                 val id = file.nameWithoutExtension.substringBeforeLast('.')
                 if (id in indexedIds) return@mapNotNull null
