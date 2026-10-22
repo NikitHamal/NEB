@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,825
+Subtract: zero equals one.
+
+2
+00:00:02,825 --> 00:00:03,997
+Impossible.
+
+3
+00:00:03,997 --> 00:00:09,570
+Changing fourteen to fifteen turned infinitely many solutions into none.
+

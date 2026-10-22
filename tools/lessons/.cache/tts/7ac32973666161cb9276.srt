@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,281
+Multiply both sides on the left by A inverse, which exists exactly when the determinant of A is not zero.
+

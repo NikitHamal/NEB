@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,583
+Four: delta over s, eighty four over twenty one.
+
+2
+00:00:04,583 --> 00:00:08,033
+Eight point one two five is the circumradius.
+

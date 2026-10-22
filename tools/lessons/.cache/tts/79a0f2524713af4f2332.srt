@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,596
+Put thirteen and three in the x column: minus twenty two.
+
+2
+00:00:04,596 --> 00:00:07,539
+In the y column: minus thirty three.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:11,067
+The second method uses three elementary row operations: swap two rows, multiply a row by a non zero number, and add a multiple of one row to another.
+
+2
+00:00:11,067 --> 00:00:16,692
+They are exactly what you do when you eliminate by hand, so they never change the answer.
+
+3
+00:00:16,692 --> 00:00:21,458
+We apply them to the augmented matrix: A with the constants attached.
+

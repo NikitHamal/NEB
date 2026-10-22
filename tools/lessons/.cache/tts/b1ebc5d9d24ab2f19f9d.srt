@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,132
+Six parts.
+
+2
+00:00:01,132 --> 00:00:13,346
+The sine law, the cosine law, the tangent law, the projection laws, the half angle laws, and finally the area of a triangle with its circumcircle, incircle and excircles.
+
+3
+00:00:13,346 --> 00:00:18,958
+One triangle, thirteen, fourteen, fifteen, will run through all of them.
+

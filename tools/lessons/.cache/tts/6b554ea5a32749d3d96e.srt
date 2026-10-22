@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,145
+Keep the sign.
+
+2
+00:00:01,145 --> 00:00:08,515
+A negative cosine means an obtuse angle: minus a half is one hundred and twenty degrees, not sixty.
+

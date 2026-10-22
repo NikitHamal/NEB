@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,419
+Exam tip.
+
+2
+00:00:01,419 --> 00:00:07,213
+In an identity, turn everything into sides, or everything into sines.
+
+3
+00:00:07,213 --> 00:00:08,645
+Never leave a mixture.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,406
+Expand the bracket.
+
+2
+00:00:01,406 --> 00:00:05,585
+Every product appears twice, with opposite signs.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,674
+From a point P the top of a tower is at an elevation of thirty degrees.
+
+2
+00:00:04,674 --> 00:00:10,091
+Walk forty metres towards it, to Q, and the elevation becomes sixty.
+
+3
+00:00:10,091 --> 00:00:12,083
+How tall is the tower?
+

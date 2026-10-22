@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,955
+Drop the altitude from A, length h.
+
+2
+00:00:02,955 --> 00:00:07,434
+In the left right-angled triangle, h is c sin B.
+
+3
+00:00:07,434 --> 00:00:10,286
+In the right one, h is b sin C.
+
+4
+00:00:10,286 --> 00:00:15,104
+They are the same length, so b over sin B equals c over sin C.
+
+5
+00:00:15,104 --> 00:00:21,184
+Do the same from another vertex and all three ratios are equal: the sine law.
+

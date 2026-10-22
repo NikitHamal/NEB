@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,549
+A inverse times A is the identity, and the identity times X is X.
+

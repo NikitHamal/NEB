@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,510
+Add and subtract: A is seventy two thirteen, B is forty seven forty seven.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,158
+Quick recap.
+
+2
+00:00:01,158 --> 00:00:12,942
+Write A X equals B. Cramer replaces a column by the constants and divides by D. Gauss row reduces the augmented matrix; Gauss Jordan goes on to the identity.
+
+3
+00:00:12,942 --> 00:00:16,705
+The inverse method left multiplies by A inverse.
+
+4
+00:00:16,705 --> 00:00:22,460
+And the last row tells you: one solution, infinitely many, or none.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,421
+Back substitution, from the bottom up.
+
+2
+00:00:02,421 --> 00:00:06,471
+Twenty z is sixty, so z is three.
+
+3
+00:00:06,471 --> 00:00:11,132
+Then minus y minus nine is minus eleven, so y is two.
+
+4
+00:00:11,132 --> 00:00:15,651
+Then x plus four plus three is eight, so x is one.
+

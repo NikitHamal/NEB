@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,497
+Exam tip.
+
+2
+00:00:01,497 --> 00:00:03,828
+Name the case before you calculate.
+
+3
+00:00:03,828 --> 00:00:06,380
+Keep five figures until the end.
+
+4
+00:00:06,380 --> 00:00:11,028
+And remember: half a degree is thirty minutes, not fifty.
+

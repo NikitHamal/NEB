@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,807
+Slide it onto the first, and every point of the line is a solution: infinitely many.
+
+2
+00:00:05,807 --> 00:00:11,276
+With three unknowns the lines become planes, and guessing by eye is hopeless.
+
+3
+00:00:11,276 --> 00:00:15,690
+This unit gives you machines that decide, and solve, every time.
+

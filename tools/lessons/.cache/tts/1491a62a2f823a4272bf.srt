@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,747
+Here are three facts about a triangle: side a is twenty, side b is thirty, and angle A is thirty degrees.
+
+2
+00:00:07,747 --> 00:00:08,567
+Draw it.
+
+3
+00:00:08,567 --> 00:00:09,544
+Here it is.
+

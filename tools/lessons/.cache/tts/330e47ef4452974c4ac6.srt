@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,536
+Row reduce: the second and third rows become identical, and the last row vanishes.
+
+2
+00:00:06,536 --> 00:00:08,411
+Zero equals zero.
+

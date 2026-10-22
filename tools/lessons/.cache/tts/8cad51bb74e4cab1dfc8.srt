@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,906
+Write every radius as delta over something.
+

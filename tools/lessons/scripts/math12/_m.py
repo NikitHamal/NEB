@@ -127,3 +127,40 @@ def clipped(ax, f, x0, x1, lo, hi, color, width=4, step=0.01):
     if len(cur) > 1:
         g.add(VMobject(stroke_color=color, stroke_width=width).set_points_as_corners(cur))
     return g
+
+
+def grid(rows, bar=None, size=34, dx=0.95, dy=0.62, color=th.INK, bcolor=th.MUTED):
+    """Matrix drawn as cells in square brackets; `bar` = column index before which an augmented bar is drawn.
+    g.cells[i][j] is each entry, g.rows_ is the list of row groups."""
+    nr, nc = len(rows), len(rows[0])
+    cells = VGroup()
+    for i, r in enumerate(rows):
+        row = VGroup()
+        for j, v in enumerate(r):
+            x = (j - (nc - 1) / 2) * dx + (0.25 if bar is not None and j >= bar else 0)
+            row.add(M(str(v), size=size, color=color).move_to([x, -(i - (nr - 1) / 2) * dy, 0]))
+        cells.add(row)
+    h = nr * dy + 0.1
+    left = cells.get_left()[0] - 0.25
+    right = cells.get_right()[0] + 0.25
+    lb = VMobject(stroke_color=bcolor, stroke_width=3).set_points_as_corners([[left + 0.15, h / 2, 0], [left, h / 2, 0], [left, -h / 2, 0], [left + 0.15, -h / 2, 0]])
+    rb = VMobject(stroke_color=bcolor, stroke_width=3).set_points_as_corners([[right - 0.15, h / 2, 0], [right, h / 2, 0], [right, -h / 2, 0], [right - 0.15, -h / 2, 0]])
+    g = VGroup(lb, rb, cells)
+    if bar is not None:
+        bx = ((bar - 0.5) - (nc - 1) / 2) * dx + 0.125
+        g.add(DashedLine([bx, h / 2 - 0.05, 0], [bx, -h / 2 + 0.05, 0], color=bcolor, stroke_width=2))
+    g.cells = cells
+    return g
+
+
+def set_row(s, g, i, vals, op=None, size=34, color=th.INK, hl=th.AMBER, run_time=0.9):
+    """Replace row i of a grid with new values (a row operation), flashing the row and showing the operation label."""
+    new = VGroup(*[M(str(v), size=size, color=color).move_to(c) for v, c in zip(vals, g.cells[i])])
+    anims = [Transform(c, n_) for c, n_ in zip(g.cells[i], new)]
+    lab = None
+    if op:
+        lab = M(op, size=28, color=hl).next_to(g, RIGHT, buff=0.4).set_y(g.cells[i].get_y())
+        s.play(FadeIn(lab, shift=LEFT * 0.2), run_time=0.4)
+    rect = SurroundingRectangle(g.cells[i], color=hl, buff=0.08)
+    s.play(Create(rect), *anims, run_time=run_time)
+    s.play(FadeOut(rect), *([FadeOut(lab)] if lab else []), run_time=0.4)

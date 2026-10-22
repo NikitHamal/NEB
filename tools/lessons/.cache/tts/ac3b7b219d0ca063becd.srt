@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,289
+Two warnings.
+
+2
+00:00:01,289 --> 00:00:05,690
+Multiply on the left: B times A inverse is not even defined.
+
+3
+00:00:05,690 --> 00:00:10,768
+And find the determinant first: if it is zero, there is no inverse.
+

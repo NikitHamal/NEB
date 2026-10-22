@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,770
+One plus cos A gives the cosine: root of s times s minus a, over b c.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,515
+Pythagoras in the right triangle on the right: a squared equals b sin A squared, plus c minus b cos A squared.
+
+2
+00:00:08,515 --> 00:00:09,518
+Expand.
+
+3
+00:00:09,518 --> 00:00:18,424
+The sin squared and cos squared combine into one, and a squared equals b squared plus c squared, minus two b c cos A.
+

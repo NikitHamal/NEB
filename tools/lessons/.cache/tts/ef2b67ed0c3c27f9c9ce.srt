@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,065
+For the angles, Napier's tangent law gives both together: half the sum is sixty, half the difference nineteen degrees six minutes.
+

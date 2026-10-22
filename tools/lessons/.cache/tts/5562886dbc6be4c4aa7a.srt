@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:12,669
+So a over sin A, b over sin B and c over sin C all equal two R. Written as a equals two R sin A, it is the switch that turns any side into a sine.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,132
+Sin of half A is root a fifth; cos of half A is root four fifths.
+

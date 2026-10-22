@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,934
+Check: the sides increase in the same order as their opposite angles.
+

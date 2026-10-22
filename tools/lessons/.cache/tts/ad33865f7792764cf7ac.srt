@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,419
+D is minus five, D x minus five fifty, D y minus seven hundred.
+

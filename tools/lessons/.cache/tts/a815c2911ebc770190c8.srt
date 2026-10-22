@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,895
+The cosine law for A: thirty eight degrees thirteen minutes.
+

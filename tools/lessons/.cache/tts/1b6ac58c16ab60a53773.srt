@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,794
+For D x, copy D and slide the constants into the first column, the x column.
+
+2
+00:00:05,794 --> 00:00:07,513
+Expand: twelve.
+

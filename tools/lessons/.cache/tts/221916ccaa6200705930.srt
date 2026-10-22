@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,130
+The area is half base times height, and the height from A is b sin C.
+
+2
+00:00:05,130 --> 00:00:08,398
+So the area is half a b sin C.
+

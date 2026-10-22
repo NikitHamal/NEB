@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,572
+With three unknowns the rule is the same, with three by three determinants.
+
+2
+00:00:05,572 --> 00:00:08,945
+Expand D along its first row: six.
+
+3
+00:00:08,945 --> 00:00:10,690
+Not zero, so go on.
+

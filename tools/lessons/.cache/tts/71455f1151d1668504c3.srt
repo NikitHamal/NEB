@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,890
+Given a, b and A. Draw angle A and side b, which fixes the point C. Side a must reach from C to the base line, so swing a compass of radius a about C.
+
+2
+00:00:12,890 --> 00:00:20,364
+The shortest distance from C to the base is the altitude h, which is b sin A: fifteen here.
+

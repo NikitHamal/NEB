@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,619
+Instead she walks fifty metres along her bank and measures two angles: seventy degrees at one end, sixty at the other.
+
+2
+00:00:08,619 --> 00:00:13,828
+One side and two angles: the triangle is now completely decided.
+

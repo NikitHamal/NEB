@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,093
+Write sin A as two sin half A cos half A, and use the half angle laws.
+

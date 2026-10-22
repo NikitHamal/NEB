@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,960
+Half the sum of A and B is ninety minus thirty: sixty degrees.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,138
+Pair them cleverly: s minus a plus s minus b is c, and s minus s minus c is also c.
+

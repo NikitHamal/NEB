@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,075
+Let apples cost x rupees a kilo and oranges y.
+

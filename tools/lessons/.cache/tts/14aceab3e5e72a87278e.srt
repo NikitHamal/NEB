@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,726
+If a is ten, shorter than h, the arc never reaches the base.
+
+2
+00:00:04,726 --> 00:00:05,846
+No triangle.
+

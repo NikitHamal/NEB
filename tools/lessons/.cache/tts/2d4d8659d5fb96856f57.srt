@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:06,236
+So the test: compute h equals b sin A. Less than h: none.
+
+2
+00:00:06,236 --> 00:00:09,101
+Equal to h: one, right angled.
+
+3
+00:00:09,101 --> 00:00:11,861
+Between h and b: two.
+
+4
+00:00:11,861 --> 00:00:13,606
+At least b: one.
+
+5
+00:00:13,606 --> 00:00:20,416
+And if the given angle is obtuse, there is one triangle when a is longer than b, and none otherwise.
+

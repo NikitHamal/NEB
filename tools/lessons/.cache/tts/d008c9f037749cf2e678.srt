@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,966
+Adding all three equations gives four times x plus y plus z: thirty one thousand.
+
+2
+00:00:06,966 --> 00:00:12,226
+So x plus y plus z is seven thousand seven hundred and fifty.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,414
+The second column, the y column, replaced by the constants.
+
+2
+00:00:04,414 --> 00:00:06,770
+Replace a column, never a row.
+

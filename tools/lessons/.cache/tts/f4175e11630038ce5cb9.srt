@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,572
+The b c cancels, and the area is the square root of s, s minus a, s minus b, s minus c: Heron's formula.
+
+2
+00:00:10,572 --> 00:00:12,799
+Area from the three sides alone.
+

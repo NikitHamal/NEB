@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,669
+That was systems of linear equations.
+
+2
+00:00:02,669 --> 00:00:07,955
+Next, properties of a triangle: the sine, cosine and projection laws.
+
+3
+00:00:07,955 --> 00:00:08,919
+See you there.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,940
+Collect the numbers: area eighty four, s twenty one, and eight, seven, six.
+

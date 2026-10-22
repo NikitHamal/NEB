@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,276
+And here it is again.
+
+2
+00:00:01,276 --> 00:00:07,330
+A second triangle, completely different, that fits the very same three facts.
+
+3
+00:00:07,330 --> 00:00:08,437
+Both are correct.
+
+4
+00:00:08,437 --> 00:00:17,070
+So when a question gives you two sides and an angle that is not between them, the answer may be two triangles, or one, or none.
+
+5
+00:00:17,070 --> 00:00:22,565
+This unit shows you how to tell, and how to solve any triangle from any three parts.
+

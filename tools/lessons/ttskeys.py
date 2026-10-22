@@ -33,5 +33,8 @@ def _dump():
 
 if __name__ == "__main__":
     from manim.__main__ import main
-    sys.argv = ["manim", "render", "--dry_run", "--fps", "4", "-r", "320,180", "--media_dir", "/tmp/ttskeys-media", "--disable_caching", "-v", "ERROR", "--progress_bar", "none", sys.argv[1], "Lesson"]
+    media = f"/tmp/ttskeys-media-{os.getpid()}"
+    for sub in ("Tex", "texts", "images"):
+        os.makedirs(os.path.join(media, sub), exist_ok=True)
+    sys.argv = ["manim", "render", "--dry_run", "--fps", "4", "-r", "320,180", "--media_dir", media, "--disable_caching", "-v", "ERROR", "--progress_bar", "none", sys.argv[1], "Lesson"]
     main()

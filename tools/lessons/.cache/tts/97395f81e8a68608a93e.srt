@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,325
+Subtract: two b squared minus two c squared over two a.
+

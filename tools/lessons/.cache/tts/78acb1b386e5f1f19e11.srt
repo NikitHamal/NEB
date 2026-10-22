@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,783
+Tan of half A is point one nine two five: A is twenty one degrees forty seven minutes.
+

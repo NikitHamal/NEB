@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,643
+For our triangle: R is eight point one two five, r is exactly four, and r one is ten and a half.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,406
+Exam tip.
+
+2
+00:00:01,406 --> 00:00:04,609
+A zero in the pivot place is not a mistake.
+
+3
+00:00:04,609 --> 00:00:07,213
+Swap with a lower row and carry on.
+
+4
+00:00:07,213 --> 00:00:11,653
+Only if the whole column below is zero is something special happening.
+

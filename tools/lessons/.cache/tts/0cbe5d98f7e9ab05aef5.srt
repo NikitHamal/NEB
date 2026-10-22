@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,794
+And dividing, the b c cancels: tan of half A is root of s minus b, s minus c, over s, s minus a.
+

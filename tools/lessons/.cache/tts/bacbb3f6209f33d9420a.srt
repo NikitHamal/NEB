@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,734
+Two equations, two unknowns.
+
+2
+00:00:02,734 --> 00:00:10,703
+Each equation is a straight line, and the solution is where the lines cross: here, the single point two, three.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,164
+B is what is left: thirty eight thirteen.
+

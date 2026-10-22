@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,106
+Quick recap.
+
+2
+00:00:01,106 --> 00:00:04,505
+The sine law, with its common ratio two R.
+
+3
+00:00:04,505 --> 00:00:07,968
+The cosine law, Pythagoras with a correction.
+
+4
+00:00:07,968 --> 00:00:10,338
+The tangent and projection laws.
+
+5
+00:00:10,338 --> 00:00:13,971
+The half angle laws in terms of the semi perimeter.
+
+6
+00:00:13,971 --> 00:00:20,572
+And the area, by Heron, with the circumradius, inradius and exradii.
+
