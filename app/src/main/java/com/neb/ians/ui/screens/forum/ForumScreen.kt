@@ -72,6 +72,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.neb.ians.R
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.ui.components.NebChipGroup
+import com.neb.ians.ui.components.prewarmCardPreviews
 import com.neb.ians.ui.components.NebModalSheet
 import com.neb.ians.ui.components.ConfirmDeleteDialog
 import com.neb.ians.ui.components.ErrorCard
@@ -102,6 +103,7 @@ fun ForumScreen(
     viewModel: ForumViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(uiState.posts) { prewarmCardPreviews(uiState.posts.map { it.content }) }
     val context = LocalContext.current
     val snackbarHostState = remember { SnackbarHostState() }
     val listState = rememberLazyListState()
