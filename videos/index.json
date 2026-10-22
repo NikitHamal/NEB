@@ -261,6 +261,71 @@
    "script": "tools/lessons/scripts/eng12/unit_04.py"
   },
   {
+   "id": "class-12/eng12/unit_05.mp4",
+   "file": "class-12/eng12/unit_05.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_05.mp4",
+     "subtitles": "class-12/eng12/unit_05.srt",
+     "start": 0.0,
+     "end": 543.63,
+     "mb": 20.4
+    }
+   ],
+   "poster": "class-12/eng12/unit_05.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 5,
+   "title": "My Old Home",
+   "subtitle": "Lu Xun · a short story",
+   "lang": "en",
+   "sections": [
+    "Lu Xun and his China",
+    "Homecoming and memory",
+    "Runtu: the boy and the man",
+    "The other people",
+    "Themes",
+    "The wall and the road"
+   ],
+   "seconds": 543.6,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     55.03,
+     "Lu Xun and his China"
+    ],
+    [
+     105.43,
+     "Homecoming and memory"
+    ],
+    [
+     193.77,
+     "Runtu: the boy and the man"
+    ],
+    [
+     293.5,
+     "The other people"
+    ],
+    [
+     346.83,
+     "Themes"
+    ],
+    [
+     401.33,
+     "The wall and the road"
+    ],
+    [
+     511.03,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.4,
+   "script": "tools/lessons/scripts/eng12/unit_05.py"
+  },
+  {
    "id": "class-12/eng12/unit_09.mp4",
    "file": "class-12/eng12/unit_09.mp4",
    "parts": [
