@@ -38,6 +38,11 @@ async def _synth(text, voice, rate, pitch, mp3, vtt):
         f.write(sub.get_srt())
 
 
+def _min_bytes(text):
+    """edge-tts mp3 runs at 48 kbit/s (6 kB/s) and speech at ~2.6 words/s; a clip under a third of that was cut short."""
+    return max(1000, int(len(text.split()) / 2.6 * 6000 * 0.35))
+
+
 def _to_wav(mp3, wav):
     """The .mp3 (committed) is the source of truth; the trimmed 48 kHz .wav is rebuilt locally."""
     subprocess.run(
@@ -56,7 +61,7 @@ def speak(text, lang="en"):
     wav = os.path.join(CACHE, key + ".wav")
     srt = os.path.join(CACHE, key + ".srt")
     meta = os.path.join(CACHE, key + ".json")
-    if os.path.exists(meta) and os.path.exists(mp3):
+    if os.path.exists(meta) and os.path.exists(mp3) and os.path.getsize(mp3) > 0:
         m = json.load(open(meta, encoding="utf-8"))
         if not os.path.exists(wav):
             _to_wav(mp3, wav)
@@ -64,9 +69,12 @@ def speak(text, lang="en"):
     last = None
     for attempt in range(10):
         try:
-            asyncio.run(asyncio.wait_for(_synth(text, cfg["voice"], cfg["rate"], cfg["pitch"], mp3, srt), timeout=30 + len(text) / 12))
-            if os.path.getsize(mp3) > 1000:
+            asyncio.run(asyncio.wait_for(_synth(text, cfg["voice"], cfg["rate"], cfg["pitch"], mp3 + ".part", srt + ".part"), timeout=30 + len(text) / 12))
+            if os.path.getsize(mp3 + ".part") >= _min_bytes(text):
+                os.replace(mp3 + ".part", mp3)
+                os.replace(srt + ".part", srt)
                 break
+            last = RuntimeError(f"clip cut short: {os.path.getsize(mp3 + '.part')} bytes for {len(text.split())} words")
         except Exception as e:
             last = e
         time.sleep(2 + attempt * 3)

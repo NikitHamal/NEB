@@ -52,6 +52,7 @@ class Narration:
         s.add_sound(wav, gain=0)
         if not cues:
             cues = [[0, self.dur, self.text]]
+        self.cues = cues
         for a, b, t in cues:
             s._subs.append((self.start + a, self.start + min(b, self.dur), t))
         if s._talker is not None and s._talker in s.mobjects:
@@ -64,6 +65,21 @@ class Narration:
 
     def frac(self, k):
         return max(0.3, self.dur * k)
+
+    def at(self, phrase):
+        """Seconds into this line where `phrase` is spoken: found in its sentence cue, interpolated by characters."""
+        for a, b, t in self.cues:
+            i = t.find(phrase)
+            if i >= 0:
+                return a + (min(b, self.dur) - a) * i / max(1, len(t))
+        i = self.text.find(phrase)
+        if i < 0:
+            raise ValueError(f"cue {phrase!r} is not in the narration")
+        return self.dur * i / max(1, len(self.text))
+
+    def until(self, phrase, lead=0.15):
+        """Hold until just before `phrase` is spoken, so the next animation lands on the word."""
+        self.scene.hold(self.start + self.at(phrase) - lead - self.scene.renderer.time)
 
     def __exit__(self, exc_type, *a):
         if exc_type is not None:
@@ -171,10 +187,19 @@ class Lesson(Scene):
         unit = T(f"{self.S['unit']} {self.num(self.UNIT)}", size=26, color=th.MUTED)
         big = T(self.num(f"{self.UNIT:02d}"), size=300, color=c, weight="BOLD", display=True).set_opacity(0.10)
         title = T(self.TITLE, size=74 if len(self.TITLE) < 24 else 58, color=th.INK, weight="BOLD", display=True)
+        words, wrapped = self.TITLE.split(), False
+        if title.width > 12 * 58 / 46 and len(words) > 1:
+            # a title that would shrink below ~46 pt on one line goes on two balanced lines instead
+            k = min(range(1, len(words)), key=lambda i: abs(len(" ".join(words[:i])) - len(" ".join(words[i:]))))
+            title = VGroup(*[T(" ".join(w), size=58, color=th.INK, weight="BOLD", display=True)
+                             for w in (words[:k], words[k:])]).arrange(DOWN, buff=0.22)
+            wrapped = True
         if title.width > 12:
             title.scale_to_fit_width(12)
         subtitle = T(self.SUBTITLE, size=30, color=th.BODY) if self.SUBTITLE else VGroup()
         block = VGroup(top, title, subtitle).arrange(DOWN, buff=0.35)
+        if wrapped:  # keep the subtitle where a one-line title leaves it, clear of the bars
+            block.shift(UP * (title.height - 0.75) / 2)
         unit.next_to(top, UP, buff=0.25)
         big.move_to(block).shift(UP * 0.2)
         bars = VGroup(*[

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,101
+Lewis acids include molecules with incomplete octets, simple metal cations, and molecules that can expand their octet.
+
+2
+00:00:09,101 --> 00:00:14,947
+Lewis bases include anything with a lone pair, anions, and even pi electrons.
+
+3
+00:00:14,947 --> 00:00:23,242
+Complex formation, like silver ion with ammonia, or copper ion with ammonia, is a Lewis neutralisation.
+

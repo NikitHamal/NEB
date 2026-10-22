@@ -19,7 +19,7 @@ class Lesson(Lesson):
     GRADE = 12
     UNIT = 30
     TITLE = "Prepositions, Tenses and Relative Clauses"
-    SUBTITLE = "Grammar · in/on/at, fixed prepositions, sequence of tenses, who/which/that"
+    SUBTITLE = "Grammar · in/on/at, fixed prepositions, tenses, who/which/that"
     SECTIONS = ["In, on, at", "Fixed prepositions", "Twelve tenses", "Sequence of tenses", "Relative clauses: the comma test", "Relative-clause details and worked items"]
     NEXT = "Unit 31 · Guided Writing"
 
