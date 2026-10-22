@@ -196,6 +196,71 @@
    "script": "tools/lessons/scripts/eng12/unit_03.py"
   },
   {
+   "id": "class-12/eng12/unit_04.mp4",
+   "file": "class-12/eng12/unit_04.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_04.mp4",
+     "subtitles": "class-12/eng12/unit_04.srt",
+     "start": 0.0,
+     "end": 469.83,
+     "mb": 18.4
+    }
+   ],
+   "poster": "class-12/eng12/unit_04.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 4,
+   "title": "The Treasure in the Forest",
+   "subtitle": "H. G. Wells · a short story",
+   "lang": "en",
+   "sections": [
+    "H. G. Wells",
+    "The map and the dream",
+    "Into the forest",
+    "The trap explained",
+    "Characters and themes",
+    "How Wells builds suspense"
+   ],
+   "seconds": 469.8,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.6,
+     "H. G. Wells"
+    ],
+    [
+     94.73,
+     "The map and the dream"
+    ],
+    [
+     146.73,
+     "Into the forest"
+    ],
+    [
+     233.23,
+     "The trap explained"
+    ],
+    [
+     288.6,
+     "Characters and themes"
+    ],
+    [
+     348.43,
+     "How Wells builds suspense"
+    ],
+    [
+     430.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.4,
+   "script": "tools/lessons/scripts/eng12/unit_04.py"
+  },
+  {
    "id": "class-12/eng12/unit_09.mp4",
    "file": "class-12/eng12/unit_09.mp4",
    "parts": [
