@@ -9,13 +9,18 @@ import androidx.compose.ui.text.input.OffsetMapping
 import androidx.compose.ui.text.input.TransformedText
 import androidx.compose.ui.text.input.VisualTransformation
 
-class MentionsVisualTransformation(private val highlightColor: Color) : VisualTransformation {
+private val MentionRegex = Regex("@[a-zA-Z0-9_.-]+")
+
+/**
+ * Highlights @mentions as they are typed. A data class, so the text field sees an equal
+ * transformation on recomposition and does not re-run [filter] for it.
+ */
+data class MentionsVisualTransformation(private val highlightColor: Color) : VisualTransformation {
     override fun filter(text: AnnotatedString): TransformedText {
         val annotated = buildAnnotatedString {
             val raw = text.text
             append(raw)
-            val regex = Regex("@[a-zA-Z0-9_.-]+")
-            regex.findAll(raw).forEach { match ->
+            MentionRegex.findAll(raw).forEach { match ->
                 addStyle(
                     style = SpanStyle(
                         color = highlightColor,
