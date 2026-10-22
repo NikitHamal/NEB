@@ -8,7 +8,6 @@ from django.db import connection
 from django.test import Client, TestCase
 from django.test.utils import CaptureQueriesContext
 
-from api.badges import user_badge_info
 from api.models import Follow, FollowRequest, Post, User, UserAuthToken
 from api.security import AUTH_TOKEN_TTL_MS, hash_auth_token
 from api.services import avatar_or_photo_url
