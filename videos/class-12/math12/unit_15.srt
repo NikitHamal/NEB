@@ -1,0 +1,344 @@
+1
+00:00:00,000 --> 00:00:05,028
+Solve x cubed minus two x minus five equals zero.
+
+2
+00:00:05,028 --> 00:00:07,957
+There is no neat formula to factorise it.
+
+3
+00:00:07,957 --> 00:00:15,806
+But a computer can home in on the root: guess three, follow the tangent down to the axis, and use where it lands as the next guess.
+
+4
+00:00:16,033 --> 00:00:27,428
+Two point three six, then two point one two seven, then two point zero nine five, and the digits soon stop changing: the root is two point zero nine four six.
+
+5
+00:00:27,428 --> 00:00:34,449
+Numerical methods like this solve problems that algebra cannot, and the art is knowing how accurate the answer is.
+
+6
+00:00:39,933 --> 00:00:45,270
+Welcome to Class 12 Mathematics, Unit 15: Computational Methods.
+
+7
+00:00:47,667 --> 00:00:48,775
+Four parts.
+
+8
+00:00:48,775 --> 00:00:51,978
+Gauss elimination for systems of equations.
+
+9
+00:00:51,978 --> 00:00:54,257
+The Gauss Seidel iteration.
+
+10
+00:00:54,257 --> 00:00:56,913
+Linear programming by the simplex method.
+
+11
+00:00:56,913 --> 00:01:02,035
+And how accurate a computed answer is: Newton Raphson and the integration rules.
+
+12
+00:01:06,400 --> 00:01:12,756
+Gauss elimination is the systematic version of eliminating by hand, which is why computers use it.
+
+13
+00:01:12,756 --> 00:01:14,891
+Write the augmented matrix.
+
+14
+00:01:14,891 --> 00:01:22,640
+Use the first pivot to clear the first column: subtract twice row one from row two, and three times row one from row three.
+
+15
+00:01:22,867 --> 00:01:28,455
+Then the second pivot clears the second column: add twice row two to row three.
+
+16
+00:01:28,455 --> 00:01:30,536
+The matrix is now triangular.
+
+17
+00:01:30,767 --> 00:01:36,591
+Back substitute from the bottom: z is three, y is two, x is one.
+
+18
+00:01:36,800 --> 00:01:40,630
+If a pivot turns out to be zero, swap in a lower row.
+
+19
+00:01:40,630 --> 00:01:46,986
+In practice, computers always swap in the largest available pivot, to keep rounding errors small.
+
+20
+00:01:48,200 --> 00:01:49,397
+Recognise the system.
+
+21
+00:01:49,600 --> 00:01:54,437
+These are the equations we just solved, with every right side multiplied by ten.
+
+22
+00:01:54,667 --> 00:02:01,758
+So every unknown is ten times bigger: pens ten rupees, notebooks twenty, erasers thirty.
+
+23
+00:02:08,133 --> 00:02:11,819
+Gauss Seidel takes another route: iteration.
+
+24
+00:02:11,819 --> 00:02:15,049
+Solve each equation for its own unknown.
+
+25
+00:02:15,049 --> 00:02:19,267
+Start from a guess, nought, nought, nought, and keep improving.
+
+26
+00:02:19,267 --> 00:02:25,491
+It is guaranteed to converge when each diagonal coefficient beats the others in its row.
+
+27
+00:02:25,491 --> 00:02:28,514
+Here twenty beats one plus two, and so on.
+
+28
+00:02:28,733 --> 00:02:36,729
+Each new value is used immediately: the new y uses the x just found, and the new z uses both.
+
+29
+00:02:36,729 --> 00:02:38,709
+That is what makes it Gauss Seidel.
+
+30
+00:02:38,709 --> 00:02:43,813
+Watch the digits settle: by the fourth or fifth round they no longer change.
+
+31
+00:02:43,813 --> 00:02:48,002
+x is one, y is minus one, z is one.
+
+32
+00:02:49,233 --> 00:02:50,385
+Check dominance first.
+
+33
+00:02:50,600 --> 00:02:52,460
+The first two rows fail the test.
+
+34
+00:02:52,667 --> 00:02:56,364
+Reorder so each big coefficient sits on the diagonal.
+
+35
+00:02:56,567 --> 00:03:00,863
+Now every row is dominant, and the iteration will converge.
+
+36
+00:03:06,433 --> 00:03:07,763
+Linear programming.
+
+37
+00:03:07,763 --> 00:03:14,234
+Make as much profit Z equals three x plus five y as you can, under two limits.
+
+38
+00:03:14,234 --> 00:03:18,453
+The limits cut out a region, the feasible region, a polygon.
+
+39
+00:03:18,453 --> 00:03:23,205
+Slide the profit line outward: the last point it touches is a corner.
+
+40
+00:03:23,205 --> 00:03:25,471
+The best answer is always at a corner.
+
+41
+00:03:25,700 --> 00:03:32,017
+The simplex method finds that corner without drawing anything, which matters when there are many variables.
+
+42
+00:03:32,017 --> 00:03:40,090
+It starts at the origin and walks along edges from corner to corner, improving Z each time, until no step helps.
+
+43
+00:03:40,090 --> 00:03:46,514
+Here: nought nought, then nought two, then three one, where Z is fourteen.
+
+44
+00:03:47,733 --> 00:03:48,750
+The rules.
+
+45
+00:03:48,750 --> 00:03:55,091
+Turn each inequality into an equation with a slack variable, the unused capacity.
+
+46
+00:03:55,091 --> 00:03:59,141
+Choose the pivot column with the most negative number in the Z row.
+
+47
+00:03:59,141 --> 00:04:04,076
+Choose the pivot row with the smallest ratio of right side to column entry.
+
+48
+00:04:04,076 --> 00:04:06,133
+Pivot, as in Gauss Jordan.
+
+49
+00:04:06,133 --> 00:04:09,331
+Repeat until the Z row has no negatives.
+
+50
+00:04:10,533 --> 00:04:19,975
+In the first tableau, minus five is the most negative, so y enters; the smallest ratio is two, so s two leaves.
+
+51
+00:04:19,975 --> 00:04:22,097
+One more pivot brings in x.
+
+52
+00:04:22,097 --> 00:04:32,635
+In the final tableau the Z row has no negatives: x is three, y is one, and the maximum Z is fourteen, the same corner we found by sliding the line.
+
+53
+00:04:33,867 --> 00:04:34,761
+A real problem.
+
+54
+00:04:35,100 --> 00:04:39,603
+Set up: profit in hundreds of rupees, and the two hour limits.
+
+55
+00:04:39,833 --> 00:04:43,124
+Two pivots: first x enters, then y.
+
+56
+00:04:43,333 --> 00:04:48,921
+Twelve chairs and six tables, for thirteen thousand two hundred rupees.
+
+57
+00:04:48,921 --> 00:04:50,617
+Both workshops are fully booked.
+
+58
+00:04:56,200 --> 00:05:03,623
+Newton Raphson, from the cold open: x n plus one is x n minus f over f dash.
+
+59
+00:05:03,623 --> 00:05:07,308
+Near a root, the error is squared at every step.
+
+60
+00:05:07,308 --> 00:05:14,952
+Watch the error column: about a tenth, then five thousandths, then two hundred thousandths, then two ten-billionths.
+
+61
+00:05:14,952 --> 00:05:18,828
+The number of correct digits roughly doubles each time.
+
+62
+00:05:20,033 --> 00:05:22,130
+Square roots, the ancient way.
+
+63
+00:05:22,333 --> 00:05:26,686
+The formula becomes: average x and five over x.
+
+64
+00:05:26,900 --> 00:05:34,065
+From two: two point two five, then two point two three six one one one, then the digits freeze.
+
+65
+00:05:34,267 --> 00:05:38,151
+Root five is two point two three six oh seven.
+
+66
+00:05:40,167 --> 00:05:41,692
+Numerical integration.
+
+67
+00:05:41,692 --> 00:05:44,426
+Split the area into four strips.
+
+68
+00:05:44,426 --> 00:05:50,169
+The trapezium rule replaces the curve by straight chords: point seven eight two eight.
+
+69
+00:05:50,169 --> 00:05:56,939
+Simpson's rule fits parabolas through three points at a time: point seven eight five three nine.
+
+70
+00:05:56,939 --> 00:05:58,788
+The true value is pi over four.
+
+71
+00:05:59,000 --> 00:06:04,314
+The trapezium error shrinks like h squared; Simpson's like h to the fourth.
+
+72
+00:06:04,314 --> 00:06:10,095
+Here, with the same five values, Simpson is about four hundred times more accurate.
+
+73
+00:06:10,095 --> 00:06:14,945
+Halve h, and the trapezium error falls by four, Simpson's by sixteen.
+
+74
+00:06:17,367 --> 00:06:18,137
+Pause and think.
+
+75
+00:06:25,433 --> 00:06:31,172
+Diagonally dominant: each diagonal coefficient is bigger than the sum of the others in its row.
+
+76
+00:06:33,167 --> 00:06:33,602
+One more.
+
+77
+00:06:41,233 --> 00:06:43,813
+The most negative entry in the Z row.
+
+78
+00:06:43,813 --> 00:06:46,666
+The smallest ratio then picks the pivot row.
+
+79
+00:06:48,833 --> 00:06:49,902
+Quick recap.
+
+80
+00:06:49,902 --> 00:06:52,949
+Gauss elimination and back substitution.
+
+81
+00:06:52,949 --> 00:06:56,934
+Gauss Seidel iteration for diagonally dominant systems.
+
+82
+00:06:56,934 --> 00:07:00,436
+The simplex method walking from corner to corner.
+
+83
+00:07:00,436 --> 00:07:04,131
+And the accuracy of Newton Raphson and the integration rules.
+
+84
+00:07:08,300 --> 00:07:10,281
+That was computational methods.
+
+85
+00:07:10,281 --> 00:07:16,361
+Next, the alternative unit, mechanics: forces, equilibrium and motion.
+
+86
+00:07:16,361 --> 00:07:16,935
+See you there.
+

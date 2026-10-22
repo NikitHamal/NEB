@@ -2169,6 +2169,61 @@
    "script": "tools/lessons/scripts/math12/unit_14.py"
   },
   {
+   "id": "class-12/math12/unit_15.mp4",
+   "file": "class-12/math12/unit_15.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_15.mp4",
+     "subtitles": "class-12/math12/unit_15.srt",
+     "start": 0.0,
+     "end": 439.33,
+     "mb": 15.6
+    }
+   ],
+   "poster": "class-12/math12/unit_15.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 15,
+   "title": "Computational Methods",
+   "subtitle": "When a computer does the algebra",
+   "lang": "en",
+   "sections": [
+    "Gauss elimination",
+    "Gauss–Seidel iteration",
+    "Linear programming: the simplex method",
+    "How accurate is the answer?"
+   ],
+   "seconds": 439.3,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     62.83,
+     "Gauss elimination"
+    ],
+    [
+     124.57,
+     "Gauss–Seidel iteration"
+    ],
+    [
+     182.87,
+     "Linear programming: the simplex method"
+    ],
+    [
+     292.63,
+     "How accurate is the answer?"
+    ],
+    [
+     407.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 15.6,
+   "script": "tools/lessons/scripts/math12/unit_15.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
