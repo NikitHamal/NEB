@@ -1,6 +1,71 @@
 {
  "videos": [
   {
+   "id": "class-12/eng12/unit_01.mp4",
+   "file": "class-12/eng12/unit_01.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_01.mp4",
+     "subtitles": "class-12/eng12/unit_01.srt",
+     "start": 0.0,
+     "end": 592.43,
+     "mb": 23.6
+    }
+   ],
+   "poster": "class-12/eng12/unit_01.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 1,
+   "title": "Neighbours",
+   "subtitle": "Tim Winton · a short story",
+   "lang": "en",
+   "sections": [
+    "The writer and his Australia",
+    "The story, season by season",
+    "What crosses the fence",
+    "The characters",
+    "Themes",
+    "How it is told"
+   ],
+   "seconds": 592.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.43,
+     "The writer and his Australia"
+    ],
+    [
+     115.9,
+     "The story, season by season"
+    ],
+    [
+     285.83,
+     "What crosses the fence"
+    ],
+    [
+     326.17,
+     "The characters"
+    ],
+    [
+     394.53,
+     "Themes"
+    ],
+    [
+     464.57,
+     "How it is told"
+    ],
+    [
+     553.27,
+     "Quick recap"
+    ]
+   ],
+   "mb": 23.6,
+   "script": "tools/lessons/scripts/eng12/unit_01.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
