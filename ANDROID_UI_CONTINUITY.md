@@ -429,6 +429,20 @@ of it:
 - `NEBiansNavHost` reads the media player through derived state; `MiniPlayerSlot` reads the 4 Hz
   position itself.
 
+Second pass (same branch):
+- **Cold start:** the auth token is decrypted once and kept in memory (`SecurePrefs`), read on IO
+  until loaded; `NEBiansApp.warmUp()` starts the DataStore, token and theme-prefs reads off the
+  main thread; `MediaPlayerViewModel` builds its ExoPlayer on first use (`getPlayer()`), and
+  `ResourceDownloadManager` reads its index on its IO scope.
+- `WafChallengeInterceptor` no longer scans JSON replies for shield words (it copied up to 192 KB
+  per response, and a post saying "please wait a moment" failed as a fake challenge).
+- Coil memory-caches generated avatars (`AvatarKeyer`); skeletons shimmer in the draw phase
+  (`Modifier.shimmer`); `KaTeXMathView` loads its page once; comment drafts on resource and news
+  detail are their own flows; realtime likes for posts not on screen are ignored early.
+- **Next (Android):** one shared OkHttp `ConnectionPool` for the API, image, realtime and download
+  clients (one TLS handshake to the host instead of up to four); memoise the reply/comment thread
+  grouping in the detail view models; build the forum audio/video `ExoPlayer` lazily.
+
 Not measured on a device (no emulator here); CI (`Build Student Release APKs & AAB`) is the
 compile check. Worth doing next with a phone: a Macrobenchmark module to generate a real baseline
 profile and to measure Home's scroll jank before and after.

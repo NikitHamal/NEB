@@ -36,6 +36,18 @@ Same responses, fewer queries; measured with `backend_python/scripts/perf_seed.p
   `ANDROID_UI_CONTINUITY.md` §14); until this backend is deployed it falls back to the old requests.
 - **Deploy:** run `migrate` (0149, 0150) with the deploy; both add or swap indexes only.
 
+### Website pages speed pass (Oct 22, 2026, in progress)
+
+`backend_python/scripts/web_probe.py` renders 56 web pages anonymously and signed in (perf_probe's
+harness: seed copy, frozen clock, cold/warm queries, bodies with CSRF/nonces masked;
+`perf_probe.py --compare A B` diffs two runs). Done, HTML byte-identical on all 98 page/viewer
+pairs: bookmarks 208 -> 11 queries (100 -> 27 ms; it serialised cards the template never read),
+subject page 32 -> 11 (uploader joined), results guide 10 -> 5, poll options in one query for every
+post list, signed-in pages share one viewer row per request (`_request_db_user`). Budgets:
+`web/test_query_budget.py`. **Next:** the web analytics page (154 queries), home signed in (50),
+forum post (27), per-request middleware/context-processor queries, then a cProfile of the busiest
+API endpoints (`perf_probe.py --profile`).
+
 ### Syllabus with the books' chapters; marketplace switched off (Oct 22, 2026)
 
 Branch **`syllabus/revamp`**, based on `resources/grade8-10-polish-syllabus` (which carries the
