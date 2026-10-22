@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,111
+Most adjectives can stand in two places: before the noun, a tall boy, or after a linking verb, the boy is tall.
+
+2
+00:00:08,111 --> 00:00:09,674
+But a few are fixed.
+
+3
+00:00:09,674 --> 00:00:21,796
+Afraid, alive, asleep, alone, aware and their family only come after the verb: the child was asleep, but never the asleep child; say the sleeping child.
+
+4
+00:00:21,796 --> 00:00:33,437
+And main, only, mere, former, latter and elder only come before the noun: my elder brother, but never he is elder than me; say older.
+

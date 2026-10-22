@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:05,195
+More: a big red ball, size before colour, never a red big ball.
+
+2
+00:00:05,195 --> 00:00:07,226
+An old Italian leather jacket.
+
+3
+00:00:07,226 --> 00:00:09,218
+A small round wooden table.
+
+4
+00:00:09,218 --> 00:00:10,546
+Two details.
+
+5
+00:00:10,546 --> 00:00:19,010
+Adjectives of the same kind take commas: a cold, wet, miserable morning; adjectives of different kinds take none.
+
+6
+00:00:19,010 --> 00:00:24,375
+And numbers come first: the first three chapters, not the three first.
+
