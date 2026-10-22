@@ -1,0 +1,416 @@
+1
+00:00:00,000 --> 00:00:03,673
+A sal tree near Hetauda, thirty metres tall.
+
+2
+00:00:03,673 --> 00:00:09,673
+Every leaf at the top is full of water, and all of it came from the soil, thirty metres below.
+
+3
+00:00:09,900 --> 00:00:13,092
+Something lifted it, ten storeys, every day.
+
+4
+00:00:13,092 --> 00:00:16,375
+And the tree has no heart, no pump, no muscle.
+
+5
+00:00:16,667 --> 00:00:22,215
+Yet a suction pump on a well cannot lift water more than about ten metres.
+
+6
+00:00:22,215 --> 00:00:24,526
+Pull harder and the water column breaks.
+
+7
+00:00:25,200 --> 00:00:27,936
+The sal does three times that, silently.
+
+8
+00:00:27,936 --> 00:00:28,665
+How?
+
+9
+00:00:28,665 --> 00:00:33,665
+The surprising answer, by the end of this lesson: the water is not pushed up.
+
+10
+00:00:33,665 --> 00:00:34,882
+It is pulled from above.
+
+11
+00:00:40,367 --> 00:00:45,525
+Welcome to Class 12 Biology, Unit 2: Plant Physiology.
+
+12
+00:00:45,525 --> 00:00:47,335
+Unit 1 built the plumbing.
+
+13
+00:00:47,335 --> 00:00:48,220
+Now we switch it on.
+
+14
+00:00:50,600 --> 00:00:57,598
+Five stops: water relations, photosynthesis, respiration, plant hormones, and growth and movement.
+
+15
+00:01:01,933 --> 00:01:03,966
+Drop dye into still water.
+
+16
+00:01:03,966 --> 00:01:09,539
+Its particles jiggle with heat energy and spread from crowded to scarce.
+
+17
+00:01:09,539 --> 00:01:10,538
+That is diffusion.
+
+18
+00:01:10,767 --> 00:01:14,453
+No membrane, no energy, no living cell needed.
+
+19
+00:01:14,453 --> 00:01:20,224
+It is fast over micrometres but hopeless over metres, which is why plants need xylem.
+
+20
+00:01:21,433 --> 00:01:25,640
+Soak a dry pea overnight and it swells to twice its size.
+
+21
+00:01:25,640 --> 00:01:31,587
+That is imbibition: water adsorbed by hydrophilic colloids, the first step of germination.
+
+22
+00:01:31,800 --> 00:01:38,084
+Protein imbibes most, then starch, then cellulose, so a pea swells more than a wheat grain.
+
+23
+00:01:39,700 --> 00:01:44,571
+Osmosis is diffusion through a selectively permeable membrane.
+
+24
+00:01:44,571 --> 00:01:47,178
+Water passes through it; sugar does not.
+
+25
+00:01:47,400 --> 00:01:54,634
+More water crosses into the sugar side than comes back, so there is a net flow, and the solution column rises.
+
+26
+00:01:54,933 --> 00:01:59,788
+The pressure needed to stop that flow is the osmotic pressure of the solution.
+
+27
+00:02:02,000 --> 00:02:03,408
+Exam tip.
+
+28
+00:02:03,408 --> 00:02:09,515
+Don't define osmosis as dilute to concentrated; that fails once pressure acts.
+
+29
+00:02:09,515 --> 00:02:13,170
+Say: water moves from higher to lower water potential.
+
+30
+00:02:13,967 --> 00:02:18,552
+Water potential, psi, measures the free energy of water.
+
+31
+00:02:18,552 --> 00:02:22,818
+Pure water at atmospheric pressure is the reference: zero.
+
+32
+00:02:23,033 --> 00:02:28,842
+Solutes and surfaces lower it, so every solution and cell is negative.
+
+33
+00:02:28,842 --> 00:02:32,306
+Water always moves from less negative to more negative.
+
+34
+00:02:33,533 --> 00:02:35,774
+For a cell, two terms matter.
+
+35
+00:02:35,774 --> 00:02:39,654
+Psi s, the solute potential, is negative.
+
+36
+00:02:39,654 --> 00:02:46,132
+Psi p, the pressure potential, is positive in a turgid cell, and negative in the xylem.
+
+37
+00:02:46,333 --> 00:02:51,123
+So the working equation is psi w equals psi s plus psi p.
+
+38
+00:02:52,333 --> 00:02:58,506
+A cell with psi s of minus zero point nine sits in a bath at minus zero point one.
+
+39
+00:02:58,506 --> 00:02:59,356
+Water flows in.
+
+40
+00:02:59,567 --> 00:03:03,097
+The protoplast swells and the wall pushes back.
+
+41
+00:03:03,097 --> 00:03:06,699
+Psi p climbs, and psi w climbs with it.
+
+42
+00:03:06,967 --> 00:03:13,687
+At psi p of plus zero point eight, psi w is minus zero point one, equal to the bath.
+
+43
+00:03:13,687 --> 00:03:16,193
+Net flow stops: the cell is turgid.
+
+44
+00:03:17,767 --> 00:03:18,993
+A worked example.
+
+45
+00:03:18,993 --> 00:03:22,118
+One molar sucrose at twenty-five degrees.
+
+46
+00:03:22,118 --> 00:03:27,239
+Find its solute potential, and the fate of a cell at minus one point two.
+
+47
+00:03:27,467 --> 00:03:30,486
+Use psi s equals minus i C R T.
+
+48
+00:03:30,700 --> 00:03:33,422
+Sucrose doesn't ionise, so i is one.
+
+49
+00:03:33,633 --> 00:03:37,963
+T is twenty-five plus two seventy-three: two ninety-eight kelvin.
+
+50
+00:03:38,167 --> 00:03:44,406
+R is zero point zero zero eight three one, in litre megapascal per mole per kelvin.
+
+51
+00:03:44,633 --> 00:03:48,496
+Psi s is minus two point four eight megapascal.
+
+52
+00:03:48,700 --> 00:03:54,701
+The solution is more negative than the cell, so water leaves the cell and it plasmolyses.
+
+53
+00:03:55,933 --> 00:03:59,597
+Now a turgid cell, psi p plus zero point eight.
+
+54
+00:03:59,800 --> 00:04:01,585
+Put it in that sucrose.
+
+55
+00:04:01,585 --> 00:04:06,481
+Water leaves, pressure falls, and the protoplast just starts to leave the wall.
+
+56
+00:04:06,481 --> 00:04:10,297
+Psi p is zero: incipient plasmolysis.
+
+57
+00:04:10,567 --> 00:04:15,660
+More water leaves and the protoplast shrinks away: plasmolysed.
+
+58
+00:04:15,660 --> 00:04:20,613
+The gap fills with sugar solution, because the wall is freely permeable.
+
+59
+00:04:21,300 --> 00:04:25,078
+Back in water it recovers: deplasmolysis.
+
+60
+00:04:25,078 --> 00:04:26,816
+Only a living cell can do this.
+
+61
+00:04:28,500 --> 00:04:34,074
+Water enters a root through root hairs, whose sap is more negative than the soil water.
+
+62
+00:04:34,300 --> 00:04:43,521
+It crosses the cortex through cell walls, the apoplast, or from cytoplasm to cytoplasm through plasmodesmata, the symplast.
+
+63
+00:04:43,733 --> 00:04:49,594
+At the endodermis, the Casparian strip of lignin and suberin blocks the wall route.
+
+64
+00:04:49,594 --> 00:04:51,958
+Everything must cross a living membrane.
+
+65
+00:04:53,567 --> 00:04:57,410
+The endodermis also pumps ions into the xylem.
+
+66
+00:04:57,410 --> 00:05:00,994
+Water follows by osmosis, creating root pressure.
+
+67
+00:05:02,600 --> 00:05:13,344
+But root pressure cannot lift sap up a tree: it is far too small, it vanishes at midday, many conifers lack it, and sap still rises in killed stems.
+
+68
+00:05:13,567 --> 00:05:18,115
+Its real job is refilling air-blocked vessels at night, and guttation.
+
+69
+00:05:19,333 --> 00:05:20,559
+Back to the sal.
+
+70
+00:05:20,559 --> 00:05:24,022
+Its xylem holds an unbroken thread of water.
+
+71
+00:05:24,022 --> 00:05:29,086
+The cohesion tension theory of Dixon and Joly explains it with three pillars.
+
+72
+00:05:29,367 --> 00:05:31,556
+One: transpiration pull.
+
+73
+00:05:31,556 --> 00:05:38,151
+Water evaporates from leaf cell walls and escapes through stomata, tugging on the water behind it.
+
+74
+00:05:38,433 --> 00:05:43,461
+So xylem water is under tension: its pressure potential is negative.
+
+75
+00:05:43,461 --> 00:05:46,829
+The energy comes from the sun, not from metabolism.
+
+76
+00:05:47,100 --> 00:05:48,677
+Two: cohesion.
+
+77
+00:05:48,677 --> 00:05:53,371
+Hydrogen bonds hold water molecules together, so the column doesn't snap.
+
+78
+00:05:53,667 --> 00:05:55,309
+Three: adhesion.
+
+79
+00:05:55,309 --> 00:05:57,353
+Water clings to the vessel walls.
+
+80
+00:05:58,633 --> 00:06:06,447
+Water potential falls all the way: soil, root, trunk, leaf, and then minus ninety-three in dry air.
+
+81
+00:06:06,447 --> 00:06:08,703
+That last huge step does the pulling.
+
+82
+00:06:09,367 --> 00:06:11,608
+So the sal has no pump at the bottom.
+
+83
+00:06:11,608 --> 00:06:15,339
+The sun pulls from the top, and the water column is the rope.
+
+84
+00:06:15,933 --> 00:06:22,080
+Living-pump theories died when Strasburger poisoned oak trunks and sap still rose.
+
+85
+00:06:22,080 --> 00:06:25,691
+Capillarity lifts water only about sixty centimetres.
+
+86
+00:06:28,567 --> 00:06:29,780
+Pause and think.
+
+87
+00:06:29,780 --> 00:06:33,117
+What is the sign of pressure potential in xylem at midday?
+
+88
+00:06:40,000 --> 00:06:43,114
+Negative: the column is under tension.
+
+89
+00:06:43,114 --> 00:06:48,284
+Positive is the trap; that describes a turgid cell or root pressure at night.
+
+90
+00:06:49,067 --> 00:06:57,558
+Most absorbed water is lost as vapour, mostly through stomata: transpiration, the price of letting carbon dioxide in.
+
+91
+00:06:57,558 --> 00:07:04,275
+Each stoma is a pore between two kidney-shaped guard cells, which have chloroplasts and a thick inner wall.
+
+92
+00:07:04,500 --> 00:07:10,218
+Cellulose microfibrils hoop around each guard cell: radial micellation.
+
+93
+00:07:10,218 --> 00:07:15,325
+So swelling makes the cells longer, not fatter, and they bow apart.
+
+94
+00:07:16,533 --> 00:07:18,891
+Blue light switches on a proton pump.
+
+95
+00:07:18,891 --> 00:07:23,522
+Protons leave the guard cells, and the inside turns negative.
+
+96
+00:07:23,733 --> 00:07:28,671
+Potassium ions flood in, with chloride and malate to balance the charge.
+
+97
+00:07:28,900 --> 00:07:35,109
+Psi s drops, water rushes in, the cells bow apart, and the pore opens.
+
+98
+00:07:35,333 --> 00:07:40,454
+Under water stress, A B A makes them lose potassium, and the pore closes.
+
+99
+00:07:42,067 --> 00:07:45,454
+Note: the old starch sugar theory is obsolete.
+
+100
+00:07:45,454 --> 00:07:48,965
+Onion guard cells have no starch, yet work perfectly.
+
+101
+00:07:50,167 --> 00:07:54,413
+On humid mornings, drops form at leaf tips and margins.
+
+102
+00:07:54,413 --> 00:07:59,797
+This is guttation: liquid sap pushed out through hydathodes by root pressure.
+
+103
+00:08:00,000 --> 00:08:06,409
+It happens when root pressure is high and transpiration low: at night, in moist soil and humid air.
+
+104
+00:08:08,033 --> 00:08:16,464
+Unlike dew, guttation water comes from inside the plant and leaves a salty crust; dew is pure, condensed from air.
+

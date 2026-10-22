@@ -1,6 +1,87 @@
 {
  "videos": [
   {
+   "id": "class-12/bio12/unit_02.mp4",
+   "file": "class-12/bio12/unit_02.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/bio12/unit_02.part1.mp4",
+     "subtitles": "class-12/bio12/unit_02.part1.srt",
+     "start": 0.0,
+     "end": 498.933,
+     "mb": 20.0
+    },
+    {
+     "file": "class-12/bio12/unit_02.part2.mp4",
+     "subtitles": "class-12/bio12/unit_02.part2.srt",
+     "start": 498.933,
+     "end": 907.267,
+     "mb": 15.9
+    },
+    {
+     "file": "class-12/bio12/unit_02.part3.mp4",
+     "subtitles": "class-12/bio12/unit_02.part3.srt",
+     "start": 907.267,
+     "end": 1257.267,
+     "mb": 11.5
+    },
+    {
+     "file": "class-12/bio12/unit_02.part4.mp4",
+     "subtitles": "class-12/bio12/unit_02.part4.srt",
+     "start": 1257.267,
+     "end": 1781.367,
+     "mb": 18.8
+    }
+   ],
+   "poster": "class-12/bio12/unit_02.jpg",
+   "book": "bio12",
+   "grade": 12,
+   "unit": 2,
+   "title": "Plant Physiology",
+   "subtitle": "How a plant drinks, feeds, breathes and moves",
+   "lang": "en",
+   "sections": [
+    "Water relation",
+    "Photosynthesis",
+    "Respiration",
+    "Plant hormones",
+    "Plant growth and movement"
+   ],
+   "seconds": 1781.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     58.37,
+     "Water relation"
+    ],
+    [
+     497.67,
+     "Photosynthesis"
+    ],
+    [
+     903.47,
+     "Respiration"
+    ],
+    [
+     1256.87,
+     "Plant hormones"
+    ],
+    [
+     1514.43,
+     "Plant growth and movement"
+    ],
+    [
+     1727.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 66.2,
+   "script": "tools/lessons/scripts/bio12/unit_02.py"
+  },
+  {
    "id": "class-12/bio12/unit_06.mp4",
    "file": "class-12/bio12/unit_06.part1.mp4",
    "parts": [

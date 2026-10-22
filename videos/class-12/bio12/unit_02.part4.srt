@@ -1,0 +1,388 @@
+1
+00:00:03,166 --> 00:00:08,584
+A plant hormone is made in small amounts in one part of the plant and acts in another.
+
+2
+00:00:08,584 --> 00:00:10,249
+There are five classical ones.
+
+3
+00:00:11,466 --> 00:00:14,358
+Auxin's discovery is a favourite question.
+
+4
+00:00:14,358 --> 00:00:22,797
+Darwin, in eighteen eighty: cover a coleoptile's tip and it no longer bends to light; cover the part below and it still bends.
+
+5
+00:00:23,000 --> 00:00:26,960
+So the tip senses light but bending happens lower down.
+
+6
+00:00:26,960 --> 00:00:33,425
+Boysen-Jensen put a cut tip back on gelatin and it still bent: the signal is a diffusible chemical.
+
+7
+00:00:33,633 --> 00:00:36,564
+Paál got bending in darkness from an off-centre tip.
+
+8
+00:00:36,564 --> 00:00:43,843
+Went collected the chemical in agar blocks; a block on one side made a cut coleoptile bend away.
+
+9
+00:00:43,843 --> 00:00:44,698
+He named it auxin.
+
+10
+00:00:45,900 --> 00:00:50,238
+Auxin, made at the shoot tip from tryptophan, moves down.
+
+11
+00:00:50,238 --> 00:00:53,106
+Light from one side drives it to the shaded side.
+
+12
+00:00:53,333 --> 00:01:01,235
+The shaded side elongates more, so the shoot bends towards light: positive phototropism, the Cholodny Went hypothesis.
+
+13
+00:01:03,966 --> 00:01:09,020
+Auxin from the apex also suppresses the buds below: apical dominance.
+
+14
+00:01:09,300 --> 00:01:13,599
+Pluck a tea bush tip and side buds grow, making the bush dense.
+
+15
+00:01:13,800 --> 00:01:22,838
+Synthetic auxins I B A and N A A root cuttings, and two four D kills broad-leaved weeds in rice and wheat.
+
+16
+00:01:22,838 --> 00:01:26,584
+Careful: a dose that speeds a stem stops a root.
+
+17
+00:01:28,200 --> 00:01:36,782
+Gibberellin came from bakanae, the foolish seedling disease of rice, where infected seedlings grow tall and pale.
+
+18
+00:01:36,782 --> 00:01:40,623
+Kurosawa showed a cell-free fungal extract did the same.
+
+19
+00:01:41,833 --> 00:01:45,350
+Its signature effect is stem elongation.
+
+20
+00:01:45,350 --> 00:01:50,833
+A rosette cabbage given gibberellin shoots up a stem and flowers: bolting.
+
+21
+00:01:51,033 --> 00:02:00,247
+It also makes dwarf peas tall, breaks dormancy, triggers alpha-amylase in germinating barley, and enlarges Thompson Seedless grapes.
+
+22
+00:02:01,866 --> 00:02:05,800
+Cytokinins promote cell division, with auxin present.
+
+23
+00:02:05,800 --> 00:02:10,214
+Kinetin came from herring sperm DNA, zeatin from maize.
+
+24
+00:02:10,214 --> 00:02:11,534
+They are made in root tips.
+
+25
+00:02:13,166 --> 00:02:21,410
+In tissue culture the ratio decides: more auxin gives roots, equal gives callus, more cytokinin gives shoots.
+
+26
+00:02:21,410 --> 00:02:24,241
+This is the fact most often reversed.
+
+27
+00:02:25,466 --> 00:02:32,499
+Cytokinin delays ageing: a treated spot on a detached leaf stays green while the rest yellows.
+
+28
+00:02:32,499 --> 00:02:33,999
+That is the Richmond Lang effect.
+
+29
+00:02:36,800 --> 00:02:38,013
+Pause and think.
+
+30
+00:02:38,013 --> 00:02:40,526
+Plenty of cytokinin, little auxin.
+
+31
+00:02:40,526 --> 00:02:42,022
+What grows from the callus?
+
+32
+00:02:48,900 --> 00:02:49,813
+Shoots.
+
+33
+00:02:49,813 --> 00:02:55,021
+High cytokinin gives shoots, high auxin roots, equal amounts callus.
+
+34
+00:02:55,021 --> 00:03:00,118
+Roots is the trap: the exact reversal, and the commonest mistake here.
+
+35
+00:03:00,900 --> 00:03:04,912
+Abscisic acid, A B A, is the stress hormone.
+
+36
+00:03:04,912 --> 00:03:07,687
+In drought it closes stomata within minutes.
+
+37
+00:03:07,900 --> 00:03:12,590
+It also induces seed and bud dormancy, opposing gibberellin.
+
+38
+00:03:14,200 --> 00:03:19,449
+Trap: despite its name, A B A is not the main leaf-fall hormone.
+
+39
+00:03:19,449 --> 00:03:22,324
+That is ethylene; auxin delays abscission.
+
+40
+00:03:23,533 --> 00:03:28,131
+Ethylene is the only gaseous hormone, made from methionine.
+
+41
+00:03:28,131 --> 00:03:30,431
+Its signature job: ripening fruit.
+
+42
+00:03:30,633 --> 00:03:39,588
+Climacteric fruits like banana and mango release an autocatalytic burst of ethylene, so one ripe banana ripens its neighbours.
+
+43
+00:03:40,266 --> 00:03:45,632
+Orange, grape and litchi are non-climacteric and won't ripen after picking.
+
+44
+00:03:45,632 --> 00:03:51,477
+Ethylene also causes leaf fall and epinasty, and is sprayed as ethephon.
+
+45
+00:03:53,100 --> 00:04:00,003
+Warning: calcium carbide releases acetylene, not ethylene, plus toxic impurities.
+
+46
+00:04:00,003 --> 00:04:01,339
+It is prohibited in Nepal.
+
+47
+00:04:02,566 --> 00:04:15,937
+All five: auxin for elongation and apical dominance; gibberellin for bolting; cytokinin for division; A B A for stomatal closure and dormancy; ethylene for ripening and leaf fall.
+
+48
+00:04:20,733 --> 00:04:24,992
+Growth is an irreversible increase in size or dry weight.
+
+49
+00:04:24,992 --> 00:04:28,313
+A wilted leaf that recovers has not grown.
+
+50
+00:04:28,313 --> 00:04:32,238
+Plant growth is localised in meristems and indeterminate.
+
+51
+00:04:33,466 --> 00:04:38,739
+In a root tip, cells divide behind the cap, then elongate, then mature.
+
+52
+00:04:38,966 --> 00:04:44,223
+Ink marks spread most in the elongation zone: that is where the root lengthens.
+
+53
+00:04:45,866 --> 00:04:50,877
+Plot size against time and you get an S-shaped curve: the grand period of growth.
+
+54
+00:04:51,100 --> 00:04:59,324
+Four phases: slow lag, exponential log, deceleration as resources run short, and stationary at maturity.
+
+55
+00:04:59,533 --> 00:05:04,112
+The steepest point, the point of inflexion, is the fastest growth.
+
+56
+00:05:04,333 --> 00:05:09,673
+Early on both daughter cells divide: geometric, exponential growth.
+
+57
+00:05:09,673 --> 00:05:13,371
+Later only one does: arithmetic growth.
+
+58
+00:05:13,371 --> 00:05:15,165
+Then it stops, giving the S.
+
+59
+00:05:16,366 --> 00:05:24,645
+Many plants time flowering by day and night length: photoperiodism, discovered by Garner and Allard in nineteen twenty.
+
+60
+00:05:24,866 --> 00:05:35,506
+Short-day plants, like chrysanthemum and soybean, need nights longer than a critical length; long-day plants, like wheat and radish, need shorter ones.
+
+61
+00:05:35,506 --> 00:05:37,602
+Here, say twelve hours.
+
+62
+00:05:37,602 --> 00:05:39,215
+Tomato is day-neutral.
+
+63
+00:05:39,433 --> 00:05:47,234
+Break a long night with a flash of light: the short-day plant stops flowering, the long-day plant flowers.
+
+64
+00:05:47,234 --> 00:05:49,973
+So plants measure unbroken darkness.
+
+65
+00:05:50,200 --> 00:05:55,842
+The leaves sense it with phytochrome, and a signal, florigen, travels to the shoot tip.
+
+66
+00:05:57,066 --> 00:06:03,467
+Tropic movements are growth movements whose direction follows the stimulus, like phototropism.
+
+67
+00:06:04,700 --> 00:06:06,538
+Lay a seedling sideways.
+
+68
+00:06:06,538 --> 00:06:12,083
+Statoliths settle in the root cap, and auxin collects on the lower side of root and shoot.
+
+69
+00:06:12,300 --> 00:06:16,065
+In the shoot that speeds lower-side growth, so it curves up.
+
+70
+00:06:16,065 --> 00:06:21,658
+Roots are more sensitive, so the same auxin inhibits them, and the root curves down.
+
+71
+00:06:24,366 --> 00:06:29,472
+Nastic movements have a direction fixed by the organ, not the stimulus.
+
+72
+00:06:29,472 --> 00:06:34,966
+Some are growth movements, like Crocus flowers opening; others are turgor movements.
+
+73
+00:06:35,166 --> 00:06:38,097
+Touch Mimosa pudica, lajjawati.
+
+74
+00:06:38,097 --> 00:06:43,524
+An electrical signal spreads, the leaflets fold in pairs, and the leaf droops.
+
+75
+00:06:43,733 --> 00:06:51,594
+In the pulvinus at the leaf base, lower motor cells lose potassium and water and go limp, so the leaf drops.
+
+76
+00:06:51,800 --> 00:06:57,688
+Nothing grows; within ten to thirty minutes the cells refill and the leaf rises.
+
+77
+00:06:58,900 --> 00:07:05,438
+So: tropic movements follow the stimulus, are always growth, and are permanent.
+
+78
+00:07:05,438 --> 00:07:11,567
+Nastic movements follow the organ, may be growth or turgor, and turgor ones reverse.
+
+79
+00:07:16,000 --> 00:07:16,926
+Last one.
+
+80
+00:07:16,926 --> 00:07:19,934
+A lajjawati leaf folds when touched.
+
+81
+00:07:19,934 --> 00:07:20,921
+Which movement is it?
+
+82
+00:07:27,800 --> 00:07:31,122
+Seismonasty: a nastic turgor movement.
+
+83
+00:07:31,122 --> 00:07:36,764
+Thigmotropism is the trap: it is permanent directional growth, like a tendril coiling.
+
+84
+00:07:38,133 --> 00:07:39,593
+Exam tip.
+
+85
+00:07:39,593 --> 00:07:45,088
+Mimosa: seismonasty, nastic, turgor, reversible.
+
+86
+00:07:45,088 --> 00:07:49,377
+Tendril: thigmotropism, tropic, growth, permanent.
+
+87
+00:07:51,566 --> 00:07:52,635
+Quick recap.
+
+88
+00:07:52,635 --> 00:07:58,469
+Water moves to more negative potential, and xylem sap is pulled under tension.
+
+89
+00:07:58,469 --> 00:08:02,440
+Potassium opens stomata; A B A closes them.
+
+90
+00:08:02,440 --> 00:08:07,974
+The light reaction makes ATP, NADPH and oxygen from water.
+
+91
+00:08:07,974 --> 00:08:16,893
+Calvin needs three ATP and two NADPH per carbon dioxide; C4 separates steps in space, CAM in time.
+
+92
+00:08:16,893 --> 00:08:23,391
+Respiration gives thirty to thirty-two ATP; R Q is about zero point seven for fat.
+
+93
+00:08:23,391 --> 00:08:28,207
+And five hormones; tropisms are growth, Mimosa is turgor.
+
+94
+00:08:32,400 --> 00:08:34,094
+That was plant physiology.
+
+95
+00:08:34,094 --> 00:08:38,105
+Remember the sal: the sun pulls a rope of water through it.
+
+96
+00:08:38,105 --> 00:08:41,139
+Next, Unit 3, genetics.
+
+97
+00:08:41,139 --> 00:08:41,718
+See you there.
+
