@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,132
+Quick recap.
+
+2
+00:00:01,132 --> 00:00:06,054
+The three standard sums, with denominators two, six and four.
+
+3
+00:00:06,054 --> 00:00:11,197
+Any polynomial term: split, substitute, factorise, test.
+
+4
+00:00:11,197 --> 00:00:14,986
+For a part sum, subtract up to m minus one.
+
+5
+00:00:14,986 --> 00:00:19,505
+Induction needs a basis and a step that uses the hypothesis.
+
+6
+00:00:19,505 --> 00:00:27,708
+And the exponential series works for every x, while the log series needs x between minus one and one.
+

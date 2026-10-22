@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,710
+Sigma k squared, k from one to five: put k equal to one, two, three, four, five in turn and add.
+
+2
+00:00:08,710 --> 00:00:09,986
+Fifty five.
+
+3
+00:00:09,986 --> 00:00:16,054
+The letter k is only a counter, a dummy: use r instead and nothing changes.
+

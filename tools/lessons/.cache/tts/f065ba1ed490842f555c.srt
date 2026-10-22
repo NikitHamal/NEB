@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,296
+In general the sum of the first n cubes is the square of n into n plus one over two: the square of the sum of the first n numbers.
+
+2
+00:00:09,296 --> 00:00:14,375
+The same telescoping trick, with fourth powers, proves it algebraically.
+

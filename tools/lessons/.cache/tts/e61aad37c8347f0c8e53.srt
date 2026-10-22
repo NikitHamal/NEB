@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,299
+Set n into n plus one over two equal to four sixty five.
+

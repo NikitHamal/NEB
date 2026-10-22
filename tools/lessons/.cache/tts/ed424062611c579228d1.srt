@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,885
+Watch.
+
+2
+00:00:00,885 --> 00:00:05,429
+Push the first, and each one topples the next, all the way along.
+
+3
+00:00:05,429 --> 00:00:08,645
+Leave out either step and the row stays standing.
+

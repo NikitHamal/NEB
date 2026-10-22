@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,940
+The three standard sums.
+
+2
+00:00:01,940 --> 00:00:05,703
+Memorise the denominators: two, six, four.
+
+3
+00:00:05,703 --> 00:00:08,307
+They are the commonest slip under pressure.
+

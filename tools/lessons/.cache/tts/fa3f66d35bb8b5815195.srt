@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,041
+e plus one.
+
+2
+00:00:01,041 --> 00:00:08,072
+The series for e already starts one plus one over one factorial; this one has an extra one in front.
+

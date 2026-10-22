@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,500
+Small x, so the terms shrink fast.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,645
+Two rules, used in every question in this unit.
+
+2
+00:00:03,645 --> 00:00:06,653
+Sigma splits over a sum or difference.
+

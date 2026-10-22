@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,458
+Two hundred and ten squared minus fifty five squared: forty one thousand and seventy five.
+

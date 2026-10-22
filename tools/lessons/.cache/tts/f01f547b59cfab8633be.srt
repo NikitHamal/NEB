@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,388
+The k th odd number is two k minus one; square it.
+

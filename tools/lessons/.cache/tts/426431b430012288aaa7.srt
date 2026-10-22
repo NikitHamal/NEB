@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,932
+Three thousand and twenty five: the square of fifty five.
+
+2
+00:00:03,932 --> 00:00:09,973
+Three eighty five is the sum of the squares, and five thousand and fifty belongs to Gauss.
+

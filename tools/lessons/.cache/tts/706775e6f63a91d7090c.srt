@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,278
+P of one, the basis step.
+
+2
+00:00:02,278 --> 00:00:06,067
+Without it there is no first domino, and nothing ever falls.
+

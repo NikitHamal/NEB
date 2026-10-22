@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,914
+Cancel, and you get k plus one over k plus two: the formula for k plus one.
+

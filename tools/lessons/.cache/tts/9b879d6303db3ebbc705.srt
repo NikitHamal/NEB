@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,122
+That was sequence and series.
+
+2
+00:00:02,122 --> 00:00:08,736
+Next, matrices: solving systems of linear equations with determinants and inverses.
+
+3
+00:00:08,736 --> 00:00:09,713
+See you there.
+

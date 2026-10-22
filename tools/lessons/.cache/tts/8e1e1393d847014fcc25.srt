@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,955
+Here is the same trick as a picture.
+
+2
+00:00:02,955 --> 00:00:08,867
+Stack one dot, two dots, three, up to six: a triangle of twenty one dots.
+

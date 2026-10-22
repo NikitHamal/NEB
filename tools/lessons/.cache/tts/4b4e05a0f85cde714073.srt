@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:12,317
+For a sum that starts part way along, take the full sum to a hundred and subtract the sum to fifty: five thousand and fifty minus twelve seventy five, three thousand seven hundred and seventy five.
+

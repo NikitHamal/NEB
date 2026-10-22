@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,708
+The logarithmic series behaves differently: it only works for x between minus one and one, including one.
+
+2
+00:00:07,708 --> 00:00:15,052
+At x equal to one the partial sums zig zag, above and below, closing in on log two.
+
+3
+00:00:15,052 --> 00:00:21,770
+At x equal to minus one point two the terms grow and the sums run away: no sum at all.
+
+4
+00:00:21,770 --> 00:00:25,052
+That is why the condition must always be stated.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,747
+Factorise the difference of squares.
+
+2
+00:00:02,747 --> 00:00:06,536
+For n equal to ten: thirteen hundred and thirty.
+

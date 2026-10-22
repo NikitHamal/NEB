@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,395
+Assume it is true for k.
+
+2
+00:00:02,395 --> 00:00:04,583
+That is the inductive hypothesis.
+

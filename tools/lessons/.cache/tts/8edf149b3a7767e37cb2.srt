@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,666
+Assume three to the two k, minus one, is eight m for some whole number m.
+
+2
+00:00:06,666 --> 00:00:10,364
+So three to the two k is eight m plus one.
+

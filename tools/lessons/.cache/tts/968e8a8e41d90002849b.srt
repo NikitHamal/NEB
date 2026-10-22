@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,007
+So the sum is e minus e to the minus one, over two: one point one seven five two.
+

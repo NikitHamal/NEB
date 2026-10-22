@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,104
+Solve the quadratic: root of three seven two one is sixty one.
+
+2
+00:00:05,104 --> 00:00:08,033
+So n is thirty or minus thirty one.
+

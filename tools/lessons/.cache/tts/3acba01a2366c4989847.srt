@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,640
+The cubes have a picture too.
+
+2
+00:00:01,640 --> 00:00:07,734
+Take squares whose sides are the triangular numbers: one, three, six, ten.
+
+3
+00:00:07,734 --> 00:00:11,315
+Each new square adds an L shaped strip.
+

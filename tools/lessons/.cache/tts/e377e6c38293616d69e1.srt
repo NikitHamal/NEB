@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,346
+Three terms give point one eight two three.
+

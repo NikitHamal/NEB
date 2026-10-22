@@ -20,7 +20,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 | phy12 | units 1–15 scripted, narrated, frame-checked |
 | chem12 | units 1–12 scripted, narrated, frame-checked |
 | bio12 | units 1–10 all scripted, narrated, frame-checked (helpers `_bio.py`, `_phys2.py`, `_gen.py`, `_emb.py`, `_hum.py`) |
-| math12 | units 1–3 pushed (helpers `_m.py`); 4–6 scripted, in frame review; 7–17 to do |
+| math12 | units 1–4 pushed (helpers `_m.py`: worked, grid/set_row, clipped); 5–8 scripted, in frame review; 9–17 to do |
 | then | eng12? (English-medium only), cs12 → class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
@@ -30,7 +30,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
   Use `save_state()` + `fade()` + `Restore`.
 - A CPU box (molab marimo kernel, 20 cores) may be used for frame checks; it is shared with a festival-reel agent, so run
   renders under `nice` with at most a few parallel jobs.
-- Next step if interrupted: math12 — review unit_04 (Sequence and Series), unit_05 (Matrices), unit_06 (Triangle) sheets, push each with `ttskeys.py` file lists, then unit_07 Solution of Triangles … unit_17 (notes/content/math12/unit-NN.md); then eng12, cs12; then class 11.
+- Next step if interrupted: math12 — review unit_05 (Matrices, fixes applied), unit_06 (Triangle), unit_07 (Solution of Triangles), unit_08 (Conics) sheets, push each with `ttskeys.py` file lists, then unit_09 Product of Vectors … unit_17 (notes/content/math12/unit-NN.md); then eng12, cs12; then class 11.
 - `python3 tools/lessons/ttskeys.py <script>` (from the repo root) dry-runs a lesson and prints exactly the `.cache/tts` files it uses: push those with the unit.
 - Kit: `recap` now slides a long list left so Neby never covers the last line.
 - Molab box workflow: `/root/neb` clone + `/root/neb/venv`; `render.sh <script> "parts"` runs prefetch then frames.py with xargs -P 4 under nice; unset the kernel's PYTHONPATH/VIRTUAL_ENV first (they leak from marimo).

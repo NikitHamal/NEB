@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,377
+The strip added at stage two has area nine minus one, eight: two cubed.
+
+2
+00:00:05,377 --> 00:00:11,315
+At stage three, thirty six minus nine, twenty seven: three cubed.
+
+3
+00:00:11,315 --> 00:00:16,875
+At stage four, a hundred minus thirty six, sixty four: four cubed.
+
+4
+00:00:16,875 --> 00:00:23,085
+So one plus eight plus twenty seven plus sixty four fills a ten by ten square.
+
