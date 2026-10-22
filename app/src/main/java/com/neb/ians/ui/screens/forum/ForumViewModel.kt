@@ -10,11 +10,9 @@ import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.ForumRepository
 import com.neb.ians.data.repository.AppCache
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -114,13 +112,11 @@ class ForumViewModel @Inject constructor(
      * page into the offline cache re-flows onto the screen without a manual
      * refresh. Own writes (likes/bookmarks) are applied directly too.
      */
-    @OptIn(FlowPreview::class)
     private fun collectCacheSignals() {
         viewModelScope.launch {
-            cacheBus.signals
-                .debounce(400)
-                .collect { key ->
-                    if (!key.startsWith(CacheBus.PREFIX_POSTS_LIST)) return@collect
+            cacheBus.batches()
+                .collect { keys ->
+                    if (keys.none { it.startsWith(CacheBus.PREFIX_POSTS_LIST) }) return@collect
                     val state = _forumState.value
                     // Only page-1 slices feed this screen; other pages merge on scroll.
                     forumRepository.getPosts(
