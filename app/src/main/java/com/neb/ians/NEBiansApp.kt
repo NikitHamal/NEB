@@ -16,12 +16,23 @@ import coil.memory.MemoryCache
 import okhttp3.OkHttpClient
 import com.neb.ians.data.api.WafChallengeInterceptor
 import com.neb.ians.util.DevicePerformance
+import com.neb.ians.data.repository.SecurePrefs
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @HiltAndroidApp
 class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
@@ -71,6 +82,19 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
         super.onCreate()
         com.neb.ians.util.CrashHandler.init(this)
         createNotificationChannels()
+        warmUp()
+    }
+
+    /**
+     * Starts, off the main thread, the two reads the first screen otherwise waits for on it: the
+     * preferences file (AuthRepository reads it while MainActivity is injected) and the encrypted
+     * token (Keystore and Tink setup, the slowest step of a cold start). A later reader finds
+     * either one cached, or waits for the read already under way rather than starting its own.
+     */
+    private fun warmUp() {
+        val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+        scope.launch { runCatching { dataStore.data.first() } }
+        scope.launch { runCatching { SecurePrefs.getAuthToken(this@NEBiansApp) } }
     }
 
     private fun createNotificationChannels() {
