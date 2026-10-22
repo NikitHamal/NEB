@@ -316,18 +316,22 @@ def _paginated_response(request, queryset, serializer_class, *, context=None, de
     return paginator.get_paginated_response(_serialize_page(request, page, serializer_class, context))
 
 
-def _page_rows(request, queryset, page_size):
+def _page_rows(request, queryset, page_size, peek=False):
     """The rows of one PageNumberPagination page, without the COUNT(*) behind its total.
 
     For callers that never send the total to the client. Pages are numbered the same way
     and a bad or out-of-range ?page= gets the same 404 ("Invalid page."): a page past the
-    end is exactly a page with no rows, other than page 1."""
+    end is exactly a page with no rows, other than page 1.
+
+    With ``peek`` it reads one row past the page and returns ``(rows, has_more)``, which
+    tells the client whether another page exists without counting the table."""
     from rest_framework.exceptions import NotFound
     raw = request.query_params.get(PageNumberPagination.page_query_param) or 1
     if raw in PageNumberPagination.last_page_strings:
         paginator = PageNumberPagination()  # 'last' needs the total
         paginator.page_size = page_size
-        return paginator.paginate_queryset(queryset, request)
+        rows = paginator.paginate_queryset(queryset, request)
+        return (rows, False) if peek else rows
     invalid = NotFound(PageNumberPagination.invalid_page_message.format(page_number=raw, message=''))
     try:
         number = int(raw)
@@ -338,9 +342,11 @@ def _page_rows(request, queryset, page_size):
     bottom = (number - 1) * page_size
     if bottom + page_size > 2 ** 62:
         raise invalid  # past the end of any table; an OFFSET this large would be a DB error
-    rows = list(queryset[bottom:bottom + page_size])
+    rows = list(queryset[bottom:bottom + page_size + (1 if peek else 0)])
     if not rows and number > 1:
         raise invalid
+    if peek:
+        return rows[:page_size], len(rows) > page_size
     return rows
 
 

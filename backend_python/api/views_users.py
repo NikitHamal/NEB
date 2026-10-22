@@ -375,6 +375,50 @@ def user_private_analytics(request):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
+@throttle_classes([SearchRateThrottle])
+def user_search(request):
+    """GET /api/users/search/?q= -- people for the app's @mention picker.
+
+    The same people the web's ajax/user-search/ finds (username contains the term, account
+    verified and not locked, eight at most), in the shape the app reads, with those whose
+    username starts with the term first."""
+    from django.db.models import Case, IntegerField, Value, When
+    from .badges import user_badge_info
+    from .models import Follow, User
+    from .services import avatar_or_photo_url
+    q = (request.query_params.get('q') or '').strip().lstrip('@')
+    if len(q) < 2:
+        return Response([])
+    viewer = _get_user_from_request(request)
+    users = list(
+        User.objects.filter(username__icontains=q, is_locked=False, email_verified=True)
+        .annotate(
+            starts=Case(When(username__istartswith=q, then=Value(0)), default=Value(1), output_field=IntegerField()),
+            n_followers=Count('followers_set', distinct=True),
+        )
+        .order_by('starts', 'username')[:8]
+    )
+    following = set()
+    if viewer is not None and users:
+        following = set(Follow.objects.filter(follower=viewer, following_id__in=[u.id for u in users])
+                        .values_list('following_id', flat=True))
+    return Response([{
+        'id': u.id,
+        'username': u.username,
+        'display_name': u.display_name or u.username,
+        'photo_url': avatar_or_photo_url(u),
+        'bio': u.bio or None,
+        'school': u.school or None,
+        'class_level': u.class_level or None,
+        'follower_count': u.n_followers,
+        'is_following': u.id in following,
+        'is_self': viewer is not None and u.id == viewer.id,
+        'badge_info': user_badge_info(u),
+    } for u in users])
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
 def user_suggestions(request):
     """GET /api/users/suggestions/?limit=12 -- people to follow, scored server-side.
 
