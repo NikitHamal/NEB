@@ -1789,6 +1789,66 @@
    "script": "tools/lessons/scripts/math12/unit_08.py"
   },
   {
+   "id": "class-12/math12/unit_09.mp4",
+   "file": "class-12/math12/unit_09.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_09.mp4",
+     "subtitles": "class-12/math12/unit_09.srt",
+     "start": 0.0,
+     "end": 657.03,
+     "mb": 21.7
+    }
+   ],
+   "poster": "class-12/math12/unit_09.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 9,
+   "title": "Product of Vectors",
+   "subtitle": "Two ways to multiply arrows",
+   "lang": "en",
+   "sections": [
+    "Scalar (dot) product",
+    "Projection and properties",
+    "Dot product in geometry and trigonometry",
+    "Vector (cross) product",
+    "Cross product: areas, moments, sine rules"
+   ],
+   "seconds": 657.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.2,
+     "Scalar (dot) product"
+    ],
+    [
+     151.0,
+     "Projection and properties"
+    ],
+    [
+     257.3,
+     "Dot product in geometry and trigonometry"
+    ],
+    [
+     320.63,
+     "Vector (cross) product"
+    ],
+    [
+     466.8,
+     "Cross product: areas, moments, sine rules"
+    ],
+    [
+     615.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 21.7,
+   "script": "tools/lessons/scripts/math12/unit_09.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
