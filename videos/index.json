@@ -131,6 +131,71 @@
    "script": "tools/lessons/scripts/eng12/unit_02.py"
   },
   {
+   "id": "class-12/eng12/unit_03.mp4",
+   "file": "class-12/eng12/unit_03.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_03.mp4",
+     "subtitles": "class-12/eng12/unit_03.srt",
+     "start": 0.0,
+     "end": 538.13,
+     "mb": 20.2
+    }
+   ],
+   "poster": "class-12/eng12/unit_03.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 3,
+   "title": "A Devoted Son",
+   "subtitle": "Anita Desai · a short story",
+   "lang": "en",
+   "sections": [
+    "Anita Desai",
+    "The rise",
+    "The turn",
+    "The characters",
+    "Themes",
+    "How it is built"
+   ],
+   "seconds": 538.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.23,
+     "Anita Desai"
+    ],
+    [
+     93.37,
+     "The rise"
+    ],
+    [
+     155.8,
+     "The turn"
+    ],
+    [
+     266.23,
+     "The characters"
+    ],
+    [
+     318.07,
+     "Themes"
+    ],
+    [
+     382.47,
+     "How it is built"
+    ],
+    [
+     504.97,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.2,
+   "script": "tools/lessons/scripts/eng12/unit_03.py"
+  },
+  {
    "id": "class-12/eng12/unit_09.mp4",
    "file": "class-12/eng12/unit_09.mp4",
    "parts": [
