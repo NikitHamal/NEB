@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,046
+Commas decide what a relative clause means.
+
+2
+00:00:03,046 --> 00:00:12,382
+My brother who lives in Pokhara is a doctor, with no commas, is a defining clause: it tells you which brother, so I must have more than one.
+
+3
+00:00:12,382 --> 00:00:24,648
+My brother, comma, who lives in Pokhara, comma, is a doctor: a non defining clause, just extra information about a brother already identified, so I have only one.
+
+4
+00:00:24,648 --> 00:00:27,968
+And in a non defining clause, that is forbidden.
+

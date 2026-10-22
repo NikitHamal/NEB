@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,247
+When two past events are told together, the earlier one takes the past perfect.
+
+2
+00:00:05,247 --> 00:00:08,580
+The train left first; then I reached the station.
+
+3
+00:00:08,580 --> 00:00:11,471
+When I reached the station, the train had left.
+
+4
+00:00:11,471 --> 00:00:15,377
+If you write the train left, you say it left at the moment you arrived.
+

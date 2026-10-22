@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,835
+The sequence of tenses.
+
+2
+00:00:01,835 --> 00:00:07,578
+When the main verb is in the past, the verb in the subordinate clause is normally past too.
+
+3
+00:00:07,578 --> 00:00:09,440
+He said that he was unwell.
+
+4
+00:00:09,440 --> 00:00:10,781
+She asked what I wanted.
+
+5
+00:00:10,781 --> 00:00:12,786
+They left before the guests arrived.
+
+6
+00:00:12,786 --> 00:00:29,166
+Three exceptions: a universal truth stays present, he said that honesty is the best policy; a comparison after than may keep its own tense; and a present habit may be kept: she told me that she goes to the gym every morning.
+
