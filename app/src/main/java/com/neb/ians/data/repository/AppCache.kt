@@ -31,10 +31,13 @@ class AppCache @Inject constructor() {
     var forumHasMore: Boolean = false
     var forumPage: Int = 1
 
-    var resourceDetails: MutableMap<String, ApiResource> = mutableMapOf()
-    var resourceComments: MutableMap<String, List<ApiResourceComment>> = mutableMapOf()
-    var postDetails: MutableMap<String, ApiPost> = mutableMapOf()
-    var postReplies: MutableMap<String, List<ApiReply>> = mutableMapOf()
+    // Every resource in every list page lands in resourceDetails, so unbounded these grew for as
+    // long as the app stayed open. They keep the most recently added entries; anything older is
+    // read from the offline cache or the network, as on a cold start.
+    var resourceDetails: MutableMap<String, ApiResource> = boundedMap(400)
+    var resourceComments: MutableMap<String, List<ApiResourceComment>> = boundedMap(40)
+    var postDetails: MutableMap<String, ApiPost> = boundedMap(200)
+    var postReplies: MutableMap<String, List<ApiReply>> = boundedMap(40)
     
     // Notifications Screen Cache
     var notifications: List<ApiNotification> = emptyList()
@@ -52,4 +55,9 @@ class AppCache @Inject constructor() {
     var lastProfilePosts: List<ApiPost> = emptyList()
     var lastProfileReplies: List<ApiReply> = emptyList()
     var lastProfileResources: List<ApiResource> = emptyList()
+}
+
+/** An insertion-ordered map that drops its oldest entry past [max] (gets do not reorder it). */
+private fun <V> boundedMap(max: Int): MutableMap<String, V> = object : LinkedHashMap<String, V>() {
+    override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, V>?) = size > max
 }
