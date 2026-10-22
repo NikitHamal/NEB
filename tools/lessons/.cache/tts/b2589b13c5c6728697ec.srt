@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,619
+The costs: no internet, no service.
+
+2
+00:00:03,619 --> 00:00:05,286
+The bill never ends.
+
+3
+00:00:05,286 --> 00:00:10,000
+Your data may physically sit in another country, under its laws.
+
+4
+00:00:10,000 --> 00:00:12,734
+Vendor lock in makes leaving expensive.
+
+5
+00:00:12,734 --> 00:00:15,885
+And when the provider goes down, so do you.
+
+6
+00:00:15,885 --> 00:00:23,450
+As of twenty twenty five, Amazon held about thirty per cent of the market, Microsoft twenty two and Google twelve.
+

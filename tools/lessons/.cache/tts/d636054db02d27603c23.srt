@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,947
+By capability, AI is narrow, general or super.
+
+2
+00:00:04,947 --> 00:00:12,812
+Narrow AI does one task well, and every system in use today is narrow, however clever it looks.
+
+3
+00:00:12,812 --> 00:00:20,585
+General AI, human level at everything, does not yet exist; super AI is hypothetical.
+

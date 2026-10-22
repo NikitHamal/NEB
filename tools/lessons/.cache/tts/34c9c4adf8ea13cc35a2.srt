@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,549
+Times two thousand sensors, times eighty bytes: about two point seven six gigabytes a day.
+

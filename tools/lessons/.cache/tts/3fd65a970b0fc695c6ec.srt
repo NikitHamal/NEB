@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,666
+A few dates worth knowing.
+
+2
+00:00:01,666 --> 00:00:05,026
+The term was coined at Dartmouth in nineteen fifty six.
+
+3
+00:00:05,026 --> 00:00:18,528
+Deep Blue beat Kasparov at chess in ninety seven, AlphaGo won at Go in twenty sixteen, the transformer was published in twenty seventeen, and ChatGPT arrived in November twenty twenty two.
+

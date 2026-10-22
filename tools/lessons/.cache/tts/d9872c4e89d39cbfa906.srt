@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,169
+Mobile computing lets the user, the device and the connection all move.
+
+2
+00:00:05,169 --> 00:00:09,921
+It needs mobile hardware, mobile software and wireless communication.
+
+3
+00:00:09,921 --> 00:00:24,388
+Each network generation was ten to a hundred times faster than the last: analogue voice in the eighties, SMS on 2G, mobile internet on 3G, video on 4G, and about ten gigabits per second on 5G.
+

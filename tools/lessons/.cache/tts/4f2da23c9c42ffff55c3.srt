@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:15,716
+Robots by type: industrial arms, mobile warehouse robots, service robots like the robot waiter a Kathmandu startup built, surgical robots, drones that mapped the damage after the twenty fifteen earthquake, and explorers like the Mars rovers.
+
+2
+00:00:15,716 --> 00:00:21,367
+AI and robots work without tiring, fast and safely in danger.
+
+3
+00:00:21,367 --> 00:00:29,322
+But they cost a lot, displace jobs, lack common sense, and a model trained on biased data gives biased answers.
+

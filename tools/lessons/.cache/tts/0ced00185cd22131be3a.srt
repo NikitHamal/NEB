@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,171
+Quick recap.
+
+2
+00:00:01,171 --> 00:00:06,210
+AI and its nested layers, and robots that sense, decide and act.
+
+3
+00:00:06,210 --> 00:00:08,697
+Cloud service and deployment models.
+
+4
+00:00:08,697 --> 00:00:10,768
+The five Vs of big data.
+
+5
+00:00:10,768 --> 00:00:13,281
+Virtual and augmented reality.
+
+6
+00:00:13,281 --> 00:00:16,210
+The e-commerce and e-governance models.
+
+7
+00:00:16,210 --> 00:00:18,997
+And the four layers of the internet of things.
+

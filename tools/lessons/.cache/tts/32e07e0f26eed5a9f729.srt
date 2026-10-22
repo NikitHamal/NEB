@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,835
+Applications: virtual labs, surgical training and therapy, walking through a building before it exists, flight simulators where crashing is free, and heritage tours.
+
+2
+00:00:11,835 --> 00:00:18,984
+The drawbacks: expensive hardware, motion sickness, eye strain, and content that is costly to make.
+

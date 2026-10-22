@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:11,054
+Artificial intelligence is building machines that do jobs which would need human intelligence: learning, reasoning, understanding language, recognising patterns.
+
+2
+00:00:11,054 --> 00:00:17,630
+Inside it sits machine learning, which learns patterns from data instead of following hand written rules.
+
+3
+00:00:17,630 --> 00:00:22,096
+Inside that, deep learning, with many layered neural networks.
+
+4
+00:00:22,096 --> 00:00:32,734
+And inside that, the newest layer: generative AI, the large language models behind ChatGPT, which create new text, code and pictures.
+

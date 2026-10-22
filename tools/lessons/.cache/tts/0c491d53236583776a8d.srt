@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,187
+Place the technologies on a line.
+
+2
+00:00:02,187 --> 00:00:03,815
+The plain real world.
+
+3
+00:00:03,815 --> 00:00:09,492
+Augmented reality adds computer objects to your real view, like Pokémon Go.
+
+4
+00:00:09,492 --> 00:00:13,398
+Mixed reality anchors virtual objects to real ones.
+
+5
+00:00:13,398 --> 00:00:17,447
+Virtual reality replaces the world altogether.
+
+6
+00:00:17,447 --> 00:00:26,588
+VR itself is non immersive on an ordinary screen, semi immersive on a big projection, or fully immersive in a tracked headset.
+

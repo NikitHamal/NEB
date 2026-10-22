@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:06,028
+e-commerce is buying and selling, and moving the money, over electronic networks.
+
+2
+00:00:06,028 --> 00:00:08,854
+Its models are named by who sits at each end.
+
+3
+00:00:08,854 --> 00:00:12,825
+Business to business: a wholesaler supplying shops.
+
+4
+00:00:12,825 --> 00:00:16,731
+Business to consumer: an online shop like Daraz.
+
+5
+00:00:16,731 --> 00:00:21,406
+Consumer to consumer: selling your old bicycle on Hamrobazar.
+
+6
+00:00:21,406 --> 00:00:26,757
+Consumer to business: a freelancer selling photos to a company.
+
+7
+00:00:26,757 --> 00:00:34,908
+In Nepal the money moves through wallets and QR payments, under the Electronic Transactions Act of twenty sixty three.
+

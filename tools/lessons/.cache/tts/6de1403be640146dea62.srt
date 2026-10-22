@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,143
+That one moment uses almost every topic in this unit: the internet of things, mobile computing, cloud computing and artificial intelligence.
+

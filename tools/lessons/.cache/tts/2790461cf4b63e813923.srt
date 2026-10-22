@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,570
+A soil sensor in a field in Jhapa notices the ground is dry.
+
+2
+00:00:04,570 --> 00:00:14,309
+Its reading hops over the mobile network to a server in a data centre, a trained model decides the crop needs water, and the farmer's phone switches the pump on.
+
+3
+00:00:14,309 --> 00:00:17,057
+Ten seconds, no human in the loop.
+
