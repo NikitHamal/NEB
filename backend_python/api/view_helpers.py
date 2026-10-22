@@ -250,8 +250,12 @@ def prime_for_serializers(user, posts=(), resources=(), replies=()):
         ctx['liked_post_ids'] = set(PostLike.objects.filter(user=user, post_id__in=ids).values_list('post_id', flat=True))
         ctx['bookmarked_post_ids'] = set(Bookmark.objects.filter(user=user, target_type='post', target_id__in=ids)
                                          .values_list('target_id', flat=True))
-        ctx['user_poll_votes'] = dict(PollVote.objects.filter(poll__post_id__in=ids, user=user)
-                                      .values_list('poll_id', 'option_id'))
+        # The polls were prefetched above, so a page without one needs no vote lookup.
+        if any(_may_have_poll(p) for p in posts):
+            ctx['user_poll_votes'] = dict(PollVote.objects.filter(poll__post_id__in=ids, user=user)
+                                          .values_list('poll_id', 'option_id'))
+        else:
+            ctx['user_poll_votes'] = {}
     if resources:
         rids = [r.pk for r in resources]
         liked = set(ResourceLike.objects.filter(user=user, resource_id__in=rids).values_list('resource_id', flat=True))
@@ -262,7 +266,18 @@ def prime_for_serializers(user, posts=(), resources=(), replies=()):
             r._viewer_bookmarked = str(r.pk) in marked
         ctx['liked_resource_ids'] = liked
         ctx['bookmarked_resource_ids'] = marked
+        # Paid cards look up the viewer's purchases one card at a time (two queries each);
+        # batch them when a page holds more than one.
+        if sum(1 for r in resources if r.is_paid) > 1:
+            from web.view_helpers import prefetch_resource_purchases
+            prefetch_resource_purchases(user, resources)
     return ctx
+
+
+def _may_have_poll(post):
+    """False only when the post's (prefetched) poll relation is cached as empty. Never queries."""
+    rel = Post._meta.get_field('poll')
+    return not rel.is_cached(post) or rel.get_cached_value(post) is not None
 
 
 def _paginated_response(request, queryset, serializer_class, *, context=None, default_page_size=50, max_page_size=100):
