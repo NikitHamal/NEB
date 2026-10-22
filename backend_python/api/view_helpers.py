@@ -336,6 +336,8 @@ def _page_rows(request, queryset, page_size):
     if number < 1:
         raise invalid
     bottom = (number - 1) * page_size
+    if bottom + page_size > 2 ** 62:
+        raise invalid  # past the end of any table; an OFFSET this large would be a DB error
     rows = list(queryset[bottom:bottom + page_size])
     if not rows and number > 1:
         raise invalid
