@@ -503,7 +503,7 @@ private fun LazyListScope.feedSection(
 ) {
     // First load: show the shape of what is coming rather than a spinner.
     if (count == 0 && isLoading) {
-        items(4, key = { idx -> "${prefix}_skeleton_$idx" }) { CardSlot { skeleton() } }
+        items(4, key = { idx -> "${prefix}_skeleton_$idx" }, contentType = { "${prefix}_skeleton" }) { CardSlot { skeleton() } }
         return
     }
 
@@ -533,7 +533,7 @@ private fun LazyListScope.feedSection(
         return
     }
 
-    items(count, key = { idx -> "${prefix}_${key(idx)}" }) { idx ->
+    items(count, key = { idx -> "${prefix}_${key(idx)}" }, contentType = { prefix }) { idx ->
         CardSlot { row(idx) }
     }
 
