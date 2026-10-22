@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:04,986
+Questions: convert first, then put the sentence back into question form.
+
+2
+00:00:04,986 --> 00:00:07,955
+Did he write the letter: was the letter written by him?
+
+3
+00:00:07,955 --> 00:00:10,924
+Who broke the window: by whom was the window broken?
+
+4
+00:00:10,924 --> 00:00:17,395
+And prepositional verbs keep their preposition, even though its object has moved to the front.
+
+5
+00:00:17,395 --> 00:00:20,117
+They laughed at him: he was laughed at.
+
+6
+00:00:20,117 --> 00:00:24,335
+Someone must look after the baby: the baby must be looked after.
+
+7
+00:00:24,335 --> 00:00:27,486
+They sent for the doctor: the doctor was sent for.
+

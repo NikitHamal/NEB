@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,250
+Five errors.
+
+2
+00:00:01,250 --> 00:00:05,651
+A letter has written by him: be cannot be dropped, has been written.
+
+3
+00:00:05,651 --> 00:00:09,101
+The window was broke: past participle, broken.
+
+4
+00:00:09,101 --> 00:00:12,239
+He was died: die has no passive, he died.
+
+5
+00:00:12,239 --> 00:00:15,156
+Discussed about: discuss takes no about.
+
+6
+00:00:15,156 --> 00:00:20,781
+And by a pen: by names the doer, with names the instrument, so with a pen.
+

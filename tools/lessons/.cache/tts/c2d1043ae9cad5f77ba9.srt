@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,078
+Only a verb that has an object, a transitive verb, can be made passive.
+
+2
+00:00:05,078 --> 00:00:10,026
+And drop the agent whenever it is unknown, obvious or unimportant.
+

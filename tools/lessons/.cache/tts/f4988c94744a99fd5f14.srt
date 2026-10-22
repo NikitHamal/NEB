@@ -1,0 +1,40 @@
+1
+00:00:00,050 --> 00:00:07,539
+The passive of every tense follows the same logic: be carries the tense, and the past participle never changes.
+
+2
+00:00:07,539 --> 00:00:09,830
+He writes: a letter is written.
+
+3
+00:00:09,830 --> 00:00:12,604
+He is writing: a letter is being written.
+
+4
+00:00:12,604 --> 00:00:15,039
+He has written: has been written.
+
+5
+00:00:15,039 --> 00:00:16,861
+He wrote: was written.
+
+6
+00:00:16,861 --> 00:00:19,114
+He was writing: was being written.
+
+7
+00:00:19,114 --> 00:00:21,406
+He had written: had been written.
+
+8
+00:00:21,406 --> 00:00:23,424
+He will write: will be written.
+
+9
+00:00:23,424 --> 00:00:25,638
+He must write: must be written.
+
+10
+00:00:25,638 --> 00:00:28,424
+And he must have written: it must have been written.
+

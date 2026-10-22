@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,158
+Four tenses have no ordinary passive: the present perfect continuous, the past perfect continuous, the future continuous and the future perfect continuous.
+
+2
+00:00:11,158 --> 00:00:15,494
+The mechanic has been repairing the car is simply left in the active.
+

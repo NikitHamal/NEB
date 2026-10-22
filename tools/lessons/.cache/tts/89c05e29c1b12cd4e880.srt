@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,450
+The active voice: the gardener planted the roses.
+
+2
+00:00:03,450 --> 00:00:05,585
+The subject performs the action.
+
+3
+00:00:05,585 --> 00:00:08,346
+To make it passive, three moves.
+
+4
+00:00:08,346 --> 00:00:12,617
+One: the object becomes the new subject: the roses.
+
