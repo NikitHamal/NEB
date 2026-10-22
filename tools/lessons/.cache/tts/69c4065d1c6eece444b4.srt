@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,833
+Welcome to Class 12 Computer Science, Unit 1: Database Management System.
+

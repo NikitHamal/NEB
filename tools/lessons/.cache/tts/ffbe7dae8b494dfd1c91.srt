@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,609
+Four Computer Science rows average seventy six and a half.
+
+2
+00:00:04,609 --> 00:00:07,929
+Physics, Mathematics and English follow.
+
+3
+00:00:07,929 --> 00:00:14,921
+Nepali does not appear at all: with an inner join, a course with nobody enrolled has no rows to group.
+
+4
+00:00:14,921 --> 00:00:17,604
+A LEFT JOIN would keep it with a count of zero.
+

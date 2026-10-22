@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,875
+Write down what determines what.
+
+2
+00:00:01,875 --> 00:00:03,541
+Marks depend on the whole key.
+
+3
+00:00:03,541 --> 00:00:09,752
+But name and faculty depend on roll alone, only part of the key: a partial dependency.
+
+4
+00:00:09,752 --> 00:00:16,783
+And the faculty head depends on faculty, a non-key column: a transitive dependency.
+
+5
+00:00:16,783 --> 00:00:22,721
+These cause anomalies: data repeated, and things you cannot insert or delete cleanly.
+

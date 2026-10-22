@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,437
+To filter groups rather than rows, use HAVING.
+
+2
+00:00:03,437 --> 00:00:08,671
+WHERE removes rows before grouping; HAVING removes groups after.
+
+3
+00:00:08,671 --> 00:00:13,203
+So students with three or more subjects is HAVING count at least three.
+

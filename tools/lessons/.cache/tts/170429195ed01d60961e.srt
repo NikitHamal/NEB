@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,981
+Real questions need several tables.
+
+2
+00:00:02,981 --> 00:00:07,747
+Each enrolment row holds a roll number and a course code: foreign keys.
+
+3
+00:00:07,747 --> 00:00:14,726
+A JOIN matches each one to the primary key it points at: rolls to students, codes to courses.
+

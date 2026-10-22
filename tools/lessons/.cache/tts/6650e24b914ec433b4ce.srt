@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,481
+In a distributed database, the data is split or copied across several sites, each with its own DBMS, yet it behaves as one database.
+
+2
+00:00:10,481 --> 00:00:18,281
+Local questions are answered locally and the system survives one site failing, but keeping the copies in step is hard.
+

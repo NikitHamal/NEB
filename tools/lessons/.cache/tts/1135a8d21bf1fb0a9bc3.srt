@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,906
+DDL also has ALTER, DROP and TRUNCATE.
+
+2
+00:00:03,906 --> 00:00:10,091
+The data manipulation language works with the rows: SELECT, INSERT, UPDATE and DELETE.
+
+3
+00:00:10,091 --> 00:00:16,471
+Do not mix up DROP, which deletes the whole table, with DELETE, which removes chosen rows.
+

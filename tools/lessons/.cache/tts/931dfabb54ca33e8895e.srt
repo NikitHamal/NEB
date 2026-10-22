@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,223
+A school keeps its records in two spreadsheets: one in the office, one in the exam section.
+
+2
+00:00:06,223 --> 00:00:08,997
+Both list Anisha, from Kathmandu.
+

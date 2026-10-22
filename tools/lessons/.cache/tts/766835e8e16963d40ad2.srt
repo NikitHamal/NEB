@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,197
+More queries.
+
+2
+00:00:01,197 --> 00:00:03,111
+IN tests against a list.
+
+3
+00:00:03,111 --> 00:00:05,872
+DISTINCT removes repeated values.
+
+4
+00:00:05,872 --> 00:00:13,906
+The aggregate functions, count, sum, average, max and min, collapse many rows into one value.
+
+5
+00:00:13,906 --> 00:00:22,578
+INSERT adds a row, UPDATE changes values, and DELETE removes rows, each with a WHERE clause to pick which ones.
+

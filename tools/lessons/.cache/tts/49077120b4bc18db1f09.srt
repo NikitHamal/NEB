@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,661
+The ANSI SPARC architecture splits a database into three levels.
+
+2
+00:00:04,661 --> 00:00:08,606
+At the top, each user sees their own external view.
+
+3
+00:00:08,606 --> 00:00:15,468
+In the middle, the conceptual level describes everything: all the entities and how they relate.
+
+4
+00:00:15,468 --> 00:00:19,713
+At the bottom, the internal level is how it actually sits on disk.
+

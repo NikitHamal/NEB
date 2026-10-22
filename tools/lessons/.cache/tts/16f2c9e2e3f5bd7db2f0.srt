@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,382
+Its cardinality is many to many: a student takes many courses and a course has many students.
+
+2
+00:00:07,382 --> 00:00:15,455
+In tables, a many to many relationship always becomes its own link table, here enrolment, which also holds the marks.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,822
+SQL has two halves.
+
+2
+00:00:01,822 --> 00:00:08,658
+The data definition language builds the structure: CREATE a table, with each column's type and constraints.
+
+3
+00:00:08,658 --> 00:00:12,630
+Roll is the primary key; name may not be empty.
+

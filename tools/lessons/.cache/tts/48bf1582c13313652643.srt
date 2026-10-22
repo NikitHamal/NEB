@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,992
+Three database models.
+
+2
+00:00:01,992 --> 00:00:12,539
+The hierarchical model is an upside down tree: every record has exactly one parent, so it handles one to many, but not many to many.
+

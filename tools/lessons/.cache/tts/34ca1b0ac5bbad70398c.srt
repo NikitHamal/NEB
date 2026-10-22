@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,617
+A database management system stores each fact once, shares it with everyone, and answers any question you can ask.
+
+2
+00:00:07,617 --> 00:00:09,375
+This unit shows you how.
+

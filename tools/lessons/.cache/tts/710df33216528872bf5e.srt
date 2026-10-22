@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,104
+The designer picks one as the primary key: roll, short and stable.
+
+2
+00:00:05,104 --> 00:00:07,460
+It can never be empty or repeated.
+
+3
+00:00:07,460 --> 00:00:10,065
+The others become alternate keys.
+
+4
+00:00:10,065 --> 00:00:17,513
+Add any extra column, like roll with name, and it is still unique but not minimal: a super key.
+
+5
+00:00:17,513 --> 00:00:25,924
+And a foreign key is a column whose values must already exist as a primary key in another table: that is what links tables.
+

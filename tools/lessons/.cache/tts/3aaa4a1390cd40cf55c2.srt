@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,229
+GROUP BY sorts rows into groups with the same value, here the same course, and an aggregate turns each group into one line.
+
+2
+00:00:08,229 --> 00:00:10,312
+Colour the enrolments by course.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,002
+The most dangerous line in SQL: an UPDATE or DELETE with no WHERE clause.
+
+2
+00:00:06,002 --> 00:00:07,916
+It hits every single row.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,281
+The network model allows many parents, a graph.
+
+2
+00:00:03,281 --> 00:00:08,515
+Now a student can belong to several courses and a course to several students.
+

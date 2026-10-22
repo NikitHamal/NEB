@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,398
+Data in a relational database lives in tables.
+
+2
+00:00:03,398 --> 00:00:09,322
+A field is one column: one property, with one data type, like faculty.
+
+3
+00:00:09,322 --> 00:00:13,294
+A record is one row: everything about one student.
+

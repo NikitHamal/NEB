@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,705
+She moves to Bhaktapur.
+
+2
+00:00:01,705 --> 00:00:03,697
+The office updates its copy.
+
+3
+00:00:03,697 --> 00:00:06,093
+Nobody tells the exam section.
+
+4
+00:00:06,093 --> 00:00:11,575
+Now the school has two different answers to one question, and no way to know which is right.
+
+5
+00:00:11,575 --> 00:00:15,625
+That is what goes wrong when the same data is stored in many places.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,807
+The relational model, proposed by Codd in nineteen seventy, uses no pointers at all.
+
+2
+00:00:05,807 --> 00:00:11,848
+Relationships are matching values in tables, and you simply state what you want in SQL.
+
+3
+00:00:11,848 --> 00:00:15,338
+Almost every database today is relational.
+

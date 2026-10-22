@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,104
+Before building tables, designers draw an entity relationship diagram.
+
+2
+00:00:05,104 --> 00:00:09,348
+Rectangles are entities, the things we store data about.
+
+3
+00:00:09,348 --> 00:00:12,838
+Ovals are their attributes, with the key underlined.
+
+4
+00:00:12,838 --> 00:00:17,408
+The diamond is a relationship: a student enrols in courses.
+
