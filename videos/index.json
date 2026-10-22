@@ -326,6 +326,71 @@
    "script": "tools/lessons/scripts/eng12/unit_05.py"
   },
   {
+   "id": "class-12/eng12/unit_06.mp4",
+   "file": "class-12/eng12/unit_06.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_06.mp4",
+     "subtitles": "class-12/eng12/unit_06.srt",
+     "start": 0.0,
+     "end": 529.43,
+     "mb": 20.9
+    }
+   ],
+   "poster": "class-12/eng12/unit_06.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 6,
+   "title": "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun",
+   "subtitle": "Shankar Lamichhane · a short story",
+   "lang": "en",
+   "sections": [
+    "Shankar Lamichhane",
+    "The tourist's evening",
+    "The guide's day",
+    "Two monologues, one picture",
+    "Themes",
+    "Irony and the eyes"
+   ],
+   "seconds": 529.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     54.9,
+     "Shankar Lamichhane"
+    ],
+    [
+     112.03,
+     "The tourist's evening"
+    ],
+    [
+     175.9,
+     "The guide's day"
+    ],
+    [
+     279.0,
+     "Two monologues, one picture"
+    ],
+    [
+     338.87,
+     "Themes"
+    ],
+    [
+     389.8,
+     "Irony and the eyes"
+    ],
+    [
+     492.1,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.9,
+   "script": "tools/lessons/scripts/eng12/unit_06.py"
+  },
+  {
    "id": "class-12/eng12/unit_09.mp4",
    "file": "class-12/eng12/unit_09.mp4",
    "parts": [
