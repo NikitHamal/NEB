@@ -211,10 +211,11 @@ class HomeViewModel @Inject constructor(
             val postId = (payload["post_id"] as? kotlinx.serialization.json.JsonPrimitive)?.contentOrNull ?: return
             val count = (payload["thumbs_up_count"] as? kotlinx.serialization.json.JsonPrimitive)?.intOrNull ?: return
             if (processingPostLikes.contains(postId)) return
+            // likes arrive for posts all over the site; most are not in this feed
             _recentPosts.update { posts ->
-                val updated = posts.map { post ->
-                    if (post.id == postId) post.copy(thumbsUpCount = count) else post
-                }
+                val i = posts.indexOfFirst { it.id == postId }
+                if (i < 0 || posts[i].thumbsUpCount == count) return@update posts
+                val updated = posts.toMutableList().also { it[i] = posts[i].copy(thumbsUpCount = count) }
                 appCache.recentPosts = updated
                 updated
             }
