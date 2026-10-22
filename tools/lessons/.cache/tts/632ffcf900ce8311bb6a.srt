@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,979
+A storm is violent.
+
+2
+00:00:01,979 --> 00:00:03,958
+Soft is gentle.
+
+3
+00:00:03,958 --> 00:00:09,401
+Put them together, soft storm, and you get a contradiction, an oxymoron.
+
+4
+00:00:09,401 --> 00:00:15,286
+That contradiction, in the title and repeated through the poem, is the whole argument.
+
