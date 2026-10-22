@@ -98,6 +98,7 @@ class Lesson(Scene):
         self.color = th.SUBJECT_COLORS.get(self.SUBJECT, th.ACCENT)
         self.look = LOOKS.get(self.SUBJECT, "graduate")
         self._subs = []
+        self._chapters = [[0.0, "Introduction"]]
         self._talker = None
         self._sec = -1
         self.hud = None
@@ -258,6 +259,7 @@ class Lesson(Scene):
 
     def section(self, i, narration=None):
         self._sec = i
+        self._chapters.append([round(self.renderer.time, 2), self.SECTIONS[i]])
         c = self.color
         title = self.SECTIONS[i]
         wipe = Rectangle(width=config.frame_width + 1, height=config.frame_height + 1, stroke_width=0,
@@ -369,6 +371,7 @@ class Lesson(Scene):
         self.remove(nb)
 
     def recap(self, points, narration):
+        self._chapters.append([round(self.renderer.time, 2), self.S.get("recap", "Recap")])
         self.clear_stage()
         head = T(self.S["recap"], size=44, color=self.color, weight="BOLD", display=True).to_edge(UP, buff=0.8)
         rows = VGroup()
@@ -434,9 +437,8 @@ class Lesson(Scene):
         if not out:
             return
         def ts(x):
-            h, r = divmod(x, 3600)
-            m, s = divmod(r, 60)
-            return f"{int(h):02d}:{int(m):02d}:{int(s):02d},{int(round((s - int(s)) * 1000)):03d}"
+            t = int(round(x * 1000))
+            return f"{t // 3600000:02d}:{t // 60000 % 60:02d}:{t // 1000 % 60:02d},{t % 1000:03d}"
         with open(out, "w", encoding="utf-8") as f:
             for i, (a, b, t) in enumerate(self._subs, 1):
                 f.write(f"{i}\n{ts(a)} --> {ts(b)}\n{t}\n\n")
@@ -444,7 +446,7 @@ class Lesson(Scene):
         if meta:
             json.dump({"subject": self.SUBJECT, "grade": self.GRADE, "unit": self.UNIT, "title": self.TITLE,
                        "subtitle": self.SUBTITLE, "lang": self.LANG, "sections": self.SECTIONS,
-                       "duration": self.renderer.time, "mood": self.MOOD},
+                       "duration": self.renderer.time, "mood": self.MOOD, "chapters": self._chapters},
                       open(meta, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
 
 

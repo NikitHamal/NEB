@@ -79,10 +79,14 @@ def build(script, draft=False, scene="Lesson", preview=False):
          "-metadata:s:s:0", f"language={lang}", "-metadata:s:a:0", f"language={lang}",
          "-metadata", f"title={m['title']}", "-movflags", "+faststart", final])
     if not draft:
+        shutil_meta = os.path.join(dest_dir, name + ".meta.json")
+        json.dump(m, open(shutil_meta, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    if not draft:
         import shutil
         shutil.copy(srt, os.path.join(dest_dir, name + ".srt"))
         poster = os.path.join(dest_dir, name + ".jpg")
         run(["ffmpeg", "-y", "-v", "error", "-ss", "6", "-i", final, "-frames:v", "1", "-q:v", "4", "-vf", "scale=960:-2", poster])
+    if not draft and not os.environ.get("NO_INDEX"):
         index_path = os.path.join(OUT, "index.json")
         idx = json.load(open(index_path, encoding="utf-8")) if os.path.exists(index_path) else {"videos": []}
         rel = os.path.relpath(final, OUT)
@@ -90,7 +94,7 @@ def build(script, draft=False, scene="Lesson", preview=False):
         idx["videos"].append({
             "file": rel, "subtitles": rel[:-4] + ".srt", "poster": rel[:-4] + ".jpg",
             "book": book, "grade": m["grade"], "unit": m["unit"], "title": m["title"], "subtitle": m.get("subtitle", ""),
-            "lang": m["lang"], "sections": m["sections"], "seconds": round(probe(final), 1),
+            "lang": m["lang"], "sections": m["sections"], "seconds": round(probe(final), 1), "chapters": m.get("chapters", [[0.0, "Introduction"]]),
             "script": os.path.relpath(os.path.abspath(script), ROOT),
         })
         idx["videos"].sort(key=lambda v: (-v["grade"], v["book"], v["unit"]))
