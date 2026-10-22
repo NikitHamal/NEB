@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,609
+One point zero two to the tenth: ten is a whole number, so the series is finite and exact; we just stop when terms become negligible.
+

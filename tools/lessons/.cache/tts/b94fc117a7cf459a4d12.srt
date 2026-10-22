@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,486
+The formal proof is by induction.
+
+2
+00:00:02,486 --> 00:00:06,367
+For n equal to one it reads a plus b. True.
+

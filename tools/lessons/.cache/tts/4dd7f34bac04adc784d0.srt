@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,945
+Seven is odd: two middle terms, the fourth and fifth.
+
+2
+00:00:03,945 --> 00:00:07,968
+The fourth is minus five sixty x to the four y cubed.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:11,588
+Put x equal to one in one plus x to the n: the coefficients add up to two to the n. Put x equal to minus one: the alternating sum is zero.
+
+2
+00:00:11,588 --> 00:00:18,763
+And in general, the sum of the coefficients of any expansion is found by putting every variable equal to one.
+
+3
+00:00:18,763 --> 00:00:24,453
+For two x minus three y to the twelve: minus one to the twelve, which is one.
+

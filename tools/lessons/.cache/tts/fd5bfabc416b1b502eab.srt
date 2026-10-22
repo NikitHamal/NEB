@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,471
+Add the series for e and e to the minus one: odd terms cancel, even ones double.
+

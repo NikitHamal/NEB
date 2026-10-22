@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,432
+Exam tip.
+
+2
+00:00:01,432 --> 00:00:12,161
+For any particular term, write T r plus one, collect every power of x into a single exponent, and set it equal to the power you want.
+
+3
+00:00:12,161 --> 00:00:16,184
+If r does not come out a whole number, the term simply does not exist.
+

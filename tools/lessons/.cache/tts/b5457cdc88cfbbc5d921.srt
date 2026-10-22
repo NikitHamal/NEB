@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,471
+Why combinations?
+
+2
+00:00:01,471 --> 00:00:07,005
+Because a plus b to the fifth is five brackets multiplied together.
+
+3
+00:00:07,005 --> 00:00:12,773
+To make a term a cubed b squared, you take b from two of the brackets and a from the other three.
+
+4
+00:00:12,773 --> 00:00:17,851
+The number of ways to choose those two brackets is five C two, ten.
+
+5
+00:00:17,851 --> 00:00:20,976
+So a cubed b squared appears ten times.
+

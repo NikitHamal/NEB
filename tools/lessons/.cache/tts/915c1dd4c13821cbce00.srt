@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,223
+Choose x so that one plus x over one minus x is two: x is a third.
+

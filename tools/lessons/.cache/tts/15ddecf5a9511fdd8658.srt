@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,921
+Expand one plus one over n to the n with the binomial theorem, and divide each factor of n in the numerators by an n from the denominator.
+

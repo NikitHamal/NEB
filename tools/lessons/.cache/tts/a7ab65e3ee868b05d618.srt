@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,406
+Exam tip.
+
+2
+00:00:01,406 --> 00:00:09,335
+To approximate a root, split the number into the nearest perfect power plus a small remainder, and factor out the power.
+
+3
+00:00:09,335 --> 00:00:11,888
+Root one oh two: use a hundred.
+
+4
+00:00:11,888 --> 00:00:16,236
+Cube root of one twenty seven: use one twenty five.
+

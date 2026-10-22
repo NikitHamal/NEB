@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,770
+Subtract the two expansions: terms with even powers of b cancel, odd ones double.
+

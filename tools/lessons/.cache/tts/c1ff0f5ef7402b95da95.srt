@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,768
+By the end of this lesson you will do it in three lines: five point zero two six five.
+
+2
+00:00:05,768 --> 00:00:12,708
+And the tool that does it will also expand a to the power twenty in one go, and give you the number e.
+

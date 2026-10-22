@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,789
+Imagine a bank that pays one hundred percent interest a year.
+
+2
+00:00:03,789 --> 00:00:08,710
+Compound it twice a year and you get one point five squared, two point two five.
+
+3
+00:00:08,710 --> 00:00:09,869
+Monthly, more.
+
+4
+00:00:09,869 --> 00:00:11,523
+Daily, more still.
+
+5
+00:00:11,523 --> 00:00:15,351
+Yet however often you compound, it never runs away.
+
+6
+00:00:15,351 --> 00:00:17,721
+It approaches a fixed number: e.
+

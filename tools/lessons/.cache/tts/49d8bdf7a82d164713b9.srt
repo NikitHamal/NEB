@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,757
+Its value: eighty four times sixty four, five thousand three hundred and seventy six.
+

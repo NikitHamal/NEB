@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,617
+Four expansions worth knowing by sight.
+
+2
+00:00:02,617 --> 00:00:12,070
+Notice the signs: with minus x inside a negative power, every term is positive; with plus x, the signs alternate.
+

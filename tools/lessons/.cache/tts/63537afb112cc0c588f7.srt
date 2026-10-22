@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,578
+The ratio of consecutive coefficients is n minus r plus one over r. Equal to eight thirds.
+

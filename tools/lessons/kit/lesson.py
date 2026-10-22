@@ -382,6 +382,12 @@ class Lesson(Scene):
             rows.scale_to_fit_height(5.6)
         rows.next_to(head, DOWN, buff=0.45)
         nb = self.neby("read", height=1.6).to_corner(DR, buff=0.45)
+        if rows.get_bottom()[1] < nb.get_top()[1] and rows.get_right()[0] > nb.get_left()[0] - 0.2:
+            # long recaps reach the bottom corner: slide the list left (and shrink if needed) so Neby never covers text
+            rows.to_edge(LEFT, buff=0.6)
+            room = nb.get_left()[0] - 0.25 - rows.get_left()[0]
+            if rows.width > room:
+                rows.scale(room / rows.width, about_edge=UL)
         self.play(FadeIn(head, shift=DOWN * 0.2), run_time=0.5)
         self.add(nb)
         self.play(FadeIn(nb), run_time=0.3)

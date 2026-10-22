@@ -111,3 +111,19 @@ def reveal_list(s, items, dur, shift=RIGHT * 0.2):
     for it in items:
         s.play(FadeIn(it, shift=shift), run_time=0.4)
         s.hold(per - 0.4)
+
+
+def clipped(ax, f, x0, x1, lo, hi, color, width=4, step=0.01):
+    """Graph of f on [x0, x1] drawn only where lo <= f <= hi (no flat clamps at the frame edge)."""
+    g, cur = VGroup(), []
+    for x in np.arange(x0, x1 + step / 2, step):
+        y = f(x)
+        if lo <= y <= hi:
+            cur.append(ax.c2p(x, y))
+        else:
+            if len(cur) > 1:
+                g.add(VMobject(stroke_color=color, stroke_width=width).set_points_as_corners(cur))
+            cur = []
+    if len(cur) > 1:
+        g.add(VMobject(stroke_color=color, stroke_width=width).set_points_as_corners(cur))
+    return g

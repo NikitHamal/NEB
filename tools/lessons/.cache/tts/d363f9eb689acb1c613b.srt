@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,875
+Expand: one, plus point zero one six over three, minus its square over nine.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,596
+Shift the index in the second sum so both sums have the same shape.
+
+2
+00:00:04,596 --> 00:00:09,179
+The middle terms pair up as k C r plus k C r minus one.
+

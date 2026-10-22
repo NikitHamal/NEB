@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,757
+For one minus two x to the half, replace x by minus two x everywhere, powers included.
+

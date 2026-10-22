@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,825
+Cancel one n: the general term n over n factorial is one over n minus one factorial.
+

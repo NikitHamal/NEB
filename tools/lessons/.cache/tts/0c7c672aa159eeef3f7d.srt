@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,554
+Eight is even: one middle term, the fifth.
+
+2
+00:00:03,554 --> 00:00:06,497
+The x's cancel completely: seventy.
+

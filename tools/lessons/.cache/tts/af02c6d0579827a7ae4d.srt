@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,317
+x less than a third in size, because the quantity in the bracket is three x, and that must be less than one.
+
+2
+00:00:07,317 --> 00:00:11,992
+Absolute x less than one is the trap: it ignores the three.
+

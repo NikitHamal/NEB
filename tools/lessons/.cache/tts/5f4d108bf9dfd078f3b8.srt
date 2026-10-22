@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:06,757
+The binomial theorem gives n plus one terms with coefficients n C r.
+
+3
+00:00:06,757 --> 00:00:09,570
+The general term is T r plus one.
+
+4
+00:00:09,570 --> 00:00:12,890
+The coefficients sum to two to the n.
+
+5
+00:00:12,890 --> 00:00:18,398
+For any index the series is infinite and needs x less than one in size.
+
+6
+00:00:18,398 --> 00:00:23,294
+Approximate roots by splitting off the nearest perfect power.
+
+7
+00:00:23,294 --> 00:00:26,184
+And e is the sum of one over r factorial.
+

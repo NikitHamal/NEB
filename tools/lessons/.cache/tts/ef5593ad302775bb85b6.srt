@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,679
+That was the binomial theorem.
+
+2
+00:00:01,679 --> 00:00:08,398
+Next, complex numbers: polar form, De Moivre's theorem, and the cube roots of unity.
+
+3
+00:00:08,398 --> 00:00:09,335
+See you there.
+

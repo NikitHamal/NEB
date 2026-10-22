@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,101
+When x is small, x squared is tiny and x cubed tinier still, so the first two or three terms already give an excellent value.
+
+2
+00:00:09,101 --> 00:00:18,632
+One point zero two to the power one third: one, plus point zero two over three, minus point zero zero zero four over nine.
+
+3
+00:00:18,632 --> 00:00:23,554
+The next term is about a millionth and cannot touch the fifth decimal place.
+
+4
+00:00:23,554 --> 00:00:26,705
+One point zero zero six six two.
+

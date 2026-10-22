@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,651
+The coefficient is fifteen C four: one thousand three hundred and sixty five.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,075
+General term: x to the sixty minus seven r.
+

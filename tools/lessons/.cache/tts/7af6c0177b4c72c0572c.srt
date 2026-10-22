@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,950
+Log two.
+
+2
+00:00:00,950 --> 00:00:06,744
+Putting x equal to one in the first log series crawls; you would need thousands of terms.
+
+3
+00:00:06,744 --> 00:00:08,619
+Use the fast one instead.
+

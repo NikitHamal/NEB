@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,239
+Write the general term, and collect all the powers of x into one: x to the eighteen minus three r.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,963
+Watch why.
+
+2
+00:00:00,963 --> 00:00:03,789
+The white curve is one over one minus x.
+
+3
+00:00:03,789 --> 00:00:06,875
+The yellow curve adds up the series term by term.
+
+4
+00:00:06,875 --> 00:00:14,296
+Inside the green band, where x is between minus one and one, the partial sums close in on the true curve.
+
+5
+00:00:14,296 --> 00:00:18,619
+Outside it, they fly away, no matter how many terms you take.
+

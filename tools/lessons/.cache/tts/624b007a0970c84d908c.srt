@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,984
+Expand with x over four, and multiply by a half.
+
+2
+00:00:03,984 --> 00:00:10,130
+Valid when x over four is less than one: x less than four in size, not one.
+

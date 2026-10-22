@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,260
+That is the classic mistake: never expand four plus x directly.
+
+2
+00:00:05,260 --> 00:00:11,223
+Make it one plus something small first, and apply the condition to the something small.
+

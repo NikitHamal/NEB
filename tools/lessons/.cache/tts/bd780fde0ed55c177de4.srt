@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,872
+Eleven.
+
+2
+00:00:00,872 --> 00:00:02,851
+r runs from zero to ten.
+
+3
+00:00:02,851 --> 00:00:07,044
+Ten is the trap: it forgets the r equals zero term.
+

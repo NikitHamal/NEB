@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,171
+Five times one point zero zero five three: five point zero two six five.
+
+2
+00:00:06,171 --> 00:00:10,690
+The true value is five point zero two six five two six.
+
