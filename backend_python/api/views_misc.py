@@ -371,6 +371,90 @@ def notifications_unread_count(request):
     return Response({'count': count})
 
 
+_WS_URL_MEMO = {'sig': None, 'url': ''}
+
+
+def _ws_log_paths():
+    import glob as _glob
+    import os as _os
+    base_dir = _os.path.dirname(_os.path.dirname(__file__))
+    paths = [
+        '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
+        _os.path.join(base_dir, 'logs', 'cloudflared.log'),
+        '/home/consicac/nebians_api/logs/cloudflared.log',
+    ] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True)
+    return base_dir, paths
+
+
+def _ws_url_from_files():
+    """The newest trycloudflare URL in the tunnel logs (or ws_url.txt), as realtime_config
+    always resolved it. That meant reading every log whole and regex-scanning it on each
+    call; the answer is now kept per process until one of those files changes (path,
+    size, mtime and inode of each, and the set of /tmp/cf_quick*.log files)."""
+    import os as _os
+    try:
+        base_dir, paths = _ws_log_paths()
+        sig = []
+        for path in paths + [_os.path.join(base_dir, 'ws_url.txt')]:
+            try:
+                st = _os.stat(path)
+                sig.append((path, st.st_size, st.st_mtime_ns, st.st_ino))
+            except OSError:
+                sig.append((path, None))
+        sig = tuple(sig)
+    except Exception:
+        sig = None
+    if sig is not None and _WS_URL_MEMO['sig'] == sig:
+        return _WS_URL_MEMO['url']
+    url = _resolve_ws_url_from_files()
+    if sig is not None:
+        _WS_URL_MEMO.update(sig=sig, url=url)
+    return url
+
+
+def _resolve_ws_url_from_files():
+    import os as _os
+    ws_url = ''
+    try:
+        import re as _re
+        candidates = []
+        base_dir, paths = _ws_log_paths()
+        for path in paths:
+            try:
+                with open(path, 'r', errors='ignore') as fh:
+                    content = fh.read()
+                matches = _re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
+                if matches:
+                    host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
+                    url = 'wss://' + host + '/ws/'
+                    try:
+                        mtime = _os.path.getmtime(path)
+                    except OSError:
+                        mtime = 0
+                    candidates.append((mtime, url))
+            except OSError:
+                continue
+        if candidates:
+            candidates.sort(key=lambda x: x[0], reverse=True)
+            ws_url = candidates[0][1]
+        else:
+            # Fallback ws_url.txt cache
+            try:
+                with open(_os.path.join(base_dir, 'ws_url.txt'), 'r', errors='ignore') as fh:
+                    content = fh.read().strip()
+                if content:
+                    m = _re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
+                    if m:
+                        ws_url = 'wss://' + m.group(1) + '/ws/'
+                    elif content.startswith('wss://'):
+                        ws_url = content.strip()
+            except OSError:
+                pass
+    except Exception:
+        ws_url = ''
+    return ws_url
+
+
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([AllowAny])
@@ -392,48 +476,7 @@ def realtime_config(request):
     if not ws_url and hasattr(_settings, 'WS_PUBLIC_URL'):
         ws_url = (_settings.WS_PUBLIC_URL or '').strip()
     if not ws_url:
-        try:
-            import glob as _glob, re as _re
-            candidates = []
-            base_dir = _os.path.dirname(_os.path.dirname(__file__))
-            paths = [
-                '/home/consicac/nebians_api/logs/start_ws_tunnel.log',
-                _os.path.join(base_dir, 'logs', 'cloudflared.log'),
-                '/home/consicac/nebians_api/logs/cloudflared.log',
-            ] + sorted(_glob.glob('/tmp/cf_quick*.log'), reverse=True)
-            for path in paths:
-                try:
-                    with open(path, 'r', errors='ignore') as fh:
-                        content = fh.read()
-                    matches = _re.findall(r'(?:wss?|https?)://([a-z0-9-]+\.trycloudflare\.com)', content)
-                    if matches:
-                        host = matches[-1].rstrip('/').rstrip('/ws').rstrip('/')
-                        url = 'wss://' + host + '/ws/'
-                        try:
-                            mtime = _os.path.getmtime(path)
-                        except OSError:
-                            mtime = 0
-                        candidates.append((mtime, url))
-                except OSError:
-                    continue
-            if candidates:
-                candidates.sort(key=lambda x: x[0], reverse=True)
-                ws_url = candidates[0][1]
-            else:
-                # Fallback ws_url.txt cache
-                try:
-                    with open(_os.path.join(base_dir, 'ws_url.txt'), 'r', errors='ignore') as fh:
-                        content = fh.read().strip()
-                    if content:
-                        m = _re.search(r'([a-z0-9-]+\.trycloudflare\.com)', content)
-                        if m:
-                            ws_url = 'wss://' + m.group(1) + '/ws/'
-                        elif content.startswith('wss://'):
-                            ws_url = content.strip()
-                except OSError:
-                    pass
-        except Exception:
-            ws_url = ''
+        ws_url = _ws_url_from_files()
     if ws_url:
         try:
             from nebians.tunnel_health import is_tunnel_healthy
