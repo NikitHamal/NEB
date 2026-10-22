@@ -1849,6 +1849,66 @@
    "script": "tools/lessons/scripts/math12/unit_09.py"
   },
   {
+   "id": "class-12/math12/unit_10.mp4",
+   "file": "class-12/math12/unit_10.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_10.mp4",
+     "subtitles": "class-12/math12/unit_10.srt",
+     "start": 0.0,
+     "end": 587.97,
+     "mb": 20.4
+    }
+   ],
+   "poster": "class-12/math12/unit_10.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 10,
+   "title": "Correlation and Regression",
+   "subtitle": "How two quantities move together",
+   "lang": "en",
+   "sections": [
+    "Correlation and the scatter diagram",
+    "Karl Pearson's coefficient",
+    "Properties of r",
+    "Rank correlation",
+    "Regression lines"
+   ],
+   "seconds": 588.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     68.03,
+     "Correlation and the scatter diagram"
+    ],
+    [
+     123.87,
+     "Karl Pearson's coefficient"
+    ],
+    [
+     253.47,
+     "Properties of r"
+    ],
+    [
+     295.43,
+     "Rank correlation"
+    ],
+    [
+     379.57,
+     "Regression lines"
+    ],
+    [
+     549.47,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.4,
+   "script": "tools/lessons/scripts/math12/unit_10.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
