@@ -2034,6 +2034,76 @@
    "script": "tools/lessons/scripts/math12/unit_12.py"
   },
   {
+   "id": "class-12/math12/unit_13.mp4",
+   "file": "class-12/math12/unit_13.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_13.mp4",
+     "subtitles": "class-12/math12/unit_13.srt",
+     "start": 0.0,
+     "end": 649.07,
+     "mb": 21.3
+    }
+   ],
+   "poster": "class-12/math12/unit_13.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 13,
+   "title": "Anti-derivatives",
+   "subtitle": "Running differentiation backwards",
+   "lang": "en",
+   "sections": [
+    "Standard integrals",
+    "Substitution and parts",
+    "Standard forms with a² ± x²",
+    "Partial fractions",
+    "The definite integral",
+    "Limit of a sum",
+    "Area under and between curves"
+   ],
+   "seconds": 649.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     62.37,
+     "Standard integrals"
+    ],
+    [
+     128.33,
+     "Substitution and parts"
+    ],
+    [
+     231.6,
+     "Standard forms with a² ± x²"
+    ],
+    [
+     308.43,
+     "Partial fractions"
+    ],
+    [
+     378.97,
+     "The definite integral"
+    ],
+    [
+     471.57,
+     "Limit of a sum"
+    ],
+    [
+     508.67,
+     "Area under and between curves"
+    ],
+    [
+     612.33,
+     "Quick recap"
+    ]
+   ],
+   "mb": 21.3,
+   "script": "tools/lessons/scripts/math12/unit_13.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
