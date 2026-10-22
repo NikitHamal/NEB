@@ -20,9 +20,8 @@ def bookmarks(request):
     user_id = _get_user_id(request)
     if not user_id:
         return redirect('web:login')
-    try:
-        current_user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
+    current_user = _request_db_user(request, user_id)
+    if current_user is None:
         return redirect('web:login')
 
     bookmarks_qs = list(Bookmark.objects.filter(user_id=user_id).order_by('-created_at')[:200])
@@ -32,26 +31,23 @@ def bookmarks(request):
 
     posts = {p.id: p for p in Post.objects.select_related('user').filter(id__in=post_ids)}
     replies = {r.id: r for r in Reply.objects.select_related('user', 'post').filter(id__in=reply_ids)}
-    resources = {r.id: r for r in Resource.objects.select_related('uploaded_by').filter(id__in=resource_ids)}
+    resources = {r.id: r for r in Resource.objects.filter(id__in=resource_ids)}
 
     items = []
     counts = {'all': 0, 'post': 0, 'reply': 0, 'resource': 0}
     for bm in bookmarks_qs:
-        data = None
         title = ''
         url = '#'
         excerpt = ''
         meta = ''
         if bm.target_type == 'post' and bm.target_id in posts:
             obj = posts[bm.target_id]
-            data = _serialize_post(obj, user_id=user_id, _bookmarked_ids={obj.id})
             title = obj.title or 'Untitled discussion'
             url = reverse('web:forum_post', kwargs={'post_id': obj.id})
             excerpt = obj.content or ''
             meta = f'{obj.user.display_name or obj.user.username} Â· {obj.reply_count} replies'
         elif bm.target_type == 'reply' and bm.target_id in replies:
             obj = replies[bm.target_id]
-            data = _serialize_reply(obj, user_id=user_id, _bookmarked_ids={obj.id})
             title = f"Reply on {obj.post.title if obj.post else 'discussion'}"
             url = reverse('web:forum_post', kwargs={'post_id': obj.post_id}) + f"#reply-{obj.id}"
             excerpt = obj.content or ''
@@ -60,7 +56,6 @@ def bookmarks(request):
             obj = resources[bm.target_id]
             if obj.approval_status != 'approved' and obj.uploaded_by_id != user_id:
                 continue
-            data = _serialize_resource(obj)
             title = obj.title or 'Untitled resource'
             url = reverse('web:reader', kwargs={'resource_id': obj.id})
             excerpt = obj.description or ''
@@ -76,7 +71,6 @@ def bookmarks(request):
             'url': url,
             'excerpt': excerpt,
             'meta': meta,
-            'data': data,
             'id': bm.target_id,
         })
 
