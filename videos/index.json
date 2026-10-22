@@ -1667,6 +1667,56 @@
    "script": "tools/lessons/scripts/math12/unit_06.py"
   },
   {
+   "id": "class-12/math12/unit_07.mp4",
+   "file": "class-12/math12/unit_07.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_07.mp4",
+     "subtitles": "class-12/math12/unit_07.srt",
+     "start": 0.0,
+     "end": 464.47,
+     "mb": 15.9
+    }
+   ],
+   "poster": "class-12/math12/unit_07.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 7,
+   "title": "Solution of Triangles",
+   "subtitle": "Three parts in, six parts out",
+   "lang": "en",
+   "sections": [
+    "The four cases",
+    "The ambiguous case (SSA)",
+    "Heights and distances"
+   ],
+   "seconds": 464.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     59.07,
+     "The four cases"
+    ],
+    [
+     161.77,
+     "The ambiguous case (SSA)"
+    ],
+    [
+     318.97,
+     "Heights and distances"
+    ],
+    [
+     425.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 15.9,
+   "script": "tools/lessons/scripts/math12/unit_07.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
