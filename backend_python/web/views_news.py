@@ -255,10 +255,10 @@ def ajax_blog_comment(request):
 
 def results_guide(request):
     """Interactive step-by-step guide for checking NEB results + grade calculator."""
-    pinned = Announcement.objects.filter(
+    pinned = Announcement.objects.select_related('author').filter(
         status='published', category='exam_results', is_pinned=True
     ).order_by('-published_at')[:1]
-    recent_results_news = Announcement.objects.filter(
+    recent_results_news = Announcement.objects.select_related('author').filter(
         status='published', category='exam_results'
     ).order_by('-published_at')[:6]
 

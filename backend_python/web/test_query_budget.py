@@ -57,7 +57,7 @@ class SignedInQueryBudgetTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        from api.models import Bookmark, Poll, PollOption, PostImage, Reply
+        from api.models import Announcement, Bookmark, Poll, PollOption, PostImage, Reply
         now = int(time.time() * 1000)
         cls.me = User.objects.create(id=str(uuid.uuid4()), username='qb_me', email='qb_me@x.np', display_name='Me',
                                      gender='female', class_level='12', email_verified=True, created_at=now)
@@ -80,6 +80,10 @@ class SignedInQueryBudgetTests(TestCase):
                               grade_level='Class 12', type='PDF', approval_status='approved', is_lead=True,
                               added_at=now - i, uploaded_by=authors[i % 12], source_type='user') for i in range(12)]
         Resource.objects.bulk_create(resources)
+        Announcement.objects.bulk_create([
+            Announcement(id=str(uuid.uuid4()), title=f'Results {i}', slug=f'results-{i}', category='exam_results',
+                         status='published', is_pinned=i == 0, author=authors[i], published_at=now - i)
+            for i in range(6)])
         Bookmark.objects.bulk_create(
             [Bookmark(id=str(uuid.uuid4()), user=cls.me, target_type='post', target_id=p.id, created_at=now - k)
              for k, p in enumerate(posts)]
@@ -125,3 +129,7 @@ class SignedInQueryBudgetTests(TestCase):
     def test_subject_page_joins_uploaders(self):
         r = self.assertBudget('/app/subject/class-12/accountancy/', 19)
         self.assertContains(r, 'Accountancy notes 11')
+
+    def test_results_guide_joins_news_authors(self):
+        r = self.assertBudget('/app/results/', 8)
+        self.assertContains(r, 'Results 5')
