@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,044
+Desai is fair to Rakesh.
+
+2
+00:00:02,044 --> 00:00:09,622
+He is hard working, modest and loyal; he came home when he need not have; nothing shows him neglecting a duty.
+
+3
+00:00:09,622 --> 00:00:21,419
+But he turns every wish into a medical fact, laughs outside the door at his father's complaints, and cannot hear a plain no, perhaps because everyone has always agreed with him.
+
+4
+00:00:21,419 --> 00:00:29,583
+Varma is no saint either: vain, greedy for sweets, given to fake deaths, willing to bribe a grandchild.
+
+5
+00:00:29,583 --> 00:00:31,848
+Yet Desai gives him the last word.
+
