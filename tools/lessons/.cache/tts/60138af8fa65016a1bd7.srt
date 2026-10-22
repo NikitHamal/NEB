@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,640
+No template and no convention: there isn't even a word to finish "meet my ___".
+
