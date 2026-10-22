@@ -8,6 +8,8 @@ import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiSyllabusDoc
 import com.neb.ians.data.api.ApiSyllabusHit
 import com.neb.ians.data.api.ApiSyllabusIndex
+import com.neb.ians.data.repository.StudyMark
+import com.neb.ians.data.repository.StudyProgress
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -40,17 +42,31 @@ data class SyllabusUiState(
     val area: String? = null,
     val filter: String = "",
     val done: Map<String, Set<String>> = emptyMap(),
-    val lastKey: String? = null
-)
+    val lastKey: String? = null,
+    /** Reading progress per chapter, "<grade>/<subject>/unit<N>" -> mark (StudyProgress). */
+    val marks: Map<String, StudyMark> = emptyMap(),
+    /** The chapter opened most recently: key, title, "Class 11 · Physics". */
+    val lastRead: Triple<String, String, String>? = null,
+    val tab: SyllabusTab = SyllabusTab.Chapters
+) {
+    /** Chapters of one subject counted as done. */
+    fun chaptersDone(grade: String, subject: String): Int =
+        marks.count { (k, m) -> k.startsWith("$grade/$subject/unit") && m.isDone }
+
+    fun mark(grade: String, subject: String, unit: Int): StudyMark? = marks["$grade/$subject/unit$unit"]
+}
+
+enum class SyllabusTab { Chapters, Bank, Exam }
 
 /**
  * The syllabus tab: Class 8, 10, 11 and 12, as exported from the NEBians books
- * (`api/syllabus/v2/`). Ticked topics live on the device, keyed "grade/subject"
- * -> "unit.topicIndex", the same scheme the website uses.
+ * (`api/syllabus/v2/`): every unit with its full chapter, the question bank and the exam
+ * pattern. Reading progress comes from [StudyProgress], keyed like the website's.
  */
 @HiltViewModel
 class SyllabusViewModel @Inject constructor(
     private val apiService: ApiService,
+    private val progress: StudyProgress,
     application: Application
 ) : ViewModel() {
 
@@ -67,7 +83,14 @@ class SyllabusViewModel @Inject constructor(
 
     init {
         load()
+        viewModelScope.launch {
+            progress.version.collect {
+                _uiState.update { it.copy(marks = progress.snapshot(), lastRead = progress.last()) }
+            }
+        }
     }
+
+    fun setTab(tab: SyllabusTab) = _uiState.update { it.copy(tab = tab) }
 
     fun refresh(): Job = viewModelScope.launch {
         val open = _uiState.value
@@ -127,11 +150,12 @@ class SyllabusViewModel @Inject constructor(
                 doc = null,
                 docError = null,
                 focusUnit = unit,
-                expanded = setOfNotNull(unit ?: 1),
+                expanded = emptySet(),
                 show = SyllabusShow.All,
                 area = null,
                 filter = "",
-                lastKey = key
+                lastKey = key,
+                tab = SyllabusTab.Chapters
             )
         }
         fetchDoc(grade, subject, keepView = false)

@@ -55,7 +55,9 @@ data class ApiSyllabusDoc(
     val areas: List<String> = emptyList(),
     val units: List<ApiSyllabusUnit> = emptyList(),
     @SerialName("unit_count") val unitCount: Int = 0,
-    @SerialName("topic_count") val topicCount: Int = 0
+    @SerialName("topic_count") val topicCount: Int = 0,
+    val banks: List<ApiSyllabusBank> = emptyList(),
+    val guide: String? = null
 )
 
 @Serializable
@@ -67,7 +69,51 @@ data class ApiSyllabusUnit(
     val topics: List<String> = emptyList(),
     val sections: List<ApiSyllabusBookSection> = emptyList(),
     val summary: List<String> = emptyList(),
-    val terms: List<String> = emptyList()
+    val terms: List<String> = emptyList(),
+    @SerialName("read_min") val readMin: Int = 0,
+    @SerialName("has_chapter") val hasChapter: Boolean = false
+)
+
+/** One question-bank chapter of a subject: objective, subjective or model sets. */
+@Serializable
+data class ApiSyllabusBank(
+    val no: Int = 0,
+    val kind: String = "",
+    val title: String = "",
+    val label: String = "",
+    val blurb: String = "",
+    @SerialName("read_min") val readMin: Int = 0
+)
+
+/**
+ * A chapter, a question-bank chapter or the exam guide, as the book prints it: HTML with
+ * maths left as TeX in `span.m` (KaTeX typesets it), figures as /static/web/study/ URLs,
+ * answers folded in `details.ans`, multiple-choice items carrying `data-key`.
+ */
+@Serializable
+data class ApiStudyDoc(
+    val title: String = "",
+    val area: String? = null,
+    val hours: String? = null,
+    val lang: String = "en",
+    val words: Int = 0,
+    @SerialName("read_min") val readMin: Int = 0,
+    val figures: Int = 0,
+    val toc: List<ApiStudyTocItem> = emptyList(),
+    val html: String = "",
+    val kind: String? = null,
+    val type: String = "unit",
+    val no: Int? = null,
+    val prev: Int? = null,
+    val next: Int? = null,
+    @SerialName("media_base") val mediaBase: String = "https://nebians.consica.com.np/"
+)
+
+@Serializable
+data class ApiStudyTocItem(
+    val id: String = "",
+    val title: String = "",
+    val kind: String = ""
 )
 
 @Serializable

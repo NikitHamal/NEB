@@ -2025,6 +2025,26 @@ interface ApiService {
         @Path("subject") subject: String
     ): ApiSyllabusDoc
 
+    @GET("api/syllabus/v2/{grade}/{subject}/unit/{no}/")
+    suspend fun getStudyChapter(
+        @Path("grade") grade: String,
+        @Path("subject") subject: String,
+        @Path("no") no: Int
+    ): ApiStudyDoc
+
+    @GET("api/syllabus/v2/{grade}/{subject}/bank/{no}/")
+    suspend fun getStudyBank(
+        @Path("grade") grade: String,
+        @Path("subject") subject: String,
+        @Path("no") no: Int
+    ): ApiStudyDoc
+
+    @GET("api/syllabus/v2/{grade}/{subject}/guide/")
+    suspend fun getStudyGuide(
+        @Path("grade") grade: String,
+        @Path("subject") subject: String
+    ): ApiStudyDoc
+
     @GET("api/syllabus/v2/search/")
     suspend fun searchSyllabus(
         @Query("q") query: String,

@@ -121,6 +121,7 @@ fun LibraryScreen(
     onInteractiveCourseClick: (String) -> Unit = {},
     onSyllabusDetailChromeChanged: (Boolean) -> Unit = {},
     onRequestResourceClick: () -> Unit = {},
+    onStudyDocClick: (grade: String, subject: String, kind: String, no: Int) -> Unit = { _, _, _, _ -> },
     onCreatorClick: (String) -> Unit = {},
     onMarketplaceCourseClick: (String) -> Unit = {},
     onStudioClick: () -> Unit = {},
@@ -247,7 +248,8 @@ fun LibraryScreen(
                 "syllabus" -> {
                     SyllabusContent(
                         state = syllabusState,
-                        viewModel = syllabusViewModel
+                        viewModel = syllabusViewModel,
+                        onOpenDoc = onStudyDocClick
                     )
                 }
                 "interactive" -> {

@@ -75,16 +75,24 @@ import com.neb.ians.ui.theme.nebEffectsSpec
 import com.neb.ians.ui.theme.nebSpatialSpec
 
 @Composable
-fun SyllabusContent(state: SyllabusUiState, viewModel: SyllabusViewModel) {
+fun SyllabusContent(
+    state: SyllabusUiState,
+    viewModel: SyllabusViewModel,
+    onOpenDoc: (grade: String, subject: String, kind: String, no: Int) -> Unit = { _, _, _, _ -> }
+) {
     if (state.openSubject != null) {
-        SyllabusSubject(state = state, viewModel = viewModel)
+        SyllabusSubject(state = state, viewModel = viewModel, onOpenDoc = onOpenDoc)
     } else {
-        SyllabusHub(state = state, viewModel = viewModel)
+        SyllabusHub(state = state, viewModel = viewModel, onOpenDoc = onOpenDoc)
     }
 }
 
 @Composable
-private fun SyllabusHub(state: SyllabusUiState, viewModel: SyllabusViewModel) {
+private fun SyllabusHub(
+    state: SyllabusUiState,
+    viewModel: SyllabusViewModel,
+    onOpenDoc: (grade: String, subject: String, kind: String, no: Int) -> Unit
+) {
     val index = state.index
     when {
         index == null && state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -107,16 +115,17 @@ private fun SyllabusHub(state: SyllabusUiState, viewModel: SyllabusViewModel) {
                 if (state.query.trim().length >= 2) {
                     syllabusHits(state, viewModel)
                 } else {
-                    state.lastKey?.let { key ->
-                        val parts = key.split("/")
-                        val card = index.grades.firstOrNull { it.grade == parts.firstOrNull() }
-                            ?.subjects?.firstOrNull { it.subject == parts.getOrNull(1) }
-                        if (card != null) {
+                    state.lastRead?.let { (key, title, label) ->
+                        // "11/physics/unit3", "11/physics/bank2" or "11/physics/guide"
+                        val m = Regex("""^(\w+)/([\w-]+)/(unit|bank|guide)(\d*)$""").find(key)
+                        if (m != null) {
+                            val (g, subj, kind, no) = m.destructured
                             item(key = "continue") {
                                 ContinueCard(
-                                    title = "Class ${parts[0]} · ${card.name}",
-                                    progress = fraction(state.done[key].orEmpty().size, card.topicCount),
-                                    onClick = viewModel::openLast
+                                    title = title.ifBlank { label },
+                                    label = label,
+                                    progress = (state.marks[key]?.read ?: 0) / 100f,
+                                    onClick = { onOpenDoc(g, subj, kind, no.toIntOrNull() ?: 0) }
                                 )
                             }
                         }
@@ -136,7 +145,7 @@ private fun SyllabusHub(state: SyllabusUiState, viewModel: SyllabusViewModel) {
                             items(cards, key = { "s_${grade.grade}_${it.subject}" }) { card ->
                                 SubjectCard(
                                     card = card,
-                                    progress = fraction(state.done["${grade.grade}/${card.subject}"].orEmpty().size, card.topicCount),
+                                    progress = fraction(state.chaptersDone(grade.grade, card.subject), card.unitCount),
                                     onClick = { viewModel.openSubject(grade.grade, card.subject) }
                                 )
                             }
@@ -183,14 +192,14 @@ private fun androidx.compose.foundation.lazy.LazyListScope.syllabusHits(state: S
 private fun SyllabusIntro(units: Int, topics: Int) {
     Column(Modifier.padding(horizontal = 4.dp)) {
         Text(
-            text = "Know exactly what to study",
+            text = "Syllabus and study notes",
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
             color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            text = "The CDC and NEB syllabus for Class 8, 10, 11 and 12: $units units and $topics topics, with key points from the NEBians books. Tick topics as you finish them.",
+            text = "Every unit of the CDC and NEB syllabus for Class 8, 10, 11 and 12 ($units chapters) with the full chapter from the NEBians books, self-check questions and a question bank in the board's pattern.",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -232,7 +241,7 @@ internal fun SyllabusSearchField(
 }
 
 @Composable
-private fun ContinueCard(title: String, progress: Float, onClick: () -> Unit) {
+private fun ContinueCard(title: String, label: String, progress: Float, onClick: () -> Unit) {
     Surface(
         shape = WebPanelShape,
         color = MaterialTheme.colorScheme.surfaceContainerLow,
@@ -243,7 +252,7 @@ private fun ContinueCard(title: String, progress: Float, onClick: () -> Unit) {
             Icon(Icons.Outlined.History, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface)
             Spacer(Modifier.width(12.dp))
             Column(Modifier.weight(1f)) {
-                Text("Continue where you left off", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("Continue reading" + if (label.isNotBlank()) " · $label" else "", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Spacer(Modifier.height(8.dp))
                 SyllabusBar(progress)
@@ -314,7 +323,7 @@ private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, onClick: 
                 Text(card.nameNe, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 Spacer(Modifier.height(2.dp))
                 Text(
-                    text = listOfNotNull("${card.unitCount} units", "${card.topicCount} topics", card.hours?.let { "$it hrs" }).joinToString(" · "),
+                    text = listOfNotNull("${card.unitCount} chapters", card.hours?.let { "$it hrs" }).joinToString(" · "),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
