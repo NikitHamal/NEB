@@ -66,6 +66,71 @@
    "script": "tools/lessons/scripts/eng12/unit_01.py"
   },
   {
+   "id": "class-12/eng12/unit_02.mp4",
+   "file": "class-12/eng12/unit_02.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_02.mp4",
+     "subtitles": "class-12/eng12/unit_02.srt",
+     "start": 0.0,
+     "end": 562.47,
+     "mb": 21.7
+    }
+   ],
+   "poster": "class-12/eng12/unit_02.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 2,
+   "title": "A Respectable Woman",
+   "subtitle": "Kate Chopin · a short story",
+   "lang": "en",
+   "sections": [
+    "Kate Chopin and Louisiana",
+    "The story",
+    "The bench",
+    "The characters",
+    "Themes",
+    "The ending and the craft"
+   ],
+   "seconds": 562.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     49.57,
+     "Kate Chopin and Louisiana"
+    ],
+    [
+     114.37,
+     "The story"
+    ],
+    [
+     258.13,
+     "The bench"
+    ],
+    [
+     346.43,
+     "The characters"
+    ],
+    [
+     386.13,
+     "Themes"
+    ],
+    [
+     435.8,
+     "The ending and the craft"
+    ],
+    [
+     525.13,
+     "Quick recap"
+    ]
+   ],
+   "mb": 21.7,
+   "script": "tools/lessons/scripts/eng12/unit_02.py"
+  },
+  {
    "id": "class-12/eng12/unit_09.mp4",
    "file": "class-12/eng12/unit_09.mp4",
    "parts": [
