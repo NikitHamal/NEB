@@ -382,6 +382,9 @@ class Post(models.Model):
             models.Index(fields=['category', 'is_archived', '-created_at'], name='post_cat_arch_created_idx'),
             models.Index(fields=['is_archived', '-thumbs_up_count', '-created_at'], name='post_arch_rank_idx'),
             models.Index(fields=['is_archived', '-reply_count', '-created_at'], name='post_arch_discussed_idx'),
+            # Per-author counts (profile stats, popup, profile tabs) and the forum's COUNT(*),
+            # answered from the index alone.
+            models.Index(fields=['user_id', 'is_archived', 'is_anonymous'], name='post_user_arch_anon_idx'),
         ]
 
     def __str__(self):
@@ -537,6 +540,7 @@ class Reply(models.Model):
             models.Index(fields=['parent_reply_id', 'created_at']),
             models.Index(fields=['post_id', 'is_archived', '-thumbs_up_count', 'created_at'], name='reply_post_rank_idx'),
             models.Index(fields=['user_id', '-created_at'], name='reply_user_created_idx'),
+            models.Index(fields=['user_id', 'is_archived', 'is_anonymous'], name='reply_user_arch_anon_idx'),
         ]
 
     def __str__(self):
