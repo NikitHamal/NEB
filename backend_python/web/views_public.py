@@ -1766,7 +1766,7 @@ def subject_page(request, grade_slug, subject_slug):
     subject_db_val = curriculum.get_subject_db_value(subject_slug)
     
     # Query approved lead resources
-    resources_qs = Resource.objects.filter(
+    resources_qs = Resource.objects.select_related('uploaded_by').filter(
         approval_status='approved',
         is_lead=True,
         grade_level__iexact=grade_db_val,
