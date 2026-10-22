@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,158
+Quick recap.
+
+2
+00:00:01,158 --> 00:00:03,476
+Look at the scatter diagram first.
+
+3
+00:00:03,476 --> 00:00:11,692
+Karl Pearson's r, between minus one and one, measures straight line correlation and ignores changes of origin and scale.
+
+4
+00:00:11,692 --> 00:00:14,518
+Spearman's formula works with ranks.
+
+5
+00:00:14,518 --> 00:00:22,773
+The two regression lines meet at the means, their slopes multiply to r squared, and you predict y with the line of y on x.
+

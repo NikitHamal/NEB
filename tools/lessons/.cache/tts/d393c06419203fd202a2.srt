@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,783
+Where does the formula come from?
+
+2
+00:00:01,783 --> 00:00:05,390
+Draw lines through the mean point, x bar, y bar.
+
+3
+00:00:05,390 --> 00:00:08,177
+They cut the plane into four quarters.
+

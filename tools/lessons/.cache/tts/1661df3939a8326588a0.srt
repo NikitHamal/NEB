@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,382
+That was correlation and regression.
+
+2
+00:00:02,382 --> 00:00:07,721
+Next, probability: conditional probability, independence and Bayes' theorem.
+
+3
+00:00:07,721 --> 00:00:08,671
+See you there.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,031
+Some things can only be ranked, not measured: dancers placed by judges, students in order of merit.
+
+2
+00:00:07,031 --> 00:00:10,130
+Spearman's coefficient works with ranks.
+
+3
+00:00:10,130 --> 00:00:19,947
+Find D, the difference in ranks for each item, and r s is one minus six sum D squared, over n cubed minus n.
+
+4
+00:00:19,947 --> 00:00:25,690
+For ties, give each the average rank, and add a small correction for each tied group.
+

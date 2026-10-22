@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,932
+Five thirteen over five forty: point nine five.
+
+2
+00:00:03,932 --> 00:00:10,585
+Very high positive, and r squared says ninety per cent of the variation in marks goes with study hours.
+

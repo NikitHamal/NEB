@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,276
+Two cautions.
+
+2
+00:00:01,276 --> 00:00:05,872
+Zero correlation only means no straight line relationship.
+
+3
+00:00:05,872 --> 00:00:13,151
+And correlation is not causation: two things can rise together because a third thing drives them both.
+

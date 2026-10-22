@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:06,562
+Plot every pair as a dot and the scatter diagram tells you the story before any arithmetic.
+
+2
+00:00:06,562 --> 00:00:10,898
+Dots on one rising line: perfect positive correlation.
+
+3
+00:00:10,898 --> 00:00:13,684
+On a falling line: perfect negative.
+
+4
+00:00:13,684 --> 00:00:16,940
+A tight rising band: strong positive.
+
+5
+00:00:16,940 --> 00:00:19,856
+A loose falling cloud: weak negative.
+
+6
+00:00:19,856 --> 00:00:22,044
+A shapeless blob: none.
+

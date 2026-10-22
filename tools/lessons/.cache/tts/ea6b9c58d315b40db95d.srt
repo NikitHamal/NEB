@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,575
+So r s is one minus two forty three over nine ninety: point seven five five.
+

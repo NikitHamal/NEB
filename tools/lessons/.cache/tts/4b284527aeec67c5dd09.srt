@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,526
+Strong negative: the size, point nine two, is above three quarters, and the sign is negative.
+

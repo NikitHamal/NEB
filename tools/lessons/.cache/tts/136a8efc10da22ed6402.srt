@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,098
+Rainfall and wheat yield on six plots.
+
+2
+00:00:03,098 --> 00:00:05,234
+Which straight line fits best?
+
+3
+00:00:05,234 --> 00:00:09,205
+Pivot a line about the mean point and look at the vertical misses.
+
+4
+00:00:09,205 --> 00:00:12,187
+Square each miss: the red squares.
+
+5
+00:00:12,187 --> 00:00:17,122
+The best line is the one that makes their total area as small as possible.
+
+6
+00:00:17,122 --> 00:00:19,140
+The method of least squares.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,367
+And a warning: this last cloud clearly follows a curve, yet r comes out near zero.
+
+2
+00:00:06,367 --> 00:00:10,703
+Karl Pearson's r measures only straight line relationships.
+

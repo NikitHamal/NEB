@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,473
+Loosen the band and r falls.
+
+2
+00:00:02,473 --> 00:00:06,796
+A shapeless blob: r near zero, no relationship.
+
+3
+00:00:06,796 --> 00:00:14,882
+Tilt it the other way, like price against quantity sold, and r turns negative, down to minus one for a perfect falling line.
+

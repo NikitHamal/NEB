@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,611
+For each point, measure its deviations from the means, d x and d y.
+
+2
+00:00:05,611 --> 00:00:12,630
+In the top right and bottom left quarters, both deviations have the same sign, so their product is positive.
+
+3
+00:00:12,630 --> 00:00:15,091
+In the other two, it is negative.
+
+4
+00:00:15,091 --> 00:00:19,895
+Add up all the products: mostly positive points give a big positive total.
+

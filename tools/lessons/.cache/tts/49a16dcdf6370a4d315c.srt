@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,445
+Their product, point three six, is at most one, so the guess was right: r is point six.
+
+2
+00:00:06,445 --> 00:00:08,945
+A product above one would mean swap them.
+

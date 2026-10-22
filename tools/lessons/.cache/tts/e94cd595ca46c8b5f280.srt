@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,130
+With ties, each group of two tied values adds half to the sum of D squared.
+
+2
+00:00:05,130 --> 00:00:08,072
+Three such groups add one and a half.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,416
+Total the five columns: x, y, x y, x squared, y squared.
+

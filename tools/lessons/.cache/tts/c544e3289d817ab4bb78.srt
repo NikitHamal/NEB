@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,799
+The minimum comes at slope point seven two.
+
+2
+00:00:02,799 --> 00:00:09,062
+Calculus gives the formula: b y x is sum d x d y over sum d x squared.
+
+3
+00:00:09,062 --> 00:00:12,434
+And the best line always passes through the mean point.
+
+4
+00:00:12,434 --> 00:00:15,481
+This is the regression line of y on x.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,354
+Exam tip.
+
+2
+00:00:01,354 --> 00:00:04,466
+Whole-number means: use deviations.
+
+3
+00:00:04,466 --> 00:00:07,513
+Small raw numbers: use the raw-score form.
+
+4
+00:00:07,513 --> 00:00:10,937
+Awkward means: deviations from an assumed mean.
+
+5
+00:00:10,937 --> 00:00:14,947
+And set out the table neatly, because the marks are in the columns.
+

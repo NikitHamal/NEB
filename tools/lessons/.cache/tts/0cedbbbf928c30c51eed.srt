@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,445
+Now the tomatoes.
+
+2
+00:00:01,445 --> 00:00:07,916
+The means are a hundred and sixty and eight, whole numbers, so use deviations from the actual means.
+
+3
+00:00:07,916 --> 00:00:13,385
+Build the table: d x, d y, their product, and their squares.
+
+4
+00:00:13,385 --> 00:00:18,007
+The two deviation columns must add to zero, which is your check.
+

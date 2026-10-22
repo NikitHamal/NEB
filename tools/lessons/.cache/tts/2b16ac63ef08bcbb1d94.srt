@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,726
+Each dot is one student: hours of study across, marks up.
+
+2
+00:00:04,726 --> 00:00:08,697
+The dots climb from lower left to upper right, in a tight band.
+
+3
+00:00:08,697 --> 00:00:11,640
+Study more, score more, on the whole.
+
+4
+00:00:11,640 --> 00:00:17,122
+One number, r, measures how tightly two quantities move together.
+

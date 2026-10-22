@@ -20,7 +20,7 @@ def polar(r, a):
 def worked(s, problem, lines, says, size=36, colors=None, buff=0.32, psize=25):
     """Problem at top-left, then one line per narration sentence (says[0] reads the problem). Lines may be LaTeX strings or mobjects."""
     head, prob = example_head(s, problem, size=psize)
-    steps = VGroup(*[M(l_, size=size) if isinstance(l_, str) else l_ for l_ in lines]).arrange(DOWN, aligned_edge=LEFT, buff=buff)
+    steps = VGroup(*[M(l_.replace(r"\tfrac", r"\frac"), size=size) if isinstance(l_, str) else l_ for l_ in lines]).arrange(DOWN, aligned_edge=LEFT, buff=buff)
     steps.next_to(prob, DOWN, buff=0.4).align_to(prob, LEFT)
     for st in steps:
         if st.width > 12.6:
