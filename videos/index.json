@@ -1351,6 +1351,78 @@
    "script": "tools/lessons/scripts/math12/unit_01.py"
   },
   {
+   "id": "class-12/math12/unit_02.mp4",
+   "file": "class-12/math12/unit_02.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_02.part1.mp4",
+     "subtitles": "class-12/math12/unit_02.part1.srt",
+     "start": 0.0,
+     "end": 361.233,
+     "mb": 11.1
+    },
+    {
+     "file": "class-12/math12/unit_02.part2.mp4",
+     "subtitles": "class-12/math12/unit_02.part2.srt",
+     "start": 361.233,
+     "end": 837.133,
+     "mb": 15.3
+    }
+   ],
+   "poster": "class-12/math12/unit_02.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 2,
+   "title": "Binomial Theorem",
+   "subtitle": "Every term of (a + b)ⁿ, without multiplying",
+   "lang": "en",
+   "sections": [
+    "Binomial theorem, positive integral index",
+    "General term and coefficients",
+    "Any index",
+    "Approximation",
+    "Euler's number e",
+    "Series for eˣ, aˣ and log(1 + x)"
+   ],
+   "seconds": 837.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     55.23,
+     "Binomial theorem, positive integral index"
+    ],
+    [
+     199.03,
+     "General term and coefficients"
+    ],
+    [
+     360.47,
+     "Any index"
+    ],
+    [
+     477.3,
+     "Approximation"
+    ],
+    [
+     576.37,
+     "Euler's number e"
+    ],
+    [
+     658.13,
+     "Series for eˣ, aˣ and log(1 + x)"
+    ],
+    [
+     794.57,
+     "Quick recap"
+    ]
+   ],
+   "mb": 26.4,
+   "script": "tools/lessons/scripts/math12/unit_02.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [

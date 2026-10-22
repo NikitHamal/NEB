@@ -1,0 +1,284 @@
+1
+00:00:00,000 --> 00:00:01,330
+No calculator.
+
+2
+00:00:01,330 --> 00:00:07,410
+Find the cube root of one hundred and twenty seven, correct to four decimal places.
+
+3
+00:00:07,410 --> 00:00:09,032
+It sounds impossible by hand.
+
+4
+00:00:09,233 --> 00:00:14,951
+By the end of this lesson you will do it in three lines: five point zero two six five.
+
+5
+00:00:14,951 --> 00:00:21,508
+And the tool that does it will also expand a to the power twenty in one go, and give you the number e.
+
+6
+00:00:27,333 --> 00:00:32,064
+Welcome to Class 12 Mathematics, Unit 2: the Binomial Theorem.
+
+7
+00:00:34,433 --> 00:00:37,794
+The theorem for whole number powers, and its proof.
+
+8
+00:00:37,794 --> 00:00:41,778
+The general term, the middle term and the coefficients.
+
+9
+00:00:41,778 --> 00:00:45,776
+The theorem for any index, as an infinite series.
+
+10
+00:00:45,776 --> 00:00:47,234
+Approximations.
+
+11
+00:00:47,234 --> 00:00:48,614
+Euler's number e.
+
+12
+00:00:48,614 --> 00:00:54,452
+And the series for e to the x, a to the x, and log of one plus x.
+
+13
+00:00:58,800 --> 00:01:03,085
+Multiply out the first few powers of a plus b, and watch.
+
+14
+00:01:03,085 --> 00:01:05,755
+The power of a falls from n to zero.
+
+15
+00:01:05,755 --> 00:01:08,776
+The power of b rises from zero to n.
+
+16
+00:01:08,776 --> 00:01:10,390
+They always add to n.
+
+17
+00:01:10,390 --> 00:01:18,880
+And the coefficients, one two one, one three three one, one four six four one, are the rows of Pascal's triangle.
+
+18
+00:01:20,100 --> 00:01:33,448
+So the binomial theorem says: a plus b to the n is the sum, from r equals zero to n, of n C r times a to the n minus r times b to the r. Exactly n plus one terms.
+
+19
+00:01:34,667 --> 00:01:36,088
+Why combinations?
+
+20
+00:01:36,088 --> 00:01:41,622
+Because a plus b to the fifth is five brackets multiplied together.
+
+21
+00:01:41,622 --> 00:01:47,390
+To make a term a cubed b squared, you take b from two of the brackets and a from the other three.
+
+22
+00:01:47,390 --> 00:01:52,468
+The number of ways to choose those two brackets is five C two, ten.
+
+23
+00:01:52,468 --> 00:01:55,194
+So a cubed b squared appears ten times.
+
+24
+00:01:57,400 --> 00:01:59,836
+The formal proof is by induction.
+
+25
+00:01:59,836 --> 00:02:03,307
+For n equal to one it reads a plus b. True.
+
+26
+00:02:03,533 --> 00:02:08,890
+Now assume it is true for some k, and multiply both sides by a plus b.
+
+27
+00:02:09,100 --> 00:02:13,646
+Shift the index in the second sum so both sums have the same shape.
+
+28
+00:02:13,646 --> 00:02:17,840
+The middle terms pair up as k C r plus k C r minus one.
+
+29
+00:02:18,067 --> 00:02:22,925
+By Pascal's rule from unit one, that is k plus one C r.
+
+30
+00:02:22,925 --> 00:02:29,270
+So the formula holds for k plus one, and by induction for every positive integer n.
+
+31
+00:02:30,500 --> 00:02:33,327
+Keep the minus sign inside the bracket.
+
+32
+00:02:33,327 --> 00:02:36,517
+For a minus b, the signs alternate.
+
+33
+00:02:36,517 --> 00:02:45,211
+And for two x minus three y, the whole of minus three y is the second quantity, so raise the three to the power as well.
+
+34
+00:02:46,433 --> 00:02:47,906
+A first expansion.
+
+35
+00:02:47,906 --> 00:02:54,984
+a is two x, b is three over x, and the coefficients are one five ten ten five one.
+
+36
+00:02:55,200 --> 00:02:57,599
+Write every term with its powers.
+
+37
+00:02:57,800 --> 00:02:59,338
+Then simplify each one.
+
+38
+00:03:01,367 --> 00:03:02,183
+A neat trick.
+
+39
+00:03:02,600 --> 00:03:08,897
+Subtract the two expansions: terms with even powers of b cancel, odd ones double.
+
+40
+00:03:09,100 --> 00:03:16,016
+With a squared three and a to the four nine: two times seventy six, one hundred and fifty two.
+
+41
+00:03:16,016 --> 00:03:17,002
+The surds vanish.
+
+42
+00:03:22,600 --> 00:03:25,232
+Any single term can be written directly.
+
+43
+00:03:25,232 --> 00:03:42,556
+The general term, T r plus one, is n C r, a to the n minus r, b to the r. Notice the plus one: r equal to zero gives the first term, so the term carrying r is the r plus one th. Write the plus one down every time, or you will be one term out.
+
+44
+00:03:42,767 --> 00:03:45,125
+There are n plus one terms.
+
+45
+00:03:45,125 --> 00:03:51,831
+If n is even that is an odd number, and there is one middle term, number n over two plus one.
+
+46
+00:03:51,831 --> 00:03:54,049
+If n is odd, there are two middle terms.
+
+47
+00:03:55,267 --> 00:03:58,315
+The most common question: the term independent of x.
+
+48
+00:03:58,533 --> 00:04:05,301
+Write the general term, and collect all the powers of x into one: x to the eighteen minus three r.
+
+49
+00:04:05,533 --> 00:04:11,160
+Independent of x means that power is zero: r is six, the seventh term.
+
+50
+00:04:11,367 --> 00:04:17,665
+Its value: eighty four times sixty four, five thousand three hundred and seventy six.
+
+51
+00:04:19,667 --> 00:04:20,449
+A coefficient.
+
+52
+00:04:20,900 --> 00:04:24,514
+General term: x to the sixty minus seven r.
+
+53
+00:04:24,733 --> 00:04:30,651
+Set that equal to thirty two: r is four, a whole number, so the term exists.
+
+54
+00:04:30,867 --> 00:04:36,039
+The coefficient is fifteen C four: one thousand three hundred and sixty five.
+
+55
+00:04:38,067 --> 00:04:38,808
+Middle terms.
+
+56
+00:04:39,300 --> 00:04:42,804
+Eight is even: one middle term, the fifth.
+
+57
+00:04:42,804 --> 00:04:45,364
+The x's cancel completely: seventy.
+
+58
+00:04:45,567 --> 00:04:49,462
+Seven is odd: two middle terms, the fourth and fifth.
+
+59
+00:04:49,462 --> 00:04:53,068
+The fourth is minus five sixty x to the four y cubed.
+
+60
+00:04:53,300 --> 00:04:56,707
+The fifth is two eighty x cubed y to the four.
+
+61
+00:04:58,733 --> 00:05:10,271
+Put x equal to one in one plus x to the n: the coefficients add up to two to the n. Put x equal to minus one: the alternating sum is zero.
+
+62
+00:05:10,271 --> 00:05:17,446
+And in general, the sum of the coefficients of any expansion is found by putting every variable equal to one.
+
+63
+00:05:17,446 --> 00:05:22,738
+For two x minus three y to the twelve: minus one to the twelve, which is one.
+
+64
+00:05:23,967 --> 00:05:25,158
+The ratio method again.
+
+65
+00:05:25,367 --> 00:05:32,471
+The ratio of consecutive coefficients is n minus r plus one over r. Equal to eight thirds.
+
+66
+00:05:32,700 --> 00:05:35,388
+The next ratio, equal to seven quarters.
+
+67
+00:05:35,600 --> 00:05:38,870
+Subtract: n is ten and r is three.
+
+68
+00:05:38,870 --> 00:05:41,353
+The terms are the third, fourth and fifth.
+
+69
+00:05:43,967 --> 00:05:45,349
+Exam tip.
+
+70
+00:05:45,349 --> 00:05:56,078
+For any particular term, write T r plus one, collect every power of x into a single exponent, and set it equal to the power you want.
+
+71
+00:05:56,078 --> 00:05:59,688
+If r does not come out a whole number, the term simply does not exist.
+
