@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,539
+The top has modulus root two and argument forty five; the bottom has modulus two and argument minus sixty.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,695
+Roots are where De Moivre really shines.
+
+2
+00:00:02,695 --> 00:00:11,119
+A complex number has infinitely many arguments, theta plus any multiple of two pi, and they all describe the same point.
+
+3
+00:00:11,119 --> 00:00:15,273
+Take the n th root: divide each argument by n.
+
+4
+00:00:15,273 --> 00:00:16,549
+Now they are different!
+
+5
+00:00:16,549 --> 00:00:23,138
+The roots all have modulus r to the one over n, and are spaced two pi over n apart.
+
+6
+00:00:23,138 --> 00:00:27,187
+Exactly n of them, k from zero to n minus one.
+

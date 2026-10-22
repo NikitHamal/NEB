@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,234
+Match imaginary parts, and replace c squared by one minus s squared.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,528
+Complex numbers are really about lengths and turns.
+
+2
+00:00:03,528 --> 00:00:08,580
+See them that way, and powers and roots that look impossible become easy.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,132
+Four parts.
+
+2
+00:00:01,132 --> 00:00:03,750
+The polar form, length and angle.
+
+3
+00:00:03,750 --> 00:00:07,825
+De Moivre's theorem, for powers and for roots.
+
+4
+00:00:07,825 --> 00:00:09,791
+The cube roots of unity.
+
+5
+00:00:09,791 --> 00:00:13,619
+And Euler's formula, which ties it all to the number e.
+

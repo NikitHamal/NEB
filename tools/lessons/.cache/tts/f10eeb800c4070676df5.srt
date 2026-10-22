@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,882
+As theta grows, e to the i theta walks round the unit circle.
+
+2
+00:00:04,882 --> 00:00:08,268
+At theta equal to pi it reaches minus one.
+
+3
+00:00:08,268 --> 00:00:18,203
+So e to the i pi plus one equals zero: Euler's identity, linking e, i, pi, one and zero in a single line.
+

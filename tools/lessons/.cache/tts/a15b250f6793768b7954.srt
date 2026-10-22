@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,966
+The proof for whole numbers is by induction: each extra factor adds another theta to the angle.
+
+2
+00:00:06,966 --> 00:00:13,398
+It also holds for negative integers, and for fractional powers, where it gives several values.
+

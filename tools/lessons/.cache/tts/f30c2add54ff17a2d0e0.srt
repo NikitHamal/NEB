@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,104
+Two to the seven is one two eight; seven times thirty is two ten degrees, in the third quadrant, where cosine and sine are both negative.
+

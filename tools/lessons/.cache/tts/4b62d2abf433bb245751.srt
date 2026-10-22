@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,166
+A hundred is three thirty three plus one: omega.
+

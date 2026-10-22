@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,718
+Never expand the cubes.
+
+2
+00:00:01,718 --> 00:00:09,322
+Simplify each bracket first, using one plus omega plus omega squared equals zero.
+

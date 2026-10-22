@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,820
+Two cos theta is e to the i theta plus e to the minus i theta.
+
+2
+00:00:05,820 --> 00:00:07,213
+Cube both sides.
+

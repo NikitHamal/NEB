@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,973
+Find the cube roots of eight i. Eight i has modulus eight and argument ninety degrees, plus any multiple of three sixty.
+
+2
+00:00:09,973 --> 00:00:22,447
+Take the cube root: modulus two, and arguments ninety over three, four fifty over three and eight ten over three: thirty, one fifty and two seventy degrees.
+
+3
+00:00:22,447 --> 00:00:27,877
+Root three plus i, minus root three plus i, and minus two i.
+
+4
+00:00:27,877 --> 00:00:30,403
+A perfect equilateral triangle.
+

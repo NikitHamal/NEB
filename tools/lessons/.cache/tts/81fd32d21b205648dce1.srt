@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,635
+Put z equal to one: the n th roots of unity.
+
+2
+00:00:04,635 --> 00:00:11,158
+They sit on the unit circle at the corners of a regular n sided polygon, with one corner at one.
+
+3
+00:00:11,158 --> 00:00:16,666
+Their sum is always zero, because they balance perfectly around the centre.
+
+4
+00:00:16,666 --> 00:00:20,338
+Their product is minus one to the n plus one.
+

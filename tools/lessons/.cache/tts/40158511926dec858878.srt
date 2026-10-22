@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,351
+So e to the i theta equals cos theta plus i sin theta.
+
+2
+00:00:05,351 --> 00:00:06,705
+Euler's formula.
+

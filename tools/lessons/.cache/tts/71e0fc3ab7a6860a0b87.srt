@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:00,898
+Picture it.
+
+2
+00:00:00,898 --> 00:00:08,138
+Each power turns by the same angle and scales by the same factor, so successive powers trace a spiral.
+

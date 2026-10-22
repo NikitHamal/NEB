@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,968
+Remember the exponential series from unit two.
+
+2
+00:00:02,968 --> 00:00:05,039
+Put x equal to i theta.
+

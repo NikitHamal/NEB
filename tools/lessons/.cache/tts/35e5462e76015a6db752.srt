@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,278
+Expand by the binomial theorem; the products like e to the i theta times e to the minus i theta are one.
+
+2
+00:00:07,278 --> 00:00:09,440
+Each pair is twice a cosine.
+

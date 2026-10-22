@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,984
+Plot z equals x plus i y as the point x, y on the Argand diagram: real axis across, imaginary axis up.
+
+2
+00:00:08,984 --> 00:00:10,677
+Now describe it differently.
+
+3
+00:00:10,677 --> 00:00:17,265
+Its distance from the origin is the modulus, r, root of x squared plus y squared.
+
+4
+00:00:17,265 --> 00:00:21,718
+Its angle from the positive real axis is the argument, theta.
+

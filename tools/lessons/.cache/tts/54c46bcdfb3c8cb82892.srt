@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,770
+If multiplying adds angles, then raising to the n th power multiplies the angle by n.
+
+2
+00:00:06,770 --> 00:00:17,200
+That is De Moivre's theorem: cos theta plus i sin theta, to the n, equals cos n theta plus i sin n theta.
+
+3
+00:00:17,200 --> 00:00:20,533
+With a modulus, r becomes r to the n.
+

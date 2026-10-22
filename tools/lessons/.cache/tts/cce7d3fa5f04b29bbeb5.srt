@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,973
+Then x to the n plus its reciprocal is e to the i n theta plus e to the minus i n theta: two cos n theta.
+

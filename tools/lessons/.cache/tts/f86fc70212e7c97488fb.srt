@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,221
+One plus i root three: r two, alpha sixty, first quadrant.
+
+2
+00:00:05,221 --> 00:00:07,421
+Theta is sixty degrees.
+

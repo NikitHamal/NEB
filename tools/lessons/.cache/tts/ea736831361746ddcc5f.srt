@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,372
+Similarly the second is minus two omega.
+

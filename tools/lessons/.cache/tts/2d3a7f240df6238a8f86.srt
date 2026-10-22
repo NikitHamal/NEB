@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,484
+Cube them: minus eight omega to the six, which is minus eight, plus minus eight.
+
+2
+00:00:06,484 --> 00:00:07,994
+Minus sixteen.
+
