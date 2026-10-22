@@ -1,0 +1,320 @@
+1
+00:00:00,000 --> 00:00:03,161
+To sum from m to n, subtract the sum up to m minus one from the sum up to n. Subtract up to m itself and you throw away a term you were meant to keep.
+
+2
+00:00:07,500 --> 00:00:15,444
+Checking a formula for n equal to one, two and three proves nothing about n equal to forty.
+
+3
+00:00:15,444 --> 00:00:19,246
+Induction proves it for every natural number at once.
+
+4
+00:00:19,246 --> 00:00:21,367
+Think of an endless row of dominoes.
+
+5
+00:00:21,600 --> 00:00:23,425
+Two things make them all fall.
+
+6
+00:00:23,425 --> 00:00:28,320
+First, the basis: push the first one, so P of one is true.
+
+7
+00:00:28,320 --> 00:00:35,482
+Second, the inductive step: the dominoes are close enough that whenever one falls, it knocks over the next.
+
+8
+00:00:35,482 --> 00:00:39,843
+P of k true forces P of k plus one true.
+
+9
+00:00:40,066 --> 00:00:40,901
+Watch.
+
+10
+00:00:40,901 --> 00:00:45,445
+Push the first, and each one topples the next, all the way along.
+
+11
+00:00:45,445 --> 00:00:48,242
+Leave out either step and the row stays standing.
+
+12
+00:00:49,466 --> 00:00:54,142
+Examiners give marks for the layout itself, so learn these four lines.
+
+13
+00:00:54,142 --> 00:00:55,418
+Name the statement.
+
+14
+00:00:55,418 --> 00:00:56,759
+Prove the basis.
+
+15
+00:00:56,759 --> 00:01:00,900
+Assume it for k, and say the words inductive hypothesis.
+
+16
+00:01:00,900 --> 00:01:04,373
+Then prove it for k plus one, and write the conclusion.
+
+17
+00:01:05,600 --> 00:01:07,592
+The cube formula, by induction.
+
+18
+00:01:07,800 --> 00:01:09,619
+Basis: both sides are one.
+
+19
+00:01:09,833 --> 00:01:12,178
+Assume it is true for k.
+
+20
+00:01:12,178 --> 00:01:13,947
+That is the inductive hypothesis.
+
+21
+00:01:14,166 --> 00:01:22,006
+Add the next term, k plus one cubed, to both sides, and replace the first k terms by the assumed formula.
+
+22
+00:01:22,006 --> 00:01:28,811
+Take out k plus one squared over four: the bracket is k squared plus four k plus four.
+
+23
+00:01:29,033 --> 00:01:31,665
+That is k plus two, squared.
+
+24
+00:01:31,665 --> 00:01:35,844
+Exactly the formula with k plus one in place of n.
+
+25
+00:01:35,844 --> 00:01:38,186
+So by induction it holds for all n.
+
+26
+00:01:40,200 --> 00:01:42,725
+Induction also proves divisibility.
+
+27
+00:01:42,933 --> 00:01:45,798
+Basis: three squared minus one is eight.
+
+28
+00:01:46,000 --> 00:01:52,616
+Assume three to the two k, minus one, is eight m for some whole number m.
+
+29
+00:01:52,616 --> 00:01:55,903
+So three to the two k is eight m plus one.
+
+30
+00:01:56,133 --> 00:02:06,838
+Then three to the two k plus two, minus one, is nine times that, minus one: seventy two m plus eight, which is eight times nine m plus one.
+
+31
+00:02:06,838 --> 00:02:07,917
+Divisible by eight.
+
+32
+00:02:09,933 --> 00:02:11,063
+One with fractions.
+
+33
+00:02:11,266 --> 00:02:13,592
+Basis: a half equals a half.
+
+34
+00:02:13,800 --> 00:02:19,492
+Assume the sum to k terms is k over k plus one, and add the next term.
+
+35
+00:02:19,492 --> 00:02:26,780
+Over a common denominator the top is k squared plus two k plus one: k plus one, squared.
+
+36
+00:02:27,000 --> 00:02:33,463
+Cancel, and you get k plus one over k plus two: the formula for k plus one.
+
+37
+00:02:35,466 --> 00:02:41,548
+The classic mistake: rewriting the right hand side with k plus one and calling it done.
+
+38
+00:02:41,548 --> 00:02:42,942
+That proves nothing.
+
+39
+00:02:42,942 --> 00:02:45,051
+You must use the hypothesis.
+
+40
+00:02:45,051 --> 00:02:48,619
+And a proof without the basis step loses half the marks.
+
+41
+00:02:51,033 --> 00:02:52,246
+Pause and think.
+
+42
+00:02:52,246 --> 00:02:53,427
+Which step comes first?
+
+43
+00:03:00,300 --> 00:03:02,528
+P of one, the basis step.
+
+44
+00:03:02,528 --> 00:03:05,890
+Without it there is no first domino, and nothing ever falls.
+
+45
+00:03:10,233 --> 00:03:15,117
+Unit two built the exponential series from the limit for e.
+
+46
+00:03:15,117 --> 00:03:16,341
+Here it is at work.
+
+47
+00:03:16,341 --> 00:03:19,102
+The white curve is e to the x.
+
+48
+00:03:19,102 --> 00:03:25,222
+One term of the series is a flat line; two terms a straight line; three a parabola.
+
+49
+00:03:25,222 --> 00:03:32,447
+Each new term bends the yellow curve closer, and by six or seven terms it hugs e to the x across the whole picture.
+
+50
+00:03:33,666 --> 00:03:41,324
+The logarithmic series behaves differently: it only works for x between minus one and one, including one.
+
+51
+00:03:41,324 --> 00:03:48,668
+At x equal to one the partial sums zig zag, above and below, closing in on log two.
+
+52
+00:03:48,668 --> 00:03:55,386
+At x equal to minus one point two the terms grow and the sums run away: no sum at all.
+
+53
+00:03:55,386 --> 00:03:58,234
+That is why the condition must always be stated.
+
+54
+00:03:59,466 --> 00:04:00,742
+Recognise the series.
+
+55
+00:04:00,966 --> 00:04:05,458
+The first is the series for e with its leading one removed: e minus one.
+
+56
+00:04:05,666 --> 00:04:09,743
+For the second, write e and e to the minus one.
+
+57
+00:04:09,743 --> 00:04:13,525
+Subtracting kills the even terms and doubles the odd ones.
+
+58
+00:04:13,733 --> 00:04:21,302
+So the sum is e minus e to the minus one, over two: one point one seven five two.
+
+59
+00:04:23,333 --> 00:04:24,851
+A fast-converging series.
+
+60
+00:04:25,066 --> 00:04:31,324
+Choose x so that one plus x over one minus x is one point two: x is one eleventh.
+
+61
+00:04:31,533 --> 00:04:33,591
+Small x, so the terms shrink fast.
+
+62
+00:04:33,800 --> 00:04:36,654
+Three terms give point one eight two three.
+
+63
+00:04:38,666 --> 00:04:46,890
+And remember: here log means the natural logarithm, base e. Read it as base ten and every answer is off by a factor.
+
+64
+00:04:49,300 --> 00:04:50,539
+Pause and think.
+
+65
+00:04:50,539 --> 00:04:52,309
+The sum of the first ten cubes.
+
+66
+00:04:59,200 --> 00:05:03,082
+Three thousand and twenty five: the square of fifty five.
+
+67
+00:05:03,082 --> 00:05:08,669
+Three eighty five is the sum of the squares, and five thousand and fifty belongs to Gauss.
+
+68
+00:05:10,666 --> 00:05:11,566
+One more.
+
+69
+00:05:11,566 --> 00:05:12,803
+Careful with the first term.
+
+70
+00:05:19,700 --> 00:05:20,691
+e plus one.
+
+71
+00:05:20,691 --> 00:05:27,319
+The series for e already starts one plus one over one factorial; this one has an extra one in front.
+
+72
+00:05:29,500 --> 00:05:30,582
+Quick recap.
+
+73
+00:05:30,582 --> 00:05:35,504
+The three standard sums, with denominators two, six and four.
+
+74
+00:05:35,504 --> 00:05:40,647
+Any polynomial term: split, substitute, factorise, test.
+
+75
+00:05:40,647 --> 00:05:44,436
+For a part sum, subtract up to m minus one.
+
+76
+00:05:44,436 --> 00:05:48,955
+Induction needs a basis and a step that uses the hypothesis.
+
+77
+00:05:48,955 --> 00:05:56,779
+And the exponential series works for every x, while the log series needs x between minus one and one.
+
+78
+00:06:00,966 --> 00:06:03,038
+That was sequence and series.
+
+79
+00:06:03,038 --> 00:06:09,652
+Next, matrices: solving systems of linear equations with determinants and inverses.
+
+80
+00:06:09,652 --> 00:06:10,248
+See you there.
+

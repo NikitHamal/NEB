@@ -1478,6 +1478,68 @@
    "script": "tools/lessons/scripts/math12/unit_03.py"
   },
   {
+   "id": "class-12/math12/unit_04.mp4",
+   "file": "class-12/math12/unit_04.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_04.part1.mp4",
+     "subtitles": "class-12/math12/unit_04.part1.srt",
+     "start": 0.0,
+     "end": 440.567,
+     "mb": 13.5
+    },
+    {
+     "file": "class-12/math12/unit_04.part2.mp4",
+     "subtitles": "class-12/math12/unit_04.part2.srt",
+     "start": 440.567,
+     "end": 813.2,
+     "mb": 12.1
+    }
+   ],
+   "poster": "class-12/math12/unit_04.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 4,
+   "title": "Sequence and Series",
+   "subtitle": "Sums you never have to add",
+   "lang": "en",
+   "sections": [
+    "Sum of the first n natural numbers",
+    "Sums of squares and cubes",
+    "Mathematical induction",
+    "Exponential and logarithmic series"
+   ],
+   "seconds": 813.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     73.13,
+     "Sum of the first n natural numbers"
+    ],
+    [
+     215.63,
+     "Sums of squares and cubes"
+    ],
+    [
+     444.5,
+     "Mathematical induction"
+    ],
+    [
+     627.23,
+     "Exponential and logarithmic series"
+    ],
+    [
+     768.67,
+     "Quick recap"
+    ]
+   ],
+   "mb": 25.6,
+   "script": "tools/lessons/scripts/math12/unit_04.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
