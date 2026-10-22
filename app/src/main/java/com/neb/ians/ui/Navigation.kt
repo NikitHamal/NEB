@@ -139,6 +139,9 @@ sealed class Screen(val route: String) {
     data object InteractiveCourse : Screen("interactive/course/{courseSlug}") {
         fun createRoute(courseSlug: String) = "interactive/course/$courseSlug"
     }
+    data object StudyReader : Screen("study/{grade}/{subject}/{kind}/{no}") {
+        fun createRoute(grade: String, subject: String, kind: String, no: Int) = "study/$grade/$subject/$kind/$no"
+    }
     data object InteractiveLesson : Screen("interactive/lesson/{courseSlug}/{lessonSlug}") {
         fun createRoute(courseSlug: String, lessonSlug: String) = "interactive/lesson/$courseSlug/$lessonSlug"
     }
@@ -503,6 +506,9 @@ fun NEBiansNavHost(
                     onInteractiveCourseClick = { courseSlug ->
                         navController.navigate(Screen.InteractiveCourse.createRoute(courseSlug))
                     },
+                    onStudyDocClick = { grade, subject, kind, no ->
+                        navController.navigate(Screen.StudyReader.createRoute(grade, subject, kind, no))
+                    },
                     onSyllabusDetailChromeChanged = { hideLibraryDetailChrome = it },
                     onRequestResourceClick = { navController.navigate(Screen.ResourceRequests.route) },
                     onCreatorClick = { slug -> navController.navigate(Screen.CreatorPage.createRoute(slug)) },
@@ -670,6 +676,17 @@ fun NEBiansNavHost(
                     },
                     onNavigateBack = { navController.popBackStack() }
                 )
+            }
+            composable(
+                route = Screen.StudyReader.route,
+                arguments = listOf(
+                    navArgument("grade") { type = NavType.StringType },
+                    navArgument("subject") { type = NavType.StringType },
+                    navArgument("kind") { type = NavType.StringType },
+                    navArgument("no") { type = NavType.StringType }
+                )
+            ) {
+                com.neb.ians.ui.screens.library.StudyReaderScreen(onBack = { navController.popBackStack() })
             }
             composable(
                 route = Screen.InteractiveLesson.route,

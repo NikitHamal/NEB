@@ -17,6 +17,7 @@ import json
 import re
 import uuid
 from decimal import Decimal
+from unittest import mock
 from pathlib import Path
 
 from django.conf import settings
@@ -45,6 +46,11 @@ class MarketplaceTestBase(TestCase):
     """Shared fixtures: a teacher with a storefront, a student and an admin."""
 
     def setUp(self):
+        # The marketplace is switched off in production for now (nebians/features.py);
+        # these tests exercise it switched on.
+        patcher = mock.patch('nebians.features.MARKETPLACE_ENABLED', True)
+        patcher.start()
+        self.addCleanup(patcher.stop)
         # Throttle counters live in the shared cache and the fixture user ids
         # are deterministic, so without this one test's writes would spend the
         # next test's allowance.
@@ -1213,3 +1219,16 @@ class RealtimeGuardTests(TestCase):
 
         with mock.patch.object(realtime, 'get_channel_layer', side_effect=RuntimeError('no redis')):
             realtime._send('group', 'event', {'a': 1})
+
+
+class MarketplaceSwitchedOffTests(TestCase):
+    """With MARKETPLACE_ENABLED off (the default) every marketplace door is shut."""
+
+    def test_routes_404_and_library_has_no_shelf(self):
+        c = Client()
+        self.assertEqual(c.get('/app/marketplace/').status_code, 404)
+        self.assertEqual(c.get('/api/marketplace/creators/').status_code, 404)
+        self.assertEqual(c.get('/api/app/features/').json(), {'marketplace': False})
+        page = c.get('/app/library/?tab=marketplace')
+        self.assertEqual(page.status_code, 200)
+        self.assertNotIn(b'?tab=marketplace', page.content)

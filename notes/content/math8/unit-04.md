@@ -83,6 +83,54 @@ $$3\times200=\text{Rs }600,\quad 4\times200=\text{Rs }800,\quad
 **Check.** $600+800+1000=2400$ ✓.
 :::
 
+### 4.1.2 Word problems on ratio
+
+The usual method: write the quantities as $ax$ and $bx$ (the ratio times a
+common multiplier $x$), form an equation from the condition, and solve for $x$.
+
+::: example Finding one quantity from a ratio
+**Problem.** Mohammad and Abdul invested in a factory in the ratio $2:3$. If
+Mohammad invested Rs 2,00,000, how much did Abdul invest?
+
+**Solution.** Let the investments be $2x$ and $3x$.
+$2x=2\,00\,000$, so $x=1\,00\,000$.
+Abdul's investment $=3x=3\times1\,00\,000=$ **Rs 3,00,000**.
+:::
+
+::: example Ages in a ratio
+**Problem.** The present ages of Bishal and Dhaniya are in the ratio $4:5$.
+After 4 years the ratio will be $5:6$. Find their present ages.
+
+**Solution.** Let the present ages be $4x$ and $5x$ years.
+After 4 years they are $4x+4$ and $5x+4$.
+
+$$\frac{4x+4}{5x+4}=\frac56$$
+
+Cross-multiplying: $6(4x+4)=5(5x+4)$, so $24x+24=25x+20$, giving $x=4$.
+
+Bishal $=4\times4=$ **16 years**, Dhaniya $=5\times4=$ **20 years**.
+
+**Check.** After 4 years: $20:24=5:6$ ✓.
+:::
+
+::: example Angles of a triangle in a ratio
+**Problem.** The angles of a triangle are in the ratio $2:3:4$. Find them.
+
+**Solution.** Let the angles be $2x$, $3x$, $4x$. The angles of a triangle add
+to $180°$: $2x+3x+4x=180°$, so $9x=180°$ and $x=20°$.
+The angles are $40°$, $60°$ and $80°$.
+:::
+
+::: example Adding the same number to change a ratio
+**Problem.** What number must be added to 4 and 5 so that their ratio becomes
+$5:6$?
+
+**Solution.** Let the number be $y$. Then $\frac{4+y}{5+y}=\frac56$.
+$6(4+y)=5(5+y)$ → $24+6y=25+5y$ → $y=1$.
+
+**Check.** $\frac{4+1}{5+1}=\frac56$ ✓.
+:::
+
 ## 4.2 Proportion
 
 Four quantities $a$, $b$, $c$, $d$ are **in proportion** if
@@ -100,6 +148,14 @@ $a:b=b:c$, so that $b^2=ac$. Then $b$ is the **mean proportional** between $a$
 and $c$, and
 
 $$b=\sqrt{ac}$$
+
+::: example Testing whether four numbers are in proportion
+**Problem.** Are (a) 4, 6, 10, 15 and (b) 3, 5, 6, 12 in proportion?
+
+**Solution.**
+(a) Extremes: $4\times15=60$; means: $6\times10=60$. Equal, so **yes**.
+(b) Extremes: $3\times12=36$; means: $5\times6=30$. Not equal, so **no**.
+:::
 
 ::: example Finding the fourth proportional
 **Problem.** Find $x$ if $6:9=10:x$.
@@ -258,17 +314,17 @@ ax.set_aspect("equal")
 | Check a proportion $a:b = c:d$ | $ad = bc$ (product of extremes = product of means) |
 
 ::: example Sharing with a condition
-**Question.** Rs 4,500 is shared among A, B and C so that A : B $= 2 : 3$ and
+**Question.** Rs 7,000 is shared among A, B and C so that A : B $= 2 : 3$ and
 B : C $= 4 : 5$. Find each share.
 
-**Answer.** Make B common. A : B $= 2:3 = 8:12$; B : C $= 4:5 = 12:15$.
+**Answer.** Make the B-terms equal (LCM of 3 and 4 is 12).
+A : B $= 2:3 = 8:12$; B : C $= 4:5 = 12:15$.
 So A : B : C $= 8 : 12 : 15$, giving $8 + 12 + 15 = 35$ parts.
-One part $= \frac{4500}{35} = 128.57$ (to 2 d.p.), so it is cleaner to compute
-each share directly:
-A $= \frac{8}{35}\times4500 = \textbf{Rs 1,028.57}$,
-B $= \frac{12}{35}\times4500 = \textbf{Rs 1,542.86}$,
-C $= \frac{15}{35}\times4500 = \textbf{Rs 1,928.57}$.
-**Check:** the three add to Rs 4,500.
+One part $= \frac{7000}{35} = $ Rs 200.
+A $= 8\times200=$ **Rs 1,600**, B $= 12\times200=$ **Rs 2,400**,
+C $= 15\times200=$ **Rs 3,000**.
+
+**Check:** $1600+2400+3000=7000$ ✓.
 :::
 
 ::: note Activity — the ratio in a recipe
@@ -366,24 +422,22 @@ inverse variation requires, and the time fell from 6 hours to 4 as the speed
 rose.
 :::
 
-**Extra practice**
+**Extra practice — textbook-style questions**
 
-**Group B (2 marks)**
-
-**11.** Simplify the ratio 1 hour 20 minutes : 2 hours.
-**12.** Find the mean proportional between 8 and 18.
-
-**Group C (4 marks)**
-
-**13.** Divide Rs 7,560 among three workers in the ratio of the days they worked:
-    6 days, 7 days and 8 days.
+**1.** Find the ratio of (a) 3 kg and 80 g (b) 2 hours and 45 minutes (c) Rs 5 and 90 paisa.
+**2.** A map is drawn to a scale $1:4000$. Two places are 4 cm apart on the map. Find the real distance.
+**3.** Two numbers are in the ratio $3:4$. If 5 is added to each, the ratio becomes $4:5$. Find the numbers.
+**4.** What should be subtracted from 24 and 30 to make the ratio $2:3$?
+**5.** If 12 notebooks cost Rs 600, how many notebooks can be bought for Rs 900?
+**6.** Find the mean proportional between 8 and 18.
 
 ::: note Extra practice — answers
-**11.** $80 : 120 = 2 : 3$.
-**12.** $\sqrt{8 \times 18} = \sqrt{144} = 12$.
-**13.** Parts $= 6 + 7 + 8 = 21$; one part $= \frac{7560}{21} = 360$.
-Shares: $6 \times 360 = $ **Rs 2,160**, $7 \times 360 = $ **Rs 2,520**,
-$8 \times 360 = $ **Rs 2,880**. Check: they total Rs 7,560.
+**1.** (a) $3000:80=75:2$ (b) $120:45=8:3$ (c) $500:90=50:9$.
+**2.** $4\times4000=16\,000$ cm $=160$ m.
+**3.** $\frac{3x+5}{4x+5}=\frac45$ → $15x+25=16x+20$ → $x=5$; the numbers are 15 and 20. Check: $20:25=4:5$ ✓.
+**4.** $\frac{24-y}{30-y}=\frac23$ → $72-3y=60-2y$ → $y=12$. Check: $12:18=2:3$ ✓.
+**5.** $\frac{600}{900}=\frac{12}{x}$ → $x=\frac{900\times12}{600}=18$ notebooks.
+**6.** $\sqrt{8 \times 18} = \sqrt{144} = 12$.
 :::
 
 ## Objective practice
@@ -397,7 +451,7 @@ $8 \times 360 = $ **Rs 2,880**. Check: they total Rs 7,560.
 **3.** Rs 960 shared in the ratio $5:7$ gives the larger share
    (a) Rs 400 (b) Rs 480 (c) Rs 560 (d) Rs 600
 **4.** The compound ratio of $3:4$ and $2:5$ is
-   (a) $6:20$ (b) $3:10$ (c) $5:9$ (d) $6:9$
+   (a) $5:9$ (b) $3:10$ (c) $6:9$ (d) $1:20$
 **5.** 40 minutes : 2 hours in simplest form is
    (a) $40:2$ (b) $1:3$ (c) $2:5$ (d) $1:5$
 

@@ -168,9 +168,10 @@ ax.plot(x, y, color=ACCENT, lw=1.7)
 ax.plot(x, y, "o", color=INK, ms=3.6)
 ax.axhline(0, color=INK, lw=0.8)
 ax.axvline(0, color=INK, lw=0.8)
-ax.annotate("(0, 1)", xy=(0, 1), xytext=(0.25, 1.6), fontsize=7.5, color=INK)
-ax.annotate("rise 2", xy=(-1.0, -1.0), xytext=(-1.9, -2.4), fontsize=7, color=MUTED)
-ax.annotate("across 1", xy=(0.5, 2.0), xytext=(0.7, 3.0), fontsize=7, color=MUTED)
+ax.annotate("(0, 1)", xy=(0, 1), xytext=(-1.1, 2.4), fontsize=8, color=INK, arrowprops=dict(arrowstyle="->", color=MUTED, lw=0.8))
+ax.plot([0, 1, 1], [1, 1, 3], color=SERIES[1], lw=1.2, ls="--")
+ax.text(0.5, 0.35, "across 1", fontsize=8, color=SERIES[1], ha="center")
+ax.text(1.12, 1.8, "rise 2", fontsize=8, color=SERIES[1])
 ax.set_xlim(-2.4, 3.4)
 ax.set_ylim(-4, 7.5)
 ax.set_xlabel("x", fontsize=9)
@@ -201,6 +202,51 @@ Plot both lines. They cross at $(4,2)$.
 
 **Check.** $4+2=6$ ✓ and $2=4-2$ ✓. At the crossing point both equations hold,
 which is exactly what the solution means.
+:::
+
+```figure caption="Graphical solution of $x+y=6$ and $x-y=2$ (that is $y=x-2$). The lines meet at (4, 2), so $x=4$, $y=2$."
+fig, ax = plt.subplots(figsize=(4.4, 3.2))
+xs = np.array([-1, 7])
+ax.plot(xs, 6 - xs, color=ACCENT, lw=1.6)
+ax.plot(xs, xs - 2, color=SERIES[1], lw=1.6)
+for (px, py) in [(0, 6), (2, 4), (6, 0)]:
+    ax.plot(px, py, "o", color=ACCENT, ms=4)
+for (px, py) in [(0, -2), (2, 0), (6, 4)]:
+    ax.plot(px, py, "s", color=SERIES[1], ms=4)
+ax.plot(4, 2, "o", color=INK, ms=6)
+ax.annotate("(4, 2)", xy=(4, 2), xytext=(4.2, 2.9), fontsize=9, color=INK, bbox=dict(fc="white", ec="none", pad=1.5))
+ax.text(0.3, 6.6, "x + y = 6", fontsize=9, color=ACCENT)
+ax.text(5.0, 5.4, "x − y = 2", fontsize=9, color=SERIES[1])
+ax.axhline(0, color=INK, lw=0.8); ax.axvline(0, color=INK, lw=0.8)
+ax.set_xlim(-1, 7); ax.set_ylim(-3, 7.5)
+ax.set_xticks(range(-1, 8)); ax.set_yticks(range(-3, 8))
+ax.tick_params(labelsize=7.5, length=0)
+ax.grid(True, color=GRID, lw=0.6); ax.set_axisbelow(True)
+ax.spines[["top", "right"]].set_visible(False)
+```
+
+::: example A word problem solved graphically
+**Problem.** A father's present age is 10 years more than twice his daughter's
+age. The difference between their ages is 25 years. Find their ages by the
+graphical method.
+
+**Solution.** Let the father be $x$ years and the daughter $y$ years.
+$x=2y+10$ … (i) and $x-y=25$ … (ii).
+
+| From (i), $x=2y+10$ | | | |
+|---|---|---|---|
+| $y$ | 0 | 5 | 15 |
+| $x$ | 10 | 20 | 40 |
+
+| From (ii), $x=y+25$ | | | |
+|---|---|---|---|
+| $y$ | 0 | 5 | 15 |
+| $x$ | 25 | 30 | 40 |
+
+Plotting both lines, they meet at the point where $y=15$, $x=40$.
+
+**Answer.** Father 40 years, daughter 15 years.
+**Check.** $2\times15+10=40$ ✓ and $40-15=25$ ✓.
 :::
 
 ::: tip The graph is a check, not a substitute
@@ -252,7 +298,53 @@ On the number line, put an open circle at $-3$ and shade to the right.
 Try $x=-4$: $5+8=13<11$ is false ✗, correctly excluded.
 :::
 
+## 12.5 Quadratic equations by factorisation
+
+An equation such as $x-4=0$ is **linear** (highest power of $x$ is 1). An
+equation in one variable whose highest power is 2, written
+$ax^2+bx+c=0$ with $a\ne0$, is a **quadratic equation**. It usually has two
+solutions, called its **roots**.
+
+**Key fact.** If the product of two factors is zero, at least one of them is
+zero: if $pq=0$ then $p=0$ or $q=0$.
+
+**Method.** Bring everything to one side ($=0$), factorise, set each factor
+equal to zero and solve.
+
+::: example Solving quadratics
+**Problem.** Solve (a) $x^2-6x+8=0$ (b) $4x^2-25=0$ (c) $x^2-3x=0$.
+
+**Solution.**
+(a) $x^2-4x-2x+8=0$ → $x(x-4)-2(x-4)=0$ → $(x-4)(x-2)=0$.
+Either $x-4=0$, so $x=4$; or $x-2=0$, so $x=2$. **Roots: 4 and 2.**
+
+(b) $(2x)^2-5^2=0$ → $(2x+5)(2x-5)=0$.
+Either $2x+5=0$, so $x=-\frac52$; or $2x-5=0$, so $x=\frac52$. **$x=\pm2\frac12$.**
+
+(c) $x(x-3)=0$, so $x=0$ or $x=3$.
+
+**Check (a).** $4^2-6(4)+8=16-24+8=0$ ✓ and $2^2-12+8=0$ ✓.
+:::
+
+::: caution Do not divide by $x$
+In $x^2-3x=0$, dividing both sides by $x$ gives only $x=3$ and loses the root
+$x=0$. Factorise instead.
+:::
+
+::: example Forming a quadratic from its roots
+**Problem.** Find the quadratic equation whose roots are 2 and 3.
+
+**Solution.** $x=2$ gives $x-2=0$ and $x=3$ gives $x-3=0$. So
+
+$(x-2)(x-3)=0$ → $x^2-3x-2x+6=0$ → $x^2-5x+6=0$.
+:::
+
 ## Chapter summary
+
+- Two simultaneous equations are solved graphically by plotting both lines; the
+  point where they cross gives $x$ and $y$.
+- A quadratic equation $ax^2+bx+c=0$ is solved by factorising and putting each
+  factor equal to zero; roots $p$, $q$ give $(x-p)(x-q)=0$.
 
 - A linear equation is solved by clearing fractions, expanding brackets,
   collecting like terms and dividing by the coefficient.
@@ -333,6 +425,20 @@ $f+6=3(s+6)$, that is $f=3s+12$. Substituting into the first equation:
 $3s+12+s=48$, so $4s=36$ and $s=9$; then $f=48-9=39$.
 **Answer.** The father is 39 and the son is 9.
 **Check.** In 6 years they are 45 and 15, and $45=3\times15$ ✓.
+:::
+
+**Extra practice — textbook-style questions**
+
+**1.** Solve graphically: $x+y=5$, $x-y=3$.
+**2.** Solve: (a) $x^2+x-6=0$ (b) $9y^2-16=0$ (c) $2x^2-x=0$.
+**3.** Find the quadratic equation whose roots are $-1$ and $2$.
+**4.** There are cats and hens in a yard: 10 heads and 26 legs in all. How many of each?
+
+::: note Extra practice — answers
+**1.** For $y=5-x$: (0, 5), (5, 0); for $y=x-3$: (3, 0), (5, 2). The lines meet at $(4,1)$, so $x=4$, $y=1$. Check: $4+1=5$, $4-1=3$ ✓.
+**2.** (a) $(x+3)(x-2)=0$, $x=-3$ or $2$. (b) $(3y+4)(3y-4)=0$, $y=\pm\frac43$. (c) $x(2x-1)=0$, $x=0$ or $\frac12$.
+**3.** $(x+1)(x-2)=0$, i.e. $x^2-x-2=0$.
+**4.** Cats $c$, hens $h$: $c+h=10$, $4c+2h=26$. Subtracting twice the first: $2c=6$, so $c=3$, $h=7$. Check: $12+14=26$ legs ✓.
 :::
 
 ## Objective practice

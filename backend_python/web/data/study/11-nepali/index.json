@@ -1,0 +1,273 @@
+{
+ "book": "nep11",
+ "units": [
+  {
+   "no": 1,
+   "title": "वीर पुर्खा - वासुदेव त्रिपाठी (कविता, देशभक्ति)",
+   "area": "पाठ",
+   "words": 2682,
+   "read_min": 15,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "गाउँको माया",
+   "area": "पाठ",
+   "words": 4226,
+   "read_min": 23,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "संस्कृतिको नयाँ यात्रा",
+   "area": "पाठ",
+   "words": 3851,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "योगमाया",
+   "area": "पाठ",
+   "words": 3818,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "साथीलाई चिठी",
+   "area": "पाठ",
+   "words": 3557,
+   "read_min": 20,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "त्यो फेरि फर्कला ?",
+   "area": "पाठ",
+   "words": 4256,
+   "read_min": 24,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "पर्यापर्यटनका सम्भावना र आयाम",
+   "area": "पाठ",
+   "words": 3504,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "लौ आयो ताजा खबर",
+   "area": "पाठ",
+   "words": 6502,
+   "read_min": 36,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "सफलताको कथा",
+   "area": "पाठ",
+   "words": 5210,
+   "read_min": 29,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "कृषिशालामा एक दिन",
+   "area": "पाठ",
+   "words": 5977,
+   "read_min": 33,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "रारा भ्रमण",
+   "area": "पाठ",
+   "words": 5083,
+   "read_min": 28,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "जलस्रोत र ऊर्जा",
+   "area": "पाठ",
+   "words": 5522,
+   "read_min": 31,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "नेपाली कथ्य र लेख्य वर्ण; उच्चार्य व्यञ्जन",
+   "area": "व्याकरण",
+   "words": 1781,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "मूल र व्युत्पन्न शब्द; शब्द स्रोत (तत्सम, तद्भव, आगन्तुक); शब्दकोशीय प्रयोग",
+   "area": "व्याकरण",
+   "words": 1785,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "पदवर्ग: नाम, सर्वनाम, विशेषण, क्रियापद",
+   "area": "व्याकरण",
+   "words": 1744,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "पदवर्ग: नामयोगी, क्रियायोगी, संयोजक, विस्मयादिबोधक, निपात; शब्द रूपायन",
+   "area": "व्याकरण",
+   "words": 1752,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "लेख्य चिह्न र तिनको प्रयोग",
+   "area": "व्याकरण",
+   "words": 1822,
+   "read_min": 10,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "वर्णविन्यास; पदयोग र पदवियोग",
+   "area": "व्याकरण",
+   "words": 1728,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "उपसर्गद्वारा शब्दनिर्माण",
+   "area": "व्याकरण",
+   "words": 1803,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "प्रत्ययद्वारा शब्दनिर्माण (कृत् र तद्धित)",
+   "area": "व्याकरण",
+   "words": 1755,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "समास प्रक्रियाद्वारा शब्दनिर्माण",
+   "area": "व्याकरण",
+   "words": 1784,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 22,
+   "title": "द्वित्व प्रक्रिया र सन्धि",
+   "area": "व्याकरण",
+   "words": 1763,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 23,
+   "title": "उद्देश्य-विधेय विस्तार; वाक्य परिवर्तन; कथन; ध्रुवीयता",
+   "area": "व्याकरण",
+   "words": 1521,
+   "read_min": 8,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 24,
+   "title": "पठनबोध, बुँदाटिपोट र सारांश लेखन",
+   "area": "लेखन सिप",
+   "words": 4155,
+   "read_min": 23,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 25,
+   "title": "स्वतन्त्र रचना (निबन्ध) र प्रतिक्रिया लेखन",
+   "area": "लेखन सिप",
+   "words": 3482,
+   "read_min": 19,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 26,
+   "title": "व्यावहारिक लेखन, प्रतिवेदन र टिप्पणी लेखन",
+   "area": "लेखन सिप",
+   "words": 3944,
+   "read_min": 22,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 27,
+   "title": "शब्दभण्डार: पर्यायवाची, विपरीतार्थी, अनेकार्थी, उखान-टुक्का, पारिभाषिक शब्द",
+   "area": "लेखन सिप",
+   "words": 4412,
+   "read_min": 25,
+   "figures": 2,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank11",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "अनिवार्य नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह",
+   "words": 5146,
+   "read_min": 29
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "अनिवार्य नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
+   "words": 4160,
+   "read_min": 23
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "अनिवार्य नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न",
+   "words": 3123,
+   "read_min": 17
+  }
+ ],
+ "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"
+}

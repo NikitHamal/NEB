@@ -1,0 +1,595 @@
+{
+ "grade": "12",
+ "grade_label": "Class 12",
+ "grade_label_ne": "कक्षा १२",
+ "subject": "computer-science",
+ "name": "Computer Science",
+ "name_ne": "कम्प्युटर विज्ञान",
+ "icon": "terminal",
+ "group": "science",
+ "color": "#2E4057",
+ "lang": "en",
+ "code": "4281 (CDC Com.428)",
+ "hours": 80,
+ "exam": "2hr, FM 50 written (+25 practical +25 internal) | Group A MCQ 9x1=9 | Group B short 5x5=25 | Group C long 2x8=16",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Database Management System (DBMS)",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Introduction to data, database, database system, DBMS",
+    "Field, Record, Objects, Primary Key, Alternate key, Candidate key",
+    "Advantages of using DBMS",
+    "DDL and DML",
+    "Database Models: Network Model, Hierarchical Model, Relational database model",
+    "Concept of Normalization: 1NF, 2NF, 3NF",
+    "Centralized vs Distributed Database",
+    "Database Security"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Introduction to data, database, database system and DBMS"
+    },
+    {
+     "no": "1.2",
+     "title": "Field, record, objects, primary key, alternate key, candidate key"
+    },
+    {
+     "no": "1.3",
+     "title": "Advantages of using DBMS"
+    },
+    {
+     "no": "1.4",
+     "title": "DDL and DML"
+    },
+    {
+     "no": "1.5",
+     "title": "Database models: network, hierarchical and relational"
+    },
+    {
+     "no": "1.6",
+     "title": "Concept of normalisation: 1NF, 2NF, 3NF"
+    },
+    {
+     "no": "1.7",
+     "title": "Centralised versus distributed database"
+    },
+    {
+     "no": "1.8",
+     "title": "Database security"
+    }
+   ],
+   "summary": [
+    "Data are raw facts; information is processed data. A database is shared, integrated data; a DBMS is the software managing it; a database system is hardware + software + data + users + procedures.",
+    "The three-level architecture (external / conceptual / internal) plus its two mappings gives logical and physical data independence.",
+    "Field = column = attribute; record = row = tuple. Degree = number of columns, cardinality = number of rows.",
+    "Super key ⊃ candidate key; one candidate key becomes the primary key (unique, never NULL), the others are alternate keys; a foreign key matches a primary key in another table and gives referential integrity.",
+    "DDL (CREATE, ALTER, DROP, TRUNCATE) defines structure; DML (SELECT, INSERT, UPDATE, DELETE) manipulates data; DCL (GRANT, REVOKE) controls access; TCL (COMMIT, ROLLBACK) controls transactions.",
+    "WHERE filters rows before grouping, HAVING filters groups after; an inner join drops unmatched rows, a LEFT JOIN keeps them.",
+    "Models: hierarchical = tree, one parent per child; network = graph, many parents; relational = tables linked by matching key values (Codd, 1970).",
+    "Normalisation: 1NF atomic values; 2NF 1NF + no partial dependency on part of a composite key; 3NF 2NF + no transitive dependency. A correct decomposition is lossless — the original table rejoins exactly."
+   ],
+   "terms": [
+    "Database, DBMS, database system",
+    "The family of keys",
+    "Normalisation",
+    "Database security"
+   ],
+   "stats": {
+    "words": 6093,
+    "figures": 10,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Data Communication and Networking",
+   "hours": 15,
+   "area": "",
+   "topics": [
+    "Basic elements of Communication System",
+    "Concept of Communication System; Block Diagram of communication model",
+    "Elements of Data Communication/Transmission",
+    "Simplex, Half duplex and Full duplex communication mode",
+    "Concept of LAN and WAN",
+    "Transmission Medium: Guided and Unguided",
+    "Transmission impairments: Jitter, Singing, Echo, Crosstalk, Distortion, Noise, Bandwidth, Number of receivers",
+    "Network Architecture: Client-Server and Peer-to-peer",
+    "Basic Terms and Tools: IP Address, Subnet Mask, Gateway, MAC address, Internet, Intranet, Extranet",
+    "Network Tool: Packet tracer, Remote Login",
+    "Network Connecting Devices: NIC, Modem, Router, Switch",
+    "Network Topologies: Bus, Ring and Star topology",
+    "Basic Concept of OSI Reference Model",
+    "Internet Protocol Addressing"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Basic elements of a communication system"
+    },
+    {
+     "no": "2.2",
+     "title": "Concept of a communication system and its block diagram"
+    },
+    {
+     "no": "2.3",
+     "title": "Elements of data transmission"
+    },
+    {
+     "no": "2.4",
+     "title": "Simplex, half duplex and full duplex"
+    },
+    {
+     "no": "2.5",
+     "title": "Concept of LAN and WAN"
+    },
+    {
+     "no": "2.6",
+     "title": "Transmission medium: guided and unguided"
+    },
+    {
+     "no": "2.7",
+     "title": "Transmission impairments"
+    },
+    {
+     "no": "2.8",
+     "title": "Network architecture: client–server and peer-to-peer"
+    },
+    {
+     "no": "2.9",
+     "title": "Basic terms"
+    },
+    {
+     "no": "2.10",
+     "title": "Network tools"
+    },
+    {
+     "no": "2.11",
+     "title": "Network connecting devices"
+    },
+    {
+     "no": "2.12",
+     "title": "Network topologies"
+    },
+    {
+     "no": "2.13",
+     "title": "Basic concept of the OSI reference model"
+    },
+    {
+     "no": "2.14",
+     "title": "Internet protocol addressing"
+    }
+   ],
+   "summary": [
+    "The five elements of data communication are message, sender, receiver, transmission medium and protocol; the communication model is source → transmitter → transmission system → receiver → destination, with noise added in the middle.",
+    "Simplex = one direction; half duplex = both directions alternately; full duplex = both directions at once.",
+    "LAN (a building, private, fastest) ⊂ MAN (a city) ⊂ WAN (country or world; the Internet is the largest WAN).",
+    "Guided media (twisted pair, coaxial, fibre) confine the signal in a conductor; unguided media (radio, microwave, infrared, satellite) radiate it into space. Fibre has the highest bandwidth and immunity to interference.",
+    "Impairments: attenuation, distortion, noise (thermal, intermodulation, crosstalk, impulse), echo, singing, jitter; bandwidth and the number of receivers limit what a channel can do.",
+    "Client–server centralises resources and security; peer-to-peer is cheap and suits fewer than ten machines.",
+    "MAC address = 48-bit, physical, permanent, layer 2. IP address = 32-bit (IPv4), logical, changeable, layer 3. Subnet mask splits network from host; the gateway is the router's address.",
+    "Topologies: bus (one backbone, terminators), star (central switch), ring (one-way loop), mesh (n(n-1)/2 links), tree (hierarchy of stars), hybrid."
+   ],
+   "terms": [
+    "The five elements of data communication",
+    "Guided and unguided media",
+    "Topology"
+   ],
+   "stats": {
+    "words": 4991,
+    "figures": 10,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Web Technology II",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Introduction; Server side and Client Side Scripting",
+    "Introduction of internet technology",
+    "Adding JavaScript to HTML page; JavaScript fundamentals",
+    "JavaScript Data types; Variables and operators",
+    "Functions and control structures: if-else, if-else-if, switch-case, for, while, do while",
+    "Object based programming with JavaScript and Event handling",
+    "Image, event and form objects",
+    "Form validation; JQuery",
+    "Server Side Scripting using PHP; Hardware and Software Requirements",
+    "Object oriented programming with server side scripting",
+    "Basic PHP syntax; PHP data types; Basic Programming in PHP",
+    "Operators: arithmetic, logical, comparison, operator precedence",
+    "Variables Manipulation",
+    "Database Connectivity; Connecting server side script to database",
+    "Making SQL queries; Fetching data sets; getting data about data",
+    "Creating SQL database with server side scripting; Displaying queries in tables"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Introduction; server-side and client-side scripting"
+    },
+    {
+     "no": "3.2",
+     "title": "Introduction to internet technology"
+    },
+    {
+     "no": "3.3",
+     "title": "Adding JavaScript to an HTML page; JavaScript fundamentals"
+    },
+    {
+     "no": "3.4",
+     "title": "JavaScript data types; variables and operators"
+    },
+    {
+     "no": "3.5",
+     "title": "Functions and control structures"
+    },
+    {
+     "no": "3.6",
+     "title": "Object-based programming with JavaScript and event handling"
+    },
+    {
+     "no": "3.7",
+     "title": "Image, event and form objects"
+    },
+    {
+     "no": "3.8",
+     "title": "Form validation; jQuery"
+    },
+    {
+     "no": "3.9",
+     "title": "Server-side scripting using PHP; hardware and software requirements"
+    },
+    {
+     "no": "3.10",
+     "title": "Object-oriented programming with server-side scripting"
+    },
+    {
+     "no": "3.11",
+     "title": "Basic PHP syntax; PHP data types; basic programming in PHP"
+    },
+    {
+     "no": "3.12",
+     "title": "Operators: arithmetic, logical, comparison, precedence"
+    },
+    {
+     "no": "3.13",
+     "title": "Variable manipulation"
+    },
+    {
+     "no": "3.14",
+     "title": "Database connectivity; connecting a server-side script to a database"
+    },
+    {
+     "no": "3.15",
+     "title": "Making SQL queries; fetching data sets; getting data about data"
+    },
+    {
+     "no": "3.16",
+     "title": "Creating an SQL database with server-side scripting; displaying queries in tables"
+    }
+   ],
+   "summary": [
+    "Client-side scripts (JavaScript) run in the browser — fast, visible to the user, cannot touch a database. Server-side scripts (PHP) run on the web server — hidden, slower by one round trip, and the only way to reach a database.",
+    "JavaScript is interpreted, case sensitive, loosely typed and object-based. It is added to a page inside <script> in the head or body, or linked from an external .js file.",
+    "Data types: number, string, boolean, null, undefined (primitive) and object, array, function (non-primitive). == compares values only; === compares value and type.",
+    "Control structures: if / else if / else, switch-case, for, while, do-while. do-while always executes its body at least once.",
+    "Everything in the browser hangs off window: document, then forms[], images[], links[], then the individual fields. Events (onclick, onsubmit, onmouseover, onload) connect user actions to functions.",
+    "Form validation with onsubmit=\"return validate()\" — returning false cancels the submission. Validate again on the server, because the user can disable JavaScript.",
+    "jQuery shortens DOM work to $(selector).action().",
+    "PHP: <?php ... ?>, variables begin with , eight data types, . joins strings, foreach walks arrays, _POST and GET carry form data. It supports full OOP with class, _construct, this-> and extends."
+   ],
+   "terms": [
+    "Scripting language",
+    "Event and event handler"
+   ],
+   "stats": {
+    "words": 3565,
+    "figures": 9,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Programming in C",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Review of C programming concepts",
+    "Functions: library and user defined functions and advantages",
+    "Function definition, prototype, call and return statements",
+    "Accessing a Function by passing values",
+    "Storage classes: automatic and external",
+    "Recursion: factorial and Fibonacci problems",
+    "Structure: definition, declaration, initialization and size",
+    "Accessing members of structure; Array of structure",
+    "Union: definition, declaration; Difference between union and structure",
+    "Pointers: definition; Address (&) and indirection (*) operator",
+    "Pointer Expression and Assignment; Call by value and call by reference",
+    "Working with Files: Concept of Data File; Sequential and Random File",
+    "File manipulation functions: putw, getw, putc, getc, fscanf, fprintf",
+    "Opening, Reading, Writing and Appending data file"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Review of C programming concepts"
+    },
+    {
+     "no": "4.2",
+     "title": "Functions: library and user-defined; advantages"
+    },
+    {
+     "no": "4.3",
+     "title": "Function definition, prototype, call and return"
+    },
+    {
+     "no": "4.4",
+     "title": "Accessing a function by passing values"
+    },
+    {
+     "no": "4.5",
+     "title": "Storage classes: automatic and external"
+    },
+    {
+     "no": "4.6",
+     "title": "Recursion: factorial and Fibonacci"
+    },
+    {
+     "no": "4.7",
+     "title": "Structure: definition, declaration, initialization and size"
+    },
+    {
+     "no": "4.8",
+     "title": "Accessing members of a structure; array of structures"
+    },
+    {
+     "no": "4.9",
+     "title": "Union: definition and declaration; union versus structure"
+    },
+    {
+     "no": "4.10",
+     "title": "Pointers: definition; the address (&) and indirection (*) operators"
+    },
+    {
+     "no": "4.11",
+     "title": "Pointer expression and assignment; call by value and call by reference"
+    },
+    {
+     "no": "4.12",
+     "title": "Working with files: the concept of a data file; sequential and random files"
+    },
+    {
+     "no": "4.13",
+     "title": "File manipulation functions: putw, getw, putc, getc, fscanf, fprintf"
+    },
+    {
+     "no": "4.14",
+     "title": "Opening, reading, writing and appending a data file"
+    }
+   ],
+   "summary": [
+    "A C program is a set of functions; main() is the one that runs first. A function needs a prototype, a definition and a call, and return sends back exactly one value.",
+    "Library functions come from headers (stdio.h, math.h, string.h); user-defined functions are written by the programmer. Functions give reusability, modularity, readability and easier debugging.",
+    "Storage classes: auto (stack, garbage, block scope, dies with the block), extern (data segment, 0, whole program), static (data segment, 0, block scope but whole-program lifetime), register (in a CPU register).",
+    "Recursion needs a base case. factorial(5) = 120; the Fibonacci series is 0 1 1 2 3 5 8 13 21 34. Recursion is shorter but uses a stack frame per call.",
+    "A structure groups members of different types, each with its own memory; its size is the sum of the members. A union overlays its members in one block the size of the largest, so only the member written last is valid. Members are reached with .; an array of structures stores many records.",
+    "A pointer stores an address. & gives the address, * gives the value at an address. Call by value passes copies and cannot change the original; call by reference passes addresses and can.",
+    "A data file stores data permanently. Sequential access reads records in order; random access jumps with fseek. The pattern is always FILE *fp; → fopen → check NULL → fprintf/fscanf/getc/putw → fclose. Mode \"w\" erases an existing file; use \"a\" to append."
+   ],
+   "terms": [
+    "Function",
+    "Recursion",
+    "Structure",
+    "Union",
+    "Pointer"
+   ],
+   "stats": {
+    "words": 3415,
+    "figures": 10,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Object-Oriented Programming (OOP)",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Programming paradigms: procedural, structural and object oriented",
+    "Features of OOP: Class, Object, Polymorphism and Inheritance",
+    "Advantages of OOP",
+    "Application of OOP"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Programming paradigms: procedural, structural and object oriented"
+    },
+    {
+     "no": "5.2",
+     "title": "Features of OOP: class, object, polymorphism and inheritance"
+    },
+    {
+     "no": "5.3",
+     "title": "Advantages of OOP"
+    },
+    {
+     "no": "5.4",
+     "title": "Application of OOP"
+    }
+   ],
+   "summary": [
+    "A paradigm is a style of organising a program: procedural (functions on shared data), structured (procedural with only sequence/selection/iteration and modules), object-oriented (data and behaviour bundled into objects).",
+    "A class is a blueprint binding data members and member functions; an object is an instance of a class with its own copy of the data.",
+    "A constructor has the class's name, no return type, and runs automatically at creation; the destructor ~Class() runs at destruction. In inheritance, constructors run base→derived and destructors derived→base.",
+    "Encapsulation bundles data with methods; data hiding follows from private; abstraction exposes only the interface. private = class only, protected = class + derived, public = everywhere.",
+    "Inheritance (single, multilevel, multiple, hierarchical, hybrid) gives reuse and expresses \"is-a\"; the derived class inherits with class D : public B.",
+    "Polymorphism is compile-time (function/operator overloading, early binding) or run-time (overriding a virtual function through a base pointer, late binding).",
+    "Advantages: reusability, data security, easy maintenance, real-world modelling, extensibility, parallel team work. Costs: bigger code, slower dynamic dispatch, longer design phase.",
+    "OOP is used for GUIs, simulation, games, mobile apps, web frameworks, operating systems, CAD, ORMs, banking systems and ML libraries."
+   ],
+   "terms": [
+    "Class and object",
+    "Inheritance",
+    "Polymorphism"
+   ],
+   "stats": {
+    "words": 3520,
+    "figures": 7,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Software Process Model (SPM)",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Software Project Concept",
+    "Concept of software development process",
+    "Concept of SDLC life cycle",
+    "System Analyst vs Software Engineer",
+    "Requirement Collection Methods",
+    "Concept of system design",
+    "Software and quality",
+    "Software development models: waterfall, prototype, agile"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Software project concept"
+    },
+    {
+     "no": "6.2",
+     "title": "Concept of the software development process"
+    },
+    {
+     "no": "6.3",
+     "title": "Concept of the SDLC life cycle"
+    },
+    {
+     "no": "6.4",
+     "title": "System analyst vs software engineer"
+    },
+    {
+     "no": "6.5",
+     "title": "Requirement collection methods"
+    },
+    {
+     "no": "6.6",
+     "title": "Concept of system design"
+    },
+    {
+     "no": "6.7",
+     "title": "Software and quality"
+    },
+    {
+     "no": "6.8",
+     "title": "Software development models"
+    }
+   ],
+   "summary": [
+    "A software project is a temporary, planned effort constrained by scope, time, cost and quality; effort is measured in person-months and adding people late does not buy time.",
+    "The software development process = specification, design and implementation, validation, evolution. A process model arranges those in time.",
+    "The SDLC phases are preliminary investigation, feasibility study, analysis, design, coding, testing, implementation and maintenance; maintenance takes 60–70 % of lifetime cost and is corrective, adaptive, perfective or preventive.",
+    "The system analyst answers what (SRS, DFDs, talks to users); the software engineer answers how (design, code, tests).",
+    "Requirements are collected by interview, questionnaire, observation, document review, JAD workshops, prototyping and brainstorming, and are written into an SRS that must be unambiguous and verifiable.",
+    "Design is logical (DFD, ER, data dictionary) then physical (tables, screens, modules); aim for high cohesion and low coupling. DFD symbols: circle = process, rectangle = external entity, open rectangle = data store, arrow = data flow. An M:N relationship maps to a separate table.",
+    "Quality = conformance to requirements, standards and implicit expectations; ISO/IEC 25010 (2023) lists nine characteristics. QA is preventive and process-based, QC is detective and product-based. Availability = MTBF/(MTBF+MTTR) and DRE = E/(E+D).",
+    "Models: waterfall (linear, fixed requirements), prototype (unclear requirements), incremental (release by release), spiral (risk-driven loops), agile (sprints, change welcomed)."
+   ],
+   "terms": [
+    "System/Software Development Life Cycle"
+   ],
+   "stats": {
+    "words": 4864,
+    "figures": 10,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Recent Trends in Technology",
+   "hours": 9,
+   "area": "",
+   "topics": [
+    "Artificial Intelligence (AI) and Robotics",
+    "Cloud Computing",
+    "Big Data",
+    "Virtual Reality",
+    "e-commerce, e-medicine, e-governance",
+    "Mobile Computing",
+    "Internet of Things (IoT)"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Artificial Intelligence (AI) and Robotics"
+    },
+    {
+     "no": "7.2",
+     "title": "Cloud Computing"
+    },
+    {
+     "no": "7.3",
+     "title": "Big Data"
+    },
+    {
+     "no": "7.4",
+     "title": "Virtual Reality"
+    },
+    {
+     "no": "7.5",
+     "title": "e-commerce, e-medicine and e-governance"
+    },
+    {
+     "no": "7.6",
+     "title": "Mobile Computing"
+    },
+    {
+     "no": "7.7",
+     "title": "Internet of Things (IoT)"
+    }
+   ],
+   "summary": [
+    "AI builds machines that do jobs needing intelligence (coined 1956); machine learning ⊂ AI, deep learning ⊂ ML, generative AI/LLMs ⊂ deep learning. Types: narrow (all real systems today), general, super.",
+    "A robot senses, decides and acts: sensors → controller → actuators → end effector, with feedback. Types: industrial, mobile, humanoid, medical, drone, exploration.",
+    "Cloud computing rents computing over the internet, pay-per-use. Service models IaaS, PaaS, SaaS; deployment models public, private, community, hybrid; five NIST characteristics; it trades capital cost for dependence on a provider and a link.",
+    "Big data = volume, velocity, variety, veracity, value; handled by Hadoop, Spark and NoSQL rather than one server. World data creation was about 181 ZB in 2025.",
+    "VR replaces sensory input with a computer-generated 3-D world; needs an HMD, tracking, interaction devices and a fast engine; classified non-immersive, semi-immersive, fully immersive; AR adds to the real world, MR anchors to it.",
+    "e-commerce models: B2B, B2C, C2B, C2C, supported by payment gateways and, in Nepal, the Electronic Transactions Act 2063. e-medicine delivers care at a distance. e-governance interacts as G2C, G2B, G2G, G2E.",
+    "Mobile computing = mobile hardware + software + wireless communication; generations 1G to 5G, peak rates from 2.4 kbps to about 10 Gbps, latency falling from ~50 ms (4G) to ~5 ms (5G).",
+    "IoT (Kevin Ashton, 1999) connects physical things through four layers — perception, network, processing, application — using MQTT, Zigbee, LoRaWAN and IPv6; its biggest weakness is security."
+   ],
+   "terms": [
+    "Artificial Intelligence",
+    "Cloud computing",
+    "Big data",
+    "Virtual reality",
+    "Mobile computing",
+    "Internet of Things"
+   ],
+   "stats": {
+    "words": 4081,
+    "figures": 9,
+    "examples": 5
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 71,
+ "notes_ready": 7
+}

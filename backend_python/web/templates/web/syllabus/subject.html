@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ seo_title }}{% endblock %}
+{% block description %}{{ seo_description }}{% endblock %}
+{% block nav_library %}active{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">{% endblock %}
+{% block content %}
+<div class="md-container st-page" style="--syl-c: {{ syl.color }};" data-st-subject="{{ syl.grade }}/{{ syl.subject }}" data-st-units="{{ syl.unit_count }}">
+  <nav class="st-crumbs" aria-label="Breadcrumb">
+    <a href="{% url 'web:syllabus_grade' syl.grade %}">Syllabus</a><span aria-hidden="true">/</span>
+    <a href="{% url 'web:syllabus_grade' syl.grade %}">{{ syl.grade_label }}</a><span aria-hidden="true">/</span>
+    <span aria-current="page">{{ syl.name }}</span>
+  </nav>
+
+  <header class="st-head">
+    <span class="st-head-icon material-symbols-outlined" aria-hidden="true">{{ syl.icon }}</span>
+    <div class="st-head-text">
+      <h1 class="st-title">{{ syl.name }}</h1>
+      <p class="st-sub"><span lang="ne">{{ syl.name_ne }}</span> · {{ syl.grade_label }}{% if syl.code %} · Code {{ syl.code }}{% endif %}</p>
+      <p class="st-meta">{{ syl.unit_count }} units{% if syl.hours %} · {{ syl.hours }} teaching hours{% endif %}{% if syl_read_min %} · about {% widthratio syl_read_min 60 1 %} h of reading{% endif %}{% if study.banks %} · {{ study.banks|length }} question sets{% endif %}</p>
+    </div>
+    <div class="st-head-progress" data-st-progress>
+      <span class="st-progress-num"><b data-st-done>0</b> / {{ syl.unit_count }}</span>
+      <span class="st-progress-label">chapters done</span>
+      <span class="st-bar" aria-hidden="true"><span data-st-bar></span></span>
+    </div>
+  </header>
+
+  <section class="st-next" data-st-next hidden aria-live="polite">
+    <a class="st-next-card" data-st-next-main href="#">
+      <span class="st-next-kicker" data-st-next-kicker>Start here</span>
+      <span class="st-next-title" data-st-next-title></span>
+      <span class="st-next-meta" data-st-next-meta></span>
+      <span class="material-symbols-outlined st-next-go" aria-hidden="true">arrow_forward</span>
+    </a>
+    <a class="st-next-card st-next-review" data-st-review href="#" hidden>
+      <span class="st-next-kicker">Worth revising</span>
+      <span class="st-next-title" data-st-review-title></span>
+      <span class="st-next-meta" data-st-review-meta></span>
+      <span class="material-symbols-outlined st-next-go" aria-hidden="true">replay</span>
+    </a>
+  </section>
+
+  <div class="st-tabs" role="tablist" aria-label="{{ syl.name }}">
+    <button type="button" role="tab" class="st-tab" data-st-tab="chapters" aria-selected="true" aria-controls="st-chapters">Chapters</button>
+    {% if study.banks or study.guide %}<button type="button" role="tab" class="st-tab" data-st-tab="bank" aria-selected="false" aria-controls="st-bank">Question bank</button>{% endif %}
+    <button type="button" role="tab" class="st-tab" data-st-tab="exam" aria-selected="false" aria-controls="st-exam">Exam &amp; weightage</button>
+  </div>
+
+  <section id="st-chapters" class="st-panel" role="tabpanel" data-st-panel="chapters">
+    <div class="st-tools">
+      <label class="st-filter">
+        <span class="material-symbols-outlined" aria-hidden="true">search</span>
+        <input type="search" data-st-filter placeholder="Find a chapter or topic" aria-label="Find a chapter or topic" autocomplete="off">
+      </label>
+      <div class="st-chips" role="group" aria-label="Show">
+        <button type="button" class="st-chip" data-st-show="all" aria-pressed="true">All</button>
+        <button type="button" class="st-chip" data-st-show="todo" aria-pressed="false">To read</button>
+        <button type="button" class="st-chip" data-st-show="done" aria-pressed="false">Done</button>
+      </div>
+      {% if syl.areas|length > 1 %}
+      <select class="st-select" data-st-area aria-label="Part of the syllabus">
+        <option value="">Every part</option>
+        {% for a in syl.areas %}<option value="{{ a }}">{{ a }}</option>{% endfor %}
+      </select>
+      {% endif %}
+    </div>
+
+    <ol class="st-units" {% if syl.lang == 'ne' %}lang="ne"{% endif %}>
+      {% for u in syl.units %}
+      {% if syl.areas|length > 1 %}{% ifchanged u.area %}<li class="st-area-head" data-st-head="{{ u.area }}">{{ u.area }}</li>{% endifchanged %}{% endif %}
+      <li class="st-unit" data-st-unit="{{ u.no }}" data-st-area="{{ u.area }}" data-st-title="{{ u.title }}" data-st-min="{{ u.study.read_min|default:0 }}"{% if u.study %} data-st-href="{% url 'web:syllabus_chapter' syl.grade syl.subject u.no %}"{% endif %} data-st-text="{{ u.title|lower }} {% for t in u.topics %}{{ t|lower }} {% endfor %}">
+        <div class="st-unit-row">
+          <span class="st-unit-no" aria-hidden="true">{{ u.no }}</span>
+          <div class="st-unit-main">
+            {% if u.study %}
+            <a class="st-unit-title" href="{% url 'web:syllabus_chapter' syl.grade syl.subject u.no %}">{{ u.title }}</a>
+            {% else %}
+            <span class="st-unit-title">{{ u.title }}</span>
+            {% endif %}
+            <span class="st-unit-meta">{% if u.hours %}{{ u.hours }} hrs · {% endif %}{% if u.study %}{{ u.study.read_min }} min read{% if u.study.figures %} · {{ u.study.figures }} figures{% endif %}{% else %}notes coming{% endif %}</span>
+            <span class="st-unit-track" aria-hidden="true"><span data-st-unit-bar></span></span>
+          </div>
+          <span class="st-unit-state" data-st-state aria-live="polite"></span>
+          <button type="button" class="st-unit-more" data-st-more aria-expanded="false" aria-label="What unit {{ u.no }} covers">
+            <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
+          </button>
+        </div>
+        <div class="st-unit-detail" hidden>
+          {% if u.topics %}
+          <p class="st-detail-head">The syllabus asks for</p>
+          <ul class="st-topics">{% for t in u.topics %}<li>{{ t }}</li>{% endfor %}</ul>
+          {% endif %}
+          {% if u.summary %}
+          <p class="st-detail-head">Key points</p>
+          <ul class="st-points">{% for p in u.summary|slice:":5" %}<li>{{ p }}</li>{% endfor %}</ul>
+          {% endif %}
+          {% if u.study %}<a class="st-btn" href="{% url 'web:syllabus_chapter' syl.grade syl.subject u.no %}"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Read the chapter</a>{% endif %}
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+    <p class="st-empty" data-st-empty hidden>No chapter matches. Try another word.</p>
+  </section>
+
+  {% if study.banks or study.guide %}
+  <section id="st-bank" class="st-panel" role="tabpanel" data-st-panel="bank" hidden>
+    <div class="st-bank-grid">
+      {% for b in study.banks %}
+      <a class="st-bank" href="{% url 'web:syllabus_bank' syl.grade syl.subject b.no %}" data-st-doc="{{ syl.grade }}/{{ syl.subject }}/bank{{ b.no }}">
+        <span class="st-bank-kind">{{ b.label }}</span>
+        <span class="st-bank-title" {% if syl.lang == 'ne' %}lang="ne"{% endif %}>{{ b.title }}</span>
+        <span class="st-bank-meta">{{ b.blurb }} · {{ b.read_min }} min</span>
+        <span class="st-unit-track" aria-hidden="true"><span data-st-unit-bar></span></span>
+      </a>
+      {% endfor %}
+      {% if study.guide %}
+      <a class="st-bank st-bank-guide" href="{% url 'web:syllabus_guide' syl.grade syl.subject %}" data-st-doc="{{ syl.grade }}/{{ syl.subject }}/guide">
+        <span class="st-bank-kind">Exam guide</span>
+        <span class="st-bank-title">{{ study.guide }}</span>
+        <span class="st-bank-meta">The paper's pattern, the grid, how marks become grades and a time plan</span>
+      </a>
+      {% endif %}
+    </div>
+  </section>
+  {% endif %}
+
+  <section id="st-exam" class="st-panel" role="tabpanel" data-st-panel="exam" hidden>
+    <div class="st-exam-grid">
+      {% if syl_exam_head %}
+      <div class="st-card">
+        <h2 class="st-card-title">The paper</h2>
+        <p class="st-exam-head">{{ syl_exam_head }}</p>
+        {% if syl_exam_rows %}
+        <table class="st-table">
+          <thead><tr><th scope="col">Section</th><th scope="col">Questions</th><th scope="col">Marks each</th><th scope="col">Total</th></tr></thead>
+          <tbody>{% for r in syl_exam_rows %}<tr><td>{{ r.label }}</td><td>{{ r.count|default:"—" }}</td><td>{{ r.each|default:"—" }}</td><td><b>{{ r.total|default:"—" }}</b></td></tr>{% endfor %}</tbody>
+        </table>
+        {% endif %}
+      </div>
+      {% endif %}
+      {% if syl_area_weights %}
+      <div class="st-card">
+        <h2 class="st-card-title">Where the hours go</h2>
+        <p class="st-card-note">Teaching hours are the board's guide to how much of the paper each part carries.</p>
+        <ul class="st-weights">
+          {% for w in syl_area_weights %}
+          <li><span class="st-w-label">{{ w.area }}</span><span class="st-w-bar"><span style="width: {{ w.pct }}%"></span></span><span class="st-w-val">{{ w.hours }} h</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <nav class="st-pager" aria-label="Other subjects">
+    {% if syl_prev %}<a href="{% url 'web:syllabus_subject' syl.grade syl_prev.subject %}"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span><span><small>Previous subject</small>{{ syl_prev.name }}</span></a>{% else %}<span></span>{% endif %}
+    {% if syl_next %}<a class="st-pager-next" href="{% url 'web:syllabus_subject' syl.grade syl_next.subject %}"><span><small>Next subject</small>{{ syl_next.name }}</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>{% endif %}
+  </nav>
+</div>
+{% endblock %}
+{% block extra_js %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}" defer></script>{% endblock %}

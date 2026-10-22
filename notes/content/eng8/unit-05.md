@@ -7,322 +7,293 @@ hours: 0
 area: Units
 ---
 
-A story and a poem, both about the same question: what do we owe to the living
-things we share the world with, and what is the difference between keeping
-something and loving it? The story is a **folk tale** — a short narrative with a
-clear plot, few characters and a message at the end. The poem, **Free Birds**,
-is a lyric about freedom: birds that will not trade the open sky for the
-safest, warmest cage. This unit teaches you how a story is put together (plot,
-character, message) and the two language skills that go with it — reported
-speech for imperatives, and punctuation.
+Unit 5 is about **wanting things and persuading people**. Reading I is a
+Ukrainian folk tale, *The Old Woman and the Lime Tree*, in which a greedy wife
+keeps sending her husband to ask a magic tree for more — until she loses
+everything. Reading II is a poem, *Free Birds*, which persuades students to
+work hard, value time and love their nation. The grammar is **reported speech
+of commands and requests** (*She told me to…*) and **punctuation**. In writing
+you complete a skeleton story.
 
-::: key What this unit asks of you
-By the end you should be able to (1) tell the **plot** of a story in five
-stages, (2) describe a **character** from what they do and say rather than from
-what you feel about them, (3) state the **message** of a story in one sentence,
-(4) report an order or a request in indirect speech, and (5) punctuate direct
-speech correctly.
+::: key What the exam asks from this unit
+(1) Put the events of the story in order and draw its moral. (2) Explain the
+comparison and the message in the poem. (3) Report imperatives with *told /
+asked / requested / advised / warned / ordered* + **(not) to** + verb.
+(4) Punctuate a paragraph. (5) Develop a story from clues with a title and moral.
 :::
 
-## 5.1 The Old Woman and the Lime Tree
+## 5.1 Reading I: The Old Woman and the Lime Tree
 
-### About the text
+### Summary
 
-The text is a **folk tale** — a story that was told aloud long before anybody
-wrote it down. Folk tales are short, have very few characters, and end with a
-message you can state in one sentence. They often use a rule of three: three
-wishes, three attempts, three days. If you can find the rule of three in a folk
-tale, you have usually found its structure.
+A very poor old couple live in a hut. The wife sends her husband to the forest
+to cut a **lime tree** for firewood. As he raises his axe, the tree speaks in a
+human voice: *"Don't chop me down, and I'll do you a good turn some day!"* The
+frightened man goes home and tells his wife. She calls him a fool and sends him
+back again and again. Each time the tree says, *"Very well, you shall have
+it! Go home now."*
 
-### How a story is put together
-
-Every story, from a folk tale to a film, has the same five parts. Learning their
-names gives you the words to answer any question about plot.
-
-| Stage | What happens | Typical question |
-|---|---|---|
-| Exposition | we meet the characters and the setting | Who is the story about, and where? |
-| Rising action | a problem appears and grows | What goes wrong? |
-| Climax | the moment of decision or danger | What is the turning point? |
-| Falling action | the result of that moment | How is it settled? |
-| Resolution | the new situation, and the message | What has changed, and what does it teach? |
-
-In this story the two characters are an **old woman** — poor, alone, and
-practical, because she must be — and a **lime tree**, the large shade tree that
-grows beside her house. The tree gives her shade in summer, dead wood for her
-fire in winter, and the lime flowers whose scent fills the yard. Around this
-relationship the tale builds its problem: what does the old woman do when the
-tree is inconvenient — when its roots reach the wall of the house, when it takes
-the water she needs, when a neighbour offers her money for the timber?
-
-That question is the whole of the tale, and it is why folk tales last. It is
-not really a question about a tree. A tree cannot argue. It is a question about
-the **weak** — those who cannot speak for themselves but whose lives depend on
-our decision.
-
-```figure caption="The five stages of the plot. A folk tale moves quickly through the first three and takes its time over the last two, because the message lives there."
-fig, ax = plt.subplots(figsize=(4.9, 2.6))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.4); ax.axis("off")
-xs = [1.0, 3.0, 5.0, 7.0, 9.0]
-hs = [1.0, 1.9, 3.4, 2.4, 1.5]
-labels = ["exposition", "rising\naction", "climax", "falling\naction", "resolution"]
-for x, y, lab in zip(xs, hs, labels):
-    ax.plot([x, x], [0.8, 0.8 + y], color=ACCENT, lw=3)
-    ax.text(x, 0.6 + y + 0.22, lab, ha="center", fontsize=6.3, color=INK)
-ax.plot(xs, [0.8 + h for h in hs], color=GRID, lw=1.2, ls="--")
-ax.text(5.0, 0.2, "the decision at the climax decides the message",
-        ha="center", fontsize=6.2, color=MUTED)
-fig.tight_layout()
-```
-
-### Character and message
-
-A folk tale never tells you what a character *is*; it shows you what they *do*.
-So describe a character with evidence.
-
-| Character | What they do | What it shows |
-|---|---|---|
-| The old woman | keeps the tree although it costs her | she values what she cannot sell |
-| The lime tree | gives shade, wood and flowers without being asked | nature gives before it is asked |
-| The neighbour / the buyer | offers money for the timber | things that seem free always have a price attached |
-
-The **message** of a tale like this is usually one of two: either *take care of
-what takes care of you*, or *what is worth having is worth paying for*. Say
-which one you think the tale means and give the moment in the story that proves
-it. A message without evidence from the text is only your opinion, and the
-examiner will say so.
-
-### Vocabulary
-
-| Word | Meaning |
+| Wish | Result |
 |---|---|
-| lime tree | a large tree with heart-shaped leaves and sweet-smelling flowers (the linden) |
-| timber | wood cut and prepared for building |
-| shade | the shadow of a tree, where the sun does not reach |
-| roots | the part of a plant that holds it and takes in water |
-| folk tale | an old story handed down by word of mouth |
-| moral | the lesson a story teaches |
+| 1. a horse and a cart (tired of walking) | a cart with a harnessed horse beside the hut |
+| 2. a new hut (the old one might cave in) | a new house in place of the old hut |
+| 3. livestock and fowls | plenty of animals and birds in the yard |
+| 4. money | the wife counting and stacking golden coins |
+| 5. that everyone should fear them | policemen and soldiers guarding the house |
+| 6. that all the villagers should work for them | the tree is silent, then does "one last thing": everything vanishes and the old hut returns |
 
-::: note Model answers
-**1. Where is the climax of this story?**
-At the moment the old woman must decide — when the tree has become
-inconvenient and she is offered money for it. That single decision contains the
-whole message.
-**2. Why is a folk tale short and simple?**
-Because it was told aloud, to a listening audience, and had to be remembered
-exactly and finished in one sitting. Few characters and a repeated pattern
-(three attempts, three days) make it easy to remember.
-:::
+The husband is satisfied after the livestock (*"We don't need anything now"*),
+but the wife never is (*"That's what you think!"*).
 
-## 5.2 Poem: Free Birds
+**Moral:** greed is never satisfied, and too much greed makes us lose even what
+we have. Be content with what you get.
 
-### About the poem
+**Characters:** the old man — simple, obedient, easily frightened, content; the
+old woman — greedy, bossy, ungrateful, power-hungry; the lime tree — magical,
+patient and fair, it punishes the greed at the end.
 
-The poem is a lyric about **freedom**. Its speaker watches birds and notices
-that they refuse every comfort that would cost them their liberty. The poem
-does not argue; it shows. That is what poetry does — it puts a picture in your
-head and lets the picture do the arguing.
+### Vocabulary (Exercise A — synonyms from the story)
 
-### Image, contrast and theme
+a. collapse → **cave in** b. pleaded → **begged** c. delighted → **overjoyed**
+d. idiot → **fool** e. scared → **frightened**
 
-The poem works by **contrast**, and contrast is the easiest device to write
-about in an examination.
+### Correct order (Exercise B)
 
-| The cage | The open sky |
-|---|---|
-| food given, not found | food found, not given |
-| safe from hawks and cold | exposed to hawks and cold |
-| a small, known space | a huge, unknown space |
-| the bird is kept | the bird is itself |
+**d → c → g → a → e → b → f**
 
-The **speaker** admires what the birds choose. The **theme** is that freedom is
-worth more than safety, and that a life without risk is not a full life. Notice
-that the poem does not say this in a sentence anywhere. It says it by placing
-the two pictures side by side and trusting the reader to feel the difference.
+### Comprehension (Exercise C) — model answers
 
-A useful examination technique: when a poem asks a question and does not answer
-it, the question **is** the answer. Ask yourself what the question makes you
-feel, and write that feeling down with the line that caused it.
+**a. Why did the old man go to the forest with an axe?** To cut down a lime tree
+for firewood, as his wife told him.
 
-```figure caption="The poem's argument is made of contrast, not of statement. Put the two lives side by side and the reader supplies the conclusion."
-fig, ax = plt.subplots(figsize=(4.8, 2.7))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.6); ax.axis("off")
-ax.add_patch(plt.Rectangle((0.5, 1.0), 4.1, 3.7, fc="white", ec=GRID, lw=1.3))
-ax.add_patch(plt.Rectangle((5.4, 1.0), 4.1, 3.7, fc="white", ec=ACCENT, lw=1.4))
-ax.text(2.55, 4.4, "the cage", ha="center", fontsize=7, color=MUTED,
-        fontweight="bold")
-ax.text(7.45, 4.4, "the sky", ha="center", fontsize=7, color=ACCENT,
-        fontweight="bold")
-for i, t in enumerate(["food provided", "no hawks", "known walls", "safe"]):
-    ax.text(2.55, 3.75 - i * 0.62, t, ha="center", fontsize=6.3, color=MUTED)
-for i, t in enumerate(["food sought", "real danger", "no walls", "free"]):
-    ax.text(7.45, 3.75 - i * 0.62, t, ha="center", fontsize=6.3, color=INK)
-ax.text(5.0, 0.4, "theme: freedom is worth more than safety",
-        ha="center", fontsize=6.6, color=SERIES[2])
-fig.tight_layout()
-```
+**b. What did the lime tree tell him?** It asked him not to chop it down and
+promised to do him a good turn some day.
 
-::: note Model answers
-**1. What is the theme of "Free Birds"?**
-That freedom matters more than comfort and safety, and that a caged life — even
-a kind cage — is not a full life.
-**2. How does the poet make the reader agree without arguing?**
-By contrast. He shows the food, shelter and safety of the cage and then shows
-the birds refusing them, and the reader's own sense of which matters more does
-the rest.
-**3. Who is the speaker of the poem?**
-Someone watching the birds from outside — an observer who admires their choice,
-not the birds themselves.
-:::
+**c. List the things the old people received.** A horse and cart, a new hut,
+livestock and fowls, money (golden coins), and policemen and soldiers to make
+people fear them.
 
-## 5.3 Grammar and writing tasks of the unit
+**d. Do you like the old woman? Why?** No. She is greedy and ungrateful. She is
+never satisfied, she calls her husband a fool, and finally she wants the whole
+village to work for her.
 
-### Grammar: Reported speech — imperatives
+**e. What lesson did you learn?** Greed leads to loss. We should be content and
+grateful for what we have.
 
-An **imperative** is an order, a warning or a request: *Close the door. Don't
-touch it. Please help me.* When you report one, you do not report a tense at
-all — you use **told** (for an order), **asked** (for a request) or **warned**
-(for a warning), plus **to** or **not to** and the verb.
+## 5.2 Reading II: Poem — Free Birds
+
+### What the poem says
+
+The poem has four stanzas of four lines. It speaks directly to students
+("Come on dear students") — this is the **language of persuasion**.
+
+- **Stanza 1:** students are *free birds*; they should flap their wings and
+  continue their journey ("expedition") to touch the sky — i.e. reach high
+  goals.
+- **Stanza 2:** they can reach their destination; hindrances (obstacles) may
+  come, but they should overcome them with **determination**.
+- **Stanza 3:** "Nothing is easy and nothing is impossible." They should try,
+  and recognise the courage and incredible strength inside them.
+- **Stanza 4:** "Time and tide wait for none" (the poem prints *waits*), so use
+  time carefully; be a true **patriot** and make the nation "a piece of heaven".
+
+**Figure of speech:** a **metaphor** — "Free birds you are students" (students
+are compared to birds without using *like/as*). "Touch the sky" means achieve
+great success. **Rhyme:** the 2nd and 4th lines rhyme in most stanzas (*fly /
+sky; destination / determination*).
+
+### Vocabulary (Exercise A)
+
+a. **hindrances** b. **courage** c. **patriot** d. **flap** e. **expedition**
+f. **incredible**
+
+### Comprehension (Exercise B) — model answers
+
+**a. What are students compared with in the poem?** With free birds.
+
+**b. How can students overcome the hindrances?** With determination and by
+recognising the courage within them.
+
+**c. How is it possible to achieve your goal?** By trying hard and not giving up,
+because "nothing is easy and nothing is impossible".
+
+**d. Why is it necessary to value time?** Because "time and tide wait for none";
+time lost never comes back.
+
+**e. How can we make our country a piece of heaven?** By using our time well,
+achieving our goals and loving and serving our nation as true patriots.
+
+**Exercise C (expressions of persuasion):** *Come on dear students, you can reach
+the destination; Give a try; Flap your wings to fly; Overcome them with
+determination; Keep loving your nation.*
+
+## 5.3 Grammar: Reported speech — imperatives
+
+An **imperative** is a command, request, advice or warning (*Open the window.
+Please come. Don't touch it.*). To report it:
+
+1. Choose a reporting verb that shows the purpose:
+   **told / ordered** (command), **asked / requested** (request, *please*),
+   **advised / suggested** (advice), **warned / forbade** (warning), **begged**.
+2. Put the listener after the verb: *told **me**, advised **us***.
+3. Use **to + base verb**; for *Don't…* use **not to + base verb**.
+4. Remove *please* and the inverted commas; change pronouns, *here → there*,
+   *this → that*.
 
 | Direct | Reported |
 |---|---|
-| "Close the window," she said. | She **told** me **to** close the window. |
-| "Please help me," he said. | He **asked** me **to** help him. |
-| "Don't touch the wire," she said. | She **warned** me **not to** touch the wire. |
-| "Stand up," the teacher said. | The teacher **told** us **to** stand up. |
-| "Please don't be late," mother said. | Mother **asked** us **not to** be late. |
+| Pragya said to him, "Put out the light." | Pragya **told him to put** out the light. |
+| My brother said to me, "Please, go to the market." | My brother **requested me to go** to the market. |
+| She said to him, "Don't touch the hot water." | She **warned him not to touch** the hot water. |
+| My father said to me, "Think before you act." | My father **advised me to think** before I acted. |
+| Neha said to Dipa, "Don't touch my things." | Neha **forbade Dipa to touch** her things. |
 
-Notice the three changes: the reporting verb becomes *told / asked / warned*,
-the imperative becomes **to + verb**, and the pronoun changes to fit the new
-speaker. The word *please* disappears.
+(The textbook writes *"before I act"*; *"before I acted"* is the normal
+back-shifted form.)
+
+### Textbook answers
+
+**Grammar I B (correct alternative):** a. i b. ii c. iii d. iii e. i f. i
+g. ii h. iii
+
+**Grammar II:** a. She asked me to open the window. b. My teacher advised us not
+to waste our time. c. The old man advised us to speak the truth. (*Suggest*
+does not take *us to*; if you must use it, write *The old man suggested that we
+should speak the truth.*) d. My grandmother told him to avoid eating unhealthy
+food. e. Ranjana requested me to come to her birthday party. f. My brother told
+me to clean the room. g. My parents advised us to do everything in time. h. The
+monk advised us to give up bad habits.
 
 ::: caution Common mistakes
-- *She told to close the window.* ✗ — *told* needs a person: *She told **me** to
-  close the window.* ✓
-- *He asked me close the door.* ✗ — *He asked me **to** close the door.* ✓
-- *She said me to sit down.* ✗ — *She **told** me to sit down.* ✓
-- *He told me don't go.* ✗ — *He told me **not to** go.* ✓
+- *She told me don't do it.* ✗ → *She told me **not to do** it.* ✓
+- *She told me to not do it.* — avoid; put **not before to**.
+- *He said me to go.* ✗ → *He **told** me to go.* ✓ (*say* takes no person object)
+- *The doctor advised him to take **your** medicine.* ✗ → ***his** medicine* ✓
 :::
 
-### Grammar: Punctuation of direct speech
+## 5.4 Punctuation
 
-The punctuation of a quotation is fixed, and examiners mark it.
+| Mark | Main rule |
+|---|---|
+| Capital letter | first word of a sentence, names, *I* |
+| Full stop (.) | end of a statement |
+| Comma (,) | before *but/so* joining two clauses; after *In fact, However,* |
+| Apostrophe (') | contractions (*didn't*) and possession (*David's*) |
+| Question mark / exclamation mark | end of a question / strong feeling |
 
-1. Put the spoken words inside **quotation marks**.
-2. Put a **comma** after the reporting clause (or before it, if the quoting
-   comes first).
-3. Start the quotation with a **capital letter**.
-4. Put the **full stop or question mark inside** the closing quotation marks.
-5. Start a **new line and a new paragraph** when a different person speaks.
+**Textbook Writing A — corrected:** *David didn't really like school, but he did
+enjoy practical subjects where he could use his hands to make things. He also
+loved biology because he could draw lots of diagrams and do experiments. In
+fact, his mother once told him that he should become a surgeon.*
 
-*She said, "I am tired."* — *"I am tired," she said.* — *"Are you tired?" she
-asked.*
+## 5.5 Writing: Completing a skeleton story
 
-### Writing: Completing a skeleton story
+::: example Model answer — The Vain Crow (Writing B)
+**The Vain Crow**
 
-Plan the four moves — setting, problem, attempts, resolution — and use the
-rule of three for the attempts. Write the whole story in the past simple, and
-give the last line to the message rather than a moral in bold.
+Once there was a crow who was unhappy with his black feathers. One day he
+found some beautiful peacock feathers lying in a forest. He stuck them among
+his own feathers and thought he looked wonderful.
 
-::: tip The examiner is looking for
-In a story question: a clear beginning, one problem (not four), and a proper
-ending. In a reported-speech question: the right reporting verb (*told* for an
-order, *asked* for a request), **to** before the verb, and *not to* for a
-negative. In a punctuation question: the comma in the right place and the full
-stop inside the quotation marks.
+Proudly, he flew to a group of peacocks and claimed that he was one of their
+relatives. But the peacocks soon saw that he was only a crow in borrowed
+feathers. They pecked at him, pulled out the false feathers and drove him away.
+
+Ashamed, the crow flew to a pond and tried to join the ducks. The ducks had seen
+everything. "You did not want to be a crow; you are not a duck either," they
+said, and they too drove him away. When he went back to the other crows, they
+refused to accept him. The vain crow was left alone and friendless.
+
+*Moral: Be happy with what you are; pretending to be someone else leaves you
+with nobody.*
 :::
+
+**Tips:** past simple throughout; follow every clue in order; add a little
+speech and feeling; give a title and a moral.
+
+## 5.6 Speaking, pronunciation and project work
+
+**Persuading.** *Try it. It suits you. / Give it a try. It's really nice. /
+Come on! You can do this easily. / Go on, open your present. / You are good at
+singing.* For the textbook situations: *Come on, sing a song for us — you have a
+lovely voice! / Go on, take part in the dance competition; you dance really
+well. / Give it a try — speak in English; nobody will laugh.*
+
+**Syllables.** A syllable is a unit of sound with one vowel sound.
+
+| Word | Syllables | Word | Syllables |
+|---|---|---|---|
+| fright-ened | 2 | sol-dier | 2 |
+| har-nessed | 2 | per-mis-sion | 3 |
+| ex-cept | 2 | sat-is-fy | 3 |
+| hard-ly | 2 | pun-ish-ment | 3 |
+| po-lice-man | 3 | live-stock | 2 |
+
+(*frightened* and *harnessed* have **two** syllables: the *-ed* adds no syllable
+here.)
+
+**Prefixes and suffixes (Extra bit):** *dis-honest, mis-lead, pre-paid,
+re-think, un-usual; comfort-able, kind-ness, health-y.* (The suffix is
+**-ful**: *beautiful, grateful*.)
+
+**Project work:** note what shopkeepers say to persuade customers (*This is the
+latest design; it's very cheap today; try it, sister*) and present them in
+English.
 
 ## Chapter summary
 
-- A **folk tale** was told aloud before it was written; it is short, has few
-  characters, often uses a rule of three, and ends with a message.
-- Every plot has five stages: exposition, rising action, climax, falling
-  action, resolution.
-- Describe a character from what they **do**, not from what you feel about them.
-- The theme of the story is the relationship between a person and a living
-  thing that cannot speak for itself; the message is proved by the climax.
-- "Free Birds" shows, through **contrast** between the cage and the sky, that
-  freedom is worth more than safety.
-- Reported imperatives use *told / asked / warned* + object + **to** + verb,
-  and **not to** for negatives.
-- In direct speech the quotation takes a capital letter, the comma goes after
-  the reporting clause, and the full stop or question mark goes **inside** the
-  quotation marks.
+- Folk tale: six wishes — cart, hut, livestock, money, power, the village's
+  labour; the last wish loses everything. Moral: greed brings ruin.
+- Poem *Free Birds*: students = free birds (metaphor); overcome hindrances
+  with determination; value time; be patriots.
+- Reported imperatives: reporting verb + person + **(not) to + base verb**.
+- Choose the verb by purpose: told/ordered, asked/requested, advised,
+  warned/forbade.
+- *say* takes no person object; *tell* does.
+- Skeleton story: past tense, every clue, title, moral.
 
 ## Practice questions
 
 **Reading**
 
-1. Name the five stages of a plot. <span class="marks">[5]</span>
-2. Why does the old woman keep the lime tree even when it costs her? Answer
-   from what she does in the story. <span class="marks">[2]</span>
-3. What is the theme of the poem "Free Birds"? <span class="marks">[2]</span>
-4. Give two things the poem contrasts. <span class="marks">[2]</span>
+1. Answer from *The Old Woman and the Lime Tree*. <span class="marks">[5]</span>
+   (a) Why were the couple tired? (b) What was wrong with the old hut? (c) What
+   was the wife doing when the money came? (d) Who guarded the house? (e) Why
+   did the tree take everything back?
+2. Explain: "Nothing is easy and nothing is impossible." <span class="marks">[2]</span>
 
-::: note Answers
-**1.** Exposition, rising action, climax, falling action, resolution.
-**2.** Because the tree gives her shade, wood and flowers without being asked,
-and she values what she cannot sell; the story shows her choosing the tree over
-the money offered for its timber.
-**3.** That freedom is worth more than safety and comfort, and that a caged
-life, however kind the cage, is not a full life.
-**4.** The cage and the open sky; or food given and food found; or safety and
-risk.
+::: note Answers — Reading
+**1.** (a) Of walking everywhere. (b) It was so old that it might cave in.
+(c) Counting and stacking golden coins. (d) Policemen and soldiers. (e) Because
+the wife's greed had no limit; she wanted the whole village to work for them.
+**2.** Every goal needs effort, so nothing comes easily; but with determination
+and courage every goal can be reached.
 :::
 
 **Grammar**
 
-5. Report these sentences. <span class="marks">[5]</span>
-   (a) "Shut the gate," he said. (b) "Please lend me your book," she said.
-   (c) "Don't walk on the grass," the guard said. (d) "Wait here," mother
-   said. (e) "Please don't tell anyone," he said.
+3. Change into reported speech. <span class="marks">[5]</span>
+   (a) The teacher said to us, "Sit down." (b) Mother said to me, "Don't play in
+   the rain." (c) He said to her, "Please help me." (d) The doctor said to the
+   patient, "Take rest for a week." (e) The guard said to the boys, "Don't
+   enter this room."
+4. Punctuate: *sita said i will go to pokhara tomorrow* <span class="marks">[2]</span>
 
-6. Punctuate correctly. <span class="marks">[3]</span>
-   (a) sit down said the teacher (b) are you coming with us she asked
-   (c) don't move he whispered the snake is near
-
-::: note Answers
-**5.** (a) He told me to shut the gate. (b) She asked me to lend her my book.
-(c) The guard warned us not to walk on the grass. (d) Mother told me to wait
-there. (e) He asked me not to tell anyone.
-**6.** (a) "Sit down," said the teacher. (b) "Are you coming with us?" she
-asked. (c) "Don't move," he whispered. "The snake is near."
+::: note Answers — Grammar
+**3.** (a) The teacher told us to sit down. (b) Mother warned me not to play in
+the rain. (c) He requested her to help him. (d) The doctor advised the patient
+to take rest for a week. (e) The guard ordered the boys not to enter that room.
+**4.** Sita said, "I will go to Pokhara tomorrow."
 :::
 
 **Writing**
 
-7. Complete the story in about 120 words. *An old man planted a lime tree
-   beside the road. Thirty years later, a boy came with an axe. … the old man
-   smiled.* <span class="marks">[5]</span>
-8. Write a paragraph of about 80 words on why freedom matters more than
-   comfort, using one example from the poem. <span class="marks">[4]</span>
+5. Develop a story from the clues: *a greedy dog … finds a bone … crosses a
+   bridge … sees his reflection … barks … loses the bone.* Give a title and a
+   moral. <span class="marks">[5]</span>
 
-::: note Answers
-**7.** Setting: the lime tree, now huge, shading the road. Problem: the boy
-wants its wood — his family needs the money. Attempts: he raises the axe; the
-old man asks him to sit in the shade first; a woodcutter offers a cheaper
-price. Resolution: the shade is worth more than the timber, the boy puts the
-axe down, and the old man smiles. End with what the boy understood.
-**8.** Take the clearest image from the poem — for example the birds refusing
-food that is offered inside the cage — and say plainly what it costs them and
-what it wins them.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** A poem's rhyme scheme is the pattern of
-   (a) line lengths (b) end sounds (c) stanzas (d) punctuation
-**2.** *The old woman planted the lime tree* — the tense is
-   (a) present simple (b) past simple (c) present perfect (d) past perfect
-**3.** *Free* as used in *Free Birds* means
-   (a) costing nothing (b) not captive (c) generous (d) empty
-**4.** A stanza is
-   (a) a group of lines in a poem (b) a single line (c) the title (d) the rhyme
-**5.** The passive of *She planted a tree* is
-   (a) A tree is planted (b) A tree was planted by her (c) A tree has planted (d) She was planted
-
-::: note Objective practice — answers
-**1.** (b) — the pattern of end sounds. **2.** (b) — past simple. **3.** (b) — not captive. **4.** (a) — a group of lines. **5.** (b) — past simple passive.
+::: note Answer — Writing
+**5.** Title *The Greedy Dog*; past simple; all clues in order (the dog thinks
+the reflection is another dog with a bigger bone, opens its mouth to bark and
+the bone falls into the water); moral: *Greed brings loss.*
 :::
