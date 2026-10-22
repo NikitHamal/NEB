@@ -20,7 +20,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 | phy12 | units 1–15 scripted, narrated, frame-checked |
 | chem12 | units 1–12 scripted, narrated, frame-checked |
 | bio12 | units 1–10 all scripted, narrated, frame-checked (helpers `_bio.py`, `_phys2.py`, `_gen.py`, `_emb.py`, `_hum.py`) |
-| math12 | unit 1 pushed (helpers `_m.py`); units 2–3 scripted, in frame review; 4–17 to do |
+| math12 | units 1–2 pushed (helpers `_m.py`); 3–4 scripted, in frame review; 5–17 to do |
 | then | eng12? (English-medium only), cs12 → class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
@@ -30,8 +30,9 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
   Use `save_state()` + `fade()` + `Restore`.
 - A CPU box (molab marimo kernel, 20 cores) may be used for frame checks; it is shared with a festival-reel agent, so run
   renders under `nice` with at most a few parallel jobs.
-- Next step if interrupted: math12 — review unit_02 (Binomial) and unit_03 (Complex Numbers) sheets, push each with `ttskeys.py` file lists, then unit_04 Sequence and Series … unit_17 (notes/content/math12/unit-NN.md); then eng12, cs12; then class 11.
+- Next step if interrupted: math12 — re-check unit_03 (Complex Numbers) and unit_04 (Sequence and Series) sheets, push each with `ttskeys.py` file lists, then unit_05 Matrices … unit_17 (notes/content/math12/unit-NN.md); then eng12, cs12; then class 11.
 - `python3 tools/lessons/ttskeys.py <script>` (from the repo root) dry-runs a lesson and prints exactly the `.cache/tts` files it uses: push those with the unit.
+- Kit: `recap` now slides a long list left so Neby never covers the last line.
 - Molab box workflow: `/root/neb` clone + `/root/neb/venv`; `render.sh <script> "parts"` runs prefetch then frames.py with xargs -P 4 under nice; unset the kernel's PYTHONPATH/VIRTUAL_ENV first (they leak from marimo).
 - Notes errata found so far: bio12 unit-03 'lethal genes give 2 green : 1 white-carrier' is wrong (white seedlings die; survivors 1 GG : 2 Gg, all green; the 2 : 1 phenotypic ratio is the dominant-lethal yellow mouse).
 
