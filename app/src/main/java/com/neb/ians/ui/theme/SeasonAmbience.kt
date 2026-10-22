@@ -1,6 +1,7 @@
 package com.neb.ians.ui.theme
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
 import androidx.compose.runtime.withFrameNanos
@@ -12,7 +13,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.rotate
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.neb.ians.util.rememberIsLowEndDevice
+import kotlinx.coroutines.delay
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.sin
@@ -31,11 +35,10 @@ fun Modifier.seasonAmbience(active: Boolean = true): Modifier {
     val kind = if (state.festive && key != "exams" && key != "everyday") key else null
     val reduced = nebAnimationsReduced()
     if (kind == null || reduced || !active) return this
-    val clock by produceState(0f, kind) {
-        val s0 = withFrameNanos { it }
-        while (true) withFrameNanos { value = (it - s0) / 1e9f }
-    }
-    return this.drawWithContent {
+    val clock by festiveClock(running = true)
+    // the shapes get a layer of their own over the feed's, so each frame re-records a dozen ovals
+    // and not the list (or the screen around it)
+    return this.graphicsLayer().drawWithContent {
         drawContent()
         val band = 260.dp.toPx().coerceAtMost(size.height)
         when (kind) {
@@ -47,8 +50,27 @@ fun Modifier.seasonAmbience(active: Boolean = true): Modifier {
             "winter" -> snow(clock, band)
             else -> petals(clock, band, listOf(Color(0xFFFFD166)), 8)
         }
+    }.graphicsLayer()
+}
+
+/**
+ * Seconds since a festival animation started, ticking every frame; a slow phone ticks every other
+ * frame, which leaves the frames between to the feed. Stays 0 when not [running].
+ */
+@Composable
+internal fun festiveClock(running: Boolean): State<Float> {
+    val lowEnd = rememberIsLowEndDevice()
+    return produceState(0f, running, lowEnd) {
+        if (!running) return@produceState
+        val s0 = withFrameNanos { it }
+        while (true) {
+            withFrameNanos { value = (it - s0) / 1e9f }
+            if (lowEnd) delay(LOW_END_FRAME_GAP_MS)
+        }
     }
 }
+
+private const val LOW_END_FRAME_GAP_MS = 20L
 
 private fun frac(x: Float) = x - kotlin.math.floor(x)
 private fun fade(y: Float, band: Float) = (1f - y / band).coerceIn(0f, 1f)
