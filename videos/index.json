@@ -1,6 +1,83 @@
 {
  "videos": [
   {
+   "id": "class-12/cs12/unit_01.mp4",
+   "file": "class-12/cs12/unit_01.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_01.part1.mp4",
+     "subtitles": "class-12/cs12/unit_01.part1.srt",
+     "start": 0.0,
+     "end": 328.433,
+     "mb": 13.2
+    },
+    {
+     "file": "class-12/cs12/unit_01.part2.mp4",
+     "subtitles": "class-12/cs12/unit_01.part2.srt",
+     "start": 328.433,
+     "end": 746.133,
+     "mb": 17.3
+    }
+   ],
+   "poster": "class-12/cs12/unit_01.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 1,
+   "title": "Database Management System",
+   "subtitle": "Storing data once, and asking it anything",
+   "lang": "en",
+   "sections": [
+    "Data, databases and the DBMS",
+    "Fields, records and keys",
+    "SQL: DDL and DML",
+    "Joins and grouping",
+    "Database models",
+    "Normalisation: 1NF, 2NF, 3NF",
+    "Distributed databases and security"
+   ],
+   "seconds": 746.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     63.57,
+     "Data, databases and the DBMS"
+    ],
+    [
+     169.33,
+     "Fields, records and keys"
+    ],
+    [
+     240.9,
+     "SQL: DDL and DML"
+    ],
+    [
+     331.27,
+     "Joins and grouping"
+    ],
+    [
+     419.1,
+     "Database models"
+    ],
+    [
+     492.63,
+     "Normalisation: 1NF, 2NF, 3NF"
+    ],
+    [
+     615.23,
+     "Distributed databases and security"
+    ],
+    [
+     706.07,
+     "Quick recap"
+    ]
+   ],
+   "mb": 30.5,
+   "script": "tools/lessons/scripts/cs12/unit_01.py"
+  },
+  {
    "id": "class-12/cs12/unit_04.mp4",
    "file": "class-12/cs12/unit_04.mp4",
    "parts": [
