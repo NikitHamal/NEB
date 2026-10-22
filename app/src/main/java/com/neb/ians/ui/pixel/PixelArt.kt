@@ -12,15 +12,23 @@ import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntRect
 import androidx.compose.ui.unit.IntSize
 import com.neb.ians.ui.theme.nebAnimationsReduced
+import kotlinx.coroutines.delay
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 /** Pixel art plays at a pixel-art frame rate: smooth enough, and a third of the work of 60 fps. */
 private const val PIXEL_FRAME_MS = 1000L / 24
+
+/**
+ * The loops below sleep between frames instead of waking on every vsync (60 to 120 times a
+ * second, mostly to find nothing to draw), and wake this much early so the next vsync shows it.
+ */
+private const val WAKE_EARLY_MS = 6L
 
 /**
  * The auth hero: [PixelSkyScene], scaled up by a whole number so every pixel is the same size,
@@ -43,16 +51,13 @@ fun PixelSkyHero(modifier: Modifier = Modifier, ground: Int = Px.rgb(0xFFFFFF)) 
         }
         if (still) { draw(2000L); return@LaunchedEffect }
         val start = withFrameMillis { it }
-        var last = -PIXEL_FRAME_MS
         while (true) {
-            withFrameMillis { now ->
-                val t = now - start
-                if (t - last >= PIXEL_FRAME_MS) { draw(t); last = t }
-            }
+            withFrameMillis { now -> draw(now - start) }
+            delay(PIXEL_FRAME_MS - WAKE_EARLY_MS)
         }
     }
 
-    Canvas(modifier) {
+    Canvas(modifier.graphicsLayer()) {
         if (tick < 0) return@Canvas
         val scale = ceil(maxOf(size.width / PixelSkyScene.WIDTH, size.height / PixelSkyScene.HEIGHT)).toInt().coerceAtLeast(1)
         val w = PixelSkyScene.WIDTH * scale
@@ -78,7 +83,8 @@ fun PixelSpriteView(sprite: PixelSprite, modifier: Modifier = Modifier, playing:
     val bitmap = remember(sprite) { Bitmap.createBitmap(sprite.width, sprite.height, Bitmap.Config.ARGB_8888) }
     val image = remember(bitmap) { bitmap.asImageBitmap() }
     var frame by remember(sprite) { mutableLongStateOf(-1L) }
-    val still = nebAnimationsReduced() || !playing
+    // a single-frame sprite (Neby's still pose) has nothing to play
+    val still = nebAnimationsReduced() || !playing || sprite.frames.size < 2
 
     LaunchedEffect(sprite, still) {
         fun show(i: Int) {
@@ -89,16 +95,18 @@ fun PixelSpriteView(sprite: PixelSprite, modifier: Modifier = Modifier, playing:
         val start = withFrameMillis { it }
         var shown = -1
         while (true) {
-            val keepGoing = withFrameMillis { now ->
+            val t = withFrameMillis { now ->
                 val i = sprite.frameAt(now - start)
                 if (i != shown) { show(i); shown = i }
-                sprite.loop || now - start < sprite.durationMs
+                now - start
             }
-            if (!keepGoing) break
+            if (!sprite.loop && t >= sprite.durationMs) break
+            delay((sprite.frameMs - t % sprite.frameMs - WAKE_EARLY_MS).coerceAtLeast(0L))
         }
     }
 
-    Canvas(modifier) {
+    // its own layer: a new frame redraws the sprite, not the card or list row around it
+    Canvas(modifier.graphicsLayer()) {
         if (frame < 0) return@Canvas
         // [src] shows part of the sprite (an avatar's head-and-shoulders crop) scaled to the view
         val sw = src?.width ?: sprite.width; val sh = src?.height ?: sprite.height
