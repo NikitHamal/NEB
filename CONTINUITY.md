@@ -1,12 +1,57 @@
 # NEBians - Continuity Notes
 
-**Last updated:** October 18, 2026
+**Last updated:** October 22, 2026
 
 > **Android UI work lives in [`ANDROID_UI_CONTINUITY.md`](ANDROID_UI_CONTINUITY.md).** This file covers the Django/web side only.
 
 ---
 
 ## Current Status
+
+### Syllabus with the books' chapters; marketplace switched off (Oct 22, 2026)
+
+Branch **`syllabus/revamp`**, based on `resources/grade8-10-polish-syllabus` (which carries the
+polished Class 8 and 10 books and the v2 syllabus export). Pushed with
+`task/tools/ghpush.py <repo> NikitHamal/NEB syllabus/revamp` (first push needed `--base`).
+
+- **Marketplace off, code kept.** `nebians/features.py`: `MARKETPLACE_ENABLED` (env, default off)
+  404s every marketplace page/ajax/API route (`marketplace_gate` in `web/urls.py`, `api/urls.py`),
+  hides the Library shelf (`marketplace_enabled` in templates), `/api/app/features/` reports it.
+  Android: `AppFeatures.MARKETPLACE = false` drops the tab and never builds `MarketplaceViewModel`.
+  Paid resources (price on upload) are not the marketplace and are unchanged.
+- **Chapters and question banks for Class 8, 10, 11, 12.** `notes/tools/export_study.py` reuses
+  `notes/pipeline/md2html.py` with maths left as TeX (KaTeX on the client), media by content hash in
+  `web/static/web/study/` (111 MB), documents in `web/data/study/<grade>-<subject>/`
+  (`unit-NN.json`, `bank-NN.json`, `guide.json`, `index.json`). Answers fold into `<details class="ans">`;
+  MCQs carry `data-key` from the book's key (Nepali paragraph questions too, `.mcq-p`). Re-run after
+  any chapter changes: `python3 notes/tools/export_study.py [book ...]` (needs matplotlib, Pillow;
+  ~25 min for all with 2 cores). `web/study_data.py` reads it for web and API.
+- **Web.** `/app/syllabus/` hub (continue card, cross-class search into chapters), subject page
+  (next/revise suggestions, tabs chapters / question bank / exam), reader at
+  `/app/syllabus/<g>/<s>/unit-<n>/`, `bank-<n>/`, `exam-guide/` (`templates/web/syllabus/reader.html`,
+  `css/pages/study-reader.css`, `js/study-reader.js`, KaTeX in `static/web/vendor/katex/`).
+  Progress is on the device (`localStorage['neb.study.v1']`, `window.NebStudy` in `js/syllabus.js`);
+  reading credit grows with time on the page (a quarter of the reading time minimum).
+- **API.** `/api/syllabus/v2/<g>/<s>/` adds `read_min`, `has_chapter`, `banks`, `guide`;
+  `.../unit/<n>/`, `.../bank/<n>/`, `.../guide/` return `{title, toc, html, prev, next, ...}`.
+- **Android.** `SyllabusSubject.kt` rewritten (chapters, question bank, exam tabs; next/revise cards),
+  `StudyReader.kt` (route `study/{grade}/{subject}/{kind}/{no}`, WebView + bundled KaTeX, JS bridge
+  `NebStudy`), `data/repository/StudyProgress.kt` (same keys as the web). Not compiled locally:
+  check the `Build Student Release APKs & AAB` run for the branch.
+- **The old content.** Every grade/subject of 8/10/11/12 already redirects old subject pages and
+  legacy APIs to the new syllabus, so the DB `SyllabusContent` English/Nepali rows are no longer
+  shown anywhere (rows left in the database).
+- **Content fixed.** `notes/content/qbank12/unit-04.md` held a stale copy of the Chemistry model
+  sets on every branch; it is now *Physics: Model Question Sets and Predicted Questions* (two worked
+  model papers, 39 ranked predicted questions) and `notes/pdf/NEBians-Question-Bank-Grade-12.pdf` is
+  rebuilt (787 pages, same fonts as before).
+- **Fonts before any build or export.** `notes/pipeline/fonts/install.sh`, plus `fonts-dejavu-core`
+  for WeasyPrint's fallback glyphs and `libpango-1.0-0 libpangoft2-1.0-0` for WeasyPrint. Without
+  them matplotlib and WeasyPrint fall back silently (Nepali figure labels turn into boxes);
+  `export_study.py` now refuses to run if Inter or Noto Sans Devanagari is missing. After installing,
+  clear `notes/figures/_fig/` (the figure cache is keyed by code, not by font).
+- Tests: `web/test_syllabus.py` (reader pages, APIs, every subject has all chapters and a bank),
+  `api/tests_marketplace.py` (runs with the switch on; one test checks it off).
 
 ### Landing page, /app, site themes, query budgets, self-hosted fonts (Oct 18, 2026)
 
