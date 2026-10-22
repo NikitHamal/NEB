@@ -267,6 +267,7 @@ urlpatterns = [
     path('ajax/admin/media/voice/', views_admin_media.ajax_admin_media_voice, name='ajax_admin_media_voice'),
     path('admin/themes/', views_admin_themes.admin_site_themes, name='admin_site_themes'),
     path('admin/neby-studio/', views_admin_themes.admin_neby_studio, name='admin_neby_studio'),
+    path('admin/art/', views_admin_themes.admin_art_library, name='admin_art_library'),
     path('admin/hero-backgrounds/', RedirectView.as_view(url='/admin/themes/', permanent=True)),
     path('admin/agent-drops/', views.admin_agent_drops, name='admin_agent_drops'),
     path('staff/agent-drops/', views.admin_agent_drops, name='staff_agent_drops'),
