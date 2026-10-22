@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,679
+That was modal verbs.
+
+2
+00:00:01,679 --> 00:00:04,882
+Next: determiners and quantifiers.
+
+3
+00:00:04,882 --> 00:00:05,872
+See you there.
+

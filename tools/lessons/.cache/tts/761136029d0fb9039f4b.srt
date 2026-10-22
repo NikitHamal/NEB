@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,145
+Obligation.
+
+2
+00:00:01,145 --> 00:00:06,523
+Must is felt from inside, or comes from the speaker: I must stop wasting time.
+
+3
+00:00:06,523 --> 00:00:12,526
+Have to comes from outside, from rules or other people: we have to wear the college uniform.
+
+4
+00:00:12,526 --> 00:00:20,117
+Had to is the past of both, because must has no past: yesterday I had to work late, never I must worked.
+
+5
+00:00:20,117 --> 00:00:25,911
+And should, or ought to, is a weaker duty: a citizen ought to pay tax.
+

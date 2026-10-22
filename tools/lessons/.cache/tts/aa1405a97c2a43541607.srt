@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:05,846
+Deduction is where the exam separates candidates, so picture a scale of certainty.
+
+2
+00:00:05,846 --> 00:00:08,697
+Must: the only possible explanation.
+
+3
+00:00:08,697 --> 00:00:11,145
+The lights are off; they must have gone out.
+
+4
+00:00:11,145 --> 00:00:16,875
+May, might or could: one of several possibilities: she may be in the library.
+
+5
+00:00:16,875 --> 00:00:19,270
+And can't: impossible.
+
+6
+00:00:19,270 --> 00:00:23,046
+He can't be in Jumla; I saw him in Kathmandu an hour ago.
+
+7
+00:00:23,046 --> 00:00:27,994
+Notice: the opposite of deductive must is can't, not mustn't.
+

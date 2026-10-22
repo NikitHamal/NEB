@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,328
+Exam style.
+
+2
+00:00:01,328 --> 00:00:07,786
+The house was burning fiercely, but the fire brigade blank rescue everyone inside.
+
+3
+00:00:07,786 --> 00:00:10,364
+The meaning is ability in the past.
+
+4
+00:00:10,364 --> 00:00:14,218
+Is it a general ability, or one particular success?
+
+5
+00:00:14,218 --> 00:00:17,070
+One difficult occasion, and it succeeded.
+
+6
+00:00:17,070 --> 00:00:23,059
+So not could, but was able to: the fire brigade was able to rescue everyone inside.
+
