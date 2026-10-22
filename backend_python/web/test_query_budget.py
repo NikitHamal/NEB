@@ -111,5 +111,13 @@ class SignedInQueryBudgetTests(TestCase):
         self.assertContains(r, 'Reply on Accountancy 11')
 
     def test_forum_does_not_query_per_poll(self):
-        r = self.assertBudget('/app/forum/?sort=new&category=Accountancy', 20)
+        r = self.assertBudget('/app/forum/?sort=new&category=Accountancy', 19)
         self.assertContains(r, 'post-card-poll-badge', count=6)
+
+    def test_pages_read_the_signed_in_user_once(self):
+        # The view and _ctx() both want the viewer's row; they share one SELECT.
+        for url, budget in (('/app/profile/qbs0/', 30), ('/app/profile/qbs0/achievements/', 13),
+                            ('/app/study-lab/', 10), ('/app/requests/', 11), ('/app/upload/', 12)):
+            with self.subTest(url=url):
+                cache.clear()
+                self.assertBudget(url, budget)

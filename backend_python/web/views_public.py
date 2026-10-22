@@ -1184,12 +1184,7 @@ def submit_payment_proof(request, resource_id):
 def resource_requests_page(request):
     """Public resource request listing page."""
     user_id = _get_user_id(request)
-    user = None
-    if user_id:
-        try:
-            user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            pass
+    user = _request_db_user(request, user_id)
 
     if request.method == 'POST' and request.POST.get('action') == 'create':
         title = request.POST.get('title', '').strip()
@@ -1272,12 +1267,7 @@ def upload_resource(request):
     """Standalone upload page — authenticated users upload with approval_status='pending'.
     Supports both file upload (primary) and URL (secondary)."""
     user_id = _get_user_id(request)
-    user = None
-    if user_id:
-        try:
-            user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            pass
+    user = _request_db_user(request, user_id)
     if user and not getattr(user, 'email_verified', False):
         user = None
 
