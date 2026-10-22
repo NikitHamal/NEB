@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,575
+Devices to quote.
+
+2
+00:00:01,575 --> 00:00:04,557
+Satire: a bull with a mosquito net.
+
+3
+00:00:04,557 --> 00:00:09,505
+Irony: every symptom Laxminarayan reports is true of a corpse.
+
+4
+00:00:09,505 --> 00:00:13,606
+Comic exaggeration: dearer than my wife and children.
+
+5
+00:00:13,606 --> 00:00:17,890
+Dramatic irony: we know the bull is dead and the king does not.
+
+6
+00:00:17,890 --> 00:00:20,976
+Contrast: a mattress against straw.
+
+7
+00:00:20,976 --> 00:00:24,674
+And comic reversal: the system rewards pretence.
+
