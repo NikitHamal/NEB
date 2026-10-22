@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,463
+The play has no scenes, so we follow its beats.
+
+2
+00:00:03,463 --> 00:00:09,414
+The plea: give me back my husband, Alfred, a blond, bespectacled lawyer.
+
+3
+00:00:09,414 --> 00:00:16,653
+The denial: the actress knows him only as the lawyer who drew up her contract; he never sent her a flower in his life.
+
+4
+00:00:16,653 --> 00:00:26,419
+The evidence: the wife learned at the florist that Alfred sends flowers twice a week, charged to his account; there is a letter, and a lock of hair.
+
+5
+00:00:26,419 --> 00:00:36,588
+Then the outburst: sobbing, the wife says the actress has cosmetics, bright lights and an author's lines to make her beautiful, while she has nothing.
+
