@@ -352,6 +352,15 @@ def syllabus_subject_detail(request, grade_slug, subject_slug):
         'total_count': total_count,
     })
 
+def _detail_context(request, resource):
+    """ResourceSerializer reads the like and bookmark state twice each (snake_case and
+    camelCase fields), one EXISTS query per read; look each up once instead."""
+    viewer = request.user if isinstance(getattr(request, 'user', None), User) else None
+    ctx = {'request': request}
+    ctx.update(prime_for_serializers(viewer, resources=[resource]))
+    return ctx
+
+
 @api_view(['GET', 'PUT', 'PATCH'])
 @permission_classes([AllowAny])
 def resource_detail(request, resource_id):
@@ -369,11 +378,11 @@ def resource_detail(request, resource_id):
 
     if request.method == 'GET':
         if resource.approval_status == 'approved':
-            return Response(ResourceSerializer(resource, context={'request': request}).data)
+            return Response(ResourceSerializer(resource, context=_detail_context(request, resource)).data)
         # Owners can still open their own pending/rejected resource (edit flow).
         viewer = _get_user_from_request(request)
         if viewer is not None and resource.uploaded_by_id == viewer.id:
-            return Response(ResourceSerializer(resource, context={'request': request}).data)
+            return Response(ResourceSerializer(resource, context=_detail_context(request, resource)).data)
         return Response({'error': 'Resource not found'}, status=404)
 
     # ----- owner edit -----
