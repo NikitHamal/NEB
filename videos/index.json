@@ -66,6 +66,71 @@
    "script": "tools/lessons/scripts/eng12/unit_01.py"
   },
   {
+   "id": "class-12/eng12/unit_09.mp4",
+   "file": "class-12/eng12/unit_09.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_09.mp4",
+     "subtitles": "class-12/eng12/unit_09.srt",
+     "start": 0.0,
+     "end": 460.37,
+     "mb": 17.6
+    }
+   ],
+   "poster": "class-12/eng12/unit_09.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 9,
+   "title": "Every Morning I Wake",
+   "subtitle": "Dylan Thomas · a poem from Under Milk Wood",
+   "lang": "en",
+   "sections": [
+    "Dylan Thomas and Under Milk Wood",
+    "Morning and evening",
+    "\"Not wholly bad or good\"",
+    "Good-bye — but just for now",
+    "Themes",
+    "Form and devices"
+   ],
+   "seconds": 460.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.87,
+     "Dylan Thomas and Under Milk Wood"
+    ],
+    [
+     114.27,
+     "Morning and evening"
+    ],
+    [
+     182.43,
+     "\"Not wholly bad or good\""
+    ],
+    [
+     252.43,
+     "Good-bye — but just for now"
+    ],
+    [
+     300.43,
+     "Themes"
+    ],
+    [
+     346.33,
+     "Form and devices"
+    ],
+    [
+     432.63,
+     "Quick recap"
+    ]
+   ],
+   "mb": 17.6,
+   "script": "tools/lessons/scripts/eng12/unit_09.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
