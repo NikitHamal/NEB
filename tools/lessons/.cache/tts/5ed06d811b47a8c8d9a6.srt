@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,703
+Notice: not a single line of dialogue crosses those fences in the whole story.
+
+2
+00:00:05,703 --> 00:00:09,205
+Everything that matters is an object or an action.
+
