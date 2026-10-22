@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:03,398
+Confusable pairs are learnt by their difference.
+
+2
+00:00:03,398 --> 00:00:09,947
+Affect is the verb and effect the noun: the rain affected the crop, and the effect was severe.
+
+3
+00:00:09,947 --> 00:00:17,500
+Advice is the noun with a c, advise the verb with an s, and practice and practise follow the same rule.
+
+4
+00:00:17,500 --> 00:00:22,526
+The principal is a person or the chief thing; a principle is a rule.
+
+5
+00:00:22,526 --> 00:00:27,473
+Stationary means not moving; stationery is paper and pens.
+
+6
+00:00:27,473 --> 00:00:29,804
+Lose a match; a loose knot.
+
+7
+00:00:29,804 --> 00:00:32,539
+Its, belonging to it; it's, it is.
+
+8
+00:00:32,539 --> 00:00:35,703
+Accept, receive; except, leave out.
+

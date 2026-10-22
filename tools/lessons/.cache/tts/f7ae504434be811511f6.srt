@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,072
+And a proverb is explained by what it teaches.
+
+2
+00:00:03,072 --> 00:00:09,518
+A stitch in time saves nine: repair a small fault now and you avoid a large one later.
+
+3
+00:00:09,518 --> 00:00:14,830
+Too many cooks spoil the broth: too many people managing one job ruin it.
+
+4
+00:00:14,830 --> 00:00:19,140
+Empty vessels make the most noise: those who know least talk loudest.
+
+5
+00:00:19,140 --> 00:00:23,906
+Rome was not built in a day: anything worth building takes time.
+

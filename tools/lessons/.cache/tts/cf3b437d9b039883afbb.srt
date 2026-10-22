@@ -1,0 +1,40 @@
+1
+00:00:00,050 --> 00:00:05,026
+Almost every long English word is a root with something attached at each end.
+
+2
+00:00:05,026 --> 00:00:06,328
+Port means carry.
+
+3
+00:00:06,328 --> 00:00:08,229
+Import: carry in.
+
+4
+00:00:08,229 --> 00:00:10,052
+Export: carry out.
+
+5
+00:00:10,052 --> 00:00:12,408
+Transport: carry across.
+
+6
+00:00:12,408 --> 00:00:14,687
+Support: carry from under.
+
+7
+00:00:14,687 --> 00:00:16,875
+Portable: able to be carried.
+
+8
+00:00:16,875 --> 00:00:20,247
+And a reporter is one who carries back the news.
+
+9
+00:00:20,247 --> 00:00:23,372
+Take the word apart and the meaning falls out.
+
+10
+00:00:23,372 --> 00:00:28,085
+Prefixes change the meaning; suffixes change the part of speech.
+

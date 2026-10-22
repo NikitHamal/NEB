@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,502
+An idiom item asks for the meaning and a sentence.
+
+2
+00:00:03,502 --> 00:00:09,843
+A blessing in disguise: something that seems unfortunate at first but turns out to be lucky.
+
+3
+00:00:09,843 --> 00:00:18,854
+Then a sentence that makes the meaning visible: missing the early bus was a blessing in disguise, because it skidded off the road above Mugling.
+
+4
+00:00:18,854 --> 00:00:25,481
+Give the meaning as a clause, not a one word synonym, and keep the idiom in its fixed form.
+

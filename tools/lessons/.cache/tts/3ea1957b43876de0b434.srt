@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,643
+Suffixes decide the part of speech.
+
+2
+00:00:02,643 --> 00:00:07,734
+Ment, ion, ity, ness, ance and ship make nouns.
+
+3
+00:00:07,734 --> 00:00:11,627
+Er, or, ist and ian make a person.
+
+4
+00:00:11,627 --> 00:00:14,674
+Ise, fy and en make verbs.
+
+5
+00:00:14,674 --> 00:00:19,283
+Ful, less, ous, al, ive and able make adjectives.
+
+6
+00:00:19,283 --> 00:00:21,145
+And ly makes an adverb.
+
