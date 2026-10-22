@@ -165,6 +165,8 @@ class ForumViewModel @Inject constructor(
                     if ((pendingPostLikeToggles[postId] ?: 0) > 0 || postLikeJobs[postId]?.isActive == true) return
                     val isThumbedUp = payload.boolField("isThumbedUp")
                     _forumState.update { state ->
+                        // likes arrive for posts all over the site; most are not on this page
+                        if (state.posts.none { it.id == postId }) return@update state
                         val updated = state.posts.map { post ->
                             if (post.id == postId) {
                                 if (isThumbedUp != null) post.copy(thumbsUpCount = count, isThumbedUp = isThumbedUp)
