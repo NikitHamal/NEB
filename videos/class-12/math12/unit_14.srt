@@ -1,0 +1,444 @@
+1
+00:00:00,000 --> 00:00:04,142
+A glass of tea at eighty degrees, in a room at twenty.
+
+2
+00:00:04,142 --> 00:00:11,077
+It cools quickly at first, then more and more slowly, creeping towards room temperature but never quite reaching it.
+
+3
+00:00:11,300 --> 00:00:17,877
+Newton's law says why: the rate of cooling is proportional to how much hotter the tea is than the room.
+
+4
+00:00:17,877 --> 00:00:22,513
+That is an equation about a rate of change, a differential equation.
+
+5
+00:00:22,513 --> 00:00:24,739
+Solving it gives the whole curve.
+
+6
+00:00:24,739 --> 00:00:26,042
+This unit shows you how.
+
+7
+00:00:31,533 --> 00:00:36,507
+Welcome to Class 12 Mathematics, Unit 14: Differential Equations.
+
+8
+00:00:38,900 --> 00:00:39,995
+Six parts.
+
+9
+00:00:39,995 --> 00:00:44,019
+Order, degree and forming a differential equation.
+
+10
+00:00:44,019 --> 00:00:45,646
+Separable equations.
+
+11
+00:00:45,646 --> 00:00:47,600
+Homogeneous equations.
+
+12
+00:00:47,600 --> 00:00:50,777
+Linear equations with an integrating factor.
+
+13
+00:00:50,777 --> 00:00:52,665
+Exact equations.
+
+14
+00:00:52,665 --> 00:00:56,126
+And applications: growth, decay and cooling.
+
+15
+00:01:00,467 --> 00:01:03,502
+A differential equation contains derivatives.
+
+16
+00:01:03,502 --> 00:01:08,112
+Its order is the highest derivative that appears: here, the third.
+
+17
+00:01:08,112 --> 00:01:15,872
+Its degree is the power of that highest derivative, once roots and fractions in the derivatives are cleared: here, two.
+
+18
+00:01:16,100 --> 00:01:17,794
+Watch for square roots.
+
+19
+00:01:17,794 --> 00:01:26,753
+The second derivative equals the root of one plus the first derivative squared: square both sides, and it has order two, degree two.
+
+20
+00:01:27,967 --> 00:01:32,903
+Going the other way, every family of curves has a differential equation.
+
+21
+00:01:32,903 --> 00:01:47,383
+The circles x squared plus y squared equals a squared, for every radius a. Differentiate once, because there is one constant, and a disappears: d y by d x equals minus x over y.
+
+22
+00:01:47,383 --> 00:01:50,659
+One equation describes every circle in the family.
+
+23
+00:01:51,867 --> 00:01:53,177
+Eliminate the constant.
+
+24
+00:01:53,400 --> 00:01:57,481
+Lines through the origin: the slope m is y over x.
+
+25
+00:01:57,700 --> 00:02:02,940
+And for A e to the two x, the derivative is twice y itself.
+
+26
+00:02:08,533 --> 00:02:10,214
+What does a solution look like?
+
+27
+00:02:10,214 --> 00:02:13,730
+At every point, the equation tells you a slope.
+
+28
+00:02:13,730 --> 00:02:16,881
+Draw a little line there: this is the slope field.
+
+29
+00:02:16,881 --> 00:02:21,738
+A solution is a curve that follows those little lines everywhere.
+
+30
+00:02:21,738 --> 00:02:25,384
+Start at the top and follow them: you go round a circle.
+
+31
+00:02:25,384 --> 00:02:27,711
+Every starting point gives a different circle.
+
+32
+00:02:27,933 --> 00:02:34,679
+Algebraically: put all the y's with d y on one side and all the x's with d x on the other.
+
+33
+00:02:34,679 --> 00:02:36,567
+That separates the variables.
+
+34
+00:02:36,567 --> 00:02:42,031
+Integrate each side, and the circles appear: x squared plus y squared equals C.
+
+35
+00:02:43,233 --> 00:02:43,665
+Separate.
+
+36
+00:02:44,467 --> 00:02:47,636
+y with d y on the left, x with d x on the right.
+
+37
+00:02:47,867 --> 00:02:53,595
+Both are standard forms: inverse tan of y equals inverse tan of x plus C.
+
+38
+00:02:55,600 --> 00:02:58,131
+Divide by tan x tan y to separate.
+
+39
+00:02:58,333 --> 00:03:00,899
+Each term is a derivative over its function.
+
+40
+00:03:01,100 --> 00:03:02,326
+So the logs add.
+
+41
+00:03:02,326 --> 00:03:08,799
+Writing the constant as log c lets the answer collapse to tan x tan y equals c.
+
+42
+00:03:10,800 --> 00:03:11,235
+One more.
+
+43
+00:03:12,033 --> 00:03:17,369
+Separate: d y over y equals one minus one over x, d x.
+
+44
+00:03:17,600 --> 00:03:22,567
+Integrate and collect the logs: x y equals C e to the x.
+
+45
+00:03:29,133 --> 00:03:35,736
+When every term on the right has the same total degree, the right side depends only on y over x.
+
+46
+00:03:35,736 --> 00:03:37,516
+That is a homogeneous equation.
+
+47
+00:03:37,733 --> 00:03:40,599
+The trick: put y equal to v x.
+
+48
+00:03:40,599 --> 00:03:46,430
+Then d y by d x is v plus x d v by d x, by the product rule.
+
+49
+00:03:46,633 --> 00:03:49,994
+Substitute, and every x cancels from the right.
+
+50
+00:03:49,994 --> 00:03:50,950
+Move v across.
+
+51
+00:03:51,167 --> 00:03:57,043
+Now the variables separate: v with d v, x with d x. Integrate.
+
+52
+00:03:57,267 --> 00:04:03,100
+Finally put v back as y over x: x squared minus y squared equals C x.
+
+53
+00:04:04,333 --> 00:04:05,760
+Another homogeneous one.
+
+54
+00:04:05,967 --> 00:04:13,164
+Divide by x; it is a function of y over x. Put y equal to v x: the v's cancel.
+
+55
+00:04:13,367 --> 00:04:16,447
+Separate, and cot v integrates to log sin v.
+
+56
+00:04:16,667 --> 00:04:19,399
+So sin of y over x equals C x.
+
+57
+00:04:25,967 --> 00:04:30,799
+A linear equation has y and its derivative to the first power only.
+
+58
+00:04:30,799 --> 00:04:38,114
+Write it as d y by d x plus P y equals Q, where P and Q are functions of x.
+
+59
+00:04:38,333 --> 00:04:42,981
+Multiply through by the integrating factor, e to the integral of P.
+
+60
+00:04:43,200 --> 00:04:49,991
+Then the left side is exactly the derivative of I times y. Integrate both sides, and divide by I.
+
+61
+00:04:50,200 --> 00:04:51,204
+Why does it work?
+
+62
+00:04:51,204 --> 00:04:57,107
+The derivative of I is P times I, so the product rule gives back I times the left side.
+
+63
+00:04:58,333 --> 00:04:59,398
+The three steps.
+
+64
+00:04:59,600 --> 00:05:01,802
+Divide by x to get the standard form.
+
+65
+00:05:02,033 --> 00:05:06,651
+The integrating factor is e to the two log x: x squared.
+
+66
+00:05:06,867 --> 00:05:13,869
+Now the left side is the derivative of x squared y. Integrate: x to the fifth over five plus C.
+
+67
+00:05:14,100 --> 00:05:15,346
+Divide by x squared.
+
+68
+00:05:17,367 --> 00:05:18,228
+Spot the shortcut.
+
+69
+00:05:18,600 --> 00:05:23,578
+The integrating factor is one plus x squared: the very thing we would divide by.
+
+70
+00:05:23,800 --> 00:05:30,862
+So the left side was already the derivative of one plus x squared, times y. Integrate directly.
+
+71
+00:05:32,867 --> 00:05:34,314
+Two slips to avoid.
+
+72
+00:05:34,314 --> 00:05:39,496
+Make the coefficient of d y by d x one before you read off P.
+
+73
+00:05:39,496 --> 00:05:43,647
+And add the constant before dividing by I, or you lose part of the answer.
+
+74
+00:05:49,433 --> 00:05:57,416
+Some equations are the total differential of a single function u: d u equals M d x plus N d y.
+
+75
+00:05:57,416 --> 00:05:59,749
+Then the solution is just u equals C.
+
+76
+00:05:59,967 --> 00:06:07,403
+The test: the partial derivative of M with respect to y must equal the partial of N with respect to x.
+
+77
+00:06:07,403 --> 00:06:08,659
+Here both are two.
+
+78
+00:06:08,867 --> 00:06:16,271
+To find u, integrate M with respect to x, holding y fixed, and add an unknown function of y.
+
+79
+00:06:16,500 --> 00:06:23,659
+Differentiate with respect to y and match it to N: g dash is three y squared, so g is y cubed.
+
+80
+00:06:23,867 --> 00:06:28,599
+The solution: x cubed plus two x y plus y cubed equals C.
+
+81
+00:06:29,800 --> 00:06:30,865
+Another exact one.
+
+82
+00:06:31,067 --> 00:06:34,147
+Test: both partials are two x plus two y.
+
+83
+00:06:34,367 --> 00:06:38,972
+Integrate M in x; matching N leaves nothing for g.
+
+84
+00:06:39,200 --> 00:06:41,602
+So x y times x plus y equals C.
+
+85
+00:06:47,200 --> 00:06:58,582
+A population that grows at a rate proportional to its size obeys d P by d t equals k P. Separate and integrate: P equals P nought e to the k t.
+
+86
+00:06:58,582 --> 00:07:04,940
+A municipality had forty thousand people in twenty sixty eight and fifty thousand ten years later.
+
+87
+00:07:05,167 --> 00:07:09,999
+So ten years multiplies the population by five quarters.
+
+88
+00:07:09,999 --> 00:07:16,549
+Another ten years multiplies by five quarters again: sixty two thousand five hundred.
+
+89
+00:07:16,549 --> 00:07:17,763
+No need to work out k at all.
+
+90
+00:07:18,967 --> 00:07:19,648
+Doubling time.
+
+91
+00:07:20,200 --> 00:07:24,505
+Doubling in three hours means e to the three k is two.
+
+92
+00:07:24,733 --> 00:07:27,971
+Twelve hours is four doublings: sixteen times.
+
+93
+00:07:30,000 --> 00:07:30,715
+Back to the tea.
+
+94
+00:07:31,233 --> 00:07:36,104
+Newton's law: the excess over the room decays exponentially.
+
+95
+00:07:36,104 --> 00:07:37,462
+It halves in ten minutes.
+
+96
+00:07:37,667 --> 00:07:43,718
+After twenty minutes, it has halved twice: fifteen degrees above the room, thirty five.
+
+97
+00:07:43,933 --> 00:07:49,777
+For thirty degrees, the excess must fall to ten: about twenty five point eight minutes.
+
+98
+00:07:53,000 --> 00:07:53,770
+Pause and think.
+
+99
+00:08:01,067 --> 00:08:05,912
+Order two, the second derivative; degree three, its power.
+
+100
+00:08:05,912 --> 00:08:08,555
+The fourth power belongs to a lower derivative.
+
+101
+00:08:10,533 --> 00:08:10,968
+One more.
+
+102
+00:08:18,600 --> 00:08:24,789
+x: e to the integral of one over x is e to the log x, which is x.
+
+103
+00:08:26,967 --> 00:08:28,023
+Quick recap.
+
+104
+00:08:28,023 --> 00:08:32,893
+Order and degree, and forming an equation by eliminating constants.
+
+105
+00:08:32,893 --> 00:08:35,380
+Separate the variables when you can.
+
+106
+00:08:35,380 --> 00:08:43,700
+Homogeneous equations: put y equal to v x. Linear equations: multiply by the integrating factor.
+
+107
+00:08:43,700 --> 00:08:46,331
+Exact equations: find u.
+
+108
+00:08:46,331 --> 00:08:50,284
+And the exponential laws of growth, decay and cooling.
+
+109
+00:08:54,467 --> 00:08:56,604
+That was differential equations.
+
+110
+00:08:56,604 --> 00:09:01,239
+Next, computational methods: solving equations numerically.
+
+111
+00:09:01,239 --> 00:09:01,788
+See you there.
+

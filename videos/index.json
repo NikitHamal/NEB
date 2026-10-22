@@ -2104,6 +2104,71 @@
    "script": "tools/lessons/scripts/math12/unit_13.py"
   },
   {
+   "id": "class-12/math12/unit_14.mp4",
+   "file": "class-12/math12/unit_14.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_14.mp4",
+     "subtitles": "class-12/math12/unit_14.srt",
+     "start": 0.0,
+     "end": 544.17,
+     "mb": 18.0
+    }
+   ],
+   "poster": "class-12/math12/unit_14.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 14,
+   "title": "Differential Equations",
+   "subtitle": "Equations about rates of change",
+   "lang": "en",
+   "sections": [
+    "Order, degree and forming equations",
+    "Separable variables",
+    "Homogeneous equations",
+    "Linear equations",
+    "Exact equations",
+    "Growth, decay and cooling"
+   ],
+   "seconds": 544.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     56.9,
+     "Order, degree and forming equations"
+    ],
+    [
+     124.97,
+     "Separable variables"
+    ],
+    [
+     204.57,
+     "Homogeneous equations"
+    ],
+    [
+     261.4,
+     "Linear equations"
+    ],
+    [
+     344.87,
+     "Exact equations"
+    ],
+    [
+     403.63,
+     "Growth, decay and cooling"
+    ],
+    [
+     505.57,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.0,
+   "script": "tools/lessons/scripts/math12/unit_14.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
