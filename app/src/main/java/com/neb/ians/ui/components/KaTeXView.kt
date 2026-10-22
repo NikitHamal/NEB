@@ -183,6 +183,8 @@ fun KaTeXMathView(
                     }
                 }
 
+                // tagged here so the first update does not load the same page (and KaTeX) twice
+                tag = htmlData
                 loadDataWithBaseURL(
                     "file:///android_asset/katex/",
                     htmlData,
