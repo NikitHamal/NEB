@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,171
+Six parts.
+
+2
+00:00:01,171 --> 00:00:03,255
+How real is the condition.
+
+3
+00:00:03,255 --> 00:00:04,570
+The four types.
+
+4
+00:00:04,570 --> 00:00:06,015
+Mixed conditionals.
+
+5
+00:00:06,015 --> 00:00:08,007
+Conditionals without if.
+
+6
+00:00:08,007 --> 00:00:10,781
+When will can follow if, and the errors.
+
+7
+00:00:10,781 --> 00:00:13,880
+And wish, if only, with worked items.
+

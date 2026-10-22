@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,744
+Three sentences with if.
+
+2
+00:00:01,744 --> 00:00:05,898
+If it rains, the match will be cancelled: that may well happen.
+
+3
+00:00:05,898 --> 00:00:11,966
+If I were you, I would apologise: I am not you, so it is unreal.
+
+4
+00:00:11,966 --> 00:00:17,643
+If she had revised, she would have passed: it is over, and it did not happen.
+

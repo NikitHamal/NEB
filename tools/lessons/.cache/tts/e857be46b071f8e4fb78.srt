@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,546
+A mixed conditional: past cause (had not missed), present result (would be … now).
+

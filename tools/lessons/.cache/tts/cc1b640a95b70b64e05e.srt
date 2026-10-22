@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,445
+And the six errors.
+
+2
+00:00:01,445 --> 00:00:05,429
+If it will rain: no will in the if clause, if it rains.
+
+3
+00:00:05,429 --> 00:00:07,604
+If I would have known: had known.
+
+4
+00:00:07,604 --> 00:00:08,867
+If I was you: were.
+
+5
+00:00:08,867 --> 00:00:12,447
+Unless you don't hurry: unless already contains not.
+
+6
+00:00:12,447 --> 00:00:15,351
+In case it will be cold: in case it is cold.
+
+7
+00:00:15,351 --> 00:00:17,981
+And if he would be here: if he were here.
+

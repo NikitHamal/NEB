@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,341
+The whole grammar of conditionals lies in one question: how real is the condition?
+
+2
+00:00:06,341 --> 00:00:12,226
+English answers by choosing a tense, and it is often not the tense of the time being talked about.
+
+3
+00:00:12,226 --> 00:00:17,356
+So learn four fixed patterns, instead of reasoning them out every time.
+

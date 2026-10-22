@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:07,148
+The rule no will after if applies to conditions, and there are four recognised exceptions, so don't over correct.
+
+2
+00:00:07,148 --> 00:00:10,716
+Willingness: if you will wait here, I'll call the manager.
+
+3
+00:00:10,716 --> 00:00:15,338
+Insistence: if you will eat so much sugar, expect toothache.
+
+4
+00:00:15,338 --> 00:00:20,442
+A remote chance, with should: if you should meet him, give him my regards.
+
+5
+00:00:20,442 --> 00:00:27,278
+And when if means whether, after wonder or ask, it is not a condition at all: I wonder if he will come.
+

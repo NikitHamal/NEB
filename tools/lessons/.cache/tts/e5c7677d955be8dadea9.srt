@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,106
+Quick recap.
+
+2
+00:00:01,106 --> 00:00:03,177
+How real is the condition.
+
+3
+00:00:03,177 --> 00:00:04,479
+The four types.
+
+4
+00:00:04,479 --> 00:00:06,575
+Mixed conditionals and inversion.
+
+5
+00:00:06,575 --> 00:00:08,971
+Unless, in case and but for.
+
+6
+00:00:08,971 --> 00:00:11,992
+And wish, if only, and it's high time.
+
