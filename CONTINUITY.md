@@ -22,7 +22,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 | bio12 | units 1–10 all scripted, narrated, frame-checked (helpers `_bio.py`, `_phys2.py`, `_gen.py`, `_emb.py`, `_hum.py`) |
 | math12 | units 1–17 all scripted, narrated, frame-checked (helpers `_m.py`) |
 | cs12 | units 1–7 scripted, narrated, frame-checked (helpers `_cs.py`: code panels, db tables, browser, terminal); pushed one unit per commit |
-| eng12 | units 1–15 scripted, narrated, frame-checked, pushed (helpers `_en.py`: quote, card, timeline, house/fence, chip, arc_curve, device_slide, transform_strip); 16–20 scripted, frame review and push in progress; 21–35 to do (grammar 21–30, writing 31–35) |
+| eng12 | units 1–32 scripted, narrated, frame-checked, pushed (helpers `_en.py`: quote, card, timeline, house/fence, chip, arc_curve, device_slide, transform_strip; grammar props sentence/mark/strike/wrong_right); 33–35 to do (free writing, unseen reading, vocabulary/sounds/idioms) |
 | then | class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
@@ -36,7 +36,14 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
   `build.py` → `publish.py STAGE BOOK UNIT` (splits videos over 24 MB into playable `unit_NN.partK.mp4` + `.srt` and updates
   `videos/index.json`) → push; `merge_videos.py [--check]` rebuilds single files losslessly. Videos already on the branch:
   eng12 1–15, math12 1–17, cs12 1–7, bio12 2 and 6 (plus nep12 1–3 and phy12 1 from another agent).
-- Next step if interrupted: Class 12 English from the first unit not in `tools/lessons/scripts/eng12/` on the branch (literature units are summarised and analysed, never reproduced; quote only short lines), then class 11 (phy11, chem11, bio11, math11 …).
+- Next step if interrupted: Class 12 English from the first unit not in `tools/lessons/scripts/eng12/` on the branch (units 33–35; notes in `notes/content/eng12/unit-NN.md`), then class 11 (phy11, chem11, bio11, math11 …).
+- Kit, Oct 22: `voice.py` rejects TTS clips far shorter than their text and writes clips atomically (four pushed clips were
+  empty or cut to ~0.2 s and have been regenerated: eng12 1 and 6, chem12 1 and 2); `title_card` puts a title that would
+  shrink below ~46 pt on two lines; `with self.say(text) as v: v.until("phrase")` holds until that phrase is spoken
+  (interpolated inside its sentence cue) so a reveal lands on its word.
+- manimgx (a Rust/GPU clone of the Manim CE API) was evaluated Oct 22: the kit runs on it through a 10-line `manim` shim,
+  but on CPU-only pods it is no faster than Manim CE, Neby's frame swap fails (`pixel_array` is read-only) and LaTeX goes
+  through Typst. The owner chose to keep Manim CE; don't revisit unless asked.
 - Neby poses that exist (backend_python/web/static/web/img/neby/classic): blink celebrate cool dizzy hop idle laugh listen look-around love namaste oops read sad sleep success surprised talk think wave wink (… and festival ones). Any other name crashes the part.
 - Text inside `T(...)` loses its spaces in `.text`; never rebuild a para from `T.text`.
 - Gotcha: a manim error inside a narration block can leave frames.py hanging; `ps aux | grep frames.py` and kill the stuck pid.
