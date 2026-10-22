@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,158
+Six parts.
+
+2
+00:00:01,158 --> 00:00:02,812
+What question one asks.
+
+3
+00:00:02,812 --> 00:00:04,713
+Five steps, in this order.
+
+4
+00:00:04,713 --> 00:00:06,367
+Skimming and scanning.
+
+5
+00:00:06,367 --> 00:00:08,906
+True, false or not given.
+
+6
+00:00:08,906 --> 00:00:11,692
+Words in context, and inference.
+
+7
+00:00:11,692 --> 00:00:13,138
+And a worked passage.
+

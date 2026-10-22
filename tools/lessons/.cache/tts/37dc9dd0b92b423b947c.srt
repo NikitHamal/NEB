@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:04,804
+And before you hand it in: could you point at the line behind every answer?
+
+2
+00:00:04,804 --> 00:00:07,838
+For own words, did the wording really change?
+
+3
+00:00:07,838 --> 00:00:13,815
+For a gap fill, is it the passage's word, unchanged, and only one?
+
+4
+00:00:13,815 --> 00:00:16,979
+Did you mark anything false that is merely not given?
+
+5
+00:00:16,979 --> 00:00:22,955
+Is each vocabulary answer the right part of speech, and does it fit back into the sentence?
+
+6
+00:00:22,955 --> 00:00:27,486
+And does your title cover the whole passage, not just paragraph one?
+

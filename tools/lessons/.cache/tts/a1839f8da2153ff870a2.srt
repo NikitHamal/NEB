@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,916
+Skimming and scanning are different skills.
+
+2
+00:00:02,916 --> 00:00:11,197
+Skimming looks for the gist: the eye runs down the left edge, reading the title, the first line of each paragraph, and the last line.
+
+3
+00:00:11,197 --> 00:00:19,492
+Scanning hunts one particular fact: you already know exactly what you want, and the eye zig-zags until it sees its shape.
+

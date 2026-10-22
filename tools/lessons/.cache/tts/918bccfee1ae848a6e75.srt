@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:05,898
+This set separates a twelve from a fifteen, because the three answers are three different claims.
+
+2
+00:00:05,898 --> 00:00:10,494
+True: the passage says it, in these words or in others.
+
+3
+00:00:10,494 --> 00:00:16,497
+False: the passage says the opposite; there is a line you could point at that contradicts it.
+
+4
+00:00:16,497 --> 00:00:20,690
+Not given: the passage neither says it nor contradicts it.
+
+5
+00:00:20,690 --> 00:00:22,994
+It may well be true in real life.
+
+6
+00:00:22,994 --> 00:00:24,348
+That is irrelevant.
+

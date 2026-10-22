@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,718
+So what do you scan for first?
+
+2
+00:00:01,718 --> 00:00:10,598
+Numbers, dates and capital letters: they are the easiest shapes to find, so the questions that contain them are the ones to answer first.
+
+3
+00:00:10,598 --> 00:00:17,135
+Next, technical words the passage cannot paraphrase, like mesh, condensation, homestay.
+
+4
+00:00:17,135 --> 00:00:22,669
+Hardest are questions built entirely of common words: leave those until last.
+

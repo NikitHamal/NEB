@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,927
+Five steps, in this order.
+
+2
+00:00:01,927 --> 00:00:09,205
+Skim: ninety seconds for the title, the first sentence of every paragraph and the last sentence of the passage.
+
+3
+00:00:09,205 --> 00:00:16,184
+Read the questions, all of them, before you read the passage properly, and underline the key word in each.
+
+4
+00:00:16,184 --> 00:00:22,226
+Scan and mark: hunt each key word in the passage, and write the question number in the margin.
+
+5
+00:00:22,226 --> 00:00:27,174
+Write, question by question, from the marked lines, with the passage open.
+
+6
+00:00:27,174 --> 00:00:28,177
+And check.
+

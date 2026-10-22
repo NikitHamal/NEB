@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:04,023
+Vocabulary in context is never answered from memory.
+
+2
+00:00:04,023 --> 00:00:09,375
+Take this sentence, and the question: find a word which means set an upper limit on.
+
+3
+00:00:09,375 --> 00:00:13,138
+First, read the whole sentence, not the phrase.
+
+4
+00:00:13,138 --> 00:00:22,395
+Second, fix the part of speech: capped sits between it and the number, so it is a verb in the past tense, and the answer must be a verb.
+
+5
+00:00:22,395 --> 00:00:29,687
+Third, look for a signal: at four says something was fixed at a maximum, and wary of large groups says why.
+
+6
+00:00:29,687 --> 00:00:35,078
+Fourth, replace and test: it set an upper limit on the number of guests at four.
+
+7
+00:00:35,078 --> 00:00:37,526
+It makes sense, so the answer is capped.
+
+8
+00:00:37,526 --> 00:00:40,104
+The cap you wear on your head is irrelevant.
+

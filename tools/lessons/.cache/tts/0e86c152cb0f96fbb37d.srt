@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,291
+The decision is always the same.
+
+2
+00:00:02,291 --> 00:00:05,976
+Find the line in the passage that the statement is about.
+
+3
+00:00:05,976 --> 00:00:13,359
+If there is such a line, ask whether it agrees, which is true, or says the opposite, which is false.
+
+4
+00:00:13,359 --> 00:00:19,361
+If there is no such line anywhere, the answer is not given, however sure you are about the world.
+
+5
+00:00:19,361 --> 00:00:27,317
+Most wrong answers come from knowing the statement is true in real life, and forgetting that the question is about the passage.
+
