@@ -87,12 +87,15 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
     }
 
     /**
-     * Starts, off the main thread, the two reads the first screen otherwise waits for on it: the
-     * preferences file (AuthRepository reads it while MainActivity is injected) and the encrypted
-     * token (Keystore and Tink setup, the slowest step of a cold start). A later reader finds
-     * either one cached, or waits for the read already under way rather than starting its own.
+     * Starts, off the main thread, the reads the first screen otherwise waits for on it: the
+     * festival theme's prefs file and the preferences DataStore (both read while MainActivity is
+     * injected) and the encrypted token (Keystore and Tink setup, the slowest step of a cold
+     * start). A later reader finds each cached, or waits for the read already under way.
      */
     private fun warmUp() {
+        // getSharedPreferences starts reading the file on a thread of its own; SiteThemeRepository
+        // reads the cached festival theme from it on the main thread while MainActivity is injected
+        getSharedPreferences(com.neb.ians.data.theme.SiteThemeRepository.PREFS, MODE_PRIVATE)
         val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
         scope.launch { runCatching { dataStore.data.first() } }
         scope.launch { runCatching { SecurePrefs.getAuthToken(this@NEBiansApp) } }
