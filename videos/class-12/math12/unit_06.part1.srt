@@ -1,0 +1,296 @@
+1
+00:00:00,000 --> 00:00:05,444
+A surveyor on the bank of the Narayani wants the distance to a tree on the far side.
+
+2
+00:00:05,444 --> 00:00:07,983
+No boat, no rope across the water.
+
+3
+00:00:08,200 --> 00:00:16,769
+Instead she walks fifty metres along her bank and measures two angles: seventy degrees at one end, sixty at the other.
+
+4
+00:00:16,769 --> 00:00:21,570
+One side and two angles: the triangle is now completely decided.
+
+5
+00:00:21,800 --> 00:00:31,111
+The third angle is fifty degrees, and the sine law turns those angles into the missing sides: about fifty six and a half metres.
+
+6
+00:00:31,111 --> 00:00:36,047
+This unit is the dictionary that translates between sides and angles.
+
+7
+00:00:41,533 --> 00:00:46,573
+Welcome to Class 12 Mathematics, Unit 6: Properties of a Triangle.
+
+8
+00:00:48,967 --> 00:00:50,049
+Six parts.
+
+9
+00:00:50,049 --> 00:01:02,263
+The sine law, the cosine law, the tangent law, the projection laws, the half angle laws, and finally the area of a triangle with its circumcircle, incircle and excircles.
+
+10
+00:01:02,263 --> 00:01:07,473
+One triangle, thirteen, fourteen, fifteen, will run through all of them.
+
+11
+00:01:11,833 --> 00:01:13,280
+Standard notation.
+
+12
+00:01:13,280 --> 00:01:18,215
+Side a faces angle A, b faces B, c faces C.
+
+13
+00:01:18,215 --> 00:01:25,142
+The angles add to one eighty, s is the semi perimeter, and delta is the area.
+
+14
+00:01:25,142 --> 00:01:31,693
+Our running triangle has sides thirteen, fourteen and fifteen: its numbers come out unusually clean.
+
+15
+00:01:31,900 --> 00:01:34,805
+Drop the altitude from A, length h.
+
+16
+00:01:34,805 --> 00:01:39,284
+In the left right-angled triangle, h is c sin B.
+
+17
+00:01:39,284 --> 00:01:42,136
+In the right one, h is b sin C.
+
+18
+00:01:42,136 --> 00:01:46,954
+They are the same length, so b over sin B equals c over sin C.
+
+19
+00:01:46,954 --> 00:01:52,658
+Do the same from another vertex and all three ratios are equal: the sine law.
+
+20
+00:01:53,867 --> 00:01:55,874
+Why are the three ratios equal?
+
+21
+00:01:55,874 --> 00:02:06,330
+Draw the circle through A, B and C, the circumcircle, with radius R. Keep B and C fixed and slide A round the circle.
+
+22
+00:02:06,330 --> 00:02:11,369
+The angle at A does not change, and neither does a over sin A.
+
+23
+00:02:11,369 --> 00:02:14,026
+It always equals the diameter, two R.
+
+24
+00:02:14,233 --> 00:02:17,998
+The proof: take A prime at the end of the diameter through B.
+
+25
+00:02:17,998 --> 00:02:26,279
+The angle at A prime equals the angle at A, standing on the same chord, and the angle at C is a right angle, in a semicircle.
+
+26
+00:02:26,279 --> 00:02:27,987
+So sin A is a over two R.
+
+27
+00:02:28,200 --> 00:02:40,381
+So a over sin A, b over sin B and c over sin C all equal two R. Written as a equals two R sin A, it is the switch that turns any side into a sine.
+
+28
+00:02:41,600 --> 00:02:45,055
+Two angles and a side: the sine law's home ground.
+
+29
+00:02:45,267 --> 00:02:48,149
+First the third angle: a hundred and five degrees.
+
+30
+00:02:48,367 --> 00:02:55,499
+Then b over sin B equals a over sin A: ten root two, fourteen point one four.
+
+31
+00:02:55,700 --> 00:03:02,902
+And c, using sin one oh five, point nine six five nine: nineteen point three two.
+
+32
+00:03:02,902 --> 00:03:06,222
+The largest side faces the largest angle.
+
+33
+00:03:06,222 --> 00:03:06,607
+Check.
+
+34
+00:03:08,633 --> 00:03:09,637
+An identity.
+
+35
+00:03:09,637 --> 00:03:11,981
+Turn every side into a sine.
+
+36
+00:03:12,200 --> 00:03:16,300
+Use a equals two R sin A, and the same for b and c.
+
+37
+00:03:16,533 --> 00:03:17,889
+Expand the bracket.
+
+38
+00:03:17,889 --> 00:03:21,674
+Every product appears twice, with opposite signs.
+
+39
+00:03:21,900 --> 00:03:22,873
+So it is zero.
+
+40
+00:03:28,700 --> 00:03:35,186
+The sine law cannot help when you know all three sides, or two sides and the angle between them.
+
+41
+00:03:35,186 --> 00:03:37,308
+For that we need the cosine law.
+
+42
+00:03:37,308 --> 00:03:40,407
+Drop the altitude from C onto A B.
+
+43
+00:03:40,407 --> 00:03:50,932
+The blue piece A D is b cos A, the altitude is b sin A, and the rest of the base, D B, is c minus b cos A.
+
+44
+00:03:51,133 --> 00:03:59,598
+Pythagoras in the right triangle on the right: a squared equals b sin A squared, plus c minus b cos A squared.
+
+45
+00:03:59,598 --> 00:04:00,601
+Expand.
+
+46
+00:04:00,601 --> 00:04:09,068
+The sin squared and cos squared combine into one, and a squared equals b squared plus c squared, minus two b c cos A.
+
+47
+00:04:09,300 --> 00:04:12,140
+Think of it as Pythagoras with a correction.
+
+48
+00:04:12,140 --> 00:04:18,325
+At ninety degrees cos A is zero, and it is exactly Pythagoras.
+
+49
+00:04:18,325 --> 00:04:23,351
+Make A acute and a squared is less than b squared plus c squared.
+
+50
+00:04:23,351 --> 00:04:31,033
+Make A obtuse: cos A turns negative, the foot D slides outside the base, and a squared becomes bigger.
+
+51
+00:04:31,033 --> 00:04:33,577
+The same formula covers every case.
+
+52
+00:04:34,800 --> 00:04:39,697
+Rearranged, the cosine law gives any angle from the three sides.
+
+53
+00:04:39,697 --> 00:04:43,961
+Notice the pattern: the side opposite the angle is the one subtracted.
+
+54
+00:04:45,167 --> 00:04:46,109
+The running triangle.
+
+55
+00:04:46,400 --> 00:04:50,855
+Cos A is two fifty two over four twenty: three fifths.
+
+56
+00:04:50,855 --> 00:04:52,972
+A is fifty three degrees eight minutes.
+
+57
+00:04:53,200 --> 00:04:55,062
+Cos C is five thirteenths.
+
+58
+00:04:55,267 --> 00:04:59,442
+Sin C is positive in a triangle, so it is twelve thirteenths.
+
+59
+00:05:01,467 --> 00:05:03,659
+Two sides and the angle between them.
+
+60
+00:05:03,867 --> 00:05:09,780
+The cosine law: forty nine plus sixty four minus fifty six: fifty seven.
+
+61
+00:05:10,000 --> 00:05:14,220
+a is root fifty seven, seven point five five centimetres.
+
+62
+00:05:16,233 --> 00:05:17,328
+Keep the sign.
+
+63
+00:05:17,328 --> 00:05:24,287
+A negative cosine means an obtuse angle: minus a half is one hundred and twenty degrees, not sixty.
+
+64
+00:05:30,067 --> 00:05:36,345
+Given two sides and the angle between them, the tangent law finds both other angles at once.
+
+65
+00:05:36,345 --> 00:05:45,372
+Start from the sine law: a minus b over a plus b is sin A minus sin B over sin A plus sin B; the two R cancels.
+
+66
+00:05:45,600 --> 00:05:49,208
+Turn the sum and difference of sines into products.
+
+67
+00:05:49,208 --> 00:05:55,608
+The twos cancel, leaving cot of half A plus B, times tan of half A minus B.
+
+68
+00:05:55,833 --> 00:06:01,600
+Half of A plus B is ninety minus half C, so that cotangent is tan of half C.
+
+69
+00:06:01,833 --> 00:06:08,460
+Therefore tan of half A minus B equals a minus b over a plus b, times cot of half C.
+
+70
+00:06:09,667 --> 00:06:10,868
+The tangent law at work.
+
+71
+00:06:11,100 --> 00:06:15,582
+Half the sum of A and B is ninety minus thirty: sixty degrees.
+
+72
+00:06:15,800 --> 00:06:23,461
+Half the difference: two sixteenths times root three, point two one six five, so twelve degrees thirteen minutes.
+
+73
+00:06:23,667 --> 00:06:29,725
+Add and subtract: A is seventy two thirteen, B is forty seven forty seven.
+
+74
+00:06:29,933 --> 00:06:34,723
+And c from the cosine law: root sixty seven, eight point one nine.
+

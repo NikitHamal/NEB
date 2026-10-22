@@ -1595,6 +1595,78 @@
    "script": "tools/lessons/scripts/math12/unit_05.py"
   },
   {
+   "id": "class-12/math12/unit_06.mp4",
+   "file": "class-12/math12/unit_06.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_06.part1.mp4",
+     "subtitles": "class-12/math12/unit_06.part1.srt",
+     "start": 0.0,
+     "end": 397.333,
+     "mb": 12.5
+    },
+    {
+     "file": "class-12/math12/unit_06.part2.mp4",
+     "subtitles": "class-12/math12/unit_06.part2.srt",
+     "start": 397.333,
+     "end": 821.1,
+     "mb": 13.6
+    }
+   ],
+   "poster": "class-12/math12/unit_06.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 6,
+   "title": "Properties of a Triangle",
+   "subtitle": "Translating sides into angles",
+   "lang": "en",
+   "sections": [
+    "Sine law",
+    "Cosine law",
+    "Tangent law",
+    "Projection laws",
+    "Half angle laws",
+    "Area and the radii"
+   ],
+   "seconds": 821.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     68.27,
+     "Sine law"
+    ],
+    [
+     205.13,
+     "Cosine law"
+    ],
+    [
+     325.5,
+     "Tangent law"
+    ],
+    [
+     396.73,
+     "Projection laws"
+    ],
+    [
+     480.4,
+     "Half angle laws"
+    ],
+    [
+     615.87,
+     "Area and the radii"
+    ],
+    [
+     781.2,
+     "Quick recap"
+    ]
+   ],
+   "mb": 26.2,
+   "script": "tools/lessons/scripts/math12/unit_06.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
