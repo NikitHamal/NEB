@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,343
+The story has an unusual shape.
+
+2
+00:00:02,343 --> 00:00:05,377
+There is no narrator and almost no action.
+
+3
+00:00:05,377 --> 00:00:11,497
+Part one is the tourist's speech, the evening before, over drinks; the guide never answers.
+
+4
+00:00:11,497 --> 00:00:16,471
+Part two is the guide's speech the next day; now the tourist never answers.
+
+5
+00:00:16,471 --> 00:00:19,505
+What joins them is the image of eyes.
+

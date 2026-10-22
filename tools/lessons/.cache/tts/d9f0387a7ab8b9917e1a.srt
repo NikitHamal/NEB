@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,872
+Part one.
+
+2
+00:00:00,872 --> 00:00:03,424
+The tourist praises everything.
+
+3
+00:00:03,424 --> 00:00:09,309
+The view from the plane: neat fields, coloured houses, an age old peace.
+
+4
+00:00:09,309 --> 00:00:18,033
+The East, he says, has only ever given to the West, religion, art, civilisation, without any idea of ownership.
+
+5
+00:00:18,033 --> 00:00:26,406
+He knows the history from books: the valley as a lake, Manjushri's sword, the monks' pure samyak gaze.
+
