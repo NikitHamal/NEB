@@ -8,11 +8,9 @@ import com.neb.ians.data.news.NewsDetail
 import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.net.URLDecoder
@@ -93,21 +91,19 @@ class NewsDetailViewModel @Inject constructor(
 
     /** Cache-first with silent background updates: when the repository's SWR
      * refresh lands fresher detail/comments, re-read them (cache-only). */
-    @OptIn(FlowPreview::class)
     private fun collectCacheSignals() {
         viewModelScope.launch {
-            cacheBus.signals
-                .debounce(400)
-                .collect { key ->
-                    when (key) {
-                        CacheBus.PREFIX_NEWS_DETAIL + slug ->
-                            newsRepository.getAnnouncementDetail(slug, cacheOnly = true).onSuccess { detail ->
-                                _uiState.update { it.copy(detail = detail, isLoading = false, error = null) }
-                            }
-                        CacheBus.PREFIX_NEWS_COMMENTS + slug ->
-                            newsRepository.getComments(slug, cacheOnly = true).onSuccess { comments ->
-                                _uiState.update { it.copy(comments = comments, commentsLoading = false) }
-                            }
+            cacheBus.batches()
+                .collect { keys ->
+                    if (CacheBus.PREFIX_NEWS_DETAIL + slug in keys) {
+                        newsRepository.getAnnouncementDetail(slug, cacheOnly = true).onSuccess { detail ->
+                            _uiState.update { it.copy(detail = detail, isLoading = false, error = null) }
+                        }
+                    }
+                    if (CacheBus.PREFIX_NEWS_COMMENTS + slug in keys) {
+                        newsRepository.getComments(slug, cacheOnly = true).onSuccess { comments ->
+                            _uiState.update { it.copy(comments = comments, commentsLoading = false) }
+                        }
                     }
                 }
         }
