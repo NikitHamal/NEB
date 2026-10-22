@@ -1,0 +1,183 @@
+{
+ "book": "nep8",
+ "units": [
+  {
+   "no": 1,
+   "title": "सहिदहरूको सम्झनामा - भूपी शेरचन (कविता)",
+   "area": "पाठ",
+   "words": 2445,
+   "read_min": 14,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "साकार सपना - गणेशप्रसाद भट्टराई (कथा)",
+   "area": "पाठ",
+   "words": 2048,
+   "read_min": 11,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "स्वामी प्रपन्नाचार्य (जीवनी)",
+   "area": "पाठ",
+   "words": 1970,
+   "read_min": 11,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "व्यावसायिक चिठी (व्यावहारिक लेखन)",
+   "area": "पाठ",
+   "words": 2084,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "मानव अधिकार (निबन्ध)",
+   "area": "पाठ",
+   "words": 2983,
+   "read_min": 17,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "अमर पुत्र (कथा)",
+   "area": "पाठ",
+   "words": 2110,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "पदमार्ग (रूपक - संवाद)",
+   "area": "पाठ",
+   "words": 2244,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "फर्क आफ्नै देश - विक्रम पवन परियार (कविता)",
+   "area": "पाठ",
+   "words": 2620,
+   "read_min": 15,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "नेपालको वैदेशिक व्यापार (प्रबन्ध)",
+   "area": "पाठ",
+   "words": 2680,
+   "read_min": 15,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "हजुरआमाको जन्मोत्सव (रूपक - मनोवाद)",
+   "area": "पाठ",
+   "words": 2508,
+   "read_min": 14,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "एकजोर जुत्ता - महेशविक्रम शाह (कथा)",
+   "area": "पाठ",
+   "words": 2449,
+   "read_min": 14,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "जुन्को ताबेई (जीवनी)",
+   "area": "पाठ",
+   "words": 2349,
+   "read_min": 13,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "प्यारो प्रकृति (कविता)",
+   "area": "पाठ",
+   "words": 2328,
+   "read_min": 13,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "शैक्षिक भ्रमण (रूपक — दैनिकी)",
+   "area": "पाठ",
+   "words": 2286,
+   "read_min": 13,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "से गुम्बाको सुन्दरता (निबन्ध — नियात्रा)",
+   "area": "पाठ",
+   "words": 2448,
+   "read_min": 14,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "सम्पादकलाई चिठी (व्यावहारिक लेखन)",
+   "area": "पाठ",
+   "words": 2009,
+   "read_min": 11,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "डल्ले खोला (कथा)",
+   "area": "पाठ",
+   "words": 2789,
+   "read_min": 15,
+   "figures": 1,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank8",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह",
+   "words": 1726,
+   "read_min": 10
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
+   "words": 1176,
+   "read_min": 7
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न",
+   "words": 2101,
+   "read_min": 12
+  }
+ ],
+ "guide": "The Basic Level Examination: Pattern, Grid and Strategy"
+}
