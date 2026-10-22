@@ -1,0 +1,436 @@
+1
+00:00:00,000 --> 00:00:01,056
+Results day.
+
+2
+00:00:01,056 --> 00:00:04,780
+You type your symbol number into the board's website and press check.
+
+3
+00:00:04,780 --> 00:00:06,460
+Two kinds of program run.
+
+4
+00:00:06,460 --> 00:00:11,382
+In your browser, JavaScript checks that you typed a sensible number, instantly.
+
+5
+00:00:11,382 --> 00:00:18,065
+Then the request travels to the server, where PHP looks you up in a database and builds a page just for you.
+
+6
+00:00:18,267 --> 00:00:21,745
+Client side and server side, working together.
+
+7
+00:00:21,745 --> 00:00:28,141
+This unit teaches both: JavaScript for the browser, and PHP with MySQL for the server.
+
+8
+00:00:33,633 --> 00:00:38,763
+Welcome to Class 12 Computer Science, Unit 3: Web Technology Two.
+
+9
+00:00:41,133 --> 00:00:42,333
+Seven parts.
+
+10
+00:00:42,333 --> 00:00:45,015
+Client side and server side scripting.
+
+11
+00:00:45,015 --> 00:00:46,890
+JavaScript basics.
+
+12
+00:00:46,890 --> 00:00:49,468
+Control structures and functions.
+
+13
+00:00:49,468 --> 00:00:52,958
+Objects, events and form validation.
+
+14
+00:00:52,958 --> 00:00:54,715
+PHP basics.
+
+15
+00:00:54,715 --> 00:00:57,489
+PHP objects and operators.
+
+16
+00:00:57,489 --> 00:01:00,626
+And connecting PHP to a MySQL database.
+
+17
+00:01:04,967 --> 00:01:09,252
+A scripting language is interpreted line by line as it runs.
+
+18
+00:01:09,252 --> 00:01:12,039
+On the web there are two places a script can run.
+
+19
+00:01:12,039 --> 00:01:18,680
+Client side scripts, in JavaScript, are downloaded with the page and run in the visitor's browser.
+
+20
+00:01:18,680 --> 00:01:26,774
+Server side scripts, like PHP, run on the web server before the page is sent; the visitor only ever sees their output.
+
+21
+00:01:28,000 --> 00:01:28,913
+Compare them.
+
+22
+00:01:28,913 --> 00:01:39,460
+Client side code is visible to anyone, answers instantly and costs the server nothing, but cannot reach the database and can be switched off by the user.
+
+23
+00:01:39,460 --> 00:01:47,058
+Server side code is hidden and secure, and can use the database, but every action needs a trip to the server.
+
+24
+00:01:48,267 --> 00:01:51,120
+Type an address and five things happen.
+
+25
+00:01:51,120 --> 00:01:57,266
+DNS, the internet's directory, turns the domain name into an IP address.
+
+26
+00:01:57,266 --> 00:02:00,547
+The browser sends an HTTP request.
+
+27
+00:02:00,547 --> 00:02:06,055
+The server runs any script and sends back HTML, which the browser draws.
+
+28
+00:02:06,055 --> 00:02:11,901
+A URL has a protocol, a domain, a path and sometimes a query string.
+
+29
+00:02:11,901 --> 00:02:15,234
+HTTPS is the same protocol, encrypted.
+
+30
+00:02:20,033 --> 00:02:25,009
+JavaScript lives in script tags in the page, or in a separate file.
+
+31
+00:02:25,009 --> 00:02:31,831
+Variables are declared with var, let or const, and need no type: the value decides it.
+
+32
+00:02:31,831 --> 00:02:38,381
+Number, string, boolean, null, undefined, and objects such as arrays.
+
+33
+00:02:38,381 --> 00:02:40,384
+The typeof operator tells you which.
+
+34
+00:02:41,600 --> 00:02:42,682
+Operators.
+
+35
+00:02:42,682 --> 00:02:46,133
+Arithmetic, including percent for the remainder.
+
+36
+00:02:46,133 --> 00:02:55,990
+Then a favourite exam question: seventeen double equals the string seventeen is true, because JavaScript converts the string to a number first.
+
+37
+00:02:55,990 --> 00:02:59,115
+Triple equals is false: the types differ.
+
+38
+00:02:59,115 --> 00:03:02,734
+Use triple equals unless you really want the conversion.
+
+39
+00:03:02,734 --> 00:03:04,794
+And plus between strings joins them.
+
+40
+00:03:09,567 --> 00:03:14,087
+Control structures decide which statements run and how often.
+
+41
+00:03:14,087 --> 00:03:17,420
+A for loop has a start, a test and a step.
+
+42
+00:03:17,420 --> 00:03:26,691
+Trace it: i is one, sum becomes one; i is two, sum becomes three; and so on, until i passes ten.
+
+43
+00:03:26,691 --> 00:03:28,220
+The sum is fifty five.
+
+44
+00:03:29,433 --> 00:03:40,125
+The full set: if else for choices, switch for one of many values, for for a known count, while which tests first, and do while which always runs at least once.
+
+45
+00:03:40,125 --> 00:03:46,883
+A function is a named block that takes parameters and can return a value: area of eight by five is forty.
+
+46
+00:03:48,100 --> 00:03:48,688
+A classic.
+
+47
+00:03:49,333 --> 00:03:52,228
+Loop i from one to ten and write one line each time.
+
+48
+00:03:52,433 --> 00:03:56,016
+The output: seven, fourteen, up to seventy.
+
+49
+00:03:56,233 --> 00:04:03,305
+Without the brackets, plus works left to right on a string, so seven and one are glued on: seventy one.
+
+50
+00:04:03,305 --> 00:04:06,228
+The brackets force the multiplication first.
+
+51
+00:04:11,800 --> 00:04:17,075
+An object bundles data, its properties, with functions, its methods.
+
+52
+00:04:17,075 --> 00:04:24,302
+A constructor function builds objects: new Student creates one with a name, marks, and a result method.
+
+53
+00:04:24,302 --> 00:04:30,322
+JavaScript is called object based: it has objects and built in ones like Math and Array.
+
+54
+00:04:31,533 --> 00:04:37,706
+An event is something that happens on the page: a click, a key press, the page loading.
+
+55
+00:04:37,706 --> 00:04:41,456
+An event handler is the function that runs in response.
+
+56
+00:04:41,456 --> 00:04:48,541
+Click the button: onclick calls greet, which finds the paragraph by its id and changes its contents.
+
+57
+00:04:49,767 --> 00:04:53,714
+Form validation checks what the user typed before it is sent.
+
+58
+00:04:53,714 --> 00:05:00,810
+The form's onsubmit calls a function; returning false cancels the submission, returning true lets it go.
+
+59
+00:05:00,810 --> 00:05:04,664
+The browser check is for convenience: instant feedback.
+
+60
+00:05:04,664 --> 00:05:09,839
+But users can switch JavaScript off, so the server must check again before anything is saved.
+
+61
+00:05:11,067 --> 00:05:16,850
+jQuery is a JavaScript library whose motto is write less, do more.
+
+62
+00:05:16,850 --> 00:05:26,894
+It wraps everything in one function, the dollar sign: select by id, change content, handle clicks, and animate, each in a short line.
+
+63
+00:05:31,667 --> 00:05:44,807
+PHP, created by Rasmus Lerdorf in nineteen ninety four, runs on a web server stack: an operating system, the Apache web server, the PHP interpreter and a MySQL database.
+
+64
+00:05:44,807 --> 00:05:46,148
+XAMPP bundles them.
+
+65
+00:05:46,148 --> 00:05:52,710
+Save your file in the htdocs folder, start Apache and MySQL, and open it through localhost.
+
+66
+00:05:52,710 --> 00:05:55,990
+Double clicking the file will not run the PHP at all.
+
+67
+00:05:57,200 --> 00:06:03,217
+PHP code sits between less than question mark php and question mark greater than.
+
+68
+00:06:03,217 --> 00:06:08,725
+Every variable starts with a dollar sign, and every statement ends with a semicolon.
+
+69
+00:06:08,725 --> 00:06:13,530
+An associative array stores key value pairs, and foreach walks through them.
+
+70
+00:06:13,530 --> 00:06:16,839
+Double quotes substitute variables into the text.
+
+71
+00:06:21,633 --> 00:06:25,359
+Unlike JavaScript, PHP has full classes.
+
+72
+00:06:25,359 --> 00:06:29,968
+A class declares properties and methods; the constructor sets them up.
+
+73
+00:06:29,968 --> 00:06:34,538
+Inside the class, this arrow refers to the object's own members.
+
+74
+00:06:34,538 --> 00:06:39,903
+new creates an object, and the arrow, not a dot, reaches its members.
+
+75
+00:06:39,903 --> 00:06:41,669
+extends gives inheritance.
+
+76
+00:06:42,900 --> 00:06:45,154
+A trap when switching languages.
+
+77
+00:06:45,154 --> 00:06:51,482
+In PHP, plus always adds: the string five plus three is the number eight.
+
+78
+00:06:51,482 --> 00:06:54,868
+To join strings, PHP uses a dot.
+
+79
+00:06:54,868 --> 00:06:59,126
+JavaScript does the opposite: plus with a string joins.
+
+80
+00:06:59,126 --> 00:07:06,128
+And remember precedence: multiplication before addition, so two plus three times four is fourteen.
+
+81
+00:07:10,900 --> 00:07:16,188
+Every PHP program that uses a database follows the same five steps.
+
+82
+00:07:16,188 --> 00:07:20,876
+Connect, with the host, user, password and database name.
+
+83
+00:07:20,876 --> 00:07:22,204
+Check the connection.
+
+84
+00:07:22,204 --> 00:07:23,271
+Send a query.
+
+85
+00:07:23,271 --> 00:07:29,521
+Fetch the rows, usually in a while loop, because fetch returns false when the rows run out.
+
+86
+00:07:29,521 --> 00:07:30,733
+And close the connection.
+
+87
+00:07:31,933 --> 00:07:37,416
+The commonest practical question: print a query's rows as an HTML table.
+
+88
+00:07:37,416 --> 00:07:43,432
+Echo the opening table tag, then loop: each fetched row becomes one table row.
+
+89
+00:07:43,432 --> 00:07:45,307
+The browser draws the result.
+
+90
+00:07:45,307 --> 00:07:52,090
+fetch assoc gives an array keyed by column name; fetch row by number; fetch object gives an object.
+
+91
+00:07:53,300 --> 00:07:56,778
+Never paste user input straight into a query.
+
+92
+00:07:56,778 --> 00:08:04,291
+If someone types quote, OR one equals one, the condition becomes true for every row, and they get everything.
+
+93
+00:08:04,291 --> 00:08:05,958
+That is SQL injection.
+
+94
+00:08:05,958 --> 00:08:15,383
+Use a prepared statement instead: the query has a question mark placeholder, and the value is bound separately, so it can never change the query's meaning.
+
+95
+00:08:17,800 --> 00:08:18,570
+Pause and think.
+
+96
+00:08:25,867 --> 00:08:30,921
+False: triple equals checks the type too, and a number is not a string.
+
+97
+00:08:30,921 --> 00:08:32,373
+Double equals would say true.
+
+98
+00:08:34,367 --> 00:08:34,802
+One more.
+
+99
+00:08:42,433 --> 00:08:45,690
+It can access the database: that is its main job.
+
+100
+00:08:45,690 --> 00:08:47,678
+Its source never reaches the browser.
+
+101
+00:08:49,867 --> 00:08:50,962
+Quick recap.
+
+102
+00:08:50,962 --> 00:08:54,725
+JavaScript in the browser, PHP on the server.
+
+103
+00:08:54,725 --> 00:08:58,658
+JavaScript types, operators and control structures.
+
+104
+00:08:58,658 --> 00:09:00,624
+Events and validation.
+
+105
+00:09:00,624 --> 00:09:03,371
+PHP syntax and classes.
+
+106
+00:09:03,371 --> 00:09:09,181
+And the five steps of database connectivity, with prepared statements against SQL injection.
+
+107
+00:09:13,367 --> 00:09:15,074
+That was web technology.
+
+108
+00:09:15,074 --> 00:09:21,051
+Next, programming in C: functions, pointers, structures and files.
+
+109
+00:09:21,051 --> 00:09:21,592
+See you there.
+

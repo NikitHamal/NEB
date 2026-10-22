@@ -155,6 +155,76 @@
    "script": "tools/lessons/scripts/cs12/unit_02.py"
   },
   {
+   "id": "class-12/cs12/unit_03.mp4",
+   "file": "class-12/cs12/unit_03.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_03.mp4",
+     "subtitles": "class-12/cs12/unit_03.srt",
+     "start": 0.0,
+     "end": 563.97,
+     "mb": 22.4
+    }
+   ],
+   "poster": "class-12/cs12/unit_03.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 3,
+   "title": "Web Technology II",
+   "subtitle": "JavaScript in the browser, PHP on the server",
+   "lang": "en",
+   "sections": [
+    "Client-side vs server-side",
+    "JavaScript basics",
+    "Control structures and functions",
+    "Objects, events and validation",
+    "PHP basics",
+    "PHP objects and operators",
+    "PHP and MySQL"
+   ],
+   "seconds": 564.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.4,
+     "Client-side vs server-side"
+    ],
+    [
+     136.47,
+     "JavaScript basics"
+    ],
+    [
+     186.0,
+     "Control structures and functions"
+    ],
+    [
+     248.23,
+     "Objects, events and validation"
+    ],
+    [
+     328.1,
+     "PHP basics"
+    ],
+    [
+     378.07,
+     "PHP objects and operators"
+    ],
+    [
+     427.33,
+     "PHP and MySQL"
+    ],
+    [
+     528.47,
+     "Quick recap"
+    ]
+   ],
+   "mb": 22.4,
+   "script": "tools/lessons/scripts/cs12/unit_03.py"
+  },
+  {
    "id": "class-12/cs12/unit_04.mp4",
    "file": "class-12/cs12/unit_04.mp4",
    "parts": [
