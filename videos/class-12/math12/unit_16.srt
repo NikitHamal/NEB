@@ -1,0 +1,396 @@
+1
+00:00:00,000 --> 00:00:02,528
+Throw a ball at twenty metres per second.
+
+2
+00:00:02,528 --> 00:00:08,882
+At fifteen degrees it skims low; at seventy five it climbs high and drops close by.
+
+3
+00:00:08,882 --> 00:00:13,678
+In between, forty five degrees sends it furthest of all, forty metres.
+
+4
+00:00:13,900 --> 00:00:21,935
+And notice: fifteen and seventy five degrees land at exactly the same spot, and so do thirty and sixty.
+
+5
+00:00:21,935 --> 00:00:23,667
+Mechanics explains why.
+
+6
+00:00:23,667 --> 00:00:28,564
+This unit is about forces: when they balance, and how they move things.
+
+7
+00:00:34,033 --> 00:00:40,571
+Welcome to Class 12 Mathematics, Unit 16: Mechanics, the alternative to Unit 15.
+
+8
+00:00:42,967 --> 00:00:44,271
+Five parts.
+
+9
+00:00:44,271 --> 00:00:48,672
+The resultant of forces, equilibrium and Lami's theorem.
+
+10
+00:00:48,672 --> 00:00:51,015
+Moments and the inclined plane.
+
+11
+00:00:51,015 --> 00:00:52,851
+Newton's laws of motion.
+
+12
+00:00:52,851 --> 00:00:55,950
+Connected bodies, lifts and momentum.
+
+13
+00:00:55,950 --> 00:00:57,045
+And projectiles.
+
+14
+00:01:01,400 --> 00:01:09,826
+Two forces pulling on one point have a single equivalent force, the resultant: the diagonal of the parallelogram they make.
+
+15
+00:01:09,826 --> 00:01:16,818
+Five newtons and three newtons at sixty degrees combine into exactly seven.
+
+16
+00:01:16,818 --> 00:01:23,495
+Close the angle and the resultant grows to eight; open it to one eighty and it shrinks to two.
+
+17
+00:01:24,700 --> 00:01:34,545
+When three forces hold a point still, Lami's theorem links them: each force divided by the sine of the angle between the other two gives the same number.
+
+18
+00:01:34,545 --> 00:01:40,440
+A hundred newton weight hangs from two strings at thirty and sixty degrees to the ceiling.
+
+19
+00:01:40,667 --> 00:01:49,744
+The strings are at right angles to each other, so the weight sits opposite ninety degrees; the tensions sit opposite one fifty and one twenty.
+
+20
+00:01:49,744 --> 00:01:55,812
+Lami gives fifty newtons in the shallow string and eighty six point six in the steep one.
+
+21
+00:01:55,812 --> 00:01:57,692
+The steeper string carries more.
+
+22
+00:01:58,900 --> 00:02:01,289
+Equilibrium of three forces.
+
+23
+00:02:01,500 --> 00:02:06,800
+The third force balances the other two, so the resultant of three and four is five.
+
+24
+00:02:07,000 --> 00:02:11,364
+So cos theta is zero: the forces are at right angles.
+
+25
+00:02:11,364 --> 00:02:13,346
+A three four five triangle.
+
+26
+00:02:18,933 --> 00:02:21,018
+A force also turns things.
+
+27
+00:02:21,018 --> 00:02:26,018
+Its moment about a point is the force times its perpendicular distance from the point.
+
+28
+00:02:26,018 --> 00:02:33,634
+A four metre beam weighing two hundred newtons rests on two supports, with a three hundred newton load one metre from A.
+
+29
+00:02:33,867 --> 00:02:38,856
+Take moments about A, so the unknown R A has no turning effect.
+
+30
+00:02:38,856 --> 00:02:43,634
+Four R B equals two hundred times two plus three hundred times one.
+
+31
+00:02:43,634 --> 00:02:46,655
+R B is a hundred and seventy five newtons.
+
+32
+00:02:46,655 --> 00:02:51,603
+The vertical forces balance, so R A is three twenty five.
+
+33
+00:02:51,603 --> 00:02:54,295
+The support nearer the load carries more.
+
+34
+00:02:55,500 --> 00:03:00,007
+On a slope, resolve along the plane and perpendicular to it.
+
+35
+00:03:00,007 --> 00:03:11,179
+A twenty kilogram block on a smooth thirty degree slope: its weight, two hundred newtons, splits into mg sin alpha down the slope and mg cos alpha into it.
+
+36
+00:03:11,179 --> 00:03:16,726
+So holding it needs a hundred newtons up the slope, and the plane pushes back with a hundred root three.
+
+37
+00:03:21,500 --> 00:03:23,207
+Newton's three laws.
+
+38
+00:03:23,207 --> 00:03:26,072
+Without a net force, nothing changes.
+
+39
+00:03:26,072 --> 00:03:30,629
+With one, the acceleration is the force divided by the mass.
+
+40
+00:03:30,629 --> 00:03:35,772
+And forces come in equal and opposite pairs, acting on different bodies.
+
+41
+00:03:35,772 --> 00:03:41,644
+For constant acceleration, three equations connect velocity, distance and time.
+
+42
+00:03:42,867 --> 00:03:47,673
+A ten kilogram block is pulled across a rough floor with forty newtons.
+
+43
+00:03:47,673 --> 00:03:56,475
+Friction opposes the motion: the coefficient of friction times the normal reaction, a quarter of a hundred, twenty five newtons.
+
+44
+00:03:56,475 --> 00:04:02,889
+The net force is fifteen newtons, so the acceleration is one and a half metres per second squared.
+
+45
+00:04:04,100 --> 00:04:05,478
+Newton's second law at work.
+
+46
+00:04:05,700 --> 00:04:10,314
+Acceleration four; after five seconds, twenty metres per second.
+
+47
+00:04:10,533 --> 00:04:14,657
+It has gone fifty metres, and the work done is six hundred joules.
+
+48
+00:04:14,867 --> 00:04:17,395
+Which equals the kinetic energy gained.
+
+49
+00:04:17,395 --> 00:04:19,438
+Work turns into kinetic energy.
+
+50
+00:04:21,467 --> 00:04:22,245
+Vertical motion.
+
+51
+00:04:22,700 --> 00:04:26,165
+At the top the velocity is zero: twenty metres up.
+
+52
+00:04:26,367 --> 00:04:31,740
+It takes two seconds to rise, and by symmetry two to fall: four in all.
+
+53
+00:04:37,333 --> 00:04:41,970
+Five kilograms and three kilograms hang over a smooth pulley.
+
+54
+00:04:41,970 --> 00:04:48,884
+The heavier side falls, the lighter rises, with the same acceleration and the same tension in the string.
+
+55
+00:04:48,884 --> 00:04:55,482
+Write F equals m a for each mass, positive in its own direction of motion.
+
+56
+00:04:55,700 --> 00:05:02,681
+Add the equations and the tension cancels: twenty equals eight a, so a is two and a half.
+
+57
+00:05:02,681 --> 00:05:08,201
+Then the tension is thirty seven and a half newtons: between the two weights, as it must be.
+
+58
+00:05:09,433 --> 00:05:09,944
+The lift.
+
+59
+00:05:10,667 --> 00:05:15,446
+Going up faster, the floor must push harder: seven hundred and twenty newtons.
+
+60
+00:05:15,667 --> 00:05:19,231
+Accelerating down, less: four hundred and eighty.
+
+61
+00:05:19,433 --> 00:05:23,958
+In free fall the floor pushes not at all: you feel weightless.
+
+62
+00:05:25,967 --> 00:05:26,472
+Momentum.
+
+63
+00:05:27,200 --> 00:05:31,746
+Momentum is conserved: twelve before, eight v after.
+
+64
+00:05:31,746 --> 00:05:33,697
+One and a half metres per second.
+
+65
+00:05:33,900 --> 00:05:38,185
+Kinetic energy: twenty four joules before, nine after.
+
+66
+00:05:38,400 --> 00:05:40,926
+Fifteen joules became heat and sound.
+
+67
+00:05:42,933 --> 00:05:43,466
+Impulse.
+
+68
+00:05:44,167 --> 00:05:49,038
+Take towards the wall as positive, so the rebound is minus fifteen.
+
+69
+00:05:49,038 --> 00:05:52,887
+Impulse: minus five point two five newton seconds.
+
+70
+00:05:53,100 --> 00:05:57,993
+Spread over a twentieth of a second, the average force is a hundred and five newtons.
+
+71
+00:06:03,567 --> 00:06:06,550
+A projectile does two things at once.
+
+72
+00:06:06,550 --> 00:06:14,871
+Across, nothing pushes it, so its horizontal velocity stays fixed at u cos theta: the blue arrow never changes.
+
+73
+00:06:14,871 --> 00:06:23,869
+Up and down, gravity slows it, stops it at the top, and brings it back: the pink arrow shrinks, vanishes and grows downward.
+
+74
+00:06:24,100 --> 00:06:40,234
+From these come the formulas: time of flight two u sin theta over g, greatest height u squared sin squared theta over two g, and range u squared sin two theta over g. Sin two theta is largest at forty five degrees.
+
+75
+00:06:40,234 --> 00:06:49,268
+And theta and ninety minus theta have the same sin two theta: that is why fifteen and seventy five degrees landed together.
+
+76
+00:06:50,500 --> 00:06:51,584
+The standard projectile.
+
+77
+00:06:51,800 --> 00:06:56,174
+Split the velocity: seventeen point three two across, ten up.
+
+78
+00:06:56,400 --> 00:07:02,694
+Time of flight two seconds, height five metres, range thirty four point six metres.
+
+79
+00:07:02,900 --> 00:07:10,201
+After one second the vertical velocity is zero: it is at the top, moving at seventeen point three two.
+
+80
+00:07:12,233 --> 00:07:13,244
+Horizontal launch.
+
+81
+00:07:13,467 --> 00:07:20,494
+Falling forty five metres from rest takes three seconds; meanwhile it travels sixty metres across.
+
+82
+00:07:20,700 --> 00:07:25,949
+It lands with thirty downward and twenty across: thirty six point one metres per second.
+
+83
+00:07:27,967 --> 00:07:29,259
+The cold open, explained.
+
+84
+00:07:29,467 --> 00:07:31,316
+Sin two theta must be a half.
+
+85
+00:07:31,533 --> 00:07:38,985
+So two theta is thirty or one fifty: fifteen or seventy five degrees, complementary angles.
+
+86
+00:07:39,200 --> 00:07:42,986
+And the maximum, at forty five, is forty metres.
+
+87
+00:07:46,200 --> 00:07:46,970
+Pause and think.
+
+88
+00:07:54,267 --> 00:08:00,990
+Two point five: the difference in weight, twenty newtons, divided by the total mass, eight kilograms.
+
+89
+00:08:02,967 --> 00:08:03,402
+One more.
+
+90
+00:08:11,033 --> 00:08:14,805
+Forty five degrees, where sin two theta reaches one.
+
+91
+00:08:17,000 --> 00:08:18,121
+Quick recap.
+
+92
+00:08:18,121 --> 00:08:22,496
+The parallelogram law and Lami's theorem for forces at a point.
+
+93
+00:08:22,496 --> 00:08:23,994
+Moments for beams.
+
+94
+00:08:23,994 --> 00:08:27,054
+Resolving on an inclined plane, and friction.
+
+95
+00:08:27,054 --> 00:08:30,999
+Newton's laws, the equations of motion and momentum.
+
+96
+00:08:30,999 --> 00:08:35,985
+And projectiles, with the greatest range at forty five degrees.
+
+97
+00:08:40,167 --> 00:08:41,601
+That was mechanics.
+
+98
+00:08:41,601 --> 00:08:47,070
+Next, the appendix: the retained topics you still need for the examination.
+
+99
+00:08:47,070 --> 00:08:47,660
+See you there.
+

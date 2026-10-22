@@ -2224,6 +2224,66 @@
    "script": "tools/lessons/scripts/math12/unit_15.py"
   },
   {
+   "id": "class-12/math12/unit_16.mp4",
+   "file": "class-12/math12/unit_16.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_16.mp4",
+     "subtitles": "class-12/math12/unit_16.srt",
+     "start": 0.0,
+     "end": 530.03,
+     "mb": 18.1
+    }
+   ],
+   "poster": "class-12/math12/unit_16.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 16,
+   "title": "Mechanics",
+   "subtitle": "Forces at rest and in motion",
+   "lang": "en",
+   "sections": [
+    "Resultant, equilibrium and Lami's theorem",
+    "Moments and the inclined plane",
+    "Newton's laws",
+    "Connected bodies, lifts and momentum",
+    "Projectiles"
+   ],
+   "seconds": 530.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     57.83,
+     "Resultant, equilibrium and Lami's theorem"
+    ],
+    [
+     135.37,
+     "Moments and the inclined plane"
+    ],
+    [
+     197.93,
+     "Newton's laws"
+    ],
+    [
+     273.77,
+     "Connected bodies, lifts and momentum"
+    ],
+    [
+     360.0,
+     "Projectiles"
+    ],
+    [
+     495.6,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.1,
+   "script": "tools/lessons/scripts/math12/unit_16.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
