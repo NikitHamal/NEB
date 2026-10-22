@@ -1,0 +1,216 @@
+1
+00:00:03,200 --> 00:00:06,392
+Software quality is not just no bugs.
+
+2
+00:00:06,392 --> 00:00:13,384
+It is conformance to the requirements, to development standards, and to what any professional would expect.
+
+3
+00:00:13,384 --> 00:00:26,222
+The international standard ISO twenty five oh ten lists characteristics such as functional suitability, performance, usability, reliability, security, maintainability and portability.
+
+4
+00:00:27,433 --> 00:00:29,909
+Quality is built in two ways.
+
+5
+00:00:29,909 --> 00:00:36,445
+Quality assurance improves the process to prevent defects: standards, reviews and audits.
+
+6
+00:00:36,445 --> 00:00:39,661
+Quality control tests the product to detect them.
+
+7
+00:00:39,661 --> 00:00:44,427
+Similarly, verification asks: are we building the product right?
+
+8
+00:00:44,427 --> 00:00:47,597
+Validation asks: are we building the right product?
+
+9
+00:00:48,800 --> 00:00:50,041
+Two quality numbers.
+
+10
+00:00:50,267 --> 00:00:58,078
+Availability is the mean time between failures over that plus the mean time to repair: ninety eight point seven seven per cent.
+
+11
+00:00:58,300 --> 00:01:04,108
+Defect removal efficiency: ninety two of the hundred defects were caught before delivery.
+
+12
+00:01:04,333 --> 00:01:07,789
+It sounds high, but it is four and a half days of downtime a year.
+
+13
+00:01:13,367 --> 00:01:14,866
+The development models.
+
+14
+00:01:14,866 --> 00:01:24,762
+Waterfall, the oldest, runs the phases once, strictly in order, each signed off before the next, like water falling down steps.
+
+15
+00:01:24,762 --> 00:01:28,759
+It is simple, well documented and easy to manage.
+
+16
+00:01:28,759 --> 00:01:34,436
+But the customer sees nothing until the end, and a changed requirement is very expensive.
+
+17
+00:01:34,436 --> 00:01:39,504
+It suits short projects with a fixed specification, like a system defined by a law.
+
+18
+00:01:40,733 --> 00:01:50,201
+The prototype model builds a quick, rough version, lets the user try it, and refines it, round and round, until the requirements are clear.
+
+19
+00:01:50,201 --> 00:02:01,523
+The incremental model delivers the system in slices: a working core first, then fees, then attendance, then results, so the customer has something useful after a few weeks.
+
+20
+00:02:02,733 --> 00:02:05,599
+Boehm's spiral model is driven by risk.
+
+21
+00:02:05,599 --> 00:02:15,886
+Each loop passes through four quadrants: set objectives, identify and resolve risks with a prototype, develop and test, then plan the next loop.
+
+22
+00:02:15,886 --> 00:02:18,802
+The spiral grows as cost accumulates.
+
+23
+00:02:18,802 --> 00:02:26,352
+It suits large, expensive, safety critical systems, but it is costly and needs real risk expertise.
+
+24
+00:02:27,567 --> 00:02:32,972
+Agile methods, like Scrum, follow the Agile Manifesto of two thousand and one.
+
+25
+00:02:32,972 --> 00:02:36,201
+The product owner keeps a prioritised backlog.
+
+26
+00:02:36,201 --> 00:02:47,803
+The team takes the top items into a sprint of one to four weeks, meets daily for fifteen minutes, and ends with a working, shippable increment, a review and a retrospective.
+
+27
+00:02:47,803 --> 00:02:51,188
+Requirements may change freely between sprints.
+
+28
+00:02:51,188 --> 00:02:55,594
+The cost: little documentation, and it needs an engaged customer.
+
+29
+00:02:56,800 --> 00:02:58,559
+The models side by side.
+
+30
+00:02:58,559 --> 00:03:00,942
+Fixed requirements: waterfall.
+
+31
+00:03:00,942 --> 00:03:03,195
+Unclear ones: prototype.
+
+32
+00:03:03,195 --> 00:03:06,710
+A system that splits into features: incremental.
+
+33
+00:03:06,710 --> 00:03:09,341
+Large and dangerous: spiral.
+
+34
+00:03:09,341 --> 00:03:11,402
+Constantly changing: agile.
+
+35
+00:03:12,633 --> 00:03:13,509
+Planning sprints.
+
+36
+00:03:13,867 --> 00:03:19,617
+Two sixty over forty is six and a half: seven sprints, twenty one weeks.
+
+37
+00:03:19,833 --> 00:03:23,414
+Add sixty points: eight sprints, twenty four weeks.
+
+38
+00:03:23,633 --> 00:03:28,426
+The change costs three weeks, and nothing already built is wasted.
+
+39
+00:03:28,426 --> 00:03:32,237
+In waterfall it would mean redoing design, code and tests.
+
+40
+00:03:35,467 --> 00:03:36,237
+Pause and think.
+
+41
+00:03:43,533 --> 00:03:48,578
+The spiral model: each loop identifies and resolves the biggest remaining risk.
+
+42
+00:03:50,567 --> 00:03:51,002
+One more.
+
+43
+00:03:58,633 --> 00:04:00,952
+A process, named with a verb.
+
+44
+00:04:00,952 --> 00:04:03,209
+DFDs have no decision symbol at all.
+
+45
+00:04:05,400 --> 00:04:06,508
+Quick recap.
+
+46
+00:04:06,508 --> 00:04:09,217
+Projects and their four constraints.
+
+47
+00:04:09,217 --> 00:04:12,107
+The eight phases of the SDLC.
+
+48
+00:04:12,107 --> 00:04:14,777
+Analysts, requirements and design.
+
+49
+00:04:14,777 --> 00:04:17,094
+Data flow diagrams.
+
+50
+00:04:17,094 --> 00:04:18,540
+Software quality.
+
+51
+00:04:18,540 --> 00:04:22,700
+And the five development models, each suited to a different kind of project.
+
+52
+00:04:26,867 --> 00:04:29,082
+That was the software process model.
+
+53
+00:04:29,082 --> 00:04:35,645
+Next and last, recent trends in technology: AI, cloud, blockchain and more.
+
+54
+00:04:35,645 --> 00:04:36,202
+See you there.
+

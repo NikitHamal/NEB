@@ -1,0 +1,268 @@
+1
+00:00:00,000 --> 00:00:05,939
+A school orders fee software, and nobody notices that it ignores the sibling discount.
+
+2
+00:00:05,939 --> 00:00:11,134
+Fixed while the requirements are being written, the mistake costs about two thousand rupees.
+
+3
+00:00:11,134 --> 00:00:13,791
+Found in testing, twenty times that.
+
+4
+00:00:13,791 --> 00:00:18,293
+Found after the bills have gone out, a hundred times: two lakh rupees.
+
+5
+00:00:18,500 --> 00:00:21,666
+The earlier a mistake is caught, the cheaper it is.
+
+6
+00:00:21,666 --> 00:00:27,838
+That one fact explains why software is built through careful processes and models.
+
+7
+00:00:27,838 --> 00:00:28,996
+This unit is about them.
+
+8
+00:00:34,467 --> 00:00:39,926
+Welcome to Class 12 Computer Science, Unit 6: Software Process Model.
+
+9
+00:00:42,300 --> 00:00:43,382
+Six parts.
+
+10
+00:00:43,382 --> 00:00:46,494
+Software projects and the development process.
+
+11
+00:00:46,494 --> 00:00:49,515
+The SDLC, phase by phase.
+
+12
+00:00:49,515 --> 00:00:52,158
+Analysts, requirements and design.
+
+13
+00:00:52,158 --> 00:00:54,125
+Data flow diagrams.
+
+14
+00:00:54,125 --> 00:00:55,622
+Software quality.
+
+15
+00:00:55,622 --> 00:01:01,440
+And the development models: waterfall, prototype, incremental, spiral and agile.
+
+16
+00:01:05,800 --> 00:01:10,229
+Software is programs plus data plus documentation.
+
+17
+00:01:10,229 --> 00:01:17,403
+A software project is a temporary, planned effort with a fixed goal, a budget, a deadline and a team.
+
+18
+00:01:17,403 --> 00:01:22,963
+It is managed along four constraints: scope, time, cost and quality.
+
+19
+00:01:22,963 --> 00:01:28,247
+Pull on one and the others move: add features, and it costs more or takes longer.
+
+20
+00:01:29,467 --> 00:01:30,680
+Estimating a project.
+
+21
+00:01:30,900 --> 00:01:34,282
+Eight developers for five months is forty person months.
+
+22
+00:01:34,500 --> 00:01:40,575
+Forty person months at sixty thousand is twenty four lakh; with hardware, twenty seven lakh.
+
+23
+00:01:40,800 --> 00:01:45,182
+Add twenty per cent overhead: thirty two lakh forty thousand.
+
+24
+00:01:45,400 --> 00:01:53,946
+And effort is not time: forty people for one month would not work, because they would have seven hundred and eighty lines of communication between them.
+
+25
+00:01:55,967 --> 00:02:01,255
+A software development process turns a customer's need into working software.
+
+26
+00:02:01,255 --> 00:02:12,349
+Every process has four activities: specify what it must do, design and build it, validate that it does what was wanted, and evolve it as needs change.
+
+27
+00:02:12,349 --> 00:02:15,969
+A process model arranges those activities in time.
+
+28
+00:02:15,969 --> 00:02:18,556
+Do not mix the three terms up in the exam.
+
+29
+00:02:23,333 --> 00:02:32,085
+The system development life cycle is the sequence of phases every system passes through, each producing a deliverable for the next.
+
+30
+00:02:32,085 --> 00:02:35,392
+Preliminary investigation defines the problem.
+
+31
+00:02:35,392 --> 00:02:42,202
+A feasibility study asks whether it is technically, economically, operationally and legally possible.
+
+32
+00:02:42,202 --> 00:02:45,092
+Analysis gathers the requirements.
+
+33
+00:02:45,092 --> 00:02:46,681
+Design decides how.
+
+34
+00:02:46,681 --> 00:02:52,979
+Then coding, testing, implementation with training, and maintenance, which feeds back into the cycle.
+
+35
+00:02:53,200 --> 00:03:06,979
+Maintenance lasts longest and costs most, sixty to seventy per cent of a system's lifetime cost: fixing defects, adapting to change, adding features, and restructuring to make future change cheaper.
+
+36
+00:03:08,200 --> 00:03:16,041
+The four kinds of feasibility are worth memorising: technical, economic, operational, and schedule or legal.
+
+37
+00:03:20,833 --> 00:03:23,413
+Two roles look in opposite directions.
+
+38
+00:03:23,413 --> 00:03:29,845
+The system analyst faces the customer: studies the business problem and defines what the system must do.
+
+39
+00:03:29,845 --> 00:03:36,030
+The software engineer faces the machine: designs, builds and tests the software that does it.
+
+40
+00:03:36,030 --> 00:03:39,417
+The requirement specification is the contract between them.
+
+41
+00:03:40,633 --> 00:03:42,458
+How are requirements collected?
+
+42
+00:03:42,458 --> 00:03:44,944
+Interviews go deep but are slow.
+
+43
+00:03:44,944 --> 00:03:47,575
+Questionnaires reach many people cheaply.
+
+44
+00:03:47,575 --> 00:03:50,400
+Observation shows what people really do.
+
+45
+00:03:50,400 --> 00:03:52,705
+Documents show the real data.
+
+46
+00:03:52,705 --> 00:03:59,385
+And prototypes let users react to a screen, which they are much better at than describing what they want.
+
+47
+00:03:59,385 --> 00:04:10,360
+The results go into the SRS, where every requirement must be testable: the system should be fast is useless; a receipt shall print within five seconds can be checked.
+
+48
+00:04:11,567 --> 00:04:14,615
+Design turns the requirements into a blueprint.
+
+49
+00:04:14,615 --> 00:04:19,980
+Logical design says what the system does, with diagrams that ignore the machine.
+
+50
+00:04:19,980 --> 00:04:25,123
+Physical design says how: tables, files, screens and modules.
+
+51
+00:04:25,123 --> 00:04:34,704
+Two words judge a design: high cohesion, each module doing one job, and low coupling, modules depending on each other as little as possible.
+
+52
+00:04:39,500 --> 00:04:43,668
+A data flow diagram shows how data moves through a system.
+
+53
+00:04:43,668 --> 00:04:44,983
+Four symbols.
+
+54
+00:04:44,983 --> 00:04:49,580
+A circle is a process that transforms data, named with a verb.
+
+55
+00:04:49,580 --> 00:04:53,785
+A rectangle is an external entity outside the system.
+
+56
+00:04:53,785 --> 00:04:57,913
+An open box is a data store, a file or table.
+
+57
+00:04:57,913 --> 00:05:01,963
+And an arrow is a flow of data, labelled with a noun.
+
+58
+00:05:01,963 --> 00:05:07,179
+It never shows control flow, timing or decisions: that would be a flowchart.
+
+59
+00:05:08,400 --> 00:05:11,435
+A level one diagram for result processing.
+
+60
+00:05:11,435 --> 00:05:18,297
+The subject teacher sends marks to process one, record marks, which stores them in the marks file.
+
+61
+00:05:18,297 --> 00:05:26,357
+Process two computes the result from the marks and the student file, and process three prints the mark sheet for the student.
+
+62
+00:05:26,357 --> 00:05:30,316
+Each process is numbered, each arrow names its data.
+
+63
+00:05:30,316 --> 00:05:37,584
+And data never jumps from one store to another, or from an entity to a store, without passing through a process.
+
+64
+00:05:38,800 --> 00:05:44,401
+Database design converts the ER diagram into tables with three rules.
+
+65
+00:05:44,401 --> 00:05:46,562
+Every entity becomes a table.
+
+66
+00:05:46,562 --> 00:05:53,333
+A one to many relationship puts the key of the one side into the many table as a foreign key.
+
+67
+00:05:53,333 --> 00:06:01,407
+And a many to many relationship becomes a new table, keyed by the pair of foreign keys: student enrols in course.
+

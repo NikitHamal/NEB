@@ -355,6 +355,78 @@
    "script": "tools/lessons/scripts/cs12/unit_05.py"
   },
   {
+   "id": "class-12/cs12/unit_06.mp4",
+   "file": "class-12/cs12/unit_06.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_06.part1.mp4",
+     "subtitles": "class-12/cs12/unit_06.part1.srt",
+     "start": 0.0,
+     "end": 363.0,
+     "mb": 14.0
+    },
+    {
+     "file": "class-12/cs12/unit_06.part2.mp4",
+     "subtitles": "class-12/cs12/unit_06.part2.srt",
+     "start": 363.0,
+     "end": 641.6,
+     "mb": 10.8
+    }
+   ],
+   "poster": "class-12/cs12/unit_06.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 6,
+   "title": "Software Process Model",
+   "subtitle": "How real software is planned, built and kept alive",
+   "lang": "en",
+   "sections": [
+    "Software projects and the process",
+    "The SDLC",
+    "Analysts, requirements and design",
+    "Data flow diagrams",
+    "Software quality",
+    "Development models"
+   ],
+   "seconds": 641.6,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     62.23,
+     "Software projects and the process"
+    ],
+    [
+     139.77,
+     "The SDLC"
+    ],
+    [
+     197.27,
+     "Analysts, requirements and design"
+    ],
+    [
+     275.93,
+     "Data flow diagrams"
+    ],
+    [
+     362.63,
+     "Software quality"
+    ],
+    [
+     432.8,
+     "Development models"
+    ],
+    [
+     607.0,
+     "Quick recap"
+    ]
+   ],
+   "mb": 24.8,
+   "script": "tools/lessons/scripts/cs12/unit_06.py"
+  },
+  {
    "id": "class-12/eng12/unit_01.mp4",
    "file": "class-12/eng12/unit_01.mp4",
    "parts": [
