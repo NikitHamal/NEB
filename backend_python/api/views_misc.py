@@ -196,10 +196,12 @@ def search_all(request):
                 )
             users = User.objects.filter(reduce(operator.and_, user_q_list), is_locked=False, email_verified=True).order_by('-follower_count', 'username')[:30]
 
-    resource_page = _paginated_response(
+    # Only the rows go back to the client, so neither list pays for a COUNT(*) of every
+    # match (a second full LIKE scan of resources and of posts).
+    resource_results = _page_results(
         request, resources, ResourceSerializer, context={'request': request}, default_page_size=25, max_page_size=50
     )
-    post_page = _paginated_response(
+    post_results = _page_results(
         request, posts, PostSerializer, context={'request': request}, default_page_size=25, max_page_size=50
     )
 
@@ -228,8 +230,8 @@ def search_all(request):
         })
 
     return Response({
-        'resources': resource_page.data.get('results', []),
-        'posts': post_page.data.get('results', []),
+        'resources': resource_results,
+        'posts': post_results,
         'users': serialized_users,
     })
 
@@ -311,17 +313,18 @@ def notifications_list(request):
     if unread_only:
         qs = qs.filter(is_read=False)
 
-    paginator = PageNumberPagination()
     try:
         page_size = int(request.query_params.get('page_size', 30))
     except (TypeError, ValueError):
         page_size = 30
-    paginator.page_size = max(1, min(page_size, 100))
-    page = paginator.paginate_queryset(qs, request)
+    # No total is returned, so no COUNT(*) either; same pages, same 404 past the end.
+    page = _page_rows(request, qs, max(1, min(page_size, 100)))
     serializer = NotificationSerializer(page, many=True)
     return Response({
         'notifications': serializer.data,
-        'has_more': page.has_next() if hasattr(page, 'has_next') else False
+        # Always False, as before: the page has always been a plain list, which has no
+        # has_next(). Clients page by number until a page comes back short or 404s.
+        'has_more': False,
     })
 
 @api_view(['POST'])
