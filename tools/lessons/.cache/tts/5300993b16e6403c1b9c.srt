@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,265
+Call each counter three times.
+
+2
+00:00:02,265 --> 00:00:11,940
+The automatic variable is created fresh, on the stack, every call: set to nought, increased to one, returned, destroyed.
+
+3
+00:00:11,940 --> 00:00:13,229
+One, one, one.
+
+4
+00:00:13,229 --> 00:00:19,947
+The static variable is created once and lives for the whole program: one, two, three.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,614
+It prints ninety two.
+
+2
+00:00:01,614 --> 00:00:07,747
+Functions let you reuse code, test it piece by piece, and keep programs short and clear.
+

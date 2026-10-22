@@ -1,0 +1,1 @@
+{"dur": 6.226542, "cues": [[0, 3.882, "Eight bytes: a union is as big as its largest member."], [3.882, 6.694, "A structure with the same members would add them up."]], "text": "Eight bytes: a union is as big as its largest member. A structure with the same members would add them up."}

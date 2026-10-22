@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,497
+Back to the cold open.
+
+2
+00:00:01,497 --> 00:00:04,674
+In call by value, swap receives copies.
+
+3
+00:00:04,674 --> 00:00:09,218
+It swaps the copies, and x and y in main never change.
+

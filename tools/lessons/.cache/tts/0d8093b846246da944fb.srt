@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,627
+The file functions.
+
+2
+00:00:01,627 --> 00:00:12,395
+Get c and put c handle one character; get w and put w one integer; f printf and f scanf work like printf and scanf, but with a file.
+
+3
+00:00:12,395 --> 00:00:16,406
+F write and f read move whole structures.
+
+4
+00:00:16,406 --> 00:00:20,924
+And f seek, f tell and rewind move around the file.
+

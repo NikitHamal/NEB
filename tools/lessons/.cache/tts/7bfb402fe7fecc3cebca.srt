@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,914
+Recursion against a loop.
+
+2
+00:00:01,914 --> 00:00:11,067
+Recursion is shorter and mirrors the mathematical definition, but every call costs a stack frame, so it is slower and can overflow.
+
+3
+00:00:11,067 --> 00:00:17,200
+The Fibonacci series is the other classic: each term is the sum of the two before it.
+

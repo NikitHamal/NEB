@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,583
+A union looks like a structure, but all its members share the same memory.
+
+2
+00:00:04,583 --> 00:00:08,906
+Its size is the size of its largest member: eight bytes here.
+
+3
+00:00:08,906 --> 00:00:11,471
+Only one member is valid at a time.
+

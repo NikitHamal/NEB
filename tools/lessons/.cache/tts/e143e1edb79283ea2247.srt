@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,132
+Quick recap.
+
+2
+00:00:01,132 --> 00:00:04,908
+Functions with prototypes, calls and definitions.
+
+3
+00:00:04,908 --> 00:00:06,367
+Storage classes.
+
+4
+00:00:06,367 --> 00:00:08,333
+Recursion with its base case.
+
+5
+00:00:08,333 --> 00:00:10,442
+Structures and unions.
+
+6
+00:00:10,442 --> 00:00:12,565
+Pointers and call by reference.
+
+7
+00:00:12,565 --> 00:00:16,510
+And data files, with random access by f seek.
+

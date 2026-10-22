@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,033
+Recursion is a function calling itself.
+
+2
+00:00:03,033 --> 00:00:10,013
+Every recursive function needs a base case that stops it, and a recursive case that moves towards it.
+
+3
+00:00:10,013 --> 00:00:11,718
+Call factorial of four.
+
+4
+00:00:11,718 --> 00:00:19,088
+It needs factorial of three, which needs factorial of two, which needs factorial of one: the base case.
+
+5
+00:00:19,088 --> 00:00:21,276
+Each waiting call sits on the stack.
+

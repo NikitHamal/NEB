@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,252
+Because C passes copies.
+
+2
+00:00:02,252 --> 00:00:06,119
+The function swapped its own copies and threw them away.
+
+3
+00:00:06,119 --> 00:00:10,364
+To reach the originals it needs their addresses: pointers.
+
+4
+00:00:10,364 --> 00:00:14,101
+By the end of this unit you will be able to fix it, and much more.
+

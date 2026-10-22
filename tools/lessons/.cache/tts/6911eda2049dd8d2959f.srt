@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:11,549
+A structure is a user defined type that bundles several variables, of different types, under one name: a student's roll, name, faculty and marks.
+
+2
+00:00:11,549 --> 00:00:17,031
+The definition is only a template; memory is used when you declare a variable.
+
+3
+00:00:17,031 --> 00:00:22,291
+Every member gets its own space, so the size is the sum: forty bytes.
+
