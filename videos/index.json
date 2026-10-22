@@ -586,6 +586,71 @@
    "script": "tools/lessons/scripts/eng12/unit_09.py"
   },
   {
+   "id": "class-12/eng12/unit_10.mp4",
+   "file": "class-12/eng12/unit_10.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_10.mp4",
+     "subtitles": "class-12/eng12/unit_10.srt",
+     "start": 0.0,
+     "end": 438.57,
+     "mb": 17.0
+    }
+   ],
+   "poster": "class-12/eng12/unit_10.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 10,
+   "title": "I Was My Own Route",
+   "subtitle": "Julia de Burgos · a poem in translation",
+   "lang": "en",
+   "sections": [
+    "Julia de Burgos",
+    "A poem in translation",
+    "The walk, stanza by stanza",
+    "The empty chair",
+    "Themes",
+    "Form and devices"
+   ],
+   "seconds": 438.6,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     49.33,
+     "Julia de Burgos"
+    ],
+    [
+     90.23,
+     "A poem in translation"
+    ],
+    [
+     128.87,
+     "The walk, stanza by stanza"
+    ],
+    [
+     242.73,
+     "The empty chair"
+    ],
+    [
+     280.87,
+     "Themes"
+    ],
+    [
+     320.13,
+     "Form and devices"
+    ],
+    [
+     408.4,
+     "Quick recap"
+    ]
+   ],
+   "mb": 17.0,
+   "script": "tools/lessons/scripts/eng12/unit_10.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
