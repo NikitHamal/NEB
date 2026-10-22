@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,065
+One idea, a blocked road and our return, in four grammars.
+
+2
+00:00:05,065 --> 00:00:13,554
+A subordinating conjunction like because, although, when or if is followed by a clause: we returned because the road was blocked.
+
+3
+00:00:13,554 --> 00:00:24,401
+A coordinating conjunction like and, but, so, or, yet joins two clauses, with a comma before it: the road was blocked, so we returned.
+
+4
+00:00:24,401 --> 00:00:36,367
+A discourse marker like however, therefore or moreover cannot join clauses by itself: it needs a full stop or a semicolon before it, and a comma after it.
+
+5
+00:00:36,367 --> 00:00:45,325
+And a preposition like because of, in spite of or despite is followed by a noun or an ing form: because of the blocked road.
+

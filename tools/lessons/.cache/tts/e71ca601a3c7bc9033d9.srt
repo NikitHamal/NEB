@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,067
+A worked item.
+
+2
+00:00:01,067 --> 00:00:08,033
+The flight was cancelled blank the bad weather: a noun phrase follows, so a preposition: because of.
+
+3
+00:00:08,033 --> 00:00:15,364
+Blank the weather was bad, the flight was cancelled: a full clause at the front, so a conjunction: because.
+
+4
+00:00:15,364 --> 00:00:26,666
+The weather was bad, semicolon, blank, comma, the flight was cancelled: a semicolon before and a comma after means a discourse marker: therefore.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,979
+The pair the board loves most.
+
+2
+00:00:01,979 --> 00:00:05,416
+The teacher entered the class; the students stood up.
+
+3
+00:00:05,416 --> 00:00:13,632
+Put the earlier event after no sooner, in the past perfect, and invert: no sooner had the teacher entered the class.
+
+4
+00:00:13,632 --> 00:00:17,604
+Then join with than, never then: than the students stood up.
+
+5
+00:00:17,604 --> 00:00:25,416
+With hardly or scarcely, the second half takes when: hardly had the teacher entered the class when the students stood up.
+

@@ -29,7 +29,8 @@ def quote(text, who=None, width=9.0, size=30, color=th.INK, accent=th.AMBER):
 
 def card(title, text, color, w=3.9, h=3.2, tsize=28, size=24):
     box = RoundedRectangle(corner_radius=0.15, width=w, height=h, stroke_color=color, stroke_width=3, fill_color=th.PANEL, fill_opacity=1)
-    inner = VGroup(T(title, size=tsize, color=color, weight="BOLD"), para(text, width=w - 0.5, size=size, color=th.BODY)).arrange(DOWN, buff=0.25)
+    body = VGroup(*[para(p_, width=w - 0.5, size=size, color=th.BODY if k == 0 else th.MUTED) for k, p_ in enumerate(text.split("\n"))]).arrange(DOWN, aligned_edge=LEFT, buff=0.15)
+    inner = VGroup(T(title, size=tsize, color=color, weight="BOLD"), body).arrange(DOWN, buff=0.25)
     inner.scale_to_fit_width(min(inner.width, w - 0.3))
     if inner.height > h - 0.3:
         inner.scale_to_fit_height(h - 0.3)

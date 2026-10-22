@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,994
+Although he was ill, but he attended the class.
+
+2
+00:00:02,994 --> 00:00:07,200
+In Nepali, two connectives in one sentence are natural.
+
+3
+00:00:07,200 --> 00:00:09,375
+In English, one is enough.
+

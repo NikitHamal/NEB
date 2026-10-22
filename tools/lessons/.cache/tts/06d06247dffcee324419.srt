@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,513
+Punctuation the examiner checks.
+
+2
+00:00:02,513 --> 00:00:10,429
+A discourse marker cannot join two clauses by itself: it was late, however we continued, is wrong.
+
+3
+00:00:10,429 --> 00:00:15,364
+Use a full stop, or a semicolon, before it and a comma after it.
+
+4
+00:00:15,364 --> 00:00:27,486
+Also: a comma before a coordinating conjunction that joins two full clauses; a comma after a subordinate clause at the front; and no comma when the subordinate clause comes second.
+
