@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ seo_title }}{% endblock %}
+{% block description %}{{ seo_description }}{% endblock %}
+{% block nav_library %}active{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/study-reader.css' %}">
+{% endblock %}
+{% block content %}
+<div class="rd-progress" aria-hidden="true"><span data-rd-bar></span></div>
+<div class="md-container rd-page" style="--syl-c: {{ syl.color }};" data-rd-key="{{ doc_key }}" data-rd-min="{{ doc.read_min }}" data-rd-title="{{ doc.title }}" data-rd-subject="{{ syl.grade }}/{{ syl.subject }}" data-rd-label="{{ syl.grade_label }} · {{ syl.name }}">
+  <nav class="st-crumbs" aria-label="Breadcrumb">
+    <a href="{% url 'web:syllabus_grade' syl.grade %}">Syllabus</a><span aria-hidden="true">/</span>
+    <a href="{% url 'web:syllabus_grade' syl.grade %}">{{ syl.grade_label }}</a><span aria-hidden="true">/</span>
+    <a href="{% url 'web:syllabus_subject' syl.grade syl.subject %}">{{ syl.name }}</a><span aria-hidden="true">/</span>
+    <span aria-current="page">{{ doc_label }}</span>
+  </nav>
+
+  <div class="rd-layout">
+    <aside class="rd-side" aria-label="In this {% if doc_kind == 'unit' %}chapter{% else %}set{% endif %}">
+      <div class="rd-side-inner" data-rd-toc-panel>
+        <p class="rd-side-head">In this {% if doc_kind == 'unit' %}chapter{% else %}set{% endif %}</p>
+        <ol class="rd-toc" {% if doc.lang == 'ne' %}lang="ne"{% endif %}>
+          {% for t in doc.toc %}<li><a href="#{{ t.id }}" data-rd-toc="{{ t.id }}" class="{% if t.kind %}rd-toc-{{ t.kind }}{% endif %}">{{ t.title }}</a></li>{% endfor %}
+        </ol>
+        <div class="rd-side-tools">
+          <button type="button" class="rd-tool" data-rd-size="-1" aria-label="Smaller text"><span class="material-symbols-outlined" aria-hidden="true">remove</span><span class="rd-tool-a">A</span></button>
+          <button type="button" class="rd-tool" data-rd-size="1" aria-label="Larger text"><span class="material-symbols-outlined" aria-hidden="true">add</span><span class="rd-tool-a">A</span></button>
+          <button type="button" class="rd-tool" data-rd-answers aria-pressed="false" aria-label="Open every answer"><span class="material-symbols-outlined" aria-hidden="true">visibility</span></button>
+        </div>
+      </div>
+    </aside>
+
+    <article class="rd-article" {% if doc.lang == 'ne' %}lang="ne"{% endif %}>
+      <header class="rd-head">
+        <p class="rd-eyebrow">{{ doc_label }}{% if doc_unit.area %} · {{ doc_unit.area }}{% endif %}{% if doc_unit.hours %} · {{ doc_unit.hours }} teaching hours{% endif %} · {{ doc.read_min }} min read</p>
+        <h1 class="rd-title">{{ doc.title }}</h1>
+        {% if doc_unit.topics %}
+        <details class="rd-syllabus">
+          <summary>What the syllabus asks for <span class="rd-count">{{ doc_unit.topics|length }}</span></summary>
+          <ul>{% for t in doc_unit.topics %}<li>{{ t }}</li>{% endfor %}</ul>
+        </details>
+        {% endif %}
+      </header>
+
+      <div class="rd-body" data-rd-body>
+        {{ doc.html|safe }}
+      </div>
+
+      <section class="rd-end" data-rd-end>
+        <div class="rd-score" data-rd-score hidden>
+          <span class="material-symbols-outlined" aria-hidden="true">quiz</span>
+          <span><b data-rd-score-text></b><small data-rd-score-note></small></span>
+        </div>
+        <button type="button" class="rd-done" data-rd-done aria-pressed="false">
+          <span class="material-symbols-outlined" aria-hidden="true">check_circle</span>
+          <span data-rd-done-label>Mark as done</span>
+        </button>
+        <nav class="rd-pager" aria-label="More">
+          {% if doc_prev %}
+          <a href="{% if doc_kind == 'unit' %}{% url 'web:syllabus_chapter' syl.grade syl.subject doc_prev %}{% else %}{% url 'web:syllabus_bank' syl.grade syl.subject doc_prev %}{% endif %}"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span><span><small>Previous</small>{% if doc_kind == 'unit' %}Unit {{ doc_prev }}{% else %}Set {{ doc_prev }}{% endif %}</span></a>
+          {% else %}<span></span>{% endif %}
+          {% if doc_next %}
+          <a class="rd-pager-next" href="{% if doc_kind == 'unit' %}{% url 'web:syllabus_chapter' syl.grade syl.subject doc_next %}{% else %}{% url 'web:syllabus_bank' syl.grade syl.subject doc_next %}{% endif %}"><span><small>Next</small>{% if doc_kind == 'unit' %}Unit {{ doc_next }}{% else %}Set {{ doc_next }}{% endif %}</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+          {% else %}
+          <a class="rd-pager-next" href="{% url 'web:syllabus_subject' syl.grade syl.subject %}"><span><small>Finished</small>Back to {{ syl.name }}</span><span class="material-symbols-outlined" aria-hidden="true">apps</span></a>
+          {% endif %}
+        </nav>
+        {% if doc_kind == 'unit' and study.banks %}
+        <p class="rd-more">Practise more: <a href="{% url 'web:syllabus_subject' syl.grade syl.subject %}#bank">{{ syl.name }} question bank</a></p>
+        {% endif %}
+      </section>
+    </article>
+  </div>
+
+  <button type="button" class="rd-fab" data-rd-toc-open aria-label="Contents"><span class="material-symbols-outlined" aria-hidden="true">toc</span></button>
+</div>
+{% endblock %}
+{% block extra_js %}
+<script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/katex.min.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-reader.js' %}" defer></script>
+{% endblock %}

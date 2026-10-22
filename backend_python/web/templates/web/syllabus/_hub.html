@@ -1,57 +1,52 @@
 {% load static %}
 <section class="syl-hub" data-syl-hub data-search-url="{% url 'web:syllabus_search' %}" data-base-url="{% url 'web:syllabus_hub' %}">
-  <header class="syl-hub-hero">
-    <div class="syl-hub-hero-text">
-      <p class="syl-eyebrow"><span class="material-symbols-outlined" aria-hidden="true">auto_stories</span> Syllabus</p>
-      <h2 class="syl-hub-title">Know exactly what to study</h2>
-      <p class="syl-hub-sub">The official CDC and NEB syllabus for Class 8, 10, 11 and 12 — every unit, topic, working hour and exam pattern, with key points from the NEBians study books. Tick topics as you finish them; your progress stays on this device.</p>
+  <header class="syl-hub-head">
+    <div>
+      <h2 class="syl-hub-title">Syllabus and study notes</h2>
+      <p class="syl-hub-sub">Every unit of the CDC and NEB syllabus with the full chapter from the NEBians books, worked examples, self-check questions and a question bank in the board's pattern.</p>
     </div>
-    <dl class="syl-hub-stats" aria-label="Syllabus coverage">
-      <div><dt>Classes</dt><dd>{{ syllabus_totals.grades }}</dd></div>
-      <div><dt>Subjects</dt><dd>{{ syllabus_totals.subjects }}</dd></div>
-      <div><dt>Units</dt><dd>{{ syllabus_totals.units }}</dd></div>
-      <div><dt>Topics</dt><dd>{{ syllabus_totals.topics }}</dd></div>
-    </dl>
+    <div class="syl-grade-switch" role="tablist" aria-label="Choose your class">
+      {% for g in syllabus_grades %}
+      <button type="button" role="tab" class="syl-grade-btn" data-syl-grade="{{ g.grade }}" aria-selected="{% if g.grade == syllabus_current_grade %}true{% else %}false{% endif %}" aria-controls="syl-grade-{{ g.grade }}" title="{{ g.exam }}">Class {{ g.grade }}</button>
+      {% endfor %}
+    </div>
   </header>
+
+  <a class="syl-continue" data-syl-continue href="#" hidden>
+    <span class="material-symbols-outlined syl-continue-icon" aria-hidden="true">bookmark</span>
+    <span class="syl-continue-text">
+      <span class="syl-continue-label">Continue reading</span>
+      <span class="syl-continue-title" data-syl-continue-title></span>
+      <span class="syl-continue-meta" data-syl-continue-meta></span>
+    </span>
+    <span class="syl-continue-bar" aria-hidden="true"><span data-syl-continue-bar></span></span>
+    <span class="material-symbols-outlined syl-continue-go" aria-hidden="true">arrow_forward</span>
+  </a>
 
   <div class="syl-search" role="search">
     <span class="material-symbols-outlined" aria-hidden="true">search</span>
-    <input type="search" class="syl-search-input" data-syl-search placeholder="Search any topic, unit or lesson across all classes…" aria-label="Search the syllabus" autocomplete="off" spellcheck="false">
+    <input type="search" class="syl-search-input" data-syl-search placeholder="Search a topic, chapter or term in any class" aria-label="Search the syllabus" aria-controls="syl-results" aria-expanded="false" autocomplete="off" spellcheck="false">
     <kbd class="syl-kbd" aria-hidden="true">/</kbd>
-    <div class="syl-search-results" data-syl-results role="listbox" hidden></div>
-  </div>
-
-  <div class="syl-continue" data-syl-continue hidden>
-    <span class="material-symbols-outlined" aria-hidden="true">history</span>
-    <div class="syl-continue-text"><span class="syl-continue-label">Continue where you left off</span><a class="syl-continue-link" data-syl-continue-link href="#"></a></div>
-    <div class="syl-continue-bar"><span data-syl-continue-bar></span></div>
-  </div>
-
-  <div class="syl-grade-switch" role="tablist" aria-label="Choose your class">
-    {% for g in syllabus_grades %}
-    <button type="button" role="tab" class="syl-grade-btn" data-syl-grade="{{ g.grade }}" aria-selected="{% if g.grade == syllabus_current_grade %}true{% else %}false{% endif %}" aria-controls="syl-grade-{{ g.grade }}">
-      <span class="syl-grade-num">{{ g.grade }}</span>
-      <span class="syl-grade-label">{{ g.label }}<small>{{ g.exam }}</small></span>
-    </button>
-    {% endfor %}
+    <div class="syl-search-results" id="syl-results" data-syl-results role="listbox" hidden></div>
   </div>
 
   {% for g in syllabus_grades %}
   <div class="syl-grade-panel" id="syl-grade-{{ g.grade }}" role="tabpanel" data-syl-panel="{{ g.grade }}" {% if g.grade != syllabus_current_grade %}hidden{% endif %}>
+    <p class="syl-exam-line">{{ g.label }} · {{ g.exam }}</p>
     {% regroup g.subjects by group as groups %}
     {% for grp in groups %}
-    <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory subjects{% elif grp.grouper == 'optional' %}Optional subjects{% else %}Science stream{% endif %}</h3>
+    <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory{% elif grp.grouper == 'optional' %}Optional{% else %}Science stream{% endif %}</h3>
     <div class="syl-card-grid">
       {% for s in grp.list %}
-      <a class="syl-subject-card" href="{% url 'web:syllabus_subject' g.grade s.subject %}" style="--syl-c: {{ s.color }};" data-syl-card="{{ g.grade }}/{{ s.subject }}" data-topics="{{ s.topic_count }}">
+      <a class="syl-subject-card" href="{% url 'web:syllabus_subject' g.grade s.subject %}" style="--syl-c: {{ s.color }};" data-syl-card="{{ g.grade }}/{{ s.subject }}" data-units="{{ s.unit_count }}">
         <span class="syl-card-icon material-symbols-outlined" aria-hidden="true">{{ s.icon }}</span>
         <span class="syl-card-body">
           <span class="syl-card-name">{{ s.name }}</span>
-          <span class="syl-card-ne" lang="ne">{{ s.name_ne }}</span>
-          <span class="syl-card-meta">{{ s.unit_count }} units · {{ s.topic_count }} topics{% if s.hours %} · {{ s.hours }} hrs{% endif %}</span>
+          <span class="syl-card-meta"><span lang="ne">{{ s.name_ne }}</span></span>
+          <span class="syl-card-meta">{{ s.unit_count }} chapters{% if s.hours %} · {{ s.hours }} hrs{% endif %}</span>
         </span>
-        <svg class="syl-ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="syl-ring-track" cx="18" cy="18" r="15.5"/><circle class="syl-ring-fill" cx="18" cy="18" r="15.5" data-syl-ring/></svg>
-        <span class="syl-card-pct" data-syl-pct>0%</span>
+        <span class="syl-card-pct" data-syl-pct></span>
+        <span class="syl-card-bar" aria-hidden="true"><span data-syl-bar></span></span>
       </a>
       {% endfor %}
     </div>
