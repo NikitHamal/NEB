@@ -41,8 +41,6 @@ data class ResourceDetailUiState(
     val commentsLoading: Boolean = false,
     val commentSort: String = "oldest",
     val suggestedVideos: List<ApiResource> = emptyList(),
-    val commentDraft: String = "",
-    val threadDraft: String = "",
     val isPostingComment: Boolean = false,
     val downloadProgress: Int? = null,
     val isDownloaded: Boolean = false,
@@ -120,6 +118,13 @@ class ResourceDetailViewModel @Inject constructor(
         )
     )
     val uiState: StateFlow<ResourceDetailUiState> = _uiState.asStateFlow()
+
+    // The composers' text lives apart from the screen state: kept in it, every keystroke rebuilt
+    // the whole screen, the comment list (and its thread grouping) included.
+    private val _commentDraft = MutableStateFlow("")
+    val commentDraft: StateFlow<String> = _commentDraft.asStateFlow()
+    private val _threadDraft = MutableStateFlow("")
+    val threadDraft: StateFlow<String> = _threadDraft.asStateFlow()
 
     private var likeJob: Job? = null
     private var pendingLikeToggles = 0
@@ -404,11 +409,11 @@ class ResourceDetailViewModel @Inject constructor(
     }
 
     fun onCommentDraftChange(text: String) {
-        _uiState.update { it.copy(commentDraft = text) }
+        _commentDraft.value = text
     }
 
     fun onThreadDraftChange(text: String) {
-        _uiState.update { it.copy(threadDraft = text) }
+        _threadDraft.value = text
     }
 
     fun setCommentSort(sort: String) {
@@ -416,7 +421,7 @@ class ResourceDetailViewModel @Inject constructor(
     }
 
     fun postComment() {
-        val draft = _uiState.value.commentDraft.trim()
+        val draft = _commentDraft.value.trim()
         val staged = _commentAttachments.value
         if ((draft.isEmpty() && staged.isEmpty()) || _uiState.value.isPostingComment) return
         if (staged.any { it.uploading }) {
@@ -433,11 +438,11 @@ class ResourceDetailViewModel @Inject constructor(
                         val currentResource = state.resource
                         state.copy(
                             comments = state.comments.filterNot { it.id == comment.id } + comment,
-                            commentDraft = "",
                             isPostingComment = false,
                             resource = currentResource?.copy(commentCount = currentResource.commentCount + 1)
                         )
                     }
+                    _commentDraft.value = ""
                 }
                 .onFailure { e ->
                     _uiState.update {
@@ -452,7 +457,7 @@ class ResourceDetailViewModel @Inject constructor(
 
     /** Thread composer: posts a reply under the given parent comment. */
     fun postThreadReply(parentCommentId: String, onSuccess: () -> Unit = {}) {
-        val draft = _uiState.value.threadDraft.trim()
+        val draft = _threadDraft.value.trim()
         val staged = _commentAttachments.value
         if ((draft.isEmpty() && staged.isEmpty()) || _uiState.value.isPostingComment) return
         if (staged.any { it.uploading }) {
@@ -475,11 +480,11 @@ class ResourceDetailViewModel @Inject constructor(
                         val currentResource = state.resource
                         state.copy(
                             comments = bumped.filterNot { it.id == comment.id } + comment,
-                            threadDraft = "",
                             isPostingComment = false,
                             resource = currentResource?.copy(commentCount = currentResource.commentCount + 1)
                         )
                     }
+                    _threadDraft.value = ""
                     onSuccess()
                 }
                 .onFailure { e ->

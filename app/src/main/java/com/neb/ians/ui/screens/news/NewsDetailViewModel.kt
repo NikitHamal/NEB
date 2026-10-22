@@ -25,8 +25,6 @@ data class NewsDetailUiState(
     val comments: List<NewsComment> = emptyList(),
     val commentsLoading: Boolean = true,
     val commentSort: String = "oldest",
-    val commentDraft: String = "",
-    val threadDraft: String = "",
     val isPostingComment: Boolean = false,
     val snackbarMessage: String? = null
 ) {
@@ -76,6 +74,13 @@ class NewsDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(NewsDetailUiState(slug = slug))
     val uiState: StateFlow<NewsDetailUiState> = _uiState.asStateFlow()
 
+    // The composers' text lives apart from the screen state, so typing does not rebuild the
+    // article and its comments on every keystroke.
+    private val _commentDraft = MutableStateFlow("")
+    val commentDraft: StateFlow<String> = _commentDraft.asStateFlow()
+    private val _threadDraft = MutableStateFlow("")
+    val threadDraft: StateFlow<String> = _threadDraft.asStateFlow()
+
     // One in-flight like per comment: rapid taps are ignored instead of
     // stacking server toggles that flip the liked state back and forth.
     private val processingCommentLikes = mutableSetOf<String>()
@@ -112,11 +117,11 @@ class NewsDetailViewModel @Inject constructor(
     fun retry() = load(forceRefresh = true)
 
     fun onCommentDraftChange(value: String) {
-        _uiState.update { it.copy(commentDraft = value.take(4000)) }
+        _commentDraft.value = value.take(4000)
     }
 
     fun onThreadDraftChange(value: String) {
-        _uiState.update { it.copy(threadDraft = value.take(4000)) }
+        _threadDraft.value = value.take(4000)
     }
 
     fun setCommentSort(sort: String) {
@@ -124,7 +129,7 @@ class NewsDetailViewModel @Inject constructor(
     }
 
     fun postComment() {
-        val text = _uiState.value.commentDraft.trim()
+        val text = _commentDraft.value.trim()
         if (text.isBlank() || _uiState.value.isPostingComment) return
         viewModelScope.launch {
             _uiState.update { it.copy(isPostingComment = true) }
@@ -133,10 +138,10 @@ class NewsDetailViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             comments = it.comments.filterNot { current -> current.id == comment.id } + comment,
-                            commentDraft = "",
                             isPostingComment = false
                         )
                     }
+                    _commentDraft.value = ""
                 }
                 .onFailure { error ->
                     _uiState.update {
@@ -151,7 +156,7 @@ class NewsDetailViewModel @Inject constructor(
 
     /** Thread composer: posts a reply under the given parent comment. */
     fun postThreadReply(parentCommentId: String, onSuccess: () -> Unit = {}) {
-        val text = _uiState.value.threadDraft.trim()
+        val text = _threadDraft.value.trim()
         if (text.isBlank() || _uiState.value.isPostingComment) return
         viewModelScope.launch {
             _uiState.update { it.copy(isPostingComment = true) }
@@ -165,10 +170,10 @@ class NewsDetailViewModel @Inject constructor(
                         }
                         state.copy(
                             comments = bumped.filterNot { current -> current.id == comment.id } + comment,
-                            threadDraft = "",
                             isPostingComment = false
                         )
                     }
+                    _threadDraft.value = ""
                     onSuccess()
                 }
                 .onFailure { error ->
