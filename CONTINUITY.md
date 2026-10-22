@@ -8,6 +8,31 @@
 
 ## Current Status
 
+### API speed pass + people suggestions endpoint (branch `perf/backend`, Oct 22, 2026)
+
+Same responses, fewer queries; measured with `backend_python/scripts/perf_seed.py` (600 users,
+4000 posts, 2600 resources, follows, notifications, news; fixed clock) and
+`scripts/perf_probe.py` (every app endpoint, anonymous and Bearer; `--compare` diffs bodies).
+
+- **New: `GET /api/users/suggestions/?limit=12`** (`api/people_suggestions.py`) replaces the ~43
+  requests of the app's `PeopleSuggestionRepository`: followers, followees' followees (exact mutual
+  counts), schoolmates, classmates (`map_profile_grade` spellings), recent forum authors; excludes
+  self/followed/requested/locked/unverified/banned/bots; <= 9 queries. Signed out -> `{"results": []}`.
+- **N+1s gone:** followers/following (53 -> 3), `users/me/analytics/` (109 -> 18 conditional
+  aggregates), paid resource cards (`web.view_helpers.prefetch_resource_purchases`), resource
+  detail like/bookmark, news detail related authors. Search and notifications no longer COUNT(*)
+  (`api.view_helpers._page_rows`/`_page_results`, same 404 for bad pages).
+- **Feed pools** are reused per process while their stamp matches the shared cache entry
+  (`api/views_feed._candidate_pools`); decks get copies. `realtime/config` re-reads tunnel logs only
+  when they change. No more write-only `auth_user:` cache SET per API call.
+- **Migrations to apply:** `api 0149_perf_list_sort_indexes` (resource sort indexes replace
+  `res_appr_lead_added_idx`/`_views_idx`, posts discussed, follows newest-first, users school/class)
+  and `0150_perf_author_count_indexes`.
+- **Budgets:** `api/test_api_query_budget.py`, `api/test_people_suggestions.py`, `api/test_feed_pools.py`.
+- **Found, not fixed (behaviour):** `GET /api/resources/<id>/comments/` answers 400 "Content required"
+  since 79720b2d dropped its `return Response({'comments': ...})`; `api/users/search/` does not exist
+  (app @mentions get 404); the app's `news/` calls pay a 308 to `/app/news/`.
+
 ### Syllabus with the books' chapters; marketplace switched off (Oct 22, 2026)
 
 Branch **`syllabus/revamp`**, based on `resources/grade8-10-polish-syllabus` (which carries the
