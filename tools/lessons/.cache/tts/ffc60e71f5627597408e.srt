@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,484
+Transmission modes.
+
+2
+00:00:01,484 --> 00:00:05,104
+Simplex goes one way only, like television.
+
+3
+00:00:05,104 --> 00:00:11,028
+Half duplex goes both ways, but one at a time, like a walkie talkie: say over.
+
+4
+00:00:11,028 --> 00:00:14,622
+Full duplex goes both ways at once, like a phone call.
+

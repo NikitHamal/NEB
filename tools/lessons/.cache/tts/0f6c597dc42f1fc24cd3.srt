@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,591
+That was data communication and networking.
+
+2
+00:00:02,591 --> 00:00:10,065
+Next, web technology: building pages with HTML, CSS, JavaScript and PHP.
+
+3
+00:00:10,065 --> 00:00:11,002
+See you there.
+

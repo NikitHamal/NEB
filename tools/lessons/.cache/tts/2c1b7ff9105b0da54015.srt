@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:12,682
+The OSI reference model, published by ISO in nineteen eighty four, splits communication into seven layers, each with one job, so any layer can change without disturbing the rest.
+
+2
+00:00:12,682 --> 00:00:19,726
+Application, presentation, session, transport, network, data link and physical.
+
+3
+00:00:19,726 --> 00:00:22,513
+All People Seem To Need Data Processing.
+

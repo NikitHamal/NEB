@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,640
+You tap play on a video.
+
+2
+00:00:01,640 --> 00:00:14,140
+In under a second, your request leaves your phone, crosses your Wi Fi router, your internet provider, a fibre backbone and a data centre, and thousands of packets of video come streaming back.
+

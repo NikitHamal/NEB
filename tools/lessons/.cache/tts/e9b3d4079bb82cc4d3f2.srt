@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,669
+Networks are named by the area they cover.
+
+2
+00:00:02,669 --> 00:00:08,932
+A local area network covers a room, a building or a campus: fast and private.
+
+3
+00:00:08,932 --> 00:00:11,653
+A metropolitan network covers a city.
+
+4
+00:00:11,653 --> 00:00:17,460
+A wide area network spans a country or the world, the Internet being the biggest.
+
+5
+00:00:17,460 --> 00:00:21,171
+And a personal area network covers just a few metres.
+

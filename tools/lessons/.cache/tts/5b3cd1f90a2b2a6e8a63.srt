@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,471
+Two architectures.
+
+2
+00:00:01,471 --> 00:00:13,294
+In client server, a dedicated server provides services and clients request them: one place for accounts, security and backups, but if the server dies, everyone stops.
+
+3
+00:00:13,294 --> 00:00:23,437
+In peer to peer, every computer is both client and server: cheap and simple for a small office, but security depends on every user.
+

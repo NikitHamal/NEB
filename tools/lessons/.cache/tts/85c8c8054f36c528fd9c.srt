@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,367
+More impairments.
+
+2
+00:00:01,367 --> 00:00:04,192
+Crosstalk: you faintly hear another call.
+
+3
+00:00:04,192 --> 00:00:06,601
+Echo: you hear yourself, delayed.
+
+4
+00:00:06,601 --> 00:00:11,692
+Jitter: packets arriving unevenly, which ruins a video call.
+
+5
+00:00:11,692 --> 00:00:18,763
+And bandwidth itself is a limit: a channel simply cannot carry changes faster than its bandwidth.
+

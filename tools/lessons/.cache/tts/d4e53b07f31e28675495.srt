@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,020
+Bandwidth is how much a channel can carry.
+
+2
+00:00:03,020 --> 00:00:08,398
+Bit rate counts bits per second; baud rate counts signal changes per second.
+
+3
+00:00:08,398 --> 00:00:14,869
+If each change carries several bits, the bit rate is the baud rate times the bits per change.
+

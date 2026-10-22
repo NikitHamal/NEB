@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,903
+An IPv4 address is thirty two bits, written as four numbers from nought to two five five: dotted decimal.
+
+2
+00:00:07,903 --> 00:00:12,291
+One nine two dot one six eight dot ten dot thirty seven.
+
+3
+00:00:12,291 --> 00:00:16,536
+In binary, each number is eight bits, an octet.
+

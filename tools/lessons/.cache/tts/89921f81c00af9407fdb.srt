@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,072
+Subnetting splits one network into several.
+
+2
+00:00:03,072 --> 00:00:08,294
+To make four subnets, borrow two host bits, since two squared is four.
+
+3
+00:00:08,294 --> 00:00:17,187
+The prefix becomes slash twenty six, mask two five five dot two five five dot two five five dot one nine two.
+
+4
+00:00:17,187 --> 00:00:26,692
+Each subnet has sixty four addresses, sixty two usable, starting at nought, sixty four, one twenty eight and one ninety two.
+
+5
+00:00:26,692 --> 00:00:32,786
+The second runs from sixty four, the network, to one twenty seven, the broadcast.
+
