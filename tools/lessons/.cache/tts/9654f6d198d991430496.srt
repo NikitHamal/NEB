@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,463
+Agreement is not only subject and verb.
+
+2
+00:00:03,463 --> 00:00:11,341
+A pronoun matches its antecedent: every student must bring his or her admit card; the committee announced its decision.
+
+3
+00:00:11,341 --> 00:00:16,783
+This kind of book is useful; these kinds of books are useful, never these kind of.
+
+4
+00:00:16,783 --> 00:00:24,778
+Number compounds used as adjectives stay singular: a five year old boy, a ten rupee note, but the boy is five years old.
+
+5
+00:00:24,778 --> 00:00:34,192
+And a past main verb pulls the next clause into the past, except a universal truth: the teacher told us that the earth moves round the sun.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,679
+The verb agrees with the head of the subject, the list, never with whatever noun happens to stand nearest.
+
+2
+00:00:06,679 --> 00:00:09,257
+The board never tests he goes and they go.
+
+3
+00:00:09,257 --> 00:00:12,252
+It tests exactly this kind of sentence.
+
