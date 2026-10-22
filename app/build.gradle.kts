@@ -96,6 +96,10 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
+composeCompiler {
+    stabilityConfigurationFile.set(rootProject.layout.projectDirectory.file("compose_stability.conf"))
+}
+
 dependencies {
     // Compose BOM
     val composeBom = platform("androidx.compose:compose-bom:2025.10.00")
