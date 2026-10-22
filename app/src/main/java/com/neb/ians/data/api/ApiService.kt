@@ -774,6 +774,22 @@ data class ApiUserSearchResult(
     @SerialName("badge_info") val badgeInfo: ApiBadgeInfo? = null
 )
 
+/** GET api/users/suggestions/: people to follow, scored and filtered by the server. */
+@Serializable
+data class ApiUserSuggestions(val results: List<ApiUserSuggestion> = emptyList())
+
+@Serializable
+data class ApiUserSuggestion(
+    val id: String = "",
+    val username: String = "",
+    @SerialName("display_name") val displayName: String? = null,
+    @SerialName("photo_url") val photoUrl: String? = null,
+    val detail: String? = null,
+    val reason: String = "",
+    @SerialName("follows_you") val followsYou: Boolean = false,
+    @SerialName("mutual_count") val mutualCount: Int = 0
+)
+
 @Serializable
 data class ApiBadgeInfo(
     val type: String,
@@ -1214,6 +1230,12 @@ interface ApiService {
         @Header("Authorization") bearerToken: String,
         @Path("userId") userId: String
     ): FollowResponse
+
+    @GET("api/users/suggestions/")
+    suspend fun getUserSuggestions(
+        @Header("Authorization") bearerToken: String?,
+        @Query("limit") limit: Int
+    ): ApiUserSuggestions
 
     @GET("api/users/{userId}/followers/")
     suspend fun getFollowers(
