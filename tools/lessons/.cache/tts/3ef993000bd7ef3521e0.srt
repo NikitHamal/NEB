@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:04,414
+Multiply along a tree for dependent events.
+
+3
+00:00:04,414 --> 00:00:07,356
+Conditioning shrinks the sample space.
+
+4
+00:00:07,356 --> 00:00:09,739
+Independent events multiply.
+
+5
+00:00:09,739 --> 00:00:12,864
+Bayes' theorem finds the cause from the effect.
+
+6
+00:00:12,864 --> 00:00:20,325
+And the binomial formula counts successes in repeated trials, with mean n p and variance n p q.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,528
+Given a girl: work inside the girls' row only.
+
+2
+00:00:03,528 --> 00:00:06,809
+Thirty five of forty passed: seven eighths.
+
+3
+00:00:06,809 --> 00:00:10,716
+Given a pass: now the pass column is the whole world.
+
+4
+00:00:10,716 --> 00:00:14,440
+Thirty five of the eighty: seven sixteenths.
+
+5
+00:00:14,440 --> 00:00:18,710
+Same thirty five, different denominators, different questions.
+

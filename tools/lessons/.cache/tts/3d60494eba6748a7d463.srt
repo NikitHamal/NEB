@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,471
+Exam tip.
+
+2
+00:00:01,471 --> 00:00:04,127
+At least one is one minus none.
+
+3
+00:00:04,127 --> 00:00:07,838
+Write down n, p and q before anything else.
+

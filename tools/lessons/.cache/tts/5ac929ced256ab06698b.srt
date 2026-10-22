@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,406
+Total probability: half times three fifths, plus half times a third: seven fifteenths.
+

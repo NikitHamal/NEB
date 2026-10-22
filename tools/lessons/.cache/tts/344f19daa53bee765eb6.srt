@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,666
+Now W has happened.
+
+2
+00:00:01,666 --> 00:00:02,903
+Which cause was it?
+
+3
+00:00:02,903 --> 00:00:09,739
+The probability of E one given W is the E one path's share of all the W paths.
+
+4
+00:00:09,739 --> 00:00:11,093
+That is Bayes' theorem.
+

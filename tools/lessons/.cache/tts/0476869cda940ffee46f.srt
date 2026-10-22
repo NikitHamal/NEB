@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,940
+Two classic confusions.
+
+2
+00:00:01,940 --> 00:00:04,674
+A given B is not B given A.
+
+3
+00:00:04,674 --> 00:00:14,544
+And independent is not the same as mutually exclusive: exclusive events cannot both happen, so they are about as dependent as events can be.
+

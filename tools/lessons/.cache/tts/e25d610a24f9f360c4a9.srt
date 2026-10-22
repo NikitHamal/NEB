@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,942
+Draw one ball, keep it out, then draw another.
+
+2
+00:00:02,942 --> 00:00:09,648
+The second draw depends on the first: if the first was red, only four reds remain among seven.
+
+3
+00:00:09,648 --> 00:00:14,140
+These are dependent events, and a tree diagram keeps track of them.
+

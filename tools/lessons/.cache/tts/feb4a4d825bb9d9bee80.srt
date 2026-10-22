@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,609
+The A path is point zero one two of it: exactly a half.
+
+2
+00:00:04,609 --> 00:00:09,244
+A makes more bulbs, but makes them better, and the two effects cancel.
+

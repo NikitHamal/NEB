@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,895
+About a third: ten true positives against about twenty false ones.
+

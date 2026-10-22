@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,890
+A disease affects one person in a hundred.
+
+2
+00:00:02,890 --> 00:00:04,544
+Here are a thousand people.
+
+3
+00:00:04,544 --> 00:00:05,755
+Ten of them are ill.
+

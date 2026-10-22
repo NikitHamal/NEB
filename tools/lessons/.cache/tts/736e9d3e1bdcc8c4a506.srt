@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,382
+Multiply along each path.
+
+2
+00:00:02,382 --> 00:00:07,213
+Both red: five eighths times four sevenths, twenty fifty sixths.
+
+3
+00:00:07,213 --> 00:00:16,458
+That is the multiplication theorem: the probability of A and B is the probability of A, times the probability of B given A.
+
+4
+00:00:16,458 --> 00:00:18,697
+The four paths add up to one.
+

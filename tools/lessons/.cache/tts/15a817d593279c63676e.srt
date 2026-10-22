@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,828
+If knowing B changes nothing, so the probability of A given B is just the probability of A, the events are independent.
+
+2
+00:00:08,828 --> 00:00:13,645
+Equivalently, the probability of both is the product of the two.
+

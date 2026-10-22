@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,656
+Two dice, thirty six outcomes.
+
+2
+00:00:02,656 --> 00:00:07,057
+Given that the sum is six: only five squares remain.
+
+3
+00:00:07,057 --> 00:00:10,104
+Three of them are both odd: three fifths.
+

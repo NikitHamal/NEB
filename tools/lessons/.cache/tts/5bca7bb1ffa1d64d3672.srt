@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,700
+One of each colour: add the two middle paths, fifteen twenty eighths.
+
+2
+00:00:04,700 --> 00:00:09,231
+At least one black: one minus both red, nine fourteenths.
+

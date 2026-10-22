@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,526
+Exactly three: five C three is ten, times a half to the fifth: five sixteenths.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,679
+Conditional probability.
+
+2
+00:00:01,679 --> 00:00:04,023
+Suppose you are told that B has happened.
+
+3
+00:00:04,023 --> 00:00:10,221
+Everything outside B is now impossible: B becomes the whole sample space.
+
+4
+00:00:10,221 --> 00:00:14,986
+The chance of A is now the part of A inside B, as a fraction of B.
+
