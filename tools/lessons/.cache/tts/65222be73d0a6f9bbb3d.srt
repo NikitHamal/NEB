@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,166
+Samuel Moyn is an American historian of law, a professor at Yale, known for re-telling the history of human rights with a sceptical eye.
+
+2
+00:00:09,166 --> 00:00:12,851
+This essay comes from the argument of his book Not Enough.
+
+3
+00:00:12,851 --> 00:00:18,216
+It is the hardest essay in your book, because it argues instead of telling a story.
+
+4
+00:00:18,216 --> 00:00:30,065
+But every question comes back to one sentence: human rights are good at stopping state cruelty and guaranteeing a minimum, but they are not equipped to challenge inequality itself.
+
