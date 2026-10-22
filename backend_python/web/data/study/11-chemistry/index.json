@@ -1,0 +1,183 @@
+{
+ "book": "chem11",
+ "units": [
+  {
+   "no": 1,
+   "title": "Foundation and Fundamentals",
+   "area": "General and Physical Chemistry",
+   "words": 2294,
+   "read_min": 13,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Stoichiometry",
+   "area": "General and Physical Chemistry",
+   "words": 3161,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Atomic Structure",
+   "area": "General and Physical Chemistry",
+   "words": 3510,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Classification of elements and Periodic Table",
+   "area": "General and Physical Chemistry",
+   "words": 3425,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Chemical Bonding and Shapes of Molecules",
+   "area": "General and Physical Chemistry",
+   "words": 4121,
+   "read_min": 23,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Oxidation and Reduction",
+   "area": "General and Physical Chemistry",
+   "words": 3229,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "States of Matter",
+   "area": "General and Physical Chemistry",
+   "words": 4905,
+   "read_min": 27,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Chemical equilibrium",
+   "area": "General and Physical Chemistry",
+   "words": 2902,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Chemistry of Non-metals",
+   "area": "Inorganic Chemistry",
+   "words": 7268,
+   "read_min": 40,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Chemistry of Metals",
+   "area": "Inorganic Chemistry",
+   "words": 6053,
+   "read_min": 34,
+   "figures": 14,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Bio-inorganic Chemistry",
+   "area": "Inorganic Chemistry",
+   "words": 3599,
+   "read_min": 20,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Basic Concept of Organic Chemistry",
+   "area": "Organic Chemistry",
+   "words": 5612,
+   "read_min": 31,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Fundamental Principles of Organic Chemistry",
+   "area": "Organic Chemistry",
+   "words": 6170,
+   "read_min": 34,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Hydrocarbons",
+   "area": "Organic Chemistry",
+   "words": 5117,
+   "read_min": 28,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Aromatic Hydrocarbons",
+   "area": "Organic Chemistry",
+   "words": 5221,
+   "read_min": 29,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Fundamentals of Applied Chemistry",
+   "area": "Applied Chemistry",
+   "words": 3366,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Modern Chemical Manufactures",
+   "area": "Applied Chemistry",
+   "words": 6609,
+   "read_min": 37,
+   "figures": 8,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank11",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Chemistry: Unit-wise Objective Question Bank",
+   "words": 5147,
+   "read_min": 29
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Chemistry: Unit-wise Subjective Question Bank",
+   "words": 5516,
+   "read_min": 31
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Chemistry: Model Question Sets and Predicted Questions",
+   "words": 4897,
+   "read_min": 27
+  }
+ ],
+ "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"
+}

@@ -1,0 +1,93 @@
+{
+ "book": "cs12",
+ "units": [
+  {
+   "no": 1,
+   "title": "Database Management System (DBMS)",
+   "area": "",
+   "words": 5825,
+   "read_min": 32,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Data Communication and Networking",
+   "area": "",
+   "words": 4784,
+   "read_min": 27,
+   "figures": 19,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Web Technology II",
+   "area": "",
+   "words": 5349,
+   "read_min": 30,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Programming in C",
+   "area": "",
+   "words": 4670,
+   "read_min": 26,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Object-Oriented Programming (OOP)",
+   "area": "",
+   "words": 4742,
+   "read_min": 26,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Software Process Model (SPM)",
+   "area": "",
+   "words": 4774,
+   "read_min": 27,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Recent Trends in Technology",
+   "area": "",
+   "words": 4070,
+   "read_min": 23,
+   "figures": 9,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank12",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Computer Science: Unit-wise Objective Question Bank",
+   "words": 7020,
+   "read_min": 39
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Computer Science: Unit-wise Subjective Question Bank",
+   "words": 11927,
+   "read_min": 66
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Computer Science: Model Question Sets and Predicted Questions",
+   "words": 14113,
+   "read_min": 78
+  }
+ ],
+ "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
+}

@@ -1,0 +1,129 @@
+{
+ "book": "sci8",
+ "units": [
+  {
+   "no": 1,
+   "title": "Scientific Learning",
+   "area": "Science and Technology",
+   "words": 4281,
+   "read_min": 24,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Information and Communication Technology",
+   "area": "Science and Technology",
+   "words": 4525,
+   "read_min": 25,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Living Beings and Their Structure",
+   "area": "Science and Technology",
+   "words": 4728,
+   "read_min": 26,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Biodiversity and Environment",
+   "area": "Science and Technology",
+   "words": 3484,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Life Process",
+   "area": "Science and Technology",
+   "words": 4441,
+   "read_min": 25,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Force and Motion",
+   "area": "Science and Technology",
+   "words": 3804,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Energy in Daily Life",
+   "area": "Science and Technology",
+   "words": 5199,
+   "read_min": 29,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Electricity and Magnetism",
+   "area": "Science and Technology",
+   "words": 3705,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Matter",
+   "area": "Science and Technology",
+   "words": 3742,
+   "read_min": 21,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Materials Used in Daily Life",
+   "area": "Science and Technology",
+   "words": 3983,
+   "read_min": 22,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "The Earth and Universe",
+   "area": "Science and Technology",
+   "words": 4232,
+   "read_min": 24,
+   "figures": 6,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank8",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Science and Technology: Unit-wise Objective Question Bank",
+   "words": 3073,
+   "read_min": 17
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Science and Technology: Unit-wise Subjective Question Bank",
+   "words": 3139,
+   "read_min": 17
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Science and Technology: Model Question Sets and Predicted Questions",
+   "words": 3562,
+   "read_min": 20
+  }
+ ],
+ "guide": "The Basic Level Examination: Pattern, Grid and Strategy"
+}

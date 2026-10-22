@@ -1,0 +1,102 @@
+{
+ "book": "cs11",
+ "units": [
+  {
+   "no": 1,
+   "title": "Computer System",
+   "area": "",
+   "words": 5607,
+   "read_min": 31,
+   "figures": 15,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Number System and Boolean Logic",
+   "area": "",
+   "words": 4766,
+   "read_min": 26,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Computer Software and Operating System",
+   "area": "",
+   "words": 6158,
+   "read_min": 34,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Application Package",
+   "area": "",
+   "words": 3439,
+   "read_min": 19,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Programming Concepts and Logics",
+   "area": "",
+   "words": 9240,
+   "read_min": 51,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Web Technology I",
+   "area": "",
+   "words": 6623,
+   "read_min": 37,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Multimedia",
+   "area": "",
+   "words": 4076,
+   "read_min": 23,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Information Security and Cyber Law",
+   "area": "",
+   "words": 5685,
+   "read_min": 32,
+   "figures": 4,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank11",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Computer Science: Unit-wise Objective Question Bank",
+   "words": 4245,
+   "read_min": 24
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Computer Science: Unit-wise Subjective Question Bank",
+   "words": 7818,
+   "read_min": 43
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Computer Science: Model Question Sets and Predicted Questions",
+   "words": 5168,
+   "read_min": 29
+  }
+ ],
+ "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"
+}
