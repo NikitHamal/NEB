@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:03,255
+The is used when the listener can tell exactly which one you mean.
+
+2
+00:00:03,255 --> 00:00:08,151
+Something mentioned before: I bought a shawl; the shawl was pashmina.
+
+3
+00:00:08,151 --> 00:00:11,263
+Unique things: the sun, the moon.
+
+4
+00:00:11,263 --> 00:00:16,263
+Superlatives and ordinals: the best answer, the first bench.
+
+5
+00:00:16,263 --> 00:00:22,018
+Rivers, mountain ranges and seas: the Koshi, the Himalayas.
+
+6
+00:00:22,018 --> 00:00:30,520
+Plural country names and organisations: the Netherlands, the U N. Newspapers, holy books and historical periods.
+
+7
+00:00:30,520 --> 00:00:33,072
+Musical instruments: play the madal.
+
+8
+00:00:33,072 --> 00:00:36,028
+An adjective used as a noun: the poor.
+
+9
+00:00:36,028 --> 00:00:38,489
+And with only, same and whole.
+

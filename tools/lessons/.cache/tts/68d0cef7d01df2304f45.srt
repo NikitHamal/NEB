@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,236
+And articles.
+
+2
+00:00:01,236 --> 00:00:05,755
+Yesterday I met blank old friend of my father at blank bus park.
+
+3
+00:00:05,755 --> 00:00:09,010
+He is blank engineer and works for blank government.
+
+4
+00:00:09,010 --> 00:00:14,700
+Old friend: singular, first mention, and old begins with a vowel sound: an.
+
+5
+00:00:14,700 --> 00:00:17,916
+Bus park: we both know which one: the.
+
+6
+00:00:17,916 --> 00:00:23,072
+Engineer: a job title after be, with a vowel sound: an.
+
+7
+00:00:23,072 --> 00:00:26,315
+Government: there is only one here: the.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,145
+A worked item.
+
+2
+00:00:01,145 --> 00:00:05,312
+There is very blank sugar left, so make the tea without it.
+
+3
+00:00:05,312 --> 00:00:10,481
+Sugar is uncountable, and the amount is almost none: little.
+
+4
+00:00:10,481 --> 00:00:16,822
+Blank students attended, because there was a strike: plural countable, almost none: few.
+
+5
+00:00:16,822 --> 00:00:23,619
+He has blank friends there, so he is never lonely: plural countable, and positive: a few.
+
+6
+00:00:23,619 --> 00:00:31,601
+Remember: few and little are negative, meaning hardly any; a few and a little are positive, meaning some.
+

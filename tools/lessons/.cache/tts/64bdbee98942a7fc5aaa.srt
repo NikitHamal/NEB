@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,036
+Before choosing any determiner, ask two questions.
+
+2
+00:00:04,036 --> 00:00:07,708
+First: is the noun countable or uncountable?
+
+3
+00:00:07,708 --> 00:00:11,666
+Books, chairs, students and villages can be counted.
+
+4
+00:00:11,666 --> 00:00:19,270
+Bread, information, advice, furniture and news cannot, even though their Nepali equivalents often can.
+

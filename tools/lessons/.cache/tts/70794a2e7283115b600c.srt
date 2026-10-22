@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,239
+Nepal is beautiful country.
+
+2
+00:00:02,239 --> 00:00:04,127
+Can you hear what is missing?
+
+3
+00:00:04,127 --> 00:00:14,270
+Nepali has no articles at all, no a, an or the, so these little words are the marks most often lost in the grammar question and in your writing.
+
