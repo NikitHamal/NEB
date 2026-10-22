@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,776
+One hundred and twenty: six minus one, factorial.
+
+2
+00:00:03,776 --> 00:00:12,695
+Seven twenty is the row answer, and sixty is the garland answer, which only applies if the arrangement can be flipped over.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,148
+Put r equal to n: n different objects can be arranged among themselves in n factorial ways.
+
+2
+00:00:07,148 --> 00:00:11,054
+And n P zero is one, n P one is n.
+

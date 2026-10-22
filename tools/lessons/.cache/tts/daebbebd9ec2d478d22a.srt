@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,463
+Every motorbike in Bagmati carries a number plate.
+
+2
+00:00:03,463 --> 00:00:06,796
+Thirty players in your class want a five member committee.
+
+3
+00:00:06,796 --> 00:00:09,505
+Eleven cricketers need a batting order.
+
+4
+00:00:09,505 --> 00:00:12,161
+How many possibilities are there in each case?
+
+5
+00:00:12,161 --> 00:00:13,841
+Far too many to list.
+

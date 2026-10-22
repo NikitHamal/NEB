@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,567
+So the linear arrangements come in groups of four that are rotations of each other: four factorial over four, which is three factorial.
+
+2
+00:00:08,567 --> 00:00:14,010
+In general, n objects in a circle: n minus one factorial.
+
+3
+00:00:14,010 --> 00:00:20,247
+Another way to see it: fix one person's seat, then arrange the other n minus one.
+

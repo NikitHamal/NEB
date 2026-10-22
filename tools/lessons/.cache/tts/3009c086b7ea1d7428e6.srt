@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,330
+Arrange the letters of TRIANGLE.
+
+2
+00:00:02,330 --> 00:00:06,875
+Eight different letters: five consonants and three vowels.
+
+3
+00:00:06,875 --> 00:00:11,914
+With no restriction, eight factorial: forty thousand three hundred and twenty.
+

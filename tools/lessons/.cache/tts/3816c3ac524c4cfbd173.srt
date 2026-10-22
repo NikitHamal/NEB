@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,562
+Inside the block, A A U can be ordered in three factorial over two factorial, three ways.
+
+2
+00:00:06,562 --> 00:00:09,153
+Fifteen thousand one hundred and twenty.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,729
+Welcome to Class 12 Mathematics, Unit 1: Permutation and Combination.
+
+2
+00:00:05,729 --> 00:00:08,854
+Counting, without ever writing out the list.
+

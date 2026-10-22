@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:00,872
+The plan.
+
+2
+00:00:00,872 --> 00:00:04,466
+The two basic counting principles and factorials.
+
+3
+00:00:04,466 --> 00:00:07,044
+Permutations of different objects.
+
+4
+00:00:07,044 --> 00:00:08,580
+Objects that repeat.
+
+5
+00:00:08,580 --> 00:00:11,927
+Arrangements round a circle, and with repetition.
+
+6
+00:00:11,927 --> 00:00:13,281
+Combinations.
+
+7
+00:00:13,281 --> 00:00:17,682
+And finally the properties of combinations, including Pascal's rule.
+

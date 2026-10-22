@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,122
+And no two vowels together.
+
+2
+00:00:02,122 --> 00:00:03,489
+Use the gap method.
+
+3
+00:00:03,489 --> 00:00:08,164
+Arrange the five consonants first: five factorial ways.
+
+4
+00:00:08,164 --> 00:00:12,539
+They leave six gaps: before, between and after them.
+
+5
+00:00:12,539 --> 00:00:18,281
+Drop the three vowels into three different gaps: six P three ways.
+
+6
+00:00:18,281 --> 00:00:23,372
+One hundred and twenty times one hundred and twenty: fourteen thousand four hundred.
+

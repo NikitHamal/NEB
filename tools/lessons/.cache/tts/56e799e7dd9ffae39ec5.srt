@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,346
+For no two I's together, arrange the other seven letters first: one hundred and five ways, leaving eight gaps.
+

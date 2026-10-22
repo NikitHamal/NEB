@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,770
+Choosing r things to take is the same act as choosing the n minus r things to leave behind.
+
+2
+00:00:06,770 --> 00:00:11,341
+So n C r equals n C n minus r.
+

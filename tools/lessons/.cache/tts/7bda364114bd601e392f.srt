@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,744
+A geometry favourite.
+
+2
+00:00:01,744 --> 00:00:04,830
+Twelve points, five of them on one line.
+
+3
+00:00:04,830 --> 00:00:09,427
+Any two points make a line: twelve C two, sixty six.
+
+4
+00:00:09,427 --> 00:00:14,531
+But the five collinear points were counted as ten lines when they make just one.
+
+5
+00:00:14,531 --> 00:00:18,229
+Subtract ten, add back one: fifty seven.
+
+6
+00:00:18,229 --> 00:00:23,932
+Any three points make a triangle unless they are collinear: two hundred and twenty minus ten.
+
+7
+00:00:23,932 --> 00:00:31,640
+And a twelve sided polygon: sixty six segments, minus twelve sides, leaves fifty four diagonals.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,390
+Exactly two women: choose two of four women, AND three of seven men.
+
+2
+00:00:05,390 --> 00:00:08,658
+Six times thirty five: two hundred and ten.
+

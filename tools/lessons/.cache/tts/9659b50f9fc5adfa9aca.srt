@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,539
+Three consecutive combinations.
+
+2
+00:00:02,539 --> 00:00:06,927
+Take ratios: consecutive ones have a very simple ratio.
+

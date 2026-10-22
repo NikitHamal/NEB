@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,070
+If n C eight equals n C twelve, and eight is not twelve, then n is twenty.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,132
+Quick recap.
+
+2
+00:00:01,132 --> 00:00:03,854
+OR adds and AND multiplies.
+
+3
+00:00:03,854 --> 00:00:10,533
+Permutations, where order matters, are n factorial over n minus r factorial.
+
+4
+00:00:10,533 --> 00:00:17,239
+Fill restricted places first, tie blocks for together, and use gaps for no two together.
+
+5
+00:00:17,239 --> 00:00:24,882
+Repeated objects divide by their factorials; circles give n minus one factorial, halved for a garland.
+
+6
+00:00:24,882 --> 00:00:28,802
+Combinations are permutations divided by r factorial.
+
+7
+00:00:28,802 --> 00:00:33,828
+And Pascal's rule builds the triangle whose rows add up to powers of two.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,872
+Thirty.
+
+2
+00:00:00,872 --> 00:00:07,682
+Five letters, with L twice and E twice: one twenty over two times two.
+
+3
+00:00:07,682 --> 00:00:11,848
+One twenty is the trap: it ignores the repeated letters.
+

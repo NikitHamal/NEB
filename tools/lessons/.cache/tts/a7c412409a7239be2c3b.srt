@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,328
+That works in general.
+
+2
+00:00:01,328 --> 00:00:15,416
+Every arrangement is one selection followed by one ordering, so n C r times r factorial equals n P r. Divide, and n C r is n factorial over r factorial and n minus r factorial.
+
+3
+00:00:15,416 --> 00:00:21,627
+To compute it, use the last form: r falling factors on top, r factorial below.
+

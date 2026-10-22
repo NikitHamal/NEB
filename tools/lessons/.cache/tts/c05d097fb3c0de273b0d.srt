@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,411
+And never compute twenty C seventeen directly.
+
+2
+00:00:03,411 --> 00:00:10,989
+Use twenty C three: twenty times nineteen times eighteen over six, one thousand one hundred and forty.
+
