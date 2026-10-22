@@ -7,335 +7,320 @@ hours: 0
 area: Units
 ---
 
-A story with suspense and a poem about a journey seen from a train window. The
-story is about a decision — whether to trust a stranger — and the poem is about
-speed and observation: everything is seen for a second and then gone. The
-grammar of the unit is **voice**: the difference between a sentence that says
-who did something and a sentence that says what was done.
+Unit 17 is about **offers and kindness**. Reading I, *Naresh and the Stranger*,
+is a story of a poor but kind farmer who shares his little food with a sick
+stranger and is rewarded. Reading II is Robert Louis Stevenson's poem *From a
+Railway Carriage*, which captures the speed of a train journey. The grammar is
+**voice — active and passive**. In writing you reply to an e-mail offer and
+write a reply to an invitation.
 
-::: key What this unit asks for
-By the end you should be able to (1) explain how a story builds suspense,
-(2) describe the rhythm and the imagery of a poem, (3) change a sentence from
-the active voice to the passive and back, and (4) write an e-mail and a reply
-letter to an invitation.
+::: key What the exam asks from this unit
+(1) Say who said what to whom and why. (2) Explain how the poem shows speed —
+comparisons, rhythm and rhyme. (3) Change active sentences into the passive in
+all common tenses and with modals. (4) Write a polite e-mail reply and a reply
+letter accepting or declining an invitation.
 :::
 
-## 17.1 Naresh and the Stranger
+## 17.1 Reading I: Naresh and the Stranger
 
-### About the text
+### Summary
 
-The text is a **short story** built on suspense. Suspense is not the same as
-surprise: surprise is a sudden event, while suspense is the reader's
-**uncertainty** about what will happen next, and it is built deliberately.
+- **Naresh** is a simple, honest farmer who lives with his wife, three children
+  and his parents. His wife looks after the family, so his income alone is not
+  enough. He worries about how to give his children **nutritious food**, and he
+  talks about it to his only friends, his **oxen**. The neighbours laugh, but
+  they also feel sorry for him.
+- At the river, a **stranger** who looks tired and ill comes towards him. Naresh
+  offers help, gives him water and invites him home to rest.
+- His wife is upset and cries because they do not have enough food for
+  themselves. Naresh says, **"God will help us if we help others,"** and the
+  stranger stays three days.
+- On the third day the stranger, feeling better, takes Naresh to the river
+  bank, tells him to lift a big stone and dig. Naresh finds a **pot with a bag
+  full of money**. The stranger gives it to him because he was kind when the
+  stranger was ill and alone.
+- Naresh at first refuses — he did not help for money — but accepts when the
+  stranger insists. He offers the stranger food for the journey; the stranger
+  smiles: **"When God gives me friends like you, I need nothing."**
 
-### How suspense is built
+**Theme/moral:** selfless kindness is rewarded; help others even when you have
+little. **Characters:** Naresh — honest, hard-working, kind, generous,
+unselfish; his wife — practical and worried; the stranger — grateful and
+mysterious.
 
-| Device | What it does | Where you see it |
-|---|---|---|
-| A stranger | an unknown person whose motives are hidden | the beginning |
-| A small doubt | one detail that does not fit | early in the story |
-| Limited information | the reader knows only what Naresh knows | throughout |
-| Delay | the decision is put off, and the waiting is described | the middle |
-| A false resolution | something seems settled, then is not | just before the end |
-| The decision | the character acts, and the suspense ends | the climax |
+### Vocabulary (Exercise A)
 
-A story like this is a test of **character** as well as of the reader's nerves.
-Naresh has to decide something about a person he does not know, on incomplete
-information, and whatever he decides says something about him. That is why the
-story is not really about the stranger: it is about what Naresh is willing to
-believe.
+a. **beneath** b. **kindness** c. **honest** d. **stranger** e. **nutritious**
 
-The **setting** does quiet work too. A road, a bus park, an evening, a place
-where nobody else is — a setting with few people in it makes a stranger
-important, because there is nobody else to ask.
+### Who said it to whom? (Exercise B)
 
-```figure caption="Suspense is a graph, not a moment. The writer raises the reader's uncertainty step by step, holds it, and releases it only when the character decides."
-fig, ax = plt.subplots(figsize=(4.8, 2.5))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.2); ax.axis("off")
-xs = [0.6, 2.2, 3.8, 5.4, 7.0, 8.6, 9.4]
-ys = [0.8, 1.6, 2.4, 3.4, 3.6, 2.2, 0.9]
-labels = ["meets\nthe stranger", "", "first\ndoubt", "the wait", "close\nto harm",
-          "false\nresolution", "decision"]
-ax.plot(xs, [y + 0.8 for y in ys], color=ACCENT, lw=2)
-for x, y, lab in zip(xs, ys, labels):
-    ax.plot(x, y + 0.8, "o", color=ACCENT, ms=4.5)
-    if lab:
-        ax.text(x, y + 1.55, lab, ha="center", fontsize=5.8, color=INK)
-ax.text(5.0, 0.25, "reader's uncertainty", ha="center", fontsize=6.1, color=MUTED)
-fig.tight_layout()
-```
-
-### Vocabulary
-
-| Word | Meaning |
+| Sentence | Speaker → listener |
 |---|---|
-| stranger | a person you do not know |
-| suspense | the feeling of not knowing what will happen next |
-| motive | the reason a person does something |
-| to trust | to believe that somebody is honest and safe |
-| hesitation | a pause before deciding |
-| resolution | the point at which the problem is settled |
+| a. Do you need some help? | Naresh → the stranger |
+| b. Will you come home with me? | Naresh → the stranger |
+| c. Would you like to come with me to the river? | the stranger → Naresh |
+| d. The money is for you and your family. Take it. | the stranger → Naresh |
+| e. I shall be very happy if you take it. | the stranger → Naresh |
+| f. Let me give you some food to eat. | Naresh → the stranger |
 
-::: note Model answers
-**1. How does the writer build suspense in this story?**
-By giving the reader only what Naresh knows: an unknown stranger, a small doubt
-about him, a delay while Naresh decides, and a moment near the end when the
-situation seems settled and then is not.
-**2. Why is the setting important?**
-Because a place with few other people in it makes one stranger matter — Naresh
-has nobody else to ask, so the decision is his alone.
-:::
+### Comprehension (Exercise C) — model answers
 
-## 17.2 Poem: From a Railway Carriage
+**a. Why could Naresh's wife not earn money?** She had to look after the family,
+so she could not go out to work.
 
-### About the poem
+**b. What was Naresh worried about when he talked to his oxen?** About when he
+would earn enough money to give his children nutritious food.
 
-The poem describes what a passenger sees from the window of a moving train. It
-is by **Robert Louis Stevenson** and appears in his collection *A Child's Garden
-of Verses* (1885). Its subject is speed, and its method is to put one image after
-another with no pause, so that the reader feels the train's hurry.
+**c. Why did his wife cry?** Because they did not have enough food even for
+themselves, and now there was a guest to feed.
 
-### Rhythm, rhyme and imagery
+**d. Why did the stranger give Naresh money?** Because Naresh had been kind to
+him when he was ill and alone, and the stranger wanted to help a good man.
 
-The poem's **rhythm** imitates the train. The lines are short, the beat is
-strong and regular, and the rhymes come in pairs — *fairies / witches*,
-*battle / cattle*, *plain / rain* — which gives a click at the end of every two
-lines, exactly like wheels crossing the joints in the rail.
+**e. Did the stranger take anything from Naresh when he left? Why?** No. He said
+that when God gives him friends like Naresh, he needs nothing.
 
-The **imagery** is all sight, because that is all a passenger has. Bridges,
-houses, hedges, ditches, meadows, cattle, a tramp, a cart, a mill, a river and a
-station all arrive and vanish. Notice the words that make speed: *fly*,
-*whistle by*, *in the wink of an eye*. Notice also that the poet does not
-describe any one thing fully. The **incompleteness is the point**: at speed you
-catch a glimpse, not a picture.
+**f. What lesson did you learn?** We should help people in need without
+expecting a reward; kindness brings its own reward.
 
-The **theme** is that travel turns the world into a series of pictures, and that
-the traveller sees everything and touches nothing. It is a child's wonder at
-speed, and it is also a quiet observation about how quickly things pass.
+## 17.2 Speaking: making, accepting and declining offers
 
-### Vocabulary
-
-| Word | Meaning |
-|---|---|
-| carriage | a coach of a train |
-| hedge | a line of bushes forming a boundary |
-| ditch | a long narrow channel beside a road or field |
-| wink | a very short moment |
-| tramp | a person who walks from place to place with no fixed home |
-| glimpse | a quick, incomplete look |
-
-::: note Model answers
-**1. How does the rhythm of the poem imitate the train?**
-The lines are short with a strong regular beat, and the rhymes come in pairs, so
-the poem moves in a steady series of clicks, like wheels crossing the rail
-joints.
-**2. Why does the poet not describe anything fully?**
-Because a passenger at speed only catches a glimpse: the things arrive and are
-gone. Leaving each image incomplete is what makes the reader feel the speed.
-:::
-
-## 17.3 Grammar and writing tasks of the unit
-
-### Grammar: Voice — active and passive
-
-In the **active** voice the subject does the action. In the **passive** voice
-the subject receives it.
-
-| | Form | Example |
+| Offer | Accept | Decline |
 |---|---|---|
-| Active | subject + verb + object | The train **carried** the passengers. |
-| Passive | subject + be + past participle (+ by …) | The passengers **were carried** by the train. |
+| Can I help you? / Shall I…? | Yes, please. That would be nice. | No, thanks. I'll do it myself. |
+| Would you like some…? | Yes, please. I'd love some. | No, thank you. I'm fine. |
+| Would you like me to…? | That's very kind of you. | It's all right, thanks. |
+| How about some…? | Great! | Not now, thanks. |
 
-The passive is used (1) when the doer is unknown or unimportant — *My bag **has
-been stolen***; (2) in formal and scientific writing — *The samples **were
-tested***; and (3) when the thing done matters more than the doer.
+**Speaking A (matching):** a–vi (Can I help you? — … I can't lift the luggage),
+b–vii (something to drink — I'm very thirsty), c–i (coffee — I'm dying for a
+coffee; the book prints *dying of*), d–ii, e–iii, f–iv, g–v.
 
-| Tense | Active | Passive |
+**Speaking B examples:** *Would you like a cup of tea? — Yes, please.* / *Would
+you like to take my umbrella? It's raining. — That's very kind of you.* / *Shall
+I carry one of the bags, Dad? — Thanks, son.*
+
+## 17.3 Grammar: Active and passive voice
+
+In the **active**, the subject **does** the action. In the **passive**, the
+subject **receives** the action: *The stranger opened the pot.* → *The pot was
+opened by the stranger.*
+
+**Steps:** (1) the object becomes the subject; (2) use the correct form of
+**be** in the same tense + **past participle**; (3) the old subject goes after
+**by** (or is left out if it is *someone, people, they* or obvious).
+
+| Tense | Active | Passive (be + V3) |
 |---|---|---|
-| Present simple | He writes a letter. | A letter **is written**. |
-| Past simple | She broke the glass. | The glass **was broken**. |
-| Present perfect | They have finished it. | It **has been finished**. |
-| Future | We will announce it. | It **will be announced**. |
-| Modal | You must sign it. | It **must be signed**. |
+| Present simple | The waitress **serves** breakfast. | Breakfast **is served**. |
+| Present continuous | The police **are questioning** him. | He **is being questioned** by the police. |
+| Present perfect | The teacher **has sent** him out. | He **has been sent** out by the teacher. |
+| Past simple | The dentist **pulled out** my tooth. | My tooth **was pulled out** by the dentist. |
+| Past continuous | Nitesh **was painting** the wall. | The wall **was being painted** by Nitesh. |
+| Past perfect | Someone **had picked** the oranges. | The oranges **had been picked**. |
+| Future simple | The mayor **will inaugurate** it. | It **will be inaugurated** by the mayor. |
+| Future perfect | John **will have finished** it. | It **will have been finished** by John. |
+| Modal | You **must wash** coloured clothes separately. | Coloured clothes **must be washed** separately. |
+
+**Two objects** (*give, show, send*): *Naresh gave **him** some water.* → ***He**
+was given some water by Naresh.* (or *Some water was given to him.*)
+
+### Textbook answers
+
+**Grammar I A:** a–iii, b–vi, c–i, d–v, e–ii, f–iv
+
+**Grammar I C:** a. My tooth was pulled out by the dentist. b. He is being
+questioned by the police. c. Breakfast is served at 7 o'clock (by the
+waitress). d. The rubbish was collected by students from our class. e. These
+tablets should be taken before meals. f. He has been sent out of the classroom
+by the teacher. g. Coloured clothes must be washed separately. h. The new sports
+centre will be inaugurated by the mayor next month. i. Nabina's bicycle has been
+stolen recently. j. Apples are grown in Dolpa.
 
 ::: caution Common mistakes
-- *The letter was wrote.* ✗ → *The letter was **written**.* ✓ (past participle,
-  not past simple)
-- Leaving out the auxiliary: *The window broken by him.* ✗ → *The window **was**
-  broken by him.* ✓
-- Using the passive when the active is stronger and shorter. Prefer *The
-  caretaker opened the gate* to *The gate was opened by the caretaker* unless
-  the gate is the subject of the sentence.
+- *The pot was open by him.* ✗ → *was **opened*** ✓ (always the past participle)
+- *He is questioned by the police* for *are questioning* ✗ → *is **being**
+  questioned* ✓ (keep the tense)
+- Change of pronoun: *him → he, them → they, me → I* when the object becomes
+  the subject.
+- Don't write *by someone / by people* — leave it out.
+- Intransitive verbs (*come, go, sleep*) have no passive.
 :::
 
-### Writing: An e-mail and a reply to an invitation
+## 17.4 Writing I: Replying to an e-mail offer
 
-An e-mail needs the six parts: *To*, *Subject*, greeting, short body paragraphs,
-closing and signature. A reply to an invitation is either **accepting** or
-**declining**, and both must be polite and definite:
+**The e-mail:** Sukla Devkota, Managing Director of Nepal Sunglass House,
+Tinkune, writes to regular customer Mr. Sameer Dangol: this week only, **two
+pairs of sunglasses for the price of one**.
 
-- Accepting: thank the host, say you are glad to come, confirm the date and
-  time, and ask if anything is needed.
-- Declining: thank the host, say you are sorry, give a **brief** reason (not a
-  long excuse), and wish the event well. Never leave an invitation unanswered:
-  the host is counting chairs.
+::: example Model reply (accepting the offer)
+**To:** nepal_sunglasseshouse@gmail.com
+**Subject:** Re: About the New Offer
 
-::: note Model answers to the practice questions
-**Declining model.** "Dear Sunita, Thank you very much for inviting me to your
-sister's birthday party on Saturday. I am sorry that I will not be able to come,
-as I am visiting my grandmother in Dhading that day, and we will not be back
-until Sunday. I hope the party goes very well, and please wish your sister a
-happy birthday from me. Yours, Binod."
+Dear Ms. Devkota,
+
+Thank you for informing me about your seasonal offer of two pairs of sunglasses
+for the price of one. I am happy to accept it.
+
+I would like to order two pairs of polarised sunglasses with black frames, one
+for myself and one for my father. Could you please let me know the price,
+whether you deliver to Lalitpur, and how I can pay online?
+
+I look forward to your reply.
+
+Best regards,
+Sameer Dangol
 :::
 
-## 17.4 Describing a journey: the language of narrative
+To **decline** politely: *Thank you for your kind offer. Unfortunately, I have
+just bought a new pair, so I will not be able to take advantage of it this time.
+I hope to hear about your future offers.*
 
-| Function | Useful expressions |
-|---|---|
-| Setting the scene | *It was a cold morning in Poush …*, *We set out just after dawn.* |
-| Sequencing | *first, then, after that, meanwhile, at last* |
-| Describing movement | *the train rattled past*, *we climbed steadily*, *the bus crawled uphill* |
-| Sudden events | *all of a sudden*, *before we knew it*, *out of nowhere* |
-| Sensory detail | *the smell of wet earth*, *the clang of the bell*, *the taste of smoky tea* |
-| Closing a narrative | *By the time we reached home …*, *Looking back, I realise …* |
+## 17.5 Reading II: Poem — From a Railway Carriage
 
-```figure caption="The shape of a narrative. Marks in a story or a memoir come from the middle — the complication and the climax — not from a long introduction."
-stages = ["Orientation\n(who, where, when)", "Complication",
-          "Climax", "Resolution", "Reflection"]
-fig, ax = plt.subplots(figsize=(5.0, 2.4))
-xs = np.arange(len(stages))
-ys = [0.25, 0.55, 0.9, 0.5, 0.3]
-ax.plot(xs, ys, color=SERIES[0], linewidth=2.2, marker="o", markersize=7)
-for x, y, lab in zip(xs, ys, stages):
-    ax.annotate(lab, xy=(x, y), xytext=(x, y + 0.14), ha="center",
-                fontsize=7.6, color=INK)
-ax.set_ylim(0, 1.25)
-ax.set_xlim(-0.5, len(stages) - 0.5)
-ax.axis("off")
-```
+**Poet:** Robert Louis Stevenson (1850–1894), Scottish writer of *Treasure
+Island*; this poem is from his collection *A Child's Garden of Verses* (1885).
 
-::: note Activity — the journey in six sentences
-Think of a journey you remember — to school in the monsoon, to a relative's
-village, a first bus ride alone. Write exactly six sentences, one for each
-stage of the narrative shape above, plus one sensory detail somewhere.
-Read it aloud to a partner; the partner names the stage each sentence belongs
-to. If two sentences land in the same stage, rewrite one.
+### What the poem says
+
+The speaker sits in a train and describes what he sees through the window.
+Everything rushes past so fast that each sight is only a **glimpse**.
+
+- **Stanza 1:** the train goes "faster than fairies, faster than witches";
+  bridges, houses, hedges and ditches fly past; horses and cattle in the meadows
+  seem to charge "like troops in a battle"; sights fly "as thick as driving
+  rain"; painted stations "whistle by" in the wink of an eye.
+- **Stanza 2:** a child climbs and scrambles alone, gathering **brambles**
+  (blackberries); a **tramp** stands and gazes; a village green where daisies are
+  strung into chains; a runaway cart **lumping** along with a man and his load;
+  a mill and a river — "Each a glimpse and gone forever!"
+
+**Theme:** the excitement and speed of a train journey; life's scenes are seen
+only for a moment and then lost.
+
+**Poetic devices:** **similes** (*like troops in a battle*, *as thick as driving
+rain*); **hyperbole** (faster than fairies and witches); **personification**
+(stations *whistle* by); **rhyming couplets** (*witches/ditches,
+battle/cattle, plain/rain, eye/by…*); a fast, regular **rhythm** that sounds like
+the wheels of a train ("faster than fairies, faster than witches").
+
+### Vocabulary (Exercise A)
+
+hedge – a row of bushes forming a fence; ditch – a narrow channel dug beside a
+road or field; troop – a group of soldiers; wink – a very quick closing of one
+eye (*in the wink of an eye* = very quickly); glimpse – a very quick look;
+tramp – a homeless wanderer; lump (along) – move heavily and awkwardly; bramble
+– a wild thorny bush with blackberries.
+
+### Summary (Exercise B)
+
+Answer order: **experiences, describes, faster, battlefield, speedy, crosses**
+(*the train crosses all the scenes*)**, a child, amazement, daisy flowers,
+glimpse, so quickly.** (The book's summary adds "ladies in a village" making
+garlands; the poem itself only mentions "the green for stringing the daisies".)
+
+### Comprehension (Exercise C) — model answers
+
+**a. What is the movement of the train compared with?** With fairies and witches
+(it is faster than them) and with troops charging in a battle.
+
+**b. What does the speaker see in the meadows?** Horses and cattle.
+
+**c. What is the child doing while climbing?** Gathering brambles (blackberries)
+all by himself.
+
+**d. Why does the tramp look at the train with amazement?** Perhaps because the
+fast, noisy train is a wonderful sight to a poor wanderer standing by the track.
+
+**e. What is the theme?** The speed and excitement of a train journey, in which
+sights appear for a moment and are "gone forever".
+
+## 17.6 Writing II: A reply letter to an invitation
+
+::: example Model reply — accepting a success-party invitation
+Bhaktapur-4
+2 Shrawan 2082
+
+Dear Rohan,
+
+Thank you very much for your kind letter inviting me to the party celebrating
+your excellent SEE result. Congratulations! I always knew your hard work would
+pay off.
+
+I am delighted to accept your invitation, and I will be at your home on
+Saturday at 5 p.m. as you mentioned. I will also bring Sujan along, as you
+asked. I am really looking forward to meeting your family and celebrating with
+you.
+
+Once again, congratulations and best wishes for your +2 studies.
+
+Your friend,
+Aayush
 :::
 
-::: example From flat to vivid
-**Flat.** *We went to Pokhara by bus. It took a long time. We were tired. The
-lake was nice.*
+**To decline:** thank → congratulate → apologise with a reason (*I am afraid I
+cannot come because my grandmother is ill / I have an exam*) → wish success →
+suggest meeting later.
 
-**Vivid.** *We left Kathmandu at five in the morning, when the air still smelt
-of last night's rain. For seven hours the bus swung round the bends above the
-Trishuli, and by Mugling my brother had stopped complaining and fallen asleep
-on my shoulder. Then, just as the light was going, the valley opened and the
-lake lay flat and grey below us — and nobody in the bus said anything at all.*
+## 17.7 Pronunciation and project work
 
-The second version adds no new events. It adds **time**, **place**, **a sense**
-and **one small human detail** — which is exactly what the marks reward.
-:::
+**Contractions:** I'm /aɪm/, they'd /ðeɪd/, she'll /ʃiːl/, can't /kɑːnt/,
+she's, they've, couldn't /ˈkʊdnt/, aren't /ɑːnt/, mustn't /ˈmʌsnt/ (the first
+*t* is silent). *Naresh's, stranger's* (possessive *'s* after /ʃ/ and /dʒ/) are
+pronounced /ɪz/.
+
+**Project work:** collect expressions people use to make, accept and decline
+offers and present them.
 
 ## Chapter summary
 
-- Suspense is the reader's uncertainty about what happens next, built by a
-  stranger, a small doubt, limited information, delay and a false resolution.
-- A story about a trust decision is really a story about the character who has
-  to make it.
-- "From a Railway Carriage" is by Robert Louis Stevenson (*A Child's Garden of
-  Verses*, 1885); its short lines and paired rhymes imitate the sound of a
-  train.
-- Its imagery is entirely visual, and its incompleteness is what conveys speed.
-- **Active**: the subject does the action. **Passive**: be + past participle,
-  used when the doer is unknown or unimportant, or when the action matters more.
-- An e-mail has *To*, *Subject*, greeting, body, closing and signature.
-- A reply to an invitation must be definite — accepting with thanks, or
-  declining with thanks and a brief reason.
+- Naresh, a poor farmer, helps a sick stranger despite having little; the
+  stranger shows him a pot of money; moral — selfless kindness is rewarded.
+- Offers: *Can I…? Shall I…? Would you like (me to)…?* — accept *Yes, please*;
+  decline *No, thanks*.
+- Passive = object → subject + *be* (same tense) + V3 (+ *by* agent).
+- *is being, was being, has been, had been, will be, will have been, must be* +
+  V3.
+- Stevenson's poem: train faster than fairies; similes, couplets, galloping
+  rhythm; each sight "a glimpse and gone forever".
+- Reply letters: thank → accept/decline with reason → close warmly.
 
 ## Practice questions
 
 **Reading**
 
-1. Give three devices the writer uses to build suspense. <span class="marks">[3]</span>
-2. What is the difference between suspense and surprise? <span class="marks">[2]</span>
-3. How does the poem's rhythm suit its subject? <span class="marks">[2]</span>
-4. What is the theme of "From a Railway Carriage"? <span class="marks">[2]</span>
+1. Answer briefly. <span class="marks">[5]</span>
+   (a) How many people were in Naresh's family? (b) Where did Naresh meet the
+   stranger? (c) How long did the stranger stay? (d) Where was the pot hidden?
+   (e) Name two things the poet sees from the train.
 
-::: note Answers
-**1.** A stranger whose motives are unknown; a small doubt or detail that does
-not fit; delay while the character decides; and a false resolution near the end.
-**2.** Surprise is a sudden event that the reader did not expect; suspense is the
-reader's continuing uncertainty about what will happen, which the writer builds
-over the whole story.
-**3.** The lines are short with a strong regular beat, and the rhymes come in
-pairs, so the poem moves with the click of a train's wheels crossing the rail
-joints.
-**4.** That travel turns the world into a series of glimpses — the traveller sees
-everything at speed and is part of none of it.
+::: note Answers — Reading
+**1.** (a) Seven — Naresh, his wife, three children and his two parents. (b) At
+the river, where he went to fetch water. (c) Three days. (d) Under a big stone
+on the river bank. (e) e.g. bridges and houses; horses and cattle; a mill and a
+river.
 :::
 
 **Grammar**
 
-5. Change into the passive. <span class="marks">[5]</span>
-   (a) The driver stopped the train. (b) They have repaired the bridge.
-   (c) Somebody has stolen my bag. (d) The school will publish the results.
-   (e) You must sign this form.
+2. Change into the passive. <span class="marks">[5]</span>
+   (a) Sita writes a letter. (b) They are building a bridge. (c) Someone has
+   broken the window. (d) The farmer killed the snake. (e) You should keep the
+   room clean.
 
-::: note Answers
-**5.** (a) The train was stopped by the driver. (b) The bridge has been
-repaired. (c) My bag has been stolen. (d) The results will be published by the
-school. (e) This form must be signed.
+::: note Answers — Grammar
+**2.** (a) A letter is written by Sita. (b) A bridge is being built (by them).
+(c) The window has been broken. (d) The snake was killed by the farmer. (e) The
+room should be kept clean.
 :::
 
 **Writing**
 
-6. Write an e-mail to a friend inviting them to your school's sports day. <span class="marks">[4]</span>
-7. Write a reply declining an invitation to a wedding, giving a brief reason. <span class="marks">[5]</span>
+3. Your friend has invited you to her birthday party, but you cannot attend.
+   Write a reply letter. <span class="marks">[5]</span>
 
-::: note Answers
-**6.** Subject line: *Invitation to our sports day*. Greeting, then: what the
-event is, the date and time, where it is, and why you want your friend there.
-Close with *Yours* or *Best wishes* and your name.
-**7.** Thank the host first, say you are sorry not to be able to come, give one
-brief reason, wish the couple well, and sign off politely. Do not explain at
-length — a short reason is more polite than a long excuse.
-:::
-
-**Extra practice**
-
-**Group B (2 marks each)**
-
-**11.** Rewrite with sensory detail: *It was raining and we waited for the bus.*
-**12.** Join using *as soon as*: *The bell rang. The children ran out.*
-
-**Group C (4 marks)**
-
-**13.** Write a short memoir (about 120 words) of a day that did not go as planned.
-
-::: note Extra practice — answers
-**11.** e.g. *Rain hammered on the tin roof of the shelter, and we stood
-shoulder to shoulder, watching the empty road and smelling the wet dust.*
-**12.** *As soon as the bell rang, the children ran out.*
-**13.** Marks: the five narrative stages in order; past tense held
-consistently; at least two sensory details; one short reflection at the end;
-and correct paragraphing with no more than five serious language errors.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** A narrative usually opens with
-   (a) the climax (b) the orientation (c) the resolution (d) the moral
-**2.** *All of a sudden* is used to signal
-   (a) sequence (b) a sudden event (c) a conclusion (d) a reason
-**3.** *The train rattled past* appeals mainly to
-   (a) sight (b) sound (c) smell (d) taste
-**4.** The stage after the complication is the
-   (a) orientation (b) climax (c) reflection (d) setting
-**5.** A narrative is normally written in the
-   (a) past tense (b) present simple (c) future (d) imperative
-
-::: note Objective practice — answers
-**1.** (b) — the orientation: who, where, when. **2.** (b) — a sudden event. **3.** (b) — sound. **4.** (b) — the climax. **5.** (a) — the past tense.
+::: note Answer — Writing
+**3.** Address and date, *Dear …*, thanks for the invitation, birthday wishes,
+apology with a clear reason, a promise to meet soon or send a gift, warm
+closing (*With love*) and name.
 :::

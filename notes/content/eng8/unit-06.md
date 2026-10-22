@@ -7,328 +7,303 @@ hours: 0
 area: Units
 ---
 
-This unit gives you two pieces of **expository writing** — writing whose job is
-to explain rather than to tell a story. The first describes wedding customs in
-different countries: what people wear, what they eat, what they do, and why.
-The second explains a handful of inventions that have saved more lives than any
-weapon ever took. Both texts are organised the same way: one paragraph, one
-idea, with the general statement first and the examples after it. The grammar of
-the unit is about who does the work — the **causative** — and about making a
-verb agree with its subject.
+Unit 6 is about **customs** and **inventions**, and about **getting things
+done**. Reading I describes wedding customs in India, Japan, Jamaica and Wales
+(the text inside the book is titled *Traditional Marriage Customs around the
+World*). Reading II describes three simple inventions that save lives in poor
+places: the Hippo-roller, LifeStraw and the AidPod. The grammar is **causative
+verbs** (*have, get, make, let*) and **subject–verb agreement**. In writing you
+describe a ceremony and paraphrase a paragraph.
 
-::: key What this unit asks of you
-By the end you should be able to (1) describe a ceremony using the present
-simple and the passive, (2) paraphrase a paragraph without copying it,
-(3) use *have / get something done* and *make / let / help somebody do*
-correctly, and (4) make a verb agree with its subject even when a phrase sits
-between them.
+::: key What the exam asks from this unit
+(1) Match paragraphs with headings and answer factual questions. (2) Use the
+right causative pattern: *have/make/let + person + base verb*, *get + person +
+to + verb*, *have/get + thing + past participle*. (3) Make the verb agree with
+its subject (*either…or, with, including, both*). (4) Paraphrase: same meaning,
+your own words. (5) Describe a ceremony in your culture in order.
 :::
 
-## 6.1 Traditional Wedding Customs around the World
+## 6.1 Reading I: Traditional Wedding Customs around the World
 
-### About the text
+### Paragraph by paragraph
 
-The text is a **descriptive and comparative** account of weddings. It does not
-say which custom is best; it sets several side by side and explains what each
-one means to the people who practise it. Writing like this always answers three
-questions about every custom: **what** is done, **why** it is done, and **what
-it symbolises**.
-
-### What the text says
-
-A wedding is a ceremony that turns two families into relatives, and almost
-every culture marks it three times: with a **promise**, a **feast** and a
-**procession**. What changes from country to country is the form.
-
-In Nepal a Hindu wedding is arranged around the **kanyadaan**, the giving away
-of the bride, followed by the **saptapadi** — seven steps taken together, each
-one a vow; the marriage is complete when the seventh step is taken. The bride
-wears red, the colour of good fortune, and the ceremony is fixed by consulting
-an astrologer for an auspicious date. In many Nepali communities the groom's
-party walks to the bride's house with a *janti*, a procession of relatives,
-music and dancing.
-
-In **Japan** a couple may be married at a Shinto shrine before the *kami* gods,
-drinking three sips from three cups of sake — nine sips in all — which seals
-the bond. In **China** red is the wedding colour; the couple may bow to heaven
-and earth, to their parents, and to each other. In **India**, a *mehndi*
-ceremony decorates the bride's hands the day before. In **Western** countries
-the bride traditionally wears white, something old and something new are worn
-for luck, and the couple exchange rings. In several **African** traditions two
-families negotiate with gifts and the ceremony joins the two kinship groups as
-much as the two people. In **Islamic** weddings a contract (*nikah*) is signed
-before witnesses, with the groom promising a *mehr* to the bride.
-
-| Country or culture | Custom | What it means |
+| Para | Heading | Main points |
 |---|---|---|
-| Nepal (Hindu) | saptapadi — seven steps | the vows that complete the marriage |
-| Japan | nine sips of sake | the bond sealed before the gods |
-| China | bowing to heaven, earth and parents | respect to the powers and to family |
-| India | mehndi on the bride's hands | blessing and celebration |
-| Western | something old, new, borrowed, blue | continuity, hope, friendship, fidelity |
-| Islamic | nikah before witnesses | a public, binding contract |
+| 1 | **Introduction to marriage** | Marriage is a legally recognised relationship between two people, also recognised by social norms and rituals; partners are **spouses**. Ancient societies began marriage to secure a safe environment to have **offspring** and pass on property. |
+| 2 | **Indian wedding** | lasts for days; pre-wedding ceremonies: the **engagement** (exchange of rings) and the **Mehendi** (bride's palms, wrists and feet decorated); on the wedding day bride and groom exchange **flower garlands**, a symbol of the bride's acceptance of her husband. |
+| 3 | **Japanese wedding** | the bride changes costumes several times; **san-san-kudo**: bride and groom each take three sips from three sake cups (sake = Japanese rice wine); parents do the same, bonding the families; money is given in a special envelope; the couple gives guests small gifts (sweets, candles). |
+| 4 | **Jamaican wedding** | the whole community helps plan; on the wedding day villagers go out to see the bride and **review** her looks, and she goes home to improve her appearance; lots of dancing; traditional **black cake** of dark fruits and rum, served by the bride. |
+| 5 | **Welsh wedding** | a man carves a **wooden spoon** for the bride; the bride may be "kidnapped" by her own family before the wedding, and the groom's family must find and rescue her. |
 
-Whatever the form, the same three ideas keep returning: a public promise, a
-shared meal, and the joining of two families rather than only two people.
+### Vocabulary (Exercise A)
 
-```figure caption="Different forms, the same three parts. A wedding is a promise, a feast and a procession — cultures differ in how they perform the three, not in how many there are."
-fig, ax = plt.subplots(figsize=(4.9, 2.5))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.2); ax.axis("off")
-cols = [("promise", SERIES[0]), ("feast", SERIES[2]), ("procession", SERIES[3])]
-ex = [["kanyadaan", "seven steps", "nikah", "ring exchange"],
-      ["janti meal", "wedding cake", "sake", "sweets shared"],
-      ["janti", "baraat", "bridal car", "drummers"]]
-for i, (name, colour) in enumerate(cols):
-    x = 0.6 + i * 3.15
-    ax.add_patch(plt.Rectangle((x, 3.5), 2.8, 0.95, fc="white", ec=colour, lw=1.5))
-    ax.text(x + 1.4, 3.97, name, ha="center", va="center", fontsize=7.2,
-            color=colour, fontweight="bold")
-    for j, e in enumerate(ex[i]):
-        ax.text(x + 1.4, 2.9 - j * 0.62, e, ha="center", fontsize=6.1, color=MUTED)
-fig.tight_layout()
+a. **rituals** b. **offspring** c. **symbol** (or *symbolises*) d. **review**
+e. **rescue**
+
+### Comprehension (Exercise B) — model answers
+
+**a. Why did ancient people start the marriage ritual?** To secure a safe
+environment in which they could have children and pass their property on to
+them.
+
+**b. What are the two pre-wedding ceremonies in India?** The engagement ceremony
+and the Mehendi ceremony.
+
+**c. What is sake?** A Japanese alcoholic drink made from rice.
+
+**d. Why is the community important during a Jamaican wedding?** Because the
+whole community takes part in nearly every stage: everyone in the village helps
+to plan the wedding and comes out to see the bride.
+
+**e. Who reviews the bride's looks in Jamaica?** Everyone in the village, out in
+the street.
+
+**f. Why do Welsh traditions seem strange?** Because the groom must carve a
+wooden spoon, and the bride's own family "kidnaps" her before the wedding so
+that the groom's family has to rescue her.
+
+**Exercise C (headings):** Para 1 – Introduction to Marriage; 2 – Indian; 3 –
+Japanese; 4 – Jamaican; 5 – Welsh.
+
+## 6.2 Reading II: Life Saving Inventions
+
+| Invention | Problem | Solution and result |
+|---|---|---|
+| **Hippo-roller** (engineers Pettie Petzer and Johan Jonker) | African women and children spent **3–9 hours a day** carrying water in heavy 20-litre buckets on their heads → back and neck injuries | a rolling wheel that carries **90 litres**; women have more time for families, children more time at school, fewer injuries |
+| **LifeStraw** (Swiss company Vestergaard) | **780 million** people lack clean, safe drinking water | a thin plastic tube that cleans water as it passes into the mouth; light; cleans up to **1,000 litres** before replacement; used after the Haiti earthquake and floods in Pakistan and Thailand |
+| **AidPod** (Simon Berry, British social entrepreneur) | in Zambia, Coca-Cola reached the remotest villages but medicines did not; **one in five** children died before their fifth birthday | a triangular medicine packet that fits between bottles in a Coca-Cola crate; still being tested in Zambia; he hopes to use it in other African countries |
+
+```figure caption="The three inventions in figures from the text."
+fig, ax = cards([("Hippo-roller", "90 litres per trip (bucket: 20)"),
+                 ("LifeStraw", "up to 1,000 litres cleaned"),
+                 ("AidPod", "fits between bottles in a crate")], cols=3)
 ```
 
-### Vocabulary
+### Vocabulary (Exercise A)
 
-| Word | Meaning |
-|---|---|
-| custom | a usual way of doing something in a society |
-| ceremony | a formal act performed on an important occasion |
-| auspicious | believed to bring good luck |
-| procession | a line of people moving together on a formal occasion |
-| vow | a solemn promise |
-| kinship | the relationship of being family |
-| fiance | the man a woman has promised to marry |
+a. **replace** b. **delivered** c. **experimented** d. **invention**
+e. **injuries** f. **passes (through)**
 
-### Paraphrasing
+### True / False / Not Given (Exercise B)
 
-**Paraphrasing** means saying the same thing in your own words. It is not
-copying and changing two words: change the **structure** as well.
+a. **True** (3–9 hours a day carrying water). b. **True** (90 litres against 20).
+c. **False** — it is a plastic tube. d. **False** — it must be replaced after
+about 1,000 litres. e. **False** — the inventors were from a Swiss company, a
+British entrepreneur and engineers working in Africa; nothing is Japanese.
+f. **Not given**. g. **False** — it is still being tested in Zambia.
 
-> Original: *The marriage is complete when the seventh step is taken.*
-> Paraphrase: *Only after the couple has walked the seventh step together are
-> they considered married.*
+### Comprehension (Exercise C) — model answers
 
-::: note Model answers
-**1. What three ideas do all wedding ceremonies share?**
-A public promise, a shared meal, and the joining of two families rather than
-only two individuals.
-**2. Why is the seventh step of the saptapadi important?**
-Because it completes the marriage: the first six steps are vows, and the
-seventh finishes them, so the couple is married only when all seven have been
-taken.
-:::
+**a. Why was life tough with plastic buckets?** The 20-litre buckets were heavy
+and carried on the head for hours, which often caused back and neck injuries.
 
-## 6.2 Life Saving Inventions
+**b. Who made the lives of African women easier?** The engineers Pettie Petzer
+and Johan Jonker, with their Hippo-roller.
 
-### About the text
+**c. How does LifeStraw work?** It is a long thin plastic tube; the water is
+cleaned as it passes through the tube into the person's mouth.
 
-The text is a **cause-and-effect** explanation. It names an invention, explains
-the problem it solved, and gives the effect it had on the number of people who
-live. It is written mostly in the **passive voice** (*was discovered*, *are
-given*, *were prevented*), because the important thing is the invention, not
-the person who invented it.
+**d. Where was LifeStraw used during disasters?** After the earthquake in Haiti
+and during floods in Pakistan and Thailand.
 
-### What the text says
+**e. What made Simon Berry design the AidPod?** In Zambia he saw that Coca-Cola
+was sold in the remotest villages, but there were no medicines, and one in five
+children died before the age of five.
 
-Before the twentieth century, the greatest killer of children was not war but
-**water and infection**. A cut could kill; a birth could kill; a sore throat
-could kill. Four inventions changed that.
+**f. What does he hope to achieve?** To use the AidPod in other African
+countries too and save thousands of lives.
 
-**Vaccination.** Edward Jenner showed in 1796 that a person who had had the mild
-cowpox did not catch smallpox; the idea of vaccination grew from there. Smallpox
-was declared eradicated in 1980 — the only human disease ever to be wiped out
-worldwide. Vaccines now prevent measles, polio, tetanus, diphtheria, whooping
-cough and many other diseases.
+## 6.3 Grammar I: Causative verbs
 
-**Antiseptics.** Ignaz Semmelweis showed in the 1840s that doctors who washed
-their hands between patients lost far fewer mothers to childbed fever, and
-Joseph Lister used carbolic acid to keep wounds clean in surgery. Simple hand
-washing with soap, which we now take for granted, is still one of the cheapest
-life savers there is.
+A **causative** shows that someone **causes** another person to do something,
+or arranges for something to be done.
 
-**Antibiotics.** Alexander Fleming noticed in 1928 that a mould had killed the
-bacteria growing on a plate. Penicillin, mass-produced during the 1940s, turned
-pneumonia, blood poisoning and infected wounds from death sentences into
-ordinary illnesses.
-
-**Oral rehydration salts (ORS).** Cholera and diarrhoea killed children by
-taking the water out of them. The discovery that a simple mixture of salt,
-sugar and water can be absorbed even by a badly damaged gut — and that the
-mother can mix it at home — has saved tens of millions of lives, mostly of
-children under five.
-
-| Invention | Problem it solved | Why it saved so many lives |
+| Pattern | Meaning | Example |
 |---|---|---|
-| Vaccination | epidemic disease | prevents the illness instead of treating it |
-| Antiseptics and hand washing | infection in childbirth and surgery | stops infection entering the body |
-| Antibiotics | bacterial infection | cures illness that was almost always fatal |
-| ORS | dehydration from diarrhoea | cheap, home-made, and usable without a hospital |
+| **have** + person + base verb | arrange for someone to do it | Ruksar is having the mechanic **service** her scooter. |
+| **make** + person + base verb | force | Teachers made us **take** extra classes. |
+| **let** + person + base verb | allow | Our teachers let us **play** football after 4:00. |
+| **get** + person + **to** + verb | persuade / arrange | Ahamad gets his parents **to buy** him a gift. |
+| **have / get** + thing + **past participle** | someone (not named) does it for you | Shyanden got his hair **cut**. Samrat had his bedroom **cleaned**. |
 
-The pattern is worth noticing: the inventions that saved most lives were the
-**cheap** ones, and the ones that could be taught to ordinary people.
+In the **passive**, *make* takes **to**: *They were made **to** dance at the
+party.*
 
-### Vocabulary
+### Textbook answers
 
-| Word | Meaning |
-|---|---|
-| vaccine | a preparation that makes the body resist a disease |
-| eradicated | completely removed from the world |
-| antiseptic | a substance that kills germs on the skin or in a wound |
-| antibiotic | a medicine that kills bacteria inside the body |
-| dehydration | the loss of too much water from the body |
-| rehydration | putting that water back |
+**Grammar I A (columns):** *lets/has/makes + person + verb* → a, f;
+*get + person + to + verb* → e; *had/got + thing + past participle* → b, c, d.
 
-::: note Model answers
-**1. Why is ORS considered one of the greatest life-saving inventions?**
-Because it treats the dehydration that actually kills, it costs almost nothing,
-it can be mixed at home by a parent, and it works without a doctor or a
-hospital — so it reached millions of children who could never have reached a
-clinic.
-**2. Why is much of this text written in the passive voice?**
-Because the subject is the invention and the effect it had, not the inventor;
-the passive keeps the reader's attention on what was done, not on who did it.
+**Grammar I B:** a. service b. take c. open d. to buy e. cleaned f. to clean
+g. cut h. to do i. play j. washed
+
+**Grammar I C:** a. Indra made Kamini book tickets. b. I got my clothes washed
+yesterday. c. Hamid's mother let him use her mobile phone. d. Did you have a
+painter paint your house? (or *Did you have your house painted?*) e. Kripa's
+mother lets her go to school on her scooter. f. I get the boy to type my
+documents. g. The police made the prisoners raise their hands. h. The lady had
+a mechanic mend her car.
+
+::: caution Common mistakes with causatives
+- *My teacher made me to write it.* ✗ → *made me **write** it* ✓
+- *I got my friend help me.* ✗ → *I got my friend **to help** me* ✓
+- *I had my hair cutted / I cut my hair at the barber's.* → *I **had my hair
+  cut*** (you did not cut it yourself).
+- *Let me to go.* ✗ → *Let me **go**.* ✓
 :::
 
-## 6.3 Grammar and writing tasks of the unit
+## 6.4 Grammar II: Subject–verb agreement
 
-### Grammar: Causative verbs
-
-A **causative** sentence says that you arranged for somebody else to do the
-work. Use **have** or **get** + object + **past participle**.
-
-| Structure | Example | Meaning |
-|---|---|---|
-| have + object + past participle | I **had my hair cut**. | someone else cut it for me |
-| get + object + past participle | She **got the room painted**. | someone else painted it |
-| make + somebody + bare verb | The teacher **made us rewrite** it. | we had no choice |
-| let + somebody + bare verb | They **let him go** home. | he was allowed |
-| help + somebody + (to) verb | She **helped me (to) carry** it. | both verb forms are correct |
-
-::: caution Common mistakes
-- *I had cut my hair yesterday.* — that means you cut it yourself. If a barber
-  did it: *I **had my hair cut** yesterday.* ✓
-- *He made me to sit down.* ✗ — after *make*, *let* and *see* use the bare
-  verb: *He made me **sit** down.* ✓
-- *She let me to go.* ✗ → *She let me **go**.* ✓
-:::
-
-### Grammar: Subject–verb agreement
-
-The verb must agree with its **subject**, not with the nearest noun.
+The verb must agree with its subject in number: **singular subject → singular
+verb** (*attends, has, is, was*); **plural subject → plural verb** (*attend,
+have, are, were*).
 
 | Rule | Example |
 |---|---|
-| A phrase between subject and verb changes nothing | The box of sweets **is** on the table. |
-| Two subjects joined by *and* take a plural verb | Ram and Sita **are** here. |
-| *Each, every, either, neither* are singular | Every one of the boys **has** a book. |
-| Uncountable nouns are singular | The water **is** cold. |
-| A collective noun may be singular | The team **is** playing well. |
+| Two subjects joined by **and** → plural | Aayusha and her friend **decorate**… / Mr. Karki and Mr. Mandal **were**… |
+| **either…or / neither…nor** → verb agrees with the **nearer** subject | Either my brother or my father **does** not let us… / Either the child or the parents **need**… |
+| **with, along with, including, as well as** do not change the subject | Utsav with his friends **has**… / The story, including all the songs, **attracts**… |
+| a **gerund** subject is singular | Writing an e-mail **needs** a lot of care. |
+| sums and amounts seen as one unit → singular | Two plus three **makes** five. Five thousand rupees **is** enough. |
+| *scissors, trousers, glasses* → plural | **Were** the scissors working? |
+| a collective noun as one group → singular | A team of players **receives** medals. |
+| **both** → plural | Both of them **have** returned. |
 
-::: example Worked example
-**Correct these sentences.** (1) The list of names are on the board. (2) Each of
-the students have a copy. (3) He made me to wait. (4) She got her shoes
-repair. (5) Neither of the answers are right.
+### Textbook answers
 
-**Answers.** (1) The list of names **is** on the board. (2) Each of the
-students **has** a copy. (3) He made me **wait**. (4) She got her shoes
-**repaired**. (5) Neither of the answers **is** right.
+**Grammar II A (correct ones):** a. i b. ii c. ii (it should also read *come
+**to** the meeting*) d. i e. i f. ii
+
+**Grammar II B:** a. needs b. makes c. were d. pass (*years* passing one by one;
+but *Five years **is** a long time* when the period is one amount) e. need
+f. Were g. go h. receives i. have j. does not like
+
+## 6.5 Writing I: Describing a ceremony
+
+Describe the ceremony **in time order**: before → main day → after. Use the
+present simple (it is a custom that happens every time) and passive or
+causative forms where natural (*the bride gets her hands decorated*).
+
+::: example Model answer — A wedding in my community
+**Problem.** How do people celebrate a wedding in your culture? Write a short
+description.
+
+**Solution.** In my community, a Hindu wedding usually lasts two or three days.
+First, the families fix an auspicious date with the help of a priest, and the
+engagement is held, where rings or gifts are exchanged. On the wedding day the
+groom goes to the bride's house with the *janti*, a procession of relatives and
+friends, often with a *panche baja* band playing.
+
+At the bride's house the couple exchange flower garlands, and the bride's
+parents perform *kanyadan*, giving their daughter's hand to the groom. The
+groom puts *sindur* in the parting of the bride's hair and a *pote* (bead
+necklace) round her neck. Relatives bless the couple with *tika* and gifts, and
+a big feast is served to all the guests.
+
+Finally, the bride says an emotional farewell to her family and leaves for the
+groom's house, where she is welcomed with rituals. A wedding is not only the
+union of two people but also of two families.
 :::
 
-### Writing: Describing a ceremony
+(Customs differ between communities; describe the ones you have actually seen.)
 
-Paragraph 1: what the ceremony is for and when it happens. Paragraph 2: what
-happens, in order. Paragraph 3: what each action symbolises. Use the present
-simple, and use the passive when the act matters more than the actor (*the
-bride **is given** away by her father*).
+## 6.6 Writing II: Paraphrasing
+
+To **paraphrase** is to rewrite a passage **in your own words without changing
+its meaning**. Change words to synonyms, change sentence structure (active ↔
+passive, join or split sentences), keep every idea, add nothing new, and keep
+it about the same length.
+
+::: example Model paraphrase — the dog paragraph (Writing II B)
+**Original idea:** dogs are domestic pets with a keen sense of smell, used for
+hunting and search and rescue; many sizes and breeds; loyal and obedient;
+treated as family; need training and care.
+
+**Paraphrase.** The dog is a tame animal that many people keep at home as a
+pet. Because it can smell things very well, it is used for many jobs such as
+hunting and finding and saving people. Dogs are of many sizes and breeds, and
+each breed has its own special features and skills. They are famous for being
+faithful and obedient to their owners, and many families treat them as one of
+their own members. To be happy and healthy, a dog must be trained well and
+looked after properly.
+:::
+
+## 6.7 Speaking, pronunciation and project work
+
+**Getting things done (speaking):** *I get my clothes washed. I have my hair cut
+at a barber's. My mother makes me brush my teeth after each meal.* In the
+library: *The librarian doesn't let us eat food there; she makes us keep quiet.*
+
+**The -s/-es ending has three sounds.**
+
+| Sound | Rule | Words from the unit |
+|---|---|---|
+| /ɪz/ | after /s, z, ʃ, ʒ, tʃ, dʒ/ — adds a syllable | spouses, establishes, symbolizes |
+| /s/ | after voiceless sounds /p, t, k, f, θ/ | rights, suggests, parents |
+| /z/ | after voiced sounds and vowels | palms, laws, days, obligations, societies, sisters, involves, brides, ceremonies |
+
+**British and American words (Extra bit):** biscuit/cookie, lift/elevator,
+lorry/truck, petrol/gasoline, holiday/vacation, rubbish/trash, ground
+floor/first floor, **postbox/mailbox** (the textbook table prints this pair the
+wrong way round: *postbox* is British, *mailbox* American).
+
+**Project work:** collect pictures and information about five useful inventions
+and make a classroom collage.
 
 ## Chapter summary
 
-- Expository writing explains; descriptive-comparative writing sets several
-  things side by side and explains each one.
-- Every wedding custom can be described by answering: what is done, why, and
-  what it symbolises.
-- Weddings everywhere contain a promise, a feast and a procession.
-- Cause-and-effect writing names the problem, the invention and the effect.
-- Vaccination, antiseptics, antibiotics and ORS are four inventions that
-  together saved more lives than any other group of inventions in history.
-- The cheapest life savers reached the most people.
-- **Causative:** have / get + object + past participle (*I had my hair cut*).
-- **make / let / help** take a bare verb or *to* + verb: *made me sit*, *let me
-  go*, *helped me carry*.
-- A verb agrees with its subject; a phrase in between does not change it.
+- Weddings: India (engagement, Mehendi, garlands), Japan (costume changes,
+  san-san-kudo with sake, money in envelopes), Jamaica (whole village, review of
+  the bride, black cake), Wales (wooden spoon, "kidnapped" bride).
+- Inventions: Hippo-roller (90 L), LifeStraw (cleans up to 1,000 L), AidPod
+  (medicine in Coca-Cola crates, tested in Zambia).
+- Causatives: *have/make/let + person + base verb*; *get + person + to +
+  verb*; *have/get + thing + past participle*; passive *be made to*.
+- Agreement: *and* → plural; *either/or* → nearer subject; *with/including* do
+  not change the subject; gerunds and sums → singular.
+- Paraphrase = same meaning, new words and structures, nothing added.
 
 ## Practice questions
 
 **Reading**
 
-1. Which three things are common to weddings everywhere? <span class="marks">[3]</span>
-2. Explain the saptapadi. <span class="marks">[2]</span>
-3. Why did the discovery of penicillin change medicine? <span class="marks">[2]</span>
-4. What is ORS and why does it work even without a hospital? <span class="marks">[2]</span>
+1. Answer briefly. <span class="marks">[5]</span>
+   (a) What are married partners called? (b) How many sips are taken in
+   san-san-kudo, and from how many cups? (c) What is the Jamaican wedding cake
+   made from? (d) How much water can a Hippo-roller carry? (e) What shape is an
+   AidPod?
 
-::: note Answers
-**1.** A public promise, a shared meal, and the joining of the two families.
-**2.** Seven steps taken together by the bride and groom, each step a vow; the
-marriage is complete when the seventh is taken.
-**3.** It turned diseases that were almost always fatal — pneumonia, blood
-poisoning and infected wounds — into ordinary, treatable illnesses.
-**4.** Oral rehydration salts: a mixture of salt, sugar and clean water that
-replaces the water a child loses through diarrhoea. It works because the gut can
-still absorb the mixture even when it is damaged, and a parent can mix it at
-home.
+::: note Answers — Reading
+**1.** (a) Spouses. (b) Three sips from each of three cups. (c) Dark fruits and
+rum. (d) Ninety litres. (e) Triangular.
 :::
 
 **Grammar**
 
-5. Rewrite using the causative. <span class="marks">[4]</span>
-   (a) A tailor stitched my shirt. (b) A mechanic repaired our car.
-   (c) She is painting the house. (d) A doctor checked my eyes.
+2. Complete with the correct form. <span class="marks">[5]</span>
+   (a) I had the tailor (stitch) my shirt. (b) She got her room (paint).
+   (c) Father let me (go) to the party. (d) We got the plumber (fix) the tap.
+   (e) The thief was made (confess).
+3. Choose the correct verb. <span class="marks">[5]</span>
+   (a) Neither the teacher nor the students (was/were) present. (b) The
+   captain, along with his players, (has/have) arrived. (c) Swimming (is/are)
+   good exercise. (d) My trousers (is/are) dirty. (e) Ram and Sita (play/plays)
+   chess.
 
-6. Choose the correct verb. <span class="marks">[4]</span>
-   (a) The bag of apples (is / are) heavy. (b) Each of them (has / have) a pen.
-   (c) Neither of the boys (was / were) present. (d) Bread and butter
-   (is / are) his breakfast.
-
-::: note Answers
-**5.** (a) I had my shirt stitched. (b) We had our car repaired. (c) She is
-having the house painted. (d) I had my eyes checked.
-**6.** (a) is (b) has (c) was (d) is
+::: note Answers — Grammar
+**2.** (a) stitch (b) painted (c) go (d) to fix (e) to confess
+**3.** (a) were (b) has (c) is (d) are (e) play
 :::
 
 **Writing**
 
-7. Describe a festival or ceremony you have taken part in, in about 120
-   words. Say what happens in order and what it means. <span class="marks">[5]</span>
-8. Write a paragraph of about 80 words explaining one invention that has saved
-   lives, with its problem and its effect. <span class="marks">[4]</span>
+4. Describe how Dashain or Tihar is celebrated in your home. <span class="marks">[5]</span>
+5. Paraphrase: *Trees give us oxygen, food and shelter. Without them, life on
+   earth would be impossible.* <span class="marks">[2]</span>
 
-::: note Answers
-**7.** Paragraph 1: name the ceremony and when it falls in the year.
-Paragraph 2: what happens, in the order it happens. Paragraph 3: what the main
-actions mean. Use the present simple; use the passive where the act matters
-more than the actor.
-**8.** Name the invention, state the problem it solved in one sentence, then
-give its effect on the number of people who die — for example ORS, which treats
-the dehydration caused by diarrhoea and can be mixed at home, so it reaches
-children who never see a clinic.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** A *custom* is
-   (a) a tax at the border only (b) a traditional practice of a community (c) a customer (d) a costume
-**2.** *Traditional* is the adjective form of
-   (a) trade (b) tradition (c) traditionally (d) trader
-**3.** If it ______ tomorrow, the wedding will move indoors.
-   (a) rain (b) rains (c) will rain (d) rained
-**4.** The invention that saved most lives in the passage sense is best called a
-   (a) life-saving invention (b) lifelong invention (c) lively invention (d) living invention
-**5.** The opposite of *ancient* is
-   (a) antique (b) historic (c) modern (d) old
-
-::: note Objective practice — answers
-**1.** (b) — a traditional practice. **2.** (b) — *tradition* → *traditional*. **3.** (b) — type 1 conditional: *if* + present simple. **4.** (a) — life-saving invention. **5.** (c) — modern.
+::: note Answers — Writing
+**4.** Time order (preparations → main days → end), present simple, specific
+rituals and foods, a closing sentence on the meaning of the festival.
+**5.** e.g. *We get the air we breathe, things to eat and places to live from
+trees. Life could not exist on our planet if there were no trees.*
 :::

@@ -1,0 +1,282 @@
+{
+ "book": "nep12",
+ "units": [
+  {
+   "no": 1,
+   "title": "आमाको सपना - गोपालप्रसाद रिमाल (कविता, सामाजिक)",
+   "area": "पाठ",
+   "words": 3875,
+   "read_min": 22,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "विरहिणी दमयन्ती - मदनमणि दीक्षित (कथा, पौराणिक)",
+   "area": "पाठ",
+   "words": 3795,
+   "read_min": 21,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "घनघस्याको उकालो काट्ता - तारानाथ शर्मा (नियात्रा)",
+   "area": "पाठ",
+   "words": 3582,
+   "read_min": 20,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "व्यावसायिक पत्र (व्यावहारिक लेखन)",
+   "area": "पाठ",
+   "words": 3629,
+   "read_min": 20,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "एक चिहान - हृदयचन्द्रसिंह प्रधान (उपन्यास अंश, सामाजिक)",
+   "area": "पाठ",
+   "words": 4333,
+   "read_min": 24,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "स्टिफन विलियम हकिङ (जीवनी, अन्तर्राष्ट्रिय)",
+   "area": "पाठ",
+   "words": 3920,
+   "read_min": 22,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "हामीलाई बोलाउँछन् हिमचुली",
+   "area": "पाठ",
+   "words": 3974,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "मातृत्व",
+   "area": "पाठ",
+   "words": 3766,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "गोर्खे",
+   "area": "पाठ",
+   "words": 4343,
+   "read_min": 24,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "नेपाली पहिचान",
+   "area": "पाठ",
+   "words": 4648,
+   "read_min": 26,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "सहकारी",
+   "area": "पाठ",
+   "words": 4670,
+   "read_min": 26,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "जीवन मार्ग",
+   "area": "पाठ",
+   "words": 4826,
+   "read_min": 27,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "नेपाली अक्षरको पहिचान र उच्चारण",
+   "area": "व्याकरण",
+   "words": 2243,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "पदवर्ग: नाम, सर्वनाम, विशेषण, अव्यय",
+   "area": "व्याकरण",
+   "words": 2018,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "पदसङ्गति (लिङ्ग, वचन, पुरुष, आदर); शब्द रूपायन",
+   "area": "व्याकरण",
+   "words": 2155,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "वाक्यको पहिचान र प्रयोग",
+   "area": "व्याकरण",
+   "words": 2128,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "क्रियाका काल र पक्ष; वर्णविन्यास",
+   "area": "व्याकरण",
+   "words": 1914,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "क्रियाका भाव: सामान्य, आज्ञा, इच्छा, सम्भावना, सङ्केत",
+   "area": "व्याकरण",
+   "words": 2004,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "उपसर्ग र प्रत्ययद्वारा शब्दनिर्माण; गजलको संरचना",
+   "area": "व्याकरण",
+   "words": 2057,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "द्वित्व र समास प्रक्रियाद्वारा शब्दनिर्माण",
+   "area": "व्याकरण",
+   "words": 1941,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "कारक र विभक्तिको पहिचान र प्रयोग",
+   "area": "व्याकरण",
+   "words": 1930,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 22,
+   "title": "वाक्य संश्लेषण र विश्लेषण; वाच्य (कर्तृ, कर्म, भाव)",
+   "area": "व्याकरण",
+   "words": 1926,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 23,
+   "title": "पदक्रम; लेख्य चिह्न",
+   "area": "व्याकरण",
+   "words": 1884,
+   "read_min": 10,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 24,
+   "title": "उक्ति परिवर्तन; उद्देश्य-विधेय विस्तार; शब्दकोशीय प्रयोग",
+   "area": "व्याकरण",
+   "words": 1938,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 25,
+   "title": "पठनबोध, बुँदाटिपोट र सारांश लेखन",
+   "area": "लेखन सिप",
+   "words": 4096,
+   "read_min": 23,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 26,
+   "title": "स्वतन्त्र रचना (निबन्ध) र प्रतिक्रिया लेखन",
+   "area": "लेखन सिप",
+   "words": 3797,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 27,
+   "title": "व्यावहारिक लेखन, प्रतिवेदन र टिप्पणी लेखन",
+   "area": "लेखन सिप",
+   "words": 3955,
+   "read_min": 22,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 28,
+   "title": "शब्दभण्डार: पर्यायवाची, विपरीतार्थी, अनेकार्थी, उखान-टुक्का, पारिभाषिक शब्द",
+   "area": "लेखन सिप",
+   "words": 4919,
+   "read_min": 27,
+   "figures": 2,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank12",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "अनिवार्य नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह",
+   "words": 7732,
+   "read_min": 43
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "अनिवार्य नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
+   "words": 8013,
+   "read_min": 45
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "अनिवार्य नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न",
+   "words": 1254,
+   "read_min": 7
+  }
+ ],
+ "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
+}

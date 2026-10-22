@@ -1,0 +1,201 @@
+{
+ "book": "sci10",
+ "units": [
+  {
+   "no": 1,
+   "title": "Scientific Learning",
+   "area": "Science and Technology",
+   "words": 3750,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Classification of Living Beings",
+   "area": "Science and Technology",
+   "words": 2909,
+   "read_min": 16,
+   "figures": 16,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Honey Bee",
+   "area": "Science and Technology",
+   "words": 3366,
+   "read_min": 19,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Heredity",
+   "area": "Science and Technology",
+   "words": 3602,
+   "read_min": 20,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Physiological Structure and Life Process",
+   "area": "Science and Technology",
+   "words": 4370,
+   "read_min": 24,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Nature and Environment",
+   "area": "Science and Technology",
+   "words": 4649,
+   "read_min": 26,
+   "figures": 14,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Motion and Force",
+   "area": "Science and Technology",
+   "words": 4476,
+   "read_min": 25,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Pressure",
+   "area": "Science and Technology",
+   "words": 3714,
+   "read_min": 21,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Heat",
+   "area": "Science and Technology",
+   "words": 3573,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Wave",
+   "area": "Science and Technology",
+   "words": 4214,
+   "read_min": 23,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Electricity and Magnetism",
+   "area": "Science and Technology",
+   "words": 3838,
+   "read_min": 21,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Universe",
+   "area": "Science and Technology",
+   "words": 3989,
+   "read_min": 22,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Information and Communication Technology",
+   "area": "Science and Technology",
+   "words": 3499,
+   "read_min": 19,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Classification of Elements",
+   "area": "Science and Technology",
+   "words": 2923,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Chemical Reaction",
+   "area": "Science and Technology",
+   "words": 2867,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Gases",
+   "area": "Science and Technology",
+   "words": 2273,
+   "read_min": 13,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Metal and Non-metals",
+   "area": "Science and Technology",
+   "words": 2708,
+   "read_min": 15,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Hydrocarbon and its Compounds",
+   "area": "Science and Technology",
+   "words": 2473,
+   "read_min": 14,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "Chemicals used in Daily Life",
+   "area": "Science and Technology",
+   "words": 3135,
+   "read_min": 17,
+   "figures": 7,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank10",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Science and Technology: Unit-wise Objective Question Bank",
+   "words": 4386,
+   "read_min": 24
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Science and Technology: Unit-wise Subjective Question Bank",
+   "words": 3741,
+   "read_min": 21
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Science and Technology: Model Question Sets and Predicted Questions",
+   "words": 3574,
+   "read_min": 20
+  }
+ ],
+ "guide": "The SEE Examination: Pattern, Grid and Strategy"
+}

@@ -1,0 +1,183 @@
+{
+ "book": "math12",
+ "units": [
+  {
+   "no": 1,
+   "title": "Permutation and Combination",
+   "area": "Algebra",
+   "words": 4788,
+   "read_min": 27,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Binomial Theorem",
+   "area": "Algebra",
+   "words": 4592,
+   "read_min": 26,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Complex Numbers",
+   "area": "Algebra",
+   "words": 5071,
+   "read_min": 28,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Sequence and Series",
+   "area": "Algebra",
+   "words": 4569,
+   "read_min": 25,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Matrix Based System of Linear Equations",
+   "area": "Algebra",
+   "words": 5110,
+   "read_min": 28,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Properties of a Triangle",
+   "area": "Trigonometry",
+   "words": 4505,
+   "read_min": 25,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Solution of Triangles",
+   "area": "Trigonometry",
+   "words": 3332,
+   "read_min": 19,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Conic Sections",
+   "area": "Analytic Geometry",
+   "words": 7856,
+   "read_min": 44,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Product of Vectors",
+   "area": "Vectors",
+   "words": 9495,
+   "read_min": 53,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Correlation and Regression",
+   "area": "Statistics and Probability",
+   "words": 6609,
+   "read_min": 37,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Probability",
+   "area": "Statistics and Probability",
+   "words": 3844,
+   "read_min": 21,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Derivatives",
+   "area": "Calculus",
+   "words": 8534,
+   "read_min": 47,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Anti-derivatives",
+   "area": "Calculus",
+   "words": 8552,
+   "read_min": 48,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Differential Equations",
+   "area": "Calculus",
+   "words": 5944,
+   "read_min": 33,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Computational Methods",
+   "area": "Computational Methods OR Mechanics",
+   "words": 6124,
+   "read_min": 34,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Mechanics (alternative to Unit 15)",
+   "area": "Computational Methods OR Mechanics",
+   "words": 5480,
+   "read_min": 30,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Appendix: Retained Examinable Topics",
+   "area": "Computational Methods OR Mechanics",
+   "words": 5141,
+   "read_min": 29,
+   "figures": 7,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank12",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Mathematics: Unit-wise Objective Question Bank",
+   "words": 14808,
+   "read_min": 82
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Mathematics: Unit-wise Subjective Question Bank",
+   "words": 13078,
+   "read_min": 73
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Mathematics: Model Question Sets and Predicted Questions",
+   "words": 6411,
+   "read_min": 36
+  }
+ ],
+ "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
+}

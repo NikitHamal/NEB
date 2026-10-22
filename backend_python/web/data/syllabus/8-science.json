@@ -1,0 +1,736 @@
+{
+ "grade": "8",
+ "grade_label": "Class 8",
+ "grade_label_ne": "कक्षा ८",
+ "subject": "science",
+ "name": "Science and Technology",
+ "name_ne": "विज्ञान तथा प्रविधि",
+ "icon": "science",
+ "group": "compulsory",
+ "color": "#0B6A62",
+ "lang": "en",
+ "code": "BEE-8",
+ "hours": 150,
+ "exam": "Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. These practice sets are written to a 50-mark written paper of 2 hours unless your palika's grid says otherwise.",
+ "areas": [
+  "Science and Technology"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Scientific Learning",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "science and the scientific method",
+    "laboratory work and safety: hazard signs and precautions",
+    "experimental work, recording observations and drawing conclusions",
+    "research work: steps and the research report",
+    "survey: questionnaire, sampling and tabulation",
+    "measurement and units; project work"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Science and the scientific method"
+    },
+    {
+     "no": "1.2",
+     "title": "Laboratory work and safety"
+    },
+    {
+     "no": "1.3",
+     "title": "Experimental work: observation, test and conclusion"
+    },
+    {
+     "no": "1.4",
+     "title": "Research work"
+    },
+    {
+     "no": "1.5",
+     "title": "Survey"
+    },
+    {
+     "no": "1.6",
+     "title": "Measurement and units; project work"
+    }
+   ],
+   "summary": [
+    "Scientific learning uses observation, test, experiment, research, survey, project work and model making.",
+    "Observation is experiencing an object, event or process carefully with the sense organs; a hand lens or microscope helps. It is the first step of any scientific study.",
+    "A hypothesis is a guess made from observation; a test checks whether it is true. In an experiment only one factor is changed.",
+    "Laboratory rules: apron/lab coat, gloves and goggles with harmful chemicals, no eating, drinking, tasting or direct smelling, no playing, test-tube holder for heating, fumes in a fume hood, wash hands after work.",
+    "Research steps: goal setting → hypothesis → choice of data-collection method → materials → data collection → analysis → conclusion.",
+    "Survey steps: objective → method → data collection → analysis → conclusion; tools are questionnaire, interview, discussion and observation.",
+    "Every activity ends with a report: title, objective, materials, method, observation/analysis, conclusion.",
+    "Every measurement needs a number and a unit; density = mass ÷ volume."
+   ],
+   "terms": [
+    "Controlled experiment",
+    "Observation",
+    "Survey"
+   ],
+   "stats": {
+    "words": 4612,
+    "figures": 2,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Information and Communication Technology",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "tools of information and communication technology",
+    "search engine, website and ISP",
+    "social networking sites: uses and risks",
+    "cybercrime, computer code of conduct, cyber law and internet security",
+    "robotics and virtual reality",
+    "artificial intelligence and cloud computing"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Tools of information and communication technology"
+    },
+    {
+     "no": "2.2",
+     "title": "Search engine, website and ISP"
+    },
+    {
+     "no": "2.3",
+     "title": "Social networking sites"
+    },
+    {
+     "no": "2.4",
+     "title": "Cybercrime, computer code of conduct, cyber law and internet security"
+    },
+    {
+     "no": "2.5",
+     "title": "Robotics and virtual reality"
+    },
+    {
+     "no": "2.6",
+     "title": "Artificial intelligence and cloud computing"
+    }
+   ],
+   "summary": [
+    "ICT tools create, store, display, send and exchange information: ATM, photocopier, scanner (input, hard → soft copy), printer (output, soft → hard copy), router, Wi-Fi, set-top box.",
+    "ATM input parts: card reader, keypad; output parts: screen, speaker, receipt printer, cash dispenser. Keep the PIN secret.",
+    "A search engine finds web pages by keyword; a website is a collection of web pages with a unique URL; an ISP sells internet access.",
+    "Social media is a strong medium but overuse harms health and invites fake accounts, data leaks and phishing.",
+    "Cybercrime: identity theft, cyber terrorism, cyberbullying, hacking, defamation. Cyber law in Nepal: Electronic Transactions Act, 2063.",
+    "Internet security: strong passwords, two-factor authentication, updates, antivirus, firewall, backup, digital signatures.",
+    "Robotics designs robots; VR creates a 3-D artificial world; AI makes machines think; cloud computing stores and runs data on internet servers.",
+    "Full forms: ATM = Automated Teller Machine, WWW = World Wide Web, URL = Uniform Resource Locator, Wi-Fi = Wireless Fidelity, ISP = Internet Service Provider, VR = Virtual Reality, AI = Artificial Intelligence, STB = Set-Top Box."
+   ],
+   "terms": [
+    "ICT tools",
+    "Search engine",
+    "Website",
+    "Internet Service Provider (ISP)",
+    "Social media",
+    "Cybercrime",
+    "Computer code of conduct",
+    "Cyber law",
+    "Robotics",
+    "Virtual reality"
+   ],
+   "stats": {
+    "words": 4872,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Living Beings and Their Structure",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "the cell: plant and animal cells, cell organelles and their functions",
+    "interrelationship among cell, tissue, organ and organ system in the human body",
+    "classification of living beings: five kingdoms and the vertebrate classes",
+    "effects of microorganisms: useful microorganisms and disease-causing microorganisms",
+    "protection of food from microorganisms; vaccination"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "The cell: plant and animal cells, organelles and their functions"
+    },
+    {
+     "no": "3.2",
+     "title": "Cell, tissue, organ and organ system in the human body"
+    },
+    {
+     "no": "3.3",
+     "title": "Classification of living beings"
+    },
+    {
+     "no": "3.4",
+     "title": "Effects of microorganisms"
+    },
+    {
+     "no": "3.5",
+     "title": "Protection of food from microorganisms; vaccination"
+    }
+   ],
+   "summary": [
+    "The cell is the structural and functional unit of life (Hooke, 1665).",
+    "Parts: covering (cell wall + membrane), cytoplasm, cell components (organelles + inclusions), nucleus.",
+    "Mitochondria = power house (ATP); chloroplast = photosynthesis; ribosome = protein factory; ER = endoskeleton; Golgi = secretion; lysosome = suicidal bag; nucleus = brain of the cell; human cells have 23 pairs of chromosomes.",
+    "Plant cells have a cell wall, plastids and a large vacuole; animal cells do not.",
+    "Cell → tissue → organ → organ system → body.",
+    "Two-kingdom system: Linnaeus, 1753. Five-kingdom system: Whittaker, 1969 — Monera, Protista, Fungi, Plantae, Animalia.",
+    "Virus = link between living and non-living; bacteria, amoeba and fungi have useful and harmful effects.",
+    "Food preservation: dry, wet and cold methods remove moisture, add salt/acid/oil or lower the temperature. Vaccines give immunity."
+   ],
+   "terms": [
+    "Cell",
+    "Classification",
+    "Food poisoning"
+   ],
+   "stats": {
+    "words": 5179,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Biodiversity and Environment",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "biodiversity: meaning, levels and importance",
+    "threats to biodiversity and its conservation",
+    "ecosystem, food chain and food web",
+    "sustainable development: meaning, principles and practices",
+    "environment protection and local initiatives"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Biodiversity: meaning, levels and importance"
+    },
+    {
+     "no": "4.2",
+     "title": "Threats to biodiversity and its conservation"
+    },
+    {
+     "no": "4.3",
+     "title": "Ecosystem, food chain and food web"
+    },
+    {
+     "no": "4.4",
+     "title": "Sustainable development: meaning, aspects and principles"
+    },
+    {
+     "no": "4.5",
+     "title": "Sustainable development goals, environment protection and local initiatives"
+    }
+   ],
+   "summary": [
+    "Biodiversity = variety of organisms; types: genetic, species and ecosystem diversity (Earth Summit, Rio de Janeiro, 1992).",
+    "Importance: food and livelihood, balanced environment, sustainable resources, ecotourism, adaptation to climate change.",
+    "Nepal: 0.1 % of world area, altitude 59 m – 8848.86 m, 3.2 % of plant and 1.1 % of animal species, 118 ecosystems; spiny babbler is endemic.",
+    "Degradation: overgrazing, pollution, mining, unplanned construction, deforestation, fire, floods, global warming, poaching, invasive species.",
+    "In-situ (national parks, reserves, conservation areas) and ex-situ (zoo, botanical garden, seed bank) conservation.",
+    "Food chains start with producers; joined food chains form a food web.",
+    "Sustainable development (Brundtland, 1987) has economic, social and environmental pillars, and principles of conservation, population control and public participation.",
+    "SDGs: 2016–2030, 17 goals, 169 targets, 232 indicators; goal 15 is about life on land and biodiversity."
+   ],
+   "terms": [
+    "Biodiversity",
+    "Sustainable development"
+   ],
+   "stats": {
+    "words": 3766,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Life Process",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "reproduction: asexual and sexual",
+    "sexual reproduction in plants: flower, pollination and fertilisation",
+    "sexual reproduction in animals: internal and external fertilisation",
+    "the seed: structure, germination and dispersal",
+    "growth, nutrition and respiration in living beings"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Reproduction: asexual and sexual"
+    },
+    {
+     "no": "5.2",
+     "title": "Sexual reproduction in plants: flower, pollination and fertilisation"
+    },
+    {
+     "no": "5.3",
+     "title": "Sexual reproduction in animals: internal and external fertilisation"
+    },
+    {
+     "no": "5.4",
+     "title": "The seed: structure, germination and dispersal"
+    },
+    {
+     "no": "5.5",
+     "title": "Growth, nutrition and respiration in living beings"
+    }
+   ],
+   "summary": [
+    "Reproduction gives birth to one's own kind; it is asexual (no gametes) or sexual (fusion of gametes).",
+    "Asexual types: fission, budding, fragmentation, regeneration, sporulation, parthenogenesis. Offspring are identical to the parent.",
+    "Vegetative propagation: natural (root, sucker, rhizome, corm, bulb, tuber, aerial stem, bulbil, leaf) and artificial (cutting, layering, gootee, grafting, tissue culture).",
+    "Flower: sepals, petals, stamens (anther + filament), pistil (stigma + style + ovary).",
+    "Pollination: self (autogamy, geitonogamy) and cross (wind, water, insects, birds).",
+    "Double fertilisation: male gamete + egg → zygote; male gamete + secondary nucleus → endosperm. Ovule → seed; ovary → fruit.",
+    "Animals: internal fertilisation (insects, reptiles, birds, mammals) and external (fish, frog).",
+    "Seed = seed coat + embryo (radicle, plumule, cotyledons) + endosperm; dispersed by wind, water, animals, gravity and bursting; germinates with water, air and warmth."
+   ],
+   "terms": [
+    "Reproduction",
+    "Pollination",
+    "Fertilisation",
+    "Germination and dormancy"
+   ],
+   "stats": {
+    "words": 4810,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Force and Motion",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "motion: distance, displacement, speed, velocity and acceleration",
+    "distance-time and velocity-time graphs",
+    "force and its effects; balanced and unbalanced forces",
+    "Newton's laws of motion in everyday examples",
+    "lever: classes, principle of moments and mechanical advantage",
+    "pressure in solids, liquids and gases; atmospheric pressure and its uses",
+    "Archimedes' principle, upthrust, floatation and density"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Motion: distance, displacement, speed, velocity and acceleration"
+    },
+    {
+     "no": "6.2",
+     "title": "Distance-time and velocity-time graphs"
+    },
+    {
+     "no": "6.3",
+     "title": "Force and its effects; balanced and unbalanced forces"
+    },
+    {
+     "no": "6.4",
+     "title": "Newton's laws of motion in everyday examples"
+    },
+    {
+     "no": "6.5",
+     "title": "Lever: classes, principle of moments and mechanical advantage"
+    },
+    {
+     "no": "6.6",
+     "title": "Pressure in solids, liquids and gases; atmospheric pressure"
+    },
+    {
+     "no": "6.7",
+     "title": "Archimedes' principle, upthrust, floatation and density"
+    }
+   ],
+   "summary": [
+    "Rest and motion are relative to a reference point. Speed =(d)/(t), velocity =(s)/(t) (m/s); velocity has direction.",
+    "Relative velocity: vA-vB (same direction), vA+vB (opposite).",
+    "Average velocity = total displacement ÷ total time =(u+v)/(2) for steady change.",
+    "Acceleration a=(v-u)/(t) (m/s²); negative acceleration is retardation.",
+    "Slope of d–t graph = speed; slope of v–t graph = acceleration; area under v–t = distance.",
+    "Newton: inertia; F=ma; action = reaction.",
+    "Lever: E× E.D.=L× L.D.; MA=(L)/(E), VR=(E.D.)/(L.D.), η=(MA)/(VR)×100% (< 100 % because of friction).",
+    "Pressure P=(F)/(A) (Pa); liquid pressure P=hdg; atmospheric pressure at sea level = 760 mmHg; barometer, manometer, pressure gauge."
+   ],
+   "terms": [
+    "Speed and velocity",
+    "Acceleration",
+    "Lever",
+    "Pressure",
+    "Archimedes' principle"
+   ],
+   "stats": {
+    "words": 4172,
+    "figures": 3,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Energy in Daily Life",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "heat and temperature; thermometers and their scales",
+    "thermal expansion of solids, liquids and gases",
+    "transfer of heat: conduction, convection and radiation",
+    "specific heat capacity and its daily applications",
+    "light: reflection and refraction",
+    "lenses and images; dispersion of light; the human eye and optical instruments",
+    "energy sources, transformation and conservation"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Heat and temperature; thermometers and their scales"
+    },
+    {
+     "no": "7.2",
+     "title": "Thermal expansion of solids, liquids and gases"
+    },
+    {
+     "no": "7.3",
+     "title": "Transfer of heat: conduction, convection and radiation"
+    },
+    {
+     "no": "7.4",
+     "title": "Specific heat capacity and its daily applications"
+    },
+    {
+     "no": "7.5",
+     "title": "Light: reflection by plane and spherical mirrors, and refraction"
+    },
+    {
+     "no": "7.6",
+     "title": "Lenses and images; dispersion; the eye and optical instruments"
+    },
+    {
+     "no": "7.7",
+     "title": "Sound"
+    },
+    {
+     "no": "7.8",
+     "title": "Energy sources, transformation and conservation"
+    }
+   ],
+   "summary": [
+    "Energy is the capacity to do work (J); 1 calorie ≈ 4.2 J.",
+    "Heat flows from higher to lower temperature. F=(9)/(5)C+32, K=C+273.",
+    "Conduction (solids, no movement of particles), convection (liquids and gases, movement of particles), radiation (no medium, electromagnetic waves).",
+    "Dark surfaces absorb and emit radiation well; white and shiny surfaces do not.",
+    "Thermos flask: vacuum (no conduction/convection), silvering (no radiation), cork.",
+    "Greenhouse effect: greenhouse gases trap heat; more gases → global warming.",
+    "Q=msΔ t; water has a high specific heat capacity (4200 J/kg °C).",
+    "Concave mirror converges (real images, except object within F); convex mirror diverges (virtual, erect, diminished image). f=(R)/(2)."
+   ],
+   "terms": [
+    "Conduction",
+    "Convection",
+    "Radiation",
+    "Greenhouse effect",
+    "Specific heat capacity",
+    "Reflection of light",
+    "Speed of sound"
+   ],
+   "stats": {
+    "words": 5669,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Electricity and Magnetism",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "magnets, magnetic substances and the magnetic field",
+    "terrestrial magnetism and the magnetic compass",
+    "static electricity and electric charge",
+    "electric circuit, current, potential difference and resistance",
+    "Ohm's law and its verification",
+    "household electrification: wiring, fuse, earthing and safety",
+    "electric meter, unit (kWh) and the electricity bill",
+    "magnetic effect of current; electric bell"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Magnets, magnetic substances and the magnetic field"
+    },
+    {
+     "no": "8.2",
+     "title": "Terrestrial magnetism and the magnetic compass"
+    },
+    {
+     "no": "8.3",
+     "title": "Static electricity and electric charge"
+    },
+    {
+     "no": "8.4",
+     "title": "Electric circuit, current, potential difference and resistance"
+    },
+    {
+     "no": "8.5",
+     "title": "Ohm's law and its verification"
+    },
+    {
+     "no": "8.6",
+     "title": "Household electrification: wiring, fuse, earthing and safety"
+    },
+    {
+     "no": "8.7",
+     "title": "The electric meter, the unit (kWh) and the electricity bill"
+    },
+    {
+     "no": "8.8",
+     "title": "Magnetic effect of current; the electric bell"
+    }
+   ],
+   "summary": [
+    "Magnets attract iron, cobalt and nickel; like poles repel, unlike poles attract; a suspended magnet points north–south.",
+    "Natural magnet: lodestone. Artificial: bar, horseshoe, electromagnet.",
+    "Molecular theory (Weber, Ewing): aligned molecular magnets = magnet; random = unmagnetised; all aligned = saturation. Heating, hammering, a.c. and like-pole storage demagnetise.",
+    "Earth is a magnet (molten iron in the outer core). Declination: angle between geographic and magnetic meridians. Dip: angle with the horizontal (0° at magnetic equator, 90° at poles).",
+    "V=IR (Ohm's law); current in A, p.d. in V, resistance in Ω.",
+    "House supply 220 V: meter → main switch → distribution board (MCB/fuse) → switches → loads in parallel. Fuse and switch in the live wire; earth wire protects from shock.",
+    "1 unit = 1 kWh; E=P× N× t; bill = units × rate."
+   ],
+   "terms": [
+    "Ohm's law",
+    "Earthing"
+   ],
+   "stats": {
+    "words": 3919,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Matter",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "states of matter and the kinetic idea of particles",
+    "element, compound and mixture; atom and molecule",
+    "physical and chemical change",
+    "solution, solute, solvent; saturated and unsaturated solution",
+    "separation of mixtures: filtration, distillation, sublimation, chromatography",
+    "acids, bases and salts; indicators and pH in daily life",
+    "metals and non-metals; alloys"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "States of matter and the kinetic idea of particles"
+    },
+    {
+     "no": "9.2",
+     "title": "Element, compound and mixture; atom and molecule"
+    },
+    {
+     "no": "9.3",
+     "title": "Physical and chemical change; chemical reactions and equations"
+    },
+    {
+     "no": "9.4",
+     "title": "Solution, solute and solvent; saturated and unsaturated solution"
+    },
+    {
+     "no": "9.5",
+     "title": "Separation of mixtures"
+    },
+    {
+     "no": "9.6",
+     "title": "Acids, bases and salts; indicators and pH"
+    },
+    {
+     "no": "9.7",
+     "title": "Metals and non-metals; alloys"
+    },
+    {
+     "no": "9.8",
+     "title": "Classification of elements: the modern periodic table"
+    }
+   ],
+   "summary": [
+    "Matter has mass and volume; it exists as solid, liquid and gas.",
+    "Atom: nucleus (protons +1, 1 amu; neutrons 0, 1 amu) and electrons (−1, 1/1837 amu) in shells K, L, M, N with at most 2n^2 electrons.",
+    "Valency = electrons lost, gained or shared to become stable; noble gases have valency 0.",
+    "Criss-cross method gives formulae (MgO, CaCl₂, AlCl₃, NH₃, K₂O).",
+    "Atomic weight = protons + neutrons; molecular weight = sum of atomic weights.",
+    "Chemical equation: reactants → products; balance by coefficients (2Na + Cl₂ → 2NaCl).",
+    "Modern periodic law (Moseley): properties depend on atomic number; 18 groups, 7 periods. Down a group size and metallic character increase; across a period they decrease.",
+    "pH < 7 acid, 7 neutral, > 7 base; acid + base → salt + water."
+   ],
+   "terms": [
+    "Atom",
+    "Valency",
+    "Modern periodic law"
+   ],
+   "stats": {
+    "words": 4242,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Materials Used in Daily Life",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "water: sources, hardness, purification and water-borne disease",
+    "water pollution and its control",
+    "cement, glass and ceramics",
+    "plastics and polymers: uses and environmental harm",
+    "soap, detergent and fertiliser",
+    "fibre: natural and synthetic",
+    "fuel and combustion; fire safety"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Water: sources, hardness, purification and water-borne disease"
+    },
+    {
+     "no": "10.2",
+     "title": "Water pollution and its control; acid rain"
+    },
+    {
+     "no": "10.3",
+     "title": "Cement, glass and ceramics"
+    },
+    {
+     "no": "10.4",
+     "title": "Plastics and polymers: uses and environmental harm"
+    },
+    {
+     "no": "10.5",
+     "title": "Soap, detergent and fertiliser"
+    },
+    {
+     "no": "10.6",
+     "title": "Fibre: natural and synthetic"
+    },
+    {
+     "no": "10.7",
+     "title": "Fuel and combustion; fire safety"
+    },
+    {
+     "no": "10.8",
+     "title": "Acids, bases and salts in daily life"
+    },
+    {
+     "no": "10.9",
+     "title": "Alloys"
+    }
+   ],
+   "summary": [
+    "Hard water has Ca and Mg salts. Temporary (bicarbonates): boiling, Clark's method. Permanent (sulphates, chlorides): washing soda, permutit.",
+    "Water is purified by sedimentation, filtration, boiling, chlorination, SODIS, distillation.",
+    "Acid rain: SO₂ and NOₓ from burning fuels form H₂SO₄ and HNO₃; harms water life, crops, forests and monuments.",
+    "Acid gives H⁺ (sour, blue litmus → red, methyl orange red, phenolphthalein colourless). Base/alkali gives OH⁻ (bitter, soapy, red litmus → blue, methyl orange yellow, phenolphthalein pink).",
+    "Acid + metal → salt + H₂; acid + carbonate → salt + H₂O + CO₂; acid + base → salt + water.",
+    "Salts are neutral (NaCl), acidic (NH₄Cl) or basic (Na₂CO₃).",
+    "Alloys: steel (Fe + C), stainless steel (Fe + Cr + Ni), brass (Cu + Zn), bronze (Cu + Sn)."
+   ],
+   "terms": [
+    "Soft and hard water",
+    "Acid rain",
+    "Acid",
+    "Base and alkali",
+    "Salt",
+    "Alloy"
+   ],
+   "stats": {
+    "words": 4402,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "The Earth and Universe",
+   "hours": null,
+   "area": "Science and Technology",
+   "topics": [
+    "minerals: metallic and non-metallic, and their uses",
+    "rocks and the structure of the earth",
+    "origin and age of the earth",
+    "the solar system: planets, satellites, asteroids and comets",
+    "stars, constellations and galaxies",
+    "space exploration and artificial satellites; Nepal in space science"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Minerals: metallic and non-metallic, and their uses"
+    },
+    {
+     "no": "11.2",
+     "title": "Rocks and the structure of the earth"
+    },
+    {
+     "no": "11.3",
+     "title": "Origin and age of the earth; history of life"
+    },
+    {
+     "no": "11.4",
+     "title": "The solar system: planets, satellites, asteroids, comets and meteors"
+    },
+    {
+     "no": "11.5",
+     "title": "The universe, stars, constellations and galaxies"
+    },
+    {
+     "no": "11.6",
+     "title": "Space exploration and artificial satellites; Nepal in space science"
+    }
+   ],
+   "summary": [
+    "Mineral: natural, solid, homogeneous substance of definite composition; types — metallic (ferrous, non-ferrous, precious), non-metallic (gems, non-gems), energy minerals.",
+    "Nepal has more than 60 kinds of minerals; e.g. iron at Phulchoki, limestone at Udayapur, magnesite at Dolakha, uranium in Upper Mustang.",
+    "Earth's layers: crust, mantle, outer core (liquid), inner core (solid). Rocks: igneous, sedimentary, metamorphic.",
+    "Earth is about 4.6 billion years old. Hypotheses: nebular (Kant, Laplace), collision (Buffon), passing-star / planetesimal (Chamberlin–Moulton), tidal (Jeans–Jeffreys).",
+    "Eras: Cryptozoic (simple life), Palaeozoic (invertebrates, fish, amphibians, ferns), Mesozoic (reptiles, dinosaurs, conifers), Cenozoic (mammals, flowering plants, humans).",
+    "Big Bang: about 13.8 billion years ago; the universe is expanding (Hubble, Lemaître).",
+    "Asteroids: rocky, between Mars and Jupiter. Comets: icy, nucleus + coma + tails pointing away from the sun. Meteor = burning meteoroid; meteorite = piece that reaches the ground.",
+    "Galaxy: billions of stars (Milky Way); constellation: star pattern (88; 12 zodiac)."
+   ],
+   "terms": [
+    "Mineral"
+   ],
+   "stats": {
+    "words": 4430,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 11,
+ "topic_count": 69,
+ "notes_ready": 11
+}

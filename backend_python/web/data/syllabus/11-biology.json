@@ -1,0 +1,485 @@
+{
+ "grade": "11",
+ "grade_label": "Class 11",
+ "grade_label_ne": "कक्षा ११",
+ "subject": "biology",
+ "name": "Biology",
+ "name_ne": "जीवविज्ञान",
+ "icon": "biotech",
+ "group": "science",
+ "color": "#0B6A62",
+ "lang": "en",
+ "code": "2011 (CDC Bio.201)",
+ "hours": 128,
+ "exam": "3hr, FM 75 written (+25 internal) | Section I Botany 37 + Section II Zoology 38",
+ "areas": [
+  "Botany",
+  "Zoology"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Biomolecules and Cell Biology",
+   "hours": 15,
+   "area": "Botany",
+   "topics": [
+    "Biomolecules [4]: carbohydrates, proteins, lipids, nucleic acids, minerals, enzymes, water",
+    "Cell [8]: prokaryotic and eukaryotic cell; cell wall; cell membrane; mitochondria; plastids; endoplasmic reticulum; golgi apparatus; lysosomes; ribosomes; nucleus; chromosomes; cilia and flagella; cell inclusions",
+    "Cell division [3]: cell cycle; amitosis; mitosis; meiosis"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Biomolecules"
+    },
+    {
+     "no": "1.2",
+     "title": "Cell"
+    },
+    {
+     "no": "1.3",
+     "title": "Cell division"
+    }
+   ],
+   "summary": [
+    "Condensation joins monomers into polymers with the loss of water; hydrolysis reverses it. Carbohydrates → glycosidic bonds, proteins → peptide bonds, lipids → ester bonds, nucleic acids → phosphodiester bonds.",
+    "Lipids yield about 39 kJ g⁻¹ against 17 kJ g⁻¹ for carbohydrate and protein.",
+    "DNA is an antiparallel right-handed double helix: A=T (2 H-bonds), G≡C (3 H-bonds), 0.34 nm per base pair, 3.4 nm and 10 base pairs per turn, diameter 2 nm. Chargaff: A = T and G = C.",
+    "Enzymes are protein catalysts that lower activation energy; they are specific and have an optimum temperature and pH. Induced fit, not lock and key, is the accepted model.",
+    "Prokaryotes lack a nuclear envelope and membrane-bound organelles and have 70S ribosomes; eukaryotes have both and 80S cytoplasmic ribosomes.",
+    "Mitochondria and chloroplasts are double-membraned and semi-autonomous, with circular DNA and 70S ribosomes; cristae and thylakoids increase membrane area.",
+    "The plasma membrane is a fluid mosaic (Singer and Nicolson, 1972), about 7.5 nm thick and selectively permeable.",
+    "Cell cycle = interphase (G₁, S, G₂) + M phase. DNA doubles 2C → 4C in S phase but the chromosome number does not change."
+   ],
+   "terms": [
+    "Reducing and non-reducing sugars",
+    "Cell theory"
+   ],
+   "stats": {
+    "words": 7044,
+    "figures": 8,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Floral Diversity",
+   "hours": 30,
+   "area": "Botany",
+   "topics": [
+    "Introduction [1]: three domains of life; binomial nomenclature; five-kingdom classification; flora status of Nepal",
+    "Fungi",
+    "Lichen",
+    "Algae",
+    "Bryophyta",
+    "Pteridophyta",
+    "Gymnosperm",
+    "Angiosperm [16]: morphology; taxonomic hierarchy; artificial, natural and phylogenetic systems; Brassicaceae; Fabaceae; Solanaceae; Liliaceae"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Introduction"
+    },
+    {
+     "no": "2.2",
+     "title": "Fungi"
+    },
+    {
+     "no": "2.3",
+     "title": "Lichen"
+    },
+    {
+     "no": "2.4",
+     "title": "Algae"
+    },
+    {
+     "no": "2.5",
+     "title": "Bryophyta"
+    },
+    {
+     "no": "2.6",
+     "title": "Pteridophyta"
+    },
+    {
+     "no": "2.7",
+     "title": "Gymnosperm"
+    },
+    {
+     "no": "2.8",
+     "title": "Angiosperm"
+    }
+   ],
+   "summary": [
+    "Three domains — Archaea, Bacteria, Eukarya — were proposed by Woese (1977) from 16S rRNA sequences. Archaea and Bacteria are prokaryotic; only Archaea have branched, ether-linked membrane lipids.",
+    "Binomial nomenclature (Linnaeus, Species Plantarum, 1753) gives every species a two-word Latin name: capitalised genus, lower-case species epithet, italicised in print, underlined separately in handwriting, governed by the ICN and the principle of priority.",
+    "Whittaker's five kingdoms (1969) — Monera, Protista, Fungi, Plantae, Animalia — separate organisms by cell type, body organisation and mode of nutrition. Viruses fall outside the scheme entirely.",
+    "Nepal holds over 3 % of the world's known plants on 0.1 % of its land: about 6,500 angiosperms, 28 gymnosperms, 534 pteridophytes, 1,150 bryophytes, 771 lichens, with about 300 endemic flowering plants.",
+    "Fungi are achlorophyllous absorptive heterotrophs with chitin walls, glycogen reserve and a mycelium of coenocytic or septate hyphae. Sexual reproduction runs plasmogamy → karyogamy → meiosis, with a dikaryotic stage in the higher classes. Four classes: Phycomycetes (zygospore), Ascomycetes (8 ascospores in an ascus), Basidiomycetes (4 ba",
+    "Lichens are fungus + alga: the mycobiont gives the body and absorbs water, the photobiont gives the food. Crustose, foliose and fruticose growth forms; reproduction chiefly by soredia and isidia. They are pioneers of rock succession, indicators of SO₂ pollution and the source of litmus.",
+    "Algae are thalloid autotrophs with unicellular sex organs and no embryo. Fritsch's classes are recognised by pigment and reserve food: green (starch), brown (laminarin, fucoxanthin), red (floridean starch, phycoerythrin, no flagella). Sexual reproduction advances through isogamy → anisogamy → oogamy.",
+    "Bryophytes are the amphibians of the plant kingdom: gametophyte dominant, no vascular tissue, rhizoids instead of roots, jacketed antheridia and archegonia, water needed for fertilisation, and a dependent sporophyte of foot, seta and capsule."
+   ],
+   "terms": [
+    "Domain",
+    "Binomial nomenclature",
+    "Lichen",
+    "Species"
+   ],
+   "stats": {
+    "words": 11805,
+    "figures": 11,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Introductory Microbiology",
+   "hours": 5,
+   "area": "Botany",
+   "topics": [
+    "Monera",
+    "Virus",
+    "Impacts of biotechnology in microbiology"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Monera"
+    },
+    {
+     "no": "3.2",
+     "title": "Virus"
+    },
+    {
+     "no": "3.3",
+     "title": "Impacts of biotechnology in microbiology"
+    }
+   ],
+   "summary": [
+    "Monera contains all prokaryotes: no nuclear envelope, no membrane-bound organelles, 70S ribosomes, a single naked circular DNA, and a peptidoglycan wall (absent in Mycoplasma, non-peptidoglycan in Archaebacteria).",
+    "Bacterial shapes are coccus, bacillus, vibrio and spiral; the prefixes diplo-, strepto-, staphylo-, tetrad and sarcina name the arrangements.",
+    "Gram-positive walls have thick peptidoglycan and teichoic acid and stain violet; Gram-negative walls have thin peptidoglycan plus an outer lipopolysaccharide membrane and stain pink.",
+    "Reproduction is binary fission (amitosis); endospores are for survival, not reproduction; DNA is exchanged by transformation, conjugation and transduction.",
+    "Population growth is geometric: N = N0 × 2^n with n = t/g.",
+    "A virus is a nucleoprotein particle — one kind of nucleic acid in a capsid of capsomeres — that is inert outside its host and multiplies only inside it, by the lytic or the lysogenic cycle.",
+    "T4 bacteriophage: icosahedral head of dsDNA, collar, contractile sheath, hollow core, base plate, tail fibres. TMV: helical rod 300 × 18 nm, 2130 capsomeres, ssRNA.",
+    "Microbial biotechnology uses restriction enzymes, ligase, plasmid vectors and E. coli hosts to make insulin, vaccines, Bt crops, biofertilisers, biogas and bioremediation agents — with biosafety and biopiracy as the chief concerns."
+   ],
+   "terms": [
+    "Monera",
+    "Virus",
+    "Biotechnology"
+   ],
+   "stats": {
+    "words": 4038,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Ecology",
+   "hours": 11,
+   "area": "Botany",
+   "topics": [
+    "Ecosystem ecology",
+    "Ecological Adaptation",
+    "Ecological Imbalances"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Ecosystem ecology"
+    },
+    {
+     "no": "4.2",
+     "title": "Ecological adaptation"
+    },
+    {
+     "no": "4.3",
+     "title": "Ecological imbalances"
+    }
+   ],
+   "summary": [
+    "An ecosystem (Tansley, 1935) has abiotic components (climatic, edaphic, inorganic, organic) and biotic components (producers, consumers, decomposers).",
+    "Food chains are grazing or detritus type; crossing chains form a food web, which gives the ecosystem stability.",
+    "Energy flow is unidirectional: about 1 % of incident light is fixed, and only ~10 % passes from each trophic level to the next (Lindeman's ten per cent law). Matter, in contrast, moves in cycles.",
+    "NPP = GPP - R; standing crop is a mass, productivity is a rate.",
+    "Pyramids of number and of biomass may be inverted; the pyramid of energy is always upright.",
+    "Population density D = N/A; unlimited growth is exponential, Nt = N0 e^rt (J-shaped); limited growth is logistic, dN/dt = rN(K-N)/K (S-shaped), levelling at the carrying capacity K.",
+    "Nitrogen cycle: fixation → ammonification → nitrification (Nitrosomonas, then Nitrobacter) → assimilation → denitrification (Pseudomonas denitrificans).",
+    "Carbon cycle: photosynthesis takes CO₂ in; respiration, decomposition and combustion of fossil fuels put it back."
+   ],
+   "terms": [
+    "Ecosystem",
+    "Primary productivity",
+    "Ecological succession",
+    "Adaptation",
+    "Ecological imbalance"
+   ],
+   "stats": {
+    "words": 4567,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Vegetation",
+   "hours": 3,
+   "area": "Botany",
+   "topics": [
+    "Vegetation [2]: types of vegetation in Nepal; In-situ and Ex-situ conservation",
+    "Natural environment, vegetation and human activities"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Vegetation"
+    },
+    {
+     "no": "5.2",
+     "title": "Natural environment, vegetation and human activities"
+    }
+   ],
+   "summary": [
+    "Vegetation is the plant cover of an area; flora is the list of species in it. Nepal holds about 3.2 % of world flora on under 0.1 % of world land.",
+    "Temperature falls about 6 °C per 1000 m, which produces six altitudinal zones: Tropical (<1000 m, Sal), Subtropical (1000–2000 m, chilaune–katus and chir pine), Temperate (2000–3000 m, oak and rhododendron), Subalpine (3000–4000 m, fir and birch), Alpine (4000–5000 m, scrub and meadow) and Nival (>5000 m, snow).",
+    "The tree line lies near 4000 m. Behind the Himalaya, the trans-Himalayan steppe of Mustang, Manang and Dolpa gets only about 250 mm of rain and carries Caragana, Artemisia and Hippophae.",
+    "In-situ conservation protects the habitat: 13 national parks, 1 wildlife reserve (Koshi Tappu), 1 hunting reserve (Dhorpatan), 6 conservation areas, 13 buffer zones and 10 Ramsar sites — about 23.4 % of the country. Chitwan (1973) was the first; Annapurna (1992) is the largest.",
+    "Ex-situ conservation protects the organism away from its habitat: the National Botanical Garden at Godawari (1962), the National Herbarium (KATH), the National Gene Bank at Khumaltar (2010), community seed banks, and the Central Zoo, Jawalakhel (1932).",
+    "About 23,000 CFUGs manage 2.5 million ha, nearly 39 % of Nepal's forest. Forest covers 43.4 % of the country.",
+    "Vegetation is damaged by deforestation, khoriya, overgrazing, fire, over-collection of NTFPs, Chure quarrying and invasive species such as Mikania micrantha and Eichhornia crassipes; it is repaired by community forestry, agroforestry, buffer-zone sharing, alternative energy and the Forest Act, 2019."
+   ],
+   "terms": [
+    "Vegetation",
+    "In-situ and ex-situ conservation"
+   ],
+   "stats": {
+    "words": 4163,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Introduction to Biology",
+   "hours": 1,
+   "area": "Zoology",
+   "topics": [
+    "Introduction to Biology"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Introduction to Biology"
+    }
+   ],
+   "summary": [
+    "Biology is the science of living organisms; from Greek bios (life) and logos (study), brought into use in 1802 by Treviranus and Lamarck. Aristotle is the Father of Biology and of Zoology; Theophrastus the Father of Botany.",
+    "Living things show cellular organisation, metabolism, growth, reproduction, irritability, homeostasis, adaptation and evolution, and a finite life span.",
+    "Branches divide by the group studied — botany, zoology, microbiology, mycology, phycology, entomology, ichthyology, herpetology, ornithology, parasitology — and by the aspect studied — morphology, anatomy, histology, cytology, physiology, biochemistry, genetics, embryology, taxonomy, evolution, palaeontology, ecology, immunology, patholog",
+    "Biology overlaps physics (biophysics: microscopy, X-ray crystallography, nerve impulses, medical imaging), chemistry (biochemistry: enzymes, respiration, pH), mathematics (biostatistics: Mendelian ratios, Hardy–Weinberg, population models), geology (palaeontology, soils), geography (biogeography) and computing (bioinformatics).",
+    "Total magnification of a compound microscope = eyepiece × objective; real size = image size ÷ magnification. Light microscopes resolve to about 0.2 μm; beyond about 1500× the extra magnification is empty.",
+    "Applied biology supports medicine, agriculture, forestry, veterinary science, fisheries, biotechnology and conservation — the sectors that carry Nepal's economy."
+   ],
+   "terms": [
+    "Biology"
+   ],
+   "stats": {
+    "words": 2866,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Evolutionary Biology",
+   "hours": 15,
+   "area": "Zoology",
+   "topics": [
+    "Life and its Origin",
+    "Evidences of evolution",
+    "Theories of evolution",
+    "Human evolution"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Life and its Origin"
+    },
+    {
+     "no": "7.2",
+     "title": "Evidences of evolution"
+    },
+    {
+     "no": "7.3",
+     "title": "Theories of evolution"
+    },
+    {
+     "no": "7.4",
+     "title": "Human evolution"
+    }
+   ],
+   "summary": [
+    "Life arose once, by chemical evolution under a reducing, oxygen-free atmosphere (Oparin 1924, Haldane 1929): gases → monomers → polymers → protobionts → anaerobic heterotroph → photoautotroph → aerobe. Miller and Urey (1953) obtained amino acids, not life. Pasteur's swan-necked flask had already established biogenesis.",
+    "Homologous organs = same structure, different function → divergent evolution → common ancestry. Analogous = different structure, same function → convergent evolution → adaptation only. Vestigial organs are functionless remnants (appendix, coccyx, plica semilunaris, ear muscles). Early vertebrate embryos share gill slits, notochord and a p",
+    "Fossils are the only direct evidence and include connecting links — Archaeopteryx, lungfish, Peripatus, platypus, Seymouria. Horse series Eohippus → Mesohippus → Merychippus → Pliohippus → Equus: 0.3 → 1.6 m, toes 4 → 1, browsing → grazing teeth.",
+    "Lamarckism (use, disuse, inheritance of acquired characters) was disproved by Weismann's germplasm theory. Darwinism = over-production → struggle → variation → natural selection → new species, but could not explain variation. Neo-Darwinism = mutation + recombination + selection + drift + gene flow + isolation, acting on a population.",
+    "Selection is stabilising, directional or disruptive; industrial melanism in Biston betularia is directional selection recorded in real time.",
+    "Hardy–Weinberg: p + q = 1 and p^2 + 2pq + q^2 = 1, with p^2 = AA, 2pq = Aa, q^2 = aa; it needs a large, randomly mating population with no mutation, migration or selection, and deviation from it is evolution. For a recessive trait q = √q^2 from the phenotype frequency, and the carrier : affected ratio is 2p/q. Speciation needs isolation —",
+    "Human line: Dryopithecus (400 cm³) → Australopithecus (450 cm³, first biped) → H. habilis (650–800 cm³, first tools) → H. erectus (950 cm³, fire) → H. neanderthalensis (1450 cm³, burial) → H. sapiens (1350–1450 cm³). Ramapithecus of the Nepali Siwaliks belongs to the orangutan branch."
+   ],
+   "terms": [
+    "Chemical evolution",
+    "Evolution, in the Neo-Darwinian sense",
+    "Hardy–Weinberg principle",
+    "Species and speciation"
+   ],
+   "stats": {
+    "words": 6675,
+    "figures": 8,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Faunal Diversity",
+   "hours": 34,
+   "area": "Zoology",
+   "topics": [
+    "Protista",
+    "Animalia [10]: level of organization; body plan; nine phyla",
+    "Earthworm (Pheretima posthuma)",
+    "Frog (Rana tigrina)"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Protista"
+    },
+    {
+     "no": "8.2",
+     "title": "Animalia"
+    },
+    {
+     "no": "8.3",
+     "title": "Earthworm (Pheretima posthuma)"
+    },
+    {
+     "no": "8.4",
+     "title": "Frog (Rana tigrina)"
+    }
+   ],
+   "summary": [
+    "Protista holds the eukaryotes that are neither plant, animal nor fungus; the Protozoa are classified by locomotory organelle into Rhizopoda, Mastigophora, Sporozoa and Ciliata.",
+    "Paramecium caudatum is a slipper-shaped ciliate with a pellicle, trichocysts, two contractile vacuoles, a macronucleus and a micronucleus; it swims by a metachronal wave, filter feeds, divides by transverse binary fission and reorganises its nuclei by conjugation.",
+    "Animals are classified by level of organisation, body plan, symmetry, germ layers, coelom and segmentation: Porifera cellular, Coelenterata diploblastic and radial, Platyhelminthes acoelomate, Nemathelminthes pseudocoelomate, Annelida onwards truly coelomate. Chordata is defined by a notochord, a dorsal hollow nerve cord, pharyngeal gill ",
+    "Pheretima posthuma has a clitellum on segments 14–16, perichaetine setae, a gizzard, calciferous glands, caeca at segment 26 and a typhlosole, four pairs of hearts in a closed circulation, three kinds of nephridia and a solid ventral nerve cord. It is hermaphrodite but cross-fertilising, with external fertilisation inside the cocoon.",
+    "Rana tigrina breathes cutaneously, buccopharyngeally and through lungs worked by a buccal force pump; its three-chambered heart with a spiral valve gives a double but incomplete circulation. It is ureotelic, with mesonephric kidneys and a shared urinogenital duct in the male; fertilisation is external after amplexus, and thyroxine-driven "
+   ],
+   "terms": [],
+   "stats": {
+    "words": 9233,
+    "figures": 20,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Biota and Environment",
+   "hours": 10,
+   "area": "Zoology",
+   "topics": [
+    "Animal adaptation",
+    "Animal behavior",
+    "Environmental Pollution"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Animal adaptation"
+    },
+    {
+     "no": "9.2",
+     "title": "Animal behavior"
+    },
+    {
+     "no": "9.3",
+     "title": "Environmental Pollution"
+    }
+   ],
+   "summary": [
+    "Adaptation is an inherited morphological, physiological or behavioural feature that fits an animal to its habitat; acclimatisation, by contrast, is a reversible change within one lifetime.",
+    "A bony fish is adapted by a fusiform body, mucus and scales, paired and unpaired fins, counter-current gills, an air bladder for buoyancy, and osmoregulation that is opposite in fresh and salt water.",
+    "Flight adaptations: streamlined body, feathers, wings, pneumatic bones, keeled sternum, huge pectoral muscles, nine air sacs, four-chambered heart and weight economy (no urinary bladder, uric acid, one ovary).",
+    "Bergmann's rule — colder climate, larger body; Allen's rule — colder climate, shorter extremities.",
+    "Unlimited growth is exponential, dN/dt = rN, Nt = N0e^rt, a J-curve; limited growth is logistic, dN/dt = rN(K-N)/K, an S-curve, fastest at N=K/2 and levelling at the carrying capacity K. Doubling time td = ln 2/r.",
+    "Innate behaviour (taxis, kinesis, reflex, fixed action pattern, instinct, imprinting) is inherited and rigid; learned behaviour (habituation, classical and operant conditioning, insight, latent learning, imitation) needs experience.",
+    "In the honeybee waggle dance, the angle of the waggle run to the vertical equals the angle of the food from the sun, and the duration of waggling indicates the distance; a round dance means food is close.",
+    "Species interactions are classified by signs: mutualism (+,+), commensalism (+,0), predation and parasitism (+,-), competition (-,-), amensalism (0,-), neutralism (0,0)."
+   ],
+   "terms": [
+    "Adaptation",
+    "Pollution and pollutant"
+   ],
+   "stats": {
+    "words": 6392,
+    "figures": 6,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Conservation Biology",
+   "hours": 4,
+   "area": "Zoology",
+   "topics": [
+    "Conservation Biology",
+    "Wildlife [2]: IUCN categories; endangered species of Nepal"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Conservation Biology"
+    },
+    {
+     "no": "10.2",
+     "title": "Wildlife"
+    }
+   ],
+   "summary": [
+    "Conservation biology is the mission-oriented science of protecting biodiversity; biodiversity exists at genetic, species and ecosystem levels.",
+    "Species diversity combines richness (how many species) and evenness (how equally shared). Simpson: D = Σ ni(ni-1) / N(N-1); diversity is 1-D. Shannon: H = -Σ pi ln pi, with Hmax = ln S and evenness E = H/ln S.",
+    "The drivers of loss are HIPPO: habitat loss, invasive species, pollution, population growth, overexploitation — amplified by climate change.",
+    "Small populations then suffer inbreeding depression, genetic drift, demographic stochasticity and the Allee effect; the MVP is the smallest population with a high chance of long-term survival.",
+    "In-situ conservation protects species in their habitat (parks, reserves, conservation areas, buffer zones); ex-situ conservation protects them outside it (zoos, gene banks, captive breeding). They are complementary.",
+    "Nepal has 13 national parks, 1 wildlife reserve (Koshi Tappu), 1 hunting reserve (Dhorpatan) and 7 conservation areas, covering 23.39 % of the country, all under the National Parks and Wildlife Conservation Act, 2029 (1973). The Act protects 26 mammals, 9 birds and 3 reptiles.",
+    "The IUCN Red List categories in order are EX, EW, CR, EN, VU, NT, LC, plus DD and NE; CR, EN and VU together are the threatened species.",
+    "Nepal is party to CITES (since 1975; Appendix I bans commercial trade) and Ramsar (since 1988; 10 sites)."
+   ],
+   "terms": [
+    "Conservation biology"
+   ],
+   "stats": {
+    "words": 5307,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 10,
+ "topic_count": 33,
+ "notes_ready": 10
+}

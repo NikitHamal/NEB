@@ -38,6 +38,17 @@ the two interior opposite angles.
 | Right-angled | one angle is 90°; the side opposite it is the hypotenuse |
 | Obtuse-angled | one angle more than 90° |
 
+**Properties verified in class (by cutting, folding and measuring):**
+
+- The three angles of any triangle add to 180° (tear off the corners and put
+  them together: they make a straight angle).
+- All three angles of an **equilateral** triangle are equal, so each is
+  $180°\div3=60°$.
+- The **base angles** of an isosceles triangle (the angles opposite the equal
+  sides) are equal.
+- In a **right-angled isosceles** triangle each base angle is
+  $\frac{180°-90°}{2}=45°$.
+
 ::: example Angles of a triangle
 **Problem.** In a triangle the angles are in the ratio $2:3:4$. Find each angle
 and classify the triangle.
@@ -79,6 +90,26 @@ A quadrilateral has four sides and four angles, and its angles add to **360°**.
 | Trapezium | exactly one pair of opposite sides parallel | angles on the same side of a leg supplementary | — |
 | Kite | two pairs of adjacent equal sides | one pair of opposite angles equal | cross at right angles |
 
+**Diagonal properties to remember.**
+
+- **Rhombus:** the diagonals bisect each other at right angles, and each
+  diagonal bisects the angles at its ends.
+- **Kite:** the diagonals cut at right angles; the longer diagonal bisects the
+  shorter one (the shorter is **not** bisected by the longer).
+- **Trapezium:** only one pair of opposite sides is parallel, so a trapezium is
+  **not** a parallelogram. In an isosceles trapezium the non-parallel sides are
+  equal.
+- Every square is a rhombus, but not every rhombus is a square.
+
+::: example Using the rhombus diagonals
+**Problem.** The diagonals of rhombus PQRS meet at O. If ∠PQO $=35°$, find
+∠POQ, ∠QPO and ∠PQR.
+
+**Solution.** ∠POQ $=90°$ (diagonals of a rhombus cut at right angles).
+In $\triangle POQ$: ∠QPO $=180°-90°-35°=55°$.
+∠PQR $=2\times$∠PQO $=70°$ (the diagonal QS bisects ∠PQR).
+:::
+
 ```figure caption="The family of quadrilaterals. Every square is a rectangle and every rectangle is a parallelogram, but not the other way round — the arrows show which property is inherited from which."
 fig, ax = plt.subplots(figsize=(5.0, 2.8))
 ax.set_xlim(0, 10)
@@ -88,8 +119,8 @@ def box(x, y, t, c):
     ax.text(x, y, t, ha="center", va="center", fontsize=6.9, color=c,
             bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=c, lw=1.0))
 box(5.0, 5.2, "Quadrilateral", INK)
-box(3.0, 3.6, "Trapezium\\n(one pair parallel)", MUTED)
-box(7.0, 3.6, "Parallelogram\\n(both pairs parallel)", ACCENT)
+box(3.0, 3.6, "Trapezium\n(one pair parallel)", MUTED)
+box(7.0, 3.6, "Parallelogram\n(both pairs parallel)", ACCENT)
 box(7.0, 2.1, "Rectangle", SERIES[1])
 box(4.6, 2.1, "Rhombus", SERIES[2])
 box(5.8, 0.8, "Square", SERIES[3])
@@ -215,6 +246,46 @@ every given measurement on the figure and leave all construction arcs in place;
 an erased construction loses the method marks even if the figure is right.
 :::
 
+### 14.4.1 Constructing a rectangle and a parallelogram
+
+The Grade 8 textbook asks for these constructions (ruler, compasses and
+protractor). Always draw a rough sketch with the measurements first.
+
+**Rectangle ABCD with AB = 6 cm, AD = 4 cm.**
+1. Draw AB = 6 cm.
+2. At A and at B construct angles of 90°.
+3. Cut AD = 4 cm and BC = 4 cm on these lines.
+4. Join DC. Check: DC should measure 6 cm.
+
+**Parallelogram — three cases.** (Opposite sides of a parallelogram are equal,
+so after drawing two adjacent sides the fourth vertex is found with two arcs.)
+
+| Given | Steps |
+|---|---|
+| two adjacent sides and the included angle (AB = 5 cm, BC = 4 cm, ∠B = 60°) | draw BC; make 60° at B; cut BA = 5 cm; from A arc 4 cm, from C arc 5 cm; they meet at D |
+| two adjacent sides and a diagonal (AB = 5 cm, BC = 4 cm, AC = 6 cm) | draw AC; from A arc 5 cm and from C arc 4 cm to get B; then from A arc 4 cm and from C arc 5 cm on the other side to get D |
+| a side, a diagonal and the angle between them | draw the side, make the angle, cut the diagonal on it; complete with two arcs as above |
+
+```figure caption="Constructing parallelogram ABCD with BC = 4 cm, AB = 5 cm and ∠ABC = 60°. After A is marked, an arc of 4 cm from A and an arc of 5 cm from C meet at D."
+fig, ax = plt.subplots(figsize=(4.6, 3.0))
+from matplotlib.patches import Arc
+B = np.array([0.0, 0.0]); C = np.array([4.0, 0.0])
+A = 5*np.array([np.cos(np.radians(60)), np.sin(np.radians(60))]); D = A + (C - B)
+ax.plot([B[0], C[0]], [B[1], C[1]], color=INK, lw=1.5)
+ax.plot([B[0], A[0]], [B[1], A[1]], color=INK, lw=1.5)
+ax.plot([A[0], D[0]], [A[1], D[1]], color=ACCENT, lw=1.3, ls="--")
+ax.plot([C[0], D[0]], [C[1], D[1]], color=ACCENT, lw=1.3, ls="--")
+ax.add_patch(Arc(A, 8, 8, theta1=-12, theta2=12, color=SERIES[1], lw=1))
+ax.add_patch(Arc(C, 10, 10, theta1=52, theta2=68, color=SERIES[1], lw=1))
+ax.add_patch(Arc(B, 1.2, 1.2, theta1=0, theta2=60, color=INK, lw=1))
+ax.text(0.75, 0.25, "60°", fontsize=9, color=INK)
+for P, t, off in [(A, "A", (-0.35, 0.05)), (B, "B", (-0.35, -0.3)), (C, "C", (0.1, -0.35)), (D, "D", (0.15, 0.05))]:
+    ax.text(P[0] + off[0], P[1] + off[1], t, fontsize=10, color=INK)
+ax.text(2.0, -0.45, "4 cm", ha="center", fontsize=9, color=INK)
+ax.text(0.7, 2.3, "5 cm", fontsize=9, color=INK, ha="right")
+ax.set_xlim(-0.9, 7.6); ax.set_ylim(-0.8, 5.0); ax.set_aspect("equal"); ax.axis("off")
+```
+
 ## 14.5 The circle
 
 | Term | Meaning |
@@ -331,12 +402,26 @@ answer is consistent.
 **2.** **Construction.** Draw $BC=6$ cm with a ruler. At $B$, construct an angle
 of 60° (an equilateral triangle on $BC$ gives it exactly with compasses). With
 centre $B$ and radius 4.5 cm, strike an arc on that ray; call the intersection
-$A$. Join $AC$. **Measurements.** $AC\approx5.5$ cm, $\angle A\approx73°$ and
-$\angle C\approx47°$.
-**Check.** $60+73+47=180$ ✓. The construction is the SAS case, and it always
+$A$. Join $AC$. **Measurements.** $AC\approx5.4$ cm, $\angle A\approx74°$ and
+$\angle C\approx46°$.
+**Check.** $60+74+46=180$ ✓. The construction is the SAS case, and it always
 gives exactly one triangle, which is why the two measurements agree from any
 correct drawing. The side opposite the 60° angle is the one you were asked to
 measure, and it is the middle length, as it must be.
+:::
+
+**Extra practice — textbook-style questions**
+
+**1.** True or false? Correct the false ones. (a) All the angles of an isosceles triangle are equal. (b) All rhombuses are squares. (c) The diagonals of a rhombus bisect each other at right angles. (d) All trapeziums are parallelograms.
+**2.** Find the sum of the interior angles and each interior angle of a regular octagon.
+**3.** Find each exterior angle of a regular polygon with 9 sides.
+**4.** Construct a rectangle PQRS with PQ = 7 cm and QR = 4 cm.
+
+::: note Extra practice — answers
+**1.** (a) False — only the two base angles are equal. (b) False — all squares are rhombuses, not the other way round. (c) True. (d) False — a trapezium has only one pair of parallel sides.
+**2.** Sum $=(8-2)\times180°=1080°$; each angle $=\frac{1080°}{8}=135°$.
+**3.** $\frac{360°}{9}=40°$.
+**4.** Draw PQ = 7 cm; make 90° at P and Q; cut PS = QR = 4 cm; join SR (it measures 7 cm).
 :::
 
 ## Objective practice

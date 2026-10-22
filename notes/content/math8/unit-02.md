@@ -44,6 +44,50 @@ one on its right. In **base 5** (quinary) only 0–4 are allowed.
 | $2^2,5^2$ | 4 | 25 |
 | $2^3,5^3$ | 8 | 125 |
 | $2^4,5^4$ | 16 | 625 |
+| $2^5,5^5$ | 32 | 3125 |
+| $2^6$ | 64 | — |
+| $2^7$ | 128 | — |
+| $2^8$ | 256 | — |
+| $2^9$ | 512 | — |
+
+The decimal system is also called the **Hindu–Arabic numeration system**. The
+**binary** system is used in computers and electric circuits, where a switch has
+only two states: ON (1) and OFF (0).
+
+::: key Showing the base
+A number in another base carries its base as a small subscript (suffix):
+$(1011)_2$ or $1011_2$ is binary, $(243)_5$ or $243_5$ is quinary. A number with
+no suffix is decimal. A digit 2, 3 or 4 can never appear in a binary number, and
+5–9 never in a quinary number — so $(1021)_2$ and $(375)_5$ are impossible.
+:::
+
+### 2.1.1 Expanded form in powers of 2 and of 5
+
+To express a decimal number **as powers of 2**, break it into the largest
+powers of 2 that fit; for **powers of 5**, use 125, 25, 5, 1.
+
+::: example Expressing a number in powers of 2 and 5
+**Problem.** Express 43 in powers of 2 and 59 in powers of 5.
+
+**Solution.**
+$43=32+8+2+1$
+
+$=1\times2^5+0\times2^4+1\times2^3+0\times2^2+1\times2^1+1\times2^0$
+
+So $43=(101011)_2$.
+
+$59=2\times25+1\times5+4$
+
+$=2\times5^2+1\times5^1+4\times5^0$
+
+So $59=(214)_5$.
+:::
+
+::: caution Do not skip the zero places
+In the expansion of 43 there is no 16 and no 4, but $0\times2^4$ and
+$0\times2^2$ must still be written. If you drop them, the binary number
+becomes $1111_2=15$, which is wrong.
+:::
 
 ## 2.2 Conversion from another base to decimal
 
@@ -83,22 +127,25 @@ $97-75=22$ is $4\times5+2$, which is the last two digits ✓.
 **Rule.** Divide repeatedly by the base and read the remainders **from the
 bottom upwards**.
 
-```figure caption="Converting 45 into base 5 by repeated division. The remainders are read upwards, which is why the answer is written last-to-first."
-fig, ax = plt.subplots(figsize=(4.8, 2.6))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 6)
-ax.axis("off")
-rows = [("5 | 45", "", ""), ("5 | 9  - 0", "", ""), ("5 | 1  - 4", "", ""),
-        ("    0  - 1", "", "")]
-for i, (text, _, _) in enumerate(rows):
-    ax.text(1.0, 5.0 - i * 1.0, text, ha="left", va="center", fontsize=9,
-            color=INK, family="monospace")
-ax.plot([0.85, 4.6], [4.55, 4.55], color=INK, lw=1.2)
-ax.text(5.2, 3.5, "read the remainders", ha="left", fontsize=6.8, color=MUTED)
-ax.text(5.2, 2.9, "from the bottom up:", ha="left", fontsize=6.8, color=MUTED)
-ax.text(5.2, 2.0, "$(45)_{10}=(140)_5$", ha="left", fontsize=8.4, color=ACCENT)
-ax.text(1.0, 0.8, "45 = 1x25 + 4x5 + 0x1  ✓", ha="left", fontsize=6.6, color=MUTED)
-fig.tight_layout()
+```figure caption="Converting 45 into base 5 by repeated division. Each remainder is written on the right; the remainders are read from the bottom up, so $45=(140)_5$."
+fig, ax = plt.subplots(figsize=(4.6, 2.8))
+ax.set_xlim(0, 10); ax.set_ylim(0, 6); ax.axis("off")
+rows = [("5", "45", ""), ("5", "9", "0"), ("5", "1", "4"), ("", "0", "1")]
+for i, (d, q, r) in enumerate(rows):
+    y = 5.0 - i * 1.15
+    ax.text(1.0, y, d, ha="center", va="center", fontsize=11, color=INK)
+    ax.text(2.4, y, q, ha="center", va="center", fontsize=11, color=INK)
+    if r:
+        ax.text(3.9, y, r, ha="center", va="center", fontsize=11, color=ACCENT, weight="bold")
+    if d:
+        ax.plot([1.45, 1.45], [y - 0.45, y + 0.45], color=INK, lw=1.0)
+        ax.plot([1.45, 3.2], [y - 0.55, y - 0.55], color=INK, lw=1.0)
+ax.text(3.9, 5.75, "remainder", ha="center", fontsize=8, color=MUTED)
+ax.annotate("", xy=(4.6, 3.85), xytext=(4.6, 1.55),
+            arrowprops=dict(arrowstyle="->", color=ACCENT, lw=1.4))
+ax.text(5.0, 2.7, "read upwards", fontsize=9, color=ACCENT, va="center")
+ax.text(5.0, 1.1, "$45=(140)_5$", fontsize=11, color=INK)
+ax.text(5.0, 0.35, "check: 1×25 + 4×5 + 0 = 45", fontsize=8.5, color=MUTED)
 ```
 
 ::: example Decimal to binary
@@ -166,6 +213,34 @@ $4\div5=0$ remainder 4. Reading upwards, $(22)_{10}=(42)_5$.
 **Check.** $4\times5+2=22$ ✓, which matches the decimal value found in step 1.
 :::
 
+### 2.4.1 Comparing numbers written in different bases
+
+Numbers in different bases cannot be compared digit by digit. Convert both to
+decimal first.
+
+::: example Which is larger?
+**Problem.** Which of $(110011)_2$ and $(144)_5$ is larger? Find their
+difference.
+
+**Solution.**
+$(110011)_2=32+16+0+0+2+1=51$
+
+$(144)_5=1\times25+4\times5+4=25+20+4=49$
+
+Since $51>49$, $(110011)_2$ is larger. Difference $=51-49=2$.
+:::
+
+::: example Quinary to binary
+**Problem.** Convert $(43)_5$ into binary.
+
+**Solution.** **Step 1:** $(43)_5=4\times5+3=23$.
+
+**Step 2:** $23\div2=11$ r 1, $11\div2=5$ r 1, $5\div2=2$ r 1,
+$2\div2=1$ r 0, $1\div2=0$ r 1. Reading upwards, $23=(10111)_2$.
+
+**Answer.** $(43)_5=(10111)_2$. Check: $16+4+2+1=23$ ✓.
+:::
+
 ## 2.5 Arithmetic in other bases
 
 Add, subtract and multiply exactly as in decimal, but carry and borrow with the
@@ -197,17 +272,16 @@ $11000_2=16+8=24$ ✓.
 ::: example Subtraction in base 5
 **Problem.** Subtract $(213)_5$ from $(402)_5$.
 
-**Solution.** In the units column, 2 cannot be taken from 2... work from the
-right:
+**Solution.** Work column by column from the right. Borrowing 1 from the next
+place gives **5** (not 10) to the place on its right.
 
-- Units: $2-3$ is not possible, so borrow 1 five from the fives column. The
-  fives column becomes 0 minus... careful step by step:
-  borrow from the 0 in the fives place, which must in turn borrow from the 4 in
-  the twenty-fives place. Then the fives place has 5, we lend 1 to the units:
-  units become $2+5=7$, and $7-3=4$; the fives place now holds $5-1=4$, and
-  $4-1=3$; the twenty-fives place holds $4-1=3$, and $3-2=1$.
+- **Units:** $2-3$ is not possible. The fives digit is 0, so first borrow 1 from
+  the twenty-fives place: $4\to3$, and the fives place becomes 5. Now borrow 1
+  from the fives place: $5\to4$, and the units become $2+5=7$. $7-3=4$.
+- **Fives:** $4-1=3$.
+- **Twenty-fives:** $3-2=1$.
 
-So the difference is $(134)_5$.
+So $(402)_5-(213)_5=(134)_5$.
 
 **Check in decimal.** $402_5=4\times25+0+2=102$ and $213_5=2\times25+5+3=58$;
 $102-58=44$. And $134_5=25+15+4=44$ ✓.
@@ -292,6 +366,7 @@ calculating faster.
 - To convert **from** decimal, divide repeatedly by the base and read the
   remainders from the bottom upwards.
 - To convert between two other bases, go through decimal in two steps.
+- To compare numbers in different bases, change both to decimal first.
 - In base 2: $1+1=10$, and the place values are 1, 2, 4, 8, 16, …
 - In base 5: $4+1=10$, and the place values are 1, 5, 25, 125, …
 - Add, subtract and multiply as in decimal but carry and borrow with the base.
@@ -359,24 +434,24 @@ Converting 57 into base 5: $57\div5=11$ r 2, $11\div5=2$ r 1, $2\div5=0$ r 2,
 so $(212)_5$. Check: $2\times25+1\times5+2=57$ ✓.
 :::
 
-**Extra practice**
+**Extra practice — textbook-style questions**
 
-**Group B (2 marks)**
-
-**11.** Name the property used: $17 \times (10 + 3) = 170 + 51$.
-**12.** Show that subtraction is not commutative, with an example.
-
-**Group C (4 marks)**
-
-**13.** Use suitable properties to evaluate: (i) $125 \times 8 \times 7$
-    (ii) $999 \times 12$ (iii) $27 + 89 + 73 + 11$.
+**1.** State the number system: (a) $(10011)_2$ (b) 350 (c) $(4023)_5$.
+**2.** Write 546 in expanded form using powers of 10.
+**3.** Express 25 as powers of 2 and as powers of 5.
+**4.** Convert $(512)_{10}$ and $(7521)_{10}$ into the quinary system.
+**5.** Convert $(142013)_5$ into decimal.
+**6.** Which of $(1101)_2$ and $(24)_5$ is larger? Find their difference.
+**7.** Convert $(10101)_2$ into quinary and $(144)_5$ into binary.
 
 ::: note Extra practice — answers
-**11.** The distributive property of multiplication over addition.
-**12.** $7 - 3 = 4$ but $3 - 7 = -4$, and $4 \neq -4$; so $a - b \neq b - a$.
-**13.** (i) $(125 \times 8) \times 7 = 1000 \times 7 = 7000$.
-(ii) $(1000 - 1) \times 12 = 12000 - 12 = 11988$.
-(iii) $(27 + 73) + (89 + 11) = 100 + 100 = 200$.
+**1.** (a) binary (b) decimal (c) quinary.
+**2.** $546=5\times10^2+4\times10^1+6\times10^0$.
+**3.** $25=16+8+1=1\times2^4+1\times2^3+0\times2^2+0\times2^1+1\times2^0=(11001)_2$; $25=1\times5^2+0\times5^1+0\times5^0=(100)_5$.
+**4.** $512\div5=102$ r 2, $102\div5=20$ r 2, $20\div5=4$ r 0, $4\div5=0$ r 4, so $512=(4022)_5$. Similarly $7521=(220041)_5$ (remainders 1, 4, 0, 0, 2, 2 read upwards). Check: $2\times3125+2\times625+0+0+4\times5+1=6250+1250+20+1=7521$ ✓.
+**5.** $1\times3125+4\times625+2\times125+0\times25+1\times5+3=3125+2500+250+0+5+3=5883$.
+**6.** $(1101)_2=13$, $(24)_5=14$; $(24)_5$ is larger by 1.
+**7.** $(10101)_2=21=4\times5+1=(41)_5$. $(144)_5=49=32+16+1=(110001)_2$.
 :::
 
 ## Objective practice
