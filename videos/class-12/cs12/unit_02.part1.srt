@@ -1,0 +1,260 @@
+1
+00:00:00,000 --> 00:00:01,590
+You tap play on a video.
+
+2
+00:00:01,590 --> 00:00:13,660
+In under a second, your request leaves your phone, crosses your Wi Fi router, your internet provider, a fibre backbone and a data centre, and thousands of packets of video come streaming back.
+
+3
+00:00:13,867 --> 00:00:16,303
+Every step follows agreed rules.
+
+4
+00:00:16,303 --> 00:00:22,063
+This unit explains the media, the devices, the layers and the addresses that make it work.
+
+5
+00:00:27,533 --> 00:00:33,251
+Welcome to Class 12 Computer Science, Unit 2: Data Communication and Networking.
+
+6
+00:00:35,633 --> 00:00:36,872
+Seven parts.
+
+7
+00:00:36,872 --> 00:00:38,564
+The communication system.
+
+8
+00:00:38,564 --> 00:00:41,989
+Signals, transmission modes and media.
+
+9
+00:00:41,989 --> 00:00:43,812
+Transmission impairments.
+
+10
+00:00:43,812 --> 00:00:46,924
+Network types, architectures and devices.
+
+11
+00:00:46,924 --> 00:00:48,226
+Topologies.
+
+12
+00:00:48,226 --> 00:00:50,218
+The OSI reference model.
+
+13
+00:00:50,218 --> 00:00:52,248
+And IP addressing and subnetting.
+
+14
+00:00:56,600 --> 00:01:08,359
+Every communication needs five things: a message, a sender, a receiver, a medium for it to travel through, and a protocol, the agreed set of rules.
+
+15
+00:01:08,359 --> 00:01:15,999
+Without a shared protocol, a perfect connection is useless, like two people with no common language on a working phone line.
+
+16
+00:01:17,200 --> 00:01:19,558
+Examiners ask for this diagram.
+
+17
+00:01:19,558 --> 00:01:33,885
+The source produces the data; the transmitter turns it into a signal the medium can carry; the transmission system carries it, and unavoidably adds noise; the receiver turns the signal back into data; and the destination uses it.
+
+18
+00:01:38,667 --> 00:01:41,611
+A signal represents data physically.
+
+19
+00:01:41,611 --> 00:01:45,856
+An analogue signal varies continuously, like a voice.
+
+20
+00:01:45,856 --> 00:01:49,749
+A digital signal jumps between levels for nought and one.
+
+21
+00:01:49,749 --> 00:01:56,216
+Noise on an analogue signal piles up for good, while a digital signal can be regenerated perfectly.
+
+22
+00:01:56,433 --> 00:01:59,403
+Bandwidth is how much a channel can carry.
+
+23
+00:01:59,403 --> 00:02:04,781
+Bit rate counts bits per second; baud rate counts signal changes per second.
+
+24
+00:02:04,781 --> 00:02:10,834
+If each change carries several bits, the bit rate is the baud rate times the bits per change.
+
+25
+00:02:12,067 --> 00:02:13,501
+Transmission modes.
+
+26
+00:02:13,501 --> 00:02:17,121
+Simplex goes one way only, like television.
+
+27
+00:02:17,121 --> 00:02:23,045
+Half duplex goes both ways, but one at a time, like a walkie talkie: say over.
+
+28
+00:02:23,045 --> 00:02:26,249
+Full duplex goes both ways at once, like a phone call.
+
+29
+00:02:27,467 --> 00:02:30,542
+Guided media carry the signal along a cable.
+
+30
+00:02:30,542 --> 00:02:37,859
+Twisted pair, the cheapest, twists its wires so that interference cancels out: most school networks use it.
+
+31
+00:02:37,859 --> 00:02:43,914
+Coaxial cable has a central core and a braided shield, used for cable television.
+
+32
+00:02:43,914 --> 00:02:54,955
+Optical fibre carries light, trapped in the glass core by total internal reflection: enormous bandwidth, long distances, and immune to electrical interference.
+
+33
+00:02:56,167 --> 00:02:59,814
+Unguided media send signals through free space.
+
+34
+00:02:59,814 --> 00:03:04,398
+Radio waves spread in all directions and pass through walls.
+
+35
+00:03:04,398 --> 00:03:07,952
+Microwaves need line of sight; Wi Fi uses them.
+
+36
+00:03:07,952 --> 00:03:10,452
+Infrared works only within a room.
+
+37
+00:03:10,452 --> 00:03:15,778
+Satellites cover the globe, but with a delay of about a quarter of a second each way.
+
+38
+00:03:15,778 --> 00:03:21,014
+Wireless is quick to install and mobile, but less secure: anyone in range can listen.
+
+39
+00:03:25,800 --> 00:03:29,109
+A signal never arrives exactly as it was sent.
+
+40
+00:03:29,109 --> 00:03:34,135
+Attenuation: it weakens with distance, so repeaters regenerate it.
+
+41
+00:03:34,135 --> 00:03:40,033
+Distortion: its shape changes, because different frequencies travel at different speeds.
+
+42
+00:03:40,033 --> 00:03:49,987
+And noise: unwanted energy added on the way, from heat in the wires, from neighbouring wires, which is crosstalk, or from sudden spikes like lightning.
+
+43
+00:03:51,200 --> 00:03:52,517
+More impairments.
+
+44
+00:03:52,517 --> 00:03:55,342
+Crosstalk: you faintly hear another call.
+
+45
+00:03:55,342 --> 00:03:57,751
+Echo: you hear yourself, delayed.
+
+46
+00:03:57,751 --> 00:04:02,842
+Jitter: packets arriving unevenly, which ruins a video call.
+
+47
+00:04:02,842 --> 00:04:09,462
+And bandwidth itself is a limit: a channel simply cannot carry changes faster than its bandwidth.
+
+48
+00:04:14,233 --> 00:04:16,852
+Networks are named by the area they cover.
+
+49
+00:04:16,852 --> 00:04:23,115
+A local area network covers a room, a building or a campus: fast and private.
+
+50
+00:04:23,115 --> 00:04:25,836
+A metropolitan network covers a city.
+
+51
+00:04:25,836 --> 00:04:31,643
+A wide area network spans a country or the world, the Internet being the biggest.
+
+52
+00:04:31,643 --> 00:04:34,962
+And a personal area network covers just a few metres.
+
+53
+00:04:36,167 --> 00:04:37,588
+Two architectures.
+
+54
+00:04:37,588 --> 00:04:49,411
+In client server, a dedicated server provides services and clients request them: one place for accounts, security and backups, but if the server dies, everyone stops.
+
+55
+00:04:49,411 --> 00:04:59,106
+In peer to peer, every computer is both client and server: cheap and simple for a small office, but security depends on every user.
+
+56
+00:05:00,333 --> 00:05:01,767
+Network devices.
+
+57
+00:05:01,767 --> 00:05:10,165
+A hub is a dumb repeater: a frame from A to D is copied to every port, wasting bandwidth and causing collisions.
+
+58
+00:05:10,165 --> 00:05:15,522
+A switch learns which MAC address sits on which port and sends the frame only to D.
+
+59
+00:05:16,733 --> 00:05:19,560
+The full list, with each device's layer.
+
+60
+00:05:19,560 --> 00:05:21,774
+A network card connects a computer.
+
+61
+00:05:21,774 --> 00:05:25,068
+A modem converts between digital and analogue.
+
+62
+00:05:25,068 --> 00:05:28,310
+Repeaters and hubs work on raw signals.
+
+63
+00:05:28,310 --> 00:05:31,578
+Bridges and switches forward by MAC address.
+
+64
+00:05:31,578 --> 00:05:36,500
+Routers join different networks and choose paths by IP address.
+
+65
+00:05:36,500 --> 00:05:39,950
+And a gateway translates between different protocols.
+

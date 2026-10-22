@@ -1,0 +1,236 @@
+1
+00:00:03,066 --> 00:00:06,036
+A topology is the shape of a network.
+
+2
+00:00:06,036 --> 00:00:12,781
+Bus: every computer taps one backbone cable; cheap, but one break stops everything.
+
+3
+00:00:12,781 --> 00:00:21,336
+Star: everything connects to a central switch; a cable fault affects one computer, but the switch is a single point of failure.
+
+4
+00:00:21,336 --> 00:00:28,393
+Ring: data passes round in one direction; equal access, but one break stops the ring.
+
+5
+00:00:28,393 --> 00:00:33,719
+Mesh: every pair is linked; the most reliable and the most expensive.
+
+6
+00:00:33,719 --> 00:00:36,479
+Tree: stars arranged in a hierarchy.
+
+7
+00:00:38,633 --> 00:00:39,593
+The cost of a mesh.
+
+8
+00:00:39,866 --> 00:00:47,051
+Every pair needs a link: eight times seven over two, twenty eight cables, and seven ports on each computer.
+
+9
+00:00:47,266 --> 00:00:49,483
+A star needs just one cable per computer.
+
+10
+00:00:49,700 --> 00:00:53,764
+Three and a half times the cable, and the gap grows with n.
+
+11
+00:00:53,764 --> 00:00:57,616
+That is why mesh is used only where reliability is worth it.
+
+12
+00:01:03,200 --> 00:01:15,832
+The OSI reference model, published by ISO in nineteen eighty four, splits communication into seven layers, each with one job, so any layer can change without disturbing the rest.
+
+13
+00:01:15,832 --> 00:01:22,876
+Application, presentation, session, transport, network, data link and physical.
+
+14
+00:01:22,876 --> 00:01:25,257
+All People Seem To Need Data Processing.
+
+15
+00:01:25,466 --> 00:01:30,949
+As data goes down the stack at the sender, each layer wraps it in its own header.
+
+16
+00:01:30,949 --> 00:01:34,283
+Transport adds port numbers to make a segment.
+
+17
+00:01:34,283 --> 00:01:37,929
+Network adds IP addresses to make a packet.
+
+18
+00:01:37,929 --> 00:01:42,369
+Data link adds MAC addresses and a checksum to make a frame.
+
+19
+00:01:42,369 --> 00:01:45,077
+The physical layer sends it as bits.
+
+20
+00:01:45,077 --> 00:01:49,231
+At the receiver, each layer strips its header off on the way up.
+
+21
+00:01:49,231 --> 00:01:51,332
+This wrapping is called encapsulation.
+
+22
+00:01:52,533 --> 00:01:55,022
+Each layer's job and protocols.
+
+23
+00:01:55,022 --> 00:02:04,385
+The Internet itself runs on the simpler TCP IP model, with four layers: the top three OSI layers are merged into one application layer.
+
+24
+00:02:09,166 --> 00:02:17,019
+An IPv4 address is thirty two bits, written as four numbers from nought to two five five: dotted decimal.
+
+25
+00:02:17,019 --> 00:02:21,407
+One nine two dot one six eight dot ten dot thirty seven.
+
+26
+00:02:21,407 --> 00:02:25,272
+In binary, each number is eight bits, an octet.
+
+27
+00:02:25,500 --> 00:02:29,968
+The subnet mask says which bits name the network and which name the host.
+
+28
+00:02:29,968 --> 00:02:36,908
+Two five five dot two five five dot two five five dot nought: the first twenty four bits are network.
+
+29
+00:02:36,908 --> 00:02:42,676
+Set the host bits to nought for the network address, to all ones for the broadcast address.
+
+30
+00:02:42,676 --> 00:02:48,060
+That leaves two to the eight minus two, two hundred and fifty four usable hosts.
+
+31
+00:02:49,266 --> 00:02:53,317
+Addresses were once grouped into classes by their first octet.
+
+32
+00:02:53,317 --> 00:02:57,327
+Class A, for huge networks, up to one two six.
+
+33
+00:02:57,327 --> 00:03:00,921
+Class B, one two eight to one nine one.
+
+34
+00:03:00,921 --> 00:03:07,119
+Class C, one nine two to two two three, with two hundred and fifty four hosts each.
+
+35
+00:03:07,119 --> 00:03:10,674
+D is for multicast and E is reserved.
+
+36
+00:03:10,674 --> 00:03:21,530
+One two seven is loopback, meaning this computer, and three private ranges are reused inside every school and home, sharing one public address through NAT.
+
+37
+00:03:22,733 --> 00:03:25,755
+Subnetting splits one network into several.
+
+38
+00:03:25,755 --> 00:03:30,977
+To make four subnets, borrow two host bits, since two squared is four.
+
+39
+00:03:30,977 --> 00:03:39,870
+The prefix becomes slash twenty six, mask two five five dot two five five dot two five five dot one nine two.
+
+40
+00:03:39,870 --> 00:03:49,375
+Each subnet has sixty four addresses, sixty two usable, starting at nought, sixty four, one twenty eight and one ninety two.
+
+41
+00:03:49,375 --> 00:03:55,079
+The second runs from sixty four, the network, to one twenty seven, the broadcast.
+
+42
+00:03:56,300 --> 00:03:58,372
+And keep two addresses apart.
+
+43
+00:03:58,372 --> 00:04:05,026
+The MAC address is burned into the network card and never changes; switches use it inside one network.
+
+44
+00:04:05,026 --> 00:04:12,017
+The IP address is logical and changes when you move to a new network; routers use it to cross networks.
+
+45
+00:04:14,433 --> 00:04:15,203
+Pause and think.
+
+46
+00:04:22,500 --> 00:04:23,504
+A switch.
+
+47
+00:04:23,504 --> 00:04:26,342
+A hub copies every frame to every port.
+
+48
+00:04:28,333 --> 00:04:28,768
+One more.
+
+49
+00:04:36,400 --> 00:04:43,741
+Sixty two: six host bits give sixty four addresses, minus the network and broadcast addresses.
+
+50
+00:04:45,933 --> 00:04:47,015
+Quick recap.
+
+51
+00:04:47,015 --> 00:04:50,883
+The five elements and three transmission modes.
+
+52
+00:04:50,883 --> 00:04:53,122
+Guided and unguided media.
+
+53
+00:04:53,122 --> 00:04:54,372
+The impairments.
+
+54
+00:04:54,372 --> 00:04:57,849
+Hubs, switches and routers, and the topologies.
+
+55
+00:04:57,849 --> 00:05:02,172
+The seven OSI layers, wrapping data in headers.
+
+56
+00:05:02,172 --> 00:05:05,367
+And IP addresses, masks and subnetting.
+
+57
+00:05:09,566 --> 00:05:12,107
+That was data communication and networking.
+
+58
+00:05:12,107 --> 00:05:19,581
+Next, web technology: building pages with HTML, CSS, JavaScript and PHP.
+
+59
+00:05:19,581 --> 00:05:20,127
+See you there.
+
