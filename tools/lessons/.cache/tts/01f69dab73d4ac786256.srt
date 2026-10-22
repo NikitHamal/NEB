@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,218
+A child runs in with news: I'll tell you how the sun rose!
+
+2
+00:00:04,218 --> 00:00:07,330
+And out it comes, in a rush of pictures.
+

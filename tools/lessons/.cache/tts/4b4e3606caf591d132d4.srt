@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:00,911
+The form.
+
+2
+00:00:00,911 --> 00:00:03,697
+Four quatrains, sixteen lines.
+
+3
+00:00:03,697 --> 00:00:10,755
+In each stanza only the second and fourth lines rhyme: a b c b. Begun, sun.
+
+4
+00:00:10,755 --> 00:00:11,848
+Stile, while.
+
+5
+00:00:11,848 --> 00:00:12,864
+Gray, away.
+
+6
+00:00:12,864 --> 00:00:21,809
+Only the first stanza's time and ran is a slant rhyme, a near miss, which suits that breathless, excited opening.
+
