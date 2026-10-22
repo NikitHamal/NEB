@@ -44,6 +44,7 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
         return ImageLoader.Builder(this)
             .components {
                 add(com.neb.ians.ui.avatar.AvatarMapper())
+                add(com.neb.ians.ui.avatar.AvatarKeyer())
                 add(com.neb.ians.ui.avatar.AvatarFetcher.Factory())
             }
             .memoryCache {
