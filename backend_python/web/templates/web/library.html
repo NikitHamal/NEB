@@ -50,10 +50,12 @@
         class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'digital' %}true{% else %}false{% endif %}">
         <span class="neb-rail-label">Library</span>
       </a>
+      {% if marketplace_enabled %}
       <a href="?tab=marketplace"
         class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'marketplace' %}true{% else %}false{% endif %}">
         <span class="neb-rail-label">Marketplace</span>
       </a>
+      {% endif %}
       <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
         class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'categories' %}true{% else %}false{% endif %}">
         <span class="neb-rail-label">Syllabus</span>

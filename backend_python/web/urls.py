@@ -3,6 +3,7 @@ from django.views.generic import RedirectView
 from . import views
 from . import views_admin_chat
 from . import views_marketplace
+from nebians.features import marketplace_gate
 from . import views_syllabus
 from . import views_admin_media
 from . import views_admin_neby
@@ -42,16 +43,16 @@ urlpatterns = [
     path('app/online-learning/', views.online_learning, name='online_learning'),
     path('app/faq/', views.faq, name='faq'),
     path('app/library/', views.library, name='library'),
-    path('app/marketplace/', views_marketplace.directory, name='marketplace'),
-    path('app/marketplace/studio/', views_marketplace.studio, name='marketplace_studio'),
-    path('app/marketplace/course/<str:course_id>/', views_marketplace.course_detail, name='marketplace_course'),
-    path('app/marketplace/<slug:slug>/', views_marketplace.creator, name='marketplace_creator'),
-    path('ajax/marketplace/page/save/', views_marketplace.ajax_page_save, name='marketplace_page_save'),
-    path('ajax/marketplace/template/', views_marketplace.ajax_template_apply, name='marketplace_template_apply'),
-    path('ajax/marketplace/course/save/', views_marketplace.ajax_course_save, name='marketplace_course_save'),
-    path('ajax/marketplace/course/delete/', views_marketplace.ajax_course_delete, name='marketplace_course_delete'),
-    path('ajax/marketplace/post/save/', views_marketplace.ajax_post_save, name='marketplace_post_save'),
-    path('ajax/marketplace/post/delete/', views_marketplace.ajax_post_delete, name='marketplace_post_delete'),
+    path('app/marketplace/', marketplace_gate(views_marketplace.directory), name='marketplace'),
+    path('app/marketplace/studio/', marketplace_gate(views_marketplace.studio), name='marketplace_studio'),
+    path('app/marketplace/course/<str:course_id>/', marketplace_gate(views_marketplace.course_detail), name='marketplace_course'),
+    path('app/marketplace/<slug:slug>/', marketplace_gate(views_marketplace.creator), name='marketplace_creator'),
+    path('ajax/marketplace/page/save/', marketplace_gate(views_marketplace.ajax_page_save), name='marketplace_page_save'),
+    path('ajax/marketplace/template/', marketplace_gate(views_marketplace.ajax_template_apply), name='marketplace_template_apply'),
+    path('ajax/marketplace/course/save/', marketplace_gate(views_marketplace.ajax_course_save), name='marketplace_course_save'),
+    path('ajax/marketplace/course/delete/', marketplace_gate(views_marketplace.ajax_course_delete), name='marketplace_course_delete'),
+    path('ajax/marketplace/post/save/', marketplace_gate(views_marketplace.ajax_post_save), name='marketplace_post_save'),
+    path('ajax/marketplace/post/delete/', marketplace_gate(views_marketplace.ajax_post_delete), name='marketplace_post_delete'),
     path('app/interactive/', views.interactive_hub, name='interactive_hub'),
     path('app/interactive/sandbox/frame/', views.interactive_sandbox_frame, name='interactive_sandbox_frame'),
     path('app/interactive/<str:course_slug>/', views.interactive_course, name='interactive_course'),
