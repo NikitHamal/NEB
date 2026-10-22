@@ -256,10 +256,10 @@ class HomeViewModel @Inject constructor(
             }
 
             try {
-                if (authRepository.getBearerToken() != null) {
-                    try {
-                        authRepository.refreshProfile()
-                    } catch (_: Exception) {}
+                // MainActivity refreshes the profile at launch and signing in caches it, so only a
+                // pull-to-refresh asks again, and the feed requests never wait behind it
+                if (forceRefresh && authRepository.getBearerToken() != null) {
+                    viewModelScope.launch { authRepository.refreshProfile() }
                 }
                 val results = coroutineScope {
                     val resources = async { resourceRepository.getResources(sort = "newest", page = 1, forceRefresh = forceRefresh) }
