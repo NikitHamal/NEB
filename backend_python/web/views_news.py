@@ -126,7 +126,7 @@ def news_detail(request, slug):
     top_level_replies, children_map, all_usernames = _serialize_blog_comments(a, user_id)
     comment_count = len(top_level_replies) + sum(len(v) for v in children_map.values())
 
-    related = Announcement.objects.filter(
+    related = Announcement.objects.select_related('author').filter(
         status='published', category=a.category
     ).exclude(pk=a.id).order_by('-published_at')[:4]
     related_items = [_serialize_announcement(r) for r in related]

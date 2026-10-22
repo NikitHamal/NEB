@@ -918,6 +918,19 @@ def _get_distinct_subjects():
         return sorted(subjects)
     return cache.get_or_set('distinct_subjects', _resolver, 600)
 
+def _viewer_for_locked_check(user_id, profile_user):
+    """The viewer row api.view_helpers._can_view_locked_profile(viewer, profile_user) needs.
+
+    It only looks at the viewer when the profile is locked or unverified; for every other
+    profile the answer is "visible" whoever asks, so the viewer is not fetched."""
+    if not user_id or (not profile_user.is_locked and profile_user.email_verified):
+        return None
+    try:
+        return User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return None
+
+
 def _request_db_user(request, user_id):
     """The signed-in user's row, fetched at most once per request (the view, _ctx and the
     template helpers all want it). Returns None for a missing id or user."""
