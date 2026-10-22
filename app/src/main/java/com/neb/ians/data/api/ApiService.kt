@@ -1569,12 +1569,13 @@ interface ApiService {
     @GET("api/site-theme/")
     suspend fun getSiteTheme(): ApiSiteTheme
 
-    @GET("news/")
+    // the pages live under app/ since 2026-10-18; news/ answers with a 308 to here, a wasted round trip
+    @GET("app/news/")
     suspend fun getNewsPage(
         @Query("category") category: String? = null
     ): ResponseBody
 
-    @GET("news/{slug}/")
+    @GET("app/news/{slug}/")
     suspend fun getNewsDetailPage(
         @Path("slug") slug: String
     ): ResponseBody
