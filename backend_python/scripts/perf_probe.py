@@ -112,6 +112,7 @@ def endpoints(t):
         ('search_p2', '/api/search/?q=physics&page=2&page_size=10', both),
         ('search_past_end', '/api/search/?q=physics&page=500', both),
         ('search_bad_page', '/api/search/?q=physics&page=0', both),
+        ('search_huge_page', '/api/search/?q=physics&page=99999999999999999999999', both),
         ('search_none', '/api/search/?q=zzqqxx', both),
         ('profile', f'/api/users/profile/{star.username}/', both),
         ('profile_locked', f'/api/users/profile/{locked.username}/', both),
