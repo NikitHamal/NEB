@@ -1,0 +1,192 @@
+{
+ "book": "math10",
+ "units": [
+  {
+   "no": 1,
+   "title": "Sets",
+   "area": "Compulsory Mathematics",
+   "words": 2397,
+   "read_min": 13,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Tax and Money Exchange",
+   "area": "Compulsory Mathematics",
+   "words": 3473,
+   "read_min": 19,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Compound Interest",
+   "area": "Compulsory Mathematics",
+   "words": 2578,
+   "read_min": 14,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Population Growth and Depreciation",
+   "area": "Compulsory Mathematics",
+   "words": 2515,
+   "read_min": 14,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Plane Surfaces",
+   "area": "Compulsory Mathematics",
+   "words": 2407,
+   "read_min": 13,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Cylinder and Sphere",
+   "area": "Compulsory Mathematics",
+   "words": 2461,
+   "read_min": 14,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Prism and Pyramid",
+   "area": "Compulsory Mathematics",
+   "words": 2336,
+   "read_min": 13,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Highest Common Factor and Lowest Common Multiple",
+   "area": "Compulsory Mathematics",
+   "words": 2218,
+   "read_min": 12,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Radical and Surd",
+   "area": "Compulsory Mathematics",
+   "words": 1965,
+   "read_min": 11,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Indices",
+   "area": "Compulsory Mathematics",
+   "words": 1942,
+   "read_min": 11,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Algebraic Fraction",
+   "area": "Compulsory Mathematics",
+   "words": 1657,
+   "read_min": 9,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Equations",
+   "area": "Compulsory Mathematics",
+   "words": 2137,
+   "read_min": 12,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Area of Triangles and Quadrilaterals",
+   "area": "Compulsory Mathematics",
+   "words": 2849,
+   "read_min": 16,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Construction",
+   "area": "Compulsory Mathematics",
+   "words": 2600,
+   "read_min": 14,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Circle",
+   "area": "Compulsory Mathematics",
+   "words": 2839,
+   "read_min": 16,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Trigonometry",
+   "area": "Compulsory Mathematics",
+   "words": 2226,
+   "read_min": 12,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Statistics",
+   "area": "Compulsory Mathematics",
+   "words": 2225,
+   "read_min": 12,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Probability",
+   "area": "Compulsory Mathematics",
+   "words": 2333,
+   "read_min": 13,
+   "figures": 4,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank10",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Compulsory Mathematics: Unit-wise Objective Question Bank",
+   "words": 2927,
+   "read_min": 16
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Compulsory Mathematics: Unit-wise Subjective Question Bank",
+   "words": 2736,
+   "read_min": 15
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Compulsory Mathematics: Model Question Sets and Predicted Questions",
+   "words": 3263,
+   "read_min": 18
+  }
+ ],
+ "guide": "The SEE Examination: Pattern, Grid and Strategy"
+}

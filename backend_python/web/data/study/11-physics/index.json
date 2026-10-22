@@ -1,0 +1,264 @@
+{
+ "book": "phy11",
+ "units": [
+  {
+   "no": 1,
+   "title": "Physical Quantities",
+   "area": "Mechanics",
+   "words": 3936,
+   "read_min": 22,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Vectors",
+   "area": "Mechanics",
+   "words": 3532,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Kinematics",
+   "area": "Mechanics",
+   "words": 3864,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Dynamics",
+   "area": "Mechanics",
+   "words": 5158,
+   "read_min": 29,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Work, energy and power",
+   "area": "Mechanics",
+   "words": 4685,
+   "read_min": 26,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Circular Motion",
+   "area": "Mechanics",
+   "words": 5319,
+   "read_min": 30,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Gravitation",
+   "area": "Mechanics",
+   "words": 6279,
+   "read_min": 35,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Elasticity",
+   "area": "Mechanics",
+   "words": 3556,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Heat and Temperature",
+   "area": "Heat and Thermodynamics",
+   "words": 2986,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Thermal Expansion",
+   "area": "Heat and Thermodynamics",
+   "words": 3850,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Quantity of Heat",
+   "area": "Heat and Thermodynamics",
+   "words": 3716,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Rate of heat flow",
+   "area": "Heat and Thermodynamics",
+   "words": 3961,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Ideal gas",
+   "area": "Heat and Thermodynamics",
+   "words": 4310,
+   "read_min": 24,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Reflection at curved mirror",
+   "area": "Waves and Optics",
+   "words": 3451,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Refraction at plane surfaces",
+   "area": "Waves and Optics",
+   "words": 4688,
+   "read_min": 26,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Refraction through prisms",
+   "area": "Waves and Optics",
+   "words": 3785,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Lenses",
+   "area": "Waves and Optics",
+   "words": 4379,
+   "read_min": 24,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Dispersion",
+   "area": "Waves and Optics",
+   "words": 3391,
+   "read_min": 19,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "Electric Charges",
+   "area": "Electricity and Magnetism",
+   "words": 3149,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "Electric field",
+   "area": "Electricity and Magnetism",
+   "words": 3867,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "Potential, potential difference and potential energy",
+   "area": "Electricity and Magnetism",
+   "words": 4107,
+   "read_min": 23,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 22,
+   "title": "Capacitor",
+   "area": "Electricity and Magnetism",
+   "words": 4527,
+   "read_min": 25,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 23,
+   "title": "DC Circuits",
+   "area": "Electricity and Magnetism",
+   "words": 7261,
+   "read_min": 40,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 24,
+   "title": "Nuclear physics",
+   "area": "Modern Physics",
+   "words": 4964,
+   "read_min": 28,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 25,
+   "title": "Solids",
+   "area": "Modern Physics",
+   "words": 3733,
+   "read_min": 21,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 26,
+   "title": "Recent Trends in physics",
+   "area": "Modern Physics",
+   "words": 4414,
+   "read_min": 25,
+   "figures": 8,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank11",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Physics: Unit-wise Objective Question Bank",
+   "words": 11499,
+   "read_min": 64
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Physics: Unit-wise Subjective Question Bank",
+   "words": 4983,
+   "read_min": 28
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Physics: Model Question Sets and Predicted Questions",
+   "words": 5205,
+   "read_min": 29
+  }
+ ],
+ "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"
+}
