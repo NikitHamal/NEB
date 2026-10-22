@@ -1,0 +1,260 @@
+1
+00:00:00,000 --> 00:00:01,889
+Velocity, plus variety and veracity, make it a genuine big data problem.
+
+2
+00:00:07,467 --> 00:00:16,570
+Virtual reality is a computer generated three dimensional world that replaces what you see and hear, so you feel present inside it.
+
+3
+00:00:16,570 --> 00:00:17,521
+It is a loop.
+
+4
+00:00:17,521 --> 00:00:27,560
+Sensors track your head and hands; the engine draws two images, one per eye, for depth; the headset displays them; you move again.
+
+5
+00:00:27,560 --> 00:00:33,860
+The loop must close in under about twenty milliseconds, ninety times a second, or the user feels sick.
+
+6
+00:00:35,067 --> 00:00:37,204
+Place the technologies on a line.
+
+7
+00:00:37,204 --> 00:00:38,832
+The plain real world.
+
+8
+00:00:38,832 --> 00:00:44,509
+Augmented reality adds computer objects to your real view, like Pokémon Go.
+
+9
+00:00:44,509 --> 00:00:48,415
+Mixed reality anchors virtual objects to real ones.
+
+10
+00:00:48,415 --> 00:00:52,464
+Virtual reality replaces the world altogether.
+
+11
+00:00:52,464 --> 00:01:01,136
+VR itself is non immersive on an ordinary screen, semi immersive on a big projection, or fully immersive in a tracked headset.
+
+12
+00:01:02,367 --> 00:01:14,152
+Applications: virtual labs, surgical training and therapy, walking through a building before it exists, flight simulators where crashing is free, and heritage tours.
+
+13
+00:01:14,152 --> 00:01:20,895
+The drawbacks: expensive hardware, motion sickness, eye strain, and content that is costly to make.
+
+14
+00:01:22,100 --> 00:01:23,986
+Why VR needs so much bandwidth.
+
+15
+00:01:24,200 --> 00:01:33,299
+Two eyes, two thousand one hundred and sixty squared pixels each, twenty four bits per pixel: two point two four times ten to the eight bits per frame.
+
+16
+00:01:33,500 --> 00:01:36,872
+Ninety frames a second: about twenty gigabits per second.
+
+17
+00:01:37,100 --> 00:01:43,018
+No home network carries that, so the picture is drawn inside the headset or heavily compressed.
+
+18
+00:01:48,600 --> 00:01:54,578
+e-commerce is buying and selling, and moving the money, over electronic networks.
+
+19
+00:01:54,578 --> 00:01:57,404
+Its models are named by who sits at each end.
+
+20
+00:01:57,404 --> 00:02:01,375
+Business to business: a wholesaler supplying shops.
+
+21
+00:02:01,375 --> 00:02:05,281
+Business to consumer: an online shop like Daraz.
+
+22
+00:02:05,281 --> 00:02:09,956
+Consumer to consumer: selling your old bicycle on Hamrobazar.
+
+23
+00:02:09,956 --> 00:02:15,307
+Consumer to business: a freelancer selling photos to a company.
+
+24
+00:02:15,307 --> 00:02:23,041
+In Nepal the money moves through wallets and QR payments, under the Electronic Transactions Act of twenty sixty three.
+
+25
+00:02:24,267 --> 00:02:36,808
+e-medicine, or telemedicine, delivers health care at a distance: video consultation, X rays and ECGs sent to a specialist, wearable monitors, electronic records.
+
+26
+00:02:36,808 --> 00:02:45,844
+For Nepal the argument is geography: a Kathmandu specialist can advise a health post in Humla in minutes instead of a two day journey.
+
+27
+00:02:45,844 --> 00:02:54,718
+Its limits: no physical examination, it needs bandwidth and power, and patient privacy and responsibility are hard questions.
+
+28
+00:02:55,934 --> 00:03:02,537
+e-governance is government using ICT to serve citizens, businesses and its own offices.
+
+29
+00:03:02,537 --> 00:03:14,607
+Four types: government to citizen, like the Nagarik App; government to business, like online VAT filing; government to government, like a shared national ID database; and government to employee.
+
+30
+00:03:14,607 --> 00:03:21,448
+It brings transparency and fewer queues, but faces the digital divide and cyber security risks.
+
+31
+00:03:26,234 --> 00:03:31,353
+Mobile computing lets the user, the device and the connection all move.
+
+32
+00:03:31,353 --> 00:03:36,105
+It needs mobile hardware, mobile software and wireless communication.
+
+33
+00:03:36,105 --> 00:03:50,182
+Each network generation was ten to a hundred times faster than the last: analogue voice in the eighties, SMS on 2G, mobile internet on 3G, video on 4G, and about ten gigabits per second on 5G.
+
+34
+00:03:51,400 --> 00:03:53,160
+How much faster is 5G?
+
+35
+00:03:53,367 --> 00:03:56,636
+First convert to bits: twenty eight thousand megabits.
+
+36
+00:03:56,867 --> 00:04:01,129
+On 4G: fourteen hundred seconds, twenty three minutes twenty.
+
+37
+00:04:01,334 --> 00:04:05,977
+On 5G: one hundred and forty seconds, ten times faster.
+
+38
+00:04:06,200 --> 00:04:13,886
+For live uses like remote surgery, the drop in delay from fifty to five milliseconds matters even more.
+
+39
+00:04:15,900 --> 00:04:27,711
+The internet of things, a phrase Kevin Ashton coined in nineteen ninety nine, connects physical objects fitted with sensors and software so they exchange data and can be controlled remotely.
+
+40
+00:04:27,711 --> 00:04:29,378
+It has four layers.
+
+41
+00:04:29,378 --> 00:04:31,683
+Perception: the sensors.
+
+42
+00:04:31,683 --> 00:04:34,430
+Network: the gateway and the link.
+
+43
+00:04:34,430 --> 00:04:37,282
+Processing: the cloud that decides.
+
+44
+00:04:37,282 --> 00:04:40,251
+Application: the app the farmer sees.
+
+45
+00:04:40,251 --> 00:04:46,707
+Its weakest point is security: cheap devices shipped with default passwords have been hijacked into botnets.
+
+46
+00:04:47,934 --> 00:04:50,874
+Why IoT needs IPv6.
+
+47
+00:04:51,100 --> 00:04:55,225
+IPv4 gives about four point three billion addresses.
+
+48
+00:04:55,434 --> 00:04:59,396
+IPv6 gives three point four times ten to the thirty eight.
+
+49
+00:04:59,600 --> 00:05:04,784
+IoT devices alone would need four point seven times all of IPv4.
+
+50
+00:05:04,784 --> 00:05:08,684
+With IPv6, the shortage simply disappears.
+
+51
+00:05:11,900 --> 00:05:12,671
+Pause and think.
+
+52
+00:05:19,967 --> 00:05:25,518
+Software as a service: finished software in a browser, and you manage only your data.
+
+53
+00:05:27,500 --> 00:05:27,935
+One more.
+
+54
+00:05:35,567 --> 00:05:36,819
+Virtualisation.
+
+55
+00:05:36,819 --> 00:05:41,268
+It is the technology under cloud computing, not a V of big data.
+
+56
+00:05:43,467 --> 00:05:44,588
+Quick recap.
+
+57
+00:05:44,588 --> 00:05:49,627
+AI and its nested layers, and robots that sense, decide and act.
+
+58
+00:05:49,627 --> 00:05:52,114
+Cloud service and deployment models.
+
+59
+00:05:52,114 --> 00:05:54,185
+The five Vs of big data.
+
+60
+00:05:54,185 --> 00:05:56,698
+Virtual and augmented reality.
+
+61
+00:05:56,698 --> 00:05:59,627
+The e-commerce and e-governance models.
+
+62
+00:05:59,627 --> 00:06:01,982
+And the four layers of the internet of things.
+
+63
+00:06:06,167 --> 00:06:09,228
+And that completes Class 12 Computer Science.
+
+64
+00:06:09,228 --> 00:06:12,262
+Well done for making it through all seven units.
+
+65
+00:06:12,262 --> 00:06:13,452
+See you in the next subject.
+

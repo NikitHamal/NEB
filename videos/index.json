@@ -427,6 +427,78 @@
    "script": "tools/lessons/scripts/cs12/unit_06.py"
   },
   {
+   "id": "class-12/cs12/unit_07.mp4",
+   "file": "class-12/cs12/unit_07.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_07.part1.mp4",
+     "subtitles": "class-12/cs12/unit_07.part1.srt",
+     "start": 0.0,
+     "end": 406.833,
+     "mb": 15.4
+    },
+    {
+     "file": "class-12/cs12/unit_07.part2.mp4",
+     "subtitles": "class-12/cs12/unit_07.part2.srt",
+     "start": 406.833,
+     "end": 782.667,
+     "mb": 14.5
+    }
+   ],
+   "poster": "class-12/cs12/unit_07.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 7,
+   "title": "Recent Trends in Technology",
+   "subtitle": "AI, cloud, big data, VR, e-services, mobile and IoT",
+   "lang": "en",
+   "sections": [
+    "AI and robotics",
+    "Cloud computing",
+    "Big data",
+    "Virtual reality",
+    "e-commerce, e-medicine, e-governance",
+    "Mobile computing and IoT"
+   ],
+   "seconds": 782.7,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     60.0,
+     "AI and robotics"
+    ],
+    [
+     191.4,
+     "Cloud computing"
+    ],
+    [
+     322.73,
+     "Big data"
+    ],
+    [
+     410.73,
+     "Virtual reality"
+    ],
+    [
+     511.87,
+     "e-commerce, e-medicine, e-governance"
+    ],
+    [
+     609.5,
+     "Mobile computing and IoT"
+    ],
+    [
+     748.9,
+     "Quick recap"
+    ]
+   ],
+   "mb": 29.9,
+   "script": "tools/lessons/scripts/cs12/unit_07.py"
+  },
+  {
    "id": "class-12/eng12/unit_01.mp4",
    "file": "class-12/eng12/unit_01.mp4",
    "parts": [
