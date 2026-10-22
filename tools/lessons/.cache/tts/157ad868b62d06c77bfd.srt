@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:03,776
+Operator, polarity, pronoun.
+
+3
+00:00:03,776 --> 00:00:05,442
+The irregular tags.
+
+4
+00:00:05,442 --> 00:00:06,692
+Hidden negatives.
+
+5
+00:00:06,692 --> 00:00:09,986
+Inversion, and subject questions without do.
+
+6
+00:00:09,986 --> 00:00:12,812
+And embedded questions in statement order.
+

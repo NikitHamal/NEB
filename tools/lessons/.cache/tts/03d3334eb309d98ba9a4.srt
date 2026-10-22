@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,289
+More examples.
+
+2
+00:00:01,289 --> 00:00:04,036
+She is waiting outside: isn't she?
+
+3
+00:00:04,036 --> 00:00:07,942
+They were not invited: the statement is negative, so were they?
+
+4
+00:00:07,942 --> 00:00:13,450
+The bus left early has no auxiliary at all, so we supply did: didn't it?
+
+5
+00:00:13,450 --> 00:00:16,770
+Sita teaches at Amar Campus: doesn't she?
+
+6
+00:00:16,770 --> 00:00:22,382
+And a negative tag is always contracted: isn't he, never is not he.
+

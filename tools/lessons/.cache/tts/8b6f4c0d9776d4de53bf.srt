@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,304
+Decision two, the polarity.
+
+2
+00:00:02,304 --> 00:00:07,539
+The statement is positive, so the tag must be negative: has becomes hasn't.
+
+3
+00:00:07,539 --> 00:00:10,677
+A negative statement takes a positive tag.
+

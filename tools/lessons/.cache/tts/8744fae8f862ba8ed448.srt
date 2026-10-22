@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,447
+Decision three, the pronoun.
+
+2
+00:00:02,447 --> 00:00:06,041
+Replace the subject with its personal pronoun: she.
+
+3
+00:00:06,041 --> 00:00:08,815
+Operator, polarity, pronoun.
+
+4
+00:00:08,815 --> 00:00:11,419
+She has finished the work, hasn't she?
+

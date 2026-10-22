@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,638
+Inside another sentence the question goes back to statement order: where the library is.
+

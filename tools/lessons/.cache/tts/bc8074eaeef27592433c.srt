@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,794
+Nobody is negative, so the tag is positive; nobody takes "they": did they?
+

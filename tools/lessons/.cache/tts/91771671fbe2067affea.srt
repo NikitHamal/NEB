@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,223
+And the verbs.
+
+2
+00:00:01,223 --> 00:00:03,398
+Those are his books: aren't they.
+
+3
+00:00:03,398 --> 00:00:08,190
+We have to pay today: have to behaves like a full verb, so don't we.
+
+4
+00:00:08,190 --> 00:00:13,138
+You had better rest: hadn't you; you would rather walk: wouldn't you.
+
+5
+00:00:13,138 --> 00:00:15,026
+He used to smoke: didn't he.
+
+6
+00:00:15,026 --> 00:00:20,416
+He must be ill is a deduction whose real verb is be, so isn't he.
+
+7
+00:00:20,416 --> 00:00:25,299
+She hardly ever complains: hardly makes it negative, so does she.
+
+8
+00:00:25,299 --> 00:00:30,755
+With I think, the tag follows the inside clause: I think he is honest, isn't he.
+
+9
+00:00:30,755 --> 00:00:34,492
+And I don't think she will come takes a positive tag, will she.
+

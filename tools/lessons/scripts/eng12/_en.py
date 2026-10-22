@@ -105,3 +105,36 @@ def transform_strip(before, after, label=None, size=30, bcolor=th.INK, acolor=th
     if label:
         g.add(T(label, size=24, color=th.AMBER).next_to(g, DOWN, buff=0.25))
     return g
+
+
+# ---------------------------------------------------------------- grammar helpers
+def sentence(s, size=34, color=th.INK, weight="NORMAL"):
+    """A sentence as one Text, with .words[i] = the glyphs of the i-th space-separated word (for marking and moving)."""
+    t = T(s, size=size, color=color, weight=weight)
+    ws, k = VGroup(), 0
+    for w in s.split():
+        ws.add(VGroup(*t[k:k + len(w)]))
+        k += len(w)
+    t.words = ws
+    return t
+
+
+def mark(m, color=th.AMBER, buff=0.07):
+    return SurroundingRectangle(m, color=color, buff=buff, corner_radius=0.06, stroke_width=3)
+
+
+def strike(m, color=th.CORAL):
+    return Line(m.get_left() + LEFT * 0.05, m.get_right() + RIGHT * 0.05, color=color, stroke_width=4)
+
+
+def wrong_right(wrong, right, size=28, rule=None, rule_color=th.MUTED):
+    """✗ wrong (struck) above ✓ right, with an optional rule line underneath. Returns group with .wrong .right .cross."""
+    w = VGroup(T("✗", size=size, color=th.CORAL, weight="BOLD"), T(wrong, size=size, color=th.CORAL)).arrange(RIGHT, buff=0.25)
+    r = VGroup(T("✓", size=size, color=th.MINT, weight="BOLD"), T(right, size=size, color=th.MINT)).arrange(RIGHT, buff=0.25)
+    g = VGroup(w, r).arrange(DOWN, aligned_edge=LEFT, buff=0.2)
+    if rule:
+        g.add(T(rule, size=max(22, size - 6), color=rule_color).next_to(g, DOWN, buff=0.15).align_to(g, LEFT))
+    g.cross = strike(w[1])
+    g.add(g.cross)  # a submobject, so it travels with the group; animate it in with Create(g.cross)
+    g.wrong, g.right = w, r
+    return g
