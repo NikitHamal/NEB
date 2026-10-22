@@ -1,576 +1,470 @@
 ---
 subject: Question Bank
 grade: 12
-unit: 7
-title: "Chemistry: Model Question Sets and Predicted Questions"
+unit: 4
+title: "Physics: Model Question Sets and Predicted Questions"
 hours: 0
-area: Chemistry
+area: Physics
 ---
 
-This chapter does three things. It **reads the real papers** — the board papers of 2079, 2081, 2082 and 2083 and the model papers of 2078 and 2079, with two further official model sets — and tabulates what the examiner asks, unit by unit. It then sets **two complete model papers to the exact grid** of the Chemistry paper (3 hours, full marks 75, Group A 11 × 1, Group B 8 × 5, Group C 3 × 8), each **fully solved**. Finally it lists **forty-eight predicted questions, ranked**, every one with the reason it is predicted and a short model answer.
+This chapter does three things. It reads the **shape of the Grade 12 Physics paper** (3 hours, full marks 75, Group A $11\times1$, Group B $8\times5$, Group C $3\times8$) and shows how the 128 teaching hours are spread over the twenty-five CDC units, so that you can see where the marks are likely to sit. It then sets **two complete model papers to that exact grid**, each **fully solved** in the order a full-mark script would follow. Finally it lists **thirty-nine predicted questions, ranked**, every one with the reason it is predicted and a short model answer.
 
-::: caution What "predicted" means here
-No paper is leaked to anyone, and this chapter does not claim to know what will be set. A prediction is a judgement from three things that are shown in the tables below: how often the topic has come up in the eight papers studied, how large its share of the 128 teaching hours is, and how long it has been since it was last asked. Treat the list as a revision order, never as a guarantee. The 2080 paper could not be reached, so the analysis covers 2078 (model), 2079 (model and board), 2081, 2082, 2083 and model sets A and B.
+::: caution What "model" and "predicted" mean here
+No paper is leaked to anyone, and this chapter does not claim to know what will be set. The two model papers are **original practice papers** built to the CDC pattern; they are not NEB papers, they carry no year tag, and no question in them is claimed to have appeared in any particular year's paper. A **prediction** is a judgement from three public things that are shown in the tables below: the **teaching hours** of each unit, how **standard** the question is (a derivation or definition that every Grade 12 textbook treats in the same way), and whether it is a **recurring numerical type** of the kind drilled in Chapters 2 and 3 of this book. Treat the list as a revision order, never as a guarantee.
 :::
 
-## 7.1 Pattern analysis of the Grade 12 Chemistry papers
+## 4.1 Pattern and weight analysis of the Grade 12 Physics paper
 
-### 7.1.1 The grid, and what has been fixed for years
+### 4.1.1 The grid
 
-| Part | Questions | Marks | What the examiner does |
+| Part | Questions | Marks | What to expect |
 |---|---|---|---|
-| Group A | 11 multiple-choice questions | 11 × 1 = 11 | one mark each; in 2082 the booklet was given out later in the examination |
-| Group B | Q12 to Q19 | 8 × 5 = 40 | two of the eight carry an internal **Or**; the five marks are split 1+4, 2+3, 1+1+3 or 1+1+1+2 |
-| Group C | Q20 to Q22 | 3 × 8 = 24 | Q20 and Q21 carry an **Or**; Q22 is four two-mark parts from applied chemistry (six smaller parts in 2079) |
+| Group A | Q1 to Q11, multiple choice | $11\times1 = 11$ | one mark each, spread over the whole syllabus; a definition, a unit, one substitution or a misconception |
+| Group B | Q12 to Q19, short answer | $8\times5 = 40$ | a definition or statement with a short derivation or numerical; marks split $2+3$, $1+2+2$ or $3+2$ |
+| Group C | Q20 to Q22, long answer | $3\times8 = 24$ | a full derivation with a numerical, often split $4+2+2$, $3+3+2$ or $5+3$ |
 
-All questions are compulsory; the choice is only inside a question, between its two alternatives. The CDC publishes no per-unit grid for Grade 12, so every "weight" below is our reading of the papers. The one official figure is the cognitive-level split printed in the 2079 model paper: **knowledge 16 %, understanding 24 %, application 28 % and higher ability 32 %** of the 75 marks — so about three-fifths of the paper asks you to *use* chemistry, not to recite it.
+All questions are compulsory; any choice is **inside** a question, between a question and its **Or** alternative. The written paper is 75 marks; the remaining 25 are internal (practical work and project). Time per mark is $180/75 = 2.4$ minutes, which gives about **12 minutes** for each Group B question and about **19 minutes** for each Group C question, with roughly 15 minutes left for Group A and a final check.
 
-### 7.1.2 Where the questions sit
+### 4.1.2 Where the syllabus hours sit
 
-The papers of 2081, 2082 and 2083 follow the same order, and the pattern is worth knowing before you open the paper.
+The CDC publishes no per-unit marks grid, so the "expected marks" column below is our estimate: each area's share of the 128 teaching hours applied to the 75 written marks.
 
-| Slot | What was set in 2081 / 2082 / 2083 |
-|---|---|
-| **Group A**, Q1 to Q4 | four **general and physical** questions: equivalent weight or normality, Ka or pH, order of reaction or half-life, the ranking of E° values or Gibbs–Helmholtz |
-| Group A, Q5 and Q6 | two **inorganic** questions: catalytic metals, coloured ions, the deep blue complex of copper, lithopone, purest form of iron |
-| Group A, Q7 to Q11 | five **organic** questions: basicity order, Tollens' and iodoform tests, the product of a named reaction, the Grignard route |
-| **Group B**, Q12 and Q13 | **physical**: a cell from two E° values, a heat of formation, a pH calculation, a titration, a rate calculation |
-| Group B, Q14 to Q19 | six questions split **two inorganic to four organic**: a reaction chain, a list of named reactions, an amine, acid or alcohol question, and a pair on copper, mercury, zinc or rusting. The inorganic pair stood at Q14–Q15 in 2081 and at Q18–Q19 in 2082 and 2083 |
-| **Group C**, Q20 | one **physical** question with an Or: volumetric, kinetics or ionic equilibrium |
-| Group C, Q21 | one **organic** question with an Or: a long identification chain |
-| Group C, Q22 | **applied**: cement, polymers, paper, nuclear chemistry, drugs — four two-mark parts |
-
-Reading a typical paper, about **33 of the 75 marks are organic, 22 general and physical, 12 inorganic and 8 applied**. Each share is close to that area's share of the teaching hours (organic 55 of 128 hours, physical 40, inorganic 20, applied 13), which is the best argument for revising in proportion to hours.
-
-### 7.1.3 Unit by unit: marks carried, years seen, expected weight
-
-*Seen* counts the eight papers (2078 model, 2079 model, 2079, 2081, 2082, 2083, model sets A and B) in which the unit supplied at least one question of five or eight marks in Group B or Group C; MCQs are not counted. **Expected weight** is our estimate from hours and from this count.
-
-| # | Unit | Hours | Seen (of 8) | Typical marks when asked | Expected weight |
+| Area | Units | Hours | Share of hours | Expected marks (of 75) | Typical presence |
 |---|---|---|---|---|---|
-| 1 | Volumetric Analysis | 8 | 8 | 4–8 (standards, normality equation, titration data) | very high |
-| 2 | Ionic Equilibrium | 10 | 8 | 5–8 (pH, Ksp, Ostwald's law) | very high |
-| 3 | Chemical Kinetics | 7 | 8 | 5–8 (table of rates, half-life) | very high |
-| 4 | Thermodynamics | 8 | 8 | 4–5 (Hess's law, ΔG) | very high |
-| 5 | Electrochemistry | 7 | 8 | 4–5 (cell notation and emf) | very high |
-| 6 | Transition Metals | 5 | 3 | 3–5 (CFT, d–d transition) | medium |
-| 7 | Studies of Heavy Metals | 15 | 8 | 5–10, often two questions | very high |
-| 8 | Haloalkanes | 8 | 7 | 4–8 (chloroform, SN, chains) | high |
-| 9 | Haloarenes | 3 | 4 | 1–5 (DDT, reactivity) | low |
-| 10 | Alcohols | 7 | 7 | 5 (Victor Meyer, ethanol) | very high |
-| 11 | Phenols | 4 | 3 | 1–5 (named reactions, acidity) | low |
-| 12 | Ethers | 2 | 5 | 1–5 (Williamson, peroxides) | low |
-| 13 | Aldehydes and Ketones | 10 | 8 | 5–8 (named-reaction lists, iodoform chain) | very high |
-| 14 | Carboxylic Acid and its Derivatives | 9 | 6 | 5–8 (chains through amide, Grignard) | high |
-| 15 | Nitro Compounds | 3 | 4 | 3–5 (reduction in media) | medium |
-| 16 | Amines | 7 | 8 | 5–8 (Hoffmann, nitrous acid, chains) | very high |
-| 17 | Organometallic Compounds | 2 | 4 | within other chains | medium |
-| 18 | Chemistry in the service of mankind | 4 | 8 | 2–4 (polymers, drugs) | high |
-| 19 | Cement | 4 | 8 | 2–4 (flow sheet, components, OPC/PPC) | very high |
-| 20 | Paper and Pulp | 3 | 6 | 2 | medium |
-| 21 | Nuclear Chemistry | 2 | 5 | 2 | medium |
+| Mechanics | 1–3 | 22 | 17 % | about 13 | two MCQs, one or two Group B, often a Group C (SHM or rotation) |
+| Heat and Thermodynamics | 4–5 | 12 | 9 % | about 7 | one MCQ and one Group B, or a Group C alternative |
+| Waves and Optics | 6–13 | 26 | 20 % | about 15 | three or four MCQs and two Group B (pipes, Doppler, interference, grating) |
+| Electricity and Magnetism | 14–19 | 35 | 27 % | about 20 | two or three MCQs, two Group B and a Group C |
+| Modern Physics | 20–25 | 33 | 26 % | about 19 | two or three MCQs, one or two Group B and a Group C |
 
-Two things stand out. **Nothing in the syllabus is ignored:** twelve of the twenty-one units were set in at least seven of the eight papers. And some teaching-hour heavyweights have an **uneven record**: transition metals and the crystal-field question appear in the model papers but in **none of the 2079–2083 board papers** at five-mark level, and silver, iron extraction in the blast furnace and calomel have **not appeared at all** in Group B or C of the eight papers. A gap is not a forecast, but a student with four weeks to spare should cover these after the very-high units, not before.
+Two points follow. **Electricity and Magnetism and Modern Physics together carry more than half the hours** (68 of 128), so together they are worth about forty marks. And **Waves and Optics is eight small units** of two to five hours each: no single unit is heavy, but the area as a whole is worth as much as Mechanics plus Heat.
 
-### 7.1.4 The numericals and derivations that recur
+### 4.1.3 Unit by unit: hours and the form the question usually takes
 
-| Type | Forms seen | Papers |
+| # | Unit | Hours | Typical form of the question | Priority |
+|---|---|---|---|---|
+| 1 | Rotational dynamics | 7 | MI of a rod; $\tau = I\alpha$; rotational KE; conservation of angular momentum | very high |
+| 2 | Periodic motion | 6 | SHM equation and energy; spring–mass and simple pendulum derivations | very high |
+| 3 | Fluid statics | 9 | capillary rise; Stokes' law and terminal velocity; Bernoulli and continuity | very high |
+| 4 | First law of thermodynamics | 6 | $C_p - C_v = R$; isothermal work; $PV^{\gamma}$ = constant | very high |
+| 5 | Second law of thermodynamics | 6 | Carnot, Otto and Diesel efficiency; refrigerator COP; statements of the law | high |
+| 6 | Wave motion | 2 | reading a progressive-wave equation; progressive against stationary | medium |
+| 7 | Mechanical waves | 4 | Newton's formula and Laplace's correction; effect of temperature and humidity | high |
+| 8 | Wave in pipes and strings | 4 | harmonics in open and closed pipes; end correction; string laws | very high |
+| 9 | Acoustic phenomena | 5 | Doppler effect; intensity level in decibels | very high |
+| 10 | Nature and propagation of light | 3 | Huygens' principle; reflection and refraction by wave theory | medium |
+| 11 | Interference | 2 | YDSE fringe width derivation and numerical | high |
+| 12 | Diffraction | 3 | grating equation; single-slit width; resolving power | high |
+| 13 | Polarization | 3 | Brewster's law; polaroids; transverse nature of light | medium |
+| 14 | Electrical circuits | 6 | Kirchhoff; Wheatstone and meter bridge; potentiometer; galvanometer conversion | very high |
+| 15 | Thermoelectric effects | 3 | Seebeck and Peltier effects; neutral and inversion temperature | medium |
+| 16 | Magnetic field | 9 | Biot–Savart and Ampère; force on charge and conductor; Hall effect; galvanometer | very high |
+| 17 | Magnetic properties of materials | 5 | hysteresis loop; dia-, para- and ferromagnetism; $\mu_r$ and $\chi$ | medium |
+| 18 | Electromagnetic induction | 6 | Faraday and Lenz; motional emf; AC generator; inductor energy; transformer | very high |
+| 19 | Alternating currents | 6 | series LCR impedance, phase, resonance, power factor | very high |
+| 20 | Electrons | 4 | Millikan's experiment; Thomson's $e/m$; electron in fields | high |
+| 21 | Photons | 3 | Einstein's equation; stopping potential; Planck's constant from a graph | very high |
+| 22 | Semiconductor devices | 6 | p–n junction; full-wave rectifier; logic-gate truth tables | high |
+| 23 | Quantization of energy | 8 | Bohr's radius and energy; spectral series; de Broglie; X-rays and Bragg's law | very high |
+| 24 | Radioactivity and nuclear reaction | 6 | decay law; half-life and mean life; carbon dating; GM tube | very high |
+| 25 | Recent trends in physics | 6 | seismic waves and the 2015 Gorkha earthquake; gravitational waves; Higgs boson; nanotechnology | medium |
+
+**Nothing is safe to skip**, because the eleven MCQs are spread across all twenty-five units. But the **thirteen "very high" units** hold 81 of the 128 hours, and a student who has every standard derivation and numerical of those units ready has covered most of Groups B and C.
+
+### 4.1.4 The derivations and numerical types that every textbook treats
+
+| Area | Derivations to have word-perfect | Numerical types |
 |---|---|---|
-| Normality and titration | N₁V₁ = N₂V₂ from oxalic acid against KMnO₄ or NaOH; mixtures of acids; Na₂CO₃ against H₂SO₄; molarity and molality from density | 2078 model, 2079, 2082, 2083, model sets |
-| Acid–base and solubility | pH of HCl, NaOH, weak acid from Ka; Kw; precipitation test from Ksp; dilution of a base | 2078 model, 2079, 2081, 2082, 2083, model set B |
-| Kinetics | order and k from three or four experiments; first-order time; half-life; instantaneous rate expressions | every paper |
-| Thermochemistry | heat of formation from heats of combustion or formation (acetic acid, ethanol, acetylene, CS₂, CH₄) | 2078 model, 2079 model, 2081, 2082, 2083, model set A |
-| Electrochemistry | cell notation, anode and cathode, emf, feasibility from two or three E° values | every paper |
-| Derivations | Ostwald's dilution law; N₁V₁ = N₂V₂; first-order k and t½; zero-order t½ ∝ a | 2078 model, 2079 model, 2081, 2082, 2083 |
+| Mechanics | MI of a uniform rod ($ML^{2}/12$, $ML^{2}/3$); $\tau = I\alpha$; $T = 2\pi\sqrt{m/k}$; $T = 2\pi\sqrt{l/g}$; $h = 2T\cos\theta/(r\rho g)$; terminal velocity; Bernoulli's equation | rotational KE and angular momentum; spring–mass period and energy; capillary height; terminal velocity; pipe flow with continuity |
+| Heat | $C_p - C_v = R$; $W = nRT\ln(V_2/V_1)$; $PV^{\gamma}$ = constant | adiabatic temperature and pressure; Carnot, Otto efficiency; refrigerator COP |
+| Waves and Optics | $v = \sqrt{\gamma P/\rho}$; harmonics in pipes; Doppler formulae; YDSE fringe width; Brewster's law | pipe and string frequencies with end correction; Doppler; fringe width; grating angle and highest order |
+| Electricity and Magnetism | Wheatstone balance; potentiometer comparison and internal resistance; $B$ of a coil and a solenoid; Hall voltage; $\tfrac12LI^{2}$; LCR impedance | shunt and series resistance; potentiometer lengths; solenoid field and radius of a charge; peak emf; LCR current, power and resonance |
+| Modern Physics | Thomson's $e/m$; Millikan's $q = mg/E$; Einstein's equation; Bohr's radius and energy; $N = N_0e^{-\lambda t}$; Bragg's law | stopping potential and threshold wavelength; Balmer wavelength; de Broglie wavelength; carbon-dating age; $\lambda_{min}$ of X-rays |
 
-**Definitions asked again and again:** primary standard; equivalence point against end point; order against molecularity; rate law; Hess's law; heat of formation and of combustion; standard electrode potential; pH; Portland cement; natural against artificial radioactivity.
+**Definitions that a five-mark question opens with again and again:** moment of inertia and radius of gyration; SHM; surface tension and angle of contact; coefficient of viscosity; internal energy; adiabatic and isothermal processes; the Kelvin–Planck and Clausius statements; coherent sources; Brewster's angle; the ampere; magnetic susceptibility; Lenz's law; self-inductance; power factor; work function and stopping potential; excitation and ionization potential; half-life and mean life.
 
-**Organic items that repeat across papers:** Victor Meyer's test (2078 model, 2079 model, 2081, 2083); chloroform with its five reactions (2079 model, 2081, 2082, 2083); Hoffmann's method (2079, 2079 model, 2082, 2083, model set B); an iodoform identification chain (2079 model, 2082, model set A); Reimer–Tiemann and Perkin in the named-reaction lists (2079 model, 2079, 2082, 2083); OPC against PPC (2078 model, 2079 model).
+## 4.2 Model Question Paper 1
 
+::: note Examination details
+**Subject:** Physics  **Time:** 3 hours  **Full marks:** 75. Attempt all the questions. Figures in the margin give the full marks. Use $g = 9.8\ \text{m s}^{-2}$, $h = 6.63\times10^{-34}\ \text{J s}$, $c = 3\times10^{8}\ \text{m s}^{-1}$, $e = 1.6\times10^{-19}\ \text{C}$, $m_e = 9.1\times10^{-31}\ \text{kg}$, $\mu_0 = 4\pi\times10^{-7}\ \text{H m}^{-1}$, $R = 8.31\ \text{J mol}^{-1}\text{K}^{-1}$ and $v_{sound} = 340\ \text{m s}^{-1}$ unless stated. This paper is original, built to the grid of the real paper; it is not a past paper and carries no year tag.
+:::
 
-## 4.2 Model Set 1
-
-**Time: 3 hours. Full marks: 75. Pass marks: 32.** Attempt all the questions. Figures in the margin indicate full marks. *This is an original practice paper, built to the CDC pattern; it is not an NEB paper.*
+| Area | Questions | Marks |
+|---|---|---|
+| Mechanics | 1, 2, 12, 13, 20 | 20 |
+| Heat and Thermodynamics | 3, 14 (and 20 Or) | 6 |
+| Waves and Optics | 4, 5, 6, 15, 16 | 13 |
+| Electricity and Magnetism | 7, 8, 17, 18, 21 | 20 |
+| Modern Physics | 9, 10, 11, 19, 22 | 16 |
 
 **Group A — Rewrite the correct option of each question in your answer sheet.** $(11\times1 = 11)$
 
-1. A uniform rod of mass $M$ and length $l$ is rotated about a perpendicular axis through one end. Its moment of inertia is <span class="marks">[1]</span>
-   (a) $Ml^{2}/12$ (b) $Ml^{2}/3$ (c) $Ml^{2}/2$ (d) $Ml^{2}$
-2. A particle performs SHM of amplitude $0.05\ \text{m}$ and period $0.50\ \text{s}$. Its maximum speed is <span class="marks">[1]</span>
-   (a) $0.10\ \text{m s}^{-1}$ (b) $0.31\ \text{m s}^{-1}$ (c) $0.63\ \text{m s}^{-1}$ (d) $1.26\ \text{m s}^{-1}$
-3. Water flows at $1.5\ \text{m s}^{-1}$ through a pipe of cross-section $20\ \text{cm}^{2}$, which narrows to $5\ \text{cm}^{2}$. The speed in the narrow part is <span class="marks">[1]</span>
-   (a) $0.38\ \text{m s}^{-1}$ (b) $1.5\ \text{m s}^{-1}$ (c) $3.0\ \text{m s}^{-1}$ (d) $6.0\ \text{m s}^{-1}$
-4. When a gas expands adiabatically its temperature falls because <span class="marks">[1]</span>
-   (a) heat flows out (b) the work done is at the expense of its internal energy (c) its pressure rises (d) its mass decreases
-5. A source of $680\ \text{Hz}$ sends waves through air at $340\ \text{m s}^{-1}$. The wavelength is <span class="marks">[1]</span>
-   (a) $0.25\ \text{m}$ (b) $0.50\ \text{m}$ (c) $2.0\ \text{m}$ (d) $2.3\times10^{5}\ \text{m}$
-6. The path difference at the first dark fringe of Young's double-slit pattern is <span class="marks">[1]</span>
-   (a) $0$ (b) $\lambda/2$ (c) $\lambda$ (d) $3\lambda/2$
-7. A transparent material has refractive index $\sqrt{3}$. The polarizing angle is <span class="marks">[1]</span>
+1. A flywheel of moment of inertia $2\ \text{kg m}^{2}$ rotates at $10\ \text{rad s}^{-1}$. Its kinetic energy of rotation is <span class="marks">[1]</span>
+   (a) $20\ \text{J}$ (b) $100\ \text{J}$ (c) $200\ \text{J}$ (d) $10\ \text{J}$
+2. The length of a simple pendulum whose period is $2.0\ \text{s}$ at a place where $g = 9.8\ \text{m s}^{-2}$ is about <span class="marks">[1]</span>
+   (a) $0.25\ \text{m}$ (b) $0.50\ \text{m}$ (c) $0.99\ \text{m}$ (d) $1.98\ \text{m}$
+3. In an isothermal expansion of an ideal gas <span class="marks">[1]</span>
+   (a) the internal energy does not change (b) no heat is exchanged (c) no work is done (d) the temperature rises
+4. The fundamental frequency of a closed pipe $0.85\ \text{m}$ long (neglect end correction) is <span class="marks">[1]</span>
+   (a) $50\ \text{Hz}$ (b) $100\ \text{Hz}$ (c) $200\ \text{Hz}$ (d) $400\ \text{Hz}$
+5. In Young's double-slit experiment the slit separation is doubled and the slit-to-screen distance is halved. The fringe width becomes <span class="marks">[1]</span>
+   (a) unchanged (b) one-fourth (c) four times (d) one-half
+6. The Brewster angle for glass of refractive index $\sqrt{3}$ is <span class="marks">[1]</span>
    (a) $30^{\circ}$ (b) $45^{\circ}$ (c) $60^{\circ}$ (d) $90^{\circ}$
-8. The magnetic field at $5.0\ \text{cm}$ from a long straight wire carrying $5.0\ \text{A}$ is <span class="marks">[1]</span>
-   (a) $2\times10^{-7}\ \text{T}$ (b) $2\times10^{-5}\ \text{T}$ (c) $2\times10^{-3}\ \text{T}$ (d) $2\times10^{-1}\ \text{T}$
-9. The reactance of a $0.20\ \text{H}$ inductor at $50\ \text{Hz}$ is about <span class="marks">[1]</span>
-   (a) $10\ \Omega$ (b) $31\ \Omega$ (c) $63\ \Omega$ (d) $630\ \Omega$
-10. The energy of a photon of wavelength $620\ \text{nm}$ is about <span class="marks">[1]</span>
-   (a) $0.5\ \text{eV}$ (b) $1.0\ \text{eV}$ (c) $2.0\ \text{eV}$ (d) $4.0\ \text{eV}$
-11. The fraction of a radioactive sample left after three half-lives is <span class="marks">[1]</span>
-   (a) $1/3$ (b) $1/6$ (c) $1/8$ (d) $1/9$
+7. A charged particle moves parallel to a uniform magnetic field. It experiences <span class="marks">[1]</span>
+   (a) a maximum force (b) zero force (c) a force along the field (d) a force that makes it move in a circle
+8. The rms value of an alternating voltage of peak value $311\ \text{V}$ is <span class="marks">[1]</span>
+   (a) $156\ \text{V}$ (b) $220\ \text{V}$ (c) $311\ \text{V}$ (d) $440\ \text{V}$
+9. A full-wave rectifier is fed from the $50\ \text{Hz}$ mains. The frequency of the ripple in its output is <span class="marks">[1]</span>
+   (a) $25\ \text{Hz}$ (b) $50\ \text{Hz}$ (c) $100\ \text{Hz}$ (d) $200\ \text{Hz}$
+10. Photons of energy $3.5\ \text{eV}$ fall on a metal of work function $2.0\ \text{eV}$. The stopping potential is <span class="marks">[1]</span>
+   (a) $1.5\ \text{V}$ (b) $2.0\ \text{V}$ (c) $3.5\ \text{V}$ (d) $5.5\ \text{V}$
+11. The mean life $\tau$ of a radioactive substance is related to its half-life $T_{1/2}$ by <span class="marks">[1]</span>
+   (a) $\tau = 0.693\,T_{1/2}$ (b) $\tau = T_{1/2}$ (c) $\tau = 1.44\,T_{1/2}$ (d) $\tau = 2T_{1/2}$
 
 **Group B — Short answer questions.** $(8\times5 = 40)$
 
-12. (i) State the law of conservation of angular momentum. [1] (ii) A horizontal disc of moment of inertia $0.40\ \text{kg m}^{2}$ rotates freely at $6.0\ \text{rad s}^{-1}$. A ring of moment of inertia $0.10\ \text{kg m}^{2}$, at rest, is dropped coaxially on it and sticks. Find the new angular velocity [2] and the fraction of kinetic energy lost. [2]
-    **OR** (i) Define simple harmonic motion. [1] (ii) Derive the time period of a simple pendulum. [2] (iii) A pendulum is $2.0\ \text{m}$ long; how many oscillations does it make in $60\ \text{s}$ on Earth ($g = 9.8\ \text{m s}^{-2}$)? [2]
-13. (i) State Stokes' law. [1] (ii) A steel ball of radius $0.50\ \text{mm}$ and density $7800\ \text{kg m}^{-3}$ falls in oil of density $900\ \text{kg m}^{-3}$ and viscosity $0.20\ \text{Pa s}$. Find its terminal velocity. [3] (iii) Why does a parachutist reach a terminal velocity? [1]
-14. (i) $2.0\ \text{mol}$ of an ideal gas expand isothermally at $300\ \text{K}$ from $10\ \text{L}$ to $40\ \text{L}$. Find the work done. [3] (ii) How much heat is absorbed? [1] (iii) State the Kelvin–Planck statement of the second law. [1]
-15. (i) A source of $400\ \text{Hz}$ moves towards a stationary observer at $20\ \text{m s}^{-1}$; find the frequency heard ($v = 340\ \text{m s}^{-1}$). [2] (ii) Find the fundamental and first overtone of a closed pipe $0.50\ \text{m}$ long. [2] (iii) Why does a siren sound lower after the ambulance has passed? [1]
-16. (i) State Kirchhoff's two laws. [2] (ii) In a meter bridge a $6.0\ \Omega$ resistor in the left gap balances at $40\ \text{cm}$; find the unknown resistance in the right gap. [2] (iii) What is the new balance point if the two resistors are interchanged? [1]
-17. (i) State Faraday's laws of electromagnetic induction. [2] (ii) A coil of $500$ turns has the flux through it changed from $2.0\times10^{-3}\ \text{Wb}$ to $8.0\times10^{-3}\ \text{Wb}$ in $0.030\ \text{s}$; find the induced e.m.f. [2] (iii) State Lenz's law. [1]
-    **OR** (i) Use Ampère's law to derive the field inside a long solenoid. [3] (ii) Find $B$ for $1000$ turns per metre carrying $2.0\ \text{A}$. [2]
-18. (i) State Einstein's photoelectric equation. [2] (ii) Light of wavelength $400\ \text{nm}$ falls on a metal of work function $2.0\ \text{eV}$; find the maximum kinetic energy, the stopping potential and the maximum speed of the electrons. [3]
-    **OR** (i) State Bohr's postulates. [3] (ii) Find the energy of the hydrogen atom in $n = 3$ and the wavelength of the photon emitted in $n = 3\to n = 2$. [2]
-19. (i) Draw the circuit of a full-wave rectifier and explain how it works. [3] (ii) Construct the truth table of a NAND gate. [2]
-    **OR** (i) Define half-life and decay constant. [2] (ii) A sample has $4.0\times10^{6}$ nuclei of half-life $20\ \text{min}$; find the initial activity and the number left after one hour. [3]
+12. (a) Define moment of inertia and radius of gyration. [2] (b) A uniform disc of mass $2.0\ \text{kg}$ and radius $0.20\ \text{m}$ rotates about its own axis at $600$ revolutions per minute. Find its angular momentum and its kinetic energy of rotation ($I = \tfrac12MR^{2}$). [3] <span class="marks">[5]</span>
+13. (a) State Bernoulli's theorem and the equation of continuity. [2] (b) Water flows through a horizontal pipe. At A the cross-section is $4.0\times10^{-3}\ \text{m}^{2}$ and the speed is $2.0\ \text{m s}^{-1}$; at B the cross-section is $1.0\times10^{-3}\ \text{m}^{2}$. Find the speed at B and the pressure difference between A and B. [3] <span class="marks">[5]</span>
+14. (a) Derive Mayer's relation $C_p - C_v = R$ for one mole of an ideal gas. [3] (b) For a gas $C_p = 29.1\ \text{J mol}^{-1}\text{K}^{-1}$. Find $C_v$ and $\gamma$. [2] <span class="marks">[5]</span>
+**Or**
+14. (a) State the Kelvin–Planck and the Clausius statements of the second law of thermodynamics. [2] (b) A Carnot engine works between $527^{\circ}\text{C}$ and $127^{\circ}\text{C}$ and absorbs $2000\ \text{J}$ from the source in each cycle. Find its efficiency, the work done per cycle and the heat rejected to the sink. [3] <span class="marks">[5]</span>
+15. (a) State the laws of transverse vibration of a stretched string. [2] (b) A sonometer wire $0.60\ \text{m}$ long has a mass of $3.0\ \text{g}$ and is stretched by a tension of $72\ \text{N}$. Find the speed of the transverse wave, the fundamental frequency and the frequency of the second overtone. [3] <span class="marks">[5]</span>
+16. (a) What is the Doppler effect? [1] (b) Derive the apparent frequency heard by a stationary observer when the source moves towards him. [2] (c) The siren of an ambulance has frequency $680\ \text{Hz}$. Find the frequency heard by a stationary observer when the ambulance approaches at $20\ \text{m s}^{-1}$ and when it moves away at the same speed. [2] <span class="marks">[5]</span>
+**Or**
+16. (a) What is a diffraction grating? Define the grating element. [1] (b) Light of wavelength $600\ \text{nm}$ falls normally on a grating with $5000$ lines per cm. Find the angle of the second-order maximum and the highest order that can be seen. [4] <span class="marks">[5]</span>
+17. (a) State the principle of a potentiometer. [1] (b) Two cells balance at $60\ \text{cm}$ and $80\ \text{cm}$ of a potentiometer wire. The first has emf $1.5\ \text{V}$. Find the emf of the second. [2] (c) A cell balances at $75\ \text{cm}$ on open circuit and at $60\ \text{cm}$ when it is shunted by an $8\ \Omega$ resistor. Find its internal resistance. [2] <span class="marks">[5]</span>
+18. (a) State Faraday's laws of electromagnetic induction and Lenz's law. [2] (b) A coil of $100$ turns and area $0.020\ \text{m}^{2}$ rotates at $50$ revolutions per second in a uniform field of $0.50\ \text{T}$. Find the peak emf and the rms emf. [2] (c) In which position of the coil is the emf maximum? [1] <span class="marks">[5]</span>
+19. (a) State Bohr's postulates of the hydrogen atom. [2] (b) Calculate the wavelength of the first line of the Balmer series ($R = 1.097\times10^{7}\ \text{m}^{-1}$). [2] (c) What is the ionization potential of hydrogen in its ground state? [1] <span class="marks">[5]</span>
 
 **Group C — Long answer questions.** $(3\times8 = 24)$
 
-20. (a) What is a stationary wave? Draw the first three modes of a closed organ pipe. [2] (b) Derive the frequencies of the harmonics of a closed pipe. [2] (c) A closed pipe $0.85\ \text{m}$ long: find the fundamental and the first overtone ($v = 340\ \text{m s}^{-1}$). [2] (d) How does the speed of sound in air depend on temperature? [2]
-    **OR** (a) Derive the fringe width in Young's double-slit experiment. [3] (b) Slits $0.50\ \text{mm}$ apart, a screen $1.2\ \text{m}$ away, light of $600\ \text{nm}$: find the fringe width. [2] (c) The same light falls on a grating of $4000$ lines per cm; find the angle of the first order [2] and the highest order visible. [1]
-21. (a) A series circuit has $R = 30\ \Omega$, $L = 0.20\ \text{H}$ and $C = 20\ \mu\text{F}$ and is connected to $100\ \text{V}$ r.m.s. at $50\ \text{Hz}$. Find the impedance, the current, the phase angle and the power. [5] (b) Find the resonant frequency and the quality factor. [3]
-    **OR** (a) Derive the energy stored in an inductor. [3] (b) An inductor of $0.50\ \text{H}$ carries $4.0\ \text{A}$; find the stored energy. [1] (c) If the current falls to zero in $0.020\ \text{s}$, find the induced e.m.f. [2] (d) Derive the self-inductance of a long solenoid. [2]
-22. (a) State Bohr's postulates. [2] (b) Derive the radius of the $n$th orbit of hydrogen. [3] (c) Derive the energy of the $n$th level and find the ionization energy. [2] (d) What is the significance of the negative sign? [1]
-    **OR** (a) Derive the law of radioactive decay $N = N_0e^{-\lambda t}$. [3] (b) Show that $T_{1/2} = 0.693/\lambda$. [2] (c) A wooden relic has a $^{14}\text{C}$ activity $25\%$ of that of living wood ($T_{1/2} = 5730$ yr); find its age. [3]
+20. (a) Show that the vertical oscillation of a mass hung from a light spring is simple harmonic, and derive $T = 2\pi\sqrt{m/k}$. [4] (b) A $0.50\ \text{kg}$ mass hung from a spring stretches it by $4.9\ \text{cm}$. Find the force constant and the period of vertical oscillation. [2] (c) If it oscillates with amplitude $3.0\ \text{cm}$, find its maximum speed and its total energy. [2] <span class="marks">[8]</span>
+**Or**
+20. (a) Derive $PV^{\gamma}$ = constant for a reversible adiabatic change of an ideal gas. [4] (b) Air ($\gamma = 1.4$) at $27^{\circ}\text{C}$ and $1.0\times10^{5}\ \text{Pa}$ is compressed suddenly to $\tfrac{1}{32}$ of its volume. Find the final temperature and pressure. [3] (c) Why is an adiabatic curve steeper than an isothermal curve through the same point? [1] <span class="marks">[8]</span>
+21. (a) State Ampère's circuital law and use it to find the magnetic field inside a long solenoid. [4] (b) A solenoid $0.50\ \text{m}$ long has $1000$ turns and carries $2.0\ \text{A}$. Find the field inside it. [2] (c) An electron enters this field at $2.0\times10^{6}\ \text{m s}^{-1}$ at right angles to it. Find the radius of its path. [2] <span class="marks">[8]</span>
+**Or**
+21. (a) Draw the phasor diagram of a series LCR circuit and derive its impedance. [3] (b) A resistor of $40\ \Omega$, an inductor of reactance $80\ \Omega$ and a capacitor of reactance $50\ \Omega$ are joined in series to a $220\ \text{V}$, $50\ \text{Hz}$ supply. Find the impedance, the current and the phase angle. [2] (c) Find the power factor and the power consumed. [2] (d) Find the resonant frequency of the circuit. [1] <span class="marks">[8]</span>
+22. (a) Write Einstein's photoelectric equation and use it to explain the laws of photoelectric emission. [3] (b) Light of wavelength $400\ \text{nm}$ falls on a metal of work function $2.0\ \text{eV}$. Find the maximum kinetic energy of the photoelectrons, the stopping potential and the threshold wavelength. [3] (c) How is Planck's constant found from a graph of stopping potential against frequency? [2] <span class="marks">[8]</span>
 
-### 4.2.1 Solutions to Model Set 1
+## 4.3 Solutions to Model Paper 1
 
-::: note Solutions — Group A
-**1.** (b) — $\dfrac{Ml^{2}}{3}$ (centre: $Ml^{2}/12$, plus $M(l/2)^{2}$).
-**2.** (c) — $\omega = 2\pi/0.50 = 12.57$; $v_{max} = \omega A = 12.57\times0.05 = 0.63\ \text{m s}^{-1}$.
-**3.** (d) — $v_2 = v_1A_1/A_2 = 1.5\times20/5 = 6.0\ \text{m s}^{-1}$.
-**4.** (b) — $Q = 0$, so $W = -\Delta U$: the gas does work and cools.
-**5.** (b) — $\lambda = v/f = 340/680 = 0.50\ \text{m}$.
-**6.** (b) — dark fringes at $(n+\tfrac12)\lambda$; the first is $\lambda/2$.
-**7.** (c) — $\tan i_p = \sqrt{3}$ gives $i_p = 60^{\circ}$.
-**8.** (b) — $B = \dfrac{\mu_0I}{2\pi r} = \dfrac{2\times10^{-7}\times5.0}{0.050} = 2\times10^{-5}\ \text{T}$.
-**9.** (c) — $X_L = 2\pi\times50\times0.20 = 62.8\ \Omega$.
-**10.** (c) — $E = 1240/620 = 2.0\ \text{eV}$.
-**11.** (c) — $(\tfrac12)^{3} = 1/8$.
+::: note Answers — Model Paper 1, Group A
+**1.** (b) — $K = \tfrac12I\omega^{2} = \tfrac12(2)(10)^{2} = 100\ \text{J}$; option (c) forgets the half.
+**2.** (c) — $l = gT^{2}/4\pi^{2} = 9.8\times4/39.48 = 0.99\ \text{m}$ (the "seconds pendulum").
+**3.** (a) — for an ideal gas $U$ depends only on $T$, so $\Delta U = 0$ and $Q = W$; "no heat exchanged" is adiabatic.
+**4.** (b) — $f = v/4L = 340/3.4 = 100\ \text{Hz}$; option (c) uses the open-pipe formula $v/2L$.
+**5.** (b) — $\beta = \lambda D/d$; $D$ halves and $d$ doubles, so $\beta$ becomes $\tfrac12\times\tfrac12 = \tfrac14$ of its value.
+**6.** (c) — Brewster's law $\tan i_p = n = \sqrt{3}$, so $i_p = 60^{\circ}$.
+**7.** (b) — $F = qvB\sin\theta$ with $\theta = 0^{\circ}$ is zero; the particle goes straight on.
+**8.** (b) — $V_{rms} = V_0/\sqrt{2} = 311/1.414 = 220\ \text{V}$, the Nepal mains value.
+**9.** (c) — both half-cycles give a pulse, so there are two pulses per input cycle: $2\times50 = 100\ \text{Hz}$.
+**10.** (a) — $eV_0 = h\nu - \phi = 3.5 - 2.0 = 1.5\ \text{eV}$, so $V_0 = 1.5\ \text{V}$.
+**11.** (c) — $\tau = 1/\lambda$ and $T_{1/2} = 0.693/\lambda$, so $\tau = T_{1/2}/0.693 = 1.44\,T_{1/2}$.
 :::
 
-::: note Solutions — Group B (12–15)
-**12.** (i) If no resultant external torque acts on a system, its total angular momentum remains constant.
-(ii) Angular momentum is conserved:
-$$ I_1\omega_1 = (I_1+I_2)\omega_2\ \Rightarrow\ \omega_2 = \frac{0.40\times6.0}{0.50} = 4.8\ \text{rad s}^{-1} $$
-$$ K_1 = \tfrac12(0.40)(6.0)^{2} = 7.2\ \text{J},\qquad K_2 = \tfrac12(0.50)(4.8)^{2} = 5.76\ \text{J} $$
-$$ \text{fraction lost} = \frac{7.2-5.76}{7.2} = 0.20 $$
-$20\%$ of the kinetic energy is lost (as heat in the friction between ring and disc).
+::: note Solutions — Model Paper 1, Group B (Q12 to Q15)
+**12.** (a) The **moment of inertia** of a body about an axis is $I = \sum m_ir_i^{2}$, the sum of each particle's mass times the square of its distance from the axis; it measures the body's opposition to a change in its rotation (SI unit $\text{kg m}^{2}$). The **radius of gyration** $K$ is the distance from the axis at which the whole mass could be put without changing the moment of inertia: $I = MK^{2}$.
+(b) $I = \tfrac12MR^{2} = \tfrac12(2.0)(0.20)^{2} = 0.040\ \text{kg m}^{2}$. $\omega = 600\times2\pi/60 = 20\pi = 62.8\ \text{rad s}^{-1}$.
+$$ L = I\omega = 0.040\times62.8 = 2.51\ \text{kg m}^{2}\,\text{s}^{-1} $$
+$$ K = \tfrac12I\omega^{2} = \tfrac12(0.040)(62.8)^{2} = 79.0\ \text{J} $$
 
-**OR** (i) SHM is periodic motion in which the acceleration is proportional to the displacement from the mean position and directed towards it. (ii) For a bob displaced by a small angle $\theta$, the restoring force along the arc is $-mg\sin\theta\approx-mg\theta = -(mg/l)x$ with $x = l\theta$; this is of the form $F = -kx$ with $k = mg/l$, so
-$$ T = 2\pi\sqrt{\frac{m}{k}} = 2\pi\sqrt{\frac{l}{g}} $$
-(iii) $T = 2\pi\sqrt{2.0/9.8} = 2.84\ \text{s}$; the number of oscillations in $60\ \text{s}$ is $60/2.84 = 21$.
+**13.** (a) **Bernoulli's theorem:** for the steady, streamline flow of an ideal (incompressible, non-viscous) fluid, the total energy per unit volume is constant along a streamline: $P + \tfrac12\rho v^{2} + \rho gh$ = constant. **Continuity:** the volume flowing per second is the same at every section, $A_1v_1 = A_2v_2$.
+(b) $v_B = A_Av_A/A_B = (4.0\times10^{-3})(2.0)/(1.0\times10^{-3}) = 8.0\ \text{m s}^{-1}$. The pipe is horizontal, so
+$$ P_A - P_B = \tfrac12\rho(v_B^{2} - v_A^{2}) = \tfrac12(1000)(64 - 4) = 3.0\times10^{4}\ \text{Pa} $$
+The pressure is lower at the narrow section B, where the water is faster.
 
-**13.** (i) The viscous drag on a small sphere of radius $r$ moving at speed $v$ through a fluid of viscosity $\eta$ is $F = 6\pi\eta rv$.
-(ii) 
-$$ v_t = \frac{2r^{2}(\rho-\sigma)g}{9\eta} = \frac{2(0.50\times10^{-3})^{2}(7800-900)(9.8)}{9\times0.20} $$
-$$ v_t = \frac{3.38\times10^{-2}}{1.8} = 1.9\times10^{-2}\ \text{m s}^{-1} $$
-(iii) The drag grows with speed until drag plus upthrust equal the weight; the net force is then zero and the speed stays constant (terminal velocity). For a parachutist the large area makes this happen at a safe speed.
+**14.** (a) Heat one mole at constant volume through $dT$: no work is done, so $dQ = dU = C_v\,dT$. Heat the same mole through the same $dT$ at constant pressure: $dQ = C_p\,dT = dU + P\,dV$. For an ideal gas $U$ depends only on $T$, so $dU = C_v\,dT$ in both cases. From $PV = RT$ at constant $P$, $P\,dV = R\,dT$. Hence $C_p\,dT = C_v\,dT + R\,dT$, and $C_p - C_v = R$.
+(b) $C_v = C_p - R = 29.1 - 8.31 = 20.8\ \text{J mol}^{-1}\text{K}^{-1}$; $\gamma = C_p/C_v = 29.1/20.79 = 1.40$ (a diatomic gas such as air).
+**Or:** (a) **Kelvin–Planck:** no engine working in a cycle can take heat from one reservoir and convert it completely into work. **Clausius:** heat cannot flow by itself from a colder body to a hotter body; a refrigerator needs work.
+(b) $T_1 = 800\ \text{K}$, $T_2 = 400\ \text{K}$. $\eta = 1 - T_2/T_1 = 1 - 400/800 = 0.50 = 50\ \%$. Work $W = \eta Q_1 = 0.50\times2000 = 1000\ \text{J}$; heat rejected $Q_2 = Q_1 - W = 1000\ \text{J}$.
 
-**14.** (i) 
-$$ W = nRT\ln\frac{V_2}{V_1} = 2.0\times8.314\times300\times\ln4 = 4988\times1.386 = 6.9\times10^{3}\ \text{J} $$
-(ii) Isothermal, so $\Delta U = 0$ and $Q = W = 6.9\ \text{kJ}$.
-(iii) It is impossible to construct an engine, working in a cycle, that does nothing but absorb heat from a single reservoir and convert it completely into work.
-
-**15.** (i) 
-$$ f' = f\,\frac{v}{v-u_s} = 400\times\frac{340}{320} = 425\ \text{Hz} $$
-(ii) A closed pipe has only odd harmonics: $f_1 = v/4L = 340/2.0 = 170\ \text{Hz}$; the first overtone is the third harmonic, $3f_1 = 510\ \text{Hz}$.
-(iii) By the Doppler effect: as the source recedes, the waves reach the listener less often, so the frequency falls, although the siren's own frequency is unchanged.
+**15.** (a) For a stretched string the fundamental frequency $f = \dfrac{1}{2l}\sqrt{\dfrac{T}{\mu}}$, so: (i) **law of length** $f\propto1/l$ at fixed $T$ and $\mu$; (ii) **law of tension** $f\propto\sqrt{T}$ at fixed $l$ and $\mu$; (iii) **law of mass** $f\propto1/\sqrt{\mu}$ at fixed $l$ and $T$.
+(b) $\mu = 3.0\times10^{-3}/0.60 = 5.0\times10^{-3}\ \text{kg m}^{-1}$.
+$$ v = \sqrt{\frac{T}{\mu}} = \sqrt{\frac{72}{5.0\times10^{-3}}} = \sqrt{14\,400} = 120\ \text{m s}^{-1} $$
+$f_1 = v/2l = 120/1.20 = 100\ \text{Hz}$. The second overtone is the third harmonic: $f_3 = 3f_1 = 300\ \text{Hz}$.
 :::
 
-::: note Solutions — Group B (16–19)
-**16.** (i) **Junction law:** $\sum I = 0$ at a junction (charge is conserved). **Loop law:** $\sum\mathcal{E} = \sum IR$ round a closed loop (energy is conserved).
-(ii) 
-$$ X = R\,\frac{100-l}{l} = 6.0\times\frac{60}{40} = 9.0\ \Omega $$
-(iii) After interchanging, $R' = 9.0\ \Omega$ (left) and $X' = 6.0\ \Omega$ (right): $\dfrac{l'}{100-l'} = \dfrac{9.0}{6.0} = 1.5$, so $l' = 60\ \text{cm}$.
+::: note Solutions — Model Paper 1, Group B (Q16 to Q19)
+**16.** (a) The **Doppler effect** is the apparent change in the frequency of a wave when the source, the observer, or both move relative to the medium.
+(b) A source of frequency $f$ moves towards the observer at $v_s$. In one period $1/f$ the wave travels $v/f$ but the source moves $v_s/f$ after it, so the wavelength in front is squeezed to $\lambda' = (v - v_s)/f$. The observer is at rest, so the waves reach him at speed $v$:
+$$ f' = \frac{v}{\lambda'} = \frac{v}{v - v_s}\,f $$
+(c) Approaching: $f' = \dfrac{340}{340 - 20}\times680 = \dfrac{340}{320}\times680 = 722.5\ \text{Hz}$. Receding (replace $v_s$ by $-v_s$): $f'' = \dfrac{340}{360}\times680 = 642.2\ \text{Hz}$.
+**Or:** (a) A **diffraction grating** is a plate with a large number of equally spaced, parallel, very narrow slits. The **grating element** $d = a + b$ is the width of one slit plus one opaque space.
+(b) $d = \dfrac{1}{5000}\ \text{cm} = 2.0\times10^{-6}\ \text{m}$. For a maximum $d\sin\theta = n\lambda$:
+$$ \sin\theta_2 = \frac{2\times600\times10^{-9}}{2.0\times10^{-6}} = 0.60\;\Rightarrow\;\theta_2 = 36.9^{\circ} $$
+The highest order needs $\sin\theta\le1$: $n\le d/\lambda = 2.0\times10^{-6}/6.0\times10^{-7} = 3.33$, so the highest order seen is $n = 3$.
 
-**17.** (i) **First law:** an e.m.f. is induced whenever the magnetic flux linked with a circuit changes. **Second law:** its magnitude is proportional to the rate of change of flux linkage, $e = -N\,d\Phi/dt$.
-(ii) 
-$$ |e| = N\frac{\Delta\Phi}{\Delta t} = 500\times\frac{(8.0-2.0)\times10^{-3}}{0.030} = 100\ \text{V} $$
-(iii) The induced current flows in a direction such that it opposes the change of flux that produces it.
+**17.** (a) When a steady current flows through a wire of uniform cross-section, the potential difference across any length of it is proportional to that length: $V\propto l$.
+(b) $\dfrac{E_2}{E_1} = \dfrac{l_2}{l_1}$, so $E_2 = 1.5\times\dfrac{80}{60} = 2.0\ \text{V}$.
+(c) On open circuit $E\propto l_1$; when shunted the terminal p.d. $V\propto l_2$. Since $E/V = (R + r)/R$:
+$$ r = R\left(\frac{l_1}{l_2} - 1\right) = 8\left(\frac{75}{60} - 1\right) = 8\times0.25 = 2.0\ \Omega $$
 
-**OR** (i) Take a rectangular Amperian loop of length $l$ with one side inside the solenoid parallel to the axis and the other outside where $B\approx0$. The enclosed current is $nlI$, and $\oint\vec B\cdot d\vec l = Bl$ (the other sides contribute nothing), so $Bl = \mu_0nlI$ and $B = \mu_0nI$.
-(ii) $B = 4\pi\times10^{-7}\times1000\times2.0 = 2.5\times10^{-3}\ \text{T}$.
+**18.** (a) **Faraday's first law:** an emf is induced in a circuit whenever the magnetic flux linked with it changes. **Second law:** the induced emf equals the rate of change of flux linkage, $\varepsilon = -N\,d\phi/dt$. **Lenz's law:** the induced current flows in a direction that opposes the change producing it (the minus sign).
+(b) $\omega = 2\pi\times50 = 314\ \text{rad s}^{-1}$. $\varepsilon_0 = NBA\omega = 100\times0.50\times0.020\times314 = 314\ \text{V}$. $\varepsilon_{rms} = 314/\sqrt{2} = 222\ \text{V}$.
+(c) $\varepsilon = NBA\omega\sin\omega t$ is maximum when $\omega t = 90^{\circ}$, that is, when the **plane of the coil is parallel to the field**: the flux through the coil is then zero but it is changing fastest.
 
-**18.** (i) $hf = \phi+K_{max}$ (or $hf = hf_0+\tfrac12mv_{max}^{2}$): each photon of energy $hf$ gives its energy to one electron; part frees the electron (work function $\phi$), the rest appears as kinetic energy.
-(ii) Photon energy $= 1240/400 = 3.10\ \text{eV}$.
-$$ K_{max} = 3.10-2.0 = 1.1\ \text{eV} $$
-$$ V_0 = \frac{K_{max}}{e} = 1.1\ \text{V} $$
-$$ v_{max} = \sqrt{\frac{2K_{max}}{m}} = \sqrt{\frac{2\times1.1\times1.6\times10^{-19}}{9.1\times10^{-31}}} = 6.2\times10^{5}\ \text{m s}^{-1} $$
+**19.** (a) (i) The electron moves round the nucleus in certain circular orbits without radiating (stationary orbits). (ii) In an allowed orbit its angular momentum is a whole multiple of $h/2\pi$: $mvr = nh/2\pi$. (iii) It emits or absorbs radiation only when it jumps between orbits, with $h\nu = E_2 - E_1$.
+(b) The first Balmer line is the jump $n = 3\to2$:
+$$ \frac{1}{\lambda} = R\left(\frac{1}{2^{2}} - \frac{1}{3^{2}}\right) = 1.097\times10^{7}\times\frac{5}{36} = 1.524\times10^{6}\ \text{m}^{-1} $$
+$\lambda = 6.56\times10^{-7}\ \text{m} = 656\ \text{nm}$ (the red $H_{\alpha}$ line).
+(c) The ground-state energy is $-13.6\ \text{eV}$, so $13.6\ \text{eV}$ removes the electron: the ionization potential is $13.6\ \text{V}$.
+:::
 
-**OR** (i) (1) The electron moves in certain stable circular orbits without radiating. (2) The allowed orbits are those in which the angular momentum is an integral multiple of $h/2\pi$: $mvr = nh/2\pi$. (3) Radiation is emitted or absorbed only when the electron jumps between orbits, with photon energy $hf = E_i-E_f$.
-(ii) $E_3 = -13.6/9 = -1.51\ \text{eV}$. For $3\to2$: $\Delta E = 3.40-1.51 = 1.89\ \text{eV}$ and $\lambda = 1240/1.89 = 656\ \text{nm}$ (the red H$\alpha$ line).
+::: note Solutions — Model Paper 1, Group C (Q20 to Q22)
+**20.** (a) A spring of force constant $k$ is stretched by $e$ when a mass $m$ hangs at rest: $ke = mg$. Pull the mass down a further $x$. The upward spring force is now $k(e + x)$, so the net (restoring) force is $F = mg - k(e + x) = -kx$. Then $a = -\dfrac{k}{m}x$: the acceleration is proportional to the displacement and directed towards the equilibrium position, so the motion is **SHM** with $\omega^{2} = k/m$. Hence
+$$ T = \frac{2\pi}{\omega} = 2\pi\sqrt{\frac{m}{k}} = 2\pi\sqrt{\frac{e}{g}} $$
+(b) $k = mg/e = 0.50\times9.8/0.049 = 100\ \text{N m}^{-1}$. $T = 2\pi\sqrt{0.50/100} = 2\pi\times0.0707 = 0.444\ \text{s}$.
+(c) $\omega = \sqrt{k/m} = \sqrt{200} = 14.1\ \text{rad s}^{-1}$. $v_{max} = A\omega = 0.030\times14.1 = 0.424\ \text{m s}^{-1}$. $E = \tfrac12kA^{2} = \tfrac12(100)(0.030)^{2} = 0.045\ \text{J}$ (check: $\tfrac12mv_{max}^{2} = \tfrac12(0.5)(0.424)^{2} = 0.045\ \text{J}$).
+**Or:** (a) For one mole in an adiabatic change $dQ = 0$, so the first law gives $0 = C_v\,dT + P\,dV$. Differentiating $PV = RT$: $P\,dV + V\,dP = R\,dT$, so $dT = (P\,dV + V\,dP)/R$. Substituting:
+$$ C_v(P\,dV + V\,dP) + RP\,dV = 0\;\Rightarrow\;C_vV\,dP + C_pP\,dV = 0 $$
+using $C_v + R = C_p$. Divide by $C_vPV$: $\dfrac{dP}{P} + \gamma\dfrac{dV}{V} = 0$. Integrating, $\ln P + \gamma\ln V$ = constant, so $PV^{\gamma}$ = constant.
+(b) $TV^{\gamma-1}$ = constant: $T_2 = T_1(V_1/V_2)^{\gamma-1} = 300\times32^{0.4} = 300\times4 = 1200\ \text{K}$ ($927^{\circ}\text{C}$), since $32^{0.4} = 2^{2}$. $P_2 = P_1(V_1/V_2)^{\gamma} = 1.0\times10^{5}\times32^{1.4} = 1.0\times10^{5}\times128 = 1.28\times10^{7}\ \text{Pa}$, since $32^{1.4} = 2^{7}$.
+(c) The slope of an isothermal is $dP/dV = -P/V$; of an adiabatic it is $-\gamma P/V$. Because $\gamma > 1$, the adiabatic is steeper.
 
-**19.** (i) Two diodes $D_1, D_2$ and a centre-tapped transformer. During the positive half-cycle of the input, the upper end of the secondary is positive and $D_1$ conducts, sending current through the load $R_L$ from top to bottom; during the negative half-cycle the lower end is positive, $D_2$ conducts and current again passes through $R_L$ in the **same direction**. The output across $R_L$ is a series of unidirectional pulses at **twice** the input frequency (see the rectifier figure in section 3.22).
-(ii) NAND truth table:
+**21.** (a) **Ampère's law:** the line integral of $B$ round any closed loop equals $\mu_0$ times the current enclosed, $\oint B\,dl = \mu_0I$. Take a rectangular loop PQRS of length $l$ along the axis, with PQ inside the solenoid and RS outside. The field inside is uniform and along PQ; outside it is nearly zero; on QR and SP the field is either zero or perpendicular to the path. So $\oint B\,dl = Bl$. With $n$ turns per metre the loop encloses $nl$ turns, each carrying $I$:
+$$ Bl = \mu_0nlI\;\Rightarrow\;B = \mu_0nI $$
+(b) $n = 1000/0.50 = 2000\ \text{m}^{-1}$. $B = 4\pi\times10^{-7}\times2000\times2.0 = 5.03\times10^{-3}\ \text{T}$.
+(c) The magnetic force gives the centripetal force: $evB = mv^{2}/r$, so
+$$ r = \frac{mv}{eB} = \frac{9.1\times10^{-31}\times2.0\times10^{6}}{1.6\times10^{-19}\times5.03\times10^{-3}} = 2.26\times10^{-3}\ \text{m} $$
+about $2.3\ \text{mm}$.
+**Or:** (a) The same current $I$ flows through R, L and C, so draw $I$ as the reference phasor. $V_R = IR$ is in phase with $I$; $V_L = IX_L$ leads $I$ by $90^{\circ}$; $V_C = IX_C$ lags $I$ by $90^{\circ}$. $V_L$ and $V_C$ are opposite, so their resultant is $I(X_L - X_C)$ at right angles to $V_R$. By Pythagoras, $V^{2} = (IR)^{2} + [I(X_L - X_C)]^{2}$, so
+$$ Z = \frac{V}{I} = \sqrt{R^{2} + (X_L - X_C)^{2}},\quad\tan\phi = \frac{X_L - X_C}{R} $$
+(b) $Z = \sqrt{40^{2} + 30^{2}} = 50\ \Omega$. $I = 220/50 = 4.4\ \text{A}$. $\tan\phi = 30/40 = 0.75$, so $\phi = 36.9^{\circ}$; since $X_L > X_C$ the current **lags** the voltage.
+(c) Power factor $\cos\phi = R/Z = 40/50 = 0.80$. $P = VI\cos\phi = 220\times4.4\times0.80 = 774\ \text{W}$ (check: $I^{2}R = 4.4^{2}\times40 = 774\ \text{W}$).
+(d) $X_L = \omega L$ and $X_C = 1/\omega C$, so $X_C/X_L = 1/(\omega^{2}LC) = \omega_0^{2}/\omega^{2}$. Hence $f_0 = f\sqrt{X_C/X_L} = 50\sqrt{50/80} = 39.5\ \text{Hz}$.
 
-| A | B | Y |
+**22.** (a) A photon of energy $h\nu$ gives all its energy to one electron; part, the **work function** $\phi$, frees the electron and the rest is its maximum kinetic energy: $h\nu = \phi + \tfrac12mv_{max}^{2}$. This explains the laws: (i) emission needs $h\nu\ge\phi$, so there is a **threshold frequency** $\nu_0 = \phi/h$ below which no electrons come out, however bright the light; (ii) the maximum KE rises linearly with frequency and does not depend on intensity; (iii) the number of electrons per second is proportional to the number of photons, that is, to the intensity; (iv) one photon acts on one electron at once, so emission is instantaneous.
+(b) Photon energy:
+$$ E = \frac{hc}{\lambda} = \frac{6.63\times10^{-34}\times3\times10^{8}}{4.0\times10^{-7}} = 4.97\times10^{-19}\ \text{J} = 3.11\ \text{eV} $$
+$K_{max} = 3.11 - 2.0 = 1.11\ \text{eV}$ ($1.77\times10^{-19}\ \text{J}$); stopping potential $V_0 = 1.11\ \text{V}$. Threshold wavelength $\lambda_0 = hc/\phi = 1.989\times10^{-25}/(3.2\times10^{-19}) = 6.22\times10^{-7}\ \text{m} = 622\ \text{nm}$.
+(c) Since $eV_0 = h\nu - \phi$, $V_0 = \dfrac{h}{e}\nu - \dfrac{\phi}{e}$. Measure $V_0$ for several frequencies and plot $V_0$ against $\nu$: the graph is a straight line of slope $h/e$, so $h = e\times\text{slope}$. The intercept on the frequency axis gives $\nu_0$.
+:::
+
+## 4.4 Model Question Paper 2
+
+::: note Examination details
+**Subject:** Physics  **Time:** 3 hours  **Full marks:** 75. Attempt all the questions. Figures in the margin give the full marks. Use the constants given in Model Paper 1, $g = 9.8\ \text{m s}^{-2}$, and $\rho_{water} = 1000\ \text{kg m}^{-3}$.
+:::
+
+| Area | Questions | Marks |
 |---|---|---|
-| 0 | 0 | 1 |
-| 0 | 1 | 1 |
-| 1 | 0 | 1 |
-| 1 | 1 | 0 |
-
-**OR** (i) The **half-life** is the time in which half of the radioactive nuclei in a sample decay. The **decay constant** $\lambda$ is the probability per unit time that a given nucleus will decay; $dN/dt = -\lambda N$.
-(ii) $\lambda = 0.693/(20\times60) = 5.78\times10^{-4}\ \text{s}^{-1}$;
-$$ A_0 = \lambda N_0 = 5.78\times10^{-4}\times4.0\times10^{6} = 2.3\times10^{3}\ \text{Bq} $$
-One hour is three half-lives: $N = 4.0\times10^{6}/8 = 5.0\times10^{5}$.
-:::
-
-::: note Solutions — Group C
-**20.** (a) A **stationary wave** is formed when two identical waves travelling in opposite directions superpose; it has fixed nodes and antinodes and transfers no net energy. For a closed pipe the closed end is a node, the open end an antinode; the first three modes have $L = \lambda/4,\ 3\lambda/4,\ 5\lambda/4$ (figure in section 3.8).
-(b) $L = (2n-1)\lambda_n/4$, so $\lambda_n = 4L/(2n-1)$ and
-$$ f_n = \frac{v}{\lambda_n} = \frac{(2n-1)v}{4L},\quad n = 1, 2, 3,\dots $$
-only odd harmonics: $f_1, 3f_1, 5f_1,\dots$
-(c) $f_1 = 340/(4\times0.85) = 100\ \text{Hz}$; first overtone $= 3f_1 = 300\ \text{Hz}$.
-(d) $v\propto\sqrt{T}$ (kelvin); near room temperature $v_t\approx v_0+0.61\,t$, so sound is faster in warm air (about $0.61\ \text{m s}^{-1}$ per $^{\circ}\text{C}$).
-
-**OR** (a) With $D\gg d$, the path difference at height $y$ is $yd/D$; bright fringes at $yd/D = n\lambda$, so $y_n = n\lambda D/d$ and
-$$ \beta = y_{n+1}-y_n = \frac{\lambda D}{d} $$
-(b) $\beta = \dfrac{600\times10^{-9}\times1.2}{0.50\times10^{-3}} = 1.44\times10^{-3}\ \text{m} = 1.4\ \text{mm}$.
-(c) $d = 1/4000\ \text{cm} = 2.5\times10^{-6}\ \text{m}$; $\sin\theta_1 = 600\times10^{-9}/2.5\times10^{-6} = 0.24$, so $\theta_1 = 13.9^{\circ}$. The highest order has $n<d/\lambda = 4.17$, so **the fourth order**.
-
-**21.** (a) 
-$$ X_L = 2\pi fL = 2\pi\times50\times0.20 = 62.8\ \Omega $$
-$$ X_C = \frac{1}{2\pi fC} = \frac{1}{2\pi\times50\times20\times10^{-6}} = 159.2\ \Omega $$
-$$ Z = \sqrt{R^{2}+(X_L-X_C)^{2}} = \sqrt{30^{2}+(62.8-159.2)^{2}} = \sqrt{900+9293} = 101\ \Omega $$
-$$ I = \frac{V}{Z} = \frac{100}{101} = 0.99\ \text{A} $$
-$$ \tan\phi = \frac{X_L-X_C}{R} = \frac{-96.4}{30} = -3.21\ \Rightarrow\ \phi = -72.7^{\circ} $$
-The negative sign means the current **leads** the voltage (the circuit is capacitive).
-$$ P = VI\cos\phi = 100\times0.99\times0.297 = 29.5\ \text{W}\quad(= I^{2}R = 0.98\times30\ \checkmark) $$
-(b) 
-$$ f_0 = \frac{1}{2\pi\sqrt{LC}} = \frac{1}{2\pi\sqrt{0.20\times20\times10^{-6}}} = 79.6\ \text{Hz} $$
-$$ Q = \frac{\omega_0L}{R} = \frac{2\pi\times79.6\times0.20}{30} = 3.3 $$
-
-**OR** (a) While the current rises from $0$ to $I$ at rate $dI/dt$, the source must work against the back e.m.f. $L\,dI/dt$; in time $dt$ the work is $dW = \mathcal{E}_{back}\,i\,dt = Li\,di$. Integrating,
-$$ W = \int_0^{I}Li\,di = \tfrac12LI^{2} $$
-(b) $U = \tfrac12(0.50)(4.0)^{2} = 4.0\ \text{J}$.
-(c) $|e| = L\dfrac{\Delta I}{\Delta t} = 0.50\times\dfrac{4.0}{0.020} = 100\ \text{V}$.
-(d) $L = \dfrac{N\Phi}{I} = \dfrac{N(\mu_0nIA)}{I} = \mu_0n^{2}Al$, using $B = \mu_0nI$, $N = nl$.
-
-**22.** (a) The three postulates are stated in the answer to Group B Q18 (OR).
-(b) The electrostatic force supplies the centripetal force: $\dfrac{mv^{2}}{r} = \dfrac{1}{4\pi\varepsilon_0}\dfrac{e^{2}}{r^{2}}$. With $mvr = nh/2\pi$, $v = nh/2\pi mr$:
-$$ \frac{m}{r}\cdot\frac{n^{2}h^{2}}{4\pi^{2}m^{2}r^{2}} = \frac{e^{2}}{4\pi\varepsilon_0r^{2}}\ \Rightarrow\ r_n = \frac{\varepsilon_0h^{2}}{\pi me^{2}}\,n^{2} = 0.529\,n^{2}\ \text{Å} $$
-(c) $E_n = K+U = \dfrac{e^{2}}{8\pi\varepsilon_0r_n}-\dfrac{e^{2}}{4\pi\varepsilon_0r_n} = -\dfrac{e^{2}}{8\pi\varepsilon_0r_n} = -\dfrac{13.6}{n^{2}}\ \text{eV}$. The ionization energy is that needed to take the electron from $n = 1$ to $n = \infty$: $13.6\ \text{eV}$.
-(d) The electron is **bound**: its total energy is lower than that of a free electron at rest ($E = 0$), so energy must be supplied to remove it.
-
-**OR** (a) The number of nuclei decaying in $dt$ is proportional to the number present: $dN/dt = -\lambda N$, so $dN/N = -\lambda\,dt$. Integrating from $N_0$ at $t = 0$:
-$$ \ln\frac{N}{N_0} = -\lambda t\ \Rightarrow\ N = N_0e^{-\lambda t} $$
-(b) At $t = T_{1/2}$, $N = N_0/2$: $\tfrac12 = e^{-\lambda T_{1/2}}$, so $\lambda T_{1/2} = \ln2$ and $T_{1/2} = \dfrac{\ln2}{\lambda} = \dfrac{0.693}{\lambda}$.
-(c) $A/A_0 = 0.25 = (\tfrac12)^{2}$: two half-lives, so
-$$ t = 2\times5730 = 1.15\times10^{4}\ \text{yr} $$
-:::
-
-## 4.3 Model Set 2
-
-**Time: 3 hours. Full marks: 75. Pass marks: 32.** Attempt all the questions. Figures in the margin indicate full marks. *An original practice paper, weighted differently from Set 1: it leans on the units that appeared most in the past papers.*
+| Mechanics | 1, 2, 12, 20 | 15 |
+| Heat and Thermodynamics | 3, 14, 15 | 11 |
+| Waves and Optics | 4, 5, 6, 7, 13, 16 (and 15 Or, 20 Or) | 14 |
+| Electricity and Magnetism | 8, 9, 17, 18, 21 | 20 |
+| Modern Physics | 10, 11, 19, 22 | 15 |
 
 **Group A — Rewrite the correct option of each question in your answer sheet.** $(11\times1 = 11)$
 
-1. A torque of $6\ \text{N m}$ acts on a wheel and produces an angular acceleration of $2\ \text{rad s}^{-2}$. The moment of inertia of the wheel is <span class="marks">[1]</span>
-   (a) $0.33\ \text{kg m}^{2}$ (b) $3\ \text{kg m}^{2}$ (c) $12\ \text{kg m}^{2}$ (d) $8\ \text{kg m}^{2}$
-2. The time period of a simple pendulum of length $0.25\ \text{m}$ is about ($g = 9.8\ \text{m s}^{-2}$) <span class="marks">[1]</span>
-   (a) $0.5\ \text{s}$ (b) $1.0\ \text{s}$ (c) $2.0\ \text{s}$ (d) $3.1\ \text{s}$
-3. Water rises $3.0\ \text{cm}$ in a capillary tube. In a tube of half the radius it would rise <span class="marks">[1]</span>
-   (a) $1.5\ \text{cm}$ (b) $3.0\ \text{cm}$ (c) $6.0\ \text{cm}$ (d) $12\ \text{cm}$
-4. A gas at $2.0\times10^{5}\ \text{Pa}$ expands at constant pressure by $5.0\times10^{-3}\ \text{m}^{3}$. The work done by the gas is <span class="marks">[1]</span>
-   (a) $40\ \text{J}$ (b) $400\ \text{J}$ (c) $1000\ \text{J}$ (d) $4000\ \text{J}$
-5. The ratio of the first three allowed frequencies of a closed organ pipe is <span class="marks">[1]</span>
-   (a) $1:2:3$ (b) $1:3:5$ (c) $1:2:4$ (d) $2:4:6$
-6. A grating has $5000$ lines per cm. The first-order maximum for $500\ \text{nm}$ light satisfies $\sin\theta =$ <span class="marks">[1]</span>
-   (a) $0.025$ (b) $0.25$ (c) $0.50$ (d) $2.5$
-7. A meter bridge balances at $40\ \text{cm}$ with a $6\ \Omega$ resistor in the left gap. The right-gap resistance is <span class="marks">[1]</span>
-   (a) $4\ \Omega$ (b) $6\ \Omega$ (c) $9\ \Omega$ (d) $15\ \Omega$
-8. A rod of length $0.30\ \text{m}$ moves at $5.0\ \text{m s}^{-1}$ perpendicular to a field of $0.20\ \text{T}$. The induced e.m.f. is <span class="marks">[1]</span>
-   (a) $0.03\ \text{V}$ (b) $0.30\ \text{V}$ (c) $3.0\ \text{V}$ (d) $30\ \text{V}$
-9. In a series a.c. circuit $R = 6\ \Omega$ and the net reactance is $8\ \Omega$. The power factor is <span class="marks">[1]</span>
-   (a) $0.6$ (b) $0.75$ (c) $0.8$ (d) $1.0$
-10. The energy of the electron in the $n = 2$ state of hydrogen is <span class="marks">[1]</span>
-   (a) $-13.6\ \text{eV}$ (b) $-6.8\ \text{eV}$ (c) $-3.4\ \text{eV}$ (d) $-1.5\ \text{eV}$
-11. The output of a NOR gate when both inputs are $0$ is <span class="marks">[1]</span>
-   (a) $0$ (b) $1$ (c) undefined (d) equal to the supply voltage only
+1. A skater spinning with arms stretched out pulls them in, so that her moment of inertia is halved. Her angular velocity <span class="marks">[1]</span>
+   (a) is halved (b) is unchanged (c) is doubled (d) becomes four times
+2. The radius of a small steel ball falling through glycerine is doubled. Its terminal velocity becomes <span class="marks">[1]</span>
+   (a) twice (b) four times (c) half (d) eight times
+3. The coefficient of performance of an ideal refrigerator working between $-3^{\circ}\text{C}$ and $27^{\circ}\text{C}$ is <span class="marks">[1]</span>
+   (a) 0.1 (b) 9 (c) 10 (d) 1.11
+4. The speed of sound in air is $332\ \text{m s}^{-1}$ at $0^{\circ}\text{C}$. At $91^{\circ}\text{C}$ it is about <span class="marks">[1]</span>
+   (a) $332\ \text{m s}^{-1}$ (b) $383\ \text{m s}^{-1}$ (c) $443\ \text{m s}^{-1}$ (d) $664\ \text{m s}^{-1}$
+5. The intensity level of a sound rises by $20\ \text{dB}$. Its intensity has been multiplied by <span class="marks">[1]</span>
+   (a) 2 (b) 20 (c) 100 (d) 200
+6. According to the wave theory of light, the speed of light in a denser medium is <span class="marks">[1]</span>
+   (a) greater than in air (b) less than in air (c) the same as in air (d) infinite
+7. Light of wavelength $600\ \text{nm}$ falls on a single slit $0.20\ \text{mm}$ wide. The width of the central maximum on a screen $2.0\ \text{m}$ away is <span class="marks">[1]</span>
+   (a) $3\ \text{mm}$ (b) $6\ \text{mm}$ (c) $12\ \text{mm}$ (d) $24\ \text{mm}$
+8. To convert a galvanometer into an ammeter we connect <span class="marks">[1]</span>
+   (a) a high resistance in series (b) a low resistance in parallel (c) a high resistance in parallel (d) a low resistance in series
+9. When the hot junction of a thermocouple is at the neutral temperature, the thermo-emf is <span class="marks">[1]</span>
+   (a) zero (b) maximum (c) reversed (d) minimum but not zero
+10. The output of a NAND gate is 0 only when <span class="marks">[1]</span>
+   (a) both inputs are 0 (b) A = 0, B = 1 (c) A = 1, B = 0 (d) both inputs are 1
+11. The de Broglie wavelength of an electron accelerated from rest through $100\ \text{V}$ is about <span class="marks">[1]</span>
+   (a) $0.0123\ \text{nm}$ (b) $0.123\ \text{nm}$ (c) $1.23\ \text{nm}$ (d) $12.3\ \text{nm}$
 
 **Group B — Short answer questions.** $(8\times5 = 40)$
 
-12. (i) Define radius of gyration. [1] (ii) A flywheel of moment of inertia $4.0\ \text{kg m}^{2}$ is acted on by a constant torque of $12\ \text{N m}$ for $10\ \text{s}$ from rest. Find its angular velocity and kinetic energy. [2] (iii) Show that the work done by the torque equals the kinetic energy. [2]
-    **OR** A mass of $0.20\ \text{kg}$ hangs from a spring of force constant $80\ \text{N m}^{-1}$ and is displaced $5.0\ \text{cm}$. (i) Derive its time period. [2] (ii) Find the period, the maximum speed and the total energy. [3]
-13. (i) State Bernoulli's principle. [1] (ii) Water flows along a horizontal pipe from a section of area $40\ \text{cm}^{2}$, where the speed is $2.0\ \text{m s}^{-1}$ and the pressure $1.5\times10^{5}\ \text{Pa}$, to a section of area $10\ \text{cm}^{2}$. Find the speed and the pressure there. [3] (iii) Why do roofs sometimes lift off in a storm? [1]
-14. (i) A Carnot engine works between $600\ \text{K}$ and $300\ \text{K}$ and takes $1500\ \text{J}$ from the source per cycle. Find its efficiency, the work done and the heat rejected. [3] (ii) An ideal refrigerator works between $-10\ ^{\circ}\text{C}$ and $30\ ^{\circ}\text{C}$; find its coefficient of performance and the work needed to remove $1000\ \text{J}$. [2]
-15. (i) State Laplace's correction. [2] (ii) Find the wavelength of a $512\ \text{Hz}$ note in air at $35\ ^{\circ}\text{C}$, given that the speed is $332\ \text{m s}^{-1}$ at $0\ ^{\circ}\text{C}$. [2] (iii) Why does pressure not affect the speed of sound in air at constant temperature? [1]
-16. (i) A potentiometer balances a cell of e.m.f. $E$ at $90\ \text{cm}$. When a $15\ \Omega$ resistor is connected across the cell it balances at $72\ \text{cm}$. Find the internal resistance. [3] (ii) A galvanometer of $100\ \Omega$ gives full-scale deflection at $2.0\ \text{mA}$; find the shunt for a $0.50\ \text{A}$ ammeter. [2]
-17. (i) Derive the e.m.f. of an a.c. generator, $e = NBA\omega\sin\omega t$. [3] (ii) Find the peak e.m.f. for $N = 200$, $B = 0.40\ \text{T}$, $A = 0.050\ \text{m}^{2}$ and $f = 50\ \text{Hz}$. [2]
-    **OR** (i) Derive the force per unit length between two long parallel conductors. [3] (ii) Find it for $8.0\ \text{A}$ and $12\ \text{A}$ at $4.0\ \text{cm}$ separation, and say whether it attracts or repels when the currents are in the same direction. [2]
-18. (i) In Millikan's experiment an oil drop of mass $m$ and charge $q$ is held stationary between plates with field $E$; write the condition and explain the role of X-rays. [2] (ii) A drop carrying $6$ electrons is held stationary by a field of $5.0\times10^{4}\ \text{V m}^{-1}$; find its mass. [2] (iii) What does the experiment show about charge? [1]
-    **OR** Light of wavelength $300\ \text{nm}$ falls on a metal of work function $2.3\ \text{eV}$. (i) Find the maximum kinetic energy. [2] (ii) Find the stopping potential. [1] (iii) State the threshold wavelength. [2]
-19. (i) Draw the symbol and write the truth table of a NOR gate. [2] (ii) Distinguish n-type and p-type semiconductors and state how each is made. [3]
-    **OR** (i) Compare $\beta$-particles and $\gamma$-rays in a table (mass, charge, ionizing power, penetrating power). [2] (ii) $80\ \text{g}$ of a substance of half-life $5.0\ \text{yr}$: how much is left after $20\ \text{yr}$? [2] (iii) Define activity. [1]
+12. (a) Derive the relation $\tau = I\alpha$ between torque and angular acceleration for a rigid body. [2] (b) A constant torque of $20\ \text{N m}$ acts for $10\ \text{s}$ on a wheel of moment of inertia $4.0\ \text{kg m}^{2}$ that starts from rest. Find the angular acceleration, the angular velocity reached, the angle turned through and the work done by the torque. [3] <span class="marks">[5]</span>
+**Or**
+12. (a) State Stokes' law and derive an expression for the terminal velocity of a sphere falling through a viscous liquid. [3] (b) A steel ball of radius $1.0\ \text{mm}$ and density $8000\ \text{kg m}^{-3}$ falls through glycerine of density $1250\ \text{kg m}^{-3}$ and viscosity $1.5\ \text{Pa s}$. Find its terminal velocity. [2] <span class="marks">[5]</span>
+13. (a) Distinguish between progressive and stationary waves. [2] (b) A progressive wave is $y = 0.02\sin(400\pi t - 2\pi x)$ in SI units. Find its amplitude, frequency, wavelength and speed. [2] (c) Find the phase difference between two points $0.25\ \text{m}$ apart along the wave. [1] <span class="marks">[5]</span>
+14. (a) Derive an expression for the work done by $n$ moles of an ideal gas in an isothermal expansion from $V_1$ to $V_2$. [3] (b) Two moles of an ideal gas at $300\ \text{K}$ expand isothermally to three times their volume. Find the work done and the heat absorbed. [2] <span class="marks">[5]</span>
+15. (a) Draw the $P$–$V$ diagram of the Otto cycle and name its four processes. [3] (b) Find the efficiency of an Otto engine of compression ratio $8$ ($\gamma = 1.4$). [2] <span class="marks">[5]</span>
+**Or**
+15. (a) What are coherent sources? Why can two separate lamps not act as coherent sources? [2] (b) In Young's experiment the slits are $0.50\ \text{mm}$ apart and the screen is $1.0\ \text{m}$ away. The fringe width is $1.2\ \text{mm}$. Find the wavelength and the distance of the third bright fringe from the central fringe. [3] <span class="marks">[5]</span>
+16. (a) What is polarization of light? How does it show that light is a transverse wave? [2] (b) State Brewster's law and show that at the polarizing angle the reflected and refracted rays are at right angles. [2] (c) Find the polarizing angle for water ($n = 1.33$). [1] <span class="marks">[5]</span>
+17. (a) How is a galvanometer converted into a voltmeter? [1] (b) A galvanometer of resistance $50\ \Omega$ gives full-scale deflection for $2.0\ \text{mA}$. Find the resistance needed, and how it is connected, to convert it into (i) a voltmeter of range $0$–$10\ \text{V}$ and (ii) an ammeter of range $0$–$1.0\ \text{A}$. [4] <span class="marks">[5]</span>
+18. (a) What is the Hall effect? Derive an expression for the Hall voltage across a strip carrying current in a magnetic field. [3] (b) A copper strip $0.50\ \text{mm}$ thick carries $10\ \text{A}$ in a field of $1.5\ \text{T}$ perpendicular to its face. Copper has $8.5\times10^{28}$ free electrons per $\text{m}^{3}$. Find the Hall voltage. [2] <span class="marks">[5]</span>
+19. (a) Derive the law of radioactive decay $N = N_0e^{-\lambda t}$. [2] (b) Define half-life and obtain its relation to the decay constant. [1] (c) The ¹⁴C activity of an old piece of wood is $40\ \%$ of that of fresh wood. Find its age (half-life of ¹⁴C $= 5730$ years). [2] <span class="marks">[5]</span>
 
 **Group C — Long answer questions.** $(3\times8 = 24)$
 
-20. (a) Derive the frequencies of the modes of a string of length $L$ fixed at both ends. [3] (b) A string of length $0.80\ \text{m}$ and mass per unit length $2.0\times10^{-3}\ \text{kg m}^{-1}$ is under a tension of $50\ \text{N}$; find the fundamental and the first overtone. [3] (c) Find the fundamental if the tension is doubled. [2]
-    **OR** (a) State and prove Brewster's law; find the polarizing angle for glass of $\mu = 1.5$. [4] (b) Unpolarized light passes through a polarizer and an analyser at $30^{\circ}$; find the transmitted fraction of the incident intensity. [2] (c) A slit of width $0.10\ \text{mm}$ is lit by $500\ \text{nm}$ light; find the angle of the first minimum and the width of the central maximum on a screen $2.0\ \text{m}$ away. [2]
-21. (a) Derive the magnetic field at the centre of a circular coil of $N$ turns, radius $R$, carrying current $I$. [3] (b) Find $B$ for $N = 20$, $R = 5.0\ \text{cm}$, $I = 1.5\ \text{A}$. [2] (c) Why is a radial field used in a moving-coil galvanometer? [1] (d) Explain the Hall effect. [2]
-    **OR** (a) Derive the motional e.m.f. in a rod moving in a magnetic field, and find it for $l = 0.40\ \text{m}$, $v = 5.0\ \text{m s}^{-1}$, $B = 0.20\ \text{T}$. [4] (b) State Lenz's law and give the direction of the current in the rod-and-rails circuit. [1] (c) A transformer has $100$ primary and $500$ secondary turns; the primary is at $220\ \text{V}$ and the secondary current is $2.0\ \text{A}$. Find the secondary voltage and the primary current (ideal transformer). [3]
-22. (a) State Einstein's photoelectric equation and explain each term. [2] (b) Light of wavelength $300\ \text{nm}$ falls on a metal of work function $2.3\ \text{eV}$; find the stopping potential. [3] (c) Find the de Broglie wavelength of an electron of kinetic energy $100\ \text{eV}$. [2] (d) State the uncertainty principle. [1]
-    **OR** (a) How are X-rays produced? Find the minimum wavelength from a tube at $40\ \text{kV}$. [3] (b) State and derive Bragg's law. [3] (c) For a crystal of spacing $d = 2.0\ \text{Å}$ and X-rays of wavelength $1.54\ \text{Å}$, find the first-order Bragg angle. [2]
+20. (a) Derive the moment of inertia of a thin uniform rod of mass $M$ and length $L$ about an axis perpendicular to it through (i) its centre and (ii) one end. [4] (b) A uniform rod $1.2\ \text{m}$ long and of mass $0.50\ \text{kg}$ is pivoted freely at one end and released from the horizontal position. Find its angular velocity and the speed of its free end when it passes through the vertical. [3] (c) Find its radius of gyration about the pivot. [1] <span class="marks">[8]</span>
+**Or**
+20. (a) Show that an open pipe gives all the harmonics while a closed pipe gives only the odd harmonics. [4] (b) A pipe $30\ \text{cm}$ long and $4.0\ \text{cm}$ in diameter is closed at one end. Find its fundamental frequency, allowing for end correction ($e = 0.3d$). [2] (c) Find the fundamental frequency when both ends are opened. [2] <span class="marks">[8]</span>
+21. (a) Define self-inductance and derive the energy stored in an inductor carrying current $I$. [3] (b) State the principle of a transformer. Why is its core laminated? [2] (c) A step-down transformer with $4000$ primary turns changes $2200\ \text{V}$ to $220\ \text{V}$ and supplies $11\ \text{A}$ to a load. Its efficiency is $90\ \%$. Find the number of secondary turns, the output power and the primary current. [3] <span class="marks">[8]</span>
+**Or**
+21. (a) State Kirchhoff's laws and use them to derive the balance condition of a Wheatstone bridge. [4] (b) In a metre bridge an unknown resistance X is in the left gap and $6.0\ \Omega$ in the right gap. The balance point is $40\ \text{cm}$ from the left end. Find X. [2] (c) X is a wire $1.0\ \text{m}$ long and $0.40\ \text{mm}$ in diameter. Find its resistivity. [2] <span class="marks">[8]</span>
+22. (a) Describe J. J. Thomson's experiment for the specific charge of the electron, and derive $e/m = E/(B^{2}r)$. [5] (b) In such an experiment crossed fields $E = 3.4\times10^{4}\ \text{V m}^{-1}$ and $B = 2.0\times10^{-3}\ \text{T}$ leave the beam undeflected. Find the speed of the electrons, and the radius of their path when the electric field is switched off. [3] <span class="marks">[8]</span>
 
-### 4.3.1 Solutions to Model Set 2
+## 4.5 Solutions to Model Paper 2
 
-::: note Solutions — Group A
-**1.** (b) — $I = \tau/\alpha = 6/2 = 3\ \text{kg m}^{2}$; option (a) inverts.
-**2.** (b) — $T = 2\pi\sqrt{0.25/9.8} = 1.0\ \text{s}$.
-**3.** (c) — $h\propto1/r$; halving the radius doubles the rise to $6.0\ \text{cm}$.
-**4.** (c) — $W = P\Delta V = 2.0\times10^{5}\times5.0\times10^{-3} = 1000\ \text{J}$.
-**5.** (b) — only odd harmonics: $f, 3f, 5f$.
-**6.** (b) — $d = 2.0\times10^{-6}\ \text{m}$; $\sin\theta = \lambda/d = 5\times10^{-7}/2\times10^{-6} = 0.25$.
-**7.** (c) — $X = R(100-l)/l = 6\times60/40 = 9\ \Omega$.
-**8.** (b) — $e = Blv = 0.20\times0.30\times5.0 = 0.30\ \text{V}$.
-**9.** (a) — $Z = \sqrt{6^{2}+8^{2}} = 10\ \Omega$; $\cos\phi = R/Z = 0.6$.
-**10.** (c) — $-13.6/4 = -3.4\ \text{eV}$.
-**11.** (b) — NOR is high only when both inputs are low.
+::: note Answers — Model Paper 2, Group A
+**1.** (c) — no external torque, so $I_1\omega_1 = I_2\omega_2$; halving $I$ doubles $\omega$.
+**2.** (b) — $v_t = 2r^{2}(\rho - \sigma)g/9\eta$ is proportional to $r^{2}$, so it becomes four times.
+**3.** (b) — $\beta = T_2/(T_1 - T_2) = 270/30 = 9$; option (c) uses $T_1$ instead of $T_2$.
+**4.** (b) — $v\propto\sqrt{T}$: $332\sqrt{364/273} = 332\times1.155 = 383\ \text{m s}^{-1}$; option (d) doubles $v$ instead of using the square root of kelvin temperatures.
+**5.** (c) — $\Delta L = 10\log(I_2/I_1) = 20$, so $I_2/I_1 = 10^{2} = 100$.
+**6.** (b) — Huygens' construction gives $n = c/v$ with $n > 1$, so light is slower in glass or water; the corpuscular theory wrongly predicted faster.
+**7.** (c) — the first minimum is at $y = \lambda D/a = 6\times10^{-7}\times2/2\times10^{-4} = 6\ \text{mm}$, and the central maximum is twice that, $12\ \text{mm}$.
+**8.** (b) — a low-resistance shunt in parallel carries most of the current; a series high resistance makes a voltmeter.
+**9.** (b) — at the neutral temperature $dE/d\theta = 0$, so the emf is maximum; it is zero and reverses at the inversion temperature.
+**10.** (d) — NAND is NOT-AND: $Y = \overline{A\cdot B}$ is 0 only when $A = B = 1$.
+**11.** (b) — $\lambda = h/\sqrt{2meV} = 6.63\times10^{-34}/5.40\times10^{-24} = 1.23\times10^{-10}\ \text{m} = 0.123\ \text{nm}$.
 :::
 
-::: note Solutions — Group B (12–15)
-**12.** (i) The **radius of gyration** $k$ is the distance from the axis at which the whole mass could be concentrated to give the same moment of inertia: $I = Mk^{2}$.
-(ii) $\alpha = \tau/I = 12/4.0 = 3.0\ \text{rad s}^{-2}$;
-$$ \omega = \alpha t = 3.0\times10 = 30\ \text{rad s}^{-1},\qquad K = \tfrac12I\omega^{2} = \tfrac12(4.0)(30)^{2} = 1800\ \text{J} $$
-(iii) The angle turned is $\theta = \tfrac12\alpha t^{2} = \tfrac12(3.0)(100) = 150\ \text{rad}$, so the work done is $W = \tau\theta = 12\times150 = 1800\ \text{J} = K$. In general $W = I\alpha\cdot\dfrac{\omega^{2}}{2\alpha} = \tfrac12I\omega^{2}$ (using $\omega^{2} = 2\alpha\theta$).
+::: note Solutions — Model Paper 2, Group B (Q12 to Q15)
+**12.** (a) A particle of mass $m_i$ at distance $r_i$ from the axis has tangential acceleration $a_i = r_i\alpha$, so the tangential force on it is $F_i = m_ir_i\alpha$ and its torque is $F_ir_i = m_ir_i^{2}\alpha$. Every particle of a rigid body has the same $\alpha$, so the total torque is $\tau = (\sum m_ir_i^{2})\alpha = I\alpha$.
+(b) $\alpha = \tau/I = 20/4.0 = 5.0\ \text{rad s}^{-2}$. $\omega = \alpha t = 5.0\times10 = 50\ \text{rad s}^{-1}$. $\theta = \tfrac12\alpha t^{2} = \tfrac12(5.0)(100) = 250\ \text{rad}$. $W = \tau\theta = 20\times250 = 5000\ \text{J}$ (check: $\tfrac12I\omega^{2} = \tfrac12(4.0)(2500) = 5000\ \text{J}$).
+**Or:** (a) **Stokes' law:** the viscous drag on a small sphere of radius $r$ moving slowly at speed $v$ through a fluid of viscosity $\eta$ is $F = 6\pi\eta rv$. When the sphere (density $\rho$) reaches terminal velocity, the forces balance: weight = upthrust + drag,
+$$ \tfrac43\pi r^{3}\rho g = \tfrac43\pi r^{3}\sigma g + 6\pi\eta rv_t\;\Rightarrow\;v_t = \frac{2r^{2}(\rho - \sigma)g}{9\eta} $$
+(b) $v_t = \dfrac{2(1.0\times10^{-3})^{2}(8000 - 1250)(9.8)}{9\times1.5} = \dfrac{0.1323}{13.5} = 9.8\times10^{-3}\ \text{m s}^{-1}$, about $9.8\ \text{mm s}^{-1}$.
 
-**OR** (i) For displacement $y$ from equilibrium the net restoring force on the mass is $-ky$ (the weight only shifts the equilibrium), so $a = -(k/m)y$: SHM with $\omega = \sqrt{k/m}$ and $T = 2\pi\sqrt{m/k}$.
-(ii) 
-$$ T = 2\pi\sqrt{\frac{0.20}{80}} = 0.31\ \text{s},\qquad \omega = \sqrt{\frac{80}{0.20}} = 20\ \text{rad s}^{-1} $$
-$$ v_{max} = \omega A = 20\times0.050 = 1.0\ \text{m s}^{-1} $$
-$$ E = \tfrac12kA^{2} = \tfrac12(80)(0.050)^{2} = 0.10\ \text{J} $$
+**13.** (a)
 
-**13.** (i) For the steady flow of an ideal fluid, $P+\tfrac12\rho v^{2}+\rho gh$ is constant along a streamline: where the speed is high the pressure is low.
-(ii) Continuity: $v_2 = v_1A_1/A_2 = 2.0\times40/10 = 8.0\ \text{m s}^{-1}$. Bernoulli, horizontal pipe:
-$$ P_2 = P_1+\tfrac12\rho(v_1^{2}-v_2^{2}) = 1.5\times10^{5}+\tfrac12(1000)(4-64) $$
-$$ P_2 = 1.5\times10^{5}-3.0\times10^{4} = 1.2\times10^{5}\ \text{Pa} $$
-(iii) Wind blowing over the roof lowers the pressure outside (Bernoulli), while the still air inside keeps the higher pressure; the net upward force can exceed the roof's weight.
+| Progressive wave | Stationary wave |
+|---|---|
+| the disturbance travels forward and carries energy | the pattern stays in place; no net energy transfer |
+| every particle has the same amplitude | amplitude varies from zero (node) to maximum (antinode) |
+| phase changes continuously along the wave | all particles between two nodes are in the same phase |
 
-**14.** (i) 
-$$ \eta = 1-\frac{T_2}{T_1} = 1-\frac{300}{600} = 0.50 $$
-$$ W = \eta Q_1 = 0.50\times1500 = 750\ \text{J},\qquad Q_2 = Q_1-W = 750\ \text{J} $$
-(ii) $T_2 = 263\ \text{K}$, $T_1 = 303\ \text{K}$:
-$$ \text{COP} = \frac{T_2}{T_1-T_2} = \frac{263}{40} = 6.6,\qquad W = \frac{1000}{6.6} = 152\ \text{J} $$
+(b) Compare with $y = A\sin(\omega t - kx)$: $A = 0.02\ \text{m}$; $\omega = 400\pi$, so $f = \omega/2\pi = 200\ \text{Hz}$; $k = 2\pi$, so $\lambda = 2\pi/k = 1.0\ \text{m}$; $v = f\lambda = 200\ \text{m s}^{-1}$.
+(c) $\Delta\phi = k\,\Delta x = 2\pi\times0.25 = \pi/2$ rad ($90^{\circ}$).
 
-**15.** (i) Newton assumed isothermal changes in a sound wave, giving $v = \sqrt{P/\rho}$, about $280\ \text{m s}^{-1}$, which disagrees with experiment. **Laplace** pointed out that the changes are too rapid for heat to flow, so they are **adiabatic**, and $P$ must be replaced by $\gamma P$: $v = \sqrt{\gamma P/\rho} = 332\ \text{m s}^{-1}$.
-(ii) 
-$$ v_{35} = 332+0.61\times35 = 353\ \text{m s}^{-1},\qquad \lambda = \frac{v}{f} = \frac{353}{512} = 0.69\ \text{m} $$
-(iii) At constant temperature $P/\rho$ is constant (both are proportional to each other), so $v = \sqrt{\gamma P/\rho}$ does not change.
+**14.** (a) At constant $T$ the pressure is $P = nRT/V$. The work done in a small expansion $dV$ is $P\,dV$, so
+$$ W = \int_{V_1}^{V_2}\frac{nRT}{V}\,dV = nRT\ln\frac{V_2}{V_1} = 2.303\,nRT\log\frac{V_2}{V_1} $$
+(b) $W = 2\times8.31\times300\times\ln3 = 4986\times1.099 = 5.48\times10^{3}\ \text{J}$. In an isothermal change of an ideal gas $\Delta U = 0$, so the heat absorbed is also $Q = W = 5.48\ \text{kJ}$.
+
+**15.** (a) The ideal Otto cycle (petrol engine) on a $P$–$V$ diagram: (i) **adiabatic compression** of the fuel–air mixture from $V_1$ to $V_2$; (ii) **isochoric heating** — the spark fires and pressure rises at constant volume, heat $Q_1$ taken in; (iii) **adiabatic expansion** — the power stroke; (iv) **isochoric cooling** — the exhaust valve opens, heat $Q_2$ given out. (Draw the closed loop of two adiabatic curves joined by two vertical lines, with arrows clockwise.)
+(b) $\eta = 1 - \dfrac{1}{r^{\gamma-1}} = 1 - \dfrac{1}{8^{0.4}} = 1 - \dfrac{1}{2.297} = 1 - 0.435 = 0.565 = 56.5\ \%$.
+**Or:** (a) **Coherent sources** emit waves of the same frequency with a constant phase difference. Two lamps emit light from millions of atoms that radiate independently in bursts of about $10^{-8}\ \text{s}$, so their phase difference changes at random and no steady fringes form.
+(b) $\lambda = \dfrac{\beta d}{D} = \dfrac{1.2\times10^{-3}\times0.50\times10^{-3}}{1.0} = 6.0\times10^{-7}\ \text{m} = 600\ \text{nm}$. The third bright fringe is at $y_3 = 3\beta = 3.6\ \text{mm}$ from the centre.
 :::
 
-::: note Solutions — Group B (16–19)
-**16.** (i) Open circuit: $E = kl_1$ with $l_1 = 90\ \text{cm}$. With $R = 15\ \Omega$ across the cell the current is $I = E/(R+r)$, the terminal voltage $V = IR = kl_2$ with $l_2 = 72\ \text{cm}$. Hence $\dfrac{E}{V} = \dfrac{l_1}{l_2} = \dfrac{R+r}{R}$ and
-$$ r = R\,\frac{l_1-l_2}{l_2} = 15\times\frac{90-72}{72} = 3.75\ \Omega $$
-(ii) $S = \dfrac{I_gG}{I-I_g} = \dfrac{2.0\times10^{-3}\times100}{0.50-0.0020} = 0.40\ \Omega$.
+::: note Solutions — Model Paper 2, Group B (Q16 to Q19)
+**16.** (a) **Polarization** is the restriction of the vibrations of light to a single plane containing the direction of travel. When light passes through one polaroid and a second polaroid is rotated, the intensity falls to zero twice in each turn. A longitudinal wave would pass equally at every orientation, so light must be **transverse**.
+(b) **Brewster's law:** the tangent of the polarizing angle equals the refractive index, $\tan i_p = n$. By Snell's law $n = \sin i_p/\sin r$. Equating, $\sin i_p/\cos i_p = \sin i_p/\sin r$, so $\sin r = \cos i_p = \sin(90^{\circ} - i_p)$ and $i_p + r = 90^{\circ}$. The reflected ray leaves at $i_p$ and the refracted ray at $r$, so the angle between them is $180^{\circ} - (i_p + r) = 90^{\circ}$.
+(c) $i_p = \tan^{-1}1.33 = 53.1^{\circ}$.
 
-**17.** (i) A coil of $N$ turns and area $A$ rotates at angular velocity $\omega$ in a uniform field $\vec B$. The angle between the normal and $\vec B$ at time $t$ is $\omega t$ (taking the normal along $\vec B$ at $t = 0$), so the flux linkage is $N\Phi = NBA\cos\omega t$. By Faraday's law,
-$$ e = -\frac{d(N\Phi)}{dt} = NBA\omega\sin\omega t $$
-with peak value $e_0 = NBA\omega$; it is zero when the flux is maximum (coil plane perpendicular to $\vec B$) and maximum when the plane is parallel to $\vec B$.
-(ii) $\omega = 2\pi\times50 = 314\ \text{rad s}^{-1}$;
-$$ e_0 = 200\times0.40\times0.050\times314 = 1.26\times10^{3}\ \text{V} $$
+**17.** (a) A **high resistance** is connected **in series** with the galvanometer, so that full-scale current flows when the full-range voltage is applied.
+(b)(i) $R = \dfrac{V}{I_g} - G = \dfrac{10}{2.0\times10^{-3}} - 50 = 5000 - 50 = 4950\ \Omega$ **in series**.
+(ii) The shunt and galvanometer have the same p.d.: $I_gG = (I - I_g)S$, so
+$$ S = \frac{I_gG}{I - I_g} = \frac{2.0\times10^{-3}\times50}{1.0 - 0.002} = 0.100\ \Omega $$
+connected **in parallel**.
 
-**OR** (i) Wire 1 carrying $I_1$ produces at distance $r$ the field $B_1 = \mu_0I_1/2\pi r$, perpendicular to the plane of the wires. Wire 2 carries $I_2$ perpendicular to $B_1$, so the force on a length $l$ is $F = B_1I_2l$ and
-$$ \frac{F}{l} = \frac{\mu_0I_1I_2}{2\pi r} $$
-(ii) 
-$$ \frac{F}{l} = \frac{2\times10^{-7}\times8.0\times12}{0.040} = 4.8\times10^{-4}\ \text{N m}^{-1} $$
-For currents in the same direction the force is **attractive**.
+**18.** (a) When a strip carrying a current is placed in a magnetic field at right angles to it, a small voltage appears across the strip, perpendicular to both the current and the field: this is the **Hall effect**. Electrons of drift speed $v_d$ feel a force $ev_dB$ and pile up on one edge until the electric field $E_H = V_H/w$ across the width $w$ balances it: $eE_H = ev_dB$, so $V_H = v_dBw$. The current is $I = neAv_d = new t v_d$ for a strip of thickness $t$, so $v_d = I/(newt)$ and
+$$ V_H = \frac{BI}{net} $$
+(b) $V_H = \dfrac{1.5\times10}{8.5\times10^{28}\times1.6\times10^{-19}\times0.50\times10^{-3}} = \dfrac{15}{6.8\times10^{6}} = 2.2\times10^{-6}\ \text{V}$, about $2.2\ \mu\text{V}$.
 
-**18.** (i) The drop is stationary when the electric force balances the weight: $qE = mg$. X-rays ionize the air between the plates so that the drop can capture or lose electrons, changing $q$ in steps of $e$; this lets the experimenter observe the charge change by integral multiples of $e$ while the same drop is watched.
-(ii) $q = 6e = 9.6\times10^{-19}\ \text{C}$:
-$$ m = \frac{qE}{g} = \frac{9.6\times10^{-19}\times5.0\times10^{4}}{9.8} = 4.9\times10^{-15}\ \text{kg} $$
-(iii) Charge is **quantized**: it always occurs in integral multiples of the elementary charge $e = 1.6\times10^{-19}\ \text{C}$.
-
-**OR** (i) Photon energy $= 1240/300 = 4.13\ \text{eV}$, so $K_{max} = 4.13-2.3 = 1.8\ \text{eV}$.
-(ii) $V_0 = K_{max}/e = 1.8\ \text{V}$.
-(iii) $\lambda_0 = \dfrac{hc}{\phi} = \dfrac{1240}{2.3} = 539\ \text{nm}$ (light of longer wavelength cannot eject electrons).
-
-**19.** (i) NOR gate: an OR gate followed by NOT; symbol — an OR shape with a small circle at the output.
-
-| A | B | Y |
-|---|---|---|
-| 0 | 0 | 1 |
-| 0 | 1 | 0 |
-| 1 | 0 | 0 |
-| 1 | 1 | 0 |
-
-(ii) **n-type:** pure silicon or germanium doped with a small amount of a **pentavalent** impurity (phosphorus, arsenic); each dopant atom donates a free electron, so the majority carriers are electrons. **p-type:** doped with a **trivalent** impurity (boron, aluminium); each dopant atom leaves a hole (accepts an electron), so the majority carriers are holes. Both are electrically neutral.
-
-**OR** (i)
-
-| | $\beta$-particle | $\gamma$-ray |
-|---|---|---|
-| Mass | electron mass ($9.1\times10^{-31}\ \text{kg}$) | none (photon) |
-| Charge | $-e$ | none |
-| Ionizing power | moderate | weak |
-| Penetrating power | moderate (mm of aluminium) | high (cm of lead) |
-
-(ii) $20/5.0 = 4$ half-lives: $80\times(\tfrac12)^{4} = 5.0\ \text{g}$.
-(iii) **Activity** is the number of nuclei disintegrating per second, $A = -dN/dt = \lambda N$; unit becquerel.
+**19.** (a) The rate of decay is proportional to the number of undecayed nuclei: $dN/dt = -\lambda N$. Separate and integrate from $N_0$ at $t = 0$: $\int dN/N = -\lambda\int dt$, so $\ln(N/N_0) = -\lambda t$ and $N = N_0e^{-\lambda t}$.
+(b) **Half-life** is the time in which half the nuclei decay. Put $N = N_0/2$: $e^{-\lambda T_{1/2}} = \tfrac12$, so $T_{1/2} = \ln2/\lambda = 0.693/\lambda$.
+(c) Activity is proportional to $N$, so $N/N_0 = 0.40$. $\lambda = 0.693/5730\ \text{yr}^{-1}$ and
+$$ t = \frac{1}{\lambda}\ln\frac{N_0}{N} = \frac{5730}{0.693}\ln2.5 = 8268\times0.916 = 7.58\times10^{3}\ \text{years} $$
 :::
 
-::: note Solutions — Group C
-**20.** (a) A wave travelling on the string is reflected at each fixed end, and the stationary wave formed must have nodes at both ends: $L = n\lambda_n/2$, $\lambda_n = 2L/n$. With $v = \sqrt{T/\mu}$,
-$$ f_n = \frac{v}{\lambda_n} = \frac{n}{2L}\sqrt{\frac{T}{\mu}},\quad n = 1, 2, 3,\dots $$
-(b) 
-$$ v = \sqrt{\frac{50}{2.0\times10^{-3}}} = \sqrt{25000} = 158\ \text{m s}^{-1} $$
-$$ f_1 = \frac{v}{2L} = \frac{158}{1.6} = 99\ \text{Hz},\qquad f_2 = 2f_1 = 198\ \text{Hz} $$
-(c) $f\propto\sqrt{T}$: doubling $T$ multiplies the frequency by $\sqrt{2}$: $f_1' = 99\times1.414 = 140\ \text{Hz}$.
+::: note Solutions — Model Paper 2, Group C (Q20 to Q22)
+**20.** (a)(i) Take the axis through the centre O, perpendicular to the rod. The mass per unit length is $M/L$. An element $dx$ at distance $x$ from O has mass $(M/L)\,dx$ and contributes $(M/L)x^{2}\,dx$:
+$$ I_C = \int_{-L/2}^{L/2}\frac{M}{L}x^{2}\,dx = \frac{M}{L}\left[\frac{x^{3}}{3}\right]_{-L/2}^{L/2} = \frac{ML^{2}}{12} $$
+(ii) About one end, $x$ runs from $0$ to $L$: $I_E = \dfrac{M}{L}\left[\dfrac{x^{3}}{3}\right]_0^L = \dfrac{ML^{2}}{3}$.
+(b) The centre of mass falls $L/2$, and that loss of potential energy becomes rotational KE about the end: $Mg\dfrac{L}{2} = \dfrac12\cdot\dfrac{ML^{2}}{3}\omega^{2}$, so the mass cancels and
+$$ \omega = \sqrt{\frac{3g}{L}} = \sqrt{\frac{3\times9.8}{1.2}} = \sqrt{24.5} = 4.95\ \text{rad s}^{-1} $$
+Speed of the free end $v = \omega L = 4.95\times1.2 = 5.94\ \text{m s}^{-1}$.
+(c) $MK^{2} = ML^{2}/3$, so $K = L/\sqrt{3} = 1.2/1.732 = 0.69\ \text{m}$.
+**Or:** (a) **Open pipe:** both ends are antinodes. The allowed patterns fit $L = n\lambda/2$ with $n = 1, 2, 3, \ldots$, so $f_n = nv/2L$: the frequencies are $f_1, 2f_1, 3f_1, \ldots$ — **all harmonics**. **Closed pipe:** the closed end is a node and the open end an antinode, so the length holds an odd number of quarter-wavelengths, $L = (2n - 1)\lambda/4$, and $f = (2n - 1)v/4L$: the frequencies are $f_1, 3f_1, 5f_1, \ldots$ — **only odd harmonics**.
+(b) $e = 0.3\times4.0 = 1.2\ \text{cm}$; effective length $0.30 + 0.012 = 0.312\ \text{m}$. $f = \dfrac{340}{4\times0.312} = 272\ \text{Hz}$.
+(c) Open at both ends, the correction applies twice: $0.30 + 2(0.012) = 0.324\ \text{m}$. $f = \dfrac{340}{2\times0.324} = 525\ \text{Hz}$.
 
-**OR** (a) **Brewster's law:** $\tan i_p = \mu$. Proof: at $i_p$ the reflected and refracted rays are at $90^{\circ}$, so $r = 90^{\circ}-i_p$; Snell's law gives $\mu = \sin i_p/\sin r = \sin i_p/\cos i_p = \tan i_p$. For $\mu = 1.5$: $i_p = \tan^{-1}1.5 = 56.3^{\circ}$.
-(b) After the polarizer: $I_0/2$. After the analyser at $30^{\circ}$:
-$$ I = \frac{I_0}{2}\cos^{2}30^{\circ} = \frac{I_0}{2}\times\frac34 = \frac{3I_0}{8} = 0.375\,I_0 $$
-(c) First minimum: $\sin\theta = \lambda/a = 5.0\times10^{-7}/1.0\times10^{-4} = 5.0\times10^{-3}$, so $\theta = 5.0\times10^{-3}\ \text{rad}$. Width of the central maximum $= 2\theta D = 2\times5.0\times10^{-3}\times2.0 = 2.0\times10^{-2}\ \text{m} = 2.0\ \text{cm}$.
+**21.** (a) **Self-inductance** $L$ is the flux linkage per unit current, $N\phi = LI$; equivalently, the emf induced in a coil when its current changes at $1\ \text{A s}^{-1}$ ($\varepsilon = -L\,dI/dt$). While the current grows, the source does work against the back emf at the rate $P = \varepsilon I = LI\,dI/dt$. So in time $dt$, $dW = LI\,dI$, and from $0$ to $I$:
+$$ W = \int_0^I LI\,dI = \tfrac12LI^{2} $$
+This is stored as energy in the magnetic field of the inductor.
+(b) A transformer works by **mutual induction**: an alternating current in the primary produces a changing flux in the core, and this flux induces an alternating emf in the secondary. The core is **laminated** — thin insulated sheets — to cut down **eddy currents** and the heat they waste.
+(c) $N_s = N_p\dfrac{V_s}{V_p} = 4000\times\dfrac{220}{2200} = 400$ turns. Output power $= V_sI_s = 220\times11 = 2420\ \text{W}$. Input power $= 2420/0.90 = 2689\ \text{W}$, so $I_p = 2689/2200 = 1.22\ \text{A}$.
+**Or:** (a) **Junction law:** the sum of currents entering a junction equals the sum leaving ($\sum I = 0$; conservation of charge). **Loop law:** round any closed loop, the sum of emfs equals the sum of the $IR$ drops ($\sum E = \sum IR$; conservation of energy). In the bridge ABCD with P in AB, Q in BC, R in AD and S in DC, and the galvanometer between B and D, let no current flow through the galvanometer at balance. Then P and Q carry the same current $I_1$, and R and S the same current $I_2$. Loop ABDA: $I_1P - I_2R = 0$. Loop BCDB: $I_1Q - I_2S = 0$. Dividing: $\dfrac{P}{Q} = \dfrac{R}{S}$.
+(b) $\dfrac{X}{6.0} = \dfrac{40}{60}$, so $X = 4.0\ \Omega$.
+(c) $A = \pi r^{2} = \pi(0.20\times10^{-3})^{2} = 1.26\times10^{-7}\ \text{m}^{2}$. $\rho = \dfrac{RA}{l} = \dfrac{4.0\times1.26\times10^{-7}}{1.0} = 5.0\times10^{-7}\ \Omega\,\text{m}$.
 
-**21.** (a) By the Biot–Savart law each element $dl$ of the coil, perpendicular to the radius to the centre, gives $dB = \dfrac{\mu_0}{4\pi}\dfrac{I\,dl}{R^{2}}$, all in the same direction along the axis. Summing over the circumference $2\pi R$ and multiplying by $N$:
-$$ B = N\,\frac{\mu_0}{4\pi}\,\frac{I\,(2\pi R)}{R^{2}} = \frac{\mu_0NI}{2R} $$
-(b) 
-$$ B = \frac{4\pi\times10^{-7}\times20\times1.5}{2\times0.050} = 3.8\times10^{-4}\ \text{T} $$
-(c) A radial field keeps the plane of the coil parallel to $\vec B$ at every deflection, so the torque $NIAB$ is the same at all angles and the deflection is proportional to the current (linear scale).
-(d) A current-carrying conductor in a transverse field develops a transverse potential difference, the Hall voltage $V_H = BI/net$, because the magnetic force pushes the carriers to one face until the Hall electric field balances it; the sign shows the sign of the carriers and $n$ can be found from $V_H$.
-
-**OR** (a) A rod of length $l$ moves with velocity $v$ perpendicular to a field $\vec B$ and to its own length. The free electrons in it experience $F = evB$ along the rod, so a potential difference builds up until the electric force $eE$ balances it: $E = vB$, and $e = El$:
-$$ e = Blv $$
-Numerically $e = 0.20\times0.40\times5.0 = 0.40\ \text{V}$.
-(b) **Lenz's law:** the induced current opposes the change that causes it. Here the moving rod increases the flux through the rod-and-rails loop, so the current flows to set up a field that opposes the increase, and the force on the rod opposes its motion.
-(c) 
-$$ V_s = V_p\frac{N_s}{N_p} = 220\times\frac{500}{100} = 1100\ \text{V} $$
-For an ideal transformer $V_pI_p = V_sI_s$:
-$$ I_p = \frac{V_sI_s}{V_p} = \frac{1100\times2.0}{220} = 10\ \text{A} $$
-
-**22.** (a) $hf = \phi+K_{max}$: $hf$ is the energy of the incident photon, $\phi$ the work function (the minimum energy to free an electron from the metal), $K_{max} = \tfrac12mv_{max}^{2} = eV_0$ the maximum kinetic energy of the photoelectrons.
-(b) $hf = 1240/300 = 4.13\ \text{eV}$; $K_{max} = 4.13-2.3 = 1.83\ \text{eV}$, so
-$$ V_0 = \frac{K_{max}}{e} = 1.8\ \text{V} $$
-(c) 
-$$ \lambda = \frac{12.27}{\sqrt{V}}\ \text{Å} = \frac{12.27}{\sqrt{100}} = 1.23\ \text{Å} $$
-(d) **Heisenberg's uncertainty principle:** the position and momentum of a particle cannot both be determined exactly at the same time; $\Delta x\,\Delta p\ge h/4\pi$.
-
-**OR** (a) X-rays are produced when fast electrons, accelerated through a high potential difference ($\sim10$ to $100\ \text{kV}$) between the filament (cathode) and a metal target (anode) in an evacuated tube, are suddenly stopped by the target (bremsstrahlung, together with characteristic lines). The shortest wavelength corresponds to an electron giving all its energy to one photon, $eV = hc/\lambda_{min}$:
-$$ \lambda_{min} = \frac{1240}{40\,000}\ \text{nm} = 0.031\ \text{nm} = 0.31\ \text{Å} $$
-(b) **Bragg's law:** for a crystal with planes of spacing $d$, strong reflection occurs when $2d\sin\theta = n\lambda$. *Derivation:* two parallel rays reflected from adjacent planes at glancing angle $\theta$; the lower ray travels an extra path $2d\sin\theta$; constructive interference requires this to be an integral number of wavelengths.
-(c) $\sin\theta = \dfrac{n\lambda}{2d} = \dfrac{1.54}{4.0} = 0.385$, so $\theta = 22.6^{\circ}$.
+**22.** (a) **Apparatus:** a discharge tube in which electrons from the cathode are accelerated towards a perforated anode and pass as a narrow beam between two parallel plates (electric field $E$) placed inside a region where a magnetic field $B$ acts at right angles to both $E$ and the beam; the beam strikes a fluorescent screen. **Step 1 — find $v$:** the fields are adjusted until the spot returns to the undeflected position. The two forces then balance, $eE = evB$, so $v = E/B$. **Step 2 — find $r$:** the electric field is switched off. The magnetic force alone bends the beam into a circular arc of radius $r$ (found from the displacement of the spot and the geometry of the tube): $evB = mv^{2}/r$, so $e/m = v/(Br)$. **Result:** substituting $v = E/B$,
+$$ \frac{e}{m} = \frac{E}{B^{2}r} $$
+Thomson found the same value whatever gas or cathode metal was used, which showed the electron is a universal particle. The modern value is $1.76\times10^{11}\ \text{C kg}^{-1}$.
+(b) $v = E/B = 3.4\times10^{4}/2.0\times10^{-3} = 1.7\times10^{7}\ \text{m s}^{-1}$.
+$$ r = \frac{mv}{eB} = \frac{9.1\times10^{-31}\times1.7\times10^{7}}{1.6\times10^{-19}\times2.0\times10^{-3}} = 4.8\times10^{-2}\ \text{m} $$
+about $4.8\ \text{cm}$ (check: $v/(Br) = 1.7\times10^{7}/(2.0\times10^{-3}\times0.0483) = 1.76\times10^{11}\ \text{C kg}^{-1}$).
 :::
 
-## 4.4 Predicted Questions
+## 4.6 Thirty-nine predicted questions, ranked
 
-The list below ranks forty-six questions. **Tier A** (P1–P12) holds the topics that appeared in four or five of the five papers we read; **Tier B** (P13–P31) holds those that appeared two or three times; **Tier C** (P32–P46) holds topics that the papers have not yet asked as a full question although the syllabus gives them hours — the board rotates, and a gap is a reason to prepare, not a promise. Each item gives the unit, the likely marks, **why** it is listed, and a **short model answer** (the full answers are in Chapter 3 of this part of the book: the section number is given).
+**How to read this list.** Questions are ranked in three tiers. **Tier 1** are the standard derivations and numerical types of the "very high" units in 4.1.3, which together hold most of the teaching hours: a paper on this syllabus can hardly avoid several of them. **Tier 2** are likely: named syllabus bullets with a clean derivation or a fixed formula, in units of medium weight. **Tier 3** are possible: descriptive bullets, short units and the recent-trends unit, worth a pass once Tiers 1 and 2 are secure. Each entry gives the unit, the reason, then a short model answer; the full answers are in Chapter 3 (sections 3.1 to 3.25) and should be learnt in full.
 
-::: tip How to use the list
-Work Tier A first and learn the answers until you can write them in $10$ minutes each. Tier B comes next. Use Tier C only after the first two are secure. Whatever the ranking, do not skip a unit: the paper is compulsory and the predictions are judgements, not information.
-:::
+### Tier 1 — drill first
 
-### 4.4.1 Tier A — asked in four or five of the papers read
+1. **Series LCR circuit: phasor diagram, impedance, phase angle, resonance and quality factor** (unit 19). *Why:* a six-hour unit whose whole content builds to this one result, and it gives a many-part numerical. *Answer:* $Z = \sqrt{R^{2} + (X_L - X_C)^{2}}$, $\tan\phi = (X_L - X_C)/R$; at resonance $X_L = X_C$, $f_0 = 1/(2\pi\sqrt{LC})$, $Z = R$, current maximum; $Q = \dfrac{1}{R}\sqrt{L/C}$. For $L = 0.5\ \text{H}$, $C = 20\ \mu\text{F}$, $R = 10\ \Omega$: $f_0 = 50.3\ \text{Hz}$, $Q = 15.8$.
+2. **Moment of inertia of a uniform rod about its centre and about one end; radius of gyration** (unit 1). *Why:* the one MI derivation named in the syllabus. *Answer:* integrate $(M/L)x^{2}\,dx$: $ML^{2}/12$ about the centre, $ML^{2}/3$ about an end; $K = L/\sqrt{12}$ and $L/\sqrt{3}$.
+3. **Conservation of angular momentum, with a numerical** (unit 1). *Why:* a named bullet with everyday examples (skater, diver, a man on a turntable). *Answer:* with no external torque $dL/dt = 0$, so $I_1\omega_1 = I_2\omega_2$; if $I$ halves, $\omega$ doubles and rotational KE $L^{2}/2I$ doubles, the extra energy coming from the work done by the muscles.
+4. **SHM: show the spring–mass and simple-pendulum motions are SHM, and find the period** (unit 2). *Why:* both are named bullets and both give a five-mark derivation. *Answer:* spring $F = -kx$, $T = 2\pi\sqrt{m/k}$; pendulum $F = -mg\sin\theta\approx-(mg/l)x$ for small $\theta$, $T = 2\pi\sqrt{l/g}$.
+5. **Energy in SHM: KE, PE and total energy, with the graph against displacement** (unit 2). *Why:* a short derivation and a frequent Group B part. *Answer:* $K = \tfrac12m\omega^{2}(A^{2} - x^{2})$, $U = \tfrac12m\omega^{2}x^{2}$, $E = \tfrac12m\omega^{2}A^{2}$ constant; $K = U$ at $x = A/\sqrt{2}$.
+6. **Capillary rise: derive $h = 2T\cos\theta/(r\rho g)$ and calculate it** (unit 3). *Why:* the standard derivation of surface tension, with a direct numerical. *Answer:* the upward pull $2\pi rT\cos\theta$ balances the weight $\pi r^{2}h\rho g$. For water in a $0.25\ \text{mm}$ radius tube ($T = 0.072\ \text{N m}^{-1}$, $\theta = 0$): $h = 5.9\ \text{cm}$.
+7. **Stokes' law and terminal velocity** (unit 3). *Why:* a named bullet; the derivation is three lines and the numerical is common. *Answer:* $6\pi\eta rv_t = \tfrac43\pi r^{3}(\rho - \sigma)g$, so $v_t = 2r^{2}(\rho - \sigma)g/9\eta$; uses: Millikan's experiment, raindrops, parachutes.
+8. **Bernoulli's equation with the equation of continuity; an application** (unit 3). *Why:* a named bullet with a standard derivation from the work–energy theorem. *Answer:* $P + \tfrac12\rho v^{2} + \rho gh$ = constant; $A_1v_1 = A_2v_2$; applications: venturimeter, lift on an aircraft wing, the atomiser, a roof blown off in a storm.
+9. **Mayer's relation $C_p - C_v = R$, and $PV^{\gamma}$ = constant** (unit 4). *Why:* the two classic derivations of a six-hour unit. *Answer:* at constant $P$ the extra heat $P\,dV = R\,dT$ does work; for an adiabatic change $C_vV\,dP + C_pP\,dV = 0$ gives $PV^{\gamma}$ = constant and $TV^{\gamma-1}$ = constant.
+10. **Isothermal and adiabatic work; a $P$–$V$ numerical** (unit 4). *Why:* the work integral is named in the syllabus. *Answer:* isothermal $W = nRT\ln(V_2/V_1)$; adiabatic $W = (P_1V_1 - P_2V_2)/(\gamma - 1)$; work is the area under the $P$–$V$ curve.
+11. **Carnot engine and refrigerator: efficiency and COP** (unit 5). *Why:* gives a clean numerical and the second-law statements. *Answer:* $\eta = 1 - T_2/T_1$; COP $= T_2/(T_1 - T_2)$; between $27^{\circ}\text{C}$ and $-3^{\circ}\text{C}$ the COP is 9.
+12. **Harmonics in open and closed pipes; end correction** (unit 8). *Why:* the most standard derivation of Waves. *Answer:* open: $f_n = nv/2L$, all harmonics; closed: $f = (2n - 1)v/4L$, odd only; $e = 0.3d$ per open end, so a closed pipe uses $L + 0.3d$ and an open pipe $L + 0.6d$.
+13. **Transverse waves on a stretched string and the laws of vibration** (unit 8). *Why:* named bullets with a direct sonometer numerical. *Answer:* $v = \sqrt{T/\mu}$, $f_n = \dfrac{n}{2l}\sqrt{T/\mu}$; $f\propto1/l$, $f\propto\sqrt{T}$, $f\propto1/\sqrt{\mu}$.
+14. **Doppler effect: source moving, observer moving, with a numerical** (unit 9). *Why:* the main numerical of a five-hour unit. *Answer:* $f' = f\dfrac{v + v_o}{v - v_s}$ (signs positive when each moves towards the other); a $680\ \text{Hz}$ source approaching at $20\ \text{m s}^{-1}$ is heard at $722.5\ \text{Hz}$.
+15. **Young's double-slit experiment: derive the fringe width** (unit 11). *Why:* the only derivation of the interference unit. *Answer:* path difference $yd/D$; bright for $n\lambda$, dark for $(n + \tfrac12)\lambda$; $\beta = \lambda D/d$.
+16. **Diffraction grating: the grating equation and the highest order** (unit 12). *Why:* a clean numerical. *Answer:* $d\sin\theta = n\lambda$; $n_{max}$ is the whole number below $d/\lambda$; $5000$ lines per cm and $600\ \text{nm}$ give $\theta_2 = 36.9^{\circ}$ and $n_{max} = 3$.
+17. **Potentiometer: comparison of emfs and internal resistance; why it beats a voltmeter** (unit 14). *Why:* a named bullet and a recurring five-mark numerical. *Answer:* $E_1/E_2 = l_1/l_2$; $r = R(l_1/l_2 - 1)$; at balance it draws no current from the cell, so it measures the true emf.
+18. **Conversion of a galvanometer into an ammeter and a voltmeter** (unit 14). *Why:* a named bullet with the cleanest numerical in the unit. *Answer:* shunt $S = I_gG/(I - I_g)$ in parallel; series $R = V/I_g - G$.
+19. **Biot–Savart law: field at the centre of a circular coil and near a long straight wire** (unit 16). *Why:* a nine-hour unit, and the derivations are named in the syllabus. *Answer:* $dB = \dfrac{\mu_0}{4\pi}\dfrac{I\,dl\sin\theta}{r^{2}}$; centre of coil $B = \mu_0NI/2r$; straight wire $B = \mu_0I/2\pi d$. For $N = 50$, $I = 2.0\ \text{A}$, $r = 0.10\ \text{m}$: $B = 6.3\times10^{-4}\ \text{T}$.
+20. **Ampère's law: long solenoid and toroid; force between parallel conductors and the definition of the ampere** (unit 16). *Why:* named bullets, each a short derivation. *Answer:* solenoid $B = \mu_0nI$; toroid $B = \mu_0NI/2\pi r$; $F/l = \mu_0I_1I_2/2\pi d$; one ampere gives $2\times10^{-7}\ \text{N m}^{-1}$ between wires $1\ \text{m}$ apart in vacuum.
+21. **Force and torque on a rectangular coil; the moving-coil galvanometer** (unit 16). *Why:* a named bullet that ends in the instrument. *Answer:* $\tau = NBIA\sin\theta$; with a radial field $\tau = NBIA = k\theta$, so $I = (k/NBA)\theta$; current sensitivity $\theta/I = NBA/k$.
+22. **Faraday and Lenz; motional emf; the AC generator** (unit 18). *Why:* three named bullets, a derivation and a numerical. *Answer:* $\varepsilon = -N\,d\phi/dt$; a rod of length $l$ moving at $v$ across $B$ gives $\varepsilon = Blv$ ($0.5\ \text{T}$, $0.2\ \text{m}$, $10\ \text{m s}^{-1}$ give $1.0\ \text{V}$); a coil gives $\varepsilon = NBA\omega\sin\omega t$.
+23. **Photoelectric effect: Einstein's equation, stopping potential, and Planck's constant from a graph** (unit 21). *Why:* the whole three-hour unit in one question. *Answer:* $h\nu = \phi + eV_0$; $V_0$ against $\nu$ is a line of slope $h/e$ and intercept $\nu_0$; intensity changes the current, not $V_0$.
+24. **Bohr's theory: radius and energy of the $n$th orbit; spectral series** (unit 23). *Why:* the heaviest unit of Modern Physics (8 h). *Answer:* $r_n = \dfrac{\varepsilon_0n^{2}h^{2}}{\pi me^{2}} = 0.529n^{2}\ \text{Å}$; $E_n = -\dfrac{me^{4}}{8\varepsilon_0^{2}n^{2}h^{2}} = -13.6/n^{2}\ \text{eV}$; Lyman ends on $n = 1$ (UV), Balmer on $n = 2$ (visible), Paschen on $n = 3$ (IR).
+25. **Radioactive decay law, half-life, mean life, and carbon dating** (unit 24). *Why:* named bullets with the clearest numerical in Modern Physics. *Answer:* $N = N_0e^{-\lambda t}$; $T_{1/2} = 0.693/\lambda$; $\tau = 1/\lambda = 1.44\,T_{1/2}$; a sample at $40\ \%$ of fresh ¹⁴C activity is about $7.6\times10^{3}$ years old.
+26. **Millikan's oil-drop experiment and Thomson's $e/m$** (unit 20). *Why:* the two experiments of the electrons unit; one or the other is a natural long question. *Answer:* a balanced drop has $qE = mg$, so $q = mgd/V$, and every $q$ is a whole multiple of $1.6\times10^{-19}\ \text{C}$ (a drop of $1.6\times10^{-15}\ \text{kg}$ balanced by $4.9\times10^{4}\ \text{V m}^{-1}$ carries $3.2\times10^{-19}\ \text{C} = 2e$); Thomson: $v = E/B$, $e/m = E/(B^{2}r)$.
 
-**P1. Full-wave rectification** (unit 22, $[5]$ or $[2+3]$; section 3.22). *Why:* Group B question in 2078, 2079 model, 2080, 2081 and 2082 — the single most repeated question. *Answer:* a centre-tapped transformer with two diodes $D_1, D_2$ (or a four-diode bridge) and a load $R_L$; $D_1$ conducts in the positive half-cycle, $D_2$ in the negative, and the load current flows in the same direction in both, giving pulses at $2f$ ($100\ \text{Hz}$ from $50\ \text{Hz}$ mains). Draw the circuit and the input and output waveforms; state that a capacitor filter smooths the ripple.
+### Tier 2 — likely
 
-**P2. Thermocouple: neutral and inversion temperatures** (unit 15, $[5]$ numerical; section 3.15). *Why:* a Group A item in 2078, 2079 model, 2081 and the 2082 model; a full Group B question in 2080. *Answer:* $\theta_n$ is the hot-junction temperature of maximum e.m.f.; $\theta_i = 2\theta_n-\theta_c$ is where the e.m.f. returns to zero; $\theta_n$ does not depend on $\theta_c$. Numerical: $\theta_n = 500\ ^{\circ}\text{C}$ and $\theta_c$ raised from $0$ to $20\ ^{\circ}\text{C}$ changes $\theta_i$ from $1000$ to $980\ ^{\circ}\text{C}$ ($2\%$).
+27. **Newton's formula for the speed of sound and Laplace's correction; effect of temperature, pressure and humidity** (unit 7). *Why:* three named bullets in one question. *Answer:* Newton $v = \sqrt{P/\rho} = 280\ \text{m s}^{-1}$ at STP, too low; Laplace: sound is adiabatic, $v = \sqrt{\gamma P/\rho} = 331\ \text{m s}^{-1}$; $v\propto\sqrt{T}$; pressure has no effect at constant $T$; moist air is less dense, so sound is faster.
+28. **Stationary waves: equation, nodes and antinodes** (unit 6). *Why:* the basis of the pipes and strings questions. *Answer:* two equal waves in opposite directions give $y = 2A\sin kx\cos\omega t$; nodes where $\sin kx = 0$, at $x = 0, \lambda/2, \lambda, \ldots$; adjacent nodes are $\lambda/2$ apart.
+29. **Intensity, loudness, pitch and quality; the decibel** (unit 9). *Why:* named bullets, often a Group B part with a one-line numerical. *Answer:* intensity is power per unit area; $L = 10\log(I/I_0)$ with $I_0 = 10^{-12}\ \text{W m}^{-2}$; pitch depends on frequency, quality on the overtones present.
+30. **Huygens' principle; the laws of reflection and refraction from wave theory** (unit 10). *Why:* the whole of a three-hour unit. *Answer:* every point on a wavefront is a source of secondary wavelets; the new wavefront is their common tangent; refraction gives $\sin i/\sin r = v_1/v_2 = n$.
+31. **Brewster's law and polaroids** (unit 13). *Why:* named bullets with a short proof. *Answer:* $\tan i_p = n$ and $i_p + r = 90^{\circ}$; polaroids are used in sunglasses, photography filters and 3-D films.
+32. **Wheatstone bridge, metre bridge and Kirchhoff's laws in a two-loop circuit** (unit 14). *Why:* named bullets with a standard proof. *Answer:* $P/Q = R/S$ at balance; metre bridge $X = R\,l/(100 - l)$; in a two-loop circuit write one junction equation and two loop equations, then solve.
+33. **Self- and mutual inductance; energy stored in an inductor; transformer and its losses** (unit 18). *Why:* named bullets. *Answer:* $\varepsilon = -L\,dI/dt$; $U = \tfrac12LI^{2}$; $V_s/V_p = N_s/N_p$; losses: copper, eddy current, hysteresis and flux leakage.
+34. **p–n junction; full-wave rectifier; truth tables of the basic gates** (unit 22). *Why:* a six-hour unit whose items are drawn and tabulated. *Answer:* depletion layer and barrier potential (about $0.7\ \text{V}$ for Si); bridge or centre-tap rectifier with output ripple at $2f$; NOT, OR, AND, NAND ($\overline{AB}$) and NOR ($\overline{A+B}$) tables.
+35. **de Broglie wavelength and the uncertainty principle; X-rays and Bragg's law** (unit 23). *Why:* the second half of the heaviest Modern Physics unit. *Answer:* $\lambda = h/p = h/\sqrt{2meV}$, $0.123\ \text{nm}$ at $100\ \text{V}$; $\Delta x\,\Delta p\ge h/4\pi$; $\lambda_{min} = hc/eV$ ($0.062\ \text{nm}$ at $20\ \text{kV}$); Bragg $2d\sin\theta = n\lambda$.
 
-**P3. Lenz's law and conservation of energy** (unit 18, $[1+2]$; section 3.18). *Why:* 2078, 2079 model, 2080 and 2082. *Answer:* the induced current opposes the change producing it. If it aided the change, pushing a magnet towards a coil would accelerate the magnet and induce still more current, producing energy from nothing; opposition means mechanical work is done against the repulsion and is converted into electrical energy.
+### Tier 3 — possible
 
-**P4. Energy stored in an inductor** (unit 18, $[3]$ with a numerical; section 3.18). *Why:* 2080 (Or), 2081 and 2082. *Answer:* $dW = Li\,di$, so $W = \int_0^{I}Li\,di = \tfrac12LI^{2}$; for $L = 2.0\ \text{H}$, $I = 3.0\ \text{A}$: $U = 9.0\ \text{J}$; energy density $B^{2}/2\mu_0$.
-
-**P5. Bohr's postulates, radius and energy of the $n$th orbit** (unit 23, $[3+3+2]$ Group C; section 3.23). *Why:* 2078, 2079 model, 2080 and 2081. *Answer:* (1) stable non-radiating orbits; (2) $mvr = nh/2\pi$; (3) $hf = E_i-E_f$. Balancing $mv^{2}/r$ with $e^{2}/4\pi\varepsilon_0r^{2}$ gives $r_n = 0.529\,n^{2}\ \text{Å}$ and $E_n = -13.6/n^{2}\ \text{eV}$.
-
-**P6. Doppler-effect numerical** (unit 9, $[3]$–$[5]$; section 3.9). *Why:* 2078, 2079 model, 2081 and 2082. *Answer:* $f' = f\,\dfrac{v\pm u_o}{v\mp u_s}$; for an echo use it twice (the wall is observer, then source). Example: train at $10\ \text{m s}^{-1}$ towards a cliff, horn $600\ \text{Hz}$: $f' = 600\times350/330 = 636\ \text{Hz}$.
-
-**P7. Diffraction grating numerical** (unit 12, $[2+2+1]$; section 3.12). *Why:* 2079 model, 2080, 2081 and 2082 — in every paper from the 2079 model on. *Answer:* $d = 1/N$, $d\sin\theta = n\lambda$, highest order $n<d/\lambda$. Example: $6000\ \text{lines/cm}$, $5890\ \text{Å}$: second order at $45^{\circ}$, third order impossible ($\sin\theta = 1.06$).
-
-**P8. Einstein's photoelectric equation and the $K_{max}$–$f$ graph** (unit 21, $[2+3]$; section 3.21). *Why:* 2078, 2079 model, 2080 and 2081. *Answer:* $hf = \phi+K_{max}$, $K_{max} = eV_0$; the graph is a straight line of slope $h$, intercept $f_0$ on the frequency axis and $-\phi$ on the energy axis; intensity changes the number of photoelectrons, not $K_{max}$.
-
-**P9. Moment of inertia of a rod; radius of gyration; conservation of angular momentum** (unit 1, $[1+2+2]$; section 3.1). *Why:* 2078, 2080, 2081, 2082 and the 2079 and 2082 model Group A. *Answer:* $I = \sum mr^{2}$; $I_{cm} = Ml^{2}/12$ and $I_{end} = Ml^{2}/3$; $k = \sqrt{I/M}$; with no external torque $I_1\omega_1 = I_2\omega_2$ (dancer, platform, Earth).
-
-**P10. Millikan's oil-drop experiment** (unit 20, $[2+1+2]$; section 3.20). *Why:* 2078 (Group C), 2079 model, 2081 and 2082; "why X-rays" is asked repeatedly. *Answer:* at terminal velocity $mg = 6\pi\eta rv$; held stationary $qE = mg$; charges are always $ne$; X-rays ionize the air so the drop gains or loses electrons. Example: $m = 1.3\times10^{-14}\ \text{kg}$, $4$ electrons: $E = mg/4e = 2.0\times10^{5}\ \text{V m}^{-1}$.
-
-**P11. Kirchhoff's laws; Wheatstone and meter bridge** (unit 14, $[2+3]$; section 3.14). *Why:* the 2079 model (both versions of Q17) and 2082 (Kirchhoff's laws with the Wheatstone balance). *Answer:* $\sum I = 0$ and $\sum\mathcal{E} = \sum IR$; balance $P/Q = R/S$; meter bridge $X = R(100-l)/l$. Example: balance $60\ \text{cm}$; $5\ \Omega$ added in series with $S$ gives $50\ \text{cm}$: $S = 10\ \Omega$, $R = 15\ \Omega$.
-
-**P12. Biot–Savart law and the field at the centre of a circular coil** (unit 16, $[1+3+1]$; section 3.16). *Why:* 2080, 2081 and the 2082 board Group A. *Answer:* $dB = \dfrac{\mu_0}{4\pi}\dfrac{I\,dl\sin\theta}{r^{2}}$; all elements of the coil are perpendicular to the radius, so $B = \dfrac{\mu_0NI}{2R}$; direction by the right-hand rule.
-
-### 4.4.2 Tier B — asked in two or three of the papers read
-
-**P13. Laplace's correction to Newton's formula** (unit 7, $[2+2+1]$; section 3.7). *Why:* 2080 and 2081. *Answer:* Newton ($v = \sqrt{P/\rho}$, isothermal) gave $280\ \text{m s}^{-1}$ against the measured $332$; Laplace: changes are adiabatic, so $v = \sqrt{\gamma P/\rho} = 331\ \text{m s}^{-1}$; sound waves are pressure waves because the pressure varies about the mean.
-
-**P14. $N = N_0e^{-\lambda t}$; half-life and mean life** (unit 24, $[3]$; section 3.24). *Why:* 2078 (Or) and 2082 (Or); 2080 and 2081 asked half-life, mean life and activity. *Answer:* $dN/dt = -\lambda N$ integrates to $N = N_0e^{-\lambda t}$; $T_{1/2} = 0.693/\lambda$; $\tau = 1/\lambda = 1.44\,T_{1/2}$; $A = \lambda N$.
-
-**P15. Surface tension, surface energy, coalescing drops** (unit 3, $[1+2+2]$; section 3.3). *Why:* 2078, 2081 and the 2082 Group A. *Answer:* $T = F/l$; work $T\,\Delta A$ is stored as surface energy, so energy per unit area equals $T$; $N$ drops of radius $r$ join to $R = N^{1/3}r$ and $v_t\propto r^{2}$ gives $v_2 = N^{2/3}v_1$ ($N = 2$, $v_1 = 0.4$: $0.63\ \text{m s}^{-1}$).
-
-**P16. Bernoulli's equation and application** (unit 3, $[2+3]$; section 3.3). *Why:* 2078 (Or), 2079 model and 2082. *Answer:* $P+\tfrac12\rho v^{2}+\rho gh$ = constant for steady, incompressible, non-viscous flow; continuity $A_1v_1 = A_2v_2$. Example: $200\to50\ \text{cm}^{2}$, $v_1 = 2\ \text{m s}^{-1}$, $P_1 = 4\times10^{4}\ \text{Pa}$: $v_2 = 8\ \text{m s}^{-1}$, $P_2 = 1\times10^{4}\ \text{Pa}$.
-
-**P17. Stokes' law and viscosity** (unit 3, $[1+2+2]$; section 3.3). *Why:* 2080 and the coalescing-drop items. *Answer:* $F = 6\pi\eta rv$; at terminal velocity $v_t = \dfrac{2r^{2}(\rho-\sigma)g}{9\eta}$; determine $\eta$ by timing a steel ball through a tall jar of the liquid.
-
-**P18. Potentiometer: internal resistance, comparison of e.m.f.s** (unit 14, $[3+2]$; section 3.14). *Why:* 2078 (Or), 2079 model, 2081 and 2082 (Or). *Answer:* $E_1/E_2 = l_1/l_2$; $r = R(l_1-l_2)/l_2$; no current flows at balance, so it acts as a voltmeter of infinite resistance.
-
-**P19. Young's double slit: fringe width and equal spacing** (unit 11, $[3+2]$; section 3.11). *Why:* 2079 model, 2080, 2081, 2082 — the interference slot of Group C. *Answer:* path difference $yd/D$; $\beta = \lambda D/d$, the same for bright and dark fringes; immersion in a liquid of index $\mu$ gives $\beta' = \beta/\mu$; $I = 4I_0\cos^{2}(\phi/2)$.
-
-**P20. Brewster's law and Malus' law** (unit 13, $[2]$–$[4]$; section 3.13). *Why:* 2079 model (water, $\mu = 1.3$: $52.4^{\circ}$), 2082 (proof), and Group A in 2081 and the 2082 model. *Answer:* $\tan i_p = \mu$ because $i_p+r = 90^{\circ}$; $I = I_0\cos^{2}\theta$; unpolarized light halves through the first polaroid.
-
-**P21. Stationary waves in pipes** (unit 8, $[1+2]$ with a numerical; section 3.8). *Why:* 2078, 2079 model (sonometer), 2081 and 2082. *Answer:* open pipe $f_n = nv/2L$ (all harmonics); closed pipe $f_n = (2n-1)v/4L$ (odd only); end correction $e\approx0.6r$; a closed pipe of $0.85\ \text{m}$ has $f_1 = 100\ \text{Hz}$.
-
-**P22. Strings: overtones, tension change, sonometer** (unit 8, $[3]$–$[5]$; section 3.8). *Why:* 2079 model, 2080, 2082 (Group C). *Answer:* $f = \dfrac{n}{2L}\sqrt{T/\mu}$; quadrupling $T$ doubles $f$; doubling the radius quadruples $\mu$ and halves $v$; shortening a sonometer wire by $0.5\ \text{cm}$ of $75\ \text{cm}$ with $3$ beats gives $447\ \text{Hz}$.
-
-**P23. Force between parallel conductors; the ampere** (unit 16, $[3+2]$; section 3.16). *Why:* 2079 model (Or), 2081 (Or) and 2082 (Group C). *Answer:* $B_1 = \mu_0I_1/2\pi r$ and $F/l = \mu_0I_1I_2/2\pi r$, attractive for parallel currents; one ampere gives $2\times10^{-7}\ \text{N m}^{-1}$ at $1\ \text{m}$; halving $r$ doubles the force.
-
-**P24. Ampère's law: straight wire, solenoid, toroid** (unit 16, $[3]$; section 3.16). *Why:* 2081 (straight conductor) and the 2082 Group C; the syllabus names all three applications. *Answer:* $\oint\vec B\cdot d\vec l = \mu_0I$; $B = \mu_0I/2\pi r$; $B = \mu_0nI$ inside a solenoid; $B = \mu_0NI/2\pi r$ inside a toroid, zero outside.
-
-**P25. Moving-coil galvanometer; conversion to ammeter and voltmeter** (units 16 and 14, $[2+1]$ plus $[2]$; sections 3.14, 3.16). *Why:* 2081 (sensitivity, radial field, ammeter conversion). *Answer:* $\phi/I = NBA/C$, voltage sensitivity divides by $R$; radial field gives a uniform torque and a linear scale; shunt $S = I_gG/(I-I_g)$ in parallel; series resistor $R = V/I_g-G$.
-
-**P26. Hall effect and carrier density** (unit 16, $[2+3]$; section 3.16). *Why:* 2081 (indium antimonide, $2.1\times10^{22}\ \text{m}^{-3}$). *Answer:* the sideways force $qvB$ piles up charge until the Hall field balances it; $V_H = BI/net$, so $n = BI/eV_Ht$; the sign of $V_H$ shows the sign of the carriers.
-
-**P27. Series LCR circuit: impedance, phase, resonance, $Q$** (unit 19, $[2+2+1+2+1]$; section 3.19). *Why:* 2078, 2079 model (choke coil), 2080 and 2082. *Answer:* $Z = \sqrt{R^{2}+(X_L-X_C)^{2}}$, $\tan\phi = (X_L-X_C)/R$, $f_0 = 1/2\pi\sqrt{LC}$, $Q = \omega_0L/R$; at resonance $Z = R$ and the current is maximum; a choke is preferred because it reduces the current with negligible power loss.
-
-**P28. Carnot cycle and efficiency** (unit 5, $[3]$ with a numerical; section 3.5). *Why:* the 2082 Group B ($25\%\to50\%$) and the 2082 Group A; 2078 asked the efficiency expression. *Answer:* two isotherms and two adiabats, $\eta = 1-T_2/T_1$ in kelvin; $25\%$ with sink at $282\ \text{K}$ needs $T_1 = 376\ \text{K}$, and $50\%$ needs $564\ \text{K}$ — a rise of $188\ \text{K}$.
-
-**P29. Petrol (Otto) engine against diesel engine** (unit 5, $[3+2]$; section 3.5). *Why:* the 2079 model Group B and a block-diagram item in 2081. *Answer:* Otto cycle = two adiabats plus two isochores, $\eta = 1-r^{1-\gamma}$; the diesel compresses air only so it runs at a far higher compression ratio (15 to 22 against 6 to 10) and is more efficient in practice.
-
-**P30. $C_P-C_V = R$ and the first law** (unit 4, $[1+2+2]$; section 3.4). *Why:* 2080 and every paper's Group A. *Answer:* $\Delta U = nC_V\Delta T$ in every process; at constant pressure $Q = \Delta U+P\Delta V$ with $P\Delta V = nR\Delta T$, so $C_P-C_V = R$; $\gamma = C_P/C_V$.
-
-**P31. SHM: vertical spring and energy** (unit 2, $[1+3+1]$; section 3.2). *Why:* the 2079 model Group B, the 2081 and 2082 Group B alternatives and Group A graph items every year. *Answer:* $F = -ky$, $T = 2\pi\sqrt{m/k}$ (no $g$ in it, so the same inside a satellite); $E = \tfrac12kA^{2}$ is constant because $K = \tfrac12k(A^{2}-x^{2})$ and $U = \tfrac12kx^{2}$.
-
-### 4.4.3 Tier C — not yet asked as a full question, or asked only once
-
-**P32. Thomson's method for $e/m$; electron beam between plates** (unit 20, $[3+2]$; section 3.20). *Why:* asked once (2080, Or) and a long derivation that suits Group C. *Answer:* crossed fields give $v = E/B$; with $B$ off, the deflection $y = eEx^{2}/2mv^{2}$ (a parabola) gives $e/m = 2yv^{2}/Ex^{2}$, $1.76\times10^{11}\ \text{C kg}^{-1}$.
-
-**P33. X-rays: production, $\lambda_{min}$, Bragg's law** (unit 23, $[1+2]$ to $[3+3]$; section 3.23). *Why:* Bragg's law appeared in 2080 (Or); production and uses have not been asked in the papers read. *Answer:* fast electrons stopped by a target; $\lambda_{min} = hc/eV$ ($0.31\ \text{Å}$ at $40\ \text{kV}$); $2d\sin\theta = n\lambda$, so $\lambda\leq2d$.
-
-**P34. de Broglie wavelength and the uncertainty principle** (unit 23, $[2+1]$; section 3.23). *Why:* de Broglie was asked in 2081 ($300\ \text{V}$); the uncertainty principle has not been asked in the papers read. *Answer:* $\lambda = h/p = 12.27/\sqrt{V}\ \text{Å}$ ($0.71\ \text{Å}$ at $300\ \text{V}$); $\Delta x\,\Delta p\geq h/4\pi$.
-
-**P35. Hysteresis loop; dia-, para- and ferromagnetic materials** (unit 17, $[3+2]$; section 3.17). *Why:* Group A only in 2081 and 2082; a five-mark question on the unit has not appeared, which makes it a candidate. *Answer:* loop with retentivity and coercivity, area $=$ energy lost per cycle per unit volume; dia: $\chi<0$, repelled; para: small $\chi>0$; ferro: large $\chi>0$, domains, Curie temperature.
-
-**P36. Domain theory; soft and hard magnetic materials** (unit 17, $[3+2]$; section 3.17). *Why:* the standard companion to P35; the 2079 model laminated-core item touches it. *Answer:* domains are regions of aligned moments; walls move then domains rotate to saturation; soft iron (narrow loop) for cores and electromagnets, steel (wide loop) for permanent magnets.
-
-**P37. Damped and forced oscillations; resonance** (unit 2, $[3+2]$; section 3.2). *Why:* named in the syllabus but never asked in the papers read. *Answer:* damping removes energy so the amplitude decays; forced oscillation occurs at the driving frequency; resonance when driving frequency equals natural frequency (swings, bridges, tall buildings in an earthquake).
-
-**P38. Angular SHM and the torsional pendulum** (unit 2, $[3]$; section 3.2). *Why:* named in the syllabus, never asked. *Answer:* $\tau = -C\theta$ gives $\alpha = -(C/I)\theta$ and $T = 2\pi\sqrt{I/C}$; the simple pendulum is the case $C = mgl$, $I = ml^{2}$.
-
-**P39. Stationary waves: equation and node spacing** (unit 6, $[3]$; section 3.6). *Why:* 2082 Group C asked for the $\lambda/2$ proof; it is cheap to prepare. *Answer:* $y_1+y_2 = 2A\cos kx\sin\omega t$; nodes at $kx = (n+\tfrac12)\pi$, separated by $\lambda/2$.
-
-**P40. Reflection and refraction by Huygens' principle** (unit 10, $[3+2]$; section 3.10). *Why:* 2081 asked about wavefronts (Or) and 2082 about what Huygens cannot explain; the derivations themselves have not yet been set. *Answer:* congruent triangles give $i = r$; $\sin i/\sin r = v_1/v_2$; frequency is unchanged, speed and wavelength fall by $n$.
-
-**P41. Resolving power; the Rayleigh criterion** (unit 12, $[2+2]$; section 3.12). *Why:* named in the syllabus, never asked in the papers read. *Answer:* $\theta_{min} = 1.22\lambda/D$; larger aperture or shorter wavelength improves resolution ($6.7\times10^{-6}\ \text{rad}$ for a $10\ \text{cm}$ objective at $550\ \text{nm}$).
-
-**P42. Seismic waves and the Gorkha earthquake** (unit 25, $[2+3]$; section 3.25). *Why:* Group A in 2078, 2079 model, 2081, 2082 and the 2082 model; 2078 also set the SHM of a building. Nepal's own earthquake makes a longer question plausible. *Answer:* focus and epicentre; P-waves (longitudinal, fastest, solids and liquids), S-waves (transverse, solids only); Rayleigh and Love surface waves are the most destructive; Gorkha, 25 April 2015, magnitude about $7.8$.
-
-**P43. Gravitational waves, the Higgs boson and nanotechnology** (unit 25, $[2+2+1]$; section 3.25). *Why:* named in the syllabus and never asked in the papers read. *Answer:* gravitational waves are ripples of space-time, first detected by LIGO in 2015 from merging black holes; the Higgs boson, found at CERN in 2012, is linked to the origin of mass; nanotechnology works at $1$–$100\ \text{nm}$ (carbon nanotubes, nanoparticles).
-
-**P44. Carbon dating, the Geiger–Müller tube and medical use** (unit 24, $[2+2+1]$; section 3.24). *Why:* 2080 asked the activity of carbon-14; dating and the G–M tube have not been set as descriptions. *Answer:* living wood has a constant $^{14}\text{C}$ activity; after death it halves every $5730$ years, so a sample at $25\%$ is $11\,460$ years old; the G–M tube detects ionization pulses; gamma rays from $^{60}\text{Co}$ treat cancer, $^{131}\text{I}$ the thyroid, with hazards from ionizing radiation.
-
-**P45. Superconductors, Joule's law and the ohmmeter** (unit 14, $[2+1+2]$; section 3.14). *Why:* three syllabus bullets that have not been asked. *Answer:* a superconductor has zero resistance below $T_c$ and expels magnetic field (Meissner effect); $H = I^{2}Rt$; an ohmmeter is a galvanometer in series with a cell and a variable resistor, with a scale that reads ohms.
-
-**P46. Transformer: principle, losses, numerical** (unit 18, $[3+2]$; section 3.18). *Why:* a Group C alternative in 2080 (step-down $2200\to220\ \text{V}$, $90\%$ efficient) and the lamination item in the 2079 model. *Answer:* mutual induction, $V_s/V_p = N_s/N_p = I_p/I_s$; losses — copper (thick wire), eddy current (laminated core), hysteresis (soft iron), flux leakage (coaxial windings); $8\ \text{kW}$ output at $90\%$ efficiency needs $8.9\ \text{kW}$ input.
+36. **Seebeck and Peltier effects; neutral and inversion temperatures; thermopile** (unit 15). *Why:* a three-hour unit with one definite graph. *Answer:* $E = a\theta + \tfrac12b\theta^{2}$ is a parabola; $E$ is maximum at the neutral temperature $\theta_n = -a/b$ and zero again at the inversion temperature $2\theta_n$ (cold junction at $0^{\circ}\text{C}$).
+37. **Hysteresis; dia-, para- and ferromagnetic materials; $\mu_r = 1 + \chi$** (unit 17). *Why:* a five-hour unit, mostly descriptive. *Answer:* the $B$–$H$ loop shows retentivity and coercivity, and its area is the energy lost per cycle per unit volume; soft iron (narrow loop) for transformer cores, steel (wide loop) for permanent magnets; $\chi$ is small negative, small positive and large positive for dia-, para- and ferromagnets.
+38. **Damped and forced oscillations; resonance; entropy and the second law; resolving power** (units 2, 5, 12). *Why:* short named bullets that usually come as one part of a longer question. *Answer:* damping makes the amplitude die away exponentially; resonance is maximum amplitude when the driving frequency equals the natural frequency (Barton's pendulums, the Tacoma bridge); $\Delta S = Q/T$ ($1\ \text{kg}$ of ice melting at $273\ \text{K}$: $1.23\times10^{3}\ \text{J K}^{-1}$); a telescope resolves $\theta = 1.22\lambda/D$.
+39. **Recent trends: P, S, Rayleigh and Love waves and the 2015 Gorkha earthquake; gravitational waves; Higgs boson; nanotechnology; GM tube and medical uses of radiation** (units 24, 25). *Why:* a six-hour unit and two descriptive bullets of unit 24, usually asked as short descriptive parts. *Answer:* P waves are longitudinal and fastest; S waves are transverse and cannot pass through the liquid outer core; Love and Rayleigh waves travel along the surface and do most of the damage — the magnitude 7.8 Gorkha earthquake of 25 April 2015 ruptured eastward from Gorkha district to beneath Kathmandu; gravitational waves are ripples in space-time, first detected by LIGO in 2015; the Higgs boson, found at CERN in 2012, explains why particles have mass; a GM tube counts ionizing particles by the avalanche each one sets off; radiation is used to diagnose and to treat cancer but damages cells and DNA.
 
 ## Chapter summary
 
-- The Grade 12 Physics paper is $75$ marks in three groups ($11\times1$, $8\times5$, $3\times8$); everything is compulsory and choice exists only as internal "Or" alternatives. NEB publishes no per-unit grid, so the teaching hours are only a proxy for weight.
-- Across the papers read (2078, 2079 model, 2080, 2081, 2082) the most stable supply is **optics in Group C** (interference, diffraction, polarization), **modern physics in Group B** (semiconductors, photons, electrons, radioactivity) and **electromagnetism** (induction, a.c., magnetic field) in both groups; Magnetic properties and Recent trends appear almost only as one-mark items.
-- The sixteen questions repeated across papers — rectification, thermocouple, Lenz's law, energy in an inductor, Bohr's theory, Doppler, the grating, the photoelectric equation, moment of inertia, Millikan, the bridge, Biot–Savart, Laplace, radioactive decay, surface energy, seismic waves — are the first things to master.
-- Two complete model sets, built to the grid, are solved in full; each question shows the law, the substitution with units and the answer, as a marker expects.
-- The forty-six predicted questions are ranked by frequency (Tier A, Tier B) and by gap (Tier C), and each states its reason; they are judgements, not leaks. Treat the gaps — uncertainty principle, damped oscillations, resolving power, hysteresis, gravitational waves — as a reminder that the board rotates.
-- In the hall: formula first, then substitution with units, then the boxed answer; draw the diagram before the algebra; convert to kelvin, metres and radians before calculating; read the "Or" options and choose the one you can finish.
+- **The grid never changes:** eleven one-mark MCQs (Q1 to Q11), eight five-mark questions (Q12 to Q19) and three eight-mark questions (Q20 to Q22), all compulsory, 3 hours for 75 marks — about $2.4$ minutes a mark.
+- **Marks follow teaching hours.** Mechanics 22 h (about 13 marks), Heat 12 h (about 7), Waves and Optics 26 h (about 15), Electricity and Magnetism 35 h (about 20), Modern Physics 33 h (about 19).
+- **Thirteen units are "very high" priority** and hold 81 of the 128 hours; their standard derivations ($ML^{2}/12$, $T = 2\pi\sqrt{m/k}$, $h = 2T\cos\theta/r\rho g$, $C_p - C_v = R$, $PV^{\gamma}$ = constant, $f = nv/2L$, $\beta = \lambda D/d$, $B = \mu_0nI$, $Z = \sqrt{R^{2} + (X_L - X_C)^{2}}$, $h\nu = \phi + eV_0$, $E_n = -13.6/n^{2}\ \text{eV}$, $N = N_0e^{-\lambda t}$) are the Tier 1 predictions.
+- **Recurring numerical types:** rotational KE and angular momentum; spring period and SHM energy; capillary height and terminal velocity; adiabatic and Carnot; pipe and string frequencies; Doppler; fringe width and grating; potentiometer, shunt and series resistance; solenoid field and the radius of a charge; LCR; stopping potential; Balmer wavelength; carbon-dating age.
+- **Two complete model papers** are solved in full; sit each in three hours, mark yourself by the steps in the solution (law, substitution with units, answer), and then return to Chapters 2 and 3 for the units where you lost marks.
+
+## Sources and verification
+
+::: note How this chapter was built
+**The pattern.** The grid (3 hours, 75 written marks, $11\times1 + 8\times5 + 3\times8$) and the unit hours are taken from the CDC Grade 12 Physics curriculum spine used throughout this book; the expected-marks column is our own arithmetic (area hours $\div$ 128 $\times$ 75), because the CDC publishes no per-unit marks grid.
+
+**The model papers.** Both model papers are original. They follow the grid and the usual mark-splits, but no question is copied from, or claimed to come from, any past paper. Every numerical was recomputed with the constants stated in the paper ($g = 9.8\ \text{m s}^{-2}$, $h = 6.63\times10^{-34}\ \text{J s}$, $e = 1.6\times10^{-19}\ \text{C}$, $m_e = 9.1\times10^{-31}\ \text{kg}$, $v = 340\ \text{m s}^{-1}$), and the answers follow the Grade 12 Physics chapters of this collection.
+
+**Predictions.** Each prediction states its reason. They rest on teaching hours and on how standard a question is, so they are a judgement, not a forecast; a topic that is not listed can still be set.
+:::
