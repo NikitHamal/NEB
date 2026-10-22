@@ -391,6 +391,71 @@
    "script": "tools/lessons/scripts/eng12/unit_06.py"
   },
   {
+   "id": "class-12/eng12/unit_07.mp4",
+   "file": "class-12/eng12/unit_07.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_07.mp4",
+     "subtitles": "class-12/eng12/unit_07.srt",
+     "start": 0.0,
+     "end": 560.63,
+     "mb": 21.7
+    }
+   ],
+   "poster": "class-12/eng12/unit_07.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 7,
+   "title": "A Very Old Man with Enormous Wings",
+   "subtitle": "Gabriel García Márquez · a short story",
+   "lang": "en",
+   "sections": [
+    "Márquez and magical realism",
+    "An angel in the mud",
+    "From wonder to sideshow",
+    "Decline and flight",
+    "Characters and themes",
+    "How the magic is told"
+   ],
+   "seconds": 560.6,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     50.2,
+     "Márquez and magical realism"
+    ],
+    [
+     108.73,
+     "An angel in the mud"
+    ],
+    [
+     175.53,
+     "From wonder to sideshow"
+    ],
+    [
+     287.43,
+     "Decline and flight"
+    ],
+    [
+     369.5,
+     "Characters and themes"
+    ],
+    [
+     440.2,
+     "How the magic is told"
+    ],
+    [
+     528.37,
+     "Quick recap"
+    ]
+   ],
+   "mb": 21.7,
+   "script": "tools/lessons/scripts/eng12/unit_07.py"
+  },
+  {
    "id": "class-12/eng12/unit_09.mp4",
    "file": "class-12/eng12/unit_09.mp4",
    "parts": [
