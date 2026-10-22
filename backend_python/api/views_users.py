@@ -1,7 +1,7 @@
 """Views Users extracted from views.py."""
 from .view_helpers import *  # noqa: F401,F403
 from collections import Counter
-from django.db.models import Avg, Max, Q, Sum
+from django.db.models import Count, Q, Sum
 from .services import record_username_change
 from .models import Bookmark, Notification, NEPAL_DISTRICTS, ResourceComment, StudyDocument, StudyQuiz, StudyQuizAttempt, StudyFlashcard, StudyFlashcardReview
 
@@ -211,6 +211,12 @@ def _analytics_short_resource(resource):
     }
 
 
+def _day_counts(field, days):
+    """Count(...) aggregates, one per [start, end) window, keyed d0..dN."""
+    return {f'd{i}': Count('pk', filter=Q(**{f'{field}__gte': start, f'{field}__lt': end}))
+            for i, (start, end) in enumerate(days)}
+
+
 @api_view(['GET'])
 def user_private_analytics(request):
     user, err = _require_user(request)
@@ -221,6 +227,8 @@ def user_private_analytics(request):
     day_ms = 86400000
     cutoff_30 = now - 30 * day_ms
     today_start = now - (now % day_ms)
+    # Oldest first: index 0 is 13 days ago, the last one is today.
+    days = [(today_start - i * day_ms, today_start - i * day_ms + day_ms) for i in range(13, -1, -1)]
 
     posts = Post.objects.filter(user=user, is_archived=False)
     replies = Reply.objects.filter(user=user, is_archived=False)
@@ -232,33 +240,52 @@ def user_private_analytics(request):
     flashcards = StudyFlashcard.objects.filter(user=user)
     flash_reviews = StudyFlashcardReview.objects.filter(user=user)
 
-    post_views = posts.aggregate(total=Sum('view_count')).get('total') or 0
-    post_likes_received = posts.aggregate(total=Sum('thumbs_up_count')).get('total') or 0
-    post_replies_received = posts.aggregate(total=Sum('reply_count')).get('total') or 0
-    resource_views = resources.aggregate(total=Sum('view_count')).get('total') or 0
-    resource_likes_received = resources.aggregate(total=Sum('like_count')).get('total') or 0
-    resource_comments_received = resources.aggregate(total=Sum('comment_count')).get('total') or 0
-    quiz_stats = quiz_attempts.aggregate(avg=Avg('score'), best=Max('score'), xp=Sum('xp_earned'))
-    total_attempt_questions = quiz_attempts.aggregate(total=Sum('total_questions')).get('total') or 0
-    total_attempt_score = quiz_attempts.aggregate(total=Sum('score')).get('total') or 0
-    quiz_accuracy = round((total_attempt_score / total_attempt_questions) * 100) if total_attempt_questions else 0
+    # One conditional aggregate per table instead of a COUNT/SUM per number (this view
+    # used to run ~110 queries, 70 of them for the 14-day activity chart).
+    post_agg = posts.aggregate(total=Count('pk'), views=Sum('view_count'), likes=Sum('thumbs_up_count'),
+                        replies=Sum('reply_count'), recent=Count('pk', filter=Q(created_at__gte=cutoff_30)),
+                        **_day_counts('created_at', days))
+    reply_agg = replies.aggregate(total=Count('pk'), recent=Count('pk', filter=Q(created_at__gte=cutoff_30)),
+                          **_day_counts('created_at', days))
+    res_agg = resources.aggregate(total=Count('pk'), views=Sum('view_count'), likes=Sum('like_count'),
+                              comments=Sum('comment_count'), **_day_counts('added_at', days))
+    quiz_agg = quiz_attempts.aggregate(total=Count('pk'), xp=Sum('xp_earned'), questions=Sum('total_questions'),
+                                 score=Sum('score'), recent=Count('pk', filter=Q(completed_at__gte=cutoff_30)),
+                                 **_day_counts('completed_at', days))
+    review_agg = flash_reviews.aggregate(easy=Count('pk', filter=Q(confidence='easy')),
+                                 medium=Count('pk', filter=Q(confidence='medium')),
+                                 hard=Count('pk', filter=Q(confidence='hard')),
+                                 recent=Count('pk', filter=Q(last_reviewed_at__gte=cutoff_30)),
+                                 **_day_counts('last_reviewed_at', days))
+    doc_agg = study_docs.aggregate(total=Count('pk'),
+                              summaries=Count('pk', filter=Q(summary_compact__gt='') | Q(summary_detailed__gt='')),
+                              mindmaps=Count('pk', filter=~Q(mindmap_json='')))
 
-    easy_reviews = flash_reviews.filter(confidence='easy').count()
-    medium_reviews = flash_reviews.filter(confidence='medium').count()
-    hard_reviews = flash_reviews.filter(confidence='hard').count()
+    post_views = post_agg['views'] or 0
+    post_likes_received = post_agg['likes'] or 0
+    post_replies_received = post_agg['replies'] or 0
+    resource_views = res_agg['views'] or 0
+    resource_likes_received = res_agg['likes'] or 0
+    resource_comments_received = res_agg['comments'] or 0
+    total_attempt_questions = quiz_agg['questions'] or 0
+    total_attempt_score = quiz_agg['score'] or 0
+    quiz_accuracy = round((total_attempt_score / total_attempt_questions) * 100) if total_attempt_questions else 0
+    has_attempts = quiz_agg['total'] > 0
+
+    easy_reviews = review_agg['easy']
+    medium_reviews = review_agg['medium']
+    hard_reviews = review_agg['hard']
     reviewed_total = easy_reviews + medium_reviews + hard_reviews
 
     activity_days = []
     max_activity = 1
-    for i in range(13, -1, -1):
-        start = today_start - i * day_ms
-        end = start + day_ms
+    for n, i in enumerate(range(13, -1, -1)):
+        key = f'd{n}'
         counts = {
-            'posts': posts.filter(created_at__gte=start, created_at__lt=end).count(),
-            'replies': replies.filter(created_at__gte=start, created_at__lt=end).count(),
-            'resources': resources.filter(added_at__gte=start, added_at__lt=end).count(),
-            'study': quiz_attempts.filter(completed_at__gte=start, completed_at__lt=end).count()
-                + flash_reviews.filter(last_reviewed_at__gte=start, last_reviewed_at__lt=end).count(),
+            'posts': post_agg[key],
+            'replies': reply_agg[key],
+            'resources': res_agg[key],
+            'study': quiz_agg[key] + review_agg[key],
         }
         total = sum(counts.values())
         max_activity = max(max_activity, total)
@@ -282,22 +309,23 @@ def user_private_analytics(request):
             if cleaned:
                 subject_counter[cleaned] += 1
 
-    summaries_count = study_docs.filter(Q(summary_compact__gt='') | Q(summary_detailed__gt='')).count()
-    mindmaps_count = study_docs.exclude(mindmap_json='').count()
+    summaries_count = doc_agg['summaries']
+    mindmaps_count = doc_agg['mindmaps']
+    quizzes_count = quizzes.count()
 
     suggestions = []
-    docs_count = study_docs.count()
+    docs_count = doc_agg['total']
     if docs_count and summaries_count < docs_count:
         suggestions.append('Generate compact summaries for documents that still have no summary.')
     if docs_count and mindmaps_count < docs_count:
         suggestions.append('Create mindmaps for your main notes to see topic relationships faster.')
-    if quizzes.count() and not quiz_attempts.exists():
+    if quizzes_count and not has_attempts:
         suggestions.append('Take at least one generated quiz to start tracking exam readiness.')
-    if quiz_attempts.exists() and quiz_accuracy < 70:
+    if has_attempts and quiz_accuracy < 70:
         suggestions.append('Review hard flashcards, then generate a fresh quiz from the same document.')
     if hard_reviews:
         suggestions.append(f'Revisit {hard_reviews} hard flashcard review{"" if hard_reviews == 1 else "s"} today.')
-    if not resources.exists():
+    if not res_agg['total']:
         suggestions.append('Upload one useful resource to build your contribution footprint.')
     if not suggestions:
         suggestions.append('Keep using Study Lab regularly; your recent learning loop looks healthy.')
@@ -305,12 +333,12 @@ def user_private_analytics(request):
     return Response({
         'username': user.username,
         'stats': {
-            'posts': posts.count(),
-            'replies': replies.count(),
+            'posts': post_agg['total'],
+            'replies': reply_agg['total'],
             'postViews': post_views,
             'postLikesReceived': post_likes_received,
             'postRepliesReceived': post_replies_received,
-            'resources': resources.count(),
+            'resources': res_agg['total'],
             'resourceViews': resource_views,
             'resourceLikesReceived': resource_likes_received,
             'resourceCommentsReceived': resource_comments_received,
@@ -322,18 +350,18 @@ def user_private_analytics(request):
             'studyDocs': docs_count,
             'summaries': summaries_count,
             'mindmaps': mindmaps_count,
-            'quizzes': quizzes.count(),
-            'quizAttempts': quiz_attempts.count(),
+            'quizzes': quizzes_count,
+            'quizAttempts': quiz_agg['total'],
             'quizAccuracy': quiz_accuracy,
-            'quizXp': quiz_stats.get('xp') or 0,
+            'quizXp': quiz_agg['xp'] or 0,
             'flashcards': flashcards.count(),
             'flashReviews': reviewed_total,
             'easyReviews': easy_reviews,
             'mediumReviews': medium_reviews,
             'hardReviews': hard_reviews,
-            'recentPosts': posts.filter(created_at__gte=cutoff_30).count(),
-            'recentReplies': replies.filter(created_at__gte=cutoff_30).count(),
-            'recentStudyActions': quiz_attempts.filter(completed_at__gte=cutoff_30).count() + flash_reviews.filter(last_reviewed_at__gte=cutoff_30).count(),
+            'recentPosts': post_agg['recent'],
+            'recentReplies': reply_agg['recent'],
+            'recentStudyActions': quiz_agg['recent'] + review_agg['recent'],
             'contributionScore': user.contribution_score,
             'likesGiven': user.likes_given_count,
         },
@@ -379,7 +407,9 @@ def user_followers_list(request, user_id):
     requesting_user = _get_user_from_request(request)
     if not _can_view_locked_profile(requesting_user, target_user):
         return Response({'error': 'This profile is private'}, status=403)
-    follows = Follow.objects.filter(following=target_user).select_related('follower')
+    # FollowSerializer renders both ends of every row; joining only one of them cost a
+    # query per row for the other.
+    follows = Follow.objects.filter(following=target_user).select_related('follower', 'following')
     return _paginated_response(request, follows, FollowSerializer, default_page_size=50)
 
 @api_view(['GET'])
@@ -397,7 +427,7 @@ def user_following_list(request, user_id):
     requesting_user = _get_user_from_request(request)
     if not _can_view_locked_profile(requesting_user, target_user):
         return Response({'error': 'This profile is private'}, status=403)
-    follows = Follow.objects.filter(follower=target_user).select_related('following')
+    follows = Follow.objects.filter(follower=target_user).select_related('follower', 'following')
     return _paginated_response(request, follows, FollowSerializer, default_page_size=50)
 
 @api_view(['GET', 'POST'])
