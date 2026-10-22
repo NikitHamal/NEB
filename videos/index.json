@@ -1279,6 +1279,78 @@
    "script": "tools/lessons/scripts/eng12/unit_12.py"
   },
   {
+   "id": "class-12/math12/unit_01.mp4",
+   "file": "class-12/math12/unit_01.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_01.part1.mp4",
+     "subtitles": "class-12/math12/unit_01.part1.srt",
+     "start": 0.0,
+     "end": 453.067,
+     "mb": 14.0
+    },
+    {
+     "file": "class-12/math12/unit_01.part2.mp4",
+     "subtitles": "class-12/math12/unit_01.part2.srt",
+     "start": 453.067,
+     "end": 975.267,
+     "mb": 16.3
+    }
+   ],
+   "poster": "class-12/math12/unit_01.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 1,
+   "title": "Permutation and Combination",
+   "subtitle": "Counting without listing",
+   "lang": "en",
+   "sections": [
+    "Basic principle of counting",
+    "Permutations of distinct objects",
+    "Objects not all different",
+    "Circular permutations and repetition",
+    "Combinations",
+    "Properties of combination"
+   ],
+   "seconds": 975.3,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     64.87,
+     "Basic principle of counting"
+    ],
+    [
+     184.9,
+     "Permutations of distinct objects"
+    ],
+    [
+     346.13,
+     "Objects not all different"
+    ],
+    [
+     452.3,
+     "Circular permutations and repetition"
+    ],
+    [
+     610.03,
+     "Combinations"
+    ],
+    [
+     713.0,
+     "Properties of combination"
+    ],
+    [
+     923.27,
+     "Quick recap"
+    ]
+   ],
+   "mb": 30.2,
+   "script": "tools/lessons/scripts/math12/unit_01.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
