@@ -1,6 +1,71 @@
 {
  "videos": [
   {
+   "id": "class-12/cs12/unit_04.mp4",
+   "file": "class-12/cs12/unit_04.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_04.mp4",
+     "subtitles": "class-12/cs12/unit_04.srt",
+     "start": 0.0,
+     "end": 475.5,
+     "mb": 17.5
+    }
+   ],
+   "poster": "class-12/cs12/unit_04.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 4,
+   "title": "Programming in C",
+   "subtitle": "Functions, recursion, structures, pointers and files",
+   "lang": "en",
+   "sections": [
+    "Functions",
+    "Storage classes",
+    "Recursion",
+    "Structures and unions",
+    "Pointers",
+    "Data files"
+   ],
+   "seconds": 475.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.3,
+     "Functions"
+    ],
+    [
+     88.7,
+     "Storage classes"
+    ],
+    [
+     139.5,
+     "Recursion"
+    ],
+    [
+     194.27,
+     "Structures and unions"
+    ],
+    [
+     262.5,
+     "Pointers"
+    ],
+    [
+     334.43,
+     "Data files"
+    ],
+    [
+     442.23,
+     "Quick recap"
+    ]
+   ],
+   "mb": 17.5,
+   "script": "tools/lessons/scripts/cs12/unit_04.py"
+  },
+  {
    "id": "class-12/eng12/unit_01.mp4",
    "file": "class-12/eng12/unit_01.mp4",
    "parts": [
