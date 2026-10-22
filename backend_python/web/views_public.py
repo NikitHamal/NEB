@@ -434,7 +434,8 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
     sort_by = request.GET.get('sort', 'relevant')
     current_tab = request.GET.get('tab', 'digital')
-    if current_tab not in ['digital', 'community', 'categories', 'interactive', 'marketplace']:
+    from nebians.features import MARKETPLACE_ENABLED
+    if current_tab not in ['digital', 'community', 'categories', 'interactive', 'marketplace'] or (current_tab == 'marketplace' and not MARKETPLACE_ENABLED):
         current_tab = 'digital'
 
     pricing = request.GET.get('pricing', '').strip().lower()
