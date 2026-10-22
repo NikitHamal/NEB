@@ -96,8 +96,8 @@ def seed():
     from api.models import (
         Announcement, BlogComment, Bookmark, Follow, FollowRequest, Notification, PaymentVerification,
         Poll, PollOption, PollVote, Post, PostImage, PostLike, PostMedia, Reply, ReplyLike, Resource,
-        ResourceComment, ResourceCommentLike, ResourceCommentMedia, ResourceLike, User, UserAuthToken,
-        UserPhoto,
+        ResourceComment, ResourceCommentLike, ResourceCommentMedia, ResourceLike, StudyDocument, StudyFlashcard,
+        StudyFlashcardReview, StudyQuiz, StudyQuizAttempt, User, UserAuthToken, UserPhoto,
     )
 
     rng = random.Random(SEED)
@@ -486,6 +486,32 @@ def seed():
                 blog_comments.append(BlogComment(id=new_id(), announcement_id=a.id, author_id=pick_user(authors).id,
                                                  text=text(3, 40), created_at=a.published_at + rng.randint(60_000, 5 * DAY)))
 
+    # ------------------------------------------------------------------ study lab (the viewer's analytics)
+    docs, quizzes, attempts, cards, reviews = [], [], [], [], []
+    for u in (viewer, teacher):
+        for d in range(6):
+            doc = StudyDocument(id=new_id(), user_id=u.id, title=f'Notes {d}', status='ready',
+                                summary_compact=text(20, 60) if d < 3 else '', summary_detailed=text(40, 90) if d == 1 else '',
+                                mindmap_json='{"root": "x"}' if d in (0, 4) else '', created_at=ago(60), updated_at=ago(30))
+            docs.append(doc)
+            if d < 4:
+                quiz = StudyQuiz(id=new_id(), document_id=doc.id, user_id=u.id, title=f'Quiz {d}', question_count=10,
+                                 created_at=ago(30))
+                quizzes.append(quiz)
+                for a in range(rng.randint(0, 4)):
+                    attempts.append(StudyQuizAttempt(id=new_id(), quiz_id=quiz.id, user_id=u.id, score=rng.randint(2, 10),
+                                                     total_questions=10, xp_earned=rng.randint(5, 50),
+                                                     completed_at=ago(20, recent_bias=1.0), created_at=ago(20)))
+            for c in range(5):
+                card = StudyFlashcard(id=new_id(), document_id=doc.id, user_id=u.id, front=text(3, 8), back=text(3, 12),
+                                      card_number=c, created_at=ago(30))
+                cards.append(card)
+                if rng.random() < 0.7:
+                    reviews.append(StudyFlashcardReview(id=new_id(), flashcard_id=card.id, user_id=u.id,
+                                                        confidence=rng.choice(('easy', 'medium', 'hard')),
+                                                        review_count=rng.randint(1, 5),
+                                                        last_reviewed_at=ago(16, recent_bias=1.0), next_review_at=0))
+
     # ------------------------------------------------------------------ denormalised counters
     post_counts, reply_counts = {}, {}
     for p in posts:
@@ -544,6 +570,11 @@ def seed():
         UserPhoto.objects.bulk_create(photos, batch_size=batch)
         Announcement.objects.bulk_create(news, batch_size=batch)
         BlogComment.objects.bulk_create(blog_comments, batch_size=batch)
+        StudyDocument.objects.bulk_create(docs)
+        StudyQuiz.objects.bulk_create(quizzes)
+        StudyQuizAttempt.objects.bulk_create(attempts)
+        StudyFlashcard.objects.bulk_create(cards)
+        StudyFlashcardReview.objects.bulk_create(reviews)
     with connection.cursor() as cur:
         cur.execute('ANALYZE')
     print(f'inserted in {time.time() - t0:.1f}s:', ', '.join(f'{m.__name__}={m.objects.count()}' for m in (
