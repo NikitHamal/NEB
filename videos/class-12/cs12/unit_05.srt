@@ -1,0 +1,348 @@
+1
+00:00:00,000 --> 00:00:06,903
+In an ordinary C program, data often sits out in the open, and any function can change it.
+
+2
+00:00:06,903 --> 00:00:13,999
+One buggy function sets a student's marks to minus five hundred, and every report that reads it is now wrong.
+
+3
+00:00:14,200 --> 00:00:18,837
+Object oriented programming seals the data inside an object.
+
+4
+00:00:18,837 --> 00:00:23,876
+The only way in is through the object's own methods, which can check what they are given.
+
+5
+00:00:23,876 --> 00:00:26,172
+Minus five hundred is simply rejected.
+
+6
+00:00:31,667 --> 00:00:37,193
+Welcome to Class 12 Computer Science, Unit 5: Object Oriented Programming.
+
+7
+00:00:39,567 --> 00:00:40,675
+Six parts.
+
+8
+00:00:40,675 --> 00:00:42,355
+Programming paradigms.
+
+9
+00:00:42,355 --> 00:00:44,113
+Classes and objects.
+
+10
+00:00:44,113 --> 00:00:46,691
+Encapsulation and abstraction.
+
+11
+00:00:46,691 --> 00:00:47,902
+Inheritance.
+
+12
+00:00:47,902 --> 00:00:49,165
+Polymorphism.
+
+13
+00:00:49,165 --> 00:00:52,400
+And the advantages and applications of OOP.
+
+14
+00:00:56,733 --> 00:01:00,094
+A paradigm is a style of organising a program.
+
+15
+00:01:00,094 --> 00:01:08,388
+Procedural programming is a sequence of instructions grouped into functions, usually sharing global data, designed top down.
+
+16
+00:01:08,388 --> 00:01:17,724
+Structured programming adds discipline: only sequence, selection and loops, no goto, and modules that talk through parameters.
+
+17
+00:01:17,724 --> 00:01:18,935
+C is both.
+
+18
+00:01:18,935 --> 00:01:29,240
+Object oriented programming organises the program around the data instead: objects that bundle data with the functions that act on it, designed bottom up.
+
+19
+00:01:30,467 --> 00:01:31,302
+Compare.
+
+20
+00:01:31,302 --> 00:01:39,739
+In C, the data and the area function are separate, and nothing stops another part of the program writing a negative length.
+
+21
+00:01:39,739 --> 00:01:49,110
+In C plus plus, the length and breadth are private inside the class; the only way in is the constructor and the only way out is area.
+
+22
+00:01:53,900 --> 00:02:00,230
+A class is a user defined type that binds data members and member functions under one name.
+
+23
+00:02:00,230 --> 00:02:04,045
+It is only a blueprint: it uses no memory for data.
+
+24
+00:02:04,045 --> 00:02:11,831
+An object is an instance, a real variable of that class, created at run time with its own copy of the data.
+
+25
+00:02:11,831 --> 00:02:14,821
+One Student class, three student objects.
+
+26
+00:02:16,033 --> 00:02:21,985
+A constructor is a member function with the same name as the class and no return type.
+
+27
+00:02:21,985 --> 00:02:27,753
+It runs automatically when an object is created, to give the data its starting values.
+
+28
+00:02:27,753 --> 00:02:31,113
+You can have a default constructor and a parameterised one.
+
+29
+00:02:31,113 --> 00:02:37,311
+The destructor, with a tilde, runs automatically when the object is destroyed.
+
+30
+00:02:37,311 --> 00:02:43,768
+And a static member has one copy shared by every object: here, a count of students created.
+
+31
+00:02:48,567 --> 00:02:54,194
+Encapsulation wraps data and its functions into one unit, the class.
+
+32
+00:02:54,194 --> 00:02:56,316
+The result is data hiding.
+
+33
+00:02:56,316 --> 00:02:59,975
+Private members can be used only inside the class.
+
+34
+00:02:59,975 --> 00:03:04,259
+Protected members are also visible to derived classes.
+
+35
+00:03:04,259 --> 00:03:07,800
+Public members form the interface everyone can use.
+
+36
+00:03:07,800 --> 00:03:10,802
+Outside code reaches only the public part.
+
+37
+00:03:12,033 --> 00:03:17,035
+Because marks is private, every change goes through a public setter that can check it.
+
+38
+00:03:17,035 --> 00:03:20,394
+Set a mark of one hundred and five: rejected.
+
+39
+00:03:20,394 --> 00:03:24,782
+Write to marks directly from outside: the compiler refuses.
+
+40
+00:03:24,782 --> 00:03:31,709
+Abstraction is the other side: the user sees only what the object does, not how it is stored.
+
+41
+00:03:31,709 --> 00:03:36,192
+Encapsulation is how it is hidden; abstraction is what is shown.
+
+42
+00:03:40,967 --> 00:03:48,456
+Inheritance lets a derived class acquire everything in a base class, then add or redefine members.
+
+43
+00:03:48,456 --> 00:03:54,810
+It gives reuse, and expresses an is a relationship: a teacher is a person.
+
+44
+00:03:54,810 --> 00:03:58,364
+Single inheritance: one base, one derived.
+
+45
+00:03:58,364 --> 00:04:00,383
+Multilevel: a chain.
+
+46
+00:04:00,383 --> 00:04:03,677
+Multiple: one class with two bases.
+
+47
+00:04:03,677 --> 00:04:07,049
+Hierarchical: one base, many derived.
+
+48
+00:04:07,049 --> 00:04:08,300
+And hybrid mixes them.
+
+49
+00:04:09,533 --> 00:04:18,714
+Create a Teacher object and the Person constructor runs first, then the Teacher constructor: build the foundation before the house.
+
+50
+00:04:18,714 --> 00:04:23,441
+When the object dies, destructors run in exactly the reverse order.
+
+51
+00:04:23,441 --> 00:04:24,962
+A favourite one mark question.
+
+52
+00:04:29,733 --> 00:04:35,086
+Polymorphism means many forms: one name, several behaviours.
+
+53
+00:04:35,086 --> 00:04:40,841
+With function overloading, several functions share a name but differ in their parameters.
+
+54
+00:04:40,841 --> 00:04:49,461
+Call volume with three integers, and the compiler, before the program even runs, picks the matching version: sixty.
+
+55
+00:04:49,461 --> 00:04:51,380
+That is compile time polymorphism.
+
+56
+00:04:52,600 --> 00:04:54,203
+Run time polymorphism.
+
+57
+00:04:54,203 --> 00:04:57,120
+A base class pointer holds a derived object.
+
+58
+00:04:57,120 --> 00:05:04,893
+Call show, which is not virtual: the compiler binds it early, by the pointer's type, and the base version runs.
+
+59
+00:05:04,893 --> 00:05:13,435
+Call draw, which is virtual: the choice waits until the program runs, looks at the real object, and the derived version runs.
+
+60
+00:05:13,435 --> 00:05:19,173
+That late, dynamic binding is what lets one loop treat teachers and students differently.
+
+61
+00:05:20,400 --> 00:05:22,836
+Overloading against overriding.
+
+62
+00:05:22,836 --> 00:05:28,657
+Overloading is in one class, with different signatures, resolved at compile time.
+
+63
+00:05:28,657 --> 00:05:37,784
+Overriding redefines a base function in a derived class with the identical signature, resolved at run time, and needs the word virtual.
+
+64
+00:05:37,784 --> 00:05:43,721
+Objects interact by sending messages: calling a member function on a named object.
+
+65
+00:05:48,500 --> 00:05:49,895
+Why use objects?
+
+66
+00:05:49,895 --> 00:05:53,163
+Tested classes can be reused and extended.
+
+67
+00:05:53,163 --> 00:05:55,403
+Private data is safe.
+
+68
+00:05:55,403 --> 00:05:58,606
+A bug can only be in the class that owns the data.
+
+69
+00:05:58,606 --> 00:06:03,150
+Objects mirror real things, so designs are easier to discuss.
+
+70
+00:06:03,150 --> 00:06:07,239
+New features often mean a new class, not edits everywhere.
+
+71
+00:06:07,239 --> 00:06:09,908
+And teams can split the work by class.
+
+72
+00:06:09,908 --> 00:06:14,750
+The costs: larger, slightly slower programs and more design time.
+
+73
+00:06:15,967 --> 00:06:24,653
+And where it is used: graphical interfaces, games, simulations, web frameworks, banking and enterprise systems.
+
+74
+00:06:24,653 --> 00:06:30,193
+For a single formula, though, a short procedural program is still the right tool.
+
+75
+00:06:32,600 --> 00:06:33,370
+Pause and think.
+
+76
+00:06:40,667 --> 00:06:45,707
+The base class constructor runs first; destructors run in the reverse order.
+
+77
+00:06:47,700 --> 00:06:48,135
+One more.
+
+78
+00:06:55,767 --> 00:07:01,069
+Run time polymorphism: the version is chosen from the real object while the program runs.
+
+79
+00:07:03,267 --> 00:07:04,336
+Quick recap.
+
+80
+00:07:04,336 --> 00:07:05,456
+Paradigms.
+
+81
+00:07:05,456 --> 00:07:09,727
+Classes, objects, constructors and destructors.
+
+82
+00:07:09,727 --> 00:07:12,227
+Encapsulation and abstraction.
+
+83
+00:07:12,227 --> 00:07:14,349
+The five kinds of inheritance.
+
+84
+00:07:14,349 --> 00:07:17,548
+And polymorphism, at compile time and at run time.
+
+85
+00:07:21,733 --> 00:07:24,130
+That was object oriented programming.
+
+86
+00:07:24,130 --> 00:07:30,185
+Next, the software process model: how real software is planned, built and tested.
+
+87
+00:07:30,185 --> 00:07:30,815
+See you there.
+
