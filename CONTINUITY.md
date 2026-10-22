@@ -29,9 +29,12 @@ Same responses, fewer queries; measured with `backend_python/scripts/perf_seed.p
   `res_appr_lead_added_idx`/`_views_idx`, posts discussed, follows newest-first, users school/class)
   and `0150_perf_author_count_indexes`.
 - **Budgets:** `api/test_api_query_budget.py`, `api/test_people_suggestions.py`, `api/test_feed_pools.py`.
-- **Found, not fixed (behaviour):** `GET /api/resources/<id>/comments/` answers 400 "Content required"
-  since 79720b2d dropped its `return Response({'comments': ...})`; `api/users/search/` does not exist
-  (app @mentions get 404); the app's `news/` calls pay a 308 to `/app/news/`.
+- **Fixed after the pass (9109f351):** `GET /api/resources/<id>/comments/` answers again (79720b2d had
+  dropped its `return`); `api/users/search/` exists for the app's @mentions; notifications page
+  past 30 (`has_more` from a one-row peek). The app now calls `app/news/` directly.
+- **The app uses `api/users/suggestions/`** from the Android speed pass (see
+  `ANDROID_UI_CONTINUITY.md` §14); until this backend is deployed it falls back to the old requests.
+- **Deploy:** run `migrate` (0149, 0150) with the deploy; both add or swap indexes only.
 
 ### Syllabus with the books' chapters; marketplace switched off (Oct 22, 2026)
 
