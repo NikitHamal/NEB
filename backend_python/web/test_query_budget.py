@@ -121,3 +121,7 @@ class SignedInQueryBudgetTests(TestCase):
             with self.subTest(url=url):
                 cache.clear()
                 self.assertBudget(url, budget)
+
+    def test_subject_page_joins_uploaders(self):
+        r = self.assertBudget('/app/subject/class-12/accountancy/', 19)
+        self.assertContains(r, 'Accountancy notes 11')
