@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:03,932
+Every body paragraph is built with the same four moves.
+
+2
+00:00:03,932 --> 00:00:08,125
+Point: the topic sentence, one idea stated flatly.
+
+3
+00:00:08,125 --> 00:00:12,226
+Evidence: an example, a fact, a case.
+
+4
+00:00:12,226 --> 00:00:15,559
+Explain: why the evidence proves the point.
+
+5
+00:00:15,559 --> 00:00:18,684
+Link: a bridge to the next paragraph.
+
+6
+00:00:18,684 --> 00:00:22,005
+Most candidates write the first two and stop.
+
+7
+00:00:22,005 --> 00:00:27,473
+The third is where the content marks are, and the fourth is where the organisation marks are.
+

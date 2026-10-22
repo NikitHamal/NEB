@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:10,130
+An essay that argues needs a thesis: one sentence, usually the last of the introduction, that states your position and signposts the reasons.
+
+2
+00:00:10,130 --> 00:00:15,494
+In this essay I will discuss examinations is an announcement, not a thesis.
+
+3
+00:00:15,494 --> 00:00:19,752
+Examinations are a very important topic takes no position.
+
+4
+00:00:19,752 --> 00:00:23,893
+Examinations are good and bad takes no position either.
+
+5
+00:00:23,893 --> 00:00:35,000
+Here is a thesis: examinations measure memory rather than understanding, and the fear they create does more damage to learning than the discipline they impose is worth.
+

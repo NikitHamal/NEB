@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,072
+The whole essay has the shape of an hourglass.
+
+2
+00:00:03,072 --> 00:00:12,187
+The introduction narrows: a general opening, then the issue, then the thesis, in fifty or sixty words.
+
+3
+00:00:12,187 --> 00:00:21,770
+The body is the straight part and the longest, two hundred to two hundred and sixty words: a paragraph for each reason, and one for the other side, answered.
+
+4
+00:00:21,770 --> 00:00:30,234
+The conclusion widens back out: the position restated in new words, what follows from it, and a last line worth remembering.
+

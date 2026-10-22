@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,322
+Only C takes a position that a reasonable person could dispute.
+
