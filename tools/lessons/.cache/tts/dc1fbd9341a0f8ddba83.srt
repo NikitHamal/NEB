@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,335
+A scripting language is interpreted line by line as it runs.
+
+2
+00:00:04,335 --> 00:00:07,122
+On the web there are two places a script can run.
+
+3
+00:00:07,122 --> 00:00:13,763
+Client side scripts, in JavaScript, are downloaded with the page and run in the visitor's browser.
+
+4
+00:00:13,763 --> 00:00:22,265
+Server side scripts, like PHP, run on the web server before the page is sent; the visitor only ever sees their output.
+

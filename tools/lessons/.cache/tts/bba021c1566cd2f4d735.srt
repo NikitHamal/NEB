@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,106
+Results day.
+
+2
+00:00:01,106 --> 00:00:04,830
+You type your symbol number into the board's website and press check.
+
+3
+00:00:04,830 --> 00:00:06,510
+Two kinds of program run.
+
+4
+00:00:06,510 --> 00:00:11,432
+In your browser, JavaScript checks that you typed a sensible number, instantly.
+
+5
+00:00:11,432 --> 00:00:18,528
+Then the request travels to the server, where PHP looks you up in a database and builds a page just for you.
+

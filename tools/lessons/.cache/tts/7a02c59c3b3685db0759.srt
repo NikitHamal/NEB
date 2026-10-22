@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,325
+An object bundles data, its properties, with functions, its methods.
+
+2
+00:00:05,325 --> 00:00:12,552
+A constructor function builds objects: new Student creates one with a name, marks, and a result method.
+
+3
+00:00:12,552 --> 00:00:18,945
+JavaScript is called object based: it has objects and built in ones like Math and Array.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,145
+Quick recap.
+
+2
+00:00:01,145 --> 00:00:04,908
+JavaScript in the browser, PHP on the server.
+
+3
+00:00:04,908 --> 00:00:08,841
+JavaScript types, operators and control structures.
+
+4
+00:00:08,841 --> 00:00:10,807
+Events and validation.
+
+5
+00:00:10,807 --> 00:00:13,554
+PHP syntax and classes.
+
+6
+00:00:13,554 --> 00:00:19,752
+And the five steps of database connectivity, with prepared statements against SQL injection.
+

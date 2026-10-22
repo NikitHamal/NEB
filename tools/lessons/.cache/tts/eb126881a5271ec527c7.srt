@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:05,338
+Every PHP program that uses a database follows the same five steps.
+
+2
+00:00:05,338 --> 00:00:10,026
+Connect, with the host, user, password and database name.
+
+3
+00:00:10,026 --> 00:00:11,354
+Check the connection.
+
+4
+00:00:11,354 --> 00:00:12,421
+Send a query.
+
+5
+00:00:12,421 --> 00:00:18,671
+Fetch the rows, usually in a while loop, because fetch returns false when the rows run out.
+
+6
+00:00:18,671 --> 00:00:20,260
+And close the connection.
+

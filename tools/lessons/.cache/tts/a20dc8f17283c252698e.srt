@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,963
+Compare them.
+
+2
+00:00:00,963 --> 00:00:11,510
+Client side code is visible to anyone, answers instantly and costs the server nothing, but cannot reach the database and can be switched off by the user.
+
+3
+00:00:11,510 --> 00:00:19,544
+Server side code is hidden and secure, and can use the database, but every action needs a trip to the server.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,304
+A trap when switching languages.
+
+2
+00:00:02,304 --> 00:00:08,632
+In PHP, plus always adds: the string five plus three is the number eight.
+
+3
+00:00:08,632 --> 00:00:12,018
+To join strings, PHP uses a dot.
+
+4
+00:00:12,018 --> 00:00:16,276
+JavaScript does the opposite: plus with a string joins.
+
+5
+00:00:16,276 --> 00:00:23,658
+And remember precedence: multiplication before addition, so two plus three times four is fourteen.
+

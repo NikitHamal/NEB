@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,833
+jQuery is a JavaScript library whose motto is write less, do more.
+
+2
+00:00:05,833 --> 00:00:16,289
+It wraps everything in one function, the dollar sign: select by id, change content, handle clicks, and animate, each in a short line.
+

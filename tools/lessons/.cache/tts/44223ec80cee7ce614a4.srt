@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,757
+That was web technology.
+
+2
+00:00:01,757 --> 00:00:07,734
+Next, programming in C: functions, pointers, structures and files.
+
+3
+00:00:07,734 --> 00:00:08,658
+See you there.
+

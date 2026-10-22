@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,132
+Operators.
+
+2
+00:00:01,132 --> 00:00:04,583
+Arithmetic, including percent for the remainder.
+
+3
+00:00:04,583 --> 00:00:14,440
+Then a favourite exam question: seventeen double equals the string seventeen is true, because JavaScript converts the string to a number first.
+
+4
+00:00:14,440 --> 00:00:17,565
+Triple equals is false: the types differ.
+
+5
+00:00:17,565 --> 00:00:21,184
+Use triple equals unless you really want the conversion.
+
+6
+00:00:21,184 --> 00:00:23,632
+And plus between strings joins them.
+
