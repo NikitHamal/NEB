@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,432
+Six kinds of visual.
+
+2
+00:00:01,432 --> 00:00:05,091
+A bar chart: find the tallest and the shortest bar.
+
+3
+00:00:05,091 --> 00:00:09,023
+A grouped bar chart: the widest and narrowest gaps.
+
+4
+00:00:09,023 --> 00:00:13,802
+A line graph: the overall direction, peaks, and crossing points.
+
+5
+00:00:13,802 --> 00:00:18,554
+A pie chart: the biggest slice, and anything over half.
+
+6
+00:00:18,554 --> 00:00:22,226
+A table: the extremes in each row and column.
+
+7
+00:00:22,226 --> 00:00:27,070
+A flow chart: how many stages, and where it starts and ends.
+
+8
+00:00:27,070 --> 00:00:35,481
+And before you write a word, answer three questions from the labels: what is measured, in what units, and for whom over what period.
+

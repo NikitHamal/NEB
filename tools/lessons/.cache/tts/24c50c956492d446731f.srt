@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,419
+That was guided writing.
+
+2
+00:00:01,419 --> 00:00:07,968
+Next: functional writing — letters to the editor, emails, CVs and applications.
+
+3
+00:00:07,968 --> 00:00:08,932
+See you there.
+

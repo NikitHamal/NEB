@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,382
+A model answer for the two line graph.
+
+2
+00:00:02,382 --> 00:00:12,630
+The opening paraphrases the title: the graph compares grade eleven enrolment in Science and Management at a Butwal school, from twenty seventy four to twenty eighty one.
+
+3
+00:00:12,630 --> 00:00:17,343
+The overview names the pattern, with no figures: a reversal.
+
+4
+00:00:17,343 --> 00:00:21,276
+Science began far smaller and ended far larger.
+

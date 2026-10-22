@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:19,361
+Then the details, grouped by period, not year by year: Science grew from forty two to sixty eight, dipped to fifty eight, then rose sharply to a hundred and thirty eight, more than three times its start, while Management fell to seventy and then fluctuated between seventy two and seventy six.
+
+2
+00:00:19,361 --> 00:00:20,846
+Name the crossing point.
+
+3
+00:00:20,846 --> 00:00:26,406
+And close: by twenty eighty one Science outnumbered Management by almost two to one.
+
