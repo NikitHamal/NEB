@@ -22,7 +22,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 | bio12 | units 1–10 all scripted, narrated, frame-checked (helpers `_bio.py`, `_phys2.py`, `_gen.py`, `_emb.py`, `_hum.py`) |
 | math12 | units 1–17 all scripted, narrated, frame-checked (helpers `_m.py`) |
 | cs12 | units 1–7 scripted, narrated, frame-checked (helpers `_cs.py`: code panels, db tables, browser, terminal); pushed one unit per commit |
-| eng12 | units 1–6 scripted, narrated, frame-checked, pushed (helpers `_en.py`: quote, card, timeline, house/fence, arc_curve, device_slide, transform_strip); unit 7 rendering; 8–35 to do (poems 8–12, essays 13–17, plays 18–20, grammar 21–30, writing 31–35) |
+| eng12 | units 1–15 scripted, narrated, frame-checked, pushed (helpers `_en.py`: quote, card, timeline, house/fence, chip, arc_curve, device_slide, transform_strip); 16–20 scripted, frame review and push in progress; 21–35 to do (grammar 21–30, writing 31–35) |
 | then | class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
@@ -30,16 +30,18 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
   `DicotLeafTS`, `MonocotLeafTS`, `Flow` (moving dots), `Captions` (single caption slot — use it instead of stacking labels).
 - Do not use `.set_opacity(1)` to un-dim groups that contain stroke-only circles: it fills them with Manim's default red.
   Use `save_state()` + `fade()` + `Restore`.
-- A CPU box (molab marimo kernel, 20 cores) may be used for frame checks; it is shared with a festival-reel agent, so run
-  renders under `nice` with at most a few parallel jobs.
-- **Full videos are now rendered on the molab box and pushed** (user request, Oct 22 2026). Box: `bash /root/neb/vbuild.sh P scripts/<book>/unit_NN.py …` runs `build.py` (1080p30, NO_INDEX=1) P at a time, markers `/root/neb/vb/<book>-unit_NN.{done,fail,log}`, output `/root/neb/NEB/videos/class-12/<book>/unit_NN.{mp4,srt,jpg,meta.json}` (~6 min per unit, ~2.4 MB/min). Locally: download those four files to a stage dir (fast box client: `/data/workspace/mxfast.py get SRC DST`), then `python3 tools/lessons/publish.py STAGE BOOK UNIT` copies them into `videos/` (splitting at keyframes near chapter starts into playable `unit_NN.partK.mp4` + `.srt` when over 24 MB) and updates `videos/index.json`; push the printed files with message `Video: Class 12 <Subject> · Unit N · <Title> (M min, X MB)`. `python3 tools/lessons/merge_videos.py [--out DIR] [--check]` rebuilds single files losslessly (verified: identical video MD5 and subtitles).
-- Next step if interrupted: finish pushing any cs12 unit whose script is not yet on the branch (check `git ls-tree origin/videos/explainers tools/lessons/scripts/cs12/`), then Class 12 English from the first unit not in `tools/lessons/scripts/eng12/` on the branch (literature units are summarised and analysed, never reproduced; quote only short lines), then class 11 (phy11, chem11, bio11, math11 …).
+- **The molab box is gone (Oct 22 2026), and agents no longer render or push full videos** (user's instruction). Do light
+  frame checks on the local pod instead (2 cores): `python3 tools/lessons/frames.py tools/lessons/scripts/<book>/unit_NN.py <part>`,
+  two parts at a time, then read the sheet in `tools/lessons/.work/frames/`. The full-video tooling stays for the owner:
+  `build.py` → `publish.py STAGE BOOK UNIT` (splits videos over 24 MB into playable `unit_NN.partK.mp4` + `.srt` and updates
+  `videos/index.json`) → push; `merge_videos.py [--check]` rebuilds single files losslessly. Videos already on the branch:
+  eng12 1–15, math12 1–17, cs12 1–7, bio12 2 and 6 (plus nep12 1–3 and phy12 1 from another agent).
+- Next step if interrupted: Class 12 English from the first unit not in `tools/lessons/scripts/eng12/` on the branch (literature units are summarised and analysed, never reproduced; quote only short lines), then class 11 (phy11, chem11, bio11, math11 …).
 - Neby poses that exist (backend_python/web/static/web/img/neby/classic): blink celebrate cool dizzy hop idle laugh listen look-around love namaste oops read sad sleep success surprised talk think wave wink (… and festival ones). Any other name crashes the part.
 - Text inside `T(...)` loses its spaces in `.text`; never rebuild a para from `T.text`.
-- Box gotcha: a manim error inside a narration block can leave frames.py hanging (render2.sh never writes TAG.done); `ps aux | grep frames.py` and kill the stuck pid.
+- Gotcha: a manim error inside a narration block can leave frames.py hanging; `ps aux | grep frames.py` and kill the stuck pid.
 - `python3 tools/lessons/ttskeys.py <script>` (from the repo root) dry-runs a lesson and prints exactly the `.cache/tts` files it uses: push those with the unit.
 - Kit: `recap` now slides a long list left so Neby never covers the last line.
-- Molab box workflow: `/root/neb` clone + `/root/neb/venv`; `render.sh <script> "parts"` runs prefetch then frames.py with xargs -P 4 under nice; unset the kernel's PYTHONPATH/VIRTUAL_ENV first (they leak from marimo).
 - Notes errata found so far: bio12 unit-03 'lethal genes give 2 green : 1 white-carrier' is wrong (white seedlings die; survivors 1 GG : 2 Gg, all green; the 2 : 1 phenotypic ratio is the dominant-lethal yellow mouse).
 
 ### Landing page, /app, site themes, query budgets, self-hosted fonts (Oct 18, 2026)
