@@ -73,6 +73,10 @@
   <span class="material-symbols-outlined">mood</span>
   Neby Studio
 </a>
+<a href="{% url 'web:admin_art_library' %}" class="{% if active_page == 'art_library' %}active{% endif %}" {% if active_page == 'art_library' %}aria-current="page"{% endif %}>
+  <span class="material-symbols-outlined">brush</span>
+  Art Library
+</a>
 <a href="{% url 'web:admin_study_spaces' %}" class="{% if active_page == 'study_spaces' %}active{% endif %}" {% if active_page == 'study_spaces' %}aria-current="page"{% endif %}>
   <span class="material-symbols-outlined">science</span>
   Study Spaces
