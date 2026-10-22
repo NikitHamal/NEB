@@ -31,7 +31,7 @@ object PixelNeby {
     internal val pinkHi = Px.rgb(0xFFB3C6)
     private val tongue = Px.rgb(0xF0708A)
 
-    enum class Eyes { Open, Blink, Happy, Closed, Up, Wink, Big, Heart, Spiral, Sad, Down, Shades, Star }
+    enum class Eyes { Open, Half, Blink, Happy, Closed, Up, Wink, Big, Heart, Spiral, Sad, Down, Shades, Star }
     enum class Mouth { None, Smile, Open, O, Flat, Frown, Tongue, Kiss }
 
     /** One pose. dy moves Neby up (negative) or down; sx/sy squash and stretch; tilt in radians. */
@@ -161,6 +161,8 @@ object PixelNeby {
             Eyes.Open -> { rect(ex, ey, 3, 5, eyes); set(ex, ey, white) }
             Eyes.Up -> { rect(ex + 1, ey - 1, 3, 4, eyes); set(ex + 1, ey - 1, white) }
             Eyes.Down -> { rect(ex, ey + 2, 3, 3, eyes); set(ex, ey + 2, white) }
+            // the lid halfway down: the eye's lower half, no glint
+            Eyes.Half -> rect(ex, ey + 2, 3, 3, eyes)
             Eyes.Blink -> rect(ex, ey + 3, 3, 1, eyes)
             Eyes.Closed -> { set(ex - 1, ey + 2, eyes); rect(ex, ey + 3, 3, 1, eyes); set(ex + 3, ey + 2, eyes) }
             Eyes.Happy -> { set(ex - 1, ey + 3, eyes); set(ex, ey + 2, eyes); set(ex + 1, ey + 1, eyes); set(ex + 2, ey + 2, eyes); set(ex + 3, ey + 3, eyes) }
