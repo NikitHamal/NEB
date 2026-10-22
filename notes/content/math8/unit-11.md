@@ -69,6 +69,25 @@ then cancel.
 
 ## 11.2 Adding and subtracting algebraic fractions
 
+### 11.2.1 Same denominator
+
+If the denominators are already the same, add or subtract the numerators and
+keep the denominator; then factorise and cancel if you can.
+
+$$\frac ac\pm\frac bc=\frac{a\pm b}{c}$$
+
+::: example Same denominators
+**Problem.** Simplify (a) $\frac{3a}{a+3}+\frac{9}{a+3}$
+(b) $\frac{x^2}{x+y}-\frac{y^2}{x+y}$.
+
+**Solution.**
+(a) $\frac{3a+9}{a+3}=\frac{3(a+3)}{a+3}=3$.
+
+(b) $\frac{x^2-y^2}{x+y}=\frac{(x+y)(x-y)}{x+y}=x-y$.
+:::
+
+### 11.2.2 Different denominators
+
 **Method.**
 
 1. Factorise every denominator.
@@ -146,6 +165,21 @@ $$\frac{1}{(x-2)(x+2)}+\frac{x-2}{(x-2)(x+2)}
 is $\frac{2}{9-4}=\frac25$ ✓.
 :::
 
+::: example Two trinomial denominators
+**Problem.** Simplify $\frac{x}{x^2+3x+2}-\frac{2}{x^2-1}$.
+
+**Solution.** Factorise the denominators:
+$x^2+3x+2=(x+1)(x+2)$ and $x^2-1=(x+1)(x-1)$.
+LCM $=(x+1)(x+2)(x-1)$.
+
+$$\frac{x(x-1)-2(x+2)}{(x+1)(x+2)(x-1)}=\frac{x^2-x-2x-4}{(x+1)(x+2)(x-1)}$$
+
+$$=\frac{x^2-3x-4}{(x+1)(x+2)(x-1)}=\frac{(x-4)(x+1)}{(x+1)(x+2)(x-1)}=\frac{x-4}{(x+2)(x-1)}$$
+
+**Check.** Put $x=2$: original $=\frac{2}{12}-\frac{2}{3}=-\frac12$; answer
+$=\frac{-2}{4\times1}=-\frac12$ ✓.
+:::
+
 ## 11.3 Multiplying and dividing
 
 Multiplication is the easiest operation: multiply the numerators, multiply the
@@ -185,6 +219,19 @@ $$\frac{(a+b)(a-b)}{a+b}\times\frac{a}{a-b}
 
 **Check.** Put $a=3$, $b=1$: the original is $\frac{8}{4}\div\frac{2}{3}
 =2\times\frac32=3$, and the answer is $a=3$ ✓.
+:::
+
+::: example Division with trinomials
+**Problem.** Simplify $\frac{x^2-6x+9}{x^2+3x+2}\div\frac{x^2-5x+6}{x^2-x-2}$.
+
+**Solution.** Factorise every part:
+$x^2-6x+9=(x-3)^2$, $x^2+3x+2=(x+1)(x+2)$, $x^2-5x+6=(x-2)(x-3)$,
+$x^2-x-2=(x-2)(x+1)$.
+
+$$\frac{(x-3)(x-3)}{(x+1)(x+2)}\times\frac{(x-2)(x+1)}{(x-2)(x-3)}=\frac{x-3}{x+2}$$
+
+**Check.** Put $x=0$: original $=\frac92\div\frac{6}{-2}=\frac92\div(-3)=-\frac32$;
+answer $=\frac{-3}{2}$ ✓.
 :::
 
 ## 11.4 Equations containing fractions

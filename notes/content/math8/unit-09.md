@@ -31,6 +31,15 @@ a simple exponential equation.
 | Power of a product | $(ab)^n=a^nb^n$ | $(2x)^3=8x^3$ |
 | Power of a quotient | $\left(\frac ab\right)^n=\frac{a^n}{b^n}$ | $\left(\frac23\right)^2=\frac49$ |
 
+In $a^n$, $a$ is the **base** and $n$ is the **index** (power). Each law comes
+from writing the powers out in full:
+
+$$x^2\times x^3=(x\times x)\times(x\times x\times x)=x^5=x^{2+3}$$
+
+$$x^5\div x^2=\frac{x\times x\times x\times x\times x}{x\times x}=x^3=x^{5-2}$$
+
+$$(x^2)^3=x^2\times x^2\times x^2=x^{2+2+2}=x^{2\times3}=x^6$$
+
 Two more results follow from the quotient law and are used constantly:
 
 $$a^0=1\qquad(a\ne0),\qquad a^{-n}=\frac{1}{a^n}$$
@@ -138,6 +147,34 @@ $$8x^6y^3\times9x^2y^4=72x^{6+2}y^{3+4}=72x^8y^7$$
 answer gives $72$ ✓.
 :::
 
+### 9.2.1 Letters in the index
+
+The laws work in exactly the same way when the indices are algebraic
+expressions. Put brackets round each index before subtracting.
+
+::: example Algebraic indices
+**Problem.** Simplify (a) $x^{3n-2}\div x^{2n-5}$
+(b) $x^{a-b}\times x^{b-c}\times x^{c-a}$ (c) $\frac{x^{4n-2}}{x^{2(2n-1)}}$.
+
+**Solution.**
+(a) $x^{(3n-2)-(2n-5)}=x^{3n-2-2n+5}=x^{n+3}$.
+
+(b) $x^{a-b+b-c+c-a}=x^0=1$.
+
+(c) $x^{(4n-2)-(4n-2)}=x^0=1$.
+:::
+
+::: caution Bracket the index you subtract
+$x^{3n-2}\div x^{2n-5}$ is $x^{(3n-2)-(2n-5)}$. Writing $x^{3n-2-2n-5}=x^{n-7}$
+forgets that the minus sign changes **both** terms of $2n-5$.
+:::
+
+::: example Proving an identity
+**Problem.** Prove that $\frac{x^{p-q+1}\times x^{q-r+1}\times x^{r-p+1}}{x^3}=1$.
+
+**Solution.** LHS $=\frac{x^{(p-q+1)+(q-r+1)+(r-p+1)}}{x^3}=\frac{x^{3}}{x^3}=x^{3-3}=x^0=1=$ RHS. Proved.
+:::
+
 ## 9.3 Exponential equations
 
 An **exponential equation** has the unknown in the index, such as
@@ -217,7 +254,6 @@ ax.tick_params(colors=MUTED, labelsize=8.4)
 | Power of a quotient | $\left(\frac{a}{b}\right)^m = \frac{a^m}{b^m}$ | $\left(\frac{2}{3}\right)^2 = \frac{4}{9}$ |
 | Zero index | $a^0 = 1$, $a \neq 0$ | $7^0 = 1$ |
 | Negative index | $a^{-n} = \frac{1}{a^n}$ | $4^{-2} = \frac{1}{16}$ |
-| Fractional index | $a^{1/n} = \sqrt[n]{a}$ | $27^{1/3} = 3$ |
 
 ::: caution The three commonest slips
 $a^m + a^n$ is **not** $a^{m+n}$ — the product law applies to multiplication,
@@ -301,7 +337,7 @@ kilometres that is, taking one sheet as 0.1 mm.
 
 1. Simplify $\left(\frac{3x^2y^{-1}}{6xy^2}\right)^{-2}$ and give the answer
    with positive indices only. <span class="marks">[4]</span>
-2. Solve $4^{x+1}=32$. <span class="marks">[4]</span>
+2. Solve $4^{x+1}=64$ and $9^{x}=\frac{1}{27}\times3^{x+1}$. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
 **1.** **Step 1 — simplify inside.** $\frac{3}{6}=\frac12$; for $x$:
@@ -313,10 +349,10 @@ $\left(\frac{x}{2y^3}\right)^{-2}=\left(\frac{2y^3}{x}\right)^{2}
 **Check.** Put $x=y=1$: the original is
 $\left(\frac{3}{6}\right)^{-2}=\left(\frac12\right)^{-2}=4$, and the answer gives
 $\frac41=4$ ✓.
-**2.** Write both sides as powers of 2: $4=2^2$ and $32=2^5$, so
-$(2^2)^{x+1}=2^5$, that is $2^{2(x+1)}=2^5$. Equating indices:
-$2(x+1)=5$, so $2x+2=5$, $2x=3$, and $x=1.5$.
-**Check.** $4^{2.5}=4^2\times4^{0.5}=16\times2=32$ ✓.
+**2.** (i) $64=4^3$, so $4^{x+1}=4^3$ and $x+1=3$, giving $x=2$. Check: $4^3=64$ ✓.
+(ii) Write everything as powers of 3: $9^x=3^{2x}$ and $\frac{1}{27}=3^{-3}$.
+So $3^{2x}=3^{-3}\times3^{x+1}=3^{x-2}$. Equating indices: $2x=x-2$, so $x=-2$.
+Check: $9^{-2}=\frac{1}{81}$ and $\frac{1}{27}\times3^{-1}=\frac{1}{81}$ ✓.
 :::
 
 **Extra practice**
@@ -324,7 +360,7 @@ $2(x+1)=5$, so $2x+2=5$, $2x=3$, and $x=1.5$.
 **Group B (2 marks)**
 
 **11.** Simplify: $\dfrac{x^5 \times x^{-2}}{x^{-3}}$.
-**12.** Find the value of $16^{3/4}$.
+**12.** If $a=1$, $b=2$, $c=3$, find the value of $a^b\times b^c\times c^a$.
 
 **Group C (4 marks)**
 
@@ -332,7 +368,7 @@ $2(x+1)=5$, so $2x+2=5$, $2x=3$, and $x=1.5$.
 
 ::: note Extra practice — answers
 **11.** $x^{5-2} = x^3$; then $\frac{x^3}{x^{-3}} = x^{3+3} = x^6$.
-**12.** $16^{3/4} = (2^4)^{3/4} = 2^3 = 8$.
+**12.** $1^2\times2^3\times3^1=1\times8\times3=24$.
 **13.** (i) $128 = 2^7$, so $x + 2 = 7$ and $x = 5$.
 (ii) $\frac{1}{125} = 5^{-3}$, so $2x = -3$ and $x = -\frac{3}{2} = -1.5$.
 :::
@@ -345,13 +381,13 @@ $2(x+1)=5$, so $2x+2=5$, $2x=3$, and $x=1.5$.
    (a) $3^6$ (b) $3^8$ (c) $9^6$ (d) $3^2$
 **2.** $5^0 + 2^{-1}$ equals
    (a) 0 (b) 1 (c) 1.5 (d) 2
-**3.** $16^{1/2}$ equals
-   (a) 8 (b) 4 (c) 32 (d) 2
+**3.** $\frac{a^{n-2}}{a^{n+2}}$ equals
+   (a) $a^4$ (b) $\frac{1}{a^4}$ (c) $a^{2n}$ (d) 1
 **4.** If $3^x = 81$, then $x$ is
    (a) 3 (b) 4 (c) 9 (d) 27
 **5.** $(-3)^2$ equals
    (a) $-9$ (b) 9 (c) $-6$ (d) 6
 
 ::: note Objective practice — answers
-**1.** (a) — add the indices. **2.** (c) — $1+0.5=1.5$. **3.** (b) — $\sqrt{16}=4$. **4.** (b) — $3^4=81$. **5.** (b) — the bracket squares the sign too.
+**1.** (a) — add the indices. **2.** (c) — $1+0.5=1.5$. **3.** (b) — $a^{(n-2)-(n+2)}=a^{-4}=\frac{1}{a^4}$. **4.** (b) — $3^4=81$. **5.** (b) — the bracket squares the sign too.
 :::

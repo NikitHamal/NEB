@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="237.79pt" height="221.97pt" viewBox="0 0 237.79 221.97" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ 
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M -0 221.97 
+L 237.79 221.97 
+L 237.79 0 
+L -0 0 
+L -0 221.97 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 39.79 182.18 
+L 198.00 182.18 
+L 118.89 23.97 
+z
+" clip-path="url(#p9f6773e819)" style="fill: #dbeafe"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 118.89 198.00 
+C 139.87 198.00 159.99 196.33 174.83 193.36 
+C 189.66 190.40 198.00 186.37 198.00 182.18 
+C 198.00 177.98 189.66 173.96 174.83 170.99 
+C 159.99 168.02 139.87 166.36 118.89 166.36 
+C 97.91 166.36 77.79 168.02 62.96 170.99 
+C 48.12 173.96 39.79 177.98 39.79 182.18 
+C 39.79 186.37 48.12 190.40 62.96 193.36 
+C 77.79 196.33 97.91 198.00 118.89 198.00 
+z
+" clip-path="url(#p9f6773e819)" style="fill: #bfdbfe; stroke: #14181f; stroke-width: 1.2; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 39.79 182.18 
+L 118.89 23.97 
+" clip-path="url(#p9f6773e819)" style="fill: none; stroke: #14181f; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 198.00 182.18 
+L 118.89 23.97 
+" clip-path="url(#p9f6773e819)" style="fill: none; stroke: #14181f; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 118.89 182.18 
+L 118.89 23.97 
+" clip-path="url(#p9f6773e819)" style="fill: none; stroke-dasharray: 4.44,1.92; stroke-dashoffset: 0; stroke: #1d6fb8; stroke-width: 1.2"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 118.89 182.18 
+L 198.00 182.18 
+" clip-path="url(#p9f6773e819)" style="fill: none; stroke: #1d6fb8; stroke-width: 1.2; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    
+    <g style="fill: #1d6fb8" transform="translate(156.75 176.84) scale(0.09 -0.09)">
+     <defs>
+      <path id="Inter-Regular-354" d="M 494 0 
+L 494 3494 
+L 1038 3494 
+L 1038 2956 
+L 1075 2956 
+Q 1172 3222 1420 3383 
+Q 1669 3544 1981 3544 
+Q 2044 3544 2130 3541 
+Q 2216 3538 2266 3534 
+L 2266 2969 
+Q 2241 2975 2141 2987 
+Q 2041 3000 1928 3000 
+Q 1678 3000 1479 2895 
+Q 1281 2791 1168 2608 
+Q 1056 2425 1056 2188 
+L 1056 0 
+L 494 0 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Inter-Regular-354"/>
+    </g>
+   </g>
+   <g id="text_2">
+    
+    <g style="fill: #1d6fb8" transform="translate(108.30 106.35) scale(0.09 -0.09)">
+     <defs>
+      <path id="Inter-Regular-29e" d="M 1056 2094 
+L 1056 0 
+L 494 0 
+L 494 4656 
+L 1056 4656 
+L 1056 2647 
+L 959 2647 
+Q 1119 3131 1414 3334 
+Q 1709 3538 2106 3538 
+Q 2459 3538 2726 3392 
+Q 2994 3247 3142 2955 
+Q 3291 2663 3291 2219 
+L 3291 0 
+L 2725 0 
+L 2725 2172 
+Q 2725 2575 2514 2803 
+Q 2303 3031 1938 3031 
+Q 1688 3031 1488 2922 
+Q 1288 2813 1172 2603 
+Q 1056 2394 1056 2094 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Inter-Regular-29e"/>
+    </g>
+   </g>
+   <g id="text_3">
+    
+    <g style="fill: #14181f" transform="translate(170.31 101.07) scale(0.09 -0.09)">
+     <defs>
+      <path id="Inter-Regular-2e0" d="M 1056 4656 
+L 1056 0 
+L 494 0 
+L 494 4656 
+L 1056 4656 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Inter-Regular-2e0"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9f6773e819">
+   <rect x="2.88" y="2.88" width="232.03" height="216.21"/>
+  </clipPath>
+ </defs>
+</svg>

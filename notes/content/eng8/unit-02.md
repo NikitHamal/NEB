@@ -7,375 +7,362 @@ hours: 0
 area: Units
 ---
 
-This unit pairs two pieces of advice. The first is a father's **letter of
-advice** to his son, written in a warm, personal tone rather than the formal
-tone of a business letter. The second is a **poem about change** — about how a
-person grows, and how the world around us will not stay the same. Both texts
-say the same thing in different ways: advice is what one generation hands to
-the next, and change is the one thing you cannot refuse. The unit also teaches
-**yes/no questions** and the two writing tasks of the year: completing a
-skeleton story, and writing an e-mail.
+Unit 2 is about **asking for permission** and about **changing yourself**.
+Reading I is a short story, *A Father's Letter to his Son*: a boy travels alone
+by train to his grandparents' house, and a short note from his father removes
+his fear. Reading II is a poem, *Changing World*, in which an old man realises
+that the only thing he can really change is himself. The grammar is **yes/no
+questions**. In writing you complete a skeleton story and write an e-mail.
 
-::: key What this unit asks of you
-By the end you should be able to (1) explain what makes a letter of advice
-different from a formal letter, in tone, point of view and structure, (2) find
-the **speaker** and the **theme** of a poem and explain how the poem shows
-change, (3) turn statements into yes/no questions and answer them with a short
-answer, (4) write an e-mail with a subject line, a greeting, a body and a
-sign-off, and (5) complete a skeleton story so that it has a beginning, a
-middle and an end.
+::: key What the exam asks from this unit
+(1) Understand the plot of the story and say who said what and why. (2) Explain
+the message of the poem in your own words. (3) Turn statements into yes/no
+questions with the right helping verb (*do/does/did, is/are, can, have…*).
+(4) Use polite expressions for asking, giving and refusing permission.
+(5) Develop a story from an outline, with a title, in the past tense.
 :::
 
-## 2.1 A Father's Letter to his Son
+## 2.1 Reading I: A Father's Letter to his Son
 
-### About the text
+### Summary of the story
 
-The text is a **letter of advice**: a parent writing to a child who is growing
-up. It is not a request letter and not a business letter. Its purpose is to
-guide, warn and encourage, and its tone is affectionate — the writer is
-allowed to use the word *dear*, to remember shared moments and to speak
-directly to the reader as *you*.
+A boy lives in a city with his parents. Every summer holiday they take him to
+his grandparents' house in another city, where they stay for **fifteen to twenty
+days**. When the boy grows up, he asks to go **alone**. His parents refuse at
+first, but he insists, so they agree and teach him everything he needs to know
+about travelling alone, because they are worried about his safety.
 
-### What the text says
+He politely asks his mother if he may take his swimming goggles and suit (she
+agrees, but tells him always to swim with his grandparents), and whether he may
+take **sunglasses and mufflers** as gifts for his grandparents (she smiles and
+says it is a good idea).
 
-A father writes to his son at a moment of change in the boy's life — a new
-school, a new class, or the beginning of more responsibility. He does not begin
-with rules. He begins by **remembering**: a time when the boy was small, a
-thing the boy once did, something the father noticed but never said. That
-memory is what makes the advice land; advice from a stranger is a lecture, and
-advice from someone who knows you is help.
+On the day of the journey his parents see him off at the station. Through the
+train window his father hands him an **envelope** and says that if he feels
+afraid on the way, he should open it. As the train travels, the boy notices
+that everyone has someone with them and begins to feel **lonely**. At one
+station a big man enters his compartment; the boy is scared and cannot sleep.
+He then opens the envelope. The note says that his father is on the same train,
+**in the adjacent compartment**. At once the boy's face lights up and his fear
+vanishes.
 
-The advice itself is ordinary and therefore useful. Work steadily rather than
-in bursts. Choose friends who make you better. Tell the truth even when it
-costs you something. Respect your teachers, and do not be afraid to ask them a
-question. Read something that is not on the syllabus. Keep your body strong and
-your temper quiet. Be kind to those who cannot repay you. And when you fail —
-because you will fail — do not confuse failing at something with being a
-failure.
+**Message:** parents' love and care are always with their children, even when
+the children think they are independent.
 
-The letter closes by handing over the responsibility. The father says, in
-effect, that he cannot live his son's life for him, and that he does not want
-to. That last movement — from advice to trust — is the **point of view** of the
-whole letter. It is written *to* the son, but it is also written *past* the son,
-for the reader who will one day understand it.
+### Vocabulary (crossword answers)
 
-### Tone, point of view and structure
-
-| Feature | In a letter of advice | In a formal letter |
-|---|---|---|
-| Tone | warm, personal, encouraging | polite, impersonal, brief |
-| Point of view | first person — *I*, *you* | third person — *the undersigned*, *the students* |
-| Salutation | *My dear son,* | *Dear Sir,* |
-| Closing | *Your loving father,* | *Yours faithfully,* |
-| Structure | memory → advice → trust | purpose → details → request |
-| Length of paragraphs | short and uneven; each idea gets its own | long and even |
-
-```figure caption="The movement of a letter of advice. It begins in the past with a shared memory, builds through practical advice, and ends by handing responsibility to the son — which is what makes the reader trust it."
-fig, ax = plt.subplots(figsize=(4.9, 2.7))
-ax.set_xlim(0, 10); ax.set_ylim(0, 6.0); ax.axis("off")
-stages = [("Shared memory", "creates trust", SERIES[0]),
-          ("Advice, given kindly", "work, friends, truth,\nhealth, kindness", SERIES[3]),
-          ("Warning, not scolding", "failing is not\nbeing a failure", ACCENT),
-          ("Handing over trust", "\"I cannot live\nyour life for you\"", SERIES[2])]
-for i, (title, note, colour) in enumerate(stages):
-    x = 0.35 + i * 2.45
-    ax.add_patch(plt.Rectangle((x, 2.5), 2.15, 1.5, fc="white", ec=colour, lw=1.4))
-    ax.text(x + 1.07, 3.72, title, ha="center", va="center", fontsize=6.6,
-            color=INK, fontweight="bold")
-    ax.text(x + 1.07, 3.02, note, ha="center", va="center", fontsize=5.9, color=MUTED)
-    if i < 3:
-        ax.annotate("", xy=(x + 2.45, 3.25), xytext=(x + 2.2, 3.25),
-                    arrowprops=dict(arrowstyle="->", color=GRID, lw=1.4))
-ax.text(5.0, 1.5, "topic of each paragraph follows this order", ha="center",
-        fontsize=6.4, color=MUTED)
-fig.tight_layout()
-```
-
-### Vocabulary
-
-| Word | Meaning |
+| Clue | Answer |
 |---|---|
-| advice | an opinion about what somebody should do |
-| to encourage | to give somebody confidence to do something |
-| responsibility | a duty you are trusted to carry out |
-| steadily | at a regular pace, without stopping and starting |
-| to hand over | to give control or responsibility to somebody else |
-| in effect | in fact, when you look at what was really said |
+| Across 2: next to something | **adjacent** |
+| Across 7: gave something to somebody | **handed** |
+| Across 9: glasses that protect eyes from the Sun | **sunglasses** |
+| Down 1: a place to sleep on a train or ship | **berth** |
+| Down 3: to leave a place | **depart** |
+| Down 4: a section on a train | **compartment** |
+| Down 5: thick cloth to keep your neck warm | **muffler** |
+| Down 6: disappeared suddenly | **vanished** |
+| Down 8: to demand something forcefully | **insist** |
+| Down 9: a group of objects | **stuff** |
 
-### Questions and model answers
+### Who said it, and why (Exercise B)
 
-**1. Why does the father begin with a memory instead of a rule?**
-A shared memory proves that he knows his son. Advice that follows a memory
-sounds like help; the same sentence from a stranger sounds like a lecture.
+| Sentence | Speaker | Purpose |
+|---|---|---|
+| a. Is it okay if I go on my own? | the boy (to his parents) | asking permission to travel alone |
+| b. Please let me go by myself. | the boy | asking/insisting for permission |
+| c. May I take them, please? | the boy (to his mother) | asking permission to take his goggles and swimming suit |
+| d. Okay but always go swimming with your grandparents. | the mother | giving permission with a condition |
+| e. Would it be alright if I took sunglasses and mufflers for them? | the boy | asking permission to take gifts |
 
-**2. What does the father mean by "do not confuse failing at something with
-being a failure"?**
-A failed test, a lost match or a broken promise is an event, not a person. You
-may fail at a hundred things and still be a good, capable person — what matters
-is what you do next.
+### Comprehension (Exercise C) — model answers
 
-::: note Model answers
-**3. Find two pieces of advice from the letter and say why each is useful for
-a student of your age.**
-(a) *Work steadily rather than in bursts* — because a small amount every day
-beats a whole night before the examination. (b) *Do not be afraid to ask a
-teacher a question* — because a doubt that is not cleared today becomes a
-chapter you cannot understand next month.
-**4. What is the tone of the letter? How do you know?**
-It is warm and encouraging. The writer uses *dear*, addresses the boy as
-*you*, remembers small personal things, and never orders him about.
-:::
+**a. Where did the boy want to visit?** He wanted to visit his grandparents'
+house in another city, alone.
 
-## 2.2 Poem: Changing
+**b. How long would the boy live with his grandparents?** For fifteen to twenty
+days during the summer holidays.
 
-### About the poem
+**c. Why did the parents not want to let him go alone at first?** Because they
+were worried about his safety on such a long journey alone.
 
-The poem is about **change** — the change that happens inside a person as they
-grow up, and the change that happens in the world around them. Poems are not
-read the way a story is read. A story tells you what happens; a poem makes you
-*feel* what happens, using fewer words, repeated sounds and pictures in the
-mind.
+**d. Do you think the boy was loving and caring? Why?** Yes. He loved his
+grandparents a lot and wanted to take sunglasses and mufflers for them as
+gifts. He also told his parents not to worry about him.
 
-### The speaker, the theme and the images
+**e. What did the boy tell his father before the announcement?** He smiled and
+said, "I remember everything. Don't worry." (Strictly, the text puts this just
+after the departure announcement.)
 
-**The speaker** of a poem is the voice that says it. It is not always the poet:
-the poet may write as a child, as an old man, or as a river. Always ask, "Who
-is talking?" before you answer anything else. In this poem the speaker is
-looking back at an earlier self and noticing how much has altered — and then
-looking forward, and accepting that more will alter still.
+**f. Why do you think the boy felt relaxed at last?** Because his father's note
+told him that his father was travelling in the next compartment, so he was not
+alone and had nothing to fear.
 
-**The theme** is the idea the poem keeps returning to. Here the theme is
-change: that growing up means losing some things and gaining others, that
-nothing stays exactly as it is, and that the healthy response is not to fight
-the change but to keep something steady inside it.
+## 2.2 Reading II: Poem — Changing World
 
-**The images** are the pictures the poem uses to make the idea visible. A
-favourite device is the seasons: spring, summer, autumn and winter stand in for
-childhood, youth, middle age and age. A tree that loses its leaves and grows
-them again, a river that is never the same water twice, a road that curves out
-of sight — all are pictures of change. When a poem asks a question and does not
-answer it, that is deliberate: the question is meant to stay in your head.
+### What the poem says
 
-```figure caption="How a poem on change is built. The speaker moves from looking back, to looking around, to accepting what is coming — and the questions left unanswered are the point, not a fault."
-fig, ax = plt.subplots(figsize=(4.7, 2.9))
-ax.set_xlim(0, 10); ax.set_ylim(0, 6.4); ax.axis("off")
-ax.annotate("", xy=(9.4, 1.1), xytext=(0.5, 1.1),
-            arrowprops=dict(arrowstyle="->", color=GRID, lw=1.6))
-ax.text(9.3, 0.62, "time", fontsize=6.4, color=MUTED, ha="right")
-steps = [("1. Looking back", 1.7), ("2. Looking around", 4.3), ("3. Looking ahead", 7.0)]
-for label, x in steps:
-    ax.plot(x, 1.1, "o", color=ACCENT, ms=7)
-    ax.text(x, 1.55, label, ha="center", fontsize=6.8, color=INK, fontweight="bold")
-ax.text(1.7, 3.1, "childhood:\neasy, familiar", ha="center", fontsize=6.1, color=MUTED)
-ax.text(4.3, 3.6, "what I have lost\nand what I have gained", ha="center",
-        fontsize=6.1, color=MUTED)
-ax.text(7.0, 3.1, "the future:\naccepted, not feared", ha="center", fontsize=6.1,
-        color=MUTED)
-ax.add_patch(plt.Rectangle((0.5, 4.4), 8.9, 1.3, fc="white", ec=SERIES[2], lw=1.3))
-ax.text(4.95, 5.05, "theme: change   ·   tone: thoughtful, hopeful", ha="center",
-        va="center", fontsize=6.6, color=SERIES[2])
-fig.tight_layout()
+The poem is printed in the textbook as *Changing World* and credited to Edward
+de Bono. (The same lines are also widely quoted as an old anonymous inscription;
+in the exam, simply call the writer "the poet".) The speaker looks back over his
+life:
+
+- As a **young man** he wanted to change the **world**, but found it too
+  difficult.
+- So he tried to change his **nation**; he could not.
+- Then he focused on his **town**; he could not change it either.
+- As an **older man** he tried to change his **family**.
+- Now, as an **old man**, he realises that the only thing he can change is
+  **himself**.
+- He sees that if he had changed himself long ago, he could have influenced his
+  family; together they could have changed the town, the town the nation, and
+  so he "could, indeed, have changed the world".
+
+**Theme:** real change starts with yourself. Self-improvement spreads outward,
+like a chain: self → family → town → nation → world.
+
+**Structure:** the first half moves from the biggest circle (world) to the
+smallest (himself); the second half moves back out again. The poem is in free
+verse (no regular rhyme), told in the first person, in the past tense with
+*could have + past participle* for regret.
+
+```figure caption="The poem's pattern: the speaker tried the circles from the outside in, but change actually spreads from the inside out."
+fig, ax = flow(["myself", "my family", "my town", "my nation", "the world"],
+               note="if I change myself first, the change spreads outward",
+               figsize=(5.2, 2.15))
 ```
 
-### Themes and questions and model answers
+### Vocabulary (Exercise A)
 
-**1. What is the theme of the poem?**
-Change — in oneself and in the world — and the importance of accepting it while
-holding on to what matters.
+a. Great people always **realize** their mistake. b. The meal was very
+delicious **indeed**. c. Excessive use of electronic devices has negative
+**impacts** on our mental health. d. … I cannot **change** my mind. e. … I
+cannot **focus** on my studies. (*suddenly* is not needed.)
 
-**2. Who is the speaker?**
-A person older than the child in the poem, looking back at how they have
-changed and forward at what is still to come. The speaker is not necessarily
-the poet.
+### Comprehension (Exercise B) — model answers
 
-::: note Model answers
-**3. Pick one image from the poem and explain what it stands for.**
-The tree that sheds its leaves and grows new ones every year stands for a
-person who loses something — a habit, a fear, a friend — and then grows
-something else in its place. The tree is not damaged by the change; it is how
-it stays alive.
-**4. Does the poem see change as good or bad?**
-As unavoidable, and then as good. The speaker admits that something has been
-lost, but does not wish to go back, which is what makes the tone hopeful rather
-than sad.
-:::
+**a. Why do you think the poet wants to change himself?** Because he has learnt
+that he cannot change others by force; the only thing fully in his control is
+himself, and his good example can then change others.
 
-## 2.3 Grammar and writing tasks of the unit
+**b. Why does the poet feel sorry in the poem?** He is sorry that he wasted his
+life trying to change the world, the nation, the town and his family, and
+realised too late that he should have started with himself.
 
-### Grammar: Yes/no questions
+**c. What does the poet realise when he grew old?** He realises that the only
+thing he can change is himself.
 
-A **yes/no question** is one that can be answered with *yes* or *no*. It is made
-by putting the helping verb before the subject. If there is no helping verb,
-use *do*, *does* or *did*.
+**d. If the poet had changed himself, what could have happened?** He could have
+made an impact on his family; his family and he could have changed their town;
+the town could have changed the nation, and he could have changed the world.
 
-| Statement | Yes/no question | Short answer |
+**e. Is changing the world easy or tough? Give your opinion.** It is tough if we
+try to change it directly, because we cannot control other people. It becomes
+possible when each person changes his or her own habits — for example, if every
+student stops throwing plastic, the whole town becomes cleaner.
+
+## 2.3 Grammar: Yes/no questions
+
+A **yes/no question** expects the answer *yes* or *no*. It begins with a
+**helping verb** (auxiliary), followed by the subject.
+
+| If the statement has… | Move it to the front | Example |
 |---|---|---|
-| You are a student. | **Are** you a student? | Yes, I am. / No, I am not. |
-| He writes poems. | **Does** he write poems? | Yes, he does. / No, he does not. |
-| They went home. | **Did** they go home? | Yes, they did. / No, they did not. |
-| She can swim. | **Can** she swim? | Yes, she can. / No, she cannot. |
-| We have finished. | **Have** we finished? | Yes, we have. / No, we have not. |
+| *am/is/are/was/were* | the *be* verb | She **is** sleeping. → **Is** she sleeping? |
+| *can/could/should/will…* | the modal | They **should** rewrite it. → **Should** they rewrite it? |
+| *have/has/had* + past participle | *have/has/had* | We **have** met before. → **Have** we met before? |
+| no helping verb, present (I/you/we/they) | add **Do** | You work at home. → **Do** you work at home? |
+| no helping verb, present (he/she/it) | add **Does** + base verb | He loves this town. → **Does** he **love** this town? |
+| no helping verb, past | add **Did** + base verb | She went home. → **Did** she **go** home? |
 
-Two rules matter in the examination. First, a short answer repeats the helping
-verb and never just says *Yes* or *No* alone. Second, a **negative** yes/no
-question shows surprise or an expectation: *Don't you like the poem?* — meaning
-"I thought you did."
+**Short answers** repeat the helping verb: *Do you study in Grade VII? — Yes, I
+do. / No, I don't.* *Can you draw a dragon? — Yes, I can.*
+
+**some → any** in questions: *There are some smart students.* → *Are there
+**any** smart students?*
+
+### Textbook answers
+
+**Exercise A (matching):** a–iv, b–vi, c–v, d–vii, e–i, f–ii, g–viii, h–iii.
+
+**Exercise B:** a. Does he love this town? b. Do they always play football?
+c. Can she fly an aeroplane? d. Are there any smart students in the school?
+e. Did they go to the river yesterday? f. Does she spend her money on books?
+g. Did he decide to leave the town? h. Does she go to bed early? i. Should
+they rewrite their homework? j. Was he born in India?
+
+**Exercise C (honest answers):** short answers such as *No, I don't* (you are in
+grade 8, not VII), *Yes, I do*, *Yes, I have / No, I haven't*, *Yes, he does*,
+*No, I didn't*, *Yes, I can*, *No, we don't*, *Yes, she does*.
 
 ::: caution Common mistakes
-- *Do he write poems?* ✗ — third person singular needs **does**: *Does he write
-  poems?* ✓
-- *Yes, I.* ✗ — the short answer needs the helping verb: *Yes, I **do**.* ✓
-- Answering a yes/no question in one word sounds abrupt; in a conversation or a
-  letter, follow it with a sentence: *Yes, I am. I joined last week.*
+- *Does he loves this town?* ✗ → *Does he **love**…?* ✓ (after *does/did*, base verb)
+- *Did they went to the river?* ✗ → *Did they **go**…?* ✓
+- *Do she go to bed early?* ✗ → ***Does** she go…?* ✓
+- *Are there some students?* — in a normal question use **any**.
+- Short answer *Yes, I like.* ✗ → *Yes, I **do**.* ✓
 :::
 
-### Writing I: Completing a skeleton story
+## 2.4 Speaking: asking for, giving and denying permission
 
-A skeleton story gives you the beginning and the end and leaves the middle to
-you. Plan it in four moves before you write a single sentence:
+| Asking (more polite as you go down) | Giving | Denying |
+|---|---|---|
+| Can I…? | Yes, you can. / Sure. | Sorry, you can't. |
+| May I…? | Of course. / Go ahead. | I'm sorry, I'm using it. |
+| Is it okay/alright if I…? | No problem. | I'm afraid not. |
+| Do you mind if I… (present)? / Would you mind if I… (past)? | **Not at all.** (= I don't mind, so yes) | Sorry, I'd rather you didn't. |
 
-1. **Setting** — who, where, when. One or two sentences.
-2. **Problem** — something goes wrong or is missing.
-3. **Attempts** — two or three tries; the first two may fail.
-4. **Resolution** — the last attempt succeeds, and there is a point to it.
+Note: after *Would you mind if I* and *Would it be alright if I* the verb goes
+in the **past**: *Would you mind if I **used** your telephone?* And "Not at all"
+**gives** permission, because the question asks whether you *mind*.
 
-Write in the **past simple** for the events, and use *suddenly*, *then*,
-*after that*, *at last* to move the story forward. Keep one tense. Nothing
-loses marks faster than a story that slides between past and present.
+**Speaking A (matching):** a–c (Yes, you can), b–e (I'm sorry, I am doing my
+classwork), c–a (No problem. You can use it), d–f (Yes. No one is sitting
+here), e–b (Not at all. I like loud reading), f–d (Yes, it's hot in here).
 
-::: example Worked example
-**Skeleton.** *Ramesh was walking home when he saw an envelope on the road. …
-He reached home tired but happy.*
+## 2.5 Writing I: Completing a skeleton story
 
-**Completed middle.** He picked it up. Inside was a bank card and a slip of
-paper with a telephone number. He looked around, but the road was empty.
-He waited ten minutes; nobody came. He took it home and dialled the number.
-A woman answered, and she began to cry: the card was her mother's, and the
-pension money for the whole month was in the account. Ramesh cycled back to the
-market and handed the envelope to her. She offered him a hundred rupees, and he
-said no.
+A skeleton story gives the main events in note form. Turn each note into full
+sentences in the **past simple**, add connectives (*one day, the next morning,
+soon, finally*) and feelings, and give a **title** and a **moral** if suitable.
+
+::: example Model answer — The Shoemaker and the Elves (Writing I A)
+**The Shoemaker and the Elves**
+
+Once upon a time, a poor shoemaker and his wife lived in a small house. He
+worked hard but had tough days earning his daily bread, and they always
+dreamed of living happily. One day he ran out of money. He had only one piece
+of leather left, so he cut it out for a pair of shoes and went to bed.
+
+The next morning, when he got up, he found a fine pair of shoes on his table.
+He was surprised and sold them in the market at a good price. With the money he
+bought more leather, cut it out to make more pairs and left it on his
+work-table. Again, in the morning he found many finished pairs there. He sold
+them and slowly became rich. This continued for some weeks, and he bought a
+beautiful house.
+
+One night the couple hid and watched. They saw two tiny elves sewing the shoes
+in ragged clothes. To thank them, the shoemaker and his wife made beautiful
+little clothes and pairs of shoes and left them for the elves. The elves put
+them on happily and danced away, and they never came back again. But the
+shoemaker never forgot their kindness.
+
+*Moral: Kindness should be repaid with kindness.*
 :::
 
-### Writing II: Writing an e-mail
+For **Writing I B** (a story that ends *"She finally realised her mistake"*),
+plan: a girl makes a wrong choice (e.g. ignores advice, lies, laughs at someone)
+→ trouble follows → someone helps her → last line: *She finally realised her
+mistake.*
 
-An e-mail has six parts, and an examiner looks for each one:
+## 2.6 Writing II: Writing an e-mail
 
-| Part | Example |
-|---|---|
-| To | sujata.sharma@example.com |
-| Subject | Request for a leave of three days |
-| Greeting | Dear Madam, |
-| Body | short paragraphs, one idea each |
-| Closing | Yours sincerely, / Best regards, |
-| Signature | Name, class and roll number |
+In the textbook e-mail, **Kabir Jha**, coordinator of a cultural programme for
+the school's **Platinum Jubilee**, asks the headteacher whether participants may
+use the **auditorium hall during lunch break** for a couple of days to rehearse.
+He uses polite permission questions: *Is it okay if they use the hall? Would it
+be alright if they practised there…?*
 
-::: tip The examiner is looking for
-A **subject line that is not empty**. An e-mail with no subject is the single
-commonest lost mark in this question. After that: a greeting, a body of two or
-three short paragraphs, a closing that matches the greeting, and your name.
-Keep the language slightly more formal than a chat message — no "plz", no
-"u", no emoji.
+**E-mail format:** To / Subject → greeting (*Dear Kabir,*) → body (short
+paragraphs) → closing (*Best regards,*) → name.
+
+::: example Model reply e-mail (Writing II B)
+**To:** kabir.jha@example.com
+**Subject:** Re: Asking for permission to use the hall
+
+Dear Kabir,
+
+Thank you for your e-mail. I am glad to know that you have planned the cultural
+programme for our Platinum Jubilee so well.
+
+You may certainly use the auditorium hall for rehearsal during the lunch break
+from Sunday to Tuesday. Please make sure that the participants keep the hall
+clean, switch off the lights and fans, and return the keys to the office after
+each practice.
+
+I wish you all the best for the programme.
+
+Best regards,
+Headteacher
 :::
 
-::: note Key to Exercise A
-**1.** Does she sing well? **2.** Did they arrive late? **3.** Are you ready?
-**4.** Can he drive? **5.** Have we finished? **6.** Do they live here?
-**7.** Was she happy? **8.** Will it rain?
-:::
+## 2.7 Pronunciation and project work
+
+**The -ed ending has three sounds.**
+
+| Sound | Rule | Words from the story |
+|---|---|---|
+| /t/ | after voiceless sounds /p, k, s, ʃ, tʃ, f/ | asked, stopped |
+| /d/ | after voiced sounds and vowels | loved, agreed, lived, worried, smiled, scared (and *said* /sed/) |
+| /ɪd/ | after /t/ or /d/ — adds a syllable | insisted, wanted, handed |
+
+**Project work:** compose a short poem on any topic and share it in class.
 
 ## Chapter summary
 
-- A letter of advice is warm and personal: it uses the first person, begins
-  with a shared memory and ends by handing responsibility to the reader.
-- Its structure is memory → advice → trust, and its tone is encouraging, never
-  scolding.
-- A poem has a **speaker** (the voice), a **theme** (the idea it returns to)
-  and **images** (the pictures that make the idea visible).
-- The theme of "Changing" is that change is unavoidable and can be accepted.
-- A yes/no question begins with a helping verb; if there is none, use *do*,
-  *does* or *did*.
-- A short answer repeats the helping verb: *Yes, he does.* Not *Yes, he.*
-- A skeleton story is planned in four moves: setting, problem, attempts,
-  resolution — and written in one tense.
-- An e-mail needs a subject line, a greeting, short body paragraphs, a closing
-  and a signature.
+- Story: the boy travels alone; his father's note says he is in the adjacent
+  compartment, and the boy's fear vanishes — a parent's love protects quietly.
+- Poem: the speaker failed to change the world, nation, town and family; he
+  learns that change begins with himself and spreads outward.
+- Yes/no question = helping verb + subject + …; use *do/does/did* when there is
+  no helping verb, then the **base** verb.
+- *some* becomes *any* in questions; short answers use the helping verb.
+- Permission: *Can/May I…?*, *Is it okay if I…?*, *Would you mind if I +
+  past?*; "Not at all" means yes.
+- -ed endings: /t/, /d/, /ɪd/ (/ɪd/ only after t or d).
 
 ## Practice questions
 
 **Reading**
 
-1. What is a letter of advice? Give two features that make it different from a
-   formal letter. <span class="marks">[2]</span>
-2. Why does the father say that he cannot live his son's life for him? <span class="marks">[2]</span>
-3. In the poem, who is the speaker and what is the theme? <span class="marks">[2]</span>
-4. Read these lines and answer: *"Everything I knew has altered, / and I did
-   not ask it to."* What does the speaker feel here? <span class="marks">[2]</span>
+1. Answer briefly from *A Father's Letter to his Son*. <span class="marks">[5]</span>
+   (a) What did the boy pack as gifts? (b) Where did the father give the
+   envelope? (c) Why did the boy feel lonely? (d) Who frightened him? (e) What
+   was written in the letter?
+2. Write True or False. <span class="marks">[3]</span>
+   (a) The parents agreed at once. (b) The mother allowed him to swim alone.
+   (c) The boy read the letter before the train started.
+3. What lesson does the poem *Changing World* teach? Answer in about 50 words. <span class="marks">[4]</span>
 
-::: note Answers
-**1.** A letter giving somebody guidance about how to live or act. It is warm
-and personal rather than polite and impersonal, and it uses the first person
-(*I* speaking to *you*) instead of the third person.
-**2.** Because advice can only help somebody who then acts; the father can
-guide, warn and encourage, but the choices — and their consequences — belong to
-the son.
-**3.** The speaker is someone looking back at their younger self and forward at
-the future; the theme is change.
-**4.** Surprise and a little helplessness: the change happened without his or
-her permission. It prepares the reader for the acceptance that comes later in
-the poem.
+::: note Answers — Reading
+**1.** (a) Sunglasses and mufflers. (b) Through the train window at the station.
+(c) He saw that everyone was with someone. (d) A big man who entered the
+compartment. (e) "Don't be afraid. I am here with you on this train, in the
+adjacent compartment."
+**2.** (a) False — they refused at first. (b) False — always with his
+grandparents. (c) False — he read it when he got scared on the way.
+**3.** The poem teaches that we should begin by changing ourselves. We cannot
+easily change the world, the nation or even our family by force, but if we
+improve our own habits, our example influences our family, then our town and
+nation, and finally the world.
 :::
 
 **Grammar**
 
-5. Make yes/no questions from these statements. <span class="marks">[5]</span>
-   (a) He plays the flute. (b) They were at home. (c) You can ride a bicycle.
-   (d) She has finished her homework. (e) We went to Mustang.
+4. Change into yes/no questions. <span class="marks">[5]</span>
+   (a) She plays the madal. (b) They were at home. (c) He has finished his
+   work. (d) Ram bought a bicycle. (e) There is some milk in the jug.
+5. Give short answers. <span class="marks">[2]</span>
+   (a) Does your sister sing? (Yes) (b) Can you swim? (No)
 
-6. Give short answers — one affirmative and one negative — for each question
-   in 5. <span class="marks">[5]</span>
-
-::: note Answers
-**5.** (a) Does he play the flute? (b) Were they at home? (c) Can you ride a
-bicycle? (d) Has she finished her homework? (e) Did we go to Mustang?
-**6.** (a) Yes, he does. / No, he does not. (b) Yes, they were. / No, they were
-not. (c) Yes, I can. / No, I cannot. (d) Yes, she has. / No, she has not.
-(e) Yes, we did. / No, we did not.
+::: note Answers — Grammar
+**4.** (a) Does she play the madal? (b) Were they at home? (c) Has he finished
+his work? (d) Did Ram buy a bicycle? (e) Is there any milk in the jug?
+**5.** (a) Yes, she does. (b) No, I can't.
 :::
 
 **Writing**
 
-7. Complete this skeleton story in about 120 words. <span class="marks">[5]</span>
-   *Anita found a small dog outside the school gate. … She named it Kalu.*
-8. Write an e-mail to your class teacher asking for leave for three days
-   because of an illness. <span class="marks">[5]</span>
+6. Develop a story with a title from these outlines: *a thirsty crow … searches
+   for water … finds a pot with little water … cannot reach it … drops pebbles
+   … water rises … drinks and flies away.* <span class="marks">[5]</span>
+7. Write an e-mail to your class teacher asking permission to leave school early
+   tomorrow. <span class="marks">[5]</span>
 
-::: note Answers
-**7.** Plan: setting (school gate, after the last period) → problem (the dog is
-hurt and nobody claims it) → attempts (the guard says no; her mother says no) →
-resolution (the vet treats the leg, the mother agrees to keep it, they name it
-Kalu). Keep the whole story in the past simple and finish with the effect on
-Anita.
-**8.** Subject: *Request for leave of three days*. Dear Sir/Madam, I am
-writing to ask for leave from … to … because I am suffering from fever and the
-doctor has advised three days' rest. I will complete the work I miss. Thank
-you. Yours sincerely, name, class, roll number.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** He has been working here ______ 2019.
-   (a) for (b) since (c) from (d) by
-**2.** The passive of *They have planted trees* is
-   (a) Trees are planted (b) Trees have been planted (c) Trees were planted (d) Trees had planted
-**3.** Add the tag: *Let's begin, ______?*
-   (a) shall we (b) will we (c) do we (d) don't we
-**4.** *Change* as a noun means
-   (a) to make different (b) an alteration (c) changing (d) changeable
-**5.** She said, "I am busy." → She said that she ______ busy.
-   (a) is (b) was (c) has been (d) were
-
-::: note Objective practice — answers
-**1.** (b) — *since* with a point of time. **2.** (b) — present perfect passive. **3.** (a) — *Let's* takes *shall we*. **4.** (b) — an alteration. **5.** (b) — the tense moves back one step.
+::: note Answers — Writing
+**6.** Title *The Clever Crow*; past tense; all outline points in order; a
+moral such as *Where there is a will, there is a way.*
+**7.** Subject line (*Request to leave school early*), polite greeting, reason
+(e.g. a family function or a doctor's appointment), the exact time, a polite
+permission question (*Would it be alright if I left at 1 p.m.?*), thanks,
+closing and name.
 :::
