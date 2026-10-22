@@ -77,6 +77,9 @@ urlpatterns = [
     path('syllabus/v2/', views_syllabus.syllabus_index, name='syllabus-v2-index'),
     path('syllabus/v2/search/', views_syllabus.syllabus_search, name='syllabus-v2-search'),
     path('syllabus/v2/<str:grade>/<str:subject>/', views_syllabus.syllabus_subject, name='syllabus-v2-subject'),
+    path('syllabus/v2/<str:grade>/<str:subject>/unit/<int:unit_no>/', views_syllabus.syllabus_chapter, name='syllabus-v2-chapter'),
+    path('syllabus/v2/<str:grade>/<str:subject>/bank/<int:bank_no>/', views_syllabus.syllabus_bank, name='syllabus-v2-bank'),
+    path('syllabus/v2/<str:grade>/<str:subject>/guide/', views_syllabus.syllabus_guide, name='syllabus-v2-guide'),
     path('syllabus/subjects/<str:grade_slug>/<str:subject_slug>/', views.syllabus_subject_detail, name='syllabus-subject-detail'),
 
     # Resource Requests
