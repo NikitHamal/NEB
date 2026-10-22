@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,736
+Gauss Seidel takes another route: iteration.
+
+2
+00:00:03,736 --> 00:00:06,966
+Solve each equation for its own unknown.
+
+3
+00:00:06,966 --> 00:00:11,184
+Start from a guess, nought, nought, nought, and keep improving.
+
+4
+00:00:11,184 --> 00:00:17,408
+It is guaranteed to converge when each diagonal coefficient beats the others in its row.
+
+5
+00:00:17,408 --> 00:00:20,807
+Here twenty beats one plus two, and so on.
+

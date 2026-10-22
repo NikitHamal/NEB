@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,945
+Equal end values and a polynomial: the conditions hold.
+

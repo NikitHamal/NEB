@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,039
+Take moments about A, so the unknown R A has no turning effect.
+
+2
+00:00:05,039 --> 00:00:09,817
+Four R B equals two hundred times two plus three hundred times one.
+
+3
+00:00:09,817 --> 00:00:12,838
+R B is a hundred and seventy five newtons.
+
+4
+00:00:12,838 --> 00:00:17,786
+The vertical forces balance, so R A is three twenty five.
+
+5
+00:00:17,786 --> 00:00:20,885
+The support nearer the load carries more.
+

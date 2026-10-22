@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,997
+At the top the velocity is zero: twenty metres up.
+

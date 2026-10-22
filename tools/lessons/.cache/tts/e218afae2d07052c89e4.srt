@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,861
+Find the identity in each row: one plus three, two plus two, three plus one.
+
+2
+00:00:06,861 --> 00:00:11,002
+So the inverse of one is three, two is its own inverse.
+
+3
+00:00:11,002 --> 00:00:17,708
+And the table is a mirror image across its diagonal: the group is abelian, of order four.
+

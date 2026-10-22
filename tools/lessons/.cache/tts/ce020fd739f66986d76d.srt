@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,643
+For the integers, all four axioms hold, it commutes, and it has infinitely many elements.
+

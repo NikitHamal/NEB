@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,817
+The formula becomes: average x and five over x.
+

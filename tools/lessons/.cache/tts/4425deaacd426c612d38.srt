@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,932
+f dash is zero at plus or minus two over root three, both inside: Rolle promises at least one, not only one.
+

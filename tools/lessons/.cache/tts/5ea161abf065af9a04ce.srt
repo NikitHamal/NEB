@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,690
+It lands with thirty downward and twenty across: thirty six point one metres per second.
+

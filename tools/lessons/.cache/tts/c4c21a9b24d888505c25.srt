@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,820
+It takes two seconds to rise, and by symmetry two to fall: four in all.
+

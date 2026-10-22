@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,445
+Two point three six, then two point one two seven, then two point zero nine five, and the digits soon stop changing: the root is two point zero nine four six.
+
+2
+00:00:11,445 --> 00:00:18,893
+Numerical methods like this solve problems that algebra cannot, and the art is knowing how accurate the answer is.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,091
+One over x is not even defined at nought, so it is not continuous.
+

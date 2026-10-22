@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,638
+Twelve chairs and six tables, for thirteen thousand two hundred rupees.
+
+2
+00:00:05,638 --> 00:00:07,734
+Both workshops are fully booked.
+

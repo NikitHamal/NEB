@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,364
+The trapezium error shrinks like h squared; Simpson's like h to the fourth.
+
+2
+00:00:05,364 --> 00:00:11,145
+Here, with the same five values, Simpson is about four hundred times more accurate.
+
+3
+00:00:11,145 --> 00:00:16,406
+Halve h, and the trapezium error falls by four, Simpson's by sixteen.
+

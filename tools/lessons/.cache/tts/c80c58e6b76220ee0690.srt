@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,406
+Gauss elimination is the systematic version of eliminating by hand, which is why computers use it.
+
+2
+00:00:06,406 --> 00:00:08,541
+Write the augmented matrix.
+
+3
+00:00:08,541 --> 00:00:16,705
+Use the first pivot to clear the first column: subtract twice row one from row two, and three times row one from row three.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:16,184
+From these come the formulas: time of flight two u sin theta over g, greatest height u squared sin squared theta over two g, and range u squared sin two theta over g. Sin two theta is largest at forty five degrees.
+
+2
+00:00:16,184 --> 00:00:25,690
+And theta and ninety minus theta have the same sin two theta: that is why fifteen and seventy five degrees landed together.
+

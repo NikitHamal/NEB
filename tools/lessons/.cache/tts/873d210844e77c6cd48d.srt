@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,046
+Each new value is used immediately: the new y uses the x just found, and the new z uses both.
+
+2
+00:00:08,046 --> 00:00:10,026
+That is what makes it Gauss Seidel.
+
+3
+00:00:10,026 --> 00:00:15,130
+Watch the digits settle: by the fourth or fifth round they no longer change.
+
+4
+00:00:15,130 --> 00:00:19,700
+x is one, y is minus one, z is one.
+

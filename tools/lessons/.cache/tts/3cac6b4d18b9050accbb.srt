@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,289
+Rolle's theorem.
+
+2
+00:00:01,289 --> 00:00:08,242
+If a smooth curve starts and ends at the same height, then somewhere in between its tangent is flat.
+
+3
+00:00:08,242 --> 00:00:15,794
+Three conditions: continuous on the closed interval, differentiable inside it, and equal values at the ends.
+
+4
+00:00:15,794 --> 00:00:20,130
+Then f dash of c is zero for some c strictly between.
+

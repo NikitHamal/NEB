@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,687
+Five kilograms and three kilograms hang over a smooth pulley.
+
+2
+00:00:04,687 --> 00:00:11,601
+The heavier side falls, the lighter rises, with the same acceleration and the same tension in the string.
+
+3
+00:00:11,601 --> 00:00:18,619
+Write F equals m a for each mass, positive in its own direction of motion.
+

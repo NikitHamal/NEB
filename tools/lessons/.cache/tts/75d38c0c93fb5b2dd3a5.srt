@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,179
+Reorder so each big coefficient sits on the diagonal.
+

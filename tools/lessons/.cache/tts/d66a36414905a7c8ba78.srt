@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,760
+After one second the vertical velocity is zero: it is at the top, moving at seventeen point three two.
+

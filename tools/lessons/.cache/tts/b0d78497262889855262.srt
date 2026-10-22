@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,932
+For the natural numbers there is no negative to undo three.
+
+2
+00:00:03,932 --> 00:00:06,848
+The inverse axiom fails, so it is not a group.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,664
+For x squared on one to three, the chord's slope is eight over two, four.
+
+2
+00:00:05,664 --> 00:00:08,893
+And two c equals four at c equals two.
+

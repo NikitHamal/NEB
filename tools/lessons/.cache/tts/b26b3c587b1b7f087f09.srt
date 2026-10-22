@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,067
+The rules.
+
+2
+00:00:01,067 --> 00:00:07,408
+Turn each inequality into an equation with a slack variable, the unused capacity.
+
+3
+00:00:07,408 --> 00:00:11,458
+Choose the pivot column with the most negative number in the Z row.
+
+4
+00:00:11,458 --> 00:00:16,393
+Choose the pivot row with the smallest ratio of right side to column entry.
+
+5
+00:00:16,393 --> 00:00:18,450
+Pivot, as in Gauss Jordan.
+
+6
+00:00:18,450 --> 00:00:22,057
+Repeat until the Z row has no negatives.
+

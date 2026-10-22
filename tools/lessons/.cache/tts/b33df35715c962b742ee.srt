@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,843
+A clock with only four hours: nought, one, two, three.
+
+2
+00:00:04,843 --> 00:00:08,515
+Start at two and move on three: you land on one.
+
+3
+00:00:08,515 --> 00:00:11,927
+Start at three, move on one: back to nought.
+
+4
+00:00:11,927 --> 00:00:14,192
+Arithmetic that wraps round.
+

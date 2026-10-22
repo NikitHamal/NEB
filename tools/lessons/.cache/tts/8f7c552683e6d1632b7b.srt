@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,127
+The strings are at right angles to each other, so the weight sits opposite ninety degrees; the tensions sit opposite one fifty and one twenty.
+
+2
+00:00:09,127 --> 00:00:15,195
+Lami gives fifty newtons in the shallow string and eighty six point six in the steep one.
+
+3
+00:00:15,195 --> 00:00:17,473
+The steeper string carries more.
+

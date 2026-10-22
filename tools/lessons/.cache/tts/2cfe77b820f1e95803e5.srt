@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,546
+A finite group is best shown in a Cayley table, like a multiplication table.
+
+2
+00:00:05,546 --> 00:00:10,963
+Here is Z four, addition modulo four: the clock from the start.
+

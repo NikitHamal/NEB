@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,380
+Linear programming.
+
+2
+00:00:01,380 --> 00:00:07,851
+Make as much profit Z equals three x plus five y as you can, under two limits.
+
+3
+00:00:07,851 --> 00:00:12,070
+The limits cut out a region, the feasible region, a polygon.
+
+4
+00:00:12,070 --> 00:00:16,822
+Slide the profit line outward: the last point it touches is a corner.
+
+5
+00:00:16,822 --> 00:00:19,479
+The best answer is always at a corner.
+

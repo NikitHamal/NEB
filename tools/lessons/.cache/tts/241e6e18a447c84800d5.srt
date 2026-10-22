@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,552
+The four fourth roots of unity, one, minus one, i and minus i, under multiplication.
+
+2
+00:00:07,552 --> 00:00:14,296
+Every product stays in the set; one is the identity; i and minus i are inverses.
+
+3
+00:00:14,296 --> 00:00:17,278
+Another abelian group of order four.
+
+4
+00:00:17,278 --> 00:00:23,684
+Remember the cold open: multiplying by i is a quarter turn, just like the four hour clock.
+

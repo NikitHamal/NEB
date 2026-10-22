@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,578
+Throw a ball at twenty metres per second.
+
+2
+00:00:02,578 --> 00:00:08,932
+At fifteen degrees it skims low; at seventy five it climbs high and drops close by.
+
+3
+00:00:08,932 --> 00:00:14,192
+In between, forty five degrees sends it furthest of all, forty metres.
+
