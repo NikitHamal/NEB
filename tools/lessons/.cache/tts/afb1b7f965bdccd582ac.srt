@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,630
+So root forty nine point five is about seven point zero three five seven: right to four places.
+

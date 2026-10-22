@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,653
+When every term on the right has the same total degree, the right side depends only on y over x.
+
+2
+00:00:06,653 --> 00:00:08,828
+That is a homogeneous equation.
+

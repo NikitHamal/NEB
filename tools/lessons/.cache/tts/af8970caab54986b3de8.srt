@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,432
+A population that grows at a rate proportional to its size obeys d P by d t equals k P. Separate and integrate: P equals P nought e to the k t.
+
+2
+00:00:11,432 --> 00:00:18,203
+A municipality had forty thousand people in twenty sixty eight and fifty thousand ten years later.
+

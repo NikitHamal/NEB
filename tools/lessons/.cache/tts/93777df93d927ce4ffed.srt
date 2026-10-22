@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,062
+Root forty nine is seven; the derivative there is one over fourteen; times a half: point zero three five seven.
+

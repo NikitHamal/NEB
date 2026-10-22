@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,718
+That is L'Hospital's rule.
+
+2
+00:00:01,718 --> 00:00:12,044
+For a nought over nought, or infinity over infinity form, differentiate the top and the bottom separately, not as a quotient, and take the limit again.
+
+3
+00:00:12,044 --> 00:00:17,161
+Sin two x over x becomes two cos two x over one: two.
+

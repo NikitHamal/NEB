@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,500
+Exactly the curve we just explored.
+

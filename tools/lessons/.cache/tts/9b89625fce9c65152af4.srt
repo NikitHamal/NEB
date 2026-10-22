@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,927
+Divide by V: the relative error in a cube of anything is three times the relative error in the length.
+

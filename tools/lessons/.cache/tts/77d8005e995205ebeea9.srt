@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,809
+Add the two forms: the fractions add to one, and the integral of one is pi over two.
+

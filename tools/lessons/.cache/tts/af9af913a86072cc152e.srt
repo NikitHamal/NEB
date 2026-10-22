@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,255
+Rates of change are derivatives with respect to time.
+
+2
+00:00:03,255 --> 00:00:09,309
+A five metre ladder leans on a wall, and its foot is pulled away at two metres per second.
+
+3
+00:00:09,309 --> 00:00:16,406
+The foot moves steadily, but watch the top: it starts slowly, then plunges faster and faster.
+

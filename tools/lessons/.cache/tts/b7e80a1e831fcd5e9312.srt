@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,882
+So ten years multiplies the population by five quarters.
+
+2
+00:00:04,882 --> 00:00:11,432
+Another ten years multiplies by five quarters again: sixty two thousand five hundred.
+
+3
+00:00:11,432 --> 00:00:13,046
+No need to work out k at all.
+

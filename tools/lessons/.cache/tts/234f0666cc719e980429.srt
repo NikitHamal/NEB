@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,328
+Normal: slope minus a ninth, so x plus nine y minus thirty eight equals zero.
+

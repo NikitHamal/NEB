@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,838
+Three properties do most of the work.
+
+2
+00:00:02,838 --> 00:00:07,630
+Swapping the limits changes the sign, and you can split at any point.
+
+3
+00:00:07,630 --> 00:00:14,244
+Replacing x by a minus x does not change the integral from nought to a: the reflection trick.
+
+4
+00:00:14,244 --> 00:00:21,250
+And over a symmetric interval, an odd function integrates to zero, an even one to twice the half.
+

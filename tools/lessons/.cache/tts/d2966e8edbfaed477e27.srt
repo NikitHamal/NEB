@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,401
+Multiply top and bottom by sec x plus tan x.
+

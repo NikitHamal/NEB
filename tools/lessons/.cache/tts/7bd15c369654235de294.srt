@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,236
+Two warnings.
+
+2
+00:00:01,236 --> 00:00:06,015
+It is not the quotient rule: differentiate top and bottom separately.
+
+3
+00:00:06,015 --> 00:00:11,250
+And check the form before every step; once it stops being nought over nought, stop.
+

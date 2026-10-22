@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,627
+x: e to the integral of one over x is e to the log x, which is x.
+

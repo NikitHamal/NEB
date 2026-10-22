@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,385
+The area so far is five halves t squared.
+
+2
+00:00:03,385 --> 00:00:07,669
+And differentiate that: five t, the speed.
+
+3
+00:00:07,669 --> 00:00:11,861
+So the area function is the thing whose derivative is the speed.
+
+4
+00:00:11,861 --> 00:00:18,515
+Finding it means running differentiation backwards: anti-differentiation, or integration.
+

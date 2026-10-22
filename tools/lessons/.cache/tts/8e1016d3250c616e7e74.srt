@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,356
+A bus pulls away from a stop, its speed rising steadily: five metres per second every second.
+
+2
+00:00:07,356 --> 00:00:08,697
+How far has it gone?
+
+3
+00:00:08,697 --> 00:00:11,875
+The distance is the area under the speed graph.
+

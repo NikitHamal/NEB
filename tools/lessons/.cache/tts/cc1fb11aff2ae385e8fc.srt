@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,625
+So a point one per cent error in a cube's side gives a point three per cent error in its volume.
+

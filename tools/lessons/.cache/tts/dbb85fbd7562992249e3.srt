@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,057
+The form depends on the factors.
+
+2
+00:00:02,057 --> 00:00:04,674
+A linear factor gets a constant on top.
+
+3
+00:00:04,674 --> 00:00:08,580
+A repeated factor gets one fraction for each power.
+
+4
+00:00:08,580 --> 00:00:12,096
+An irreducible quadratic gets a linear numerator.
+
+5
+00:00:12,096 --> 00:00:16,979
+And if the top is not of lower degree than the bottom, divide first.
+

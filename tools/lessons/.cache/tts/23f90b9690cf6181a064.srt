@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,265
+Then the left side is exactly the derivative of I times y. Integrate both sides, and divide by I.
+

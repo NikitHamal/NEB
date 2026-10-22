@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,630
+Water pours at a steady three cubic metres a minute into a cone ten metres deep with a five metre radius.
+
+2
+00:00:07,630 --> 00:00:12,513
+The level rises fast at first and slows as the cone widens.
+

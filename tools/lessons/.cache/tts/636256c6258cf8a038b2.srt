@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,354
+Stationary points at one and three; the second derivative is six x minus twelve.
+

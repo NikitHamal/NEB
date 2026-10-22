@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,742
+And for A e to the two x, the derivative is twice y itself.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,744
+Watch for square roots.
+
+2
+00:00:01,744 --> 00:00:11,093
+The second derivative equals the root of one plus the first derivative squared: square both sides, and it has order two, degree two.
+

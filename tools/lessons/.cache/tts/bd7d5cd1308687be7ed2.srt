@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,458
+That was derivatives.
+
+2
+00:00:01,458 --> 00:00:06,796
+Next, anti-derivatives: running differentiation backwards to find integrals.
+
+3
+00:00:06,796 --> 00:00:07,786
+See you there.
+

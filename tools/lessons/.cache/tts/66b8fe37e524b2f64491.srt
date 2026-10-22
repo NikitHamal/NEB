@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,309
+Take a square sheet of tin, eighteen centimetres a side.
+
+2
+00:00:04,309 --> 00:00:09,388
+Cut a small square from each corner and fold up the flaps: an open box.
+
+3
+00:00:09,388 --> 00:00:12,083
+Cut too little and the box is shallow.
+
+4
+00:00:12,083 --> 00:00:14,752
+Cut too much and the base vanishes.
+

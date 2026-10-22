@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,619
+y with d y on the left, x with d x on the right.
+

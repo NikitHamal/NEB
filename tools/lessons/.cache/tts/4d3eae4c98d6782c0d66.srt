@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,731
+What does a solution look like?
+
+2
+00:00:01,731 --> 00:00:05,247
+At every point, the equation tells you a slope.
+
+3
+00:00:05,247 --> 00:00:08,398
+Draw a little line there: this is the slope field.
+
+4
+00:00:08,398 --> 00:00:13,255
+A solution is a curve that follows those little lines everywhere.
+
+5
+00:00:13,255 --> 00:00:16,901
+Start at the top and follow them: you go round a circle.
+
+6
+00:00:16,901 --> 00:00:19,726
+Every starting point gives a different circle.
+

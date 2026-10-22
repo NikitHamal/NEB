@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,510
+x equal to one gives A; compare the x squared terms and the constants for B and D.
+

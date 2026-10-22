@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,744
+Substitute: one over nine pi, about point zero three five centimetres per second.
+

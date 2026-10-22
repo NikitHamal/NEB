@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,367
+For thirty degrees, the excess must fall to ten: about twenty five point eight minutes.
+

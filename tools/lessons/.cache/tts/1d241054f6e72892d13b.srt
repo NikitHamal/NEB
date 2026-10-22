@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,052
+Integrate M in x; matching N leaves nothing for g.
+

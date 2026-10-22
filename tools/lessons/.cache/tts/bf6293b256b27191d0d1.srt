@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,770
+Write root x as x to the half: raise to three halves and divide by three halves.
+

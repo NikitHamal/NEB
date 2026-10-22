@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,195
+A family of standard forms is built around a squared plus or minus x squared.
+
+2
+00:00:05,195 --> 00:00:09,127
+One over x squared plus a squared gives inverse tan.
+
+3
+00:00:09,127 --> 00:00:13,593
+One over root of a squared minus x squared gives inverse sine.
+
+4
+00:00:13,593 --> 00:00:15,703
+And others give logarithms.
+
+5
+00:00:15,703 --> 00:00:23,203
+To use them, first make the coefficient of x squared equal to one, and complete the square if there is an x term.
+

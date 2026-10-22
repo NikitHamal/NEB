@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,971
+The base is eighteen minus two x, the height x.
+

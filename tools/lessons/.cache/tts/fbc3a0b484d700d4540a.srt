@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,354
+If the derivative of x squared is two x, then the anti-derivative of two x is x squared.
+
+2
+00:00:06,354 --> 00:00:13,867
+But so is x squared plus one, or plus anything: they are all the same curve shifted up, with identical slopes.
+
+3
+00:00:13,867 --> 00:00:17,591
+So every indefinite integral carries a plus C.
+

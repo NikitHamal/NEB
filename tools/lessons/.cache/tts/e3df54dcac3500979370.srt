@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,434
+No anti-derivative exists here.
+
+2
+00:00:02,434 --> 00:00:04,205
+Use the reflection trick.
+

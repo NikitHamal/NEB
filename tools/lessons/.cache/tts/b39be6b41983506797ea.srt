@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,794
+Separate: d y over y equals one minus one over x, d x.
+

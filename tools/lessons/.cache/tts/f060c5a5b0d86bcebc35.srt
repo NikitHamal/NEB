@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,041
+Differentiate straight from the exponential definitions: the derivative of sinh is cosh, and of cosh is sinh, with no minus sign at all, unlike cos.
+
+2
+00:00:11,041 --> 00:00:14,179
+And tanh differentiates to sech squared.
+

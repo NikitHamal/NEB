@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,429
+Integrate and collect the logs: x y equals C e to the x.
+

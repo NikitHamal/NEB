@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,273
+Shrink the step and the red gap vanishes much faster than the step itself.
+
+2
+00:00:05,273 --> 00:00:14,218
+So for small changes, f of x plus delta x is approximately f of x plus f dash of x times delta x.
+

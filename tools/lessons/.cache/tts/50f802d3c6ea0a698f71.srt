@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,338
+A third time: e to the zero plus e to the zero, over cos zero.
+
+2
+00:00:05,338 --> 00:00:06,054
+Two.
+

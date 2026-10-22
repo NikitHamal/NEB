@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,377
+Replace x by pi over two minus x: sine and cosine swap.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,986
+Going the other way, every family of curves has a differential equation.
+
+2
+00:00:04,986 --> 00:00:19,466
+The circles x squared plus y squared equals a squared, for every radius a. Differentiate once, because there is one constant, and a disappears: d y by d x equals minus x over y.
+
+3
+00:00:19,466 --> 00:00:23,151
+One equation describes every circle in the family.
+

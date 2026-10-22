@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,437
+To tell which is which: the second derivative.
+
+2
+00:00:03,437 --> 00:00:07,148
+Negative means the curve bends down, so a maximum.
+
+3
+00:00:07,148 --> 00:00:09,635
+Positive bends up: a minimum.
+
+4
+00:00:09,635 --> 00:00:14,817
+Zero: the test fails, and you must check whether f dash changes sign.
+

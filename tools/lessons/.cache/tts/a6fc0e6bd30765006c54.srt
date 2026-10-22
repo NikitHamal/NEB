@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,497
+Two slips to avoid.
+
+2
+00:00:01,497 --> 00:00:06,679
+Make the coefficient of d y by d x one before you read off P.
+
+3
+00:00:06,679 --> 00:00:11,250
+And add the constant before dividing by I, or you lose part of the answer.
+

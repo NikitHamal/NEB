@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,770
+Why is an integral an area?
+
+2
+00:00:01,770 --> 00:00:08,033
+Fill the region under x squared from nought to one with n thin rectangles.
+
+3
+00:00:08,033 --> 00:00:10,690
+Their total area overshoots a little.
+
+4
+00:00:10,690 --> 00:00:13,346
+Now take more and thinner rectangles.
+

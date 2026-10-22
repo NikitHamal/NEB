@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,776
+Somewhere in between is the biggest possible box.
+
+2
+00:00:03,776 --> 00:00:06,666
+At the top of the curve the slope is zero.
+
+3
+00:00:06,666 --> 00:00:14,492
+Derivatives find it exactly: cut three centimetres, and the box holds four hundred and thirty two cubic centimetres.
+
+4
+00:00:14,492 --> 00:00:21,601
+This unit is about using derivatives: for slopes, rates, approximations and the best possible answer.
+

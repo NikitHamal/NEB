@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,325
+Three x squared gives x cubed; four over x gives four log x.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,486
+Check the form: nought over nought.
+
+2
+00:00:02,486 --> 00:00:04,635
+Differentiate top and bottom.
+
+3
+00:00:04,635 --> 00:00:06,510
+Still nought over nought.
+

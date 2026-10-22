@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,145
+Six parts.
+
+2
+00:00:01,145 --> 00:00:05,169
+Order, degree and forming a differential equation.
+
+3
+00:00:05,169 --> 00:00:06,796
+Separable equations.
+
+4
+00:00:06,796 --> 00:00:08,750
+Homogeneous equations.
+
+5
+00:00:08,750 --> 00:00:11,927
+Linear equations with an integrating factor.
+
+6
+00:00:11,927 --> 00:00:13,815
+Exact equations.
+
+7
+00:00:13,815 --> 00:00:17,669
+And applications: growth, decay and cooling.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,106
+Quick recap.
+
+2
+00:00:01,106 --> 00:00:05,976
+Order and degree, and forming an equation by eliminating constants.
+
+3
+00:00:05,976 --> 00:00:08,463
+Separate the variables when you can.
+
+4
+00:00:08,463 --> 00:00:16,783
+Homogeneous equations: put y equal to v x. Linear equations: multiply by the integrating factor.
+
+5
+00:00:16,783 --> 00:00:19,414
+Exact equations: find u.
+
+6
+00:00:19,414 --> 00:00:23,815
+And the exponential laws of growth, decay and cooling.
+

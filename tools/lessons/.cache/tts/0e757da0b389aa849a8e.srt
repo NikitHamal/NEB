@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,223
+Seven parts.
+
+2
+00:00:01,223 --> 00:00:02,929
+The standard integrals.
+
+3
+00:00:02,929 --> 00:00:06,028
+Substitution and integration by parts.
+
+4
+00:00:06,028 --> 00:00:09,635
+The standard forms with a squared plus or minus x squared.
+
+5
+00:00:09,635 --> 00:00:11,158
+Partial fractions.
+
+6
+00:00:11,158 --> 00:00:13,984
+The definite integral and its properties.
+
+7
+00:00:13,984 --> 00:00:16,679
+The integral as the limit of a sum.
+
+8
+00:00:16,679 --> 00:00:19,375
+And areas under and between curves.
+

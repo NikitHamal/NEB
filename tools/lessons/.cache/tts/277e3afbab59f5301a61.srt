@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,486
+The last form has a lovely picture.
+
+2
+00:00:02,486 --> 00:00:08,658
+The area under the quarter circle from nought to x splits into a triangle and a sector.
+
+3
+00:00:08,658 --> 00:00:14,010
+The triangle has area half x times root of a squared minus x squared.
+
+4
+00:00:14,010 --> 00:00:21,419
+The sector's angle is inverse sine of x over a, so its area is a squared over two times that angle.
+
+5
+00:00:21,419 --> 00:00:23,476
+That is exactly the formula.
+
+6
+00:00:23,476 --> 00:00:27,734
+Algebraically, substitute x equals a sin theta.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,809
+A fraction with a factorised denominator can be split into simpler fractions, each easy to integrate.
+
+2
+00:00:06,809 --> 00:00:13,945
+One over x minus one times x plus two is A over x minus one, plus B over x plus two.
+

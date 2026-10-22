@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,302
+The second derivative, twelve x times x minus two, changes sign at zero and at two.
+
+2
+00:00:06,302 --> 00:00:10,247
+Those are the points of inflection, where the bending switches.
+
+3
+00:00:10,247 --> 00:00:17,213
+Notice x equals zero: the slope is zero there too, but it is not a maximum or minimum.
+
+4
+00:00:17,213 --> 00:00:21,445
+The only extreme is the minimum at x equals three.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,085
+A differential equation contains derivatives.
+
+2
+00:00:03,085 --> 00:00:07,695
+Its order is the highest derivative that appears: here, the third.
+
+3
+00:00:07,695 --> 00:00:15,820
+Its degree is the power of that highest derivative, once roots and fractions in the derivatives are cleared: here, two.
+

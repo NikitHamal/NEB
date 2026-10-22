@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,106
+Quick recap.
+
+2
+00:00:01,106 --> 00:00:10,494
+Integration runs differentiation backwards, with a plus C. Substitution undoes the chain rule, parts undoes the product rule.
+
+3
+00:00:10,494 --> 00:00:14,401
+The standard forms and partial fractions handle the rest.
+
+4
+00:00:14,401 --> 00:00:21,393
+The definite integral is a signed area, and the area between curves is the integral of top minus bottom.
+

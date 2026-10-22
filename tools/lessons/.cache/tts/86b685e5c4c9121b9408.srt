@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,643
+Differentiate with respect to y and match it to N: g dash is three y squared, so g is y cubed.
+
