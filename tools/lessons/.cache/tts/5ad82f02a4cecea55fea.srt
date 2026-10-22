@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:05,533
+Oliver Sacks was born in London in nineteen thirty three, the son of two doctors.
+
+2
+00:00:05,533 --> 00:00:12,864
+He studied medicine at Oxford and from nineteen sixty five worked as a neurologist in New York for nearly fifty years.
+
+3
+00:00:12,864 --> 00:00:20,416
+He became famous for writing about his patients as human beings rather than cases, in books like Awakenings.
+
+4
+00:00:20,416 --> 00:00:23,867
+The New York Times called him the poet laureate of medicine.
+
+5
+00:00:23,867 --> 00:00:29,531
+This is a personal essay: first person, memories that move towards an opinion.
+
+6
+00:00:29,531 --> 00:00:36,184
+The textbook calls it a praise of intellectual freedom, community, and the joy of lucky discovery.
+
