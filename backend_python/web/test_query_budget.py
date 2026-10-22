@@ -109,3 +109,7 @@ class SignedInQueryBudgetTests(TestCase):
         r = self.assertBudget('/app/bookmarks/', 11)
         self.assertContains(r, 'Accountancy notes 11')
         self.assertContains(r, 'Reply on Accountancy 11')
+
+    def test_forum_does_not_query_per_poll(self):
+        r = self.assertBudget('/app/forum/?sort=new&category=Accountancy', 20)
+        self.assertContains(r, 'post-card-poll-badge', count=6)

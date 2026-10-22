@@ -555,13 +555,13 @@ def _serialize_posts(posts_qs, user_id=None):
     for m in PostMedia.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
         all_media.setdefault(m.post_id, []).append(_serialize_web_media_item(m))
     all_polls = {}
-    polls = list(Poll.objects.filter(post_id__in=post_ids))
+    polls = list(Poll.objects.filter(post_id__in=post_ids).prefetch_related('options'))
     user_votes_by_poll = {}
     if user_id and polls:
         for v in PollVote.objects.filter(poll__post_id__in=post_ids, user_id=user_id):
             user_votes_by_poll.setdefault(v.poll_id, v.option_id)
     for poll in polls:
-        opts = list(PollOption.objects.filter(poll=poll).order_by('order'))
+        opts = poll.options.all()
         user_vote = user_votes_by_poll.get(poll.id)
         all_polls[poll.post_id] = {
             'id': poll.id, 'question': poll.question, 'pollType': poll.poll_type,
