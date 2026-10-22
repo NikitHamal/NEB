@@ -20,7 +20,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 | phy12 | units 1–15 scripted, narrated, frame-checked |
 | chem12 | units 1–12 scripted, narrated, frame-checked |
 | bio12 | units 1–10 all scripted, narrated, frame-checked (helpers `_bio.py`, `_phys2.py`, `_gen.py`, `_emb.py`, `_hum.py`) |
-| math12 | units 1–14 pushed (helpers `_m.py`); 15–17 scripted, in final frame review |
+| math12 | units 1–17 all scripted, narrated, frame-checked (helpers `_m.py`) |
 | then | eng12? (English-medium only), cs12 → class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
@@ -30,7 +30,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
   Use `save_state()` + `fade()` + `Restore`.
 - A CPU box (molab marimo kernel, 20 cores) may be used for frame checks; it is shared with a festival-reel agent, so run
   renders under `nice` with at most a few parallel jobs.
-- Next step if interrupted: math12 — push unit_15/16/17 after a last look at their sheets (box tags m15b, m16b, m17); then eng12 (English-medium), cs12; then class 11.
+- Next step if interrupted: Class 12 English (notes/content/eng12 — check which units are English-medium prose/grammar suited to video), then cs12; then class 11 (phy11, chem11, bio11, math11 …).
 - Box gotcha: a manim error inside a narration block can leave frames.py hanging (render2.sh never writes TAG.done); `ps aux | grep frames.py` and kill the stuck pid.
 - `python3 tools/lessons/ttskeys.py <script>` (from the repo root) dry-runs a lesson and prints exactly the `.cache/tts` files it uses: push those with the unit.
 - Kit: `recap` now slides a long list left so Neby never covers the last line.
