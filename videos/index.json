@@ -1540,6 +1540,61 @@
    "script": "tools/lessons/scripts/math12/unit_04.py"
   },
   {
+   "id": "class-12/math12/unit_05.mp4",
+   "file": "class-12/math12/unit_05.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_05.mp4",
+     "subtitles": "class-12/math12/unit_05.srt",
+     "start": 0.0,
+     "end": 710.33,
+     "mb": 23.7
+    }
+   ],
+   "poster": "class-12/math12/unit_05.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 5,
+   "title": "Matrix Based System of Linear Equations",
+   "subtitle": "One equation, AX = B, three ways to solve it",
+   "lang": "en",
+   "sections": [
+    "Cramer's rule",
+    "Row-equivalent (Gauss) method",
+    "Inverse matrix method",
+    "Consistency: one, many or no solution"
+   ],
+   "seconds": 710.3,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.5,
+     "Cramer's rule"
+    ],
+    [
+     216.27,
+     "Row-equivalent (Gauss) method"
+    ],
+    [
+     335.77,
+     "Inverse matrix method"
+    ],
+    [
+     484.33,
+     "Consistency: one, many or no solution"
+    ],
+    [
+     671.87,
+     "Quick recap"
+    ]
+   ],
+   "mb": 23.7,
+   "script": "tools/lessons/scripts/math12/unit_05.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [

@@ -1,0 +1,644 @@
+1
+00:00:00,000 --> 00:00:02,684
+Two equations, two unknowns.
+
+2
+00:00:02,684 --> 00:00:10,238
+Each equation is a straight line, and the solution is where the lines cross: here, the single point two, three.
+
+3
+00:00:10,467 --> 00:00:14,661
+But turn the second line until it runs parallel to the first.
+
+4
+00:00:14,661 --> 00:00:17,212
+Now they never meet: no solution at all.
+
+5
+00:00:17,433 --> 00:00:23,190
+Slide it onto the first, and every point of the line is a solution: infinitely many.
+
+6
+00:00:23,190 --> 00:00:28,659
+With three unknowns the lines become planes, and guessing by eye is hopeless.
+
+7
+00:00:28,659 --> 00:00:32,712
+This unit gives you machines that decide, and solve, every time.
+
+8
+00:00:38,600 --> 00:00:44,930
+Welcome to Class 12 Mathematics, Unit 5: Matrix Based System of Linear Equations.
+
+9
+00:00:47,300 --> 00:00:48,382
+Four parts.
+
+10
+00:00:48,382 --> 00:00:51,286
+Cramer's rule, using determinants.
+
+11
+00:00:51,286 --> 00:00:53,864
+The row equivalent, or Gauss, method.
+
+12
+00:00:53,864 --> 00:00:55,687
+The inverse matrix method.
+
+13
+00:00:55,687 --> 00:01:00,713
+And consistency: how to tell one solution from infinitely many from none.
+
+14
+00:01:05,067 --> 00:01:08,168
+First, every method starts the same way.
+
+15
+00:01:08,168 --> 00:01:18,436
+Line up the unknowns in the same order and read off three objects: the coefficient matrix A, the column of unknowns X, and the column of constants B.
+
+16
+00:01:18,667 --> 00:01:21,715
+Why does A X equal B say the same thing?
+
+17
+00:01:21,715 --> 00:01:28,460
+Multiply the first row of A into the column X: x plus two y plus z.
+
+18
+00:01:28,460 --> 00:01:30,947
+That is the left side of the first equation.
+
+19
+00:01:30,947 --> 00:01:33,431
+A missing unknown simply gets a zero.
+
+20
+00:01:34,633 --> 00:01:37,916
+Cramer's rule comes from plain elimination.
+
+21
+00:01:37,916 --> 00:01:44,296
+Multiply to kill y, subtract, and x times a determinant equals another determinant.
+
+22
+00:01:44,296 --> 00:01:47,734
+The bottom one is D, made of the coefficients.
+
+23
+00:01:47,734 --> 00:01:52,017
+The top one is D with the x column replaced by the constants.
+
+24
+00:01:52,017 --> 00:01:59,212
+So x is D x over D, and y is D y over D, as long as D is not zero.
+
+25
+00:02:00,433 --> 00:02:01,703
+The cold open's system.
+
+26
+00:02:01,933 --> 00:02:05,711
+D is minus two minus nine: minus eleven.
+
+27
+00:02:05,711 --> 00:02:08,821
+Not zero, so there is exactly one solution.
+
+28
+00:02:09,033 --> 00:02:13,579
+Put thirteen and three in the x column: minus twenty two.
+
+29
+00:02:13,579 --> 00:02:16,117
+In the y column: minus thirty three.
+
+30
+00:02:16,333 --> 00:02:19,056
+Divide: x is two and y is three.
+
+31
+00:02:19,056 --> 00:02:20,393
+The crossing point we saw.
+
+32
+00:02:22,400 --> 00:02:27,922
+With three unknowns the rule is the same, with three by three determinants.
+
+33
+00:02:27,922 --> 00:02:31,295
+Expand D along its first row: six.
+
+34
+00:02:31,295 --> 00:02:32,637
+Not zero, so go on.
+
+35
+00:02:32,867 --> 00:02:38,611
+For D x, copy D and slide the constants into the first column, the x column.
+
+36
+00:02:38,611 --> 00:02:39,925
+Expand: twelve.
+
+37
+00:02:40,133 --> 00:02:44,635
+For D y, the constants go into the second column: minus six.
+
+38
+00:02:44,867 --> 00:02:48,501
+And for D z, the third column: eighteen.
+
+39
+00:02:48,501 --> 00:02:50,558
+Replace a column, never a row.
+
+40
+00:02:50,767 --> 00:02:56,289
+Divide each by D: x is two, y is minus one, z is three.
+
+41
+00:02:56,289 --> 00:03:01,016
+Check in the third equation: four minus one minus three is zero.
+
+42
+00:03:01,016 --> 00:03:01,456
+Correct.
+
+43
+00:03:02,667 --> 00:03:03,400
+A word problem.
+
+44
+00:03:03,900 --> 00:03:07,568
+Let apples cost x rupees a kilo and oranges y.
+
+45
+00:03:07,800 --> 00:03:13,757
+D is minus five, D x minus five fifty, D y minus seven hundred.
+
+46
+00:03:13,967 --> 00:03:19,138
+So apples cost a hundred and ten rupees a kilo, and oranges a hundred and forty.
+
+47
+00:03:19,138 --> 00:03:22,255
+Check: two twenty plus four twenty is six forty.
+
+48
+00:03:24,267 --> 00:03:25,297
+One warning.
+
+49
+00:03:25,297 --> 00:03:29,516
+If D is zero, Cramer's rule says nothing at all.
+
+50
+00:03:29,516 --> 00:03:35,045
+The system has either no solution or infinitely many, and part four shows how to tell.
+
+51
+00:03:39,833 --> 00:03:50,850
+The second method uses three elementary row operations: swap two rows, multiply a row by a non zero number, and add a multiple of one row to another.
+
+52
+00:03:50,850 --> 00:03:56,475
+They are exactly what you do when you eliminate by hand, so they never change the answer.
+
+53
+00:03:56,475 --> 00:04:00,827
+We apply them to the augmented matrix: A with the constants attached.
+
+54
+00:04:02,033 --> 00:04:12,048
+Solve x plus two y plus z equals eight, two x plus three y minus z equals five, three x minus y plus two z equals seven.
+
+55
+00:04:12,048 --> 00:04:13,625
+Write the augmented matrix.
+
+56
+00:04:13,833 --> 00:04:16,777
+Clear the first column below the leading one.
+
+57
+00:04:16,777 --> 00:04:19,694
+Row two minus two times row one.
+
+58
+00:04:19,694 --> 00:04:22,333
+Row three minus three times row one.
+
+59
+00:04:22,567 --> 00:04:26,267
+Now clear the second column below its pivot, minus one.
+
+60
+00:04:26,267 --> 00:04:29,261
+Row three minus seven times row two.
+
+61
+00:04:29,261 --> 00:04:33,110
+The coefficient part is now triangular: echelon form.
+
+62
+00:04:33,333 --> 00:04:35,704
+Back substitution, from the bottom up.
+
+63
+00:04:35,704 --> 00:04:39,754
+Twenty z is sixty, so z is three.
+
+64
+00:04:39,754 --> 00:04:44,415
+Then minus y minus nine is minus eleven, so y is two.
+
+65
+00:04:44,415 --> 00:04:48,529
+Then x plus four plus three is eight, so x is one.
+
+66
+00:04:49,733 --> 00:04:51,584
+Gauss Jordan goes further.
+
+67
+00:04:51,584 --> 00:04:55,015
+Make every pivot one, then clear above the pivots too.
+
+68
+00:04:55,233 --> 00:04:58,529
+Clear above the third pivot, then above the second.
+
+69
+00:04:58,529 --> 00:05:05,117
+The left block becomes the identity, and the answer, one, two, three, sits in the last column.
+
+70
+00:05:05,117 --> 00:05:06,707
+No back substitution at all.
+
+71
+00:05:07,933 --> 00:05:09,863
+A zero where the first pivot should be.
+
+72
+00:05:10,067 --> 00:05:12,452
+No problem: swap the first two rows.
+
+73
+00:05:12,667 --> 00:05:14,785
+Clear the first column, then the second.
+
+74
+00:05:15,000 --> 00:05:21,212
+Six z is eighteen, so z is three; then y is two and x is one.
+
+75
+00:05:23,833 --> 00:05:25,189
+Exam tip.
+
+76
+00:05:25,189 --> 00:05:28,392
+A zero in the pivot place is not a mistake.
+
+77
+00:05:28,392 --> 00:05:30,996
+Swap with a lower row and carry on.
+
+78
+00:05:30,996 --> 00:05:34,993
+Only if the whole column below is zero is something special happening.
+
+79
+00:05:40,333 --> 00:05:44,073
+The third method undoes A. Start from A X equals B.
+
+80
+00:05:44,300 --> 00:05:52,113
+Multiply both sides on the left by A inverse, which exists exactly when the determinant of A is not zero.
+
+81
+00:05:52,333 --> 00:05:58,433
+A inverse times A is the identity, and the identity times X is X.
+
+82
+00:05:58,633 --> 00:06:01,330
+So X is A inverse B.
+
+83
+00:06:01,330 --> 00:06:09,539
+And since A inverse is the adjoint over the determinant, X is one over the determinant of A, times adjoint A, times B.
+
+84
+00:06:10,767 --> 00:06:13,855
+For a two by two matrix there is a quick recipe.
+
+85
+00:06:13,855 --> 00:06:19,883
+Swap the two diagonal entries, a and d. Change the signs of the other two.
+
+86
+00:06:19,883 --> 00:06:21,120
+That is the adjoint.
+
+87
+00:06:21,120 --> 00:06:25,363
+Then divide by the determinant, a d minus b c.
+
+88
+00:06:26,567 --> 00:06:28,488
+The same system, a third way.
+
+89
+00:06:28,700 --> 00:06:31,071
+Determinant minus eleven.
+
+90
+00:06:31,071 --> 00:06:33,916
+Swap and negate, then divide by minus eleven.
+
+91
+00:06:34,133 --> 00:06:39,200
+Multiply into the constants: twenty two and thirty three, over eleven.
+
+92
+00:06:39,200 --> 00:06:41,043
+Two and three, as before.
+
+93
+00:06:43,067 --> 00:06:44,078
+A three by three.
+
+94
+00:06:44,300 --> 00:06:47,674
+Note the zero for the missing y in the second equation.
+
+95
+00:06:47,674 --> 00:06:48,677
+Determinant four.
+
+96
+00:06:48,900 --> 00:06:53,600
+Find all nine cofactors and transpose them: that is the adjoint.
+
+97
+00:06:53,800 --> 00:06:56,601
+Multiply by B and divide by four.
+
+98
+00:06:56,601 --> 00:06:59,062
+The numbers are three, one and two.
+
+99
+00:06:59,062 --> 00:07:01,788
+Check: three plus four is seven.
+
+100
+00:07:03,800 --> 00:07:04,978
+A real-world system.
+
+101
+00:07:05,200 --> 00:07:08,496
+Determinant four, so one solution exists.
+
+102
+00:07:08,496 --> 00:07:11,637
+The inverse method works, but look first for a shortcut.
+
+103
+00:07:11,867 --> 00:07:18,783
+Adding all three equations gives four times x plus y plus z: thirty one thousand.
+
+104
+00:07:18,783 --> 00:07:23,649
+So x plus y plus z is seven thousand seven hundred and fifty.
+
+105
+00:07:23,867 --> 00:07:31,270
+Subtract it from each equation: single twelve fifty, double twenty two fifty, deluxe forty two fifty.
+
+106
+00:07:33,300 --> 00:07:34,539
+Two warnings.
+
+107
+00:07:34,539 --> 00:07:38,940
+Multiply on the left: B times A inverse is not even defined.
+
+108
+00:07:38,940 --> 00:07:43,584
+And find the determinant first: if it is zero, there is no inverse.
+
+109
+00:07:44,800 --> 00:07:45,726
+Which method?
+
+110
+00:07:45,726 --> 00:07:50,414
+Cramer needs a non zero determinant and is quickest for small systems.
+
+111
+00:07:50,414 --> 00:08:03,109
+The inverse also needs a non zero determinant, and pays off when many systems share the same A. Row reduction needs nothing, and it is the only one that still works when the determinant is zero.
+
+112
+00:08:08,900 --> 00:08:12,847
+Row reduce the augmented matrix, and look at the last row.
+
+113
+00:08:12,847 --> 00:08:14,969
+It can only look one of three ways.
+
+114
+00:08:14,969 --> 00:08:18,117
+A non zero pivot: one unique solution.
+
+115
+00:08:18,333 --> 00:08:24,025
+A whole row of zeros, zero equals zero: true but empty.
+
+116
+00:08:24,025 --> 00:08:30,373
+Only two real equations remain for three unknowns, so there are infinitely many solutions.
+
+117
+00:08:30,600 --> 00:08:35,120
+Zeros on the left but not on the right: zero equals one.
+
+118
+00:08:35,120 --> 00:08:36,292
+Impossible.
+
+119
+00:08:36,292 --> 00:08:39,954
+The equations contradict each other, and there is no solution.
+
+120
+00:08:40,167 --> 00:08:42,460
+The determinant gives the first split.
+
+121
+00:08:42,460 --> 00:08:44,843
+Not zero: one solution.
+
+122
+00:08:44,843 --> 00:08:48,502
+Zero: then row reduce to tell many from none.
+
+123
+00:08:48,502 --> 00:08:57,715
+A homogeneous system, with B all zeros, is never inconsistent, because zero, zero, zero always works.
+
+124
+00:08:58,933 --> 00:08:59,948
+Many solutions.
+
+125
+00:09:00,167 --> 00:09:03,662
+The determinant is zero, so no unique solution.
+
+126
+00:09:03,867 --> 00:09:10,353
+Row reduce: the second and third rows become identical, and the last row vanishes.
+
+127
+00:09:10,353 --> 00:09:11,852
+Zero equals zero.
+
+128
+00:09:12,067 --> 00:09:15,076
+Two equations, three unknowns.
+
+129
+00:09:15,076 --> 00:09:17,329
+Let z be any number t.
+
+130
+00:09:17,329 --> 00:09:21,811
+Then y is eight minus two t, and x is t minus two.
+
+131
+00:09:22,033 --> 00:09:29,561
+A whole line of solutions, one for every real t. Put t equal to two: zero, four, two.
+
+132
+00:09:29,561 --> 00:09:31,774
+Check: six, twenty, fourteen.
+
+133
+00:09:33,800 --> 00:09:34,652
+Change one number.
+
+134
+00:09:35,033 --> 00:09:38,919
+Same coefficients, so the determinant is still zero.
+
+135
+00:09:39,133 --> 00:09:43,864
+This time the two reduced rows differ in the constant: eight and nine.
+
+136
+00:09:44,067 --> 00:09:46,842
+Subtract: zero equals one.
+
+137
+00:09:46,842 --> 00:09:48,014
+Impossible.
+
+138
+00:09:48,014 --> 00:09:53,210
+Changing fourteen to fifteen turned infinitely many solutions into none.
+
+139
+00:09:55,233 --> 00:09:56,106
+The board's favourite.
+
+140
+00:09:56,467 --> 00:09:59,031
+The determinant is lambda minus three.
+
+141
+00:09:59,233 --> 00:10:06,169
+If lambda is not three, the determinant is not zero: a unique solution, whatever mu is.
+
+142
+00:10:06,400 --> 00:10:14,399
+If lambda is three, row reduce: the last row becomes zero, zero, zero, mu minus ten.
+
+143
+00:10:14,600 --> 00:10:19,992
+So if mu is not ten, zero equals something non zero: no solution.
+
+144
+00:10:19,992 --> 00:10:24,298
+If mu is ten, zero equals zero: infinitely many.
+
+145
+00:10:27,500 --> 00:10:28,686
+Pause and think.
+
+146
+00:10:28,686 --> 00:10:31,369
+The determinant of A is zero.
+
+147
+00:10:31,369 --> 00:10:32,673
+What can you say for certain?
+
+148
+00:10:39,567 --> 00:10:41,652
+It has no unique solution.
+
+149
+00:10:41,652 --> 00:10:47,030
+It may have none, or infinitely many: only row reduction decides.
+
+150
+00:10:47,030 --> 00:10:53,714
+Always inconsistent is wrong: a homogeneous system with a zero determinant has infinitely many.
+
+151
+00:10:55,700 --> 00:10:56,574
+One more.
+
+152
+00:10:56,574 --> 00:10:57,861
+How is D y built?
+
+153
+00:11:04,733 --> 00:11:09,097
+The second column, the y column, replaced by the constants.
+
+154
+00:11:09,097 --> 00:11:11,072
+Replace a column, never a row.
+
+155
+00:11:13,267 --> 00:11:14,375
+Quick recap.
+
+156
+00:11:14,375 --> 00:11:26,159
+Write A X equals B. Cramer replaces a column by the constants and divides by D. Gauss row reduces the augmented matrix; Gauss Jordan goes on to the identity.
+
+157
+00:11:26,159 --> 00:11:29,922
+The inverse method left multiplies by A inverse.
+
+158
+00:11:29,922 --> 00:11:35,288
+And the last row tells you: one solution, infinitely many, or none.
+
+159
+00:11:39,467 --> 00:11:42,086
+That was systems of linear equations.
+
+160
+00:11:42,086 --> 00:11:47,372
+Next, properties of a triangle: the sine, cosine and projection laws.
+
+161
+00:11:47,372 --> 00:11:47,942
+See you there.
+
