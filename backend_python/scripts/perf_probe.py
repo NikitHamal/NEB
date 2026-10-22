@@ -102,10 +102,17 @@ def endpoints(t):
         ('notifications', '/api/notifications/', auth),
         ('notifications_p2', '/api/notifications/?page=2', auth),
         ('notifications_unread', '/api/notifications/unread-count/', auth),
+        ('notifications_last', '/api/notifications/?page=last', auth),
+        ('notifications_past_end', '/api/notifications/?page=99', auth),
+        ('notifications_bad_page', '/api/notifications/?page=abc', auth),
         ('bookmarks', '/api/bookmarks/', auth),
         ('search', '/api/search/?q=physics', both),
         ('search_posts', '/api/search/?q=energy%20force&tab=posts', both),
         ('search_people', '/api/search/?q=sharma&tab=people', both),
+        ('search_p2', '/api/search/?q=physics&page=2&page_size=10', both),
+        ('search_past_end', '/api/search/?q=physics&page=500', both),
+        ('search_bad_page', '/api/search/?q=physics&page=0', both),
+        ('search_none', '/api/search/?q=zzqqxx', both),
         ('profile', f'/api/users/profile/{star.username}/', both),
         ('profile_locked', f'/api/users/profile/{locked.username}/', both),
         ('profile_self', f'/api/users/profile/{v.username}/', auth),
@@ -121,6 +128,9 @@ def endpoints(t):
         ('me_photos', '/api/users/me/photos/', auth),
         ('user_popup', f'/ajax/user-popup/{star.username}/', both),
         ('user_popup_self', f'/ajax/user-popup/{v.username}/', auth),
+        ('user_popup_locked', f'/ajax/user-popup/{locked.username}/', both),
+        ('profile_activity_locked', f'/ajax/profile/{locked.username}/activity/', both),
+        ('profile_replies', f'/ajax/profile/{star.username}/replies/?offset=0&limit=10', both),
         ('profile_activity', f'/ajax/profile/{star.username}/activity/?offset=0&limit=10', both),
         ('suggestions', '/api/users/suggestions/?limit=12', both),
         ('news', '/app/news/', both),
@@ -197,7 +207,11 @@ def run(out, repeat, only):
             results.append(row)
             print(f'{name:22} {who:7} {row["status"]:3} q={row["cold_queries"]:4}/{row["warm_queries"]:<4} '
                   f'cold={row["cold_ms"]:8.1f}ms warm={row["warm_ms"]:8.1f}ms {row["bytes"]:9}B')
-    with open(os.path.join(out, 'results.json'), 'w') as fh:
+    path = os.path.join(out, 'results.json')
+    if only and os.path.exists(path):  # a partial run updates the rows it measured
+        fresh = {(r['name'], r['who']) for r in results}
+        results = [r for r in json.load(open(path)) if (r['name'], r['who']) not in fresh] + results
+    with open(path, 'w') as fh:
         json.dump(results, fh, indent=1)
 
 
