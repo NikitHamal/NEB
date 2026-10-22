@@ -373,6 +373,21 @@ def user_private_analytics(request):
         'suggestions': suggestions[:5],
     })
 
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def user_suggestions(request):
+    """GET /api/users/suggestions/?limit=12 -- people to follow, scored server-side.
+
+    Replaces the ~43 requests the app's PeopleSuggestionRepository made; see
+    api.people_suggestions for the signals, exclusions and scoring. Signed out: no results.
+    """
+    from .people_suggestions import parse_limit, suggest_people
+    user = _get_user_from_request(request)
+    if user is None or getattr(user, 'is_banned', False):
+        return Response({'results': []})
+    return Response({'results': suggest_people(user, parse_limit(request.query_params.get('limit')))})
+
+
 @api_view(['POST'])
 @throttle_classes([AuthRateThrottle])
 def user_follow_toggle(request, user_id):
