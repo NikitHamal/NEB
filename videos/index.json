@@ -716,6 +716,71 @@
    "script": "tools/lessons/scripts/eng12/unit_11.py"
   },
   {
+   "id": "class-12/eng12/unit_12.mp4",
+   "file": "class-12/eng12/unit_12.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_12.mp4",
+     "subtitles": "class-12/eng12/unit_12.srt",
+     "start": 0.0,
+     "end": 507.2,
+     "mb": 20.0
+    }
+   ],
+   "poster": "class-12/eng12/unit_12.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 12,
+   "title": "Soft Storm",
+   "subtitle": "Abhi Subedi · a poem",
+   "lang": "en",
+   "sections": [
+    "Abhi Subedi and his Kathmandu",
+    "How the softness began",
+    "Four scenes from a violent decade",
+    "Crocuses over stone",
+    "Themes",
+    "Form and devices"
+   ],
+   "seconds": 507.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     57.07,
+     "Abhi Subedi and his Kathmandu"
+    ],
+    [
+     125.57,
+     "How the softness began"
+    ],
+    [
+     172.17,
+     "Four scenes from a violent decade"
+    ],
+    [
+     268.2,
+     "Crocuses over stone"
+    ],
+    [
+     350.27,
+     "Themes"
+    ],
+    [
+     384.93,
+     "Form and devices"
+    ],
+    [
+     478.23,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.0,
+   "script": "tools/lessons/scripts/eng12/unit_12.py"
+  },
+  {
    "id": "class-12/nep12/unit_01.mp4",
    "file": "class-12/nep12/unit_01.part1.mp4",
    "parts": [
