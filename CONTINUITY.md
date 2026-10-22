@@ -22,7 +22,8 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
 | bio12 | units 1–10 all scripted, narrated, frame-checked (helpers `_bio.py`, `_phys2.py`, `_gen.py`, `_emb.py`, `_hum.py`) |
 | math12 | units 1–17 all scripted, narrated, frame-checked (helpers `_m.py`) |
 | cs12 | units 1–7 scripted, narrated, frame-checked (helpers `_cs.py`: code panels, db tables, browser, terminal); pushed one unit per commit |
-| then | eng12 (English-medium only) → class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
+| eng12 | units 1–6 scripted, narrated, frame-checked, pushed (helpers `_en.py`: quote, card, timeline, house/fence, arc_curve, device_slide, transform_strip); unit 7 rendering; 8–35 to do (poems 8–12, essays 13–17, plays 18–20, grammar 21–30, writing 31–35) |
+| then | class 11 → class 10 → class 8. Skip Nepali-medium books (nep, soc, health) for now: TTS is poor |
 
 - `scripts/bio12/_bio.py` is the biology drawing kit: one colour per tissue (XYL, PHL, CAMB, CORK, SCL, COL, PAR…), tissues
   (parenchyma/collenchyma/sclerenchyma/meristem), conducting elements, `RootTS`, `DicotStemTS`, `MonocotStemTS`,
@@ -31,7 +32,7 @@ full videos locally (`python3 build.py scripts/<book>/unit_NN.py`). Agents only 
   Use `save_state()` + `fade()` + `Restore`.
 - A CPU box (molab marimo kernel, 20 cores) may be used for frame checks; it is shared with a festival-reel agent, so run
   renders under `nice` with at most a few parallel jobs.
-- Next step if interrupted: finish pushing any cs12 unit whose script is not yet on the branch (check `git ls-tree origin/videos/explainers tools/lessons/scripts/cs12/`), then Class 12 English (notes/content/eng12: literature units are summarised and analysed, never reproduced), then class 11 (phy11, chem11, bio11, math11 …).
+- Next step if interrupted: finish pushing any cs12 unit whose script is not yet on the branch (check `git ls-tree origin/videos/explainers tools/lessons/scripts/cs12/`), then Class 12 English from the first unit not in `tools/lessons/scripts/eng12/` on the branch (literature units are summarised and analysed, never reproduced; quote only short lines), then class 11 (phy11, chem11, bio11, math11 …).
 - Neby poses that exist (backend_python/web/static/web/img/neby/classic): blink celebrate cool dizzy hop idle laugh listen look-around love namaste oops read sad sleep success surprised talk think wave wink (… and festival ones). Any other name crashes the part.
 - Text inside `T(...)` loses its spaces in `.text`; never rebuild a para from `T.text`.
 - Box gotcha: a manim error inside a narration block can leave frames.py hanging (render2.sh never writes TAG.done); `ps aux | grep frames.py` and kill the stuck pid.
