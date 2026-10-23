@@ -61,13 +61,7 @@ def forum(request):
         sort = 'hot'
 
     # Load user profile for relevance ranking
-    user_profile = None
-    if user_id:
-        try:
-            from api.models import User as _User
-            user_profile = _User.objects.get(id=user_id)
-        except _User.DoesNotExist:
-            pass
+    user_profile = _request_db_user(request, user_id)
 
     global_user = user_profile and is_global_user(user_profile)
 

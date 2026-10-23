@@ -23,7 +23,7 @@ COURSES = [
                 'icon': 'blender',
                 'minutes': 10,
                 'sim': 'chemistry/mixing-lab',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Drop water, oil, salt, sand and food colouring into a virtual beaker and discover what dissolves, what floats, what sinks and what spreads.',
                 'objectives': [
                     'Predict whether something will dissolve, float, sink or spread before you add it',
@@ -77,7 +77,7 @@ COURSES = [
                 'icon': 'layers',
                 'minutes': 12,
                 'sim': 'chemistry/density-tower',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Pour honey, syrup, water, oil and alcohol into one tall glass and watch them sort themselves into a rainbow of layers — then drop in objects and guess where they will stop!',
                 'objectives': [
                     'Explain what density means using grams per millilitre',
@@ -131,7 +131,7 @@ COURSES = [
                 'icon': 'bubble_chart',
                 'minutes': 10,
                 'sim': 'chemistry/fizzy-reactions',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Mix virtual baking soda and vinegar, watch CO₂ bubbles erupt into foam, and inflate a balloon with the gas you make — then find out which ingredient ran out first.',
                 'objectives': [
                     'Recognise a chemical reaction: new things are made that were not there before',
@@ -185,7 +185,7 @@ COURSES = [
                 'icon': 'device_thermostat',
                 'minutes': 10,
                 'sim': 'chemistry/melt-freeze',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Heat and cool ice, chocolate, butter and candle wax, watch their particles break free or lock back together, and catch the thermometer pausing right at the melting point.',
                 'objectives': [
                     'Describe melting and freezing using the particle picture',
@@ -376,7 +376,7 @@ COURSES = [
                 'icon': 'thermostat',
                 'minutes': 15,
                 'sim': 'chemistry/states-matter',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Heat and cool a box of particles to watch solids vibrate, liquids flow and gases fly — and find the melting plateaus.',
                 'objectives': [
                     'Describe solids, liquids and gases using the particle model',
@@ -436,7 +436,7 @@ COURSES = [
                 'icon': 'water_drop',
                 'minutes': 17,
                 'sim': 'chemistry/acid-base',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Run a real titration: drip NaOH into acid, watch the indicator change colour and catch the dramatic pH jump on a live graph.',
                 'objectives': [
                     'Place everyday substances on the pH scale from 0 to 14',
@@ -496,7 +496,7 @@ COURSES = [
                 'icon': 'balance',
                 'minutes': 14,
                 'sim': 'chemistry/reaction-balancer',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Tip the atomic scales: set coefficients, count atoms on both sides and balance real reactions from combustion to photosynthesis.',
                 'objectives': [
                     'State the law of conservation of mass and what it means for equations',

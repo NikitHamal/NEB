@@ -7,454 +7,437 @@ hours: 0
 area: Science and Technology
 ---
 
-The ground you stand on is a thin skin of rock over a ball of hot metal 6,400 km
-across. Beyond it lies a star, eight planets, moons, asteroids and comets, and
-beyond those, a hundred billion suns in our galaxy. This unit starts at your
-feet — minerals, rocks and the inside of the earth — and travels outward to the
-solar system, the stars and the space missions that Nepal has now joined.
+The earth is one small part of the **universe**, which contains nebulas, stars,
+planets, asteroids, comets and meteors. The most accepted scientific explanation of
+the origin of the universe is the **Big Bang theory**. In the beginning the earth was
+too hot for life; it slowly cooled, its surface of rock, soil, minerals and water and
+its atmosphere formed, and simple living beings appeared and evolved into today's
+biodiversity. This unit, following the CDC textbook, studies minerals, the structure
+and origin of the earth, the history of life on it, and the bodies of the universe —
+asteroids, comets, meteors, galaxies and constellations — together with the solar
+system and space exploration.
 
 ::: key What this unit asks of you
-You should be able to name the main metallic and non-metallic minerals and their
-uses, classify rocks into three types with an example of each, describe the
-internal structure of the earth, state the accepted age and the modern idea of
-how the earth and the solar system formed, describe the solar system with the
-planets in order and distinguish a planet, a satellite, an asteroid and a
-comet, define a star, a constellation, a galaxy and a light year, and describe
-what artificial satellites are used for.
+Define mineral and classify minerals (metallic, non-metallic, energy) with examples,
+properties, uses and places in Nepal; explain the hypotheses of the origin of the earth;
+describe the geological eras and the life of each; explain the Big Bang theory; and
+describe asteroids, comets (with their parts), meteoroids–meteors–meteorites, galaxies
+and constellations.
 :::
 
-## 11.1 Minerals
+## 11.1 Minerals: metallic and non-metallic, and their uses
 
-A **mineral** is a naturally occurring solid substance with a definite chemical
-composition and a regular internal structure. Minerals are the building blocks
-of rocks. A mineral from which a metal can be extracted profitably is an
-**ore**.
+The earth's crust is made of rocks, soil, sand and water, and all of these are made of
+elements and compounds.
 
-| | Metallic minerals | Non-metallic minerals |
+::: definition Mineral
+In geology, a **mineral** is a naturally formed, solid, pure (homogeneous) substance with
+a definite chemical composition. In daily use the word also means any useful substance
+obtained from mines, such as coal, petroleum, limestone, marble, diamond, granite and
+clay. The study of minerals is **mineralogy**.
+:::
+
+**Types of minerals**
+
+| Type | Features | Sub-types and examples |
 |---|---|---|
-| What they contain | a metal, often combined with oxygen or sulphur | no metal; salts, silicates, carbonates, fuels |
-| Examples | iron ore (magnetite, haematite), copper ore, zinc blende, bauxite (aluminium), gold, silver | limestone, dolomite, mica, quartz, talc, graphite, salt, coal, petroleum |
-| Used for | iron and steel, wire, machines, coins, ornaments | cement, glass, paint, lubricants, fertiliser, fuel |
-| Where found in Nepal | iron in Ramechhap, Tanahun and the Kathmandu valley; copper in Ilam, Dhading and Bhojpur; zinc and lead in Ganesh Himal and Sindhupalchok | limestone in Chobhar, Surkhet and Dhading; talc in Darchula, Baitadi and Bajhang; mica in Taplejung, Nuwakot and Sankhuwasabha; magnesite in Dolakha |
+| **Metallic** (ores) | hard, lustrous, dense, good conductors of heat and electricity; metals are extracted from them | *ferrous* (contain iron): haematite, magnetite, limonite, siderite, pyrite; *non-ferrous*: ores of copper, lead, tin, aluminium, zinc; *precious*: gold, silver, platinum |
+| **Non-metallic** | not lustrous, poor conductors, light, found in the upper crust | *gems*: diamond, emerald, sapphire, topaz, garnet; *non-gems*: silica (quartz), feldspar, mica, sulphur, graphite, gypsum, talc |
+| **Energy minerals** | fuels from mines; non-renewable | coal (peat → lignite → bituminous → anthracite), petroleum, natural gas, radioactive uranium |
 
-::: caution Mining has two sides
-A mine gives work and raw material, but it also removes the soil and the forest
-above it, leaves a pit, and can pollute the river below with waste. In Nepal
-much of the mineral wealth lies in fragile mountain ground, so mining is
-allowed only with a plan for restoring the land. A mineral taken out of a
-mountain cannot be put back.
-:::
+```figure caption="Classification of minerals."
+fig, ax = plt.subplots(figsize=(5.1, 2.6))
+ax.set_xlim(0, 10); ax.set_ylim(0, 5.2); ax.axis("off")
+def box(x, y, t, c=ACCENT):
+    ax.text(x, y, t, ha="center", va="center", fontsize=7.6, color=INK,
+            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=c, lw=1.0))
+box(5.0, 4.7, "Minerals", INK)
+for x, t in [(1.7, "Metallic"), (5.0, "Non-metallic"), (8.3, "Energy")]:
+    ax.plot([5.0, x], [4.45, 3.75], color=MUTED, lw=0.8)
+    box(x, 3.5, t)
+for x, t, px in [(0.6, "ferrous", 1.7), (1.7, "non-\nferrous", 1.7), (2.8, "precious", 1.7),
+                 (4.3, "gems", 5.0), (5.7, "non-gems", 5.0)]:
+    ax.plot([px, x], [3.25, 2.25], color=MUTED, lw=0.8)
+    box(x, 1.95, t, SERIES[2])
+for x, t in [(7.15, "coal"), (8.3, "oil, gas"), (9.5, "uranium")]:
+    ax.plot([8.3, x], [3.25, 2.25], color=MUTED, lw=0.8)
+    box(x, 1.95, t, SERIES[3])
+for x, t in [(0.6, "haematite"), (1.7, "copper ore"), (2.8, "gold"), (4.3, "diamond"), (5.7, "mica")]:
+    ax.text(x, 0.85, t, ha="center", fontsize=7.2, color=MUTED, style="italic")
+fig.tight_layout()
+```
+
+**Properties of minerals:** they have various colours (iron ores black or reddish-brown,
+gold and copper ores yellowish or red, muscovite colourless); most are **crystalline**
+with fixed shapes (pyrite cubic, tourmaline prismatic), a few are amorphous (opal); they
+are usually hard and lustrous; metallic minerals conduct heat and electricity, non-metallic
+ones do not; they are homogeneous solids with a definite chemical composition — that is
+why a mineral is called a pure chemical substance.
+
+**Uses of minerals**
+
+| Sector | Minerals and uses |
+|---|---|
+| Agriculture | nitrogen, phosphorus, potash, gypsum and sulphur give fertilisers, pesticides and micronutrients for crops |
+| Industry | limestone (cement — e.g. Udayapur and Hetauda cement factories), silica (glass), mica, gypsum, magnesite; metals for cables, rods, tools and machines |
+| Construction | stone, sand, gravel, gypsum; slate for roofs; marble and granite for floors, idols and inscriptions |
+| Energy | coal (brick kilns, cement factories), petroleum (vehicles), graphite, zinc, lithium, manganese and lead in cells and batteries |
+
+**Minerals in Nepal.** More than 60 kinds of minerals have been identified in Nepal. Iron,
+copper and coal have been mined since ancient times (iron of Ramechhap, coal of Dang).
+Effective exploration and sustainable commercial mining have not yet been done, mainly for
+lack of research, technology, capital and roads.
+
+| Mineral | Places (as given in the textbook) |
+|---|---|
+| Iron | Phulchoki (Lalitpur), Thoshe (Ramechhap) |
+| Copper | more than 100 places |
+| Zinc and lead | Ganesh Himal area |
+| Gold | sand of the Kaligandaki, Sunkoshi, Rapti and Bishnumati rivers |
+| Limestone | Udayapur, Makwanpur, Chobhar (Kathmandu) |
+| Magnesite | Dolakha, Udayapur, Palpa |
+| Phosphorite | Dang, Pyuthan, Baitadi |
+| Marble and granite | Godawari (Lalitpur), Sindhuli |
+| Slate | Dhankuta, Achham, Gorkha, Benighat (Dhading) |
+| Coal | Dang, Palpa, Pyuthan |
+| Rock salt | Mustang, Dolpa |
+| Uranium | Upper Mustang |
 
 ## 11.2 Rocks and the structure of the earth
 
-A **rock** is a natural aggregate of one or more minerals. Rocks are grouped
-into three types by how they were formed.
+Minerals combine to form **rocks**. **Igneous rocks** (granite, basalt) form when hot molten
+magma cools; **sedimentary rocks** (sandstone, limestone, shale) form when layers of
+sediment are pressed together, and may contain fossils; **metamorphic rocks** (marble from
+limestone, slate from shale) form when other rocks are changed by great heat and pressure.
 
-| Type | How it forms | Texture and example |
-|---|---|---|
-| Igneous | magma or lava cools and solidifies | crystals; granite (slow cooling, under ground), basalt (fast cooling, on the surface) |
-| Sedimentary | layers of sand, mud, shells or gravel are compacted and cemented over a long time | layers and often fossils; sandstone, limestone, shale, conglomerate |
-| Metamorphic | an existing rock is changed by great heat and pressure | banded or foliated; marble (from limestone), slate (from shale), gneiss (from granite), quartzite (from sandstone) |
-
-```figure caption="The rock cycle. Any rock can become any other kind: heat and pressure make a metamorphic rock, melting and cooling make an igneous rock, and weathering, transport and cementing make a sedimentary rock."
-fig, ax = plt.subplots(figsize=(5.0, 2.9))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 6.2)
-ax.axis("off")
-pos = {"Igneous": (5.0, 5.0), "Sedimentary": (8.4, 2.4), "Metamorphic": (1.6, 2.4)}
-for name, (x, y) in pos.items():
-    ax.text(x, y, name, ha="center", va="center", fontsize=7.4, color=INK,
-            bbox=dict(boxstyle="round,pad=0.32", fc="white", ec=ACCENT, lw=1.1))
-edges = [("Igneous", "Sedimentary", "weathering, transport, cementing"),
-         ("Sedimentary", "Metamorphic", "heat and pressure"),
-         ("Metamorphic", "Igneous", "melting and cooling"),
-         ("Sedimentary", "Igneous", "melting and cooling"),
-         ("Metamorphic", "Sedimentary", "weathering, transport, cementing")]
-for a, b, label in edges[:3]:
-    xa, ya = pos[a]
-    xb, yb = pos[b]
-    ax.annotate("", xy=(xb, yb), xytext=(xa, ya),
-                arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.1,
-                                shrinkA=30, shrinkB=30,
-                                connectionstyle="arc3,rad=0.18"))
-ax.text(7.4, 4.1, "weathering,\\ntransport", ha="center", fontsize=6.0, color=MUTED)
-ax.text(4.3, 2.0, "heat and pressure", ha="center", fontsize=6.0, color=MUTED)
-ax.text(2.2, 4.1, "melting and\\ncooling", ha="center", fontsize=6.0, color=MUTED)
-ax.text(5.0, 0.4, "the cycle has no beginning and no end", ha="center", fontsize=6.4,
-        color=MUTED)
+```figure caption="Layers of the earth. Heavy iron and nickel sank to the core; lighter silicates make the mantle and crust."
+fig, ax = plt.subplots(figsize=(4.6, 3.0))
+ax.set_xlim(-3.4, 6.4); ax.set_ylim(-3.2, 3.2); ax.set_aspect("equal"); ax.axis("off")
+for r, c in [(3.0, "#a7c4a0"), (2.8, "#e0a96d"), (1.6, "#e8743b"), (0.8, "#f4d03f")]:
+    ax.add_patch(plt.Circle((0, 0), r, fc=c, ec=INK, lw=0.6))
+for r0, y, t in [(2.95, 2.4, "crust (rock, 5–70 km)"), (2.2, 1.2, "mantle (hot rock)"),
+                 (1.2, 0.0, "outer core (liquid iron, nickel)"), (0.4, -1.2, "inner core (solid)")]:
+    ax.plot([r0 * 0.8, 3.4], [r0 * 0.5, y], color=INK, lw=0.6)
+    ax.text(3.5, y, t, fontsize=7.4, color=INK, va="center")
 fig.tight_layout()
 ```
 
-### 11.2.1 Inside the earth
+## 11.3 Origin and age of the earth; history of life
 
-```figure caption="A slice through the earth. The crust is thinner under the ocean than under a mountain range, and the temperature rises all the way to the core."
-fig, ax = plt.subplots(figsize=(5.0, 2.9))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 6)
-ax.axis("off")
-ax.add_patch(plt.Circle((5.0, 3.0), 2.75, fc="#cfe0ea", ec=INK, lw=1.2))
-ax.add_patch(plt.Circle((5.0, 3.0), 2.05, fc="#e6c9a8", ec=INK, lw=1.0))
-ax.add_patch(plt.Circle((5.0, 3.0), 1.25, fc="#e8a03c", ec=INK, lw=1.0))
-ax.add_patch(plt.Circle((5.0, 3.0), 0.6, fc="#f2d24b", ec=INK, lw=1.0))
-ax.text(5.0, 3.0, "inner core", ha="center", va="center", fontsize=6.4, color=INK)
-ax.text(5.0, 1.95, "outer core", ha="center", va="center", fontsize=6.6, color=INK)
-ax.text(5.0, 1.05, "mantle", ha="center", va="center", fontsize=7.0, color=INK)
-ax.text(5.0, 5.55, "crust", ha="center", va="center", fontsize=7.0, color=INK)
-ax.annotate("", xy=(5.0, 5.4), xytext=(5.0, 5.85),
-            arrowprops=dict(arrowstyle="->", color=INK, lw=1.0))
-ax.text(0.35, 5.5, "thickness:", ha="left", fontsize=6.4, color=MUTED)
-ax.text(0.35, 4.95, "crust 5-70 km", ha="left", fontsize=6.2, color=MUTED)
-ax.text(0.35, 4.4, "mantle to 2900 km", ha="left", fontsize=6.2, color=MUTED)
-ax.text(0.35, 3.85, "core to 6371 km", ha="left", fontsize=6.2, color=MUTED)
+From the age of rocks and fossils, the earth is estimated to be about **4.6 billion years**
+old. Several hypotheses try to explain how it formed.
+
+| Hypothesis | Proposed by | Main idea |
+|---|---|---|
+| **Nebular hypothesis** | Immanuel Kant (1755), modified by Pierre-Simon Laplace (1796) | a huge, flat, slowly spinning cloud of gas and dust (nebula) contracted by gravity; its centre became very hot and dense and formed the sun; the outer flattened part broke into rings or lumps that formed the planets, and smaller lumps formed satellites, asteroids and comets |
+| **Collision (comet) hypothesis** — called the *planetesimal hypothesis* in the textbook | Georges Buffon (about 1745–1749) | a giant comet struck the sun at a low angle and splashed out matter; the pieces revolved round the sun and cooled into planets |
+| **Passing-star (planetesimal) hypothesis** — called the *binary hypothesis* in the textbook | T. C. Chamberlin and F. R. Moulton (1905) | a star came close to the sun and pulled out matter, which formed small solid bodies (planetesimals) that joined into planets |
+| **Tidal hypothesis** | James Jeans and Harold Jeffreys (around 1917–1919) | a giant star passing close to the sun pulled out a cigar-shaped tide of hot matter; small planets formed at its thin ends and big ones (Jupiter, Saturn) in the thick middle |
+
+**Specialities of the nebular hypothesis:** it explains why all planets revolve round the
+sun in nearly the same plane and the same direction, because they formed from one flattened,
+spinning disc. It is the basis of the modern explanation. **Criticism of the passing-star
+and binary ideas:** no partner star of the sun has ever been found, and such close passes of
+stars are extremely rare.
+
+### 11.3.1 History of the evolution of life (geological time scale)
+
+The young earth was hot and unstable. Heavy metals (iron, nickel) sank to the core and
+light ones (silicon, magnesium, aluminium) rose to the surface. Gases released from rocks —
+water vapour, carbon dioxide, nitrogen, ammonia, methane — formed the atmosphere. Water
+vapour condensed into heavy rain that filled the lowlands as oceans. Reactions among
+hydrogen, oxygen, nitrogen and carbon formed biomolecules (proteins, nucleic acids), and the
+first simple **prokaryotes** appeared in water. All present life evolved from them.
+
+The earth's history is divided into **eons**, **eras** and periods.
+
+```figure caption="Geological time scale (approximate ages in million years ago, as used in the textbook). The Cryptozoic eon covers about 88 % of the earth's history."
+fig, ax = plt.subplots(figsize=(5.1, 2.4))
+ax.set_xlim(0, 10); ax.set_ylim(0, 4.4); ax.axis("off")
+segs = [("Cryptozoic\n(Precambrian)", 0.2, 6.4, "#cfcfcf", "4600–570"),
+        ("Palaeozoic", 6.4, 8.0, SERIES[2], "570–240"),
+        ("Mesozoic", 8.0, 9.1, SERIES[3], "240–65"),
+        ("Cenozoic", 9.1, 9.8, SERIES[1], "65–now")]
+for name, a, b, c, age in segs:
+    ax.add_patch(plt.Rectangle((a, 2.0), b - a, 0.9, fc=c, ec="white", lw=1, alpha=0.85))
+    ax.text((a + b) / 2, 1.6, age, ha="center", va="top", fontsize=7.2, color=INK)
+ax.text(3.3, 2.45, "Cryptozoic eon (Precambrian)", ha="center", va="center", fontsize=7.8, color=INK)
+for x, t, y in [(7.2, "Palaeozoic", 3.4), (8.55, "Mesozoic", 3.85), (9.45, "Cenozoic", 3.4)]:
+    ax.plot([x, x], [2.9, y - 0.15], color=MUTED, lw=0.6)
+    ax.text(x, y, t, ha="center", fontsize=7.6, color=INK)
+ax.text(8.1, 0.65, "Phanerozoic eon", ha="center", fontsize=7.8, color=INK)
+ax.plot([6.4, 9.8], [0.95, 0.95], color=MUTED, lw=0.8)
 fig.tight_layout()
 ```
 
-| Layer | Thickness | State and main composition |
+| Eon / era | Time (approx.) | Main events and life |
 |---|---|---|
-| Crust | about 5 km under the ocean to about 70 km under mountains | solid rock; silicon, aluminium, oxygen |
-| Mantle | down to about 2,900 km | mostly solid rock that flows very slowly; iron and magnesium silicates |
-| Outer core | to about 5,150 km | liquid iron and nickel |
-| Inner core | to the centre, 6,371 km | solid iron and nickel, about 5,500 °C |
+| **Cryptozoic eon** (Precambrian; "hidden life"): Archaeozoic, Proterozoic, Eozoic eras | 4600 to 570 million years ago | atmosphere, oceans and land formed; first unicellular life in water; later soft-bodied animals and algae |
+| **Palaeozoic era** (Phanerozoic eon) | 570 to 240 million years ago | many invertebrates (trilobites, molluscs, corals, jellyfish), fishes including lung-fishes, amphibians (frogs) and early reptiles; algae, mosses, ferns and tree-fern forests; ended with mass extinction |
+| **Mesozoic era** — "era of reptiles", "era of conifers" (gymnosperms) | 240 to 65 million years ago | dinosaurs evolved (Triassic), dominated (Jurassic) and died out at the end of the Cretaceous after meteor impacts and volcanic eruptions; pines and cycads; toothed birds, mosquitoes, small mammals, first flowering plants |
+| **Cenozoic era** — "era of mammals", "era of flowering plants" | 65 million years ago to now | continents separated; Himalaya rose; elephants, horses, rhinos, whales, primates, entelodont (giant boar), woolly mammoths; monocot and dicot plants; humans |
 
-The movement of the liquid outer core gives the earth its magnetic field. The
-slow movement of the mantle moves the crustal plates, and where plates meet
-there are earthquakes, volcanoes and mountain building — which is why the
-Himalaya is still rising by a few millimetres a year.
+The first human-like ancestors appeared about 6 million years ago and walked upright about
+4 million years ago. Modern humans (*Homo sapiens*) appeared roughly 300 000 years ago, and
+farming, settled villages and organised society began only about 10 000–12 000 years ago
+(the Holocene epoch). (Ages of the eras are approximate; newer measurements give about
+541 and 252 million years for the start of the Palaeozoic and Mesozoic.)
 
-```photo id="sci10/solar-system" caption="The planets of the solar system, in order from the Sun." width="74"
+::: example How long was the Cryptozoic eon?
+**Problem.** The earth formed about 4600 million years ago and the Cryptozoic eon ended about
+570 million years ago. What percentage of the earth's history does it cover?
+**Solution.** Duration $=4600-570=4030$ million years.
+Percentage $=\frac{4030}{4600}\times100\%\approx87.6\%$, i.e. about **88 %**, so the
+Phanerozoic eon is only about 12 %.
+:::
+
+The **Cryptozoic eon** was unsuitable for complex life because the earth was still hot, the
+atmosphere had little oxygen and there was no ozone layer to block ultraviolet rays, so only
+simple life could exist, and only in water.
+
+## 11.4 The solar system: planets, satellites, asteroids, comets and meteors
+
+The **solar system** is the sun with all the bodies that revolve round it: **eight planets**
+— Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, Neptune — their **satellites**
+(moons), dwarf planets such as Pluto, asteroids, comets and meteoroids. Mercury, Venus,
+Earth and Mars are small rocky planets; Jupiter, Saturn, Uranus and Neptune are giant
+planets made mostly of gas. The earth has one natural satellite, the Moon.
+
+```photo id="sci10/solar-system" caption="The planets of the solar system in order from the Sun: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus and Neptune." width="72"
 ```
 
-## 11.3 Origin and age of the earth
+### 11.4.1 Asteroids
 
-The earth is about **4.6 billion years (4,600 million years)** old. The age is
-found by measuring the decay of radioactive elements in the oldest rocks and
-meteorites.
+**Asteroids** (minor planets) are small, irregular masses of rock and metal that revolve
+round the sun. Most lie in the **asteroid belt** between Mars and Jupiter; many icy bodies
+lie beyond Neptune in the **Kuiper belt**, where the dwarf planet Pluto also lies.
+**Trojans** share the orbit of Jupiter (or Mars). **Near-earth asteroids** cross the earth's
+orbit and may hit it, causing great destruction. Asteroids are from about 1 km to about
+1000 km across; **Ceres**, the largest, is nearly round, about 940 km across; Eros is
+elongated, about 17 km. Their gravity is too weak to pull them into a round shape.
 
-The accepted explanation is the **nebular hypothesis**: a large cloud of gas and
-dust began to contract under its own gravity; most of it collected in the
-centre to form the sun, while the rest flattened into a spinning disc. In the
-disc, dust and rock stuck together into larger and larger bodies, and these
-**planetesimals** grew into the planets by collision. The young earth was
-molten, and as it cooled the heavier materials sank to form the core while
-lighter rock floated up to form the crust. The atmosphere and the oceans formed
-later, from gases released from the interior and from water brought by comets
-and icy bodies.
+### 11.4.2 Comets
 
-## 11.4 The solar system
+**Comets** are small bodies of **ice, dust, rock fragments and gases** that move round the sun
+in **highly elliptical orbits**. Near the sun they grow long, bright tails.
 
-The **solar system** consists of the sun, eight planets, their moons, dwarf
-planets, asteroids, comets, meteoroids and dust. The sun contains more than
-99 % of all the mass in the system.
-
-| Order | Planet | Type | One fact |
-|---|---|---|---|
-| 1 | Mercury | terrestrial | smallest planet; no atmosphere worth speaking of |
-| 2 | Venus | terrestrial | hottest planet, about 465 °C, because of its carbon dioxide atmosphere |
-| 3 | Earth | terrestrial | the only planet known to have liquid water on the surface and life |
-| 4 | Mars | terrestrial | the "red planet"; has the tallest volcano in the solar system |
-| 5 | Jupiter | gas giant | the largest planet; has a great red spot storm |
-| 6 | Saturn | gas giant | famous for its bright ring system |
-| 7 | Uranus | ice giant | rotates on its side |
-| 8 | Neptune | ice giant | farthest planet; strongest winds |
-
-The four inner planets are small, rocky and close together. The four outer
-planets are large, made mostly of gas and ice, and far apart. Between Mars and
-Jupiter lies the **asteroid belt**.
-
-| Body | What it is |
-|---|---|
-| Planet | a large body that orbits the sun, is nearly round and has cleared its orbit |
-| Dwarf planet | round and orbits the sun, but has not cleared its orbit — Pluto, Ceres |
-| Satellite (moon) | a natural body orbiting a planet; the earth has one |
-| Asteroid | a small rocky body, most of them in the belt between Mars and Jupiter |
-| Comet | a body of ice, dust and rock that develops a bright tail when it comes near the sun |
-| Meteoroid | a small piece of rock or dust in space |
-| Meteor | a meteoroid burning up in the atmosphere — a "shooting star" |
-| Meteorite | a meteoroid that reaches the ground |
-
-::: caution The moon does not shine
-The moon has no light of its own; it reflects sunlight. That is why its phase
-changes: as it goes round the earth we see different fractions of its lit half.
-The phases repeat in about 29.5 days, which is the basis of the lunar calendar
-used for Dashain, Tihar and other Nepali festivals.
-:::
-
-```photo id="sci8/sun-and-planets" caption="Stars compared in size. The Sun is an ordinary star; many others are far larger." width="68"
+```figure caption="Parts of a comet. The tails always point away from the sun, pushed by the solar wind."
+fig, ax = plt.subplots(figsize=(5.0, 2.4))
+ax.set_xlim(0, 10); ax.set_ylim(0, 4.4); ax.axis("off")
+ax.add_patch(plt.Circle((0.6, 2.2), 0.45, fc="#ffd54f", ec="none"))
+ax.text(0.6, 1.4, "sun", ha="center", fontsize=7.6, color=INK)
+ax.annotate("", xy=(2.3, 2.2), xytext=(1.2, 2.2), arrowprops=dict(arrowstyle="->", color=MUTED))
+ax.text(1.75, 2.45, "solar wind", ha="center", fontsize=7.2, color=MUTED)
+ax.add_patch(plt.Circle((3.2, 2.2), 0.5, fc="#dfe9f5", ec=ACCENT, lw=0.8))
+ax.add_patch(plt.Circle((3.2, 2.2), 0.12, fc=INK))
+ax.add_patch(plt.Polygon([[3.5, 2.55], [9.4, 3.9], [9.6, 3.0], [3.6, 2.3]], fc="#f2f2f2", ec=MUTED, lw=0.6))
+ax.add_patch(plt.Polygon([[3.6, 2.1], [9.6, 1.6], [9.6, 1.3], [3.55, 1.95]], fc="#cfe0f5", ec=ACCENT, lw=0.6))
+ax.text(7.4, 4.25, "dust tail (white, broad)", ha="center", fontsize=7.4, color=INK)
+ax.text(6.8, 1.15, "ion (gas) tail (bluish, straight)", ha="center", fontsize=7.4, color=ACCENT)
+ax.plot([3.2, 3.0], [2.08, 0.75], color=MUTED, lw=0.6); ax.text(3.0, 0.5, "nucleus (ice and dust)", ha="center", fontsize=7.4, color=INK)
+ax.plot([3.4, 4.2], [2.65, 3.95], color=MUTED, lw=0.6); ax.text(4.25, 4.05, "coma (glowing cloud)", fontsize=7.4, color=INK)
+fig.tight_layout()
 ```
 
-## 11.5 Stars, constellations and galaxies
+**Parts:** the solid icy **nucleus** in the centre; the **coma**, a bright cloud of evaporated
+gas and dust round the nucleus when it comes near the sun; and the **tails** — a thick, white
+**dust tail** and a thin, bluish **ion (plasma) tail** — which always point **away from the
+sun** because the solar wind pushes them. The tail grows as the comet approaches the sun and
+shrinks and disappears as it moves away.
 
-A **star** is a huge ball of gas, mostly hydrogen, that gives out its own light
-because nuclear reactions in its core release energy. The sun is the nearest
-star, about 150 million km away. The next nearest star is about 4.2 light years
-away.
+Comets take from about 2 to hundreds of thousands of years to go round the sun:
+**Encke** about 3.3 years, **Halley** about 76 years (it will next be seen in 2061),
+**Hyakutake** (seen in 1996) tens of thousands of years. **Endocomets** stay within the
+Kuiper belt; **exocomets** come from beyond the solar system. Comet **Shoemaker–Levy 9**
+crashed into **Jupiter in 1994**. Each time a comet passes the sun it loses some ice and gas;
+after many rounds it has lost all its volatile matter and becomes a rocky **extinct comet**,
+like an asteroid.
 
-A **light year** is the distance light travels in one year:
-about $9.46\times10^{12}$ km. It is a unit of distance, not of time.
-
-Stars are not all the same: they differ in mass, size, colour and temperature.
-Blue-white stars are the hottest (over 25,000 °C at the surface), yellow stars
-such as the sun are about 5,500 °C, and red stars are the coolest. A star is
-born from a cloud of gas and dust, spends most of its life converting hydrogen
-into helium, and ends as a white dwarf, a neutron star or a black hole,
-depending on its mass.
-
-Groupings of stars seen from the earth are **constellations**. The familiar ones
-are the Great Bear (Saptarishi), Orion, and the Pole Star, which lies almost
-above the north pole and is used to find direction at night.
-
-::: photo id="sci8/sun-and-planets" caption="Relative sizes of the sun, the planets and some nearby stars. The sun is a hundred times wider than the earth, and the stars shown here make the sun look small." width="90"
-key 1 The sun, a yellow star of average size
-key 2 The planets, drawn to the same scale as the stars
-key 3 Giant stars, hundreds of times wider than the sun
-:::
-
-A **galaxy** is a very large system of stars, gas and dust held together by
-gravity. Our galaxy is the **Milky Way**, which contains about a hundred billion
-stars, and the sun lies about two-thirds of the way out from its centre. There
-are billions of galaxies; one of the nearest large ones, Andromeda, is about
-2.5 million light years away.
-
-## 11.6 Space exploration and artificial satellites
-
-An **artificial satellite** is a machine put into orbit round the earth or
-another body, with a rocket. The first was Sputnik 1, launched by the Soviet
-Union in 1957; the first person in space was Yuri Gagarin in 1961; and people
-first walked on the moon in 1969.
-
-| Use of artificial satellites | What it does |
+| Asteroid | Comet |
 |---|---|
-| Communication | carries telephone, internet and television signals between continents |
-| Weather | photographs cloud systems and tracks cyclones so that warnings can be issued |
-| Navigation | GPS tells a device its exact position, used in mapping and trekking |
-| Remote sensing | maps land use, forests, glaciers, floods and crops |
-| Scientific research | telescopes in orbit see the sky without the blurring of the atmosphere |
-| Defence and disaster | monitors borders and helps in search and rescue |
+| rock and metal | ice, dust, rock and gas |
+| nearly circular orbits, mostly between Mars and Jupiter | highly elliptical orbits reaching the Kuiper belt and beyond |
+| no tail | develops a coma and tails near the sun |
 
-Nepal joined this work in 2019 with **NepaliSat-1**, a small satellite built by
-Nepali students and engineers with support from the Kyushu Institute of
-Technology in Japan, launched on 18 April 2019. It carried a camera and a
-magnetometer, and it put Nepal among the countries with a satellite of its own.
-Satellite data is now used in Nepal for glacier monitoring, flood early warning
-and mapping.
+### 11.4.3 Meteoroids, meteors and meteorites
 
-::: example Worked reasoning: how far is a light year?
-**Problem.** Light travels at $3\times10^8$ m/s. Find the distance of one light
-year in kilometres, and state the distance to a star 4.2 light years away.
+**Meteoroids** are small pieces of rock and metal wandering in the solar system, from dust
+grains to small asteroids. When one enters the earth's atmosphere at a very high speed (about
+11–72 km/s), friction with the air (in the mesosphere) makes it burn and leave a bright streak
+of light — a **meteor** ("shooting star"). Meteors are seen only at night because sunlight
+hides them by day. Most burn up completely; a piece that reaches the ground is a
+**meteorite**. When many meteors fall in one region at one time it is a **meteor shower**.
+Craters on the Moon were made by meteorites, because the Moon has no atmosphere to burn them.
 
-**Solution.** Seconds in a year:
-$60\times60\times24\times365=31\,536\,000$ s, about $3.15\times10^7$ s.
-
-Distance in one year:
-
-$$3\times10^8\times3.15\times10^7=9.45\times10^{15}\ \text{m}
-=9.45\times10^{12}\ \text{km}$$
-
-So one light year is about $9.46\times10^{12}$ km, roughly 9.5 million million
-kilometres. A star 4.2 light years away is
-
-$$4.2\times9.46\times10^{12}\approx4.0\times10^{13}\ \text{km}$$
-
-**What it shows.** Even the nearest star is about 40 million million kilometres
-away. This is why astronomers use the light year instead of the kilometre, and
-why, when you look at a star, you are seeing it as it was years ago.
-:::
-
-::: example Worked reasoning: why the moon has phases
-**Problem.** The moon goes round the earth in about 27.3 days, but the cycle of
-phases takes about 29.5 days. Explain.
-
-**Solution.** The moon shines only by reflected sunlight, so half of it is lit at
-all times. As it moves round the earth, we see different fractions of the lit
-half: new moon when it lies between the earth and the sun (lit side away from
-us), full moon when the earth lies between (lit side towards us), and the
-crescent and gibbous shapes in between.
-
-The phases take longer than one orbit because the earth is also moving round the
-sun. By the time the moon has completed one orbit round the earth, the earth has
-moved on, so the moon must travel a little further to return to the same
-position relative to the sun. That extra travel takes about 2.2 days, giving
-29.5 days.
-
-**Conclusion.** 27.3 days is the moon's orbital period; 29.5 days is the period
-of the phases, which is what we actually watch.
-:::
-
-## 11.5 Distances, eclipses and living with earthquakes
-
-| Idea | Value to remember |
+| Meteor | Meteorite |
 |---|---|
-| Light-year | the distance light travels in one year, about $9.46 \times 10^{12}$ km |
-| Distance to the sun | about 150 million km (8.3 light-minutes) |
-| Distance to the moon | about 384,400 km |
-| Earth's rotation | about 24 hours — day and night |
-| Earth's revolution | about 365¼ days — seasons, with the 23.5° tilt |
-| Moon's revolution | about 27.3 days |
+| streak of light made by a burning meteoroid in the air | remains of a meteoroid that reach the earth's surface |
+| burns up completely | does not burn completely; may make a crater |
 
-::: example A light-year calculation
-**Question.** A star is 4.2 light-years away. How far is that in kilometres,
-taking one light-year as $9.46 \times 10^{12}$ km?
+## 11.5 The universe, stars, constellations and galaxies
 
-**Answer.** Distance $= 4.2 \times 9.46 \times 10^{12} =
-\textbf{3.97} \times \textbf{10}^{13}$ **km** (about 39.7 trillion km) — which
-is why astronomers measure in light-years rather than kilometres.
+The endless region around us is **space**; the visible part of it above us is the **sky**.
+The **universe** is the total of all space, time, matter and energy. The part we can observe
+with the most powerful telescopes is the **observable universe**, about **93 billion
+light years** across (about 46 billion light years in every direction from us). A **light
+year** is the distance light travels in a vacuum in one year, about **9.46 × 10¹² km**. The
+study of the universe is **astronomy**.
+
+::: example Distances in light years
+**Problem (a).** The star Proxima Centauri is about 4.2 light years away. Express this in km.
+**Solution.** $4.2\times9.46\times10^{12}=39.7\times10^{12}\approx4.0\times10^{13}$ km.
+
+**Problem (b).** Sunlight takes about 8 minutes 20 seconds to reach the earth. Taking the speed
+of light as $3\times10^5$ km/s, find the distance of the sun.
+**Solution.** $t=8\times60+20=500$ s. Distance $=3\times10^5\times500=1.5\times10^8$ km
+(150 million km).
 :::
 
-::: example Why a solar eclipse is rare
-**Question.** The moon comes between the earth and the sun every month at
-new moon. Why, then, is a solar eclipse not seen every month?
-
-**Answer.** The moon's orbit is tilted about 5° to the earth's orbit, so at
-most new moons the moon's shadow passes above or below the earth. Only when
-the new moon happens near the point where the two orbits cross does the
-shadow fall on the earth — and then the eclipse is seen only along the
-narrow track of that shadow.
+::: example When will a comet return?
+**Problem.** Halley's comet was last seen from the earth in 1986. Its period is about 75–76 years.
+When will it be seen again?
+**Solution.** $1986+75=2061$. It is expected in **2061**.
 :::
 
-::: note Project — the earthquake preparedness plan
-Draw the floor plan of your home. Mark the safest spot in each room (under a
-strong table, away from windows and cupboards), the exit route, and the
-family meeting point outside. List the contents of an emergency bag — water,
-torch, whistle, dry food, first aid, a copy of documents — and check it with
-your family. Practise one drill and write what you would improve.
-:::
+### 11.5.1 The Big Bang theory
+
+In the 1920s **Edwin Hubble** observed that distant galaxies are moving away from us, and in
+**1927** the Belgian scientist **Georges Lemaître** explained that the universe is
+**expanding**. If the expansion is run backwards, all matter and energy come together into
+one extremely hot, dense point (Lemaître's "primeval atom"). About **13.8 billion years
+ago** this exploded and began expanding — the **Big Bang**. As it expanded and cooled,
+subatomic particles formed, then atoms and molecules, and from them, over time, galaxies,
+nebulas, stars and planets. Stephen Hawking explained the beginning mathematically in his book
+*A Brief History of Time*.
+
+### 11.5.2 Stars and galaxies
+
+A **star** is a huge ball of hot gas that produces its own heat and light by nuclear fusion.
+The sun is an ordinary, medium-sized star; many stars are far larger.
+
+```photo id="sci8/sun-and-planets" caption="Planets and stars compared in size. Panels 1–2: the planets (Earth is small beside Jupiter). Panel 3: the Sun dwarfs Jupiter but is small beside the star Sirius. Panels 4–6: giant stars such as Arcturus, Aldebaran, Betelgeuse and VY Canis Majoris are far larger still." width="84"
+```
+
+A **galaxy** is a huge collection of millions to billions of stars, together with nebulas
+(clouds of gas and dust), planetary systems and dark matter, held together by gravity. Galaxies
+may be spiral, elliptical, lens-shaped, ring-shaped or irregular. Our solar system is in the
+**Milky Way**, a spiral galaxy of roughly **100–400 billion stars**; the sun is one of them.
+Other galaxies: Andromeda, Whirlpool, Sombrero. There are hundreds of billions of galaxies in
+the observable universe, and many have a black hole at the centre.
+
+### 11.5.3 Constellations
+
+A **constellation** is a group of stars that forms a pattern in the sky, imagined as an
+animal, a person or an object. Astronomers recognise **88 constellations**. The 12 that lie
+along the **ecliptic** (the sun's apparent yearly path) are the **zodiac**: Aries, Taurus,
+Gemini, Cancer, Leo, Virgo, Libra, Scorpio, Sagittarius, Capricorn, Aquarius and Pisces.
+Others: **Ursa Major** (the Great Bear; its seven bright stars are the *Saptarishi*), Orion,
+Cassiopeia (five bright stars in a W shape), Ursa Minor (containing the Pole Star), Draco.
+**Crux** is the smallest and **Hydra** the largest. Before watches and compasses, people used
+constellations to tell the time, the season and the direction.
+
+| Galaxy | Constellation |
+|---|---|
+| a real system of billions of stars bound by gravity | a pattern of stars as seen from the earth; the stars may be very far apart |
+| looks like a faint patch of light | stars seen individually with the naked eye |
+| e.g. Milky Way, Andromeda | e.g. Ursa Major, Orion |
+
+## 11.6 Space exploration and artificial satellites; Nepal in space science
+
+An **artificial satellite** is a human-made object placed in orbit round the earth or another
+body. The first was **Sputnik 1** (USSR, 1957). Humans first landed on the Moon on **Apollo
+11** in **1969**. The **International Space Station** has been occupied continuously since
+2000. Satellites are used for communication (TV, telephone, internet), weather forecasting,
+navigation (GPS), mapping and disaster monitoring, and telescopes in space (such as Hubble)
+study distant galaxies.
+
+**Nepal in space science.** Nepal's first satellite, **NepaliSat-1**, a small cube-shaped
+satellite built by Nepali engineers at Kyushu Institute of Technology, Japan, under the BIRDS
+project, was launched in **2019** and placed in orbit from the International Space Station. It
+took photographs of Nepal and collected data for mapping. Nepal also uses satellites for weather
+forecasting, television and communication.
 
 ## Chapter summary
 
-- A **mineral** is a natural solid with a definite composition; an **ore** is a
-  mineral from which a metal can be extracted profitably.
-- Metallic minerals in Nepal include iron, copper, zinc and lead; non-metallic
-  ones include limestone, talc, mica, magnesite and graphite.
-- Rocks are **igneous** (cooled magma or lava), **sedimentary** (compacted
-  layers) or **metamorphic** (changed by heat and pressure); the rock cycle
-  connects all three.
-- The earth has a thin **crust**, a thick **mantle**, a liquid **outer core** and
-  a solid **inner core**; the outer core gives the magnetic field.
-- The earth is about **4.6 billion years** old; the nebular hypothesis explains
-  the formation of the sun and the planets from a contracting cloud of gas and
-  dust.
-- The solar system has eight planets — Mercury, Venus, Earth, Mars, Jupiter,
-  Saturn, Uranus, Neptune — with the asteroid belt between Mars and Jupiter.
-- Planets orbit the sun; satellites orbit planets; asteroids are rocky; comets
-  are icy and grow a tail near the sun; a meteor is a meteoroid burning in the
-  atmosphere.
-- A **star** makes its own light; a **constellation** is a pattern of stars as
-  seen from the earth; a **galaxy** is a system of billions of stars; a **light
-  year** is a distance of about 9.46 × 10¹² km.
-- Artificial satellites serve communication, weather, navigation, remote
-  sensing and research; Nepal launched **NepaliSat-1** in 2019.
+- Mineral: natural, solid, homogeneous substance of definite composition; types —
+  metallic (ferrous, non-ferrous, precious), non-metallic (gems, non-gems), energy minerals.
+- Nepal has more than 60 kinds of minerals; e.g. iron at Phulchoki, limestone at Udayapur,
+  magnesite at Dolakha, uranium in Upper Mustang.
+- Earth's layers: crust, mantle, outer core (liquid), inner core (solid). Rocks: igneous,
+  sedimentary, metamorphic.
+- Earth is about 4.6 billion years old. Hypotheses: nebular (Kant, Laplace), collision
+  (Buffon), passing-star / planetesimal (Chamberlin–Moulton), tidal (Jeans–Jeffreys).
+- Eras: Cryptozoic (simple life), Palaeozoic (invertebrates, fish, amphibians, ferns),
+  Mesozoic (reptiles, dinosaurs, conifers), Cenozoic (mammals, flowering plants, humans).
+- Big Bang: about 13.8 billion years ago; the universe is expanding (Hubble, Lemaître).
+- Asteroids: rocky, between Mars and Jupiter. Comets: icy, nucleus + coma + tails pointing
+  away from the sun. Meteor = burning meteoroid; meteorite = piece that reaches the ground.
+- Galaxy: billions of stars (Milky Way); constellation: star pattern (88; 12 zodiac).
+- 1 light year ≈ 9.46 × 10¹² km. Nepal's first satellite NepaliSat-1 (2019).
 
 ## Practice questions
 
-**Group A — Objective (1 mark each)**
+**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
 
-1. Which of these is a metamorphic rock? <span class="marks">[1]</span>
-   (a) granite (b) sandstone (c) marble (d) basalt
-2. The innermost layer of the earth is the <span class="marks">[1]</span>
-   (a) crust (b) mantle (c) outer core (d) inner core
-3. The accepted age of the earth is about <span class="marks">[1]</span>
-   (a) 4.6 million years (b) 4.6 billion years (c) 46 million years
-   (d) 460 million years
-4. The largest planet in the solar system is <span class="marks">[1]</span>
-   (a) Saturn (b) Jupiter (c) Neptune (d) Earth
-5. A light year is a unit of <span class="marks">[1]</span>
-   (a) time (b) distance (c) brightness (d) speed
-6. Nepal's first satellite was <span class="marks">[1]</span>
-   (a) Sputnik-1 (b) NepaliSat-1 (c) Gaganyaan (d) Chandrayaan
+1. The branch of science that studies minerals is <span class="marks">[1]</span>
+   (a) geology (b) palaeontology (c) mineralogy (d) archaeology
+2. Which mineral is necessary for the proper growth of plants? <span class="marks">[1]</span>
+   (a) nitrogen (b) dolomite (c) uranium (d) granite
+3. Which statement describes the tidal hypothesis? <span class="marks">[1]</span>
+   (a) the earth formed from matter splashed out when two stars collided (b) the earth formed from a hot lump pulled from the sun by a giant star passing close by (c) the earth formed from nebular dust (d) the earth formed from the explosion of a heavenly body
+4. Dinosaurs evolved and became extinct in the <span class="marks">[1]</span>
+   (a) Precambrian (b) Palaeozoic (c) Mesozoic (d) Cenozoic
+5. Who put forward the idea of the expanding universe? <span class="marks">[1]</span>
+   (a) Einstein (b) Lemaître (c) Halley (d) Pythagoras
+6. Which comet crashed into Jupiter? <span class="marks">[1]</span>
+   (a) Shoemaker–Levy 9 (b) Bennett (c) Tempel–Tuttle (d) Halley
+7. Trojans are asteroids that <span class="marks">[1]</span>
+   (a) lie in the Kuiper belt (b) move along the orbit of Jupiter or Mars (c) burn in the atmosphere (d) have a long bright tail
+8. The nucleus of a comet is made of <span class="marks">[1]</span>
+   (a) rock, metal and dust (b) ice, gas and dust (c) stars and dark matter (d) stars and nebular clouds
 
 ::: note Answers to Group A
-**1.** (c) — marble is limestone changed by heat and pressure.
-**2.** (d) — the solid iron-nickel inner core.
-**3.** (b) — about 4,600 million, that is 4.6 billion, years.
-**4.** (b) — Jupiter.
-**5.** (b) — distance: the distance light travels in one year.
-**6.** (b) — NepaliSat-1, launched on 18 April 2019.
+**1.** (c). **2.** (a). **3.** (b). **4.** (c). **5.** (b). **6.** (a) — in 1994. **7.** (b). **8.** (b).
 :::
 
 **Group B — Short answer (2 marks each)**
 
-1. Distinguish between a mineral and an ore, and give one example of each.
-   <span class="marks">[2]</span>
-2. Write the three types of rock with one example of each.
-   <span class="marks">[2]</span>
-3. Distinguish between a planet and a satellite, and between an asteroid and a
-   comet. <span class="marks">[2]</span>
-4. Write any four uses of artificial satellites.
-   <span class="marks">[2]</span>
+1. Differentiate: (a) metallic and non-metallic minerals (b) Palaeozoic and Cenozoic era. <span class="marks">[2]</span>
+2. Give reasons: (a) Minerals are called pure chemical substances. (b) The Mesozoic era is called the era of conifers. (c) Living beings appeared only a very long time after the earth formed. <span class="marks">[3]</span>
+3. What is a mineral? Give examples. Draw a flowchart of the types of minerals. <span class="marks">[2]</span>
+4. Explain the importance of minerals for Nepal. List five minerals with their places and uses. <span class="marks">[3]</span>
+5. Which era was unsuitable for the evolution of complex life, and why? <span class="marks">[2]</span>
+6. When did mammoths with long tusks and lung-fishes evolve? Name the era of: tree-fern, entelodont boar, dinosaur, frog, monocot plants, bacteria, mosquito, trilobite, jellyfish. <span class="marks">[3]</span>
+7. Differentiate: (a) meteor and meteorite (b) galaxy and constellation (c) asteroid and comet. <span class="marks">[3]</span>
+8. Give reasons: (a) Near-earth asteroids are dangerous. (b) Comets gradually lose their material. (c) Most meteors are destroyed before reaching the ground. (d) Galaxies are important for studying the universe. <span class="marks">[4]</span>
+9. Explain "meteor shower" and "observable universe". <span class="marks">[2]</span>
+10. Why are Nepal's minerals not yet mined sustainably? Which minerals are mined traditionally, and what should be done? <span class="marks">[2]</span>
 
 ::: note Answers to Group B
-**1.** A mineral is a naturally occurring solid with a definite chemical
-composition and a regular internal structure — for example quartz. An ore is a
-mineral from which a metal can be extracted profitably — for example magnetite,
-from which iron is extracted.
-**2.** Igneous — granite (or basalt). Sedimentary — sandstone (or limestone,
-shale). Metamorphic — marble (or slate, gneiss, quartzite).
-**3.** A planet is a large, nearly round body that orbits the sun directly and
-has cleared its orbit, such as the earth; a satellite is a body that orbits a
-planet, such as the moon (or an artificial satellite launched by people). An
-asteroid is a small rocky body, most of them in the belt between Mars and
-Jupiter; a comet is a body of ice, dust and rock that develops a bright tail
-when it comes near the sun.
-**4.** Any four of: communication — carrying telephone, internet and television
-signals; weather forecasting and cyclone warning; navigation, as with GPS;
-remote sensing for mapping forests, glaciers, crops and floods; scientific
-research; border monitoring and disaster search and rescue.
+**1.** (a) Metallic minerals are hard, lustrous, dense ores that conduct heat and electricity and give metals (haematite, copper ore, gold); non-metallic minerals are not lustrous, are poor conductors and light (mica, gypsum, diamond). (b) Palaeozoic (570–240 million years ago): invertebrates, fish, amphibians, ferns; Cenozoic (65 million years ago to now): mammals, flowering plants and humans.
+**2.** (a) A mineral is homogeneous with a definite chemical composition, like a pure compound or element. (b) Large gymnosperms (conifers) such as pines and cycads covered almost all moist land then. (c) The early earth was very hot and unstable, without oceans or a suitable atmosphere; these took hundreds of millions of years to form.
+**3.** See the definition and the figure in 11.1 (metallic: ferrous, non-ferrous, precious; non-metallic: gems, non-gems; energy: coal, petroleum and gas, radioactive).
+**4.** Minerals give raw materials for industries (cement, glass, metals), fertilisers for farming, building materials and energy; mining can create jobs and income and reduce imports. Examples: iron — Phulchoki — tools and rods; limestone — Udayapur — cement; magnesite — Dolakha — heat-resistant bricks; slate — Dhankuta — roofing; coal — Dang — fuel for kilns.
+**5.** The Cryptozoic (Precambrian) eon: the earth was hot, the atmosphere had little oxygen and no ozone layer, so only simple unicellular life could exist in water.
+**6.** In the Cenozoic era (mammoths) and the Palaeozoic era (lung-fishes). Tree-fern — Palaeozoic; entelodont — Cenozoic; dinosaur — Mesozoic; frog — Palaeozoic; monocots — Cenozoic; bacteria — Cryptozoic (Precambrian); mosquito — Mesozoic; trilobite — Palaeozoic; jellyfish — Palaeozoic (soft-bodied ancestors appeared at the end of the Precambrian).
+**7.** See the tables in 11.4.2, 11.4.3 and 11.5.3.
+**8.** (a) Their orbits cross the earth's orbit, so one may hit the earth and cause great destruction, as at the end of the Mesozoic. (b) Each time they pass close to the sun, its heat evaporates some of their ice and gas, which the solar wind blows away as tails. (c) They enter the atmosphere at very high speed, and friction with air heats and burns them up. (d) Galaxies are the basic large units of the universe; studying them tells us about its structure, expansion and age.
+**9.** A meteor shower is the fall of many meteors in one region of the sky at one time. The observable universe is the part of the universe that can be seen with our most powerful telescopes, about 93 billion light years across.
+**10.** Lack of research, modern technology, capital, skilled people and roads, and weak policy. Traditionally mined: iron, copper, coal, gold (from river sand), slate, limestone. To use them sustainably: survey and research, use modern and safe methods, protect the environment and local people, and add value inside the country.
 :::
 
 **Group C — Long answer (4 marks each)**
 
-1. Describe the internal structure of the earth with a diagram, giving the
-   thickness and the state of each layer. State two effects of the movement
-   inside the earth. <span class="marks">[4]</span>
-2. What is the solar system? Write the eight planets in order from the sun and
-   state one fact about any four of them. Distinguish between a meteor, a
-   meteorite and a meteoroid. <span class="marks">[4]</span>
+1. What are the hypotheses about the origin of the earth? Explain the nebular hypothesis. <span class="marks">[4]</span>
+2. Describe the Mesozoic era. Why did dinosaurs become extinct, and what would happen to the biological balance if they were still alive? <span class="marks">[4]</span>
+3. Describe the Big Bang theory in brief. <span class="marks">[4]</span>
+4. What is a comet? Explain its parts with a diagram. <span class="marks">[4]</span>
+5. What are asteroids? Write their characteristics. What are meteoroids and how do they become meteors? <span class="marks">[4]</span>
 
 ::: note Answers to Group C
-**1.** **Diagram.** A circle divided into four concentric parts, labelled from
-the outside in. **Layers.** *Crust* — about 5 km thick under the ocean to about
-70 km under mountain ranges; solid rock, mainly silicates of silicon,
-aluminium and oxygen. *Mantle* — extends to about 2,900 km depth; hot rock that
-is mostly solid but flows extremely slowly; iron and magnesium silicates.
-*Outer core* — from about 2,900 km to about 5,150 km; liquid iron and nickel.
-*Inner core* — from about 5,150 km to the centre at 6,371 km; solid iron and
-nickel at about 5,500 °C. **Two effects.** (i) The movement of the liquid outer
-core produces the earth's magnetic field, which protects us from much of the
-solar wind and makes the compass work. (ii) The slow movement of the mantle
-moves the crustal plates, so where plates meet we get earthquakes, volcanoes and
-the rising of mountain ranges such as the Himalaya.
-**2.** **The solar system** is the sun together with everything held by its
-gravity — eight planets, their moons, dwarf planets, asteroids, comets,
-meteoroids and dust. **Planets in order:** Mercury, Venus, Earth, Mars,
-Jupiter, Saturn, Uranus, Neptune. **Facts (any four).** Venus is the hottest
-planet because its carbon dioxide atmosphere traps heat. Earth is the only
-planet known to have liquid water on its surface and life. Jupiter is the
-largest planet and has a giant storm called the Great Red Spot. Saturn is
-famous for its bright rings. Mars is called the red planet and has the tallest
-volcano in the solar system. Uranus rotates on its side. Neptune is the farthest
-planet and has the strongest winds. Mercury is the smallest planet and has
-almost no atmosphere. **Meteor, meteorite, meteoroid.** A *meteoroid* is a small
-piece of rock or dust travelling in space. A *meteor* is a meteoroid that enters
-the earth's atmosphere and burns up, appearing as a streak of light or
-"shooting star". A *meteorite* is a meteoroid that survives the passage through
-the atmosphere and lands on the ground.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** A light-year is a unit of
-   (a) time (b) distance (c) brightness (d) speed
-**2.** Day and night are caused by the earth's
-   (a) revolution (b) rotation (c) tilt alone (d) orbit shape
-**3.** A lunar eclipse occurs when
-   (a) the moon is between the sun and the earth (b) the earth is between the sun and the moon (c) the sun is between them (d) the moon is new
-**4.** Nepal lies in a seismically active zone because
-   (a) it is landlocked (b) the Indian plate is pushing under the Eurasian plate (c) it has many rivers (d) it is mountainous
-**5.** The seasons are caused mainly by
-   (a) rotation (b) the axial tilt with revolution (c) distance from the sun (d) the moon
-
-::: note Objective practice — answers
-**1.** (b) — distance. **2.** (b) — rotation, in about 24 hours. **3.** (b) — the earth's shadow falls on the moon, at full moon. **4.** (b) — the collision of the two plates. **5.** (b) — the 23.5° tilt together with revolution.
+**1.** Nebular (Kant 1755, Laplace 1796), collision (Buffon), passing-star / planetesimal (Chamberlin and Moulton, 1905) and tidal (Jeans and Jeffreys). *Nebular:* a huge, flat, slowly spinning nebula of gas and dust contracted under its own gravity; its centre grew hot and dense and became the sun; as it spun faster, the outer part flattened and broke into rings or lumps that collected matter and became planets; smaller lumps became satellites, and leftover matter formed asteroids and comets. It explains why the planets revolve in one plane and one direction.
+**2.** 240–65 million years ago (textbook values); climate became drier with seasons; conifer forests; reptiles, especially dinosaurs, dominated land, water and air; toothed birds, small mammals and the first flowering plants appeared. Dinosaurs died out at the end of the Cretaceous, probably because of huge meteorite impacts and volcanic eruptions that filled the air with fire, dust and poisonous gases. If they were alive, large dinosaurs would compete with or prey on mammals, including humans, and the present food webs could not exist in their present form.
+**3.** Hubble found that distant galaxies are moving away; Lemaître (1927) explained that the universe is expanding. Reversing the expansion, all matter and energy were once in one extremely hot, dense point (primeval atom). About 13.8 billion years ago it exploded — the Big Bang — and expanded rapidly; as it cooled, subatomic particles, then atoms and molecules, and finally galaxies, stars and planets formed. The universe is still expanding.
+**4.** A small body of ice, dust, rock and gas moving round the sun in a highly elliptical orbit. Parts (figure in 11.4.2): nucleus — solid icy centre; coma — glowing cloud of gas and dust round the nucleus near the sun; tails — a white dust tail and a bluish ion tail, pointing away from the sun because of the solar wind.
+**5.** Asteroids are small, irregular rocky and metallic bodies revolving round the sun, mostly between Mars and Jupiter. Characteristics: irregular shape (weak gravity), size about 1–1000 km (Ceres about 940 km), made of rock, metal and clay, orbits slightly irregular so they collide; some are Trojans, some near-earth asteroids. Meteoroids are small pieces of rock and metal in the solar system; when one enters the atmosphere at high speed, friction with the air makes it glow and burn, giving a streak of light — a meteor.
 :::

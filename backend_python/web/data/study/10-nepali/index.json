@@ -1,0 +1,183 @@
+{
+ "book": "nep10",
+ "units": [
+  {
+   "no": 1,
+   "title": "उज्यालो यात्रा - रामप्रसाद ज्ञवाली (कविता)",
+   "area": "पाठ",
+   "words": 3640,
+   "read_min": 20,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "घरझगडा - बदरीनाथ भट्टराई (कथा)",
+   "area": "पाठ",
+   "words": 3630,
+   "read_min": 20,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "चिकित्सा विज्ञान र आयुर्वेद चिकित्सा (निबन्ध)",
+   "area": "पाठ",
+   "words": 3415,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "यस्तो कहिल्यै नहोस् (मनोवाद)",
+   "area": "पाठ",
+   "words": 3259,
+   "read_min": 18,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "लक्ष्मीप्रसाद देवकोटा (जीवनी)",
+   "area": "पाठ",
+   "words": 3482,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "अधिकार ठुलो कि कर्तव्य ठुलो ? (वादविवाद)",
+   "area": "पाठ",
+   "words": 3317,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "शत्रु - विश्वेश्वरप्रसाद कोइराला (कथा)",
+   "area": "पाठ",
+   "words": 3485,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "नेपाली हाम्रो श्रम र सिप - मुकुन्दशरण उपाध्याय (कविता)",
+   "area": "पाठ",
+   "words": 3329,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "मेरो देशको शिक्षा (निबन्ध)",
+   "area": "पाठ",
+   "words": 3330,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "व्यावसायिक चिठी (चिठी)",
+   "area": "पाठ",
+   "words": 4049,
+   "read_min": 22,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "कर्तव्य (कथा)",
+   "area": "पाठ",
+   "words": 3820,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "पाब्लो पिकासो (जीवनी)",
+   "area": "पाठ",
+   "words": 3779,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "पख्नोस् (निबन्ध)",
+   "area": "पाठ",
+   "words": 3533,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "घरको माया (एकाङ्की)",
+   "area": "पाठ",
+   "words": 3769,
+   "read_min": 21,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "गाउँमाथि एउटा कविता (कविता)",
+   "area": "पाठ",
+   "words": 3814,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "आयाम (कथा)",
+   "area": "पाठ",
+   "words": 3850,
+   "read_min": 21,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "सुनाइ पाठ",
+   "area": "पाठ",
+   "words": 3123,
+   "read_min": 17,
+   "figures": 2,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank10",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "अनिवार्य नेपाली: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह",
+   "words": 3342,
+   "read_min": 19
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "अनिवार्य नेपाली: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
+   "words": 3744,
+   "read_min": 21
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "अनिवार्य नेपाली: नमुना प्रश्नसेट र सम्भावित प्रश्न",
+   "words": 2937,
+   "read_min": 16
+  }
+ ],
+ "guide": "The SEE Examination: Pattern, Grid and Strategy"
+}

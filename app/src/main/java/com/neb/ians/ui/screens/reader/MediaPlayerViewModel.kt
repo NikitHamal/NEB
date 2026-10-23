@@ -79,8 +79,10 @@ class MediaPlayerViewModel @Inject constructor(
         private const val PREFS_NAME = "nmp_positions"
     }
 
+    // The player is built when something first plays or a stage asks for it (getPlayer), not
+    // here: this view model is created with the navigation host, at launch, and building an
+    // ExoPlayer then delayed the first frame on slow phones.
     init {
-        ensurePlayer()
         if (initialResourceId.isNotBlank()) setResource(initialResourceId)
     }
 
@@ -409,7 +411,7 @@ class MediaPlayerViewModel @Inject constructor(
         return if (maxVolume > 0) cur.toFloat() / maxVolume else 0.5f
     }
 
-    fun getPlayer(): ExoPlayer? = player
+    fun getPlayer(): ExoPlayer? = ensurePlayer()
 
     fun stopPlayback() {
         savePosition()

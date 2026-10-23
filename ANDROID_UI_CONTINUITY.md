@@ -1,6 +1,6 @@
 # NEBians Android — UI/UX Revamp Continuity
 
-**Last updated:** September 28, 2026
+**Last updated:** October 22, 2026
 **Working branches:** `design/nebians-onboarding-experience` (issue #44, §4), `design/profile-revamp` (§5), then `feature/marketplace-creator-pages` (§10)
 **Scope:** the mono / Material 3 Expressive redesign of the Android app (GitHub issues #41–#44). This file is the handoff for that work; `CONTINUITY.md` covers the Django/web side and is unrelated.
 
@@ -396,3 +396,54 @@ Local build without CI secrets: `KEYSTORE_PASSWORD=x KEY_PASSWORD=x ./gradlew :a
 - The PDF "Ask Neby" overlay renders its messages with the same components.
 - Motion: only `neb*Spec` springs; the status label pulse is driven from the frame clock in the
   draw phase (no `tween`).
+
+## 14. Speed and memory pass (Oct 22, 2026), branch `sims/perf-cosmos-3d`
+
+Feeds were slow on low-end phones. Each commit carries its own reasoning; the rules that came out
+of it:
+
+- **Nothing loops on the frame clock unless it is on screen and changing.** `PixelSpriteView` and
+  `PixelSkyHero` sleep until the next sprite frame is due (`WAKE_EARLY_MS`) instead of waking on
+  every vsync; one-frame sprites (Neby's still pose) do not loop; every sprite draws in its own
+  `graphicsLayer`. `NebRefreshBox` only composes its Neby while the header shows (it used to play,
+  at alpha 0, under every feed). Festival effects use `festiveClock()` (30 fps on low-end) and draw
+  in their own layers (`seasonAmbience`, the `SeasonCard` motif); the profile cover sheen is off on
+  low-end and with reduced motion.
+- **No JSON on the main thread.** `OfflineCacheStore` decodes/encodes on `Dispatchers.Default` and
+  keeps decoded values in a ~2 MB LRU, so the stale-while-revalidate re-read after a refresh costs
+  nothing; `trim()` runs at most every 6 hours.
+- **Cache-bus listeners use `CacheBus.batches()`** (all keys seen in the 400 ms quiet window). A plain
+  `debounce` dropped all but the last key, so a post and its replies, or Home's resources and posts,
+  refreshed together lost one update.
+- **Card previews:** `prewarmCardPreviews()` (Home, Forum) works out `markdownToInlinePreview` on one
+  background worker as pages arrive; cards style at most `clippedForCard()` (1200 chars, more than
+  four lines); no `Regex(...)` inside functions that run per card, line or formula.
+- **Lists:** every `items` call has a `contentType` where rows differ; `WebResourceCard` sizes its
+  banner with a layout modifier (no `BoxWithConstraints`); the pixel banner cache is sized from the
+  heap; `compose_stability.conf` lets Compose compare API/news models by value.
+- **Network:** people suggestions come from `GET api/users/suggestions/` (one request; the old
+  ~43-request assembly is the fallback for a server without it); news uses `app/news/` (no 308);
+  Home's first load no longer waits for a profile refresh (MainActivity does it at launch).
+- **Startup:** `src/main/baseline-prof.txt` (launch, auth, feeds, components, data layer) plus
+  `androidx.profileinstaller`, so sideloaded APKs are AOT-compiled for those paths too.
+- `NEBiansNavHost` reads the media player through derived state; `MiniPlayerSlot` reads the 4 Hz
+  position itself.
+
+Second pass (same branch):
+- **Cold start:** the auth token is decrypted once and kept in memory (`SecurePrefs`), read on IO
+  until loaded; `NEBiansApp.warmUp()` starts the DataStore, token and theme-prefs reads off the
+  main thread; `MediaPlayerViewModel` builds its ExoPlayer on first use (`getPlayer()`), and
+  `ResourceDownloadManager` reads its index on its IO scope.
+- `WafChallengeInterceptor` no longer scans JSON replies for shield words (it copied up to 192 KB
+  per response, and a post saying "please wait a moment" failed as a fake challenge).
+- Coil memory-caches generated avatars (`AvatarKeyer`); skeletons shimmer in the draw phase
+  (`Modifier.shimmer`); `KaTeXMathView` loads its page once; comment drafts on resource and news
+  detail are their own flows; realtime likes for posts not on screen are ignored early.
+- **Next (Android):** one shared OkHttp `ConnectionPool` for the API, image, realtime and download
+  clients (one TLS handshake to the host instead of up to four); memoise the reply/comment thread
+  grouping in the detail view models; build the forum audio/video `ExoPlayer` lazily.
+
+Not measured on a device (no emulator here); CI (`Build Student Release APKs & AAB`) is the
+compile check. Worth doing next with a phone: a Macrobenchmark module to generate a real baseline
+profile and to measure Home's scroll jank before and after.
+

@@ -74,7 +74,7 @@
           <option value="qwen"      {% if config.provider == 'qwen' %}selected{% endif %}>Qwen (chat.qwen.ai)</option>
           <option value="qwencloud" {% if config.provider == 'qwencloud' %}selected{% endif %}>Qwen Cloud (qwencloud.com — 11 models)</option>
           <option value="deepai"    {% if config.provider == 'deepai' %}selected{% endif %}>DeepAI (deepai.org)</option>
-          <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 2)</option>
+          <option value="inception" {% if config.provider == 'inception' %}selected{% endif %}>Inception Labs (Mercury 3)</option>
           <option value="yqcloud"   {% if config.provider == 'yqcloud' %}selected{% endif %}>Yqcloud (free, no key)</option>
           <option value="chatjimmy" {% if config.provider == 'chatjimmy' %}selected{% endif %}>ChatJimmy Llama 3.1 8B (free, no key)</option>
           <option value="unikey" {% if config.provider == 'unikey' %}selected{% endif %}>Unikey 12 models (free trial, no key)</option>
@@ -330,9 +330,9 @@
       urlHelp: 'Inception Labs endpoint (leave default).',
       urlDefault: 'https://api.inceptionlabs.ai/v1',
       modelControl: 'select',
-      modelHelp: 'Pick a Mercury 2 model.',
+      modelHelp: 'Pick a Mercury 3 model.',
       options: [
-        { value: 'mercury-2', label: 'Mercury 2 (default)' },
+        { value: 'mercury-3', label: 'Mercury 3 (default)' },
 
       ],
     },

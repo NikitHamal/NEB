@@ -83,7 +83,8 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
             budget = solveBudgetSeconds(originalRequest, response)
         }
 
-        if (solveBudgetSeconds(originalRequest, response) != null) {
+        // the loop leaves budget computed for the response in hand
+        if (budget != null) {
             response.close()
             throw wafException(responseCode = response.code)
         }
@@ -130,6 +131,10 @@ class WafChallengeInterceptor(private val context: Context) : Interceptor {
     private fun solveBudgetSeconds(request: Request, response: Response): Long? {
         val path = request.url.encodedPath
         val contentType = response.body?.contentType()?.toString().orEmpty()
+        // JSON is the server answering; shield pages are HTML (isHardCaptchaBlock assumes the
+        // same). Scanning JSON cost a 192 KB copy, a lowercased copy and nine scans per response,
+        // and a post saying "please wait a moment" made its page look like a challenge and fail.
+        if (contentType.contains("application/json", true)) return null
         val likelyText = contentType.contains("text", true) ||
                 contentType.contains("html", true) ||
                 contentType.contains("json", true) ||

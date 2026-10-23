@@ -434,7 +434,8 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
     exam_types = [e.strip() for e in request.GET.getlist('exam_type') if e.strip()]
     sort_by = request.GET.get('sort', 'relevant')
     current_tab = request.GET.get('tab', 'digital')
-    if current_tab not in ['digital', 'community', 'categories', 'interactive', 'marketplace']:
+    from nebians.features import MARKETPLACE_ENABLED
+    if current_tab not in ['digital', 'community', 'categories', 'interactive', 'marketplace'] or (current_tab == 'marketplace' and not MARKETPLACE_ENABLED):
         current_tab = 'digital'
 
     pricing = request.GET.get('pricing', '').strip().lower()
@@ -592,49 +593,8 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
         'Entrance Prep', 'Competitive Exam', 'Other',
     ]
 
-    # Build Class syllabus category tree dynamically from SyllabusContent
-    from collections import defaultdict
-    from api.models import SyllabusContent
-    categories_map = defaultdict(set)
-    active_syllabus = SyllabusContent.objects.all().values('grade_level', 'subject')
-    
-    if active_syllabus.exists():
-        for item in active_syllabus:
-            grade = item['grade_level'].strip() if item['grade_level'] else ''
-            if grade.lower() == 'grade 12':
-                grade = 'Class 12'
-            elif grade.lower() == 'grade 11':
-                grade = 'Class 11'
-            subject_str = item['subject']
-            if grade and subject_str:
-                for s in subject_str.split(','):
-                    s_clean = s.strip()
-                    if s_clean:
-                        categories_map[grade].add(s_clean)
-    else:
-        # Fallback to CURRICULUM_MAP keys
-        for (g_val, s_val) in curriculum.CURRICULUM_MAP.keys():
-            categories_map[g_val].add(s_val)
-                    
-    grade_order = {val: i for i, val in enumerate(education_levels)}
-    categories_list = []
-    for grade, subjs in categories_map.items():
-        subjs_sorted = sorted(list(subjs))
-        subjs_list = []
-        for s in subjs_sorted:
-            grade_slug = grade.lower().replace(' / see', '-see').replace(' ', '-')
-            subject_slug = s.lower().replace(' ', '-')
-            subjs_list.append({
-                'name': s,
-                'slug': subject_slug,
-                'url': f"/app/subject/{grade_slug}/{subject_slug}/"
-            })
-        categories_list.append({
-            'grade': grade,
-            'subjects': subjs_list,
-            'order': grade_order.get(grade, 999)
-        })
-    categories_list.sort(key=lambda x: x['order'])
+    from .views_syllabus import syllabus_hub_context
+    syllabus_ctx = syllabus_hub_context(request.GET.get('grade')) if current_tab == 'categories' else {}
 
     active_filter_count = len(subjects) + len(grades) + len(types) + len(faculties) + len(exam_types) + (1 if pricing else 0)
     ctx = _ctx(request,
@@ -655,7 +615,7 @@ def library(request, seo_title=None, seo_description=None, page_h1=None, canonic
         current_sort=sort_by,
         current_tab=current_tab,
         page_obj=page_obj,
-        categories_list=categories_list,
+        **syllabus_ctx,
         interactive_categories=interactive_categories,
         interactive_stats=interactive_stats,
         marketplace_creators=marketplace_creators,
@@ -1224,12 +1184,7 @@ def submit_payment_proof(request, resource_id):
 def resource_requests_page(request):
     """Public resource request listing page."""
     user_id = _get_user_id(request)
-    user = None
-    if user_id:
-        try:
-            user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            pass
+    user = _request_db_user(request, user_id)
 
     if request.method == 'POST' and request.POST.get('action') == 'create':
         title = request.POST.get('title', '').strip()
@@ -1312,12 +1267,7 @@ def upload_resource(request):
     """Standalone upload page — authenticated users upload with approval_status='pending'.
     Supports both file upload (primary) and URL (secondary)."""
     user_id = _get_user_id(request)
-    user = None
-    if user_id:
-        try:
-            user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            pass
+    user = _request_db_user(request, user_id)
     if user and not getattr(user, 'email_verified', False):
         user = None
 
@@ -1804,11 +1754,19 @@ def edit_resource(request, resource_id):
 
 def subject_page(request, grade_slug, subject_slug):
     """Subject details page — groups resources by chapter and links Neby AI + forum."""
+    from . import syllabus_data
+    syllabus_key = {'nepali': 'nepali', 'english': 'english', 'compulsory-english': 'english',
+                    'compulsory-nepali': 'nepali', 'math': 'mathematics', 'maths': 'mathematics',
+                    'science': 'science', 'social': 'social-studies', 'opt-math': 'optional-mathematics',
+                    'optional-math': 'optional-mathematics'}.get(subject_slug.lower(), subject_slug.lower())
+    if syllabus_data.subject(grade_slug, syllabus_key):
+        return redirect('web:syllabus_subject', grade=syllabus_data.normalize_grade(grade_slug),
+                        subject=syllabus_key)
     grade_db_val = curriculum.get_grade_db_value(grade_slug)
     subject_db_val = curriculum.get_subject_db_value(subject_slug)
     
     # Query approved lead resources
-    resources_qs = Resource.objects.filter(
+    resources_qs = Resource.objects.select_related('uploaded_by').filter(
         approval_status='approved',
         is_lead=True,
         grade_level__iexact=grade_db_val,

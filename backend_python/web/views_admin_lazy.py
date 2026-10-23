@@ -36,7 +36,7 @@ def admin_lazy_config(request):
     default_pro_chain = (
         '[{"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, '
         '{"provider": "tryingopen", "model": "qwen/qwen3.8-27b"}, '
-        '{"provider": "inception", "model": "mercury-2"}, '
+        '{"provider": "inception", "model": "mercury-3"}, '
         '{"provider": "k2think", "model": "IFM/K2-Horizon-375B-A23B"}, '
         '{"provider": "longcat", "model": "longcat/LongCat-2.0"}, '
         '{"provider": "qwencloud", "model": "qwen3.8-max"}]'

@@ -79,7 +79,7 @@ COURSES = [
                 'icon': 'bolt',
                 'minutes': 12,
                 'sim': 'robotics/robot-power',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Build a simple circuit with a battery, a switch and a motor — then watch electricity flow and make a fan spin.',
                 'objectives': [
                     'Explain why a circuit must be a complete loop',
@@ -327,7 +327,7 @@ COURSES = [
                 'icon': 'route',
                 'minutes': 15,
                 'sim': 'robotics/line-follower',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Give a robot two IR sensors and a simple rule, then watch it chase a curvy line — until you crank the speed too high.',
                 'objectives': [
                     'Explain how an IR sensor tells dark line from light floor',

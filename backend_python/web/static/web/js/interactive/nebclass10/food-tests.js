@@ -1,183 +1,132 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Food tests (NEB class 10) in 3D: ten food extracts in a rack standing in a water bath on the
+ * chemistry bench. Choose iodine, Benedict's or Biuret reagent and tap a tube: iodine turns blue-black
+ * with starch, Biuret turns violet with protein, and Benedict's only changes when the bath is boiling:
+ * blue, green, yellow, orange or brick red with a settling precipitate, depending on how much reducing
+ * sugar there is. Table sugar (sucrose) is a sugar but not a reducing one, so it stays blue.
+ */
+import { mixHex } from '../core/tubes2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { createChemLab, THREE } from '../chemistry/chem3d/stage.js';
 
-// Food tests bench (grade-10 biology practical): run iodine, Benedict's and
-// Biuret tests on food samples and read the colour change.
-
-const SAMPLES = [
-  { id: 'rice', name: 'Boiled rice', starch: true, sugar: false, protein: false },
-  { id: 'potato', name: 'Potato', starch: true, sugar: false, protein: false },
-  { id: 'bread', name: 'Bread', starch: true, sugar: false, protein: false },
-  { id: 'banana', name: 'Ripe banana', starch: false, sugar: true, protein: false },
-  { id: 'milk', name: 'Milk', starch: false, sugar: true, protein: true },
-  { id: 'egg', name: 'Egg white', starch: false, sugar: false, protein: true },
-  { id: 'soybean', name: 'Soybean', starch: false, sugar: false, protein: true },
-  { id: 'groundnut', name: 'Groundnut', starch: false, sugar: false, protein: true },
-  { id: 'sugar', name: 'Sugar solution', starch: false, sugar: true, protein: false },
+const FOODS = [
+  { name: 'Boiled rice', short: 'Rice', s: 0.9, r: 0.02, p: 0.15, base: '#f8f5ec' },
+  { name: 'Potato', short: 'Potato', s: 0.85, r: 0.08, p: 0.1, base: '#f6f0dc' },
+  { name: 'Bread', short: 'Bread', s: 0.75, r: 0.18, p: 0.3, base: '#f3ead6' },
+  { name: 'Ripe banana', short: 'Banana', s: 0.12, r: 0.8, p: 0.05, base: '#f8f1cf' },
+  { name: 'Milk', short: 'Milk', s: 0, r: 0.5, p: 0.6, base: '#fbfbf7' },
+  { name: 'Egg white', short: 'Egg w.', s: 0, r: 0.02, p: 0.95, base: '#f4f6ee' },
+  { name: 'Soybean', short: 'Soybean', s: 0.1, r: 0.05, p: 0.85, base: '#f3eedb' },
+  { name: 'Groundnut', short: 'G.nut', s: 0.1, r: 0.05, p: 0.7, base: '#f1e9d6' },
+  { name: 'Table sugar (sucrose)', short: 'Sucrose', s: 0, r: 0, p: 0, base: '#f5f8fc' },
+  { name: 'Glucose', short: 'Glucose', s: 0, r: 1, p: 0, base: '#f5f8fc' },
 ];
-
-const TESTS = [
-  { id: 'iodine', name: 'Iodine test (for starch)', reagent: '#8b5a2b', positive: '#141b2e', positiveName: 'blue-black', negativeName: 'yellow-brown', detects: 'starch', heat: false },
-  { id: 'benedict', name: "Benedict's test (for reducing sugar)", reagent: '#4fa8e0', positive: '#c8541f', positiveName: 'brick red', negativeName: 'stays blue', detects: 'sugar', heat: true },
-  { id: 'biuret', name: "Biuret test (for protein)", reagent: '#8f6ed5', positive: '#7d3fbf', positiveName: 'violet', negativeName: 'stays blue', detects: 'protein', heat: false },
-];
+const REAG = [{ id: 'iodine', label: 'Iodine' }, { id: 'benedict', label: "Benedict's" }, { id: 'biuret', label: 'Biuret' }];
+const BEN = ['#3b82f6', '#4caf50', '#d9c13a', '#e8742a', '#b5401f'];
+const clamp = (x, a, b) => (x < a ? a : x > b ? b : x);
+const benColor = (x) => { const f = clamp(x, 0, 1) * 4; const i = Math.min(3, Math.floor(f)); return mixHex(BEN[i], BEN[i + 1], f - i); };
+const benName = (x) => (x < 0.12 ? 'stays blue' : x < 0.35 ? 'green (a trace)' : x < 0.6 ? 'yellow (some)' : x < 0.85 ? 'orange (a lot)' : 'brick red (very much)');
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const L = createChemLab(stage, { title: 'Food tests', aim: 'Testing foods for starch, sugar and protein', target: [0, 0.7, 0], camera: [0.2, 2.5, 4.8], minDistance: 1.8, maxDistance: 9 });
+  if (!L) return null;
+  const { engine, world, controls } = L;
   const hud = createHud(stage);
-  const badge = hud.badge('Choose a food, then run a test', '#84CC16');
+  const badge = hud.badge('Choose a reagent, then tap a food tube', '#2563eb');
 
-  let sample = SAMPLES[0];
-  let test = TESTS[0];
-  let boiled = 0;      // seconds of heating for Benedict's test
-  let added = false;
+  const st = FOODS.map(() => ({ reag: null, heat: 0, res: {} }));
+  let current = 'iodine'; let bathOn = false; let bathT = 25;
+  const steel = new THREE.MeshStandardMaterial({ color: 0xc0c6cf, metalness: 0.8, roughness: 0.35 });
+  const tank = new THREE.Group(); world.add(tank);
+  const TW = 4.7; const TD = 0.8; const TH = 0.5;
+  for (const [x, z, w, d] of [[0, -TD / 2, TW, 0.03], [0, TD / 2, TW, 0.03], [-TW / 2, 0, 0.03, TD], [TW / 2, 0, 0.03, TD]]) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, TH, d), steel); m.position.set(x, TH / 2, z); tank.add(m); }
+  const water = new THREE.Mesh(new THREE.BoxGeometry(TW - 0.04, TH * 0.75, TD - 0.04), new THREE.MeshPhysicalMaterial({ color: 0x9fd3f7, roughness: 0.05, transparent: true, opacity: 0.35, clearcoat: 0.5, depthWrite: false }));
+  water.position.y = TH * 0.375; water.renderOrder = 3; tank.add(water);
+  const heater = new THREE.Mesh(new THREE.BoxGeometry(TW, 0.06, TD), new THREE.MeshStandardMaterial({ color: 0x1f2937, emissive: 0x000000 })); heater.position.y = 0.03; tank.add(heater);
+  const glass = new THREE.MeshPhysicalMaterial({ color: 0xeaf6ff, roughness: 0.04, transparent: true, opacity: 0.28, clearcoat: 1, depthWrite: false, side: THREE.DoubleSide });
+  const tubes = FOODS.map((f, i) => {
+    const g = new THREE.Group(); g.position.set(-2.07 + i * 0.46, 0.1, 0); world.add(g);
+    const prof = []; for (let k = 0; k <= 8; k++) { const a = k / 8 * Math.PI / 2; prof.push(new THREE.Vector2(Math.sin(a) * 0.085, 0.085 - Math.cos(a) * 0.085)); } prof.push(new THREE.Vector2(0.085, 1.05), new THREE.Vector2(0.095, 1.07));
+    const tube = new THREE.Mesh(new THREE.LatheGeometry(prof, 28), glass); tube.renderOrder = 5; g.add(tube);
+    const liqMat = new THREE.MeshPhysicalMaterial({ color: new THREE.Color(f.base), roughness: 0.05, transparent: true, opacity: 0.6, clearcoat: 0.5, depthWrite: false });
+    const liq = new THREE.Mesh(new THREE.CylinderGeometry(0.078, 0.078, 0.42, 24), liqMat); liq.position.y = 0.25; liq.renderOrder = 4; g.add(liq);
+    const ppt = new THREE.Mesh(new THREE.CylinderGeometry(0.076, 0.076, 1, 24), new THREE.MeshStandardMaterial({ color: 0xb5401f, roughness: 0.9 })); ppt.visible = false; g.add(ppt);
+    const c = document.createElement('canvas'); c.width = 128; c.height = 48; const x = c.getContext('2d'); x.fillStyle = '#ffffff'; x.fillRect(0, 0, 128, 48); x.fillStyle = '#0f172a'; x.font = '700 20px Poppins, system-ui, sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.fillText(f.short, 64, 25);
+    const tag = new THREE.Mesh(new THREE.PlaneGeometry(0.4, 0.15), new THREE.MeshStandardMaterial({ map: Object.assign(new THREE.CanvasTexture(c), { colorSpace: THREE.SRGBColorSpace }), roughness: 0.8 })); tag.position.set(0, 1.2, 0.0); g.add(tag);
+    L.tappable(g, () => apply(current, i));
+    return { g, liq, liqMat, ppt };
+  });
+  const rackTop = new THREE.Mesh(new THREE.BoxGeometry(TW, 0.05, 0.3), new THREE.MeshStandardMaterial({ color: 0x9a6b3e, roughness: 0.7 })); rackTop.position.y = 0.72; world.add(rackTop);
+  const puffs = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 10, 8), new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.22, depthWrite: false }), 40);
+  puffs.count = 0; puffs.renderOrder = 7; world.add(puffs);
+  const P = Array.from({ length: 40 }, () => ({ a: 99 }));
+  const dropper = new THREE.Group();
+  const bulb = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 12), new THREE.MeshStandardMaterial({ color: 0x1f2937 })); bulb.scale.y = 1.4; bulb.position.y = 0.42;
+  dropper.add(bulb, new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.01, 0.6, 12), glass)); dropper.visible = false; world.add(dropper);
 
   const panel = createPanel(stage, { title: 'Food tests' });
-  panel.select({
-    label: 'Food sample',
-    options: SAMPLES.map((s) => ({ value: s.id, label: s.name })),
-    value: sample.id,
-    onChange: (id) => { sample = SAMPLES.find((s) => s.id === id); boiled = 0; added = false; update(); },
+  panel.chips({ label: 'Reagent', options: REAG.map((r) => ({ value: r.id, label: r.label })), value: current, onChange: (v) => { current = v; } });
+  const bathTg = panel.toggle({ label: 'Water bath (boiling)', value: false, onChange: (v) => { bathOn = v; } });
+  panel.button({ label: 'Wash all the tubes', icon: 'water', variant: 'ghost', onClick: wash });
+  const table = document.createElement('div');
+  table.style.cssText = 'display:grid;grid-template-columns:1.2fr repeat(3,1fr);gap:3px 8px;font:600 11px Poppins,system-ui,sans-serif;color:#cbd5e1;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,0.04);flex-shrink:0;align-items:center';
+  panel.body.appendChild(table);
+  const last = panel.readout({ label: 'Last result', value: '—' });
+  panel.info("Iodine: yellow-brown → blue-black means starch. Benedict's: heat for 2–3 minutes; green → yellow → orange → brick red means more and more reducing sugar. Biuret: blue → violet means protein. Always compare with a control.");
+
+  function colorOf(i) {
+    const f = FOODS[i]; const s = st[i];
+    if (s.reag === 'iodine') return [mixHex('#c8892b', '#1b2240', clamp((f.s - 0.05) * 1.4, 0, 1)), 0.85];
+    if (s.reag === 'biuret') return [mixHex('#7da2e8', '#7d3fbf', clamp((f.p - 0.08) * 1.3, 0, 1)), 0.75];
+    if (s.reag === 'benedict') return [benColor(f.r * s.heat), 0.8];
+    return [f.base, 0.6];
+  }
+  function render() {
+    tubes.forEach((t, i) => { const [c, a] = colorOf(i); t.liqMat.color.set(c); t.liqMat.opacity = a; const x = FOODS[i].r * st[i].heat; t.ppt.visible = st[i].reag === 'benedict' && x > 0.3; if (t.ppt.visible) { const h = 0.02 + 0.08 * st[i].heat; t.ppt.scale.y = h; t.ppt.position.y = 0.04 + h / 2; t.ppt.material.color.set(benColor(FOODS[i].r)); } });
+    const cell = (r) => (r ? `<span><i style="display:inline-block;width:11px;height:11px;border-radius:3px;vertical-align:-2px;background:${r.c};border:1px solid rgba(255,255,255,0.25)"></i> ${r.v}</span>` : '<span style="color:#475569">·</span>');
+    table.innerHTML = '<b style="color:#94a3b8">Food</b><b style="color:#94a3b8">Starch</b><b style="color:#94a3b8">Sugar</b><b style="color:#94a3b8">Protein</b>' + FOODS.map((f, i) => `<span>${f.short}</span>${cell(st[i].res.iodine)}${cell(st[i].res.benedict)}${cell(st[i].res.biuret)}`).join('');
+  }
+  function wash() { FOODS.forEach((f, i) => { st[i].reag = null; st[i].heat = 0; }); render(); }
+  let anim = null;
+  function apply(id, i) {
+    const f = FOODS[i];
+    if (st[i].reag && st[i].reag !== id) { badge.set('Use a clean tube for each test: wash the tubes first'); return; }
+    st[i].reag = id; st[i].heat = 0; anim = { i, t: 0 };
+    const [c] = colorOf(i);
+    if (id === 'iodine') { const pos = f.s > 0.15; st[i].res.iodine = { c, v: pos ? '+' : '−' }; last.set(`${f.name} + iodine: ${pos ? 'blue-black → starch present' : 'stays yellow-brown → no starch'}`); }
+    else if (id === 'biuret') { const pos = f.p > 0.2; st[i].res.biuret = { c, v: pos ? '+' : '−' }; last.set(`${f.name} + Biuret: ${pos ? 'violet → protein present' : 'stays blue → no protein'}`); }
+    else last.set(`Benedict's added to ${f.name}. It stays blue until you heat it in the water bath.`);
+    badge.set(last.el.querySelector('.ix-readout-value') ? last.el.querySelector('.ix-readout-value').textContent : 'Tested');
+  }
+  render();
+
+  const m4 = new THREE.Matrix4(); const q = new THREE.Quaternion(); const sc = new THREE.Vector3(); const v3 = new THREE.Vector3();
+  engine.setUpdate((dt, time) => {
+    controls.update(dt);
+    bathT += ((bathOn ? 100 : 25) - bathT) * (1 - Math.exp(-dt * 0.8));
+    heater.material.emissive.setHex(0xff3b0a).multiplyScalar(bathOn ? 0.5 : 0);
+    let changed = false;
+    for (let i = 0; i < FOODS.length; i++) {
+      if (st[i].reag === 'benedict' && bathT > 70 && st[i].heat < 1) {
+        st[i].heat = Math.min(1, st[i].heat + dt / 5); changed = true;
+        if (st[i].heat >= 1) { const x = FOODS[i].r; st[i].res.benedict = { c: benColor(x), v: x > 0.12 ? '+' : '−' }; last.set(`${FOODS[i].name} + Benedict's, heated: ${benName(x)}${FOODS[i].short === 'Sucrose' ? ': sucrose is not a reducing sugar' : ''}`); }
+      }
+    }
+    if (changed || anim) render();
+    let n = 0;
+    for (const p of P) {
+      if (p.a > 1 && bathT > 90 && Math.random() < dt * 10) { p.a = 0; p.x = (Math.random() - 0.5) * TW * 0.9; p.z = (Math.random() - 0.5) * TD * 0.6; }
+      if (p.a > 1) continue;
+      p.a += dt * 0.6;
+      m4.compose(v3.set(p.x + Math.sin(time + p.x * 5) * 0.05, TH * 0.75 + p.a * 1.4, p.z), q, sc.setScalar(0.04 + p.a * 0.16)); puffs.setMatrixAt(n++, m4);
+    }
+    puffs.count = n; puffs.instanceMatrix.needsUpdate = true;
+    dropper.visible = false;
+    if (anim) { anim.t += dt; tubes[anim.i].g.getWorldPosition(v3); world.worldToLocal(v3); dropper.visible = anim.t < 0.9; dropper.position.set(v3.x, 1.65, v3.z); if (anim.t > 0.9) anim = null; }
+    void bathTg;
   });
-  panel.select({
-    label: 'Test',
-    options: TESTS.map((t) => ({ value: t.id, label: t.name })),
-    value: test.id,
-    onChange: (id) => { test = TESTS.find((t) => t.id === id); boiled = 0; added = false; update(); },
-  });
-  const addBtn = panel.buttonRow([
-    { label: 'Add reagent', icon: 'science', onClick: () => { added = true; update(); } },
-    { label: 'Heat sample', icon: 'local_fire_department', variant: test.heat ? undefined : 'disabled', onClick: () => { boiled = Math.min(10, boiled + 2); added = true; update(); } },
-  ]);
-  panel.buttonRow([
-    { label: 'Fresh sample', icon: 'refresh', variant: 'ghost', onClick: () => { boiled = 0; added = false; update(); } },
-  ]);
-  const readReagent = panel.readout({ label: 'Test for', value: '—' });
-  const readResult = panel.readout({ label: 'Result', value: '—' });
-  const readConcl = panel.readout({ label: 'Conclusion', value: '—' });
-  const info = panel.info('');
+  engine.start();
 
-  function present() {
-    return test.detects === 'starch' ? sample.starch : test.detects === 'sugar' ? sample.sugar : sample.protein;
-  }
-
-  function draw(ctx, w, h) {
-    ctx.clearRect(0, 0, w, h);
-    ctx.fillStyle = 'rgba(148,163,184,0.12)';
-    ctx.fillRect(0, h * 0.8, w, h * 0.2);
-
-    // tube
-    const tubeW = Math.min(96, w * 0.17);
-    const tubeH = h * 0.56;
-    const tx = w * 0.1;
-    const ty = h * 0.18;
-    const pos = present() && added;
-    const heatOK = !test.heat || boiled >= 4;
-    const positive = pos && heatOK;
-    const colour = !added ? '#c9a227' : positive ? test.positive : test.reagent;
-
-    ctx.save();
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(tx, ty, tubeW, tubeH, [6, 6, tubeW / 2, tubeW / 2]);
-    else ctx.rect(tx, ty, tubeW, tubeH);
-    ctx.strokeStyle = 'rgba(232,238,251,0.8)';
-    ctx.lineWidth = 2.4;
-    ctx.stroke();
-    ctx.clip();
-    ctx.fillStyle = colour;
-    ctx.globalAlpha = 0.9;
-    ctx.fillRect(tx, ty + tubeH * 0.3, tubeW, tubeH * 0.7);
-    ctx.globalAlpha = 1;
-    ctx.restore();
-
-    ctx.fillStyle = 'rgba(232,238,251,0.9)';
-    ctx.font = '700 11px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(sample.name.split(' ')[0], tx + tubeW / 2, ty - 12);
-
-    // food on a tile
-    const fx = w * 0.32;
-    const fy = h * 0.62;
-    ctx.fillStyle = 'rgba(248,250,252,0.92)';
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(fx - 46, fy - 34, 92, 68, 8); else ctx.rect(fx - 46, fy - 34, 92, 68);
-    ctx.fill();
-    ctx.fillStyle = '#d8c39a';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.fillText('sample tile', fx, fy + 30);
-    ctx.fillStyle = sample.id === 'milk' || sample.id === 'sugar' ? 'rgba(240,246,255,0.9)' : '#e3c07a';
-    ctx.beginPath(); ctx.arc(fx, fy - 6, 20, 0, Math.PI * 2); ctx.fill();
-    ctx.strokeStyle = 'rgba(2,6,23,0.35)'; ctx.lineWidth = 1; ctx.stroke();
-
-    // heat source
-    if (test.heat) {
-      const bx = w * 0.62;
-      const by = h * 0.72;
-      ctx.fillStyle = boiled > 0 ? 'rgba(249,115,22,0.85)' : 'rgba(148,163,184,0.4)';
-      ctx.beginPath();
-      ctx.moveTo(bx - 14, by);
-      ctx.quadraticCurveTo(bx, by - 26 - boiled * 1.6, bx + 14, by);
-      ctx.closePath(); ctx.fill();
-      ctx.fillStyle = 'rgba(232,238,251,0.85)';
-      ctx.font = '600 10px Poppins, sans-serif';
-      ctx.fillText(boiled > 0 ? `heated ${boiled} s` : 'not heated yet', bx, by + 16);
-    }
-
-    // result card
-    const cx = w * 0.42;
-    const cy = h * 0.08;
-    const cw = w * 0.54;
-    const ch = h * 0.3;
-    const cardColor = added ? (positive ? '#84cc16' : '#f59e0b') : 'rgba(158,193,255,0.6)';
-    ctx.fillStyle = 'rgba(8,16,30,0.82)';
-    ctx.strokeStyle = cardColor;
-    ctx.lineWidth = 1.4;
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(cx, cy, cw, ch, 8); else ctx.rect(cx, cy, cw, ch);
-    ctx.fill(); ctx.stroke();
-    ctx.textAlign = 'left';
-    ctx.fillStyle = cardColor;
-    ctx.font = '700 12px Poppins, sans-serif';
-    ctx.fillText(test.name, cx + 14, cy + 24);
-    ctx.fillStyle = 'rgba(232,238,251,0.92)';
-    ctx.font = '600 10.5px Poppins, sans-serif';
-    let line = 'Add the reagent to start the test.';
-    if (added) {
-      if (!present()) line = `No ${test.detects} present: the solution ${test.negativeName}.`;
-      else if (!heatOK) line = `Heating needed: continue heating until the colour appears (Benedict's test needs gentle heating).`;
-      else line = `${test.detects[0].toUpperCase()}${test.detects.slice(1)} present: the solution turns ${test.positiveName}.`;
-    }
-    wrap(ctx, line, cx + 14, cy + 46, cw - 28, 15);
-    if (added) {
-      ctx.fillStyle = 'rgba(199,212,234,0.8)';
-      ctx.font = '600 10px Poppins, sans-serif';
-      ctx.fillText(`Observation: the solution ${positive ? test.positiveName : 'stays ' + test.negativeName.replace('stays ', '')}`, cx + 14, cy + ch - 16);
-    }
-
-    readReagent.set(test.detects);
-    readResult.set(added ? (positive ? test.positiveName : test.negativeName) : 'not tested');
-    readConcl.set(added ? (positive ? `${test.detects} present` : `${test.detects} absent`) : '—');
-    info.set(`${test.name}: ${added ? (positive ? `positive for ${test.detects}` : `negative — no ${test.detects}`) : 'add the reagent and, where needed, heat the tube.'}`);
-    void addBtn;
-  }
-
-  function wrap(ctx, text, x, y, maxW, lh) {
-    const words = String(text).split(' ');
-    let line = '';
-    let ly = y;
-    words.forEach((wd) => {
-      const t = line ? `${line} ${wd}` : wd;
-      if (ctx.measureText(t).width > maxW && line) { ctx.fillText(line, x, ly); line = wd; ly += lh; } else { line = t; }
-    });
-    if (line) ctx.fillText(line, x, ly);
-  }
-
-  function update() { sim.renderOnce(); }
-  // the canvas helper calls (ctx, dt, width, height); draw wants (ctx, width, height)
-  sim.setUpdate((ctx, dt, w, h) => draw(ctx, w, h));
-  sim.onResize(() => sim.renderOnce());
-  sim.start();
-  update();
-
-  return { dispose() { sim.dispose(); hud.dispose(); panel.dispose(); } };
+  stage.__food = { apply, bath: (v) => { bathOn = v; bathTg.set(v); }, state: () => st.map((s) => ({ reag: s.reag, heat: s.heat })) };
+  return { dispose() { panel.dispose(); hud.dispose(); L.dispose(); } };
 }

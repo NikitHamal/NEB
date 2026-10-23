@@ -24,7 +24,7 @@ COURSES = [
                 'minutes': 14,
                 'sim': 'biology/human-body',
                 'sim_type': '3d',
-                'summary': 'Peel back the layers of a 3D human body — skin, muscles, skeleton, organs — and tap each part to discover what it does for you every second of the day.',
+                'summary': 'A full-size anatomical human: glass skin over hundreds of real muscles, 206 bones, and organs that beat and breathe. Peel the layers, pick a body system and tap any part to learn what it does.',
                 'objectives': [
                     'Name the major body layers: skin, muscle, skeleton, organs',
                     'Locate the heart, lungs, brain, liver and stomach in 3D',
@@ -74,7 +74,7 @@ COURSES = [
                 'minutes': 13,
                 'sim': 'biology/photosynthesis',
                 'sim_type': '3d',
-                'summary': 'Feed a 3D leaf with sunlight, water and carbon dioxide and watch the green chloroplasts turn them into sugar and the oxygen you breathe.',
+                'summary': 'Run the classic pondweed experiment: move a lamp, add CO₂ and change the temperature, then count the oxygen bubbles. Zoom into a leaf and a chloroplast to see where the sugar and oxygen are made.',
                 'objectives': [
                     'State the three inputs of photosynthesis: light, water, carbon dioxide',
                     'Name the two products: glucose (sugar) and oxygen',
@@ -84,7 +84,7 @@ COURSES = [
                 'knowledge': [
                     {
                         'heading': 'A leaf is a tiny factory',
-                        'body': 'Plants are extraordinary: unlike animals, they can make their own food out of thin air, water and sunlight. The process is called photosynthesis, and it happens inside the leaf in tiny green structures called chloroplasts. The recipe, written as a chemical shorthand, is: carbon dioxide + water + light energy → glucose + oxygen.\n\nIn the simulation you can drag the three ingredients into a leaf and watch green chloroplasts light up as they assemble sugar molecules, releasing oxygen as a gift to the rest of the planet. Without photosynthesis there would be no food chain and no oxygen to breathe — plants literally feed the world.',
+                        'body': 'Plants are extraordinary: unlike animals, they can make their own food out of thin air, water and sunlight. The process is called photosynthesis, and it happens inside the leaf in tiny green structures called chloroplasts. The recipe, written as a chemical shorthand, is: carbon dioxide + water + light energy → glucose + oxygen.\n\nIn the simulation a sprig of pondweed (Hydrilla) sits under a funnel in a beaker of water. Every bubble that rises into the test tube is oxygen it has just made, so counting bubbles per minute measures how fast it is photosynthesising. Move the lamp closer (light gets four times stronger each time you halve the distance), add sodium bicarbonate for more CO₂, or warm the water, and watch the rate graph. Whichever ingredient is in shortest supply — the limiting factor — sets the speed. Without photosynthesis there would be no food chain and no oxygen to breathe — plants literally feed the world.',
                     },
                     {
                         'heading': 'Why are leaves green?',
@@ -124,7 +124,7 @@ COURSES = [
                 'minutes': 12,
                 'sim': 'biology/butterfly-life-cycle',
                 'sim_type': '3d',
-                'summary': 'Spin a 3D model through every stage of a butterfly\'s life — egg, caterpillar, chrysalis and adult — and watch one of nature\'s greatest transformations.',
+                'summary': 'Follow a plain tiger butterfly through a whole month on its aak host plant — an egg under a leaf, a caterpillar chewing the leaf edge, a gold-dotted chrysalis and an adult that emerges, dries its wings and flies to a flower.',
                 'objectives': [
                     'Name the four stages of complete metamorphosis in order',
                     'Describe what happens inside a chrysalis',
@@ -138,14 +138,14 @@ COURSES = [
                     },
                     {
                         'heading': 'Inside the chrysalis',
-                        'body': 'The chrysalis looks still from the outside, but inside it is a rebuild like no other in nature. The caterpillar releases enzymes that digest much of its own body into a kind of nutrient soup, and from that soup special cells called imaginal discs grow the butterfly\'s wings, legs, antennae and eyes.\n\nSo radical is this change that the adult butterfly has almost nothing in common with the caterpillar except its DNA. It does not even eat the same food: the caterpillar chewed leaves with powerful jaws, while the butterfly sips liquid nectar through a long tube called a proboscis. Drag the stage slider in the simulation and watch the body reshape itself.',
+                        'body': 'The chrysalis looks still from the outside, but inside it is a rebuild like no other in nature. The caterpillar releases enzymes that digest much of its own body into a kind of nutrient soup, and from that soup special cells called imaginal discs grow the butterfly\'s wings, legs, antennae and eyes.\n\nSo radical is this change that the adult butterfly has almost nothing in common with the caterpillar except its DNA. It does not even eat the same food: the caterpillar chewed leaves with powerful jaws, while the butterfly sips liquid nectar through a long tube called a proboscis. In the simulation, tap Chrysalis and then Watch it emerge: the case turns clear, the adult climbs out and pumps its crumpled wings up to full size.',
                     },
                     {
                         'heading': 'Eat now, fly later',
                         'body': 'Every stage of the life cycle has a different purpose. The egg is for protection and the start of growth. The caterpillar is an eating machine — it can grow to 100 times its birth weight in just two weeks, storing energy for the transformation ahead. The chrysalis is a rebuilding phase, where that stored fuel powers the construction of wings. The adult butterfly is the reproductive stage, whose job is to find a mate and lay eggs on the right kind of plant.\n\nNot all insects transform this completely. Grasshoppers and dragonflies use incomplete metamorphosis: they hatch as miniature wingless adults and simply grow bigger, molting their skin each time. Complete metamorphosis is more dramatic, but it lets the young and adult use completely different foods and habitats without competing.',
                     },
                 ],
-                'fun_fact': 'A monarch butterfly can migrate up to 4,000 km across North America to a forest in Mexico it has never seen — and no individual makes the trip twice, so the route is somehow carried in its genes.',
+                'fun_fact': 'The plain tiger in this lesson is poisonous: its caterpillar stores bitter chemicals from the aak plant it eats. Birds that taste one learn to avoid its orange-and-black pattern, so the harmless female Danaid eggfly butterfly survives by copying the same colours.',
                 'quiz': [
                     {
                         'q': 'What is the correct order of a butterfly\'s complete metamorphosis?',
@@ -174,7 +174,7 @@ COURSES = [
                 'minutes': 13,
                 'sim': 'biology/heart-lungs',
                 'sim_type': '3d',
-                'summary': 'Watch a 3D heart beat and lungs breathe in real time — turn up the activity and see how fast your body pumps when you run.',
+                'summary': 'A beating heart and breathing lungs sculpted from real anatomy: cut the heart open, follow red blood cells through every chamber and into the lungs, and watch the ECG change as you exercise.',
                 'objectives': [
                     'Trace the path of blood through the heart and lungs',
                     'Explain why heart rate and breathing rate rise during exercise',

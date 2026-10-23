@@ -34,6 +34,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.text.ClickableText
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.horizontalScroll
@@ -336,7 +341,7 @@ internal fun parseMarkdownBlocks(markdown: String): List<MdBlock> {
         }
 
         if (trimmed.startsWith("\\begin{")) {
-            val envMatch = Regex("""^\\begin\{([a-zA-Z*]+)\}""").find(trimmed)
+            val envMatch = LatexEnvBeginRegex.find(trimmed)
             val env = envMatch?.groupValues?.get(1) ?: "equation"
             val mathLines = mutableListOf<String>()
             mathLines.add(trimmed)
@@ -448,6 +453,10 @@ private fun gapBefore(block: MdBlock, previous: MdBlock): Int = when (block) {
 
 private val OrderedListPrefixRegex = Regex("^\\d+\\.\\s")
 private val HorizontalRuleRegex = Regex("^(?:-{3,}|\\*{3,}|_{3,})$")
+private val LatexEnvBeginRegex = Regex("""^\\begin\{([a-zA-Z*]+)\}""")
+private val MathFunctionNameRegex = Regex("""\\(sin|cos|tan|cot|sec|csc|arcsin|arccos|arctan|ln|log|exp|det|max|min)""")
+private val MathSpacingRegex = Regex("""\\[,;:!]\s*""")
+private val RepeatedBlanksRegex = Regex("""[ \t]{2,}""")
 private val LatexEnvRegex = Regex("""\\begin\{(?:equation|align|gather)\*?\}([\s\S]*?)\\end\{(?:equation|align|gather)\*?\}""")
 private val LatexBlock1Regex = Regex("""\\\[([\s\S]*?)\\\]""")
 private val LatexBlock2Regex = Regex("""\$\$([\s\S]*?)\$\$""")
@@ -750,13 +759,13 @@ fun formatMathExpression(expr: String): String {
             .replace("\\{", "{")
             .replace("\\}", "}")
 
-        s = s.replace(Regex("""\\(sin|cos|tan|cot|sec|csc|arcsin|arccos|arctan|ln|log|exp|det|max|min)"""), "$1")
+        s = s.replace(MathFunctionNameRegex, "$1")
 
         s = s.replace("\\quad", " ")
             .replace("\\qquad", " ")
-            .replace(Regex("""\\[,;:!]\s*"""), " ")
+            .replace(MathSpacingRegex, " ")
             .replace("\\\\", " ")
-            .replace(Regex("""[ \t]{2,}"""), " ")
+            .replace(RepeatedBlanksRegex, " ")
             .trim()
 
         s
@@ -993,6 +1002,32 @@ fun markdownToInlinePreview(markdown: String, stripTokens: Boolean = true): Stri
 }
 
 /**
+ * Cards show a few lines of preview. Past this many characters nothing can be seen, but it would
+ * still be styled and measured for every card that scrolls in.
+ */
+private const val CARD_PREVIEW_MAX_CHARS = 1200
+
+/** This text cut where a card's few lines can never reach, never inside a surrogate pair. */
+fun String.clippedForCard(): String {
+    if (length <= CARD_PREVIEW_MAX_CHARS) return this
+    val end = if (Character.isHighSurrogate(this[CARD_PREVIEW_MAX_CHARS - 1])) CARD_PREVIEW_MAX_CHARS - 1 else CARD_PREVIEW_MAX_CHARS
+    return substring(0, end)
+}
+
+/** One background worker: warming previews never takes more than a core from the UI. */
+@OptIn(ExperimentalCoroutinesApi::class)
+private val previewWarmer = CoroutineScope(SupervisorJob() + Dispatchers.Default.limitedParallelism(1))
+
+/**
+ * Works out the [markdownToInlinePreview] of each post as a page arrives, so a card scrolling in
+ * finds it cached instead of parsing markdown and maths on the main thread mid-scroll.
+ */
+fun prewarmCardPreviews(contents: List<String>) {
+    if (contents.isEmpty()) return
+    previewWarmer.launch { contents.forEach { markdownToInlinePreview(it) } }
+}
+
+/**
  * Compact single-flow inline markdown for cards (suggested feed, lists):
  * bold/italic/inline-code/strikethrough/links/@mentions rendered inline like
  * the full [MarkdownText], but collapsed to one ellipsizable Text with
@@ -1013,8 +1048,8 @@ fun MarkdownInlineText(
     val codeBg = MaterialTheme.colorScheme.surfaceContainerHigh
     val errorBg = MaterialTheme.colorScheme.errorContainer
     val errorFg = MaterialTheme.colorScheme.onErrorContainer
-    val flattened = remember(markdown) {
-        markdown.replace(InlineWhitespaceNewlinesRegex, " ").trim()
+    val flattened = remember(markdown, maxLines) {
+        markdown.replace(InlineWhitespaceNewlinesRegex, " ").trim().let { if (maxLines <= 4) it.clippedForCard() else it }
     }
     if (flattened.isEmpty()) return
     val annotated = remember(flattened, color, primary, codeBg, errorBg, errorFg) {

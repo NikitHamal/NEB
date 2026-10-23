@@ -7,7 +7,6 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,11 +34,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -48,16 +52,20 @@ import com.neb.ians.ui.components.NebButton
 import com.neb.ians.ui.components.NebButtonSize
 import com.neb.ians.ui.components.NebButtonTone
 
+/** A shimmer: its colours and a sweep that runs 0..1 every second. */
+@Stable
+class ShimmerSweep internal constructor(internal val colors: List<Color>, internal val progress: State<Float>)
+
 @Composable
-fun ShimmerBrush(): Brush {
-    val shimmerColors = listOf(
+fun rememberShimmerSweep(): ShimmerSweep {
+    val colors = listOf(
         MaterialTheme.colorScheme.surfaceVariant,
         MaterialTheme.colorScheme.surfaceContainerHigh,
         MaterialTheme.colorScheme.surfaceVariant
     )
 
     val infiniteTransition = rememberInfiniteTransition(label = "shimmer")
-    val floatAnim = infiniteTransition.animateFloat(
+    val progress = infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
@@ -66,12 +74,16 @@ fun ShimmerBrush(): Brush {
         ),
         label = "shimmerFloat"
     )
+    return remember(colors, progress) { ShimmerSweep(colors, progress) }
+}
 
-    return Brush.linearGradient(
-        colors = shimmerColors,
-        start = Offset(floatAnim.value * 400f, 0f),
-        end = Offset(floatAnim.value * 400f + 400f, 0f)
-    )
+/**
+ * Fills the element with the moving shimmer. The sweep is read while drawing, so a skeleton only
+ * redraws each frame; reading it in composition recomposed every skeleton piece on every frame.
+ */
+fun Modifier.shimmer(sweep: ShimmerSweep): Modifier = drawBehind {
+    val x = sweep.progress.value * 400f
+    drawRect(Brush.linearGradient(sweep.colors, start = Offset(x, 0f), end = Offset(x + 400f, 0f)))
 }
 
 @Composable
@@ -80,13 +92,13 @@ fun ShimmerCard(
     shape: Shape = RoundedCornerShape(16.dp),
     height: Dp = 120.dp
 ) {
-    val brush = ShimmerBrush()
+    val sweep = rememberShimmerSweep()
     Box(
         modifier = modifier
             .fillMaxWidth()
             .height(height)
             .clip(shape)
-            .background(brush)
+            .shimmer(sweep)
     )
 }
 
@@ -97,13 +109,13 @@ fun ShimmerLine(
     height: Dp = 14.dp,
     shape: Shape = RoundedCornerShape(4.dp)
 ) {
-    val brush = ShimmerBrush()
+    val sweep = rememberShimmerSweep()
     Box(
         modifier = modifier
             .fillMaxWidth(widthFraction)
             .height(height)
             .clip(shape)
-            .background(brush)
+            .shimmer(sweep)
     )
 }
 
@@ -112,12 +124,12 @@ fun ShimmerCircle(
     modifier: Modifier = Modifier,
     size: Dp = 40.dp
 ) {
-    val brush = ShimmerBrush()
+    val sweep = rememberShimmerSweep()
     Box(
         modifier = modifier
             .size(size)
             .clip(CircleShape)
-            .background(brush)
+            .shimmer(sweep)
     )
 }
 
@@ -125,16 +137,16 @@ fun ShimmerCircle(
 fun ShimmerResourceCard(
     modifier: Modifier = Modifier
 ) {
-    val brush = ShimmerBrush()
+    val sweep = rememberShimmerSweep()
     CardShapeSkeleton(
-        brush = brush,
+        sweep = sweep,
         modifier = modifier.width(168.dp)
     )
 }
 
 @Composable
 private fun CardShapeSkeleton(
-    brush: Brush,
+    sweep: ShimmerSweep,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -143,7 +155,7 @@ private fun CardShapeSkeleton(
                 .fillMaxWidth()
                 .height(96.dp)
                 .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp))
-                .background(brush)
+                .shimmer(sweep)
         )
         Column(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp)
@@ -153,7 +165,7 @@ private fun CardShapeSkeleton(
                     .fillMaxWidth(0.85f)
                     .height(14.dp)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(brush)
+                    .shimmer(sweep)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -162,14 +174,14 @@ private fun CardShapeSkeleton(
                         .width(60.dp)
                         .height(20.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(brush)
+                        .shimmer(sweep)
                 )
                 Box(
                     modifier = Modifier
                         .width(50.dp)
                         .height(20.dp)
                         .clip(RoundedCornerShape(8.dp))
-                        .background(brush)
+                        .shimmer(sweep)
                 )
             }
         }
@@ -180,7 +192,7 @@ private fun CardShapeSkeleton(
 fun ShimmerPostItem(
     modifier: Modifier = Modifier
 ) {
-    val brush = ShimmerBrush()
+    val sweep = rememberShimmerSweep()
     Column(modifier = modifier) {
         Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
             ShimmerCircle(size = 28.dp)
@@ -191,7 +203,7 @@ fun ShimmerPostItem(
                         .width(120.dp)
                         .height(12.dp)
                         .clip(RoundedCornerShape(4.dp))
-                        .background(brush)
+                        .shimmer(sweep)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Box(
@@ -199,7 +211,7 @@ fun ShimmerPostItem(
                         .width(80.dp)
                         .height(10.dp)
                         .clip(RoundedCornerShape(4.dp))
-                        .background(brush)
+                        .shimmer(sweep)
                 )
             }
         }
@@ -209,7 +221,7 @@ fun ShimmerPostItem(
                 .fillMaxWidth(0.9f)
                 .height(12.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(brush)
+                .shimmer(sweep)
         )
         Spacer(modifier = Modifier.height(4.dp))
         Box(
@@ -217,7 +229,7 @@ fun ShimmerPostItem(
                 .fillMaxWidth(0.6f)
                 .height(12.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(brush)
+                .shimmer(sweep)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
@@ -226,14 +238,14 @@ fun ShimmerPostItem(
                     .width(50.dp)
                     .height(10.dp)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(brush)
+                    .shimmer(sweep)
             )
             Box(
                 modifier = Modifier
                     .width(50.dp)
                     .height(10.dp)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(brush)
+                    .shimmer(sweep)
             )
         }
     }
@@ -243,7 +255,7 @@ fun ShimmerPostItem(
 fun ShimmerListItem(
     modifier: Modifier = Modifier
 ) {
-    val brush = ShimmerBrush()
+    val sweep = rememberShimmerSweep()
     Row(modifier = modifier, verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
         ShimmerCircle(size = 40.dp)
         Spacer(modifier = Modifier.width(12.dp))
@@ -253,7 +265,7 @@ fun ShimmerListItem(
                     .fillMaxWidth(0.7f)
                     .height(14.dp)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(brush)
+                    .shimmer(sweep)
             )
             Spacer(modifier = Modifier.height(6.dp))
             Box(
@@ -261,7 +273,7 @@ fun ShimmerListItem(
                     .fillMaxWidth(0.5f)
                     .height(12.dp)
                     .clip(RoundedCornerShape(4.dp))
-                    .background(brush)
+                    .shimmer(sweep)
             )
         }
     }
@@ -269,6 +281,7 @@ fun ShimmerListItem(
 
 @Composable
 fun ShimmerHomeScreen() {
+    val sweep = rememberShimmerSweep()
     Column(
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
@@ -283,7 +296,7 @@ fun ShimmerHomeScreen() {
                         .width(80.dp)
                         .height(32.dp)
                         .clip(RoundedCornerShape(50))
-                        .background(ShimmerBrush())
+                        .shimmer(sweep)
                 )
             }
         }
@@ -294,7 +307,7 @@ fun ShimmerHomeScreen() {
                 .width(140.dp)
                 .height(18.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(ShimmerBrush())
+                .shimmer(sweep)
         )
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -309,7 +322,7 @@ fun ShimmerHomeScreen() {
                 .width(160.dp)
                 .height(18.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(ShimmerBrush())
+                .shimmer(sweep)
         )
         Spacer(modifier = Modifier.height(8.dp))
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -324,7 +337,7 @@ fun ShimmerHomeScreen() {
                 .width(120.dp)
                 .height(18.dp)
                 .clip(RoundedCornerShape(4.dp))
-                .background(ShimmerBrush())
+                .shimmer(sweep)
         )
         Spacer(modifier = Modifier.height(8.dp))
         repeat(3) {

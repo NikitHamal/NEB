@@ -66,7 +66,7 @@ PROVIDER_MAX_OUTPUT_TOKENS = {
 
 PROVIDER_DEFAULT_MODEL = {
     'qwen': 'qwen3.8-max',
-    'inception': 'mercury-2',
+    'inception': 'mercury-3',
     'deepai': 'gpt-4.1-nano',
     'qwencloud': 'qwen3-coder-plus',
     'custom': 'gpt-4o-mini',

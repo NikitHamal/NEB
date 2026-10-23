@@ -12,8 +12,10 @@ thin catalogs. Only a literally empty platform yields zero items (with
 """
 from __future__ import annotations
 
+import copy
 import math
 import time
+import uuid
 from collections import Counter
 
 from rest_framework.decorators import api_view, permission_classes, throttle_classes
@@ -113,14 +115,31 @@ def _score_resource(resource, now_ms, subjects):
     return _resource_base(resource, now_ms) + _affinity(weight)
 
 
+_POOLS_KEY = 'suggest_pools_v3'
+_POOLS_STAMP_KEY = 'suggest_pools_v3:stamp'
+_POOLS_TTL = 60
+_local_pools = {}  # {'entry': (stamp, expires_at, pools)}: the shared entry this process last read
+
+
 def _candidate_pools():
     """The newest posts and resources everyone's deck is ranked from, with each item's shared
     base score worked out once. Identical for every viewer, so cached for a minute; per request
-    only the personal part (interest, class, diversity) is added."""
+    only the personal part (interest, class, diversity) is added.
+
+    The pools pickle to ~400 KB, which every feed request used to fetch from the cache and
+    unpickle. The shared entry now carries a stamp, also stored under its own tiny key: a
+    process that already holds the entry with the current stamp (and not past its expiry)
+    reuses it instead. Every request still sees exactly the entry the shared cache holds.
+    The pooled objects are shared within a process, so build_suggested_deck() hands out
+    copies of the ones it picks."""
     from django.core.cache import cache
-    pools = cache.get('suggest_pools_v2')
-    if pools is None:
-        now_ms = int(time.time() * 1000)
+    mine = _local_pools.get('entry')
+    if mine is not None and time.time() < mine[1] and cache.get(_POOLS_STAMP_KEY) == mine[0]:
+        return mine[2]
+    entry = cache.get(_POOLS_KEY)
+    if entry is None:
+        now = time.time()
+        now_ms = int(now * 1000)
         posts = list(
             Post.objects.filter(is_archived=False, user__email_verified=True)
             .select_related('user').prefetch_related('images', 'media', 'poll__options')
@@ -131,8 +150,13 @@ def _candidate_pools():
             .select_related('uploaded_by').order_by('-added_at')[:_RECENT_POOL]
         )
         pools = ([(p, _post_base(p, now_ms)) for p in posts], [(r, _resource_base(r, now_ms)) for r in resources])
-        cache.set('suggest_pools_v2', pools, 60)
-    return pools
+        entry = (uuid.uuid4().hex, now + _POOLS_TTL, pools)
+        cache.set(_POOLS_KEY, entry, _POOLS_TTL)
+        cache.set(_POOLS_STAMP_KEY, entry[0], _POOLS_TTL)
+    elif cache.get(_POOLS_STAMP_KEY) != entry[0]:
+        cache.set(_POOLS_STAMP_KEY, entry[0], max(1, int(entry[1] - time.time())))
+    _local_pools['entry'] = entry
+    return entry[2]
 
 
 def _diversify(ranked, key_of, author_of, limit):
@@ -198,7 +222,9 @@ def build_suggested_deck(user, limit=18):
         note = 'no_content'
     elif not categories and not subjects:
         note = 'explore'  # anonymous/brand-new users: popularity+recency mix
-    return deck, note
+    # The pooled objects are shared by every request in this process; callers get their own
+    # copies to hang per-viewer state on (prime_for_serializers sets _viewer_* attributes).
+    return [(kind, copy.copy(obj)) for kind, obj in deck], note
 
 
 def build_suggested_feed(user, limit=18, request=None):
