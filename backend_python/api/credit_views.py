@@ -39,7 +39,7 @@ def check_and_reset_monthly_credits(user: User) -> User:
 @authentication_classes([AuthTokenAuthentication])
 def credit_balance(request):
     user = getattr(request, 'user', None)
-    if not isinstance(user, User) or user.is_locked:
+    if not isinstance(user, User):
         return Response({'error': 'Please sign in'}, status=status.HTTP_401_UNAUTHORIZED)
     
     user = check_and_reset_monthly_credits(user)
@@ -60,7 +60,7 @@ def credit_balance(request):
 @throttle_classes([AuthRateThrottle])
 def convert_points_to_credits(request):
     user = getattr(request, 'user', None)
-    if not isinstance(user, User) or user.is_locked:
+    if not isinstance(user, User):
         return Response({'error': 'Please sign in'}, status=status.HTTP_401_UNAUTHORIZED)
     
     user = check_and_reset_monthly_credits(user)
@@ -116,7 +116,7 @@ def convert_points_to_credits(request):
 @authentication_classes([AuthTokenAuthentication])
 def credit_history(request):
     user = getattr(request, 'user', None)
-    if not isinstance(user, User) or user.is_locked:
+    if not isinstance(user, User):
         return Response({'error': 'Please sign in'}, status=status.HTTP_401_UNAUTHORIZED)
     
     transactions = NebyCreditTransaction.objects.filter(user=user).order_by('-created_at')[:50]

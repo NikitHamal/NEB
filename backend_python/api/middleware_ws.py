@@ -179,7 +179,7 @@ class JWTAuthMiddleware(BaseMiddleware):
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist:
             return None
-        if user.is_locked or getattr(user, 'is_banned', False):
+        if getattr(user, 'is_banned', False):
             return None
         if not (getattr(user, 'is_admin', False) or getattr(user, 'is_staff', False) or getattr(user, 'moderator_level', 0) >= 3):
             return None

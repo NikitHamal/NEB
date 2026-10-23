@@ -52,7 +52,7 @@ def _ask_pdf_tutor(client, message, system_prompt):
 
 def _user_or_error(request):
     user = getattr(request, 'user', None)
-    if isinstance(user, User) and not user.is_locked:
+    if isinstance(user, User):
         return user, None
     return None, Response({'error': 'Please sign in'}, status=status.HTTP_401_UNAUTHORIZED)
 
