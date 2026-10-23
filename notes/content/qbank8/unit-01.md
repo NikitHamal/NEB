@@ -125,3 +125,26 @@ Each subject part has the same three chapters:
 ::: note The point of a question bank
 A question bank is not a shortcut around the textbook; it is a way of finding out whether you have actually learned it. The textbook tells you what is true. The question bank tells you what you can still do when the page is closed and the clock is running.
 :::
+
+## 1.7 The optional papers: Optional Mathematics and Computer Science
+
+Many schools also teach **Optional Mathematics** and **Computer Science** in Grade 8. These are not among the six compulsory subjects of the Basic Level Examination: each school sets and marks its own paper, so the questions come from your own teachers, not from the local level. They are the first step towards Optional Mathematics and Computer Science in Grades 9 and 10, and the habits you build in them carry straight into the SEE. Computer Science also has practical work in the lab, assessed by the school, besides the written paper.
+
+This book trains both written papers to one 50-mark pattern, the same three-group shape as the compulsory papers:
+
+| Group | Question type | Items | Marks each | Total |
+|---|---|---|---|---|
+| A | Objective (multiple choice) | 10 | 1 | 10 |
+| B | Short answer | 10 | 2 | 20 |
+| C | Long answer | 5 | 4 | 20 |
+| | | **25** | | **50** |
+
+Time allowed is **two hours**. Split it as in section 1.4: five minutes to read the paper, about 15 minutes for Group A, 40 for Group B, 50 for Group C and the last ten for checking. If your school uses a different grid, keep the same rule of thumb: give each group time in proportion to its marks, and give a 4-mark question more than twice the time of a 2-mark one.
+
+**Revising Optional Mathematics.** Keep one card of formulas and rules (the facts lines of chapter 20), and practise methods with a pen rather than reading them: draw the figure for every height-and-distance and transformation question, write the table for every mean, and check answers by substituting back. Chapters 20 to 22 give the objective bank, the subjective bank and two model papers.
+
+**Revising Computer Science.** Learn definitions, differences and examples as small tables; draw the labelled diagrams (block diagram of a computer, network topologies, flowcharts); practise number-system conversions until they are quick; and write short programs on paper and trace them line by line, because the paper tests the output of a program as well as its code. Chapters 23 to 25 follow the same three-part plan.
+
+::: tip One pattern, two subjects
+Because both optional papers share the 50-mark shape of the compulsory papers, the revision timetable and the error list of section 1.3 work for them too. Add one optional-subject model paper to each of weeks 8 and 9.
+:::
