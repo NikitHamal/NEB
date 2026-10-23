@@ -28,7 +28,6 @@
         <div class="rd-side-tools">
           <button type="button" class="rd-tool" data-rd-size="-1" aria-label="Smaller text"><span class="material-symbols-outlined" aria-hidden="true">remove</span><span class="rd-tool-a">A</span></button>
           <button type="button" class="rd-tool" data-rd-size="1" aria-label="Larger text"><span class="material-symbols-outlined" aria-hidden="true">add</span><span class="rd-tool-a">A</span></button>
-          <button type="button" class="rd-tool" data-rd-answers aria-pressed="false" aria-label="Open every answer"><span class="material-symbols-outlined" aria-hidden="true">visibility</span></button>
         </div>
       </div>
     </aside>
@@ -37,6 +36,9 @@
       <header class="rd-head">
         <p class="rd-eyebrow">{{ doc_label }}{% if doc_unit.area %} · {{ doc_unit.area }}{% endif %}{% if doc_unit.hours %} · {{ doc_unit.hours }} teaching hours{% endif %} · {{ doc.read_min }} min read</p>
         <h1 class="rd-title">{{ doc.title }}</h1>
+        <div class="rd-head-tools">
+          <button type="button" class="rd-chip" data-rd-answers aria-pressed="false"><span class="material-symbols-outlined" aria-hidden="true">lightbulb</span><span data-rd-answers-label>Show answers</span></button>
+        </div>
         {% if doc_unit.topics %}
         <details class="rd-syllabus">
           <summary>What the syllabus asks for <span class="rd-count">{{ doc_unit.topics|length }}</span></summary>

@@ -78,7 +78,7 @@
   if (mcqs.length) {
     var tip = document.createElement('p');
     tip.className = 'rd-tip';
-    tip.textContent = 'Tap an option to check it. Your score is kept on this device.';
+    tip.textContent = 'Tap an option to check it. Worked answers stay folded until you open them; your score is kept on this device.';
     var first = mcqs[0].tagName === 'LI' ? mcqs[0].parentNode : mcqs[0];
     first.parentNode.insertBefore(tip, first);
     var redo = document.createElement('button');
@@ -96,9 +96,11 @@
   var answers = body.querySelectorAll('details.ans');
   var allBtn = root.querySelector('[data-rd-answers]');
   if (!answers.length) allBtn.hidden = true;
+  var allLabel = allBtn.querySelector('[data-rd-answers-label]');
   allBtn.addEventListener('click', function () {
     var open = allBtn.getAttribute('aria-pressed') !== 'true';
     allBtn.setAttribute('aria-pressed', String(open));
+    if (allLabel) allLabel.textContent = open ? 'Hide answers' : 'Show answers';
     answers.forEach(function (d) { d.open = open; });
   });
   window.addEventListener('beforeprint', function () { answers.forEach(function (d) { d.open = true; }); });
@@ -106,6 +108,73 @@
   if (firstQs && !document.getElementById('questions')) {
     var anchor = document.createElement('span'); anchor.id = 'questions'; firstQs.parentNode.insertBefore(anchor, firstQs);
   }
+
+  /* ---------- figures open full screen: pinch, wheel or double-tap to zoom, drag to pan ---------- */
+  var view = null, vimg = null, zs = 1, zx = 0, zy = 0, W = 0, H = 0, bw = 0, bh = 0, gest = null, lastTap = 0, moved = false, opener = null;
+  function zApply() { vimg.style.transform = 'translate(' + zx + 'px,' + zy + 'px) scale(' + zs + ')'; }
+  function zClamp() { var mx = Math.max(0, (bw * zs - W) / 2), my = Math.max(0, (bh * zs - H) / 2); zx = Math.max(-mx, Math.min(mx, zx)); zy = Math.max(-my, Math.min(my, zy)); }
+  function zMeasure() { var st = view.firstChild; W = st.clientWidth; H = st.clientHeight; var t = vimg.style.transform; vimg.style.transform = 'none'; bw = vimg.offsetWidth; bh = vimg.offsetHeight; vimg.style.transform = t; }
+  function zoomAt(ns, px, py) {
+    var r = view.firstChild.getBoundingClientRect(), cx = r.left + W / 2, cy = r.top + H / 2;
+    var ux = (px - cx - zx) / zs, uy = (py - cy - zy) / zs;
+    zs = Math.max(1, Math.min(6, ns)); zx = px - cx - ux * zs; zy = py - cy - uy * zs;
+    if (zs === 1) { zx = 0; zy = 0; }
+    zClamp(); zApply();
+  }
+  function zClose() {
+    if (!view) return;
+    view.remove(); view = null; vimg = null; document.body.style.overflow = '';
+    if (opener) opener.focus();
+  }
+  function zOpen(src, alt, cap, from) {
+    opener = from;
+    view = document.createElement('div'); view.className = 'rd-zoom'; view.setAttribute('role', 'dialog'); view.setAttribute('aria-modal', 'true'); view.setAttribute('aria-label', alt || 'Figure');
+    var st = document.createElement('div'); st.className = 'rd-zoom-stage';
+    vimg = document.createElement('img'); vimg.src = src; vimg.alt = alt || ''; st.appendChild(vimg); view.appendChild(st);
+    var x = document.createElement('button'); x.type = 'button'; x.className = 'rd-zoom-x'; x.setAttribute('aria-label', 'Close');
+    x.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">close</span>'; x.addEventListener('click', zClose); view.appendChild(x);
+    if (cap) { var c = document.createElement('p'); c.className = 'rd-zoom-cap'; c.textContent = cap; view.appendChild(c); }
+    var hint = document.createElement('span'); hint.className = 'rd-zoom-hint'; hint.textContent = 'Scroll, pinch or double-click to zoom · Esc to close'; view.appendChild(hint);
+    setTimeout(function () { hint.classList.add('is-gone'); }, 2200);
+    document.body.appendChild(view); document.body.style.overflow = 'hidden';
+    zs = 1; zx = 0; zy = 0; vimg.onload = zMeasure; if (vimg.complete) zMeasure();
+    x.focus();
+    st.addEventListener('wheel', function (e) { e.preventDefault(); zoomAt(zs * Math.exp(-e.deltaY * 0.0022), e.clientX, e.clientY); }, { passive: false });
+    st.addEventListener('dblclick', function (e) { zoomAt(zs > 1 ? 1 : 2.5, e.clientX, e.clientY); });
+    st.addEventListener('mousedown', function (e) { if (zs <= 1) return; e.preventDefault(); var sx = e.clientX, sy = e.clientY, ox = zx, oy = zy;
+      function mv(ev) { zx = ox + ev.clientX - sx; zy = oy + ev.clientY - sy; zClamp(); zApply(); }
+      function up() { window.removeEventListener('mousemove', mv); window.removeEventListener('mouseup', up); }
+      window.addEventListener('mousemove', mv); window.addEventListener('mouseup', up); });
+    st.addEventListener('click', function (e) { if (e.target === st && zs === 1 && e.detail === 1 && e.pointerType !== 'touch') zClose(); });
+    st.addEventListener('touchstart', function (e) { moved = false; var t = e.touches;
+      if (t.length === 2) gest = { d: Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY), s: zs, mx: (t[0].clientX + t[1].clientX) / 2, my: (t[0].clientY + t[1].clientY) / 2, x0: zx, y0: zy };
+      else if (t.length === 1) gest = { x: t[0].clientX, y: t[0].clientY, x0: zx, y0: zy }; }, { passive: true });
+    st.addEventListener('touchmove', function (e) { if (!gest) return; e.preventDefault(); moved = true; var t = e.touches;
+      if (t.length === 2 && gest.d) {
+        var r = st.getBoundingClientRect(), cx = r.left + W / 2, cy = r.top + H / 2;
+        var ux = (gest.mx - cx - gest.x0) / gest.s, uy = (gest.my - cy - gest.y0) / gest.s;
+        zs = Math.max(1, Math.min(6, gest.s * Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY) / gest.d));
+        zx = (t[0].clientX + t[1].clientX) / 2 - cx - ux * zs; zy = (t[0].clientY + t[1].clientY) / 2 - cy - uy * zs;
+        zClamp(); zApply();
+      }
+      else if (t.length === 1 && gest.x !== undefined && zs > 1) { zx = gest.x0 + t[0].clientX - gest.x; zy = gest.y0 + t[0].clientY - gest.y; zClamp(); zApply(); } }, { passive: false });
+    st.addEventListener('touchend', function (e) { var t = e.changedTouches[0];
+      if (e.touches.length === 0) {
+        if (!moved && t) { var now = Date.now(); if (now - lastTap < 300) { zoomAt(zs > 1 ? 1 : 2.5, t.clientX, t.clientY); lastTap = 0; } else { lastTap = now; if (zs === 1 && e.target === st) setTimeout(function () { if (lastTap && Date.now() - lastTap >= 290) zClose(); }, 310); } }
+        gest = null;
+      } else if (e.touches.length === 1) gest = { x: e.touches[0].clientX, y: e.touches[0].clientY, x0: zx, y0: zy }; });
+  }
+  body.querySelectorAll('figure img').forEach(function (im) {
+    var w = document.createElement('button'); w.type = 'button'; w.className = 'rd-zf'; w.setAttribute('aria-label', 'Open the figure full screen');
+    im.parentNode.insertBefore(w, im); w.appendChild(im);
+    var b = document.createElement('span'); b.className = 'rd-zb material-symbols-outlined'; b.setAttribute('aria-hidden', 'true'); b.textContent = 'open_in_full'; w.appendChild(b);
+    w.addEventListener('click', function () {
+      var f = im.closest('figure'), cap = f && f.querySelector('figcaption');
+      zOpen(im.currentSrc || im.src, im.alt, cap ? cap.textContent.replace(/\s+/g, ' ').trim() : '', w);
+    });
+  });
+  document.addEventListener('keydown', function (e) { if (view && e.key === 'Escape') zClose(); });
+  window.addEventListener('resize', function () { if (view) { zMeasure(); zClamp(); zApply(); } });
 
   /* ---------- text size ---------- */
   var size = parseFloat(localStorage.getItem(SIZE)) || 1;
