@@ -1,0 +1,35 @@
+appId: com.neb.ians
+name: Home feed
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: home-top
+- startRecording: rec-home
+- swipe:
+    start: "50%, 78%"
+    end: "50%, 38%"
+    duration: 1400
+- waitForAnimationToEnd:
+    timeout: 2500
+- takeScreenshot: home-mid
+- swipe:
+    start: "50%, 78%"
+    end: "50%, 30%"
+    duration: 1400
+- waitForAnimationToEnd:
+    timeout: 2500
+- swipe:
+    start: "50%, 40%"
+    end: "50%, 85%"
+    duration: 1200
+- swipe:
+    start: "50%, 30%"
+    end: "50%, 90%"
+    duration: 900
+- waitForAnimationToEnd:
+    timeout: 2000
+- stopRecording

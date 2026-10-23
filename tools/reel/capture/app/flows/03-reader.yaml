@@ -1,0 +1,57 @@
+appId: com.neb.ians
+name: A syllabus chapter in the native reader
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 60000
+- tapOn:
+    text: "Library"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 4000
+- tapOn:
+    text: "Syllabus"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 4000
+- tapOn:
+    text: "Class 11"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- tapOn:
+    text: "Physics"
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- scrollUntilVisible:
+    element:
+      text: "(?i).*curved mirror.*"
+    direction: DOWN
+    timeout: 20000
+    optional: true
+- tapOn:
+    text: "(?i).*curved mirror.*"
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: reader-top
+- startRecording: rec-reader
+- swipe:
+    start: "50%, 82%"
+    end: "50%, 32%"
+    duration: 1600
+- waitForAnimationToEnd:
+    timeout: 2500
+- takeScreenshot: reader-mid
+- swipe:
+    start: "50%, 82%"
+    end: "50%, 32%"
+    duration: 1600
+- waitForAnimationToEnd:
+    timeout: 2500
+- stopRecording
+- takeScreenshot: reader-low

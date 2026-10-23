@@ -1,0 +1,85 @@
+appId: com.neb.ians
+name: The rebuilt PDF reader and its AI chat (05-pdf.pre.sh opens the resource first)
+---
+- extendedWaitUntil:
+    visible: "Read"
+    timeout: 45000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: resource-detail
+- startRecording: rec-pdf
+- tapOn: "Read"
+- extendedWaitUntil:
+    visible: "Reading options"
+    timeout: 90000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: pdf-first
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 30%"
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 3000
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 30%"
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 3000
+- stopRecording
+- takeScreenshot: pdf-page
+- runFlow:
+    when:
+      notVisible: "Reading options"
+    commands:
+      - tapOn:
+          point: "50%, 50%"
+- tapOn: "Reading options"
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: pdf-options
+- startRecording: rec-pdf-night
+- tapOn: "Night"
+- waitForAnimationToEnd:
+    timeout: 3000
+- back
+- waitForAnimationToEnd:
+    timeout: 3000
+- stopRecording
+- takeScreenshot: pdf-night
+- runFlow:
+    when:
+      visible: "Search in document"
+    commands:
+      - tapOn: "Search in document"
+      - inputText: "force"
+      - pressKey: Enter
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: pdf-search
+      - back
+      - back
+- runFlow:
+    when:
+      notVisible: "Ask AI about this PDF"
+    commands:
+      - tapOn:
+          point: "50%, 50%"
+- startRecording: rec-pdf-ai
+- tapOn: "Ask AI about this PDF"
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: pdf-ai-open
+- tapOn:
+    text: "(?i)ask.*|(?i).*message.*|(?i).*type.*"
+    index: 0
+    optional: true
+- inputText: "Explain centripetal force in three short lines"
+- tapOn:
+    text: "Send"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 25000
+- takeScreenshot: pdf-ai-answer
+- stopRecording

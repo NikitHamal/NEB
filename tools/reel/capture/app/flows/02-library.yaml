@@ -1,0 +1,66 @@
+appId: com.neb.ians
+name: Library and the Syllabus hub
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 60000
+- tapOn:
+    text: "Library"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: library-top
+- startRecording: rec-library
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 40%"
+    duration: 1300
+- waitForAnimationToEnd:
+    timeout: 2500
+- takeScreenshot: library-scrolled
+- swipe:
+    start: "50%, 35%"
+    end: "50%, 85%"
+    duration: 1000
+- waitForAnimationToEnd:
+    timeout: 1500
+- stopRecording
+- tapOn:
+    text: "Syllabus"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: syllabus-hub
+- startRecording: rec-syllabus
+- tapOn:
+    text: "Class 8"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+- tapOn:
+    text: "Class 10"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+- tapOn:
+    text: "Class 11"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: syllabus-class11
+- tapOn:
+    text: "Physics"
+    index: 0
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: syllabus-subject
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 45%"
+    duration: 1200
+- waitForAnimationToEnd:
+    timeout: 2500
+- stopRecording
+- takeScreenshot: syllabus-chapters

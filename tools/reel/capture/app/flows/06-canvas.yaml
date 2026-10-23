@@ -1,0 +1,42 @@
+appId: com.neb.ians
+name: Canvas boards
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 60000
+- tapOn:
+    text: "Canvas"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: canvas-list
+- startRecording: rec-canvas
+- tapOn:
+    text: "Create new canvas|New canvas"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible: "Canvas title"
+    commands:
+      - tapOn: "Canvas title"
+      - inputText: "Photosynthesis"
+      - tapOn:
+          text: "Create|Save|Open canvas"
+          optional: true
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: canvas-board
+- tapOn:
+    text: "Ask Neby to add a card…"
+    optional: true
+- inputText: "Photosynthesis: stages and equation"
+- tapOn:
+    text: "Send prompt"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 25000
+- takeScreenshot: canvas-ai
+- stopRecording
