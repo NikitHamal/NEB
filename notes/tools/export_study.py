@@ -36,8 +36,8 @@ DATA = os.path.join(ROOT, "backend_python", "web", "data", "study")
 MEDIA = os.path.join(ROOT, "backend_python", "web", "static", "web", "study")
 MEDIA_URL = "/static/web/study/"
 
-BOOKS = ["nep8", "eng8", "math8", "sci8", "soc8", "health8",
-         "nep10", "eng10", "math10", "sci10", "soc10", "omath10", "acc10", "eco10",
+BOOKS = ["nep8", "eng8", "math8", "sci8", "soc8", "health8", "omath8", "cs8",
+         "nep10", "eng10", "math10", "sci10", "soc10", "omath10", "acc10", "eco10", "cs10",
          "nep11", "eng11", "math11", "phy11", "chem11", "bio11", "cs11",
          "nep12", "eng12", "math12", "phy12", "chem12", "bio12", "cs12"]
 BANKS = ["qbank8", "qbank10", "qbankc10", "qbank11", "qbank12"]

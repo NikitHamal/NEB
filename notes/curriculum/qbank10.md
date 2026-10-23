@@ -1,5 +1,5 @@
 # SUBJECT: Question Bank | GRADE: 10 | CODE: QB-10 | WORKING_HOURS: revision
-# EXAM: SEE (Secondary Education Examination), all six subjects of this series
+# EXAM: SEE (Secondary Education Examination), the five compulsory subjects of this series and the optional papers in Optional Mathematics and Computer Science
 # SOURCE: CDC specification grids, model questions, SEE papers and predicted sets
 # PART: How to Use This Book
 ## 1. The SEE Examination: Pattern, Grid and Strategy [R]
@@ -27,3 +27,7 @@
 ## 17. Optional Mathematics: Unit-wise Objective Question Bank [R]
 ## 18. Optional Mathematics: Unit-wise Subjective Question Bank [R]
 ## 19. Optional Mathematics: Model Question Sets and Predicted Questions [R]
+# PART: Computer Science
+## 20. Computer Science: Unit-wise Objective Question Bank [R]
+## 21. Computer Science: Unit-wise Subjective Question Bank [R]
+## 22. Computer Science: Model Question Sets and Predicted Questions [R]
