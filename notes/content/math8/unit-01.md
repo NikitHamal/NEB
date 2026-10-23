@@ -8,7 +8,7 @@ area: Compulsory Mathematics
 ---
 
 A set is a collection of things that are certainly known to belong together —
-the districts of Province 1, the prime numbers below 20, the students in your
+the districts of Koshi Province, the prime numbers below 20, the students in your
 class who play football. Writing the members of a collection inside curly
 brackets and giving the collection a name turns it into something a
 mathematician can count, compare and reason with. This chapter reviews set
@@ -89,14 +89,42 @@ make the whole universal set, and neither shares a member with the other.
 
 ## 1.3 Disjoint and overlapping sets
 
-Two sets are **disjoint** if they have no common member, that is
-$A\cap B=\emptyset$. Two sets are **overlapping** if they share at least one
-member.
+### 1.3.1 Venn diagrams
 
-- $A=\{$football players$\}$ and $B=\{$chess players$\}$ in a school are
-  usually overlapping, because some students play both.
-- $A=\{$even numbers$\}$ and $B=\{$odd numbers$\}$ are disjoint: no number is
+::: definition Venn diagram
+A **Venn diagram** shows the relationship between sets with figures. A
+**rectangle** stands for the universal set $U$ and **circles (or ovals)** inside
+it stand for its subsets. The English mathematician **John Venn** used these
+diagrams in 1880, and they are named after him.
+:::
+
+To read a Venn diagram, collect the members inside each circle (including the
+shared region) — that is the set. Everything written inside the rectangle,
+inside or outside the circles, belongs to $U$.
+
+### 1.3.2 Disjoint and overlapping sets
+
+The eight SAARC countries can be split into two football groups:
+$A=\{$Nepal, Pakistan, Bhutan, Sri Lanka$\}$ and
+$B=\{$India, Afghanistan, Maldives, Bangladesh$\}$. No country is in both
+groups. But the set of landlocked SAARC countries,
+$L=\{$Nepal, Bhutan, Afghanistan$\}$, shares Nepal and Bhutan with $A$.
+
+::: definition Disjoint and overlapping sets
+Two sets are **disjoint** if they have **no** common element,
+i.e. $A\cap B=\{\ \}$. In a Venn diagram their circles do not touch.
+
+Two sets are **overlapping** if they have **at least one common element** and
+each also has at least one element that the other does not have. In a Venn
+diagram their circles cross each other.
+:::
+
+So $A$ and $B$ above are disjoint, while $A$ and $L$ are overlapping.
+
+- $\{$even numbers$\}$ and $\{$odd numbers$\}$ are disjoint: no number is
   both even and odd.
+- $\{$football players$\}$ and $\{$chess players$\}$ of a school usually
+  overlap, because some students play both.
 
 ```figure caption="Two sets drawn as circles. On the left they share a region, so they overlap; on the right they do not touch at all, so they are disjoint."
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.0, 2.5))
@@ -121,7 +149,59 @@ ax2.text(8.9, 9.0, "U", fontsize=7.5, color=MUTED)
 fig.tight_layout()
 ```
 
-### 1.3.1 Union and intersection
+::: example Writing sets and naming the relation
+**Problem.** $M$ is the set of multiples of 3 up to 15 and $N$ is the set of
+multiples of 6 up to 24. The universal set is the set of the first ten
+multiples of 3. (a) Write $M$ and $N$ by the listing method. (b) Write $U$.
+(c) Are $M$ and $N$ overlapping or disjoint? Why?
+
+**Solution.**
+(a) $M=\{3,6,9,12,15\}$ and $N=\{6,12,18,24\}$.
+
+(b) $U=\{3,6,9,12,15,18,21,24,27,30\}$.
+
+(c) 6 and 12 are in both sets, and each set also has members not in the
+other (3 is only in $M$, 18 only in $N$). So $M$ and $N$ are **overlapping
+sets**.
+
+**Venn diagram.** Put 6, 12 in the shared region; 3, 9, 15 in the rest of $M$;
+18, 24 in the rest of $N$; and 21, 27, 30 outside both circles, inside $U$.
+:::
+
+::: example Relationships inside one universal set
+**Problem.** $U=\{$multiples of 2 up to 20$\}$, $P=\{$factors of 10$\}$,
+$Q=\{$multiples of 5$\}$ and $R=\{$multiples of 6$\}$, where $P$, $Q$, $R$
+are subsets of $U$. State the relationship between $P$ and $Q$, and between
+$Q$ and $R$.
+
+**Solution.** Only members of $U$ can be taken.
+
+$U=\{2,4,6,8,10,12,14,16,18,20\}$, $P=\{2,10\}$, $Q=\{10,20\}$,
+$R=\{6,12,18\}$.
+
+$P$ and $Q$ have the common member 10 → **overlapping**.
+$Q$ and $R$ have no common member → **disjoint**.
+:::
+
+::: caution Stay inside the universal set
+The factors of 10 are 1, 2, 5, 10, but here $P=\{2,10\}$ only, because 1 and
+5 are not in $U$ (the multiples of 2). Always list a subset from the members
+of $U$.
+:::
+
+::: example Making new sets by a rule
+**Problem.** $A=\{0,1,2,3,4,5\}$. List $B$ = (add 1 to each member of $A$),
+$C$ = (multiply each member of $A$ by 2) and $D$ = (the odd numbers of $A$).
+Which of these pairs are disjoint: $B$ and $C$, $C$ and $D$?
+
+**Solution.** $B=\{1,2,3,4,5,6\}$, $C=\{0,2,4,6,8,10\}$, $D=\{1,3,5\}$.
+
+$B\cap C=\{2,4,6\}$, so $B$ and $C$ are **overlapping**.
+$C$ has only even numbers and $D$ only odd ones, so $C\cap D=\{\ \}$:
+$C$ and $D$ are **disjoint**.
+:::
+
+### 1.3.3 Union and intersection
 
 - The **union** $A\cup B$ is the set of all members that are in $A$, or in $B$,
   or in both. Counting it member by member, the shared members would be counted
@@ -180,43 +260,98 @@ $=9$. Total $=20+9+12+9=50$ ✓.
 
 ## 1.4 Subset
 
-If every member of $A$ is also a member of $B$, then $A$ is a **subset** of $B$,
-written $A\subset B$. Every set is a subset of itself, and the empty set is a
-subset of every set.
+::: definition Subset
+If every element of set $A$ is also an element of set $B$, then $A$ is a
+**subset** of $B$. We write $A\subset B$ (read "$A$ is a subset of $B$") or
+$B\supset A$ ("$B$ is a superset of $A$").
+:::
 
-The number of subsets of a set with $n$ members is $2^n$.
+Shanti invites three friends, Dolma, Rakesh and Laxmi. The groups of friends
+she could take to a film are subsets of $\{$Dolma, Rakesh, Laxmi$\}$ — all
+three, any two, any one, or none.
 
-| $n$ | Subsets | Number $=2^n$ |
+### 1.4.1 Proper and improper subsets
+
+| Kind | Meaning | Symbol |
 |---|---|---|
-| 0 | $\emptyset$ | 1 |
-| 1 | $\emptyset$, $\{a\}$ | 2 |
-| 2 | $\emptyset$, $\{a\}$, $\{b\}$, $\{a,b\}$ | 4 |
-| 3 | 8 subsets, including the set itself | 8 |
+| **Proper subset** | made from *some* of the elements of $A$, so it has fewer elements than $A$ | $B\subset A$ |
+| **Improper subset** | made from *all* the elements of $A$, i.e. the set $A$ itself | $B\subseteq A$ |
 
-Of these, the set itself is not a **proper** subset, so a set with $n$ members
-has $2^n-1$ proper subsets when $n\ge1$.
+- The empty set $\{\ \}$ is a subset of every set, and a **proper** subset of
+  every set except itself.
+- Every set is an **improper** subset of itself. Equal sets are improper
+  subsets of one another.
 
-::: caution "B contains A" and "B belongs to A" are different
-$A\subset B$ means every member of $A$ is also a member of $B$. The symbol
-$\in$ asks about a single object: $3\in\{1,2,3\}$. Mixing the two up is the
-commonest error in set questions — a set cannot "belong to" another set unless
-it is listed as one of the members.
+::: example Listing all subsets
+**Problem.** Make all possible subsets of $M=\{s,k,y\}$, name them, and
+classify them as proper and improper.
+
+**Solution.**
+
+| Number of elements | Subsets |
+|---|---|
+| 0 | $A=\{\ \}$ |
+| 1 | $B=\{s\}$, $C=\{k\}$, $D=\{y\}$ |
+| 2 | $E=\{s,k\}$, $F=\{s,y\}$, $G=\{k,y\}$ |
+| 3 | $H=\{s,k,y\}$ |
+
+Proper subsets: $A,B,C,D,E,F,G$ (7 subsets).
+Improper subset: $H=\{s,k,y\}$ (1 subset).
+Total $=8$ subsets.
 :::
 
-::: example Number of subsets
-**Problem.** A set $A$ has 4 members. Find the number of subsets, the number of
-proper subsets, and the number of subsets that contain at least three members.
+### 1.4.2 Number of subsets
 
-**Solution.** Number of subsets $=2^4=16$. Proper subsets $=16-1=15$.
+Fill a table for sets with 1, 2, 3, … elements and a pattern appears: each new
+element doubles the number of subsets (every old subset can be taken with or
+without the new element).
 
-To contain at least three members, a subset has 3 or 4 members:
-$\binom{4}{3}+\binom{4}{4}=4+1=5$.
+| Number of elements $n$ | Example | Number of subsets |
+|---|---|---|
+| 1 | $\{$mango$\}$ | $2=2^1$ |
+| 2 | $\{$radish, pumpkin$\}$ | $4=2^2$ |
+| 3 | $\{$bus, jeep, aeroplane$\}$ | $8=2^3$ |
+| 4 | $\{$dog, cat, horse, cow$\}$ | $16=2^4$ |
+| 5 | $\{$pigeon, crow, eagle, parrot, crane$\}$ | $32=2^5$ |
 
-**Answer.** 16 subsets, 15 proper subsets, 5 with at least three members.
-
-**Check.** The subsets with fewer than three members number
-$\binom{4}{0}+\binom{4}{1}+\binom{4}{2}=1+4+6=11$, and $11+5=16$ ✓.
+::: key Counting subsets
+A set with $n$ elements has $2^n$ subsets. Exactly one of them (the set
+itself) is improper, so it has $2^n-1$ proper subsets.
 :::
+
+::: caution "Is a subset of" and "is a member of" are different
+$A\subset B$ compares two **sets**. The symbol $\in$ is for a single
+**element**: $3\in\{1,2,3\}$, but $\{3\}\subset\{1,2,3\}$. Writing
+$3\subset\{1,2,3\}$ or $\{3\}\in\{1,2,3\}$ is wrong.
+:::
+
+::: example Subsets in a Venn diagram
+**Problem.** $U=\{$multiples of 2 up to 20$\}$, $X=\{$factors of 20$\}$ and
+$Y=\{$multiples of 5$\}$ are taken from $U$. Show $X$ and $Y$ in a Venn
+diagram and state the relationship.
+
+**Solution.** $U=\{2,4,6,\dots,20\}$, $X=\{2,4,10,20\}$, $Y=\{10,20\}$.
+
+Every element of $Y$ is in $X$ and $X$ has more elements, so $Y$ is a
+**proper subset** of $X$: $Y\subset X$. In the Venn diagram the circle $Y$
+is drawn completely inside the circle $X$ (see the figure).
+:::
+
+```figure caption="$Y=\{10,20\}$ drawn inside $X=\{2,4,10,20\}$: $Y$ is a proper subset of $X$. Members of $U$ outside $X$ stay outside both circles."
+fig, ax = plt.subplots(figsize=(4.4, 2.8))
+ax.set_xlim(0, 11); ax.set_ylim(0, 7); ax.axis("off"); ax.set_aspect("equal")
+ax.add_patch(plt.Rectangle((0.3, 0.3), 10.4, 6.4, fill=False, ec=INK, lw=1.0))
+ax.add_patch(plt.Circle((4.6, 3.5), 2.8, fc=ACCENT, alpha=0.15, ec=ACCENT, lw=1.2))
+ax.add_patch(plt.Circle((5.4, 3.5), 1.3, fc=SERIES[1], alpha=0.25, ec=SERIES[1], lw=1.2))
+ax.text(0.7, 6.1, "U", fontsize=10, color=INK)
+ax.text(2.4, 5.6, "X", fontsize=10, color=ACCENT)
+ax.text(5.4, 5.0, "Y", fontsize=10, color=SERIES[1], ha="center")
+for (x, y, t) in [(2.6, 3.9, "2"), (2.9, 2.6, "4"), (5.0, 3.6, "10"), (5.8, 3.0, "20")]:
+    ax.text(x, y, t, fontsize=9, ha="center", color=INK)
+for (x, y, t) in [(8.4, 5.6, "6"), (9.5, 4.6, "8"), (8.5, 3.6, "12"), (9.6, 2.6, "14"), (8.5, 1.6, "16"), (9.6, 0.9, "18")]:
+    ax.text(x, y, t, fontsize=9, ha="center", color=INK)
+fig.tight_layout()
+```
 
 ## 1.5 Word problems with a Venn diagram
 
@@ -303,6 +438,9 @@ class size. Then write three questions about your own diagram, of the
 - Disjoint sets have no common member, so $n(A\cap B)=0$; overlapping sets share
   at least one.
 - $n(A\cup B)=n(A)+n(B)-n(A\cap B)$, and $n(A\cap B)=n(A)+n(B)-n(A\cup B)$.
+- A Venn diagram shows $U$ as a rectangle and its subsets as circles.
+- $B\subset A$ (proper subset) if $B$ is made of some elements of $A$; the set
+  itself is the improper subset ($A\subseteq A$); $\{\ \}$ is a subset of every set.
 - A set with $n$ members has $2^n$ subsets and $2^n-1$ proper subsets.
 - In a Venn diagram, fill the intersection first and work outwards, then check
   that all the regions add up to $n(U)$.
@@ -377,23 +515,33 @@ rectangle. **Check.** $18+10+12+5=45$ ✓.
 $=80+50=130$. **Check.** $80+40+50+30=200$ ✓.
 :::
 
-**Extra practice**
+**Extra practice — textbook-style questions**
 
-**Group B (2 marks)**
+**Group B (2 marks each)**
 
-**14.** If $n(A) = 24$, $n(B) = 18$ and $n(A \cup B) = 35$, find $n(A \cap B)$.
-**15.** Write in set notation: *students who play neither game*.
+**1.** If $n(A) = 24$, $n(B) = 18$ and $n(A \cup B) = 35$, find $n(A \cap B)$.
+**2.** $A=\{2,4,6,8,10,12\}$, $B=\{1,3,5,7,9,11\}$, $D=\{5,6,7,8,10\}$.
+State whether (a) $A$ and $B$, (b) $A$ and $D$ are overlapping or disjoint, with reason.
+**3.** $A=\{3,5\}$ and $B=\{2,4,7\}$. (a) Write the proper subsets of $A$.
+(b) Which member must be added to $A$ to make $A$ and $B$ overlapping? (give one)
+**4.** $M=\{x : x$ is a multiple of 5 less than 40$\}$. List $M$, and the set
+$N$ formed by adding 3 to each element of $M$. Are $M$ and $N$ disjoint?
 
-**Group C (4 marks)**
+**Group C (4 marks each)**
 
-**16.** Of 80 households, 52 keep goats, 41 keep poultry and 9 keep neither. Find
-    how many keep both, and how many keep goats only.
+**5.** Of 80 households, 52 keep goats, 41 keep poultry and 9 keep neither. Find
+how many keep both, and how many keep goats only.
+**6.** $Q=\{1,3,5\}$ and $R=\{1,2,3\}$ are subsets of $U=\{1,2,3,4,5\}$.
+(a) Write all proper and improper subsets of $Q$. (b) Which proper subsets of
+$Q$ and $R$ are common? (c) Show $Q$ and $R$ in a Venn diagram.
 
 ::: note Extra practice — answers
-**14.** $n(A \cap B) = 24 + 18 - 35 = 7$.
-**15.** $(A \cup B)'$ — the complement of the union.
-**16.** At least one $= 80 - 9 = 71$. Both $= 52 + 41 - 71 = 22$.
-Goats only $= 52 - 22 = 30$. (Check: $30 + 22 + 19 + 9 = 80$.)
+**1.** $n(A \cap B) = 24 + 18 - 35 = 7$.
+**2.** (a) Disjoint — $A$ has only even and $B$ only odd numbers, no common element. (b) Overlapping — 6, 8, 10 are common.
+**3.** (a) $\{\ \}$, $\{3\}$, $\{5\}$ ($2^2-1=3$ proper subsets). (b) Add 2, 4 or 7, e.g. $A=\{2,3,5\}$ shares 2 with $B$.
+**4.** $M=\{5,10,15,20,25,30,35\}$; $N=\{8,13,18,23,28,33,38\}$. No element is common, so $M$ and $N$ are disjoint.
+**5.** At least one $= 80 - 9 = 71$. Both $= 52 + 41 - 71 = 22$. Goats only $= 52 - 22 = 30$. Check: $30 + 22 + 19 + 9 = 80$ ✓.
+**6.** (a) Proper: $\{\ \}$, $\{1\}$, $\{3\}$, $\{5\}$, $\{1,3\}$, $\{1,5\}$, $\{3,5\}$; improper: $\{1,3,5\}$. (b) $Q\cap R=\{1,3\}$, so the common proper subsets are $\{\ \}$, $\{1\}$, $\{3\}$, $\{1,3\}$. (c) Write 1, 3 in the overlap, 5 in $Q$ only, 2 in $R$ only, and 4 outside both circles inside $U$.
 :::
 
 ## Objective practice

@@ -175,3 +175,198 @@ offset rays). Flower dissection: tap-to-pluck, 20 px tug, forgiving box drops.
 **Testing.** Each was driven with Playwright at 1400×900 and 390×844 (`/tmp/pc/drive.py`: adds `dj:` JS-computed mouse drags and `c:` clicks to the harness driver) with at least one real mouse interaction (disc turned, knot dragged, plank lifted, balance tared, bottles tapped, pours held, fusion held in the flame…), and every one skips through to its result card without console errors. Note: in a `drive.py` token, `|` splits tokens, so avoid `||` in inline JS.
 
 **Not done / ideas.** Sound effects for the new practicals are synth (`sfx.register`: hiss, pop, whoof, drip). The flame test in salt analysis uses the burner's emission tint without a wire loop. Possible polish: spherometer second set of readings at another spot, gas preparation tests done with the jar lifted out of the trough.
+
+## BIO pass 2: the remaining 24 biology practicals made hands-on (Oct 19, 2026)
+
+All 24 lessons below are registered in `core/bio-handson/index.js` (43 hands-on biology lessons
+in total). Every practical uses the existing runtime (steps, teacher toasts, score, mistakes,
+result card with error vs truth where there is a true value) and was driven with Playwright at
+1400×900 and 390×844 (`/tmp/bio2/drive.py`: adds `dj:` JS-computed mouse drags/taps and `hj:` press-and-hold), with
+at least one real mouse interaction each, and skipped through to its result card with no console
+errors (`/tmp/bio2/smoke.py`).
+
+| Slug(s) | File | What the student does |
+|---|---|---|
+| `transpiration-upper-lower-rate` | `practicals/transpiration.js` | dry cobalt chloride papers over a spirit lamp (hold; scorching caught), forceps them onto both leaf faces, clamp with slides, stopwatch; tap each paper when fully pink (early taps caught); repeat on maize; ratio from own times |
+| `respiration-rate-germinating-seeds` | `practicals/respirometer.js` | KOH by dropper, gauze, weigh 10 g germinating/boiled seeds, bungs + capillaries, equilibrate, eosin index; tap the mm scale at the drop every 2 min; graph, slope, µL O₂ g⁻¹ min⁻¹ |
+| `anaerobic-respiration-setup` | `practicals/anaerobic.js` | boil glucose on a Bunsen, cool in a trough watching the thermometer, yeast at ~35 °C (too hot kills it), paraffin seal, delivery tubes to lime water, test vs boiled-yeast control, 1 h time-lapse, smell, equation |
+| `phototropism-setup`, `apical-bud-removal-setup` | `practicals/tropism.js` | foil caps, box with slit turned to a lamp, 4-day bending, drag a protractor; snip apices, brush plain or IAA lanolin, 14-day lateral growth, measure laterals |
+| `suction-due-transpiration-setup` | `practicals/suction.js` | fill tube, cut twig under water (cut in air = embolism), rubber + vaseline, mercury beaker, read the column every 15 min, lamp and fan |
+| `mendelian-inheritance-seeds` | `practicals/mendel.js` | sort F₂ seeds into dishes by tapping (random Mendelian samples), χ² vs 3:1 and 9:3:3:1 from own counts, drag-in Punnett square |
+| `quadrat-density-plant`, `quadrat-frequency-field` | `practicals/quadrat.js` + `specimens/field.js` | outdoor 6 × 6 m plot (instanced plants), flick the quadrat, tap every plant rooted inside, density / frequency / abundance, Raunkiaer class, Whitford A/F |
+| `cockroach-external-morphology` | `practicals/cockroach.js` + `specimens/cockroach.js` | chloroform jar, tray, lens regions, spread tegmen and hind wing with forceps, label quiz, sex from the tail, flip and remove mouthparts in order |
+| `human-skeleton-joints`, `skeleton-joints-health-disorders` | `practicals/skeleton.js` + `specimens/skeleton.js` | full-size articulated skeleton; drag loose bones into place, classify 9 joints, flex elbow / circumduct shoulder / turn head; disorder case cards (tap the site, name, care), healthy vs arthritic knee ROM on a goniometer |
+| `soil-microorganism-culture` | `practicals/culture.js` + `specimens/microbe.js` | lamp, 10⁻¹…10⁻⁴ dilution, pour agar, 0.1 mL plating, alcohol + flame the spreader, 48 h colonies painted on the agar, choose the 30–300 plate, dot colonies with a marker, colony types, CFU/g |
+| `biofertilizer-preparation` | `practicals/biofert.js` | uproot pea, wash, pick pink nodules, HgCl₂ + 5 rinses, crush, flame loop and streak YEMA–Congo red, 5 days, broth, hold-pour to 40 % carrier moisture, jaggery seed coating, shade drying |
+| `soil-analysis-sites` | `practicals/soil.js` | two sites: fresh/dry weighing to constant mass, WHC funnels read at the meniscus, pH paper vs chart, jar-test layers measured and classified, H₂O₂ humus |
+| `pond-ecosystem-botany`, `pond-ecosystem-zoology` | `practicals/pond.js` + `specimens/pondscene.js` + `fields/pond.js` | outdoor pond; thermometer, pH paper, Secchi disc down/up, DO meter (zoology), plankton net, classify plants by habit / animals by diet; back in the lab a living plankton field under the microscope; food chain / web by dragging |
+| `mushroom-identification` | `practicals/mushroom.js` | Agaricus vs Amanita: lens on every part, label quiz, cut caps, spore prints on black/white paper overnight, danger signs, formalin |
+| `inflorescence-identification` | `practicals/inflorescence.js` + `specimens/inflor.js` | six specimens whose flowers carry ages; tap the oldest, racemose/cymose, name the type |
+| `fossil-evolution-evidence` | `practicals/fossil.js` | trilobite, Devonian fish, Glossopteris, saligram ammonite, Archaeopteryx; lens, name, drop into periods of the time scale, conclusions |
+| `biodiversity-conservation-nepal` | `practicals/conservation.js` | raised relief map of Nepal with park pins; drag species to parks, in-situ/ex-situ sort, threats → remedies, census % increase |
+| `vegetation-specimen-identification`, `animal-specimen-identification` | `practicals/specimen-id.js` + `specimens/vegkey.js`, `specimens/animkey.js` | 6 of 12 specimens per run on a turntable (slides with micrographs for micro-organisms); dichotomous key couplet by couplet, wrong leads explained |
+| `plant-collection-herbarium` | `practicals/herbarium.js` | snip a flowering twig, blotters and press, flatten leaves and flip one, a week of drying with blotter changes (mould if skipped), HgCl₂, gummed strips, label |
+
+**New shared modules.** `bench.js` (time-lapse clock in min/h/days, `ask` until right, notebook
+`sheet`, `chipDrop` drag-or-tap-tap chips into `[data-slot]`s, sprite `tag`, glass beaker, clay pot,
+crucible, enamel tray, `outdoors()` which hides the lab furniture and opens the sky, `mergeGeos` for
+vertex-coloured composites), `specimens/plants.js` (alpha-cut grid leaves that bend smoothly, swept
+stems, flowers, buds, bendable seedlings). New held tools in `tools.js`/`ui.js`/`icons.js`:
+inoculating loop, glass spreader, marker pen. `sound.js`: paper, latch and door samples (CC0 Kenney).
+CSS (in `08-biology.css`): `.bh-sheet` (+ `.wide`, `.left`), `.bh-dchip`, `.bh-slot`, `.bh-tab`,
+`.bh-key`, `.bh-tally`, `.bh-jdot`/`.bh-jlayer`, `.bh-park`, `.bh-key-mwrap`, `.bh-under-clock`.
+
+**Notes for whoever continues.** A step's `skip()` must never call `ctx.next()` (it re-enters the
+step during `skipTo` and leaks overlays). Objects at the bottom centre of a shot sit under the tool
+belt and cannot be tapped — use `hideBelt` or frame them higher. Practicals that seed randomness
+from time accept `window.__bhSeed` in `specimen-id.js` for repeatable tests. Graphs (`createGraph`)
+are hidden on phones where they would cover the apparatus.
+
+**Not done / ideas.** Quadrat and seed sorting offer a "partner" shortcut after enough hand counting
+(the counts stay real). The pond and soil labs use colour-chart pH (no meter). Possible polish: more
+specimen variety per run, a Secchi disc reading from a boat, and a monochasial cyme specimen.
+
+## 2D pass: every canvas simulation rebuilt on a shared kit (Oct 19, 2026)
+
+**Scope (38 sims, all done and pushed).** physics/ bouncy-balls, circuit-lab, forces-playground,
+magnet-play, optics-bench, pendulum-lab, projectile-motion, ramp-roller, waves-lab · chemistry/
+mixing-lab, density-tower, fizzy-reactions, melt-freeze, states-matter, acid-base,
+reaction-balancer · nebclass10/ concave-mirror, ohms-law, indicators, food-tests, quadratic-graph,
+statistics-explorer, height-distance · space/ orbital-sandbox, rocket-launch, kepler-orbits,
+gravity-worlds, star-lifecycle, cosmic-scale · robotics/ line-follower, pid-controller,
+state-machine · ai/ what-is-ai, how-ml-learns, perceptron, image-classifier, llm-intro, ethics.
+(The 3D sims in those folders — atom-builder, molecule-viewer, neuron, network-3d, the 3D space and
+robotics lessons — were not touched; `core/canvas2d.js` is unchanged for the sims still using it.)
+
+**Shared kit (`static/web/js/interactive/core/`).**
+- `kit2d.js` — `createKit(stage, { night, captureTouch, trackPointer, label })`: HiDPI canvas
+  (devicePixelRatio capped at 2, 1.5 on ≤4-core/≤2 GB devices), a render loop that runs only while
+  the stage is on screen and the tab visible, continuously only while `k.animate(true)`, otherwise
+  one frame per `k.invalidate()`. `k.drag({ hit, down, move, up, cursor, enabled })` handles mouse,
+  pen and touch with touch slack; a touch that starts on a handle never scrolls the page (non-passive
+  touchstart), other touches scroll. `k.onTap`, `k.isHot(handle)`, `k.cache()` (per-resize memo),
+  `stage.__k2.debug` for tests. Helpers: theme `T`/`NIGHT`, `Spring` (honours
+  prefers-reduced-motion), `makeRK4` (allocation-free), `Ring` buffers, `sphere` (cached lit-sphere
+  sprites), `knob`, `arrow`, `pill`, `card`, `softShadow`, `dimension`, colour `mix`/`withAlpha`.
+- `kit2d-plot.js` — `Plot` with nice ticks cached per range, `ring()`/`fn()`/`dot()`.
+- Family modules: `optics2d.js` (exact paraxial ray tracing, real-is-positive, used by the optics
+  bench and the class 10 concave mirror), `chem2d.js` (glassware drawn back/contents/front with
+  meniscus and printed graduations; a draggable shelf of bottles/shakers/spoons/droppers that tilt
+  and pour over a target), `matter2d.js` (energy-based heating with specific and latent heats; a
+  lattice/liquid/gas particle model; thermometer; heat dial), `indicators2d.js` (pH by
+  charge-balance bisection; indicator colours; pH strip), `tubes2d.js` (test-tube rack easing to new
+  colours, litmus strips, precipitates, water bath), `space2d.js` (cached starfield, glows,
+  blackbody colours, dark pills).
+- `sim-ui.js` (backwards-compatible additions only): `panel.chips()`, `panel.stats()`, slider fill
+  CSS variable and `slider().input`.
+- CSS: `css/pages/interactive/15-kit2d.css` (imported last). The kit adds `.ix-k2` (light) or
+  `.ix-k2-dark` (space) to the shell, which restyles the stage, toolbar, dock, panels, chips, stat
+  tiles and tables (`.k2-table`, `.k2-first6`); taller stage on phones. 3D sims are unaffected.
+
+**Science notes.** Pendulum: RK4 on θ'' = −(g/L)sinθ − bθ', measured period from interpolated
+zero crossings vs 2π√(L/g) and the AGM exact period. Bouncing: exact impact times, rebound e·v.
+Projectile: RK4 with football drag ½ρC_dAv². Friction: μs/μk stick-slip. Ramp: (5/7)g sinθ etc.
+Magnets: Gilbert pole model; clips follow ∇B². Waves: finite-difference wave equation with fixed /
+free / Mur absorbing ends. Circuits and Ohm's law: exact series/parallel, a heating bulb (non-ohmic).
+Mixing: solubility 36 g/100 mL. Fizz: 5 % vinegar, 84 g/mol, 24 L/mol. Titration: charge balance,
+Ka 1.8e-5. Orbits: GM☉ = 4π² AU³/yr², leapfrog. Kepler: Kepler's equation. Rocket: RK4 with mass
+flow, 1/r² gravity, exponential atmosphere. ML: a real 2-hidden-layer tanh MLP with Adam;
+perceptron rule; nearest-template digit classifier with a held-out confusion matrix; trigram LM;
+logistic regression on biased labels with a proxy feature. Food tests: sucrose is (correctly)
+Benedict's-negative (the old sim said positive).
+
+**Testing.** `/tmp/2d/shoot.py outdir [--desk|--phone] sim:slug[:actions]` (actions joined with
+`~`: `w500`, `js:EXPR` and `dj:`/`hj:` JS-computed drags using `D = stage.__k2.debug` and `K = kit`,
+`click:x,y`, `s:name`) runs both 1400×900 and 390×844 and prints console errors. Every sim was
+driven with at least one real mouse drag/tap and all 38 × 2 viewports load with no console errors.
+
+**Ideas / not done.** Sound effects for the 2D labs; a dark-theme variant of the light shell for
+users on the site's dark theme (the 2D stages stay light); the line follower's drawn track is not
+saved between visits; the image classifier could be swapped for a small trained CNN if a weights
+file is acceptable.
+
+## Living World + Scale of the Universe: showreel 3D pass (Oct 20, 2026)
+
+All five sims below were rebuilt from scratch, verified at 1400×900 and 390×844 with no console
+errors, and pushed to `main`. Butterfly and photosynthesis details are in
+`docs/LIVING_WORLD_SIMS_HANDOFF_PART_BF_PS.md`.
+
+**Scale of the Universe** (`space/cosmic-scale.js` + `space/cosmos/`, catalog `sim_type` now `3d`).
+One continuous log-scale zoom, 10⁻⁰·³ to 10²⁷·³ m. Each scale is a *layer* with its own unit
+(m, Earth radii, AU, ly, kly, Mly, Gly), origin (heliocentric doubles) and orientation. Every frame
+`universe.js` places each layer at `(origin − focus) · k` with `k = 10 / viewWidth`, so the GPU
+only sees numbers near 1. The focus glides between frames in proportion to the view
+(`focusAt`: summit → Earth → Sun → Galactic centre → Local Group → Laniakea → us), and the scene
+orientation slerps between keyframes (`OK`). Layers are built lazily when the zoom comes within
+about 2 decades of them. The engine gained a backwards-compatible `logDepth` option.
+- `terrain.js`: real Everest DEMs (26 km fine and 345 km regional, from AWS Terrain Tiles) with
+  baked sun shadows and AO. The shader does snow/rock/glacier by altitude and slope, curvature
+  drop, aerial haze, and NASA satellite colour blended in on the regional patch. There is also a
+  procedural summit cap.
+- `climber.js` adds the mountaineer and prayer flags anchored to the snow. `earth.js` is NASA
+  day, night and cloud maps with ocean glint, a limb atmosphere (faded when the camera is inside
+  it), and the LRO Moon at today's position.
+- `solar.js`: the 9 planets at their positions for today (JPL elements), gas giants with GRS and
+  rings, belts, heliosphere, Voyager 1 and the Oort cloud.
+- `stars.js`: 44 real stars at RA/Dec/distance, plus the galactic-plane sky. `galaxy.js`: a
+  painted barred-spiral texture plus resolved stars and dust; the Milky Way, M31, M33,
+  Magellanic Clouds and dwarfs, placed with real l/b/d.
+- `web.js` builds the cosmic web through the real clusters, Laniakea flow lines, the deep web
+  and a CMB cutaway shell. `labels.js` is HTML labels with collision and edge flipping, plus the
+  HUD. `view.js` handles log-zoom input.
+- Fly-to (`cosmic-scale.js`) zooms out to a vantage point covering both places, then in.
+  Moon/Sun/Jupiter/Saturn/Andromeda use focus overrides. There is a guided tour with captions.
+- Textures and their credits are in `space/cosmos/tex/` (`CREDITS.md`; all NASA public domain
+  plus open DEM).
+- Gotchas:
+  - `setOpacity` must not flip additive materials to opaque.
+  - Every `onBeforeCompile` material needs `customProgramCacheKey`.
+  - Facing tests must use world-space normals.
+
+**Anatomy toolkit** (`biology/anatomy/`). `sdf.js` holds allocation-free SDF primitives, smooth
+min/max, culled tubes and catmull. `mesher.js` does narrow-band surface nets (coarse 4× grid,
+exact SDF only near the surface, grid-gradient normals; about 0.5–1 s per organ set), plus
+`meshFromField`. `tissue.js` is MeshPhysical + onBeforeCompile: wet clearcoat, derivative bump,
+rim scatter, highlight by `part`, X-ray fresnel (`setXray`) and an optional flat `cap` colour for
+clipped back faces. `labels.js` is atlas labels in two columns with leader lines. `merge.js`
+merges meshes with pick IDs and per-vertex extras, plus PCA. `skin.js` voxelises vertices,
+dilates, flood-fills the outside, blurs and surface-nets. `sweep.js` is a variable-radius tube.
+
+**Heart & Lungs** (`biology/heart-lungs.js` + `biology/heartlungs/`).
+- **Heart model:** the heart is an SDF (`heart-model.js`): chambers, auricles, arch and branches,
+  trunk and PAs, cavae and 4 PVs, hollow cavities and lumens, fat grooves. Per-vertex
+  realistic/textbook colours, and contraction vectors for atria and ventricles.
+- **Lungs:** lungs, airway and diaphragm are in `lung-model.js`: tapered lobes with oblique and
+  horizontal fissures, a cardiac impression, a grown bronchial tree, and a domed diaphragm with
+  a central tendon.
+- **Flow and monitor:** `flow.js` handles RBC routes through every chamber, valve and lung
+  (oxygenating in the capillaries, pulsing with systole) and air particles. `monitor.js` has the
+  ECG, the cardiac timing and lub-dub WebAudio.
+- **Views:** overview, heart, a coronal cutaway (clip plane + cap), blood flow (X-ray) and
+  airways.
+
+**Human Body Explorer** (`biology/human-body.js` + `biology/body/`).
+- **Model:** `body.glb` (Z-Anatomy, 826 meshes: mat0 bone, mat1 muscle; metres, +z front, +x
+  patient's left) is merged into one bone and one muscle draw call. Muscles carry a PCA fibre
+  direction and tendon ends; bones are flagged as bone, cartilage or tooth.
+- **Skin:** grown from the anatomy and shown as warm glass by default. The *Glass skin* toggle
+  switches it to opaque, but the opaque face is featureless, which is why glass is the default.
+- **Organs:** `organs.js` holds organs sculpted in body centimetres. The spinal cord follows the
+  real vertebral canal. Arteries and nerves carry travelling pulses.
+- **Heart and lungs:** the heart-lungs scene is reused at `scale 0.01`, `position
+  (0.004, 1.262, 0.012)`, with its own diaphragm hidden in favour of the GLB's.
+- **Controls:** peel slider, body-system chips, activity (drives the beat and breath), picking
+  with cleaned left/right names.
+
+**Tooling used this session.**
+- `/data/workspace/task/tools/ghpush.py` + `ship.sh` push commits through the GitHub connector
+  (Git Data API); `git fetch` works anonymously because the repo is public.
+- `shoot.py` is a headless Chromium (SwiftShader) screenshot runner that clips to the stage.
+  SwiftShader crashes after about 3 heavy view changes in one page, so split long checks.
+- Restart the dev server with `--noreload` after editing the catalog.
+
+**Ideas not done.**
+- An alveolus close-up with gas exchange; valve leaflets and chordae in the cutaway.
+- Animating a limb (biceps flex) on the body; eyelids and lips for the opaque skin.
+- Real-time planet motion with a date slider; Earth city labels; a sub-metre zoom (cells to
+  atoms) below the climber.

@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,6 +20,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import com.neb.ians.data.api.ApiErrorMapper
 import dagger.hilt.android.qualifiers.ApplicationContext
+
+private val Whitespace = Regex("\\s+")
 
 sealed interface AuthState {
     object Loading : AuthState
@@ -104,14 +107,14 @@ class AuthRepository @Inject constructor(
             }
             else -> AuthState.Unauthenticated
         }
-    }
+    }.flowOn(Dispatchers.IO) // the first token read sets up the Keystore; never on the main thread
 
-    val tokenFlow: Flow<String?> = dataStore.data.map { SecurePrefs.getAuthToken(appContext) }
+    val tokenFlow: Flow<String?> = dataStore.data.map { SecurePrefs.getAuthToken(appContext) }.flowOn(Dispatchers.IO)
     val isProfileCompletedFlow: Flow<Boolean> = dataStore.data.map { it[PROFILE_COMPLETED] ?: false }
     private val ioScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private fun firstName(prefs: Preferences): String =
-        prefs[USER_DISPLAY_NAME]?.split(Regex("\\s+"))?.firstOrNull()?.takeIf { it.isNotBlank() }
+        prefs[USER_DISPLAY_NAME]?.split(Whitespace)?.firstOrNull()?.takeIf { it.isNotBlank() }
             ?: prefs[USER_NAME]?.takeIf { it.isNotBlank() }
             ?: "Student"
 
@@ -162,7 +165,9 @@ class AuthRepository @Inject constructor(
         )
     }
 
-    suspend fun getToken(): String? = SecurePrefs.getAuthToken(appContext)
+    suspend fun getToken(): String? =
+        if (SecurePrefs.isTokenLoaded) SecurePrefs.getAuthToken(appContext)
+        else withContext(Dispatchers.IO) { SecurePrefs.getAuthToken(appContext) }
 
     fun getTokenSync(): String? {
         return try {

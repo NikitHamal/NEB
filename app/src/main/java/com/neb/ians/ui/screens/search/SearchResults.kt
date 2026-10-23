@@ -73,7 +73,7 @@ fun SearchResultsList(
                             } else null
                         )
                     }
-                    items(state.resources.take(PREVIEW_PER_SECTION), key = { "r_${it.id}" }) { resource ->
+                    items(state.resources.take(PREVIEW_PER_SECTION), key = { "r_${it.id}" }, contentType = { "resource" }) { resource ->
                         WebResourceCard(
                             resource = resource,
                             onClick = { onResourceClick(resource.id) },
@@ -92,7 +92,7 @@ fun SearchResultsList(
                             } else null
                         )
                     }
-                    items(state.posts.take(PREVIEW_PER_SECTION), key = { "p_${it.id}" }) { post ->
+                    items(state.posts.take(PREVIEW_PER_SECTION), key = { "p_${it.id}" }, contentType = { "post" }) { post ->
                         WebPostCard(
                             post = post,
                             onClick = { onPostClick(post.id) },
@@ -112,7 +112,7 @@ fun SearchResultsList(
                             } else null
                         )
                     }
-                    items(state.users.take(PREVIEW_PER_SECTION), key = { "u_${it.id}" }) { user ->
+                    items(state.users.take(PREVIEW_PER_SECTION), key = { "u_${it.id}" }, contentType = { "user" }) { user ->
                         UserResultRow(user = user, onClick = { onProfileClick(user.username) })
                     }
                 }
@@ -122,7 +122,7 @@ fun SearchResultsList(
                 if (state.resources.isEmpty()) {
                     item(key = "empty_resources") { ScopeEmptyMessage("No resources match this search.") }
                 } else {
-                    items(state.resources, key = { it.id }) { resource ->
+                    items(state.resources, key = { it.id }, contentType = { "resource" }) { resource ->
                         WebResourceCard(
                             resource = resource,
                             onClick = { onResourceClick(resource.id) },
@@ -137,7 +137,7 @@ fun SearchResultsList(
                 if (state.posts.isEmpty()) {
                     item(key = "empty_posts") { ScopeEmptyMessage("No posts match this search.") }
                 } else {
-                    items(state.posts, key = { it.id }) { post ->
+                    items(state.posts, key = { it.id }, contentType = { "post" }) { post ->
                         WebPostCard(
                             post = post,
                             onClick = { onPostClick(post.id) },
@@ -153,7 +153,7 @@ fun SearchResultsList(
                 if (state.users.isEmpty()) {
                     item(key = "empty_people") { ScopeEmptyMessage("No one matches this search.") }
                 } else {
-                    items(state.users, key = { it.id }) { user ->
+                    items(state.users, key = { it.id }, contentType = { "user" }) { user ->
                         UserResultRow(user = user, onClick = { onProfileClick(user.username) })
                     }
                 }

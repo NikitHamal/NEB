@@ -1,367 +1,220 @@
-import { THREE, createEngine, createOrbitControls, basicLights } from '../core/engine.js';
+import { THREE, createEngine } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
-import { makeScanMaterial } from '../core/bio3d-scan-grade.js';
-import { batchStaticGeometry } from '../core/bio3d-batch.js';
-import {
-  Particles, skyDome, applyEnvironmentLighting, lightShafts,
-  glowTexture, moleculeTexture,
-} from '../core/bio-fx.js';
+import { createRig, updateSunUniforms, outdoorEnvironment } from './butterfly/kit.js';
+import { createDof } from './butterfly/dof.js';
+import { evaluate, EQUATION, lightAt } from './photosynthesis/model.js';
+import { createRateGraph } from './photosynthesis/graph.js';
+import { buildBench } from './photosynthesis/bench.js';
+import { buildLeafSection } from './photosynthesis/leaf-section.js';
+import { buildChloroplast } from './photosynthesis/chloroplast.js';
+import { PART_INFO, SCALE_INFO } from './photosynthesis/info.js';
 
-// Limiting-factor photosynthesis model (light saturation, water stress,
-// CO2 response, enzyme temperature curve) driving a cinematic 3D canopy.
-const INPUTS = [
-  { id: 'light', label: 'Sunlight', color: 0xffd54a, info: 'Light energy, captured by chlorophyll, powers the whole reaction. More light → faster photosynthesis — up to a limit.' },
-  { id: 'water', label: 'Water (H₂O)', color: 0x4aa3ff, info: 'Roots draw water up the stem to the leaves. The hydrogen from water goes into glucose; the oxygen is released.' },
-  { id: 'co2', label: 'Carbon dioxide', color: 0x9aa6b2, info: 'CO₂ enters through tiny pores called stomata. Its carbon and oxygen atoms become the backbone of the sugar molecule.' },
-  { id: 'temperature', label: 'Temperature', color: 0xff9f43, info: 'Photosynthesis is enzyme-controlled. Most crop leaves work best near warm room temperature; cold slows enzymes and excessive heat damages the system.' },
+const SCALES = [
+  { value: 'bench', label: 'Lab bench' },
+  { value: 'leaf', label: 'Inside a leaf' },
+  { value: 'chloroplast', label: 'Chloroplast' },
 ];
-
-function clamp(value, min = 0, max = 1) { return Math.max(min, Math.min(max, value)); }
-function pct(value) { return `${Math.round(value * 100)}%`; }
-function temperatureResponse(celsius) {
-  return clamp(1 - ((celsius - 25) / 18) ** 2);
-}
-function photosynthesisMetrics(levels) {
-  const light = clamp(1 - Math.exp(-3.0 * levels.light));
-  const water = clamp((levels.water - 0.12) / 0.78);
-  const co2 = clamp(levels.co2 / (0.28 + levels.co2));
-  const temperature = temperatureResponse(levels.temperature);
-  const responses = { light, water, co2, temperature };
-  const limiting = Object.entries(responses).sort((a, b) => a[1] - b[1])[0];
-  return {
-    rate: clamp(limiting[1]),
-    limiting: INPUTS.find((x) => x.id === limiting[0])?.label || limiting[0],
-    formula: `rate = min(light saturation ${pct(light)}, water ${pct(water)}, CO₂ ${pct(co2)}, enzyme temp ${pct(temperature)})`,
-  };
-}
-
-const COL = {
-  sun: new THREE.Color(0xffe08a),
-  water: new THREE.Color(0x5fb2ff),
-  co2: new THREE.Color(0xcfd8e3),
-  o2: new THREE.Color(0xfff8e1),
-  sugar: new THREE.Color(0xffc94a),
-};
+const OFFSETS = { bench: new THREE.Vector3(0, 0, 0), leaf: new THREE.Vector3(4000, 0, 0), chloroplast: new THREE.Vector3(8000, 0, 0) };
 
 export default function init(stage) {
   stage.classList.add('bio-beginner-stage', 'bio-photosynthesis-stage');
-  const engine = createEngine(stage, { shadows: true });
+  const engine = createEngine(stage, { lite: true, shadows: true, antialias: false, fov: 40, near: 0.1, far: 2500, environment: false, exposure: 1.0 });
   if (!engine) return null;
   const { scene, camera, renderer, quality } = engine;
-  const low = quality.tier === 'low';
+  const tier = quality.tier;
 
-  camera.position.set(4.4, 2.6, 10.5);
-  const controls = createOrbitControls(camera, engine.canvas, {
-    minDistance: 5, maxDistance: 20, enablePan: false, maxPolar: Math.PI * 0.68, minPolar: Math.PI * 0.18,
+  const envBench = outdoorEnvironment(renderer, {
+    zenith: '#3a4a5e', horizon: '#5d6b7c', horizonLow: '#3a3128', ground: '#1c1712', sunU: 0.75, sunV: 0.42,
+    paint: (g, w, h) => {
+      g.fillStyle = 'rgba(220,235,255,0.95)'; g.fillRect(w * 0.52, h * 0.18, w * 0.1, h * 0.2);
+      g.fillStyle = 'rgba(255,240,210,0.9)'; g.fillRect(w * 0.05, h * 0.08, w * 0.3, h * 0.04);
+      g.fillStyle = 'rgba(255,230,190,0.9)'; g.beginPath(); g.arc(w * 0.75, h * 0.42, 6, 0, Math.PI * 2); g.fill();
+    },
   });
-  controls.setTarget(new THREE.Vector3(0, 0.9, 0));
+  const envMicro = outdoorEnvironment(renderer, { zenith: '#b8d6c4', horizon: '#6f9c84', horizonLow: '#2f4a3a', ground: '#14261c', sunU: 0.25, sunV: 0.12 });
+  const backgrounds = { bench: new THREE.Color(0x1d2733), leaf: new THREE.Color(0x0c2420), chloroplast: new THREE.Color(0x0a1d14) };
 
-  const disposeEnv = applyEnvironmentLighting(renderer, scene, { sky: '#bfe0ff', horizon: '#7fa98c', ground: '#241a12' });
-  skyDome(scene, { top: 0x0e3550, mid: 0x14503a, bottom: 0x07130c });
-  scene.fog = new THREE.Fog(0x0d2f26, 18, 46);
-
-  basicLights(scene, { ambient: 0.38, key: 1.25 });
-  const sunLight = scene.children.find((o) => o.isDirectionalLight);
-  if (sunLight) { sunLight.position.set(6, 11, 4); sunLight.color.set(0xfff1c4); }
-
-  // ---- Ground: layered soil mound ----
-  const soilMat = new THREE.MeshStandardMaterial({ color: 0x40301d, roughness: 1 });
-  soilMat.userData.sharedFx = true;
-  const mound = new THREE.Mesh(new THREE.SphereGeometry(7.5, 40, 20, 0, Math.PI * 2, 0, Math.PI / 2), soilMat);
-  mound.scale.set(1, 0.34, 1);
-  mound.position.y = -3.45;
-  mound.receiveShadow = true;
-  scene.add(mound);
-  const mulch = new THREE.Mesh(
-    new THREE.CircleGeometry(2.1, 36),
-    new THREE.MeshStandardMaterial({ color: 0x2b1d10, roughness: 1 })
-  );
-  mulch.rotation.x = -Math.PI / 2;
-  mulch.position.y = -3.42 + 2.55 + 0.02;
-  scene.add(mulch);
-
-  // ---- Plant: curved stem + phyllotaxis leaf spiral ----
-  const plant = new THREE.Group();
-  scene.add(plant);
-
-  const stemCurve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0, -0.9, 0),
-    new THREE.Vector3(0.12, 0.2, 0.05),
-    new THREE.Vector3(-0.08, 1.3, -0.04),
-    new THREE.Vector3(0.05, 2.4, 0.03),
-  ]);
-  const stemMat = makeScanMaterial('photo-stem-pbr', 0x3f8f3a, { family: 'leaf', roughness: 0.62, textureSize: low ? 128 : 256 });
-  const stemMesh = new THREE.Mesh(new THREE.TubeGeometry(stemCurve, 32, 0.13, 10, false), stemMat);
-  stemMesh.castShadow = true;
-  plant.add(stemMesh);
-
-  function buildLeaf(scale, tilt, roll) {
-    const g = new THREE.Group();
-    const shape = new THREE.Shape();
-    shape.moveTo(0, 0);
-    shape.bezierCurveTo(1.15, 0.28, 1.42, 1.05, 0.95, 1.85);
-    shape.bezierCurveTo(0.55, 2.35, 0.18, 2.5, 0, 2.55);
-    shape.bezierCurveTo(-0.18, 2.5, -0.55, 2.35, -0.95, 1.85);
-    shape.bezierCurveTo(-1.42, 1.05, -1.15, 0.28, 0, 0);
-    const geo = new THREE.ShapeGeometry(shape, 26);
-    const pos = geo.attributes.position;
-    for (let i = 0; i < pos.count; i++) {
-      const x = pos.getX(i), y = pos.getY(i);
-      const edge = Math.min(1, Math.abs(x) / 1.15);
-      pos.setZ(i, Math.sin(y * 0.9) * 0.10 - edge * edge * 0.34 - Math.abs(x) * 0.06);
-    }
-    geo.computeVertexNormals();
-    const mat = makeScanMaterial(`photo-leaf-${scale.toFixed(2)}`, 0x49a742, {
-      family: 'leaf', roughness: 0.46, side: THREE.DoubleSide,
-      emissive: 0x123f14, emissiveIntensity: 0.12, transparent: true, opacity: 0.96,
-      textureSize: low ? 128 : 256,
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-    mesh.castShadow = true;
-    g.add(mesh);
-    const veinMat = new THREE.LineBasicMaterial({ color: 0x1d5a22, transparent: true, opacity: 0.5 });
-    for (let s = -1; s <= 1; s += 2) {
-      for (let i = 1; i <= 4; i++) {
-        const y0 = 0.35 + i * 0.48;
-        const pts = [new THREE.Vector3(0, y0, 0.02)];
-        for (let k = 1; k <= 3; k++) {
-          pts.push(new THREE.Vector3(s * (0.28 * k) * (1.15 - y0 / 4), y0 + 0.16 * k, 0.05 + k * 0.012));
-        }
-        const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), veinMat);
-        line.userData.noScan = true;
-        g.add(line);
-      }
-    }
-    g.scale.setScalar(scale);
-    g.rotation.set(tilt, 0, roll);
-    return { group: g, mesh };
-  }
-
-  const leaves = [];
-  const leafDefs = [
-    { h: 0.35, ang: 0.4, scale: 0.78, tilt: -1.05 },
-    { h: 0.95, ang: 2.4, scale: 0.92, tilt: -0.95 },
-    { h: 1.5, ang: 4.3, scale: 1.0, tilt: -0.85 },
-    { h: 2.0, ang: 0.9, scale: 0.88, tilt: -0.75 },
-    { h: 2.35, ang: 3.4, scale: 0.66, tilt: -0.55 },
-  ];
-  const haloTex = glowTexture('warmHalo', { inner: 'rgba(190,255,150,0.95)', mid: 'rgba(120,220,90,0.35)' });
-  leafDefs.forEach((def, idx) => {
-    const p = stemCurve.getPoint(Math.min(0.98, def.h / 2.6));
-    const { group } = buildLeaf(def.scale, def.tilt, 0);
-    group.position.copy(p);
-    group.rotation.y = def.ang;
-    plant.add(group);
-    const halo = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: haloTex, transparent: true, opacity: 0, depthWrite: false,
-      blending: THREE.AdditiveBlending,
-    }));
-    halo.material.userData.sharedFx = true;
-    halo.scale.setScalar(3.4 * def.scale);
-    halo.position.set(0, 1.2, 0.1);
-    group.add(halo);
-    leaves.push({ group, halo, phase: idx * 1.7, baseRotY: def.ang });
-  });
-
-  // Chloroplast organelles clustered on leaf surfaces.
-  // One shared material (the previous build cloned it per mesh, which both cost 35 draw
-  // calls and disconnected the rate-driven glow below - it animated a material nothing used).
-  const chloroGeo = new THREE.SphereGeometry(0.09, 10, 8);
-  chloroGeo.scale(1.5, 0.75, 0.6);
-  const chloroMat = new THREE.MeshStandardMaterial({ color: 0x7bd66a, emissive: 0x3f9142, emissiveIntensity: 0.2, roughness: 0.4 });
-  const chloroplasts = [];
-  leaves.forEach(({ group }, li) => {
-    const n = low ? 4 : 7;
-    for (let i = 0; i < n; i++) {
-      const m = new THREE.Mesh(chloroGeo, chloroMat);
-      const t = 0.3 + (i / n) * 1.7;
-      const side = i % 2 ? 1 : -1;
-      m.position.set(side * (0.35 + (i % 3) * 0.22) * (1.2 - t / 3), t, 0.10 + Math.sin(t) * 0.06);
-      m.rotation.z = side * 0.5;
-      group.add(m);
-      chloroplasts.push(m);
-    }
-  });
-
-  // Stomata with guard cells on leaf undersides
-  const guardMat = new THREE.MeshStandardMaterial({ color: 0x2f9e44, roughness: 0.48, emissive: 0x14532d, emissiveIntensity: 0.06 });
-  const poreMat = new THREE.MeshStandardMaterial({ color: 0x052e16, roughness: 0.4, side: THREE.DoubleSide });
-  const stomata = [];
-  leaves.forEach(({ group }) => {
-    for (let i = 0; i < 3; i++) {
-      const stoma = new THREE.Group();
-      stoma.position.set((i - 1) * 0.5, 0.7 + i * 0.55, 0.12);
-      [-1, 1].forEach((sx) => {
-        const gg = new THREE.SphereGeometry(0.05, 8, 6); gg.scale(0.75, 1.85, 0.28);
-        const cell = new THREE.Mesh(gg, guardMat);
-        cell.position.x = sx * 0.055;
-        stoma.add(cell);
-      });
-      const pore = new THREE.Mesh(new THREE.CircleGeometry(0.045, 10), poreMat);
-      pore.scale.set(0.4, 1, 1);
-      // Pores open and shut with the stomatal aperture, so they must stay individually
-      // addressable - the guard cells around them are static and get merged.
-      pore.userData.noBatch = true;
-      stoma.add(pore);
-      group.add(stoma);
-      stomata.push({ group: stoma, pore });
-    }
-  });
-
-  // Each leaf carries 7 chloroplasts, 6 guard cells and 8 vein strands. Merging them inside
-  // the leaf group collapses ~21 draw calls per leaf into 4 while keeping the leaf sway,
-  // because the merged buffers stay children of the same swaying group.
-  for (const { group } of leaves) batchStaticGeometry(group, { mergeLines: true });
-
-  // ---- Sun disc + volumetric shafts ----
-  const sunSprite = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: glowTexture('sunDisc', { inner: 'rgba(255,250,225,1)', mid: 'rgba(255,214,110,0.65)', outer: 'rgba(255,180,60,0)' }),
-    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
-  }));
-  sunSprite.material.userData.sharedFx = true;
-  sunSprite.position.set(9, 12, -6);
-  sunSprite.scale.setScalar(7);
-  scene.add(sunSprite);
-  const shafts = lightShafts(scene, { count: low ? 3 : 5, height: 17, width: 3.4, opacity: 0.3 });
-  shafts.position.set(2.5, 0, 0);
-
-  // ---- Particle pools (round soft sprites, one draw call each) ----
-  const sunMotes = new Particles(scene, { max: low ? 50 : 90, size: 0.34, texture: glowTexture('mote') });
-  const waterP = new Particles(scene, { max: low ? 40 : 70, size: 0.30, texture: glowTexture('drop', { inner: 'rgba(210,236,255,1)', mid: 'rgba(95,178,255,0.6)' }) });
-  const co2P = new Particles(scene, { max: low ? 26 : 44, size: 1.05, texture: moleculeTexture('CO₂', '#aab8c6'), blending: THREE.NormalBlending, opacity: 0.95 });
-  const o2P = new Particles(scene, { max: low ? 26 : 44, size: 0.95, texture: moleculeTexture('O₂', '#ffd54d'), blending: THREE.AdditiveBlending });
-  const sugarP = new Particles(scene, { max: low ? 22 : 36, size: 1.0, texture: moleculeTexture('C₆H₁₂O₆', '#ffb300', { fontScale: 0.2 }), blending: THREE.NormalBlending, opacity: 0.95 });
-
-  // Sugar behaviour: drift to the stem axis, then flow down to the roots.
-  sugarP.onUpdate = (i) => {
-    const ix = i * 3;
-    const dx = sugarP.pos[ix];
-    if (Math.abs(dx) > 0.14) sugarP.vel[ix] = -Math.sign(dx) * 0.9;
-    else { sugarP.vel[ix] = 0; sugarP.vel[ix + 1] = -2.0; }
+  const worlds = {
+    bench: buildBench({ tier }),
+    leaf: buildLeafSection({ tier }),
+    chloroplast: buildChloroplast({ tier }),
   };
-  // O2 wiggle while rising
-  o2P.onUpdate = (i, dt, time) => {
-    o2P.vel[i * 3] = Math.sin(time * 3.1 + i * 1.7) * 0.5;
-  };
+  Object.entries(worlds).forEach(([k, w]) => { w.group.position.copy(OFFSETS[k]); scene.add(w.group); });
+  worlds.leaf.group.scale.setScalar(1);
 
-  // ---- State + HUD ----
-  const levels = { light: 0.8, water: 0.8, co2: 0.8, temperature: 25 };
-  function rate() { return photosynthesisMetrics(levels).rate; }
+  const lights = {};
+  lights.bench = new THREE.Group();
+  lights.bench.add(new THREE.HemisphereLight(0xa8bcd4, 0x3a2c20, 1.1));
+  const win = new THREE.DirectionalLight(0xb9d0ff, 1.1); win.position.set(40, 50, -50); lights.bench.add(win);
+  const rimL = new THREE.DirectionalLight(0xdfe9ff, 0.7); rimL.position.set(-20, 30, 60); lights.bench.add(rimL);
+  lights.leaf = new THREE.Group();
+  const leafSun = new THREE.DirectionalLight(0xfff1cf, 2.6); leafSun.position.set(4000 - 10, 60, 30); leafSun.target.position.copy(OFFSETS.leaf);
+  lights.leaf.add(leafSun, leafSun.target, new THREE.HemisphereLight(0xcfeede, 0x1d3324, 0.9));
+  const leafFill = new THREE.DirectionalLight(0x9fd0ff, 0.5); leafFill.position.set(4000 + 40, -20, 40); leafFill.target.position.copy(OFFSETS.leaf); lights.leaf.add(leafFill, leafFill.target);
+  lights.chloroplast = new THREE.Group();
+  const chSun = new THREE.DirectionalLight(0xfff0c8, 2.2); chSun.position.set(8000 - 20, 60, 30); chSun.target.position.copy(OFFSETS.chloroplast);
+  lights.chloroplast.add(chSun, chSun.target, new THREE.HemisphereLight(0xd8ffe0, 0x10261a, 1.0));
+  Object.values(lights).forEach((g) => scene.add(g));
 
-  const hud = createHud(stage);
-  const rateBadge = hud.badge('Photosynthesising', '#84CC16');
-  const rateOut = hud.badge('Rate 74%', '#a3e635');
-
+  const dof = createDof(engine, { aperture: 0.8, vignette: 0.28 });
   const panel = createPanel(stage, { title: 'Photosynthesis Lab' });
-  panel.info('Plants make glucose from CO₂ and water using light captured by chlorophyll. The live rate follows limiting-factor biology: light saturation, stomatal water stress, CO₂ response and enzyme temperature.');
-  panel.slider({ label: '☀️ Sunlight', min: 0, max: 100, step: 1, value: 80, format: (v) => `${v}%`, onChange: (v) => { levels.light = v / 100; refresh(); } });
-  panel.slider({ label: '💧 Water', min: 0, max: 100, step: 1, value: 80, format: (v) => `${v}%`, onChange: (v) => { levels.water = v / 100; refresh(); } });
-  panel.slider({ label: '🌫️ CO₂', min: 0, max: 100, step: 1, value: 80, format: (v) => `${v}%`, onChange: (v) => { levels.co2 = v / 100; refresh(); } });
-  panel.slider({ label: '🌡️ Temperature', min: 5, max: 45, step: 1, value: 25, format: (v) => `${v}°C`, onChange: (v) => { levels.temperature = v; refresh(); } });
-  panel.divider();
-  const limiterOut = panel.readout({ label: 'Limiting factor', value: 'Carbon dioxide' });
-  const stomataOut = panel.readout({ label: 'Stomatal aperture', value: '66% aperture' });
-  const formulaOut = panel.readout({ label: 'Model rule', value: photosynthesisMetrics(levels).formula });
-  const sugarOut = panel.readout({ label: 'Glucose made', value: '0 glucose units' });
-  const o2Out = panel.readout({ label: 'O₂ released', value: '0 O₂ units' });
-  panel.button({ label: 'What is the recipe?', icon: 'menu_book', variant: 'ghost', onClick: () => {
-    showInfoCard(stage, {
-      title: 'The recipe of life',
-      body: '6 CO₂ + 6 H₂O + light energy → C₆H₁₂O₆ + 6 O₂. The 3D readout uses a limiting-factor model: a shortage in light, water, CO₂ or suitable temperature caps the whole reaction even when the other inputs are high.',
-      color: '#84CC16',
-    });
-  } });
+  const hud = createHud(stage);
+  const scaleBadge = hud.badge('Lab bench', '#84cc16');
+  const rateBadge = hud.badge('— bubbles/min', '#a3e635');
 
-  let sugarTotal = 0, o2Total = 0;
+  const levels = { distance: 20, lamp: true, bicarb: 0.5, temperature: 25, water: 0.8, lightK: 1 };
+  let scale = 'bench';
+  let metrics = evaluate(levels, { submerged: true });
 
-  function refresh() {
-    const metrics = photosynthesisMetrics(levels);
-    const r = metrics.rate;
-    chloroMat.emissiveIntensity = 0.15 + r * 1.1;
-    leaves.forEach(({ halo }) => { halo.material.opacity = r * 0.34; });
-    shafts.userData.material.opacity = 0.06 + levels.light * 0.34;
-    sunSprite.material.opacity = 0.35 + levels.light * 0.65;
-    const aperture = clamp(Math.min(levels.water, 1 - levels.co2 * 0.18));
-    stomata.forEach(({ pore }) => { pore.scale.x = 0.22 + aperture * 1.15; });
-    rateOut.set(`Rate ${Math.round(r * 100)}%`);
-    limiterOut.set(metrics.limiting);
-    formulaOut.set(metrics.formula);
-    stomataOut.set(`${Math.round(aperture * 100)}% aperture`);
-    if (r < 0.05) rateBadge.set('Leaf is idle');
-    else if (r < 0.4) rateBadge.set('Slow photosynthesis');
-    else rateBadge.set('Photosynthesising');
+  const shots = {
+    bench: { target: new THREE.Vector3(-5, 9, 0), r: 50, theta: 0.38, phi: 1.24, limits: { minR: 14, maxR: 140, minPhi: 0.3, maxPhi: 1.5 } },
+    benchClose: { target: new THREE.Vector3(0, 6, 0), r: 20, theta: 0.3, phi: 1.3 },
+    leaf: { target: new THREE.Vector3(4000, 11.5, 0), r: 58, theta: 0.5, phi: 1.34, limits: { minR: 22, maxR: 140, minPhi: 0.25, maxPhi: 2.6 } },
+    chloroplast: { target: new THREE.Vector3(8000, 0, 0), r: 36, theta: 0.15, phi: 1.1, limits: { minR: 16, maxR: 110, minPhi: 0.2, maxPhi: 2.8 } },
+  };
+  const portals = {
+    bench: () => ({ target: worlds.bench.leafPoint(), r: 4, theta: 0.3, phi: 1.3 }),
+    leaf: () => ({ target: new THREE.Vector3(4000 - 4, 15, 11), r: 8, theta: 0.2, phi: 1.3 }),
+  };
+
+  const rig = createRig(camera, engine.canvas, { onTap: (ndc) => pick(ndc) });
+  rig.jump(shots.bench);
+
+  const fader = document.createElement('div');
+  fader.style.cssText = 'position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .38s ease;background:radial-gradient(circle at 50% 50%, rgba(214,255,190,0.95), rgba(10,40,24,1));z-index:3';
+  stage.appendChild(fader);
+  let transition = null;
+
+  function applyScale(id) {
+    scale = id;
+    Object.entries(worlds).forEach(([k, w]) => { w.group.visible = k === id; lights[k].visible = k === id; });
+    scene.environment = id === 'bench' ? envBench.texture : envMicro.texture;
+    scene.background = backgrounds[id];
+    scaleBadge.set(SCALES.find((s) => s.value === id).label);
+    waterNote.el.style.display = id === 'bench' ? '' : 'none';
+    refresh();
   }
-  refresh();
 
-  let spawnAcc = 0;
-  let time = 0;
+  function goScale(id) {
+    if (id === scale || transition) return;
+    const order = SCALES.map((s) => s.value);
+    const deeper = order.indexOf(id) > order.indexOf(scale);
+    if (deeper && portals[scale]) rig.flyTo(portals[scale](), 1.1);
+    else rig.flyTo({ ...shots[scale], r: shots[scale].r * 1.8 }, 0.9);
+    transition = { t: 0, phase: 0, to: id, deeper };
+  }
+  function tickTransition(dt) {
+    if (!transition) return;
+    transition.t += dt;
+    if (transition.phase === 0 && transition.t > 0.85) { fader.style.opacity = '1'; transition.phase = 1; transition.t = 0; }
+    else if (transition.phase === 1 && transition.t > 0.42) {
+      applyScale(transition.to);
+      const s = shots[transition.to];
+      rig.jump({ ...s, r: transition.deeper ? s.r * 2.4 : s.r * 0.45 });
+      rig.flyTo(s, 1.5);
+      fader.style.opacity = '0';
+      transition.phase = 2; transition.t = 0;
+    } else if (transition.phase === 2 && transition.t > 0.4) transition = null;
+  }
 
-  engine.setUpdate((dt) => {
-    time += dt;
-    controls.update(dt);
-    const r = rate();
+  panel.info('Plants turn light energy into food. Change the conditions and watch the rate change: count the oxygen bubbles from pondweed, then zoom into a leaf and a chloroplast to see where it happens.');
+  const scaleChips = panel.chips({ label: 'Zoom level', options: SCALES, value: 'bench', onChange: (v) => goScale(v) });
+  panel.section('Conditions');
+  const fmtLamp = (d) => `${d} cm · ${Math.round(lightAt(d) / lightAt(10) * 100)}% light`;
+  panel.slider({ label: 'Lamp distance', min: 10, max: 80, step: 1, value: levels.distance, format: fmtLamp, onChange: (v) => { levels.distance = v; changed('#facc15'); } });
+  panel.toggle({ label: 'Lamp on', value: true, onChange: (v) => { levels.lamp = v; changed('#facc15'); } });
+  panel.slider({ label: 'CO₂ (sodium bicarbonate)', min: 0, max: 1, step: 0.05, value: levels.bicarb, format: (v) => `${v.toFixed(2)} g / 100 mL`, onChange: (v) => { levels.bicarb = v; changed('#d4d4d8'); } });
+  panel.slider({ label: 'Temperature', min: 5, max: 45, step: 1, value: levels.temperature, format: (v) => `${v} °C`, onChange: (v) => { levels.temperature = v; changed('#fb923c'); } });
+  panel.slider({ label: 'Water in the soil', min: 0, max: 100, step: 1, value: 80, format: (v) => `${v}%`, onChange: (v) => { levels.water = v / 100; changed('#38bdf8'); } });
+  const waterNote = panel.info('Pondweed lives under water, so water never runs short on the bench. Zoom into a land leaf to see dry soil close the stomata.');
+  const graph = createRateGraph(panel.body, { max: 60, span: 120 });
+  const out = panel.stats([
+    { key: 'rate', label: 'Rate', value: '—' },
+    { key: 'counted', label: 'Bubbles (last min)', value: '0' },
+    { key: 'limit', label: 'Limiting factor', value: '—' },
+    { key: 'stomata', label: 'Stomata open', value: '—' },
+  ]);
+  const lightOut = panel.readout({ label: 'Light at the plant', value: '' });
+  const o2Out = panel.readout({ label: 'Oxygen collected', value: '' });
+  const sugarOut = panel.readout({ label: 'Glucose made', value: '' });
+  panel.readout({ label: 'Equation', value: EQUATION });
+  panel.buttonRow([
+    { label: 'Empty tube', icon: 'replay', variant: 'ghost', onClick: () => { worlds.bench.resetGas(); collected = 0; } },
+    { label: 'Recipe', icon: 'menu_book', variant: 'ghost', onClick: () => showInfoCard(stage, PART_INFO.recipe) },
+  ]);
 
-    // gentle leaf sway
-    leaves.forEach(({ group, phase, baseRotY }) => {
-      group.rotation.y = baseRotY + Math.sin(time * 0.7 + phase) * 0.05;
-      group.rotation.z = Math.sin(time * 0.5 + phase * 1.3) * 0.03;
+  let collected = 0; let glucose = 0;
+  const bubbleTimes = [];
+  let simT = 0;
+  worlds.bench.state.onBubble = () => { bubbleTimes.push(simT); collected += 0.012; };
+
+  function changed(color) { refresh(); graph.mark(color); }
+  function refresh() {
+    metrics = evaluate(levels, { submerged: scale === 'bench' });
+    levels.lightK = metrics.responses.light;
+    worlds.bench.setLevels(levels);
+    out.rate.set(`${Math.round(metrics.bubbles)} /min`);
+    out.limit.set(metrics.limiting ? metrics.limiting.label : 'none — near maximum');
+    out.stomata.set(`${Math.round(metrics.stomata * 100)}%`);
+    lightOut.set(levels.lamp ? `${Math.round(metrics.ppfd)} µmol photons/m²/s (∝ 1/d²)` : 'lamp off — only dim room light');
+    rateBadge.set(`${Math.round(metrics.bubbles)} bubbles/min`);
+  }
+
+  const ray = new THREE.Raycaster();
+  function pick(ndc) {
+    ray.setFromCamera(ndc, camera);
+    let best = null; let bestD = Infinity;
+    worlds[scale].hotspots().forEach((h) => {
+      const p = h.pos();
+      const d = ray.ray.distanceToPoint(p);
+      const along = p.clone().sub(ray.ray.origin).dot(ray.ray.direction);
+      if (along > 0 && d < h.r && along < bestD) { best = h; bestD = along; }
     });
-    shafts.rotation.y += dt * 0.03;
-    sunSprite.material.rotation += dt * 0.02;
+    if (best && PART_INFO[best.id]) showInfoCard(stage, PART_INFO[best.id]);
+    else showInfoCard(stage, SCALE_INFO[scale]);
+  }
 
-    spawnAcc += dt;
-    if (spawnAcc > 0.055) {
-      spawnAcc = 0;
-      const burst = Math.max(1, Math.round(r * 4));
-      if (r > 0.02 && levels.light > 0.03) {
-        for (let i = 0; i < burst; i++) {
-          sunMotes.spawn(2 + Math.random() * 5, 6 + Math.random() * 4, -1 + Math.random() * 3,
-            -1.4 - Math.random(), -2.2 - levels.light * 1.6, 0.4, 2.4, COL.sun);
-        }
-      }
-      if (r > 0.02 && levels.water > 0.14) {
-        for (let i = 0; i < burst; i++) {
-          waterP.spawn((Math.random() - 0.5) * 0.12, -3.2, (Math.random() - 0.5) * 0.12,
-            0, 2.6 + levels.water * 1.6, 0, 2.2, COL.water);
-        }
-      }
-      if (r > 0.02 && levels.co2 > 0.05) {
-        for (let i = 0; i < burst; i++) {
-          const side = Math.random() < 0.5 ? -1 : 1;
-          co2P.spawn(side * 5.5, 0.6 + Math.random() * 2.6, (Math.random() - 0.5) * 2.4,
-            -side * (1.1 + levels.co2 * 1.2), 0.12, 0, 3.4, COL.co2);
-        }
-      }
-      const outs = Math.round(r * 4);
-      for (let i = 0; i < outs; i++) {
-        const lx = (Math.random() - 0.5) * 2.6;
-        const ly = 1.2 + Math.random() * 2.2;
-        o2P.spawn(lx, ly, 0.3, (Math.random() - 0.5) * 0.3, 1.1 + r, 0.1, 2.6, COL.o2);
-        o2Total += 6;
-        sugarP.spawn(lx * 0.6, ly - 0.2, 0.25, 0, -0.3, 0, 3.2, COL.sugar);
-        sugarTotal += 1;
-      }
-      o2Out.set(`${o2Total} O₂ units`);
-      sugarOut.set(`${sugarTotal} glucose units`);
+  applyScale('bench');
+  rig.jump({ ...shots.bench, r: shots.bench.r * 1.25, theta: 0.7 });
+  rig.flyTo(shots.bench, 2.4);
+
+  let time = 0;
+  const sunDir = new THREE.Vector3(0, 1, 0.3).normalize();
+  const sunCol = new THREE.Color(0xfff0d0);
+  let statAcc = 0;
+  engine.setUpdate((dt) => {
+    time += dt; simT += dt;
+    tickTransition(dt);
+    const w = worlds[scale];
+    if (scale === 'bench') w.update(dt, time, metrics);
+    else w.update(dt, time, metrics, levels);
+    rig.update(dt);
+    camera.updateMatrixWorld();
+    updateSunUniforms(camera, scale === 'bench' ? new THREE.Vector3(-1, 0.3, 0) : sunDir, sunCol, scale === 'bench' ? (levels.lamp ? 1.2 * metrics.responses.light : 0.05) : 1.4);
+    if (dof) dof.focus = camera.position.distanceTo(rig.target);
+    glucose += dt * metrics.rate * 0.05;
+    graph.push(dt, metrics.bubbles);
+    statAcc += dt;
+    if (statAcc > 0.25) {
+      statAcc = 0;
+      while (bubbleTimes.length && bubbleTimes[0] < simT - 60) bubbleTimes.shift();
+      out.counted.set(String(bubbleTimes.length));
+      o2Out.set(`${collected.toFixed(2)} mL in the tube`);
+      sugarOut.set(scale === 'chloroplast' ? `${worlds.chloroplast.counters.glucose} molecules (6 CO₂ each)` : `${glucose.toFixed(2)} µmol (model)`);
     }
-
-    sunMotes.update(dt, time);
-    waterP.update(dt, time);
-    co2P.update(dt, time);
-    o2P.update(dt, time);
-    sugarP.update(dt, time);
-
-    const shimmer = 0.6 + Math.sin(time * 3) * 0.25;
-    chloroMat.emissiveIntensity = (0.15 + r * 1.1) * shimmer;
   });
-
   engine.start();
 
   return {
     dispose() {
-      disposeEnv();
-      [sunMotes, waterP, co2P, o2P, sugarP].forEach((p) => p.dispose());
-      controls.dispose(); panel.dispose(); hud.dispose(); engine.dispose();
+      engine.stop();
+      if (dof) dof.dispose();
+      rig.dispose();
+      Object.values(worlds).forEach((w) => w.dispose());
+      envBench.dispose(); envMicro.dispose();
+      graph.dispose(); panel.dispose(); hud.dispose(); fader.remove();
+      scaleChips.el.remove();
+      engine.dispose();
     },
   };
 }

@@ -1,0 +1,2265 @@
+{
+ "grade": "12",
+ "grade_label": "Class 12",
+ "grade_label_ne": "कक्षा १२",
+ "subject": "english",
+ "name": "English",
+ "name_ne": "अङ्ग्रेजी",
+ "icon": "menu_book",
+ "group": "compulsory",
+ "color": "#6B3FA0",
+ "lang": "en",
+ "code": "0041 (CDC Eng.004)",
+ "hours": null,
+ "exam": "3hr, FM 75 written (+25 internal) | No Group A/B/C. 8 questions:",
+ "areas": [
+  "Literature - Short Stories",
+  "Literature - Poems",
+  "Literature - Essays",
+  "Literature - One Act Plays",
+  "Grammar",
+  "Writing and Skills"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Neighbours - Tim Winton",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Style and literary devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "About the author"
+    },
+    {
+     "no": "1.2",
+     "title": "The story"
+    },
+    {
+     "no": "1.3",
+     "title": "Characters"
+    },
+    {
+     "no": "1.4",
+     "title": "Themes"
+    },
+    {
+     "no": "1.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "1.6",
+     "title": "Style and literary devices"
+    },
+    {
+     "no": "1.7",
+     "title": "Glossary"
+    },
+    {
+     "no": "1.8",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "\"Neighbours\" is a very short story by the Australian writer Tim Winton (b. 1960), collected in Scission (1985); the Nepali textbook's attribution to Migrants of Australia could not be verified.",
+    "A young, newly married Australian couple move into an inner-city street of European migrants and at first feel \"like sojourners in a foreign land\".",
+    "The neighbours are a loud Macedonian family on one side and a solitary Polish widower on the other; the couple find their noise, habits and watchfulness offensive, and the neighbours in turn disapprove of a household where the wife earns and the husband stays at home.",
+    "The barrier begins to fall over a vegetable garden in autumn, and falls completely when the Polish widower rebuilds their collapsed henhouse although \"they could not understand a word he said\".",
+    "The story is organised by the seasons: garden in autumn, gifts in winter, duck-killing and the pregnancy in spring, the neighbourhood's celebration in summer, and the birth at the close.",
+    "Nobody in the story is given a name, which makes the characters representative and reflects the fact that names cannot be exchanged across a language barrier.",
+    "It is told in third person limited point of view through the young man, in free indirect style, so that the reader's prejudices are corrected at the same pace as his.",
+    "The central themes are community across language, the slow correction of mild prejudice, the inadequacy of book learning before lived experience, and birth as a shared, physical event."
+   ],
+   "terms": [
+    "Multiculturalism"
+   ],
+   "stats": {
+    "words": 9168,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "A Respectable Woman - Kate Chopin",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Style and literary devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "About the author"
+    },
+    {
+     "no": "2.2",
+     "title": "The story"
+    },
+    {
+     "no": "2.3",
+     "title": "Characters"
+    },
+    {
+     "no": "2.4",
+     "title": "Themes"
+    },
+    {
+     "no": "2.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "2.6",
+     "title": "Style and literary devices"
+    },
+    {
+     "no": "2.7",
+     "title": "Glossary"
+    },
+    {
+     "no": "2.8",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "\"A Respectable Woman\" is a short story by the American writer Kate Chopin (1850–1904), first published in Vogue on 15 February 1894 and collected in A Night in Acadie (1897).",
+    "Mrs. Baroda is annoyed that her husband Gaston has invited his old college friend Gouvernail, a journalist, to stay on their Louisiana sugar plantation, and has already decided to dislike a man she has never met.",
+    "The real Gouvernail is quiet, undemanding and entirely uninterested in impressing her, which first puzzles her, then leaves her \"piqued\".",
+    "The climax comes at night on a bench beneath a live oak: Gouvernail sits beside her, quotes Whitman to the darkness and talks about his lost ambitions, and she finds that \"her physical being was for the moment predominant\" and longs to touch him.",
+    "She resists — \"the stronger the impulse grew... the further, in fact, did she draw away\" — tells nobody, and leaves for the city on the early train.",
+    "She does not confess to her husband because \"there are some battles in life which a human being must fight alone\".",
+    "A year later she herself proposes that Gouvernail visit again, and tells Gaston, \"I have overcome everything! ... This time I shall be very nice to him\" — a line that can mean either that she has conquered the attraction or that she has conquered her resistance to it.",
+    "The themes are desire against respectability, the reality of the inner life, self-knowledge, and the limits of even a loving marriage."
+   ],
+   "terms": [
+    "Local colour (regionalism)"
+   ],
+   "stats": {
+    "words": 9270,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "A Devoted Son - Anita Desai",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Style and literary devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "About the author"
+    },
+    {
+     "no": "3.2",
+     "title": "The story"
+    },
+    {
+     "no": "3.3",
+     "title": "Characters"
+    },
+    {
+     "no": "3.4",
+     "title": "Themes"
+    },
+    {
+     "no": "3.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "3.6",
+     "title": "Style and literary devices"
+    },
+    {
+     "no": "3.7",
+     "title": "Glossary"
+    },
+    {
+     "no": "3.8",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "\"A Devoted Son\" is a short story by the Indian writer Anita Desai (born 1937), from her collection Games at Twilight and Other Stories (1978).",
+    "Rakesh, the son of a poor, illiterate man who worked forty years at a kerosene depot, stands first in the country in his medical examination, wins a scholarship to the USA, returns, marries the girl his mother chooses (Veena), becomes hospital director and then the richest doctor in town.",
+    "After his wife's death and his retirement, old Varma \"went to pieces\". Rakesh nurses him tenderly but takes over his diet: halwa, fried and sweet food are banned, meals are weighed, and pills and tonics \"became his diet\".",
+    "Varma resists in small ways — the jalebi plot, complaints to old Bhatia — and cries, \"Let me die\"; the family hears only \"an incoherent croak\".",
+    "In the last scene Rakesh reaches out to press his father's feet and Varma tucks them away; Varma sweeps the tonic bottle out of his son's hand and prays, \"God is calling me — now let me go.\"",
+    "The title is ironic: Rakesh is devoted to Varma's health but deaf to his wishes. Themes: duty and its limits, care versus control, appearance and reality, class ambition, old age and loneliness.",
+    "Techniques: irony (verbal, situational, dramatic), satire, hyperbole, simile, contrast and the shifting point of view; motifs of feet, food and medicine; the signboard and the tonic bottle as symbols."
+   ],
+   "terms": [
+    "Irony"
+   ],
+   "stats": {
+    "words": 9280,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "The Treasure in the Forest - H. G. Wells",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Style and literary devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "About the author"
+    },
+    {
+     "no": "4.2",
+     "title": "The story"
+    },
+    {
+     "no": "4.3",
+     "title": "Characters"
+    },
+    {
+     "no": "4.4",
+     "title": "Themes"
+    },
+    {
+     "no": "4.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "4.6",
+     "title": "Style and literary devices"
+    },
+    {
+     "no": "4.7",
+     "title": "Glossary"
+    },
+    {
+     "no": "4.8",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "\"The Treasure in the Forest\" is a short story by the English writer H. G. Wells (1866–1946), first published in Pall Mall Budget on 23 August 1894 and collected in The Stolen Bacillus and Other Incidents (1895).",
+    "Two British adventurers, Evans and Hooker, approach a tropical island by canoe with a stolen Chinese map, guided by a dotted line from a gap in the coral reef to a clump of palms; the star marks the treasure where the line cuts a river.",
+    "In a dream Evans recalls how they overheard three Chinese men talk of a Spanish galleon's treasure that Chang-hi had found and reburied \"very safe\" — and how they took the map from him by force; Chang-hi's last grin haunts the dream.",
+    "They drink at the river, cross the cool, silent forest and find a dead Chinese man beside a dug hole with gold ingots half uncovered; Hooker thinks he was killed by a snake.",
+    "Evans is pricked by a \"little thorn\" twice while loading the gold; he becomes irritable and ill and dies in convulsions. Hooker is pricked in the thumb and understands that the map's \"little dashes\" were poisoned thorns and Chang-hi's \"safety\" a trap. He waits, dying, beside the gold.",
+    "Themes: greed and punishment, appearance against reality, nature as silent judge, prejudice that blinds; techniques: foreshadowing, suspense, dramatic irony, symbolism, pathetic fallacy and a close third-person viewpoint.",
+    "The story is a moral tale in the form of a thriller; the dead man, not Chang-hi, is the body in the forest; the killing of Chang-hi is only implied."
+   ],
+   "terms": [
+    "Dramatic irony"
+   ],
+   "stats": {
+    "words": 7698,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "My Old Home - Lu Xun",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Style and literary devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "About the author"
+    },
+    {
+     "no": "5.2",
+     "title": "The story"
+    },
+    {
+     "no": "5.3",
+     "title": "Characters"
+    },
+    {
+     "no": "5.4",
+     "title": "Themes"
+    },
+    {
+     "no": "5.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "5.6",
+     "title": "Style and literary devices"
+    },
+    {
+     "no": "5.7",
+     "title": "Glossary"
+    },
+    {
+     "no": "5.8",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "\"My Old Home\" (Chinese title Guxiang) is a short story by Lu Xun (pen-name of Zhou Shuren, 1881–1936), written in January 1921, published in New Youth in May 1921 and collected in Call to Arms (1923).",
+    "The narrator travels more than seven hundred miles in the cold of winter to sell the old family house and to take his mother and nephew Hongr to his new home. The village looks desolate and he feels depressed.",
+    "His mother's mention of Runtu brings back a vivid picture: a golden moon, a jade-green watermelon field, and a boy with a silver necklet thrusting a pitchfork at a zha. The two boys had been \"fast friends\" thirty years earlier, during one month, and never met again.",
+    "Mrs Yang, the \"Beancurd Beauty\" or \"Compass\", comes to demand furniture, accuses the narrator of being rich and pockets his mother's gloves.",
+    "Runtu arrives: his face is sallow and lined, his hands like pine bark; he says \"Master!\" and the narrator feels \"a lamentably thick wall\" between them. Runtu lists his troubles — many children, famine, taxes, soldiers, bandits, officials and gentry — and takes tables, chairs, an incense burner, candlesticks, a balance and the stove ashes.",
+    "As the boat leaves, Hongr asks when they will return because Shuisheng has invited him home. The narrator, hoping that the children will not be divided, sees that his hope may be an idol like Runtu's, and ends: hope is like roads across the earth — \"when many men pass one way, a road is made\".",
+    "Themes: class barrier, memory and reality, rural poverty, hope and the future, superstition, alienation of the intellectual. Techniques: frame and contrast, imagery, symbol (wall, necklet, idol, road), humour and irony, first-person retrospective narration."
+   ],
+   "terms": [
+    "Symbol and image"
+   ],
+   "stats": {
+    "words": 8540,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun - Shankar Lamichhane",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Style and literary devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "About the author"
+    },
+    {
+     "no": "6.2",
+     "title": "The story"
+    },
+    {
+     "no": "6.3",
+     "title": "Characters"
+    },
+    {
+     "no": "6.4",
+     "title": "Themes"
+    },
+    {
+     "no": "6.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "6.6",
+     "title": "Style and literary devices"
+    },
+    {
+     "no": "6.7",
+     "title": "Glossary"
+    },
+    {
+     "no": "6.8",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "\"The Half-closed Eyes of the Buddha and the Slowly Sinking Sun\" (Nepali: Ardhamudit Nayan Ra Dubna Lageko Gham, 1962) is a story by Shankar Lamichhane (1928–1975/76), translated into English by Michael Hutt.",
+    "It consists of two monologues: the tourist's speech, spoken over drinks, and the guide's speech the next day. Your textbook calls the technique stream of consciousness.",
+    "The tourist praises the valley's beauty and peace, the East that \"only gives\" to the West, the Buddha's half-closed eyes, the \"samyak gaze\" of monks, carved wood, momos, Bhrikuti's story, the welcoming smile and the \"land of eyes\". He asks to see \"beautiful, full eyes\" and the sunset in the Buddha's eyes.",
+    "The guide takes him up Chobhar hill (Manjushri's sword-cut; the Adinath temple of tolerance) but not into the temple; he takes him to a farmer's house where a polio-stricken boy lies unable to speak, move or chew. The guide has lied to the parents and said that the tourist is a doctor; their smile will vanish when he leaves.",
+    "The boy cannot give or take anything; his only life is in his eyes, which the guide imagines envying his healthy sister. \"In these eyes hides the end of life. Look! They are just as beautiful as the setting sun's reflection in the eyes of the Buddha!\"",
+    "Themes: appearance and reality, East and West (a critique of a romantic, Orientalist view), poverty behind the picture, religious harmony, endurance and the end of life, compassion and complicity. Devices: monologue, irony, symbol (eyes, sun, smile), imagery, repetition, allusion.",
+    "The eyes link the two halves; the last line makes the boy's eyes one with the Buddha's."
+   ],
+   "terms": [
+    "Orientalism (in outline)"
+   ],
+   "stats": {
+    "words": 8680,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "A Very Old Man with Enormous Wings - Gabriel Garcia Marquez",
+   "hours": null,
+   "area": "Literature - Short Stories",
+   "topics": [
+    "About the author",
+    "The story",
+    "Characters",
+    "Themes",
+    "Setting, structure and point of view",
+    "Style and literary devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "About the author"
+    },
+    {
+     "no": "7.2",
+     "title": "The story"
+    },
+    {
+     "no": "7.3",
+     "title": "Characters"
+    },
+    {
+     "no": "7.4",
+     "title": "Themes"
+    },
+    {
+     "no": "7.5",
+     "title": "Setting, structure and point of view"
+    },
+    {
+     "no": "7.6",
+     "title": "Style and literary devices"
+    },
+    {
+     "no": "7.7",
+     "title": "Glossary"
+    },
+    {
+     "no": "7.8",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "\"A Very Old Man with Enormous Wings\" (Spanish: Un señor muy viejo con unas alas enormes) is a short story by the Colombian writer Gabriel García Márquez (1927–2014; Nobel Prize 1982), written in 1968, subtitled A Tale for Children, and translated into English by Gregory Rabassa.",
+    "After three days of rain, Pelayo finds a very old, filthy man with huge buzzard's wings in his muddy courtyard. His wife Elisenda and he first think him a castaway; a neighbour woman calls him an angel; Father Gonzaga, who greets him in Latin, doubts it and writes to Rome.",
+    "They lock the old man in the chicken coop, and Elisenda charges five cents to see him. Crowds come, torment and exploit him; the family grows rich. The angel's only supernatural virtue is patience; his \"miracles\" are comic.",
+    "A travelling show with a woman changed into a spider for disobeying her parents takes the crowd away. The couple build a mansion with iron bars on the windows.",
+    "The angel grows ill and old in the yard and shed, survives a winter, grows new feathers and flies away; Elisenda watches him become \"an imaginary dot on the horizon of the sea\", no longer an annoyance.",
+    "Themes: the way people turn a wonder into a spectacle, greed and commercialism, cruelty to the weak, the limits of religious and scientific knowledge, old age and dignity. Techniques: magical realism, irony, satire, deadpan humour, hyperbole, symbol and a calm third-person narrator.",
+    "The old man is never proved an angel; the story's interest is in how people treat him."
+   ],
+   "terms": [
+    "Magical realism"
+   ],
+   "stats": {
+    "words": 8706,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "A Day - Emily Dickinson",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "The poem: text, title and date",
+    "The poem, stanza by stanza",
+    "Paraphrase in plain English",
+    "Central idea and themes",
+    "Form, metre, rhyme and structure",
+    "Imagery, figures of speech and sound devices",
+    "Tone",
+    "Critical appreciation",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "8.2",
+     "title": "The poem: text, title and date"
+    },
+    {
+     "no": "8.3",
+     "title": "The poem, stanza by stanza"
+    },
+    {
+     "no": "8.4",
+     "title": "Paraphrase in plain English"
+    },
+    {
+     "no": "8.5",
+     "title": "Central idea and themes"
+    },
+    {
+     "no": "8.6",
+     "title": "Form, metre, rhyme and structure"
+    },
+    {
+     "no": "8.7",
+     "title": "Imagery, figures of speech and sound devices"
+    },
+    {
+     "no": "8.8",
+     "title": "Tone"
+    },
+    {
+     "no": "8.9",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "8.10",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 6802,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Every Morning I Wake - Dylan Thomas",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "Where the poem comes from",
+    "The poem, stanza by stanza",
+    "Paraphrase in plain English",
+    "Central idea and themes",
+    "Form, structure, metre and rhyme",
+    "Imagery, figures of speech and sound devices",
+    "Tone",
+    "Critical appreciation",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "9.2",
+     "title": "Where the poem comes from"
+    },
+    {
+     "no": "9.3",
+     "title": "The poem, stanza by stanza"
+    },
+    {
+     "no": "9.4",
+     "title": "Paraphrase in plain English"
+    },
+    {
+     "no": "9.5",
+     "title": "Central idea and themes"
+    },
+    {
+     "no": "9.6",
+     "title": "Form, structure, metre and rhyme"
+    },
+    {
+     "no": "9.7",
+     "title": "Imagery, figures of speech and sound devices"
+    },
+    {
+     "no": "9.8",
+     "title": "Tone"
+    },
+    {
+     "no": "9.9",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "9.10",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 7262,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "I Was My Own Route - Julia de Burgos",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "The poem in translation",
+    "The poem, stanza by stanza",
+    "Paraphrase in plain English",
+    "Central idea and themes",
+    "Form, structure and technique",
+    "Imagery and figures of speech",
+    "Tone",
+    "Critical appreciation",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "10.2",
+     "title": "The poem in translation"
+    },
+    {
+     "no": "10.3",
+     "title": "The poem, stanza by stanza"
+    },
+    {
+     "no": "10.4",
+     "title": "Paraphrase in plain English"
+    },
+    {
+     "no": "10.5",
+     "title": "Central idea and themes"
+    },
+    {
+     "no": "10.6",
+     "title": "Form, structure and technique"
+    },
+    {
+     "no": "10.7",
+     "title": "Imagery and figures of speech"
+    },
+    {
+     "no": "10.8",
+     "title": "Tone"
+    },
+    {
+     "no": "10.9",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "10.10",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 8567,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "The Awakening Age - Ben Okri",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "The poem and its occasion",
+    "The poem, couplet by couplet",
+    "Paraphrase in plain English",
+    "Central idea and themes",
+    "Form, rhyme and structure",
+    "Imagery, figures of speech and sound devices",
+    "Tone",
+    "Critical appreciation",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "11.2",
+     "title": "The poem and its occasion"
+    },
+    {
+     "no": "11.3",
+     "title": "The poem, couplet by couplet"
+    },
+    {
+     "no": "11.4",
+     "title": "Paraphrase in plain English"
+    },
+    {
+     "no": "11.5",
+     "title": "Central idea and themes"
+    },
+    {
+     "no": "11.6",
+     "title": "Form, rhyme and structure"
+    },
+    {
+     "no": "11.7",
+     "title": "Imagery, figures of speech and sound devices"
+    },
+    {
+     "no": "11.8",
+     "title": "Tone"
+    },
+    {
+     "no": "11.9",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "11.10",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 8068,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Soft Storm - Abhi Subedi",
+   "hours": null,
+   "area": "Literature - Poems",
+   "topics": [
+    "About the poet",
+    "The poem's world: Thamel and Kesharmahal",
+    "The poem, stanza by stanza",
+    "Paraphrase in plain English",
+    "Central idea and themes",
+    "Form and structure",
+    "Imagery, figures of speech and sound devices",
+    "Tone",
+    "Critical appreciation",
+    "Glossary"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "About the poet"
+    },
+    {
+     "no": "12.2",
+     "title": "The poem's world: Thamel and Kesharmahal"
+    },
+    {
+     "no": "12.3",
+     "title": "The poem, stanza by stanza"
+    },
+    {
+     "no": "12.4",
+     "title": "Paraphrase in plain English"
+    },
+    {
+     "no": "12.5",
+     "title": "Central idea and themes"
+    },
+    {
+     "no": "12.6",
+     "title": "Form and structure"
+    },
+    {
+     "no": "12.7",
+     "title": "Imagery, figures of speech and sound devices"
+    },
+    {
+     "no": "12.8",
+     "title": "Tone"
+    },
+    {
+     "no": "12.9",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "12.10",
+     "title": "Glossary"
+    }
+   ],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 10198,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "On Libraries - Oliver Sacks",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "The essay: source, shape and message",
+    "The essay, paragraph by paragraph",
+    "Arguments and themes",
+    "Style and devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "About the author"
+    },
+    {
+     "no": "13.2",
+     "title": "The essay: source, shape and message"
+    },
+    {
+     "no": "13.3",
+     "title": "The essay, paragraph by paragraph"
+    },
+    {
+     "no": "13.4",
+     "title": "Arguments and themes"
+    },
+    {
+     "no": "13.5",
+     "title": "Style and devices"
+    },
+    {
+     "no": "13.6",
+     "title": "Glossary"
+    },
+    {
+     "no": "13.7",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "\"On Libraries\" is a personal essay by the neurologist and writer Oliver Sacks (1933–2015); it praises libraries as places of intellectual freedom, community and serendipitous discovery, and was published in The Threepenny Review and, as \"Libraries\", in Everything in Its Place (2019).",
+    "Childhood: the oak-panelled home library (father's Hebrew scholarship, Ibsen, war poets, brothers' adventure books, The Jungle Book; mother's Dickens, Trollope, Thackeray, Shaw, Kipling, Shakespeare, Milton); he read at three or four and was found in the library when late for meals.",
+    "Willesden Public Library was his \"Ur-library\" and his \"real education\". He disliked school but was \"not a good pupil, but … a good learner\": in libraries he was free to choose and \"become myself\".",
+    "Science: the Walker Library at St Paul's lacked chemistry, so a testimonial got him into the Science Museum library (Mellor's Treatise, Gmelin's Handbook).",
+    "Oxford: the Radcliffe Science Library and the Bodleian (traced to 1602; Theodore Hook, over 500 improvised operas; British Museum Library); above all the Queen's College library (Wren; catacombs; incunabula, Gesner 1551, Agassiz, Darwin, Browne, Swift, Johnson, Hume, Pope, Dryden) — \"a sense of history, and of my own language\".",
+    "New York, 1965: Migraine begun on top of a refrigerator; the Albert Einstein College of Medicine library gave space, lucky finds and friendships (Brain from 1890).",
+    "The turn: by the 1990s students ignored the shelves, books were disposed of; Sacks was horrified (\"a murder, a crime\"), was told everything \"of worth\" had been digitised, and answered that a physical book has \"its look, its smell, its heft\".",
+    "Devices: first-person memoir, catalogues, contrast, metaphors of maze and quest, hyperbole (\"murder\"), the symbol of the physical book."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7119,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Marriage as a Social Institution - Stephen L. Nock",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "The essay: shape and argument",
+    "The essay, part by part",
+    "Marriage across cultures: America and Nepal",
+    "Style and devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "About the author"
+    },
+    {
+     "no": "14.2",
+     "title": "The essay: shape and argument"
+    },
+    {
+     "no": "14.3",
+     "title": "The essay, part by part"
+    },
+    {
+     "no": "14.4",
+     "title": "Marriage across cultures: America and Nepal"
+    },
+    {
+     "no": "14.5",
+     "title": "Style and devices"
+    },
+    {
+     "no": "14.6",
+     "title": "Glossary"
+    },
+    {
+     "no": "14.7",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "Steven L. Nock (1950–2008), Commonwealth Professor of Sociology at the University of Virginia, wrote Marriage in Men's Lives (Oxford University Press, 1998); this essay is taken from its second chapter, \"Marriage as a Social Institution\".",
+    "A marriage is \"much more than the sum of two spouses\": a relationship defined by legal, moral and conventional assumptions; it is an institution, culturally patterned and integrated into education, the economy and politics.",
+    "Its rules originate outside the couple and set soft boundaries — the commonly understood limits that distinguish marriage from all other relationships.",
+    "Durkheim's argument: desires for comfort, luxury and prestige never end; marriage, \"an organ of society\", restrains a man's impulses, gives him structure and a \"moral equilibrium\".",
+    "Cohabitation gives freedom but no template, no enforceable pledges, and not even a word for a partner; marriage supplies a pattern backed by law, religion and custom.",
+    "Marriage is social capital: networks bound by trust, obligations to kin — \"an individual asset\" that exists only in relationships.",
+    "Normative marriage in America has six dimensions: voluntary; mature adults; heterosexual; husband as principal earner; sexual fidelity; parenthood. It is a form of social control.",
+    "Style: definition and thesis first; authority (Durkheim, Coleman); contrast; rhetorical questions; hypothetical example; metaphors of organ, capital, template and thread."
+   ],
+   "terms": [
+    "Institution (sociology)"
+   ],
+   "stats": {
+    "words": 6294,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Knowledge and Wisdom - Bertrand Russell",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "The essay: context and argument",
+    "The essay, paragraph by paragraph",
+    "Ideas and themes",
+    "Style and devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "About the author"
+    },
+    {
+     "no": "15.2",
+     "title": "The essay: context and argument"
+    },
+    {
+     "no": "15.3",
+     "title": "The essay, paragraph by paragraph"
+    },
+    {
+     "no": "15.4",
+     "title": "Ideas and themes"
+    },
+    {
+     "no": "15.5",
+     "title": "Style and devices"
+    },
+    {
+     "no": "15.6",
+     "title": "Glossary"
+    },
+    {
+     "no": "15.7",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "Bertrand Russell (1872–1970), British philosopher, logician and social critic, Nobel Prize for Literature 1950, wrote \"Knowledge and Wisdom\" in 1954.",
+    "Central idea: our age far surpasses earlier ages in knowledge without a matching increase in wisdom; knowledge may become harmful unless combined with wisdom.",
+    "Textbook headnote: knowledge = acquiring data and information; wisdom = practical application of knowledge to create value. Russell's own account: wisdom is comprehensive vision.",
+    "Factors of wisdom: sense of proportion (medicine and atom examples); awareness of the ends of human life (Hegel); feeling as well as intellect; freedom from personal prejudice (philosopher's stone; Mr A and Mr B).",
+    "Essence of wisdom: emancipation from \"the tyranny of the here and now\" — moving towards impartiality by knowing the remote in time and space.",
+    "Wisdom can be taught, by a larger intellectual element in moral instruction; hatred of evil is itself \"a kind of bondage to evil\"; understanding, not force. Elizabeth I, Henry IV and Lincoln show that wisdom is not weakness.",
+    "Education should produce good citizens of the world; \"with every increase of knowledge and skill, wisdom becomes more necessary\".",
+    "Style: argument and example, hypothetical dialogue, antithesis, aphorism, irony, allusion, calm tone."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6472,
+    "figures": 3,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Humility - Yuval Noah Harari",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "The essay: shape and argument",
+    "The essay, part by part",
+    "Ideas and themes",
+    "Style and devices",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "About the author"
+    },
+    {
+     "no": "16.2",
+     "title": "The essay: shape and argument"
+    },
+    {
+     "no": "16.3",
+     "title": "The essay, part by part"
+    },
+    {
+     "no": "16.4",
+     "title": "Ideas and themes"
+    },
+    {
+     "no": "16.5",
+     "title": "Style and devices"
+    },
+    {
+     "no": "16.6",
+     "title": "Glossary"
+    },
+    {
+     "no": "16.7",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "Yuval Noah Harari (born 1976) is a historian at the Hebrew University of Jerusalem and the author of Sapiens, Homo Deus and 21 Lessons for the 21st Century; \"Humility\" is an extract from chapter 12 of the last.",
+    "Thesis: \"You are not the centre of the world\" — most people believe that their culture is the linchpin of history.",
+    "Catalogue: Greeks (Homer, Plato, Athens); Chinese nationalists (Yellow Emperor, Xia and Shang; others a pale copy); Hindu nativists (Bhardwaj, Vishwamitra, Kanad, the Mahabharata); pious Muslims (pre-Muhammad history irrelevant; the ummah; Turkish, Iranian and Egyptian exceptions); British, French, Germans and others; the Aztecs (sacrific",
+    "Verdict: \"All these claims are false\" — wilful ignorance of history and \"more than a hint of racism\". No present nation or religion existed when humans colonised the world, domesticated plants and animals, built the first cities, invented writing and money.",
+    "Truth: morality, art, spirituality and creativity are universal human abilities embedded in our DNA; their genesis was in Stone Age Africa; to place them later is crass egotism.",
+    "Confession: the Jews, his own people, also claim credit for everything — the yoga story (Abraham; Hebrew letters; Genesis 25:6) and the belief that the cosmos exists so rabbis can study the Talmud.",
+    "Method: \"more polite to criticise one's own people\"; he leaves readers to \"puncture the hot-air balloons inflated by their own tribes\".",
+    "Devices: satire, irony, catalogue, rhetorical questions, hyperbole, metaphor, personal anecdote, strong evaluative words."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6403,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Human Rights and the Age of Inequality - Samuel Moyn",
+   "hours": null,
+   "area": "Literature - Essays",
+   "topics": [
+    "About the author",
+    "Background: the ideas you need before you read",
+    "The essay, section by section",
+    "Central idea and themes",
+    "Style, tone and form",
+    "Critical appreciation",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "About the author"
+    },
+    {
+     "no": "17.2",
+     "title": "Background: the ideas you need before you read"
+    },
+    {
+     "no": "17.3",
+     "title": "The essay, section by section"
+    },
+    {
+     "no": "17.4",
+     "title": "Central idea and themes"
+    },
+    {
+     "no": "17.5",
+     "title": "Style, tone and form"
+    },
+    {
+     "no": "17.6",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "17.7",
+     "title": "Glossary"
+    },
+    {
+     "no": "17.8",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "Samuel Moyn (born 1972), professor of law and history at Yale, argues in \"Human Rights and the Age of Inequality\" that human rights are not equipped to fight global inequality.",
+    "The Universal Declaration of Human Rights (10 December 1948; Human Rights Day) announced status equality (Article 1) but no ceiling on wealth, that is, distributive equality.",
+    "Human rights give a floor of protection against extreme want; welfare states also gave a ceiling on inequality, as in Roosevelt's 1944 promise to end \"special privilege for the few\".",
+    "From the 1970s neoliberalism, or \"market fundamentalism\", dismantled welfare states; human rights became global exactly when the demand for equality was dropped.",
+    "The wealth gap between rich and poor countries outlasted decolonisation; Myrdal and Hayek shared the 1974 Nobel Prize, but only Hayek's wishes came true.",
+    "Human rights remain valuable against repression and violence, but their tools (law, naming and shaming) do not fit economic inequality. Moyn does not blame human rights for inequality: \"neoliberalism, not human rights, is to blame for neoliberalism\".",
+    "Conclusion: the \"mismatch\" demands \"not a substitute but a supplement\". Croesus's world and the lesson of Herodotus: redistribution needs real pressure.",
+    "Devices: parable and allusion (Croesus), metaphor (floor/ceiling, hammer and nail), thought experiment (one man owning everything), irony, concession."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6774,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "A Matter of Husbands - Ferenc Molnar",
+   "hours": null,
+   "area": "Literature - One Act Plays",
+   "topics": [
+    "About the author",
+    "What kind of play is this?",
+    "The play, beat by beat",
+    "Characters",
+    "Dramatic techniques",
+    "Themes",
+    "Critical appreciation",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "About the author"
+    },
+    {
+     "no": "18.2",
+     "title": "What kind of play is this?"
+    },
+    {
+     "no": "18.3",
+     "title": "The play, beat by beat"
+    },
+    {
+     "no": "18.4",
+     "title": "Characters"
+    },
+    {
+     "no": "18.5",
+     "title": "Dramatic techniques"
+    },
+    {
+     "no": "18.6",
+     "title": "Themes"
+    },
+    {
+     "no": "18.7",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "18.8",
+     "title": "Glossary"
+    },
+    {
+     "no": "18.9",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "Ferenc Molnár (1878-1952), Hungarian playwright, wrote \"A Matter of Husbands\", a one-act comedy, translated into English by Benjamin Glazer (1923).",
+    "The Earnest Young Woman begs the Famous Actress to \"give me back my husband\", Alfred, a blond, bespectacled lawyer. Her evidence: flowers, a love letter, a lock of hair.",
+    "The actress denies everything, then uses the wife's admission that she has been cold to Alfred to offer a theory: men of the theatre invent love affairs with actresses to make their wives jealous. She explains each proof as a trick.",
+    "The wife is convinced, apologises, kisses the actress and leaves.",
+    "The last line reveals the truth: \"All right, Alfred. You can come in now. She has gone.\"",
+    "Characters: the actress (clever, poised, unscrupulous), the wife (earnest, insecure, trusting), Alfred (never seen, sly).",
+    "Techniques: irony (verbal, situational, dramatic), twist ending, detailed stage directions, dialogue that turns from quick questions to a long speech, comic reversal.",
+    "Themes: appearance and reality, acting in life, jealousy, deception and self-deception, marriage and trust, the power of persuasion."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6893,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "Facing Death - August Strindberg",
+   "hours": null,
+   "area": "Literature - One Act Plays",
+   "topics": [
+    "About the author",
+    "Background you need for this play",
+    "The play, beat by beat",
+    "Characters",
+    "Themes",
+    "Dramatic techniques",
+    "Critical appreciation",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "About the author"
+    },
+    {
+     "no": "19.2",
+     "title": "Background you need for this play"
+    },
+    {
+     "no": "19.3",
+     "title": "The play, beat by beat"
+    },
+    {
+     "no": "19.4",
+     "title": "Characters"
+    },
+    {
+     "no": "19.5",
+     "title": "Themes"
+    },
+    {
+     "no": "19.6",
+     "title": "Dramatic techniques"
+    },
+    {
+     "no": "19.7",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "19.8",
+     "title": "Glossary"
+    },
+    {
+     "no": "19.9",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "August Strindberg (1849-1912), Swedish dramatist, novelist and pioneer of naturalism and expressionism, wrote \"Facing Death\" after living near Lake Léman in 1884-87; the translators date its publication to 1898.",
+    "Monsieur Durand, a widowed pension-keeper in French Switzerland in the 1880s, is bankrupt. His daughters Adèle, Annette and Thérèse despise him, repeating their dead mother's lies that he is a foreign-born deserter who wasted their dowry.",
+    "The plot: bills and no bread; Antonio is told the pension is bankrupt; Antonio kisses Thérèse and is driven out; the daughters take Durand's milk and matches; Durand says farewell, tells Adèle the truth and his plan, and poisons himself as a candle sets the house alight. The insurance will save his daughters.",
+    "Fire insurance, not life insurance, is the plan's real source of money. Durand tells Thérèse \"five thousand if I die\", but tells Adèle he sold the life policy.",
+    "Themes: poverty and debt, sacrificial love, ingratitude, the dead mother's legacy, honour, truth and lies, death as release.",
+    "Techniques: foreshadowing, dramatic irony, symbols (candle, fire, milk, matches, lake and churchyard), journey metaphors (\"lone brakeman\", \"sinking ship\"), naturalistic detail, stage directions.",
+    "It is a modern tragedy: an ordinary hero, social and economic causes, plain speech and a private death."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7849,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 20,
+   "title": "The Bull - Bhimnidhi Tiwari",
+   "hours": null,
+   "area": "Literature - One Act Plays",
+   "topics": [
+    "About the author",
+    "Background: the king, the court and the word \"chakari\"",
+    "The play, part by part",
+    "Characters",
+    "Themes",
+    "Dramatic techniques",
+    "Critical appreciation",
+    "Glossary",
+    "Textbook exercises"
+   ],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "About the author"
+    },
+    {
+     "no": "20.2",
+     "title": "Background: the king, the court and the word \"chakari\""
+    },
+    {
+     "no": "20.3",
+     "title": "The play, part by part"
+    },
+    {
+     "no": "20.4",
+     "title": "Characters"
+    },
+    {
+     "no": "20.5",
+     "title": "Themes"
+    },
+    {
+     "no": "20.6",
+     "title": "Dramatic techniques"
+    },
+    {
+     "no": "20.7",
+     "title": "Critical appreciation"
+    },
+    {
+     "no": "20.8",
+     "title": "Glossary"
+    },
+    {
+     "no": "20.9",
+     "title": "Textbook exercises"
+    }
+   ],
+   "summary": [
+    "Bhimnidhi Tiwari (1911-1973), Nepali poet, dramatist and reformer, founder of the Nepal Natak Sangh, wrote the one-act satire \"The Bull\".",
+    "The setting is Kathmandu in Ashwin, BS 1854; the king is Ranabahadur Shah, fond of bulls.",
+    "The cowherds Jitman and Gore tell the bull-doctor Laxminarayan that the king's bull, Male, has died, apparently from rich food.",
+    "Laxminarayan tells the king the bull is ill and needs a change of climate; the king decides to see it at Thulo Gauchar.",
+    "Laxminarayan runs ahead and makes the cowherds massage and fan the dead bull; the king declares it dead; the cowherds weep loudly and are given 400 and 500 rupees; all are relieved.",
+    "Themes: feudalism and absolute power, dehumanisation, fear, chakari, patriarchy and polygamy, hypocrisy, survival by cunning.",
+    "Techniques: satire, dramatic, situational and verbal irony, black comedy and farce, contrast, suspense, stage business, symbols (the bull, the hookah).",
+    "The play criticises a society in which an animal is valued more than the people who care for it."
+   ],
+   "terms": [
+    "Feudal system"
+   ],
+   "stats": {
+    "words": 7278,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 21,
+   "title": "Question Tags and Questions",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "Building a regular tag",
+    "The complete paradigm, irregulars included",
+    "Yes/no questions and wh-questions",
+    "Indirect (embedded) questions",
+    "The mistakes Nepali speakers make most"
+   ],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "Building a regular tag"
+    },
+    {
+     "no": "21.2",
+     "title": "The complete paradigm, irregulars included"
+    },
+    {
+     "no": "21.3",
+     "title": "Yes/no questions and wh-questions"
+    },
+    {
+     "no": "21.4",
+     "title": "Indirect (embedded) questions"
+    },
+    {
+     "no": "21.5",
+     "title": "The mistakes Nepali speakers make most"
+    }
+   ],
+   "summary": [
+    "A tag = operator + pronoun, opposite in polarity to the statement, same tense and person as its verb.",
+    "No auxiliary in the statement → supply do / does / did.",
+    "Negative tags are always contracted: isn't he, doesn't she, won't they.",
+    "Irregulars to memorise: I am → aren't I; I'm not → am I; Let's → shall we; Let me/us (permission) → will you; imperative → will you; There is → isn't there; Nobody/Everybody → they; Nothing/This/That → it; used to → didn't; had better → hadn't; have to → don't; ought to → oughtn't/shouldn't.",
+    "Never, seldom, rarely, hardly, scarcely, barely, few, little, no, none make a statement negative, so the tag turns positive.",
+    "With I think / I suppose, the tag comes from the inside clause; with I don't think, the tag is positive.",
+    "Direct questions invert: (wh-) + operator + subject + base verb.",
+    "A wh-word that is the subject takes no do/does/did: Who wrote it?"
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3455,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 22,
+   "title": "Modal Verbs",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The nine modals and what each one means",
+    "The meanings, one by one",
+    "Semi-modals",
+    "Past and perfect forms — modal + have + V3",
+    "The mistakes Nepali speakers make most"
+   ],
+   "sections": [
+    {
+     "no": "22.1",
+     "title": "The nine modals and what each one means"
+    },
+    {
+     "no": "22.2",
+     "title": "The meanings, one by one"
+    },
+    {
+     "no": "22.3",
+     "title": "Semi-modals"
+    },
+    {
+     "no": "22.4",
+     "title": "Past and perfect forms — modal + have + V3"
+    },
+    {
+     "no": "22.5",
+     "title": "The mistakes Nepali speakers make most"
+    }
+   ],
+   "summary": [
+    "The nine modals are can, could, may, might, will, would, shall, should, must; they take no -s, no do, and a bare infinitive.",
+    "Two modals never stand together: use a semi-modal (will be able to, have to).",
+    "Ability: can / could for general ability, was/were able to for a single past success, be able to for the missing forms.",
+    "Permission: can < could < may < might in formality. Prohibition is mustn't; absence of obligation is needn't / don't have to.",
+    "Obligation: must (from the speaker) vs have to (from outside); the past of both is had to.",
+    "Advice: should / ought to, and had better + bare infinitive for urgent advice on one occasion.",
+    "Certainty scale: must (sure it is true) > will / should > may > might / could > can't (sure it is false).",
+    "Past habit: used to + V1 (habits and states), would + V1 (repeated actions only); be used to + V-ing means \"accustomed to\"."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3424,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 23,
+   "title": "Determiners and Quantifiers",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The classes of determiner",
+    "Articles: a, an, the and zero",
+    "Which determiner goes with which noun",
+    "Countable and uncountable nouns",
+    "The articles a Nepali speaker forgets"
+   ],
+   "sections": [
+    {
+     "no": "23.1",
+     "title": "The classes of determiner"
+    },
+    {
+     "no": "23.2",
+     "title": "Articles: a, an, the and zero"
+    },
+    {
+     "no": "23.3",
+     "title": "Which determiner goes with which noun"
+    },
+    {
+     "no": "23.4",
+     "title": "Countable and uncountable nouns"
+    },
+    {
+     "no": "23.5",
+     "title": "The articles a Nepali speaker forgets"
+    }
+   ],
+   "summary": [
+    "A determiner opens the noun phrase; only one central determiner is allowed, so write this book of mine, never my this book.",
+    "A / an is chosen by sound: a university, a one-way street; an hour, an honest man, an MP.",
+    "The = the reader knows which one: second mention, unique things, superlatives, ordinals, rivers, ranges, plural country names, instruments, adjectives used as nouns.",
+    "Zero article with proper names, generic plurals and uncountables, languages, games, meals, festivals, by bus, and institutions used for their purpose.",
+    "Much / (a) little / a great deal of + uncountable; many / (a) few / a large number of + plural countable; a lot of with either.",
+    "Few / little = almost none (negative); a few / a little = some (positive).",
+    "Each, every, either, neither + singular noun + singular verb; each of / one of + plural noun.",
+    "Fewer counts, less measures."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3209,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 24,
+   "title": "Subject-Verb Agreement and Miscellaneous Agreements",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The basic rule and the words that hide it",
+    "Two or more subjects joined together",
+    "Pronouns and distributives as subjects",
+    "Nouns whose number is not what it looks",
+    "Word order that hides the subject",
+    "Miscellaneous agreements"
+   ],
+   "sections": [
+    {
+     "no": "24.1",
+     "title": "The basic rule and the words that hide it"
+    },
+    {
+     "no": "24.2",
+     "title": "Two or more subjects joined together"
+    },
+    {
+     "no": "24.3",
+     "title": "Pronouns and distributives as subjects"
+    },
+    {
+     "no": "24.4",
+     "title": "Nouns whose number is not what it looks"
+    },
+    {
+     "no": "24.5",
+     "title": "Word order that hides the subject"
+    },
+    {
+     "no": "24.6",
+     "title": "Miscellaneous agreements"
+    }
+   ],
+   "summary": [
+    "The verb agrees with the head noun of the subject; of-phrases, participle phrases and relative clauses in between change nothing.",
+    "And joins two subjects into a plural — unless they name one thing or one person (Bread and butter is …), or are preceded by each / every.",
+    "As well as, along with, together with, besides, in addition to keep the verb agreeing with the first subject.",
+    "Either … or, neither … nor, not only … but also, or follow the proximity rule: the verb matches the nearer subject.",
+    "Singular always: each, every, either, neither, one, everyone, nobody, many a, more than one. Plural always: both, few, many, several.",
+    "Some, all, most, half, none and fractions take their number from the noun after of.",
+    "A number of + plural verb; the number of + singular verb.",
+    "Mathematics, physics, news, politics are singular; scissors, trousers, police, cattle, people are plural."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2875,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 25,
+   "title": "Connectives and Discourse Markers",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The three grammatical types",
+    "Connectives grouped by meaning",
+    "Paired (correlative) connectives",
+    "Punctuation the examiner checks",
+    "Choosing between look-alikes",
+    "Joining sentences — the patterns NEB sets"
+   ],
+   "sections": [
+    {
+     "no": "25.1",
+     "title": "The three grammatical types"
+    },
+    {
+     "no": "25.2",
+     "title": "Connectives grouped by meaning"
+    },
+    {
+     "no": "25.3",
+     "title": "Paired (correlative) connectives"
+    },
+    {
+     "no": "25.4",
+     "title": "Punctuation the examiner checks"
+    },
+    {
+     "no": "25.5",
+     "title": "Choosing between look-alikes"
+    },
+    {
+     "no": "25.6",
+     "title": "Joining sentences — the patterns NEB sets"
+    }
+   ],
+   "summary": [
+    "Connectives fall into four grammatical types, each with its own requirement: subordinator + clause, coordinator + clause (comma before), discourse marker + new sentence or semicolon, preposition + noun or -ing.",
+    "FANBOYS = for, and, nor, but, or, yet, so — the seven coordinating conjunctions.",
+    "A fronted subordinate clause takes a comma; the same clause at the end does not.",
+    "However, therefore, moreover, nevertheless, consequently cannot join two clauses with a comma — that is a comma splice.",
+    "Never double a connective: although … but, because … so, though … yet are all wrong.",
+    "No sooner … than (with inversion), hardly / scarcely … when, so … that, such a … that, too … to, lest … should.",
+    "Unless already means if not; lest and too … to are already negative — do not add another not.",
+    "Despite takes no of; in spite of does."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3159,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 26,
+   "title": "Adjectives, Adverbs and Adjective Order",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "Kinds of adjective and where they can stand",
+    "The order of adjectives",
+    "Participial adjectives: -ing and -ed",
+    "Degrees of comparison",
+    "Adverbs: kinds, forms and false friends",
+    "Where an adverb stands",
+    "Errors Nepali speakers make most often"
+   ],
+   "sections": [
+    {
+     "no": "26.1",
+     "title": "Kinds of adjective and where they can stand"
+    },
+    {
+     "no": "26.2",
+     "title": "The order of adjectives"
+    },
+    {
+     "no": "26.3",
+     "title": "Participial adjectives: -ing and -ed"
+    },
+    {
+     "no": "26.4",
+     "title": "Degrees of comparison"
+    },
+    {
+     "no": "26.5",
+     "title": "Adverbs: kinds, forms and false friends"
+    },
+    {
+     "no": "26.6",
+     "title": "Where an adverb stands"
+    },
+    {
+     "no": "26.7",
+     "title": "Errors Nepali speakers make most often"
+    }
+   ],
+   "summary": [
+    "Adjective order: opinion – size – age – shape – colour – origin – material – purpose, after the determiner and before the noun; numbers come before descriptive adjectives.",
+    "afraid, alive, asleep, alone, aware, ashamed stand only after a verb; main, only, mere, former, elder only before a noun.",
+    "ing = the cause of a feeling, -ed = the person who has it.",
+    "Comparatives: -er/-est for short words, more/most for long ones; never both. superior, inferior, senior, junior, prior, preferable take to.",
+    "Use than any other in comparisons within a group; use that of when comparing qualities of two things.",
+    "hard / hardly, late / lately, near / nearly, high / highly are different words, not variants.",
+    "A linking verb takes an adjective; an action verb takes an adverb.",
+    "Order of adverbs after the object: manner – place – time; never put an adverb between the verb and its object."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2976,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 27,
+   "title": "Reported Speech",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The tense shift",
+    "Pronouns, time words and place words",
+    "Reporting each type of sentence",
+    "When the tense does not shift",
+    "Say, tell, speak, ask"
+   ],
+   "sections": [
+    {
+     "no": "27.1",
+     "title": "The tense shift"
+    },
+    {
+     "no": "27.2",
+     "title": "Pronouns, time words and place words"
+    },
+    {
+     "no": "27.3",
+     "title": "Reporting each type of sentence"
+    },
+    {
+     "no": "27.4",
+     "title": "When the tense does not shift"
+    },
+    {
+     "no": "27.5",
+     "title": "Say, tell, speak, ask"
+    }
+   ],
+   "summary": [
+    "Reported speech changes the reporting verb and link word, the pronouns, the tense, the time and place words, and the word order of questions.",
+    "Backshift: present → past, past → past perfect, will → would, can → could, may → might, must → had to. The past perfect does not move.",
+    "No backshift after a present or future reporting verb, for universal truths, for unreal conditionals and wish, and for would, could, might, should, ought to, used to.",
+    "Pronouns: first person follows the subject of the reporting verb, second person follows its object, third person is unchanged.",
+    "Statements take that; yes/no questions take if / whether; wh-questions keep their wh-word; imperatives become to + base verb, with not to for negatives.",
+    "A reported question has statement word order, no do / does / did, and no question mark.",
+    "say that / say to somebody that / tell somebody that — tell never takes to before the listener, and that is never used with a wh-word or if.",
+    "Exclamations use exclaim with joy / sorrow that; greetings, thanks, yes and no have their own reporting verbs."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2933,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 28,
+   "title": "Conditional Sentences",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The four types in detail",
+    "Mixed conditionals",
+    "Conditionals without if",
+    "Four places where will, would and should may follow if",
+    "Wish, if only and other unreal patterns"
+   ],
+   "sections": [
+    {
+     "no": "28.1",
+     "title": "The four types in detail"
+    },
+    {
+     "no": "28.2",
+     "title": "Mixed conditionals"
+    },
+    {
+     "no": "28.3",
+     "title": "Conditionals without if"
+    },
+    {
+     "no": "28.4",
+     "title": "Four places where will, would and should may follow if"
+    },
+    {
+     "no": "28.5",
+     "title": "Wish, if only and other unreal patterns"
+    }
+   ],
+   "summary": [
+    "Type 0: if + present, present — a general truth.",
+    "Type 1: if + present, will / can / may + base verb — a real possibility.",
+    "Type 2: if + past (were for all persons), would / could / might + base verb — untrue or unlikely now.",
+    "Type 3: if + past perfect, would / could / might have + past participle — impossible, because the time is past.",
+    "Never put will or would in the if-clause; a fronted if-clause takes a comma.",
+    "Mixed conditionals join a past condition to a present result (had + V3 … would + base) or a present condition to a past result.",
+    "If can be dropped in three inverted patterns: Were I…, Had I…, Should you…",
+    "Unless = if not; in case means \"as a precaution\" and takes the present; but for takes a noun phrase."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2786,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 29,
+   "title": "Passive Voice",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "The transformation",
+    "The passive of every tense",
+    "Verbs with two objects",
+    "Imperatives, infinitives and impersonal passives",
+    "Questions, prepositional verbs and verbs with no passive",
+    "Choosing the voice"
+   ],
+   "sections": [
+    {
+     "no": "29.1",
+     "title": "The transformation"
+    },
+    {
+     "no": "29.2",
+     "title": "The passive of every tense"
+    },
+    {
+     "no": "29.3",
+     "title": "Verbs with two objects"
+    },
+    {
+     "no": "29.4",
+     "title": "Imperatives, infinitives and impersonal passives"
+    },
+    {
+     "no": "29.5",
+     "title": "Questions, prepositional verbs and verbs with no passive"
+    },
+    {
+     "no": "29.6",
+     "title": "Choosing the voice"
+    }
+   ],
+   "summary": [
+    "Passive = be + past participle, with be carrying the tense of the original verb; only transitive verbs have a passive.",
+    "The object becomes the subject; the subject becomes the by-agent, and the agent is dropped when it is unknown, obvious or unimportant.",
+    "Present perfect continuous, past perfect continuous, future continuous and future perfect continuous have no ordinary passive.",
+    "Modals: must be done, can be seen, should have been finished.",
+    "Two-object verbs give two passives; the one beginning with the person is preferred, and the other inserts to (or for with buy, make, cook).",
+    "Imperatives become Let + object + be + V3, or You are requested / advised / warned to …",
+    "make, let, see, hear, help take a bare infinitive in the active but to in the passive: He was made to wait.",
+    "Impersonal actives give It is said that … or He is said to be / to have been …"
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2714,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 30,
+   "title": "Prepositions, Tenses and Relative Clauses",
+   "hours": null,
+   "area": "Grammar",
+   "topics": [
+    "Prepositions of time and place",
+    "Fixed prepositions, and verbs that take none",
+    "The twelve tenses at a glance",
+    "Relative clauses"
+   ],
+   "sections": [
+    {
+     "no": "30.1",
+     "title": "Prepositions of time and place"
+    },
+    {
+     "no": "30.2",
+     "title": "Fixed prepositions, and verbs that take none"
+    },
+    {
+     "no": "30.3",
+     "title": "The twelve tenses at a glance"
+    },
+    {
+     "no": "30.4",
+     "title": "Relative clauses"
+    }
+   ],
+   "summary": [
+    "in → the largest container, on → a surface or a named day, at → a single point, for both time and place.",
+    "since + point, for + period; by = not later than, until = up to then; between two, among many.",
+    "Learn adjective + preposition pairs as units: good at, married to, different from, interested in, afraid of, angry with.",
+    "Discuss, enter, reach, marry, resemble, obey, describe, emphasise, investigate, comprise take no preposition; return back, repeat again and cope up with are all wrong.",
+    "A past main verb pulls its subordinate clause into the past, except for universal truths.",
+    "The present perfect never takes a finished past time; the earlier of two past events takes the past perfect; stative verbs have no continuous form.",
+    "Defining relative clause: no commas, that allowed, object pronoun may be dropped.",
+    "Non-defining relative clause: commas, that forbidden, pronoun never dropped — and always non-defining after a proper noun."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3145,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 31,
+   "title": "Guided Writing: Charts, Graphs and Outlines",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What Question 4 asks, and how the seven marks fall",
+    "Reading the six kinds of visual",
+    "The phrase bank",
+    "Describing a line graph: trends and a crossing point",
+    "Describing a grouped bar chart: comparison within and across",
+    "Describing a process or a flow chart",
+    "Writing a story from an outline",
+    "Marking checklist for Question 4"
+   ],
+   "sections": [
+    {
+     "no": "31.1",
+     "title": "What Question 4 asks, and how the seven marks fall"
+    },
+    {
+     "no": "31.2",
+     "title": "Reading the six kinds of visual"
+    },
+    {
+     "no": "31.3",
+     "title": "The phrase bank"
+    },
+    {
+     "no": "31.4",
+     "title": "Describing a line graph: trends and a crossing point"
+    },
+    {
+     "no": "31.5",
+     "title": "Describing a grouped bar chart: comparison within and across"
+    },
+    {
+     "no": "31.6",
+     "title": "Describing a process or a flow chart"
+    },
+    {
+     "no": "31.7",
+     "title": "Writing a story from an outline"
+    },
+    {
+     "no": "31.8",
+     "title": "Marking checklist for Question 4"
+    }
+   ],
+   "summary": [
+    "Question 4 is 7 marks: content 3, organisation 2, language 2. Write 150–200 words in about fifteen minutes.",
+    "Four moves: paraphrase the title, give the overview, group the details with figures, close on the pattern.",
+    "Read the title, axes, units and key before writing. Most content errors begin with a misread unit.",
+    "Trend verbs: rose, climbed, surged / fell, slumped, halved / levelled off, plateaued / peaked at, bottomed out at, fluctuated, with sharply, steadily, slightly.",
+    "Comparison is the Grade 12 skill: twice as many as, accounts for a fifth of, marginally lower than, whereas, second only to.",
+    "Prepositions: rose to a value, by an amount, from X to Y; a rise of; an increase in.",
+    "A process diagram takes the present simple passive plus sequencers, and an opening that counts the stages.",
+    "A story from an outline: read all the notes, invent only the frame, simple past, weight the climax most heavily, one line of direct speech, title and moral last."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3995,
+    "figures": 5,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 32,
+   "title": "Functional Writing: Letters to the Editor, Emails, CVs and Applications",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What Question 5 asks, and how the eight marks fall",
+    "Choosing the register",
+    "The letter to the editor",
+    "The formal email",
+    "The application and the CV",
+    "The letter of complaint or request",
+    "Marking checklist for Question 5"
+   ],
+   "sections": [
+    {
+     "no": "32.1",
+     "title": "What Question 5 asks, and how the eight marks fall"
+    },
+    {
+     "no": "32.2",
+     "title": "Choosing the register"
+    },
+    {
+     "no": "32.3",
+     "title": "The letter to the editor"
+    },
+    {
+     "no": "32.4",
+     "title": "The formal email"
+    },
+    {
+     "no": "32.5",
+     "title": "The application and the CV"
+    },
+    {
+     "no": "32.6",
+     "title": "The letter of complaint or request"
+    },
+    {
+     "no": "32.7",
+     "title": "Marking checklist for Question 5"
+    }
+   ],
+   "summary": [
+    "Question 5 is 8 marks: format 2, content 3, organisation 1, language 2. Write 150–200 words in about eighteen minutes.",
+    "Decide the form before you write; lay the page out first.",
+    "Letter to the editor: your address and date top right, the editor's address left, Dear Sir/Madam, a subject line, one issue, evidence with dates and numbers, a named remedy, full name and place.",
+    "Email: the header replaces the addresses. The subject line names the action; Cc is for people who need to know but not to act; attachments are mentioned in the body.",
+    "Application: four paragraphs — the post and where it was advertised, the qualification, what you have done, availability and enclosures. The CV goes under seven headings in reverse date order.",
+    "Complaint: what, when, proof, what went wrong, what you want. Choose one of repair, replacement, refund, apology.",
+    "Dear Sir → Yours faithfully; Dear Mr Sharma → Yours sincerely. No apostrophe in Yours.",
+    "Formal register all the way down: I should be grateful if…, at your earliest convenience, Thank you for your time and consideration."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3618,
+    "figures": 2,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 33,
+   "title": "Free Writing: Essays and Memoirs",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What Question 6 asks, and how the ten marks fall",
+    "The five kinds of essay",
+    "The thesis statement",
+    "The shape of the whole essay",
+    "Openings and endings that are not clichés",
+    "The expository essay",
+    "The memoir",
+    "Marking checklist for Question 6"
+   ],
+   "sections": [
+    {
+     "no": "33.1",
+     "title": "What Question 6 asks, and how the ten marks fall"
+    },
+    {
+     "no": "33.2",
+     "title": "The five kinds of essay"
+    },
+    {
+     "no": "33.3",
+     "title": "The thesis statement"
+    },
+    {
+     "no": "33.4",
+     "title": "The shape of the whole essay"
+    },
+    {
+     "no": "33.5",
+     "title": "Openings and endings that are not clichés"
+    },
+    {
+     "no": "33.6",
+     "title": "The expository essay"
+    },
+    {
+     "no": "33.7",
+     "title": "The memoir"
+    },
+    {
+     "no": "33.8",
+     "title": "Marking checklist for Question 6"
+    }
+   ],
+   "summary": [
+    "Question 6 is 10 marks: content 4, organisation 3, language 3. Write 300–400 words in about thirty minutes, four of them on a plan.",
+    "Decide first whether the topic wants an argument or a memory.",
+    "The thesis is one sentence at the end of the introduction; it must be something a reasonable person could disagree with.",
+    "The essay is an hourglass: general opening narrowing to the thesis, a straight body, a conclusion widening back out.",
+    "Every body paragraph: point, evidence, explanation, link. The explanation is where the content marks are.",
+    "An argumentative essay must concede one point to the other side and then answer it.",
+    "An expository essay takes its shape from the material — causes, stages, kinds — and allows no opinion.",
+    "A memoir is one episode, first person, past tense, heavy in sensory detail, told in two voices: the person it happened to and the person remembering."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3588,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 34,
+   "title": "Unseen Reading Comprehension Strategy",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What Question 1 asks",
+    "The five steps",
+    "Skimming and scanning are different skills",
+    "The question types and what each demands",
+    "True, False, or Not Given",
+    "Vocabulary in context and inference",
+    "Practice passage 1, with a worked key",
+    "Practice passage 2, with a worked key",
+    "Marking checklist for Question 1"
+   ],
+   "sections": [
+    {
+     "no": "34.1",
+     "title": "What Question 1 asks"
+    },
+    {
+     "no": "34.2",
+     "title": "The five steps"
+    },
+    {
+     "no": "34.3",
+     "title": "Skimming and scanning are different skills"
+    },
+    {
+     "no": "34.4",
+     "title": "The question types and what each demands"
+    },
+    {
+     "no": "34.5",
+     "title": "True, False, or Not Given"
+    },
+    {
+     "no": "34.6",
+     "title": "Vocabulary in context and inference"
+    },
+    {
+     "no": "34.7",
+     "title": "Practice passage 1, with a worked key"
+    },
+    {
+     "no": "34.8",
+     "title": "Practice passage 2, with a worked key"
+    },
+    {
+     "no": "34.9",
+     "title": "Marking checklist for Question 1"
+    }
+   ],
+   "summary": [
+    "Question 1 is 15 marks in 25 minutes: typically 5 for True/False/Not Given or gap-fill, 5 for short answers, 5 for vocabulary in context.",
+    "The order is: skim, read the questions, scan and mark the passage, write, check.",
+    "Skimming finds the gist; scanning hunts one fact. Scan for numbers, dates and capital letters first — they are the easiest shapes to find.",
+    "True = the passage says it. False = the passage says the opposite. Not Given = the passage is silent, however true the statement may be in real life.",
+    "Watch all, every, never, only; comparisons that were never made; and causes the passage did not claim.",
+    "Vocabulary in context: read the whole sentence, fix the part of speech, look for a signal, replace and test.",
+    "An inference must have a line behind it; if nothing in the text points at it, it is a guess.",
+    "In your own words means the words must change and the meaning must not."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4278,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 35,
+   "title": "Vocabulary, Sounds, Spelling and Idioms",
+   "hours": null,
+   "area": "Writing and Skills",
+   "topics": [
+    "What Question 8 asks",
+    "How English words are built",
+    "Collocations",
+    "Phrasal verbs",
+    "Words that are easy to confuse",
+    "Spelling rules that actually pay",
+    "Sounds: what the symbols mean",
+    "Stress, and the noun–verb shift",
+    "Forty-four idioms and proverbs",
+    "Marking checklist for Question 8"
+   ],
+   "sections": [
+    {
+     "no": "35.1",
+     "title": "What Question 8 asks"
+    },
+    {
+     "no": "35.2",
+     "title": "How English words are built"
+    },
+    {
+     "no": "35.3",
+     "title": "Collocations"
+    },
+    {
+     "no": "35.4",
+     "title": "Phrasal verbs"
+    },
+    {
+     "no": "35.5",
+     "title": "Words that are easy to confuse"
+    },
+    {
+     "no": "35.6",
+     "title": "Spelling rules that actually pay"
+    },
+    {
+     "no": "35.7",
+     "title": "Sounds: what the symbols mean"
+    },
+    {
+     "no": "35.8",
+     "title": "Stress, and the noun–verb shift"
+    },
+    {
+     "no": "35.9",
+     "title": "Forty-four idioms and proverbs"
+    },
+    {
+     "no": "35.10",
+     "title": "Marking checklist for Question 8"
+    }
+   ],
+   "summary": [
+    "Question 8 is 5 one-mark items: word formation, prefix or suffix, phrasal verb, collocation, confusable, spelling, stress, sound, idiom.",
+    "Prefixes change meaning; suffixes change part of speech. Learn one root and its whole family together.",
+    "im- before m and p, il- before l, ir- before r, in- otherwise, un- with plain English words.",
+    "Collocations have no rules, only usage: make a mistake, do homework, take an exam, tell a lie, heavy rain, strong tea.",
+    "A phrasal verb with a pronoun object must be split: turn it down. Three-word phrasal verbs are never split.",
+    "Spelling: i before e except after c; double the final consonant only when the last syllable is stressed; drop silent e before a vowel suffix; y → i after a consonant.",
+    "Nepali speakers substitute for /θ, ð, v, z, f, æ, ɜː/ and lose the schwa; the -ed ending has three sounds — /t/, /d/, /ɪd/.",
+    "Two-syllable noun–verb pairs shift stress: REcord (n.) but reCORD (v.). -ion, -ity, -ic, -graphy, -logy pull the stress to the syllable before them."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4315,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 35,
+ "topic_count": 265,
+ "notes_ready": 35
+}

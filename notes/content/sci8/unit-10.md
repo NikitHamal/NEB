@@ -7,447 +7,454 @@ hours: 0
 area: Science and Technology
 ---
 
-A Nepali kitchen holds cement in the wall, glass in the window, plastic in the
-bucket, soap at the tap, fertiliser in the shed and kerosene or LPG in the
-stove. Each of these materials is used because of a property that somebody
-chose deliberately. This unit looks at what they are, how they behave, what
-they do for us and what they cost the environment — beginning with water, which
-is the material we cannot do without for a single day.
+Fruits, vegetables, soaps, shampoos, sanitisers and cleaning agents all contain
+acids, bases or salts. The water we drink may be soft or hard, and the vessels and
+tools we use are often made of alloys rather than pure metals. This unit studies the
+materials of daily life: water (its hardness, purification and pollution, including
+acid rain), building and household materials (cement, glass, plastics, soap,
+fertiliser, fibres and fuels), and — the main lessons of the CDC textbook — **acids,
+bases and salts**, **acid rain**, **hardness of water** and **alloys**.
 
 ::: key What this unit asks of you
-You should be able to describe the sources of water and distinguish hard from
-soft water, describe four methods of purifying water, name the main
-water-borne diseases and how to prevent them, state the uses of cement, glass
-and plastics and the harm plastics cause, explain how soap removes dirt, name
-the three plant nutrients supplied by fertiliser, and explain the conditions
-needed for combustion and the safety rules for LPG.
+Define acid, base, alkali and salt; tell organic from inorganic and strong from weak
+acids; give the colours of litmus, methyl orange and phenolphthalein; write the
+reactions of acids with metals, carbonates and bases, and of bases with ammonium
+salts; classify salts as neutral, acidic or basic; explain the causes, effects and
+prevention of acid rain; define hard and soft water and the methods of removing
+temporary and permanent hardness; and state the composition and uses of steel,
+stainless steel, brass and bronze.
 :::
 
-## 10.1 Water
+## 10.1 Water: sources, hardness, purification and water-borne disease
 
-### 10.1.1 Sources and the water cycle
+Our water comes from rain, springs, rivers, lakes, wells (*kuwa*), stone spouts
+(*dhara*) and tube wells. Surface water (rain, rivers) is usually **soft**; groundwater
+(wells, tube wells) is often **hard**, because it dissolves salts from rocks.
 
-Fresh water reaches us from rain, and the rain that does not run off or
-evaporate soaks into the ground and is stored in the pores and cracks of rock as
-**groundwater**. A spring, a *kuwa*, a *dhara*, a tube well and a river are all
-ways of reaching stored or flowing water.
+### 10.1.1 Soft and hard water
 
-| Source | Usually safer? | Why |
-|---|---|---|
-| Rain water | yes | it is distilled water by nature; the risk comes from the roof and the tank |
-| Spring water | often | filtered through rock, but open springs are easily contaminated |
-| Tube-well water | usually | drawn from below the surface, but arsenic and iron can be present |
-| River and pond water | no | open to sewage, washing, animals and runoff |
-| *Kuwa* (open well) | depends | safe if the wall is raised, the floor is sealed and water is drawn with a pump |
+Add two drops of liquid soap to water samples from different sources and stir
+(Activity 10.13): some give plenty of lather, some very little.
 
-### 10.1.2 Hard and soft water
+::: definition Soft and hard water
+**Soft water** is water that contains no dissolved salts of calcium and magnesium; it
+lathers easily with soap (rain water, boiled water, most river water).
+**Hard water** contains dissolved salts (bicarbonates, sulphates, chlorides) of
+**calcium and magnesium**; it gives little lather with soap. **Hardness of water** is the
+property of water by which it does not form lather easily with soap, because of these
+dissolved salts.
+:::
 
-**Soft water** lathers easily with soap. **Hard water** does not, because it
-contains dissolved salts of calcium and magnesium.
+**Problems of hard water:** much soap is wasted; clothes washed in it become dull and
+greyish because the soap forms a sticky scum; a white **scale** collects in kettles,
+pipes and boilers, wasting fuel and blocking pipes.
 
-| | Temporary hardness | Permanent hardness |
-|---|---|---|
-| Caused by | calcium and magnesium bicarbonates | sulphates and chlorides of calcium and magnesium |
-| Removed by | boiling | not by boiling; needs washing soda, ion exchange or distillation |
-| Effect | more soap needed; scale in kettles | same, and it cannot be cured by heating |
+| Temporary hardness | Permanent hardness |
+|---|---|
+| caused by **bicarbonates** of calcium and magnesium — Ca(HCO₃)₂, Mg(HCO₃)₂ | caused by **sulphates and chlorides** of calcium and magnesium — CaSO₄, MgCl₂ |
+| removed by **boiling** or by **Clark's method** (adding lime, Ca(OH)₂) | not removed by boiling; removed by **washing soda** or the **permutit (zeolite) method** |
 
-Hard water is not harmful to drink — it may even supply calcium — but it wastes
-soap and forms scale inside kettles and boilers.
+**Removing temporary hardness**
 
-### 10.1.3 Purification of water
+- *Boiling:* the soluble bicarbonate changes into insoluble carbonate, which settles:
+  Ca(HCO₃)₂ --heat--> CaCO₃↓ + H₂O + CO₂↑
+- *Clark's method:* a calculated amount of slaked lime is added; the insoluble carbonate
+  is filtered off: Ca(HCO₃)₂ + Ca(OH)₂ → 2CaCO₃↓ + 2H₂O
 
-| Method | How it works | Removes |
-|---|---|---|
-| Boiling | heat kills microorganisms | germs (not dissolved salts) |
-| Filtration | water passes through sand, gravel and cloth or a ceramic filter | suspended particles and many germs |
-| Chlorination | chlorine or bleaching powder is added | germs |
-| Distillation | water is boiled and the vapour condensed | salts and germs — gives pure water |
-| Sedimentation with alum | alum makes fine particles clump and settle | mud and turbidity |
-| SODIS | clear plastic bottles filled with water are left in the sun for six hours; the ultraviolet light and the heat kill germs | germs, where fuel is scarce |
+**Removing permanent hardness**
 
-```figure caption="A household water-purification train. Each stage removes what the previous one could not; boiling is the last defence against germs, not a substitute for filtration."
-fig, ax = plt.subplots(figsize=(5.1, 2.6))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.6)
-ax.axis("off")
-stages = [("Settle", 0.9, "heavy mud\\nsinks"), ("Filter", 3.1, "sand, gravel,\\ncloth"),
-          ("Boil", 5.3, "kills germs"), ("Store", 7.5, "covered pot with\\na tap or a lid"),
-          ("Drink", 9.5, "safe water")]
-for name, x, note in stages:
-    ax.text(x, 3.9, name, ha="center", va="center", fontsize=7.0, color=INK,
-            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=ACCENT, lw=1.0))
-    ax.text(x, 2.85, note, ha="center", va="center", fontsize=6.0, color=MUTED)
-for i in range(4):
-    x0 = 0.9 + i * 2.1
-    ax.annotate("", xy=(x0 + 1.15, 3.9), xytext=(x0 + 0.62, 3.9),
-                arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.0))
-ax.text(5.0, 1.7, "do not dip a glass into the pot — it puts the germs back in",
-        ha="center", fontsize=6.5, color=SERIES[1])
-ax.text(5.0, 1.05, "and keep the storage pot above the floor, never beside the toilet",
-        ha="center", fontsize=6.5, color=MUTED)
+- *Washing soda (sodium carbonate):* CaSO₄ + Na₂CO₃ → CaCO₃↓ + Na₂SO₄ (the precipitate
+  is filtered off).
+- *Permutit method:* hard water is passed through a column of **sodium zeolite** (sodium
+  aluminium silicate) packed between layers of sand and gravel. The calcium and magnesium
+  ions are held by the zeolite and sodium ions go into the water, which comes out soft:
+  Na₂Z + CaSO₄ → CaZ + Na₂SO₄. The used zeolite is renewed by washing it with strong salt
+  solution.
+
+```figure caption="Permutit (zeolite) method: hard water enters at the top, calcium and magnesium are exchanged for sodium in the zeolite layer, and soft water flows out at the bottom."
+fig, ax = plt.subplots(figsize=(4.6, 3.2))
+ax.set_xlim(0, 10); ax.set_ylim(0, 7.4); ax.axis("off")
+ax.add_patch(plt.Rectangle((2.0, 0.9), 3.0, 5.6, fc="white", ec=INK, lw=1.4))
+layers = [(0.9, 1.0, "#9e9e9e", "gravel"), (1.9, 1.0, "#e3cf9b", "sand"),
+          (2.9, 1.8, "#c9dfc0", "sodium zeolite"), (4.7, 1.0, "#e3cf9b", "sand")]
+for y, h, c, name in layers:
+    ax.add_patch(plt.Rectangle((2.0, y), 3.0, h, fc=c, ec=MUTED, lw=0.6))
+    ax.plot([5.0, 5.6], [y + h / 2, y + h / 2], color=MUTED, lw=0.7)
+    ax.text(5.7, y + h / 2, name, va="center", fontsize=7.8, color=INK)
+ax.annotate("", xy=(3.5, 6.0), xytext=(3.5, 7.2), arrowprops=dict(arrowstyle="->", color=SERIES[1], lw=1.5))
+ax.text(3.9, 6.95, "hard water in", fontsize=7.8, color=SERIES[1])
+ax.plot([3.5, 3.5], [0.9, 0.5], color=INK, lw=2)
+ax.annotate("", xy=(5.6, 0.35), xytext=(3.5, 0.35), arrowprops=dict(arrowstyle="->", color=ACCENT, lw=1.5))
+ax.text(5.7, 0.35, "soft water out", va="center", fontsize=7.8, color=ACCENT)
 fig.tight_layout()
 ```
 
-### 10.1.4 Water-borne disease and water pollution
+::: example Advice for Roshan and Riya (textbook questions)
+**Roshan** gets little lather with well water. *Advice:* boil the water first (removes
+temporary hardness) or add a little washing soda, and let the precipitate settle;
+alternatively use rain water or a detergent, which works even in hard water.
 
-| Disease | Caused by | Spread |
-|---|---|---|
-| Cholera | bacterium | contaminated water and food |
-| Typhoid | bacterium | contaminated water and food |
-| Dysentery (amoebic and bacillary) | protozoan or bacterium | contaminated water, dirty hands |
-| Jaundice (hepatitis A) | virus | contaminated water and food |
-| Diarrhoea and worms | many germs | unsafe water, open defecation |
-
-**Prevention** is always the same four steps: drink boiled or filtered water;
-wash hands with soap before eating and after the toilet; use a toilet and keep
-the water source away from it; keep the storage pot covered.
-
-**Sources of pollution:** untreated sewage, waste from industries, chemical
-fertiliser and pesticide runoff, bathing and washing animals in the river,
-solid waste and plastic dumped in the river, and open defecation. Control means
-treating sewage before release, planting trees along the banks, banning the
-dumping of waste in rivers, and — the cheapest of all — not letting the
-pollution enter the water in the first place.
-
-## 10.2 Cement, glass and ceramics
-
-| Material | Made from | Property that makes it useful |
-|---|---|---|
-| Cement | limestone and clay, heated in a kiln and ground with gypsum | sets hard when mixed with water; binds sand and gravel into concrete |
-| Concrete | cement + sand + gravel + water | strong in compression; used for foundations and pillars |
-| Glass | sand (silica), soda ash and limestone, melted at high temperature | transparent, hard, does not corrode, can be moulded |
-| Ceramics (clay pots, bricks, tiles) | clay, baked in a kiln | cheap, heat resistant, does not react with food |
-| Plaster of Paris | gypsum heated to about 120 °C | sets quickly when mixed with water; used for casts and mouldings |
-
-::: caution Cement setting is a chemical change
-Mortar does not dry like mud; the cement reacts with water and forms new
-compounds. That is why a set cement bag can never be softened back into cement,
-and why a mortar that dries out too fast during setting becomes weak. Keeping
-the concrete wet for a few days is not optional — it is part of what makes it
-strong.
+**Riya's** white clothes turn dull with tube-well water. *Reason:* the calcium and
+magnesium salts form an insoluble scum with soap that sticks to the cloth. *Advice:* soften
+the water with washing soda (or boiling), or use detergent, and rinse well.
 :::
 
-```photo id="sci10/rust" caption="Rust on iron. Rusting needs both oxygen and moisture, which is why a painted or oiled surface is protected." width="64"
-```
+### 10.1.2 Purification of water
 
-## 10.3 Plastics and polymers
+| Method | What it removes |
+|---|---|
+| sedimentation (with alum) and decantation | mud and suspended particles |
+| filtration (sand, ceramic candle filter, cloth) | suspended dirt and many germs |
+| boiling for several minutes | germs (not dissolved salts) |
+| chlorination (bleaching powder, chlorine tablets) | germs |
+| SODIS — clear bottles in strong sun for about six hours | germs, where fuel is scarce |
+| distillation | dissolved salts and germs — gives pure water |
 
-A **polymer** is a very large molecule built by joining many small units.
-Plastics are synthetic polymers, made mainly from petroleum.
+### 10.1.3 Water-borne diseases
 
-| | Thermoplastic | Thermosetting plastic |
-|---|---|---|
-| On heating | softens and can be reshaped again and again | sets permanently; cannot be reshaped |
-| Examples | polythene, PVC, polypropylene, nylon | bakelite, melamine |
-| Uses | bags, buckets, pipes, bottles, electric wire covering | switches, plugs, handles of cookware, melamine plates |
+**Cholera, typhoid, diarrhoea, dysentery, jaundice (hepatitis A)** and worm infections
+spread through water and food contaminated by faeces. *Prevention:* drink boiled or
+filtered water; wash hands with soap before eating and after using the toilet; use
+toilets and keep water sources away from them; cover stored water.
 
-**Harm caused by plastic.**
+## 10.2 Water pollution and its control; acid rain
 
-- It does not rot. A polythene bag stays in the soil for decades and in the
-  river for longer.
-- Animals and cattle swallow bags along with food and die.
-- It chokes drains, which is one cause of the waterlogging in Kathmandu.
-- Burning plastic releases poisonous gases; it is never safe to burn.
-- Much of it ends in the ocean as microplastics, which then enter fish and so
-  enter people.
+**Sources of water pollution:** untreated sewage, industrial waste, chemical fertilisers
+and pesticides washed from fields, dumping of solid waste and plastic in rivers, washing
+clothes and animals in rivers, and acid rain. Excess fertiliser makes algae grow fast; when
+the algae die and decay they use up the dissolved oxygen and fish die.
+**Control:** treat sewage and factory waste before release; never dump waste in rivers; use
+fertilisers and pesticides carefully; plant trees along river banks; build toilets.
 
-**What to do:** carry a cloth or *jhola* bag; refuse the plastic bag; separate
-degradable from non-degradable waste; compost the degradable part; reuse
-containers; and recycle bottles and hard plastic.
+### 10.2.1 Acid rain
 
-## 10.4 Soap, detergent and fertiliser
-
-### 10.4.1 How soap works
-
-Soap is made by boiling oil or fat with an alkali. Its molecule has a long
-**hydrocarbon tail** that attaches to grease and dirt and a **head** that
-attaches to water. The tails bury themselves in the grease, the heads face the
-water, and the dirt is lifted off the cloth and carried away in the rinse water.
-This is why washing works only with rubbing and rinsing: the soap has to get
-between the dirt and the cloth, and then be carried off.
-
-| | Soap | Synthetic detergent |
-|---|---|---|
-| Made from | oil or fat and an alkali | petroleum products |
-| In hard water | forms scum, so it does not clean well | works well; no scum |
-| On the skin | milder | can be harsh |
-| In water bodies | biodegrades fast | some foams are slow to biodegrade |
-
-### 10.4.2 Fertiliser
-
-Plants need nitrogen (N) for leaf growth, phosphorus (P) for roots, flowers and
-seeds, and potassium (K) for overall strength and disease resistance. Chemical
-fertilisers such as urea, DAP and potash supply these in concentrated form;
-**compost** and **farmyard manure** supply them slowly along with humus.
-
-Fertiliser increases the yield, but too much of it is carried by rain into
-rivers and lakes, where it makes algae grow uncontrollably. The algae die, their
-decay uses up the oxygen in the water, and fish are suffocated. Chemical
-fertiliser is therefore used together with compost, in the amount the crop
-actually needs.
-
-```photo id="sci10/pet-bottles" caption="Collected plastic bottles. Most plastics are non-biodegradable, so segregation and recycling are the only real answers." width="68"
-```
-
-## 10.5 Fibre
-
-| Natural fibre | Source | Property |
-|---|---|---|
-| Cotton | cotton plant | absorbs sweat, comfortable in summer |
-| Jute | jute plant stem | strong, cheap; sacks and rope |
-| Silk | cocoon of the silkworm | soft, lustrous, expensive |
-| Wool | fleece of sheep | traps air, warm |
-
-| Synthetic fibre | Made from | Property |
-|---|---|---|
-| Nylon | petroleum | strong, elastic, dries fast |
-| Polyester | petroleum | wrinkle resistant, quick drying |
-| Rayon | wood pulp, chemically treated | silk-like; called semi-synthetic |
-
-Synthetic fibres are strong and cheap but do not absorb sweat, catch fire
-readily and do not decompose. Mixing a natural fibre with a synthetic one — as
-in terry-cot — gives comfort with strength.
-
-## 10.6 Fuel and combustion
-
-A **fuel** is a substance that burns in air to give heat and light. Wood,
-kerosene, LPG, petrol, diesel, coal, biogas and cow-dung cakes are the fuels
-used in Nepali homes.
-
-**Combustion** needs three things at once — fuel, oxygen and heat. They are
-drawn as the **fire triangle**. Removing any one of the three puts the fire out,
-which is exactly what every fire-fighting method does.
-
-```figure caption="The fire triangle. Water removes heat, a blanket or sand removes oxygen, and breaking the fuel line removes the fuel; every extinguisher is one of these three ideas."
-fig, ax = plt.subplots(figsize=(4.9, 2.8))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 6.2)
-ax.axis("off")
-ax.add_patch(plt.Polygon([[5.0, 5.4], [1.4, 0.9], [8.6, 0.9]], fill=False,
-                         ec=ACCENT, lw=1.8))
-ax.text(5.0, 4.55, "fuel", ha="center", fontsize=8.0, color=INK,
-        bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="none"))
-ax.text(2.3, 1.55, "oxygen", ha="center", fontsize=8.0, color=INK,
-        bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="none"))
-ax.text(7.7, 1.55, "heat", ha="center", fontsize=8.0, color=INK,
-        bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="none"))
-ax.text(5.0, 3.0, "remove any one", ha="center", fontsize=6.6, color=SERIES[1])
-ax.text(5.0, 2.45, "and the fire stops", ha="center", fontsize=6.6, color=SERIES[1])
-ax.text(5.0, 0.25, "every fire rule in this unit is one side of this triangle",
-        ha="center", fontsize=6.3, color=MUTED)
-fig.tight_layout()
-```
-
-| Kind of combustion | What happens | Example |
-|---|---|---|
-| Rapid | heat and light given out quickly | burning kerosene, LPG |
-| Spontaneous | starts by itself at ordinary temperature | phosphorus in air; wet hay in a stack |
-| Explosive | very fast, with a large volume of gas | firecrackers, a leaking LPG cylinder |
-
-**Fire safety, in one list.**
-
-1. Never leave a burning stove or *chulo* unattended.
-2. Turn the LPG regulator off at the cylinder, not only at the burner, and keep
-   the cylinder upright in a ventilated place.
-3. If you smell gas, do not switch on a light or strike a match; open the doors
-   and windows and turn the cylinder off.
-4. Keep water and a bucket of sand near the kitchen; do not pour water on an
-   electrical fire or on burning oil.
-5. Never store kerosene or petrol near a fire or in a soft-drink bottle.
-6. In case of a fire, get out first; call for help; never go back inside.
-
-::: example Worked reasoning: why a wet cloth stops a chip-pan fire
-**Situation.** Oil in a pan catches fire. A wet cloth is thrown over it and the
-fire goes out.
-
-**Reasoning.** The burning oil needs oxygen from the air. The wet cloth covers
-the surface and cuts the oil off from the air, so the oxygen side of the fire
-triangle is removed. The water in the cloth also removes heat as it turns to
-steam and takes energy away, which works on the heat side as well.
-
-**Why not water poured directly?** Water is denser than oil and sinks below it;
-the water turns to steam suddenly under the hot oil and throws burning oil up
-into the air, spreading the fire. Burning oil is never put out with a jet of
-water: cover it, or use sand or a fire blanket.
+::: definition Acid rain
+**Acid rain** is rain that has become acidic because acids formed in the atmosphere
+(mainly **sulphuric acid** and **nitric acid**) have mixed with it.
 :::
 
-## 10.5 Waste, recycling and the three Rs
+Normal rain is slightly acidic (about pH 5.6–6) because carbon dioxide dissolves in it to
+form weak **carbonic acid**; this is not very harmful. Rain with strong acids has a lower
+pH and is harmful.
 
-| Waste | Time to break down | Better practice |
-|---|---|---|
-| Vegetable peel | 2–4 weeks | compost at home or in school |
-| Paper | 2–6 weeks | collect and recycle |
-| Cotton cloth | 2–5 months | reuse, then use as a cleaning rag |
-| Tin can | 50–100 years | wash and sell to a scrap dealer |
-| Plastic bottle | 400–1,000 years | refuse single use; refill or recycle |
-| Glass | effectively never | return, reuse, recycle |
+**How the acids form.** *Natural sources:* volcanic eruptions and decay of plants and
+animals give oxides of sulphur and nitrogen. *Human sources (the main cause):* burning
+coal, petrol and diesel in vehicles, factories and brick kilns. These oxides react with
+water vapour in the air: sulphur dioxide → sulphuric acid; nitrogen oxides → nitric acid.
 
-**The order matters:** **refuse and reduce** first (do not take the bag at
-all), then **reuse**, and only then **recycle** — recycling still costs
-energy and water, which is why it is the third choice, not the first.
-
-```figure caption="How long common waste stays in the soil. The numbers explain why a plastic bottle used for ten minutes is a poor bargain."
-fig, ax = barh_ranked(["Glass (effectively never)", "Plastic bottle",
-                       "Tin can", "Cotton cloth", "Paper", "Vegetable peel"],
-                      [1000, 700, 75, 4, 1, 0.5], unit=" years",
-                      highlight={"Plastic bottle"})
+```figure caption="How acid rain forms."
+fig, ax = flow([("Fuel burnt", "vehicles,\nfactories"),
+                ("SO₂, NOₓ", "go into\nthe air"),
+                ("Acids form", "H₂SO₄,\nHNO₃"),
+                ("Acid rain", "falls on land\nand water")],
+               figsize=(5.1, 2.3))
 ```
 
-::: example A four-mark answer on plastic
-**Question.** Why is plastic waste a serious problem, and what can a school
-do about it?
+**Effects:** rivers, lakes and ponds become acidic, harming fish and water life; leaves are
+damaged and soil fertility falls, so crop production declines; forests may be destroyed;
+temples, monuments and statues of marble and metal corrode (the Taj Mahal in India is a
+famous example of marble damage).
+**Prevention:** use less fossil fuel; use renewable energy (hydroelectricity, solar);
+control vehicle and factory smoke; set up industries away from settlements.
+**For farmland already affected:** add lime or wood ash (both are bases) to neutralise the
+soil acidity, use compost, and grow crops that tolerate acidic soil.
 
-**Answer.** **Problem:** most plastics are non-biodegradable and last for
-centuries; burning them releases poisonous gases; discarded bags block
-drains and cause local flooding; animals swallow them and die, and
-microplastic enters the food chain. **What a school can do:** (i) ban
-single-use bottles and bags on the premises and provide drinking water
-points; (ii) separate waste into kitchen, paper-plastic and other, with
-labelled bins in every corridor; (iii) compost the kitchen waste for the
-school garden and sell the recyclables; (iv) run a monthly clean-up and a
-"refuse the bag" campaign with the shops nearby.
+## 10.3 Cement, glass and ceramics
+
+| Material | Raw materials | Useful property and use |
+|---|---|---|
+| Cement | limestone and clay heated in a kiln, ground with a little gypsum | sets hard with water (a chemical change); binds sand and gravel into concrete for buildings, bridges, dams |
+| Glass | sand (silica), soda ash and limestone melted together | transparent, hard, does not rust; windows, bottles, lenses |
+| Ceramics | clay shaped and baked in a kiln | hard, heat resistant, does not react with food; bricks, tiles, pottery, cups |
+
+::: caution Curing concrete
+Cement does not simply dry; it reacts with water. Fresh concrete is kept wet (cured) for
+several days — if it dries too quickly it becomes weak.
 :::
+
+## 10.4 Plastics and polymers: uses and environmental harm
+
+A **polymer** is a giant molecule made by joining many small units. **Plastics** are
+synthetic polymers made mainly from petroleum. **Thermoplastics** (polythene, PVC, nylon)
+soften on heating and can be reshaped; **thermosetting plastics** (bakelite, melamine) set
+permanently and are used for switches and pan handles.
+**Harm:** plastics are **non-biodegradable** — they stay in soil and water for many years;
+they block drains, choke animals that swallow them, form microplastics in rivers, and give
+poisonous gases when burnt. **What to do:** reduce (use cloth bags), reuse, recycle, and
+separate waste at home.
+
+```photo id="sci10/pet-bottles" caption="Collected plastic bottles. Most plastics are non-biodegradable, so reducing, reusing and recycling are the only real answers." width="62"
+```
+
+## 10.5 Soap, detergent and fertiliser
+
+**Soap** is made by boiling oil or fat with an alkali (sodium hydroxide). A soap molecule has
+a long tail that holds grease and a head that holds water, so it lifts oily dirt off cloth.
+**Detergents** are made from petroleum products; they work well even in **hard water**, but
+some are slow to break down in rivers.
+
+**Fertilisers** supply nitrogen (N, for leaves), phosphorus (P, for roots, flowers, seeds)
+and potassium (K, for strength). Chemical fertilisers (urea, DAP, potash) act quickly;
+**compost** and farmyard manure release nutrients slowly and improve the soil. Overuse of
+chemical fertiliser harms soil and pollutes water.
+
+## 10.6 Fibre: natural and synthetic
+
+| Natural fibres | Synthetic fibres |
+|---|---|
+| from plants or animals: cotton, jute, *allo* (Himalayan nettle), silk, wool | made from petroleum chemicals: nylon, polyester, acrylic |
+| absorb sweat, comfortable | strong, cheap, quick drying, do not absorb sweat |
+| biodegradable | non-biodegradable; melt and stick to skin in fire |
+
+## 10.7 Fuel and combustion; fire safety
+
+A **fuel** burns in air to give heat (wood, kerosene, LPG, petrol, diesel, coal, biogas).
+**Combustion** needs three things together — **fuel, oxygen and heat** (the fire triangle).
+Removing any one puts out the fire: water removes heat; sand, a fire blanket or a damp
+cloth cuts off oxygen; closing the gas valve removes the fuel.
+**Fire safety:** never leave a stove burning unattended; turn off the LPG regulator at the
+cylinder; if gas leaks, do not light a match or switch on a light — open doors and windows;
+never pour water on burning oil or an electrical fire; keep a bucket of sand near the kitchen.
+Fire extinguishers often use **sodium bicarbonate**, which releases carbon dioxide.
+
+## 10.8 Acids, bases and salts in daily life
+
+### 10.8.1 Acids
+
+::: definition Acid
+An **acid** is a substance that gives **hydrogen ions (H⁺)** when dissolved in water.
+HCl → H⁺ + Cl⁻
+:::
+
+| Organic acids | Inorganic (mineral) acids |
+|---|---|
+| found naturally in plants and animals | prepared in the laboratory from minerals |
+| usually **weak** and many are edible | usually **strong**, corrosive, not edible |
+| citric acid (lemon), acetic acid (vinegar), lactic acid (curd, milk), oxalic acid (tomato), tartaric acid (tamarind, grapes), formic acid (ant sting, nettle) | hydrochloric acid (HCl), sulphuric acid (H₂SO₄), nitric acid (HNO₃), carbonic acid |
+
+A **strong acid** gives many H⁺ ions in water (HCl, H₂SO₄, HNO₃); a **weak acid** gives few
+(citric, acetic). That is why sulphuric acid burns cloth but lemon juice does not. The
+hydrochloric acid in our stomach is an inorganic acid, though it is made by the body.
+
+**Physical properties:** sour taste; soluble in water; turn **blue litmus red** (red litmus
+stays red); turn **methyl orange red**; **phenolphthalein stays colourless**.
+
+**Chemical properties**
+
+1. *With metals* — give a salt and **hydrogen** (the gas burns with a 'pop'):
+   Mg + 2HCl → MgCl₂ + H₂↑ (zinc also gives bubbles of hydrogen in dilute acid).
+2. *With metal carbonates* — give a salt, water and **carbon dioxide** (turns lime water milky):
+   CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑
+3. *With bases* — give a salt and water (**neutralisation**):
+   HCl + NaOH → NaCl + H₂O; H₂SO₄ + 2KOH → K₂SO₄ + 2H₂O
+
+| Acid | Uses |
+|---|---|
+| citric acid | preserving food, giving a sour taste |
+| ascorbic acid | vitamin C in medicines |
+| acetic acid (vinegar) | pickles (Activity 10.7: radish in vinegar stays fresh) |
+| tartaric acid | baking powder |
+| hydrochloric acid | digestion in the stomach; cleaning toilets; making PVC |
+| nitric acid | nitrogen fertilisers, explosives |
+| sulphuric acid | car batteries, fertilisers, dyes, detergents, artificial silk |
+
+### 10.8.2 Bases and alkalis
+
+::: definition Base and alkali
+A **base** is a metal oxide or hydroxide (Na₂O, NaOH, KOH, MgO, Ca(OH)₂). A base that
+**dissolves in water** is an **alkali**; alkalis give **hydroxide ions (OH⁻)** in water:
+NaOH → Na⁺ + OH⁻.
+:::
+
+All alkalis are bases, but not all bases are alkalis (e.g. copper oxide does not dissolve).
+**Strong bases** (NaOH, KOH) give many OH⁻ ions; **weak bases** (ammonium hydroxide) give few.
+
+**Physical properties** (Activity 10.8 with ash water): bitter taste; soapy, slippery feel;
+turn **red litmus blue**; turn **methyl orange yellow**; turn **phenolphthalein pink**.
+
+**Chemical properties:** with acids they form salt and water (neutralisation); with ammonium
+salts they give **ammonia** gas (which turns moist red litmus blue):
+(NH₄)₂SO₄ + 2NaOH → Na₂SO₄ + 2NH₃↑ + 2H₂O
+
+| Base | Uses |
+|---|---|
+| calcium hydroxide (slaked lime) | whitewashing, bleaching powder, reducing soil acidity |
+| magnesium hydroxide | antacid (milk of magnesia) for hyperacidity (gastritis) |
+| sodium hydroxide (caustic soda) | soap, paper, cloth, refining petroleum |
+| ammonium hydroxide | laboratory reagent, fertilisers, rayon, plastics, dyes |
+
+Ash contains alkaline compounds of potassium and calcium, so farmers spread ash to reduce
+soil acidity. A gastritis patient takes magnesium hydroxide because this base neutralises
+the excess hydrochloric acid in the stomach.
+
+### 10.8.3 Salts
+
+::: definition Salt
+A **salt** is the compound formed, together with water, when an acid reacts with a base.
+:::
+
+| Type | Formed from | Example |
+|---|---|---|
+| Neutral salt | strong acid + strong base (or weak + weak) | sodium chloride, NaCl |
+| Acidic salt | strong acid + weak base | ammonium chloride, NH₄Cl (from HCl + NH₄OH) |
+| Basic salt | strong base + weak acid | sodium carbonate, Na₂CO₃ (from NaOH + H₂CO₃) |
+
+**Properties:** most are tasteless (table salt is salty, some are bitter); most dissolve in
+water; white or colourless, some coloured (copper sulphate is blue); high melting and boiling
+points; neutral salts do not change indicators. In water they split into ions:
+NaCl → Na⁺ + Cl⁻.
+
+**Reactions:** with acids — H₂SO₄ + 2NaCl → Na₂SO₄ + 2HCl; with bases —
+2NH₄Cl + Ca(OH)₂ → CaCl₂ + 2NH₃ + 2H₂O; **displacement** — a more reactive metal pushes a less
+reactive metal out of its salt (Activity 10.11: iron in blue copper sulphate solution turns
+reddish-brown with copper, and the solution turns pale green):
+Fe + CuSO₄ → FeSO₄ + Cu
+
+| Salt | Uses |
+|---|---|
+| sodium chloride (common salt) | flavouring and preserving food; making NaOH, washing soda, soap |
+| sodium carbonate (washing soda) | removing permanent hardness; making glass, paper, soap |
+| sodium bicarbonate (baking soda) | baking powder, antacid, fire extinguishers |
+
+| Indicator | Acid | Base | Neutral salt solution |
+|---|---|---|---|
+| blue litmus | red | blue | no change |
+| red litmus | red | blue | no change |
+| methyl orange | red | yellow | orange (no change) |
+| phenolphthalein | colourless | pink | colourless |
+
+::: example Identifying three unknown liquids
+**Problem.** Three colourless liquids P, Q and R are tested. P turns blue litmus red and
+gives bubbles with a marble chip (CaCO₃). Q turns phenolphthalein pink. R changes neither
+litmus paper. Identify each and write the reaction of P with the marble chip if P is
+dilute hydrochloric acid.
+
+**Solution.** P is an **acid** (blue litmus → red; carbonate gives CO₂). Q is a **base
+(alkali)** (phenolphthalein pink). R is **neutral** — water or a neutral salt solution such
+as common salt.
+CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂↑ (the gas turns lime water milky).
+:::
+
+::: example Which hardness, and how to remove it?
+**Problem.** Sample X lathers well after boiling. Sample Y still does not lather after
+boiling, but lathers after washing soda is added. Name the hardness in each.
+
+**Solution.** X has **temporary hardness** (calcium/magnesium bicarbonates), removed by
+boiling: Ca(HCO₃)₂ → CaCO₃ + H₂O + CO₂. Y has **permanent hardness** (sulphates or
+chlorides), not removed by boiling but removed by washing soda:
+CaSO₄ + Na₂CO₃ → CaCO₃ + Na₂SO₄.
+:::
+
+## 10.9 Alloys
+
+Ramila's mother wanted a 24-carat gold bangle, but the goldsmith advised 22 carat for daily
+wear. **24-carat gold is pure** and soft; **22-carat gold** is mixed with a little copper or
+silver, which makes it harder, so it does not bend or wear away easily.
+
+::: definition Alloy
+An **alloy** is a homogeneous mixture made by melting a metal with other metals or with a
+non-metal, to improve its properties.
+:::
+
+**Properties of alloys:** harder and stronger than the pure metal, but less malleable and
+ductile; resist rusting and corrosion better; have a different melting point and colour
+from their metals; generally have better properties for use. *Example:* aluminium is light
+but soft; **duralumin** (aluminium with copper, manganese and magnesium) is light and strong
+and is used for aircraft bodies.
+
+| Alloy | Composition | Uses |
+|---|---|---|
+| Steel | iron + a little carbon | buildings, bridges, railings, tools — much harder and stronger than iron |
+| Stainless steel | iron + chromium + nickel (+ a little carbon) | kitchen utensils, surgical instruments — does not rust |
+| Brass | copper + zinc | *puja* items, *gagri*, idols, nuts and bolts, plumbing fittings |
+| Bronze | copper + tin | plates, bowls, tumblers, medals, coins, statues, bells |
+
+Steel and stainless steel are preferred to pure iron for kitchen utensils because pure iron
+is soft and rusts, while stainless steel is hard, shiny and rust-free.
 
 ## Chapter summary
 
-- Fresh water comes from rain and is stored as groundwater; springs, wells,
-  tube wells and rivers are the ways we reach it.
-- **Soft water** lathers easily; **hard water** contains calcium and magnesium
-  salts. Temporary hardness is removed by boiling, permanent hardness is not.
-- Water is purified by sedimentation, filtration, boiling, chlorination,
-  distillation and solar disinfection (SODIS).
-- Cholera, typhoid, dysentery and jaundice spread through contaminated water;
-  boiled water, soap, toilets and covered storage prevent them.
-- Cement, glass and ceramics are made from cheap minerals and are chosen for
-  setting, transparency and heat resistance; cement sets by a chemical reaction.
-- Plastics are synthetic polymers; thermoplastics can be reshaped and
-  thermosetting plastics cannot. They do not rot, choke drains and kill
-  animals when eaten, so reduce, reuse and recycle.
-- Soap molecules have a grease-loving tail and a water-loving head; soap fails
-  in hard water, detergent does not.
-- Fertiliser supplies nitrogen, phosphorus and potassium; excess fertiliser
-  pollutes water, so it is used with compost.
-- Natural fibres come from plants and animals, synthetic fibres from petroleum;
-  mixtures combine comfort with strength.
-- Combustion needs fuel, oxygen and heat — the fire triangle. Removing any one
-  puts the fire out.
+- Hard water has Ca and Mg salts. Temporary (bicarbonates): boiling, Clark's method.
+  Permanent (sulphates, chlorides): washing soda, permutit.
+- Water is purified by sedimentation, filtration, boiling, chlorination, SODIS, distillation.
+- Acid rain: SO₂ and NOₓ from burning fuels form H₂SO₄ and HNO₃; harms water life, crops,
+  forests and monuments.
+- Acid gives H⁺ (sour, blue litmus → red, methyl orange red, phenolphthalein colourless).
+  Base/alkali gives OH⁻ (bitter, soapy, red litmus → blue, methyl orange yellow,
+  phenolphthalein pink).
+- Acid + metal → salt + H₂; acid + carbonate → salt + H₂O + CO₂; acid + base → salt + water.
+- Salts are neutral (NaCl), acidic (NH₄Cl) or basic (Na₂CO₃).
+- Alloys: steel (Fe + C), stainless steel (Fe + Cr + Ni), brass (Cu + Zn), bronze (Cu + Sn).
 
 ## Practice questions
 
-**Group A — Objective (1 mark each)**
+**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
 
-1. Hard water does not lather well because it contains salts of
-   <span class="marks">[1]</span>
-   (a) sodium and potassium (b) calcium and magnesium (c) iron and copper
-   (d) chlorine and sulphur
-2. Temporary hardness of water is removed by <span class="marks">[1]</span>
-   (a) filtering (b) boiling (c) decanting (d) adding sand
-3. Which of these is a thermosetting plastic? <span class="marks">[1]</span>
-   (a) polythene (b) PVC (c) bakelite (d) nylon
-4. Which disease spreads through contaminated water?
-   <span class="marks">[1]</span>
-   (a) malaria (b) cholera (c) tuberculosis (d) ringworm
-5. Combustion needs fuel, heat and <span class="marks">[1]</span>
-   (a) nitrogen (b) oxygen (c) carbon dioxide (d) water
-6. Which nutrient in fertiliser helps leaf growth? <span class="marks">[1]</span>
-   (a) nitrogen (b) phosphorus (c) potassium (d) calcium
+1. A property of an acid is <span class="marks">[1]</span>
+   (a) bitter (b) slippery (c) sour (d) colourless
+2. Which turns red litmus blue? <span class="marks">[1]</span>
+   (a) curd (b) tomato (c) cola drink (d) soapy shampoo
+3. Bubbles come out as soon as zinc is put in a liquid. The liquid is <span class="marks">[1]</span>
+   (a) water (b) an acid (c) a base (d) a salt solution
+4. Ash is used to reduce soil acidity because ash is <span class="marks">[1]</span>
+   (a) cheap (b) found at home (c) alkaline (d) a salt
+5. Which salt is used in fire extinguishers? <span class="marks">[1]</span>
+   (a) sodium carbonate (b) potassium carbonate (c) sodium bicarbonate (d) potassium sulphate
+6. Hard water contains <span class="marks">[1]</span>
+   (a) magnesium sulphate (b) magnesium oxide (c) magnesium nitrate (d) magnesium sulphide
+7. Permanent hardness is removed by <span class="marks">[1]</span>
+   (a) boiling (b) Clark's method (c) the permutit method (d) calcium hydroxide
+8. Which water has the least hardness? <span class="marks">[1]</span>
+   (a) rain water (b) well water (c) tube-well water (d) river water
+9. Alloys are used more than pure metals because <span class="marks">[1]</span>
+   (a) they are cheaper (b) their properties are improved (c) they are easily available (d) they are good for health
+10. Brass is made by mixing <span class="marks">[1]</span>
+   (a) copper and zinc (b) copper and tin (c) copper and carbon (d) copper and nickel
+11. Adding a little carbon to iron to make steel makes it <span class="marks">[1]</span>
+   (a) softer (b) harder and stronger (c) liquid (d) non-magnetic
+12. Copper mixed with tin forms <span class="marks">[1]</span>
+   (a) steel (b) stainless steel (c) brass (d) bronze
+13. Which statement is true? <span class="marks">[1]</span>
+   (a) an alloy is harder than its metal (b) an alloy is more flexible (c) an alloy is duller (d) an alloy is more ductile
 
 ::: note Answers to Group A
-**1.** (b) — the bicarbonates, sulphates and chlorides of calcium and magnesium.
-**2.** (b) — boiling drives off the carbon dioxide and precipitates the
-bicarbonates.
-**3.** (c) — bakelite sets permanently and cannot be reshaped.
-**4.** (b) — cholera is water-borne; malaria comes from a mosquito.
-**5.** (b) — oxygen, from the air.
-**6.** (a) — nitrogen is needed for leaves and stems.
+**1.** (c). **2.** (d) — soap-based shampoo is basic; the others are acidic. **3.** (b) — the gas is hydrogen. **4.** (c). **5.** (c) — it gives CO₂. **6.** (a). **7.** (c). **8.** (a). **9.** (b). **10.** (a). **11.** (b). **12.** (d). **13.** (a).
 :::
 
 **Group B — Short answer (2 marks each)**
 
-1. Distinguish between hard water and soft water, and give one way of removing
-   each kind of hardness. <span class="marks">[2]</span>
-2. Write any four methods of purifying water at home and say what each removes.
-   <span class="marks">[2]</span>
-3. Why is jute used for sacks and cotton for summer clothes? Answer in terms of
-   the properties of the fibres. <span class="marks">[2]</span>
-4. Write four fire-safety rules for a kitchen that uses LPG.
-   <span class="marks">[2]</span>
+1. Differentiate: (a) organic and inorganic acid (b) strong and weak acid (c) base and alkali. <span class="marks">[3]</span>
+2. Give reasons: (a) Rain water is generally acidic. (b) Ammonium chloride is an acidic salt. (c) Sulphuric acid corrodes cloth but lemon juice does not. (d) Gastritis patients are relieved by magnesium hydroxide. <span class="marks">[4]</span>
+3. Show in a table the action of acids, bases and salts on litmus, methyl orange and phenolphthalein. <span class="marks">[3]</span>
+4. Sample A gives red with methyl orange, red with litmus and colour X with phenolphthalein; sample B gives colour Y with methyl orange, blue with litmus and pink with phenolphthalein. (i) Name X and Y. (ii) Which sample gives CO₂ with calcium carbonate? <span class="marks">[2]</span>
+5. Differentiate: (a) soft and hard water (b) temporary and permanent hardness (c) Clark's method and permutit method (d) pure metal and alloy (e) steel and stainless steel. <span class="marks">[5]</span>
+6. Give reasons: (a) Steel is used more than iron for kitchen utensils. (b) Rain water gives more lather with soap. (c) Well water is hard. (d) The use of alloys is increasing. <span class="marks">[4]</span>
+7. Rama won a bronze medal. Which metals is it made of? Name the metals in steel, stainless steel and brass. <span class="marks">[2]</span>
 
 ::: note Answers to Group B
-**1.** Soft water lathers easily with soap; hard water does not, because it
-contains dissolved calcium and magnesium salts. Temporary hardness, caused by
-bicarbonates, is removed by boiling. Permanent hardness, caused by sulphates and
-chlorides, is not removed by boiling; it needs washing soda, ion exchange or
-distillation.
-**2.** Boiling — kills microorganisms, but not dissolved salts. Filtration
-through sand, gravel and cloth or a ceramic candle — removes suspended
-particles and many germs. Chlorination with bleaching powder — kills germs.
-Sedimentation with alum — makes fine mud settle. Distillation — removes salts as
-well as germs. SODIS, leaving a clear bottle in the sun — kills germs where fuel
-is scarce.
-**3.** Jute fibre is strong and cheap, and sacks have to carry heavy loads
-without tearing. Cotton absorbs sweat and lets air through, which keeps the body
-cool in summer; synthetic fibre would trap the sweat and feel uncomfortable.
-**4.** Any four of: turn off the regulator at the cylinder as well as the burner;
-keep the cylinder upright in a ventilated place; if you smell gas, do not strike
-a match or switch on a light — open the windows and turn the cylinder off; never
-leave a stove burning unattended; keep a bucket of water and some sand nearby;
-never pour water on burning oil; never store kerosene or petrol near the stove.
+**1.** (a) See the table in 10.8.1. (b) A strong acid gives many H⁺ ions in water (HCl); a weak acid gives few (acetic acid). (c) A base is any metal oxide or hydroxide; an alkali is a base that dissolves in water and gives OH⁻ ions (NaOH). All alkalis are bases, not all bases are alkalis.
+**2.** (a) Carbon dioxide in the air dissolves in rain to form weak carbonic acid. (b) It is formed from a strong acid (HCl) and a weak base (NH₄OH). (c) Sulphuric acid is a strong acid giving many H⁺ ions; citric acid in lemon is a weak organic acid. (d) Mg(OH)₂ is a mild base that neutralises excess stomach acid.
+**3.** See the indicator table in 10.8.3.
+**4.** (i) X = colourless (A is an acid); Y = yellow (B is a base). (ii) A, the acid.
+**5.** (a) Soft water has no Ca/Mg salts and lathers easily; hard water has them and lathers poorly. (b) See the table in 10.1.1. (c) Clark's method adds lime to remove temporary hardness by precipitating carbonate; the permutit method passes water through sodium zeolite to remove permanent hardness by exchanging Ca/Mg for Na. (d) A pure metal has one kind of atom and is usually softer; an alloy is a mixture with improved hardness and resistance to corrosion. (e) Steel is iron + carbon and can rust; stainless steel also has chromium and nickel and does not rust.
+**6.** (a) Steel (stainless) is harder, stronger and does not rust, while iron is soft and rusts. (b) It contains no calcium or magnesium salts. (c) Underground water dissolves calcium and magnesium salts from rocks. (d) Alloys are harder, stronger, more corrosion-resistant and can be made for special uses.
+**7.** Bronze: copper and tin. Steel: iron and carbon; stainless steel: iron, chromium and nickel; brass: copper and zinc.
 :::
 
 **Group C — Long answer (4 marks each)**
 
-1. What are the sources of water pollution in your locality? Describe any four
-   methods of purifying water for drinking and explain what each one removes.
-   <span class="marks">[4]</span>
-2. Explain how soap removes dirt from cloth. Describe one harmful effect each of
-   plastics, chemical fertilisers and the burning of fuel, and give one habit
-   that reduces each harm. <span class="marks">[4]</span>
+1. What is an acid? Write three chemical properties of acids with balanced equations. <span class="marks">[4]</span>
+2. Define base. Write two properties of bases and the uses of three bases. <span class="marks">[4]</span>
+3. What is a salt? Explain neutral, acidic and basic salts with examples, and write the displacement reaction of iron with copper sulphate. <span class="marks">[4]</span>
+4. List the causes of acid rain. How is it harmful? How can it be prevented? Suggest how farmers can improve crop production in soil damaged by acid rain. <span class="marks">[4]</span>
+5. Define hardness of water and give its causes. Describe the permutit method with a diagram. <span class="marks">[4]</span>
+6. What is an alloy? Why are alloys becoming popular? Write the composition and two uses of four alloys. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
-**1.** **Sources.** Untreated household sewage; waste water from workshops and
-industries; fertiliser and pesticide washed off the fields by rain; bathing,
-washing clothes and animals in the river or pond; solid waste and plastic
-dumped in or beside the water; open defecation near a source; and drawing water
-with a dirty vessel. **Purification.** (i) *Sedimentation with alum* — alum
-makes the fine mud particles clump together and settle, so the water becomes
-clear. (ii) *Filtration* through a sand-and-gravel bed or a ceramic filter —
-traps suspended particles and many bacteria; it does not remove dissolved salts
-or all viruses. (iii) *Boiling* for at least three minutes — kills bacteria,
-viruses and other microorganisms; it does not remove dissolved salts, and the
-water must be stored covered afterwards. (iv) *Chlorination*, adding bleaching
-powder in the correct amount — kills the remaining germs and protects the water
-during storage. Distillation would remove salts as well, but it costs fuel.
-**2.** **How soap works.** A soap molecule has a long hydrocarbon tail that
-dissolves in grease and a head that dissolves in water. When soap is rubbed on
-dirty cloth, the tails bury themselves in the grease and the heads face
-outwards into the water, so the grease is surrounded, lifted off the cloth and
-carried away with the rinse water. **Harm and remedy.** *Plastics* — they do not
-decompose and cattle that swallow bags die, and they choke drains; remedy: carry
-a cloth bag and refuse plastic bags, separate and recycle waste. *Chemical
-fertiliser* — excess is washed into rivers, where it makes algae bloom, the
-algae decay and use up the oxygen, and the fish suffocate; remedy: use compost
-along with a measured amount of fertiliser. *Burning fuel* — smoke and gases
-cause respiratory disease and contribute to global warming; remedy: use
-improved stoves, biogas or electricity where possible, and never leave an engine
-or a stove burning unnecessarily.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** Brass is an alloy of copper and
-   (a) tin (b) zinc (c) nickel (d) carbon
-**2.** Rusting of iron requires
-   (a) oxygen only (b) moisture only (c) both oxygen and moisture (d) carbon dioxide only
-**3.** Coating iron with zinc is called
-   (a) galvanising (b) tinning (c) annealing (d) tempering
-**4.** Stainless steel resists rusting because of
-   (a) carbon (b) chromium (c) lead (d) zinc
-**5.** Detergent cleans greasy cloth because its molecule has
-   (a) only a water-loving end (b) only an oil-loving end (c) both a water-loving and an oil-loving end (d) neither
-
-::: note Objective practice — answers
-**1.** (b) — copper and zinc. **2.** (c) — both are needed. **3.** (a) — galvanising. **4.** (b) — chromium forms a protective oxide film. **5.** (c) — one end holds water, the other grease.
+**1.** A substance that gives H⁺ ions in water. Mg + 2HCl → MgCl₂ + H₂; CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂; HCl + NaOH → NaCl + H₂O.
+**2.** A metal oxide or hydroxide; soluble bases (alkalis) give OH⁻ ions. Properties: turn red litmus blue and phenolphthalein pink; react with acids to give salt and water; with ammonium salts give ammonia. Uses: Ca(OH)₂ — whitewash and reducing soil acidity; Mg(OH)₂ — antacid; NaOH — soap and paper.
+**3.** A compound formed with water when an acid reacts with a base. Neutral: NaCl (HCl + NaOH); acidic: NH₄Cl (HCl + NH₄OH); basic: Na₂CO₃ (NaOH + H₂CO₃). Fe + CuSO₄ → FeSO₄ + Cu — iron is more reactive and displaces copper.
+**4.** Causes: oxides of sulphur and nitrogen from burning fossil fuels in vehicles, factories and kilns (and volcanoes) form sulphuric and nitric acids in the air. Harm: acidic rivers and lakes kill fish; leaves and soil are damaged and crops fall; forests die; monuments and statues corrode. Prevention: less fossil fuel, renewable energy, smoke control, industries away from settlements. For farmers: add lime or ash to neutralise soil acidity, add compost, test soil pH, grow acid-tolerant crops.
+**5.** The property of water of not lathering easily with soap, due to dissolved salts of calcium and magnesium (bicarbonates for temporary, sulphates and chlorides for permanent hardness). Permutit method: see the figure and text in 10.1.1 — hard water flows through sodium zeolite; Na₂Z + CaSO₄ → CaZ + Na₂SO₄; soft water comes out.
+**6.** A homogeneous mixture of a metal with other metals or a non-metal. Popular because they are harder, stronger, resist rust and can be made for special purposes. Steel (Fe + C): buildings, bridges. Stainless steel (Fe + Cr + Ni): utensils, surgical tools. Brass (Cu + Zn): *gagri*, idols, fittings. Bronze (Cu + Sn): plates, medals, statues.
 :::

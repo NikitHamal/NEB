@@ -24,7 +24,7 @@ export function createTubeBench(ctx, { hud = null, reagents, order, tubes = 4, l
   order.forEach((k, i) => {
     const r = reagents[k]; const b = reagentBottle(r.short, r.color, r.sub || '', { amber: r.amber });
     b.scale.setScalar(bottleScale); b.position.set(bottlesAt[0] + (i % cols) * 0.42, 0, bottlesAt[1] + Math.floor(i / cols) * 0.42); world.add(b); bottles[k] = b;
-    if (hud) { const c = hud.chip('ho-tag').set(r.tag || r.short).show(true); c.at.set(b.position.x, ctx.BENCH_Y + 0.62 * bottleScale, b.position.z); c.dx = -14; c.dy = -10; tags.push(c); }
+    if (hud) { const c = hud.chip('ho-tag').set(r.tag || r.short).show(true); c.at.set(b.position.x, ctx.BENCH_Y + 0.62 * bottleScale, b.position.z); c.dx = 0; c.dy = -10; c.center = true; tags.push(c); }
   });
   const HOLD = new THREE.Vector3(holdAt[0], 0.1, holdAt[1]);
   const stand = new THREE.Group(); stand.position.set(HOLD.x, 0, HOLD.z - 0.16); world.add(stand);
@@ -50,7 +50,7 @@ export function createTubeBench(ctx, { hud = null, reagents, order, tubes = 4, l
     /** Shows only these bottles, laid out in the grid in this order. */
     showOnly(keys) {
       order.forEach((k, i) => { const on = keys.includes(k); bottles[k].visible = on; if (tags[i]) tags[i].show(on); });
-      keys.forEach((k, j) => { const b = bottles[k]; b.position.set(bottlesAt[0] + (j % cols) * 0.42, 0, bottlesAt[1] + Math.floor(j / cols) * 0.42); const t = tags[order.indexOf(k)]; if (t) t.at.set(b.position.x, ctx.BENCH_Y + 0.62 * bottleScale, b.position.z); });
+      const nc = keys.length <= 6 ? keys.length : cols; keys.forEach((k, j) => { const b = bottles[k]; b.position.set(bottlesAt[0] + (j % nc) * 0.42, 0, bottlesAt[1] + Math.floor(j / nc) * 0.42); const t = tags[order.indexOf(k)]; if (t) { t.at.set(b.position.x, ctx.BENCH_Y + 0.62 * bottleScale, b.position.z); t.dy = j % 2 ? -36 : -10; } });
     },
     tubes: T, bottles, rack, HOLD, flame, stand, bath: wb,
     get tube() { return st.tube; },

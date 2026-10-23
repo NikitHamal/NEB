@@ -122,7 +122,7 @@ def _generate_with_fallback(system_prompt: str, user_prompt: str):
     """Try providers in priority order until one succeeds."""
     providers = [
         ('qwen_direct', None, None),
-        ('inception',   'inception',  'mercury-2'),
+        ('inception',   'inception',  'mercury-3'),
     ]
     for name, provider, model in providers:
         if name == 'qwen_direct':

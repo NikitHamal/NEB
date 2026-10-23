@@ -150,7 +150,7 @@ def _call_inception(messages: List[Dict[str, str]], model: str, max_tokens: int)
     t0 = time.time()
     text = simple_chat(
         user_message=user_msg,
-        model=model or 'mercury-2',
+        model=model or 'mercury-3',
         system_prompt=sys,
         max_tokens=max_tokens,
     )
@@ -160,7 +160,7 @@ def _call_inception(messages: List[Dict[str, str]], model: str, max_tokens: int)
     return ProviderCompletion(
         text=text,
         provider='inception',
-        model=model or 'mercury-2',
+        model=model or 'mercury-3',
         duration_ms=dt_ms,
         input_tokens=len(user_msg) // 4,
         output_tokens=len(text) // 4,

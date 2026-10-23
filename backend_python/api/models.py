@@ -149,6 +149,11 @@ class User(models.Model):
 
     class Meta:
         db_table = 'users'
+        indexes = [
+            # People suggestions: classmates and schoolmates.
+            models.Index(fields=['school'], name='users_school_idx'),
+            models.Index(fields=['class_level'], name='users_class_idx'),
+        ]
 
     def __str__(self):
         return self.username or self.id
@@ -282,8 +287,13 @@ class Resource(models.Model):
             models.Index(fields=['-like_count']),
             models.Index(fields=['approval_status']),
             models.Index(fields=['is_paid']),
-            models.Index(fields=['approval_status', 'is_lead', '-added_at'], name='res_appr_lead_added_idx'),
-            models.Index(fields=['approval_status', 'is_lead', '-view_count'], name='res_appr_lead_views_idx'),
+            # The library feed's sorts, each with its tie-breakers so MySQL can read the page
+            # straight off the index instead of sorting every approved resource: newest/default
+            # (-added_at, -view_count), trending (-view_count, -like_count, -added_at) and
+            # liked (-like_count, -added_at).
+            models.Index(fields=['approval_status', 'is_lead', '-added_at', '-view_count'], name='res_appr_lead_newest_idx'),
+            models.Index(fields=['approval_status', 'is_lead', '-view_count', '-like_count', '-added_at'], name='res_appr_lead_trend_idx'),
+            models.Index(fields=['approval_status', 'is_lead', '-like_count', '-added_at'], name='res_appr_lead_liked_idx'),
         ]
 
     def __str__(self):
@@ -371,6 +381,10 @@ class Post(models.Model):
             models.Index(fields=['-view_count']),
             models.Index(fields=['category', 'is_archived', '-created_at'], name='post_cat_arch_created_idx'),
             models.Index(fields=['is_archived', '-thumbs_up_count', '-created_at'], name='post_arch_rank_idx'),
+            models.Index(fields=['is_archived', '-reply_count', '-created_at'], name='post_arch_discussed_idx'),
+            # Per-author counts (profile stats, popup, profile tabs) and the forum's COUNT(*),
+            # answered from the index alone.
+            models.Index(fields=['user_id', 'is_archived', 'is_anonymous'], name='post_user_arch_anon_idx'),
         ]
 
     def __str__(self):
@@ -526,6 +540,7 @@ class Reply(models.Model):
             models.Index(fields=['parent_reply_id', 'created_at']),
             models.Index(fields=['post_id', 'is_archived', '-thumbs_up_count', 'created_at'], name='reply_post_rank_idx'),
             models.Index(fields=['user_id', '-created_at'], name='reply_user_created_idx'),
+            models.Index(fields=['user_id', 'is_archived', 'is_anonymous'], name='reply_user_arch_anon_idx'),
         ]
 
     def __str__(self):
@@ -597,6 +612,9 @@ class Follow(models.Model):
         indexes = [
             models.Index(fields=['following_id']),
             models.Index(fields=['follower_id']),
+            # Followers / following lists, newest first.
+            models.Index(fields=['following_id', '-created_at'], name='follow_following_created_idx'),
+            models.Index(fields=['follower_id', '-created_at'], name='follow_follower_created_idx'),
         ]
 
     def __str__(self):
@@ -851,7 +869,7 @@ class BotConfig(models.Model):
         ('unikey', 'Unikey (getunikey.ai — 12 models, free trial, no login)'),
         ('ptero', 'Ptero (ptero.pro — 12 models, free, no login)'),
         ('deepai', 'DeepAI (deepai.org)'),
-        ('inception', 'Inception Labs (Mercury 2)'),
+        ('inception', 'Inception Labs (Mercury 3)'),
         ('k2think', 'K2 Horizon (chat.ifm.ai — MBZUAI 375B reasoning)'),
         ('poolside', 'Poolside (chat.poolside.ai — Laguna 2.1)'),
         ('custom', 'Custom OpenAI-compatible endpoint'),
@@ -994,7 +1012,7 @@ class ArenaChatSession(models.Model):
         ('qwencloud', 'Qwen Cloud (qwencloud.com — 11 models, free)'),
         ('tryingopen', 'TryingOpen (tryingopen.com — 16 open models, free)'),
         ('deepai', 'DeepAI (deepai.org)'),
-        ('inception', 'Inception Labs (Mercury 2)'),
+        ('inception', 'Inception Labs (Mercury 3)'),
         ('k2think', 'K2 Horizon (chat.ifm.ai — MBZUAI 375B reasoning)'),
         ('poolside', 'Poolside (chat.poolside.ai — Laguna 2.1)'),
         ('yqcloud', 'Yqcloud (chat9.yqcloud.top — free, no login)'),

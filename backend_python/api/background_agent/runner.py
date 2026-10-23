@@ -962,7 +962,7 @@ class BackgroundAgentRunner:
             fn = deepai_proxy.simple_chat
         else:
             from api import inception_proxy
-            model = model_override or (self.session.llm_model or '').strip() or 'mercury-2'
+            model = model_override or (self.session.llm_model or '').strip() or 'mercury-3'
             label = 'Inception'
             fn = lambda **kw: inception_proxy.simple_chat(reasoning_effort='high', **kw)
         if file_paths:

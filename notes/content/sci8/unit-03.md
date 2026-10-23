@@ -7,429 +7,555 @@ hours: 0
 area: Science and Technology
 ---
 
-Every living thing, from the moss on a wall to the blue whale, is built from
-cells. Some living things are a single cell and nothing else; a human being is
-about thirty trillion cells arranged into tissues, organs and systems. This
-unit looks at the cell first, then at how cells build a body, then at how
-biologists sort the millions of living things into groups, and finally at the
-microorganisms you cannot see — the ones that make curd and the ones that make
-you ill.
+There are many kinds of plants and animals on the earth, from microscopic
+germs to huge trees and whales. Animals usually have a head, trunk, tail and
+limbs; plants usually have roots, stems, leaves, flowers and fruits. Many tiny
+organisms have no such organs at all. Yet the body of every living being is made
+of very small units called **cells**. Because the cells work together in perfect
+coordination, the body can digest, breathe, grow and reproduce. In this unit we
+study the cell and its parts, how cells build tissues, organs and systems, how
+living beings are classified, and how microorganisms help and harm us.
 
 ::: key What this unit asks of you
-You should be able to draw and label a plant cell and an animal cell and state
-the function of each organelle, explain how cells form tissues, organs and organ
-systems, name the five kingdoms and the classes of vertebrates with one example
-each, and describe the useful and the harmful effects of microorganisms.
+Draw and label a plant cell and an animal cell; give the structure and function
+of the cell wall, cell membrane, cytoplasm, mitochondria, plastids, ribosomes,
+ER, Golgi body, lysosome, vacuole and nucleus; explain cell → tissue → organ →
+organ system; compare the two-kingdom and five-kingdom systems; describe
+viruses, bacteria, amoeba and fungi with their good and bad effects; and explain
+dry, wet and cold preservation of food.
 :::
 
-## 3.1 The cell
-
-The **cell** is the smallest living unit of a body. Robert Hooke saw the first
-cells in 1665 in a slice of cork and gave them the name *cellulae*, meaning
-little rooms. The statement that all living things are made of cells, and that
-every cell comes from an existing cell, is called the **cell theory**.
-
-### 3.1.1 Parts of a cell and their work
-
-```figure caption="A plant cell and an animal cell side by side. The plant cell has a thick cell wall, a large central vacuole and chloroplasts; the animal cell has none of them and its vacuoles are small."
-fig, ax = plt.subplots(figsize=(5.0, 2.9))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.8)
-ax.axis("off")
-ax.add_patch(plt.Rectangle((0.5, 0.9), 3.9, 4.1, fc="#dbe8d2", ec=INK, lw=1.6))
-ax.text(2.45, 5.25, "Plant cell", ha="center", fontsize=7.6, color=INK)
-ax.add_patch(plt.Circle((6.9, 2.95), 2.05, fc="#f5e2dc", ec=INK, lw=1.6))
-ax.text(6.9, 5.25, "Animal cell", ha="center", fontsize=7.6, color=INK)
-ax.add_patch(plt.Circle((2.45, 2.6), 0.42, fc=ACCENT, alpha=0.55))
-ax.text(2.45, 3.6, "nucleus", ha="center", fontsize=6.2, color=INK)
-ax.add_patch(plt.Rectangle((0.95, 1.25), 1.0, 1.2, fc="white", ec=ACCENT, lw=1.0))
-ax.text(1.45, 1.85, "vacuole", ha="center", va="center", fontsize=5.9, color=ACCENT)
-for cx, cy in [(3.3, 1.5), (3.7, 2.9), (2.0, 4.1)]:
-    ax.add_patch(plt.Circle((cx, cy), 0.2, fc=SERIES[2], alpha=0.8))
-ax.text(3.85, 4.35, "chloroplast", ha="center", fontsize=6.2, color=SERIES[2])
-ax.text(1.0, 0.45, "cell wall + cell membrane", ha="left", fontsize=6.2, color=MUTED)
-ax.add_patch(plt.Circle((6.9, 3.1), 0.42, fc=ACCENT, alpha=0.55))
-ax.text(6.9, 4.1, "nucleus", ha="center", fontsize=6.2, color=INK)
-for cx, cy in [(6.1, 2.2), (7.7, 2.4)]:
-    ax.add_patch(plt.Circle((cx, cy), 0.22, fc="white", ec=ACCENT, lw=1.0))
-ax.text(8.65, 1.9, "small\\nvacuoles", ha="center", fontsize=6.0, color=ACCENT)
-ax.text(6.9, 0.45, "cell membrane only", ha="center", fontsize=6.2, color=MUTED)
-ax.text(5.0, 0.02, "both cells contain cytoplasm and mitochondria", ha="center",
-        fontsize=6.3, color=MUTED)
-fig.tight_layout()
-```
-
-| Part | Present in | Function |
-|---|---|---|
-| Cell wall | plant cells only | gives shape and strength; made of cellulose |
-| Cell membrane | both | controls what enters and leaves the cell |
-| Cytoplasm | both | the jelly in which the other parts float and reactions happen |
-| Nucleus | both | contains the chromosomes; controls all the cell's activities |
-| Mitochondria | both | release energy from food; the cell's power house |
-| Vacuole | both | stores water and dissolved substances; large and central in plants |
-| Chloroplast | plant cells only | contains chlorophyll and makes food by photosynthesis |
-| Ribosome | both | builds proteins |
-| Plastid | plant cells only | stores starch, oil or colour |
+## 3.1 The cell: plant and animal cells, organelles and their functions
 
 ::: definition Cell
-A **cell** is the smallest structural and functional unit of a living being,
-capable of carrying out all the processes of life.
+The **cell** is the basic structural and functional unit of life. Every
+organism is made of one or many cells, and all life processes — digestion,
+respiration, reproduction, transport and photosynthesis — take place in or by
+cells. The study of cells is called **cytology**.
 :::
 
-```photo id="sci8/cheek-cells" caption="Human cheek cells under a light microscope. The dark oval in each cell is the nucleus, and the pale ring around it is cytoplasm." width="70"
+**History.** The cell was first seen by **Robert Hooke** in **1665** in a thin
+slice of cork under a microscope he made himself. He called the little rooms
+*cellulae* ("tiny rooms" in Latin). Later, **Schleiden** (plants), **Schwann**
+(animals) and **Rudolf Virchow** concluded that all living bodies are made of
+cells and that new cells come from existing cells.
+
+### 3.1.1 Shape and size of cells
+
+Animal cells are usually irregular: oval, round, rod-like, cubical or columnar.
+Nerve cells are long and thread-like; most muscle cells are spindle-shaped.
+Plant cells are usually box-like or hexagonal. Bacteria are round, rod-shaped,
+thread-like or spiral. Most cells are too small to see with the naked eye. The
+smallest known cell is *Mycoplasma* (a bacterium), about **0.2 micrometre**
+across; the biggest single cell is the **ostrich egg**, about 15 cm long.
+
+::: example Real size of a cell under a microscope
+**Problem.** Under a microscope of magnification 400×, an onion cell appears 8 mm long. Find
+its real length in mm and in micrometres (1 mm = 1000 μm).
+**Solution.** Real size $=\frac{\text{image size}}{\text{magnification}}=\frac{8\ \text{mm}}{400}=0.02$ mm
+$=0.02\times1000=20$ μm.
+:::
+
+### 3.1.2 Observing cells (Activities 3.2 and 3.3)
+
+**Onion peel (plant cell).** Take a thin, transparent peel from an onion scale
+and cut small pieces. Stain them in **safranin** in a watch glass for a few
+minutes, then wash in clean water. Put a drop of **glycerine** on a clean slide,
+place one piece in it with a needle, spread it flat and lower a cover slip
+gently so that no air bubbles are trapped. Observe under the microscope: you see
+box-like cells joined side by side, each with a thick wall and a nucleus.
+
+**Cheek cells (animal cell).** Gently scrape the inside of your cheek with a
+clean, **blunt toothpick** (never a sharp metal needle). Put a drop of 1 %
+**methylene blue** and a drop of salt solution on a slide, mix the scraping in
+it and cover. The cells are flat and irregular, with a dark-stained nucleus and
+no cell wall.
+
+```photo id="sci8/cheek-cells" caption="Human cheek cells under a light microscope. Each cell is flat and irregular, with no cell wall." width="66"
 key 1 Nucleus
 key 2 Cytoplasm
 key 3 Cell membrane
 ```
-::: caution Three mistakes students make in cell diagrams
-**(1)** Drawing the cell wall and the cell membrane as one line in a plant cell.
-Draw the wall as a thick outer line and the membrane as a thin line just inside
-it. **(2)** Putting chloroplasts in an animal cell — they belong to plants only.
-**(3)** Forgetting the label lines: a diagram with the names but no lines to the
-parts earns no marks.
-:::
 
-## 3.2 From cell to organ system
+### 3.1.3 Parts of a cell
 
-Cells of the same kind, doing the same job, join to form a **tissue**. Two or
-more tissues working together form an **organ**. Organs that work together on
-the same job form an **organ system**, and the systems together make the whole
-body.
+A cell has four main groups of parts: **cell covering, cytoplasm, cell
+components** and **nucleus**.
 
-```figure caption="The five levels of organisation in the human body. Each level is built from the one below it, and the whole body works only when all the levels do."
-fig, ax = plt.subplots(figsize=(5.0, 2.6))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.4)
+```figure caption="A plant cell (left) and an animal cell (right). Only the plant cell has a cell wall, chloroplasts and one large central vacuole."
+from matplotlib.patches import Rectangle, Circle, Ellipse, FancyBboxPatch
+fig, ax = plt.subplots(figsize=(5.2, 3.3))
+ax.set_xlim(0, 10.4)
+ax.set_ylim(0, 6.6)
 ax.axis("off")
-levels = [("Cell", 1.0, "muscle cell"), ("Tissue", 3.0, "muscle tissue"),
-          ("Organ", 5.0, "stomach"), ("Organ system", 7.0, "digestive system"),
-          ("Body", 9.0, "the whole human")]
-for name, x, ex in levels:
-    ax.text(x, 3.5, name, ha="center", va="center", fontsize=7.0, color=INK,
-            bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=ACCENT, lw=1.0))
-    ax.text(x, 2.55, ex, ha="center", va="center", fontsize=6.1, color=MUTED)
-    if x < 9.0:
-        ax.annotate("", xy=(x + 1.3, 3.5), xytext=(x + 0.6, 3.5),
-                    arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.1))
-ax.text(5.0, 1.3, "A group of cells that does the same job is a tissue;", ha="center",
-        fontsize=6.6, color=INK)
-ax.text(5.0, 0.72, "a group of tissues that does the same job is an organ.",
-        ha="center", fontsize=6.6, color=INK)
+# plant cell
+ax.add_patch(Rectangle((0.3, 0.9), 3.9, 4.6, fc="#e4efd9", ec=INK, lw=2.6))
+ax.add_patch(Rectangle((0.45, 1.05), 3.6, 4.3, fc="none", ec=SERIES[2], lw=0.9))
+ax.add_patch(Rectangle((1.0, 1.5), 1.6, 2.2, fc="white", ec=ACCENT, lw=1.0))
+ax.add_patch(Circle((3.2, 4.4), 0.45, fc="#9fb7d9", ec=INK, lw=1))
+ax.add_patch(Circle((3.2, 4.4), 0.13, fc=INK))
+for cx, cy in [(0.9, 4.7), (1.9, 4.8), (3.5, 2.1), (3.4, 3.1)]:
+    ax.add_patch(Ellipse((cx, cy), 0.42, 0.24, fc=SERIES[2], ec="none"))
+ax.add_patch(Ellipse((2.9, 1.5), 0.5, 0.24, fc=SERIES[3], ec="none"))
+ax.text(2.25, 6.15, "Plant cell", ha="center", fontsize=8.6, color=INK)
+lab = dict(fontsize=7.4, color=INK, va="center")
+def tag(x, y, tx, ty, s, ha):
+    ax.annotate(s, xy=(x, y), xytext=(tx, ty), ha=ha, **lab,
+                arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7))
+tag(0.3, 5.2, 0.05, 5.85, "cell wall", "left")
+tag(1.8, 2.6, 1.8, 0.45, "large vacuole", "center")
+tag(3.4, 3.1, 4.7, 2.7, "chloroplast", "left")
+tag(3.6, 4.6, 4.7, 5.1, "nucleus", "left")
+tag(4.05, 1.3, 4.7, 1.5, "cell membrane", "left")
+tag(2.9, 1.5, 3.2, 0.45, "mitochondrion", "left")
+# animal cell
+ax.add_patch(Ellipse((8.0, 3.3), 3.6, 3.9, fc="#f6e3dc", ec=INK, lw=1.1))
+ax.add_patch(Circle((8.0, 3.5), 0.5, fc="#9fb7d9", ec=INK, lw=1))
+ax.add_patch(Circle((8.0, 3.5), 0.14, fc=INK))
+ax.add_patch(Circle((7.1, 2.4), 0.22, fc="white", ec=ACCENT, lw=1))
+ax.add_patch(Ellipse((8.9, 2.3), 0.5, 0.24, fc=SERIES[3], ec="none"))
+ax.text(8.0, 6.15, "Animal cell", ha="center", fontsize=8.6, color=INK)
+tag(9.6, 4.2, 9.2, 5.65, "cell membrane", "center")
+tag(7.55, 3.7, 6.1, 4.0, "nucleus", "right")
+tag(7.1, 2.4, 6.5, 0.9, "small vacuole", "center")
+tag(8.9, 2.3, 9.0, 0.7, "mitochondrion", "center")
+tag(7.3, 4.2, 6.6, 5.4, "cytoplasm", "center")
 fig.tight_layout()
 ```
+
+**1. Cell covering: cell wall and cell membrane**
+
+| Cell wall | Cell membrane (plasma membrane) |
+|---|---|
+| found only in plant, fungal and bacterial cells | found in all cells |
+| outermost layer in those cells | outermost layer in animal cells; just inside the wall in plant cells |
+| tough, rough, non-living | thin, smooth, elastic, living |
+| freely permeable | **semi-permeable**: controls what enters and leaves |
+| gives a **fixed shape** and mechanical support; protects from germs; in root hairs helps absorb water and minerals | controls transport of fluids; in amoeba forms pseudopodia for movement and catching food |
+
+**2. Cytoplasm.** A clear, sticky, semi-liquid between the cell membrane and the
+nucleus, made of water, salts, minerals, proteins and vitamins. **Functions:**
+the chemical reactions of life (metabolism) take place in it; it balances water
+and minerals; it holds the organelles.
+
+**3. Cell components.** These are of two kinds. **Cell organelles** are living
+parts that each do a special job (mitochondria, plastids, ribosomes, ER, Golgi
+body, lysosome). **Cell inclusions** are non-living things in the cytoplasm —
+droplets of water, crystals of salts, enzymes, hormones, vitamins, stored food
+and wastes. They act as raw materials and energy sources for the organelles.
+
+| Organelle | Structure | Function |
+|---|---|---|
+| **Mitochondria** | rod-like or thread-like, double membrane; inner membrane folded | **power house**: oxidise glucose with oxygen to release energy (stored as **ATP**); give CO₂ and water; contain some DNA |
+| **Chloroplast** (green plastid) | round or oval, double membrane, contains **chlorophyll**; spiral ribbon in *Spirogyra* | makes food by **photosynthesis**; makes plants green; contains DNA |
+| **Chromoplast** | coloured (not green) plastid in flowers, ripe fruits, some leaves | gives colour that attracts insects and birds for pollination and seed dispersal |
+| **Leucoplast** | colourless plastid in roots, seeds, white parts | stores starch, protein and fat |
+| **Ribosome** | very small, no membrane; free or on ER | makes proteins — the **protein factory** |
+| **Endoplasmic reticulum (ER)** | network of folded membrane canals from nucleus to cell membrane; *rough* ER has ribosomes, *smooth* ER has none | framework and support (**endoskeleton** of the cell); transport inside the cell; helps make new membranes |
+| **Golgi body** | stack of flat sacs (cisternae) with vesicles; discovered by Camillo Golgi, 1898 | **secretion** of mucus, saliva, sweat, tears, gum; sorts and packs proteins; forms the cell plate in plant cell division |
+| **Lysosome** | small round sac with a single membrane, full of digestive enzymes | digests food, worn-out and dead parts; can digest its own cell — the **suicidal bag** |
+| **Vacuole** | space bounded by a membrane (tonoplast), filled with **cell sap**; large in old plant cells, small in animal cells | balances water and salts; stores wastes before they are removed |
+
+Plastids are found only in plant cells (and some bacteria and protists). The
+vacuole is not a true organelle but a space filled with liquid.
+
+**4. Nucleus.** The nucleus is a round body, usually near the centre, enclosed by
+a double, porous **nuclear membrane**. It is found in the cells of plants,
+animals, protists and fungi (**eukaryotes**). Bacteria are **prokaryotes**: their
+genetic material lies free in the cell without a membrane.
+
+| Part of nucleus | Description and function |
+|---|---|
+| Nuclear membrane | double membrane with pores; protects the nucleus and lets substances pass in and out |
+| Nucleolus | round body without a membrane; made of protein and RNA; helps in cell division |
+| Nucleoplasm | liquid inside the nucleus; holds the nucleolus and chromatin |
+| Chromatin fibres | thin threads of **DNA** and protein; become thick, visible **chromosomes** during cell division; carry hereditary characters. A human cell has **23 pairs (46)** |
+
+**Functions of the nucleus:** controls and coordinates all activities of the
+cell, so it is called the **brain of the cell**; passes hereditary characters
+from parents to offspring; takes part in cell division (needed for growth); in
+unicellular organisms takes part directly in reproduction.
+
+### 3.1.4 Plant cell and animal cell compared
+
+| Plant cell | Animal cell | Both |
+|---|---|---|
+| has a cell wall of cellulose | no cell wall | cell membrane |
+| usually box-like, fixed shape | irregular or round | cytoplasm |
+| has plastids (chloroplasts) | no plastids | nucleus |
+| one large central vacuole | many small vacuoles or none | mitochondria, ribosomes, ER, Golgi body |
+| nucleus pushed to one side | nucleus near the centre | cellular respiration |
+
+::: caution Three mistakes in cell diagrams
+**(1)** Drawing the cell wall and cell membrane as one line in a plant cell —
+draw a thick wall with a thin membrane just inside. **(2)** Putting chloroplasts
+in an animal cell. **(3)** Writing names without label lines: a label must touch
+the part with a straight line.
+:::
+
+::: example Identify the cell
+**Question.** A cell has a rigid outer boundary, one large central space and many
+small green bodies. Identify it, giving three reasons.
+
+**Answer.** It is a **plant cell**. (i) The rigid boundary is the **cell wall**,
+absent in animal cells. (ii) The large central space is the **vacuole**, large
+only in plant cells. (iii) The green bodies are **chloroplasts**, found only in
+plant cells.
+:::
+
+## 3.2 Cell, tissue, organ and organ system in the human body
+
+Cells of similar kind join to form a **tissue**. Different tissues join at a
+place to form an **organ**, which does one or more special jobs. Organs that
+work together for one function form an **organ system**. All the organ systems
+together make the **body** (organism).
+
+```figure caption="Levels of organisation, using the digestive system as the example."
+fig, ax = plt.subplots(figsize=(5.0, 2.2))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 3.6)
+ax.axis("off")
+levels = [("Cell", "muscle cell"), ("Tissue", "muscle tissue"), ("Organ", "stomach"),
+          ("Organ system", "digestive\nsystem"), ("Body", "human being")]
+xs = [0.9, 2.95, 5.0, 7.05, 9.1]
+for (name, ex), x in zip(levels, xs):
+    ax.text(x, 2.4, name, ha="center", va="center", fontsize=8.2, color=INK,
+            bbox=dict(boxstyle="round,pad=0.35", fc="white", ec=ACCENT, lw=1.1))
+    ax.text(x, 1.15, ex, ha="center", va="center", fontsize=7.6, color=MUTED)
+for a, b in zip(xs[:-1], xs[1:]):
+    ax.annotate("", xy=(b - 0.85, 2.4), xytext=(a + 0.85, 2.4),
+                arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.1))
+fig.tight_layout()
+```
+
+**Example from the textbook.** Muscle fibres (cells) form **muscular tissue**.
+Muscular tissue lies in the middle layer of the food pipe, stomach and
+intestine. Its rhythmic contraction and relaxation (peristalsis) pushes food
+along. **Glandular tissue** in the inner wall of the stomach and intestine
+secretes digestive enzymes. These tissues together make the organs of the
+digestive system, and the system digests food for the whole body. So cells,
+tissues, organs and systems depend on one another; if the cells fail, the organ
+and the body fail.
 
 | Organ system | Main organs | Job |
 |---|---|---|
-| Digestive | mouth, oesophagus, stomach, small and large intestine, liver | breaks food down and absorbs it |
-| Respiratory | nose, trachea, bronchi, lungs | takes in oxygen and gives out carbon dioxide |
-| Circulatory | heart, blood, blood vessels | carries food, oxygen and waste around the body |
-| Excretory | kidneys, ureters, bladder, skin | removes waste such as urea and extra salts |
-| Nervous | brain, spinal cord, nerves | senses and controls everything |
-| Skeletal and muscular | bones and muscles | support, movement and protection |
-| Reproductive | testes, ovaries and related organs | produces the young ones |
-
-::: tip Learn the levels as a sentence
-**Cells make tissues, tissues make organs, organs make systems, systems make
-the body.** Say that sentence once before every answer about organisation, and
-you will never put an organ under a tissue in the wrong order.
-:::
+| Digestive | mouth, food pipe, stomach, intestines, liver | digests and absorbs food |
+| Respiratory | nose, trachea, lungs | takes in O₂, gives out CO₂ |
+| Circulatory | heart, blood vessels, blood | carries food, oxygen and wastes |
+| Excretory | kidneys, ureters, urinary bladder | removes urea and extra salts |
+| Nervous | brain, spinal cord, nerves | controls and coordinates the body |
+| Skeletal and muscular | bones, muscles | support, protection, movement |
+| Reproductive | testes / ovaries and related organs | produces young ones |
 
 ## 3.3 Classification of living beings
 
-There are millions of kinds of living being on the earth. Classification means
-sorting them into groups according to their shared features, so that each kind
-has one name and one place.
+Living beings differ in habitat, nutrition, reproduction and body structure,
+but they also share features. A bat flies and a rabbit runs, but both give
+birth to young and feed them milk, so both are placed in the class **Mammalia**.
 
-The broadest grouping used today is the **five-kingdom system** proposed by
-R. H. Whittaker in 1969.
+::: definition Classification
+**Classification** is the grouping of living beings into groups and subgroups
+on the basis of their similarities and differences. It makes the study of the
+huge number of organisms easy and systematic, and shows the trend of evolution.
+:::
 
-```figure caption="The five kingdoms. The system sorts living things first by the kind of cell, then by how they obtain food, and then by how their body is organised."
-fig, ax = plt.subplots(figsize=(5.1, 3.0))
+### 3.3.1 Two-kingdom system
+
+Proposed by the Swedish biologist **Carolus Linnaeus** in **1753**. All organisms
+were put into two kingdoms, **Plantae** and **Animalia**, on the basis of
+nutrition, movement, growth and reproduction. Organisms that move, take ready-made
+food (heterotrophic) and stop growing after some time are animals; those that do
+not move, make their own food (autotrophic) and grow throughout life are plants.
+
+**Merits:** the first scientific system; simple; plants and animals are easily
+distinguished.
+**Drawbacks:** (1) fungi, which cannot photosynthesise, were put with plants;
+(2) prokaryotic bacteria and eukaryotic algae were put in the same kingdom;
+(3) unicellular and multicellular organisms were not separated; (4) organisms
+like lichens and *Euglena* (which has features of both) had no proper place.
+
+### 3.3.2 Five-kingdom system
+
+Proposed by the American ecologist **R. H. Whittaker** in **1969**. **Basis:**
+type of cell (prokaryotic or eukaryotic), body organisation (unicellular or
+multicellular), mode of nutrition (autotrophic or heterotrophic), role in the
+ecosystem (producer, consumer or decomposer) and phylogenetic (evolutionary)
+relationship.
+
+```figure caption="The five kingdoms of R. H. Whittaker (1969), arranged from simple to complex."
+fig, ax = plt.subplots(figsize=(5.1, 2.7))
 ax.set_xlim(0, 10)
-ax.set_ylim(0, 6.6)
+ax.set_ylim(0, 5.2)
 ax.axis("off")
-ax.text(5.0, 6.1, "Living beings", ha="center", fontsize=8.0, color=INK,
-        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=INK, lw=1.2))
-kings = [("Monera", "bacteria\\nno true nucleus", 1.0),
-         ("Protista", "Amoeba, Paramecium\\nsingle celled", 3.0),
-         ("Fungi", "mushroom, mould\\ncell wall, no chlorophyll", 5.0),
-         ("Plantae", "green plants\\nmake their own food", 7.0),
-         ("Animalia", "animals\\ntake ready-made food", 9.0)]
-for name, note, x in kings:
-    ax.plot([5.0, x], [5.75, 4.5], color=GRID, lw=0.9)
-    ax.text(x, 4.05, name, ha="center", va="center", fontsize=7.0, color=ACCENT,
-            bbox=dict(boxstyle="round,pad=0.28", fc="white", ec=ACCENT, lw=1.0))
-    ax.text(x, 2.9, note, ha="center", va="center", fontsize=5.9, color=INK)
-ax.text(5.0, 1.35, "Monera and Protista have no organised tissue;", ha="center",
-        fontsize=6.4, color=MUTED)
-ax.text(5.0, 0.8, "Fungi absorb their food, plants make it, animals eat it.",
-        ha="center", fontsize=6.4, color=MUTED)
+ax.text(5.0, 4.7, "Living beings", ha="center", va="center", fontsize=8.6, color=INK,
+        bbox=dict(boxstyle="round,pad=0.3", fc="white", ec=INK, lw=1.1))
+kings = [("Monera", "prokaryotic,\nunicellular", "bacteria"),
+         ("Protista", "eukaryotic,\nunicellular", "amoeba"),
+         ("Fungi", "no chlorophyll,\nabsorb food", "mushroom"),
+         ("Plantae", "make own food\n(chlorophyll)", "fern, rice"),
+         ("Animalia", "multicellular,\neat food", "frog, cow")]
+xs = [1.0, 3.0, 5.0, 7.0, 9.0]
+for (k, d, e), x in zip(kings, xs):
+    ax.plot([5.0, x], [4.4, 3.65], color=GRID, lw=1)
+    ax.text(x, 3.35, k, ha="center", va="center", fontsize=8.2, color=ACCENT,
+            bbox=dict(boxstyle="round,pad=0.28", fc="white", ec=ACCENT, lw=1))
+    ax.text(x, 2.15, d, ha="center", va="center", fontsize=7.2, color=INK)
+    ax.text(x, 0.95, e, ha="center", va="center", fontsize=7.2, color=MUTED, style="italic")
 fig.tight_layout()
 ```
 
-| Kingdom | Kind of cell | How it feeds | Examples |
-|---|---|---|---|
-| Monera | no true nucleus (prokaryotic) | absorbs or makes its own food | bacteria, cyanobacteria |
-| Protista | true nucleus, one cell | absorbs, or moves and engulfs | Amoeba, Paramecium, Euglena, algae |
-| Fungi | true nucleus, cell wall | absorbs dissolved food from dead matter | mushroom, yeast, mould |
-| Plantae | true nucleus, cell wall, chlorophyll | makes food by photosynthesis | moss, fern, pine, bamboo, rice |
-| Animalia | true nucleus, no cell wall | eats ready-made food | earthworm, fish, frog, cow, human |
+| Kingdom | Main features | Examples |
+|---|---|---|
+| Monera | unicellular prokaryotes (no true nucleus) | bacteria, cyanobacteria, *Mycoplasma* |
+| Protista | unicellular eukaryotes | *Amoeba*, *Paramecium*, *Euglena*, *Plasmodium*, *Chlamydomonas* |
+| Fungi (Mycota) | eukaryotes with cell wall, no chlorophyll; saprophytic or parasitic; digest food outside the body | mushroom, yeast, *Mucor*, *Penicillium*, yarsagumba |
+| Plantae | multicellular, green, autotrophic (producers) | moss, fern, pine, mustard, sunflower |
+| Animalia | multicellular eukaryotic consumers, no cell wall | sponge, earthworm, insect, fish, human |
 
-### 3.3.1 The vertebrates
+**Features:** unicellular and multicellular organisms are separated; prokaryotes
+and eukaryotes are separated; autotrophs (Plantae) and heterotrophs (Animalia,
+Fungi) are separated; organisms are arranged from least developed to more
+developed, showing the trend of evolution.
 
-The kingdom Animalia is very large, so it is divided further. Animals with a
-backbone are **vertebrates**; those without are invertebrates (insects,
-molluscs and worms). The vertebrates are divided into five classes.
+| Two-kingdom system | Five-kingdom system |
+|---|---|
+| Linnaeus, 1753 | Whittaker, 1969 |
+| two kingdoms: Plantae, Animalia | five kingdoms: Monera, Protista, Fungi, Plantae, Animalia |
+| based on nutrition, movement, growth | based on cell type, body organisation, nutrition, ecological role, evolution |
+| prokaryotes and eukaryotes mixed | separated |
+| fungi and bacteria placed with plants | given their own kingdoms |
 
-| Class | Skin and covering | Breathing | Reproduces by | Example |
+### 3.3.3 The vertebrate classes
+
+Animals with a backbone are **vertebrates**. They are divided into five classes.
+
+| Class | Body covering | Breathing | Young | Examples |
 |---|---|---|---|---|
-| Pisces (fish) | wet scales | gills | laying eggs in water | rohu, trout |
-| Amphibia | moist, no scales | gills when young, lungs and skin as adult | eggs in water | frog, toad |
-| Reptilia | dry scaly | lungs | eggs with a leathery shell on land | snake, lizard, tortoise |
-| Aves (birds) | feathers | lungs | hard-shelled eggs | sparrow, danphe, duck |
-| Mammalia | hair or fur | lungs | gives birth to live young and feeds milk | cow, bat, whale, human |
+| Pisces (fish) | scales, fins | gills | eggs in water | rohu, trout |
+| Amphibia | moist skin, no scales | gills when young; lungs and skin as adult | eggs in water | frog, toad |
+| Reptilia | dry scaly skin | lungs | shelled eggs on land | lizard, snake, tortoise |
+| Aves (birds) | feathers, beak | lungs | hard-shelled eggs | sparrow, danfe, pigeon |
+| Mammalia | hair or fur, mammary glands | lungs | most give birth; feed milk | cow, bat, whale, human |
 
 ::: caution A whale is not a fish
-A whale lives in water and has fins, so students often put it with the fish.
-But it has hair, it breathes air through lungs and it feeds its young with
-milk. Classification follows structure, not the place where the animal lives.
+A whale lives in water and has fins, but it has hair, breathes with lungs and
+feeds its young with milk, so it is a mammal. Classification follows body
+structure, not the place where an animal lives.
 :::
 
 ## 3.4 Effects of microorganisms
 
-**Microorganisms** are living beings so small that they cannot be seen with the
-naked eye; a microscope is needed. They are found in the five kingdoms, but the
-ones that matter most in daily life are bacteria, fungi, protozoa and some
-algae.
+**Microorganisms** (germs or microbes) are living beings too small to be seen with
+the naked eye. They live in air, water, soil, uncovered food, dirt, and in and on
+living and dead bodies. A broken egg left open becomes rotten and smelly because
+of them. The study of microorganisms is **microbiology**.
 
-```photo id="sci8/paramecium" caption="Paramecium, a single-celled animal of the kingdom Protista, seen through a microscope. The beating hair-like cilia around it push it through the water." width="62"
-key 1 Cilia, used for movement
-key 2 Food vacuole
-key 3 Contractile vacuole, which removes extra water
-```
-### 3.4.1 Useful microorganisms
+**(A) Virus.** The smallest germs, which can infect plants, animals, bacteria and
+fungi. A virus has **no cell** (acellular), so it belongs to no kingdom. Its body
+is only nucleic acid (DNA or RNA) inside a protein coat (**capsid**), sometimes
+with an envelope. Outside a host it behaves like a non-living thing (no eating,
+breathing or growth); inside a living cell it multiplies, damaging the cell. So it
+is called a **link between living and non-living** and an **obligate parasite**.
+Examples: rhinovirus (cold), coronavirus (SARS-CoV-2 causes COVID-19), tobacco
+mosaic virus, bacteriophage.
 
-| Microorganism | What it does for us |
+**(B) Bacteria.** Unicellular prokaryotes (kingdom Monera); round, rod-shaped or
+spiral. A tough outer **capsule** lets some survive very hot or cold places. Most
+are saprophytic **decomposers**; some make their own food; some are parasites
+that cause disease. Examples: *Rhizobium*, *Azotobacter*, *Salmonella*,
+cyanobacteria.
+
+| Bacteria | Virus |
 |---|---|
-| Bacteria (Lactobacillus) | turns milk into curd and *mohi* |
-| Yeast (a fungus) | makes dough rise for bread; ferments *jaand* and wine |
-| Bacteria in the soil | fix nitrogen and decompose dead matter into humus |
-| Bacteria in the intestine | help digestion and make some vitamins |
-| Fungi (Penicillium) | the source of the antibiotic penicillin |
-| Algae | make oxygen in water and food for fish |
-| Bacteria in sewage treatment | clean waste water |
+| a true cell (prokaryotic) | no cell; nucleic acid in a protein coat |
+| living in all conditions; has metabolism | behaves as living only inside a host cell |
+| can live freely, many are useful | always a parasite inside a cell |
+| larger; seen with a light microscope | much smaller; needs an electron microscope |
+| killed by antibiotics | not killed by antibiotics |
 
-```photo id="sci8/bread-mould" caption="Rhizopus, the mould that grows on bread and over-ripe fruit. It is a fungus: it has no chlorophyll, so it feeds by absorbing dissolved food from the bread." width="62"
+**(C) Amoeba.** A unicellular eukaryote (Protista) of water and moist soil. It has
+no fixed shape; it moves and catches food with **pseudopodia** (false feet).
+*Entamoeba histolytica* in dirty water causes **amoebic dysentery**.
+
+**(D) Fungi.** Eukaryotes with a cell wall but no chlorophyll (kingdom Mycota).
+Most are **saprophytes** living on dead and decaying matter; some are parasites.
+The body is made of fine threads called **hyphae**, forming a **mycelium**.
+Examples: *Mucor*, mushroom, yeast, *Penicillium*, yarsagumba (*Cordyceps*),
+*Puccinia* (rust of wheat).
+
+```photo id="sci8/bread-mould" caption="Mould growing on bread. It is a fungus: it has no chlorophyll and absorbs food from the bread through its thread-like hyphae." width="58"
 key 1 Sporangium, which holds the spores
-key 2 Spores
-key 3 Mycelium, the thread-like feeding part
+key 2 Mycelium of thread-like hyphae
 ```
-### 3.4.2 Harmful microorganisms and protection from them
 
-Harmful microorganisms are called **pathogens**. They cause diseases in people,
-animals and crops, and they spoil food.
+### 3.4.1 Useful (positive) effects
 
-| Disease | Caused by | Spreads through |
+1. *Amoeba proteus* feeds on bacteria, so it helps control them.
+2. Decomposer bacteria (e.g. *Nitrosomonas*, *Nitrobacter*, *Clostridium*) break
+   dead bodies and wastes into simple minerals, making the soil fertile and
+   keeping the ecosystem in balance.
+3. *Rhizobium* in the root nodules of legumes (pea, bean, gram) fixes
+   atmospheric nitrogen, increasing soil fertility.
+4. *Lactobacillus* turns milk into curd; *Streptococcus lactis* is used for cheese.
+5. Bacteria and fungi are used to make antibiotics (penicillin from
+   *Penicillium*), vaccines, insulin and vitamins.
+6. **Yeast** ferments sugars into alcohol and acids (**fermentation**); it is used
+   in bread, *jaand*, pickles and *gundruk*.
+7. Bacteriophages kill bacteria and can be used against some bacterial
+   infections and in water treatment.
+8. Viruses are used in genetic engineering to transfer genes.
+
+### 3.4.2 Harmful (negative) effects
+
+1. They cause diseases in people, animals and crops, and reduce farm, fish, silk
+   and honey production.
+2. They spoil food and produce poisons, causing **food poisoning**.
+3. They infect wounds and pimples; if the toxin enters the blood it can cause
+   **sepsis**, which may be fatal.
+4. They spoil stored grains and vegetables, causing loss to farmers.
+5. Decomposing waste at dumping sites gives a foul smell and pollutes the air.
+
+| Group | Diseases in humans | Plant diseases |
 |---|---|---|
-| Typhoid | bacteria | contaminated water and food |
-| Cholera | bacteria | contaminated water |
-| Tuberculosis | bacteria | droplets in the air when a patient coughs |
-| Common cold, influenza | virus | droplets and touch |
-| Dysentery (amoebiasis) | protozoan | contaminated water and food |
-| Ringworm | fungus | skin contact and shared clothes |
-| Malaria | protozoan | the bite of an infected mosquito |
-| Damping off of seedlings | fungus | soil |
+| Virus | COVID-19, common cold, AIDS, measles | tobacco mosaic |
+| Bacteria | typhoid, tuberculosis, cholera, pneumonia | blight of rice, citrus canker |
+| Protozoa | amoebic dysentery, malaria, giardiasis | — |
+| Fungi | ringworm, athlete's foot | rust of wheat, root rot |
 
-**Ways to protect yourself.**
-
-1. Drink boiled or filtered water.
-2. Wash hands with soap before eating and after using the toilet.
-3. Cover the mouth and nose when coughing or sneezing.
-4. Keep food covered; do not eat food that is old or smells wrong.
-5. Keep the house and the surroundings clean; do not let water stand in
-   old tyres, pots and drains, because mosquitoes breed there.
-6. Get the vaccination that the health post offers — measles, BCG, polio and
-   others. A vaccine teaches the body to defend itself before the germ arrives.
-
-```photo id="sci8/onion-root" caption="Cells of an onion root tip, stained to show the nucleus. The cells near the tip are dividing, which is why a root tip is used to study cell division." width="80"
-key 1 Nucleus
-key 2 Dividing cell
-key 3 Root tip tissue
-```
-::: example Worked reasoning: why does milk turn sour in summer?
-**Observation.** Fresh milk kept in an open glass turns sour in a few hours in
-Asar, but stays good for most of a day in winter.
-
-**Reason.** Milk contains *Lactobacillus* bacteria. They feed on the sugar in
-milk (lactose) and change it into lactic acid. The more acid produced, the
-sourer the taste, and the acid also makes the milk protein curdle. Bacteria
-multiply faster in warmth, so in hot weather the same number of bacteria doubles
-every twenty minutes or so and the milk turns sour quickly.
-
-**Practical conclusion.** Boil the milk and keep it covered in a cool place, or
-use a refrigerator. Boiling kills most of the bacteria; covering keeps new ones
-from falling in. The same reaction is used on purpose to make curd and *mohi*
-from milk.
+::: definition Food poisoning
+**Food poisoning** is illness caused by eating food contaminated by microbes such
+as *Clostridium*, *Salmonella*, norovirus or *Giardia* or by their toxins.
+Symptoms: diarrhoea, vomiting, fever, dehydration, headache. *Prevention:* eat
+fresh, well-cooked food; keep food covered; wash hands and utensils; never eat
+stale or bad-smelling food.
 :::
 
-## 3.5 Using a microscope, and what a drawing must show
+::: example Why does milk turn sour faster in summer?
+**Reason.** *Lactobacillus* in milk changes milk sugar (lactose) into **lactic
+acid**, which tastes sour and curdles the protein. Bacteria multiply faster in
+warmth, so in summer the milk sours in a few hours.
 
-A biological drawing is marked on accuracy and labels, not on shading.
-
-| Rule | Why |
-|---|---|
-| Draw large and in the middle of the space | small drawings hide detail |
-| Use sharp pencil lines, no shading or colouring | shading hides the outline |
-| Draw only what is actually seen | an invented chloroplast costs marks |
-| Label with straight, non-crossing lines | crossing lines confuse the examiner |
-| Write the title and the magnification | identifies the specimen and the scale |
-
-**Using the microscope:** carry it with two hands; start with the lowest
-objective; focus with the coarse knob first and the fine knob afterwards;
-keep both eyes open; never touch the lens with fingers.
-
-::: example Plant cell or animal cell?
-**Question.** A student sees a cell with a rigid outer boundary, one large
-central space and many small green bodies. Identify the cell with three
-reasons.
-
-**Answer.** It is a **plant cell**. (i) The rigid outer boundary is the
-**cell wall**, which animal cells do not have. (ii) The one large central
-space is the **vacuole**, large and permanent only in plant cells.
-(iii) The small green bodies are **chloroplasts**, the site of
-photosynthesis, found in plant cells only.
+**Conclusion.** Boil milk (kills most bacteria), cover it (stops new ones) and keep
+it cool (slows growth). The same action of bacteria is used on purpose to make curd.
 :::
 
-::: note Activity — the onion peel slide
-Peel a thin membrane from an onion, place it on a slide with a drop of
-water, add a drop of iodine, lower the cover slip at an angle to avoid air
-bubbles, and view it under low power. Draw what you see, label four parts,
-and write the magnification. Repeat with a cheek smear (stained with
-methylene blue, under the teacher's supervision) and list three differences.
+## 3.5 Protection of food from microorganisms; vaccination
+
+**Food preservation** is protecting food from microorganisms and keeping its
+nutritional value so that it can be used for a long time. Microbes need
+**moisture**, **warmth** and **air**; every method removes one of these.
+
+| Method | How it is done | Why microbes cannot grow | Nepali examples |
+|---|---|---|---|
+| **Dry preservation** | drying in sun, oven or dryer at about 20–30 °C until very little moisture is left | no water for the microbes | grains, *sukuti* (dry meat), dry fish, *gundruk*, dry fruits |
+| **Wet preservation** | washing or boiling the food, then dipping it in strong salt solution, lemon juice, vinegar or mustard oil in an airtight jar | salt, acid and oil stop microbes; airtight lid keeps spores out | lemon, chilli, radish and bamboo-shoot (*tama*) pickles |
+| **Cold preservation** | keeping food at low temperature (about −18 °C to 4.4 °C) in a fridge or cold store | microbes become inactive or die | fruits and vegetables in cold stores; potatoes and ginger in covered pits |
+
+::: caution Fungus in pickles
+Fungus grows in a pickle when the vegetables were not dried properly, a wet spoon
+was used, too little salt or oil was added, or the lid was not airtight. Dry the
+vegetables well, use enough oil and salt, keep the jar airtight, and always use a
+clean, dry spoon.
 :::
+
+**Vaccination.** A **vaccine** contains dead or weakened germs (or a part of them).
+When it is given, the body makes **antibodies** without suffering the disease, so
+later the real germ is destroyed quickly. This protection is called
+**immunity**. Nepal's national immunisation programme gives children free
+vaccines such as BCG (tuberculosis), polio, measles–rubella and others. Clean
+water, hand-washing, covering food and controlling mosquitoes prevent the
+diseases for which there is no vaccine.
 
 ## Chapter summary
 
-- The **cell** is the smallest living unit; the cell theory says all living
-  things are made of cells and every cell comes from a cell.
-- Plant cells have a cell wall, chloroplasts and a large central vacuole; animal
-  cells do not.
-- The nucleus controls the cell, mitochondria release energy, chloroplasts make
-  food, the membrane controls entry and exit.
+- The **cell** is the structural and functional unit of life (Hooke, 1665).
+- Parts: covering (cell wall + membrane), cytoplasm, cell components
+  (organelles + inclusions), nucleus.
+- Mitochondria = power house (ATP); chloroplast = photosynthesis; ribosome =
+  protein factory; ER = endoskeleton; Golgi = secretion; lysosome = suicidal
+  bag; nucleus = brain of the cell; human cells have 23 pairs of chromosomes.
+- Plant cells have a cell wall, plastids and a large vacuole; animal cells do not.
 - **Cell → tissue → organ → organ system → body.**
-- The **five kingdoms** are Monera, Protista, Fungi, Plantae and Animalia,
-  sorted mainly by cell type and the way they feed.
-- The five vertebrate classes are Pisces, Amphibia, Reptilia, Aves and
-  Mammalia; classification follows structure, not habitat.
-- Microorganisms are useful (curd, bread, nitrogen fixing, antibiotics, sewage
-  treatment) and harmful (typhoid, cholera, ringworm, food spoilage).
-- Boiled water, soap, covered food, clean surroundings and vaccination are the
-  five practical defences against disease.
+- Two-kingdom system: Linnaeus, 1753. Five-kingdom system: Whittaker, 1969 —
+  Monera, Protista, Fungi, Plantae, Animalia.
+- Virus = link between living and non-living; bacteria, amoeba and fungi have
+  useful and harmful effects.
+- Food preservation: dry, wet and cold methods remove moisture, add salt/acid/oil
+  or lower the temperature. Vaccines give immunity.
 
 ## Practice questions
 
-**Group A — Objective (1 mark each)**
+**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
 
-1. The part of the cell that controls its activities is the
-   <span class="marks">[1]</span>
-   (a) cytoplasm (b) nucleus (c) vacuole (d) cell membrane
-2. Which of these is present in a plant cell but not in an animal cell?
-   <span class="marks">[1]</span>
-   (a) nucleus (b) mitochondrion (c) chloroplast (d) cytoplasm
-3. A group of similar cells doing the same work is called a
-   <span class="marks">[1]</span>
-   (a) tissue (b) organ (c) system (d) organism
-4. Amoeba belongs to the kingdom <span class="marks">[1]</span>
-   (a) Monera (b) Protista (c) Fungi (d) Animalia
-5. A whale is classified as a mammal because it
-   <span class="marks">[1]</span>
-   (a) lives in water (b) has a large body (c) breathes through lungs and feeds
-   milk (d) has fins
-6. Which microorganism turns milk into curd? <span class="marks">[1]</span>
-   (a) yeast (b) Lactobacillus (c) Plasmodium (d) Penicillium
+1. The branch of science that deals with the study of the cell is <span class="marks">[1]</span>
+   (a) histology (b) cytology (c) cytogenetics (d) anatomy
+2. In which form is the energy produced in a cell stored before it is given to the organelles? <span class="marks">[1]</span>
+   (a) DNA (b) RNA (c) RBC (d) ATP
+3. A common feature of the nuclear membrane and the cell membrane is that they <span class="marks">[1]</span>
+   (a) help in transport (b) are made of pectin (c) are non-elastic (d) pass on heredity
+4. Which function is done by both plant and animal cells? <span class="marks">[1]</span>
+   (a) photosynthesis (b) cellular respiration (c) transpiration (d) guttation
+5. What would happen if a cell had no cell membrane? <span class="marks">[1]</span>
+   (a) organelles would be lost (b) the cell would die (c) only metabolism would stop (d) only the nucleus would be lost
+6. Which function of the nucleus helps the growth of the body? <span class="marks">[1]</span>
+   (a) making protein (b) transport (c) taking part in cell division (d) controlling all functions
+7. Who proposed the two-kingdom system? <span class="marks">[1]</span>
+   (a) Whittaker (b) Haeckel (c) Linnaeus (d) Aristotle
+8. In the five-kingdom system, protozoans belong to <span class="marks">[1]</span>
+   (a) Monera (b) Protista (c) Mycota (d) Animalia
+9. Bacteria are called decomposers because they <span class="marks">[1]</span>
+   (a) cause disease (b) infect wounds (c) live in extreme places (d) decay dead bodies and excreta
+10. Which virus causes COVID-19? <span class="marks">[1]</span>
+   (a) SARS-CoV-1 (b) SARS-CoV-2 (c) flu virus (d) rhinovirus
+11. The main thing to be followed while preserving food is <span class="marks">[1]</span>
+   (a) to prevent germs (b) drying well (c) keeping cold (d) adding salt
+12. A feature of the five-kingdom system is that organisms are <span class="marks">[1]</span>
+   (a) arranged in phylogenetic order (b) classified only by nutrition (c) classified by chlorophyll and growth (d) classified by movement
+13. To preserve fresh, wet *gundruk*, it should be <span class="marks">[1]</span>
+   (a) dried extremely in the sun (b) dried in the shade (c) dried leaving only the required small moisture (d) kept wet in an airtight bottle
 
 ::: note Answers to Group A
-**1.** (b) — the nucleus holds the chromosomes and directs the cell.
-**2.** (c) — chloroplasts carry chlorophyll, which animals never have.
-**3.** (a) — same kind of cells, same work, is a tissue.
-**4.** (b) — Amoeba is a single-celled organism with a true nucleus.
-**5.** (c) — hair, lungs and milk are mammal features.
-**6.** (b) — Lactobacillus turns lactose into lactic acid.
+**1.** (b) — cytology. **2.** (d) — ATP (adenosine triphosphate). **3.** (a) — both control the passage of substances. **4.** (b) — every living cell respires. **5.** (b) — without the membrane nothing can be controlled or held in, so the cell dies. **6.** (c) — growth needs new cells. **7.** (c) — Linnaeus, 1753. **8.** (b) — Protista. **9.** (d). **10.** (b). **11.** (a) — every method aims to keep microbes out or inactive. **12.** (a) — from least developed to most developed. **13.** (c) — dried until only very little moisture is left, so microbes cannot grow but the food keeps its quality.
 :::
 
 **Group B — Short answer (2 marks each)**
 
-1. Write the functions of any four parts of a plant cell.
-   <span class="marks">[2]</span>
-2. Distinguish between a tissue and an organ with one example each.
-   <span class="marks">[2]</span>
-3. Write the five kingdoms with one example of each.
-   <span class="marks">[2]</span>
-4. Name two useful and two harmful microorganisms, with the effect of each.
-   <span class="marks">[2]</span>
+1. Differentiate: (a) cytoplasm and nucleoplasm (b) chloroplast and chromoplast (c) cell wall and cell membrane (d) cell organelles and cell inclusions. <span class="marks">[4]</span>
+2. Give reasons: (a) Ribosomes are called protein factories. (b) The cell wall gives a fixed shape to plant cells. (c) Metabolism occurs in the cytoplasm. (d) The cell is the basic unit of life. (e) Cells, tissues and organs must be coordinated for life processes. <span class="marks">[5]</span>
+3. Where are mitochondria found in a cell? Write their functions. <span class="marks">[2]</span>
+4. Which organelle digests itself, and why? <span class="marks">[2]</span>
+5. Write the role of the Golgi body and the vacuole. <span class="marks">[2]</span>
+6. Why is the nucleus called the brain of the cell? What happens if a cell has no nucleus? <span class="marks">[2]</span>
+7. Differentiate between bacteria and virus. <span class="marks">[2]</span>
+8. Give reasons: (a) A virus is called an infectious particle, not an organism. (b) We should not eat stale, smelly food. (c) The five-kingdom system gives a proper place to almost all organisms. (d) Fruits do not spoil if dried well. <span class="marks">[4]</span>
+9. What is food poisoning? Write its causes and prevention. <span class="marks">[2]</span>
+10. How is amoeba useful to people? <span class="marks">[2]</span>
 
 ::: note Answers to Group B
-**1.** Any four: nucleus (controls all activities); chloroplast (makes food by
-photosynthesis); cell wall (gives shape and support); vacuole (stores water and
-dissolved substances); mitochondrion (releases energy); cell membrane (controls
-what enters and leaves).
-**2.** A tissue is a group of similar cells doing the same work — muscle tissue,
-for example. An organ is a group of different tissues working together on one
-job — the stomach, which has muscle tissue, glandular tissue and lining tissue.
-**3.** Monera — bacteria; Protista — Amoeba or Paramecium; Fungi — mushroom,
-yeast or mould; Plantae — bamboo, fern or pine; Animalia — earthworm, frog,
-cow or human.
-**4.** Useful: Lactobacillus, which makes curd; yeast, which makes dough rise
-and is used in fermentation. Harmful: *Plasmodium*, which causes malaria, spread
-by mosquitoes; the fungus that causes ringworm, spread by skin contact and
-shared clothes.
+**1.** (a) Cytoplasm is the semi-liquid between the cell membrane and nucleus, holding organelles; nucleoplasm is the liquid inside the nucleus, holding the nucleolus and chromatin. (b) Chloroplast is a green plastid with chlorophyll that makes food; chromoplast is a coloured (non-green) plastid that colours flowers and fruits for pollination and dispersal. (c) See the table in 3.1.3: wall is non-living, tough, freely permeable, only in plants/fungi/bacteria; membrane is living, thin, semi-permeable, in all cells. (d) Organelles are living parts with a special job (mitochondria, ribosome); inclusions are non-living substances in the cytoplasm (water droplets, salt crystals, stored food, wastes).
+**2.** (a) They join amino acids to make proteins. (b) It is tough, rigid and non-living and surrounds the membrane like a box. (c) The cytoplasm holds the enzymes, raw materials and organelles where the chemical reactions occur. (d) Every organism is made of cells and every life process takes place in cells. (e) Each life process needs many cells working as tissues, tissues working as organs and organs working as a system; if one level fails, the process stops.
+**3.** In the cytoplasm of both plant and animal cells. Functions: oxidise glucose with oxygen to release energy stored as ATP (power house); contain DNA that passes on some hereditary characters.
+**4.** The lysosome. It is full of digestive enzymes; when the enzyme level becomes very high, or the cell is old or damaged, the membrane breaks and the enzymes digest the cell itself — so it is called the suicidal bag.
+**5.** Golgi body: secretes mucus, saliva, sweat and tears; sorts and packs proteins; helps form the new membrane or cell plate in division. Vacuole: stores cell sap, balances water and salts, and collects wastes before they are removed.
+**6.** It controls and coordinates all activities of the cell and carries the hereditary material. Without a nucleus the cell cannot divide or control its work, and soon dies (e.g. mature red blood cells live only about 120 days).
+**7.** See the bacteria–virus table in 3.4.
+**8.** (a) It has no cell and no metabolism, and it shows life only inside a host cell. (b) Microbes have grown in it and made toxins, causing food poisoning. (c) It separates prokaryotes from eukaryotes, unicellular from multicellular, and gives fungi their own kingdom. (d) Microbes need water to grow; dried fruit has too little.
+**9.** Illness from eating food spoiled by microbes or their toxins. Causes: stale, uncovered or undercooked food; dirty hands or utensils; germs like *Salmonella*, *Clostridium*, norovirus. Prevention: eat fresh, well-cooked, covered food; wash hands; keep food cold; avoid smelly food.
+**10.** *Amoeba proteus* eats bacteria, so it is used to control bacteria (e.g. in cleaning waste water).
 :::
 
 **Group C — Long answer (4 marks each)**
 
-1. Draw a labelled diagram of a plant cell and an animal cell side by side, and
-   write three differences between them. <span class="marks">[4]</span>
-2. What are microorganisms? Describe any three uses of microorganisms in daily
-   life and any three diseases they cause, with the way each disease spreads.
-   <span class="marks">[4]</span>
+1. Draw a labelled diagram of a plant cell and an animal cell, and complete a Venn diagram comparing them. <span class="marks">[4]</span>
+2. Write the functions of the three kinds of plastids in a plant cell. What would happen to a plant with no chloroplasts? <span class="marks">[4]</span>
+3. Write the merits and drawbacks of the two-kingdom system, and explain how the five-kingdom system corrected them. <span class="marks">[4]</span>
+4. What are the methods of food preservation? Describe one, and write the importance of food preservation. Why does fungus grow in a pickle jar, and how can it be stopped? <span class="marks">[4]</span>
+5. What is a microorganism? Give one example from each group, write four advantages of microorganisms, and name two diseases caused by each group. <span class="marks">[4]</span>
 
 ::: note Answers to Group C
-**1.** **Diagram.** Two large circles or rectangles, the plant cell a rectangle
-with a thick double boundary (cell wall outside, cell membrane inside) and the
-animal cell a circle with a single thin boundary. Label nucleus, cytoplasm,
-cell membrane, cell wall, chloroplast and vacuole on the plant cell; nucleus,
-cytoplasm and cell membrane on the animal cell. **Three differences.**
-(i) A plant cell has a cell wall of cellulose; an animal cell has only a cell
-membrane. (ii) A plant cell has chloroplasts and can make its own food; an
-animal cell has none and must take ready-made food. (iii) A plant cell has one
-large central vacuole; an animal cell has small scattered vacuoles.
-**2.** **Microorganisms** are living beings too small to be seen with the naked
-eye, visible only under a microscope. **Uses.** (i) *Lactobacillus* turns milk
-into curd, *mohi* and cheese. (ii) Yeast makes bread dough rise by giving out
-carbon dioxide, and is used in fermentation. (iii) Soil bacteria fix nitrogen
-and decompose dead matter into humus, and *Penicillium* gives us the antibiotic
-penicillin. **Diseases.** (i) Typhoid, a bacterial disease spread through
-contaminated water and food. (ii) Ringworm, a fungal disease spread by skin
-contact and shared clothes. (iii) Malaria, caused by a protozoan and spread by
-the bite of an infected *Anopheles* mosquito. Protection: boiled water, soap,
-covered food, clean surroundings and vaccination.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** The cell was discovered by
-   (a) Robert Hooke (b) Leeuwenhoek (c) Schwann (d) Whittaker
-**2.** Which structure is found in a plant cell but not in an animal cell?
-   (a) nucleus (b) cell wall (c) cytoplasm (d) mitochondrion
-**3.** The site of protein synthesis is the
-   (a) ribosome (b) vacuole (c) lysosome (d) nucleolus
-**4.** Fungi are placed in a separate kingdom mainly because
-   (a) they are green (b) their cell wall is of chitin and they are not autotrophic (c) they are unicellular (d) they move
-**5.** A group of similar cells doing one job is a
-   (a) tissue (b) organ (c) system (d) organism
-
-::: note Objective practice — answers
-**1.** (a) — Hooke saw cork cells in 1665. **2.** (b) — the cellulose cell wall. **3.** (a) — the ribosome. **4.** (b) — chitin walls and heterotrophic nutrition. **5.** (a) — a tissue.
+**1.** Draw as in the figure in 3.1.3. *Plant only:* cell wall, plastids, large central vacuole. *Animal only:* irregular shape, small vacuoles, central nucleus. *Both:* cell membrane, cytoplasm, nucleus, mitochondria, ribosomes, ER, Golgi body.
+**2.** Chloroplast: makes food by photosynthesis, gives green colour, helps make fatty acids and amino acids. Chromoplast: gives colour to flowers and fruits to attract insects and birds for pollination and seed dispersal. Leucoplast: stores starch, protein and fat. Without chloroplasts the plant could not make food, so it would not grow and would die; animals that depend on it would also suffer.
+**3.** Merits: first scientific system; simple; easy to tell plants from animals. Drawbacks: fungi put with plants; prokaryotic bacteria and eukaryotic algae put together; unicellular and multicellular not separated; lichens and *Euglena* had no place. Correction: Whittaker's five-kingdom system put prokaryotes in Monera, unicellular eukaryotes in Protista, fungi in their own kingdom Fungi, and kept only green multicellular plants in Plantae and multicellular consumers in Animalia.
+**4.** Dry, wet and cold preservation (table in 3.5). *Wet preservation:* the food is washed or boiled, dried, then kept in strong salt solution, lemon juice, vinegar or mustard oil in an airtight jar; e.g. lemon pickle. *Importance:* food lasts longer, nutrients are kept, seasonal food is available all year, loss to farmers is reduced and food poisoning is prevented. Fungus grows when moisture or air enters (wet vegetables, wet spoon, loose lid, too little oil or salt); prevent it by drying well, using enough oil and salt, an airtight lid and a dry spoon.
+**5.** Microorganisms are living beings too small to see without a microscope. Examples: virus — coronavirus; bacteria — *Rhizobium*; protozoa — *Amoeba*; fungi — yeast; algae — *Chlamydomonas*. Advantages: decomposition and soil fertility; nitrogen fixation; curd and cheese; antibiotics and vaccines; fermentation (bread, *jaand*). Diseases: virus — COVID-19, common cold; bacteria — typhoid, tuberculosis; protozoa — malaria, amoebic dysentery; fungi — ringworm, athlete's foot.
 :::

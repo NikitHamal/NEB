@@ -16,12 +16,23 @@ import coil.memory.MemoryCache
 import okhttp3.OkHttpClient
 import com.neb.ians.data.api.WafChallengeInterceptor
 import com.neb.ians.util.DevicePerformance
+import com.neb.ians.data.repository.SecurePrefs
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 @HiltAndroidApp
 class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
 
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
+
+    @Inject
+    lateinit var dataStore: DataStore<Preferences>
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder()
@@ -33,6 +44,7 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
         return ImageLoader.Builder(this)
             .components {
                 add(com.neb.ians.ui.avatar.AvatarMapper())
+                add(com.neb.ians.ui.avatar.AvatarKeyer())
                 add(com.neb.ians.ui.avatar.AvatarFetcher.Factory())
             }
             .memoryCache {
@@ -71,6 +83,22 @@ class NEBiansApp : Application(), Configuration.Provider, ImageLoaderFactory {
         super.onCreate()
         com.neb.ians.util.CrashHandler.init(this)
         createNotificationChannels()
+        warmUp()
+    }
+
+    /**
+     * Starts, off the main thread, the reads the first screen otherwise waits for on it: the
+     * festival theme's prefs file and the preferences DataStore (both read while MainActivity is
+     * injected) and the encrypted token (Keystore and Tink setup, the slowest step of a cold
+     * start). A later reader finds each cached, or waits for the read already under way.
+     */
+    private fun warmUp() {
+        // getSharedPreferences starts reading the file on a thread of its own; SiteThemeRepository
+        // reads the cached festival theme from it on the main thread while MainActivity is injected
+        getSharedPreferences(com.neb.ians.data.theme.SiteThemeRepository.PREFS, MODE_PRIVATE)
+        val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+        scope.launch { runCatching { dataStore.data.first() } }
+        scope.launch { runCatching { SecurePrefs.getAuthToken(this@NEBiansApp) } }
     }
 
     private fun createNotificationChannels() {

@@ -7,400 +7,539 @@ hours: 0
 area: Science and Technology
 ---
 
-A living being does certain things that a stone never does: it takes in food, it
-breathes, it grows, it gets rid of waste, it responds, and it produces new
-individuals like itself. These activities together are called **life
-processes**. Nutrition, respiration, excretion and growth are covered in the
-earlier grades; this unit gives its main attention to **reproduction** — how a
-new individual is made, in a plant, in an animal and from a single seed.
+Every organism can produce young ones of its own kind. Flowering plants form
+seeds in their flowers, and the seeds grow into new plants. Many plants also grow
+directly from a root, stem or leaf. Lower plants and fungi form special units
+called spores. In higher animals, males and females form gametes, and the joining
+of the gametes starts a new life that is born from the mother or hatched from an
+egg. Without reproduction a species would die out. This unit studies asexual and
+sexual reproduction, pollination and fertilisation, the seed and its germination,
+and the basic life processes of nutrition, respiration and growth.
 
 ::: key What this unit asks of you
-You should be able to distinguish asexual from sexual reproduction and give
-examples of each, name the parts of a flower and state the function of each,
-explain pollination, fertilisation and the formation of the fruit and seed,
-compare internal with external fertilisation, and describe the structure and
-germination of a seed with the conditions it needs.
+Define reproduction and give its importance; describe fission, budding,
+fragmentation, regeneration, sporulation and parthenogenesis; explain natural and
+artificial vegetative propagation (cutting, layering, gootee, grafting, tissue
+culture); label a flower; explain self- and cross-pollination and double
+fertilisation; compare internal and external fertilisation; describe the parts of
+a seed, its dispersal and germination and the factors needed for germination.
 :::
 
-## 5.1 Reproduction
+## 5.1 Reproduction: asexual and sexual
 
-**Reproduction** is the process by which a living being produces a new
-individual of its own kind. It is what keeps a species from dying out — an
-individual can live without reproducing, but a species cannot.
+::: definition Reproduction
+**Reproduction** is the biological process by which organisms give birth to young
+ones of their own kind.
+:::
 
-Reproduction happens in two ways.
+**Importance of reproduction:** (a) it continues the generation and prevents
+extinction; (b) it balances the death rate by new births; (c) it is the basis of
+new generations; (d) it keeps the biodiversity of the ecosystem in balance.
 
-| | Asexual reproduction | Sexual reproduction |
+There are two kinds of reproduction. In **sexual reproduction** a male gamete and
+a female gamete fuse. In **asexual reproduction** a new organism forms from a
+single parent **without the fusion of gametes**.
+
+### 5.1.1 Types of asexual reproduction
+
+| Type | What happens | Examples |
 |---|---|---|
-| How many parents | one | two (usually) |
-| Sex cells (gametes) | none | male and female gametes join |
-| New individual is | almost an exact copy of the parent | a mixture of both parents |
-| Speed and numbers | fast; often many at once | slower; usually fewer |
-| Variation | very little | much more |
-| Examples | binary fission in Amoeba, budding in yeast and Hydra, vegetative propagation in potato and sugarcane | flowering plants, fish, frog, cow, human |
+| **Fission** | the parent cell splits; the parent no longer exists. *Binary fission:* into two (lengthwise or crosswise). *Multiple fission:* into many | binary: amoeba, paramecium, euglena, bacteria; multiple: *Plasmodium*, *Chlamydomonas* |
+| **Budding** | a small bud grows on the body, develops into a complete organism and separates | yeast, hydra, corals, jellyfish |
+| **Fragmentation** | the body breaks into pieces and each piece grows into a new organism | *Spirogyra*, *Marchantia*, lichens, *Mucor* |
+| **Regeneration** | a cut piece of the body grows into a whole organism; the parent also regrows the lost part | hydra, planaria, starfish |
+| **Sporulation** | single-celled **spores** form inside a **sporangium**, are spread by wind and grow into new plants in moist places | fern, moss, mushroom, *Mucor* |
+| **Parthenogenesis** | a new individual develops from an **unfertilised egg** | drone (male) honey bees, aphids, some ants |
 
-### 5.1.1 Asexual reproduction
+In some plants such as banana, pineapple and some cucumbers, the ovary grows into
+a fruit **without fertilisation**, giving seedless fruit. This is called
+*parthenocarpy*.
 
-- **Binary fission.** The parent cell divides into two equal daughter cells.
-  Amoeba, Paramecium and bacteria do this. In good conditions an Amoeba can
-  divide every few hours.
-- **Budding.** A small outgrowth (a bud) grows on the parent's body, and when
-  it is large enough it separates. Yeast and Hydra do this.
-- **Fragmentation.** The body breaks into pieces, and each piece grows into a
-  new individual. Spirogyra and some flatworms do this.
-- **Spore formation.** The parent makes a large number of microscopic spores,
-  each able to grow into a new individual. *Rhizopus*, the bread mould, does
-  this.
-- **Vegetative propagation.** A part of a plant — a root, stem, leaf or bud —
-  grows into a new plant. This is the method farmers use most.
-
-| Vegetative part | Example |
-|---|---|
-| Tuber (swollen underground stem) | potato |
-| Bulb | onion, garlic |
-| Rhizome | ginger, turmeric |
-| Stem cutting | sugarcane, rose, *dhalne phool* |
-| Sucker | banana, pineapple |
-| Leaf | *Bryophyllum* |
-| Root | sweet potato, dahlia |
-| Layering and grafting | mango, orange, guava |
-
-::: tip Why farmers prefer vegetative propagation
-The new plant is a copy of the parent, so a farmer who has one exceptionally
-good mango tree can raise many trees that give the same fruit. There is also no
-waiting for a seed to grow: a grafted sapling bears fruit years earlier than a
-seedling. The disadvantage is that all the copies share the same weakness, so
-one disease can destroy the whole orchard.
-:::
-
-## 5.2 Sexual reproduction in plants
-
-The flower is the reproductive organ of a flowering plant. Its parts are
-arranged in four rings.
-
-```figure caption="A flower cut open. The male parts make pollen, the female part holds the egg, and the colourful petals exist only to bring the pollinator in."
-from matplotlib.patches import Ellipse
+```figure caption="Two common kinds of asexual reproduction: binary fission in amoeba (top) and budding in hydra (bottom)."
+from matplotlib.patches import Ellipse, Circle
 fig, ax = plt.subplots(figsize=(5.0, 3.0))
 ax.set_xlim(0, 10)
-ax.set_ylim(0, 6.6)
+ax.set_ylim(0, 6)
 ax.axis("off")
-ax.plot([5.0, 5.0], [1.2, 4.2], color=INK, lw=2.0)
-ax.add_patch(plt.Circle((5.0, 4.35), 0.28, fc=SERIES[2], alpha=0.85))
-ax.text(5.0, 4.95, "stigma", ha="center", fontsize=6.6, color=SERIES[2])
-ax.text(5.35, 3.5, "style", ha="left", fontsize=6.6, color=INK)
-ax.add_patch(plt.Circle((5.0, 1.25), 0.45, fc=SERIES[2], alpha=0.5))
-ax.text(5.0, 0.6, "ovary (holds ovules)", ha="center", fontsize=6.6, color=SERIES[2])
-for x0 in (3.3, 6.7):
-    ax.plot([x0, x0], [1.6, 4.0], color=ACCENT, lw=1.4)
-    ax.add_patch(plt.Circle((x0, 4.15), 0.22, fc=ACCENT, alpha=0.85))
-ax.text(2.0, 4.5, "anther (pollen)", ha="center", fontsize=6.6, color=ACCENT)
-ax.text(8.1, 3.4, "filament", ha="center", fontsize=6.6, color=ACCENT)
-for x0 in (2.2, 7.8):
-    ax.add_patch(Ellipse((x0, 2.8), 1.5, 2.4, fc=SERIES[1], alpha=0.28,
-                             ec=SERIES[1], lw=1.0))
-ax.text(1.4, 1.2, "petal", ha="center", fontsize=6.6, color=SERIES[1])
-ax.add_patch(Ellipse((5.0, 1.15), 6.4, 1.5, fc="#cfe3c8", alpha=0.55,
-                         ec="#5d8a4a", lw=1.0))
-ax.text(1.3, 0.25, "sepal", ha="left", fontsize=6.4, color="#4a6b3a")
-ax.text(9.6, 5.6, "male: androecium", ha="right", fontsize=6.8, color=ACCENT)
-ax.text(9.6, 5.05, "female: gynoecium", ha="right", fontsize=6.8, color=SERIES[2])
+def amoeba(x, y, w=1.1, h=0.8, nuc=1):
+    ax.add_patch(Ellipse((x, y), w, h, fc="#dfe9f5", ec=ACCENT, lw=1.1))
+    for i in range(nuc):
+        ax.add_patch(Circle((x + (i - (nuc - 1) / 2) * 0.35, y), 0.11, fc=INK))
+amoeba(1.0, 4.6)
+amoeba(3.5, 4.6, w=1.6, h=0.75, nuc=2)
+ax.add_patch(Ellipse((6.0, 4.6), 0.75, 0.75, fc="#dfe9f5", ec=ACCENT, lw=1.1))
+ax.add_patch(Ellipse((6.65, 4.6), 0.75, 0.75, fc="#dfe9f5", ec=ACCENT, lw=1.1))
+ax.add_patch(Circle((6.0, 4.6), 0.1, fc=INK)); ax.add_patch(Circle((6.65, 4.6), 0.1, fc=INK))
+amoeba(8.4, 4.9, w=0.9, h=0.7); amoeba(9.3, 4.3, w=0.9, h=0.7)
+for x in (1.9, 4.6, 7.3):
+    ax.annotate("", xy=(x + 0.5, 4.6), xytext=(x, 4.6), arrowprops=dict(arrowstyle="->", color=MUTED))
+for x, t in [(1.0, "parent cell"), (3.5, "nucleus divides"), (6.3, "cell splits"), (8.85, "two daughters")]:
+    ax.text(x, 3.75, t, ha="center", fontsize=7.4, color=INK)
+# hydra budding
+def hydra(x, bud=0):
+    ax.add_patch(Ellipse((x, 1.4), 0.5, 1.8, fc="#e4efd9", ec=SERIES[2], lw=1.1))
+    for dx in (-0.25, -0.08, 0.08, 0.25):
+        ax.plot([x + dx, x + dx * 3], [2.25, 2.85], color=SERIES[2], lw=1)
+    if bud:
+        ax.add_patch(Ellipse((x + 0.35 + 0.1 * bud, 1.2 + 0.1 * bud), 0.25 + 0.15 * bud, 0.45 + 0.25 * bud,
+                             angle=-50, fc="#e4efd9", ec=SERIES[2], lw=1.1))
+hydra(1.2); hydra(4.0, 1); hydra(6.8, 2)
+ax.add_patch(Ellipse((9.0, 1.3), 0.35, 1.2, fc="#e4efd9", ec=SERIES[2], lw=1.1))
+for x in (2.0, 4.9, 7.8):
+    ax.annotate("", xy=(x + 0.5, 1.4), xytext=(x, 1.4), arrowprops=dict(arrowstyle="->", color=MUTED))
+ax.text(4.4, 0.05, "bud appears", ha="center", fontsize=7.4, color=INK)
+ax.text(7.3, 0.05, "bud grows", ha="center", fontsize=7.4, color=INK)
+ax.text(9.0, 0.05, "new hydra", ha="center", fontsize=7.4, color=INK)
+ax.text(1.2, 0.05, "parent hydra", ha="center", fontsize=7.4, color=INK)
 fig.tight_layout()
 ```
 
-| Part | Function |
-|---|---|
-| Sepal | protects the flower while it is a bud |
-| Petal | bright colour and scent attract insects and birds |
-| Stamen (anther + filament) | the male part; the anther makes pollen grains |
-| Carpel (stigma + style + ovary) | the female part; the ovary holds the ovules (eggs) |
+**Features of asexual reproduction:** no gametes are formed or fused; there is no
+male or female; it can start from any vegetative (body) cell; and the offspring are
+**genetically identical** to the parent (clones).
 
-### 5.2.1 Pollination
+### 5.1.2 Vegetative propagation
 
-**Pollination** is the transfer of pollen from the anther of a flower to the
-stigma of a flower. If it happens in the same flower or in another flower of
-the same plant it is **self-pollination**; if the pollen goes to a flower of a
-different plant of the same kind it is **cross-pollination**.
+The flower is the reproductive part of a plant; the root, stem and leaf are
+**vegetative parts**. Asexual reproduction from a vegetative part is called
+**vegetative propagation**.
 
-| Agent | How it carries pollen | Example plant |
+**Natural vegetative propagation**
+
+| Part | How it gives a new plant | Examples |
 |---|---|---|
-| Insect or bird | pollen sticks to the body while drinking nectar | mustard, orange, sunflower |
-| Wind | light, dry pollen blows in the air; stigmas are feathery | maize, wheat, pine |
-| Water | pollen floats to the female flower | lotus, water hyacinth |
-| Animal | fur carries pollen from flower to flower | *Rhododendron* visited by birds |
+| Root | buds on roots, or food-storing roots, give new shoots | sweet potato, dahlia, asparagus, guava, sissoo |
+| Underground stem: sucker | shoots grow from the base of the main stem | banana, bamboo, mint |
+| Underground stem: rhizome | flat, food-storing stem with buds | ginger, turmeric, *bojho* |
+| Underground stem: corm | swollen base of the shoot with a few buds | *pindalu* (colocasia), gladiolus |
+| Underground stem: bulb | round stem with fleshy leaves and buds | onion, garlic, tulip |
+| Underground stem: tuber | swollen stem with **eyes** (buds) | potato, yam |
+| Aerial stem | buds at the nodes grow roots and shoots | sugarcane, *dubo* grass |
+| Bulbils | small buds that drop and grow | agave (*ketuke*), lily, pineapple |
+| Leaf | buds in the notches of the leaf margin | *Bryophyllum* (*pattharchatta*), begonia, snake plant |
 
-```photo id="sci8/bee-pollination" caption="A honey bee drinking nectar. Pollen from the flower's anthers sticks to the hairs on the bee's body and is carried to the next flower — the bee is paid in nectar, and the plant is paid in pollination." width="86"
-key 1 Anthers, which shed the pollen
-key 2 Pollen sticking to the bee's body hairs
-key 3 Petals, the landing place and the advertisement
+**Artificial vegetative propagation** is producing new plants asexually with tools
+and techniques to improve the quality and quantity of crops.
+
+1. **Cutting** — pieces of stem, root or leaf are planted; a stem cutting should be
+   from a one-year-old twig and have at least **two nodes**. *Rose, sugarcane, lemon.*
+2. **Layering** — a low, soft branch (the *layer*) has 2–3 cm of bark removed, is
+   bent and buried in moist soil; when roots form it is cut off and planted. *Jasmine,
+   grape.*
+3. **Gootee (air layering)** — a ring of 2–3 cm of bark is removed from a branch
+   at least a year old, covered with moist soil (with manure or hormone) and wrapped
+   in plastic; after one to two months roots form and the branch is cut and planted.
+   *Litchi, mango, guava, orange, pomelo.*
+4. **Grafting** — two closely related plants are joined. The rooted lower part is the
+   **stock** (a year-old seedling cut 20–30 cm above the ground); the shoot of a
+   high-quality plant is the **scion**. Their cut surfaces are fitted, bound with
+   grafting tape and wax so no air enters, and kept in shade. The new plant gives
+   fruit of the scion's quality. The Nepal Agricultural Research Council (NARC)
+   produces many grafted fruit plants.
+5. **Tissue culture** — a tiny piece of the parent plant (**explant**) is grown in a
+   nutrient medium (**culture medium**) with hormones in a sterile laboratory; it
+   forms a mass of cells called **callus**, which grows into thousands of
+   disease-free plantlets. It is the most advanced method.
+
+**Advantages of artificial propagation:** the variety can be chosen; plants bear
+fruit early; many identical plants are produced quickly; plants without viable
+seeds (banana, sugarcane) can be multiplied.
+
+| Layering | Grafting |
+|---|---|
+| a branch roots while still attached to the parent | two parts of different plants are joined |
+| only one plant is involved | stock and scion from two related plants |
+| gives a copy of the same plant | combines a strong root with a good-quality shoot |
+
+## 5.2 Sexual reproduction in plants: flower, pollination and fertilisation
+
+**Sexual reproduction** is reproduction by the fusion of male and female gametes
+of the same species. The fused cell is the **zygote**, which grows into the new
+organism. Organisms with only male or only female organs are **unisexual**; those
+with both (e.g. the mustard flower, earthworm) are **bisexual** (hermaphrodite).
+
+**Features:** gametes form and fuse; male and female organs exist; offspring show
+**variation**, are more adaptable to a changing environment and make evolution
+possible.
+
+### 5.2.1 The flower
+
+The flower is the reproductive part of a flowering plant.
+
+```figure caption="Parts of a bisexual flower in section. The stamen (anther + filament) is the male part; the pistil (stigma + style + ovary) is the female part."
+from matplotlib.patches import Ellipse, Polygon
+fig, ax = plt.subplots(figsize=(5.0, 3.4))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 7)
+ax.axis("off")
+ax.plot([5, 5], [0.2, 1.6], color=SERIES[2], lw=3)
+ax.add_patch(Ellipse((5, 1.75), 1.8, 0.6, fc="#cfe3c4", ec=SERIES[2]))
+ax.add_patch(Polygon([[4.2, 1.9], [2.6, 2.9], [3.9, 2.3]], fc="#9cc98a", ec=SERIES[2]))
+ax.add_patch(Polygon([[5.8, 1.9], [7.4, 2.9], [6.1, 2.3]], fc="#9cc98a", ec=SERIES[2]))
+ax.add_patch(Polygon([[4.3, 2.1], [2.2, 5.6], [3.2, 5.8], [4.6, 2.4]], fc="#f6cdd6", ec=SERIES[1]))
+ax.add_patch(Polygon([[5.7, 2.1], [7.8, 5.6], [6.8, 5.8], [5.4, 2.4]], fc="#f6cdd6", ec=SERIES[1]))
+ax.add_patch(Ellipse((5, 2.6), 1.1, 1.1, fc="#f3e3b5", ec=INK))
+for dy in (-0.2, 0.2):
+    ax.add_patch(Ellipse((5 + dy, 2.6), 0.22, 0.32, fc="white", ec=INK, lw=0.8))
+ax.plot([5, 5], [3.15, 4.9], color=INK, lw=2)
+ax.add_patch(Ellipse((5, 5.0), 0.6, 0.25, fc=SERIES[3], ec=INK))
+for x0, x1 in [(4.5, 3.9), (5.5, 6.1)]:
+    ax.plot([x0, x1], [2.3, 4.3], color=MUTED, lw=1.4)
+    ax.add_patch(Ellipse((x1, 4.45), 0.3, 0.45, fc="#e6b84a", ec=INK))
+lab = dict(fontsize=7.6, color=INK, va="center")
+def tag(x, y, tx, ty, s, ha="left"):
+    ha = "left" if tx > x else "right"
+    ax.plot([x, tx - 0.1 if ha == "left" else tx + 0.1], [y, ty], color=MUTED, lw=0.7)
+    ax.text(tx, ty, s, ha=ha, **lab)
+tag(5.15, 5.05, 7.6, 6.6, "stigma")
+tag(5.05, 4.0, 8.2, 4.6, "style")
+tag(5.5, 2.75, 8.2, 3.3, "ovary")
+tag(5.2, 2.6, 8.2, 2.3, "ovule")
+tag(6.25, 4.5, 8.2, 5.6, "anther")
+tag(4.2, 3.4, 1.9, 3.9, "filament")
+tag(2.7, 5.2, 1.9, 5.0, "petal")
+tag(3.0, 2.75, 1.9, 2.9, "sepal")
+tag(4.4, 1.7, 1.9, 1.5, "receptacle")
+tag(5.0, 0.8, 7.0, 0.6, "pedicel (stalk)")
+fig.tight_layout()
 ```
-### 5.2.2 Fertilisation and the fruit
 
-After pollination the pollen grain grows a tube down through the style into the
-ovary. The male gamete inside the pollen travels down the tube and joins the
-female gamete (the egg) inside the ovule. This joining is **fertilisation**.
-
-| After fertilisation | Becomes |
-|---|---|
-| Ovule | seed |
-| Ovary | fruit |
-| Zygote (the fertilised egg) | embryo inside the seed |
-| Petals, stamens, sepals | dry up and fall off |
-
-So the fruit you eat — a mango, a tomato, a pea pod — is a grown-up ovary, and
-the seeds inside it are grown-up ovules. That is why a fruit that has not been
-pollinated has no seeds, and often does not form at all.
-
-### 5.2.3 Sexual reproduction in animals
-
-Animals also produce male and female gametes, but they differ in where the
-joining takes place.
-
-| | External fertilisation | Internal fertilisation |
+| Whorl | Part | Function |
 |---|---|---|
-| Where the gametes join | outside the body, in water | inside the female's body |
-| Animals | most fish, frog, toad | reptiles, birds, mammals |
-| Eggs laid | very many, in water | few, protected |
-| Care of the young | usually none; most eggs and young are eaten | often some care, from guarding eggs to feeding milk |
+| Calyx (sepals) | green outer leaves | protects the flower in the bud |
+| Corolla (petals) | coloured leaves | attracts insects and birds |
+| Androecium (stamens) | **filament** and **anther**; pollen grains form in the anther | male part |
+| Gynoecium (pistil) | **stigma**, **style**, **ovary** with **ovules** | female part |
 
-In frogs, the female lays a mass of eggs in water and the male releases his
-gametes over them. In birds and reptiles the egg is fertilised inside the
-female and laid with a shell; in mammals the young develops inside the mother
-and is fed with milk after birth.
+### 5.2.2 Pollination
 
-::: caution The egg we eat is not a baby bird
-A hen's egg that you buy in the market has not been fertilised, because there
-is no male bird with the flock. It contains one female gamete plus food and a
-shell, and it would never hatch. This is also why hens lay eggs almost every
-day: the egg is produced whether or not fertilisation happens.
+::: definition Pollination
+**Pollination** is the transfer of pollen grains from the anther to the stigma of
+the same flower or of another flower of the same species.
 :::
 
-## 5.3 The seed
+A pollen grain is a single, microscopic cell with a double wall; its sticky or
+rough outer wall helps it stick to the stigma.
 
-A seed contains a baby plant (the embryo) with a store of food, wrapped in a
-protective coat. A **monocotyledonous** seed, such as maize or rice, has one
-cotyledon; a **dicotyledonous** seed, such as bean or pea, has two.
+**Self-pollination** is the transfer of pollen to the stigma of the same flower
+(**autogamy**) or of another flower on the **same plant** (**geitonogamy**). It
+occurs in small, dull flowers without nectar or scent. *Paddy, wheat, groundnut,
+pea.*
+*Advantages:* good parental characters are kept; seed formation is almost sure; no
+agent needed. *Disadvantages:* no new characters; reproductive vigour slowly falls;
+bad characters cannot be removed.
 
-| Part of a bean seed | Function |
+**Cross-pollination** is the transfer of pollen to the stigma of a flower on a
+**different plant of the same species**. It occurs in colourful, scented flowers
+with nectar, or where anther and stigma ripen at different times. It needs agents:
+
+| Agent | Name | Examples |
+|---|---|---|
+| wind | anemophily | maize, pine, mango |
+| water | hydrophily | *Vallisneria*, some water plants |
+| insects (bee, butterfly, fly) | entomophily | mustard, sunflower, pumpkin |
+| birds (sunbird, tailorbird) | ornithophily | bottle-brush, silk cotton |
+
+*Advantages:* new and better varieties; offspring adapt better; seeds germinate
+well. *Disadvantages:* depends on agents; good characters may not be preserved;
+unwanted characters may come in.
+
+```photo id="sci8/bee-pollination" caption="A honey bee visiting a flower for nectar. Pollen sticks to its hairy body and is carried to the next flower — entomophily." width="80"
+key 1 Anthers, which shed the pollen
+key 2 Pollen sticking to the bee's body hairs
+key 3 Petals
+```
+
+### 5.2.3 Fertilisation and double fertilisation
+
+::: definition Fertilisation
+**Fertilisation** is the fusion of a male gamete with a female gamete (egg) of the
+same species to form a **zygote**.
+:::
+
+In a flowering plant: (1) a pollen grain on the stigma absorbs water and sugar from
+the stigma fluid and grows a **pollen tube**; (2) the tube grows down through the
+style into the ovary and enters an **ovule**; (3) on the way its nucleus divides to
+form **two male gametes**; (4) one male gamete fuses with the **egg** → **zygote**
+(becomes the embryo); (5) the other fuses with the **secondary nucleus** (the two
+fused polar nuclei) → **endosperm nucleus** (becomes food store). Because two
+fusions happen, this is **double fertilisation**; it is found only in flowering plants.
+
+After fertilisation, the **ovule becomes the seed** and the **ovary becomes the
+fruit**; the petals, stamens, style and stigma usually wither.
+
+| Pollination | Fertilisation |
 |---|---|
-| Seed coat (testa) | protects the embryo from damage and drying |
-| Cotyledon (two) | stores food for the seedling until it can make its own |
-| Embryo | the young plant: plumule (future shoot) and radicle (future root) |
-| Micropyle | the small pore through which water enters |
+| transfer of pollen from anther to stigma | fusion of male gamete and egg |
+| happens on the stigma, outside the ovary | happens inside the ovule (in the ovary) |
+| needs agents in cross-pollination | needs a pollen tube |
+| comes first | follows pollination |
 
-```photo id="sci8/bean-germination" caption="A bean seed germinating, stage by stage. The radicle comes out first and grows downwards; the plumule follows and grows upwards. Growth never waits for the food store to run out." width="84"
+## 5.3 Sexual reproduction in animals: internal and external fertilisation
+
+In most animals males and females are separate. The male's **testes** produce
+**sperms**; the female's **ovaries** produce **ova** (eggs). Forming gametes is
+called **gametogenesis**. A sperm has an oval head, a middle piece and a long tail
+for swimming; an ovum is much larger and round, with stored food. Millions of
+sperms are made, but in a woman usually only one ovum is released in a month.
+
+During fertilisation only **one sperm** enters the ovum, and their nuclei fuse to
+form the **zygote** — the first cell of the new individual. The zygote divides to
+form an **embryo**, which grows into a baby. The time from fertilisation to birth or
+hatching is the embryonic (gestation) period.
+
+**Male → sperm, female → ovum → (fertilisation) → zygote → embryo → young one**
+
+| Internal fertilisation | External fertilisation |
+|---|---|
+| sperm and ovum fuse **inside the female's body** (in humans, in the fallopian tube) | sperm and ova fuse **outside**, in water |
+| mating is needed | the female lays many eggs; the male sheds sperms over them |
+| fewer eggs, well protected | very many eggs, many are eaten or lost |
+| insects, reptiles, birds, mammals (human, cow, bat, whale, pigeon, tortoise, butterfly) | fish and most amphibians (frog) |
+
+Internal fertilisation is safer because the gametes and embryo are protected from
+drying, temperature change and predators inside the female's body.
+
+::: example Classify the fertilisation
+**Question.** Name the type of fertilisation: human, pigeon, tortoise, butterfly,
+fish, bat, frog, cow, dragonfly, whale.
+
+**Answer.** *Internal:* human, pigeon, tortoise, butterfly, bat, cow, dragonfly,
+whale. *External:* fish, frog.
+:::
+
+## 5.4 The seed: structure, germination and dispersal
+
+After fertilisation the zygote in the ovule develops into an **embryo**, and the
+ovule becomes a **seed** that can grow into a new plant under suitable conditions.
+
+### 5.4.1 Structure of a seed
+
+1. **Seed coat** — outer covering of two layers: thick outer **testa** and thin
+   inner **tegmen**. It protects the seed and keeps it dormant in bad conditions.
+2. **Embryo** — the living baby plant: **radicle** (becomes the root),
+   **plumule** (becomes the shoot) and **cotyledons** (seed leaves). Cotyledons
+   protect the radicle and plumule, store food in dicots, and in many plants come
+   above the soil as the first green leaves. Monocots have **one** cotyledon,
+   dicots **two**.
+3. **Endosperm** — stored food (starch, protein) used by the embryo until the
+   seedling can make its own food. All monocot seeds (maize, rice) have it; most
+   dicot seeds (bean, pea, gram) store food in the cotyledons instead.
+
+```figure caption="A bean seed (dicot) opened by separating the two cotyledons."
+from matplotlib.patches import Ellipse
+fig, ax = plt.subplots(figsize=(4.6, 2.6))
+ax.set_xlim(0, 10)
+ax.set_ylim(0, 5.6)
+ax.axis("off")
+ax.add_patch(Ellipse((4.2, 2.8), 6.0, 4.0, fc="#efe2c4", ec=INK, lw=2.4))
+ax.add_patch(Ellipse((4.2, 2.8), 5.5, 3.5, fc="#f7efd9", ec=MUTED, lw=0.8))
+ax.plot([6.2, 5.7, 5.3], [2.7, 2.55, 2.2], color=SERIES[3], lw=4, solid_capstyle="round")
+ax.plot([6.2, 6.3], [2.7, 3.2], color=SERIES[2], lw=3)
+ax.add_patch(Ellipse((6.38, 3.38), 0.42, 0.22, angle=40, fc=SERIES[2], ec="none"))
+lab = dict(fontsize=7.8, color=INK, va="center")
+def tag(x, y, tx, ty, s):
+    ax.plot([x, tx - 0.1], [y, ty], color=MUTED, lw=0.7)
+    ax.text(tx, ty, s, ha="left", **lab)
+tag(6.45, 3.45, 7.8, 4.7, "plumule")
+tag(5.4, 2.25, 7.8, 1.4, "radicle")
+tag(4.2, 1.6, 7.8, 0.35, "cotyledon")
+ax.plot([1.35, 1.0], [4.0, 4.95], color=MUTED, lw=0.7)
+ax.text(1.0, 5.2, "seed coat", ha="center", **lab)
+fig.tight_layout()
+```
+
+### 5.4.2 Dispersal of seeds
+
+**Dispersal** is the carrying of seeds away from the parent plant by an agent. It
+reduces crowding and competition and lets the plant reach new places.
+
+| Agent | Features of seed/fruit | Examples |
+|---|---|---|
+| Wind | small, light, with hairs, wings or air sacs (lower density, so they float in air) | silk cotton (*simal*), *aak*, *kans* and *khar* grass, dandelion, maple |
+| Water | light, waterproof, can float | lotus, coconut, mangrove |
+| Animals | edible fleshy fruits (seeds swallowed and passed out, or thrown away); hooks and spines that stick to fur | *jamun*, *kafal*, guava, *harro*, *amala*; *kuro* (cobbler's pegs), *bhede kuro* |
+| Gravity | heavy fruits fall below the plant | mango, apple, coconut |
+| Bursting of pods | dry pods burst and throw seeds out | mustard, pea, bean, sesame, gram, *dhaturo* |
+
+### 5.4.3 Germination
+
+::: definition Germination and dormancy
+**Germination** is the development of the root and shoot of a new plant from a seed.
+**Dormancy** is the resting state in which a dry seed stays alive without growing;
+it preserves the life and germinating power of the seed until conditions are suitable.
+:::
+
+When a seed gets water, air and warmth, it swells and its enzymes become active.
+The **radicle** comes out first and grows down into the root; then the **plumule**
+grows up into the shoot; the cotyledons may become the first green leaves.
+
+```photo id="sci8/bean-germination" caption="A bean seed germinating, stage by stage. The radicle comes out first and grows downwards; the plumule follows and grows upwards." width="80"
 key 1 Seed coat splitting as the seed swells
 key 2 Radicle, the first root
 key 3 Plumule with the first true leaves
 ```
-### 5.3.1 Germination and the conditions it needs
 
-**Germination** is the growth of the embryo out of the seed into a seedling.
+**Factors needed for germination**
 
-| Condition | Why it is needed |
+| Factor | Why it is needed |
 |---|---|
-| Water | softens the seed coat, activates the enzymes and dissolves the stored food |
-| Air (oxygen) | for respiration, which releases the energy for growth |
-| Suitable temperature | warmth speeds up the enzymes; too much heat kills the embryo |
-| (Light) | not needed for most seeds to germinate, but needed soon after for the seedling to make food |
+| Water | softens the seed coat, breaks dormancy, starts metabolism (seeds are soaked about 24 hours before sowing) |
+| Air (oxygen) | for respiration in mitochondria, which releases energy for growth |
+| Suitable temperature | about 16–24 °C for most seeds; very high or low temperature stops it |
+| Light | not needed by most seeds to sprout, but the seedling needs it to photosynthesise |
 
-A simple proof: soak three lots of bean seeds — one kept dry, one kept in
-boiled water covered with oil (no oxygen), one kept wet at room temperature.
-Only the third lot germinates. Each other lot is missing exactly one condition.
-
-### 5.3.2 Dispersal of seeds
-
-If all the seeds fell under the parent plant they would compete with the parent
-and with each other for light, water and minerals. Seeds are therefore carried
-away.
-
-| Agent | How | Example |
-|---|---|---|
-| Wind | light seeds with hairs or wings | *Bhimal*, dandelion, pine |
-| Water | light, waterproof seed coat | coconut, lotus |
-| Animal | hooks stick to fur; fruit is eaten and the seed dropped | *Bichu ghas*, guava, tomato |
-| Explosion | the dry fruit bursts and throws the seeds | pea, bean, *Sisoo* |
-| Human being | seed carried deliberately for farming | paddy, maize, vegetables |
-
-::: example Worked reasoning: why paddy is transplanted
-**Observation.** A farmer sows paddy seed thickly in one small nursery bed, and
-after about three weeks pulls up the seedlings and plants them in the main field
-with a gap between each.
-
-**Reasoning.** (1) In a nursery the seeds can be watered, weeded and protected
-from birds on a small area, which is cheaper than guarding the whole field.
-(2) If the seedlings stayed crowded, they would compete for light, water and
-minerals and most would die or stay small. Transplanting gives each plant its
-own space, so each produces more grain. (3) Transplanting also lets the farmer
-use the main field for another crop for those three weeks.
-
-**Conclusion.** Transplanting is a way of giving each seedling the conditions
-for germination first, and the space for growth afterwards — the same two
-requirements, separated in time.
+::: example Germination percentage
+**Problem.** A farmer tests 50 wheat seeds on moist cotton; 42 germinate. Find the
+germination percentage. Is the seed good for sowing if at least 80 % is needed?
+**Solution.** Germination % $=\frac{42}{50}\times100\%=84\%$. Yes — 84 % is more than 80 %.
 :::
 
-## 5.5 Experiments that prove the life processes
-
-A life process is not learnt by definition alone; each one has a classic
-school experiment behind it.
-
-| Process | Experiment | What proves it |
-|---|---|---|
-| Photosynthesis needs light | destarch a plant, cover part of a leaf, test with iodine | the covered part stays brown, the rest turns blue-black |
-| Photosynthesis releases oxygen | *Hydrilla* under a funnel and test tube in water | gas collected relights a glowing splint |
-| Respiration releases carbon dioxide | breathe through lime water | the lime water turns milky |
-| Transpiration | tie a polythene bag round a leafy shoot | water droplets collect inside the bag |
-| Starch in food | iodine on a potato slice | the slice turns blue-black |
-| Protein in food | copper sulphate and sodium hydroxide on egg white | a violet colour appears |
-
-```figure caption="The starch test, step by step. Boiling in alcohol removes the chlorophyll so the iodine colour can be seen — skipping that step is the usual reason the test 'fails'."
-fig, ax = flow([("Destarch", "plant in the dark 48 h"),
-                ("Expose", "partly covered leaf in light"),
-                ("Boil in water", "to kill the cells"),
-                ("Boil in alcohol", "to remove chlorophyll"),
-                ("Add iodine", "blue-black where starch is")])
-```
-
-::: example A four-mark experimental answer
-**Question.** How would you show that light is necessary for photosynthesis?
-
-**Answer.** (i) Keep a potted plant in the dark for about 48 hours so that
-the stored starch is used up. (ii) Cover part of one leaf on both sides
-with black paper and place the plant in sunlight for a few hours.
-(iii) Pluck the leaf, boil it in water, then boil it in alcohol over a
-water bath until the chlorophyll is removed, wash it and add iodine
-solution. (iv) The uncovered part turns **blue-black**, showing starch,
-while the covered part stays brown — so starch, and therefore
-photosynthesis, formed only where light fell.
+::: note Activity 5.13 — three seeds on one stick
+Tie three similar seeds on a stick — one at the top, one in the middle and one at the
+bottom — and stand it in a beaker so that the bottom seed is under water, the middle
+one half in water and the top one in air. After 2–3 days only the **middle** seed
+germinates: the top seed has air but no water, the bottom seed has water but too
+little air. **Conclusion:** both water and air are needed.
 :::
+
+**Importance of germination:** continues the plant's generation; good germination
+increases farm yield; germinated seeds (sprouts) are more nutritious; germination
+of grass and tree seeds conserves forests and pastures.
+
+::: example The case of Suryanarayan's wheat field
+**Situation.** Suryanarayan sowed wheat and dug the field again to bury the seeds.
+Seedlings were good in the moist part but poor in the dry part.
+
+**Answers.** (i) He dug again to cover the seeds with soil so that they get moisture
+and warmth and are not eaten by birds. (ii) In the dry part there was not enough
+water to break dormancy. (iii) Irrigate the field evenly (or sow after rain), use
+good seeds, and sow at the right depth and season.
+:::
+
+## 5.5 Growth, nutrition and respiration in living beings
+
+**Nutrition** is taking in and using food. Green plants are **autotrophs**: they make
+their own food by **photosynthesis** in chloroplasts:
+
+carbon dioxide + water --(sunlight, chlorophyll)--> glucose + oxygen
+
+Animals, fungi and most bacteria are **heterotrophs**: they depend on food made by
+others, either by eating it (holozoic, e.g. cow, human), absorbing it from dead
+matter (saprophytic, e.g. mushroom) or living on a host (parasitic, e.g. tapeworm).
+
+**Respiration** is the breakdown of food (glucose) in the cells to release energy.
+It happens in the **mitochondria** of all living cells, day and night:
+
+glucose + oxygen → carbon dioxide + water + energy
+
+Without oxygen (anaerobic respiration), yeast makes alcohol and carbon dioxide, and
+tired muscles make lactic acid; much less energy is released.
+
+**Growth** is the permanent increase in the size and mass of an organism, caused by
+cell division and enlargement. It uses the food from nutrition and the energy from
+respiration. Plants grow throughout life at their tips (meristems); animals grow
+until adulthood.
+
+| Process | Experiment that shows it | Result |
+|---|---|---|
+| Photosynthesis needs light | destarch a plant, cover part of a leaf, test with iodine | covered part stays brown; the rest turns blue-black |
+| Photosynthesis releases oxygen | *Hydrilla* under a funnel and test tube in water, in sunlight | gas relights a glowing splint |
+| Respiration releases CO₂ | breathe through lime water | lime water turns milky |
+| Germinating seeds respire | seeds in a flask with lime water | lime water turns milky |
 
 ## Chapter summary
 
-- **Reproduction** keeps a species alive; it is asexual (one parent, no
-  gametes) or sexual (two parents, gametes join).
-- Asexual examples: binary fission (Amoeba), budding (yeast, Hydra),
-  fragmentation (Spirogyra), spore formation (*Rhizopus*), vegetative
-  propagation (potato, sugarcane, banana, *Bryophyllum*).
-- Flower parts: sepals protect, petals attract, stamens make pollen, the carpel
-  holds the ovules.
-- **Pollination** is the transfer of pollen to the stigma; **fertilisation** is
-  the joining of the male and female gametes inside the ovule.
-- After fertilisation the ovule becomes the seed and the ovary becomes the
-  fruit.
-- External fertilisation (fish, frog) needs water and wastes many eggs; internal
-  fertilisation (reptile, bird, mammal) protects the young.
-- A seed has a coat, a food store (one or two cotyledons) and an embryo with
-  plumule and radicle.
-- Germination needs water, air and a suitable temperature; dispersal avoids
-  competition between the seedling and its parent.
+- **Reproduction** gives birth to one's own kind; it is asexual (no gametes) or
+  sexual (fusion of gametes).
+- Asexual types: fission, budding, fragmentation, regeneration, sporulation,
+  parthenogenesis. Offspring are identical to the parent.
+- Vegetative propagation: natural (root, sucker, rhizome, corm, bulb, tuber, aerial
+  stem, bulbil, leaf) and artificial (cutting, layering, gootee, grafting, tissue culture).
+- Flower: sepals, petals, stamens (anther + filament), pistil (stigma + style + ovary).
+- **Pollination**: self (autogamy, geitonogamy) and cross (wind, water, insects, birds).
+- **Double fertilisation**: male gamete + egg → zygote; male gamete + secondary
+  nucleus → endosperm. Ovule → seed; ovary → fruit.
+- Animals: internal fertilisation (insects, reptiles, birds, mammals) and external
+  (fish, frog).
+- Seed = seed coat + embryo (radicle, plumule, cotyledons) + endosperm; dispersed by
+  wind, water, animals, gravity and bursting; germinates with water, air and warmth.
 
 ## Practice questions
 
-**Group A — Objective (1 mark each)**
+**Group A — Multiple choice (1 mark each)** *(Textbook exercises.)*
 
-1. Binary fission is seen in <span class="marks">[1]</span>
-   (a) Amoeba (b) Hydra (c) potato (d) maize
-2. The male part of a flower is the <span class="marks">[1]</span>
-   (a) sepal (b) petal (c) stamen (d) carpel
-3. After fertilisation, the ovary of a flower becomes the
-   <span class="marks">[1]</span>
-   (a) seed (b) fruit (c) leaf (d) root
-4. Transfer of pollen from the anther to the stigma is called
-   <span class="marks">[1]</span>
-   (a) fertilisation (b) germination (c) pollination (d) dispersal
-5. Which is a dicotyledonous seed? <span class="marks">[1]</span>
-   (a) maize (b) rice (c) bean (d) wheat
-6. A seed will not germinate if it has no <span class="marks">[1]</span>
-   (a) light (b) water and air (c) soil (d) fertiliser
+1. How are new organisms formed during regeneration? <span class="marks">[1]</span>
+   (a) new life grows from a fresh fragment (b) the separated part regenerates into a whole body (c) the part fragments again (d) the body develops directly
+2. What must be followed in propagation by cutting? <span class="marks">[1]</span>
+   (a) a few leaves on the piece (b) new buds on the piece (c) the piece from the top of the stem (d) a few nodes on the piece
+3. Which represents the meaning of reproduction? <span class="marks">[1]</span>
+   (a) birth and death (b) giving birth at maturity (c) biological process of giving birth to one's own kind (d) forming seeds and laying eggs
+4. Tissue culture is related to which statement? <span class="marks">[1]</span>
+   (a) only a small piece of the parent plant is taken (b) the whole plant is taken (c) pieces of plants and animals are used (d) it works only in non-flowering plants
+5. Where does fertilisation take place in flowering plants? <span class="marks">[1]</span>
+   (a) stigma (b) ovary wall (c) ovule (d) style
+6. Pollination carried out by flies is <span class="marks">[1]</span>
+   (a) self-pollination (b) pollen germination (c) hydrophily (d) entomophily
+7. Which animal has internal fertilisation? <span class="marks">[1]</span>
+   (a) lizard (b) frog (c) rohu fish (d) toad
+8. Which sequence of events is correct? <span class="marks">[1]</span>
+   (a) anther, stigma, pollen grain, pollen tube (b) anther, pollen grain, stigma, germination (c) pollen tube, pollen grain, style, anther (d) pollen grain, anther, pollen tube, stigma
+9. *Khar* (thatch grass) disperses its seeds through <span class="marks">[1]</span>
+   (a) air (b) water (c) bursting pods (d) birds
+10. The main function of a seed is <span class="marks">[1]</span>
+   (a) to form fruit (b) to produce a new plant (c) to store nutrients (d) to protect the embryo
+11. Which event occurs during germination? <span class="marks">[1]</span>
+   (a) plumule and radicle make the cotyledon (b) endosperm becomes the root (c) the stem grows from the seed coat (d) cotyledons become the first (embryonic) leaves
+12. Seeds are not stored in moist places mainly <span class="marks">[1]</span>
+   (a) to keep them warm (b) to make them heavy (c) to protect them from light (d) to prevent germination (and rotting)
+13. Dormancy <span class="marks">[1]</span>
+   (a) preserves the life and germinating power of seeds (b) adds nutrients (c) keeps out air and water (d) carries out germination reactions
+14. Wings and air sacs on wind-dispersed seeds help because they <span class="marks">[1]</span>
+   (a) protect seeds from strong wind (b) make the seeds burst (c) push seeds out of fruits (d) lower the density so seeds float in air
 
 ::: note Answers to Group A
-**1.** (a) — the parent cell divides into two.
-**2.** (c) — the stamen is the male part.
-**3.** (b) — the ovary becomes the fruit and the ovules inside become the seeds.
-**4.** (c) — pollination is the transfer, fertilisation is the joining.
-**5.** (c) — the bean has two cotyledons.
-**6.** (b) — water and oxygen are the two that must be present; light is not
-needed for germination.
+**1.** (b). **2.** (d) — at least two nodes. **3.** (c). **4.** (a) — a small explant. **5.** (c) — inside the ovule, which lies in the ovary. **6.** (d). **7.** (a) — reptiles fertilise internally. **8.** (b). **9.** (a). **10.** (b). **11.** (d). **12.** (d) — moisture breaks dormancy and also lets fungi rot the seeds. **13.** (a). **14.** (d).
 :::
 
 **Group B — Short answer (2 marks each)**
 
-1. Give two differences between asexual and sexual reproduction.
-   <span class="marks">[2]</span>
-2. Write the function of the anther, the stigma, the petal and the sepal.
-   <span class="marks">[2]</span>
-3. What is vegetative propagation? Give two examples with the part used.
-   <span class="marks">[2]</span>
-4. Write the four conditions needed for the germination of a seed and say why
-   the seed needs each. <span class="marks">[2]</span>
+1. Differentiate: (a) fission and budding (b) bulbil and rhizome (c) natural and artificial vegetative propagation. <span class="marks">[3]</span>
+2. Give reasons: (a) Asexual reproduction has no concept of male and female. (b) Growing potatoes from tubers is vegetative propagation. (c) Farmers benefit from grafting. (d) Tissue culture is the most advanced method of vegetative propagation. <span class="marks">[4]</span>
+3. Name the method of asexual reproduction: yeast, paramecium, pineapple, banana, planaria, begonia, ginger, onion, sugarcane, *Mucor*, sweet potato, *Spirogyra*. <span class="marks">[3]</span>
+4. What are stock and scion? Write two advantages of grafting. <span class="marks">[2]</span>
+5. Differentiate: (a) gamete and zygote (b) anther and pollen grain (c) autogamy and geitonogamy. <span class="marks">[3]</span>
+6. Give reasons: (a) Pollinating agents play a great role in pollination. (b) Both male and female are needed for sexual reproduction. (c) Internal fertilisation is safer than external fertilisation. <span class="marks">[3]</span>
+7. What is gametogenesis? Where does it occur in plants and animals? <span class="marks">[2]</span>
+8. Differentiate: (a) dispersal and germination of seeds (b) plumule and radicle (c) dispersal of mustard seeds and of *kafal* seeds. <span class="marks">[3]</span>
+9. Give reasons: (a) Seeds germinate if soaked in water. (b) Silk cotton seeds are dispersed far. (c) Eating sprouted seeds is more beneficial than dry seeds. <span class="marks">[3]</span>
 
 ::: note Answers to Group B
-**1.** Asexual reproduction needs only one parent and no gametes, and the young
-one is nearly a copy of the parent; sexual reproduction needs two parents and
-the joining of male and female gametes, and the young one is a mixture of both.
-Asexual reproduction is faster and produces more young ones; sexual
-reproduction produces far more variation.
-**2.** Anther — produces and stores pollen grains. Stigma — receives the pollen
-grain and lets it grow a tube. Petal — its colour and scent attract insects and
-birds. Sepal — protects the flower while it is still a bud.
-**3.** Vegetative propagation is the growth of a new plant from a part of the
-parent plant without any seed or gamete. Potato — a tuber, which is a swollen
-underground stem with buds ("eyes"). Sugarcane — a stem cutting with a node.
-(Also acceptable: banana by sucker, ginger by rhizome, *Bryophyllum* by leaf,
-onion by bulb.)
-**4.** Water — softens the seed coat and lets the stored food dissolve. Air
-(oxygen) — needed for respiration, which supplies energy for growth. Suitable
-temperature — warmth speeds up the enzymes that break down the stored food.
-(For most seeds, light is not needed for germination itself, though the seedling
-needs it soon after.)
+**1.** (a) In fission the parent splits and disappears (amoeba); in budding a bud grows on the parent and separates, and the parent remains (yeast, hydra). (b) A bulbil is a small bud that falls and grows (agave, lily); a rhizome is a thick underground stem with buds lying flat under the soil (ginger). (c) Natural propagation happens by itself through roots, stems or leaves (potato, *Bryophyllum*); artificial propagation is done by people with tools (cutting, layering, grafting, tissue culture) to improve crops.
+**2.** (a) There is no formation or fusion of gametes; only one parent is involved. (b) The tuber is a stem (a vegetative part) and its eyes are buds that grow into new plants. (c) Grafted plants bear fruit early and have the high quality of the scion, so yield and income increase. (d) Thousands of disease-free, identical plantlets are produced from a tiny piece in a short time in any season.
+**3.** Yeast — budding; paramecium — binary fission; pineapple — bulbils (and suckers); banana — sucker; planaria — regeneration; begonia — leaf; ginger — rhizome; onion — bulb; sugarcane — stem cutting (aerial stem); *Mucor* — sporulation (and fragmentation); sweet potato — root; *Spirogyra* — fragmentation.
+**4.** The stock is the lower rooted part (a young seedling); the scion is the twig of a good-quality plant joined on it. Advantages: early fruiting; fruit of the desired quality; combines a hardy root with a productive shoot.
+**5.** (a) A gamete is a single reproductive cell (sperm or ovum); a zygote is the cell formed by fusion of two gametes. (b) The anther is the part of the stamen that makes pollen; a pollen grain is the tiny cell formed in it that carries the male gametes. (c) Autogamy: pollen to the stigma of the same flower; geitonogamy: pollen to another flower of the same plant.
+**6.** (a) In cross-pollination pollen cannot move by itself; wind, water, insects and birds carry it. (b) The male gives the sperm and the female the ovum; only their fusion forms the zygote. (c) The gametes and embryo stay inside the female's body, protected from drying, cold and predators.
+**7.** Gametogenesis is the formation of gametes. In plants it occurs in the anther (pollen, male gametes) and ovule (egg); in animals in the testes (sperms) and ovaries (ova).
+**8.** (a) Dispersal is carrying seeds away from the parent; germination is the growth of a seed into a seedling. (b) The plumule grows upward into the shoot; the radicle grows downward into the root. (c) Mustard seeds are thrown out when dry pods burst; *kafal* seeds are swallowed by birds and animals with the fruit and passed out elsewhere.
+**9.** (a) Water softens the coat, breaks dormancy and starts enzyme action. (b) They are light and covered with silky hairs, so the wind carries them. (c) Sprouting changes stored food into simpler forms and increases vitamins, so sprouts are easier to digest and more nutritious.
 :::
 
 **Group C — Long answer (4 marks each)**
 
-1. Draw a labelled diagram of the vertical section of a flower and describe
-   what happens from pollination to the formation of a fruit.
-   <span class="marks">[4]</span>
-2. What is meant by a monocotyledonous and a dicotyledonous seed? Draw a
-   labelled diagram of a bean seed and explain what happens in the first week
-   of its germination. <span class="marks">[4]</span>
+1. What are the types of asexual reproduction? Describe budding in hydra with a diagram. <span class="marks">[4]</span>
+2. Compare self-pollination and cross-pollination with their advantages and disadvantages. <span class="marks">[4]</span>
+3. What is double fertilisation? Describe the process. <span class="marks">[4]</span>
+4. Write the methods of seed dispersal and explain any one with examples. Name the method for mango, chestnut, maple, gram, cobbler's pegs, sesame, pumpkin, coconut and pear. <span class="marks">[4]</span>
+5. Explain the germination of a seed with a diagram, and the role of air in germination. <span class="marks">[4]</span>
+6. "If there is no pollination, fertilisation is nearly impossible." Justify. What happens if the style of a flower is removed? <span class="marks">[4]</span>
 
 ::: note Answers to Group C
-**1.** **Diagram.** The vertical section must show the pedicel, sepals, petals,
-stamens (anther and filament) and the carpel (stigma, style and ovary with
-ovules inside), each with a labelled line. **From pollination to fruit.**
-(i) Pollen from the anther lands on the stigma — pollination. It may arrive by
-insect, wind or water. (ii) The pollen grain grows a tube down through the
-style into the ovary. (iii) The male gamete travels down the tube and joins the
-egg inside the ovule — fertilisation. (iv) The zygote develops into an embryo,
-the ovule becomes the seed and the ovary swells and becomes the fruit, whose
-wall protects the seeds and helps in their dispersal. (v) The petals, stamens
-and sepals dry up and fall off.
-**2.** A **monocotyledonous** seed has a single cotyledon (one seed leaf) — maize
-and rice. A **dicotyledonous** seed has two cotyledons — bean and pea.
-**Diagram.** The bean seed must show the seed coat, the two cotyledons, the
-embryo with plumule and radicle, and the micropyle. **First week.** The seed
-absorbs water and swells; the seed coat splits; the enzymes become active and
-break down the stored food in the cotyledons; the radicle emerges first and
-grows downwards to absorb water and anchor the seedling; then the plumule grows
-upwards, carrying the two cotyledons above the ground; the cotyledons shrivel
-as their food is used; the first green leaves open and photosynthesis begins, so
-the seedling now makes its own food.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** The raw materials of photosynthesis are
-   (a) glucose and oxygen (b) carbon dioxide and water (c) oxygen and water (d) glucose and carbon dioxide
-**2.** Most absorption of digested food takes place in the
-   (a) stomach (b) small intestine (c) large intestine (d) oesophagus
-**3.** Bile is produced by the
-   (a) pancreas (b) liver (c) gall bladder (d) stomach
-**4.** Anaerobic respiration in yeast produces carbon dioxide and
-   (a) lactic acid (b) ethanol (c) glucose (d) water only
-**5.** Transpiration takes place mainly through
-   (a) lenticels (b) stomata (c) roots (d) veins
-
-::: note Objective practice — answers
-**1.** (b) — glucose and oxygen are the products. **2.** (b) — the villi of the small intestine. **3.** (b) — the liver makes it; the gall bladder stores it. **4.** (b) — ethanol (fermentation). **5.** (b) — stomata.
+**1.** Fission, budding, fragmentation, regeneration, sporulation, parthenogenesis. *Budding in hydra:* when food is plenty, a small bulge (bud) appears on the side of the body; it grows, develops a mouth and tentacles, and finally separates as a new hydra. Draw the stages as in the figure in 5.1.1.
+**2.** Self: pollen to the same flower or same plant; small dull flowers; no agent needed; seed setting is sure and parent characters are kept, but no new variety and vigour falls. Cross: pollen to another plant of the same species; bright, scented flowers with nectar; needs agents; gives new, stronger and better-adapted varieties, but depends on agents and may bring unwanted characters.
+**3.** Two fusions in the ovule of a flowering plant. The pollen grain forms a pollen tube that grows through the style to the ovule; its nucleus forms two male gametes; one fuses with the egg to form the zygote (→ embryo) and the other fuses with the secondary nucleus to form the endosperm nucleus (→ endosperm). Then the ovule becomes the seed and the ovary the fruit.
+**4.** Wind, water, animals, gravity and bursting of pods (table in 5.4.2). Mango — gravity (and animals); chestnut — bursting/gravity; maple — wind; gram — bursting of pods; cobbler's pegs — animals (sticking); sesame — bursting of pods; pumpkin — animals/people; coconut — water; pear — animals.
+**5.** The seed absorbs water and swells, the coat softens, enzymes change stored food into simple sugar, the radicle emerges and grows down, then the plumule grows up and the cotyledons open as the first leaves (draw a bean seedling with seed coat, radicle, plumule and cotyledons). Air gives oxygen for respiration, which releases the energy needed for cell division and growth; seeds in waterlogged soil fail for lack of oxygen.
+**6.** Fertilisation needs the male gametes, which reach the ovule only in a pollen tube that grows from pollen lying on the stigma; without pollination no pollen reaches the stigma, so no pollen tube, no male gamete and no fertilisation (except in parthenocarpic fruits, which have no seeds). If the style is removed, the stigma is also lost and the pollen tube has no path to the ovary, so fertilisation and seed formation cannot occur.
 :::

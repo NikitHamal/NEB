@@ -1,200 +1,122 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Height and distance (NEB class 10) in 3D. An observer with a clinometer on a tripod looks at the top
+ * of a tower like Kathmandu's Dharahara, across a school field. Move the observer, raise or lower the
+ * tower, or snap the angle to 30°, 45° or 60°; the right-angled triangle hangs in the scene (line of
+ * sight, base, perpendicular, the angle arc) and the working tan θ = perpendicular ⁄ base is written out
+ * for whichever quantity is unknown. The depression figure looks down from the top: the angle of
+ * depression equals the angle of elevation (alternate angles).
+ */
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { createField, label, THREE } from '../physics/physics3d/field.js';
 
-// Height-and-distance bench: stand a known distance from a tower, read the
-// angle of elevation, and find the height with tan θ. Also solves the reverse:
-// given the height, find the angle or the distance.
+const DEG = Math.PI / 180; const EXACT = { 30: '1/√3', 45: '1', 60: '√3' };
+const fmt = (x, d = 0) => x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
 
-const ACCENT = '#F59E0B';
-const BLUE = '#38bdf8';
-const GREEN = '#34d399';
+function tower() {
+  const g = new THREE.Group();
+  const white = new THREE.MeshStandardMaterial({ color: 0xf3efe6, roughness: 0.7 });
+  const bronze = new THREE.MeshStandardMaterial({ color: 0xb08d3c, metalness: 0.8, roughness: 0.35 });
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.62, 1.0, 1, 16), white); shaft.position.y = 0.5; shaft.castShadow = true; g.add(shaft);
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(1.7, 1.9, 0.05, 16), white); base.position.y = 0.025; g.add(base);
+  const balcony = new THREE.Mesh(new THREE.CylinderGeometry(0.95, 0.75, 0.025, 20), white); g.add(balcony);
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(0.62, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), bronze); g.add(dome);
+  const spire = new THREE.Mesh(new THREE.ConeGeometry(0.08, 0.14, 12), bronze); g.add(spire);
+  const windows = new THREE.InstancedMesh(new THREE.BoxGeometry(0.12, 0.18, 0.04), new THREE.MeshStandardMaterial({ color: 0x334155 }), 40); g.add(windows);
+  return {
+    group: g,
+    set(H) {
+      const s = H - 4; shaft.scale.y = s; shaft.position.y = s / 2 + 0.05; balcony.position.y = s * 0.82; dome.position.y = s; dome.scale.set(1, 3 / 0.62 / 2, 1); spire.position.y = s + 3 + 0.07 + 0.9; spire.scale.set(1, 1, 1);
+      const m4 = new THREE.Matrix4(); let n = 0;
+      for (let k = 0; k < 5; k++) for (let j = 0; j < 8; j++) { const y = s * (0.15 + k * 0.17); const a = j / 8 * Math.PI * 2 + k * 0.4; const r = 1.0 - (y / s) * 0.38 + 0.01; m4.makeRotationY(-a + Math.PI / 2).setPosition(Math.cos(a) * r, y, Math.sin(a) * r); windows.setMatrixAt(n++, m4); }
+      windows.instanceMatrix.needsUpdate = true;
+    },
+  };
+}
+
+function observer() {
+  const g = new THREE.Group();
+  const skin = new THREE.MeshStandardMaterial({ color: 0xc58c6a, roughness: 0.7 }); const shirt = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.8 }); const pants = new THREE.MeshStandardMaterial({ color: 0x1e3a8a, roughness: 0.8 });
+  const add = (geo, mat, x, y, z) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = true; g.add(m); return m; };
+  add(new THREE.CapsuleGeometry(0.07, 0.75, 4, 10), pants, 0, 0.45, -0.09); add(new THREE.CapsuleGeometry(0.07, 0.75, 4, 10), pants, 0, 0.45, 0.09);
+  add(new THREE.CapsuleGeometry(0.17, 0.45, 6, 14), shirt, 0, 1.15, 0); add(new THREE.SphereGeometry(0.12, 20, 14), skin, 0.02, 1.55, 0);
+  const steel = new THREE.MeshStandardMaterial({ color: 0x9aa3ad, metalness: 0.8, roughness: 0.3 });
+  const tripod = new THREE.Group(); tripod.position.set(0.45, 0, 0); g.add(tripod);
+  for (let i = 0; i < 3; i++) { const a = i / 3 * Math.PI * 2; const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.015, 0.015, 1.5, 6), steel); leg.position.set(Math.cos(a) * 0.18, 0.72, Math.sin(a) * 0.18); leg.rotation.set(Math.sin(a) * 0.25, 0, -Math.cos(a) * 0.25); tripod.add(leg); }
+  const clino = new THREE.Group(); tripod.add(clino);
+  const tube = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.32, 12), new THREE.MeshStandardMaterial({ color: 0x1f2937 })); tube.rotation.z = Math.PI / 2; clino.add(tube);
+  const arc = new THREE.Mesh(new THREE.CircleGeometry(0.12, 24, Math.PI, Math.PI), new THREE.MeshStandardMaterial({ color: 0xfde68a, side: THREE.DoubleSide })); arc.position.y = -0.02; clino.add(arc);
+  return { group: g, tripod, clino };
+}
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const F = createField(stage, { camera: [-10, 14, 60], target: [-20, 18, 0], maxDistance: 400 });
+  if (!F) return null;
+  const { engine, scene, camera, controls } = F;
   const hud = createHud(stage);
-  const badge = hud.badge('tan θ = height ⁄ distance — measure one angle, find an unknown height', ACCENT);
+  const badge = hud.badge('Move the observer or change the tower', '#2563eb');
 
-  let distance = 30;   // m
-  let angle = 30;      // degrees
-  let eye = 1.5;       // m, height of the instrument above the ground
-  let unknown = 'height'; // height | distance | angle
+  let d = 40; let H = 41.6; let hi = 1.6; let unknown = 'height'; let view = 'elevation'; let dS = d; let HS = H;
+  const T = tower(); scene.add(T.group);
+  const O = observer(); scene.add(O.group);
+  const lineMat = (c) => new THREE.MeshBasicMaterial({ color: c, toneMapped: false });
+  const seg = (c, r = 0.07) => { const m = new THREE.Mesh(new THREE.CylinderGeometry(r, r, 1, 8), lineMat(c)); scene.add(m); return m; };
+  const sight = seg(0xf59e0b, 0.09); const base = seg(0x2563eb); const perp = seg(0x16a34a); const horiz = seg(0x94a3b8, 0.05);
+  const arc = new THREE.Mesh(new THREE.RingGeometry(5.6, 6.0, 48, 1, 0, 1), new THREE.MeshBasicMaterial({ color: 0xf59e0b, side: THREE.DoubleSide, toneMapped: false })); scene.add(arc);
+  const sq = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.6), new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.85 })); scene.add(sq);
+  const target = new THREE.Mesh(new THREE.SphereGeometry(0.6, 16, 10), new THREE.MeshBasicMaterial({ color: 0xef4444 })); scene.add(target);
+  const L = { th: label(stage, camera), d: label(stage, camera), p: label(stage, camera), H: label(stage, camera) };
+  L.th.el.style.color = '#fcd34d'; L.d.el.style.color = '#93c5fd'; L.p.el.style.color = '#86efac';
 
-  const panel = createPanel(stage, { title: 'Theodolite bench' });
-  const modeSel = panel.select({
-    label: 'What is unknown?',
-    options: [
-      { value: 'height', label: 'Height of the tower' },
-      { value: 'distance', label: 'Distance to the tower' },
-      { value: 'angle', label: 'Angle of elevation' },
-    ],
-    value: unknown,
-    onChange: (v) => { unknown = v; },
-  });
-  const distSlider = panel.slider({
-    label: 'Horizontal distance d',
-    min: 5, max: 120, step: 1, value: distance, unit: ' m',
-    onChange: (v) => { distance = v; },
-  });
-  const angSlider = panel.slider({
-    label: 'Angle of elevation θ',
-    min: 2, max: 80, step: 1, value: angle, unit: '°',
-    onChange: (v) => { angle = v; },
-  });
-  panel.slider({
-    label: 'Height of the instrument',
-    min: 0, max: 3, step: 0.1, value: eye, unit: ' m',
-    onChange: (v) => { eye = v; },
-  });
-  const readTan = panel.readout({ label: 'tan θ', value: '—' });
-  const readH = panel.readout({ label: 'Height above the instrument', value: '—' });
-  const readTotal = panel.readout({ label: 'Total height of the tower', value: '—' });
-  const readFormula = panel.readout({ label: 'Working', value: '—' });
-  panel.info('tan θ = (height − instrument height) ⁄ distance. Add the instrument height back at the end.');
+  const panel = createPanel(stage, { title: 'Height and distance' });
+  panel.chips({ label: 'Figure', options: [{ value: 'elevation', label: 'Angle of elevation' }, { value: 'depression', label: 'Angle of depression' }], value: 'elevation', onChange: (v) => { view = v; } });
+  panel.chips({ label: 'What is unknown?', options: [{ value: 'height', label: 'Height' }, { value: 'distance', label: 'Distance' }, { value: 'angle', label: 'Angle' }], value: 'height', onChange: (v) => { unknown = v; } });
+  panel.chips({ label: 'Snap the angle', options: [{ value: '30', label: '30°' }, { value: '45', label: '45°' }, { value: '60', label: '60°' }], value: '', onChange: (v) => { const t = Math.tan(+v * DEG); if (unknown === 'distance') d = Math.round((H - hi) / t * 10) / 10; else H = Math.round((d * t + hi) * 10) / 10; dSl.set(d); hSl.set(H); } });
+  const dSl = panel.slider({ label: 'Distance from the tower', min: 5, max: 140, step: 0.5, value: d, format: (v) => `${v} m`, onChange: (v) => { d = v; } });
+  const hSl = panel.slider({ label: 'Height of the tower', min: 8, max: 100, step: 0.5, value: H, format: (v) => `${v} m`, onChange: (v) => { H = v; } });
+  panel.slider({ label: 'Height of the instrument', min: 0, max: 2, step: 0.1, value: hi, format: (v) => `${v.toFixed(1)} m`, onChange: (v) => { hi = v; } });
+  const st = panel.stats([{ key: 'th', label: 'Angle θ' }, { key: 'd', label: 'Distance (base)' }, { key: 'p', label: 'Perpendicular' }, { key: 'H', label: 'Height of tower' }]);
+  const work = document.createElement('div'); work.style.cssText = 'font:600 12px ui-monospace,Menlo,monospace;color:#e2e8f0;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,0.05);line-height:1.6;flex-shrink:0;white-space:pre'; panel.body.appendChild(work);
+  panel.info('tan θ = perpendicular ⁄ base. The perpendicular is measured from the instrument\'s eye level, so add the instrument height back to get the full height. Standard values: tan 30° = 1/√3, tan 45° = 1, tan 60° = √3.');
 
-  function draw(ctx, w, h) {
-    ctx.clearRect(0, 0, w, h);
-
-    const rad = (angle * Math.PI) / 180;
-    const hAbove = distance * Math.tan(rad);
-    const total = hAbove + eye;
-
-    // Layout: the tower sits fixed on the right, the ground at h*0.82
-    const ground = h * 0.82;
-    const towerX = w * 0.78;
-    const eyeX = w * 0.16;
-    // scale so that the tower always fits: world metres -> px
-    const worldW = distance + 12;
-    const worldH = Math.max(total + 6, 12);
-    const scale = Math.min((towerX - eyeX) / worldW, (ground - h * 0.12) / worldH);
-    const px = (m) => eyeX + m * scale;
-    const py = (m) => ground - m * scale;
-
-    // sky + ground
-    const sky = ctx.createLinearGradient(0, 0, 0, ground);
-    sky.addColorStop(0, 'rgba(56,116,203,0.28)');
-    sky.addColorStop(1, 'rgba(12,24,44,0.1)');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, w, ground);
-    ctx.fillStyle = 'rgba(120,113,88,0.32)';
-    ctx.fillRect(0, ground, w, h - ground);
-
-    // tower (a simple rectangular block tower with a mast)
-    const tw = Math.max(16, scale * 3);
-    ctx.fillStyle = 'rgba(226,232,240,0.9)';
-    ctx.fillRect(towerX - tw / 2, py(total), tw, ground - py(total));
-    ctx.strokeStyle = 'rgba(15,23,42,0.5)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(towerX - tw / 2, py(total), tw, ground - py(total));
-    for (let i = 1; i * 3 < total; i++) {
-      const y = py(i * 3);
-      ctx.beginPath(); ctx.moveTo(towerX - tw / 2, y); ctx.lineTo(towerX + tw / 2, y); ctx.stroke();
-    }
-    ctx.strokeStyle = 'rgba(226,232,240,0.9)';
-    ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(towerX, py(total)); ctx.lineTo(towerX, py(total + 2)); ctx.stroke();
-
-    // horizontal line at the instrument
-    ctx.strokeStyle = 'rgba(199,212,234,0.5)';
-    ctx.setLineDash([5, 4]);
-    ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.moveTo(eyeX, py(eye)); ctx.lineTo(towerX - tw / 2, py(eye)); ctx.stroke();
-    ctx.setLineDash([]);
-
-    // sight line
-    ctx.strokeStyle = ACCENT;
-    ctx.lineWidth = 2.2;
-    ctx.beginPath();
-    ctx.moveTo(eyeX, py(eye));
-    ctx.lineTo(towerX, py(total));
-    ctx.stroke();
-
-    // right angle marker
-    ctx.strokeStyle = 'rgba(199,212,234,0.8)';
-    ctx.lineWidth = 1.2;
-    const rq = 10;
-    ctx.strokeRect(towerX - tw / 2, py(eye) - rq, rq, rq);
-
-    // angle arc
-    ctx.strokeStyle = GREEN;
-    ctx.lineWidth = 1.8;
-    ctx.beginPath();
-    ctx.arc(eyeX, py(eye), 30, -rad, 0);
-    ctx.stroke();
-    ctx.fillStyle = GREEN;
-    ctx.font = '700 11px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(`θ = ${angle}°`, eyeX + 36, py(eye) - 8);
-
-    // dimensions
-    ctx.strokeStyle = 'rgba(56,189,248,0.9)';
-    ctx.lineWidth = 1.4;
-    ctx.beginPath();
-    ctx.moveTo(eyeX, ground + 20);
-    ctx.lineTo(towerX - tw / 2, ground + 20);
-    ctx.stroke();
-    ctx.fillStyle = BLUE;
-    ctx.font = '700 10.5px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(`d = ${distance} m`, (eyeX + towerX - tw / 2) / 2, ground + 36);
-
-    ctx.strokeStyle = ACCENT;
-    ctx.beginPath();
-    ctx.moveTo(towerX + tw / 2 + 10, py(total));
-    ctx.lineTo(towerX + tw / 2 + 10, py(eye));
-    ctx.stroke();
-    ctx.fillStyle = ACCENT;
-    ctx.textAlign = 'left';
-    ctx.fillText(`${hAbove.toFixed(2)} m`, towerX + tw / 2 + 16, (py(total) + py(eye)) / 2);
-
-    // instrument
-    ctx.fillStyle = 'rgba(226,232,240,0.95)';
-    ctx.fillRect(eyeX - 8, py(eye), 16, ground - py(eye));
-    ctx.beginPath(); ctx.arc(eyeX, py(eye) - 6, 6, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = 'rgba(199,212,234,0.85)';
-    ctx.font = '600 9.5px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(`theodolite ${eye.toFixed(1)} m`, eyeX, ground + 14);
-
-    // working panel
-    const bx = w * 0.03;
-    const by = h * 0.06;
-    const bw = Math.min(268, w * 0.42);
-    const bh = 96;
-    ctx.fillStyle = 'rgba(8,16,30,0.82)';
-    ctx.strokeStyle = 'rgba(158,193,255,0.25)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(bx, by, bw, bh, 8); else ctx.rect(bx, by, bw, bh);
-    ctx.fill(); ctx.stroke();
-    ctx.textAlign = 'left';
-    ctx.fillStyle = ACCENT;
-    ctx.font = '700 11px Poppins, sans-serif';
-    ctx.fillText('tan θ = height ⁄ distance', bx + 14, by + 22);
-
-    let working = '';
-    if (unknown === 'height') {
-      working = [`tan ${angle}° = h ⁄ ${distance}`, `h = ${distance} × ${Math.tan(rad).toFixed(4)} = ${hAbove.toFixed(2)} m`, `total height = ${hAbove.toFixed(2)} + ${eye.toFixed(1)} = ${total.toFixed(2)} m`];
-    } else if (unknown === 'distance') {
-      const d = hAbove / Math.tan(rad);
-      working = [`tan ${angle}° = h ⁄ d`, `d = ${hAbove.toFixed(2)} ⁄ ${Math.tan(rad).toFixed(4)} = ${d.toFixed(2)} m`, `(measured height ${hAbove.toFixed(2)} m, instrument ${eye.toFixed(1)} m)`];
+  const A = new THREE.Vector3(); const B = new THREE.Vector3(); const Y = new THREE.Vector3(0, 1, 0); const D = new THREE.Vector3();
+  function put(m, a, b) { D.subVectors(b, a); const len = D.length(); m.position.copy(a).addScaledVector(D, 0.5); m.scale.set(1, Math.max(1e-3, len), 1); m.quaternion.setFromUnitVectors(Y, D.normalize()); }
+  let camR = 70; let arcKey = '';
+  function arcTo(r, ang) { const k = `${r.toFixed(2)}|${ang.toFixed(3)}`; if (k === arcKey) return; arcKey = k; arc.geometry.dispose(); arc.geometry = new THREE.RingGeometry(r, r + 0.5, 48, 1, 0, ang); }
+  engine.setUpdate((dt) => {
+    dS += (d - dS) * (1 - Math.exp(-dt * 6)); HS += (H - HS) * (1 - Math.exp(-dt * 6));
+    const dd = dS; const HH = HS; const p = HH - hi; const th = Math.atan2(p, dd);
+    T.set(HH);
+    O.group.position.set(-dd - 0.45, 0, 0); O.clino.position.set(0, hi, 0); O.clino.rotation.z = th; O.tripod.visible = hi > 0.2;
+    const eye = A.set(-dd, hi, 0); const top = new THREE.Vector3(0, HH, 0); const foot = new THREE.Vector3(0, hi, 0);
+    if (view === 'elevation') {
+      put(sight, eye, top); put(base, eye, foot); put(perp, foot, top); horiz.visible = false; target.visible = false;
+      arc.position.copy(eye); arc.rotation.set(0, 0, 0); arcTo(Math.min(8, dd * 0.3), th);
+      sq.position.set(-0.8, hi + 0.8, 0.05); sq.visible = true;
     } else {
-      working = [`tan θ = ${hAbove.toFixed(2)} ⁄ ${distance}`, `tan θ = ${(hAbove / distance).toFixed(4)}`, `θ = ${((Math.atan(hAbove / distance) * 180) / Math.PI).toFixed(2)}°`];
+      const gpt = new THREE.Vector3(-dd, 0, 0);
+      put(sight, top, gpt); put(horiz, top, new THREE.Vector3(-dd, HH, 0)); horiz.visible = true; put(base, gpt, new THREE.Vector3(0, 0, 0)); put(perp, new THREE.Vector3(0, 0, 0), top);
+      target.visible = true; target.position.copy(gpt);
+      const thd = Math.atan2(HH, dd);
+      arc.position.copy(top); arc.rotation.set(0, 0, Math.PI); arcTo(Math.min(8, dd * 0.3), thd);
+      sq.position.set(-0.8, 0.8, 0.05);
     }
-    ctx.fillStyle = 'rgba(232,238,251,0.92)';
-    ctx.font = '600 10.5px Poppins, sans-serif';
-    working.forEach((line, i) => ctx.fillText(line, bx + 14, by + 44 + i * 17));
+    const want = Math.max(dd, HH) * 1.35 + 20; camR += (want - camR) * (1 - Math.exp(-dt * 1.5));
+    controls.setTarget(B.set(-dd * 0.5, HH * 0.45, 0)); if (Math.abs(want - camR) > 0.5) controls.setDistance(camR);
+    controls.update(dt);
+    const ang = Math.round(th / DEG * 10) / 10; const t = Math.tan(th); const ex = EXACT[Math.round(ang)] && Math.abs(ang - Math.round(ang)) < 0.05 ? EXACT[Math.round(ang)] : null;
+    L.th.el.textContent = `θ = ${fmt(ang, 1)}°`; L.th.at(B.set(view === 'elevation' ? -dd + Math.min(8, dd * 0.3) + 3 : -Math.min(8, dd * 0.3) - 3, view === 'elevation' ? hi + 2 : HH - 2, 0));
+    L.d.el.textContent = `d = ${fmt(dd, 1)} m`; L.d.at(B.set(-dd / 2, view === 'elevation' ? hi : 0, 0), 16);
+    L.p.el.textContent = view === 'elevation' ? `p = ${fmt(p, 1)} m` : `H = ${fmt(HH, 1)} m`; L.p.at(B.set(2.5, view === 'elevation' ? (hi + HH) / 2 : HH / 2, 0));
+    L.H.el.textContent = `tower ${fmt(HH, 1)} m`; L.H.at(B.set(0, HH + 5, 0));
+    const lines = unknown === 'height' ? ['tan θ = p ⁄ d', `p = d × tan ${fmt(ang, 1)}°`, `  = ${fmt(dd, 1)} × ${ex || fmt(t, 3)} = ${fmt(p, 2)} m`, `H = p + ${fmt(hi, 1)} = ${fmt(HH, 2)} m`]
+      : unknown === 'distance' ? ['tan θ = p ⁄ d', `d = p ⁄ tan ${fmt(ang, 1)}°`, `  = ${fmt(p, 1)} ⁄ ${ex || fmt(t, 3)} = ${fmt(dd, 2)} m`]
+        : [`tan θ = p ⁄ d = ${fmt(p, 1)} ⁄ ${fmt(dd, 1)} = ${fmt(t, 3)}`, `θ = tan⁻¹ ${fmt(t, 3)} = ${fmt(ang, 1)}°`];
+    work.textContent = lines.join('\n');
+    st.th.set(`${fmt(ang, 1)}°`); st.d.set(`${fmt(dd, 1)} m`); st.p.set(`${fmt(p, 1)} m`); st.H.set(`${fmt(HH, 1)} m`);
+    badge.set(view === 'depression' ? `Angle of depression from the top = ${fmt(Math.atan2(HH, dd) / DEG, 1)}° (alternate angles with the elevation)` : `Angle of elevation ${fmt(ang, 1)}°${ex ? `: tan ${Math.round(ang)}° = ${ex}` : ''}`);
+  });
+  engine.start();
 
-    readTan.set(Math.tan(rad).toFixed(4));
-    readH.set(`${hAbove.toFixed(2)} m`);
-    readTotal.set(`${total.toFixed(2)} m`);
-    readFormula.set(working[0]);
-    void modeSel; void distSlider; void angSlider;
-  }
-
-  // the canvas helper calls (ctx, dt, width, height); draw wants (ctx, width, height)
-  sim.setUpdate((ctx, dt, w, h) => draw(ctx, w, h));
-  sim.onResize(() => sim.renderOnce());
-  sim.start();
-
-  return { dispose() { sim.dispose(); hud.dispose(); panel.dispose(); } };
+  stage.__hd = { set: (dd, hh) => { d = dd; H = hh; dSl.set(dd); hSl.set(hh); }, view: (v) => { view = v; } };
+  return { dispose() { panel.dispose(); hud.dispose(); Object.values(L).forEach((l) => l.remove()); controls.dispose(); engine.dispose(); } };
 }

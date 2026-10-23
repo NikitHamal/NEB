@@ -143,7 +143,7 @@ COURSES = [
                 'icon': 'gesture',
                 'minutes': 18,
                 'sim': 'space/orbital-sandbox',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Drag and release to launch planets around a star — find the perfect speed for a stable orbit before they crash or escape.',
                 'objectives': [
                     'Launch a body into a stable orbit by hand',
@@ -171,7 +171,7 @@ COURSES = [
                 'icon': 'rocket_launch',
                 'minutes': 16,
                 'sim': 'space/rocket-launch',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Set your thrust and fuel, hit IGNITE, and fight gravity all the way to the edge of space at 100 km.',
                 'objectives': [
                     'Use Newton\u2019s third law to explain how rockets push',
@@ -199,7 +199,7 @@ COURSES = [
                 'icon': 'animation',
                 'minutes': 15,
                 'sim': 'space/kepler-orbits',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Stretch an orbit\u2019s eccentricity and watch the planet sweep equal areas in equal times — Kepler\u2019s laws live on your screen.',
                 'objectives': [
                     'State Kepler\u2019s three laws in plain language',
@@ -227,7 +227,7 @@ COURSES = [
                 'icon': 'fitness_center',
                 'minutes': 12,
                 'sim': 'space/gravity-worlds',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Pick a world, drop a ball from 10 metres, and see what your weight would be on the Moon, Mars, Jupiter — even the Sun.',
                 'objectives': [
                     'Tell the difference between mass and weight',
@@ -297,7 +297,7 @@ COURSES = [
                 'icon': 'local_fire_department',
                 'minutes': 16,
                 'sim': 'space/star-lifecycle',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Choose a star\u2019s starting mass and evolve it — will it end as a quiet white dwarf, a neutron star, or a black hole?',
                 'objectives': [
                     'Trace a star\u2019s life from nebula to final remnant',
@@ -325,8 +325,8 @@ COURSES = [
                 'icon': 'zoom_out_map',
                 'minutes': 15,
                 'sim': 'space/cosmic-scale',
-                'sim_type': '2d',
-                'summary': 'Start at the summit of Everest and zoom out through 23 powers of ten to the edge of the observable universe.',
+                'sim_type': '3d',
+                'summary': 'Start on the real summit of Everest and zoom out in 3D through 27 powers of ten to the edge of the observable universe.',
                 'objectives': [
                     'Use powers of ten to compare wildly different sizes',
                     'Order cosmic structures from Earth to the observable universe',

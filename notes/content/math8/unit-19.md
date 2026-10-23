@@ -92,30 +92,20 @@ image is congruent to the object, but the two face opposite ways.
 
 A point on the mirror line does not move at all — it is its own image.
 
-```figure caption="Reflections in the two axes. Each point and its image are the same distance from the mirror line, on opposite sides of it, and the segment joining them is perpendicular to the line."
-fig, ax = plt.subplots(figsize=(4.8, 2.9))
-ax.set_xlim(-6, 6)
-ax.set_ylim(-5, 5)
-ax.axhline(0, color=INK, lw=0.9)
-ax.axvline(0, color=INK, lw=0.9)
-ax.grid(True, color=GRID, lw=0.5)
-obj = [(1, 1), (3, 1), (1, 3)]
-for x, y in obj:
-    ax.plot([x], [y], "o", color=ACCENT, ms=4.5)
-ref_x = [(-x, y) for x, y in obj]
-for x, y in ref_x:
-    ax.plot([x], [y], "o", color=SERIES[1], ms=4.5)
-for (x, y), (u, v) in zip(obj, ref_x):
-    ax.plot([x, u], [y, v], color=GRID, lw=0.8, ls="--")
-ax.add_patch(plt.Polygon(obj, fill=False, ec=ACCENT, lw=1.4))
-ax.add_patch(plt.Polygon(ref_x, fill=False, ec=SERIES[1], lw=1.4))
-ax.text(2.2, 3.3, "object", fontsize=7, color=ACCENT)
-ax.text(-4.6, 3.3, "image in the $y$-axis", fontsize=7, color=SERIES[1])
-ax.set_xticks(range(-6, 7, 2))
-ax.set_yticks(range(-4, 6, 2))
-ax.tick_params(labelsize=7.5, length=0)
-ax.spines[["top", "right"]].set_visible(False)
-fig.tight_layout()
+```figure caption="Triangle ABC with A(1, 1), B(3, 1), C(1, 3) and its images. Reflection in the y-axis changes the sign of x; reflection in the x-axis changes the sign of y. Each point and its image are the same distance from the mirror line."
+fig, ax = plt.subplots(figsize=(4.4, 3.4))
+T = np.array([[1, 1], [3, 1], [1, 3], [1, 1]])
+for M, c, lab, pos in [(np.array([1, 1]), ACCENT, "ABC", (1.6, 3.2)), (np.array([-1, 1]), SERIES[1], "A′B′C′ (in y-axis)", (-4.6, 3.3)),
+                       (np.array([1, -1]), SERIES[2], "A″B″C″ (in x-axis)", (1.2, -3.7))]:
+    P = T * M
+    ax.plot(P[:, 0], P[:, 1], color=c, lw=1.6); ax.fill(P[:, 0], P[:, 1], color=c, alpha=0.12)
+    ax.text(pos[0], pos[1], lab, fontsize=8.5, color=c)
+ax.plot([1, -1], [3, 3], color=MUTED, lw=0.8, ls=":"); ax.plot([1, 1], [1, -1], color=MUTED, lw=0.8, ls=":")
+ax.axhline(0, color=INK, lw=1.0); ax.axvline(0, color=INK, lw=1.0)
+ax.set_xlim(-5, 5); ax.set_ylim(-4.2, 4.2)
+ax.set_xticks([-4, -2, 2, 4]); ax.set_yticks([-4, -2, 2, 4]); ax.tick_params(labelsize=7.5, length=0)
+ax.grid(True, color=GRID, lw=0.6); ax.set_axisbelow(True)
+for sp in ax.spines.values(): sp.set_visible(False)
 ```
 
 ::: example Reflecting in the axes
@@ -137,18 +127,13 @@ lengths.
 :::
 
 ::: example Reflecting in the line $y=x$
-**Problem.** Find the image of $P(3,7)$ in the line $y=x$, and state the
-distance of the point from the line.
+**Problem.** Find the image of $P(3,7)$ in the line $y=x$ and show that the
+mirror line passes through the midpoint of $PP'$.
 
-**Solution.** The rule for $y=x$ swaps the coordinates, so the image is
-$P'(7,3)$.
+**Solution.** Reflection in $y=x$ swaps the coordinates, so $P'=(7,3)$.
 
-The perpendicular distance is the horizontal (or vertical) gap to the line:
-$7-3=4$ units.
-
-**Check.** $P$ and $P'$ are mirror images, so both are 4 units from the line
-$y=x$ on opposite sides ✓, and the point $(5,5)$ on the line is the midpoint of
-$PP'$: $\frac{3+7}{2}=5$ and $\frac{7+3}{2}=5$ ✓.
+Midpoint of $PP'$ $=\left(\frac{3+7}{2},\frac{7+3}{2}\right)=(5,5)$, and
+$(5,5)$ lies on $y=x$ ✓.
 :::
 
 ## 19.3 Rotation
@@ -157,13 +142,22 @@ A **rotation** turns a figure about a fixed point, the **centre of rotation**,
 through a given angle and in a given direction (clockwise or anticlockwise). The
 image is congruent to the object, and the orientation changes.
 
+Three things describe a rotation: the **centre**, the **angle** and the
+**direction**. Anticlockwise is the **positive** direction ($+90°$) and
+clockwise (the way the hands of a clock move) is the **negative** direction
+($-90°$).
+
+**Drawing a rotation with protractor and compasses.** To rotate $A$ through
+$+90°$ about O: join OA; at O draw $\angle AOB=90°$ anticlockwise; with centre
+O and radius OA cut OB at $A'$. Then $A'$ is the image.
+
 The rotations most often asked for are about the origin $O(0,0)$.
 
 | Rotation about the origin | Rule | $(3,2)$ goes to |
 |---|---|---|
-| $90°$ anticlockwise | $(-y,x)$ | $(-2,3)$ |
+| $+90°$ (anticlockwise) | $(-y,x)$ | $(-2,3)$ |
 | $180°$ | $(-x,-y)$ | $(-3,-2)$ |
-| $90°$ clockwise | $(y,-x)$ | $(2,-3)$ |
+| $-90°$ (clockwise) | $(y,-x)$ | $(2,-3)$ |
 | $270°$ anticlockwise | $(y,-x)$ | $(2,-3)$ |
 
 ::: example Rotating about the origin
@@ -183,6 +177,26 @@ not change: $OA=\sqrt{9+4}=\sqrt{13}$, $OA'=\sqrt{4+9}=\sqrt{13}$ ✓ and
 $OA''=\sqrt{9+4}=\sqrt{13}$ ✓. That is the quickest test that a rotation has been
 done correctly.
 :::
+
+```figure caption="Rotation of P(4, 2) about the origin O: through +90° (anticlockwise) it goes to P′(−2, 4); through −90° (clockwise) it goes to P″(2, −4). OP = OP′ = OP″ and each turn is a right angle."
+fig, ax = plt.subplots(figsize=(4.2, 3.4))
+from matplotlib.patches import Arc
+P, P1, P2 = (4, 2), (-2, 4), (2, -4)
+for Q, c in [(P, INK), (P1, ACCENT), (P2, SERIES[1])]:
+    ax.plot([0, Q[0]], [0, Q[1]], color=c, lw=1.3); ax.plot(*Q, "o", color=c, ms=5)
+ax.text(4.15, 2.15, "P(4, 2)", fontsize=8.5, color=INK)
+ax.text(-3.9, 4.25, "P′(−2, 4)", fontsize=8.5, color=ACCENT)
+ax.text(2.2, -4.3, "P″(2, −4)", fontsize=8.5, color=SERIES[1])
+ax.add_patch(Arc((0, 0), 2.4, 2.4, theta1=26.6, theta2=116.6, color=ACCENT, lw=1.2))
+ax.add_patch(Arc((0, 0), 1.6, 1.6, theta1=-63.4, theta2=26.6, color=SERIES[1], lw=1.2))
+ax.text(-0.2, 1.45, "+90°", fontsize=8.5, color=ACCENT)
+ax.text(0.95, -0.55, "−90°", fontsize=8.5, color=SERIES[1])
+ax.axhline(0, color=MUTED, lw=0.8); ax.axvline(0, color=MUTED, lw=0.8)
+ax.set_xlim(-4.5, 5.6); ax.set_ylim(-4.8, 4.8); ax.set_aspect("equal")
+ax.set_xticks([-4, -2, 2, 4]); ax.set_yticks([-4, -2, 2, 4]); ax.tick_params(labelsize=7.5, length=0)
+ax.grid(True, color=GRID, lw=0.6); ax.set_axisbelow(True)
+for sp in ax.spines.values(): sp.set_visible(False)
+```
 
 ::: example Rotating a triangle
 **Problem.** The vertices of a triangle are $A(1,0)$, $B(3,0)$, $C(1,2)$. Rotate
@@ -342,7 +356,6 @@ $(6,9)$, not $(5,6)$.
    <span class="marks">[2]</span>
 4. Enlarge $(3,4)$ with scale factor 2 about the origin and state the new
    distance from the origin. <span class="marks">[2]</span>
-:::
 
 ::: note Answers to Group B
 **1.** $(-1+5,\;3-4)=(4,-1)$.

@@ -19,6 +19,18 @@ object SecurePrefs {
     @Volatile
     private var fallbackPrefs: SharedPreferences? = null
 
+    // The token, decrypted once. Every API call asks for it, often from the main thread, and an
+    // encrypted read is a decrypt (the first one also sets up the Keystore key and Tink, the
+    // slowest part of a cold start). Only setAuthToken and clearAuthToken change it.
+    @Volatile
+    private var token: String? = null
+
+    @Volatile
+    private var tokenRead = false
+
+    /** True once the token has been read, after which [getAuthToken] is a field read. */
+    val isTokenLoaded: Boolean get() = tokenRead
+
     private fun getFallback(context: Context): SharedPreferences {
         fallbackPrefs?.let { return it }
         val sp = context.getSharedPreferences(FALLBACK_FILE, Context.MODE_PRIVATE)
@@ -26,6 +38,8 @@ object SecurePrefs {
         return sp
     }
 
+    // synchronized: two first-ever inits at once could each create the Tink keyset
+    @Synchronized
     fun init(context: Context): SharedPreferences? {
         prefs?.let { return it }
         try {
@@ -48,6 +62,17 @@ object SecurePrefs {
     }
 
     fun getAuthToken(context: Context): String? {
+        if (tokenRead) return token
+        synchronized(this) {
+            if (!tokenRead) {
+                token = readAuthToken(context)
+                tokenRead = true
+            }
+            return token
+        }
+    }
+
+    private fun readAuthToken(context: Context): String? {
         val sp = init(context)
         if (sp != null) {
             try {
@@ -59,7 +84,10 @@ object SecurePrefs {
         return getFallback(context).getString(FALLBACK_AUTH_TOKEN, null)
     }
 
+    @Synchronized
     fun setAuthToken(context: Context, token: String?) {
+        this.token = token
+        tokenRead = true
         val sp = init(context)
         if (sp != null) {
             try {
@@ -76,7 +104,10 @@ object SecurePrefs {
         }.apply()
     }
 
+    @Synchronized
     fun clearAuthToken(context: Context) {
+        token = null
+        tokenRead = true
         val sp = init(context)
         if (sp != null) {
             try {

@@ -1,288 +1,137 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Acid–base titration in 3D — 25.0 mL of 0.100 M acid (hydrochloric or ethanoic) in a conical flask
+ * with an indicator, and 0.100 M NaOH in a 50 mL burette clamped above it. Open the tap (the flow
+ * follows how far it is open) or add single drops; each drop lands as a coloured plume that swirling
+ * mixes in. Every drop changes the pH, which is solved from the charge balance, so the curve, the
+ * equivalence point (and for ethanoic acid the buffer region and the pH 8.7 end point) are real.
+ */
+import { solvePH, INDICATORS } from '../core/indicators2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { conicalFlask, burette, whiteTile } from '../core/handson/glass.js';
+import { canvasCard } from '../space/space3d/kit.js';
+import { createChemLab, THREE } from './chem3d/stage.js';
 
-const ACID_MMOL = 2.5;
-const ACID_VOL = 25;
-const BASE_CONC = 0.1;
-const MAX_VOL = 50;
+const V0 = 25; const CA = 0.1; const CB = 0.1; const DROP = 0.05; const KA = 1.8e-5;
+const fmt = (x, d = 0) => x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const L = createChemLab(stage, { title: 'Acid-base titration', aim: 'Find the concentration of an acid', target: [0, 1.15, 0], camera: [1.3, 2.4, 4.9], minDistance: 1.8, maxDistance: 11 });
+  if (!L) return null;
+  const { engine, world, controls } = L;
   const hud = createHud(stage);
-  const phBadge = hud.badge('pH 1.0', '#ef4444');
+  const badge = hud.badge('Open the burette tap a little', '#2563eb');
 
-  let volume = 0;
-  let dispensing = false;
-  let dropRate = 1;
-  let indicator = 'universal';
-  const curve = [];
-  let lastRecorded = -1;
-  const drops = [];
+  let acid = 'hcl'; let ind = 'phenolphthalein'; let added = 0; let tap = 0; let plume = 0; let swirl = 1; let pending = 0;
+  const curve = [[0, 1]];
 
-  function computePH(vb) {
-    const nb = BASE_CONC * vb;
-    const vt = ACID_VOL + vb;
-    const diff = ACID_MMOL - nb;
-    if (Math.abs(diff) < 1e-6) return 7;
-    if (diff > 0) return Math.max(0, -Math.log10(diff / vt));
-    return Math.min(14, 14 + Math.log10(-diff / vt));
+  const tile = whiteTile(); world.add(tile);
+  const flask = conicalFlask({ color: 0xf3f8ff, opacity: 0.4 }); flask.group.position.y = 0.04; world.add(flask.group);
+  const B = burette(); B.group.position.set(0, 1.75, 0); world.add(B.group);
+  const steel = new THREE.MeshStandardMaterial({ color: 0x9aa3ad, metalness: 0.85, roughness: 0.3 });
+  const base = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.08, 1.0), new THREE.MeshStandardMaterial({ color: 0x2b2f36, roughness: 0.6 })); base.position.set(-0.55, 0.04, -0.1); world.add(base);
+  const rod = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.035, 8.6, 16), steel); rod.position.set(-0.85, 4.3, -0.35); world.add(rod);
+  for (const y of [3.2, 6.5]) {
+    const boss = new THREE.Mesh(new THREE.BoxGeometry(0.16, 0.12, 0.16), steel); boss.position.set(-0.85, y, -0.35); world.add(boss);
+    const arm = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 0.95, 10), steel); arm.rotation.set(0, 0, Math.PI / 2); arm.position.set(-0.42, y, -0.18); arm.rotation.y = -0.38; world.add(arm);
+    const jaw = new THREE.Mesh(new THREE.TorusGeometry(0.075, 0.016, 8, 20), new THREE.MeshStandardMaterial({ color: 0xc2410c, roughness: 0.7 })); jaw.rotation.x = Math.PI / 2; jaw.position.set(0, y, 0); world.add(jaw);
+  }
+  const meter = new THREE.Group(); meter.position.set(1.05, 0, 0.35); world.add(meter);
+  const meterBody = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.32, 0.4), new THREE.MeshStandardMaterial({ color: 0xe5e7eb, roughness: 0.5 })); meterBody.position.y = 0.16; meter.add(meterBody);
+  const lcd = new THREE.Mesh(new THREE.PlaneGeometry(0.42, 0.14), new THREE.MeshBasicMaterial({ color: 0x0f2a1e })); lcd.position.set(0, 0.22, 0.201); meter.add(lcd);
+  const probe = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.018, 1.25, 12), new THREE.MeshStandardMaterial({ color: 0x111827, roughness: 0.4 }));
+  probe.position.set(0.1, 0.85, -0.12); probe.rotation.set(-0.12, 0, 0.24); world.add(probe);
+  const cable = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([new THREE.Vector3(0.25, 1.45, -0.2), new THREE.Vector3(0.8, 1.55, -0.1), new THREE.Vector3(1.05, 0.5, 0.25)]), 30, 0.01, 6), probe.material); world.add(cable);
+  const phText = L.label(); phText.el.style.font = '700 14px ui-monospace,Menlo,monospace'; phText.el.style.color = '#6ee7b7'; phText.el.style.background = 'rgba(6,26,18,0.92)';
+  const readLbl = L.label();
+  const plumeBlob = new THREE.Mesh(new THREE.SphereGeometry(1, 24, 16), new THREE.MeshPhysicalMaterial({ color: 0xe64980, roughness: 0.1, transparent: true, opacity: 0, depthWrite: false }));
+  plumeBlob.renderOrder = 4; world.add(plumeBlob);
+  const drop = new THREE.Mesh(new THREE.SphereGeometry(0.022, 12, 8), new THREE.MeshPhysicalMaterial({ color: 0xeaf4ff, roughness: 0.05, transparent: true, opacity: 0.8 }));
+  world.add(drop);
+  const dropsInAir = [];
+
+  const panel = createPanel(stage, { title: 'Titration' });
+  panel.chips({ label: 'Acid in the flask (0.100 M, 25.0 mL)', options: [{ value: 'hcl', label: 'Hydrochloric (strong)' }, { value: 'eth', label: 'Ethanoic (weak)' }], value: 'hcl', onChange: (v) => { acid = v; reset(); } });
+  panel.chips({ label: 'Indicator', options: Object.keys(INDICATORS).map((key) => ({ value: key, label: INDICATORS[key].label })), value: ind, onChange: (v) => { ind = v; } });
+  const tapS = panel.slider({ label: 'Burette tap', min: 0, max: 100, step: 1, value: 0, format: (v) => (v === 0 ? 'closed' : v < 15 ? `dripping ${v} %` : `open ${v} %`), onChange: (v) => { tap = v / 100; } });
+  panel.buttonRow([{ label: 'One drop', icon: 'water_drop', onClick: () => { pending += DROP; dropsInAir.push({ y: 0, v: 0 }); } }, { label: 'Restart', icon: 'replay', variant: 'ghost', onClick: reset }]);
+  panel.toggle({ label: 'Swirl the flask', value: true, onChange: (v) => { swirl = v ? 1 : 0; } });
+  const graph = canvasCard(panel.body, 1.45);
+  const st = panel.stats([{ key: 'v', label: 'NaOH added' }, { key: 'pH', label: 'pH (meter)' }, { key: 'eq', label: 'Equivalence' }, { key: 'conc', label: 'Acid conc. from your titre' }]);
+  panel.info('NaOH + HCl → NaCl + H₂O. Near the end point one drop changes the pH by several units, so slow to single drops when the colour starts to linger. Phenolphthalein suits both acids; methyl orange changes too early for ethanoic acid.');
+
+  function pH(extra = 0) {
+    const v = added + extra; const Vt = (V0 + v) / 1000;
+    const nb = CB * v / 1000; const na = CA * V0 / 1000;
+    return acid === 'hcl' ? solvePH(na / Vt, nb / Vt) : solvePH(0, nb / Vt, na / Vt, KA);
+  }
+  function reset() { added = 0; tap = 0; tapS.set(0); plume = 0; pending = 0; dropsInAir.length = 0; curve.length = 0; curve.push([0, pH()]); }
+  reset();
+
+  function drawGraph() {
+    const { g, w, h } = graph.ctx();
+    const ix = 30; const iy = 22; const iw = w - 40; const ih = h - 44;
+    const X = (v) => ix + v / 50 * iw; const Y = (p) => iy + ih - p / 14 * ih;
+    g.font = '700 11px Poppins, system-ui, sans-serif'; g.fillStyle = '#e8eefb'; g.textAlign = 'left'; g.fillText('pH against volume of NaOH', 10, 14);
+    g.strokeStyle = 'rgba(160,190,255,0.18)'; g.strokeRect(ix, iy, iw, ih);
+    const [a, b] = INDICATORS[ind].range;
+    g.fillStyle = 'rgba(230,73,128,0.12)'; g.fillRect(ix, Y(Math.min(14, b)), iw, Y(Math.max(0, a)) - Y(Math.min(14, b)));
+    g.setLineDash([3, 4]); g.strokeStyle = 'rgba(160,190,255,0.35)'; g.beginPath(); g.moveTo(X(25), iy); g.lineTo(X(25), iy + ih); g.stroke(); g.setLineDash([]);
+    g.strokeStyle = '#60a5fa'; g.lineWidth = 2; g.beginPath(); curve.forEach(([v, p], i) => { if (i) g.lineTo(X(v), Y(p)); else g.moveTo(X(v), Y(p)); }); g.stroke();
+    g.font = '600 9px Poppins, system-ui, sans-serif'; g.fillStyle = '#8ea0c2'; g.textAlign = 'center'; g.fillText('V(NaOH) / mL', ix + iw / 2, h - 6);
+    g.textAlign = 'right'; g.fillText('14', ix - 4, iy + 8); g.fillText('7', ix - 4, Y(7) + 3); g.fillText('0', ix - 4, iy + ih);
   }
 
-  function solutionColor(ph) {
-    if (indicator === 'litmus') {
-      if (ph < 6.5) return 'rgba(239,68,68,0.78)';
-      if (ph > 7.5) return 'rgba(59,130,246,0.78)';
-      return 'rgba(139,92,246,0.78)';
+  const col = new THREE.Color(); const clear = new THREE.Color(0xf3f8ff); const tip = new THREE.Vector3(); const v3 = new THREE.Vector3();
+  let tick = 0; let dropTimer = 0;
+  engine.setUpdate((dt, time) => {
+    controls.update(dt);
+    // flow: a stream when well open, drops when barely open
+    const flow = tap < 0.15 ? tap * 1.2 : 0.2 + (tap - 0.15) * 1.6;
+    if (tap > 0) {
+      if (tap < 0.15) { dropTimer += dt * flow * 20; while (dropTimer > 1) { dropTimer -= 1; pending += DROP; dropsInAir.push({ y: 0, v: 0 }); } }
+      else pending += flow * dt;
     }
-    if (indicator === 'phenolphthalein') {
-      if (ph < 8.3) return 'rgba(203,213,225,0.22)';
-      return 'rgba(236,72,153,0.8)';
+    B.handle.rotation.x = -tap * Math.PI / 2;
+    const add = Math.min(pending, 50 - added);
+    if (add > 0) { const before = pH(); added += add; pending -= add; const after = pH(); plume = Math.min(1, plume + Math.abs(after - before) * 0.4 + add * 2); curve.push([added, after]); if (curve.length > 1500) curve.shift(); }
+    plume *= Math.exp(-dt * (0.5 + 4 * swirl + flow * 2));
+    B.set(added);
+    flask.setVolume(V0 + added);
+    const p = pH();
+    const I = INDICATORS[ind];
+    col.copy(clear).lerp(new THREE.Color(I.color(p)), I.alpha(p));
+    flask.setColor(col, 0.42 + I.alpha(p) * 0.3);
+    flask.group.rotation.y += swirl * dt * 1.2;
+    flask.group.position.x = Math.sin(time * 6) * 0.01 * swirl;
+    // the plume where the base lands shows the colour of a local excess
+    const pl = INDICATORS[ind];
+    const localPH = acid === 'hcl' ? 12.5 : 12.5;
+    plumeBlob.material.color.set(pl.color(localPH));
+    plumeBlob.material.opacity = Math.min(0.7, plume * pl.alpha(localPH) * 1.2);
+    const sy = 0.04 + flask.surfaceY();
+    const pr = Math.min(0.08 + plume * 0.12, flask.radiusAt(sy - 0.04 - 0.06) * 0.75);
+    plumeBlob.scale.set(pr, Math.min(0.05 + plume * 0.06, (sy - 0.04) * 0.45), pr); plumeBlob.position.set(0, sy - Math.min(0.06, (sy - 0.04) * 0.5), 0);
+    plumeBlob.visible = plumeBlob.material.opacity > 0.02;
+    // falling drops from the tip
+    B.tipWorld(tip); world.worldToLocal(tip);
+    drop.visible = false;
+    for (let i = dropsInAir.length - 1; i >= 0; i--) {
+      const d = dropsInAir[i]; d.v += 9.8 * 2 * dt; d.y += d.v * dt;
+      const y = tip.y - d.y;
+      if (y <= sy) { dropsInAir.splice(i, 1); continue; }
+      drop.visible = true; drop.position.set(tip.x, y, tip.z);
     }
-    if (ph < 3) return 'rgba(239,68,68,0.8)';
-    if (ph < 5) return 'rgba(249,115,22,0.8)';
-    if (ph < 6.5) return 'rgba(234,179,8,0.8)';
-    if (ph < 7.5) return 'rgba(34,197,94,0.8)';
-    if (ph < 9) return 'rgba(20,184,166,0.8)';
-    if (ph < 11) return 'rgba(59,130,246,0.8)';
-    return 'rgba(139,92,246,0.8)';
-  }
-
-  function badgeColor(ph) {
-    if (ph < 5) return '#ef4444';
-    if (ph < 6.5) return '#eab308';
-    if (ph < 7.5) return '#22c55e';
-    if (ph < 10) return '#3b82f6';
-    return '#8b5cf6';
-  }
-
-  const panel = createPanel(stage, { title: 'Titration Controls' });
-  const holdBtn = panel.button({
-    label: 'Hold to add NaOH',
-    icon: 'colorize',
-    onClick: () => {},
+    if ((tick++ & 3) === 0) drawGraph();
+    phText.el.textContent = `pH ${fmt(p, 2)}`; phText.at(v3.set(1.05, 0.8 + 0.22, 0.56));
+    readLbl.el.textContent = `${fmt(added, 2)} mL`; readLbl.at(v3.set(0.25, 0.8 + 1.75 + B.yOf(added), 0.1));
+    const eq = acid === 'hcl' ? 25 : 25;
+    st.v.set(`${fmt(added, 2)} mL`); st.pH.set(fmt(p, 2)); st.eq.set(`${eq.toFixed(2)} mL (pH ${acid === 'hcl' ? '7.00' : '8.72'})`);
+    const endHit = I.alpha(p) > 0.25 && ind === 'phenolphthalein';
+    st.conc.set(endHit || Math.abs(added - 25) < 0.06 ? `${fmt(CB * added / V0, 4)} M` : '—');
+    badge.set(tap > 0.15 ? 'Running fast: slow down near 24 mL' : p > 6 && p < 10 ? 'The end point is here: one drop changes everything' : added > 26 ? 'Past the end point: the flask stays coloured' : 'Open the tap, then add drops near the end point');
   });
-  panel.slider({
-    label: 'Drop rate',
-    min: 0.2, max: 3, step: 0.1, value: dropRate,
-    format: (v) => `${v.toFixed(1)} mL/s`,
-    onChange: (v) => { dropRate = v; },
-  });
-  panel.select({
-    label: 'Indicator',
-    options: [
-      { value: 'universal', label: 'Universal indicator' },
-      { value: 'litmus', label: 'Litmus' },
-      { value: 'phenolphthalein', label: 'Phenolphthalein' },
-    ],
-    value: indicator,
-    onChange: (v) => { indicator = v; },
-  });
-  panel.divider();
-  const phOut = panel.readout({ label: 'pH', value: '1.00' });
-  const volOut = panel.readout({ label: 'NaOH added', value: '0.0 mL' });
-  const eqOut = panel.readout({ label: 'Equivalence at', value: '25.0 mL' });
-  panel.button({
-    label: 'Reset titration',
-    icon: 'replay',
-    variant: 'ghost',
-    onClick: () => {
-      volume = 0;
-      curve.length = 0;
-      drops.length = 0;
-      lastRecorded = -1;
-    },
-  });
-  panel.info('The flask holds 25 mL of 0.10 M HCl. The burette holds 0.10 M NaOH. Hold the button and watch the pH crawl — then leap — past 25 mL.');
+  engine.start();
 
-  function startDispense(e) { dispensing = true; e.preventDefault(); }
-  function stopDispense() { dispensing = false; }
-  holdBtn.el.addEventListener('pointerdown', startDispense);
-  holdBtn.el.addEventListener('pointerup', stopDispense);
-  holdBtn.el.addEventListener('pointercancel', stopDispense);
-  holdBtn.el.addEventListener('pointerleave', stopDispense);
-
-  function layout(w, h) {
-    const bw = Math.min(w * 0.34, 220);
-    const bh = h * 0.34;
-    const bx = w * 0.06;
-    const by = h - 40 - bh;
-    return {
-      beaker: { x: bx, y: by, w: bw, h: bh },
-      buretteX: bx + bw / 2,
-      buretteTop: 14,
-      buretteBot: by - h * 0.06,
-      graph: { x: w * 0.5, y: 34, w: w * 0.46 - 20, h: h - 90 },
-    };
-  }
-
-  let dropTimer = 0;
-  sim.setUpdate((ctx, dt, w, h) => {
-    const ly = layout(w, h);
-    if (dispensing && volume < MAX_VOL) {
-      volume = Math.min(MAX_VOL, volume + dropRate * dt);
-      dropTimer += dt;
-      if (dropTimer > 0.12) {
-        dropTimer = 0;
-        drops.push({ x: ly.buretteX, y: ly.buretteBot + 8, v: 40 });
-      }
-    }
-    if (volume - lastRecorded >= 0.15) {
-      const phNow = computePH(volume);
-      const prev = curve.length ? curve[curve.length - 1] : null;
-      if (prev && Math.abs(phNow - prev.ph) > 0.6) {
-        const eqVol = ACID_MMOL / BASE_CONC;
-        const steps = Math.min(32, Math.ceil(Math.abs(phNow - prev.ph) / 0.3));
-        const vs = [];
-        for (let i = 1; i < steps; i++) vs.push(prev.v + ((volume - prev.v) * i) / steps);
-        if (prev.v < eqVol && volume > eqVol) {
-          vs.push(eqVol);
-          vs.sort((a, b) => a - b);
-        }
-        vs.forEach((v) => curve.push({ v, ph: computePH(v) }));
-      }
-      lastRecorded = volume;
-      curve.push({ v: volume, ph: phNow });
-    }
-    const ph = computePH(volume);
-
-    ctx.clearRect(0, 0, w, h);
-    const bk = ly.beaker;
-
-    const liqFrac = (ACID_VOL + volume) / (ACID_VOL + MAX_VOL);
-    const liqH = bk.h * (0.35 + 0.55 * liqFrac);
-    const liqY = bk.y + bk.h - liqH;
-    ctx.fillStyle = solutionColor(ph);
-    ctx.fillRect(bk.x + 3, liqY, bk.w - 6, liqH - 3);
-    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(bk.x + 3, liqY);
-    ctx.lineTo(bk.x + bk.w - 3, liqY);
-    ctx.stroke();
-
-    ctx.strokeStyle = 'rgba(199,212,234,0.85)';
-    ctx.lineWidth = 2.5;
-    ctx.beginPath();
-    ctx.moveTo(bk.x, bk.y - 6);
-    ctx.lineTo(bk.x, bk.y + bk.h);
-    ctx.lineTo(bk.x + bk.w, bk.y + bk.h);
-    ctx.lineTo(bk.x + bk.w, bk.y - 6);
-    ctx.stroke();
-    ctx.fillStyle = 'rgba(199,212,234,0.7)';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('25 mL HCl + indicator', bk.x + bk.w / 2, bk.y + bk.h + 16);
-
-    const tubeW = 14;
-    const bx = ly.buretteX;
-    ctx.fillStyle = 'rgba(125,211,252,0.25)';
-    const baseFill = (MAX_VOL - volume) / MAX_VOL;
-    const tubeH = ly.buretteBot - ly.buretteTop;
-    ctx.fillRect(bx - tubeW / 2 + 2, ly.buretteTop + tubeH * (1 - baseFill), tubeW - 4, tubeH * baseFill);
-    ctx.strokeStyle = 'rgba(199,212,234,0.85)';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(bx - tubeW / 2, ly.buretteTop, tubeW, tubeH);
-    ctx.beginPath();
-    ctx.moveTo(bx - tubeW / 2, ly.buretteBot);
-    ctx.lineTo(bx, ly.buretteBot + 12);
-    ctx.lineTo(bx + tubeW / 2, ly.buretteBot);
-    ctx.stroke();
-    ctx.strokeStyle = 'rgba(199,212,234,0.4)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i <= 10; i++) {
-      const gy = ly.buretteTop + (i / 10) * tubeH;
-      ctx.beginPath();
-      ctx.moveTo(bx + tubeW / 2, gy);
-      ctx.lineTo(bx + tubeW / 2 + 5, gy);
-      ctx.stroke();
-    }
-    ctx.fillStyle = 'rgba(199,212,234,0.7)';
-    ctx.textAlign = 'left';
-    ctx.fillText('NaOH 0.10 M', bx + tubeW / 2 + 9, ly.buretteTop + 12);
-
-    ctx.fillStyle = 'rgba(125,211,252,0.9)';
-    for (let i = drops.length - 1; i >= 0; i--) {
-      const d = drops[i];
-      d.v += 320 * dt;
-      d.y += d.v * dt;
-      if (d.y >= liqY) {
-        drops.splice(i, 1);
-        continue;
-      }
-      ctx.beginPath();
-      ctx.arc(d.x, d.y, 3, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    const g = ly.graph;
-    ctx.strokeStyle = 'rgba(158,193,255,0.35)';
-    ctx.lineWidth = 1;
-    ctx.strokeRect(g.x, g.y, g.w, g.h);
-    ctx.fillStyle = 'rgba(199,212,234,0.6)';
-    ctx.textAlign = 'center';
-    ctx.fillText('pH curve', g.x + g.w / 2, g.y - 8);
-    ctx.fillText('volume NaOH added (mL)', g.x + g.w / 2, g.y + g.h + 16);
-    for (let p = 0; p <= 14; p += 2) {
-      const yy = g.y + g.h - (p / 14) * g.h;
-      ctx.fillText(String(p), g.x - 12, yy + 3);
-      ctx.strokeStyle = 'rgba(158,193,255,0.12)';
-      ctx.beginPath();
-      ctx.moveTo(g.x, yy);
-      ctx.lineTo(g.x + g.w, yy);
-      ctx.stroke();
-    }
-    for (let v = 0; v <= MAX_VOL; v += 10) {
-      const xx = g.x + (v / MAX_VOL) * g.w;
-      ctx.fillText(String(v), xx, g.y + g.h + 4 + 8);
-    }
-    const eqX = g.x + (25 / MAX_VOL) * g.w;
-    ctx.strokeStyle = 'rgba(251,191,36,0.5)';
-    ctx.setLineDash([4, 5]);
-    ctx.beginPath();
-    ctx.moveTo(eqX, g.y);
-    ctx.lineTo(eqX, g.y + g.h);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = 'rgba(251,191,36,0.9)';
-    ctx.fillText('equivalence', eqX, g.y + 12);
-
-    if (curve.length > 1) {
-      ctx.strokeStyle = '#10B981';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      curve.forEach((pt, i) => {
-        const xx = g.x + (pt.v / MAX_VOL) * g.w;
-        const yy = g.y + g.h - (pt.ph / 14) * g.h;
-        if (i === 0) ctx.moveTo(xx, yy);
-        else ctx.lineTo(xx, yy);
-      });
-      ctx.stroke();
-    }
-    const cx = g.x + (volume / MAX_VOL) * g.w;
-    const cy = g.y + g.h - (ph / 14) * g.h;
-    ctx.fillStyle = '#fbbf24';
-    ctx.beginPath();
-    ctx.arc(cx, cy, 4.5, 0, Math.PI * 2);
-    ctx.fill();
-
-    phOut.set(ph.toFixed(2));
-    volOut.set(`${volume.toFixed(1)} mL`);
-    eqOut.set('25.0 mL');
-    phBadge.set(`pH ${ph.toFixed(2)}${volume >= MAX_VOL ? ' · burette empty' : dispensing ? ' · adding…' : ''}`);
-    phBadge.el.style.setProperty('--ix-hud-color', badgeColor(ph));
-  });
-
-  sim.start();
-
-  return {
-    dispose() {
-      holdBtn.el.removeEventListener('pointerdown', startDispense);
-      holdBtn.el.removeEventListener('pointerup', stopDispense);
-      holdBtn.el.removeEventListener('pointercancel', stopDispense);
-      holdBtn.el.removeEventListener('pointerleave', stopDispense);
-      panel.dispose();
-      hud.dispose();
-      sim.dispose();
-    },
-  };
+  stage.__titration = { add: (ml) => { pending += ml; }, state: () => ({ added, pH: pH() }) };
+  return { dispose() { panel.dispose(); hud.dispose(); phText.remove(); readLbl.remove(); flask.dispose(); L.dispose(); } };
 }

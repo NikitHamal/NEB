@@ -1,4 +1,4 @@
-"""Proxy for chat.inceptionlabs.ai (Inception Mercury 2 diffusion LLM)."""
+"""Proxy for chat.inceptionlabs.ai (Inception Mercury 3 diffusion LLM)."""
 import json
 import logging
 import threading
@@ -20,9 +20,14 @@ VOICE_TURN_URL = f"{INCEPTION_URL}/api/voice/turn"
 VOICE_EXTRACT_URL = f"{INCEPTION_URL}/api/voice/extract"
 REQUEST_TIMEOUT = 180
 
+# The site serves a single model — Mercury 3 — and sends no model field in the
+# chat payload, so this id names what the site is running right now.
 MODELS = [
-    {"id": "mercury-2", "name": "Mercury 2", "reasoning": True, "reasoning_levels": ["low", "medium", "high"], "web_search": True},
+    {"id": "mercury-3", "name": "Mercury 3", "reasoning": True, "reasoning_levels": ["high", "medium", "low", "instant"], "web_search": True},
 ]
+
+# Mercury 2 was retired upstream; ids saved in old configs/sessions still resolve.
+LEGACY_MODELS = {"mercury-2": "mercury-3"}
 
 MODEL_MAP = {m["id"]: m for m in MODELS}
 
@@ -128,10 +133,12 @@ def _messages_to_inception(messages: List[Dict[str, str]]) -> list:
 
 def stream_chat(
     messages: List[Dict[str, str]],
-    model: str = "mercury-2",
+    model: str = "mercury-3",
     reasoning_effort: str = "high",
     web_search: bool = False,
 ) -> Generator[Dict, None, None]:
+    # Mercury 3 always answers at high reasoning effort; the parameter is kept for callers.
+    model = LEGACY_MODELS.get(model, model)
     if model not in MODEL_MAP:
         yield {"type": "error", "error": f"Unknown model '{model}'"}
         return
@@ -145,7 +152,7 @@ def stream_chat(
     inception_msgs = _messages_to_inception(messages)
 
     payload = {
-        "reasoningEffort": reasoning_effort,
+        "reasoningEffort": "high",
         "webSearchEnabled": web_search,
         "voiceMode": False,
         "timezone": "UTC",
@@ -213,7 +220,7 @@ def stream_chat(
 
 def simple_chat(
     user_message: str,
-    model: str = "mercury-2",
+    model: str = "mercury-3",
     system_prompt: str = "",
     reasoning_effort: str = "high",
     **kwargs,
