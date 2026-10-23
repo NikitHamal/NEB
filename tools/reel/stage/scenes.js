@@ -2,15 +2,15 @@
 // NEBians v1.7 for Android: 1080x1920, 32 s, 120 BPM (a beat is 0.5 s, a bar is 2 s).
 // Every app screen is a real recording or screenshot of the Android app (tools/reel/capture/app).
 const CLIPS = {
-  home: { clip: 'home', from: 0.0 },
-  syllabus: { clip: 'syllabus', from: 0.0, speed: 1.4 },
-  reader: { clip: 'reader', from: 0.0 },
-  pendulum: { clip: 'pendulum', from: 0.0 },
-  molecule: { clip: 'molecule', from: 0.0 },
-  pdf: { clip: 'pdf', from: 1.2 },
-  night: { clip: 'pdf-night', from: 0.0 },
-  ai: { clip: 'pdf-ai', from: 0.0 },
-  canvas: { clip: 'canvas', from: 0.0 },
+  home: { segs: [[0, 'home', 5.5, 1]] },
+  syllabus: { segs: [[0, 'syllabus', 1.0, 1], [1.25, 'syllabus', 25.95, 1]] },
+  reader: { segs: [[0, 'reader', 0, 1]] },
+  pendulum: { segs: [[0, 'pendulum', 0, 1]] },
+  molecule: { segs: [[0, 'molecule', 0, 1]] },
+  orbit: { segs: [[0, 'orbit', 0, 1]] },
+  pdf: { segs: [[0, 'pdf', 9.0, 1.2], [1.6, 'pdf-night', 0.0, 1.15]] },
+  ai: { segs: [[0, 'pdf-ai', 0, 1]] },
+  canvas: { segs: [[0, 'canvas', 0, 1]] },
 };
 const WALL = ['home-top', 'syllabus-class11', 'reader-top', 'interactive-pendulum', 'pdf-first', 'pdf-night',
   'pdf-ai-answer', 'canvas-board', 'library-top', 'syllabus-subject', 'interactive-molecule', 'home-mid',
@@ -37,9 +37,9 @@ scene(0, 2.08, (root) => {
     }
   }
   const shade = el('div', 'abs', root, { inset: 0, background: 'radial-gradient(70% 45% at 50% 50%, rgba(5,10,28,0.55), rgba(5,10,28,0.92) 100%)' });
-  const l1 = el('div', 'abs center-x h-xl', root, { top: '640px', color: '#fff' });
+  const l1 = el('div', 'abs center-x h-xl', root, { top: '650px', color: '#fff', fontSize: '104px' });
   const w1 = splitWords(l1, "Nepal's study app");
-  const l2 = el('div', 'abs center-x h-xl on-ink', root, { top: '780px', color: '#fff' });
+  const l2 = el('div', 'abs center-x h-xl on-ink', root, { top: '772px', color: '#fff', fontSize: '104px' });
   const w2 = splitWords(l2, 'just leveled up.');
   w2[2].classList.add('hl');
   const chip = el('div', 'abs', root, { left: 0, right: 0, top: '980px', display: 'flex', justifyContent: 'center' });
@@ -150,7 +150,7 @@ function feature(o) {
     const blobs = glowBlobs(root, dark);
     if (!dark) dotGrid(root, 'rgba(0,75,212,0.07)', 46, 2);
     const head = makeHead(root, { kicker: o.kicker, lines: o.lines, y: o.headY || 250, onInk: dark, fs: o.fs || 104 });
-    const P = makeRealPhone(root, { left: o.px ?? 260, top: o.py ?? 640, w: o.pw || 560 });
+    const P = makeRealPhone(root, { left: o.px ?? 220, top: o.py ?? 610, w: o.pw || 640 });
     const extra = o.build ? o.build(root, P) : null;
     const calls = (o.callouts || []).map((c) => ({ ...c, e: callout(root, { ...c, dark }) }));
     (o.cues || []).forEach(([t, type, opt]) => CUE(t, type, opt || {}));
@@ -206,9 +206,9 @@ feature({
 
 feature({
   a: 13.85, b: 17.12, dark: true, enter: 'right', exit: 'up', kicker: 'New · 3D labs', lines: ['Science you', 'can *touch.*'],
-  px: 70, pw: 470, py: 700,
+  px: 40, pw: 500, py: 640,
   build: (root) => {
-    const Q = makeRealPhone(root, { left: 540, top: 820, w: 470 });
+    const Q = makeRealPhone(root, { left: 540, top: 760, w: 500 });
     return (t, tl) => {
       const ip = sp(tl - 0.25, 'heavy');
       tf(Q.ph, { y: (1 - ip) * 1000 + Math.sin(tl * 1.4 + 1) * 8, rx: 4 + (1 - ip) * 24, ry: 8, r: (1 - ip) * 3 });
@@ -223,7 +223,7 @@ feature({
 
 feature({
   a: 16.85, b: 20.12, enter: 'up', exit: 'left', kicker: 'Rebuilt · PDF reader', lines: ['Night mode.', 'Search. *Resume.*'],
-  play: (P, t, tl) => (tl < 1.7 ? playInto(P.img, CLIPS.pdf, tl, ['pdf-first']) : playInto(P.img, CLIPS.night, tl - 1.7, ['pdf-night'])),
+  play: (P, t, tl) => playInto(P.img, CLIPS.pdf, tl, ['pdf-first', 'pdf-night']),
   camera: camKeys([[0, { rx: 4, ry: -6 }], [3.2, { s: 1.05, y: -30, rx: 2, ry: 6 }]]),
   callouts: [
     { t: 17.75, text: 'Night, sepia, paper', icon: 'svg:moon', x: 50, y: 1150 },
@@ -251,9 +251,9 @@ const MORE = [['Images and links in posts', 'forum'], ['Your own avatar', 'verif
 scene(24.85, 26.62, (root) => {
   bg(root, PAPER);
   const head = makeHead(root, { kicker: 'And more in v1.7', lines: ['Smoother.', '*Faster.*'], y: 300, fs: 120 });
-  const rows = MORE.map(([text, icon], i) => html(root, `<div class="abs" style="left:150px;top:${760 + i * 150}px;display:flex;align-items:center;gap:24px;font-size:44px;font-weight:700;color:${INK}">
-    <span style="width:84px;height:84px;border-radius:26px;background:${i % 2 ? INK : BLUE};color:#fff;display:flex;align-items:center;justify-content:center">${ms(icon, 46)}</span><span>${text}</span></div>`));
-  const neby = pixelCanvas(root, 240, { position: 'absolute', left: '760px', top: '1380px' });
+  const rows = MORE.map(([text, icon], i) => html(root, `<div class="abs" style="left:90px;top:${720 + i * 172}px;display:flex;align-items:center;gap:28px;font-size:54px;font-weight:800;letter-spacing:-0.02em;color:${INK}">
+    <span style="width:104px;height:104px;border-radius:32px;background:${i % 2 ? INK : BLUE};color:#fff;display:flex;align-items:center;justify-content:center">${ms(icon, 58)}</span><span>${text}</span></div>`));
+  const neby = pixelCanvas(root, 336, { position: 'absolute', left: '680px', top: '1420px' });
   CUE(24.9, 'whoosh', { gain: 0.5 });
   rows.forEach((r, i) => CUE(25.15 + i * 0.12, 'chip', { gain: 0.4, note: i * 2 }));
   CUE(26.0, 'riser', { dur: 0.5, gain: 0.7 });

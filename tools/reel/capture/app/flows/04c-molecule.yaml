@@ -26,16 +26,18 @@ name: 3D lab, molecule gallery
 - takeScreenshot: interactive-chemistry-course
 - scrollUntilVisible:
     element:
-      text: "(?i).*molecule.*"
+      text: "Molecule Gallery"
     direction: DOWN
     timeout: 12000
     optional: true
 - tapOn:
-    text: "(?i).*molecule.*"
+    text: "Molecule Gallery"
     index: 0
 - waitForAnimationToEnd:
     timeout: 12000
 - takeScreenshot: interactive-molecule
+- waitForAnimationToEnd:
+    timeout: 8000
 - startRecording: rec-molecule
 - swipe:
     start: "70%, 30%"

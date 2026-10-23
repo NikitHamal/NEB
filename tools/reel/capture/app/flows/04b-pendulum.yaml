@@ -32,16 +32,18 @@ name: 3D lab, pendulum
 - takeScreenshot: interactive-physics-course
 - scrollUntilVisible:
     element:
-      text: "(?i).*pendulum.*"
+      text: "Pendulum Lab"
     direction: DOWN
     timeout: 12000
     optional: true
 - tapOn:
-    text: "(?i).*pendulum.*"
+    text: "Pendulum Lab"
     index: 0
 - waitForAnimationToEnd:
     timeout: 12000
 - takeScreenshot: interactive-pendulum
+- waitForAnimationToEnd:
+    timeout: 8000
 - startRecording: rec-pendulum
 - swipe:
     start: "62%, 26%"

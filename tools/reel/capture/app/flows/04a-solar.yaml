@@ -26,11 +26,13 @@ name: 3D lab, Earth Moon and Sun
     timeout: 5000
 - takeScreenshot: interactive-solar-course
 - tapOn:
-    text: "(?i).*earth.*moon.*"
+    text: "Earth, Moon and Sun"
     index: 0
 - waitForAnimationToEnd:
     timeout: 12000
 - takeScreenshot: interactive-orbit
+- waitForAnimationToEnd:
+    timeout: 8000
 - startRecording: rec-orbit
 - swipe:
     start: "70%, 30%"

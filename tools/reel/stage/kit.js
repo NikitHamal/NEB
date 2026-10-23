@@ -17,8 +17,12 @@ function clipSrc(name, sec) {
   return `${APPCAP}${name}/${String(f + 1).padStart(5, '0')}.jpg`;
 }
 function setSrc(img, src) { if (src && img.getAttribute('src') !== src) img.setAttribute('src', src); }
+// spec: {segs: [[at, clip, from, speed], ...]}: from scene-local time `at`, play `clip` starting at `from`.
 function playInto(img, spec, tl, fallback) {
-  if (spec && hasClip(spec.clip)) return setSrc(img, clipSrc(spec.clip, spec.from + Math.max(0, tl) * (spec.speed || 1)));
+  const segs = spec ? spec.segs || [[0, spec.clip, spec.from || 0, spec.speed || 1]] : [];
+  let seg = null;
+  for (const s of segs) if (tl >= s[0] && hasClip(s[1])) seg = s;
+  if (seg) return setSrc(img, clipSrc(seg[1], seg[2] + (tl - seg[0]) * (seg[3] || 1)));
   const st = (fallback || []).find(hasStill);
   if (st) setSrc(img, stillSrc(st));
 }
