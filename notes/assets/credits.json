@@ -2456,6 +2456,19 @@
   "source": "Wikimedia Commons",
   "title": "Wireless access point"
  },
+ "cs10/audacity": {
+  "author": "Zurel",
+  "bytes": 92162,
+  "credit": "Own work",
+  "fetched": "2026-10-23",
+  "file": "cs10/audacity.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Audacity_version_4.0.png",
+  "sha1": "9d0602cdd42ef47e",
+  "source": "Wikimedia Commons",
+  "title": "Audacity version 4.0"
+ },
  "cs10/card-catalogue": {
   "author": "Michael Holley Swtpc6800",
   "bytes": 309212,
@@ -2481,6 +2494,45 @@
   "sha1": "ce4bc8958151050e",
   "source": "Wikimedia Commons",
   "title": "St-sc-fiber-connectors"
+ },
+ "cs10/horse-in-motion": {
+  "author": "Eadweard Muybridge",
+  "bytes": 680198,
+  "credit": "Provided directly by Library of Congress Prints and Photographs Division",
+  "fetched": "2026-10-23",
+  "file": "cs10/horse-in-motion.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:The_Horse_in_Motion_high_res.jpg",
+  "sha1": "3227a82e7ac291f8",
+  "source": "Wikimedia Commons",
+  "title": "The Horse in Motion high res"
+ },
+ "cs10/kdenlive": {
+  "author": "Ddeepeshkumar",
+  "bytes": 524963,
+  "credit": "Own work",
+  "fetched": "2026-10-23",
+  "file": "cs10/kdenlive.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Kdenlive_20.04.1.png",
+  "sha1": "dbba0a0576b340f4",
+  "source": "Wikimedia Commons",
+  "title": "Kdenlive 20.04.1"
+ },
+ "cs10/lcd-subpixels": {
+  "author": "Politelyinsulting",
+  "bytes": 419203,
+  "credit": "Own work",
+  "fetched": "2026-10-23",
+  "file": "cs10/lcd-subpixels.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:LCD_subpixels.jpg",
+  "sha1": "dcfba3f37a33273e",
+  "source": "Wikimedia Commons",
+  "title": "LCD subpixels"
  },
  "cs10/media-converter": {
   "author": "Adamantios",
