@@ -2456,6 +2456,19 @@
   "source": "Wikimedia Commons",
   "title": "Wireless access point"
  },
+ "cs10/card-catalogue": {
+  "author": "Michael Holley Swtpc6800",
+  "bytes": 309212,
+  "credit": "Own work",
+  "fetched": "2026-10-23",
+  "file": "cs10/card-catalogue.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Copyright_Card_Catalog_Drawer.jpg",
+  "sha1": "767aadb018a24293",
+  "source": "Wikimedia Commons",
+  "title": "Copyright Card Catalog Drawer"
+ },
  "cs10/fibre-st-sc": {
   "author": "Poil 23:10, 26 Apr 2005 (UTC)",
   "bytes": 224620,
@@ -2507,6 +2520,19 @@
   "sha1": "b2c5145ff9377948",
   "source": "Wikimedia Commons",
   "title": "19-inch rackmount Ethernet switches and patch panels"
+ },
+ "cs10/workbench": {
+  "author": "MySQL",
+  "bytes": 55691,
+  "credit": "https://www.mysql.com/it/products/workbench/",
+  "fetched": "2026-10-23",
+  "file": "cs10/workbench.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:MySQL_Workbench_editor_screenshot.jpg",
+  "sha1": "eb7587135e6551c9",
+  "source": "Wikimedia Commons",
+  "title": "MySQL Workbench editor screenshot"
  },
  "cs11/ascii-chart": {
   "author": "Anomie",
