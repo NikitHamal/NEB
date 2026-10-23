@@ -29,6 +29,8 @@ private val SHAPE_TRAIT_VALUES = mapOf(
     "sun" to 0.965, "triangle" to 0.99
 )
 
+private val HexColor = Regex("^#[0-9a-fA-F]{6}$")
+
 fun parseBlobatarOpts(params: Map<String, String>): BlobatarOpts {
     return BlobatarOpts(
         hue = params["hue"]?.toIntOrNull()?.coerceIn(0, 360),
@@ -42,11 +44,11 @@ fun parseBlobatarOpts(params: Map<String, String>): BlobatarOpts {
         anim = params["anim"]?.takeIf { it in setOf("bob", "wave", "spin", "pulse") },
         expression = params["expression"]?.takeIf { it in EXPRESSIONS.keys },
         shape = params["shape"]?.takeIf { it in SHAPE_TRAIT_VALUES.keys },
-        color = params["color"]?.takeIf { it.matches(Regex("^#[0-9a-fA-F]{6}$")) }?.lowercase(),
-        bgColor = params["bgcolor"]?.takeIf { it.matches(Regex("^#[0-9a-fA-F]{6}$")) }?.lowercase()
-            ?: params["bgColor"]?.takeIf { it.matches(Regex("^#[0-9a-fA-F]{6}$")) }?.lowercase(),
-        eyeColor = params["eyecolor"]?.takeIf { it.matches(Regex("^#[0-9a-fA-F]{6}$")) }?.lowercase()
-            ?: params["eyeColor"]?.takeIf { it.matches(Regex("^#[0-9a-fA-F]{6}$")) }?.lowercase()
+        color = params["color"]?.takeIf { it.matches(HexColor) }?.lowercase(),
+        bgColor = params["bgcolor"]?.takeIf { it.matches(HexColor) }?.lowercase()
+            ?: params["bgColor"]?.takeIf { it.matches(HexColor) }?.lowercase(),
+        eyeColor = params["eyecolor"]?.takeIf { it.matches(HexColor) }?.lowercase()
+            ?: params["eyeColor"]?.takeIf { it.matches(HexColor) }?.lowercase()
     )
 }
 

@@ -1,176 +1,102 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Ramps and rolling in 3D: a 3 m, three-lane ramp on the school field. Tilt it, pick the surface and
+ * race a solid ball, a hoop and a sliding block side by side. Rolling without slipping, a solid ball
+ * accelerates at a = (5/7)·g·(sin θ − c·cos θ), a hoop at ½·g·(…), a sliding block at g(sin θ − μ cos θ);
+ * if the slope is too gentle for the surface one never starts. Each lane's stopwatch and the formula
+ * t = √(2L/a) agree.
+ */
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { createField, label, THREE } from './physics3d/field.js';
 
-const G = 9.81;
-const RAMP_LEN = 6;
-const BALL_R = 16;
+const DEG = Math.PI / 180; const G = 9.81; const L = 3; const LANE = 0.5;
+const ROLLERS = [
+  { value: 'ball', label: 'Solid ball', f: 5 / 7, color: 0xe5484d },
+  { value: 'hoop', label: 'Hoop', f: 1 / 2, color: 0x7c3aed },
+  { value: 'block', label: 'Sliding block', f: 1, color: 0xf08c00 },
+];
+const SURF = [
+  { value: 'glass', label: 'Smooth', c: 0.005, mu: 0.05, color: 0xbfe3f7, rough: 0.05 },
+  { value: 'wood', label: 'Wood', c: 0.02, mu: 0.3, color: 0xd9b07a, rough: 0.6 },
+  { value: 'carpet', label: 'Carpet', c: 0.12, mu: 0.55, color: 0x8c6ca8, rough: 1 },
+  { value: 'sand', label: 'Sand', c: 0.3, mu: 0.7, color: 0xe6cf98, rough: 1 },
+];
+const fmt = (x, d = 0) => x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const F = createField(stage, { camera: [3.8, 2.4, 4.8], target: [1.3, 0.6, 0], maxDistance: 30 });
+  if (!F) return null;
+  const { engine, scene, camera, controls } = F;
+  { const c = F.key.shadow.camera; c.left = -6; c.right = 6; c.top = 6; c.bottom = -6; c.updateProjectionMatrix(); }
   const hud = createHud(stage);
-  const badge = hud.badge('Press Go to race!', '#F59E0B');
+  const badge = hud.badge('Tilt the ramp, pick a surface, then Go', '#2563eb');
 
-  let angle = 25;
-  let mu = 0.1;
-  let s = 0;
-  let v = 0;
-  let t = 0;
-  let running = false;
-  let finished = false;
-  let bestTime = 0;
-  let spin = 0;
+  let theta = 20 * DEG; let surf = SURF[1]; let racing = false; let t = 0;
+  const R = ROLLERS.map((r) => ({ ...r, s: 0, v: 0, done: false, stuck: false, tEnd: 0 }));
 
-  function accel() {
-    const rad = (angle * Math.PI) / 180;
-    return Math.max(0, G * (Math.sin(rad) - mu * Math.cos(rad)));
-  }
-
-  function reset() {
-    s = 0;
-    v = 0;
-    t = 0;
-    spin = 0;
-    running = false;
-    finished = false;
-    badge.set('Press Go to race!');
-  }
-
-  const panel = createPanel(stage, { title: 'Ramp Controls' });
-  panel.slider({
-    label: 'Ramp angle',
-    min: 5, max: 45, step: 1, value: angle,
-    format: (val) => `${val}°`,
-    onChange: (val) => { angle = val; reset(); },
+  const ramp = new THREE.Group(); scene.add(ramp);
+  const deckMat = new THREE.MeshStandardMaterial({ color: surf.color, roughness: surf.rough });
+  const deck = new THREE.Mesh(new THREE.BoxGeometry(L, 0.04, LANE * 3 + 0.12), deckMat); deck.position.x = L / 2; deck.receiveShadow = true; deck.castShadow = true; ramp.add(deck);
+  const railMat = new THREE.MeshStandardMaterial({ color: 0xf8fafc, roughness: 0.5 });
+  for (let i = 0; i <= 3; i++) { const rail = new THREE.Mesh(new THREE.BoxGeometry(L, 0.06, 0.02), railMat); rail.position.set(L / 2, 0.05, (i - 1.5) * LANE); rail.castShadow = true; ramp.add(rail); }
+  const finish = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.005, LANE * 3), new THREE.MeshBasicMaterial({ color: 0xffffff })); finish.position.set(L - 0.05, 0.025, 0); ramp.add(finish);
+  const legMat = new THREE.MeshStandardMaterial({ color: 0x6b4a2b, roughness: 0.8 });
+  const leg = new THREE.Mesh(new THREE.BoxGeometry(0.08, 1, 0.08), legMat); leg.castShadow = true; scene.add(leg);
+  const leg2 = leg.clone(); scene.add(leg2);
+  const meshes = R.map((r) => {
+    let m;
+    if (r.value === 'ball') m = new THREE.Mesh(new THREE.SphereGeometry(0.12, 32, 20), new THREE.MeshPhysicalMaterial({ color: r.color, roughness: 0.25, clearcoat: 0.6 }));
+    else if (r.value === 'hoop') { m = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.018, 12, 40), new THREE.MeshStandardMaterial({ color: r.color, metalness: 0.6, roughness: 0.3 })); }
+    else m = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.16, 0.2), new THREE.MeshStandardMaterial({ color: r.color, roughness: 0.6 }));
+    m.castShadow = true; scene.add(m); return m;
   });
-  panel.slider({
-    label: 'Friction',
-    min: 0, max: 0.8, step: 0.02, value: mu,
-    format: (val) => val.toFixed(2),
-    onChange: (val) => { mu = val; reset(); },
+  const lbls = R.map(() => label(stage, camera));
+  const angLbl = label(stage, camera);
+
+  const panel = createPanel(stage, { title: 'Ramp race' });
+  const angS = panel.slider({ label: 'Ramp angle θ', min: 3, max: 60, step: 1, value: 20, format: (x) => `${x}°`, onChange: (x) => { theta = x * DEG; reset(); } });
+  panel.chips({ label: 'Ramp surface', options: SURF.map((r) => ({ value: r.value, label: r.label })), value: 'wood', onChange: (x) => { surf = SURF.find((r) => r.value === x); deckMat.color.setHex(surf.color); deckMat.roughness = surf.rough; reset(); } });
+  panel.buttonRow([{ label: 'Go!', icon: 'flag', onClick: go }, { label: 'Reset', icon: 'replay', variant: 'ghost', onClick: reset }]);
+  const st = panel.stats(R.map((r, i) => ({ key: `r${i}`, label: r.label })));
+  panel.info('The ramp is 3 m long. Gravity pulls along the slope with g·sin θ, so steeper is faster. A rolling ball also has to spin up, so it is slower than a frictionless slide; a hoop, with all its mass at the rim, is slower still.');
+
+  function accel(r) { return r.value === 'block' ? G * (Math.sin(theta) - surf.mu * Math.cos(theta)) : r.f * G * (Math.sin(theta) - surf.c * Math.cos(theta)); }
+  function reset() { racing = false; t = 0; R.forEach((r) => { r.s = 0; r.v = 0; r.done = false; r.stuck = false; r.tEnd = 0; }); }
+  function go() { reset(); racing = true; R.forEach((r) => { if (accel(r) <= 0) r.stuck = true; }); }
+
+  const v3 = new THREE.Vector3(); const dir = new THREE.Vector3(); const nrm = new THREE.Vector3();
+  engine.setUpdate((dt) => {
+    controls.update(dt);
+    const H = L * Math.sin(theta);
+    ramp.position.set(0, H + 0.04, 0); ramp.rotation.z = -theta;
+    leg.scale.y = H; leg.position.set(0.04, H / 2, -LANE * 1.5 - 0.1); leg2.scale.y = H; leg2.position.set(0.04, H / 2, LANE * 1.5 + 0.1);
+    dir.set(Math.cos(theta), -Math.sin(theta), 0); nrm.set(Math.sin(theta), Math.cos(theta), 0);
+    if (racing) {
+      t += dt;
+      R.forEach((r) => {
+        if (r.done || r.stuck) return;
+        const a = accel(r); r.v += a * dt; r.s += r.v * dt;
+        if (r.s >= L - 0.17) { r.s = L - 0.17; r.done = true; r.tEnd = Math.sqrt(2 * (L - 0.17) / a); }
+      });
+      if (R.every((r) => r.done || r.stuck)) racing = false;
+    }
+    R.forEach((r, i) => {
+      const m = meshes[i]; const z = (i - 1) * LANE; const lift = r.value === 'block' ? 0.08 : 0.12;
+      const s = 0.17 + r.s;
+      m.position.set(0, H + 0.04, z).addScaledVector(dir, s).addScaledVector(nrm, 0.02 + lift);
+      if (r.value === 'ball') m.rotation.z = -r.s / 0.12;
+      else if (r.value === 'hoop') { m.rotation.set(0, 0, -r.s / 0.12); }
+      else m.rotation.set(0, 0, -theta);
+      const a = accel(r);
+      lbls[i].el.textContent = r.stuck ? `${r.label}: stuck` : r.done ? `${r.label}: ${fmt(r.tEnd, 2)} s` : racing ? `${fmt(t, 2)} s` : r.label;
+      lbls[i].at(v3.copy(m.position).add(nrm.clone().multiplyScalar(0.35)));
+      st[`r${i}`].set(a <= 0 ? 'never starts' : `a = ${fmt(a, 2)} m/s² · t = √(2L/a) = ${fmt(Math.sqrt(2 * (L - 0.17) / a), 2)} s`);
+    });
+    angLbl.el.textContent = `θ = ${Math.round(theta / DEG)}°`; angLbl.at(v3.set(L * Math.cos(theta) - 0.6, 0.12, LANE * 1.5 + 0.3));
+    const fin = R.filter((r) => r.done).sort((a, b) => a.tEnd - b.tEnd);
+    badge.set(R.some((r) => r.stuck) && !racing ? `Too gentle for ${R.filter((r) => r.stuck).map((r) => r.label.toLowerCase()).join(' and ')} on ${surf.label.toLowerCase()}` : fin.length === 3 ? `${fin[0].label} wins: it is the only one not spending energy on spinning` : racing ? 'Racing…' : 'Tilt the ramp, pick a surface, then Go');
   });
-  panel.buttonRow([
-    { label: 'Go!', icon: 'play_arrow', onClick: () => { if (!running && !finished) { running = true; badge.set('Rolling…'); } } },
-    { label: 'Reset', icon: 'replay', variant: 'ghost', onClick: reset },
-  ]);
-  panel.divider();
-  const timeOut = panel.readout({ label: 'Race time', value: '0.00 s' });
-  const bestOut = panel.readout({ label: 'Best time', value: '—' });
-  const speedOut = panel.readout({ label: 'Speed', value: '0.0 m/s' });
-  panel.info('Steeper ramps make the ball speed up faster. Slide the friction up and see what slows it down — or stops it completely!');
+  engine.start();
 
-  function step(dt) {
-    if (!running) return;
-    const a = accel();
-    if (a <= 0 && v <= 0) {
-      running = false;
-      badge.set('Too much friction — it will not roll!');
-      return;
-    }
-    v += a * dt;
-    s += v * dt;
-    spin += (v / (BALL_R / 40)) * dt;
-    t += dt;
-    if (s >= RAMP_LEN) {
-      s = RAMP_LEN;
-      running = false;
-      finished = true;
-      if (!bestTime || t < bestTime) {
-        bestTime = t;
-        bestOut.set(`${bestTime.toFixed(2)} s`);
-      }
-      badge.set(`Finished in ${t.toFixed(2)} s!`);
-    }
-  }
-
-  function geometry(w, h) {
-    const rad = (angle * Math.PI) / 180;
-    const margin = 36;
-    const baseY = h - 70;
-    const availW = w - margin * 2;
-    const availH = baseY - 60;
-    const scale = Math.min(availW / (RAMP_LEN * Math.cos(rad)), availH / (RAMP_LEN * Math.sin(rad)));
-    const topX = margin;
-    const topY = baseY - RAMP_LEN * Math.sin(rad) * scale;
-    return { rad, topX, topY, baseY, scale, botX: topX + RAMP_LEN * Math.cos(rad) * scale };
-  }
-
-  sim.setUpdate((ctx, dt, w, h) => {
-    step(Math.min(dt, 0.05));
-    ctx.clearRect(0, 0, w, h);
-    const gm = geometry(w, h);
-
-    ctx.fillStyle = '#14532d';
-    ctx.fillRect(0, gm.baseY, w, h - gm.baseY);
-    ctx.fillStyle = '#22c55e';
-    ctx.fillRect(0, gm.baseY, w, 7);
-
-    ctx.fillStyle = '#7c3aed';
-    ctx.beginPath();
-    ctx.moveTo(gm.topX, gm.topY);
-    ctx.lineTo(gm.botX, gm.baseY);
-    ctx.lineTo(gm.topX, gm.baseY);
-    ctx.closePath();
-    ctx.fill();
-    ctx.strokeStyle = '#c4b5fd';
-    ctx.lineWidth = 4;
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-    ctx.moveTo(gm.topX, gm.topY);
-    ctx.lineTo(gm.botX, gm.baseY);
-    ctx.stroke();
-
-    const fx = gm.botX + 4;
-    for (let i = 0; i < 5; i++) {
-      ctx.fillStyle = i % 2 ? '#e8eefb' : '#1c2f4d';
-      ctx.fillRect(fx, gm.baseY - 8 - i * 9, 10, 9);
-      ctx.fillStyle = i % 2 ? '#1c2f4d' : '#e8eefb';
-      ctx.fillRect(fx + 10, gm.baseY - 8 - i * 9, 10, 9);
-    }
-    ctx.fillStyle = '#ffd584';
-    ctx.font = '700 11px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('FINISH', fx + 10, gm.baseY - 56);
-
-    const along = s * gm.scale;
-    const nx = -Math.sin(gm.rad);
-    const ny = -Math.cos(gm.rad);
-    const cx = gm.topX + Math.cos(gm.rad) * along - nx * BALL_R;
-    const cy = gm.topY + Math.sin(gm.rad) * along + ny * BALL_R;
-    const grad = ctx.createRadialGradient(cx - 5, cy - 5, 3, cx, cy, BALL_R + 2);
-    grad.addColorStop(0, '#fda4af');
-    grad.addColorStop(1, '#e11d48');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(cx, cy, BALL_R, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(255,255,255,0.6)';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.strokeStyle = 'rgba(255,255,255,0.85)';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(spin) * (BALL_R - 5), cy + Math.sin(spin) * (BALL_R - 5));
-    ctx.stroke();
-
-    ctx.fillStyle = 'rgba(232,238,251,0.9)';
-    ctx.font = '700 13px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(`angle = ${angle}°`, 16, 26);
-    const a = accel();
-    ctx.fillText(`a = ${a.toFixed(1)} m/s²${a === 0 ? '  (stuck!)' : ''}`, 16, 44);
-
-    timeOut.set(`${t.toFixed(2)} s`);
-    speedOut.set(`${v.toFixed(1)} m/s`);
-  });
-
-  sim.start();
-
-  return {
-    dispose() {
-      panel.dispose();
-      hud.dispose();
-      sim.dispose();
-    },
-  };
+  stage.__ramp = { go, set: (deg) => { theta = deg * DEG; angS.set(deg); reset(); }, state: () => R.map((r) => ({ s: r.s, done: r.done, tEnd: r.tEnd })) };
+  return { dispose() { panel.dispose(); hud.dispose(); lbls.forEach((l) => l.remove()); angLbl.remove(); controls.dispose(); engine.dispose(); } };
 }

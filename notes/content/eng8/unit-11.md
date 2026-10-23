@@ -7,344 +7,338 @@ hours: 0
 area: Units
 ---
 
-This unit gives you one **biography** and one **description of a place**. They
-look like very different texts, but they share a purpose: both take a subject
-that the reader does not know and make it clear by giving facts in order and
-adding one thing at a time. The grammar of the unit is the glue that holds such
-writing together: **relative clauses** (which add information about a noun) and
-**articles** (*a, an, the*).
+Unit 11 is about **describing people and places**. Reading I is a short
+biography of the scientist Sir Isaac Newton — his childhood, his work on light
+and gravitation, and funny stories of his absent-mindedness. Reading II
+describes Khaptad National Park in Sudurpaschim Province: its location,
+features, religious sites, plants and animals, and park rules. The grammar is
+**relative clauses** (*who, which, whose, where, when, that*) and **articles**
+(*a, an, the*). In writing you prepare a biography, a leaflet and a set of
+rules.
 
-::: key What this unit asks for
-By the end you should be able to (1) write a profile of a person in
-chronological order, (2) describe a place — its location, features and
-importance — without turning it into a list, (3) join sentences with who,
-which, that, where and whose, and (4) choose correctly between *a*, *an*, *the*
-and no article.
+::: key What the exam asks from this unit
+(1) Answer factual and True/False questions on a biography. (2) Find numbers and
+rules in a descriptive text. (3) Join sentences with the right relative pronoun.
+(4) Use *a/an/the* or no article correctly. (5) Write a short biography from
+notes, a leaflet and a set of rules.
 :::
 
-```photo id="eng8/newton-portrait" caption="Sir Isaac Newton, painted by Godfrey Kneller in 1689, two years after the Principia was published." width="68"
+```photo id="eng8/newton-portrait" caption="Sir Isaac Newton, painted by Godfrey Kneller in 1689." width="68"
 ```
 
-```photo id="eng8/khaptad" caption="The open plateau of Khaptad National Park in far-western Nepal. Its high-altitude grassland, ringed by oak and rhododendron forest, is the habitat that makes the park unusual." width="92"
-```
+## 11.1 Reading I: Sir Isaac Newton
 
-## 11.1 Sir Isaac Newton
+### Summary
 
-### About the text
-
-The text is a **biography** — the story of a real person's life, told in time
-order. A biography is not a list of dates. It chooses the events that explain
-the person and leaves the rest out, and it shows how the work of one period led
-to the work of the next.
-
-### What the text says
-
-**Isaac Newton** was born in Woolsthorpe, in Lincolnshire, England, on
-25 December 1642 — the same year in which Galileo died. His father had died
-before he was born, and he was brought up for a time by his grandmother while
-his mother remarried. He was not a remarkable schoolboy, but he was good with
-his hands, and he made water clocks and model windmills.
-
-He entered Trinity College, Cambridge, in 1661. In 1665 the plague closed the
-university and he went home to Woolsthorpe for nearly two years. Those two
-years — he was twenty-three — were the most productive of his life. He worked
-out the **binomial theorem**, began the mathematics of what we now call
-**calculus**, and used a prism to show that white light is a mixture of colours
-which the prism separates and a second prism can recombine.
-
-The story of the falling apple is the one everybody knows. Whether or not the
-apple actually fell on his head, Newton himself said that watching an apple
-fall made him ask whether the force that pulls an apple to the ground is the
-same force that holds the Moon in its path. The answer — that the same
-**gravitation** acts on both, with a force that weakens with the square of the
-distance — is the idea of the *Principia* (*Mathematical Principles of Natural
-Philosophy*), published in 1687.
-
-Newton was also, for thirty years, a public servant. He became a Member of
-Parliament for Cambridge, then Warden and later Master of the Mint, where he
-reformed the coinage. He was elected President of the Royal Society in 1703 and
-was knighted in 1705. He died on 20 March 1727 and was buried in Westminster
-Abbey.
-
-He was not a modest man: he quarrelled fiercely with other scientists, notably
-with Robert Hooke and with Gottfried Leibniz over who invented calculus first.
-His most quoted sentence is modest, though: *"If I have seen further, it is by
-standing on the shoulders of giants."*
-
-| Year | Event |
+| Part of life | Facts in the text |
 |---|---|
-| 1642 | Born at Woolsthorpe; Galileo dies the same year |
-| 1661 | Enters Trinity College, Cambridge |
-| 1665–66 | The plague years at Woolsthorpe: light, calculus, gravitation |
-| 1687 | Publishes the *Principia* |
-| 1703 | Elected President of the Royal Society |
-| 1705 | Knighted |
-| 1727 | Dies and is buried in Westminster Abbey |
+| Birth and childhood | born in **1643** at **Woolsthorpe, England**; son of a peasant (farmer) who died **three months before** Isaac was born; lived with his maternal grandmother after his mother remarried; his schooling was interrupted by a failed attempt to make him a farmer |
+| As a boy | seemed **dull** and uninterested in studies, but good with his hands: made little machines like windmills, and even made mice drive them |
+| Education and career | went to **Cambridge University at nineteen** to study mathematics and science; made discoveries as a student; became **Professor of Mathematics at 26** |
+| Light and telescopes | showed that **curved mirrors** could be used instead of lenses in telescopes; such telescopes are still used |
+| Gravitation | the (famous) story of the falling apple: why does it fall down, not up? He produced the **theory of gravitation** — every body attracts every other; the Earth and Moon attract each other, so the Moon stays near us |
+| Absent-mindedness | (1) went to fetch food for his dinner guests and forgot them while studying; (2) forgot he had invited a friend; the hungry friend ate the dinner; Newton, seeing the empty plates, thought he had already eaten himself |
 
-```figure caption="A biography is a shape, not a list. Newton's most productive two years came at twenty-three; the famous book came twenty years later. It is the connection between the periods that makes a profile worth reading."
-fig, ax = plt.subplots(figsize=(4.9, 2.4))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.0); ax.axis("off")
-ax.annotate("", xy=(9.6, 1.2), xytext=(0.4, 1.2),
-            arrowprops=dict(arrowstyle="->", color=GRID, lw=1.5))
-events = [(1.2, "1642\nborn", SERIES[0]), (3.0, "1665–66\nplague years", ACCENT),
-          (5.3, "1687\nPrincipia", SERIES[2]), (7.4, "1705\nknighted", SERIES[3]),
-          (9.0, "1727\ndies", SERIES[4])]
-for x, label, colour in events:
-    ax.plot(x, 1.2, "o", color=colour, ms=7)
-    ax.text(x, 1.85, label, ha="center", fontsize=6.2, color=INK)
-ax.add_patch(plt.Rectangle((2.2, 3.1), 1.6, 1.0, fc="white", ec=ACCENT, lw=1.3))
-ax.text(3.0, 3.6, "the two years that\nmattered most", ha="center", va="center",
-        fontsize=6.0, color=ACCENT)
-fig.tight_layout()
-```
+(Facts: Newton later wrote the *Principia* in 1687, giving his three laws of
+motion and the law of universal gravitation. He never married. The apple story
+is told by people who knew him, but it is a story, not a recorded experiment.)
 
-### Vocabulary
+### Vocabulary (Exercises A and B)
 
-| Word | Meaning |
-|---|---|
-| biography | the written life of a real person |
-| plague | a deadly infectious disease that spreads fast |
-| prism | a triangular piece of glass that splits light into colours |
-| calculus | the mathematics of change and of areas |
-| gravitation | the force by which every mass attracts every other |
-| knighthood | the honour of being made "Sir" by a monarch |
+**A:** a–x (apology: saying sorry), b–i (absent-minded: forgetful), c–ix
+(couch: sofa), d–viii (curved), e–vii (dull), f–v (gravity), g–iv (host),
+h–iii (interrupted), i–ii (puzzled), j–vi (wonder)
 
-::: note Model answers
-**1. Why are the plague years called the most productive of Newton's life?**
-Because, sent home from Cambridge by the plague, he worked alone for two years
-on the binomial theorem, calculus, the nature of light and the beginning of the
-idea of universal gravitation — a large part of his life's work at the age of
-twenty-three.
-**2. What is the scientific point of the apple story?**
-Not that an apple hit him, but that he asked whether the force pulling the apple
-down is the same as the force keeping the Moon in orbit — the insight that made
-one law explain both the earth and the sky.
-:::
+**B:** a. interrupted b. telescopes c. absent-mindedness d. couch e. curved
+f. gravitation g. dull h. hosted i. tired of
 
-## 11.2 Khaptad National Park
+### True or False (Exercise C)
 
-### About the text
+a. **False** — his father was a peasant (farmer). b. **False** — his father died
+before he was born. c. **True**. d. **True**. e. **True** — the text says his
+head was "usually" full of ideas and problems. f. **False** — the text does not
+mention a wife; Newton never married.
 
-The text is a **descriptive** account of a protected area. A description of a
-place answers four questions in order: **where** it is, **what** it is like,
-**what** lives there, and **why** it matters. It uses the present simple tense,
-because a place keeps its shape from year to year.
+### Comprehension (Exercise D) — model answers
 
-### What the text says
+**a. How was Newton in his studies in early life?** He seemed a dull boy with
+little interest in studies, though he loved making small machines.
 
-**Khaptad National Park** lies in the far west of Nepal, spread across the
-districts of Bajhang, Bajura, Achham and Doti in Sudurpashchim Province. It was
-established in 1984 and covers about 225 square kilometres, at an altitude
-between roughly 1,000 and 3,300 metres. The **Khaptad plateau** at its centre is
-a wide, open grassland set among hills of oak, rhododendron and fir — a rare
-combination in Nepal, where most protected areas are either forest or high
-mountain, and one reason the park is famous for its **wild flowers and
-medicinal herbs**, which are at their best after the first monsoon rains.
+**b. Which subjects did he study at Cambridge?** Mathematics and science.
 
-The park is named after **Khaptad Baba**, a saint who lived and meditated on the
-plateau for many years and whose hermitage is still visited; there is a temple
-and an ashram there, and a temple at **Sahashra Linga** on the eastern side.
-Because the plateau is high and open, the nights are cold even in summer, and
-snow falls in winter.
+**c. What changes did Newton make to telescopes?** He showed that curved mirrors
+could be used instead of lenses, which gave better results in some ways.
 
-| Aspect | Detail |
-|---|---|
-| Location | Far-western Nepal: Bajhang, Bajura, Achham and Doti |
-| Established | 1984 |
-| Area | about 225 km² |
-| Altitude | roughly 1,000–3,300 m |
-| Main habitat | open high-altitude grassland ringed by oak, rhododendron and fir forest |
-| Famous for | wild flowers, medicinal herbs, and the hermitage of Khaptad Baba |
-| Access | by road and on foot from Chainpur, Dipayal and Sanphebagar |
+**d. Why did Newton sometimes forget his food and friends?** Because his mind
+was so full of ideas and problems that he was often lost in thought.
 
-The park is important for three reasons. It protects a **habitat** that exists
-in very few places in Nepal, so it protects the plants and animals that live
-only in such a habitat. Its grassland catches and stores the water of the
-monsoon, which feeds the streams that four districts depend on. And it supports
-**local livelihoods** — guiding, portering, homestays and the collection of
-herbs under licence — which gives the people around it a reason to protect it.
-Its problems are the usual ones: grazing by livestock inside the boundary,
-the illegal collection of herbs, forest fire in the dry season, and litter left
-by visitors.
+## 11.2 Grammar I: Relative clauses
 
-### Vocabulary
+A **relative clause** describes a noun. It begins with a relative word.
 
-| Word | Meaning |
-|---|---|
-| plateau | a high, flat area of land |
-| habitat | the natural home of a plant or an animal |
-| hermitage | the place where a hermit lives |
-| medicinal herb | a plant used as medicine |
-| livelihood | the way a person earns a living |
-| biodiversity | the variety of living things in a place |
-
-::: note Model answers
-**1. Why is Khaptad unusual among Nepal's protected areas?**
-Because its centre is a wide, open high-altitude grassland rather than forest
-or snow-covered mountain, and that habitat supports a distinctive community of
-wild flowers and medicinal herbs.
-**2. Give two reasons why protecting the park matters to the people around it.**
-It stores the monsoon water that feeds the streams four districts depend on,
-and it supports local livelihoods — guiding, portering, homestays and licensed
-herb collection.
-:::
-
-## 11.3 Grammar and writing tasks of the unit
-
-### Grammar: Relative clauses
-
-A **relative clause** adds information about a noun. It begins with a relative
-pronoun — **who** (people), **which** (things), **that** (people or things),
-**whose** (possession) — or with **where** (places) and **when** (times).
-
-| Pronoun | Joins | Example |
+| Relative word | Used for | Example |
 |---|---|---|
-| who | a person | Newton, **who** was born in 1642, … |
-| which | a thing | a park **which** lies in the far west |
-| that | a person or thing (defining) | the saint **that** lived on the plateau |
-| whose | possession | the saint **whose** hermitage is still visited |
-| where | a place | the plateau **where** he meditated |
-| when | a time | the year **when** the plague closed Cambridge |
+| **who** | people (subject) | We have a friend **who** plays the madal well. |
+| **whom** | people (object; formal) | I met the woman **whom** I had helped. |
+| **which** | things, animals | The car **which** my uncle bought is comfortable. |
+| **that** | people or things (not after a comma) | Is there anything **that** I can do? |
+| **whose** | possession | The woman **whose** house was broken into called the police. |
+| **where** | places | This is the place **where** I was born. |
+| **when** | times | She remembered the day **when** she met her husband. |
 
-The clause sits immediately after the noun it describes. If you can remove it
-and the sentence still says what it needs to say, put it between commas: *Newton,
-who was born in 1642, studied light.* If removing it destroys the meaning, use
-no commas: *The man who discovered calculus was English.*
+**Defining vs non-defining:** *My uncle, **who** is in the army, came to see us.*
+The commas show extra information; **that** cannot be used here.
 
-### Grammar: Articles
+**Joining sentences:** remove the repeated noun/pronoun and put the relative word
+in its place: *This is the house. Naresh built **it**.* → *This is the house
+**which** Naresh built.* (not *which Naresh built it*).
 
-| Article | Used before | Example |
-|---|---|---|
-| a | a singular countable noun beginning with a consonant sound | a park, a university (a *y* sound) |
-| an | a singular countable noun beginning with a vowel sound | an hour, an MA, an apple |
-| the | something already mentioned, unique, or made specific | the park I visited; the sun; the best answer |
-| (no article) | plurals and uncountable nouns used generally | Parks protect wildlife. Water is life. |
+### Textbook answers
 
-The choice depends on the **sound**, not the letter: *an hour* (silent h),
-*a university* (sounds like "you"), *an MA* (sounds like "em-ay").
+**Grammar I B:** a. who/that b. which c. whose d. which/that e. where f. where
+g. who h. who/that i. that j. when
+
+**Grammar I C:** a. We know the woman who donated this money. b. We walked past
+my old school, which is celebrating its 50th anniversary this month. c. I met
+the woman whom (who) I had helped last month yesterday. (Better: *Yesterday I
+met the woman whom I had helped last month.*) d. A new headteacher is going to
+be appointed next month, which is good. e. Bring me the file which/that is on
+the table. f. This is the player whom the committee appointed (as) captain.
+g. We met a girl who had lost her way. h. This is the house which Naresh built.
+i. Mandy is the girl whose car I am using today.
 
 ::: caution Common mistakes
-- *He is best student in class.* ✗ → *He is **the** best student in **the**
-  class.* ✓
-- *I saw a elephant.* ✗ → *I saw **an** elephant.* ✓
-- *The Mount Everest is the highest peak.* ✗ → *Mount Everest is the highest
-  peak.* ✓ (no article before most proper names of mountains, lakes and
-  countries)
-- Leaving out the relative pronoun: *The man discovered calculus was English.*
-  → *The man **who** discovered calculus was English.* ✓
+- *The man which came…* ✗ → *The man **who** came…* ✓
+- *This is the house which Naresh built **it**.* ✗ — do not repeat the pronoun.
+- *My uncle, that is in the army…* ✗ → *My uncle, **who** is…* ✓
+- *The girl who's car…* ✗ → ***whose*** car ✓ (*who's* = who is)
 :::
 
-### Writing: A profile and a place description
+## 11.3 Writing I: A short biography
 
-A **profile** runs in time order and gives the person's dates, the work they
-are known for, one difficulty they faced, one thing they were like as a
-person, and the effect of their work. A **place description** answers where,
-what it is like, what lives there and why it matters — and ends with one
-sentence on what should be done to keep it.
+::: example Model answer — Pasang Lhamu Sherpa
+**Problem.** Write a short biography of Pasang Lhamu Sherpa from the notes.
 
-::: note Model answers to the practice questions
-**Profile of a person you admire.** Paragraph 1: name, dates and where they
-were born. Paragraph 2: the work they are known for, with two dates and one
-example. Paragraph 3: the difficulty they faced, and one detail that shows
-what they were like. Paragraph 4: why their work still matters.
-**Description of a place.** Paragraph 1: where it is, and its size or altitude.
-Paragraph 2: what it looks like and what lives there. Paragraph 3: why it
-matters to the people around it. Paragraph 4: one problem and one thing that
-should be done.
+**Solution.** Pasang Lhamu Sherpa was the first Nepali woman to climb Mount
+Everest. She was born in December 1961 in Solukhumbu (the textbook gives 16
+December; most sources give 10 December). She grew up in a mountaineering
+family and started climbing mountains in her teens.
+
+At the age of seventeen, she went to Kathmandu with Lhakpa Sonam Sherpa, whom
+she loved and later married, and together they ran a travel agency. In 1989
+she climbed Pisang Peak (6,091 m) and Mont Blanc in Europe, and she made her
+first attempt on Everest, reaching about 8,000 m. In 1991 she tried twice more
+but had to turn back at 8,750 m and 8,500 m.
+
+Finally, on 22 April 1993, she reached the top of Mount Everest. Sadly, she died
+the same day while climbing down, because of bad weather. She was declared a
+National Hero, and a highway and a mountain peak have been named after her. She
+remains an inspiration for Nepali women.
 :::
+
+(The textbook notes print "Mt. Blank (4848 m)"; the mountain is **Mont Blanc**,
+about **4,806 m** high.)
+
+## 11.4 Reading II: Khaptad National Park
+
+### Facts at a glance
+
+| Item | Fact |
+|---|---|
+| Established | **1984** |
+| Location | mid-mountains of **Sudurpaschim Province**; parts of **Bajura, Bajhang, Achham, Doti** |
+| Area | **225 km²** |
+| Average altitude | about **3,000 m** |
+| Highest point | **Sahashra Linga**, 3,276 m |
+| Grasslands | **22 patans** (grassland patches) — grazing in summer; flowers June–August; **Khaptad Daha** lake for aquatic and migratory birds |
+| Religious sites | Khaptad Baba Ashram (named after the late saint **Khaptad Swami**), **Triveni** (Shiva temple at a confluence of three rivers; Ganga Dashahara and pilgrims on **Janai Purnima**), Sahashra Linga, Ganesh temple, Nagdhunga, Kedardhunga — tobacco, alcohol and animal sacrifice prohibited |
+| Flora | sal, pine, alder; on the plateau fir, oak, birch, rhododendron; primulas, buttercups, wild berries; medicinal herbs |
+| Fauna | about **266 bird species** (e.g. danphe, flycatcher, bulbul, cuckoo, eagle); about **23 mammal species** (barking deer, wild boar, ghoral, black bear, yellow-throated marten, rhesus and langur monkeys, leopard, wolf, wild dog, jackal, musk deer); butterflies, moths, insects |
+
+**Park regulations:** entry fee Rs. 1,500 (foreigners), Rs. 500 (SAARC
+nationals), Rs. 100 (Nepali); no entry without a permit; filming needs a
+special permit from the **DNPWC** and a fee (USD 1,500 foreigners, Rs. 50,000
+SAARC, Rs. 10,000 Nepali; +25% with drones); do not harm plants or animals;
+dispose of rubbish in designated places; respect religious sites; camp only in
+designated areas.
+
+```photo id="eng8/khaptad" caption="Open grassland (patan) on the Khaptad plateau with forest around it." width="92"
+```
+
+### Vocabulary (Exercise A)
+
+a–iv (pastures), b–iii (biodiversity), c–vi (aquatic), d–vii (confluence),
+e–i (tranquility), f–ii (documentary), g–v (harbour)
+
+### Gap filling (Exercise B)
+
+a. **22** b. **pilgrims** c. **Rs. 500** (Pakistan is a SAARC country)
+d. **Sahashra Linga** e. **Triveni** during
+
+### Comprehension (Exercise C) — model answers
+
+**a. What type of forest is found in the park?** Coniferous forest mixed with
+pastures; sal, pine and alder, and sub-alpine forest of fir, oak, birch and
+rhododendron on the plateau.
+
+**b. How have the patans supported local people?** They give ample grazing
+ground for cattle in summer.
+
+**c. Where is the Shiva temple?** At Triveni, the confluence of three rivers, on
+the way to the park headquarters.
+
+**d. After whom is the park named?** The text does not say directly. The park
+takes its name from the **Khaptad** area (plateau); the saint who meditated
+there became known as Khaptad Swami (Khaptad Baba), and the ashram is named
+after him.
+
+**e. How much must someone pay to shoot a film?** They need a special permit
+from the DNPWC and must pay Rs. 10,000 (Nepali), Rs. 50,000 (SAARC nationals) or
+USD 1,500 (foreigners), plus 25% more if they use drones.
+
+**f. List the flora and fauna.** Flora: sal, pine, alder, fir, oak, birch,
+rhododendron, primulas, buttercups, wild berries, medicinal herbs. Fauna:
+danphe, flycatcher, bulbul, cuckoo, eagle; barking deer, wild boar, ghoral,
+black bear, marten, monkeys, leopard, wolf, wild dog, jackal, musk deer;
+butterflies and moths.
+
+## 11.5 Writing II: A leaflet and a set of rules
+
+A **leaflet** is a one-page printed advertisement for a place. Follow the
+textbook headings: introduction and location → major attractions → how to get
+there → provisions and requirements → best time to visit. Use headings, short
+lines, and persuasive words (*breathtaking, must-see*).
+
+::: example Model leaflet — Visit Lumbini!
+**LUMBINI — Birthplace of Lord Buddha**
+
+**Where:** Lumbini, Rupandehi district, Lumbini Province — a UNESCO World
+Heritage Site.
+
+**Major attractions:** Maya Devi Temple and the marker stone of the Buddha's
+birth; the Ashoka Pillar (249 BC); the sacred Puskarini pond; monasteries built
+by many countries; the Lumbini Museum; the eternal peace flame.
+
+**How to get there:** about 22 km by road from Bhairahawa; flights to Gautam
+Buddha International Airport, Bhairahawa; buses from Kathmandu (8–9 hours).
+
+**Provisions:** hotels, guest houses and monastery lodging; rickshaws and
+bicycles for hire inside the garden; entry ticket for the Maya Devi Temple.
+
+**Best time to visit:** October to March; Buddha Jayanti (Baishakh Purnima) for
+the festival.
+
+*Come and find peace in the land of the Buddha!*
+:::
+
+**Set of rules (Writing II B)** — use the textbook clues:
+1. Smoking and drinking alcohol **are strictly prohibited** in the temple area.
+2. Visitors **are not allowed to** wear shoes inside the Maya Devi Temple.
+3. Visitors **are supposed to** keep silence near the shrines.
+4. **Don't** throw rubbish; use the dustbins.
+5. **No** climbing on the ancient ruins.
+6. Loud music **is not entertained**.
+
+## 11.6 Grammar II: Articles
+
+| Article | Use | Example |
+|---|---|---|
+| **a** | one, not specific, before a **consonant sound** | **a** question, **a** university (/juː/), **a** one-day trip |
+| **an** | before a **vowel sound** | **an** intelligent girl, **an** old house, **an** hour, **an** MP |
+| **the** | something specific or already mentioned; unique things; superlatives; musical instruments; rivers, oceans, mountain ranges | **the** tallest statue, **the** guitar, **the** Bagmati, **the** sun |
+| no article | sports, meals, languages, plural/uncountable in general | They play football. We have lunch at 12:30. |
+
+### Textbook answers
+
+**Grammar II A:** a. a b. a c. the d. × e. an f. the g. a h. an … The i. a
+j. the k. ×
+
+**Grammar II B (a):** You've probably learned **the** rule that **an** comes
+before **a** vowel, and that **a** comes before **a** consonant. While this is
+generally true, it is more accurate to say that **an** comes before **a** vowel
+sound, and **a** comes before **a** consonant sound. … *The* is **the** most
+commonly used word in **the** English language.
+
+**Grammar II B (b):** Once upon **a** time, there was **an** old farmer. …
+People remembered **the** old farmer. He helped **the** villagers … This news
+reached **the** king. He invited **the** old farmer and gave him **a** golden
+stick as **a** gift for his honesty and help to **the** villagers during hard
+times.
+
+::: caution Article traps
+*a* or *an* depends on the **sound**, not the letter: **an** honest man, **a**
+European, **a** uniform, **an** X-ray. Do not write *the* before meals and
+sports: *I play the football* ✗.
+:::
+
+## 11.7 Speaking, pronunciation and project work
+
+**Describing:** a person (age, face, hair, who they look like), a place (where,
+what it has, what it is famous for), an object (size, colour, shape, what it
+looks like): *Janakpur is a beautiful city with many ponds. It has a famous
+temple called the Janaki Temple.*
+
+**Tongue twisters:** *She sells seashells by the seashore. Katie caught the
+kitten in the kitchen.* They train /s/–/ʃ/ and /k/ sounds.
+
+**Project work:** collect information and photos of a famous place in your
+province and write a short description.
 
 ## Chapter summary
 
-- A **biography** tells a real person's life in time order and explains the
-  connection between its periods.
-- Isaac Newton (1642–1727) worked out the binomial theorem, calculus and the
-  composition of white light during the plague years of 1665–66, and published
-  the *Principia* in 1687.
-- The apple story stands for the insight that one force — gravitation — governs
-  both a falling apple and the orbit of the Moon.
-- A **place description** answers: where, what it is like, what lives there and
-  why it matters.
-- Khaptad National Park (est. 1984, about 225 km²) is in the far west of Nepal,
-  and is famous for its open plateau grassland, wild flowers, medicinal herbs
-  and the hermitage of Khaptad Baba.
-- **Relative clauses** use *who, which, that, whose, where, when* and sit
-  immediately after the noun they describe.
-- Use **a/an** by sound, **the** for something specific or unique, and **no
-  article** for plurals and uncountable nouns used generally.
+- Newton: born 1643, Woolsthorpe; dull as a child but clever with his hands;
+  Cambridge at 19; professor at 26; mirror telescope; theory of gravitation;
+  famously absent-minded.
+- Khaptad NP: est. 1984, 225 km², four districts of Sudurpaschim, 22 patans,
+  Khaptad Daha, Triveni, Sahashra Linga (3,276 m), 266 birds, 23 mammals; entry
+  Rs. 100 for Nepalis.
+- *who* people, *which* things, *whose* possession, *where* place, *when* time;
+  *that* not after a comma.
+- *a/an* by sound; *the* for specific/unique/superlative/instruments; no
+  article for meals, sports, languages.
+- Leaflet: location, attractions, how to get there, provisions, best time.
 
 ## Practice questions
 
 **Reading**
 
-1. Give four events of Newton's life with their years. <span class="marks">[4]</span>
-2. Why were the years 1665–66 so important for him? <span class="marks">[2]</span>
-3. Where is Khaptad National Park, and when was it established? <span class="marks">[2]</span>
-4. Why is the Khaptad plateau unusual in Nepal? <span class="marks">[2]</span>
+1. Answer from the texts. <span class="marks">[5]</span>
+   (a) Who looked after Newton in his childhood? (b) At what age did he become
+   a professor? (c) What did the friend do while waiting for Newton? (d) What is
+   the entry fee for Nepali visitors to Khaptad? (e) Name two prohibited things
+   at the religious sites.
 
-::: note Answers
-**1.** Any four: born 1642; entered Trinity College 1661; plague years 1665–66;
-published the *Principia* 1687; President of the Royal Society 1703; knighted
-1705; died 1727.
-**2.** Sent home from Cambridge by the plague, he worked alone and developed the
-binomial theorem, the beginnings of calculus, the theory of colours and the
-idea of universal gravitation.
-**3.** In the far west of Nepal, in Bajhang, Bajura, Achham and Doti districts
-of Sudurpashchim Province; established in 1984.
-**4.** Because its centre is a wide, open high-altitude grassland, while most
-protected areas in Nepal are forest or high mountain.
+::: note Answers — Reading
+**1.** (a) His maternal grandmother. (b) At 26. (c) He got tired of waiting and
+ate the dinner alone. (d) Rs. 100. (e) Tobacco products and alcohol (also
+animal sacrifice).
 :::
 
 **Grammar**
 
-5. Join each pair using a relative pronoun. <span class="marks">[4]</span>
-   (a) Newton was an English scientist. He discovered the law of gravitation.
-   (b) This is the park. It lies in the far west.
-   (c) I met a saint. His hermitage is on the plateau.
-   (d) That was the year. The plague closed the university then.
+2. Join with relative pronouns. <span class="marks">[4]</span>
+   (a) I know the boy. He won the prize. (b) This is the temple. My grandfather
+   built it. (c) That is the man. His son is a pilot. (d) I remember the day. We
+   first met then.
+3. Fill in *a, an, the* or ×. <span class="marks">[4]</span>
+   (a) She is ___ honest girl. (b) ___ Karnali is ___ longest river of Nepal.
+   (c) He plays ___ cricket every day.
 
-6. Fill in *a, an, the* or nothing. <span class="marks">[5]</span>
-   (a) Khaptad is ______ national park. (b) He waited for ______ hour.
-   (c) She is ______ best student in ______ class. (d) ______ water is
-   necessary for life. (e) I bought ______ umbrella.
-
-::: note Answers
-**5.** (a) Newton was an English scientist **who** discovered the law of
-gravitation. (b) This is the park **which/that** lies in the far west. (c) I met
-a saint **whose** hermitage is on the plateau. (d) That was the year **when**
-the plague closed the university.
-**6.** (a) a (b) an (c) the / the (d) no article (e) an
+::: note Answers — Grammar
+**2.** (a) I know the boy who won the prize. (b) This is the temple which my
+grandfather built. (c) That is the man whose son is a pilot. (d) I remember the
+day when we first met.
+**3.** (a) an (b) The … the (c) ×
 :::
 
 **Writing**
 
-7. Write a profile of about 150 words of a person you admire. <span class="marks">[5]</span>
-8. Describe a place in Nepal that you have visited, in about 120 words. Say
-   where it is, what it is like and why it matters. <span class="marks">[5]</span>
+4. Write a short biography of Laxmi Prasad Devkota from these notes: born 1966
+   BS (1909 AD), Kathmandu; poet, essayist, playwright; *Muna Madan*,
+   *Shakuntala*, *Sulochana*; "Mahakavi" (great poet); died 2016 BS (1959 AD). <span class="marks">[5]</span>
 
-::: note Answers
-**7.** Paragraph 1: name, dates, birthplace. Paragraph 2: what they are known
-for, with two dates and one example. Paragraph 3: one difficulty they faced and
-one personal detail. Paragraph 4: why their work still matters.
-**8.** Paragraph 1: location and size or altitude. Paragraph 2: what it looks
-like and what lives there. Paragraph 3: why it matters to the people around it.
-Paragraph 4: one problem and one thing that should be done about it.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** Isaac Newton is best known for the law of
-   (a) relativity (b) gravitation (c) thermodynamics (d) natural selection
-**2.** Khaptad National Park lies in
-   (a) the far west (b) the east (c) the Tarai (d) the Kathmandu valley
-**3.** The passive of *Newton discovered the law* is
-   (a) The law is discovered (b) The law was discovered by Newton (c) The law has discovered (d) The law discovered Newton
-**4.** *Scientist* is formed from *science* by adding
-   (a) a prefix (b) a suffix (c) a hyphen (d) nothing
-**5.** The word *meadow* means
-   (a) a grassy field (b) a forest (c) a river (d) a hill
-
-::: note Objective practice — answers
-**1.** (b) — the law of gravitation. **2.** (a) — the far west of Nepal. **3.** (b) — past simple passive with the doer after *by*. **4.** (b) — the suffix *-ist*. **5.** (a) — a grassy field.
+::: note Answer — Writing
+**4.** Past simple; birth and family; education and career; works; title of
+Mahakavi and contribution to Nepali literature; death and legacy — every note
+used, joined with relative clauses (*who*, *which*).
 :::

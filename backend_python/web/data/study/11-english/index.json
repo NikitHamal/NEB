@@ -1,0 +1,345 @@
+{
+ "book": "eng11",
+ "units": [
+  {
+   "no": 1,
+   "title": "The Selfish Giant",
+   "area": "Literature — Short Stories",
+   "words": 4976,
+   "read_min": 28,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "The Oval Portrait",
+   "area": "Literature — Short Stories",
+   "words": 4761,
+   "read_min": 26,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "God Sees the Truth but Waits",
+   "area": "Literature — Short Stories",
+   "words": 4922,
+   "read_min": 27,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "The Wish",
+   "area": "Literature — Short Stories",
+   "words": 4603,
+   "read_min": 26,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Civil Peace",
+   "area": "Literature — Short Stories",
+   "words": 4718,
+   "read_min": 26,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Two Little Soldiers",
+   "area": "Literature — Short Stories",
+   "words": 4933,
+   "read_min": 27,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "An Astrologer's Day",
+   "area": "Literature — Short Stories",
+   "words": 5097,
+   "read_min": 28,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Corona Says",
+   "area": "Literature — Poems",
+   "words": 3479,
+   "read_min": 19,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "A Red, Red Rose",
+   "area": "Literature — Poems",
+   "words": 3695,
+   "read_min": 21,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "All the World's a Stage",
+   "area": "Literature — Poems",
+   "words": 3866,
+   "read_min": 21,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Who are you, little i?",
+   "area": "Literature — Poems",
+   "words": 3657,
+   "read_min": 20,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "The Gift in Wartime",
+   "area": "Literature — Poems",
+   "words": 3638,
+   "read_min": 20,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Sharing Tradition",
+   "area": "Literature — Essays",
+   "words": 3913,
+   "read_min": 22,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "How to Live Before You Die",
+   "area": "Literature — Essays",
+   "words": 6741,
+   "read_min": 37,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "What I Require from Life",
+   "area": "Literature — Essays",
+   "words": 7008,
+   "read_min": 39,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "What is Poverty?",
+   "area": "Literature — Essays",
+   "words": 7272,
+   "read_min": 40,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Scientific Research is a Token of Humankind's Survival",
+   "area": "Literature — Essays",
+   "words": 6617,
+   "read_min": 37,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Trifles",
+   "area": "Literature — One Act Plays",
+   "words": 8603,
+   "read_min": 48,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "A Sunny Morning",
+   "area": "Literature — One Act Plays",
+   "words": 8053,
+   "read_min": 45,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "Refund",
+   "area": "Literature — One Act Plays",
+   "words": 8666,
+   "read_min": 48,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "Word Classes, Contracted Forms and Dictionary Use",
+   "area": "Grammar",
+   "words": 3078,
+   "read_min": 17,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 22,
+   "title": "Tenses: Present, Past and Future",
+   "area": "Grammar",
+   "words": 3195,
+   "read_min": 18,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 23,
+   "title": "Articles, Determiners and Quantifiers",
+   "area": "Grammar",
+   "words": 2824,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 24,
+   "title": "Modal Verbs and Semi-modals",
+   "area": "Grammar",
+   "words": 2939,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 25,
+   "title": "Passive Voice and Causatives",
+   "area": "Grammar",
+   "words": 2904,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 26,
+   "title": "Reported Speech",
+   "area": "Grammar",
+   "words": 2904,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 27,
+   "title": "Conditional Sentences",
+   "area": "Grammar",
+   "words": 3075,
+   "read_min": 17,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 28,
+   "title": "Relative Clauses and Connectives",
+   "area": "Grammar",
+   "words": 2820,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 29,
+   "title": "Question Tags, Questions and Subject-Verb Agreement",
+   "area": "Grammar",
+   "words": 2795,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 30,
+   "title": "Prepositions, Adjectives and Adverbs",
+   "area": "Grammar",
+   "words": 2685,
+   "read_min": 15,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 31,
+   "title": "Guided Writing: Stories from Outlines, Charts and Graphs",
+   "area": "Writing and Skills",
+   "words": 3467,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 32,
+   "title": "Functional Writing: Letters, Emails, Applications and Notices",
+   "area": "Writing and Skills",
+   "words": 3160,
+   "read_min": 18,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 33,
+   "title": "Free Writing: Essays, Memoirs and Critical Writing",
+   "area": "Writing and Skills",
+   "words": 3303,
+   "read_min": 18,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 34,
+   "title": "Unseen Reading Comprehension Strategy",
+   "area": "Writing and Skills",
+   "words": 3215,
+   "read_min": 18,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 35,
+   "title": "Vocabulary, Sounds, Prefixes, Suffixes and Idioms",
+   "area": "Writing and Skills",
+   "words": 3153,
+   "read_min": 18,
+   "figures": 2,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank11",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Compulsory English: Unit-wise Objective Question Bank",
+   "words": 2237,
+   "read_min": 12
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Compulsory English: Unit-wise Subjective Question Bank",
+   "words": 5244,
+   "read_min": 29
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Compulsory English: Model Question Sets and Predicted Questions",
+   "words": 4864,
+   "read_min": 27
+  }
+ ],
+ "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"
+}

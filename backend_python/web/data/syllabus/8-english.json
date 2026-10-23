@@ -1,0 +1,898 @@
+{
+ "grade": "8",
+ "grade_label": "Class 8",
+ "grade_label_ne": "कक्षा ८",
+ "subject": "english",
+ "name": "English",
+ "name_ne": "अङ्ग्रेजी",
+ "icon": "menu_book",
+ "group": "compulsory",
+ "color": "#6B3FA0",
+ "lang": "en",
+ "code": "BEE-8",
+ "hours": 160,
+ "exam": "Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. English has no Group A/B/C paper: the paper tests reading comprehension, grammar and writing, so the practice sets here use reading, grammar and writing sections with full answer keys.",
+ "areas": [
+  "Units"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "A Tour to Central Zoo / A Request Letter",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Reading a timetable and a schedule; finding information in a table",
+    "A request letter: purpose, politeness and layout",
+    "Grammar: modal verbs (can, could, would); present simple tense",
+    "Writing: interpreting a timetable and a schedule; filling in a form",
+    "Project work: designing a timetable; pronunciation: word stress"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "A Tour to Central Zoo"
+    },
+    {
+     "no": "1.2",
+     "title": "A Request Letter"
+    },
+    {
+     "no": "1.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "1.5",
+     "title": "Reading for different purposes"
+    }
+   ],
+   "summary": [
+    "The Central Zoo is in Jawalakhel, Lalitpur; it opened in 1932 and is now run by the National Trust for Nature Conservation.",
+    "A timetable is read in three steps: find the row, find the column, read the meeting cell.",
+    "The present simple tense is used for facts, habits and timetables: the zoo opens at ten.",
+    "can = ability or a direct request; could = a polite request or past ability; would = the most polite request.",
+    "A modal verb never takes -s and is always followed by the bare verb.",
+    "A formal letter needs the sender's address, the date, the receiver's address, the salutation, a subject line, the body, the closing and the signature.",
+    "Yours faithfully follows Dear Sir; Yours sincerely follows a name.",
+    "A request letter must give details — the date, the time and the number of people — and must not sound like an order."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3190,
+    "figures": 3,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "A Father's Letter to his Son / Poem: Changing",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "A letter of advice: tone, point of view and structure",
+    "Poetry: theme, speaker and the idea of personal change",
+    "Grammar: yes/no questions",
+    "Writing: completing a skeleton story; writing an e-mail",
+    "Project work: composing a poem; pronunciation: /t/, /d/, /ɪd/"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "A Father's Letter to his Son"
+    },
+    {
+     "no": "2.2",
+     "title": "Poem: Changing"
+    },
+    {
+     "no": "2.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "A letter of advice is warm and personal: it uses the first person, begins with a shared memory and ends by handing responsibility to the reader.",
+    "Its structure is memory → advice → trust, and its tone is encouraging, never scolding.",
+    "A poem has a speaker (the voice), a theme (the idea it returns to) and images (the pictures that make the idea visible).",
+    "The theme of \"Changing\" is that change is unavoidable and can be accepted.",
+    "A yes/no question begins with a helping verb; if there is none, use do, does or did.",
+    "A short answer repeats the helping verb: Yes, he does. Not Yes, he.",
+    "A skeleton story is planned in four moves: setting, problem, attempts, resolution — and written in one tense.",
+    "An e-mail needs a subject line, a greeting, short body paragraphs, a closing and a signature."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2883,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Public Announcements / How to Wash Clothes in a Washing Machine",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Announcements: the language of notice-giving",
+    "Instructions and the sequence of steps",
+    "Grammar: reported speech — yes/no questions",
+    "Writing: writing an announcement; preparing a set of instructions",
+    "Pronunciation: /r/"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Public Announcements"
+    },
+    {
+     "no": "3.2",
+     "title": "How to Wash Clothes in a Washing Machine"
+    },
+    {
+     "no": "3.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "3.4",
+     "title": "The language of instructions"
+    }
+   ],
+   "summary": [
+    "An announcement gives one piece of information in a hurry and answers what, where, when, who and what to do.",
+    "It has a heading, the information, the action and the issuer — and no greeting or closing.",
+    "Instructions use the imperative and must be in the correct order, because each step depends on the one before it.",
+    "Reported yes/no questions are joined with if or whether, lose the question mark and use statement word order.",
+    "Reported speech moves the tense one step back and changes the pronoun and the time words.",
+    "The letter r is pronounced when a vowel follows it (red, road) and is silent when it is at the end of a word or before a consonant (car, park in standard British English)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2566,
+    "figures": 3,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "A Memoir: A Visit to Mustang / A Diary Entry",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Memoir and diary as records of personal experience",
+    "Descriptive writing about a place and an event",
+    "Grammar: present perfect and past simple",
+    "Writing: an account of a memorable event; a diary entry",
+    "Pronunciation: diphthongs"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "A Memoir: A Visit to Mustang"
+    },
+    {
+     "no": "4.2",
+     "title": "A Diary Entry"
+    },
+    {
+     "no": "4.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "4.5",
+     "title": "Writing a memoir and a diary: the difference"
+    }
+   ],
+   "summary": [
+    "A memoir is a first-person account written after the event, which ends with what the experience meant to the writer.",
+    "A diary entry is written on the day, keeps one day in view and ends with a feeling.",
+    "Mustang is the trans-Himalayan district of Nepal; the Kali Gandaki has cut one of the world's deepest gorges between the Annapurna and Dhaulagiri ranges.",
+    "The valley lies in a rain shadow, so it is dry while southern Nepal is wet.",
+    "Lo Manthang, Kagbeni and Muktinath are on the route; Thakali, Gurung, Magar and Bhotiya people live in the district.",
+    "Describing a place well uses more than sight: hearing, smell, touch and feeling.",
+    "Past simple = a finished action at a finished time; present perfect = an experience or a result whose time is not stated and which is still relevant now.",
+    "Time words decide the tense: yesterday goes with the past simple; ever, never, just, yet, since, for go with the present perfect."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2645,
+    "figures": 2,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "The Old Woman and the Lime Tree / Poem: Free Birds",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Narrative fiction: plot, character and message",
+    "Poetry: freedom as a theme; imagery",
+    "Grammar: reported speech — imperatives; punctuation",
+    "Writing: completing a skeleton story",
+    "Project work: collecting the expressions used for persuading"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The Old Woman and the Lime Tree"
+    },
+    {
+     "no": "5.2",
+     "title": "Poem: Free Birds"
+    },
+    {
+     "no": "5.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "A folk tale was told aloud before it was written; it is short, has few characters, often uses a rule of three, and ends with a message.",
+    "Every plot has five stages: exposition, rising action, climax, falling action, resolution.",
+    "Describe a character from what they do, not from what you feel about them.",
+    "The theme of the story is the relationship between a person and a living thing that cannot speak for itself; the message is proved by the climax.",
+    "\"Free Birds\" shows, through contrast between the cage and the sky, that freedom is worth more than safety.",
+    "Reported imperatives use told / asked / warned + object + to + verb, and not to for negatives.",
+    "In direct speech the quotation takes a capital letter, the comma goes after the reporting clause, and the full stop or question mark goes inside the quotation marks."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2478,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Traditional Wedding Customs around the World / Life Saving Inventions",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Descriptive writing about ceremonies and customs",
+    "Expository writing about inventions and their effect",
+    "Grammar: causative verbs; subject–verb agreement",
+    "Writing: describing a ceremony; paraphrasing",
+    "Project work: making a collage; pronunciation: /s/, /z/, /ɪz/"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Traditional Wedding Customs around the World"
+    },
+    {
+     "no": "6.2",
+     "title": "Life Saving Inventions"
+    },
+    {
+     "no": "6.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Expository writing explains; descriptive-comparative writing sets several things side by side and explains each one.",
+    "Every wedding custom can be described by answering: what is done, why, and what it symbolises.",
+    "Weddings everywhere contain a promise, a feast and a procession.",
+    "Cause-and-effect writing names the problem, the invention and the effect.",
+    "Vaccination, antiseptics, antibiotics and ORS are four inventions that together saved more lives than any other group of inventions in history.",
+    "The cheapest life savers reached the most people.",
+    "Causative: have / get + object + past participle (I had my hair cut).",
+    "make / let / help take a bare verb or to + verb: made me sit, let me go, helped me carry."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2584,
+    "figures": 1,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Weather Forecast / Migration",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "The language of weather forecasting and prediction",
+    "Migration: causes, kinds and effects",
+    "Grammar: future simple, going to future and future perfect",
+    "Writing: paragraphs on the environment",
+    "Project work: designing a picture; punctuation"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Weather Forecast"
+    },
+    {
+     "no": "7.2",
+     "title": "Migration"
+    },
+    {
+     "no": "7.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "7.4",
+     "title": "Reading a weather forecast"
+    }
+   ],
+   "summary": [
+    "A weather forecast is predictive writing; its may, likely and expected tell you how confident the forecaster is.",
+    "Nepali forecasts are regional because the Tarai, the hills and the Himalaya have different climates at the same moment.",
+    "Migration is the movement of people to live in another place; internal migration stays inside the country, international migration crosses a border.",
+    "Push factors drive people out; pull factors attract them in.",
+    "Remittances are a large part of Nepal's economy, but migration also empties fields and closes village schools.",
+    "Birds migrate on the same routes each year, for food and for breeding.",
+    "will = prediction or a decision made now; going to = a plan already made; present continuous = an arrangement; present simple = a timetable.",
+    "Future perfect (will have + past participle) = finished before a stated future time."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2734,
+    "figures": 2,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Having Fun / Historical Inventions",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Talking about the past in narration",
+    "Historical inventions and their importance",
+    "Grammar: past simple, past continuous and past perfect; used to",
+    "Writing: completing a skeleton story; a narrative essay",
+    "Project work: making a survey; pronunciation of the past tense endings"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Having Fun"
+    },
+    {
+     "no": "8.2",
+     "title": "Historical Inventions"
+    },
+    {
+     "no": "8.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Leisure is the time left after work, school and sleep; how people spend it shows how much space, money and daylight they have.",
+    "Older Nepali leisure was shared, public and cheap; modern leisure is often private, indoor and paid for.",
+    "Radio, television, migration to cities and the mobile phone changed that pattern within two generations.",
+    "Historical writing about an invention must always answer \"so what?\" — what changed for ordinary people.",
+    "The printing press, the steam engine, electric light, the telephone and radio, and the computer all made something cheaper or faster, moved activity to a new place, and changed the daily routine.",
+    "Past simple = finished action; past continuous = in progress; past perfect = the earlier of two past actions.",
+    "used to describes a past habit that has stopped; after did, write use to, with no -d."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2448,
+    "figures": 1,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "The Leap between High School and College / Smartphones in our Life",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Making comparison and contrast in writing",
+    "Advantages and disadvantages of technology",
+    "Grammar: comparative and superlative; adverbs of degree",
+    "Writing: a paragraph comparing places; an essay on technology",
+    "Pronunciation: college-related words"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "The Leap between High School and College"
+    },
+    {
+     "no": "9.2",
+     "title": "Smartphones in our Life"
+    },
+    {
+     "no": "9.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "9.4",
+     "title": "Talking about technology: useful vocabulary"
+    }
+   ],
+   "summary": [
+    "School and college differ in supervision, breadth, the contact between teacher and student, and the freedom given.",
+    "The students who find the leap hardest are those who were supervised the most closely in school.",
+    "A discursive essay presents advantages, then disadvantages, then a balanced conclusion.",
+    "A smartphone is a telephone, library, market, bank and classroom at once — and also a source of distraction, cost and lost privacy.",
+    "Comparative compares two things (cheaper than); superlative compares three or more (the cheapest).",
+    "Irregulars: good → better → best; bad → worse → worst; far → further → furthest.",
+    "Never use more with -er, and never use very before a comparative — use much or far.",
+    "Adverbs of degree: slightly, quite, rather, very, extremely, almost, nearly."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2665,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Vacancy Announcement / Invitation",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Reading a job advertisement: the information it must give",
+    "Invitations: formal and informal; accepting and declining",
+    "Grammar: prepositions of place and time; question tags",
+    "Writing: a vacancy advertisement; a message of invitation",
+    "Project work: designing an invitation card; pronunciation of -tion and -sion"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Vacancy Announcement"
+    },
+    {
+     "no": "10.2",
+     "title": "Invitation"
+    },
+    {
+     "no": "10.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "10.4",
+     "title": "Vocabulary of announcements and invitations"
+    }
+   ],
+   "summary": [
+    "A vacancy announcement is a formal public notice; it must give the post, the employer, the qualification, the duties, the pay, the method of application, the deadline and the contact.",
+    "The qualification and the deadline decide who can apply.",
+    "An invitation may be formal or informal; a formal one ends with an R.S.V.P. line asking for a reply.",
+    "at a point of time, on a day or date, in a month, year or enclosed space.",
+    "by = not later than; until = up to then; for = a length of time; since = from a point in the past until now.",
+    "A question tag repeats the helping verb, flips the polarity, and uses a pronoun: You are coming, aren't you?"
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2668,
+    "figures": 1,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Sir Isaac Newton / Khaptad National Park",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Biography: the life and work of a scientist",
+    "Describing a place: location, features and importance",
+    "Grammar: relative clauses; articles",
+    "Writing: preparing a leaflet; writing a set of rules",
+    "Project work: collecting information about a place; tongue twisters"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Sir Isaac Newton"
+    },
+    {
+     "no": "11.2",
+     "title": "Khaptad National Park"
+    },
+    {
+     "no": "11.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "A biography tells a real person's life in time order and explains the connection between its periods.",
+    "Isaac Newton (1642–1727) worked out the binomial theorem, calculus and the composition of white light during the plague years of 1665–66, and published the Principia in 1687.",
+    "The apple story stands for the insight that one force — gravitation — governs both a falling apple and the orbit of the Moon.",
+    "A place description answers: where, what it is like, what lives there and why it matters.",
+    "Khaptad National Park (est. 1984, about 225 km²) is in the far west of Nepal, and is famous for its open plateau grassland, wild flowers, medicinal herbs and the hermitage of Khaptad Baba.",
+    "Relative clauses use who, which, that, whose, where, when and sit immediately after the noun they describe.",
+    "Use a/an by sound, the for something specific or unique, and no article for plurals and uncountable nouns used generally."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2736,
+    "figures": 1,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Nepal's Bird Man / Poem: My Teacher Ate my Homework",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "A profile of a conservationist, and the work of bird conservation in Nepal",
+    "Humorous poetry: exaggeration and rhyme",
+    "Grammar: verb + -ing and infinitive; yes/no and wh questions",
+    "Writing: an essay on hobbies and interests",
+    "Project work: collecting a poem; pronunciation of words with -ch"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Nepal's Bird Man"
+    },
+    {
+     "no": "12.2",
+     "title": "Poem: My Teacher Ate my Homework"
+    },
+    {
+     "no": "12.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "A profile explains what a living person does: the problem, the work, the result and the difficulty.",
+    "Conservation is counting, protecting habitat, working with people and teaching — not only sentiment.",
+    "Nepal has recorded more than 850 bird species and lies on a migratory flyway, so its wetlands matter far beyond its borders.",
+    "The veterinary drug diclofenac caused a collapse in South Asian vultures; the ban in 2006 and the safe feeding sites are the remedy.",
+    "Humorous verse works by exaggeration, rhyme and a punch line.",
+    "enjoy, finish, mind, avoid, practise, suggest take the -ing form.",
+    "want, decide, hope, plan, try, promise, learn take to + verb.",
+    "make, let, see, hear, watch take the bare verb."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2451,
+    "figures": 1,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Nepal is the First Country to Double its Tiger Population / Drama: A Mousetrap",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Reading and interpreting charts, graphs and tables",
+    "Drama: plot, characters and stage directions",
+    "Grammar: much/many, some/any; expressing quantity",
+    "Writing: writing a description of data; presenting data in a graph",
+    "Pronunciation: words used to interpret charts and graphs"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Nepal is the First Country to Double its Tiger Population"
+    },
+    {
+     "no": "13.2",
+     "title": "Drama: A Mousetrap"
+    },
+    {
+     "no": "13.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "13.5",
+     "title": "Writing about data and conservation"
+    }
+   ],
+   "summary": [
+    "Nepal was the first of the thirteen tiger-range countries to double its wild tiger population under the TX2 target set in 2010.",
+    "The estimates rose from about 121 tigers in 2009 to about 355 in 2022.",
+    "The figures come from the National Tiger and Prey Survey, which identifies individual tigers by their unique stripe patterns in camera-trap photographs.",
+    "The increase followed the linking of protected areas, the restoration of prey and grassland, and the suppression of poaching.",
+    "The success brings a new problem: tigers need large territories, so a growing population presses against the parks' boundaries.",
+    "A drama is written to be performed; the audience learns about characters from dialogue and stage directions, not from a narrator.",
+    "A data description gives the overall trend first, then the figures, then the turning point, then the conclusion.",
+    "many with countable plurals; much with uncountables; some in positives; any in negatives and questions; a few / a little = some, few / little = almost none."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2972,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "The Magic Mirror / Poem: If I was a Superhero",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Folk tale and wish-fulfilment narrative",
+    "Poetry: the conditional and the imagination",
+    "Grammar: second conditional; adjectives and adverbs",
+    "Writing: writing a folk tale; a description of an imaginary event",
+    "Pronunciation: British and American differences"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "The Magic Mirror"
+    },
+    {
+     "no": "14.2",
+     "title": "Poem: If I was a Superhero"
+    },
+    {
+     "no": "14.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "14.4",
+     "title": "Writing a story: dialogue and description together"
+    }
+   ],
+   "summary": [
+    "A magic-object folk tale uses the object to test a character: the magic makes the choice possible, the character makes it.",
+    "A moral must be stated in one sentence and proved by one moment in the story.",
+    "A conditional poem imagines what the speaker would do if something impossible were true; the choice, not the power, is the point.",
+    "Poems use repetition for rhythm, hyperbole for effect and a twist at the end.",
+    "First conditional: If + present, will + verb — a real possibility.",
+    "Second conditional: If + past, would + verb — imaginary or unlikely; use were with be in written English.",
+    "Third conditional: If + had + past participle, would have + past participle — impossible, because the moment has passed.",
+    "Adjectives describe nouns; adverbs describe verbs. good → well, fast → fast, hard → hard."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2680,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Conservation of Earth / An Official Notice",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Argumentative writing on conservation",
+    "Notices: purpose, audience and format",
+    "Grammar: connectives of reason, purpose and contrast",
+    "Writing: an argumentative essay; an official notice",
+    "Project work: preparing a bulletin board; English consonants"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Conservation of Earth"
+    },
+    {
+     "no": "15.2",
+     "title": "An Official Notice"
+    },
+    {
+     "no": "15.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "15.4",
+     "title": "The language of persuasion"
+    }
+   ],
+   "summary": [
+    "An argumentative essay has four parts: position, reasons with evidence, counter-argument and call to action.",
+    "The main environmental problems in the text are over-consumption and emissions, the loss of forest and biodiversity, and waste.",
+    "Conservation is not the opposite of development: it protects the soil, water and forest that farming and tourism depend on.",
+    "An official notice names the office, carries the word NOTICE, a reference number and date, a subject line, the information, the action required and a signature block.",
+    "Reason: because, since, as; because of + noun.",
+    "Purpose: to, in order to, so as to, so that + clause.",
+    "Contrast: but, however, although, whereas, on the other hand. Never pair although with but.",
+    "Commas separate list items, follow an introductory clause, and precede but and so between full sentences."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2781,
+    "figures": 2,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "An Anecdote: Why I Became a Vegan / A History of Pens",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Anecdote and personal narrative",
+    "Historical writing about an everyday object",
+    "Grammar: past simple, past continuous, past perfect",
+    "Writing: a story; paragraphs about historical events",
+    "Project work: describing major events; words with silent letters"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "An Anecdote: Why I Became a Vegan"
+    },
+    {
+     "no": "16.2",
+     "title": "A History of Pens"
+    },
+    {
+     "no": "16.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "16.4",
+     "title": "Writing from a personal angle: the anecdote"
+    }
+   ],
+   "summary": [
+    "An anecdote is a short account of one incident, told to explain a decision or make a point; it has a situation, a turning point, a consequence and a point.",
+    "The turning point should be described in more detail than anything else.",
+    "The text about veganism is not asking the reader to change diet; it is asking how much we want to know about what we depend on.",
+    "Historical writing about an object gives the problem, the earliest form, each improvement and the effect on ordinary people.",
+    "The pen's history runs: reed pen → quill → steel nib → fountain pen → ballpoint → felt-tip and stylus.",
+    "Each improvement answered a complaint about the previous pen.",
+    "Past continuous sets the scene, past simple carries the events, past perfect marks the earlier of two past actions."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2741,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Naresh and the Stranger / Poem: From a Railway Carriage",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Story: suspense, character and resolution",
+    "Poetry: rhythm and the scenery of a journey",
+    "Grammar: voice (active and passive)",
+    "Writing: an e-mail; a reply letter to an invitation",
+    "Project work: collecting expressions to make offers and to accept or decline"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Naresh and the Stranger"
+    },
+    {
+     "no": "17.2",
+     "title": "Poem: From a Railway Carriage"
+    },
+    {
+     "no": "17.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "17.4",
+     "title": "Describing a journey: the language of narrative"
+    }
+   ],
+   "summary": [
+    "Suspense is the reader's uncertainty about what happens next, built by a stranger, a small doubt, limited information, delay and a false resolution.",
+    "A story about a trust decision is really a story about the character who has to make it.",
+    "\"From a Railway Carriage\" is by Robert Louis Stevenson (A Child's Garden of Verses, 1885); its short lines and paired rhymes imitate the sound of a train.",
+    "Its imagery is entirely visual, and its incompleteness is what conveys speed.",
+    "Active: the subject does the action. Passive: be + past participle, used when the doer is unknown or unimportant, or when the action matters more.",
+    "An e-mail has To, Subject, greeting, body, closing and signature.",
+    "A reply to an invitation must be definite — accepting with thanks, or declining with thanks and a brief reason."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2492,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Road Accidents in Nepal: Are Poor Roads Solely to Blame? / Poem: Long Life",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Discussion and opinion writing on a social problem",
+    "Poetry: the theme and the structure of the poem",
+    "Grammar: intensifiers (too, enough); subject–verb agreement",
+    "Writing: an opinion essay; punctuation",
+    "Project work: filling in a survey form and making a presentation"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Road Accidents in Nepal: Are Poor Roads Solely to Blame?"
+    },
+    {
+     "no": "18.2",
+     "title": "Poem: Long Life"
+    },
+    {
+     "no": "18.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "A discussion essay takes a question, argues one side, argues the other, then weighs both.",
+    "Bad roads, driver behaviour, vehicle condition and weak enforcement act together; no single cause is solely to blame for road accidents.",
+    "Speeding, overtaking on bends, drinking and driving, fatigue and overloading are the main human causes.",
+    "Education is part of road safety, because pedestrians are involved too.",
+    "\"Long Life\" redefines its own title: a life is measured by how it is lived, not by how many years it lasts.",
+    "too + adjective means a problem; adjective + enough means sufficient; very means a high degree without a problem.",
+    "so + adjective + that and such a + noun + that express a degree with a result.",
+    "The number of takes a singular verb; a number of takes a plural; a phrase between subject and verb changes nothing."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2596,
+    "figures": 1,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "A Tale of Two Birds / News Report: Pokhara International Airport Inaugurated",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Folk narrative and its moral",
+    "The newspaper report: headline, lead and body",
+    "Grammar: reported speech",
+    "Writing: a story; a news report",
+    "Project work: designing the front page of a newspaper; consonant clusters"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "A Tale of Two Birds"
+    },
+    {
+     "no": "19.2",
+     "title": "News Report: Pokhara International Airport Inaugurated"
+    },
+    {
+     "no": "19.3",
+     "title": "Grammar and writing tasks of the unit"
+    },
+    {
+     "no": "19.5",
+     "title": "The news report, line by line"
+    }
+   ],
+   "summary": [
+    "A folk tale uses parallelism — the same situation twice with one thing changed — so that the reader makes the comparison without being told to.",
+    "The moral of \"A Tale of Two Birds\" is that we become like the company we keep and the words we hear.",
+    "A news report answers who, what, where, when, why and how in its opening paragraph, called the lead.",
+    "Pokhara Regional International Airport was inaugurated on 1 January 2023 by Prime Minister Pushpa Kamal Dahal; it is Nepal's second international airport.",
+    "Its runway is 2,500 m long, its terminal is designed for about a million passengers a year, and it was built by CAMC on a Chinese loan of about Rs 22 billion.",
+    "A good report gives both the hopes and the criticisms, without taking sides.",
+    "Reported speech changes the reporting verb, the tense, the pronoun and the time and place words; questions are joined with if or the question word; orders use told / asked / warned + to + verb.",
+    "News writing uses the passive and the past tense and never uses I."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2657,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 19,
+ "topic_count": 95,
+ "notes_ready": 19
+}

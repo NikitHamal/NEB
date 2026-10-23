@@ -27,6 +27,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -36,6 +37,8 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.neb.ians.data.api.UserProfileResponse
 import com.neb.ians.ui.theme.Poppins
+import com.neb.ians.ui.theme.nebAnimationsReduced
+import com.neb.ians.util.rememberIsLowEndDevice
 
 /**
  * The profile cover.
@@ -129,36 +132,39 @@ fun ProfileBanner(
                 // cover (drawCoverGround, drawCoverMotif) is kept but no longer shown.
                 com.neb.ians.ui.pixel.art.PixelCoverArt(role = role.name, seedKey = seedKey, modifier = Modifier.fillMaxSize())
 
-                val transition = rememberInfiniteTransition(label = "coverSheen")
-                val sheen by transition.animateFloat(
-                    initialValue = 0f,
-                    targetValue = 1f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(durationMillis = 11_000, easing = LinearEasing),
-                        repeatMode = RepeatMode.Restart
-                    ),
-                    label = "sheen"
-                )
-
-                // One slow diagonal pass of light. It is the only thing that
-                // moves, and it is the only thing invalidated per frame.
-                Canvas(modifier = Modifier.fillMaxSize()) {
-                    val w = size.width
-                    val h = size.height
-                    val band = w * 0.40f
-                    val travel = w + band * 2.4f
-                    val x = travel * sheen - band * 1.2f
-                    drawRect(
-                        brush = Brush.linearGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                palette.ink.copy(alpha = 0.07f),
-                                Color.Transparent
-                            ),
-                            start = Offset(x, h),
-                            end = Offset(x + band, 0f)
-                        )
+                // One slow diagonal pass of light. It is the only thing that moves, and in a
+                // layer of its own it is the only thing redrawn per frame. A slow phone, or
+                // reduced motion, keeps the cover still rather than drawing every frame for it.
+                if (!rememberIsLowEndDevice() && !nebAnimationsReduced()) {
+                    val transition = rememberInfiniteTransition(label = "coverSheen")
+                    val sheen by transition.animateFloat(
+                        initialValue = 0f,
+                        targetValue = 1f,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(durationMillis = 11_000, easing = LinearEasing),
+                            repeatMode = RepeatMode.Restart
+                        ),
+                        label = "sheen"
                     )
+
+                    Canvas(modifier = Modifier.fillMaxSize().graphicsLayer()) {
+                        val w = size.width
+                        val h = size.height
+                        val band = w * 0.40f
+                        val travel = w + band * 2.4f
+                        val x = travel * sheen - band * 1.2f
+                        drawRect(
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    palette.ink.copy(alpha = 0.07f),
+                                    Color.Transparent
+                                ),
+                                start = Offset(x, h),
+                                end = Offset(x + band, 0f)
+                            )
+                        )
+                    }
                 }
             }
         }

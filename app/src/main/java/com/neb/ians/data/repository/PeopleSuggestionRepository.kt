@@ -1,6 +1,7 @@
 package com.neb.ians.data.repository
 
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.ApiUserSuggestion
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -35,14 +36,15 @@ data class PersonSuggestion(
  * The old suggestion list was the authors of recent forum posts, which is why
  * it handed everyone the same five names — the most active posters are the
  * same for every account — and why it emptied out once people already
- * followed were correctly excluded. There is no suggestions endpoint, so this
- * assembles one: people who follow the user back, people followed by people
- * the user follows, people at the same school or in the same class, and only
- * then the forum's recent authors.
+ * followed were correctly excluded. Suggestions are people who follow the
+ * user back, people followed by people the user follows, people at the same
+ * school or in the same class, and only then the forum's recent authors.
  *
- * The shortlist is resolved through the popup and stats endpoints because
- * neither the follow list nor user search says whether an account is locked
- * or private, and both must be kept out of suggestions.
+ * The server scores them in one request (`api/users/suggestions/`). A server
+ * without that endpoint gets the same list assembled here from about 43
+ * requests: the shortlist is resolved through the popup and stats endpoints
+ * because neither the follow list nor user search says whether an account is
+ * locked or private, and both must be kept out of suggestions.
  */
 @Singleton
 class PeopleSuggestionRepository @Inject constructor(
@@ -74,10 +76,24 @@ class PeopleSuggestionRepository @Inject constructor(
             return Result.success(cached)
         }
 
-        followStateRepository.sync(forceRefresh)
         val token = authRepository.getBearerToken() ?: return Result.success(emptyList())
-        val profile = runCatching { authRepository.userProfileFlow.first() }.getOrNull()
+        val fromServer = coroutineScope {
+            val synced = async { followStateRepository.sync(forceRefresh) }
+            val people = runCatching { apiService.getUserSuggestions(token, MAX_VISIBLE).results }.getOrNull()
+            synced.await()
+            people
+        }
         val graph = followStateRepository.graph.value
+        if (fromServer != null) {
+            // the server already leaves out people followed; the graph also knows follows made since
+            val people = fromServer
+                .filter { it.id.isNotBlank() && it.username.isNotBlank() && !graph.contains(it.id, it.username) }
+                .map { it.toSuggestion() }
+            lastLoadedAt = now
+            _suggestions.value = people
+            return Result.success(people)
+        }
+        val profile = runCatching { authRepository.userProfileFlow.first() }.getOrNull()
 
         return runCatching {
             val seeds = gather(token, selfId, profile, graph)
@@ -250,6 +266,17 @@ class PeopleSuggestionRepository @Inject constructor(
                 .awaitAll()
                 .filterNotNull()
         }
+
+    private fun ApiUserSuggestion.toSuggestion() = PersonSuggestion(
+        id = id,
+        username = username,
+        name = displayName?.takeIf { it.isNotBlank() } ?: username,
+        photoUrl = photoUrl?.takeIf { it.isNotBlank() },
+        detail = detail?.takeIf { it.isNotBlank() },
+        reason = reason,
+        followsYou = followsYou,
+        mutualCount = mutualCount
+    )
 
     private data class FeedAuthor(
         val handle: String,

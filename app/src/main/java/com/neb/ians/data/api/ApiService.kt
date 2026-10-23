@@ -760,80 +760,6 @@ data class ApiCreditHistoryResponse(
 )
 
 @Serializable
-data class ApiSyllabusCategoriesResponse(
-    val categories: List<ApiSyllabusCategory> = emptyList()
-)
-
-@Serializable
-data class ApiSyllabusCategory(
-    val grade: String = "",
-    val subjects: List<ApiSyllabusSubject> = emptyList(),
-    val order: Int = 999
-)
-
-@Serializable
-data class ApiSyllabusSubject(
-    val name: String = "",
-    val slug: String = "",
-    val url: String = ""
-)
-
-
-
-@Serializable
-data class ApiSyllabusSubjectDetailResponse(
-    val grade: String = "",
-    val subject: String = "",
-    @SerialName("grade_slug") val gradeSlug: String = "",
-    @SerialName("subject_slug") val subjectSlug: String = "",
-    @SerialName("grade_list") val gradeList: List<ApiSyllabusNavItem> = emptyList(),
-    @SerialName("subject_list") val subjectList: List<ApiSyllabusNavItem> = emptyList(),
-    val chapters: List<ApiSyllabusChapter> = emptyList(),
-    @SerialName("total_count") val totalCount: Int = 0
-)
-
-@Serializable
-data class ApiSyllabusNavItem(
-    val name: String = "",
-    val slug: String = ""
-)
-
-@Serializable
-data class ApiSyllabusChapter(
-    val id: String = "",
-    val name: String = "",
-    @SerialName("guide_sections") val guideSections: List<ApiSyllabusSection> = emptyList(),
-    @SerialName("qa_sections") val qaSections: List<ApiSyllabusQaSection> = emptyList(),
-    val notes: List<ApiResource> = emptyList(),
-    val solutions: List<ApiResource> = emptyList(),
-    val papers: List<ApiResource> = emptyList(),
-    val textbooks: List<ApiResource> = emptyList(),
-    val other: List<ApiResource> = emptyList(),
-    val count: Int = 0
-)
-
-@Serializable
-data class ApiSyllabusSection(
-    val title: String = "",
-    val content: String = "",
-    val id: String = ""
-)
-
-@Serializable
-data class ApiSyllabusQaSection(
-    val title: String = "",
-    val content: String = "",
-    val id: String = "",
-    @SerialName("parsed_items") val parsedItems: List<ApiSyllabusQaItem> = emptyList()
-)
-
-@Serializable
-data class ApiSyllabusQaItem(
-    val question: String = "",
-    val answer: String = ""
-)
-
-@Serializable
 data class ApiUserSearchResult(
     val id: String,
     val username: String,
@@ -846,6 +772,22 @@ data class ApiUserSearchResult(
     @SerialName("is_following") val isFollowing: Boolean? = null,
     @SerialName("is_self") val isSelf: Boolean? = null,
     @SerialName("badge_info") val badgeInfo: ApiBadgeInfo? = null
+)
+
+/** GET api/users/suggestions/: people to follow, scored and filtered by the server. */
+@Serializable
+data class ApiUserSuggestions(val results: List<ApiUserSuggestion> = emptyList())
+
+@Serializable
+data class ApiUserSuggestion(
+    val id: String = "",
+    val username: String = "",
+    @SerialName("display_name") val displayName: String? = null,
+    @SerialName("photo_url") val photoUrl: String? = null,
+    val detail: String? = null,
+    val reason: String = "",
+    @SerialName("follows_you") val followsYou: Boolean = false,
+    @SerialName("mutual_count") val mutualCount: Int = 0
 )
 
 @Serializable
@@ -1289,6 +1231,12 @@ interface ApiService {
         @Path("userId") userId: String
     ): FollowResponse
 
+    @GET("api/users/suggestions/")
+    suspend fun getUserSuggestions(
+        @Header("Authorization") bearerToken: String?,
+        @Query("limit") limit: Int
+    ): ApiUserSuggestions
+
     @GET("api/users/{userId}/followers/")
     suspend fun getFollowers(
         @Header("Authorization") bearerToken: String?,
@@ -1621,12 +1569,13 @@ interface ApiService {
     @GET("api/site-theme/")
     suspend fun getSiteTheme(): ApiSiteTheme
 
-    @GET("news/")
+    // the pages live under app/ since 2026-10-18; news/ answers with a 308 to here, a wasted round trip
+    @GET("app/news/")
     suspend fun getNewsPage(
         @Query("category") category: String? = null
     ): ResponseBody
 
-    @GET("news/{slug}/")
+    @GET("app/news/{slug}/")
     suspend fun getNewsDetailPage(
         @Path("slug") slug: String
     ): ResponseBody
@@ -2089,15 +2038,41 @@ interface ApiService {
         @Body request: ApiStudyFlashcardReviewRequest
     ): ApiStudyFlashcardReviewResponse
 
-    // --- Syllabus (public, web-synced categories) ---
-    @GET("api/syllabus/categories/")
-    suspend fun getSyllabusCategories(): ApiSyllabusCategoriesResponse
+    // --- Syllabus (public; exported from the NEBians books, shared with the website) ---
+    @GET("api/syllabus/v2/")
+    suspend fun getSyllabusIndex(): ApiSyllabusIndex
 
-    @GET("api/syllabus/subjects/{gradeSlug}/{subjectSlug}/")
-    suspend fun getSyllabusSubjectDetail(
-        @Path("gradeSlug") gradeSlug: String,
-        @Path("subjectSlug") subjectSlug: String
-    ): ApiSyllabusSubjectDetailResponse
+    @GET("api/syllabus/v2/{grade}/{subject}/")
+    suspend fun getSyllabusDoc(
+        @Path("grade") grade: String,
+        @Path("subject") subject: String
+    ): ApiSyllabusDoc
+
+    @GET("api/syllabus/v2/{grade}/{subject}/unit/{no}/")
+    suspend fun getStudyChapter(
+        @Path("grade") grade: String,
+        @Path("subject") subject: String,
+        @Path("no") no: Int
+    ): ApiStudyDoc
+
+    @GET("api/syllabus/v2/{grade}/{subject}/bank/{no}/")
+    suspend fun getStudyBank(
+        @Path("grade") grade: String,
+        @Path("subject") subject: String,
+        @Path("no") no: Int
+    ): ApiStudyDoc
+
+    @GET("api/syllabus/v2/{grade}/{subject}/guide/")
+    suspend fun getStudyGuide(
+        @Path("grade") grade: String,
+        @Path("subject") subject: String
+    ): ApiStudyDoc
+
+    @GET("api/syllabus/v2/search/")
+    suspend fun searchSyllabus(
+        @Query("q") query: String,
+        @Query("grade") grade: String? = null
+    ): ApiSyllabusSearch
 
     // --- Interactive Learning (public, no auth required) ---
     @GET("api/interactive/categories/")

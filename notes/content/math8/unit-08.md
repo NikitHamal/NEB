@@ -29,31 +29,67 @@ $$\text{Area}=\frac12\times b\times h$$
 The height must be **perpendicular** to the base you choose. A triangle has
 three possible base-height pairs, and all three give the same area.
 
-| Formula | When to use it |
-|---|---|
-| $\frac12 bh$ | base and perpendicular height are known |
-| $\sqrt{s(s-a)(s-b)(s-c)}$ (Heron) | all three sides are known, where $s=\frac{a+b+c}{2}$ |
-| $\frac12 ab\sin C$ | two sides and the included angle are known |
+A right-angled triangle is half of a rectangle (cut along a diagonal), so its
+area is $\frac12\times$ base $\times$ perpendicular. Any triangle can be cut by
+its height into two right-angled triangles, which is why $\frac12bh$ works for
+every triangle.
 
-::: example Area of a triangle, two ways
-**Problem.** A triangle has sides 6 m, 8 m and 10 m. Find its area by Heron's
-formula, and check the answer using base and height.
+::: example Area of a right-angled triangle
+**Problem.** A triangle has sides 6 m, 8 m and 10 m. Show that it is
+right-angled, find its area, and find the height drawn to the 10 m side.
 
-**Solution.** At this level the syllabus uses base and height, so take the
-longest side 10 m as the base first, and note that $6^2+8^2=100=10^2$, so the
-triangle is right-angled with the 6 m and 8 m sides perpendicular.
+**Solution.** $6^2+8^2=36+64=100=10^2$, so by the converse of Pythagoras'
+theorem the angle between the 6 m and 8 m sides is $90°$.
 
 $$\text{Area}=\frac12\times6\times8=24\ \text{m}^2$$
 
-By Heron: $s=\frac{6+8+10}{2}=12$, so
+Taking 10 m as the base: $\frac12\times10\times h=24$, so $h=4.8$ m.
 
-$$\text{Area}=\sqrt{12(12-6)(12-8)(12-10)}
-=\sqrt{12\times6\times4\times2}=\sqrt{576}=24\ \text{m}^2$$
+**Answer.** 24 m²; height on the longest side 4.8 m.
+:::
 
-**Answer.** 24 m², by both methods.
+### 8.1.1 Equilateral and isosceles triangles
 
-**Check.** The two methods agree, as they must; the height on the 10 m base is
-$\frac{2\times24}{10}=4.8$ m, and $\frac12\times10\times4.8=24$ ✓.
+::: derivation Area of an equilateral triangle of side $a$
+In equilateral $\triangle ABC$ draw $AD\perp BC$. AD bisects BC, so
+$BD=DC=\frac a2$.
+
+**Step 1 — Pythagoras in $\triangle ADC$.**
+$AD^2=AC^2-DC^2=a^2-\frac{a^2}{4}=\frac{3a^2}{4}$
+
+**Step 2 — take the square root.** $AD=\frac{\sqrt{3}}{2}a$
+
+**Step 3 — use $\frac12bh$.**
+Area $=\frac12\times a\times\frac{\sqrt{3}}{2}a$
+
+**Result.**
+
+$$\text{Area of equilateral triangle}=\frac{\sqrt{3}}{4}a^2$$
+:::
+
+::: derivation Area of an isosceles triangle (equal sides $a$, base $b$)
+Draw $AD\perp BC$; it bisects the base, so $DC=\frac b2$.
+
+$AD^2=a^2-\frac{b^2}{4}=\frac{4a^2-b^2}{4}$, so
+$AD=\frac{\sqrt{4a^2-b^2}}{2}$.
+
+Area $=\frac12\times b\times\frac{\sqrt{4a^2-b^2}}{2}$, which gives
+
+$$\text{Area of isosceles triangle}=\frac{b}{4}\sqrt{4a^2-b^2}$$
+:::
+
+::: example Equilateral and isosceles triangles
+**Problem.** Find the area of (a) an equilateral triangle of side 6 cm,
+(b) an isosceles triangle with equal sides 13 cm and base 10 cm.
+
+**Solution.**
+(a) Area $=\frac{\sqrt{3}}{4}\times6^2=\frac{\sqrt{3}}{4}\times36=9\sqrt{3}\approx15.59$ cm².
+
+(b) Area $=\frac{10}{4}\sqrt{4\times13^2-10^2}=\frac{10}{4}\sqrt{676-100}$
+
+$=\frac{10}{4}\sqrt{576}=\frac{10}{4}\times24=60$ cm².
+
+**Check (b).** Height $=\sqrt{13^2-5^2}=12$ cm, and $\frac12\times10\times12=60$ ✓.
 :::
 
 ::: caution The height is not a side
@@ -75,25 +111,30 @@ the height is the classic mensuration error.
 | Trapezium | parallel sides $a$, $b$, height $h$ | $\frac12(a+b)h$ |
 | Kite | diagonals $d_1$, $d_2$ | $\frac12 d_1 d_2$ |
 
-```figure caption="Three area formulas that share one idea. A triangle is half a parallelogram, a parallelogram is a rectangle sheared sideways, and a trapezium is a parallelogram whose two ends are different."
-fig, ax = plt.subplots(figsize=(5.0, 2.5))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.4)
-ax.axis("off")
-ax.add_patch(plt.Polygon([[0.4, 1.2], [3.0, 1.2], [1.7, 4.0]], fill=False,
-                         ec=ACCENT, lw=1.4))
-ax.plot([1.7, 1.7], [1.2, 4.0], color=GRID, lw=0.9, ls="--")
-ax.text(1.7, 0.7, "½ x b x h", ha="center", fontsize=6.8, color=ACCENT)
-ax.add_patch(plt.Polygon([[3.8, 1.2], [6.6, 1.2], [8.0, 4.0], [5.2, 4.0]],
-                         fill=False, ec=SERIES[1], lw=1.4))
-ax.plot([5.2, 5.2], [1.2, 4.0], color=GRID, lw=0.9, ls="--")
-ax.text(5.9, 0.7, "b x h", ha="center", fontsize=6.8, color=SERIES[1])
-ax.add_patch(plt.Polygon([[8.6, 1.2], [9.8, 1.2], [9.0, 4.0], [7.0, 4.0]],
-                         fill=False, ec=SERIES[2], lw=1.4))
-ax.text(8.5, 0.7, "½(a+b)h", ha="center", fontsize=6.8, color=SERIES[2])
-ax.text(5.0, 4.9, "all three heights are perpendicular to the base",
-        ha="center", fontsize=6.4, color=MUTED)
-fig.tight_layout()
+```figure caption="Base b and perpendicular height h in three shapes. The height is always measured at right angles to the base, never along a slanting side."
+fig, ax = plt.subplots(figsize=(5.2, 2.4))
+def shape(xs, ys, c):
+    ax.plot(xs + [xs[0]], ys + [ys[0]], color=c, lw=1.6)
+# triangle
+shape([0, 3, 1.9], [0, 0, 2.2], ACCENT)
+ax.plot([1.9, 1.9], [0, 2.2], color=MUTED, ls="--", lw=0.9)
+ax.text(2.0, 0.9, "h", fontsize=9, color=INK)
+ax.text(1.5, -0.45, "b", fontsize=9, ha="center", color=INK)
+ax.text(1.5, -1.05, "triangle: ½bh", fontsize=9, ha="center", color=ACCENT)
+# parallelogram
+shape([3.8, 6.6, 7.6, 4.8], [0, 0, 2.2, 2.2], SERIES[1])
+ax.plot([4.8, 4.8], [0, 2.2], color=MUTED, ls="--", lw=0.9)
+ax.text(4.9, 0.9, "h", fontsize=9, color=INK)
+ax.text(5.2, -0.45, "b", fontsize=9, ha="center", color=INK)
+ax.text(5.6, -1.05, "parallelogram: bh", fontsize=9, ha="center", color=SERIES[1])
+# trapezium
+shape([8.4, 11.8, 11.0, 9.2], [0, 0, 2.2, 2.2], SERIES[2])
+ax.plot([9.2, 9.2], [0, 2.2], color=MUTED, ls="--", lw=0.9)
+ax.text(9.3, 0.9, "h", fontsize=9, color=INK)
+ax.text(10.1, -0.45, "b", fontsize=9, ha="center", color=INK)
+ax.text(10.1, 2.4, "a", fontsize=9, ha="center", color=INK)
+ax.text(10.1, -1.05, "trapezium: ½(a+b)h", fontsize=9, ha="center", color=SERIES[2])
+ax.set_xlim(-0.3, 12.1); ax.set_ylim(-1.4, 2.8); ax.set_aspect("equal"); ax.axis("off")
 ```
 
 ::: example A trapezium and a rhombus
@@ -121,6 +162,34 @@ $$\text{side}=\sqrt{8^2+6^2}=\sqrt{100}=10\ \text{cm}$$
 $\frac12\times16\times12=96$ ✓.
 :::
 
+### 8.2.1 Any quadrilateral: a diagonal and two heights
+
+A diagonal $d$ cuts any quadrilateral into two triangles. If the
+perpendiculars from the other two vertices to the diagonal are $h_1$ and $h_2$,
+
+$$\text{Area}=\frac12dh_1+\frac12dh_2=\frac12d(h_1+h_2)$$
+
+The rhombus formula $\frac12d_1d_2$ is the special case where $h_1+h_2=d_2$.
+
+::: example Quadrilateral and parallelogram
+**Problem.** (a) In quadrilateral PQRS the diagonal PR $=12$ cm, and the
+perpendiculars from Q and S to PR are 5 cm and 4 cm. Find its area.
+(b) A parallelogram has area 120 cm² and base 15 cm. Find its height.
+
+**Solution.**
+(a) Area $=\frac12\times12\times(5+4)=6\times9=54$ cm².
+
+(b) $b\times h=120$, so $15h=120$ and $h=8$ cm.
+:::
+
+::: example Area excluding a part
+**Problem.** A rectangular park 120 m × 110 m contains a volleyball court
+18 m × 9 m. Find the area of the park excluding the court.
+
+**Solution.** Park $=120\times110=13\,200$ m². Court $=18\times9=162$ m².
+Remaining area $=13\,200-162=13\,038$ m².
+:::
+
 ## 8.3 Area and circumference of a circle
 
 For a circle of radius $r$:
@@ -135,6 +204,52 @@ Take $\pi=\frac{22}{7}$ unless a question says otherwise.
 | Sector | the region between two radii and an arc | area $=\frac{\theta}{360°}\times\pi r^2$ |
 | Arc | the curved length of a sector | length $=\frac{\theta}{360°}\times2\pi r$ |
 | Semicircle | half the circle | area $=\frac12\pi r^2$ |
+
+::: derivation Why the area of a circle is $\pi r^2$
+Cut a circle of radius $r$ into many equal sectors (16, 32, …) and arrange them
+head-to-tail. They form a shape that is almost a parallelogram (a rectangle,
+if the pieces are very thin).
+
+- Its height is the radius, $r$.
+- Its base is half the circumference: $\frac12\times2\pi r=\pi r$.
+
+So area $=$ base $\times$ height $=\pi r\times r=\pi r^2$. Since $r=\frac d2$,
+area $=\frac{\pi d^2}{4}$ as well.
+:::
+
+::: example Radius from the area
+**Problem.** The area of a circle is 5544 cm². Find its radius
+($\pi=\frac{22}{7}$).
+
+**Solution.** $\frac{22}{7}r^2=5544$, so $r^2=\frac{5544\times7}{22}=1764$ and
+$r=\sqrt{1764}=42$ cm.
+:::
+
+::: example Shaded region — square and quarter circles
+**Problem.** ABCD is a square of side 14 cm. At each corner a quarter circle of
+radius 7 cm is cut out. Find the area of the remaining (shaded) part
+($\pi=\frac{22}{7}$).
+
+**Solution.** Square $=14\times14=196$ cm².
+Four quarter circles of radius 7 cm make one full circle:
+$\frac{22}{7}\times7\times7=154$ cm².
+Shaded area $=196-154=42$ cm².
+:::
+
+```figure caption="Square of side 14 cm with a quarter circle of radius 7 cm at each corner. The four quarters together make one circle of area 154 cm², so the shaded part is 196 − 154 = 42 cm²."
+from matplotlib.patches import Rectangle, Wedge
+fig, ax = plt.subplots(figsize=(4.2, 3.0))
+ax.add_patch(Rectangle((0, 0), 14, 14, fc=ACCENT, alpha=0.30, ec=INK, lw=1.2))
+for (cx, cy, t1) in [(0, 0, 0), (14, 0, 90), (14, 14, 180), (0, 14, 270)]:
+    ax.add_patch(Wedge((cx, cy), 7, t1, t1 + 90, fc="white", ec=INK, lw=1.0))
+for (x, y, t) in [(-1.0, -1.0, "A"), (14.3, -1.0, "B"), (14.3, 14.3, "C"), (-1.0, 14.3, "D")]:
+    ax.text(x, y, t, fontsize=10, color=INK)
+ax.text(7, -1.8, "14 cm", ha="center", fontsize=9, color=INK)
+ax.plot([0, 4.95], [0, 4.95], color=SERIES[1], lw=1.0)
+ax.text(3.2, 1.6, "7 cm", fontsize=8.5, color=SERIES[1])
+ax.text(7, 7, "shaded", ha="center", va="center", fontsize=9, color=INK)
+ax.set_xlim(-2, 16); ax.set_ylim(-2.6, 15.6); ax.set_aspect("equal"); ax.axis("off")
+```
 
 ::: example A circle and a sector
 **Problem.** A circle has radius 7 cm. Find its circumference and area. Then
@@ -296,7 +411,10 @@ answers — differences will come from measurement, not from the formula.
 
 ## Chapter summary
 
-- Triangle: $\frac12 bh$, or Heron's formula with $s=\frac{a+b+c}{2}$.
+- Triangle: $\frac12 bh$; equilateral $\frac{\sqrt{3}}{4}a^2$; isosceles
+  $\frac b4\sqrt{4a^2-b^2}$.
+- Any quadrilateral with diagonal $d$ and offsets $h_1,h_2$: $\frac12d(h_1+h_2)$.
+- Shaded area $=$ whole figure $-$ unshaded part.
 - Rectangle $lb$; square $a^2$; parallelogram $bh$; rhombus and kite
   $\frac12 d_1d_2$; trapezium $\frac12(a+b)h$.
 - Circle: circumference $2\pi r$, area $\pi r^2$; sector area

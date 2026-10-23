@@ -1,4 +1,4 @@
-"""Arena views for Inception Labs (Mercury 2 diffusion LLM)."""
+"""Arena views for Inception Labs (Mercury 3 diffusion LLM)."""
 import json
 import logging
 
@@ -65,7 +65,7 @@ def arena_create_inception_session(request):
     if err:
         return err
 
-    model_id = (request.data.get('modelId') or 'mercury-2').strip()
+    model_id = (request.data.get('modelId') or 'mercury-3').strip()
 
     model_info = inception_proxy.MODEL_MAP.get(model_id)
     display_name = (model_info or {}).get('name', f'Inception {model_id}')

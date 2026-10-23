@@ -1,280 +1,206 @@
-import { createCanvas2D, pointerPos } from '../core/canvas2d.js';
+/**
+ * Orbital sandbox in 3D. Press on the orbital plane and drag to aim a launch (the arrow is the
+ * velocity), then let go. While you aim, the path is predicted with the same leapfrog integrator,
+ * green for a closed orbit, red for a crash, orange for an escape; ticks on the arrow mark circular
+ * speed √(GM/r) and escape speed √(2GM/r). Units are real: GM☉ = 4π² AU³/yr², 1 AU/yr = 4.74 km/s.
+ * The grid below dips as −GM/r: the gravity well every orbit is rolling around in.
+ */
+import { THREE } from '../core/engine.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { createSpace, makeSun, makePlanet, makeTrail, makeArrow, planeDrag } from './space3d/kit.js';
 
-const COLORS = ['#7dd3fc', '#a5b4fc', '#f9a8d4', '#86efac', '#fcd34d', '#fda4af', '#c4b5fd', '#5eead4'];
-
-function detectTier() {
-  const smallViewport = Math.min(window.innerWidth, window.innerHeight) < 900;
-  const mobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) || ((navigator.maxTouchPoints || 0) > 1 && smallViewport);
-  const mem = navigator.deviceMemory || 4;
-  const cores = navigator.hardwareConcurrency || 4;
-  if (mobile && (mem <= 2 || cores <= 4)) return 'low';
-  if (mobile || mem <= 4) return 'medium';
-  return 'high';
-}
+const GM1 = 4 * Math.PI * Math.PI;
+const KMS = 4.7406;
+const MAXP = 8; const TRAIL = 260; const PRED = 900;
+const KINDS = ['earth', 'mars', 'neptune', 'venus', 'uranus', 'mercury', 'jupiter', 'saturn'];
+const COLORS = [0x60a5fa, 0xf87171, 0x818cf8, 0xfbbf24, 0x5eead4, 0xd6d3d1, 0xfcd34d, 0xfde68a];
+const fmt = (x, d = 0) => x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
-  const tier = detectTier();
-  const TRAIL_LEN = tier === 'low' ? 60 : tier === 'medium' ? 100 : 140;
-  const MAX_BODIES = tier === 'low' ? 14 : tier === 'medium' ? 20 : 28;
-  const bodies = [];
-  const particles = [];
-  let starMass = 5200;
-  let showVectors = false;
-  let drag = null;
-  let colorIdx = 0;
-  let bgStars = [];
-
-  sim.onResize((w, h) => {
-    bgStars = [];
-    const n = Math.round((w * h) / 5200);
-    for (let i = 0; i < n; i++) {
-      bgStars.push({ x: Math.random() * w, y: Math.random() * h, r: Math.random() * 1.2 + 0.3, a: Math.random() * 0.5 + 0.2 });
-    }
-  });
-
-  function starRadius() {
-    return 10 + Math.sqrt(starMass) * 0.16;
-  }
-
-  function spawnBody(x, y, vx, vy) {
-    if (bodies.length >= MAX_BODIES) bodies.shift();
-    bodies.push({
-      x, y, vx, vy,
-      r: 4.5 + Math.random() * 2.5,
-      color: COLORS[colorIdx++ % COLORS.length],
-      trail: new Float32Array(TRAIL_LEN * 2),
-      trailLen: 0,
-      trailHead: 0,
-      alive: true,
-    });
-  }
-
-  function burn(b) {
-    b.alive = false;
-    for (let i = 0; i < 16; i++) {
-      const a = Math.random() * Math.PI * 2;
-      const s = 20 + Math.random() * 70;
-      particles.push({ x: b.x, y: b.y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, life: 0.7 + Math.random() * 0.5, t: 0 });
-    }
-  }
-
-  function addComet(w, h) {
-    const cx = w / 2;
-    const cy = h / 2;
-    const edge = Math.min(w, h) * 0.46;
-    const a = Math.random() * Math.PI * 2;
-    const x = cx + Math.cos(a) * edge;
-    const y = cy + Math.sin(a) * edge;
-    const tangential = a + Math.PI / 2 + (Math.random() - 0.5) * 0.5;
-    const v = Math.sqrt((starMass * 240) / edge) * (0.4 + Math.random() * 0.3);
-    spawnBody(x, y, Math.cos(tangential) * v, Math.sin(tangential) * v);
-  }
-
+  const S = createSpace(stage, { camera: [0, 5.6, 6.4], minDistance: 2, maxDistance: 40, maxPolar: 1.5 });
+  if (!S) return null;
+  const { engine, scene, camera, quality, controls } = S;
   const hud = createHud(stage);
-  const countBadge = hud.badge('Bodies: 0', '#7dd3fc');
-  const hintBadge = hud.badge('Drag anywhere to launch a planet', '#9ec1ff');
+  const badge = hud.badge('Press on the plane and drag to aim, release to launch', '#60a5fa');
+  const U = 1.4;
 
-  const panel = createPanel(stage, { title: 'Gravity Sandbox' });
-  panel.slider({
-    label: 'Star mass',
-    min: 1500, max: 14000, step: 100, value: starMass,
-    format: (v) => `${Math.round(v / 100)} suns`,
-    onChange: (v) => { starMass = v; },
-  });
-  panel.toggle({ label: 'Show velocity vectors', value: false, onChange: (v) => { showVectors = v; } });
+  let M = 1; let speed = 1; let showWell = true;
+  const px = new Float64Array(MAXP); const pz = new Float64Array(MAXP); const vx = new Float64Array(MAXP); const vz = new Float64Array(MAXP);
+  const alive = new Uint8Array(MAXP); const fate = new Uint8Array(MAXP);
+  let n = 0; let last = -1; let aiming = false; let ax = 0; let az = 0; let avx = 0; let avz = 0; let predFate = 0; let pulse = 0;
+  const predPts = new Float32Array(PRED * 3); let predN = 0;
+
+  const panel = createPanel(stage, { title: 'Orbit sandbox' });
+  panel.slider({ label: 'Star mass', min: 0.3, max: 3, step: 0.1, value: 1, format: (v) => `${v.toFixed(1)} M☉`, onChange: (v) => { M = v; pulse = 1; wellDirty = true; } });
+  panel.chips({ label: 'Time speed', options: [{ value: '0.25', label: '¼ yr/s' }, { value: '1', label: '1 yr/s' }, { value: '3', label: '3 yr/s' }], value: '1', onChange: (v) => { speed = +v; } });
   panel.buttonRow([
-    { label: 'Comet', icon: 'star_half', onClick: () => addComet(sim.width, sim.height) },
-    { label: 'Clear', icon: 'delete', variant: 'danger', onClick: () => { bodies.length = 0; particles.length = 0; } },
+    { label: 'Earth orbit', icon: 'public', onClick: () => launch(1, 0, 0, -Math.sqrt(GM1 * M)) },
+    { label: 'Clear', icon: 'delete_sweep', variant: 'ghost', onClick: () => { n = 0; alive.fill(0); last = -1; bodies.forEach((b) => { b.mesh.visible = false; b.trail.clear(); }); } },
   ]);
-  panel.info('Drag from any point and release: the arrow sets the new planet\u2019s velocity. Short drags fall into the star, long drags escape. Find the orbit in between!');
+  panel.toggle({ label: 'Gravity well', value: true, onChange: (v) => { showWell = v; } });
+  const st = panel.stats([{ key: 'v', label: 'Launch speed' }, { key: 'vc', label: 'Circular speed here' }, { key: 'fate', label: 'Result' }, { key: 'T', label: 'Period (Kepler III)' }]);
+  panel.info('An orbit is falling sideways forever: too slow and the planet falls into the star, too fast (above escape speed) and it leaves for good. In between it loops round on an ellipse. A heavier star needs faster planets.');
 
-  function onDown(e) {
-    if (e.target !== sim.canvas) return;
-    sim.canvas.setPointerCapture && sim.canvas.setPointerCapture(e.pointerId);
-    const p = pointerPos(sim.canvas, e);
-    drag = { sx: p.x, sy: p.y, cx: p.x, cy: p.y, id: e.pointerId };
-  }
-  function onMove(e) {
-    if (!drag || e.pointerId !== drag.id) return;
-    const p = pointerPos(sim.canvas, e);
-    drag.cx = p.x;
-    drag.cy = p.y;
-  }
-  function onUp(e) {
-    if (!drag || e.pointerId !== drag.id) return;
-    const dx = drag.cx - drag.sx;
-    const dy = drag.cy - drag.sy;
-    if (Math.hypot(dx, dy) > 6) {
-      spawnBody(drag.sx, drag.sy, dx * 1.6, dy * 1.6);
-      hintBadge.set('Nice launch! Watch gravity bend its path');
-    }
-    drag = null;
-  }
-  sim.canvas.style.touchAction = 'none';
-  sim.canvas.addEventListener('pointerdown', onDown);
-  sim.canvas.addEventListener('pointermove', onMove);
-  sim.canvas.addEventListener('pointerup', onUp);
-  sim.canvas.addEventListener('pointercancel', onUp);
+  const Rstar = () => 0.1 * Math.cbrt(M);
+  const sun = makeSun(quality, Rstar() * U);
+  scene.add(sun.group);
 
-  function physics(dt, w, h) {
-    const cx = w / 2;
-    const cy = h / 2;
-    const sr = starRadius();
-    const sub = 4;
-    const step = Math.min(dt, 0.033) / sub;
-    for (let s = 0; s < sub; s++) {
-      for (let i = 0; i < bodies.length; i++) {
-        const b = bodies[i];
-        if (!b.alive) continue;
-        const dx = cx - b.x;
-        const dy = cy - b.y;
-        const d2 = dx * dx + dy * dy;
-        const d = Math.sqrt(d2);
-        if (d < sr + b.r * 0.5) { burn(b); continue; }
-        const acc = (starMass * 240) / Math.max(d2, 400);
-        b.vx += (dx / d) * acc * step;
-        b.vy += (dy / d) * acc * step;
-        b.x += b.vx * step;
-        b.y += b.vy * step;
-      }
-    }
-    const limit = Math.max(w, h) * 2.5;
-    for (let i = bodies.length - 1; i >= 0; i--) {
-      const b = bodies[i];
-      if (!b.alive) { bodies.splice(i, 1); continue; }
-      if (Math.abs(b.x - cx) > limit || Math.abs(b.y - cy) > limit) { bodies.splice(i, 1); continue; }
-      b.trail[b.trailHead * 2] = b.x;
-      b.trail[b.trailHead * 2 + 1] = b.y;
-      b.trailHead = (b.trailHead + 1) % TRAIL_LEN;
-      if (b.trailLen < TRAIL_LEN) b.trailLen++;
-    }
-    for (let i = particles.length - 1; i >= 0; i--) {
-      const p = particles[i];
-      p.t += dt;
-      if (p.t >= p.life) { particles.splice(i, 1); continue; }
-      p.x += p.vx * dt;
-      p.y += p.vy * dt;
-    }
-  }
-
-  sim.setUpdate((ctx, dt, w, h) => {
-    physics(dt, w, h);
-    const cx = w / 2;
-    const cy = h / 2;
-    ctx.fillStyle = '#0a1322';
-    ctx.fillRect(0, 0, w, h);
-    for (let i = 0; i < bgStars.length; i++) {
-      const s = bgStars[i];
-      ctx.globalAlpha = s.a;
-      ctx.fillStyle = '#cdd9ec';
-      ctx.fillRect(s.x, s.y, s.r, s.r);
-    }
-    ctx.globalAlpha = 1;
-
-    const sr = starRadius();
-    const grad = ctx.createRadialGradient(cx, cy, sr * 0.2, cx, cy, sr * 3.2);
-    grad.addColorStop(0, 'rgba(255,200,90,0.95)');
-    grad.addColorStop(0.3, 'rgba(255,160,60,0.35)');
-    grad.addColorStop(1, 'rgba(255,140,40,0)');
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.arc(cx, cy, sr * 3.2, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#ffd27a';
-    ctx.beginPath();
-    ctx.arc(cx, cy, sr, 0, Math.PI * 2);
-    ctx.fill();
-
-    for (let i = 0; i < bodies.length; i++) {
-      const b = bodies[i];
-      if (b.trailLen > 1) {
-        ctx.lineWidth = 1.6;
-        ctx.strokeStyle = b.color;
-        const bands = 4;
-        const start = b.trailHead - b.trailLen + TRAIL_LEN * 2;
-        const lastJ = b.trailLen - 1;
-        for (let band = 0; band < bands; band++) {
-          const j0 = Math.floor((band * lastJ) / bands);
-          const j1 = Math.floor(((band + 1) * lastJ) / bands);
-          if (j1 <= j0) continue;
-          ctx.globalAlpha = (((j0 + j1) / 2) / b.trailLen) * 0.55;
-          ctx.beginPath();
-          let idx = (start + j0) % TRAIL_LEN;
-          ctx.moveTo(b.trail[idx * 2], b.trail[idx * 2 + 1]);
-          for (let j = j0 + 1; j <= j1; j++) {
-            idx = (start + j) % TRAIL_LEN;
-            ctx.lineTo(b.trail[idx * 2], b.trail[idx * 2 + 1]);
-          }
-          ctx.stroke();
-        }
-        ctx.globalAlpha = 1;
-      }
-      ctx.fillStyle = b.color;
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
-      ctx.fill();
-      if (showVectors) {
-        drawArrow(ctx, b.x, b.y, b.x + b.vx * 0.25, b.y + b.vy * 0.25, '#ffffff', 0.7);
-      }
-    }
-
-    for (let i = 0; i < particles.length; i++) {
-      const p = particles[i];
-      ctx.globalAlpha = 1 - p.t / p.life;
-      ctx.fillStyle = '#ffb347';
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-
-    if (drag) {
-      drawArrow(ctx, drag.sx, drag.sy, drag.cx, drag.cy, '#8be9a8', 1);
-      ctx.fillStyle = '#8be9a8';
-      ctx.beginPath();
-      ctx.arc(drag.sx, drag.sy, 5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    countBadge.set(`Bodies: ${bodies.length}`);
+  const bodies = KINDS.map((kind, i) => {
+    const mesh = makePlanet(kind, kind === 'jupiter' || kind === 'saturn' ? 0.09 : 0.065);
+    mesh.visible = false;
+    const trail = makeTrail(TRAIL, COLORS[i]);
+    scene.add(mesh, trail.line);
+    return { mesh, trail };
   });
 
-  function drawArrow(ctx, x0, y0, x1, y1, color, alpha) {
-    const dx = x1 - x0;
-    const dy = y1 - y0;
-    const len = Math.hypot(dx, dy);
-    if (len < 2) return;
-    ctx.globalAlpha = alpha;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(x0, y0);
-    ctx.lineTo(x1, y1);
-    ctx.stroke();
-    const a = Math.atan2(dy, dx);
-    ctx.fillStyle = color;
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x1 - Math.cos(a - 0.45) * 9, y1 - Math.sin(a - 0.45) * 9);
-    ctx.lineTo(x1 - Math.cos(a + 0.45) * 9, y1 - Math.sin(a + 0.45) * 9);
-    ctx.closePath();
-    ctx.fill();
-    ctx.globalAlpha = 1;
+  // rings at 1, 2, 3 AU and the gravity well
+  const rings = new THREE.Group();
+  for (let r = 1; r <= 3; r++) {
+    const g = new THREE.RingGeometry(r * U - 0.004, r * U + 0.004, 160);
+    const m = new THREE.Mesh(g, new THREE.MeshBasicMaterial({ color: 0x8aa2d8, transparent: true, opacity: 0.25, side: THREE.DoubleSide, depthWrite: false }));
+    m.rotation.x = -Math.PI / 2; rings.add(m);
+  }
+  scene.add(rings);
+  const WN = 64; const WR = 4.6 * U;
+  const wellPos = new Float32Array((WN + 1) * (WN + 1) * 3);
+  const wellIdx = [];
+  for (let j = 0; j <= WN; j++) for (let i = 0; i <= WN; i++) {
+    const k = j * (WN + 1) + i;
+    if (i < WN) wellIdx.push(k, k + 1);
+    if (j < WN) wellIdx.push(k, k + WN + 1);
+  }
+  const wellGeo = new THREE.BufferGeometry();
+  wellGeo.setAttribute('position', new THREE.BufferAttribute(wellPos, 3));
+  wellGeo.setIndex(wellIdx);
+  const well = new THREE.LineSegments(wellGeo, new THREE.ShaderMaterial({
+    vertexShader: 'varying float vD; varying float vR; void main() { vD = -position.y; vR = length(position.xz); gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }',
+    fragmentShader: `varying float vD; varying float vR; void main() { float a = 0.22 * smoothstep(${WR.toFixed(2)}, ${(WR * 0.6).toFixed(2)}, vR); gl_FragColor = vec4(mix(vec3(0.3, 0.45, 0.85), vec3(1.0, 0.7, 0.35), clamp(vD / 2.5, 0.0, 1.0)) * a, 1.0); }`,
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+  }));
+  scene.add(well);
+  let wellDirty = true;
+  function buildWell() {
+    wellDirty = false;
+    for (let j = 0; j <= WN; j++) for (let i = 0; i <= WN; i++) {
+      const x = (i / WN * 2 - 1) * WR; const z = (j / WN * 2 - 1) * WR; const r = Math.max(Math.hypot(x, z) / U, 0.18);
+      const k = (j * (WN + 1) + i) * 3;
+      wellPos[k] = x; wellPos[k + 1] = -0.3 - 0.55 * M / r; wellPos[k + 2] = z;
+    }
+    wellGeo.attributes.position.needsUpdate = true; wellGeo.computeBoundingSphere();
   }
 
-  sim.start();
+  const aimArrow = makeArrow(0xe8eefb, 0.012);
+  const pred = makeTrail(PRED, 0x34d399);
+  const tickMat = [new THREE.MeshBasicMaterial({ color: 0x34d399, toneMapped: false }), new THREE.MeshBasicMaterial({ color: 0xfbbf24, toneMapped: false })];
+  const ticks = tickMat.map((m) => new THREE.Mesh(new THREE.BoxGeometry(0.012, 0.012, 0.16), m));
+  const start = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 10), new THREE.MeshBasicMaterial({ color: 0xe2e8f0 }));
+  scene.add(aimArrow.group, pred.line, start, ...ticks);
+  const aimLabel = document.createElement('div');
+  aimLabel.style.cssText = 'position:absolute;left:0;top:0;pointer-events:none;font:700 12px Poppins,system-ui,sans-serif;padding:3px 9px;border-radius:999px;background:rgba(8,14,30,0.8);white-space:nowrap;z-index:3;opacity:0';
+  stage.appendChild(aimLabel);
 
+  function acc(x, z, out) { const r2 = x * x + z * z; const r = Math.sqrt(r2); const f = -GM1 * M / (r2 * r); out[0] = f * x; out[1] = f * z; }
+  const A = new Float64Array(2);
+  function step1(i, h) {
+    acc(px[i], pz[i], A); vx[i] += A[0] * h / 2; vz[i] += A[1] * h / 2;
+    px[i] += vx[i] * h; pz[i] += vz[i] * h;
+    acc(px[i], pz[i], A); vx[i] += A[0] * h / 2; vz[i] += A[1] * h / 2;
+  }
+  function launch(x, z, ux, uz) {
+    const i = n < MAXP ? n++ : (last + 1) % MAXP;
+    px[i] = x; pz[i] = z; vx[i] = ux; vz[i] = uz; alive[i] = 1; fate[i] = 0; last = i;
+    bodies[i].trail.clear(); bodies[i].mesh.visible = true;
+  }
+  function predict(x, z, ux, uz) {
+    let X = x; let Z = z; let VX = ux; let VZ = uz; const h = 0.004;
+    predN = 0; predFate = 0;
+    const E = 0.5 * (ux * ux + uz * uz) - GM1 * M / Math.hypot(x, z);
+    for (let s = 0; s < PRED * 4 && predN < PRED; s++) {
+      const r = Math.hypot(X, Z);
+      if (r < Rstar()) { predFate = 1; break; }
+      if (r > 8) { predFate = 2; break; }
+      let r3 = r * r * r; VX -= GM1 * M * X / r3 * h / 2; VZ -= GM1 * M * Z / r3 * h / 2;
+      X += VX * h; Z += VZ * h;
+      const r2 = Math.hypot(X, Z); r3 = r2 * r2 * r2; VX -= GM1 * M * X / r3 * h / 2; VZ -= GM1 * M * Z / r3 * h / 2;
+      if (s % 4 === 0) { predPts[predN * 3] = X * U; predPts[predN * 3 + 1] = 0.01; predPts[predN * 3 + 2] = Z * U; predN++; }
+    }
+    if (!predFate && E >= 0) predFate = 2;
+    pred.set(predPts.subarray(0, predN * 3));
+    pred.mat.uniforms.uC.value.set(predFate === 1 ? 0xf87171 : predFate === 2 ? 0xfbbf24 : 0x34d399);
+  }
+
+  const drag = planeDrag(engine.canvas, camera, controls, {
+    handles: () => [],
+    onEmpty: (p, e) => { if (e.button === 2) return false; aiming = true; ax = p.x / U; az = p.z / U; avx = 0; avz = 0; predN = 0; pred.clear(); return true; },
+    onMove: (h, p) => { avx = (p.x / U - ax) * 3; avz = (p.z / U - az) * 3; predict(ax, az, avx, avz); },
+    onUp: () => { if (aiming && Math.hypot(ax, az) > Rstar() * 1.2 && Math.hypot(avx, avz) > 0.05) launch(ax, az, avx, avz); aiming = false; pred.clear(); },
+  });
+
+  const tmp = new THREE.Vector3(); const tv = new THREE.Vector3(); const v3 = new THREE.Vector3();
+  engine.setUpdate((dt, time) => {
+    controls.update(dt);
+    if (wellDirty) buildWell();
+    well.visible = showWell;
+    pulse = Math.max(0, pulse - dt * 2);
+    sun.group.scale.setScalar(Rstar() * U * (1 + 0.5 * pulse));
+    sun.uniforms.uTime.value = time;
+    const simDt = dt * speed; const sub = Math.max(1, Math.ceil(simDt / 0.0015)); const hh = simDt / sub;
+    for (let i = 0; i < n; i++) {
+      const b = bodies[i];
+      if (!alive[i]) { b.trail.mat.uniforms.uK.value = Math.max(0.25, b.trail.mat.uniforms.uK.value - dt); continue; }
+      b.trail.mat.uniforms.uK.value = 1;
+      for (let s = 0; s < sub; s++) {
+        step1(i, hh);
+        b.acc = (b.acc || 0) + hh;
+        if (b.acc >= 0.006) { b.acc = 0; b.trail.push(px[i] * U, 0, pz[i] * U); }
+      }
+      const r = Math.hypot(px[i], pz[i]);
+      if (r < Rstar()) { alive[i] = 0; fate[i] = 1; pulse = 1; b.mesh.visible = false; }
+      else if (r > 12) { alive[i] = 0; fate[i] = 2; b.mesh.visible = false; }
+      b.mesh.position.set(px[i] * U, 0, pz[i] * U);
+      b.mesh.rotation.y += dt * 1.5;
+    }
+
+    start.visible = aiming; aimArrow.group.visible = aiming; ticks.forEach((t) => { t.visible = aiming; }); pred.line.visible = aiming;
+    if (aiming) {
+      start.position.set(ax * U, 0, az * U);
+      const v = Math.hypot(avx, avz);
+      aimArrow.set(tmp.set(ax * U, 0, az * U), tv.set(avx / 3 * U, 0, avz / 3 * U));
+      const r = Math.hypot(ax, az); const vc = Math.sqrt(GM1 * M / Math.max(r, 1e-3));
+      if (v > 0.01) {
+        const ux = avx / v; const uz = avz / v;
+        [[1, 0], [Math.SQRT2, 1]].forEach(([mult, i]) => {
+          const L = vc * mult / 3 * U;
+          ticks[i].position.set(ax * U + ux * L, 0, az * U + uz * L);
+          ticks[i].rotation.y = Math.atan2(ux, uz) + Math.PI / 2;
+        });
+      }
+      const col = predFate === 1 ? '#f87171' : predFate === 2 ? '#fbbf24' : '#34d399';
+      aimLabel.textContent = `${fmt(v * KMS, 1)} km/s · ticks: circular, escape`;
+      aimLabel.style.color = col;
+      v3.set(ax * U, 0.1, az * U).project(camera);
+      aimLabel.style.opacity = '1';
+      aimLabel.style.transform = `translate(${((v3.x + 1) / 2 * stage.clientWidth).toFixed(1)}px, ${((1 - v3.y) / 2 * stage.clientHeight - 26).toFixed(1)}px) translate(-50%, -50%)`;
+    } else aimLabel.style.opacity = '0';
+
+    if (aiming || last >= 0) {
+      const X = aiming ? ax : px[last]; const Z = aiming ? az : pz[last]; const VX = aiming ? avx : vx[last]; const VZ = aiming ? avz : vz[last];
+      const r = Math.hypot(X, Z); const v = Math.hypot(VX, VZ); const E = 0.5 * v * v - GM1 * M / r; const a = -GM1 * M / (2 * E);
+      st.v.set(`${fmt(v * KMS, 1)} km/s`); st.vc.set(`${fmt(Math.sqrt(GM1 * M / r) * KMS, 1)} km/s`);
+      const f = aiming ? predFate : fate[last] || (E >= 0 ? 2 : 0);
+      st.fate.set(f === 1 ? 'crash into the star' : f === 2 ? 'escapes' : 'stable orbit');
+      st.T.set(E < 0 ? `${fmt(2 * Math.PI * Math.sqrt(a * a * a / (GM1 * M)), 2)} yr` : '—');
+      badge.set(aiming ? (predFate === 1 ? 'Too slow: it will fall into the star' : predFate === 2 ? 'Too fast: it will escape' : 'Just right: a closed orbit') : 'Press on the plane and drag to aim, release to launch');
+    }
+  });
+  engine.start();
+  launch(1, 0, 0, -Math.sqrt(GM1));
+
+  stage.__orbit = { launch, alive: () => Array.from(alive.slice(0, n)), fate: () => Array.from(fate.slice(0, n)), aim: (x, z, ux, uz) => { aiming = true; ax = x; az = z; avx = ux; avz = uz; predict(x, z, ux, uz); } };
   return {
     dispose() {
-      sim.canvas.removeEventListener('pointerdown', onDown);
-      sim.canvas.removeEventListener('pointermove', onMove);
-      sim.canvas.removeEventListener('pointerup', onUp);
-      sim.canvas.removeEventListener('pointercancel', onUp);
-      panel.dispose();
-      hud.dispose();
-      sim.dispose();
+      drag.dispose(); controls.dispose(); panel.dispose(); hud.dispose(); aimLabel.remove();
+      bodies.forEach((b) => b.trail.dispose()); pred.dispose(); aimArrow.dispose(); sun.dispose(); engine.dispose();
     },
   };
 }

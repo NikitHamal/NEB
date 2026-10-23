@@ -1,413 +1,257 @@
-import { THREE, createEngine, createOrbitControls, basicLights, makeSignalPoints } from '../core/engine.js';
+import { THREE, createEngine, createOrbitControls } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
-import { makeScanMaterial } from '../core/bio3d-scan-grade.js';
-import { batchStaticGeometry } from '../core/bio3d-batch.js';
-import {
-  Particles, skyDome, applyEnvironmentLighting,
-  cellTexture, glowTexture, ringTexture,
-} from '../core/bio-fx.js';
+import { buildScene, buildModels, backdrop } from './heartlungs/scene.js';
+import { PARTS, ANCHORS } from './heartlungs/heart-model.js';
+import { LOBES } from './heartlungs/lung-model.js';
+import { createBloodFlow, createAirFlow } from './heartlungs/flow.js';
+import { createMonitor, createHeartSound, cardiac } from './heartlungs/monitor.js';
+import { createAtlasLabels } from './anatomy/labels.js';
+import { setXray } from './anatomy/tissue.js';
 
-const Y_AXIS = new THREE.Vector3(0, 1, 0);
+const VIEWS = {
+  overview: { label: 'Heart & lungs', target: [0, 0.25, 0], pos: [0.9, 0.6, 4.6] },
+  heart: { label: 'The heart', target: [0.05, 0.05, 0.05], pos: [0.55, 0.25, 2.35] },
+  inside: { label: 'Inside the heart', target: [0.0, 0.05, 0.0], pos: [0.15, 0.15, 2.2] },
+  flow: { label: 'Blood flow', target: [0, 0.15, -0.1], pos: [0.6, 0.5, 3.9] },
+  airways: { label: 'Airways', target: [0, 0.35, -0.1], pos: [0.4, 0.45, 4.2] },
+};
 
-function tubeFromPoints(points, radius, material, tubular = 32, radial = 8) {
-  const curve = new THREE.CatmullRomCurve3(points.map((p) => new THREE.Vector3(...p)));
-  const mesh = new THREE.Mesh(new THREE.TubeGeometry(curve, tubular, radius, radial, false), material);
-  mesh.castShadow = true;
-  return mesh;
-}
+const LUNG_INFO = {
+  rul: 'The right lung has three lobes, separated by the oblique and horizontal fissures.',
+  rml: 'The right middle lobe sits between the horizontal and oblique fissures. The left lung has no middle lobe; it is smaller to make room for the heart.',
+  rll: 'The lower lobes are the largest and do most of the breathing work, sitting on the dome of the diaphragm.',
+  lul: 'The left upper lobe has a notch, the cardiac notch, where the heart pushes into the lung, and a tongue-like part called the lingula.',
+  lll: 'Each lung holds about 300 million alveoli, tiny air sacs wrapped in capillaries, where oxygen enters the blood and carbon dioxide leaves.',
+};
+
+const EXTRA = {
+  diaphragm: ['Diaphragm', 'A dome of muscle under the lungs with a tough central tendon. When it contracts it flattens and moves down, the chest gets bigger, and air rushes in. That is about 75% of every quiet breath.'],
+  trachea: ['Trachea (windpipe)', 'About 11 cm long and held open by 16–20 C-shaped rings of cartilage. The open part of each C faces back, so the oesophagus behind it can bulge when you swallow. It splits into the left and right main bronchi.'],
+};
+
+function activityName(a) { return a < 0.15 ? 'Resting' : a < 0.4 ? 'Walking' : a < 0.7 ? 'Jogging' : a < 0.9 ? 'Running' : 'Sprinting'; }
 
 export default function init(stage) {
   stage.classList.add('bio-beginner-stage', 'bio-heart-lungs-stage');
-  const engine = createEngine(stage, { shadows: true });
+  const engine = createEngine(stage, { noise: true, exposure: 0.92, fov: 38, near: 0.01, far: 200 });
   if (!engine) return null;
   const { scene, camera, renderer, quality } = engine;
-  const low = quality.tier === 'low';
+  renderer.localClippingEnabled = true;
+  scene.background = new THREE.Color(0x0b0e14);
+  scene.add(backdrop());
 
-  camera.position.set(0.8, 1.6, 6.6);
-  const controls = createOrbitControls(camera, engine.canvas, {
-    minDistance: 4, maxDistance: 16, enablePan: false, maxPolar: Math.PI * 0.72, minPolar: Math.PI * 0.2,
-  });
-  controls.setTarget(new THREE.Vector3(0, 0.7, 0));
+  const hemi = new THREE.HemisphereLight(0xdfe8ff, 0x2a1a18, 0.3);
+  const key = new THREE.DirectionalLight(0xfff0e2, 1.9); key.position.set(3, 5, 6);
+  const fill = new THREE.DirectionalLight(0xc8d8ff, 0.45); fill.position.set(-5, 1, 3);
+  const rim = new THREE.DirectionalLight(0xa8c4ff, 1.6); rim.position.set(-2, 4, -6);
+  const under = new THREE.DirectionalLight(0xffb0a0, 0.35); under.position.set(0, -6, 2);
+  scene.add(hemi, key, rim);
+  hemi.intensity = 0.55;
 
-  const disposeEnv = applyEnvironmentLighting(renderer, scene, { sky: '#5c2733', horizon: '#3a1520', ground: '#12060a' });
-  skyDome(scene, { top: 0x34101c, mid: 0x1d0910, bottom: 0x080204 });
-  // an anatomy-atlas studio: a soft blue-grey sweep, warm key, cool rim, so tissue reads
-  scene.background = new THREE.Color(0x1d2a3e);
-  scene.fog = new THREE.Fog(0x1d2a3e, 16, 40);
-  const sweep = new THREE.Mesh(new THREE.SphereGeometry(40, 32, 16), new THREE.ShaderMaterial({
-    side: THREE.BackSide, depthWrite: false, fog: false,
-    vertexShader: 'varying vec3 vP; void main(){ vP = normalize(position); gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.0); }',
-    fragmentShader: 'varying vec3 vP; void main(){ float t = clamp(vP.y*0.5+0.5,0.0,1.0); gl_FragColor = vec4(mix(vec3(0.07,0.09,0.13), vec3(0.27,0.33,0.43), pow(t,1.2)), 1.0); }',
-  }));
-  scene.add(sweep);
-  basicLights(scene, { ambient: 0.55, key: 2.0, fill: 0.7, rim: 1.1, rimColor: 0xcfe2ff });
+  const loading = document.createElement('div');
+  loading.style.cssText = 'position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:4;font:500 13px Poppins,system-ui;color:#dbe6ff;background:rgba(8,12,24,.6);padding:8px 14px;border-radius:999px;pointer-events:none';
+  loading.textContent = 'Sculpting the heart and lungs…';
+  stage.appendChild(loading);
 
-  // ---- Ribcage: paired curved rib tubes + sternum ----
-  const boneMat = makeScanMaterial('rib-bone-pbr', 0xe6d3ba, { family: 'bone', roughness: 0.66, textureSize: low ? 128 : 256 });
-  const ribcage = new THREE.Group();
-  for (let i = 0; i < 7; i++) {
-    const y = 2.15 - i * 0.33;
-    const spread = 1.28 - i * 0.05;
-    [-1, 1].forEach((side) => {
-      const pts = [];
-      for (let k = 0; k <= 8; k++) {
-        const t = k / 8;
-        const a = Math.PI * (0.16 + t * 0.68);
-        pts.push([
-          side * Math.sin(a) * spread,
-          y - Math.cos(a * 1.4) * 0.10 + t * t * 0.22,
-          -Math.cos(a) * spread * 0.62 + 0.18,
-        ]);
-      }
-      const rib = tubeFromPoints(pts, 0.038, boneMat, 24, 6);
-      ribcage.add(rib);
-    });
-  }
-  const sternum = new THREE.Mesh(new THREE.BoxGeometry(0.30, 1.55, 0.10), boneMat);
-  sternum.position.set(0, 1.45, 0.86);
-  sternum.rotation.x = -0.12;
-  ribcage.add(sternum);
-  // 14 rib tubes and the sternum share one bone material, so they collapse into a single
-  // buffer. The ribcage never moves, so baking its transforms is loss-free.
-  batchStaticGeometry(ribcage, { mergeLines: true });
-  scene.add(ribcage);
-
-  const root = new THREE.Group();
-  scene.add(root);
-
-  // ---- Heart: ventricle mass + atria + great vessels ----
-  const heart = new THREE.Group();
-  heart.position.set(0.22, 0.62, 0.28);
-  const myocardium = makeScanMaterial('heart-myocardium-pbr', 0xb23330, {
-    family: 'tissue', roughness: 0.42, emissive: 0x5c1210, emissiveIntensity: 0.22,
-    textureSize: low ? 128 : 256,
-  });
-  // One sculpted organ instead of stacked spheres: a broad base tapering to an apex that points
-  // down and to the left, the left ventricle's bulge, the interventricular groove running from
-  // the base to the apex, and the dip between the atria at the top.
-  const heartGeo = (() => {
-    const g = new THREE.SphereGeometry(1, low ? 48 : 96, low ? 36 : 72);
-    const p = g.attributes.position; const v = new THREE.Vector3();
-    for (let i = 0; i < p.count; i++) {
-      v.fromBufferAttribute(p, i);
-      let { x, y, z } = v;
-      const taper = y < 0 ? 1 + y * 0.6 : 1 + y * 0.08;
-      x *= 0.64 * taper; z *= 0.52 * taper; y *= 0.8;
-      if (y < 0) x -= y * y * 0.24;                                    // apex swings left
-      if (y > 0.35) { x *= 1 + (y - 0.35) * 0.5; y -= 0.14 * Math.exp(-x * x * 26) * (y - 0.35) * 3; }
-      x -= 0.07 * Math.exp(-((x + 0.25) ** 2 + (y + 0.15) ** 2) * 5) * (z > 0 ? 1 : 0.5); // left ventricle
-      const groove = x * 0.95 - y * 0.35 + 0.06;
-      if (z > 0) { const k = 1 - 0.045 * Math.exp(-groove * groove * 160); x *= k; z *= k; }
-      v.set(x, y, z);
-      p.setXYZ(i, v.x, v.y, v.z);
-    }
-    g.computeVertexNormals();
-    g.scale(0.62, 0.62, 0.62);
-    return g;
-  })();
-  const ventricle = new THREE.Mesh(heartGeo, myocardium);
-  ventricle.castShadow = true;
-  ventricle.rotation.z = -0.35;
-  heart.add(ventricle);
-  const atriumMat = makeScanMaterial('heart-atria-pbr', 0x8f2626, { family: 'tissue', roughness: 0.5, textureSize: 128 });
-  // the auricles: two small ear-shaped flaps on the back of the base
-  [[-0.3, 0.42, -0.14, 0.4], [0.34, 0.38, -0.16, -0.4]].forEach(([x, y, z, r]) => {
-    const g = new THREE.SphereGeometry(0.2, 24, 18); g.scale(1.25, 0.72, 0.8);
-    const a = new THREE.Mesh(g, atriumMat);
-    a.position.set(x, y, z); a.rotation.z = r;
-    a.castShadow = true;
-    heart.add(a);
-  });
-
-  const vesselMat = makeScanMaterial('great-vessels-pbr', 0xa8322c, { family: 'tissue', roughness: 0.44, textureSize: 128 });
-  const veinBlueMat = makeScanMaterial('vena-cava-pbr', 0x37507e, { family: 'tissue', roughness: 0.48, textureSize: 128 });
-  heart.add(tubeFromPoints([[0.10, 0.55, -0.05], [0.16, 1.15, -0.10], [0.02, 1.55, -0.28], [-0.30, 1.50, -0.42], [-0.52, 1.28, -0.40]], 0.115, vesselMat, 36, 10));
-  heart.add(tubeFromPoints([[-0.08, 0.55, 0.10], [-0.16, 1.05, 0.16], [-0.34, 1.30, 0.10]], 0.095, vesselMat, 28, 9));
-  heart.add(tubeFromPoints([[0.42, 0.45, -0.05], [0.58, 0.95, -0.12], [0.60, 1.35, -0.18]], 0.085, veinBlueMat, 28, 9));
-  heart.add(tubeFromPoints([[0.30, -0.45, -0.05], [0.38, -0.95, -0.10], [0.42, -1.45, -0.12]], 0.095, veinBlueMat, 28, 9));
-  const coronary = makeScanMaterial('coronary-arteries-pbr', 0xe0473d, { family: 'tissue', roughness: 0.36, textureSize: 128 });
-  for (let i = 0; i < 4; i++) {
-    const a0 = -0.6 + i * 0.5;
-    heart.add(tubeFromPoints(
-      [[Math.cos(a0) * 0.30, 0.25, Math.sin(a0) * 0.30 + 0.18],
-       [Math.cos(a0 + 0.5) * 0.48, -0.12, Math.sin(a0 + 0.5) * 0.40 + 0.20],
-       [Math.cos(a0 + 0.9) * 0.40, -0.48, Math.sin(a0 + 0.9) * 0.34 + 0.16]],
-      0.017, coronary, 20, 6
-    ));
-  }
-  // Batching inside the heart group keeps the beat animation intact: the merged buffers are
-  // children of a group whose scale is driven per frame.
-  batchStaticGeometry(heart, { mergeLines: true });
-  root.add(heart);
-
-  // ---- Lungs with internal bronchial tree ----
-  function buildLung(x) {
-    const lung = new THREE.Group();
-    const mat = makeScanMaterial(`lung-pleura-${x}`, 0xdb8fa6, {
-      family: 'tissue', roughness: 0.55, transparent: true, opacity: 0.86,
-      emissive: 0x521f31, emissiveIntensity: 0.10, textureSize: low ? 128 : 256,
-    });
-    // One lung, sculpted: a narrow rounded apex rising above the collarbone, a broad base
-    // hollowed where it sits on the dome of the diaphragm, a flatter inner (mediastinal) face,
-    // and on the left lung the cardiac notch where the heart presses in.
-    const lg = new THREE.SphereGeometry(1, low ? 40 : 72, low ? 32 : 56);
-    const lp = lg.attributes.position; const lv = new THREE.Vector3();
-    const inner = -Math.sign(x); // toward the midline
-    for (let i = 0; i < lp.count; i++) {
-      lv.fromBufferAttribute(lp, i);
-      let { x: px, y: py, z: pz } = lv;
-      const w = py > 0 ? 1 - py * 0.55 : 1 + py * 0.06;             // narrow toward the apex
-      px *= 0.6 * w; pz *= 0.52 * w; py *= 1.15;
-      if (py < -0.75) py = -0.75 - (py + 0.75) * 0.25 + 0.18 * Math.exp(-(px * px + pz * pz) * 6); // diaphragm hollow
-      if (px * inner > 0) px *= 0.62;                                 // flat mediastinal face
-      if (x < 0 && px * inner > 0 && py < 0.1 && py > -0.6 && pz > -0.1) px *= 0.6; // cardiac notch
-      lp.setXYZ(i, px, py, pz);
-    }
-    lg.computeVertexNormals();
-    const um = new THREE.Mesh(lg, mat);
-    um.castShadow = true;
-    lung.add(um);
-    const lm = um;
-    const fissureMat = new THREE.LineBasicMaterial({ color: 0x6e1d38, transparent: true, opacity: 0.45 });
-    for (let i = 0; i < 2; i++) {
-      const pts = [];
-      for (let k = 0; k <= 14; k++) {
-        const t = k / 14;
-        pts.push(new THREE.Vector3(Math.sin(t * 2.6) * 0.30, 0.05 - i * 0.16 + Math.sin(t * 3.1) * 0.05, 0.50 - t * 0.1));
-      }
-      const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), fissureMat);
-      line.userData.noScan = true;
-      lung.add(line);
-    }
-    const airwayMat = makeScanMaterial('bronchial-tree-pbr', 0xd9c4ae, { family: 'tissue', roughness: 0.6, textureSize: 128 });
-    function branch(origin, dir, len, radius, depth) {
-      const end = [origin[0] + dir[0] * len, origin[1] + dir[1] * len, origin[2] + dir[2] * len];
-      const seg = tubeFromPoints([origin, [(origin[0] + end[0]) / 2 + dir[2] * 0.03, (origin[1] + end[1]) / 2, (origin[2] + end[2]) / 2], end], radius, airwayMat, 12, 6);
-      lung.add(seg);
-      if (depth <= 0) {
-        alveoliTips.push(end);
-        return;
-      }
-      branch(end, [dir[0] * 0.7 + (x > 0 ? 0.16 : -0.16), dir[1] * 0.55 - 0.28, dir[2] * 0.5 + 0.14], len * 0.72, radius * 0.68, depth - 1);
-      branch(end, [dir[0] * 0.7, dir[1] * 0.55 - 0.30, dir[2] * 0.5 - 0.16], len * 0.70, radius * 0.66, depth - 1);
-    }
-    const alveoliTips = [];
-    branch([x * 0.42, 1.55, 0.02], [x > 0 ? 0.30 : -0.30, -0.65, 0.05], 0.55, 0.062, low ? 1 : 2);
-    // Every alveolus glows with the same intensity, so one additive points cloud replaces a
-    // sprite per tip - same soft round glow, one draw call instead of one per alveolus.
-    const alveoli = makeSignalPoints(alveoliTips.length, { size: 0.34, opacity: 0.5 });
-    for (let i = 0; i < alveoliTips.length; i++) {
-      const p = alveoliTips[i];
-      alveoli.position[i * 3] = p[0];
-      alveoli.position[i * 3 + 1] = p[1];
-      alveoli.position[i * 3 + 2] = p[2];
-      alveoli.color[i * 3] = 1.0;
-      alveoli.color[i * 3 + 1] = 0.82;
-      alveoli.color[i * 3 + 2] = 0.88;
-    }
-    alveoli.geo.setDrawRange(0, alveoliTips.length);
-    alveoli.points.renderOrder = 4;
-    lung.add(alveoli.points);
-    lung.position.set(x, 0.78, -0.05);
-    // Merges the bronchial tree (7 tubes) and the fissure lines inside the lung group, so the
-    // breathing scale applied to the group still drives them.
-    batchStaticGeometry(lung, { mergeLines: true });
-    return { lung, meshes: [um, lm], alveoli };
-  }
-  const left = buildLung(-1.02);
-  const right = buildLung(1.02);
-  root.add(left.lung);
-  root.add(right.lung);
-
-  // Trachea with cartilage rings
-  const tracheaMat = makeScanMaterial('trachea-pbr', 0xd7c3b0, { family: 'tissue', roughness: 0.58, textureSize: 128 });
-  // Trachea and its cartilage rings are one structure: they now merge into a single buffer
-  // inside a group, so the rings travel with the airway as it bobs during breathing (they
-  // used to be welded to the scene while the cylinder moved).
-  const tracheaGroup = new THREE.Group();
-  const trachea = new THREE.Mesh(new THREE.CylinderGeometry(0.105, 0.105, 1.15, 14), tracheaMat);
-  trachea.position.set(0, 2.15, 0.02);
-  tracheaGroup.add(trachea);
-  for (let i = 0; i < 7; i++) {
-    const ring = new THREE.Mesh(new THREE.TorusGeometry(0.108, 0.011, 6, 20), tracheaMat);
-    ring.rotation.x = Math.PI / 2;
-    ring.position.set(0, 1.68 + i * 0.155, 0.02);
-    tracheaGroup.add(ring);
-  }
-  root.add(tracheaGroup);
-  batchStaticGeometry(tracheaGroup, { mergeLines: true });
-
-  // Diaphragm dome
-  const diaphragmGeo = new THREE.SphereGeometry(1, 36, 14, 0, Math.PI * 2, 0, Math.PI / 2);
-  diaphragmGeo.scale(1.9, 0.44, 0.74);
-  const diaphragm = new THREE.Mesh(
-    diaphragmGeo,
-    new THREE.MeshStandardMaterial({ color: 0xd96b77, roughness: 0.55, transparent: true, opacity: 0.55, side: THREE.DoubleSide })
-  );
-  diaphragm.position.set(0, -0.62, 0);
-  diaphragm.rotation.x = Math.PI;
-  root.add(diaphragm);
-
-  // Beat pulse ring at the chest wall
-  const beatRing = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: ringTexture('#ff6b6b'), transparent: true, opacity: 0, depthWrite: false,
-    blending: THREE.AdditiveBlending,
-  }));
-  beatRing.material.userData.sharedFx = true;
-  beatRing.position.set(0.55, 0.85, 1.15);
-  scene.add(beatRing);
-
-  // ---- Blood cells on a full circulation loop ----
-  const MAX_BLOOD = low ? 90 : 150;
-  const blood = new Particles(scene, {
-    max: MAX_BLOOD, size: 0.17,
-    texture: cellTexture({ center: '#6e0d10', edge: '#ff5252' }),
-    blending: THREE.NormalBlending, opacity: 0.95,
-  });
-  blood.points.renderOrder = 6;
-  const RED = new THREE.Color(0xff4444);
-  const BLUE = new THREE.Color(0x4d6fff);
-  const seeds = [];
-  for (let i = 0; i < MAX_BLOOD; i++) {
-    seeds.push(Math.random());
-    blood.spawn(0, 0, 0, 0, 0, 0, 1e9, RED);
-    blood.life[i] = 1; blood.decay[i] = 0;
-  }
-  // Path: body -> heart -> lungs (pick a side) -> heart -> body arc.
-  function loopPoint(t, out) {
-    if (t < 0.18) {
-      const u = t / 0.18;
-      out[0] = 0.22 - u * 0.5; out[1] = -1.2 + u * 1.7; out[2] = -0.1 + u * 0.3;
-    } else if (t < 0.30) {
-      const u = (t - 0.18) / 0.12;
-      const side = u < 0.5 ? -1 : 1;
-      const lu = (u % 0.5) * 2;
-      const ang = lu * Math.PI * 2;
-      out[0] = side * 1.0 + Math.cos(ang) * 0.30;
-      out[1] = 0.85 + Math.sin(ang) * 0.55;
-      out[2] = Math.sin(ang * 2) * 0.12;
-    } else if (t < 0.42) {
-      const u = (t - 0.30) / 0.12;
-      out[0] = 0.5 - u * 0.3; out[1] = 1.4 - u * 0.8; out[2] = 0.1 + u * 0.15;
-    } else {
-      const u = (t - 0.42) / 0.58;
-      const ang = u * Math.PI * 2;
-      out[0] = Math.cos(ang) * 1.55;
-      out[1] = 0.55 + Math.sin(ang * 2) * 0.55 - u * 0.35;
-      out[2] = Math.sin(ang) * 0.85;
-    }
-  }
-  const tmpP = [0, 0, 0];
-
-  // ---- Physiology ----
-  let activity = 0.0;
-  function bpm() { return 70 + activity * 90; }
-  function breathsPerMin() { return 12 + activity * 32; }
-  function strokeVolumeMl() { return 70 + activity * 45; }
-  function cardiacOutputLMin() { return (bpm() * strokeVolumeMl()) / 1000; }
-  function tidalVolumeMl() { return 500 + activity * 1700; }
-  function minuteVentilationLMin() { return (breathsPerMin() * tidalVolumeMl()) / 1000; }
+  camera.position.set(...VIEWS.overview.pos);
+  const controls = createOrbitControls(camera, engine.canvas, { minDistance: 1.0, maxDistance: 9, enablePan: true, damping: 0.1 });
+  controls.setTarget(new THREE.Vector3(...VIEWS.overview.target));
 
   const hud = createHud(stage);
-  const heartBadge = hud.badge('♥ 70 bpm', '#ef4444');
-  const lungBadge = hud.badge('🫁 12 breaths/min', '#60a5fa');
+  const hrBadge = hud.badge('♥ 70 bpm', '#f87171');
+  const brBadge = hud.badge('12 breaths/min', '#60a5fa');
+
+  let S = null; let blood = null; let air = null;
+  let activity = 0;
+  let view = 'overview';
+  let breathing = true;
+  let cph = 0; let bph = 0; let lastPh = 0;
+  let xray = 0; let xrayGoal = 0; let lungFade = 1; let lungGoal = 1; let cut = 0; let cutGoal = 0;
+  let camAnim = null;
+  const sound = createHeartSound();
+  const clipPlane = new THREE.Plane(new THREE.Vector3(0, 0, -1), 10);
+
+  const labels = createAtlasLabels(stage, { onPick: (id) => pick(id) });
 
   const panel = createPanel(stage, { title: 'Heart & Lungs' });
-  panel.info('The heart-lung model links heart rate, stroke volume, breathing rate, tidal volume and diaphragm motion. Raise activity to see cardiac output and minute ventilation increase together.');
+  panel.info('A beating heart and breathing lungs, sculpted from their real anatomy. Drag to turn, scroll to zoom, tap any part to learn what it does.');
   panel.slider({
-    label: 'Activity level', min: 0, max: 100, step: 1, value: 0,
-    format: (v) => v < 25 ? 'Resting' : v < 60 ? 'Walking' : v < 85 ? 'Running' : 'Sprinting',
-    onChange: (v) => { activity = v / 100; refreshBadges(); },
+    label: 'Activity', min: 0, max: 100, step: 1, value: 0, format: (v) => activityName(v / 100),
+    onChange: (v) => { activity = v / 100; },
   });
-  panel.divider();
-  const bpmOut = panel.readout({ label: 'Heart rate', value: '70 bpm' });
-  const breathOut = panel.readout({ label: 'Breathing rate', value: '12 /min' });
-  const strokeOut = panel.readout({ label: 'Stroke volume', value: '70 mL/beat' });
-  const coOut = panel.readout({ label: 'Cardiac output', value: '4.9 L/min' });
-  const tidalOut = panel.readout({ label: 'Tidal volume', value: '500 mL' });
-  const ventOut = panel.readout({ label: 'Minute ventilation', value: '6.0 L/min' });
-  panel.readout({ label: 'Alveoli (air sacs)', value: '~480 million' });
-  panel.button({ label: 'Why does exercise make you puff?', icon: 'menu_book', variant: 'ghost', onClick: () => {
-    showInfoCard(stage, {
-      title: 'Eat now, breathe faster',
-      body: 'Exercise raises ATP demand. Cardiac output = heart rate × stroke volume, and minute ventilation = breathing rate × tidal volume. The diaphragm contracts downward to expand the thoracic cavity, bringing in more oxygen and removing more CO₂.',
-      color: '#ef4444',
-    });
-  } });
+  panel.chips({ label: 'View', options: Object.entries(VIEWS).map(([k, v]) => ({ value: k, label: v.label })), value: 'overview', onChange: (v) => setView(v) });
+  const monitor = createMonitor(panel.body);
+  const stats = panel.stats([
+    { key: 'hr', label: 'Heart rate' }, { key: 'sv', label: 'Stroke volume' },
+    { key: 'co', label: 'Cardiac output' }, { key: 'br', label: 'Breathing rate' },
+    { key: 'tv', label: 'Tidal volume' }, { key: 'mv', label: 'Air per minute' },
+  ]);
+  panel.toggle({ label: 'Breathing', value: true, onChange: (v) => { breathing = v; } });
+  panel.toggle({ label: 'Textbook blood colours', value: false, onChange: (v) => { if (S) S.uniforms.uTextbook.value = v ? 1 : 0; } });
+  panel.toggle({ label: 'Labels', value: true, onChange: (v) => { labels.enabled = v; } });
+  panel.toggle({ label: 'Heart sounds', value: false, onChange: (v) => { sound.on = v; } });
+  panel.button({
+    label: 'Why does exercise make you puff?', icon: 'menu_book',
+    onClick: () => showInfoCard(stage, {
+      title: 'Why exercise makes you puff',
+      body: 'Working muscles burn glucose with oxygen and make carbon dioxide. Rising CO₂ in the blood is sensed in the brainstem, which tells the diaphragm and rib muscles to breathe faster and deeper. At the same time the heart beats faster and pumps more per beat, so cardiac output can rise from about 5 to over 20 litres a minute.',
+      color: '#f87171',
+    }),
+  });
 
-  let beatPhase = 0; let breathPhase = 0; let lastBeat = false;
-  let ringT = 1;
-  function refreshBadges() {
-    const b = Math.round(bpm()); const br = Math.round(breathsPerMin());
-    heartBadge.set(`♥ ${b} bpm`); lungBadge.set(`🫁 ${br} breaths/min`);
-    bpmOut.set(`${b} bpm`); breathOut.set(`${br} /min`);
-    strokeOut.set(`${Math.round(strokeVolumeMl())} mL/beat`);
-    coOut.set(`${cardiacOutputLMin().toFixed(1)} L/min`);
-    tidalOut.set(`${Math.round(tidalVolumeMl())} mL`);
-    ventOut.set(`${minuteVentilationLMin().toFixed(1)} L/min`);
+  function physiology() {
+    const a = activity;
+    const hr = 66 + 112 * a;
+    const sv = 70 + 38 * Math.sqrt(a);
+    const br = 12 + 30 * a * a + 6 * a;
+    const tv = 0.5 + 2.1 * a;
+    return { hr, sv, br, tv, co: hr * sv / 1000, mv: br * tv };
   }
-  refreshBadges();
 
-  let time = 0;
-  engine.setUpdate((dt) => {
-    time += dt;
-    controls.update(dt);
-    const b = bpm(); const br = breathsPerMin();
+  function setView(v) {
+    view = v;
+    const V = VIEWS[v];
+    camAnim = { t: 0, fromP: camera.position.clone(), fromT: controls.target.clone(), toP: new THREE.Vector3(...V.pos), toT: new THREE.Vector3(...V.target) };
+    xrayGoal = v === 'flow' ? 1 : 0;
+    lungGoal = v === 'heart' || v === 'inside' ? 0 : 1;
+    cutGoal = v === 'inside' ? 1 : 0;
+  }
 
-    beatPhase += dt * (b / 60);
-    const cyc = beatPhase % 1;
-    const beatStrength = cyc < 0.12 ? Math.sin((cyc / 0.12) * Math.PI) * 0.16
-      : cyc < 0.18 ? 0
-        : cyc < 0.30 ? Math.sin(((cyc - 0.18) / 0.12) * Math.PI) * 0.11 : 0;
-    heart.scale.setScalar(1 + beatStrength);
-    myocardium.emissiveIntensity = 0.22 + beatStrength * 2.2;
-    if (cyc < 0.12 && !lastBeat) {
-      lastBeat = true;
-      ringT = 0;
-      refreshBadges();
-    } else if (cyc >= 0.12) lastBeat = false;
-    ringT = Math.min(1, ringT + dt * 1.8);
-    beatRing.material.opacity = (1 - ringT) * 0.55;
-    beatRing.scale.setScalar(0.6 + ringT * 2.6);
-
-    breathPhase += dt * (br / 60) * Math.PI * 2;
-    const inflate = Math.sin(breathPhase) * 0.5 + 0.5;
-    const lungScale = 0.86 + inflate * 0.42;
-    left.lung.scale.set(lungScale, lungScale * 0.96, lungScale);
-    right.lung.scale.set(lungScale, lungScale * 0.96, lungScale);
-    left.meshes[0].material.emissiveIntensity = 0.10 + inflate * 0.28;
-    const alvGlow = 0.25 + inflate * 0.55;
-    left.alveoli.mat.opacity = alvGlow;
-    right.alveoli.mat.opacity = alvGlow;
-    tracheaGroup.position.y = inflate * 0.05;
-    diaphragm.position.y = -0.44 - inflate * 0.34;
-    diaphragm.scale.y = 1.10 - inflate * 0.40;
-
-    const speed = (b / 70) * 0.16;
-    for (let i = 0; i < MAX_BLOOD; i++) {
-      seeds[i] = (seeds[i] + dt * speed) % 1;
-      loopPoint(seeds[i], tmpP);
-      const ix = i * 3;
-      blood.pos[ix] += (tmpP[0] - blood.pos[ix]) * 0.3;
-      blood.pos[ix + 1] += (tmpP[1] - blood.pos[ix + 1]) * 0.3;
-      blood.pos[ix + 2] += (tmpP[2] - blood.pos[ix + 2]) * 0.3;
-      const oxy = seeds[i] > 0.36 ? 1 : 0;
-      blood.base[ix] += ((RED.r * oxy + BLUE.r * (1 - oxy)) - blood.base[ix]) * 0.08;
-      blood.base[ix + 1] += ((RED.g * oxy + BLUE.g * (1 - oxy)) - blood.base[ix + 1]) * 0.08;
-      blood.base[ix + 2] += ((RED.b * oxy + BLUE.b * (1 - oxy)) - blood.base[ix + 2]) * 0.08;
-      blood.col[ix] = blood.base[ix]; blood.col[ix + 1] = blood.base[ix + 1]; blood.col[ix + 2] = blood.base[ix + 2];
+  function pick(id) {
+    labels.active = id;
+    const p = PARTS[id];
+    if (p) {
+      showInfoCard(stage, { title: p.name, body: p.text, color: '#f87171' });
+      if (S) { S.uniforms.uHi.value = S.heart.userData.partNames.indexOf(id); S.uniforms.uHiAmt.value = 1; }
+      return;
     }
-    blood.geo.attributes.position.needsUpdate = true;
-    blood.geo.attributes.color.needsUpdate = true;
+    if (EXTRA[id]) { showInfoCard(stage, { title: EXTRA[id][0], body: EXTRA[id][1], color: '#93c5fd' }); return; }
+    if (LOBES[id]) {
+      showInfoCard(stage, { title: LOBES[id], body: LUNG_INFO[id], color: '#f9a8d4' });
+      if (S) { S.uniforms.uHi.value = Object.keys(LOBES).indexOf(id); S.uniforms.uHiAmt.value = 1; }
+    }
+  }
+
+  const ray = new THREE.Raycaster();
+  let down = null;
+  engine.canvas.addEventListener('pointerdown', (e) => { down = { x: e.clientX, y: e.clientY }; });
+  engine.canvas.addEventListener('pointerup', (e) => {
+    if (!down || !S || Math.hypot(e.clientX - down.x, e.clientY - down.y) > 6) return;
+    const r = engine.canvas.getBoundingClientRect();
+    ray.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), camera);
+    const targets = [S.heart];
+    if (S.lungs.right.visible && lungFade > 0.5) targets.push(S.lungs.right, S.lungs.left);
+    const hit = ray.intersectObjects(targets, false)[0];
+    if (!hit) return;
+    const attr = hit.object.geometry.attributes.part;
+    const pidx = Math.round(attr.getX(hit.face.a));
+    if (hit.object === S.heart) pick(S.heart.userData.partNames[pidx]);
+    else pick(Object.keys(LOBES)[pidx]);
   });
 
+  function lungAlpha(a) {
+    ['right', 'left'].forEach((s) => { S.lungs[s].visible = a > 0.02; });
+    S.materials.lung.userData.uniforms.uXray.value = 0;
+    const m = S.materials.lung;
+    const t = a < 0.999 || xray > 0.01 || view === 'airways';
+    if (m.transparent !== t) { m.transparent = t; m.side = t ? THREE.FrontSide : THREE.DoubleSide; m.needsUpdate = true; }
+    m.depthWrite = !t;
+    m.opacity = a;
+  }
+
+  let disposed = false;
+  buildModels(quality).then((models) => {
+    if (disposed) return;
+    S = buildScene(quality, models);
+    scene.add(S.root);
+    blood = createBloodFlow(quality);
+    blood.mesh.visible = false;
+    S.heartGroup.add(blood.mesh);
+    air = createAirFlow(S.branches, quality);
+    air.points.visible = false;
+    S.root.add(air.points);
+    [S.materials.heart, S.materials.airway, S.materials.diaphragm].forEach((m) => { m.clippingPlanes = []; });
+    S.materials.heart.clippingPlanes = [clipPlane];
+    Object.entries(ANCHORS).forEach(([id, a]) => labels.add({ id, text: PARTS[id].name, anchor: new THREE.Vector3(...a), object: S.heartGroup, group: 'heart', minor: ['svc', 'ra', 'trunk', 'arch', 'pa', 'pv', 'ivc'].includes(id) }));
+    labels.add({ id: 'rul', text: 'Right lung', anchor: new THREE.Vector3(-8.2, 4.0, 2.0), object: S.root, group: 'lung' });
+    labels.add({ id: 'lul', text: 'Left lung', anchor: new THREE.Vector3(8.0, 4.4, 1.6), object: S.root, group: 'lung' });
+    labels.add({ id: 'diaphragm', text: 'Diaphragm', anchor: new THREE.Vector3(-3.0, -8.0, 4.0), object: S.root, group: 'lung', minor: true });
+    labels.add({ id: 'trachea', text: 'Trachea', anchor: new THREE.Vector3(0, 13.5, 0.2), object: S.root, group: 'air' });
+    loading.remove();
+  });
+
+  const LABEL_SET = {
+    overview: (d) => ['aorta', 'svc', 'trunk', 'lv', 'rv', 'ra'].includes(d.id) || d.group === 'lung' || d.group === 'air',
+    heart: (d) => d.group === 'heart',
+    inside: (d) => ['lv', 'rv', 'ra', 'la', 'aorta', 'trunk'].includes(d.id),
+    flow: (d) => ['aorta', 'svc', 'ivc', 'trunk', 'pv', 'pa'].includes(d.id),
+    airways: (d) => d.group === 'air' || d.group === 'lung',
+  };
+
+  engine.setUpdate((dt, t) => {
+    const P = physiology();
+    controls.update(dt);
+    if (camAnim) {
+      camAnim.t = Math.min(1, camAnim.t + dt / 1.3);
+      const e = camAnim.t * camAnim.t * (3 - 2 * camAnim.t);
+      camera.position.lerpVectors(camAnim.fromP, camAnim.toP, e);
+      controls.setView(camera.position.clone(), camAnim.fromT.clone().lerp(camAnim.toT, e));
+      if (camAnim.t >= 1) camAnim = null;
+    }
+    cph += dt * P.hr / 60; const ph = cph % 1;
+    if (lastPh < 0.2 && ph >= 0.2) sound.lub();
+    if (lastPh < 0.5 && ph >= 0.5) sound.dub();
+    lastPh = ph;
+    const c = cardiac(ph);
+    if (breathing) bph += dt * P.br / 60;
+    const b = bph % 1;
+    const ease = (x) => x * x * (3 - 2 * x);
+    const vol = b < 0.4 ? ease(b / 0.4) : 1 - ease((b - 0.4) / 0.6);
+    monitor.push(dt, ph, P.hr);
+    hrBadge.set(`♥ ${Math.round(P.hr)} bpm`);
+    brBadge.set(`${Math.round(P.br)} breaths/min`);
+    stats.hr.set(`${Math.round(P.hr)} bpm`); stats.sv.set(`${Math.round(P.sv)} mL`); stats.co.set(`${P.co.toFixed(1)} L/min`);
+    stats.br.set(`${Math.round(P.br)} /min`); stats.tv.set(`${P.tv.toFixed(1)} L`); stats.mv.set(`${P.mv.toFixed(0)} L/min`);
+    if (!S) return;
+    const amp = 0.35 + 0.65 * Math.min(1, P.tv / 2.6);
+    const u = S.uniforms;
+    u.uTime.value = t; u.uBeatV.value = c.vent * (0.85 + 0.25 * activity); u.uBeatA.value = c.atria; u.uBreath.value = vol * amp;
+    u.uHiAmt.value = Math.max(0, u.uHiAmt.value - dt * 0.25);
+    S.heartGroup.position.y = -0.55 * vol * amp;
+    S.heartGroup.rotation.z = -0.02 * vol * amp;
+    xray += (xrayGoal - xray) * Math.min(1, dt * 4);
+    lungFade += (lungGoal - lungFade) * Math.min(1, dt * 4);
+    cut += (cutGoal - cut) * Math.min(1, dt * 3);
+    setXray(S.materials.heart, xray * 0.85);
+    const hm = S.materials.heart; const wantSide = cut > 0.01 ? THREE.DoubleSide : THREE.FrontSide;
+    if (!hm.transparent && hm.side !== wantSide) { hm.side = wantSide; hm.userData.side0 = wantSide; hm.needsUpdate = true; }
+    lungAlpha(lungFade * (1 - xray * 0.78));
+    S.materials.lung.opacity = lungFade * (1 - xray * 0.78);
+    const airView = view === 'airways';
+    S.tree.visible = airView || xray > 0.3;
+    S.materials.lung.userData.uniforms.uXray.value = airView ? 0.88 : 0;
+    if (airView) S.materials.lung.depthWrite = false;
+    air.points.visible = airView;
+    if (airView) air.update(vol);
+    S.diaphragm.visible = lungFade > 0.3;
+    S.airway.visible = lungFade > 0.3 || airView;
+    blood.mesh.visible = xray > 0.3;
+    if (blood.mesh.visible) blood.update(dt, { pulse: (0.35 + 1.7 * c.ejecting) * P.hr / 70, steady: P.hr / 70 }, u.uTextbook.value > 0.5);
+    const zc = 6 - cut * 5.9;
+    clipPlane.normal.set(0, 0, -1).transformDirection(S.heartGroup.matrixWorld);
+    clipPlane.constant = new THREE.Vector3(0, 0, zc).applyMatrix4(S.heartGroup.matrixWorld).dot(clipPlane.normal) * -1;
+    const w = stage.clientWidth; const h = stage.clientHeight;
+    labels.update(camera, w, h, LABEL_SET[view]);
+  });
   engine.start();
 
+  stage.__hl = { setView, pick, get scene() { return S; } };
   return {
     dispose() {
-      disposeEnv();
-      blood.dispose();
-      controls.dispose(); panel.dispose(); hud.dispose(); engine.dispose();
+      disposed = true;
+      controls.dispose(); panel.dispose(); hud.dispose(); labels.dispose(); sound.dispose();
+      if (blood) blood.dispose(); if (air) air.dispose(); if (S) S.dispose();
+      engine.dispose();
     },
   };
 }

@@ -1,0 +1,111 @@
+{
+ "book": "soc8",
+ "units": [
+  {
+   "no": 1,
+   "title": "हामी र हाम्रो समाज",
+   "area": "एकाइ",
+   "words": 6091,
+   "read_min": 34,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "हाम्रो मानव मूल्यमान्यता",
+   "area": "एकाइ",
+   "words": 7316,
+   "read_min": 41,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "नागरिक चेतना, कर्तव्य र अधिकार",
+   "area": "एकाइ",
+   "words": 7148,
+   "read_min": 40,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "सामाजिक समस्या र विकृतिहरू",
+   "area": "एकाइ",
+   "words": 6938,
+   "read_min": 39,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "हाम्रो विगत",
+   "area": "एकाइ",
+   "words": 8441,
+   "read_min": 47,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "हाम्रा आर्थिक क्रियाकलाप",
+   "area": "एकाइ",
+   "words": 6983,
+   "read_min": 39,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "हाम्रो पृथ्वी",
+   "area": "एकाइ",
+   "words": 8617,
+   "read_min": 48,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "जनसङ्ख्या र यसको व्यवस्थापन",
+   "area": "एकाइ",
+   "words": 6564,
+   "read_min": 36,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "अन्तर्राष्ट्रिय सम्बन्ध, समसामयिक घटना र सूचना प्रविधि",
+   "area": "एकाइ",
+   "words": 5607,
+   "read_min": 31,
+   "figures": 9,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank8",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "सामाजिक अध्ययन: एकाइअनुसार वस्तुगत प्रश्नसङ्ग्रह",
+   "words": 1644,
+   "read_min": 9
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "सामाजिक अध्ययन: एकाइअनुसार विषयगत प्रश्नसङ्ग्रह",
+   "words": 1317,
+   "read_min": 7
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "सामाजिक अध्ययन: नमुना प्रश्नसेट र सम्भावित प्रश्न",
+   "words": 2143,
+   "read_min": 12
+  }
+ ],
+ "guide": "The Basic Level Examination: Pattern, Grid and Strategy"
+}

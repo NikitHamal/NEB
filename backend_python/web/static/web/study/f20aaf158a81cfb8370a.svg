@@ -1,0 +1,1944 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="334.98pt" height="177.62pt" viewBox="0 0 334.98 177.62" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ 
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 177.62 
+L 334.98 177.62 
+L 334.98 0 
+L 0 0 
+L 0 177.62 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 144.85 42.65 
+L 198.35 42.65 
+Q 199.79 42.65 199.79 40.93 
+L 199.79 23.74 
+Q 199.79 22.03 198.35 22.03 
+L 144.85 22.03 
+Q 143.41 22.03 143.41 23.74 
+L 143.41 40.93 
+Q 143.41 42.65 144.85 42.65 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #dfe9f5; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 91.35 79.48 
+L 144.85 79.48 
+Q 146.29 79.48 146.29 77.76 
+L 146.29 60.57 
+Q 146.29 58.85 144.85 58.85 
+L 91.35 58.85 
+Q 89.91 58.85 89.91 60.57 
+L 89.91 77.76 
+Q 89.91 79.48 91.35 79.48 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #fbe7d3; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 235.39 79.48 
+L 288.88 79.48 
+Q 290.33 79.48 290.33 77.76 
+L 290.33 60.57 
+Q 290.33 58.85 288.88 58.85 
+L 235.39 58.85 
+Q 233.95 58.85 233.95 60.57 
+L 233.95 77.76 
+Q 233.95 79.48 235.39 79.48 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #fbe7d3; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 47.11 121.22 
+L 90.32 121.22 
+Q 91.76 121.22 91.76 119.50 
+L 91.76 99.86 
+Q 91.76 98.14 90.32 98.14 
+L 47.11 98.14 
+Q 45.67 98.14 45.67 99.86 
+L 45.67 119.50 
+Q 45.67 121.22 47.11 121.22 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #e4f1e1; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 96.50 121.22 
+L 139.71 121.22 
+Q 141.15 121.22 141.15 119.50 
+L 141.15 99.86 
+Q 141.15 98.14 139.71 98.14 
+L 96.50 98.14 
+Q 95.06 98.14 95.06 99.86 
+L 95.06 119.50 
+Q 95.06 121.22 96.50 121.22 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #e4f1e1; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 145.88 121.22 
+L 189.09 121.22 
+Q 190.53 121.22 190.53 119.50 
+L 190.53 99.86 
+Q 190.53 98.14 189.09 98.14 
+L 145.88 98.14 
+Q 144.44 98.14 144.44 99.86 
+L 144.44 119.50 
+Q 144.44 121.22 145.88 121.22 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #e4f1e1; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 237.44 121.22 
+L 286.83 121.22 
+Q 288.27 121.22 288.27 119.50 
+L 288.27 99.86 
+Q 288.27 98.14 286.83 98.14 
+L 237.44 98.14 
+Q 236.00 98.14 236.00 99.86 
+L 236.00 119.50 
+Q 236.00 121.22 237.44 121.22 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #e4f1e1; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 59.46 162.34 
+L 94.44 162.34 
+Q 95.88 162.34 95.88 160.62 
+L 95.88 142.21 
+Q 95.88 140.49 94.44 140.49 
+L 59.46 140.49 
+Q 58.02 140.49 58.02 142.21 
+L 58.02 160.62 
+Q 58.02 162.34 59.46 162.34 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #f4e6f4; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 100.61 162.34 
+L 135.59 162.34 
+Q 137.03 162.34 137.03 160.62 
+L 137.03 142.21 
+Q 137.03 140.49 135.59 140.49 
+L 100.61 140.49 
+Q 99.17 140.49 99.17 142.21 
+L 99.17 160.62 
+Q 99.17 162.34 100.61 162.34 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #f4e6f4; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 141.76 162.34 
+L 176.74 162.34 
+Q 178.18 162.34 178.18 160.62 
+L 178.18 142.21 
+Q 178.18 140.49 176.74 140.49 
+L 141.76 140.49 
+Q 140.32 140.49 140.32 142.21 
+L 140.32 160.62 
+Q 140.32 162.34 141.76 162.34 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #f4e6f4; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 192.18 163.57 
+L 245.67 163.57 
+Q 247.12 163.57 247.12 161.85 
+L 247.12 140.98 
+Q 247.12 139.26 245.67 139.26 
+L 192.18 139.26 
+Q 190.74 139.26 190.74 140.98 
+L 190.74 161.85 
+Q 190.74 163.57 192.18 163.57 
+z
+" clip-path="url(#pa4bb3d68da)" style="fill: #f4e6f4; stroke: #14181f; stroke-width: 0.8; stroke-linejoin: miter"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 171.60 40.93 
+L 171.60 50.75 
+L 118.10 50.75 
+L 118.10 60.57 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 171.60 40.93 
+L 171.60 50.75 
+L 262.14 50.75 
+L 262.14 60.57 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 118.10 77.76 
+L 118.10 88.81 
+L 68.72 88.81 
+L 68.72 99.86 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 118.10 77.76 
+L 118.10 88.81 
+L 118.10 88.81 
+L 118.10 99.86 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_5">
+    <path d="M 118.10 77.76 
+L 118.10 88.81 
+L 167.49 88.81 
+L 167.49 99.86 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_6">
+    <path d="M 262.14 77.76 
+L 262.14 88.81 
+L 262.14 88.81 
+L 262.14 99.86 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 118.10 119.50 
+L 118.10 130.55 
+L 76.95 130.55 
+L 76.95 141.59 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 118.10 119.50 
+L 118.10 130.55 
+L 118.10 130.55 
+L 118.10 141.59 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 118.10 119.50 
+L 118.10 130.55 
+L 159.25 130.55 
+L 159.25 141.59 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_10">
+    <path d="M 190.12 109.68 
+L 218.93 109.68 
+L 218.93 140.37 
+" clip-path="url(#pa4bb3d68da)" style="fill: none; stroke: #5b6472; stroke-linecap: round"/>
+   </g>
+   <g id="text_1">
+    
+    <g style="fill: #14181f" transform="translate(158.57 35.49) scale(0.09 -0.09)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-38" d="M 5011 3526 
+L 2931 3526 
+L 2931 2131 
+L 2842 2195 
+Q 2970 2355 3187 2457 
+Q 3405 2560 3680 2560 
+Q 4134 2560 4390 2285 
+Q 4646 2010 4646 1536 
+Q 4646 1203 4518 892 
+Q 4390 582 4109 269 
+L 3661 550 
+Q 3872 768 4003 1008 
+Q 4134 1248 4134 1542 
+Q 4134 1824 4000 1968 
+Q 3866 2112 3622 2112 
+Q 3411 2112 3222 1974 
+Q 3034 1837 2912 1600 
+L 2931 1837 
+L 2931 0 
+L 2413 0 
+L 2413 1344 
+L 2502 1171 
+Q 2381 1050 2230 954 
+Q 2080 858 1894 806 
+Q 1709 755 1491 755 
+Q 1165 755 893 880 
+Q 621 1005 457 1251 
+Q 294 1498 294 1862 
+Q 294 2387 643 2678 
+Q 992 2970 1613 2970 
+Q 1779 2970 1923 2954 
+Q 2067 2938 2189 2906 
+L 2144 2438 
+Q 2035 2470 1904 2486 
+Q 1773 2502 1626 2502 
+Q 1235 2502 1024 2332 
+Q 813 2163 813 1843 
+Q 813 1530 1008 1373 
+Q 1203 1216 1491 1216 
+Q 1798 1216 2048 1373 
+Q 2298 1530 2438 1747 
+L 2413 1434 
+L 2413 3526 
+L 0 3526 
+L 0 3981 
+L 5011 3981 
+L 5011 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-22" d="M -1037 -1715 
+Q -1408 -1715 -1731 -1596 
+Q -2054 -1478 -2345 -1251 
+Q -2637 -1024 -2918 -704 
+L -2541 -365 
+Q -2285 -672 -2051 -870 
+Q -1818 -1069 -1574 -1161 
+Q -1331 -1254 -1056 -1254 
+Q -717 -1254 -547 -1129 
+Q -378 -1005 -378 -781 
+Q -378 -595 -486 -480 
+Q -595 -365 -819 -365 
+Q -998 -365 -1158 -441 
+Q -1318 -518 -1466 -659 
+L -1754 -307 
+Q -1568 -122 -1344 -26 
+Q -1120 70 -813 70 
+Q -371 70 -134 -182 
+Q 102 -435 102 -826 
+Q 102 -1242 -192 -1478 
+Q -486 -1715 -1037 -1715 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-4c" d="M 3066 3526 
+L 3066 0 
+L 2547 0 
+L 2547 1562 
+L 2669 1389 
+Q 2509 1235 2256 1132 
+Q 2003 1030 1702 1030 
+Q 1325 1030 1056 1171 
+Q 787 1312 646 1597 
+Q 506 1882 506 2304 
+L 506 3526 
+L 0 3526 
+L 0 3981 
+L 3731 3981 
+L 3731 3526 
+L 3066 3526 
+z
+M 2547 3526 
+L 1024 3526 
+L 1024 2285 
+Q 1024 2010 1101 1834 
+Q 1178 1658 1328 1571 
+Q 1478 1485 1690 1485 
+Q 1971 1485 2230 1641 
+Q 2490 1798 2650 2016 
+L 2547 1683 
+L 2547 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-2a" d="M 1088 3526 
+L 1088 0 
+L 570 0 
+L 570 3526 
+L 0 3526 
+L 0 3981 
+L 1747 3981 
+L 1747 3526 
+L 1088 3526 
+z
+M 576 3936 
+Q 442 4365 343 4627 
+Q 244 4890 151 5027 
+Q 58 5165 -57 5216 
+Q -172 5267 -339 5267 
+Q -473 5267 -614 5238 
+Q -755 5210 -870 5165 
+L -1011 5619 
+Q -876 5670 -703 5702 
+Q -531 5734 -371 5734 
+Q -89 5734 106 5654 
+Q 301 5574 454 5372 
+Q 608 5171 746 4822 
+Q 884 4474 1050 3936 
+L 576 3936 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-56" d="M 883 3418 
+L 1178 3699 
+L 2739 1747 
+L 2426 1485 
+L 883 3418 
+z
+M 3130 3526 
+L 3130 0 
+L 2611 0 
+L 2611 1510 
+L 2733 1338 
+Q 2573 1178 2297 1078 
+Q 2022 979 1702 979 
+Q 1325 979 1056 1120 
+Q 787 1261 646 1545 
+Q 506 1830 506 2253 
+L 506 3526 
+L 0 3526 
+L 0 3981 
+L 3789 3981 
+L 3789 3526 
+L 3130 3526 
+z
+M 2611 3526 
+L 1024 3526 
+L 1024 2234 
+Q 1024 1958 1101 1782 
+Q 1178 1606 1328 1520 
+Q 1478 1434 1690 1434 
+Q 1920 1434 2109 1507 
+Q 2298 1581 2448 1702 
+Q 2598 1824 2714 1965 
+L 2611 1632 
+L 2611 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-46" d="M 4058 3526 
+L 4058 0 
+L 3539 0 
+L 3539 3526 
+L 2688 3526 
+L 2688 2054 
+Q 2688 1875 2662 1734 
+Q 2637 1594 2589 1478 
+Q 2541 1363 2464 1267 
+Q 2330 1107 2118 1020 
+Q 1907 934 1606 934 
+Q 1306 934 1088 1030 
+Q 870 1126 730 1312 
+Q 621 1459 563 1683 
+Q 506 1907 506 2253 
+L 506 3526 
+L 0 3526 
+L 0 3981 
+L 4717 3981 
+L 4717 3526 
+L 4058 3526 
+z
+M 1594 1389 
+Q 1926 1389 2054 1594 
+Q 2125 1702 2147 1843 
+Q 2170 1984 2170 2259 
+L 2170 3526 
+L 1024 3526 
+L 1024 2259 
+Q 1024 2010 1049 1862 
+Q 1075 1715 1139 1606 
+Q 1210 1504 1315 1446 
+Q 1421 1389 1594 1389 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-38"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-22" transform="translate(54.70 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c" transform="translate(76.79 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(133.59 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-56" transform="translate(159.5 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-46" transform="translate(217.29 0)"/>
+    </g>
+   </g>
+   <g id="text_2">
+    
+    <g style="fill: #14181f" transform="translate(102.75 71.94) scale(0.08 -0.08)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-f5" d="M 979 1203 
+Q 864 1203 733 1280 
+Q 602 1357 490 1485 
+Q 378 1613 307 1757 
+Q 237 1901 237 2035 
+Q 237 2182 323 2272 
+Q 410 2362 627 2362 
+L 2541 2362 
+L 2541 1907 
+L 1306 1907 
+L 1306 1562 
+Q 1306 1382 1216 1292 
+Q 1126 1203 979 1203 
+z
+M 0 3526 
+L 0 3981 
+L 2336 3981 
+L 2336 3526 
+L 0 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-51" d="M 3802 3981 
+L 3802 3526 
+L 3142 3526 
+L 3142 0 
+L 2624 0 
+L 2624 1382 
+L 2771 1222 
+Q 2586 1062 2339 953 
+Q 2093 845 1728 845 
+Q 1107 845 742 1203 
+Q 378 1562 211 2291 
+Q 704 2381 921 2531 
+Q 1139 2682 1139 2938 
+Q 1139 3142 1030 3321 
+Q 922 3501 742 3622 
+L 1018 3526 
+L 0 3526 
+L 0 3981 
+L 3802 3981 
+z
+M 1120 3526 
+L 1299 3661 
+Q 1478 3482 1564 3283 
+Q 1651 3085 1651 2880 
+Q 1651 2541 1459 2320 
+Q 1267 2099 851 1965 
+Q 966 1632 1168 1465 
+Q 1370 1299 1722 1299 
+Q 2061 1299 2304 1468 
+Q 2547 1638 2720 1856 
+L 2624 1530 
+L 2624 3526 
+L 1120 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-23" d="M 403 -1754 
+Q 166 -1242 -51 -938 
+Q -269 -634 -505 -499 
+Q -742 -365 -1043 -365 
+Q -1331 -365 -1491 -486 
+Q -1651 -608 -1651 -832 
+Q -1651 -979 -1584 -1072 
+Q -1517 -1165 -1401 -1209 
+Q -1286 -1254 -1152 -1254 
+Q -1011 -1254 -886 -1219 
+Q -762 -1184 -634 -1101 
+L -442 -1510 
+Q -589 -1619 -761 -1667 
+Q -934 -1715 -1139 -1715 
+Q -1606 -1715 -1868 -1468 
+Q -2131 -1222 -2131 -819 
+Q -2131 -397 -1836 -163 
+Q -1542 70 -1037 70 
+Q -602 70 -269 -112 
+Q 64 -294 329 -649 
+Q 595 -1005 838 -1523 
+L 403 -1754 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-4b" d="M 0 3981 
+L 3642 3981 
+L 3642 3526 
+L 2982 3526 
+L 2982 0 
+L 2464 0 
+L 2464 1907 
+L 1306 1907 
+L 1306 1562 
+Q 1306 1382 1216 1292 
+Q 1126 1203 979 1203 
+Q 864 1203 733 1280 
+Q 602 1357 490 1485 
+Q 378 1613 307 1757 
+Q 237 1901 237 2035 
+Q 237 2182 323 2272 
+Q 410 2362 627 2362 
+L 2464 2362 
+L 2464 3526 
+L 0 3526 
+L 0 3981 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-Regular-6f1" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-f5"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-51" transform="translate(29.5 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-23" transform="translate(87.5 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4b" transform="translate(87.5 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(143 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c" transform="translate(171.12 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(227.92 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-56" transform="translate(253.82 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-46" transform="translate(311.62 0)"/>
+    </g>
+   </g>
+   <g id="text_3">
+    
+    <g style="fill: #14181f" transform="translate(242.87 72.08) scale(0.08 -0.08)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-5" d="M 4320 3526 
+L 4320 0 
+L 3802 0 
+L 3802 3526 
+L 3334 3526 
+L 3334 3981 
+L 4986 3981 
+L 4986 3526 
+L 4320 3526 
+z
+M 1914 4045 
+Q 2278 4045 2505 3917 
+Q 2733 3789 2835 3581 
+Q 2938 3373 2938 3123 
+Q 2938 2675 2608 2393 
+Q 2278 2112 1517 2048 
+L 1414 2502 
+Q 1818 2554 2035 2634 
+Q 2253 2714 2339 2835 
+Q 2426 2957 2426 3130 
+Q 2426 3341 2291 3465 
+Q 2157 3590 1894 3590 
+Q 1677 3590 1469 3526 
+Q 1261 3462 1056 3334 
+L 890 3782 
+Q 1114 3910 1366 3977 
+Q 1619 4045 1914 4045 
+z
+M 3040 1382 
+Q 3040 915 2733 656 
+Q 2426 397 1952 397 
+Q 1568 397 1264 566 
+Q 960 736 697 1129 
+Q 435 1523 186 2202 
+L 640 2387 
+Q 902 1638 1196 1251 
+Q 1491 864 1907 864 
+Q 2189 864 2361 1014 
+Q 2534 1165 2534 1440 
+Q 2534 1722 2329 1930 
+Q 2125 2138 1875 2278 
+L 2157 2362 
+L 2432 2419 
+Q 2522 2349 2630 2246 
+Q 2739 2144 2803 2048 
+L 2867 1926 
+Q 2950 1805 2995 1667 
+Q 3040 1530 3040 1382 
+z
+M 3168 2253 
+Q 3392 2253 3645 2297 
+Q 3898 2342 4166 2458 
+L 4166 1978 
+Q 3949 1875 3725 1836 
+Q 3501 1798 3270 1798 
+Q 3110 1798 2921 1827 
+Q 2733 1856 2554 1907 
+L 2426 2253 
+L 2464 2349 
+Q 2630 2298 2816 2275 
+Q 3002 2253 3168 2253 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-224" d="M 538 3936 
+Q 454 4090 396 4262 
+Q 339 4435 339 4653 
+Q 339 5184 752 5459 
+Q 1165 5734 1824 5734 
+Q 2368 5734 2854 5600 
+Q 3341 5466 3760 5222 
+Q 4179 4979 4528 4652 
+Q 4877 4326 5152 3936 
+L 4608 3936 
+Q 4250 4371 3818 4668 
+Q 3386 4966 2912 5120 
+Q 2438 5274 1952 5274 
+Q 1446 5274 1152 5094 
+Q 858 4915 858 4557 
+Q 858 4352 925 4201 
+Q 992 4051 1088 3936 
+L 538 3936 
+z
+M 1088 3526 
+L 1088 0 
+L 570 0 
+L 570 3526 
+L 0 3526 
+L 0 3981 
+L 1747 3981 
+L 1747 3526 
+L 1088 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-4a" d="M 4026 3526 
+L 3366 3526 
+L 3366 0 
+L 2848 0 
+L 2848 1184 
+L 2963 1024 
+Q 2810 864 2541 758 
+Q 2272 653 1894 653 
+Q 1510 653 1225 774 
+Q 941 896 784 1113 
+Q 627 1331 627 1619 
+Q 627 1824 726 2019 
+Q 826 2214 1062 2336 
+Q 1075 2349 1097 2358 
+Q 1120 2368 1146 2381 
+Q 1286 2464 1452 2489 
+Q 1619 2515 1798 2515 
+Q 1888 2515 1981 2505 
+Q 2074 2496 2144 2483 
+L 2093 2035 
+Q 2029 2048 1965 2051 
+Q 1901 2054 1811 2054 
+Q 1594 2054 1443 2003 
+Q 1293 1952 1216 1849 
+Q 1139 1747 1139 1594 
+Q 1139 1350 1350 1225 
+Q 1562 1101 1888 1101 
+Q 2227 1101 2502 1257 
+Q 2778 1414 2938 1664 
+L 2848 1331 
+L 2848 3526 
+L 2451 3526 
+L 2451 3981 
+L 4026 3981 
+L 4026 3526 
+z
+M 1101 2118 
+Q 883 2221 704 2371 
+Q 525 2522 422 2723 
+Q 320 2925 320 3174 
+Q 320 3584 576 3814 
+Q 832 4045 1274 4045 
+Q 1562 4045 1747 3949 
+Q 1933 3853 2019 3693 
+Q 2106 3533 2106 3334 
+Q 2106 3168 2038 3021 
+Q 1971 2874 1824 2739 
+L 1440 2970 
+Q 1530 3059 1571 3148 
+Q 1613 3238 1613 3328 
+Q 1613 3475 1526 3555 
+Q 1440 3635 1274 3635 
+Q 1069 3635 944 3500 
+Q 819 3366 819 3136 
+Q 819 2893 966 2720 
+Q 1114 2547 1389 2419 
+L 1101 2118 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-5"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-224" transform="translate(76.40 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4a" transform="translate(102.31 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(163.81 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(240.60 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c" transform="translate(268.73 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(325.53 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-56" transform="translate(351.43 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-46" transform="translate(409.23 0)"/>
+    </g>
+   </g>
+   <g id="text_4">
+    
+    <g style="fill: #14181f" transform="translate(56.36 112.34) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-44" d="M 2016 1421 
+Q 1824 1421 1632 1382 
+Q 1440 1344 1286 1274 
+Q 1018 1446 803 1680 
+Q 589 1914 589 2227 
+Q 589 2598 832 2784 
+Q 1075 2970 1581 2970 
+L 2336 2970 
+L 2336 3526 
+L -64 3526 
+L -64 3981 
+L 3488 3981 
+L 3488 3526 
+L 2854 3526 
+L 2854 2522 
+L 1587 2522 
+Q 1331 2522 1216 2438 
+Q 1101 2355 1101 2189 
+Q 1101 2067 1181 1955 
+Q 1261 1843 1370 1766 
+Q 1523 1818 1702 1850 
+Q 1882 1882 2067 1882 
+Q 2586 1882 2858 1642 
+Q 3130 1402 3130 986 
+Q 3130 704 2998 480 
+Q 2867 256 2592 128 
+Q 2317 0 1882 0 
+Q 1331 0 899 214 
+Q 467 429 128 762 
+L 448 1184 
+Q 787 832 1132 653 
+Q 1478 474 1869 474 
+Q 2246 474 2428 602 
+Q 2611 730 2611 966 
+Q 2611 1178 2473 1299 
+Q 2336 1421 2016 1421 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-67" d="M -1146 -282 
+Q -1062 -269 -969 -259 
+Q -877 -250 -781 -250 
+Q -435 -250 -179 -355 
+Q 77 -461 317 -704 
+Q 557 -947 845 -1357 
+L 474 -1613 
+Q 205 -1235 22 -1046 
+Q -160 -858 -333 -790 
+Q -506 -723 -749 -723 
+Q -838 -723 -918 -732 
+Q -998 -742 -1069 -755 
+L -1146 -282 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-22" transform="translate(56.79 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-44" transform="translate(56.79 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-67" transform="translate(97.89 -1)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(110.29 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(187.09 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c" transform="translate(213 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4b" transform="translate(269.79 0)"/>
+    </g>
+   </g>
+   <g id="text_5">
+    
+    <g style="fill: #14181f" transform="translate(104.43 112.44) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-e9" d="M 1696 3526 
+L 1766 3590 
+Q 1837 3469 1872 3305 
+Q 1907 3142 1907 2931 
+Q 1907 2394 1667 2074 
+Q 1427 1754 979 1536 
+L 1005 1581 
+Q 1229 1235 1526 995 
+Q 1824 755 2195 630 
+Q 2566 506 3002 506 
+Q 3398 506 3737 602 
+Q 4077 698 4358 890 
+L 4486 499 
+Q 4211 262 3846 153 
+Q 3482 45 2995 45 
+Q 2483 45 2067 185 
+Q 1651 326 1328 566 
+Q 1005 806 768 1101 
+Q 525 1408 397 1677 
+Q 269 1946 269 2176 
+Q 269 2342 361 2432 
+Q 454 2522 614 2522 
+Q 781 2522 921 2416 
+Q 1062 2310 1229 2106 
+L 947 2118 
+Q 1126 2170 1219 2298 
+Q 1312 2426 1350 2595 
+Q 1389 2765 1389 2931 
+Q 1389 3123 1357 3299 
+Q 1325 3475 1242 3610 
+L 1376 3526 
+L 0 3526 
+L 0 3981 
+L 4192 3981 
+L 4192 3526 
+L 1696 3526 
+z
+M 4288 1344 
+Q 4122 1216 3914 1142 
+Q 3706 1069 3424 1069 
+Q 3072 1069 2816 1190 
+Q 2560 1312 2419 1536 
+Q 2278 1760 2278 2061 
+Q 2278 2515 2579 2771 
+Q 2880 3027 3418 3027 
+Q 3565 3027 3696 3011 
+Q 3827 2995 3942 2963 
+L 3904 2528 
+Q 3795 2560 3683 2573 
+Q 3571 2586 3456 2586 
+Q 3142 2586 2969 2448 
+Q 2797 2310 2797 2035 
+Q 2797 1760 2976 1632 
+Q 3155 1504 3418 1504 
+Q 3661 1504 3843 1587 
+Q 4026 1670 4147 1786 
+L 4288 1344 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-1f" d="M 1088 3526 
+L 1088 0 
+L 570 0 
+L 570 3526 
+L 0 3526 
+L 0 3981 
+L 1747 3981 
+L 1747 3526 
+L 1088 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-9" d="M 0 3981 
+L 3603 3981 
+L 3603 3526 
+L 0 3526 
+L 0 3981 
+z
+M 2675 3603 
+Q 2842 3469 2928 3289 
+Q 3014 3110 3014 2893 
+Q 3014 2592 2848 2358 
+Q 2682 2125 2352 1984 
+Q 2022 1843 1523 1811 
+L 1421 2278 
+Q 1990 2330 2243 2470 
+Q 2496 2611 2496 2931 
+Q 2496 3162 2358 3341 
+Q 2221 3520 1997 3603 
+L 2675 3603 
+z
+M 2560 2214 
+Q 2899 1946 3046 1670 
+Q 3194 1395 3194 1075 
+Q 3194 570 2870 285 
+Q 2547 0 2035 0 
+Q 1715 0 1452 102 
+Q 1190 205 969 435 
+Q 749 666 557 1043 
+Q 365 1421 186 1971 
+L 653 2163 
+Q 851 1542 1043 1171 
+Q 1235 800 1459 637 
+Q 1683 474 1971 474 
+Q 2272 474 2461 634 
+Q 2650 794 2650 1107 
+Q 2650 1414 2493 1638 
+Q 2336 1862 2029 2042 
+L 2560 2214 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-42" d="M 3315 3526 
+L 2560 3526 
+L 2560 2291 
+L 2029 2291 
+Q 1440 2291 1123 2080 
+Q 806 1869 806 1389 
+Q 806 941 1100 707 
+Q 1395 474 1811 474 
+Q 2112 474 2358 570 
+Q 2605 666 2880 864 
+L 3098 448 
+Q 2842 237 2531 118 
+Q 2221 0 1805 0 
+Q 1363 0 1024 169 
+Q 685 339 489 652 
+Q 294 966 294 1395 
+Q 294 2067 726 2403 
+Q 1158 2739 1958 2739 
+L 2227 2739 
+L 2042 2586 
+L 2042 3526 
+L 0 3526 
+L 0 3981 
+L 3315 3981 
+L 3315 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-28" d="M -1082 3936 
+Q -1216 4365 -1315 4627 
+Q -1414 4890 -1507 5027 
+Q -1600 5165 -1715 5216 
+Q -1830 5267 -1997 5267 
+Q -2131 5267 -2272 5238 
+Q -2413 5210 -2528 5165 
+L -2669 5619 
+Q -2534 5670 -2361 5702 
+Q -2189 5734 -2029 5734 
+Q -1747 5734 -1552 5654 
+Q -1357 5574 -1203 5372 
+Q -1050 5171 -912 4822 
+Q -774 4474 -608 3936 
+L -1082 3936 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-e9"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-51" transform="translate(58.5 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-1f" transform="translate(116.5 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-9" transform="translate(142.40 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-42" transform="translate(197.20 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-28" transform="translate(246.10 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c" transform="translate(247.60 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4b" transform="translate(304.40 0)"/>
+    </g>
+   </g>
+   <g id="text_6">
+    
+    <g style="fill: #14181f" transform="translate(151.63 107.72) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-57" d="M 1837 -90 
+Q 1357 384 989 838 
+Q 621 1293 448 1606 
+Q 358 1773 313 1913 
+Q 269 2054 269 2176 
+Q 269 2342 361 2432 
+Q 454 2522 614 2522 
+Q 781 2522 937 2403 
+Q 1094 2285 1248 2086 
+L 947 2118 
+Q 1235 2208 1340 2445 
+Q 1446 2682 1446 2944 
+Q 1446 3168 1398 3341 
+Q 1350 3514 1293 3610 
+L 1555 3526 
+L 0 3526 
+L 0 3981 
+L 2669 3981 
+L 2669 3526 
+L 1606 3526 
+L 1824 3622 
+Q 1894 3469 1929 3286 
+Q 1965 3104 1965 2880 
+Q 1965 2624 1891 2409 
+Q 1818 2195 1670 2029 
+L 1645 1984 
+Q 1530 1850 1363 1747 
+Q 1197 1645 941 1555 
+L 928 1626 
+Q 1088 1408 1286 1187 
+Q 1485 966 1721 736 
+Q 1958 506 2227 256 
+L 1837 -90 
+z
+M 2560 1562 
+Q 2298 1562 1997 1622 
+Q 1696 1683 1414 1837 
+L 1587 2221 
+Q 1850 2112 2070 2067 
+Q 2291 2022 2554 2022 
+Q 2816 2022 3056 2070 
+Q 3296 2118 3539 2227 
+L 3539 1741 
+Q 3315 1645 3068 1603 
+Q 2822 1562 2560 1562 
+z
+M 3238 0 
+L 3238 3526 
+L 2534 3526 
+L 2534 3981 
+L 4416 3981 
+L 4416 3526 
+L 3757 3526 
+L 3757 0 
+L 3238 0 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-104" d="M 3776 2029 
+Q 3584 1946 3337 1885 
+Q 3091 1824 2797 1824 
+Q 2419 1824 2096 1907 
+Q 1773 1990 1498 2150 
+L 1363 2221 
+Q 979 2438 777 2675 
+Q 576 2912 576 3245 
+Q 576 3584 829 3814 
+Q 1082 4045 1568 4045 
+Q 2003 4045 2272 3840 
+Q 2541 3635 2541 3232 
+Q 2541 3021 2457 2851 
+Q 2374 2682 2220 2547 
+Q 2067 2413 1856 2285 
+L 1741 2195 
+Q 1414 2016 1219 1885 
+Q 1024 1754 937 1613 
+Q 851 1472 851 1261 
+Q 851 966 1056 812 
+Q 1261 659 1613 659 
+Q 1760 659 1862 691 
+Q 1965 723 2080 768 
+L 2342 499 
+Q 2451 275 2556 96 
+Q 2662 -83 2816 -320 
+L 2349 -544 
+Q 2214 -288 2105 -48 
+Q 1997 192 1939 397 
+L 1888 576 
+Q 1843 640 1820 733 
+Q 1798 826 1798 922 
+Q 1798 1107 1913 1206 
+Q 2029 1306 2208 1306 
+Q 2458 1306 2602 1149 
+Q 2746 992 2746 806 
+Q 2746 646 2614 518 
+Q 2483 390 2272 320 
+L 2189 282 
+Q 2106 256 1958 233 
+Q 1811 211 1651 211 
+Q 1299 211 998 329 
+Q 698 448 512 681 
+Q 326 915 326 1254 
+Q 326 1504 419 1689 
+Q 512 1875 720 2041 
+Q 928 2208 1280 2394 
+L 1344 2438 
+Q 1702 2624 1875 2813 
+Q 2048 3002 2048 3219 
+Q 2048 3398 1939 3513 
+Q 1830 3629 1555 3629 
+Q 1338 3629 1203 3520 
+Q 1069 3411 1069 3213 
+Q 1069 3046 1161 2915 
+Q 1254 2784 1411 2678 
+Q 1568 2573 1754 2483 
+L 1894 2426 
+Q 2099 2342 2284 2304 
+Q 2470 2266 2746 2266 
+Q 2970 2266 3238 2323 
+Q 3507 2381 3706 2483 
+L 3776 2029 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-50" d="M 3258 3526 
+L 3258 0 
+L 2739 0 
+L 2739 1600 
+L 1325 1600 
+L 1325 1363 
+Q 1325 1152 1232 1059 
+Q 1139 966 1018 966 
+Q 896 966 761 1046 
+Q 627 1126 512 1251 
+Q 397 1376 323 1517 
+Q 250 1658 250 1779 
+Q 250 1894 336 1974 
+Q 422 2054 640 2054 
+L 806 2054 
+L 806 3526 
+L 0 3526 
+L 0 3981 
+L 3917 3981 
+L 3917 3526 
+L 3258 3526 
+z
+M 2739 3526 
+L 1325 3526 
+L 1325 2054 
+L 2739 2054 
+L 2739 3526 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-57"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-23" transform="translate(67.59 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-104" transform="translate(67.59 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-50" transform="translate(112.09 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(171.89 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c" transform="translate(200.01 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(256.81 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-56" transform="translate(282.71 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(340.51 0)"/>
+    </g>
+    
+    <g style="fill: #14181f" transform="translate(150.59 117.16) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-47" d="M 3078 3526 
+L 3078 0 
+L 2560 0 
+L 2560 2099 
+L 1670 2099 
+Q 1267 2099 1036 1958 
+Q 806 1818 806 1478 
+Q 806 1165 1004 883 
+Q 1203 602 1587 237 
+L 1222 -90 
+Q 774 346 531 730 
+Q 288 1114 288 1542 
+Q 288 2061 640 2307 
+Q 992 2554 1581 2554 
+L 2560 2554 
+L 2560 3526 
+L 0 3526 
+L 0 3981 
+L 3738 3981 
+L 3738 3526 
+L 3078 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-1bb" d="M 0 3981 
+L 966 3981 
+L 966 3526 
+L 0 3526 
+L 0 3981 
+z
+M 1843 2106 
+L 243 2093 
+L 243 2554 
+L 2707 2554 
+L 1843 2106 
+z
+M 3200 2099 
+L 2445 2099 
+Q 2042 2099 1811 1958 
+Q 1581 1818 1581 1478 
+Q 1581 1165 1779 883 
+Q 1978 602 2362 237 
+L 1997 -90 
+Q 1549 346 1305 730 
+Q 1062 1114 1062 1542 
+Q 1062 2061 1414 2307 
+Q 1766 2554 2355 2554 
+L 3200 2554 
+L 3200 2099 
+z
+M 774 3526 
+L 774 3981 
+L 3040 3981 
+L 3040 3526 
+L 774 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-54" d="M 3648 3526 
+L 2989 3526 
+L 2989 0 
+L 2477 0 
+L 2477 1267 
+L 2650 1165 
+Q 2458 954 2176 845 
+Q 1894 736 1542 736 
+Q 1190 736 908 867 
+Q 627 998 460 1248 
+Q 294 1498 294 1850 
+Q 294 2419 665 2694 
+Q 1037 2970 1619 2970 
+Q 1798 2970 1955 2950 
+Q 2112 2931 2246 2899 
+L 2214 2438 
+Q 2080 2470 1942 2486 
+Q 1805 2502 1638 2502 
+Q 1280 2502 1046 2332 
+Q 813 2163 813 1837 
+Q 813 1549 998 1373 
+Q 1184 1197 1542 1197 
+Q 1856 1197 2115 1341 
+Q 2374 1485 2541 1722 
+L 2477 1408 
+L 2477 3526 
+L 0 3526 
+L 0 3981 
+L 3648 3981 
+L 3648 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-21" d="M -1184 3936 
+Q -1293 4160 -1350 4384 
+Q -1408 4608 -1408 4806 
+Q -1408 5216 -1155 5475 
+Q -902 5734 -448 5734 
+Q -13 5734 272 5529 
+Q 557 5325 739 4925 
+Q 922 4525 1050 3936 
+L 570 3936 
+Q 429 4621 198 4950 
+Q -32 5280 -365 5280 
+Q -640 5280 -765 5126 
+Q -890 4973 -890 4710 
+Q -890 4525 -829 4333 
+Q -768 4141 -672 3936 
+L -1184 3936 
+z
+M 1088 3526 
+L 1088 0 
+L 570 0 
+L 570 3526 
+L 0 3526 
+L 0 3981 
+L 1747 3981 
+L 1747 3526 
+L 1088 3526 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-47"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-1bb" transform="translate(57 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-54" transform="translate(95.59 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(151.18 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(227.98 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(253.89 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(282.01 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-50" transform="translate(358.81 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-21" transform="translate(418.60 0)"/>
+    </g>
+   </g>
+   <g id="text_7">
+    
+    <g style="fill: #14181f" transform="translate(243.57 107.84) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-2b" d="M 1088 3526 
+L 1088 0 
+L 570 0 
+L 570 3526 
+L 0 3526 
+L 0 3981 
+L 1747 3981 
+L 1747 3526 
+L 1088 3526 
+z
+M 576 3936 
+Q 365 4179 218 4300 
+Q 71 4422 -57 4460 
+Q -185 4499 -345 4499 
+Q -492 4499 -639 4460 
+Q -787 4422 -915 4365 
+L -1075 4813 
+Q -928 4877 -771 4912 
+Q -614 4947 -460 4947 
+Q -256 4947 -108 4896 
+Q 39 4845 183 4729 
+Q 327 4614 506 4429 
+L 532 4442 
+Q 352 4800 221 4982 
+Q 90 5165 -44 5229 
+Q -179 5293 -358 5293 
+Q -467 5293 -575 5270 
+Q -684 5248 -812 5197 
+L -960 5638 
+Q -832 5690 -681 5712 
+Q -531 5734 -377 5734 
+Q -115 5734 74 5657 
+Q 263 5581 416 5382 
+Q 570 5184 720 4835 
+Q 871 4486 1050 3936 
+L 576 3936 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-53" d="M 0 3526 
+L 0 3981 
+L 4429 3981 
+L 4429 3526 
+L 3770 3526 
+L 3770 0 
+L 3251 0 
+L 3251 2426 
+L 3533 2221 
+Q 3430 2266 3340 2278 
+Q 3251 2291 3174 2291 
+Q 2957 2291 2784 2192 
+Q 2611 2093 2492 1862 
+Q 2374 1632 2304 1235 
+L 1792 1389 
+Q 1882 2061 2237 2400 
+Q 2592 2739 3174 2739 
+Q 3302 2739 3411 2720 
+Q 3520 2701 3597 2675 
+L 3616 2534 
+L 3251 2656 
+L 3251 3526 
+L 0 3526 
+z
+M 2125 1946 
+Q 2016 2099 1849 2195 
+Q 1683 2291 1453 2291 
+Q 1152 2291 979 2108 
+Q 806 1926 806 1626 
+Q 806 1261 1075 953 
+Q 1344 646 1933 307 
+L 1632 -90 
+Q 1005 282 646 707 
+Q 288 1133 288 1677 
+Q 288 2208 601 2480 
+Q 915 2752 1402 2752 
+Q 1722 2752 1958 2633 
+Q 2195 2515 2368 2323 
+L 2125 1946 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-52" d="M 1818 3526 
+L 2022 3622 
+Q 2093 3462 2121 3299 
+Q 2150 3136 2150 2931 
+Q 2150 2579 2006 2326 
+Q 1862 2074 1603 1891 
+Q 1344 1709 998 1568 
+L 1011 1632 
+Q 1190 1421 1417 1187 
+Q 1645 954 1897 723 
+Q 2150 493 2413 269 
+L 2042 -77 
+Q 1536 378 1174 762 
+Q 813 1146 563 1498 
+Q 403 1722 336 1888 
+Q 269 2054 269 2195 
+Q 269 2342 358 2432 
+Q 448 2522 608 2522 
+Q 781 2522 941 2400 
+Q 1101 2278 1261 2067 
+L 941 2144 
+Q 1306 2266 1472 2480 
+Q 1638 2694 1638 2995 
+Q 1638 3181 1590 3363 
+Q 1542 3546 1472 3616 
+L 1760 3526 
+L 0 3526 
+L 0 3981 
+L 2714 3981 
+L 2714 3526 
+L 1818 3526 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-5"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-224" transform="translate(76.40 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4a" transform="translate(102.31 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(163.81 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(240.60 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-47" transform="translate(268.73 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2b" transform="translate(325.73 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-53" transform="translate(351.64 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(419.43 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-52" transform="translate(447.56 0)"/>
+    </g>
+    
+    <g style="fill: #14181f" transform="translate(250.73 117.04) scale(0.07 -0.07)">
+     <use xlink:href="#NotoSansDevanagari-Regular-50"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(59.79 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-42" transform="translate(85.70 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(136.10 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c" transform="translate(162.01 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4b" transform="translate(218.81 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-1f" transform="translate(274.31 0)"/>
+    </g>
+   </g>
+   <g id="text_8">
+    
+    <g style="fill: #14181f" transform="translate(66.09 154.01) scale(0.07 -0.07)">
+     <use xlink:href="#NotoSansDevanagari-Regular-57"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-22" transform="translate(67.59 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(67.59 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-28" transform="translate(122.29 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4b" transform="translate(144.39 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-1f" transform="translate(199.89 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-57" transform="translate(225.79 0)"/>
+    </g>
+   </g>
+   <g id="text_9">
+    
+    <g style="fill: #14181f" transform="translate(106.90 154.01) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-4d" d="M 2944 3526 
+L 2944 2003 
+L 2829 2182 
+Q 3008 2368 3216 2461 
+Q 3424 2554 3680 2554 
+Q 4134 2554 4396 2288 
+Q 4659 2022 4659 1530 
+Q 4659 1190 4528 883 
+Q 4397 576 4115 262 
+L 3674 544 
+Q 3885 768 4016 1014 
+Q 4147 1261 4147 1530 
+Q 4147 1818 4016 1965 
+Q 3885 2112 3654 2112 
+Q 3418 2112 3232 1984 
+Q 3046 1856 2906 1645 
+L 2944 1875 
+L 2944 0 
+L 2426 0 
+L 2426 1523 
+L 2528 1376 
+Q 2374 1216 2137 1120 
+Q 1901 1024 1619 1024 
+Q 1222 1024 976 1177 
+Q 730 1331 618 1616 
+Q 506 1901 506 2304 
+L 506 3526 
+L 0 3526 
+L 0 3981 
+L 5030 3981 
+L 5030 3526 
+L 2944 3526 
+z
+M 1024 3526 
+L 1024 2317 
+Q 1024 1997 1094 1814 
+Q 1165 1632 1302 1555 
+Q 1440 1478 1638 1478 
+Q 1888 1478 2128 1619 
+Q 2368 1760 2541 1958 
+L 2426 1613 
+L 2426 3526 
+L 1024 3526 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-4d"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-22" transform="translate(54.90 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(77.09 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-28" transform="translate(131.79 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4b" transform="translate(153.89 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-1f" transform="translate(209.39 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-57" transform="translate(235.29 0)"/>
+    </g>
+   </g>
+   <g id="text_10">
+    
+    <g style="fill: #14181f" transform="translate(149.61 153.93) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-1ea" d="M 2650 -410 
+Q 2509 -141 2406 131 
+Q 2304 403 2240 621 
+L 2157 851 
+Q 2112 960 2093 1056 
+Q 2074 1152 2074 1248 
+Q 2074 1434 2189 1542 
+Q 2304 1651 2509 1651 
+Q 2746 1651 2899 1497 
+Q 3053 1344 3053 1146 
+Q 3053 973 2947 838 
+Q 2842 704 2637 614 
+L 2528 589 
+Q 2374 538 2233 509 
+Q 2093 480 1875 480 
+Q 1594 480 1318 550 
+Q 1043 621 822 774 
+Q 602 928 470 1171 
+Q 339 1414 339 1760 
+Q 339 2342 739 2627 
+Q 1139 2912 1914 2912 
+L 2368 2912 
+L 2266 2688 
+L 2266 3526 
+L 0 3526 
+L 0 3981 
+L 3462 3981 
+L 3462 3526 
+L 2784 3526 
+L 2784 2464 
+L 1990 2464 
+Q 1427 2464 1142 2288 
+Q 858 2112 858 1734 
+Q 858 1357 1133 1152 
+Q 1408 947 1869 947 
+Q 1978 947 2109 966 
+Q 2240 986 2381 1050 
+L 2669 717 
+Q 2758 499 2867 288 
+Q 2976 77 3136 -192 
+L 2650 -410 
+z
+M 2541 -1843 
+Q 2170 -1843 1846 -1724 
+Q 1523 -1606 1232 -1379 
+Q 941 -1152 659 -832 
+L 1037 -493 
+Q 1293 -800 1526 -998 
+Q 1760 -1197 2003 -1289 
+Q 2246 -1382 2522 -1382 
+Q 2861 -1382 3030 -1257 
+Q 3200 -1133 3200 -909 
+Q 3200 -723 3091 -608 
+Q 2982 -493 2758 -493 
+Q 2579 -493 2419 -569 
+Q 2259 -646 2112 -787 
+L 1824 -435 
+Q 2010 -250 2234 -154 
+Q 2458 -58 2765 -58 
+Q 3206 -58 3443 -310 
+Q 3680 -563 3680 -954 
+Q 3680 -1370 3385 -1606 
+Q 3091 -1843 2541 -1843 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-29" d="M -1082 3936 
+Q -1293 4179 -1440 4300 
+Q -1587 4422 -1715 4460 
+Q -1843 4499 -2003 4499 
+Q -2150 4499 -2297 4460 
+Q -2445 4422 -2573 4365 
+L -2733 4813 
+Q -2586 4877 -2429 4912 
+Q -2272 4947 -2118 4947 
+Q -1914 4947 -1766 4896 
+Q -1619 4845 -1475 4729 
+Q -1331 4614 -1152 4429 
+L -1126 4442 
+Q -1306 4800 -1437 4982 
+Q -1568 5165 -1702 5229 
+Q -1837 5293 -2016 5293 
+Q -2125 5293 -2233 5270 
+Q -2342 5248 -2470 5197 
+L -2618 5638 
+Q -2490 5690 -2339 5712 
+Q -2189 5734 -2035 5734 
+Q -1773 5734 -1584 5657 
+Q -1395 5581 -1241 5382 
+Q -1088 5184 -937 4835 
+Q -787 4486 -608 3936 
+L -1082 3936 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-65" d="M -1229 5421 
+Q -1229 5555 -1136 5644 
+Q -1043 5734 -915 5734 
+Q -787 5734 -694 5644 
+Q -602 5555 -602 5421 
+Q -602 5286 -694 5193 
+Q -787 5101 -915 5101 
+Q -1043 5101 -1136 5193 
+Q -1229 5286 -1229 5421 
+z
+M 288 5427 
+Q 173 4826 -137 4582 
+Q -448 4339 -915 4339 
+Q -1382 4339 -1692 4582 
+Q -2003 4826 -2118 5427 
+L -1677 5568 
+Q -1606 5101 -1411 4925 
+Q -1216 4749 -915 4749 
+Q -614 4749 -416 4925 
+Q -218 5101 -154 5568 
+L 288 5427 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-3a" d="M 1331 3526 
+L 1331 1498 
+Q 1331 1331 1251 1235 
+Q 1171 1139 1024 1139 
+Q 902 1139 768 1216 
+Q 634 1293 518 1421 
+Q 403 1549 332 1693 
+Q 262 1837 262 1971 
+Q 262 2118 348 2208 
+Q 435 2298 653 2298 
+L 813 2298 
+L 813 3526 
+L 0 3526 
+L 0 3981 
+L 3693 3981 
+L 3693 3526 
+L 3034 3526 
+L 3034 0 
+L 2515 0 
+L 2515 3526 
+L 1331 3526 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-1ea"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-54" transform="translate(53.09 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-29" transform="translate(108.68 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(108.68 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-57" transform="translate(136.81 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-65" transform="translate(205.71 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-3a" transform="translate(204.40 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-29" transform="translate(260.70 0)"/>
+    </g>
+   </g>
+   <g id="text_11">
+    
+    <g style="fill: #14181f" transform="translate(194.10 149.65) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-e8" d="M 3962 3526 
+L 2931 3526 
+L 2931 0 
+L 2413 0 
+L 2413 1344 
+L 2502 1171 
+Q 2381 1050 2230 954 
+Q 2080 858 1894 806 
+Q 1709 755 1491 755 
+Q 1165 755 893 880 
+Q 621 1005 457 1251 
+Q 294 1498 294 1862 
+Q 294 2387 643 2678 
+Q 992 2970 1613 2970 
+Q 1779 2970 1923 2954 
+Q 2067 2938 2189 2906 
+L 2144 2438 
+Q 2035 2470 1904 2486 
+Q 1773 2502 1626 2502 
+Q 1235 2502 1024 2332 
+Q 813 2163 813 1843 
+Q 813 1530 1008 1373 
+Q 1203 1216 1491 1216 
+Q 1798 1216 2048 1373 
+Q 2298 1530 2438 1747 
+L 2413 1434 
+L 2413 3526 
+L 0 3526 
+L 0 3981 
+L 3962 3981 
+L 3962 3526 
+z
+M 2784 1491 
+L 2816 2054 
+Q 2982 2182 3174 2268 
+Q 3366 2355 3667 2355 
+L 4109 2355 
+L 4109 1901 
+L 3750 1901 
+Q 3520 1901 3369 1862 
+Q 3219 1824 3088 1734 
+Q 2957 1645 2784 1491 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-fc" d="M 1632 -90 
+Q 1005 282 646 707 
+Q 288 1133 288 1677 
+Q 288 2208 601 2480 
+Q 915 2752 1402 2752 
+Q 1722 2752 1958 2633 
+Q 2195 2515 2368 2323 
+L 2125 1946 
+Q 2016 2099 1849 2195 
+Q 1683 2291 1453 2291 
+Q 1152 2291 979 2108 
+Q 806 1926 806 1626 
+Q 806 1261 1075 953 
+Q 1344 646 1933 307 
+L 1632 -90 
+z
+M 2304 1235 
+L 1792 1389 
+Q 1882 2061 2237 2400 
+Q 2592 2739 3174 2739 
+Q 3277 2739 3373 2726 
+Q 3469 2714 3526 2694 
+L 3526 2253 
+Q 3437 2278 3350 2284 
+Q 3264 2291 3174 2291 
+Q 2957 2291 2784 2192 
+Q 2611 2093 2492 1862 
+Q 2374 1632 2304 1235 
+z
+M 0 3526 
+L 0 3981 
+L 3232 3981 
+L 3232 3526 
+L 0 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-Regular-5dd" d="M 400 -1122 
+L 675 650 
+L 1319 650 
+L 831 -1122 
+L 400 -1122 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-291" d="M 0 3526 
+L 0 3981 
+L 1824 3981 
+L 1824 3526 
+L 0 3526 
+z
+M 1312 1773 
+L 1312 1427 
+Q 1312 1248 1219 1158 
+Q 1126 1069 979 1069 
+Q 864 1069 733 1145 
+Q 602 1222 490 1350 
+Q 378 1478 307 1622 
+Q 237 1766 237 1901 
+Q 237 2048 323 2137 
+Q 410 2227 627 2227 
+L 2714 2227 
+L 2714 1773 
+L 1312 1773 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-52"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-e8" transform="translate(40.90 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-47" transform="translate(94.51 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-5" transform="translate(151.51 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-fc" transform="translate(227.92 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4c" transform="translate(270.82 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-47" transform="translate(327.62 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-1f" transform="translate(384.62 0)"/>
+     <use xlink:href="#Inter-Regular-5dd" transform="translate(410.53 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(439.34 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-52" transform="translate(467.46 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-47" transform="translate(508.37 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-291" transform="translate(565.37 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4a" transform="translate(593.07 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-2a" transform="translate(654.57 0)"/>
+     <use xlink:href="#Inter-Regular-5dd" transform="translate(680.48 0)"/>
+    </g>
+    
+    <g style="fill: #14181f" transform="translate(200.36 158.12) scale(0.07 -0.07)">
+     <defs>
+      <path id="NotoSansDevanagari-Regular-100" d="M 1837 -90 
+Q 1357 384 989 838 
+Q 621 1293 448 1606 
+Q 358 1773 313 1913 
+Q 269 2054 269 2176 
+Q 269 2342 361 2432 
+Q 454 2522 614 2522 
+Q 781 2522 937 2403 
+Q 1094 2285 1248 2086 
+L 947 2118 
+Q 1235 2208 1340 2445 
+Q 1446 2682 1446 2944 
+Q 1446 3168 1398 3341 
+Q 1350 3514 1293 3610 
+L 1555 3526 
+L 0 3526 
+L 0 3981 
+L 3174 3981 
+L 3174 3526 
+L 1606 3526 
+L 1824 3622 
+Q 1894 3469 1929 3286 
+Q 1965 3104 1965 2880 
+Q 1965 2624 1891 2409 
+Q 1818 2195 1670 2029 
+L 1645 1984 
+Q 1530 1850 1363 1747 
+Q 1197 1645 941 1555 
+L 928 1626 
+Q 1088 1408 1286 1187 
+Q 1485 966 1721 736 
+Q 1958 506 2227 256 
+L 1837 -90 
+z
+M 2547 1530 
+Q 2272 1530 1949 1603 
+Q 1626 1677 1344 1856 
+L 1523 2221 
+Q 1786 2093 2035 2041 
+Q 2285 1990 2547 1990 
+Q 2714 1990 2864 2006 
+Q 3014 2022 3187 2048 
+L 3200 1594 
+Q 3040 1555 2886 1542 
+Q 2733 1530 2547 1530 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-4f" d="M 1133 4045 
+Q 1504 4045 1721 3904 
+Q 1939 3763 2032 3516 
+Q 2125 3270 2125 2963 
+L 2125 2054 
+L 3411 2054 
+L 3411 3526 
+L 2573 3526 
+L 2573 3981 
+L 4589 3981 
+L 4589 3526 
+L 3930 3526 
+L 3930 0 
+L 3411 0 
+L 3411 1600 
+L 2125 1600 
+L 2125 1363 
+Q 2125 1152 2032 1059 
+Q 1939 966 1811 966 
+Q 1690 966 1555 1046 
+Q 1421 1126 1305 1251 
+Q 1190 1376 1120 1517 
+Q 1050 1658 1050 1779 
+Q 1050 1856 1088 1920 
+Q 1126 1984 1209 2019 
+Q 1293 2054 1434 2054 
+L 1619 2054 
+L 1619 2899 
+Q 1619 3258 1513 3443 
+Q 1408 3629 1152 3629 
+Q 973 3629 877 3536 
+Q 781 3443 781 3296 
+Q 781 3117 918 3017 
+Q 1056 2918 1338 2886 
+L 1286 2470 
+Q 858 2502 576 2716 
+Q 294 2931 294 3309 
+Q 294 3674 531 3859 
+Q 768 4045 1133 4045 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-283" d="M 429 4845 
+Q 403 5158 518 5353 
+Q 634 5549 842 5641 
+Q 1050 5734 1299 5734 
+Q 1491 5734 1648 5692 
+Q 1805 5651 1920 5581 
+L 1786 5178 
+Q 1664 5229 1552 5261 
+Q 1440 5293 1306 5293 
+Q 1082 5293 934 5136 
+Q 787 4979 845 4640 
+L 429 4845 
+z
+M -1184 3936 
+Q -1293 4160 -1350 4384 
+Q -1408 4608 -1408 4806 
+Q -1408 5216 -1155 5475 
+Q -902 5734 -448 5734 
+Q -13 5734 272 5529 
+Q 557 5325 739 4925 
+Q 922 4525 1050 3936 
+L 570 3936 
+Q 429 4621 198 4950 
+Q -32 5280 -365 5280 
+Q -640 5280 -765 5126 
+Q -890 4973 -890 4710 
+Q -890 4525 -829 4333 
+Q -768 4141 -672 3936 
+L -1184 3936 
+z
+M 1088 3526 
+L 1088 0 
+L 570 0 
+L 570 3526 
+L 0 3526 
+L 0 3981 
+L 1747 3981 
+L 1747 3526 
+L 1088 3526 
+z
+" transform="scale(0.01)"/>
+      <path id="NotoSansDevanagari-Regular-21e" d="M 1491 5734 
+Q 1843 5734 2140 5619 
+Q 2438 5504 2694 5277 
+Q 2950 5050 3168 4714 
+Q 3386 4378 3565 3936 
+L 3034 3936 
+Q 2835 4390 2604 4688 
+Q 2374 4986 2115 5133 
+Q 1856 5280 1562 5280 
+Q 1235 5280 1046 5104 
+Q 858 4928 858 4627 
+Q 858 4416 925 4249 
+Q 992 4083 1075 3936 
+L 550 3936 
+Q 448 4122 393 4307 
+Q 339 4493 339 4704 
+Q 339 5165 652 5449 
+Q 966 5734 1491 5734 
+z
+M 1088 3526 
+L 1088 0 
+L 570 0 
+L 570 3526 
+L 0 3526 
+L 0 3981 
+L 1747 3981 
+L 1747 3526 
+L 1088 3526 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#NotoSansDevanagari-Regular-100"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(38.90 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-4f" transform="translate(115.70 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-283" transform="translate(186 0)"/>
+     <use xlink:href="#Inter-Regular-5dd" transform="translate(211.90 0)"/>
+     <use xlink:href="#Inter-Regular-6f1" transform="translate(240.71 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-21e" transform="translate(268.84 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-52" transform="translate(294.75 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-38" transform="translate(335.65 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-28" transform="translate(390.35 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-42" transform="translate(412.45 0)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-67" transform="translate(455.25 -1)"/>
+     <use xlink:href="#NotoSansDevanagari-Regular-57" transform="translate(462.85 0)"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pa4bb3d68da">
+   <rect x="2.88" y="2.88" width="329.22" height="171.86"/>
+  </clipPath>
+ </defs>
+</svg>

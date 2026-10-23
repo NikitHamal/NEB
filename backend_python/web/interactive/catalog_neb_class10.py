@@ -36,7 +36,7 @@ COURSES = [
                 'icon': 'flare',
                 'minutes': 14,
                 'sim': 'nebclass10/concave-mirror',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Move an object along the principal axis of a concave mirror and watch the image change — real, inverted and diminished far away, then magnified near the focus. Switch to the distant-object method to measure f the way the school lab does.',
                 'objectives': [
                     'State the mirror formula 1/f = 1/v + 1/u and use it',
@@ -93,7 +93,7 @@ COURSES = [
                 'icon': 'electrical_services',
                 'minutes': 16,
                 'sim': 'nebclass10/ohms-law',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Wire a cell, an ammeter and one or two resistors in series or parallel. Raise the voltage, record the current, and read the resistance off the slope of the V-I graph you built yourself.',
                 'objectives': [
                     'State Ohm\'s law and the conditions under which it holds',
@@ -156,7 +156,7 @@ COURSES = [
                 'icon': 'water_drop',
                 'minutes': 13,
                 'sim': 'nebclass10/indicators',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Test lemon juice, curd, lime water, soap, baking soda and a salt solution with litmus paper, phenolphthalein, methyl orange and universal indicator — and watch the colour change decide the answer.',
                 'objectives': [
                     'Define an acid and a base and give everyday examples of each',
@@ -219,7 +219,7 @@ COURSES = [
                 'icon': 'restaurant',
                 'minutes': 13,
                 'sim': 'nebclass10/food-tests',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Run the three food tests on rice, potato, bread, banana, milk, egg white, soybean and groundnut, and work out what each food contains from the colour change.',
                 'objectives': [
                     'Describe the iodine test for starch and its blue-black colour',
@@ -302,7 +302,7 @@ COURSES = [
                 'icon': 'functions',
                 'minutes': 15,
                 'sim': 'nebclass10/quadratic-graph',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Slide a, b and c and watch the parabola open, shift and turn. The vertex, the axis of symmetry, the discriminant and the roots are computed live, so you can test every case in the syllabus in a couple of minutes.',
                 'objectives': [
                     'Draw the graph of y = ax² + bx + c from a table of values',
@@ -365,7 +365,7 @@ COURSES = [
                 'icon': 'bar_chart',
                 'minutes': 14,
                 'sim': 'nebclass10/statistics-explorer',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Load the marks of a class, a year of rainfall or the heights of fifteen students, then watch the mean, median and mode move as the data changes. The histogram redraws itself with the class width you choose.',
                 'objectives': [
                     'Compute the mean, median, mode and range of a raw data set',
@@ -428,7 +428,7 @@ COURSES = [
                 'icon': 'architecture',
                 'minutes': 14,
                 'sim': 'nebclass10/height-distance',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Set the instrument a measured distance from a tower, read the angle of elevation, and get the height from tan θ. Change what is unknown and the same triangle solves the reverse problems.',
                 'objectives': [
                     'Identify the angle of elevation and the angle of depression in a figure',

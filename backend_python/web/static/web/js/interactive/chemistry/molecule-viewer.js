@@ -2,6 +2,7 @@ import { THREE, createEngine, createOrbitControls, basicLights, makeLabelSprite 
 import { createPanel, createHud, showInfoCard, hideInfoCard } from '../core/sim-ui.js';
 import { getBySymbol } from './elements-data.js';
 import { parseFormula, buildMolecule } from './molecule-builder.js';
+import { buildSurface, VDW_RADII } from './molecule/surface.js';
 
 // Richer info text for the most common elements; others fall back to a generic line.
 const ELEMENT_INFO = {
@@ -325,9 +326,11 @@ export default function init(stage) {
       const a = bond.a !== undefined ? bond.a : bond[0];
       const b = bond.b !== undefined ? bond.b : bond[1];
       const order = bond.order !== undefined ? bond.order : bond[2];
-      makeBondMesh(data.atoms[a].p, data.atoms[b].p, order, elementStyle(data.atoms[a].el).color, elementStyle(data.atoms[b].el).color).forEach((m) => group.add(m));
+      makeBondMesh(data.atoms[a].p, data.atoms[b].p, order, elementStyle(data.atoms[a].el).color, elementStyle(data.atoms[b].el).color).forEach((m) => { m.userData.bond = true; group.add(m); });
     });
     scene.add(group);
+    lastData = data; surface = null;
+    applyDisplay();
     controls.setDistance(zoom);
     shapeBadge.set(data.note || data.shape || 'Molecule');
     shapeBadge.el.style.setProperty('--ix-hud-color', data.ionic ? '#a78bfa' : '#10B981');
@@ -374,6 +377,26 @@ export default function init(stage) {
   const atomCountOut = panel.readout({ label: 'Atoms', value: '3' });
   const bondCountOut = panel.readout({ label: 'Bonds', value: '2' });
   const shapeOut = panel.readout({ label: 'Shape', value: 'Bent' });
+  let lastData = null; let surface = null; let display = 'ball';
+  function applyDisplay() {
+    if (!group || !lastData) return;
+    const space = display === 'space';
+    group.children.forEach((m) => { if (m.userData.bond) m.visible = !space; });
+    atomMeshes.forEach((m) => {
+      const st = elementStyle(m.userData.el);
+      const k = space ? ((VDW_RADII[m.userData.el] || 1.8) * 0.55) / st.r : 1;
+      m.scale.setScalar(k);
+    });
+    if (display === 'surface' && !surface) {
+      surface = buildSurface(lastData.atoms, lastData.bonds || [], S, quality, !!lastData.ionic);
+      group.add(surface.mesh);
+    }
+    if (surface) surface.mesh.visible = display === 'surface';
+    surfInfo.el.style.display = display === 'surface' ? '' : 'none';
+  }
+  panel.chips({ label: 'Display', options: [{ value: 'ball', label: 'Ball and stick' }, { value: 'space', label: 'Space-filling' }, { value: 'surface', label: 'Charge surface' }], value: 'ball', onChange: (v) => { display = v; applyDisplay(); } });
+  const surfInfo = panel.info('The molecule’s electron cloud, coloured by electrostatic potential: red is where electrons crowd (a partial negative charge, δ−), blue is where they are thin (δ+). That uneven charge is what makes a molecule polar.');
+  surfInfo.el.style.display = 'none';
   panel.toggle({
     label: 'Show atom labels',
     value: false,

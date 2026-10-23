@@ -1,0 +1,172 @@
+{
+ "book": "acc10",
+ "units": [
+  {
+   "no": 1,
+   "title": "Office Management and Procedure (कार्यालय व्यवस्थापन र कार्यविधि)",
+   "area": "Office Management",
+   "words": 6253,
+   "read_min": 35,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Bank, Insurance and Financial Institutions (बैंक, बीमा तथा वित्तीय संस्थाहरू)",
+   "area": "Financial Institutions",
+   "words": 5358,
+   "read_min": 30,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Introduction to Tax (करको परिचय)",
+   "area": "Tax",
+   "words": 3615,
+   "read_min": 20,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Business Accounting (व्यावसायिक लेखा)",
+   "area": "Business Accounting",
+   "words": 3669,
+   "read_min": 20,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Bank Reconciliation Statement (बैंक हिसाब मिलान)",
+   "area": "Business Accounting",
+   "words": 3908,
+   "read_min": 22,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Accounting Errors (लेखात्मक गल्तीहरू)",
+   "area": "Business Accounting",
+   "words": 4159,
+   "read_min": 23,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Final Account (अन्तिम खाता)",
+   "area": "Final Accounts",
+   "words": 4105,
+   "read_min": 23,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "System of Government Accounting in Nepal (नेपालको सरकारी लेखा प्रणाली)",
+   "area": "Government Accounting of Nepal",
+   "words": 4654,
+   "read_min": 26,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Revenue Accounting (राजस्व लेखा)",
+   "area": "Government Accounting of Nepal",
+   "words": 3668,
+   "read_min": 20,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Accounting of Government Expenditure (सरकारी खर्चको लेखा)",
+   "area": "Government Accounting of Nepal",
+   "words": 5311,
+   "read_min": 30,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Store Accounting (जिन्सी लेखा)",
+   "area": "Government Accounting of Nepal",
+   "words": 3784,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Fund Accounting and Retention Account (कोष लेखाङ्कन र धरौटी लेखा)",
+   "area": "Fund and Retention Accounting",
+   "words": 4332,
+   "read_min": 24,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Internal Control and Auditing (आन्तरिक नियन्त्रण र लेखा परीक्षण)",
+   "area": "Control and Audit",
+   "words": 4638,
+   "read_min": 26,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Agencies Involved in Government Accounting (नेपालको सरकारी लेखा प्रणालीमा संलग्न विभिन्न निकायहरू)",
+   "area": "Government Accounting of Nepal",
+   "words": 4350,
+   "read_min": 24,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Use of Information Technology in Office and Accounting (कार्यालय सञ्चालन र लेखामा सूचना प्रविधिको प्रयोग)",
+   "area": "Information Technology",
+   "words": 4801,
+   "read_min": 27,
+   "figures": 1,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbankc10",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "subjective",
+   "title": "Accountancy: Unit-wise Group A Question Bank",
+   "words": 5275,
+   "read_min": 29
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Accountancy: Unit-wise Group B Question Bank",
+   "words": 4479,
+   "read_min": 25
+  },
+  {
+   "no": 3,
+   "kind": "subjective",
+   "title": "Accountancy: Numerical Practice and Group C Question Bank",
+   "words": 3987,
+   "read_min": 22
+  },
+  {
+   "no": 4,
+   "kind": "model",
+   "title": "Accountancy: Model Question Sets with Answer Keys",
+   "words": 4102,
+   "read_min": 23
+  }
+ ],
+ "guide": "The SEE Commerce Papers: Pattern, Grid and Strategy"
+}

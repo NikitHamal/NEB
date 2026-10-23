@@ -1,257 +1,137 @@
-import { createCanvas2D } from '../core/canvas2d.js';
+/**
+ * Ohm's law (NEB class 10) in 3D — the school practical on the physics bench: a 6 V battery, a plug
+ * key, a slide-wire rheostat, an ammeter in series and a voltmeter across the resistor (or two
+ * resistors in series or parallel, or a torch bulb). Slide the rheostat, read the analogue meters
+ * (their needles settle like real ones), record readings and build the I–V graph: its slope is 1/R.
+ * The bulb's filament heats up and glows, so its graph bends — Ohm's law needs a steady temperature.
+ */
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { dialMeter, plugKey, rheostat, cell, lead } from '../core/handson/circuit.js';
+import { canvasCard } from '../space/space3d/kit.js';
+import { createChemLab, THREE } from '../chemistry/chem3d/stage.js';
 
-// Ohm's law bench: vary the applied voltage, read the ammeter, build the V–I
-// graph and get R from its slope. A second resistor can be switched in series
-// or in parallel, and the equivalent resistance is computed live.
+const E = 6; const RINT = 0.4; const RH = 20;
+const NETS = [{ value: 'single', label: 'R₁ only' }, { value: 'series', label: 'R₁ + R₂ series' }, { value: 'parallel', label: 'R₁ ∥ R₂ parallel' }, { value: 'bulb', label: 'Torch bulb' }];
+const fmt = (x, d = 0) => x.toLocaleString('en-US', { maximumFractionDigits: d, minimumFractionDigits: d });
 
-const ACCENT = '#F59E0B';
-const BLUE = '#38bdf8';
-const GREEN = '#34d399';
-const ROSE = '#fb7185';
-
-const RESISTORS = [2, 5, 10, 20, 30];
+function resistor() {
+  const g = new THREE.Group();
+  const body = new THREE.Mesh(new THREE.CapsuleGeometry(0.09, 0.34, 8, 20), new THREE.MeshStandardMaterial({ color: 0xd9c4a0, roughness: 0.6 })); body.rotation.z = Math.PI / 2; g.add(body);
+  [-0.12, -0.04, 0.04, 0.13].forEach((x, i) => { const b = new THREE.Mesh(new THREE.CylinderGeometry(0.097, 0.097, 0.04, 20), new THREE.MeshStandardMaterial({ color: [0x7c4a1e, 0x111827, 0x111827, 0xc9a14a][i], metalness: i === 3 ? 0.8 : 0 })); b.rotation.z = Math.PI / 2; b.position.x = x; g.add(b); });
+  const legs = new THREE.Mesh(new THREE.CylinderGeometry(0.01, 0.01, 0.9, 8), new THREE.MeshStandardMaterial({ color: 0xc0c6cf, metalness: 0.9 })); legs.rotation.z = Math.PI / 2; g.add(legs);
+  g.position.y = 0.2;
+  return g;
+}
 
 export default function init(stage) {
-  const sim = createCanvas2D(stage);
+  const S = createChemLab(stage, { title: "Ohm's law", aim: 'Verify Ohm\'s law and find a resistance', subject: 'physics', target: [0.3, 0.3, 0], camera: [0.6, 4.4, 5.4], minDistance: 2.5, maxDistance: 12 });
+  if (!S) return null;
+  const { engine, world, controls } = S;
   const hud = createHud(stage);
-  const badge = hud.badge('Raise V and watch the ammeter — the graph is a straight line', ACCENT);
+  const badge = hud.badge('Insert the key, then slide the rheostat', '#2563eb');
 
-  let V = 6;
-  let R1 = 10;
-  let R2 = 20;
-  let mode = 'single';       // single | series | parallel
-  const points = [];
-  let fit = null;
+  let net = 'single'; let R1 = 10; let R2 = 15; let keyIn = false; let slide = 0.9;
+  let I = 0; let V = 0; let aFull = 1; let aLc = 0.02;
+  const pts = [];
 
-  const panel = createPanel(stage, { title: 'Circuit controls' });
-  panel.slider({
-    label: 'Supply voltage V',
-    min: 0, max: 24, step: 0.5, value: V, unit: ' V',
-    onChange: (v) => { V = v; },
-  });
-  panel.select({
-    label: 'Resistor R₁',
-    options: RESISTORS.map((r) => ({ value: String(r), label: `${r} Ω` })),
-    value: String(R1),
-    onChange: (v) => { R1 = Number(v); reset(); },
-  });
-  panel.select({
-    label: 'Connection',
-    options: [
-      { value: 'single', label: 'R₁ only' },
-      { value: 'series', label: 'R₁ and R₂ in series' },
-      { value: 'parallel', label: 'R₁ and R₂ in parallel' },
-    ],
-    value: 'single',
-    onChange: (v) => { mode = v; reset(); },
-  });
-  const r2Slider = panel.slider({
-    label: 'Resistor R₂',
-    min: 2, max: 40, step: 1, value: R2, unit: ' Ω',
-    onChange: (v) => { R2 = v; reset(); },
-  });
-  panel.buttonRow([
-    { label: 'Record point', icon: 'add_chart', onClick: () => record() },
-    { label: 'Clear graph', icon: 'restart_alt', variant: 'ghost', onClick: () => reset() },
-  ]);
-  const readR = panel.readout({ label: 'Equivalent resistance', value: '—' });
-  const readI = panel.readout({ label: 'Current I', value: '—' });
-  const readSlope = panel.readout({ label: 'Slope of V–I graph', value: '—' });
-  panel.info('Ohm\'s law: V = IR. The V–I graph is a straight line through the origin and its slope is the resistance.');
+  const board = new THREE.Mesh(new THREE.BoxGeometry(7.4, 0.1, 4.4), new THREE.MeshStandardMaterial({ color: 0xc8a06a, roughness: 0.65 })); board.position.y = 0.05; board.receiveShadow = true; world.add(board);
+  const bat = cell('6 V'); bat.group.position.set(-2.8, 0.1, -1.3); bat.group.scale.setScalar(1.3); world.add(bat.group);
+  const key = plugKey(); key.group.position.set(-1.2, 0.1, -1.5); key.group.scale.setScalar(1.4); world.add(key.group);
+  const rh = rheostat(RH); rh.group.position.set(1.5, 0.1, -1.4); world.add(rh.group);
+  const am1 = dialMeter('A', 1, 'A', 0.2); const am3 = dialMeter('A', 3, 'A', 0.5);
+  [am1, am3].forEach((m) => { m.group.position.set(-2.6, 0.1, 0.9); m.group.scale.setScalar(1.15); world.add(m.group); });
+  const vm = dialMeter('V', 6, 'V', 1); vm.group.position.set(0.4, 0.1, 1.5); vm.group.scale.setScalar(1.15); world.add(vm.group);
+  const ra = resistor(); const rb = resistor(); world.add(ra, rb);
+  const bulb = new THREE.Group(); world.add(bulb);
+  const holder = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.14, 0.18, 20), new THREE.MeshStandardMaterial({ color: 0x9aa3ad, metalness: 0.8, roughness: 0.3 })); holder.position.y = 0.19; bulb.add(holder);
+  const glassB = new THREE.Mesh(new THREE.SphereGeometry(0.16, 24, 16), new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.02, transparent: true, opacity: 0.3, clearcoat: 0.5, depthWrite: false })); glassB.position.y = 0.42; bulb.add(glassB);
+  const fil = new THREE.Mesh(new THREE.TorusGeometry(0.04, 0.008, 6, 16, Math.PI), new THREE.MeshStandardMaterial({ color: 0x555555, emissive: 0x000000 })); fil.position.y = 0.42; bulb.add(fil);
+  const glow = new THREE.PointLight(0xffb057, 0, 4, 2); glow.position.y = 0.42; bulb.add(glow);
+  const leads = [];
+  const P = (x, z, y = 0.3) => new THREE.Vector3(x, y, z);
 
-  function equivalent() {
-    if (mode === 'series') return R1 + R2;
-    if (mode === 'parallel') return (R1 * R2) / (R1 + R2);
-    return R1;
+  const panel = createPanel(stage, { title: "Ohm's law practical" });
+  panel.chips({ label: 'What is being tested', options: NETS, value: 'single', onChange: (v) => { net = v; pts.length = 0; layout(); render(); } });
+  panel.chips({ label: 'R₁', options: [5, 10, 15, 20].map((r) => ({ value: String(r), label: `${r} Ω` })), value: '10', onChange: (v) => { R1 = +v; pts.length = 0; render(); } });
+  panel.chips({ label: 'R₂', options: [5, 10, 15, 20].map((r) => ({ value: String(r), label: `${r} Ω` })), value: '15', onChange: (v) => { R2 = +v; pts.length = 0; render(); } });
+  const keyT = panel.toggle({ label: 'Key inserted', value: false, onChange: (v) => { keyIn = v; key.set(v); } });
+  const slS = panel.slider({ label: 'Rheostat in circuit', min: 0, max: 100, step: 1, value: 90, format: (v) => `${fmt(RH * v / 100, 1)} Ω`, onChange: (v) => { slide = v / 100; } });
+  panel.buttonRow([{ label: 'Record', icon: 'add_chart', onClick: record }, { label: 'Clear', icon: 'restart_alt', variant: 'ghost', onClick: () => { pts.length = 0; render(); } }]);
+  const graph = canvasCard(panel.body, 1.4);
+  const st = panel.stats([{ key: 'R', label: 'Expected R' }, { key: 'slope', label: 'Slope of I–V' }, { key: 'fit', label: 'R = 1/slope' }, { key: 'n', label: 'Readings' }]);
+  const table = document.createElement('div');
+  table.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:3px 10px;font:600 12px Poppins,system-ui,sans-serif;color:#cbd5e1;padding:8px 10px;border-radius:12px;background:rgba(255,255,255,0.04);flex-shrink:0';
+  panel.body.appendChild(table);
+  panel.info('Read each meter to its least count (ammeter 0.02 A on the 1 A scale, voltmeter 0.1 V). Take five or six readings spread across the range; the best straight line through the origin has slope 1/R.');
+  S.tappable(key.group, () => { keyIn = !keyIn; keyT.set(keyIn); key.set(keyIn); });
+
+  function netR(i) {
+    if (net === 'single') return R1;
+    if (net === 'series') return R1 + R2;
+    if (net === 'parallel') return R1 * R2 / (R1 + R2);
+    return 4 * (1 + 2.2 * Math.sqrt(i * i * 6));
   }
-  function current() { return V / equivalent(); }
-  function reset() { points.length = 0; fit = null; }
+  function solve() {
+    const Rr = RH * slide;
+    aFull = E / (RINT + netR(net === 'bulb' ? 0.4 : 0)) > 1 ? 3 : 1; aLc = aFull === 1 ? 0.02 : 0.05;
+    if (!keyIn) { I = 0; V = 0; return; }
+    I = E / (Rr + netR(0) + RINT);
+    for (let it = 0; it < 30; it++) I = 0.5 * I + 0.5 * E / (Rr + netR(I) + RINT);
+    V = I * netR(I);
+  }
+  function layout() {
+    ra.visible = net !== 'bulb'; rb.visible = net === 'series' || net === 'parallel'; bulb.visible = net === 'bulb';
+    if (net === 'parallel') { ra.position.set(0.4, 0.2, -0.1); rb.position.set(0.4, 0.2, 0.45); } else { ra.position.set(net === 'series' ? -0.1 : 0.4, 0.2, 0.2); rb.position.set(0.9, 0.2, 0.2); }
+    bulb.position.set(0.4, 0.05, 0.2);
+    leads.forEach((l) => world.remove(l.mesh)); leads.length = 0;
+    const L = (a, b, c) => leads.push(lead(world, a, b, c));
+    const rl = net === 'series' ? -0.55 : net === 'parallel' ? -0.05 : -0.05; const rr = net === 'series' ? 1.35 : 0.85;
+    L(P(-2.6, -1.3, 0.8), P(-1.5, -1.5, 0.35), 0xd32f2f);
+    L(P(-0.9, -1.5, 0.35), P(0.6, -1.5, 0.6), 0xd32f2f);
+    L(P(2.4, -1.45, 0.6), P(rr, 0.2, 0.3), 0xd32f2f);
+    L(P(rl, 0.2, 0.3), P(-2.3, 0.8, 0.6), 0x111827);
+    L(P(-2.9, 0.8, 0.6), P(-3.0, -1.3, 0.8), 0x111827);
+    L(P(rl, 0.2, 0.3), P(0.15, 1.3, 0.6), 0x1d4ed8); L(P(rr, 0.2, 0.3), P(0.7, 1.3, 0.6), 0x1d4ed8);
+    if (net === 'parallel') { L(P(rl, 0.2, 0.3), P(rl, 0.45, 0.3), 0x6b7280); L(P(rr, 0.2, 0.3), P(rr, 0.45, 0.3), 0x6b7280); }
+  }
+  layout();
   function record() {
-    const I = current();
-    if (!Number.isFinite(I)) return;
-    if (!points.some((p) => Math.abs(p.x - V) < 0.26)) points.push({ x: V, y: I });
-    points.sort((a, b) => a.x - b.x);
-    const n = points.length;
-    let sx = 0; let sy = 0; let sxx = 0; let sxy = 0;
-    points.forEach((p) => { sx += p.x; sy += p.y; sxx += p.x * p.x; sxy += p.x * p.y; });
-    const den = n * sxx - sx * sx;
-    fit = Math.abs(den) < 1e-12 ? null : { m: (n * sxy - sx * sy) / den, b: (sy - (n * sxy - sx * sy) / den * sx) / n };
-    badge.set(`Recorded V = ${V} V, I = ${I.toFixed(3)} A`);
+    if (!keyIn) { badge.set('Insert the key first: no current flows'); return; }
+    solve();
+    const a = Math.round(I / aLc) * aLc; const vv = Math.round(V / 0.1) * 0.1;
+    if (pts.some((p) => Math.abs(p.v - vv) < 0.05)) { badge.set('You already have that reading: move the rheostat'); return; }
+    pts.push({ v: vv, i: a }); pts.sort((p, q) => p.v - q.v); render();
   }
-
-  function drawAmmeter(ctx, cx, cy, r, value, max) {
-    ctx.fillStyle = 'rgba(8,16,30,0.85)';
-    ctx.strokeStyle = 'rgba(158,193,255,0.35)';
-    ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
-    const a0 = Math.PI * 0.78;
-    const a1 = Math.PI * 2.22;
-    ctx.strokeStyle = 'rgba(232,238,251,0.5)';
-    ctx.lineWidth = 1.2;
-    ctx.beginPath(); ctx.arc(cx, cy, r * 0.78, a0, a1); ctx.stroke();
-    for (let i = 0; i <= 10; i++) {
-      const a = a0 + ((a1 - a0) * i) / 10;
-      const inner = i % 5 === 0 ? 0.6 : 0.68;
-      ctx.strokeStyle = 'rgba(199,212,234,0.75)';
-      ctx.beginPath();
-      ctx.moveTo(cx + Math.cos(a) * r * 0.78, cy + Math.sin(a) * r * 0.78);
-      ctx.lineTo(cx + Math.cos(a) * r * inner, cy + Math.sin(a) * r * inner);
-      ctx.stroke();
-    }
-    const t = Math.max(0, Math.min(1, value / max));
-    const na = a0 + (a1 - a0) * t;
-    ctx.strokeStyle = ACCENT; ctx.lineWidth = 2;
-    ctx.beginPath(); ctx.moveTo(cx, cy);
-    ctx.lineTo(cx + Math.cos(na) * r * 0.72, cy + Math.sin(na) * r * 0.72); ctx.stroke();
-    ctx.fillStyle = ACCENT;
-    ctx.beginPath(); ctx.arc(cx, cy, 3.4, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = 'rgba(232,238,251,0.92)';
-    ctx.font = '700 10px Poppins, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(`A  ${value.toFixed(2)} A`, cx, cy + r + 15);
+  function fitSlope() { let sxy = 0; let sxx = 0; for (const p of pts) { sxy += p.v * p.i; sxx += p.v * p.v; } return sxx > 0 ? sxy / sxx : 0; }
+  function render() {
+    table.innerHTML = pts.length ? '<b style="color:#94a3b8">V / volt</b><b style="color:#94a3b8">I / A</b><b style="color:#94a3b8">V/I / Ω</b>' + pts.map((p) => `<span>${fmt(p.v, 1)}</span><span>${fmt(p.i, 2)}</span><span>${p.i > 0 ? fmt(p.v / p.i, 1) : '—'}</span>`).join('') : '';
+    const { g, w, h } = graph.ctx();
+    const ix = 34; const iy = 20; const iw = w - 44; const ih = h - 40;
+    const X = (v) => ix + v / 6 * iw; const Y = (i) => iy + ih - i / aFull * ih;
+    g.font = '700 11px Poppins, system-ui, sans-serif'; g.fillStyle = '#e8eefb'; g.textAlign = 'left'; g.fillText('I–V graph (your readings)', 10, 13);
+    g.strokeStyle = 'rgba(160,190,255,0.18)'; g.strokeRect(ix, iy, iw, ih);
+    const s = fitSlope();
+    if (pts.length > 1) { g.strokeStyle = '#60a5fa'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(X(0), Y(0)); g.lineTo(X(6), Y(6 * s)); g.stroke(); }
+    pts.forEach((p) => { g.fillStyle = '#fbbf24'; g.beginPath(); g.arc(X(p.v), Y(p.i), 4, 0, Math.PI * 2); g.fill(); });
+    g.font = '600 9px Poppins, system-ui, sans-serif'; g.fillStyle = '#8ea0c2'; g.textAlign = 'center'; g.fillText('V / volt', ix + iw / 2, h - 5); g.textAlign = 'right'; g.fillText(`${aFull} A`, ix - 4, iy + 8); g.fillText('0', ix - 4, iy + ih);
+    st.n.set(String(pts.length)); st.slope.set(pts.length > 1 ? `${fmt(s, 4)} A/V` : '—'); st.fit.set(pts.length > 1 && s > 0 ? `${fmt(1 / s, 2)} Ω` : '—');
   }
+  render();
 
-  function drawGraph(ctx, x, y, w, h) {
-    ctx.fillStyle = 'rgba(8,16,30,0.78)';
-    ctx.strokeStyle = 'rgba(158,193,255,0.25)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    if (ctx.roundRect) ctx.roundRect(x, y, w, h, 8); else ctx.rect(x, y, w, h);
-    ctx.fill(); ctx.stroke();
+  engine.setUpdate((dt) => {
+    controls.update(dt);
+    solve();
+    rh.set(slide);
+    am1.group.visible = aFull === 1; am3.group.visible = aFull === 3;
+    const am = aFull === 1 ? am1 : am3;
+    am.set(I); vm.set(V); am1.update(dt); am3.update(dt); vm.update(dt);
+    const P2 = I * V;
+    fil.material.emissive.setHex(0xffa040).multiplyScalar(net === 'bulb' ? Math.min(3, P2 * 1.2) : 0); glow.intensity = net === 'bulb' ? P2 * 3 : 0;
+    st.R.set(net === 'bulb' ? `${fmt(netR(I), 1)} Ω (hot)` : `${fmt(netR(0), 2)} Ω`);
+    badge.set(!keyIn ? 'Insert the key, then slide the rheostat' : net === 'bulb' ? `The filament is at ${fmt(netR(I), 1)} Ω now: it rises as it heats, so the I–V line bends` : `${fmt(V, 2)} V ÷ ${fmt(I, 3)} A = ${fmt(V / Math.max(I, 1e-6), 2)} Ω: record a few readings`);
+  });
+  engine.start();
 
-    const padL = 34; const padR = 12; const padT = 20; const padB = 26;
-    const gx = x + padL; const gy = y + padT;
-    const gw = w - padL - padR; const gh = h - padT - padB;
-    const xMax = 26;
-    const yMax = 5;
-    ctx.strokeStyle = 'rgba(199,212,234,0.45)';
-    ctx.lineWidth = 1;
-    ctx.beginPath(); ctx.moveTo(gx, gy); ctx.lineTo(gx, gy + gh); ctx.lineTo(gx + gw, gy + gh); ctx.stroke();
-    ctx.fillStyle = 'rgba(199,212,234,0.8)';
-    ctx.font = '600 9px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText('I (A)', gx - 30, gy - 6);
-    ctx.textAlign = 'right';
-    ctx.fillText('V (volt)', x + w - 12, gy + gh + 18);
-    ctx.textAlign = 'center';
-    for (let v = 0; v <= 24; v += 6) {
-      const px = gx + (v / xMax) * gw;
-      ctx.strokeStyle = 'rgba(199,212,234,0.18)';
-      ctx.beginPath(); ctx.moveTo(px, gy); ctx.lineTo(px, gy + gh); ctx.stroke();
-      ctx.fillStyle = 'rgba(199,212,234,0.7)';
-      ctx.fillText(String(v), px, gy + gh + 12);
-    }
-    for (let i = 0; i <= 4; i++) {
-      const py = gy + gh - (i / yMax / 4 * 4) * gh / 1;
-      ctx.strokeStyle = 'rgba(199,212,234,0.18)';
-      ctx.beginPath(); ctx.moveTo(gx, gy + gh - (i / 4) * gh); ctx.lineTo(gx + gw, gy + gh - (i / 4) * gh); ctx.stroke();
-      ctx.fillStyle = 'rgba(199,212,234,0.7)';
-      ctx.textAlign = 'right';
-      ctx.fillText((yMax * i / 4).toFixed(2), gx - 4, gy + gh - (i / 4) * gh + 3);
-      ctx.textAlign = 'center';
-      void py;
-    }
-    if (fit) {
-      const y1 = fit.m * 0 + fit.b;
-      const y2 = fit.m * xMax + fit.b;
-      ctx.strokeStyle = 'rgba(52,211,153,0.85)';
-      ctx.lineWidth = 1.6;
-      ctx.beginPath();
-      ctx.moveTo(gx, gy + gh - Math.max(0, Math.min(1, y1 / yMax)) * gh);
-      ctx.lineTo(gx + gw, gy + gh - Math.max(0, Math.min(1, y2 / yMax)) * gh);
-      ctx.stroke();
-    }
-    points.forEach((p) => {
-      const px = gx + (p.x / xMax) * gw;
-      const py = gy + gh - Math.max(0, Math.min(1, p.y / yMax)) * gh;
-      ctx.fillStyle = ACCENT;
-      ctx.beginPath(); ctx.arc(px, py, 3.4, 0, Math.PI * 2); ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = 1; ctx.stroke();
-    });
-    ctx.fillStyle = BLUE;
-    ctx.font = '700 10px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText('V–I graph', x + 10, y + 14);
-  }
-
-  function drawCircuit(ctx, x, y, w, h) {
-    const left = x + 16; const right = x + w - 16;
-    const top = y + 26; const bottom = y + h - 26;
-    ctx.strokeStyle = 'rgba(232,238,251,0.85)';
-    ctx.lineWidth = 2;
-    ctx.beginPath();
-    ctx.moveTo(left, top); ctx.lineTo(right, top);
-    ctx.lineTo(right, bottom); ctx.lineTo(left, bottom); ctx.closePath();
-    ctx.stroke();
-    // battery on the left
-    ctx.strokeStyle = ACCENT; ctx.lineWidth = 3;
-    ctx.beginPath(); ctx.moveTo(left, (top + bottom) / 2 - 8); ctx.lineTo(left, (top + bottom) / 2 + 8); ctx.stroke();
-    ctx.lineWidth = 1.6;
-    ctx.beginPath(); ctx.moveTo(left - 7, (top + bottom) / 2 - 4); ctx.lineTo(left + 7, (top + bottom) / 2 - 4); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(left - 11, (top + bottom) / 2 + 4); ctx.lineTo(left + 11, (top + bottom) / 2 + 4); ctx.stroke();
-    ctx.fillStyle = 'rgba(232,238,251,0.85)';
-    ctx.font = '600 10px Poppins, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText(`${V.toFixed(1)} V`, left + 8, (top + bottom) / 2 + 4);
-
-    // ammeter on the top wire
-    drawAmmeter(ctx, (left + right) / 2, top, 26, current(), Math.max(2, 24 / equivalent() * 1.2));
-
-    // resistors on the bottom wire
-    const box = (bx, label, value, color) => {
-      ctx.fillStyle = 'rgba(8,16,30,0.9)';
-      ctx.strokeStyle = color; ctx.lineWidth = 2;
-      ctx.beginPath();
-      if (ctx.roundRect) ctx.roundRect(bx - 26, bottom - 11, 52, 22, 4); else ctx.rect(bx - 26, bottom - 11, 52, 22);
-      ctx.fill(); ctx.stroke();
-      ctx.fillStyle = 'rgba(232,238,251,0.95)';
-      ctx.font = '700 10px Poppins, sans-serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(label, bx, bottom + 3);
-      ctx.fillStyle = color;
-      ctx.font = '600 9px Poppins, sans-serif';
-      ctx.fillText(`${value.toFixed(1)} Ω`, bx, bottom + 26);
-    };
-    if (mode === 'single') {
-      box((left + right) / 2, 'R₁', R1, BLUE);
-    } else if (mode === 'series') {
-      box(left + (right - left) * 0.3, 'R₁', R1, BLUE);
-      box(left + (right - left) * 0.7, 'R₂', R2, GREEN);
-    } else {
-      box(left + (right - left) * 0.34, 'R₁', R1, BLUE);
-      box(left + (right - left) * 0.66, 'R₂', R2, GREEN);
-      ctx.strokeStyle = 'rgba(232,238,251,0.5)';
-      ctx.lineWidth = 1.4;
-      ctx.beginPath();
-      ctx.moveTo(left + (right - left) * 0.34 - 26, bottom);
-      ctx.lineTo(left + (right - left) * 0.34 - 26, bottom + 30);
-      ctx.lineTo(left + (right - left) * 0.66 + 26, bottom + 30);
-      ctx.lineTo(left + (right - left) * 0.66 + 26, bottom);
-      ctx.stroke();
-    }
-    void ROSE;
-  }
-
-  function draw(ctx, w, h) {
-    ctx.clearRect(0, 0, w, h);
-    const Req = equivalent();
-    const I = current();
-    const graphW = Math.max(210, w * 0.34);
-    drawCircuit(ctx, w * 0.03, h * 0.06, w - graphW - w * 0.09, h * 0.86);
-    drawGraph(ctx, w - graphW - w * 0.03, h * 0.08, graphW, h * 0.5);
-    readR.set(`${Req.toFixed(2)} Ω`);
-    readI.set(`${I.toFixed(3)} A`);
-    readSlope.set(fit ? `${fit.m.toFixed(3)} A/V → R ≈ ${(1 / fit.m).toFixed(2)} Ω` : 'record at least two points');
-    void r2Slider;
-  }
-
-  // the canvas helper calls (ctx, dt, width, height); draw wants (ctx, width, height)
-  sim.setUpdate((ctx, dt, w, h) => draw(ctx, w, h));
-  sim.onResize(() => sim.renderOnce());
-  sim.start();
-
-  return {
-    dispose() { sim.dispose(); hud.dispose(); panel.dispose(); },
-  };
+  stage.__ohm = { key: (v) => { keyIn = v; keyT.set(v); key.set(v); }, slide: (v) => { slide = v; slS.set(Math.round(v * 100)); }, record, pts: () => pts.slice() };
+  return { dispose() { panel.dispose(); hud.dispose(); S.dispose(); } };
 }

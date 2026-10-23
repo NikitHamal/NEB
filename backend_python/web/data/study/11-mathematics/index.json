@@ -1,0 +1,219 @@
+{
+ "book": "math11",
+ "units": [
+  {
+   "no": 1,
+   "title": "Logic and Set",
+   "area": "Algebra",
+   "words": 5329,
+   "read_min": 30,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Real Numbers",
+   "area": "Algebra",
+   "words": 3886,
+   "read_min": 22,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Functions",
+   "area": "Algebra",
+   "words": 4574,
+   "read_min": 25,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Curve Sketching",
+   "area": "Algebra",
+   "words": 4326,
+   "read_min": 24,
+   "figures": 9,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Sequence and Series",
+   "area": "Algebra",
+   "words": 3751,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Matrices and Determinants",
+   "area": "Algebra",
+   "words": 4273,
+   "read_min": 24,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Quadratic Equation",
+   "area": "Algebra",
+   "words": 3192,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Complex Numbers",
+   "area": "Algebra",
+   "words": 3175,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Inverse Circular Functions",
+   "area": "Trigonometry",
+   "words": 2680,
+   "read_min": 15,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Trigonometric Equations and General Values",
+   "area": "Trigonometry",
+   "words": 2422,
+   "read_min": 13,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Straight Line",
+   "area": "Analytic Geometry",
+   "words": 2947,
+   "read_min": 16,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Pair of Straight Lines",
+   "area": "Analytic Geometry",
+   "words": 3199,
+   "read_min": 18,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Coordinates in Space",
+   "area": "Analytic Geometry",
+   "words": 2822,
+   "read_min": 16,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Vectors",
+   "area": "Vectors",
+   "words": 4604,
+   "read_min": 26,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Measures of Dispersion",
+   "area": "Statistics and Probability",
+   "words": 3821,
+   "read_min": 21,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Probability",
+   "area": "Statistics and Probability",
+   "words": 3710,
+   "read_min": 21,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Limits and Continuity",
+   "area": "Calculus",
+   "words": 4063,
+   "read_min": 23,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Derivatives",
+   "area": "Calculus",
+   "words": 9015,
+   "read_min": 50,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "Anti-derivatives",
+   "area": "Calculus",
+   "words": 7630,
+   "read_min": 42,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "Computational Methods",
+   "area": "Computational Methods OR Mechanics",
+   "words": 5580,
+   "read_min": 31,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "Mechanics (alternative to Unit 20)",
+   "area": "Computational Methods OR Mechanics",
+   "words": 6967,
+   "read_min": 39,
+   "figures": 6,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank11",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Mathematics: Unit-wise Objective Question Bank",
+   "words": 3084,
+   "read_min": 17
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Mathematics: Unit-wise Subjective Question Bank",
+   "words": 3974,
+   "read_min": 22
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Mathematics: Model Question Sets and Predicted Questions",
+   "words": 2659,
+   "read_min": 15
+  }
+ ],
+ "guide": "The NEB Grade 11 Examination: Pattern, Grid and Strategy"
+}

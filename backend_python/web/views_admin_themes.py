@@ -102,3 +102,23 @@ def admin_neby_studio(request):
                looks=neby_looks.LOOKS, state_count=len(neby_looks.STATES), look_count=len(neby_looks.LOOKS),
                auto_look=neby_looks.for_theme(theme['key']))
     return render(request, 'admin_panel/neby_studio.html', ctx)
+
+
+def admin_art_library(request):
+    """The SVG art library (tools/svgart): every scene in its grain, flat and pixel looks.
+    For review only; nothing in the site or the app uses these yet."""
+    blocked = _require_staff_admin(request)
+    if blocked:
+        return blocked
+    import json
+    import os
+    from django.conf import settings
+    path = os.path.join(settings.BASE_DIR, 'web', 'static', 'web', 'art', 'manifest.json')
+    try:
+        with open(path, encoding='utf-8') as fh:
+            manifest = json.load(fh)
+    except (OSError, ValueError):
+        manifest = {'looks': {}, 'sets': []}
+    total = sum(len(it['files']) for st in manifest['sets'] for it in st['items'])
+    ctx = _ctx(request, active_page='art_library', art=manifest, art_total=total)
+    return render(request, 'admin_panel/art_library.html', ctx)

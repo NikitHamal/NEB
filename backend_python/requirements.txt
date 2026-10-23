@@ -4,6 +4,11 @@ PyMySQL==1.1.1
 django-cors-headers==4.4.0
 Pillow==10.4.0
 requests==2.32.3
+# requests 2.32.x requires chardet<4 and charset_normalizer<3; without these pins
+# they float to incompatible versions and every process start logs a
+# RequestsDependencyWarning to stderr.log (31 MB and counting before the fix).
+chardet==5.2.0
+charset-normalizer==2.0.12
 python-dotenv==1.0.1
 gunicorn==22.0.0
 whitenoise==6.7.0

@@ -196,7 +196,7 @@ def llm_chat(user, system, prompt, max_tokens=1600, temperature=0.45, timeout=75
     if model_key == "neby-pro" or not model_key:
         pro_cfg = BotConfig(
             provider="qwen", model="qwen3.8-max",
-            fallback_chain='[{"provider": "inception", "model": "mercury-2"}, {"provider": "k2think", "model": "IFM/K2-Horizon-375B-A23B"}, {"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, {"provider": "longcat", "model": "longcat/LongCat-2.0"}, {"provider": "qwencloud", "model": "qwen3.8-max"}]'
+            fallback_chain='[{"provider": "inception", "model": "mercury-3"}, {"provider": "k2think", "model": "IFM/K2-Horizon-375B-A23B"}, {"provider": "geminiweb", "model": "geminiweb/gemini-flash-lite"}, {"provider": "longcat", "model": "longcat/LongCat-2.0"}, {"provider": "qwencloud", "model": "qwen3.8-max"}]'
         )
         try:
             res = call_ai_api(system, prompt, config=pro_cfg)
@@ -249,7 +249,7 @@ def stream_proxy_chat(system, prompt, model_key="neby-pro"):
             ("geminiweb", "geminiweb/gemini-flash-lite", {}),
             ("qwencloud", "qwen3.8-max", {}),
             ("tryingopen", "qwen/qwen3.8-27b", {"effort": "deep"}),
-            ("inception", "mercury-2", {"reasoning_effort": "high"}),
+            ("inception", "mercury-3", {"reasoning_effort": "high"}),
             ("k2think", "IFM/K2-Horizon-375B-A23B", {}),
             ("longcat", "longcat/LongCat-2.0", {}),
             ("deepai", "standard", {}),

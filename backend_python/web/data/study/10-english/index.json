@@ -1,0 +1,192 @@
+{
+ "book": "eng10",
+ "units": [
+  {
+   "no": 1,
+   "title": "Unit 1: Current Affairs and Issues",
+   "area": "Units",
+   "words": 5205,
+   "read_min": 29,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Unit 2: Festivals and Celebrations",
+   "area": "Units",
+   "words": 4281,
+   "read_min": 24,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Unit 3: Health and Wellness",
+   "area": "Units",
+   "words": 3712,
+   "read_min": 21,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Unit 4: Work and Leisure",
+   "area": "Units",
+   "words": 3984,
+   "read_min": 22,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Unit 5: Science and Experiment",
+   "area": "Units",
+   "words": 3887,
+   "read_min": 22,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Unit 6: Food and Cuisine",
+   "area": "Units",
+   "words": 3547,
+   "read_min": 20,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Unit 7: Cyber Security",
+   "area": "Units",
+   "words": 3633,
+   "read_min": 20,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Unit 8: Hobbies and Interests",
+   "area": "Units",
+   "words": 4023,
+   "read_min": 22,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Unit 9: History and Culture",
+   "area": "Units",
+   "words": 4422,
+   "read_min": 25,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Unit 10: Games and Sports",
+   "area": "Units",
+   "words": 4684,
+   "read_min": 26,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Unit 11: Ethics and Morality",
+   "area": "Units",
+   "words": 4660,
+   "read_min": 26,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Unit 12: Nature and Development",
+   "area": "Units",
+   "words": 4093,
+   "read_min": 23,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Unit 13: Population and Migration",
+   "area": "Units",
+   "words": 3993,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Unit 14: Travel and Adventure",
+   "area": "Units",
+   "words": 3947,
+   "read_min": 22,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Unit 15: People and Places",
+   "area": "Units",
+   "words": 4656,
+   "read_min": 26,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Unit 16: Success and Celebration",
+   "area": "Units",
+   "words": 4831,
+   "read_min": 27,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Unit 17: Countries and Towns",
+   "area": "Units",
+   "words": 4180,
+   "read_min": 23,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Unit 18: Media and Entertainment",
+   "area": "Units",
+   "words": 4707,
+   "read_min": 26,
+   "figures": 5,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank10",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Compulsory English: Unit-wise Objective Question Bank",
+   "words": 4110,
+   "read_min": 23
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Compulsory English: Unit-wise Subjective Question Bank",
+   "words": 4525,
+   "read_min": 25
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Compulsory English: Model Question Sets and Predicted Questions",
+   "words": 4676,
+   "read_min": 26
+  }
+ ],
+ "guide": "The SEE Examination: Pattern, Grid and Strategy"
+}

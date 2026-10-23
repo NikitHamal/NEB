@@ -1,0 +1,1404 @@
+{
+ "grade": "11",
+ "grade_label": "Class 11",
+ "grade_label_ne": "कक्षा ११",
+ "subject": "physics",
+ "name": "Physics",
+ "name_ne": "भौतिक विज्ञान",
+ "icon": "bolt",
+ "group": "science",
+ "color": "#4A42D6",
+ "lang": "en",
+ "code": "1011 (CDC Phy.101)",
+ "hours": 128,
+ "exam": "3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24",
+ "areas": [
+  "Mechanics",
+  "Heat and Thermodynamics",
+  "Waves and Optics",
+  "Electricity and Magnetism",
+  "Modern Physics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Physical Quantities",
+   "hours": 3,
+   "area": "Mechanics",
+   "topics": [
+    "Precision and significant figures",
+    "Dimensions and uses of dimensional analysis"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Precision and significant figures"
+    },
+    {
+     "no": "1.2",
+     "title": "Dimensions and uses of dimensional analysis"
+    }
+   ],
+   "summary": [
+    "A measurement is Q = nu, and n1u1 = n2u2; SI has seven base quantities.",
+    "Accuracy = closeness to the true value; precision = closeness of repeated readings, limited by the least count.",
+    "Vernier L.C. = 1 MSD - 1 VSD; screw-gauge L.C. = pitch ÷ number of circular divisions.",
+    "Systematic errors spoil accuracy and are removed by calibration; random errors spoil precision and are reduced by averaging. Quote results as a ± Δ amean.",
+    "Significant figures = certain digits + first uncertain digit. Addition keeps the least decimal places; multiplication keeps the least significant figures.",
+    "Errors combine as Δ Z = Δ A + Δ B for sums, and Δ Z/Z = p Δ A/A + q Δ B/B for products and powers.",
+    "The principle of homogeneity says every term of a physical equation has the same dimensions. Dimensional analysis checks equations, converts units via n2 = n1 (M1/M2)^a(L1/L2)^b(T1/T2)^c, and derives simple relations.",
+    "It cannot give dimensionless constants, handle more than three variables, build equations with several terms, or separate work from torque."
+   ],
+   "terms": [
+    "Accuracy and precision",
+    "Significant figures",
+    "Dimensions of a physical quantity"
+   ],
+   "stats": {
+    "words": 4249,
+    "figures": 3,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Vectors",
+   "hours": 4,
+   "area": "Mechanics",
+   "topics": [
+    "Triangle, parallelogram and polygon laws of vectors",
+    "Resolution of vectors; Unit vectors",
+    "Scalar and vector products"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Triangle, parallelogram and polygon laws of vectors"
+    },
+    {
+     "no": "2.2",
+     "title": "Resolution of vectors; Unit vectors"
+    },
+    {
+     "no": "2.3",
+     "title": "Scalar and vector products"
+    }
+   ],
+   "summary": [
+    "Scalars need a magnitude only; vectors need magnitude and direction and add by the triangle, parallelogram or polygon law.",
+    "Parallelogram law: R = √P^2 + Q^2 + 2PQcosθ and tanα = Qsinθ/(P + Qcosθ). Maximum P+Q at 0^°, minimum P-Q at 180^°.",
+    "A closed polygon of vectors means zero resultant — the equilibrium condition.",
+    "Resolution: Ax = Acosθ, Ay = Asinθ; recombine with A = √Ax^2 + Ay^2, tanθ = Ay/Ax.",
+    "A = A/A; A = Axi + Ayj + Azk with A = √Ax^2 + Ay^2 + Az^2 and l^2+m^2+n^2=1.",
+    "Dot product AcdotB = ABcosθ = AxBx + AyBy + AzBz; it is a scalar and vanishes for perpendicular vectors.",
+    "Cross product AtimesB = ABsinθ n; it is a vector, vanishes for parallel vectors, reverses sign on swapping, and its magnitude is the area of the parallelogram formed by the two vectors."
+   ],
+   "terms": [
+    "Triangle law",
+    "Parallelogram law",
+    "Polygon law",
+    "Unit vector",
+    "Scalar product",
+    "Vector product"
+   ],
+   "stats": {
+    "words": 3764,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Kinematics",
+   "hours": 5,
+   "area": "Mechanics",
+   "topics": [
+    "Instantaneous velocity and acceleration",
+    "Relative velocity",
+    "Equation of motion (graphical treatment)",
+    "Motion of a freely falling body",
+    "Projectile motion and its applications"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Instantaneous velocity and acceleration"
+    },
+    {
+     "no": "3.2",
+     "title": "Relative velocity"
+    },
+    {
+     "no": "3.3",
+     "title": "Equations of motion — graphical treatment"
+    },
+    {
+     "no": "3.4",
+     "title": "Motion of a freely falling body"
+    },
+    {
+     "no": "3.5",
+     "title": "Projectile motion and its applications"
+    }
+   ],
+   "summary": [
+    "Instantaneous velocity is v = dx/dt (slope of the tangent to the x–t graph); acceleration is a = dv/dt = v dv/dx.",
+    "On a v–t graph, slope is acceleration and area is displacement.",
+    "For uniform acceleration: v = u+at, s = ut + (1)/(2)at^2, v^2 = u^2+2as, sn = u + (a)/(2)(2n-1).",
+    "Free fall is uniform acceleration with a = -g (upward positive). Time up equals time down; the landing speed equals the launch speed.",
+    "Projectile motion = uniform horizontal motion + free vertical fall. The path is a parabola, T = 2usinθ/g, H = u^2sin^2θ/2g, R = u^2sin 2θ/g.",
+    "Range is maximum at 45^°; complementary angles give equal ranges; the speed at the top is ucosθ, not zero."
+   ],
+   "terms": [
+    "Instantaneous velocity"
+   ],
+   "stats": {
+    "words": 4091,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Dynamics",
+   "hours": 6,
+   "area": "Mechanics",
+   "topics": [
+    "Linear momentum, Impulse",
+    "Conservation of linear momentum",
+    "Application of Newton's laws",
+    "Moment, torque and equilibrium",
+    "Solid friction: Laws of solid friction and their verifications"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Linear momentum, Impulse"
+    },
+    {
+     "no": "4.2",
+     "title": "Conservation of linear momentum"
+    },
+    {
+     "no": "4.3",
+     "title": "Application of Newton's laws"
+    },
+    {
+     "no": "4.4",
+     "title": "Moment, torque and equilibrium"
+    },
+    {
+     "no": "4.5",
+     "title": "Solid friction: Laws of solid friction and their verifications"
+    }
+   ],
+   "summary": [
+    "p = mv (kg m s⁻¹, [MLT^-1]); F = dp/dt, becoming F = ma only for constant mass.",
+    "Impulse J = FΔ t = intFdt = mv - mu, the area under the F–t graph; a longer Δ t means a smaller Fav.",
+    "m1u1 + m2u2 = m1v1 + m2v2: momentum of an isolated system is conserved — recoil, explosions, rocket propulsion.",
+    "Atwood: a = (m1-m2)g/(m1+m2), T = 2m1m2g/(m1+m2); apparent weight in a lift is m(g ± a), zero in free fall.",
+    "Torque τ = rFsinθ = rtimesF (N m); a couple has moment F × d about every point.",
+    "Equilibrium needs sumF = 0 and Στ = 0 (principle of moments).",
+    "Friction: flimiting = μs N, fk = μk N, μk < μs, independent of apparent area, and μs = tanθ = tanλ."
+   ],
+   "terms": [
+    "Linear momentum",
+    "Impulse",
+    "Moment of a force (torque)",
+    "Solid friction"
+   ],
+   "stats": {
+    "words": 5379,
+    "figures": 6,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Work, energy and power",
+   "hours": 6,
+   "area": "Mechanics",
+   "topics": [
+    "Work done by a constant force and a variable force",
+    "Power",
+    "Work-energy theorem; Kinetic and potential energy",
+    "Conservation of Energy",
+    "Conservative and non-conservative forces",
+    "Elastic and inelastic collisions"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Work done by a constant force and a variable force"
+    },
+    {
+     "no": "5.2",
+     "title": "Power"
+    },
+    {
+     "no": "5.3",
+     "title": "Work–energy theorem; kinetic and potential energy"
+    },
+    {
+     "no": "5.4",
+     "title": "Conservation of energy"
+    },
+    {
+     "no": "5.5",
+     "title": "Conservative and non-conservative forces"
+    },
+    {
+     "no": "5.6",
+     "title": "Elastic and inelastic collisions"
+    }
+   ],
+   "summary": [
+    "Work by a constant force: W = Fscosθ = Fcdots, a scalar in joules. Zero when the force is perpendicular to the displacement.",
+    "Work by a variable force: W = ∫ F dx = area under the F–x graph. For a spring, W = (1)/(2)kx^2.",
+    "Power P = W/t = Fcdotv; 1 hp = 746 W and 1 kW h = 3.6× 10^6 J.",
+    "Work–energy theorem: Wnet = Δ K, with K = (1)/(2)mv^2 = p^2/2m.",
+    "Potential energy: U = mgh (gravitational), U = (1)/(2)kx^2 (elastic).",
+    "Conservation of energy: K + U is constant when only conservative forces act; otherwise Wnc = Δ K + Δ U.",
+    "Conservative forces do path-independent work and zero work round a closed loop; friction and drag do not.",
+    "All collisions conserve momentum. Elastic ones also conserve kinetic energy and give u1 - u2 = v2 - v1; perfectly inelastic ones lose (1)/(2)(m1m2)/(m1+m2)(u1-u2)^2."
+   ],
+   "terms": [
+    "Work done by a constant force",
+    "Power",
+    "Conservative force"
+   ],
+   "stats": {
+    "words": 4975,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Circular Motion",
+   "hours": 6,
+   "area": "Mechanics",
+   "topics": [
+    "Angular displacement, velocity and acceleration",
+    "Relation between angular and linear velocity and acceleration",
+    "Centripetal acceleration",
+    "Centripetal force",
+    "Conical pendulum",
+    "Motion in a vertical circle",
+    "Applications of banking"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Angular displacement, velocity and acceleration"
+    },
+    {
+     "no": "6.2",
+     "title": "Relation between angular and linear velocity and acceleration"
+    },
+    {
+     "no": "6.3",
+     "title": "Centripetal acceleration"
+    },
+    {
+     "no": "6.4",
+     "title": "Centripetal force"
+    },
+    {
+     "no": "6.5",
+     "title": "Conical pendulum"
+    },
+    {
+     "no": "6.6",
+     "title": "Motion in a vertical circle"
+    },
+    {
+     "no": "6.7",
+     "title": "Applications of banking"
+    }
+   ],
+   "summary": [
+    "θ = s/r in radians; ω = dθ/dt = 2π/T = 2π f; α = dω/dt. Angular kinematic equations mirror the linear ones.",
+    "v = rω and at = rα; all points of a rigid rotating body share ω but not v.",
+    "Centripetal acceleration ac = v^2/r = rω^2 = 4π^2r/T^2, directed towards the centre. Total acceleration = √ac^2 + at^2.",
+    "Centripetal force Fc = mv^2/r is supplied by tension, friction, gravity or a component of the normal reaction. Centrifugal force is a fictitious force.",
+    "Conical pendulum: tanθ = v^2/rg, T = mg/cosθ, period Tp = 2π√Lcosθ/g = 2π√h/g.",
+    "Vertical circle: vtop(min) = √gr, vbottom(min) = √5gr, v2^2 = v1^2 + 4gr, and T2 - T1 = 6mg always.",
+    "Banking: tanθ = v^2/rg, independent of mass; vmax = √rg(μ+tanθ)/(1-μtanθ); on a level road vmax = √μ rg."
+   ],
+   "terms": [
+    "Angular displacement"
+   ],
+   "stats": {
+    "words": 5567,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Gravitation",
+   "hours": 10,
+   "area": "Mechanics",
+   "topics": [
+    "Newton's law of gravitation",
+    "Gravitational field strength",
+    "Gravitational potential; Gravitational potential energy",
+    "Variation in value of 'g' due to altitude and depth",
+    "Centre of mass and centre of gravity",
+    "Motion of a satellite: orbital velocity and time period",
+    "Escape velocity",
+    "Potential and kinetic energy of the satellite",
+    "Geostationary satellite",
+    "GPS"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Newton's law of gravitation"
+    },
+    {
+     "no": "7.2",
+     "title": "Gravitational field strength"
+    },
+    {
+     "no": "7.3",
+     "title": "Gravitational potential; gravitational potential energy"
+    },
+    {
+     "no": "7.4",
+     "title": "Variation in the value of g due to altitude and depth"
+    },
+    {
+     "no": "7.5",
+     "title": "Centre of mass and centre of gravity"
+    },
+    {
+     "no": "7.6",
+     "title": "Motion of a satellite: orbital velocity and time period"
+    },
+    {
+     "no": "7.7",
+     "title": "Escape velocity"
+    },
+    {
+     "no": "7.8",
+     "title": "Potential and kinetic energy of the satellite"
+    },
+    {
+     "no": "7.9",
+     "title": "Geostationary satellite"
+    },
+    {
+     "no": "7.10",
+     "title": "GPS"
+    }
+   ],
+   "summary": [
+    "Newton's law: F = Gm1m2/r^2 with G = 6.67×10^-11 N m^2 kg^-2; forces are an action–reaction pair, independent of the medium.",
+    "Field strength E = GM/r^2 (a vector, N kg⁻¹); at the surface g = GM/R^2, from which M = gR^2/G.",
+    "Potential V = -GM/r (a scalar, J kg⁻¹) and potential energy U = -GMm/r; E = -dV/dr, and Δ U ≈ mgh near the surface.",
+    "Altitude: gh = g(R/(R+h))^2 ≈ g(1-2h/R). Depth: gd = g(1-d/R), zero at the centre.",
+    "Centre of mass xcm = Σ mixi/Σ mi; it coincides with the centre of gravity only in a uniform field.",
+    "Orbit: vo = √GM/r, T = 2π√r^3/GM, hence T^2 ∝ r^3 (Kepler's third law).",
+    "Escape velocity ve = √2GM/R = √2gR = √2 vo = 11.2 km s^-1 for the Earth; independent of mass and direction.",
+    "Satellite energies: K = GMm/2r, U = -GMm/r, E = -GMm/2r = -K; binding energy = GMm/2r."
+   ],
+   "terms": [
+    "Newton's law of universal gravitation",
+    "Gravitational field strength",
+    "Centre of mass and centre of gravity",
+    "Escape velocity",
+    "Geostationary satellite"
+   ],
+   "stats": {
+    "words": 6547,
+    "figures": 6,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Elasticity",
+   "hours": 5,
+   "area": "Mechanics",
+   "topics": [
+    "Hooke's law: Force constant",
+    "Stress, Strain, Elasticity and plasticity",
+    "Elastic modulus: Young modulus, bulk modulus, shear modulus",
+    "Poisson's ratio",
+    "Elastic potential energy"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Hooke's law: force constant"
+    },
+    {
+     "no": "8.2",
+     "title": "Stress, Strain, Elasticity and plasticity"
+    },
+    {
+     "no": "8.3",
+     "title": "Elastic modulus: Young modulus, bulk modulus, shear modulus"
+    },
+    {
+     "no": "8.4",
+     "title": "Poisson's ratio"
+    },
+    {
+     "no": "8.5",
+     "title": "Elastic potential energy"
+    }
+   ],
+   "summary": [
+    "Hooke's law: within the elastic limit F = kx, where the force constant k = F/x (N m⁻¹). For a wire k = YA/L, so k depends on shape as well as material.",
+    "Stress = F/A (Pa, [ML^-1T^-2]); strain = change ÷ original value (no unit). Modulus = stress ÷ strain.",
+    "The stress–strain curve runs: proportional limit P, elastic limit E, yield point Y, ultimate stress U, breaking point B. Ductile materials have a long Y–B stretch; brittle ones break just after E.",
+    "Young modulus Y = FL/Ae; bulk modulus B = -pV/Δ V with compressibility K = 1/B; shear modulus η = F/(Aθ) with θ = x/L. Only B applies to liquids and gases.",
+    "Poisson's ratio σ = (Δ d/d)÷(e/L); no unit, theoretical range -1 to 0.5, real materials 0.2–0.4. Also Δ V/V = (1-2σ)e/L.",
+    "Elastic potential energy U = (1)/(2)Fe = (1)/(2)dfracYAe^2L, and energy per unit volume u = (1)/(2)× stress × strain = (1)/(2)Yvarepsilon^2.",
+    "Breaking force depends on the area of cross-section, never on the length."
+   ],
+   "terms": [
+    "Hooke's law",
+    "Stress and strain",
+    "Modulus of elasticity",
+    "Poisson's ratio"
+   ],
+   "stats": {
+    "words": 3756,
+    "figures": 4,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Heat and Temperature",
+   "hours": 3,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Molecular concept of thermal energy, heat and temperature; cause and direction of heat flow",
+    "Thermal equilibrium and Zeroth law of thermodynamics",
+    "Thermal equilibrium as working principle of mercury thermometer"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Molecular concept of thermal energy, heat and temperature; cause and direction of heat flow"
+    },
+    {
+     "no": "9.2",
+     "title": "Thermal equilibrium and Zeroth law of thermodynamics"
+    },
+    {
+     "no": "9.3",
+     "title": "Thermal equilibrium as working principle of mercury thermometer"
+    }
+   ],
+   "summary": [
+    "Internal energy is the total kinetic + potential energy of the molecules; thermal energy is its temperature-dependent (kinetic) part.",
+    "Temperature measures the average molecular kinetic energy: Ek = (3)/(2)kBT with kB = 1.38×10^-23 J K^-1.",
+    "Heat is energy in transit due to a temperature difference. Its cause is the temperature difference and its direction is always hot → cold.",
+    "Thermal equilibrium is the state of zero net heat flow, reached when the two temperatures become equal.",
+    "Zeroth law: if A and B are each in equilibrium with C, they are in equilibrium with each other. This is what makes temperature measurable.",
+    "A mercury thermometer works by coming into thermal equilibrium with the body; its thermometric property is the length of the mercury thread, and t = dfraclt-l0l100-l0×100 ^°C.",
+    "Scale conversion: dfracC100 = dfracF-32180 = dfracK-273.15100."
+   ],
+   "terms": [
+    "Internal energy and thermal energy",
+    "Heat",
+    "Zeroth law of thermodynamics"
+   ],
+   "stats": {
+    "words": 3128,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Thermal Expansion",
+   "hours": 4,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Linear expansion and its measurement",
+    "Cubical expansion, superficial expansion and relation with linear expansion",
+    "Liquid Expansion: Absolute and apparent",
+    "Dulong and Petit method of determining expansivity of liquid"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Linear expansion and its measurement"
+    },
+    {
+     "no": "10.2",
+     "title": "Cubical expansion, superficial expansion and relation with linear expansion"
+    },
+    {
+     "no": "10.3",
+     "title": "Liquid Expansion: Absolute and apparent"
+    },
+    {
+     "no": "10.4",
+     "title": "Dulong and Petit method of determining expansivity of liquid"
+    }
+   ],
+   "summary": [
+    "Linear expansivity α = dfracl2-l1l1Δθ, so l2 = l1(1+αΔθ); unit K⁻¹.",
+    "Pullinger's apparatus measures α: rod in a steam jacket, expansion read on a micrometer screw that completes a bell circuit; α = δ l / (l1Δθ).",
+    "A2 = A1(1+βΔθ) and V2 = V1(1+γΔθ), with β = 2α, γ = 3α and α:β:γ = 1:2:3.",
+    "A cavity or hole expands exactly as if it were filled with the surrounding material.",
+    "A liquid has two expansivities: real γr and apparent γa, with γr = γa + γg where γg = 3αg for the vessel. By the weight thermometer, γa = m/[(M-m)Δθ].",
+    "Water expands anomalously: it contracts from 0 to 4 ^°C and has maximum density at 4 ^°C.",
+    "Dulong and Petit: balancing columns give hθ = h0(1+γθ), so γr = (hθ-h0)/(h0θ), with no correction for the vessel."
+   ],
+   "terms": [
+    "Coefficient of linear expansion",
+    "Superficial and cubical expansivity",
+    "Real and apparent expansivity"
+   ],
+   "stats": {
+    "words": 4051,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Quantity of Heat",
+   "hours": 6,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Newton's law of cooling",
+    "Measurement of specific heat capacity of solids and liquids",
+    "Change of phases: Latent heat",
+    "Specific latent heat of fusion and vaporization",
+    "Measurement of specific latent heat of fusion and vaporization",
+    "Triple point"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Newton's law of cooling"
+    },
+    {
+     "no": "11.2",
+     "title": "Measurement of specific heat capacity of solids and liquids"
+    },
+    {
+     "no": "11.3",
+     "title": "Change of phases: Latent heat"
+    },
+    {
+     "no": "11.4",
+     "title": "Specific latent heat of fusion and vaporization"
+    },
+    {
+     "no": "11.5",
+     "title": "Measurement of specific latent heat of fusion and vaporization"
+    },
+    {
+     "no": "11.6",
+     "title": "Triple point"
+    }
+   ],
+   "summary": [
+    "Heat to change temperature: Q = mcΔθ; heat capacity C = mc; water equivalent W = mc/cw.",
+    "Newton's law of cooling: dQ/dt = -K(θ-θ0), hence θ = θ0 + (θ1-θ0)e^-kt. Valid only for small excess temperature and unchanged surroundings.",
+    "Working form for problems: (θ1-θ2)/t = k[(θ1+θ2)/2 - θ0].",
+    "Specific heat capacity is measured by the method of mixtures, mscs(θs-θ2) = (mwcw+mccc)(θ2-θ1), or electrically, VIt = (mlcl+mccc)Δθ.",
+    "Latent heat is absorbed at constant temperature during a phase change: Q = mL. For water Lf = 3.34×10^5 and Lv = 2.26×10^6 J kg^-1.",
+    "Lf is measured with dried ice and Lv with dry steam from a steam trap; both use the same energy balance.",
+    "The triple point is the unique (p,T) at which solid, liquid and vapour coexist. For water: 273.16 K and 611.66 Pa."
+   ],
+   "terms": [
+    "Newton's law of cooling",
+    "Specific heat capacity",
+    "Latent heat",
+    "Specific latent heat",
+    "Triple point"
+   ],
+   "stats": {
+    "words": 3928,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Rate of heat flow",
+   "hours": 5,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Conduction: Thermal conductivity and measurement",
+    "Convection",
+    "Radiation: Ideal radiator",
+    "Black-body radiation",
+    "Stefan-Boltzmann law"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Conduction: Thermal conductivity and measurement"
+    },
+    {
+     "no": "12.2",
+     "title": "Convection"
+    },
+    {
+     "no": "12.3",
+     "title": "Radiation: Ideal radiator"
+    },
+    {
+     "no": "12.4",
+     "title": "Black-body radiation"
+    },
+    {
+     "no": "12.5",
+     "title": "Stefan-Boltzmann law"
+    }
+   ],
+   "summary": [
+    "Steady conduction: H = kA(θ1-θ2)/L = -kA dθ/dx; thermal conductivity k is in W m⁻¹ K⁻¹.",
+    "Thermal resistance R = L/(kA); resistances of slabs in series add, and H = Δθ/R.",
+    "Searle's method measures k for good conductors: k = mcw(θ4-θ3)x/[A(θ1-θ2)t]; Lee's disc is used for bad conductors.",
+    "Convection needs a moving fluid; natural convection is driven by density differences, forced convection by a fan or pump. Newton's law of cooling is a convection law.",
+    "Radiation needs no medium. a+r+t=1; a perfect black body has a = e = 1; Kirchhoff's law says good absorbers are good emitters; Prevost's theory says emission never stops.",
+    "Black-body curves are continuous with one maximum; Wien's displacement law gives λm T = 2.898×10^-3 m K.",
+    "Stefan-Boltzmann law: E = σ T^4 with σ = 5.67×10^-8 W m^-2K^-4; net loss P = eσ A(T^4-T0^4), with T in kelvin."
+   ],
+   "terms": [
+    "Thermal conductivity",
+    "Convection",
+    "Thermal radiation",
+    "Perfect black body (ideal radiator)",
+    "Stefan-Boltzmann law"
+   ],
+   "stats": {
+    "words": 4167,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Ideal gas",
+   "hours": 8,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Ideal gas equation",
+    "Molecular properties of matter",
+    "Kinetic-molecular model of an ideal gas",
+    "Derivation of pressure exerted by gas",
+    "Average translational kinetic energy of gas molecule",
+    "Boltzmann constant; root mean square speed",
+    "Heat capacities: gases and solids"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Ideal gas equation"
+    },
+    {
+     "no": "13.2",
+     "title": "Molecular properties of matter"
+    },
+    {
+     "no": "13.3",
+     "title": "Kinetic-molecular model of an ideal gas"
+    },
+    {
+     "no": "13.4",
+     "title": "Derivation of pressure exerted by gas"
+    },
+    {
+     "no": "13.5",
+     "title": "Average translational kinetic energy of gas molecule"
+    },
+    {
+     "no": "13.6",
+     "title": "Boltzmann constant; root mean square speed"
+    },
+    {
+     "no": "13.7",
+     "title": "Heat capacities: gases and solids"
+    }
+   ],
+   "summary": [
+    "Gas laws combine into the ideal gas equation pV = nRT = NkT, with R = 8.314 J mol^-1K^-1 and T in kelvin.",
+    "Kinetic theory assumes many identical molecules of negligible volume in random motion, with no forces except during elastic collisions.",
+    "Pressure of an ideal gas: p = (1)/(3)ρoverlinec^2, equivalently pV = (1)/(3)mNoverlinec^2.",
+    "Average translational kinetic energy per molecule is E = (1)/(2)moverlinec^2 = (3)/(2)kT, and per mole (3)/(2)RT — independent of the nature of the gas.",
+    "Boltzmann constant k = R/NA = 1.38×10^-23 J K^-1.",
+    "Root mean square speed crms = √3RT/M = √3kT/m = √3p/ρ, so crms∝√T and crms∝ 1/√M.",
+    "Mayer's relation Cp - Cv = R; γ = 1.67 for monatomic and 1.40 for diatomic gases.",
+    "Dulong and Petit: the molar heat capacity of a simple solid is about 3R = 25 J mol^-1K^-1."
+   ],
+   "terms": [
+    "Ideal gas",
+    "Boltzmann constant",
+    "Molar heat capacities"
+   ],
+   "stats": {
+    "words": 4585,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Reflection at curved mirror",
+   "hours": 2,
+   "area": "Waves and Optics",
+   "topics": [
+    "Real and Virtual images",
+    "Mirror formula"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Real and virtual images"
+    },
+    {
+     "no": "14.2",
+     "title": "Mirror formula"
+    }
+   ],
+   "summary": [
+    "For a spherical mirror the pole P, centre of curvature C and focus F lie on the principal axis, and f = R/2 (derived from the paraxial approximation).",
+    "A real image is formed where reflected rays actually meet; it can be caught on a screen and is inverted. A virtual image is formed where the backward extensions meet; it cannot be caught on a screen and is erect.",
+    "New Cartesian convention: distances from P, positive along the incident light. Concave f<0, convex f>0; real image v<0, virtual image v>0.",
+    "Mirror formula: dfrac1v + dfrac1u = dfrac1f = dfrac2R.",
+    "Magnification: m = dfrachiho = -dfracvu = dfracf-vf = dfracff-u. Negative m = inverted and real; positive m = erect and virtual.",
+    "A concave mirror gives a real image for every object beyond F, and a magnified virtual image only when the object is between F and P.",
+    "A convex mirror gives a virtual, erect, diminished image for every position of a real object."
+   ],
+   "terms": [
+    "Real and virtual image"
+   ],
+   "stats": {
+    "words": 3658,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Refraction at plane surfaces",
+   "hours": 4,
+   "area": "Waves and Optics",
+   "topics": [
+    "Laws of refraction: Refractive index",
+    "Relation between refractive indices",
+    "Lateral shift",
+    "Total internal reflection"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Laws of refraction: Refractive index"
+    },
+    {
+     "no": "15.2",
+     "title": "Relation between refractive indices"
+    },
+    {
+     "no": "15.3",
+     "title": "Lateral shift"
+    },
+    {
+     "no": "15.4",
+     "title": "Total internal reflection"
+    }
+   ],
+   "summary": [
+    "Laws of refraction: incident ray, refracted ray and normal are coplanar; and dfracsin isin r = 1n2 (Snell's law), usually written n1sin i = n2sin r.",
+    "Absolute refractive index n = c/v; also 1n2 = n2/n1 = v1/v2 = λ1/λ2. Frequency never changes on refraction.",
+    "Reversibility gives 1n2 = 1/2n1, and the chain rule gives 1n2 × 2n3 × 3n1 = 1.",
+    "n = dfracreal depthapparent depth for near-normal viewing; apparent shift = t(1 - 1/n), and layers add: apparent depth = Σ ti/ni.",
+    "A parallel-sided slab leaves the direction unchanged but displaces the ray laterally by d = dfractsin(i-r)cos r, which is zero at normal incidence.",
+    "Total internal reflection needs light going denser → rarer with i > C, where sin C = n2/n1, or sin C = 1/n against air.",
+    "Optical fibres, totally reflecting prisms, mirages and the sparkle of diamond are all total internal reflection."
+   ],
+   "terms": [
+    "The laws of refraction",
+    "Absolute refractive index",
+    "Critical angle and total internal reflection"
+   ],
+   "stats": {
+    "words": 4945,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Refraction through prisms",
+   "hours": 3,
+   "area": "Waves and Optics",
+   "topics": [
+    "Minimum deviation condition",
+    "Relation between angle of prism, minimum deviation and refractive index",
+    "Deviation in small angle prism"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Minimum deviation condition"
+    },
+    {
+     "no": "16.2",
+     "title": "Relation between angle of prism, minimum deviation and refractive index"
+    },
+    {
+     "no": "16.3",
+     "title": "Deviation in small angle prism"
+    }
+   ],
+   "summary": [
+    "For a prism of refracting angle A: A = r1 + r2 and δ = i1 + i2 - A.",
+    "The graph of δ against i1 has one minimum. Above the minimum, two angles of incidence give the same deviation; at the minimum they coincide.",
+    "At minimum deviation the passage is symmetrical: i1 = i2, r1 = r2 = A/2, and the internal ray is parallel to the base.",
+    "Prism formula: n = dfracsinleft((A+δm)/(2)right)sinleft((A)/(2)right), with i = dfracA+δm2 at minimum deviation.",
+    "Light can emerge through the second face only if A ≤ 2C, where C is the critical angle; otherwise total internal reflection occurs inside the prism.",
+    "For a thin prism, δ = (n-1)A, independent of the angle of incidence, and thin-prism deviations simply add."
+   ],
+   "terms": [
+    "Angle of deviation"
+   ],
+   "stats": {
+    "words": 3970,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Lenses",
+   "hours": 3,
+   "area": "Waves and Optics",
+   "topics": [
+    "Spherical lenses, angular magnification",
+    "Lens maker's formula",
+    "Power of a lens"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Spherical lenses, angular magnification"
+    },
+    {
+     "no": "17.2",
+     "title": "Lens maker's formula"
+    },
+    {
+     "no": "17.3",
+     "title": "Power of a lens"
+    }
+   ],
+   "summary": [
+    "Thin lens formula dfrac1v - dfrac1u = dfrac1f with linear magnification m = hi/ho = v/u, in the New Cartesian convention.",
+    "A convex lens gives a real inverted image for any object beyond F1, and a virtual magnified one inside F1; a concave lens always gives a virtual, erect, diminished image.",
+    "Angular magnification M = β/α. For a simple microscope, M = 1 + D/f (image at the near point) and M = D/f (image at infinity), with D = 25 cm.",
+    "Refraction at one spherical surface: dfracn2v - dfracn1u = dfracn2-n1R.",
+    "Lens maker's formula: dfrac1f = (n-1)left(dfrac1R1-dfrac1R2right); in a medium, replace n by nl/nm.",
+    "Power P = 1/f (f in metres), unit dioptre; convex positive, concave negative.",
+    "Lenses in contact: dfrac1F = dfrac1f1+dfrac1f2, i.e. P = P1+P2 and m = m1m2; separated by d, P = P1+P2-dP1P2."
+   ],
+   "terms": [
+    "Sign convention (New Cartesian)",
+    "Angular magnification (magnifying power)",
+    "Power of a lens"
+   ],
+   "stats": {
+    "words": 4582,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Dispersion",
+   "hours": 3,
+   "area": "Waves and Optics",
+   "topics": [
+    "Pure spectrum and dispersive power",
+    "Chromatic and spherical aberration",
+    "Achromatism and its applications"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Pure spectrum and dispersive power"
+    },
+    {
+     "no": "18.2",
+     "title": "Chromatic and spherical aberration"
+    },
+    {
+     "no": "18.3",
+     "title": "Achromatism and its applications"
+    }
+   ],
+   "summary": [
+    "Dispersion happens because n depends on wavelength, with nV > nR; for a thin prism δ = (n-1)A.",
+    "Angular dispersion θ = (nV-nR)A; mean deviation δY = (nY-1)A.",
+    "Dispersive power ω = dfracnV-nRnY-1 — dimensionless, a property of the material only. Flint glass has roughly twice the ω of crown glass.",
+    "A pure spectrum needs a narrow slit, a parallel incident beam, the prism at minimum deviation, and a lens focusing each colour separately on the screen.",
+    "Chromatic aberration: fV < fR; longitudinal chromatic aberration = ω f. Spherical aberration: marginal rays focus nearer than paraxial rays, leaving a circle of least confusion.",
+    "Condition for achromatism of two thin lenses in contact: dfracω1f1 + dfracω2f2 = 0, so one lens must be convex (crown) and the other concave (flint).",
+    "Prism pairs: (nV-nR)A + (n'V-n'R)A' = 0 gives deviation without dispersion; (nY-1)A + (n'Y-1)A' = 0 gives dispersion without deviation."
+   ],
+   "terms": [
+    "Dispersive power",
+    "Pure spectrum",
+    "Achromatism"
+   ],
+   "stats": {
+    "words": 3483,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "Electric Charges",
+   "hours": 3,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Electric charges",
+    "Charging by induction",
+    "Coulomb's law - Force between two point charges",
+    "Force between multiple electric charges"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Electric charges"
+    },
+    {
+     "no": "19.2",
+     "title": "Charging by induction"
+    },
+    {
+     "no": "19.3",
+     "title": "Coulomb's law — force between two point charges"
+    },
+    {
+     "no": "19.4",
+     "title": "Force between multiple electric charges"
+    }
+   ],
+   "summary": [
+    "Charge is quantised (q = ± ne, e = 1.6×10^-19 C), conserved, additive and independent of speed. Charging transfers electrons only.",
+    "1 C = 1 A s = 6.25×10^18 electronic charges.",
+    "Charging by induction gives a charge opposite to the inducing charge; the earth connection must be broken before the rod is taken away.",
+    "Coulomb's law: F = dfrac14πvarepsilon0dfracq1q2r^2 with dfrac14πvarepsilon0 = 9×10^9 N m^2C^-2 and varepsilon0 = 8.85×10^-12 C^2N^-1m^-2.",
+    "In a medium the force is reduced: Fmed = Fvac/varepsilonr.",
+    "Vector form F21 = dfrac14πvarepsilon0dfracq1q2r^2r21; the forces obey Newton's third law.",
+    "Superposition: the resultant force is the vector sum of the individual pairwise forces, F1 = Σj F1j; combine two forces with F = √Fa^2+Fb^2+2FaFbcosθ."
+   ],
+   "terms": [
+    "Electric charge",
+    "Coulomb's law",
+    "The coulomb, defined from Coulomb's law",
+    "Principle of superposition"
+   ],
+   "stats": {
+    "words": 3298,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 20,
+   "title": "Electric field",
+   "hours": 3,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Electric field due to point charges; Field lines",
+    "Gauss Law: Electric Flux",
+    "Application of Gauss law: field of a charged sphere, line charge, charged plane conductor"
+   ],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "Electric field due to point charges; Field lines"
+    },
+    {
+     "no": "20.2",
+     "title": "Gauss Law: Electric Flux"
+    },
+    {
+     "no": "20.3",
+     "title": "Application of Gauss law: field of a charged sphere, line charge, charged plane conductor"
+    }
+   ],
+   "summary": [
+    "E = F/q0, measured in N C⁻¹ = V m⁻¹; for a point charge E = kQ/r^2 with k = 1/4πvarepsilon0 = 9×10^9 SI units.",
+    "Fields superpose vectorially: E = Σ Ei.",
+    "Field lines run from + to -, never cross, are densest where E is largest, meet conductors at right angles and do not exist inside a conductor.",
+    "Electric flux PhiE = EAcosθ, a scalar with unit N m² C⁻¹.",
+    "Gauss's law: oint E· dA = qenc/varepsilon0; only enclosed charge contributes.",
+    "Charged conducting sphere: E = kQ/r^2 outside, σ/varepsilon0 at the surface, 0 inside.",
+    "Long line charge: E = λ/2πvarepsilon0 r (falls as 1/r).",
+    "Charged conductor surface: E = σ/varepsilon0; thin non-conducting sheet: E = σ/2varepsilon0. Both are uniform."
+   ],
+   "terms": [
+    "Electric field intensity",
+    "Gauss's law"
+   ],
+   "stats": {
+    "words": 4075,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 21,
+   "title": "Potential, potential difference and potential energy",
+   "hours": 4,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Potential difference, Potential due to a point charge, potential energy, electron volt",
+    "Equipotential lines and surfaces",
+    "Potential gradient"
+   ],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "Potential difference, Potential due to a point charge, potential energy, electron volt"
+    },
+    {
+     "no": "21.2",
+     "title": "Equipotential lines and surfaces"
+    },
+    {
+     "no": "21.3",
+     "title": "Potential gradient"
+    }
+   ],
+   "summary": [
+    "Potential difference VB - VA = WAB/q, in volts (J C⁻¹); absolute potential takes V = 0 at infinity.",
+    "Point charge: V = kQ/r — a scalar that carries the sign of the charge, so potentials add algebraically.",
+    "Potential energy: U = qV; for a pair of charges U = kq1q2/r; for a system add over all pairs.",
+    "1 eV = 1.6×10^-19 J — a unit of energy, not of potential.",
+    "An equipotential surface has constant V: no work is done moving a charge on it, and it is everywhere perpendicular to the field lines.",
+    "Conductors in equilibrium are equipotential volumes; field lines meet their surfaces at right angles.",
+    "E = -dV/dx: the field is the negative potential gradient, measured in V m⁻¹ = N C⁻¹. For parallel plates, E = V/d."
+   ],
+   "terms": [
+    "Potential difference",
+    "Electron volt",
+    "Equipotential surface"
+   ],
+   "stats": {
+    "words": 4309,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 22,
+   "title": "Capacitor",
+   "hours": 7,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Capacitance and capacitor",
+    "Parallel plate capacitor",
+    "Combination of capacitors",
+    "Energy of charged capacitor",
+    "Effect of a dielectric: Polarization and displacement"
+   ],
+   "sections": [
+    {
+     "no": "22.1",
+     "title": "Capacitance and capacitor"
+    },
+    {
+     "no": "22.2",
+     "title": "Parallel plate capacitor"
+    },
+    {
+     "no": "22.3",
+     "title": "Combination of capacitors"
+    },
+    {
+     "no": "22.4",
+     "title": "Energy of charged capacitor"
+    },
+    {
+     "no": "22.5",
+     "title": "Effect of a dielectric: Polarization and displacement"
+    }
+   ],
+   "summary": [
+    "C = Q/V, unit farad (C V⁻¹); capacitance depends on geometry and medium only.",
+    "Isolated sphere: C = 4πvarepsilon0R.",
+    "Parallel plate capacitor: E = σ/varepsilon0, V = Ed, and C = varepsilon0varepsilonr A/d. With a partial slab, C = varepsilon0A/(d - t + t/varepsilonr).",
+    "Series: same Q, 1/Ceq = Σ 1/Ci, result smaller than the smallest. Parallel: same V, Ceq = Σ Ci, result larger than the largest.",
+    "Stored energy U = fracQ^22C = (1)/(2)QV = (1)/(2)CV^2; it is the area under the Q–V line.",
+    "Energy per unit volume of any electric field: u = (1)/(2)varepsilon0E^2.",
+    "Sharing charge always wastes energy: Δ U = C1C2(V1-V2)^2/2(C1+C2).",
+    "A dielectric polarizes, producing bound surface charge σp = P which reduces the field to E0/varepsilonr and multiplies C by varepsilonr. Displacement D = varepsilon0E + P responds to free charge only."
+   ],
+   "terms": [
+    "Capacitance",
+    "Capacitor"
+   ],
+   "stats": {
+    "words": 4800,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 23,
+   "title": "DC Circuits",
+   "hours": 10,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Electric Currents; Drift velocity and its relation with current",
+    "Ohm's law, Electrical Resistance, Resistivity, Conductivity",
+    "Current-voltage relations: Ohmic and Non-Ohmic resistance",
+    "Resistances in series and parallel",
+    "Potential divider",
+    "Electromotive force of a source, internal resistance",
+    "Work and power in electrical circuits"
+   ],
+   "sections": [
+    {
+     "no": "23.1",
+     "title": "Electric Currents; Drift velocity and its relation with current"
+    },
+    {
+     "no": "23.2",
+     "title": "Ohm's law, Electrical Resistance, Resistivity, Conductivity"
+    },
+    {
+     "no": "23.3",
+     "title": "Current-voltage relations: Ohmic and Non-Ohmic resistance"
+    },
+    {
+     "no": "23.4",
+     "title": "Resistances in series and parallel"
+    },
+    {
+     "no": "23.5",
+     "title": "Potential divider"
+    },
+    {
+     "no": "23.6",
+     "title": "Electromotive force of a source, internal resistance"
+    },
+    {
+     "no": "23.7",
+     "title": "Work and power in electrical circuits"
+    }
+   ],
+   "summary": [
+    "Current is I = dQ/dt; in a metal I = nAvde and J = I/A = nevd, with a drift velocity of order 10^-4 m s^-1.",
+    "Ohm's law: V = IR at constant temperature. R = ρ l/A, σ = 1/ρ, and microscopically ρ = m/(ne^2τ).",
+    "Ohmic conductors give a straight I–V line through the origin; lamps, diodes and thermistors are non-ohmic.",
+    "Series: Req = R1+R2+R3. Parallel: 1/Req = 1/R1+1/R2+1/R3.",
+    "Kirchhoff: Σ I = 0 at a junction (charge conservation); Σ E = Σ IR round a loop (energy conservation).",
+    "Wheatstone bridge balances when P/Q = R/S; the metre bridge form is X = Rl/(100-l).",
+    "Galvanometer to ammeter: shunt S = IgG/(I-Ig) in parallel. To voltmeter: multiplier R = V/Ig - G in series.",
+    "Potential divider: Vout = VinR2/(R1+R2). Potentiometer: E = kl, E1/E2 = l1/l2, and r = R(l1-l2)/l2."
+   ],
+   "terms": [
+    "Drift velocity",
+    "Ohm's law",
+    "emf and terminal potential difference"
+   ],
+   "stats": {
+    "words": 7630,
+    "figures": 6,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 24,
+   "title": "Nuclear physics",
+   "hours": 6,
+   "area": "Modern Physics",
+   "topics": [
+    "Nucleus: Discovery of nucleus",
+    "Nuclear density, Mass number, Atomic number",
+    "Atomic mass, Isotopes",
+    "Einstein's mass-energy relation",
+    "Mass defect, packing fraction, BE per nucleon",
+    "Creation and annihilation",
+    "Nuclear fission and fusion; energy released"
+   ],
+   "sections": [
+    {
+     "no": "24.1",
+     "title": "Nucleus: Discovery of nucleus"
+    },
+    {
+     "no": "24.2",
+     "title": "Nuclear density, Mass number, Atomic number"
+    },
+    {
+     "no": "24.3",
+     "title": "Atomic mass, Isotopes"
+    },
+    {
+     "no": "24.4",
+     "title": "Einstein's mass-energy relation"
+    },
+    {
+     "no": "24.5",
+     "title": "Mass defect, packing fraction, BE per nucleon"
+    },
+    {
+     "no": "24.6",
+     "title": "Creation and annihilation"
+    },
+    {
+     "no": "24.7",
+     "title": "Nuclear fission and fusion; energy released"
+    }
+   ],
+   "summary": [
+    "Rutherford's alpha-scattering experiment showed the atom is mostly empty with a tiny, massive, positively charged nucleus of radius about 10^-14 m.",
+    "Z = number of protons, A = number of nucleons, N = A - Z; R = R0A^1/3 with R0 = 1.2 fm, so nuclear density is constant at about 2.3×10^17 kg m^-3.",
+    "1 u = 1.6605×10^-27 kg = 931.5 MeV. Isotopes have the same Z and different A.",
+    "Mass varies with speed, m = m0/√1-v^2/c^2; from this and dEk = v d(mv) follows Ek = (m-m0)c^2 and hence E = mc^2. A mass defect in u times 931.5 gives the energy in MeV.",
+    "Mass defect Δ m = [Zmp + (A-Z)mn] - M; binding energy B = Δ mc^2; packing fraction f = (M-A)/A.",
+    "The B/A curve peaks at about 8.8 MeV near A = 56; light nuclei release energy by fusion, heavy nuclei by fission.",
+    "Pair production needs E ≥ 1.02 MeV and a nearby nucleus; annihilation of e⁻ and e⁺ gives two 0.511 MeV photons.",
+    "Fission of ²³⁵U releases about 200 MeV (read off the B/A curve as 236×(8.5-7.6)) and 2–3 neutrons, which sustain a chain reaction above the critical mass (≈ 52 kg for bare ²³⁵U). A reactor holds the multiplication factor at k = 1 using a moderator to slow neutrons and control rods to absorb them."
+   ],
+   "terms": [
+    "Atomic number and mass number",
+    "Atomic mass unit",
+    "Isotopes",
+    "Mass defect and binding energy",
+    "Nuclear fission",
+    "Chain reaction, multiplication factor and critical mass",
+    "Nuclear fusion"
+   ],
+   "stats": {
+    "words": 5253,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 25,
+   "title": "Solids",
+   "hours": 3,
+   "area": "Modern Physics",
+   "topics": [
+    "Energy bands in solids (qualitative ideas)",
+    "Difference between metals, insulators and semi-conductors using band theory",
+    "Intrinsic and extrinsic semi-conductors"
+   ],
+   "sections": [
+    {
+     "no": "25.1",
+     "title": "Energy bands in solids (qualitative ideas)"
+    },
+    {
+     "no": "25.2",
+     "title": "Difference between metals, insulators and semi-conductors using band theory"
+    },
+    {
+     "no": "25.3",
+     "title": "Intrinsic and extrinsic semi-conductors"
+    }
+   ],
+   "summary": [
+    "Bringing N atoms together splits each sharp atomic level into N levels so close (sim 10^-29 eV apart) that they form a continuous energy band; between bands lie forbidden gaps.",
+    "The valence band is the highest band filled at 0 K; the conduction band is the empty band above it; their separation is Eg.",
+    "A completely filled band carries no current. Conduction needs empty states just above occupied ones.",
+    "Conductor: bands overlap, Eg = 0. Semiconductor: Eg ≤ 3 eV (Ge 0.7 eV, Si 1.1 eV). Insulator: Eg > 3 eV (diamond 5.47 eV).",
+    "Semiconductors have a negative temperature coefficient of resistance because carrier number grows like e^-Eg/2kT.",
+    "Intrinsic: ne = nh = ni, and σ = e(neμe + nhμh) reduces to σi = e ni(μe+μh), with ρ = 1/σ.",
+    "Extrinsic: a pentavalent dopant makes four bonds and leaves one spare electron (n-type, donor level below CB, electrons majority); a trivalent dopant makes three bonds and leaves one hole (p-type, acceptor level above VB, holes majority). Both crystals remain electrically neutral.",
+    "Law of mass action: ne nh = ni^2 at a given temperature."
+   ],
+   "terms": [
+    "Valence band and conduction band"
+   ],
+   "stats": {
+    "words": 3786,
+    "figures": 6,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 26,
+   "title": "Recent Trends in physics",
+   "hours": 6,
+   "area": "Modern Physics",
+   "topics": [
+    "Particle physics: Particles and antiparticles, Quarks (baryons and mesons), leptons (neutrinos)",
+    "Universe: Big Bang and Hubble law, expansion of the Universe, Dark matter, Black Hole, gravitational wave"
+   ],
+   "sections": [
+    {
+     "no": "26.1",
+     "title": "Particle physics"
+    },
+    {
+     "no": "26.2",
+     "title": "Universe"
+    }
+   ],
+   "summary": [
+    "Every particle has an antiparticle of equal mass and opposite charge. Pair production needs ≥ 1.02 MeV; annihilation of e^-e^+ gives two 0.511 MeV photons.",
+    "Quarks come in six flavours: u, c, t with charge +(2)/(3)e and d, s, b with -(1)/(3)e. Baryons are qqq (p = uud, n = udd); mesons are qq (π^+ = ud). Free quarks are never seen.",
+    "The six leptons are e, μ, τ and their neutrinos. Neutrinos are neutral, feel only the weak force, and oscillate between flavours — proof of tiny mass.",
+    "Hubble's law v = H0 d with H0 ≈ 70 km s^-1Mpc^-1; the Hubble time 1/H0 ≈ 14 billion years.",
+    "Big Bang evidence: the expansion, the 2.725 K cosmic microwave background, and the 75% H / 25% He abundance. Age = 13.8 billion years.",
+    "Space itself expands, with no centre, and ever faster: the universe is 68% dark energy, 27% dark matter, 5% ordinary matter.",
+    "Dark matter is inferred from flat rotation curves, cluster dynamics and lensing; it has never been detected directly. Newtonian orbits give v = √GM(r)/r, so a flat curve means M(r) ∝ r.",
+    "Black hole: escape velocity exceeds c; event horizon at Rs = 2GM/c^2. Imaged by the Event Horizon Telescope (M87\\* 2019, Sgr A\\* 2022)."
+   ],
+   "terms": [
+    "Antiparticle",
+    "Dark matter",
+    "Black hole"
+   ],
+   "stats": {
+    "words": 4513,
+    "figures": 5,
+    "examples": 6
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 26,
+ "topic_count": 117,
+ "notes_ready": 26
+}

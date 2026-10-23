@@ -225,9 +225,9 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         key_required=False, official=False, scraper_module='deepai_proxy',
     ),
     ProviderPreset(
-        slug='inception', label='Inception Labs (Mercury 2)', format=FORMAT_SCRAPER,
-        base_url='https://api.inceptionlabs.ai/v1', default_model='mercury-2',
-        models=[ModelSpec('mercury-2', 'Mercury 2')],
+        slug='inception', label='Inception Labs (Mercury 3)', format=FORMAT_SCRAPER,
+        base_url='https://api.inceptionlabs.ai/v1', default_model='mercury-3',
+        models=[ModelSpec('mercury-3', 'Mercury 3')],
         key_required=False, official=False, scraper_module='inception_proxy',
     ),
     ProviderPreset(
@@ -426,12 +426,13 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
         key_required=False, official=False, scraper_module='chatterbox_proxy',
     ),
     ProviderPreset(
-        slug='fishaudio', label='Fish Audio (fish.audio — S1)', format=FORMAT_SCRAPER,
-        base_url='https://api.fish.audio', default_model='fishaudio/s1',
+        slug='fishaudio', label='Fish Audio (fish.audio — Drama 3)', format=FORMAT_SCRAPER,
+        base_url='https://api.fish.audio', default_model='fishaudio/drama-3',
         models=[
-            ModelSpec('fishaudio/s1', 'Fish S1', 'High quality · many voices · no signup demo'),
+            ModelSpec('fishaudio/drama-3', 'Fish Audio Drama 3', 'Expressive — emotion tags, voice design · keyless via HF Space'),
+            ModelSpec('fishaudio/s2.1-pro-free', 'Fish Audio S2.1 Pro (free)', 'Official free API — needs FISH_API_KEY on the server'),
         ],
-        context_window=2000, max_output_tokens=0,
+        context_window=3000, max_output_tokens=0,
         key_required=False, official=False, scraper_module='fish_proxy',
     ),
     ProviderPreset(

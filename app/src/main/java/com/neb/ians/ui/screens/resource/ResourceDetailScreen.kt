@@ -111,6 +111,9 @@ fun ResourceDetailScreen(
 
     // Composer attachments (files + voice notes) shared by the main bar and the thread sheet.
     val commentAttachments by viewModel.commentAttachments.collectAsStateWithLifecycle()
+    // read only where the composers draw, so typing redraws the composer and not the screen
+    val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
+    val threadDraft by viewModel.threadDraft.collectAsStateWithLifecycle()
     val commentMediaPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenMultipleDocuments()
     ) { uris -> if (!uris.isNullOrEmpty()) viewModel.addCommentAttachments(uris) }
@@ -261,11 +264,11 @@ fun ResourceDetailScreen(
                         )
                     } else {
                     NebCommentComposerBar(
-                        value = uiState.commentDraft,
+                        value = commentDraft,
                         onValueChange = viewModel::onCommentDraftChange,
                         placeholder = if (uiState.isAuthenticated) "Write a comment..." else "Sign in to comment",
                         enabled = uiState.isAuthenticated && !uiState.isPostingComment,
-                        canSend = uiState.isAuthenticated && (uiState.commentDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !uiState.isPostingComment,
+                        canSend = uiState.isAuthenticated && (commentDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !uiState.isPostingComment,
                         posting = uiState.isPostingComment,
                         sendContentDescription = "Post comment",
                         voiceNote = if (uiState.isAuthenticated) voiceNote else null,
@@ -326,8 +329,8 @@ fun ResourceDetailScreen(
                             activeThreadParentId = comment.id
                             activeThreadTargetId = comment.id
                             val tag = "@${comment.userName} "
-                            if (!uiState.threadDraft.startsWith(tag)) {
-                                viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                            if (!threadDraft.startsWith(tag)) {
+                                viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
                             }
                         }
                         val onOpenCommentThread: (ApiResourceComment) -> Unit = { comment ->
@@ -519,8 +522,8 @@ fun ResourceDetailScreen(
                                     onReplyClick = {
                                         activeThreadTargetId = parent.id
                                         val tag = "@${parent.userName} "
-                                        if (!uiState.threadDraft.startsWith(tag)) {
-                                            viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                                        if (!threadDraft.startsWith(tag)) {
+                                            viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
                                         }
                                     },
                                     onDeleteClick = if (parent.userId == uiState.currentUserId) ({ deletingCommentId = parent.id }) else null,
@@ -563,8 +566,8 @@ fun ResourceDetailScreen(
                                             onReplyClick = {
                                                 activeThreadTargetId = child.id
                                                 val tag = "@${child.userName} "
-                                                if (!uiState.threadDraft.startsWith(tag)) {
-                                                    viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                                                if (!threadDraft.startsWith(tag)) {
+                                                    viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
                                                 }
                                             },
                                             onDeleteClick = if (child.userId == uiState.currentUserId) ({ deletingCommentId = child.id }) else null,
@@ -582,11 +585,11 @@ fun ResourceDetailScreen(
                         if (uiState.isAuthenticated) {
                             HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                             NebCommentComposerBar(
-                                value = uiState.threadDraft,
+                                value = threadDraft,
                                 onValueChange = viewModel::onThreadDraftChange,
                                 placeholder = if (replyTarget != null) "Reply to @${replyTarget.userName}..." else "Write a reply...",
                                 enabled = !uiState.isPostingComment,
-                                canSend = (uiState.threadDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !uiState.isPostingComment,
+                                canSend = (threadDraft.isNotBlank() || commentAttachments.isNotEmpty()) && !uiState.isPostingComment,
                                 posting = uiState.isPostingComment,
                                 sendContentDescription = "Post reply",
                                 voiceNote = voiceNote,
