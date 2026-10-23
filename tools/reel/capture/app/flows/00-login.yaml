@@ -26,13 +26,21 @@ name: Sign in with the demo account
 - inputText: ${NEB_USER}
 - tapOn: "Password"
 - inputText: ${NEB_PASS}
-- hideKeyboard
-- tapOn:
-    text: "Sign in"
-    index: 0
+- pressKey: Enter
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: login-submitted
+- runFlow:
+    when:
+      visible: "New to NEBians\\?"
+    commands:
+      - tapOn:
+          text: "Sign in"
+          index: 0
+          optional: true
 - extendedWaitUntil:
     visible: "Home"
-    timeout: 90000
+    timeout: 120000
 - waitForAnimationToEnd:
     timeout: 6000
 - takeScreenshot: home-first
