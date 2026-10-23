@@ -24,8 +24,14 @@ import com.neb.ians.ui.pixel.PixelCanvas
 import com.neb.ians.ui.theme.subjectFamily
 import kotlin.math.roundToInt
 
-/** Rendered pictures, shared across the app: a few dozen 128 x 64 bitmaps is well under a megabyte. */
-private val pictures = LruCache<String, ImageBitmap>(64)
+/**
+ * Rendered pictures, shared across the app. A banner is 32 KB and there are 144 per theme; a
+ * miss redraws one on the main thread as its card scrolls in, so the cache holds as many as a
+ * fortieth of the heap allows: about 100 on a small heap, a whole theme's on most phones.
+ */
+private val pictures = object : LruCache<String, ImageBitmap>((Runtime.getRuntime().maxMemory() / 40).toInt().coerceIn(2 shl 20, 10 shl 20)) {
+    override fun sizeOf(key: String, value: ImageBitmap) = value.width * value.height * 4
+}
 
 private fun picture(key: String, render: () -> PixelCanvas): ImageBitmap = pictures.get(key) ?: run {
     val cv = render()

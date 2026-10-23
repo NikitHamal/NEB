@@ -73,3 +73,15 @@ export function buildEnvelope(positions, bounds, cell, opts = {}) {
   for (let i = 0; i < f.length; i++) f[i] = (t - f[i]) * cell * 4;
   return meshFromField(f, nx, ny, nz, [x0, y0, z0], cell);
 }
+
+// Same result as buildEnvelope, computed in a worker so the page stays responsive while the skin
+// grows. Falls back to the main thread where module workers are unavailable.
+export function buildEnvelopeAsync(positions, bounds, cell, opts = {}) {
+  return new Promise((resolve) => {
+    let worker;
+    try { worker = new Worker(new URL('./envelope-worker.js', import.meta.url), { type: 'module' }); } catch (e) { resolve(buildEnvelope(positions, bounds, cell, opts)); return; }
+    worker.onmessage = (e) => { worker.terminate(); resolve(e.data); };
+    worker.onerror = (e) => { e.preventDefault && e.preventDefault(); worker.terminate(); resolve(buildEnvelope(positions, bounds, cell, opts)); };
+    worker.postMessage({ positions, bounds, cell, opts }, [positions.buffer]);
+  });
+}

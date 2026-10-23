@@ -222,9 +222,8 @@ def study_lab(request):
         ctx = _ctx(request, page='study_lab')
         return render(request, 'web/study_lab.html', ctx)
 
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
+    user = _request_db_user(request, user_id)
+    if user is None:
         ctx = _ctx(request, page='study_lab')
         return render(request, 'web/study_lab.html', ctx)
 
@@ -1768,9 +1767,8 @@ def analytics(request):
     if not user_id:
         return redirect(f"{reverse('web:login')}?next={request.path}")
 
-    try:
-        user = User.objects.get(pk=user_id)
-    except User.DoesNotExist:
+    user = _request_db_user(request, user_id)
+    if user is None:
         return redirect('web:login')
 
     now = now_ms()

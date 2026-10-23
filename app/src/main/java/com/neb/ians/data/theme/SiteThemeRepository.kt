@@ -22,7 +22,7 @@ class SiteThemeRepository @Inject constructor(
     @ApplicationContext context: Context,
     private val api: ApiService,
 ) {
-    private val prefs = context.getSharedPreferences("nebians_site_theme", Context.MODE_PRIVATE)
+    private val prefs = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
     private val json = Json { ignoreUnknownKeys = true }
 
     private val _theme = MutableStateFlow(load())
@@ -54,9 +54,11 @@ class SiteThemeRepository @Inject constructor(
         runCatching { json.decodeFromString(ApiSiteTheme.serializer(), raw) }.getOrNull()
     }
 
-    private companion object {
-        const val CACHED = "theme_json"
-        const val DISMISSED = "dismissed"
-        const val FIVE_MINUTES = 5 * 60 * 1000L
+    companion object {
+        /** NEBiansApp opens this file early so its disk read is done before MainActivity needs it. */
+        const val PREFS = "nebians_site_theme"
+        private const val CACHED = "theme_json"
+        private const val DISMISSED = "dismissed"
+        private const val FIVE_MINUTES = 5 * 60 * 1000L
     }
 }

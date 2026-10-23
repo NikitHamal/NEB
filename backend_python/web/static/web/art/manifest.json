@@ -1,0 +1,414 @@
+{
+ "looks": {
+  "riso": "Grain: risograph stipple, soft glows, paper texture",
+  "flat": "Flat: warm editorial vector, two tones and hairline detail",
+  "pixel": "Pixel: the same scene as crisp, dithered pixel art"
+ },
+ "sets": [
+  {
+   "key": "covers",
+   "title": "Profile covers",
+   "blurb": "One per account type, 3:1",
+   "items": [
+    {
+     "name": "member",
+     "w": 1500,
+     "h": 500,
+     "files": {
+      "riso": "covers/member-riso.svg",
+      "flat": "covers/member-flat.svg",
+      "pixel": "covers/member-pixel.svg"
+     }
+    },
+    {
+     "name": "verified",
+     "w": 1500,
+     "h": 500,
+     "files": {
+      "riso": "covers/verified-riso.svg",
+      "flat": "covers/verified-flat.svg",
+      "pixel": "covers/verified-pixel.svg"
+     }
+    },
+    {
+     "name": "tutor",
+     "w": 1500,
+     "h": 500,
+     "files": {
+      "riso": "covers/tutor-riso.svg",
+      "flat": "covers/tutor-flat.svg",
+      "pixel": "covers/tutor-pixel.svg"
+     }
+    },
+    {
+     "name": "institution",
+     "w": 1500,
+     "h": 500,
+     "files": {
+      "riso": "covers/institution-riso.svg",
+      "flat": "covers/institution-flat.svg",
+      "pixel": "covers/institution-pixel.svg"
+     }
+    },
+    {
+     "name": "moderator",
+     "w": 1500,
+     "h": 500,
+     "files": {
+      "riso": "covers/moderator-riso.svg",
+      "flat": "covers/moderator-flat.svg",
+      "pixel": "covers/moderator-pixel.svg"
+     }
+    },
+    {
+     "name": "admin",
+     "w": 1500,
+     "h": 500,
+     "files": {
+      "riso": "covers/admin-riso.svg",
+      "flat": "covers/admin-flat.svg",
+      "pixel": "covers/admin-pixel.svg"
+     }
+    },
+    {
+     "name": "bot",
+     "w": 1500,
+     "h": 500,
+     "files": {
+      "riso": "covers/bot-riso.svg",
+      "flat": "covers/bot-flat.svg",
+      "pixel": "covers/bot-pixel.svg"
+     }
+    }
+   ]
+  },
+  {
+   "key": "banners",
+   "title": "Resource banners",
+   "blurb": "One per subject family, 2:1",
+   "items": [
+    {
+     "name": "physics",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/physics-riso.svg",
+      "flat": "banners/physics-flat.svg",
+      "pixel": "banners/physics-pixel.svg"
+     }
+    },
+    {
+     "name": "chemistry",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/chemistry-riso.svg",
+      "flat": "banners/chemistry-flat.svg",
+      "pixel": "banners/chemistry-pixel.svg"
+     }
+    },
+    {
+     "name": "math",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/math-riso.svg",
+      "flat": "banners/math-flat.svg",
+      "pixel": "banners/math-pixel.svg"
+     }
+    },
+    {
+     "name": "biology",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/biology-riso.svg",
+      "flat": "banners/biology-flat.svg",
+      "pixel": "banners/biology-pixel.svg"
+     }
+    },
+    {
+     "name": "science",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/science-riso.svg",
+      "flat": "banners/science-flat.svg",
+      "pixel": "banners/science-pixel.svg"
+     }
+    },
+    {
+     "name": "language",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/language-riso.svg",
+      "flat": "banners/language-flat.svg",
+      "pixel": "banners/language-pixel.svg"
+     }
+    },
+    {
+     "name": "computing",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/computing-riso.svg",
+      "flat": "banners/computing-flat.svg",
+      "pixel": "banners/computing-pixel.svg"
+     }
+    },
+    {
+     "name": "commerce",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/commerce-riso.svg",
+      "flat": "banners/commerce-flat.svg",
+      "pixel": "banners/commerce-pixel.svg"
+     }
+    },
+    {
+     "name": "social",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/social-riso.svg",
+      "flat": "banners/social-flat.svg",
+      "pixel": "banners/social-pixel.svg"
+     }
+    },
+    {
+     "name": "health",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/health-riso.svg",
+      "flat": "banners/health-flat.svg",
+      "pixel": "banners/health-pixel.svg"
+     }
+    },
+    {
+     "name": "exam",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/exam-riso.svg",
+      "flat": "banners/exam-flat.svg",
+      "pixel": "banners/exam-pixel.svg"
+     }
+    },
+    {
+     "name": "general",
+     "w": 1200,
+     "h": 600,
+     "files": {
+      "riso": "banners/general-riso.svg",
+      "flat": "banners/general-flat.svg",
+      "pixel": "banners/general-pixel.svg"
+     }
+    }
+   ]
+  },
+  {
+   "key": "onboarding",
+   "title": "Onboarding scenes",
+   "blurb": "The first-run steps, 3:4",
+   "items": [
+    {
+     "name": "welcome",
+     "w": 900,
+     "h": 1200,
+     "files": {
+      "riso": "onboarding/welcome-riso.svg",
+      "flat": "onboarding/welcome-flat.svg",
+      "pixel": "onboarding/welcome-pixel.svg"
+     }
+    },
+    {
+     "name": "choose-class",
+     "w": 900,
+     "h": 1200,
+     "files": {
+      "riso": "onboarding/choose-class-riso.svg",
+      "flat": "onboarding/choose-class-flat.svg",
+      "pixel": "onboarding/choose-class-pixel.svg"
+     }
+    },
+    {
+     "name": "subjects",
+     "w": 900,
+     "h": 1200,
+     "files": {
+      "riso": "onboarding/subjects-riso.svg",
+      "flat": "onboarding/subjects-flat.svg",
+      "pixel": "onboarding/subjects-pixel.svg"
+     }
+    },
+    {
+     "name": "study",
+     "w": 900,
+     "h": 1200,
+     "files": {
+      "riso": "onboarding/study-riso.svg",
+      "flat": "onboarding/study-flat.svg",
+      "pixel": "onboarding/study-pixel.svg"
+     }
+    },
+    {
+     "name": "community",
+     "w": 900,
+     "h": 1200,
+     "files": {
+      "riso": "onboarding/community-riso.svg",
+      "flat": "onboarding/community-flat.svg",
+      "pixel": "onboarding/community-pixel.svg"
+     }
+    },
+    {
+     "name": "ready",
+     "w": 900,
+     "h": 1200,
+     "files": {
+      "riso": "onboarding/ready-riso.svg",
+      "flat": "onboarding/ready-flat.svg",
+      "pixel": "onboarding/ready-pixel.svg"
+     }
+    }
+   ]
+  },
+  {
+   "key": "empty",
+   "title": "Empty states",
+   "blurb": "Offline, nothing found, nothing saved yet, 1:1",
+   "items": [
+    {
+     "name": "offline",
+     "w": 800,
+     "h": 800,
+     "files": {
+      "riso": "empty/offline-riso.svg",
+      "flat": "empty/offline-flat.svg",
+      "pixel": "empty/offline-pixel.svg"
+     }
+    },
+    {
+     "name": "search",
+     "w": 800,
+     "h": 800,
+     "files": {
+      "riso": "empty/search-riso.svg",
+      "flat": "empty/search-flat.svg",
+      "pixel": "empty/search-pixel.svg"
+     }
+    },
+    {
+     "name": "bookmarks",
+     "w": 800,
+     "h": 800,
+     "files": {
+      "riso": "empty/bookmarks-riso.svg",
+      "flat": "empty/bookmarks-flat.svg",
+      "pixel": "empty/bookmarks-pixel.svg"
+     }
+    },
+    {
+     "name": "downloads",
+     "w": 800,
+     "h": 800,
+     "files": {
+      "riso": "empty/downloads-riso.svg",
+      "flat": "empty/downloads-flat.svg",
+      "pixel": "empty/downloads-pixel.svg"
+     }
+    },
+    {
+     "name": "notifications",
+     "w": 800,
+     "h": 800,
+     "files": {
+      "riso": "empty/notifications-riso.svg",
+      "flat": "empty/notifications-flat.svg",
+      "pixel": "empty/notifications-pixel.svg"
+     }
+    },
+    {
+     "name": "inbox",
+     "w": 800,
+     "h": 800,
+     "files": {
+      "riso": "empty/inbox-riso.svg",
+      "flat": "empty/inbox-flat.svg",
+      "pixel": "empty/inbox-pixel.svg"
+     }
+    },
+    {
+     "name": "error",
+     "w": 800,
+     "h": 800,
+     "files": {
+      "riso": "empty/error-riso.svg",
+      "flat": "empty/error-flat.svg",
+      "pixel": "empty/error-pixel.svg"
+     }
+    },
+    {
+     "name": "done",
+     "w": 800,
+     "h": 800,
+     "files": {
+      "riso": "empty/done-riso.svg",
+      "flat": "empty/done-flat.svg",
+      "pixel": "empty/done-pixel.svg"
+     }
+    }
+   ]
+  },
+  {
+   "key": "backgrounds",
+   "title": "Backgrounds",
+   "blurb": "Auth hero, landscapes, glows",
+   "items": [
+    {
+     "name": "auth",
+     "w": 1080,
+     "h": 1920,
+     "files": {
+      "riso": "backgrounds/auth-riso.svg",
+      "flat": "backgrounds/auth-flat.svg",
+      "pixel": "backgrounds/auth-pixel.svg"
+     }
+    },
+    {
+     "name": "landscape",
+     "w": 1600,
+     "h": 900,
+     "files": {
+      "riso": "backgrounds/landscape-riso.svg",
+      "flat": "backgrounds/landscape-flat.svg",
+      "pixel": "backgrounds/landscape-pixel.svg"
+     }
+    },
+    {
+     "name": "glow",
+     "w": 1600,
+     "h": 900,
+     "files": {
+      "riso": "backgrounds/glow-riso.svg",
+      "flat": "backgrounds/glow-flat.svg",
+      "pixel": "backgrounds/glow-pixel.svg"
+     }
+    },
+    {
+     "name": "night",
+     "w": 1600,
+     "h": 900,
+     "files": {
+      "riso": "backgrounds/night-riso.svg",
+      "flat": "backgrounds/night-flat.svg",
+      "pixel": "backgrounds/night-pixel.svg"
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1333 @@
+{
+ "grade": "12",
+ "grade_label": "Class 12",
+ "grade_label_ne": "कक्षा १२",
+ "subject": "physics",
+ "name": "Physics",
+ "name_ne": "भौतिक विज्ञान",
+ "icon": "bolt",
+ "group": "science",
+ "color": "#4A42D6",
+ "lang": "en",
+ "code": "1021 (CDC Phy.102)",
+ "hours": 128,
+ "exam": "3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24",
+ "areas": [
+  "Mechanics",
+  "Heat and Thermodynamics",
+  "Waves and Optics",
+  "Electricity and Magnetism",
+  "Modern Physics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Rotational dynamics",
+   "hours": 7,
+   "area": "Mechanics",
+   "topics": [
+    "Equation of angular motion; Relation between linear and angular kinematics",
+    "Kinetic energy of rotation of rigid body",
+    "Moment of inertia; Radius of gyration",
+    "Moment of inertia of a uniform rod",
+    "Torque and angular acceleration for a rigid body",
+    "Work and power in rotational motion",
+    "Angular momentum; conservation of angular momentum"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Equation of angular motion; Relation between linear and angular kinematics"
+    },
+    {
+     "no": "1.2",
+     "title": "Kinetic energy of rotation of rigid body"
+    },
+    {
+     "no": "1.3",
+     "title": "Moment of inertia; Radius of gyration"
+    },
+    {
+     "no": "1.4",
+     "title": "Moment of inertia of a uniform rod"
+    },
+    {
+     "no": "1.5",
+     "title": "Torque and angular acceleration for a rigid body"
+    },
+    {
+     "no": "1.6",
+     "title": "Work and power in rotational motion"
+    },
+    {
+     "no": "1.7",
+     "title": "Angular momentum; conservation of angular momentum"
+    }
+   ],
+   "summary": [
+    "For constant α: ω = ω0 + α t, θ = ω0 t + (1)/(2)α t^2, ω^2 = ω0^2 + 2αθ; and s = rθ, v = rω, at = rα, ac = rω^2.",
+    "Rotational kinetic energy Ek = (1)/(2)Iω^2, where I = Σ mi ri^2 = ∫ r^2dm is the moment of inertia.",
+    "Radius of gyration: I = Mk^2, so k = √I/M. Parallel axis: I = Icm + Md^2; perpendicular axis (laminae): Iz = Ix + Iy.",
+    "Uniform rod of mass M, length L: I = ML^2/12 about the centre and ML^2/3 about one end.",
+    "Torque τ = rFsinφ and τ = Iα, the rotational form of F = ma.",
+    "Work W = τθ, power P = τω, and W = (1)/(2)Iω2^2 - (1)/(2)Iω1^2.",
+    "Angular momentum L = Iω with τ = dL/dt. If τ = 0 then I1ω1 = I2ω2: angular momentum is conserved, but kinetic energy need not be."
+   ],
+   "terms": [
+    "Moment of inertia",
+    "Angular momentum"
+   ],
+   "stats": {
+    "words": 3339,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Periodic motion",
+   "hours": 6,
+   "area": "Mechanics",
+   "topics": [
+    "Equation of simple harmonic motion (SHM)",
+    "Energy in SHM",
+    "Application of SHM: vertical oscillation of mass suspended from coiled spring",
+    "Angular SHM; simple pendulum",
+    "Oscillatory motion: Damped oscillation, Forced oscillation and resonance"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Equation of simple harmonic motion (SHM)"
+    },
+    {
+     "no": "2.2",
+     "title": "Energy in SHM"
+    },
+    {
+     "no": "2.3",
+     "title": "Application of SHM: vertical oscillation of mass suspended from coiled spring"
+    },
+    {
+     "no": "2.4",
+     "title": "Angular SHM; simple pendulum"
+    },
+    {
+     "no": "2.5",
+     "title": "Oscillatory motion: Damped oscillation, Forced oscillation and resonance"
+    }
+   ],
+   "summary": [
+    "SHM: a = -ω^2x, with x = Asin(ω t + φ), v = Aωcos(ω t+φ) = ω√A^2-x^2 and T = 2π/ω = 2π√m/k.",
+    "Speed is maximum (Aω) at the mean position; acceleration is maximum (ω^2A) at the extremes. SHM is the projection of uniform circular motion on a diameter.",
+    "U = (1)/(2)mω^2x^2, K = (1)/(2)mω^2(A^2-x^2), and the total E = (1)/(2)mω^2A^2 = (1)/(2)kA^2 is constant.",
+    "Mass on a vertical spring: mg = ke and T = 2π√m/k = 2π√e/g; the weight only shifts the mean position.",
+    "Angular SHM: τ = -cθ gives T = 2π√I/c. Simple pendulum: T = 2π√L/g for small amplitude, independent of the mass of the bob.",
+    "Damped oscillation: A = A0e^-bt/2m, ω' = √k/m - b^2/4m^2; critical damping returns the system to rest fastest.",
+    "A forced oscillator vibrates at the driver's frequency; at resonance (ωd = ω0) the amplitude is maximum and is limited only by damping."
+   ],
+   "terms": [
+    "Simple harmonic motion",
+    "Resonance"
+   ],
+   "stats": {
+    "words": 2763,
+    "figures": 6,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Fluid statics",
+   "hours": 9,
+   "area": "Mechanics",
+   "topics": [
+    "Fluid statics: Pressure in a fluid; Buoyancy",
+    "Surface tension: Theory of surface tension; Surface energy",
+    "Angle of contact, capillarity and its applications",
+    "Fluid Dynamics: Newton's formula for viscosity in a liquid; Coefficient of viscosity",
+    "Poiseuille's formula and its application",
+    "Stokes law and its applications",
+    "Equation of continuity and its applications",
+    "Bernoulli's equation and its applications"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Fluid statics: Pressure in a fluid; Buoyancy"
+    },
+    {
+     "no": "3.2",
+     "title": "Surface tension: Theory of surface tension; Surface energy"
+    },
+    {
+     "no": "3.3",
+     "title": "Angle of contact, capillarity and its applications"
+    },
+    {
+     "no": "3.4",
+     "title": "Fluid Dynamics: Newton's formula for viscosity in a liquid; Coefficient of viscosity"
+    },
+    {
+     "no": "3.5",
+     "title": "Poiseuille's formula and its application"
+    },
+    {
+     "no": "3.6",
+     "title": "Stokes law and its applications"
+    },
+    {
+     "no": "3.7",
+     "title": "Equation of continuity and its applications"
+    },
+    {
+     "no": "3.8",
+     "title": "Bernoulli's equation and its applications"
+    }
+   ],
+   "summary": [
+    "P = hρ g (gauge), P = P0 + hρ g (absolute); pressure depends on depth only, and Pascal's law transmits it undiminished.",
+    "Upthrust U = Vρ g = weight of fluid displaced; a floating body has Vs/V = ρb/ρl.",
+    "T = F/L (N m⁻¹) equals the surface energy W/Δ A (J m⁻²). Excess pressure: 2T/r in a drop, 4T/r in a soap bubble.",
+    "Capillary rise h = 2Tcosθ/rρ g, so h ∝ 1/r.",
+    "Viscosity F = η A dv/dx, η in Pa s, [ML^-1T^-1].",
+    "Poiseuille Q = π P r^4/8η l — the fourth power of the radius.",
+    "Stokes F = 6πη rv, giving vt = 2r^2(ρ-σ)g/9η.",
+    "Continuity A1v1 = A2v2 (mass) and Bernoulli P + (1)/(2)ρ v^2 + ρ gh = constant (energy), giving v = √2gh for efflux."
+   ],
+   "terms": [
+    "Surface tension",
+    "Angle of contact",
+    "Coefficient of viscosity",
+    "Bernoulli's principle"
+   ],
+   "stats": {
+    "words": 3399,
+    "figures": 6,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "First Law of Thermodynamics",
+   "hours": 6,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Thermodynamic systems",
+    "Work done during volume change",
+    "Heat and work; Internal energy and First law of thermodynamics",
+    "Thermodynamic processes: Adiabatic, isochoric, isothermal and isobaric",
+    "Heat capacities of an ideal gas at constant pressure and volume and relation between them",
+    "Isothermal and Adiabatic processes for an ideal gas"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Thermodynamic systems"
+    },
+    {
+     "no": "4.2",
+     "title": "Work done during volume change"
+    },
+    {
+     "no": "4.3",
+     "title": "Heat and work; Internal energy and First law of thermodynamics"
+    },
+    {
+     "no": "4.4",
+     "title": "Thermodynamic processes: Adiabatic, isochoric, isothermal and isobaric"
+    },
+    {
+     "no": "4.5",
+     "title": "Heat capacities of an ideal gas at constant pressure and volume and relation between them"
+    },
+    {
+     "no": "4.6",
+     "title": "Isothermal and Adiabatic processes for an ideal gas"
+    }
+   ],
+   "summary": [
+    "A system exchanges matter and energy with its surroundings across a boundary; open, closed and isolated systems differ in what may cross it. P, V, T and U are state functions; Q and W are path functions.",
+    "Work done by a gas is W = ∫ P dV, the area under the P–V curve; positive for expansion, negative for compression.",
+    "First law: Q = Δ U + W, with Q positive for heat absorbed and W positive for expansion. For an ideal gas U depends only on T.",
+    "Isochoric: W=0, Q=Δ U. Isobaric: W = PΔ V. Isothermal: Δ U = 0, Q = W. Adiabatic: Q = 0, Δ U = -W. Cyclic: Δ U = 0, Q = W = area of loop.",
+    "Mayer's relation: Cp - Cv = R, so Cv = R/(γ-1) and Cp = γ R/(γ-1). Here γ = 1.67, 1.40 and 1.33 for mono-, di- and polyatomic gases.",
+    "Isothermal: PV = constant and W = nRTln(V2/V1).",
+    "Adiabatic: PV^γ = constant, TV^γ-1 = constant, and W = (P1V1 - P2V2)/(γ-1) = nR(T1-T2)/(γ-1).",
+    "At any common point the adiabatic curve is γ times steeper than the isothermal, so adiabatic expansion cools a gas."
+   ],
+   "terms": [
+    "State function and path function",
+    "First law of thermodynamics"
+   ],
+   "stats": {
+    "words": 3466,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Second Law of Thermodynamics",
+   "hours": 6,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Thermodynamic systems and direction of thermodynamic processes",
+    "Second law of thermodynamics",
+    "Heat engines",
+    "Internal combustion engines: Otto cycle, Diesel cycle, Carnot cycle",
+    "Refrigerator",
+    "Entropy and disorder (introduction only)"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Thermodynamic systems and direction of thermodynamic processes"
+    },
+    {
+     "no": "5.2",
+     "title": "Second law of thermodynamics"
+    },
+    {
+     "no": "5.3",
+     "title": "Heat engines"
+    },
+    {
+     "no": "5.4",
+     "title": "Internal combustion engines: Otto cycle, Diesel cycle, Carnot cycle"
+    },
+    {
+     "no": "5.5",
+     "title": "Refrigerator"
+    },
+    {
+     "no": "5.6",
+     "title": "Entropy and disorder (introduction only)"
+    }
+   ],
+   "summary": [
+    "Real processes run one way only. A reversible process is quasi-static and free of all dissipative effects; no real process is reversible.",
+    "Kelvin–Planck: no cyclic device can convert heat from a single reservoir entirely into work. Clausius: no self-acting cyclic device can move heat from a colder to a hotter body. The two statements are equivalent.",
+    "Heat engine: W = Q1 - Q2 and η = W/Q1 = 1 - Q2/Q1. A sink is compulsory, so η < 1 always.",
+    "Otto cycle (petrol): two adiabatics and two isochorics, η = 1 - r^-(γ-1). Diesel cycle: heat added isobarically, allowing a much larger r.",
+    "Carnot cycle: two isothermals and two adiabatics, all reversible, with η = 1 - T2/T1 — the maximum possible for the given temperatures, and independent of the working substance (Carnot's theorem).",
+    "Refrigerator: Q1 = Q2 + W, β = Q2/W = Q2/(Q1-Q2), and for the ideal case βmax = T2/(T1-T2) = (1-η)/η.",
+    "Entropy dS = dQrev/T is a state function measured in J K⁻¹, and for an isothermal change Δ S = Q/T. The second law states Δ Suniverse ≥ 0; entropy is a measure of disorder."
+   ],
+   "terms": [
+    "Reversible and irreversible processes",
+    "Kelvin–Planck statement (engine statement)",
+    "Clausius statement (refrigerator statement)",
+    "Heat engine",
+    "Carnot's theorem"
+   ],
+   "stats": {
+    "words": 3277,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Wave motion",
+   "hours": 2,
+   "area": "Waves and Optics",
+   "topics": [
+    "Progressive waves",
+    "Mathematical description of a wave",
+    "Stationary waves"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Progressive waves"
+    },
+    {
+     "no": "6.2",
+     "title": "Mathematical description of a wave"
+    },
+    {
+     "no": "6.3",
+     "title": "Stationary waves"
+    }
+   ],
+   "summary": [
+    "A progressive wave carries energy and momentum through a medium without carrying the medium. Transverse waves vibrate perpendicular to the direction of travel, longitudinal waves parallel to it.",
+    "v = fλ = λ/T for every wave; in a given medium v is fixed, so raising f shortens λ.",
+    "Wave equation: y = asin(ω t - kx) = asin 2π(t/T - x/λ), with ω = 2π/T, k = 2π/λ and v = ω/k. Use +kx for a wave travelling in the -x direction.",
+    "Phase difference and path difference are linked by Δφ = (2π/λ)Δ x.",
+    "Particle velocity vp = aωcos(ω t - kx), maximum aω; it is not the wave velocity.",
+    "Two identical waves travelling in opposite directions superpose to give a stationary wave, y = 2acos kx sinω t, whose amplitude 2acos(2π x/λ) depends on position.",
+    "Nodes (zero amplitude) lie at x = λ/4, 3λ/4, ldots and antinodes (amplitude 2a) at x = 0, λ/2, λ, ldots. Successive nodes are λ/2 apart and a node is λ/4 from the nearest antinode."
+   ],
+   "terms": [
+    "Progressive (travelling) wave"
+   ],
+   "stats": {
+    "words": 2477,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Mechanical waves",
+   "hours": 4,
+   "area": "Waves and Optics",
+   "topics": [
+    "Speed of wave motion; Velocity of sound in solid and liquid",
+    "Velocity of sound in gas",
+    "Laplace's correction",
+    "Effect of temperature, pressure, humidity on velocity of sound"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Speed of wave motion; velocity of sound in solid and liquid"
+    },
+    {
+     "no": "7.2",
+     "title": "Velocity of sound in gas"
+    },
+    {
+     "no": "7.3",
+     "title": "Laplace's correction"
+    },
+    {
+     "no": "7.4",
+     "title": "Effect of temperature, pressure, humidity on velocity of sound"
+    }
+   ],
+   "summary": [
+    "Every wave obeys v=fλ, but the speed itself is set by the medium: v=√E/ρ, elasticity over inertia.",
+    "Solid rod: v=√Y/ρ (≈ 5060 m s^-1 in steel). Liquid: v=√B/ρ (≈ 1480 m s^-1 in water). Fluids carry only longitudinal sound; solids carry longitudinal and transverse waves.",
+    "Newton's formula: assuming isothermal compressions, Biso=P and v=√P/ρ, giving 280 m s⁻¹ for air — 16 % too low.",
+    "Laplace's correction: the compressions are adiabatic, so Badi=γ P and v=√γ P/ρ = 331 m s^-1, which matches experiment.",
+    "Eliminating density gives v=√γ RT/M: the speed depends on temperature and on the gas, never on the pressure.",
+    "vt=v0√1+t/273≈ v0+0.61t for air: +0.61 m s⁻¹ per °C.",
+    "Humidity raises v slightly (moist air is lighter); wind adds vectorially, veff=v+wcosθ; amplitude and frequency have no effect."
+   ],
+   "terms": [
+    "Newton's general formula for wave speed"
+   ],
+   "stats": {
+    "words": 2997,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Wave in pipes and strings",
+   "hours": 4,
+   "area": "Waves and Optics",
+   "topics": [
+    "Stationary waves in closed and open pipes",
+    "Harmonics and overtones in closed and open organ pipes",
+    "End correction in pipes",
+    "Velocity of transverse waves along a stretched string",
+    "Vibration of string and overtones",
+    "Laws of vibration of fixed string"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Stationary waves in closed and open pipes"
+    },
+    {
+     "no": "8.2",
+     "title": "Harmonics and overtones in closed and open organ pipes"
+    },
+    {
+     "no": "8.3",
+     "title": "End correction in pipes"
+    },
+    {
+     "no": "8.4",
+     "title": "Velocity of transverse waves along a stretched string"
+    },
+    {
+     "no": "8.5",
+     "title": "Vibration of string and overtones"
+    },
+    {
+     "no": "8.6",
+     "title": "Laws of vibration of fixed string"
+    }
+   ],
+   "summary": [
+    "A stationary wave forms when incident and reflected waves superpose. Closed end → displacement node; open end → displacement antinode. Adjacent nodes are λ/2 apart.",
+    "Closed pipe: L=(2n-1)λ/4, so fn = (2n-1)v/4L — odd harmonics only. The 1st overtone is the 3rd harmonic.",
+    "Open pipe: L=nλ/2, so fn = nv/2L — all harmonics. An open pipe sounds one octave above a closed pipe of the same length and gives a richer note.",
+    "End correction e = 0.6r: closed pipe f1 = v/4(L+e), open pipe f1 = v/2(L+2e).",
+    "Resonance tube: v = 2f(l2-l1) and e = (l2-3l1)/2.",
+    "Transverse waves on a string: v = √T/μ, derived from the centripetal force on a curved element.",
+    "String fixed at both ends: fn = dfracn2L√dfracTμ, all harmonics present.",
+    "Laws of a vibrating string: f∝ 1/L, f∝√T, f∝ 1/√μ."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2835,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Acoustic phenomena",
+   "hours": 5,
+   "area": "Waves and Optics",
+   "topics": [
+    "Sound waves: Pressure amplitude",
+    "Characteristics of sound: Intensity, loudness, quality and pitch",
+    "Doppler's effect"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Sound waves: pressure amplitude"
+    },
+    {
+     "no": "9.2",
+     "title": "Characteristics of sound: intensity, loudness, quality and pitch"
+    },
+    {
+     "no": "9.3",
+     "title": "Doppler's effect"
+    }
+   ],
+   "summary": [
+    "Excess pressure Δ P = -B partial y/partial x; the pressure amplitude is P0 = Bak = ρ vω a = 2πρ v f a.",
+    "The pressure wave is λ/4 out of phase with the displacement wave: a displacement node is a pressure antinode.",
+    "Intensity I = (1)/(2)ρ vω^2a^2 = P0^2/2ρ v, in W m⁻²; for a point source I = P/4π r^2, so I∝ 1/r^2.",
+    "Intensity level β = 10log10(I/I0) dB with I0 = 10^-12 W m^-2. Doubling I adds 3 dB; doubling the distance subtracts 6 dB.",
+    "Loudness (Weber–Fechner, L = klog I) is the sensation; pitch is set by frequency; quality is set by the overtones present, i.e. by the waveform.",
+    "Doppler effect: f' = dfracv+vov-vsf, with vo and vs counted positive when the motion brings source and observer closer.",
+    "There is no Doppler shift for motion perpendicular to the line of sight, for equal velocities in the same direction, or for a steady wind."
+   ],
+   "terms": [
+    "Intensity of sound",
+    "Doppler effect"
+   ],
+   "stats": {
+    "words": 2965,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Nature and propagation of light",
+   "hours": 3,
+   "area": "Waves and Optics",
+   "topics": [
+    "Huygen's principle",
+    "Reflection and Refraction according to wave theory"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Huygen's principle"
+    },
+    {
+     "no": "10.2",
+     "title": "Reflection and Refraction according to wave theory"
+    }
+   ],
+   "summary": [
+    "A wavefront is the locus of points vibrating in the same phase; a ray is the normal to the wavefront. Wavefronts may be spherical, cylindrical or plane.",
+    "Huygens' principle: every point of a wavefront is a source of secondary wavelets of radius vt; the new wavefront is their forward envelope. Backward wavelets are suppressed by the obliquity factor K = (1)/(2)(1+cosθ).",
+    "Reflection: BC = AD = ct gives sin i/sin r = 1, so i = r, and the incident ray, reflected ray and normal are coplanar.",
+    "Refraction: BC = v1t, AD = v2t give dfracsin isin r = dfracv1v2 = dfracn2n1, i.e. n1sin i = n2sin r.",
+    "On refraction the frequency is unchanged; the speed and wavelength both fall by the factor n: v = c/n and λm = λ0/n.",
+    "Optical path = n × geometrical path; it is the vacuum distance holding the same number of waves.",
+    "The wave theory predicts vwater < vair, confirmed by Foucault in 1850; the corpuscular theory predicted the opposite and failed."
+   ],
+   "terms": [
+    "Wavefront"
+   ],
+   "stats": {
+    "words": 2554,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Interference",
+   "hours": 2,
+   "area": "Waves and Optics",
+   "topics": [
+    "Phenomenon of Interference: Coherent sources",
+    "Young's double slit experiment"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Phenomenon of Interference: Coherent sources"
+    },
+    {
+     "no": "11.2",
+     "title": "Young's double slit experiment"
+    }
+   ],
+   "summary": [
+    "Superposition gives I = I1 + I2 + 2√I1I2cosφ, with φ = 2πΔ/λ.",
+    "Bright when Δ = nλ; dark when Δ = (2n-1)λ/2. For equal sources I = 4I0cos^2(φ/2), with Imax = 4I0, Imin = 0.",
+    "Imax:Imin = (√I1+√I2)^2 : (√I1-√I2)^2.",
+    "Coherent sources have the same frequency and a constant phase difference; they must be obtained from one source, by division of wavefront or of amplitude.",
+    "In Young's experiment Δ = yd/D, bright fringes at yn = nλ D/d, dark at yn = (2n-1)λ D/2d.",
+    "Fringe width β = λ D/d; all fringes are equally spaced and equally bright. In a medium of index n, β shrinks to β/n.",
+    "Energy is redistributed, not destroyed: the average intensity across the pattern is 2I0, exactly what the two beams carry."
+   ],
+   "terms": [
+    "Interference of light",
+    "Coherent sources"
+   ],
+   "stats": {
+    "words": 2324,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Diffraction",
+   "hours": 3,
+   "area": "Waves and Optics",
+   "topics": [
+    "Diffraction from a single slit",
+    "Diffraction pattern of image; Diffraction grating",
+    "Resolving power of optical instruments"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Diffraction from a single slit"
+    },
+    {
+     "no": "12.2",
+     "title": "Diffraction pattern of image; Diffraction grating"
+    },
+    {
+     "no": "12.3",
+     "title": "Resolving power of optical instruments"
+    }
+   ],
+   "summary": [
+    "Diffraction is the bending of light round edges, noticeable only when the aperture is comparable with λ. Fraunhofer diffraction uses plane waves.",
+    "Single slit minima: asinθ = nλ for n = ±1, ±2, dots; secondary maxima near asinθ = (n+(1)/(2))λ, of relative intensity 4.7%, 1.7%, …",
+    "Intensity: I = I0(sinβ/β)^2 with β = π asinθ/λ.",
+    "Central maximum: angular width 2λ/a, linear width 2λ D/a — it gets wider as the slit gets narrower.",
+    "Grating element d = 1/N; grating equation dsinθ = nλ; highest order nmax = d/λ; in each order violet is deviated least.",
+    "Rayleigh criterion: just resolved when one central maximum sits on the other's first minimum.",
+    "Telescope: θmin = 1.22λ/a, R.P. = a/1.22λ. Microscope: xmin = 1.22λ/2μsinθ. Grating: λ/dλ = nN."
+   ],
+   "terms": [
+    "Diffraction",
+    "Rayleigh criterion"
+   ],
+   "stats": {
+    "words": 2741,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Polarization",
+   "hours": 3,
+   "area": "Waves and Optics",
+   "topics": [
+    "Phenomenon of polarization",
+    "Brewster's law; transverse nature of light",
+    "Polaroid"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Phenomenon of polarization"
+    },
+    {
+     "no": "13.2",
+     "title": "Brewster's law; transverse nature of light"
+    },
+    {
+     "no": "13.3",
+     "title": "Polaroid"
+    }
+   ],
+   "summary": [
+    "Unpolarized light vibrates in all directions perpendicular to the ray; plane polarized light vibrates in one plane only. The plane of polarization is perpendicular to the plane of vibration.",
+    "Polarized light is produced by reflection, refraction through a pile of plates, selective absorption (Polaroid), double refraction (Nicol prism) and scattering.",
+    "Degree of polarization P = (Imax-Imin)/(Imax+Imin).",
+    "Brewster's law: n = tanθp, with θp + r = 90^°; the reflected and refracted rays are then perpendicular and the reflected beam is fully plane polarized.",
+    "Brewster's angle (tan^-1n, rarer to denser) is not the critical angle (sin^-1(1/n), denser to rarer).",
+    "Malus's law: I = I0cos^2θ. Unpolarized light through the first Polaroid always gives I0/2; crossed Polaroids give zero.",
+    "Polarization occurs for transverse waves only, so it proves that light is a transverse wave. Sound, being longitudinal, cannot be polarized."
+   ],
+   "terms": [
+    "Polarization of light"
+   ],
+   "stats": {
+    "words": 2633,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Electrical circuits",
+   "hours": 6,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Kirchhoff's law",
+    "Wheatstone bridge circuit; Meter bridge",
+    "Potentiometer: Comparison of e.m.f.; measurement of internal resistance of a cell",
+    "Super conductors; Perfect conductors",
+    "Conversion of galvanometer into voltmeter and ammeter; Ohmmeter",
+    "Joule's law"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Kirchhoff's law"
+    },
+    {
+     "no": "14.2",
+     "title": "Wheatstone bridge circuit; Meter bridge"
+    },
+    {
+     "no": "14.3",
+     "title": "Potentiometer: Comparison of e.m.f.; measurement of internal resistance of a cell"
+    },
+    {
+     "no": "14.4",
+     "title": "Super conductors; Perfect conductors"
+    },
+    {
+     "no": "14.5",
+     "title": "Conversion of galvanometer into voltmeter and ammeter; Ohmmeter"
+    },
+    {
+     "no": "14.6",
+     "title": "Joule's law"
+    }
+   ],
+   "summary": [
+    "Kirchhoff's junction law Σ I = 0 expresses conservation of charge; the loop law Σ E = Σ IR expresses conservation of energy.",
+    "A Wheatstone bridge is balanced when Ig = 0, and then P/Q = R/S. The condition is independent of the cell and of the galvanometer.",
+    "Metre bridge: X = R l/(100-l), with l measured from the end next to X. Keep l near 50 cm and interchange X and R to cancel end errors.",
+    "Potentiometer: V = kl with k = VAB/L. Comparison of e.m.f. E1/E2 = l1/l2; internal resistance r = R(l1-l2)/l2. At balance the cell supplies no current, so the true e.m.f. is measured.",
+    "A superconductor has ρ = 0 below Tc and expels magnetic flux (Meissner effect); a merely perfect conductor would trap the flux instead.",
+    "Galvanometer conversions: ammeter S = IgG/(I-Ig) in parallel; voltmeter R = V/Ig - G in series. An ohmmeter has a reversed, non-uniform scale.",
+    "Joule's law: H = I^2Rt = VIt = V^2t/R; power P = I^2R = V^2/R; 1 kWh = 3.6×10^6 J."
+   ],
+   "terms": [
+    "Kirchhoff's two laws",
+    "Superconductor"
+   ],
+   "stats": {
+    "words": 4115,
+    "figures": 6,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Thermoelectric effects",
+   "hours": 3,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Seebeck effect; Thermocouples",
+    "Peltier effect: Variation of thermoelectric e.m.f. with temperature; Thermopile"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Seebeck effect; Thermocouples"
+    },
+    {
+     "no": "15.2",
+     "title": "Peltier effect: Variation of thermoelectric e.m.f. with temperature; Thermopile"
+    }
+   ],
+   "summary": [
+    "Seebeck effect: two dissimilar metals, two junctions at different temperatures, an e.m.f. appears. It depends only on the metals and on the temperature difference.",
+    "Seebeck series Sb, Fe, Cd, Zn, Ag, Au, Cr, Sn, Pb, Hg, Mn, Cu, Pt, Co, Ni, Bi: the current flows from the earlier metal to the later one through the cold junction, and the further apart the metals, the greater the e.m.f.",
+    "Peltier effect: a current through a junction evolves heat at one junction and absorbs it at the other; H = π It, proportional to I and reversible, unlike Joule heat I^2Rt.",
+    "E = αθ + (1)/(2)βθ^2 with the cold junction at 0 ^°C; thermoelectric power S = dE/dθ = α + βθ.",
+    "Neutral temperature θn = -α/β (where E is maximum, fixed by the metals alone); temperature of inversion θi = 2θn - θc (where E returns to zero and reverses).",
+    "Emax = -α^2/2β, reached at θn.",
+    "A thermopile is many Sb–Bi couples in series, alternate junctions blackened, used to detect and measure heat radiation."
+   ],
+   "terms": [
+    "Seebeck effect",
+    "Peltier effect"
+   ],
+   "stats": {
+    "words": 3063,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Magnetic field",
+   "hours": 9,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Magnetic field lines and magnetic flux; Oersted's experiment",
+    "Force on moving charge; Force on a conductor",
+    "Force and Torque on rectangular coil; Moving coil galvanometer",
+    "Hall effect",
+    "Magnetic field of a moving charge",
+    "Biot and Savart law and application to circular coil, long straight conductor, long solenoid",
+    "Ampere's law and applications to long straight conductor, straight solenoid, toroidal solenoid",
+    "Force between two parallel conductors carrying current; definition of ampere"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Magnetic field lines and magnetic flux; Oersted's experiment"
+    },
+    {
+     "no": "16.2",
+     "title": "Force on moving charge; Force on a conductor"
+    },
+    {
+     "no": "16.3",
+     "title": "Force and Torque on rectangular coil; Moving coil galvanometer"
+    },
+    {
+     "no": "16.4",
+     "title": "Hall effect"
+    },
+    {
+     "no": "16.5",
+     "title": "Magnetic field of a moving charge"
+    },
+    {
+     "no": "16.6",
+     "title": "Biot and Savart law and application to circular coil, long straight conductor, long solenoid"
+    },
+    {
+     "no": "16.7",
+     "title": "Ampere's law and applications to long straight conductor, straight solenoid, toroidal solenoid"
+    },
+    {
+     "no": "16.8",
+     "title": "Force between two parallel conductors carrying current; definition of ampere"
+    }
+   ],
+   "summary": [
+    "Magnetic flux Phi = BAcosθ (weber); field lines are closed loops, so ointB· dA = 0 — there are no magnetic monopoles.",
+    "Oersted: a current produces a magnetic field. Direction by the right-hand grip rule (or SNOW).",
+    "Force on a moving charge F = qvtimesB, F = qvBsinθ; it does no work. Perpendicular entry gives a circle with r = mv/qB, T = 2π m/qB, independent of speed.",
+    "Force on a conductor F = BILsinθ; direction by Fleming's left-hand rule.",
+    "Torque on a coil τ = NBIAsinθ = NBIAcosα, with dipole moment m = NIA. A radial field makes sinθ = 1, so a moving-coil galvanometer has varphi = (NBA/c)I and a uniform scale.",
+    "Hall effect: VH = IB/nqt with RH = 1/nq; it gives the sign and the concentration of the carriers.",
+    "Biot–Savart: dB = (μ0/4π)(I dlsinθ/r^2). Results: straight wire μ0I/2π a; centre of a coil μ0NI/2a; on the axis μ0NIa^2/2(a^2+x^2)^3/2; long solenoid μ0nI (half that at an end).",
+    "Ampère: ointB· dl = μ0Ienc, which gives the straight wire, the solenoid (μ0nI) and the toroid (μ0NI/2π r, zero outside) in a few lines each."
+   ],
+   "terms": [
+    "Magnetic flux",
+    "The tesla",
+    "Hall effect",
+    "Biot–Savart law",
+    "Ampère's circuital law",
+    "The ampere"
+   ],
+   "stats": {
+    "words": 5501,
+    "figures": 6,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Magnetic properties of materials",
+   "hours": 5,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Magnetic field lines and magnetic flux",
+    "Flux density in magnetic material; Relative permeability; Susceptibility",
+    "Hysteresis",
+    "Dia-, para- and ferro-magnetic materials"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Magnetic field lines and magnetic flux"
+    },
+    {
+     "no": "17.2",
+     "title": "Flux density in magnetic material; Relative permeability; Susceptibility"
+    },
+    {
+     "no": "17.3",
+     "title": "Hysteresis"
+    },
+    {
+     "no": "17.4",
+     "title": "Dia-, para- and ferro-magnetic materials"
+    }
+   ],
+   "summary": [
+    "Magnetic flux Phi = BAcosθ (weber); B = Phi/A is the flux density (tesla); ointB· dA = 0 since field lines are closed loops.",
+    "The magnetising field is H = NI/l (A m⁻¹); magnetisation is M = m/V (A m⁻¹); inside matter B = μ0(H+M).",
+    "chim = M/H, μ = B/H, μr = μ/μ0 and μr = 1 + chim. Both chim and μr are dimensionless.",
+    "Hysteresis is the lag of B behind H. Retentivity Br is the flux density left when H = 0; coercivity Hc is the reverse field that makes B = 0.",
+    "Energy dissipated per unit volume per cycle equals the loop area, oint H dB (J m⁻³); the hysteresis power loss is (area) × V × f.",
+    "Soft materials (small Hc, narrow loop) are for transformer cores and electromagnets; hard materials (large Hc, broad loop) are for permanent magnets.",
+    "Diamagnetics: chim small negative, μr < 1, repelled. Paramagnetics: chim small positive, μr > 1, chim = C/T. Ferromagnetics: domains, chim gg 1, saturation and hysteresis, and chim = C/(T - TC) above the Curie temperature."
+   ],
+   "terms": [
+    "Magnetic flux",
+    "Magnetising field and magnetisation",
+    "Hysteresis, retentivity and coercivity"
+   ],
+   "stats": {
+    "words": 3352,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Electromagnetic Induction",
+   "hours": 6,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Faraday's laws; Induced electric fields",
+    "Lenz's law; Motional electromotive force",
+    "A.C. generators; Eddy currents",
+    "Self-inductance and mutual inductance",
+    "Energy stored in an inductor",
+    "Transformer"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Faraday's laws; Induced electric fields"
+    },
+    {
+     "no": "18.2",
+     "title": "Lenz's law; Motional electromotive force"
+    },
+    {
+     "no": "18.3",
+     "title": "A.C. generators; Eddy currents"
+    },
+    {
+     "no": "18.4",
+     "title": "Self-inductance and mutual inductance"
+    },
+    {
+     "no": "18.5",
+     "title": "Energy stored in an inductor"
+    },
+    {
+     "no": "18.6",
+     "title": "Transformer"
+    }
+   ],
+   "summary": [
+    "Faraday: an e.m.f. appears whenever flux linkage changes, e = -N dPhi/dt; the charge circulated is q = NΔPhi/R, independent of the time taken.",
+    "A changing B produces a non-conservative induced electric field, ointE· dl = -dPhi/dt.",
+    "Lenz: the induced current opposes the change producing it — a statement of energy conservation, carried by the minus sign.",
+    "Motional e.m.f. e = Blv (or Blvsinθ); the retarding force is B^2l^2v/R and Fv = I^2R.",
+    "A.C. generator: Phi = BAcosω t gives e = NBAωsinω t with peak value e0 = NBAω.",
+    "Eddy currents are reduced by laminating cores; they are used in induction furnaces, induction cookers and electromagnetic brakes.",
+    "L = NPhi/I, e = -L dI/dt, solenoid L = μ0μrN^2A/l; M = k√L1L2 and e2 = -M dI1/dt. Unit: henry.",
+    "Energy stored U = (1)/(2)LI^2; energy density u = B^2/2μ0."
+   ],
+   "terms": [
+    "Faraday's laws of electromagnetic induction",
+    "Lenz's law",
+    "Self-inductance and the henry"
+   ],
+   "stats": {
+    "words": 3286,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "Alternating Currents",
+   "hours": 6,
+   "area": "Electricity and Magnetism",
+   "topics": [
+    "Peak and rms value of AC current and voltage",
+    "AC through a resistor, a capacitor and an inductor",
+    "Phasor diagram",
+    "Series circuits containing combination of resistance, capacitance and inductance",
+    "Series resonance; quality factor",
+    "Power in AC circuits: power factor"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Peak and rms value of AC current and voltage"
+    },
+    {
+     "no": "19.2",
+     "title": "AC through a resistor, a capacitor and an inductor"
+    },
+    {
+     "no": "19.3",
+     "title": "Phasor diagram"
+    },
+    {
+     "no": "19.4",
+     "title": "Series circuits containing combination of resistance, capacitance and inductance"
+    },
+    {
+     "no": "19.5",
+     "title": "Series resonance; quality factor"
+    },
+    {
+     "no": "19.6",
+     "title": "Power in AC circuits: power factor"
+    }
+   ],
+   "summary": [
+    "For i = I0sinω t: Irms = I0/√2 = 0.707I0, Iav (half cycle) = 2I0/π = 0.637I0, and the full-cycle mean is zero. Meters read r.m.s.",
+    "Resistor: i in phase with v. Inductor: i lags by 90^°, XL = 2π fL. Capacitor: i leads by 90^°, XC = 1/2π fC.",
+    "A phasor is a vector of length equal to the peak (or r.m.s.) value, rotating at ω; sinusoids of the same frequency add like vectors.",
+    "Series LCR: Z = √R^2+(XL-XC)^2 and tanφ = (XL-XC)/R; V = √VR^2+(VL-VC)^2.",
+    "Resonance: XL = XC, so f0 = 1/2π√LC, Zmin = R, Imax = V/R and φ = 0 (acceptor circuit).",
+    "Quality factor Q = ω0L/R = (1/R)√L/C = f0/Δ f = VL/V; a large Q means a sharp resonance and a narrow bandwidth.",
+    "Power: Pav = VrmsIrmscosφ, with power factor cosφ = R/Z. Pure L or C consumes no power — wattless current."
+   ],
+   "terms": [
+    "Root-mean-square value",
+    "Series resonance"
+   ],
+   "stats": {
+    "words": 3243,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 20,
+   "title": "Electrons",
+   "hours": 4,
+   "area": "Modern Physics",
+   "topics": [
+    "Millikan's oil drop experiment",
+    "Motion of electron beam in electric and magnetic fields",
+    "Thomson's experiment to determine specific charge of electrons"
+   ],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "Millikan's oil drop experiment"
+    },
+    {
+     "no": "20.2",
+     "title": "Motion of electron beam in electric and magnetic fields"
+    },
+    {
+     "no": "20.3",
+     "title": "Thomson's experiment to determine specific charge of electrons"
+    }
+   ],
+   "summary": [
+    "Millikan balanced the apparent weight of a charged oil drop against an electric force: q = mgd/V for a stationary drop, or q = 6πη r v1 d/V with r = √9η v1/2(ρ-σ)g.",
+    "Every measured charge is an integral multiple of e = 1.60×10^-19 C: charge is quantised.",
+    "An electron accelerated through Va has speed v = √2eVa/m.",
+    "In a transverse electric field the path is a parabola with deflection y = eEL^2/2mv^2 = VdL^2/4Vad at the edge of the plates.",
+    "In a transverse magnetic field the path is a circle, r = mv/eB, period T = 2π m/eB; the magnetic force does no work, so the speed is unchanged.",
+    "Crossed fields select one speed: v = E/B.",
+    "Thomson's tube gives e/m = E/B^2r = 2yE/B^2L^2; the accepted value is 1.76×10^11 C kg^-1, which with Millikan's e gives m = 9.11×10^-31 kg."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2744,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 21,
+   "title": "Photons",
+   "hours": 3,
+   "area": "Modern Physics",
+   "topics": [
+    "Quantum nature of radiation",
+    "Einstein's photoelectric equation; Stopping potential",
+    "Measurement of Planck's constant"
+   ],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "Quantum nature of radiation"
+    },
+    {
+     "no": "21.2",
+     "title": "Einstein's photoelectric equation; Stopping potential"
+    },
+    {
+     "no": "21.3",
+     "title": "Measurement of Planck's constant"
+    }
+   ],
+   "summary": [
+    "Radiation is emitted and absorbed in quanta: a photon has E = hf = hc/λ, p = h/λ, zero rest mass, and travels at c.",
+    "Intensity fixes the number of photons per second; frequency fixes the energy of each one.",
+    "Photoelectric emission occurs only above a threshold frequency f0, is instantaneous, gives a current proportional to intensity, and gives a maximum kinetic energy proportional to (f-f0).",
+    "Einstein's equation: hf = φ0 + Kmax, with φ0 = hf0 = hc/λ0.",
+    "Stopping potential: eV0 = Kmax, so V0 = (h/e)f - φ0/e; V0 is independent of intensity.",
+    "A graph of V0 against f is a straight line of slope h/e, intercept -φ0/e and f-intercept f0; the slope is the same for every metal, giving h = 6.63×10^-34 J s."
+   ],
+   "terms": [
+    "Photon",
+    "Work function"
+   ],
+   "stats": {
+    "words": 2465,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 22,
+   "title": "Semiconductor devices",
+   "hours": 6,
+   "area": "Modern Physics",
+   "topics": [
+    "P-N Junction",
+    "Semiconductor diode: Characteristics in forward and reverse bias",
+    "Full wave rectification",
+    "Logic gates: NOT, OR, AND, NAND and NOR"
+   ],
+   "sections": [
+    {
+     "no": "22.1",
+     "title": "P-N Junction"
+    },
+    {
+     "no": "22.2",
+     "title": "Semiconductor diode: Characteristics in forward and reverse bias"
+    },
+    {
+     "no": "22.3",
+     "title": "Full wave rectification"
+    },
+    {
+     "no": "22.4",
+     "title": "Logic gates: NOT, OR, AND, NAND and NOR"
+    },
+    {
+     "no": "22.5",
+     "title": "The junction transistor and its configurations"
+    }
+   ],
+   "summary": [
+    "Diffusion across a p-n junction leaves a depletion region of immobile ions and a barrier potential VB (0.3 V Ge, 0.7 V Si) that stops further diffusion.",
+    "Forward bias lowers the barrier, narrows the depletion layer and gives a large majority-carrier current; reverse bias does the opposite and leaves only a microamp reverse saturation current until breakdown.",
+    "The diode characteristic is non-linear: no current below the knee voltage, then a steep rise. Dynamic resistance rd = Δ V/Δ I.",
+    "Half-wave: Idc=Im/π, ηmax=40.6%, ripple 1.21, output 50 Hz.",
+    "Full-wave: Idc=2Im/π, Vdc=2Vm/π, Irms=Im/√2, η = (8/π^2)RL/(RL+rf), maximum 81.2%, ripple 0.48, output 100 Hz.",
+    "PIV is Vm for half-wave and bridge, 2Vm for the centre-tap circuit.",
+    "Gates: OR gives 0 only for all-zero inputs; AND gives 1 only for all-one inputs; NAND and NOR are their complements and are universal gates.",
+    "Transistor: IE = IB + IC, α = IC/IE, β = IC/IB = α/(1-α)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3162,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 23,
+   "title": "Quantization of energy",
+   "hours": 8,
+   "area": "Modern Physics",
+   "topics": [
+    "Bohr's theory of hydrogen atom",
+    "Spectral series; Excitation and ionization potentials",
+    "Energy level; Emission and absorption spectra",
+    "De Broglie Theory; Duality",
+    "Uncertainty principle",
+    "X-rays: Nature and production; uses",
+    "X-rays diffraction; Bragg's law"
+   ],
+   "sections": [
+    {
+     "no": "23.1",
+     "title": "Bohr's theory of hydrogen atom"
+    },
+    {
+     "no": "23.2",
+     "title": "Spectral series; Excitation and ionization potentials"
+    },
+    {
+     "no": "23.3",
+     "title": "Energy level; Emission and absorption spectra"
+    },
+    {
+     "no": "23.4",
+     "title": "De Broglie Theory; Duality"
+    },
+    {
+     "no": "23.5",
+     "title": "Uncertainty principle"
+    },
+    {
+     "no": "23.6",
+     "title": "X-rays: Nature and production; uses"
+    },
+    {
+     "no": "23.7",
+     "title": "X-rays diffraction; Bragg's law"
+    }
+   ],
+   "summary": [
+    "Bohr: mvr = nh/2π; rn = varepsilon0h^2n^2/π me^2 = 0.529 n^2 Å; vn = c/137n; En = -13.6/n^2 eV (multiply by Z^2, divide rn by Z, for hydrogen-like ions).",
+    "hν = Ei - Ef gives 1/λ = R(1/nf^2 - 1/ni^2), R = 1.097×10^7 m⁻¹. Series: Lyman (UV, nf=1), Balmer (visible), Paschen, Brackett, Pfund (IR).",
+    "Hydrogen: first excitation potential 10.2 V, ionization potential 13.6 V. Emission gives bright lines, absorption dark lines at the same wavelengths.",
+    "De Broglie: λ = h/p = 12.27/√V Å for an accelerated electron; 2π r = nλ reproduces Bohr's quantization.",
+    "Uncertainty: Δ x Δ p ≥ h/4π and Δ E Δ t ≥ h/4π.",
+    "X-ray tube: continuous spectrum with λmin = hc/eV (depends on V) plus characteristic Kα, Kβ lines (depend on the target).",
+    "Bragg: 2dsinθ = nλ, θ measured from the atomic plane."
+   ],
+   "terms": [
+    "Bohr's postulates",
+    "Heisenberg's uncertainty principle"
+   ],
+   "stats": {
+    "words": 3333,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 24,
+   "title": "Radioactivity and nuclear reaction",
+   "hours": 6,
+   "area": "Modern Physics",
+   "topics": [
+    "Alpha-particles, Beta-particles, Gamma rays",
+    "Laws of radioactive disintegration",
+    "Half-life, mean-life and decay constant",
+    "Geiger-Muller Tube",
+    "Carbon dating",
+    "Medical use of nuclear radiation and possible health hazard"
+   ],
+   "sections": [
+    {
+     "no": "24.1",
+     "title": "Alpha-particles, Beta-particles, Gamma rays"
+    },
+    {
+     "no": "24.2",
+     "title": "Laws of radioactive disintegration"
+    },
+    {
+     "no": "24.3",
+     "title": "Half-life, mean-life and decay constant"
+    },
+    {
+     "no": "24.4",
+     "title": "Geiger-Muller Tube"
+    },
+    {
+     "no": "24.5",
+     "title": "Carbon dating"
+    },
+    {
+     "no": "24.6",
+     "title": "Medical use of nuclear radiation and possible health hazard"
+    }
+   ],
+   "summary": [
+    "Binding energy per nucleon peaks near A ≈ 56 at about 8.8 MeV; nuclei move towards the peak by fusing, splitting or emitting α-particles.",
+    "α = ⁴₂He (A-4, Z-2); β^- = electron created when n → p (Z+1); γ = photon (no change). Ionizing power α > β > γ; penetrating power is the reverse.",
+    "Q = Δ m × 931.5 MeV is the energy released in a decay.",
+    "Decay law: dN/dt = -λ N gives N = N0e^-λ t and A = λ N = A0e^-λ t. 1 Ci = 3.7×10^10 Bq.",
+    "T1/2 = 0.693/λ; τ = 1/λ = 1.44 T1/2; after n half-lives N/N0 = (1/2)^n.",
+    "A GM tube uses avalanche ionization in argon at 400 V, with a quenching vapour and a dead time of about 200 μs; it counts particles but not their energy.",
+    "Carbon dating: t = (T1/2/0.693)ln(A0/A) with A0 = 15.3 min⁻¹ g⁻¹ and T1/2 = 5730 y; useful to about 50,000 years.",
+    "Medical tracers are short-lived γ-emitters; therapy uses cobalt-60. Dose is measured in gray (absorbed) and sievert (equivalent)."
+   ],
+   "terms": [
+    "The laws of radioactive disintegration",
+    "Decay constant"
+   ],
+   "stats": {
+    "words": 3041,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 25,
+   "title": "Recent trends in physics",
+   "hours": 6,
+   "area": "Modern Physics",
+   "topics": [
+    "Seismology: Surface waves (Rayleigh and Love waves); Internal waves (S and P-waves); Wave patterns of Gorkha Earthquake 2015",
+    "Gravitational Wave; Nanotechnology; Higgs Boson"
+   ],
+   "sections": [
+    {
+     "no": "25.1",
+     "title": "Seismology: Surface waves (Rayleigh and Love waves); Internal waves (S and P-waves); Wave patterns of Gorkha Earthquake 2015"
+    },
+    {
+     "no": "25.2",
+     "title": "Gravitational Wave; Nanotechnology; Higgs Boson"
+    }
+   ],
+   "summary": [
+    "Body waves: P (longitudinal, ~6 km s⁻¹, passes through liquids) and S (transverse, ~3.5 km s⁻¹, blocked by liquids). Surface waves: Love (horizontal transverse) and Rayleigh (rolling ellipse, largest amplitude). Arrival order P, S, Love, Rayleigh.",
+    "Epicentral distance from the S–P interval: d = Δ t vPvS/(vP - vS); three stations fix the epicentre.",
+    "Gorkha: 25 April 2015, Mw 7.8, focus ~15 km deep near Barpak, rupture ~140 km eastwards on the Main Himalayan Thrust; PGA in Kathmandu only ~0.16g but strong 4–5 s basin resonance; about 8,970 deaths.",
+    "Gravitational waves are ripples of spacetime travelling at c, of strain h = Δ L/L ≈ 10^-21. LIGO's 4 km interferometers detected GW150914 on 14 September 2015 (36 + 29 → 62 solar masses, 3 radiated).",
+    "Nanotechnology works between 1 and 100 nm, where surface-to-volume ratio (6/L) and quantum confinement change behaviour: fullerenes, nanotubes, graphene, quantum dots.",
+    "The Higgs field gives elementary particles their mass; its quantum, the Higgs boson (≈ 125 GeV/c^2, spin 0), was found at the LHC on 4 July 2012."
+   ],
+   "terms": [
+    "Nanotechnology"
+   ],
+   "stats": {
+    "words": 2846,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 25,
+ "topic_count": 115,
+ "notes_ready": 25
+}

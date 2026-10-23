@@ -1,9 +1,17 @@
 package com.neb.ians.data.repository
 
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.emitAll
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -30,6 +38,23 @@ class CacheBus @Inject constructor() {
 
     fun publish(key: String) {
         _signals.tryEmit(key)
+    }
+
+    /**
+     * Every key refreshed since the last batch, once the signals have been quiet for [quietMs].
+     * A plain debounce keeps only the last key, so a post refreshed together with its replies (or
+     * the home feed's resources together with its posts) would lose one of the two updates.
+     */
+    @OptIn(FlowPreview::class)
+    fun batches(quietMs: Long = 400): Flow<Set<String>> = flow {
+        val pending = LinkedHashSet<String>()
+        emitAll(
+            signals
+                .onEach { key -> synchronized(pending) { pending += key } }
+                .debounce(quietMs)
+                .map { synchronized(pending) { pending.toSet().also { pending.clear() } } }
+                .filter { it.isNotEmpty() }
+        )
     }
 
     companion object {

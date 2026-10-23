@@ -7,7 +7,7 @@ hours: 0
 area: Compulsory Mathematics
 ---
 
-Every fraction you can write as $\frac{p}{q}$, with $p$ and $q$ whole numbers
+Every fraction you can write as $\frac{p}{q}$, with $p$ and $q$ integers
 and $q$ not zero, is a **rational number**, and as a decimal it either stops or
 repeats. But some numbers cannot be written that way at all: $\sqrt{2}$ has a
 decimal expansion that goes on for ever without repeating, and so does $\pi$.
@@ -94,7 +94,6 @@ decimal expansion goes on for ever without repeating.
 | $\sqrt{2}=1.41421356\dots$ | no fraction squares to exactly 2 |
 | $\sqrt{3}=1.73205080\dots$ | likewise |
 | $\pi=3.14159265\dots$ | the ratio of a circle's circumference to its diameter |
-| $e=2.71828182\dots$ | the base of natural logarithms |
 
 Numbers of the form $\sqrt{n}$ where $n$ is a positive integer that is **not a
 perfect square** are irrational. So $\sqrt{2}$, $\sqrt{3}$, $\sqrt{5}$, $\sqrt{7}$,
@@ -148,6 +147,46 @@ $$\frac{6}{\sqrt{3}}\times\frac{\sqrt{3}}{\sqrt{3}}
 **Check.** $2\sqrt{3}=3.464$ and $6\div\sqrt{3}=6\div1.732=3.464$ ✓.
 :::
 
+### 3.2.1 Showing $\sqrt{2}$, $\sqrt{3}$, $\sqrt{5}$ on the number line
+
+$\sqrt{2}=1.41421\dots$ never ends, so we cannot mark it by measuring a
+decimal. Instead we use **Pythagoras' theorem** ($h^2=p^2+b^2$) to build a
+length of exactly $\sqrt{2}$ units.
+
+1. Draw a number line and mark 0 (point O) and 1 (point A).
+2. At A draw $AB\perp OA$ with $AB=1$ unit.
+3. Join OB. Then $OB=\sqrt{1^2+1^2}=\sqrt{2}$ units.
+4. With O as centre and OB as radius, draw an arc to cut the number line at D.
+   Then $OD=OB=\sqrt{2}$, so D is the point $\sqrt{2}$.
+
+For $\sqrt{3}$, draw a perpendicular of 1 unit at the point $\sqrt{2}$ (at the
+end of OB): the new hypotenuse is $\sqrt{(\sqrt{2})^2+1^2}=\sqrt{3}$. For
+$\sqrt{5}$, use a triangle with base 2 and height 1:
+$\sqrt{2^2+1^2}=\sqrt{5}$.
+
+```figure caption="Locating $\sqrt{2}$ on the number line: OA = AB = 1 unit, so OB = $\sqrt{2}$; the arc with centre O and radius OB cuts the line at D = $\sqrt{2}$."
+fig, ax = plt.subplots(figsize=(4.8, 2.6))
+ax.plot([-0.6, 3.3], [0, 0], color=INK, lw=1.2)
+for k in range(0, 4):
+    ax.plot([k, k], [-0.06, 0.06], color=INK, lw=1)
+    ax.text(k, -0.22, str(k), ha="center", fontsize=9, color=INK)
+ax.plot([0, 1, 1, 0], [0, 0, 1, 0], color=ACCENT, lw=1.4)
+ax.plot([0.9, 0.9, 1.0], [0, 0.1, 0.1], color=ACCENT, lw=0.8)
+t = np.linspace(0, np.pi/4, 60)
+r = np.sqrt(2)
+ax.plot(r*np.cos(t), r*np.sin(t), color=SERIES[1], lw=1.2, ls="--")
+ax.plot([r], [0], "o", color=SERIES[1], ms=5)
+ax.text(-0.08, 0.1, "O", fontsize=9, ha="right", color=INK)
+ax.text(1.05, -0.4, "A", fontsize=9, color=INK)
+ax.text(1.06, 1.02, "B", fontsize=9, color=INK)
+ax.text(1.45, 0.12, "D", fontsize=9, color=SERIES[1])
+ax.text(1.42, -0.42, "$\\sqrt{2}$", fontsize=10, ha="center", color=SERIES[1])
+ax.text(1.12, 0.5, "1", fontsize=9, color=ACCENT)
+ax.text(0.5, -0.4, "1", fontsize=9, color=ACCENT, ha="center")
+ax.text(0.3, 0.6, "$\\sqrt{2}$", fontsize=10, color=ACCENT)
+ax.set_xlim(-0.7, 3.4); ax.set_ylim(-0.6, 1.3); ax.set_aspect("equal"); ax.axis("off")
+```
+
 ::: tip Between which two integers?
 To place a surd, find the perfect squares on either side of the number inside
 it. For $\sqrt{20}$: $16<20<25$, so $4<\sqrt{20}<5$. For a closer answer,
@@ -184,6 +223,49 @@ $$\frac{8\times10^7}{2\times10^2}=4\times10^5$$
 
 If the first part is not between 1 and 10 after the operation, adjust it:
 $12\times10^3=1.2\times10^4$.
+
+### 3.3.2 Adding and subtracting
+
+Two numbers can be added or subtracted in scientific notation only when they
+have the **same power of 10**. If the powers differ, rewrite one of them first.
+
+::: example Addition and subtraction
+**Problem.** Simplify (a) $3.4\times10^2+4.57\times10^3$
+(b) $1.33\times10^5-4.9\times10^4$.
+
+**Solution.**
+(a) Make both powers $10^3$: $3.4\times10^2=0.34\times10^3$.
+
+$0.34\times10^3+4.57\times10^3=(0.34+4.57)\times10^3=4.91\times10^3$
+
+Check: $340+4570=4910=4.91\times10^3$ ✓.
+
+(b) $4.9\times10^4=0.49\times10^5$, so
+
+$1.33\times10^5-0.49\times10^5=(1.33-0.49)\times10^5=0.84\times10^5=8.4\times10^4$
+
+Check: $133000-49000=84000$ ✓.
+:::
+
+::: example From scientific notation to an ordinary number
+**Problem.** Write (a) $4.579\times10^6$ and (b) $3.579\times10^{-4}$ as
+ordinary decimal numbers.
+
+**Solution.**
+(a) Positive index: move the point 6 places to the **right**.
+$4.579\times10^6=4.579\times1\,000\,000=4\,579\,000$.
+
+(b) Negative index: $10^{-4}=\frac{1}{10^4}$, so move the point 4 places to the
+**left**. $3.579\times10^{-4}=\frac{3.579}{10\,000}=0.0003579$.
+:::
+
+::: example Word problem — tanks of water
+**Problem.** One tanker holds $1.5\times10^4$ litres and another holds
+$7.0\times10^3$ litres. Find the total in scientific notation.
+
+**Solution.** $7.0\times10^3=0.70\times10^4$.
+Total $=(1.5+0.70)\times10^4=2.2\times10^4$ litres ($=22\,000$ litres).
+:::
 
 ::: example A calculation in scientific notation
 **Problem.** Simplify
@@ -224,6 +306,11 @@ Rational and irrational numbers together fill the number line with no gaps. Any
 point on the line is a real number, and every real number is either rational or
 irrational.
 
+The **real numbers** $R$ are the union of the rational numbers $Q$ and the
+irrational numbers $Ir$: $R=Q\cup Ir$. $Q$ and $Ir$ are **disjoint**, since no
+number is both. The sets sit inside one another:
+$N\subset W\subset Z\subset Q\subset R$ and $Ir\subset R$.
+
 | Statement | True or false | Reason |
 |---|---|---|
 | Every integer is rational | true | $5=\frac51$ |
@@ -252,7 +339,7 @@ labels = [("Natural  1, 2, 3 ...", 0.50, 0.48, 7.2),
           ("Whole  0", 0.50, 0.60, 7.2),
           ("Integers  -3", 0.50, 0.68, 7.2),
           ("Rational  3/4, 0.25", 0.50, 0.78, 7.2),
-          ("Irrational  $\\sqrt{2}$, $\\pi$", 0.50, 0.90, 7.2)]
+          ("Real (outer ring = irrational: $\\sqrt{2}$, $\\pi$)", 0.50, 0.90, 7.0)]
 for t, x, y, fs in labels:
     ax.text(x, y, t, ha="center", va="center", color=INK, fontsize=fs)
 ax.set_xlim(0, 1)
@@ -306,7 +393,11 @@ apart are they really? (Work to four decimal places.)
 - A surd is an exact irrational root; simplify by taking out the largest
   perfect-square factor, and add only like surds.
 - Rationalise a denominator by multiplying the top and bottom by the surd.
-- Scientific notation is $a\times10^n$ with $1\le a<10$; multiply by multiplying
+- $\sqrt{2}$, $\sqrt{3}$, $\sqrt{5}$ are marked on a number line with right
+  triangles (Pythagoras) and an arc from 0.
+- $R=Q\cup Ir$, and $Q$ and $Ir$ are disjoint.
+- Scientific notation is $a\times10^n$ with $1\le a<10$; to add or subtract,
+  first make the powers of 10 equal; multiply by multiplying
   the first parts and adding the indices, divide by dividing and subtracting.
 
 ## Practice questions
@@ -381,28 +472,22 @@ $10=1\times10^1$. **Answer.** $1\times10^1$, which is the ordinary number 10.
 $300\,000\div30\,000=10$ ✓.
 :::
 
-**Extra practice**
+**Extra practice — textbook-style questions**
 
-**Group B (2 marks)**
-
-**11.** Classify as rational or irrational with a reason: $\sqrt{64}$, $\sqrt{20}$.
-**12.** Express $0.\overline{45}$ as a fraction in its lowest terms.
-
-**Group C (4 marks)**
-
-**13.** Insert any three rational numbers between $\frac{2}{5}$ and $\frac{3}{5}$,
-    and state why infinitely many exist.
+**1.** Write true or false: (a) The sets of rational and irrational numbers are disjoint. (b) The set of whole numbers and the set of integers are the same. (c) $\sqrt{4}$ is irrational.
+**2.** Reduce to fractions: (a) $0.\overline{24}$ (b) $4.\overline{78}$ (c) $0.\overline{132}$.
+**3.** Write in scientific notation: (a) 101000 (b) 0.00671 (c) 74171.7.
+**4.** Simplify and write in scientific notation: (a) $1.2\times10^5+5.35\times10^6$ (b) $\frac{8.4\times10^{-4}}{1.2\times10^{-3}}$.
+**5.** How many tanks, each of capacity $1.5\times10^3$ litres, are needed to store $9.0\times10^6$ litres of petrol?
+**6.** Show $\sqrt{5}$ on a number line.
 
 ::: note Extra practice — answers
-**11.** $\sqrt{64} = 8$, which is $\frac{8}{1}$, so it is **rational**.
-$20$ is not a perfect square, so $\sqrt{20} = 2\sqrt{5}$ is **irrational**.
-**12.** $0.\overline{45} = \frac{45}{99} = \frac{5}{11}$.
-**13.** Write both with a larger common denominator: $\frac{2}{5} = \frac{20}{50}$
-and $\frac{3}{5} = \frac{30}{50}$. Three numbers between them are
-$\frac{22}{50} = \frac{11}{25}$, $\frac{25}{50} = \frac{1}{2}$ and
-$\frac{28}{50} = \frac{14}{25}$. Infinitely many exist because the denominator
-can always be made larger — between any two rational numbers there is always
-their mean, $\frac{a+b}{2}$, which is again rational.
+**1.** (a) True (b) False — integers also contain $-1,-2,\dots$ (c) False — $\sqrt{4}=2$.
+**2.** (a) $100x-x=24$, so $x=\frac{24}{99}=\frac{8}{33}$. (b) $x=4.7878\dots$, $100x=478.78\dots$, $99x=474$, $x=\frac{474}{99}=\frac{158}{33}$. (c) $1000x-x=132$, $x=\frac{132}{999}=\frac{44}{333}$.
+**3.** (a) $1.01\times10^5$ (b) $6.71\times10^{-3}$ (c) $7.41717\times10^4$.
+**4.** (a) $0.12\times10^6+5.35\times10^6=5.47\times10^6$. (b) $\frac{8.4}{1.2}\times10^{-4-(-3)}=7\times10^{-1}$.
+**5.** $\frac{9.0\times10^6}{1.5\times10^3}=6\times10^3=6000$ tanks.
+**6.** Mark O at 0 and A at 2. At A draw $AB\perp OA$, $AB=1$. Then $OB=\sqrt{2^2+1^2}=\sqrt{5}$. With centre O and radius OB, draw an arc to cut the number line at D; D represents $\sqrt{5}\approx2.24$.
 :::
 
 ## Objective practice
@@ -417,9 +502,9 @@ their mean, $\frac{a+b}{2}$, which is again rational.
    (a) $\frac{3}{10}$ (b) $\frac{1}{3}$ (c) $\frac{3}{11}$ (d) $\frac{33}{100}$
 **4.** Every integer is
    (a) a natural number (b) a whole number (c) a rational number (d) irrational
-**5.** The additive inverse of $-\frac{4}{9}$ is
-   (a) $\frac{9}{4}$ (b) $\frac{4}{9}$ (c) $-\frac{9}{4}$ (d) 0
+**5.** $4.54\times10^{-3}-2.4\times10^{-3}$ equals
+   (a) $2.14\times10^{-3}$ (b) $2.14\times10^{0}$ (c) $2.14\times10^{-6}$ (d) $6.94\times10^{-3}$
 
 ::: note Objective practice — answers
-**1.** (d) — 11 is not a perfect square. **2.** (b) — it is a ratio of two integers. **3.** (b) — $\frac{3}{9}=\frac{1}{3}$. **4.** (c) — every integer can be written as $\frac{p}{1}$. **5.** (b) — the inverse changes the sign.
+**1.** (d) — 11 is not a perfect square. **2.** (b) — it is a ratio of two integers. **3.** (b) — $\frac{3}{9}=\frac{1}{3}$. **4.** (c) — every integer can be written as $\frac{p}{1}$. **5.** (a) — same power of 10, so subtract the first parts: $4.54-2.4=2.14$.
 :::

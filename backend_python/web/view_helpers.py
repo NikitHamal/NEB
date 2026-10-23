@@ -277,6 +277,41 @@ def _serialize_resource(r, _uploaded_by_map=None):
     }
 
 
+def _has_admin_resource_access(user):
+    return bool(getattr(user, 'is_admin', False) or getattr(user, 'is_staff', False) or (isinstance(user, User) and (user.is_admin or user.is_locked is False and user.moderator_level >= 3)))
+
+
+def prefetch_resource_purchases(user, resources):
+    """Run check_user_resource_access()'s two purchase lookups for a whole page at once.
+
+    For each paid resource it reaches them for, check_user_resource_access() asks for the
+    viewer's latest purchase of the resource and then their latest approved purchase of a
+    course carrying it: two queries per paid card. This answers both for every card in at
+    most three queries and leaves them on the resource as ``_viewer_purchases``, which
+    check_user_resource_access() uses for this viewer only."""
+    if not user or not user.is_authenticated or _has_admin_resource_access(user):
+        return
+    user_id = user.id if hasattr(user, 'id') else str(user)
+    todo = [r for r in resources if r.is_paid and r.uploaded_by_id != user_id]
+    if not todo:
+        return
+    ids = [r.id for r in todo]
+    latest = {}
+    for pv in PaymentVerification.objects.filter(buyer_id=user_id, resource_id__in=ids).order_by('-created_at'):
+        latest.setdefault(pv.resource_id, pv)
+    courses_of = {}
+    for resource_id, course_id in CreatorCourseResource.objects.filter(resource_id__in=ids).values_list('resource_id', 'course_id'):
+        courses_of.setdefault(resource_id, set()).add(course_id)
+    approved = []
+    course_ids = set().union(*courses_of.values())
+    if course_ids:
+        approved = list(PaymentVerification.objects.filter(buyer_id=user_id, status='approved', course_id__in=course_ids)
+                        .order_by('-created_at'))
+    for r in todo:
+        mine = courses_of.get(r.id, ())
+        r._viewer_purchases = (user_id, latest.get(r.id), next((pv for pv in approved if pv.course_id in mine), None))
+
+
 def check_user_resource_access(user, resource_obj):
     """Determines whether a user has full access to view/download a paid or free resource.
 
@@ -296,11 +331,19 @@ def check_user_resource_access(user, resource_obj):
         return True, 'owner', None
 
     # Admin access
-    if getattr(user, 'is_admin', False) or getattr(user, 'is_staff', False) or (isinstance(user, User) and (user.is_admin or user.is_locked is False and user.moderator_level >= 3)):
+    if _has_admin_resource_access(user):
         return True, 'admin', None
 
+    # prefetch_resource_purchases() may have run both lookups below for a whole page.
+    pre = getattr(resource_obj, '_viewer_purchases', None)
+    if pre is not None and pre[0] != user_id:
+        pre = None
+
     # Check buyer payment records
-    purchase = PaymentVerification.objects.filter(buyer_id=user_id, resource_id=resource_obj.id).order_by('-created_at').first()
+    if pre is not None:
+        purchase = pre[1]
+    else:
+        purchase = PaymentVerification.objects.filter(buyer_id=user_id, resource_id=resource_obj.id).order_by('-created_at').first()
     if purchase and purchase.status == 'approved':
         return True, 'purchased', purchase
 
@@ -308,13 +351,16 @@ def check_user_resource_access(user, resource_obj):
     # surfaces list those notes under "Course material", so charging for them
     # again is not what the buyer was shown -- and only the page owner's own
     # resources can be attached, so this never unlocks anyone else's note.
-    course_purchase = (PaymentVerification.objects
-                       .filter(buyer_id=user_id, status='approved',
-                               course_id__in=CreatorCourseResource.objects
-                               .filter(resource_id=resource_obj.id)
-                               .values_list('course_id', flat=True))
-                       .order_by('-created_at')
-                       .first())
+    if pre is not None:
+        course_purchase = pre[2]
+    else:
+        course_purchase = (PaymentVerification.objects
+                           .filter(buyer_id=user_id, status='approved',
+                                   course_id__in=CreatorCourseResource.objects
+                                   .filter(resource_id=resource_obj.id)
+                                   .values_list('course_id', flat=True))
+                           .order_by('-created_at')
+                           .first())
     if course_purchase:
         return True, 'purchased', course_purchase
 
@@ -509,13 +555,13 @@ def _serialize_posts(posts_qs, user_id=None):
     for m in PostMedia.objects.filter(post_id__in=post_ids).order_by('order', 'created_at'):
         all_media.setdefault(m.post_id, []).append(_serialize_web_media_item(m))
     all_polls = {}
-    polls = list(Poll.objects.filter(post_id__in=post_ids))
+    polls = list(Poll.objects.filter(post_id__in=post_ids).prefetch_related('options'))
     user_votes_by_poll = {}
     if user_id and polls:
         for v in PollVote.objects.filter(poll__post_id__in=post_ids, user_id=user_id):
             user_votes_by_poll.setdefault(v.poll_id, v.option_id)
     for poll in polls:
-        opts = list(PollOption.objects.filter(poll=poll).order_by('order'))
+        opts = poll.options.all()
         user_vote = user_votes_by_poll.get(poll.id)
         all_polls[poll.post_id] = {
             'id': poll.id, 'question': poll.question, 'pollType': poll.poll_type,
@@ -871,6 +917,19 @@ def _get_distinct_subjects():
                         subjects.add(s_stripped)
         return sorted(subjects)
     return cache.get_or_set('distinct_subjects', _resolver, 600)
+
+def _viewer_for_locked_check(user_id, profile_user):
+    """The viewer row api.view_helpers._can_view_locked_profile(viewer, profile_user) needs.
+
+    It only looks at the viewer when the profile is locked or unverified; for every other
+    profile the answer is "visible" whoever asks, so the viewer is not fetched."""
+    if not user_id or (not profile_user.is_locked and profile_user.email_verified):
+        return None
+    try:
+        return User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return None
+
 
 def _request_db_user(request, user_id):
     """The signed-in user's row, fetched at most once per request (the view, _ctx and the

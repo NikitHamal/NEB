@@ -96,6 +96,10 @@ ksp {
     arg("room.schemaLocation", "$projectDir/schemas")
 }
 
+composeCompiler {
+    stabilityConfigurationFile.set(rootProject.layout.projectDirectory.file("compose_stability.conf"))
+}
+
 dependencies {
     // Compose BOM
     val composeBom = platform("androidx.compose:compose-bom:2025.10.00")
@@ -143,6 +147,9 @@ dependencies {
 
 // Coil Compose
     implementation("io.coil-kt:coil-compose:2.7.0")
+
+// Installs the baseline profile (src/main/baseline-prof.txt) on sideloaded installs too
+    implementation("androidx.profileinstaller:profileinstaller:1.4.1")
 
 // DataStore Preferences
     implementation("androidx.datastore:datastore-preferences:1.1.1")

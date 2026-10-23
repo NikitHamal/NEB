@@ -6,11 +6,9 @@ import com.neb.ians.data.news.NewsAnnouncement
 import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -37,13 +35,11 @@ class NewsViewModel @Inject constructor(
 
     /** Cache-first with silent background updates: when the repository's SWR
      * refresh lands fresher announcements, re-read them without interaction. */
-    @OptIn(FlowPreview::class)
     private fun collectCacheSignals() {
         viewModelScope.launch {
-            cacheBus.signals
-                .debounce(400)
-                .collect { key ->
-                    if (key.startsWith(CacheBus.PREFIX_NEWS_LIST)) {
+            cacheBus.batches()
+                .collect { keys ->
+                    if (keys.any { it.startsWith(CacheBus.PREFIX_NEWS_LIST) }) {
                         newsRepository.getAnnouncements(_uiState.value.selectedCategory, cacheOnly = true)
                             .onSuccess { items ->
                                 _uiState.update { it.copy(items = items, isLoading = false, error = null) }

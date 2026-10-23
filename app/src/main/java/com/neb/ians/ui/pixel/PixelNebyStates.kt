@@ -85,6 +85,17 @@ object PixelNebyStates {
     private fun frames(n: Int, s: NebyState, draw: PixelCanvas.(Int) -> Unit) =
         PixelSprite.build(PixelNeby.SIZE, PixelNeby.SIZE, n, s.frameMs, s.loop, draw)
 
+    /**
+     * A blink that never teleports: the lid passes through half-closed on the way down and on the
+     * way up, and reopening takes two frames to the closing one (a blink closes faster than it
+     * opens). [at] is the closed frame; [rest] the eyes either side of it.
+     */
+    private fun blinkAt(f: Int, at: Int, n: Int, rest: Eyes = Eyes.Open): Eyes = when (Math.floorMod(f - at, n)) {
+        0 -> Eyes.Blink
+        n - 1, 1, 2 -> Eyes.Half
+        else -> rest
+    }
+
     private fun bob(f: Int, n: Int, amp: Float = 1.5f) = -(sin(2 * PI * f / n).toFloat() * 0.5f + 0.5f) * amp
 
     private fun build(s: NebyState, look: NebyLook): PixelSprite {
@@ -92,10 +103,10 @@ object PixelNebyStates {
         return when (s) {
         NebyState.Idle -> {
             val dys = floatArrayOf(0f, 0f, -0.5f, -1f, -1.5f, -1.5f, -1f, -0.5f, 0f, 0f, -0.5f, -1f, -1.5f, -1.5f, -1f, -0.5f)
-            frames(dys.size, s) { f -> neby(Pose(dys[f], eyes = if (f == 14) Eyes.Blink else Eyes.Open, lookX = if (f in 5..9) 1 else 0, phase = f.toFloat())) }
+            frames(dys.size, s) { f -> neby(Pose(dys[f], eyes = blinkAt(f, 13, 16), lookX = if (f in 5..9) 1 else 0, phase = f.toFloat())) }
         }
         NebyState.Still -> frames(1, s) { neby(Pose()) }
-        NebyState.Blink -> frames(6, s) { f -> neby(Pose(eyes = if (f == 3) Eyes.Blink else Eyes.Open, phase = f.toFloat())) }
+        NebyState.Blink -> frames(8, s) { f -> neby(Pose(eyes = blinkAt(f, 3, 8), phase = f.toFloat())) }
         NebyState.Hop -> {
             val poses = listOf(
                 Triple(0f, 1f, 1f), Triple(0f, 1.12f, 0.86f), Triple(-3f, 0.92f, 1.1f), Triple(-7f, 0.96f, 1.04f),
@@ -108,7 +119,7 @@ object PixelNebyStates {
             }
         }
         NebyState.Think -> frames(8, s) { f ->
-            neby(Pose(if (f % 4 < 2) 0f else -0.5f, tilt = 0.06f, eyes = if (f == 6) Eyes.Blink else Eyes.Up, mouth = Mouth.Flat, phase = f * 1.2f))
+            neby(Pose(if (f % 4 < 2) 0f else -0.5f, tilt = 0.06f, eyes = if (f == 6) Eyes.Blink else if (f == 5 || f == 7) Eyes.Half else Eyes.Up, mouth = Mouth.Flat, phase = f * 1.2f))
             val n = f % 4
             for (i in 0 until 3) rect(31 + i * 5, 4 - if (i < n) 1 else 0, 3, 3, if (i < n) PixelNeby.band else PixelNeby.bandHi)
         }
@@ -126,7 +137,7 @@ object PixelNebyStates {
         }
         NebyState.Talk -> frames(8, s) { f ->
             val m = arrayOf(Mouth.Open, Mouth.Smile, Mouth.O, Mouth.Flat, Mouth.Open, Mouth.Smile, Mouth.O, Mouth.Smile)[f]
-            neby(Pose(if (f % 2 == 0) -0.5f else 0f, eyes = if (f == 5) Eyes.Blink else Eyes.Open, mouth = m, phase = f * 1.4f))
+            neby(Pose(if (f % 2 == 0) -0.5f else 0f, eyes = blinkAt(f, 5, 8), mouth = m, phase = f * 1.4f))
         }
         NebyState.Love -> frames(12, s) { f ->
             neby(Pose(bob(f, 12), sx = 1f + 0.03f * sin(f * 0.5f), eyes = Eyes.Heart, mouth = Mouth.Smile, phase = f.toFloat()))
@@ -179,7 +190,7 @@ object PixelNebyStates {
             sweat(this, 36, (17 + t * 5).roundToInt())
         }
         NebyState.Read -> frames(14, s) { f ->
-            neby(Pose(bob(f, 14, 0.8f), eyes = if (f == 11) Eyes.Blink else Eyes.Down, mouth = Mouth.Smile, phase = f * 0.6f))
+            neby(Pose(bob(f, 14, 0.8f), eyes = blinkAt(f, 11, 14, Eyes.Down), mouth = Mouth.Smile, phase = f * 0.6f))
             book(this, 24, 34, (f % 14) / 14f)
         }
         NebyState.Listen -> frames(8, s) { f ->
@@ -214,7 +225,7 @@ object PixelNebyStates {
         }
         NebyState.LookAround -> frames(12, s) { f ->
             val gaze = intArrayOf(0, -1, -2, -2, -2, -1, 0, 1, 2, 2, 2, 1)[f]
-            neby(Pose(0f, eyes = if (f == 6) Eyes.Blink else Eyes.Open, lookX = gaze, phase = f.toFloat()))
+            neby(Pose(0f, eyes = blinkAt(f, 6, 12), lookX = gaze, phase = f.toFloat()))
         }
 
         // ---- festivals ----------------------------------------------------------------------------

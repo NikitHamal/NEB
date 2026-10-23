@@ -7,303 +7,329 @@ hours: 0
 area: Units
 ---
 
-Two texts that look backwards. The first is a piece about **leisure** — how
-people take their fun, and how the way we spend free time has changed within
-living memory. The second is **historical writing** about inventions: not who
-thought of them, but how they changed the ordinary day of ordinary people. Both
-need the tenses that place events in the past and in order, and both need the
-structure *used to* for habits that have gone.
+Unit 8 is about **the past**. Reading I is a moral story, *Having Fun*: a son
+wants to hide a poor farmer's shoes for fun, but his father teaches him that
+real joy lies in giving. Reading II, *Historical Inventions*, describes how
+people used to live and introduces seven inventions, from the steam engine to
+the mobile phone. The grammar is the **past simple, past continuous and past
+perfect**, and **used to** for past habits. In writing you complete a story and
+write a narrative essay.
 
-::: key What this unit asks of you
-By the end you should be able to (1) narrate a past event using the past simple
-and the past continuous together, (2) use the past perfect to show which of two
-past actions happened first, (3) use *used to* for a habit that has stopped,
-and (4) write a narrative essay and complete a skeleton story.
+::: key What the exam asks from this unit
+(1) Order the events of the story and state its lesson. (2) Match inventions
+with inventors and dates. (3) Choose between past simple, past continuous and
+past perfect in two-action sentences (*when, while, before, after*).
+(4) Rewrite sentences with *used to / didn't use to / did … use to*.
+(5) Write a narrative essay about an event you attended.
 :::
 
-## 8.1 Having Fun
+## 8.1 Reading I: Having Fun
 
-### About the text
+### Summary
 
-The text is **descriptive and comparative** writing about the way people enjoy
-themselves. It sets the older pattern — games in the street or the field, songs
-at a festival, stories told in the evening — beside the newer one: television,
-mobile games, films and organised sport. It does not say the older way was
-better; it notices what has been gained and what has been lost.
+One evening a father and son go for a walk and find a pair of old shoes on a
+path by a field. They seem to belong to a poor farmer working nearby. The son
+suggests some **mischief**: hide the shoes and watch the farmer search for
+them from behind the bushes. The father becomes serious: never make fun of a
+poor person with things they need — such things are **precious** to the poor.
+Instead, they put **some coins** in the shoes and hide.
 
-### What the text says
+The farmer comes, feels something hard, and finds the coins. He looks around
+for the giver **in vain**, then kneels, folds his hands and thanks God: now he
+can buy **medicine for his sick wife** and **feed his starving children**. The
+father is satisfied; the son's eyes fill with tears. When the father asks what
+the farmer would have done if the shoes had been hidden, the son answers that
+he has learnt that **"real joy is not in taking things away, but in giving."**
 
-Leisure is the time that is left when work, school and sleep have taken their
-share. What people do with it says a great deal about them: how much money they
-have, how much room, how much daylight, and how far from the next house they
-live.
+**Theme/moral:** true happiness comes from kindness and giving, not from
+troubling others. **Characters:** the son — playful, thoughtless at first,
+then sensitive; the father — wise, kind, a good teacher; the farmer — poor,
+hard-working, grateful.
 
-In Nepal, as recently as two generations ago, most of the country's leisure was
-**shared and outdoors**. Children played *dandi biyo*, *kabaddi*, *lukamari*,
-marbles and gilli in the open ground, and the games needed nothing that had to
-be bought. Women sang *dohori* at festivals and at the rice-planting; whole
-villages danced at Tihar and in the *mela* that came with the festival. Adults
-gathered in the evening to tell stories, to play *madal* and *sarangi*, and to
-argue about the harvest. Almost all of it happened in public, with other
-people, and most of it cost nothing.
+### Vocabulary (Exercises A and B)
 
-Three changes altered that pattern. First, **the radio and then the television**
-brought an audience of one: entertainment no longer needed the company of
-others. Second, **migration and city life** removed the open ground and the
-long evening; a family living in a rented room in a crowded street cannot play
-kabaddi in the lane. Third, **the mobile phone** made entertainment portable and
-private — and put a screen where a friend used to be. There is now more
-entertainment available than at any time in history and, many people argue,
-less *play*.
+**A (similar meanings):** a. mischief – **misbehaviour** (misconduct is close)
+b. precious – **valuable** c. vain – **useless** d. happy – **cheerful**
+(lively) e. hugged – **embraced, cuddled**
 
-The older ways have not gone, however. Kabaddi is still played, *dohori* is
-still sung, and the new games most people enjoy are still the ones played with
-somebody else. What has changed is that each of them now competes with a screen,
-and has to be chosen deliberately.
+**B:** a. happy b. mischief c. vain d. hugged e. precious
 
-| Then | Now | What changed |
+### Order of events (Exercise C)
+
+**d → c → b → a → e → f**
+
+### Comprehension (Exercise D) — model answers
+
+**a. What did the son want to do with the shoes?** He wanted to hide them and
+watch the farmer search for them, for fun.
+
+**b. How did the father react?** He became serious and told his son never to
+make fun of a poor and weak person with the things they need; he suggested
+putting coins in the shoes instead.
+
+**c. What was the farmer going to do with the money?** Buy medicine for his
+sick wife and food for his starving children.
+
+**d. What would the farmer's reaction have been if his shoes had been hidden?**
+He would have been worried and troubled; he would have wasted time searching
+and may have had to go home barefoot, feeling sad and helpless.
+
+**e. What lesson did the son learn?** That real joy is not in taking things
+away but in giving.
+
+## 8.2 Reading II: Historical Inventions
+
+The text first describes life **in the past**: pigeons used to carry letters,
+people did not use to have paper and printers, they used to walk or ride
+horses, there was no electricity or cell phone, and firewood was the main fuel.
+Then it describes inventions.
+
+| Invention (as in the text) | Person and date given in the text | Point made |
 |---|---|---|
-| Street games (kabaddi, lukamari, marbles) | Mobile and video games | the players no longer need to be in the same place |
-| Songs at every festival and in the fields | Streaming and recorded music | the singing is listened to, not joined |
-| Stories told in the evening | Television, film, short video | the family sits together, looking one way |
-| Village *mela* and fairs | City parks, organised sport | leisure moved indoors and became paid |
-| Cheap and shared | Often private and paid for | the cost of fun has risen |
+| Steam engine | **James Watt**, 1765, England — saw a kettle lid rising with steam | used by **Stephenson** in 1829 to drive a railway train; Stephenson = "father of the locomotive engine" |
+| Motor car | **Daimler**, German engineer, 1885 | swift, cheap; cheaper than building railway tracks for short distances |
+| Electricity | **Michael Faraday**, "father of electricity" | light, heat, trains, factories, e-mail; hydroelectricity is called "**white coal**" |
+| Aeroplane | **Wright brothers** (Orville and Wilbur), USA, 1903 | fastest travel; brings countries nearer |
+| Spaceship | a large **team**; first spacecraft **Sputnik 1** (Soviet Union), **4 October 1957**, 83.6 kg | put into orbit by rockets; humans later landed on the moon |
+| Radio / television | radio: **Marconi** (Italian), text says 1902; TV: **John Logie Baird**, text says 1939 | news and music; radios now replaced by mobiles |
+| Telephone / mobile | **Bell**, telephone, 1876; **Reginald Fessenden**, first wireless telephone, 23 Dec 1900; **Martin Cooper** led the team that made the first practical mobile phone | foundation of radio and mobile networks |
 
-```figure caption="What leisure needs. When a society loses a public open space, a long free evening or a comfortable income, the shared form of fun loses its place to the private form."
-fig, ax = plt.subplots(figsize=(4.9, 2.4))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.0); ax.axis("off")
-req = [("open space", SERIES[0]), ("free time", SERIES[1]),
-       ("other people", SERIES[2]), ("money", SERIES[3])]
-for i, (name, colour) in enumerate(req):
-    x = 0.5 + i * 2.4
-    ax.add_patch(plt.Circle((x + 1.0, 3.4), 0.72, fc="white", ec=colour, lw=1.5))
-    ax.text(x + 1.0, 3.4, name, ha="center", va="center", fontsize=6.2, color=INK)
-    ax.annotate("", xy=(x + 1.0, 2.55), xytext=(x + 1.0, 2.68),
-                arrowprops=dict(arrowstyle="->", color=GRID, lw=1.2))
-ax.text(5.0, 1.9, "shared play", ha="center", fontsize=7.4, color=ACCENT,
-        fontweight="bold")
-ax.text(5.0, 0.9, "remove any one of the four and the shared form gives way to the private one",
-        ha="center", fontsize=6.1, color=MUTED)
-fig.tight_layout()
-```
-
-### Vocabulary
-
-| Word | Meaning |
-|---|---|
-| leisure | free time, when there is no work to do |
-| dohori | a Nepali question-and-answer folk song |
-| mela | a fair or festival gathering |
-| deliberately | on purpose, after thinking about it |
-| portable | able to be carried about |
-| public | open to everybody, in a shared place |
-
-::: note Model answers
-**1. Why was most leisure in the past shared and outdoors?**
-Because there was not much to buy, the evenings were long and there was open
-ground in every village — so entertainment had to be made by the people present,
-which made it a public and shared activity.
-**2. What are the two sides of the mobile phone as a form of leisure?**
-It offers more choice than any previous generation had, and it can be used
-anywhere; but it also makes entertainment private, so it can replace the company
-of other people rather than add to it.
+::: caution Fact check — what the textbook simplifies
+For the exam, answer from the text. But know the real facts:
+- Watt **improved** the steam engine (his separate condenser, 1765); earlier
+  engines (Newcomen, 1712) already existed. The kettle story is a popular legend.
+- Stephenson's *Rocket* won a locomotive trial in 1829, but the first steam
+  railway locomotive was built by Richard Trevithick in 1804.
+- Nobody "invented" electricity. Faraday **discovered** electromagnetic
+  induction (1831), which is how generators make electricity.
+- Sputnik 1 **orbited the Earth**; it did not go to the moon. The first moon
+  landing was Apollo 11 in 1969.
+- Marconi's radio patent was in 1896 and Baird first showed television in
+  1926; the dates 1902 and 1939 in the text are not accurate.
+- Martin Cooper made the first handheld mobile phone call in **1973**.
 :::
 
-## 8.2 Historical Inventions
+### Vocabulary (crossword)
 
-### About the text
+Across: 2. **wonder** 6. **artificial** 7. **realised**. Down: 1. **foundation**
+3. **remarkable** 4. **telegraphy** 5. **expelled**
 
-The text is **historical writing**. It explains what an invention was, when it
-appeared, and — the part that matters — what difference it made. Good
-historical writing answers "so what?" after every date.
+### Matching (Exercise B)
 
-### What the text says
+a. application of steam engine – **vi. Stephenson** b. motor car – **v. Daimler**
+c. electricity – **i. Michael Faraday** d. spaceship – **iii. a group of
+scientists** e. mobile phone – **ii. Reginald Fessenden** (first wireless
+telephone). (James Watt invented/improved the steam engine itself.)
 
-**The printing press.** Before Johannes Gutenberg's movable-type press (around
-1440), every book was copied by hand, and a single copy of the Bible could take
-a scribe a year. The press made copies cheap and many, and ideas that had
-travelled by word of mouth began to travel in print.
+### Comprehension (Exercise C) — model answers
 
-**The steam engine.** Thomas Newcomen's engine (1712) pumped water out of mines;
-James Watt improved it from 1769, and by the nineteenth century steam powered
-mills, ships and railways. Work moved from the home to the factory, and towns
-grew wherever the coal was.
+**a. What incident inspired James Watt?** As a boy he saw the lid of a kettle
+rising because of the pressure of steam from boiling water.
 
-**Electricity and the light bulb.** Michael Faraday's experiments in the 1830s
-showed how a changing magnetic field produces an electric current, which made
-generators possible. Practical incandescent lamps arrived in the 1870s, and
-streets, homes and factories could work after dark.
+**b. Mention a benefit of the motor car compared to the train.** It is easier
+and cheaper to run cars on roads than to build railway tracks and run trains,
+especially for short distances.
 
-**The telephone and the radio.** Alexander Graham Bell patented the telephone in
-1876, and Guglielmo Marconi sent the first radio signals across the Atlantic in
-1901. Distance stopped deciding who could speak to whom.
+**c. Why is electricity called "white coal"?** Because water, which looks
+white as it rushes down, is used to generate electricity, just as coal is
+burnt to produce power. (Strictly, it is **hydroelectricity** that is called
+white coal.)
 
-**The computer and the internet.** Early electronic computers of the 1940s filled
-a room; the internet grew out of research networks in the 1960s and 1970s and
-reached the public in the 1990s. The change is best described simply: the cost
-of storing, finding and sending information collapsed.
+**d. Why is a spaceship thought to be a wonder?** Because it can travel in
+space beyond the Earth's atmosphere, and it helped humans land on the moon.
 
-Each of these inventions did the same three things: it made something **cheaper**
-or **faster**, it moved activity from one place to another, and it changed the
-**daily routine** of ordinary people.
+**e. When was the first spacecraft launched?** On 4 October 1957 (Sputnik 1).
+Note: it went into orbit around the Earth, not to the moon.
 
-| Invention | Date | Before | After |
-|---|---|---|---|
-| Printing press | c. 1440 | a book copied by hand | books printed in hundreds |
-| Steam engine | 1712, improved 1769 | work at home, by muscle and water | factories, railways, cities |
-| Electric light | 1870s | the day ended at sunset | work and study after dark |
-| Telephone, radio | 1876, 1901 | news travelled by post | voices crossed continents at once |
-| Computer, internet | 1940s–1990s | information expensive and slow | information almost free |
+**f. How old are mobile phones?** Their foundation goes back more than a century,
+to Fessenden's wireless telephone of 1900; the first practical handheld mobile
+phone was made in 1973, about fifty years ago.
 
-::: note Model answers
-**1. Why is the printing press called a turning point in history?**
-Because it made copies cheap and plentiful, so knowledge stopped depending on
-the memory of a few scribes and could spread to many people at once.
-**2. Which invention changed daily routine the most, and why do you think so?**
-Answers will vary, but a strong answer names the change: the electric light
-extended the working and studying day, while the internet changed how
-information is found, so both altered what an ordinary evening contains.
-:::
-
-## 8.3 Grammar and writing tasks of the unit
-
-### Grammar: Past simple, past continuous and past perfect
+## 8.3 Grammar I: Past simple, past continuous, past perfect
 
 | Tense | Form | Use | Example |
 |---|---|---|---|
-| Past simple | verb + -ed / irregular | a finished action | We **played** kabaddi. |
-| Past continuous | was/were + -ing | an action in progress, often interrupted | We **were playing** when it began to rain. |
-| Past perfect | had + past participle | the earlier of two past actions | The rain **had stopped** before we went out. |
+| Past simple | V2 (*worked, went*) | finished action at a past time | We **didn't celebrate** any festival last year. |
+| Past continuous | was/were + V-ing | action **in progress** at a past moment; the longer background action | While they **were having** lunch, some guests **arrived**. |
+| Past perfect | had + V3 | the **earlier** of two past actions | Sonali **had painted** her house before she **sold** it. |
 
-The past continuous usually sets the scene and the past simple interrupts it.
-The past perfect is used only when you need to make clear that one past action
-happened **before** another; if the order is already clear from *then*,
-*after* or *before*, the past simple is enough.
+**Key patterns**
+- *long action (past continuous) **when** short action (past simple)*:
+  *Bipana was mending the roof when she **fell off**.*
+- *at this time yesterday* → past continuous.
+- *before / after / already / by the time* → past perfect for the earlier action.
 
-### Grammar: used to
+### Textbook answers
 
-**used to + bare verb** describes a habit or a state in the past that is no
-longer true: *We **used to** play in the street.* The negative is *didn't use
-to* (no *-d* after *did*), and the question is *Did you use to…?* Notice that
-*used to* can only describe the past — for the present habit, use the present
-simple with an adverb: *I usually play football on Saturdays.*
+**Grammar I A:** a. ii remained b. i were having c. ii were playing d. i had
+painted e. i was working (*all day yesterday*; iii *worked* is also
+grammatical) f. iii were queuing g. ii didn't celebrate
+
+**Grammar I B:** a. was having b. heard c. had called d. Did you remember
+e. called f. had had g. had … been h. fell off i. had read
 
 ::: caution Common mistakes
-- *I am used to play football.* ✗ (that means "I am accustomed to it") →
-  *I **used to play** football.* ✓
-- *He didn't used to smoke.* ✗ → *He didn't **use** to smoke.* ✓
-- *When we arrived, they already left.* ✗ → *When we arrived, they **had
-  already left**.* ✓
-- Mixing tenses without reason across a narrative. Choose one past tense for
-  the events and keep it.
+- *When I reached, the bus already left.* ✗ → *the bus **had** already **left**.* ✓
+- *While I watched TV, the light was going out.* ✗ → *While I **was watching**
+  TV, the light **went** out.* ✓
+- *They was playing.* ✗ → *They **were** playing.* ✓
 :::
 
-### Writing: A narrative essay
+## 8.4 Grammar II: used to
 
-A narrative essay tells a story with a point. Paragraph 1: the setting, in the
-past continuous (*The sun was setting and the field was full of people*).
-Paragraph 2: the events in order, in the past simple, with one moment given in
-detail. Paragraph 3: what it meant, or what you understand now that you did
-not then.
+**used to + base verb** = a past habit or state that is **no longer true**.
 
-::: note Model answers to the writing tasks
-**Skeleton story.** *When I reached the ground, the match had already begun.*
-Continue: the setting (dust, crowd, the score), the problem (you are late and
-your team is losing), the attempts (you are sent on; you miss; you get one more
-chance), the resolution (the last point, and what your team-mates said
-afterwards). Keep the *had already begun* construction to show which action
-came first.
+| | Form | Example |
+|---|---|---|
+| Positive | used to + verb | She **used to live** in Italy. |
+| Negative | didn't use to + verb | The Smiths **didn't use to work** much. |
+| Question | Did … use to + verb? | **Did** you **use to spend** much money? |
+| State | there used to be | **There used to be** a lot of trees. |
+
+Note: after *did/didn't* write **use to** (no *-d*).
+
+### Textbook answers
+
+**Grammar II A:** the habitual forms are every *used to* (*used to stay, used to
+start, used to go, used to do, used to work, used to work hard, used to create,
+did not use to go, used to engage*).
+
+**Grammar II B:** a. She used to live in Italy when she was five. b. We used to
+grow a lot of crops. c. Did you use to spend much money? d. There used to be a
+lot of trees in that jungle. e. William and Fiona used to go to school
+together. f. The Smiths didn't use to work much. g. What did you use to do in
+the evenings? h. Suhana didn't use to help her parents. i. People used to be
+helpful in the past.
+
+::: caution used to vs be used to
+*I used to walk to school* (past habit, I don't now). *I am used to walking*
+(I am accustomed to it now) — a different structure with **-ing**. Do not mix
+them.
 :::
+
+## 8.5 Writing I: Completing a story
+
+**Writing I A (the misdirected e-mail):** 1. **d** A busy couple used to live in
+Chicago 2. **e** They booked a hotel room 3. **c** his wife was planning to meet
+him there 4. **f** he accidentally left out one letter from her email address
+5. **a** who had just returned home from her husband's funeral 6. **b** she
+screamed and fainted. (The joke: the widow thinks the e-mail is from her dead
+husband.)
+
+::: example Model answer — The Starfish (Writing I B)
+**It Made a Difference**
+
+One morning, a man was walking along a beach after a big storm. In the distance
+he saw a girl moving back and forth near the water. As he came closer, he found
+that thousands of starfish had been washed up onto the sand. The girl was
+picking them up one by one and throwing them back into the sea.
+
+"Why are you doing this?" the man asked. "There are thousands of starfish here.
+You can't make a difference to so many of them. Stop wasting your time."
+
+The girl listened politely. Then she bent down, picked up one more starfish and
+threw it into the waves. "It surely made a difference to that one," she said
+with a smile.
+
+The man stood silent for a while. Then he too began to pick up starfish and
+throw them into the sea.
+
+*Moral: Every small good deed matters.*
+:::
+
+## 8.6 Writing II: A narrative essay
+
+A **narrative essay** tells a real event in order. Answer *what, when, where,
+what happened, how you felt*, in the past tense, in 3–4 paragraphs.
+
+::: example Model answer — My Cousin's Birthday Party
+Last Saturday, I attended the tenth birthday party of my cousin Aarav at his
+home in Baneshwor, Kathmandu. The party started at four in the afternoon.
+
+When I arrived, the living room had already been decorated with colourful
+balloons and paper chains. About twenty children and their parents were
+chatting happily. At five o'clock Aarav cut a big chocolate cake while everyone
+sang "Happy Birthday". His grandparents put tika on his forehead and blessed
+him. Then we played musical chairs and passing the parcel; I was the last one
+out in musical chairs and won a small prize.
+
+After the games, we had a delicious dinner of pulao, chicken curry and sel
+roti. Before leaving, I gave Aarav the story book I had wrapped the night
+before.
+
+I felt very happy at the party because I met many relatives after a long
+time. It was one of the most enjoyable evenings of my holidays.
+:::
+
+## 8.7 Pronunciation, speaking and project work
+
+**-ed endings** (they are not all the same):
+/t/ – looked, finished, laughed; /d/ – belonged, surprised, remembered,
+believed; /ɪd/ – waited, folded, halted.
+
+**Speaking:** *In the past, people used to wash clothes in the river; now they
+use washing machines. When I was in grade 5, I used to walk to school; I
+didn't use to have a phone.*
+
+**Project work:** interview five elderly people about their youth and list what
+they *used to* and *didn't use to* do.
+
+**Idioms (Extra bit):** *a piece of cake* (easy), *call it a day* (stop work),
+*see eye to eye* (agree — not "eyes to eyes"), *burn the midnight oil*, *on
+cloud nine*, *cost an arm and a leg*, *out of the blue*, *rain cats and dogs*,
+*once in a blue moon*.
 
 ## Chapter summary
 
-- Leisure is the time left after work, school and sleep; how people spend it
-  shows how much space, money and daylight they have.
-- Older Nepali leisure was shared, public and cheap; modern leisure is often
-  private, indoor and paid for.
-- Radio, television, migration to cities and the mobile phone changed that
-  pattern within two generations.
-- Historical writing about an invention must always answer "so what?" — what
-  changed for ordinary people.
-- The printing press, the steam engine, electric light, the telephone and radio,
-  and the computer all made something cheaper or faster, moved activity to a
-  new place, and changed the daily routine.
-- **Past simple** = finished action; **past continuous** = in progress;
-  **past perfect** = the earlier of two past actions.
-- **used to** describes a past habit that has stopped; after *did*, write *use
-  to*, with no *-d*.
+- *Having Fun*: the son planned mischief; the father put coins in the shoes;
+  the farmer could buy medicine and food. Lesson: real joy is in giving.
+- Inventions in the text: Watt (steam engine), Stephenson (locomotive),
+  Daimler (car, 1885), Faraday (electricity), Wright brothers (aeroplane,
+  1903), Sputnik 1 (1957), Marconi (radio), Baird (TV), Bell (telephone, 1876),
+  Fessenden (wireless telephone, 1900), Cooper (mobile phone).
+- Past continuous = background action; past simple = interrupting action; past
+  perfect = earlier action.
+- *used to / didn't use to / did … use to* for past habits.
+- Narrative essay: what, when, where, what happened, feelings.
 
 ## Practice questions
 
 **Reading**
 
-1. Give three reasons why the pattern of leisure changed in Nepal. <span class="marks">[3]</span>
-2. Why is the printing press considered a turning point? <span class="marks">[2]</span>
-3. Name two inventions of the nineteenth century and say what each changed. <span class="marks">[2]</span>
-4. "There is now more entertainment available than at any time in history and,
-   less play." What does this sentence mean? <span class="marks">[2]</span>
+1. Answer from the texts. <span class="marks">[5]</span>
+   (a) Where did the father and son hide? (b) What did the farmer feel when he
+   put on his shoes? (c) Who flew the first aeroplane in 1903? (d) What did
+   people use as their main fuel in the past? (e) Which country launched
+   Sputnik 1?
 
-::: note Answers
-**1.** Radio and television brought entertainment to a single viewer at home;
-migration and city life removed open ground and the long free evening; the
-mobile phone made entertainment private and portable.
-**2.** It made copies cheap and plentiful, so knowledge could spread to many
-people instead of depending on a few scribes copying by hand.
-**3.** The steam engine — moved work from home to factories and made railways
-possible. The electric light — extended the working day past sunset. (The
-telephone and radio are also correct.)
-**4.** There are far more things to watch and do, but they are often done
-alone in front of a screen, so the shared, active element of play — playing
-with other people — has become less common.
+::: note Answers — Reading
+**1.** (a) Among the bushes. (b) Something hard — the coins. (c) Orville and
+Wilbur Wright. (d) Firewood. (e) The Soviet Union.
 :::
 
 **Grammar**
 
-5. Put the verbs in the correct past tense. <span class="marks">[5]</span>
-   (a) We ______ (play) when the bell ______ (ring).
-   (b) She ______ (finish) her work before her father ______ (come) home.
-   (c) They ______ (walk) to school every day when they lived in the village.
-   (d) I ______ (see) him yesterday at the mela.
-   (e) By the time we arrived, the film ______ (start).
+2. Use the correct past form. <span class="marks">[5]</span>
+   (a) I (read) a book when the power (go) off. (b) After he (finish) his
+   homework, he (go) out. (c) At 7 p.m. yesterday we (watch) TV. (d) The film
+   (start) before we reached the hall.
+3. Rewrite with *used to*. <span class="marks">[3]</span>
+   (a) My grandfather smoked, but he has stopped. (b) Did you play marbles as a
+   child? (c) She didn't like vegetables.
 
-::: note Answers
-**5.** (a) were playing / rang (b) had finished / came (c) used to walk
-(d) saw (e) had started
+::: note Answers — Grammar
+**2.** (a) was reading … went (b) had finished … went (c) were watching
+(d) had started
+**3.** (a) My grandfather used to smoke. (b) Did you use to play marbles as a
+child? (c) She didn't use to like vegetables.
 :::
 
 **Writing**
 
-6. Write a narrative essay of about 150 words on a festival you remember
-   vividly. <span class="marks">[5]</span>
-7. Write a paragraph of about 80 words comparing how your grandparents spent
-   their free time with how you spend yours. Use *used to* at least twice. <span class="marks">[4]</span>
+4. Write a narrative essay on "A Picnic I Will Never Forget". <span class="marks">[5]</span>
 
-::: note Answers
-**6.** Paragraph 1: set the scene with the past continuous ("The drums were
-still going and the whole lane was full of people"). Paragraph 2: the events in
-order in the past simple, with one moment in detail. Paragraph 3: what the day
-meant to you, and what you understand about it now.
-**7.** Use *used to* for the grandparents ("They used to gather in the
-courtyard after dinner") and the present simple with an adverb for yourself
-("I usually watch videos before bed"). End with one sentence about what has
-been gained and one about what has been lost.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** *Having fun* in the unit's sense refers to
-   (a) leisure activities (b) examinations (c) housework (d) farming
-**2.** The past simple of *invent* is
-   (a) invented (b) invent (c) inventing (d) invention
-**3.** *The wheel was invented long ago* is in the
-   (a) active voice (b) passive voice (c) imperative (d) future
-**4.** An invention that changed communication most is the
-   (a) telephone (b) plough (c) umbrella (d) spoon
-**5.** *Historical* is the adjective of
-   (a) history (b) historian (c) historically (d) historic place
-
-::: note Objective practice — answers
-**1.** (a) — leisure activities. **2.** (a) — invented. **3.** (b) — passive voice. **4.** (a) — the telephone. **5.** (a) — history → historical.
+::: note Answer — Writing
+**4.** Four paragraphs: when and where, the journey and activities in order,
+one memorable incident, feelings and what you learnt; past tenses used
+correctly.
 :::

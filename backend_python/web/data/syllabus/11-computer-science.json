@@ -1,0 +1,665 @@
+{
+ "grade": "11",
+ "grade_label": "Class 11",
+ "grade_label_ne": "कक्षा ११",
+ "subject": "computer-science",
+ "name": "Computer Science",
+ "name_ne": "कम्प्युटर विज्ञान",
+ "icon": "terminal",
+ "group": "science",
+ "color": "#2E4057",
+ "lang": "en",
+ "code": "4271 (CDC Com.427)",
+ "hours": 80,
+ "exam": "2hr, FM 50 written (+25 practical +25 internal) | Group A MCQ 9x1=9 | Group B short 5x5=25 | Group C long 2x8=16",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Computer System",
+   "hours": 20,
+   "area": "",
+   "topics": [
+    "Definition, characteristics and application of computer",
+    "Evolution of computer technology (generations)",
+    "Measurement unit of processing speed and storage unit",
+    "Super, Mainframe, Mini and Microcomputers",
+    "Mobile Computing and its Application",
+    "Concept of computer architecture and organization",
+    "Components of computer system: input, output, processing, memory unit and storage",
+    "Microprocessor: basic concepts, clock speed, word length, components and functions",
+    "Bus System: data bus, address bus and control bus",
+    "Primary memory: RAM, ROM, Cache, Buffer; types of RAM and ROM",
+    "Secondary Memory: Magnetic Disk, Flash Memory, Optical Disk, External Storage Device",
+    "Input Devices: Keyboard, Mouse, Scanner, Light Pen, OMR, OCR, BCR, MICR, Touch Screen, Microphone, Digital Camera",
+    "Output Devices: Monitor (LCD, LED), Printer (Dot Matrix, Inkjet, Laser), Speaker",
+    "Hardware Interfaces: Parallel Port, Serial Port, USB Ports, HDMI, Expansion Slots"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Definition, characteristics and application of computer"
+    },
+    {
+     "no": "1.2",
+     "title": "Evolution of computer technology (generations)"
+    },
+    {
+     "no": "1.3",
+     "title": "Measurement unit of processing speed and storage unit"
+    },
+    {
+     "no": "1.4",
+     "title": "Super, Mainframe, Mini and Microcomputers"
+    },
+    {
+     "no": "1.5",
+     "title": "Mobile Computing and its Application"
+    },
+    {
+     "no": "1.6",
+     "title": "Concept of computer architecture and organization"
+    },
+    {
+     "no": "1.7",
+     "title": "Components of computer system: input, output, processing, memory and storage"
+    },
+    {
+     "no": "1.8",
+     "title": "Microprocessor: basic concepts, clock speed, word length, components and functions"
+    },
+    {
+     "no": "1.9",
+     "title": "Bus System: data bus, address bus and control bus"
+    },
+    {
+     "no": "1.10",
+     "title": "Primary memory: RAM, ROM, Cache, Buffer"
+    },
+    {
+     "no": "1.11",
+     "title": "Secondary Memory: Magnetic Disk, Flash Memory, Optical Disk, External Storage"
+    },
+    {
+     "no": "1.12",
+     "title": "Input Devices"
+    },
+    {
+     "no": "1.13",
+     "title": "Output Devices"
+    },
+    {
+     "no": "1.14",
+     "title": "Hardware Interfaces: ports, slots and standards"
+    }
+   ],
+   "summary": [
+    "A computer accepts input, processes it under a stored program, stores data and produces output: the IPO-S cycle. Its characteristics are speed, accuracy, diligence, versatility, storage, automation and reliability — with no IQ.",
+    "Five generations: vacuum tube → transistor → IC → microprocessor → AI/ULSI. Babbage is the Father of Computer; the Intel 4004 (1971) began generation four.",
+    "Speed units: Hz/MHz/GHz, MIPS, FLOPS; time units ms, μs, ns, ps with T = 1/f. Storage: 8 bits = 1 byte, and 1 KB = 2^10 bytes, each further step × 2^10.",
+    "Classification by power: supercomputer > mainframe > mini > microcomputer.",
+    "Architecture = what the machine does (programmer's view); organization = how it is built (implementation).",
+    "Block diagram: input → CPU (CU + ALU + registers) ↔ primary memory ↔ secondary storage → output, with control signals from the CU to every unit.",
+    "An n-bit address bus addresses 2^n locations; the address bus is unidirectional, the data bus bidirectional, the control bus carries commands.",
+    "RAM is volatile (SRAM = cache, DRAM = main memory); ROM is non-volatile (MROM, PROM, EPROM, EEPROM, Flash). Cache speeds repeat access; a buffer matches unequal speeds."
+   ],
+   "terms": [
+    "Computer",
+    "Mobile computing",
+    "Architecture and organization",
+    "Microprocessor",
+    "Bus",
+    "Input device",
+    "Port"
+   ],
+   "stats": {
+    "words": 5840,
+    "figures": 7,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Number System and Boolean Logic",
+   "hours": 11,
+   "area": "",
+   "topics": [
+    "Decimal, Binary, Octal, Hexadecimal Number System and conversion",
+    "Binary addition and subtraction",
+    "One's and Two's complement methods of binary subtraction",
+    "Introduction to Boolean algebra",
+    "Boolean values, truth table, Boolean expression and Boolean function",
+    "Logic Gates: AND, OR, NOT, NAND, NOR, XOR, XNOR (definition, truth table, logic symbol, logic function)",
+    "Laws of Boolean algebra: Boolean identities, Complement, Identity, Commutative, Associative, Distributive",
+    "Statement and verification of Laws of Boolean algebra using truth table"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Decimal, Binary, Octal and Hexadecimal number systems and conversion"
+    },
+    {
+     "no": "2.2",
+     "title": "Binary addition and subtraction"
+    },
+    {
+     "no": "2.3",
+     "title": "One's and Two's complement methods of binary subtraction"
+    },
+    {
+     "no": "2.4",
+     "title": "Introduction to Boolean algebra"
+    },
+    {
+     "no": "2.5",
+     "title": "Boolean values, truth table, Boolean expression and Boolean function"
+    },
+    {
+     "no": "2.6",
+     "title": "Logic gates"
+    },
+    {
+     "no": "2.7",
+     "title": "Laws of Boolean algebra"
+    },
+    {
+     "no": "2.8",
+     "title": "Verification of the laws of Boolean algebra using truth tables"
+    }
+   ],
+   "summary": [
+    "A positional number in base r has value Σ di r^i. To decimal: expand positionally. From decimal: divide repeatedly (integers, read up) or multiply repeatedly (fractions, read down).",
+    "Binary ↔ octal groups 3 bits per digit; binary ↔ hex groups 4 bits. Octal ↔ hex must go through binary.",
+    "Binary addition: 1+1 = 10; subtraction borrows a 2.",
+    "1's complement = invert all bits, and the end-around carry is added back. 2's complement = 1's complement + 1, and the carry is discarded. No carry in either method means the answer is negative — recomplement and add a minus.",
+    "Boolean algebra (Boole 1854, applied by Shannon 1938) uses only 0 and 1, with + = OR, · = AND and a bar for NOT.",
+    "Seven gates: AND, OR, NOT, NAND, NOR, XOR (\"different\"), XNOR (\"same\"). NAND and NOR are universal.",
+    "Half adder: S = Aoplus B, C = A· B. Full adder: S = Aoplus Boplus Cin, Cout = AB + (Aoplus B)Cin.",
+    "Key laws: A+A=1, AcdotA=0, A+AB=A, A+AB = A+B, A+BC = (A+B)(A+C), and De Morgan A+B = AB, AB = A+B."
+   ],
+   "terms": [
+    "One's and two's complement",
+    "SOP and POS",
+    "Logic gate"
+   ],
+   "stats": {
+    "words": 5365,
+    "figures": 8,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Computer Software and Operating System",
+   "hours": 12,
+   "area": "",
+   "topics": [
+    "Definition of software; categories: System, Utility, Application, Web Based, Mobile Apps",
+    "Introduction, role and functions of Operating System",
+    "OS terminology: multiprogramming, multitasking, multiprocessing, distributed",
+    "Windows OS: GUI based OS and its features",
+    "Working in Desktop Application and Window Environment",
+    "Manage Files and Folders with File Explorer",
+    "Customize the start screen and desktop; installing and removing devices",
+    "Manage passwords and privacy levels; control panel, system tools and accessories",
+    "Concept of Open Source OS; Introduction to Linux and UNIX; Linux Distributions",
+    "Concept of Mobile OS and types of Mobile OS"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Definition of software and its categories"
+    },
+    {
+     "no": "3.2",
+     "title": "Introduction, role and functions of an operating system"
+    },
+    {
+     "no": "3.3",
+     "title": "OS terminology: multiprogramming, multitasking, multiprocessing and distributed processing"
+    },
+    {
+     "no": "3.4",
+     "title": "Windows OS: a GUI based OS and its features"
+    },
+    {
+     "no": "3.5",
+     "title": "Working in a desktop application and the window environment"
+    },
+    {
+     "no": "3.6",
+     "title": "Managing files and folders with File Explorer"
+    },
+    {
+     "no": "3.7",
+     "title": "Customising the Start screen and desktop; installing and removing devices"
+    },
+    {
+     "no": "3.8",
+     "title": "Managing passwords and privacy; Control Panel, system tools and accessories"
+    },
+    {
+     "no": "3.9",
+     "title": "Open source operating systems: UNIX, Linux and Linux distributions"
+    },
+    {
+     "no": "3.10",
+     "title": "Mobile operating systems and their types"
+    }
+   ],
+   "summary": [
+    "Software is the set of programs that tells hardware what to do. The syllabus categories are system, utility, application, web-based and mobile apps.",
+    "An operating system is the interface between user and hardware and the manager of all resources. Its functions are process, memory, file, device, security and user-interface management.",
+    "Multiprogramming: many jobs, one CPU, switch on I/O wait. Multitasking: many jobs, one CPU, switch on time slice. Multiprocessing: many CPUs in one machine, true parallelism. Distributed: many machines on a network acting as one.",
+    "Windows is a GUI (WIMP) operating system whose desktop, taskbar, Start menu, windows and File Explorer follow one consistent design. Know the parts of a window and the standard file operations and shortcuts.",
+    "A file path names a drive, the chain of folders and the file with its extension, for example D:\\Class11\\Computer\\notes.docx.",
+    "Control Panel and Settings configure the system; system tools such as Disk Cleanup, Task Manager, Device Manager and System Restore maintain it.",
+    "Open source means the source code is published and may be modified. UNIX (Bell Labs, 1969) is the ancestor; Linux (Torvalds, 1991) is the free UNIX-like kernel, delivered as distributions such as Ubuntu, Debian, Fedora and Mint.",
+    "Mobile operating systems are touch-first, power-aware and sandboxed. Android (Linux based, open) and iOS (Apple, closed) together hold almost the whole market."
+   ],
+   "terms": [
+    "Software",
+    "Operating system",
+    "File and folder",
+    "Device driver",
+    "Open source software",
+    "Mobile operating system"
+   ],
+   "stats": {
+    "words": 6502,
+    "figures": 9,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Application Package",
+   "hours": 5,
+   "area": "",
+   "topics": [
+    "Introduction to Office Package: Word processor, Presentation tool, Spreadsheet package, DBMS",
+    "Introduction to domain specific tools: school management system, inventory management system, payroll system, financial accounting, hotel management, weather forecasting system"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Introduction to office packages"
+    },
+    {
+     "no": "4.2",
+     "title": "Introduction to domain-specific tools"
+    }
+   ],
+   "summary": [
+    "An application package is ready-made software sold to many users; an office package bundles a word processor, spreadsheet, presentation tool and DBMS that share a common interface.",
+    "A word processor creates and formats text: editing, styles, tables, header and footer, spell check, mail merge. Examples: MS Word, LibreOffice Writer.",
+    "A spreadsheet holds data in cells addressed by column letter and row number, calculates with formulas beginning with = and functions such as SUM, AVERAGE, MAX, IF, and draws charts. References may be relative (B2), absolute (B2) or mixed.",
+    "Presentation software builds a deck of slides with layouts, themes, transitions and animations, shown with F5.",
+    "A DBMS stores data in tables of records made of fields, identified by a primary key and linked by a foreign key; its objects are tables, queries, forms and reports.",
+    "Domain-specific tools are built for one field: school management, inventory, payroll, financial accounting, hotel management and weather forecasting. Describe each by its inputs, processing and outputs."
+   ],
+   "terms": [
+    "Application package",
+    "Word processor",
+    "Spreadsheet",
+    "Presentation software",
+    "Database and DBMS",
+    "Domain-specific software"
+   ],
+   "stats": {
+    "words": 3564,
+    "figures": 8,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Programming Concepts and Logics",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Introduction to programming languages; Low level, High level, 4GL",
+    "Compiler, Interpreter and Assembler",
+    "Syntax, Semantic and Runtime errors",
+    "Control Structures: Sequence, Selection and Iteration",
+    "Program Design tools: Algorithm, Flowchart and Pseudocode",
+    "Absolute binary, BCD, ASCII and Unicode",
+    "C: Introduction and features; Structure of C program",
+    "C Preprocessor and Header Files; Character Set; Comments",
+    "Identifiers, Keywords and Tokens; Basic Data Types; Constants and Variables",
+    "Type Specifier; Simple and Compound Statements",
+    "Operators and Expressions: arithmetic, relational, logical, assignment, unary, conditional",
+    "Input/Output Functions",
+    "Selection Control Statement: if, if-else, if-else-if, nested, switch",
+    "Iteration Control Statement: while, do while, for, nested loops",
+    "Array: definition, 1D and 2D, matrix addition and subtraction",
+    "String: definition and string functions strlen, strcat, strcmp, strrev, strcpy, strlwr, strupr"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Introduction to programming languages; low level, high level and 4GL"
+    },
+    {
+     "no": "5.2",
+     "title": "Compiler, interpreter and assembler"
+    },
+    {
+     "no": "5.3",
+     "title": "Syntax, semantic and runtime errors"
+    },
+    {
+     "no": "5.4",
+     "title": "Control structures: sequence, selection and iteration"
+    },
+    {
+     "no": "5.5",
+     "title": "Program design tools: algorithm, flowchart and pseudocode"
+    },
+    {
+     "no": "5.6",
+     "title": "Absolute binary, BCD, ASCII and Unicode"
+    },
+    {
+     "no": "5.7",
+     "title": "C: introduction and features; structure of a C program"
+    },
+    {
+     "no": "5.8",
+     "title": "The C preprocessor and header files; character set; comments"
+    },
+    {
+     "no": "5.9",
+     "title": "Identifiers, keywords and tokens; basic data types; constants and variables"
+    },
+    {
+     "no": "5.10",
+     "title": "Type specifiers; simple and compound statements"
+    },
+    {
+     "no": "5.11",
+     "title": "Operators and expressions"
+    },
+    {
+     "no": "5.12",
+     "title": "Input/output functions"
+    },
+    {
+     "no": "5.13",
+     "title": "Selection control statements: if, if-else, if-else-if, nested if, switch"
+    },
+    {
+     "no": "5.14",
+     "title": "Iteration control statements: while, do-while, for, nested loops"
+    },
+    {
+     "no": "5.15",
+     "title": "Arrays: definition, one-dimensional and two-dimensional, matrix addition and subtraction"
+    },
+    {
+     "no": "5.16",
+     "title": "Strings: definition and string functions"
+    }
+   ],
+   "summary": [
+    "Languages run from 1GL machine code (binary, machine dependent, fastest) up through 2GL assembly (mnemonics, needs an assembler), 3GL high-level (C, Java — machine independent, needs a compiler or interpreter) to 4GL (SQL — you say what, not how).",
+    "A compiler translates the whole program at once and produces an executable; an interpreter translates and runs one statement at a time and produces no file. Compiled code runs faster; interpreted code is easier to debug.",
+    "Syntax errors are caught by the compiler and stop it producing a program; semantic (logical) errors compile fine and give wrong answers; runtime errors such as divide-by-zero appear only while running.",
+    "The three control structures are sequence, selection (if, if-else, if-else-if, switch) and iteration (while, do-while, for). Every program can be built from these three alone.",
+    "Design tools: algorithm (numbered English steps), flowchart (oval = terminal, parallelogram = I/O, rectangle = process, diamond = decision), pseudocode (keywords plus English).",
+    "Absolute binary codes the whole number; BCD codes each decimal digit in 4 bits; ASCII codes characters in 7 bits (128 codes: A = 65, a = 97, 0 = 48, space = 32); Unicode gives every character of every language its own code point and contains ASCII as its first 128 codes.",
+    "C was written by Dennis Ritchie at Bell Labs in 1972. It is a middle-level, structured, portable, case-sensitive language with 32 keywords. Every program has exactly one main().",
+    "C's six tokens are keywords, identifiers, constants, strings, operators and special symbols. An identifier starts with a letter or _, contains only letters, digits and _, and is not a keyword."
+   ],
+   "terms": [
+    "Program and programming language",
+    "The three language translators",
+    "Control structure",
+    "Algorithm, flowchart, pseudocode",
+    "Constant and variable",
+    "Array",
+    "String"
+   ],
+   "stats": {
+    "words": 7466,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Web Technology I",
+   "hours": 8,
+   "area": "",
+   "topics": [
+    "Web development introduction; Web browsers and search engines",
+    "Overview of internet and web technologies; Content Management System (CMS)",
+    "HTML: objectives, structure, publishing and hosting; Tags vs Attributes",
+    "Basic tags: HTML, HEAD, TITLE, BODY (fore colour, background colour, background image, background sound)",
+    "Heading tags H1-H6 with ALIGN; FONT tag (Size 1-7, BASEFONT, SMALL, BIG, COLOR)",
+    "Paragraph (P); Break Line (BR); Comments",
+    "Formatting Text: B, I, U, Mark, Sup, Sub, EM, BLOCKQUOTE, PREFORMATTED",
+    "Ordered List OL (LI, Type 1/I/A/a, START, VALUE); Unordered List UL (Disc, Circle, Square, DL, DT, DD)",
+    "ADDRESS tag; Creating links; Anchor tag and Hyperlink",
+    "Tables using TH, TR, TD; Forms using textbox, radio, checkbox, textarea, button",
+    "HTML5 elements: audio, embed, source, track, video",
+    "HTML5 Graphics using canvas and svg tags",
+    "Concept of domain name and web hosting",
+    "Cascading Style Sheets: Inline CSS, Embedded CSS, External CSS"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Web development, web browsers and search engines"
+    },
+    {
+     "no": "6.2",
+     "title": "The internet, web technologies and content management systems"
+    },
+    {
+     "no": "6.3",
+     "title": "HTML: objectives, structure, publishing and hosting"
+    },
+    {
+     "no": "6.4",
+     "title": "Basic tags: HTML, HEAD, TITLE and BODY"
+    },
+    {
+     "no": "6.5",
+     "title": "Heading tags and the FONT tag"
+    },
+    {
+     "no": "6.6",
+     "title": "Paragraphs, line breaks and comments"
+    },
+    {
+     "no": "6.7",
+     "title": "Formatting text"
+    },
+    {
+     "no": "6.8",
+     "title": "Lists: ordered, unordered and definition"
+    },
+    {
+     "no": "6.9",
+     "title": "The ADDRESS tag, links and the anchor tag"
+    },
+    {
+     "no": "6.10",
+     "title": "Tables and forms"
+    },
+    {
+     "no": "6.11",
+     "title": "HTML5 media elements: audio, video, source, track and embed"
+    },
+    {
+     "no": "6.12",
+     "title": "HTML5 graphics: canvas and SVG"
+    },
+    {
+     "no": "6.13",
+     "title": "Domain names and web hosting"
+    },
+    {
+     "no": "6.14",
+     "title": "Cascading Style Sheets: inline, embedded and external"
+    }
+   ],
+   "summary": [
+    "The internet is the network; the World Wide Web is one service running on it. A browser is software on your device; a search engine is a website that indexes other sites using a crawler, an indexer and a ranking step.",
+    "The web uses the client–server model: DNS turns the name into an IP address, the browser sends an HTTP request, the server sends an HTTP response with the HTML.",
+    "A CMS (WordPress, Joomla, Drupal) stores content in a database and pours it into templates, so people can publish without writing HTML.",
+    "HTML structures a page, CSS presents it, JavaScript gives it behaviour. HTML is a markup language, not a programming language.",
+    "Every document has <!DOCTYPE html>, <html>, <head> (with the compulsory <title>) and <body>. A tag names an element; an attribute (name=\"value\") sits inside the opening tag and modifies it. <br>, <hr>, <img>, <meta>, <link> and <source> are empty tags.",
+    "Headings run <h1> (largest) to <h6>. <font size=\"1..7\"> defaulted to 3. bgcolor, text, background, align, <font>, <basefont>, <big> and <bgsound> are all obsolete in HTML5 — CSS replaces them.",
+    "Browsers collapse whitespace, so paragraphs need <p> and line breaks need <br>. <pre> is the exception that preserves spacing.",
+    "<ol> numbers items (type, start, value); <ul> bullets them; <dl> with <dt> and <dd> defines terms."
+   ],
+   "terms": [
+    "Web development",
+    "Web browser",
+    "Search engine",
+    "Content Management System (CMS)",
+    "HTML",
+    "Domain name",
+    "Web hosting",
+    "CSS"
+   ],
+   "stats": {
+    "words": 6122,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Multimedia",
+   "hours": 6,
+   "area": "",
+   "topics": [
+    "Introduction to Multimedia",
+    "Components of Multimedia: Text, Graphics, Audio, Video and Animation",
+    "Application of Multimedia"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Introduction to multimedia"
+    },
+    {
+     "no": "7.2",
+     "title": "Components of multimedia"
+    },
+    {
+     "no": "7.3",
+     "title": "Applications of multimedia"
+    }
+   ],
+   "summary": [
+    "Multimedia is the computer-controlled, integrated use of more than one medium — text, graphics, audio, video and animation — usually with interactivity.",
+    "Linear multimedia runs in a fixed order with no user control (a film); non-linear multimedia lets the user choose the path (a website, a game). Hypermedia is non-linear multimedia joined by hyperlinks.",
+    "Text is the smallest component and carries exact meaning; fonts are measured in points (1 point = 1/72 inch); formats .txt, .rtf, .docx, .pdf, .html.",
+    "Graphics are still pictures. Raster images are grids of pixels, are resolution dependent and go blocky when enlarged (JPEG, PNG, GIF, BMP); vector images store shapes as mathematics, are resolution independent and stay sharp (SVG, AI, EPS, CDR).",
+    "Image size depends on resolution (pixels), colour depth (24-bit true colour = 16.7 million colours) and compression — lossy (JPEG) discards detail, lossless (PNG, GIF) does not.",
+    "Audio is digitised by sampling: CD quality is 44,100 Hz at 16 bits. MP3 is lossy and small, WAV is uncompressed and large, MIDI stores instructions rather than sound.",
+    "Video is captured frames plus synchronised sound, measured in frames per second (24 fps cinema, 25–30 fps television). A codec compresses it; a container (.mp4, .avi, .mkv) holds the parts together.",
+    "Animation is drawn or computed frames, not captured ones, and works by persistence of vision. Methods: frame-by-frame, tweening between key frames, path animation and morphing; 2D against 3D."
+   ],
+   "terms": [
+    "Multimedia",
+    "Linear and non-linear multimedia",
+    "Raster and vector graphics",
+    "Codec",
+    "Animation"
+   ],
+   "stats": {
+    "words": 3998,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Information Security and Cyber Law",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Digital society and computer ethics",
+    "Concept of Information security",
+    "Concept of Cybercrime",
+    "Malicious software and Spam",
+    "Protection from cybercrime",
+    "Intellectual Property Right",
+    "Concept of Digital Signature",
+    "Concept of Cyber Law in Nepal",
+    "ICT Policy in Nepal"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Digital society and computer ethics"
+    },
+    {
+     "no": "8.2",
+     "title": "Concept of information security"
+    },
+    {
+     "no": "8.3",
+     "title": "Concept of cybercrime"
+    },
+    {
+     "no": "8.4",
+     "title": "Malicious software and spam"
+    },
+    {
+     "no": "8.5",
+     "title": "Protection from cybercrime"
+    },
+    {
+     "no": "8.6",
+     "title": "Intellectual Property Right"
+    },
+    {
+     "no": "8.7",
+     "title": "Concept of digital signature"
+    },
+    {
+     "no": "8.8",
+     "title": "Concept of cyber law in Nepal"
+    },
+    {
+     "no": "8.9",
+     "title": "ICT policy in Nepal"
+    }
+   ],
+   "summary": [],
+   "terms": [
+    "Digital society",
+    "Computer ethics",
+    "Information security",
+    "Cybercrime",
+    "Malicious software (malware)",
+    "Spam",
+    "Intellectual property right (IPR)",
+    "Digital signature",
+    "Cyber law"
+   ],
+   "stats": {
+    "words": 5728,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 8,
+ "topic_count": 76,
+ "notes_ready": 8
+}

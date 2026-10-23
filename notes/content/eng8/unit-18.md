@@ -7,312 +7,288 @@ hours: 0
 area: Units
 ---
 
-A **discussion text** and a poem about living well. The discussion asks a
-question and answers it in two parts — one side, then the other — and then
-weighs them. Its subject is one that touches every student in Nepal: road
-accidents. The poem is quieter: it is about the length of a life, and about what
-makes a life worth its years. The grammar of the unit is the language of degree
-(*too, enough, very, so … that*) and the agreement of verb with subject.
+Unit 18 is about **giving opinions**. Reading I is an opinion article by Sugam
+Gautam from *The Himalayan Times*, arguing that road accidents in Nepal are
+caused not only by poor roads but also by careless, young and drunk drivers.
+Reading II is a short poem by Tricia Mae Chua, *Long Life*, about how to spend
+our time. The grammar is **too and enough** and **subject–verb agreement**. In
+writing you write opinion essays and punctuate a paragraph.
 
-::: key What this unit asks for
-By the end you should be able to (1) write a balanced discussion of a social
-problem, (2) explain the theme and the structure of a short poem, (3) use *too*
-and *enough* correctly, and (4) make a verb agree with its subject in a wide
-range of sentences.
+::: key What the exam asks from this unit
+(1) Identify the writer's opinion and the reasons given for it. (2) Explain the
+contrast in the poem: what life is *too short* for and *long enough* for.
+(3) Use *too + adjective + to* and *adjective + enough + to*, and rewrite one
+as the other. (4) Make verbs agree with tricky subjects. (5) Write an opinion
+essay with introduction, body and conclusion.
 :::
 
-## 18.1 Road Accidents in Nepal: Are Poor Roads Solely to Blame?
+## 18.1 Reading I: Road Accidents in Nepal — Are Poor Roads Solely to Blame?
 
-### About the text
+### The writer's argument
 
-The text is a **discussion** (or discursive) essay. It takes a question and
-answers it in parts: first the case for one side, then the case for the other,
-then a conclusion that weighs both. This is one of the most useful shapes in
-examination writing, because the question itself tells you the structure.
+**Thesis:** when we read about accidents we blame the government and road
+builders, but poor roads are **not the only cause**; drivers are largely
+responsible.
 
-### What the text says
-
-**The case for "yes, poor roads are to blame".** Many of Nepal's highways and
-hill roads are narrow, unlit and unsurfaced, and some are cut into slopes that
-move during the monsoon. Where a road has no crash barrier on the outside of a
-bend, a single mistake becomes a fall of hundreds of metres. Poor drainage
-leaves water standing on the surface, and potholes make a fast vehicle jump.
-A road built to carry a few hundred vehicles a year is now carrying thousands,
-and the bridge or culvert has not been widened with it. In a country where a
-bus may have to cross two or three districts to reach a hospital, the condition
-of the road decides how quickly help can arrive.
-
-**The case for "no, bad roads are not solely to blame".** A road does not
-drive. The other causes are human and mechanical, and they are usually the
-larger share: **speeding** on a road that is not built for it, **overtaking on
-a bend**, **drinking and driving**, driving for sixteen hours without rest,
-overloading a bus or a truck until the brakes cannot hold it, and a vehicle
-whose tyres, brakes and lights have not been checked for months. Many of these
-are matters of **law and enforcement**: an overloaded vehicle is on the road
-because nobody weighed it; a bus is driven at night on a hill road because
-nobody checked the driver's hours.
-
-**The conclusion.** The question in the title is misleading, because it invites
-a choice between two things that act together. A good road with a drunk driver
-is dangerous; a bad road with a careful driver is survivable. What reduces
-deaths is a combination: roads built to a standard and maintained, enforcement
-of the speed limit, a limit on driving hours, regular vehicle inspection,
-protective barriers on the outside of curves, and — the part schools can do —
-education, because a pedestrian who looks before crossing is part of road
-safety too.
-
-```figure caption="Where the blame sits. A crash is almost never one cause: the road, the driver, the vehicle and the enforcement fail together, which is why the answer to the title's question is 'not solely'."
-fig, ax = plt.subplots(figsize=(4.9, 2.5))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.2); ax.axis("off")
-f = [("road\ncondition", 2.2, SERIES[0]), ("driver\nbehaviour", 3.4, ACCENT),
-     ("vehicle\ncondition", 2.0, SERIES[2]), ("enforcement", 2.4, SERIES[3])]
-for i, (name, w, colour) in enumerate(f):
-    x = 0.4 + i * 2.4
-    ax.add_patch(plt.Rectangle((x, 1.4), 2.0, w, fc=colour, ec="none", alpha=0.85))
-    ax.text(x + 1.0, 1.4 + w + 0.3, name, ha="center", fontsize=6.1, color=INK)
-    ax.text(x + 1.0, 1.0, name.split("\n")[0], ha="center", fontsize=5.8, color=MUTED)
-ax.text(5.0, 4.7, "a crash is usually all four at once", ha="center", fontsize=6.6,
-        color=INK, fontweight="bold")
-fig.tight_layout()
-```
-
-### Vocabulary
-
-| Word | Meaning |
-|---|---|
-| accident | an unfortunate event that causes damage or injury |
-| solely | only; and nothing else |
-| enforcement | making people obey a rule or a law |
-| overtaking | passing another vehicle going the same way |
-| overloaded | carrying more than the permitted weight or number |
-| culvert | a drain or small channel that carries water under a road |
-| fatality | a death caused by an accident or a disaster |
-
-::: note Model answers
-**1. What is the writer's answer to the question in the title?**
-Not solely. Bad roads are an important cause, but driver behaviour, vehicle
-condition and weak enforcement usually play a larger part, and the causes act
-together, so no single one can be blamed on its own.
-**2. Give three human causes of road accidents mentioned in the text.**
-Speeding; overtaking on a bend; drinking and driving. (Also: driving for too
-many hours without rest, and overloading the vehicle.)
-:::
-
-## 18.2 Poem: Long Life
-
-### About the poem
-
-The poem is about the length of a life — and immediately complicates the word
-*long*. A life is not long because it contains many years; it is long because it
-contains many days that were worth having. The poem's structure usually runs:
-a question about length, a series of images of what fills a life, and a
-conclusion that answers the question in a way the reader did not expect.
-
-### Theme, structure and tone
-
-| Element | What the poem does | What to say about it |
+| Cause | Points in the article | Solutions suggested |
 |---|---|---|
-| The title | states the subject plainly | "the title sets up an idea the poem then questions" |
-| The question | asks what makes a life long | "the poem is built on a question, not an answer" |
-| The images | ordinary things: work, family, seasons | "the images are small, which is the point" |
-| The turn | the meaning of *long* changes | "the poem redefines its own title" |
-| The tone | calm, reflective, hopeful | "not mournful — the poem is about sufficiency" |
+| **Driver negligence** | driving is personal; responsibility for safety lies mostly with drivers | — |
+| **Young riders** | motorbikes are popular (cheap, can manoeuvre through **congestion**); most riders are 18–40, an age with less control of emotions; youths ride very fast; safe driving needs **discipline, experience and maturity** | raise the minimum licence age from 16 to 20 or more; parents and schools should monitor youngsters; schools/colleges can restrict riding until 20; parents should not hurry to buy vehicles |
+| **Drink-driving** | driving needs concentration; one slight mistake can kill | drivers must not drink before driving; punish and educate offenders; strict checks at city checkpoints; enough traffic police |
+| **Poor roads** | narrow lanes, countless potholes; roads too narrow for two vehicles; monsoon landslides block hill roads for days | the Department of Roads and the Department of Transport Management should coordinate |
 
-The **speaker** may be old or young; the poem does not say, which allows the
-reader to stand in that place. The **theme** is that a good life is measured by
-its quality and its usefulness to others, not by the number of its years.
+**Conclusion:** both people and infrastructure must improve. (Note: the article
+repeats one paragraph almost word for word — a sign that it was edited
+quickly.)
 
-### Vocabulary
+### Vocabulary (Exercise A)
 
-| Word | Meaning |
-|---|---|
-| long life | a life that lasts many years |
-| sufficiency | having enough |
-| to measure | to judge the size or worth of something |
-| reflective | thoughtful; looking back |
-| tone | the writer's attitude as it shows in the words |
+a. **witnessed** b. **infrastructure** c. **congestion** d. **perspective**
+e. **coordination** f. **ordeal**
 
-::: note Model answers
-**1. What is the theme of the poem "Long Life"?**
-That the worth of a life lies in how it is lived and what it gives to others,
-not in the number of years it lasts.
-**2. How does the title help the poem?**
-It states the obvious meaning of "long" first — many years — so that the poem
-can then redefine it, which is what gives the ending its force.
-:::
+### Comprehension (Exercise B) — model answers
 
-## 18.3 Grammar and writing tasks of the unit
+**a. Who do we curse for road accidents, according to the writer?** People in
+power and those responsible for the poor construction of roads.
 
-### Grammar: Intensifiers — too, enough, very, so … that
+**b. Why are motorbikes popular in Nepal?** Mainly because they are cheaper than
+cars, and they can move through traffic congestion.
 
-| Word | Use | Example |
-|---|---|---|
-| too + adjective | more than is wanted; a problem | The road is **too narrow** for two buses. |
-| adjective + enough | as much as is needed | The barrier is **strong enough**. |
-| enough + noun | a sufficient quantity | There is **enough light**. |
-| not … enough | less than is needed | The sign is **not clear enough**. |
-| very + adjective | a high degree, but not a problem | The road is **very** busy. |
-| so + adjective + that | a degree with a result | The bend was **so sharp that** the bus skidded. |
-| such a + adjective + noun + that | the same, with a noun | It was **such a sharp bend that** the bus skidded. |
+**c. Why should parents and schools monitor youngsters?** Because young people
+lack the discipline, experience and maturity needed for safe driving and often
+ride at very high speed.
 
-The difference between *too* and *very* matters: *too* always implies a problem
-(*too hot to work*), while *very* does not (*very hot, but we worked*).
-*Too* is never followed by *enough*: *too narrow enough* is impossible.
+**d. What measures should be taken to stop drink-driving?** Drivers should not
+drink before driving; offenders should be punished and made aware; there should
+be strict checking at checkpoints and enough traffic officers.
 
-### Grammar: Subject–verb agreement — extended
+**e. What is the main cause of road accidents in your opinion?** *Sample:* In my
+opinion, the main cause is careless driving — over-speeding, overtaking on
+curves and drink-driving — made worse by narrow, damaged roads and old vehicles.
+
+## 18.2 Speaking: asking for and giving opinions
+
+| Asking | Giving | Agreeing | Disagreeing |
+|---|---|---|---|
+| What do you think about…? | In my opinion, … | That's a good point. | I don't think so. |
+| Don't you think…? | I think / I believe… | I agree with you. | I don't quite agree with you. |
+| How do you feel about…? | As far as I'm concerned, … | I agree to some extent, but… | I'm afraid I disagree. |
+
+*Celebrities earn too much money. — I agree to some extent; doctors and teachers
+work harder but earn far less.* / *The internet is a good source of learning. —
+In my opinion, it is, if we check that the information is reliable.*
+
+## 18.3 Grammar I: Subject–verb agreement
 
 | Rule | Example |
 |---|---|
-| A phrase between subject and verb does not change the verb | The number of accidents **is** falling. |
-| *The number of* is singular; *a number of* is plural | A number of drivers **were** fined. |
-| Two subjects joined by *and* take a plural verb | Speed and alcohol **cause** crashes. |
-| *Either, neither, each, every, everybody* are singular | Neither of the roads **is** safe. |
-| *None* may be singular or plural | None of the drivers **was/were** hurt. |
-| Uncountables are singular | The traffic **is** heavy. |
-| Nouns that look plural but are singular | The news **is** bad. |
-| Amounts and distances take a singular verb | Ten kilometres **is** a long walk. |
+| Two subjects joined by **and** → plural | My uncle and aunt **come** every Friday. |
+| **Everyone, everybody, each, someone** → singular | Everyone **needs** time to relax. |
+| **One of** + plural noun → singular | One of my friends **was** living there. |
+| **Some of / all of / most of** + plural noun → plural; + uncountable → singular | Some of the books **are** missing. Some of the milk **is** sour. |
+| A relative clause does not change the subject | My friends who are in the band **want** me to play. |
+| Amounts of money, distance, time as one unit → singular | One hundred rupees **is** not enough. Five kilometres **is** a long distance. |
+| **or / either…or / neither…nor** → nearer subject | You or he **is** responsible. |
+| *Trousers, scissors, glasses* → plural | Your trousers **look** new. |
+| Subjects ending in *-ics* (*linguistics, mathematics, physics*) and *news* → singular | Linguistics **is** her favourite subject. |
+| *There is/are* agrees with the noun after it | There **is** time. There **are** two buses. |
+| A gerund subject → singular | Participating in sports **reduces** stress. |
+
+### Textbook answers (Grammar I B)
+
+a. come b. is c. want d. needs e. look f. are g. was h. is i. is j. is
+k. is
+
+## 18.4 Reading II: Poem — Long Life
+
+### What the poem says
+
+The poem has four stanzas. The first two begin **"Life is too short to be
+spent…"** and list things not worth our time; the last two begin **"Life is just
+long enough…"** and list things worth doing.
+
+| Life is **too short** for… | Life is **long enough** for… |
+|---|---|
+| griping (complaining) about the past | enjoying the beauty of a sunrise |
+| things you don't have, places you haven't seen, things you haven't done | the smell of wet earth |
+| holding grievances against others | the sound of laughter after a long day's work |
+| finding fault in your brother | practising compassion and generosity |
+| counting the wrongs done to you | comforting the grieving, giving strength to the fainthearted and direction to the lost |
+
+**Theme:** life is short or long depending on how we use it; do not waste it on
+complaints and grudges — enjoy simple pleasures and be kind to others.
+**Structure:** free verse; **repetition** (anaphora) of the opening lines;
+**contrast** between the first and second halves; the poem speaks to the
+reader as **"you"**.
+
+### Vocabulary (Exercise A)
+
+a–vi (griping: moaning), b–iii (grievances: complaints), c–vii (fault),
+d–i (compassion), e–iv (generosity), f–v (fainthearted). (ii is extra.)
+
+### Summary (Exercise B)
+
+…too short to **waste** our time in worrying about the **past**, finding
+others' **faults** and wrongdoings. But it is long enough to **enjoy**
+nature-made **beauty** and have **compassion** and kindness for the needy.
+
+### Comprehension (Exercise C) — model answers
+
+**a. How do people make their lives short?** By wasting time complaining about
+the past and what they lack, holding grudges, finding fault in others and
+counting the wrongs done to them.
+
+**b. What can we do with our life if it is long enough?** Enjoy simple beauties
+like a sunrise, the smell of wet earth and laughter, and practise compassion
+and generosity — comforting the sad, encouraging the weak and guiding the lost.
+
+**c. Who does "you" refer to?** The reader — every one of us.
+
+**d. How would you like to live your life?** *Sample:* I would like to live
+happily without grudges, enjoy nature and my family, and help people who need
+me.
+
+## 18.5 Grammar II: too and enough
+
+| Pattern | Meaning | Example |
+|---|---|---|
+| **too + adjective/adverb (+ for someone) + to-infinitive** | more than needed → **negative result** | The tea is **too hot to drink**. (We can't drink it.) |
+| **adjective/adverb + enough (+ for someone) + to-infinitive** | as much as needed → **positive result** | Akash was **strong enough to lift** the suitcase. |
+| **not + adjective + enough** | less than needed | She is **not old enough to** marry. |
+| **enough + noun** | sufficient quantity | We have **enough time**. |
+
+**Rewriting:** *too young* = *not old enough*; *too far* = *not near enough*;
+*too short* = *not tall enough*; *too expensive* = *not cheap enough*.
+
+### Textbook answers
+
+**Grammar II A:** a. similar b. similar c. similar d. **different** (i says they
+*can* lift it; ii says it is too light — illogical) e. similar
+
+**Grammar II B:** a. strong b. sociable c. intelligent d. smart e. weak
+f. expensive (*too* and *enough* go with **adjectives**, not nouns)
+
+**Grammar II C:** a. It's not near enough for me to reach there on time.
+b. Samata is not old enough to wear a saree. c. My bag is not too heavy to
+carry. d. Sangam is not old enough to drive a motorbike. e. Priya is too short
+to reach the ceiling.
 
 ::: caution Common mistakes
-- *The number of accidents are rising.* ✗ → *The number of accidents **is**
-  rising.* ✓
-- *The road is too much narrow.* ✗ → *The road is **too narrow**.* ✓
-- *He is enough old to drive.* ✗ → *He is **old enough** to drive.* ✓
-- *None of the students was present* and *were present* are both accepted;
-  choose one and keep it consistent.
+- *He is enough strong.* ✗ → *He is **strong enough**.* ✓ (enough **after** the adjective)
+- *The tea is too hot to drink it.* ✗ → *too hot to drink* ✓ (no extra object)
+- *too* is negative: *This bag is too good* is wrong when you mean *very good*.
 :::
 
-### Writing: An opinion essay
+## 18.6 Writing: punctuation and opinion essays
 
-Paragraph 1: state the question and your position. Paragraph 2: the strongest
-argument for your position, with an example. Paragraph 3: the strongest
-argument against it, which you then answer. Paragraph 4: your conclusion and a
-recommendation. Signal the turns with *First, … However, … On the other hand,
-… Therefore, …*.
+### Punctuation (Writing II A) — corrected
 
-::: note Model answers to the practice questions
-**Opinion essay model (opening).** "Nepal loses more than a thousand people on
-its roads every year, and the question of who is to blame is asked after every
-bad crash. Poor roads are certainly part of the answer: a bend with no barrier,
-a surface with no drainage and a bridge too narrow for the traffic it now
-carries will turn a small mistake into a fall. However, a road does not drive
-itself, and the largest single cause remains the behaviour of the person at the
-wheel…"
+*How do you spend your holiday? I usually do a lot of activities: clean rooms,
+do shopping, visit new places, watch movies, etc. Yesterday, I cleaned my room.
+My best friend's parents like the quality of my cleaning. Last year, they
+visited our house and saw my cleaning. He said, "Wow! I love the way you
+decorate your room." While I was cleaning, I dropped an ink bottle. It broke
+into pieces. It was really tough to clean the floor, as the floor turned red
+because of the smashed bottle. I wiped a painting which was gifted to me by my
+uncle on my birthday. We celebrated it on January 22, 2023. The day was a
+memorable one.*
+
+### Opinion essay format
+
+**Introduction** (topic + definition + your opinion) → **body** (2–3 reasons
+with examples; the other side) → **conclusion** (sum up, restate opinion).
+
+::: example Model answer — The Importance of Extracurricular Activities (Writing I)
+**Introduction.** Extracurricular activities are activities students do outside
+the regular classroom lessons, such as sports, music, dance, debate, quiz
+contests, scouting, the Junior Red Cross and eco clubs. In my opinion, they are
+an essential part of a good education.
+
+**Body.** Firstly, these activities keep students physically and mentally
+healthy. Games like football and volleyball build fitness and reduce stress
+after long hours of study. Secondly, they develop skills that books cannot
+teach: debates and speech contests build confidence and public speaking, while
+group activities teach teamwork, leadership and discipline. Thirdly, they help
+students discover their talents; many famous athletes and artists first showed
+their skills in school competitions.
+
+However, there are challenges. Some schools lack playgrounds, equipment and
+trained teachers, and some students spend so much time on activities that their
+studies suffer. Parents sometimes see them as a waste of time.
+
+**Conclusion.** In short, extracurricular activities make students healthy,
+confident and skilful. Schools should provide facilities and a balanced
+timetable, and students should manage their time wisely so that activities and
+studies support each other.
 :::
+
+**Writing II B (restaurant vs homemade food)** — choose one side, e.g. *I prefer
+homemade food because it is cleaner, healthier and cheaper; restaurant food is
+tasty and convenient but often oily and expensive*. Give two or three reasons,
+mention the other view, and conclude.
+
+## 18.7 Pronunciation and project work
+
+**Road words — stress:** con'gestion, 'infrastructure, 'witness, pe'destrian,
+ma'noeuvre, 'jaywalking, 'mishap, 'motorways, 'transport (noun) /
+trans'port (verb), 'safeguarding.
+
+**Project work:** survey five friends on the best way to learn English, their
+favourite subject, clothes and how to make friends; present the results.
 
 ## Chapter summary
 
-- A discussion essay takes a question, argues one side, argues the other, then
-  weighs both.
-- Bad roads, driver behaviour, vehicle condition and weak enforcement act
-  together; no single cause is solely to blame for road accidents.
-- Speeding, overtaking on bends, drinking and driving, fatigue and overloading
-  are the main human causes.
-- Education is part of road safety, because pedestrians are involved too.
-- "Long Life" redefines its own title: a life is measured by how it is lived,
-  not by how many years it lasts.
-- **too** + adjective means a problem; adjective + **enough** means sufficient;
-  **very** means a high degree without a problem.
-- **so + adjective + that** and **such a + noun + that** express a degree with a
-  result.
-- *The number of* takes a singular verb; *a number of* takes a plural; a phrase
-  between subject and verb changes nothing.
+- Road accidents: not only poor roads but driver negligence, young fast riders
+  and drink-driving; solutions — raise licence age, monitor youth, strict checks,
+  better roads through coordination.
+- *Long Life*: too short for complaints and grudges; long enough for beauty,
+  laughter, compassion and generosity.
+- *too + adj + to* (negative result); *adj + enough + to* (positive result);
+  *too young* = *not old enough*.
+- Agreement: *and* → plural; *everyone / one of / amounts / -ics* → singular;
+  *or* → nearer subject; *some of* + plural → plural.
+- Opinion essay: introduction with opinion → reasons and examples → other side →
+  conclusion.
 
 ## Practice questions
 
 **Reading**
 
-1. Give three ways in which a poor road contributes to accidents in Nepal. <span class="marks">[3]</span>
-2. Give four human causes of road accidents. <span class="marks">[4]</span>
-3. Why does the writer say the question in the title is misleading? <span class="marks">[2]</span>
-4. What is the theme of the poem "Long Life"? <span class="marks">[2]</span>
+1. Answer from the texts. <span class="marks">[5]</span>
+   (a) Which three qualities does safe driving need? (b) To what age does the
+   writer want the licence age raised? (c) Which two departments should
+   coordinate? (d) Name two things life is long enough for. (e) What does
+   "griping" mean?
 
-::: note Answers
-**1.** Any three: narrow, unlit or unsurfaced surfaces; no crash barrier on the
-outside of a bend; poor drainage leaving water standing; potholes; traffic far
-above what the road was built for.
-**2.** Speeding; overtaking on a bend; drinking and driving; driving too many
-hours without rest. (Overloading is also correct.)
-**3.** Because it invites a choice between two causes that in reality act
-together: a good road with a drunk driver is still dangerous and a bad road
-driven carefully is survivable, so asking which one is "solely" to blame has no
-single answer.
-**4.** That the worth of a life is measured by how it is lived and what it gives,
-not by the number of its years.
+::: note Answers — Reading
+**1.** (a) Discipline, experience and maturity. (b) To 20 or more. (c) The
+Department of Roads and the Department of Transport Management. (d) Enjoying the
+beauty of a sunrise; practising compassion (any two). (e) Complaining/moaning.
 :::
 
 **Grammar**
 
-5. Fill in *too, enough, very, so* or *such*. <span class="marks">[5]</span>
-   (a) The bus was ______ crowded that nobody could move.
-   (b) He is old ______ to get a licence.
-   (c) The road is ______ narrow for two trucks.
-   (d) It was ______ a dangerous bend that we slowed down.
-   (e) The driver was ______ tired after sixteen hours.
+2. Choose the correct verb. <span class="marks">[5]</span>
+   (a) Each of the boys (has/have) a bag. (b) Mathematics (is/are) easy for me.
+   (c) Neither Ram nor his friends (was/were) there. (d) The news (is/are) true.
+   (e) Bread and butter (is/are) my breakfast.
+3. Rewrite using the word in brackets. <span class="marks">[3]</span>
+   (a) The box is too heavy for me to lift. (enough) (b) He is not tall enough to
+   play basketball. (too) (c) The water is very cold; we can't swim. (too)
 
-6. Choose the correct verb. <span class="marks">[4]</span>
-   (a) The number of accidents (is / are) increasing.
-   (b) A number of buses (was / were) delayed.
-   (c) Neither of the drivers (was / were) injured.
-   (d) Speed and alcohol (cause / causes) most crashes.
-
-::: note Answers
-**5.** (a) so (b) enough (c) too (d) such (e) very
-**6.** (a) is (b) were (c) was (d) cause
+::: note Answers — Grammar
+**2.** (a) has (b) is (c) were (d) is (e) is (one dish)
+**3.** (a) The box is not light enough for me to lift. (b) He is too short to
+play basketball. (c) The water is too cold (for us) to swim in.
 :::
 
 **Writing**
 
-7. Write an opinion essay of about 200 words answering: "Are poor roads solely
-   to blame for road accidents in Nepal?" <span class="marks">[5]</span>
-8. Write a paragraph of about 80 words on what your school can do about road
-   safety. <span class="marks">[4]</span>
+4. Write an opinion essay: "Should students be allowed to ride motorbikes to
+   school?" <span class="marks">[5]</span>
 
-::: note Answers
-**7.** Paragraph 1: state the question and your position (not solely). Paragraph
-2: the strongest argument for road condition, with one example. Paragraph 3: the
-strongest argument for human causes, with one example, and why it usually
-matters more. Paragraph 4: conclusion plus a recommendation that joins both —
-better roads and better enforcement.
-**8.** Practical actions: a road-safety club, a crossing patrol at the school
-gate, teaching younger students the "stop, look, listen" rule, inviting a
-traffic officer to speak, and putting up a sign asking drivers to slow down
-outside the school.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** A *road accident* report should answer
-   (a) what, where, when, who (b) only what (c) only who (d) the writer's opinion
-**2.** *Solely* means
-   (a) partly (b) only (c) sadly (d) slowly
-**3.** The passive of *Poor roads cause accidents* is
-   (a) Accidents are caused by poor roads (b) Accidents cause poor roads (c) Poor roads are caused (d) Accidents were caused
-**4.** Which is **not** a cause of road accidents?
-   (a) over-speeding (b) drunk driving (c) seat belts (d) poor road design
-**5.** A news report is written in
-   (a) the first person with opinion (b) the third person, factually (c) the second person (d) the future tense
-
-::: note Objective practice — answers
-**1.** (a) — the lead answers what, where, when and who. **2.** (b) — only. **3.** (a) — the object becomes the subject. **4.** (c) — seat belts prevent injury. **5.** (b) — third person and factual.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** A news report avoids
-   (a) facts (b) the writer's opinion (c) quotations (d) dates
-**2.** *Solely* means
-   (a) only (b) partly (c) sadly (d) slowly
-**3.** Which is a cause of road accidents?
-   (a) over-speeding (b) wearing a helmet (c) a seat belt (d) road signs
-**4.** The place-and-date line appears
-   (a) before the headline (b) after the headline (c) at the end (d) in a quotation
-**5.** *Long Life* as a poem title suggests a theme of
-   (a) longevity and living well (b) travel (c) machinery (d) weather
-
-::: note Objective practice — answers
-**1.** (b) — opinion belongs in an editorial. **2.** (a) — only. **3.** (a) — over-speeding. **4.** (b) — after the headline. **5.** (a) — longevity and living well.
+::: note Answer — Writing
+**4.** Clear opinion; reasons (safety, age and licence rules, maturity, cost,
+alternatives such as bicycles and school buses); the other side (saves time,
+lack of transport); conclusion restating the opinion; connectives.
 :::

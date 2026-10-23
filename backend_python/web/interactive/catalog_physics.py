@@ -23,7 +23,7 @@ COURSES = [
                 'icon': 'back_hand',
                 'minutes': 10,
                 'sim': 'physics/forces-playground',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Push a friendly box around the playground, watch its force and speed arrows grow, and discover what friction really does.',
                 'objectives': [
                     'Explain that a force is a push or a pull',
@@ -73,7 +73,7 @@ COURSES = [
                 'icon': 'sports_score',
                 'minutes': 10,
                 'sim': 'physics/ramp-roller',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Race a ball down a ramp you control — tilt it steeper, add friction, and chase your best time to the finish line.',
                 'objectives': [
                     'Show that a steeper ramp makes a ball speed up faster',
@@ -123,7 +123,7 @@ COURSES = [
                 'icon': 'sports_basketball',
                 'minutes': 10,
                 'sim': 'physics/bouncy-balls',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Tap to drop bouncy balls, tune how springy they are, and compare bouncing on Earth, the Moon and giant Jupiter.',
                 'objectives': [
                     'Show that gravity pulls dropped balls down and makes them fall faster and faster',
@@ -173,7 +173,7 @@ COURSES = [
                 'icon': 'explore',
                 'minutes': 10,
                 'sim': 'physics/magnet-play',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Carry a bar magnet through a field of paperclips, flip its poles, and feel how magnets pull together or push apart — without touching!',
                 'objectives': [
                     'Name the two poles of a magnet: north and south',
@@ -248,7 +248,7 @@ COURSES = [
                 'icon': 'av_timer',
                 'minutes': 15,
                 'sim': 'physics/pendulum-lab',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Drag a real simulated pendulum, change its length and even its planet, and discover exactly what controls its time period.',
                 'objectives': [
                     'Measure the period of a pendulum and compare it with the formula T = 2π√(L/g)',
@@ -308,7 +308,7 @@ COURSES = [
                 'icon': 'rocket_launch',
                 'minutes': 15,
                 'sim': 'physics/projectile-motion',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Fire a cannon, trace the parabola, and discover why 45° gives the longest shot — and what air resistance ruins.',
                 'objectives': [
                     'Split projectile motion into independent horizontal and vertical parts',
@@ -364,7 +364,7 @@ COURSES = [
                 'icon': 'graphic_eq',
                 'minutes': 16,
                 'sim': 'physics/waves-lab',
-                'sim_type': 'lab',
+                'sim_type': '3d',
                 'summary': 'Shake a virtual string into travelling waves, standing waves and interference patterns, and connect frequency to musical pitch.',
                 'objectives': [
                     'Identify amplitude, wavelength, frequency and speed on a moving wave',
@@ -424,7 +424,7 @@ COURSES = [
                 'icon': 'flare',
                 'minutes': 18,
                 'sim': 'physics/optics-bench',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Drag an object along a ray-traced optics bench and watch lenses and mirrors form real and virtual images before your eyes.',
                 'objectives': [
                     'Draw the three principal rays for lenses and curved mirrors',
@@ -484,7 +484,7 @@ COURSES = [
                 'icon': 'electric_bolt',
                 'minutes': 16,
                 'sim': 'physics/circuit-lab',
-                'sim_type': 'lab',
+                'sim_type': 'lab3d',
                 'summary': 'Crank the voltage, swap resistors between series and parallel, and watch animated electrons obey Ohm\'s law in real time.',
                 'objectives': [
                     'Apply Ohm\'s law V = IR to predict current from voltage and resistance',

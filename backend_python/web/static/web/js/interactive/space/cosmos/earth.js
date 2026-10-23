@@ -1,6 +1,6 @@
 import { THREE } from '../../core/engine.js';
-import { shader, lineLoop } from './shaders.js';
-import { R_EARTH, R_MOON, KM } from './astro.js';
+import { shader, lineLoop, SCATTER, RA } from './shaders.js';
+import { R_EARTH, R_MOON, KM, EVEREST } from './astro.js';
 
 const TEX = '/static/web/js/interactive/space/cosmos/tex/';
 
@@ -28,36 +28,46 @@ export function createEarthSystem(quality, renderer) {
 
   const earthMat = shader({
     transparent: false, depthWrite: true,
-    uniforms: { uDay: { value: day }, uNight: { value: night }, uClouds: { value: clouds }, uSun: sunLocal, uTime },
-    vertexHead: 'varying vec2 vUv; varying vec3 vN; varying vec3 vV;',
-    vertex: `vUv = uv; vN = normalize(position); vec4 wp = modelMatrix * vec4(position, 1.0);
-      vV = normalize((inverse(modelMatrix) * vec4(cameraPosition, 1.0)).xyz - position);
+    uniforms: { uDay: { value: day }, uNight: { value: night }, uClouds: { value: clouds }, uSun: sunLocal, uTime, uClear: { value: 0 } },
+    vertexHead: 'varying vec2 vUv; varying vec3 vN; varying vec3 vV; varying vec3 vC; varying vec3 vP;',
+    vertex: `vUv = uv; vN = normalize(position); vP = position; vec4 wp = modelMatrix * vec4(position, 1.0);
+      vC = (inverse(modelMatrix) * vec4(cameraPosition, 1.0)).xyz;
+      vV = normalize(vC - position);
       gl_Position = projectionMatrix * viewMatrix * wp;`,
-    fragmentHead: `uniform sampler2D uDay; uniform sampler2D uNight; uniform sampler2D uClouds; uniform vec3 uSun; uniform float uTime;
-      varying vec2 vUv; varying vec3 vN; varying vec3 vV;`,
+    fragmentHead: `uniform sampler2D uDay; uniform sampler2D uNight; uniform sampler2D uClouds; uniform vec3 uSun; uniform float uTime; uniform float uClear;
+      varying vec2 vUv; varying vec3 vN; varying vec3 vV; varying vec3 vC; varying vec3 vP; ${SCATTER}`,
     fragment: `
       vec3 n = normalize(vN); vec3 v = normalize(vV); vec3 s = normalize(uSun);
       vec3 dayC = pow(texture2D(uDay, vUv).rgb, vec3(2.2));
       vec3 nightC = pow(texture2D(uNight, vUv).rgb, vec3(2.2));
       float ndl = dot(n, s);
-      float dayMix = smoothstep(-0.08, 0.18, ndl);
       float ocean = smoothstep(0.02, 0.10, dayC.b - dayC.r) * (1.0 - smoothstep(0.10, 0.25, dayC.g));
       vec2 cuv = vUv + vec2(uTime * 0.0006, 0.0);
       vec2 shUv = cuv - vec2(s.x, s.y) * 0.0015;
-      float cl = texture2D(uClouds, cuv).r;
-      float cs = texture2D(uClouds, shUv).r;
-      vec3 lit = dayC * (1.0 - cs * 0.55) * max(0.0, ndl) * 3.2;
+      vec2 ev = (vUv - vec2(${((EVEREST.lon + 180) / 360).toFixed(5)}, ${((EVEREST.lat + 90) / 180).toFixed(5)})) * vec2(360.0 * ${Math.cos(EVEREST.lat * Math.PI / 180).toFixed(4)}, 180.0);
+      float clear = 1.0 - uClear * 0.8 * (1.0 - smoothstep(2.0, 16.0, length(ev)));
+      float cl = texture2D(uClouds, cuv).r * clear;
+      float cs = texture2D(uClouds, shUv).r * clear;
+      // sunlight that reaches the ground has crossed this much air (Kasten-Young), so it reddens at the terminator
+      float zen = degrees(acos(clamp(ndl, -1.0, 1.0)));
+      float air = 1.0 / (max(ndl, 0.0) + 0.50572 * pow(max(96.07995 - zen, 0.5), -1.6364));
+      vec3 sunT = exp(-vec3(0.0059, 0.0137, 0.0331) * 8.0 * air - 0.004 * air);
+      vec3 sun = sunT * smoothstep(-0.02, 0.04, ndl);
+      vec3 lit = dayC * (1.0 - cs * 0.55) * max(0.0, ndl) * 2.4 * sun;
       vec3 h = normalize(s + v);
       float spec = pow(max(0.0, dot(n, h)), 90.0) * ocean * (1.0 - cl) * 2.6 + pow(max(0.0, dot(n, h)), 12.0) * ocean * 0.12;
-      lit += vec3(1.0, 0.93, 0.82) * spec * smoothstep(0.0, 0.1, ndl);
-      vec3 cloudC = vec3(1.0) * cl * (max(0.0, ndl) * 3.0 + 0.02);
-      lit = mix(lit, cloudC, cl * 0.92 * dayMix);
-      vec3 lights = nightC * vec3(1.0, 0.78, 0.45) * 2.2 * (1.0 - cl * 0.8);
-      vec3 col = mix(lights, lit, dayMix);
-      float rim = pow(1.0 - max(0.0, dot(n, v)), 2.5);
-      vec3 atm = mix(vec3(0.95, 0.45, 0.2), vec3(0.32, 0.58, 1.0), smoothstep(-0.05, 0.35, ndl));
-      col += atm * rim * smoothstep(-0.25, 0.25, ndl) * 1.3;
-      col = mix(col, vec3(0.26, 0.48, 0.95) * max(0.0, ndl), 0.12 * (1.0 - rim));
+      lit += vec3(1.0, 0.93, 0.82) * sun * spec;
+      vec3 east = normalize(cross(vec3(0.0, 1.0, 0.0), n + vec3(1e-4, 0.0, 0.0))); vec3 north = cross(n, east);
+      float cE = texture2D(uClouds, cuv + vec2(0.003, 0.0)).r; float cN = texture2D(uClouds, cuv + vec2(0.0, 0.003)).r;
+      vec3 cn = normalize(n - (east * (cE - cl) + north * (cN - cl)) * 0.8);
+      float cdl = max(0.0, dot(cn, s));
+      vec3 cloudC = vec3(1.0) * (cdl * 2.1 * sun + vec3(0.06, 0.08, 0.12) * smoothstep(-0.2, 0.1, ndl));
+      lit = mix(lit, cloudC, cl * 0.92);
+      vec3 lights = nightC * vec3(1.0, 0.78, 0.45) * 2.2 * (1.0 - cl * 0.8) * (1.0 - smoothstep(-0.1, 0.02, ndl));
+      vec3 col = lit + lights;
+      vec3 ro = vC; vec3 rd = normalize(vP - vC); vec3 Ls; vec3 Ts;
+      scatter(ro, rd, length(vP - vC), s, 6, Ls, Ts);
+      col = col * Ts + Ls * 14.0;
       col = 1.0 - exp(-col * 1.1);
       gl_FragColor = vec4(pow(col, vec3(1.0 / 2.2)), 1.0);`,
   });
@@ -66,22 +76,28 @@ export function createEarthSystem(quality, renderer) {
 
   const atmMat = shader({
     uniforms: { uSun: sunLocal },
-    vertexHead: 'varying vec3 vN; varying vec3 vV; varying float vCam;',
-    vertex: `vec3 cl = (inverse(modelMatrix) * vec4(cameraPosition, 1.0)).xyz; vCam = length(cl);
-      vN = normalize(position); vV = normalize(cl - position);
+    vertexHead: 'varying vec3 vP; varying vec3 vC;',
+    vertex: `vC = (inverse(modelMatrix) * vec4(cameraPosition, 1.0)).xyz; vP = position;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);`,
-    fragmentHead: 'uniform vec3 uSun; varying vec3 vN; varying vec3 vV; varying float vCam;',
+    fragmentHead: `uniform vec3 uSun; varying vec3 vP; varying vec3 vC; ${SCATTER}`,
     fragment: `
-      vec3 n = normalize(vN); vec3 v = normalize(vV);
-      float d = clamp(-dot(n, v) / 0.22, 0.0, 1.0);
-      float ns = dot(n, normalize(uSun));
-      vec3 col = mix(vec3(1.0, 0.42, 0.18), vec3(0.32, 0.6, 1.0), smoothstep(-0.1, 0.4, ns));
-      float a = pow(d, 2.2) * smoothstep(-0.35, 0.4, ns) * 1.6 * smoothstep(1.035, 1.12, vCam);
-      gl_FragColor = vec4(col * a * uOpacity, 1.0);`,
-    blending: THREE.AdditiveBlending,
-    side: THREE.BackSide,
+      vec3 ro = vC; vec3 rd = normalize(vP - vC);
+      if (hitSphere(ro, rd, 1.0).x > 0.0) discard;
+      vec3 L; vec3 T;
+      scatter(ro, rd, 1e9, normalize(uSun), 12, L, T);
+      L = 1.0 - exp(-L * 14.0 * 1.1);
+      float A = 1.0 - dot(T, vec3(0.3333));
+      gl_FragColor = vec4(pow(L, vec3(1.0 / 2.2)) * uOpacity, A * uOpacity);`,
   });
-  const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(1.025, seg, seg / 2), atmMat);
+  atmMat.blending = THREE.CustomBlending;
+  atmMat.blendSrc = THREE.OneFactor; atmMat.blendDst = THREE.OneMinusSrcAlphaFactor;
+  atmMat.blendSrcAlpha = THREE.ZeroFactor; atmMat.blendDstAlpha = THREE.OneFactor;
+  const atmosphere = new THREE.Mesh(new THREE.SphereGeometry(RA, seg, seg / 2), atmMat);
+  const camLocal = new THREE.Vector3();
+  atmosphere.onBeforeRender = (r, sc, cam) => {
+    const inside = atmosphere.worldToLocal(camLocal.copy(cam.position)).length() < RA;
+    atmMat.side = inside ? THREE.BackSide : THREE.FrontSide;
+  };
   globe.add(atmosphere);
 
   const moonGroup = new THREE.Group();
@@ -137,6 +153,7 @@ export function createEarthSystem(quality, renderer) {
     update(t, logW) {
       uTime.value = t;
       earth.rotation.y = 0;
+      earthMat.uniforms.uClear.value = 1 - Math.min(1, Math.max(0, (logW - 6.9) / 0.9));
       atmosphere.visible = logW > 5.2;
       if (orbit) orbit.visible = logW > 7.8 && logW < 11.5;
       moonGroup.visible = logW > 6.2 && logW < 11.6;

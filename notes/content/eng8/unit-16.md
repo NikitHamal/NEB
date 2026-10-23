@@ -7,364 +7,280 @@ hours: 0
 area: Units
 ---
 
-An **anecdote** and a **history**: one is a short personal story told to make a
-point, the other is an account of how an ordinary object came to be. They share
-the tense problem that runs through all narrative writing — deciding which of
-two past actions happened first — and they share a purpose: to explain a
-decision by telling how it came about.
+Unit 16 is about **narrating events in sequence**. Reading I is an anecdote by
+the American blogger Jessica Sharp, *Why I Became a Vegan*, about how a change
+of diet made her feel healthier. Reading II, *The History of Pens*, traces
+writing tools from Egyptian reed pens to the modern ballpoint. The grammar is
+the **past simple, past continuous and past perfect** used together in
+narration. In writing you put a story in order, write a picture story, and write
+paragraphs about a historical event.
 
-::: key What this unit asks for
-By the end you should be able to (1) tell an anecdote that has a beginning, a
-turning point and a point, (2) trace the history of an everyday object from the
-earliest form to the present one, (3) use the past simple, past continuous and
-past perfect correctly inside a story, and (4) write a story and a paragraph
-about a historical event.
+::: key What the exam asks from this unit
+(1) Choose the meaning of a word **in context**. (2) Answer True/False and
+factual questions. (3) Make a timeline from a historical text. (4) Use the three
+past tenses correctly in one narrative. (5) Order jumbled sentences into a story
+and write paragraphs about a historical event.
 :::
 
-```photo id="eng8/quill-pen" caption="A quill pen cut from a feather, with its slit holding the ink. Before steel nibs, every writer kept a penknife and re-cut the point every few days." width="92"
-```
+## 16.1 Reading I: An Anecdote — Why I Became a Vegan
 
-## 16.1 An Anecdote: Why I Became a Vegan
+An **anecdote** is a short, true, personal story told to make a point.
 
-### About the text
+### Summary
 
-An **anecdote** is a short account of a single incident, told because it
-explains something. It is not a whole autobiography. It has three parts: the
-situation before, the moment that changed the speaker's mind, and what the
-speaker does now.
+- Growing up, the writer did not think about her weight (she was a
+  **cheerleader** in school). **After college** she started gaining weight: she
+  ate out more and was more stressed at work.
+- She became more **in tune with her body** after doing the **Whole30** (a
+  30-day eating plan); after it she could tell when her body did not feel good.
+- The *Almost 30* podcast made her think about a **holistic lifestyle**; she had
+  already switched to natural deodorant, and becoming vegan was "the last branch
+  of that holistic tree". Her **aunt and uncle** became vegan first, then her
+  dad, then she did.
+- **Her reason:** to remove from her diet foods her body does not like, and eat
+  things that make her feel good and help her "live her best life".
+- **Vegans** do not eat products that come from animals; she avoids dairy, eggs
+  and meat, but she is not "strict" — she eats butter at restaurants and eats
+  honey. Each person should do what works for them.
+- It was **easier** than she expected. Whole30 showed her that her body does not
+  love **dairy**: she used to go to bed with stomach aches; now she rarely has
+  stomach aches or headaches, has more energy and less acid reflux.
+- She gets protein from **beans and chickpeas** and many vegetables; you do not
+  have to give up favourite foods to be vegan.
 
-### What the text says
+### Vocabulary in context (Exercise A)
 
-The writer describes an ordinary day that turned out not to be ordinary. The
-**situation** is set out first: for years the writer ate everything, without
-thinking about where it came from. Then comes the **turning point**, and an
-anecdote lives or dies by this moment. It is small: a visit to a farm or a
-market, a conversation, or a documentary watched late at night — something that
-made the writer see the connection between an animal and a plate of food for the
-first time.
+a. cheered – **ii** (shout to show support; she was a cheerleader)
+b. consistently – **ii** (always the same) c. eliminating – **ii** (removing)
+d. dairy – **i** (milk and milk products) e. incorporate – **ii** (include)
 
-The **decision** follows, and the rest of the text explains what it cost and
-what it changed. A vegan eats no animal products at all — no meat, fish, eggs,
-milk or honey — so the decision is not only moral but practical: it changes what
-you can eat at a wedding feast, at a *mela*, in a restaurant and in a friend's
-house. The writer is honest that it was not easy and that relatives were not
-always pleased.
+**Exercise B:** a. consistently b. eliminating c. cheered d. incorporate
+e. dairy
 
-The text does not ask the reader to become vegan. It asks the reader to think
-about a question that is larger than diet: **how much do we want to know about
-the things we depend on?** That is what makes the anecdote worth reading — the
-point is not the diet, it is the habit of looking.
+### True or False (Exercise C)
 
-| Part | What it does | Example function |
+a. **False** — she started gaining weight *after* college. b. **False** —
+*Almost 30* is the name of the podcast. c. **False** — she cut out foods her
+body did not like, to feel better. d. **True**. e. **True** — beans and chickpeas.
+
+### Comprehension (Exercise D) — model answers
+
+**a. Who are vegans?** People who do not eat any products that come from
+animals, such as meat, eggs and dairy.
+
+**b. When did the writer start gaining weight?** After college, when she ate
+out more and was stressed with work.
+
+**c. Who first became vegan in her family?** Her aunt and uncle.
+
+**d. Why did the writer become vegan?** To remove from her diet the foods her
+body did not like and to eat food that made her feel good and live her best
+life.
+
+**e. What was the impact of Whole30 on the writer?** It made her more in tune
+with her body; she learnt that dairy did not suit her, and she could tell when
+her body did not feel good.
+
+**f. Can all the nutrients we need be obtained from vegetarian food?** Mostly
+yes, with careful planning: protein from beans, lentils (daal), chickpeas and
+soybeans; vitamins and minerals from vegetables, fruits and grains. Some
+nutrients such as vitamin B12 are hard to get without animal products, so
+vegans may need fortified foods or supplements.
+
+## 16.2 Grammar: Past simple, past continuous, past perfect in narration
+
+| Tense | Form | Role in a story |
 |---|---|---|
-| Situation | sets up the ordinary life before | "For years I ate whatever was given to me." |
-| Turning point | one small moment that changed the writer | the single incident that made the link visible |
-| Consequence | what the writer did, and what it cost | the practical difficulty of eating differently |
-| Point | why we are being told this | "look at where things come from" |
+| Past simple | V2 | the main events, one after another: *He **grasped** the trunk.* |
+| Past continuous | was/were + V-ing | the background, or an action interrupted: *The car **hit** the tree while the driver **was talking** on the phone.* |
+| Past perfect | had + V3 | an event **before** another past event: *The bus **had left** before I **reached** there.* |
 
-```figure caption="The shape of an anecdote. The whole story exists to make one small moment land, so that moment must be described in more detail than everything around it."
-fig, ax = plt.subplots(figsize=(4.8, 2.4))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.0); ax.axis("off")
-ax.plot([0.5, 9.5], [2.0, 2.0], color=GRID, lw=1.2)
-marks = [(1.4, "situation", SERIES[0]), (4.6, "turning point", ACCENT),
-         (7.2, "consequence", SERIES[2]), (9.0, "point", SERIES[3])]
-for x, label, colour in marks:
-    ax.plot(x, 2.0, "o", color=colour, ms=8)
-    ax.text(x, 2.5, label, ha="center", fontsize=6.6, color=INK)
-ax.add_patch(plt.Rectangle((3.5, 3.3), 2.2, 0.95, fc="white", ec=ACCENT, lw=1.4))
-ax.text(4.6, 3.77, "most detail goes\nhere", ha="center", va="center", fontsize=5.9,
-        color=ACCENT)
-ax.text(5.0, 1.0, "an anecdote is told to explain a decision, not to list a life",
-        ha="center", fontsize=6.1, color=MUTED)
-fig.tight_layout()
-```
+**Time links:** *when* (short action), *while* (long action), *before / after /
+by the time / already* (past perfect for the earlier action), *as soon as*.
 
-### Vocabulary
+### Textbook answers
 
-| Word | Meaning |
-|---|---|
-| anecdote | a short account of a single incident |
-| vegan | a person who eats no food that comes from animals |
-| turning point | the moment at which something changes |
-| moral | concerned with right and wrong |
-| to give up | to stop doing or using something |
+**Grammar I A:** a. had – past simple b. felt – past simple; was taking – past
+continuous c. came – past simple; had already drunk – past perfect (the book
+prints *drank*, but the past participle is **drunk**) d. was serving – past
+continuous; started – past simple e. was (not prepared) – past simple
 
-::: note Model answers
-**1. What is an anecdote, and how is it different from a biography?**
-An anecdote is a short account of one incident, told to explain a decision or
-make a point. A biography covers a whole life and follows it in time order.
-**2. What is the point of the text if it is not asking the reader to become
-vegan?**
-It asks the reader to think about how much they want to know about the things
-they depend on — the diet is the example, and the habit of looking at where
-things come from is the real subject.
-:::
+**Grammar I B (sample answers):** a. I ate rice, daal and vegetables. b. I was
+talking to my friend when the teacher came in. c. My mother had cooked momo when
+I reached home. d. As soon as I opened the door, I saw thick fog. e. Yes, the
+class had already started when I reached school. / No, it hadn't started.
 
-## 16.2 A History of Pens
-
-### About the text
-
-The text is **historical writing about an everyday object**. Its pattern is
-always the same: the problem the object solved, the earliest version, each
-improvement and the reason for it, and the effect on ordinary people.
-
-### What the text says
-
-Human beings have needed to mark things for at least five thousand years, and
-the pen is the answer they arrived at.
-
-**The reed pen.** In Egypt, Mesopotamia and China, a hollow reed cut to a point
-and dipped in ink was used for writing on papyrus and clay. It works, it is
-cheap, and it is still used in some traditional calligraphy.
-
-**The quill.** From about the sixth century, a feather — usually from a goose —
-was cut and slit so that the ink flowed by capillary action and the slit acted
-as a reservoir. A quill had to be re-cut every few days, which is why a
-schoolroom needed a pen-knife, the same knife we now call a *penknife* for a
-completely different purpose.
-
-**The metal nib and the fountain pen.** In the nineteenth century a steel nib
-replaced the quill and could be made in factories by the million, which made
-writing cheap for everyone. The fountain pen added an internal reservoir: a
-sac or a piston held the ink, and the pen could be carried full. The first
-practical fountain pens date from the 1880s.
-
-**The ballpoint.** In 1938 the Hungarian journalist László Bíró noticed that
-newspaper ink dried quickly and did not smudge, and designed a pen with a tiny
-ball bearing at the tip that picked up ink from a tube and rolled it onto the
-paper. Commercial ballpoint pens reached the market in the 1940s and 1950s, and
-they were cheap, leak-free at altitude and needed no filling. Within a
-generation they had replaced the fountain pen in almost every school bag.
-
-**The felt-tip and the digital stylus.** The felt-tip pen (1960s) used a
-porous tip and its own ink supply; the digital stylus is the newest chapter, a
-pen that leaves no ink at all.
-
-| Pen | Period | Improvement |
-|---|---|---|
-| Reed pen | from about 3000 BCE | a cheap, sharpened writing point |
-| Quill | from about the 6th century | ink held in the feather's slit |
-| Steel nib | 19th century | mass-produced, uniform nibs |
-| Fountain pen | from the 1880s | an internal ink reservoir |
-| Ballpoint | from the 1940s | quick-drying ink, no refilling, no smudge |
-| Felt-tip, stylus | 1960s onwards | porous tip; then no ink at all |
-
-The history has a lesson in it: each improvement answered a **complaint** about
-the pen before it — it ran dry, it leaked, it smudged, it needed cutting. Good
-history always asks what problem came next.
-
-::: note Model answers
-**1. Why was the ballpoint pen such a success?**
-Because it answered the complaints of the fountain pen: its ink dried quickly
-and did not smudge, it did not leak or need refilling, and it was cheap to make,
-so within a generation it was in almost every school bag.
-**2. What does the history of the pen show about everyday objects?**
-That they are not invented once but improved repeatedly, each version answering
-a complaint about the one before.
-:::
-
-## 16.3 Grammar and writing tasks of the unit
-
-### Grammar: Past simple, past continuous and past perfect in a story
-
-| Tense | Job in a story | Example |
-|---|---|---|
-| Past continuous | sets the scene, describes what was going on | I **was walking** home from school. |
-| Past simple | the events, in order | I **saw** a crowd and **stopped**. |
-| Past perfect | an action already finished before another past action | The shop **had closed** before we arrived. |
-
-The usual opening of a story is a **past continuous** sentence, because it tells
-the reader where they are. Then the **past simple** carries the events. The
-**past perfect** is used only when the order would otherwise be unclear. If you
-write *after*, *before* or *by the time*, the order is already clear and the past
-simple is enough.
+**Grammar I C:** a. hit b. had left c. was digging d. were chirping e. hadn't
+done (*didn't do* is also accepted) f. had ordered g. was speaking h. had
+ordered i. were you doing
 
 ::: caution Common mistakes
-- *When I arrived, the bus already left.* ✗ → *When I arrived, the bus **had**
-  already **left**.* ✓
-- *I was knowing him for two years.* ✗ (state verbs are not used in the
-  continuous) → *I **had known** him for two years.* ✓
-- Changing tense in the middle of a story without a reason. Choose the past
-  simple for events and keep it.
+- *I had went / had drank* ✗ → *had **gone** / had **drunk*** ✓ (past participle)
+- *When I reached, the class already started.* ✗ → *had already started* ✓
+- *While I walked home, it was starting to rain.* ✗ → *While I **was walking**
+  home, it **started** to rain.* ✓
 :::
 
-### Writing: A story and a paragraph about a historical event
+## 16.3 Writing I: Ordering a story and writing a picture story
 
-For a story: open with the past continuous, give the events in the past simple,
-use the past perfect once for something that happened earlier, and end with the
-result. For a paragraph about a historical event: give the date, say what
-happened, say what problem it solved, and finish with its effect on ordinary
-people — never with a date alone.
+**Exercise A — correct order:** **b → d → i → g → c → h → f → a → e**
 
-::: note Model answers to the practice questions
-**Story opening model.** "It was raining and the lights in the lane had gone
-out, so I was walking slowly and counting the puddles. I had left the house
-without telling anybody where I was going. Then I heard the bell of a bicycle
-behind me…"
-:::
+> A rich businessman asked a wise man to wean his son away from his bad habits.
+> The wise man took the boy to a garden and asked him to pull out a tiny plant;
+> the boy pulled it out easily with his thumb and forefinger. Then he asked him
+> to uproot a slightly bigger plant, and the boy had to struggle. Finally he
+> asked him to uproot a guava tree; the boy grasped the trunk, but it was
+> impossible. The wise man said, "Bad habits are like these plants: easy to pull
+> out when young, impossible to uproot later." This lesson changed the son's
+> life completely.
 
-## 16.4 Writing from a personal angle: the anecdote
+**Moral:** get rid of bad habits early.
 
-An anecdote is a short true story told to make a point. It is the easiest way
-to turn a dull topic — food, pens, a bus ride — into writing someone wants to
-read.
+**Exercise B (picture story)** — begin as the book says (*Once upon a time, there
+was a little boy named Sanam in a city…*), describe each picture in order in the
+past tense, add what characters say and feel, and end with a lesson. Use the
+past continuous for background (*Sanam was playing in the park when…*) and the
+past perfect for earlier events (*He had forgotten his mother's advice*).
 
-| Part | What it does | Example opening |
-|---|---|---|
-| Hook | one surprising sentence | *I stopped eating meat because of a goat I knew by name.* |
-| Context | who, where, when, briefly | *We kept her behind the house in Dhading …* |
-| The incident | one scene, in detail | *On the morning of the festival …* |
-| The turn | what changed | *I could not eat anything that day.* |
-| The point | one sentence, not a sermon | *A decision made by a child for a bad reason can still be a good decision.* |
+## 16.4 Reading II: The History of Pens
 
-```figure caption="Anecdote against essay. The anecdote spends most of its words on one scene; the essay spreads them over several arguments. Both are valid — the question tells you which is wanted."
-cats = ["Hook", "Context", "Scene", "Turn", "Point"]
-anec = [10, 15, 50, 15, 10]
-cats2 = ["Intro", "Arg 1", "Arg 2", "Arg 3", "Conclusion"]
-essay = [15, 25, 25, 20, 15]
-x = np.arange(5)
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.1, 2.5))
-ax1.bar(x, anec, color=SERIES[0], width=0.6, edgecolor="white", linewidth=0.9)
-ax1.set_xticks(x); ax1.set_xticklabels(cats, fontsize=6.8, rotation=30)
-ax1.set_title("Anecdote", fontsize=8.5, color=INK)
-ax2.bar(x, essay, color=SERIES[2], width=0.6, edgecolor="white", linewidth=0.9)
-ax2.set_xticks(x); ax2.set_xticklabels(cats2, fontsize=6.8, rotation=30)
-ax2.set_title("Essay", fontsize=8.5, color=INK)
-for ax in (ax1, ax2):
-    ax.set_ylabel("% of words", color=MUTED, fontsize=8)
-    ax.set_ylim(0, 60)
-    ax.grid(axis="y", color=GRID, linewidth=0.7)
-    ax.set_axisbelow(True)
-    for s in ("top", "right"):
-        ax.spines[s].set_visible(False)
-    ax.tick_params(colors=MUTED, labelsize=7.4)
-fig.tight_layout()
+### Timeline
+
+| Type of pen | Time / year (as in the text) | Inventor / place | Features |
+|---|---|---|---|
+| Reed pen | when papyrus was used (ancient Egypt) | Egyptians | hollow tube of marsh grass (reed); one end sharpened into a nib; squeezed to let ink out |
+| Quill pen | after centuries of reed pens; used for nearly 12 centuries | first described in Seville, Spain | bird feathers (swan, turkey, goose) dried to remove oils; tip cut with a knife; shaft held ink; durable but needed frequent sharpening; allowed faster, decorative writing and lowercase letters |
+| Steel-point (dip) pen | 19th century | John Mitchell, Birmingham, England (mass production) | machine-made; cheaper and sturdier than quills; still had to be dipped |
+| Fountain pen | patented 1827 | Petrache Poenaru (a **Romanian** inventor — the book misprints "Roman") | ink barrel, no regular dipping |
+| Improved fountain pen | 1884 | Lewis Edson Waterman, USA | three-channel ink feed for smooth flow; later cartridges, plastic/metal/wood |
+| Ballpoint (first design) | 1888 | John J. Loud, USA | could not control ink flow |
+| Commercial ballpoint ("birome") | patented 1943 (in Argentina) | László Bíró (Hungarian journalist) and brother György (chemist) | quick-drying ink and a small rotating metal ball at the tip; no smudging; writes on many surfaces |
+| Mass ballpoint | patent later bought by Marcel Bich | Bic company | over 100 billion pens sold |
+
+Today pens are being replaced by phones, tablets and laptops, but the pen remains
+one of humankind's most important inventions.
+
+```photo id="eng8/quill-pen" caption="A quill pen cut from a feather. The hollow shaft held the ink, and the tip had to be re-cut with a knife every few days." width="92"
 ```
 
-::: note Activity — the object with a history
-Bring one ordinary object to class: a pen, a water bottle, a spoon, a shoe.
-Write 100 words about **one day** in which that object mattered. Read it out
-without naming the object; the class guesses what it was. The best pieces are
-always the ones with the smallest, most exact details.
+### Vocabulary (Exercise B)
+
+a–iii (hollow), b–vii (discard), c–v (shaft), d–i (sturdy), e–ii (patent),
+f–viii (smudge), g–iv (evolution), h–vi (advent)
+
+### Comprehension (Exercise C) — model answers
+
+**a. How were reed pens made?** From hollow tubes of marsh grass (reed); one end
+was sharpened into a nib and the tube was filled with ink, which flowed out when
+the pen was squeezed.
+
+**b. What were quill pens made of?** Feathers of birds such as swans, turkeys
+and geese.
+
+**c. What changes did quill pens bring to writing?** They made writing smoother
+and faster, so more decorative and faster styles, including lowercase letters,
+developed.
+
+**d. How were steel-point pens different from quills?** They were machine-made in
+large numbers, and much cheaper and sturdier, though they worked in the same
+way.
+
+**e. What were the variations of the fountain pen?** Waterman's three-channel
+ink feed (1884), replaceable and refillable ink cartridges, and bodies of
+plastic, metal and wood.
+
+**f. Who designed the ballpoint pen first?** John J. Loud, in 1888.
+
+**g. Describe the features of biromes.** They used quick-drying ink and a small
+rotating metal ball at the tip, which spread the ink smoothly without smudging.
+They were durable and convenient and could write on cardboard and wood, even
+underwater and at high altitudes.
+
+**h. Will the use of pens decline?** Yes, to some extent, because people
+increasingly write on phones, tablets and laptops. But pens will remain in use
+for exams, signatures and quick notes, especially where devices are not
+available.
+
+## 16.5 Writing II: Paragraphs about a historical event
+
+Answer *what, when, where, why/how, what happened, results* in time order, using
+past tenses and exact dates.
+
+::: example Model answer — The 2015 Gorkha Earthquake
+On Saturday, 12 Baisakh 2072 (25 April 2015), at 11:56 a.m., a powerful
+earthquake of magnitude 7.8 struck Nepal. Its epicentre was near Barpak in
+Gorkha district, which is why it is called the Gorkha Earthquake. A strong
+aftershock of magnitude 7.3 followed on 12 May.
+
+The earthquake killed nearly 9,000 people and injured more than 22,000.
+Hundreds of thousands of houses were destroyed, and historic monuments such as
+the Dharahara tower and many temples in Kathmandu's Durbar Squares collapsed.
+Districts like Sindhupalchowk, Gorkha and Dolakha were the worst affected.
+
+People of all communities helped one another, and many countries sent rescue
+teams and aid. Since then, much of the damaged heritage has been rebuilt, and
+people have learnt the importance of earthquake-resistant buildings.
 :::
 
-::: example The same fact, three ways
-**As a fact.** *Ballpoint pens became common after 1945.*
+## 16.6 Speaking, pronunciation and project work
 
-**As a history.** *The quill lasted a week, the steel nib a year, and the
-ballpoint the whole of your school life — three technologies in two hundred
-years.*
+**Silent letters:** de**b**t, mus**c**le, le**d**ger, com**b**, desi**g**n,
+**p**sychology, **k**nee, **h**eir, ca**l**f, autum**n**, s**c**ene,
+forei**g**n.
 
-**As an anecdote.** *My grandfather still keeps a fountain pen in his shirt
-pocket, and refuses mine. "Your pen never runs out," he says, "so you never
-think before you write."*
+**Blends (Extra bit):** breakfast + lunch = brunch; motor + hotel = motel;
+information + entertainment = infotainment; web + seminar = webinar; video +
+blog = vlog.
 
-All three are accurate. The third is the one the reader remembers — which is
-why the examiner rewards it in a *personal* writing task and not in a report.
-:::
+**Project work:** list last month's main school events and write a short
+paragraph in the past tense.
 
 ## Chapter summary
 
-- An anecdote is a short account of one incident, told to explain a decision or
-  make a point; it has a situation, a turning point, a consequence and a point.
-- The turning point should be described in more detail than anything else.
-- The text about veganism is not asking the reader to change diet; it is asking
-  how much we want to know about what we depend on.
-- Historical writing about an object gives the problem, the earliest form, each
-  improvement and the effect on ordinary people.
-- The pen's history runs: reed pen → quill → steel nib → fountain pen →
-  ballpoint → felt-tip and stylus.
-- Each improvement answered a complaint about the previous pen.
-- **Past continuous** sets the scene, **past simple** carries the events, **past
-  perfect** marks the earlier of two past actions.
+- Anecdote: the writer gained weight after college; Whole30 and a podcast led
+  her to a holistic lifestyle; she went vegan to feel better; protein from beans
+  and chickpeas; it was easier than expected.
+- Pens: reed (Egypt) → quill (feathers, ~12 centuries) → steel dip pen
+  (Mitchell) → fountain (Poenaru 1827; Waterman 1884) → ballpoint (Loud 1888;
+  Bíró 1943; Bic).
+- Past simple = events; past continuous = background/interrupted action; past
+  perfect = earlier action.
+- Historical paragraphs: time order, exact dates, causes and results.
 
 ## Practice questions
 
 **Reading**
 
-1. What is an anecdote? Give its four parts. <span class="marks">[4]</span>
-2. Why did the ballpoint pen replace the fountain pen? <span class="marks">[2]</span>
-3. What complaint did the fountain pen answer? <span class="marks">[2]</span>
-4. Why is the history of an everyday object useful to read? <span class="marks">[2]</span>
+1. Answer briefly. <span class="marks">[5]</span>
+   (a) Who became vegan after the writer's aunt and uncle? (b) Which two
+   non-vegan foods does she still sometimes eat? (c) Which birds' feathers were
+   used for quills? (d) Who mass-produced steel pens? (e) Why was Bíró annoyed
+   with ordinary pens?
 
-::: note Answers
-**1.** A short account of a single incident told to explain something. Situation,
-turning point, consequence and point.
-**2.** Its ink was quick-drying and did not smudge, it did not leak or need
-refilling, and it was cheap to mass-produce.
-**3.** The quill and the steel nib had to be dipped in ink again and again, so
-they ran dry; the fountain pen's internal reservoir carried the ink inside.
-**4.** Because it shows that ordinary things are not invented once but improved
-repeatedly, each version answering a complaint about the last — which is how
-most technology actually develops.
+::: note Answers — Reading
+**1.** (a) Her dad. (b) Butter (at restaurants) and honey. (c) Swans, turkeys
+and geese. (d) John Mitchell of Birmingham. (e) As a journalist, he was annoyed
+by ink smudging on paper.
 :::
 
 **Grammar**
 
-5. Put the verbs in the correct past tense. <span class="marks">[5]</span>
-   (a) I ______ (walk) home when I ______ (meet) him.
-   (b) By the time we reached the shop, it ______ (close).
-   (c) She ______ (write) with a quill before the ballpoint ______ (arrive).
-   (d) They ______ (talk) when the bell ______ (ring).
-   (e) He ______ (not eat) meat since 2080.
+2. Use the correct past form. <span class="marks">[5]</span>
+   (a) When we arrived, the film (already start). (b) I (cook) when the guests
+   (come). (c) She (live) in Pokhara before she (move) to Kathmandu. (d) What
+   (you/do) at 8 last night?
 
-::: note Answers
-**5.** (a) was walking / met (b) had closed (c) had written / arrived
-(d) were talking / rang (e) has not eaten
+::: note Answers — Grammar
+**2.** (a) had already started (b) was cooking … came (c) had lived … moved
+(d) were you doing
 :::
 
 **Writing**
 
-6. Write a story of about 150 words that begins with the sentence *It was
-   raining and nobody was on the road.* <span class="marks">[5]</span>
-7. Write a paragraph of about 100 words about one historical invention and its
-   effect on ordinary people. <span class="marks">[4]</span>
+3. Write two paragraphs on "The Unification of Nepal" or any historical event
+   you have studied. <span class="marks">[5]</span>
 
-::: note Answers
-**6.** Open in the past continuous, move to the past simple for the events, use
-the past perfect once for something that had happened earlier, and finish with
-what came of it.
-**7.** Give the date and the invention, the problem it solved, and its effect on
-ordinary people; end with the effect, not with the date.
-:::
-
-**Extra practice**
-
-**Group B (2 marks each)**
-
-**11.** Write a one-sentence hook for an anecdote about your first day at school.
-**12.** Rewrite as showing, not telling: *The food was delicious.*
-
-**Group C (4 marks)**
-
-**13.** Write an anecdote of about 150 words called *The Day I Changed My Mind*.
-
-::: note Extra practice — answers
-**11.** e.g. *I spent my first day at school hiding behind a water tank with
-somebody else's tiffin box.*
-**12.** e.g. *Nobody spoke for the first five minutes, and my cousin asked for
-a third helping before anyone else had finished the second.*
-**13.** Marks: a hook in the first sentence; brief context; one scene given in
-detail rather than several summarised; a clear turning point; a closing point
-of one or two sentences without preaching; consistent past tense and clean
-paragraphing.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** An anecdote is
-   (a) a long novel (b) a short true story making a point (c) a poem (d) a report
-**2.** *Vegan* means a person who
-   (a) eats only vegetables and no animal product (b) eats meat (c) cooks (d) farms
-**3.** An anecdote spends most of its words on
-   (a) one scene (b) several arguments (c) statistics (d) the title
-**4.** *Show, don't tell* means
-   (a) state the feeling (b) give the detail that proves the feeling (c) draw a picture (d) use capitals
-**5.** An anecdote usually ends with
-   (a) a long sermon (b) one or two sentences of point (c) a date (d) an address
-
-::: note Objective practice — answers
-**1.** (b) — a short true story told to make a point. **2.** (a) — no animal product. **3.** (a) — one scene, in detail. **4.** (b) — give the proving detail. **5.** (b) — a short point, not a sermon.
+::: note Answer — Writing
+**3.** Time order, correct dates and names, causes, main events and results;
+past tenses; a concluding sentence on the event's importance.
 :::

@@ -23,7 +23,7 @@ COURSES = [
                 'icon': 'smart_toy',
                 'minutes': 11,
                 'sim': 'ai/what-is-ai',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Sort the world into "things a computer can just be told" versus "things it has to learn from examples" — and meet the simple idea that makes modern AI possible.',
                 'objectives': [
                     'Distinguish traditional programming from machine learning',
@@ -123,7 +123,7 @@ COURSES = [
                 'icon': 'model_training',
                 'minutes': 15,
                 'sim': 'ai/how-ml-learns',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Watch a tiny network learn in real time: scatter points, press train, and see the loss fall and the network gradually fit the pattern — the core loop of all machine learning.',
                 'objectives': [
                     'Explain the train-and-test loop of machine learning',
@@ -173,7 +173,7 @@ COURSES = [
                 'icon': 'show_chart',
                 'minutes': 13,
                 'sim': 'ai/perceptron',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Scatter red and blue dots, then drag a dividing line until it separates the two groups — and watch a perceptron find that line automatically.',
                 'objectives': [
                     'Explain a classifier as drawing a boundary between groups',
@@ -223,7 +223,7 @@ COURSES = [
                 'icon': 'image_search',
                 'minutes': 14,
                 'sim': 'ai/image-classifier',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Draw a digit, and watch a simple image classifier guess what you wrote — then peek inside to see how it turns pixels into a prediction.',
                 'objectives': [
                     'Describe an image as a grid of pixel numbers',
@@ -323,7 +323,7 @@ COURSES = [
                 'icon': 'forum',
                 'minutes': 15,
                 'sim': 'ai/llm-intro',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Type a few words and watch a language model predict the next one — the simple, surprising mechanism behind every chatbot from ChatGPT to Gemini.',
                 'objectives': [
                     'Explain a language model as next-token prediction',
@@ -373,7 +373,7 @@ COURSES = [
                 'icon': 'psychology',
                 'minutes': 12,
                 'sim': 'ai/ethics',
-                'sim_type': '2d',
+                'sim_type': '3d',
                 'summary': 'Spot the bias in a hiring algorithm, weigh the risks of a self-driving car, and decide where you would — and would not — trust an AI to make a decision.',
                 'objectives': [
                     'Explain how bias enters AI through training data',
