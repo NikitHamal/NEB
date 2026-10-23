@@ -21,19 +21,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
- * The splash: the mark, and nothing else, for about a second and a half.
+ * The splash: the mark, and nothing else, for about a second and a quarter.
  *
  *   [0 - 80ms]      Empty paper, so the eye finds the screen before anything moves.
- *   [80 - ~900ms]   The facets of the "N" assemble: the long ribbon rises, the two pillars
- *                   drop into place, the light facet slides in. One critically damped spring
- *                   drives the whole assembly; each facet takes its own window of it.
- *   [~820 - 1240ms] A band of light crosses the finished mark, once.
- *   [1240 - 1500ms] The mark pushes forward and fades into whatever comes next.
+ *   [80 - 600ms]    The whole mark fades in and settles from 94% to full size. No facets move.
+ *   [600 - 1000ms]  It holds.
+ *   [1000 - 1250ms] The mark pushes forward a little and fades into whatever comes next.
  *
  * The destination is resolved in parallel, so a cold start pays nothing extra for the auth
- * read. Every animated value is read in the draw phase (NebLogoMark's Canvas, graphicsLayer),
- * so no frame recomposes. The handwritten wordmark that used to sit under the logo lives on
- * as [com.neb.ians.ui.components.NebDoodleWordmark] for use elsewhere.
+ * read. Every animated value is read in the draw phase (graphicsLayer), so no frame recomposes.
  */
 @Composable
 fun SplashScreen(
@@ -49,12 +45,11 @@ fun SplashScreen(
     val palette = nebAuthPalette(isDark = false)
     val reducedMotion = nebAnimationsReduced()
 
-    val assembly = remember { Animatable(0f) }
-    val shine = remember { Animatable(0f) }
+    val enter = remember { Animatable(0f) }
     val exitScale = remember { Animatable(1f) }
     val exitAlpha = remember { Animatable(1f) }
-    val assemblyState = remember(assembly) { assembly.asState() }
-    val shineState = remember(shine) { shine.asState() }
+    val assembled = remember { mutableFloatStateOf(1f) }
+    val noShine = remember { mutableFloatStateOf(0f) }
 
     LaunchedEffect(Unit) {
         val destination = async {
@@ -62,21 +57,14 @@ fun SplashScreen(
         }
 
         if (reducedMotion) {
-            assembly.snapTo(1f)
-            shine.snapTo(1f)
+            enter.snapTo(1f)
             delay(450)
         } else {
             delay(NEB_SPLASH_LEAD_IN_MS)
-            launch {
-                assembly.animateTo(
-                    targetValue = 1f,
-                    animationSpec = spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = 120f, visibilityThreshold = 0.002f)
-                )
-            }
-            delay(740)
-            shine.animateTo(1f, spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = 60f, visibilityThreshold = 0.004f))
+            enter.animateTo(1f, tween(durationMillis = 520, easing = FastOutSlowInEasing))
+            delay(400)
             launch { exitAlpha.animateTo(0f, spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = 900f)) }
-            exitScale.animateTo(1.14f, spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = 700f, visibilityThreshold = 0.002f))
+            exitScale.animateTo(1.06f, spring(dampingRatio = Spring.DampingRatioNoBouncy, stiffness = 700f, visibilityThreshold = 0.002f))
         }
 
         when (val state = destination.await()) {
@@ -94,14 +82,15 @@ fun SplashScreen(
         contentAlignment = Alignment.Center
     ) {
         NebLogoMark(
-            assembly = assemblyState,
-            shine = shineState,
+            assembly = assembled,
+            shine = noShine,
             modifier = Modifier
                 .size(NEB_SPLASH_LOGO_SIZE)
                 .graphicsLayer {
-                    alpha = exitAlpha.value
-                    scaleX = exitScale.value
-                    scaleY = exitScale.value
+                    val scale = (0.94f + 0.06f * enter.value) * exitScale.value
+                    alpha = enter.value * exitAlpha.value
+                    scaleX = scale
+                    scaleY = scale
                 }
         )
     }
