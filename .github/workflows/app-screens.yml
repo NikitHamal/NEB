@@ -18,8 +18,10 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 50
     steps:
-      - name: Checkout code
+      - name: Checkout the capture flows
         uses: actions/checkout@v5
+        with:
+          sparse-checkout: tools/reel/capture/app
 
       - name: Enable KVM
         run: |
