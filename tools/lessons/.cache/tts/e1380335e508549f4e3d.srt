@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,893
+The endodermis also pumps ions into the xylem.
+
+2
+00:00:03,893 --> 00:00:07,916
+Water follows by osmosis, creating root pressure.
+

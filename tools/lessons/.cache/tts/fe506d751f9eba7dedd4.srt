@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,783
+That is thermodynamics.
+
+2
+00:00:01,783 --> 00:00:10,273
+Next, we turn free energy into electricity, in electrochemistry: electrode potentials, cells and batteries.
+
+3
+00:00:10,273 --> 00:00:13,476
+See you in the next lesson on NEBians.
+

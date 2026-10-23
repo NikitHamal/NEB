@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:02,473
+Nouns whose number is not what it looks.
+
+2
+00:00:02,473 --> 00:00:10,429
+Subjects and diseases ending in s are singular: mathematics is easy; measles is serious.
+
+3
+00:00:10,429 --> 00:00:17,200
+Two part tools and clothes are plural: the scissors are blunt; but a pair of scissors is missing.
+
+4
+00:00:17,200 --> 00:00:27,734
+Police, cattle and people are plural without an s. Titles, countries and organisations are singular: the United States is a federal republic.
+
+5
+00:00:27,734 --> 00:00:35,729
+An amount of money, time or distance is one amount: twenty rupees is not much; five years is a long time.
+
+6
+00:00:35,729 --> 00:00:39,023
+A committee acting as one body is singular.
+
+7
+00:00:39,023 --> 00:00:42,565
+The plus an adjective, the rich, is plural.
+
+8
+00:00:42,565 --> 00:00:50,234
+And a gerund or infinitive subject is singular: swimming is good exercise; to err is human.
+

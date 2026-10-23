@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,908
+For x e to the x: x is algebraic, so it is u.
+
+2
+00:00:04,908 --> 00:00:12,395
+Then the new integral is just e to the x, and the answer is x e to the x minus e to the x.
+

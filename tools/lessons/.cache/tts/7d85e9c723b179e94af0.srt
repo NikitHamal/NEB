@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,328
+Exam tip.
+
+2
+00:00:01,328 --> 00:00:10,677
+Protein digesting enzymes are made in an inactive form, pepsinogen and trypsinogen, so they cannot digest the gland that makes them.
+
+3
+00:00:10,677 --> 00:00:15,833
+Acid activates pepsinogen; enterokinase activates trypsinogen.
+
+4
+00:00:15,833 --> 00:00:18,359
+And bile contains no enzyme at all.
+

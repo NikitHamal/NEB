@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,994
+Checking a formula for n equal to one, two and three proves nothing about n equal to forty.
+
+2
+00:00:07,994 --> 00:00:11,796
+Induction proves it for every natural number at once.
+
+3
+00:00:11,796 --> 00:00:14,335
+Think of an endless row of dominoes.
+

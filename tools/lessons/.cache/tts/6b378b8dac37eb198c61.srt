@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,580
+The k th odd number is two k minus one.
+
+2
+00:00:03,580 --> 00:00:08,072
+Split with the sigma rules: twice the sum of k, minus n.
+
+3
+00:00:08,072 --> 00:00:09,661
+That is n squared.
+
+4
+00:00:09,661 --> 00:00:14,830
+One plus three plus five plus seven is sixteen, four squared.
+
+5
+00:00:14,830 --> 00:00:15,664
+Check.
+

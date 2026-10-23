@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,359
+Meiosis one separates the pairs: thirteen chromosomes, each still with two chromatids, twenty six chromatids.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,932
+Each element contributes in proportion to x squared.
+
+2
+00:00:03,932 --> 00:00:06,979
+Let us plot that contribution along the rod.
+
+3
+00:00:06,979 --> 00:00:10,338
+Elements near the centre add almost nothing.
+
+4
+00:00:10,338 --> 00:00:13,476
+Elements near the ends add the most.
+

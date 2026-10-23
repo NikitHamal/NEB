@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,085
+A level one diagram for result processing.
+
+2
+00:00:03,085 --> 00:00:09,947
+The subject teacher sends marks to process one, record marks, which stores them in the marks file.
+
+3
+00:00:09,947 --> 00:00:18,007
+Process two computes the result from the marks and the student file, and process three prints the mark sheet for the student.
+
+4
+00:00:18,007 --> 00:00:21,966
+Each process is numbered, each arrow names its data.
+
+5
+00:00:21,966 --> 00:00:29,661
+And data never jumps from one store to another, or from an entity to a store, without passing through a process.
+

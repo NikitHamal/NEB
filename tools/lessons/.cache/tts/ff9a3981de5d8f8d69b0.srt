@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,018
+The trapezium rule gives point six nine seven; Simpson gives point six nine three two five.
+
+2
+00:00:07,018 --> 00:00:11,523
+The true value, log two, is point six nine three one five.
+
+3
+00:00:11,523 --> 00:00:15,494
+Simpson's error is about a fortieth of the trapezium's.
+

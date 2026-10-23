@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,028
+Take water.
+
+2
+00:00:01,028 --> 00:00:05,937
+One oxygen atom, valency two, holds two hydrogen atoms.
+
+3
+00:00:05,937 --> 00:00:12,968
+So sixteen grams of oxygen combine with two times one point zero zero eight grams of hydrogen.
+

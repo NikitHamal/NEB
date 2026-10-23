@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,486
+The test: the partial derivative of M with respect to y must equal the partial of N with respect to x.
+
+2
+00:00:07,486 --> 00:00:09,127
+Here both are two.
+

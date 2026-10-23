@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,528
+Never paste user input straight into a query.
+
+2
+00:00:03,528 --> 00:00:11,041
+If someone types quote, OR one equals one, the condition becomes true for every row, and they get everything.
+
+3
+00:00:11,041 --> 00:00:12,708
+That is SQL injection.
+
+4
+00:00:12,708 --> 00:00:22,539
+Use a prepared statement instead: the query has a question mark placeholder, and the value is bound separately, so it can never change the query's meaning.
+

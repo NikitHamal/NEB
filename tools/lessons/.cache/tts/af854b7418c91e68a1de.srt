@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,726
+Welcome to Class 12 Physics, Unit 3: Fluid Statics.
+
+2
+00:00:04,726 --> 00:00:10,390
+Anything that flows is a fluid: water, air, blood, honey.
+
+3
+00:00:10,390 --> 00:00:15,403
+Today we follow fluids at rest, at their surfaces, and on the move.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,536
+The calculator trap.
+
+2
+00:00:01,536 --> 00:00:09,296
+Inverse tan of y over x cannot tell minus one minus i from one plus i: it gives the same angle.
+
+3
+00:00:09,296 --> 00:00:14,869
+So find the acute angle alpha first, then fix the quadrant from the picture.
+
+4
+00:00:14,869 --> 00:00:17,695
+Second quadrant: pi minus alpha.
+
+5
+00:00:17,695 --> 00:00:20,781
+Third: minus, pi minus alpha.
+
+6
+00:00:20,781 --> 00:00:22,773
+Fourth: minus alpha.
+

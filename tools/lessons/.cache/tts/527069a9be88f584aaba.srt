@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,375
+Treble the concentration, and a second order rate goes up three squared, nine times: one point zero eight times ten to the minus two.
+
+2
+00:00:09,375 --> 00:00:12,617
+The rate constant itself does not change at all.
+

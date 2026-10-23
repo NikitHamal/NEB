@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,536
+Which law for which data?
+
+2
+00:00:01,536 --> 00:00:04,817
+Two angles and a side: the sine law.
+
+3
+00:00:04,817 --> 00:00:12,630
+Two sides and an opposite angle: also the sine law, but watch for two possible triangles, which is the next unit.
+
+4
+00:00:12,630 --> 00:00:17,304
+Two sides and the included angle: cosine or tangent law.
+
+5
+00:00:17,304 --> 00:00:20,768
+Three sides: cosine or half angle laws.
+

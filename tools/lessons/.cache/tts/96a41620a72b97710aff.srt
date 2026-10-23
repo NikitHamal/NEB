@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,018
+Between the second and seventh there are five fringe widths, so beta is one point eight millimetres.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,388
+Each copper ion needs two electrons, so we get half that many moles of copper, times sixty three point five: two point nine six grams on the cathode.
+
+2
+00:00:09,388 --> 00:00:22,213
+Each oxygen molecule releases four electrons, so a quarter as many moles, times twenty two thousand four hundred: five hundred and twenty two cubic centimetres of oxygen at S T P.
+

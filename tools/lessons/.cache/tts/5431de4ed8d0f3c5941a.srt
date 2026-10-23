@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,940
+There are two regression lines.
+
+2
+00:00:01,940 --> 00:00:06,914
+Y on x, for predicting y, minimises the vertical misses.
+
+3
+00:00:06,914 --> 00:00:12,135
+X on y, for predicting x, minimises the horizontal misses.
+
+4
+00:00:12,135 --> 00:00:17,369
+Their slopes are the two regression coefficients, and their product is r squared.
+
+5
+00:00:17,369 --> 00:00:19,414
+Both lines cross at the mean point.
+

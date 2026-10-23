@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,109
+So y equals m x plus c touches x squared plus y squared equals a squared exactly when the distance, c over root of one plus m squared, equals a.
+
+2
+00:00:12,109 --> 00:00:16,914
+That is, c squared equals a squared times one plus m squared.
+

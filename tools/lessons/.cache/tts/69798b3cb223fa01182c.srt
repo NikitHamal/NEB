@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,231
+That is ionic equilibrium, the longest unit, done.
+
+2
+00:00:04,231 --> 00:00:10,195
+Next, we ask not where a reaction ends up, but how fast it gets there, in chemical kinetics.
+
+3
+00:00:10,195 --> 00:00:13,359
+See you in the next lesson on NEBians.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,700
+a is root fifty seven, seven point five five centimetres.
+

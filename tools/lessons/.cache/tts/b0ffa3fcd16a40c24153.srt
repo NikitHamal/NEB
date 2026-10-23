@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,302
+Now contract.
+
+2
+00:00:01,302 --> 00:00:06,705
+The actin filaments slide in over the myosin, pulling the Z lines together.
+
+3
+00:00:06,705 --> 00:00:08,020
+Watch the bands.
+
+4
+00:00:08,020 --> 00:00:09,622
+The I band shrinks.
+
+5
+00:00:09,622 --> 00:00:12,317
+The H zone shrinks and can vanish.
+
+6
+00:00:12,317 --> 00:00:18,450
+But the A band does not change at all, because the myosin filaments themselves never shorten.
+
+7
+00:00:18,450 --> 00:00:19,570
+They just slide.
+

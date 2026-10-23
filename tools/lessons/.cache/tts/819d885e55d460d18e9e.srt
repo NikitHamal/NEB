@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,403
+WHERE keeps only the rows that pass the test: the two Management students drop out.
+
+2
+00:00:05,403 --> 00:00:10,013
+SELECT keeps only the columns named, so faculty goes too.
+
+3
+00:00:10,013 --> 00:00:14,049
+Three rows remain, already in alphabetical order.
+

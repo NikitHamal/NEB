@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:04,283
+Larger changes alter the structure of whole chromosomes.
+
+2
+00:00:04,283 --> 00:00:07,643
+Take a chromosome with segments A to G.
+
+3
+00:00:07,643 --> 00:00:09,791
+A deletion loses a piece.
+
+4
+00:00:09,791 --> 00:00:12,304
+A duplication repeats a piece.
+
+5
+00:00:12,304 --> 00:00:15,234
+An inversion turns a piece end to end.
+
+6
+00:00:15,234 --> 00:00:20,898
+And a translocation moves a piece onto a different, non homologous chromosome.
+

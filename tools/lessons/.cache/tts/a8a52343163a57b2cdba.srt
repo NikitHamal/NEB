@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,166
+Phenol is a poor nucleophile, so to make its esters we use an acid chloride or anhydride, with a base to remove the acid formed.
+
+2
+00:00:09,166 --> 00:00:11,419
+Phenyl ethanoate results.
+
+3
+00:00:11,419 --> 00:00:18,541
+Heat that ester with aluminium chloride, and the acetyl group hops onto the ring: the Fries rearrangement.
+

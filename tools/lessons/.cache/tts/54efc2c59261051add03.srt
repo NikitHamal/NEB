@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,046
+Ethers show three kinds of isomerism.
+
+2
+00:00:03,046 --> 00:00:05,325
+The special one is metamerism.
+
+3
+00:00:05,325 --> 00:00:13,528
+Take C four H ten O. Put one carbon on the left of the oxygen and three on the right: one methoxypropane.
+

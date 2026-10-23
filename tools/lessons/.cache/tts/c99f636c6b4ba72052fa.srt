@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,250
+A worked example.
+
+2
+00:00:01,250 --> 00:00:13,528
+Calculate the solute potential of a one molar sucrose solution at twenty-five degrees Celsius, and say what happens to a cell with a water potential of minus one point two, placed in it.
+

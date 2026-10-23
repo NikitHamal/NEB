@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,533
+Drop it into the one molar sucrose we just calculated, at minus two point four eight.
+
+2
+00:00:05,533 --> 00:00:06,783
+Water leaves.
+
+3
+00:00:06,783 --> 00:00:13,789
+First the pressure falls away, until the protoplast is just beginning to leave the wall at the corners.
+
+4
+00:00:13,789 --> 00:00:18,242
+Here psi p is zero, so psi w equals psi s.
+
+5
+00:00:18,242 --> 00:00:20,859
+This is incipient plasmolysis.
+

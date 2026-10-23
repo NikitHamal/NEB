@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,302
+Defect removal efficiency: ninety two of the hundred defects were caught before delivery.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,984
+Now put an unknown resistance X between the leads.
+
+2
+00:00:03,984 --> 00:00:14,257
+The current falls to E over G plus R plus X. Watch the needle as X grows: it moves left, slowly at first and then crowding up.
+
+3
+00:00:14,257 --> 00:00:22,747
+So the scale is reversed, with zero on the right and infinity on the left, and it is non uniform, cramped at large X.
+

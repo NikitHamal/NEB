@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,132
+The degree of ionisation is root K a over C: one point three four percent.
+
+2
+00:00:06,132 --> 00:00:08,906
+Small, so our approximation was fair.
+
+3
+00:00:08,906 --> 00:00:15,026
+And acetate equals hydrogen ion, since each ionised molecule gives one of each.
+

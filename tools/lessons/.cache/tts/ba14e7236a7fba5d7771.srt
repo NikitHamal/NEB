@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,132
+Let us recap.
+
+2
+00:00:01,132 --> 00:00:08,203
+Alcohols are primary, secondary or tertiary, and Victor Meyer and Lucas tests tell them apart.
+
+3
+00:00:08,203 --> 00:00:17,369
+They are made from haloalkanes, amines and esters, and industrially by the oxo process, hydroboration and fermentation.
+
+4
+00:00:17,369 --> 00:00:21,015
+Distillation stops at ninety five point six percent.
+
+5
+00:00:21,015 --> 00:00:24,049
+Hydrogen bonding gives high boiling points.
+
+6
+00:00:24,049 --> 00:00:31,276
+Concentrated sulphuric acid dehydrates them to alkenes or ethers, depending on temperature.
+
+7
+00:00:31,276 --> 00:00:36,432
+Dichromate oxidises primary and secondary alcohols, turning green.
+
+8
+00:00:36,432 --> 00:00:39,895
+And esters form with water coming from the acid.
+

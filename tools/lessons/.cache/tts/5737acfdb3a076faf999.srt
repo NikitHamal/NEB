@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,447
+Worked example three point eight.
+
+2
+00:00:02,447 --> 00:00:07,239
+The rate constant quadruples from three hundred to three hundred and twenty kelvin.
+
+3
+00:00:07,239 --> 00:00:13,151
+The same equation with log four gives E a about fifty five point three kilojoules per mole.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,369
+A process, named with a verb.
+
+2
+00:00:02,369 --> 00:00:05,013
+DFDs have no decision symbol at all.
+

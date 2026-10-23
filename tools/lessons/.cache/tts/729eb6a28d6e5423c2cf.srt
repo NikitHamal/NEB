@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,580
+White vitriol is zinc sulphate heptahydrate.
+
+2
+00:00:03,580 --> 00:00:13,789
+Dissolve zinc, its oxide or carbonate in dilute sulphuric acid, and crystallise below thirty degrees, or a lower hydrate forms.
+
+3
+00:00:13,789 --> 00:00:24,322
+On heating, six waters go at a hundred degrees, the last at four hundred and fifty, and at red heat it breaks down to zinc oxide, sulphur dioxide and oxygen.
+

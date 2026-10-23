@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,213
+Replace x by pi minus x: the integral equals pi times the integral of sin x, minus I.
+

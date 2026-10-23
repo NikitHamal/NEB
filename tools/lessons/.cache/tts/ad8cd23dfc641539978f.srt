@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,263
+The top is pi times ten to the minus nine, the bottom is four times ten to the minus three.
+
+2
+00:00:06,263 --> 00:00:17,096
+Q is seven point eight five times ten to the minus seven cubic metres per second, about zero point seven eight five cubic centimetres every second.
+

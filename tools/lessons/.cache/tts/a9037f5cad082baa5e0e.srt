@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,033
+Some equations are the total differential of a single function u: d u equals M d x plus N d y.
+
+2
+00:00:08,033 --> 00:00:10,755
+Then the solution is just u equals C.
+

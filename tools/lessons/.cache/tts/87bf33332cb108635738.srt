@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,364
+Two isothermals and two adiabatics, every step reversible.
+
+2
+00:00:05,364 --> 00:00:09,075
+The enclosed area is the net work done per cycle.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,851
+Joule heating is used everywhere.
+
+2
+00:00:02,851 --> 00:00:10,872
+Heaters, irons and kettles use nichrome, an alloy with high resistivity and a high melting point.
+
+3
+00:00:10,872 --> 00:00:18,098
+A fuse does the opposite job: a short tin lead wire that melts and breaks the circuit when the heating gets dangerous.
+
+4
+00:00:18,098 --> 00:00:26,171
+And the Nepal Electricity Authority bills you in kilowatt hours: one kilowatt hour is three point six million joules.
+

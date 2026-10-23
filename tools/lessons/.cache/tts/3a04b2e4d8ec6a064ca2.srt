@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,744
+The bowed string adds strong overtones, and the waveform becomes jagged and complex.
+
+2
+00:00:06,744 --> 00:00:16,380
+The number of overtones and their relative intensities fix the shape of the wave, and that shape is the quality, or timbre, of the note.
+

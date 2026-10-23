@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,098
+The quicker bench test is the Lucas test.
+
+2
+00:00:03,098 --> 00:00:10,247
+Add Lucas reagent, concentrated hydrochloric acid with anhydrous zinc chloride, and start a clock.
+
+3
+00:00:10,247 --> 00:00:16,666
+The tertiary alcohol turns cloudy at once, as the insoluble chloride separates.
+
+4
+00:00:16,666 --> 00:00:19,440
+The secondary takes about five minutes.
+
+5
+00:00:19,440 --> 00:00:23,919
+The primary stays clear at room temperature and only reacts on heating.
+

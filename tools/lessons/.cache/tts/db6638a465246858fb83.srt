@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,197
+Zero order.
+
+2
+00:00:01,197 --> 00:00:04,218
+Ammonia decomposes on a hot tungsten wire.
+
+3
+00:00:04,218 --> 00:00:09,244
+Every active spot on the metal surface is already covered by an ammonia molecule.
+
+4
+00:00:09,244 --> 00:00:13,802
+Adding more ammonia gas does nothing: the queue just gets longer.
+
+5
+00:00:13,802 --> 00:00:15,664
+The rate is simply k.
+

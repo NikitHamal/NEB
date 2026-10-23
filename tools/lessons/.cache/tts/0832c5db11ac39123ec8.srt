@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,796
+That is electrical circuits.
+
+2
+00:00:01,796 --> 00:00:12,604
+Next, we find that heat and electricity are linked in surprising ways: a junction of two metals that makes a voltage when heated, in Thermoelectric Effects.
+
+3
+00:00:12,604 --> 00:00:15,507
+See you there, on NEBians.
+

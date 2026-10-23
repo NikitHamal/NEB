@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,145
+R cancels, delta theta cancels, and v squared equals T over mu.
+
+2
+00:00:06,145 --> 00:00:11,549
+The speed of a transverse wave on a string is the square root of T over mu.
+

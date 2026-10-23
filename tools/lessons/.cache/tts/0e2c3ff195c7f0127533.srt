@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,096
+Therefore tan of half A minus B equals a minus b over a plus b, times cot of half C.
+

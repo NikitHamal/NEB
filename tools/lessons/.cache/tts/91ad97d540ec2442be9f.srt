@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,265
+Doubling the light changes nothing, so light is not limiting: the plant is already light-saturated.
+

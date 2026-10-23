@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,036
+Equal to the radius: it just touches, a tangent.
+
+2
+00:00:04,036 --> 00:00:07,031
+More than the radius: it misses altogether.
+

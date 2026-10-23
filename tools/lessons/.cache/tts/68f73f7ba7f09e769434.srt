@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,221
+So apples cost a hundred and ten rupees a kilo, and oranges a hundred and forty.
+
+2
+00:00:05,221 --> 00:00:08,723
+Check: two twenty plus four twenty is six forty.
+

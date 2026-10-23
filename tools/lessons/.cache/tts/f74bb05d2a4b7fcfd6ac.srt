@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,867
+The pressure at the bottom is exactly the same in all three.
+
+2
+00:00:03,867 --> 00:00:08,919
+It depends on depth, not on the shape of the vessel, nor on how much water it holds.
+
+3
+00:00:08,919 --> 00:00:12,356
+Physicists call this the hydrostatic paradox.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,994
+Per turn: three NADH, one FADH two, one ATP, and two carbon dioxide.
+
+2
+00:00:07,994 --> 00:00:13,046
+One glucose gave two acetyl groups, so the cycle turns twice.
+

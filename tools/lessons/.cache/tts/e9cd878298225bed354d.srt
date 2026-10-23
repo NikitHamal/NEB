@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,213
+Independent assortment has a catch.
+
+2
+00:00:02,213 --> 00:00:09,544
+In nineteen oh six Bateson and Punnett crossed sweet peas, purple with long pollen against red with round pollen.
+
+3
+00:00:09,544 --> 00:00:13,138
+The F two should have been nine three three one.
+
+4
+00:00:13,138 --> 00:00:14,166
+It was not.
+
+5
+00:00:14,166 --> 00:00:20,390
+The two parental combinations were far too common, and the two new combinations far too rare.
+

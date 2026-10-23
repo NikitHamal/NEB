@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,458
+Nought times infinity is not a quotient, so rewrite it as log x over one over x.
+
+2
+00:00:06,458 --> 00:00:10,169
+Then the rule gives minus x, which goes to zero.
+

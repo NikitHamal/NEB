@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,070
+Third, the aeroplane wing.
+
+2
+00:00:02,070 --> 00:00:07,213
+Its curved upper surface makes the air above it flow faster than the air below.
+
+3
+00:00:07,213 --> 00:00:09,583
+Faster air, lower pressure.
+
+4
+00:00:09,583 --> 00:00:15,065
+So the pressure underneath is greater, and the difference pushes the wing up.
+
+5
+00:00:15,065 --> 00:00:16,289
+That is lift.
+

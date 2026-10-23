@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,796
+Antibiotics are broad or narrow spectrum, and either kill bacteria or just stop them growing.
+
+2
+00:00:06,796 --> 00:00:14,322
+Every one of them hits something only bacteria have: the cell wall, the bacterial ribosome, bacterial enzymes.
+
+3
+00:00:14,322 --> 00:00:18,307
+That is why antibiotics are useless against a cold or flu.
+
+4
+00:00:18,307 --> 00:00:27,148
+And resistance spreads between bacteria on plasmids, driven by antibiotics sold without prescription and courses left unfinished.
+

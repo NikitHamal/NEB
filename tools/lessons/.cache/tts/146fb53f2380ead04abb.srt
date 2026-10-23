@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,588
+Inside, there is no cortex, no endodermis, no pericycle and no pith.
+
+2
+00:00:06,588 --> 00:00:11,458
+The whole mass is one continuous ground tissue of parenchyma.
+

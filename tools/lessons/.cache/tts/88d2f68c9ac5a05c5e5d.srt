@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,734
+Worked example five point four.
+
+2
+00:00:02,734 --> 00:00:06,393
+Five amperes for thirty minutes through copper sulphate.
+
+3
+00:00:06,393 --> 00:00:16,197
+The charge is five times eighteen hundred seconds, nine thousand coulombs, which is zero point zero nine three three moles of electrons.
+

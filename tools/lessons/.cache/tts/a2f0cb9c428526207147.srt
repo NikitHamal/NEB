@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,700
+For reactions with gases, p delta V equals delta n g R T, where delta n g is the change in moles of gas only.
+
+2
+00:00:09,700 --> 00:00:15,221
+So delta H equals delta U plus delta n g R T.
+

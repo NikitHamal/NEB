@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,570
+Divide by two twenty five: a is five, b is three.
+

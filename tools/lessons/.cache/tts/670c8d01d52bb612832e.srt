@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,278
+Now follow water into a root.
+
+2
+00:00:02,278 --> 00:00:09,869
+It enters through the root hairs, thin outgrowths of epidermal cells whose sap is more negative than the soil water.
+
+3
+00:00:09,869 --> 00:00:18,398
+Soil might sit at minus zero point zero one five megapascal, a root hair at around minus zero point six, so water flows in.
+

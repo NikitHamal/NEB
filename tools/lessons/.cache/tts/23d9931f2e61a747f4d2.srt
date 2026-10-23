@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,742
+So unlike mass, moment of inertia is not one fixed number for a body.
+
+2
+00:00:05,742 --> 00:00:14,140
+It depends on three things: the total mass, how that mass is distributed, and which axis you choose to spin it about.
+

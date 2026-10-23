@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,372
+Thermodynamics always starts by drawing a line.
+
+2
+00:00:03,372 --> 00:00:10,403
+The system is the definite piece of matter we choose to study, usually a fixed mass of gas in a cylinder.
+

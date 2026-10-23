@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,018
+Here is the full pattern.
+
+2
+00:00:02,018 --> 00:00:12,161
+The intensity follows I equals I nought, sine beta over beta, all squared, where beta is pi a sine theta over lambda.
+
+3
+00:00:12,161 --> 00:00:18,411
+A broad, bright central maximum, and on each side much weaker secondary maxima.
+

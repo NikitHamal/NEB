@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,432
+A second example.
+
+2
+00:00:01,432 --> 00:00:07,890
+Aniline has molar mass ninety three, so nine point three grams is zero point one mole.
+
+3
+00:00:07,890 --> 00:00:14,283
+Each mole gives one mole of nitrogen gas, two point two four litres at S T P.
+
+4
+00:00:14,283 --> 00:00:22,395
+And eleven point two five grams of chlorobenzene in theory, or eight point four four grams at seventy five percent.
+

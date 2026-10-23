@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:05,677
+Encapsulation wraps data and its functions into one unit, the class.
+
+2
+00:00:05,677 --> 00:00:07,799
+The result is data hiding.
+
+3
+00:00:07,799 --> 00:00:11,458
+Private members can be used only inside the class.
+
+4
+00:00:11,458 --> 00:00:15,742
+Protected members are also visible to derived classes.
+
+5
+00:00:15,742 --> 00:00:19,283
+Public members form the interface everyone can use.
+
+6
+00:00:19,283 --> 00:00:22,669
+Outside code reaches only the public part.
+

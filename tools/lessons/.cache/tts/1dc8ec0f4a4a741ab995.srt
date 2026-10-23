@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:06,848
+Unpaired d electrons make these ions paramagnetic, attracted into a magnetic field.
+
+2
+00:00:06,848 --> 00:00:17,552
+The spin only magnetic moment is the square root of n times n plus two, in Bohr magnetons, where n is the number of unpaired electrons.
+
+3
+00:00:17,552 --> 00:00:21,289
+One unpaired electron gives one point seven three.
+
+4
+00:00:21,289 --> 00:00:23,476
+Five give five point nine two.
+
+5
+00:00:23,476 --> 00:00:27,851
+Iron, cobalt and nickel go further: they are ferromagnetic.
+

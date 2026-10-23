@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,213
+Cardiac muscle, only in the heart: striped too, but its fibres branch, each has one central nucleus, and neighbouring cells are joined end to end by intercalated discs.
+
+2
+00:00:12,213 --> 00:00:16,054
+It is involuntary, rhythmic, and it never tires.
+

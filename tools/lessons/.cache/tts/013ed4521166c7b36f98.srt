@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,507
+s is twenty one, and the three differences are eight, seven and six.
+
+2
+00:00:05,507 --> 00:00:07,070
+They add to twenty one.
+
+3
+00:00:07,070 --> 00:00:07,747
+Good.
+

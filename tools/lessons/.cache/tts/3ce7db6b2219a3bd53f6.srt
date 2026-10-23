@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,114
+The angle of contact, theta, is the angle between the solid surface and the tangent to the liquid at the point of contact, measured through the liquid.
+
+2
+00:00:09,114 --> 00:00:12,486
+For water on clean glass it is nearly zero.
+
+3
+00:00:12,486 --> 00:00:16,432
+For mercury on glass it is about one hundred forty degrees.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,210
+Because these constants span many powers of ten, we use their negative logarithms.
+
+2
+00:00:06,210 --> 00:00:09,088
+p K a is minus log K a.
+
+3
+00:00:09,088 --> 00:00:19,283
+For acetic acid, K a is one point eight times ten to the minus five, so p K a is five minus log one point eight, four point seven four.
+
+4
+00:00:19,283 --> 00:00:22,942
+Remember: small p K a, strong acid.
+

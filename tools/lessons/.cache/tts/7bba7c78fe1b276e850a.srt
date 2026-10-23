@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,489
+HAVING: it filters groups after GROUP BY.
+
+2
+00:00:03,489 --> 00:00:05,507
+WHERE cannot use an aggregate.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,179
+Classify by counting the carbons joined to the carbinol carbon.
+
+2
+00:00:04,179 --> 00:00:06,158
+One carbon: primary.
+
+3
+00:00:06,158 --> 00:00:07,812
+Two: secondary.
+
+4
+00:00:07,812 --> 00:00:09,596
+Three: tertiary.
+
+5
+00:00:09,596 --> 00:00:13,164
+Methanol has none, and is counted as primary.
+

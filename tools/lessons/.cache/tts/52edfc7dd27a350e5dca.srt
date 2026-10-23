@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,223
+So what is a gene?
+
+2
+00:00:01,223 --> 00:00:07,825
+A segment of DNA that carries the information for one polypeptide or one functional RNA.
+
+3
+00:00:07,825 --> 00:00:15,338
+In a eukaryote it is usually a split gene: coding exons interrupted by non coding introns.
+
+4
+00:00:15,338 --> 00:00:21,458
+Its fixed place on a chromosome is its locus, and its alternative forms are alleles.
+
+5
+00:00:21,458 --> 00:00:30,325
+In molecular terms, the unit of function is the cistron, of mutation the muton, and of recombination the recon.
+

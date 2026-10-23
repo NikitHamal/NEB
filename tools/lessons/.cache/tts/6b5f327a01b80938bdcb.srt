@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,856
+Heat the gas, and the molecules move faster, so U goes up.
+
+2
+00:00:04,856 --> 00:00:06,627
+Cool it, and U goes down.
+
+3
+00:00:06,627 --> 00:00:11,692
+The key fact: for an ideal gas, U depends only on temperature.
+

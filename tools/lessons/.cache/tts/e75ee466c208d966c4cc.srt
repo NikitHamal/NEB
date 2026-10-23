@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,726
+Multiply by Avogadro's number for a mole: two point three nine four times ten to the five joules, about two hundred and thirty nine kilojoules per mole.
+
+2
+00:00:09,726 --> 00:00:11,158
+That is delta o.
+

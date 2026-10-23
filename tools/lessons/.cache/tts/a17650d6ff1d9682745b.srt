@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,588
+To compare two cells, balance each in turn, at lengths l one and l two.
+
+2
+00:00:06,588 --> 00:00:14,244
+Since each e m f is k times its length, E one over E two equals l one over l two.
+

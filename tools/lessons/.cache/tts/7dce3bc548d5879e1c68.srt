@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,111
+And that completes Class 12 Computer Science.
+
+2
+00:00:03,111 --> 00:00:06,145
+Well done for making it through all seven units.
+
+3
+00:00:06,145 --> 00:00:07,734
+See you in the next subject.
+

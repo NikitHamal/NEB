@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,015
+Tie a loop of string to two pins and pull it tight with a pencil: you draw an ellipse.
+
+2
+00:00:06,015 --> 00:00:07,968
+The two pins are the foci.
+
+3
+00:00:07,968 --> 00:00:15,377
+However the pencil moves, the two distances add up to the same length, two a, the major axis.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,776
+Three boxes contain a T, so three tall.
+
+2
+00:00:03,776 --> 00:00:06,809
+One box, t t, is dwarf.
+
+3
+00:00:06,809 --> 00:00:09,218
+Phenotypes three to one.
+
+4
+00:00:09,218 --> 00:00:22,799
+Genotypes one T T, two T t, one t t. Mendel actually counted seven hundred and eighty seven tall and two hundred and seventy seven dwarf: two point eight four to one.
+
+5
+00:00:22,799 --> 00:00:24,895
+The dwarf was never destroyed.
+
+6
+00:00:24,895 --> 00:00:25,950
+It was hiding.
+

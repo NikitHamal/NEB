@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,330
+Worked example two point eight.
+
+2
+00:00:02,330 --> 00:00:08,450
+K h is K w over K a, five point five six times ten to the minus ten.
+
+3
+00:00:08,450 --> 00:00:15,885
+The degree of hydrolysis is root K h over C, seven point four five times ten to the minus five.
+
+4
+00:00:15,885 --> 00:00:20,416
+Only about seven thousandths of a percent of the acetate reacts.
+

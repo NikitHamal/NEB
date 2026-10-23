@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,718
+Check with Snell: sine fifty six point three over sine thirty three point seven is zero point eight three two over zero point five five five, one point five zero.
+
+2
+00:00:11,718 --> 00:00:18,072
+And the angle between the two rays is one eighty minus both, exactly ninety degrees.
+

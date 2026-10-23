@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,458
+A real parabola.
+
+2
+00:00:01,458 --> 00:00:10,533
+A bridge cable spans eighty metres, the towers are twenty metres high, and the lowest point of the cable is four metres above the road.
+
+3
+00:00:10,533 --> 00:00:13,385
+How high is the cable twenty metres from the middle?
+

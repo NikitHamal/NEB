@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,203
+What controls how often crossing over happens?
+
+2
+00:00:03,203 --> 00:00:10,130
+Above all, distance: the farther apart two genes are, the more likely a chiasma falls between them.
+
+3
+00:00:10,130 --> 00:00:18,515
+Also sex, age, temperature, radiation and chemicals, and nearness to the centromere, where it is rare.
+

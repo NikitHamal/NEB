@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,872
+The wall.
+
+2
+00:00:00,872 --> 00:00:07,838
+A hard, sculptured outer exine made of sporopollenin, the toughest organic material known.
+
+3
+00:00:07,838 --> 00:00:11,914
+That is why pollen survives for millions of years as fossils.
+
+4
+00:00:11,914 --> 00:00:16,315
+It has thin spots, the germ pores, where the tube will come out.
+
+5
+00:00:16,315 --> 00:00:20,234
+Inside it, a thin intine of cellulose and pectin.
+

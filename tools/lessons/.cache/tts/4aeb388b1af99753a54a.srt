@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,648
+Arrhenius put this into one equation in eighteen eighty nine.
+
+2
+00:00:04,648 --> 00:00:13,815
+k equals A, the frequency factor, times e to the minus E a over R T, the fraction of collisions energetic enough.
+

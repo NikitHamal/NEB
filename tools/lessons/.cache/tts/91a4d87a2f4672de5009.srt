@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,713
+Seat four friends, A, B, C, D, round a table.
+
+2
+00:00:04,713 --> 00:00:08,906
+In a row, there would be four factorial, twenty four orders.
+
+3
+00:00:08,906 --> 00:00:16,914
+But round a table, rotate everyone one seat, and nothing has really changed: each person has the same neighbours.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,476
+By day the stomata stay shut to save water.
+
+2
+00:00:03,476 --> 00:00:11,640
+The malic acid releases its carbon dioxide inside the leaf, and the ordinary Calvin cycle fixes it behind closed doors.
+

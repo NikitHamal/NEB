@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,734
+One male gamete fuses with the egg.
+
+2
+00:00:02,734 --> 00:00:08,020
+That is syngamy, and it makes a diploid zygote, the future embryo.
+

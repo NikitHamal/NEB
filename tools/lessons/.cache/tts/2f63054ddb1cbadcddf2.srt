@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,328
+Three angles.
+
+2
+00:00:01,328 --> 00:00:07,500
+They fix the shape, but every similar triangle, of any size, has the same angles.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,302
+Virtualisation.
+
+2
+00:00:01,302 --> 00:00:06,145
+It is the technology under cloud computing, not a V of big data.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,763
+Back at the start, it is at the same potential it began with.
+
+2
+00:00:03,763 --> 00:00:06,653
+All the lifts must equal all the drops.
+
+3
+00:00:06,653 --> 00:00:12,825
+Around any closed loop, the sum of the e m fs equals the sum of the I R drops.
+
+4
+00:00:12,825 --> 00:00:17,291
+That is Kirchhoff's second law, and it is the conservation of energy.
+

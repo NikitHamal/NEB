@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,523
+One more for practice.
+
+2
+00:00:01,523 --> 00:00:09,765
+A stationary wave is y equals five sine, zero point four pi x, cos one hundred pi t, in centimetres.
+
+3
+00:00:09,765 --> 00:00:16,263
+Find the wavelength, frequency, speed, and the distance from a node to the next antinode.
+

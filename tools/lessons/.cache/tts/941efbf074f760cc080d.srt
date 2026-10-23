@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,625
+Molality, percentage by mass and mole fraction do not care about temperature.
+
+2
+00:00:05,625 --> 00:00:08,789
+That is why physical chemists love molality.
+

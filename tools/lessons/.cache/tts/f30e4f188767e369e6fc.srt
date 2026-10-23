@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,473
+That fourth power is dramatic.
+
+2
+00:00:02,473 --> 00:00:06,822
+Halve the radius, and the flow drops to one sixteenth.
+
+3
+00:00:06,822 --> 00:00:13,033
+Sixteen cups of blood through a healthy artery, one cup through an artery narrowed to half.
+
+4
+00:00:13,033 --> 00:00:18,242
+That is why even a slight narrowing of an artery makes the heart work so hard.
+

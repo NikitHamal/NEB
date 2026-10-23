@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,263
+The velocity falls from half a metre per second to zero across one millimetre, so the gradient is zero point five over ten to the minus three: five hundred per second.
+

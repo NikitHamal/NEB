@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,958
+One is the identity; find the ones in each row for the inverses: two and three undo each other, four undoes itself.
+

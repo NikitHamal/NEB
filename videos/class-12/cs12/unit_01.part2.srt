@@ -1,0 +1,320 @@
+1
+00:00:00,000 --> 00:00:00,119
+The most dangerous line in SQL: an UPDATE or DELETE with no WHERE clause.
+
+2
+00:00:00,119 --> 00:00:01,631
+It hits every single row.
+
+3
+00:00:06,400 --> 00:00:09,331
+Real questions need several tables.
+
+4
+00:00:09,331 --> 00:00:14,097
+Each enrolment row holds a roll number and a course code: foreign keys.
+
+5
+00:00:14,097 --> 00:00:20,653
+A JOIN matches each one to the primary key it points at: rolls to students, codes to courses.
+
+6
+00:00:20,867 --> 00:00:26,468
+In SQL: join students to enrolment on roll, and enrolment to courses on code.
+
+7
+00:00:26,468 --> 00:00:30,323
+Every enrolment row now carries a name and a course title.
+
+8
+00:00:31,534 --> 00:00:39,713
+GROUP BY sorts rows into groups with the same value, here the same course, and an aggregate turns each group into one line.
+
+9
+00:00:39,713 --> 00:00:41,379
+Colour the enrolments by course.
+
+10
+00:00:41,600 --> 00:00:46,159
+Four Computer Science rows average seventy six and a half.
+
+11
+00:00:46,159 --> 00:00:49,479
+Physics, Mathematics and English follow.
+
+12
+00:00:49,479 --> 00:00:56,471
+Nepali does not appear at all: with an inner join, a course with nobody enrolled has no rows to group.
+
+13
+00:00:56,471 --> 00:00:58,753
+A LEFT JOIN would keep it with a count of zero.
+
+14
+00:00:58,967 --> 00:01:02,354
+To filter groups rather than rows, use HAVING.
+
+15
+00:01:02,354 --> 00:01:07,588
+WHERE removes rows before grouping; HAVING removes groups after.
+
+16
+00:01:07,588 --> 00:01:11,719
+So students with three or more subjects is HAVING count at least three.
+
+17
+00:01:12,934 --> 00:01:15,527
+And the DBMS defends its rules.
+
+18
+00:01:15,527 --> 00:01:23,678
+Try to enrol a student number ninety nine, who does not exist: refused, a foreign key constraint fails.
+
+19
+00:01:23,678 --> 00:01:27,844
+Try to delete a course that students are enrolled in: refused again.
+
+20
+00:01:27,844 --> 00:01:29,434
+That is referential integrity.
+
+21
+00:01:34,234 --> 00:01:36,176
+Three database models.
+
+22
+00:01:36,176 --> 00:01:46,243
+The hierarchical model is an upside down tree: every record has exactly one parent, so it handles one to many, but not many to many.
+
+23
+00:01:46,467 --> 00:01:49,698
+The network model allows many parents, a graph.
+
+24
+00:01:49,698 --> 00:01:54,501
+Now a student can belong to several courses and a course to several students.
+
+25
+00:01:54,734 --> 00:02:00,491
+The relational model, proposed by Codd in nineteen seventy, uses no pointers at all.
+
+26
+00:02:00,491 --> 00:02:06,532
+Relationships are matching values in tables, and you simply state what you want in SQL.
+
+27
+00:02:06,532 --> 00:02:09,608
+Almost every database today is relational.
+
+28
+00:02:10,834 --> 00:02:15,888
+Before building tables, designers draw an entity relationship diagram.
+
+29
+00:02:15,888 --> 00:02:20,132
+Rectangles are entities, the things we store data about.
+
+30
+00:02:20,132 --> 00:02:23,622
+Ovals are their attributes, with the key underlined.
+
+31
+00:02:23,622 --> 00:02:27,773
+The diamond is a relationship: a student enrols in courses.
+
+32
+00:02:28,000 --> 00:02:35,332
+Its cardinality is many to many: a student takes many courses and a course has many students.
+
+33
+00:02:35,332 --> 00:02:42,988
+In tables, a many to many relationship always becomes its own link table, here enrolment, which also holds the marks.
+
+34
+00:02:47,767 --> 00:02:51,727
+Here is one table holding a school's whole result record.
+
+35
+00:02:51,727 --> 00:02:57,612
+The courses column crams several values into one cell, a repeating group.
+
+36
+00:02:57,612 --> 00:03:02,118
+You cannot even ask who scored above eighty in CS four oh one.
+
+37
+00:03:02,118 --> 00:03:08,284
+Normalisation fixes designs like this, step by step, without losing any information.
+
+38
+00:03:09,500 --> 00:03:13,265
+First normal form: every cell holds one value.
+
+39
+00:03:13,265 --> 00:03:15,869
+Give each student and course its own row.
+
+40
+00:03:15,869 --> 00:03:23,197
+Now neither roll nor code alone identifies a row, but together they do: the key is roll and code.
+
+41
+00:03:23,400 --> 00:03:25,225
+Write down what determines what.
+
+42
+00:03:25,225 --> 00:03:26,891
+Marks depend on the whole key.
+
+43
+00:03:26,891 --> 00:03:33,102
+But name and faculty depend on roll alone, only part of the key: a partial dependency.
+
+44
+00:03:33,102 --> 00:03:40,133
+And the faculty head depends on faculty, a non-key column: a transitive dependency.
+
+45
+00:03:40,133 --> 00:03:45,664
+These cause anomalies: data repeated, and things you cannot insert or delete cleanly.
+
+46
+00:03:46,867 --> 00:03:50,801
+Second normal form: remove partial dependencies.
+
+47
+00:03:50,801 --> 00:04:00,745
+Things that depend on roll alone move to a student table; things that depend on code alone move to a course table; what depends on the whole key stays in enrolment.
+
+48
+00:04:00,967 --> 00:04:04,875
+Third normal form: remove transitive dependencies.
+
+49
+00:04:04,875 --> 00:04:12,336
+The faculty head depends on faculty, not directly on the student, so it gets its own faculty table.
+
+50
+00:04:12,336 --> 00:04:14,875
+Now Science's head is stored once.
+
+51
+00:04:14,875 --> 00:04:25,451
+Four tables, every fact in one place, and joining them on their keys gives back every original row exactly: the decomposition is lossless.
+
+52
+00:04:26,667 --> 00:04:30,549
+In summary: first normal form, atomic values.
+
+53
+00:04:30,549 --> 00:04:33,478
+Second, no partial dependencies.
+
+54
+00:04:33,478 --> 00:04:36,343
+Third, no transitive dependencies.
+
+55
+00:04:36,343 --> 00:04:41,070
+Second normal form only matters when the key has more than one column.
+
+56
+00:04:41,070 --> 00:04:45,568
+And keep the foreign keys, or the tables cannot be joined back together.
+
+57
+00:04:50,367 --> 00:04:51,970
+Where does the database live?
+
+58
+00:04:51,970 --> 00:04:58,884
+In a centralised system, all of it sits at one site, and every branch reaches across the network.
+
+59
+00:04:58,884 --> 00:05:06,700
+Easy to control and keep consistent, but every request travels, and if the server fails, everything stops.
+
+60
+00:05:06,900 --> 00:05:17,331
+In a distributed database, the data is split or copied across several sites, each with its own DBMS, yet it behaves as one database.
+
+61
+00:05:17,331 --> 00:05:24,752
+Local questions are answered locally and the system survives one site failing, but keeping the copies in step is hard.
+
+62
+00:05:25,967 --> 00:05:27,818
+Finally, security.
+
+63
+00:05:27,818 --> 00:05:35,747
+Authenticate users, then authorise them: GRANT and REVOKE give each user exactly the privileges they need.
+
+64
+00:05:35,747 --> 00:05:38,065
+Views hide sensitive columns.
+
+65
+00:05:38,065 --> 00:05:46,644
+Encrypt data, keep backups and logs, and never paste a user's input straight into a query, which is how SQL injection attacks work.
+
+66
+00:05:49,067 --> 00:05:49,837
+Pause and think.
+
+67
+00:05:57,134 --> 00:05:58,373
+An alternate key.
+
+68
+00:05:58,373 --> 00:06:01,735
+A foreign key points to another table's primary key.
+
+69
+00:06:03,734 --> 00:06:04,169
+One more.
+
+70
+00:06:11,800 --> 00:06:15,239
+HAVING: it filters groups after GROUP BY.
+
+71
+00:06:15,239 --> 00:06:16,838
+WHERE cannot use an aggregate.
+
+72
+00:06:19,034 --> 00:06:20,116
+Quick recap.
+
+73
+00:06:20,116 --> 00:06:27,486
+A DBMS stores each fact once and enforces the rules, with three levels for data independence.
+
+74
+00:06:27,486 --> 00:06:29,049
+The family of keys.
+
+75
+00:06:29,049 --> 00:06:33,163
+DDL builds structure and DML works with rows.
+
+76
+00:06:33,163 --> 00:06:39,335
+Joins match foreign keys to primary keys, and GROUP BY with HAVING summarises.
+
+77
+00:06:39,335 --> 00:06:42,838
+Three models, and normalisation to third normal form.
+
+78
+00:06:47,034 --> 00:06:49,392
+That was database management systems.
+
+79
+00:06:49,392 --> 00:06:54,744
+Next, data communication and networking: how computers talk to each other.
+
+80
+00:06:54,744 --> 00:06:55,321
+See you there.
+

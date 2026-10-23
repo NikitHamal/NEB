@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,486
+Every step follows agreed rules.
+
+2
+00:00:02,486 --> 00:00:08,671
+This unit explains the media, the devices, the layers and the addresses that make it work.
+

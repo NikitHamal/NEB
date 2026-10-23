@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,526
+Falling forty five metres from rest takes three seconds; meanwhile it travels sixty metres across.
+

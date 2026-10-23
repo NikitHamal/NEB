@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,973
+At x equals a: inverse sine of one is pi over two.
+
+2
+00:00:04,973 --> 00:00:06,158
+Pi a squared.
+

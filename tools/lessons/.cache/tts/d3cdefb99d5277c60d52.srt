@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,080
+And there it is.
+
+2
+00:00:01,080 --> 00:00:09,505
+x equals A sine of omega t plus phi, where phi, the initial phase, just says where the body was when we started the clock.
+

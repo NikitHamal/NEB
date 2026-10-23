@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,281
+Here is the complete reaction map of phenol.
+
+2
+00:00:03,281 --> 00:00:11,002
+Notice how many reactions use the phenoxide ion, and how many attack the ortho and para positions.
+
+3
+00:00:11,002 --> 00:00:16,770
+Two ideas, resonance and ring activation, explain nearly all of it.
+

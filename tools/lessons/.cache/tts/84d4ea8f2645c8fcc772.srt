@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,184
+Final check.
+
+2
+00:00:01,184 --> 00:00:05,182
+A reaction has a negative standard free energy change.
+
+3
+00:00:05,182 --> 00:00:06,757
+What can you say about its K?
+
+4
+00:00:06,757 --> 00:00:08,059
+Pause and think.
+

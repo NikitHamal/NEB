@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,171
+Quick recap.
+
+2
+00:00:01,171 --> 00:00:06,367
+Epithelium is packed cells on a basement membrane, with no blood vessels.
+
+3
+00:00:06,367 --> 00:00:10,260
+Connective tissue is few cells in a lot of matrix.
+
+4
+00:00:10,260 --> 00:00:16,562
+Tendons are collagen and join muscle to bone; ligaments are elastic and join bone to bone.
+
+5
+00:00:16,562 --> 00:00:21,458
+Cartilage has no blood supply; mammalian bone has Haversian systems.
+
+6
+00:00:21,458 --> 00:00:28,541
+Muscle is striated, cardiac or smooth, and in a contracting sarcomere the A band stays the same.
+
+7
+00:00:28,541 --> 00:00:37,864
+And in a neuron, dendrites bring impulses in, the axon carries them out, myelin makes them jump, and the synapse is one way.
+

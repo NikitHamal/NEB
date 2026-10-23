@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,278
+Worked example five point two.
+
+2
+00:00:02,278 --> 00:00:07,981
+The silver copper cell: two electrons, E nought of zero point four six volts.
+
+3
+00:00:07,981 --> 00:00:18,515
+Delta G nought is minus two times ninety six thousand five hundred times zero point four six, minus eighty eight point eight kilojoules per mole.
+

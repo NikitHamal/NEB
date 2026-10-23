@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,606
+Short-day plants, such as chrysanthemum, soybean and Xanthium, flower only when the night is longer than a critical length.
+
+2
+00:00:08,606 --> 00:00:16,315
+Long-day plants, such as wheat, radish and spinach, flower only when the night is shorter than a critical length.
+
+3
+00:00:16,315 --> 00:00:21,835
+Suppose, as an example, both have a critical night of about twelve hours.
+
+4
+00:00:21,835 --> 00:00:25,286
+Day-neutral plants such as tomato do not care.
+

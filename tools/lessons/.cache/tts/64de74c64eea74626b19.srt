@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,028
+Last item.
+
+2
+00:00:01,028 --> 00:00:05,169
+Bishnu bought a second hand laptop in Bhotahity last week.
+
+3
+00:00:05,169 --> 00:00:14,466
+Ask about the person who bought it: the question word replaces the subject, so no inversion and no did: who bought a second hand laptop?
+
+4
+00:00:14,466 --> 00:00:20,273
+Ask about the thing he bought: an object question, so invert: what did Bishnu buy?
+
+5
+00:00:20,273 --> 00:00:28,984
+Now embed that after could you tell me: the inversion and the did disappear, and the past tense comes back: could you tell me what Bishnu bought?
+

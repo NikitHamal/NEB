@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,161
+A careful student might object.
+
+2
+00:00:02,161 --> 00:00:09,453
+In an isothermal expansion of an ideal gas, delta U is zero, so Q equals W.
+
+3
+00:00:09,453 --> 00:00:11,341
+All the heat becomes work.
+
+4
+00:00:11,341 --> 00:00:13,229
+Does that break the second law?
+

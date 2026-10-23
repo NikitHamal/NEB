@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,721
+If e and e dash are both identities, combine them: the result equals each, so they are equal.
+

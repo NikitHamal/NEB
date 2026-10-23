@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,346
+Clear above the third pivot, then above the second.
+
+2
+00:00:03,346 --> 00:00:09,934
+The left block becomes the identity, and the answer, one, two, three, sits in the last column.
+
+3
+00:00:09,934 --> 00:00:11,914
+No back substitution at all.
+

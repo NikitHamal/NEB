@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,380
+Two break the pattern.
+
+2
+00:00:01,380 --> 00:00:04,583
+Chromium should be 3d four, 4s two.
+
+3
+00:00:04,583 --> 00:00:15,755
+Instead one 4s electron moves into the d subshell, making 3d five, 4s one: a half filled d subshell, which is extra stable.
+

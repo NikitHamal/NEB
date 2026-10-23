@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,703
+Two.
+
+2
+00:00:00,703 --> 00:00:09,622
+A free hydrogen ion is just a bare proton, about ten to the minus fifteen metres across, with an enormous charge density.
+
+3
+00:00:09,622 --> 00:00:12,018
+It cannot float around alone.
+
+4
+00:00:12,018 --> 00:00:19,804
+In water, it is grabbed at once by a water molecule, forming the hydronium ion, H three O plus.
+

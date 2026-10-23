@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,885
+Part b.
+
+2
+00:00:00,885 --> 00:00:07,122
+A group O man can give only little i, and two group O parents can only have a group O child.
+
+3
+00:00:07,122 --> 00:00:09,596
+So no, he cannot be the father.
+

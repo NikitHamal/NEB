@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,309
+The scalar, or dot, product of a and b is the length of a, times the length of b, times the cosine of the angle between them.
+
+2
+00:00:09,309 --> 00:00:12,213
+The answer is a number, not a vector.
+
+3
+00:00:12,213 --> 00:00:14,622
+Swing b round and watch its sign.
+

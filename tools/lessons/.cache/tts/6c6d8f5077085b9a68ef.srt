@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:04,531
+Haloalkanes are classified by the carbon that carries the halogen.
+
+2
+00:00:04,531 --> 00:00:08,502
+If that carbon is joined to one other carbon, it is primary.
+
+3
+00:00:08,502 --> 00:00:10,403
+Two others, secondary.
+
+4
+00:00:10,403 --> 00:00:11,940
+Three, tertiary.
+
+5
+00:00:11,940 --> 00:00:13,802
+This is not just bookkeeping.
+
+6
+00:00:13,802 --> 00:00:21,705
+It decides the mechanism: primary halides react by S N two, tertiary ones by S N one.
+

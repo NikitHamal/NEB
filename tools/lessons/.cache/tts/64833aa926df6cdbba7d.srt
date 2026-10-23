@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:13,138
+The maximum acceleration, at the extremes, is A omega squared: zero point zero five times nine point eight seven, about zero point four nine three metres per second squared.
+

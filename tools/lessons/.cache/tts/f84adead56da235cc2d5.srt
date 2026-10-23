@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,317
+Insulin, from the beta cells.
+
+2
+00:00:02,317 --> 00:00:13,476
+Glucagon, adrenaline and cortisol all raise blood glucose, which is exactly why losing the one lowering hormone causes a disease as serious as diabetes.
+

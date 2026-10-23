@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,341
+Now the reverse.
+
+2
+00:00:01,341 --> 00:00:05,585
+A turgid cell, its protoplast pressed hard against the wall.
+
+3
+00:00:05,585 --> 00:00:08,268
+Psi p is plus zero point eight.
+

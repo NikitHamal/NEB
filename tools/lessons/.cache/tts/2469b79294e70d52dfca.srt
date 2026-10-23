@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,015
+Software as a service: finished software in a browser, and you manage only your data.
+

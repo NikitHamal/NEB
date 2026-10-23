@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,552
+Now immerse a solid cylinder.
+
+2
+00:00:02,552 --> 00:00:05,104
+The water pushes on every face.
+
+3
+00:00:05,104 --> 00:00:07,838
+The sideways pushes cancel in pairs.
+
+4
+00:00:07,838 --> 00:00:10,234
+On top, the water presses down.
+
+5
+00:00:10,234 --> 00:00:11,992
+Underneath, it presses up.
+

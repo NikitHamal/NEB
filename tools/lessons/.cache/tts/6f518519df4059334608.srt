@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,080
+B, water.
+
+2
+00:00:01,080 --> 00:00:11,432
+Hydrogen is oxidised at the anode and oxygen reduced at the cathode, and the overall reaction is two hydrogen plus oxygen giving two water.
+
+3
+00:00:11,432 --> 00:00:15,442
+No carbon, so no carbon dioxide, and no smoke.
+

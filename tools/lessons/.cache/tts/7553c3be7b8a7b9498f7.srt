@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,908
+Bananas, mangoes, papayas and tomatoes are climacteric fruits.
+
+2
+00:00:04,908 --> 00:00:11,601
+As ripening starts, each releases a burst of ethylene, and its respiration surges.
+
+3
+00:00:11,601 --> 00:00:16,523
+The burst is autocatalytic: ethylene triggers more ethylene.
+
+4
+00:00:16,523 --> 00:00:20,963
+So one ripe banana in a closed basket ripens all its neighbours.
+

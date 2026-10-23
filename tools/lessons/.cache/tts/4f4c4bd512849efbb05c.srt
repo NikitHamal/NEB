@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,244
+All that solute drops psi s by about half a megapascal.
+
+2
+00:00:04,244 --> 00:00:11,497
+Water rushes in by osmosis, the cells swell, lengthen, bow apart, and the pore opens.
+

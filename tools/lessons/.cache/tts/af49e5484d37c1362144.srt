@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,341
+Toss a coin, roll a die, again and again, the same chance of success each time.
+
+2
+00:00:06,341 --> 00:00:18,085
+The probability of exactly r successes in n trials: choose which r trials succeed, n C r ways, each with probability p to the r times q to the n minus r.
+
+3
+00:00:18,085 --> 00:00:23,424
+The mean number of successes is n p, and the variance n p q.
+

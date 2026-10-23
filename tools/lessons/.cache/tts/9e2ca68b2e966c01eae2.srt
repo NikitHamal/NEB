@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,648
+Squeeze it or stretch it at the same temperature, and U does not change at all.
+
+2
+00:00:04,648 --> 00:00:11,015
+No change in temperature means no change in internal energy, whatever happens to pressure and volume.
+

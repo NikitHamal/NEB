@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,864
+And nickel tetracarbonyl: carbon monoxide is neutral, so nickel is in the zero oxidation state.
+
+2
+00:00:07,864 --> 00:00:14,908
+Only transition metals do this, with ligands like carbon monoxide that can take electron density back from the metal.
+

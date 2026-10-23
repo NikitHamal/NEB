@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,549
+That is interference.
+
+2
+00:00:01,549 --> 00:00:08,424
+Next, light bends around the edges of obstacles and spreads out from single slits, in Diffraction.
+
+3
+00:00:08,424 --> 00:00:11,093
+See you there, on NEBians.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,630
+The product, pig iron, holds about four percent carbon, with silicon, manganese, phosphorus and sulphur.
+
+2
+00:00:07,630 --> 00:00:10,833
+Remelted with scrap, it becomes cast iron.
+

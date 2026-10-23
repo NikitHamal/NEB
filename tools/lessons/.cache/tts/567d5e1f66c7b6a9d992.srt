@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,309
+So the isothermal work is n R T ln of V two over V one, or two point three zero three n R T log base ten.
+
+2
+00:00:09,309 --> 00:00:16,145
+Since P one V one equals P two V two, you can also write it with the pressure ratio, P one over P two.
+
+3
+00:00:16,145 --> 00:00:21,236
+And because delta U is zero, the heat absorbed equals this work.
+

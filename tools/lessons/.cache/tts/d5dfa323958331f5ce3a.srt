@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,992
+Worked example two point one.
+
+2
+00:00:01,992 --> 00:00:07,161
+Calcium hydroxide is a strong base giving two hydroxide ions.
+
+3
+00:00:07,161 --> 00:00:14,531
+So hydroxide is zero point zero one, p O H is two, and p H is twelve.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,057
+Straight ahead, K is one.
+
+2
+00:00:02,057 --> 00:00:04,557
+Straight backwards, it is zero.
+
+3
+00:00:04,557 --> 00:00:07,565
+So only the forward envelope survives.
+
+4
+00:00:07,565 --> 00:00:14,674
+In the exam, it is enough to say: secondary wavelets are effective only in the forward direction.
+

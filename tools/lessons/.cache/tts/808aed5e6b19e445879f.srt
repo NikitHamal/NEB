@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,682
+Look: ten plus ten makes twenty.
+
+2
+00:00:02,682 --> 00:00:07,317
+Five C two plus five C three equals six C three.
+
+3
+00:00:07,317 --> 00:00:17,955
+The rows also add up to powers of two, one, two, four, eight, sixteen: the total number of subsets, which we will prove in the next unit.
+

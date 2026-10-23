@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,414
+So cos theta is zero: the forces are at right angles.
+
+2
+00:00:04,414 --> 00:00:06,783
+A three four five triangle.
+

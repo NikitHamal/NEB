@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,885
+Compare.
+
+2
+00:00:00,885 --> 00:00:09,322
+In C, the data and the area function are separate, and nothing stops another part of the program writing a negative length.
+
+3
+00:00:09,322 --> 00:00:19,101
+In C plus plus, the length and breadth are private inside the class; the only way in is the constructor and the only way out is area.
+

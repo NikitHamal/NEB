@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,440
+Water crosses both ways, but more crosses into the sugar side, where the water is less free, because some of it is held around sugar molecules.
+
+2
+00:00:09,440 --> 00:00:13,854
+So there is a net flow to the right, and the right-hand column rises.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,604
+On a reaction coordinate diagram, the slowest step has the highest barrier: the loss of water to form the carbocation.
+
+2
+00:00:07,604 --> 00:00:13,268
+The carbocation sits in a shallow well, a real but short lived intermediate.
+
+3
+00:00:13,268 --> 00:00:23,828
+And because tertiary carbocations are the most stable, tertiary alcohols dehydrate most easily: tertiary, then secondary, then primary.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:04,622
+A relative clause describes a noun, and begins with a relative pronoun.
+
+2
+00:00:04,622 --> 00:00:08,541
+Who for a person as subject: the girl who won the prize.
+
+3
+00:00:08,541 --> 00:00:11,914
+Whom for a person as object, in formal English.
+
+4
+00:00:11,914 --> 00:00:13,346
+Whose for possession.
+
+5
+00:00:13,346 --> 00:00:15,455
+Which for a thing or an animal.
+
+6
+00:00:15,455 --> 00:00:19,375
+That for a person or thing, but only in defining clauses.
+
+7
+00:00:19,375 --> 00:00:23,919
+And where, when and why for a place, a time and a reason.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,190
+Light through the same doorway goes almost straight.
+
+2
+00:00:03,190 --> 00:00:09,947
+Its wavelength is two million times smaller than the gap, so the spreading is far too small to see.
+
+3
+00:00:09,947 --> 00:00:12,317
+That is why you cannot see round corners.
+

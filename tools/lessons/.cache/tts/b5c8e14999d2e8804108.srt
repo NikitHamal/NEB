@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,856
+A ten kilogram block is pulled across a rough floor with forty newtons.
+
+2
+00:00:04,856 --> 00:00:13,658
+Friction opposes the motion: the coefficient of friction times the normal reaction, a quarter of a hundred, twenty five newtons.
+
+3
+00:00:13,658 --> 00:00:20,481
+The net force is fifteen newtons, so the acceleration is one and a half metres per second squared.
+

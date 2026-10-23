@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,106
+In sixteen seventy eight, Christiaan Huygens gave a rule for moving a wavefront forward.
+
+2
+00:00:06,106 --> 00:00:07,656
+It has two parts.
+
+3
+00:00:07,656 --> 00:00:16,783
+First, every point on a wavefront acts as a fresh source of secondary wavelets, which spread forward at the speed of the wave in that medium.
+
+4
+00:00:16,783 --> 00:00:25,755
+Second, the new wavefront, a time t later, is the surface that touches all those wavelets: their forward envelope.
+

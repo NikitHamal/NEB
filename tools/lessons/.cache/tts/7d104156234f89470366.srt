@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,195
+S N two: substitution, nucleophilic, bimolecular.
+
+2
+00:00:05,195 --> 00:00:07,005
+It happens in one step.
+
+3
+00:00:07,005 --> 00:00:12,773
+The hydroxide comes in from the side exactly opposite the bromine, backside attack.
+

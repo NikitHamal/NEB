@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,153
+Abscisic acid, A B A, is the stress hormone.
+
+2
+00:00:04,153 --> 00:00:11,757
+When a plant runs short of water, A B A builds up in the leaves and closes the stomata within minutes.
+

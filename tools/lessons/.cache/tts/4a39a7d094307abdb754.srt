@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,013
+Again for B: cos B is exactly a half, so B is sixty.
+

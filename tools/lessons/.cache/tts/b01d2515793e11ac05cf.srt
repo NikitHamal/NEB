@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,325
+Six ATP and six NADPH reduce it to six G3P.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,031
+That was computational methods.
+
+2
+00:00:02,031 --> 00:00:08,111
+Next, the alternative unit, mechanics: forces, equilibrium and motion.
+
+3
+00:00:08,111 --> 00:00:09,075
+See you there.
+

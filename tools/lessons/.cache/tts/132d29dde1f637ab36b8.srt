@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,458
+Water poured into concentrated acid can boil on the spot and spit acid out of the vessel.
+

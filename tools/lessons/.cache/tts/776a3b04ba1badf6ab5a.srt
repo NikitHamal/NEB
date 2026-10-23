@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,989
+Last one.
+
+2
+00:00:00,989 --> 00:00:03,919
+What comes out of a hydrogen oxygen fuel cell?
+
+3
+00:00:03,919 --> 00:00:05,208
+Pause and think.
+

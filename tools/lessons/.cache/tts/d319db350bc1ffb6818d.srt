@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,710
+Divide, and P over rho is R T over M.
+
+2
+00:00:03,710 --> 00:00:12,708
+So the speed of sound in a gas is the square root of gamma R T over M. Look closely: there is no pressure in it at all.
+

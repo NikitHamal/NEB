@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,971
+A plant is resistant when it can stop or limit infection.
+
+2
+00:00:03,971 --> 00:00:07,877
+Vertical resistance comes from one or a few major genes.
+
+3
+00:00:07,877 --> 00:00:15,416
+It gives complete protection, but only against some races of the pathogen, and it breaks down when a new race appears.
+
+4
+00:00:15,416 --> 00:00:23,255
+Horizontal resistance comes from many small genes: only partial, but against every race, and it lasts.
+

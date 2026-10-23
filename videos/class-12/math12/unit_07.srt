@@ -1,0 +1,416 @@
+1
+00:00:00,000 --> 00:00:07,697
+Here are three facts about a triangle: side a is twenty, side b is thirty, and angle A is thirty degrees.
+
+2
+00:00:07,697 --> 00:00:08,517
+Draw it.
+
+3
+00:00:08,517 --> 00:00:09,093
+Here it is.
+
+4
+00:00:09,300 --> 00:00:10,526
+And here it is again.
+
+5
+00:00:10,526 --> 00:00:16,580
+A second triangle, completely different, that fits the very same three facts.
+
+6
+00:00:16,580 --> 00:00:17,687
+Both are correct.
+
+7
+00:00:17,687 --> 00:00:26,320
+So when a question gives you two sides and an angle that is not between them, the answer may be two triangles, or one, or none.
+
+8
+00:00:26,320 --> 00:00:31,415
+This unit shows you how to tell, and how to solve any triangle from any three parts.
+
+9
+00:00:36,900 --> 00:00:41,936
+Welcome to Class 12 Mathematics, Unit 7: Solution of Triangles.
+
+10
+00:00:44,333 --> 00:00:45,572
+Three parts.
+
+11
+00:00:45,572 --> 00:00:49,296
+The four kinds of data and the law that matches each.
+
+12
+00:00:49,296 --> 00:00:54,191
+The ambiguous case, with two sides and a non included angle.
+
+13
+00:00:54,191 --> 00:00:58,270
+And heights and distances: towers, rivers and fields.
+
+14
+00:01:02,633 --> 00:01:09,666
+To solve a triangle is to find all six parts, three sides and three angles, from the three you are given.
+
+15
+00:01:09,666 --> 00:01:11,971
+There are only four patterns of data.
+
+16
+00:01:11,971 --> 00:01:13,325
+Three sides.
+
+17
+00:01:13,325 --> 00:01:15,968
+Two sides and the angle between them.
+
+18
+00:01:15,968 --> 00:01:18,116
+One side and two angles.
+
+19
+00:01:18,116 --> 00:01:21,437
+And two sides with an angle that is not between them.
+
+20
+00:01:21,437 --> 00:01:25,056
+The first three always give exactly one triangle.
+
+21
+00:01:25,056 --> 00:01:27,042
+The last is the troublemaker.
+
+22
+00:01:27,267 --> 00:01:32,322
+And three angles alone will never do: they fix the shape but not the size.
+
+23
+00:01:33,533 --> 00:01:34,384
+Three sides.
+
+24
+00:01:34,767 --> 00:01:39,193
+The cosine law for A: thirty eight degrees thirteen minutes.
+
+25
+00:01:39,400 --> 00:01:43,976
+Again for B: cos B is exactly a half, so B is sixty.
+
+26
+00:01:44,200 --> 00:01:47,704
+Subtract for C: eighty one forty seven.
+
+27
+00:01:47,704 --> 00:01:51,571
+The largest angle faces the largest side, eight.
+
+28
+00:01:51,571 --> 00:01:51,846
+Good.
+
+29
+00:01:52,067 --> 00:02:00,219
+And the area by Heron: s is ten, so the area is ten root three, seventeen point three two square centimetres.
+
+30
+00:02:02,233 --> 00:02:04,425
+Two sides and the angle between them.
+
+31
+00:02:04,633 --> 00:02:08,122
+The cosine law gives the third side at once: root seven.
+
+32
+00:02:08,333 --> 00:02:17,883
+For the angles, Napier's tangent law gives both together: half the sum is sixty, half the difference nineteen degrees six minutes.
+
+33
+00:02:18,100 --> 00:02:23,149
+Add and subtract: A seventy nine six, C forty fifty four.
+
+34
+00:02:25,167 --> 00:02:26,777
+One side and two angles.
+
+35
+00:02:27,000 --> 00:02:29,449
+The third angle first: forty five.
+
+36
+00:02:29,667 --> 00:02:35,059
+Then the sine law twice: twelve point two five and thirteen point six six.
+
+37
+00:02:35,267 --> 00:02:39,741
+Check: the sides increase in the same order as their opposite angles.
+
+38
+00:02:45,333 --> 00:02:58,173
+Given a, b and A. Draw angle A and side b, which fixes the point C. Side a must reach from C to the base line, so swing a compass of radius a about C.
+
+39
+00:02:58,173 --> 00:03:05,226
+The shortest distance from C to the base is the altitude h, which is b sin A: fifteen here.
+
+40
+00:03:05,433 --> 00:03:10,109
+If a is ten, shorter than h, the arc never reaches the base.
+
+41
+00:03:10,109 --> 00:03:10,868
+No triangle.
+
+42
+00:03:11,100 --> 00:03:16,679
+At a equals fifteen, exactly h, the arc just touches: one triangle, right angled.
+
+43
+00:03:16,900 --> 00:03:25,248
+Between h and b, say twenty, the arc cuts the base twice, both in front of A: two triangles.
+
+44
+00:03:25,248 --> 00:03:26,903
+This is the ambiguous case.
+
+45
+00:03:27,133 --> 00:03:33,085
+And once a is at least b, the second crossing falls behind A, which is not allowed.
+
+46
+00:03:33,085 --> 00:03:34,312
+Only one triangle again.
+
+47
+00:03:35,533 --> 00:03:41,719
+So the test: compute h equals b sin A. Less than h: none.
+
+48
+00:03:41,719 --> 00:03:44,584
+Equal to h: one, right angled.
+
+49
+00:03:44,584 --> 00:03:47,344
+Between h and b: two.
+
+50
+00:03:47,344 --> 00:03:49,089
+At least b: one.
+
+51
+00:03:49,089 --> 00:03:55,481
+And if the given angle is obtuse, there is one triangle when a is longer than b, and none otherwise.
+
+52
+00:03:56,700 --> 00:03:58,088
+The cold open's triangle.
+
+53
+00:03:58,300 --> 00:04:04,081
+h is fifteen, and twenty lies between fifteen and thirty: two triangles.
+
+54
+00:04:04,300 --> 00:04:07,544
+The sine law gives sin B equals point seven five.
+
+55
+00:04:07,544 --> 00:04:14,250
+B is forty eight degrees thirty five minutes, or its supplement, one thirty one twenty five.
+
+56
+00:04:14,250 --> 00:04:17,422
+Both work, since A plus B stays below one eighty.
+
+57
+00:04:17,633 --> 00:04:24,439
+Solve each: c is thirty nine point two one in the first triangle, and twelve point seven five in the second.
+
+58
+00:04:26,467 --> 00:04:26,970
+Two more.
+
+59
+00:04:27,700 --> 00:04:31,321
+With a equal to ten, sin B would be one point five.
+
+60
+00:04:31,321 --> 00:04:32,923
+No angle has that sine.
+
+61
+00:04:32,923 --> 00:04:33,677
+No triangle.
+
+62
+00:04:33,900 --> 00:04:41,141
+With a equal to forty, longer than b, only one triangle: B is twenty two degrees one minute.
+
+63
+00:04:41,141 --> 00:04:44,283
+The obtuse option would push A plus B past one eighty.
+
+64
+00:04:44,500 --> 00:04:48,919
+Then C and c follow: sixty three point zero six.
+
+65
+00:04:50,933 --> 00:04:54,880
+The mark-losing habit: taking only the calculator's angle.
+
+66
+00:04:54,880 --> 00:05:00,237
+Always write both B and one eighty minus B, then test each one.
+
+67
+00:05:02,667 --> 00:05:03,880
+Pause and think.
+
+68
+00:05:03,880 --> 00:05:06,385
+Compare a with h equals b sin A.
+
+69
+00:05:13,267 --> 00:05:13,959
+Two.
+
+70
+00:05:13,959 --> 00:05:18,167
+h is fifteen, and twenty lies between fifteen and thirty.
+
+71
+00:05:22,533 --> 00:05:27,157
+From a point P the top of a tower is at an elevation of thirty degrees.
+
+72
+00:05:27,157 --> 00:05:32,574
+Walk forty metres towards it, to Q, and the elevation becomes sixty.
+
+73
+00:05:32,574 --> 00:05:34,178
+How tall is the tower?
+
+74
+00:05:34,400 --> 00:05:36,628
+Look at triangle P Q S.
+
+75
+00:05:36,628 --> 00:05:42,670
+The sixty degrees at Q is an exterior angle, so the angle inside at Q is one twenty.
+
+76
+00:05:42,670 --> 00:05:44,506
+That leaves thirty at S.
+
+77
+00:05:44,506 --> 00:05:52,383
+Two equal angles: the triangle is isosceles, and Q S equals P Q, forty metres.
+
+78
+00:05:52,383 --> 00:06:00,997
+In the right triangle at the foot, the height is forty sin sixty: twenty root three, about thirty four point six metres.
+
+79
+00:06:02,200 --> 00:06:03,293
+The surveyor's river.
+
+80
+00:06:03,500 --> 00:06:07,648
+A baseline and two angles: the third angle is seventy five.
+
+81
+00:06:07,867 --> 00:06:10,302
+The sine law gives both sloping distances.
+
+82
+00:06:10,533 --> 00:06:17,454
+The width is the perpendicular from the tree: sixty three point four metres, and the other triangle agrees.
+
+83
+00:06:19,467 --> 00:06:20,341
+A real field.
+
+84
+00:06:20,700 --> 00:06:22,216
+s is two seventy.
+
+85
+00:06:22,433 --> 00:06:24,967
+Heron: nine thousand square metres.
+
+86
+00:06:25,167 --> 00:06:28,046
+That is seventeen point seven ropani.
+
+87
+00:06:28,046 --> 00:06:32,568
+Small for such long sides, because the field is long and thin.
+
+88
+00:06:35,200 --> 00:06:36,647
+Exam tip.
+
+89
+00:06:36,647 --> 00:06:38,978
+Name the case before you calculate.
+
+90
+00:06:38,978 --> 00:06:41,530
+Keep five figures until the end.
+
+91
+00:06:41,530 --> 00:06:45,771
+And remember: half a degree is thirty minutes, not fifty.
+
+92
+00:06:47,767 --> 00:06:48,953
+Pause and think.
+
+93
+00:06:48,953 --> 00:06:50,798
+Which data never fixes a triangle?
+
+94
+00:06:57,667 --> 00:06:58,945
+Three angles.
+
+95
+00:06:58,945 --> 00:07:04,649
+They fix the shape, but every similar triangle, of any size, has the same angles.
+
+96
+00:07:06,833 --> 00:07:07,928
+Quick recap.
+
+97
+00:07:07,928 --> 00:07:10,259
+Three sides: cosine law.
+
+98
+00:07:10,259 --> 00:07:14,660
+Two sides and the included angle: cosine or tangent law.
+
+99
+00:07:14,660 --> 00:07:17,967
+One side and two angles: the sine law.
+
+100
+00:07:17,967 --> 00:07:25,129
+Two sides and a non included angle: compare a with b sin A, and test both possible angles.
+
+101
+00:07:25,129 --> 00:07:30,133
+And for heights and distances, draw the figure and solve the triangle on the baseline.
+
+102
+00:07:34,300 --> 00:07:36,476
+That was solution of triangles.
+
+103
+00:07:36,476 --> 00:07:41,502
+Next, conic sections: the parabola, ellipse and hyperbola.
+
+104
+00:07:41,502 --> 00:07:42,085
+See you there.
+

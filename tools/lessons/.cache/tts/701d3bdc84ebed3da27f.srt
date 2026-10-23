@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,494
+Now look through one lens of a pair of polarizing sunglasses, and slowly turn it.
+

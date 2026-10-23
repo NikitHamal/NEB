@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,080
+The traps.
+
+2
+00:00:01,080 --> 00:00:06,888
+First, isn't it as an all purpose tag: he is coming tomorrow, isn't it, is wrong.
+
+3
+00:00:06,888 --> 00:00:10,377
+The pronoun must match the subject: isn't he.
+
+4
+00:00:10,377 --> 00:00:15,286
+Second, two negatives: she can't swim, can't she, is wrong.
+
+5
+00:00:15,286 --> 00:00:19,244
+A negative statement takes a positive tag: can she.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,450
+To see what really matters, get rid of the density.
+
+2
+00:00:03,450 --> 00:00:13,255
+For n moles of gas of molar mass M in volume V, rho is n M over V, and P V equals n R T.
+

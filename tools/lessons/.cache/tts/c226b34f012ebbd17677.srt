@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,921
+Worked example five point three: measuring p H with a cell.
+
+2
+00:00:04,921 --> 00:00:09,960
+Zinc against a hydrogen electrode in an acid of unknown strength.
+
+3
+00:00:09,960 --> 00:00:14,895
+E nought is zero point seven six volts, and two electrons transfer.
+

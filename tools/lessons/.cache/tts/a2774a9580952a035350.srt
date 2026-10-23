@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,361
+Second, metals above hydrogen, like zinc, iron, magnesium and aluminium, liberate hydrogen from dilute acids.
+
+2
+00:00:09,361 --> 00:00:13,190
+Copper, silver and gold, below hydrogen, do not.
+

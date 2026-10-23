@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,302
+Watch it change.
+
+2
+00:00:01,302 --> 00:00:08,736
+At two point six percent, Nepal's peak in the nineteen seventies, the population doubles in about twenty seven years.
+
+3
+00:00:08,736 --> 00:00:13,932
+At today's zero point nine two percent, it takes about seventy five years.
+

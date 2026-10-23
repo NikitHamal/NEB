@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,341
+Now the variables separate: v with d v, x with d x. Integrate.
+

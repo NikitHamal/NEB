@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,289
+Now watch it work.
+
+2
+00:00:01,289 --> 00:00:08,294
+A cell with psi s of minus zero point nine sits in a dilute bath of minus zero point one.
+
+3
+00:00:08,294 --> 00:00:11,263
+The bath is higher, so water flows in.
+

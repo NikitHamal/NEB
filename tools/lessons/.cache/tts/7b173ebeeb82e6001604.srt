@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,122
+For a product of two different kinds of function, use integration by parts: the product rule backwards.
+
+2
+00:00:07,122 --> 00:00:23,072
+The integral of u d v is u v minus the integral of v d u. Choose u as the factor that gets simpler when differentiated; the rule ILATE gives the order: inverse trig, log, algebraic, trig, exponential.
+

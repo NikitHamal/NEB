@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,455
+As a vector, torque is r cross F, and its unit is the newton metre.
+

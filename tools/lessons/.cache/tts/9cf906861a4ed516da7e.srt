@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:10,807
+A wh question puts the question word first, then inverts exactly as before: wh word, operator, subject, main verb, the rest.
+
+2
+00:00:10,807 --> 00:00:11,875
+Where are you going?
+
+3
+00:00:11,875 --> 00:00:13,255
+Why didn't you inform me?
+
+4
+00:00:13,255 --> 00:00:14,661
+How long have you waited?
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,447
+Two sides from the same vertex A.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,898
+A point on that graph only makes sense if the gas is in thermodynamic equilibrium.
+
+2
+00:00:05,898 --> 00:00:08,111
+That means three things at once.
+
+3
+00:00:08,111 --> 00:00:12,473
+Mechanical equilibrium: no unbalanced pressure.
+
+4
+00:00:12,473 --> 00:00:16,302
+Thermal equilibrium: one uniform temperature.
+
+5
+00:00:16,302 --> 00:00:20,559
+And chemical equilibrium: no reaction in progress.
+

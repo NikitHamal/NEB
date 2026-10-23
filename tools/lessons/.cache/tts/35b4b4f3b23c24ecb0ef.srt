@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,000
+Oxaloacetate becomes malate, which moves into the bundle sheath.
+
+2
+00:00:05,000 --> 00:00:12,486
+There it releases its carbon dioxide, building a concentration ten to twenty times that of air, right around RuBisCO.
+
+3
+00:00:12,486 --> 00:00:18,046
+Flooded with carbon dioxide, RuBisCO hardly ever grabs oxygen.
+

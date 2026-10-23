@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,976
+Time in glass is n x over c, in vacuum x over c.
+
+2
+00:00:05,976 --> 00:00:13,203
+The delay is n minus one, times x, over c: about three point three picoseconds.
+
+3
+00:00:13,203 --> 00:00:18,502
+Tiny, but in the next unit, delays like this shift whole interference patterns.
+

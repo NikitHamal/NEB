@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,304
+Now the inverse square law at work.
+
+2
+00:00:02,304 --> 00:00:07,109
+A loudspeaker radiates two watts equally in all directions.
+
+3
+00:00:07,109 --> 00:00:12,721
+Find the intensity and level at ten metres, and the level at twenty metres.
+

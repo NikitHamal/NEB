@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,153
+The source recedes, so v s is minus twenty five.
+
+2
+00:00:04,153 --> 00:00:12,317
+f dash equals three forty over three sixty five, times five hundred: about four hundred and sixty six hertz.
+
+3
+00:00:12,317 --> 00:00:15,716
+Lower, as it must be for a receding source.
+

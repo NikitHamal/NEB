@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,197
+The leaves sense it with phytochrome, and a signal, florigen, travels to the shoot tip.
+

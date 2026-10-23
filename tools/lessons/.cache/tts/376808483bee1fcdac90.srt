@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,398
+Fruits such as orange, grape and litchi are non-climacteric: they have no burst and will not ripen properly once picked.
+
+2
+00:00:08,398 --> 00:00:19,218
+Ethylene also makes leaves and flowers age and fall, curls tomato leaves downward in waterlogged soil, which is epinasty, and makes pineapples flower.
+
+3
+00:00:19,218 --> 00:00:21,822
+Farmers spray it as ethephon.
+

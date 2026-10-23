@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,161
+Other conditional connectives.
+
+2
+00:00:02,161 --> 00:00:05,885
+Unless means if not: you will fail unless you work hard.
+
+3
+00:00:05,885 --> 00:00:09,960
+Provided that, and as long as, set one condition.
+
+4
+00:00:09,960 --> 00:00:15,585
+In case is a precaution, not the same as if: take an umbrella in case it rains.
+
+5
+00:00:15,585 --> 00:00:18,333
+Even if: the result holds anyway.
+
+6
+00:00:18,333 --> 00:00:24,687
+But for, plus a noun, means if it had not been for: but for your help, I would have failed.
+
+7
+00:00:24,687 --> 00:00:28,515
+And otherwise: hurry, otherwise you will be late.
+

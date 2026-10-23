@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,664
+In components, that cross product is sin A cos B plus cos A sin B.
+

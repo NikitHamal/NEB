@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,151
+First, every method starts the same way.
+
+2
+00:00:03,151 --> 00:00:13,880
+Line up the unknowns in the same order and read off three objects: the coefficient matrix A, the column of unknowns X, and the column of constants B.
+

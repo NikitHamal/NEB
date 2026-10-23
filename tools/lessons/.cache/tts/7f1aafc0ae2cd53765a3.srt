@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,445
+Exam tip.
+
+2
+00:00:01,445 --> 00:00:07,799
+Write out the conditions, find c, and say that c lies inside the open interval.
+
+3
+00:00:07,799 --> 00:00:09,986
+That last sentence is a mark.
+

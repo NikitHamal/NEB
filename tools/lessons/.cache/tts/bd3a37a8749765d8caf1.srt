@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,606
+Here is the derivation, a four mark favourite.
+
+2
+00:00:03,606 --> 00:00:05,286
+Ride along with the pulse.
+
+3
+00:00:05,286 --> 00:00:12,291
+In that frame, the pulse stands still, and the string streams backwards through it at speed v.
+

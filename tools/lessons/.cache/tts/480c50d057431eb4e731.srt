@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,994
+Clear the first column below the leading one.
+
+2
+00:00:02,994 --> 00:00:05,911
+Row two minus two times row one.
+
+3
+00:00:05,911 --> 00:00:08,932
+Row three minus three times row one.
+

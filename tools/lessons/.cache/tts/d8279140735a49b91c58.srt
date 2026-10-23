@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,091
+Welcome to Class 12 Chemistry, Unit 4: Thermodynamics.
+
+2
+00:00:05,091 --> 00:00:15,052
+The study of energy changes in chemistry: heat and work, enthalpy and entropy, and the free energy that decides which way a reaction can go.
+

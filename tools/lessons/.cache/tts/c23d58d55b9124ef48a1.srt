@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,713
+And E is k l one: two millivolts per centimetre times two hundred and forty centimetres, zero point four eight volts.
+

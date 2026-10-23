@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,200
+Collect, with one constant.
+
+2
+00:00:02,200 --> 00:00:05,559
+Check by differentiating: you get back the integrand.
+

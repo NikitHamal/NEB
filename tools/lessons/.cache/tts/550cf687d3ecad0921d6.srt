@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:16,588
+Corrosive sublimate also gives yellow mercury oxide with alkali, a white precipitate with ammonia, and scarlet mercury iodide with a little potassium iodide, which dissolves in excess to form Nessler's reagent, the test for ammonium ions in drinking water.
+
+2
+00:00:16,588 --> 00:00:23,580
+Calomel is used in the calomel reference electrode, corrosive sublimate as an antiseptic and preservative.
+

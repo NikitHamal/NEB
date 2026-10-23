@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,283
+Cardiac muscle beats by itself: it is myogenic.
+
+2
+00:00:04,283 --> 00:00:11,562
+The pacemaker is the sino atrial node in the wall of the right atrium, firing about seventy two times a minute.
+
+3
+00:00:11,562 --> 00:00:24,049
+The wave spreads over the atria, pauses about a tenth of a second at the atrioventricular node, then races down the bundle of His and the Purkinje fibres into the ventricles.
+

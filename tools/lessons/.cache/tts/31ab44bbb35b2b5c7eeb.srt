@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,778
+To use a thermocouple as a thermometer, keep the cold junction in melting ice, a fixed zero degree reference, and put the hot junction where you want the temperature.
+
+2
+00:00:09,778 --> 00:00:14,101
+The meter reading is turned into a temperature with a calibration curve.
+
+3
+00:00:14,101 --> 00:00:22,434
+This is how the kilns of a brick factory, or a cement plant in Hetauda, are monitored, from a control room far away.
+

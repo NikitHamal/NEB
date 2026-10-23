@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,466
+Finally the Moebius process refines it electrolytically, with silver nitrate as the electrolyte, to ninety nine point nine percent.
+
+2
+00:00:09,466 --> 00:00:10,807
+Why cyanide at all?
+
+3
+00:00:10,807 --> 00:00:20,507
+Silver ions form an extremely stable complex with cyanide, so stable that even the insoluble sulphide is forced into solution.
+
+4
+00:00:20,507 --> 00:00:22,942
+The price is a lethal effluent.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,559
+For a big change in volume, the pressure usually changes as the gas expands.
+
+2
+00:00:05,559 --> 00:00:10,716
+So draw the process on the indicator diagram, from state A to state B.
+

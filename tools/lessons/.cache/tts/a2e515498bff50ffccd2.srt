@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,132
+Quick recap.
+
+2
+00:00:01,132 --> 00:00:08,502
+A DBMS stores each fact once and enforces the rules, with three levels for data independence.
+
+3
+00:00:08,502 --> 00:00:10,065
+The family of keys.
+
+4
+00:00:10,065 --> 00:00:14,179
+DDL builds structure and DML works with rows.
+
+5
+00:00:14,179 --> 00:00:20,351
+Joins match foreign keys to primary keys, and GROUP BY with HAVING summarises.
+
+6
+00:00:20,351 --> 00:00:24,257
+Three models, and normalisation to third normal form.
+

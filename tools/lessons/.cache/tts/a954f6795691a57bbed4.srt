@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,315
+Good at English.
+
+2
+00:00:01,315 --> 00:00:02,669
+Married to someone.
+
+3
+00:00:02,669 --> 00:00:03,932
+Angry with someone.
+
+4
+00:00:03,932 --> 00:00:08,697
+Nothing in logic explains why these prepositions are the right ones.
+
+5
+00:00:08,697 --> 00:00:12,161
+They are simply fixed, and the examiner marks them.
+

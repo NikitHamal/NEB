@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,752
+And if the number must also be even, fill the restricted box first.
+
+2
+00:00:04,752 --> 00:00:10,169
+The units digit must be two, four or six: three choices.
+
+3
+00:00:10,169 --> 00:00:14,179
+That leaves five for the hundreds and four for the tens.
+
+4
+00:00:14,179 --> 00:00:15,117
+Sixty.
+

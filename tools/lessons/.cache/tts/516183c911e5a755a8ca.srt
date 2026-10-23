@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,473
+e is five quarters, foci at plus or minus five, directrices at plus or minus sixteen fifths.
+

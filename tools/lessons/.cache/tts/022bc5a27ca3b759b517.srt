@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,361
+To predict precipitation, compute the ionic product, Q.
+
+2
+00:00:04,361 --> 00:00:11,640
+It is calculated exactly like K s p, but with the concentrations you actually have, saturated or not.
+
+3
+00:00:11,640 --> 00:00:13,958
+Then compare it with K s p.
+

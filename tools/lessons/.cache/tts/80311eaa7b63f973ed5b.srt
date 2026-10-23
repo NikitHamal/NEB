@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,421
+Three things the board always asks.
+
+2
+00:00:02,421 --> 00:00:12,799
+It lowers the barrier by the same amount in both directions, so forward and backward reactions speed up equally, and the position of equilibrium does not change.
+
+3
+00:00:12,799 --> 00:00:14,804
+Only the time to reach it does.
+
+4
+00:00:14,804 --> 00:00:20,143
+Delta H is unchanged, because the start and finish levels are the same.
+
+5
+00:00:20,143 --> 00:00:24,361
+And a catalyst cannot make an impossible reaction happen.
+

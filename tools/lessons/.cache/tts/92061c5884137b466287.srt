@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,593
+Here the amplitude goes from small to twice as big.
+
+2
+00:00:03,593 --> 00:00:07,747
+Watch the purple bar: not twice as tall, but four times.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,395
+Two ideas behind hybrid seed.
+
+2
+00:00:02,395 --> 00:00:09,205
+Heterosis, or hybrid vigour: the F one of two inbred lines outgrows both parents.
+
+3
+00:00:09,205 --> 00:00:14,062
+And inbreeding depression: maize selfed again and again gets weaker.
+
+4
+00:00:14,062 --> 00:00:19,648
+Save seed from a hybrid, and the F two segregates and loses its vigour.
+
+5
+00:00:19,648 --> 00:00:23,945
+That is why farmers must buy hybrid seed fresh every season.
+
+6
+00:00:23,945 --> 00:00:30,677
+And the newest goal is biofortification: crops richer in iron, zinc or vitamins.
+

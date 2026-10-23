@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,708
+The galvanised sheet barely changes.
+
+2
+00:00:02,708 --> 00:00:07,109
+A little of the zinc turns white, but the iron stays bright.
+
+3
+00:00:07,109 --> 00:00:12,877
+The tinned sheet rusts around the scratch, and the rust spreads faster than it would on bare iron.
+
+4
+00:00:12,877 --> 00:00:15,013
+Why would a coating make things worse?
+

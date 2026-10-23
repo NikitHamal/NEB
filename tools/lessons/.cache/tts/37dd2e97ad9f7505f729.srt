@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,606
+Let us now look closely at the two most important processes.
+
+2
+00:00:03,606 --> 00:00:10,833
+In an isothermal change, the temperature stays fixed, so P V is constant, which is Boyle's law.
+
+3
+00:00:10,833 --> 00:00:19,518
+In practice it needs thin, highly conducting walls, and a very slow change, so that heat can flow in fast enough.
+

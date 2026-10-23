@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,226
+Rose from 90 to 138 — a rise of 48, or: it rose by 48.
+

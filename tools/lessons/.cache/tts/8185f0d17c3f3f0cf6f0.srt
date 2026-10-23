@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,190
+Which of these has a negative entropy change?
+
+2
+00:00:03,190 --> 00:00:04,466
+Pause and think.
+

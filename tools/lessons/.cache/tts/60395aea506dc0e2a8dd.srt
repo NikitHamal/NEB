@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,070
+Fill the table: every entry is one of one to four, never zero, because five is prime.
+

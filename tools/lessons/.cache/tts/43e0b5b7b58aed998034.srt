@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,408
+Two phrases carry the whole essay.
+
+2
+00:00:02,408 --> 00:00:16,484
+Status equality: everyone counts as an equal person, with the same dignity and legal rights, as in the Universal Declaration's first article; ending slavery or caste discrimination are examples.
+
+3
+00:00:16,484 --> 00:00:25,377
+Distributive equality: everyone has a fair share, or at least there is a limit on how large the gap can grow, as when taxes narrow it.
+
+4
+00:00:25,377 --> 00:00:27,812
+The Declaration has the first.
+
+5
+00:00:27,812 --> 00:00:29,531
+It does not have the second.
+

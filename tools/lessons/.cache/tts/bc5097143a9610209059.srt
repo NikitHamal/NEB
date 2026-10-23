@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,036
+Everything in this unit comes down to finding that n factor.
+
+2
+00:00:04,036 --> 00:00:08,632
+So let us learn to find it, first for elements, then for compounds.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,315
+Retrieving data.
+
+2
+00:00:01,315 --> 00:00:08,190
+Select the roll, name and district from students, where the faculty is Science, ordered by name.
+
+3
+00:00:08,190 --> 00:00:10,677
+Watch what the query does to the table.
+

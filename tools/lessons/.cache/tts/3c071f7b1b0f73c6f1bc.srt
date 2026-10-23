@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,229
+Physics uses the cross product for turning.
+
+2
+00:00:03,229 --> 00:00:07,096
+A force F acts at a point with position r from a pivot O.
+
+3
+00:00:07,096 --> 00:00:10,130
+Its moment, or torque, is r cross F.
+
+4
+00:00:10,130 --> 00:00:16,354
+Its size is the force times the perpendicular distance d from O to the line of the force.
+

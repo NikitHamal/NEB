@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,848
+Part c is the trap.
+
+2
+00:00:01,848 --> 00:00:07,786
+Among the nine hundred tall plants, three hundred are T T and six hundred are T t.
+
+3
+00:00:07,786 --> 00:00:14,843
+So the chance a tall plant is heterozygous is six hundred out of nine hundred: two thirds, not one half.
+

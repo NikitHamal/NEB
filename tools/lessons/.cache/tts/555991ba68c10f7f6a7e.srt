@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,419
+Exam tip.
+
+2
+00:00:01,419 --> 00:00:09,401
+Older books give thirty-eight, assuming exactly three ATP per NADH and two per FADH two.
+
+3
+00:00:09,401 --> 00:00:12,500
+Chemiosmosis needs no whole numbers.
+
+4
+00:00:12,500 --> 00:00:17,096
+Write thirty to thirty-two, and call thirty-eight the classical figure.
+

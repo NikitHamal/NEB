@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,328
+Poiseuille found that the volume flowing per second is Q equals pi P r to the four, over eight eta l, where P is the pressure difference across the tube of length l.
+

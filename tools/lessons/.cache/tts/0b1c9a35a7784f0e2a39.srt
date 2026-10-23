@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:00,963
+One more.
+
+2
+00:00:00,963 --> 00:00:04,440
+Area eighty four, semi perimeter twenty one.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,276
+One more fact.
+
+2
+00:00:01,276 --> 00:00:10,846
+In a tetrahedral complex only four ligands approach, between the axes, so the pattern flips and the splitting is just four ninths as large.
+
+3
+00:00:10,846 --> 00:00:14,687
+Tetrahedral complexes are almost always high spin.
+

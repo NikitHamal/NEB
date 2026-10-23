@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,263
+Pause and think.
+
+2
+00:00:01,263 --> 00:00:04,361
+One plus three x to the minus half.
+
+3
+00:00:04,361 --> 00:00:05,507
+When is it valid?
+

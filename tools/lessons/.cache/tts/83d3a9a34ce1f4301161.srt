@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:04,101
+Addresses were once grouped into classes by their first octet.
+
+2
+00:00:04,101 --> 00:00:08,111
+Class A, for huge networks, up to one two six.
+
+3
+00:00:08,111 --> 00:00:11,705
+Class B, one two eight to one nine one.
+
+4
+00:00:11,705 --> 00:00:17,903
+Class C, one nine two to two two three, with two hundred and fifty four hosts each.
+
+5
+00:00:17,903 --> 00:00:21,458
+D is for multicast and E is reserved.
+
+6
+00:00:21,458 --> 00:00:32,721
+One two seven is loopback, meaning this computer, and three private ranges are reused inside every school and home, sharing one public address through NAT.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,997
+The general way to make an ether is Williamson's synthesis.
+
+2
+00:00:03,997 --> 00:00:08,789
+Warm a sodium alkoxide with a haloalkane, in dry conditions.
+
+3
+00:00:08,789 --> 00:00:14,622
+Sodium ethoxide and iodoethane give diethyl ether and sodium iodide.
+
+4
+00:00:14,622 --> 00:00:18,841
+Sodium phenoxide and iodomethane give anisole.
+

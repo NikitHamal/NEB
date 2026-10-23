@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,614
+Here is the path.
+
+2
+00:00:01,614 --> 00:00:15,312
+The general formula for wave speed, sound in solids and liquids, Newton's formula for a gas, Laplace's famous correction, and finally how temperature, pressure, humidity and wind change the speed of sound.
+

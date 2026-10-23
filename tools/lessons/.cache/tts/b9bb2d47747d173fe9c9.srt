@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,656
+Here is tertiary butyl bromide.
+
+2
+00:00:02,656 --> 00:00:04,531
+Three groups guard the carbon.
+
+3
+00:00:04,531 --> 00:00:10,208
+The methoxide finds it much easier to grab a hydrogen from the outside of the molecule.
+

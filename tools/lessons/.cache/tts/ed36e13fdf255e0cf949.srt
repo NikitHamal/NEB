@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,153
+Virtual reality is a computer generated three dimensional world that replaces what you see and hear, so you feel present inside it.
+
+2
+00:00:09,153 --> 00:00:10,104
+It is a loop.
+
+3
+00:00:10,104 --> 00:00:20,143
+Sensors track your head and hands; the engine draws two images, one per eye, for depth; the headset displays them; you move again.
+
+4
+00:00:20,143 --> 00:00:26,861
+The loop must close in under about twenty milliseconds, ninety times a second, or the user feels sick.
+

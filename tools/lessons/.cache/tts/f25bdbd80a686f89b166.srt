@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,992
+Two batteries, one of ten volts and one of nine, wired into the same circuit with a resistor between them.
+
+2
+00:00:06,992 --> 00:00:10,039
+Which way does the current flow in each wire?
+
+3
+00:00:10,039 --> 00:00:11,210
+And how much?
+

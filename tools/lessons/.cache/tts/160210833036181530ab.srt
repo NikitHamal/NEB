@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,856
+Let us slowly turn up the driving frequency, and watch the amplitude.
+
+2
+00:00:04,856 --> 00:00:07,539
+Low frequency, small response.
+

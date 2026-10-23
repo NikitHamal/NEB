@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,492
+Chloroform is made by the haloform reaction, using bleaching powder, which supplies both chlorine and the alkali, calcium hydroxide.
+

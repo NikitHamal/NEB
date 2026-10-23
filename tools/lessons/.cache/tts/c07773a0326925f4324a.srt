@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,692
+Now squeeze the slit.
+
+2
+00:00:01,692 --> 00:00:05,520
+Halve its width, and the central maximum doubles in width.
+
+3
+00:00:05,520 --> 00:00:07,877
+That is the puzzle from the start, explained.
+
+4
+00:00:07,877 --> 00:00:17,669
+Only when the slit is very wide compared with lambda does the patch shrink to a sharp shadow of the slit, which is why ray optics works for ordinary openings.
+

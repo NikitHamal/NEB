@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,526
+The bottom template runs the other way.
+
+2
+00:00:02,526 --> 00:00:08,697
+So here the polymerase must work away from the fork, in short backward pieces.
+
+3
+00:00:08,697 --> 00:00:13,945
+Each piece is started by a little RNA primer, laid down by primase.
+
+4
+00:00:13,945 --> 00:00:19,687
+These pieces are Okazaki fragments, a thousand to two thousand nucleotides long.
+
+5
+00:00:19,687 --> 00:00:21,419
+This is the lagging strand.
+

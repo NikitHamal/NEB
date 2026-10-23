@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,567
+Make a copy, turn it upside down, and slide it in.
+
+2
+00:00:03,567 --> 00:00:09,869
+The two triangles lock together into a rectangle, n rows by n plus one columns.
+

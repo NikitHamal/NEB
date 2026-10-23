@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,291
+Height is like a state function.
+
+2
+00:00:02,291 --> 00:00:10,364
+Pressure, volume, temperature and internal energy are state functions: they depend only on the present state.
+
+3
+00:00:10,364 --> 00:00:13,424
+Distance walked is like a path function.
+
+4
+00:00:13,424 --> 00:00:17,812
+Heat and work are path functions: they depend on the route taken.
+
+5
+00:00:17,812 --> 00:00:21,523
+That is why we write delta U, but never delta Q.
+

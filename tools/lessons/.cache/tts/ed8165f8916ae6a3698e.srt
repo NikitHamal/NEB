@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,653
+e-governance is government using ICT to serve citizens, businesses and its own offices.
+
+2
+00:00:06,653 --> 00:00:18,723
+Four types: government to citizen, like the Nagarik App; government to business, like online VAT filing; government to government, like a shared national ID database; and government to employee.
+
+3
+00:00:18,723 --> 00:00:25,937
+It brings transparency and fewer queues, but faces the digital divide and cyber security risks.
+

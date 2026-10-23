@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,476
+Two forces pulling on one point have a single equivalent force, the resultant: the diagonal of the parallelogram they make.
+
+2
+00:00:08,476 --> 00:00:15,468
+Five newtons and three newtons at sixty degrees combine into exactly seven.
+
+3
+00:00:15,468 --> 00:00:22,539
+Close the angle and the resultant grows to eight; open it to one eighty and it shrinks to two.
+

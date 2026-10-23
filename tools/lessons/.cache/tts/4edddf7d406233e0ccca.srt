@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,585
+Ionisation of water absorbs heat, so K w grows with temperature.
+
+2
+00:00:05,585 --> 00:00:11,289
+Watch the pH of perfectly pure water as we heat it from zero to a hundred degrees.
+

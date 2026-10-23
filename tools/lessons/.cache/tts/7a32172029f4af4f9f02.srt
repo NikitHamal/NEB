@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,786
+To recharge it, push current the other way.
+
+2
+00:00:02,786 --> 00:00:08,776
+The reaction reverses, rebuilding lead and lead dioxide and restoring the acid.
+
+3
+00:00:08,776 --> 00:00:15,195
+Since the acid's density falls on discharge, a hydrometer tells you how charged the battery is.
+

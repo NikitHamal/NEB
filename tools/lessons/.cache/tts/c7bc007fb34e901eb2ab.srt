@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,307
+Drop a small steel ball into a tall jar of oil.
+
+2
+00:00:03,307 --> 00:00:08,450
+A sphere moving slowly through a fluid feels a drag that grows with its speed.
+
+3
+00:00:08,450 --> 00:00:12,252
+Stokes showed that the drag is six pi eta r v.
+

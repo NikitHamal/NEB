@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,914
+Direct chlorination cannot be stopped cleanly at one chlorine, and cannot put it at a chosen position.
+
+2
+00:00:06,914 --> 00:00:08,776
+The diazonium route can.
+
+3
+00:00:08,776 --> 00:00:20,585
+Aniline is diazotised with sodium nitrite and hydrochloric acid in ice, at two seventy three to two seventy eight kelvin, giving benzene diazonium chloride.
+
+4
+00:00:20,585 --> 00:00:26,158
+Then the diazonium group is swapped for chlorine, and nitrogen gas bubbles off.
+

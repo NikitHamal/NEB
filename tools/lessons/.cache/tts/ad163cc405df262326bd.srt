@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,726
+Examiners give marks for the layout itself, so learn these four lines.
+
+2
+00:00:04,726 --> 00:00:06,002
+Name the statement.
+
+3
+00:00:06,002 --> 00:00:07,343
+Prove the basis.
+
+4
+00:00:07,343 --> 00:00:11,484
+Assume it for k, and say the words inductive hypothesis.
+
+5
+00:00:11,484 --> 00:00:15,338
+Then prove it for k plus one, and write the conclusion.
+

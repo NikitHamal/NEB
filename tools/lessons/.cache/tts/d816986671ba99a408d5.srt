@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,721
+Counting isomers is a quick exam point.
+
+2
+00:00:02,721 --> 00:00:06,028
+Chlorobenzene itself has only one form.
+
+3
+00:00:06,028 --> 00:00:14,869
+Swap one chlorine for bromine, and C six H four C l B r again has three isomers, ortho, meta and para.
+
+4
+00:00:14,869 --> 00:00:23,645
+With three identical chlorines there are also three: one two three, one two four, and the symmetrical one three five.
+

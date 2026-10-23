@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,544
+F one is h one rho g A, downwards.
+
+2
+00:00:04,544 --> 00:00:08,463
+F two is h two rho g A, upwards.
+
+3
+00:00:08,463 --> 00:00:14,934
+Their difference is h two minus h one, times A rho g, which is V rho g.
+
+4
+00:00:14,934 --> 00:00:19,700
+And V rho is just the mass of water the body pushes aside.
+

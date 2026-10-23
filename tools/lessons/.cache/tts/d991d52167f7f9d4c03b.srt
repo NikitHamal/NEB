@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,492
+In the first tableau, minus five is the most negative, so y enters; the smallest ratio is two, so s two leaves.
+
+2
+00:00:09,492 --> 00:00:11,614
+One more pivot brings in x.
+
+3
+00:00:11,614 --> 00:00:22,565
+In the final tableau the Z row has no negatives: x is three, y is one, and the maximum Z is fourteen, the same corner we found by sliding the line.
+

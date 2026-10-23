@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,822
+The properties you will use.
+
+2
+00:00:01,822 --> 00:00:06,966
+Omega cubed is one, so reduce any power modulo three.
+
+3
+00:00:06,966 --> 00:00:17,395
+One plus omega plus omega squared is zero, the most useful line in the unit: so one plus omega is minus omega squared, and so on.
+
+4
+00:00:17,395 --> 00:00:22,421
+Omega squared is the conjugate of omega and also its reciprocal.
+
+5
+00:00:22,421 --> 00:00:28,229
+And they factorise a cubed plus b cubed plus c cubed minus three a b c.
+

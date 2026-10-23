@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,820
+A hundred is ten squared, so it adds twenty decibels: ninety decibels.
+
+2
+00:00:05,820 --> 00:00:10,026
+A hundred times the intensity, but only twenty more decibels.
+

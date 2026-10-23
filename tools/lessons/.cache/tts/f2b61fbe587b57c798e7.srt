@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,210
+Let us recap.
+
+2
+00:00:01,210 --> 00:00:06,796
+A wavefront is a surface of constant phase, and a ray is its normal.
+
+3
+00:00:06,796 --> 00:00:14,687
+Huygens' principle: every point on a wavefront sends out forward wavelets, and the new wavefront is their envelope.
+
+4
+00:00:14,687 --> 00:00:27,226
+Applied to a mirror, equal wavelets give i equals r. Applied to a denser medium, slower wavelets give sine i over sine r equals v one over v two, Snell's law.
+
+5
+00:00:27,226 --> 00:00:34,934
+The frequency never changes on refraction; the speed and wavelength fall by n, and the optical path is n x.
+
+6
+00:00:34,934 --> 00:00:39,257
+And Foucault's experiment settled it: light is a wave.
+

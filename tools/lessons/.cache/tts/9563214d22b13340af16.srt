@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,692
+Two traps in this unit.
+
+2
+00:00:01,692 --> 00:00:04,986
+First, every temperature formula here needs kelvin.
+
+3
+00:00:04,986 --> 00:00:07,578
+Using Celsius gives nonsense.
+
+4
+00:00:07,578 --> 00:00:15,364
+Second, the coefficient of performance is not an efficiency, so do not be alarmed when it comes out bigger than one.
+

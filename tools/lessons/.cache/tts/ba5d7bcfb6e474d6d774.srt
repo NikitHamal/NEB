@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,263
+The fundamental is v over two L: four hundred over one, four hundred hertz.
+

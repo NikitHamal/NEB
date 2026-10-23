@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,794
+The third force balances the other two, so the resultant of three and four is five.
+

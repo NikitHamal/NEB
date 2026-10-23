@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,768
+All the particles share the same omega, so particle i moves with speed r i omega.
+

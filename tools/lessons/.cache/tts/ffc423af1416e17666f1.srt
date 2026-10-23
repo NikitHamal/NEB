@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,729
+Mendel crossed a pure tall plant, T T, with a pure dwarf, t t.
+
+2
+00:00:05,729 --> 00:00:13,411
+Each parent makes only one kind of gamete: T, or t. So every F one plant is T t.
+
+3
+00:00:13,411 --> 00:00:15,026
+And every one of them is tall.
+
+4
+00:00:15,026 --> 00:00:17,747
+The dwarf character seems to have vanished.
+

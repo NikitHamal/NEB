@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,526
+Minus one thirty five degrees.
+
+2
+00:00:02,526 --> 00:00:09,270
+It is in the third quadrant, and the principal value must lie between minus one eighty and one eighty.
+
+3
+00:00:09,270 --> 00:00:16,289
+Forty five is what a calculator gives, and two twenty five is outside the principal range.
+

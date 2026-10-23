@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,046
+About the end, the moment of inertia is M L squared over three, which is zero point six six seven.
+

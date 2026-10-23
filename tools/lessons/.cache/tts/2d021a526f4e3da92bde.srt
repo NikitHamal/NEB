@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,645
+Move it back into pure water, and it recovers.
+
+2
+00:00:03,645 --> 00:00:05,572
+That is deplasmolysis.
+
+3
+00:00:05,572 --> 00:00:14,505
+Plasmolysis proves the protoplast is alive and its membrane is selectively permeable; a dead cell cannot do this.
+

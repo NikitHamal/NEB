@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,601
+Now use K equals P one V one to the gamma, which also equals P two V two to the gamma.
+
+2
+00:00:06,601 --> 00:00:13,164
+Then K V two to the one minus gamma is just P two V two, and the same for state one.
+

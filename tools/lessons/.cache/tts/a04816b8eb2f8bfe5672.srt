@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:14,075
+And the method for any series whose term is a polynomial: write the k th term, split it with sigma rules, substitute the three sums, factorise, and always test your answer on n equals one or two.
+

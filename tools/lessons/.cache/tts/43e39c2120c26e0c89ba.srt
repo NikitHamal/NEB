@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,903
+Photosystem one can also work alone.
+
+2
+00:00:02,903 --> 00:00:10,781
+The electron from ferredoxin turns back to plastoquinone and returns to P700 through the cytochrome complex.
+
+3
+00:00:10,781 --> 00:00:19,427
+Protons are still pumped, so ATP is made, but no NADPH and no oxygen, because water is never split.
+
+4
+00:00:19,427 --> 00:00:22,083
+That is cyclic photophosphorylation.
+

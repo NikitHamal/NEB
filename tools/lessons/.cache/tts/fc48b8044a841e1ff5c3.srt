@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,138
+For a two by two matrix there is a quick recipe.
+
+2
+00:00:03,138 --> 00:00:09,166
+Swap the two diagonal entries, a and d. Change the signs of the other two.
+
+3
+00:00:09,166 --> 00:00:10,403
+That is the adjoint.
+
+4
+00:00:10,403 --> 00:00:15,091
+Then divide by the determinant, a d minus b c.
+

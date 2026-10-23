@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,481
+If the genes were unlinked, a test cross would give one to one to one to one.
+
+2
+00:00:05,481 --> 00:00:09,973
+Two huge classes and two tiny ones mean the genes are linked.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,250
+Twenty, twenty one, forty one, over six: two thousand eight hundred and seventy.
+

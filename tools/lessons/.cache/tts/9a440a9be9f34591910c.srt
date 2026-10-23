@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,145
+Blood groups.
+
+2
+00:00:01,145 --> 00:00:11,927
+Group A cells carry antigen A, and the plasma carries anti B. Group O cells carry no antigen, so O can be given to anyone: the universal donor.
+
+3
+00:00:11,927 --> 00:00:19,804
+Group A B plasma has no antibodies, so A B can receive from anyone: the universal recipient.
+
+4
+00:00:19,804 --> 00:00:30,898
+Separately, an Rh negative mother carrying an Rh positive baby can become sensitised, and her antibodies can attack a later Rh positive baby.
+
+5
+00:00:30,898 --> 00:00:35,859
+An anti D injection within seventy two hours of delivery prevents it.
+

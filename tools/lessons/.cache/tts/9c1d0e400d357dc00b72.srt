@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,067
+C, black.
+
+2
+00:00:01,067 --> 00:00:11,848
+Calomel disproportionates: one mercury becomes the white amido compound, the other becomes free, finely divided mercury, which looks black.
+
+3
+00:00:11,848 --> 00:00:17,226
+Scarlet is mercury two iodide, and yellow is mercury two oxide.
+

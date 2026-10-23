@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,234
+So if v nought is the speed at zero degrees, the speed at t degrees is v nought times the root of one plus t over two seventy three.
+
+2
+00:00:10,234 --> 00:00:18,190
+For small t, the binomial approximation turns the square root into one plus t over five forty six.
+

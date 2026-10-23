@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,028
+Watch it happen.
+
+2
+00:00:01,028 --> 00:00:04,882
+Warm the cold junction from zero up to one hundred degrees.
+
+3
+00:00:04,882 --> 00:00:14,335
+The neutral temperature stays fixed at two fifty, but the inversion point slides down, always as far beyond two fifty as the cold junction is below it.
+

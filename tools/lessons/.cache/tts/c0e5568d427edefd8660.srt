@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,981
+The first overtone of an open pipe is its second harmonic: two times v over two L o, which is v over L o.
+

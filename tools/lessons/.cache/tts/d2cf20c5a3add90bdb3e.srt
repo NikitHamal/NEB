@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,669
+Information is uncountable: no -s, no a/an, and "much" rather than "many".
+

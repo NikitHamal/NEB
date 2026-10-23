@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,195
+Now let us derive the moment of inertia of a uniform rod ourselves.
+
+2
+00:00:05,195 --> 00:00:08,294
+This derivation is a favourite long question.
+
+3
+00:00:08,294 --> 00:00:16,419
+Take a thin rod of mass M and length L, with the axis through its centre C, perpendicular to the rod.
+

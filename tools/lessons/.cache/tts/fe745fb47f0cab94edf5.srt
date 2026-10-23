@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,153
+Carry on past pi, and the curve dips below the axis.
+
+2
+00:00:04,153 --> 00:00:14,622
+That area counts as negative, so the integral falls: to one at three pi over two, and to zero at two pi, where the two humps cancel exactly.
+

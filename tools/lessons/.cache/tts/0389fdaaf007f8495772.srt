@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,898
+A warning.
+
+2
+00:00:00,898 --> 00:00:07,135
+An integral counts area below the axis as negative, but an area cannot be negative.
+
+3
+00:00:07,135 --> 00:00:12,200
+Split the region where the curve crosses the axis and add the sizes.
+

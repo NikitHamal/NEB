@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,817
+Then alpha is the change in omega divided by time: ten pi over ten, which is pi, about three point one four radians per second squared.
+

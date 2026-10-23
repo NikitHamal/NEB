@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,606
+Blackman's law says the slowest factor limits the rate.
+

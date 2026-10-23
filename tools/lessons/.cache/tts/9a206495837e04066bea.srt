@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,140
+Beta is minus alpha over theta n: minus thirteen point five over two seventy, minus zero point zero five.
+

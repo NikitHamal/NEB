@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,252
+That completes our study of sound.
+
+2
+00:00:02,252 --> 00:00:09,375
+Next, we turn to light: what it is, and how it travels, in Nature and Propagation of Light.
+
+3
+00:00:09,375 --> 00:00:12,109
+See you there, on NEBians.
+

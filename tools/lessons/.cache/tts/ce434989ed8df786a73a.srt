@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,408
+Examiners ask for this diagram.
+
+2
+00:00:02,408 --> 00:00:17,226
+The source produces the data; the transmitter turns it into a signal the medium can carry; the transmission system carries it, and unavoidably adds noise; the receiver turns the signal back into data; and the destination uses it.
+

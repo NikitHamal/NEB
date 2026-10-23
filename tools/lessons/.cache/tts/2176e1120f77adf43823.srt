@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,382
+All of this happens in the chloroplast.
+
+2
+00:00:02,382 --> 00:00:03,997
+Two membranes wrap it.
+
+3
+00:00:03,997 --> 00:00:13,502
+Inside lies a protein-rich fluid, the stroma, full of enzymes, with its own DNA, ribosomes and grains of starch.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:04,127
+But electron withdrawing groups switch the reactivity back on.
+
+2
+00:00:04,127 --> 00:00:13,320
+Put a nitro group para to the chlorine, and hydrolysis needs only aqueous sodium hydroxide at four thirty five kelvin.
+
+3
+00:00:13,320 --> 00:00:17,421
+Two nitro groups, and warm sodium carbonate is enough.
+
+4
+00:00:17,421 --> 00:00:21,770
+Three, picryl chloride, and boiling water alone does it.
+
+5
+00:00:21,770 --> 00:00:29,609
+A nitro group ortho or para lets the negative charge of the intermediate spread onto its oxygens.
+
+6
+00:00:29,609 --> 00:00:33,359
+In the meta position it has almost no effect.
+

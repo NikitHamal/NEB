@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,921
+The gap of twenty five kilograms would need fifty four kilograms of urea.
+
+2
+00:00:04,921 --> 00:00:10,833
+But urea brings no organic matter, no potassium, and no living microbes.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,843
+Use W equals n R T ln of V two over V one.
+
+2
+00:00:04,843 --> 00:00:10,846
+Two times eight point three one four times three hundred, times ln three.
+

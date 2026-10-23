@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,171
+Let us recap.
+
+2
+00:00:01,171 --> 00:00:06,783
+Kirchhoff's junction law conserves charge, and his loop law conserves energy.
+
+3
+00:00:06,783 --> 00:00:16,549
+A balanced Wheatstone bridge gives P over Q equals R over S, and the metre bridge gives X equals R l over one hundred minus l.
+
+4
+00:00:16,549 --> 00:00:25,091
+A potentiometer draws no current at balance, so it compares e m fs and finds internal resistance exactly.
+
+5
+00:00:25,091 --> 00:00:30,039
+A superconductor has zero resistance and expels magnetic flux.
+
+6
+00:00:30,039 --> 00:00:35,911
+A shunt in parallel makes an ammeter, a multiplier in series makes a voltmeter.
+
+7
+00:00:35,911 --> 00:00:39,596
+And Joule's law says the heat is I squared R t.
+

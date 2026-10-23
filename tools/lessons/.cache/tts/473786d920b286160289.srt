@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,015
+Why this order?
+
+2
+00:00:01,015 --> 00:00:08,307
+The reaction goes through a carbocation, S N one, and a tertiary carbocation forms fastest.
+

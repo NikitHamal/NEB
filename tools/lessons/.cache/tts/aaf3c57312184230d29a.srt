@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,174
+HIV is a retrovirus: two strands of RNA and its own enzymes inside an envelope.
+
+2
+00:00:07,174 --> 00:00:13,164
+It targets the helper T lymphocyte, the cell that coordinates the whole immune response.
+
+3
+00:00:13,164 --> 00:00:27,890
+It binds the C D four receptor, copies its RNA into DNA with reverse transcriptase, splices that DNA into our own chromosome with integrase, and turns the cell into a virus factory until it dies.
+

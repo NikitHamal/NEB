@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,197
+When the gas is compressed, d V is negative, and the work done by the gas is negative.
+
+2
+00:00:06,197 --> 00:00:08,567
+The surroundings do work on the gas.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,744
+Now fluids on the move.
+
+2
+00:00:01,744 --> 00:00:06,679
+Take a steady flow of an incompressible liquid through a pipe that narrows.
+
+3
+00:00:06,679 --> 00:00:08,554
+Watch the tracer particles.
+
+4
+00:00:08,554 --> 00:00:10,481
+In the wide part they stroll.
+
+5
+00:00:10,481 --> 00:00:12,513
+In the narrow part, they race.
+

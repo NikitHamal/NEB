@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,804
+The only way back out is through a protein turbine, ATP synthase.
+
+2
+00:00:04,804 --> 00:00:12,825
+As protons rush through it into the stroma, it spins, and joins ADP and phosphate into ATP.
+
+3
+00:00:12,825 --> 00:00:19,192
+This is chemiosmosis, and because light drives it, it is called photophosphorylation.
+

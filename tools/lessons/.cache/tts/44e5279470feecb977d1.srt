@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,526
+Quality is built in two ways.
+
+2
+00:00:02,526 --> 00:00:09,062
+Quality assurance improves the process to prevent defects: standards, reviews and audits.
+
+3
+00:00:09,062 --> 00:00:12,278
+Quality control tests the product to detect them.
+
+4
+00:00:12,278 --> 00:00:17,044
+Similarly, verification asks: are we building the product right?
+
+5
+00:00:17,044 --> 00:00:20,598
+Validation asks: are we building the right product?
+

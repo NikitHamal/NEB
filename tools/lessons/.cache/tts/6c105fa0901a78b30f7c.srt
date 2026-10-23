@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,684
+Nine letters, and only A repeats, twice.
+
+2
+00:00:03,684 --> 00:00:09,557
+Nine factorial over two factorial: one hundred and eighty one thousand four hundred and forty.
+

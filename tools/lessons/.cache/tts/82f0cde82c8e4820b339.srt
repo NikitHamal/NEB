@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,044
+And v is c over n: one point eight seven times ten to the eight metres per second.
+

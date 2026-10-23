@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:06,419
+Step three, smelting, in a water jacketed blast furnace with coke and sand.
+
+2
+00:00:06,419 --> 00:00:08,554
+Silica is the flux.
+
+3
+00:00:08,554 --> 00:00:13,072
+It carries the iron away as a fusible slag of iron silicate.
+
+4
+00:00:13,072 --> 00:00:17,265
+Any copper oxide is turned back into sulphide by the iron sulphide.
+
+5
+00:00:17,265 --> 00:00:25,625
+What collects below the slag is copper matte, a melt of copper and iron sulphides, about forty five percent copper.
+

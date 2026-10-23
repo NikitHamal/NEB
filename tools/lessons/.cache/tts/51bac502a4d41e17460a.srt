@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,669
+The ring carbon is s p two.
+
+2
+00:00:02,669 --> 00:00:12,486
+Its bond to oxygen has partial double bond character, from the lone pair spreading into the ring, and the ring itself blocks the back of that carbon.
+
+3
+00:00:12,486 --> 00:00:13,893
+So no attack there.
+

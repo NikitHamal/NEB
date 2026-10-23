@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,955
+The comparison examiners ask for.
+
+2
+00:00:02,955 --> 00:00:11,822
+Tropic: direction set by the stimulus, always a growth movement, permanent; phototropism, or a tendril coiling.
+
+3
+00:00:11,822 --> 00:00:21,562
+Nastic: direction set by the organ; it can be growth, as in Crocus, or turgor, as in Mimosa, and turgor movements reverse.
+

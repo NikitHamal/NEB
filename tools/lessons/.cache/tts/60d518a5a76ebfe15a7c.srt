@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,210
+Watch closely.
+
+2
+00:00:01,210 --> 00:00:05,833
+The rod's free end drops faster than the coin, which is in free fall.
+
+3
+00:00:05,833 --> 00:00:09,192
+The coin is left behind, floating above the rod.
+
+4
+00:00:09,192 --> 00:00:12,161
+How can anything fall faster than free fall?
+
+5
+00:00:12,161 --> 00:00:13,476
+Let us calculate.
+

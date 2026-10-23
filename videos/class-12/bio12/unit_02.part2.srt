@@ -1,0 +1,332 @@
+1
+00:00:02,300 --> 00:00:09,786
+Photosynthesis: six carbon dioxide plus twelve water give glucose, six oxygen, and six water.
+
+2
+00:00:10,000 --> 00:00:11,330
+Why twelve water?
+
+3
+00:00:11,330 --> 00:00:14,325
+Because all the oxygen released comes from water.
+
+4
+00:00:14,325 --> 00:00:17,846
+Heavy-oxygen experiments in nineteen forty-one proved it.
+
+5
+00:00:19,067 --> 00:00:21,152
+It happens in the chloroplast.
+
+6
+00:00:21,152 --> 00:00:25,671
+Two membranes enclose the stroma, a fluid full of enzymes.
+
+7
+00:00:25,900 --> 00:00:29,157
+Inside are thylakoids, stacked into grana.
+
+8
+00:00:29,157 --> 00:00:31,198
+Their inner space is the lumen.
+
+9
+00:00:31,400 --> 00:00:33,810
+Light reaction: thylakoids.
+
+10
+00:00:33,810 --> 00:00:35,633
+Dark reaction: stroma.
+
+11
+00:00:37,234 --> 00:00:40,322
+Chlorophyll a is the reaction-centre pigment.
+
+12
+00:00:40,322 --> 00:00:45,996
+Chlorophyll b and carotenoids are accessory pigments that pass energy to it.
+
+13
+00:00:46,200 --> 00:00:49,848
+Chlorophyll absorbs blue and red light and reflects green.
+
+14
+00:00:51,067 --> 00:00:53,386
+The light reaction is the Z-scheme.
+
+15
+00:00:53,386 --> 00:00:55,431
+Height shows electron energy.
+
+16
+00:00:55,431 --> 00:01:02,612
+Photosystem two, P680, and photosystem one, P700, work in series.
+
+17
+00:01:02,834 --> 00:01:07,789
+Light excites P680, and an electron jumps to pheophytin.
+
+18
+00:01:08,000 --> 00:01:16,764
+It runs downhill through plastoquinone, cytochrome b6 f, and plastocyanin, pumping protons into the lumen.
+
+19
+00:01:16,967 --> 00:01:19,247
+Light excites P700.
+
+20
+00:01:19,247 --> 00:01:26,472
+The electron jumps again, then through ferredoxin to F N R, which makes NADPH.
+
+21
+00:01:26,700 --> 00:01:30,959
+P680 replaces its lost electron by splitting water.
+
+22
+00:01:30,959 --> 00:01:35,129
+Photolysis releases oxygen and protons into the lumen.
+
+23
+00:01:35,334 --> 00:01:41,924
+This one-way flow, from water to NADP plus, is non-cyclic photophosphorylation.
+
+24
+00:01:41,924 --> 00:01:45,615
+It makes ATP, NADPH and oxygen.
+
+25
+00:01:45,834 --> 00:01:49,794
+In cyclic flow, photosystem one works alone.
+
+26
+00:01:49,794 --> 00:01:53,166
+Electrons loop back, making only ATP.
+
+27
+00:01:53,166 --> 00:01:54,937
+No NADPH, no oxygen.
+
+28
+00:01:56,567 --> 00:02:00,167
+In the thylakoid, protons build up inside the lumen.
+
+29
+00:02:01,300 --> 00:02:06,692
+They flow back through ATP synthase, which spins and makes ATP.
+
+30
+00:02:06,692 --> 00:02:08,233
+This is chemiosmosis.
+
+31
+00:02:08,500 --> 00:02:14,420
+Oxygen is released in the lumen; ATP and NADPH form in the stroma.
+
+32
+00:02:16,100 --> 00:02:23,823
+Non-cyclic uses both photosystems, splits water, and makes ATP, NADPH and oxygen.
+
+33
+00:02:23,823 --> 00:02:28,407
+Cyclic uses photosystem one only and makes ATP alone.
+
+34
+00:02:28,634 --> 00:02:29,560
+Why both?
+
+35
+00:02:29,560 --> 00:02:35,081
+The Calvin cycle needs ATP to NADPH at three to two.
+
+36
+00:02:35,081 --> 00:02:39,227
+Non-cyclic gives less ATP, so cyclic tops it up.
+
+37
+00:02:41,634 --> 00:02:42,886
+Pause and think.
+
+38
+00:02:42,886 --> 00:02:45,516
+What does cyclic photophosphorylation produce?
+
+39
+00:02:52,400 --> 00:02:53,678
+ATP only.
+
+40
+00:02:53,678 --> 00:02:59,303
+No water is split, so no oxygen; no NADPH is made.
+
+41
+00:02:59,303 --> 00:03:01,759
+ATP and oxygen is the trap.
+
+42
+00:03:02,534 --> 00:03:08,488
+The Calvin cycle runs in the stroma, powered by ATP and NADPH.
+
+43
+00:03:08,700 --> 00:03:17,583
+Three RuBP, fifteen carbons, plus three carbon dioxide make six 3-PGA, eighteen carbons, via RuBisCO.
+
+44
+00:03:17,800 --> 00:03:22,710
+3-PGA is the first stable product: these are C3 plants.
+
+45
+00:03:22,934 --> 00:03:27,803
+Six ATP and six NADPH reduce it to six G3P.
+
+46
+00:03:28,034 --> 00:03:31,626
+One G3P leaves the cycle to make sugar.
+
+47
+00:03:31,834 --> 00:03:37,705
+Five G3P regenerate three RuBP, using three ATP.
+
+48
+00:03:37,934 --> 00:03:43,228
+So one G3P costs nine ATP and six NADPH.
+
+49
+00:03:45,834 --> 00:03:50,376
+Per carbon dioxide: three ATP and two NADPH.
+
+50
+00:03:50,600 --> 00:03:52,471
+Glucose needs six turns.
+
+51
+00:03:52,700 --> 00:03:55,941
+Eighteen ATP and twelve NADPH.
+
+52
+00:03:56,167 --> 00:03:57,816
+Ratio: three to two.
+
+53
+00:04:00,334 --> 00:04:06,345
+RuBisCO can also grab oxygen, since air has far more oxygen than carbon dioxide.
+
+54
+00:04:06,567 --> 00:04:12,981
+Then it makes a useless two-carbon compound, salvaged at a loss of carbon: photorespiration.
+
+55
+00:04:13,200 --> 00:04:16,709
+It worsens on hot, dry days when stomata close.
+
+56
+00:04:18,334 --> 00:04:27,671
+C4 plants like maize and sugarcane avoid it with Kranz anatomy: bundle-sheath cells ring each vein, surrounded by mesophyll.
+
+57
+00:04:27,900 --> 00:04:35,082
+In the mesophyll, PEP carboxylase fixes carbon dioxide into oxaloacetate, a four-carbon acid.
+
+58
+00:04:35,300 --> 00:04:41,257
+This becomes malate, which moves into the bundle sheath and releases carbon dioxide around RuBisCO.
+
+59
+00:04:41,467 --> 00:04:49,148
+Pyruvate returns and is recycled to PEP, costing extra ATP: thirty per glucose instead of eighteen.
+
+60
+00:04:49,367 --> 00:04:51,699
+C4 separates the steps in space.
+
+61
+00:04:54,500 --> 00:04:55,739
+Pause and think.
+
+62
+00:04:55,739 --> 00:04:59,475
+What is the first stable product of C4 photosynthesis?
+
+63
+00:05:06,367 --> 00:05:09,129
+Oxaloacetic acid, four carbons.
+
+64
+00:05:09,129 --> 00:05:13,061
+Malic acid is the trap: it forms one step later.
+
+65
+00:05:13,061 --> 00:05:18,045
+PEP is the acceptor, and 3-PGA is the C3 product.
+
+66
+00:05:18,834 --> 00:05:22,740
+CAM plants like pineapple and aloe separate the steps in time.
+
+67
+00:05:22,967 --> 00:05:27,810
+At night, stomata open and carbon dioxide is stored as malic acid.
+
+68
+00:05:28,034 --> 00:05:33,481
+By day, stomata close and the stored carbon dioxide enters the Calvin cycle.
+
+69
+00:05:35,100 --> 00:05:38,682
+C3 plants make 3-PGA first.
+
+70
+00:05:38,682 --> 00:05:45,284
+C4 and CAM make oxaloacetate first, separating the steps in space or time.
+
+71
+00:05:46,500 --> 00:05:49,642
+Blackman's law says the slowest factor limits the rate.
+
+72
+00:05:49,867 --> 00:05:53,137
+In dim light, light limits photosynthesis.
+
+73
+00:05:53,137 --> 00:05:56,328
+Where net gain is zero is the light compensation point.
+
+74
+00:05:56,534 --> 00:05:59,530
+In bright light, carbon dioxide limits it.
+
+75
+00:05:59,530 --> 00:06:02,104
+More carbon dioxide raises the plateau.
+
+76
+00:06:03,734 --> 00:06:07,512
+Example: rice at twenty degrees in bright light.
+
+77
+00:06:07,512 --> 00:06:12,447
+Doubling light does nothing; doubling carbon dioxide doubles the rate.
+
+78
+00:06:12,447 --> 00:06:14,494
+What limits it, and what if we warm it?
+
+79
+00:06:14,700 --> 00:06:21,493
+Doubling the light changes nothing, so light is not limiting: the plant is already light-saturated.
+
+80
+00:06:21,700 --> 00:06:27,345
+Raising carbon dioxide doubles the rate, so carbon dioxide was the limiting factor.
+
+81
+00:06:27,567 --> 00:06:33,542
+At eight hundred parts per million carbon dioxide is plentiful, so the next factor in line takes over.
+
+82
+00:06:33,767 --> 00:06:42,114
+Twenty degrees is below the optimum for rice's enzymes, so temperature now limits, and warming to thirty raises the rate further.
+
+83
+00:06:48,100 --> 00:06:48,333
+Respiration is the stepwise oxidation of food to release usable energy.
+

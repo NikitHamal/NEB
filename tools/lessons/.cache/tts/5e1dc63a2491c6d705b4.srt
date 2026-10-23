@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,046
+Allopolyploidy: its sets come from two different species, Raphanus sativus and Brassica oleracea.
+
+2
+00:00:08,046 --> 00:00:13,515
+Autopolyploidy is the trap, but that multiplies the sets of a single species.
+
+3
+00:00:13,515 --> 00:00:18,841
+Monosomy and trisomy change single chromosomes, not sets.
+

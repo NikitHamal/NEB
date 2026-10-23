@@ -1,0 +1,288 @@
+1
+00:00:00,000 --> 00:00:04,520
+A soil sensor in a field in Jhapa notices the ground is dry.
+
+2
+00:00:04,520 --> 00:00:14,259
+Its reading hops over the mobile network to a server in a data centre, a trained model decides the crop needs water, and the farmer's phone switches the pump on.
+
+3
+00:00:14,259 --> 00:00:16,595
+Ten seconds, no human in the loop.
+
+4
+00:00:16,800 --> 00:00:26,460
+That one moment uses almost every topic in this unit: the internet of things, mobile computing, cloud computing and artificial intelligence.
+
+5
+00:00:31,933 --> 00:00:37,989
+Welcome to Class 12 Computer Science, Unit 7: Recent Trends in Technology.
+
+6
+00:00:37,989 --> 00:00:43,456
+Numbers in this unit date fast, so whenever you quote one in the exam, quote its year too.
+
+7
+00:00:45,833 --> 00:00:46,967
+Six parts.
+
+8
+00:00:46,967 --> 00:00:49,598
+Artificial intelligence and robotics.
+
+9
+00:00:49,598 --> 00:00:50,900
+Cloud computing.
+
+10
+00:00:50,900 --> 00:00:51,915
+Big data.
+
+11
+00:00:51,915 --> 00:00:53,374
+Virtual reality.
+
+12
+00:00:53,374 --> 00:00:56,642
+e-commerce, e-medicine and e-governance.
+
+13
+00:00:56,642 --> 00:00:59,231
+And mobile computing with the internet of things.
+
+14
+00:01:03,567 --> 00:01:14,571
+Artificial intelligence is building machines that do jobs which would need human intelligence: learning, reasoning, understanding language, recognising patterns.
+
+15
+00:01:14,571 --> 00:01:21,147
+Inside it sits machine learning, which learns patterns from data instead of following hand written rules.
+
+16
+00:01:21,147 --> 00:01:25,613
+Inside that, deep learning, with many layered neural networks.
+
+17
+00:01:25,613 --> 00:01:35,822
+And inside that, the newest layer: generative AI, the large language models behind ChatGPT, which create new text, code and pictures.
+
+18
+00:01:36,033 --> 00:01:37,649
+A few dates worth knowing.
+
+19
+00:01:37,649 --> 00:01:41,009
+The term was coined at Dartmouth in nineteen fifty six.
+
+20
+00:01:41,009 --> 00:01:54,128
+Deep Blue beat Kasparov at chess in ninety seven, AlphaGo won at Go in twenty sixteen, the transformer was published in twenty seventeen, and ChatGPT arrived in November twenty twenty two.
+
+21
+00:01:55,333 --> 00:02:00,230
+By capability, AI is narrow, general or super.
+
+22
+00:02:00,230 --> 00:02:08,095
+Narrow AI does one task well, and every system in use today is narrow, however clever it looks.
+
+23
+00:02:08,095 --> 00:02:15,414
+General AI, human level at everything, does not yet exist; super AI is hypothetical.
+
+24
+00:02:16,633 --> 00:02:26,192
+Robotics designs, builds and programs robots: machines that sense their surroundings, process what they sense, and act on the physical world.
+
+25
+00:02:26,192 --> 00:02:36,270
+Sensors feed the controller; the controller's program decides; actuators, the motors, move the end effector, the gripper or wheels.
+
+26
+00:02:36,270 --> 00:02:40,077
+And the sensors then see the result, closing the feedback loop.
+
+27
+00:02:41,300 --> 00:02:56,966
+Robots by type: industrial arms, mobile warehouse robots, service robots like the robot waiter a Kathmandu startup built, surgical robots, drones that mapped the damage after the twenty fifteen earthquake, and explorers like the Mars rovers.
+
+28
+00:02:56,966 --> 00:03:02,617
+AI and robots work without tiring, fast and safely in danger.
+
+29
+00:03:02,617 --> 00:03:10,193
+But they cost a lot, displace jobs, lack common sense, and a model trained on biased data gives biased answers.
+
+30
+00:03:14,967 --> 00:03:22,130
+Cloud computing delivers computing services over the internet, on demand, and you pay only for what you use.
+
+31
+00:03:22,130 --> 00:03:26,583
+The provider owns and maintains the hardware; you rent capacity.
+
+32
+00:03:26,583 --> 00:03:39,135
+The official NIST definition lists five characteristics: self service on demand, access over the network, pooled resources shared by many customers, elasticity, and metered pay per use.
+
+33
+00:03:39,135 --> 00:03:41,569
+The trick underneath is virtualisation.
+
+34
+00:03:42,800 --> 00:03:46,942
+The three service models differ in how much of the stack you still manage.
+
+35
+00:03:46,942 --> 00:03:52,059
+On your own premises, you manage everything, down to the network cables.
+
+36
+00:03:52,059 --> 00:03:59,104
+Infrastructure as a service rents you virtual machines: you still install the operating system and software.
+
+37
+00:03:59,104 --> 00:04:04,677
+Platform as a service gives a ready platform: you bring only your application and data.
+
+38
+00:04:04,677 --> 00:04:11,504
+Software as a service, like Gmail, gives finished software: you manage nothing but your own data.
+
+39
+00:04:12,733 --> 00:04:14,245
+Examples to quote.
+
+40
+00:04:14,245 --> 00:04:17,487
+Infrastructure: Amazon EC2.
+
+41
+00:04:17,487 --> 00:04:19,675
+Platform: Google App Engine.
+
+42
+00:04:19,675 --> 00:04:22,813
+Software: Gmail and Google Docs.
+
+43
+00:04:22,813 --> 00:04:29,979
+And by who may use it, a cloud is public, private to one organisation, shared by a community, or a hybrid.
+
+44
+00:04:31,200 --> 00:04:32,531
+Cloud or your own server?
+
+45
+00:04:32,733 --> 00:04:37,498
+Spread the hardware over sixty months: seven thousand five hundred a month.
+
+46
+00:04:37,700 --> 00:04:44,561
+Three hundred watts all month is two hundred and sixteen units: two thousand three hundred and seventy six rupees.
+
+47
+00:04:44,767 --> 00:04:48,794
+With the admin's time, eleven thousand eight hundred and seventy six a month.
+
+48
+00:04:49,000 --> 00:04:56,559
+So the cloud saves about two thousand nine hundred a month, thirty four and a half thousand a year, before counting the UPS and load shedding.
+
+49
+00:04:58,567 --> 00:05:02,136
+The costs: no internet, no service.
+
+50
+00:05:02,136 --> 00:05:03,803
+The bill never ends.
+
+51
+00:05:03,803 --> 00:05:08,517
+Your data may physically sit in another country, under its laws.
+
+52
+00:05:08,517 --> 00:05:11,251
+Vendor lock in makes leaving expensive.
+
+53
+00:05:11,251 --> 00:05:14,402
+And when the provider goes down, so do you.
+
+54
+00:05:14,402 --> 00:05:21,521
+As of twenty twenty five, Amazon held about thirty per cent of the market, Microsoft twenty two and Google twelve.
+
+55
+00:05:26,300 --> 00:05:34,440
+Big data is data so large, so fast, or so varied that ordinary database tools cannot handle it in time.
+
+56
+00:05:34,440 --> 00:05:37,265
+The standard answer is the five Vs.
+
+57
+00:05:37,265 --> 00:05:39,518
+Volume, the sheer quantity.
+
+58
+00:05:39,518 --> 00:05:42,278
+Velocity, the speed it arrives.
+
+59
+00:05:42,278 --> 00:05:46,901
+Variety, tables mixed with logs, photos and voice.
+
+60
+00:05:46,901 --> 00:05:49,440
+Veracity, how much of it is wrong.
+
+61
+00:05:49,440 --> 00:05:52,060
+And value, the insight you can extract.
+
+62
+00:05:53,267 --> 00:05:54,128
+How big?
+
+63
+00:05:54,128 --> 00:06:05,664
+Estimates put the data created in twenty twenty five at around a hundred and eighty zettabytes, nearly three times twenty twenty, roughly doubling every two to three years.
+
+64
+00:06:05,664 --> 00:06:09,141
+One zettabyte is ten to the twenty one bytes.
+
+65
+00:06:09,141 --> 00:06:17,991
+No single server copes, so big data runs on distributed tools: Hadoop, Spark, and NoSQL databases such as MongoDB.
+
+66
+00:06:19,200 --> 00:06:19,976
+Is it big data?
+
+67
+00:06:20,433 --> 00:06:24,546
+Seventeen thousand two hundred and eighty readings per sensor per day.
+
+68
+00:06:24,767 --> 00:06:30,840
+Times two thousand sensors, times eighty bytes: about two point seven six gigabytes a day.
+
+69
+00:06:31,067 --> 00:06:32,905
+About one terabyte a year.
+
+70
+00:06:32,905 --> 00:06:36,092
+Volume alone, an ordinary database could store.
+
+71
+00:06:36,300 --> 00:06:43,411
+But four hundred readings arrive every second, and a flood warning computed tomorrow is useless.
+
+72
+00:06:43,411 --> 00:06:46,833
+Velocity, plus variety and veracity, make it a genuine big data problem.
+

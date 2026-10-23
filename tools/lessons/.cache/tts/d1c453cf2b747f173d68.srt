@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,486
+That is the speed of mechanical waves.
+
+2
+00:00:02,486 --> 00:00:10,286
+Next, we trap waves inside pipes and on strings, and find out why a flute and a sarangi sing the notes they do.
+
+3
+00:00:10,286 --> 00:00:12,903
+See you there, on NEBians.
+

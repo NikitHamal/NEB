@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,911
+At the endodermis, the Casparian strip of lignin and suberin blocks the wall route.
+
+2
+00:00:05,911 --> 00:00:08,658
+Everything must cross a living membrane.
+

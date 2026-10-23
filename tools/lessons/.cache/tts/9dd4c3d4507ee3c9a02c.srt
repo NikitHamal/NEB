@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,864
+Halfway, carbon is partly bonded to both: the transition state, with the three other groups flat in a plane.
+
+2
+00:00:07,864 --> 00:00:16,653
+Then the bromide leaves, and the three groups snap through to the other side, like an umbrella turning inside out in the wind.
+

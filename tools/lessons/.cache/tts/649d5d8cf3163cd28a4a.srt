@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,218
+Formality is used for ionic solids like sodium chloride.
+
+2
+00:00:04,218 --> 00:00:08,007
+A crystal of salt has no molecules, only ions.
+
+3
+00:00:08,007 --> 00:00:10,976
+Dissolve it, and the ions drift apart.
+
+4
+00:00:10,976 --> 00:00:19,531
+So instead of moles of molecules, we count formula masses: fifty eight point five grams made up to one litre is one formal.
+

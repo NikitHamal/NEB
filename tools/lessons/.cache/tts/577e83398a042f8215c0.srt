@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,328
+Now the cold open.
+
+2
+00:00:01,328 --> 00:00:05,885
+Ethanol is oxidised by acidified potassium dichromate.
+
+3
+00:00:05,885 --> 00:00:10,768
+Ethanol loses hydrogen from the alpha carbon and becomes ethanal.
+
+4
+00:00:10,768 --> 00:00:17,317
+Chromium is reduced from plus six in orange dichromate to plus three, which is green.
+
+5
+00:00:17,317 --> 00:00:22,903
+That orange to green change, measured along the tube, is the breathalyser.
+

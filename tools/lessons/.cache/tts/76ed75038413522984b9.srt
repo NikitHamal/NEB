@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,294
+Ahead of it, the waves are squeezed together.
+
+2
+00:00:03,294 --> 00:00:05,533
+Behind it, they are stretched apart.
+
+3
+00:00:05,533 --> 00:00:11,419
+As it comes towards you the note is high, and the moment it passes, the pitch drops.
+

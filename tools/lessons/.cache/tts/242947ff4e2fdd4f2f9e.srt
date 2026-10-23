@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,315
+Five parts.
+
+2
+00:00:01,315 --> 00:00:05,494
+The scalar, or dot, product and the angle between vectors.
+
+3
+00:00:05,494 --> 00:00:08,554
+Projections and the rules of the dot product.
+
+4
+00:00:08,554 --> 00:00:11,822
+The dot product in geometry and trigonometry.
+
+5
+00:00:11,822 --> 00:00:14,908
+The vector, or cross, product.
+
+6
+00:00:14,908 --> 00:00:20,117
+And what the cross product measures: areas, moments and the sine rules.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,432
+Kolbe's reaction.
+
+2
+00:00:01,432 --> 00:00:09,583
+Dry sodium phenoxide absorbs carbon dioxide at one hundred and twenty five degrees under four to seven atmospheres.
+
+3
+00:00:09,583 --> 00:00:12,786
+Carbon dioxide is a weak electrophile.
+
+4
+00:00:12,786 --> 00:00:17,096
+It attacks the ortho position of the activated phenoxide ring.
+

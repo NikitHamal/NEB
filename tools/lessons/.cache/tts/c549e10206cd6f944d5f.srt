@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,223
+A careful point.
+
+2
+00:00:01,223 --> 00:00:06,979
+Chloride is the conjugate base of hydrochloric acid, yet salt water is neutral.
+
+3
+00:00:06,979 --> 00:00:15,638
+Because hydrochloric acid is so strong, chloride is an extremely weak base, too weak to take protons back from water.
+
+4
+00:00:15,638 --> 00:00:19,361
+Conjugate describes a relationship, not a strength.
+
+5
+00:00:19,361 --> 00:00:28,138
+And one limitation remains: Bronsted needs a proton, so it cannot explain boron trifluoride reacting with ammonia.
+

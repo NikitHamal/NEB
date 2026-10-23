@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,854
+Learn the vocabulary, because it is examined on its own.
+
+2
+00:00:03,854 --> 00:00:07,356
+The titrant is the standard solution in the burette.
+
+3
+00:00:07,356 --> 00:00:12,005
+The analyte, or titrate, is the unknown in the flask.
+
+4
+00:00:12,005 --> 00:00:17,369
+And an aliquot is the measured portion of the unknown that the pipette delivers.
+

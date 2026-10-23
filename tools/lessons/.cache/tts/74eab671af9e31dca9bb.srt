@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,658
+Diffraction is the bending of waves round the edges of an obstacle or an opening, and the redistribution of intensity that follows.
+
+2
+00:00:08,658 --> 00:00:14,479
+It only becomes noticeable when the size of the opening is comparable with the wavelength.
+

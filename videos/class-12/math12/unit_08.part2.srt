@@ -1,0 +1,308 @@
+1
+00:00:02,800 --> 00:00:10,718
+A parabola has eccentricity one: every point is exactly as far from the focus as from the directrix.
+
+2
+00:00:10,718 --> 00:00:21,089
+Put the focus at a, zero and the directrix at x equals minus a. Move P along the curve: the yellow and red lengths are always equal.
+
+3
+00:00:21,300 --> 00:00:30,703
+Write PS equals PM with the distance formula, square both sides, and almost everything cancels: y squared equals four a x.
+
+4
+00:00:30,703 --> 00:00:36,919
+The chord through the focus, the latus rectum, has length four a, which is why the four is there.
+
+5
+00:00:38,133 --> 00:00:43,330
+Swap or negate the variables and the parabola faces the other three ways.
+
+6
+00:00:43,330 --> 00:00:50,882
+The variable that is squared tells you the axis: y squared opens sideways, x squared opens up or down.
+
+7
+00:00:50,882 --> 00:00:59,254
+Move the vertex to h, k and everything moves with it; the focus is always a units from the vertex along the axis.
+
+8
+00:01:00,467 --> 00:01:03,822
+Only y is squared, so the axis is horizontal.
+
+9
+00:01:04,033 --> 00:01:09,977
+Complete the square in y: y minus four squared equals four times x minus one.
+
+10
+00:01:10,200 --> 00:01:13,275
+Vertex one, four, and a equals one.
+
+11
+00:01:13,500 --> 00:01:20,259
+The focus is one unit right of the vertex, the directrix one unit left: the y axis.
+
+12
+00:01:20,259 --> 00:01:21,406
+Latus rectum four.
+
+13
+00:01:23,433 --> 00:01:24,841
+A real parabola.
+
+14
+00:01:24,841 --> 00:01:33,916
+A bridge cable spans eighty metres, the towers are twenty metres high, and the lowest point of the cable is four metres above the road.
+
+15
+00:01:33,916 --> 00:01:36,372
+How high is the cable twenty metres from the middle?
+
+16
+00:01:36,600 --> 00:01:41,615
+Put the origin at the lowest point: x squared equals four a y.
+
+17
+00:01:41,615 --> 00:01:46,940
+Each tower top is forty across and sixteen up, so four a is a hundred.
+
+18
+00:01:46,940 --> 00:01:52,509
+At twenty metres, y is four: four above the lowest point, eight above the road.
+
+19
+00:01:53,733 --> 00:01:54,872
+Parabola tangents.
+
+20
+00:01:55,100 --> 00:02:02,244
+The tangent at x one, y one is y y one equals two a times x plus x one: y equals x plus three.
+
+21
+00:02:02,467 --> 00:02:06,767
+The normal has slope minus one: x plus y equals nine.
+
+22
+00:02:07,000 --> 00:02:15,374
+For y equals m x plus c to touch y squared equals four a x, c must equal a over m.
+
+23
+00:02:15,374 --> 00:02:19,132
+Here four over two is two: it touches, at one, four.
+
+24
+00:02:24,700 --> 00:02:30,665
+Tie a loop of string to two pins and pull it tight with a pencil: you draw an ellipse.
+
+25
+00:02:30,665 --> 00:02:32,618
+The two pins are the foci.
+
+26
+00:02:32,618 --> 00:02:39,615
+However the pencil moves, the two distances add up to the same length, two a, the major axis.
+
+27
+00:02:39,833 --> 00:02:52,556
+From the focus directrix rule with e less than one, the algebra gives x squared over a squared plus y squared over b squared equals one, where b squared is a squared times one minus e squared.
+
+28
+00:02:52,556 --> 00:02:56,879
+So e is root of one minus b squared over a squared.
+
+29
+00:02:56,879 --> 00:03:06,808
+The foci are at plus or minus a e, the directrices at plus or minus a over e, and the latus rectum is two b squared over a.
+
+30
+00:03:08,033 --> 00:03:09,233
+A common slip.
+
+31
+00:03:09,233 --> 00:03:13,673
+The foci always lie on the axis with the larger denominator.
+
+32
+00:03:13,673 --> 00:03:19,601
+If the bigger number is under y squared, the ellipse is tall, and its foci are on the y axis.
+
+33
+00:03:20,833 --> 00:03:21,723
+Read the ellipse.
+
+34
+00:03:22,067 --> 00:03:26,183
+Divide by two twenty five: a is five, b is three.
+
+35
+00:03:26,400 --> 00:03:34,132
+e is four fifths, so the foci are at plus or minus four and the directrices at plus or minus twenty five over four.
+
+36
+00:03:34,333 --> 00:03:39,483
+Major axis ten, minor six, latus rectum three point six.
+
+37
+00:03:41,500 --> 00:03:42,503
+An untidy one.
+
+38
+00:03:42,733 --> 00:03:46,844
+Complete both squares, adding sixteen and nine to the right.
+
+39
+00:03:47,067 --> 00:03:48,532
+Divide by thirty six.
+
+40
+00:03:48,733 --> 00:03:58,514
+Centre two, minus one; a three, b two; e root five over three; and the foci root five either side of the centre.
+
+41
+00:04:00,533 --> 00:04:02,443
+The T equals zero rule again.
+
+42
+00:04:02,667 --> 00:04:11,484
+Tangent: x x one over a squared plus y y one over b squared equals one: three x plus five y equals twenty five.
+
+43
+00:04:11,700 --> 00:04:16,636
+Normal: twenty five x minus fifteen y equals twenty seven.
+
+44
+00:04:16,636 --> 00:04:21,139
+Slopes minus three fifths and five thirds: perpendicular.
+
+45
+00:04:26,733 --> 00:04:31,917
+A hyperbola has eccentricity bigger than one, and comes in two branches.
+
+46
+00:04:31,917 --> 00:04:36,344
+For an ellipse the distances to the foci add to a constant.
+
+47
+00:04:36,344 --> 00:04:39,853
+For a hyperbola, their difference is constant: two a.
+
+48
+00:04:40,067 --> 00:04:55,655
+The same algebra as the ellipse, but now one minus e squared is negative, and the plus sign becomes a minus: x squared over a squared minus y squared over b squared equals one, with b squared equal to a squared times e squared minus one.
+
+49
+00:04:55,655 --> 00:05:06,488
+Far out, the branches hug two straight lines, the asymptotes, y equals plus or minus b over a x: the diagonals of the a by b box.
+
+50
+00:05:07,700 --> 00:05:09,668
+Keep the two relations apart.
+
+51
+00:05:09,668 --> 00:05:14,186
+For the ellipse, a squared e squared is a squared minus b squared.
+
+52
+00:05:14,186 --> 00:05:16,946
+For the hyperbola, it is plus.
+
+53
+00:05:16,946 --> 00:05:18,756
+Name the curve before you compute e.
+
+54
+00:05:19,967 --> 00:05:21,066
+Read the hyperbola.
+
+55
+00:05:21,267 --> 00:05:24,619
+Divide by one forty four: a four, b three.
+
+56
+00:05:24,833 --> 00:05:31,852
+e is five quarters, foci at plus or minus five, directrices at plus or minus sixteen fifths.
+
+57
+00:05:32,067 --> 00:05:41,300
+Vertices at plus or minus four, latus rectum four point five, and asymptotes three x plus or minus four y equals zero.
+
+58
+00:05:43,300 --> 00:05:45,289
+The same rule, with a minus sign.
+
+59
+00:05:45,500 --> 00:05:49,294
+Tangent: five x minus four y equals sixteen.
+
+60
+00:05:49,500 --> 00:05:54,163
+Normal: sixteen x plus twenty y equals one two five.
+
+61
+00:05:54,163 --> 00:05:58,403
+Slopes five quarters and minus four fifths: perpendicular.
+
+62
+00:06:00,433 --> 00:06:12,922
+Here is the whole unit in one table: the standard equation, the eccentricity, the foci, the condition of tangency and the tangent at a point, for each of the four curves.
+
+63
+00:06:12,922 --> 00:06:15,768
+Roughly a third of the marks in this unit are read straight off it.
+
+64
+00:06:18,200 --> 00:06:18,970
+Pause and think.
+
+65
+00:06:26,267 --> 00:06:31,103
+Exactly one: every point is as far from the focus as from the directrix.
+
+66
+00:06:33,100 --> 00:06:34,026
+One more.
+
+67
+00:06:34,026 --> 00:06:35,708
+Which denominator is larger?
+
+68
+00:06:42,600 --> 00:06:45,336
+Zero, plus or minus four.
+
+69
+00:06:45,336 --> 00:06:53,761
+The larger denominator, twenty five, is under y squared, so the foci are on the y axis, root of twenty five minus nine away.
+
+70
+00:06:55,933 --> 00:06:57,002
+Quick recap.
+
+71
+00:06:57,002 --> 00:07:02,263
+One rule, PS equals e times PM, gives all four conics.
+
+72
+00:07:02,263 --> 00:07:07,536
+The circle's centre and radius from the general form, and the tangency condition.
+
+73
+00:07:07,536 --> 00:07:13,942
+The parabola, ellipse and hyperbola with their foci, directrices and latus recta.
+
+74
+00:07:13,942 --> 00:07:17,340
+And the tangent at a point, by the T equals zero rule.
+
+75
+00:07:21,533 --> 00:07:23,305
+That was conic sections.
+
+76
+00:07:23,305 --> 00:07:28,397
+Next, product of vectors: the scalar and vector products and what they measure.
+
+77
+00:07:28,397 --> 00:07:28,990
+See you there.
+

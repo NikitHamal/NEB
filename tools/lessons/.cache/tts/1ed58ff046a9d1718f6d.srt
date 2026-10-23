@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:05,351
+Cohesion turns four paragraphs into one essay, so vary the links.
+
+2
+00:00:05,351 --> 00:00:08,190
+Furthermore and what is more, for adding.
+
+3
+00:00:08,190 --> 00:00:12,226
+However, by contrast, and yet, for contrast.
+
+4
+00:00:12,226 --> 00:00:14,934
+Consequently, which is why, for cause.
+
+5
+00:00:14,934 --> 00:00:17,187
+For instance, take the case of.
+
+6
+00:00:17,187 --> 00:00:20,625
+Granted that, or it is true that, to concede.
+
+7
+00:00:20,625 --> 00:00:23,789
+And in short, on balance, to conclude.
+
+8
+00:00:23,789 --> 00:00:27,500
+The same moreover three times is itself an error.
+

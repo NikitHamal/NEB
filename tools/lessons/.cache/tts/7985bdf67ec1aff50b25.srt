@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,244
+But turn the second line until it runs parallel to the first.
+
+2
+00:00:04,244 --> 00:00:07,200
+Now they never meet: no solution at all.
+

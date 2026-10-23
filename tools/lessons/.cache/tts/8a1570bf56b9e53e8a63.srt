@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,916
+Read the axioms straight off the table.
+
+2
+00:00:02,916 --> 00:00:05,989
+Every entry is in the set: closed.
+
+3
+00:00:05,989 --> 00:00:10,807
+The row for nought simply repeats the header: nought is the identity.
+

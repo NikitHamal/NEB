@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,520
+The thermal efficiency, eta, is the useful work divided by the heat you paid for: W over Q one, which is one minus Q two over Q one.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,156
+Product rule: cosh squared plus sinh squared, which is cosh two x.
+

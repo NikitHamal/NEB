@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,437
+Work, W, is energy that crosses because a force moves its point of application, like the gas pushing the piston out.
+
+2
+00:00:08,437 --> 00:00:10,481
+Both are energy in transit.
+
+3
+00:00:10,481 --> 00:00:12,539
+Neither one is stored in the gas.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,036
+Accelerating down, less: four hundred and eighty.
+

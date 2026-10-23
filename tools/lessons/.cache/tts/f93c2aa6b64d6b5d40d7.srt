@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,072
+Simple harmonic motion can also be a twist.
+
+2
+00:00:03,072 --> 00:00:05,768
+Hang a disc from a wire and turn it a little.
+
+3
+00:00:05,768 --> 00:00:13,671
+The twisted wire pushes back with a restoring torque, proportional to the angle: tau equals minus c theta.
+

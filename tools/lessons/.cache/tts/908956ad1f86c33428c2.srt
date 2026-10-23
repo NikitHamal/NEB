@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,458
+Stroke volume is what the ventricle fills to, minus what is left: seventy millilitres.
+

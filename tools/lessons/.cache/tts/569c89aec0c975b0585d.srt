@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,184
+Six parts.
+
+2
+00:00:01,184 --> 00:00:03,815
+Artificial intelligence and robotics.
+
+3
+00:00:03,815 --> 00:00:05,117
+Cloud computing.
+
+4
+00:00:05,117 --> 00:00:06,132
+Big data.
+
+5
+00:00:06,132 --> 00:00:07,591
+Virtual reality.
+
+6
+00:00:07,591 --> 00:00:10,859
+e-commerce, e-medicine and e-governance.
+
+7
+00:00:10,859 --> 00:00:13,867
+And mobile computing with the internet of things.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,768
+Here a is four directly: an eighth of log of x minus four over x plus four.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,013
+For the work, write P as K V to the minus gamma, and integrate.
+
+2
+00:00:05,013 --> 00:00:11,341
+V to the minus gamma integrates to V to the one minus gamma, over one minus gamma.
+

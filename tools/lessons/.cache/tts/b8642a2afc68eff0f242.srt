@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,122
+Without the brackets, plus works left to right on a string, so seven and one are glued on: seventy one.
+
+2
+00:00:07,122 --> 00:00:10,481
+The brackets force the multiplication first.
+

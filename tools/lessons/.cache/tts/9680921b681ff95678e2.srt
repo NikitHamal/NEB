@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,187
+And since sine theta can never exceed one, the highest order you can get is d over lambda, rounded down.
+

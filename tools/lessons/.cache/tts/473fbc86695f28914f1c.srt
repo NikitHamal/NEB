@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,539
+Each cycle has three steps.
+
+2
+00:00:02,539 --> 00:00:06,601
+Heat to ninety five degrees: the strands separate.
+
+3
+00:00:06,601 --> 00:00:09,739
+Cool to about fifty five: the primers stick.
+
+4
+00:00:09,739 --> 00:00:14,322
+Warm to seventy two: Taq builds new strands from the primers.
+
+5
+00:00:14,322 --> 00:00:17,643
+And every cycle doubles the number of copies.
+

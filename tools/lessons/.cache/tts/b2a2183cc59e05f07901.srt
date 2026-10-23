@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,697
+Five hundred cells in zero point zero two cubic millimetres is twenty five thousand per cubic millimetre of diluted blood.
+

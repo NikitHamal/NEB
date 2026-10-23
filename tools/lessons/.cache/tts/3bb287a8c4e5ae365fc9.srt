@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,934
+The islets of Langerhans in the pancreas hold blood glucose steady.
+
+2
+00:00:04,934 --> 00:00:13,841
+After a meal glucose rises, and beta cells release insulin, which lets glucose into cells and stores it as glycogen.
+
+3
+00:00:13,841 --> 00:00:15,104
+It falls back.
+

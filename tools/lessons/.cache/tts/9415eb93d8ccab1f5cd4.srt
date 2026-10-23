@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,802
+The end products: two molecules of pyruvate.
+
+2
+00:00:03,802 --> 00:00:12,864
+Gross gain, four ATP; minus the two invested, the net gain of glycolysis is two ATP, and two NADH.
+

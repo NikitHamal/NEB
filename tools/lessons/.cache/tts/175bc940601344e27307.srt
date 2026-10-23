@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,476
+Each has one one hundred and twenty eighth of the volume.
+
+2
+00:00:03,476 --> 00:00:14,401
+Diameter goes as the cube root of volume, so the cell is five point zero four times smaller across: about zero point three six millimetres.
+

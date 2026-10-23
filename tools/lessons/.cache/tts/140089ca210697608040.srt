@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,617
+Ethers are remarkably unreactive.
+
+2
+00:00:02,617 --> 00:00:09,427
+Sodium, alkalis, ordinary oxidising and reducing agents: nothing happens.
+
+3
+00:00:09,427 --> 00:00:11,809
+That is why ether is such a good solvent.
+
+4
+00:00:11,809 --> 00:00:15,117
+But the oxygen still has two lone pairs.
+
+5
+00:00:15,117 --> 00:00:22,812
+That makes ether a weak Lewis base, and every reaction we study starts with the oxygen grabbing a proton.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,494
+Simplifying: one minus x minus half x squared minus half x cubed, valid when two x is less than one in size: x less than a half.
+

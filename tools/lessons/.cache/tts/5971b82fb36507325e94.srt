@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,828
+D is minus two minus nine: minus eleven.
+
+2
+00:00:03,828 --> 00:00:07,343
+Not zero, so there is exactly one solution.
+

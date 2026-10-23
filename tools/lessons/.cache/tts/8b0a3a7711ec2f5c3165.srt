@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,309
+Within a few minutes, the chloroethane has become ethanol.
+
+2
+00:00:04,309 --> 00:00:05,585
+The chlorobenzene?
+
+3
+00:00:05,585 --> 00:00:08,619
+Boil it for hours, and nothing happens at all.
+
+4
+00:00:08,619 --> 00:00:12,083
+Its rate is something like a hundred thousand times slower.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,075
+Store sixty five in i, and i reads sixty five.
+
+2
+00:00:04,075 --> 00:00:12,890
+Store three point one four in f, and now i reads a huge meaningless number: the float's bits read as an integer.
+
+3
+00:00:12,890 --> 00:00:15,716
+Writing one member destroys the others.
+
+4
+00:00:15,716 --> 00:00:19,934
+Unions save memory when you need only one field at a time.
+

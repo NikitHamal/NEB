@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,205
+Sound a horn softly at a low pitch, and loudly at a high pitch.
+
+2
+00:00:04,205 --> 00:00:07,382
+Both sounds arrive at exactly the same moment.
+
+3
+00:00:07,382 --> 00:00:11,145
+The speed is decided by the medium, not by the source.
+

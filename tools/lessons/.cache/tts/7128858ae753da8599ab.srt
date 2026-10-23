@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,236
+Seven parts.
+
+2
+00:00:01,236 --> 00:00:04,023
+Hyperbolic functions and their derivatives.
+
+3
+00:00:04,023 --> 00:00:07,057
+L'Hospital's rule for awkward limits.
+
+4
+00:00:07,057 --> 00:00:09,583
+Differentials and small errors.
+
+5
+00:00:09,583 --> 00:00:11,223
+Tangents and normals.
+
+6
+00:00:11,223 --> 00:00:12,513
+Rates of change.
+
+7
+00:00:12,513 --> 00:00:15,937
+Increasing functions, maxima and minima.
+
+8
+00:00:15,937 --> 00:00:17,382
+And concavity.
+

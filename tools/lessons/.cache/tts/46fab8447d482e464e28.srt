@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,835
+Acetic acid in water.
+
+2
+00:00:01,835 --> 00:00:05,559
+The acid hands its proton to a water molecule.
+
+3
+00:00:05,559 --> 00:00:07,812
+Water, here, is the base.
+

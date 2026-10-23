@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,078
+Divide by the square root of sum d x squared times sum d y squared, and the answer is pinned between minus one and plus one, with no units.
+
+2
+00:00:10,078 --> 00:00:13,489
+That is Karl Pearson's coefficient of correlation.
+

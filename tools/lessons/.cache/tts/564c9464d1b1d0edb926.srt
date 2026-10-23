@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,007
+What is left is a single machine that draws Q one minus Q two from one reservoir, and turns all of it into work.
+
+2
+00:00:08,007 --> 00:00:09,713
+That breaks Kelvin Planck.
+
+3
+00:00:09,713 --> 00:00:12,604
+So breaking one statement breaks the other.
+
+4
+00:00:12,604 --> 00:00:16,054
+They are the same law, seen from two sides.
+

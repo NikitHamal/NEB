@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,875
+Two things make them all fall.
+
+2
+00:00:01,875 --> 00:00:06,770
+First, the basis: push the first one, so P of one is true.
+
+3
+00:00:06,770 --> 00:00:13,932
+Second, the inductive step: the dominoes are close enough that whenever one falls, it knocks over the next.
+
+4
+00:00:13,932 --> 00:00:18,684
+P of k true forces P of k plus one true.
+

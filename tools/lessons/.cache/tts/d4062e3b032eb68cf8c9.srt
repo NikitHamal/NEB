@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,593
+A function is a named block that does one job.
+
+2
+00:00:03,593 --> 00:00:10,182
+Library functions, like printf, come with C; user defined functions you write yourself.
+
+3
+00:00:10,182 --> 00:00:11,419
+Three parts.
+
+4
+00:00:11,419 --> 00:00:14,674
+The prototype announces the function before main.
+
+5
+00:00:14,674 --> 00:00:20,950
+The call, here inside printf, jumps to it with the arguments forty seven and ninety two.
+
+6
+00:00:20,950 --> 00:00:25,598
+The definition is the body, and return sends the answer back.
+

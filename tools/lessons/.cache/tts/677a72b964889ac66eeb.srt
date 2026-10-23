@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,114
+Finally, tone of voice carries meaning that print cannot.
+
+2
+00:00:04,114 --> 00:00:10,377
+Said with a falling tone, a tag asks you to agree: it's hot today, isn't it.
+
+3
+00:00:10,377 --> 00:00:16,223
+Said with a rising tone, it is a genuine question: you locked the gate, didn't you?
+

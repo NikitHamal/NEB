@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,171
+Worked example.
+
+2
+00:00:01,171 --> 00:00:08,815
+A sound wave of frequency five hundred hertz travels through air at three hundred and fifty metres per second.
+
+3
+00:00:08,815 --> 00:00:16,041
+Find its wavelength, and the phase difference between two points zero point one seven five metres apart.
+

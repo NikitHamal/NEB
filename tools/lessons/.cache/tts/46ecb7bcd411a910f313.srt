@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,630
+Every pair needs a link: eight times seven over two, twenty eight cables, and seven ports on each computer.
+

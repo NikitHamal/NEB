@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,242
+Compare the old file system with a DBMS.
+
+2
+00:00:03,242 --> 00:00:08,242
+Files repeat data and drift apart; a DBMS stores it once.
+
+3
+00:00:08,242 --> 00:00:14,778
+Files need a new program for every new question; a DBMS answers any query.
+
+4
+00:00:14,778 --> 00:00:20,442
+It enforces rules, handles many users at once, and controls who sees what.
+
+5
+00:00:20,442 --> 00:00:24,934
+The price: cost, complexity, and a trained administrator.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,744
+Split, substitute and simplify: n times four n squared minus one, over three.
+

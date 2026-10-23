@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,500
+Let us try two exam questions together.
+
+2
+00:00:02,500 --> 00:00:08,333
+First, the absolute pressure ten metres below the surface of Phewa Lake.
+
+3
+00:00:08,333 --> 00:00:14,752
+Second, a block that weighs four point nine newtons in air, and three point nine two newtons in water.
+
+4
+00:00:14,752 --> 00:00:18,424
+Find its volume, density and relative density.
+

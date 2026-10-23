@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,721
+Two judges rank eight dancers.
+
+2
+00:00:02,721 --> 00:00:07,773
+Subtract the ranks for each dancer, square, and add: forty two.
+
+3
+00:00:07,773 --> 00:00:15,260
+With n equal to eight, r s is one minus two fifty two over five oh four: exactly a half.
+
+4
+00:00:15,260 --> 00:00:21,835
+Moderate agreement: both judges put B first, but they disagree sharply about E and F.
+

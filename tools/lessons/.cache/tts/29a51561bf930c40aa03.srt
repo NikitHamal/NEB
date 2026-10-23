@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,458
+Exam tip.
+
+2
+00:00:01,458 --> 00:00:09,127
+Draw it, link the quantities by one equation, differentiate with respect to time, and only then put in the numbers.
+

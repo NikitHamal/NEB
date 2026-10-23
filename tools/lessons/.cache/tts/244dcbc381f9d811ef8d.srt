@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,640
+Mycobacterium bovis, the cattle tuberculosis bacillus, weakened over years of culture.
+
+2
+00:00:06,640 --> 00:00:13,203
+Mycobacterium tuberculosis is the tempting answer, but the vaccine strain is bovine.
+

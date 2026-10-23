@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:00,885
+Lock it in.
+
+2
+00:00:00,885 --> 00:00:03,997
+What does anisole give with hydrogen iodide?
+

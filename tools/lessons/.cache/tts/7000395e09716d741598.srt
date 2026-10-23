@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,804
+In acid, permanganate's equivalent weight is thirty one point six.
+
+2
+00:00:04,804 --> 00:00:12,669
+So one litre contains zero point zero five times thirty one point six, one point five eight grams.
+

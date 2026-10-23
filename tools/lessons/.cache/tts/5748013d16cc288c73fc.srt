@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,867
+Take oxygen away and the electron transport chain stops.
+
+2
+00:00:03,867 --> 00:00:10,351
+NADH piles up, NAD plus runs out, and even glycolysis would grind to a halt.
+
+3
+00:00:10,351 --> 00:00:18,437
+Fermentation exists for one reason: to turn NADH back into NAD plus, so that glycolysis can keep going.
+

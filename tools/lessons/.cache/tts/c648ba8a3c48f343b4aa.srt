@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,825
+Sixty two: six host bits give sixty four addresses, minus the network and broadcast addresses.
+

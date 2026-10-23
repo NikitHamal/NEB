@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:05,000
+The four group axioms and how to read them from a Cayley table.
+
+3
+00:00:05,000 --> 00:00:09,101
+Rolle's theorem and the Mean Value Theorem, with their conditions.
+
+4
+00:00:09,101 --> 00:00:13,411
+And the trapezium and Simpson weights for numerical integration.
+
+5
+00:00:13,411 --> 00:00:16,197
+That completes Class 12 Mathematics.
+

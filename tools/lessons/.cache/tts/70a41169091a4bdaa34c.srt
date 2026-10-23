@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,164
+The next ratio, equal to seven quarters.
+

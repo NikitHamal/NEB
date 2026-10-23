@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,236
+Pause and think.
+
+2
+00:00:01,236 --> 00:00:03,919
+The determinant of A is zero.
+
+3
+00:00:03,919 --> 00:00:05,611
+What can you say for certain?
+

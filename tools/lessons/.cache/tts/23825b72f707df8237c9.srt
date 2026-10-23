@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,533
+And three angles alone will never do: they fix the shape but not the size.
+

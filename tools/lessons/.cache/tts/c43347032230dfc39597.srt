@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,359
+Shift again, and the charge lands on the para carbon.
+
+2
+00:00:03,359 --> 00:00:05,950
+Again, on the other ortho carbon.
+
+3
+00:00:05,950 --> 00:00:09,010
+The negative charge is not stuck on oxygen.
+
+4
+00:00:09,010 --> 00:00:15,703
+It is spread over oxygen and three ring carbons, the ortho and para positions.
+

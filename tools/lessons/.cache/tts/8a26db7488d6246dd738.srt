@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,244
+Think of it as the gap between the two electrodes on the potential ladder.
+
+2
+00:00:04,244 --> 00:00:13,190
+For the Daniell cell, copper at plus zero point three four is the cathode, zinc at minus zero point seven six is the anode.
+
+3
+00:00:13,190 --> 00:00:16,510
+The gap is one point one zero volts.
+

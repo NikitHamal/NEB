@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,791
+Treatment follows DOTS, a strategy in which a health worker watches each dose being swallowed: four drugs for two months, then two for four more.
+
+2
+00:00:09,791 --> 00:00:15,611
+Multi drug resistant TB resists at least isoniazid and rifampicin.
+
+3
+00:00:15,611 --> 00:00:25,664
+And the B C G vaccine is a weakened strain of Mycobacterium bovis, not tuberculosis, protecting young children from the severe forms.
+

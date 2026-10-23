@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,369
+The light reaction is the Z-scheme.
+
+2
+00:00:02,369 --> 00:00:04,414
+Height shows electron energy.
+
+3
+00:00:04,414 --> 00:00:12,044
+Photosystem two, P680, and photosystem one, P700, work in series.
+

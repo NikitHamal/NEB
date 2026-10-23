@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:06,979
+For a compound, valency is replaced by the n factor, the number of reacting units per formula unit.
+
+2
+00:00:06,979 --> 00:00:09,726
+What counts as a unit depends on the class.
+
+3
+00:00:09,726 --> 00:00:14,947
+For an acid, it is the basicity, the number of replaceable hydrogen ions.
+
+4
+00:00:14,947 --> 00:00:20,195
+For a base, the acidity, the number of replaceable hydroxide ions.
+
+5
+00:00:20,195 --> 00:00:23,164
+For a salt, the total positive charge.
+
+6
+00:00:23,164 --> 00:00:28,789
+And for an oxidising or reducing agent, the number of electrons gained or lost.
+

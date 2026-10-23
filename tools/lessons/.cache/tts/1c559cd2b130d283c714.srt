@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:09,036
+So the new p H is four point seven four plus log of zero point zero nine over zero point one one, which is four point six five.
+
+2
+00:00:09,036 --> 00:00:11,822
+A change of less than a tenth of a unit.
+
+3
+00:00:11,822 --> 00:00:16,328
+The same acid in pure water took the p H from seven to two.
+
+4
+00:00:16,328 --> 00:00:17,916
+Five whole units.
+
+5
+00:00:17,916 --> 00:00:19,270
+Mystery solved.
+

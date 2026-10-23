@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,200
+Two point five: the difference in weight, twenty newtons, divided by the total mass, eight kilograms.
+

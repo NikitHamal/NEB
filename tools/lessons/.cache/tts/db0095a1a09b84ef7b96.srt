@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,601
+A caterpillar eats it.
+
+2
+00:00:01,601 --> 00:00:06,341
+Its midgut is strongly alkaline, and that dissolves the crystal.
+
+3
+00:00:06,341 --> 00:00:10,638
+Gut enzymes then cut the protoxin into the active toxin.
+

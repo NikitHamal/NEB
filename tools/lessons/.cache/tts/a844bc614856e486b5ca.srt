@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,460
+Now the left side is the derivative of x squared y. Integrate: x to the fifth over five plus C.
+

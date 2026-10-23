@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,250
+Pause and think.
+
+2
+00:00:01,250 --> 00:00:05,651
+Neutral temperature two seventy, cold junction at ten.
+
+3
+00:00:05,651 --> 00:00:07,578
+What is the inversion temperature?
+

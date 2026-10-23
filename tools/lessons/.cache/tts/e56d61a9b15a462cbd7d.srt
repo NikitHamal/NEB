@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,098
+Couple it to an ordinary engine that takes Q one from the source, does work, and rejects exactly Q two into the sink.
+

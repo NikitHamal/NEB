@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,104
+Stage two, the link reaction, inside the mitochondrial matrix.
+
+2
+00:00:05,104 --> 00:00:11,497
+A large enzyme complex, pyruvate dehydrogenase, takes each pyruvate.
+

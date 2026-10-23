@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,893
+An application is a covering letter, in four paragraphs.
+
+2
+00:00:03,893 --> 00:00:07,473
+The post, and where and when you saw it advertised.
+
+3
+00:00:07,473 --> 00:00:11,562
+Your single most relevant qualification, with the year and the board.
+
+4
+00:00:11,562 --> 00:00:16,979
+What you have actually done: an internship, tuition you taught, software you can use.
+
+5
+00:00:16,979 --> 00:00:21,875
+And a close offering yourself for interview and naming the enclosures.
+
+6
+00:00:21,875 --> 00:00:27,369
+It does not repeat the C V; it points to the two facts in it that matter for this post.
+

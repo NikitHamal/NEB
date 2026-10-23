@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,054
+A switch.
+
+2
+00:00:01,054 --> 00:00:04,296
+A hub copies every frame to every port.
+

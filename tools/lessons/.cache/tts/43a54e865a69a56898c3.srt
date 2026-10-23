@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,526
+Both routes must give the same total.
+
+2
+00:00:02,526 --> 00:00:10,468
+Minus four eleven equals three seventy six plus U, so U is minus seven eighty seven kilojoules per mole.
+
+3
+00:00:10,468 --> 00:00:15,377
+A huge number, which is why salt melts at eight hundred and one degrees.
+

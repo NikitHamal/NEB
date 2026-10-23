@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,458
+That is the whole rule.
+
+2
+00:00:01,458 --> 00:00:10,729
+Choose an indicator whose working range lies within the steep part of the titration curve, where one drop changes the p H by several units.
+

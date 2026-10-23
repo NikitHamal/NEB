@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,059
+At the fixed end, the string cannot move.
+
+2
+00:00:03,059 --> 00:00:07,070
+The wall pulls back on it, and the pulse comes back upside down.
+
+3
+00:00:07,070 --> 00:00:11,653
+Reflection at a fixed end reverses the phase by pi.
+
+4
+00:00:11,653 --> 00:00:19,973
+Send a continuous wave instead, and the reflected wave overlaps the incoming one all along the string.
+

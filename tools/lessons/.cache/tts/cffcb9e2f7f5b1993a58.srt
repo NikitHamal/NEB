@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,927
+To compute it, write a determinant: the unit vectors on top, a in the second row, b in the third.
+
+2
+00:00:06,927 --> 00:00:16,223
+Take a equal to two i plus j plus three k, and b equal to three i plus five j minus two k.
+

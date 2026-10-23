@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,354
+First, conjunctive parenchyma just inside each phloem patch becomes meristematic.
+
+2
+00:00:06,354 --> 00:00:08,528
+Those are the first arcs of cambium.
+

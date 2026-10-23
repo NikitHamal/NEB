@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,575
+Why does that prove anything?
+
+2
+00:00:01,575 --> 00:00:04,726
+Think of a rope wave passing through a slot.
+
+3
+00:00:04,726 --> 00:00:08,723
+If the rope shakes along the slot, the wave goes through.
+
+4
+00:00:08,723 --> 00:00:12,083
+Turn the slot across, and the wave is blocked.
+
+5
+00:00:12,083 --> 00:00:21,041
+A longitudinal wave, like sound, vibrates along its direction of travel, so turning the slot makes no difference at all.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,049
+And the oxides follow a pattern: low oxidation state oxides are basic, intermediate ones amphoteric, and high ones acidic.
+

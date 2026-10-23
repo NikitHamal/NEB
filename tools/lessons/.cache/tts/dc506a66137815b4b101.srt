@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,153
+Finally, v equals r omega: zero point four times thirty one point four, about twelve point six metres per second at that point.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,643
+Bone is the hardest connective tissue.
+
+2
+00:00:02,643 --> 00:00:11,757
+Its matrix is about one third protein, for toughness, and two thirds calcium salts, mainly calcium phosphate, for hardness.
+
+3
+00:00:11,757 --> 00:00:16,966
+In mammalian compact bone it is built in cylinders called Haversian systems.
+
+4
+00:00:16,966 --> 00:00:21,406
+A central Haversian canal carries a blood vessel and a nerve.
+

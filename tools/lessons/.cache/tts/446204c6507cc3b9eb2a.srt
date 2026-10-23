@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,567
+And here is one of the great conservation laws of physics.
+
+2
+00:00:03,567 --> 00:00:09,570
+If no external torque acts, d L by d t is zero, so L stays constant.
+
+3
+00:00:09,570 --> 00:00:12,916
+I one omega one equals I two omega two.
+
+4
+00:00:12,916 --> 00:00:18,138
+If a body makes its moment of inertia smaller, it must spin faster.
+

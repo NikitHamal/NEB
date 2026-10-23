@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,770
+From a primary amine, with nitrous acid made from sodium nitrite and hydrochloric acid in ice.
+
+2
+00:00:06,770 --> 00:00:16,119
+The unstable diazonium salt loses nitrogen at once, and the brisk fizz of nitrogen is also the test for a primary amine.
+

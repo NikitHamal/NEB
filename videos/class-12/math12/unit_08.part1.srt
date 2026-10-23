@@ -1,0 +1,312 @@
+1
+00:00:00,000 --> 00:00:06,278
+Take a double cone, seen here from the side, and slice it with a flat plane, the yellow line.
+
+2
+00:00:06,278 --> 00:00:08,027
+A level cut gives a circle.
+
+3
+00:00:08,233 --> 00:00:11,151
+Tilt the plane a little: an ellipse.
+
+4
+00:00:11,151 --> 00:00:18,013
+Tilt it until it runs parallel to the side of the cone: the ellipse breaks open into a parabola.
+
+5
+00:00:18,013 --> 00:00:24,157
+Tilt it further, so it cuts both halves of the cone: a hyperbola, in two branches.
+
+6
+00:00:24,367 --> 00:00:27,910
+Four curves that look nothing alike, from one construction.
+
+7
+00:00:27,910 --> 00:00:34,069
+They are the paths of planets and comets, the shape of a satellite dish and a cooling tower.
+
+8
+00:00:34,069 --> 00:00:38,529
+And, as you will see, they all obey one single rule.
+
+9
+00:00:44,000 --> 00:00:48,456
+Welcome to Class 12 Mathematics, Unit 8: Conic Sections.
+
+10
+00:00:50,833 --> 00:00:51,941
+Six parts.
+
+11
+00:00:51,941 --> 00:00:54,832
+One definition for all four curves.
+
+12
+00:00:54,832 --> 00:00:56,941
+When a line touches a circle.
+
+13
+00:00:56,941 --> 00:00:59,676
+Tangents and normals to a circle.
+
+14
+00:00:59,676 --> 00:01:07,285
+Then the parabola, the ellipse and the hyperbola, each with its standard equation, its elements and its tangents.
+
+15
+00:01:11,633 --> 00:01:13,484
+Here is the single rule.
+
+16
+00:01:13,484 --> 00:01:18,327
+Fix a point S, the focus, and a line, the directrix.
+
+17
+00:01:18,327 --> 00:01:26,791
+A conic is the path of a point P whose distance from the focus is always a fixed multiple e of its distance from the directrix.
+
+18
+00:01:26,791 --> 00:01:28,893
+The number e is the eccentricity.
+
+19
+00:01:29,100 --> 00:01:30,404
+Watch P go round.
+
+20
+00:01:30,404 --> 00:01:34,974
+Its two distances change, but their ratio stays at point six.
+
+21
+00:01:34,974 --> 00:01:36,263
+That is an ellipse.
+
+22
+00:01:36,263 --> 00:01:45,201
+Make e exactly one and you get a parabola; more than one, a hyperbola; and as e shrinks to zero, a circle.
+
+23
+00:01:46,433 --> 00:01:50,119
+You can name a conic from its equation before doing any algebra.
+
+24
+00:01:50,119 --> 00:01:52,229
+Look only at the squared terms.
+
+25
+00:01:52,229 --> 00:01:54,729
+Equal coefficients: a circle.
+
+26
+00:01:54,729 --> 00:01:57,099
+One square missing: a parabola.
+
+27
+00:01:57,099 --> 00:02:00,575
+Unequal but the same sign: an ellipse.
+
+28
+00:02:00,575 --> 00:02:03,016
+Opposite signs: a hyperbola.
+
+29
+00:02:03,233 --> 00:02:14,888
+So four x squared plus nine y squared is an ellipse; nine x squared minus sixteen y squared, a hyperbola; and an equation with only y squared, a parabola.
+
+30
+00:02:14,888 --> 00:02:17,519
+Name it first, then complete the square.
+
+31
+00:02:23,300 --> 00:02:28,028
+A circle is every point at distance r from a centre h, k.
+
+32
+00:02:28,028 --> 00:02:31,538
+The distance formula, squared, gives the standard form.
+
+33
+00:02:31,767 --> 00:02:36,204
+With the centre at the origin, x squared plus y squared equals r squared.
+
+34
+00:02:36,433 --> 00:02:45,849
+Expand, and every circle looks like x squared plus y squared plus two g x plus two f y plus c equals zero.
+
+35
+00:02:45,849 --> 00:02:52,476
+The centre is minus g, minus f: half the coefficients, signs changed.
+
+36
+00:02:52,476 --> 00:02:57,017
+The radius is root of g squared plus f squared minus c.
+
+37
+00:02:57,233 --> 00:03:03,594
+And if you know the ends of a diameter, the angle in a semicircle is a right angle, which gives the diameter form.
+
+38
+00:03:03,800 --> 00:03:08,437
+A trap: if the squares carry a coefficient, divide it out first.
+
+39
+00:03:08,437 --> 00:03:16,189
+Three x squared plus three y squared and so on: divide by three, and the centre is two, minus three.
+
+40
+00:03:17,400 --> 00:03:21,777
+Slide a line of fixed slope across a circle of radius two.
+
+41
+00:03:21,777 --> 00:03:24,615
+Watch the red distance from the centre to the line.
+
+42
+00:03:24,615 --> 00:03:28,293
+Less than the radius: the line cuts the circle twice.
+
+43
+00:03:28,500 --> 00:03:32,486
+Equal to the radius: it just touches, a tangent.
+
+44
+00:03:32,486 --> 00:03:35,086
+More than the radius: it misses altogether.
+
+45
+00:03:35,300 --> 00:03:47,359
+So y equals m x plus c touches x squared plus y squared equals a squared exactly when the distance, c over root of one plus m squared, equals a.
+
+46
+00:03:47,359 --> 00:03:51,751
+That is, c squared equals a squared times one plus m squared.
+
+47
+00:03:52,967 --> 00:03:53,711
+Three points.
+
+48
+00:03:54,200 --> 00:04:02,292
+Put each into the general form: c is zero, g is minus three, f is minus four.
+
+49
+00:04:02,500 --> 00:04:08,531
+So the circle is x squared plus y squared minus six x minus eight y equals zero.
+
+50
+00:04:08,733 --> 00:04:11,649
+Centre three, four; radius five.
+
+51
+00:04:13,667 --> 00:04:16,378
+Touching means distance equals radius.
+
+52
+00:04:16,600 --> 00:04:22,077
+The perpendicular distance from three, four to the line is ten over five: two.
+
+53
+00:04:22,300 --> 00:04:27,186
+So the circle is x minus three squared plus y minus four squared equals four.
+
+54
+00:04:29,200 --> 00:04:30,033
+Use the condition.
+
+55
+00:04:30,433 --> 00:04:35,839
+c squared is twenty times five, a hundred: c is plus or minus ten.
+
+56
+00:04:36,067 --> 00:04:43,230
+The point of contact is minus a squared m over c, a squared over c: minus four, two.
+
+57
+00:04:43,230 --> 00:04:45,673
+It lies on both the line and the circle.
+
+58
+00:04:51,267 --> 00:04:56,256
+At any point of a circle, the tangent is perpendicular to the radius.
+
+59
+00:04:56,256 --> 00:04:58,858
+Move the point round and the right angle stays.
+
+60
+00:04:59,067 --> 00:05:07,363
+The radius to x one, y one has slope y one over x one, so the tangent has slope minus x one over y one.
+
+61
+00:05:07,363 --> 00:05:15,813
+Simplify, using the fact that the point is on the circle, and the tangent is x x one plus y y one equals a squared.
+
+62
+00:05:15,813 --> 00:05:27,428
+For a general circle, replace x squared by x x one, y squared by y y one, two x by x plus x one, and two y by y plus y one.
+
+63
+00:05:27,428 --> 00:05:29,970
+And the normal always passes through the centre.
+
+64
+00:05:31,200 --> 00:05:32,476
+Straight substitution.
+
+65
+00:05:32,700 --> 00:05:34,855
+First check that the point is on the circle.
+
+66
+00:05:35,067 --> 00:05:38,658
+Tangent: three x plus four y equals twenty five.
+
+67
+00:05:38,867 --> 00:05:45,561
+Normal: the line through the centre and the point: four x minus three y equals zero.
+
+68
+00:05:45,561 --> 00:05:47,514
+The slopes multiply to minus one.
+
+69
+00:05:49,533 --> 00:05:55,563
+From the outside point seven, one, draw the two tangents to the circle of radius five.
+
+70
+00:05:55,563 --> 00:06:02,938
+The tangent length is root of S one: root of forty nine plus one minus twenty five, which is five.
+
+71
+00:06:03,167 --> 00:06:10,890
+For the tangents themselves, take any line through seven, one with slope m and apply the tangency condition.
+
+72
+00:06:10,890 --> 00:06:15,351
+The quadratic gives m equals four thirds or minus three quarters.
+
+73
+00:06:15,567 --> 00:06:20,530
+Their slopes multiply to minus one: the tangents are perpendicular.
+
+74
+00:06:20,530 --> 00:06:21,884
+That is no accident.
+
+75
+00:06:21,884 --> 00:06:32,724
+Seven squared plus one squared is fifty, twice twenty five, so the point lies on the director circle, the circle from which every pair of tangents meets at a right angle.
+
+76
+00:06:34,533 --> 00:06:35,902
+Exam tip.
+
+77
+00:06:35,902 --> 00:06:46,084
+If the line is in the form y equals m x plus c and the circle is centred at the origin, use c squared equals a squared, one plus m squared.
+
+78
+00:06:46,084 --> 00:06:49,961
+Otherwise, use distance from the centre equals the radius.
+

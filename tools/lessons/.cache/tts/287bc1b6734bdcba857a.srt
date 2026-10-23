@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,924
+The form.
+
+2
+00:00:00,924 --> 00:00:10,286
+Sixteen lines in four quatrains, each built from two rhyming couplets: a a b b, c c d d, and so on.
+
+3
+00:00:10,286 --> 00:00:18,255
+All eight rhymes are perfect, and a couplet is the most settled rhyme in English: the ear gets what it is waiting for at once.
+
+4
+00:00:18,255 --> 00:00:25,091
+So in a poem about uncertainty and death, the sound keeps promising what the sense cannot.
+
+5
+00:00:25,091 --> 00:00:30,559
+The metre is mostly iambic tetrameter, the beat of hymns and ballads.
+

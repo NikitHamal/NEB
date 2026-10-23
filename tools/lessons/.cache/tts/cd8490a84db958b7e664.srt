@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,377
+Write N as M times n for each solution, and you get the molarity form: n one M one V one equals n two M two V two.
+
+2
+00:00:10,377 --> 00:00:18,697
+And for diluting the same solute with water, the n factors cancel: M one V one equals M two V two.
+

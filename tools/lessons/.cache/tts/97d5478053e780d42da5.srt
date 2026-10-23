@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,361
+The outermost layer, the protoderm, becomes the epidermis.
+

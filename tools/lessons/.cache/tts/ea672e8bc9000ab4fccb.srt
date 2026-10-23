@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:14,609
+It becomes spontaneous where delta G crosses zero: T equals delta H over delta S, one seventy eight point three over zero point one six zero six, about eleven hundred and ten kelvin.
+
+2
+00:00:14,609 --> 00:00:19,817
+That is why a cement kiln runs at around fourteen hundred degrees Celsius.
+

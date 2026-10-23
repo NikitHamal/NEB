@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,122
+Here are the differences side by side.
+
+2
+00:00:02,122 --> 00:00:10,572
+Notice especially that only transverse waves can be polarised, and that only longitudinal waves can travel through a gas.
+
+3
+00:00:10,572 --> 00:00:16,601
+Air has no stiffness against sideways shearing, so it cannot carry a transverse wave.
+

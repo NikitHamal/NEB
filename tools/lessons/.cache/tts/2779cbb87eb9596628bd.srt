@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,632
+Split the slit into four strips instead, and pair neighbouring strips: darkness again when a sine theta is two lambda.
+
+2
+00:00:08,632 --> 00:00:11,171
+Six strips give three lambda.
+
+3
+00:00:11,171 --> 00:00:19,622
+So the minima are at a sine theta equals n lambda, for n equal to plus or minus one, two, three.
+

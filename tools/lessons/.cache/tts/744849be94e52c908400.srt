@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,684
+Worked example three point five, zero order.
+
+2
+00:00:03,684 --> 00:00:10,820
+After ten seconds, A is zero point five minus zero point two, zero point three molar.
+
+3
+00:00:10,820 --> 00:00:15,885
+The half life is A nought over two k, twelve point five seconds.
+
+4
+00:00:15,885 --> 00:00:23,268
+And it finishes completely at A nought over k, twenty five seconds, exactly two half lives.
+
+5
+00:00:23,268 --> 00:00:26,119
+A zero order reaction really does end.
+
+6
+00:00:26,119 --> 00:00:28,450
+A first order one never quite does.
+

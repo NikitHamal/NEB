@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,859
+Solutes and surfaces lower it, so every solution and cell is negative.
+
+2
+00:00:05,859 --> 00:00:09,752
+Water always moves from less negative to more negative.
+

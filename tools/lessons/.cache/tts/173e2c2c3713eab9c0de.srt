@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,166
+Lewis took the proton out of the definition altogether.
+
+2
+00:00:04,166 --> 00:00:08,033
+A Lewis acid accepts a lone pair of electrons.
+
+3
+00:00:08,033 --> 00:00:10,299
+A Lewis base donates one.
+
+4
+00:00:10,299 --> 00:00:14,635
+Neutralisation is the formation of a coordinate bond between them.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,958
+Solve z to the four plus sixteen equals zero.
+
+2
+00:00:03,958 --> 00:00:08,710
+Minus sixteen has modulus sixteen and argument one eighty.
+
+3
+00:00:08,710 --> 00:00:17,604
+Fourth roots: modulus two, angles forty five, one thirty five, two twenty five and three fifteen.
+
+4
+00:00:17,604 --> 00:00:24,166
+Plus or minus root two, plus or minus i root two: the corners of a square.
+

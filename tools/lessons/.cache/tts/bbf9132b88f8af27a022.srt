@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,742
+Assume the sum to k terms is k over k plus one, and add the next term.
+
+2
+00:00:05,742 --> 00:00:13,424
+Over a common denominator the top is k squared plus two k plus one: k plus one, squared.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,320
+In dim light, light limits photosynthesis.
+
+2
+00:00:03,320 --> 00:00:06,901
+Where net gain is zero is the light compensation point.
+

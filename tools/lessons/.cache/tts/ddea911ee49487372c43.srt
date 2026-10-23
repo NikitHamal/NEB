@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,289
+Differentiate and factorise: x is three or nine, and nine leaves no base at all.
+

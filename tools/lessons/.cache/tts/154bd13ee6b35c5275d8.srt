@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,804
+Welcome to Class 12 Physics, Unit 11: Interference.
+
+2
+00:00:04,804 --> 00:00:16,666
+In this short unit you will learn when light can cancel light, why ordinary lamps never show it, and how to predict exactly where every stripe in Young's experiment appears.
+

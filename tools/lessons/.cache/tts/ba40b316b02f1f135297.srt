@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:07,916
+In nineteen twenty four, Spemann and Mangold grafted a dorsal lip from one newt embryo onto the belly of another.
+
+2
+00:00:07,916 --> 00:00:10,364
+The host grew a complete second embryo.
+
+3
+00:00:10,364 --> 00:00:13,281
+The dorsal lip is the primary organiser.
+
+4
+00:00:13,281 --> 00:00:20,455
+And one fact students get backwards: in the frog, the blastopore becomes the anus, not the mouth.
+
+5
+00:00:20,455 --> 00:00:23,776
+Frogs, like us, are deuterostomes.
+

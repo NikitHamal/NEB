@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,973
+But the two glycolysis NADH must be shuttled into the mitochondrion.
+
+2
+00:00:04,973 --> 00:00:10,807
+The malate aspartate shuttle keeps them at two point five each: thirty-two.
+
+3
+00:00:10,807 --> 00:00:15,989
+The glycerol phosphate shuttle drops them to one point five: thirty.
+
+4
+00:00:15,989 --> 00:00:19,140
+So, thirty to thirty-two ATP.
+

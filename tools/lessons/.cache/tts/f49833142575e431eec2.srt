@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,393
+Wavelength is v over f: four hundred over two fifty, one point six metres.
+
+2
+00:00:06,393 --> 00:00:10,195
+The period is one over f, four milliseconds.
+

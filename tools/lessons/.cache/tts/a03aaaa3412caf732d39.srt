@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,140
+Epithelium is a sheet of tightly packed cells, with almost nothing between them, resting on a thin non cellular basement membrane.
+
+2
+00:00:09,140 --> 00:00:13,828
+It covers the body's surfaces and lines its cavities and tubes.
+

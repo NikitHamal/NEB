@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,570
+Control structures decide which statements run and how often.
+
+2
+00:00:04,570 --> 00:00:07,903
+A for loop has a start, a test and a step.
+
+3
+00:00:07,903 --> 00:00:17,174
+Trace it: i is one, sum becomes one; i is two, sum becomes three; and so on, until i passes ten.
+
+4
+00:00:17,174 --> 00:00:19,088
+The sum is fifty five.
+

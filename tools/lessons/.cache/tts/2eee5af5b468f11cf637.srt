@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,145
+Worked example.
+
+2
+00:00:01,145 --> 00:00:09,127
+A one kilohertz sound wave in air has a displacement amplitude of one times ten to the minus eight metres.
+
+3
+00:00:09,127 --> 00:00:13,736
+Find its pressure amplitude, intensity, and intensity level.
+

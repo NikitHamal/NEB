@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,757
+So minus sixty four, root three plus i. Watch those signs: that is where marks go.
+

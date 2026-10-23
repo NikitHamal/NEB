@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,789
+The vapour is condensed in water cooled condensers.
+
+2
+00:00:03,789 --> 00:00:16,106
+To purify it, the crude metal is sprayed down a tall column of dilute nitric acid, which dissolves base metals but not noble mercury, and then distilled under reduced pressure.
+

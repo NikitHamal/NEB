@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,054
+Sixteen.
+
+2
+00:00:01,054 --> 00:00:07,643
+Since nine is not seven, the property says nine plus seven must equal n.
+
+3
+00:00:07,643 --> 00:00:10,234
+Two is the trap from subtracting.
+

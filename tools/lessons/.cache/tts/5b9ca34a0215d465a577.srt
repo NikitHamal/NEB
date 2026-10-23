@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,588
+This is the Daniell cell.
+
+2
+00:00:01,588 --> 00:00:08,307
+We write it with the anode on the left, a single bar for each phase boundary, and a double bar for the salt bridge.
+

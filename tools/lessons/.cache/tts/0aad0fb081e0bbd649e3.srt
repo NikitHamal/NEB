@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,541
+In ice, the molecules are locked in a lattice.
+
+2
+00:00:03,541 --> 00:00:05,468
+They can only jiggle in place.
+
+3
+00:00:05,468 --> 00:00:08,385
+Few arrangements, low entropy.
+

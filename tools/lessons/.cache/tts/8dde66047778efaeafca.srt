@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,223
+Let us recap.
+
+2
+00:00:01,223 --> 00:00:04,700
+In a haloarene the halogen sits on a ring carbon.
+
+3
+00:00:04,700 --> 00:00:09,309
+Dichlorobenzene has three isomers, and para melts highest.
+
+4
+00:00:09,309 --> 00:00:17,526
+Chlorobenzene is made from benzene in the dark with aluminium chloride, or from a diazonium salt by the Sandmeyer reaction.
+
+5
+00:00:17,526 --> 00:00:29,804
+It resists nucleophiles for four reasons: resonance, the s p two carbon, the pi cloud, and no available mechanism, unless nitro groups sit ortho or para.
+
+6
+00:00:29,804 --> 00:00:33,658
+Chlorine is deactivating but ortho para directing.
+
+7
+00:00:33,658 --> 00:00:40,989
+And sodium couples haloarenes in the Fittig and Wurtz Fittig reactions, while chloral gives D D T.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,276
+Let us compute one.
+
+2
+00:00:01,276 --> 00:00:10,260
+Water flows through a tube half a metre long, of radius one millimetre, under a pressure difference of a thousand pascals.
+
+3
+00:00:10,260 --> 00:00:14,505
+Find the flow rate, and the flow if the radius is halved.
+

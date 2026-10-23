@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,593
+That is how pipes and strings choose their notes.
+
+2
+00:00:03,593 --> 00:00:11,692
+Next, we listen more closely: beats, the Doppler effect, loudness and the decibel, in Acoustic Phenomena.
+
+3
+00:00:11,692 --> 00:00:14,375
+See you there, on NEBians.
+

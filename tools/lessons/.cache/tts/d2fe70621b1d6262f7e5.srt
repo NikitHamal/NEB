@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,174
+In a given medium, the speed is fixed by the medium itself: its elasticity and its density.
+
+2
+00:00:07,174 --> 00:00:10,299
+So what happens if the source vibrates faster?
+

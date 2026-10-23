@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:14,153
+Agents that raise the mutation rate are mutagens: physical ones like X rays and ultraviolet, chemical ones like mustard gas, nitrous acid and E M S, and biological ones like transposons.
+
+2
+00:00:14,153 --> 00:00:20,390
+And here is why mutation matters: it is the only original source of new alleles.
+
+3
+00:00:20,390 --> 00:00:24,049
+Crossing over only reshuffles what already exists.
+
+4
+00:00:24,049 --> 00:00:29,960
+Without mutation there is nothing for natural selection to work on, and no evolution.
+

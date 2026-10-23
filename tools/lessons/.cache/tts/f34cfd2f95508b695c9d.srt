@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,276
+A worked example.
+
+2
+00:00:01,276 --> 00:00:04,401
+One molar sucrose at twenty-five degrees.
+
+3
+00:00:04,401 --> 00:00:09,908
+Find its solute potential, and the fate of a cell at minus one point two.
+

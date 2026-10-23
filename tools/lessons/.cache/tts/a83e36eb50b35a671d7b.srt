@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,385
+So the cliff is about five hundred and twelve metres away.
+
+2
+00:00:03,385 --> 00:00:09,895
+Using the uncorrected three thirty two would have given four ninety eight, fourteen metres short.
+
+3
+00:00:09,895 --> 00:00:12,942
+That is why the temperature correction is worth doing.
+

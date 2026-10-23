@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,369
+The crude metal is called spelter.
+
+2
+00:00:02,369 --> 00:00:06,080
+The fine powder that condenses first is zinc dust.
+
+3
+00:00:06,080 --> 00:00:15,065
+Spelter is refined by liquation, by fractional distillation, or electrolytically to ninety nine point nine five percent.
+

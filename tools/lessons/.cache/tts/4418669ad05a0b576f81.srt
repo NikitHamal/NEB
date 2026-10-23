@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,263
+The properties.
+
+2
+00:00:01,263 --> 00:00:06,276
+There is one way to choose nothing, and one way to choose everything.
+

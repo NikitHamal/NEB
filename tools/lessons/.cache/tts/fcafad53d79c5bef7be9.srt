@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,770
+Two movements do the work.
+
+2
+00:00:01,770 --> 00:00:10,546
+In epiboly, the small animal cells divide fast and spread down over the yolky cells, like a sock being pulled on.
+
+3
+00:00:10,546 --> 00:00:12,109
+They become ectoderm.
+
+4
+00:00:12,109 --> 00:00:18,411
+In emboly, cells roll inwards over the lip of the blastopore and move forward inside.
+
+5
+00:00:18,411 --> 00:00:20,989
+They become mesoderm and endoderm.
+

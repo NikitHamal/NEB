@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,177
+Here are the probabilities for five trials.
+
+2
+00:00:03,177 --> 00:00:08,710
+With a fair coin, p a half, the bars are symmetric about the mean, two and a half.
+
+3
+00:00:08,710 --> 00:00:16,731
+Make success rarer, like rolling a six, and the bars pile up near zero; make it likely, and they slide right.
+

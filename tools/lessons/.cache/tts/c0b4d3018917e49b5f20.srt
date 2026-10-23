@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,460
+And one distinction to keep straight.
+
+2
+00:00:02,460 --> 00:00:04,830
+Polyploidy changes whole sets.
+
+3
+00:00:04,830 --> 00:00:07,851
+Aneuploidy changes single chromosomes.
+
+4
+00:00:07,851 --> 00:00:12,356
+Down's syndrome is aneuploidy; bread wheat is polyploidy.
+

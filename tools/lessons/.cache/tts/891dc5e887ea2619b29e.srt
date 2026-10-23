@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,390
+Welcome to Class 12 Biology, Unit 2: Plant Physiology.
+
+2
+00:00:05,390 --> 00:00:08,541
+In Unit 1 we built the plumbing of a plant.
+
+3
+00:00:08,541 --> 00:00:18,645
+Now we switch it on: water climbs, light becomes sugar, sugar becomes energy, and a plant that cannot walk still finds ways to move.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,872
+Now the oxygen carries three bonds and a positive charge: an oxonium ion.
+
+2
+00:00:05,872 --> 00:00:14,466
+A positive oxygen pulls hard on its electrons, which makes the carbon oxygen bond weak, and the neighbouring carbon slightly positive.
+

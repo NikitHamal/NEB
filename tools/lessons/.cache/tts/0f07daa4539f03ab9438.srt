@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,057
+Why are the three ratios equal?
+
+2
+00:00:02,057 --> 00:00:12,513
+Draw the circle through A, B and C, the circumcircle, with radius R. Keep B and C fixed and slide A round the circle.
+
+3
+00:00:12,513 --> 00:00:17,552
+The angle at A does not change, and neither does a over sin A.
+
+4
+00:00:17,552 --> 00:00:20,611
+It always equals the diameter, two R.
+

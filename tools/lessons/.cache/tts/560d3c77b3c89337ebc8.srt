@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,770
+The comparison to learn.
+
+2
+00:00:01,770 --> 00:00:10,299
+Linkage keeps genes together and gives parental combinations; it weakens with distance; it keeps good combinations intact.
+
+3
+00:00:10,299 --> 00:00:18,424
+Crossing over separates them and gives recombinants; it becomes more frequent with distance; and it creates variation.
+

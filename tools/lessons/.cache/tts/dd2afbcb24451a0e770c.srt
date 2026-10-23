@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,385
+A always pairs with T, and G with C.
+
+2
+00:00:03,385 --> 00:00:09,101
+That is a purine with a pyrimidine every time, so the helix has a constant width.
+
+3
+00:00:09,101 --> 00:00:11,575
+And it explains Chargaff's rules.
+

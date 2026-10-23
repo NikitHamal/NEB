@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,036
+Worked example eleven point one, straight from Unit 2.
+
+2
+00:00:04,036 --> 00:00:13,190
+Hydrogen ion is the square root of K a C: the square root of ten to the minus twelve, ten to the minus six.
+
+3
+00:00:13,190 --> 00:00:14,908
+So p H six.
+
+4
+00:00:14,908 --> 00:00:23,671
+And the degree of ionisation is root K a over C, ten to the minus four: only one molecule in ten thousand.
+
+5
+00:00:23,671 --> 00:00:25,455
+Acidic, but only just.
+

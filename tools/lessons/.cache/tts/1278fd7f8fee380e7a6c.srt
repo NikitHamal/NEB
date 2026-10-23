@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,117
+On 5G: one hundred and forty seconds, ten times faster.
+

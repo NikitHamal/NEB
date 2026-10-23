@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,757
+The polymerase chain reaction, invented by Kary Mullis in nineteen eighty three, copies one chosen stretch of DNA millions of times, in a tube, with no cell at all.
+
+2
+00:00:11,757 --> 00:00:21,809
+The tube holds the DNA, two short primers that flank the target, the four nucleotides, and a heat proof polymerase, Taq, from a hot spring bacterium.
+

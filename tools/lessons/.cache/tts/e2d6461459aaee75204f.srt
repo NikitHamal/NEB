@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,158
+Six parts.
+
+2
+00:00:01,158 --> 00:00:02,486
+Format first.
+
+3
+00:00:02,486 --> 00:00:03,502
+Register.
+
+4
+00:00:03,502 --> 00:00:05,117
+The letter to the editor.
+
+5
+00:00:05,117 --> 00:00:06,419
+The formal email.
+
+6
+00:00:06,419 --> 00:00:08,658
+The application and the C V.
+
+7
+00:00:08,658 --> 00:00:11,783
+And the letter of complaint, with a final checklist.
+

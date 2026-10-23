@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,825
+With the nitro group meta, the charge hops between the same three carbons, but none of them carries the nitro group.
+
+2
+00:00:07,825 --> 00:00:12,981
+No extra stabilisation, so a meta nitro group hardly helps.
+

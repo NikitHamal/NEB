@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,341
+Five G3P regenerate three RuBP, using three ATP.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,940
+Multiply by a. Done.
+
+2
+00:00:01,940 --> 00:00:07,395
+With thirteen, fourteen, fifteen, both sides are minus twenty nine.
+

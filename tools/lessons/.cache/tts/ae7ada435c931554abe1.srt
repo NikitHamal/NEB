@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,958
+Enthalpy of solution is itself a tug of war.
+
+2
+00:00:03,958 --> 00:00:09,479
+Pulling the ionic lattice apart costs energy, the lattice enthalpy.
+
+3
+00:00:09,479 --> 00:00:15,846
+Water molecules wrapping the separated ions release energy, the hydration enthalpy.
+
+4
+00:00:15,846 --> 00:00:19,908
+For ammonium chloride, the lattice term wins by a little.
+
+5
+00:00:19,908 --> 00:00:23,697
+Net, plus fifteen point one kilojoules per mole.
+
+6
+00:00:23,697 --> 00:00:25,247
+That is our cold pack.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,127
+Resonance is useful and dangerous in equal measure.
+
+2
+00:00:04,127 --> 00:00:08,216
+A radio tunes in one station by resonating with it.
+
+3
+00:00:08,216 --> 00:00:12,968
+The sympathetic strings of a sitar ring all by themselves.
+
+4
+00:00:12,968 --> 00:00:24,088
+But soldiers break step when crossing a bridge, and in nineteen forty, wind drove the Tacoma Narrows bridge into resonance until it tore itself apart.
+

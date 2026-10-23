@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,171
+Quick recap.
+
+2
+00:00:01,171 --> 00:00:05,546
+The parallelogram law and Lami's theorem for forces at a point.
+
+3
+00:00:05,546 --> 00:00:07,044
+Moments for beams.
+
+4
+00:00:07,044 --> 00:00:10,104
+Resolving on an inclined plane, and friction.
+
+5
+00:00:10,104 --> 00:00:14,049
+Newton's laws, the equations of motion and momentum.
+
+6
+00:00:14,049 --> 00:00:19,440
+And projectiles, with the greatest range at forty five degrees.
+

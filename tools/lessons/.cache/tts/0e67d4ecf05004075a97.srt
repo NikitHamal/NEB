@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,776
+Unlike JavaScript, PHP has full classes.
+
+2
+00:00:03,776 --> 00:00:08,385
+A class declares properties and methods; the constructor sets them up.
+
+3
+00:00:08,385 --> 00:00:12,955
+Inside the class, this arrow refers to the object's own members.
+
+4
+00:00:12,955 --> 00:00:18,320
+new creates an object, and the arrow, not a dot, reaches its members.
+
+5
+00:00:18,320 --> 00:00:20,481
+extends gives inheritance.
+

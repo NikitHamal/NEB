@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,184
+Worked example.
+
+2
+00:00:01,184 --> 00:00:10,572
+Light of frequency five times ten to the fourteen hertz enters a liquid, where its wavelength is three hundred and seventy five nanometres.
+
+3
+00:00:10,572 --> 00:00:13,333
+Find the refractive index and the speed.
+

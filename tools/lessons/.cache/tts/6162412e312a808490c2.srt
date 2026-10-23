@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,315
+Now play with it.
+
+2
+00:00:01,315 --> 00:00:05,742
+Throw less heat into the sink, and the efficiency rises.
+
+3
+00:00:05,742 --> 00:00:09,609
+Could we make Q two zero, and reach one hundred percent?
+

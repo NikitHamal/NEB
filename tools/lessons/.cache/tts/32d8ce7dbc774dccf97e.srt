@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,320
+Subtract: n is ten and r is three.
+
+2
+00:00:03,320 --> 00:00:06,263
+The terms are the third, fourth and fifth.
+

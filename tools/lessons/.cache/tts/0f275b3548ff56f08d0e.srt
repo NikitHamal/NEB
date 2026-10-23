@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,541
+Second, isobaric: constant pressure.
+
+2
+00:00:03,541 --> 00:00:07,174
+Put a fixed weight on a free piston and heat the gas.
+
+3
+00:00:07,174 --> 00:00:12,096
+It warms and expands, pushing the piston up against the same pressure.
+
+4
+00:00:12,096 --> 00:00:13,554
+A horizontal line.
+
+5
+00:00:13,554 --> 00:00:19,283
+Now the heat does two jobs: Q equals delta U plus P delta V.
+

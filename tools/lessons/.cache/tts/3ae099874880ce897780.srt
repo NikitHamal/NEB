@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,755
+Then three to the two k plus two, minus one, is nine times that, minus one: seventy two m plus eight, which is eight times nine m plus one.
+
+2
+00:00:10,755 --> 00:00:12,226
+Divisible by eight.
+

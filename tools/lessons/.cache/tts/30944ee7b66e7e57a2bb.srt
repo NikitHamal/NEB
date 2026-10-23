@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,843
+So y on x is y equals point seven two x plus twenty two, and x on y is x equals one point one two five y minus twenty.
+

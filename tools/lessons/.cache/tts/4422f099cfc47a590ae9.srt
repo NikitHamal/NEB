@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,479
+Software is programs plus data plus documentation.
+
+2
+00:00:04,479 --> 00:00:11,653
+A software project is a temporary, planned effort with a fixed goal, a budget, a deadline and a team.
+
+3
+00:00:11,653 --> 00:00:17,213
+It is managed along four constraints: scope, time, cost and quality.
+
+4
+00:00:17,213 --> 00:00:22,916
+Pull on one and the others move: add features, and it costs more or takes longer.
+

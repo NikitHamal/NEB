@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,429
+Two: the chord slope is four, and f dash of c equals two c.
+

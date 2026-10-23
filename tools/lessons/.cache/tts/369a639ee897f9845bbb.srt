@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,002
+Our path.
+
+2
+00:00:01,002 --> 00:00:03,111
+What phenols are and how they are named.
+
+3
+00:00:03,111 --> 00:00:05,143
+Three ways to prepare phenol.
+
+4
+00:00:05,143 --> 00:00:06,718
+Physical properties.
+
+5
+00:00:06,718 --> 00:00:08,411
+Why phenol is acidic.
+
+6
+00:00:08,411 --> 00:00:15,247
+Its reactions with ammonia, zinc, sodium, diazonium salts and phthalic anhydride.
+
+7
+00:00:15,247 --> 00:00:19,388
+Acylation, and the Kolbe and Reimer Tiemann reactions.
+
+8
+00:00:19,388 --> 00:00:21,510
+Electrophilic substitution.
+
+9
+00:00:21,510 --> 00:00:24,192
+And finally, tests and uses.
+

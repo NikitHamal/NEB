@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,369
+Pascal's law says that pressure applied to an enclosed fluid is passed on, undiminished, to every part of it.
+
+2
+00:00:07,369 --> 00:00:14,036
+Push down gently on a narrow piston of area a, and the same pressure acts on a wide piston of area A.
+

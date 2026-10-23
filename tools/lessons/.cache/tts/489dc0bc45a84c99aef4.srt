@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,091
+The cliff has not moved, so the echo now takes eight sixty point five over three thirty five point zero five: two point five seven seconds.
+
+2
+00:00:10,091 --> 00:00:12,578
+About seven hundredths of a second longer.
+
+3
+00:00:12,578 --> 00:00:20,481
+Small, but measurable, which is why every echo or resonance tube experiment must record the air temperature.
+

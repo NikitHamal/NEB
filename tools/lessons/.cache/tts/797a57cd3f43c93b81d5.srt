@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,286
+Properties like height are state functions: pressure, volume, temperature, internal energy, enthalpy, entropy and free energy.
+
+2
+00:00:10,286 --> 00:00:13,203
+Heat and work are like the distance walked.
+
+3
+00:00:13,203 --> 00:00:14,947
+They are path functions.
+

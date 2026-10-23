@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,932
+Then one drop too many, and a pale pink colour stays.
+
+2
+00:00:03,932 --> 00:00:06,302
+Permanganate is its own indicator.
+
+3
+00:00:06,302 --> 00:00:08,229
+We call it self indicating.
+

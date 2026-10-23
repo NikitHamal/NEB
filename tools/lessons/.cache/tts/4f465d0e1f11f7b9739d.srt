@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,994
+Two defects follow straight from geometry.
+
+2
+00:00:02,994 --> 00:00:13,007
+In myopia, short sight, the eyeball is too long, so distant objects focus in front of the retina; a concave, diverging lens fixes it.
+
+3
+00:00:13,007 --> 00:00:22,916
+In hypermetropia, long sight, the eyeball is too short and the image would fall behind the retina; a convex, converging lens fixes it.
+

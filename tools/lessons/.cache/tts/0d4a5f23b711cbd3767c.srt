@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,132
+Stanza one.
+
+2
+00:00:01,132 --> 00:00:07,135
+I'll tell you how the sun rose: the voice of a child who has seen something and cannot keep it.
+
+3
+00:00:07,135 --> 00:00:15,546
+A ribbon at a time: dawn is not sudden, it is unrolled in narrow bands, like ribbon off a bolt in a draper's shop.
+

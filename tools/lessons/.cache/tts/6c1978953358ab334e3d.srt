@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,880
+The fifth is two eighty x cubed y to the four.
+

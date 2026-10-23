@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,072
+Change the temperature, and the product changes.
+
+2
+00:00:03,072 --> 00:00:09,140
+At one seventy degrees each ethanol molecule loses its own water: ethene.
+
+3
+00:00:09,140 --> 00:00:18,307
+At one forty degrees, with excess alcohol, two molecules share one water, giving ethoxyethane, diethyl ether.
+
+4
+00:00:18,307 --> 00:00:25,507
+Where two alkenes are possible, Saytzeff's rule applies again: butan two ol gives mainly but two ene.
+

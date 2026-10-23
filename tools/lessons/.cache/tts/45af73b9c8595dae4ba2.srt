@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,424
+Real life does not always keep both clauses in one time.
+
+2
+00:00:03,424 --> 00:00:07,005
+A mixed conditional takes each clause from a different type.
+
+3
+00:00:07,005 --> 00:00:15,794
+If I had studied medicine, I would be a doctor now: a past cause, with the past perfect, and a present result, with would plus the base verb.
+
+4
+00:00:15,794 --> 00:00:23,645
+And the other way round: if he were honest, he would not have cheated in the test: a present state, and a past result.
+

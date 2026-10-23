@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,359
+The last piece of the dictionary: angular momentum.
+
+2
+00:00:03,359 --> 00:00:11,718
+For a rigid body rotating about a fixed axis, L equals I omega, the twin of p equals m v.
+
+3
+00:00:11,718 --> 00:00:15,677
+For a single particle, it is r times p times sine phi.
+

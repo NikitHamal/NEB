@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,213
+The point of contact is minus a squared m over c, a squared over c: minus four, two.
+
+2
+00:00:07,213 --> 00:00:10,091
+It lies on both the line and the circle.
+

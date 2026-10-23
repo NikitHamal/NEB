@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,333
+Now compare two right angled triangles.
+
+2
+00:00:03,333 --> 00:00:09,427
+In triangle A B C, B C is the distance B travelled: c t.
+
+3
+00:00:09,427 --> 00:00:17,018
+In triangle A D C, A D is the radius of A's wavelet: also c t.
+
+4
+00:00:17,018 --> 00:00:26,601
+They share the side A C, and both have a right angle, at B and at D, because a wavefront is always perpendicular to its ray.
+

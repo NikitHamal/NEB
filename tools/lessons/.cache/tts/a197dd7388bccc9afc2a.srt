@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,526
+Remember this table, and you can rebuild almost every formula in this unit, just by swapping the symbols.
+

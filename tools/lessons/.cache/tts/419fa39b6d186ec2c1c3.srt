@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,632
+Rearrange: E a is about fifty three thousand six hundred joules per mole, fifty three point six kilojoules.
+
+2
+00:00:08,632 --> 00:00:17,773
+Remember this: an activation energy of about fifty kilojoules is what makes a rate double for every ten degrees near room temperature.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,611
+So simple harmonic motion is just uniform circular motion, seen edge on.
+
+2
+00:00:05,611 --> 00:00:12,825
+The angle omega t is called the phase, and one full turn of the circle is one full oscillation.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,755
+The same resonance that makes phenol acidic also makes its ring extremely reactive.
+
+2
+00:00:05,755 --> 00:00:16,145
+The O H group feeds its lone pair into the ring, piling up electron density at the ortho and para positions, carbons two, four and six.
+
+3
+00:00:16,145 --> 00:00:20,221
+Electrophiles attack there, far faster than with benzene.
+

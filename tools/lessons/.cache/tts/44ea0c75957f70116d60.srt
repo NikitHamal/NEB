@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,210
+Pause and think.
+
+2
+00:00:01,210 --> 00:00:03,567
+Light goes from air into glass.
+
+3
+00:00:03,567 --> 00:00:05,638
+Which quantity stays the same?
+

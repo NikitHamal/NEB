@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,760
+The sugar phosphate backbones are on the outside.
+
+2
+00:00:02,760 --> 00:00:06,263
+The bases point inwards and pair across the middle.
+

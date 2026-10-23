@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,458
+Exam tip.
+
+2
+00:00:01,458 --> 00:00:07,955
+Chi square only works with actual counts of individuals, never percentages or fractions.
+
+3
+00:00:07,955 --> 00:00:13,072
+And the expected column must add up to the same total as the observed column.
+

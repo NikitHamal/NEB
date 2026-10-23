@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,223
+An event is something that happens on the page: a click, a key press, the page loading.
+
+2
+00:00:06,223 --> 00:00:09,973
+An event handler is the function that runs in response.
+
+3
+00:00:09,973 --> 00:00:17,434
+Click the button: onclick calls greet, which finds the paragraph by its id and changes its contents.
+

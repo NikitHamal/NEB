@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,018
+Keep the two relations apart.
+
+2
+00:00:02,018 --> 00:00:06,536
+For the ellipse, a squared e squared is a squared minus b squared.
+
+3
+00:00:06,536 --> 00:00:09,296
+For the hyperbola, it is plus.
+
+4
+00:00:09,296 --> 00:00:11,458
+Name the curve before you compute e.
+

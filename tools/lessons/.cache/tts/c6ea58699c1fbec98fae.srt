@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:12,083
+The work done by the gas is n R times T one minus T two, over gamma minus one: eight point three one four times minus three hundred and eighty nine, over zero point four.
+
+2
+00:00:12,083 --> 00:00:15,598
+That is minus eight point zero nine kilojoules.
+

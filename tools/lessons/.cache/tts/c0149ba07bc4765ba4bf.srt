@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,197
+Pause and think.
+
+2
+00:00:01,197 --> 00:00:04,765
+Make the tension in a string four times bigger.
+
+3
+00:00:04,765 --> 00:00:07,161
+What happens to the fundamental frequency?
+

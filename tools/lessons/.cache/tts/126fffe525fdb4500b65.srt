@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,177
+Ethylene is the only gaseous plant hormone.
+
+2
+00:00:03,177 --> 00:00:09,153
+It is made from the amino acid methionine, and its signature job is ripening fruit.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,369
+Put n equal to one in that rule.
+
+2
+00:00:02,369 --> 00:00:08,997
+One factorial is one times zero factorial, so zero factorial must equal one.
+
+3
+00:00:08,997 --> 00:00:12,304
+It is not an accident; the formula forces it.
+

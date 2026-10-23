@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,135
+How does pressure grow as you go deeper?
+
+2
+00:00:02,135 --> 00:00:07,109
+Take a small flat area A at depth h inside still water.
+
+3
+00:00:07,109 --> 00:00:10,989
+It carries the whole column of water standing on top of it.
+

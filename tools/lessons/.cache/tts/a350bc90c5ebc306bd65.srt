@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,135
+A force also turns things.
+
+2
+00:00:02,135 --> 00:00:07,135
+Its moment about a point is the force times its perpendicular distance from the point.
+
+3
+00:00:07,135 --> 00:00:15,169
+A four metre beam weighing two hundred newtons rests on two supports, with a three hundred newton load one metre from A.
+

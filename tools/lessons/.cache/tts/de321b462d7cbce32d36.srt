@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,773
+Non-cyclic uses both photosystems, splits water, and makes ATP, NADPH and oxygen.
+
+2
+00:00:07,773 --> 00:00:12,747
+Cyclic uses photosystem one only and makes ATP alone.
+

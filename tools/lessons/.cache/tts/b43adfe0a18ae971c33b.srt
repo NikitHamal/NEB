@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,835
+Say, tell, speak and ask.
+
+2
+00:00:01,835 --> 00:00:04,752
+Say takes to before a listener: he said to me.
+
+3
+00:00:04,752 --> 00:00:09,062
+Tell takes the listener directly, with no to: he told me.
+
+4
+00:00:09,062 --> 00:00:11,901
+Speak to somebody, or speak a language.
+
+5
+00:00:11,901 --> 00:00:14,361
+And ask somebody about or for something.
+

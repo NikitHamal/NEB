@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,700
+The six-carbon sugar then splits into two three-carbon pieces.
+
+2
+00:00:04,700 --> 00:00:13,111
+Each is oxidised, handing hydrogen to NAD plus to make NADH, and each yields two ATP directly.
+
+3
+00:00:13,111 --> 00:00:19,270
+Making ATP this way, straight from a substrate, is substrate-level phosphorylation.
+

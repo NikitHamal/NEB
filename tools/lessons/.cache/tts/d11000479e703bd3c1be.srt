@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,210
+Bring them together.
+
+2
+00:00:01,210 --> 00:00:10,716
+The nitrogen lone pair moves into boron's empty orbital, and a dative bond forms, drawn as an arrow from nitrogen to boron.
+
+3
+00:00:10,716 --> 00:00:15,403
+No proton anywhere, yet this is an acid base reaction.
+

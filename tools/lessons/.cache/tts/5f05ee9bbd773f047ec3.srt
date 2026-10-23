@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,989
+Slopes at one, one: two, and, by implicit differentiation, a half.
+

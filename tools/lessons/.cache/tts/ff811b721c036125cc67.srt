@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,666
+Nodes are points of permanently zero displacement, where cos two pi x over lambda is zero.
+
+2
+00:00:06,666 --> 00:00:13,958
+That happens at x equals lambda by four, three lambda by four, five lambda by four, and so on.
+

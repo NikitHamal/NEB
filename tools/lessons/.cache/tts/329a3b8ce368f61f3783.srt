@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,354
+Exam tip.
+
+2
+00:00:01,354 --> 00:00:07,669
+Do not define osmosis as water moving from a dilute to a concentrated solution.
+
+3
+00:00:07,669 --> 00:00:12,747
+That fails the moment pressure acts, and every turgid cell is under pressure.
+
+4
+00:00:12,747 --> 00:00:20,507
+Define it with water potential: water moves from higher, less negative, to lower, more negative water potential.
+

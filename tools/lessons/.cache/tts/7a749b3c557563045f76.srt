@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,916
+The method: cross out the modifiers.
+
+2
+00:00:02,916 --> 00:00:07,122
+Take: the quality of the mangoes sold in the market was excellent.
+
+3
+00:00:07,122 --> 00:00:12,226
+Cross out the phrase beginning with of, and everything describing the mangoes.
+
+4
+00:00:12,226 --> 00:00:13,346
+What is left?
+
+5
+00:00:13,346 --> 00:00:14,492
+The quality.
+
+6
+00:00:14,492 --> 00:00:16,093
+Singular, so was.
+

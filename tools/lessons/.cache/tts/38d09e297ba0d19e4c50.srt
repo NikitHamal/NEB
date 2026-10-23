@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,122
+Step two is roasting.
+
+2
+00:00:02,122 --> 00:00:10,052
+The concentrate is heated in air in a reverberatory furnace at about ten seventy kelvin, below its melting point.
+
+3
+00:00:10,052 --> 00:00:17,721
+Moisture goes, arsenic and antimony escape as volatile oxides, and the sulphides start to burn.
+
+4
+00:00:17,721 --> 00:00:24,205
+Copper pyrite gives copper one sulphide and iron sulphide, and some of each is oxidised.
+
+5
+00:00:24,205 --> 00:00:30,013
+Roasting is kept incomplete on purpose, because some copper sulphide is needed later.
+

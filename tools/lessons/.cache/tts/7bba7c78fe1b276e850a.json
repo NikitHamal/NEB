@@ -1,0 +1,1 @@
+{"dur": 5.038083, "cues": [[0, 3.439, "HAVING: it filters groups after GROUP BY."], [3.439, 5.457, "WHERE cannot use an aggregate."]], "text": "HAVING: it filters groups after GROUP BY. WHERE cannot use an aggregate."}

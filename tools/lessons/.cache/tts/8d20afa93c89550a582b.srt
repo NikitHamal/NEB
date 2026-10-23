@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,481
+And the wavelength is six hundred over one point five, four hundred nanometres.
+
+2
+00:00:05,481 --> 00:00:10,807
+The frequency, five times ten to the fourteen hertz, is the same in both.
+
+3
+00:00:10,807 --> 00:00:12,148
+More on that next.
+

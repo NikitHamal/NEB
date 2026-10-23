@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:13,528
+Chlorobenzene can be made directly from benzene and chlorine, in the dark, with a Lewis acid halogen carrier such as anhydrous aluminium chloride, iron three chloride, or iron filings.
+
+2
+00:00:13,528 --> 00:00:19,570
+The catalyst creates the real attacker, a chlorine cation, which substitutes on the ring.
+

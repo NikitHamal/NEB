@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,442
+Meristems are classified three ways, and each answers a different question.
+
+2
+00:00:05,442 --> 00:00:07,786
+By origin: where did it come from?
+
+3
+00:00:07,786 --> 00:00:11,692
+The promeristem is the handful of cells at the very tip.
+
+4
+00:00:11,692 --> 00:00:15,963
+Primary meristems come from it and build the primary body.
+
+5
+00:00:15,963 --> 00:00:24,414
+Secondary meristems appear later, from permanent cells that have regained the power to divide, like the cork cambium.
+

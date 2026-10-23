@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,630
+So the torque is r times F sine phi.
+

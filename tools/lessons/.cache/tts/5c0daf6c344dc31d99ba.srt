@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,416
+Five integers written with put w, four bytes each: twenty bytes.
+
+2
+00:00:05,416 --> 00:00:09,166
+Sequential access reads them in order from the start.
+
+3
+00:00:09,166 --> 00:00:17,434
+Random access jumps: f seek to two times the size of an int, byte eight, lands on the third number, thirty three.
+
+4
+00:00:17,434 --> 00:00:21,835
+After reading four bytes, f tell reports position twelve.
+
+5
+00:00:21,835 --> 00:00:26,536
+The whole idea: offset equals record number times record size.
+

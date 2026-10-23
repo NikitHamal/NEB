@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,622
+The first tool is a restriction enzyme, the molecular scissors.
+
+2
+00:00:04,622 --> 00:00:08,489
+Bacteria make them to chop up invading viruses.
+
+3
+00:00:08,489 --> 00:00:17,343
+Each one recognises a short palindrome: a sequence that reads the same five prime to three prime on both strands.
+
+4
+00:00:17,343 --> 00:00:21,536
+E co R one looks for G A A T T C.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,815
+While B travels the distance B C at speed v one, the wavelet from A spreads into the glass, but only at the slower speed v two.
+
+2
+00:00:08,815 --> 00:00:12,799
+It grows to a radius of just v two t.
+

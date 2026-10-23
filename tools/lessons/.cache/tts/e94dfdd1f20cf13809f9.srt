@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,356
+D, r to the power four.
+
+2
+00:00:02,356 --> 00:00:07,031
+Many students choose r squared, thinking of the cross sectional area.
+
+3
+00:00:07,031 --> 00:00:13,216
+But a wider tube also lets the centre move faster, which adds two more powers of r.
+

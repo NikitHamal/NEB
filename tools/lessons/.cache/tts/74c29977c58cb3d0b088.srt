@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,020
+A topology is the shape of a network.
+
+2
+00:00:03,020 --> 00:00:09,765
+Bus: every computer taps one backbone cable; cheap, but one break stops everything.
+
+3
+00:00:09,765 --> 00:00:18,320
+Star: everything connects to a central switch; a cable fault affects one computer, but the switch is a single point of failure.
+
+4
+00:00:18,320 --> 00:00:25,377
+Ring: data passes round in one direction; equal access, but one break stops the ring.
+
+5
+00:00:25,377 --> 00:00:30,703
+Mesh: every pair is linked; the most reliable and the most expensive.
+
+6
+00:00:30,703 --> 00:00:33,854
+Tree: stars arranged in a hierarchy.
+

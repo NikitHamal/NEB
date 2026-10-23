@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,294
+From a warm lump of radioactive plutonium.
+
+2
+00:00:03,294 --> 00:00:06,953
+No turbine, no engine, no moving parts at all.
+
+3
+00:00:06,953 --> 00:00:17,252
+The heat flows out through rows of junctions between two different materials, and wherever there is a temperature difference across such a junction, a voltage appears.
+

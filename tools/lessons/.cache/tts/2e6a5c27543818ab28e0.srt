@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,510
+The edges rise as neural folds, the middle sinks as a groove, and the folds meet and fuse into a hollow neural tube: the future brain and spinal cord.
+
+2
+00:00:11,510 --> 00:00:15,976
+Cells left over at the seam form the neural crest.
+

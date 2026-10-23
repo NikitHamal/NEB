@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,809
+Add hydroxide instead.
+
+2
+00:00:01,809 --> 00:00:06,510
+The acid reserve neutralises it, giving acetate and water.
+
+3
+00:00:06,510 --> 00:00:14,960
+Either way, only the ratio of salt to acid changes a little, and the p H depends on the logarithm of that ratio.
+
+4
+00:00:14,960 --> 00:00:16,979
+So the p H hardly moves.
+

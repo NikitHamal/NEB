@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,028
+That was A Day.
+
+2
+00:00:01,028 --> 00:00:04,908
+Next poem: Every Morning I Wake, by Dylan Thomas.
+
+3
+00:00:04,908 --> 00:00:05,846
+See you there.
+

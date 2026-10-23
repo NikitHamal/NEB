@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,145
+Let us recap.
+
+2
+00:00:01,145 --> 00:00:07,630
+The speed of a mechanical wave is the square root of the right elastic modulus over the density.
+
+3
+00:00:07,630 --> 00:00:14,570
+Sound races through steel at about five thousand metres per second, and through water at about fifteen hundred.
+
+4
+00:00:14,570 --> 00:00:17,708
+Fluids carry only longitudinal waves.
+
+5
+00:00:17,708 --> 00:00:23,645
+Newton assumed isothermal changes and got two eighty, sixteen percent low.
+
+6
+00:00:23,645 --> 00:00:29,856
+Laplace showed they are adiabatic, so B is gamma P, giving three thirty one.
+
+7
+00:00:29,856 --> 00:00:36,966
+The speed depends on temperature, not pressure, rising by about zero point six one metres per second per degree.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,255
+Areas and radii need the half angles.
+
+2
+00:00:03,255 --> 00:00:10,143
+Start from one minus cos A, which is two sin squared of half A, and put in the cosine law.
+
+3
+00:00:10,143 --> 00:00:16,888
+The top is a difference of two squares: a plus b minus c, times a minus b plus c.
+
+4
+00:00:16,888 --> 00:00:19,023
+Each is twice s minus something.
+

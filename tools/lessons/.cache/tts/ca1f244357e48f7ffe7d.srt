@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,494
+A surveyor on the bank of the Narayani wants the distance to a tree on the far side.
+
+2
+00:00:05,494 --> 00:00:08,437
+No boat, no rope across the water.
+

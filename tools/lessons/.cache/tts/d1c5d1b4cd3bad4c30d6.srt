@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,177
+At terminal velocity, the forces balance.
+
+2
+00:00:03,177 --> 00:00:10,872
+Weight, four thirds pi r cubed rho g, equals upthrust, four thirds pi r cubed sigma g, plus the drag.
+

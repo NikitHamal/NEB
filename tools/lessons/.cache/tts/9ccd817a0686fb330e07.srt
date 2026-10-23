@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,937
+Reduction.
+
+2
+00:00:00,937 --> 00:00:10,755
+Each 3-PGA takes one ATP and one NADPH and becomes G3P, a three-carbon sugar phosphate.
+
+3
+00:00:10,755 --> 00:00:12,252
+Six of each are spent.
+
+4
+00:00:12,252 --> 00:00:14,283
+Still eighteen carbons.
+

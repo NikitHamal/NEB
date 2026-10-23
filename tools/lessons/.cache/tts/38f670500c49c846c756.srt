@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,158
+Quick example.
+
+2
+00:00:01,158 --> 00:00:12,968
+A plate of area zero point one square metres is dragged at half a metre per second over a one millimetre layer of oil, of viscosity zero point eight pascal seconds.
+
+3
+00:00:12,968 --> 00:00:14,361
+What force is needed?
+

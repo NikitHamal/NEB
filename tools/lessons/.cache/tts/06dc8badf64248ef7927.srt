@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,424
+The functional megaspore grows, and its nucleus divides by mitosis three times, with no walls at all in between.
+
+2
+00:00:08,424 --> 00:00:10,221
+A free nuclear stage.
+

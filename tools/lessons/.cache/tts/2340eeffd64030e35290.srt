@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,164
+Add each to sodium hydroxide solution.
+
+2
+00:00:03,164 --> 00:00:08,294
+Ethanol just mixes, with no reaction at all: it is no acid.
+
+3
+00:00:08,294 --> 00:00:13,111
+But phenol dissolves completely, reacting with the alkali like an acid.
+
+4
+00:00:13,111 --> 00:00:14,596
+It even burns skin.
+

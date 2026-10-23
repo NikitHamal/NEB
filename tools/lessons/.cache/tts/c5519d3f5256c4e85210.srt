@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,255
+Notice that n equals zero is not allowed.
+
+2
+00:00:03,255 --> 00:00:12,369
+Straight ahead, at theta equals zero, every wavelet arrives in step, and the centre is the brightest point of all.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,523
+That was plant anatomy.
+
+2
+00:00:01,523 --> 00:00:05,885
+Draw each section once from memory, then check it against the video.
+
+3
+00:00:05,885 --> 00:00:14,947
+Next, we take this plumbing and make it work: plant physiology, how water climbs a tree and how a leaf turns light into sugar.
+
+4
+00:00:14,947 --> 00:00:15,937
+See you there.
+

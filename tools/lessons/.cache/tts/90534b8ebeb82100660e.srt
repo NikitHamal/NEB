@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,257
+Most of these methods give a mixture: partially polarized light.
+
+2
+00:00:04,257 --> 00:00:10,286
+To measure how polarized it is, look through an analyser and rotate it a full turn.
+
+3
+00:00:10,286 --> 00:00:13,723
+The brightness swings between a maximum and a minimum.
+
+4
+00:00:13,723 --> 00:00:19,335
+The degree of polarization is I max minus I min, over I max plus I min.
+
+5
+00:00:19,335 --> 00:00:24,440
+It is one for fully polarized light, and zero for unpolarized light.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,507
+Stage four, the electron transport system, on the inner mitochondrial membrane.
+
+2
+00:00:05,507 --> 00:00:18,372
+Electrons from NADH pass through complex one, ubiquinone, complex three, cytochrome c and complex four to oxygen, the final acceptor, forming water.
+

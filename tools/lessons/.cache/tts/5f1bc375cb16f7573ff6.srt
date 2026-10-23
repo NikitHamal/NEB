@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,177
+Most hormones are held steady by negative feedback.
+
+2
+00:00:03,177 --> 00:00:14,401
+The hypothalamus releases T R H, the pituitary releases T S H, the thyroid makes thyroxine, which raises the metabolic rate.
+
+3
+00:00:14,401 --> 00:00:20,416
+And when thyroxine is high, it switches off the hypothalamus and pituitary.
+
+4
+00:00:20,416 --> 00:00:21,848
+Like a thermostat.
+

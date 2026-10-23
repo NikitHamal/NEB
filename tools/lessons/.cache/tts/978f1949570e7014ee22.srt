@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,033
+A projectile does two things at once.
+
+2
+00:00:03,033 --> 00:00:11,354
+Across, nothing pushes it, so its horizontal velocity stays fixed at u cos theta: the blue arrow never changes.
+
+3
+00:00:11,354 --> 00:00:20,768
+Up and down, gravity slows it, stops it at the top, and brings it back: the pink arrow shrinks, vanishes and grows downward.
+

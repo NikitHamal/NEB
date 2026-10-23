@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,851
+The upper epidermis of a grass leaf: large, thin walled motor cells that lose turgor and roll the leaf.
+
+2
+00:00:07,851 --> 00:00:13,203
+A dicot leaf has none, and they are epidermal cells, not mesophyll.
+

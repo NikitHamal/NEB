@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,187
+A diesel engine is different.
+
+2
+00:00:02,187 --> 00:00:09,075
+It compresses air alone, so there is no fuel to knock, and the compression ratio can be fifteen to twenty two.
+
+3
+00:00:09,075 --> 00:00:15,429
+As we saw in the last unit, the squeezed air gets hot enough to ignite the fuel sprayed in at the top.
+

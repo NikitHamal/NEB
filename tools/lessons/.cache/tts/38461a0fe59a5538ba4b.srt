@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,804
+Picture a rigid body spinning about a fixed axis through the point O.
+
+2
+00:00:04,804 --> 00:00:09,479
+Every particle of the body moves in a circle around that axis.
+

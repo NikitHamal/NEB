@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,145
+B, a bigger aperture, since the resolving power is a over one point two two lambda.
+
+2
+00:00:06,145 --> 00:00:14,882
+Eyepiece magnification is the trap: it makes the blurred patches bigger, but cannot separate what diffraction has already merged.
+

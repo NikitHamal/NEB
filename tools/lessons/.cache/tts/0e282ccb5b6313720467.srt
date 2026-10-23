@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,247
+There were no roads at first; when many people pass one way, a road is made.
+

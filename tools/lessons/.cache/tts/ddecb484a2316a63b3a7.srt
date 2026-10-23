@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,570
+Zeros on the left but not on the right: zero equals one.
+
+2
+00:00:04,570 --> 00:00:05,742
+Impossible.
+
+3
+00:00:05,742 --> 00:00:09,804
+The equations contradict each other, and there is no solution.
+

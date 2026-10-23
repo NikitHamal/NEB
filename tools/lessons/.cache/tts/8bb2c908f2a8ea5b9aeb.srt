@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,445
+A database is an organised collection of related data, shared by many users and programs.
+
+2
+00:00:06,445 --> 00:00:12,213
+The DBMS is the software that manages it, such as MySQL or Oracle.
+
+3
+00:00:12,213 --> 00:00:24,388
+And a database system is the whole arrangement: hardware, software, the data itself, the users, including the database administrator, and the procedures they follow.
+

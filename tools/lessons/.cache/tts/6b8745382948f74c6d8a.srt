@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,484
+Exam tip.
+
+2
+00:00:01,484 --> 00:00:12,812
+When you state Bernoulli's principle, write the conditions: steady, streamline flow of a non viscous, incompressible fluid, along a single streamline.
+
+3
+00:00:12,812 --> 00:00:14,440
+Examiners look for them.
+
+4
+00:00:14,440 --> 00:00:23,255
+And never apply it to turbulent flow, or to a real viscous liquid in a long pipe, where energy is lost as heat.
+

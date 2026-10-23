@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,895
+When three forces hold a point still, Lami's theorem links them: each force divided by the sine of the angle between the other two gives the same number.
+
+2
+00:00:09,895 --> 00:00:16,236
+A hundred newton weight hangs from two strings at thirty and sixty degrees to the ceiling.
+

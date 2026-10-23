@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,705
+Add it up: two plus two, plus twenty-five from NADH, plus three from FADH two.
+
+2
+00:00:06,705 --> 00:00:07,734
+Thirty-two.
+

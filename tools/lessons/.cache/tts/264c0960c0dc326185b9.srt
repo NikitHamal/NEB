@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,250
+Pause and think.
+
+2
+00:00:01,250 --> 00:00:06,445
+How does the half life of a first order reaction depend on the starting concentration?
+

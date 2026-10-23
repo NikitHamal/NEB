@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,171
+Let us recap.
+
+2
+00:00:01,171 --> 00:00:07,773
+Haloalkanes are primary, secondary or tertiary by the carbon holding the halogen.
+
+3
+00:00:07,773 --> 00:00:11,458
+They are best made from alcohols, with thionyl chloride.
+
+4
+00:00:11,458 --> 00:00:16,458
+Boiling points rise from fluoride to iodide and fall with branching.
+
+5
+00:00:16,458 --> 00:00:23,971
+S N two is one step, second order, with inversion, favoured by methyl and primary halides.
+
+6
+00:00:23,971 --> 00:00:31,901
+S N one goes through a carbocation, is first order, gives racemisation, and is favoured by tertiary halides.
+
+7
+00:00:31,901 --> 00:00:37,656
+Potassium salts attack through carbon or oxygen, silver salts through nitrogen.
+
+8
+00:00:37,656 --> 00:00:42,174
+Aqueous potash substitutes, alcoholic potash eliminates.
+
+9
+00:00:42,174 --> 00:00:48,945
+And chloroform, made from propanone and bleaching powder, must be protected from light and air.
+

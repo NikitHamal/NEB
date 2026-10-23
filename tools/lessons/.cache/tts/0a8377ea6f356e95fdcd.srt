@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,192
+An ordinary lamp emits light in short bursts, each lasting about ten to the minus eight seconds, and each starting with a random phase.
+
+2
+00:00:09,192 --> 00:00:15,833
+With two separate lamps, the phase difference between them reshuffles about a hundred million times a second.
+

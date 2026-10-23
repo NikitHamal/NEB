@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,622
+Hydroxide is C alpha, six times ten to the minus four.
+
+2
+00:00:04,622 --> 00:00:09,049
+p O H is four minus log six, three point two two.
+
+3
+00:00:09,049 --> 00:00:13,203
+And p H is fourteen minus that, ten point seven eight.
+

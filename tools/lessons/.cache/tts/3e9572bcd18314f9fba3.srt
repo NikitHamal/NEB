@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,187
+The left one spins up quickly.
+
+2
+00:00:02,187 --> 00:00:04,036
+The right one barely gets going.
+
+3
+00:00:04,036 --> 00:00:13,033
+Its masses are about three times further out, and because the distance is squared, it has about eleven times the moment of inertia.
+

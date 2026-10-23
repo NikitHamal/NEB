@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,296
+For glucose: six carbon dioxide out for six oxygen in.
+
+2
+00:00:04,296 --> 00:00:08,307
+R Q is exactly one, for any carbohydrate.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:11,445
+Its advantages: seventy to seventy five percent efficiency, against about forty percent for a thermal power station, because the energy never has to become heat first.
+
+2
+00:00:11,445 --> 00:00:15,364
+No smoke, no oxides of nitrogen or sulphur.
+
+3
+00:00:15,364 --> 00:00:22,565
+Its drawbacks: expensive platinum catalysts, and hydrogen that is hard to store and transport safely.
+

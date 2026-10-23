@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,341
+What changes the rate?
+
+2
+00:00:01,341 --> 00:00:05,572
+Light opens stomata, so transpiration rises.
+
+3
+00:00:05,572 --> 00:00:07,473
+Warmth raises it steeply.
+
+4
+00:00:07,473 --> 00:00:09,062
+Humid air lowers it.
+
+5
+00:00:09,062 --> 00:00:16,341
+A gentle breeze raises it by sweeping away humid air, but a strong wind makes stomata close.
+
+6
+00:00:16,341 --> 00:00:23,359
+And a thick cuticle, sunken stomata as in Nerium, or a coat of hairs, all cut water loss.
+

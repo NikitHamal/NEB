@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,052
+Reading the value: the sign gives the direction, the size gives the strength.
+
+2
+00:00:05,052 --> 00:00:12,252
+Above three quarters is high, a half to three quarters moderate, below a quarter practically nothing.
+
+3
+00:00:12,252 --> 00:00:16,927
+And r squared tells you the fraction of the variation in y that x explains.
+

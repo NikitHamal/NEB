@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,533
+At five degrees, the speed drops to three hundred and thirty five point zero five.
+

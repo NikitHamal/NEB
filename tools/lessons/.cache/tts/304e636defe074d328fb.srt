@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,570
+The rate of a reaction is the change in concentration per unit time.
+
+2
+00:00:04,570 --> 00:00:10,390
+As a reactant R is used up, its concentration falls along a curve like this.
+
+3
+00:00:10,390 --> 00:00:18,580
+The average rate over an interval is minus delta R over delta t, or plus delta P over delta t for a product.
+
+4
+00:00:18,580 --> 00:00:21,471
+The minus sign just keeps the rate positive.
+
+5
+00:00:21,471 --> 00:00:24,218
+The unit is moles per litre per second.
+

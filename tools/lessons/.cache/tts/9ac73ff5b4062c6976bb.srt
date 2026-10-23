@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,700
+Joule heat is I squared R t: four times a half times three hundred, six hundred joules, about eighty three times bigger, and always given out.
+
+2
+00:00:09,700 --> 00:00:16,575
+Reversing the current turns the seven point two joules from heating into cooling, but the six hundred joules stay.
+
+3
+00:00:16,575 --> 00:00:24,127
+That is why real Peltier coolers use semiconductor pellets, with Peltier coefficients hundreds of times bigger.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,083
+Here is the clever step.
+
+2
+00:00:02,083 --> 00:00:10,677
+U depends only on temperature, so this expression for d U is true for any process, not just the constant volume one.
+

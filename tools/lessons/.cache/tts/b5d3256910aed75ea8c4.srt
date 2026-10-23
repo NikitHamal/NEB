@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,015
+Quick check.
+
+2
+00:00:01,015 --> 00:00:06,744
+Which of these metals cannot give hydrogen gas with dilute hydrochloric acid?
+
+3
+00:00:06,744 --> 00:00:08,020
+Pause and think.
+

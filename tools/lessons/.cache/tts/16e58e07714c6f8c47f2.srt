@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,708
+More water crosses into the sugar side than comes back, so there is a net flow, and the solution column rises.
+

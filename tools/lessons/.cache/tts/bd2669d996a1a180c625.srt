@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,447
+Shine a light straight down onto b.
+
+2
+00:00:02,447 --> 00:00:06,757
+The shadow that a casts on b is the projection of a on b.
+
+3
+00:00:06,757 --> 00:00:14,388
+Its length is a cos theta, which is the dot product divided by the length of b, the vector you project onto.
+
+4
+00:00:14,388 --> 00:00:18,893
+Multiply by the unit vector along b and you get the vector projection.
+

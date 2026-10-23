@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,497
+Counterstain with blue.
+
+2
+00:00:01,497 --> 00:00:07,278
+Red rods on a blue background: a positive smear, and an infectious patient.
+

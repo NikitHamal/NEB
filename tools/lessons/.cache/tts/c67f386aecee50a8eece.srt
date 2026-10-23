@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,518
+When DNA copies itself, what happens to the old strands?
+
+2
+00:00:04,518 --> 00:00:06,367
+There were three ideas.
+
+3
+00:00:06,367 --> 00:00:11,445
+Conservative: the old molecule stays whole and a brand new one is made.
+
+4
+00:00:11,445 --> 00:00:17,304
+Semi conservative: the strands separate, and each daughter keeps one old strand.
+
+5
+00:00:17,304 --> 00:00:21,393
+Dispersive: old and new pieces scattered through both.
+

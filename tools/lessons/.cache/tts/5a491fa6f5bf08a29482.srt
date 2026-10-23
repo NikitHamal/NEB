@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,861
+Which way does the current flow?
+
+2
+00:00:01,861 --> 00:00:20,195
+Metals can be arranged in a list called the Seebeck, or thermoelectric, series: antimony, iron, cadmium, zinc, silver, gold, chromium, tin, lead, mercury, manganese, copper, platinum, cobalt, nickel, and bismuth.
+

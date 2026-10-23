@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,158
+Six parts.
+
+2
+00:00:01,158 --> 00:00:04,049
+One definition for all four curves.
+
+3
+00:00:04,049 --> 00:00:06,158
+When a line touches a circle.
+
+4
+00:00:06,158 --> 00:00:08,893
+Tangents and normals to a circle.
+
+5
+00:00:08,893 --> 00:00:16,914
+Then the parabola, the ellipse and the hyperbola, each with its standard equation, its elements and its tangents.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,458
+So the circle is x squared plus y squared minus six x minus eight y equals zero.
+

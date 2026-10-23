@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,132
+Four parts.
+
+2
+00:00:01,132 --> 00:00:04,036
+Cramer's rule, using determinants.
+
+3
+00:00:04,036 --> 00:00:06,614
+The row equivalent, or Gauss, method.
+
+4
+00:00:06,614 --> 00:00:08,437
+The inverse matrix method.
+
+5
+00:00:08,437 --> 00:00:13,919
+And consistency: how to tell one solution from infinitely many from none.
+

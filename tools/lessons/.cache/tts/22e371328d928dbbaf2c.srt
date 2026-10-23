@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,234
+And the level is ten log of that over ten to the minus twelve: ten log of eight point six six times ten to the five, fifty nine point four decibels.
+
+2
+00:00:10,234 --> 00:00:16,184
+About conversation level, from air layers moving one hundredth of a micrometre.
+

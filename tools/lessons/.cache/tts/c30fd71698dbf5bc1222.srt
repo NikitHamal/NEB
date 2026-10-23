@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,101
+The temperature did not change, so delta U is zero, and the heat absorbed equals the work: five point four eight kilojoules.
+

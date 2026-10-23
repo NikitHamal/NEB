@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:08,684
+Every reaction in this table is the same reaction: nucleophilic substitution on bromoethane, with eight different nucleophiles.
+
+2
+00:00:08,684 --> 00:00:12,500
+Aqueous potassium hydroxide gives ethanol.
+
+3
+00:00:12,500 --> 00:00:15,260
+Potassium cyanide gives a nitrile.
+
+4
+00:00:15,260 --> 00:00:18,320
+Silver cyanide gives an isocyanide.
+
+5
+00:00:18,320 --> 00:00:20,559
+Excess ammonia gives an amine.
+
+6
+00:00:20,559 --> 00:00:25,377
+Sodium ethoxide gives an ether, the Williamson synthesis.
+
+7
+00:00:25,377 --> 00:00:27,890
+A thiolate gives a thioether.
+
+8
+00:00:27,890 --> 00:00:34,114
+Potassium nitrite gives an alkyl nitrite, and silver nitrite a nitroalkane.
+

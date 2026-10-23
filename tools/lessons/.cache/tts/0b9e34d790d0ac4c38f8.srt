@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,075
+The exradii: ten and a half, twelve and fourteen.
+

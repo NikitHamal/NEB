@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,184
+Check another way.
+
+2
+00:00:01,184 --> 00:00:06,367
+In vacuum the wavelength would be c over f, six hundred nanometres.
+
+3
+00:00:06,367 --> 00:00:11,093
+Six hundred over three seventy five is also one point six.
+
+4
+00:00:11,093 --> 00:00:12,552
+The two routes agree.
+

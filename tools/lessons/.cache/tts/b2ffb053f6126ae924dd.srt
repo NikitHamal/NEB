@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,338
+A software development process turns a customer's need into working software.
+
+2
+00:00:05,338 --> 00:00:16,432
+Every process has four activities: specify what it must do, design and build it, validate that it does what was wanted, and evolve it as needs change.
+
+3
+00:00:16,432 --> 00:00:20,052
+A process model arranges those activities in time.
+
+4
+00:00:20,052 --> 00:00:23,020
+Do not mix the three terms up in the exam.
+

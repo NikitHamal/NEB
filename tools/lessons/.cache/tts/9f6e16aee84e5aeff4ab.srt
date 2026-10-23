@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:03,528
+Here is the key that unlocks the whole chapter.
+
+2
+00:00:03,528 --> 00:00:06,705
+Every linear quantity has a rotational partner.
+
+3
+00:00:06,705 --> 00:00:09,101
+Displacement becomes angle.
+
+4
+00:00:09,101 --> 00:00:12,005
+Velocity becomes angular velocity.
+
+5
+00:00:12,005 --> 00:00:15,221
+Acceleration becomes angular acceleration.
+
+6
+00:00:15,221 --> 00:00:17,630
+Mass becomes moment of inertia.
+
+7
+00:00:17,630 --> 00:00:19,166
+Force becomes torque.
+
+8
+00:00:19,166 --> 00:00:21,888
+And momentum becomes angular momentum.
+

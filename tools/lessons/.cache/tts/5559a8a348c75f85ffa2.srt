@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,395
+So let u be x squared plus one.
+
+2
+00:00:02,395 --> 00:00:09,309
+Then x d x is d u over two, and the integral becomes root u over two: easy.
+
+3
+00:00:09,309 --> 00:00:14,869
+Put x back at the end: a third of x squared plus one, to the three halves.
+

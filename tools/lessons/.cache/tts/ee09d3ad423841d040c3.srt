@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,127
+Self the pinks, and you get one red, two pink, one white.
+
+2
+00:00:04,127 --> 00:00:12,864
+Here the phenotypic ratio is the same as the genotypic ratio, one to two to one, because you can see the heterozygotes.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,593
+Imperatives take let plus be: open the door becomes let the door be opened; and the negative, let not the wires be touched.
+
+2
+00:00:08,593 --> 00:00:17,278
+Requests and advice become you are requested to, you are advised to: please help the poor, you are requested to help the poor.
+

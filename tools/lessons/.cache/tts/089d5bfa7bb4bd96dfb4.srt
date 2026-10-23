@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,458
+Let us calculate one.
+
+2
+00:00:01,458 --> 00:00:08,007
+Water rises in a capillary tube of internal diameter zero point four millimetres.
+
+3
+00:00:08,007 --> 00:00:14,101
+Surface tension zero point zero seven two, angle of contact zero.
+
+4
+00:00:14,101 --> 00:00:15,507
+How high does it rise?
+

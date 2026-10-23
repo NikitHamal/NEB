@@ -1,0 +1,548 @@
+1
+00:00:00,000 --> 00:00:03,999
+Pull a loaded cart along a road with a rope that slopes upward.
+
+2
+00:00:03,999 --> 00:00:09,233
+Only part of your pull moves the cart forward: the green part, along the road.
+
+3
+00:00:09,233 --> 00:00:10,447
+The rest just lifts.
+
+4
+00:00:10,667 --> 00:00:16,033
+Make the rope steeper and the useful part shrinks; pull straight up and it is zero.
+
+5
+00:00:16,033 --> 00:00:19,236
+The work done is F times d times cos theta.
+
+6
+00:00:19,236 --> 00:00:23,663
+That way of multiplying two arrows to get a number is the dot product.
+
+7
+00:00:23,663 --> 00:00:28,355
+There is a second way, which gives an arrow, and this unit is about both.
+
+8
+00:00:33,833 --> 00:00:38,435
+Welcome to Class 12 Mathematics, Unit 9: Product of Vectors.
+
+9
+00:00:40,833 --> 00:00:42,098
+Five parts.
+
+10
+00:00:42,098 --> 00:00:46,277
+The scalar, or dot, product and the angle between vectors.
+
+11
+00:00:46,277 --> 00:00:49,337
+Projections and the rules of the dot product.
+
+12
+00:00:49,337 --> 00:00:52,605
+The dot product in geometry and trigonometry.
+
+13
+00:00:52,605 --> 00:00:55,691
+The vector, or cross, product.
+
+14
+00:00:55,691 --> 00:01:00,424
+And what the cross product measures: areas, moments and the sine rules.
+
+15
+00:01:04,767 --> 00:01:14,026
+The scalar, or dot, product of a and b is the length of a, times the length of b, times the cosine of the angle between them.
+
+16
+00:01:14,026 --> 00:01:16,930
+The answer is a number, not a vector.
+
+17
+00:01:16,930 --> 00:01:18,962
+Swing b round and watch its sign.
+
+18
+00:01:19,167 --> 00:01:21,356
+Acute angle: positive.
+
+19
+00:01:21,356 --> 00:01:27,255
+At exactly ninety degrees the cosine is zero, and so is the dot product.
+
+20
+00:01:27,255 --> 00:01:29,130
+Obtuse: negative.
+
+21
+00:01:29,130 --> 00:01:33,273
+So a zero dot product is the test for perpendicular vectors.
+
+22
+00:01:33,500 --> 00:01:36,015
+In components it is even easier.
+
+23
+00:01:36,015 --> 00:01:42,278
+Each unit vector dotted with itself is one, and with a different one is zero.
+
+24
+00:01:42,278 --> 00:01:51,481
+So the dot product is a one b one plus a two b two plus a three b three, and the cosine of the angle is the dot product over the two lengths.
+
+25
+00:01:52,700 --> 00:01:53,656
+The standard question.
+
+26
+00:01:53,933 --> 00:01:56,769
+Multiply matching components and add: four.
+
+27
+00:01:57,000 --> 00:01:59,180
+The lengths: three and seven.
+
+28
+00:01:59,400 --> 00:02:04,866
+Cos theta is four over twenty one, so theta is seventy nine degrees.
+
+29
+00:02:06,867 --> 00:02:08,036
+Test each corner.
+
+30
+00:02:08,267 --> 00:02:13,557
+For the angle at B, both vectors must start at B: B A and B C.
+
+31
+00:02:13,767 --> 00:02:17,894
+Their dot product is zero, so the angle at B is a right angle.
+
+32
+00:02:19,900 --> 00:02:24,758
+A careful point: for the angle at B, both arrows must start at B.
+
+33
+00:02:24,758 --> 00:02:29,769
+Using A B instead of B A gives you one eighty minus the angle.
+
+34
+00:02:34,567 --> 00:02:36,964
+Shine a light straight down onto b.
+
+35
+00:02:36,964 --> 00:02:41,274
+The shadow that a casts on b is the projection of a on b.
+
+36
+00:02:41,274 --> 00:02:48,905
+Its length is a cos theta, which is the dot product divided by the length of b, the vector you project onto.
+
+37
+00:02:48,905 --> 00:02:53,010
+Multiply by the unit vector along b and you get the vector projection.
+
+38
+00:02:54,233 --> 00:02:56,669
+One dot product serves three answers.
+
+39
+00:02:56,900 --> 00:03:01,010
+Dot product twenty one; lengths root fourteen and seven.
+
+40
+00:03:01,233 --> 00:03:06,456
+Divide by the length of b, the one you project onto: three.
+
+41
+00:03:06,456 --> 00:03:10,781
+For the vector, multiply b by twenty one over forty nine.
+
+42
+00:03:11,000 --> 00:03:13,824
+And the angle: thirty six point seven degrees.
+
+43
+00:03:15,833 --> 00:03:16,863
+The rules.
+
+44
+00:03:16,863 --> 00:03:18,204
+Order does not matter.
+
+45
+00:03:18,204 --> 00:03:20,483
+It distributes over addition.
+
+46
+00:03:20,483 --> 00:03:24,454
+A vector dotted with itself is its length squared.
+
+47
+00:03:24,454 --> 00:03:30,340
+So the length of a plus or minus b, squared, expands just like algebra.
+
+48
+00:03:30,340 --> 00:03:33,569
+And a zero dot product means perpendicular.
+
+49
+00:03:34,800 --> 00:03:35,856
+No components needed.
+
+50
+00:03:36,067 --> 00:03:43,113
+Square the sum and expand: twenty five equals nine plus sixteen plus twice the dot product.
+
+51
+00:03:43,113 --> 00:03:46,628
+So the dot product is zero: perpendicular.
+
+52
+00:03:46,628 --> 00:03:48,861
+A three-four-five right angle.
+
+53
+00:03:49,067 --> 00:03:51,304
+The difference has the same length, five.
+
+54
+00:03:53,333 --> 00:03:53,957
+Back to work.
+
+55
+00:03:54,567 --> 00:03:56,574
+Displacement: head minus tail.
+
+56
+00:03:56,800 --> 00:03:59,386
+Work is the dot product: twenty joules.
+
+57
+00:03:59,600 --> 00:04:03,384
+And the force is twenty two degrees off the direction of motion.
+
+58
+00:04:05,400 --> 00:04:06,573
+And one trap.
+
+59
+00:04:06,573 --> 00:04:13,175
+You cannot divide by a vector: a dot b equals a dot c does not mean b equals c.
+
+60
+00:04:13,175 --> 00:04:16,073
+It only says a is perpendicular to b minus c.
+
+61
+00:04:20,867 --> 00:04:24,553
+The dot product proves geometry with almost no effort.
+
+62
+00:04:24,553 --> 00:04:30,999
+In a parallelogram on a and b, the diagonals are a plus b and a minus b.
+
+63
+00:04:30,999 --> 00:04:36,116
+Their dot product expands to length a squared minus length b squared.
+
+64
+00:04:36,116 --> 00:04:43,957
+That is zero exactly when the sides are equal: the diagonals of a parallelogram are perpendicular only in a rhombus.
+
+65
+00:04:45,167 --> 00:04:49,374
+And the cosine law of unit six falls out in one line.
+
+66
+00:04:49,374 --> 00:04:59,409
+The third side is a minus b. Dot it with itself: a squared plus b squared minus two a dot b, which is minus two a b cos C.
+
+67
+00:05:00,633 --> 00:05:02,457
+Trigonometry from vectors.
+
+68
+00:05:02,667 --> 00:05:06,796
+Take unit vectors at forty five and thirty degrees.
+
+69
+00:05:06,796 --> 00:05:10,317
+The angle between them is fifteen, and both have length one.
+
+70
+00:05:10,533 --> 00:05:15,860
+So their dot product is cos fifteen: root six plus root two, over four.
+
+71
+00:05:15,860 --> 00:05:18,613
+The same trick proves cos A minus B in general.
+
+72
+00:05:24,200 --> 00:05:28,616
+The second product, the vector or cross product, gives a vector.
+
+73
+00:05:28,616 --> 00:05:36,376
+Its length is a b sin theta, which is exactly the area of the parallelogram on a and b.
+
+74
+00:05:36,376 --> 00:05:45,538
+Its direction is perpendicular to both, chosen by the right hand rule: curl your fingers from a to b, and your thumb points along a cross b.
+
+75
+00:05:45,767 --> 00:05:50,834
+Swap the order and the thumb flips: b cross a is minus a cross b.
+
+76
+00:05:50,834 --> 00:05:56,546
+And parallel vectors span no area, so their cross product is the zero vector.
+
+77
+00:05:57,767 --> 00:06:04,644
+To compute it, write a determinant: the unit vectors on top, a in the second row, b in the third.
+
+78
+00:06:04,644 --> 00:06:13,508
+Take a equal to two i plus j plus three k, and b equal to three i plus five j minus two k.
+
+79
+00:06:13,733 --> 00:06:22,485
+For the i part, cover the i column and cross-multiply what is left: one times minus two, minus three times five.
+
+80
+00:06:22,485 --> 00:06:23,756
+Minus seventeen.
+
+81
+00:06:23,967 --> 00:06:29,216
+For j, cover the j column, cross-multiply, and change the sign.
+
+82
+00:06:29,216 --> 00:06:32,588
+That middle minus sign is where most marks are lost.
+
+83
+00:06:32,588 --> 00:06:33,430
+Plus thirteen.
+
+84
+00:06:33,633 --> 00:06:38,869
+For k, cover the k column: two times five minus one times three.
+
+85
+00:06:38,869 --> 00:06:39,292
+Seven.
+
+86
+00:06:39,500 --> 00:06:51,364
+So a cross b is minus seventeen i plus thirteen j plus seven k. Check: dot it with a and you get minus thirty four plus thirteen plus twenty one, zero.
+
+87
+00:06:51,364 --> 00:06:52,873
+Perpendicular, as it must be.
+
+88
+00:06:54,100 --> 00:06:55,197
+The classic use.
+
+89
+00:06:55,400 --> 00:07:02,124
+Anything perpendicular to both is parallel to a cross b: minus six, six, minus three.
+
+90
+00:07:02,333 --> 00:07:03,827
+Its length is nine.
+
+91
+00:07:04,033 --> 00:07:11,644
+Divide, and remember both directions: plus or minus a third of minus two, two, minus one.
+
+92
+00:07:13,667 --> 00:07:15,014
+Linking the two products.
+
+93
+00:07:15,233 --> 00:07:25,966
+Since cos squared plus sin squared is one, the dot product squared plus the cross product's length squared equals the product of the lengths squared: Lagrange's identity.
+
+94
+00:07:26,167 --> 00:07:34,673
+So the dot product is plus or minus sixty: the data fixes sin theta, but not whether theta is acute or obtuse.
+
+95
+00:07:36,700 --> 00:07:38,472
+Keep the two products apart.
+
+96
+00:07:38,472 --> 00:07:41,832
+The dot product is a number and does not care about order.
+
+97
+00:07:41,832 --> 00:07:45,589
+The cross product is a vector, and order flips its sign.
+
+98
+00:07:51,367 --> 00:07:56,401
+The length of the cross product is the area of the parallelogram on the two vectors.
+
+99
+00:07:56,633 --> 00:08:03,200
+A triangle is half of that parallelogram: half the cross product of two sides from the same vertex.
+
+100
+00:08:03,400 --> 00:08:08,928
+If you only know the diagonals of a parallelogram, its area is half their cross product.
+
+101
+00:08:09,133 --> 00:08:16,736
+And three points are on one line exactly when the triangle they form has no area: the cross product is zero.
+
+102
+00:08:17,967 --> 00:08:19,329
+A triangle in space.
+
+103
+00:08:19,533 --> 00:08:21,539
+Two sides from the same vertex A.
+
+104
+00:08:21,767 --> 00:08:24,884
+Cross them: minus four, two, minus one.
+
+105
+00:08:25,100 --> 00:08:29,477
+Half its length: root twenty one over two, about two point two nine.
+
+106
+00:08:31,500 --> 00:08:32,469
+Zero area.
+
+107
+00:08:32,733 --> 00:08:36,829
+A C is exactly twice A B: the same direction.
+
+108
+00:08:37,033 --> 00:08:41,463
+So the cross product is the zero vector, and the three points lie on one line.
+
+109
+00:08:43,467 --> 00:08:46,646
+Physics uses the cross product for turning.
+
+110
+00:08:46,646 --> 00:08:50,513
+A force F acts at a point with position r from a pivot O.
+
+111
+00:08:50,513 --> 00:08:53,547
+Its moment, or torque, is r cross F.
+
+112
+00:08:53,547 --> 00:08:59,325
+Its size is the force times the perpendicular distance d from O to the line of the force.
+
+113
+00:09:00,533 --> 00:09:02,551
+A moment in three dimensions.
+
+114
+00:09:02,767 --> 00:09:04,383
+r is three, two, two.
+
+115
+00:09:04,383 --> 00:09:07,816
+Cross with F: minus eight, eight, four.
+
+116
+00:09:08,033 --> 00:09:12,353
+Its size is twelve newton metres; the force is three newtons.
+
+117
+00:09:12,567 --> 00:09:15,700
+So the line of action passes four metres from O.
+
+118
+00:09:17,700 --> 00:09:19,995
+Trigonometry again, with the other product.
+
+119
+00:09:20,200 --> 00:09:23,301
+Take unit vectors at minus B and at A.
+
+120
+00:09:23,301 --> 00:09:28,420
+The angle between them is A plus B, so their cross product has length sin A plus B.
+
+121
+00:09:28,633 --> 00:09:33,812
+In components, that cross product is sin A cos B plus cos A sin B.
+
+122
+00:09:34,033 --> 00:09:39,347
+With A forty five and B thirty: root six plus root two over four.
+
+123
+00:09:39,347 --> 00:09:41,590
+The same as cos fifteen, as it must be.
+
+124
+00:09:44,800 --> 00:09:45,570
+Pause and think.
+
+125
+00:09:52,867 --> 00:09:56,879
+a is perpendicular to b: cos theta is zero.
+
+126
+00:09:56,879 --> 00:09:59,444
+A zero cross product would mean parallel.
+
+127
+00:10:01,433 --> 00:10:01,868
+One more.
+
+128
+00:10:09,500 --> 00:10:12,405
+Half the cross product of the diagonals.
+
+129
+00:10:12,405 --> 00:10:14,658
+The full cross product is for the sides.
+
+130
+00:10:16,833 --> 00:10:17,941
+Quick recap.
+
+131
+00:10:17,941 --> 00:10:26,613
+The dot product is a number, a b cos theta, zero for perpendicular vectors, and gives projections and work.
+
+132
+00:10:26,613 --> 00:10:34,061
+The cross product is a vector perpendicular to both, whose length is an area, and whose order matters.
+
+133
+00:10:34,061 --> 00:10:37,954
+It gives triangle areas, collinearity and moments.
+
+134
+00:10:37,954 --> 00:10:42,397
+And together they prove the compound angle formulas.
+
+135
+00:10:46,567 --> 00:10:48,313
+That was product of vectors.
+
+136
+00:10:48,313 --> 00:10:54,082
+Next, correlation and regression: measuring how two quantities move together.
+
+137
+00:10:54,082 --> 00:10:54,658
+See you there.
+

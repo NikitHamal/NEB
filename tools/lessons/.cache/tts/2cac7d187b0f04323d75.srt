@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,398
+Between h and b, say twenty, the arc cuts the base twice, both in front of A: two triangles.
+
+2
+00:00:08,398 --> 00:00:10,481
+This is the ambiguous case.
+

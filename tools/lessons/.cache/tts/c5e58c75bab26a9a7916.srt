@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,083
+Drop dye into still water.
+
+2
+00:00:02,083 --> 00:00:07,656
+Its particles jiggle with heat energy and spread from crowded to scarce.
+
+3
+00:00:07,656 --> 00:00:09,049
+That is diffusion.
+

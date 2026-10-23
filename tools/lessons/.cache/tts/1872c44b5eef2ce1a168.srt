@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,976
+In the throat the water moves faster, so by Bernoulli, its pressure must be lower.
+
+2
+00:00:05,976 --> 00:00:09,427
+The water column above the throat is shorter.
+
+3
+00:00:09,427 --> 00:00:11,783
+Faster flow, lower pressure.
+
+4
+00:00:11,783 --> 00:00:13,763
+That is the heart of Bernoulli.
+

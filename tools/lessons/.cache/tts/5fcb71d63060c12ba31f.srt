@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,710
+Water is the most important amphiprotic species of all.
+
+2
+00:00:03,710 --> 00:00:07,838
+One water molecule can even give a proton to another.
+

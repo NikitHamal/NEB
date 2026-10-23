@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,031
+Call that static extension e.
+
+2
+00:00:02,031 --> 00:00:05,559
+At balance, m g equals k e.
+
+3
+00:00:05,559 --> 00:00:09,023
+So the force constant is m g over e.
+
+4
+00:00:09,023 --> 00:00:12,382
+This stretched position is the new mean position.
+

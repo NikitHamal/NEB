@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,281
+By the pattern of thickening there are three kinds.
+
+2
+00:00:03,281 --> 00:00:07,161
+Angular, thickened at the corners, as in Datura.
+
+3
+00:00:07,161 --> 00:00:12,278
+Lamellar, thickened on the tangential walls, as in the sunflower stem.
+
+4
+00:00:12,278 --> 00:00:17,500
+And lacunar, thickened round the air spaces, as in Cucurbita.
+

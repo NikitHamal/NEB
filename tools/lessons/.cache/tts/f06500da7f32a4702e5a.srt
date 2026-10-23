@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,700
+And concentric, where one tissue surrounds the other.
+
+2
+00:00:04,700 --> 00:00:10,338
+Amphivasal: xylem surrounds phloem, as in Dracaena and Yucca.
+
+3
+00:00:10,338 --> 00:00:14,765
+Amphicribral: phloem surrounds xylem, as in ferns.
+
+4
+00:00:14,765 --> 00:00:19,674
+Finally, open means a cambium is present, closed means none.
+

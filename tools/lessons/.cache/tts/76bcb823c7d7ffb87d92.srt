@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,200
+D, para nitrophenol.
+
+2
+00:00:02,200 --> 00:00:09,739
+The nitro group withdraws electrons and spreads the phenoxide's negative charge further, stabilising it.
+
+3
+00:00:09,739 --> 00:00:16,197
+Para cresol's methyl group does the opposite, and ethanol has no ring at all to spread the charge.
+

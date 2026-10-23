@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,145
+Six parts.
+
+2
+00:00:01,145 --> 00:00:02,539
+Check what must follow.
+
+3
+00:00:02,539 --> 00:00:04,544
+Connectives grouped by meaning.
+
+4
+00:00:04,544 --> 00:00:05,924
+Paired connectives.
+
+5
+00:00:05,924 --> 00:00:08,437
+Punctuation and doubled connectives.
+
+6
+00:00:08,437 --> 00:00:09,635
+Look alikes.
+
+7
+00:00:09,635 --> 00:00:12,838
+And joining sentences, the NEB way.
+

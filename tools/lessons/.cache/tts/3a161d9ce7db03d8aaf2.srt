@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,361
+At five centimetres, the potential energy is half times two hundred times zero point zero five squared, zero point two five joules.
+
+2
+00:00:09,361 --> 00:00:14,414
+Half the amplitude gives only a quarter of the energy as potential.
+

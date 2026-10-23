@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,135
+It has no unique solution.
+
+2
+00:00:02,135 --> 00:00:07,513
+It may have none, or infinitely many: only row reduction decides.
+
+3
+00:00:07,513 --> 00:00:14,635
+Always inconsistent is wrong: a homogeneous system with a zero determinant has infinitely many.
+

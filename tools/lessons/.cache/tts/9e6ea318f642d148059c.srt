@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,359
+Two lines on one graph: students in the Science faculty of a school in Butwal, and students in Management, over eight years.
+
+2
+00:00:08,359 --> 00:00:14,492
+Question four hands you this, and pays seven marks for the sentences you build out of it.
+

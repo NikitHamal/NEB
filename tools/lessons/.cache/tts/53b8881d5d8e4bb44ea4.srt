@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,484
+And crucially, a monocot root has no cambium, so it shows no secondary growth.
+
+2
+00:00:06,484 --> 00:00:13,710
+A dicot root has a cambium in waiting, formed later from the conjunctive tissue and the pericycle.
+

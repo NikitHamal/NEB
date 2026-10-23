@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,356
+d over lambda is four.
+
+2
+00:00:02,356 --> 00:00:09,453
+But the fourth order would come out at ninety degrees, grazing along the grating, where it can never be collected.
+
+3
+00:00:09,453 --> 00:00:12,291
+So only three orders are seen on each side.
+

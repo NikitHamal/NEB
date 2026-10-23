@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,786
+And ten P r equal to seven twenty: ten times nine times eight already gives seven twenty, so r is three.
+

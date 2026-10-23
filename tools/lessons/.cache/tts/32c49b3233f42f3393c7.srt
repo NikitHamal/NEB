@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,604
+The two points are zero point one seven five over zero point seven, a quarter of a wavelength apart.
+
+2
+00:00:07,604 --> 00:00:13,554
+So the phase difference is a quarter of two pi: pi by two, ninety degrees.
+
+3
+00:00:13,554 --> 00:00:18,242
+When one is at a crest, the other is passing its mean position.
+

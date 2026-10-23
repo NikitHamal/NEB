@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:04,283
+A group is a set with an operation satisfying four axioms.
+
+2
+00:00:04,283 --> 00:00:05,234
+Closure.
+
+3
+00:00:05,234 --> 00:00:06,718
+Associativity.
+
+4
+00:00:06,718 --> 00:00:09,570
+An identity element that changes nothing.
+
+5
+00:00:09,570 --> 00:00:14,270
+And an inverse for every element that brings it back to the identity.
+
+6
+00:00:14,270 --> 00:00:18,632
+If the order of combining never matters, the group is abelian.
+
+7
+00:00:18,632 --> 00:00:21,171
+Its order is the number of elements.
+

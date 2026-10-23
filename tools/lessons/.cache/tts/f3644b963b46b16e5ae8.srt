@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,328
+The bond snaps.
+
+2
+00:00:01,328 --> 00:00:05,885
+One half leaves as ethanol, the other becomes iodoethane.
+
+3
+00:00:05,885 --> 00:00:09,596
+With one mole of cold H I, that is where it stops.
+

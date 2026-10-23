@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,278
+To finish, a full long question.
+
+2
+00:00:02,278 --> 00:00:10,416
+A ray hits a parallel glass slab of index one point five, six centimetres thick, at forty five degrees.
+
+3
+00:00:10,416 --> 00:00:18,632
+Find the angle of refraction, the speed inside, the time to cross, and the lateral displacement of the emergent ray.
+

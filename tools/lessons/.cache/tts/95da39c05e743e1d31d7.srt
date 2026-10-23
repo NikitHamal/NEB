@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,184
+Let us recap.
+
+2
+00:00:01,184 --> 00:00:08,255
+A progressive wave carries energy, not matter, and can be transverse or longitudinal.
+
+3
+00:00:08,255 --> 00:00:12,799
+v equals f lambda, and the medium fixes v.
+
+4
+00:00:12,799 --> 00:00:24,921
+The travelling wave is y equals a sine, omega t minus k x. Phase difference is two pi over lambda times the path difference, and particle velocity peaks at a omega.
+
+5
+00:00:24,921 --> 00:00:38,385
+Two equal waves travelling in opposite directions make a stationary wave, two a cos k x sine omega t, with nodes half a wavelength apart, and a node a quarter wavelength from each antinode.
+

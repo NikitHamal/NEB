@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,838
+Now the most important result of the unit.
+
+2
+00:00:02,838 --> 00:00:16,705
+Take one particle of the body, mass m i, at distance r i. Newton's second law says the tangential force on it is m i times its tangential acceleration, which is m i r i alpha.
+
+3
+00:00:16,705 --> 00:00:21,119
+Every particle of a rigid body shares the same alpha.
+

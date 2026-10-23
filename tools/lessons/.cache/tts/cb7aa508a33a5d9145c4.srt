@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,752
+So twice the sum is n times n plus one, and the sum of the first n natural numbers is n into n plus one, over two.
+
+2
+00:00:09,752 --> 00:00:15,638
+These are the triangular numbers: one, three, six, ten, and so on.
+

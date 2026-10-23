@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,208
+Multiply by fifty three: one point three two five grams.
+
+2
+00:00:05,208 --> 00:00:12,408
+Weigh exactly that, dissolve it, and make it up to the mark of a two hundred fifty cubic centimetre volumetric flask.
+

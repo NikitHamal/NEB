@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,955
+The capital Greek letter sigma means add up.
+
+2
+00:00:02,955 --> 00:00:10,273
+Below it, where the counter k starts; on top, where it stops; on the right, the term to add each time.
+

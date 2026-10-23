@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,408
+At the mean position, the speed is greatest, A omega, and the acceleration is zero.
+
+2
+00:00:07,408 --> 00:00:16,848
+At the extreme positions, the body stops for an instant, and the acceleration is greatest, omega squared A, pointing back to the middle.
+

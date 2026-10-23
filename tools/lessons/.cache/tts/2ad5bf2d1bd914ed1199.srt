@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,059
+The oldest route of all is fermentation.
+
+2
+00:00:03,059 --> 00:00:19,986
+Starch from rice, millet or maize is broken down by the enzyme diastase to maltose, maltase splits maltose into glucose, and zymase in yeast turns glucose into ethanol and carbon dioxide, at twenty five to thirty degrees, without air.
+
+3
+00:00:19,986 --> 00:00:23,567
+For cane sugar the first enzyme is invertase.
+

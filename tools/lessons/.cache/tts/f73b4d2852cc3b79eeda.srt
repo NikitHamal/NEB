@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:03,294
+But wait: where did the light at the dark points go?
+
+2
+00:00:03,294 --> 00:00:04,244
+Nowhere.
+
+3
+00:00:04,244 --> 00:00:05,390
+It was moved.
+
+4
+00:00:05,390 --> 00:00:08,919
+Without interference, every point would get two I nought.
+
+5
+00:00:08,919 --> 00:00:12,252
+With it, bright points get four I nought and dark points zero.
+
+6
+00:00:12,252 --> 00:00:16,484
+Average it over one fringe, and you get exactly two I nought.
+
+7
+00:00:16,484 --> 00:00:19,023
+Interference redistributes energy.
+
+8
+00:00:19,023 --> 00:00:20,468
+It never destroys it.
+

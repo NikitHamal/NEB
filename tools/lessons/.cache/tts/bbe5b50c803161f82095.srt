@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,531
+That is fluid statics, from floating ships to flying planes.
+
+2
+00:00:04,531 --> 00:00:08,867
+Next time, we turn up the heat, with the first law of thermodynamics.
+
+3
+00:00:08,867 --> 00:00:13,216
+Keep practising, and see you in the next lesson on NEBians.
+

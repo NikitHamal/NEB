@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,257
+And the cosine law of unit six falls out in one line.
+
+2
+00:00:04,257 --> 00:00:14,700
+The third side is a minus b. Dot it with itself: a squared plus b squared minus two a dot b, which is minus two a b cos C.
+

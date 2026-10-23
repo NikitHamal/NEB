@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:13,671
+So the formation enthalpy of methane is minus three ninety three point five, minus five seventy one point six, plus eight ninety point three: minus seventy four point eight kilojoules per mole.
+

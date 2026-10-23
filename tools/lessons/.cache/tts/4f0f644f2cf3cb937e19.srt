@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,395
+Worked example seven point four.
+
+2
+00:00:02,395 --> 00:00:11,341
+The carbon to remove is three point six percent of a hundred tonnes: three point six tonnes, or three times ten to the five moles.
+
+3
+00:00:11,341 --> 00:00:23,893
+Two carbons need one oxygen molecule, so one point five times ten to the five moles of oxygen, times twenty two point four litres: three thousand three hundred and sixty cubic metres.
+

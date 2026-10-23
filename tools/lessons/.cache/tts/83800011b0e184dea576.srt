@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,489
+Here is the single commonest error in this unit.
+
+2
+00:00:03,489 --> 00:00:08,645
+N one V one equals N two V two works only with normalities.
+
+3
+00:00:08,645 --> 00:00:13,971
+If you put molarities into it, you will be wrong whenever the n factors differ.
+
+4
+00:00:13,971 --> 00:00:21,848
+With molarities, always carry the n factors: n one M one V one equals n two M two V two.
+

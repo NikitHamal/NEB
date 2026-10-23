@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,864
+Heat it, and the carbon oxygen bonds are broken.
+
+2
+00:00:02,864 --> 00:00:06,770
+Hot hydrochloric acid under pressure gives chloroethane.
+
+3
+00:00:06,770 --> 00:00:10,950
+Hot sulphuric acid gives ethyl hydrogen sulphate.
+

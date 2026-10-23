@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,265
+Nepal is a beautiful country.
+
+2
+00:00:02,265 --> 00:00:10,351
+Words like a, the, this, my, every, few and much are determiners: they open a noun phrase and tell you which, or how many.
+
+3
+00:00:10,351 --> 00:00:15,872
+And choosing them is a matter of matching the determiner to the kind of noun that follows.
+

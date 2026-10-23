@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,500
+Silver nitrate is called lunar caustic: luna was the alchemists' name for silver, and the solid burns skin.
+
+2
+00:00:07,500 --> 00:00:10,885
+It is made by dissolving silver in nitric acid.
+
+3
+00:00:10,885 --> 00:00:21,966
+If the silver contained copper, heating to four fifty degrees turns copper nitrate into insoluble black oxide, and the silver nitrate is extracted with water.
+

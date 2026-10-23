@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,078
+Solve x cubed minus two x minus five equals zero.
+
+2
+00:00:05,078 --> 00:00:08,007
+There is no neat formula to factorise it.
+
+3
+00:00:08,007 --> 00:00:16,250
+But a computer can home in on the root: guess three, follow the tangent down to the axis, and use where it lands as the next guess.
+

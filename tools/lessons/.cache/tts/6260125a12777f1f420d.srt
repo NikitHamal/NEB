@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:04,049
+With two sets of bars, write about the gaps, not the heights.
+
+2
+00:00:04,049 --> 00:00:09,427
+Here, village and city household spending, in thousands of rupees a month.
+
+3
+00:00:09,427 --> 00:00:15,481
+The city spends more on every heading, about forty eight thousand against twenty thousand in total.
+
+4
+00:00:15,481 --> 00:00:27,330
+Food is the biggest item for both, but it is nearly half of the village budget and under a third of the city's: turning bars into a share of the whole is the comparison grade twelve wants.
+
+5
+00:00:27,330 --> 00:00:31,002
+The widest gap is housing: six times as much.
+
+6
+00:00:31,002 --> 00:00:32,890
+The narrowest is health.
+

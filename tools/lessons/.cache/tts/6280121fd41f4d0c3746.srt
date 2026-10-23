@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,940
+And why a high equivalent weight?
+
+2
+00:00:01,940 --> 00:00:09,075
+To make the same solution, a substance with a bigger equivalent weight must be weighed out in a bigger mass.
+
+3
+00:00:09,075 --> 00:00:16,236
+Two hundred fifty cubic centimetres of decinormal oxalic acid needs one point five seven five grams.
+
+4
+00:00:16,236 --> 00:00:19,661
+The same with Mohr's salt needs nine point eight grams.
+

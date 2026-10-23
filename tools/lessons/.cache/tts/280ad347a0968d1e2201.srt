@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,877
+The full list, with each device's layer.
+
+2
+00:00:02,877 --> 00:00:05,091
+A network card connects a computer.
+
+3
+00:00:05,091 --> 00:00:08,385
+A modem converts between digital and analogue.
+
+4
+00:00:08,385 --> 00:00:11,627
+Repeaters and hubs work on raw signals.
+
+5
+00:00:11,627 --> 00:00:14,895
+Bridges and switches forward by MAC address.
+
+6
+00:00:14,895 --> 00:00:19,817
+Routers join different networks and choose paths by IP address.
+
+7
+00:00:19,817 --> 00:00:23,671
+And a gateway translates between different protocols.
+

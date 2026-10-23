@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,666
+So the water term is absorbed into the constant, and the reaction behaves as first order.
+
+2
+00:00:06,666 --> 00:00:10,299
+Second order in reality, first order in behaviour.
+
+3
+00:00:10,299 --> 00:00:14,869
+The acid hydrolysis of an ester is the other standard example.
+

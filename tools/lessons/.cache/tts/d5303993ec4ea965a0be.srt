@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:15,390
+Both are diatomic, with the same gamma and the same pressure, so the ratio of speeds is the square root of the inverse ratio of densities: root of one point two nine three over zero point zero nine, about three point eight.
+
+2
+00:00:15,390 --> 00:00:21,705
+Sound is nearly four times faster in hydrogen, because it is so light while just as stiff.
+

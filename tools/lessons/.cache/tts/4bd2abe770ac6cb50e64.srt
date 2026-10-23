@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,197
+Both are standard forms: inverse tan of y equals inverse tan of x plus C.
+

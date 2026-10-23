@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,135
+Eight to the zero point four is two point two nine seven, so T two is six hundred and eighty nine kelvin.
+
+2
+00:00:07,135 --> 00:00:10,091
+That is four hundred and sixteen degrees Celsius.
+
+3
+00:00:10,091 --> 00:00:11,145
+Watch it happen.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,156
+Both lines pass through the means, so solve them: thirteen and seventeen.
+

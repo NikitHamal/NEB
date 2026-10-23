@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,213
+Cloud computing delivers computing services over the internet, on demand, and you pay only for what you use.
+
+2
+00:00:07,213 --> 00:00:11,666
+The provider owns and maintains the hardware; you rent capacity.
+
+3
+00:00:11,666 --> 00:00:24,218
+The official NIST definition lists five characteristics: self service on demand, access over the network, pooled resources shared by many customers, elasticity, and metered pay per use.
+
+4
+00:00:24,218 --> 00:00:27,031
+The trick underneath is virtualisation.
+

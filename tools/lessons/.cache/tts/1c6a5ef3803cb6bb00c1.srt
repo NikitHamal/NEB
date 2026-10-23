@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,875
+Part b is our cold open.
+
+2
+00:00:01,875 --> 00:00:08,945
+Before, salt equals acid, so p H equals p K a, four point seven four.
+
+3
+00:00:08,945 --> 00:00:17,838
+The zero point zero one mole of hydrochloric acid turns zero point zero one mole of acetate into acetic acid.
+
+4
+00:00:17,838 --> 00:00:22,903
+Salt becomes zero point zero nine, acid zero point one one.
+

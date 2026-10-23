@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,882
+Push at the edge with the same force, and it swings open easily.
+
+2
+00:00:04,882 --> 00:00:10,690
+The turning effect of a force depends on where you apply it, not only on how hard you push.
+

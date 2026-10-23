@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,145
+Quick recap.
+
+2
+00:00:01,145 --> 00:00:03,476
+Three sides: cosine law.
+
+3
+00:00:03,476 --> 00:00:07,877
+Two sides and the included angle: cosine or tangent law.
+
+4
+00:00:07,877 --> 00:00:11,184
+One side and two angles: the sine law.
+
+5
+00:00:11,184 --> 00:00:18,346
+Two sides and a non included angle: compare a with b sin A, and test both possible angles.
+
+6
+00:00:18,346 --> 00:00:23,776
+And for heights and distances, draw the figure and solve the triangle on the baseline.
+

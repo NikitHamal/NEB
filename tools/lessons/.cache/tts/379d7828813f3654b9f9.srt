@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,757
+A memory hook for the exam.
+
+2
+00:00:01,757 --> 00:00:04,270
+The indicator follows the strong partner.
+
+3
+00:00:04,270 --> 00:00:09,257
+Strong base, phenolphthalein, which changes in the alkaline region.
+
+4
+00:00:09,257 --> 00:00:14,127
+Strong acid, methyl orange, which changes in the acid region.
+
+5
+00:00:14,127 --> 00:00:18,593
+Both weak, no sharp jump at all, so no indicator works.
+

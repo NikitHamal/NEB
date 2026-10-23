@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,263
+Watch the gas.
+
+2
+00:00:01,263 --> 00:00:05,585
+Remove the wall, and the molecules spread out through the whole box.
+
+3
+00:00:05,585 --> 00:00:08,281
+They never all gather back on one side.
+
+4
+00:00:08,281 --> 00:00:12,109
+There are vastly more ways to be spread out than to be bunched up.
+
+5
+00:00:12,109 --> 00:00:14,557
+Nature drifts towards disorder.
+

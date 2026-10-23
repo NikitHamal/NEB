@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,421
+A system can be open, like tea in an open cup: steam, which is matter, and heat both escape.
+
+2
+00:00:07,421 --> 00:00:13,502
+Closed, like a reaction in a sealed glass bulb: heat can cross, matter cannot.
+
+3
+00:00:13,502 --> 00:00:19,570
+Or isolated, like hot water in a perfect thermos flask: nothing crosses at all.
+

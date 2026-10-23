@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,223
+A typical dicot leaf is held flat, so its upper surface gets far more light than its lower.
+
+2
+00:00:06,223 --> 00:00:10,963
+Its anatomy is two faced to match, and we call it dorsiventral.
+

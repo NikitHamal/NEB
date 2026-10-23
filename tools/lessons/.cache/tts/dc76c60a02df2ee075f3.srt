@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,406
+Two memory aids.
+
+2
+00:00:01,406 --> 00:00:05,963
+A B C: antimony to bismuth through the cold junction.
+
+3
+00:00:05,963 --> 00:00:12,617
+And hot coffee: C O for copper, F E for iron, copper to iron through the hot junction.
+

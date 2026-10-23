@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,997
+The mark-losing habit: taking only the calculator's angle.
+
+2
+00:00:03,997 --> 00:00:09,739
+Always write both B and one eighty minus B, then test each one.
+

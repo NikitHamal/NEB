@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,481
+As n grows, every bracket one minus k over n tends to one.
+
+2
+00:00:05,481 --> 00:00:14,075
+So e is one plus one over one factorial plus one over two factorial, and so on: the sum of one over r factorial.
+

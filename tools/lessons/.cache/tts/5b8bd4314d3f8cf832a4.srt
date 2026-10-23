@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,877
+Temperature is the one that matters.
+
+2
+00:00:02,877 --> 00:00:11,250
+From root gamma R T over M, at a fixed composition the speed goes as the square root of the absolute temperature.
+

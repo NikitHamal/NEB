@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,838
+The whole skill of this unit is choosing the right modulus, the one that matches the kind of squeezing the wave produces.
+

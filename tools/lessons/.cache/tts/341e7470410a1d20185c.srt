@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,679
+And the vascular tissue.
+
+2
+00:00:01,679 --> 00:00:10,273
+Xylem and phloem lie in separate strips, on alternate radii: xylem arms, with phloem patches between them.
+
+3
+00:00:10,273 --> 00:00:11,979
+That is a radial arrangement.
+
+4
+00:00:11,979 --> 00:00:18,502
+And the xylem is exarch, with the small protoxylem at the tips of the arms, on the outside.
+

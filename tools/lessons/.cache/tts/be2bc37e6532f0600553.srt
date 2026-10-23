@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,354
+Blood vessels.
+
+2
+00:00:01,354 --> 00:00:08,450
+Cartilage is avascular, fed by diffusion from the perichondrium, which is why it heals slowly.
+
+3
+00:00:08,450 --> 00:00:12,604
+It does have lacunae, chondrocytes, and a perichondrium.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,380
+Follow a mouthful.
+
+2
+00:00:01,380 --> 00:00:04,140
+Chewed and mixed with saliva in the mouth.
+
+3
+00:00:04,140 --> 00:00:08,007
+Pushed down the oesophagus by peristalsis.
+
+4
+00:00:08,007 --> 00:00:10,559
+Churned in the acid stomach into chyme.
+
+5
+00:00:10,559 --> 00:00:14,934
+Digested and absorbed along six metres of small intestine.
+
+6
+00:00:14,934 --> 00:00:19,687
+And in the large intestine, water is taken back and faeces are formed.
+

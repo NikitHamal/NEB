@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,492
+A memory trick: outside, inside, in between.
+
+2
+00:00:04,492 --> 00:00:09,062
+Anything on the outside, or made of nerve, is ectoderm.
+
+3
+00:00:09,062 --> 00:00:13,619
+Anything lining a tube that opens into the gut is endoderm.
+
+4
+00:00:13,619 --> 00:00:18,580
+Everything in between, muscle, bone, blood, kidney, is mesoderm.
+

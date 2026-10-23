@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,736
+And nodes are lambda by two apart: two centimetres.
+
+2
+00:00:03,736 --> 00:00:10,455
+Check: sine of half pi x is zero at x equals zero, two, four, six.
+

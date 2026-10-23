@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,093
+A worked item.
+
+2
+00:00:01,093 --> 00:00:04,205
+The principal was giving the students certificates.
+
+3
+00:00:04,205 --> 00:00:11,341
+The verb was giving is past continuous, so the passive frame is was or were being plus the past participle.
+
+4
+00:00:11,341 --> 00:00:16,666
+There are two objects; prefer the person, the students, as the new subject.
+
+5
+00:00:16,666 --> 00:00:19,140
+Students is plural, so were.
+
+6
+00:00:19,140 --> 00:00:22,864
+The students were being given certificates by the principal.
+

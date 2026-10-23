@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,565
+And the microbes that work for us.
+
+2
+00:00:02,565 --> 00:00:07,278
+Lactobacillus turns milk sugar into lactic acid: curd.
+
+3
+00:00:07,278 --> 00:00:10,364
+Yeast makes bread rise and ferments raksi.
+
+4
+00:00:10,364 --> 00:00:17,968
+Aspergillus makes citric acid; a Streptococcus makes streptokinase to dissolve heart attack clots.
+
+5
+00:00:17,968 --> 00:00:27,669
+Rhizobium fixes nitrogen, Bacillus thuringiensis kills caterpillars, and methane making archaea run Nepal's biogas plants.
+

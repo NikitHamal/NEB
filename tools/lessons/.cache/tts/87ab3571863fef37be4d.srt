@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,135
+Write the equilibrium constant.
+
+2
+00:00:02,135 --> 00:00:10,976
+The concentration of water itself, about fifty five point five moles per litre, hardly changes, so we fold it into the constant.
+
+3
+00:00:10,976 --> 00:00:20,755
+The result is the ionic product of water, K w, equal to the concentration of hydrogen ions times the concentration of hydroxide ions.
+

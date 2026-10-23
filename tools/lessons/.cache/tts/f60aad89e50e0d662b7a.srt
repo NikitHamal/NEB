@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,627
+Newton's law says why: the rate of cooling is proportional to how much hotter the tea is than the room.
+
+2
+00:00:06,627 --> 00:00:11,263
+That is an equation about a rate of change, a differential equation.
+
+3
+00:00:11,263 --> 00:00:13,489
+Solving it gives the whole curve.
+
+4
+00:00:13,489 --> 00:00:15,182
+This unit shows you how.
+

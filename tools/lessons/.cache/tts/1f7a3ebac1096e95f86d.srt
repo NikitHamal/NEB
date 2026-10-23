@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,591
+The standard procedure has five steps.
+
+2
+00:00:02,591 --> 00:00:10,169
+One: remove the inverted commas, the comma after the reporting verb, and any question or exclamation mark.
+
+3
+00:00:10,169 --> 00:00:21,653
+Two: choose the reporting verb and the link word: that for a statement, if or whether for a yes no question, a wh word, or to plus a verb for a command.
+
+4
+00:00:21,653 --> 00:00:26,080
+Three: change the pronouns to fit the new speaker and listener.
+
+5
+00:00:26,080 --> 00:00:30,299
+Four: move the tense one step back, with a few exceptions.
+
+6
+00:00:30,299 --> 00:00:33,411
+Five: change the words of time and place.
+

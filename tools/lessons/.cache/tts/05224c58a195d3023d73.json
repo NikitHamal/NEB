@@ -1,0 +1,1 @@
+{"dur": 9.216625, "cues": [[0, 3.947, "Row reduce the augmented matrix, and look at the last row."], [3.947, 6.069, "It can only look one of three ways."], [6.069, 9.610999999999999, "A non zero pivot: one unique solution."]], "text": "Row reduce the augmented matrix, and look at the last row. It can only look one of three ways. A non zero pivot: one unique solution."}

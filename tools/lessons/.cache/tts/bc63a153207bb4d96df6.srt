@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,812
+This is why a lawn grows back after it is mown.
+
+2
+00:00:02,812 --> 00:00:06,536
+The mower takes the tips, and the apical meristems with them.
+
+3
+00:00:06,536 --> 00:00:13,385
+But the intercalary meristems at the base of each leaf are untouched, and they push the blade back up.
+
+4
+00:00:13,385 --> 00:00:17,825
+It is also why a bamboo culm can elongate so fast.
+

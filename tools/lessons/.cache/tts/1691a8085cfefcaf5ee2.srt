@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,018
+A constant comes out in front.
+
+2
+00:00:02,018 --> 00:00:07,526
+And a constant on its own, added n times, gives n times the constant.
+

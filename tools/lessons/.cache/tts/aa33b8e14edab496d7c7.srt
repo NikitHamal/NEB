@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,117
+The energy before is half times six times two squared, twelve joules.
+
+2
+00:00:05,117 --> 00:00:10,052
+After, half times two times six squared, thirty six joules.
+

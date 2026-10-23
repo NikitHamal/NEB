@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,359
+Divide the moduli and subtract the arguments: modulus one over root two, argument one hundred and five degrees.
+

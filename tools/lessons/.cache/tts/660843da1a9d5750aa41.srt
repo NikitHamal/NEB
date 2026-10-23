@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,236
+Pause and think.
+
+2
+00:00:01,236 --> 00:00:03,528
+Double the intensity of a sound.
+
+3
+00:00:03,528 --> 00:00:06,302
+By how many decibels does the level go up?
+

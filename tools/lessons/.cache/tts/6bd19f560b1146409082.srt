@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,294
+B, ethoxyethane, diethyl ether.
+
+2
+00:00:03,294 --> 00:00:09,479
+At one forty degrees two ethanol molecules lose one water between them.
+
+3
+00:00:09,479 --> 00:00:15,625
+At one seventy degrees, each molecule loses its own water, giving ethene.
+
+4
+00:00:15,625 --> 00:00:18,359
+Ethanal needs an oxidising agent.
+

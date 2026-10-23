@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,697
+The way round it is to take both beams from a single source.
+
+2
+00:00:03,697 --> 00:00:11,341
+Then whatever random phase jump happens, happens in both beams at once, and cancels out of the phase difference.
+
+3
+00:00:11,341 --> 00:00:12,786
+There are two ways.
+
+4
+00:00:12,786 --> 00:00:19,075
+Division of wavefront: use two parts of the same wavefront, as in Young's double slit.
+
+5
+00:00:19,075 --> 00:00:28,268
+Division of amplitude: split one beam by partial reflection, as in a soap bubble, or the rainbow colours of oil on a wet road.
+
+6
+00:00:28,268 --> 00:00:32,565
+And lasers are naturally coherent, which makes all this easy.
+

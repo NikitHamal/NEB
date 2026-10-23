@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,742
+The full set: if else for choices, switch for one of many values, for for a known count, while which tests first, and do while which always runs at least once.
+
+2
+00:00:10,742 --> 00:00:17,929
+A function is a named block that takes parameters and can return a value: area of eight by five is forty.
+

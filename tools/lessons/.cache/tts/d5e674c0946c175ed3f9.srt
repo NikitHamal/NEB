@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,585
+Under water stress, A B A makes them lose potassium, and the pore closes.
+

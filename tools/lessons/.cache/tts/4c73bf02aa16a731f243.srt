@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:03,854
+Joining sentences, the patterns NEB sets.
+
+2
+00:00:03,854 --> 00:00:06,796
+The tea was very hot; I could not drink it.
+
+3
+00:00:06,796 --> 00:00:10,781
+With so that: the tea was so hot that I could not drink it.
+
+4
+00:00:10,781 --> 00:00:14,075
+With too to: the tea was too hot to drink.
+
+5
+00:00:14,075 --> 00:00:17,552
+With although: although he was tired, he finished.
+
+6
+00:00:17,552 --> 00:00:21,354
+With unless: unless you work hard, you will fail.
+
+7
+00:00:21,354 --> 00:00:26,510
+With in spite of, turn the clause into a noun: in spite of his illness.
+
+8
+00:00:26,510 --> 00:00:32,265
+And with so that for purpose: she got up early so that she could catch the first bus.
+

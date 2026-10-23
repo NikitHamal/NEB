@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,393
+The secret is in this curve, the Maxwell Boltzmann distribution of molecular energies.
+
+2
+00:00:06,393 --> 00:00:11,171
+Only molecules in the tail beyond E a can react.
+
+3
+00:00:11,171 --> 00:00:13,268
+That shaded tail is tiny.
+

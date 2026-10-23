@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,565
+In components it is even easier.
+
+2
+00:00:02,565 --> 00:00:08,828
+Each unit vector dotted with itself is one, and with a different one is zero.
+
+3
+00:00:08,828 --> 00:00:18,450
+So the dot product is a one b one plus a two b two plus a three b three, and the cosine of the angle is the dot product over the two lengths.
+

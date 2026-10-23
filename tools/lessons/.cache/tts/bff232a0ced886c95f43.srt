@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,369
+The flow rate is A one v one: pi times zero point zero three squared, times two.
+
+2
+00:00:07,369 --> 00:00:15,664
+That is five point six five times ten to the minus three cubic metres per second, about five and a half litres every second.
+

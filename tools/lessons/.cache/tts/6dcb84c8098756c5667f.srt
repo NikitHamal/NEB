@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,947
+Rearranged, the cosine law gives any angle from the three sides.
+
+2
+00:00:04,947 --> 00:00:09,609
+Notice the pattern: the side opposite the angle is the one subtracted.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,666
+A schoolteacher once set a class a long, dull task: add every number from one to a hundred.
+
+2
+00:00:06,666 --> 00:00:10,455
+One boy, Carl Gauss, had the answer in seconds.
+

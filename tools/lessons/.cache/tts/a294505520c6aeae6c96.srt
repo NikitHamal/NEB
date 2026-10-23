@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,341
+The 2021 count divided by the 2011 count: one point one zero zero eight.
+

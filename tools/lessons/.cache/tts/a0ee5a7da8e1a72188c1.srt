@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:12,317
+All twelve tenses fit one grid: three times, past, present and future, by four aspects: simple, continuous, perfect and perfect continuous.
+
+2
+00:00:12,317 --> 00:00:15,742
+He wrote, was writing, had written, had been writing.
+
+3
+00:00:15,742 --> 00:00:19,843
+He writes, is writing, has written, has been writing.
+
+4
+00:00:19,843 --> 00:00:24,518
+He will write, will be writing, will have written, will have been writing.
+
+5
+00:00:24,518 --> 00:00:35,598
+Learn the signal words too: just, already and yet call for the present perfect; for and since for the perfect continuous; before and by the time for the past perfect.
+

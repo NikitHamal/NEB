@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,578
+A whole line of solutions, one for every real t. Put t equal to two: zero, four, two.
+
+2
+00:00:07,578 --> 00:00:10,182
+Check: six, twenty, fourteen.
+

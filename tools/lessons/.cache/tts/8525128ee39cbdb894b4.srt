@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,320
+Now slide the oxygen one place along.
+
+2
+00:00:03,320 --> 00:00:06,549
+Two carbons on each side: ethoxyethane.
+
+3
+00:00:06,549 --> 00:00:12,942
+Same formula, same functional group, but the carbons are shared out differently around the oxygen.
+
+4
+00:00:12,942 --> 00:00:14,882
+Those two are metamers.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,945
+A yes no question puts the operator in front of the subject.
+
+2
+00:00:03,945 --> 00:00:08,645
+She is in Grade twelve becomes: is she in Grade twelve?
+
+3
+00:00:08,645 --> 00:00:20,429
+If there is no auxiliary, supply do, does or did, and the main verb goes back to its base form: he works in Doha becomes does he work in Doha, not does he works.
+

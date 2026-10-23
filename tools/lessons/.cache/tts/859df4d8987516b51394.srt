@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,229
+For four plus x, first make the bracket start with one: take the four out as four to the minus half, which is a half.
+

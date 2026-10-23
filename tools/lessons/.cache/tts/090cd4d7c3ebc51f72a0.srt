@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,200
+Two subjects joined together.
+
+2
+00:00:02,200 --> 00:00:07,070
+With and, the subject is plural: Sita and Gita are cousins.
+
+3
+00:00:07,070 --> 00:00:13,125
+But if the two words name one thing, the verb is singular: bread and butter is a cheap breakfast.
+
+4
+00:00:13,125 --> 00:00:18,528
+Each and every keep it singular: every boy and every girl was given a badge.
+
+5
+00:00:18,528 --> 00:00:27,955
+As well as, along with and together with only add information, so the verb agrees with the first subject: the captain, as well as the players, was praised.
+
+6
+00:00:27,955 --> 00:00:37,057
+And with either or, neither nor, not only but also, and plain or, the verb agrees with the nearer subject.
+

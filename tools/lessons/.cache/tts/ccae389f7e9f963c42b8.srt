@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:06,328
+A binary operation combines two elements of a set and must give an answer inside the same set.
+
+2
+00:00:06,328 --> 00:00:09,153
+Addition on the natural numbers: yes.
+
+3
+00:00:09,153 --> 00:00:13,359
+Subtraction: no, three minus five escapes.
+
+4
+00:00:13,359 --> 00:00:16,614
+Multiplication on the integers: yes.
+
+5
+00:00:16,614 --> 00:00:20,859
+Division: no, one over two is not an integer.
+
+6
+00:00:20,859 --> 00:00:23,203
+One counter example is enough.
+

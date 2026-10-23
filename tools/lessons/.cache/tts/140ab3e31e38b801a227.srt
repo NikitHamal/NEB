@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,390
+Early on both daughter cells divide: geometric, exponential growth.
+
+2
+00:00:05,390 --> 00:00:09,088
+Later only one does: arithmetic growth.
+
+3
+00:00:09,088 --> 00:00:11,289
+Then it stops, giving the S.
+

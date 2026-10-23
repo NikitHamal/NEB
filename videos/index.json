@@ -1,0 +1,2925 @@
+{
+ "videos": [
+  {
+   "id": "class-12/bio12/unit_02.mp4",
+   "file": "class-12/bio12/unit_02.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/bio12/unit_02.part1.mp4",
+     "subtitles": "class-12/bio12/unit_02.part1.srt",
+     "start": 0.0,
+     "end": 498.933,
+     "mb": 20.0
+    },
+    {
+     "file": "class-12/bio12/unit_02.part2.mp4",
+     "subtitles": "class-12/bio12/unit_02.part2.srt",
+     "start": 498.933,
+     "end": 907.267,
+     "mb": 15.9
+    },
+    {
+     "file": "class-12/bio12/unit_02.part3.mp4",
+     "subtitles": "class-12/bio12/unit_02.part3.srt",
+     "start": 907.267,
+     "end": 1257.267,
+     "mb": 11.5
+    },
+    {
+     "file": "class-12/bio12/unit_02.part4.mp4",
+     "subtitles": "class-12/bio12/unit_02.part4.srt",
+     "start": 1257.267,
+     "end": 1781.367,
+     "mb": 18.8
+    }
+   ],
+   "poster": "class-12/bio12/unit_02.jpg",
+   "book": "bio12",
+   "grade": 12,
+   "unit": 2,
+   "title": "Plant Physiology",
+   "subtitle": "How a plant drinks, feeds, breathes and moves",
+   "lang": "en",
+   "sections": [
+    "Water relation",
+    "Photosynthesis",
+    "Respiration",
+    "Plant hormones",
+    "Plant growth and movement"
+   ],
+   "seconds": 1781.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     58.37,
+     "Water relation"
+    ],
+    [
+     497.67,
+     "Photosynthesis"
+    ],
+    [
+     903.47,
+     "Respiration"
+    ],
+    [
+     1256.87,
+     "Plant hormones"
+    ],
+    [
+     1514.43,
+     "Plant growth and movement"
+    ],
+    [
+     1727.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 66.2,
+   "script": "tools/lessons/scripts/bio12/unit_02.py"
+  },
+  {
+   "id": "class-12/bio12/unit_06.mp4",
+   "file": "class-12/bio12/unit_06.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/bio12/unit_06.part1.mp4",
+     "subtitles": "class-12/bio12/unit_06.part1.srt",
+     "start": 0.0,
+     "end": 645.633,
+     "mb": 21.8
+    },
+    {
+     "file": "class-12/bio12/unit_06.part2.mp4",
+     "subtitles": "class-12/bio12/unit_06.part2.srt",
+     "start": 645.633,
+     "end": 1086.7,
+     "mb": 14.2
+    }
+   ],
+   "poster": "class-12/bio12/unit_06.jpg",
+   "book": "bio12",
+   "grade": 12,
+   "unit": 6,
+   "title": "Animal Tissues",
+   "subtitle": "Four tissues build every organ",
+   "lang": "en",
+   "sections": [
+    "Epithelial tissue",
+    "Connective tissue",
+    "Muscular tissue",
+    "Nervous tissue"
+   ],
+   "seconds": 1086.7,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     70.13,
+     "Epithelial tissue"
+    ],
+    [
+     351.47,
+     "Connective tissue"
+    ],
+    [
+     644.8,
+     "Muscular tissue"
+    ],
+    [
+     817.73,
+     "Nervous tissue"
+    ],
+    [
+     1031.63,
+     "Quick recap"
+    ]
+   ],
+   "mb": 36.0,
+   "script": "tools/lessons/scripts/bio12/unit_06.py"
+  },
+  {
+   "id": "class-12/cs12/unit_01.mp4",
+   "file": "class-12/cs12/unit_01.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_01.part1.mp4",
+     "subtitles": "class-12/cs12/unit_01.part1.srt",
+     "start": 0.0,
+     "end": 328.433,
+     "mb": 13.2
+    },
+    {
+     "file": "class-12/cs12/unit_01.part2.mp4",
+     "subtitles": "class-12/cs12/unit_01.part2.srt",
+     "start": 328.433,
+     "end": 746.133,
+     "mb": 17.3
+    }
+   ],
+   "poster": "class-12/cs12/unit_01.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 1,
+   "title": "Database Management System",
+   "subtitle": "Storing data once, and asking it anything",
+   "lang": "en",
+   "sections": [
+    "Data, databases and the DBMS",
+    "Fields, records and keys",
+    "SQL: DDL and DML",
+    "Joins and grouping",
+    "Database models",
+    "Normalisation: 1NF, 2NF, 3NF",
+    "Distributed databases and security"
+   ],
+   "seconds": 746.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     63.57,
+     "Data, databases and the DBMS"
+    ],
+    [
+     169.33,
+     "Fields, records and keys"
+    ],
+    [
+     240.9,
+     "SQL: DDL and DML"
+    ],
+    [
+     331.27,
+     "Joins and grouping"
+    ],
+    [
+     419.1,
+     "Database models"
+    ],
+    [
+     492.63,
+     "Normalisation: 1NF, 2NF, 3NF"
+    ],
+    [
+     615.23,
+     "Distributed databases and security"
+    ],
+    [
+     706.07,
+     "Quick recap"
+    ]
+   ],
+   "mb": 30.5,
+   "script": "tools/lessons/scripts/cs12/unit_01.py"
+  },
+  {
+   "id": "class-12/cs12/unit_02.mp4",
+   "file": "class-12/cs12/unit_02.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_02.part1.mp4",
+     "subtitles": "class-12/cs12/unit_02.part1.srt",
+     "start": 0.0,
+     "end": 341.667,
+     "mb": 13.0
+    },
+    {
+     "file": "class-12/cs12/unit_02.part2.mp4",
+     "subtitles": "class-12/cs12/unit_02.part2.srt",
+     "start": 341.667,
+     "end": 664.167,
+     "mb": 11.8
+    }
+   ],
+   "poster": "class-12/cs12/unit_02.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 2,
+   "title": "Data Communication and Networking",
+   "subtitle": "How computers talk to each other",
+   "lang": "en",
+   "sections": [
+    "The communication system",
+    "Signals, modes and media",
+    "Impairments",
+    "Networks, architectures and devices",
+    "Topologies",
+    "The OSI model",
+    "IP addressing"
+   ],
+   "seconds": 664.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     53.03,
+     "The communication system"
+    ],
+    [
+     95.1,
+     "Signals, modes and media"
+    ],
+    [
+     202.23,
+     "Impairments"
+    ],
+    [
+     250.67,
+     "Networks, architectures and devices"
+    ],
+    [
+     341.17,
+     "Topologies"
+    ],
+    [
+     401.3,
+     "The OSI model"
+    ],
+    [
+     467.27,
+     "IP addressing"
+    ],
+    [
+     626.2,
+     "Quick recap"
+    ]
+   ],
+   "mb": 24.9,
+   "script": "tools/lessons/scripts/cs12/unit_02.py"
+  },
+  {
+   "id": "class-12/cs12/unit_03.mp4",
+   "file": "class-12/cs12/unit_03.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_03.mp4",
+     "subtitles": "class-12/cs12/unit_03.srt",
+     "start": 0.0,
+     "end": 563.97,
+     "mb": 22.4
+    }
+   ],
+   "poster": "class-12/cs12/unit_03.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 3,
+   "title": "Web Technology II",
+   "subtitle": "JavaScript in the browser, PHP on the server",
+   "lang": "en",
+   "sections": [
+    "Client-side vs server-side",
+    "JavaScript basics",
+    "Control structures and functions",
+    "Objects, events and validation",
+    "PHP basics",
+    "PHP objects and operators",
+    "PHP and MySQL"
+   ],
+   "seconds": 564.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.4,
+     "Client-side vs server-side"
+    ],
+    [
+     136.47,
+     "JavaScript basics"
+    ],
+    [
+     186.0,
+     "Control structures and functions"
+    ],
+    [
+     248.23,
+     "Objects, events and validation"
+    ],
+    [
+     328.1,
+     "PHP basics"
+    ],
+    [
+     378.07,
+     "PHP objects and operators"
+    ],
+    [
+     427.33,
+     "PHP and MySQL"
+    ],
+    [
+     528.47,
+     "Quick recap"
+    ]
+   ],
+   "mb": 22.4,
+   "script": "tools/lessons/scripts/cs12/unit_03.py"
+  },
+  {
+   "id": "class-12/cs12/unit_04.mp4",
+   "file": "class-12/cs12/unit_04.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_04.mp4",
+     "subtitles": "class-12/cs12/unit_04.srt",
+     "start": 0.0,
+     "end": 475.5,
+     "mb": 17.5
+    }
+   ],
+   "poster": "class-12/cs12/unit_04.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 4,
+   "title": "Programming in C",
+   "subtitle": "Functions, recursion, structures, pointers and files",
+   "lang": "en",
+   "sections": [
+    "Functions",
+    "Storage classes",
+    "Recursion",
+    "Structures and unions",
+    "Pointers",
+    "Data files"
+   ],
+   "seconds": 475.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.3,
+     "Functions"
+    ],
+    [
+     88.7,
+     "Storage classes"
+    ],
+    [
+     139.5,
+     "Recursion"
+    ],
+    [
+     194.27,
+     "Structures and unions"
+    ],
+    [
+     262.5,
+     "Pointers"
+    ],
+    [
+     334.43,
+     "Data files"
+    ],
+    [
+     442.23,
+     "Quick recap"
+    ]
+   ],
+   "mb": 17.5,
+   "script": "tools/lessons/scripts/cs12/unit_04.py"
+  },
+  {
+   "id": "class-12/cs12/unit_05.mp4",
+   "file": "class-12/cs12/unit_05.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_05.mp4",
+     "subtitles": "class-12/cs12/unit_05.srt",
+     "start": 0.0,
+     "end": 453.2,
+     "mb": 18.1
+    }
+   ],
+   "poster": "class-12/cs12/unit_05.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 5,
+   "title": "Object-Oriented Programming",
+   "subtitle": "Programs built from objects",
+   "lang": "en",
+   "sections": [
+    "Programming paradigms",
+    "Classes and objects",
+    "Encapsulation and abstraction",
+    "Inheritance",
+    "Polymorphism",
+    "Advantages and applications"
+   ],
+   "seconds": 453.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     53.17,
+     "Programming paradigms"
+    ],
+    [
+     110.33,
+     "Classes and objects"
+    ],
+    [
+     165.0,
+     "Encapsulation and abstraction"
+    ],
+    [
+     217.4,
+     "Inheritance"
+    ],
+    [
+     266.17,
+     "Polymorphism"
+    ],
+    [
+     344.93,
+     "Advantages and applications"
+    ],
+    [
+     421.87,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.1,
+   "script": "tools/lessons/scripts/cs12/unit_05.py"
+  },
+  {
+   "id": "class-12/cs12/unit_06.mp4",
+   "file": "class-12/cs12/unit_06.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_06.part1.mp4",
+     "subtitles": "class-12/cs12/unit_06.part1.srt",
+     "start": 0.0,
+     "end": 363.0,
+     "mb": 14.0
+    },
+    {
+     "file": "class-12/cs12/unit_06.part2.mp4",
+     "subtitles": "class-12/cs12/unit_06.part2.srt",
+     "start": 363.0,
+     "end": 641.6,
+     "mb": 10.8
+    }
+   ],
+   "poster": "class-12/cs12/unit_06.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 6,
+   "title": "Software Process Model",
+   "subtitle": "How real software is planned, built and kept alive",
+   "lang": "en",
+   "sections": [
+    "Software projects and the process",
+    "The SDLC",
+    "Analysts, requirements and design",
+    "Data flow diagrams",
+    "Software quality",
+    "Development models"
+   ],
+   "seconds": 641.6,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     62.23,
+     "Software projects and the process"
+    ],
+    [
+     139.77,
+     "The SDLC"
+    ],
+    [
+     197.27,
+     "Analysts, requirements and design"
+    ],
+    [
+     275.93,
+     "Data flow diagrams"
+    ],
+    [
+     362.63,
+     "Software quality"
+    ],
+    [
+     432.8,
+     "Development models"
+    ],
+    [
+     607.0,
+     "Quick recap"
+    ]
+   ],
+   "mb": 24.8,
+   "script": "tools/lessons/scripts/cs12/unit_06.py"
+  },
+  {
+   "id": "class-12/cs12/unit_07.mp4",
+   "file": "class-12/cs12/unit_07.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/cs12/unit_07.part1.mp4",
+     "subtitles": "class-12/cs12/unit_07.part1.srt",
+     "start": 0.0,
+     "end": 406.833,
+     "mb": 15.4
+    },
+    {
+     "file": "class-12/cs12/unit_07.part2.mp4",
+     "subtitles": "class-12/cs12/unit_07.part2.srt",
+     "start": 406.833,
+     "end": 782.667,
+     "mb": 14.5
+    }
+   ],
+   "poster": "class-12/cs12/unit_07.jpg",
+   "book": "cs12",
+   "grade": 12,
+   "unit": 7,
+   "title": "Recent Trends in Technology",
+   "subtitle": "AI, cloud, big data, VR, e-services, mobile and IoT",
+   "lang": "en",
+   "sections": [
+    "AI and robotics",
+    "Cloud computing",
+    "Big data",
+    "Virtual reality",
+    "e-commerce, e-medicine, e-governance",
+    "Mobile computing and IoT"
+   ],
+   "seconds": 782.7,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     60.0,
+     "AI and robotics"
+    ],
+    [
+     191.4,
+     "Cloud computing"
+    ],
+    [
+     322.73,
+     "Big data"
+    ],
+    [
+     410.73,
+     "Virtual reality"
+    ],
+    [
+     511.87,
+     "e-commerce, e-medicine, e-governance"
+    ],
+    [
+     609.5,
+     "Mobile computing and IoT"
+    ],
+    [
+     748.9,
+     "Quick recap"
+    ]
+   ],
+   "mb": 29.9,
+   "script": "tools/lessons/scripts/cs12/unit_07.py"
+  },
+  {
+   "id": "class-12/eng12/unit_01.mp4",
+   "file": "class-12/eng12/unit_01.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_01.mp4",
+     "subtitles": "class-12/eng12/unit_01.srt",
+     "start": 0.0,
+     "end": 592.43,
+     "mb": 23.6
+    }
+   ],
+   "poster": "class-12/eng12/unit_01.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 1,
+   "title": "Neighbours",
+   "subtitle": "Tim Winton · a short story",
+   "lang": "en",
+   "sections": [
+    "The writer and his Australia",
+    "The story, season by season",
+    "What crosses the fence",
+    "The characters",
+    "Themes",
+    "How it is told"
+   ],
+   "seconds": 592.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.43,
+     "The writer and his Australia"
+    ],
+    [
+     115.9,
+     "The story, season by season"
+    ],
+    [
+     285.83,
+     "What crosses the fence"
+    ],
+    [
+     326.17,
+     "The characters"
+    ],
+    [
+     394.53,
+     "Themes"
+    ],
+    [
+     464.57,
+     "How it is told"
+    ],
+    [
+     553.27,
+     "Quick recap"
+    ]
+   ],
+   "mb": 23.6,
+   "script": "tools/lessons/scripts/eng12/unit_01.py"
+  },
+  {
+   "id": "class-12/eng12/unit_02.mp4",
+   "file": "class-12/eng12/unit_02.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_02.mp4",
+     "subtitles": "class-12/eng12/unit_02.srt",
+     "start": 0.0,
+     "end": 562.47,
+     "mb": 21.7
+    }
+   ],
+   "poster": "class-12/eng12/unit_02.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 2,
+   "title": "A Respectable Woman",
+   "subtitle": "Kate Chopin · a short story",
+   "lang": "en",
+   "sections": [
+    "Kate Chopin and Louisiana",
+    "The story",
+    "The bench",
+    "The characters",
+    "Themes",
+    "The ending and the craft"
+   ],
+   "seconds": 562.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     49.57,
+     "Kate Chopin and Louisiana"
+    ],
+    [
+     114.37,
+     "The story"
+    ],
+    [
+     258.13,
+     "The bench"
+    ],
+    [
+     346.43,
+     "The characters"
+    ],
+    [
+     386.13,
+     "Themes"
+    ],
+    [
+     435.8,
+     "The ending and the craft"
+    ],
+    [
+     525.13,
+     "Quick recap"
+    ]
+   ],
+   "mb": 21.7,
+   "script": "tools/lessons/scripts/eng12/unit_02.py"
+  },
+  {
+   "id": "class-12/eng12/unit_03.mp4",
+   "file": "class-12/eng12/unit_03.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_03.mp4",
+     "subtitles": "class-12/eng12/unit_03.srt",
+     "start": 0.0,
+     "end": 538.13,
+     "mb": 20.2
+    }
+   ],
+   "poster": "class-12/eng12/unit_03.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 3,
+   "title": "A Devoted Son",
+   "subtitle": "Anita Desai · a short story",
+   "lang": "en",
+   "sections": [
+    "Anita Desai",
+    "The rise",
+    "The turn",
+    "The characters",
+    "Themes",
+    "How it is built"
+   ],
+   "seconds": 538.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.23,
+     "Anita Desai"
+    ],
+    [
+     93.37,
+     "The rise"
+    ],
+    [
+     155.8,
+     "The turn"
+    ],
+    [
+     266.23,
+     "The characters"
+    ],
+    [
+     318.07,
+     "Themes"
+    ],
+    [
+     382.47,
+     "How it is built"
+    ],
+    [
+     504.97,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.2,
+   "script": "tools/lessons/scripts/eng12/unit_03.py"
+  },
+  {
+   "id": "class-12/eng12/unit_04.mp4",
+   "file": "class-12/eng12/unit_04.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_04.mp4",
+     "subtitles": "class-12/eng12/unit_04.srt",
+     "start": 0.0,
+     "end": 469.83,
+     "mb": 18.4
+    }
+   ],
+   "poster": "class-12/eng12/unit_04.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 4,
+   "title": "The Treasure in the Forest",
+   "subtitle": "H. G. Wells · a short story",
+   "lang": "en",
+   "sections": [
+    "H. G. Wells",
+    "The map and the dream",
+    "Into the forest",
+    "The trap explained",
+    "Characters and themes",
+    "How Wells builds suspense"
+   ],
+   "seconds": 469.8,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.6,
+     "H. G. Wells"
+    ],
+    [
+     94.73,
+     "The map and the dream"
+    ],
+    [
+     146.73,
+     "Into the forest"
+    ],
+    [
+     233.23,
+     "The trap explained"
+    ],
+    [
+     288.6,
+     "Characters and themes"
+    ],
+    [
+     348.43,
+     "How Wells builds suspense"
+    ],
+    [
+     430.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.4,
+   "script": "tools/lessons/scripts/eng12/unit_04.py"
+  },
+  {
+   "id": "class-12/eng12/unit_05.mp4",
+   "file": "class-12/eng12/unit_05.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_05.mp4",
+     "subtitles": "class-12/eng12/unit_05.srt",
+     "start": 0.0,
+     "end": 543.63,
+     "mb": 20.4
+    }
+   ],
+   "poster": "class-12/eng12/unit_05.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 5,
+   "title": "My Old Home",
+   "subtitle": "Lu Xun · a short story",
+   "lang": "en",
+   "sections": [
+    "Lu Xun and his China",
+    "Homecoming and memory",
+    "Runtu: the boy and the man",
+    "The other people",
+    "Themes",
+    "The wall and the road"
+   ],
+   "seconds": 543.6,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     55.03,
+     "Lu Xun and his China"
+    ],
+    [
+     105.43,
+     "Homecoming and memory"
+    ],
+    [
+     193.77,
+     "Runtu: the boy and the man"
+    ],
+    [
+     293.5,
+     "The other people"
+    ],
+    [
+     346.83,
+     "Themes"
+    ],
+    [
+     401.33,
+     "The wall and the road"
+    ],
+    [
+     511.03,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.4,
+   "script": "tools/lessons/scripts/eng12/unit_05.py"
+  },
+  {
+   "id": "class-12/eng12/unit_06.mp4",
+   "file": "class-12/eng12/unit_06.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_06.mp4",
+     "subtitles": "class-12/eng12/unit_06.srt",
+     "start": 0.0,
+     "end": 529.43,
+     "mb": 20.9
+    }
+   ],
+   "poster": "class-12/eng12/unit_06.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 6,
+   "title": "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun",
+   "subtitle": "Shankar Lamichhane · a short story",
+   "lang": "en",
+   "sections": [
+    "Shankar Lamichhane",
+    "The tourist's evening",
+    "The guide's day",
+    "Two monologues, one picture",
+    "Themes",
+    "Irony and the eyes"
+   ],
+   "seconds": 529.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     54.9,
+     "Shankar Lamichhane"
+    ],
+    [
+     112.03,
+     "The tourist's evening"
+    ],
+    [
+     175.9,
+     "The guide's day"
+    ],
+    [
+     279.0,
+     "Two monologues, one picture"
+    ],
+    [
+     338.87,
+     "Themes"
+    ],
+    [
+     389.8,
+     "Irony and the eyes"
+    ],
+    [
+     492.1,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.9,
+   "script": "tools/lessons/scripts/eng12/unit_06.py"
+  },
+  {
+   "id": "class-12/eng12/unit_07.mp4",
+   "file": "class-12/eng12/unit_07.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_07.mp4",
+     "subtitles": "class-12/eng12/unit_07.srt",
+     "start": 0.0,
+     "end": 560.63,
+     "mb": 21.7
+    }
+   ],
+   "poster": "class-12/eng12/unit_07.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 7,
+   "title": "A Very Old Man with Enormous Wings",
+   "subtitle": "Gabriel García Márquez · a short story",
+   "lang": "en",
+   "sections": [
+    "Márquez and magical realism",
+    "An angel in the mud",
+    "From wonder to sideshow",
+    "Decline and flight",
+    "Characters and themes",
+    "How the magic is told"
+   ],
+   "seconds": 560.6,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     50.2,
+     "Márquez and magical realism"
+    ],
+    [
+     108.73,
+     "An angel in the mud"
+    ],
+    [
+     175.53,
+     "From wonder to sideshow"
+    ],
+    [
+     287.43,
+     "Decline and flight"
+    ],
+    [
+     369.5,
+     "Characters and themes"
+    ],
+    [
+     440.2,
+     "How the magic is told"
+    ],
+    [
+     528.37,
+     "Quick recap"
+    ]
+   ],
+   "mb": 21.7,
+   "script": "tools/lessons/scripts/eng12/unit_07.py"
+  },
+  {
+   "id": "class-12/eng12/unit_08.mp4",
+   "file": "class-12/eng12/unit_08.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_08.mp4",
+     "subtitles": "class-12/eng12/unit_08.srt",
+     "start": 0.0,
+     "end": 498.23,
+     "mb": 16.9
+    }
+   ],
+   "poster": "class-12/eng12/unit_08.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 8,
+   "title": "A Day",
+   "subtitle": "Emily Dickinson · a poem",
+   "lang": "en",
+   "sections": [
+    "Emily Dickinson",
+    "The sunrise, told",
+    "The sunset, not known",
+    "Themes",
+    "Form, metre and rhyme",
+    "Devices"
+   ],
+   "seconds": 498.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     46.0,
+     "Emily Dickinson"
+    ],
+    [
+     110.27,
+     "The sunrise, told"
+    ],
+    [
+     202.6,
+     "The sunset, not known"
+    ],
+    [
+     283.2,
+     "Themes"
+    ],
+    [
+     342.53,
+     "Form, metre and rhyme"
+    ],
+    [
+     400.07,
+     "Devices"
+    ],
+    [
+     467.13,
+     "Quick recap"
+    ]
+   ],
+   "mb": 16.9,
+   "script": "tools/lessons/scripts/eng12/unit_08.py"
+  },
+  {
+   "id": "class-12/eng12/unit_09.mp4",
+   "file": "class-12/eng12/unit_09.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_09.mp4",
+     "subtitles": "class-12/eng12/unit_09.srt",
+     "start": 0.0,
+     "end": 460.37,
+     "mb": 17.6
+    }
+   ],
+   "poster": "class-12/eng12/unit_09.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 9,
+   "title": "Every Morning I Wake",
+   "subtitle": "Dylan Thomas · a poem from Under Milk Wood",
+   "lang": "en",
+   "sections": [
+    "Dylan Thomas and Under Milk Wood",
+    "Morning and evening",
+    "\"Not wholly bad or good\"",
+    "Good-bye — but just for now",
+    "Themes",
+    "Form and devices"
+   ],
+   "seconds": 460.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     51.87,
+     "Dylan Thomas and Under Milk Wood"
+    ],
+    [
+     114.27,
+     "Morning and evening"
+    ],
+    [
+     182.43,
+     "\"Not wholly bad or good\""
+    ],
+    [
+     252.43,
+     "Good-bye — but just for now"
+    ],
+    [
+     300.43,
+     "Themes"
+    ],
+    [
+     346.33,
+     "Form and devices"
+    ],
+    [
+     432.63,
+     "Quick recap"
+    ]
+   ],
+   "mb": 17.6,
+   "script": "tools/lessons/scripts/eng12/unit_09.py"
+  },
+  {
+   "id": "class-12/eng12/unit_10.mp4",
+   "file": "class-12/eng12/unit_10.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_10.mp4",
+     "subtitles": "class-12/eng12/unit_10.srt",
+     "start": 0.0,
+     "end": 438.57,
+     "mb": 17.0
+    }
+   ],
+   "poster": "class-12/eng12/unit_10.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 10,
+   "title": "I Was My Own Route",
+   "subtitle": "Julia de Burgos · a poem in translation",
+   "lang": "en",
+   "sections": [
+    "Julia de Burgos",
+    "A poem in translation",
+    "The walk, stanza by stanza",
+    "The empty chair",
+    "Themes",
+    "Form and devices"
+   ],
+   "seconds": 438.6,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     49.33,
+     "Julia de Burgos"
+    ],
+    [
+     90.23,
+     "A poem in translation"
+    ],
+    [
+     128.87,
+     "The walk, stanza by stanza"
+    ],
+    [
+     242.73,
+     "The empty chair"
+    ],
+    [
+     280.87,
+     "Themes"
+    ],
+    [
+     320.13,
+     "Form and devices"
+    ],
+    [
+     408.4,
+     "Quick recap"
+    ]
+   ],
+   "mb": 17.0,
+   "script": "tools/lessons/scripts/eng12/unit_10.py"
+  },
+  {
+   "id": "class-12/eng12/unit_11.mp4",
+   "file": "class-12/eng12/unit_11.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_11.mp4",
+     "subtitles": "class-12/eng12/unit_11.srt",
+     "start": 0.0,
+     "end": 473.4,
+     "mb": 18.1
+    }
+   ],
+   "poster": "class-12/eng12/unit_11.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 11,
+   "title": "The Awakening Age",
+   "subtitle": "Ben Okri · a poem",
+   "lang": "en",
+   "sections": [
+    "Ben Okri and the poem's occasion",
+    "Couplets 1–2: the summons",
+    "Couplets 3–4: the rope",
+    "Couplets 5–7: perception and harvest",
+    "Themes",
+    "Form and devices"
+   ],
+   "seconds": 473.4,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     48.2,
+     "Ben Okri and the poem's occasion"
+    ],
+    [
+     118.27,
+     "Couplets 1–2: the summons"
+    ],
+    [
+     177.03,
+     "Couplets 3–4: the rope"
+    ],
+    [
+     239.2,
+     "Couplets 5–7: perception and harvest"
+    ],
+    [
+     336.27,
+     "Themes"
+    ],
+    [
+     368.03,
+     "Form and devices"
+    ],
+    [
+     444.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.1,
+   "script": "tools/lessons/scripts/eng12/unit_11.py"
+  },
+  {
+   "id": "class-12/eng12/unit_12.mp4",
+   "file": "class-12/eng12/unit_12.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_12.mp4",
+     "subtitles": "class-12/eng12/unit_12.srt",
+     "start": 0.0,
+     "end": 507.2,
+     "mb": 20.0
+    }
+   ],
+   "poster": "class-12/eng12/unit_12.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 12,
+   "title": "Soft Storm",
+   "subtitle": "Abhi Subedi · a poem",
+   "lang": "en",
+   "sections": [
+    "Abhi Subedi and his Kathmandu",
+    "How the softness began",
+    "Four scenes from a violent decade",
+    "Crocuses over stone",
+    "Themes",
+    "Form and devices"
+   ],
+   "seconds": 507.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     57.07,
+     "Abhi Subedi and his Kathmandu"
+    ],
+    [
+     125.57,
+     "How the softness began"
+    ],
+    [
+     172.17,
+     "Four scenes from a violent decade"
+    ],
+    [
+     268.2,
+     "Crocuses over stone"
+    ],
+    [
+     350.27,
+     "Themes"
+    ],
+    [
+     384.93,
+     "Form and devices"
+    ],
+    [
+     478.23,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.0,
+   "script": "tools/lessons/scripts/eng12/unit_12.py"
+  },
+  {
+   "id": "class-12/eng12/unit_13.mp4",
+   "file": "class-12/eng12/unit_13.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_13.mp4",
+     "subtitles": "class-12/eng12/unit_13.srt",
+     "start": 0.0,
+     "end": 484.53,
+     "mb": 18.1
+    }
+   ],
+   "poster": "class-12/eng12/unit_13.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 13,
+   "title": "On Libraries",
+   "subtitle": "Oliver Sacks · an essay",
+   "lang": "en",
+   "sections": [
+    "Oliver Sacks",
+    "The library at home",
+    "Willesden: a good learner",
+    "Science, Oxford and the vaults",
+    "New York: space and strangers",
+    "The empty shelves"
+   ],
+   "seconds": 484.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     47.4,
+     "Oliver Sacks"
+    ],
+    [
+     106.1,
+     "The library at home"
+    ],
+    [
+     147.47,
+     "Willesden: a good learner"
+    ],
+    [
+     191.3,
+     "Science, Oxford and the vaults"
+    ],
+    [
+     277.33,
+     "New York: space and strangers"
+    ],
+    [
+     343.67,
+     "The empty shelves"
+    ],
+    [
+     458.63,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.1,
+   "script": "tools/lessons/scripts/eng12/unit_13.py"
+  },
+  {
+   "id": "class-12/eng12/unit_14.mp4",
+   "file": "class-12/eng12/unit_14.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_14.mp4",
+     "subtitles": "class-12/eng12/unit_14.srt",
+     "start": 0.0,
+     "end": 492.53,
+     "mb": 19.3
+    }
+   ],
+   "poster": "class-12/eng12/unit_14.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 14,
+   "title": "Marriage as a Social Institution",
+   "subtitle": "Steven L. Nock · an essay",
+   "lang": "en",
+   "sections": [
+    "Nock and the essay's argument",
+    "An institution with soft boundaries",
+    "Durkheim: limits on desire",
+    "Marriage vs cohabitation",
+    "Marriage as social capital",
+    "Normative marriage: six dimensions"
+   ],
+   "seconds": 492.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.37,
+     "Nock and the essay's argument"
+    ],
+    [
+     121.97,
+     "An institution with soft boundaries"
+    ],
+    [
+     179.23,
+     "Durkheim: limits on desire"
+    ],
+    [
+     241.93,
+     "Marriage vs cohabitation"
+    ],
+    [
+     311.73,
+     "Marriage as social capital"
+    ],
+    [
+     378.77,
+     "Normative marriage: six dimensions"
+    ],
+    [
+     462.2,
+     "Quick recap"
+    ]
+   ],
+   "mb": 19.3,
+   "script": "tools/lessons/scripts/eng12/unit_14.py"
+  },
+  {
+   "id": "class-12/eng12/unit_15.mp4",
+   "file": "class-12/eng12/unit_15.mp4",
+   "parts": [
+    {
+     "file": "class-12/eng12/unit_15.mp4",
+     "subtitles": "class-12/eng12/unit_15.srt",
+     "start": 0.0,
+     "end": 475.1,
+     "mb": 19.2
+    }
+   ],
+   "poster": "class-12/eng12/unit_15.jpg",
+   "book": "eng12",
+   "grade": 12,
+   "unit": 15,
+   "title": "Knowledge and Wisdom",
+   "subtitle": "Bertrand Russell · an essay",
+   "lang": "en",
+   "sections": [
+    "Russell and the problem",
+    "A sense of proportion",
+    "Ends, feeling and private life",
+    "The tyranny of the here and now",
+    "Can wisdom be taught?",
+    "Why it is urgent"
+   ],
+   "seconds": 475.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     46.73,
+     "Russell and the problem"
+    ],
+    [
+     117.6,
+     "A sense of proportion"
+    ],
+    [
+     161.37,
+     "Ends, feeling and private life"
+    ],
+    [
+     240.93,
+     "The tyranny of the here and now"
+    ],
+    [
+     284.07,
+     "Can wisdom be taught?"
+    ],
+    [
+     369.4,
+     "Why it is urgent"
+    ],
+    [
+     446.2,
+     "Quick recap"
+    ]
+   ],
+   "mb": 19.2,
+   "script": "tools/lessons/scripts/eng12/unit_15.py"
+  },
+  {
+   "id": "class-12/math12/unit_01.mp4",
+   "file": "class-12/math12/unit_01.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_01.part1.mp4",
+     "subtitles": "class-12/math12/unit_01.part1.srt",
+     "start": 0.0,
+     "end": 453.067,
+     "mb": 14.0
+    },
+    {
+     "file": "class-12/math12/unit_01.part2.mp4",
+     "subtitles": "class-12/math12/unit_01.part2.srt",
+     "start": 453.067,
+     "end": 975.267,
+     "mb": 16.3
+    }
+   ],
+   "poster": "class-12/math12/unit_01.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 1,
+   "title": "Permutation and Combination",
+   "subtitle": "Counting without listing",
+   "lang": "en",
+   "sections": [
+    "Basic principle of counting",
+    "Permutations of distinct objects",
+    "Objects not all different",
+    "Circular permutations and repetition",
+    "Combinations",
+    "Properties of combination"
+   ],
+   "seconds": 975.3,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     64.87,
+     "Basic principle of counting"
+    ],
+    [
+     184.9,
+     "Permutations of distinct objects"
+    ],
+    [
+     346.13,
+     "Objects not all different"
+    ],
+    [
+     452.3,
+     "Circular permutations and repetition"
+    ],
+    [
+     610.03,
+     "Combinations"
+    ],
+    [
+     713.0,
+     "Properties of combination"
+    ],
+    [
+     923.27,
+     "Quick recap"
+    ]
+   ],
+   "mb": 30.2,
+   "script": "tools/lessons/scripts/math12/unit_01.py"
+  },
+  {
+   "id": "class-12/math12/unit_02.mp4",
+   "file": "class-12/math12/unit_02.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_02.part1.mp4",
+     "subtitles": "class-12/math12/unit_02.part1.srt",
+     "start": 0.0,
+     "end": 361.233,
+     "mb": 11.1
+    },
+    {
+     "file": "class-12/math12/unit_02.part2.mp4",
+     "subtitles": "class-12/math12/unit_02.part2.srt",
+     "start": 361.233,
+     "end": 837.133,
+     "mb": 15.3
+    }
+   ],
+   "poster": "class-12/math12/unit_02.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 2,
+   "title": "Binomial Theorem",
+   "subtitle": "Every term of (a + b)ⁿ, without multiplying",
+   "lang": "en",
+   "sections": [
+    "Binomial theorem, positive integral index",
+    "General term and coefficients",
+    "Any index",
+    "Approximation",
+    "Euler's number e",
+    "Series for eˣ, aˣ and log(1 + x)"
+   ],
+   "seconds": 837.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     55.23,
+     "Binomial theorem, positive integral index"
+    ],
+    [
+     199.03,
+     "General term and coefficients"
+    ],
+    [
+     360.47,
+     "Any index"
+    ],
+    [
+     477.3,
+     "Approximation"
+    ],
+    [
+     576.37,
+     "Euler's number e"
+    ],
+    [
+     658.13,
+     "Series for eˣ, aˣ and log(1 + x)"
+    ],
+    [
+     794.57,
+     "Quick recap"
+    ]
+   ],
+   "mb": 26.4,
+   "script": "tools/lessons/scripts/math12/unit_02.py"
+  },
+  {
+   "id": "class-12/math12/unit_03.mp4",
+   "file": "class-12/math12/unit_03.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_03.mp4",
+     "subtitles": "class-12/math12/unit_03.srt",
+     "start": 0.0,
+     "end": 765.13,
+     "mb": 23.4
+    }
+   ],
+   "poster": "class-12/math12/unit_03.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 3,
+   "title": "Complex Numbers",
+   "subtitle": "Length and angle",
+   "lang": "en",
+   "sections": [
+    "Polar form",
+    "De Moivre's theorem and roots",
+    "Cube roots of unity",
+    "Euler's formula"
+   ],
+   "seconds": 765.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     50.37,
+     "Polar form"
+    ],
+    [
+     204.2,
+     "De Moivre's theorem and roots"
+    ],
+    [
+     459.1,
+     "Cube roots of unity"
+    ],
+    [
+     562.7,
+     "Euler's formula"
+    ],
+    [
+     718.67,
+     "Quick recap"
+    ]
+   ],
+   "mb": 23.4,
+   "script": "tools/lessons/scripts/math12/unit_03.py"
+  },
+  {
+   "id": "class-12/math12/unit_04.mp4",
+   "file": "class-12/math12/unit_04.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_04.part1.mp4",
+     "subtitles": "class-12/math12/unit_04.part1.srt",
+     "start": 0.0,
+     "end": 440.567,
+     "mb": 13.5
+    },
+    {
+     "file": "class-12/math12/unit_04.part2.mp4",
+     "subtitles": "class-12/math12/unit_04.part2.srt",
+     "start": 440.567,
+     "end": 813.2,
+     "mb": 12.1
+    }
+   ],
+   "poster": "class-12/math12/unit_04.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 4,
+   "title": "Sequence and Series",
+   "subtitle": "Sums you never have to add",
+   "lang": "en",
+   "sections": [
+    "Sum of the first n natural numbers",
+    "Sums of squares and cubes",
+    "Mathematical induction",
+    "Exponential and logarithmic series"
+   ],
+   "seconds": 813.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     73.13,
+     "Sum of the first n natural numbers"
+    ],
+    [
+     215.63,
+     "Sums of squares and cubes"
+    ],
+    [
+     444.5,
+     "Mathematical induction"
+    ],
+    [
+     627.23,
+     "Exponential and logarithmic series"
+    ],
+    [
+     768.67,
+     "Quick recap"
+    ]
+   ],
+   "mb": 25.6,
+   "script": "tools/lessons/scripts/math12/unit_04.py"
+  },
+  {
+   "id": "class-12/math12/unit_05.mp4",
+   "file": "class-12/math12/unit_05.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_05.mp4",
+     "subtitles": "class-12/math12/unit_05.srt",
+     "start": 0.0,
+     "end": 710.33,
+     "mb": 23.7
+    }
+   ],
+   "poster": "class-12/math12/unit_05.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 5,
+   "title": "Matrix Based System of Linear Equations",
+   "subtitle": "One equation, AX = B, three ways to solve it",
+   "lang": "en",
+   "sections": [
+    "Cramer's rule",
+    "Row-equivalent (Gauss) method",
+    "Inverse matrix method",
+    "Consistency: one, many or no solution"
+   ],
+   "seconds": 710.3,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.5,
+     "Cramer's rule"
+    ],
+    [
+     216.27,
+     "Row-equivalent (Gauss) method"
+    ],
+    [
+     335.77,
+     "Inverse matrix method"
+    ],
+    [
+     484.33,
+     "Consistency: one, many or no solution"
+    ],
+    [
+     671.87,
+     "Quick recap"
+    ]
+   ],
+   "mb": 23.7,
+   "script": "tools/lessons/scripts/math12/unit_05.py"
+  },
+  {
+   "id": "class-12/math12/unit_06.mp4",
+   "file": "class-12/math12/unit_06.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_06.part1.mp4",
+     "subtitles": "class-12/math12/unit_06.part1.srt",
+     "start": 0.0,
+     "end": 397.333,
+     "mb": 12.5
+    },
+    {
+     "file": "class-12/math12/unit_06.part2.mp4",
+     "subtitles": "class-12/math12/unit_06.part2.srt",
+     "start": 397.333,
+     "end": 821.1,
+     "mb": 13.6
+    }
+   ],
+   "poster": "class-12/math12/unit_06.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 6,
+   "title": "Properties of a Triangle",
+   "subtitle": "Translating sides into angles",
+   "lang": "en",
+   "sections": [
+    "Sine law",
+    "Cosine law",
+    "Tangent law",
+    "Projection laws",
+    "Half angle laws",
+    "Area and the radii"
+   ],
+   "seconds": 821.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     68.27,
+     "Sine law"
+    ],
+    [
+     205.13,
+     "Cosine law"
+    ],
+    [
+     325.5,
+     "Tangent law"
+    ],
+    [
+     396.73,
+     "Projection laws"
+    ],
+    [
+     480.4,
+     "Half angle laws"
+    ],
+    [
+     615.87,
+     "Area and the radii"
+    ],
+    [
+     781.2,
+     "Quick recap"
+    ]
+   ],
+   "mb": 26.2,
+   "script": "tools/lessons/scripts/math12/unit_06.py"
+  },
+  {
+   "id": "class-12/math12/unit_07.mp4",
+   "file": "class-12/math12/unit_07.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_07.mp4",
+     "subtitles": "class-12/math12/unit_07.srt",
+     "start": 0.0,
+     "end": 464.47,
+     "mb": 15.9
+    }
+   ],
+   "poster": "class-12/math12/unit_07.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 7,
+   "title": "Solution of Triangles",
+   "subtitle": "Three parts in, six parts out",
+   "lang": "en",
+   "sections": [
+    "The four cases",
+    "The ambiguous case (SSA)",
+    "Heights and distances"
+   ],
+   "seconds": 464.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     59.07,
+     "The four cases"
+    ],
+    [
+     161.77,
+     "The ambiguous case (SSA)"
+    ],
+    [
+     318.97,
+     "Heights and distances"
+    ],
+    [
+     425.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 15.9,
+   "script": "tools/lessons/scripts/math12/unit_07.py"
+  },
+  {
+   "id": "class-12/math12/unit_08.mp4",
+   "file": "class-12/math12/unit_08.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_08.part1.mp4",
+     "subtitles": "class-12/math12/unit_08.part1.srt",
+     "start": 0.0,
+     "end": 411.5,
+     "mb": 13.4
+    },
+    {
+     "file": "class-12/math12/unit_08.part2.mp4",
+     "subtitles": "class-12/math12/unit_08.part2.srt",
+     "start": 411.5,
+     "end": 862.867,
+     "mb": 14.8
+    }
+   ],
+   "poster": "class-12/math12/unit_08.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 8,
+   "title": "Conic Sections",
+   "subtitle": "One cone, one plane, four curves",
+   "lang": "en",
+   "sections": [
+    "One definition, four curves",
+    "Circle: condition of tangency",
+    "Tangent and normal to a circle",
+    "Parabola",
+    "Ellipse",
+    "Hyperbola"
+   ],
+   "seconds": 862.9,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     68.07,
+     "One definition, four curves"
+    ],
+    [
+     138.73,
+     "Circle: condition of tangency"
+    ],
+    [
+     287.7,
+     "Tangent and normal to a circle"
+    ],
+    [
+     410.73,
+     "Parabola"
+    ],
+    [
+     552.63,
+     "Ellipse"
+    ],
+    [
+     674.67,
+     "Hyperbola"
+    ],
+    [
+     826.03,
+     "Quick recap"
+    ]
+   ],
+   "mb": 28.3,
+   "script": "tools/lessons/scripts/math12/unit_08.py"
+  },
+  {
+   "id": "class-12/math12/unit_09.mp4",
+   "file": "class-12/math12/unit_09.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_09.mp4",
+     "subtitles": "class-12/math12/unit_09.srt",
+     "start": 0.0,
+     "end": 657.03,
+     "mb": 21.7
+    }
+   ],
+   "poster": "class-12/math12/unit_09.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 9,
+   "title": "Product of Vectors",
+   "subtitle": "Two ways to multiply arrows",
+   "lang": "en",
+   "sections": [
+    "Scalar (dot) product",
+    "Projection and properties",
+    "Dot product in geometry and trigonometry",
+    "Vector (cross) product",
+    "Cross product: areas, moments, sine rules"
+   ],
+   "seconds": 657.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.2,
+     "Scalar (dot) product"
+    ],
+    [
+     151.0,
+     "Projection and properties"
+    ],
+    [
+     257.3,
+     "Dot product in geometry and trigonometry"
+    ],
+    [
+     320.63,
+     "Vector (cross) product"
+    ],
+    [
+     466.8,
+     "Cross product: areas, moments, sine rules"
+    ],
+    [
+     615.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 21.7,
+   "script": "tools/lessons/scripts/math12/unit_09.py"
+  },
+  {
+   "id": "class-12/math12/unit_10.mp4",
+   "file": "class-12/math12/unit_10.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_10.mp4",
+     "subtitles": "class-12/math12/unit_10.srt",
+     "start": 0.0,
+     "end": 587.97,
+     "mb": 20.4
+    }
+   ],
+   "poster": "class-12/math12/unit_10.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 10,
+   "title": "Correlation and Regression",
+   "subtitle": "How two quantities move together",
+   "lang": "en",
+   "sections": [
+    "Correlation and the scatter diagram",
+    "Karl Pearson's coefficient",
+    "Properties of r",
+    "Rank correlation",
+    "Regression lines"
+   ],
+   "seconds": 588.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     68.03,
+     "Correlation and the scatter diagram"
+    ],
+    [
+     123.87,
+     "Karl Pearson's coefficient"
+    ],
+    [
+     253.47,
+     "Properties of r"
+    ],
+    [
+     295.43,
+     "Rank correlation"
+    ],
+    [
+     379.57,
+     "Regression lines"
+    ],
+    [
+     549.47,
+     "Quick recap"
+    ]
+   ],
+   "mb": 20.4,
+   "script": "tools/lessons/scripts/math12/unit_10.py"
+  },
+  {
+   "id": "class-12/math12/unit_11.mp4",
+   "file": "class-12/math12/unit_11.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_11.mp4",
+     "subtitles": "class-12/math12/unit_11.srt",
+     "start": 0.0,
+     "end": 497.53,
+     "mb": 17.5
+    }
+   ],
+   "poster": "class-12/math12/unit_11.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 11,
+   "title": "Probability",
+   "subtitle": "Updating chances with new information",
+   "lang": "en",
+   "sections": [
+    "Dependent events",
+    "Conditional probability and independence",
+    "Bayes' theorem",
+    "The binomial distribution"
+   ],
+   "seconds": 497.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     59.2,
+     "Dependent events"
+    ],
+    [
+     123.77,
+     "Conditional probability and independence"
+    ],
+    [
+     247.97,
+     "Bayes' theorem"
+    ],
+    [
+     337.9,
+     "The binomial distribution"
+    ],
+    [
+     461.9,
+     "Quick recap"
+    ]
+   ],
+   "mb": 17.5,
+   "script": "tools/lessons/scripts/math12/unit_11.py"
+  },
+  {
+   "id": "class-12/math12/unit_12.mp4",
+   "file": "class-12/math12/unit_12.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_12.mp4",
+     "subtitles": "class-12/math12/unit_12.srt",
+     "start": 0.0,
+     "end": 692.0,
+     "mb": 22.7
+    }
+   ],
+   "poster": "class-12/math12/unit_12.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 12,
+   "title": "Derivatives",
+   "subtitle": "Slopes, rates and the best possible answer",
+   "lang": "en",
+   "sections": [
+    "Hyperbolic functions",
+    "L'Hospital's rule",
+    "Differentials",
+    "Tangent and normal",
+    "Rates of change",
+    "Increasing, decreasing, maxima and minima",
+    "Concavity and inflection"
+   ],
+   "seconds": 692.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     65.67,
+     "Hyperbolic functions"
+    ],
+    [
+     147.13,
+     "L'Hospital's rule"
+    ],
+    [
+     243.43,
+     "Differentials"
+    ],
+    [
+     323.37,
+     "Tangent and normal"
+    ],
+    [
+     380.67,
+     "Rates of change"
+    ],
+    [
+     475.13,
+     "Increasing, decreasing, maxima and minima"
+    ],
+    [
+     583.77,
+     "Concavity and inflection"
+    ],
+    [
+     659.17,
+     "Quick recap"
+    ]
+   ],
+   "mb": 22.7,
+   "script": "tools/lessons/scripts/math12/unit_12.py"
+  },
+  {
+   "id": "class-12/math12/unit_13.mp4",
+   "file": "class-12/math12/unit_13.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_13.mp4",
+     "subtitles": "class-12/math12/unit_13.srt",
+     "start": 0.0,
+     "end": 649.07,
+     "mb": 21.3
+    }
+   ],
+   "poster": "class-12/math12/unit_13.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 13,
+   "title": "Anti-derivatives",
+   "subtitle": "Running differentiation backwards",
+   "lang": "en",
+   "sections": [
+    "Standard integrals",
+    "Substitution and parts",
+    "Standard forms with a² ± x²",
+    "Partial fractions",
+    "The definite integral",
+    "Limit of a sum",
+    "Area under and between curves"
+   ],
+   "seconds": 649.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     62.37,
+     "Standard integrals"
+    ],
+    [
+     128.33,
+     "Substitution and parts"
+    ],
+    [
+     231.6,
+     "Standard forms with a² ± x²"
+    ],
+    [
+     308.43,
+     "Partial fractions"
+    ],
+    [
+     378.97,
+     "The definite integral"
+    ],
+    [
+     471.57,
+     "Limit of a sum"
+    ],
+    [
+     508.67,
+     "Area under and between curves"
+    ],
+    [
+     612.33,
+     "Quick recap"
+    ]
+   ],
+   "mb": 21.3,
+   "script": "tools/lessons/scripts/math12/unit_13.py"
+  },
+  {
+   "id": "class-12/math12/unit_14.mp4",
+   "file": "class-12/math12/unit_14.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_14.mp4",
+     "subtitles": "class-12/math12/unit_14.srt",
+     "start": 0.0,
+     "end": 544.17,
+     "mb": 18.0
+    }
+   ],
+   "poster": "class-12/math12/unit_14.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 14,
+   "title": "Differential Equations",
+   "subtitle": "Equations about rates of change",
+   "lang": "en",
+   "sections": [
+    "Order, degree and forming equations",
+    "Separable variables",
+    "Homogeneous equations",
+    "Linear equations",
+    "Exact equations",
+    "Growth, decay and cooling"
+   ],
+   "seconds": 544.2,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     56.9,
+     "Order, degree and forming equations"
+    ],
+    [
+     124.97,
+     "Separable variables"
+    ],
+    [
+     204.57,
+     "Homogeneous equations"
+    ],
+    [
+     261.4,
+     "Linear equations"
+    ],
+    [
+     344.87,
+     "Exact equations"
+    ],
+    [
+     403.63,
+     "Growth, decay and cooling"
+    ],
+    [
+     505.57,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.0,
+   "script": "tools/lessons/scripts/math12/unit_14.py"
+  },
+  {
+   "id": "class-12/math12/unit_15.mp4",
+   "file": "class-12/math12/unit_15.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_15.mp4",
+     "subtitles": "class-12/math12/unit_15.srt",
+     "start": 0.0,
+     "end": 439.33,
+     "mb": 15.6
+    }
+   ],
+   "poster": "class-12/math12/unit_15.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 15,
+   "title": "Computational Methods",
+   "subtitle": "When a computer does the algebra",
+   "lang": "en",
+   "sections": [
+    "Gauss elimination",
+    "Gauss–Seidel iteration",
+    "Linear programming: the simplex method",
+    "How accurate is the answer?"
+   ],
+   "seconds": 439.3,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     62.83,
+     "Gauss elimination"
+    ],
+    [
+     124.57,
+     "Gauss–Seidel iteration"
+    ],
+    [
+     182.87,
+     "Linear programming: the simplex method"
+    ],
+    [
+     292.63,
+     "How accurate is the answer?"
+    ],
+    [
+     407.43,
+     "Quick recap"
+    ]
+   ],
+   "mb": 15.6,
+   "script": "tools/lessons/scripts/math12/unit_15.py"
+  },
+  {
+   "id": "class-12/math12/unit_16.mp4",
+   "file": "class-12/math12/unit_16.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_16.mp4",
+     "subtitles": "class-12/math12/unit_16.srt",
+     "start": 0.0,
+     "end": 530.03,
+     "mb": 18.1
+    }
+   ],
+   "poster": "class-12/math12/unit_16.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 16,
+   "title": "Mechanics",
+   "subtitle": "Forces at rest and in motion",
+   "lang": "en",
+   "sections": [
+    "Resultant, equilibrium and Lami's theorem",
+    "Moments and the inclined plane",
+    "Newton's laws",
+    "Connected bodies, lifts and momentum",
+    "Projectiles"
+   ],
+   "seconds": 530.0,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     57.83,
+     "Resultant, equilibrium and Lami's theorem"
+    ],
+    [
+     135.37,
+     "Moments and the inclined plane"
+    ],
+    [
+     197.93,
+     "Newton's laws"
+    ],
+    [
+     273.77,
+     "Connected bodies, lifts and momentum"
+    ],
+    [
+     360.0,
+     "Projectiles"
+    ],
+    [
+     495.6,
+     "Quick recap"
+    ]
+   ],
+   "mb": 18.1,
+   "script": "tools/lessons/scripts/math12/unit_16.py"
+  },
+  {
+   "id": "class-12/math12/unit_17.mp4",
+   "file": "class-12/math12/unit_17.mp4",
+   "parts": [
+    {
+     "file": "class-12/math12/unit_17.mp4",
+     "subtitles": "class-12/math12/unit_17.srt",
+     "start": 0.0,
+     "end": 453.53,
+     "mb": 15.4
+    }
+   ],
+   "poster": "class-12/math12/unit_17.jpg",
+   "book": "math12",
+   "grade": 12,
+   "unit": 17,
+   "title": "Appendix: Retained Topics",
+   "subtitle": "Groups, Rolle and the Mean Value Theorem, numerical integration",
+   "lang": "en",
+   "sections": [
+    "Binary operations and groups",
+    "Cayley tables",
+    "Rolle's theorem",
+    "The Mean Value Theorem",
+    "Numerical integration (revision)"
+   ],
+   "seconds": 453.5,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ],
+    [
+     61.53,
+     "Binary operations and groups"
+    ],
+    [
+     147.9,
+     "Cayley tables"
+    ],
+    [
+     240.8,
+     "Rolle's theorem"
+    ],
+    [
+     309.07,
+     "The Mean Value Theorem"
+    ],
+    [
+     352.93,
+     "Numerical integration (revision)"
+    ],
+    [
+     422.33,
+     "Quick recap"
+    ]
+   ],
+   "mb": 15.4,
+   "script": "tools/lessons/scripts/math12/unit_17.py"
+  },
+  {
+   "id": "class-12/nep12/unit_01.mp4",
+   "file": "class-12/nep12/unit_01.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/nep12/unit_01.part1.mp4",
+     "subtitles": "class-12/nep12/unit_01.part1.srt",
+     "start": 0.0,
+     "end": 718.97,
+     "mb": 18.7
+    },
+    {
+     "file": "class-12/nep12/unit_01.part2.mp4",
+     "subtitles": "class-12/nep12/unit_01.part2.srt",
+     "start": 718.97,
+     "end": 1320.56,
+     "mb": 16.8
+    }
+   ],
+   "poster": "class-12/nep12/unit_01.jpg",
+   "book": "nep12",
+   "grade": 12,
+   "unit": 1,
+   "title": "आमाको सपना",
+   "subtitle": "गोपालप्रसाद रिमाल  ·  गद्य कविता",
+   "lang": "ne",
+   "sections": [
+    "कवि परिचय",
+    "पाठको पृष्ठभूमि",
+    "कवितासार",
+    "खण्डगत व्याख्या",
+    "प्रतीक र पात्र",
+    "मूल भाव र समीक्षा",
+    "गद्य कविता र भाषाशैली",
+    "उत्तर लेख्ने ढाँचा"
+   ],
+   "seconds": 1320.6,
+   "chapters": [
+    [
+     0.0,
+     "परिचय"
+    ],
+    [
+     92.77,
+     "कवि परिचय"
+    ],
+    [
+     232.67,
+     "पाठको पृष्ठभूमि"
+    ],
+    [
+     316.17,
+     "कवितासार"
+    ],
+    [
+     394.0,
+     "खण्डगत व्याख्या"
+    ],
+    [
+     718.97,
+     "प्रतीक र पात्र"
+    ],
+    [
+     820.5,
+     "मूल भाव र समीक्षा"
+    ],
+    [
+     911.93,
+     "गद्य कविता र भाषाशैली"
+    ],
+    [
+     1103.33,
+     "उत्तर लेख्ने ढाँचा"
+    ]
+   ],
+   "mb": 35.5,
+   "script": "tools/lessons/scripts/nep12/unit_01.py"
+  },
+  {
+   "file": "class-12/nep12/unit_02.mp4",
+   "subtitles": "class-12/nep12/unit_02.srt",
+   "poster": "class-12/nep12/unit_02.jpg",
+   "book": "nep12",
+   "grade": 12,
+   "unit": 2,
+   "title": "विरहिणी दमयन्ती",
+   "subtitle": "मदनमणि दीक्षित  ·  पौराणिक कथा",
+   "lang": "ne",
+   "sections": [
+    "लेखक परिचय",
+    "पाठको पृष्ठभूमि",
+    "कथासार: यात्राको नक्सा",
+    "खण्डगत व्याख्या",
+    "पात्र र चरित्र",
+    "मूल भाव र समीक्षा",
+    "कथाका तत्त्व र भाषाशैली",
+    "उत्तर लेख्ने ढाँचा"
+   ],
+   "seconds": 1367.4,
+   "chapters": [
+    [
+     0.0,
+     "परिचय"
+    ],
+    [
+     83.03,
+     "लेखक परिचय"
+    ],
+    [
+     199.2,
+     "पाठको पृष्ठभूमि"
+    ],
+    [
+     257.6,
+     "कथासार: यात्राको नक्सा"
+    ],
+    [
+     379.1,
+     "खण्डगत व्याख्या"
+    ],
+    [
+     806.63,
+     "पात्र र चरित्र"
+    ],
+    [
+     922.43,
+     "मूल भाव र समीक्षा"
+    ],
+    [
+     1013.6,
+     "कथाका तत्त्व र भाषाशैली"
+    ],
+    [
+     1184.57,
+     "उत्तर लेख्ने ढाँचा"
+    ]
+   ],
+   "mb": 24.3,
+   "script": "tools/lessons/scripts/nep12/unit_02.py"
+  },
+  {
+   "file": "class-12/nep12/unit_03.mp4",
+   "subtitles": "class-12/nep12/unit_03.srt",
+   "poster": "class-12/nep12/unit_03.jpg",
+   "book": "nep12",
+   "grade": 12,
+   "unit": 3,
+   "title": "घनघस्याको उकालो काट्ता",
+   "subtitle": "तारानाथ शर्मा  ·  नियात्रा",
+   "lang": "ne",
+   "sections": [
+    "लेखक परिचय",
+    "नियात्रा: विधाको पहिचान",
+    "पाठको पृष्ठभूमि",
+    "यात्राको सार",
+    "खण्डगत व्याख्या",
+    "पात्र र मूल भाव",
+    "भाषाशैली र अलङ्कार",
+    "उत्तर लेख्ने ढाँचा"
+   ],
+   "seconds": 1215.9,
+   "chapters": [
+    [
+     0.0,
+     "परिचय"
+    ],
+    [
+     76.07,
+     "लेखक परिचय"
+    ],
+    [
+     190.93,
+     "नियात्रा: विधाको पहिचान"
+    ],
+    [
+     310.5,
+     "पाठको पृष्ठभूमि"
+    ],
+    [
+     381.53,
+     "यात्राको सार"
+    ],
+    [
+     542.73,
+     "खण्डगत व्याख्या"
+    ],
+    [
+     810.87,
+     "पात्र र मूल भाव"
+    ],
+    [
+     903.53,
+     "भाषाशैली र अलङ्कार"
+    ],
+    [
+     1029.1,
+     "उत्तर लेख्ने ढाँचा"
+    ]
+   ],
+   "mb": 24.1,
+   "script": "tools/lessons/scripts/nep12/unit_03.py"
+  },
+  {
+   "id": "class-12/phy12/unit_01.mp4",
+   "file": "class-12/phy12/unit_01.part1.mp4",
+   "parts": [
+    {
+     "file": "class-12/phy12/unit_01.part1.mp4",
+     "subtitles": "class-12/phy12/unit_01.part1.srt",
+     "start": 0.0,
+     "end": 1444.06,
+     "mb": 24.4
+    }
+   ],
+   "poster": "class-12/phy12/unit_01.jpg",
+   "book": "phy12",
+   "grade": 12,
+   "unit": 1,
+   "title": "Rotational Dynamics",
+   "subtitle": "Angle, inertia, torque and spin",
+   "lang": "en",
+   "sections": [
+    "Angular kinematics",
+    "Rotational kinetic energy",
+    "Moment of inertia",
+    "Inertia of a uniform rod",
+    "Torque and τ = Iα",
+    "Work and power",
+    "Angular momentum"
+   ],
+   "seconds": 1444.1,
+   "chapters": [
+    [
+     0.0,
+     "Introduction"
+    ]
+   ],
+   "mb": 24.4,
+   "script": "tools/lessons/scripts/phy12/unit_01.py"
+  }
+ ]
+}

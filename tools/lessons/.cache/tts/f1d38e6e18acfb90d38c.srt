@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,341
+But make the gap really tiny, a fraction of a millimetre, and something strange happens.
+
+2
+00:00:06,341 --> 00:00:13,763
+Squeeze the slit narrower, and the patch of light on the screen gets wider, with dark and bright bands at its edges.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,653
+On the right: three times the sum of squares, plus three times the sum of k, plus n.
+
+2
+00:00:06,653 --> 00:00:17,252
+We already know the sum of k. Rearrange, and the sum of the first n squares is n, n plus one, two n plus one, over six.
+

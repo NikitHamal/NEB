@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,223
+Close K two.
+
+2
+00:00:01,223 --> 00:00:05,039
+Now the cell drives a current through the known resistance R.
+
+3
+00:00:05,039 --> 00:00:09,843
+The potentiometer now matches the terminal voltage, which is lower.
+
+4
+00:00:09,843 --> 00:00:12,890
+The balance point falls to two hundred centimetres.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,596
+Momentum is conserved: twelve before, eight v after.
+
+2
+00:00:04,596 --> 00:00:06,940
+One and a half metres per second.
+

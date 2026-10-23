@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,703
+Push current the other way with an outside source, and you drive a non spontaneous reaction.
+
+2
+00:00:05,703 --> 00:00:11,927
+That is an electrolytic cell, used for electroplating and extracting sodium and aluminium.
+
+3
+00:00:11,927 --> 00:00:17,630
+Notice: oxidation is always at the anode and reduction always at the cathode.
+
+4
+00:00:17,630 --> 00:00:19,205
+Only the signs swap.
+

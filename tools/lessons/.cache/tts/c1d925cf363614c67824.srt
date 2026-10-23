@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,843
+The powers of i cycle: i, minus one, minus i, one.
+
+2
+00:00:04,843 --> 00:00:07,851
+Separate the terms with i from those without.
+
+3
+00:00:07,851 --> 00:00:13,437
+The first bracket is the series for cos theta, the second for sin theta.
+

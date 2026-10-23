@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,072
+The Peltier coefficient, pi, of a junction is the heat absorbed or given out when one coulomb of charge crosses it.
+
+2
+00:00:08,072 --> 00:00:19,101
+A current I carries a charge I t, so the heat is pi I t. Pi is measured in joules per coulomb, which is volts, and for metals it is only a few millivolts.
+

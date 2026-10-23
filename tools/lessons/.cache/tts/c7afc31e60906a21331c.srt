@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,750
+The delay at the muscle is the same for both, so subtracting removes it: five point five milliseconds for thirty three centimetres.
+

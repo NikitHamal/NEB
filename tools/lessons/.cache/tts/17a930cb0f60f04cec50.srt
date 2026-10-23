@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,421
+Copper displaces metals below it.
+
+2
+00:00:02,421 --> 00:00:09,088
+In silver nitrate it grows a glittering silver tree, and the solution turns blue.
+
+3
+00:00:09,088 --> 00:00:10,377
+And here is a trap.
+
+4
+00:00:10,377 --> 00:00:16,054
+Copper dissolves in iron three chloride, even though iron is above copper.
+
+5
+00:00:16,054 --> 00:00:24,895
+That is because the couple involved is iron three over iron two, at plus zero point seven seven volts, which sits above copper.
+
+6
+00:00:24,895 --> 00:00:28,190
+This reaction etches printed circuit boards.
+

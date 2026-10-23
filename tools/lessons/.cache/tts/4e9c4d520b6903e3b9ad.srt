@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,070
+Haloalkanes show chain isomerism, position isomerism, and optical isomerism.
+
+2
+00:00:07,070 --> 00:00:20,950
+C four H nine B r has exactly four structural isomers, asked year after year: one bromobutane, two bromobutane, one bromo two methyl propane, and two bromo two methyl propane.
+
+3
+00:00:20,950 --> 00:00:30,026
+Two bromobutane also has a carbon carrying four different groups, so it exists as a pair of mirror image optical isomers.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,122
+And keep two addresses apart.
+
+2
+00:00:02,122 --> 00:00:08,776
+The MAC address is burned into the network card and never changes; switches use it inside one network.
+
+3
+00:00:08,776 --> 00:00:16,171
+The IP address is logical and changes when you move to a new network; routers use it to cross networks.
+

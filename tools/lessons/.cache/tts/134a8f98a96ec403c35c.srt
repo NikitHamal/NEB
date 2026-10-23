@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,302
+A real example.
+
+2
+00:00:01,302 --> 00:00:05,065
+The price of tomatoes on five days, and the quantity sold.
+
+3
+00:00:05,065 --> 00:00:11,731
+Plot the five points: as the price goes up, the quantity comes down, almost along a straight line.
+
+4
+00:00:11,731 --> 00:00:15,000
+Strong, negative, linear correlation.
+
+5
+00:00:15,000 --> 00:00:18,151
+We will calculate it exactly in a moment.
+

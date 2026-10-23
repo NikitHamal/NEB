@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,398
+Let us watch an acid base titration as a graph.
+
+2
+00:00:03,398 --> 00:00:11,901
+Twenty five cubic centimetres of decimolar hydrochloric acid, with phenolphthalein, and decimolar sodium hydroxide in the burette.
+
+3
+00:00:11,901 --> 00:00:15,221
+We plot the pH of the flask against the volume added.
+

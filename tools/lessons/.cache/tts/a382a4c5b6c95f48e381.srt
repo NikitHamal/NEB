@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,653
+That is periodic motion.
+
+2
+00:00:01,653 --> 00:00:07,682
+Next time, we dive into fluids: pressure, buoyancy, surface tension and flow.
+
+3
+00:00:07,682 --> 00:00:12,018
+Keep practising, and see you in the next lesson on NEBians.
+

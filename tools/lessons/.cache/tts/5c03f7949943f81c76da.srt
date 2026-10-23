@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,520
+The balance makes the same tiny error, say a tenth of a milligram, either way.
+
+2
+00:00:05,520 --> 00:00:08,580
+On the bigger mass it is a much smaller fraction.
+
+3
+00:00:08,580 --> 00:00:12,877
+A higher equivalent weight means a smaller relative weighing error.
+

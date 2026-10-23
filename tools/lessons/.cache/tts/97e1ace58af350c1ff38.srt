@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:06,380
+One rule, PS equals e times PM, gives all four conics.
+
+3
+00:00:06,380 --> 00:00:11,653
+The circle's centre and radius from the general form, and the tangency condition.
+
+4
+00:00:11,653 --> 00:00:18,059
+The parabola, ellipse and hyperbola with their foci, directrices and latus recta.
+
+5
+00:00:18,059 --> 00:00:21,927
+And the tangent at a point, by the T equals zero rule.
+

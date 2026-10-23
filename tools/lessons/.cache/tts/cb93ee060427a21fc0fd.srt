@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,015
+Now count.
+
+2
+00:00:01,015 --> 00:00:02,369
+Nine round yellow.
+
+3
+00:00:02,369 --> 00:00:03,632
+Three round green.
+
+4
+00:00:03,632 --> 00:00:05,273
+Three wrinkled yellow.
+
+5
+00:00:05,273 --> 00:00:06,666
+One wrinkled green.
+
+6
+00:00:06,666 --> 00:00:15,520
+Nine to three to three to one, and two brand new combinations, round green and wrinkled yellow, that neither grandparent had.
+

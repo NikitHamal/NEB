@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,955
+Read it another way: F times r sine phi.
+
+2
+00:00:02,955 --> 00:00:08,398
+And r sine phi is the perpendicular distance from the axis to the line of action of the force.
+
+3
+00:00:08,398 --> 00:00:09,791
+We call it the moment arm.
+

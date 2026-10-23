@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,888
+A grass or maize leaf stands more or less upright, so both its surfaces get about the same light.
+
+2
+00:00:06,888 --> 00:00:11,458
+Its anatomy is the same on both sides: isobilateral.
+

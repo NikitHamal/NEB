@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,976
+A grating's resolving power is n N, here sixteen thousand.
+
+2
+00:00:05,976 --> 00:00:13,033
+So it can just separate two wavelengths zero point zero three seven five nanometres apart.
+
+3
+00:00:13,033 --> 00:00:16,875
+Astonishingly precise, as we will see in the next part.
+

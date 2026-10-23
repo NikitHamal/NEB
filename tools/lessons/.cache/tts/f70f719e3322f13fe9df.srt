@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,054
+The total kinetic energy is just the sum of half m v squared for every particle.
+

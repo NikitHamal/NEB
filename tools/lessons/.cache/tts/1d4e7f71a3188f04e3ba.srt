@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,333
+Cramer's rule comes from plain elimination.
+
+2
+00:00:03,333 --> 00:00:09,713
+Multiply to kill y, subtract, and x times a determinant equals another determinant.
+
+3
+00:00:09,713 --> 00:00:13,151
+The bottom one is D, made of the coefficients.
+
+4
+00:00:13,151 --> 00:00:17,434
+The top one is D with the x column replaced by the constants.
+
+5
+00:00:17,434 --> 00:00:25,013
+So x is D x over D, and y is D y over D, as long as D is not zero.
+

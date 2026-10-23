@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,835
+And the inverse sinh of x over three tidies up to one over root of x squared plus nine.
+

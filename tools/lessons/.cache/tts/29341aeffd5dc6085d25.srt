@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,367
+Exam style.
+
+2
+00:00:01,367 --> 00:00:03,776
+Your brother seldom writes to you, blank.
+
+3
+00:00:03,776 --> 00:00:10,729
+The operator: writes has no auxiliary, and the subject is third person singular, so does.
+
+4
+00:00:10,729 --> 00:00:18,593
+The polarity: there is no not, but seldom means almost never, so the statement is negative and the tag is positive.
+
+5
+00:00:18,593 --> 00:00:19,791
+The pronoun: he.
+
+6
+00:00:19,791 --> 00:00:20,638
+Does he.
+
+7
+00:00:20,638 --> 00:00:26,002
+The student who ignores seldom writes doesn't he, and loses the mark.
+

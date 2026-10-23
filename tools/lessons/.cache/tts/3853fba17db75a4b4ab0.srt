@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:06,080
+Being a state function, entropy returns to its starting value round any cycle.
+
+2
+00:00:06,080 --> 00:00:07,799
+Check it on the Carnot cycle.
+
+3
+00:00:07,799 --> 00:00:12,773
+The gas gains Q one over T one, and loses Q two over T two.
+
+4
+00:00:12,773 --> 00:00:17,877
+Since Q two over Q one equals T two over T one, these are equal.
+
+5
+00:00:17,877 --> 00:00:20,065
+The net change is zero.
+

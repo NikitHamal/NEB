@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,513
+C, zero point seven five.
+
+2
+00:00:02,513 --> 00:00:07,565
+For a floating body, the fraction submerged equals the ratio of densities.
+
+3
+00:00:07,565 --> 00:00:13,111
+Three quarters under means the body is three quarters as dense as water.
+
+4
+00:00:13,111 --> 00:00:17,708
+Option A is the fraction above the water, a classic mix up.
+

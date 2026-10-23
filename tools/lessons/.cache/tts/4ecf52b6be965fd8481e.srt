@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,432
+Two sign traps.
+
+2
+00:00:01,432 --> 00:00:07,578
+Writing delta H equals eight ninety for burning methane loses the mark.
+
+3
+00:00:07,578 --> 00:00:11,067
+Heat is released, so it is minus eight ninety.
+
+4
+00:00:11,067 --> 00:00:20,078
+And an exothermic reaction has a negative delta H, yet the thermometer rises, because the thermometer is in the surroundings, which gain the heat.
+

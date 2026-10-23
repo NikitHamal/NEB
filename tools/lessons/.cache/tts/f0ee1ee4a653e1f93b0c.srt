@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,205
+The two orbitals pointing at the ligands, d x squared minus y squared and d z squared, rise: the e g set.
+
+2
+00:00:09,205 --> 00:00:16,562
+The three pointing between, d x y, d y z and d z x, fall: the t two g set.
+
+3
+00:00:16,562 --> 00:00:21,263
+The gap between them is the crystal field splitting energy, delta o.
+
+4
+00:00:21,263 --> 00:00:31,406
+The t two g set falls by zero point four delta o, the e g set rises by zero point six delta o, so the average energy stays the same.
+

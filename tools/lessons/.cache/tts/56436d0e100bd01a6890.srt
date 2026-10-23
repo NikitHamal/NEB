@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,953
+Chlorobenzene does become phenol, but only under ferocious conditions: six hundred and twenty three kelvin and three hundred atmospheres, in the industrial Dow process.
+
+2
+00:00:11,953 --> 00:00:15,234
+Never write it as a simple room temperature reaction.
+

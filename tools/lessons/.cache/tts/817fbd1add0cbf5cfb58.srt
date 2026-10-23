@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,143
+More water leaves and the protoplast shrinks away: plasmolysed.
+
+2
+00:00:05,143 --> 00:00:10,507
+The gap fills with sugar solution, because the wall is freely permeable.
+

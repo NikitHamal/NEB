@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,908
+By Pascal's rule from unit one, that is k plus one C r.
+
+2
+00:00:04,908 --> 00:00:11,640
+So the formula holds for k plus one, and by induction for every positive integer n.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,192
+In nineteen twenty eight Alexander Fleming came back to a bacterial plate spoiled by a mould, and noticed the bacteria had dissolved around it.
+
+2
+00:00:09,192 --> 00:00:10,937
+The mould was Penicillium.
+
+3
+00:00:10,937 --> 00:00:17,500
+Florey and Chain later purified penicillin, and the three shared the Nobel Prize.
+
+4
+00:00:17,500 --> 00:00:27,031
+Streptomycin, the first drug against tuberculosis, came from Streptomyces, which is a filamentous bacterium, not a fungus.
+

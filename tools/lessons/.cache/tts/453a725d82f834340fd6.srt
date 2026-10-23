@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,718
+The efficiency is one minus three hundred over five hundred: zero point four, forty percent.
+

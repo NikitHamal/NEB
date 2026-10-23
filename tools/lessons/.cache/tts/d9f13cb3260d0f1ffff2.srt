@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,484
+Our five stops.
+
+2
+00:00:01,484 --> 00:00:03,502
+Copper and blue vitriol.
+
+3
+00:00:03,502 --> 00:00:05,598
+Zinc and white vitriol.
+
+4
+00:00:05,598 --> 00:00:09,088
+Mercury, calomel and corrosive sublimate.
+
+5
+00:00:09,088 --> 00:00:11,302
+Iron, steel and corrosion.
+
+6
+00:00:11,302 --> 00:00:15,351
+And silver, with silver nitrate and silver chloride.
+

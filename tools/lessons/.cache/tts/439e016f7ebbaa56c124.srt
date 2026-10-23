@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,843
+And the heat rejected is the rest: three thousand six hundred joules.
+
+2
+00:00:04,843 --> 00:00:11,822
+Check: three thousand six hundred over six thousand is zero point six, which is T two over T one.
+
+3
+00:00:11,822 --> 00:00:12,929
+Consistent.
+

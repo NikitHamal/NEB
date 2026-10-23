@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,289
+There are also a matric part and a gravity part, but in an ordinary vacuolated cell they are tiny.
+
+2
+00:00:06,289 --> 00:00:12,083
+So the working equation is: psi w equals psi s plus psi p.
+

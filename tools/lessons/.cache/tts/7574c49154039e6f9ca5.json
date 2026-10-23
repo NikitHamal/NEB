@@ -1,0 +1,1 @@
+{"dur": 8.762167, "cues": [[0, 1.4469999999999998, "Back to the cold open."], [1.4469999999999998, 4.6240000000000006, "In call by value, swap receives copies."], [4.6240000000000006, 9.168, "It swaps the copies, and x and y in main never change."]], "text": "Back to the cold open. In call by value, swap receives copies. It swaps the copies, and x and y in main never change."}

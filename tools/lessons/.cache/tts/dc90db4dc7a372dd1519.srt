@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,994
+Two theorems save you a lot of integration.
+
+2
+00:00:02,994 --> 00:00:15,117
+The parallel axis theorem: if you know I about an axis through the centre of mass, the moment of inertia about any parallel axis, a distance d away, is I c m plus M d squared.
+

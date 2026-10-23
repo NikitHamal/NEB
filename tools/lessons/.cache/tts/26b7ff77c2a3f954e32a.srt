@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,049
+Oxygen: twelve plus two hundred and ninety is three hundred and two on the left; two hundred and four plus ninety-eight is three hundred and two on the right.
+
+2
+00:00:09,049 --> 00:00:10,078
+Balanced.
+

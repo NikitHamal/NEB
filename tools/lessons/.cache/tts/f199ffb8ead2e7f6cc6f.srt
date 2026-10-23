@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,851
+Doubling D doubles beta, and halving d doubles it again: four times, seven point two millimetres.
+

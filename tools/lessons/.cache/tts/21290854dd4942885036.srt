@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,223
+The ring can still take part in electrophilic substitution, and chlorine has a split personality.
+
+2
+00:00:06,223 --> 00:00:14,401
+Its inductive effect pulls electrons out of the ring, so the ring reacts more slowly than benzene: deactivating.
+
+3
+00:00:14,401 --> 00:00:26,197
+But its resonance effect pushes lone pair density into the ring, specifically at the ortho and para positions, so that is where the electrophile goes: ortho para directing.
+
+4
+00:00:26,197 --> 00:00:30,455
+Para usually wins, because the ortho position is crowded.
+

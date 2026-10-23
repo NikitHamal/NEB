@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,065
+Solve x plus two y plus z equals eight, two x plus three y minus z equals five, three x minus y plus two z equals seven.
+
+2
+00:00:10,065 --> 00:00:12,044
+Write the augmented matrix.
+

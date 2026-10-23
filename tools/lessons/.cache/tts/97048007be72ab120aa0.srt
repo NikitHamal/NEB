@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,382
+Intensity goes as amplitude squared, so the amplitudes are in the ratio root four, two to one.
+

@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:07,083
+To solve a triangle is to find all six parts, three sides and three angles, from the three you are given.
+
+2
+00:00:07,083 --> 00:00:09,388
+There are only four patterns of data.
+
+3
+00:00:09,388 --> 00:00:10,742
+Three sides.
+
+4
+00:00:10,742 --> 00:00:13,385
+Two sides and the angle between them.
+
+5
+00:00:13,385 --> 00:00:15,533
+One side and two angles.
+
+6
+00:00:15,533 --> 00:00:18,854
+And two sides with an angle that is not between them.
+
+7
+00:00:18,854 --> 00:00:22,473
+The first three always give exactly one triangle.
+
+8
+00:00:22,473 --> 00:00:24,856
+The last is the troublemaker.
+

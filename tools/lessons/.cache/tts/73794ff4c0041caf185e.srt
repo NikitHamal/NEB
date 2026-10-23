@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,127
+Microbes come in four groups, and the group decides the treatment.
+
+2
+00:00:04,127 --> 00:00:12,369
+Bacteria are prokaryotes with a peptidoglycan wall and small ribosomes, the only group antibiotics can touch.
+
+3
+00:00:12,369 --> 00:00:19,856
+Viruses are not even cells: just nucleic acid in a coat, multiplying inside our cells.
+
+4
+00:00:19,856 --> 00:00:23,710
+Then protozoa and fungi, both eukaryotes.
+
+5
+00:00:23,710 --> 00:00:27,265
+Bacteria are named by shape and by the Gram stain.
+

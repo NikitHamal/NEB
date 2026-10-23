@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,122
+B, the third harmonic.
+
+2
+00:00:02,122 --> 00:00:09,414
+The second harmonic cannot exist in a closed pipe, so the first tone above the fundamental is three f one.
+
+3
+00:00:09,414 --> 00:00:14,713
+Answer A is right for an open pipe, which is why it is such a popular wrong answer.
+

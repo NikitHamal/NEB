@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,229
+A titration is repeated until the results agree.
+
+2
+00:00:03,229 --> 00:00:09,765
+The first one is a rough run, done quickly to find the neighbourhood, and it is discarded.
+
+3
+00:00:09,765 --> 00:00:16,393
+Then careful runs, until two or more agree within zero point one cubic centimetre.
+
+4
+00:00:16,393 --> 00:00:20,963
+Those are concordant readings, and their mean goes into the calculation.
+

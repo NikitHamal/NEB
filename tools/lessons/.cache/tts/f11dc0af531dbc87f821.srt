@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,421
+Sort them into two families.
+
+2
+00:00:02,421 --> 00:00:10,677
+Percentage weight by volume, grams per litre, molarity, normality and formality all count per litre of solution.
+
+3
+00:00:10,677 --> 00:00:18,867
+Percentage by mass and molality use only masses, and ppm and ppb are parts by mass too.
+

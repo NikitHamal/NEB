@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,562
+Examples to quote.
+
+2
+00:00:01,562 --> 00:00:04,804
+Infrastructure: Amazon EC2.
+
+3
+00:00:04,804 --> 00:00:06,992
+Platform: Google App Engine.
+
+4
+00:00:06,992 --> 00:00:10,130
+Software: Gmail and Google Docs.
+
+5
+00:00:10,130 --> 00:00:17,682
+And by who may use it, a cloud is public, private to one organisation, shared by a community, or a hybrid.
+

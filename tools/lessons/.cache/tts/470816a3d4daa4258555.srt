@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,986
+Pitch is how high or low a note sounds, and it is set by frequency.
+
+2
+00:00:04,986 --> 00:00:07,942
+The higher the frequency, the higher the pitch.
+
+3
+00:00:07,942 --> 00:00:12,473
+A normal ear hears from about twenty hertz to twenty thousand hertz.
+
+4
+00:00:12,473 --> 00:00:17,890
+Below that is infrasonic, like earthquake rumbles and elephant calls.
+
+5
+00:00:17,890 --> 00:00:23,372
+Above it is ultrasonic, used by bats and dolphins, and in medical scanning.
+

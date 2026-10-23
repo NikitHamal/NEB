@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,104
+So sodium hydroxide dissolves phenol but not ethanol, and sodium bicarbonate gives carbon dioxide with a carboxylic acid but not with phenol.
+
+2
+00:00:10,104 --> 00:00:12,486
+That is how the three are separated.
+

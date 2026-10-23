@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,921
+So pressure depends only on the depth, the density of the liquid and g.
+
+2
+00:00:04,921 --> 00:00:07,773
+Go twice as deep, and the pressure doubles.
+
+3
+00:00:07,773 --> 00:00:10,781
+h rho g alone is called the gauge pressure.
+
+4
+00:00:10,781 --> 00:00:16,549
+Add the atmosphere pressing on the surface, P nought, and you get the absolute pressure.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,838
+Three words that make all of this precise.
+
+2
+00:00:02,838 --> 00:00:09,531
+Differentiation: a meristematic cell matures into a permanent cell, and stops dividing.
+
+3
+00:00:09,531 --> 00:00:14,401
+Dedifferentiation: a permanent cell regains the power to divide.
+
+4
+00:00:14,401 --> 00:00:18,854
+That is how the interfascicular cambium and the cork cambium form.
+
+5
+00:00:18,854 --> 00:00:25,247
+Redifferentiation: the products of that new meristem mature again into permanent tissue.
+

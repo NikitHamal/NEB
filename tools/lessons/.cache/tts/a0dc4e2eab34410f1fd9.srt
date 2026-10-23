@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,333
+At resonance, every push arrives exactly in step with the motion, like pushing a child on a swing at just the right moment.
+
+2
+00:00:08,333 --> 00:00:14,622
+So energy keeps flowing in, and only damping limits how big the swings become.
+

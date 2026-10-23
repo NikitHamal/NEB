@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,864
+Water potential falls all the way: soil, root, trunk, leaf, and then minus ninety-three in dry air.
+
+2
+00:00:07,864 --> 00:00:10,494
+That last huge step does the pulling.
+

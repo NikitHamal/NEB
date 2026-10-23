@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,458
+RuBisCO can also grab oxygen, since air has far more oxygen than carbon dioxide.
+

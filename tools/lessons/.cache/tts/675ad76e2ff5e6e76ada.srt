@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,078
+Minus k x means the wave travels in the positive x direction.
+
+2
+00:00:05,078 --> 00:00:13,294
+For a wave travelling the other way, replace x by minus x: y equals a sine, omega t plus k x.
+

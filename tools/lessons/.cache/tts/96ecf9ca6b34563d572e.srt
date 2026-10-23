@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,872
+Snell: sine r is sine sixty over one point five, zero point eight six six over one point five, zero point five seven seven four.
+
+2
+00:00:10,872 --> 00:00:13,385
+So r is thirty five point three degrees.
+

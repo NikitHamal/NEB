@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,992
+Advice comes in strengths.
+
+2
+00:00:01,992 --> 00:00:06,445
+Gentle: could, or might: you could try the evening class.
+
+3
+00:00:06,445 --> 00:00:11,653
+Normal: should, or ought to: you should revise the whole unit.
+
+4
+00:00:11,653 --> 00:00:17,760
+Urgent, about now: had better: you'd better leave now, or you'll miss the bus.
+
+5
+00:00:17,760 --> 00:00:24,023
+Had better is about one occasion and hints at a bad result; its negative is had better not.
+
+6
+00:00:24,023 --> 00:00:28,307
+And for preference, would rather: I'd rather walk than wait.
+

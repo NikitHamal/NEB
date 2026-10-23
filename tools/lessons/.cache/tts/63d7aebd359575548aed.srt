@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,671
+Here is ether extraction in a separating funnel.
+
+2
+00:00:03,671 --> 00:00:07,395
+Ether does not mix much with water, and it floats on top.
+
+3
+00:00:07,395 --> 00:00:12,630
+Shake, and the organic compound moves out of the water into the ether.
+
+4
+00:00:12,630 --> 00:00:20,338
+Run off the water, then evaporate the ether at about thirty five degrees, and the compound is left behind.
+

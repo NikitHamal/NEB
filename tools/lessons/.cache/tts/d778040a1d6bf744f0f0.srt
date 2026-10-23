@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,895
+And the kitchen receives Q two plus W, fifteen hundred joules.
+
+2
+00:00:04,895 --> 00:00:08,020
+So leaving the fridge door open warms your kitchen.
+
+3
+00:00:08,020 --> 00:00:09,335
+It never cools it.
+

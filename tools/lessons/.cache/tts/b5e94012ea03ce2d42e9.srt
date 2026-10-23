@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,757
+Move the point and watch.
+
+2
+00:00:01,757 --> 00:00:11,380
+The principal argument always lies between minus one eighty and plus one eighty degrees: anticlockwise positive, clockwise negative.
+

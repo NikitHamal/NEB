@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,322
+For a negative or fractional power, the same formula still works, but the coefficients never become zero, so the series never stops.
+
+2
+00:00:09,322 --> 00:00:19,622
+One plus x to the n equals one plus n x plus n times n minus one over two factorial x squared, and so on forever.
+
+3
+00:00:19,622 --> 00:00:27,669
+An infinite series is only useful if it converges, and this one does only when the absolute value of x is less than one.
+
+4
+00:00:27,669 --> 00:00:30,950
+That condition is part of the answer: always state it.
+

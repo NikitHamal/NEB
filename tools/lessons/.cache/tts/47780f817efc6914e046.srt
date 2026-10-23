@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,486
+Worked example two point seven.
+
+2
+00:00:02,486 --> 00:00:06,627
+Part a: we want p H five with decimolar acetic acid.
+
+3
+00:00:06,627 --> 00:00:09,270
+p K a is four point seven four.
+
+4
+00:00:09,270 --> 00:00:18,671
+So log of salt over zero point one is zero point two six, and the ratio is ten to the zero point two six, one point eight zero.
+

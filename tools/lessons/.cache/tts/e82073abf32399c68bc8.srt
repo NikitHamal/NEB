@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,164
+For an aromatic ether, the same logic.
+
+2
+00:00:03,164 --> 00:00:07,513
+Sodium phenoxide plus iodomethane gives anisole.
+
+3
+00:00:07,513 --> 00:00:11,380
+But methoxide plus chlorobenzene gives nothing at all.
+
+4
+00:00:11,380 --> 00:00:20,677
+The ring carbon is s p two, its bond to chlorine has partial double bond character, and the ring itself blocks any backside attack.
+

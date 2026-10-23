@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,393
+Set that equal to thirty two: r is four, a whole number, so the term exists.
+

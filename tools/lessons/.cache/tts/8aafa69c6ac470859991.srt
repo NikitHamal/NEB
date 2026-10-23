@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,278
+To make a voltmeter that reads up to V, connect a large resistance R, the multiplier, in series.
+
+2
+00:00:07,278 --> 00:00:16,523
+Choose it so that exactly I g flows when the full voltage V is across the meter: V equals I g times G plus R.
+
+3
+00:00:16,523 --> 00:00:20,403
+So R equals V over I g, minus G.
+

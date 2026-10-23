@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,822
+Sum to product; and B plus C is one eighty minus A, so its sine is sin A.
+

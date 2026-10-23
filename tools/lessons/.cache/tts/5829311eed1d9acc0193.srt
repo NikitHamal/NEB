@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,411
+The theorem for whole number powers, and its proof.
+
+2
+00:00:03,411 --> 00:00:07,395
+The general term, the middle term and the coefficients.
+
+3
+00:00:07,395 --> 00:00:11,393
+The theorem for any index, as an infinite series.
+
+4
+00:00:11,393 --> 00:00:12,851
+Approximations.
+
+5
+00:00:12,851 --> 00:00:14,231
+Euler's number e.
+
+6
+00:00:14,231 --> 00:00:20,468
+And the series for e to the x, a to the x, and log of one plus x.
+

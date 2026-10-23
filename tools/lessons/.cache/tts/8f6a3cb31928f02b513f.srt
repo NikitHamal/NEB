@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,247
+At seventy two beats a minute, one cycle takes zero point eight seconds.
+
+2
+00:00:05,247 --> 00:00:08,333
+Atrial systole, a tenth of a second.
+
+3
+00:00:08,333 --> 00:00:18,385
+Ventricular systole, three tenths: the atrioventricular valves slam shut, lubb, and about seventy millilitres is ejected.
+
+4
+00:00:18,385 --> 00:00:25,429
+Then joint diastole, four tenths: the semilunar valves shut, dupp, and the heart refills.
+

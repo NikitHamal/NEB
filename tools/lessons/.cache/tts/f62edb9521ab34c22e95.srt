@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,708
+Where exactly is ATP made?
+
+2
+00:00:02,708 --> 00:00:07,799
+Zoom into the thylakoid membrane: stroma above, lumen below.
+
+3
+00:00:07,799 --> 00:00:17,356
+Photolysis at photosystem two releases its oxygen and protons into the lumen, and the cytochrome complex pumps in more.
+
+4
+00:00:17,356 --> 00:00:19,231
+Protons pile up inside.
+

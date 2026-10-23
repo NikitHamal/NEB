@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,809
+That was complex numbers.
+
+2
+00:00:01,809 --> 00:00:09,401
+Next, sequence and series: sums of squares and cubes, and proof by mathematical induction.
+
+3
+00:00:09,401 --> 00:00:10,325
+See you there.
+

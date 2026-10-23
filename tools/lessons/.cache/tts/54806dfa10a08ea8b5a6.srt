@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:11,861
+The internet of things, a phrase Kevin Ashton coined in nineteen ninety nine, connects physical objects fitted with sensors and software so they exchange data and can be controlled remotely.
+
+2
+00:00:11,861 --> 00:00:13,528
+It has four layers.
+
+3
+00:00:13,528 --> 00:00:15,833
+Perception: the sensors.
+
+4
+00:00:15,833 --> 00:00:18,580
+Network: the gateway and the link.
+
+5
+00:00:18,580 --> 00:00:21,432
+Processing: the cloud that decides.
+
+6
+00:00:21,432 --> 00:00:24,401
+Application: the app the farmer sees.
+
+7
+00:00:24,401 --> 00:00:31,276
+Its weakest point is security: cheap devices shipped with default passwords have been hijacked into botnets.
+

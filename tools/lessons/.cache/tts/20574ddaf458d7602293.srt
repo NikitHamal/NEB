@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,752
+In time t, a charge I t moves through a potential difference V.
+
+2
+00:00:04,752 --> 00:00:08,697
+The work done on it is V I t, and all of it becomes heat.
+
+3
+00:00:08,697 --> 00:00:15,013
+Using V equals I R, the heat is I squared R t, or V squared t over R.
+
+4
+00:00:15,013 --> 00:00:20,390
+And the rate of heating, the power, is I squared R, or V squared over R.
+
+5
+00:00:20,390 --> 00:00:21,927
+This is Joule's law.
+

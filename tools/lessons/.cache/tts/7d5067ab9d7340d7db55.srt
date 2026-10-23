@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,682
+Kelvin Planck says: impossible.
+
+2
+00:00:02,682 --> 00:00:11,692
+No device working in a cycle can have, as its only effect, taking heat from a single reservoir and doing an equal amount of work.
+
+3
+00:00:11,692 --> 00:00:16,158
+In plain words, no engine can be one hundred percent efficient.
+

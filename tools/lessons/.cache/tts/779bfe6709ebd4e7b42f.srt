@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:07,539
+Inheritance lets a derived class acquire everything in a base class, then add or redefine members.
+
+2
+00:00:07,539 --> 00:00:13,893
+It gives reuse, and expresses an is a relationship: a teacher is a person.
+
+3
+00:00:13,893 --> 00:00:17,447
+Single inheritance: one base, one derived.
+
+4
+00:00:17,447 --> 00:00:19,466
+Multilevel: a chain.
+
+5
+00:00:19,466 --> 00:00:22,760
+Multiple: one class with two bases.
+
+6
+00:00:22,760 --> 00:00:26,132
+Hierarchical: one base, many derived.
+
+7
+00:00:26,132 --> 00:00:27,747
+And hybrid mixes them.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,828
+That is Hooke's law: F equals minus k x.
+
+2
+00:00:03,828 --> 00:00:06,549
+The minus sign is the whole story.
+
+3
+00:00:06,549 --> 00:00:10,611
+It says the force always points back towards the mean position.
+

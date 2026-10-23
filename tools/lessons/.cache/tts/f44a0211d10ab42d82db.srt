@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,075
+Traced clockwise, the net work done by the gas is positive.
+
+2
+00:00:04,075 --> 00:00:05,221
+That is an engine.
+
+3
+00:00:05,221 --> 00:00:09,921
+Traced anticlockwise, it is negative, and that is a refrigerator.
+
+4
+00:00:09,921 --> 00:00:12,057
+We will meet both in the next unit.
+

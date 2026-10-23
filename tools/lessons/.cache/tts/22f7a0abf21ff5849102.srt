@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:08,320
+An unseen passage of three hundred and fifty to four hundred and fifty words, and three sets of questions, five marks each.
+
+2
+00:00:08,320 --> 00:00:13,697
+Set A: true, false or not given, or filling gaps from the text.
+
+3
+00:00:13,697 --> 00:00:16,809
+Set B: short answers in your own words.
+
+4
+00:00:16,809 --> 00:00:20,143
+Set C: vocabulary in context.
+
+5
+00:00:20,143 --> 00:00:23,203
+Fifteen marks, a fifth of the written paper.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,085
+And notice: fifteen and seventy five degrees land at exactly the same spot, and so do thirty and sixty.
+
+2
+00:00:08,085 --> 00:00:09,817
+Mechanics explains why.
+
+3
+00:00:09,817 --> 00:00:15,130
+This unit is about forces: when they balance, and how they move things.
+

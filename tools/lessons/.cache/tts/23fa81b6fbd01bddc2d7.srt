@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,859
+Now let time run along a graph to the right, and record the height of the shadow.
+
+2
+00:00:05,859 --> 00:00:08,216
+It draws a perfect sine curve.
+
+3
+00:00:08,216 --> 00:00:10,390
+The height is A sine omega t.
+

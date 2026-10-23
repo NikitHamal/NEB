@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,140
+Expanding one plus i to the tenth would take eleven terms.
+
+2
+00:00:04,140 --> 00:00:05,950
+Use polar form instead.
+

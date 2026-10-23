@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,734
+A brown layer of copper grows on the zinc.
+
+2
+00:00:02,734 --> 00:00:06,979
+The blue colour fades as copper ions leave the solution.
+
+3
+00:00:06,979 --> 00:00:08,580
+And the beaker gets warm.
+

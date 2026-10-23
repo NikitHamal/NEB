@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,890
+Add the next term, k plus one cubed, to both sides, and replace the first k terms by the assumed formula.
+
+2
+00:00:07,890 --> 00:00:15,117
+Take out k plus one squared over four: the bracket is k squared plus four k plus four.
+

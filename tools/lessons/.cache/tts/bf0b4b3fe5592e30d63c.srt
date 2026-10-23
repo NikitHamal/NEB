@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,989
+Last one.
+
+2
+00:00:00,989 --> 00:00:06,575
+Phenol warmed with chloroform and sodium hydroxide, then acidified.
+
+3
+00:00:06,575 --> 00:00:07,760
+What forms?
+
+4
+00:00:07,760 --> 00:00:09,023
+Pause and think.
+

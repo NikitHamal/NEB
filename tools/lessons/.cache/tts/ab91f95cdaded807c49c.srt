@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,481
+Sum each piece and take out the common factor n into n plus one over six.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,486
+How do you get DNA into a cell?
+
+2
+00:00:02,486 --> 00:00:06,041
+Calcium chloride and a heat shock for bacteria.
+
+3
+00:00:06,041 --> 00:00:07,539
+An electric pulse.
+
+4
+00:00:07,539 --> 00:00:08,854
+A glass needle.
+
+5
+00:00:08,854 --> 00:00:14,153
+A gene gun firing DNA coated gold particles, used for cereals.
+
+6
+00:00:14,153 --> 00:00:25,924
+And for broad leaved plants, nature's own genetic engineer: Agrobacterium tumefaciens, whose Ti plasmid normally slips its own DNA into plant cells.
+
+7
+00:00:25,924 --> 00:00:33,671
+So the six steps are: isolate the DNA, cut, ligate, transform, select, and multiply.
+

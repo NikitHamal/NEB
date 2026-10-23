@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,750
+The second derivative tells you how the slope is changing.
+
+2
+00:00:03,750 --> 00:00:11,250
+Where it is positive, the tangent turns anticlockwise and the curve bends upward, like a cup: concave up.
+
+3
+00:00:11,250 --> 00:00:13,919
+Where negative, it bends down, like a cap.
+
+4
+00:00:13,919 --> 00:00:19,622
+Ride a tangent along x to the fourth minus four x cubed plus ten.
+

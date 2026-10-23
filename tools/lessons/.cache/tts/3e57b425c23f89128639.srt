@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,468
+The toxin binds to receptors on the gut lining and punches pores in the cells.
+
+2
+00:00:05,468 --> 00:00:07,278
+They swell and burst.
+
+3
+00:00:07,278 --> 00:00:09,921
+The larva stops feeding and dies.
+

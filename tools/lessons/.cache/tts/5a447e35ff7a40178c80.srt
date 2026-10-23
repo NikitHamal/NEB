@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,921
+Copies after n cycles are the starting number times two to the n.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,653
+A warning from the market.
+
+2
+00:00:01,653 --> 00:00:06,796
+The calcium carbide used to ripen mangoes does not release ethylene.
+
+3
+00:00:06,796 --> 00:00:13,684
+It releases acetylene, along with toxic impurities, so the fruit looks ripe but tastes of nothing.
+
+4
+00:00:13,684 --> 00:00:16,744
+Carbide ripening is prohibited in Nepal.
+

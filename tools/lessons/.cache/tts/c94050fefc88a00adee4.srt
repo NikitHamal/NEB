@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:08,190
+Big data is data so large, so fast, or so varied that ordinary database tools cannot handle it in time.
+
+2
+00:00:08,190 --> 00:00:11,015
+The standard answer is the five Vs.
+
+3
+00:00:11,015 --> 00:00:13,268
+Volume, the sheer quantity.
+
+4
+00:00:13,268 --> 00:00:16,028
+Velocity, the speed it arrives.
+
+5
+00:00:16,028 --> 00:00:20,651
+Variety, tables mixed with logs, photos and voice.
+
+6
+00:00:20,651 --> 00:00:23,190
+Veracity, how much of it is wrong.
+
+7
+00:00:23,190 --> 00:00:26,223
+And value, the insight you can extract.
+

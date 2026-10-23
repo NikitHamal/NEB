@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:04,440
+Interference comes from waves from two separate coherent sources.
+
+2
+00:00:04,440 --> 00:00:09,218
+Diffraction comes from wavelets from different parts of the same wavefront.
+
+3
+00:00:09,218 --> 00:00:13,567
+Interference fringes are equally wide and equally bright.
+
+4
+00:00:13,567 --> 00:00:21,341
+In diffraction, the central band is twice as wide as the rest, and the intensity falls off fast.
+
+5
+00:00:21,341 --> 00:00:27,526
+And the formulas: for interference, a path difference of n lambda gives brightness.
+
+6
+00:00:27,526 --> 00:00:33,502
+For a single slit, a sine theta equals n lambda gives darkness.
+

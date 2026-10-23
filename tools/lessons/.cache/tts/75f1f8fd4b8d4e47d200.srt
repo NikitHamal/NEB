@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,184
+A careful point.
+
+2
+00:00:01,184 --> 00:00:08,515
+Permanganate is intensely purple, but manganese seven is d zero, with no d electrons at all.
+
+3
+00:00:08,515 --> 00:00:15,312
+Its colour comes from charge transfer: light moves an electron from an oxygen lone pair onto the metal.
+
+4
+00:00:15,312 --> 00:00:17,317
+The same goes for dichromate.
+
+5
+00:00:17,317 --> 00:00:20,208
+That is why these colours are so much more intense.
+

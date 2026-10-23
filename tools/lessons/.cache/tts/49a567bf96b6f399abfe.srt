@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,486
+A population pyramid stacks age groups from young at the bottom to old at the top, males on the left, females on the right.
+
+2
+00:00:07,486 --> 00:00:13,151
+A broad base and a narrow top means many births and many deaths: rapid growth.
+
+3
+00:00:13,151 --> 00:00:16,145
+Near vertical sides mean slow growth.
+
+4
+00:00:16,145 --> 00:00:20,859
+And a base narrower than the middle means a population starting to shrink.
+

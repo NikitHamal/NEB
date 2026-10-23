@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,158
+So n is seven or minus two, and a count cannot be negative: n is seven.
+
+2
+00:00:06,158 --> 00:00:15,299
+Check: seven P four is eight forty, and twenty times seven P two is twenty times forty two, also eight forty.
+

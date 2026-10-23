@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,523
+The impurities burn.
+
+2
+00:00:01,523 --> 00:00:05,638
+Carbon leaves as carbon monoxide, flaring at the mouth.
+
+3
+00:00:05,638 --> 00:00:14,388
+Silicon, manganese and phosphorus form acidic oxides that the lime turns into slag, and that is why the lining must be basic.
+
+4
+00:00:14,388 --> 00:00:17,838
+The phosphate slag is sold as fertiliser.
+
+5
+00:00:17,838 --> 00:00:22,539
+No fuel is needed: the burning impurities supply all the heat.
+
+6
+00:00:22,539 --> 00:00:24,895
+A charge takes about forty minutes.
+

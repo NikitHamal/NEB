@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,437
+If lambda is three, row reduce: the last row becomes zero, zero, zero, mu minus ten.
+

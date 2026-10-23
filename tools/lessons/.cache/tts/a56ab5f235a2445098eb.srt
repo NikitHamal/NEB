@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,171
+Worked example.
+
+2
+00:00:01,171 --> 00:00:05,611
+Two coherent sources have intensities in the ratio four to one.
+
+3
+00:00:05,611 --> 00:00:10,611
+Find the ratio of amplitudes, and of maximum to minimum intensity.
+
+4
+00:00:10,611 --> 00:00:17,460
+Then, for equal sources, find the intensity where the path difference is lambda by three.
+

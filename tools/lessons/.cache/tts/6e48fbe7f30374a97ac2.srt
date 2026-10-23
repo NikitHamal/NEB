@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,153
+Enzymes are protein biocatalysts made by living cells.
+
+2
+00:00:04,153 --> 00:00:07,786
+Each has an active site, a pocket of a definite shape.
+
+3
+00:00:07,786 --> 00:00:12,408
+Only a substrate of the matching shape fits, like a key in a lock.
+
+4
+00:00:12,408 --> 00:00:14,570
+A wrong shape simply does not fit.
+

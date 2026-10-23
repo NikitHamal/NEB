@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,156
+Nastic movements have a direction fixed by the organ, not the stimulus.
+
+2
+00:00:05,156 --> 00:00:11,080
+Some are growth movements, like Crocus flowers opening; others are turgor movements.
+

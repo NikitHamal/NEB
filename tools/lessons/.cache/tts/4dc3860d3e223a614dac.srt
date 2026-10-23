@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,127
+You felt this in the Gorkha earthquake of two thousand fifteen.
+
+2
+00:00:04,127 --> 00:00:08,294
+The rock slipped deep underground and sent out two body waves.
+
+3
+00:00:08,294 --> 00:00:13,789
+The fast, longitudinal P wave, and the slower, transverse S wave.
+

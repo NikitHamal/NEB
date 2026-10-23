@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,247
+And c from the cosine law: root sixty seven, eight point one nine.
+

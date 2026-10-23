@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,638
+Then the second pivot clears the second column: add twice row two to row three.
+
+2
+00:00:05,638 --> 00:00:08,125
+The matrix is now triangular.
+

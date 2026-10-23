@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,757
+Newton's three laws.
+
+2
+00:00:01,757 --> 00:00:04,622
+Without a net force, nothing changes.
+
+3
+00:00:04,622 --> 00:00:09,179
+With one, the acceleration is the force divided by the mass.
+
+4
+00:00:09,179 --> 00:00:14,322
+And forces come in equal and opposite pairs, acting on different bodies.
+
+5
+00:00:14,322 --> 00:00:20,625
+For constant acceleration, three equations connect velocity, distance and time.
+

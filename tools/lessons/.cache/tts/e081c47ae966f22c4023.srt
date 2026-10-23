@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,869
+Infinity over infinity: twice, and the exponential wins.
+
+2
+00:00:04,869 --> 00:00:05,729
+Zero.
+

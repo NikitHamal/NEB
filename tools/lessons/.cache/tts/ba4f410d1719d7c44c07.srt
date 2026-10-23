@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,440
+In modern language, the equivalent weight is the molar mass divided by the n factor, the number of reacting units each formula unit supplies.
+
+2
+00:00:09,440 --> 00:00:12,604
+Equivalent weight is a relative number with no unit.
+
+3
+00:00:12,604 --> 00:00:16,731
+Expressed in grams, it is called one gram equivalent.
+

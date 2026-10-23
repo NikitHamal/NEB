@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,484
+Careful with the wording.
+
+2
+00:00:01,484 --> 00:00:07,161
+Vowels not all together is the total minus the block case: thirty six thousand.
+
+3
+00:00:07,161 --> 00:00:12,565
+No two vowels together needs the gap method: fourteen thousand four hundred.
+
+4
+00:00:12,565 --> 00:00:14,205
+They are different questions.
+

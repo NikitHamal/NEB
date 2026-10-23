@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,315
+Divide by two seventy three: one point two two times ten to the three joules per kelvin.
+
+2
+00:00:06,315 --> 00:00:08,046
+Positive, as it must be.
+
+3
+00:00:08,046 --> 00:00:11,041
+Liquid water is more disordered than ice.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,731
+Fifteen short stops.
+
+2
+00:00:01,731 --> 00:00:06,354
+Three definitions of acids and bases, and how to compare their strength.
+
+3
+00:00:06,354 --> 00:00:13,164
+Ostwald's dilution law, the ionic product of water, and the constants K a and K b.
+
+4
+00:00:13,164 --> 00:00:15,898
+The pH of any acid or base.
+
+5
+00:00:15,898 --> 00:00:20,429
+Solubility product, the common ion effect and precipitation.
+
+6
+00:00:20,429 --> 00:00:25,039
+Then buffers, indicators, and the types and hydrolysis of salts.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,424
+Note the zero for the missing y in the second equation.
+
+2
+00:00:03,424 --> 00:00:04,804
+Determinant four.
+

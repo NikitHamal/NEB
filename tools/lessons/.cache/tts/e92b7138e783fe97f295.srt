@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,208
+The voltmeter's resistance is five thousand ohms, five hundred ohms per volt.
+

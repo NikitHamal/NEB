@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,028
+In the Nernst equation, log of one over hydrogen ion squared is two p H.
+
+2
+00:00:06,028 --> 00:00:20,859
+So E equals zero point seven six minus zero point zero five nine one times p H. Solve: zero point one seven seven three over zero point zero five nine one, p H three.
+
+3
+00:00:20,859 --> 00:00:26,692
+That is exactly how a p H meter works, with glass and calomel electrodes.
+

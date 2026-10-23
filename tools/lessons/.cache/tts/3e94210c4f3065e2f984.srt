@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,296
+Divide by ninety eight: eighteen point four moles per litre.
+
+2
+00:00:04,296 --> 00:00:08,190
+That is the shortcut, ten p d over molar mass.
+
+3
+00:00:08,190 --> 00:00:12,734
+And normality is molarity times two: thirty six point eight.
+

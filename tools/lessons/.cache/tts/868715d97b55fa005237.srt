@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,080
+For equal sources, a path difference of lambda by three is a phase of two pi by three.
+
+2
+00:00:06,080 --> 00:00:13,294
+Four I nought cos squared of pi by three is four I nought times a quarter: just I nought, a quarter of the maximum.
+

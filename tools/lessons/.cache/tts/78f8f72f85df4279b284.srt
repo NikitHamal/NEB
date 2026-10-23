@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,679
+R is zero point zero zero eight three one, in litre megapascal per mole per kelvin.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,239
+So a cut stump is a calendar.
+
+2
+00:00:02,239 --> 00:00:06,757
+Count the rings from the centre outwards, and you have the age of the tree.
+
+3
+00:00:06,757 --> 00:00:08,619
+This is dendrochronology.
+

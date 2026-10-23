@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,291
+Worked example eleven point two.
+
+2
+00:00:02,291 --> 00:00:12,669
+With hydroxide, the equilibrium constant is K a over K w, ten thousand: the reaction goes to completion, and phenol dissolves.
+
+3
+00:00:12,669 --> 00:00:25,729
+With bicarbonate, it is K a of phenol over K a of carbonic acid, two point two times ten to the minus four: almost no reaction, so no carbonic acid, and no carbon dioxide.
+
+4
+00:00:25,729 --> 00:00:28,307
+Phenol is weaker than carbonic acid.
+

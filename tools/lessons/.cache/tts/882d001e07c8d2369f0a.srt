@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,130
+How can a beam of light have a sideways direction that a filter can pick out?
+
+2
+00:00:05,130 --> 00:00:09,856
+The answer proves something deep: light is a transverse wave.
+

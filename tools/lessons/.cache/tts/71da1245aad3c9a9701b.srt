@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,903
+Type an address and five things happen.
+
+2
+00:00:02,903 --> 00:00:09,049
+DNS, the internet's directory, turns the domain name into an IP address.
+
+3
+00:00:09,049 --> 00:00:12,330
+The browser sends an HTTP request.
+
+4
+00:00:12,330 --> 00:00:17,838
+The server runs any script and sends back HTML, which the browser draws.
+
+5
+00:00:17,838 --> 00:00:23,684
+A URL has a protocol, a domain, a path and sometimes a query string.
+
+6
+00:00:23,684 --> 00:00:27,395
+HTTPS is the same protocol, encrypted.
+

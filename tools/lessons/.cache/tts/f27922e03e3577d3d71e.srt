@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:06,184
+Hydrochloric and sulphuric acids behave the same way, only less vigorously.
+
+2
+00:00:06,184 --> 00:00:10,937
+In the cold, concentrated acid simply protonates the oxygen.
+
+3
+00:00:10,937 --> 00:00:14,479
+The ether dissolves in the acid as an oxonium salt.
+
+4
+00:00:14,479 --> 00:00:18,346
+This is the clearest proof that ether is a base.
+
+5
+00:00:18,346 --> 00:00:22,643
+Dilute with water, and the ether separates out again.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,940
+It is not the weakest building.
+
+2
+00:00:01,940 --> 00:00:03,750
+It is not the tallest either.
+
+3
+00:00:03,750 --> 00:00:04,869
+So why this one?
+
+4
+00:00:04,869 --> 00:00:06,406
+Keep the question in mind.
+
+5
+00:00:06,406 --> 00:00:09,726
+By the end of this lesson, one word will answer it.
+

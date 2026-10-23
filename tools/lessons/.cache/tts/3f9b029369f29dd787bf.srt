@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,041
+Walk along.
+
+2
+00:00:01,041 --> 00:00:06,158
+Before x equals one, f dash is positive: rising.
+
+3
+00:00:06,158 --> 00:00:09,205
+Between one and two, negative: falling.
+
+4
+00:00:09,205 --> 00:00:11,354
+After two, positive again.
+
+5
+00:00:11,354 --> 00:00:18,567
+At one and two the derivative is zero: the graph turns, at a local maximum and a local minimum.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,289
+An alternate key.
+
+2
+00:00:01,289 --> 00:00:05,026
+A foreign key points to another table's primary key.
+

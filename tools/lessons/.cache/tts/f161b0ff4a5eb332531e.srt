@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,989
+If you only know the diagonals of a parallelogram, its area is half their cross product.
+

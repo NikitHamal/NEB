@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,026
+A common mistake: the primary key is not simply the first column.
+
+2
+00:00:05,026 --> 00:00:09,804
+It is a rule the DBMS enforces: unique and never null.
+
+3
+00:00:09,804 --> 00:00:14,036
+And a key made of two columns together is still one primary key.
+

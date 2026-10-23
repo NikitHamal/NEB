@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:10,598
+Bertrand Russell was a mathematician and philosopher, one of the founders of analytic philosophy, who wrote with Whitehead an attempt to build mathematics on pure logic.
+
+2
+00:00:10,598 --> 00:00:20,091
+He was also a public figure who acted on his beliefs: a pacifist jailed in nineteen eighteen, and later a leader of the campaign against nuclear weapons.
+
+3
+00:00:20,091 --> 00:00:23,736
+He won the Nobel Prize in Literature in nineteen fifty.
+
+4
+00:00:23,736 --> 00:00:31,666
+He wrote this essay in nineteen fifty four, nine years after Hiroshima, in the year of a hydrogen bomb test.
+
+5
+00:00:31,666 --> 00:00:36,041
+The atom was the perfect example of knowledge running ahead of wisdom.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,651
+In SQL: join students to enrolment on roll, and enrolment to courses on code.
+
+2
+00:00:05,651 --> 00:00:09,934
+Every enrolment row now carries a name and a course title.
+

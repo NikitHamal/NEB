@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,356
+So keep three things apart.
+
+2
+00:00:02,356 --> 00:00:06,054
+Intensity is physical, in watts per square metre.
+
+3
+00:00:06,054 --> 00:00:11,276
+Intensity level is ten log I over I nought, in decibels.
+
+4
+00:00:11,276 --> 00:00:15,716
+Loudness is a sensation, measured in phon or sone.
+
+5
+00:00:15,716 --> 00:00:22,083
+A sound can be perfectly measurable and yet completely inaudible, like an ultrasonic whistle.
+

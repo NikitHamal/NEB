@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,078
+So xylem water is under tension: its pressure potential is negative.
+
+2
+00:00:05,078 --> 00:00:08,841
+The energy comes from the sun, not from metabolism.
+

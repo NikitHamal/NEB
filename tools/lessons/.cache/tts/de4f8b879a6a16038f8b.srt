@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,476
+Look at sulphuric acid and sodium hydroxide.
+
+2
+00:00:03,476 --> 00:00:08,411
+One mole of acid needs two moles of base, so the moles do not match.
+
+3
+00:00:08,411 --> 00:00:16,705
+But one mole of sulphuric acid carries two equivalents, and two moles of sodium hydroxide carry two equivalents.
+
+4
+00:00:16,705 --> 00:00:19,401
+The equivalents match exactly.
+

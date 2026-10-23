@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,437
+Here is the fastest way through these numericals.
+
+2
+00:00:03,437 --> 00:00:06,354
+Almost every one is a ratio question.
+
+3
+00:00:06,354 --> 00:00:18,632
+Write f two over f one equals L one over L two, times root T two over T one, times root mu one over mu two, and put in only the quantities that changed.
+
+4
+00:00:18,632 --> 00:00:22,304
+You never need the actual speed or mass per length.
+

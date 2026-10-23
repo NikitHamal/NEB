@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,268
+Narrow the gap down towards one wavelength.
+
+2
+00:00:03,268 --> 00:00:07,682
+Now the waves fan out into the shadow, almost in circles.
+
+3
+00:00:07,682 --> 00:00:09,661
+The gap acts like a new source.
+
+4
+00:00:09,661 --> 00:00:17,669
+That is Huygens' principle at work: with only a few points across the gap sending out wavelets, there is nothing to keep the front flat.
+

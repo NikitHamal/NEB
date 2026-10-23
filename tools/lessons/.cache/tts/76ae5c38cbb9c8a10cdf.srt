@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,921
+Newton's law: the excess over the room decays exponentially.
+
+2
+00:00:04,921 --> 00:00:06,679
+It halves in ten minutes.
+

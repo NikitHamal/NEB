@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,609
+Pollination is the transfer of pollen from an anther to a stigma.
+
+2
+00:00:04,609 --> 00:00:10,833
+It has to happen before fertilization, because flowering plant sperm cannot swim.
+
+3
+00:00:10,833 --> 00:00:16,575
+They can only reach the egg through a pollen tube grown from a grain that has landed on a stigma.
+

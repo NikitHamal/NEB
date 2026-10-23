@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:02,903
+This grid is the heart of the unit.
+
+2
+00:00:02,903 --> 00:00:06,796
+A or an: only a singular countable, a book.
+
+3
+00:00:06,796 --> 00:00:09,661
+Much: only uncountables, much time.
+
+4
+00:00:09,661 --> 00:00:13,333
+Many: only plural countables, many books.
+
+5
+00:00:13,333 --> 00:00:16,445
+A few and several: plural countables.
+
+6
+00:00:16,445 --> 00:00:19,674
+A little: uncountables, a little milk.
+
+7
+00:00:19,674 --> 00:00:23,723
+Each and every: a singular countable, each boy.
+
+8
+00:00:23,723 --> 00:00:26,236
+Both: two of something, both hands.
+
+9
+00:00:26,236 --> 00:00:32,408
+And some, any, a lot of and enough go with both plural countables and uncountables.
+

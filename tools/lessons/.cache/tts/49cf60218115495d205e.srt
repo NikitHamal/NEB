@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,783
+So, solubility is the number of moles that dissolve per litre to give a saturated solution.
+
+2
+00:00:06,783 --> 00:00:15,390
+And K s p is the product of the ion concentrations in that saturated solution, each raised to the power of its coefficient.
+

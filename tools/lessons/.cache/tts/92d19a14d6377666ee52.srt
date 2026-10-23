@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:07,252
+A modal followed by have and the past participle talks about the past, and each one tells you whether the action happened.
+
+2
+00:00:07,252 --> 00:00:09,492
+Must have: I'm sure it happened.
+
+3
+00:00:09,492 --> 00:00:11,888
+Can't have: I'm sure it didn't.
+
+4
+00:00:11,888 --> 00:00:14,114
+May or might have: possibly.
+
+5
+00:00:14,114 --> 00:00:17,825
+Could have: it was possible, but it didn't happen.
+
+6
+00:00:17,825 --> 00:00:21,093
+Should have: it was the right thing, and it wasn't done.
+
+7
+00:00:21,093 --> 00:00:24,361
+Shouldn't have: it was done, and it was wrong.
+
+8
+00:00:24,361 --> 00:00:28,606
+And needn't have: it was done, but it was unnecessary.
+

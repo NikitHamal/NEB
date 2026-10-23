@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,968
+On first meeting an antigen, the immune system takes five to ten days to respond, and the antibody level stays small.
+
+2
+00:00:07,968 --> 00:00:16,250
+On a second meeting, memory cells are waiting: the response comes in one to three days and is a hundred to a thousand times stronger.
+
+3
+00:00:16,250 --> 00:00:22,955
+A vaccine gives you that first meeting safely, so the real infection meets the second response.
+

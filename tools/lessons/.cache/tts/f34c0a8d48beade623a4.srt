@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,187
+Anything perpendicular to both is parallel to a cross b: minus six, six, minus three.
+

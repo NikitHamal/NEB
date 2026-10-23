@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,322
+When there are two different beta carbons, two alkenes are possible.
+
+2
+00:00:04,322 --> 00:00:08,177
+Two bromobutane can lose a hydrogen from either side.
+
+3
+00:00:08,177 --> 00:00:17,760
+Saytzeff's rule: the major product is the more substituted alkene, the one with more alkyl groups on the double bond, because it is more stable.
+
+4
+00:00:17,760 --> 00:00:20,039
+So but two ene is major.
+
+5
+00:00:20,039 --> 00:00:25,455
+The ease of elimination is tertiary, then secondary, then primary.
+

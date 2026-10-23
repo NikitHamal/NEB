@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,653
+Tan of half C is root three, so half C is sixty and C is one hundred and twenty.
+
+2
+00:00:06,653 --> 00:00:09,270
+Obtuse, facing the longest side.
+

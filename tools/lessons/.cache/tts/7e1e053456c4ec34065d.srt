@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,226
+A, a constant phase difference.
+
+2
+00:00:02,226 --> 00:00:04,088
+It does not have to be zero.
+
+3
+00:00:04,088 --> 00:00:06,002
+It just must not change with time.
+
+4
+00:00:06,002 --> 00:00:12,070
+Same amplitude helps the dark fringes go fully dark, but it is not what coherence means.
+

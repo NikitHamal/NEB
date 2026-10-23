@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,067
+Last check.
+
+2
+00:00:01,067 --> 00:00:04,427
+Aflatoxin on damp, badly stored maize.
+
+3
+00:00:04,427 --> 00:00:05,598
+What kind of hazard?
+

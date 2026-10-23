@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,372
+Real engines run on particular cycles.
+
+2
+00:00:03,372 --> 00:00:08,164
+The four stroke petrol engine in a motorbike is modelled by the Otto cycle.
+
+3
+00:00:08,164 --> 00:00:12,903
+Here is its cylinder, and beside it, its indicator diagram.
+

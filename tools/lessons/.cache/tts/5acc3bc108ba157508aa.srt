@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:14,244
+Maintenance lasts longest and costs most, sixty to seventy per cent of a system's lifetime cost: fixing defects, adapting to change, adding features, and restructuring to make future change cheaper.
+

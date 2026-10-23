@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,945
+Its half reaction, two hydrogen ions plus two electrons giving hydrogen gas, is assigned exactly zero volts.
+
+2
+00:00:08,945 --> 00:00:11,940
+Every other E nought is measured against it.
+

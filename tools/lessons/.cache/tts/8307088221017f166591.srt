@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,296
+For the disc, I is only half M R squared, so spin takes just one third of the energy, and two thirds is left for moving forward.
+

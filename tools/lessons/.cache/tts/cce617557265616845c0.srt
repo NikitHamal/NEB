@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,971
+Blood was covered in the tissues unit, so here is what is new.
+
+2
+00:00:03,971 --> 00:00:09,960
+When a vessel is cut, platelets and damaged tissue release thromboplastin.
+
+3
+00:00:09,960 --> 00:00:18,528
+With calcium ions it turns prothrombin into thrombin, and thrombin turns soluble fibrinogen into threads of fibrin.
+
+4
+00:00:18,528 --> 00:00:21,562
+The threads trap blood cells: a clot.
+
+5
+00:00:21,562 --> 00:00:24,960
+The liver needs vitamin K to make prothrombin.
+

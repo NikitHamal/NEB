@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,216
+Most reactions in the laboratory happen in open vessels, at the constant pressure of the atmosphere, not at constant volume.
+
+2
+00:00:08,216 --> 00:00:15,273
+For constant pressure we use a new state function, enthalpy: H equals U plus p V.
+

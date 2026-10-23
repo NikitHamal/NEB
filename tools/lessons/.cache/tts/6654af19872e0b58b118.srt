@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,809
+Nastic movements are different.
+
+2
+00:00:01,809 --> 00:00:07,617
+Their direction is fixed by the structure of the organ, whatever the direction of the stimulus.
+
+3
+00:00:07,617 --> 00:00:13,255
+Some are slow growth movements, like tulip and Crocus flowers opening in warmth.
+
+4
+00:00:13,255 --> 00:00:16,640
+Others are fast, reversible turgor movements.
+

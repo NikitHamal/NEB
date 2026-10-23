@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,796
+Its units depend on the order.
+
+2
+00:00:01,796 --> 00:00:08,984
+Rate divided by concentration to the n gives moles per litre to the power one minus n, per second.
+
+3
+00:00:08,984 --> 00:00:12,213
+Zero order: moles per litre per second.
+
+4
+00:00:12,213 --> 00:00:14,296
+First order: just per second.
+
+5
+00:00:14,296 --> 00:00:17,330
+Second: litres per mole per second.
+
+6
+00:00:17,330 --> 00:00:21,393
+Third: litres squared per mole squared per second.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,382
+To tell them apart in one line each: sodium hydroxide dissolves phenol but not ethanol.
+
+2
+00:00:07,382 --> 00:00:11,627
+Sodium bicarbonate fizzes only with a carboxylic acid.
+
+3
+00:00:11,627 --> 00:00:15,859
+And neutral ferric chloride turns violet only with phenol.
+

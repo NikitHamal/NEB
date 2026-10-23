@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,778
+Chain rule for the first: two x sinh of x squared plus one.
+
+2
+00:00:04,778 --> 00:00:08,697
+The second is one over cosh times sinh: tanh x.
+

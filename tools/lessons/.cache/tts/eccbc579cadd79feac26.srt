@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,341
+Mustn't forbids.
+
+2
+00:00:01,341 --> 00:00:04,270
+Needn't and don't have to mean there is no need.
+

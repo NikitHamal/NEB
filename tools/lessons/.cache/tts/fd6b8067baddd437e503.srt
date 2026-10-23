@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,367
+The simplex method finds that corner without drawing anything, which matters when there are many variables.
+
+2
+00:00:06,367 --> 00:00:14,440
+It starts at the origin and walks along edges from corner to corner, improving Z each time, until no step helps.
+
+3
+00:00:14,440 --> 00:00:21,263
+Here: nought nought, then nought two, then three one, where Z is fourteen.
+

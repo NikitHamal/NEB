@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,778
+T is twenty-five plus two seventy-three: two ninety-eight kelvin.
+

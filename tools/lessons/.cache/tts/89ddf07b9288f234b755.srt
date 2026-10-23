@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,031
+Add the equations and the tension cancels: twenty equals eight a, so a is two and a half.
+
+2
+00:00:07,031 --> 00:00:12,981
+Then the tension is thirty seven and a half newtons: between the two weights, as it must be.
+

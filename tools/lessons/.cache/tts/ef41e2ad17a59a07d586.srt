@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,822
+Remember the rule: the light reaction runs in the thylakoid membranes, and the dark reaction in the stroma.
+

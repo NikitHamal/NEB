@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,932
+Pellagra, from lack of vitamin B three, niacin.
+
+2
+00:00:03,932 --> 00:00:11,223
+Beriberi is B one, thiamine, and causes oedema and nerve damage; scurvy is vitamin C.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,682
+Take phenolphthalein, H In.
+
+2
+00:00:02,682 --> 00:00:08,710
+In acid, the high hydrogen ion concentration holds it in the colourless H In form.
+
+3
+00:00:08,710 --> 00:00:16,197
+Add alkali, hydrogen ions are removed, the equilibrium shifts right, and pink In minus appears.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,239
+Watch the dots ride the curves.
+
+2
+00:00:02,239 --> 00:00:05,625
+At the mean position, everything is kinetic.
+
+3
+00:00:05,625 --> 00:00:08,971
+At the extremes, everything is potential.
+
+4
+00:00:08,971 --> 00:00:14,062
+In between, the two always add up to the same total, the dashed line.
+

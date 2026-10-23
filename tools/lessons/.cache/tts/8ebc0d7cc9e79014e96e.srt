@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,283
+How does the kidney make urine four times more concentrated than blood?
+
+2
+00:00:04,283 --> 00:00:05,585
+The loop of Henle.
+
+3
+00:00:05,585 --> 00:00:10,677
+The ascending limb pumps salt out into the medulla, but it is waterproof.
+
+4
+00:00:10,677 --> 00:00:17,213
+The descending limb, running the other way right beside it, lets water out into that salty fluid.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,520
+First order: sine theta zero point two five, fourteen point five degrees.
+
+2
+00:00:05,520 --> 00:00:09,375
+Second: zero point five, thirty degrees.
+
+3
+00:00:09,375 --> 00:00:14,296
+Third: zero point seven five, forty eight point six degrees.
+

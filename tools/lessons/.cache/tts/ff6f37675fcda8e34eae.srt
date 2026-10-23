@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,562
+Now the general case.
+
+2
+00:00:01,562 --> 00:00:06,614
+Arrange r objects, chosen from n different objects, in a row.
+
+3
+00:00:06,614 --> 00:00:09,179
+The first box can take any of the n.
+
+4
+00:00:09,179 --> 00:00:13,398
+The second, n minus one, because one is used.
+
+5
+00:00:13,398 --> 00:00:15,520
+The third, n minus two.
+
+6
+00:00:15,520 --> 00:00:19,518
+And the r th box takes n minus r plus one.
+

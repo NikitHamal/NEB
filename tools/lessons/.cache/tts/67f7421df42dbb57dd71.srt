@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,731
+Now Malus's law.
+
+2
+00:00:01,731 --> 00:00:09,778
+Plane polarized light of amplitude A meets an analyser whose axis is at an angle theta to the vibrations.
+
+3
+00:00:09,778 --> 00:00:12,044
+Split A into two parts.
+
+4
+00:00:12,044 --> 00:00:16,002
+A cos theta, along the axis, gets through.
+
+5
+00:00:16,002 --> 00:00:19,960
+A sine theta, across the axis, is absorbed.
+

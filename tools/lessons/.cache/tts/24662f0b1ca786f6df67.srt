@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,739
+The definite integral from a to b is F of b minus F of a, where F is any anti-derivative; the constant cancels.
+
+2
+00:00:09,739 --> 00:00:11,458
+It measures signed area.
+
+3
+00:00:11,458 --> 00:00:16,601
+Integrate sine from nought to pi: the green hump has area exactly two.
+

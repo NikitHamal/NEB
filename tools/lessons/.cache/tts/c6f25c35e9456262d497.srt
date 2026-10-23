@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,447
+They called it coupling and repulsion.
+
+2
+00:00:02,447 --> 00:00:06,432
+Alleles that entered the cross together tended to stay together.
+
+3
+00:00:06,432 --> 00:00:15,273
+In nineteen ten Thomas Hunt Morgan, working with fruit flies, gave the real explanation: those genes sit on the same chromosome.
+
+4
+00:00:15,273 --> 00:00:16,614
+He called it linkage.
+

@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,210
+Grouped by meaning.
+
+2
+00:00:01,210 --> 00:00:07,382
+Addition: moreover, furthermore, besides; in addition to before a noun.
+
+3
+00:00:07,382 --> 00:00:15,065
+Contrast: although with a clause, however as a marker, in spite of or despite with a noun.
+
+4
+00:00:15,065 --> 00:00:21,419
+Cause: because, since, as with a clause; because of, owing to, due to with a noun.
+
+5
+00:00:21,419 --> 00:00:26,627
+Result: so that and such that; therefore, consequently, hence.
+
+6
+00:00:26,627 --> 00:00:30,625
+Purpose: so that with a clause, in order to with a verb.
+
+7
+00:00:30,625 --> 00:00:36,302
+Condition: if, unless, provided that; otherwise as a marker.
+
+8
+00:00:36,302 --> 00:00:41,380
+Time: when, while, until, as soon as; then, meanwhile, finally.
+

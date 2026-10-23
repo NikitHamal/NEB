@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,466
+And so: N one V one equals N two V two.
+
+2
+00:00:04,466 --> 00:00:06,250
+The normality equation.
+
+3
+00:00:06,250 --> 00:00:10,221
+It needs no balanced equation and no coefficients.
+
+4
+00:00:10,221 --> 00:00:11,861
+That is its whole power.
+

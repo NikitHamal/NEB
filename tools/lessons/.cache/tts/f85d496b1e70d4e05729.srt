@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,408
+Photosynthesis in one line.
+
+2
+00:00:02,408 --> 00:00:11,145
+Six carbon dioxide plus twelve water, with light and chlorophyll, give one glucose, six oxygen and six water.
+
+3
+00:00:11,145 --> 00:00:14,713
+But why twelve water on the left, and six again on the right?
+

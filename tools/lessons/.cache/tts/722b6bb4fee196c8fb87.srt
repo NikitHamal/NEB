@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,015
+And E equals three thousand gives a quadratic with two roots: two hundred and three hundred degrees, one on each side of the neutral temperature, as the parabola demands.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,494
+Now zoom into a single stoma: a pore between two kidney-shaped guard cells.
+
+2
+00:00:05,494 --> 00:00:13,750
+Unlike other epidermal cells, guard cells have chloroplasts, and their inner walls, facing the pore, are thicker.
+

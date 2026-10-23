@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,161
+Swapped, four ohms is on the left: four over six equals l dash over one hundred minus l dash.
+
+2
+00:00:07,161 --> 00:00:14,036
+So l dash is forty centimetres, simply one hundred minus sixty, as symmetry demands.
+

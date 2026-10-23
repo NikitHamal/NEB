@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,132
+Quick recap.
+
+2
+00:00:01,132 --> 00:00:09,492
+Each food has its enzymes, bile only emulsifies, and villi absorb, sugars into blood and fats into the lacteals.
+
+3
+00:00:09,492 --> 00:00:15,299
+Breathing is Boyle's law, and the Bohr effect unloads oxygen where it is needed.
+
+4
+00:00:15,299 --> 00:00:23,776
+The circulation is double and closed, paced by the S A node, with cardiac output equal to stroke volume times rate.
+
+5
+00:00:23,776 --> 00:00:29,361
+Nephrons filter one hundred and eighty litres a day and take back ninety nine percent.
+
+6
+00:00:29,361 --> 00:00:34,257
+The impulse jumps from minus seventy to plus thirty five, all or none.
+
+7
+00:00:34,257 --> 00:00:41,992
+And hormones work by feedback: only insulin lowers blood sugar, and an L H surge triggers ovulation.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,679
+Points zero point four metres apart are a quarter wavelength apart, so the phase difference is pi by two.
+
+2
+00:00:06,679 --> 00:00:12,643
+The wave takes zero point four over four hundred, one millisecond, to cover that gap.
+
+3
+00:00:12,643 --> 00:00:16,406
+That is exactly a quarter of the period, as it should be.
+

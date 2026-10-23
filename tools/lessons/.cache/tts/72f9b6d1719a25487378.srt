@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,294
+Availability is the mean time between failures over that plus the mean time to repair: ninety eight point seven seven per cent.
+

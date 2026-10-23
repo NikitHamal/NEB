@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,104
+Welcome to Class 12 Chemistry, Unit 5: Electrochemistry.
+
+2
+00:00:05,104 --> 00:00:15,833
+How redox reactions produce electricity, how we measure the push behind them, and how that push is tied to free energy and to the batteries in your phone and your inverter.
+

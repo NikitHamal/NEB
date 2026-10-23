@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,380
+No calculator.
+
+2
+00:00:01,380 --> 00:00:07,460
+Find the cube root of one hundred and twenty seven, correct to four decimal places.
+
+3
+00:00:07,460 --> 00:00:09,453
+It sounds impossible by hand.
+

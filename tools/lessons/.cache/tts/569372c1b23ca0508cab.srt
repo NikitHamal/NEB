@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,096
+A sum that starts part way along.
+

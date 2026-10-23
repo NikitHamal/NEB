@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,528
+Plot the size of a cell, an organ, or a whole plant against time, and you get an S-shaped curve: the grand period of growth.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,726
+A line of students marches across a field in step, arm in arm.
+
+2
+00:00:04,726 --> 00:00:09,375
+Their path crosses from firm grass into soft mud, at an angle.
+

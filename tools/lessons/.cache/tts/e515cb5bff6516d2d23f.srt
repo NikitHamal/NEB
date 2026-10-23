@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,500
+Both grandparents must be A a.
+
+2
+00:00:02,500 --> 00:00:11,640
+Their son in generation two had an affected son, so he passed on a small a: he is A a, and so is his unaffected wife.
+
+3
+00:00:11,640 --> 00:00:16,354
+Another child of theirs is affected with a probability of one quarter.
+

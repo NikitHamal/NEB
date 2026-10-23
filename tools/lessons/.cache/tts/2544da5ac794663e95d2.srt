@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,177
+Alcohols react at three places.
+
+2
+00:00:03,177 --> 00:00:07,656
+The O H bond, where the hydrogen is weakly acidic.
+
+3
+00:00:07,656 --> 00:00:12,304
+The carbon oxygen bond, where the O H is replaced or lost.
+
+4
+00:00:12,304 --> 00:00:17,148
+And the alpha carbon hydrogen bonds, which are attacked in oxidation.
+
+5
+00:00:17,148 --> 00:00:21,822
+Keep this picture in mind, and every reaction falls into place.
+
+6
+00:00:21,822 --> 00:00:25,208
+We will collect them all into one map as we go.
+

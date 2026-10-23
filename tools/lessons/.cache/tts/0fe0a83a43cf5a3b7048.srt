@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,109
+Now we can answer our opening question.
+
+2
+00:00:02,109 --> 00:00:05,429
+Every building has its own natural frequency.
+
+3
+00:00:05,429 --> 00:00:07,721
+Tall buildings sway slowly.
+
+4
+00:00:07,721 --> 00:00:09,895
+Short buildings sway quickly.
+

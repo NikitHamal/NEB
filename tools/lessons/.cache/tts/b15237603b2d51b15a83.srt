@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,117
+On the graph, the average rate is the slope of a chord joining two points.
+
+2
+00:00:05,117 --> 00:00:11,588
+But the curve is steep at first and flat later, so an average over a long interval describes neither.
+

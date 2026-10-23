@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,294
+Here is why the two families behave differently.
+
+2
+00:00:03,294 --> 00:00:06,861
+One mole of solute in about one litre of solution.
+
+3
+00:00:06,861 --> 00:00:09,843
+Molarity one, molality about one.
+
+4
+00:00:09,843 --> 00:00:13,567
+Now we heat it, from twenty to eighty degrees Celsius.
+

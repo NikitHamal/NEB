@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,328
+Given two sides and the angle between them, the tangent law finds both other angles at once.
+
+2
+00:00:06,328 --> 00:00:15,781
+Start from the sine law: a minus b over a plus b is sin A minus sin B over sin A plus sin B; the two R cancels.
+

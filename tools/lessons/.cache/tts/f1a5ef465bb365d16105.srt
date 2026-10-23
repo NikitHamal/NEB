@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,106
+A worked item.
+
+2
+00:00:01,106 --> 00:00:10,026
+We arrived blank the airport, blank six o'clock, blank the morning, blank the fifth of June, and waited blank two hours, blank our flight.
+
+3
+00:00:10,026 --> 00:00:11,601
+Arrived at the airport.
+
+4
+00:00:11,601 --> 00:00:13,333
+At six o'clock, a point.
+
+5
+00:00:13,333 --> 00:00:15,325
+In the morning, part of a day.
+
+6
+00:00:15,325 --> 00:00:17,486
+On the fifth of June, a date.
+
+7
+00:00:17,486 --> 00:00:19,570
+For two hours, a length.
+
+8
+00:00:19,570 --> 00:00:21,679
+And wait always takes for.
+
+9
+00:00:21,679 --> 00:00:26,223
+Careful: if the verb were reach, there would be no preposition at all.
+

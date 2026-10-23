@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,122
+And now, the cold open.
+
+2
+00:00:02,122 --> 00:00:04,401
+Worked example one point five.
+
+3
+00:00:04,401 --> 00:00:14,895
+Twenty five cubic centimetres of the washing soda solution needed twenty two point five cubic centimetres of decinormal hydrochloric acid, with methyl orange.
+
+4
+00:00:14,895 --> 00:00:23,138
+Find the normality and strength of the solution, and the mass of sodium carbonate in two hundred and fifty cubic centimetres of it.
+

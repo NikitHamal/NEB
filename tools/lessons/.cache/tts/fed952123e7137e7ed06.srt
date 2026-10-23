@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:09,544
+The first factor of wisdom is a sense of proportion: the capacity to take account of all the important factors in a problem and give each its due weight.
+
+2
+00:00:09,544 --> 00:00:11,979
+Specialisation makes this hard.
+
+3
+00:00:11,979 --> 00:00:23,997
+A medical researcher, absorbed in his work, succeeds in lowering the infant death rate around the world, and the unforeseen result is that food supplies fall short in the most crowded regions.
+
+4
+00:00:23,997 --> 00:00:35,221
+More striking still: a scientist studies the atom out of pure curiosity, and puts into the hands of powerful lunatics the means of destroying the human race.
+
+5
+00:00:35,221 --> 00:00:37,473
+Russell is not against science.
+
+6
+00:00:37,473 --> 00:00:39,440
+He is against narrow vision.
+

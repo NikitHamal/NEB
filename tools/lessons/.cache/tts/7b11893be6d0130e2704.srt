@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,372
+For one amp: zero point one over zero point nine nine nine, about zero point one ohms, in parallel.
+

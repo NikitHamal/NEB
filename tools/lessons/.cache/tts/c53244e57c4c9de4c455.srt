@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,098
+Why does A X equal B say the same thing?
+
+2
+00:00:03,098 --> 00:00:09,843
+Multiply the first row of A into the column X: x plus two y plus z.
+
+3
+00:00:09,843 --> 00:00:12,330
+That is the left side of the first equation.
+
+4
+00:00:12,330 --> 00:00:15,221
+A missing unknown simply gets a zero.
+

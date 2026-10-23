@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,835
+In zero point zero one molar sodium chloride, the chloride comes almost entirely from the salt.
+
+2
+00:00:06,835 --> 00:00:15,559
+So K s p equals S dash times zero point zero one, and S dash is one point eight times ten to the minus eight.
+

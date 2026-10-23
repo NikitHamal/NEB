@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,388
+Now push the plasmids into bacteria and pick out the right ones.
+
+2
+00:00:04,388 --> 00:00:08,020
+Only colonies with a plasmid survive on ampicillin.
+
+3
+00:00:08,020 --> 00:00:13,489
+Copy them onto tetracycline: those with a broken tetracycline gene die.
+
+4
+00:00:13,489 --> 00:00:15,481
+Those are the ones carrying your gene.
+
+5
+00:00:15,481 --> 00:00:24,414
+Modern vectors use the lac Z gene instead: recombinant colonies stay white on X gal, the others turn blue.
+

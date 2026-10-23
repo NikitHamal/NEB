@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,114
+Three and a half times the cable, and the gap grows with n.
+
+2
+00:00:04,114 --> 00:00:08,411
+That is why mesh is used only where reliability is worth it.
+

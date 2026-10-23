@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,536
+Careful with the words.
+
+2
+00:00:01,536 --> 00:00:05,195
+A back cross is F one crossed with either parent.
+
+3
+00:00:05,195 --> 00:00:08,880
+A test cross must use the homozygous recessive.
+
+4
+00:00:08,880 --> 00:00:13,398
+So every test cross is a back cross, but not the other way round.
+

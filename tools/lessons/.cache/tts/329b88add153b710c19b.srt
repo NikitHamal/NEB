@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,125
+Guided media carry the signal along a cable.
+
+2
+00:00:03,125 --> 00:00:10,442
+Twisted pair, the cheapest, twists its wires so that interference cancels out: most school networks use it.
+
+3
+00:00:10,442 --> 00:00:16,497
+Coaxial cable has a central core and a braided shield, used for cable television.
+
+4
+00:00:16,497 --> 00:00:27,955
+Optical fibre carries light, trapped in the glass core by total internal reflection: enormous bandwidth, long distances, and immune to electrical interference.
+

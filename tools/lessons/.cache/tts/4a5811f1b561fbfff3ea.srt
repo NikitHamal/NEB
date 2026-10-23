@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,158
+Look closely.
+
+2
+00:00:01,158 --> 00:00:04,687
+The zero order half life depends on how much you start with.
+
+3
+00:00:04,687 --> 00:00:06,966
+The first order half life does not.
+
+4
+00:00:06,966 --> 00:00:10,533
+That is the single most useful fact in this chapter.
+

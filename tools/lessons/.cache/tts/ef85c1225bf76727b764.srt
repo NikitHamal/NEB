@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,369
+This is carboxylation, and 3-PGA, a three-carbon acid, is the first stable product.
+
+2
+00:00:07,369 --> 00:00:10,351
+That is why these are called C3 plants.
+

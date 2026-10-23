@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,838
+A spherical wavefront works the same way.
+
+2
+00:00:02,838 --> 00:00:11,354
+Wavelets of radius v t from every point, and their envelope is a bigger sphere, centred on the same source.
+

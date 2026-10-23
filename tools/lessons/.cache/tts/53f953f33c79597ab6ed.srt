@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,757
+Choose x so that one plus x over one minus x is one point two: x is one eleventh.
+

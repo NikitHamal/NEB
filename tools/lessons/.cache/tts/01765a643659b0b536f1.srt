@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,354
+What is one radian?
+
+2
+00:00:01,354 --> 00:00:05,351
+Take the radius itself, and bend it onto the circle.
+
+3
+00:00:05,351 --> 00:00:10,976
+The angle it covers is exactly one radian, about fifty seven degrees.
+

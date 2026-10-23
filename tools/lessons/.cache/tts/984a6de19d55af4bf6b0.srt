@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,903
+Flor explained vertical resistance.
+
+2
+00:00:02,903 --> 00:00:11,614
+For every resistance gene, R, in the host, there is a matching avirulence gene, Avr, in the pathogen.
+
+3
+00:00:11,614 --> 00:00:17,239
+The plant resists only when both are present, like a lock that only works with its key.
+
+4
+00:00:17,239 --> 00:00:20,781
+In every other combination, the disease wins.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,127
+The last fraction splits into a log and an inverse tan.
+

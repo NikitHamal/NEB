@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,263
+The full set.
+
+2
+00:00:01,263 --> 00:00:06,236
+Dilute nitric acid gives ortho and para nitrophenol.
+
+3
+00:00:06,236 --> 00:00:10,963
+Concentrated nitric and sulphuric acids give picric acid.
+
+4
+00:00:10,963 --> 00:00:19,114
+Sulphuric acid gives mainly the ortho sulphonic acid at room temperature, and mainly para at a hundred degrees.
+
+5
+00:00:19,114 --> 00:00:22,773
+And Friedel Crafts methylation gives the cresols.
+

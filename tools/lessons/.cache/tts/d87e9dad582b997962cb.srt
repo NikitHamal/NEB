@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,846
+The loop is traced clockwise, and the area inside it is the net work done in each cycle.
+

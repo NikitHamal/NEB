@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,458
+Raise the temperature.
+
+2
+00:00:01,458 --> 00:00:04,518
+The curve flattens and spreads to the right.
+
+3
+00:00:04,518 --> 00:00:11,276
+The peak hardly moves, but the tail beyond E a grows dramatically, roughly doubling.
+
+4
+00:00:11,276 --> 00:00:15,963
+Twice as many molecules can climb the hill, so the rate doubles.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,119
+Six parts.
+
+2
+00:00:01,119 --> 00:00:05,260
+Functions: prototypes, definitions and calls.
+
+3
+00:00:05,260 --> 00:00:06,679
+Storage classes.
+
+4
+00:00:06,679 --> 00:00:07,708
+Recursion.
+
+5
+00:00:07,708 --> 00:00:09,882
+Structures and unions.
+
+6
+00:00:09,882 --> 00:00:13,736
+Pointers, with call by value and call by reference.
+
+7
+00:00:13,736 --> 00:00:15,364
+And data files.
+

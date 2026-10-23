@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,460
+Here is why polar form matters.
+
+2
+00:00:02,460 --> 00:00:05,325
+Multiply two complex numbers.
+
+3
+00:00:05,325 --> 00:00:11,380
+Expand, and the brackets turn out to be exactly the compound angle formulas.
+
+4
+00:00:11,380 --> 00:00:17,682
+So the product has length r one times r two, and angle theta one plus theta two.
+
+5
+00:00:17,682 --> 00:00:20,416
+Multiplying stretches and rotates.
+

@@ -1,0 +1,316 @@
+1
+00:00:02,734 --> 00:00:11,720
+Muscle cells, or fibres, are packed with two protein filaments, actin and myosin, that slide to make the cell shorten.
+
+2
+00:00:11,720 --> 00:00:13,608
+There are three kinds.
+
+3
+00:00:13,608 --> 00:00:22,006
+Striated, or skeletal, muscle: long unbranched cylinders, striped, with many nuclei at the edge.
+
+4
+00:00:22,006 --> 00:00:25,801
+It is voluntary, fast, powerful, and it tires.
+
+5
+00:00:26,034 --> 00:00:38,197
+Cardiac muscle, only in the heart: striped too, but its fibres branch, each has one central nucleus, and neighbouring cells are joined end to end by intercalated discs.
+
+6
+00:00:38,197 --> 00:00:41,638
+It is involuntary, rhythmic, and it never tires.
+
+7
+00:00:41,867 --> 00:00:48,275
+And smooth muscle: spindle shaped cells, one central nucleus, no stripes.
+
+8
+00:00:48,275 --> 00:00:56,334
+It is involuntary, slow and steady, in the walls of the gut, the uterus, the blood vessels and the iris.
+
+9
+00:00:57,567 --> 00:01:06,034
+The three way table for the exam: fibre shape, striations, nuclei, intercalated discs, control, and fatigue.
+
+10
+00:01:08,767 --> 00:01:13,508
+Under high power, striated muscle is a stack of repeating units.
+
+11
+00:01:13,508 --> 00:01:22,115
+Between two Z lines lies one sarcomere, the unit of contraction, about two point four micrometres long at rest.
+
+12
+00:01:22,115 --> 00:01:27,232
+Thick myosin filaments sit in the middle and make the dark A band.
+
+13
+00:01:27,232 --> 00:01:32,506
+Thin actin filaments are anchored to the Z lines and make the light I band.
+
+14
+00:01:32,506 --> 00:01:36,396
+The middle of the A band, with myosin only, is the H zone.
+
+15
+00:01:36,600 --> 00:01:37,852
+Now contract.
+
+16
+00:01:37,852 --> 00:01:43,255
+The actin filaments slide in over the myosin, pulling the Z lines together.
+
+17
+00:01:43,255 --> 00:01:44,570
+Watch the bands.
+
+18
+00:01:44,570 --> 00:01:46,172
+The I band shrinks.
+
+19
+00:01:46,172 --> 00:01:48,867
+The H zone shrinks and can vanish.
+
+20
+00:01:48,867 --> 00:01:55,000
+But the A band does not change at all, because the myosin filaments themselves never shorten.
+
+21
+00:01:55,000 --> 00:01:55,746
+They just slide.
+
+22
+00:01:56,967 --> 00:01:57,848
+A worked example.
+
+23
+00:01:58,200 --> 00:02:00,207
+Put everything in micrometres.
+
+24
+00:02:00,207 --> 00:02:07,030
+Two point four centimetres is twenty four thousand micrometres, so there are ten thousand sarcomeres in a row.
+
+25
+00:02:07,234 --> 00:02:14,637
+Each shrinks to one point eight micrometres: eighteen thousand micrometres, one point eight centimetres.
+
+26
+00:02:14,867 --> 00:02:17,199
+A shortening of twenty five percent.
+
+27
+00:02:17,199 --> 00:02:25,362
+Each sarcomere moves only zero point six micrometres, but ten thousand in series add up to a movement you can see.
+
+28
+00:02:27,767 --> 00:02:28,927
+Pause and think.
+
+29
+00:02:28,927 --> 00:02:30,536
+Which band stays the same length?
+
+30
+00:02:37,434 --> 00:02:44,402
+The A band, because it is exactly the length of the myosin filaments, and they never shorten.
+
+31
+00:02:44,402 --> 00:02:51,310
+The I band and H zone both shrink as actin slides in, and the Z lines move closer together.
+
+32
+00:02:55,667 --> 00:03:04,861
+Nervous tissue is built from neurons, which carry messages, and the more numerous neuroglia, which support, insulate and protect them.
+
+33
+00:03:04,861 --> 00:03:14,348
+A typical motor neuron has a cell body, the cyton, with its nucleus and dark patches of rough endoplasmic reticulum, the Nissl granules.
+
+34
+00:03:14,567 --> 00:03:19,217
+Short branched dendrites carry impulses towards the cyton.
+
+35
+00:03:19,217 --> 00:03:26,737
+One long axon carries them away, ending in fine branches, the telodendria, tipped with synaptic knobs.
+
+36
+00:03:26,967 --> 00:03:32,984
+In many neurons the axon is wrapped in a fatty myelin sheath, made by Schwann cells.
+
+37
+00:03:32,984 --> 00:03:38,162
+The sheath is broken every millimetre or so, at the nodes of Ranvier.
+
+38
+00:03:38,367 --> 00:03:40,048
+And here is why it matters.
+
+39
+00:03:40,048 --> 00:03:43,746
+The impulse cannot travel under the insulating myelin.
+
+40
+00:03:43,746 --> 00:03:47,444
+It jumps from node to node: saltatory conduction.
+
+41
+00:03:47,444 --> 00:03:51,046
+That makes a myelinated fibre up to a hundred times faster.
+
+42
+00:03:52,667 --> 00:03:54,843
+Race them over the same distance.
+
+43
+00:03:54,843 --> 00:04:00,325
+Myelinated, eighty five metres per second, is across in a flash.
+
+44
+00:04:00,325 --> 00:04:04,554
+Non myelinated, half a metre per second, is still crawling.
+
+45
+00:04:05,767 --> 00:04:07,255
+Now the cold open, solved.
+
+46
+00:04:07,467 --> 00:04:10,489
+The nerve path is one point seven metres.
+
+47
+00:04:10,489 --> 00:04:16,580
+At eighty five metres per second that takes zero point zero two seconds: twenty milliseconds.
+
+48
+00:04:16,800 --> 00:04:21,888
+Add two synaptic delays of half a millisecond each: twenty one milliseconds.
+
+49
+00:04:22,100 --> 00:04:27,701
+Along a bare fibre at half a metre per second: three point four seconds.
+
+50
+00:04:27,701 --> 00:04:30,318
+About a hundred and sixty times slower.
+
+51
+00:04:30,318 --> 00:04:33,483
+The myelin is the difference between a scratch and a deep wound.
+
+52
+00:04:35,400 --> 00:04:38,969
+Where one neuron meets the next is a synapse.
+
+53
+00:04:38,969 --> 00:04:46,248
+The membranes never touch: a gap of about twenty nanometres, the synaptic cleft, separates them.
+
+54
+00:04:46,248 --> 00:04:53,687
+When an impulse reaches the knob, vesicles release a chemical, the neurotransmitter, such as acetylcholine.
+
+55
+00:04:53,900 --> 00:05:00,256
+It diffuses across the cleft, binds receptors on the next cell, and starts a new impulse there.
+
+56
+00:05:00,256 --> 00:05:03,771
+An enzyme, cholinesterase, then destroys it.
+
+57
+00:05:03,771 --> 00:05:11,416
+Because the vesicles are only on one side and the receptors only on the other, a synapse works in one direction only.
+
+58
+00:05:13,034 --> 00:05:20,900
+Neurons are named by their processes: unipolar, bipolar as in the retina, and multipolar, the commonest.
+
+59
+00:05:20,900 --> 00:05:24,689
+By job: sensory, motor and interneurons.
+
+60
+00:05:24,689 --> 00:05:41,069
+And the neuroglia: astrocytes, which help form the blood brain barrier; oligodendrocytes, which make myelin inside the brain and spinal cord; microglia, the nervous system's phagocytes; and ependymal cells, which line the ventricles.
+
+61
+00:05:42,900 --> 00:05:44,269
+Exam tip.
+
+62
+00:05:44,269 --> 00:05:46,209
+Do not mix up the two sheaths.
+
+63
+00:05:46,209 --> 00:05:50,975
+The myelin sheath is the fatty insulation made by the Schwann cell.
+
+64
+00:05:50,975 --> 00:05:57,003
+The neurilemma is the Schwann cell's own thin outer membrane, outside the myelin.
+
+65
+00:05:57,003 --> 00:06:03,018
+Non myelinated fibres still have a neurilemma; they just have no myelin and no nodes.
+
+66
+00:06:05,000 --> 00:06:06,160
+Pause and think.
+
+67
+00:06:06,160 --> 00:06:08,151
+Where will you never find Nissl granules?
+
+68
+00:06:15,034 --> 00:06:16,116
+In the axon.
+
+69
+00:06:16,116 --> 00:06:25,226
+Nissl granules are found in the cyton and the dendrites, and their absence from the axon is exactly how you tell an axon from a dendrite under the microscope.
+
+70
+00:06:27,400 --> 00:06:28,521
+Quick recap.
+
+71
+00:06:28,521 --> 00:06:33,717
+Epithelium is packed cells on a basement membrane, with no blood vessels.
+
+72
+00:06:33,717 --> 00:06:37,610
+Connective tissue is few cells in a lot of matrix.
+
+73
+00:06:37,610 --> 00:06:43,912
+Tendons are collagen and join muscle to bone; ligaments are elastic and join bone to bone.
+
+74
+00:06:43,912 --> 00:06:48,808
+Cartilage has no blood supply; mammalian bone has Haversian systems.
+
+75
+00:06:48,808 --> 00:06:55,891
+Muscle is striated, cardiac or smooth, and in a contracting sarcomere the A band stays the same.
+
+76
+00:06:55,891 --> 00:07:04,790
+And in a neuron, dendrites bring impulses in, the axon carries them out, myelin makes them jump, and the synapse is one way.
+
+77
+00:07:08,967 --> 00:07:10,700
+That was animal tissues.
+
+78
+00:07:10,700 --> 00:07:18,083
+Next, developmental biology: how sperm and eggs are made, and how a frog's egg becomes a tadpole.
+
+79
+00:07:18,083 --> 00:07:18,698
+See you there.
+

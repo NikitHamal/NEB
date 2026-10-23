@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,239
+Acute angle: positive.
+
+2
+00:00:02,239 --> 00:00:08,138
+At exactly ninety degrees the cosine is zero, and so is the dot product.
+
+3
+00:00:08,138 --> 00:00:10,013
+Obtuse: negative.
+
+4
+00:00:10,013 --> 00:00:14,583
+So a zero dot product is the test for perpendicular vectors.
+

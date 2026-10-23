@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,614
+Follow one red cell.
+
+2
+00:00:01,614 --> 00:00:11,536
+From the body it returns deoxygenated to the right side, is pumped to the lungs, comes back oxygenated to the left side, and is pumped out to the body.
+
+3
+00:00:11,536 --> 00:00:15,794
+Twice through the heart in one circuit: double circulation.
+
+4
+00:00:15,794 --> 00:00:20,963
+Closed, and complete, because the two kinds of blood never mix.
+

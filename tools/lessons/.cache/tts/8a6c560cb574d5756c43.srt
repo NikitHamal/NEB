@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,885
+A steel ball of radius one millimetre and density seven thousand eight hundred falls through oil of density nine hundred and viscosity one pascal second.
+
+2
+00:00:10,885 --> 00:00:12,851
+Find its terminal velocity.
+

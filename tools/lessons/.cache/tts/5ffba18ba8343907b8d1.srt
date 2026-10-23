@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,710
+Every triangle has three kinds of special circle.
+
+2
+00:00:03,710 --> 00:00:11,067
+The circumcircle passes through the three vertices; its radius R is a b c over four delta.
+

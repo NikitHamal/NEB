@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,911
+How big?
+
+2
+00:00:00,911 --> 00:00:12,447
+Estimates put the data created in twenty twenty five at around a hundred and eighty zettabytes, nearly three times twenty twenty, roughly doubling every two to three years.
+
+3
+00:00:12,447 --> 00:00:15,924
+One zettabyte is ten to the twenty one bytes.
+
+4
+00:00:15,924 --> 00:00:25,169
+No single server copes, so big data runs on distributed tools: Hadoop, Spark, and NoSQL databases such as MongoDB.
+

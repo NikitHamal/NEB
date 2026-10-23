@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,250
+Pause and think.
+
+2
+00:00:01,250 --> 00:00:02,955
+Pine has no vessels.
+
+3
+00:00:02,955 --> 00:00:04,583
+So what carries its water?
+

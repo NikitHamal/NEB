@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,330
+The work is Q one minus Q two: two thousand minus fourteen hundred, six hundred joules per cycle.
+
+2
+00:00:07,330 --> 00:00:12,187
+So the efficiency is six hundred over two thousand, thirty percent.
+

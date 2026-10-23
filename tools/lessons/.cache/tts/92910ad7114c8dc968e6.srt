@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,393
+Match the powers.
+
+2
+00:00:01,393 --> 00:00:04,570
+For M: a plus c equals zero.
+
+3
+00:00:04,570 --> 00:00:09,140
+For T: minus two a minus c equals minus one.
+
+4
+00:00:09,140 --> 00:00:13,619
+For L: minus two a plus b minus c equals three.
+

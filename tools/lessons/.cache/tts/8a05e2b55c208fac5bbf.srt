@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,138
+Tilt Rolle's picture and you get the Mean Value Theorem.
+
+2
+00:00:03,138 --> 00:00:05,247
+Join the ends of the curve with a chord.
+
+3
+00:00:05,247 --> 00:00:13,476
+Somewhere in between, a tangent runs exactly parallel to that chord: f dash of c equals the chord's slope.
+
+4
+00:00:13,476 --> 00:00:20,039
+If you drive sixty kilometres in an hour, at some instant your speedometer read exactly sixty.
+

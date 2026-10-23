@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,851
+So sound in Kathmandu, high up where the pressure is lower, travels no faster than in Biratnagar at the same temperature.
+
+2
+00:00:07,851 --> 00:00:11,757
+Any difference you notice comes from temperature, not pressure.
+

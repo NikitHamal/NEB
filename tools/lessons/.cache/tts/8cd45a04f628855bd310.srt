@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,783
+First, root or stem?
+
+2
+00:00:01,783 --> 00:00:06,718
+Xylem and phloem lie in the same bundle, on the same radius.
+
+3
+00:00:06,718 --> 00:00:07,955
+So it is a stem.
+

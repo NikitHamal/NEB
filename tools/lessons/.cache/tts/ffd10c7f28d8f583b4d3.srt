@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,533
+The commonest practical question: print a query's rows as an HTML table.
+
+2
+00:00:05,533 --> 00:00:11,549
+Echo the opening table tag, then loop: each fetched row becomes one table row.
+
+3
+00:00:11,549 --> 00:00:13,424
+The browser draws the result.
+
+4
+00:00:13,424 --> 00:00:20,611
+fetch assoc gives an array keyed by column name; fetch row by number; fetch object gives an object.
+

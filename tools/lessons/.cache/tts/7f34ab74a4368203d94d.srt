@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,101
+Since x is r cos theta and y is r sin theta, z equals r times cos theta plus i sin theta.
+
+2
+00:00:09,101 --> 00:00:10,364
+The polar form.
+
+3
+00:00:10,364 --> 00:00:11,783
+Length and angle.
+

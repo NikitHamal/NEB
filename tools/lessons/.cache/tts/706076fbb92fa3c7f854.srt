@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,578
+Two traps in capillary questions.
+
+2
+00:00:02,578 --> 00:00:05,416
+First, r is the internal radius.
+
+3
+00:00:05,416 --> 00:00:08,190
+If the question gives a diameter, halve it.
+
+4
+00:00:08,190 --> 00:00:11,484
+Second, watch the sign of cosine theta.
+
+5
+00:00:11,484 --> 00:00:20,208
+For mercury the angle of contact is about one hundred forty degrees, cosine is negative, and the liquid falls instead of rising.
+

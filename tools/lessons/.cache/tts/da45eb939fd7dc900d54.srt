@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,570
+The sound goes to the cliff and back, so the path is two d.
+
+2
+00:00:04,570 --> 00:00:12,447
+Two d equals v t: three forty one point two times three, one thousand and twenty three point six metres.
+

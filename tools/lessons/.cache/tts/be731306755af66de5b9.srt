@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,138
+Chlorophyll a is the reaction-centre pigment.
+
+2
+00:00:03,138 --> 00:00:09,257
+Chlorophyll b and carotenoids are accessory pigments that pass energy to it.
+

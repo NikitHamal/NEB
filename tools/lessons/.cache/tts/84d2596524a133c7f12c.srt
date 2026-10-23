@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,705
+A last worked example.
+
+2
+00:00:01,705 --> 00:00:08,606
+A trekker in Godavari claps her hands facing a cliff, and hears the echo three seconds later.
+
+3
+00:00:08,606 --> 00:00:11,184
+The air is at fifteen degrees.
+
+4
+00:00:11,184 --> 00:00:13,111
+How far away is the cliff?
+

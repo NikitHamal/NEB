@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,653
+Six z is eighteen, so z is three; then y is two and x is one.
+

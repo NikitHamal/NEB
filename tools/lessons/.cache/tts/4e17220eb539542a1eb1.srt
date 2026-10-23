@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:13,125
+For x squared minus four x plus three on one to three: both ends are zero, the polynomial is smooth, and f dash of c is zero at c equals two, inside the interval.
+
+2
+00:00:13,125 --> 00:00:14,166
+Verified.
+

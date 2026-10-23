@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,171
+Let us recap.
+
+2
+00:00:01,171 --> 00:00:09,049
+Unpolarized light vibrates in every direction across the beam; plane polarized light in just one plane.
+
+3
+00:00:09,049 --> 00:00:16,315
+It can be produced by reflection, refraction, absorption in a Polaroid, double refraction and scattering.
+
+4
+00:00:16,315 --> 00:00:24,596
+Brewster's law says n equals tan theta p, where the reflected and refracted rays are perpendicular.
+
+5
+00:00:24,596 --> 00:00:33,059
+Malus's law says I equals I nought cos squared theta, after a first sheet that always halves unpolarized light.
+
+6
+00:00:33,059 --> 00:00:37,604
+And because light can be polarized, it must be a transverse wave.
+

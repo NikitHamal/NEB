@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,244
+Forty five degrees, where sin two theta reaches one.
+

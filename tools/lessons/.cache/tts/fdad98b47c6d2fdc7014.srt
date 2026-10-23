@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,223
+The second is also vertical, at right angles to the first: four equal cells.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,966
+Quick check before we look at the pattern.
+
+2
+00:00:01,966 --> 00:00:03,450
+Which is the fringe width?
+
+3
+00:00:03,450 --> 00:00:04,661
+Pause and think.
+

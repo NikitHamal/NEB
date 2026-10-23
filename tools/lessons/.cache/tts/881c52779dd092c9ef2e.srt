@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,669
+Your blood is like the right hand beaker.
+
+2
+00:00:02,669 --> 00:00:09,843
+It sits at pH seven point four, and a drift of just zero point four either way would kill you.
+
+3
+00:00:09,843 --> 00:00:12,994
+How does a solution refuse to change its pH?
+
+4
+00:00:12,994 --> 00:00:15,312
+That is the question this unit will answer.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,148
+Reduction is easy.
+
+2
+00:00:02,148 --> 00:00:10,729
+Nickel aluminium alloy in alkali, or zinc and hydrochloric acid, replaces chlorine by hydrogen to give benzene.
+
+3
+00:00:10,729 --> 00:00:18,359
+It works where hydroxide fails because the hydrogen arrives as a neutral atom, not as a nucleophile.
+

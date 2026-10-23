@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,739
+The ear can cope with intensities from ten to the minus twelve, the faintest whisper of sound, up to about one watt per square metre, where it starts to hurt.
+
+2
+00:00:09,739 --> 00:00:11,809
+That is a range of a million million.
+
+3
+00:00:11,809 --> 00:00:15,937
+A straight scale is hopeless, so we use a logarithmic one.
+

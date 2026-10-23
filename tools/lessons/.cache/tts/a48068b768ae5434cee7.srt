@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:13,841
+So the binomial theorem says: a plus b to the n is the sum, from r equals zero to n, of n C r times a to the n minus r times b to the r. Exactly n plus one terms.
+

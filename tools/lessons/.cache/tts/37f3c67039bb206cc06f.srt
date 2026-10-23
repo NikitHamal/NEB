@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,526
+Tie the two friends together: seven units round the circle, six factorial, times two for their swap.
+
+2
+00:00:07,526 --> 00:00:09,791
+One thousand four hundred and forty.
+

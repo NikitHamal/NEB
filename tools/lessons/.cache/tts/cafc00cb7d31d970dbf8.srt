@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,966
+Here are the values you should know.
+
+2
+00:00:01,966 --> 00:00:05,325
+Hydrogen one point zero zero eight.
+
+3
+00:00:05,325 --> 00:00:06,458
+Oxygen eight.
+
+4
+00:00:06,458 --> 00:00:08,932
+Chlorine thirty five point five.
+
+5
+00:00:08,932 --> 00:00:12,460
+Magnesium, twenty four over two, twelve.
+
+6
+00:00:12,460 --> 00:00:15,846
+Aluminium, twenty seven over three, nine.
+
+7
+00:00:15,846 --> 00:00:17,265
+Calcium, twenty.
+

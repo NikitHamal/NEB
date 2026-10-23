@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,406
+abcb: only lines 2 and 4 rhyme, and stanza 1's time / ran is a slant rhyme.
+

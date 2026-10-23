@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,664
+The angle of refraction is ninety minus that: thirty three point seven degrees.
+

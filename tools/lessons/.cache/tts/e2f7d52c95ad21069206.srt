@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,687
+Some merozoites become male and female gametocytes instead.
+
+2
+00:00:04,687 --> 00:00:07,239
+A mosquito sucks them up with blood.
+
+3
+00:00:07,239 --> 00:00:13,059
+In its gut they become gametes and fuse: fertilisation happens in the mosquito.
+
+4
+00:00:13,059 --> 00:00:19,895
+The zygote burrows into the stomach wall as an oocyst, which bursts to release sporozoites.
+
+5
+00:00:19,895 --> 00:00:24,179
+They migrate to the salivary glands, ready for the next bite.
+

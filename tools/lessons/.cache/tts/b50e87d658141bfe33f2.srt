@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,822
+The cyanide process.
+
+2
+00:00:01,822 --> 00:00:07,252
+The concentrated ore is stirred with dilute sodium cyanide while air is blown through.
+
+3
+00:00:07,252 --> 00:00:13,320
+Silver sulphide dissolves as the soluble complex sodium dicyanoargentate.
+
+4
+00:00:13,320 --> 00:00:16,979
+But the reaction is reversible, and would stop early.
+
+5
+00:00:16,979 --> 00:00:24,309
+The air oxidises the sodium sulphide product as it forms, so the equilibrium is pulled to the right.
+
+6
+00:00:24,309 --> 00:00:28,164
+Le Chatelier's principle doing real industrial work.
+

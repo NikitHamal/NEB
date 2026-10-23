@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,932
+Eight bytes: a union is as big as its largest member.
+
+2
+00:00:03,932 --> 00:00:06,744
+A structure with the same members would add them up.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,500
+Peroxides are detected two ways.
+
+2
+00:00:02,500 --> 00:00:08,619
+Shake with acidified potassium iodide: iodine is freed, blue with starch.
+
+3
+00:00:08,619 --> 00:00:15,638
+Or add iron two sulphate and thiocyanate: the iron is oxidised, and you get a blood red colour.
+
+4
+00:00:15,638 --> 00:00:22,695
+Prevent them by storing ether in dark bottles over sodium wire, and never distil ether to dryness.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,687
+For a microscope, what matters is the smallest separation x between two points on the slide: one point two two lambda over two mu sine theta.
+
+2
+00:00:09,687 --> 00:00:17,760
+Theta is the half angle of the cone of light entering the objective, and mu sine theta is the numerical aperture.
+
+3
+00:00:17,760 --> 00:00:27,591
+So use shorter wavelengths, even electrons, or put a drop of cedar oil, index one point five, under the objective: oil immersion.
+

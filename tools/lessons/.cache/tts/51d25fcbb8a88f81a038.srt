@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,932
+A junction is a point where three or more wires meet.
+
+2
+00:00:03,932 --> 00:00:07,135
+Here, three amps and two amps flow in.
+
+3
+00:00:07,135 --> 00:00:09,440
+Four amps and one amp flow out.
+
+4
+00:00:09,440 --> 00:00:11,028
+Five in, five out.
+

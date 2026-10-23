@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,539
+Each layer's job and protocols.
+
+2
+00:00:02,539 --> 00:00:12,317
+The Internet itself runs on the simpler TCP IP model, with four layers: the top three OSI layers are merged into one application layer.
+

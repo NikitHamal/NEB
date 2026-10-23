@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,838
+Anything you do to water lowers its free energy: dissolve something in it, or let it cling to a surface.
+
+2
+00:00:07,838 --> 00:00:13,268
+So every solution, and every cell, has a negative water potential.
+
+3
+00:00:13,268 --> 00:00:19,179
+And water always moves from higher to lower: from less negative to more negative.
+

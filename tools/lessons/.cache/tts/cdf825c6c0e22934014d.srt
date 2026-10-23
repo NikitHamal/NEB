@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,640
+Multiply one by i.
+
+2
+00:00:01,640 --> 00:00:05,403
+You get i. Multiply by i again: minus one.
+
+3
+00:00:05,403 --> 00:00:07,200
+Again: minus i.
+
+4
+00:00:07,200 --> 00:00:08,932
+Again: back to one.
+
+5
+00:00:08,932 --> 00:00:15,872
+Plot those four points and something beautiful appears: multiplying by i is simply a quarter turn.
+

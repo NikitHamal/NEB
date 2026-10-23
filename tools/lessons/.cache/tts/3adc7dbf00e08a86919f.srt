@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,177
+Every variable lives at an address in memory.
+
+2
+00:00:03,177 --> 00:00:06,757
+A pointer is a variable that stores such an address.
+
+3
+00:00:06,757 --> 00:00:12,473
+Declare p as a pointer to an int, and set it to ampersand n, the address of n.
+
+4
+00:00:12,473 --> 00:00:13,984
+Now p points at n.
+

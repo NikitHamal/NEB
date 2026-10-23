@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,510
+Exam tip.
+
+2
+00:00:01,510 --> 00:00:07,005
+Mimosa: seismonasty, nastic, turgor, reversible.
+
+3
+00:00:07,005 --> 00:00:11,679
+Tendril: thigmotropism, tropic, growth, permanent.
+

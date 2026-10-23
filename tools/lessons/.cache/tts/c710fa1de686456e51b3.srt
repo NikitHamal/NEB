@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,119
+The methods.
+
+2
+00:00:01,119 --> 00:00:16,367
+Introduction, selection, hybridisation, mutation breeding, polyploidy breeding, and the newest, marker assisted selection, where a DNA test on a seedling tells the breeder which plant carries the gene, without waiting for it to grow up.
+

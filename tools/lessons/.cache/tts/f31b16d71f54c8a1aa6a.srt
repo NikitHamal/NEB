@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,671
+Then from Pokhara to Jomsom there are four jeeps.
+
+2
+00:00:03,671 --> 00:00:06,250
+You do the first leg, and then the second.
+
+3
+00:00:06,250 --> 00:00:13,007
+For each of the five first legs there are four second legs, so the choices multiply: twenty journeys.
+
+4
+00:00:13,007 --> 00:00:17,786
+The connecting word tells you the rule: OR adds, AND multiplies.
+

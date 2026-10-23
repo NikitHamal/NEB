@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,390
+A beaker of water at twenty five degrees, and a spoonful of ammonium chloride.
+
+2
+00:00:05,390 --> 00:00:11,302
+This is the inside of an instant cold pack, the kind a doctor presses on a sprained ankle.
+

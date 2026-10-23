@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,242
+Here is the most common mistake in Nepali English.
+
+2
+00:00:03,242 --> 00:00:05,299
+He is a teacher, isn't it?
+
+3
+00:00:05,299 --> 00:00:08,515
+The examiner marks it wrong every single time.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,049
+The working formulas follow straight from the definitions.
+
+2
+00:00:04,049 --> 00:00:11,627
+Molarity is the mass w, times a thousand, over molar mass times volume in cubic centimetres.
+
+3
+00:00:11,627 --> 00:00:17,135
+Normality is the same with the equivalent weight in place of molar mass.
+

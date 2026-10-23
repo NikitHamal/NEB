@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,190
+For live uses like remote surgery, the drop in delay from fifty to five milliseconds matters even more.
+

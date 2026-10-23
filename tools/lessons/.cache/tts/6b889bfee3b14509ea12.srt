@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,885
+A trap.
+
+2
+00:00:00,885 --> 00:00:08,802
+The silver half reaction had to be doubled to balance two electrons, but its E nought stays plus zero point eight zero.
+
+3
+00:00:08,802 --> 00:00:15,442
+Electrode potential is energy per unit charge, so it does not depend on how much reaction you write.
+
+4
+00:00:15,442 --> 00:00:19,075
+Only delta G scales with the number of electrons.
+

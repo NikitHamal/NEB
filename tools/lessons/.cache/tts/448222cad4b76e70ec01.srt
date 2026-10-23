@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,257
+So alpha equals the square root of K over C.
+
+2
+00:00:04,257 --> 00:00:12,044
+Since C is one over the volume V containing one mole, alpha is also the square root of K V.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,236
+Count carbons.
+
+2
+00:00:01,236 --> 00:00:07,395
+Start with three molecules of RuBP, a five-carbon sugar: fifteen carbons.
+
+3
+00:00:07,395 --> 00:00:10,690
+Three carbon dioxide arrive: three more.
+
+4
+00:00:10,690 --> 00:00:20,494
+The enzyme RuBisCO joins them, and each unstable six-carbon product splits at once into two molecules of 3-PGA.
+
+5
+00:00:20,494 --> 00:00:24,062
+Six 3-PGA: eighteen carbons.
+
+6
+00:00:24,062 --> 00:00:25,247
+Nothing lost.
+

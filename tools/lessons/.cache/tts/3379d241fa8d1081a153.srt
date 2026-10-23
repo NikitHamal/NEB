@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,835
+And if you know the ends of a diameter, the angle in a semicircle is a right angle, which gives the diameter form.
+

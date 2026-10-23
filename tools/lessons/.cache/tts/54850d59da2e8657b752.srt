@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,174
+And the damping decides the shape.
+
+2
+00:00:02,174 --> 00:00:05,195
+Light damping gives a tall, sharp peak.
+
+3
+00:00:05,195 --> 00:00:08,268
+Heavy damping gives a low, broad one.
+

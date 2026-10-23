@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,690
+Victor Meyer's method tells primary, secondary and tertiary alcohols apart.
+
+2
+00:00:05,690 --> 00:00:14,934
+Convert the alcohol to an iodide with hydrogen iodide and red phosphorus, then to a nitroalkane with silver nitrite.
+
+3
+00:00:14,934 --> 00:00:18,580
+Then add nitrous acid, and finally alkali.
+

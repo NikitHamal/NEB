@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,705
+But light comes through!
+
+2
+00:00:01,705 --> 00:00:07,473
+The middle sheet turns the vibrations part way round, and the last sheet passes some of them.
+
+3
+00:00:07,473 --> 00:00:12,721
+Turn the middle sheet, and the output is biggest at forty five degrees.
+

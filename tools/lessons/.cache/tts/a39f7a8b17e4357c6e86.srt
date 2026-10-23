@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,177
+Sexual reproduction happens in the flower.
+
+2
+00:00:03,177 --> 00:00:08,671
+The stamens form the androecium: each is a filament carrying an anther.
+
+3
+00:00:08,671 --> 00:00:14,114
+The anther is a microsporangium: it makes microspores, which become pollen.
+

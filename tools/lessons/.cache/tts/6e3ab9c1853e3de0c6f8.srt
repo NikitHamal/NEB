@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,937
+Any two pieces cut with the same enzyme have matching sticky ends, so they can pair up.
+
+2
+00:00:05,937 --> 00:00:11,757
+Then the second tool, DNA ligase, the molecular glue, seals the backbone.
+
+3
+00:00:11,757 --> 00:00:17,395
+Some enzymes, like Sma one, cut straight across and leave blunt ends.
+
+4
+00:00:17,395 --> 00:00:23,671
+Arber, Nathans and Smith won the nineteen seventy eight Nobel Prize for discovering them.
+

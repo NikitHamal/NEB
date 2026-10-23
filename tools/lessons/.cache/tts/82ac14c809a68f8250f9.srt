@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,718
+Two terms students mix up.
+
+2
+00:00:01,718 --> 00:00:06,718
+Food safety is about quality: the food must not harm the person eating it.
+
+3
+00:00:06,718 --> 00:00:15,755
+Food security is about access: all people, at all times, have enough safe and nutritious food for an active, healthy life.
+
+4
+00:00:15,755 --> 00:00:22,864
+Security stands on four pillars: availability, access, utilisation, and stability.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,096
+The molar heat capacity of a gas is the heat needed to raise the temperature of one mole by one kelvin.
+
+2
+00:00:07,096 --> 00:00:11,549
+But a gas has two of them, because the answer depends on whether you let it expand.
+

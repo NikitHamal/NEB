@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,661
+But the measured value at zero degrees is about three hundred and thirty two.
+
+2
+00:00:04,661 --> 00:00:10,481
+Newton was short by fifty two metres per second, an error of about sixteen percent.
+
+3
+00:00:10,481 --> 00:00:13,164
+No experiment of that era was that bad.
+
+4
+00:00:13,164 --> 00:00:14,895
+The assumption had to be wrong.
+

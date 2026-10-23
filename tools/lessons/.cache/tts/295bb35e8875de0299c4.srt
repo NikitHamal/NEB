@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,671
+With a equal to ten, sin B would be one point five.
+
+2
+00:00:03,671 --> 00:00:05,273
+No angle has that sine.
+
+3
+00:00:05,273 --> 00:00:06,419
+No triangle.
+

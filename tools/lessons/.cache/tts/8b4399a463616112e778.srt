@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,171
+Pause and think.
+
+2
+00:00:01,171 --> 00:00:04,960
+Immerse the whole double slit apparatus in water.
+
+3
+00:00:04,960 --> 00:00:06,901
+What happens to the fringe width?
+

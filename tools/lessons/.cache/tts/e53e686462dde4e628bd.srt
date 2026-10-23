@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,861
+But your eye must be level with it.
+
+2
+00:00:01,861 --> 00:00:04,518
+Raise your eye, and you read too low.
+
+3
+00:00:04,518 --> 00:00:06,940
+Lower it, and you read too high.
+
+4
+00:00:06,940 --> 00:00:11,536
+That is parallax error, worth a few tenths of a cubic centimetre.
+

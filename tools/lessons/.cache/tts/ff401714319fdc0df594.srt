@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,481
+Beta is lambda D over d: six hundred times ten to the minus nine, times one point five, over zero point five times ten to the minus three.
+
+2
+00:00:10,481 --> 00:00:12,682
+One point eight millimetres.
+

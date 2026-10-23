@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,174
+Pillar two: cohesion.
+
+2
+00:00:02,174 --> 00:00:13,320
+Water molecules cling to one another by hydrogen bonds, so strongly that a thin column of water can withstand a tension of more than twenty-five megapascal without snapping.
+

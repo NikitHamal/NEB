@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,638
+Clausius found a way to turn the second law from a prohibition into an equation.
+
+2
+00:00:05,638 --> 00:00:09,661
+He defined a new state function, entropy, S.
+
+3
+00:00:09,661 --> 00:00:18,372
+When a small amount of heat d Q is transferred reversibly at absolute temperature T, the change in entropy is d Q over T.
+
+4
+00:00:18,372 --> 00:00:20,807
+Its unit is joules per kelvin.
+

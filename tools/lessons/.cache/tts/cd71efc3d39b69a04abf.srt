@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,835
+Ostwald's dilution law.
+
+2
+00:00:01,835 --> 00:00:06,341
+Take a weak electrolyte A B at concentration C.
+
+3
+00:00:06,341 --> 00:00:13,111
+At equilibrium, a fraction alpha, the degree of ionisation, has split into ions.
+
+4
+00:00:13,111 --> 00:00:19,986
+So the ions are C alpha each, and the molecules left are C times one minus alpha.
+

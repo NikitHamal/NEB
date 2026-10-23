@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,692
+Wave speed is omega over k: one hundred pi over half pi, two hundred metres per second.
+
+2
+00:00:06,692 --> 00:00:10,716
+Check: f lambda is fifty times four, two hundred.
+
+3
+00:00:10,716 --> 00:00:11,901
+It agrees.
+

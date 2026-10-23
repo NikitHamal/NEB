@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,736
+Drop a perpendicular from A onto the ray from B.
+
+2
+00:00:03,736 --> 00:00:09,609
+The wavelet from the bottom edge travels further than the one from the top, by a sine theta.
+
+3
+00:00:09,609 --> 00:00:10,872
+That red length.
+

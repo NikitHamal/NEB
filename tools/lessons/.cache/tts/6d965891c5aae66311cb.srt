@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,236
+Because the surface pulls inward, the pressure inside a curved surface is higher than outside.
+
+2
+00:00:06,236 --> 00:00:12,513
+For a drop, or an air bubble inside a liquid, the excess pressure is two T over r.
+
+3
+00:00:12,513 --> 00:00:16,679
+A soap bubble has two surfaces, so it is four T over r.
+

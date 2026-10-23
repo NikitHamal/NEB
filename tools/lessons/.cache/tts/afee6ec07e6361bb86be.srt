@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,190
+Now the algebra, so you can derive it in the exam.
+
+2
+00:00:03,190 --> 00:00:10,729
+Write the acceleration as v d v by d x, and set it equal to minus omega squared x.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,289
+Now the first law.
+
+2
+00:00:01,289 --> 00:00:07,955
+Delta U equals Q minus W, five hundred minus four hundred, which is one hundred joules.
+
+3
+00:00:07,955 --> 00:00:11,888
+The internal energy rises, so the gas also gets warmer.
+

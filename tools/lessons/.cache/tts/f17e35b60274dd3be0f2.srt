@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:03,723
+Worked example ten point three, a detective problem.
+
+2
+00:00:03,723 --> 00:00:08,346
+Lucas turbidity in five minutes says secondary.
+
+3
+00:00:08,346 --> 00:00:10,820
+A blue Victor Meyer colour confirms it.
+
+4
+00:00:10,820 --> 00:00:18,033
+The only secondary alcohol with formula C four H ten O is butan two ol.
+
+5
+00:00:18,033 --> 00:00:24,466
+It has the C H three C H O H group, so the iodoform test fits.
+
+6
+00:00:24,466 --> 00:00:31,536
+Oxidising a secondary alcohol gives a ketone, butanone, which cannot reduce Fehling's solution.
+
+7
+00:00:31,536 --> 00:00:34,817
+So A is butan two ol and B is butanone.
+

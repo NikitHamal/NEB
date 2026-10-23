@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:07,708
+In nineteen fifty, Erwin Chargaff analysed DNA from many species and found a strange regularity.
+
+2
+00:00:07,708 --> 00:00:13,606
+Adenine always equals thymine, and guanine always equals cytosine.
+
+3
+00:00:13,606 --> 00:00:16,445
+So purines equal pyrimidines.
+
+4
+00:00:16,445 --> 00:00:22,252
+Only the ratio of A plus T to G plus C changes from species to species.
+

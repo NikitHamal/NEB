@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,997
+Form validation checks what the user typed before it is sent.
+
+2
+00:00:03,997 --> 00:00:11,093
+The form's onsubmit calls a function; returning false cancels the submission, returning true lets it go.
+
+3
+00:00:11,093 --> 00:00:14,947
+The browser check is for convenience: instant feedback.
+
+4
+00:00:14,947 --> 00:00:20,559
+But users can switch JavaScript off, so the server must check again before anything is saved.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,065
+Geometrical optics says the image of a slit is a sharp bright rectangle.
+
+2
+00:00:05,065 --> 00:00:11,705
+What you actually see is this: a broad central band, flanked by fainter and fainter bands.
+
+3
+00:00:11,705 --> 00:00:15,013
+Every optical image is really a diffraction pattern.
+
+4
+00:00:15,013 --> 00:00:17,604
+A point is never imaged as a point.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,382
+Minus one plus i: second quadrant, so one eighty minus forty five, one thirty five.
+

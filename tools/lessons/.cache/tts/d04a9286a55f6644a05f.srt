@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,713
+The arrows give the resultant amplitude: A equals the square root of a one squared plus a two squared plus two a one a two cos phi.
+
+2
+00:00:09,713 --> 00:00:18,255
+Intensity goes as amplitude squared, so I equals I one plus I two plus two root I one I two cos phi.
+
+3
+00:00:18,255 --> 00:00:23,515
+That last part is the interference term: positive in step, negative out of step.
+

@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,958
+Ligands are classed by how many donor atoms they use.
+
+2
+00:00:03,958 --> 00:00:07,096
+Monodentate ligands like ammonia use one.
+
+3
+00:00:07,096 --> 00:00:11,393
+Bidentate ligands like ethane diamine and oxalate use two.
+
+4
+00:00:11,393 --> 00:00:15,794
+E D T A uses six, wrapping right around the metal.
+
+5
+00:00:15,794 --> 00:00:22,304
+A ring forming ligand is a chelate, from the Greek for claw, and chelates are very stable.
+
+6
+00:00:22,304 --> 00:00:27,096
+That is why E D T A softens water and treats lead poisoning.
+

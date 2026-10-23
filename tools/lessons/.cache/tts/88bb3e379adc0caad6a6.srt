@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,234
+So the sign of delta G standard tells you where equilibrium lies.
+
+2
+00:00:05,234 --> 00:00:09,596
+Negative, K is greater than one, and products are favoured.
+
+3
+00:00:09,596 --> 00:00:13,815
+Positive, K is less than one, reactants favoured.
+

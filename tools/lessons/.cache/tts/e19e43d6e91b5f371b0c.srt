@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,221
+So for everyday work we use a secondary reference, the calomel electrode.
+
+2
+00:00:05,221 --> 00:00:17,109
+Mercury, covered with a paste of mercury one chloride, called calomel, in contact with potassium chloride solution, with a platinum wire dipping into the mercury.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,559
+The light is sensed in the leaves, by the pigment phytochrome, and a signal, called florigen, travels from the leaves to the shoot tip, where the flowers form.
+

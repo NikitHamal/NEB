@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:16,236
+So a process can be reversible only if it is quasi static, carried out infinitely slowly, and free of every dissipative effect: friction, viscosity, electrical resistance, and heat flowing across a finite temperature difference.
+

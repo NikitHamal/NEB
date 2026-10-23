@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,106
+Quick recap.
+
+2
+00:00:01,106 --> 00:00:02,447
+Format first.
+
+3
+00:00:02,447 --> 00:00:05,182
+A formal register held to the end.
+
+4
+00:00:05,182 --> 00:00:07,994
+The letter to the editor, zone by zone.
+
+5
+00:00:07,994 --> 00:00:09,257
+The email header.
+
+6
+00:00:09,257 --> 00:00:11,666
+The covering letter and the C V.
+
+7
+00:00:11,666 --> 00:00:13,802
+And the complaint that gets acted on.
+

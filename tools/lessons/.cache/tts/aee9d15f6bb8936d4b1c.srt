@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,354
+A favourite trap.
+
+2
+00:00:01,354 --> 00:00:05,703
+The iodoform test is not a test for alcohols in general.
+
+3
+00:00:05,703 --> 00:00:15,468
+It works only for ethanol and alcohols with the C H three C H O H group, like propan two ol, and for methyl ketones.
+
+4
+00:00:15,468 --> 00:00:19,960
+Methanol and propan one ol give no yellow precipitate.
+

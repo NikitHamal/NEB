@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,437
+Now a neat idea: the radius of gyration.
+
+2
+00:00:03,437 --> 00:00:07,356
+A disc has its mass spread from the centre to the rim.
+
+3
+00:00:07,356 --> 00:00:15,377
+Could we squeeze all of it into one thin ring, at just the right radius, without changing the moment of inertia?
+

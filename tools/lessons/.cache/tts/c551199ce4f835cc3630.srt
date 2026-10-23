@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,445
+The end correction is zero point six times zero point zero two, one point two centimetres.
+

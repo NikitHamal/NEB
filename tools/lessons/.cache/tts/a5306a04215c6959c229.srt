@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,341
+Modals shift too.
+
+2
+00:00:01,341 --> 00:00:12,747
+Can becomes could; may becomes might; must, meaning obligation, becomes had to; will and shall become would; and shall in an offer becomes should.
+
+3
+00:00:12,747 --> 00:00:18,776
+But would, could, might, should and ought to have no further past, so they never change.
+

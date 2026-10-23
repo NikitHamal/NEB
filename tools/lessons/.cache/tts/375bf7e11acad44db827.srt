@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,304
+Worked example ten point one.
+
+2
+00:00:02,304 --> 00:00:12,317
+Ninety grams of glucose is half a mole, which gives one mole of ethanol: forty six grams, or fifty eight point three cubic centimetres.
+
+3
+00:00:12,317 --> 00:00:22,968
+And one mole of carbon dioxide, twenty two point four litres at S T P. Recovering only thirty eight grams means a yield of eighty two point six percent.
+

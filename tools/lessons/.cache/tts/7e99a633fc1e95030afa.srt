@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,921
+Acetic acid ionises a little into acetate and hydrogen ions.
+
+2
+00:00:04,921 --> 00:00:10,299
+Now add sodium acetate, a salt that floods the solution with acetate.
+
+3
+00:00:10,299 --> 00:00:12,500
+The equilibrium shifts left.
+
+4
+00:00:12,500 --> 00:00:19,882
+Hydrogen ion concentration falls, and the p H rises, even though we added more acetic material.
+

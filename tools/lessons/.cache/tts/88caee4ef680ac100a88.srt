@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,500
+Bayes: the bag A path, three tenths, as a share of seven fifteenths: nine fourteenths.
+
+2
+00:00:07,500 --> 00:00:10,690
+Sensible: bag A is the whiter bag.
+

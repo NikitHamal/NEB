@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,773
+The solute potential of a solution comes from the van 't Hoff equation: psi s equals minus i C R T.
+

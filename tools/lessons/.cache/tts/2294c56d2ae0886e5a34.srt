@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,192
+They are small and box-like, packed with no spaces between them.
+
+2
+00:00:04,192 --> 00:00:11,302
+Thin cellulose walls, dense cytoplasm, a large nucleus, and almost no vacuole.
+
+3
+00:00:11,302 --> 00:00:15,794
+These are cells built to divide, with a high rate of metabolism.
+

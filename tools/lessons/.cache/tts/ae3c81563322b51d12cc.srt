@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,458
+Exam tip.
+
+2
+00:00:01,458 --> 00:00:04,348
+Never multiply out big factorials.
+
+3
+00:00:04,348 --> 00:00:14,531
+Cancel first, and always use the smaller of r and n minus r. Fifty C forty eight is just fifty C two, twelve twenty five.
+

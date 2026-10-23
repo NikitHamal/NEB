@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,963
+Step two.
+
+2
+00:00:00,963 --> 00:00:08,242
+The iodide ion, a very good nucleophile, attacks that carbon from the back, opposite the oxygen.
+
+3
+00:00:08,242 --> 00:00:16,028
+As the carbon iodine bond forms, the carbon oxygen bond breaks, and its electron pair moves onto the oxygen.
+
+4
+00:00:16,028 --> 00:00:17,421
+S N two again.
+

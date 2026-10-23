@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,630
+The most negative entry in the Z row.
+
+2
+00:00:02,630 --> 00:00:05,885
+The smallest ratio then picks the pivot row.
+

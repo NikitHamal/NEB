@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,434
+Pascal's rule, the important one.
+
+2
+00:00:02,434 --> 00:00:06,497
+To choose r from n plus one objects, mark one object.
+
+3
+00:00:06,497 --> 00:00:14,960
+Either you leave it out, n C r ways, or you include it and choose r minus one more, n C r minus one ways.
+

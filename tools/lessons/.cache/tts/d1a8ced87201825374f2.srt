@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,416
+Orange, grape and litchi are non-climacteric and won't ripen after picking.
+
+2
+00:00:05,416 --> 00:00:11,653
+Ethylene also causes leaf fall and epinasty, and is sprayed as ethephon.
+

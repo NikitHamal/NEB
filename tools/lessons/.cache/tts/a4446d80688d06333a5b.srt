@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,145
+Four parts.
+
+2
+00:00:01,145 --> 00:00:05,299
+The sum of the first n natural numbers and sigma notation.
+
+3
+00:00:05,299 --> 00:00:11,158
+Sums of squares and cubes, and a method for any series with a polynomial term.
+
+4
+00:00:11,158 --> 00:00:13,411
+Proof by mathematical induction.
+
+5
+00:00:13,411 --> 00:00:16,562
+And the exponential and logarithmic series.
+

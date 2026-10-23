@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,117
+The steepest point, the point of inflexion, is the fastest growth.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,138
+Half the difference: two sixteenths times root three, point two one six five, so twelve degrees thirteen minutes.
+

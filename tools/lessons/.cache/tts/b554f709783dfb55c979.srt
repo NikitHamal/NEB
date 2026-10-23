@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,864
+Start with the simplest movement of all.
+
+2
+00:00:02,864 --> 00:00:05,286
+Drop a little dye into still water.
+
+3
+00:00:05,286 --> 00:00:12,812
+Its particles jiggle with their own heat energy, and on average they spread from where they are crowded to where they are scarce.
+
+4
+00:00:12,812 --> 00:00:14,205
+That is diffusion.
+

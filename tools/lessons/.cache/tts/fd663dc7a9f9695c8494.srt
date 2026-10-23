@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,059
+Two equations, three unknowns.
+
+2
+00:00:03,059 --> 00:00:05,312
+Let z be any number t.
+
+3
+00:00:05,312 --> 00:00:10,195
+Then y is eight minus two t, and x is t minus two.
+

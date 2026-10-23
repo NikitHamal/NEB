@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,562
+C, it increases.
+
+2
+00:00:01,562 --> 00:00:06,966
+It stays constant only in the ideal reversible limit, and it never decreases.
+
+3
+00:00:06,966 --> 00:00:09,153
+That is the second law in one line.
+

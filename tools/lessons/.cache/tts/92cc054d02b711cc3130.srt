@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,067
+A, zero.
+
+2
+00:00:01,067 --> 00:00:08,138
+Carbon monoxide is a neutral ligand and the complex has no charge, so nickel must be zero.
+
+3
+00:00:08,138 --> 00:00:13,567
+Plus two is the trap, from assuming nickel always forms its usual ion.
+

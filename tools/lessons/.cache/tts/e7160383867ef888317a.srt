@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,843
+The two metals have different concentrations of free electrons.
+
+2
+00:00:04,843 --> 00:00:11,510
+Where they touch, electrons diffuse across, from the crowded metal into the less crowded one.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,567
+Two hundred leaves remainder two: omega squared.
+
+2
+00:00:03,567 --> 00:00:05,390
+Three hundred: one.
+

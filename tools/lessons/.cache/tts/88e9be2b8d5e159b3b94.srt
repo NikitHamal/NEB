@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,486
+Nought to the nought: take logs.
+
+2
+00:00:02,486 --> 00:00:08,203
+Log y is x log x, which we just found tends to zero, so y tends to one.
+

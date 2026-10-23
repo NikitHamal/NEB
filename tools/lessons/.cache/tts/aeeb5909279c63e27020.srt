@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,161
+But four hundred readings arrive every second, and a flood warning computed tomorrow is useless.
+
+2
+00:00:07,161 --> 00:00:12,903
+Velocity, plus variety and veracity, make it a genuine big data problem.
+

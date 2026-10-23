@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,492
+C, five thirty: two times two seventy, minus ten.
+
+2
+00:00:04,492 --> 00:00:10,833
+Five fifty is the trap: adding the cold junction temperature instead of subtracting it.
+

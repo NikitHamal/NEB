@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,705
+The lead storage battery, in every car and in the inverters that keep Nepali homes lit during load shedding.
+
+2
+00:00:06,705 --> 00:00:14,140
+A lead plate is the anode, lead dioxide the cathode, both in about thirty eight percent sulphuric acid.
+
+3
+00:00:14,140 --> 00:00:22,291
+On discharge, both plates turn into lead sulphate, and the sulphuric acid is used up, turning to water.
+

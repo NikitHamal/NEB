@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,145
+Quick recap.
+
+2
+00:00:01,145 --> 00:00:07,864
+Birth and death rates are per thousand people, but infant mortality is per thousand live births.
+
+3
+00:00:07,864 --> 00:00:14,088
+Doubling time is about seventy over the growth rate: seventy five years for Nepal today.
+
+4
+00:00:14,088 --> 00:00:19,244
+Pyramids show growth, and Nepal is late in the demographic transition.
+
+5
+00:00:19,244 --> 00:00:23,164
+In malaria, the mosquito is the definitive host.
+
+6
+00:00:23,164 --> 00:00:26,041
+H I V destroys helper T cells.
+
+7
+00:00:26,041 --> 00:00:30,156
+And non communicable diseases now cause most deaths.
+

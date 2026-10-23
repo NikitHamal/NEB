@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,770
+Sex is decided by one special pair of chromosomes, the sex chromosomes, or allosomes.
+
+2
+00:00:06,770 --> 00:00:08,437
+The rest are autosomes.
+
+3
+00:00:08,437 --> 00:00:12,408
+A woman has forty four autosomes plus X X.
+
+4
+00:00:12,408 --> 00:00:14,739
+A man has forty four plus X Y.
+

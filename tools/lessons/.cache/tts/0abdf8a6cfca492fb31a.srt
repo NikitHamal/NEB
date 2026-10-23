@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:08,854
+Multiply through by minus T, which flips the inequality: delta H minus T delta S must be negative.
+
+2
+00:00:08,854 --> 00:00:11,354
+That combination is delta G.
+
+3
+00:00:11,354 --> 00:00:16,705
+A process is spontaneous if and only if delta G is negative.
+
+4
+00:00:16,705 --> 00:00:20,026
+At equilibrium, delta G is zero.
+

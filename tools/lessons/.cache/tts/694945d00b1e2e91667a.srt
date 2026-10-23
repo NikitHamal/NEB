@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,421
+Worked example two point four.
+
+2
+00:00:02,421 --> 00:00:15,078
+First convert grams per litre to moles per litre: one point nine three times ten to the minus three over one forty three point five, one point three four five times ten to the minus five.
+
+3
+00:00:15,078 --> 00:00:23,815
+Silver chloride is type A B, so K s p is S squared: one point eight one times ten to the minus ten.
+

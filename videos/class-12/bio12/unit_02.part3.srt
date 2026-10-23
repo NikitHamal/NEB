@@ -1,0 +1,256 @@
+1
+00:00:00,000 --> 00:00:05,028
+Respiration is the stepwise oxidation of food to release usable energy.
+
+2
+00:00:05,028 --> 00:00:12,400
+Burn glucose in a flame and about two thousand eight hundred and seventy kilojoules per mole comes out at once, as heat.
+
+3
+00:00:12,633 --> 00:00:18,715
+A cell releases it in small steps and traps much of it in ATP, in four stages.
+
+4
+00:00:18,715 --> 00:00:19,836
+We keep a running tally.
+
+5
+00:00:21,066 --> 00:00:24,805
+Stage one, glycolysis, in the cytoplasm.
+
+6
+00:00:24,805 --> 00:00:28,227
+It needs no oxygen and runs in every living cell.
+
+7
+00:00:28,433 --> 00:00:31,885
+First two ATP are spent adding phosphates.
+
+8
+00:00:31,885 --> 00:00:35,170
+The step at phosphofructokinase is the rate-limiting one.
+
+9
+00:00:35,400 --> 00:00:38,956
+The sugar splits into two three-carbon pieces.
+
+10
+00:00:38,956 --> 00:00:44,755
+Each makes one NADH and two ATP directly, by substrate-level phosphorylation.
+
+11
+00:00:44,966 --> 00:00:47,064
+Result: two pyruvate.
+
+12
+00:00:47,064 --> 00:00:53,637
+Gross four ATP, minus two invested: net two ATP and two NADH.
+
+13
+00:00:54,866 --> 00:00:58,890
+Stage two, the link reaction, in the mitochondrial matrix.
+
+14
+00:00:59,100 --> 00:01:10,243
+Each pyruvate loses a carbon as carbon dioxide and makes NADH, leaving acetyl coenzyme A. Per glucose: two carbon dioxide, two NADH.
+
+15
+00:01:11,466 --> 00:01:15,231
+Stage three, the Krebs cycle, in the matrix.
+
+16
+00:01:15,231 --> 00:01:22,162
+Acetyl coenzyme A, two carbons, joins oxaloacetate, four, to make citrate, six.
+
+17
+00:01:22,366 --> 00:01:29,907
+Isocitrate loses a carbon dioxide and makes NADH, giving alpha-ketoglutarate, five carbons.
+
+18
+00:01:29,907 --> 00:01:36,147
+A second carbon dioxide and NADH give succinyl coenzyme A, four carbons.
+
+19
+00:01:36,366 --> 00:01:45,734
+Then one ATP, one FADH two at the succinate step, and a third NADH as malate returns to oxaloacetate.
+
+20
+00:01:45,966 --> 00:01:53,858
+Per turn: three NADH, one FADH two, one ATP, two carbon dioxide.
+
+21
+00:01:53,858 --> 00:01:55,543
+It turns twice per glucose.
+
+22
+00:01:55,766 --> 00:01:59,882
+Tally: six carbon dioxide, so every carbon is gone.
+
+23
+00:01:59,882 --> 00:02:06,904
+Ten NADH, two FADH two, only four ATP, and no oxygen used yet.
+
+24
+00:02:09,500 --> 00:02:14,957
+Stage four, the electron transport system, on the inner mitochondrial membrane.
+
+25
+00:02:14,957 --> 00:02:27,380
+Electrons from NADH pass through complex one, ubiquinone, complex three, cytochrome c and complex four to oxygen, the final acceptor, forming water.
+
+26
+00:02:27,600 --> 00:02:35,336
+Complexes one, three and four pump four, four and two protons: ten per NADH.
+
+27
+00:02:35,336 --> 00:02:41,142
+FADH two enters at complex two, which pumps none, so it gives six.
+
+28
+00:02:41,366 --> 00:02:46,433
+About four protons through ATP synthase make one ATP.
+
+29
+00:02:46,433 --> 00:02:53,438
+So NADH is worth two point five ATP, FADH two one point five.
+
+30
+00:02:53,438 --> 00:02:55,527
+This is Mitchell's chemiosmosis.
+
+31
+00:02:57,200 --> 00:03:03,855
+Add it up: two plus two, plus twenty-five from NADH, plus three from FADH two.
+
+32
+00:03:03,855 --> 00:03:04,516
+Thirty-two.
+
+33
+00:03:04,733 --> 00:03:09,656
+But the two glycolysis NADH must be shuttled into the mitochondrion.
+
+34
+00:03:09,656 --> 00:03:15,490
+The malate aspartate shuttle keeps them at two point five each: thirty-two.
+
+35
+00:03:15,490 --> 00:03:20,672
+The glycerol phosphate shuttle drops them to one point five: thirty.
+
+36
+00:03:20,672 --> 00:03:23,431
+So, thirty to thirty-two ATP.
+
+37
+00:03:25,233 --> 00:03:26,602
+Exam tip.
+
+38
+00:03:26,602 --> 00:03:34,584
+Older books give thirty-eight, assuming exactly three ATP per NADH and two per FADH two.
+
+39
+00:03:34,584 --> 00:03:37,683
+Chemiosmosis needs no whole numbers.
+
+40
+00:03:37,683 --> 00:03:41,860
+Write thirty to thirty-two, and call thirty-eight the classical figure.
+
+41
+00:03:42,633 --> 00:03:47,465
+Without oxygen, the chain stops and NAD plus runs out.
+
+42
+00:03:47,465 --> 00:03:53,911
+Fermentation turns NADH back into NAD plus so glycolysis can continue.
+
+43
+00:03:54,133 --> 00:03:58,705
+Yeast and waterlogged roots make ethanol and carbon dioxide.
+
+44
+00:03:58,705 --> 00:04:04,221
+Muscle and Lactobacillus in dahi make lactic acid, with no carbon dioxide.
+
+45
+00:04:04,433 --> 00:04:10,796
+Fermentation itself makes no ATP; the only gain is glycolysis's net two.
+
+46
+00:04:12,000 --> 00:04:18,343
+The respiratory quotient, R Q, is carbon dioxide given out divided by oxygen taken in.
+
+47
+00:04:18,343 --> 00:04:20,189
+It reveals the fuel being burnt.
+
+48
+00:04:20,400 --> 00:04:24,327
+For glucose, six over six: R Q is one.
+
+49
+00:04:25,533 --> 00:04:30,385
+Worked example: show the R Q of the fat tripalmitin is about zero point seven.
+
+50
+00:04:30,600 --> 00:04:38,309
+Two tripalmitin molecules use one hundred and forty-five oxygen, giving one hundred and two carbon dioxide and ninety-eight water.
+
+51
+00:04:38,533 --> 00:04:44,256
+Check: carbon one hundred and two each side; hydrogen one hundred and ninety-six each side.
+
+52
+00:04:44,466 --> 00:04:51,186
+Oxygen: twelve plus two hundred and ninety, three hundred and two, equals two hundred and four plus ninety-eight.
+
+53
+00:04:51,186 --> 00:04:51,819
+Balanced.
+
+54
+00:04:52,033 --> 00:04:57,983
+R Q is one hundred and two over one hundred and forty-five: zero point seven zero.
+
+55
+00:04:59,200 --> 00:05:04,006
+Fat is oxygen-poor, so it needs much oxygen: R Q below one.
+
+56
+00:05:04,006 --> 00:05:11,220
+Malic acid is oxygen-rich: two molecules need six oxygen and give eight carbon dioxide.
+
+57
+00:05:11,220 --> 00:05:13,061
+R Q one point three three.
+
+58
+00:05:13,266 --> 00:05:23,511
+So: fat zero point seven, protein about zero point eight, carbohydrate one, malic acid one point three three, oxalic acid four.
+
+59
+00:05:25,933 --> 00:05:27,067
+Pause and think.
+
+60
+00:05:27,067 --> 00:05:30,961
+A germinating castor seed burns stored oil.
+
+61
+00:05:30,961 --> 00:05:31,564
+What R Q?
+
+62
+00:05:38,433 --> 00:05:39,984
+Zero point seven.
+
+63
+00:05:39,984 --> 00:05:45,765
+Fats are oxygen-poor, so they use more oxygen than the carbon dioxide they release.
+
+64
+00:05:45,765 --> 00:05:48,832
+One is the trap: that is for sugar, not oil.
+

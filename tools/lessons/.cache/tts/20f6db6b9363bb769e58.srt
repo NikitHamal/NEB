@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,197
+Let us recap.
+
+2
+00:00:01,197 --> 00:00:06,979
+Gravimetric analysis weighs, volumetric analysis measures a volume.
+
+3
+00:00:06,979 --> 00:00:14,427
+Equivalent weight is molar mass over the n factor, and for an element, atomic weight over valency.
+
+4
+00:00:14,427 --> 00:00:23,710
+The n factor is basicity, acidity, total charge, or electrons transferred, which gives permanganate three different values.
+
+5
+00:00:23,710 --> 00:00:30,546
+Normality is molarity times n. Molality does not change with temperature.
+
+6
+00:00:30,546 --> 00:00:34,986
+Primary standards can be weighed directly, secondary ones cannot.
+
+7
+00:00:34,986 --> 00:00:38,411
+N one V one equals N two V two.
+
+8
+00:00:38,411 --> 00:00:44,179
+And permanganate is its own indicator, in dilute sulphuric acid only.
+

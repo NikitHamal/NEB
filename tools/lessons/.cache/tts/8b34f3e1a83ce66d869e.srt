@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,213
+What is entropy, physically?
+
+2
+00:00:02,213 --> 00:00:03,802
+It measures disorder.
+
+3
+00:00:03,802 --> 00:00:10,885
+More exactly, it counts how many microscopic arrangements of the molecules look the same from outside.
+

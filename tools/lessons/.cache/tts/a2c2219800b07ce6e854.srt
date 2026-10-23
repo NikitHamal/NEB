@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,114
+The two nitrophenols are separated by steam distillation.
+
+2
+00:00:04,114 --> 00:00:12,773
+In the ortho isomer, the O H and nitro groups are close enough to hydrogen bond to each other, inside one molecule.
+
+3
+00:00:12,773 --> 00:00:19,713
+With no free O H to bond to its neighbours, it is volatile and distils over with steam.
+
+4
+00:00:19,713 --> 00:00:27,734
+In the para isomer the groups are too far apart, so it hydrogen bonds to other molecules, associates, and stays behind.
+

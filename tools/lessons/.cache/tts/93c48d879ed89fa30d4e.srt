@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,973
+Voyager one, launched in nineteen seventy seven, is now more than twenty four billion kilometres away, far beyond the reach of useful sunlight.
+
+2
+00:00:09,973 --> 00:00:12,031
+Yet it is still talking to us.
+
+3
+00:00:12,031 --> 00:00:14,088
+Where does its electricity come from?
+

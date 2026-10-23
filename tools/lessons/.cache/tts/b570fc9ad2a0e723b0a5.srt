@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,143
+Electrode potentials depend on concentration, temperature and gas pressure.
+
+2
+00:00:05,143 --> 00:00:12,812
+So we fix standard conditions: two ninety eight kelvin, all ions at one molar, all gases at one bar.
+
+3
+00:00:12,812 --> 00:00:18,932
+Measured against the hydrogen electrode, that gives the standard electrode potential, E nought.
+

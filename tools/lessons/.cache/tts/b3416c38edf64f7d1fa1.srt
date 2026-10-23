@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,049
+Look at three particles at different distances from the axis.
+
+2
+00:00:04,049 --> 00:00:07,994
+The outer one travels a longer arc than the inner one.
+
+3
+00:00:07,994 --> 00:00:10,716
+But every one of them turns through the same angle.
+
+4
+00:00:10,716 --> 00:00:17,513
+That shared angle, theta, is why angle, not distance, is the natural language of rotation.
+

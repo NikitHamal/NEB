@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,109
+But there is no rule for a product.
+
+2
+00:00:02,109 --> 00:00:06,067
+The sum of a k b k is not the product of the two sums.
+

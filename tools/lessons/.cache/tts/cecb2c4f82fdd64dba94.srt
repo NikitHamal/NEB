@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,276
+The first minima on each side are at sine theta equals plus or minus lambda over a.
+
+2
+00:00:06,276 --> 00:00:12,187
+For small angles, the central maximum spans an angle of two lambda over a.
+
+3
+00:00:12,187 --> 00:00:17,604
+On a screen a distance D away, its width is two lambda D over a.
+
+4
+00:00:17,604 --> 00:00:22,643
+Or two lambda f over a, in the focal plane of a lens.
+

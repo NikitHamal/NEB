@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,335
+The sum uses the sum of squares from unit four: n, n plus one, two n plus one, over six n cubed.
+
+2
+00:00:09,335 --> 00:00:19,661
+As n grows, the extra terms vanish and the sum tends to one third: exactly the integral, x cubed over three from nought to one.
+

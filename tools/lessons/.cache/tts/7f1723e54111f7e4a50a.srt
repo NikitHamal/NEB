@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,330
+Light excites P700.
+
+2
+00:00:02,330 --> 00:00:09,960
+The electron jumps again, then through ferredoxin to F N R, which makes NADPH.
+

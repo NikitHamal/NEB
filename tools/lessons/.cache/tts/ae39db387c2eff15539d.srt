@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,247
+So the working equation is psi w equals psi s plus psi p.
+

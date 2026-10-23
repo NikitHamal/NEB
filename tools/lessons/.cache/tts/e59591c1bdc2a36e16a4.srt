@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,942
+The thylakoid membranes hold the pigments.
+
+2
+00:00:02,942 --> 00:00:09,557
+Chlorophyll a is the only one that can turn light into chemical energy: it is the reaction-centre pigment.
+
+3
+00:00:09,557 --> 00:00:14,778
+Chlorophyll b, carotenes and xanthophylls are accessory pigments.
+
+4
+00:00:14,778 --> 00:00:23,945
+They catch other colours and pass the energy on, and carotenoids also protect chlorophyll from damage by too much light.
+

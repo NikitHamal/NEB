@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,270
+Inside each young sac, microspore mother cells, diploid, divide by meiosis into tetrads of four haploid microspores.
+
+2
+00:00:09,270 --> 00:00:11,328
+That is microsporogenesis.
+

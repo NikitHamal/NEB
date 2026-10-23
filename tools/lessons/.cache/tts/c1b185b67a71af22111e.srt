@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,179
+Worked example six point three, the effective atomic number.
+
+2
+00:00:04,179 --> 00:00:11,171
+Start from the atomic number, subtract the oxidation state, and add two electrons for every ligand bond.
+
+3
+00:00:11,171 --> 00:00:18,450
+Ferrocyanide: twenty six minus two plus twelve, thirty six, the same as krypton.
+
+4
+00:00:18,450 --> 00:00:22,981
+Cobalt hexammine and nickel carbonyl also reach thirty six.
+

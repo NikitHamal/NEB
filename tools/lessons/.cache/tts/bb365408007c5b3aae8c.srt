@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,419
+Their key tests.
+
+2
+00:00:01,419 --> 00:00:06,875
+Ammonia turns calomel black, because finely divided mercury forms.
+
+3
+00:00:06,875 --> 00:00:10,924
+The name calomel comes from the Greek for beautiful black.
+
+4
+00:00:10,924 --> 00:00:22,265
+With corrosive sublimate, tin two chloride first gives a white precipitate of calomel, and more tin chloride turns it grey as free mercury is formed.
+
+5
+00:00:22,265 --> 00:00:25,651
+That two stage change proves a mercuric salt.
+

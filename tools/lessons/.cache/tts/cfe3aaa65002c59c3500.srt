@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,210
+Half of A plus B is ninety minus half C, so that cotangent is tan of half C.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,330
+Why must the ferric chloride be neutral?
+
+2
+00:00:02,330 --> 00:00:11,041
+Ordinary ferric chloride solution is acidic, and acid suppresses phenol's ionisation, so the violet complex never forms.
+

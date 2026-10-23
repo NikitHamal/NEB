@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,523
+A first expansion.
+
+2
+00:00:01,523 --> 00:00:08,984
+a is two x, b is three over x, and the coefficients are one five ten ten five one.
+

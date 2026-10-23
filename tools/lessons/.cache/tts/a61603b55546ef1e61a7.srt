@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,846
+For an elementary reaction, one that happens in a single step, the two are equal.
+
+2
+00:00:05,846 --> 00:00:09,635
+They differ for complex reactions with several steps.
+

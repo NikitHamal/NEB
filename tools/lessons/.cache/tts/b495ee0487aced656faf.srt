@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,750
+Same pressure on a bigger area means a bigger force.
+
+2
+00:00:03,750 --> 00:00:09,492
+f over a equals F over A, so F is f times A over a.
+
+3
+00:00:09,492 --> 00:00:11,614
+A small push lifts a whole car.
+
+4
+00:00:11,614 --> 00:00:17,708
+That is the hydraulic lift, the hydraulic press, and the brakes in every vehicle on the road.
+

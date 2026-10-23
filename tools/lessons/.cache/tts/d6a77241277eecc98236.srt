@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,708
+The other two cross the axis.
+
+2
+00:00:02,708 --> 00:00:09,140
+Negative delta H with negative delta S is spontaneous only at low temperature.
+
+3
+00:00:09,140 --> 00:00:14,934
+Positive delta H with positive delta S, only at high temperature.
+
+4
+00:00:14,934 --> 00:00:19,257
+The crossover is at T equals delta H over delta S.
+

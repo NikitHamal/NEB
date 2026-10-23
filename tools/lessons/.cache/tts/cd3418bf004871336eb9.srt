@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,445
+Two laws follow.
+
+2
+00:00:01,445 --> 00:00:10,078
+The law of dominance: in a hybrid only the dominant allele shows, while the recessive stays hidden but unchanged.
+
+3
+00:00:10,078 --> 00:00:19,101
+And the law of segregation, or purity of gametes: the two alleles separate when gametes form, so each gamete gets only one.
+
+4
+00:00:19,101 --> 00:00:21,158
+A gamete is never hybrid.
+
+5
+00:00:21,158 --> 00:00:28,854
+The physical reason is anaphase one of meiosis, when the two homologous chromosomes go to opposite poles.
+

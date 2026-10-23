@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,562
+Use one of four instead.
+
+2
+00:00:01,562 --> 00:00:08,789
+A concrete scene: at six in the morning the corridor outside the examination hall smells of fear and hair oil.
+
+3
+00:00:08,789 --> 00:00:14,570
+A number: a grade twelve student sits roughly thirty formal tests in two years.
+
+4
+00:00:14,570 --> 00:00:21,002
+A contradiction: we say we value understanding, and then we measure it with a stopwatch.
+
+5
+00:00:21,002 --> 00:00:25,611
+Or a question you will answer: what exactly is an examination for?
+

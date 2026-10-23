@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,182
+Find all nine cofactors and transpose them: that is the adjoint.
+

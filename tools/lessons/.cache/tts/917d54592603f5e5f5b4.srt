@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:08,971
+For a telescope with a circular objective of diameter a, the first dark ring is at an angle one point two two lambda over a.
+
+2
+00:00:08,971 --> 00:00:12,526
+The factor one point two two comes from the circular shape.
+
+3
+00:00:12,526 --> 00:00:22,955
+So the smallest angle it can resolve is one point two two lambda over a, and its resolving power is the reciprocal, a over one point two two lambda.
+
+4
+00:00:22,955 --> 00:00:27,096
+A bigger objective resolves better, and gathers more light too.
+
+5
+00:00:27,096 --> 00:00:31,380
+That is why research telescopes have mirrors metres across.
+

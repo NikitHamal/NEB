@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,138
+Tan of half A is exactly a half.
+
+2
+00:00:03,138 --> 00:00:07,838
+So A is fifty three degrees eight minutes, as the cosine law found.
+

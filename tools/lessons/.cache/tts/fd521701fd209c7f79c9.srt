@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,242
+Citrate is rearranged to isocitrate.
+
+2
+00:00:03,242 --> 00:00:10,963
+Isocitrate loses a carbon dioxide and makes NADH, leaving alpha-ketoglutarate, five carbons.
+
+3
+00:00:10,963 --> 00:00:18,841
+That loses a second carbon dioxide and makes another NADH: succinyl coenzyme A, four carbons.
+

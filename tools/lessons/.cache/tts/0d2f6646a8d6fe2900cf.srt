@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,364
+As the protoplast swells, it presses on the wall, and the wall presses back.
+
+2
+00:00:05,364 --> 00:00:12,148
+Psi p climbs: plus zero point two, plus zero point five, plus zero point eight.
+
+3
+00:00:12,148 --> 00:00:13,932
+And psi w climbs with it.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,466
+On the bottom route, it first cools, then expands at low pressure.
+
+2
+00:00:04,466 --> 00:00:06,809
+The area is much smaller.
+
+3
+00:00:06,809 --> 00:00:10,039
+Same start, same finish, very different work.
+
+4
+00:00:10,039 --> 00:00:13,802
+Work depends on the path, exactly like the hiker's distance.
+

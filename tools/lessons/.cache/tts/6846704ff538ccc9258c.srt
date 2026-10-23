@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,223
+A cell with psi s of minus zero point nine sits in a bath at minus zero point one.
+
+2
+00:00:06,223 --> 00:00:07,447
+Water flows in.
+

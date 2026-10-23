@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,429
+Turn it the other way, high cytokinin, low auxin, and shoots grow instead.
+
+2
+00:00:05,429 --> 00:00:10,716
+Grow shoots first, then move them onto a root medium, and you have plantlets.
+

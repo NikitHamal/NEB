@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,994
+Substituents tune the acidity.
+
+2
+00:00:02,994 --> 00:00:18,111
+Electron withdrawing nitro groups pull charge away from the phenoxide ion and stabilise it, so para nitrophenol is stronger, and picric acid, with three nitro groups, is almost as strong as a mineral acid.
+
+3
+00:00:18,111 --> 00:00:25,260
+An electron releasing methyl group does the opposite: para cresol is slightly weaker than phenol.
+

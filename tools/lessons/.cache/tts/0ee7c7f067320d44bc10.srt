@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,921
+Take towards the wall as positive, so the rebound is minus fifteen.
+
+2
+00:00:04,921 --> 00:00:09,192
+Impulse: minus five point two five newton seconds.
+

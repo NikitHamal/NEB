@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,210
+Pause and think.
+
+2
+00:00:01,210 --> 00:00:06,210
+What is the distance between two consecutive nodes of a stationary wave?
+

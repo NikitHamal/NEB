@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,802
+Here is the one line test that decides most slides.
+
+2
+00:00:03,802 --> 00:00:10,091
+Xylem and phloem on the same radius, with cambium between them, means stem.
+
+3
+00:00:10,091 --> 00:00:12,526
+On alternate radii means root.
+
+4
+00:00:12,526 --> 00:00:14,023
+Decide that first.
+
+5
+00:00:14,023 --> 00:00:18,268
+Then count the xylem groups to decide dicot or monocot.
+

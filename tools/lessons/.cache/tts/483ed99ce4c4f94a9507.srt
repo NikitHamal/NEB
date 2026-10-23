@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,648
+Compare with y equals two a sine k x cos omega t.
+
+2
+00:00:04,648 --> 00:00:10,677
+Two a is four centimetres, so each component wave has amplitude two centimetres.
+

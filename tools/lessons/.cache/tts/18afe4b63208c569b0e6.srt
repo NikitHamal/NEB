@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,888
+The Reimer Tiemann reaction.
+
+2
+00:00:01,888 --> 00:00:07,994
+Warm phenol with chloroform and sodium hydroxide at sixty to seventy degrees.
+
+3
+00:00:07,994 --> 00:00:17,343
+The alkali pulls hydrogen chloride out of chloroform, creating dichlorocarbene, a neutral carbon with only six electrons.
+
+4
+00:00:17,343 --> 00:00:21,132
+It is electron hungry, a weak electrophile.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,106
+Quick recap.
+
+2
+00:00:01,106 --> 00:00:06,679
+Polar form is length and angle, with the angle taken from the plotted quadrant.
+
+3
+00:00:06,679 --> 00:00:10,494
+Multiplying multiplies lengths and adds angles.
+
+4
+00:00:10,494 --> 00:00:13,229
+De Moivre raises both to the n.
+
+5
+00:00:13,229 --> 00:00:18,242
+The n th roots sit on a regular polygon and add to zero.
+
+6
+00:00:18,242 --> 00:00:21,953
+One plus omega plus omega squared is zero.
+
+7
+00:00:21,953 --> 00:00:29,075
+And Euler's formula says e to the i theta is cos theta plus i sin theta.
+

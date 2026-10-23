@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,510
+One important exception.
+
+2
+00:00:01,510 --> 00:00:11,210
+When the question word is itself the subject, there is no inversion and no do: someone broke the window becomes who broke the window, not who did break.
+
+3
+00:00:11,210 --> 00:00:19,088
+But when it replaces the object, you invert: you met someone becomes whom did you meet, or less formally, who did you meet?
+

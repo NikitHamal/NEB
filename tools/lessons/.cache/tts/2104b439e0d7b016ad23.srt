@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,406
+Exam tip.
+
+2
+00:00:01,406 --> 00:00:03,515
+Older books give thirty-eight.
+
+3
+00:00:03,515 --> 00:00:11,458
+That figure assumed every NADH gives exactly three ATP and every FADH two exactly two.
+
+4
+00:00:11,458 --> 00:00:16,080
+Chemiosmosis showed the ratios need not be whole numbers.
+
+5
+00:00:16,080 --> 00:00:23,450
+Write thirty to thirty-two, and if thirty-eight comes up, call it the classical figure and say why it is too high.
+

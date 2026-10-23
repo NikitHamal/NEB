@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,992
+And a garland of eight flowers: seven factorial over two, two thousand five hundred and twenty.
+

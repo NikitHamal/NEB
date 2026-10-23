@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,666
+Why does the medium matter?
+
+2
+00:00:01,666 --> 00:00:05,377
+Think of it as a line of masses joined by springs.
+
+3
+00:00:05,377 --> 00:00:12,213
+Push the first mass, and it squeezes its spring, which pushes the next mass, and so on down the line.
+
+4
+00:00:12,213 --> 00:00:14,817
+The springs supply elasticity.
+
+5
+00:00:14,817 --> 00:00:16,731
+The masses supply inertia.
+

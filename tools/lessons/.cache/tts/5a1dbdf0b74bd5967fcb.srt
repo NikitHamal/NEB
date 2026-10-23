@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,346
+Fourth, adiabatic: no heat flow at all.
+
+2
+00:00:03,346 --> 00:00:06,875
+Wrap the cylinder in thick insulation and let it expand.
+
+3
+00:00:06,875 --> 00:00:13,333
+The gas does work, but no heat comes in to pay for it, so the energy comes out of its own internal energy.
+
+4
+00:00:13,333 --> 00:00:17,343
+Delta U equals minus W, and the gas cools.
+
+5
+00:00:17,343 --> 00:00:22,773
+Watch the thermometer fall, and see the curve drop more steeply than the isothermal.
+

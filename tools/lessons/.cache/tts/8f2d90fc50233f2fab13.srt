@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,192
+A glass of tea at eighty degrees, in a room at twenty.
+
+2
+00:00:04,192 --> 00:00:11,601
+It cools quickly at first, then more and more slowly, creeping towards room temperature but never quite reaching it.
+

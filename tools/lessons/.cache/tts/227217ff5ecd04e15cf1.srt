@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:04,726
+After a past reporting verb, every tense moves one step back.
+
+2
+00:00:04,726 --> 00:00:06,575
+I write becomes he said he wrote.
+
+3
+00:00:06,575 --> 00:00:08,854
+I am writing: he was writing.
+
+4
+00:00:08,854 --> 00:00:11,067
+I have written: he had written.
+
+5
+00:00:11,067 --> 00:00:12,812
+I wrote: he had written.
+
+6
+00:00:12,812 --> 00:00:15,195
+I was writing: he had been writing.
+
+7
+00:00:15,195 --> 00:00:17,330
+I will write: he would write.
+
+8
+00:00:17,330 --> 00:00:22,695
+And the past perfect stays as it is, because there is no further step back.
+

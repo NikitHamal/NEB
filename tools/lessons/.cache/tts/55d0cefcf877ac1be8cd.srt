@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,184
+And the cells.
+
+2
+00:00:01,184 --> 00:00:05,533
+Fibroblasts make the fibres and ground substance.
+
+3
+00:00:05,533 --> 00:00:09,492
+Macrophages crawl about engulfing bacteria and debris.
+
+4
+00:00:09,492 --> 00:00:17,591
+Mast cells release heparin, which stops blood clotting inside vessels, and histamine, which drives inflammation and allergy.
+
+5
+00:00:17,591 --> 00:00:22,031
+Plasma cells make antibodies, and adipocytes store fat.
+

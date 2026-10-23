@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,065
+For one to a hundred: a hundred columns of a hundred and one, halved.
+
+2
+00:00:05,065 --> 00:00:06,796
+Five thousand and fifty.
+
+3
+00:00:06,796 --> 00:00:17,929
+In this unit you will find formulas like this for sums of squares and cubes, prove them for every n at once, and meet two series that never end but still add up.
+

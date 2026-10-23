@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,088
+'At least one solves it' is one minus 'all three fail'.
+
+2
+00:00:04,088 --> 00:00:07,239
+Multiply the failure chances: a quarter.
+
+3
+00:00:07,239 --> 00:00:08,945
+So three quarters.
+

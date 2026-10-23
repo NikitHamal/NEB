@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,158
+Translation.
+
+2
+00:00:01,158 --> 00:00:07,382
+Each amino acid is first loaded onto its own transfer RNA, using ATP.
+
+3
+00:00:07,382 --> 00:00:13,893
+Then the small ribosomal subunit grips the messenger and finds the start codon, A U G.
+
+4
+00:00:13,893 --> 00:00:18,164
+The first transfer RNA, carrying methionine, pairs with it.
+

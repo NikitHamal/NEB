@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,299
+Power equals tau omega: twenty five times one fifty seven point one, about three thousand nine hundred twenty seven watts, nearly four kilowatts.
+

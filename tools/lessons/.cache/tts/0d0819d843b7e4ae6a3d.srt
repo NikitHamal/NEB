@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,544
+Two eyes, two thousand one hundred and sixty squared pixels each, twenty four bits per pixel: two point two four times ten to the eight bits per frame.
+

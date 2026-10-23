@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,015
+Our path.
+
+2
+00:00:01,015 --> 00:00:05,625
+Energy in reactions, internal energy and the first law.
+
+3
+00:00:05,625 --> 00:00:09,361
+Enthalpy, and the different enthalpy changes.
+
+4
+00:00:09,361 --> 00:00:12,135
+Laplace's law and Hess's law.
+
+5
+00:00:12,135 --> 00:00:20,742
+Then entropy, the second law, Gibbs free energy, and finally how free energy fixes the equilibrium constant.
+

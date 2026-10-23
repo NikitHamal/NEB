@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:00,937
+Part two.
+
+2
+00:00:00,937 --> 00:00:05,403
+Come, my guest, says the guide; today I am to show you some eyes.
+
+3
+00:00:05,403 --> 00:00:21,575
+He takes the tourist up Chobhar hill, past the gorge of the Manjushri legend, past a village artist's drawing of birds and a temple of no named religion, to the Adinath temple, where Shiva and the Buddha stand together and children play.
+
+4
+00:00:21,575 --> 00:00:24,062
+The tourist would call it living tolerance.
+
+5
+00:00:24,062 --> 00:00:26,666
+The guide agrees, but will not stop there.
+
+6
+00:00:26,666 --> 00:00:32,434
+He climbs on, to a farmer's family who pay half their harvest to a landlord in the city.
+

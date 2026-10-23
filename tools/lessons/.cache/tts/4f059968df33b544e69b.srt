@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,130
+The internal energy U of a system is the total energy stored inside it.
+
+2
+00:00:05,130 --> 00:00:09,479
+Molecules moving from place to place, spinning, and vibrating.
+
+3
+00:00:09,479 --> 00:00:15,208
+Plus the energy of electrons, nuclei, and the attractions between molecules.
+
+4
+00:00:15,208 --> 00:00:18,971
+It is a state function, and it grows with the amount of matter.
+

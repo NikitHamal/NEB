@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,289
+Seven parts.
+
+2
+00:00:01,289 --> 00:00:02,981
+The communication system.
+
+3
+00:00:02,981 --> 00:00:06,406
+Signals, transmission modes and media.
+
+4
+00:00:06,406 --> 00:00:08,229
+Transmission impairments.
+
+5
+00:00:08,229 --> 00:00:11,341
+Network types, architectures and devices.
+
+6
+00:00:11,341 --> 00:00:12,643
+Topologies.
+
+7
+00:00:12,643 --> 00:00:14,635
+The OSI reference model.
+
+8
+00:00:14,635 --> 00:00:17,044
+And IP addressing and subnetting.
+

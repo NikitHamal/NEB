@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,682
+Divide by x; it is a function of y over x. Put y equal to v x: the v's cancel.
+

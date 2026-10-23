@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,976
+Which method?
+
+2
+00:00:00,976 --> 00:00:05,664
+Cramer needs a non zero determinant and is quickest for small systems.
+
+3
+00:00:05,664 --> 00:00:18,789
+The inverse also needs a non zero determinant, and pays off when many systems share the same A. Row reduction needs nothing, and it is the only one that still works when the determinant is zero.
+

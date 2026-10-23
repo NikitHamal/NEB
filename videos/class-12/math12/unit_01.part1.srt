@@ -1,0 +1,392 @@
+1
+00:00:00,000 --> 00:00:03,413
+Every motorbike in Bagmati carries a number plate.
+
+2
+00:00:03,413 --> 00:00:06,746
+Thirty players in your class want a five member committee.
+
+3
+00:00:06,746 --> 00:00:09,455
+Eleven cricketers need a batting order.
+
+4
+00:00:09,455 --> 00:00:12,111
+How many possibilities are there in each case?
+
+5
+00:00:12,111 --> 00:00:13,388
+Far too many to list.
+
+6
+00:00:13,600 --> 00:00:15,984
+This whole chapter turns on one question.
+
+7
+00:00:15,984 --> 00:00:17,247
+Does the order matter?
+
+8
+00:00:17,247 --> 00:00:21,323
+If it does, you are counting arrangements: permutations.
+
+9
+00:00:21,323 --> 00:00:25,164
+If it does not, you are counting selections: combinations.
+
+10
+00:00:25,164 --> 00:00:30,281
+Get that decision right, and every exam question becomes a short calculation.
+
+11
+00:00:36,100 --> 00:00:41,779
+Welcome to Class 12 Mathematics, Unit 1: Permutation and Combination.
+
+12
+00:00:41,779 --> 00:00:44,490
+Counting, without ever writing out the list.
+
+13
+00:00:46,867 --> 00:00:47,689
+The plan.
+
+14
+00:00:47,689 --> 00:00:51,283
+The two basic counting principles and factorials.
+
+15
+00:00:51,283 --> 00:00:53,861
+Permutations of different objects.
+
+16
+00:00:53,861 --> 00:00:55,397
+Objects that repeat.
+
+17
+00:00:55,397 --> 00:00:58,744
+Arrangements round a circle, and with repetition.
+
+18
+00:00:58,744 --> 00:01:00,098
+Combinations.
+
+19
+00:01:00,098 --> 00:01:04,099
+And finally the properties of combinations, including Pascal's rule.
+
+20
+00:01:08,433 --> 00:01:10,752
+Two rules do almost everything.
+
+21
+00:01:10,752 --> 00:01:15,987
+From Kathmandu to Pokhara you can take one of three buses, or one of two flights.
+
+22
+00:01:15,987 --> 00:01:19,463
+These are alternatives: you do one or the other.
+
+23
+00:01:19,463 --> 00:01:22,596
+So the choices add: three plus two, five.
+
+24
+00:01:22,800 --> 00:01:26,421
+Then from Pokhara to Jomsom there are four jeeps.
+
+25
+00:01:26,421 --> 00:01:29,000
+You do the first leg, and then the second.
+
+26
+00:01:29,000 --> 00:01:35,757
+For each of the five first legs there are four second legs, so the choices multiply: twenty journeys.
+
+27
+00:01:35,757 --> 00:01:40,118
+The connecting word tells you the rule: OR adds, AND multiplies.
+
+28
+00:01:41,333 --> 00:01:43,756
+A shorthand we will need constantly.
+
+29
+00:01:43,756 --> 00:01:49,303
+n factorial is the product of all whole numbers from n down to one.
+
+30
+00:01:49,303 --> 00:01:54,394
+Five factorial is one hundred and twenty, six factorial seven hundred and twenty.
+
+31
+00:01:54,394 --> 00:01:59,819
+And notice: n factorial equals n times n minus one factorial.
+
+32
+00:02:00,033 --> 00:02:02,352
+Put n equal to one in that rule.
+
+33
+00:02:02,352 --> 00:02:08,980
+One factorial is one times zero factorial, so zero factorial must equal one.
+
+34
+00:02:08,980 --> 00:02:11,864
+It is not an accident; the formula forces it.
+
+35
+00:02:14,067 --> 00:02:20,709
+Three boxes: hundreds, tens and units, to be filled from the digits one to six.
+
+36
+00:02:20,709 --> 00:02:27,705
+If digits may repeat, every box has six choices: six times six times six, two hundred and sixteen.
+
+37
+00:02:27,933 --> 00:02:33,664
+If they may not repeat, each digit used is gone: six, then five, then four.
+
+38
+00:02:33,664 --> 00:02:34,523
+One hundred and twenty.
+
+39
+00:02:34,733 --> 00:02:39,435
+And if the number must also be even, fill the restricted box first.
+
+40
+00:02:39,435 --> 00:02:44,852
+The units digit must be two, four or six: three choices.
+
+41
+00:02:44,852 --> 00:02:48,862
+That leaves five for the hundreds and four for the tens.
+
+42
+00:02:48,862 --> 00:02:49,425
+Sixty.
+
+43
+00:02:51,233 --> 00:02:52,602
+Exam tip.
+
+44
+00:02:52,602 --> 00:03:00,961
+Whenever a question has a restriction, must be even, must start with a vowel, a certain person at the head, fill that place first.
+
+45
+00:03:00,961 --> 00:03:04,103
+Otherwise you will not know how many choices are left for it.
+
+46
+00:03:08,467 --> 00:03:09,979
+Now the general case.
+
+47
+00:03:09,979 --> 00:03:15,031
+Arrange r objects, chosen from n different objects, in a row.
+
+48
+00:03:15,031 --> 00:03:17,596
+The first box can take any of the n.
+
+49
+00:03:17,596 --> 00:03:21,815
+The second, n minus one, because one is used.
+
+50
+00:03:21,815 --> 00:03:23,937
+The third, n minus two.
+
+51
+00:03:23,937 --> 00:03:27,555
+And the r th box takes n minus r plus one.
+
+52
+00:03:27,767 --> 00:03:30,425
+Multiply them, by the AND rule.
+
+53
+00:03:30,425 --> 00:03:41,239
+That product is written n P r. Multiply top and bottom by n minus r factorial, and it closes up neatly: n factorial over n minus r factorial.
+
+54
+00:03:42,467 --> 00:03:49,565
+Put r equal to n: n different objects can be arranged among themselves in n factorial ways.
+
+55
+00:03:49,565 --> 00:03:53,081
+And n P zero is one, n P one is n.
+
+56
+00:03:54,300 --> 00:03:55,591
+A worked example.
+
+57
+00:03:55,591 --> 00:03:58,369
+Write both sides as products, not factorials.
+
+58
+00:03:58,600 --> 00:04:03,348
+n P four is four falling factors; n P two is two.
+
+59
+00:04:03,567 --> 00:04:08,888
+Cancel n times n minus one, which is not zero, and expand.
+
+60
+00:04:09,100 --> 00:04:15,208
+So n is seven or minus two, and a count cannot be negative: n is seven.
+
+61
+00:04:15,208 --> 00:04:23,940
+Check: seven P four is eight forty, and twenty times seven P two is twenty times forty two, also eight forty.
+
+62
+00:04:24,167 --> 00:04:31,508
+And ten P r equal to seven twenty: ten times nine times eight already gives seven twenty, so r is three.
+
+63
+00:04:33,533 --> 00:04:35,813
+Arrange the letters of TRIANGLE.
+
+64
+00:04:35,813 --> 00:04:40,358
+Eight different letters: five consonants and three vowels.
+
+65
+00:04:40,358 --> 00:04:45,006
+With no restriction, eight factorial: forty thousand three hundred and twenty.
+
+66
+00:04:47,233 --> 00:04:49,240
+Now all the vowels together.
+
+67
+00:04:49,240 --> 00:04:52,287
+Tie the three vowels into one block.
+
+68
+00:04:52,287 --> 00:04:57,664
+The block and the five consonants make six units: six factorial ways.
+
+69
+00:04:57,664 --> 00:05:02,664
+Inside the block, the vowels can be shuffled in three factorial ways.
+
+70
+00:05:02,664 --> 00:05:04,808
+Four thousand three hundred and twenty.
+
+71
+00:05:07,033 --> 00:05:09,105
+And no two vowels together.
+
+72
+00:05:09,105 --> 00:05:10,472
+Use the gap method.
+
+73
+00:05:10,472 --> 00:05:15,147
+Arrange the five consonants first: five factorial ways.
+
+74
+00:05:15,147 --> 00:05:19,522
+They leave six gaps: before, between and after them.
+
+75
+00:05:19,522 --> 00:05:25,264
+Drop the three vowels into three different gaps: six P three ways.
+
+76
+00:05:25,264 --> 00:05:29,963
+One hundred and twenty times one hundred and twenty: fourteen thousand four hundred.
+
+77
+00:05:31,167 --> 00:05:32,601
+Careful with the wording.
+
+78
+00:05:32,601 --> 00:05:38,278
+Vowels not all together is the total minus the block case: thirty six thousand.
+
+79
+00:05:38,278 --> 00:05:43,682
+No two vowels together needs the gap method: fourteen thousand four hundred.
+
+80
+00:05:43,682 --> 00:05:44,901
+They are different questions.
+
+81
+00:05:49,700 --> 00:05:51,394
+Arrange A, A, B.
+
+82
+00:05:51,394 --> 00:05:57,709
+If we label the two A's to make them different, there are three factorial, six arrangements.
+
+83
+00:05:57,709 --> 00:06:01,329
+But swapping the labels changes nothing that you can see.
+
+84
+00:06:01,329 --> 00:06:07,526
+So the six fall into pairs, and there are really only three: six over two factorial.
+
+85
+00:06:07,733 --> 00:06:22,097
+In general: if n objects contain p alike of one kind, q of another and s of a third, each real arrangement hides p factorial times q factorial times s factorial labelled ones.
+
+86
+00:06:22,097 --> 00:06:27,665
+So the count is n factorial over p factorial q factorial s factorial.
+
+87
+00:06:28,867 --> 00:06:29,580
+KATHMANDU.
+
+88
+00:06:30,100 --> 00:06:33,734
+Nine letters, and only A repeats, twice.
+
+89
+00:06:33,734 --> 00:06:39,208
+Nine factorial over two factorial: one hundred and eighty one thousand four hundred and forty.
+
+90
+00:06:39,433 --> 00:06:47,853
+Vowels together: A, A and U make one block, plus six different consonants: seven units, seven factorial.
+
+91
+00:06:48,067 --> 00:06:54,579
+Inside the block, A A U can be ordered in three factorial over two factorial, three ways.
+
+92
+00:06:54,579 --> 00:06:56,802
+Fifteen thousand one hundred and twenty.
+
+93
+00:06:58,833 --> 00:07:00,397
+The classic: MISSISSIPPI.
+
+94
+00:07:00,600 --> 00:07:06,122
+Eleven letters: one M, four I's, four S's, two P's.
+
+95
+00:07:06,122 --> 00:07:13,567
+Eleven factorial over four factorial four factorial two factorial: thirty four thousand six hundred and fifty.
+
+96
+00:07:13,767 --> 00:07:21,629
+For no two I's together, arrange the other seven letters first: one hundred and five ways, leaving eight gaps.
+
+97
+00:07:21,833 --> 00:07:28,019
+The four I's are identical, so we only choose which four gaps: eight C four, seventy.
+
+98
+00:07:28,019 --> 00:07:30,279
+Seven thousand three hundred and fifty.
+

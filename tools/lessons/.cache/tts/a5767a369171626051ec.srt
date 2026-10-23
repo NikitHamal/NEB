@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,250
+Puzzle solved.
+
+2
+00:00:01,250 --> 00:00:05,299
+Same atoms, but only one of them has a hydrogen to share.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,028
+Quick check.
+
+2
+00:00:01,028 --> 00:00:06,158
+Which reagent turns benzene diazonium chloride into iodobenzene?
+
+3
+00:00:06,158 --> 00:00:07,369
+Pause and think.
+

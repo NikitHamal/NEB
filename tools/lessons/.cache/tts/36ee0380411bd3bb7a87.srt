@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,286
+These are the equations we just solved, with every right side multiplied by ten.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,750
+Swap the hydrogens for two bulky ethyl groups.
+
+2
+00:00:03,750 --> 00:00:09,960
+They crowd each other and push apart, opening the angle to one hundred and eleven point seven degrees.
+
+3
+00:00:09,960 --> 00:00:15,729
+The molecule is still bent, so the two carbon oxygen dipoles do not cancel.
+
+4
+00:00:15,729 --> 00:00:20,820
+Ether is polar, with a dipole moment of one point one five debye.
+

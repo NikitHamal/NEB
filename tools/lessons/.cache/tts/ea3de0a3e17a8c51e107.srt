@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,098
+Nothing has to be invented, and nothing may be.
+
+2
+00:00:03,098 --> 00:00:10,911
+What is tested is whether you can turn a picture of information into English that a reader who has never seen the picture could follow.
+

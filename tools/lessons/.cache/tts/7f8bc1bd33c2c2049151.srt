@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,408
+Now run the formula backwards.
+
+2
+00:00:02,408 --> 00:00:10,143
+Sound travels at fifteen hundred metres per second in a liquid of density twelve hundred kilograms per cubic metre.
+
+3
+00:00:10,143 --> 00:00:11,979
+What is its bulk modulus?
+

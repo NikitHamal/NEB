@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,158
+Why in the dark?
+
+2
+00:00:01,158 --> 00:00:09,179
+In ultraviolet light and without a catalyst, chlorine adds to the ring instead, giving benzene hexachloride.
+
+3
+00:00:09,179 --> 00:00:18,177
+Industrially, the Raschig process passes benzene, hydrogen chloride and air over copper chloride at about five hundred kelvin.
+

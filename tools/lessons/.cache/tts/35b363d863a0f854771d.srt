@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,604
+Pick a nearby perfect square.
+

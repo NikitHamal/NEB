@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:08,645
+Can, could, may, might, will, would, shall, should and must do not describe an action; they comment on it: how possible, how necessary, how polite.
+
+2
+00:00:08,645 --> 00:00:11,119
+And they obey five rules.
+
+3
+00:00:11,119 --> 00:00:16,276
+One: no s in the third person: he can swim, not he cans.
+
+4
+00:00:16,276 --> 00:00:20,872
+Two: a bare infinitive, without to: she must go.
+
+5
+00:00:20,872 --> 00:00:22,226
+Only ought keeps to.
+
+6
+00:00:22,226 --> 00:00:26,770
+Three: no do in questions or negatives: can he drive?
+
+7
+00:00:26,770 --> 00:00:32,057
+Four: never two modals together: not will can, but will be able to.
+
+8
+00:00:32,057 --> 00:00:39,804
+Five: no ing form and no participle; for those, use a semi modal like be able to.
+

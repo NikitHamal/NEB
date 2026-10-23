@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,153
+Replace x by minus x and subtract, and you get a much faster series for log of one plus x over one minus x.
+

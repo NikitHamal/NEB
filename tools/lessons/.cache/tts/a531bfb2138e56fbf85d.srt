@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,223
+Differentiate it.
+
+2
+00:00:01,223 --> 00:00:06,093
+The rate of change of angular momentum is I alpha, which is the torque.
+
+3
+00:00:06,093 --> 00:00:12,239
+So torque is the rate of change of angular momentum, just as force is the rate of change of momentum.
+

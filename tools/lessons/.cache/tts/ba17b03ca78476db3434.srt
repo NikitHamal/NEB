@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,328
+Two operators.
+
+2
+00:00:01,328 --> 00:00:03,684
+Ampersand gives an address.
+
+3
+00:00:03,684 --> 00:00:10,794
+Star, the indirection operator, follows the pointer to the value there: star p is twenty five.
+
+4
+00:00:10,794 --> 00:00:16,341
+And star p equals star p plus five changes n itself, through the pointer.
+

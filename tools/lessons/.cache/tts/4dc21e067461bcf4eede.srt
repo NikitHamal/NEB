@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,705
+Three tests for phenol.
+
+2
+00:00:01,705 --> 00:00:08,307
+Neutral iron three chloride gives a violet colour, from a complex of iron with phenoxide groups.
+
+3
+00:00:08,307 --> 00:00:10,078
+Ethanol gives none.
+
+4
+00:00:10,078 --> 00:00:15,598
+Bromine water is decolourised, with a white precipitate of tribromophenol.
+
+5
+00:00:15,598 --> 00:00:29,244
+And Liebermann's nitroso test: warm with sodium nitrite and concentrated sulphuric acid, and the solution turns deep blue green, red on dilution, and blue green again with excess alkali.
+

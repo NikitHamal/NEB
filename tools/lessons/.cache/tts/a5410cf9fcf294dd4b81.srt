@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,533
+r is five times forty over two hundred: five times zero point two, one ohm.
+

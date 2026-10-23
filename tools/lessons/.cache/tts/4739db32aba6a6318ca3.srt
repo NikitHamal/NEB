@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,044
+A biological hazard: it is made by a living mould, Aspergillus flavus, growing on damp grain.
+
+2
+00:00:07,044 --> 00:00:12,903
+It is a safety problem, not a security one: the food is there, but it can harm the eater.
+

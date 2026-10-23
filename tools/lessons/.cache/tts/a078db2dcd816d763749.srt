@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,085
+The reference is the standard hydrogen electrode.
+
+2
+00:00:03,085 --> 00:00:16,028
+A platinum foil, coated with finely divided platinum black, dips into a one molar solution of hydrogen ions at two ninety eight kelvin, while pure hydrogen gas at one bar bubbles over it.
+
+3
+00:00:16,028 --> 00:00:18,268
+The platinum does not react.
+
+4
+00:00:18,268 --> 00:00:22,278
+It only provides a surface for electrons to change hands.
+

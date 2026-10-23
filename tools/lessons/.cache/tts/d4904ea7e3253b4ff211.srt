@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,497
+Reach a member with a dot.
+
+2
+00:00:01,497 --> 00:00:06,276
+Strings must be copied with strcpy, not the equals sign.
+
+3
+00:00:06,276 --> 00:00:09,908
+And an array of structures holds a whole class list.
+

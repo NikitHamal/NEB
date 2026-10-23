@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,286
+And dividing does the opposite: divide the lengths, subtract the angles.
+

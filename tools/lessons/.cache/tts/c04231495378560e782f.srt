@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,770
+The level is ten log of one point five nine times ten to the nine: ninety two decibels.
+

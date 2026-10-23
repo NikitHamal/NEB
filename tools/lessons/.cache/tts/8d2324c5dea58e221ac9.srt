@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,908
+So the total is a b c over delta, which is four R.
+
+2
+00:00:04,908 --> 00:00:08,111
+And our numbers agree: thirty two and a half.
+

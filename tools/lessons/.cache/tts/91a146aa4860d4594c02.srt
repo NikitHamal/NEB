@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,635
+The strength of an acid is how far it pushes its proton onto water.
+
+2
+00:00:04,635 --> 00:00:09,414
+That extent is measured by the acid dissociation constant, K a.
+
+3
+00:00:09,414 --> 00:00:14,375
+A larger K a, or a smaller p K a, means a stronger acid.
+

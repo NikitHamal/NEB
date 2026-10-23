@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,877
+F equals eta A d v by d x: zero point eight times zero point one times five hundred.
+
+2
+00:00:07,877 --> 00:00:09,218
+Forty newtons.
+

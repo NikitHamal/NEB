@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,601
+The pair the board loves.
+
+2
+00:00:01,601 --> 00:00:04,674
+I needn't have taken an umbrella: it didn't rain.
+
+3
+00:00:04,674 --> 00:00:06,822
+I took it, and it was a waste.
+
+4
+00:00:06,822 --> 00:00:10,716
+Compare: I didn't need to take an umbrella, so I left it at home.
+
+5
+00:00:10,716 --> 00:00:13,164
+There was no need, so I didn't take it.
+

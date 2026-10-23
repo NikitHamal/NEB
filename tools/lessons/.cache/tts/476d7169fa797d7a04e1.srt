@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,617
+Worked example four point three.
+
+2
+00:00:02,617 --> 00:00:08,281
+We want the formation of methane from carbon and hydrogen, which cannot be measured directly.
+
+3
+00:00:08,281 --> 00:00:10,533
+Take equation one as written.
+
+4
+00:00:10,533 --> 00:00:12,955
+Add two times equation two.
+

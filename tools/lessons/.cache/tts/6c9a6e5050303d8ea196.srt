@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,989
+Step one.
+
+2
+00:00:00,989 --> 00:00:05,416
+Start from the young dicot stem you met in part four, simplified.
+
+3
+00:00:05,416 --> 00:00:10,598
+A ring of eight bundles, each with phloem outside and xylem inside.
+

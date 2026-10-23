@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,395
+Other animals use other systems.
+
+2
+00:00:02,395 --> 00:00:08,606
+Grasshoppers are X X and X O: the male has a single X and no Y.
+
+3
+00:00:08,606 --> 00:00:15,651
+In birds and butterflies it is reversed: the female is Z W and decides the sex.
+
+4
+00:00:15,651 --> 00:00:23,033
+And in honey bees, fertilised eggs become females and unfertilised eggs become males.
+

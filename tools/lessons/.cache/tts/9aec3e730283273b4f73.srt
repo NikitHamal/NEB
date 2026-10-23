@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,414
+For glucose, six over six: R Q is one.
+

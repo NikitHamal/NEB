@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,140
+Floating in the stroma is a third membrane system: flat sacs called thylakoids, stacked into grana and linked by stroma lamellae.
+
+2
+00:00:09,140 --> 00:00:12,734
+The space inside each thylakoid is the lumen.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,528
+Apiculture is keeping honey bees in hives.
+
+2
+00:00:03,528 --> 00:00:05,598
+Five species matter in Nepal.
+
+3
+00:00:05,598 --> 00:00:18,528
+Apis cerana, the mauri, nests in dark cavities, so it can be coaxed into a box; it makes up about three quarters of Nepal's hives and survives up to three and a half thousand metres.
+
+4
+00:00:18,528 --> 00:00:23,320
+Apis mellifera, the European bee, came in nineteen ninety two.
+
+5
+00:00:23,320 --> 00:00:29,843
+The rock bee, the cliff bee and the little bee build single open combs and cannot be hived.
+

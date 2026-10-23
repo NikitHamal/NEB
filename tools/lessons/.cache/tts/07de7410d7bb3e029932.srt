@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:12,591
+e-medicine, or telemedicine, delivers health care at a distance: video consultation, X rays and ECGs sent to a specialist, wearable monitors, electronic records.
+
+2
+00:00:12,591 --> 00:00:21,627
+For Nepal the argument is geography: a Kathmandu specialist can advise a health post in Humla in minutes instead of a two day journey.
+
+3
+00:00:21,627 --> 00:00:30,898
+Its limits: no physical examination, it needs bandwidth and power, and patient privacy and responsibility are hard questions.
+

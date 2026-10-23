@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,750
+Step one is concentration by froth flotation.
+
+2
+00:00:03,750 --> 00:00:09,244
+Powdered ore is stirred in water with a little pine oil, and air is blown through.
+
+3
+00:00:09,244 --> 00:00:15,742
+Sulphide particles are wetted by the oil, cling to the air bubbles and rise as a froth.
+
+4
+00:00:15,742 --> 00:00:19,179
+The earthy gangue, wetted by water, sinks.
+
+5
+00:00:19,179 --> 00:00:21,979
+It works because the ore is a sulphide.
+

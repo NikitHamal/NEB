@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,549
+C, it stays the same.
+
+2
+00:00:01,549 --> 00:00:09,973
+Q is zero and W is zero, so delta U is zero, and for an ideal gas U depends only on temperature.
+
+3
+00:00:09,973 --> 00:00:14,466
+Many students pick falls, because expanding gases usually cool.
+
+4
+00:00:14,466 --> 00:00:20,455
+That only happens when the gas does work, as in an adiabatic expansion against a piston.
+

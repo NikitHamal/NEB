@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,289
+A test catches ninety nine per cent of the ill: all ten, near enough, test positive.
+
+2
+00:00:06,289 --> 00:00:12,903
+But it also wrongly flags two per cent of the healthy people: about twenty of the nine hundred and ninety.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,994
+A ring: all its mass sits at the rim.
+

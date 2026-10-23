@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:07,135
+In nineteen eleven, Kamerlingh Onnes cooled mercury with liquid helium, and found something astonishing.
+
+2
+00:00:07,135 --> 00:00:11,445
+At four point two kelvin, its resistance suddenly vanished.
+
+3
+00:00:11,445 --> 00:00:12,864
+Not very small.
+
+4
+00:00:12,864 --> 00:00:16,002
+Zero, as far as any instrument can tell.
+
+5
+00:00:16,002 --> 00:00:19,908
+That sharp temperature is the critical temperature, T c.
+

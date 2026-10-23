@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,630
+To find the area between two curves, find where they meet: x squared equals two x at nought and two.
+
+2
+00:00:07,630 --> 00:00:12,057
+Decide which is on top: at x equals one the line is higher.
+

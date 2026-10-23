@@ -1,0 +1,416 @@
+1
+00:00:00,000 --> 00:00:02,970
+Here is a function that swaps two numbers.
+
+2
+00:00:02,970 --> 00:00:07,267
+Call it with ten and twenty, print them, and you get ten twenty.
+
+3
+00:00:07,267 --> 00:00:08,595
+Nothing swapped.
+
+4
+00:00:08,595 --> 00:00:08,965
+Why?
+
+5
+00:00:09,167 --> 00:00:11,369
+Because C passes copies.
+
+6
+00:00:11,369 --> 00:00:15,236
+The function swapped its own copies and threw them away.
+
+7
+00:00:15,236 --> 00:00:19,481
+To reach the originals it needs their addresses: pointers.
+
+8
+00:00:19,481 --> 00:00:22,793
+By the end of this unit you will be able to fix it, and much more.
+
+9
+00:00:28,267 --> 00:00:33,233
+Welcome to Class 12 Computer Science, Unit 4: Programming in C.
+
+10
+00:00:35,600 --> 00:00:36,669
+Six parts.
+
+11
+00:00:36,669 --> 00:00:40,810
+Functions: prototypes, definitions and calls.
+
+12
+00:00:40,810 --> 00:00:42,229
+Storage classes.
+
+13
+00:00:42,229 --> 00:00:43,258
+Recursion.
+
+14
+00:00:43,258 --> 00:00:45,432
+Structures and unions.
+
+15
+00:00:45,432 --> 00:00:49,286
+Pointers, with call by value and call by reference.
+
+16
+00:00:49,286 --> 00:00:50,510
+And data files.
+
+17
+00:00:54,867 --> 00:00:58,410
+A function is a named block that does one job.
+
+18
+00:00:58,410 --> 00:01:04,999
+Library functions, like printf, come with C; user defined functions you write yourself.
+
+19
+00:01:04,999 --> 00:01:06,236
+Three parts.
+
+20
+00:01:06,236 --> 00:01:09,491
+The prototype announces the function before main.
+
+21
+00:01:09,491 --> 00:01:15,767
+The call, here inside printf, jumps to it with the arguments forty seven and ninety two.
+
+22
+00:01:15,767 --> 00:01:20,014
+The definition is the body, and return sends the answer back.
+
+23
+00:01:20,233 --> 00:01:21,797
+It prints ninety two.
+
+24
+00:01:21,797 --> 00:01:27,498
+Functions let you reuse code, test it piece by piece, and keep programs short and clear.
+
+25
+00:01:32,267 --> 00:01:34,482
+Call each counter three times.
+
+26
+00:01:34,482 --> 00:01:44,157
+The automatic variable is created fresh, on the stack, every call: set to nought, increased to one, returned, destroyed.
+
+27
+00:01:44,157 --> 00:01:45,446
+One, one, one.
+
+28
+00:01:45,446 --> 00:01:51,748
+The static variable is created once and lives for the whole program: one, two, three.
+
+29
+00:01:52,967 --> 00:02:00,547
+A storage class decides where a variable lives, its starting value, where it can be seen, and how long it lasts.
+
+30
+00:02:00,547 --> 00:02:03,229
+Auto is the default for local variables.
+
+31
+00:02:03,229 --> 00:02:07,318
+Extern variables are global, visible everywhere.
+
+32
+00:02:07,318 --> 00:02:09,140
+Static ones keep their value.
+
+33
+00:02:09,140 --> 00:02:12,122
+Register asks for a fast CPU register.
+
+34
+00:02:12,122 --> 00:02:18,295
+And beware: an automatic variable you forget to initialise contains rubbish, not zero.
+
+35
+00:02:23,067 --> 00:02:26,050
+Recursion is a function calling itself.
+
+36
+00:02:26,050 --> 00:02:33,030
+Every recursive function needs a base case that stops it, and a recursive case that moves towards it.
+
+37
+00:02:33,030 --> 00:02:34,735
+Call factorial of four.
+
+38
+00:02:34,735 --> 00:02:42,105
+It needs factorial of three, which needs factorial of two, which needs factorial of one: the base case.
+
+39
+00:02:42,105 --> 00:02:43,879
+Each waiting call sits on the stack.
+
+40
+00:02:44,100 --> 00:02:46,003
+Now the stack unwinds.
+
+41
+00:02:46,003 --> 00:02:48,789
+Factorial of one returns one.
+
+42
+00:02:48,789 --> 00:02:50,560
+Two times one is two.
+
+43
+00:02:50,560 --> 00:02:52,747
+Three times two is six.
+
+44
+00:02:52,747 --> 00:02:55,071
+Four times six is twenty four.
+
+45
+00:02:56,300 --> 00:02:58,164
+Recursion against a loop.
+
+46
+00:02:58,164 --> 00:03:07,317
+Recursion is shorter and mirrors the mathematical definition, but every call costs a stack frame, so it is slower and can overflow.
+
+47
+00:03:07,317 --> 00:03:13,051
+The Fibonacci series is the other classic: each term is the sum of the two before it.
+
+48
+00:03:17,833 --> 00:03:29,332
+A structure is a user defined type that bundles several variables, of different types, under one name: a student's roll, name, faculty and marks.
+
+49
+00:03:29,332 --> 00:03:34,814
+The definition is only a template; memory is used when you declare a variable.
+
+50
+00:03:34,814 --> 00:03:39,657
+Every member gets its own space, so the size is the sum: forty bytes.
+
+51
+00:03:39,867 --> 00:03:41,314
+Reach a member with a dot.
+
+52
+00:03:41,314 --> 00:03:46,093
+Strings must be copied with strcpy, not the equals sign.
+
+53
+00:03:46,093 --> 00:03:49,331
+And an array of structures holds a whole class list.
+
+54
+00:03:50,533 --> 00:03:55,066
+A union looks like a structure, but all its members share the same memory.
+
+55
+00:03:55,066 --> 00:03:59,389
+Its size is the size of its largest member: eight bytes here.
+
+56
+00:03:59,389 --> 00:04:01,570
+Only one member is valid at a time.
+
+57
+00:04:01,800 --> 00:04:05,825
+Store sixty five in i, and i reads sixty five.
+
+58
+00:04:05,825 --> 00:04:14,640
+Store three point one four in f, and now i reads a huge meaningless number: the float's bits read as an integer.
+
+59
+00:04:14,640 --> 00:04:17,466
+Writing one member destroys the others.
+
+60
+00:04:17,466 --> 00:04:21,286
+Unions save memory when you need only one field at a time.
+
+61
+00:04:26,067 --> 00:04:29,194
+Every variable lives at an address in memory.
+
+62
+00:04:29,194 --> 00:04:32,774
+A pointer is a variable that stores such an address.
+
+63
+00:04:32,774 --> 00:04:38,490
+Declare p as a pointer to an int, and set it to ampersand n, the address of n.
+
+64
+00:04:38,490 --> 00:04:39,628
+Now p points at n.
+
+65
+00:04:39,833 --> 00:04:41,111
+Two operators.
+
+66
+00:04:41,111 --> 00:04:43,467
+Ampersand gives an address.
+
+67
+00:04:43,467 --> 00:04:50,577
+Star, the indirection operator, follows the pointer to the value there: star p is twenty five.
+
+68
+00:04:50,577 --> 00:04:55,722
+And star p equals star p plus five changes n itself, through the pointer.
+
+69
+00:04:56,933 --> 00:04:58,380
+Back to the cold open.
+
+70
+00:04:58,380 --> 00:05:01,557
+In call by value, swap receives copies.
+
+71
+00:05:01,557 --> 00:05:05,696
+It swaps the copies, and x and y in main never change.
+
+72
+00:05:05,900 --> 00:05:11,787
+In call by reference, swap receives the addresses, and works through them on the originals.
+
+73
+00:05:11,787 --> 00:05:14,079
+Now x and y really are swapped.
+
+74
+00:05:14,079 --> 00:05:17,680
+That is also how a function can return several results at once.
+
+75
+00:05:18,900 --> 00:05:21,662
+Pointers and arrays are close relatives.
+
+76
+00:05:21,662 --> 00:05:25,360
+An array's name is the address of its first element.
+
+77
+00:05:25,360 --> 00:05:33,229
+Add two to the pointer and it moves two elements along, so star of q plus two is arr two: thirty.
+
+78
+00:05:38,000 --> 00:05:43,314
+Variables vanish when the program ends; a data file on disk survives.
+
+79
+00:05:43,314 --> 00:05:52,989
+Every file program follows the same life: declare a file pointer, open the file with a mode, check it opened, read or write, and close it.
+
+80
+00:05:52,989 --> 00:06:00,557
+The mode matters: w creates the file and erases anything already there, a appends to the end, r reads.
+
+81
+00:06:01,767 --> 00:06:03,344
+The file functions.
+
+82
+00:06:03,344 --> 00:06:14,112
+Get c and put c handle one character; get w and put w one integer; f printf and f scanf work like printf and scanf, but with a file.
+
+83
+00:06:14,112 --> 00:06:18,123
+F write and f read move whole structures.
+
+84
+00:06:18,123 --> 00:06:22,205
+And f seek, f tell and rewind move around the file.
+
+85
+00:06:23,433 --> 00:06:28,799
+Five integers written with put w, four bytes each: twenty bytes.
+
+86
+00:06:28,799 --> 00:06:32,549
+Sequential access reads them in order from the start.
+
+87
+00:06:32,549 --> 00:06:40,817
+Random access jumps: f seek to two times the size of an int, byte eight, lands on the third number, thirty three.
+
+88
+00:06:40,817 --> 00:06:45,218
+After reading four bytes, f tell reports position twelve.
+
+89
+00:06:45,218 --> 00:06:49,490
+The whole idea: offset equals record number times record size.
+
+90
+00:06:51,900 --> 00:06:52,670
+Pause and think.
+
+91
+00:06:59,967 --> 00:07:05,184
+Call by reference: the function received an address and changed the original through it.
+
+92
+00:07:07,167 --> 00:07:07,602
+One more.
+
+93
+00:07:15,233 --> 00:07:19,115
+Eight bytes: a union is as big as its largest member.
+
+94
+00:07:19,115 --> 00:07:21,460
+A structure with the same members would add them up.
+
+95
+00:07:23,633 --> 00:07:24,715
+Quick recap.
+
+96
+00:07:24,715 --> 00:07:28,491
+Functions with prototypes, calls and definitions.
+
+97
+00:07:28,491 --> 00:07:29,950
+Storage classes.
+
+98
+00:07:29,950 --> 00:07:31,916
+Recursion with its base case.
+
+99
+00:07:31,916 --> 00:07:34,025
+Structures and unions.
+
+100
+00:07:34,025 --> 00:07:36,148
+Pointers and call by reference.
+
+101
+00:07:36,148 --> 00:07:39,690
+And data files, with random access by f seek.
+
+102
+00:07:43,867 --> 00:07:45,783
+That was programming in C.
+
+103
+00:07:45,783 --> 00:07:52,540
+Next, object-oriented programming: classes, objects, inheritance and polymorphism.
+
+104
+00:07:52,540 --> 00:07:53,117
+See you there.
+

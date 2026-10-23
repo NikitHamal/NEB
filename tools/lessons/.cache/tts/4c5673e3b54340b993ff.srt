@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,393
+Set B asks: in your own words, explain how a droplet of fog becomes water in the tank.
+
+2
+00:00:06,393 --> 00:00:12,083
+The passage says droplets strike a thread and stick, then slide down the mesh.
+
+3
+00:00:12,083 --> 00:00:20,117
+Change the words and keep the meaning: strike becomes hit, stick becomes cling, slide down becomes run down.
+
+4
+00:00:20,117 --> 00:00:23,658
+Copying the sentence unchanged would score zero.
+

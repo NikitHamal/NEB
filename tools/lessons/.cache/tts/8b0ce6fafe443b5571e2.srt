@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,867
+Newton showed that these two combine in one formula.
+
+2
+00:00:03,867 --> 00:00:14,674
+The speed of a mechanical wave is the square root of E over rho, where rho is the density of the medium, and E is its modulus of elasticity.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,229
+Can we measure one electrode's potential on its own?
+
+2
+00:00:03,229 --> 00:00:03,919
+No.
+
+3
+00:00:03,919 --> 00:00:11,145
+A voltmeter needs two contacts, and the second wire dipping in the solution would itself be a second electrode.
+
+4
+00:00:11,145 --> 00:00:14,882
+Every measurement is a difference between two electrodes.
+
+5
+00:00:14,882 --> 00:00:20,273
+So all E nought values are relative, measured against one agreed reference.
+

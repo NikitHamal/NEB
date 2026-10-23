@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,367
+The all or none law.
+
+2
+00:00:01,367 --> 00:00:03,541
+Below threshold, nothing.
+
+3
+00:00:03,541 --> 00:00:08,658
+At or above it, an impulse of exactly the same size every time.
+
+4
+00:00:08,658 --> 00:00:14,518
+A stronger stimulus does not make a bigger impulse; it makes more impulses per second.
+

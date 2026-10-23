@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,744
+Protein imbibes most, then starch, then cellulose, so a pea swells more than a wheat grain.
+

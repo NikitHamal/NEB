@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,492
+Combine the two, and you get the general Doppler formula: f dash equals v plus v o, over v minus v s, times f.
+

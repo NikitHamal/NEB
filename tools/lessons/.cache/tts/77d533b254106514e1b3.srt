@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:14,414
+In general: if n objects contain p alike of one kind, q of another and s of a third, each real arrangement hides p factorial times q factorial times s factorial labelled ones.
+
+2
+00:00:14,414 --> 00:00:20,403
+So the count is n factorial over p factorial q factorial s factorial.
+

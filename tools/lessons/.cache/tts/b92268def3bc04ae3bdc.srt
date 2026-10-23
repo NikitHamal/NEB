@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,054
+The aliquot holds zero point zero four times twenty five, one milliequivalent.
+
+2
+00:00:06,054 --> 00:00:14,244
+That reacted with twenty cubic centimetres of permanganate, so its normality is one over twenty, zero point zero five.
+

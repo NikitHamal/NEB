@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,289
+Five parts.
+
+2
+00:00:01,289 --> 00:00:04,492
+Binary operations and the group axioms.
+
+3
+00:00:04,492 --> 00:00:07,291
+Building and reading Cayley tables.
+
+4
+00:00:07,291 --> 00:00:08,658
+Rolle's theorem.
+
+5
+00:00:08,658 --> 00:00:10,273
+The Mean Value Theorem.
+
+6
+00:00:10,273 --> 00:00:14,895
+And a revision of numerical integration, as you would set it out in the exam.
+

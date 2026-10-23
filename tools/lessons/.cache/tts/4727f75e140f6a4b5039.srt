@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,239
+One: transpiration pull.
+
+2
+00:00:02,239 --> 00:00:09,309
+Water evaporates from leaf cell walls and escapes through stomata, tugging on the water behind it.
+

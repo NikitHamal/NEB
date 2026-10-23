@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,351
+Welcome to Class 12 Chemistry, Unit 3: Chemical Kinetics.
+
+2
+00:00:05,351 --> 00:00:12,825
+How fast reactions go, what controls their speed, and the energy barrier every collision must clear.
+

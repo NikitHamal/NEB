@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,158
+The fourth dark fringe is at seven halves of beta: ten point five millimetres from the centre.
+

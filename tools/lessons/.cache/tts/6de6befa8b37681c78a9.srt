@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,067
+Independent of x means that power is zero: r is six, the seventh term.
+

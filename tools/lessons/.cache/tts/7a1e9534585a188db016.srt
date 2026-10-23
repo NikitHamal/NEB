@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:13,528
+In this frame the piece moves round the arc at speed v, so F must be the centripetal force: mass times v squared over R. T delta theta equals mu R delta theta, times v squared over R.
+

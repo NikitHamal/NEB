@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,526
+Transfer RNA is the adapter.
+
+2
+00:00:02,526 --> 00:00:12,304
+It is the smallest RNA, folded into a clover leaf, with an anticodon loop at one end and the amino acid carried at its C C A end.
+
+3
+00:00:12,304 --> 00:00:14,062
+About fifteen percent.
+

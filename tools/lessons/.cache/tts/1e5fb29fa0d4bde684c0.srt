@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,510
+The classic exam question: how many ATP and NADPH to make one glucose?
+
+2
+00:00:06,510 --> 00:00:13,437
+Divide our tally by three: per carbon dioxide, three ATP and two NADPH.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,513
+Now the cold open, done properly.
+
+2
+00:00:02,513 --> 00:00:08,515
+One per cent ill, a ninety nine per cent catch rate, a two per cent false alarm rate.
+
+3
+00:00:08,515 --> 00:00:13,151
+Total probability of a positive: point zero two nine seven.
+
+4
+00:00:13,151 --> 00:00:16,158
+The share from the ill: exactly one third.
+
+5
+00:00:16,158 --> 00:00:20,937
+That is why a positive screening result is always checked with a second test.
+

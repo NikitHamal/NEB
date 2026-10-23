@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,841
+Heat it, and the water leaves in clear stages.
+
+2
+00:00:03,841 --> 00:00:09,231
+At a hundred degrees, four waters go, and the blue fades to pale blue.
+
+3
+00:00:09,231 --> 00:00:15,273
+At two hundred and thirty, the last one goes, leaving white anhydrous copper sulphate.
+
+4
+00:00:15,273 --> 00:00:21,692
+At seven hundred and twenty, it decomposes to black copper oxide and sulphur trioxide.
+

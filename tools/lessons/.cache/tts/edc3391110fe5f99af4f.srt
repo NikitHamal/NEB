@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,002
+And here is the deeper trick of this unit: connectives with the same meaning need different grammar.
+
+2
+00:00:06,002 --> 00:00:12,968
+Because takes a clause; because of takes a noun; therefore needs a full stop or a semicolon in front of it.
+
+3
+00:00:12,968 --> 00:00:14,726
+Meaning is not enough.
+
+4
+00:00:14,726 --> 00:00:16,614
+Always check what must follow.
+

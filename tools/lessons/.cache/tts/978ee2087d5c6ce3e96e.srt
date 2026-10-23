@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,716
+When a question is put inside another sentence, after could you tell me, do you know, or I wonder, the inversion is undone: the embedded part goes back to statement order.
+
+2
+00:00:10,716 --> 00:00:12,161
+Where is the bus park?
+
+3
+00:00:12,161 --> 00:00:15,182
+becomes: could you tell me where the bus park is?
+

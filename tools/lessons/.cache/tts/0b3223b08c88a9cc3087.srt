@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,539
+Copper dissolves slowly in ammonia solution if air is present, giving the deep blue tetrammine copper ion.
+
+2
+00:00:07,539 --> 00:00:10,273
+That solution is Schweitzer's reagent.
+
+3
+00:00:10,273 --> 00:00:20,455
+It dissolves cellulose, and squirting the solution into acid regenerates the cellulose as fibre: the first artificial silk, rayon.
+

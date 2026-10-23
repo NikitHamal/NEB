@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,971
+The Doppler effect is the apparent change in frequency when the source, the observer, or both, move relative to the medium.
+
+2
+00:00:08,971 --> 00:00:12,083
+The source never changes its own frequency.
+
+3
+00:00:12,083 --> 00:00:14,778
+Only the frequency received changes.
+

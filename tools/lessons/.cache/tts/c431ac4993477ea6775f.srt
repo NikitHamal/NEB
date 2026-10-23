@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,809
+And the second consequence.
+
+2
+00:00:01,809 --> 00:00:05,234
+Take two routes between the same states A and B.
+
+3
+00:00:05,234 --> 00:00:11,106
+On the top route, the gas first expands at high pressure, then cools at constant volume.
+
+4
+00:00:11,106 --> 00:00:13,138
+The area under it is large.
+

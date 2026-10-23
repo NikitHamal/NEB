@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,132
+Quick recap.
+
+2
+00:00:01,132 --> 00:00:07,096
+Gametogenesis is multiplication, growth, and two meiotic divisions.
+
+3
+00:00:07,096 --> 00:00:14,505
+One spermatocyte gives four sperms, one oocyte gives one ovum and three polar bodies.
+
+4
+00:00:14,505 --> 00:00:21,276
+The frog's egg is mesolecithal and telolecithal, and the grey crescent marks the dorsal side.
+
+5
+00:00:21,276 --> 00:00:26,809
+Cleavage is holoblastic but unequal, doubling the cells with no growth.
+
+6
+00:00:26,809 --> 00:00:35,885
+Gastrulation moves cells into three germ layers, the dorsal lip is Spemann's organiser, and the blastopore becomes the anus.
+
+7
+00:00:35,885 --> 00:00:40,546
+And metamorphosis is driven by thyroxine, which needs iodine.
+

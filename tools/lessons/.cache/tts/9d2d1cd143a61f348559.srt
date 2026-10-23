@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,020
+Here is a function that swaps two numbers.
+
+2
+00:00:03,020 --> 00:00:07,317
+Call it with ten and twenty, print them, and you get ten twenty.
+
+3
+00:00:07,317 --> 00:00:08,645
+Nothing swapped.
+
+4
+00:00:08,645 --> 00:00:09,388
+Why?
+

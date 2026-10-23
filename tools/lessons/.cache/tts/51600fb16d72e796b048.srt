@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,375
+For the sum of squares we use a beautiful trick called telescoping.
+
+2
+00:00:04,375 --> 00:00:13,437
+Start from an identity: k plus one, cubed, minus k cubed, equals three k squared plus three k plus one.
+

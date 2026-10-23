@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,117
+Its potential depends only on the chloride concentration, which is easy to fix.
+
+2
+00:00:05,117 --> 00:00:10,208
+Plus zero point two four two volts with saturated potassium chloride.
+
+3
+00:00:10,208 --> 00:00:17,591
+It is compact, robust and steady, which is why it is the reference half of almost every pH meter.
+

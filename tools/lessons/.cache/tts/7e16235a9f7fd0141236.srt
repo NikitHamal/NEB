@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,140
+Succinyl coenzyme A gives one ATP directly.
+
+2
+00:00:04,140 --> 00:00:09,049
+Succinate is oxidised to fumarate, making FADH two.
+
+3
+00:00:09,049 --> 00:00:17,330
+Fumarate becomes malate, and malate is oxidised back to oxaloacetate, making a third NADH.
+
+4
+00:00:17,330 --> 00:00:20,104
+The cycle is ready for the next acetyl group.
+

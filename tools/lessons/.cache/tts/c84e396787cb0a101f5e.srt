@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,713
+Three numbers answer most decibel questions without a calculator.
+
+2
+00:00:04,713 --> 00:00:11,054
+Doubling the intensity adds three decibels, because ten log two is three.
+
+3
+00:00:11,054 --> 00:00:15,768
+Multiplying it by ten adds exactly ten decibels.
+
+4
+00:00:15,768 --> 00:00:22,877
+And doubling your distance from a point source quarters the intensity, so the level falls by six decibels.
+

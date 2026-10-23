@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,184
+Worked example.
+
+2
+00:00:01,184 --> 00:00:06,289
+A galvanometer of fifty ohms gives full scale for two milliamps.
+
+3
+00:00:06,289 --> 00:00:11,575
+Make an ammeter reading up to five amps, and a voltmeter reading up to ten volts.
+

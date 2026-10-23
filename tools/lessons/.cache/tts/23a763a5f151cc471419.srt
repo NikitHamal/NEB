@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,104
+The frequency is unchanged, so the speed in the liquid is f times lambda: one point eight seven five times ten to the eight metres per second.
+

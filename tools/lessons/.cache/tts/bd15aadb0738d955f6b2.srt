@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,218
+Catalysis is the change of rate caused by a catalyst.
+
+2
+00:00:04,218 --> 00:00:07,304
+A positive catalyst speeds a reaction up.
+
+3
+00:00:07,304 --> 00:00:14,609
+A negative catalyst, or inhibitor, slows it down, as glycerol does for hydrogen peroxide.
+
+4
+00:00:14,609 --> 00:00:20,572
+A promoter has no power of its own but boosts a catalyst, like molybdenum with iron.
+
+5
+00:00:20,572 --> 00:00:26,184
+And a poison destroys a catalyst, like arsenic oxide on vanadium pentoxide.
+

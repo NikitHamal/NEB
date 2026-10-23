@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,265
+Four resistors, P, Q, R and S, joined in a diamond A B C D.
+
+2
+00:00:07,265 --> 00:00:13,476
+A cell across one diagonal, A C, and a galvanometer across the other, B D.
+
+3
+00:00:13,476 --> 00:00:15,403
+This is the Wheatstone bridge.
+

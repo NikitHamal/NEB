@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,151
+Here is the comparison to learn as a table.
+
+2
+00:00:03,151 --> 00:00:09,843
+Xylem groups, pith, conjunctive tissue, cambium, secondary growth, and examples.
+
+3
+00:00:09,843 --> 00:00:20,546
+And everything else is shared: both have root hairs, an endodermis with Casparian strips, a pericycle, radial bundles and exarch xylem.
+

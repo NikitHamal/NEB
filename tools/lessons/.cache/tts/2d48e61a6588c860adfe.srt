@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,119
+The volumetric route, also called titrimetric analysis, measures a volume instead.
+
+2
+00:00:06,119 --> 00:00:14,934
+A solution of accurately known concentration runs from a burette into the unknown, until the reaction is exactly complete.
+
+3
+00:00:14,934 --> 00:00:18,203
+The volume used tells you how much of the unknown was there.
+

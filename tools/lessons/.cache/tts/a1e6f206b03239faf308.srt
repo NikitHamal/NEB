@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,664
+Chlorophyll absorbs strongly in the blue and the red, and hardly at all in the green.
+
+2
+00:00:05,664 --> 00:00:09,466
+The green is reflected, which is why leaves look green.
+

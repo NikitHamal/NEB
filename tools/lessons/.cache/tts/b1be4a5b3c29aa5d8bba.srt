@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,937
+Plot them.
+
+2
+00:00:00,937 --> 00:00:06,054
+Almost every element shows plus two, from losing the 4s pair.
+
+3
+00:00:06,054 --> 00:00:08,541
+Scandium prefers plus three.
+
+4
+00:00:08,541 --> 00:00:21,158
+The highest state climbs, plus four for titanium, plus five for vanadium, plus six for chromium, up to plus seven for manganese, which uses all five d and both s electrons.
+

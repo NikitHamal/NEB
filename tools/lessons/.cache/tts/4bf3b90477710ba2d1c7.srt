@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,781
+The liquid passes through a narrow throttle valve, where it expands and cools sharply.
+
+2
+00:00:05,781 --> 00:00:14,257
+Then it evaporates in the coils inside the cabinet, soaking up heat Q two from the food, and returns to the compressor.
+
+3
+00:00:14,257 --> 00:00:15,546
+Round and round.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,739
+Two families of organic halogen compounds contain a benzene ring.
+
+2
+00:00:04,739 --> 00:00:12,200
+In a haloarene, or aryl halide, the halogen sits directly on a ring carbon, like chlorobenzene.
+
+3
+00:00:12,200 --> 00:00:17,187
+In an aralkyl halide, like benzyl chloride, it sits on the side chain.
+
+4
+00:00:17,187 --> 00:00:20,065
+The two behave completely differently.
+

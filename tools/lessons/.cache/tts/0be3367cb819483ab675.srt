@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,171
+Worked example.
+
+2
+00:00:01,171 --> 00:00:07,421
+A small telescope with a ten centimetre objective, and light of five hundred and fifty nanometres.
+
+3
+00:00:07,421 --> 00:00:12,369
+What is its limit of resolution, and what is the smallest thing it can make out on the Moon?
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,380
+A class is a user defined type that binds data members and member functions under one name.
+
+2
+00:00:06,380 --> 00:00:10,195
+It is only a blueprint: it uses no memory for data.
+
+3
+00:00:10,195 --> 00:00:17,981
+An object is an instance, a real variable of that class, created at run time with its own copy of the data.
+
+4
+00:00:17,981 --> 00:00:21,380
+One Student class, three student objects.
+

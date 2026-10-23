@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,718
+Now we can settle the race.
+
+2
+00:00:01,718 --> 00:00:07,981
+Both wheels start at the same height, so both convert the same potential energy, M g h.
+
+3
+00:00:07,981 --> 00:00:12,643
+But a rolling wheel must split that energy between moving forward and spinning.
+

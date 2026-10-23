@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,869
+A complaint that sounds angry gets a polite reply and no action.
+
+2
+00:00:04,869 --> 00:00:11,432
+A complaint that reads like a file note gets acted on, because the reader can see exactly what to put right.
+
+3
+00:00:11,432 --> 00:00:25,273
+It needs five facts: what you bought or used; when and where; the proof, a bill or order number; what went wrong; and the remedy you want: repair, replacement, refund or apology.
+
+4
+00:00:25,273 --> 00:00:30,638
+Name one of them, and put the order number in the subject line, where a clerk will look for it.
+

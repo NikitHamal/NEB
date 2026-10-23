@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,880
+If a pivot turns out to be zero, swap in a lower row.
+
+2
+00:00:03,880 --> 00:00:10,625
+In practice, computers always swap in the largest available pivot, to keep rounding errors small.
+

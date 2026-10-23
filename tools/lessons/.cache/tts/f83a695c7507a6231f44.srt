@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,895
+The half life is the time for the concentration to fall to half its starting value.
+
+2
+00:00:04,895 --> 00:00:08,632
+Put A equals half A nought into each equation.
+
+3
+00:00:08,632 --> 00:00:11,861
+Zero order gives A nought over two k.
+
+4
+00:00:11,861 --> 00:00:15,742
+First order gives point six nine three over k.
+

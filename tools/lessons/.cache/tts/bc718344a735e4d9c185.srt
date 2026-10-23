@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,843
+The equivalent weight is one oh six over two, fifty three.
+
+2
+00:00:04,843 --> 00:00:15,130
+The number of equivalents needed is normality times volume in litres: zero point one times zero point two five, zero point zero two five.
+

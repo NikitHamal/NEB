@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,203
+The innermost layer of the cortex is the endodermis: one ring of barrel shaped cells fitted tightly together.
+
+2
+00:00:08,203 --> 00:00:15,078
+Their radial and tangential walls carry a band of suberin and lignin, the Casparian strip.
+

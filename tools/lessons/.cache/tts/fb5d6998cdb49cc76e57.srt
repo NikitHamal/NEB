@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,588
+One practical trap.
+
+2
+00:00:01,588 --> 00:00:07,812
+If the galvanometer deflects the same way at both ends of the wire, there is no balance point.
+
+3
+00:00:07,812 --> 00:00:16,640
+Either the driver cell's e m f is too small, smaller than the one you are measuring, or a cell has been connected the wrong way round.
+
+4
+00:00:16,640 --> 00:00:22,408
+Always make E nought bigger than E, and join both positive terminals to the same end.
+

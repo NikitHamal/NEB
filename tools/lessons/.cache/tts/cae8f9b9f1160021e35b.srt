@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,619
+In the mesophyll, carbon dioxide is caught by a different enzyme, PEP carboxylase, which ignores oxygen completely.
+
+2
+00:00:08,619 --> 00:00:15,247
+It joins carbon dioxide to the three-carbon PEP, making oxaloacetate, a four-carbon acid.
+
+3
+00:00:15,247 --> 00:00:17,877
+That is why these are called C4 plants.
+

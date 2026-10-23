@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,713
+Propanone already has its carbonyl group, so no oxidation is needed.
+
+2
+00:00:04,713 --> 00:00:09,505
+Just chlorination and hydrolysis: two steps and a better yield.
+
+3
+00:00:09,505 --> 00:00:13,333
+That is why propanone is the preferred starting material.
+

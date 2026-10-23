@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,747
+So X is A inverse B.
+
+2
+00:00:02,747 --> 00:00:11,393
+And since A inverse is the adjoint over the determinant, X is one over the determinant of A, times adjoint A, times B.
+

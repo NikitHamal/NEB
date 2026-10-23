@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,166
+Here is the recipe for every Polaroid numerical.
+
+2
+00:00:04,166 --> 00:00:08,151
+Unpolarized light through the first sheet: always half.
+
+3
+00:00:08,151 --> 00:00:15,065
+Then, for each further sheet, multiply by cos squared of the angle between it and the sheet just before it.
+
+4
+00:00:15,065 --> 00:00:17,135
+Not the angle to the first sheet.
+
+5
+00:00:17,135 --> 00:00:19,583
+And a crossed pair gives zero.
+

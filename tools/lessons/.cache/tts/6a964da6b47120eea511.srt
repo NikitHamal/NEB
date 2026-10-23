@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,544
+A C is exactly twice A B: the same direction.
+

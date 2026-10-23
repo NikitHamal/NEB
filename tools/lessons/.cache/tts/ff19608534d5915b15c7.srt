@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,536
+Rearrange it and you get the two other forms the board asks for: atomic weight equals equivalent weight times valency, and valency equals atomic weight over equivalent weight.
+

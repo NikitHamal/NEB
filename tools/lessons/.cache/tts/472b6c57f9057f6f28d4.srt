@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,942
+A sound wave can be described in two ways.
+
+2
+00:00:02,942 --> 00:00:06,601
+By how far the air layers are displaced from their resting places.
+
+3
+00:00:06,601 --> 00:00:13,815
+Or by the excess pressure: how much the pressure rises above, or falls below, the steady atmospheric value.
+

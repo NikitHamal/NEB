@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,135
+It happens in the chloroplast.
+
+2
+00:00:02,135 --> 00:00:07,070
+Two membranes enclose the stroma, a fluid full of enzymes.
+

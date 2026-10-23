@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,796
+The parts under the phloem work faster and push outwards, so the ring soon becomes a circle.
+
+2
+00:00:06,796 --> 00:00:14,856
+From then on it behaves exactly like the stem's cambium: secondary xylem inside, secondary phloem outside.
+
+3
+00:00:14,856 --> 00:00:21,054
+Here the cork cambium arises from the pericycle, and the epiblema and cortex are shed.
+

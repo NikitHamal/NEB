@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,776
+A seconds pendulum has T equals two seconds.
+
+2
+00:00:03,776 --> 00:00:11,875
+Rearranging, L equals g T squared over four pi squared, which is zero point nine nine three metres.
+
+3
+00:00:11,875 --> 00:00:13,958
+Almost exactly one metre.
+

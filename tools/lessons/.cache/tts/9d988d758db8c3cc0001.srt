@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,429
+The ray crosses on a slant, so its path is the thickness over cos r: six over zero point eight eight one nine, six point eight centimetres.
+
+2
+00:00:10,429 --> 00:00:16,835
+At two times ten to the eight, that takes three point four times ten to the minus ten seconds.
+

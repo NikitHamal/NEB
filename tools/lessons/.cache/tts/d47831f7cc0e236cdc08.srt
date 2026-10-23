@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,744
+Arrange A, A, B.
+
+2
+00:00:01,744 --> 00:00:08,059
+If we label the two A's to make them different, there are three factorial, six arrangements.
+
+3
+00:00:08,059 --> 00:00:11,679
+But swapping the labels changes nothing that you can see.
+
+4
+00:00:11,679 --> 00:00:18,320
+So the six fall into pairs, and there are really only three: six over two factorial.
+

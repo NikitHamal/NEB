@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,057
+Put n equal to three.
+
+2
+00:00:02,057 --> 00:00:08,997
+Factorise z cubed minus one: z minus one, times z squared plus z plus one.
+
+3
+00:00:08,997 --> 00:00:17,656
+So one root is one, and the quadratic gives the other two: minus one plus or minus i root three, over two.
+
+4
+00:00:17,656 --> 00:00:19,192
+Call the first omega.
+
+5
+00:00:19,192 --> 00:00:21,549
+The other is omega squared.
+
+6
+00:00:21,549 --> 00:00:26,302
+On the diagram, they are an equilateral triangle on the unit circle.
+

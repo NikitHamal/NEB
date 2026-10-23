@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,575
+In an ideal gas, the molecules do not attract each other, so there is no potential energy part.
+
+2
+00:00:06,575 --> 00:00:14,270
+U is f by two, n R T, where f is the number of degrees of freedom of each molecule.
+

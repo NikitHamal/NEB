@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,804
+Its size is twelve newton metres; the force is three newtons.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,742
+A whole row of zeros, zero equals zero: true but empty.
+
+2
+00:00:05,742 --> 00:00:12,526
+Only two real equations remain for three unknowns, so there are infinitely many solutions.
+

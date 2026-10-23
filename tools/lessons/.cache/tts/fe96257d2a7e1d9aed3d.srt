@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,242
+Watch the force from the spring, the pink arrow.
+
+2
+00:00:03,242 --> 00:00:05,924
+Stretch the spring and it pulls back.
+
+3
+00:00:05,924 --> 00:00:08,190
+Squash it and it pushes back.
+
+4
+00:00:08,190 --> 00:00:13,502
+The further you go, the harder it pushes, and it always points towards the middle.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,807
+At three centimetres, the speed is omega root A squared minus x squared.
+
+2
+00:00:05,807 --> 00:00:13,385
+Root of zero point zero five squared minus zero point zero three squared is zero point zero four.
+
+3
+00:00:13,385 --> 00:00:17,552
+A three four five triangle, hiding in plain sight.
+
+4
+00:00:17,552 --> 00:00:21,861
+Times pi gives zero point one two six metres per second.
+

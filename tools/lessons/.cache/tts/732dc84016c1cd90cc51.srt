@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,002
+The ones who reach the mud first slow down, while the others are still striding on the grass.
+
+2
+00:00:06,002 --> 00:00:12,838
+So the whole line swings round, and marches off in a new direction, bent towards the boundary's normal.
+

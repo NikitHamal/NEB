@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,861
+Here are two wheels.
+
+2
+00:00:01,861 --> 00:00:06,263
+They have exactly the same mass, and exactly the same radius.
+

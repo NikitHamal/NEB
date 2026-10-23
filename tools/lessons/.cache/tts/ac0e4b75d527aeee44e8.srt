@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,828
+Each pair has a path difference of a by two sine theta.
+
+2
+00:00:03,828 --> 00:00:08,802
+If that is half a wavelength, the two wavelets of every pair cancel.
+
+3
+00:00:08,802 --> 00:00:15,143
+Every wavelet from the top half is wiped out by its partner from the bottom half, and P is dark.
+
+4
+00:00:15,143 --> 00:00:18,645
+That happens when a sine theta equals lambda.
+

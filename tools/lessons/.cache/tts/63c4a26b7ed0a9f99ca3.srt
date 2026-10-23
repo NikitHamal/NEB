@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,929
+At an open end, the air is free to move, but it touches the atmosphere, whose pressure it cannot change.
+
+2
+00:00:07,929 --> 00:00:14,960
+The pressure variation is zero: a pressure node, which is the same place as a displacement antinode.
+

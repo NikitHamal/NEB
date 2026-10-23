@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,781
+If they may not repeat, each digit used is gone: six, then five, then four.
+
+2
+00:00:05,781 --> 00:00:07,018
+One hundred and twenty.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,328
+Take one litre.
+
+2
+00:00:01,328 --> 00:00:07,500
+It weighs a thousand times one point eight four, one thousand eight hundred and forty grams.
+
+3
+00:00:07,500 --> 00:00:13,697
+Ninety eight percent of that, one thousand eight hundred and three point two grams, is the acid.
+

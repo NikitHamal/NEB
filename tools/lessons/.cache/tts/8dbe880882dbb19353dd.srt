@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,572
+Eleven letters: one M, four I's, four S's, two P's.
+
+2
+00:00:05,572 --> 00:00:13,450
+Eleven factorial over four factorial four factorial two factorial: thirty four thousand six hundred and fifty.
+

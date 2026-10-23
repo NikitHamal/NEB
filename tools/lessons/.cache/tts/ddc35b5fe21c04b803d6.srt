@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,802
+For the i part, cover the i column and cross-multiply what is left: one times minus two, minus three times five.
+
+2
+00:00:08,802 --> 00:00:10,520
+Minus seventeen.
+

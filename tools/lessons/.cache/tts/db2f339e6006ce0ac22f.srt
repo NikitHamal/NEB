@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,213
+Worked example eight point one.
+
+2
+00:00:02,213 --> 00:00:10,312
+Bromomethane is a methyl halide, so S N two, with rate equals k times both concentrations.
+
+3
+00:00:10,312 --> 00:00:18,177
+k is two times ten to the minus four over zero point one times zero point one: two times ten to the minus two.
+
+4
+00:00:18,177 --> 00:00:23,281
+Doubling hydroxide doubles the rate, to four times ten to the minus four.
+
+5
+00:00:23,281 --> 00:00:32,565
+But for the tertiary halide, the mechanism is S N one, hydroxide is not in the rate law, and doubling it changes nothing.
+

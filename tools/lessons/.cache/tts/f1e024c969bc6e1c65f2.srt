@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,752
+To get past the wall you need chemistry: reflux rectified spirit with quicklime, which takes up the water as calcium hydroxide, and distil.
+
+2
+00:00:09,752 --> 00:00:12,877
+That gives absolute alcohol, one hundred percent.
+
+3
+00:00:12,877 --> 00:00:17,031
+Industry uses azeotropic distillation with benzene.
+
+4
+00:00:17,031 --> 00:00:21,210
+And never calcium chloride, which forms a compound with ethanol.
+

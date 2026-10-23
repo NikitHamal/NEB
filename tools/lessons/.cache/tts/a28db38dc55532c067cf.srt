@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,328
+Now strings.
+
+2
+00:00:01,328 --> 00:00:04,440
+A stretched string carries transverse waves.
+
+3
+00:00:04,440 --> 00:00:15,143
+Two things control their speed: the tension, T, that pulls a displaced piece back, and the mass per unit length, mu, that resists being moved.
+

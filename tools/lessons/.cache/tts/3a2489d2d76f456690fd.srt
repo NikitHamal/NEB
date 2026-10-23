@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,338
+Bark formed early in the season, containing living phloem, is soft bark.
+
+2
+00:00:05,338 --> 00:00:09,765
+The dead, flaking outer bark of an old trunk is called rhytidome.
+
+3
+00:00:09,765 --> 00:00:15,351
+If it peels off as a whole hollow cylinder, as in birch, it is ring bark.
+
+4
+00:00:15,351 --> 00:00:20,078
+If it comes off in irregular flakes, as in guava, it is scale bark.
+

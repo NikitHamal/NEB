@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,963
+Welcome to Class 12 Chemistry, Unit 2: Ionic Equilibrium.
+
+2
+00:00:05,963 --> 00:00:10,585
+It is the longest and most examined unit in physical chemistry.
+
+3
+00:00:10,585 --> 00:00:18,841
+Acids and bases, the pH scale, solubility products, buffers, indicators and salt hydrolysis.
+
+4
+00:00:18,841 --> 00:00:25,703
+Almost all of it rests on one idea: reversible reactions between ions, sitting in equilibrium.
+

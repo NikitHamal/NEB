@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,145
+Means twenty five and forty; the table gives thirty six, fifty and thirty two.
+

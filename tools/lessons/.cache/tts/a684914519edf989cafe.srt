@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,239
+Work is force times distance.
+
+2
+00:00:02,239 --> 00:00:07,018
+Write F as tau over r, and d s as r d theta.
+
+3
+00:00:07,018 --> 00:00:11,679
+The r's cancel, leaving d W equals tau d theta.
+
+4
+00:00:11,679 --> 00:00:18,697
+For a constant torque, W equals tau theta: torque times angle, just like force times distance.
+

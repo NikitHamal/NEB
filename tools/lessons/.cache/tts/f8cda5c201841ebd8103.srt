@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,302
+Meiosis two.
+
+2
+00:00:01,302 --> 00:00:07,669
+The male makes four spermatids, which are remodelled into four sperms by spermiogenesis.
+
+3
+00:00:07,669 --> 00:00:18,138
+The female makes one ovum and another polar body, and the first polar body may divide too: one ovum and three polar bodies, which soon die.
+

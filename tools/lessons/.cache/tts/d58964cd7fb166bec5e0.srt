@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,359
+A signal never arrives exactly as it was sent.
+
+2
+00:00:03,359 --> 00:00:08,385
+Attenuation: it weakens with distance, so repeaters regenerate it.
+
+3
+00:00:08,385 --> 00:00:14,283
+Distortion: its shape changes, because different frequencies travel at different speeds.
+
+4
+00:00:14,283 --> 00:00:24,700
+And noise: unwanted energy added on the way, from heat in the wires, from neighbouring wires, which is crosstalk, or from sudden spikes like lightning.
+

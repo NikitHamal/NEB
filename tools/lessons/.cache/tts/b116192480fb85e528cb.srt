@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,328
+Take a double cone, seen here from the side, and slice it with a flat plane, the yellow line.
+
+2
+00:00:06,328 --> 00:00:08,489
+A level cut gives a circle.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,250
+One more conversion.
+
+2
+00:00:01,250 --> 00:00:04,661
+One hundred ohms, full scale at one milliamp.
+

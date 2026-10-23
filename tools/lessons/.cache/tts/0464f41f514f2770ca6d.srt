@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,518
+The subnet mask says which bits name the network and which name the host.
+
+2
+00:00:04,518 --> 00:00:11,458
+Two five five dot two five five dot two five five dot nought: the first twenty four bits are network.
+
+3
+00:00:11,458 --> 00:00:17,226
+Set the host bits to nought for the network address, to all ones for the broadcast address.
+
+4
+00:00:17,226 --> 00:00:23,033
+That leaves two to the eight minus two, two hundred and fifty four usable hosts.
+

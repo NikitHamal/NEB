@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,716
+Inside a real fridge, a volatile liquid called the refrigerant does the carrying.
+
+2
+00:00:05,716 --> 00:00:06,940
+Follow it round.
+
+3
+00:00:06,940 --> 00:00:11,015
+The compressor squeezes the refrigerant vapour, making it hot.
+

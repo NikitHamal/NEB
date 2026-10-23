@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,080
+And there it is.
+
+2
+00:00:01,080 --> 00:00:02,656
+Torque equals I alpha.
+
+3
+00:00:02,656 --> 00:00:14,010
+The rotational form of F equals m a. Force becomes torque, mass becomes moment of inertia, acceleration becomes angular acceleration.
+
+4
+00:00:14,010 --> 00:00:16,028
+Our dictionary, once again.
+

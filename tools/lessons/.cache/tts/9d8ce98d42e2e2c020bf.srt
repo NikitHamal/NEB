@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,627
+Epithelial cells that specialise for secretion sink into the tissue below and form glands.
+
+2
+00:00:06,627 --> 00:00:13,411
+A single goblet cell is a unicellular gland; many cells together make a multicellular gland.
+
+3
+00:00:13,411 --> 00:00:20,768
+Exocrine glands release through a duct; endocrine glands have no duct and release hormones into the blood.
+
+4
+00:00:20,768 --> 00:00:24,335
+And there are three ways a cell can let go of its secretion.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,236
+Malaria is caused by Plasmodium, carried by the female Anopheles mosquito.
+
+2
+00:00:06,236 --> 00:00:10,611
+In Nepal, Plasmodium vivax is by far the commonest.
+
+3
+00:00:10,611 --> 00:00:16,588
+When an infected mosquito bites, thread like sporozoites enter the blood with its saliva.
+

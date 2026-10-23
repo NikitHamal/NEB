@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,005
+Choose clever values of x. Put x equal to one and the B term vanishes: A is a third.
+
+2
+00:00:07,005 --> 00:00:10,898
+Put x equal to minus two: B is minus a third.
+

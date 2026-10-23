@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,372
+A pipe of internal diameter six centimetres carries water at two metres per second, and narrows to three centimetres.
+
+2
+00:00:08,372 --> 00:00:11,653
+Find the speed in the narrow part, and the flow rate.
+

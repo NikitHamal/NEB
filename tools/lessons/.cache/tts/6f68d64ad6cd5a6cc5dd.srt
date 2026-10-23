@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,447
+The surface through all those points is a wavefront: the locus of points vibrating in the same phase.
+
+2
+00:00:07,447 --> 00:00:12,877
+The perpendicular to a wavefront, in the direction the wave moves, is a ray.
+
+3
+00:00:12,877 --> 00:00:16,992
+And the wavefront moves at the speed of the wave in that medium.
+

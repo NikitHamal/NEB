@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,424
+The needle jumps: one point one zero volts.
+
+2
+00:00:03,424 --> 00:00:08,007
+Zinc atoms lose electrons and dissolve as zinc ions.
+
+3
+00:00:08,007 --> 00:00:13,958
+Zinc is the anode, where oxidation happens, and it is negative.
+
+4
+00:00:13,958 --> 00:00:20,143
+The electrons flow through the wire to the copper, where copper ions pick them up and deposit as copper.
+
+5
+00:00:20,143 --> 00:00:25,455
+Copper is the cathode, where reduction happens, and it is positive.
+

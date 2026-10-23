@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,773
+For the tangents themselves, take any line through seven, one with slope m and apply the tangency condition.
+
+2
+00:00:07,773 --> 00:00:12,669
+The quadratic gives m equals four thirds or minus three quarters.
+

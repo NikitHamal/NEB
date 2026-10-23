@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,200
+Now slide wave two out of step.
+
+2
+00:00:02,200 --> 00:00:04,570
+The phase difference, phi, grows.
+
+3
+00:00:04,570 --> 00:00:09,114
+On the right, the two amplitudes add like arrows, head to tail.
+
+4
+00:00:09,114 --> 00:00:17,343
+At a phase difference of pi, half a cycle, the crests of one sit on the troughs of the other, and the sum is zero.
+

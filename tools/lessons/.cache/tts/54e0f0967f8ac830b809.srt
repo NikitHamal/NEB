@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,320
+A banana plant cannot make useful seeds.
+
+2
+00:00:03,320 --> 00:00:05,169
+It is a sterile triploid.
+
+3
+00:00:05,169 --> 00:00:10,507
+So how do you get thousands of identical, disease free banana plants for a new orchard?
+
+4
+00:00:10,507 --> 00:00:12,513
+You start with one tiny bud.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,317
+So the series is one over zero factorial, plus one over one factorial, and so on: exactly e.
+

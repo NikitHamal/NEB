@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,263
+Keep laying radii around the rim: two, three, four, five, six, and a little bit more.
+
+2
+00:00:06,263 --> 00:00:10,911
+Exactly two pi radii fit around a full circle.
+
+3
+00:00:10,911 --> 00:00:14,479
+So one revolution is two pi radians.
+

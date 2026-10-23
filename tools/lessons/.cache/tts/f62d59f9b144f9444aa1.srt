@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:08,515
+At the O H bond, reactive metals like sodium replace the hydrogen, giving sodium ethoxide and hydrogen gas.
+
+2
+00:00:08,515 --> 00:00:10,677
+Aluminium does the same.
+
+3
+00:00:10,677 --> 00:00:17,369
+But compare with water: sodium reacts violently with water and only steadily with ethanol.
+
+4
+00:00:17,369 --> 00:00:20,182
+Alcohols are weaker acids than water.
+
+5
+00:00:20,182 --> 00:00:31,015
+Primary alcohols react fastest and tertiary slowest, because extra alkyl groups push charge onto the oxygen of the alkoxide ion and destabilise it.
+

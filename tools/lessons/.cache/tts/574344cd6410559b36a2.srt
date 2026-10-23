@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,531
+Use a equals two R sin A, and the same for b and c.
+

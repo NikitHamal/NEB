@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,169
+The tourist speaks in Part One, the guide in Part Two; neither listener answers.
+

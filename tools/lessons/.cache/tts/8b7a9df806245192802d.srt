@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,817
+And for blue light, beta is zero point four four two millimetres.
+
+2
+00:00:04,817 --> 00:00:07,799
+Narrower fringes, just as the slider showed.
+

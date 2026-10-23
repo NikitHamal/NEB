@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,239
+Linkage is rarely complete.
+
+2
+00:00:02,239 --> 00:00:07,929
+Only in male fruit flies and female silkworms does crossing over never happen.
+
+3
+00:00:07,929 --> 00:00:14,348
+Everywhere else linkage is incomplete: now and then, the genes are separated.
+
+4
+00:00:14,348 --> 00:00:15,234
+By what?
+
+5
+00:00:15,234 --> 00:00:16,458
+Crossing over.
+

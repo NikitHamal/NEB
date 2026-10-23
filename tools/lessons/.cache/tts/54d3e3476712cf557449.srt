@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,140
+Everything haloalkanes do starts with one polar bond.
+
+2
+00:00:04,140 --> 00:00:11,705
+Halogen is more electronegative than carbon, so the carbon is slightly positive and the halogen slightly negative.
+
+3
+00:00:11,705 --> 00:00:22,304
+A nucleophile, an electron rich species like hydroxide, cyanide or ammonia, attacks that positive carbon, and the halide leaves with the bonding pair.
+
+4
+00:00:22,304 --> 00:00:24,947
+This is nucleophilic substitution.
+

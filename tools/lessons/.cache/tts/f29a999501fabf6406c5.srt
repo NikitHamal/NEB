@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,270
+So I appears on both sides: move it across and divide by two.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,473
+A shorthand we will need constantly.
+
+2
+00:00:02,473 --> 00:00:08,020
+n factorial is the product of all whole numbers from n down to one.
+
+3
+00:00:08,020 --> 00:00:13,111
+Five factorial is one hundred and twenty, six factorial seven hundred and twenty.
+
+4
+00:00:13,111 --> 00:00:18,971
+And notice: n factorial equals n times n minus one factorial.
+

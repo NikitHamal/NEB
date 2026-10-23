@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,367
+Oxygen is released in the lumen; ATP and NADPH form in the stroma.
+

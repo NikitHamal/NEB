@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,101
+Now, instead of leaving the oscillator alone, we shake its support with a periodic force at a driving frequency, omega d.
+
+2
+00:00:09,101 --> 00:00:16,510
+At first it jerks around, but soon it settles into a steady oscillation at the driver's frequency, not its own.
+
+3
+00:00:16,510 --> 00:00:18,567
+This is a forced oscillation.
+

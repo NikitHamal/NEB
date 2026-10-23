@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,218
+Alcohols show four kinds of isomerism: chain, position, functional, with ethers of the same formula, and optical.
+
+2
+00:00:09,218 --> 00:00:19,791
+C four H ten O has four alcohols: butan one ol, butan two ol, two methyl propan one ol, and two methyl propan two ol.
+
+3
+00:00:19,791 --> 00:00:21,901
+And three ethers.
+
+4
+00:00:21,901 --> 00:00:26,575
+Butan two ol has a carbon with four different groups, so it is chiral.
+

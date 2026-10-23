@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,697
+Shunt: I g G over I minus I g.
+
+2
+00:00:03,697 --> 00:00:12,916
+Two milliamps times fifty, zero point one, over four point nine nine eight: about zero point zero two ohms, in parallel.
+

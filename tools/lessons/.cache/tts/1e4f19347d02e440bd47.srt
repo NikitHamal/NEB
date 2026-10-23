@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,541
+Solve the pair: n is nine and r is three.
+
+2
+00:00:03,541 --> 00:00:10,390
+Check: nine C two, three and four are thirty six, eighty four and one twenty six.
+

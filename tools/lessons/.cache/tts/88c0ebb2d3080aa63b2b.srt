@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:04,218
+A data flow diagram shows how data moves through a system.
+
+2
+00:00:04,218 --> 00:00:05,533
+Four symbols.
+
+3
+00:00:05,533 --> 00:00:10,130
+A circle is a process that transforms data, named with a verb.
+
+4
+00:00:10,130 --> 00:00:14,335
+A rectangle is an external entity outside the system.
+
+5
+00:00:14,335 --> 00:00:18,463
+An open box is a data store, a file or table.
+
+6
+00:00:18,463 --> 00:00:22,513
+And an arrow is a flow of data, labelled with a noun.
+
+7
+00:00:22,513 --> 00:00:28,138
+It never shows control flow, timing or decisions: that would be a flowchart.
+

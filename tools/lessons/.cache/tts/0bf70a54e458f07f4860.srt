@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,643
+And the DBMS defends its rules.
+
+2
+00:00:02,643 --> 00:00:10,794
+Try to enrol a student number ninety nine, who does not exist: refused, a foreign key constraint fails.
+
+3
+00:00:10,794 --> 00:00:14,960
+Try to delete a course that students are enrolled in: refused again.
+
+4
+00:00:14,960 --> 00:00:16,940
+That is referential integrity.
+

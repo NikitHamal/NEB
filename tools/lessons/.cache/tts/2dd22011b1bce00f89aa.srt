@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,182
+n P four is four falling factors; n P two is two.
+

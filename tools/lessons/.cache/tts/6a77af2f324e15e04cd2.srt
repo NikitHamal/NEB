@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,838
+First, where does the second wave come from?
+
+2
+00:00:02,838 --> 00:00:06,875
+Send a single pulse along a string tied to a wall.
+

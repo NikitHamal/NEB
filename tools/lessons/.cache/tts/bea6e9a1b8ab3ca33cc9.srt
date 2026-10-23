@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,135
+One plus omega is minus omega squared, so the first bracket is minus two omega squared.
+

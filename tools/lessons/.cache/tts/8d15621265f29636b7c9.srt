@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,354
+Five parts.
+
+2
+00:00:01,354 --> 00:00:05,755
+The resultant of forces, equilibrium and Lami's theorem.
+
+3
+00:00:05,755 --> 00:00:08,098
+Moments and the inclined plane.
+
+4
+00:00:08,098 --> 00:00:09,934
+Newton's laws of motion.
+
+5
+00:00:09,934 --> 00:00:13,033
+Connected bodies, lifts and momentum.
+
+6
+00:00:13,033 --> 00:00:14,570
+And projectiles.
+

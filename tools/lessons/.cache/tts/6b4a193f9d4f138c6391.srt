@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,934
+The iodine soaked chains conduct electricity along their length.
+
+2
+00:00:04,934 --> 00:00:11,822
+So they soak up the part of the electric field that vibrates along them, and let through the part vibrating across them.
+
+3
+00:00:11,822 --> 00:00:14,596
+That direction is the transmission axis.
+
+4
+00:00:14,596 --> 00:00:20,494
+Two sheets are used together: the first is the polarizer, the second the analyser.
+

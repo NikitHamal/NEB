@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,033
+Every tag needs three decisions.
+
+2
+00:00:03,033 --> 00:00:05,273
+Take: she has finished the work.
+
+3
+00:00:05,273 --> 00:00:07,304
+Decision one, the operator.
+
+4
+00:00:07,304 --> 00:00:11,289
+Find the auxiliary or the modal in the statement and repeat it.
+
+5
+00:00:11,289 --> 00:00:12,513
+Here it is has.
+

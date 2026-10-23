@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,221
+The clinching experiment used a virus that infects bacteria, phage T two.
+
+2
+00:00:05,221 --> 00:00:08,138
+It is just DNA wrapped in a protein coat.
+
+3
+00:00:08,138 --> 00:00:13,320
+Only DNA contains phosphorus, and only protein contains sulphur.
+
+4
+00:00:13,320 --> 00:00:22,669
+So one batch of phages was labelled with radioactive phosphorus thirty two, in the DNA, and another with sulphur thirty five, in the coat.
+

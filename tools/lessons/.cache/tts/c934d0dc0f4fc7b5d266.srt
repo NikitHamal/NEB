@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,000
+Write it out for k equal to one, two, three, all the way to n.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,744
+Time of flight two seconds, height five metres, range thirty four point six metres.
+

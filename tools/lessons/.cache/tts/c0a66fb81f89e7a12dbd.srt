@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,757
+A thermocouple has two junctions, and their contact p ds point opposite ways round the loop.
+
+2
+00:00:06,757 --> 00:00:09,817
+At the same temperature they cancel exactly.
+
+3
+00:00:09,817 --> 00:00:16,367
+At different temperatures they no longer cancel, and the difference is the thermo e m f.
+

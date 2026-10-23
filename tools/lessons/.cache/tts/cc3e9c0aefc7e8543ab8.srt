@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,541
+Now the top is exactly the derivative of the bottom.
+

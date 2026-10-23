@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,364
+Variables vanish when the program ends; a data file on disk survives.
+
+2
+00:00:05,364 --> 00:00:15,039
+Every file program follows the same life: declare a file pointer, open the file with a mode, check it opened, read or write, and close it.
+
+3
+00:00:15,039 --> 00:00:23,033
+The mode matters: w creates the file and erases anything already there, a appends to the end, r reads.
+

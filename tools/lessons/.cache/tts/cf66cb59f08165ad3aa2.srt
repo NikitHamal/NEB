@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,315
+Then walls form.
+
+2
+00:00:01,315 --> 00:00:09,661
+Three nuclei at the micropylar end become cells of the egg apparatus: the egg, flanked by two synergids.
+
+3
+00:00:09,661 --> 00:00:13,294
+Three at the chalazal end become the antipodals.
+
+4
+00:00:13,294 --> 00:00:17,044
+And one nucleus from each end moves to the middle.
+
+5
+00:00:17,044 --> 00:00:21,471
+These are the two polar nuclei, sharing the big central cell.
+

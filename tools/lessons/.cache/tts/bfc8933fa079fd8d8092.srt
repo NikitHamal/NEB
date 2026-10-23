@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,216
+More auxin means more cell elongation.
+
+2
+00:00:03,216 --> 00:00:08,854
+The shaded side grows faster than the lit side, and the shoot bends towards the light.
+
+3
+00:00:08,854 --> 00:00:14,921
+That is positive phototropism, and the explanation is called the Cholodny Went hypothesis.
+

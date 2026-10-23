@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,505
+As a trunk ages, the oldest wood at the centre stops conducting.
+
+2
+00:00:04,505 --> 00:00:11,106
+Its parenchyma dies, and tannins, resins, gums and oils are deposited in its cells.
+
+3
+00:00:11,106 --> 00:00:12,395
+It turns dark.
+
+4
+00:00:12,395 --> 00:00:20,963
+This is heartwood, or duramen: hard, durable, resistant to insects and decay, and purely mechanical.
+

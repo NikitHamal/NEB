@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,520
+Propane, methoxymethane and ethanol have almost the same molar mass.
+
+2
+00:00:05,520 --> 00:00:13,111
+Yet propane boils at minus forty two, the ether at minus twenty four, and ethanol at plus seventy eight degrees.
+
+3
+00:00:13,111 --> 00:00:15,338
+The reason is hydrogen bonding.
+
+4
+00:00:15,338 --> 00:00:24,127
+The O H hydrogen of one ethanol molecule is attracted to the oxygen of the next, and boiling means breaking that whole network.
+

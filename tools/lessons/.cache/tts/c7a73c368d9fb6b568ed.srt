@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,716
+The next ratio is n minus r over r plus one, equal to three halves.
+

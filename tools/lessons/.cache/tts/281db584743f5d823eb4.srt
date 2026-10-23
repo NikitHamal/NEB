@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,877
+Keep the minus sign inside the bracket.
+
+2
+00:00:02,877 --> 00:00:06,067
+For a minus b, the signs alternate.
+
+3
+00:00:06,067 --> 00:00:15,195
+And for two x minus three y, the whole of minus three y is the second quantity, so raise the three to the power as well.
+

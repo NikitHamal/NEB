@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,059
+Now let us prove the laws of reflection.
+
+2
+00:00:03,059 --> 00:00:10,442
+A plane wavefront A B travels towards a mirror, in a medium where light moves at speed c.
+
+3
+00:00:10,442 --> 00:00:14,544
+Take the instant when end A has just touched the mirror.
+
+4
+00:00:14,544 --> 00:00:16,588
+End B still has some way to go.
+

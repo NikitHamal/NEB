@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,510
+Here is the plan.
+
+2
+00:00:01,510 --> 00:00:02,903
+What kinetics is.
+
+3
+00:00:02,903 --> 00:00:05,494
+Average and instantaneous rates.
+
+4
+00:00:05,494 --> 00:00:08,854
+The rate law, the rate constant and its units.
+
+5
+00:00:08,854 --> 00:00:10,742
+Order and molecularity.
+
+6
+00:00:10,742 --> 00:00:13,776
+Integrated rate equations, and half life.
+
+7
+00:00:13,776 --> 00:00:16,718
+Collision theory and activation energy.
+
+8
+00:00:16,718 --> 00:00:21,250
+The factors that change the rate, including the Arrhenius equation.
+
+9
+00:00:21,250 --> 00:00:23,450
+And finally, catalysis.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,125
+A garland or a necklace is different again.
+
+2
+00:00:03,125 --> 00:00:05,091
+You can pick it up and turn it over.
+
+3
+00:00:05,091 --> 00:00:13,138
+Clockwise and anticlockwise become the same object, so the count halves: n minus one factorial over two.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,875
+B, salicylaldehyde.
+
+2
+00:00:01,875 --> 00:00:09,296
+This is the Reimer Tiemann reaction: dichlorocarbene attacks the ortho position and becomes an aldehyde group.
+
+3
+00:00:09,296 --> 00:00:16,901
+Salicylic acid comes from Kolbe's reaction with carbon dioxide, or from carbon tetrachloride in place of chloroform.
+

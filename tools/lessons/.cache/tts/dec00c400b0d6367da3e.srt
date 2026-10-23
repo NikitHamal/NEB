@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,614
+Where did its energy go?
+
+2
+00:00:01,614 --> 00:00:03,580
+Into the floor, as heat.
+
+3
+00:00:03,580 --> 00:00:06,549
+The floor is now very slightly warmer.
+
+4
+00:00:06,549 --> 00:00:09,140
+Energy was conserved all along.
+

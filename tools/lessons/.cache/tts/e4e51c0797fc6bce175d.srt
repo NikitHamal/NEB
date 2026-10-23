@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,955
+And now the word every student gets wrong.
+
+2
+00:00:02,955 --> 00:00:04,674
+Bark is not just the cork.
+
+3
+00:00:04,674 --> 00:00:14,453
+Bark is everything outside the vascular cambium: the secondary phloem, the periderm, and whatever is left of the cortex and epidermis.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,682
+The metal becomes slightly negative.
+
+2
+00:00:02,682 --> 00:00:07,239
+The layer of solution next to it becomes slightly positive.
+
+3
+00:00:07,239 --> 00:00:16,406
+This electrical double layer quickly stops any more ions leaving, and an equilibrium potential difference is set up across the boundary.
+

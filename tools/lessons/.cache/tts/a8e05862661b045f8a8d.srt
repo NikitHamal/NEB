@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,588
+B, the same phase.
+
+2
+00:00:01,588 --> 00:00:03,098
+That is the definition.
+
+3
+00:00:03,098 --> 00:00:11,575
+The amplitude can differ along a wavefront, for example near the edge of a beam, but all the points on it are vibrating in step.
+

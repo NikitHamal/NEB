@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,049
+Two flasks, two chlorides, the same reagent.
+
+2
+00:00:04,049 --> 00:00:09,895
+On the left, chloroethane with warm aqueous potassium hydroxide.
+
+3
+00:00:09,895 --> 00:00:16,419
+On the right, chlorobenzene, a chlorine on a benzene ring, boiled with the same alkali.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,562
+C, the frequency.
+
+2
+00:00:01,562 --> 00:00:03,372
+It is set by the source.
+
+3
+00:00:03,372 --> 00:00:12,356
+The speed falls to c over n, the wavelength shrinks by the same factor, and the direction changes unless the light hits the surface straight on.
+

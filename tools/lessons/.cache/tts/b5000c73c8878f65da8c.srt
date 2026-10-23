@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:00,885
+Another.
+
+2
+00:00:00,885 --> 00:00:05,338
+Copper iron, with a neutral temperature of two seventy degrees.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,382
+Bayes' theorem reasons backwards.
+
+2
+00:00:02,382 --> 00:00:12,317
+Several causes, E one and E two, each can produce an effect W. Going forwards along the tree, multiply along the paths.
+
+3
+00:00:12,317 --> 00:00:17,044
+The total probability of W is the sum of the paths that end in W.
+

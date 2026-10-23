@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,098
+The list of the students who passed have been published.
+
+2
+00:00:03,098 --> 00:00:07,630
+It sounds right, because students is the noun standing next to the verb.
+
+3
+00:00:07,630 --> 00:00:08,750
+And it is wrong.
+

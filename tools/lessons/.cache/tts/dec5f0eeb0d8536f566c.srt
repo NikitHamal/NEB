@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,265
+Finally, use white light.
+
+2
+00:00:02,265 --> 00:00:11,250
+At the centre, the path difference is zero for every colour, so every colour is bright there, and the central fringe is white.
+
+3
+00:00:11,250 --> 00:00:18,138
+Away from the centre, each colour has its own fringe width, violet the narrowest and red the widest.
+
+4
+00:00:18,138 --> 00:00:26,080
+So you see a few coloured fringes, violet edges nearest the centre, before they overlap into a blur of white.
+

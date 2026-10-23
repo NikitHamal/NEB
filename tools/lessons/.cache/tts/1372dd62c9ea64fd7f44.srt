@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,794
+In numbers, K a times K b equals K w for any conjugate pair, so p K a plus p K b equals fourteen at twenty five degrees.
+
+2
+00:00:10,794 --> 00:00:12,903
+We will prove that shortly.
+

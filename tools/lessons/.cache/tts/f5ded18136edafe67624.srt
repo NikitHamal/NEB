@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,778
+Now replace hydrochloric acid with a weak acid, like acetic acid.
+
+2
+00:00:04,778 --> 00:00:09,153
+The curve starts higher, and the jump begins above pH seven.
+
+3
+00:00:09,153 --> 00:00:11,770
+Methyl orange would change far too early.
+
+4
+00:00:11,770 --> 00:00:14,973
+Phenolphthalein still sits inside the jump.
+

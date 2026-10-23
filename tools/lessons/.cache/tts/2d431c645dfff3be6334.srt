@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,239
+B, three decibels.
+
+2
+00:00:02,239 --> 00:00:04,570
+Ten log two is about three.
+
+3
+00:00:04,570 --> 00:00:13,111
+Six decibels is the tempting wrong answer: that is what you get for four times the intensity, which is what happens when you halve your distance.
+

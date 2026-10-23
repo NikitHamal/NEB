@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,138
+A chemist can, in about three lines.
+
+2
+00:00:03,138 --> 00:00:05,781
+By the end of this lesson, so will you.
+

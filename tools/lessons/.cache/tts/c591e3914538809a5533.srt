@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,729
+Welcome to Class 12 Physics, Unit 5: the Second Law of Thermodynamics.
+
+2
+00:00:05,729 --> 00:00:08,867
+The first law tells us energy is conserved.
+
+3
+00:00:08,867 --> 00:00:12,044
+The second law tells us which way things go.
+
+4
+00:00:12,044 --> 00:00:17,369
+From it come the limits on every engine and every refrigerator ever built.
+

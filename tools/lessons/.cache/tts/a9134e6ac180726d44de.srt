@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,596
+A baseline and two angles: the third angle is seventy five.
+

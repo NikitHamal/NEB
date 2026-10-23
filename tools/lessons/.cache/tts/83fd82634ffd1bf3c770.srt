@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,380
+Wind is different.
+
+2
+00:00:01,380 --> 00:00:04,934
+It does not change the speed of sound relative to the air.
+
+3
+00:00:04,934 --> 00:00:07,135
+It carries the air itself along.
+
+4
+00:00:07,135 --> 00:00:16,015
+If a wind of speed w blows at an angle theta to the sound, the speed over the ground is v plus w cos theta.
+
+5
+00:00:16,015 --> 00:00:18,320
+Downwind, the sound gets a push.
+
+6
+00:00:18,320 --> 00:00:20,299
+Upwind, it is held back.
+
+7
+00:00:20,299 --> 00:00:23,138
+That is why sound carries further downwind.
+

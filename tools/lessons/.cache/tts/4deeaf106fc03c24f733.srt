@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,705
+Four classes, so three degrees of freedom, and a critical value of seven point eight one five.
+
+2
+00:00:06,705 --> 00:00:09,726
+Zero point four seven is far below it.
+
+3
+00:00:09,726 --> 00:00:15,338
+The deviation is chance, and the data agree with nine three three one.
+

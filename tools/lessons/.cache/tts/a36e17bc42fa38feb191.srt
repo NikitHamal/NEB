@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,976
+Line two.
+
+2
+00:00:00,976 --> 00:00:08,111
+Methyl orange means all the carbonate reacted, so its n factor is two and E is fifty three.
+
+3
+00:00:08,111 --> 00:00:15,234
+Strength is zero point zero nine times fifty three, four point seven seven grams per litre.
+

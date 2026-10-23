@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,984
+So the dot product is plus or minus sixty: the data fixes sin theta, but not whether theta is acute or obtuse.
+

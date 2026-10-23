@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,484
+Network devices.
+
+2
+00:00:01,484 --> 00:00:09,882
+A hub is a dumb repeater: a frame from A to D is copied to every port, wasting bandwidth and causing collisions.
+
+3
+00:00:09,882 --> 00:00:15,611
+A switch learns which MAC address sits on which port and sends the frame only to D.
+

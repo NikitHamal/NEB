@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,822
+Here is the key link.
+
+2
+00:00:01,822 --> 00:00:05,312
+Put a flag on one crest, and start a stopwatch.
+
+3
+00:00:05,312 --> 00:00:10,625
+In exactly one period, the wave advances by exactly one wavelength.
+

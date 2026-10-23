@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,992
+The steepest point, in the middle of the S, is where the growth rate is highest: the point of inflexion.
+

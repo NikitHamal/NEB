@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,252
+At the surface and at the hole, the pressure is atmospheric, and the surface barely moves.
+
+2
+00:00:07,252 --> 00:00:12,135
+So Bernoulli leaves just half rho v squared equals rho g h.
+
+3
+00:00:12,135 --> 00:00:18,359
+The water leaves at root two g h, the same speed as a stone falling through that height.
+

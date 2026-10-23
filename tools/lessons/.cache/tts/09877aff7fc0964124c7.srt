@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,432
+First, pressure.
+
+2
+00:00:01,432 --> 00:00:06,080
+Keep the temperature fixed, and squeeze the gas to double its pressure.
+
+3
+00:00:06,080 --> 00:00:10,078
+By Boyle's law its volume halves, so its density doubles too.
+
+4
+00:00:10,078 --> 00:00:13,984
+P over rho does not change, and neither does the speed.
+

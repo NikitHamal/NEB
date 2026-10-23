@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,158
+Let us recap.
+
+2
+00:00:01,158 --> 00:00:10,156
+Every electrode has a potential, measured as a reduction potential against the standard hydrogen electrode, or in practice against calomel.
+
+3
+00:00:10,156 --> 00:00:14,726
+The electrochemical series ranks reducing and oxidising power.
+
+4
+00:00:14,726 --> 00:00:24,231
+In a voltaic cell, oxidation happens at the negative anode, reduction at the positive cathode, and a salt bridge closes the circuit.
+
+5
+00:00:24,231 --> 00:00:29,570
+E nought cell is cathode minus anode, corrected by the Nernst equation.
+
+6
+00:00:29,570 --> 00:00:40,078
+Delta G is minus n F E, which links cell potential to the equilibrium constant, and one faraday deposits one gram equivalent.
+
+7
+00:00:40,078 --> 00:00:44,075
+And batteries and fuel cells put all of it to work.
+

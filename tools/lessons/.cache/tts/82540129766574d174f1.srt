@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,002
+Last one.
+
+2
+00:00:01,002 --> 00:00:03,385
+A solution of ammonium chloride.
+
+3
+00:00:03,385 --> 00:00:07,539
+Neutral, acidic, basic, or amphoteric?
+
+4
+00:00:07,539 --> 00:00:08,854
+Pause and think.
+

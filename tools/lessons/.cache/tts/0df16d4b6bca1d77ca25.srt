@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,575
+Here is the path.
+
+2
+00:00:01,575 --> 00:00:15,611
+What diffraction is, the minima of a single slit, the central maximum and its intensity, how diffraction differs from interference, the diffraction grating, and the resolving power of telescopes and microscopes.
+

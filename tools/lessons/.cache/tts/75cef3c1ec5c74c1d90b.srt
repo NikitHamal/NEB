@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,872
+We measure that angle in radians: the arc length s, divided by the radius r.
+

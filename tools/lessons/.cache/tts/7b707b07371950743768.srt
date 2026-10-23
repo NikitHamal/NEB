@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,156
+Everything outside that can exchange energy with it is the surroundings.
+
+2
+00:00:05,156 --> 00:00:09,856
+And the real or imaginary surface between the two is the boundary.
+

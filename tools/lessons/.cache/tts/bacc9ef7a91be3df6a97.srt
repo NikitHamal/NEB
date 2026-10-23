@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,106
+Is it possible?
+
+2
+00:00:01,106 --> 00:00:13,971
+We will soon prove that the best any engine can do between these temperatures is the Carnot efficiency, one minus T two over T one: one minus three hundred over five hundred, forty percent.
+
+3
+00:00:13,971 --> 00:00:18,411
+Thirty is below forty, so this engine breaks no law.
+
+4
+00:00:18,411 --> 00:00:21,184
+It is possible, though not reversible.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,820
+The thin strip between xylem and phloem is the cambium, so the bundles are open.
+

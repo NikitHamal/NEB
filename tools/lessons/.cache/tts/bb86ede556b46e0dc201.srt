@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,203
+e is four fifths, so the foci are at plus or minus four and the directrices at plus or minus twenty five over four.
+

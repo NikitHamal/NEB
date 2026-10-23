@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,020
+What limits the rate of photosynthesis?
+
+2
+00:00:03,020 --> 00:00:12,786
+Blackman's law of limiting factors, from nineteen oh five: when several factors control a process, the rate is set by the one in shortest supply.
+

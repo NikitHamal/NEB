@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,567
+Water is a liquid, so use its bulk modulus.
+
+2
+00:00:03,567 --> 00:00:10,755
+Two point two times ten to the nine, over one thousand: about fourteen hundred and eighty metres per second.
+

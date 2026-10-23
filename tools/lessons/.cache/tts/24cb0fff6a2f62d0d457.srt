@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,341
+Swap in silver.
+
+2
+00:00:01,341 --> 00:00:09,687
+In a silver copper cell, copper is now the more easily oxidised metal, so copper becomes the anode and silver the cathode.
+
+3
+00:00:09,687 --> 00:00:15,638
+Copper dissolves, silver deposits, and the cell gives zero point four six volts.
+

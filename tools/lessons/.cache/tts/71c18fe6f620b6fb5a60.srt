@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:03,697
+Unguided media send signals through free space.
+
+2
+00:00:03,697 --> 00:00:08,281
+Radio waves spread in all directions and pass through walls.
+
+3
+00:00:08,281 --> 00:00:11,835
+Microwaves need line of sight; Wi Fi uses them.
+
+4
+00:00:11,835 --> 00:00:14,335
+Infrared works only within a room.
+
+5
+00:00:14,335 --> 00:00:19,661
+Satellites cover the globe, but with a delay of about a quarter of a second each way.
+
+6
+00:00:19,661 --> 00:00:25,286
+Wireless is quick to install and mobile, but less secure: anyone in range can listen.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,763
+The ratio of the two heat capacities is called gamma.
+
+2
+00:00:03,763 --> 00:00:10,611
+Since C v is f by two times R, gamma depends only on the degrees of freedom of the molecule.
+

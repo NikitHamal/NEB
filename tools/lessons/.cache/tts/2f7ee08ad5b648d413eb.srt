@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,572
+Divide each by D: x is two, y is minus one, z is three.
+
+2
+00:00:05,572 --> 00:00:10,299
+Check in the third equation: four minus one minus three is zero.
+
+3
+00:00:10,299 --> 00:00:11,145
+Correct.
+

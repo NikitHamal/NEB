@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,330
+Sin two theta must be a half.
+

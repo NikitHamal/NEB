@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,736
+Many plants time flowering by day and night length: photoperiodism, discovered by Garner and Allard in nineteen twenty.
+

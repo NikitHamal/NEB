@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,296
+A Kathmandu college: a hundred students, sixty boys.
+
+2
+00:00:04,296 --> 00:00:07,760
+Forty five boys and thirty five girls passed.
+
+3
+00:00:07,760 --> 00:00:10,820
+Put it in a two way table first, always.
+
+4
+00:00:10,820 --> 00:00:14,882
+The chance a random student passed is eighty out of a hundred.
+

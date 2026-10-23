@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,114
+Raise the auxin, lower the cytokinin, and roots grow.
+

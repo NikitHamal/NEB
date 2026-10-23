@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,377
+So their dot product is cos fifteen: root six plus root two, over four.
+
+2
+00:00:05,377 --> 00:00:08,541
+The same trick proves cos A minus B in general.
+

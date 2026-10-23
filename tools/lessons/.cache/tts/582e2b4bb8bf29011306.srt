@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,250
+One last quick one.
+
+2
+00:00:01,250 --> 00:00:04,505
+A polarizing angle of fifty eight degrees.
+
+3
+00:00:04,505 --> 00:00:06,953
+Find n and the speed of light.
+

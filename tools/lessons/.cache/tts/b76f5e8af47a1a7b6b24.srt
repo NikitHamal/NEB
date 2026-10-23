@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,375
+Ligands can be ranked by how strongly they split the d orbitals.
+
+2
+00:00:04,375 --> 00:00:06,901
+This is the spectrochemical series.
+
+3
+00:00:06,901 --> 00:00:13,111
+Iodide, bromide, chloride and fluoride are weak: small splitting, high spin.
+
+4
+00:00:13,111 --> 00:00:18,450
+Then hydroxide, water, ammonia, ethane diamine, nitrite.
+
+5
+00:00:18,450 --> 00:00:24,388
+Cyanide and carbon monoxide are the strongest: large splitting, low spin.
+

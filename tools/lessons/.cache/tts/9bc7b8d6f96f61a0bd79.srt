@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,184
+Let us recap.
+
+2
+00:00:01,184 --> 00:00:11,406
+Copper comes from copper pyrite by flotation, roasting, smelting to matte, and auto reduction in the Bessemer converter, then electrolytic refining.
+
+3
+00:00:11,406 --> 00:00:17,473
+Blue vitriol loses its water in stages and its solution gives a famous set of tests.
+
+4
+00:00:17,473 --> 00:00:21,354
+Zinc is reduced as a vapour and is amphoteric.
+
+5
+00:00:21,354 --> 00:00:26,328
+Mercury needs only roasting, and its two chlorides are opposites.
+
+6
+00:00:26,328 --> 00:00:34,934
+Iron is made in the blast furnace and refined to steel, and it rusts electrochemically, which is why galvanising beats tinning.
+
+7
+00:00:34,934 --> 00:00:42,161
+And silver is extracted by the cyanide process, with its nitrate and chloride as key compounds.
+

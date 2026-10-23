@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,437
+To make an ammeter that reads up to a big current I, connect a small resistance, the shunt S, in parallel with the galvanometer.
+
+2
+00:00:08,437 --> 00:00:15,143
+Only I g goes through the coil, and the rest, I minus I g, bypasses it through the shunt.
+

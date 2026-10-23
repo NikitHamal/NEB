@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:08,802
+The system development life cycle is the sequence of phases every system passes through, each producing a deliverable for the next.
+
+2
+00:00:08,802 --> 00:00:12,109
+Preliminary investigation defines the problem.
+
+3
+00:00:12,109 --> 00:00:18,919
+A feasibility study asks whether it is technically, economically, operationally and legally possible.
+
+4
+00:00:18,919 --> 00:00:21,809
+Analysis gathers the requirements.
+
+5
+00:00:21,809 --> 00:00:23,398
+Design decides how.
+
+6
+00:00:23,398 --> 00:00:30,143
+Then coding, testing, implementation with training, and maintenance, which feeds back into the cycle.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,369
+Heat treatment finishes the steel.
+
+2
+00:00:02,369 --> 00:00:12,291
+Annealing softens it, quenching makes it glass hard but brittle, tempering restores toughness, and case hardening gives a hard skin over a tough core.
+

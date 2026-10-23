@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,963
+The oxide is reduced with coke in fireclay retorts at about sixteen seventy kelvin.
+
+2
+00:00:05,963 --> 00:00:12,942
+At that temperature zinc, which boils at nine hundred and seven degrees, comes off as a vapour.
+
+3
+00:00:12,942 --> 00:00:16,914
+It is led into condensers and collects as liquid zinc.
+
+4
+00:00:16,914 --> 00:00:25,182
+This is why zinc was isolated so late in history: cool the vapour in air, and it simply burns back to oxide.
+

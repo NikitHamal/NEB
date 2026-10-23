@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,036
+Energy is conserved, so the heat delivered to the kitchen is the heat removed plus the work: Q one equals Q two plus W.
+
+2
+00:00:09,036 --> 00:00:14,296
+The Clausius statement is simply the claim that W can never be zero.
+

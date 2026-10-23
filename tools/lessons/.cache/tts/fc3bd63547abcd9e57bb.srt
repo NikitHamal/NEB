@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,330
+Ohm's law alone cannot tell you.
+
+2
+00:00:02,330 --> 00:00:08,177
+The circuit is neither series nor parallel, and the two cells push against each other.
+
+3
+00:00:08,177 --> 00:00:11,458
+You need two rules that can solve any circuit at all.
+
+4
+00:00:11,458 --> 00:00:16,575
+They are Kirchhoff's laws, and by the end of part one, you will know every current here.
+

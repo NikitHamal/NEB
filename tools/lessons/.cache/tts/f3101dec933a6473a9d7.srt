@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,575
+Numerical integration.
+
+2
+00:00:01,575 --> 00:00:04,309
+Split the area into four strips.
+
+3
+00:00:04,309 --> 00:00:10,052
+The trapezium rule replaces the curve by straight chords: point seven eight two eight.
+
+4
+00:00:10,052 --> 00:00:16,822
+Simpson's rule fits parabolas through three points at a time: point seven eight five three nine.
+
+5
+00:00:16,822 --> 00:00:19,049
+The true value is pi over four.
+

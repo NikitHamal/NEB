@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,125
+With the rule: three thirty two plus zero point six one times twenty seven, three hundred and forty eight point five.
+
+2
+00:00:08,125 --> 00:00:16,093
+The two agree within half a metre per second, so the linear rule is perfectly safe for everyday temperatures.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,156
+Similar triangles give r equals h over two, which removes r.
+
+2
+00:00:05,156 --> 00:00:08,580
+So V is pi h cubed over twelve.
+
+3
+00:00:08,580 --> 00:00:19,557
+Differentiate with respect to time, put in three and h equals four: the level is rising at three over four pi, about a quarter of a metre a minute.
+

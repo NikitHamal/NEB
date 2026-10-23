@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,393
+The respiratory quotient, R Q, is carbon dioxide given out divided by oxygen taken in.
+
+2
+00:00:06,393 --> 00:00:08,632
+It reveals the fuel being burnt.
+

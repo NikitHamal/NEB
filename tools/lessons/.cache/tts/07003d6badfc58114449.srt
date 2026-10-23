@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,455
+So a superconductor is a material whose resistivity becomes exactly zero below a critical temperature, and which also expels magnetic flux from its interior.
+

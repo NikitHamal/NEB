@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:09,414
+Phenol is a colourless solid that forms long needle shaped crystals, melting at forty one degrees and boiling at one eighty two.
+
+2
+00:00:09,414 --> 00:00:13,216
+Left in air and light it slowly turns pink.
+
+3
+00:00:13,216 --> 00:00:19,388
+It has a sharp carbolic smell, and it is corrosive, raising painful blisters on skin.
+
+4
+00:00:19,388 --> 00:00:27,799
+It dissolves only a little in cold water, about eight grams per hundred, but mixes completely above sixty six degrees.
+
+5
+00:00:27,799 --> 00:00:34,687
+Like alcohols, its molecules are linked by hydrogen bonds, which explains its high boiling point.
+

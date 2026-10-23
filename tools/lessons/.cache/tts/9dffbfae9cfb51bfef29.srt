@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,098
+Both pictures bend the light the same way.
+
+2
+00:00:03,098 --> 00:00:06,484
+But they make opposite predictions about its speed in water.
+
+3
+00:00:06,484 --> 00:00:08,567
+Newton says faster.
+
+4
+00:00:08,567 --> 00:00:10,325
+Huygens says slower.
+
+5
+00:00:10,325 --> 00:00:12,213
+Someone just had to measure it.
+

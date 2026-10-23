@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,057
+Send a sound wave down a pipe.
+
+2
+00:00:02,057 --> 00:00:05,234
+When it reaches the end, it is reflected.
+
+3
+00:00:05,234 --> 00:00:12,955
+The incident wave and the reflected wave have the same frequency and amplitude, but travel in opposite directions.
+

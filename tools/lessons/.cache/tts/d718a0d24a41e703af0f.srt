@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,398
+One loop, two loops, three loops, four.
+
+2
+00:00:03,398 --> 00:00:06,223
+L equals n lambda by two.
+
+3
+00:00:06,223 --> 00:00:09,596
+So lambda n is two L over n.
+

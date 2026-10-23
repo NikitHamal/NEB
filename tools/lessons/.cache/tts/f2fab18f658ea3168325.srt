@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,033
+The exponential series: e to the x is the sum of x to the r over r factorial, and it works for every x.
+

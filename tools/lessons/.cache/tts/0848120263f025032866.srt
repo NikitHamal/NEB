@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,213
+Second, Torricelli's theorem.
+
+2
+00:00:02,213 --> 00:00:05,768
+A tank on the ground holds water three metres deep.
+
+3
+00:00:05,768 --> 00:00:10,781
+A small hole is made in its side, one point two metres below the surface.
+

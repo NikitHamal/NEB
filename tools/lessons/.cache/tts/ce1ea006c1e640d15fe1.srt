@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,796
+That was product of vectors.
+
+2
+00:00:01,796 --> 00:00:07,565
+Next, correlation and regression: measuring how two quantities move together.
+
+3
+00:00:07,565 --> 00:00:08,528
+See you there.
+

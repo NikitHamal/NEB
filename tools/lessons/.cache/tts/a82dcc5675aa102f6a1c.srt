@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:03,880
+A grade twelve data description does three things.
+
+2
+00:00:03,880 --> 00:00:07,148
+It says what the visual shows, in your own words.
+
+3
+00:00:07,148 --> 00:00:10,481
+It names the pattern, in an overview sentence.
+
+4
+00:00:10,481 --> 00:00:12,981
+And it supports the pattern with figures.
+
+5
+00:00:12,981 --> 00:00:17,500
+It does not explain why the pattern happened, and gives no opinion.
+
+6
+00:00:17,500 --> 00:00:23,307
+The seven marks: three for content, two for organisation, two for language.
+
+7
+00:00:23,307 --> 00:00:32,604
+Write a hundred and fifty to two hundred words, in about fifteen minutes; three hundred words buys no extra mark, only more chances of error.
+

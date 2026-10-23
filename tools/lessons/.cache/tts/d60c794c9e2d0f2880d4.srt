@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,908
+Each body paragraph opens with a flat topic sentence and then earns it.
+
+2
+00:00:04,908 --> 00:00:15,442
+They test recall, not thought: a student can score full marks on the definition of photosynthesis and still not explain why a plant on a dark window sill turns yellow.
+
+3
+00:00:15,442 --> 00:00:22,773
+Fear is a poor teacher: in the six months before the board exam, learning stops and revision begins.
+
+4
+00:00:22,773 --> 00:00:31,966
+Then the other side, given properly: examinations impose a deadline, and they are blind; the examiner does not know whose child is writing.
+
+5
+00:00:31,966 --> 00:00:37,812
+And the answer: fairness is an argument for examinations of some kind, not for these.
+

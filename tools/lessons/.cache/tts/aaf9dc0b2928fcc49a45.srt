@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,265
+Solve each: c is thirty nine point two one in the first triangle, and twelve point seven five in the second.
+

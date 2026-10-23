@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,656
+Elongation, over and over.
+
+2
+00:00:02,656 --> 00:00:08,294
+The next transfer RNA enters the A site, its anticodon pairing with the codon.
+
+3
+00:00:08,294 --> 00:00:16,861
+The ribosomal RNA joins the growing chain to the new amino acid with a peptide bond, and the ribosome moves on one codon.
+
+4
+00:00:16,861 --> 00:00:20,377
+The empty transfer RNA leaves from the E site.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,445
+Exam tip.
+
+2
+00:00:01,445 --> 00:00:04,817
+The tapetum is nutritive, not protective.
+
+3
+00:00:04,817 --> 00:00:11,979
+Protection is the epidermis, opening is the endothecium, and feeding the pollen is the tapetum.
+
+4
+00:00:11,979 --> 00:00:19,361
+If the tapetum fails, the pollen is sterile: which is exactly how male sterile lines are made for hybrid seed.
+

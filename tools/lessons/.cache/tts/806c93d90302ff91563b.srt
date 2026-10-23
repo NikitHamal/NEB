@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,427
+It needs no membrane, no energy and no living cell.
+
+2
+00:00:04,427 --> 00:00:07,812
+It is how carbon dioxide reaches a leaf cell.
+
+3
+00:00:07,812 --> 00:00:11,080
+But it is fast only over tiny distances.
+
+4
+00:00:11,080 --> 00:00:16,588
+Over metres it is hopelessly slow, which is exactly why a plant needs xylem.
+

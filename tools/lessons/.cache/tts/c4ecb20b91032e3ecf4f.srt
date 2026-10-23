@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,815
+The proof: take A prime at the end of the diameter through B.
+
+2
+00:00:03,815 --> 00:00:12,096
+The angle at A prime equals the angle at A, standing on the same chord, and the angle at C is a right angle, in a semicircle.
+
+3
+00:00:12,096 --> 00:00:14,205
+So sin A is a over two R.
+

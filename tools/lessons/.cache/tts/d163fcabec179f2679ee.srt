@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,755
+Omega is one hundred pi, so f is fifty hertz, and the speed is fifty times zero point zero five metres: two point five metres per second.
+

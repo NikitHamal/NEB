@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:13,190
+PHP, created by Rasmus Lerdorf in nineteen ninety four, runs on a web server stack: an operating system, the Apache web server, the PHP interpreter and a MySQL database.
+
+2
+00:00:13,190 --> 00:00:14,531
+XAMPP bundles them.
+
+3
+00:00:14,531 --> 00:00:21,093
+Save your file in the htdocs folder, start Apache and MySQL, and open it through localhost.
+
+4
+00:00:21,093 --> 00:00:24,791
+Double clicking the file will not run the PHP at all.
+

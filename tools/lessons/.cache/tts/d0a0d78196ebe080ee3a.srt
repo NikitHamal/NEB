@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,658
+Turn the sum and difference of sines into products.
+
+2
+00:00:03,658 --> 00:00:10,455
+The twos cancel, leaving cot of half A plus B, times tan of half A minus B.
+

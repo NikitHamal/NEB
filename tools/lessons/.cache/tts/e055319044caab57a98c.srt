@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,098
+Reading the burette is a skill in itself.
+
+2
+00:00:03,098 --> 00:00:10,481
+The liquid surface curves into a meniscus, and for a clear solution you always read the bottom of the curve.
+
+3
+00:00:10,481 --> 00:00:14,140
+Here, twenty point five zero cubic centimetres.
+

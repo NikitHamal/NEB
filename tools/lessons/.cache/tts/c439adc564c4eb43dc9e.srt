@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,692
+Now the energy picture.
+
+2
+00:00:01,692 --> 00:00:06,406
+In the free ion, five d orbitals at the same level.
+
+3
+00:00:06,406 --> 00:00:09,466
+Bring in the octahedral field of ligands.
+
+4
+00:00:09,466 --> 00:00:10,807
+The set splits.
+

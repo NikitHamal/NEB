@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,268
+Write it at two temperatures and subtract.
+
+2
+00:00:03,268 --> 00:00:16,210
+A cancels, and you get the form you must know by heart: log k two over k one equals E a over two point three zero three R, times T two minus T one, over T one T two.
+

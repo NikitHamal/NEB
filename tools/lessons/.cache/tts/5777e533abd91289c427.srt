@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:00,742
+No.
+
+2
+00:00:00,742 --> 00:00:02,083
+Read the small print.
+
+3
+00:00:02,083 --> 00:00:07,695
+After the expansion the gas is left in a different state, bigger than before.
+
+4
+00:00:07,695 --> 00:00:15,885
+Converting heat to work was not the only effect, and the process cannot be repeated in a cycle without pushing the piston back.
+
+5
+00:00:15,885 --> 00:00:19,752
+The word cycle in both statements is doing real work.
+
+6
+00:00:19,752 --> 00:00:20,833
+Never drop it.
+

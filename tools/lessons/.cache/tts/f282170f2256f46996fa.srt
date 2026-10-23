@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,393
+The broken ends rejoin the other way round, sealed by endonuclease and ligase.
+
+2
+00:00:06,393 --> 00:00:14,023
+Now one chromatid carries A with small b, and another carries small a with B. Brand new combinations.
+

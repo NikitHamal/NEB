@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,505
+At the balance point, no current flows through the cell under test.
+
+2
+00:00:04,505 --> 00:00:12,174
+So there is no I r drop inside it, and the potentiometer measures its true e m f, not the terminal voltage.
+
+3
+00:00:12,174 --> 00:00:16,861
+A voltmeter always draws a little current and reads slightly low.
+
+4
+00:00:16,861 --> 00:00:21,888
+The potentiometer behaves like a voltmeter of infinite resistance.
+

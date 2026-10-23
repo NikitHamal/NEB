@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,361
+The third angle is fifty degrees, and the sine law turns those angles into the missing sides: about fifty six and a half metres.
+
+2
+00:00:09,361 --> 00:00:14,713
+This unit is the dictionary that translates between sides and angles.
+

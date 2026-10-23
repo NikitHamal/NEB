@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,096
+For slow motion, the resistance is proportional to the velocity: F equals minus b v.
+
+2
+00:00:07,096 --> 00:00:14,036
+Add it to Newton's law, and the solution is a sine wave inside a shrinking exponential.
+
+3
+00:00:14,036 --> 00:00:19,596
+The amplitude decays as A nought e to the minus b t over two m.
+

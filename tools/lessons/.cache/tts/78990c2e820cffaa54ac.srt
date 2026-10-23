@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,158
+Medullary ray cells: the ray parenchyma lying in line with the fascicular strips.
+
+2
+00:00:06,158 --> 00:00:14,609
+Pericycle is the tempting wrong answer: it does make cambium, but in the root, outside the protoxylem, not in the stem.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,213
+The ammeter's resistance is G S over G plus S: still about zero point zero two ohms.
+
+2
+00:00:07,213 --> 00:00:08,710
+Tiny, as it should be.
+

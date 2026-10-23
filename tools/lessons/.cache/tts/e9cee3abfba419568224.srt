@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,966
+Here is the summary table.
+
+2
+00:00:01,966 --> 00:00:05,026
+Pressure at a fixed temperature: no effect.
+
+3
+00:00:05,026 --> 00:00:11,497
+Temperature: the speed rises as root T. Humidity: a slight increase.
+
+4
+00:00:11,497 --> 00:00:13,802
+Wind: adds as a vector.
+
+5
+00:00:13,802 --> 00:00:19,908
+And loudness and pitch have no effect at all, because the speed is a property of the medium.
+

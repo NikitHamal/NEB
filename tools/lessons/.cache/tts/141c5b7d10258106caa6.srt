@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,692
+Three boxes: hundreds, tens and units, to be filled from the digits one to six.
+
+2
+00:00:06,692 --> 00:00:14,127
+If digits may repeat, every box has six choices: six times six times six, two hundred and sixteen.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,427
+Climacteric fruits like banana and mango release an autocatalytic burst of ethylene, so one ripe banana ripens its neighbours.
+

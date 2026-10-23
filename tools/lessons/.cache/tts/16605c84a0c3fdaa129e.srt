@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,111
+That potential difference is the electrode potential.
+
+2
+00:00:03,111 --> 00:00:12,695
+It measures how strongly the electrode tends to lose electrons, its oxidation potential, or to gain them, its reduction potential.
+

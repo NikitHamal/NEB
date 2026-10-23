@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,575
+What makes them take up water?
+
+2
+00:00:01,575 --> 00:00:02,682
+Potassium.
+
+3
+00:00:02,682 --> 00:00:10,833
+When blue light falls on the leaf, receptors called phototropins switch on a proton pump in the guard-cell membrane.
+
+4
+00:00:10,833 --> 00:00:16,145
+Protons are pumped out, and the inside of the cell becomes strongly negative.
+

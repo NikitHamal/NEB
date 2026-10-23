@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,132
+That is interference: the modification of intensity when light waves superpose.
+
+2
+00:00:06,132 --> 00:00:11,080
+Where the intensity is greatest, the interference is constructive.
+
+3
+00:00:11,080 --> 00:00:13,684
+Where it is least, it is destructive.
+

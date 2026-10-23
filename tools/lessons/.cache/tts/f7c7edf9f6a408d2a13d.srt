@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,184
+Swap u and v for omega nought and omega, a for alpha, and s for theta.
+
+2
+00:00:06,184 --> 00:00:12,122
+Out come the three equations of angular motion, valid whenever alpha is constant.
+

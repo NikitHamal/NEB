@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,510
+Welcome to Class 12 Biology, Unit 3: Genetics, the biggest unit of botany.
+
+2
+00:00:06,510 --> 00:00:13,919
+We start with the molecule that carries heredity, follow Mendel's peas, and end with what happens when the message gets damaged.
+

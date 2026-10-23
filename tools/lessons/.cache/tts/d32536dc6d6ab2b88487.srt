@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,916
+The trick: put y equal to v x.
+
+2
+00:00:02,916 --> 00:00:09,166
+Then d y by d x is v plus x d v by d x, by the product rule.
+

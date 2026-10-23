@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,919
+The oxygen carries a negative charge and a lone pair.
+
+2
+00:00:03,919 --> 00:00:05,703
+Watch the electrons move.
+
+3
+00:00:05,703 --> 00:00:16,015
+The lone pair swings in to form a carbon oxygen double bond, and the ring's pi electrons shift along, pushing the negative charge onto the ortho carbon.
+

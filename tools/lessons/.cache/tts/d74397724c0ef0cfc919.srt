@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,242
+Pascal's rule builds a famous triangle.
+
+2
+00:00:03,242 --> 00:00:10,312
+Each row lists n C zero up to n C n, and every entry is the sum of the two above it.
+

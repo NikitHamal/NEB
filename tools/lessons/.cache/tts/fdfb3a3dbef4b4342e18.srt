@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,869
+From there it runs downhill, through plastoquinone, the cytochrome b6 f complex and plastocyanin, to photosystem one.
+
+2
+00:00:09,869 --> 00:00:14,322
+The energy it gives up on the way pumps protons into the lumen.
+

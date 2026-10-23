@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,736
+Substitution is the chain rule run backwards.
+
+2
+00:00:03,736 --> 00:00:06,367
+Look for a function together with its derivative.
+
+3
+00:00:06,367 --> 00:00:16,093
+In x root of x squared plus one, the inside, x squared plus one, has derivative two x, and an x is sitting outside.
+

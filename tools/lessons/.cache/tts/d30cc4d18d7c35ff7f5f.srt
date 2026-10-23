@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,518
+Let a gas out of a cylinder, and it spreads to fill the whole room.
+
+2
+00:00:04,518 --> 00:00:08,059
+It never gathers itself back into the cylinder.
+

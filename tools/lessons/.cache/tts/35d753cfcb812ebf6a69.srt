@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,890
+Think of it as Pythagoras with a correction.
+
+2
+00:00:02,890 --> 00:00:09,075
+At ninety degrees cos A is zero, and it is exactly Pythagoras.
+
+3
+00:00:09,075 --> 00:00:14,101
+Make A acute and a squared is less than b squared plus c squared.
+
+4
+00:00:14,101 --> 00:00:21,783
+Make A obtuse: cos A turns negative, the foot D slides outside the base, and a squared becomes bigger.
+
+5
+00:00:21,783 --> 00:00:24,765
+The same formula covers every case.
+

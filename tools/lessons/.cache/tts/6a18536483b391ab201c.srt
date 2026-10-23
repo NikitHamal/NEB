@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,882
+A linear equation has y and its derivative to the first power only.
+
+2
+00:00:04,882 --> 00:00:12,617
+Write it as d y by d x plus P y equals Q, where P and Q are functions of x.
+

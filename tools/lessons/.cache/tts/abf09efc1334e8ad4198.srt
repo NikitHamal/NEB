@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,421
+B, four radians per second.
+
+2
+00:00:02,421 --> 00:00:10,794
+No external torque, so angular momentum is conserved: two times ten equals two plus three, times omega.
+
+3
+00:00:10,794 --> 00:00:14,283
+Omega is twenty over five, which is four.
+
+4
+00:00:14,283 --> 00:00:18,789
+And kinetic energy falls from one hundred joules to forty.
+
+5
+00:00:18,789 --> 00:00:23,736
+The missing sixty joules become heat in the friction between the discs.
+

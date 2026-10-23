@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,580
+In water, they tumble freely past each other.
+
+2
+00:00:03,580 --> 00:00:05,065
+Higher entropy.
+
+3
+00:00:05,065 --> 00:00:08,619
+In steam, they fly anywhere in the whole space.
+
+4
+00:00:08,619 --> 00:00:09,713
+Higher still.
+

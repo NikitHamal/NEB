@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,578
+The logarithmic series, log of one plus x, alternates, and only works from minus one up to one.
+

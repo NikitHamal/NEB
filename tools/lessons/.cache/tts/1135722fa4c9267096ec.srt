@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,033
+In nineteen twenty three, Bronsted and Lowry defined an acid as a proton donor, and a base as a proton acceptor.
+
+2
+00:00:08,033 --> 00:00:14,492
+An acid base reaction is nothing more than a proton moving from one species to another.
+

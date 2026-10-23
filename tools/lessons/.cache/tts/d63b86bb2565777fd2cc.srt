@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,510
+You test positive.
+
+2
+00:00:01,510 --> 00:00:03,164
+What is the chance you are ill?
+
+3
+00:00:03,164 --> 00:00:05,117
+Not ninety nine per cent.
+
+4
+00:00:05,117 --> 00:00:09,518
+Of the thirty positives, only ten are ill: one in three.
+
+5
+00:00:09,518 --> 00:00:15,208
+Turning probabilities round like this is Bayes' theorem, and this unit builds up to it.
+

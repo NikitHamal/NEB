@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:15,156
+Putting electrons into this split set gains a net energy, the crystal field stabilisation energy: minus zero point four delta o for every t two g electron, plus zero point six for every e g electron.
+

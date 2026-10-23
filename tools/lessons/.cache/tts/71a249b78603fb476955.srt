@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,658
+The intensity of sound at a point is the energy the wave carries per second, through one square metre held perpendicular to its direction.
+
+2
+00:00:08,658 --> 00:00:11,445
+Its unit is the watt per square metre.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,682
+Notice the layout: the mesophyll has PEP carboxylase but no RuBisCO; the bundle sheath has RuBisCO.
+
+2
+00:00:07,682 --> 00:00:10,898
+Two cell types, two carboxylations.
+
+3
+00:00:10,898 --> 00:00:13,411
+C4 separates them in space.
+

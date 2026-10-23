@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,533
+Deaminating surplus amino acids makes ammonia, which is very toxic.
+
+2
+00:00:05,533 --> 00:00:10,716
+Fish, surrounded by water, simply wash it out: they are ammonotelic.
+
+3
+00:00:10,716 --> 00:00:18,294
+Our liver converts it at once into much less toxic urea, through the ornithine cycle: we are ureotelic.
+
+4
+00:00:18,294 --> 00:00:25,638
+Birds and reptiles, which must save water, make nearly insoluble uric acid: uricotelic.
+

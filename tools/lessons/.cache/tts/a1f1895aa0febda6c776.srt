@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,484
+But look at the last bar.
+
+2
+00:00:01,484 --> 00:00:03,619
+Her kinetic energy went up!
+
+3
+00:00:03,619 --> 00:00:09,153
+Kinetic energy is L squared over two I, and I got smaller.
+
+4
+00:00:09,153 --> 00:00:13,880
+Angular momentum is conserved, but kinetic energy is not.
+
+5
+00:00:13,880 --> 00:00:19,114
+The extra energy comes from the work her muscles do, pulling the weights inward.
+

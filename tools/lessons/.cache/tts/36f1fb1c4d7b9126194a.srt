@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,046
+f dash is three fifty five over three twenty, times four hundred: about four hundred and forty four hertz.
+
+2
+00:00:08,046 --> 00:00:11,653
+The horn sounds forty four hertz sharper than it really is.
+

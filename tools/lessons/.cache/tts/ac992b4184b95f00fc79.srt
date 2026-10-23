@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,054
+Kelvin again.
+
+2
+00:00:01,054 --> 00:00:06,367
+Minus thirteen plus two seventy three is two hundred and sixty kelvin.
+
+3
+00:00:06,367 --> 00:00:08,528
+The kitchen is three hundred.
+

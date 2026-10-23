@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,773
+Divide: x is two and y is three.
+
+2
+00:00:02,773 --> 00:00:04,466
+The crossing point we saw.
+

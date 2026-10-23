@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,934
+Unit two built the exponential series from the limit for e.
+
+2
+00:00:04,934 --> 00:00:06,158
+Here it is at work.
+
+3
+00:00:06,158 --> 00:00:08,919
+The white curve is e to the x.
+
+4
+00:00:08,919 --> 00:00:15,039
+One term of the series is a flat line; two terms a straight line; three a parabola.
+
+5
+00:00:15,039 --> 00:00:22,695
+Each new term bends the yellow curve closer, and by six or seven terms it hugs e to the x across the whole picture.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,812
+Pointers and arrays are close relatives.
+
+2
+00:00:02,812 --> 00:00:06,510
+An array's name is the address of its first element.
+
+3
+00:00:06,510 --> 00:00:14,817
+Add two to the pointer and it moves two elements along, so star of q plus two is arr two: thirty.
+

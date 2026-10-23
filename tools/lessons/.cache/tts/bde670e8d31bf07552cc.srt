@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,692
+Here is our path.
+
+2
+00:00:01,692 --> 00:00:07,200
+Gravimetric and volumetric analysis, and the idea of an equivalent.
+
+3
+00:00:07,200 --> 00:00:09,557
+Equivalent weight and valency.
+
+4
+00:00:09,557 --> 00:00:14,713
+Equivalent weights of acids, bases, salts and redox agents.
+
+5
+00:00:14,713 --> 00:00:16,497
+Concentration units.
+
+6
+00:00:16,497 --> 00:00:19,296
+Primary and secondary standards.
+
+7
+00:00:19,296 --> 00:00:20,937
+The law of equivalence.
+
+8
+00:00:20,937 --> 00:00:25,807
+And finally, titration itself, acid base and redox.
+

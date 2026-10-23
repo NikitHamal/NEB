@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,710
+Waves come in two kinds, sorted by how the particles move.
+
+2
+00:00:03,710 --> 00:00:12,135
+In a transverse wave, they vibrate at right angles to the direction the wave travels, forming crests and troughs.
+
+3
+00:00:12,135 --> 00:00:17,968
+A wave on a string, a ripple on water, and light are all transverse.
+

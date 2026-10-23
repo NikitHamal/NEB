@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,953
+Watch it work on a plane wavefront.
+
+2
+00:00:01,953 --> 00:00:03,489
+Pick a row of points on it.
+
+3
+00:00:03,489 --> 00:00:07,682
+Set your compass to v t, and strike an arc from each point.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,450
+Worked example two point three, a weak base.
+
+2
+00:00:03,450 --> 00:00:07,434
+Zero point zero two molar ammonium hydroxide.
+
+3
+00:00:07,434 --> 00:00:18,515
+Alpha is the square root of K b over C, which is the square root of nine times ten to the minus four: zero point zero three, three percent.
+

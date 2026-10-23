@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,736
+No membrane, no energy, no living cell needed.
+
+2
+00:00:03,736 --> 00:00:09,882
+It is fast over micrometres but hopeless over metres, which is why plants need xylem.
+

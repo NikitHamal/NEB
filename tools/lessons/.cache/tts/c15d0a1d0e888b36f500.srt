@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,364
+Now let us play with the fringe width formula, beta equals lambda D over d.
+
+2
+00:00:05,364 --> 00:00:12,565
+Here is the pattern for six hundred nanometre light, with d half a millimetre and D one and a half metres.
+

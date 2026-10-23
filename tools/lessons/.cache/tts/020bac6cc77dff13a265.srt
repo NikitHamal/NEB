@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,617
+Step one: ultrafiltration.
+
+2
+00:00:02,617 --> 00:00:14,205
+Glomerular blood pressure, about fifty five millimetres of mercury, pushes against the fifteen of fluid already in the capsule and the thirty pulling back from plasma proteins.
+
+3
+00:00:14,205 --> 00:00:16,627
+Net filtration pressure: ten.
+
+4
+00:00:16,627 --> 00:00:21,979
+Water and small solutes are squeezed out; cells and proteins stay in the blood.
+

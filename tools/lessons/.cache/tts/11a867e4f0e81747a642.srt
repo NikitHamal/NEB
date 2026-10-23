@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,013
+The tiny classes are the recombinants: one hundred and forty nine plus one hundred and fifty two, three hundred and one, out of eight thousand three hundred and sixty eight.
+
+2
+00:00:10,013 --> 00:00:12,018
+That is three point six percent.
+
+3
+00:00:12,018 --> 00:00:15,364
+So the genes are three point six map units apart.
+

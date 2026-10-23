@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,666
+Look carefully at the form.
+
+2
+00:00:01,666 --> 00:00:04,882
+It is not a function of v t minus x.
+
+3
+00:00:04,882 --> 00:00:09,283
+The x part and the t part have separated, so nothing travels.
+
+4
+00:00:09,283 --> 00:00:20,664
+Every particle performs simple harmonic motion of period T, but with its own amplitude, two a cos two pi x over lambda, which depends on where the particle is.
+

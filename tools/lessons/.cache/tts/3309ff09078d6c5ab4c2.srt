@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,289
+Now refraction.
+
+2
+00:00:01,289 --> 00:00:10,143
+The same plane wavefront A B meets the flat surface of a denser medium, where light is slower: v two is less than v one.
+
+3
+00:00:10,143 --> 00:00:12,317
+End A touches the surface first.
+

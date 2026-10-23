@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,132
+The classic mistake: rewriting the right hand side with k plus one and calling it done.
+
+2
+00:00:06,132 --> 00:00:07,526
+That proves nothing.
+
+3
+00:00:07,526 --> 00:00:09,635
+You must use the hypothesis.
+
+4
+00:00:09,635 --> 00:00:13,645
+And a proof without the basis step loses half the marks.
+

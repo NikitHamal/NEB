@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,510
+Twelve hundred times fifteen hundred squared: two point seven times ten to the nine pascals.
+
+2
+00:00:06,510 --> 00:00:08,203
+A little stiffer than water.
+

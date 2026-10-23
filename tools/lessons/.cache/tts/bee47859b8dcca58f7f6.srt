@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,515
+Four processes, four one line versions of the first law.
+
+2
+00:00:03,515 --> 00:00:07,552
+These are worth memorising exactly as they appear on this board.
+

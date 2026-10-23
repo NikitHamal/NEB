@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,320
+A count of terms cannot be negative: thirty.
+
+2
+00:00:03,320 --> 00:00:09,296
+And if no positive whole-number root appears, the answer is that no such n exists.
+
+3
+00:00:09,296 --> 00:00:10,364
+Never round.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,950
+A gene can have more than two alleles in a population, although each person carries only two.
+
+2
+00:00:05,950 --> 00:00:11,341
+The ABO blood group gene has three: I A, I B and little i.
+
+3
+00:00:11,341 --> 00:00:17,213
+I A and I B are codominant with each other, and both are dominant over i.
+
+4
+00:00:17,213 --> 00:00:20,481
+That gives six genotypes and four blood groups.
+

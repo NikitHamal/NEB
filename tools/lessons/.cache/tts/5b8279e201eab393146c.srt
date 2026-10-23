@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,111
+Halve it: one point five four three one.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,171
+Take minus log of both sides, and you get p H plus p O H equals fourteen.
+

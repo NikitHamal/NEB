@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,679
+B, it decreases.
+
+2
+00:00:01,679 --> 00:00:07,552
+The wavelength in water is lambda over n, so beta becomes beta over n.
+
+3
+00:00:07,552 --> 00:00:13,424
+The frequency does not change, but the wavelength does, and beta depends on wavelength.
+

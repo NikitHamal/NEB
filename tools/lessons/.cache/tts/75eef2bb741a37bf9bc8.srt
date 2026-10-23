@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,197
+Let us recap.
+
+2
+00:00:01,197 --> 00:00:09,401
+The pressure amplitude is rho v omega a, and the pressure wave is a quarter wavelength out of step with displacement.
+
+3
+00:00:09,401 --> 00:00:16,458
+Intensity goes as amplitude squared and frequency squared, and falls as one over r squared.
+
+4
+00:00:16,458 --> 00:00:23,828
+Intensity level is ten log I over I nought: double the intensity for three more decibels.
+
+5
+00:00:23,828 --> 00:00:30,820
+Loudness is a sensation, pitch is frequency, and quality is set by the overtones.
+
+6
+00:00:30,820 --> 00:00:40,312
+And the Doppler formula is f dash equals v plus v o, over v minus v s, times f, with approach counted positive.
+

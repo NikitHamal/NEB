@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,192
+The three service models differ in how much of the stack you still manage.
+
+2
+00:00:04,192 --> 00:00:09,309
+On your own premises, you manage everything, down to the network cables.
+
+3
+00:00:09,309 --> 00:00:16,354
+Infrastructure as a service rents you virtual machines: you still install the operating system and software.
+
+4
+00:00:16,354 --> 00:00:21,927
+Platform as a service gives a ready platform: you bring only your application and data.
+
+5
+00:00:21,927 --> 00:00:29,153
+Software as a service, like Gmail, gives finished software: you manage nothing but your own data.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,445
+Exam tip.
+
+2
+00:00:01,445 --> 00:00:04,348
+Pseudostratified is not stratified.
+
+3
+00:00:04,348 --> 00:00:11,901
+In pseudostratified epithelium every cell touches the basement membrane, so it is one layer.
+
+4
+00:00:11,901 --> 00:00:16,184
+In a stratified epithelium only the deepest layer does.
+

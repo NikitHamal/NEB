@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,252
+That was the properties of a triangle.
+
+2
+00:00:02,252 --> 00:00:11,289
+Next, solution of triangles: using these laws to find every missing side and angle, including the ambiguous case.
+
+3
+00:00:11,289 --> 00:00:12,213
+See you there.
+

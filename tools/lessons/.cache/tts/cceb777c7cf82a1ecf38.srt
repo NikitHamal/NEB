@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,958
+Third normal form: remove transitive dependencies.
+
+2
+00:00:03,958 --> 00:00:11,419
+The faculty head depends on faculty, not directly on the student, so it gets its own faculty table.
+
+3
+00:00:11,419 --> 00:00:13,958
+Now Science's head is stored once.
+
+4
+00:00:13,958 --> 00:00:24,960
+Four tables, every fact in one place, and joining them on their keys gives back every original row exactly: the decomposition is lossless.
+

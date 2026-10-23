@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,679
+Two kinds of pipe follow.
+
+2
+00:00:01,679 --> 00:00:08,554
+A closed pipe, or closed organ pipe, is closed at one end and open at the other, like a test tube.
+
+3
+00:00:08,554 --> 00:00:13,346
+An open pipe is open at both ends, like a flute or a bansuri.
+

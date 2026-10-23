@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,158
+Two parts.
+
+2
+00:00:01,158 --> 00:00:11,888
+Human population: the rates, growth and doubling time, pyramids, dependency, and the demographic transition, all with Nepal's real census numbers.
+
+3
+00:00:11,888 --> 00:00:21,028
+Then health disorders: infections, malaria and HIV, immunity, non communicable and deficiency diseases.
+

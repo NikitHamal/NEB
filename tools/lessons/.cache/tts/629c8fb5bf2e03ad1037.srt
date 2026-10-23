@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,390
+Only attaches to whatever follows it, and moving it moves the meaning.
+
+2
+00:00:05,390 --> 00:00:08,541
+Only I solved two sums: nobody else did.
+
+3
+00:00:08,541 --> 00:00:11,861
+I only solved two sums: I did nothing more with them.
+
+4
+00:00:11,861 --> 00:00:15,208
+I solved only two sums: no more than two.
+
+5
+00:00:15,208 --> 00:00:26,953
+And a negative adverb at the front causes inversion, the auxiliary jumping before the subject: never have I seen such a crowd; rarely does he miss a class; little did they know.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,531
+In people we cannot arrange crosses, so we read family trees.
+
+2
+00:00:04,531 --> 00:00:10,755
+A pedigree uses squares for males, circles for females, and shades the affected.
+
+3
+00:00:10,755 --> 00:00:13,580
+Read it with four questions, in order.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:08,945
+The secondary maxima lie roughly halfway between the minima, near a sine theta equals n plus a half, lambda.
+
+2
+00:00:08,945 --> 00:00:10,143
+And they are faint.
+
+3
+00:00:10,143 --> 00:00:16,835
+The first is only about four point seven percent of the central intensity, the second about one point seven.
+

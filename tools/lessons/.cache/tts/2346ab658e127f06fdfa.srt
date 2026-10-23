@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,309
+Multiplier: ten volts over two milliamps is five thousand, minus fifty: four thousand nine hundred and fifty ohms, in series.
+

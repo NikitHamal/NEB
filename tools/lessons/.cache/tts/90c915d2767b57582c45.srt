@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,705
+C, zinc two plus.
+
+2
+00:00:01,705 --> 00:00:09,986
+It is 3d ten: the d subshell is full, so there is no vacancy in the upper level for an electron to jump into.
+
+3
+00:00:09,986 --> 00:00:12,864
+No d d transition, no colour.
+
+4
+00:00:12,864 --> 00:00:23,567
+Copper two plus is 3d nine, iron three plus 3d five, nickel two plus 3d eight: all have partly filled d subshells.
+

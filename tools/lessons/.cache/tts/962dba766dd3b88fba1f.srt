@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,054
+At a equals fifteen, exactly h, the arc just touches: one triangle, right angled.
+

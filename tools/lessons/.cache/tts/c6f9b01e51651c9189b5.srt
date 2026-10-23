@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,643
+The common tangent of all those arcs is the new wavefront: another plane, moved forward by v t.
+

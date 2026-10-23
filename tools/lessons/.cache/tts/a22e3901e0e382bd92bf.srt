@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,200
+Look again at the altitude.
+
+2
+00:00:02,200 --> 00:00:04,713
+It cuts the base into two pieces.
+
+3
+00:00:04,713 --> 00:00:11,210
+The blue piece is the shadow of side c on the base, its projection: c cos B.
+
+4
+00:00:11,210 --> 00:00:15,794
+The pink piece is the projection of b: b cos C.
+

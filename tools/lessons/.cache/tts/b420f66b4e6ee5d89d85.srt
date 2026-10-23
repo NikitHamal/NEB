@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,851
+Cos and sin trace the unit circle.
+
+2
+00:00:02,851 --> 00:00:15,013
+Their cousins, the hyperbolic cosine and sine, built from e to the x and e to the minus x, trace the unit hyperbola, x squared minus y squared equals one.
+
+3
+00:00:15,013 --> 00:00:18,802
+So cosh squared minus sinh squared is always one.
+

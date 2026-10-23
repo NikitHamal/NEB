@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,018
+For meta attack, the positive charge never reaches the carbon holding chlorine, so it gets no such help.
+
+2
+00:00:07,018 --> 00:00:14,635
+That is why chlorine directs ortho and para, even while its inductive pull slows the whole ring down.
+

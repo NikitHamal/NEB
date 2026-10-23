@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,492
+Here is the whole map so far, plus the one we meet next.
+
+2
+00:00:04,492 --> 00:00:07,994
+Order matters with no repeats: n P r.
+
+3
+00:00:07,994 --> 00:00:14,023
+With repeats: n to the r. Identical objects: divide by their factorials.
+
+4
+00:00:14,023 --> 00:00:18,802
+A circle: n minus one factorial, halved for a garland.
+
+5
+00:00:18,802 --> 00:00:22,565
+And when order does not matter at all: n C r.
+

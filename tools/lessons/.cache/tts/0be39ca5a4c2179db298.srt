@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,721
+Every indicator has its own range.
+
+2
+00:00:02,721 --> 00:00:08,580
+Methyl orange changes between three point one and four point four, red to yellow.
+
+3
+00:00:08,580 --> 00:00:14,531
+Methyl red, litmus, bromothymol blue and phenol red sit in the middle.
+
+4
+00:00:14,531 --> 00:00:20,195
+Phenolphthalein changes between eight point three and ten, colourless to pink.
+

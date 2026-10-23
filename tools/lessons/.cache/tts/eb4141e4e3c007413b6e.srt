@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,427
+That is one point five times ten to the minus two metres per second.
+
+2
+00:00:04,427 --> 00:00:07,565
+About one and a half centimetres every second.
+
+3
+00:00:07,565 --> 00:00:08,932
+Slow and steady.
+

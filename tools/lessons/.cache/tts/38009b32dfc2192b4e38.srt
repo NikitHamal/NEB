@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,234
+IoT devices alone would need four point seven times all of IPv4.
+
+2
+00:00:05,234 --> 00:00:09,557
+With IPv6, the shortage simply disappears.
+

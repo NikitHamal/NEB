@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,559
+Multiply by x and solve the quadratic: x is cos theta plus or minus i sin theta, that is, e to the plus or minus i theta.
+

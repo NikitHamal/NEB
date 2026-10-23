@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,786
+The first law says energy is conserved.
+
+2
+00:00:02,786 --> 00:00:05,299
+But it does not tell us which way a change will go.
+
+3
+00:00:05,299 --> 00:00:11,679
+Energy would be conserved just as well if heat flowed from a cold body into a hot one.
+
+4
+00:00:11,679 --> 00:00:12,942
+It never does.
+
+5
+00:00:12,942 --> 00:00:15,807
+The second law supplies the direction.
+

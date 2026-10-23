@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,604
+Capacities are sums of volumes.
+
+2
+00:00:02,604 --> 00:00:11,393
+The vital capacity, the most you can breathe out after the deepest breath, is tidal plus both reserves: four thousand six hundred.
+
+3
+00:00:11,393 --> 00:00:17,083
+Add the residual volume for the total lung capacity: five thousand eight hundred.
+
+4
+00:00:17,083 --> 00:00:24,231
+One trap: a spirometer can never see the residual volume, so it cannot measure total lung capacity either.
+

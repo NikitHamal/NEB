@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,341
+Light strikes again.
+
+2
+00:00:01,341 --> 00:00:14,869
+P700 is excited, the electron leaps a second time, then passes through ferredoxin to the enzyme F N R, which uses two electrons to reduce NADP plus to NADPH.
+

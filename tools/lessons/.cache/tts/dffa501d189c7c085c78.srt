@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,320
+Heat absorbed is plus three point five zero.
+
+2
+00:00:03,320 --> 00:00:10,546
+So delta U is three point five zero minus two point two eight, plus one point two two kilojoules.
+
+3
+00:00:10,546 --> 00:00:18,320
+Of the heat taken in, most was spent pushing back the atmosphere, and only one point two two kilojoules was stored.
+

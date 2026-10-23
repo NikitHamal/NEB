@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,786
+Zero, plus or minus four.
+
+2
+00:00:02,786 --> 00:00:11,601
+The larger denominator, twenty five, is under y squared, so the foci are on the y axis, root of twenty five minus nine away.
+

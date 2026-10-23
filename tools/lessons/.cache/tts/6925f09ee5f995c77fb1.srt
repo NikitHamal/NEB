@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,687
+A trap: if the squares carry a coefficient, divide it out first.
+
+2
+00:00:04,687 --> 00:00:12,838
+Three x squared plus three y squared and so on: divide by three, and the centre is two, minus three.
+

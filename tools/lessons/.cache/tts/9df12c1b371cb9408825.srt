@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,830
+Why is a door handle always fixed at the edge, far from the hinge?
+
+2
+00:00:04,830 --> 00:00:10,312
+Let us look at a door from above, and push it in different places with the same force.
+

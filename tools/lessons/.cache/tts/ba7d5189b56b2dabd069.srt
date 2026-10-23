@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,343
+The determinant gives the first split.
+
+2
+00:00:02,343 --> 00:00:04,726
+Not zero: one solution.
+
+3
+00:00:04,726 --> 00:00:08,385
+Zero: then row reduce to tell many from none.
+
+4
+00:00:08,385 --> 00:00:18,007
+A homogeneous system, with B all zeros, is never inconsistent, because zero, zero, zero always works.
+

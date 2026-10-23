@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:10,390
+DNA polymerase three can only add nucleotides to a free three prime end, so every new strand is built five prime to three prime.
+
+2
+00:00:10,390 --> 00:00:14,075
+On the top template, that direction points into the fork.
+
+3
+00:00:14,075 --> 00:00:18,919
+So this new strand grows smoothly, chasing the helicase.
+
+4
+00:00:18,919 --> 00:00:20,520
+That is the leading strand.
+

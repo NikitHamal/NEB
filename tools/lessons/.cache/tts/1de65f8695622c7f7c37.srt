@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,200
+Here is the classic story.
+
+2
+00:00:02,200 --> 00:00:09,101
+In nineteen twenty eight Karpechenko crossed radish with cabbage, nine chromosomes each per gamete.
+
+3
+00:00:09,101 --> 00:00:16,289
+The hybrid had eighteen chromosomes, but nine radish and nine cabbage, so none could pair at meiosis.
+
+4
+00:00:16,289 --> 00:00:17,343
+It was sterile.
+

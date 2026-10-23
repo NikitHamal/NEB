@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,395
+Three hundred watts all month is two hundred and sixteen units: two thousand three hundred and seventy six rupees.
+

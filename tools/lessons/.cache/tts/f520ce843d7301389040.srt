@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:08,307
+The brain, about one point three five kilograms, floating in cerebrospinal fluid inside three meninges.
+
+2
+00:00:08,307 --> 00:00:11,888
+The cerebrum thinks, remembers and moves you.
+
+3
+00:00:11,888 --> 00:00:14,882
+The thalamus relays the senses.
+
+4
+00:00:14,882 --> 00:00:20,898
+The hypothalamus controls temperature, hunger and thirst, and the pituitary.
+
+5
+00:00:20,898 --> 00:00:23,450
+The cerebellum keeps balance.
+
+6
+00:00:23,450 --> 00:00:29,023
+And the medulla runs the vital centres: heartbeat, breathing and blood pressure.
+

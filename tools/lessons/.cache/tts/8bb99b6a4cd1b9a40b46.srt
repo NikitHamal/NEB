@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,000
+Welcome to Class 12 Physics, Unit 9: Acoustic Phenomena.
+
+2
+00:00:05,000 --> 00:00:15,494
+Everything you hear, the pitch of a temple bell, the roar of a bus, the whine of a passing ambulance, is a pressure wave arriving at your eardrum.
+

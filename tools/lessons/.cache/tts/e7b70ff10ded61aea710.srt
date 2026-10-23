@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,820
+The best known resistance gene comes from a soil bacterium, Bacillus thuringiensis.
+
+2
+00:00:05,820 --> 00:00:13,190
+It makes its toxin as an inactive crystal, a protoxin, so it harms neither itself nor us.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,260
+The basal cell divides again and again into a row of six to ten cells, the suspensor, which pushes the embryo deep into the endosperm.
+
+2
+00:00:10,260 --> 00:00:13,554
+Its lowest cell swells into a haustorium.
+
+3
+00:00:13,554 --> 00:00:17,747
+The apical cell divides into eight cells: the octant.
+

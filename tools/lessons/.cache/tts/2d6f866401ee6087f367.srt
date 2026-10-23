@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,393
+This becomes malate, which moves into the bundle sheath and releases carbon dioxide around RuBisCO.
+

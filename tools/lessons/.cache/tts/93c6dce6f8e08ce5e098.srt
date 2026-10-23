@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,622
+Sin C is positive in a triangle, so it is twelve thirteenths.
+

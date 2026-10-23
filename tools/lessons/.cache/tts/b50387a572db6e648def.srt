@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,825
+Zinc dust is added to the solution.
+
+2
+00:00:02,825 --> 00:00:09,804
+Zinc is more electropositive, so it displaces the silver, which falls as a spongy precipitate.
+

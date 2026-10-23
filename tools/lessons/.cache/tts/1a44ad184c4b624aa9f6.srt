@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,471
+Check the dimensions.
+
+2
+00:00:01,471 --> 00:00:08,177
+Tension over mass per length is length squared per time squared, and its square root is a speed.
+
+3
+00:00:08,177 --> 00:00:15,000
+And since mu is pi r squared rho for a wire, a thicker or denser wire carries slower waves.
+
+4
+00:00:15,000 --> 00:00:18,554
+That is why the low strings of a guitar are the fat ones.
+

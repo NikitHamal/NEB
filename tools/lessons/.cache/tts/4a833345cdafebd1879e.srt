@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,919
+Two angles and a side: the sine law's home ground.
+

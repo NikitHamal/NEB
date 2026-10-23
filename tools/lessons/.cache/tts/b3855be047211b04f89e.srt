@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,179
+Total positive charge, two times three, is six.
+
+2
+00:00:04,179 --> 00:00:07,682
+The negative side agrees, three times minus two.
+
+3
+00:00:07,682 --> 00:00:15,234
+So the n factor is six, and the equivalent weight is three hundred forty two over six, fifty seven.
+

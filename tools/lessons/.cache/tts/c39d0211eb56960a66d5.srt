@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,486
+Now the cases Mendel never met.
+
+2
+00:00:02,486 --> 00:00:08,359
+In the four o'clock plant, Mirabilis jalapa, red crossed with white gives pink.
+
+3
+00:00:08,359 --> 00:00:13,710
+Neither allele is fully dominant, so the heterozygote is in between.
+
+4
+00:00:13,710 --> 00:00:15,950
+That is incomplete dominance.
+

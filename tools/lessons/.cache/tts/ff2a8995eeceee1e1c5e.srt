@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,562
+Here is the plan.
+
+2
+00:00:01,562 --> 00:00:13,450
+Superposition of light waves, the conditions for bright and dark, coherent sources, Young's double slit experiment, the positions and width of the fringes, and what changes them.
+

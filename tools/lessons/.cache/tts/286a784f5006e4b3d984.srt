@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,570
+So r squared is P over four pi I dash: about three point nine eight times ten to the four, and r is about one hundred and ninety nine metres.
+
+2
+00:00:09,570 --> 00:00:18,268
+From ninety two decibels to sixty, a factor of about sixteen hundred in intensity, between five metres and two hundred.
+
+3
+00:00:18,268 --> 00:00:20,664
+That is the inverse square law at work.
+

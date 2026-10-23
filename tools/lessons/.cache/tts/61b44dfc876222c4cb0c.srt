@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,578
+Which equals the kinetic energy gained.
+
+2
+00:00:02,578 --> 00:00:05,039
+Work turns into kinetic energy.
+

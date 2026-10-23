@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,828
+Back in water it recovers: deplasmolysis.
+
+2
+00:00:03,828 --> 00:00:05,976
+Only a living cell can do this.
+

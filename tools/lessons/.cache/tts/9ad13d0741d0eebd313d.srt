@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,778
+Now the four special processes that every NEB paper asks about.
+
+2
+00:00:04,778 --> 00:00:12,356
+In each one, something is held fixed, and the first law collapses to a single, simple statement.
+
+3
+00:00:12,356 --> 00:00:15,234
+All four start from the same state, A.
+

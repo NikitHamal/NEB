@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,796
+C, independent.
+
+2
+00:00:01,796 --> 00:00:07,656
+t half equals point six nine three over k, with no concentration in it.
+
+3
+00:00:07,656 --> 00:00:11,093
+Option A describes a zero order reaction.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,645
+Its signature effect is stem elongation.
+
+2
+00:00:03,645 --> 00:00:07,890
+A cabbage grows as a flat rosette, with almost no stem.
+
+3
+00:00:07,890 --> 00:00:13,580
+Give it gibberellin, or the right season, and the stem suddenly shoots up and flowers.
+
+4
+00:00:13,580 --> 00:00:14,830
+That is bolting.
+

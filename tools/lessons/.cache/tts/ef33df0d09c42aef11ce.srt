@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,549
+How small is small?
+
+2
+00:00:01,549 --> 00:00:04,843
+Plot theta and sine theta together.
+
+3
+00:00:04,843 --> 00:00:08,541
+Near zero, the two curves sit on top of each other.
+
+4
+00:00:08,541 --> 00:00:10,468
+Further out, they drift apart.
+

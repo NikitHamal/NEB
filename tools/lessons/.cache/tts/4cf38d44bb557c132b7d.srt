@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,276
+So the logs add.
+
+2
+00:00:01,276 --> 00:00:08,177
+Writing the constant as log c lets the answer collapse to tan x tan y equals c.
+

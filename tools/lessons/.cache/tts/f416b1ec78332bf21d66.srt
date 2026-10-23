@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,153
+A sieve tube is alive, but it has lost its nucleus.
+
+2
+00:00:04,153 --> 00:00:11,523
+So beside each one runs a narrow companion cell, with dense cytoplasm and a big nucleus.
+
+3
+00:00:11,523 --> 00:00:16,679
+It controls the sieve tube through plasmodesmata, and loads sugar into it.
+

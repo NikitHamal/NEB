@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,320
+For most people a library is a place where you must be quiet.
+
+2
+00:00:03,320 --> 00:00:07,343
+For Oliver Sacks, it was the place where he became himself.
+

@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,536
+Idioms worth knowing.
+
+2
+00:00:01,536 --> 00:00:05,299
+Burn the midnight oil: study late into the night.
+
+3
+00:00:05,299 --> 00:00:09,257
+Break the ice: start a conversation in an awkward moment.
+
+4
+00:00:09,257 --> 00:00:12,786
+Cut corners: do a job cheaply and badly.
+
+5
+00:00:12,786 --> 00:00:16,158
+The ball is in your court: it is now your turn to act.
+
+6
+00:00:16,158 --> 00:00:19,140
+Sit on the fence: refuse to take a side.
+
+7
+00:00:19,140 --> 00:00:22,317
+Beat about the bush: avoid coming to the point.
+
+8
+00:00:22,317 --> 00:00:25,638
+At the eleventh hour: at the very last moment.
+
+9
+00:00:25,638 --> 00:00:29,062
+And a drop in the ocean: far too little to matter.
+

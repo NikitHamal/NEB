@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,250
+Seven parts.
+
+2
+00:00:01,250 --> 00:00:03,932
+Client side and server side scripting.
+
+3
+00:00:03,932 --> 00:00:05,807
+JavaScript basics.
+
+4
+00:00:05,807 --> 00:00:08,385
+Control structures and functions.
+
+5
+00:00:08,385 --> 00:00:11,875
+Objects, events and form validation.
+
+6
+00:00:11,875 --> 00:00:13,632
+PHP basics.
+
+7
+00:00:13,632 --> 00:00:16,406
+PHP objects and operators.
+
+8
+00:00:16,406 --> 00:00:19,947
+And connecting PHP to a MySQL database.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,963
+Keep going.
+
+2
+00:00:00,963 --> 00:00:03,463
+Ten cycles, a thousand copies.
+
+3
+00:00:03,463 --> 00:00:05,234
+Twenty, a million.
+
+4
+00:00:05,234 --> 00:00:08,919
+Thirty, over a billion, in about two hours.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,531
+Ploidy questions come every year, and one rule answers them all.
+
+2
+00:00:04,531 --> 00:00:08,059
+Anything belonging to the mother plant is two n.
+
+3
+00:00:08,059 --> 00:00:10,950
+Anything in the gametophyte is n.
+
+4
+00:00:10,950 --> 00:00:18,763
+Only the two products of double fertilization differ: the embryo is two n, the endosperm three n.
+
+5
+00:00:18,763 --> 00:00:24,752
+And the perisperm of black pepper, which is leftover nucellus, is two n.
+

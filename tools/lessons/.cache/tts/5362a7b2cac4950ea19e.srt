@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,270
+By the law of tension, T goes as f squared.
+
+2
+00:00:04,270 --> 00:00:11,510
+Three twenty over two fifty six is one point two five, squared is one point five six two five.
+
+3
+00:00:11,510 --> 00:00:16,718
+So the tension must rise to one hundred and fifty six point two five newtons.
+

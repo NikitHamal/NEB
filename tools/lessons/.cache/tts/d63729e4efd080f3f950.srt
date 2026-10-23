@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,343
+Split the force into two parts.
+
+2
+00:00:02,343 --> 00:00:07,070
+The part along r just pulls on the axis, and does nothing to turn the body.
+
+3
+00:00:07,070 --> 00:00:11,184
+Only the perpendicular part, F sine phi, turns it.
+

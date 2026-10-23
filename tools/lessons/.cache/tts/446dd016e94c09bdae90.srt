@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,432
+Exam tip.
+
+2
+00:00:01,432 --> 00:00:11,028
+To sum from m to n, subtract the sum up to m minus one from the sum up to n. Subtract up to m itself and you throw away a term you were meant to keep.
+

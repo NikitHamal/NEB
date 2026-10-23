@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,864
+And the numbers, which are asked every year.
+
+2
+00:00:02,864 --> 00:00:05,221
+Diameter two nanometres.
+
+3
+00:00:05,221 --> 00:00:16,145
+One full turn, the pitch, three point four nanometres, containing ten base pairs, so neighbouring base pairs are zero point three four nanometres apart.
+
+4
+00:00:16,145 --> 00:00:20,911
+The coiling also leaves a wide major groove and a narrow minor groove.
+

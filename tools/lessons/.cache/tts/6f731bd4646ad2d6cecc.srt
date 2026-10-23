@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,200
+Carbon monoxide rises.
+
+2
+00:00:02,200 --> 00:00:10,611
+Near the top it reduces haematite step by step, to magnetite, to iron two oxide, and finally to spongy iron.
+

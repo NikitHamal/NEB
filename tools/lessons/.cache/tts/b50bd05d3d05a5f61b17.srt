@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,453
+Write PS equals PM with the distance formula, square both sides, and almost everything cancels: y squared equals four a x.
+
+2
+00:00:09,453 --> 00:00:16,080
+The chord through the focus, the latus rectum, has length four a, which is why the four is there.
+

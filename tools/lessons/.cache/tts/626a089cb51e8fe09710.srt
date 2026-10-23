@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,419
+Exam tip.
+
+2
+00:00:01,419 --> 00:00:09,778
+Whenever a question has a restriction, must be even, must start with a vowel, a certain person at the head, fill that place first.
+
+3
+00:00:09,778 --> 00:00:13,333
+Otherwise you will not know how many choices are left for it.
+

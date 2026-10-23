@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,507
+Zinc, which gives up electrons easily, has a positive oxidation potential.
+
+2
+00:00:05,507 --> 00:00:08,085
+Copper prefers to take electrons back.
+
+3
+00:00:08,085 --> 00:00:13,906
+To avoid confusion, the world agreed to tabulate only reduction potentials.
+
+4
+00:00:13,906 --> 00:00:18,294
+An oxidation potential is just the same number with the sign flipped.
+

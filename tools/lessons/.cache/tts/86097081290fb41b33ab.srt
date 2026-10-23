@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:09,348
+Steel is iron with its carbon cut to between a quarter and one and a half percent, and the silicon, manganese, phosphorus and sulphur removed.
+
+2
+00:00:09,348 --> 00:00:13,489
+Most of the world's steel is made by the basic oxygen process.
+
+3
+00:00:13,489 --> 00:00:20,611
+Molten pig iron, scrap and quicklime go into a pear shaped converter with a basic lining of dolomite.
+
+4
+00:00:20,611 --> 00:00:24,700
+A water cooled lance blows pure oxygen onto the melt.
+

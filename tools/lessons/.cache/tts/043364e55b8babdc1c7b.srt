@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,888
+Half a wavelength: dark.
+
+2
+00:00:01,888 --> 00:00:05,260
+One whole wavelength: the first bright fringe.
+
+3
+00:00:05,260 --> 00:00:07,408
+One and a half: dark again.
+
+4
+00:00:07,408 --> 00:00:10,585
+Two wavelengths: the second bright fringe.
+
+5
+00:00:10,585 --> 00:00:16,015
+Every fringe width adds exactly one wavelength of path difference.
+
+6
+00:00:16,015 --> 00:00:21,796
+The intensity follows four I nought cos squared of pi y d over lambda D.
+

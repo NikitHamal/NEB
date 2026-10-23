@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,046
+The wave speed of each component is f lambda: one hundred times zero point zero four metres, four metres per second.
+
+2
+00:00:08,046 --> 00:00:09,882
+Careful with the centimetres.
+

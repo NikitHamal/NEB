@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:05,989
+When the string makes an angle theta with the vertical, split the weight m g in two.
+
+2
+00:00:05,989 --> 00:00:11,080
+Along the string, m g cos theta, which the tension balances.
+
+3
+00:00:11,080 --> 00:00:14,166
+Across it, m g sine theta.
+
+4
+00:00:14,166 --> 00:00:17,057
+That component has nothing to balance it.
+
+5
+00:00:17,057 --> 00:00:22,109
+It is the restoring force, always pulling the bob back towards the lowest point.
+

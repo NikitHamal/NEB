@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,406
+Some alleles kill.
+
+2
+00:00:01,406 --> 00:00:05,260
+In maize, a recessive allele blocks chlorophyll.
+
+3
+00:00:05,260 --> 00:00:11,328
+Cross two green plants that both carry it, and seedlings come up three green to one white.
+
+4
+00:00:11,328 --> 00:00:14,622
+But the white seedlings cannot photosynthesise.
+
+5
+00:00:14,622 --> 00:00:17,656
+They die as soon as the food in the seed runs out.
+

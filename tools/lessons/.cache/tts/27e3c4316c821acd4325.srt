@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,588
+At the new place, g is smaller, so the same pendulum swings more slowly.
+
+2
+00:00:06,588 --> 00:00:10,520
+Its period becomes two point zero zero two seconds.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,489
+Here is net photosynthesis against light.
+
+2
+00:00:03,489 --> 00:00:09,856
+In dim light the rate climbs with every extra photon: light is limiting.
+
+3
+00:00:09,856 --> 00:00:15,846
+Where the curve crosses zero, photosynthesis just balances respiration.
+
+4
+00:00:15,846 --> 00:00:18,033
+That is the light compensation point.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,335
+Put the whole apparatus under water, of index four thirds.
+
+2
+00:00:04,335 --> 00:00:10,807
+The wavelength inside shrinks to lambda over n, so the fringes shrink by the same factor.
+

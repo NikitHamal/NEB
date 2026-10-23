@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,515
+That is Mendel's third law, independent assortment.
+
+2
+00:00:03,515 --> 00:00:11,992
+And notice: each character alone still gives three to one, twelve round to four wrinkled, twelve yellow to four green.
+
+3
+00:00:11,992 --> 00:00:18,372
+Nine three three one is just three to one, times three to one: the product rule.
+

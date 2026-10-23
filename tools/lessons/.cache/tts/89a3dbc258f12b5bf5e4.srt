@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,523
+For five volts: five thousand minus one hundred, four thousand nine hundred ohms, in series.
+

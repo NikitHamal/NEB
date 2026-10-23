@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,416
+Even the formula for the angle turned in the n-th second carries straight across.
+

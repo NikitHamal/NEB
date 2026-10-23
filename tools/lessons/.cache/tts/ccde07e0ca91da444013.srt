@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,755
+For our triangle: root of twenty one times eight times seven times six.
+
+2
+00:00:05,755 --> 00:00:07,500
+Exactly eighty four.
+

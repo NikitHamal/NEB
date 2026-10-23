@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,250
+Now the colours.
+
+2
+00:00:01,250 --> 00:00:10,781
+The splitting delta o happens to be about one hundred and fifty to four hundred kilojoules per mole, which is exactly the energy of visible light.
+
+3
+00:00:10,781 --> 00:00:17,916
+A d electron can absorb a photon and jump from the lower t two g level to the upper e g level.
+
+4
+00:00:17,916 --> 00:00:20,989
+This is a d d transition.
+

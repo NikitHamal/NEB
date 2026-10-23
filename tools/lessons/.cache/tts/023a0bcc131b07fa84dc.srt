@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,794
+Run time polymorphism: the version is chosen from the real object while the program runs.
+

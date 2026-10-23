@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,721
+A heat engine converts heat into work continuously, by taking a working substance round and round a cycle.
+
+2
+00:00:07,721 --> 00:00:12,161
+It absorbs heat Q one from a hot source, at temperature T one.
+

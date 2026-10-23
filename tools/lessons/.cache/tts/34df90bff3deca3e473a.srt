@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,963
+The column has volume A h, mass rho A h, and weight rho A h g. Divide that weight by the area, and the area cancels.
+
+2
+00:00:10,963 --> 00:00:13,385
+The pressure is h rho g.
+

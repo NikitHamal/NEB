@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,106
+A worked item.
+
+2
+00:00:01,106 --> 00:00:06,770
+If you boil water, it turns into steam: a scientific fact, type zero.
+
+3
+00:00:06,770 --> 00:00:12,187
+If she comes tomorrow, I will meet her: a real future, type one.
+
+4
+00:00:12,187 --> 00:00:16,536
+If I were the mayor, I would ban plastic bags: I am not, type two.
+
+5
+00:00:16,536 --> 00:00:22,721
+If they had started earlier, they would have reached the summit: the climb failed yesterday, type three.
+
+6
+00:00:22,721 --> 00:00:26,471
+Ask how real each condition is, and the type follows.
+

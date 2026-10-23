@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:08,411
+Thermodynamics studies energy changes in bulk matter, using measurable properties like pressure, volume and temperature.
+
+2
+00:00:08,411 --> 00:00:12,799
+It says nothing about speed, and nothing about individual molecules.
+
+3
+00:00:12,799 --> 00:00:14,518
+First, two words.
+
+4
+00:00:14,518 --> 00:00:17,838
+The system is the part of the universe we are studying.
+
+5
+00:00:17,838 --> 00:00:19,986
+The surroundings are everything else.
+

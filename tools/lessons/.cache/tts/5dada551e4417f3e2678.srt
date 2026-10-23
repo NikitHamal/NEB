@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,815
+First normal form: every cell holds one value.
+
+2
+00:00:03,815 --> 00:00:06,419
+Give each student and course its own row.
+
+3
+00:00:06,419 --> 00:00:14,192
+Now neither roll nor code alone identifies a row, but together they do: the key is roll and code.
+

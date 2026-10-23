@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,916
+A substitution swaps one base.
+
+2
+00:00:02,916 --> 00:00:08,593
+If the new codon still means the same amino acid, the mutation is silent.
+
+3
+00:00:08,593 --> 00:00:15,377
+G A G to G A A is still glutamic acid, because the code is degenerate.
+

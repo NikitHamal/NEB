@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,002
+Sixteen.
+
+2
+00:00:01,002 --> 00:00:10,520
+Root two to the eighth is sixteen, and eight times forty five is three sixty degrees, which points along the positive real axis.
+

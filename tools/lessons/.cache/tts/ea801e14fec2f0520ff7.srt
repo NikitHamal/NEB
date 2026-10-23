@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,432
+Watch the impulse.
+
+2
+00:00:01,432 --> 00:00:08,554
+Skin, into the dorsal horn, across the relay neuron, out through the ventral root, to the muscle.
+
+3
+00:00:08,554 --> 00:00:10,507
+About twenty milliseconds.
+
+4
+00:00:10,507 --> 00:00:16,861
+A branch also climbs to the brain, which is why you feel the pain only after your hand has moved.
+
+5
+00:00:16,861 --> 00:00:19,986
+The brain is informed, but not consulted.
+

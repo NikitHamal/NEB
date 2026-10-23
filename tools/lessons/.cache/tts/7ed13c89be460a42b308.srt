@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,486
+As the electrons fall, complexes one, three and four pump protons out of the matrix: four, four and two.
+
+2
+00:00:07,486 --> 00:00:10,664
+Ten protons for every NADH.
+
+3
+00:00:10,664 --> 00:00:16,718
+FADH two enters at complex two, which pumps none, so it moves only six.
+

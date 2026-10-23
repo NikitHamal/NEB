@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,895
+Order two, the second derivative; degree three, its power.
+
+2
+00:00:04,895 --> 00:00:07,916
+The fourth power belongs to a lower derivative.
+

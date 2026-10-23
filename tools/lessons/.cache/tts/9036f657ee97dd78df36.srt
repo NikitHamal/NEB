@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,932
+Finally, what happens when the message itself changes.
+
+2
+00:00:03,932 --> 00:00:12,604
+A mutation is a sudden, random, heritable change in the genetic material, not caused by segregation or recombination.
+
+3
+00:00:12,604 --> 00:00:17,213
+Hugo de Vries coined the word in nineteen oh one, from the evening primrose.
+
+4
+00:00:17,213 --> 00:00:27,174
+Mutations are usually recessive and usually harmful, because a random change to a finely tuned system is more likely to break it than to improve it.
+
+5
+00:00:27,174 --> 00:00:28,359
+And they are rare.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,638
+The third bright fringe is three fringe widths out: five point four millimetres.
+

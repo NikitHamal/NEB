@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,848
+In I U P A C names the halogen is a prefix, fluoro, chloro, bromo, iodo, on the longest chain containing it, numbered to give the lowest locants.
+
+2
+00:00:11,848 --> 00:00:15,898
+The common name is simply the alkyl group followed by halide.
+

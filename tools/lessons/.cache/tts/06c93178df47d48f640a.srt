@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:10,260
+Centre two, minus one; a three, b two; e root five over three; and the foci root five either side of the centre.
+

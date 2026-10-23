@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:14,401
+In eukaryotes this first transcript is then processed: a cap at the five prime end, a poly A tail at the three prime end, and the introns, the non coding pieces, are cut out while the exons are spliced together.
+

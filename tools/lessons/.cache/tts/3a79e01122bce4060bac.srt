@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,513
+After the first, I nought over two.
+
+2
+00:00:02,513 --> 00:00:05,768
+After the second, times cos squared theta.
+

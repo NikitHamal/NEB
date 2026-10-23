@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,914
+So a cross b is minus seventeen i plus thirteen j plus seven k. Check: dot it with a and you get minus thirty four plus thirteen plus twenty one, zero.
+
+2
+00:00:11,914 --> 00:00:13,828
+Perpendicular, as it must be.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,406
+A favourite question.
+
+2
+00:00:01,406 --> 00:00:12,070
+A linear molecule cut at three sites gives four pieces; a circular plasmid cut at three sites gives only three, because a ring has no ends.
+
+3
+00:00:12,070 --> 00:00:18,815
+Either way, the fragment sizes must add back up to the whole molecule, twelve kilobases here.
+
+4
+00:00:18,815 --> 00:00:23,763
+And two fragments of the same size run together as one brighter band.
+

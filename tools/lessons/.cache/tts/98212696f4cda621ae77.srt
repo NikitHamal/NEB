@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:05,533
+As data goes down the stack at the sender, each layer wraps it in its own header.
+
+2
+00:00:05,533 --> 00:00:08,867
+Transport adds port numbers to make a segment.
+
+3
+00:00:08,867 --> 00:00:12,513
+Network adds IP addresses to make a packet.
+
+4
+00:00:12,513 --> 00:00:16,953
+Data link adds MAC addresses and a checksum to make a frame.
+
+5
+00:00:16,953 --> 00:00:19,661
+The physical layer sends it as bits.
+
+6
+00:00:19,661 --> 00:00:23,815
+At the receiver, each layer strips its header off on the way up.
+
+7
+00:00:23,815 --> 00:00:26,315
+This wrapping is called encapsulation.
+

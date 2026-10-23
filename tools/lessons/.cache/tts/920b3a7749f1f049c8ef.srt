@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,049
+Pull a loaded cart along a road with a rope that slopes upward.
+
+2
+00:00:04,049 --> 00:00:09,283
+Only part of your pull moves the cart forward: the green part, along the road.
+
+3
+00:00:09,283 --> 00:00:10,924
+The rest just lifts.
+

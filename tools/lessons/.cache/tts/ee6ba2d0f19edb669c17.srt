@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,221
+That would need an engine with no sink at all, which is exactly what Kelvin Planck forbids.
+
+2
+00:00:05,221 --> 00:00:12,096
+Every heat engine must have a sink, so its efficiency is always less than one hundred percent.
+

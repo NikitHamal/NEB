@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,010
+Here is one table holding a school's whole result record.
+
+2
+00:00:04,010 --> 00:00:09,895
+The courses column crams several values into one cell, a repeating group.
+
+3
+00:00:09,895 --> 00:00:14,401
+You cannot even ask who scored above eighty in CS four oh one.
+
+4
+00:00:14,401 --> 00:00:20,963
+Normalisation fixes designs like this, step by step, without losing any information.
+

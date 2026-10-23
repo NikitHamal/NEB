@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:10,117
+In the I U P A C system, the smaller group together with the oxygen is named as an alkoxy substituent, and the larger group is the parent chain.
+
+2
+00:00:10,117 --> 00:00:18,424
+So C H three O C H two C H three: methoxy, plus ethane, gives methoxyethane.
+
+3
+00:00:18,424 --> 00:00:24,101
+The common name just lists the two groups and adds the word ether: ethyl methyl ether.
+

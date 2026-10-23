@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,289
+Blow across a bamboo bansuri, a pipe open at both ends, and it sings a clear note.
+
+2
+00:00:06,289 --> 00:00:12,135
+For a pipe twenty five centimetres long, that note is six hundred and eighty hertz.
+
+3
+00:00:12,135 --> 00:00:17,005
+The air inside is sloshing back and forth in a standing wave.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,893
+Blood is a connective tissue whose matrix is a liquid.
+
+2
+00:00:03,893 --> 00:00:14,296
+Spin it down: about fifty five percent is plasma, mostly water with proteins, sugar, salts and hormones, and forty five percent is formed elements.
+
+3
+00:00:14,296 --> 00:00:23,046
+Red cells, biconcave discs with no nucleus in mammals, four and a half to five and a half million in each cubic millimetre.
+
+4
+00:00:23,046 --> 00:00:26,601
+White cells, four to eleven thousand, for defence.
+
+5
+00:00:26,601 --> 00:00:31,575
+And platelets, one hundred and fifty to four hundred thousand, for clotting.
+

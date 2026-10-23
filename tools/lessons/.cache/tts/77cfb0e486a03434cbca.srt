@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,026
+JavaScript lives in script tags in the page, or in a separate file.
+
+2
+00:00:05,026 --> 00:00:11,848
+Variables are declared with var, let or const, and need no type: the value decides it.
+
+3
+00:00:11,848 --> 00:00:18,398
+Number, string, boolean, null, undefined, and objects such as arrays.
+
+4
+00:00:18,398 --> 00:00:20,794
+The typeof operator tells you which.
+

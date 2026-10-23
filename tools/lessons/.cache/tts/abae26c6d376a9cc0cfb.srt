@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,658
+Sericulture is rearing silkworms for silk.
+
+2
+00:00:03,658 --> 00:00:12,382
+The mulberry silkworm, Bombyx mori, has been domesticated so long that the moth cannot fly and does not exist in the wild.
+
+3
+00:00:12,382 --> 00:00:19,570
+It is monophagous: it eats mulberry leaves and nothing else, so growing mulberry is half the job.
+

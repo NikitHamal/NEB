@@ -1,0 +1,1144 @@
+1
+00:00:00,000 --> 00:00:01,811
+Here are two wheels.
+
+2
+00:00:01,811 --> 00:00:05,781
+They have exactly the same mass, and exactly the same radius.
+
+3
+00:00:06,000 --> 00:00:10,676
+The only difference: in the ring, all the mass sits out at the rim.
+
+4
+00:00:10,676 --> 00:00:15,889
+In the disc, the same mass is spread evenly, all the way to the centre.
+
+5
+00:00:18,100 --> 00:00:22,034
+We release both from rest, at the top of identical slopes.
+
+6
+00:00:22,034 --> 00:00:24,365
+Which one reaches the bottom first?
+
+7
+00:00:24,365 --> 00:00:25,817
+Make a guess before you watch.
+
+8
+00:00:29,533 --> 00:00:30,863
+The disc wins.
+
+9
+00:00:30,863 --> 00:00:32,178
+Every single time.
+
+10
+00:00:32,178 --> 00:00:36,084
+Not because it is heavier, and not because it is smaller.
+
+11
+00:00:36,084 --> 00:00:38,376
+Same mass, same size.
+
+12
+00:00:38,376 --> 00:00:42,738
+The secret is how the mass is arranged around the axis of spin.
+
+13
+00:00:42,738 --> 00:00:46,718
+By the end of this lesson, you will be able to prove exactly why.
+
+14
+00:00:51,533 --> 00:00:56,639
+Welcome to Class 12 Physics, Unit 1: Rotational Dynamics.
+
+15
+00:00:56,639 --> 00:01:02,759
+Everything you learned about straight line motion in Class 11 has a twin in the world of spin.
+
+16
+00:01:02,759 --> 00:01:06,486
+Learn the translation, and this whole unit writes itself.
+
+17
+00:01:08,867 --> 00:01:10,119
+Here is our path.
+
+18
+00:01:10,119 --> 00:01:19,952
+Angular kinematics, rotational kinetic energy, moment of inertia, the inertia of a rod, torque, work and power, and finally, angular momentum.
+
+19
+00:01:24,300 --> 00:01:29,054
+Picture a rigid body spinning about a fixed axis through the point O.
+
+20
+00:01:29,054 --> 00:01:33,306
+Every particle of the body moves in a circle around that axis.
+
+21
+00:01:33,533 --> 00:01:37,532
+Look at three particles at different distances from the axis.
+
+22
+00:01:37,532 --> 00:01:41,477
+The outer one travels a longer arc than the inner one.
+
+23
+00:01:41,477 --> 00:01:44,199
+But every one of them turns through the same angle.
+
+24
+00:01:44,199 --> 00:01:50,597
+That shared angle, theta, is why angle, not distance, is the natural language of rotation.
+
+25
+00:01:50,800 --> 00:01:56,210
+We measure that angle in radians: the arc length s, divided by the radius r.
+
+26
+00:01:56,433 --> 00:01:57,737
+What is one radian?
+
+27
+00:01:57,737 --> 00:02:01,734
+Take the radius itself, and bend it onto the circle.
+
+28
+00:02:01,734 --> 00:02:06,940
+The angle it covers is exactly one radian, about fifty seven degrees.
+
+29
+00:02:07,167 --> 00:02:13,380
+Keep laying radii around the rim: two, three, four, five, six, and a little bit more.
+
+30
+00:02:13,380 --> 00:02:18,028
+Exactly two pi radii fit around a full circle.
+
+31
+00:02:18,028 --> 00:02:21,185
+So one revolution is two pi radians.
+
+32
+00:02:22,700 --> 00:02:30,737
+How fast the angle changes is the angular velocity, omega, equal to d theta by d t, in radians per second.
+
+33
+00:02:30,967 --> 00:02:40,618
+And how fast omega itself changes is the angular acceleration, alpha, equal to d omega by d t, in radians per second squared.
+
+34
+00:02:42,833 --> 00:02:46,311
+Here is the key that unlocks the whole chapter.
+
+35
+00:02:46,311 --> 00:02:49,488
+Every linear quantity has a rotational partner.
+
+36
+00:02:49,488 --> 00:02:51,884
+Displacement becomes angle.
+
+37
+00:02:51,884 --> 00:02:54,788
+Velocity becomes angular velocity.
+
+38
+00:02:54,788 --> 00:02:58,004
+Acceleration becomes angular acceleration.
+
+39
+00:02:58,004 --> 00:03:00,413
+Mass becomes moment of inertia.
+
+40
+00:03:00,413 --> 00:03:01,949
+Force becomes torque.
+
+41
+00:03:01,949 --> 00:03:04,267
+And momentum becomes angular momentum.
+
+42
+00:03:04,500 --> 00:03:11,565
+Remember this table, and you can rebuild almost every formula in this unit, just by swapping the symbols.
+
+43
+00:03:12,767 --> 00:03:13,784
+Watch it work.
+
+44
+00:03:13,784 --> 00:03:18,955
+These are the three equations of motion you already know for constant acceleration.
+
+45
+00:03:19,167 --> 00:03:25,301
+Swap u and v for omega nought and omega, a for alpha, and s for theta.
+
+46
+00:03:25,301 --> 00:03:30,732
+Out come the three equations of angular motion, valid whenever alpha is constant.
+
+47
+00:03:30,933 --> 00:03:35,887
+Even the formula for the angle turned in the n-th second carries straight across.
+
+48
+00:03:37,100 --> 00:03:39,354
+Now connect the two worlds.
+
+49
+00:03:39,354 --> 00:03:47,050
+Since s equals r theta, and r is fixed for a particle, differentiating gives v equals r omega.
+
+50
+00:03:47,050 --> 00:03:53,748
+Every particle shares the same omega, so its speed grows in proportion to its distance from the axis.
+
+51
+00:03:54,967 --> 00:03:59,851
+If the spin is speeding up, a point on the rim has two accelerations.
+
+52
+00:03:59,851 --> 00:04:04,264
+The tangential acceleration, r alpha, changes its speed.
+
+53
+00:04:04,467 --> 00:04:13,292
+And the centripetal acceleration, v squared over r, or r omega squared, points to the centre and keeps turning its direction.
+
+54
+00:04:13,500 --> 00:04:20,941
+They are at right angles, so the total acceleration is the square root of a t squared plus a c squared.
+
+55
+00:04:22,767 --> 00:04:25,946
+Here is the trap that costs marks every year.
+
+56
+00:04:25,946 --> 00:04:34,683
+v equals r omega, s equals r theta, and torque equals I alpha are true only when angles are in radians.
+
+57
+00:04:34,683 --> 00:04:38,615
+If a question gives revolutions per minute, convert first.
+
+58
+00:04:38,615 --> 00:04:48,042
+One revolution is two pi radians, so N revolutions per minute means omega equals two pi N over sixty radians per second.
+
+59
+00:04:48,833 --> 00:04:50,540
+Let us try a real problem.
+
+60
+00:04:50,540 --> 00:04:59,629
+A grinding wheel starts from rest and reaches three hundred revolutions per minute in ten seconds, with uniform angular acceleration.
+
+61
+00:04:59,629 --> 00:05:07,665
+Find the angular acceleration, the number of revolutions it makes, and the final speed of a point forty centimetres from the axis.
+
+62
+00:05:15,467 --> 00:05:16,732
+First, convert.
+
+63
+00:05:16,732 --> 00:05:26,267
+Three hundred revolutions per minute is two pi times three hundred, over sixty, which is ten pi, about thirty one point four radians per second.
+
+64
+00:05:26,500 --> 00:05:35,840
+Then alpha is the change in omega divided by time: ten pi over ten, which is pi, about three point one four radians per second squared.
+
+65
+00:05:36,067 --> 00:05:44,780
+Starting from rest, theta equals half alpha t squared: half times pi times one hundred, which is fifty pi radians.
+
+66
+00:05:44,780 --> 00:05:50,522
+Divide by two pi for each turn, and you get exactly twenty five revolutions.
+
+67
+00:05:50,522 --> 00:05:52,136
+Check the counter on the wheel.
+
+68
+00:05:52,136 --> 00:05:52,874
+Twenty five.
+
+69
+00:05:53,100 --> 00:06:01,749
+Finally, v equals r omega: zero point four times thirty one point four, about twelve point six metres per second at that point.
+
+70
+00:06:06,933 --> 00:06:11,414
+A spinning body has energy, even though it is not going anywhere.
+
+71
+00:06:11,414 --> 00:06:12,859
+Where is that energy?
+
+72
+00:06:12,859 --> 00:06:23,610
+Think of the body as a crowd of tiny particles, masses m one, m two, m three, at distances r one, r two, r three from the axis.
+
+73
+00:06:23,833 --> 00:06:29,150
+All the particles share the same omega, so particle i moves with speed r i omega.
+
+74
+00:06:29,367 --> 00:06:34,918
+The total kinetic energy is just the sum of half m v squared for every particle.
+
+75
+00:06:35,133 --> 00:06:42,067
+Substitute r i omega for v i. Omega is the same for everyone, so pull it out of the sum.
+
+76
+00:06:42,300 --> 00:06:43,434
+Look at the bracket.
+
+77
+00:06:43,434 --> 00:06:48,018
+The sum of m r squared contains only masses and distances.
+
+78
+00:06:48,018 --> 00:06:52,171
+It depends on the body and the axis, not on the motion at all.
+
+79
+00:06:52,171 --> 00:06:54,931
+We give it a name: the moment of inertia, I.
+
+80
+00:06:56,133 --> 00:07:01,122
+So the rotational kinetic energy is one half I omega squared.
+
+81
+00:07:01,122 --> 00:07:04,273
+Put it beside one half m v squared.
+
+82
+00:07:04,273 --> 00:07:10,454
+Moment of inertia does for rotation exactly what mass does for straight line motion.
+
+83
+00:07:10,667 --> 00:07:19,028
+And a wheel that rolls has both kinds at once: translational energy for its forward motion, plus rotational energy for its spin.
+
+84
+00:07:19,028 --> 00:07:20,252
+Hold on to that.
+
+85
+00:07:20,252 --> 00:07:21,834
+It is the key to our race.
+
+86
+00:07:26,633 --> 00:07:35,476
+The moment of inertia of a body about an axis is the sum of each mass times the square of its perpendicular distance from that axis.
+
+87
+00:07:35,476 --> 00:07:40,567
+For a continuous body, the sum becomes an integral of r squared d m.
+
+88
+00:07:40,567 --> 00:07:42,902
+Its unit is kilogram metre squared.
+
+89
+00:07:44,133 --> 00:07:46,244
+Why does distance matter so much?
+
+90
+00:07:46,244 --> 00:07:49,890
+Here are two identical rods with identical masses.
+
+91
+00:07:49,890 --> 00:07:53,471
+On the left, the masses sit close to the axis.
+
+92
+00:07:53,471 --> 00:07:56,622
+On the right, the same masses sit far out.
+
+93
+00:07:56,622 --> 00:07:58,408
+We give both the same twist.
+
+94
+00:07:58,633 --> 00:08:00,770
+The left one spins up quickly.
+
+95
+00:08:00,770 --> 00:08:02,619
+The right one barely gets going.
+
+96
+00:08:02,619 --> 00:08:11,185
+Its masses are about three times further out, and because the distance is squared, it has about eleven times the moment of inertia.
+
+97
+00:08:12,400 --> 00:08:18,092
+So unlike mass, moment of inertia is not one fixed number for a body.
+
+98
+00:08:18,092 --> 00:08:26,035
+It depends on three things: the total mass, how that mass is distributed, and which axis you choose to spin it about.
+
+99
+00:08:27,267 --> 00:08:30,875
+Here are the six results the syllabus expects you to know.
+
+100
+00:08:30,875 --> 00:08:38,597
+A thin rod: one twelfth M L squared about its centre, one third M L squared about one end.
+
+101
+00:08:38,597 --> 00:08:41,084
+A ring: M R squared.
+
+102
+00:08:41,084 --> 00:08:45,420
+A disc or solid cylinder: one half M R squared.
+
+103
+00:08:45,420 --> 00:08:49,144
+A solid sphere: two fifths M R squared.
+
+104
+00:08:49,144 --> 00:08:52,836
+And a hollow sphere: two thirds M R squared.
+
+105
+00:08:53,067 --> 00:08:54,214
+Notice the pattern.
+
+106
+00:08:54,214 --> 00:08:59,045
+The more of the mass that sits far from the axis, the bigger the number in front.
+
+107
+00:08:59,045 --> 00:09:03,099
+The ring, with everything at the rim, has the largest of all.
+
+108
+00:09:04,300 --> 00:09:07,687
+Now a neat idea: the radius of gyration.
+
+109
+00:09:07,687 --> 00:09:11,606
+A disc has its mass spread from the centre to the rim.
+
+110
+00:09:11,606 --> 00:09:19,284
+Could we squeeze all of it into one thin ring, at just the right radius, without changing the moment of inertia?
+
+111
+00:09:19,500 --> 00:09:20,348
+Yes.
+
+112
+00:09:20,348 --> 00:09:24,775
+That radius is called k, the radius of gyration.
+
+113
+00:09:24,775 --> 00:09:30,158
+For a disc it comes out at R over root two, about seventy one percent of the way to the rim.
+
+114
+00:09:30,367 --> 00:09:36,645
+By definition, I equals M k squared, so k equals the square root of I over M.
+
+115
+00:09:36,645 --> 00:09:42,837
+It is the distance at which the whole mass, concentrated, would give the same moment of inertia.
+
+116
+00:09:47,067 --> 00:09:50,011
+Two theorems save you a lot of integration.
+
+117
+00:09:50,011 --> 00:10:01,722
+The parallel axis theorem: if you know I about an axis through the centre of mass, the moment of inertia about any parallel axis, a distance d away, is I c m plus M d squared.
+
+118
+00:10:01,933 --> 00:10:13,193
+And the perpendicular axis theorem, for flat sheets only: the moment of inertia about an axis perpendicular to the sheet equals the sum about two perpendicular axes lying in its plane.
+
+119
+00:10:14,900 --> 00:10:16,568
+Now we can settle the race.
+
+120
+00:10:16,568 --> 00:10:22,831
+Both wheels start at the same height, so both convert the same potential energy, M g h.
+
+121
+00:10:22,831 --> 00:10:27,041
+But a rolling wheel must split that energy between moving forward and spinning.
+
+122
+00:10:27,267 --> 00:10:36,266
+For the ring, I is M R squared, and with omega equal to v over R, its spin energy equals its forward energy.
+
+123
+00:10:36,266 --> 00:10:39,624
+Half of all the energy goes into spinning.
+
+124
+00:10:39,833 --> 00:10:48,650
+For the disc, I is only half M R squared, so spin takes just one third of the energy, and two thirds is left for moving forward.
+
+125
+00:10:48,867 --> 00:10:54,233
+More energy for forward motion means more speed at every point on the slope.
+
+126
+00:10:54,233 --> 00:10:56,850
+That is why the disc always wins.
+
+127
+00:10:56,850 --> 00:11:02,383
+Mass far from the axis makes a body lazy to spin, and that laziness costs speed.
+
+128
+00:11:04,100 --> 00:11:05,300
+One more example.
+
+129
+00:11:05,300 --> 00:11:14,349
+A solid disc flywheel of mass twenty kilograms and radius half a metre spins at one hundred and twenty revolutions per minute.
+
+130
+00:11:14,349 --> 00:11:17,178
+Find I, k, and its kinetic energy.
+
+131
+00:11:17,400 --> 00:11:26,013
+For a disc, I is half M R squared: half times twenty times zero point two five, which is two point five kilogram metre squared.
+
+132
+00:11:26,233 --> 00:11:34,464
+The radius of gyration is the square root of two point five over twenty, about zero point three five four metres.
+
+133
+00:11:34,464 --> 00:11:36,888
+That is R over root two, just as we found.
+
+134
+00:11:37,100 --> 00:11:44,194
+Convert the speed: one hundred and twenty r p m is four pi, about twelve point five seven radians per second.
+
+135
+00:11:44,400 --> 00:11:51,356
+And the energy is half I omega squared: about one hundred and ninety seven joules, stored in the spin.
+
+136
+00:11:56,533 --> 00:12:01,678
+Now let us derive the moment of inertia of a uniform rod ourselves.
+
+137
+00:12:01,678 --> 00:12:04,777
+This derivation is a favourite long question.
+
+138
+00:12:04,777 --> 00:12:12,485
+Take a thin rod of mass M and length L, with the axis through its centre C, perpendicular to the rod.
+
+139
+00:12:12,700 --> 00:12:21,400
+The mass per unit length is M over L. Pick a tiny element of length d x, at a distance x from the centre.
+
+140
+00:12:21,400 --> 00:12:31,656
+Its mass is d m equals M over L times d x, and since it is so small, its moment of inertia is simply x squared d m.
+
+141
+00:12:32,867 --> 00:12:36,749
+Each element contributes in proportion to x squared.
+
+142
+00:12:36,749 --> 00:12:39,796
+Let us plot that contribution along the rod.
+
+143
+00:12:39,796 --> 00:12:43,155
+Elements near the centre add almost nothing.
+
+144
+00:12:43,155 --> 00:12:45,888
+Elements near the ends add the most.
+
+145
+00:12:46,100 --> 00:12:52,755
+Adding up all the elements from minus L by two to plus L by two is exactly an integral.
+
+146
+00:12:52,755 --> 00:12:58,185
+The moment of inertia is the shaded area under this curve, times M over L.
+
+147
+00:13:00,400 --> 00:13:04,178
+Integrate x squared to get x cubed over three.
+
+148
+00:13:04,178 --> 00:13:10,310
+Put in the limits: each end gives L cubed over eight, and the two halves add.
+
+149
+00:13:10,310 --> 00:13:16,656
+Simplify, and the moment of inertia about the centre is M L squared over twelve.
+
+150
+00:13:17,867 --> 00:13:20,343
+Now move the axis to one end.
+
+151
+00:13:20,343 --> 00:13:25,977
+The same rod, but every element is now further from the axis, so the area must grow.
+
+152
+00:13:26,200 --> 00:13:32,998
+Integrating from zero to L gives M L squared over three, four times bigger.
+
+153
+00:13:32,998 --> 00:13:48,558
+And we can check it with the parallel axis theorem: the end is L by two from the centre, so I c plus M times L by two, squared, is M L squared over twelve plus M L squared over four, which is M L squared over three.
+
+154
+00:13:48,558 --> 00:13:49,320
+It matches.
+
+155
+00:13:52,233 --> 00:13:54,969
+Quick check, straight from past papers.
+
+156
+00:13:54,969 --> 00:13:58,198
+A uniform rod, axis through one end.
+
+157
+00:13:58,198 --> 00:13:59,044
+Which is it?
+
+158
+00:13:59,044 --> 00:13:59,920
+Pause and think.
+
+159
+00:14:06,800 --> 00:14:10,343
+It is B, M L squared over three.
+
+160
+00:14:10,343 --> 00:14:12,570
+One twelfth is about the centre.
+
+161
+00:14:12,570 --> 00:14:17,466
+Moving the axis to the end adds M times L by two squared.
+
+162
+00:14:21,800 --> 00:14:26,580
+Why is a door handle always fixed at the edge, far from the hinge?
+
+163
+00:14:26,580 --> 00:14:31,612
+Let us look at a door from above, and push it in different places with the same force.
+
+164
+00:14:31,833 --> 00:14:34,645
+Push near the hinge, and the door barely turns.
+
+165
+00:14:35,667 --> 00:14:40,499
+Push at the edge with the same force, and it swings open easily.
+
+166
+00:14:40,499 --> 00:14:45,891
+The turning effect of a force depends on where you apply it, not only on how hard you push.
+
+167
+00:14:47,900 --> 00:14:49,555
+Now the general picture.
+
+168
+00:14:49,555 --> 00:14:52,316
+A body can turn about an axis through O.
+
+169
+00:14:52,316 --> 00:14:57,133
+A force F acts at a point whose position from the axis is the vector r.
+
+170
+00:14:57,133 --> 00:14:59,748
+The angle between r and F is phi.
+
+171
+00:14:59,967 --> 00:15:02,260
+Split the force into two parts.
+
+172
+00:15:02,260 --> 00:15:06,987
+The part along r just pulls on the axis, and does nothing to turn the body.
+
+173
+00:15:06,987 --> 00:15:10,616
+Only the perpendicular part, F sine phi, turns it.
+
+174
+00:15:10,833 --> 00:15:13,035
+So the torque is r times F sine phi.
+
+175
+00:15:13,267 --> 00:15:16,172
+Read it another way: F times r sine phi.
+
+176
+00:15:16,172 --> 00:15:21,615
+And r sine phi is the perpendicular distance from the axis to the line of action of the force.
+
+177
+00:15:21,615 --> 00:15:22,629
+We call it the moment arm.
+
+178
+00:15:22,833 --> 00:15:25,269
+Watch what happens as the angle changes.
+
+179
+00:15:25,269 --> 00:15:30,439
+At ninety degrees the moment arm is longest and the torque is greatest.
+
+180
+00:15:30,439 --> 00:15:34,697
+Push straight along r, and the moment arm shrinks to zero.
+
+181
+00:15:34,697 --> 00:15:35,432
+No torque at all.
+
+182
+00:15:35,633 --> 00:15:40,624
+As a vector, torque is r cross F, and its unit is the newton metre.
+
+183
+00:15:41,833 --> 00:15:44,621
+Now the most important result of the unit.
+
+184
+00:15:44,621 --> 00:15:58,488
+Take one particle of the body, mass m i, at distance r i. Newton's second law says the tangential force on it is m i times its tangential acceleration, which is m i r i alpha.
+
+185
+00:15:58,488 --> 00:16:02,497
+Every particle of a rigid body shares the same alpha.
+
+186
+00:16:02,700 --> 00:16:07,519
+The torque of that force is the force times r i, so m i r i squared alpha.
+
+187
+00:16:07,733 --> 00:16:10,495
+Add up the torques on all the particles.
+
+188
+00:16:10,495 --> 00:16:16,775
+The internal forces cancel in pairs by Newton's third law, and alpha comes out of the sum.
+
+189
+00:16:16,1000 --> 00:16:18,030
+And there it is.
+
+190
+00:16:18,030 --> 00:16:19,606
+Torque equals I alpha.
+
+191
+00:16:19,606 --> 00:16:30,960
+The rotational form of F equals m a. Force becomes torque, mass becomes moment of inertia, acceleration becomes angular acceleration.
+
+192
+00:16:30,960 --> 00:16:32,599
+Our dictionary, once again.
+
+193
+00:16:33,800 --> 00:16:36,536
+Here is a beautiful consequence.
+
+194
+00:16:36,536 --> 00:16:44,830
+A uniform rod, mass two kilograms, length one metre, is hinged at one end and held horizontal.
+
+195
+00:16:44,830 --> 00:16:46,953
+A coin rests on its free end.
+
+196
+00:16:46,953 --> 00:16:47,981
+We let go.
+
+197
+00:16:47,981 --> 00:16:50,418
+Does the coin stay on the rod as it swings down?
+
+198
+00:16:53,633 --> 00:16:54,793
+Watch closely.
+
+199
+00:16:54,793 --> 00:16:59,416
+The rod's free end drops faster than the coin, which is in free fall.
+
+200
+00:16:59,416 --> 00:17:02,775
+The coin is left behind, floating above the rod.
+
+201
+00:17:02,775 --> 00:17:05,744
+How can anything fall faster than free fall?
+
+202
+00:17:05,744 --> 00:17:06,618
+Let us calculate.
+
+203
+00:17:08,133 --> 00:17:12,444
+The weight acts at the centre of the rod, half a metre from the hinge.
+
+204
+00:17:12,444 --> 00:17:18,188
+So the torque is M g times L by two, which is nine point eight newton metres.
+
+205
+00:17:18,400 --> 00:17:26,023
+About the end, the moment of inertia is M L squared over three, which is zero point six six seven.
+
+206
+00:17:26,233 --> 00:17:35,910
+Torque equals I alpha, so alpha is nine point eight divided by zero point six six seven: fourteen point seven radians per second squared.
+
+207
+00:17:36,133 --> 00:17:44,780
+The free end is one metre from the hinge, so its acceleration is L alpha: fourteen point seven metres per second squared.
+
+208
+00:17:44,780 --> 00:17:46,434
+That is greater than g.
+
+209
+00:17:46,434 --> 00:17:52,878
+The end of the rod really does accelerate faster than a freely falling coin, so the coin is left behind.
+
+210
+00:17:58,167 --> 00:18:01,020
+When a torque turns a body, it does work.
+
+211
+00:18:01,020 --> 00:18:08,873
+A tangential force F at the rim, distance r from the axis, pushes through a small arc d s equal to r d theta.
+
+212
+00:18:09,100 --> 00:18:11,289
+Work is force times distance.
+
+213
+00:18:11,289 --> 00:18:16,068
+Write F as tau over r, and d s as r d theta.
+
+214
+00:18:16,068 --> 00:18:20,729
+The r's cancel, leaving d W equals tau d theta.
+
+215
+00:18:20,729 --> 00:18:27,350
+For a constant torque, W equals tau theta: torque times angle, just like force times distance.
+
+216
+00:18:27,567 --> 00:18:29,951
+Power is the rate of doing work.
+
+217
+00:18:29,951 --> 00:18:36,778
+Divide by d t: power equals tau omega, the exact twin of P equals F v.
+
+218
+00:18:37,1000 --> 00:18:49,069
+And because torque equals I alpha, the total work done equals the change in rotational kinetic energy: half I omega two squared minus half I omega one squared.
+
+219
+00:18:49,069 --> 00:18:51,789
+This is the work energy theorem for rotation.
+
+220
+00:18:52,1000 --> 00:18:55,280
+Let us try it on a rice mill in Jhapa.
+
+221
+00:18:55,280 --> 00:19:03,119
+Its motor delivers a constant torque of twenty five newton metres while running at fifteen hundred revolutions per minute.
+
+222
+00:19:03,119 --> 00:19:06,011
+Find its power, and the work it does in one minute.
+
+223
+00:19:06,233 --> 00:19:07,524
+Radians first.
+
+224
+00:19:07,524 --> 00:19:13,898
+Fifteen hundred r p m is fifty pi, about one hundred fifty seven radians per second.
+
+225
+00:19:14,100 --> 00:19:23,916
+Power equals tau omega: twenty five times one fifty seven point one, about three thousand nine hundred twenty seven watts, nearly four kilowatts.
+
+226
+00:19:24,133 --> 00:19:31,569
+In sixty seconds, the work done is power times time: about two point three six times ten to the five joules.
+
+227
+00:19:36,767 --> 00:19:40,076
+The last piece of the dictionary: angular momentum.
+
+228
+00:19:40,076 --> 00:19:48,435
+For a rigid body rotating about a fixed axis, L equals I omega, the twin of p equals m v.
+
+229
+00:19:48,435 --> 00:19:52,011
+For a single particle, it is r times p times sine phi.
+
+230
+00:19:52,233 --> 00:19:53,406
+Differentiate it.
+
+231
+00:19:53,406 --> 00:19:58,276
+The rate of change of angular momentum is I alpha, which is the torque.
+
+232
+00:19:58,276 --> 00:20:04,008
+So torque is the rate of change of angular momentum, just as force is the rate of change of momentum.
+
+233
+00:20:04,233 --> 00:20:07,750
+And here is one of the great conservation laws of physics.
+
+234
+00:20:07,750 --> 00:20:13,753
+If no external torque acts, d L by d t is zero, so L stays constant.
+
+235
+00:20:13,753 --> 00:20:17,099
+I one omega one equals I two omega two.
+
+236
+00:20:17,099 --> 00:20:21,883
+If a body makes its moment of inertia smaller, it must spin faster.
+
+237
+00:20:23,100 --> 00:20:28,675
+Watch a skater, seen from above, spinning with arms stretched out and a weight in each hand.
+
+238
+00:20:28,675 --> 00:20:33,399
+Out here, the moment of inertia is large, and the spin is slow.
+
+239
+00:20:33,667 --> 00:20:35,335
+Now she pulls her arms in.
+
+240
+00:20:35,335 --> 00:20:40,192
+No outside torque acts, so angular momentum must stay the same.
+
+241
+00:20:40,192 --> 00:20:44,853
+Her moment of inertia drops, so her angular velocity shoots up.
+
+242
+00:20:44,853 --> 00:20:46,051
+Look at the bars.
+
+243
+00:20:46,051 --> 00:20:47,197
+I falls.
+
+244
+00:20:47,197 --> 00:20:48,708
+Omega rises.
+
+245
+00:20:48,708 --> 00:20:49,949
+L does not change at all.
+
+246
+00:20:50,233 --> 00:20:51,667
+But look at the last bar.
+
+247
+00:20:51,667 --> 00:20:53,802
+Her kinetic energy went up!
+
+248
+00:20:53,802 --> 00:20:59,336
+Kinetic energy is L squared over two I, and I got smaller.
+
+249
+00:20:59,336 --> 00:21:04,063
+Angular momentum is conserved, but kinetic energy is not.
+
+250
+00:21:04,063 --> 00:21:08,881
+The extra energy comes from the work her muscles do, pulling the weights inward.
+
+251
+00:21:09,167 --> 00:21:12,804
+Stretch the arms out again, and she slows right back down.
+
+252
+00:21:14,100 --> 00:21:15,534
+Let us put numbers on it.
+
+253
+00:21:15,534 --> 00:21:19,336
+A student sits on a frictionless stool, holding weights.
+
+254
+00:21:19,336 --> 00:21:24,753
+The moment of inertia is six, and the stool turns at two radians per second.
+
+255
+00:21:24,753 --> 00:21:27,500
+Pulling the arms in drops I to two.
+
+256
+00:21:27,500 --> 00:21:31,871
+Find the new angular velocity and the change in kinetic energy.
+
+257
+00:21:32,100 --> 00:21:40,409
+Conserve angular momentum: six times two equals two times omega two, so omega two is six radians per second.
+
+258
+00:21:40,409 --> 00:21:41,682
+Three times faster.
+
+259
+00:21:41,900 --> 00:21:46,967
+The energy before is half times six times two squared, twelve joules.
+
+260
+00:21:46,967 --> 00:21:51,477
+After, half times two times six squared, thirty six joules.
+
+261
+00:21:51,700 --> 00:21:57,477
+The kinetic energy rose by twenty four joules, all supplied by the student's own muscles.
+
+262
+00:21:59,100 --> 00:22:01,211
+You can see this law everywhere.
+
+263
+00:22:01,211 --> 00:22:08,698
+A diver tucks in tight to somersault quickly, then stretches out to slow the spin before entering the water.
+
+264
+00:22:08,698 --> 00:22:17,083
+A planet moves faster when it is closer to the Sun, because gravity pulls straight towards the Sun and exerts no torque.
+
+265
+00:22:17,083 --> 00:22:18,750
+That is Kepler's second law.
+
+266
+00:22:18,750 --> 00:22:25,273
+And a spinning top resists falling over, because tipping it would change the direction of its angular momentum.
+
+267
+00:22:27,700 --> 00:22:30,254
+Try this one from the five mark questions.
+
+268
+00:22:30,254 --> 00:22:34,498
+A spinning disc is suddenly coupled to a stationary one.
+
+269
+00:22:34,498 --> 00:22:37,038
+What is the common angular velocity?
+
+270
+00:22:37,038 --> 00:22:37,898
+Pause and think.
+
+271
+00:22:44,767 --> 00:22:47,138
+B, four radians per second.
+
+272
+00:22:47,138 --> 00:22:55,511
+No external torque, so angular momentum is conserved: two times ten equals two plus three, times omega.
+
+273
+00:22:55,511 --> 00:22:58,1000
+Omega is twenty over five, which is four.
+
+274
+00:22:58,1000 --> 00:23:03,506
+And kinetic energy falls from one hundred joules to forty.
+
+275
+00:23:03,506 --> 00:23:08,048
+The missing sixty joules become heat in the friction between the discs.
+
+276
+00:23:10,233 --> 00:23:11,393
+Let us recap.
+
+277
+00:23:11,393 --> 00:23:15,690
+The equations of angular motion mirror the linear ones.
+
+278
+00:23:15,690 --> 00:23:21,146
+v equals r omega links the two worlds, in radians only.
+
+279
+00:23:21,146 --> 00:23:27,852
+Rotational energy is half I omega squared, where I is the sum of m r squared.
+
+280
+00:23:27,852 --> 00:23:34,115
+A rod has M L squared over twelve about its centre and over three about its end.
+
+281
+00:23:34,115 --> 00:23:37,826
+Torque is r F sine phi, and equals I alpha.
+
+282
+00:23:37,826 --> 00:23:41,419
+Work is tau theta and power is tau omega.
+
+283
+00:23:41,419 --> 00:23:47,290
+And angular momentum, I omega, is conserved when no external torque acts.
+
+284
+00:23:51,467 --> 00:23:53,539
+That is rotational dynamics.
+
+285
+00:23:53,539 --> 00:23:57,680
+Next time, we set things swinging, with periodic motion.
+
+286
+00:23:57,680 --> 00:24:01,684
+Keep practising, and see you in the next lesson on NEBians.
+

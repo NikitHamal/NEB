@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,302
+A worked example.
+
+2
+00:00:01,302 --> 00:00:08,450
+Find the work done in blowing a soap bubble of radius three centimetres, and the excess pressure inside it.
+
+3
+00:00:08,450 --> 00:00:13,411
+The surface tension is zero point zero three newtons per metre.
+

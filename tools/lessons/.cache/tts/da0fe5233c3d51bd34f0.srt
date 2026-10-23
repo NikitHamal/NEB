@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,661
+Pure iron is a soft, silvery, strongly magnetic metal.
+
+2
+00:00:04,661 --> 00:00:08,541
+Dilute acids give iron two salts with hydrogen.
+
+3
+00:00:08,541 --> 00:00:15,026
+Strong oxidisers, chlorine and hot concentrated sulphuric acid, give iron three.
+
+4
+00:00:15,026 --> 00:00:21,731
+Concentrated nitric acid makes it passive: a thin oxide film stops all further attack.
+
+5
+00:00:21,731 --> 00:00:25,481
+And unlike zinc, iron does not react with alkali.
+

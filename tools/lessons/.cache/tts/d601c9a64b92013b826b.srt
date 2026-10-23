@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,304
+Worked example four point six.
+
+2
+00:00:02,304 --> 00:00:10,794
+Two point three zero three R T at two ninety eight kelvin is five thousand seven hundred and six joules per mole.
+
+3
+00:00:10,794 --> 00:00:16,783
+Log of zero point one four five is minus zero point eight three eight six.
+
+4
+00:00:16,783 --> 00:00:25,026
+So delta G standard is plus four thousand seven hundred and eighty five joules, plus four point seven nine kilojoules per mole.
+
+5
+00:00:25,026 --> 00:00:32,109
+Positive, with K less than one: at room temperature, dinitrogen tetroxide is favoured.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,377
+Spread over a twentieth of a second, the average force is a hundred and five newtons.
+

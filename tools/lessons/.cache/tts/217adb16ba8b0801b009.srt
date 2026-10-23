@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,278
+Take the four out: a is three halves, giving a sixth of inverse tan two x over three.
+

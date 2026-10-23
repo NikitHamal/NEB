@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,809
+Every communication needs five things: a message, a sender, a receiver, a medium for it to travel through, and a protocol, the agreed set of rules.
+
+2
+00:00:11,809 --> 00:00:19,869
+Without a shared protocol, a perfect connection is useless, like two people with no common language on a working phone line.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,291
+With a equal to forty, longer than b, only one triangle: B is twenty two degrees one minute.
+
+2
+00:00:07,291 --> 00:00:10,833
+The obtuse option would push A plus B past one eighty.
+

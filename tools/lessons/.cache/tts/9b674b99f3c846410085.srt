@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,171
+Let us recap.
+
+2
+00:00:01,171 --> 00:00:03,841
+A phenol has its O H on the ring.
+
+3
+00:00:03,841 --> 00:00:11,953
+It is made by the Dow process, from a diazonium salt, or by alkali fusion, with a final acidification.
+
+4
+00:00:11,953 --> 00:00:21,432
+It is acidic because the phenoxide ion's charge spreads over the ring, so it dissolves in sodium hydroxide, though not in bicarbonate.
+
+5
+00:00:21,432 --> 00:00:30,429
+It couples to make azo dyes, gives phenolphthalein, aspirin by way of Kolbe's reaction, and salicylaldehyde by Reimer Tiemann.
+
+6
+00:00:30,429 --> 00:00:36,276
+Its activated ring is brominated and nitrated at two, four and six.
+
+7
+00:00:36,276 --> 00:00:39,414
+And neutral ferric chloride turns it violet.
+

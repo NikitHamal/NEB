@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,380
+So R Q is one hundred and two over one hundred and forty-five: zero point seven zero.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,924
+Shine white light on a grating, and each order spreads into a full spectrum.
+
+2
+00:00:05,924 --> 00:00:14,049
+Since sine theta is proportional to lambda, violet is bent least, closest to the centre, and red the most.
+
+3
+00:00:14,049 --> 00:00:19,335
+That is the opposite way round from a prism, where red is deviated least.
+

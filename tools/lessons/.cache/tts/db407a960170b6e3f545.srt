@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,085
+The speed changes steadily from layer to layer.
+
+2
+00:00:03,085 --> 00:00:09,752
+The rate of change of velocity with distance, d v by d x, is the velocity gradient.
+
+3
+00:00:09,752 --> 00:00:21,223
+Newton found that the viscous force between layers is proportional to the contact area and to the velocity gradient: F equals minus eta A d v by d x.
+

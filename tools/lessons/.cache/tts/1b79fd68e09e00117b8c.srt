@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,031
+Second, concentration.
+
+2
+00:00:02,031 --> 00:00:06,028
+More molecules per litre means more collisions per second.
+
+3
+00:00:06,028 --> 00:00:14,166
+How much faster depends on the order: double the concentration in a second order reaction, and the rate goes up four times.
+
+4
+00:00:14,166 --> 00:00:17,356
+For gases, higher pressure does the same job.
+

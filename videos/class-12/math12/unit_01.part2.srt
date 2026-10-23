@@ -1,0 +1,400 @@
+1
+00:00:02,800 --> 00:00:07,463
+Seat four friends, A, B, C, D, round a table.
+
+2
+00:00:07,463 --> 00:00:11,656
+In a row, there would be four factorial, twenty four orders.
+
+3
+00:00:11,656 --> 00:00:19,238
+But round a table, rotate everyone one seat, and nothing has really changed: each person has the same neighbours.
+
+4
+00:00:19,466 --> 00:00:27,983
+So the linear arrangements come in groups of four that are rotations of each other: four factorial over four, which is three factorial.
+
+5
+00:00:27,983 --> 00:00:33,426
+In general, n objects in a circle: n minus one factorial.
+
+6
+00:00:33,426 --> 00:00:39,269
+Another way to see it: fix one person's seat, then arrange the other n minus one.
+
+7
+00:00:40,900 --> 00:00:43,975
+A garland or a necklace is different again.
+
+8
+00:00:43,975 --> 00:00:45,941
+You can pick it up and turn it over.
+
+9
+00:00:45,941 --> 00:00:53,600
+Clockwise and anticlockwise become the same object, so the count halves: n minus one factorial over two.
+
+10
+00:00:54,833 --> 00:00:56,479
+A round table worked example.
+
+11
+00:00:56,700 --> 00:01:00,919
+Eight in a circle: seven factorial, five thousand and forty.
+
+12
+00:01:01,133 --> 00:01:08,609
+Tie the two friends together: seven units round the circle, six factorial, times two for their swap.
+
+13
+00:01:08,609 --> 00:01:10,499
+One thousand four hundred and forty.
+
+14
+00:01:10,700 --> 00:01:14,957
+Never together is everything else: three thousand six hundred.
+
+15
+00:01:15,166 --> 00:01:21,702
+And a garland of eight flowers: seven factorial over two, two thousand five hundred and twenty.
+
+16
+00:01:23,733 --> 00:01:34,985
+If objects can be reused, the choices never shrink: r places, n choices each, n to the power r. Post five letters into three boxes.
+
+17
+00:01:34,985 --> 00:01:39,216
+Do not let the boxes choose; a box can take many letters.
+
+18
+00:01:39,216 --> 00:01:44,255
+Let each letter choose its box: three choices, five times over.
+
+19
+00:01:44,255 --> 00:01:47,380
+Three to the five, two hundred and forty three.
+
+20
+00:01:47,380 --> 00:01:48,416
+Not five cubed.
+
+21
+00:01:49,633 --> 00:01:54,075
+Here is the whole map so far, plus the one we meet next.
+
+22
+00:01:54,075 --> 00:01:57,577
+Order matters with no repeats: n P r.
+
+23
+00:01:57,577 --> 00:02:03,606
+With repeats: n to the r. Identical objects: divide by their factorials.
+
+24
+00:02:03,606 --> 00:02:08,385
+A circle: n minus one factorial, halved for a garland.
+
+25
+00:02:08,385 --> 00:02:11,728
+And when order does not matter at all: n C r.
+
+26
+00:02:14,133 --> 00:02:15,306
+Pause and think.
+
+27
+00:02:15,306 --> 00:02:17,081
+Six people, round table.
+
+28
+00:02:23,966 --> 00:02:27,692
+One hundred and twenty: six minus one, factorial.
+
+29
+00:02:27,692 --> 00:02:36,181
+Seven twenty is the row answer, and sixty is the garland answer, which only applies if the arrangement can be flipped over.
+
+30
+00:02:40,533 --> 00:02:43,451
+Now selections, where order does not matter.
+
+31
+00:02:43,451 --> 00:02:47,188
+Choose three letters from A, B, C, D.
+
+32
+00:02:47,188 --> 00:02:49,441
+There are just four choices of trio.
+
+33
+00:02:49,441 --> 00:02:53,868
+But each trio can be arranged in three factorial, six orders.
+
+34
+00:02:53,868 --> 00:02:58,196
+Four times six is twenty four, which is exactly four P three.
+
+35
+00:02:59,400 --> 00:03:00,678
+That works in general.
+
+36
+00:03:00,678 --> 00:03:14,766
+Every arrangement is one selection followed by one ordering, so n C r times r factorial equals n P r. Divide, and n C r is n factorial over r factorial and n minus r factorial.
+
+37
+00:03:14,766 --> 00:03:20,592
+To compute it, use the last form: r falling factors on top, r factorial below.
+
+38
+00:03:21,800 --> 00:03:22,833
+A committee example.
+
+39
+00:03:23,066 --> 00:03:28,406
+Exactly two women: choose two of four women, AND three of seven men.
+
+40
+00:03:28,406 --> 00:03:31,295
+Six times thirty five: two hundred and ten.
+
+41
+00:03:31,500 --> 00:03:37,491
+At least two women means two OR three OR four: separate cases, so add.
+
+42
+00:03:37,491 --> 00:03:38,517
+Three hundred and one.
+
+43
+00:03:38,733 --> 00:03:45,523
+At most one woman is everything else: four sixty two minus three oh one, one hundred and sixty one.
+
+44
+00:03:47,533 --> 00:03:49,227
+A geometry favourite.
+
+45
+00:03:49,227 --> 00:03:52,313
+Twelve points, five of them on one line.
+
+46
+00:03:52,313 --> 00:03:56,910
+Any two points make a line: twelve C two, sixty six.
+
+47
+00:03:56,910 --> 00:04:02,014
+But the five collinear points were counted as ten lines when they make just one.
+
+48
+00:04:02,014 --> 00:04:05,712
+Subtract ten, add back one: fifty seven.
+
+49
+00:04:05,712 --> 00:04:11,415
+Any three points make a triangle unless they are collinear: two hundred and twenty minus ten.
+
+50
+00:04:11,415 --> 00:04:18,722
+And a twelve sided polygon: sixty six segments, minus twelve sides, leaves fifty four diagonals.
+
+51
+00:04:24,500 --> 00:04:25,713
+The properties.
+
+52
+00:04:25,713 --> 00:04:30,277
+There is one way to choose nothing, and one way to choose everything.
+
+53
+00:04:30,500 --> 00:04:37,220
+Choosing r things to take is the same act as choosing the n minus r things to leave behind.
+
+54
+00:04:37,220 --> 00:04:41,369
+So n C r equals n C n minus r.
+
+55
+00:04:41,600 --> 00:04:48,178
+So if n C r equals n C s, either r equals s, or r plus s equals n.
+
+56
+00:04:48,400 --> 00:04:50,784
+Pascal's rule, the important one.
+
+57
+00:04:50,784 --> 00:04:54,847
+To choose r from n plus one objects, mark one object.
+
+58
+00:04:54,847 --> 00:05:02,890
+Either you leave it out, n C r ways, or you include it and choose r minus one more, n C r minus one ways.
+
+59
+00:05:03,100 --> 00:05:12,324
+And r times n C r equals n times n minus one C r minus one: both count choosing a committee of r and then its chairperson.
+
+60
+00:05:13,933 --> 00:05:17,125
+Pascal's rule builds a famous triangle.
+
+61
+00:05:17,125 --> 00:05:23,778
+Each row lists n C zero up to n C n, and every entry is the sum of the two above it.
+
+62
+00:05:24,000 --> 00:05:26,632
+Look: ten plus ten makes twenty.
+
+63
+00:05:26,632 --> 00:05:31,267
+Five C two plus five C three equals six C three.
+
+64
+00:05:31,267 --> 00:05:41,449
+The rows also add up to powers of two, one, two, four, eight, sixteen: the total number of subsets, which we will prove in the next unit.
+
+65
+00:05:42,666 --> 00:05:45,155
+Three consecutive combinations.
+
+66
+00:05:45,155 --> 00:05:49,085
+Take ratios: consecutive ones have a very simple ratio.
+
+67
+00:05:49,300 --> 00:05:59,559
+n C r over n C r minus one is n minus r plus one over r. Set it equal to eighty four over thirty six, seven thirds.
+
+68
+00:05:59,766 --> 00:06:05,016
+The next ratio is n minus r over r plus one, equal to three halves.
+
+69
+00:06:05,233 --> 00:06:08,724
+Solve the pair: n is nine and r is three.
+
+70
+00:06:08,724 --> 00:06:15,167
+Check: nine C two, three and four are thirty six, eighty four and one twenty six.
+
+71
+00:06:17,200 --> 00:06:17,703
+Two more.
+
+72
+00:06:18,433 --> 00:06:26,130
+Write each as falling factors over a factorial, cancel, and you get four times two n minus one over three.
+
+73
+00:06:26,130 --> 00:06:29,931
+Equal to forty four thirds: n is six.
+
+74
+00:06:30,133 --> 00:06:36,741
+If n C eight equals n C twelve, and eight is not twelve, then n is twenty.
+
+75
+00:06:36,966 --> 00:06:40,327
+And never compute twenty C seventeen directly.
+
+76
+00:06:40,327 --> 00:06:47,508
+Use twenty C three: twenty times nineteen times eighteen over six, one thousand one hundred and forty.
+
+77
+00:06:50,133 --> 00:06:51,541
+Exam tip.
+
+78
+00:06:51,541 --> 00:06:54,431
+Never multiply out big factorials.
+
+79
+00:06:54,431 --> 00:07:04,180
+Cancel first, and always use the smaller of r and n minus r. Fifty C forty eight is just fifty C two, twelve twenty five.
+
+80
+00:07:06,166 --> 00:07:07,379
+Pause and think.
+
+81
+00:07:07,379 --> 00:07:10,777
+n C nine equals n C seven.
+
+82
+00:07:10,777 --> 00:07:11,314
+What is n?
+
+83
+00:07:18,200 --> 00:07:19,204
+Sixteen.
+
+84
+00:07:19,204 --> 00:07:25,793
+Since nine is not seven, the property says nine plus seven must equal n.
+
+85
+00:07:25,793 --> 00:07:27,994
+Two is the trap from subtracting.
+
+86
+00:07:29,966 --> 00:07:30,814
+One more.
+
+87
+00:07:30,814 --> 00:07:31,187
+LEVEL.
+
+88
+00:07:38,066 --> 00:07:38,888
+Thirty.
+
+89
+00:07:38,888 --> 00:07:45,698
+Five letters, with L twice and E twice: one twenty over two times two.
+
+90
+00:07:45,698 --> 00:07:49,401
+One twenty is the trap: it ignores the repeated letters.
+
+91
+00:07:51,600 --> 00:07:52,682
+Quick recap.
+
+92
+00:07:52,682 --> 00:07:55,404
+OR adds and AND multiplies.
+
+93
+00:07:55,404 --> 00:08:02,083
+Permutations, where order matters, are n factorial over n minus r factorial.
+
+94
+00:08:02,083 --> 00:08:08,789
+Fill restricted places first, tie blocks for together, and use gaps for no two together.
+
+95
+00:08:08,789 --> 00:08:16,432
+Repeated objects divide by their factorials; circles give n minus one factorial, halved for a garland.
+
+96
+00:08:16,432 --> 00:08:20,352
+Combinations are permutations divided by r factorial.
+
+97
+00:08:20,352 --> 00:08:24,994
+And Pascal's rule builds the triangle whose rows add up to powers of two.
+
+98
+00:08:29,166 --> 00:08:31,733
+That was permutation and combination.
+
+99
+00:08:31,733 --> 00:08:39,259
+Next, the binomial theorem, where those same n C r numbers turn up as the coefficients of every expansion.
+
+100
+00:08:39,259 --> 00:08:39,821
+See you there.
+

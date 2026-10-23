@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,054
+Why does it work?
+
+2
+00:00:01,054 --> 00:00:07,382
+The derivative of I is P times I, so the product rule gives back I times the left side.
+

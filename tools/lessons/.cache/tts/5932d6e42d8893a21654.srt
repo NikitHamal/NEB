@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,184
+Let us recap.
+
+2
+00:00:01,184 --> 00:00:08,085
+The first law: delta U equals q plus w, with w equals minus p delta V.
+
+3
+00:00:08,085 --> 00:00:23,802
+At constant pressure the heat is delta H, which equals delta U plus delta n g R T. Reaction enthalpies come from formation enthalpies, Laplace's law and Hess's law, including the Born Haber cycle.
+
+4
+00:00:23,802 --> 00:00:32,174
+Entropy measures disorder, and the second law says the total entropy always rises in a spontaneous change.
+
+5
+00:00:32,174 --> 00:00:37,903
+Gibbs combined both: a change is spontaneous when delta G is negative.
+
+6
+00:00:37,903 --> 00:00:42,447
+And delta G standard equals minus R T ln K.
+

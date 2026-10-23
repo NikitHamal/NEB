@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,145
+Quick recap.
+
+2
+00:00:01,145 --> 00:00:03,138
+The hyperbolic derivatives.
+
+3
+00:00:03,138 --> 00:00:06,145
+L'Hospital's rule for nought over nought.
+
+4
+00:00:06,145 --> 00:00:08,619
+Differentials for small errors.
+
+5
+00:00:08,619 --> 00:00:11,640
+Tangents, normals and related rates.
+
+6
+00:00:11,640 --> 00:00:18,059
+And the first and second derivatives for rising, falling, maxima, minima and bending.
+

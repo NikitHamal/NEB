@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,885
+Lu Xun is the pen name of Zhou Shuren, the founder of modern Chinese literature.
+
+2
+00:00:05,885 --> 00:00:14,440
+Born in eighteen eighty one into a once wealthy family, he spent his boyhood between pawnshops and pharmacies after its collapse.
+
+3
+00:00:14,440 --> 00:00:24,283
+He went to Japan to study medicine, then gave it up, deciding that his people needed healthy minds more than healthy bodies, and that literature could help.
+
+4
+00:00:24,283 --> 00:00:31,380
+His story A Madman's Diary was the first modern story written in everyday spoken Chinese.
+

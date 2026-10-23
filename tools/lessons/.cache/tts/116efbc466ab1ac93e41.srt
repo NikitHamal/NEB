@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,619
+The critical angle has sine one over n, zero point five seven seven four, so C is thirty five point three degrees.
+
+2
+00:00:08,619 --> 00:00:11,302
+Different from the Brewster angle, as we said.
+

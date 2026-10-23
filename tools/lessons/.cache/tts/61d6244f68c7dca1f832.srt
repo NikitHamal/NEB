@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,445
+One last example.
+
+2
+00:00:01,445 --> 00:00:10,169
+A damped oscillator has mass zero point two kilograms and damping constant zero point zero four kilograms per second.
+
+3
+00:00:10,169 --> 00:00:14,518
+When does the amplitude fall to one over e of its starting value?
+
+4
+00:00:14,518 --> 00:00:15,937
+And when does the energy?
+

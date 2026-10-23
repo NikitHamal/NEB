@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,718
+And the perpendicular axis theorem, for flat sheets only: the moment of inertia about an axis perpendicular to the sheet equals the sum about two perpendicular axes lying in its plane.
+

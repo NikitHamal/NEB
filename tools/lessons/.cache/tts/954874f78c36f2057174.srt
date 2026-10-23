@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,458
+Why the salt bridge?
+
+2
+00:00:01,458 --> 00:00:08,268
+The zinc side keeps gaining positive zinc ions, and the copper side keeps losing positive copper ions.
+
+3
+00:00:08,268 --> 00:00:11,718
+Charge would build up and stop the cell in a moment.
+
+4
+00:00:11,718 --> 00:00:18,710
+The bridge sends negative chloride ions towards the zinc side and positive potassium ions towards the copper side.
+
+5
+00:00:18,710 --> 00:00:23,958
+It completes the circuit, keeps both solutions neutral, and stops them mixing.
+

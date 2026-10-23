@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,223
+At the Moon's distance, that angle spans r theta: about two point six kilometres.
+
+2
+00:00:06,223 --> 00:00:11,250
+A small telescope cannot show anything on the Moon smaller than a large town.
+

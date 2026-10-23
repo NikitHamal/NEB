@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,158
+The amplitude, two a cos k x, is zero at some points and greatest at others.
+
+2
+00:00:06,158 --> 00:00:08,229
+The dashed envelope shows it.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,070
+The shadow slides up and down.
+
+2
+00:00:02,070 --> 00:00:08,072
+Fast through the middle, slowing near the ends, stopping for an instant, and turning back.
+
+3
+00:00:08,072 --> 00:00:11,263
+That is exactly simple harmonic motion.
+

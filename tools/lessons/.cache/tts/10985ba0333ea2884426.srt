@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,440
+Melting happens at a constant temperature, two hundred and seventy three kelvin, so the integral is easy: delta S is just Q over T.
+

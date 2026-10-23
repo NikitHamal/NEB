@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,747
+Write each as falling factors over a factorial, cancel, and you get four times two n minus one over three.
+
+2
+00:00:07,747 --> 00:00:11,966
+Equal to forty four thirds: n is six.
+

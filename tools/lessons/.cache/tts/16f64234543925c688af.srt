@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,744
+Normal: the line through the centre and the point: four x minus three y equals zero.
+
+2
+00:00:06,744 --> 00:00:09,088
+The slopes multiply to minus one.
+

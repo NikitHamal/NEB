@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:04,270
+Why it scores: the thesis concedes something before it argues.
+
+2
+00:00:04,270 --> 00:00:08,736
+Every paragraph earns its topic sentence with a concrete case.
+
+3
+00:00:08,736 --> 00:00:11,979
+The other side is given properly, then answered.
+
+4
+00:00:11,979 --> 00:00:16,705
+The conclusion proposes a remedy instead of repeating paragraph one.
+
+5
+00:00:16,705 --> 00:00:20,117
+And the sentences vary from three words to thirty.
+

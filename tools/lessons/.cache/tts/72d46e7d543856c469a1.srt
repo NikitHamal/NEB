@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,484
+Exam tip.
+
+2
+00:00:01,484 --> 00:00:06,276
+A blood group test can exclude a man: it can show he cannot be the father.
+
+3
+00:00:06,276 --> 00:00:11,263
+It can never prove that he is, because millions of other men share his group.
+
+4
+00:00:11,263 --> 00:00:13,580
+Write could be, and cannot be.
+
+5
+00:00:13,580 --> 00:00:14,544
+Never is.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:03,593
+Titrations are named after the reaction they use.
+
+2
+00:00:03,593 --> 00:00:07,057
+Acid base titrations use neutralisation.
+
+3
+00:00:07,057 --> 00:00:10,481
+Redox titrations use electron transfer.
+
+4
+00:00:10,481 --> 00:00:17,161
+Precipitation titrations, like silver nitrate against chloride, form an insoluble salt.
+
+5
+00:00:17,161 --> 00:00:21,341
+Complexometric titrations use E D T A.
+
+6
+00:00:21,341 --> 00:00:28,606
+And iodometric titrations use iodine and thiosulphate, with starch as the indicator.
+
+7
+00:00:28,606 --> 00:00:31,054
+Our syllabus focuses on the first two.
+

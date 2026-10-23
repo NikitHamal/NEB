@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,132
+A cell releases it in small steps and traps much of it in ATP, in four stages.
+
+2
+00:00:06,132 --> 00:00:07,643
+We keep a running tally.
+

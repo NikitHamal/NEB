@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,294
+C, because they lie at opposite ends of the thermoelectric series, and the further apart the metals, the bigger the e m f.
+

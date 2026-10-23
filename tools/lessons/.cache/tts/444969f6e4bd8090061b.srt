@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,828
+Integrate x squared to get x cubed over three.
+
+2
+00:00:03,828 --> 00:00:09,960
+Put in the limits: each end gives L cubed over eight, and the two halves add.
+
+3
+00:00:09,960 --> 00:00:16,744
+Simplify, and the moment of inertia about the centre is M L squared over twelve.
+

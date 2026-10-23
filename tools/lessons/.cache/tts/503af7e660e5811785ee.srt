@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,119
+Quick recap.
+
+2
+00:00:01,119 --> 00:00:08,828
+DNA is the genetic material, as Griffith, Avery and Hershey and Chase showed, though some viruses use RNA.
+
+3
+00:00:08,828 --> 00:00:19,648
+It is an antiparallel double helix, A with T by two bonds, G with C by three, two nanometres wide, three point four per turn.
+
+4
+00:00:19,648 --> 00:00:30,208
+It replicates semi conservatively, always five prime to three prime, so one strand is leading and one is made in Okazaki fragments.
+
+5
+00:00:30,208 --> 00:00:40,442
+Mendel gives three to one, nine three three one, and one one one one in a test cross, and chi square tells you if the data fit.
+
+6
+00:00:40,442 --> 00:00:50,963
+Beyond Mendel: incomplete dominance, codominance, the ABO alleles, a baby's sex set by the father, and X linked traits in men.
+
+7
+00:00:50,963 --> 00:00:57,135
+Linkage and crossing over give recombination frequencies, which are map distances.
+
+8
+00:00:57,135 --> 00:01:02,942
+And mutation and polyploidy create the new variation that evolution needs.
+

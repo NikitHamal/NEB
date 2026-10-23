@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,330
+Look inside the acetate buffer.
+
+2
+00:00:02,330 --> 00:00:10,091
+It holds two big reserves: plenty of un-ionised acetic acid, and plenty of acetate ions from the salt.
+

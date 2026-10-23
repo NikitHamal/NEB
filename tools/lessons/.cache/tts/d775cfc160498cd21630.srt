@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,809
+The models side by side.
+
+2
+00:00:01,809 --> 00:00:04,192
+Fixed requirements: waterfall.
+
+3
+00:00:04,192 --> 00:00:06,445
+Unclear ones: prototype.
+
+4
+00:00:06,445 --> 00:00:09,960
+A system that splits into features: incremental.
+
+5
+00:00:09,960 --> 00:00:12,591
+Large and dangerous: spiral.
+
+6
+00:00:12,591 --> 00:00:15,078
+Constantly changing: agile.
+

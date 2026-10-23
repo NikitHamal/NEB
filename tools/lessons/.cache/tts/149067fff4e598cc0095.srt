@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,661
+Because the levels are separate, you can change one without breaking the others.
+
+2
+00:00:04,661 --> 00:00:10,820
+Add a new column, and existing views still work: logical data independence.
+
+3
+00:00:10,820 --> 00:00:18,645
+Add an index or move to a faster disk, and the schema does not change: physical data independence.
+

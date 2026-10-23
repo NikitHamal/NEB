@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,130
+Cardiac output is stroke volume times heart rate: about five litres a minute.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,815
+Minus root three minus i: third quadrant, so minus, one eighty minus thirty: minus one fifty.
+

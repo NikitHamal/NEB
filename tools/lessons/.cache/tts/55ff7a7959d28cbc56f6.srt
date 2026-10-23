@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,187
+That was differential equations.
+
+2
+00:00:02,187 --> 00:00:06,822
+Next, computational methods: solving equations numerically.
+
+3
+00:00:06,822 --> 00:00:07,773
+See you there.
+

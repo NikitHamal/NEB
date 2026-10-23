@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,919
+When a liquid meets a solid, two attractions compete.
+
+2
+00:00:03,919 --> 00:00:07,526
+Cohesion pulls liquid molecules to each other.
+
+3
+00:00:07,526 --> 00:00:10,364
+Adhesion pulls them to the solid.
+
+4
+00:00:10,364 --> 00:00:17,877
+Water is attracted to glass more than to itself, so it climbs the wall and makes a concave meniscus.
+
+5
+00:00:17,877 --> 00:00:23,476
+Mercury prefers itself, so it pulls away and bulges up, convex.
+

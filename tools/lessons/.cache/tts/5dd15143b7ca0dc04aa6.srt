@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,588
+x min is one point two two lambda over twice that: two hundred and thirty five nanometres.
+
+2
+00:00:06,588 --> 00:00:13,385
+Smaller than a bacterium, but far bigger than a virus, which is why viruses need an electron microscope.
+

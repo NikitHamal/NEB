@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,994
+Question one prints the answers in front of you.
+
+2
+00:00:02,994 --> 00:00:10,520
+Here is a paragraph about fog nets, and a statement: a fog net has to be turned on before it will collect water.
+
+3
+00:00:10,520 --> 00:00:13,033
+True, false, or not given?
+
+4
+00:00:13,033 --> 00:00:15,195
+You may know nothing about fog nets.
+
+5
+00:00:15,195 --> 00:00:16,289
+You don't need to.
+
+6
+00:00:16,289 --> 00:00:20,625
+You need the line: there are no moving parts and nothing to switch on.
+
+7
+00:00:20,625 --> 00:00:24,192
+The passage says the opposite, so the answer is false.
+

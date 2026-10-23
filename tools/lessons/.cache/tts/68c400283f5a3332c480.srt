@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,395
+Worked example seven point two.
+
+2
+00:00:02,395 --> 00:00:08,619
+Blue vitriol has molar mass two forty nine point five, so we have zero point one mole.
+
+3
+00:00:08,619 --> 00:00:17,473
+At a hundred degrees, four waters per formula leave: seven point two grams, leaving seventeen point seven five grams.
+
+4
+00:00:17,473 --> 00:00:26,250
+At two thirty the last water goes, one point eight grams more, leaving fifteen point nine five grams of white copper sulphate.
+
+5
+00:00:26,250 --> 00:00:28,541
+Nine grams of water in total.
+

@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:01,236
+Seven parts.
+
+2
+00:00:01,236 --> 00:00:04,505
+Data, databases and the DBMS.
+
+3
+00:00:04,505 --> 00:00:06,744
+Fields, records and keys.
+
+4
+00:00:06,744 --> 00:00:09,479
+SQL for defining and changing data.
+
+5
+00:00:09,479 --> 00:00:10,885
+Joins and grouping.
+
+6
+00:00:10,885 --> 00:00:12,539
+The database models.
+
+7
+00:00:12,539 --> 00:00:13,880
+Normalisation.
+
+8
+00:00:13,880 --> 00:00:16,914
+And distributed databases and security.
+

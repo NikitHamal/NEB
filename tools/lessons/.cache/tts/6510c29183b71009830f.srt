@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,731
+Pseudo first order.
+
+2
+00:00:01,731 --> 00:00:07,317
+When cane sugar is hydrolysed, one sugar molecule reacts with one water molecule.
+
+3
+00:00:07,317 --> 00:00:09,361
+Truly, that is second order.
+
+4
+00:00:09,361 --> 00:00:13,281
+But water is the solvent, a vast ocean of it.
+
+5
+00:00:13,281 --> 00:00:18,632
+Using up a few molecules changes its concentration by almost nothing.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,486
+Now dicot versus monocot.
+
+2
+00:00:02,486 --> 00:00:10,052
+A dicot root has few xylem groups, usually two to six: diarch, triarch, up to hexarch.
+
+3
+00:00:10,052 --> 00:00:12,734
+Ranunculus is commonly tetrarch.
+
+4
+00:00:12,734 --> 00:00:17,981
+Xylem fills the centre, so the pith is absent or tiny.
+

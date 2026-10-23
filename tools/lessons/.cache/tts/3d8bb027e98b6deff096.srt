@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,127
+For the second, write e and e to the minus one.
+
+2
+00:00:04,127 --> 00:00:08,346
+Subtracting kills the even terms and doubles the odd ones.
+

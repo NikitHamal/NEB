@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,059
+Peltier heat is pi I t: twelve millivolts times two amps times three hundred seconds, seven point two joules.
+

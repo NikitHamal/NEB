@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,747
+Here is the law the whole unit rests on.
+
+2
+00:00:02,747 --> 00:00:06,940
+Substances always react in the ratio of their equivalents.
+
+3
+00:00:06,940 --> 00:00:13,463
+One gram equivalent of an acid exactly neutralises one gram equivalent of a base.
+
+4
+00:00:13,463 --> 00:00:20,000
+One equivalent of an oxidising agent exactly oxidises one equivalent of a reducing agent.
+
+5
+00:00:20,000 --> 00:00:22,981
+Whatever the mole ratio in the balanced equation.
+

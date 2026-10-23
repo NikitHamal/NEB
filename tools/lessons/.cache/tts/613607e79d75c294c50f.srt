@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,364
+Change to kelvin first: twenty seven degrees is three hundred kelvin.
+
+2
+00:00:05,364 --> 00:00:09,570
+The volume ratio V one over V two is eight.
+

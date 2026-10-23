@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,057
+Now race three chains.
+
+2
+00:00:02,057 --> 00:00:07,578
+Make the springs four times stiffer, and the push races along twice as fast.
+
+3
+00:00:07,578 --> 00:00:12,968
+Make the masses four times heavier as well, and it slows back down to where it started.
+
+4
+00:00:12,968 --> 00:00:17,330
+Speed goes as the square root of stiffness over inertia.
+

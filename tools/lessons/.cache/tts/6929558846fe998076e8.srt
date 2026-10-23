@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,921
+Osmosis is diffusion through a selectively permeable membrane.
+
+2
+00:00:04,921 --> 00:00:07,955
+Water passes through it; sugar does not.
+

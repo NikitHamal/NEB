@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,666
+Here is the answer.
+
+2
+00:00:01,666 --> 00:00:05,182
+Butan one ol has a hydrogen on its oxygen.
+
+3
+00:00:05,182 --> 00:00:13,932
+That hydrogen reaches across to the oxygen of the next molecule, a hydrogen bond, and the molecules are tied together in chains.
+
+4
+00:00:13,932 --> 00:00:17,851
+To boil the alcohol, you must break all those bonds.
+

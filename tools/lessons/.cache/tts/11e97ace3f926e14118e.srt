@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,505
+Welcome to Class 12 Physics, Unit 12: Diffraction.
+
+2
+00:00:04,505 --> 00:00:10,039
+Light bends round obstacles and spreads after passing through narrow openings.
+
+3
+00:00:10,039 --> 00:00:13,567
+It is Huygens' wavelets interfering with one another.
+
+4
+00:00:13,567 --> 00:00:22,942
+It limits every telescope and microscope ever built, and it powers the diffraction grating, our most accurate way to measure wavelength.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,145
+Quick recap.
+
+2
+00:00:01,145 --> 00:00:10,260
+Tissue culture works because plant cells are totipotent, and the auxin to cytokinin ratio decides roots, callus or shoots.
+
+3
+00:00:10,260 --> 00:00:16,536
+Breeders emasculate, bag, cross and select, and hybrids show heterosis.
+
+4
+00:00:16,536 --> 00:00:21,341
+The Bt toxin is activated only in an insect's alkaline gut.
+
+5
+00:00:21,341 --> 00:00:24,596
+Bio fertilizers are living organisms.
+
+6
+00:00:24,596 --> 00:00:36,354
+Recombinant DNA uses restriction enzymes, ligase and a plasmid; PCR doubles DNA every cycle; gels sort fragments by size.
+
+7
+00:00:36,354 --> 00:00:41,132
+And food safety is about quality, food security about access.
+

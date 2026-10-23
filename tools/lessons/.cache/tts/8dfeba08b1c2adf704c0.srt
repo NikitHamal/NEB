@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,882
+Without oxygen, the chain stops and NAD plus runs out.
+
+2
+00:00:04,882 --> 00:00:11,757
+Fermentation turns NADH back into NAD plus so glycolysis can continue.
+

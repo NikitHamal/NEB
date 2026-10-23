@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,968
+Careful: the question gives the diameter.
+
+2
+00:00:02,968 --> 00:00:10,065
+The radius is half of it, zero point two millimetres, two times ten to the minus four metres.
+
+3
+00:00:10,065 --> 00:00:12,369
+And cosine of zero is one.
+

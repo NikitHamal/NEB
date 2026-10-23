@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,739
+Now the first big idea: how much work does a gas do when it expands?
+
+2
+00:00:04,739 --> 00:00:10,598
+Take a gas at pressure P in a cylinder, closed by a frictionless piston of area A.
+
+3
+00:00:10,598 --> 00:00:16,028
+The molecules hammer the piston, and push it with a force F equal to P A.
+

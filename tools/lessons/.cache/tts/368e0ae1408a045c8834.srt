@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,549
+Zinc is the odd one.
+
+2
+00:00:01,549 --> 00:00:08,593
+Its atom is 3d ten, and its only ion, zinc two plus, is still 3d ten.
+
+3
+00:00:08,593 --> 00:00:17,773
+No partly filled d subshell anywhere, so zinc is not a typical transition metal, and that is the first clue to our cold open.
+

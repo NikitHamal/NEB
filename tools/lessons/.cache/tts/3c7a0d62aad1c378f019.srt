@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,739
+Touch a hot tawa and your hand jerks away before you feel the pain.
+
+2
+00:00:04,739 --> 00:00:09,153
+That is a reflex: rapid, automatic, involuntary.
+
+3
+00:00:09,153 --> 00:00:21,484
+Its path, the reflex arc, has five parts: a receptor, a sensory neuron into the spinal cord, a relay neuron, a motor neuron, and an effector muscle.
+

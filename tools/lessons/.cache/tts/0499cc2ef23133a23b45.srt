@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,411
+x squared plus one needs a linear numerator.
+

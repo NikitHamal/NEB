@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,828
+And fermentation itself makes no ATP.
+
+2
+00:00:03,828 --> 00:00:12,239
+The only gain is the net two ATP of glycolysis, a tiny fraction of the thirty or so from aerobic respiration.
+
+3
+00:00:12,239 --> 00:00:16,067
+Most of the energy stays locked in the ethanol.
+

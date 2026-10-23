@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,591
+And the bouncing ball never reverses.
+
+2
+00:00:02,591 --> 00:00:07,421
+Every one of these backwards processes would conserve energy perfectly.
+
+3
+00:00:07,421 --> 00:00:11,158
+Something other than the first law decides the direction.
+

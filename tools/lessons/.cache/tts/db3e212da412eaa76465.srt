@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,539
+Measuring the surroundings is awkward.
+
+2
+00:00:02,539 --> 00:00:08,033
+Josiah Willard Gibbs found a way to judge spontaneity from the system alone.
+
+3
+00:00:08,033 --> 00:00:13,020
+He defined the free energy, G equals H minus T S.
+

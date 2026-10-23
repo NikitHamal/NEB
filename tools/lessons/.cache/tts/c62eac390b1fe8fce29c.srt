@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,578
+Each grain changes the pressure by only a tiny amount, so the gas is always almost exactly in equilibrium.
+
+2
+00:00:07,578 --> 00:00:10,416
+The point creeps along a smooth curve.
+
+3
+00:00:10,416 --> 00:00:19,635
+That idealised, infinitely slow process is called quasi static, and only quasi static processes can be drawn as curves.
+

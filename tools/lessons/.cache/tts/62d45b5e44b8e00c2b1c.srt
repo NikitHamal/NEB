@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:09,440
+Sine theta one is lambda over a: six hundred nanometres over zero point two millimetres, three times ten to the minus three.
+
+2
+00:00:09,440 --> 00:00:14,375
+That is three milliradians, about zero point one seven degrees.
+
+3
+00:00:14,375 --> 00:00:15,169
+Tiny.
+

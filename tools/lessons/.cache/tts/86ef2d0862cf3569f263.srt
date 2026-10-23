@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,385
+So they are ten millimetres apart, one centimetre.
+
+2
+00:00:03,385 --> 00:00:06,419
+That is just the width of the central maximum.
+

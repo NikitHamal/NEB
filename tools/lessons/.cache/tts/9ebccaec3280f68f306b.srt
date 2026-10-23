@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,343
+A favourite five mark question.
+
+2
+00:00:02,343 --> 00:00:09,205
+The third harmonic of a closed pipe matches the first overtone of an open pipe fifty centimetres long.
+
+3
+00:00:09,205 --> 00:00:11,041
+How long is the closed pipe?
+

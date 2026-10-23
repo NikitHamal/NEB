@@ -1,0 +1,348 @@
+1
+00:00:02,800 --> 00:00:12,072
+For a negative or fractional power, the same formula still works, but the coefficients never become zero, so the series never stops.
+
+2
+00:00:12,072 --> 00:00:22,372
+One plus x to the n equals one plus n x plus n times n minus one over two factorial x squared, and so on forever.
+
+3
+00:00:22,372 --> 00:00:30,419
+An infinite series is only useful if it converges, and this one does only when the absolute value of x is less than one.
+
+4
+00:00:30,419 --> 00:00:33,211
+That condition is part of the answer: always state it.
+
+5
+00:00:34,434 --> 00:00:35,347
+Watch why.
+
+6
+00:00:35,347 --> 00:00:38,173
+The white curve is one over one minus x.
+
+7
+00:00:38,173 --> 00:00:41,259
+The yellow curve adds up the series term by term.
+
+8
+00:00:41,259 --> 00:00:48,680
+Inside the green band, where x is between minus one and one, the partial sums close in on the true curve.
+
+9
+00:00:48,680 --> 00:00:52,577
+Outside it, they fly away, no matter how many terms you take.
+
+10
+00:00:53,800 --> 00:00:56,367
+Four expansions worth knowing by sight.
+
+11
+00:00:56,367 --> 00:01:05,330
+Notice the signs: with minus x inside a negative power, every term is positive; with plus x, the signs alternate.
+
+12
+00:01:06,534 --> 00:01:07,589
+Two expansions.
+
+13
+00:01:07,800 --> 00:01:14,052
+For one minus two x to the half, replace x by minus two x everywhere, powers included.
+
+14
+00:01:14,267 --> 00:01:24,254
+Simplifying: one minus x minus half x squared minus half x cubed, valid when two x is less than one in size: x less than a half.
+
+15
+00:01:24,467 --> 00:01:32,157
+For four plus x, first make the bracket start with one: take the four out as four to the minus half, which is a half.
+
+16
+00:01:32,367 --> 00:01:36,301
+Expand with x over four, and multiply by a half.
+
+17
+00:01:36,301 --> 00:01:42,057
+Valid when x over four is less than one: x less than four in size, not one.
+
+18
+00:01:44,067 --> 00:01:49,277
+That is the classic mistake: never expand four plus x directly.
+
+19
+00:01:49,277 --> 00:01:54,841
+Make it one plus something small first, and apply the condition to the something small.
+
+20
+00:01:59,634 --> 00:02:08,685
+When x is small, x squared is tiny and x cubed tinier still, so the first two or three terms already give an excellent value.
+
+21
+00:02:08,685 --> 00:02:18,216
+One point zero two to the power one third: one, plus point zero two over three, minus point zero zero zero four over nine.
+
+22
+00:02:18,216 --> 00:02:23,138
+The next term is about a millionth and cannot touch the fifth decimal place.
+
+23
+00:02:23,138 --> 00:02:25,917
+One point zero zero six six two.
+
+24
+00:02:27,134 --> 00:02:28,867
+The cold open, solved.
+
+25
+00:02:28,867 --> 00:02:34,708
+Pick the nearest perfect cube, one twenty five, and factor it out so the bracket is close to one.
+
+26
+00:02:34,934 --> 00:02:38,839
+Five, times one plus point zero one six, to the third.
+
+27
+00:02:39,067 --> 00:02:45,481
+Expand: one, plus point zero one six over three, minus its square over nine.
+
+28
+00:02:45,700 --> 00:02:51,821
+Five times one point zero zero five three: five point zero two six five.
+
+29
+00:02:51,821 --> 00:02:55,910
+The true value is five point zero two six five two six.
+
+30
+00:02:57,934 --> 00:02:58,437
+Two more.
+
+31
+00:02:59,167 --> 00:03:05,152
+Root one hundred and two: factor out a hundred, expand: ten point zero nine nine five.
+
+32
+00:03:05,367 --> 00:03:14,465
+One point zero two to the tenth: ten is a whole number, so the series is finite and exact; we just stop when terms become negligible.
+
+33
+00:03:14,667 --> 00:03:15,965
+One point two one nine.
+
+34
+00:03:18,567 --> 00:03:19,923
+Exam tip.
+
+35
+00:03:19,923 --> 00:03:27,852
+To approximate a root, split the number into the nearest perfect power plus a small remainder, and factor out the power.
+
+36
+00:03:27,852 --> 00:03:30,405
+Root one oh two: use a hundred.
+
+37
+00:03:30,405 --> 00:03:34,347
+Cube root of one twenty seven: use one twenty five.
+
+38
+00:03:38,700 --> 00:03:42,439
+Imagine a bank that pays one hundred percent interest a year.
+
+39
+00:03:42,439 --> 00:03:47,360
+Compound it twice a year and you get one point five squared, two point two five.
+
+40
+00:03:47,360 --> 00:03:48,519
+Monthly, more.
+
+41
+00:03:48,519 --> 00:03:50,173
+Daily, more still.
+
+42
+00:03:50,173 --> 00:03:54,001
+Yet however often you compound, it never runs away.
+
+43
+00:03:54,001 --> 00:03:56,019
+It approaches a fixed number: e.
+
+44
+00:03:58,234 --> 00:04:07,688
+Expand one plus one over n to the n with the binomial theorem, and divide each factor of n in the numerators by an n from the denominator.
+
+45
+00:04:07,900 --> 00:04:13,331
+As n grows, every bracket one minus k over n tends to one.
+
+46
+00:04:13,331 --> 00:04:21,473
+So e is one plus one over one factorial plus one over two factorial, and so on: the sum of one over r factorial.
+
+47
+00:04:21,700 --> 00:04:27,535
+Every term is positive, and the first two make two, so e is more than two.
+
+48
+00:04:27,535 --> 00:04:38,675
+And from three on, r factorial is bigger than two to the r minus one, so the series is less than one plus a geometric series that sums to two: e is less than three.
+
+49
+00:04:38,900 --> 00:04:45,698
+Watch the terms pile up on a number line: one, then one more, a half, a sixth, a twenty fourth.
+
+50
+00:04:45,698 --> 00:04:55,670
+Each is much smaller than the last, and after eight terms the total already agrees with e to four decimal places: two point seven one eight three.
+
+51
+00:05:01,467 --> 00:05:09,030
+The exponential series: e to the x is the sum of x to the r over r factorial, and it works for every x.
+
+52
+00:05:09,234 --> 00:05:14,248
+Any a to the x becomes an exponential, because a is e to the log a.
+
+53
+00:05:14,467 --> 00:05:21,586
+The logarithmic series, log of one plus x, alternates, and only works from minus one up to one.
+
+54
+00:05:21,800 --> 00:05:30,499
+Replace x by minus x and subtract, and you get a much faster series for log of one plus x over one minus x.
+
+55
+00:05:33,700 --> 00:05:34,643
+Summing a series.
+
+56
+00:05:34,934 --> 00:05:42,250
+Cancel one n: the general term n over n factorial is one over n minus one factorial.
+
+57
+00:05:42,467 --> 00:05:49,346
+So the series is one over zero factorial, plus one over one factorial, and so on: exactly e.
+
+58
+00:05:51,367 --> 00:05:52,555
+Even factorials.
+
+59
+00:05:52,767 --> 00:05:58,753
+Add the series for e and e to the minus one: odd terms cancel, even ones double.
+
+60
+00:05:58,967 --> 00:06:01,645
+Halve it: one point five four three one.
+
+61
+00:06:03,667 --> 00:06:04,567
+Log two.
+
+62
+00:06:04,567 --> 00:06:10,361
+Putting x equal to one in the first log series crawls; you would need thousands of terms.
+
+63
+00:06:10,361 --> 00:06:11,860
+Use the fast one instead.
+
+64
+00:06:12,067 --> 00:06:17,841
+Choose x so that one plus x over one minus x is two: x is a third.
+
+65
+00:06:18,067 --> 00:06:18,761
+Four terms.
+
+66
+00:06:19,500 --> 00:06:22,548
+Zero point six nine three one.
+
+67
+00:06:22,548 --> 00:06:26,868
+The true value is zero point six nine three one four seven.
+
+68
+00:06:30,100 --> 00:06:31,313
+Pause and think.
+
+69
+00:06:31,313 --> 00:06:34,411
+One plus three x to the minus half.
+
+70
+00:06:34,411 --> 00:06:35,172
+When is it valid?
+
+71
+00:06:42,067 --> 00:06:49,334
+x less than a third in size, because the quantity in the bracket is three x, and that must be less than one.
+
+72
+00:06:49,334 --> 00:06:53,592
+Absolute x less than one is the trap: it ignores the three.
+
+73
+00:06:55,567 --> 00:06:56,415
+One more.
+
+74
+00:06:56,415 --> 00:06:59,043
+How many terms in a plus b to the ten?
+
+75
+00:07:05,934 --> 00:07:06,756
+Eleven.
+
+76
+00:07:06,756 --> 00:07:08,735
+r runs from zero to ten.
+
+77
+00:07:08,735 --> 00:07:12,551
+Ten is the trap: it forgets the r equals zero term.
+
+78
+00:07:14,734 --> 00:07:15,803
+Quick recap.
+
+79
+00:07:15,803 --> 00:07:21,441
+The binomial theorem gives n plus one terms with coefficients n C r.
+
+80
+00:07:21,441 --> 00:07:24,254
+The general term is T r plus one.
+
+81
+00:07:24,254 --> 00:07:27,574
+The coefficients sum to two to the n.
+
+82
+00:07:27,574 --> 00:07:33,082
+For any index the series is infinite and needs x less than one in size.
+
+83
+00:07:33,082 --> 00:07:37,978
+Approximate roots by splitting off the nearest perfect power.
+
+84
+00:07:37,978 --> 00:07:40,435
+And e is the sum of one over r factorial.
+
+85
+00:07:44,634 --> 00:07:46,263
+That was the binomial theorem.
+
+86
+00:07:46,263 --> 00:07:52,982
+Next, complex numbers: polar form, De Moivre's theorem, and the cube roots of unity.
+
+87
+00:07:52,982 --> 00:07:53,524
+See you there.
+

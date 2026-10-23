@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,223
+Since cos squared plus sin squared is one, the dot product squared plus the cross product's length squared equals the product of the lengths squared: Lagrange's identity.
+

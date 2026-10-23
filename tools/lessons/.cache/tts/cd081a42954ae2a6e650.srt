@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,976
+Part c.
+
+2
+00:00:00,976 --> 00:00:08,815
+I A little i times I B little i gives four equally likely children: A B, A, B and O.
+
+3
+00:00:08,815 --> 00:00:11,445
+The chance of group O is one quarter.
+

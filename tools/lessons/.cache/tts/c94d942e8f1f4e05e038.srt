@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:04,947
+The first is the series for e with its leading one removed: e minus one.
+

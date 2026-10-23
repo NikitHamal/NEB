@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,953
+Use Laplace's formula.
+
+2
+00:00:01,953 --> 00:00:09,544
+One point four times one point zero one three times ten to the five, over zero point zero nine.
+
+3
+00:00:09,544 --> 00:00:13,854
+The square root is about twelve hundred and sixty metres per second.
+

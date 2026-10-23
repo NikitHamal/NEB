@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,213
+A phenol has an O H directly on an aromatic ring, general formula A r O H.
+
+2
+00:00:07,213 --> 00:00:14,531
+Do not confuse it with an aromatic alcohol like benzyl alcohol, where the O H is on a side chain carbon.
+
+3
+00:00:14,531 --> 00:00:18,945
+Benzyl alcohol behaves like an ordinary primary alcohol.
+

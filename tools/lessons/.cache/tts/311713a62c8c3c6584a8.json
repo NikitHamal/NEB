@@ -1,0 +1,1 @@
+{"dur": 9.456292, "cues": [[0, 5.601, "In SQL: join students to enrolment on roll, and enrolment to courses on code."], [5.601, 9.883999999999999, "Every enrolment row now carries a name and a course title."]], "text": "In SQL: join students to enrolment on roll, and enrolment to courses on code. Every enrolment row now carries a name and a course title."}

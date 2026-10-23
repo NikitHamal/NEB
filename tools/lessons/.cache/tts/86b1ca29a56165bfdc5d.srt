@@ -1,0 +1,36 @@
+1
+00:00:00,050 --> 00:00:01,093
+Eight parts.
+
+2
+00:00:01,093 --> 00:00:02,226
+Digestion.
+
+3
+00:00:02,226 --> 00:00:04,283
+Breathing and gas transport.
+
+4
+00:00:04,283 --> 00:00:06,223
+The heart and circulation.
+
+5
+00:00:06,223 --> 00:00:07,174
+The kidney.
+
+6
+00:00:07,174 --> 00:00:08,789
+Nerves and the brain.
+
+7
+00:00:08,789 --> 00:00:10,000
+The eye and ear.
+
+8
+00:00:10,000 --> 00:00:11,184
+The hormones.
+
+9
+00:00:11,184 --> 00:00:12,916
+And the reproductive system.
+

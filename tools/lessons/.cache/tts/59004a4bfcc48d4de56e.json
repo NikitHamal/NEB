@@ -1,0 +1,1 @@
+{"dur": 6.506333, "cues": [[0, 5.054, "False: triple equals checks the type too, and a number is not a string."], [5.054, 6.942, "Double equals would say true."]], "text": "False: triple equals checks the type too, and a number is not a string. Double equals would say true."}

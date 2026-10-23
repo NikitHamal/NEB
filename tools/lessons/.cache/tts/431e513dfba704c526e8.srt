@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,661
+And r times n C r equals n times n minus one C r minus one: both count choosing a committee of r and then its chairperson.
+

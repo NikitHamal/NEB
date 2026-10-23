@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,916
+Double refraction is the strangest.
+
+2
+00:00:02,916 --> 00:00:09,609
+Send unpolarized light into a calcite crystal, and it splits into two refracted rays.
+
+3
+00:00:09,609 --> 00:00:12,265
+The ordinary ray obeys Snell's law.
+
+4
+00:00:12,265 --> 00:00:14,583
+The extraordinary ray does not.
+

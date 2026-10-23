@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,481
+We measure that skin with surface tension, T: the force per unit length acting on an imaginary line drawn in the surface, at right angles to the line.
+
+2
+00:00:10,481 --> 00:00:12,916
+Its unit is newton per metre.
+

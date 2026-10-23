@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,119
+Both are green.
+
+2
+00:00:01,119 --> 00:00:04,648
+Both stand in the same sun and drink from the same soil.
+
+3
+00:00:04,648 --> 00:00:06,640
+So why can only one of them make wood?
+

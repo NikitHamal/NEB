@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,294
+Light behaves like the rope, never like the spring.
+
+2
+00:00:03,294 --> 00:00:10,716
+The fact that turning the analyser can cut the light off completely means its vibrations lie across the beam.
+
+3
+00:00:10,716 --> 00:00:16,341
+Polarization is the one optical effect that proves light is a transverse wave.
+
+4
+00:00:16,341 --> 00:00:20,221
+Sound, being longitudinal, can never be polarized.
+

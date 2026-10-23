@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,536
+So how do we choose?
+
+2
+00:00:01,536 --> 00:00:05,546
+Here is acetic acid titrated with sodium hydroxide.
+
+3
+00:00:05,546 --> 00:00:09,218
+The vertical jump runs from about seven to about eleven.
+
+4
+00:00:09,218 --> 00:00:16,705
+Methyl orange's range is far below it, so it would change colour too early, long before the equivalence point.
+
+5
+00:00:16,705 --> 00:00:20,221
+Phenolphthalein's range sits right inside the jump.
+

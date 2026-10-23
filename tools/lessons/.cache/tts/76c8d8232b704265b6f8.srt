@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,067
+PHP code sits between less than question mark php and question mark greater than.
+
+2
+00:00:06,067 --> 00:00:11,575
+Every variable starts with a dollar sign, and every statement ends with a semicolon.
+
+3
+00:00:11,575 --> 00:00:16,380
+An associative array stores key value pairs, and foreach walks through them.
+
+4
+00:00:16,380 --> 00:00:20,065
+Double quotes substitute variables into the text.
+

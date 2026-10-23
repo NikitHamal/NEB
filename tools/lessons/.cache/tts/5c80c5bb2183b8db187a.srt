@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,106
+How much stronger is acetic acid than hydrocyanic acid, at the same concentration?
+
+2
+00:00:06,106 --> 00:00:14,466
+Strength goes as the degree of ionisation, which, as we will see, is the square root of K a over C.
+
+3
+00:00:14,466 --> 00:00:19,205
+So the ratio is the square root of the ratio of the K a values.
+

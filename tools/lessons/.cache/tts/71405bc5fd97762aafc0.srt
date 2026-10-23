@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,513
+Each sac has a wall of four layers.
+
+2
+00:00:02,513 --> 00:00:05,507
+Outside, the epidermis, for protection.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,786
+The errors that appear in every script.
+
+2
+00:00:02,786 --> 00:00:05,221
+Many advices: much advice.
+
+3
+00:00:05,221 --> 00:00:08,554
+A long hair: long hair, uncountable.
+
+4
+00:00:08,554 --> 00:00:11,015
+Less students: fewer students.
+
+5
+00:00:11,015 --> 00:00:14,505
+Every students: every student, singular.
+
+6
+00:00:14,505 --> 00:00:18,632
+One of my friend: one of my friends, plural after one of.
+
+7
+00:00:18,632 --> 00:00:24,088
+And my this pen: only one central determiner is allowed, so this pen of mine.
+

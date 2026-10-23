@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,218
+In energy terms, for the same temperature rise d T: at constant volume the heat is C v d T, and all of it becomes d U.
+
+2
+00:00:09,218 --> 00:00:16,471
+At constant pressure the heat is C p d T, which is the same d U plus the extra work P d V.
+

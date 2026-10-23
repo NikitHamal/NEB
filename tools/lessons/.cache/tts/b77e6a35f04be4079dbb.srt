@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,666
+Tan theta is m one minus m two over one plus their product: three quarters.
+
+2
+00:00:06,666 --> 00:00:09,661
+Thirty six degrees fifty two minutes.
+

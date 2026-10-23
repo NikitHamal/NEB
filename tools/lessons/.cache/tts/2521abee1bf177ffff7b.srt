@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,484
+First order: sine theta is zero point three six, twenty one point one degrees.
+
+2
+00:00:06,484 --> 00:00:11,783
+Second order: zero point seven two, forty six point one degrees.
+

@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,695
+Here is his trick, with one to ten.
+
+2
+00:00:02,695 --> 00:00:06,315
+Write the numbers forwards, then backwards underneath.
+
+3
+00:00:06,315 --> 00:00:08,802
+Every column adds to eleven.
+
+4
+00:00:08,802 --> 00:00:13,789
+Ten columns of eleven is a hundred and ten, but that is the sum twice.
+
+5
+00:00:13,789 --> 00:00:16,054
+So the sum is fifty five.
+

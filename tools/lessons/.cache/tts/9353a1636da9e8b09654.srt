@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,557
+Here they are, with their electron configurations after the argon core.
+
+2
+00:00:04,557 --> 00:00:10,937
+The 3d subshell fills one electron at a time, from one in scandium to ten in zinc.
+

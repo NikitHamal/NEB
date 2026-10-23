@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,596
+The commonest slip in this unit: s is half the perimeter.
+
+2
+00:00:04,596 --> 00:00:11,822
+Check every time that s minus a, s minus b and s minus c add up to s.
+

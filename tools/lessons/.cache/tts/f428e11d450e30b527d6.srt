@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,500
+A bio fertilizer is different.
+
+2
+00:00:02,500 --> 00:00:08,033
+It is a culture of living microbes that make nutrients available to the plant.
+
+3
+00:00:08,033 --> 00:00:15,963
+Rhizobium in legume nodules, and Frankia in the roots of our own utis tree, fix nitrogen from the air.
+
+4
+00:00:15,963 --> 00:00:24,570
+Azolla, a tiny water fern carrying the cyanobacterium Anabaena, is the classic bio fertilizer of rice fields.
+
+5
+00:00:24,570 --> 00:00:28,958
+Azotobacter fixes nitrogen free in the soil.
+
+6
+00:00:28,958 --> 00:00:32,513
+Some bacteria dissolve locked up phosphate.
+
+7
+00:00:32,513 --> 00:00:37,565
+And mycorrhizal fungi extend the root system for phosphorus and water.
+

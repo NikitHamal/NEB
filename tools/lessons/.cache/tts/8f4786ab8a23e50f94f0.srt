@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,557
+On a slope, resolve along the plane and perpendicular to it.
+
+2
+00:00:04,557 --> 00:00:15,729
+A twenty kilogram block on a smooth thirty degree slope: its weight, two hundred newtons, splits into mg sin alpha down the slope and mg cos alpha into it.
+
+3
+00:00:15,729 --> 00:00:21,692
+So holding it needs a hundred newtons up the slope, and the plane pushes back with a hundred root three.
+

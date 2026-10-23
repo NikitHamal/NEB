@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,401
+If b and c both undo a, use the identity, associativity, and the identity again: b equals c.
+

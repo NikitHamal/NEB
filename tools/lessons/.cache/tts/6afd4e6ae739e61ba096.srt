@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,893
+For over a century two pictures of light competed.
+
+2
+00:00:03,893 --> 00:00:08,645
+Newton said light is a stream of tiny particles, corpuscles.
+
+3
+00:00:08,645 --> 00:00:16,927
+To explain bending towards the normal, he needed water to pull the particles in, so they would speed up in water.
+
+4
+00:00:16,927 --> 00:00:23,033
+Huygens said light is a wave, and it bends towards the normal because it slows down in water.
+

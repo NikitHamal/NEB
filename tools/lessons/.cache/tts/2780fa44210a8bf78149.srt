@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,244
+For the cubes, square the triangular number: fifteen times sixteen over two is a hundred and twenty; squared, fourteen thousand four hundred.
+

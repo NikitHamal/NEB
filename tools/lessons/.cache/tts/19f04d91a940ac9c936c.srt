@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,645
+And the area by Heron: s is ten, so the area is ten root three, seventeen point three two square centimetres.
+

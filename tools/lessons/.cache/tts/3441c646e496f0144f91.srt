@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,554
+Subtract for C: eighty one forty seven.
+
+2
+00:00:03,554 --> 00:00:07,421
+The largest angle faces the largest side, eight.
+
+3
+00:00:07,421 --> 00:00:08,085
+Good.
+

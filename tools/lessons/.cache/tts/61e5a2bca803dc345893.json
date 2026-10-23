@@ -1,0 +1,1 @@
+{"dur": 10.18625, "cues": [[0, 3.83, "If a pivot turns out to be zero, swap in a lower row."], [3.83, 10.575, "In practice, computers always swap in the largest available pivot, to keep rounding errors small."]], "text": "If a pivot turns out to be zero, swap in a lower row. In practice, computers always swap in the largest available pivot, to keep rounding errors small."}

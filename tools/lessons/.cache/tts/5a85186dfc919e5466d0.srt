@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,078
+The integrating factor is e to the two log x: x squared.
+

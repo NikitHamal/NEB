@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,940
+Here is the derivation.
+
+2
+00:00:01,940 --> 00:00:05,091
+A tube of flow rises and narrows.
+
+3
+00:00:05,091 --> 00:00:10,520
+At the lower end, the pressure is P one, the speed v one and the height h one.
+
+4
+00:00:10,520 --> 00:00:14,648
+At the upper end, P two, v two and h two.
+

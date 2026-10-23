@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,296
+Absolute pressure is atmospheric plus h rho g.
+
+2
+00:00:04,296 --> 00:00:11,497
+One point zero one three times ten to the five, plus ten times a thousand times nine point eight.
+
+3
+00:00:11,497 --> 00:00:16,002
+That is about one point nine nine times ten to the five pascals.
+
+4
+00:00:16,002 --> 00:00:20,052
+Ten metres of water adds almost one whole atmosphere.
+

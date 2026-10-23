@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,614
+Sixty decibels means ten to the six times I nought: ten to the minus six watts per square metre.
+

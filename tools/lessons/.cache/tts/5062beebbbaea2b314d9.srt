@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,049
+Here is the pattern on the screen, with its intensity graph.
+
+2
+00:00:04,049 --> 00:00:08,242
+The central fringe, at O, has zero path difference.
+
+3
+00:00:08,242 --> 00:00:11,901
+Move up the screen, and the path difference grows steadily.
+

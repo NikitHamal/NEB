@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,880
+Reactions span an astonishing range of speeds.
+
+2
+00:00:03,880 --> 00:00:11,770
+Ionic reactions, like silver nitrate with salt, or acid with alkali, finish in a millionth of a second.
+
+3
+00:00:11,770 --> 00:00:13,411
+Rusting takes years.
+
+4
+00:00:13,411 --> 00:00:16,132
+Coal takes millions of years to form.
+
+5
+00:00:16,132 --> 00:00:25,625
+In between, in minutes to hours, sit reactions like the decomposition of hydrogen peroxide, the ones we can actually follow in a laboratory.
+

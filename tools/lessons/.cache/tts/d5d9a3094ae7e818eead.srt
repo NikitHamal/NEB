@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,304
+Worked example three point four.
+
+2
+00:00:02,304 --> 00:00:05,677
+Twenty five percent complete in forty minutes.
+
+3
+00:00:05,677 --> 00:00:09,544
+Take a hundred to start, so seventy five is left.
+
+4
+00:00:09,544 --> 00:00:16,445
+k is two point three zero three over forty, times log of one hundred over seventy five.
+
+5
+00:00:16,445 --> 00:00:21,536
+That is seven point one nine times ten to the minus three per minute.
+

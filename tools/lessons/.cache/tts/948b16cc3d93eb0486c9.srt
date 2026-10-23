@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,283
+And the centripetal acceleration, v squared over r, or r omega squared, points to the centre and keeps turning its direction.
+

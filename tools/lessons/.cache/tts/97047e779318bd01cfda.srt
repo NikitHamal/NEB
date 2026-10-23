@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,005
+Harmonic or overtone?
+
+2
+00:00:02,005 --> 00:00:06,666
+A harmonic is any whole number multiple of the fundamental.
+
+3
+00:00:06,666 --> 00:00:12,994
+An overtone is a tone that is actually produced above the fundamental, counted in order.
+
+4
+00:00:12,994 --> 00:00:19,609
+In a closed pipe, the first overtone is the third harmonic, because the second does not exist.
+
+5
+00:00:19,609 --> 00:00:24,427
+Mixing up these two words loses marks in almost every paper.
+

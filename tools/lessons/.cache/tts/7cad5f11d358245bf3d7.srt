@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,132
+Quick recap.
+
+2
+00:00:01,132 --> 00:00:05,000
+The five elements and three transmission modes.
+
+3
+00:00:05,000 --> 00:00:07,239
+Guided and unguided media.
+
+4
+00:00:07,239 --> 00:00:08,489
+The impairments.
+
+5
+00:00:08,489 --> 00:00:11,966
+Hubs, switches and routers, and the topologies.
+
+6
+00:00:11,966 --> 00:00:16,289
+The seven OSI layers, wrapping data in headers.
+
+7
+00:00:16,289 --> 00:00:19,882
+And IP addresses, masks and subnetting.
+

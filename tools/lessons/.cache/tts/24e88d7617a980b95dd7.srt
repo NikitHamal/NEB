@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:00,859
+Welcome.
+
+2
+00:00:00,859 --> 00:00:04,778
+Today we learn why spinning things behave the way they do.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,885
+Every term is positive, and the first two make two, so e is more than two.
+
+2
+00:00:05,885 --> 00:00:17,473
+And from three on, r factorial is bigger than two to the r minus one, so the series is less than one plus a geometric series that sums to two: e is less than three.
+

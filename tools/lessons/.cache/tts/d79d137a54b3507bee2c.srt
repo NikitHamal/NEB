@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,861
+Now get rid of P d V.
+
+2
+00:00:01,861 --> 00:00:04,830
+For one mole, P V equals R T.
+
+3
+00:00:04,830 --> 00:00:10,625
+At constant pressure, differentiate both sides: P d V equals R d T.
+

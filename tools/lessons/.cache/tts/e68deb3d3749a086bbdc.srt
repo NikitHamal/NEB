@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,210
+The working substance comes back to its starting state every cycle, so delta U is zero.
+
+2
+00:00:06,210 --> 00:00:10,182
+The first law then says the work out is Q one minus Q two.
+

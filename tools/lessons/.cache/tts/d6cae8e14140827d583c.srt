@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,192
+These two statements look different, but each implies the other.
+
+2
+00:00:04,192 --> 00:00:12,148
+Suppose someone builds a cheat device that breaks Clausius: it moves heat Q two from the sink up to the source, for free.
+

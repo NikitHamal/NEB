@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,536
+The sine law cannot help when you know all three sides, or two sides and the angle between them.
+
+2
+00:00:06,536 --> 00:00:08,658
+For that we need the cosine law.
+
+3
+00:00:08,658 --> 00:00:11,757
+Drop the altitude from C onto A B.
+
+4
+00:00:11,757 --> 00:00:22,708
+The blue piece A D is b cos A, the altitude is b sin A, and the rest of the base, D B, is c minus b cos A.
+

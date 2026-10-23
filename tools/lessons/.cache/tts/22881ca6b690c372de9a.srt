@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,851
+Multiply by B and divide by four.
+
+2
+00:00:02,851 --> 00:00:05,312
+The numbers are three, one and two.
+
+3
+00:00:05,312 --> 00:00:08,411
+Check: three plus four is seven.
+

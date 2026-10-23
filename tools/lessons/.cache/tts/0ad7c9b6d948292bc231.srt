@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,731
+Now we put it all together.
+
+2
+00:00:01,731 --> 00:00:11,041
+Titration is adding a standard solution from a burette to a measured volume of the unknown, just until the reaction is exactly complete.
+

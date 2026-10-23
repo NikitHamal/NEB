@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,039
+The difference between a double salt and a complex salt is a favourite question.
+
+2
+00:00:05,039 --> 00:00:06,497
+Dissolve Mohr's salt.
+
+3
+00:00:06,497 --> 00:00:12,148
+It falls apart completely into ferrous, ammonium and sulphate ions.
+
+4
+00:00:12,148 --> 00:00:14,986
+The solution gives the tests of all three.
+

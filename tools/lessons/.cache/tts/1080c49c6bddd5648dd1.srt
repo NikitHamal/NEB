@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,666
+The reaction is reversible, so the sulphuric acid acts both as catalyst and as a water remover.
+
+2
+00:00:06,666 --> 00:00:10,065
+Primary alcohols esterify fastest.
+
+3
+00:00:10,065 --> 00:00:16,132
+With an acid chloride instead of the acid, the reaction is fast and goes to completion.
+

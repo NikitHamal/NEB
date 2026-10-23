@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,049
+A mechanical wave needs a medium with two properties.
+
+2
+00:00:04,049 --> 00:00:07,955
+Elasticity, to pull each displaced particle back.
+
+3
+00:00:07,955 --> 00:00:13,268
+And inertia, so that the particle overshoots and passes the motion on.
+
+4
+00:00:13,268 --> 00:00:17,434
+Light and radio waves are different: they need no medium at all.
+

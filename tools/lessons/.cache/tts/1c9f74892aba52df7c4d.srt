@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,494
+To predict yield from rainfall, use y on x: forty one point four four.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,190
+Doubling time: zero point six nine three over zero point zero zero nine two, about seventy five years.
+

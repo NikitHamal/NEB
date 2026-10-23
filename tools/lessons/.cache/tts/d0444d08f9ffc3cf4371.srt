@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:07,591
+A four mark question, Group B, number one: distinguish collenchyma from sclerenchyma under four headings.
+
+2
+00:00:07,591 --> 00:00:09,908
+Cells: living versus dead.
+
+3
+00:00:09,908 --> 00:00:13,255
+Wall: cellulose and pectin versus lignin.
+
+4
+00:00:13,255 --> 00:00:16,822
+Thickening: uneven versus uniform and heavy.
+
+5
+00:00:16,822 --> 00:00:22,721
+Role: flexible support in a growing organ versus rigid support in a mature one.
+

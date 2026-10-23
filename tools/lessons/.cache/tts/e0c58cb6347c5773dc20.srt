@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,578
+Omega is root of k over m, root of four hundred, which is twenty radians per second.
+
+2
+00:00:07,578 --> 00:00:13,424
+So T equals two pi over twenty, about zero point three one four seconds.
+

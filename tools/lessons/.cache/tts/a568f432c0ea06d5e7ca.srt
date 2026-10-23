@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,966
+A typical item: the committee's, decide, was announced on Friday, and nobody was, satisfy, with it.
+
+2
+00:00:06,966 --> 00:00:16,341
+The first gap follows committee's and comes before a verb, so it must be a noun: decide takes ion, and gives decision, not decidation.
+
+3
+00:00:16,341 --> 00:00:27,473
+The second follows was and describes people, so it is an adjective: satisfied, not satisfying, because a thing is satisfying and a person is satisfied.
+
+4
+00:00:27,473 --> 00:00:32,330
+Decide the part of speech before choosing the suffix: that is the whole method.
+

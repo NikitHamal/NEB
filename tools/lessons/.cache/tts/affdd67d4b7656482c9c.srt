@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:11,718
+Meiosis then hands one chromatid to each of four gametes: two parental types, A B and a b, and two recombinants, A small b and small a B.
+
+2
+00:00:11,718 --> 00:00:19,466
+The chiasma itself is the visible mark of a crossover that has already happened: Janssens' chiasmatype theory.
+
+3
+00:00:19,466 --> 00:00:26,119
+The chiasmata then slide to the ends in diplotene and diakinesis: terminalisation.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:11,744
+Divisions parallel to the surface now mark out three layers: dermatogen, the future epidermis; periblem, the cortex; and plerome, the stele.
+
+2
+00:00:11,744 --> 00:00:13,906
+The embryo is globular.
+

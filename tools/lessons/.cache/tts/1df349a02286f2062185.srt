@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,822
+Third, the law of mass.
+
+2
+00:00:01,822 --> 00:00:08,020
+Swap in a heavier wire, with four times the mass per length, and the frequency halves.
+
+3
+00:00:08,020 --> 00:00:11,067
+f is proportional to one over root mu.
+

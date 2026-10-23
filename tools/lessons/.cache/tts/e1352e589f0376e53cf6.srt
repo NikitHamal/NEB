@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:05,625
+Hot copper does a similar job by removing hydrogen rather than adding oxygen.
+
+2
+00:00:05,625 --> 00:00:11,145
+Primary gives an aldehyde, secondary a ketone, both with hydrogen gas.
+
+3
+00:00:11,145 --> 00:00:17,968
+Tertiary cannot lose hydrogen this way, so it loses water instead, giving an alkene.
+
+4
+00:00:17,968 --> 00:00:21,432
+Another clean way to tell the three classes apart.
+

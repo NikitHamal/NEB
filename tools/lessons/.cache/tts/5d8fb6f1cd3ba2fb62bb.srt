@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:03,489
+Test: both partials are two x plus two y.
+

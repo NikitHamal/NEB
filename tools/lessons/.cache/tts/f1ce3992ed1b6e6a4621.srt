@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,218
+The third is at ninety minus theta to the second, so multiply by cos squared of ninety minus theta, which is sine squared theta.
+

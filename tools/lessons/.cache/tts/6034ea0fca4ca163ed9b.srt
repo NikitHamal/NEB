@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,664
+Call by reference: the function received an address and changed the original through it.
+

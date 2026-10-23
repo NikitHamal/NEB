@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,020
+Here is the same reaction on an energy diagram.
+
+2
+00:00:03,020 --> 00:00:06,953
+Reactants on the left, products on the right, lower in energy.
+
+3
+00:00:06,953 --> 00:00:10,325
+There is a single hump, because there is a single step.
+
+4
+00:00:10,325 --> 00:00:17,929
+At the very top sits the transition state, with the oxygen and the iodine each half bonded to the same carbon.
+
+5
+00:00:17,929 --> 00:00:21,835
+No intermediate, nowhere for the reaction to pause.
+

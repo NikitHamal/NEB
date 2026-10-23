@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,184
+Diagonally dominant: each diagonal coefficient is bigger than the sum of the others in its row.
+

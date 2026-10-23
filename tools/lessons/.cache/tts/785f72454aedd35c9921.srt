@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,791
+k equals m g over e: zero point five times nine point eight, over zero point one, which is forty nine newtons per metre.
+

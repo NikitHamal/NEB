@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:13,098
+Our path: the equation of simple harmonic motion, the energy it carries, a mass bouncing on a spring, the simple pendulum, and finally damping, forced oscillation and resonance.
+

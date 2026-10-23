@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,500
+And the inverse hyperbolic functions.
+
+2
+00:00:02,500 --> 00:00:15,429
+Inverse sinh differentiates to one over root of x squared plus one; inverse cosh to one over root of x squared minus one; inverse tanh to one over one minus x squared.
+
+3
+00:00:15,429 --> 00:00:20,677
+Compare them with the inverse trig derivatives: the signs inside swap.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,385
+Take the tiny piece of string right at the crest.
+
+2
+00:00:03,385 --> 00:00:09,869
+It is nearly an arc of a circle of radius R, subtending a small angle delta theta.
+
+3
+00:00:09,869 --> 00:00:14,947
+Its length is R delta theta, so its mass is mu R delta theta.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,135
+That is volumetric analysis.
+
+2
+00:00:02,135 --> 00:00:10,377
+Next time, we look inside those acids and bases, with ionic equilibrium, and find out why indicators behave the way they do.
+
+3
+00:00:10,377 --> 00:00:14,648
+Keep practising, and see you in the next lesson on NEBians.
+

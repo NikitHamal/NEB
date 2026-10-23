@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,101
+A molecule deep inside is surrounded on all sides.
+
+2
+00:00:04,101 --> 00:00:09,361
+It is pulled equally in every direction, so the net force on it is zero.
+

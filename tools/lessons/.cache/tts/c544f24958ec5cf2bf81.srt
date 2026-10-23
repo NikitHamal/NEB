@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:00,807
+More.
+
+2
+00:00:00,807 --> 00:00:04,062
+The list of candidates has been published: the list.
+
+3
+00:00:04,062 --> 00:00:08,750
+The causes of this accident are still unknown: the causes, plural.
+
+4
+00:00:08,750 --> 00:00:12,578
+One of my friends lives in Dhangadhi: the subject is one.
+
+5
+00:00:12,578 --> 00:00:19,414
+The boy who won the prizes is from Surkhet: the relative clause describes the boy, and the boy is.
+

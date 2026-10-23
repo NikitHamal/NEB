@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,197
+And r is the square root of the product of the b's: point nine, positive like both b's.
+

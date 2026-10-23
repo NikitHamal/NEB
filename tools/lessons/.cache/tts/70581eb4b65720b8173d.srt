@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:09,296
+Tangent: x x one over a squared plus y y one over b squared equals one: three x plus five y equals twenty five.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,971
+Viscosity is like friction, but it grows with speed.
+
+2
+00:00:03,971 --> 00:00:12,356
+And heat changes it in opposite ways: warm honey pours easily, because heating makes a liquid less viscous.
+
+3
+00:00:12,356 --> 00:00:14,817
+But a hot gas is more viscous.
+

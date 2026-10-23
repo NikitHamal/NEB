@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,859
+Three.
+
+2
+00:00:00,859 --> 00:00:05,377
+A ring has no free ends, so n cuts give n pieces.
+
+3
+00:00:05,377 --> 00:00:11,432
+Four is the trap: that is a linear molecule with three cuts, which gives n plus one.
+

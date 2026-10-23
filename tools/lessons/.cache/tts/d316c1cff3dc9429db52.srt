@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:09,830
+B, two pi root m over k. Check it with common sense: a heavier mass should swing more slowly, so m must be on top.
+
+2
+00:00:09,830 --> 00:00:17,096
+A has it upside down, which is the most common slip, and D is the frequency formula mixed up with the period.
+

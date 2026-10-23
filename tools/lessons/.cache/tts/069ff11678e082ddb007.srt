@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,419
+That is alcohols.
+
+2
+00:00:01,419 --> 00:00:09,388
+Next, we put the hydroxyl group directly on a benzene ring, and meet a far more acidic family, the phenols.
+
+3
+00:00:09,388 --> 00:00:12,513
+See you in the next lesson on NEBians.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,880
+The number of waves is the optical path over the vacuum wavelength: three millimetres over five hundred nanometres, six thousand waves.
+

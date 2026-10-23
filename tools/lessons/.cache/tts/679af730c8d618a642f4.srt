@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,315
+Now add them.
+
+2
+00:00:01,315 --> 00:00:08,776
+The x squared terms cancel, and the total is half m omega squared A squared, half k A squared.
+
+3
+00:00:08,776 --> 00:00:10,520
+It does not depend on x at all.
+
+4
+00:00:10,520 --> 00:00:12,721
+The total energy is constant.
+

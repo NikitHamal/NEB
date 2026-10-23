@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,484
+Raise the modulus to the tenth and multiply the angle by ten: four fifty degrees.
+

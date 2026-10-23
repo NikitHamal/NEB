@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:01,223
+Let us recap.
+
+2
+00:00:01,223 --> 00:00:05,976
+The rate is the slope of the concentration time curve, divided by the coefficient.
+
+3
+00:00:05,976 --> 00:00:11,236
+The rate law is found by experiment, and the units of k reveal the order.
+
+4
+00:00:11,236 --> 00:00:15,638
+Order can be zero or fractional, molecularity cannot.
+
+5
+00:00:15,638 --> 00:00:25,377
+Zero order runs in a straight line, first order decays exponentially with a constant half life of point six nine three over k.
+
+6
+00:00:25,377 --> 00:00:32,760
+Only collisions with enough energy and the right orientation succeed, which Arrhenius captured in one equation.
+
+7
+00:00:32,760 --> 00:00:39,440
+And a catalyst lowers the barrier both ways, changing neither delta H nor the equilibrium.
+

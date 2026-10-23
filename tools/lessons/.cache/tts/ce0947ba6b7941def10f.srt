@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,171
+Watch the colour.
+
+2
+00:00:01,171 --> 00:00:08,802
+Each purple drop is decolourised the instant it lands, as long as any reducing agent is left in the flask.
+

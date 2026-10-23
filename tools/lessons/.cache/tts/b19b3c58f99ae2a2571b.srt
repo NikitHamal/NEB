@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:06,718
+Strands of procambium become the primary xylem and phloem, and the vascular cambium.
+

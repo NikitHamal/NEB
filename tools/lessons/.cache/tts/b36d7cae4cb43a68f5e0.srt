@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,328
+Three parts.
+
+2
+00:00:01,328 --> 00:00:07,552
+Gametogenesis: how sperm and eggs are made, with the chromosome number at every step.
+
+3
+00:00:07,552 --> 00:00:11,054
+Then the frog: fertilisation and cleavage.
+
+4
+00:00:11,054 --> 00:00:17,031
+And finally gastrulation, the three germ layers, and the tadpole's metamorphosis.
+

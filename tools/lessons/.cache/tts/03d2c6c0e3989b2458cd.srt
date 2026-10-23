@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,570
+So the water in the xylem is under tension, a negative pressure.
+
+2
+00:00:04,570 --> 00:00:11,575
+Its pressure potential is typically minus zero point five to minus three megapascal at midday.
+
+3
+00:00:11,575 --> 00:00:18,710
+And the energy comes from the sun, as the heat that evaporates the water, not from the plant's metabolism.
+

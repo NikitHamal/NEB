@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,843
+Closing is the reverse, and its signal is abscisic acid.
+
+2
+00:00:04,843 --> 00:00:10,598
+When the plant runs short of water, A B A makes the guard cells lose their potassium.
+
+3
+00:00:10,598 --> 00:00:13,593
+Water follows it out, and the pore shuts.
+

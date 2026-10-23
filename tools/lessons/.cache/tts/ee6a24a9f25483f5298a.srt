@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,213
+And the pattern generalises.
+
+2
+00:00:02,213 --> 00:00:12,708
+With n heterozygous pairs there are two to the n kinds of gamete, two to the n phenotypes, three to the n genotypes, and four to the n boxes in the square.
+
+3
+00:00:12,708 --> 00:00:15,716
+A trihybrid needs sixty four boxes.
+

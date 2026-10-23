@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,583
+Auxin was discovered through a chain of experiments that examiners love.
+
+2
+00:00:04,583 --> 00:00:12,304
+In eighteen eighty, Charles Darwin and his son Francis shone light from one side on grass coleoptiles.
+
+3
+00:00:12,304 --> 00:00:14,882
+With the tip covered, there was no bending.
+
+4
+00:00:14,882 --> 00:00:18,046
+With the part below covered, the shoot still bent.
+

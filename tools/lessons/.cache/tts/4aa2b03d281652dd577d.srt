@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,468
+A plant hormone is made in small amounts in one part of the plant and acts in another.
+
+2
+00:00:05,468 --> 00:00:07,539
+There are five classical ones.
+

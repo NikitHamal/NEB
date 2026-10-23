@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,812
+Oxaloacetic acid, four carbons.
+
+2
+00:00:02,812 --> 00:00:06,744
+Malic acid is the trap: it forms one step later.
+
+3
+00:00:06,744 --> 00:00:12,122
+PEP is the acceptor, and 3-PGA is the C3 product.
+

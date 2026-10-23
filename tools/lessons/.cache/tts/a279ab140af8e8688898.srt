@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,760
+Here is what the bulliform cells do.
+
+2
+00:00:02,760 --> 00:00:07,526
+On a hot afternoon in a Terai maize field, the plant loses water.
+
+3
+00:00:07,526 --> 00:00:14,140
+The bulliform cells lose turgor and shrink, and the leaf rolls inwards, upper side in.
+
+4
+00:00:14,140 --> 00:00:20,468
+A rolled leaf exposes fewer stomata to the dry air, and transpiration falls.
+

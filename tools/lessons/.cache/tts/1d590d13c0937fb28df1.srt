@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,216
+Worked example four point five, limestone.
+
+2
+00:00:03,216 --> 00:00:09,205
+First, convert entropy to kilojoules: zero point one six zero six.
+
+3
+00:00:09,205 --> 00:00:18,632
+At two ninety eight kelvin, delta G is one seventy eight point three minus forty seven point nine, plus one thirty point four kilojoules.
+
+4
+00:00:18,632 --> 00:00:23,138
+Positive, so limestone does not decompose at room temperature.
+
+5
+00:00:23,138 --> 00:00:26,940
+Lucky, since so many buildings in Nepal are made of it.
+

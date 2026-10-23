@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,492
+Under one over x from one to e: exactly one.
+
+2
+00:00:04,492 --> 00:00:07,174
+That is what makes e the natural base.
+

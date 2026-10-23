@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,380
+Exam tip.
+
+2
+00:00:01,380 --> 00:00:07,213
+In a linkage test cross, find the recombinants by their numbers, not their appearance.
+
+3
+00:00:07,213 --> 00:00:10,716
+The two smallest classes are always the recombinants.
+

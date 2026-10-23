@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:07,070
+Use this one formula always, and fix the signs with one question: does this motion bring them closer?
+
+2
+00:00:07,070 --> 00:00:13,684
+An observer moving towards the source has positive v o; moving away, negative.
+
+3
+00:00:13,684 --> 00:00:20,039
+A source moving towards the observer has positive v s; moving away, negative.
+
+4
+00:00:20,039 --> 00:00:24,270
+And check: any approach must raise the frequency.
+
+5
+00:00:24,270 --> 00:00:27,552
+If your answer says otherwise, a sign is wrong.
+

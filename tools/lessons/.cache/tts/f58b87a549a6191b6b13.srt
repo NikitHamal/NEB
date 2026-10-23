@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,247
+Swap or negate the variables and the parabola faces the other three ways.
+
+2
+00:00:05,247 --> 00:00:12,799
+The variable that is squared tells you the axis: y squared opens sideways, x squared opens up or down.
+
+3
+00:00:12,799 --> 00:00:21,575
+Move the vertex to h, k and everything moves with it; the focus is always a units from the vertex along the axis.
+

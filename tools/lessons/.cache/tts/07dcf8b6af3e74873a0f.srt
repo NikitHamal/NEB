@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,486
+Here is a strange fact from that day.
+
+2
+00:00:02,486 --> 00:00:11,927
+In the same street, shaken by the same ground, one building can sway wildly while its neighbours, shorter and taller, barely move.
+

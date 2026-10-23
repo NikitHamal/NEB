@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,783
+The cold open, solved.
+
+2
+00:00:01,783 --> 00:00:08,033
+Pick the nearest perfect cube, one twenty five, and factor it out so the bracket is close to one.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,914
+Tracheids: long, tapering, lignified cells with bordered pits, and closed ends.
+
+2
+00:00:06,914 --> 00:00:10,247
+Water seeps from one to the next through the pits.
+
+3
+00:00:10,247 --> 00:00:17,187
+They are found in all vascular plants, and in gymnosperms like pine they are the only conducting element.
+

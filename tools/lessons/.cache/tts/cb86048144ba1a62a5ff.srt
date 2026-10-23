@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,348
+Notice it depends only on r and gamma, not on how much fuel you burn.
+
+2
+00:00:04,348 --> 00:00:07,838
+Squeeze harder, and the efficiency climbs.
+
+3
+00:00:07,838 --> 00:00:14,778
+With gamma equal to one point four, a compression ratio of eight gives fifty six point five percent.
+

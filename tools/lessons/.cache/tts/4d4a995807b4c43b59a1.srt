@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,494
+The spiral model: each loop identifies and resolves the biggest remaining risk.
+

@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,609
+So for a fixed amount of gas, only two of them can be chosen freely.
+
+2
+00:00:04,609 --> 00:00:09,544
+Fix the volume and the temperature, and the pressure is decided.
+
+3
+00:00:09,544 --> 00:00:14,153
+That means a state can be drawn as a single point on a pressure volume graph.
+

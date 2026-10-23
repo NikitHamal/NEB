@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,265
+When B finally reaches the mirror at C, after time t, the wavelet from A has radius c t.
+
+2
+00:00:07,265 --> 00:00:12,617
+The tangent from C to that wavelet is the reflected wavefront, C D.
+

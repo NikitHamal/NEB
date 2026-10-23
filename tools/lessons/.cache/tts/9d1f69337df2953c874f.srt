@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,302
+C, metamers.
+
+2
+00:00:01,302 --> 00:00:09,531
+Same formula, same ether group, but the carbons are shared one plus three in one and two plus two in the other.
+

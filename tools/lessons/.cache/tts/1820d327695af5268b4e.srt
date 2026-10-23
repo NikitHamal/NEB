@@ -1,0 +1,32 @@
+1
+00:00:00,050 --> 00:00:04,036
+Why do potassium and silver salts give different products?
+
+2
+00:00:04,036 --> 00:00:08,476
+Cyanide and nitrite can attack through two different atoms.
+
+3
+00:00:08,476 --> 00:00:17,799
+Potassium cyanide is ionic: the free cyanide ion attacks through carbon, the atom carrying the charge, giving a nitrile.
+
+4
+00:00:17,799 --> 00:00:27,539
+Silver cyanide is largely covalent: the carbon is tied up in the bond to silver, so attack must come through nitrogen, giving an isocyanide.
+
+5
+00:00:27,539 --> 00:00:35,052
+Nitrite is just the same: potassium nitrite attacks through oxygen, silver nitrite through nitrogen.
+
+6
+00:00:35,052 --> 00:00:37,877
+Potassium, carbon or oxygen.
+
+7
+00:00:37,877 --> 00:00:39,765
+Silver, nitrogen.
+
+8
+00:00:39,765 --> 00:00:42,018
+This is asked every single year.
+

@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,513
+Enthalpy changes get names.
+
+2
+00:00:02,513 --> 00:00:07,669
+The enthalpy of reaction, for the amounts in the balanced equation.
+
+3
+00:00:07,669 --> 00:00:13,750
+The enthalpy of formation, for one mole of a compound made from its elements.
+
+4
+00:00:13,750 --> 00:00:18,125
+Combustion, for one mole burnt completely in oxygen.
+
+5
+00:00:18,125 --> 00:00:23,046
+Solution, for one mole dissolved in a large excess of solvent.
+
+6
+00:00:23,046 --> 00:00:26,419
+Neutralisation, for one equivalent of acid.
+
+7
+00:00:26,419 --> 00:00:32,812
+And remember, the formation enthalpy of any element in its standard state is zero.
+

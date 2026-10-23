@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,302
+Quick practice.
+
+2
+00:00:01,302 --> 00:00:05,182
+A metal has equivalent weight nine and valency three.
+
+3
+00:00:05,182 --> 00:00:06,809
+What is its atomic weight?
+
+4
+00:00:06,809 --> 00:00:11,562
+And an element of atomic weight forty has equivalent weight twenty.
+
+5
+00:00:11,562 --> 00:00:12,903
+What is its valency?
+

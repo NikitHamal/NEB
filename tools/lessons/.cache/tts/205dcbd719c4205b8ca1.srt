@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,406
+Two rules follow.
+
+2
+00:00:01,406 --> 00:00:09,244
+Direction: through the cold junction, the current flows from the metal that comes earlier in the series to the one that comes later.
+
+3
+00:00:09,244 --> 00:00:11,940
+Through the hot junction it goes the other way.
+
+4
+00:00:11,940 --> 00:00:25,507
+And size: the further apart the two metals are in the list, the bigger the e m f. Antimony and bismuth sit at the two ends, so an antimony bismuth couple gives the biggest e m f of all.
+

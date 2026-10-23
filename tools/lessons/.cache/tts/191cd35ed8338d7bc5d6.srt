@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,281
+The tension pulls along the string at each end.
+
+2
+00:00:03,281 --> 00:00:13,567
+The sideways parts cancel, and the parts toward the centre add up: F equals two T sine delta theta by two, which for a small angle is T delta theta.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,158
+Now the proof.
+
+2
+00:00:01,158 --> 00:00:06,848
+At the polarizing angle, the reflected and refracted rays are at ninety degrees.
+
+3
+00:00:06,848 --> 00:00:15,963
+On the top of the surface, the angles round O make a straight line: theta p, plus ninety, plus r, is one eighty.
+
+4
+00:00:15,963 --> 00:00:18,424
+So r is ninety minus theta p.
+

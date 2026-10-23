@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:00,898
+A warning.
+
+2
+00:00:00,898 --> 00:00:04,492
+The e m f depends on the difference between the junctions.
+
+3
+00:00:04,492 --> 00:00:14,101
+If the reference junction is allowed to warm up to the same temperature as the hot one, the reading drops to zero, even though the furnace is white hot.
+
+4
+00:00:14,101 --> 00:00:16,614
+Always check the reference junction first.
+

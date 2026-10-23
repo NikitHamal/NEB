@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,187
+Watch a ball dropped onto a floor.
+
+2
+00:00:02,187 --> 00:00:07,265
+Each bounce is a little lower than the one before, until the ball comes to rest.
+

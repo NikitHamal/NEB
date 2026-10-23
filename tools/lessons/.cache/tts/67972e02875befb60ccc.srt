@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,317
+Where does a reaction's energy come from?
+
+2
+00:00:02,317 --> 00:00:05,703
+Every reaction breaks bonds and makes new ones.
+
+3
+00:00:05,703 --> 00:00:08,476
+Breaking a bond always costs energy.
+
+4
+00:00:08,476 --> 00:00:20,299
+For hydrogen and chlorine, breaking one H H bond and one Cl Cl bond costs four thirty six plus two forty two, six hundred and seventy eight kilojoules.
+

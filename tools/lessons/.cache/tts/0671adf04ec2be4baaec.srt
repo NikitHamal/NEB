@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,981
+Its first use: predicting displacement.
+
+2
+00:00:02,981 --> 00:00:07,968
+A metal pushes out of solution any metal below it in the series.
+
+3
+00:00:07,968 --> 00:00:14,973
+Zinc, at minus zero point seven six, displaces copper, at plus zero point three four.
+
+4
+00:00:14,973 --> 00:00:17,343
+Copper cannot displace zinc.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,177
+Infant mortality uses live births: ninety over four thousand five hundred, times a thousand: twenty.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,018
+The A band, because it is exactly the length of the myosin filaments, and they never shorten.
+
+2
+00:00:07,018 --> 00:00:14,375
+The I band and H zone both shrink as actin slides in, and the Z lines move closer together.
+

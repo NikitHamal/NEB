@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,700
+Short branched dendrites carry impulses towards the cyton.
+
+2
+00:00:04,700 --> 00:00:12,617
+One long axon carries them away, ending in fine branches, the telodendria, tipped with synaptic knobs.
+

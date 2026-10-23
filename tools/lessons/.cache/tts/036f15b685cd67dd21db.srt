@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,127
+Watch it happen with acetic acid, one mole in V litres.
+
+2
+00:00:04,127 --> 00:00:08,554
+At one litre only about zero point four percent is ionised.
+
+3
+00:00:08,554 --> 00:00:12,877
+Now dilute: ten litres, a hundred, a thousand.
+

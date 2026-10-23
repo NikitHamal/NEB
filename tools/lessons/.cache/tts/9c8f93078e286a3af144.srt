@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:02,591
+Format first, then content.
+
+2
+00:00:02,591 --> 00:00:08,489
+A brilliant argument in the wrong layout loses the format marks and cannot get them back.
+
+3
+00:00:08,489 --> 00:00:18,945
+So decide which of four forms is asked for: a letter to the editor, an email, an application with a C V, or a letter of complaint or request.
+
+4
+00:00:18,945 --> 00:00:26,250
+The eight marks: two for format, three for content, one for organisation, two for language.
+
+5
+00:00:26,250 --> 00:00:33,567
+Write a hundred and fifty to two hundred words of body, in about eighteen minutes, two of them spent laying out the page.
+

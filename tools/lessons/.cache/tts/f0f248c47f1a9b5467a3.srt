@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,093
+Quick check.
+
+2
+00:00:01,093 --> 00:00:06,132
+The interfascicular cambium of a dicot stem forms from which cells?
+

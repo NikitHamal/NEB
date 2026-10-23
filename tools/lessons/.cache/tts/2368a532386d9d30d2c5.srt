@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,539
+Together they make the whole base.
+
+2
+00:00:02,539 --> 00:00:06,276
+So a equals b cos C plus c cos B.
+
+3
+00:00:06,276 --> 00:00:11,536
+Each side is the sum of the other two, each times the cosine of the angle next to it.
+
+4
+00:00:11,536 --> 00:00:17,109
+If an angle is obtuse, its cosine is negative and the formula still holds.
+

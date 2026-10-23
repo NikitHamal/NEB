@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,158
+The trade off.
+
+2
+00:00:01,158 --> 00:00:08,515
+Asexual reproduction is quick and keeps a good variety exactly as it is, even a seedless banana.
+
+3
+00:00:08,515 --> 00:00:13,815
+But with no variation, a single disease can wipe out the whole crop.
+
+4
+00:00:13,815 --> 00:00:21,250
+Sexual reproduction is slower, but it creates variation, the raw material of breeding and of evolution.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,776
+Careful: the maths is the same in both sexes.
+
+2
+00:00:03,776 --> 00:00:07,304
+Two meiotic divisions, four haploid nuclei.
+
+3
+00:00:07,304 --> 00:00:09,817
+The difference is the cytoplasm.
+
+4
+00:00:09,817 --> 00:00:16,106
+In the female nearly all of it goes into one cell, so the egg can feed the early embryo.
+

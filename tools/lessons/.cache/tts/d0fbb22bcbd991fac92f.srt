@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,369
+Guess which line is which: the first as y on x gives point eight; the second as x on y gives point four five.
+

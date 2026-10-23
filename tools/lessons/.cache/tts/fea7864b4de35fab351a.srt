@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,856
+Welcome to Class 12 Physics, Unit 7: Mechanical Waves.
+
+2
+00:00:04,856 --> 00:00:09,466
+This unit answers one question: what fixes the speed of sound?
+
+3
+00:00:09,466 --> 00:00:20,872
+The answer depends on just two properties of the medium, how stiff it is and how heavy it is, plus one subtle point about heat that took physics more than a century to get right.
+

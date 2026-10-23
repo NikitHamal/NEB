@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,757
+Let us try a real problem.
+
+2
+00:00:01,757 --> 00:00:10,846
+A grinding wheel starts from rest and reaches three hundred revolutions per minute in ten seconds, with uniform angular acceleration.
+
+3
+00:00:10,846 --> 00:00:19,296
+Find the angular acceleration, the number of revolutions it makes, and the final speed of a point forty centimetres from the axis.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,940
+Three quick exam habits.
+
+2
+00:00:01,940 --> 00:00:09,153
+The central fringe is always bright, because the path difference there is zero for every wavelength.
+
+3
+00:00:09,153 --> 00:00:15,677
+The n th dark fringe sits at n minus a half, times beta, not n beta.
+
+4
+00:00:15,677 --> 00:00:19,778
+And inside a medium, always use lambda over n.
+

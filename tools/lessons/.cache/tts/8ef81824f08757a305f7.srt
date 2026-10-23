@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,283
+It is simply the law of conservation of energy, applied to heat.
+
+2
+00:00:04,283 --> 00:00:11,093
+And it tells us that internal energy is a state function, even though heat and work on their own are not.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,059
+Break the loop and you see the diseases.
+
+2
+00:00:03,059 --> 00:00:13,502
+With no iodine, thyroxine cannot be made, so T S H is never switched off and keeps whipping the thyroid, which swells: simple goitre.
+
+3
+00:00:13,502 --> 00:00:19,557
+Too little thyroxine in a baby causes cretinism; in an adult, myxoedema.
+
+4
+00:00:19,557 --> 00:00:23,138
+Too much causes Graves' disease, with bulging eyes.
+

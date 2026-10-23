@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,369
+Two rules do almost everything.
+
+2
+00:00:02,369 --> 00:00:07,604
+From Kathmandu to Pokhara you can take one of three buses, or one of two flights.
+
+3
+00:00:07,604 --> 00:00:11,080
+These are alternatives: you do one or the other.
+
+4
+00:00:11,080 --> 00:00:14,609
+So the choices add: three plus two, five.
+

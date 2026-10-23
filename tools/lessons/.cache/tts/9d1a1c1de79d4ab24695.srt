@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:05,742
+The angle between the wavefront and the mirror equals the angle between the ray and the normal.
+
+2
+00:00:05,742 --> 00:00:12,135
+So sine i is B C over A C, and sine r is A D over A C.
+

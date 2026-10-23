@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,708
+Multiply them, by the AND rule.
+
+2
+00:00:02,708 --> 00:00:13,971
+That product is written n P r. Multiply top and bottom by n minus r factorial, and it closes up neatly: n factorial over n minus r factorial.
+

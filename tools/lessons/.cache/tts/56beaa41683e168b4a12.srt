@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,218
+At night, when the air is cool and humid, the stomata open.
+
+2
+00:00:04,218 --> 00:00:11,367
+PEP carboxylase fixes carbon dioxide into malic acid, which is stored in the large vacuole.
+
+3
+00:00:11,367 --> 00:00:14,401
+That is why an aloe leaf tastes sour at dawn.
+

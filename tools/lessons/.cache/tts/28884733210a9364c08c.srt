@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,778
+A circle is every point at distance r from a centre h, k.
+
+2
+00:00:04,778 --> 00:00:08,684
+The distance formula, squared, gives the standard form.
+

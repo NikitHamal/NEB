@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,408
+There are n plus one terms.
+
+2
+00:00:02,408 --> 00:00:09,114
+If n is even that is an odd number, and there is one middle term, number n over two plus one.
+
+3
+00:00:09,114 --> 00:00:11,757
+If n is odd, there are two middle terms.
+

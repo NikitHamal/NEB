@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:06,106
+Welcome to Class 12 Computer Science, Unit 7: Recent Trends in Technology.
+
+2
+00:00:06,106 --> 00:00:11,992
+Numbers in this unit date fast, so whenever you quote one in the exam, quote its year too.
+

@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,390
+Potassium ions flood in, with chloride and malate to balance the charge.
+

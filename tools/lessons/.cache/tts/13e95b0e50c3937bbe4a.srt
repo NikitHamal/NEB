@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,481
+The classic trap: to estimate y, use the line of y on x; to estimate x, use x on y. Rearranging the wrong one gets no marks.
+
+2
+00:00:10,481 --> 00:00:16,679
+And a line fitted on twenty to thirty centimetres of rain says nothing reliable about sixty.
+

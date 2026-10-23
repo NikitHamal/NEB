@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:08,932
+Vowels together: A, A and U make one block, plus six different consonants: seven units, seven factorial.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:10,494
+Plant tissue culture is growing plant cells, tissues or organs on a sterile nutrient medium, in glass, under controlled light and temperature.
+
+2
+00:00:10,494 --> 00:00:19,283
+It works because of totipotency: a single living plant cell carries all the instructions to rebuild a whole plant.
+

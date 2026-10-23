@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,565
+Polarization is all around you.
+
+2
+00:00:02,565 --> 00:00:12,500
+Polarizing sunglasses: glare from water and roads is mostly horizontally polarized, so the lenses pass only vertical vibrations.
+
+3
+00:00:12,500 --> 00:00:16,744
+Camera filters that darken the sky and remove reflections.
+
+4
+00:00:16,744 --> 00:00:24,856
+The LCD screen of every calculator and phone, which works by twisting polarized light between crossed sheets.
+
+5
+00:00:24,856 --> 00:00:29,856
+3 D films, where each eye gets light polarized at right angles.
+
+6
+00:00:29,856 --> 00:00:37,786
+Engineers' stress analysis, where a plastic model of a bridge glows with coloured fringes between crossed Polaroids.
+
+7
+00:00:37,786 --> 00:00:40,546
+And simple, smooth light dimmers.
+

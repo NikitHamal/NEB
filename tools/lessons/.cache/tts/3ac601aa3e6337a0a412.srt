@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:07,916
+And by the rule of seventy, seventy over one point two eight: the population doubles in about fifty five years.
+

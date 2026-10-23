@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:01,497
+Standard notation.
+
+2
+00:00:01,497 --> 00:00:06,432
+Side a faces angle A, b faces B, c faces C.
+
+3
+00:00:06,432 --> 00:00:13,359
+The angles add to one eighty, s is the semi perimeter, and delta is the area.
+
+4
+00:00:13,359 --> 00:00:20,312
+Our running triangle has sides thirteen, fourteen and fifteen: its numbers come out unusually clean.
+

@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,682
+Any single term can be written directly.
+
+2
+00:00:02,682 --> 00:00:20,468
+The general term, T r plus one, is n C r, a to the n minus r, b to the r. Notice the plus one: r equal to zero gives the first term, so the term carrying r is the r plus one th. Write the plus one down every time, or you will be one term out.
+

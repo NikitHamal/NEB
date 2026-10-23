@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:07,005
+Every complex number is then r e to the i theta, and De Moivre is just the law of indices.
+
+2
+00:00:07,005 --> 00:00:15,885
+Adding and subtracting e to the plus and minus i theta gives cos and sin as exponentials.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:02,604
+Try this one from the five mark questions.
+
+2
+00:00:02,604 --> 00:00:06,848
+A spinning disc is suddenly coupled to a stationary one.
+
+3
+00:00:06,848 --> 00:00:09,388
+What is the common angular velocity?
+
+4
+00:00:09,388 --> 00:00:10,638
+Pause and think.
+

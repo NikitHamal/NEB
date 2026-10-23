@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,770
+To keep the gas in equilibrium all the time, the change must be made infinitely slowly.
+
+2
+00:00:06,770 --> 00:00:10,156
+Picture the piston held down by a pile of sand.
+
+3
+00:00:10,156 --> 00:00:12,473
+We take away one grain at a time.
+

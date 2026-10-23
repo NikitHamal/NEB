@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,229
+And your ear is astonishingly sensitive.
+
+2
+00:00:03,229 --> 00:00:14,609
+At one kilohertz, the faintest sound you can hear has a pressure swing of only about two times ten to the minus five pascals, one five thousand millionth of atmospheric pressure.
+
+3
+00:00:14,609 --> 00:00:18,671
+The air layers move about ten to the minus eleven metres.
+
+4
+00:00:18,671 --> 00:00:20,429
+That is smaller than an atom.
+

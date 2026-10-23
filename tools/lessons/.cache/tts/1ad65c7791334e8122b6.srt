@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:03,593
+Four curves that look nothing alike, from one construction.
+
+2
+00:00:03,593 --> 00:00:09,752
+They are the paths of planets and comets, the shape of a satellite dish and a cooling tower.
+
+3
+00:00:09,752 --> 00:00:14,687
+And, as you will see, they all obey one single rule.
+

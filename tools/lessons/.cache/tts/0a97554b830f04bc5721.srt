@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,471
+All five on one card.
+
+2
+00:00:01,471 --> 00:00:07,057
+Auxin, from the shoot apex: elongation and apical dominance.
+
+3
+00:00:07,057 --> 00:00:10,950
+Gibberellin: internode elongation and bolting.
+
+4
+00:00:10,950 --> 00:00:16,796
+Cytokinin, from the root apex: cell division, and it delays ageing.
+
+5
+00:00:16,796 --> 00:00:21,393
+Abscisic acid: closes stomata and keeps seeds dormant.
+
+6
+00:00:21,393 --> 00:00:25,273
+And ethylene: ripens fruit and makes leaves fall.
+

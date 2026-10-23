@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,393
+Exam tip.
+
+2
+00:00:01,393 --> 00:00:08,880
+Always write theta plus two k pi before you divide by n, and list k from zero to n minus one.
+
+3
+00:00:08,880 --> 00:00:15,494
+Then check: the n roots of z to the n equals a constant always add up to zero.
+

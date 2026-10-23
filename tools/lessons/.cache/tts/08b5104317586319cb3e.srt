@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:02,708
+The posterior lobe makes nothing at all.
+
+2
+00:00:02,708 --> 00:00:17,565
+It only stores and releases two hormones made in the hypothalamus: A D H, which saves water in the kidney, and oxytocin, which drives labour and milk ejection, the classic example of positive feedback.
+

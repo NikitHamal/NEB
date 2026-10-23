@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,692
+Fourth, a catalyst.
+
+2
+00:00:01,692 --> 00:00:08,658
+It changes the rate without being used up, by opening an alternative path with a lower activation energy.
+
+3
+00:00:08,658 --> 00:00:16,692
+Usually it forms an unstable intermediate with a reactant, which then breaks down to give the product and returns the catalyst.
+

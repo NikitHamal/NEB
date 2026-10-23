@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,138
+The plant you see is the diploid sporophyte.
+
+2
+00:00:03,138 --> 00:00:05,989
+By meiosis it makes haploid spores.
+
+3
+00:00:05,989 --> 00:00:14,739
+Those grow into tiny haploid gametophytes: the pollen grain is the male one, and the embryo sac is the female one.
+
+4
+00:00:14,739 --> 00:00:23,255
+They make gametes, fertilization gives a diploid zygote, and the zygote grows into a new sporophyte.
+
+5
+00:00:23,255 --> 00:00:29,765
+This is alternation of generations, squeezed almost out of sight inside the flower.
+

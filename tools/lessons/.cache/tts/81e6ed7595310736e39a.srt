@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,755
+So one G3P costs nine ATP and six NADPH.
+

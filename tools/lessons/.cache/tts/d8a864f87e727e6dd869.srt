@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,664
+When a stop codon arrives, U A A here, no transfer RNA fits it.
+
+2
+00:00:05,664 --> 00:00:12,044
+A release factor binds, the finished chain is set free, and the ribosome falls apart.
+
+3
+00:00:12,044 --> 00:00:16,914
+Several ribosomes usually read one messenger at once, a polysome.
+

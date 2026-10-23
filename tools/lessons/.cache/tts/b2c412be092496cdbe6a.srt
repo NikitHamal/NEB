@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:14,401
+Using Q equals n C v delta T on the two constant volume steps, and T V to the gamma minus one on the two adiabatics, the ideal efficiency comes out as one minus one over r to the gamma minus one.
+
+2
+00:00:14,401 --> 00:00:18,463
+Here r is the compression ratio, V one over V two.
+

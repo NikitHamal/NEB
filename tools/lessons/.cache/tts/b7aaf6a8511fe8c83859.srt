@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:01,640
+Here is the path.
+
+2
+00:00:01,640 --> 00:00:17,135
+Wavefronts and rays, Huygens' principle, reflection by wave theory, refraction and Snell's law, what happens to frequency and wavelength, the optical path, and finally the great contest between waves and corpuscles.
+

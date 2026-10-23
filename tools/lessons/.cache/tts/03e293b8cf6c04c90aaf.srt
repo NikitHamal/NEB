@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:05,234
+A hyperbola has eccentricity bigger than one, and comes in two branches.
+
+2
+00:00:05,234 --> 00:00:09,661
+For an ellipse the distances to the foci add to a constant.
+
+3
+00:00:09,661 --> 00:00:13,554
+For a hyperbola, their difference is constant: two a.
+

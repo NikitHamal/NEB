@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:11,575
+So the rate is the collision frequency Z, times the steric factor P for orientation, times e to the minus E a over R T, the fraction of collisions with enough energy.
+

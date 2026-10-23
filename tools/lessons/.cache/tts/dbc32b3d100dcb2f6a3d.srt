@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:03,020
+The Wurtz reaction joins two molecules.
+
+2
+00:00:03,020 --> 00:00:13,111
+Two bromoethane molecules with sodium in dry ether: the sodium takes both bromines, and the two ethyl groups bond together, giving butane.
+
+3
+00:00:13,111 --> 00:00:20,377
+It doubles the carbon chain, so from a single halide it can only make alkanes with an even number of carbons.
+
+4
+00:00:20,377 --> 00:00:25,065
+Mixing two halides gives a messy mixture of three alkanes.
+

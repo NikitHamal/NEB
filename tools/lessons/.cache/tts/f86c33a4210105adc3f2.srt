@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,057
+Now all the vowels together.
+
+2
+00:00:02,057 --> 00:00:05,104
+Tie the three vowels into one block.
+
+3
+00:00:05,104 --> 00:00:10,481
+The block and the five consonants make six units: six factorial ways.
+

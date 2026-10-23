@@ -1,0 +1,28 @@
+1
+00:00:00,050 --> 00:00:02,760
+Its other reactions, one line each.
+
+2
+00:00:02,760 --> 00:00:05,000
+Reduction gives dichloromethane.
+
+3
+00:00:05,000 --> 00:00:10,703
+Heating with silver powder strips all the chlorine and joins two carbons: ethyne.
+
+4
+00:00:10,703 --> 00:00:16,054
+Nitric acid gives chloropicrin, a tear gas and soil fumigant.
+
+5
+00:00:16,054 --> 00:00:20,937
+Propanone with dilute alkali gives chloretone, a sedative.
+
+6
+00:00:20,937 --> 00:00:24,127
+Boiling alkali gives sodium methanoate.
+
+7
+00:00:24,127 --> 00:00:33,658
+And with a primary amine and alcoholic potash, it gives an isocyanide with an appalling smell: the carbylamine test for primary amines.
+

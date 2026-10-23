@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:01,132
+And the errors.
+
+2
+00:00:01,132 --> 00:00:05,885
+The boy who he came: the pronoun is already the subject, don't repeat it.
+
+3
+00:00:05,885 --> 00:00:07,994
+The pen which I bought it: drop it.
+
+4
+00:00:07,994 --> 00:00:12,565
+My father, that is a teacher: non defining, so who.
+
+5
+00:00:12,565 --> 00:00:19,231
+And the house where I bought: where is not used when the noun is the object of the verb, so which.
+

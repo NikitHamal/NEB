@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:00,833
+Zero.
+
+2
+00:00:00,833 --> 00:00:10,820
+They are the three roots of z cubed minus one, whose z squared coefficient is zero; geometrically, they balance round the origin.
+
+3
+00:00:10,820 --> 00:00:14,062
+Three would be the answer only if omega were one.
+

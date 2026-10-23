@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,406
+That was probability.
+
+2
+00:00:01,406 --> 00:00:07,291
+Next, derivatives: limits, rates of change and how to differentiate anything.
+
+3
+00:00:07,291 --> 00:00:08,216
+See you there.
+

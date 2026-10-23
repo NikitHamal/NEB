@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,450
+Was heredity carried by protein or by DNA?
+
+2
+00:00:03,450 --> 00:00:09,075
+Chromosomes contain both, and in nineteen twenty eight protein looked the better bet.
+
+3
+00:00:09,075 --> 00:00:11,875
+Frederick Griffith worked with pneumonia bacteria.
+
+4
+00:00:11,875 --> 00:00:15,234
+The S strain has a smooth capsule and kills.
+
+5
+00:00:15,234 --> 00:00:19,440
+The R strain is rough, with no capsule, and is harmless.
+

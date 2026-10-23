@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:06,289
+The link between x and y is Pythagoras: x squared plus y squared is twenty five.
+
+2
+00:00:06,289 --> 00:00:08,489
+Differentiate with respect to time.
+
+3
+00:00:08,489 --> 00:00:16,093
+When the foot is four metres out, the top is three metres up, and it is falling at eight thirds metres per second.
+
+4
+00:00:16,093 --> 00:00:19,023
+The minus sign means y is decreasing.
+

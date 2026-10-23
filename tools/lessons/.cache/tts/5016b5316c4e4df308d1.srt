@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:02,591
+The rate law is a differential equation.
+
+2
+00:00:02,591 --> 00:00:06,770
+Integrate it, and you get concentration as a function of time.
+
+3
+00:00:06,770 --> 00:00:18,098
+For zero order, minus d A by d t equals k. Integrate from A nought at time zero to A at time t: A nought minus A equals k t.
+

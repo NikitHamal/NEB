@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:02,109
+The words you must use exactly.
+
+2
+00:00:02,109 --> 00:00:04,153
+A gene sits at a locus.
+
+3
+00:00:04,153 --> 00:00:05,820
+Its forms are alleles.
+
+4
+00:00:05,820 --> 00:00:10,911
+Dominant is expressed in the heterozygote, recessive is masked.
+
+5
+00:00:10,911 --> 00:00:15,911
+Homozygous means both alleles alike, heterozygous means different.
+
+6
+00:00:15,911 --> 00:00:20,195
+Genotype is the genetic make up, phenotype the appearance.
+

@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,570
+Collision theory pictures a reaction as the result of collisions.
+
+2
+00:00:04,570 --> 00:00:07,122
+First, molecules must collide.
+
+3
+00:00:07,122 --> 00:00:13,138
+In a gas at room temperature there are about ten to the thirty collisions per litre every second.
+
+4
+00:00:13,138 --> 00:00:18,242
+If every one worked, every gas reaction would be over in a microsecond.
+

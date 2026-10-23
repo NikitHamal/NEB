@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,619
+Point two: for independent events, multiply.
+
+2
+00:00:03,619 --> 00:00:06,158
+Zero would mean mutually exclusive.
+

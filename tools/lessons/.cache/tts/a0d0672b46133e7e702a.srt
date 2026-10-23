@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,359
+Four ways to tell the classes apart, side by side.
+
+2
+00:00:03,359 --> 00:00:12,604
+Victor Meyer colours, Lucas timing, and two more we will meet soon: oxidation with dichromate, and dehydrogenation over hot copper.
+

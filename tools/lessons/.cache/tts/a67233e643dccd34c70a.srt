@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,544
+Data are raw facts: a name, a number, a date.
+
+2
+00:00:04,544 --> 00:00:06,588
+On their own they mean nothing.
+
+3
+00:00:06,588 --> 00:00:11,718
+Processed into a sentence that helps someone decide, they become information.
+

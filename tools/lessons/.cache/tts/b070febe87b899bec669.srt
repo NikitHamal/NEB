@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:06,458
+The lowest protoxylem breaks down, leaving a water filled hole: the lysigenous cavity.
+
+2
+00:00:06,458 --> 00:00:11,367
+Above, the phloem has only sieve tubes and companion cells.
+
+3
+00:00:11,367 --> 00:00:14,062
+Phloem parenchyma is absent.
+

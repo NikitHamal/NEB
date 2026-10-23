@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:05,429
+The integrating factor is one plus x squared: the very thing we would divide by.
+

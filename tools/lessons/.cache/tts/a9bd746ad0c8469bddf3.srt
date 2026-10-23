@@ -1,0 +1,16 @@
+1
+00:00:00,050 --> 00:00:04,218
+Take two identical cylinders, each with one mole of gas.
+
+2
+00:00:04,218 --> 00:00:06,731
+On the left, the piston is clamped.
+
+3
+00:00:06,731 --> 00:00:09,114
+On the right, it is free to move.
+
+4
+00:00:09,114 --> 00:00:11,914
+Give both exactly the same amount of heat.
+

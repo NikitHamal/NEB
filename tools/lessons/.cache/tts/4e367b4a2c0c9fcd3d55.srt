@@ -1,0 +1,20 @@
+1
+00:00:00,050 --> 00:00:03,919
+Its ore is bright red cinnabar, mercury sulphide.
+
+2
+00:00:03,919 --> 00:00:07,382
+Extraction is the easiest in the syllabus.
+
+3
+00:00:07,382 --> 00:00:13,007
+Roast it in air at seven to eight hundred kelvin, and mercury comes straight off as vapour.
+
+4
+00:00:13,007 --> 00:00:21,289
+Even if mercury oxide forms first, it decomposes on heating, which is exactly how Priestley discovered oxygen.
+
+5
+00:00:21,289 --> 00:00:23,632
+So no reducing agent is needed.
+

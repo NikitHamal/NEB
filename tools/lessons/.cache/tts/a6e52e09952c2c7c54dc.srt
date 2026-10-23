@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:04,492
+Separate them by half a wavelength, and the phase difference is pi.
+
+2
+00:00:04,492 --> 00:00:07,304
+One is at a crest when the other is at a trough.
+
+3
+00:00:07,304 --> 00:00:08,815
+Exactly out of step.
+

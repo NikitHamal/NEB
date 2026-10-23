@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,158
+Worked example.
+
+2
+00:00:01,158 --> 00:00:10,559
+A stationary wave on a string is y equals four sine, zero point five pi x, cos two hundred pi t, with y and x in centimetres.
+
+3
+00:00:10,559 --> 00:00:19,244
+Find the amplitude of each component wave, the wavelength, the frequency, the wave speed, and the distance between nodes.
+

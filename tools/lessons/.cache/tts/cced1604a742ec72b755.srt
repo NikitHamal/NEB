@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:04,596
+The incircle sits inside, touching all three sides.
+
+2
+00:00:04,596 --> 00:00:07,708
+Its radius r is delta over s.
+

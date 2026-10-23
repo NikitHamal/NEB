@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:03,359
+Let us settle the railway puzzle with a worked example.
+
+2
+00:00:03,359 --> 00:00:07,161
+Find the speed of sound in a steel rail, and in water.
+

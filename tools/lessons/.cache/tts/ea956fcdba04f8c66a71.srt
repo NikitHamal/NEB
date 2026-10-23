@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:07,526
+A cell releases it in small steps, and traps a good part of it in ATP, the energy currency of the cell.
+
+2
+00:00:07,526 --> 00:00:14,986
+There are four stages: glycolysis, the link reaction, the Krebs cycle and the electron transport system.
+
+3
+00:00:14,986 --> 00:00:17,200
+Let us keep a running tally as we go.
+

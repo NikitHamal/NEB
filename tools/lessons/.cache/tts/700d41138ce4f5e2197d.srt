@@ -1,0 +1,12 @@
+1
+00:00:00,050 --> 00:00:01,119
+Worked example.
+
+2
+00:00:01,119 --> 00:00:09,921
+A junction with a Peltier coefficient of twelve millivolts and a resistance of half an ohm carries two amps for five minutes.
+
+3
+00:00:09,921 --> 00:00:12,682
+Compare the Peltier heat and the Joule heat.
+

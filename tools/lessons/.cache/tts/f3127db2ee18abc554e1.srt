@@ -1,0 +1,24 @@
+1
+00:00:00,050 --> 00:00:01,875
+Pronouns follow the people.
+
+2
+00:00:01,875 --> 00:00:04,440
+He said to me, I have finished your work.
+
+3
+00:00:04,440 --> 00:00:08,619
+I is the speaker, the subject of said, so I becomes he.
+
+4
+00:00:08,619 --> 00:00:13,268
+Your means the listener, the object, me, so your becomes my.
+
+5
+00:00:13,268 --> 00:00:15,455
+He told me that he had finished my work.
+
+6
+00:00:15,455 --> 00:00:24,361
+The rule: first person follows the subject of the reporting verb, second person follows its object, and third person does not change.
+

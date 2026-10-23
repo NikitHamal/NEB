@@ -1,0 +1,8 @@
+1
+00:00:00,050 --> 00:00:08,515
+Some suffixes pull the stress onto the syllable just before them: education, ability, photography, biology.
+
+2
+00:00:08,515 --> 00:00:12,070
+Others leave it where it was: happiness, government.
+

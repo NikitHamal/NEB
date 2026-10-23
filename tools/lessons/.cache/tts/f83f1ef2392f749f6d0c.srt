@@ -1,0 +1,4 @@
+1
+00:00:00,050 --> 00:00:02,695
+The difference has the same length, five.
+
