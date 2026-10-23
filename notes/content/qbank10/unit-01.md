@@ -311,3 +311,66 @@ Every question is marked **practice**: it is an original item written to the pat
 
 **5.** Algebra (15) and Arithmetic, Mensuration or Geometry (13 each) give $15+13=28$, so Algebra with any one of those three.
 :::
+
+## 1.8 The Computer Science paper
+
+Optional Computer Science follows a **different pattern** from the subjects in
+section 1.1. From the SEE of 2083 the course is the new Python curriculum, and
+its written paper is **two hours and 50 marks**; the other **50 marks** are
+internal.
+
+| Part | Marks | Made up of |
+|---|---|---|
+| Written paper (2 hours) | 50 | Group A: 10 MCQs × 1 = 10; Group B: 10 short questions × 2 = 20; Group C: 5 long questions × 4 = 20 |
+| Internal assessment | 50 | practical and project work 35, participation 5, terminal tests 10 |
+
+The grid fixes the marks of each unit, so every unit, and every unit's long
+question, must be prepared.
+
+| Unit | Marks | MCQ | Short | Long |
+|---|---|---|---|---|
+| Computer Network and Communication | 11 | 3 | 2 | 1 |
+| Database Management System | 8 | 2 | 1 | 1 |
+| Multimedia | 8 | 2 | 1 | 1 |
+| Programming in Python | 12 | 2 | 3 | 1 |
+| AI and Contemporary Technologies | 11 | 1 | 3 | 1 |
+| **Total** | **50** | **10** | **10** | **5** |
+
+::: caution Pass marks on a 50-mark paper
+If the usual minimums are applied as percentages, the written paper needs 35% of
+50 = **17.5 marks** and the internal assessment 40% of 50 = **20 marks**. As with
+every rule in this chapter, confirm them in the board's notice for your year.
+:::
+
+### 1.8.1 A time plan for 120 minutes
+
+Two hours for 50 marks is again **2.4 minutes per mark**, the same rate as the
+three-hour papers.
+
+| Block | Marks | Minutes |
+|---|---|---|
+| Group A (10 MCQs) | 10 | 12 |
+| Group B (10 short questions) | 20 | 45 |
+| Group C (5 long questions) | 20 | 50 |
+| Checking | — | 13 |
+| **Total** | **50** | **120** |
+
+That is about 70 seconds per MCQ, 4½ minutes per short question and 10 minutes
+per long question.
+
+### 1.8.2 Revision advice
+
+1. **Run your code.** Python and SQL answers are marked line by line; type every
+   program and query into Python and MySQL at least once, and learn the exact
+   form of its output (a pandas table keeps its index numbers).
+2. **Write SQL in full**: keywords, commas, quotes around text and dates, and a
+   semicolon at the end; never write UPDATE or DELETE without WHERE.
+3. **Indent Python correctly** (four spaces) and remember the colon after `if`,
+   `for`, `while`, `def`, `try` and `except`.
+4. **Learn the full forms and the one-line facts** of Networking and Multimedia —
+   devices, connectors, media, IP addresses, file formats — for the MCQs.
+5. **Answer AI and IoT scenarios with points that fit the situation**, one mark
+   for each point, rather than with a general essay.
+6. Use **chapters 20 to 22** of this book for Computer Science: the objective
+   bank, the subjective bank and two complete model papers with ranked practice
+   priorities.
