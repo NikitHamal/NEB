@@ -8,6 +8,8 @@ chat.qwen.ai. These tests pin the degrade-to-fallback behaviour:
   the Neby chain answers, the caller sees 200 and a credit is still spent.
 * ``test_qwen_answer_skips_the_fallback`` — a healthy Qwen never calls out.
 * ``test_total_failure_still_502s`` — nothing answers, the error is honest.
+* ``test_private_profile_can_use_the_assistant`` — ``is_locked`` is the user's
+  own private-profile toggle, not a ban; it used to answer 401 "Please sign in".
 
 Run: ``python manage.py test api.test_pdf_assistant -v 2``
 """
@@ -122,3 +124,28 @@ class PdfAssistantFallbackTests(TestCase):
             content_type='application/json',
         )
         self.assertEqual(response.status_code, 401)
+
+
+class PrivateProfileTests(TestCase):
+    """A private profile (is_locked) is a privacy choice, not a signed-out session."""
+
+    def setUp(self):
+        cache.clear()
+        self.user = _user('private')
+        self.user.is_locked = True
+        self.user.save(update_fields=['is_locked'])
+
+    def test_private_profile_can_use_the_assistant(self):
+        response = self.client.post(
+            PDF_ASSISTANT_URL.format(resource_id=uuid.uuid4()),
+            data={'prompt': '', 'history': []},
+            content_type='application/json',
+            HTTP_AUTHORIZATION=f'Bearer {self.user.raw_token}',
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_private_profile_can_read_its_credit_balance(self):
+        response = self.client.get('/api/credits/balance/', HTTP_AUTHORIZATION=f'Bearer {self.user.raw_token}')
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('total_credits', response.json())
+
