@@ -625,12 +625,7 @@ def ajax_user_popup(request, username):
     except User.DoesNotExist:
         return JsonResponse({'error': 'User not found'}, status=404)
     user_id = _get_user_id(request)
-    viewer_user = None
-    if user_id:
-        try:
-            viewer_user = User.objects.get(pk=user_id)
-        except User.DoesNotExist:
-            viewer_user = None
+    viewer_user = _viewer_for_locked_check(user_id, u)
     is_private = not _can_view_locked_profile(viewer_user, u)
     data = {
         'id': u.id,

@@ -15,7 +15,7 @@ measurements, they let you say that two triangles must match without measuring
 everything.
 
 ::: key What this chapter asks of you
-You should be able to state the four tests of congruence (SSS, SAS, ASA, RHS),
+You should be able to state the five tests of congruence (SSS, SAS, ASA, AAS, RHS),
 the conditions for two triangles to be similar, use corresponding parts of
 congruent triangles in a proof, and use the ratio of areas and sides of similar
 triangles.
@@ -42,44 +42,53 @@ statement is false as written. Examiners deduct for a wrong order even when the
 figure is right.
 :::
 
-## 15.2 The four tests of congruence
+## 15.2 The tests of congruence
 
 To prove two triangles congruent you need only three matched facts, and the
-three must be in one of these four patterns.
+three must be in one of these five patterns.
 
 | Test | What must match | Why it works |
 |---|---|---|
 | SSS | all three sides | only one triangle can be built from three given sides |
 | SAS | two sides and the **included** angle | the angle fixes the shape between the sides |
-| ASA | two angles and a side | the third angle is then forced (they add to 180°) |
+| ASA | two angles and the side **between** them | the side and the two angles at its ends fix the triangle |
+| AAS | two angles and a side **not** between them | the third angle is forced (angles add to 180°), so it becomes ASA |
 | RHS | a right angle, the hypotenuse and one other side | in a right triangle the third side follows by Pythagoras |
 
-```figure caption="The four tests. In SAS the angle must lie between the two given sides; if it does not, the triangle is not determined and the test does not apply."
-fig, ax = plt.subplots(figsize=(5.0, 2.6))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.4)
-ax.axis("off")
-tris = [(("SSS", "three sides", 1.2), [(0.3, 0.6), (2.1, 0.6), (1.1, 2.2)]),
-        (("SAS", "two sides +\\nincluded angle", 3.8), [(2.9, 0.6), (4.7, 0.6), (3.5, 2.2)]),
-        (("ASA", "two angles +\\na side", 6.4), [(5.5, 0.6), (7.3, 0.6), (6.4, 2.2)]),
-        (("RHS", "right angle +\\nhypotenuse + side", 9.0), [(8.1, 0.6), (9.9, 0.6), (8.1, 2.2)])]
-for (name, note, x), pts in tris:
-    ax.add_patch(plt.Polygon(pts, fill=False, ec=ACCENT, lw=1.4))
-    if name == "SAS":
-        ax.add_patch(Arc(pts[0], 0.9, 0.9, theta1=0, theta2=52, color=SERIES[1], lw=1.4))
-    if name == "RHS":
-        ax.add_patch(plt.Rectangle((8.1, 0.6), 0.28, 0.28, fill=False, ec=SERIES[2], lw=1.1))
-    ax.text(x, 3.1, name, ha="center", fontsize=7.6, color=INK)
-    ax.text(x, 2.45, note, ha="center", va="top", fontsize=6.0, color=MUTED)
-ax.text(5.0, 4.7, "three matched facts are enough — but only in these patterns",
-        ha="center", fontsize=6.5, color=MUTED)
+```figure caption="The five tests of congruence. The thick blue sides and the red arcs are the parts that must be equal in the two triangles. In SAS the angle lies between the two sides; in ASA the side lies between the two angles; in AAS the side does not."
+from matplotlib.patches import Arc
+fig, axs = plt.subplots(2, 3, figsize=(5.2, 3.6))
+A, B, C = np.array([0.0, 0.0]), np.array([3.0, 0.0]), np.array([1.1, 2.0])
+R1, R2, R3 = np.array([0.0, 0.0]), np.array([3.0, 0.0]), np.array([0.0, 2.0])
+def ang(ax, V, P, Q, r=0.45):
+    a1 = np.degrees(np.arctan2(*(P - V)[::-1])); a2 = np.degrees(np.arctan2(*(Q - V)[::-1]))
+    lo, hi = sorted([a1, a2])
+    if hi - lo > 180: lo, hi = hi, lo + 360
+    ax.add_patch(Arc(V, 2*r, 2*r, theta1=lo, theta2=hi, color=SERIES[1], lw=1.6))
+def draw(ax, P, sides, angles, title, sub):
+    X, Y, Z = P
+    pts = {"a": (X, Y), "b": (Y, Z), "c": (Z, X)}
+    for k, (u, v) in pts.items():
+        ax.plot([u[0], v[0]], [u[1], v[1]], color=ACCENT if k in sides else MUTED, lw=2.6 if k in sides else 1.0)
+    for V, P1, P2 in angles:
+        ang(ax, V, P1, P2)
+    ax.text(1.5, -0.55, title, ha="center", fontsize=9, color=INK, weight="bold")
+    ax.text(1.5, -1.05, sub, ha="center", fontsize=7.5, color=MUTED)
+    ax.set_xlim(-0.3, 3.3); ax.set_ylim(-1.3, 2.3); ax.set_aspect("equal"); ax.axis("off")
+draw(axs[0, 0], (A, B, C), "abc", [], "SSS", "three sides")
+draw(axs[0, 1], (A, B, C), "ac", [(A, B, C)], "SAS", "two sides, included angle")
+draw(axs[0, 2], (A, B, C), "a", [(A, B, C), (B, A, C)], "ASA", "two angles, side between")
+draw(axs[1, 0], (A, B, C), "b", [(A, B, C), (B, A, C)], "AAS", "two angles, side not between")
+draw(axs[1, 1], (R1, R2, R3), "ab", [], "RHS", "right angle, hypotenuse, side")
+axs[1, 1].plot([0, 0.3, 0.3], [0.3, 0.3, 0], color=SERIES[1], lw=1.2)
+axs[1, 2].axis("off")
 fig.tight_layout()
 ```
 
 ::: caution There is no SSA test
 Two sides and a **non-included** angle do **not** fix a triangle: two different
 triangles can often be drawn with the same two sides and the same angle
-somewhere else. Congruence must be proved with SSS, SAS, ASA or RHS — never with
+somewhere else. Congruence must be proved with SSS, SAS, ASA, AAS or RHS — never with
 "SSA", which does not exist.
 :::
 
@@ -137,6 +146,31 @@ why ASA works with only two angles.
 angles. Here $BC$ lies between angles $B$ and $C$ ✓.
 :::
 
+::: example Finding an unknown from congruent triangles
+**Problem.** $\triangle ABC\cong\triangle XYZ$ with $AB=(1.5x-1.5)$ cm and
+$XY=(x+0.5)$ cm. Find $x$ and the length of $AB$.
+
+**Solution.** Corresponding sides of congruent triangles are equal, so
+$1.5x-1.5=x+0.5$ → $0.5x=2$ → $x=4$.
+$AB=1.5\times4-1.5=4.5$ cm (and $XY=4+0.5=4.5$ cm ✓).
+:::
+
+::: example A proof with a perpendicular bisector
+**Problem.** In the figure, D is the midpoint of AB and $CD\perp AB$. Prove
+that $\triangle ACD\cong\triangle BCD$.
+
+**Solution.**
+
+| Statement | Reason |
+|---|---|
+| $\angle ADC=\angle BDC=90°$ | $CD\perp AB$ (given) |
+| $AD=BD$ | D is the midpoint of AB |
+| $CD=CD$ | common side |
+| $\triangle ACD\cong\triangle BCD$ | SAS (side $AD$, included right angle, side $CD$) |
+
+So $AC=BC$ (corresponding sides of congruent triangles).
+:::
+
 ## 15.3 Similar figures
 
 Two figures are **similar** if they have the same shape, even if they differ in
@@ -159,24 +193,19 @@ where $k$ is the scale factor.
 | SSS similarity | the three pairs of sides are in the same ratio |
 | SAS similarity | two pairs of sides are in the same ratio and the included angles are equal |
 
-```figure caption="Similar triangles are the same shape at different sizes. Every length of the second triangle is the first multiplied by the same scale factor, so the ratios of corresponding sides are all equal."
-fig, ax = plt.subplots(figsize=(5.0, 2.5))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.2)
-ax.axis("off")
-ax.add_patch(plt.Polygon([(0.6, 0.8), (3.0, 0.8), (0.6, 2.6)], fill=False,
-                         ec=ACCENT, lw=1.4))
-ax.text(1.7, 0.35, "small", ha="center", fontsize=6.6, color=ACCENT)
-ax.add_patch(plt.Polygon([(4.4, 0.8), (9.2, 0.8), (4.4, 4.4)], fill=False,
-                         ec=SERIES[1], lw=1.4))
-ax.text(6.8, 0.35, "enlarged, scale factor 2", ha="center", fontsize=6.6, color=SERIES[1])
-ax.text(1.75, 1.55, "$3$", fontsize=6.6, color=INK)
-ax.text(0.32, 1.75, "$2$", fontsize=6.6, color=INK)
-ax.text(6.85, 2.6, "$6$", fontsize=6.6, color=INK)
-ax.text(4.1, 2.6, "$4$", fontsize=6.6, color=INK)
-ax.text(5.0, 4.85, "same angles, sides in the ratio 1 : 2", ha="center",
-        fontsize=6.7, color=MUTED)
-fig.tight_layout()
+```figure caption="Similar triangles: the same angles, and every side of the larger is 2 times the matching side of the smaller (3 → 6, 2 → 4). The ratio of corresponding sides is 1 : 2."
+fig, ax = plt.subplots(figsize=(4.8, 2.6))
+ax.plot([0, 3, 0, 0], [0, 0, 2, 0], color=ACCENT, lw=1.6)
+ax.plot([4.5, 10.5, 4.5, 4.5], [0, 0, 4, 0], color=SERIES[1], lw=1.6)
+ax.plot([0, 0.25, 0.25], [0.25, 0.25, 0], color=ACCENT, lw=0.9)
+ax.plot([4.5, 4.8, 4.8], [0.3, 0.3, 0], color=SERIES[1], lw=0.9)
+ax.text(1.5, -0.45, "3 cm", ha="center", fontsize=9, color=INK)
+ax.text(-0.2, 1.0, "2 cm", ha="right", va="center", fontsize=9, color=INK)
+ax.text(7.5, -0.45, "6 cm", ha="center", fontsize=9, color=INK)
+ax.text(4.3, 2.0, "4 cm", ha="right", va="center", fontsize=9, color=INK)
+ax.text(1.5, 2.6, "small", ha="center", fontsize=9, color=ACCENT)
+ax.text(8.2, 2.6, "enlarged (scale factor 2)", ha="center", fontsize=9, color=SERIES[1])
+ax.set_xlim(-1.3, 11); ax.set_ylim(-0.9, 4.3); ax.set_aspect("equal"); ax.axis("off")
 ```
 
 ::: example Similar triangles and a missing side
@@ -241,7 +270,7 @@ ratios.
 
 - Congruent figures have the same shape **and** size; similar figures have the
   same shape at different sizes.
-- The four tests of congruence are **SSS, SAS, ASA and RHS**; there is no SSA
+- The tests of congruence are **SSS, SAS, ASA, AAS and RHS**; there is no SSA
   test.
 - The order of the letters in $\triangle ABC\cong\triangle PQR$ gives the
   correspondence, and corresponding parts of congruent triangles are equal.
@@ -285,7 +314,7 @@ ratios.
 
 **Group B — Short answer (2 marks each)**
 
-1. State the four tests of congruence, naming the parts each uses.
+1. State the five tests of congruence, naming the parts each uses.
    <span class="marks">[2]</span>
 2. $\triangle ABC\cong\triangle PQR$ with $AB=7$ cm, $BC=9$ cm and
    $\angle B=55°$. Write down the other measurements you can.
@@ -298,14 +327,14 @@ ratios.
 
 ::: note Answers to Group B
 **1.** SSS — all three sides. SAS — two sides and the included angle. ASA — two
-angles and the side between them. RHS — the right angle, the hypotenuse and one
+angles and the side between them. AAS — two angles and a side not between them.
+RHS — the right angle, the hypotenuse and one
 other side.
 **2.** Because the order of the letters gives the correspondence, $P$ matches
 $A$, $Q$ matches $B$ and $R$ matches $C$. So $PQ=AB=7$ cm, $QR=BC=9$ cm, and
-$\angle Q=\angle B=55°$. The remaining angle is
-$\angle P=\angle A$ and $\angle R=\angle C$, with
-$\angle A+\angle C=180-55=125°$ split in the same way in both triangles, and the
-third side $CA=RP$.
+$\angle Q=\angle B=55°$. We also know $RP=CA$, $\angle P=\angle A$ and
+$\angle R=\angle C$ (with $\angle P+\angle R=180°-55°=125°$), although their
+values are not given.
 **3.** Scale factor $=\frac{12}{8}=1.5$; ratio of areas
 $=\left(\frac{8}{12}\right)^2=\frac{64}{144}=\frac49$, that is $4:9$.
 **4.** Two angles of one equal two angles of the other, so the triangles are

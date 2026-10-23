@@ -7,363 +7,308 @@ hours: 0
 area: Units
 ---
 
-Both texts in this unit are about **imagining**: a folk tale built on a magic
-mirror that shows something a person could not otherwise see, and a poem in
-which the speaker asks what they would do if they had a superhero's powers. Both
-run on the **second conditional** — the grammar of the imaginary — and both need
-the difference between an adjective (which describes a noun) and an adverb
-(which describes how something is done).
+Unit 14 is about **imagined situations** — *if* this happens, what will or
+would happen? Reading I is a folk tale, *The Magic Mirror*: a cunning barber in
+the kingdom of Granada claims his mirror shows a girl's dishonesty, and only a
+brave shepherd girl dares to look. Reading II is a poem by Sally Gray, *If I was
+a Superhero*, full of wishes to save the world. The grammar is **conditional
+sentences, types 1, 2 and 3**. In writing you complete a story with the right
+verb forms and write a **news story**; the project is a speech beginning *"If I
+were the Prime Minister…"*.
 
-::: key What this unit asks for
-By the end you should be able to (1) tell a folk tale with a clear plot and a
-moral, (2) explain how a poem uses the conditional to imagine, (3) use the
-second conditional (*If I had…, I would…*) correctly, and (4) choose between an
-adjective and an adverb in a sentence.
+::: key What the exam asks from this unit
+(1) Order events, mark True/False/Not Given and say who said what to whom.
+(2) Use the right verb forms in zero, first, second and third conditionals.
+(3) Know the parts of a news story — headline, byline, dateline, lead, body —
+and write one from given points. (4) Write a short speech.
 :::
 
-## 14.1 The Magic Mirror
+## 14.1 Reading I: The Magic Mirror
 
-### About the text
+### Summary
 
-The text is a **folk tale** of the kind called a "magic object" tale: a
-character is given an object with a strange power, the power is used, and what
-happens next teaches the reader something. The magic is never the point; it is
-only the device that makes the test possible.
+- The king of **Granada** announces he will marry the **most worthy** girl of
+  the land, and offers money to whoever finds him a bride. The news spreads
+  through the **court barber**, the **night watchmen** and the old market women.
+- The **cunning barber** says he has a **magic mirror**: if a dishonest girl
+  looks into it, **spots** of her dishonesty will appear. Looking into it, with
+  the barber beside her, is the **only condition**; any lady above twenty may
+  try.
+- Many ladies want to be queen, but **none dares** to look. Weeks pass; every
+  morning the king hears "No!"
+- The barber suggests a **lonely shepherd girl** living on the mountainside. The
+  king agrees, even though she is "of low birth".
+- The whole kingdom fills the royal hall. The girl is shy, but she says that
+  everyone makes mistakes and she is no exception; she has no great desire to
+  be queen, **but she is not afraid** to look. She gazes — **no stains** appear.
+- The other women snatch the mirror and shout that there is no magic — it was a
+  trick. The king replies: *"You have only yourselves to thank. If you had been
+  as confident in yourselves as this young lady, you might have been the
+  queen."*
 
-### How the tale works
+**Theme/moral:** honesty and self-confidence matter more than birth or wealth;
+people who fear being exposed lose their chances. The mirror was a **test of
+courage and honesty**, not magic.
 
-| Stage | What the tale does |
-|---|---|
-| Exposition | a poor or ordinary character is given a mirror with a power |
-| Rising action | the mirror is used, and what it shows is not what the character expected |
-| Climax | the character must choose: to use the mirror for themselves or for others |
-| Falling action | the choice brings its consequence |
-| Resolution | the mirror passes on, or breaks, or is put away — and the moral is clear |
+**Characters:** the king — patient, fair, not proud of rank; the barber —
+clever, cunning; the shepherd girl — humble, honest, brave; the ladies —
+ambitious but lacking confidence.
 
-The important feature of a magic-object tale is that the object **tests** the
-character rather than helping them. A mirror that shows the truth is useless to
-a person who does not want the truth. That is why the tale has a moral at all:
-the magic did nothing; the decision did everything.
+### Vocabulary (Exercise A)
 
-The **moral** should be stated in one sentence and proved by one moment in the
-story — otherwise it is only your opinion. A sentence such as "The story teaches
-us that a mirror shows, but it does not choose" is worth more than "The story
-teaches us to be good."
+a–v (kingdom), b–iv (merchant), c–iii (surround), d–ii (convince), e–i
+(pleased)
 
-```figure caption="How a magic-object tale tests its character. The object only makes the choice possible; the character has to make it, and that is where the story's meaning lives."
-fig, ax = plt.subplots(figsize=(4.6, 2.8))
-ax.set_xlim(0, 10); ax.set_ylim(0, 6.0); ax.axis("off")
-nodes = [("a magic object\nis given", 1.6, 4.4, SERIES[0]),
-         ("it shows what\nwas hidden", 4.0, 3.0, SERIES[2]),
-         ("the character\nmust choose", 6.4, 4.4, ACCENT)]
-for text, x, y, colour in nodes:
-    ax.add_patch(plt.Circle((x, y), 1.25, fc="white", ec=colour, lw=1.5))
-    ax.text(x, y, text, ha="center", va="center", fontsize=6.0, color=INK)
-ax.annotate("", xy=(2.95, 3.85), xytext=(2.7, 4.15),
-            arrowprops=dict(arrowstyle="->", color=GRID, lw=1.2))
-ax.annotate("", xy=(5.5, 3.85), xytext=(5.15, 3.3),
-            arrowprops=dict(arrowstyle="->", color=GRID, lw=1.2))
-ax.text(8.6, 2.2, "moral", ha="center", fontsize=7, color=SERIES[2],
-        fontweight="bold")
-ax.annotate("", xy=(7.7, 3.4), xytext=(8.4, 2.5),
-            arrowprops=dict(arrowstyle="->", color=GRID, lw=1.2))
-ax.text(5.0, 0.5, "a magic object makes a choice possible — it never makes it for you",
-        ha="center", fontsize=6.1, color=MUTED)
-fig.tight_layout()
-```
+### Order of events (Exercise B)
 
-### Vocabulary
+**c → a → b → f → d → g → e**
 
-| Word | Meaning |
-|---|---|
-| folk tale | an old story passed on by word of mouth |
-| magic | a power that works outside the laws of nature |
-| humble | poor and of no importance |
-| reflection | the image you see in a mirror |
-| moral | the lesson a story teaches |
-| invisible | unable to be seen |
+### True / False / Not Given (Exercise C)
 
-::: note Model answers
-**1. Why is the magic mirror necessary to the story?**
-Because it makes the test possible: without it, the character would never have
-to face the truth and would never have to choose. The magic supplies the
-opportunity; the choice supplies the meaning.
-**2. State the moral of the tale in one sentence.**
-The tale shows that knowing the truth is not the same as acting on it — what
-makes a person honest is what they do once they have seen, not the fact that
-they saw.
-:::
+a. **Not given** — no time is stated (they shouted so loudly that the young
+ladies woke up). b. **True**. c. **False** — any lady *above* 20 was eligible,
+not only those in their twenties. d. **True**. e. **False** — weeks went by.
+f. **False** — the king says kings in other lands had no trouble.
 
-## 14.2 Poem: If I was a Superhero
+### Comprehension (Exercise D) — model answers
 
-### About the poem
+**a. What happened as soon as the shepherd girl was brought to the palace?** The
+whole kingdom filled the royal hall to see her, and she felt very shy.
 
-The poem is a **conditional poem** — a poem in which the speaker imagines what
-they would do if something impossible were true. Poems like this are good for
-children's writing because they have a guaranteed shape: one stanza for the
-power, one for what the speaker would do with it, and one for what they would
-not do, or for what they would do instead.
+**b. How do you know the king was happy at first sight of her?** He was very
+pleased with her appearance and received her kindly.
 
-### The poet's devices
+**c. Was the girl really shy?** She felt shy in front of so many people, but
+she was not timid: she spoke honestly and calmly and was not afraid to look
+into the mirror.
 
-| Device | How it is used in the poem |
-|---|---|
-| The conditional | *If I was…, I would…* — the whole poem is a hypothesis |
-| Hyperbole | the powers are far beyond anything possible |
-| Repetition | each stanza repeats the same opening, which makes the poem easy to chant |
-| Contrast | what the speaker *would* do against what others would do with the same power |
-| The twist | the last stanza turns the wish into something ordinary or moral |
+**d. What was the secret of the mirror?** It was an ordinary mirror. The magic
+was a trick by the barber to test which girl was honest and confident enough to
+look.
 
-The **speaker** is a child, and the **theme** is not really superpowers — it is
-what somebody would choose to do if nothing could stop them. Notice that the
-poem's choice reveals the character: the powers are invented, but the choice is
-real.
+**e. What did the other ladies realise at the end?** That they had been tricked,
+and — as the king said — they had lost the chance to be queen because they
+lacked confidence in themselves.
 
-### Vocabulary
+### Who said it? (Exercise E)
 
-| Word | Meaning |
-|---|---|
-| superhero | an imaginary person with powers beyond nature |
-| hyperbole | deliberate exaggeration for effect |
-| stanza | a group of lines forming a section of a poem |
-| conditional | a sentence that says what would happen if something were true |
+a. The **barber**, to the people (townspeople) who asked how the king would
+choose a wife. b. The **people/the crowd**; *you* = the barber. c. The **king**,
+to the ladies who snatched the mirror.
 
-::: note Model answers
-**1. What is the theme of the poem?**
-That what a person would do if nothing could stop them shows what kind of
-person they are; the superpowers are only a way of asking that question.
-**2. Why does the poem repeat its opening line?**
-Repetition gives the poem its rhythm and makes each stanza a fresh attempt at
-the same wish, and it is the pattern that makes the poem easy to learn by heart
-and to perform aloud.
-:::
-
-## 14.3 Grammar and writing tasks of the unit
-
-### Grammar: The second conditional
-
-The **second conditional** describes an imaginary or unlikely situation in the
-present or the future.
-
-> **If + past simple, … would + bare verb**
-> If I **had** a magic mirror, I **would look** into it.
+## 14.2 Grammar: Conditional sentences
 
 | Type | Form | Meaning | Example |
 |---|---|---|---|
-| First conditional | If + present, will + verb | a real possibility | If it **rains**, we **will** stay inside. |
-| Second conditional | If + past, would + verb | imaginary or unlikely | If I **were** rich, I **would** travel. |
-| Third conditional | If + had + participle, would have + participle | impossible, because it is past | If I **had studied**, I **would have passed**. |
+| **Zero** | If + present, present | always true; facts | If you heat ice, it **melts**. If you drop an egg, it **breaks**. |
+| **First** (Type 1) | If + present simple, **will** + verb | real/possible future | If it **rains**, we **will get** wet. |
+| **Second** (Type 2) | If + past simple, **would** + verb | imaginary/unlikely present or future | If Anjali **won** the lottery, she **would go** on a long trip. |
+| **Third** (Type 3) | If + **had + V3**, **would have** + V3 | imaginary past (it did not happen) | If they **had won** the race, we **would have been** very happy. |
 
-With the verb *be* in the second conditional, standard English uses **were**
-for every person: *If I **were** you…*, *If he **were** here…*. In ordinary
-speech *was* is common, and the poem's title uses *was*.
+- The *if*-clause can come first (comma after it) or second (no comma).
+- In type 2, **were** is used for all persons in formal English: *If I **were**
+  you…* (*If I was* — as in the poem's title — is informal).
+- *could / might* may replace *would*: *If you had been confident, you **might
+  have been** the queen.*
+- **Never** put *will/would* in the *if*-clause: *If it ~~will rain~~ rains…*
 
-### Grammar: Adjectives and adverbs
+### Textbook answers
 
-An **adjective** describes a noun; an **adverb** describes a verb, an adjective
-or another adverb.
+**Grammar I A:** a–vi, b–iv, c–v, d–i, e–iii, f–ii
 
-| Adjective | Adverb | Example |
-|---|---|---|
-| quick | quickly | a **quick** runner / he runs **quickly** |
-| careful | carefully | a **careful** driver / she drives **carefully** |
-| good | well | a **good** singer / she sings **well** |
-| fast | fast | a **fast** train / it goes **fast** |
-| happy | happily | a **happy** child / they played **happily** |
+**Grammar I B:** a. If you study hard, you will pass the exam. b. If you heat
+ice, it melts. c. If you work hard, you will succeed. d. If I asked her, she
+would help me. e. If you had invited them, they would have come. f. If she
+doesn't know the answer, the teacher will be unhappy. g. If she hadn't studied
+hard, she could have failed her exams. h. Would you help me if I asked?
 
-Most adverbs are formed by adding *-ly*, but *good → well*, *fast → fast* and
-*hard → hard* are irregular. Linking verbs (*be, seem, look, feel, taste,
-smell*) take an adjective: *The soup **tastes good**.* A verb of action takes an
-adverb: *She **cooks well**.*
+**Grammar II A:** a. are b. would you do c. wouldn't have d. may bite (*bites*
+is also possible as a general fact) e. will stay f. had g. had had
+h. wouldn't have fallen i. will happen
+
+**Grammar II B (sample endings):** a. If I were you, I would apologise. b. If
+you call him, he will come. c. I would have called your mother if I had known
+her number. d. If you don't brush your teeth regularly, they will decay.
+e. If they didn't hurry, they would miss the bus. f. If it stops raining, we
+will play golf. g. I can help you if you tell me the problem.
 
 ::: caution Common mistakes
-- *He sings good.* ✗ → *He sings **well**.* ✓
-- *She drives very careful.* ✗ → *She drives very **carefully**.* ✓
-- *If I will have money, I would buy it.* ✗ (mixed conditionals) → *If I **had**
-  money, I **would** buy it.* ✓
-- *If I was you I would go* is acceptable in speech, but *If I **were** you* is
-  correct in a written examination.
+- *If I will see him, I will tell him.* ✗ → *If I **see** him…* ✓
+- *If I was rich, I will buy a car.* ✗ → *If I **were** rich, I **would** buy…* ✓
+- *If you would have come, …* ✗ → *If you **had come**, you **would have
+  met** her.* ✓
+- Mixing types: *If he had studied, he will pass* ✗ → *would have passed* ✓
 :::
 
-### Writing: Writing a folk tale and describing an imaginary event
+**Speaking — chains of events:** *If it rains heavily, I will stay inside. If I
+stay inside, my mother will be happy. If my mother is happy, she will make
+delicious food.* / *If I found a purse, I would submit it to a police station.*
 
-A folk tale of your own needs: a plain setting, one character with one want, one
-magic object or one twist of luck, a decision, and a consequence. Keep the
-sentences short, use the past simple, and end with a single sentence that states
-the moral — or better, that shows it.
+## 14.3 Writing I: Completing a story with verb forms
 
-To describe an imaginary event, use the second conditional throughout and keep
-one tense: *If I could fly, I would leave at dawn and I would follow the
-river…*
+**The Lamb and the Wolf — answers:** was eating · did not notice · saw ·
+started · is · agreed · was dancing · had · take · took · started · heard ·
+happened.
 
-::: note Model answers to the practice questions
-**Imaginary event model.** "If I could fly, I would not go to a big city first.
-I would follow the Kali Gandaki up from the plains, and I would land on the
-ridge above my grandmother's village, where the path is too steep for a bus. If
-I had a mirror that showed the truth, I would use it on myself first, because
-that is where it would be hardest to look."
-:::
+Points: past continuous for the background (*was eating, was dancing*); past
+simple for events; present tense inside the lamb's direct speech (*My stomach
+**is** full*); a first conditional in speech (*I can dance faster if you **take**
+my bell*); *had happened* after *had*.
 
-## 14.4 Writing a story: dialogue and description together
+## 14.4 Reading II: Poem — If I was a Superhero
 
-| Technique | Weak version | Stronger version |
+### What the poem says
+
+Every stanza begins *"If I was a superhero"* (a **second conditional** — an
+imaginary situation). The speaker would:
+
+1. **fly** with arms outstretched, racing birds in the sky;
+2. have special powers like extra-strong legs for **jumping over towers**;
+3. **save the oceans** with secret, magical cleaning-up **potions**;
+4. **save the trees**, mountains, rivers, birds and bees;
+5. **help the poor**, give them food and end their hunger;
+6. make **the world better** — "I'm sure you'll agree".
+
+**Theme:** the child's wish to use power not for fame but to protect nature
+and help people. The first two stanzas are about fun powers; the rest are about
+saving the environment and helping the poor. **Rhyme:** lines 2 and 4 rhyme
+(*fly/sky, powers/towers, oceans/potions, trees/bees, poor/more, agree/me*).
+
+### Crossword (Exercise A)
+
+Across: 4. **superhero** 5. **tower** 6. **bees** 7. **magical**.
+Down: 1. **outstretched** 2. **definitely** 3. **potion**
+
+### Gap filling (Exercise B)
+
+a. **arms** b. **jump** c. **(secret and magical) cleaning-up potions**
+d. **mountains** e. **food** f. **world**
+
+## 14.5 Writing II: A news story
+
+| Part | What it is | In *Nepal begins exporting cement to India* |
 |---|---|---|
-| Show, don't tell | *She was frightened.* | *She did not move, and her hand stayed on the latch.* |
-| Dialogue to move the plot | *They talked about the mirror.* | *"Don't look into it," he said. "Not after dark."* |
-| Specific nouns | *There was a thing on the table.* | *A cracked hand-mirror lay face down on the table.* |
-| Vary sentence length | three long sentences | *He ran. The gate was shut, and behind him the footsteps had stopped.* |
-| End with consequence | *That was the end.* | *The mirror was gone the next morning, and so was the key.* |
+| **Headline** | short title in large type | Nepal begins exporting cement to India |
+| **Byline** | the reporter's name | By Satish Mishra |
+| **Dateline** | place and date | Kathmandu, 10th July 2021 |
+| **Lead** | first paragraph: the most important facts (*who, what, when, where, why, how*) | "Nepal has begun exporting cement to India. Palpa Cement, based in Sunawal-7 of Nawalparasi district, says it has begun exporting cement to India, for the first time in the country." |
+| **Body** | details, numbers, quotations | Tansen brand; three trucks on day one; 3,000 tonnes a day (PR manager Jeevan Niraula); government grant; country already self-reliant in cement |
 
-```figure caption="The dialogue layout. Each new speaker begins on a new line; the punctuation goes inside the quotation marks."
-fig, ax = plt.subplots(figsize=(4.9, 2.3))
-lines = ['"Don\'t look into it," he said.',
-         '"Why not?" asked Mira.',
-         '"Because the last person who did',
-         'never told anyone what she saw."']
-for i, t in enumerate(lines):
-    ax.text(0.06, 0.82 - i * 0.2, t, fontsize=9.4, color=INK, family="serif")
-ax.annotate("new speaker,\nnew line", xy=(0.52, 0.62), xytext=(0.66, 0.74),
-            fontsize=7.4, color=MUTED,
-            arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.9))
-ax.annotate("comma inside\nthe quotes", xy=(0.30, 0.84), xytext=(0.60, 0.94),
-            fontsize=7.4, color=MUTED,
-            arrowprops=dict(arrowstyle="-|>", color=MUTED, lw=0.9))
-ax.set_xlim(0, 1)
-ax.set_ylim(0, 1.05)
-ax.axis("off")
-```
+News is written in the **third person**, mostly in the **past/present perfect**,
+with the most important facts first (the "inverted pyramid").
 
-::: note Activity — the four-line story
-Write a complete story in exactly four sentences: one to set the scene, one
-line of dialogue, one event, one consequence. Read it out; the class votes on
-which four-line story makes them want to hear the fifth sentence. Then write
-that fifth sentence.
+::: example Model answer — Nepali youth awarded in Delhi (Writing II B)
+**Nepali Youth Awarded in Delhi**
+
+*By Our Correspondent*
+*Nepalgunj, [date]*
+
+Mohammad Irfan, a young man from Banke district, has been honoured with the
+National Youth Icon Award 2022 for his excellent contribution to the field of
+development. The award was presented to him by the Chief Minister of Delhi at a
+ceremony held in Delhi.
+
+Irfan started his career with USAID in Jumla, where he worked on community
+development programmes. Since then he has been a very active social and
+political activist, especially in raising awareness about disability.
+
+Speaking after the ceremony, Irfan said that the award belonged to everyone
+working for people with disabilities in Nepal. His family and friends in Banke
+have expressed their happiness at his achievement.
 :::
 
-::: example Opening lines, compared
-**Ordinary.** *One day a boy found a magic mirror in his grandmother's house.*
+(Only use quotations and details that are given or clearly invented as an
+example; in the exam, stick to the points provided.)
 
-**Better.** *The mirror had been in the store room for as long as anyone could
-remember, turned to the wall.*
+## 14.6 Project work: a speech draft
 
-The second opening gives the same information but adds a question — *why turned
-to the wall?* — and a question is what makes a reader continue.
+**Format of a speech:** greeting the audience → introduction of the topic →
+main points → conclusion → thanks.
+
+::: example Model speech — If I were the Prime Minister
+Respected chairperson, honourable judges, teachers and my dear friends,
+
+Good morning. Today I would like to share what I would do if I were the Prime
+Minister of our country.
+
+If I were the Prime Minister, I would first improve education. Every community
+school would have trained teachers, science labs, libraries and internet, so
+that no child would need to go far for good education.
+
+Secondly, I would create jobs at home. If young people found good work in
+Nepal, they would not have to go abroad, and our villages would not be empty.
+I would support farming, tourism and small industries.
+
+Thirdly, I would fight corruption strictly, because development cannot happen
+if public money is stolen. I would also build safe roads and make hospitals
+available in every district.
+
+Friends, a country changes when its people change. If each of us did our duty
+honestly, Nepal would surely prosper.
+
+Thank you.
 :::
+
+## 14.7 Pronunciation: British and American
+
+| Word | British | American |
+|---|---|---|
+| either / neither | /ˈaɪðə/ | /ˈiːðər/ |
+| schedule | /ˈʃedjuːl/ | /ˈskedʒuːl/ |
+| leisure | /ˈleʒə/ | /ˈliːʒər/ |
+| mobile, missile | /-aɪl/ | /-əl/ |
+| vitamin, privacy, dynasty | /ˈvɪt-/, /ˈprɪv-/, /ˈdɪn-/ | /ˈvaɪt-/, /ˈpraɪv-/, /ˈdaɪn-/ |
+| advertisement | /ədˈvɜːtɪsmənt/ | /ˌædvərˈtaɪzmənt/ |
 
 ## Chapter summary
 
-- A magic-object folk tale uses the object to **test** a character: the magic
-  makes the choice possible, the character makes it.
-- A moral must be stated in one sentence and proved by one moment in the story.
-- A conditional poem imagines what the speaker would do if something impossible
-  were true; the choice, not the power, is the point.
-- Poems use repetition for rhythm, hyperbole for effect and a twist at the end.
-- **First conditional**: If + present, will + verb — a real possibility.
-- **Second conditional**: If + past, would + verb — imaginary or unlikely; use
-  *were* with *be* in written English.
-- **Third conditional**: If + had + past participle, would have + past
-  participle — impossible, because the moment has passed.
-- Adjectives describe nouns; adverbs describe verbs. *good → well*, *fast →
-  fast*, *hard → hard*.
+- *The Magic Mirror*: the barber's "magic" mirror tests honesty and courage; the
+  confident shepherd girl wins; "If you had been as confident…, you might have
+  been the queen."
+- Poem: second-conditional wishes — fly, jump towers, clean the oceans, save
+  nature, feed the poor, make the world better.
+- Zero: if + present, present. Type 1: if + present, will. Type 2: if + past,
+  would. Type 3: if + had + V3, would have + V3.
+- No *will/would* in the *if*-clause; *If I were…* in formal English.
+- News story: headline, byline, dateline, lead (5W1H), body.
+- Speech: greeting, introduction, points, conclusion, thanks.
 
 ## Practice questions
 
 **Reading**
 
-1. State the moral of "The Magic Mirror" and give one moment from the story
-   that proves it. <span class="marks">[3]</span>
-2. Why does a magic-object tale need a decision rather than only a discovery?
-   <span class="marks">[2]</span>
-3. What is the theme of the poem, and how does the poet make it clear? <span class="marks">[2]</span>
-4. Name two poetic devices used in the poem and say what each does. <span class="marks">[2]</span>
+1. Answer from *The Magic Mirror*. <span class="marks">[5]</span>
+   (a) Who were the first to hear the news? (b) What was the only condition to
+   marry the king? (c) Where did the shepherd girl live? (d) What did she say
+   about mistakes? (e) What did the ladies shout when they saw no stains?
 
-::: note Answers
-**1.** The tale shows that seeing the truth is not the same as acting on it —
-the character is tested by having to choose (and the answer must quote the
-moment of that choice, not merely describe the mirror).
-**2.** Because a discovery by itself changes nothing. The tale is only a story
-once the character has to decide what to do with what has been discovered, and
-the message lives in that decision.
-**3.** That what you would do if nothing could stop you shows what kind of
-person you are. The poet makes it clear through the choice the speaker describes
-and the twist in the last stanza, not by stating it.
-**4.** Repetition — it creates rhythm and ties the stanzas together. Hyperbole —
-the powers are exaggerated, which makes the wish funny and shows it is imagining,
-not planning.
+::: note Answers — Reading
+**1.** (a) The court barber, then the night watchmen and the old market women.
+(b) To look into the barber's magic mirror. (c) Alone, far away on the
+mountainside. (d) Everyone makes mistakes and she is no exception. (e) "There
+is no magic in this mirror — a trick has been played on us!"
 :::
 
 **Grammar**
 
-5. Complete with the second conditional. <span class="marks">[5]</span>
-   (a) If I ______ (have) a superhero's strength, I ______ (help) the farmers.
-   (b) If she ______ (be) here, she ______ (know) the answer.
-   (c) We ______ (travel) more if we ______ (have) the money.
-   (d) If he ______ (study) harder, he ______ (pass).
-   (e) I ______ (not tell) anyone if you ______ (ask) me not to.
+2. Complete. <span class="marks">[5]</span>
+   (a) If you (water) the plants, they will grow. (b) If I (be) a bird, I would
+   fly. (c) If she had left early, she (catch) the bus. (d) If you mix red and
+   white, you (get) pink. (e) We would go out if it (not rain).
 
-6. Choose the adjective or the adverb. <span class="marks">[4]</span>
-   (a) She sings very (good / well). (b) The mirror was (beautiful /
-   beautifully) made. (c) He ran (quick / quickly) to the gate. (d) The soup
-   tastes (delicious / deliciously).
-
-::: note Answers
-**5.** (a) had / would help (b) were / would know (c) would travel / had
-(d) studied / would pass (e) would not tell / asked
-**6.** (a) well (b) beautifully (c) quickly (d) delicious
+::: note Answers — Grammar
+**2.** (a) water (b) were (c) would have caught (d) get (e) didn't rain
 :::
 
 **Writing**
 
-7. Write a folk tale of about 150 words with a magic object and a moral. <span class="marks">[5]</span>
-8. Describe in about 100 words what you would do if you were invisible for one
-   day. <span class="marks">[4]</span>
+3. Write a news story: *a fire in Kalanki market; 15 shops burnt; no deaths;
+   loss of about Rs 2 crore; short circuit suspected; fire brigade controlled it
+   after three hours.* <span class="marks">[5]</span>
 
-::: note Answers
-**7.** Give a plain setting, one character who wants something, one magic object
-with a limit, a decision, and a consequence. Keep it in the past simple, and
-close with one sentence that shows the moral.
-**8.** Use the second conditional all the way through and keep to one day: how
-it would begin, the one thing you would do that you could not otherwise do, what
-you would learn, and how it would end. Do not mix in the first conditional.
-:::
-
-**Extra practice**
-
-**Group B (2 marks each)**
-
-**11.** Punctuate: *where did you find it asked grandmother*
-**12.** Rewrite to show, not tell: *The old man was very poor.*
-
-**Group C (4 marks)**
-
-**13.** Write a story in about 150 words ending with the sentence: *…and the mirror
-    was never found again.*
-
-::: note Extra practice — answers
-**11.** *"Where did you find it?" asked Grandmother.*
-**12.** e.g. *He counted the coins twice before buying half a kilo of rice, and
-his shirt had been mended at both elbows.*
-**13.** Marks: a clear setting and one or two characters; at least two lines of
-correctly punctuated dialogue; one event that builds tension; the given
-sentence used as the last line and not merely tacked on; past tense held
-throughout; and accurate paragraphing.
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** In dialogue, each new speaker begins
-   (a) on the same line (b) on a new line (c) in brackets (d) in capitals
-**2.** *"Don't look into it," he said.* — the comma goes
-   (a) inside the quotation marks (b) outside them (c) after *said* (d) nowhere
-**3.** *Show, don't tell* means
-   (a) draw a picture (b) give the proving detail (c) use dialogue only (d) write shorter
-**4.** A story's turning point is the
-   (a) orientation (b) climax (c) title (d) moral
-**5.** *If I was a superhero* is an example of a
-   (a) type 1 conditional (b) type 2 conditional (c) type 0 conditional (d) command
-
-::: note Objective practice — answers
-**1.** (b) — on a new line. **2.** (a) — inside the quotation marks. **3.** (b) — give the proving detail. **4.** (b) — the climax. **5.** (b) — an unreal present situation.
+::: note Answer — Writing
+**3.** Headline (*Fire Destroys 15 Shops in Kalanki*), byline, dateline, a lead
+answering what/where/when/how (*Fifteen shops were burnt in a fire at Kalanki
+market on … night*), body with the loss, cause, fire brigade's work and no
+casualties; past tense; third person.
 :::

@@ -1,34 +1,5 @@
 import { THREE } from '../../core/engine.js';
-
-function lathe(profile, seg = 20) {
-  return new THREE.LatheGeometry(profile.map(([r, y]) => new THREE.Vector2(r, y)), seg);
-}
-
-function puffy(r0, r1, h, rings, seg) {
-  const pts = [];
-  const n = rings * 6;
-  for (let i = 0; i <= n; i++) {
-    const t = i / n;
-    const bulge = 1 + 0.06 * Math.pow(Math.sin(t * rings * Math.PI), 2);
-    const cap = Math.sin(Math.min(1, Math.min(t, 1 - t) * 6) * Math.PI / 2);
-    pts.push([Math.max(0.001, (r0 + (r1 - r0) * t) * bulge * (0.25 + 0.75 * cap)), t * h]);
-  }
-  return lathe(pts, seg);
-}
-
-function limb(a, b, r0, r1, mat, parent) {
-  const va = new THREE.Vector3(...a); const vb = new THREE.Vector3(...b);
-  const len = va.distanceTo(vb);
-  const geo = puffy(r0, r1, len, 4, 14);
-  const m = new THREE.Mesh(geo, mat);
-  m.position.copy(va);
-  m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), vb.clone().sub(va).normalize());
-  parent.add(m);
-  const j = new THREE.Mesh(new THREE.SphereGeometry(r1 * 1.02, 14, 10), mat);
-  j.position.copy(vb);
-  parent.add(j);
-  return m;
-}
+import { buildClimber } from './climber-model.js';
 
 function flagTexture() {
   const c = document.createElement('canvas');
@@ -84,91 +55,84 @@ function prayerFlags(from, to, count, sag, uniforms) {
   return { group, tex, geo };
 }
 
-export function createClimber(ground = () => -0.4) {
+function sculpt(tier) {
+  return new Promise((resolve) => {
+    let w;
+    try { w = new Worker(new URL('./climber-worker.js', import.meta.url), { type: 'module' }); } catch (e) { resolve(buildClimber(tier)); return; }
+    w.onmessage = (e) => { w.terminate(); resolve(e.data); };
+    w.onerror = (e) => { e.preventDefault && e.preventDefault(); w.terminate(); resolve(buildClimber(tier)); };
+    w.postMessage({ tier });
+  });
+}
+
+function partMesh(part, mat) {
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(part.mesh.position, 3));
+  g.setAttribute('normal', new THREE.BufferAttribute(part.mesh.normal, 3));
+  g.setAttribute('color', new THREE.BufferAttribute(part.color, 3));
+  g.setIndex(new THREE.BufferAttribute(part.mesh.index, 1));
+  g.computeBoundingSphere();
+  return new THREE.Mesh(g, mat);
+}
+
+export async function createClimber(ground = () => -0.4, tier = 'medium') {
   const root = new THREE.Group();
   const uniforms = { uTime: { value: 0 } };
-  const suit = new THREE.MeshPhysicalMaterial({ color: 0xe8541c, roughness: 0.55, sheen: 0.6, sheenColor: new THREE.Color(0xffb38a), sheenRoughness: 0.5 });
-  const pants = new THREE.MeshPhysicalMaterial({ color: 0x1b2230, roughness: 0.6, sheen: 0.4, sheenColor: new THREE.Color(0x6f7d99) });
-  const boot = new THREE.MeshStandardMaterial({ color: 0xf2c94c, roughness: 0.5 });
-  const sole = new THREE.MeshStandardMaterial({ color: 0x111111, roughness: 0.8 });
-  const glove = new THREE.MeshStandardMaterial({ color: 0x15171c, roughness: 0.75 });
-  const metal = new THREE.MeshStandardMaterial({ color: 0xc7ccd4, metalness: 1, roughness: 0.3 });
-  const goggle = new THREE.MeshPhysicalMaterial({ color: 0x0f0f12, metalness: 0.2, roughness: 0.05, clearcoat: 1, iridescence: 0.8, iridescenceIOR: 1.6 });
-  const pack = new THREE.MeshStandardMaterial({ color: 0x24406b, roughness: 0.8 });
-  const bottle = new THREE.MeshStandardMaterial({ color: 0xd8a62a, metalness: 0.6, roughness: 0.35 });
-  const fur = new THREE.MeshStandardMaterial({ color: 0x6e5a44, roughness: 1 });
+  const parts = await sculpt(tier);
+  // nylon down: a soft sheen at grazing angles, a little gloss on the shell fabric
+  const fabric = new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.5, metalness: 0 });
+  fabric.onBeforeCompile = (sh) => {
+    sh.fragmentShader = sh.fragmentShader.replace('#include <opaque_fragment>', `
+      { float r = pow(1.0 - clamp(dot(normal, normalize(vViewPosition)), 0.0, 1.0), 3.0);
+        outgoingLight += diffuseColor.rgb * r * 0.45 + vec3(0.03) * r; }
+      #include <opaque_fragment>`);
+  };
+  const metal = new THREE.MeshStandardMaterial({ color: 0xc7ccd4, metalness: 1, roughness: 0.28 });
+  const goggle = new THREE.MeshPhysicalMaterial({ color: 0x0b0c10, metalness: 0.3, roughness: 0.06, clearcoat: 1, iridescence: 0.9, iridescenceIOR: 1.7 });
+  const strap = new THREE.MeshStandardMaterial({ color: 0x15161a, roughness: 0.8 });
+  const bottle = new THREE.MeshStandardMaterial({ color: 0xd9541e, metalness: 0.5, roughness: 0.35 });
 
   const body = new THREE.Group();
   root.add(body);
-  [-1, 1].forEach((s) => {
-    const b = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.13, 0.3, 2, 2, 2), boot);
-    b.position.set(0.12 * s, 0.075, 0.03);
-    body.add(b);
-    const so = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.03, 0.32), sole);
-    so.position.set(0.12 * s, 0.015, 0.03);
-    body.add(so);
-    const cr = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.02, 0.28), metal);
-    cr.position.set(0.12 * s, 0.002, 0.03);
-    body.add(cr);
-    limb([0.12 * s, 0.13, 0], [0.11 * s, 0.5, 0.02], 0.085, 0.08, pants, body);
-    limb([0.11 * s, 0.5, 0.02], [0.1 * s, 0.9, 0], 0.08, 0.1, pants, body);
-  });
-  const torso = new THREE.Mesh(puffy(0.21, 0.24, 0.62, 6, 24), suit);
-  torso.position.y = 0.86; torso.scale.z = 0.78;
-  body.add(torso);
-  const collar = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.05, 10, 20), suit);
-  collar.rotation.x = Math.PI / 2; collar.position.y = 1.47;
-  body.add(collar);
+  body.add(partMesh(parts.body, fabric));
   const head = new THREE.Group();
-  head.position.set(0, 1.6, 0.01);
+  head.position.set(0, 1.55, 0.01);
   body.add(head);
-  const hood = new THREE.Mesh(new THREE.SphereGeometry(0.13, 24, 18), suit);
-  hood.scale.set(1, 1.12, 1.05);
-  head.add(hood);
-  const face = new THREE.Mesh(new THREE.CircleGeometry(0.075, 24), new THREE.MeshStandardMaterial({ color: 0x2a1d17, roughness: 0.9 }));
-  face.scale.set(1, 1.15, 1); face.position.set(0, -0.005, 0.128);
-  head.add(face);
-  const ruff = new THREE.Mesh(new THREE.TorusGeometry(0.08, 0.024, 10, 28), fur);
-  ruff.scale.set(1, 1.18, 0.8); ruff.position.set(0, -0.005, 0.122);
-  head.add(ruff);
-  const gog = new THREE.Mesh(new THREE.SphereGeometry(0.105, 24, 12, -0.9, 1.8, 1.1, 0.45), goggle);
-  gog.position.set(0, 0.03, 0.05);
+  head.add(partMesh(parts.head, fabric));
+  const gog = new THREE.Mesh(new THREE.SphereGeometry(0.112, 32, 12, -0.95, 1.9, 1.08, 0.42), goggle);
+  gog.position.set(0, 0.075, 0.035);
   head.add(gog);
-  const mask = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), glove);
-  mask.scale.set(1, 0.85, 0.75); mask.position.set(0, -0.045, 0.125);
-  head.add(mask);
+  const band = new THREE.Mesh(new THREE.TorusGeometry(0.133, 0.01, 6, 40), strap);
+  band.rotation.x = Math.PI / 2 - 0.12; band.position.set(0, 0.1, -0.005); band.scale.set(1, 1.04, 1);
+  head.add(band);
   const hose = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3([
-    new THREE.Vector3(0.03, -0.08, 0.12), new THREE.Vector3(0.12, -0.2, 0.08), new THREE.Vector3(0.16, -0.3, -0.12), new THREE.Vector3(0.1, -0.4, -0.22)]), 20, 0.012, 6), glove);
+    new THREE.Vector3(0.04, -0.03, 0.17), new THREE.Vector3(0.12, -0.12, 0.12), new THREE.Vector3(0.17, -0.25, -0.05), new THREE.Vector3(0.12, -0.36, -0.2)]), 24, 0.011, 8), strap);
   head.add(hose);
-  const bag = new THREE.Mesh(new THREE.BoxGeometry(0.32, 0.46, 0.18, 3, 3, 2), pack);
-  bag.position.set(0, 1.13, -0.24);
-  body.add(bag);
-  const cyl = new THREE.Mesh(new THREE.CapsuleGeometry(0.055, 0.36, 6, 14), bottle);
-  cyl.position.set(0.05, 1.2, -0.36);
-  body.add(cyl);
-  limb([-0.25, 1.38, 0], [-0.33, 1.08, 0.05], 0.075, 0.065, suit, body);
-  limb([-0.33, 1.08, 0.05], [-0.3, 0.86, 0.16], 0.065, 0.055, suit, body);
-  const gl = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 10), glove);
-  gl.position.set(-0.3, 0.82, 0.18);
-  body.add(gl);
+  const cyl = new THREE.Mesh(new THREE.CapsuleGeometry(0.052, 0.38, 8, 16), bottle);
+  cyl.position.set(0.06, 1.23, -0.36);
+  const valve = new THREE.Mesh(new THREE.CylinderGeometry(0.018, 0.022, 0.06, 10), metal);
+  valve.position.set(0.06, 1.47, -0.36);
+  body.add(cyl, valve);
+
+  // the ice axe planted beside the left boot, mitten on its head
   const axe = new THREE.Group();
-  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.014, 0.014, 0.7, 10), metal);
-  shaft.position.y = -0.35;
-  axe.add(shaft);
-  const headA = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.03, 0.02), metal);
-  headA.position.y = 0.01;
-  axe.add(headA);
-  axe.position.set(-0.3, 0.82, 0.18);
-  axe.rotation.z = 0.1;
+  const shaft = new THREE.Mesh(new THREE.CylinderGeometry(0.013, 0.016, 0.66, 12), new THREE.MeshStandardMaterial({ color: 0x2d6cdf, metalness: 0.6, roughness: 0.35 }));
+  shaft.position.y = -0.36;
+  const spike = new THREE.Mesh(new THREE.ConeGeometry(0.016, 0.06, 10), metal);
+  spike.position.y = -0.72; spike.rotation.x = Math.PI;
+  const pick = new THREE.Mesh(new THREE.BoxGeometry(0.2, 0.024, 0.014), metal);
+  pick.position.set(0.07, 0, 0); pick.rotation.z = -0.18;
+  const adze = new THREE.Mesh(new THREE.BoxGeometry(0.07, 0.02, 0.04), metal);
+  adze.position.set(-0.06, 0.004, 0);
+  axe.add(shaft, spike, pick, adze);
+  axe.position.set(-0.3, 0.8, 0.2);
+  axe.rotation.z = 0.08;
   body.add(axe);
+
   const arm = new THREE.Group();
-  arm.position.set(0.25, 1.38, 0);
+  arm.position.set(0.235, 1.43, 0);
   body.add(arm);
-  limb([0, 0, 0], [0.12, 0.26, 0.04], 0.075, 0.065, suit, arm);
-  limb([0.12, 0.26, 0.04], [0.16, 0.52, 0.08], 0.065, 0.055, suit, arm);
-  const g2 = new THREE.Mesh(new THREE.SphereGeometry(0.06, 12, 10), glove);
-  g2.position.set(0.17, 0.57, 0.09);
-  arm.add(g2);
+  arm.add(partMesh(parts.arm, fabric));
   root.traverse((o) => { if (o.isMesh) { o.castShadow = true; } });
 
   const pole = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.025, 1.3, 8), new THREE.MeshStandardMaterial({ color: 0x6b5a45, roughness: 0.9 }));
@@ -191,12 +155,15 @@ export function createClimber(ground = () => -0.4) {
     group: root,
     update(t) {
       uniforms.uTime.value = t;
-      lean.z = -0.12 + Math.sin(t * 1.3) * 0.06;
+      lean.z = -0.1 + Math.sin(t * 1.3) * 0.07;
+      lean.x = Math.sin(t * 0.65) * 0.04;
       head.rotation.y = Math.sin(t * 0.35) * 0.35;
       body.rotation.z = Math.sin(t * 0.9) * 0.01;
     },
     dispose() {
       [f1, f2, f3].forEach((f) => { f.tex.dispose(); f.geo.dispose(); });
+      root.traverse((o) => { if (o.isMesh) { o.geometry.dispose(); } });
+      [fabric, metal, goggle, strap, bottle].forEach((m) => m.dispose());
     },
   };
 }

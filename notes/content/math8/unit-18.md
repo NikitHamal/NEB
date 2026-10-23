@@ -61,44 +61,47 @@ So exactly **three** regular polygons tessellate on their own: the equilateral
 triangle, the square and the regular hexagon. The reason each time is that the
 interior angle divides 360° exactly.
 
-```figure caption="Three regular tessellations. Six triangles, four squares or three hexagons meet at every vertex, and in each case the angles add to exactly 360°."
-fig, ax = plt.subplots(figsize=(5.1, 2.7))
-ax.set_xlim(0, 12)
-ax.set_ylim(0, 6.4)
-ax.axis("off")
-# triangles
-s = 1.0
-for row in range(3):
-    for col in range(4):
-        y = 1.2 + row * (s * 0.866)
-        x = 0.4 + col * s + (row % 2) * s / 2
-        up = (row + col) % 2 == 0
-        if up:
-            ax.add_patch(plt.Polygon([(x, y), (x + s, y), (x + s / 2, y + s * 0.866)],
-                                     fill=True, fc=ACCENT, alpha=0.16, ec=ACCENT, lw=0.8))
-        else:
-            ax.add_patch(plt.Polygon([(x, y + s * 0.866), (x + s, y + s * 0.866),
-                                      (x + s / 2, y)], fill=True, fc=ACCENT,
-                                     alpha=0.16, ec=ACCENT, lw=0.8))
-ax.text(2.2, 5.6, "triangle  6 x 60 = 360", ha="center", fontsize=6.6, color=INK)
-# squares
-for row in range(3):
-    for col in range(3):
-        ax.add_patch(plt.Rectangle((5.4 + col * 0.85, 1.2 + row * 0.85), 0.85, 0.85,
-                                   fc=SERIES[1], alpha=0.16, ec=SERIES[1], lw=0.8))
-ax.text(6.65, 5.6, "square  4 x 90 = 360", ha="center", fontsize=6.6, color=INK)
-# hexagons
-import numpy as np
-R = 0.62
-for cx, cy in [(9.9, 2.1), (10.98, 2.1), (9.36, 3.17), (10.44, 3.17), (11.52, 3.17),
-               (9.9, 4.24), (10.98, 4.24)]:
-    if cx > 12.1:
-        continue
-    pts = [(cx + R * np.cos(t), cy + R * np.sin(t))
-           for t in np.linspace(0, 2 * np.pi, 7)]
-    ax.add_patch(plt.Polygon(pts, fill=True, fc=SERIES[2], alpha=0.16,
-                             ec=SERIES[2], lw=0.8))
-ax.text(10.4, 5.6, "hexagon  3 x 120 = 360", ha="center", fontsize=6.6, color=INK)
+**Naming a tessellation.** Choose one vertex. Going round it, write the number
+of sides of each polygon that meets there, separated by dots. So the triangle
+tessellation is **3.3.3.3.3.3** (six triangles), the square tessellation is
+**4.4.4.4** and the hexagon tessellation is **6.6.6**.
+
+::: definition Regular and semi-regular tessellation
+A **regular tessellation** is made of congruent copies of **one** regular
+polygon (3.3.3.3.3.3, 4.4.4.4 and 6.6.6).
+A **semi-regular tessellation** is made of **two or more** kinds of regular
+polygon, with the same arrangement at every vertex (for example 3.3.3.4.4 or
+4.8.8).
+:::
+
+```figure caption="The three regular tessellations: 3.3.3.3.3.3 (six triangles at a vertex, 6 × 60° = 360°), 4.4.4.4 (4 × 90° = 360°) and 6.6.6 (3 × 120° = 360°). No gaps and no overlaps."
+from matplotlib.patches import Polygon
+fig, axs = plt.subplots(1, 3, figsize=(5.2, 2.2))
+h = np.sqrt(3) / 2
+ax = axs[0]
+for j in range(-1, 6):
+    for i in range(-3, 7):
+        x0 = i + 0.5 * j; y0 = j * h
+        ax.add_patch(Polygon([(x0, y0), (x0 + 1, y0), (x0 + 0.5, y0 + h)], fc=ACCENT, alpha=0.30, ec=INK, lw=0.7))
+        ax.add_patch(Polygon([(x0 + 0.5, y0 + h), (x0 + 1.5, y0 + h), (x0 + 1, y0)], fc=ACCENT, alpha=0.12, ec=INK, lw=0.7))
+ax.set_xlim(0, 4); ax.set_ylim(0, 4)
+ax = axs[1]
+for i in range(4):
+    for j in range(4):
+        ax.add_patch(plt.Rectangle((i, j), 1, 1, fc=SERIES[1], alpha=0.30 if (i + j) % 2 else 0.12, ec=INK, lw=0.7))
+ax.set_xlim(0, 4); ax.set_ylim(0, 4)
+ax = axs[2]
+r = 0.8
+for j in range(-1, 6):
+    for i in range(-1, 6):
+        cx = np.sqrt(3) * r * (i + 0.5 * (j % 2)); cy = 1.5 * r * j
+        pts = [(cx + r * np.cos(np.radians(30 + 60 * k)), cy + r * np.sin(np.radians(30 + 60 * k))) for k in range(6)]
+        ax.add_patch(Polygon(pts, fc=SERIES[2], alpha=0.30 if (i + j) % 2 else 0.14, ec=INK, lw=0.7))
+ax.set_xlim(0, 4); ax.set_ylim(0, 4)
+for ax, t in zip(axs, ["3.3.3.3.3.3", "4.4.4.4", "6.6.6"]):
+    ax.set_aspect("equal"); ax.set_xticks([]); ax.set_yticks([])
+    for sp in ax.spines.values(): sp.set_visible(False)
+    ax.set_title(t, fontsize=9, color=INK)
 fig.tight_layout()
 ```
 
@@ -165,6 +168,50 @@ eight of them.
 
 The notation lists the number of sides of the tiles met, in order, going round
 the vertex. So **4.8.8** means a square, an octagon and an octagon.
+
+```figure caption="Two semi-regular tessellations. Left, 3.3.3.4.4: rows of squares and rows of triangles, 60° + 60° + 60° + 90° + 90° = 360° at every vertex. Right, 4.8.8: one square and two octagons at every vertex, 90° + 135° + 135° = 360°."
+from matplotlib.patches import Polygon
+fig, axs = plt.subplots(1, 2, figsize=(4.8, 2.5))
+h = np.sqrt(3) / 2
+ax = axs[0]
+y = 0.0
+for row in range(4):
+    for i in range(-1, 6):
+        ax.add_patch(plt.Rectangle((i + 0.5 * (row % 2), y), 1, 1, fc=SERIES[1], alpha=0.25, ec=INK, lw=0.7))
+    y += 1
+    for i in range(-1, 6):
+        x0 = i + 0.5 * (row % 2)
+        ax.add_patch(Polygon([(x0, y), (x0 + 1, y), (x0 + 0.5, y + h)], fc=ACCENT, alpha=0.25, ec=INK, lw=0.7))
+        ax.add_patch(Polygon([(x0 + 0.5, y + h), (x0 + 1.5, y + h), (x0 + 1, y)], fc=ACCENT, alpha=0.10, ec=INK, lw=0.7))
+    y += h
+ax.set_xlim(0, 4); ax.set_ylim(0, 4)
+ax = axs[1]
+sd = 1.0; A = sd * (1 + np.sqrt(2)); R = sd / (2 * np.sin(np.radians(22.5)))
+for i in range(-1, 4):
+    for j in range(-1, 4):
+        cx, cy = i * A, j * A
+        pts = [(cx + R * np.cos(np.radians(22.5 + 45 * k)), cy + R * np.sin(np.radians(22.5 + 45 * k))) for k in range(8)]
+        ax.add_patch(Polygon(pts, fc=SERIES[2], alpha=0.25, ec=INK, lw=0.7))
+        qx, qy = cx + A / 2, cy + A / 2; d = sd / np.sqrt(2)
+        ax.add_patch(Polygon([(qx + d, qy), (qx, qy + d), (qx - d, qy), (qx, qy - d)], fc=SERIES[1], alpha=0.35, ec=INK, lw=0.7))
+ax.set_xlim(0, 2 * A); ax.set_ylim(0, 2 * A)
+for ax, t in zip(axs, ["3.3.3.4.4", "4.8.8"]):
+    ax.set_aspect("equal"); ax.set_xticks([]); ax.set_yticks([])
+    for sp in ax.spines.values(): sp.set_visible(False)
+    ax.set_title(t, fontsize=9, color=INK)
+fig.tight_layout()
+```
+
+::: example Finding the missing polygon
+**Problem.** At every vertex of a semi-regular tessellation there are one
+equilateral triangle, two squares and one other regular polygon, in the order
+3.4.?.4. Find the missing polygon and name the tessellation.
+
+**Solution.** Angles already used: $60°+90°+90°=240°$.
+Remaining angle $=360°-240°=120°$, which is the interior angle of a regular
+**hexagon** (since $\frac{(6-2)\times180°}{6}=120°$).
+The tessellation is **3.4.6.4**.
+:::
 
 ::: tip Read the notation like a recipe
 In 4.8.8, the numbers are the sides of the polygons in order round one vertex.
@@ -242,8 +289,7 @@ pattern onto itself. Every tiling in this chapter is periodic.
 3. What is a semi-regular tessellation? Give one example of a vertex
    arrangement. <span class="marks">[2]</span>
 4. Name the transformation that turns one brick in a wall into the next, and
-   the one that makes a mirror pattern.<span class="marks">[2]</span>
-:::
+   the one that makes a mirror pattern. <span class="marks">[2]</span>
 
 ::: note Answers to Group B
 **1.** The interior angle of an equilateral triangle is 60°, and
@@ -286,15 +332,25 @@ of identical tiles has to meet at each vertex — there can be no part of a tile
 **2.** **Angle arithmetic.** Three triangles and two squares:
 $3\times60+2\times90=180+180=360°$ ✓. So the arrangement 3.3.3.4.4 works at every
 vertex.
-**Patch.** Draw a row of squares; on each square side draw an equilateral
-triangle pointing outward from alternate sides, and the triangles between
-neighbouring squares fit together in pairs to leave no gap. Check one vertex:
-three triangle angles (180°) plus two square angles (180°) fill the point ✓.
-**Symmetry.** The pattern has translation symmetry in both directions (it
-repeats every two squares across and every two rows up), and rotations of order
-2 about the midpoints of shared edges. It has no mirror line through every
-vertex, because the triangle-and-square order runs the same way round each
-vertex — which is exactly what "semi-regular" requires.
+**Patch.** Draw a row of squares side by side. Along the top edge of the row
+draw a strip of equilateral triangles (alternately pointing up and down), then
+another row of squares on top, and so on. Check one vertex: three triangle
+angles (180°) plus two square angles (180°) fill the point ✓.
+**Symmetry.** The pattern repeats by translation both across and upwards, and
+it has mirror lines — for example the vertical line through the centre of any
+square.
+:::
+
+**Extra practice — textbook-style questions**
+
+**1.** A semi-regular tessellation uses one square and two copies of another regular polygon at each vertex. Name the polygon.
+**2.** A vertex has one equilateral triangle, two squares and one other regular polygon. Find the other polygon.
+**3.** Name by vertex notation the tessellation made of regular hexagons only.
+
+::: note Extra practice — answers
+**1.** $360°-90°=270°$, shared by two equal angles: $135°$ each, which is the interior angle of a regular **octagon** (4.8.8).
+**2.** $360°-60°-90°-90°=120°$, the interior angle of a regular **hexagon** (3.4.6.4).
+**3.** 6.6.6 — three hexagons meet at each vertex ($3\times120°=360°$).
 :::
 
 ## Objective practice

@@ -13,9 +13,9 @@ export default function init(stage) {
   const { scene, camera, quality } = engine;
   const seg = quality.segments;
 
-  camera.position.set(0, 7.5, 7.8);
+  camera.position.set(0, 4.4, 5.4);
   const controls = createOrbitControls(camera, engine.canvas, {
-    minDistance: 5, maxDistance: 26, target: new THREE.Vector3(0, 0, 0),
+    minDistance: 3, maxDistance: 26, target: new THREE.Vector3(0, 0, 0),
   });
 
   workshop(scene, engine, quality, { radius: ARENA * 2.2, tiles: 6, shadowSize: ARENA });
@@ -104,6 +104,8 @@ export default function init(stage) {
 
     robot.position.set(state.x, 0, state.z);
     robot.rotation.y = state.heading;
+    // the view drifts after the robot so it never shrinks to a speck in the far corner
+    controls.setTarget(robot.position);
     wheelL.rotation.x += (vl / 0.33) * dt;
     wheelR.rotation.x += (vr / 0.33) * dt;
 

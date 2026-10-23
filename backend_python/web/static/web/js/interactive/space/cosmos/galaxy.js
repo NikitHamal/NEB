@@ -1,5 +1,5 @@
 import { THREE } from '../../core/engine.js';
-import { pointsMaterial, dustMaterial, makePoints, glowSprite } from './shaders.js';
+import { pointsMaterial, dustMaterial, makePoints, glowSprite, shader } from './shaders.js';
 import { rng, gauss, galLB, galToGlobal, LOCAL_GROUP, GALACTIC_R0, LY } from './astro.js';
 
 function hash2(x, y, s) {
@@ -200,6 +200,58 @@ function diskQuaternion(los, incl, pa) {
   return new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 1, 0), normal);
 }
 
+// Galaxies beyond the Local Group, 4 to 40 million light-years out, as one point cloud: each sprite
+// is a tilted exponential disc with a bulge, or a smooth elliptical, so the dark between our
+// neighbours fills with the deep field it really is.
+function galaxyField(quality) {
+  const n = quality.tier === 'low' ? 1200 : quality.tier === 'medium' ? 2400 : 4000;
+  const r = rng(9001);
+  const pos = new Float32Array(n * 3); const col = new Float32Array(n * 3); const size = new Float32Array(n); const shape = new Float32Array(n * 3);
+  for (let i = 0; i < n; i++) {
+    const d = 4000 + Math.pow(r(), 0.6) * 36000;
+    const u = r() * 2 - 1; const th = r() * Math.PI * 2; const sq = Math.sqrt(1 - u * u);
+    pos[i * 3] = sq * Math.cos(th) * d; pos[i * 3 + 1] = u * d; pos[i * 3 + 2] = sq * Math.sin(th) * d;
+    const ell = r() < 0.3;
+    const c = ell ? [1.0, 0.86, 0.68] : r() < 0.5 ? [0.78, 0.86, 1.0] : [0.95, 0.9, 0.85];
+    const k = 0.5 + r() * 0.7;
+    col[i * 3] = c[0] * k; col[i * 3 + 1] = c[1] * k; col[i * 3 + 2] = c[2] * k;
+    size[i] = (ell ? 40 : 30) + Math.pow(r(), 2) * 130;
+    shape[i * 3] = ell ? 0.55 + r() * 0.45 : 0.15 + r() * 0.85;
+    shape[i * 3 + 1] = r() * Math.PI;
+    shape[i * 3 + 2] = ell ? 1 : 0;
+  }
+  const mat = shader({
+    uniforms: { uScale: { value: 1 }, uPx: { value: 1 } },
+    vertexHead: 'attribute vec3 color; attribute float size; attribute vec3 shape; uniform float uScale; uniform float uPx; varying vec3 vC; varying vec3 vS; varying float vF;',
+    vertex: `vec4 mv = modelViewMatrix * vec4(position, 1.0);
+      float px = size * uScale * uPx / max(1e-6, -mv.z);
+      gl_PointSize = clamp(px, 2.2, 48.0);
+      vF = (0.35 + 0.65 * min(1.0, px / 2.2)) * min(1.0, 96.0 / max(px, 1.0));
+      vC = color; vS = shape;
+      gl_Position = projectionMatrix * mv;`,
+    fragmentHead: 'varying vec3 vC; varying vec3 vS; varying float vF;',
+    fragment: `
+      vec2 q = gl_PointCoord * 2.0 - 1.0;
+      float ca = cos(vS.y); float sa = sin(vS.y);
+      q = vec2(ca * q.x - sa * q.y, sa * q.x + ca * q.y);
+      q.y /= max(vS.x, 0.12);
+      float r = length(q);
+      float a = vS.z > 0.5 ? exp(-pow(r * 3.2, 0.9)) : exp(-r * 4.5) * 0.8 + exp(-r * r * 60.0) * 0.6;
+      a *= smoothstep(1.0, 0.7, length(gl_PointCoord * 2.0 - 1.0));
+      if (a < 0.004) discard;
+      gl_FragColor = vec4(vC * a * vF * 1.1 * uOpacity, 1.0);`,
+    blending: THREE.AdditiveBlending,
+  });
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+  g.setAttribute('size', new THREE.BufferAttribute(size, 1));
+  g.setAttribute('shape', new THREE.BufferAttribute(shape, 3));
+  const pts = new THREE.Points(g, mat);
+  pts.frustumCulled = false;
+  return pts;
+}
+
 export function createLocalGroup(quality) {
   const group = new THREE.Group();
   const parts = [];
@@ -250,6 +302,9 @@ export function createLocalGroup(quality) {
   const dwarfs = makePoints(dp, dc, ds, pointsMaterial({ min: 1.5, max: 5, gain: 0.6 }));
   group.add(dwarfs);
   parts.push({ setPx(uPx, scale) { dwarfs.material.uniforms.uPx.value = uPx; dwarfs.material.uniforms.uScale.value = scale; } });
+  const field = galaxyField(quality);
+  group.add(field);
+  parts.push({ setPx(uPx, scale) { field.material.uniforms.uPx.value = uPx; field.material.uniforms.uScale.value = scale; } });
   labels.push({ text: 'Milky Way', sub: 'our galaxy', get: (v) => v.set(0, 0, 0), min: 22.6, max: 24.0, cls: 'here' });
   labels.push({ text: 'Local Group', sub: '~80 galaxies, 10 million light-years across', get: (v) => v.copy(m31).multiplyScalar(0.45).add(new THREE.Vector3(0, 1600, 0)), min: 23.2, max: 24.6 });
   return {

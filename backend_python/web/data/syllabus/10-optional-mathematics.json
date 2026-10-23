@@ -1,0 +1,702 @@
+{
+ "grade": "10",
+ "grade_label": "Class 10",
+ "grade_label_ne": "कक्षा १०",
+ "subject": "optional-mathematics",
+ "name": "Optional Mathematics",
+ "name_ne": "ऐच्छिक गणित",
+ "icon": "functions",
+ "group": "optional",
+ "color": "#7A3E8E",
+ "lang": "en",
+ "code": "SEE",
+ "hours": 128,
+ "exam": "SEE, 3 hr, FM 75 written (+25 internal)",
+ "areas": [
+  "Units"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Sequence and Series",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Arithmetic sequence and the nth term",
+    "Arithmetic mean",
+    "Sum of an arithmetic series",
+    "Geometric sequence and the nth term",
+    "Geometric mean",
+    "Sum of a geometric series",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Arithmetic sequence and the nth term"
+    },
+    {
+     "no": "1.2",
+     "title": "Arithmetic mean"
+    },
+    {
+     "no": "1.3",
+     "title": "Sum of an arithmetic series"
+    },
+    {
+     "no": "1.4",
+     "title": "Geometric sequence and the nth term"
+    },
+    {
+     "no": "1.5",
+     "title": "Geometric mean"
+    },
+    {
+     "no": "1.6",
+     "title": "Sum of a geometric series"
+    },
+    {
+     "no": "1.7",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "AP: tn=a+(n-1)d with d=t2-t1; three numbers in AP: a-d, a, a+d.",
+    "AM: A=(a+b)/(2); to insert n means, d=(b-a)/(n+1).",
+    "Sum of an AP: Sn=(n)/(2)[2a+(n-1)d]=(n)/(2)(a+l); tn=Sn-Sn-1. Sums of the first n natural, even and odd numbers: (n(n+1))/(2), n(n+1), n^2.",
+    "GP: tn=ar^n-1 with r=(t2)/(t1); three numbers in GP: (a)/(r), a, ar.",
+    "GM: G=√ab; to insert n means, r=left((b)/(a)right)^(1)/(n+1); A≥ G.",
+    "Sum of a GP: Sn=(a(r^n-1))/(r-1) for r>1 and (a(1-r^n))/(1-r) for r<1; Sn=na for r=1.",
+    "Inserting n means gives n+2 terms in all, with b as the (n+2)th term."
+   ],
+   "terms": [
+    "Arithmetic sequence (AP)",
+    "Geometric sequence (GP)"
+   ],
+   "stats": {
+    "words": 4239,
+    "figures": 4,
+    "examples": 34
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Quadratic Equations and Graphs",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Quadratic equations: roots and their nature",
+    "Graph of a quadratic function",
+    "Graph of a cubic function",
+    "Solving a quadratic and a linear equation together",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Quadratic equations: roots and their nature"
+    },
+    {
+     "no": "2.2",
+     "title": "Graph of a quadratic function"
+    },
+    {
+     "no": "2.3",
+     "title": "Graph of a cubic function"
+    },
+    {
+     "no": "2.4",
+     "title": "Solving a quadratic and a linear equation together"
+    },
+    {
+     "no": "2.5",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Quadratic formula: x=frac-b±√b^2-4ac2a, D=b^2-4ac. D>0: two real different roots; D=0: equal roots; D<0: no real roots.",
+    "Sum and product: α+β=-(b)/(a), αβ=(c)/(a); equation x^2-(α+β)x+αβ=0.",
+    "Parabola y=ax^2+bx+c: axis x=-(b)/(2a); vertex found by substituting; y-intercept c; x-intercepts are the roots; opens up if a>0 (minimum), down if a<0 (maximum).",
+    "Cubic y=ax^3: rises through quadrants 3, 1 if a>0; falls through quadrants 2, 4 if a<0; symmetric about the origin.",
+    "To draw a graph: table centred on the vertex, plot, smooth curve, label axes and intercepts.",
+    "Line and parabola: substitute to get a quadratic in x; D>0 two points, D=0 tangent, D<0 none."
+   ],
+   "terms": [
+    "Quadratic equation",
+    "Cubic function"
+   ],
+   "stats": {
+    "words": 3600,
+    "figures": 5,
+    "examples": 26
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Matrices and Determinants",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Determinant of a matrix",
+    "Inverse of a matrix",
+    "Solving linear equations by the matrix method",
+    "Cramer's rule",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Determinant of a matrix"
+    },
+    {
+     "no": "3.2",
+     "title": "Inverse of a matrix"
+    },
+    {
+     "no": "3.3",
+     "title": "Solving linear equations by the matrix method"
+    },
+    {
+     "no": "3.4",
+     "title": "Cramer's rule"
+    },
+    {
+     "no": "3.5",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Determinant: |A|=ad-bc for A=[(a,b),(c,d)]. A is singular if |A|=0. |AB|=|A||B|, |kA|=k^2|A|.",
+    "Inverse: A^-1=(1)/(ad-bc)[(d,-b),(-c,a)], exists only if |A|≠0. AA^-1=A^-1A=I; (AB)^-1=B^-1A^-1; |A^-1|=(1)/(|A|).",
+    "Matrix method: AX=B⇒ X=A^-1B (inverse on the left); needs |A|≠0.",
+    "Cramer's rule: x=(Dx)/(D), y=(Dy)/(D) with D=a1b2-a2b1, Dx=c1b2-c2b1, Dy=a1c2-a2c1.",
+    "D≠0: one solution; D=0 with Dx≠0: none; D=Dx=Dy=0: infinitely many.",
+    "Write the equations as ax+by=c before forming any matrix or determinant, and always check the answer."
+   ],
+   "terms": [
+    "Determinant of a 2×2 matrix"
+   ],
+   "stats": {
+    "words": 2900,
+    "figures": 7,
+    "examples": 27
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Trigonometry: Multiple, Submultiple and Transformation Formulas",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Compound angles: a quick review",
+    "Multiple angles 2A and 3A",
+    "Submultiple angles A/2",
+    "Transformation formulas: sums, differences and products",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Compound angles: a quick review"
+    },
+    {
+     "no": "4.2",
+     "title": "Multiple angles 2A and 3A"
+    },
+    {
+     "no": "4.3",
+     "title": "Submultiple angles (A)/(2)"
+    },
+    {
+     "no": "4.4",
+     "title": "Transformation formulas: sums, differences and products"
+    },
+    {
+     "no": "4.5",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Compound angles: sin(A± B)=sin Acos B±cos Asin B; cos(A± B)=cos Acos Bmpsin Asin B; tan(A± B)=(tan A±tan B)/(1mptan Atan B).",
+    "Double angle: sin2A=2sin Acos A=(2tan A)/(1+tan^2A); cos2A=cos^2A-sin^2A=2cos^2A-1=1-2sin^2A=(1-tan^2A)/(1+tan^2A); tan2A=(2tan A)/(1-tan^2A).",
+    "Triple angle: sin3A=3sin A-4sin^3A; cos3A=4cos^3A-3cos A; tan3A=(3tan A-tan^3A)/(1-3tan^2A).",
+    "Half angle: sin^2(A)/(2)=(1-cos A)/(2); cos^2(A)/(2)=(1+cos A)/(2); tan(A)/(2)=(sin A)/(1+cos A)=(1-cos A)/(sin A). Sign from the quadrant of (A)/(2).",
+    "Product to sum: 2sin Acos B=sin(A+B)+sin(A-B); 2cos Acos B=cos(A+B)+cos(A-B); 2sin Asin B=cos(A-B)-cos(A+B).",
+    "Sum to product: sin C+sin D=2sin(C+D)/(2)cos(C-D)/(2); cos C+cos D=2cos(C+D)/(2)cos(C-D)/(2); cos C-cos D=-2sin(C+D)/(2)sin(C-D)/(2).",
+    "Special products: cos20^°cos40^°cos80^°=(1)/(8); sin20^°sin40^°sin80^°=frac√38."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2508,
+    "figures": 3,
+    "examples": 24
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Conditional Identities, Trigonometric Equations and Height and Distance",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Conditional trigonometric identities",
+    "Trigonometric equations",
+    "Height and distance",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Conditional trigonometric identities"
+    },
+    {
+     "no": "5.2",
+     "title": "Trigonometric equations"
+    },
+    {
+     "no": "5.3",
+     "title": "Height and distance"
+    },
+    {
+     "no": "5.4",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Triangle conditions (A+B+C=180^°): sin(A+B)=sin C, cos(A+B)=-cos C, tan(A+B)=-tan C, sin(A+B)/(2)=cos(C)/(2).",
+    "Identities: sin2A+sin2B+sin2C=4sin Asin Bsin C; tan A+tan B+tan C=tan Atan Btan C; sin A+sin B+sin C=4cos(A)/(2)cos(B)/(2)cos(C)/(2); cos A+cos B+cos C=1+4sin(A)/(2)sin(B)/(2)sin(C)/(2); cos2A+cos2B+cos2C=-1-4cos Acos Bcos C.",
+    "If A+B+C=90^°: tan Atan B+tan Btan C+tan Ctan A=1.",
+    "Equations: find the principal value α, then use quadrants: sinθ=k: α, 180^°-α; cosθ=k: α, 360^°-α; tanθ=k: α, 180^°+α (for positive k). Factorise, never divide by a ratio, and respect the range.",
+    "Height and distance: tanθ=(h)/(d); angle of depression from a point equals the angle of elevation of that point from below (alternate angles). Draw the figure first.",
+    "Two-position problems: write two equations with the same height h and solve; tan30^°=frac1√3, tan60^°=√3."
+   ],
+   "terms": [
+    "Angles of elevation and depression"
+   ],
+   "stats": {
+    "words": 3191,
+    "figures": 4,
+    "examples": 23
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Angle between Two Lines and Pair of Straight Lines",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Angle between two straight lines, parallel and perpendicular lines",
+    "Pair of straight lines through the origin: the homogeneous equation of second degree",
+    "Angle between the pair of lines given by a homogeneous equation",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Angle between two straight lines"
+    },
+    {
+     "no": "6.2",
+     "title": "Pair of straight lines through the origin"
+    },
+    {
+     "no": "6.3",
+     "title": "Angle between the pair of lines"
+    },
+    {
+     "no": "6.4",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Slope m=tanθ; for ax+by+c=0, m=-dfrac ab.",
+    "Angle between lines of slopes m1,m2: tanθ=left|dfracm1-m21+m1m2right|.",
+    "For a1x+b1y+c1=0 and a2x+b2y+c2=0: tanθ=left|dfraca1b2-a2b1a1a2+b1b2right|.",
+    "Parallel: m1=m2. Perpendicular: m1m2=-1, i.e. a1a2+b1b2=0.",
+    "The combined equation of two lines through the origin is the product of their equations; it is ax^2+2hxy+by^2=0.",
+    "Lines y=m1x, y=m2x from it: m1+m2=-dfrac2hb, m1m2=dfrac ab.",
+    "Angle between the pair: tanθ=left|dfrac2√h^2-aba+bright|.",
+    "Perpendicular if a+b=0; coincident if h^2=ab; real and distinct if h^2>ab."
+   ],
+   "terms": [
+    "Homogeneous equation of second degree"
+   ],
+   "stats": {
+    "words": 2809,
+    "figures": 3,
+    "examples": 15
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Conic Sections and Circle",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Conic sections: circle, parabola, ellipse and hyperbola",
+    "Equation of a circle: centre and radius form",
+    "Diameter form and the general equation of a circle",
+    "Circle through three points and circles under given conditions",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Conic sections: circle, parabola, ellipse and hyperbola"
+    },
+    {
+     "no": "7.2",
+     "title": "Equation of a circle: centre and radius form"
+    },
+    {
+     "no": "7.3",
+     "title": "Diameter form and the general equation of a circle"
+    },
+    {
+     "no": "7.4",
+     "title": "Circle through three points and circles under given conditions"
+    },
+    {
+     "no": "7.5",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Conic sections: circle (cut parallel to base), ellipse (slanted cut), parabola (cut parallel to a generator), hyperbola (cut of a double cone steeper than a generator).",
+    "A circle is the locus of a point at a fixed distance (radius) from a fixed point (centre).",
+    "Centre–radius form: (x-h)^2+(y-k)^2=r^2; with centre at the origin, x^2+y^2=r^2.",
+    "Diameter form: (x-x1)(x-x2)+(y-y1)(y-y2)=0.",
+    "General form: x^2+y^2+2gx+2fy+c=0 with centre (-g,-f) and radius √g^2+f^2-c.",
+    "It is a real circle only if g^2+f^2-c>0.",
+    "A circle touches the x-axis if r=|k|, the y-axis if r=|h|; touching both in the first quadrant, h=k=r.",
+    "Circle through three points: substitute into the general form and solve for g,f,c."
+   ],
+   "terms": [
+    "Circle"
+   ],
+   "stats": {
+    "words": 2879,
+    "figures": 4,
+    "examples": 17
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Vector",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Scalar (dot) product of two vectors",
+    "Angle between vectors, perpendicular and parallel vectors",
+    "Vector geometry: section formula and collinear points",
+    "Theorems on triangles",
+    "Theorems on quadrilaterals and the semicircle",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Scalar (dot) product of two vectors"
+    },
+    {
+     "no": "8.2",
+     "title": "Angle between vectors, perpendicular and parallel vectors"
+    },
+    {
+     "no": "8.3",
+     "title": "Vector geometry: section formula and collinear points"
+    },
+    {
+     "no": "8.4",
+     "title": "Theorems on triangles"
+    },
+    {
+     "no": "8.5",
+     "title": "Theorems on quadrilaterals and the semicircle"
+    },
+    {
+     "no": "8.6",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "acdotb=|a||b|cosθ=a1b1+a2b2; the result is a number.",
+    "icdoti=jcdotj=1, icdotj=0; acdota=|a|^2.",
+    "|apmb|^2=|a|^2±2acdotb+|b|^2; (a+b)·(a-b)=|a|^2-|b|^2.",
+    "cosθ=dfracacdotb|a||b|; perpendicular Leftrightarrowacdotb=0; parallel Leftrightarrow a1b2-a2b1=0.",
+    "Projection of a on b =dfracacdotb|b|.",
+    "AB=b-a; midpoint dfraca+b2; section formula dfracmb+nam+n; centroid dfraca+b+c3; parallelogram d=a+c-b.",
+    "Collinear: AB=kAC.",
+    "Theorems proved: midpoint theorem; isosceles median; Pythagoras; midpoints of a quadrilateral form a parallelogram; rhombus diagonals perpendicular; angle in a semicircle; parallelogram diagonals bisect."
+   ],
+   "terms": [
+    "Scalar product"
+   ],
+   "stats": {
+    "words": 2588,
+    "figures": 5,
+    "examples": 12
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Linear Programming and Transformation",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Linear inequalities in two variables and systems of inequalities",
+    "Linear programming: objective function, constraints and corner points",
+    "Composition of transformations",
+    "Inversion transformation and the inversion circle",
+    "Transformation using matrices",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Linear inequalities in two variables and systems of inequalities"
+    },
+    {
+     "no": "9.2",
+     "title": "Linear programming: objective function, constraints and corner points"
+    },
+    {
+     "no": "9.3",
+     "title": "Composition of transformations"
+    },
+    {
+     "no": "9.4",
+     "title": "Inversion transformation and the inversion circle"
+    },
+    {
+     "no": "9.5",
+     "title": "Transformation using matrices"
+    },
+    {
+     "no": "9.6",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Graph of ax+by+c≥ 0: boundary line (solid for ≥ ,≤ ; dashed for >,<) and the side confirmed by a test point; a system's solution is the overlap.",
+    "Linear programming: maximise or minimise z=px+qy under linear constraints with x,y≥ 0; the optimum occurs at a corner point of the feasible region.",
+    "Method: variables, objective function, constraints, feasible region, corners, evaluate z, choose.",
+    "Basic images: reflection in x-axis (x,-y); in y-axis (-x,y); in y=x (y,x); in y=-x (-y,-x); rotation 90^° (-y,x); 180^° (-x,-y); enlargement (kx,ky); translation (x+a,y+b).",
+    "T2° T1 means T1 first, then T2; order matters.",
+    "Inversion: OP× OP'=r^2; x'=dfracr^2xx^2+y^2, y'=dfracr^2yx^2+y^2; a point on the circle is its own inverse.",
+    "A 2×2 matrix transforms (x,y) by row-by-column multiplication; its columns are the images of (1,0) and (0,1).",
+    "The matrix of T1 followed by T2 is the product M2M1."
+   ],
+   "terms": [
+    "Linear programming",
+    "Composition of transformations",
+    "Inverse point"
+   ],
+   "stats": {
+    "words": 3929,
+    "figures": 7,
+    "examples": 19
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Continuity",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Limit of a function: left-hand and right-hand limits",
+    "Continuity and discontinuity on the number line and in graphs",
+    "Continuity of a function at a point",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Limit of a function: left-hand and right-hand limits"
+    },
+    {
+     "no": "10.2",
+     "title": "Continuity and discontinuity on the number line and in graphs"
+    },
+    {
+     "no": "10.3",
+     "title": "Continuity of a function at a point"
+    },
+    {
+     "no": "10.4",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "displaystylelimx→ a^-f(x) is the left-hand limit; displaystylelimx→ a^+f(x) the right-hand limit. The limit exists only if they are equal.",
+    "The limit depends on values near a, not on f(a) itself.",
+    "To find a limit: substitute; if dfrac00, factorise and cancel.",
+    "The real number line is continuous (no gaps); natural numbers, integers and rational numbers are not.",
+    "A graph is continuous at x=c if it has no break, jump, gap or hole there.",
+    "f is continuous at x=a if limx→ a^-f(x)=limx→ a^+f(x)=f(a).",
+    "Polynomials are continuous everywhere; piecewise functions and fractions need checking at the joining point or where the denominator is zero.",
+    "To find k: equate the left limit, right limit and f(a)."
+   ],
+   "terms": [
+    "Left-hand limit, right-hand limit and limit",
+    "Continuous at a point (graph description)"
+   ],
+   "stats": {
+    "words": 2595,
+    "figures": 4,
+    "examples": 14
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Statistics: Measures of Dispersion",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Quartile deviation and its coefficient",
+    "Mean deviation and its coefficient",
+    "Standard deviation, variance and coefficient of variation",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Quartile deviation and its coefficient"
+    },
+    {
+     "no": "11.2",
+     "title": "Mean deviation and its coefficient"
+    },
+    {
+     "no": "11.3",
+     "title": "Standard deviation, variance and coefficient of variation"
+    },
+    {
+     "no": "11.4",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Quartiles: Q1, Q2, Q3 divide ordered data into four parts. Positions: (n+1)/(4) and (3(n+1))/(4) (individual/discrete); frac N4 and (3N)/(4) with Q=l+frac(kN)/(4)-c.f.f× i (grouped).",
+    "Quartile deviation =dfracQ3-Q12; coefficient =dfracQ3-Q1Q3+Q1.",
+    "Mean deviation =dfracΣ f|x-bar x|N; coefficient =dfracM.D.bar x.",
+    "Standard deviation σ=√dfracΣ f(x-bar x)^2N=√dfracΣ fx^2N-bar x^2; variance =σ^2.",
+    "Step deviation: d=dfracm-Ah; bar x=A+dfracΣ fdNh; σ=h√dfracΣ fd^2N-left(dfracΣ fdNright)^2.",
+    "Coefficient of variation =dfracσbar x×100%; the smaller C.V. means more consistent data."
+   ],
+   "terms": [
+    "Quartile deviation",
+    "Mean deviation",
+    "Standard deviation and variance"
+   ],
+   "stats": {
+    "words": 2890,
+    "figures": 3,
+    "examples": 11
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Functions and Polynomials",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Relations: ordered pairs, domain and range",
+    "Functions: definition, vertical line test, values of a function",
+    "Domain and range of a function; one-one, onto, constant and identity functions",
+    "Composite functions",
+    "Inverse functions and their graphs",
+    "Polynomials: degree, standard form and the division algorithm",
+    "Remainder theorem and factor theorem",
+    "Synthetic division, zeros of a polynomial and factorisation",
+    "Exercises of the SEE type"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Relations"
+    },
+    {
+     "no": "12.2",
+     "title": "Functions"
+    },
+    {
+     "no": "12.3",
+     "title": "Domain and range of a function"
+    },
+    {
+     "no": "12.4",
+     "title": "Composite functions"
+    },
+    {
+     "no": "12.5",
+     "title": "Inverse functions and their graphs"
+    },
+    {
+     "no": "12.6",
+     "title": "Polynomials"
+    },
+    {
+     "no": "12.7",
+     "title": "The remainder theorem"
+    },
+    {
+     "no": "12.8",
+     "title": "The factor theorem"
+    },
+    {
+     "no": "12.9",
+     "title": "Synthetic division"
+    },
+    {
+     "no": "12.10",
+     "title": "Zeros of a polynomial and factorisation"
+    },
+    {
+     "no": "12.11",
+     "title": "Zeros and coefficients"
+    },
+    {
+     "no": "12.12",
+     "title": "Exercises of the SEE type"
+    }
+   ],
+   "summary": [
+    "Relation: a set of ordered pairs; domain = first components, range = second components.",
+    "Function: every element of the domain has exactly one image. Vertical line test; horizontal line test for one-one.",
+    "Domain: exclude zero denominators; keep square-root arguments ≥ 0.",
+    "Composite: (f° g)(x)=f(g(x)); in general f° g≠ g° f.",
+    "Inverse: solve y=f(x) for x, then swap letters; the graph of f^-1 is the mirror image of that of f in y=x.",
+    "Polynomial: degree n, standard form; p(x)=d(x)q(x)+r(x).",
+    "Remainder theorem: remainder on division by x-a is p(a).",
+    "Factor theorem: x-a is a factor iff p(a)=0."
+   ],
+   "terms": [
+    "Domain and range of a relation",
+    "Function",
+    "Composite function",
+    "Inverse function",
+    "Polynomial"
+   ],
+   "stats": {
+    "words": 4676,
+    "figures": 4,
+    "examples": 46
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 12,
+ "topic_count": 64,
+ "notes_ready": 12
+}

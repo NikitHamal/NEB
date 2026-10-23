@@ -1,0 +1,255 @@
+{
+ "book": "phy12",
+ "units": [
+  {
+   "no": 1,
+   "title": "Rotational dynamics",
+   "area": "Mechanics",
+   "words": 3171,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Periodic motion",
+   "area": "Mechanics",
+   "words": 2662,
+   "read_min": 15,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Fluid statics",
+   "area": "Mechanics",
+   "words": 3301,
+   "read_min": 18,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "First Law of Thermodynamics",
+   "area": "Heat and Thermodynamics",
+   "words": 3260,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Second Law of Thermodynamics",
+   "area": "Heat and Thermodynamics",
+   "words": 3161,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Wave motion",
+   "area": "Waves and Optics",
+   "words": 2336,
+   "read_min": 13,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Mechanical waves",
+   "area": "Waves and Optics",
+   "words": 2809,
+   "read_min": 16,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Wave in pipes and strings",
+   "area": "Waves and Optics",
+   "words": 2669,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Acoustic phenomena",
+   "area": "Waves and Optics",
+   "words": 2781,
+   "read_min": 15,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Nature and propagation of light",
+   "area": "Waves and Optics",
+   "words": 2454,
+   "read_min": 14,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Interference",
+   "area": "Waves and Optics",
+   "words": 2231,
+   "read_min": 12,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Diffraction",
+   "area": "Waves and Optics",
+   "words": 2681,
+   "read_min": 15,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Polarization",
+   "area": "Waves and Optics",
+   "words": 2543,
+   "read_min": 14,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Electrical circuits",
+   "area": "Electricity and Magnetism",
+   "words": 3989,
+   "read_min": 22,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Thermoelectric effects",
+   "area": "Electricity and Magnetism",
+   "words": 2942,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Magnetic field",
+   "area": "Electricity and Magnetism",
+   "words": 5329,
+   "read_min": 30,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Magnetic properties of materials",
+   "area": "Electricity and Magnetism",
+   "words": 3160,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Electromagnetic Induction",
+   "area": "Electricity and Magnetism",
+   "words": 3151,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "Alternating Currents",
+   "area": "Electricity and Magnetism",
+   "words": 3073,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "Electrons",
+   "area": "Modern Physics",
+   "words": 2693,
+   "read_min": 15,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "Photons",
+   "area": "Modern Physics",
+   "words": 2326,
+   "read_min": 13,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 22,
+   "title": "Semiconductor devices",
+   "area": "Modern Physics",
+   "words": 2967,
+   "read_min": 16,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 23,
+   "title": "Quantization of energy",
+   "area": "Modern Physics",
+   "words": 3229,
+   "read_min": 18,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 24,
+   "title": "Radioactivity and nuclear reaction",
+   "area": "Modern Physics",
+   "words": 2889,
+   "read_min": 16,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 25,
+   "title": "Recent trends in physics",
+   "area": "Modern Physics",
+   "words": 2764,
+   "read_min": 15,
+   "figures": 5,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank12",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Physics: Unit-wise Objective Question Bank",
+   "words": 11943,
+   "read_min": 66
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Physics: Unit-wise Subjective Question Bank",
+   "words": 57542,
+   "read_min": 320
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Physics: Model Question Sets and Predicted Questions",
+   "words": 10170,
+   "read_min": 56
+  }
+ ],
+ "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
+}

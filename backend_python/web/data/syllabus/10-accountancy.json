@@ -1,0 +1,914 @@
+{
+ "grade": "10",
+ "grade_label": "Class 10",
+ "grade_label_ne": "कक्षा १०",
+ "subject": "accountancy",
+ "name": "Accountancy",
+ "name_ne": "कार्यालय सञ्चालन तथा लेखा",
+ "icon": "account_balance",
+ "group": "optional",
+ "color": "#9D174D",
+ "lang": "en",
+ "code": "SEE-ACC",
+ "hours": 96,
+ "exam": "SEE (Secondary Education Examination) elective paper, Full Marks 75, Time 3 hours. Group A very short answer 11 × 1 = 11 (all compulsory, covering every unit). Group B short answer 8 × 5 = 40 (all compulsory; one question each is set from units 1 and 13, 14, 15, and alternatives may be offered in units 6 and 10). Group C long answer 3 × 8 = 24 (a numerical long question is always offered with a theoretical alternative). 22 questions in all. Internal/practical assessment carries the remaining 25 marks of the 100-mark subject.",
+ "areas": [
+  "Office Management",
+  "Financial Institutions",
+  "Tax",
+  "Business Accounting",
+  "Final Accounts",
+  "Government Accounting of Nepal",
+  "Fund and Retention Accounting",
+  "Control and Audit",
+  "Information Technology"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Office Management and Procedure (कार्यालय व्यवस्थापन र कार्यविधि)",
+   "hours": 10,
+   "area": "Office Management",
+   "topics": [
+    "Office and office management: meaning, definitions and features",
+    "Importance and areas of office management",
+    "Office layout (कार्यालय विन्यास): principles, types, advantages and limits",
+    "Office procedure (कार्यालय कार्यविधि): meaning, stages and principles",
+    "Noting (टिप्पणी): meaning, importance and points to observe",
+    "Drafting (प्रस्ताव): meaning, essentials of a good draft",
+    "Report (प्रतिवेदन): meaning, types, points to observe while preparing one",
+    "Office order and toc order (टोक आदेश)",
+    "Filing (फाइलिङ): meaning, objectives, essential features",
+    "Types and methods of filing; centralised and decentralised filing",
+    "Indexing (अनुक्रमणिका): meaning, types, advantages",
+    "Records management: retention, disposal and safety of records"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Office and office management"
+    },
+    {
+     "no": "1.2",
+     "title": "Importance and areas of office management"
+    },
+    {
+     "no": "1.3",
+     "title": "Office layout (कार्यालय विन्यास)"
+    },
+    {
+     "no": "1.4",
+     "title": "Office procedure (कार्यालय कार्यविधि)"
+    },
+    {
+     "no": "1.5",
+     "title": "Noting (टिप्पणी)"
+    },
+    {
+     "no": "1.6",
+     "title": "Drafting (प्रस्ताव)"
+    },
+    {
+     "no": "1.7",
+     "title": "Report (प्रतिवेदन)"
+    },
+    {
+     "no": "1.8",
+     "title": "Office order and toc order (टोक आदेश)"
+    },
+    {
+     "no": "1.9",
+     "title": "Filing (फाइलिङ)"
+    },
+    {
+     "no": "1.10",
+     "title": "Types and methods of filing"
+    },
+    {
+     "no": "1.11",
+     "title": "Indexing (अनुक्रमणिका)"
+    },
+    {
+     "no": "1.12",
+     "title": "Records management: retention, disposal and safety"
+    }
+   ],
+   "summary": [
+    "An office is where information is received, recorded, arranged and supplied; office management is planning, organising, directing, coordinating and controlling that work efficiently and economically.",
+    "The areas of office management are personnel, layout and environment, machines and equipment, records, forms and stationery, communication, and routine financial work.",
+    "Office layout arranges space for straight-line flow, minimum movement, light, space, flexibility, supervision and safety. Open layout is cheap and easy to supervise but noisy and public; closed layout is private and quiet but costly; most offices use a mixed plan.",
+    "An office procedure is the fixed sequence for one kind of work: receipt, sorting, recording, action, noting and drafting, approval, dispatch, follow-up. It must be simple, economical, flexible, written and reviewed.",
+    "A noting is the internal record of facts, rules, views and a proposal, written for the deciding officer. A draft is the outgoing letter, prepared in final form, with the seven standard parts and one subject only.",
+    "A report states terms of reference, method, findings, conclusions and practical recommendations. An office order instructs staff; a toc order is the day-book entry by which every paper handled is traceable.",
+    "Filing keeps documents safe and traceable. It must be simple, prompt, economical, flexible, safe, accessible and compact.",
+    "Filing is done by method (horizontal, vertical, lateral, suspension) and by classification (alphabetical, numerical, alphanumerical, chronological, subject, geographical, decimal, colour). The choice must fit the query the office must answer."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 6417,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Bank, Insurance and Financial Institutions (बैंक, बीमा तथा वित्तीय संस्थाहरू)",
+   "hours": 10,
+   "area": "Financial Institutions",
+   "topics": [
+    "Financial institutions (वित्तीय संस्था): meaning and types",
+    "Banking financial institutions (बैंकिङ वित्तीय संस्थाहरू)",
+    "Central bank: introduction and functions; Nepal Rastra Bank",
+    "Commercial banks: introduction and functions",
+    "Development banks, finance companies and microfinance institutions",
+    "Non-banking financial institutions (गैरबैंकिङ वित्तीय संस्था); insurance and its kinds",
+    "Financial cooperatives (वित्तीय सहकारी संस्था) and banking instruments (banking उपकरणहरू)",
+    "Remittance (विप्रेषण); money market, capital market and commodity market"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Financial institutions: meaning and types"
+    },
+    {
+     "no": "2.2",
+     "title": "Banking financial institutions"
+    },
+    {
+     "no": "2.3",
+     "title": "Central bank: introduction and functions"
+    },
+    {
+     "no": "2.4",
+     "title": "Commercial banks: introduction and functions"
+    },
+    {
+     "no": "2.5",
+     "title": "Development banks, finance companies and microfinance institutions"
+    },
+    {
+     "no": "2.6",
+     "title": "Non-banking financial institutions; insurance"
+    },
+    {
+     "no": "2.7",
+     "title": "Financial cooperatives and banking instruments"
+    },
+    {
+     "no": "2.8",
+     "title": "Remittance; money market, capital market and commodity market"
+    }
+   ],
+   "summary": [
+    "A financial institution collects money from savers and lends or invests it for borrowers, matching different maturities and carrying risk. It is either banking (central bank, commercial banks, development banks, finance companies, microfinance institutions) or non-banking (insurance, provident fund, CIT, mutual funds, cooperatives).",
+    "A bank accepts deposits, lends, and provides payment services, and it creates credit when it lends. Its income is the spread between deposit and lending rates plus fees.",
+    "A central bank is the apex institution. Nepal Rastra Bank was established on 26 April 1956 A.D. (2013 B.S.).",
+    "The central bank issues currency, acts as banker to the government and to the banks, is the lender of last resort, makes monetary policy, manages foreign exchange, supervises the banks and financial institutions, runs the clearing house and promotes the financial sector.",
+    "A commercial bank's primary functions are accepting deposits (savings, current, fixed, recurring), advancing loans (cash credit, overdraft, demand loan, term loan, bill discounting) and credit creation. Its agency and general utility functions include collection and payment, safe custody, drafts and pay orders, cards, mobile banking, remi",
+    "Development banks give medium and long-term project finance; finance companies do hire purchase, lease, housing and consumer credit; microfinance institutions lend small amounts to groups of poor households.",
+    "Insurance is a contract under which the insurer pays on a stated event in return for a premium. It works by pooling risk. Life insurance covers human life; non-life covers fire, marine, motor, health, accident, crop and livestock. Beema Samiti is the regulator.",
+    "A financial cooperative is member-owned and lends to its members; banking instruments are the cheque, draft, pay order, traveller's cheque, letter of credit, debit card, credit card and mobile/internet banking."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5412,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Introduction to Tax (करको परिचय)",
+   "hours": 4,
+   "area": "Tax",
+   "topics": [
+    "Revenue (राजस्व): meaning and sources",
+    "Tax: introduction, principles and objectives of taxation",
+    "Classification of taxes: direct and indirect, progressive and regressive",
+    "Permanent Account Number (स्थायी लेखा नम्बर) and its use",
+    "Value Added Tax (मूल्य अभिवृद्धि कर): meaning, features and calculation"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Revenue: meaning and sources"
+    },
+    {
+     "no": "3.2",
+     "title": "Tax: introduction, principles and objectives"
+    },
+    {
+     "no": "3.3",
+     "title": "Classification of taxes"
+    },
+    {
+     "no": "3.4",
+     "title": "Permanent Account Number (PAN)"
+    },
+    {
+     "no": "3.5",
+     "title": "Introduction to Value Added Tax (VAT)"
+    }
+   ],
+   "summary": [
+    "Revenue is the income a government raises for public expenditure. It is tax revenue (compulsory, no direct return) or non-tax revenue (fees, fines, royalties, dividends, interest, rent, grants). In Nepal more than 85 % of revenue comes from taxes.",
+    "A tax is a compulsory contribution imposed by law on persons, goods, services and transactions without a direct and proportionate return.",
+    "Adam Smith's canons: equality (ability to pay), certainty, convenience and economy; modern writers add simplicity, flexibility, elasticity and neutrality.",
+    "Objectives of taxation: revenue, redistribution of income, control of inflation, protection of domestic industry, discouragement of harmful consumption, encouragement of saving and investment, and balanced regional development.",
+    "Direct tax is borne by the person on whom it is legally imposed and cannot be shifted (income tax, house and land tax, capital gains tax). Indirect tax is shifted to the final consumer (VAT, excise, customs).",
+    "PAN is a unique nine-digit, permanent number issued by the Inland Revenue Department. It is compulsory for industry, trade, business, profession and employment. It is a personal PAN for an individual and a business PAN for a firm or company, and it must be quoted in bank transactions and in bills.",
+    "VAT is an indirect tax on the value added at each stage of production and distribution. In Nepal it has applied from 1 Mangsir 2054 B.S., under the VAT Act, 2052 and VAT Rules, 2053, at a single rate of 13 per cent.",
+    "A registered dealer deposits output tax minus input tax. The sum of the amounts deposited by all the dealers equals the VAT on the final sale price, so the whole tax is finally borne by the consumer."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3748,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Business Accounting (व्यावसायिक लेखा)",
+   "hours": 5,
+   "area": "Business Accounting",
+   "topics": [
+    "Accounting: meaning, objectives and types (financial, cost, management)",
+    "Objectives and importance of financial accounting in a business organisation",
+    "Accounting standards (लेखामान): meaning and need",
+    "Nepal Accounting Standards (नेपाल लेखामान) and NFRS for SMEs",
+    "Chart of accounts (खातासूची) and its use"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Accounting: meaning, objectives and types"
+    },
+    {
+     "no": "4.2",
+     "title": "Objectives and importance of financial accounting"
+    },
+    {
+     "no": "4.3",
+     "title": "Accounting standards"
+    },
+    {
+     "no": "4.4",
+     "title": "Nepal Accounting Standards"
+    },
+    {
+     "no": "4.5",
+     "title": "Chart of accounts"
+    }
+   ],
+   "summary": [
+    "Accounting identifies, measures, records, classifies, summarises and communicates economic information. The accounting cycle runs: record in the journal, post to the ledger, take a trial balance, adjust and rectify, prepare the final accounts, communicate.",
+    "Financial accounting records transactions with outsiders and reports profit or loss and financial position; cost accounting finds the cost per unit; management accounting supplies whatever information managers need. Book-keeping is only the recording stage; accountancy is the whole body of knowledge.",
+    "The accounting equation is Assets = Liabilities + Capital; every transaction keeps it true, which is what double entry means.",
+    "Rules of debit and credit: assets and expenses increase on the debit side; liabilities, capital and income increase on the credit side.",
+    "Objectives of financial accounting: systematic record, profit or loss, financial position, control, evidence for tax and audit, communication. Its users are internal (owners, management, employees) and external (banks, creditors, government, investors, auditors, public).",
+    "An accounting standard is a written rule on how to recognise, measure, present and disclose transactions; it makes statements comparable, consistent and reliable.",
+    "In Nepal standards are issued by ICAN through its Accounting Standards Board: NFRS for listed and large entities, NFRS for SMEs for smaller ones, and the older NAS for the rest.",
+    "A chart of accounts is the numbered list of all account heads, arranged in the five groups — assets, liabilities, capital, income and expenses. It gives every head one name and one code."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3805,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Bank Reconciliation Statement (बैंक हिसाब मिलान)",
+   "hours": 5,
+   "area": "Business Accounting",
+   "topics": [
+    "Bank reconciliation statement: meaning, need and causes of difference",
+    "Effect of transactions on the cash book and on the passbook",
+    "Preparing a bank reconciliation statement from the cash book balance",
+    "Preparing a bank reconciliation statement from the passbook balance",
+    "Adjusted cash book method and treatment of bank charges, interest and dishonoured cheques"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Bank reconciliation statement: meaning, need and causes of difference"
+    },
+    {
+     "no": "5.2",
+     "title": "Effect of transactions on the cash book and on the passbook"
+    },
+    {
+     "no": "5.3",
+     "title": "Preparing a bank reconciliation statement from the cash book balance"
+    },
+    {
+     "no": "5.4",
+     "title": "Preparing a bank reconciliation statement from the passbook balance"
+    },
+    {
+     "no": "5.5",
+     "title": "Adjusted cash book method"
+    }
+   ],
+   "summary": [
+    "A bank reconciliation statement explains, on a given date, the difference between the bank column of the cash book and the passbook, and makes the two agree.",
+    "The cash book is the trader's record, written when a cheque is issued or received; the passbook is the bank's record, written when the cheque actually reaches the bank. A debit balance in the cash book is a credit balance in the passbook.",
+    "Its need: to check accuracy, to find the true bank balance, to detect dishonoured cheques and unauthorised charges, to prepare the balance sheet, to prevent fraud and to satisfy the auditor.",
+    "Causes of difference: cheques issued but not presented; cheques deposited but not collected; items recorded by the bank only (bank charges, interest, collection of dividends, direct deposits, standing instructions, dishonoured cheques); and errors in either book.",
+    "Working from the cash book balance: add cheques issued but not presented, interest and dividends collected by the bank, direct deposits and wrong credits by the bank; less cheques deposited but not collected, bank charges and interest on overdraft, dishonoured cheques, standing instructions and wrong debits by the bank.",
+    "Working from the passbook balance reverses every item. Where either balance is an overdraft, reason out each item instead of using the list.",
+    "In the adjusted cash book method, items appearing only in the passbook are first entered in the cash book to find an adjusted balance; then the reconciliation is drawn using only the timing differences — cheques issued but not presented (add) and cheques deposited but not collected (less) — and any uncorrected error."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4391,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Accounting Errors (लेखात्मक गल्तीहरू)",
+   "hours": 5,
+   "area": "Business Accounting",
+   "topics": [
+    "Accounting errors: meaning and causes",
+    "Types of errors: errors of principle, omission, commission, compensating errors",
+    "Detection of errors through the trial balance",
+    "Rectification of errors before and after the trial balance",
+    "Suspense account (उज्राती खाता): meaning, preparation and use"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Accounting errors: meaning and causes"
+    },
+    {
+     "no": "6.2",
+     "title": "Types of errors"
+    },
+    {
+     "no": "6.3",
+     "title": "Detection of errors through the trial balance"
+    },
+    {
+     "no": "6.4",
+     "title": "Rectification of errors"
+    },
+    {
+     "no": "6.5",
+     "title": "Suspense account"
+    }
+   ],
+   "summary": [
+    "An accounting error is a mistake in recording, posting, casting, carrying forward or summarising a transaction, or in applying an accounting principle.",
+    "Its causes are carelessness, ignorance of principle, wrong classification, wrong side, omission, compensating mistakes, faulty arithmetic and the wrong account of the same class.",
+    "Types: errors of principle (capital expenditure treated as revenue or the reverse); errors of omission (complete or partial); errors of commission (wrong amount, wrong account, wrong side, wrong casting or balancing); and compensating errors.",
+    "The trial balance tests only that total debits equal total credits. It detects one-sided errors — casting errors, wrong side, wrong amount posted once, partial omission, a balance carried forward wrongly.",
+    "It cannot detect errors of principle, complete omission, compensating errors, a wrong account of the same class, or the same transaction entered twice in both accounts. A trial balance proves arithmetical accuracy, not correctness.",
+    "Rectification before the trial balance is by an ordinary journal entry putting the amounts where they belong. An error of principle is corrected by reversing the wrong entry and passing the correct one.",
+    "Rectification after the trial balance is by a journal entry in which the other side of a one-sided error goes to the suspense account; two-sided errors are corrected exactly as before.",
+    "A suspense account is a temporary account holding the difference in the trial balance. The short side of the trial balance is the side on which the suspense account is entered. It must be cleared to nil; until then a credit balance appears on the liabilities side and a debit balance on the assets side of the balance sheet."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4327,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Final Account (अन्तिम खाता)",
+   "hours": 10,
+   "area": "Final Accounts",
+   "topics": [
+    "Final accounts (अन्तिम खाता): meaning and objectives",
+    "Components of final accounts: trading account, profit and loss account, balance sheet",
+    "Adjustments in financial statements (समायोजन)",
+    "Steps in preparing final accounts and the closing entries",
+    "Preparation of accounting notes (लेखा टिप्पणी) to the statements"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Final accounts: meaning and objectives"
+    },
+    {
+     "no": "7.2",
+     "title": "Components of final accounts"
+    },
+    {
+     "no": "7.3",
+     "title": "Adjustments in financial statements"
+    },
+    {
+     "no": "7.4",
+     "title": "Steps in preparing final accounts"
+    },
+    {
+     "no": "7.5",
+     "title": "Preparation of accounting notes"
+    }
+   ],
+   "summary": [
+    "Final accounts are prepared at the end of the year from the trial balance, after adjustments, to show the profit or loss of the period and the financial position on the closing date. They are also called the financial statements.",
+    "Their objectives are to find gross profit, to find net profit, to show the financial position, to allow comparison, to provide the basis for tax and audit, and to supply the owner with information for decisions.",
+    "The trading account deals with goods: opening stock, purchases and direct expenses on the debit side; sales and closing stock on the credit side; the balance is the gross profit.",
+    "Gross profit = Sales - Cost of goods sold and Cost of goods sold = Opening stock + Purchases + Direct expenses - Closing stock.",
+    "The profit and loss account starts with the gross profit and adds other incomes and deducts indirect expenses; the balance is the net profit.",
+    "The balance sheet is a statement, not an account, of assets, liabilities and capital on the closing date: Assets = Liabilities + Capital.",
+    "An adjustment brings in an item that is earned or incurred but not yet recorded. Every adjustment has two effects — one in the trading or profit and loss account and one in the balance sheet.",
+    "The treatment of the common adjustments: closing stock (credit trading, asset), outstanding expense (add to expense, liability), prepaid expense (less from expense, asset), accrued income (add to income, asset), income in advance (less from income, liability), depreciation (debit profit and loss, deduct from asset), interest on capital (d"
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4586,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "System of Government Accounting in Nepal (नेपालको सरकारी लेखा प्रणाली)",
+   "hours": 7,
+   "area": "Government Accounting of Nepal",
+   "topics": [
+    "Government accounting (सरकारी लेखाप्रणाली): introduction and features",
+    "Main bases of government accounting in Nepal",
+    "Similarities and differences between commercial and government accounting",
+    "Accounting of the federal, provincial and local levels",
+    "Central level and operating level accounting (केन्द्रीय तथा कार्यसञ्चालन स्तरको लेखा)",
+    "Chart of accounts and its use in government accounting",
+    "Determination and use of government accounting formats",
+    "Areas of Nepal's government accounting",
+    "Single account fund and consolidated fund (एकल खाता कोष)"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Government accounting: introduction and features"
+    },
+    {
+     "no": "8.2",
+     "title": "Main bases of government accounting in Nepal"
+    },
+    {
+     "no": "8.3",
+     "title": "Similarities and differences between commercial and government accounting"
+    },
+    {
+     "no": "8.4",
+     "title": "Accounting of the federal, provincial and local levels"
+    },
+    {
+     "no": "8.5",
+     "title": "Central level and operating level accounting"
+    },
+    {
+     "no": "8.6",
+     "title": "Chart of accounts and its use in government accounting"
+    },
+    {
+     "no": "8.7",
+     "title": "Determination and use of government accounting formats"
+    },
+    {
+     "no": "8.8",
+     "title": "Areas of Nepal's government accounting"
+    },
+    {
+     "no": "8.9",
+     "title": "Single account fund and consolidated fund"
+    }
+   ],
+   "summary": [
+    "Government accounting is the system by which a government records, classifies, summarises and reports its revenue, expenditure and financial position, in order to be accountable to the legislature and the people. In Nepal it is governed by the Financial Procedures and Fiscal Responsibility Act, 2076 and its Rules, 2077, and operated by th",
+    "Its bases are: the legal basis, the cash basis, the double-entry system, the fund basis, uniformity of forms and chart of accounts, budget classification, the two levels of accounting, the banking arrangement, and external audit.",
+    "Commercial and government accounting both use double entry and documentary evidence, but they differ in objective (profit against accountability), basis (accrual against cash), ownership, the standing of the budget (plan against law), funds, the statements prepared, performance measurement and audit.",
+    "Nepal has three tiers — federal, provincial and local — each with its own consolidated fund, budget and audit, linked by the divisible fund and the grant system.",
+    "Central level accounting records the transactions of the centre at the FCGO; operating level accounting records a district or local office's transactions in the office itself, through the bank cash book, reported monthly by the statement of expenditure.",
+    "The chart of accounts is the uniform coded list of revenue, expenditure, fund and asset heads, following the budget classification (for example 21111 remuneration, 22111 uniform, 22311 travelling expenses). It makes a payment checkable in advance and the national accounts addable.",
+    "Government formats (the म.ले.प.फा. series) are prescribed centrally: the vouchers (निकासा, आम्दानी, गोश्वारा), the bank cash book (No. 209), the ledgers, the advance register, the statement of expenditure and the revenue statement.",
+    "The areas of government accounting are revenue, expenditure, store (jinsi), fund, deposit and retention, loan and grant, and asset and liability accounting."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4897,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Revenue Accounting (राजस्व लेखा)",
+   "hours": 3,
+   "area": "Government Accounting of Nepal",
+   "topics": [
+    "Revenue accounting: introduction and objectives",
+    "Revenue accounting codes (सङ्केतहरू)",
+    "Formats used in revenue accounting",
+    "Banking arrangement of revenue accounting",
+    "Reporting arrangement of revenue accounting",
+    "Preparation of the revenue statement (फाँटबारी)"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Revenue accounting: introduction and objectives"
+    },
+    {
+     "no": "9.2",
+     "title": "Revenue accounting codes"
+    },
+    {
+     "no": "9.3",
+     "title": "Formats used in revenue accounting"
+    },
+    {
+     "no": "9.4",
+     "title": "Banking arrangement of revenue accounting"
+    },
+    {
+     "no": "9.5",
+     "title": "Reporting arrangement of revenue accounting"
+    },
+    {
+     "no": "9.6",
+     "title": "Preparation of the revenue statement (फाँटबारी)"
+    }
+   ],
+   "summary": [
+    "Revenue accounting records the collection of government revenue, its deposit into the consolidated fund through the bank, and its reporting to the Treasury and Comptroller Office and the FCGO.",
+    "Its objectives are to record every rupee with evidence, to deposit the whole collection into the consolidated fund, to compare collection with the estimate, to detect leakage, to supply the annual financial statement and to keep the account public.",
+    "Revenue must be deposited the same day. A government office may not hold its collection as cash and may not spend out of it; expenditure requires a separate appropriation.",
+    "Every revenue head carries a code in the uniform chart of accounts: 11000 is the tax group (for example 11111 income tax on sole proprietorships and individuals); 13000, 14000 and 15000 are the non-tax groups (for example 14224 examination fee, 14227 passport fee, 14251 company registration fee, 14221 judicial fee, 14151 rent of governmen",
+    "The formats are the pre-numbered receipt, the आम्दानी भौचर (revenue voucher), the bank deposit slip, the bank cash book (No. 209), the revenue statement and the receipt-and-issue register.",
+    "Under the banking arrangement each office has one designated bank account, deposits revenue the same day, never pays an expense from it, reconciles the bank every month, and is watched by the Treasury and Comptroller Office.",
+    "Reporting is daily (bank cash book), monthly (the revenue statement with the bank reconciliation), quarterly (review against the estimate) and annual (consolidation into the government's financial statement and audit by the Auditor General).",
+    "The revenue statement (फाँटबारी) shows head by head the revenue collected, the amount deposited into the consolidated fund and the cash still in hand, and must satisfy revenue collected = amount deposited + cash in hand."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3942,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Accounting of Government Expenditure (सरकारी खर्चको लेखा)",
+   "hours": 12,
+   "area": "Government Accounting of Nepal",
+   "topics": [
+    "Expenditure and appropriation accounting (खर्च अर्थात् विनियोजन लेखा): introduction",
+    "Codes used in expenditure accounting",
+    "Formats used in expenditure accounting and reporting",
+    "Payment order and its types; advance payment and clearance",
+    "Bank cash book (A.G.F. No. 209) and its preparation",
+    "Statement of expenditure and its preparation",
+    "Budget release, budget transfer and re-appropriation",
+    "Journal vouchers for government transactions"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Expenditure and appropriation accounting: introduction"
+    },
+    {
+     "no": "10.2",
+     "title": "Codes used in expenditure accounting"
+    },
+    {
+     "no": "10.3",
+     "title": "Formats used in expenditure accounting and reporting"
+    },
+    {
+     "no": "10.4",
+     "title": "Payment order, advance payment and clearance"
+    },
+    {
+     "no": "10.5",
+     "title": "Bank cash book (A.G.F. No. 209) and its preparation"
+    },
+    {
+     "no": "10.6",
+     "title": "Statement of expenditure and its preparation"
+    },
+    {
+     "no": "10.7",
+     "title": "Budget release, budget transfer and re-appropriation"
+    },
+    {
+     "no": "10.8",
+     "title": "Journal vouchers for government transactions"
+    }
+   ],
+   "summary": [
+    "Expenditure (appropriation) accounting records what an office spends against its approved budget head, the advances it gives and recovers, the deductions it holds and its bank balance.",
+    "An expenditure is regular only when it is within the approved head, for the approved purpose, supported by evidence, sanctioned by the authorised officer, actually incurred and recorded in the prescribed formats.",
+    "The key terms are appropriation (what the legislature voted), release (what has been made available) and expenditure (what has been spent). Available balance = Appropriation - Expenditure - Uncleared advances.",
+    "Expenditure codes follow the uniform chart of accounts: the organisational classification says who spends; the economic classification says what, with 2 for recurrent (21111 remuneration, 22111 uniform, 22311 office materials, 22612 fuel, 22711 miscellaneous) and 3 for capital (31111 machinery, 31121 furniture, 31131 vehicles).",
+    "The formats are the payment order, the vouchers (गोश्वारा, निकासा, आम्दानी, धरौटी), the advance register, the bank cash book (No. 209), the head-wise ledger, the statement of expenditure and the deposit and retention ledgers.",
+    "A payment order authorises the Treasury and Comptroller Office to pay. A payment is either final or an advance; an advance is a recoverable debt, cleared on the bill, and an uncleared advance is deducted from the available balance.",
+    "The bank cash book (A.G.F. No. 209) shows the date, voucher number, particulars, debit (receipts), credit (payments) and the running balance. Budget release, revenue and refunds are debits; expenditure, advances and payments over of deductions are credits.",
+    "The statement of expenditure reports, head by head, the annual appropriation, the cumulative and monthly expenditure, the uncleared advance and the available balance. It is the document on which further releases are made."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5727,
+    "figures": 2,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Store Accounting (जिन्सी लेखा)",
+   "hours": 4,
+   "area": "Government Accounting of Nepal",
+   "topics": [
+    "Store accounting: introduction, objectives and importance",
+    "Formats used in store accounting",
+    "Main store formats: store ledger, bin card, stock sheet, A.G.F. forms",
+    "Use of the store account and store verification"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Store accounting: introduction, objectives and importance"
+    },
+    {
+     "no": "11.2",
+     "title": "Formats used in store accounting"
+    },
+    {
+     "no": "11.3",
+     "title": "Main store formats"
+    },
+    {
+     "no": "11.4",
+     "title": "Use of the store account and store verification"
+    }
+   ],
+   "summary": [
+    "Store accounting (जिन्सी लेखा) records the receipt, storage, issue and balance of goods held by a government office, in quantity and in value. Goods are either consumable (stationery, fuel, medicines) or non-consumable or durable (furniture, computers, vehicles).",
+    "Its objectives are to record every receipt and issue, to show the stock balance at any time, to prevent loss and misuse, to provide audit evidence and to help budgeting.",
+    "Its importance is that public goods remain public property: the store account ties every article to a document and a person, and protects the honest officer by showing exactly what was received and what was issued.",
+    "The formats are the जिन्सी दाखिला फाराम (goods received), the जिन्सी निकासा फाराम (issue), the store ledger, the bin card, the stock statement (जिन्सी मौज्दात फाँटबारी), the verification form and the accounting voucher.",
+    "The store ledger (जिन्सी खाता) holds one account per article with receipts, issues and the balance, usually in the continuous balance form.",
+    "The bin card is kept on the shelf with the article and must always agree with the store ledger; a difference between them is investigated at once.",
+    "The store account is used by the storekeeper (what to requisition), the accounts section (valuation and entries) and the auditor (tracing a bill to the shelf).",
+    "Store verification is a physical count, usually annual, by a store inspection committee of at least two officers, one unconnected with the store. Differences are explained — an excess brought into account, a shortage recovered or written off, and unserviceable goods written off and disposed of with the prescribed approval."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3904,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Fund Accounting and Retention Account (कोष लेखाङ्कन र धरौटी लेखा)",
+   "hours": 8,
+   "area": "Fund and Retention Accounting",
+   "topics": [
+    "Fund (कोष): concept and practice",
+    "Fund accounting: introduction and need",
+    "Consolidated fund (सञ्चित कोष): introduction, need and use",
+    "Operation of the consolidated fund",
+    "Divisible fund and revenue sharing (विभाज्य कोष र राजस्व बाँडफाँट)",
+    "Importance of revenue sharing",
+    "Fund accounting methods and formats used",
+    "Retention accounting (धरौटी लेखाविधि) and the formats used",
+    "Personal retention, goods retention and the retention bank cash book"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Fund: concept and practice"
+    },
+    {
+     "no": "12.2",
+     "title": "Fund accounting: introduction and need"
+    },
+    {
+     "no": "12.3",
+     "title": "Consolidated fund and its operation"
+    },
+    {
+     "no": "12.4",
+     "title": "Divisible fund and revenue sharing"
+    },
+    {
+     "no": "12.5",
+     "title": "Fund accounting methods and formats"
+    },
+    {
+     "no": "12.6",
+     "title": "Retention accounting and formats"
+    }
+   ],
+   "summary": [
+    "A fund (कोष) is a separate pool of money set aside for a specified purpose, kept and accounted for separately so that it can be used only for that purpose. Governments keep funds for legal control and to protect the purpose of the money.",
+    "In Nepal the main funds are the consolidated fund, the contingency fund, the divisible fund, the retention and deposit fund and other funds created by law.",
+    "Fund accounting keeps a separate account, bank account and statement for each fund. It is needed to obey the law, to prevent the wrong use of money, to make control possible, to keep trust money out of revenue and to plan.",
+    "The consolidated fund is the government's main fund: all revenue is paid into it and nothing may be spent from it except under an appropriation made by law. It is managed by the Ministry of Finance, accounted for by the FCGO, and reported to the legislature and audited by the Auditor General. Unforeseen expenditure is met from the conting",
+    "The divisible fund is the pool of federal revenue shared with the provinces and local levels. The National Natural Resources and Fiscal Commission recommends the shares and the formula; each recipient credits its share to its own consolidated fund.",
+    "Revenue sharing gives the lower tiers the money to do their constitutional work, reduces inequality between regions, strengthens federalism, rewards local revenue effort and keeps the tax system uniform.",
+    "Retention (धरौटी) is money withheld from a payment and held until a condition is met. It is a liability, never revenue.",
+    "Its three kinds are goods retention, works retention and personal retention (provident fund, income tax deducted, citizen investment trust)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4435,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Internal Control and Auditing (आन्तरिक नियन्त्रण र लेखा परीक्षण)",
+   "hours": 4,
+   "area": "Control and Audit",
+   "topics": [
+    "Internal control: introduction, need and use",
+    "Audit: meaning, importance and types",
+    "Internal audit (आन्तरिक लेखा परीक्षण)",
+    "Final audit (अन्तिम लेखा परीक्षण)",
+    "Government audit in Nepal and the Office of the Auditor General"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Internal control: introduction, need and use"
+    },
+    {
+     "no": "13.2",
+     "title": "Audit: meaning, importance and types"
+    },
+    {
+     "no": "13.3",
+     "title": "Internal audit"
+    },
+    {
+     "no": "13.4",
+     "title": "Final audit"
+    },
+    {
+     "no": "13.5",
+     "title": "Government audit in Nepal and the Office of the Auditor General"
+    }
+   ],
+   "summary": [
+    "Internal control is the whole system of policies, procedures, records and checks by which an organisation keeps its work accurate, efficient, lawful and honest and protects its assets. It is a system, not a person.",
+    "Its objectives are to safeguard assets, to keep the records accurate and complete, to secure efficiency, to ensure compliance with the law, to prevent and detect fraud and error, and to make an audit possible.",
+    "Its elements are segregation of duties, authorisation, documentation, physical control, reconciliation, supervision and review, rotation of duties and compulsory leave, internal audit, and comparison with the budget.",
+    "An audit is an independent examination of the books and records, carried out so that the auditor may express an opinion on whether the financial statements show a true and fair view.",
+    "The importance of audit is confidence for owners and lenders, deterrence and detection of fraud, compliance with the law, advice on internal control, protection of the honest employee, and accountability of the executive to the legislature.",
+    "Types of audit: internal and external; continuous, interim and final; complete, partial and special; and by object — financial (regularity), performance, management and propriety.",
+    "An internal audit is done by the organisation's own employees, continuously, reporting to the management, mainly to test the internal control system; its independence is limited.",
+    "A final audit is done after the year end, by an independent external auditor, and ends in a statutory report with an opinion on the accounts."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4788,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Agencies Involved in Government Accounting (नेपालको सरकारी लेखा प्रणालीमा संलग्न विभिन्न निकायहरू)",
+   "hours": 4,
+   "area": "Control and Audit",
+   "topics": [
+    "Introduction: the agencies of the government accounting system",
+    "Ministry of Finance, Financial Comptroller General Office, National Planning Commission",
+    "Treasury and Comptroller Office (कोष तथा लेखा नियन्त्रक कार्यालय; DTCO/PTCO)",
+    "Office of the Auditor General; Public Accounts Committee; Nepal Rastra Bank",
+    "Banking arrangement of government offices (सरकारी कार्यालयको बैंकिङ व्यवस्थापन)"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Introduction: the agencies of the government accounting system"
+    },
+    {
+     "no": "14.2",
+     "title": "Ministry of Finance, Financial Comptroller General Office, National Planning Commission"
+    },
+    {
+     "no": "14.3",
+     "title": "Treasury and Comptroller Offices"
+    },
+    {
+     "no": "14.4",
+     "title": "Office of the Auditor General, Public Accounts Committee, Nepal Rastra Bank"
+    },
+    {
+     "no": "14.5",
+     "title": "Banking arrangement of government offices"
+    }
+   ],
+   "summary": [
+    "Government accounting is a chain of accountability, and each link is an institution: the Ministry of Finance, the National Planning Commission, the Financial Comptroller General Office, the Treasury and Comptroller Offices, the spending offices, the Office of the Auditor General, the Public Accounts Committee and Nepal Rastra Bank.",
+    "The Ministry of Finance prepares the budget and the annual financial statement, frames revenue and fiscal policy, manages the consolidated fund and the contingency fund, arranges loans and grants, controls public expenditure and lays the FCGO's annual report before the legislature.",
+    "The Financial Comptroller General Office releases the budget, keeps the central accounts, supervises the Treasury and Comptroller Offices, consolidates the accounts, maintains the chart of accounts and the formats and runs the computerised systems. It is the accountant of the whole government.",
+    "The National Planning Commission prepares the periodic plan, sets priorities and sectoral ceilings, appraises large projects and provides the resource envelope for the budget.",
+    "The Treasury and Comptroller Offices (DTCO at district level, PTCO at provincial level) receive the release, make payments on the offices' payment orders, keep the operating level accounts, control expenditure against the release, operate the single account fund and report to the FCGO.",
+    "The Office of the Auditor General audits the accounts of the federation, the provinces, the local levels, the constitutional bodies, the courts, government corporations and foreign aid, and reports to the President and thence to Parliament.",
+    "The Public Accounts Committee examines the audit report, calls the officials concerned to explain, directs recovery or correction and reports to the House. It is what turns an observation into an action.",
+    "Nepal Rastra Bank is the banker to the government: it keeps the government's accounts, receives revenue, makes payments through the Treasury offices and manages government borrowing."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4449,
+    "figures": 1,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Use of Information Technology in Office and Accounting (कार्यालय सञ्चालन र लेखामा सूचना प्रविधिको प्रयोग)",
+   "hours": 5,
+   "area": "Information Technology",
+   "topics": [
+    "Computer and information technology: introduction and components",
+    "Office packages (अफिस प्याकेज) used in office operation",
+    "Internet: introduction and use in an office",
+    "Use of computer technology in office operation",
+    "Advantages and disadvantages of information technology",
+    "Use of information technology in business accounting",
+    "Computer systems used in accounting: Tally, Busy, IRD and PAMS",
+    "Information systems used in Nepal's government accounting (LMBIS, PAMS, TSA, SuTRA)"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Computer and information technology: introduction"
+    },
+    {
+     "no": "15.2",
+     "title": "Office packages used in office operation"
+    },
+    {
+     "no": "15.3",
+     "title": "Internet: introduction and use in an office"
+    },
+    {
+     "no": "15.4",
+     "title": "Use of computer technology in office operation"
+    },
+    {
+     "no": "15.5",
+     "title": "Advantages and disadvantages of information technology"
+    },
+    {
+     "no": "15.6",
+     "title": "Use of information technology in business accounting"
+    },
+    {
+     "no": "15.7",
+     "title": "Information systems used in Nepal's government accounting"
+    }
+   ],
+   "summary": [
+    "A computer accepts data, processes it by stored instructions, stores it and outputs it; its parts are the input unit, the processing unit, memory, the output unit and storage.",
+    "Information technology is the whole set of hardware, software, networks, data, people and procedures by which information is collected, stored, processed and communicated.",
+    "Office packages are the application software of an office: the word processor (letters and reports), the spreadsheet (salary sheets, budgets, registers), the presentation package (slides), the database (large structured records), the accounting package (double-entry accounts) and e-mail.",
+    "In a spreadsheet, a formula refers to other cells and the results update automatically when a figure changes — which is why it is the office tool for repeated calculations.",
+    "The internet is a worldwide network of computers using common rules. An office uses it for communication, information, government services, banking, publishing, cloud working and electronic procurement, and must guard against fraud, phishing, viruses and leakage.",
+    "A computer is used in an office for correspondence, electronic filing, accounts, payroll, stores, budgeting, bank work, communication, data analysis and security.",
+    "The advantages of information technology are speed, accuracy, storage and retrieval, automatic posting, instant reporting, communication, less paper, better control and consistency. The disadvantages are cost, dependence, data loss, fraud and hacking, training, unemployment, health, garbage in garbage out, loss of the paper trail and obso",
+    "In business accounting, the computer records the transaction once, posts it automatically, keeps the ledgers and trial balance always current, and produces the final accounts and reports for any period. It needs controls: passwords and user rights, daily backup, the audit trail, and printed signed copies. Software used in Nepal includes T"
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5047,
+    "figures": 0,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 15,
+ "topic_count": 99,
+ "notes_ready": 15
+}

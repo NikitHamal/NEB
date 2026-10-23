@@ -51,23 +51,21 @@ are named by three letters with the vertex in the middle, as in $\angle ABC$.
 | Vertically opposite | they are formed by two intersecting lines, and they are equal | the two angles opposite each other at a crossing |
 | Linear pair | two adjacent angles that together make a straight line; they add to 180° | the two angles on one side of a straight line |
 
-```figure caption="Two straight lines crossing. The four angles round the point add to 360°, and the two pairs of vertically opposite angles are equal to each other."
-fig, ax = plt.subplots(figsize=(4.7, 2.8))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 6.2)
-ax.axis("off")
-ax.plot([0.6, 9.4], [3.1, 3.1], color=INK, lw=1.6)
-ax.plot([3.0, 7.0], [0.8, 5.4], color=INK, lw=1.6)
-ax.plot([4.8], [3.1], "o", color=INK, ms=4)
-ax.text(4.65, 2.65, "O", fontsize=7.5, color=INK)
-ax.text(2.0, 3.45, "a", fontsize=8, color=ACCENT)
-ax.text(6.9, 2.6, "b", fontsize=8, color=SERIES[1])
-ax.text(2.15, 2.65, "b", fontsize=8, color=SERIES[1])
-ax.text(6.85, 3.45, "a", fontsize=8, color=ACCENT)
-ax.text(3.6, 4.5, "the angles marked a", ha="center", fontsize=6.4, color=ACCENT)
-ax.text(3.6, 1.75, "are vertically opposite and equal", ha="center", fontsize=6.4,
-        color=MUTED)
-fig.tight_layout()
+```figure caption="Two straight lines crossing at O. The angles marked a are vertically opposite and equal; so are the angles marked b. Also a + b = 180° (linear pair)."
+fig, ax = plt.subplots(figsize=(4.2, 2.6))
+d = np.radians(50)
+ax.plot([-2.2, 2.2], [0, 0], color=INK, lw=1.4)
+ax.plot([-1.6*np.cos(d), 1.6*np.cos(d)], [-1.6*np.sin(d), 1.6*np.sin(d)], color=INK, lw=1.4)
+ax.plot(0, 0, "o", color=INK, ms=4)
+ax.text(0.05, -0.28, "O", fontsize=9, color=INK)
+r = 0.55
+for ang, lab, c in [(25, "a", ACCENT), (205, "a", ACCENT), (115, "b", SERIES[1]), (295, "b", SERIES[1])]:
+    t = np.radians(ang)
+    ax.text(r*np.cos(t), r*np.sin(t), lab, fontsize=11, ha="center", va="center", color=c)
+from matplotlib.patches import Arc
+ax.add_patch(Arc((0, 0), 0.6, 0.6, theta1=0, theta2=50, color=ACCENT, lw=1))
+ax.add_patch(Arc((0, 0), 0.6, 0.6, theta1=180, theta2=230, color=ACCENT, lw=1))
+ax.set_xlim(-2.3, 2.3); ax.set_ylim(-1.35, 1.35); ax.set_aspect("equal"); ax.axis("off")
 ```
 
 ::: example Complementary and supplementary angles
@@ -110,32 +108,49 @@ A **transversal** is a line that cuts two or more other lines. When it cuts two
 **parallel** lines, eight angles are formed, and they fall into three named
 pairs.
 
-```figure caption="A transversal cutting two parallel lines. Every acute angle in the figure equals every other acute angle, and every obtuse angle equals every other obtuse angle — that is the whole content of the three rules."
-fig, ax = plt.subplots(figsize=(4.9, 2.9))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 6.2)
-ax.axis("off")
-ax.plot([0.6, 9.4], [4.1, 4.1], color=INK, lw=1.6)
-ax.plot([0.6, 9.4], [1.5, 1.5], color=INK, lw=1.6)
-ax.plot([2.6, 7.4], [0.4, 5.6], color=ACCENT, lw=1.4)
-ax.annotate("", xy=(9.3, 4.1), xytext=(8.7, 4.1),
-            arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.0))
-ax.annotate("", xy=(9.3, 1.5), xytext=(8.7, 1.5),
-            arrowprops=dict(arrowstyle="->", color=MUTED, lw=1.0))
-ax.text(3.3, 4.45, "1", fontsize=7.5, color=INK)
-ax.text(4.1, 3.6, "2", fontsize=7.5, color=INK)
-ax.text(3.3, 1.85, "3", fontsize=7.5, color=INK)
-ax.text(4.1, 1.05, "4", fontsize=7.5, color=INK)
-ax.text(5.5, 4.45, "a", fontsize=7.5, color=SERIES[1])
-ax.text(6.4, 3.6, "b", fontsize=7.5, color=SERIES[1])
-ax.text(5.5, 1.85, "c", fontsize=7.5, color=SERIES[2])
-ax.text(6.4, 1.05, "d", fontsize=7.5, color=SERIES[2])
-ax.text(0.7, 5.35, "corresponding: 1 and a, 2 and b, 3 and c, 4 and d", fontsize=6.2,
-        color=SERIES[1])
-ax.text(0.7, 0.1, "alternate: 2 and c, 4 and a;  co-interior: 2 and a, 4 and c",
-        fontsize=6.2, color=SERIES[2])
-fig.tight_layout()
+```figure caption="Parallel lines AB and CD cut by the transversal EF. Here ∠1 = 70°. Corresponding: 1 & 5, 2 & 6, 3 & 7, 4 & 8. Alternate: 3 & 5, 4 & 6. Co-interior: 3 & 6, 4 & 5."
+fig, ax = plt.subplots(figsize=(4.8, 3.2))
+d = np.radians(110)
+L = 3.2
+ax.annotate("", xy=(L, 1), xytext=(-L, 1), arrowprops=dict(arrowstyle="->", color=INK, lw=1.3))
+ax.annotate("", xy=(L, -1), xytext=(-L, -1), arrowprops=dict(arrowstyle="->", color=INK, lw=1.3))
+dx, dy = np.cos(d), np.sin(d)
+P = np.array([1/np.tan(d) * 1, 1.0]); Q = np.array([-1/np.tan(d) * 1, -1.0])
+P = np.array([dx/dy, 1.0]); Q = np.array([-dx/dy, -1.0])
+ax.plot([Q[0] - 0.9*dx, P[0] + 0.9*dx], [Q[1] - 0.9*dy, P[1] + 0.9*dy], color=ACCENT, lw=1.4)
+bis = [(110+180)/2 - 90 + 90, 55, 0, 0]
+regions = [(110, 180), (0, 110), (290, 360), (180, 290)]
+r = 0.48
+for V, labs in [(P, "1234"), (Q, "5678")]:
+    for (t1, t2), lab in zip(regions, labs):
+        m = np.radians((t1 + t2) / 2)
+        ax.text(V[0] + r*np.cos(m), V[1] + r*np.sin(m), lab, fontsize=10, ha="center", va="center", color=INK)
+ax.text(-L, 1.12, "A", fontsize=9, color=INK); ax.text(L - 0.1, 1.12, "B", fontsize=9, color=INK)
+ax.text(-L, -0.88, "C", fontsize=9, color=INK); ax.text(L - 0.1, -0.88, "D", fontsize=9, color=INK)
+ax.text(P[0] + 0.9*dx - 0.25, P[1] + 0.9*dy, "E", fontsize=9, color=ACCENT)
+ax.text(Q[0] - 0.9*dx + 0.1, Q[1] - 0.9*dy, "F", fontsize=9, color=ACCENT)
+ax.set_xlim(-L - 0.2, L + 0.2); ax.set_ylim(-2.0, 2.0); ax.set_aspect("equal"); ax.axis("off")
 ```
+
+::: definition Parallel lines and transversal
+Two straight lines in a plane are **parallel** if they never meet however far
+they are extended; the perpendicular distance between them is the same
+everywhere. We write AB ∥ CD.
+
+A **transversal** is a line that cuts two or more lines at **different**
+points. The four angles between the two lines are **interior** angles
+(∠3, ∠4, ∠5, ∠6 in the figure); the other four are **exterior** angles.
+:::
+
+::: definition The three angle pairs
+- **Alternate angles:** a pair of non-adjacent **interior** angles on
+  **opposite** sides of the transversal (∠3 and ∠5, ∠4 and ∠6).
+- **Corresponding angles:** a pair of non-adjacent angles on the **same** side
+  of the transversal, one interior and one exterior (∠1 and ∠5, ∠2 and ∠6,
+  ∠3 and ∠7, ∠4 and ∠8).
+- **Co-interior angles:** a pair of non-adjacent **interior** angles on the
+  **same** side of the transversal (∠3 and ∠6, ∠4 and ∠5).
+:::
 
 | Pair | Position | Relation |
 |---|---|---|
@@ -150,24 +165,22 @@ fig.tight_layout()
 - a pair of co-interior angles adds to 180°.
 
 ::: example Finding angles with a transversal
-**Problem.** In the figure above, angle 1 is 120°. Find angles 2, 3, 4, a, b, c
-and d, giving a reason for each.
+**Problem.** In the figure, AB ∥ CD and ∠2 $=110°$. Find angles 1, 3, 4, 5, 6,
+7 and 8, giving a reason for each.
 
 **Solution.**
 
 | Angle | Value | Reason |
 |---|---|---|
-| 2 | 60° | angles 1 and 2 form a linear pair on a straight line |
-| 3 | 120° | vertically opposite to angle 1 |
-| 4 | 60° | vertically opposite to angle 2 |
-| a | 120° | corresponding to angle 1 |
-| b | 60° | corresponding to angle 2 (or vertically opposite to $a$) |
-| c | 120° | alternate to angle 1 |
-| d | 60° | corresponding to angle 4 |
+| ∠1 | $180°-110°=70°$ | ∠1 and ∠2 are a linear pair |
+| ∠3 | 70° | vertically opposite to ∠1 |
+| ∠4 | 110° | vertically opposite to ∠2 |
+| ∠5 | 70° | alternate to ∠3 (AB ∥ CD) |
+| ∠6 | 110° | alternate to ∠4 |
+| ∠7 | 70° | corresponding to ∠3 |
+| ∠8 | 110° | corresponding to ∠4 |
 
-**Check.** Angle 2 and angle $a$ are co-interior: $60+120=180$ ✓. All the acute
-angles are 60° and all the obtuse ones 120°, which is exactly what parallel
-lines force.
+**Check.** ∠4 and ∠5 are co-interior: $110°+70°=180°$ ✓.
 :::
 
 ::: example Two unknowns
@@ -197,6 +210,46 @@ angles open out. The test for parallel lines is exactly the equality of such a
 pair.
 :::
 
+::: example Finding $x$ so that the lines are parallel
+**Problem.** A transversal cuts lines AB and CD. A pair of alternate angles
+measure $(3x-50)°$ and $(x+10)°$. For what value of $x$ are AB and CD parallel?
+Find the angles.
+
+**Solution.** For AB ∥ CD the alternate angles must be equal:
+$3x-50=x+10$ → $2x=60$ → $x=30$.
+Each angle $=30+10=40°$ (and $3\times30-50=40°$ ✓).
+:::
+
+::: example A bend between two parallel lines
+**Problem.** In the figure, AB ∥ CD, ∠ABO $=40°$ and ∠CDO $=30°$.
+Find ∠BOD.
+
+**Solution.** Through O draw OX ∥ AB. Then OX ∥ CD too.
+
+∠BOX $=$ ∠ABO $=40°$ (alternate angles, AB ∥ OX)
+
+∠XOD $=$ ∠CDO $=30°$ (alternate angles, CD ∥ OX)
+
+∠BOD $=$ ∠BOX $+$ ∠XOD $=40°+30°=70°$.
+:::
+
+```figure caption="AB ∥ CD and O lies between them. Draw OX ∥ AB through O. Then ∠BOX = ∠ABO = 40° and ∠XOD = ∠CDO = 30° (alternate angles), so ∠BOD = 70°."
+fig, ax = plt.subplots(figsize=(4.4, 2.8))
+O = np.array([0.0, 0.0])
+B = np.array([1/np.tan(np.radians(40)), 1.0]); D = np.array([1/np.tan(np.radians(30)), -1.0])
+ax.plot([-2.4, B[0]], [1, 1], color=INK, lw=1.3); ax.plot([-2.4, D[0]], [-1, -1], color=INK, lw=1.3)
+ax.plot([B[0], 0, D[0]], [B[1], 0, D[1]], color=INK, lw=1.3)
+ax.plot([0, 2.4], [0, 0], color=SERIES[1], lw=1.0, ls="--")
+for pt, lab, off in [((-2.4, 1), "A", (-0.25, 0)), (B, "B", (0.05, 0.17)), ((-2.4, -1), "C", (-0.25, 0)),
+                     (D, "D", (0.05, -0.2)), (O, "O", (-0.32, 0)), ((2.4, 0), "X", (0.08, 0))]:
+    ax.text(pt[0] + off[0], pt[1] + off[1], lab, fontsize=9, color=INK, va="center")
+def lab(V, deg, txt, c, r=0.62):
+    t = np.radians(deg); ax.text(V[0] + r*np.cos(t), V[1] + r*np.sin(t), txt, fontsize=8.5, color=c, ha="center", va="center")
+lab(B, 200, "40°", ACCENT); lab(O, 20, "40°", ACCENT)
+lab(D, 165, "30°", SERIES[2]); lab(O, -15, "30°", SERIES[2])
+ax.set_xlim(-2.8, 2.8); ax.set_ylim(-1.35, 1.35); ax.set_aspect("equal"); ax.axis("off")
+```
+
 ::: caution Which pair is it?
 Students often use a co-interior pair as if it must be equal. The shapes are the
 reminder: **F** (corresponding) means equal and the two angles are on the same
@@ -205,7 +258,7 @@ sides of the transversal; **C** (co-interior) means they add up to 180°. Sketch
 the letter next to the angle before you decide.
 :::
 
-## 13.5 Reasons are the marks
+## 13.4 Reasons are the marks
 
 In a geometry answer the number is worth one mark; the **reason** is worth the
 rest. Every statement should carry the name of the rule that justifies it.
@@ -220,22 +273,7 @@ rest. Every statement should carry the name of the rule that justifies it.
 | $\angle A + \angle B + \angle C = 180°$ | angle sum of a triangle |
 | exterior $=$ sum of two opposite interior | exterior angle property |
 
-```figure caption="Two parallel lines cut by a transversal: the eight angles form just two sizes. Name which rule you are using and the marks follow."
-fig, ax = plt.subplots(figsize=(4.8, 2.9))
-ax.plot([0.07, 0.93], [0.70, 0.70], color=INK, linewidth=1.6)
-ax.plot([0.07, 0.93], [0.28, 0.28], color=INK, linewidth=1.6)
-ax.plot([0.22, 0.74], [0.14, 0.86], color=SERIES[1], linewidth=1.6)
-pts = {"a": (0.47, 0.78), "b": (0.63, 0.78), "c": (0.44, 0.62),
-       "d": (0.60, 0.62), "e": (0.31, 0.36), "f": (0.47, 0.36),
-       "g": (0.28, 0.20), "h": (0.44, 0.20)}
-for lab, (x, y) in pts.items():
-    ax.text(x, y, lab, ha="center", va="center", color=SERIES[0], fontsize=9.5)
-ax.text(0.5, 0.045, "equal angles: a = d = e = h   and   b = c = f = g",
-        ha="center", color=MUTED, fontsize=8)
-ax.set_xlim(0, 1)
-ax.set_ylim(0, 0.95)
-ax.axis("off")
-```
+
 
 ::: example A four-mark angle chase, written for marks
 **Question.** Two parallel lines are cut by a transversal. One angle is

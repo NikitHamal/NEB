@@ -72,6 +72,12 @@ if it is more.
 
 $$\text{back bearing}=\text{bearing}\pm180°$$
 
+**Why ±180°?** Let the bearing of S from R be $\theta$. The north lines at R
+and S are parallel and RS is a transversal, so the angles $\angle N_1RS$ and
+$\angle N_2SR$ are co-interior and add to 180°. Measuring clockwise from north
+at S, the bearing of R from S is $360°-\angle N_2SR=360°-(180°-\theta)=\theta+180°$
+(subtract 360° if this is more than 360°).
+
 ::: example Back bearing
 **Problem.** A village $B$ is on a bearing of 065° from village $A$. Find the
 bearing of $A$ from $B$.
@@ -165,24 +171,40 @@ distance and the bearing of the finishing point from the start.
 $SA=4$ cm. At $A$ draw a fresh north line, measure 150° clockwise from it and
 draw $AB=3$ cm. Join $B$ back to $S$.
 
-**Measuring.** $SB$ measures about 4.4 cm, and the bearing of $SB$ measures
-about 101°. In real terms, $4.4\times50=220$ km.
+**Measuring.** $SB$ measures about 5.0 cm, and the bearing of $B$ from $S$
+(measured clockwise from the north line at $S$) is about 097°. In real terms,
+$5.0\times50=250$ km.
 
-**Answer.** About 220 km on a bearing of about 101° from the start.
+**Answer.** About 250 km on a bearing of about 097° from the start.
 
-**Check.** The answer must lie between the two legs: a distance between 50 km
-and 350 km, and it does. A bearing of about 101° is just past east, which is
-reasonable because the first leg headed north-east and the second headed
-south-east.
-
-**A cross-check by calculation.** Resolving the legs into north and east
-components: leg 1 gives $200\sin60°=173$ km east and $200\cos60°=100$ km north;
-leg 2 gives $150\sin150°=75$ km east and $150\cos150°=-130$ km north. Totals:
-248 km east and $-30$ km north. Then
-$SB=\sqrt{248^2+30^2}\approx250$ km and the bearing from the tangent gives about
-$97°$ — close enough to the drawing to confirm it, with the small difference
-coming from measuring with a ruler rather than from any error in the method.
+**Check.** The two legs turn through $150°-60°=90°$, so the triangle $SAB$ has
+a right angle at $A$. By Pythagoras,
+$SB=\sqrt{200^2+150^2}=\sqrt{62\,500}=250$ km ✓. The bearing 097° lies between
+060° and 150°, as it must.
 :::
+
+```figure caption="Scale drawing of the two-leg flight (1 cm to 50 km): SA = 4 cm on 060°, then AB = 3 cm on 150° measured from a new north line at A. SB measures 5 cm (250 km) on a bearing of about 097°."
+fig, ax = plt.subplots(figsize=(4.6, 3.0))
+from matplotlib.patches import Arc
+S = np.array([0.0, 0.0]); A = S + 4 * np.array([np.sin(np.radians(60)), np.cos(np.radians(60))])
+B = A + 3 * np.array([np.sin(np.radians(150)), np.cos(np.radians(150))])
+for P in (S, A):
+    ax.annotate("", xy=(P[0], P[1] + 1.3), xytext=(P[0], P[1]), arrowprops=dict(arrowstyle="->", color=MUTED, lw=1))
+    ax.text(P[0] - 0.1, P[1] + 1.4, "N", fontsize=8.5, color=MUTED)
+ax.plot([S[0], A[0]], [S[1], A[1]], color=ACCENT, lw=1.6)
+ax.plot([A[0], B[0]], [A[1], B[1]], color=SERIES[1], lw=1.6)
+ax.plot([S[0], B[0]], [S[1], B[1]], color=INK, lw=1.2, ls="--")
+ax.add_patch(Arc(S, 1.2, 1.2, theta1=30, theta2=90, color=ACCENT, lw=1))
+ax.add_patch(Arc(A, 1.0, 1.0, theta1=-60, theta2=90, color=SERIES[1], lw=1))
+ax.text(0.25, 0.75, "60°", fontsize=8.5, color=ACCENT)
+ax.text(A[0] + 0.55, A[1] + 0.05, "150°", fontsize=8.5, color=SERIES[1])
+for P, t, off in [(S, "S", (-0.35, -0.2)), (A, "A", (-0.35, 0.05)), (B, "B", (0.1, -0.3))]:
+    ax.text(P[0] + off[0], P[1] + off[1], t, fontsize=10, color=INK)
+ax.text(1.4, 1.35, "4 cm", fontsize=8.5, color=ACCENT, rotation=30)
+ax.text(4.4, 0.9, "3 cm", fontsize=8.5, color=SERIES[1])
+ax.text(2.2, -0.55, "5 cm", fontsize=8.5, color=INK)
+ax.set_xlim(-0.8, 6.0); ax.set_ylim(-0.9, 3.6); ax.set_aspect("equal"); ax.axis("off")
+```
 
 ::: tip Measuring is a skill, and examiners know the tolerance
 In a scale-drawing question, an answer within about 1° or 2° of the true bearing
@@ -192,7 +214,7 @@ point, and whether the scale is stated. Write the scale on the drawing; it is
 worth a mark on its own.
 :::
 
-## 20.4 Bearings on the compass rose
+## 20.3 Bearings on the compass rose
 
 A bearing is always measured **clockwise from north** and written with
 **three figures**: $045°$, not $45°$.
@@ -307,14 +329,14 @@ back to metres. How does it compare with the distance you actually walk?
    distance in kilometres. <span class="marks">[2]</span>
 4. A walker goes 6 km north and then 8 km east. Find his distance and bearing
    from the start. <span class="marks">[2]</span>
-:::
 
 ::: note Answers to Group B
 **1.** South-east is 135°; 25° west of north is $360-25=335°$.
 **2.** $130+180=310°$.
 **3.** $7\times200\,000=1\,400\,000$ cm $=14$ km.
-**4.** Distance $=\sqrt{6^2+8^2}=10$ km; the bearing is
-$\tan^{-1}\frac86\approx53°$, so about 053°.
+**4.** The two legs are at right angles, so distance $=\sqrt{6^2+8^2}=10$ km.
+From a scale drawing (say 1 cm to 1 km), the protractor gives a bearing of
+about 053°.
 :::
 
 **Group C — Long answer (4 marks each)**
@@ -323,34 +345,28 @@ $\tan^{-1}\frac86\approx53°$, so about 053°.
    180°. Using a scale of 1 cm to 20 km, draw the route and find the distance
    and bearing of the ship's final position from its starting point.
    <span class="marks">[4]</span>
-2. A helicopter flies 80 km on a bearing of 040° and then 60 km on a bearing of
-   130°. Find its final distance and bearing from the start by resolving the
-   two legs into north and east components, and check that your answer is
-   consistent with the two legs. <span class="marks">[4]</span>
+2. Madhav walks 5 km on a bearing of 030° from A to B, then 3 km on a bearing
+   of 140° from B to C, and then returns straight to A. Make a scale drawing
+   (1 cm to 1 km), and find the distance CA and the bearing of A from C.
+   <span class="marks">[4]</span>
 
 ::: note Answers to Group C
 **1.** **Scale.** 1 cm to 20 km, so 120 km is 6 cm and 160 km is 8 cm.
-**Drawing.** From the start $S$, draw a north line and measure 090° — that is
-due east — then draw $SA=6$ cm eastwards. At $A$ draw a fresh north line,
-measure 180° (due south) and draw $AB=8$ cm southwards. Join $B$ to $S$.
-**Measuring.** $SB$ measures about 10 cm, and the bearing of $SB$ measures about
-127°. In real terms the distance is $10\times20=200$ km.
-**Check by calculation.** East: $120+0=120$ km; north: $0-160=-160$ km. So
-$SB=\sqrt{120^2+160^2}=\sqrt{14\,400+25\,600}=\sqrt{40\,000}=200$ km ✓, and the
-bearing is $90°+\tan^{-1}\frac{160}{120}=90°+53°=143°$. The drawing gives about
-127°, which is 16° out — a reminder that a rough sketch is a check on the
-method, not on the angle; the calculated 143° is the exact answer.
-**2.** **Components.** Leg 1 at 040°: east $=80\sin40°\approx51.4$ km, north
-$=80\cos40°\approx61.3$ km. Leg 2 at 130°: east
-$=60\sin130°\approx46.0$ km, north $=60\cos130°\approx-38.6$ km.
-**Totals.** East $=51.4+46.0=97.4$ km; north $=61.3-38.6=22.7$ km.
-**Distance.** $\sqrt{97.4^2+22.7^2}=\sqrt{9487+515}=\sqrt{10\,002}\approx100$ km.
-**Bearing.** $\tan\theta=\frac{97.4}{22.7}=4.29$, so
-$\theta\approx76.9°$ east of north, that is a bearing of about **077°**.
-**Consistency check.** The answer, 100 km on 077°, lies sensibly between the two
-legs: the total path is 140 km, so a direct distance of 100 km implies a good
-deal of turning, which is true here (90° between the two legs), and the final
-bearing of 077° is between 040° and 130° as it must be.
+**Drawing.** From the start $S$ draw a north line, turn 090° (due east) and draw
+$SA=6$ cm. At $A$ draw a fresh north line, turn 180° (due south) and draw
+$AB=8$ cm. Join $B$ to $S$.
+**Distance.** The angle at $A$ is 90°, so $SB=\sqrt{6^2+8^2}=10$ cm on the
+drawing, i.e. $10\times20=200$ km.
+**Bearing.** The protractor at $S$ gives about 143°.
+**Check.** B is east and south of S, so its bearing must lie between 090° and
+180° ✓.
+**2.** **Scale.** 5 km → 5 cm, 3 km → 3 cm. Draw the north line at A, turn 030°
+and draw AB = 5 cm; at B draw a new north line, turn 140° and draw BC = 3 cm;
+join CA.
+**Measurements.** CA ≈ 4.9 cm, so the actual distance is about 4.9 km. At C
+draw a north line; the bearing of A from C measures about 245°.
+**Check.** A lies to the south-west of C, so the bearing must be between 180°
+and 270° ✓; and CA must be less than $5+3=8$ km ✓.
 :::
 
 **Extra practice**

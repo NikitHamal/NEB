@@ -1,0 +1,345 @@
+{
+ "book": "eng12",
+ "units": [
+  {
+   "no": 1,
+   "title": "Neighbours",
+   "area": "Literature - Short Stories",
+   "words": 8965,
+   "read_min": 50,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "A Respectable Woman",
+   "area": "Literature - Short Stories",
+   "words": 9090,
+   "read_min": 50,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "A Devoted Son",
+   "area": "Literature - Short Stories",
+   "words": 9121,
+   "read_min": 51,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "The Treasure in the Forest",
+   "area": "Literature - Short Stories",
+   "words": 7573,
+   "read_min": 42,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "My Old Home",
+   "area": "Literature - Short Stories",
+   "words": 8465,
+   "read_min": 47,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "The Half-closed Eyes of the Buddha and the Slowly Sinking Sun",
+   "area": "Literature - Short Stories",
+   "words": 8568,
+   "read_min": 48,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "A Very Old Man with Enormous Wings",
+   "area": "Literature - Short Stories",
+   "words": 8523,
+   "read_min": 47,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "A Day",
+   "area": "Literature - Poems",
+   "words": 6630,
+   "read_min": 37,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Every Morning I Wake",
+   "area": "Literature - Poems",
+   "words": 7106,
+   "read_min": 39,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "I Was My Own Route",
+   "area": "Literature - Poems",
+   "words": 8433,
+   "read_min": 47,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "The Awakening Age",
+   "area": "Literature - Poems",
+   "words": 7962,
+   "read_min": 44,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Soft Storm",
+   "area": "Literature - Poems",
+   "words": 9954,
+   "read_min": 55,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "On Libraries",
+   "area": "Literature - Essays",
+   "words": 7101,
+   "read_min": 39,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Marriage as a Social Institution",
+   "area": "Literature - Essays",
+   "words": 6213,
+   "read_min": 35,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Knowledge and Wisdom",
+   "area": "Literature - Essays",
+   "words": 6491,
+   "read_min": 36,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Humility",
+   "area": "Literature - Essays",
+   "words": 6374,
+   "read_min": 35,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Human Rights and the Age of Inequality",
+   "area": "Literature - Essays",
+   "words": 6642,
+   "read_min": 37,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "A Matter of Husbands",
+   "area": "Literature - One Act Plays",
+   "words": 6654,
+   "read_min": 37,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "Facing Death",
+   "area": "Literature - One Act Plays",
+   "words": 7660,
+   "read_min": 43,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "The Bull",
+   "area": "Literature - One Act Plays",
+   "words": 7073,
+   "read_min": 39,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "Question Tags and Questions",
+   "area": "Grammar",
+   "words": 3077,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 22,
+   "title": "Modal Verbs",
+   "area": "Grammar",
+   "words": 3045,
+   "read_min": 17,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 23,
+   "title": "Determiners and Quantifiers",
+   "area": "Grammar",
+   "words": 2869,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 24,
+   "title": "Subject-Verb Agreement and Miscellaneous Agreements",
+   "area": "Grammar",
+   "words": 2674,
+   "read_min": 15,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 25,
+   "title": "Connectives and Discourse Markers",
+   "area": "Grammar",
+   "words": 2849,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 26,
+   "title": "Adjectives, Adverbs and Adjective Order",
+   "area": "Grammar",
+   "words": 2611,
+   "read_min": 15,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 27,
+   "title": "Reported Speech",
+   "area": "Grammar",
+   "words": 2614,
+   "read_min": 15,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 28,
+   "title": "Conditional Sentences",
+   "area": "Grammar",
+   "words": 2557,
+   "read_min": 14,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 29,
+   "title": "Passive Voice",
+   "area": "Grammar",
+   "words": 2499,
+   "read_min": 14,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 30,
+   "title": "Prepositions, Tenses and Relative Clauses",
+   "area": "Grammar",
+   "words": 2818,
+   "read_min": 16,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 31,
+   "title": "Guided Writing: Charts, Graphs and Outlines",
+   "area": "Writing and Skills",
+   "words": 3829,
+   "read_min": 21,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 32,
+   "title": "Functional Writing: Letters to the Editor, Emails, CVs and Applications",
+   "area": "Writing and Skills",
+   "words": 3344,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 33,
+   "title": "Free Writing: Essays and Memoirs",
+   "area": "Writing and Skills",
+   "words": 3437,
+   "read_min": 19,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 34,
+   "title": "Unseen Reading Comprehension Strategy",
+   "area": "Writing and Skills",
+   "words": 3939,
+   "read_min": 22,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 35,
+   "title": "Vocabulary, Sounds, Spelling and Idioms",
+   "area": "Writing and Skills",
+   "words": 3734,
+   "read_min": 21,
+   "figures": 3,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank12",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Compulsory English: Unit-wise Objective Question Bank",
+   "words": 1611,
+   "read_min": 9
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Compulsory English: Unit-wise Subjective Question Bank",
+   "words": 1910,
+   "read_min": 11
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Compulsory English: Model Question Sets and Predicted Questions",
+   "words": 1923,
+   "read_min": 11
+  }
+ ],
+ "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
+}

@@ -361,7 +361,7 @@ export default function init(stage) {
     orbInfo.el.style.display = orb ? '' : 'none';
   }
 
-  const cloud = createOrbitalCloud(quality);
+  const cloud = createOrbitalCloud(quality, engine.renderer);
   let cloudSize = 7;
   scene.add(cloud.mesh);
   const pt = buildPeriodicTable(stage, (z) => {

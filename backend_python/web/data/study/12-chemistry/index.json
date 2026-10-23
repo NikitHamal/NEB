@@ -1,0 +1,219 @@
+{
+ "book": "chem12",
+ "units": [
+  {
+   "no": 1,
+   "title": "Volumetric Analysis",
+   "area": "General and Physical Chemistry",
+   "words": 4613,
+   "read_min": 26,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Ionic Equilibrium",
+   "area": "General and Physical Chemistry",
+   "words": 6458,
+   "read_min": 36,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Chemical Kinetics",
+   "area": "General and Physical Chemistry",
+   "words": 6402,
+   "read_min": 36,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Thermodynamics",
+   "area": "General and Physical Chemistry",
+   "words": 4662,
+   "read_min": 26,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Electrochemistry",
+   "area": "General and Physical Chemistry",
+   "words": 4046,
+   "read_min": 22,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Transition Metals",
+   "area": "Inorganic Chemistry",
+   "words": 3724,
+   "read_min": 21,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Studies of Heavy Metals",
+   "area": "Inorganic Chemistry",
+   "words": 8638,
+   "read_min": 48,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Haloalkanes",
+   "area": "Organic Chemistry",
+   "words": 5129,
+   "read_min": 28,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Haloarenes",
+   "area": "Organic Chemistry",
+   "words": 4515,
+   "read_min": 25,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Alcohols",
+   "area": "Organic Chemistry",
+   "words": 4385,
+   "read_min": 24,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Phenols",
+   "area": "Organic Chemistry",
+   "words": 3764,
+   "read_min": 21,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Ethers",
+   "area": "Organic Chemistry",
+   "words": 3281,
+   "read_min": 18,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Aldehydes and Ketones",
+   "area": "Organic Chemistry",
+   "words": 5072,
+   "read_min": 28,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Carboxylic Acid and its Derivatives",
+   "area": "Organic Chemistry",
+   "words": 5345,
+   "read_min": 30,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Nitro Compounds",
+   "area": "Organic Chemistry",
+   "words": 2977,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "Amines",
+   "area": "Organic Chemistry",
+   "words": 3950,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Organometallic Compounds",
+   "area": "Organic Chemistry",
+   "words": 2302,
+   "read_min": 13,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Chemistry in the service of mankind",
+   "area": "Applied Chemistry",
+   "words": 3057,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "Cement",
+   "area": "Applied Chemistry",
+   "words": 3168,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "Paper and Pulp",
+   "area": "Applied Chemistry",
+   "words": 3139,
+   "read_min": 17,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "Nuclear Chemistry and Applications of Radioactivity",
+   "area": "Applied Chemistry",
+   "words": 3607,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank12",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Chemistry: Unit-wise Objective Question Bank",
+   "words": 14122,
+   "read_min": 78
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Chemistry: Unit-wise Subjective Question Bank",
+   "words": 24669,
+   "read_min": 137
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Chemistry: Model Question Sets and Predicted Questions",
+   "words": 9395,
+   "read_min": 52
+  }
+ ],
+ "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
+}

@@ -1,0 +1,201 @@
+{
+ "book": "eng8",
+ "units": [
+  {
+   "no": 1,
+   "title": "A Tour to Central Zoo / A Request Letter",
+   "area": "Units",
+   "words": 2756,
+   "read_min": 15,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "A Father's Letter to his Son / Poem: Changing",
+   "area": "Units",
+   "words": 2851,
+   "read_min": 16,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Public Announcements / How to Wash Clothes in a Washing Machine",
+   "area": "Units",
+   "words": 2477,
+   "read_min": 14,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "A Memoir: A Visit to Mustang / A Diary Entry",
+   "area": "Units",
+   "words": 2365,
+   "read_min": 13,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "The Old Woman and the Lime Tree / Poem: Free Birds",
+   "area": "Units",
+   "words": 2157,
+   "read_min": 12,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Traditional Wedding Customs around the World / Life Saving Inventions",
+   "area": "Units",
+   "words": 2439,
+   "read_min": 14,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Weather Forecast / Migration",
+   "area": "Units",
+   "words": 1953,
+   "read_min": 11,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Having Fun / Historical Inventions",
+   "area": "Units",
+   "words": 2553,
+   "read_min": 14,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "The Leap between High School and College / Smartphones in our Life",
+   "area": "Units",
+   "words": 1957,
+   "read_min": 11,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Vacancy Announcement / Invitation",
+   "area": "Units",
+   "words": 1968,
+   "read_min": 11,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Sir Isaac Newton / Khaptad National Park",
+   "area": "Units",
+   "words": 2586,
+   "read_min": 14,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Nepal's Bird Man / Poem: My Teacher Ate my Homework",
+   "area": "Units",
+   "words": 2215,
+   "read_min": 12,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Nepal is the First Country to Double its Tiger Population / Drama: A Mousetrap",
+   "area": "Units",
+   "words": 2202,
+   "read_min": 12,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "The Magic Mirror / Poem: If I was a Superhero",
+   "area": "Units",
+   "words": 2330,
+   "read_min": 13,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Conservation of Earth / An Official Notice",
+   "area": "Units",
+   "words": 2219,
+   "read_min": 12,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "An Anecdote: Why I Became a Vegan / A History of Pens",
+   "area": "Units",
+   "words": 2187,
+   "read_min": 12,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Naresh and the Stranger / Poem: From a Railway Carriage",
+   "area": "Units",
+   "words": 2306,
+   "read_min": 13,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Road Accidents in Nepal: Are Poor Roads Solely to Blame? / Poem: Long Life",
+   "area": "Units",
+   "words": 2226,
+   "read_min": 12,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "A Tale of Two Birds / News Report: Pokhara International Airport Inaugurated",
+   "area": "Units",
+   "words": 2384,
+   "read_min": 13,
+   "figures": 1,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank8",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Compulsory English: Unit-wise Objective Question Bank",
+   "words": 2246,
+   "read_min": 12
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Compulsory English: Writing and Grammar Question Bank",
+   "words": 1763,
+   "read_min": 10
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Compulsory English: Model Question Sets and Predicted Questions",
+   "words": 3246,
+   "read_min": 18
+  }
+ ],
+ "guide": "The Basic Level Examination: Pattern, Grid and Strategy"
+}

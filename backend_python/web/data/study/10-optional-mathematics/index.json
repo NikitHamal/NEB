@@ -1,0 +1,138 @@
+{
+ "book": "omath10",
+ "units": [
+  {
+   "no": 1,
+   "title": "Sequence and Series",
+   "area": "Units",
+   "words": 3981,
+   "read_min": 22,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Quadratic Equations and Graphs",
+   "area": "Units",
+   "words": 3322,
+   "read_min": 18,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Matrices and Determinants",
+   "area": "Units",
+   "words": 2722,
+   "read_min": 15,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Trigonometry: Multiple, Submultiple and Transformation Formulas",
+   "area": "Units",
+   "words": 2197,
+   "read_min": 12,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Conditional Identities, Trigonometric Equations and Height and Distance",
+   "area": "Units",
+   "words": 3023,
+   "read_min": 17,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Angle between Two Lines and Pair of Straight Lines",
+   "area": "Units",
+   "words": 2585,
+   "read_min": 14,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Conic Sections and Circle",
+   "area": "Units",
+   "words": 2680,
+   "read_min": 15,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Vector",
+   "area": "Units",
+   "words": 2422,
+   "read_min": 13,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Linear Programming and Transformation",
+   "area": "Units",
+   "words": 3773,
+   "read_min": 21,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Continuity",
+   "area": "Units",
+   "words": 2424,
+   "read_min": 13,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Statistics: Measures of Dispersion",
+   "area": "Units",
+   "words": 2364,
+   "read_min": 13,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Functions and Polynomials",
+   "area": "Units",
+   "words": 4353,
+   "read_min": 24,
+   "figures": 4,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank10",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Optional Mathematics: Unit-wise Objective Question Bank",
+   "words": 3395,
+   "read_min": 19
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Optional Mathematics: Unit-wise Subjective Question Bank",
+   "words": 3876,
+   "read_min": 22
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Optional Mathematics: Model Question Sets and Predicted Questions",
+   "words": 3381,
+   "read_min": 19
+  }
+ ],
+ "guide": "The SEE Examination: Pattern, Grid and Strategy"
+}

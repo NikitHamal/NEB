@@ -225,12 +225,14 @@ private fun NotificationsBody(
                 contentPadding = PaddingValues(start = 14.dp, end = 14.dp, top = 6.dp, bottom = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
+                val now = Calendar.getInstance()
+                val then = Calendar.getInstance()
                 var lastBucket: String? = null
                 visible.forEach { notification ->
-                    val bucket = dayBucket(notification.createdAt)
+                    val bucket = dayBucket(notification.createdAt, now, then)
                     if (bucket != lastBucket) {
                         lastBucket = bucket
-                        item(key = "header_$bucket") {
+                        item(key = "header_$bucket", contentType = "header") {
                             Text(
                                 text = bucket,
                                 style = MaterialTheme.typography.labelLarge,
@@ -240,7 +242,7 @@ private fun NotificationsBody(
                             )
                         }
                     }
-                    item(key = notification.id) {
+                    item(key = notification.id, contentType = "notification") {
                         NotificationItem(
                             notification = notification,
                             onClick = { onOpen(notification) },
@@ -281,9 +283,9 @@ private fun emptySubtitle(filter: NotificationFilter): String = when (filter) {
     NotificationFilter.Follows -> "Share your profile to grow your circle."
 }
 
-private fun dayBucket(timestamp: Long): String {
-    val now = Calendar.getInstance()
-    val then = Calendar.getInstance().apply { timeInMillis = timestamp }
+/** [now] and [then] are reused across a whole list rather than made twice per row. */
+private fun dayBucket(timestamp: Long, now: Calendar, then: Calendar): String {
+    then.timeInMillis = timestamp
     val sameYear = now.get(Calendar.YEAR) == then.get(Calendar.YEAR)
     val dayDiff = if (sameYear) {
         now.get(Calendar.DAY_OF_YEAR) - then.get(Calendar.DAY_OF_YEAR)

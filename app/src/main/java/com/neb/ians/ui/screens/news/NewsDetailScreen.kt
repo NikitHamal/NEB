@@ -73,6 +73,9 @@ fun NewsDetailScreen(
     viewModel: NewsDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    // read only where the composers draw, so typing redraws the composer and not the article
+    val commentDraft by viewModel.commentDraft.collectAsStateWithLifecycle()
+    val threadDraft by viewModel.threadDraft.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val uriHandler = LocalUriHandler.current
     var activeThreadParentId by remember { mutableStateOf<String?>(null) }
@@ -116,11 +119,11 @@ fun NewsDetailScreen(
         bottomBar = {
             if (uiState.detail != null && !uiState.isLoading) {
                 NebCommentComposerBar(
-                    value = uiState.commentDraft,
+                    value = commentDraft,
                     onValueChange = viewModel::onCommentDraftChange,
                     placeholder = if (uiState.isAuthenticated) "Join the discussion" else "Sign in to comment",
                     enabled = uiState.isAuthenticated && !uiState.isPostingComment,
-                    canSend = uiState.isAuthenticated && uiState.commentDraft.isNotBlank() && !uiState.isPostingComment,
+                    canSend = uiState.isAuthenticated && commentDraft.isNotBlank() && !uiState.isPostingComment,
                     posting = uiState.isPostingComment,
                     sendContentDescription = "Post comment",
                     onSend = viewModel::postComment
@@ -201,8 +204,8 @@ fun NewsDetailScreen(
                             activeThreadParentId = comment.id
                             activeThreadTargetId = comment.id
                             val tag = "@${comment.authorName} "
-                            if (!uiState.threadDraft.startsWith(tag)) {
-                                viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                            if (!threadDraft.startsWith(tag)) {
+                                viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
                             }
                         },
                         onOpenThread = { comment -> activeThreadParentId = comment.id },
@@ -310,8 +313,8 @@ fun NewsDetailScreen(
                                 onReplyClick = {
                                     activeThreadTargetId = parent.id
                                     val tag = "@${parent.authorName} "
-                                    if (!uiState.threadDraft.startsWith(tag)) {
-                                        viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                                    if (!threadDraft.startsWith(tag)) {
+                                        viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
                                     }
                                 },
                                 onDeleteClick = if (parent.isOwner) ({ deletingCommentId = parent.id }) else null,
@@ -354,8 +357,8 @@ fun NewsDetailScreen(
                                         onReplyClick = {
                                             activeThreadTargetId = child.id
                                             val tag = "@${child.authorName} "
-                                            if (!uiState.threadDraft.startsWith(tag)) {
-                                                viewModel.onThreadDraftChange(tag + uiState.threadDraft.removePrefix(tag))
+                                            if (!threadDraft.startsWith(tag)) {
+                                                viewModel.onThreadDraftChange(tag + threadDraft.removePrefix(tag))
                                             }
                                         },
                                         onDeleteClick = if (child.isOwner) ({ deletingCommentId = child.id }) else null,
@@ -372,11 +375,11 @@ fun NewsDetailScreen(
 
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
                     NebCommentComposerBar(
-                        value = uiState.threadDraft,
+                        value = threadDraft,
                         onValueChange = viewModel::onThreadDraftChange,
                         placeholder = if (replyTarget != null) "Reply to @${replyTarget.authorName}..." else "Write a reply...",
                         enabled = !uiState.isPostingComment,
-                        canSend = uiState.threadDraft.isNotBlank() && !uiState.isPostingComment,
+                        canSend = threadDraft.isNotBlank() && !uiState.isPostingComment,
                         posting = uiState.isPostingComment,
                         onSend = {
                             val targetId = activeThreadTargetId ?: parentId

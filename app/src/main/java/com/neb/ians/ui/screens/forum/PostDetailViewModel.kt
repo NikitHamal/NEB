@@ -21,10 +21,8 @@ import com.neb.ians.ui.components.formatVoiceTime
 import com.neb.ians.ui.components.mentionQueryAt
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -136,21 +134,19 @@ class PostDetailViewModel @Inject constructor(
      * refresh (or anyone's realtime write) lands fresher post/reply data in
      * the offline cache, this flow re-reads it without user interaction.
      */
-    @OptIn(FlowPreview::class)
     private fun collectCacheSignals() {
         viewModelScope.launch {
-            cacheBus.signals
-                .debounce(400)
-                .collect { key ->
-                    when (key) {
-                        CacheBus.PREFIX_POST + postId ->
-                            forumRepository.getPost(postId, cacheOnly = true).onSuccess { post ->
-                                _state.update { it.copy(post = post, poll = post.poll?.toPollUi()) }
-                            }
-                        CacheBus.PREFIX_POST_REPLIES + postId ->
-                            forumRepository.getReplies(postId, cacheOnly = true).onSuccess { replies ->
-                                _state.update { it.copy(replies = replies, isLoading = false) }
-                            }
+            cacheBus.batches()
+                .collect { keys ->
+                    if (CacheBus.PREFIX_POST + postId in keys) {
+                        forumRepository.getPost(postId, cacheOnly = true).onSuccess { post ->
+                            _state.update { it.copy(post = post, poll = post.poll?.toPollUi()) }
+                        }
+                    }
+                    if (CacheBus.PREFIX_POST_REPLIES + postId in keys) {
+                        forumRepository.getReplies(postId, cacheOnly = true).onSuccess { replies ->
+                            _state.update { it.copy(replies = replies, isLoading = false) }
+                        }
                     }
                 }
         }

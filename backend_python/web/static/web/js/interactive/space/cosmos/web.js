@@ -183,7 +183,11 @@ export function createObservableUniverse(quality) {
       { text: 'Cosmic microwave background', sub: 'light from 380 000 years after the Big Bang', get: (v) => v.set(R * 0.72, -R * 0.69, 0), min: 26.4, max: 28, minor: true },
       { text: 'You are here', sub: 'every observer is at the centre of their own observable universe', get: (v) => v.set(0, 0, 0), min: 26.0, max: 28, cls: 'here' },
     ],
-    update() {},
+    update(t, lw) {
+      const out = Math.min(1, Math.max(0, (lw - 26.5) / 0.3));
+      cmbMat.uniforms.uOpacity.value *= out * out * (3 - 2 * out);
+      cmb.visible = out > 0.002;
+    },
     setPx(uPx, scale) {
       pts.material.uniforms.uPx.value = uPx; pts.material.uniforms.uScale.value = scale;
       here.material.uniforms.uPx.value = uPx; here.material.uniforms.uScale.value = scale;

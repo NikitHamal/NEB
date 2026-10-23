@@ -180,7 +180,11 @@ private fun NewsIndex(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(bottom = 112.dp)
             ) {
-                itemsIndexed(uiState.items, key = { _, item -> item.id }) { index, item ->
+                itemsIndexed(
+                    uiState.items,
+                    key = { _, item -> item.id },
+                    contentType = { index, _ -> if (index == 0) "lead" else "row" }
+                ) { index, item ->
                     if (index == 0) {
                         NewsLeadStory(item = item, onClick = { onOpen(item.slug) })
                         Spacer(modifier = Modifier.height(4.dp))

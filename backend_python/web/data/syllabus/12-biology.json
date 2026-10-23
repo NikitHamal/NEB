@@ -1,0 +1,569 @@
+{
+ "grade": "12",
+ "grade_label": "Class 12",
+ "grade_label_ne": "कक्षा १२",
+ "subject": "biology",
+ "name": "Biology",
+ "name_ne": "जीवविज्ञान",
+ "icon": "biotech",
+ "group": "science",
+ "color": "#0B6A62",
+ "lang": "en",
+ "code": "2021 (CDC Bio.202)",
+ "hours": 128,
+ "exam": "3hr, FM 75 written (+25 internal) | Section I Botany 37 + Section II Zoology 38",
+ "areas": [
+  "Botany",
+  "Zoology"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Plant Anatomy",
+   "hours": 8,
+   "area": "Botany",
+   "topics": [
+    "Concept of tissues",
+    "Meristems and permanent tissues",
+    "Anatomy of dicot and monocot root",
+    "Anatomy of dicot and monocot stem",
+    "Anatomy of dicot and monocot leaf",
+    "Secondary growth of dicot stem"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Concept of tissues"
+    },
+    {
+     "no": "1.2",
+     "title": "Meristems and permanent tissues"
+    },
+    {
+     "no": "1.3",
+     "title": "Anatomy of dicot and monocot root"
+    },
+    {
+     "no": "1.4",
+     "title": "Anatomy of dicot and monocot stem"
+    },
+    {
+     "no": "1.5",
+     "title": "Anatomy of dicot and monocot leaf"
+    },
+    {
+     "no": "1.6",
+     "title": "Secondary growth of dicot stem"
+    }
+   ],
+   "summary": [
+    "A tissue is a group of cells of common origin doing one job. Tissues are meristematic (still dividing) or permanent (differentiated), and simple (one cell type) or complex (several). The three tissue systems are epidermal, ground and vascular.",
+    "Meristems are classified by origin (promeristem, primary, secondary), by position (apical → length, intercalary → grasses regrow, lateral → girth) and by function (protoderm → epidermis, procambium → vascular tissue, ground meristem → cortex and pith).",
+    "Simple permanent tissues: parenchyma (living, thin-walled, storage; variants chlorenchyma, aerenchyma), collenchyma (living, pectin-rich, unevenly thickened, flexible support in growing dicot organs — angular, lamellar, lacunar), sclerenchyma (dead, lignified, rigid — fibres and sclereids).",
+    "Complex tissues: xylem = tracheids + vessels + fibres + parenchyma (upward, one way); phloem = sieve tubes + companion cells + fibres + parenchyma (both ways). Protoxylem is exarch in roots, endarch in stems.",
+    "Root: epiblema without cuticle, wide cortex, endodermis with Casparian strips and passage cells, pericycle giving endogenous lateral roots, radial bundles, exarch xylem. Dicot 2–6 xylem groups with little or no pith and later a cambium; monocot polyarch with a large pith and no cambium.",
+    "Stem: cuticle and stomata, collenchymatous hypodermis (dicot) or sclerenchymatous (monocot), conjoint collateral bundles, endarch xylem. Dicot — one ring, open, pith and medullary rays present. Monocot — scattered, closed, sclerenchymatous bundle sheath, lysigenous cavity, no phloem parenchyma, no medullary rays.",
+    "Leaf: dorsiventral (dicot) has palisade + spongy mesophyll, stomata mainly below, kidney-shaped guard cells, reticulate venation; isobilateral (monocot) has uniform mesophyll, stomata on both faces, dumb-bell guard cells, bulliform cells, sclerenchymatous sheaths and parallel venation.",
+    "Secondary growth of a dicot stem: interfascicular cambium forms from medullary-ray cells and joins the fascicular cambium into a cambial ring; it cuts secondary xylem inwards and secondary phloem outwards, crushing the primary phloem. Spring wood + autumn wood = one annual ring. Old central wood becomes heartwood (tyloses, tannins); the c"
+   ],
+   "terms": [
+    "Tissue",
+    "Meristem",
+    "Differentiation, dedifferentiation, redifferentiation",
+    "Secondary growth",
+    "Periderm and bark"
+   ],
+   "stats": {
+    "words": 6991,
+    "figures": 6,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Plant Physiology",
+   "hours": 20,
+   "area": "Botany",
+   "topics": [
+    "Water relation",
+    "Photosynthesis",
+    "Respiration",
+    "Plant hormones",
+    "Plant growth and movement"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Water relation"
+    },
+    {
+     "no": "2.2",
+     "title": "Photosynthesis"
+    },
+    {
+     "no": "2.3",
+     "title": "Respiration"
+    },
+    {
+     "no": "2.4",
+     "title": "Plant hormones"
+    },
+    {
+     "no": "2.5",
+     "title": "Plant growth and movement"
+    }
+   ],
+   "summary": [
+    "Water potential Psiw = Psis + Psip for an ordinary cell; pure free water is 0 MPa and every solution is negative. Water moves from higher to lower water potential, and Psip is negative in the xylem. DPD is the obsolete equivalent, with Psiw = -DPD. Water crosses the root cortex by apoplast, symplast and transmembrane routes, and the Caspa",
+    "Ascent of sap is explained by the cohesion–tension theory of Dixon and Joly (1895): evaporation from mesophyll wall menisci creates tension, cohesion holds the column together and adhesion keeps it attached. Strasburger's poisoned-trunk experiment killed the vital-force theories; the capillarity arithmetic kills that one.",
+    "Transpiration is 80–90 % stomatal. Stomata open when K^+ floods into the guard cells, lowering their solute potential; radial micellation turns the resulting turgor into opening. ABA closes them. The starch–sugar theory is obsolete — onion guard cells have no starch and work perfectly. Guttation is different: liquid xylem sap forced out t",
+    "Light reaction, in the thylakoid: PS II (P680) and PS I (P700) work in series along the Z-scheme; photolysis at the Mn4CaO5 complex releases O2 and dumps 4 H^+ into the lumen. Non-cyclic flow gives ATP + NADPH + O2; cyclic flow (PS I alone) gives ATP only, and exists because the Calvin cycle needs a 3 : 2 ratio that linear flow cannot sup",
+    "Calvin cycle, in the stroma: carboxylation, reduction, regeneration. Per CO2, 3 ATP + 2 NADPH; per glucose, 6 CO2 + 18 ATP + 12 NADPH. First stable product 3-PGA.",
+    "C4 separates the two carboxylations in space (Kranz anatomy, PEP carboxylase in mesophyll, RuBisCO in bundle sheath, first product oxaloacetate, 5 ATP per CO2); CAM separates them in time (stomata open at night, malic acid stored in the vacuole). Both suppress — but do not abolish — photorespiration.",
+    "Aerobic respiration: glycolysis (cytoplasm, net 2 ATP + 2 NADH) → link reaction (2 CO2 + 2 NADH) → Krebs (4 CO2, 6 NADH, 2 FADH2, 2 ATP) → ETS. With P/O ratios of 2.5 for NADH and 1.5 for FADH2, the total is 30–32 ATP, not 38. Fermentation makes no ATP of its own — it exists to regenerate NAD^+. RQ = CO2 out / O2 in: 1.00 for carbohydrate",
+    "Five hormones: auxin (elongation, apical dominance), gibberellin (internode elongation, bolting, α-amylase), cytokinin (cell division, delays senescence; high cytokinin gives shoots), ABA (stomatal closure, dormancy — not abscission), ethylene (fruit ripening, abscission, epinasty)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 12078,
+    "figures": 8,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Genetics",
+   "hours": 21,
+   "area": "Botany",
+   "topics": [
+    "Genetic Materials",
+    "Mendelian genetics",
+    "Linkage and crossing over",
+    "Mutation and polyploidy"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Genetic Materials"
+    },
+    {
+     "no": "3.2",
+     "title": "Mendelian genetics"
+    },
+    {
+     "no": "3.3",
+     "title": "Linkage and crossing over"
+    },
+    {
+     "no": "3.4",
+     "title": "Mutation and polyploidy"
+    }
+   ],
+   "summary": [
+    "DNA is the genetic material — Griffith's transformation, Avery's enzyme test, and the Hershey–Chase ³²P/³⁵S experiment; in some viruses (TMV) it is RNA. Chargaff's rules: A = T, G = C, so A + G = T + C.",
+    "B-DNA is a right-handed antiparallel double helix, diameter 2 nm, pitch 3.4 nm, 10 bp per turn, rise 0.34 nm per base pair; A=T has two hydrogen bonds, G≡C has three.",
+    "Replication is semi-conservative (Meselson–Stahl): helicase opens the fork, primase lays an RNA primer, DNA polymerase III builds only 5′ → 3′, so one strand is leading (continuous) and one lagging (Okazaki fragments joined by ligase).",
+    "Central dogma: DNA → (transcription) → mRNA → (translation) → protein. The code is a triplet, degenerate, non-overlapping, comma-less and nearly universal code of 64 codons; AUG starts, UAA, UAG and UGA stop.",
+    "Mendel's laws: dominance, segregation (monohybrid 3 : 1 phenotypic, 1 : 2 : 1 genotypic) and independent assortment (dihybrid 9 : 3 : 3 : 1; test cross 1 : 1 : 1 : 1). A heterozygote of n genes makes 2ⁿ kinds of gamete.",
+    "Chi-square tests a ratio: chi^2 = Σ (O-E)^2/E with df = (classes − 1); if chi^2 is less than the critical value (3.841 at df = 1, 7.815 at df = 3, p = 0.05) the deviation is due to chance and the ratio is accepted.",
+    "Deviations from Mendelism: incomplete dominance (1 : 2 : 1, Mirabilis jalapa), codominance (roan cattle, AB blood), multiple alleles (I^A, I^B, i), lethal genes (2 : 1) and sex linkage.",
+    "Linkage keeps genes on one chromosome together; crossing over at the chiasma in pachytene breaks that linkage. Recombination frequency = (recombinants/total) × 100 %, and 1 % = 1 map unit (cM); the maximum useful value is 50 %."
+   ],
+   "terms": [
+    "The words you must use correctly",
+    "Mendel's first two laws",
+    "Mendel's third law",
+    "Linkage",
+    "Crossing over",
+    "Mutation",
+    "Polyploidy"
+   ],
+   "stats": {
+    "words": 9336,
+    "figures": 14,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Embryology",
+   "hours": 8,
+   "area": "Botany",
+   "topics": [
+    "Asexual and sexual reproduction in angiosperms",
+    "Pollination",
+    "Fertilization",
+    "Development of male gametophyte",
+    "Development of female gametophyte",
+    "Dicot and monocot embryo",
+    "Endosperm"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Asexual and sexual reproduction in angiosperms"
+    },
+    {
+     "no": "4.2",
+     "title": "Pollination"
+    },
+    {
+     "no": "4.3",
+     "title": "Fertilization"
+    },
+    {
+     "no": "4.4",
+     "title": "Development of male gametophyte"
+    },
+    {
+     "no": "4.5",
+     "title": "Development of female gametophyte"
+    },
+    {
+     "no": "4.6",
+     "title": "Dicot and monocot embryo"
+    },
+    {
+     "no": "4.7",
+     "title": "Endosperm"
+    }
+   ],
+   "summary": [
+    "Asexual reproduction (rhizome, tuber, bulb, runner, cutting, grafting, apomixis) gives clones — quick and uniform but with no variation; sexual reproduction gives variation.",
+    "Pollination is the transfer of pollen from anther to stigma: autogamy, geitonogamy and xenogamy; agents are wind (anemophily), water (hydrophily), insect (entomophily), bird (ornithophily) and bat (chiropterophily).",
+    "Cross-pollination is enforced by dicliny, dichogamy (protandry and protogyny), herkogamy, heterostyly and self-incompatibility.",
+    "The anther is dithecous and tetrasporangiate; its wall is epidermis, endothecium (dehiscence), middle layers and tapetum (nutrition and sporopollenin).",
+    "Microsporogenesis: microspore mother cell (2n) → meiosis → tetrad of microspores (n). Microgametogenesis: microspore → 2-celled pollen grain (vegetative + generative cell) → two male gametes in the pollen tube.",
+    "Megasporogenesis: megaspore mother cell (2n) → meiosis → linear tetrad; three die, the chalazal one survives. Three free-nuclear mitoses then give the Polygonum-type, monosporic, 7-celled and 8-nucleate embryo sac — egg + 2 synergids, 3 antipodals, and 2 polar nuclei in the central cell.",
+    "Double fertilization (Nawaschin, 1898): syngamy gives the 2n zygote and triple fusion gives the 3n primary endosperm nucleus. Ovule → seed, ovary → fruit, integuments → seed coat, nucellus → perisperm if it persists.",
+    "The dicot embryo (Capsella) passes through 2-celled, octant, globular, heart-shaped and torpedo stages, with a suspensor from the basal cell; the monocot embryo has one cotyledon, the scutellum, plus a coleoptile, a coleorhiza and an epiblast."
+   ],
+   "terms": [
+    "Pollination",
+    "Double fertilization",
+    "Endosperm"
+   ],
+   "stats": {
+    "words": 5255,
+    "figures": 6,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Biotechnology",
+   "hours": 7,
+   "area": "Botany",
+   "topics": [
+    "Tissue culture",
+    "Plant breeding",
+    "Disease-resistant plants",
+    "Green manure, bio-fertilizer, bio-pesticide",
+    "Genetic engineering and GMOs",
+    "Bio-engineering",
+    "Food safety and food security"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Tissue culture"
+    },
+    {
+     "no": "5.2",
+     "title": "Plant breeding"
+    },
+    {
+     "no": "5.3",
+     "title": "Disease-resistant plants"
+    },
+    {
+     "no": "5.4",
+     "title": "Green manure, bio-fertilizer, bio-pesticide"
+    },
+    {
+     "no": "5.5",
+     "title": "Genetic engineering and GMOs"
+    },
+    {
+     "no": "5.6",
+     "title": "Bio-engineering"
+    },
+    {
+     "no": "5.7",
+     "title": "Food safety and food security"
+    }
+   ],
+   "summary": [
+    "Tissue culture works because plant cells are totipotent. Explant → surface sterilisation → MS medium → callus → shoots (high cytokinin) → roots (high auxin) → hardening. It gives disease-free, genetically identical clones all year round.",
+    "Plant breeding improves crops by selection, introduction, hybridisation and mutation breeding; the Green Revolution used dwarf, fertiliser-responsive varieties such as wheat Bhrikuti and rice Sabitri in Nepal.",
+    "Disease resistance is vertical (one R gene, complete but easily broken, gene-for-gene) or horizontal (many genes, partial but durable). Bacillus thuringiensis cry genes make a protoxin that becomes active only in the alkaline insect gut, so Bt crops kill the pest but not the eater.",
+    "Green manure adds organic matter and nitrogen by ploughing in a legume; bio-fertilizers are living organisms (Rhizobium, Azotobacter, Azolla–Anabaena, mycorrhiza, blue-green algae) that supply nutrients; bio-pesticides are living or natural agents (Bt, Trichoderma, neem) that control pests without residues.",
+    "Genetic engineering needs four tools: restriction enzymes to cut (EcoRI cuts G↓AATTC and leaves sticky ends), DNA ligase to join, a vector with ori + marker + unique sites, and a host cell. Steps: isolate → cut → ligate → transform → select → multiply.",
+    "PCR copies a target in vitro using primers and Taq polymerase from Thermus aquaticus: denature 94–95 °C, anneal 50–65 °C, extend 72 °C; after n cycles one molecule becomes 2^n copies.",
+    "In gel electrophoresis DNA is negatively charged and moves to the anode; small fragments travel furthest. A linear molecule with n cut sites gives n+1 fragments, a circular one gives n.",
+    "GMOs include Bt cotton, Bt brinjal, Golden Rice and humulin-producing E. coli. Their release is controlled under the Cartagena Protocol; no GM crop is approved for cultivation in Nepal."
+   ],
+   "terms": [
+    "Plant tissue culture",
+    "Plant breeding",
+    "Green manure",
+    "Genetic engineering",
+    "Cloning vector versus gene cloning",
+    "Food security (FAO, 1996)"
+   ],
+   "stats": {
+    "words": 6583,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Animal Tissues",
+   "hours": 8,
+   "area": "Zoology",
+   "topics": [
+    "Epithelial tissue",
+    "Connective tissue",
+    "Muscular tissue",
+    "Nervous tissue"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Epithelial tissue"
+    },
+    {
+     "no": "6.2",
+     "title": "Connective tissue"
+    },
+    {
+     "no": "6.3",
+     "title": "Muscular tissue"
+    },
+    {
+     "no": "6.4",
+     "title": "Nervous tissue"
+    }
+   ],
+   "summary": [
+    "A tissue is a group of similar cells with a common origin doing one job; the four animal tissues are epithelial, connective, muscular and nervous.",
+    "Epithelium: cells packed, matrix negligible, avascular, polar, on a basement membrane, high regeneration. Simple (squamous, cuboidal, columnar, ciliated, pseudostratified), compound (stratified squamous, transitional) or glandular.",
+    "Connective tissue: few cells, abundant matrix of collagen, elastic and reticular fibres. Loose (areolar, adipose), dense (tendon = collagen, muscle→bone; ligament = elastin, bone→bone), skeletal (cartilage, bone) and fluid (blood, lymph).",
+    "Cartilage: chondrocytes in lacunae in chondrin, avascular, covered by perichondrium. Bone: osteocytes in lacunae joined by canaliculi, matrix of ossein + calcium salts, organised into Haversian systems in mammals.",
+    "Blood = 55% plasma + 45% formed elements. RBC 4.5–5.5 million per mm³, WBC 4000–11000 per mm³, platelets 150,000–400,000 per mm³.",
+    "Muscle: striated (cylindrical, unbranched, many peripheral nuclei, voluntary), cardiac (branched, central nucleus, intercalated discs, involuntary, tireless), smooth (spindle, one central nucleus, no striations, involuntary).",
+    "The sarcomere, from Z line to Z line, is the contractile unit; on contraction the I band and H zone shorten but the A band does not.",
+    "A neuron has a cyton with Nissl granules, dendrites carrying impulses in, and one axon carrying them out. Myelin plus nodes of Ranvier give saltatory conduction; the synapse transmits chemically and in one direction only."
+   ],
+   "terms": [
+    "Epithelial tissue",
+    "Connective tissue",
+    "Muscular tissue",
+    "Sarcomere",
+    "Synapse"
+   ],
+   "stats": {
+    "words": 4647,
+    "figures": 2,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Developmental Biology",
+   "hours": 6,
+   "area": "Zoology",
+   "topics": [
+    "Gametogenesis",
+    "Development of frog"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Gametogenesis"
+    },
+    {
+     "no": "7.2",
+     "title": "Development of frog"
+    }
+   ],
+   "summary": [
+    "Gametogenesis has three phases — multiplication (mitosis), growth, and maturation (two meiotic divisions); spermatogenesis adds a fourth, spermiogenesis.",
+    "One primary spermatocyte gives 4 sperms; one primary oocyte gives 1 ovum + 3 polar bodies. Both divide meiotically twice; only the cytoplasm is shared unequally.",
+    "In the frog 2n = 26, so every gamete carries n = 13 and the zygote is restored to 2n = 26.",
+    "The frog's egg is mesolecithal and telolecithal: dark animal pole with the nucleus, pale vegetal pole with the yolk.",
+    "Fertilisation is external and monospermic; the fertilisation membrane blocks extra sperms, and the grey crescent appears opposite the point of entry and fixes the dorsal side.",
+    "Cleavage is holoblastic but unequal: furrows 1 and 2 vertical, furrow 3 horizontal above the equator giving 4 micromeres and 4 macromeres. After n cleavages there are 2^n blastomeres and the embryo has not grown.",
+    "The coeloblastula has an eccentric blastocoel with a micromere roof and a macromere floor.",
+    "Gastrulation uses epiboly and emboly; the archenteron replaces the blastocoel, the yolk plug fills the circular blastopore, and three germ layers appear. The dorsal lip is Spemann's organiser, and the blastopore becomes the anus."
+   ],
+   "terms": [
+    "Gametogenesis",
+    "Cleavage",
+    "Gastrulation"
+   ],
+   "stats": {
+    "words": 4419,
+    "figures": 8,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Human Biology",
+   "hours": 28,
+   "area": "Zoology",
+   "topics": [
+    "Digestive system",
+    "Respiratory System",
+    "Circulatory System",
+    "Excretory System",
+    "Nervous system",
+    "Sense organs",
+    "Endocrinology",
+    "Reproductive System"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Digestive system"
+    },
+    {
+     "no": "8.2",
+     "title": "Respiratory System"
+    },
+    {
+     "no": "8.3",
+     "title": "Circulatory System"
+    },
+    {
+     "no": "8.4",
+     "title": "Excretory System"
+    },
+    {
+     "no": "8.5",
+     "title": "Nervous system"
+    },
+    {
+     "no": "8.6",
+     "title": "Sense organs"
+    },
+    {
+     "no": "8.7",
+     "title": "Endocrinology"
+    },
+    {
+     "no": "8.8",
+     "title": "Reproductive System"
+    }
+   ],
+   "summary": [
+    "Digestion is chemical hydrolysis by enzymes, each with its own optimum pH: salivary amylase 6.8, pepsin 1.5–2.0, pancreatic and intestinal enzymes 7–8. Absorption happens in the ileum across villi, which raise the surface area to about 250 m².",
+    "Breathing moves air; respiration releases energy. Tidal volume 500 ml, vital capacity 4500 ml, total lung capacity 5800 ml, residual volume 1200 ml. Pulmonary ventilation = tidal volume × breathing rate ≈ 500 × 12 = 6000 ml min⁻¹.",
+    "Gas exchange is pure diffusion across the 0.5 µm alveolar wall over about 70 m² of surface. Oxygen travels as oxyhaemoglobin (1 g Hb carries 1.34 ml O₂); most CO₂ travels as bicarbonate.",
+    "Cardiac output = stroke volume × heart rate = 70 × 72 ≈ 5000 ml min⁻¹. The cardiac cycle lasts 0.8 s (atrial systole 0.1 s, ventricular systole 0.3 s, joint diastole 0.4 s); normal BP is 120/80 mmHg. The heart beats myogenically, from the SA node.",
+    "Urine formation = ultrafiltration + selective reabsorption + tubular secretion. Net filtration pressure = 55 - (15 + 30) = 10 mmHg; GFR = 125 ml min⁻¹ = 180 L day⁻¹, of which more than 99 % is reabsorbed to leave 1–1.5 L of urine.",
+    "A nerve impulse is a self-propagating reversal of membrane potential from −70 mV to +35 mV, restored by the Na⁺–K⁺ pump (3 Na⁺ out : 2 K⁺ in). Conduction is saltatory and up to 100 times faster in myelinated fibres. Conduction velocity = distance ÷ time.",
+    "Hormones are chemical messengers carried in the blood: slow to start, long to act, controlled by negative feedback through the hypothalamo-hypophyseal axis. Insulin alone lowers blood glucose (normal 70–110 mg per 100 ml); glucagon, adrenaline, cortisol and GH raise it.",
+    "The menstrual cycle is 28 days: menses 1–5, proliferative 6–13, ovulation at 14 on the LH surge, secretory 15–28 under progesterone from the corpus luteum. Fertilisation occurs in the ampulla; gestation is 280 days."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 13636,
+    "figures": 13,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Human Population and Health Disorders",
+   "hours": 6,
+   "area": "Zoology",
+   "topics": [
+    "Human Population",
+    "Health disorders"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Human Population"
+    },
+    {
+     "no": "9.2",
+     "title": "Health disorders"
+    }
+   ],
+   "summary": [
+    "CBR = (B/P)× 1000; CDR = (D/P)× 1000; RNI = CBR-CDR; IMR uses live births as denominator.",
+    "Exponential growth: Pt = P0e^rt, so r = (1)/(t)ln(Pt/P0) and doubling time Td = 0.693/r ≈ 70/R%.",
+    "Dependency ratio = dfracP0-14+P65+P15-64× 100; for Nepal in 2021 it is 53.3 (child 42.7, old-age 10.6).",
+    "Census 2021: 29,164,578 people, growth 0.92 % per year, sex ratio 95.59, density 198 km⁻², 66.17 % urban, 2.19 million absent abroad, life expectancy 71.3 years. NDHS 2022: TFR 2.1, IMR 28, U5MR 33. NMMS 2021: MMR 151.",
+    "Population pyramids are expanding (broad base), stable or declining (narrow base); Nepal's base is now narrower than the band above it.",
+    "The demographic transition runs from Stage 1 (high birth, high death) through Stage 2 (death falls, growth fastest) and Stage 3 (birth falls) to Stage 4 (both low). Nepal is in late Stage 3.",
+    "Malaria: human = intermediate host (schizogony in liver and RBC); female Anopheles = definitive host (gamogony and sporogony); infection by sporozoites in saliva.",
+    "HIV is a retrovirus that destroys CD4⁺ helper T cells; AIDS is diagnosed when the CD4⁺ count falls below 200 cells mm⁻³."
+   ],
+   "terms": [
+    "The five rates you must be able to state",
+    "Health (WHO, 1948)"
+   ],
+   "stats": {
+    "words": 4988,
+    "figures": 6,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Applied Biology",
+   "hours": 16,
+   "area": "Zoology",
+   "topics": [
+    "Application of Zoology",
+    "Microbial diseases and application of microbiology"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Application of Zoology"
+    },
+    {
+     "no": "10.2",
+     "title": "Microbial diseases and application of microbiology"
+    }
+   ],
+   "summary": [
+    "Apiculture is the keeping of Apis species in hives. Nepal's hive bee is Apis cerana; A. mellifera was introduced in 1992; A. dorsata, A. laboriosa and A. florea build single open combs and are hunted, not kept. The movable-frame hive works because bees leave a bee space of 6.4–9.5 mm, discovered by Langstroth in 1851 and patented in 1852.",
+    "A colony has one queen, sterile female workers and haploid drones from unfertilised eggs. All larvae get royal jelly for about three days; only the queen larva stays on it.",
+    "Sericulture rears Bombyx mori on mulberry (Morus alba). The larva passes five instars and four moults in 29–30 days, then spins a cocoon of one filament 600–900 m long. The pupa is killed by stifling before it can emerge and cut the filament. 4,000–7,000 cocoons make one kilogram of raw silk, which is 75–80 % fibroin and 20–25 % sericin.",
+    "Composite fish culture stocks six carps with different feeding niches in one pond: silver carp (phytoplankton), catla (zooplankton), rohu (column), grass carp (weeds), mrigal and common carp (bottom). Carps mature in ponds but will not spawn there, so breeding is induced by hormone injection — Hiralal Chaudhuri, 1956.",
+    "Poultry: Gallus gallus domesticus from the red junglefowl; broilers reach slaughter weight in 4–6 weeks, layers approach 500 eggs by 100 weeks. Nepal has exactly three indigenous breeds — Sakini, Ghanti Khuile, Pwankh Ulte. Ranikhet is Newcastle disease, caused by avian paramyxovirus type 1.",
+    "Animal husbandry: buffalo (Bubalus bubalis, riverine type) give 52.1 % of Nepal's milk. The yak–cattle hybrid is the chauri: females fertile, F₁ males sterile, milk yield higher but fat percentage lower than pure yak. Vermicomposting uses epigeic worms only, chiefly Eisenia fetida; the bed takes 60–140 days and yields compost of 0.5–1.5 %",
+    "Pearl culture inserts a shell bead together with a mantle graft (saibo), which forms the pearl sac that secretes nacre; the grain of sand is a myth, and neither pearl culture nor lac culture (Kerria lacca) is practised in Nepal.",
+    "Microbial disease: know agent, type, vector and prevention exactly — Mycobacterium tuberculosis (airborne, BCG, DOTS, ZN stain giving red bacilli on a blue ground), Salmonella Typhi and Vibrio cholerae O1/O139 (faecal–oral), Plasmodium (female Anopheles), Leishmania donovani (female Phlebotomus argentipes), dengue virus (day-biting Aedes)"
+   ],
+   "terms": [
+    "Pathogen, infection, disease"
+   ],
+   "stats": {
+    "words": 10210,
+    "figures": 7,
+    "examples": 5
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 10,
+ "topic_count": 47,
+ "notes_ready": 10
+}

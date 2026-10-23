@@ -46,26 +46,22 @@ the top right.
 A point on an axis belongs to no quadrant: $(5,0)$ lies on the $x$-axis and
 $(0,-2)$ on the $y$-axis.
 
-```figure caption="The coordinate plane. The signs of the two coordinates tell you the quadrant, which is the quickest check that a point has been plotted on the right side of both axes."
-fig, ax = plt.subplots(figsize=(4.8, 3.0))
-ax.set_xlim(-6, 6)
-ax.set_ylim(-5, 5)
-ax.axhline(0, color=INK, lw=0.9)
-ax.axvline(0, color=INK, lw=0.9)
-ax.grid(True, color=GRID, lw=0.5)
-for x, y, name, c in [(3, 4, "I", ACCENT), (-3, 4, "II", SERIES[1]),
-                      (-3, -4, "III", SERIES[2]), (3, -4, "IV", SERIES[3])]:
-    ax.plot([x], [y], "o", color=c, ms=5)
-    ax.annotate("$(%d,%d)$" % (x, y), (x, y), xytext=(x + 0.25, y + 0.45),
-                fontsize=7, color=c)
-    ax.text(x * 2.1, y * 1.05, name, fontsize=9, color=c, ha="center", va="center")
-ax.text(5.6, -0.5, "x", fontsize=8.5, color=INK)
-ax.text(0.2, 4.7, "y", fontsize=8.5, color=INK)
-ax.set_xticks(range(-6, 7, 2))
-ax.set_yticks(range(-4, 6, 2))
+```figure caption="The coordinate plane. The signs of $(x, y)$ tell the quadrant: I $(+,+)$, II $(-,+)$, III $(-,-)$, IV $(+,-)$. Points on an axis are in no quadrant."
+fig, ax = plt.subplots(figsize=(4.4, 3.4))
+ax.axhline(0, color=INK, lw=1.0); ax.axvline(0, color=INK, lw=1.0)
+pts = [(3, 2, "A(3, 2)", ACCENT), (-3, 1, "B(−3, 1)", SERIES[1]), (-2, -3, "C(−2, −3)", SERIES[2]), (4, -2, "D(4, −2)", SERIES[3])]
+for x, y, t, c in pts:
+    ax.plot(x, y, "o", color=c, ms=5)
+    ax.text(x + 0.2, y + 0.25, t, fontsize=8.5, color=c)
+for x, y, t in [(3.0, 4.0, "I (+, +)"), (-3.6, 4.0, "II (−, +)"), (-3.6, -4.3, "III (−, −)"), (3.0, -4.3, "IV (+, −)")]:
+    ax.text(x, y, t, fontsize=9, color=MUTED, ha="center")
+ax.text(5.6, 0.25, "x", fontsize=9, color=INK); ax.text(0.2, 4.7, "y", fontsize=9, color=INK)
+ax.text(-0.5, -0.55, "O", fontsize=9, color=INK)
+ax.set_xlim(-5.5, 6); ax.set_ylim(-5, 5)
+ax.set_xticks([-4, -2, 2, 4]); ax.set_yticks([-4, -2, 2, 4])
 ax.tick_params(labelsize=7.5, length=0)
-ax.spines[["top", "right"]].set_visible(False)
-fig.tight_layout()
+ax.grid(True, color=GRID, lw=0.6); ax.set_axisbelow(True)
+for sp in ax.spines.values(): sp.set_visible(False)
 ```
 
 ::: caution The order is fixed: across, then up
@@ -96,34 +92,63 @@ $x=2$ ✓. For (b), the subtraction $3-(-4)=7$ shows why the sign must be handle
 carefully — the points are on opposite sides of the $x$-axis.
 :::
 
-### 17.2.2 Any two points: the distance formula
+### 17.2.2 Pythagoras' theorem — the tool we need
 
-Join the two points to make a right-angled triangle whose horizontal and
-vertical sides are the differences of the coordinates. Then Pythagoras gives
+In a right-angled triangle with perpendicular $p$, base $b$ and hypotenuse $h$
+(the side opposite the right angle):
 
-$$d=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$$
+$$h^2=p^2+b^2$$
 
-```figure caption="The distance formula is Pythagoras in disguise. The horizontal side is the difference of the x-coordinates and the vertical side is the difference of the y-coordinates, so the distance is the hypotenuse."
-fig, ax = plt.subplots(figsize=(4.8, 2.8))
-ax.set_xlim(-1, 8)
-ax.set_ylim(-1, 6)
-ax.axhline(0, color=INK, lw=0.8)
-ax.axvline(0, color=INK, lw=0.8)
-ax.grid(True, color=GRID, lw=0.5)
-ax.plot([1, 6], [1, 1], color=SERIES[1], lw=1.6)
-ax.plot([6, 6], [1, 5], color=SERIES[2], lw=1.6)
-ax.plot([1, 6], [1, 5], color=ACCENT, lw=1.8)
-ax.plot([1, 6], [1, 5], "o", color=INK, ms=4)
-ax.annotate("$A(1,1)$", (1, 1), xytext=(1.05, 0.35), fontsize=7, color=INK)
-ax.annotate("$B(6,5)$", (6, 5), xytext=(5.4, 5.25), fontsize=7, color=INK)
-ax.text(3.5, 0.55, "$x_2-x_1=5$", fontsize=7, color=SERIES[1], ha="center")
-ax.text(6.15, 3.0, "$y_2-y_1=4$", fontsize=7, color=SERIES[2])
-ax.text(2.6, 3.6, "$d=\\sqrt{5^2+4^2}$", fontsize=7.5, color=ACCENT)
-ax.set_xticks(range(0, 8, 2))
-ax.set_yticks(range(0, 6, 2))
+If the three sides of a triangle satisfy this, the triangle is right-angled.
+
+::: example Using Pythagoras' theorem
+**Problem.** (a) A right-angled triangle has perpendicular 6 cm and base 8 cm.
+Find the hypotenuse $x$. (b) The hypotenuse of a right triangle is 26 cm and
+one side is 10 cm. Find the other side. (c) Is the triangle with sides 7, 7 and
+10 cm right-angled?
+
+**Solution.**
+(a) $x^2=6^2+8^2=36+64=100$, so $x=10$ cm.
+
+(b) $x^2=26^2-10^2=676-100=576$, so $x=24$ cm.
+
+(c) Longest side 10: $10^2=100$ but $7^2+7^2=98$. Since $100\ne98$, it is
+**not** right-angled.
+:::
+
+### 17.2.3 Any two points: the distance formula
+
+::: derivation Distance between $A(x_1,y_1)$ and $B(x_2,y_2)$
+From A and B drop perpendiculars AP and BQ to the $x$-axis, and draw
+$AC\perp BQ$.
+
+**Step 1 — horizontal side.** $AC=PQ=OQ-OP=x_2-x_1$.
+
+**Step 2 — vertical side.** $BC=BQ-CQ=BQ-AP=y_2-y_1$.
+
+**Step 3 — Pythagoras in right-angled $\triangle ACB$.**
+$AB^2=AC^2+BC^2=(x_2-x_1)^2+(y_2-y_1)^2$
+
+**Result.**
+
+$$AB=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$$
+:::
+
+```figure caption="Distance between A(1, 1) and B(6, 5). The horizontal side AC = 6 − 1 = 5 and the vertical side BC = 5 − 1 = 4, so AB = √(5² + 4²) = √41."
+fig, ax = plt.subplots(figsize=(4.4, 3.0))
+A, B, C = (1, 1), (6, 5), (6, 1)
+ax.plot([A[0], B[0]], [A[1], B[1]], color=ACCENT, lw=1.8)
+ax.plot([A[0], C[0], B[0]], [A[1], C[1], B[1]], color=SERIES[1], lw=1.3, ls="--")
+ax.plot([5.7, 5.7, 6], [1, 1.3, 1.3], color=SERIES[1], lw=0.9)
+for P, t, off in [(A, "A(1, 1)", (-0.3, 0.3)), (B, "B(6, 5)", (-1.4, 0.15)), (C, "C(6, 1)", (0.15, -0.45))]:
+    ax.plot(*P, "o", color=INK, ms=4); ax.text(P[0] + off[0], P[1] + off[1], t, fontsize=8.5, color=INK)
+ax.text(3.5, 0.45, "x₂ − x₁ = 5", ha="center", fontsize=8.5, color=SERIES[1])
+ax.text(6.2, 3.0, "y₂ − y₁ = 4", fontsize=8.5, color=SERIES[1])
+ax.text(2.7, 3.3, "d = √41", fontsize=9, color=ACCENT, rotation=38)
+ax.set_xlim(0, 8.6); ax.set_ylim(0, 6); ax.set_xticks(range(0, 9)); ax.set_yticks(range(0, 7))
 ax.tick_params(labelsize=7.5, length=0)
+ax.grid(True, color=GRID, lw=0.6); ax.set_axisbelow(True)
 ax.spines[["top", "right"]].set_visible(False)
-fig.tight_layout()
 ```
 
 ::: example Using the distance formula
@@ -158,6 +183,27 @@ $$y=15\quad\text{or}\quad y=-9$$
 $d=\sqrt{25+(-12)^2}=\sqrt{169}=13$ ✓. Two answers, one above $A$ and one
 below — and both are correct, because a circle of radius 13 about $A$ meets the
 line $x=7$ twice.
+:::
+
+::: example Radius of a circle
+**Problem.** The centre of a circle is $A(4,6)$ and $P(10,8)$ is a point on the
+circle. Find the radius.
+
+**Solution.** Radius $=AP=\sqrt{(10-4)^2+(8-6)^2}=\sqrt{36+4}=\sqrt{40}=2\sqrt{10}\approx6.32$ units.
+:::
+
+::: example Points on the axes and a map
+**Problem.** (a) P lies on the $x$-axis 5 units from the origin (positive side)
+and Q lies on the $y$-axis 4 units from the origin (positive side). Find PQ.
+(b) On a map, A is at $(4,7)$ and B at $(7,3)$, and 1 unit represents 55 km.
+Find the real distance AB.
+
+**Solution.**
+(a) On the $x$-axis $y=0$, so $P(5,0)$; on the $y$-axis $x=0$, so $Q(0,4)$.
+$PQ=\sqrt{(0-5)^2+(4-0)^2}=\sqrt{25+16}=\sqrt{41}$ units.
+
+(b) $AB=\sqrt{(7-4)^2+(3-7)^2}=\sqrt{9+16}=5$ units, so the real distance is
+$5\times55=275$ km.
 :::
 
 ## 17.3 Shapes from coordinates
@@ -221,32 +267,6 @@ not only the lengths.
 :::
 
 ## 17.4 Reading a point in four quadrants
-
-```figure caption="The four quadrants with the sign pattern of (x, y). Mixing up the order of the coordinates is the commonest error — x always comes first."
-fig, ax = plt.subplots(figsize=(4.3, 3.6))
-ax.axhline(0, color=INK, linewidth=1.2)
-ax.axvline(0, color=INK, linewidth=1.2)
-quad = [("I\n$(+,+)$", 2.2, 2.2), ("II\n$(-,+)$", -2.2, 2.2),
-        ("III\n$(-,-)$", -2.2, -2.2), ("IV\n$(+,-)$", 2.2, -2.2)]
-for lab, x, y in quad:
-    ax.text(x, y, lab, ha="center", va="center", color=MUTED, fontsize=9)
-pts = [("A(3,2)", 3, 2), ("B(-3,1)", -3, 1), ("C(-2,-3)", -2, -3),
-       ("D(4,-2)", 4, -2)]
-for lab, x, y in pts:
-    ax.plot([x], [y], marker="o", markersize=6, color=SERIES[0])
-    ax.annotate(lab, xy=(x, y), xytext=(x + 0.25, y + 0.3), fontsize=8,
-                color=INK)
-ax.set_xlim(-5, 5)
-ax.set_ylim(-5, 5)
-ax.set_xticks(range(-4, 5, 2))
-ax.set_yticks(range(-4, 5, 2))
-ax.grid(color=GRID, linewidth=0.7)
-ax.set_axisbelow(True)
-for s in ("top", "right"):
-    ax.spines[s].set_visible(False)
-ax.tick_params(colors=MUTED, labelsize=8)
-ax.set_aspect("equal")
-```
 
 | Task | Rule |
 |---|---|

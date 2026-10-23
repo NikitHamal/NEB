@@ -23,9 +23,41 @@ are known.
 
 ## 7.1 The simple interest formula
 
-$$\text{Interest}=\frac{\text{Principal}\times\text{Time}\times\text{Rate}}{100}$$
+::: definition Terms of simple interest
+- **Principal (P):** the sum of money borrowed, lent or deposited.
+- **Interest (I):** the extra money paid for using the principal for a fixed time.
+- **Rate of interest (R):** the interest on Rs 100 for 1 year. "8 % per annum"
+  means Rs 8 interest on every Rs 100 each year.
+- **Time (T):** the period for which the money is borrowed or deposited.
+- **Amount (A):** principal + interest.
+:::
+
+::: derivation The formula $I=\frac{PTR}{100}$ by the unitary method
+We use the meaning of the rate, R % per annum, and change one quantity at a time.
+
+**Step 1.** Interest on Rs 100 for 1 year $=$ Rs $R$ (meaning of the rate).
+
+**Step 2.** Interest on Rs 1 for 1 year $=$ Rs $\frac{R}{100}$.
+
+**Step 3.** Interest on Rs $P$ for 1 year $=$ Rs $\frac{P\times R}{100}$.
+
+**Step 4.** Interest on Rs $P$ for $T$ years $=$ Rs $\frac{P\times T\times R}{100}$.
+
+**Result.**
 
 $$I=\frac{PTR}{100}$$
+:::
+
+::: example Interest by the unitary method
+**Problem.** Somaya borrows Rs 20,000 at 10 % per annum for vegetable farming.
+Find the interest for 2 years by the unitary method.
+
+**Solution.**
+Interest on Rs 100 for 1 year $=$ Rs 10.
+Interest on Rs 1 for 1 year $=$ Rs $\frac{10}{100}$.
+Interest on Rs 20,000 for 1 year $=$ Rs $\frac{10\times20\,000}{100}=$ Rs 2,000.
+Interest on Rs 20,000 for 2 years $=2\times2000=$ **Rs 4,000**.
+:::
 
 | Symbol | Meaning | Unit |
 |---|---|---|
@@ -176,6 +208,33 @@ solving two equations.
   even if its rate is higher. Rs 50,000 for 1 year at 15 % costs Rs 7,500;
   for 2 years at 12 % it costs Rs 12,000.
 
+::: example Tax on interest
+**Problem.** Adira saves Rs 40,000 in a bank at 5 % per annum. The bank deducts
+5 % of the interest as income tax. How much will she receive after 4 years?
+
+**Solution.** $I=\frac{40\,000\times4\times5}{100}=$ Rs 8,000.
+
+Tax $=5\%$ of $8000=\frac{5}{100}\times8000=$ Rs 400.
+
+Interest received $=8000-400=$ Rs 7,600.
+
+Amount received $=40\,000+7600=$ **Rs 47,600**.
+:::
+
+::: caution Tax is on the interest, not on the principal
+The 5 % tax is taken from the **interest** (Rs 8,000), not from the amount
+(Rs 48,000). Taking 5 % of Rs 48,000 would wrongly give a tax of Rs 2,400.
+:::
+
+::: example When does a sum become three times itself?
+**Problem.** In how many years will a sum become three times itself at 10 %
+simple interest per annum?
+
+**Solution.** Let the principal be $P$. Then $A=3P$, so $I=3P-P=2P$.
+
+$$T=\frac{100I}{PR}=\frac{100\times2P}{P\times10}=20\text{ years}$$
+:::
+
 ::: caution Simple interest is not what a bank really charges on a loan
 Most real loans charge compound interest, or a flat rate on the whole sum while
 the balance falls, which is much more expensive than simple interest suggests.
@@ -191,22 +250,6 @@ substitute.
 $$I = \frac{PTR}{100} \qquad P = \frac{100I}{TR} \qquad
 T = \frac{100I}{PR} \qquad R = \frac{100I}{PT}$$
 
-```figure caption="Rs 10,000 at 10% simple interest. The interest is the same every year, so the amount grows along a straight line — this is what makes it simple interest."
-yrs = np.arange(0, 6)
-amt = 10000 + 1000 * yrs
-fig, ax = plt.subplots(figsize=(4.7, 2.9))
-ax.plot(yrs, amt, color=SERIES[0], marker="o", markersize=5, linewidth=2)
-for y, a in zip(yrs, amt):
-    ax.text(y, a + 300, f"{a:,}", ha="center", color=INK, fontsize=8)
-ax.set_xlabel("years", color=MUTED, fontsize=9)
-ax.set_ylabel("amount (Rs)", color=MUTED, fontsize=9)
-ax.set_ylim(9000, 16500)
-ax.grid(color=GRID, linewidth=0.7)
-ax.set_axisbelow(True)
-for s in ("top", "right"):
-    ax.spines[s].set_visible(False)
-ax.tick_params(colors=MUTED, labelsize=8.4)
-```
 
 ::: example Finding the rate, then the time
 **Question.** A sum of Rs 16,000 amounts to Rs 20,800 in 4 years at simple
@@ -245,6 +288,8 @@ the rate would you check before depositing money?
 - When the amount is given, use
   $A=P\left(1+\frac{TR}{100}\right)$ and solve for $P$.
 - Simple interest is the same every year, so it grows in a straight line.
+- Income tax on interest is a percent of the interest only; amount received
+  $=P+I-\text{tax}$.
 - Comparing two offers means comparing $P\times T\times R$, not the rate alone.
 
 ## Practice questions

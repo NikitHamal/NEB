@@ -1,0 +1,1469 @@
+{
+ "grade": "12",
+ "grade_label": "Class 12",
+ "grade_label_ne": "कक्षा १२",
+ "subject": "chemistry",
+ "name": "Chemistry",
+ "name_ne": "रसायन विज्ञान",
+ "icon": "experiment",
+ "group": "science",
+ "color": "#A8271F",
+ "lang": "en",
+ "code": "3021 (CDC Che.302)",
+ "hours": 128,
+ "exam": "3hr, FM 75 written (+25 internal) | Group A MCQ 11x1=11 | Group B short 8x5=40 | Group C long 3x8=24",
+ "areas": [
+  "General and Physical Chemistry",
+  "Inorganic Chemistry",
+  "Organic Chemistry",
+  "Applied Chemistry"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Volumetric Analysis",
+   "hours": 8,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Introduction to gravimetric analysis, volumetric analysis and equivalent weight",
+    "Relationship between equivalent weight, atomic weight and valency",
+    "Equivalent weight of compounds: acid, base, salt, oxidizing and reducing agents",
+    "Concentration units: percentage, g/L, molarity, molality, normality, formality, ppm and ppb",
+    "Primary and secondary standard substances",
+    "Law of equivalence and normality equation",
+    "Titration and its types: acid-base titration, redox titration (with numerical problems)"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Introduction to gravimetric analysis, volumetric analysis and equivalent weight"
+    },
+    {
+     "no": "1.2",
+     "title": "Relationship between equivalent weight, atomic weight and valency"
+    },
+    {
+     "no": "1.3",
+     "title": "Equivalent weight of compounds: acid, base, salt, oxidizing and reducing agents"
+    },
+    {
+     "no": "1.4",
+     "title": "Concentration units: percentage, g/L, molarity, molality, normality, formality, ppm and ppb"
+    },
+    {
+     "no": "1.5",
+     "title": "Primary and secondary standard substances"
+    },
+    {
+     "no": "1.6",
+     "title": "Law of equivalence and normality equation"
+    },
+    {
+     "no": "1.7",
+     "title": "Titration and its types: acid-base titration, redox titration"
+    }
+   ],
+   "summary": [
+    "Gravimetric analysis weighs a precipitate; volumetric analysis measures the volume of a standard solution. Volumetric work is faster, gravimetric more accurate.",
+    "E = molar mass/n-factor, and for an element E = atomic weight/valency. The n-factor is basicity for an acid, acidity for a base, total ionic charge for a salt, and electrons transferred for a redox reagent.",
+    "KMnO₄ has three equivalent weights: 31.6 (acidic, 5e⁻), 52.67 (neutral, 3e⁻) and 158 (strongly alkaline, 1e⁻).",
+    "Key concentration relations: M = w × 1000/(Mw Vcm^3), N = M × n, S = N × E, M = 10pd/Mw, m = 1000M/(1000d - MMw). Molality and percentage by mass do not change with temperature; molarity and normality do.",
+    "A primary standard (oxalic acid, Na₂CO₃, K₂Cr₂O₇) is pure, stable and of high equivalent weight, so it can be weighed directly; a secondary standard (HCl, NaOH, KMnO₄, Na₂S₂O₃) must be titrated against one.",
+    "Law of equivalence ⇒ N1V1 = N2V2 (milliequivalents when V is in cm³), or n1M1V1 = n2M2V2 in molarities.",
+    "In a permanganate titration, acidify with dilute H₂SO₄ only; KMnO₄ is self-indicating, while K₂Cr₂O₇ needs an indicator but is itself a primary standard.",
+    "Na₂CO₃ titrated with HCl gives two end points: phenolphthalein at the bicarbonate stage (half the carbonate) and methyl orange at complete neutralisation."
+   ],
+   "terms": [
+    "Gravimetric and volumetric analysis",
+    "Equivalent weight",
+    "Primary and secondary standards",
+    "Titration"
+   ],
+   "stats": {
+    "words": 5041,
+    "figures": 4,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Ionic Equilibrium",
+   "hours": 10,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Limitation of Arrhenius concept",
+    "Bronsted-Lowry definition; Conjugate acid-base pairs",
+    "Relative strength of acids and bases",
+    "Lewis definition",
+    "Ionization of weak electrolyte (Ostwald's dilution law)",
+    "Ionic product of water (Kw)",
+    "Dissociation constant of acid and base (Ka and Kb); concept of pKa and pKb",
+    "pH value: pH of strong and weak acids; pH of strong and weak bases",
+    "Solubility and solubility product principle",
+    "Common ion effect",
+    "Application of solubility product principle and common ion effect in precipitation reactions",
+    "Buffer solution and its application",
+    "Indicators and selection of indicators in acid-base titration",
+    "Types of salts: acidic, basic, simple, complex",
+    "Hydrolysis of salts: strong acid + strong base; weak acid + strong base; weak base + strong acid"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Limitation of Arrhenius concept"
+    },
+    {
+     "no": "2.2",
+     "title": "Bronsted-Lowry definition; conjugate acid-base pairs"
+    },
+    {
+     "no": "2.3",
+     "title": "Relative strength of acids and bases"
+    },
+    {
+     "no": "2.4",
+     "title": "Lewis definition"
+    },
+    {
+     "no": "2.5",
+     "title": "Ionization of weak electrolyte (Ostwald's dilution law)"
+    },
+    {
+     "no": "2.6",
+     "title": "Ionic product of water (Kw)"
+    },
+    {
+     "no": "2.7",
+     "title": "Dissociation constant of acid and base (Ka and Kb); concept of pKa and pKb"
+    },
+    {
+     "no": "2.8",
+     "title": "pH value: pH of strong and weak acids; pH of strong and weak bases"
+    },
+    {
+     "no": "2.9",
+     "title": "Solubility and solubility product principle"
+    },
+    {
+     "no": "2.10",
+     "title": "Common ion effect"
+    },
+    {
+     "no": "2.11",
+     "title": "Application of solubility product principle and common ion effect in precipitation reactions"
+    },
+    {
+     "no": "2.12",
+     "title": "Buffer solution and its application"
+    },
+    {
+     "no": "2.13",
+     "title": "Indicators and selection of indicators in acid-base titration"
+    },
+    {
+     "no": "2.14",
+     "title": "Types of salts: acidic, basic, simple, complex"
+    },
+    {
+     "no": "2.15",
+     "title": "Hydrolysis of salts"
+    }
+   ],
+   "summary": [
+    "Arrhenius acids/bases work only in water; Bronsted-Lowry defines acid = proton donor, base = proton acceptor, giving conjugate pairs that differ by one H⁺; Lewis defines acid = electron-pair acceptor, base = electron-pair donor.",
+    "For a conjugate pair Ka × Kb = Kw and pKa + pKb = 14; the stronger the acid, the weaker its conjugate base.",
+    "Ostwald's dilution law: K = Cα^2/(1-α) ≈ Cα^2, so α = √K/C = √KV. It fails for strong electrolytes.",
+    "Kw = [H^+][OH^-] = 1.0×10^-14 at 25 °C; pH + pOH = 14. Kw rises with temperature, so neutral pH falls below 7 on heating.",
+    "pH master formulas: strong acid pH = -log C; weak acid pH = (1)/(2)(pKa - log C); strong base pH = 14 + log C; weak base pOH = (1)/(2)(pKb - log C).",
+    "Ksp = x^xy^yS^(x+y) for AxBy. Precipitation occurs when the ionic product Q > Ksp; the common ion effect lowers solubility and suppresses the ionisation of weak electrolytes.",
+    "Buffers: pH = pKa + log([salt]/[acid]) and pOH = pKb + log([salt]/[base]); capacity is greatest at pH = pKa and useful over pKa ± 1.",
+    "Choose an indicator whose range lies inside the vertical part of the titration curve: phenolphthalein (8.3–10.0) for weak acid vs strong base, methyl orange (3.1–4.4) for strong acid vs weak base, either for strong vs strong."
+   ],
+   "terms": [
+    "Bronsted-Lowry acid and base",
+    "Conjugate acid-base pair",
+    "Lewis acid and base",
+    "Ionic product of water",
+    "pH",
+    "Solubility and solubility product",
+    "Common ion effect",
+    "Buffer solution",
+    "Acid-base indicator",
+    "Salt hydrolysis"
+   ],
+   "stats": {
+    "words": 7092,
+    "figures": 5,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Chemical Kinetics",
+   "hours": 7,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Introduction",
+    "Rate of reactions: average and instantaneous",
+    "Rate law and its expressions",
+    "Rate constant, its unit and significance",
+    "Order and molecularity",
+    "Integrated rate equation for zero and first order reaction",
+    "Half-life of zero and first order reactions",
+    "Collision theory; activation energy and activated complex",
+    "Factors affecting rate: concentration, temperature (Arrhenius equation), catalyst (energy profile diagram)",
+    "Catalysis and types: homogeneous, heterogeneous and enzyme catalysis"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Introduction"
+    },
+    {
+     "no": "3.2",
+     "title": "Rate of reactions: average and instantaneous"
+    },
+    {
+     "no": "3.3",
+     "title": "Rate law and its expressions"
+    },
+    {
+     "no": "3.4",
+     "title": "Rate constant, its unit and significance"
+    },
+    {
+     "no": "3.5",
+     "title": "Order and molecularity"
+    },
+    {
+     "no": "3.6",
+     "title": "Integrated rate equation for zero and first order reaction"
+    },
+    {
+     "no": "3.7",
+     "title": "Half-life of zero and first order reactions"
+    },
+    {
+     "no": "3.8",
+     "title": "Collision theory; activation energy and activated complex"
+    },
+    {
+     "no": "3.9",
+     "title": "Factors affecting rate: concentration, temperature (Arrhenius equation), catalyst (energy profile diagram)"
+    },
+    {
+     "no": "3.10",
+     "title": "Catalysis and types: homogeneous, heterogeneous and enzyme catalysis"
+    }
+   ],
+   "summary": [
+    "Kinetics deals with rates, the factors affecting them and mechanism. Average rate is the slope of a chord, instantaneous rate the slope of the tangent, on a concentration-time graph; the unit is mol L⁻¹ s⁻¹.",
+    "For aA + bB → cC + dD the rate of reaction is -(1)/(a)(d[A])/(dt) = (1)/(c)(d[C])/(dt): always divide by the stoichiometric coefficient.",
+    "The rate law r = k[A]^x[B]^y is experimental; its powers need not match the coefficients in the balanced equation.",
+    "k is the specific reaction rate, has units (mol L^-1)^1-ns^-1, is independent of concentration and increases with temperature.",
+    "Order is experimental and may be zero or fractional; molecularity is theoretical and is a small whole number. They are equal only for elementary reactions. Reactions like ester hydrolysis are pseudo-first-order because the solvent is in excess.",
+    "Zero order: [A] = [A]0 - kt and t1/2 = [A]0/2k; the plot of [A] against t is linear.",
+    "First order: k = (2.303)/(t)log([A]0)/([A]) and t1/2 = 0.693/k, independent of the initial concentration; the plot of ln[A] against t is linear with slope -k.",
+    "Collision theory: r = ZPe^-Ea/RT. Only collisions with energy at least Ea and the right orientation succeed; the activated complex sits at the top of the barrier."
+   ],
+   "terms": [
+    "Rate of reaction",
+    "Rate law",
+    "Rate constant",
+    "Order and molecularity",
+    "Half-life",
+    "Activation energy and activated complex"
+   ],
+   "stats": {
+    "words": 6717,
+    "figures": 6,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Thermodynamics",
+   "hours": 8,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Introduction; energy in chemical reactions",
+    "Internal energy",
+    "First law of thermodynamics",
+    "Enthalpy and enthalpy changes (endothermic and exothermic)",
+    "Enthalpy of reaction, solution, formation, combustion",
+    "Laws of thermochemistry: Laplace law and Hess's law",
+    "Entropy and spontaneity",
+    "Second law of thermodynamics",
+    "Gibbs free energy and prediction of spontaneity",
+    "Relationship between dG and equilibrium constant"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Introduction; energy in chemical reactions"
+    },
+    {
+     "no": "4.2",
+     "title": "Internal energy"
+    },
+    {
+     "no": "4.3",
+     "title": "First law of thermodynamics"
+    },
+    {
+     "no": "4.4",
+     "title": "Enthalpy and enthalpy changes (endothermic and exothermic)"
+    },
+    {
+     "no": "4.5",
+     "title": "Enthalpy of reaction, solution, formation, combustion"
+    },
+    {
+     "no": "4.6",
+     "title": "Laws of thermochemistry: Laplace law and Hess's law"
+    },
+    {
+     "no": "4.7",
+     "title": "Entropy and spontaneity"
+    },
+    {
+     "no": "4.8",
+     "title": "Second law of thermodynamics"
+    },
+    {
+     "no": "4.9",
+     "title": "Gibbs free energy and prediction of spontaneity"
+    },
+    {
+     "no": "4.10",
+     "title": "Relationship between Δ G and equilibrium constant"
+    }
+   ],
+   "summary": [
+    "A system exchanges matter and/or energy with its surroundings. U, H, S, G, p, V, T are state functions; q and w are not.",
+    "First law: Δ U = q + w with w = -pextΔ V. At constant volume qv = Δ U; at constant pressure qp = Δ H.",
+    "H = U + pV, so Δ H = Δ U + Δ ngRT for gas reactions. Δ H < 0 exothermic, Δ H > 0 endothermic.",
+    "Δ Hr^° = ΣΔ Hf^°(products) - ΣΔ Hf^°(reactants), and Δ Hf^° of an element in its standard state is zero.",
+    "Lavoisier–Laplace: reversing a reaction reverses the sign of Δ H. Hess's law: Δ H is route-independent — the basis of the Born–Haber cycle, which gives lattice enthalpy (−787 kJ mol⁻¹ for NaCl).",
+    "Entropy S measures disorder, Δ S = qrev/T in J K⁻¹ mol⁻¹; S rises solid → liquid → gas.",
+    "Second law: Δ Stotal = Δ Ssys + Δ Ssurr > 0 for every spontaneous change.",
+    "Gibbs: Δ G = Δ H - TΔ S; spontaneous if Δ G < 0, at equilibrium if Δ G = 0; crossover at T = Δ H/Δ S."
+   ],
+   "terms": [
+    "Internal energy",
+    "First law of thermodynamics",
+    "Lavoisier–Laplace law",
+    "Hess's law of constant heat summation",
+    "Entropy"
+   ],
+   "stats": {
+    "words": 4932,
+    "figures": 4,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Electrochemistry",
+   "hours": 7,
+   "area": "General and Physical Chemistry",
+   "topics": [
+    "Electrode potential and standard electrode potential",
+    "Types of electrodes: standard hydrogen electrode and calomel electrode",
+    "Electrochemical series and its applications",
+    "Voltaic cell: Zn-Cu cell, Ag-Cu cell",
+    "Cell potential and standard cell potential",
+    "Relationship between cell potential and free energy",
+    "Commercial batteries and fuel cells (hydrogen/oxygen)"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Electrode potential and standard electrode potential"
+    },
+    {
+     "no": "5.2",
+     "title": "Types of electrodes: standard hydrogen electrode and calomel electrode"
+    },
+    {
+     "no": "5.3",
+     "title": "Electrochemical series and its applications"
+    },
+    {
+     "no": "5.4",
+     "title": "Voltaic cell: Zn-Cu cell, Ag-Cu cell"
+    },
+    {
+     "no": "5.5",
+     "title": "Cell potential and standard cell potential"
+    },
+    {
+     "no": "5.6",
+     "title": "Relationship between cell potential and free energy"
+    },
+    {
+     "no": "5.7",
+     "title": "Commercial batteries and fuel cells (hydrogen/oxygen)"
+    }
+   ],
+   "summary": [
+    "Electrode potential arises from the electrical double layer at a metal–solution boundary; only differences can be measured, so all E^° values are quoted against the SHE (1 M H⁺, H₂ at 1 bar, 298 K, defined as 0.000 V). The calomel electrode (+0.242 V saturated) is the practical secondary reference.",
+    "The electrochemical series orders standard reduction potentials. More negative = better reducing agent; more positive = better oxidising agent. A metal displaces any metal below it, and metals above hydrogen liberate H₂ from dilute acids.",
+    "In a galvanic cell, oxidation occurs at the negative anode (written on the left) and reduction at the positive cathode. Daniell cell: Zn | Zn²⁺(1 M) || Cu²⁺(1 M) | Cu, E^°cell = 1.10 V. Ag–Cu cell: Cu | Cu²⁺ || Ag⁺ | Ag, E^°cell = 0.46 V.",
+    "E^°cell = E^°cathode - E^°anode; positive means spontaneous. E^° is intensive and is never multiplied by a stoichiometric coefficient.",
+    "Nernst equation: Ecell = E^°cell - (0.0591)/(n)log Q at 298 K.",
+    "Δ G = -nFEcell, Δ G^° = -nFE^°cell and log K = nE^°cell/0.0591, with F = 96500 C mol⁻¹.",
+    "Faraday: Q = it; 96500 C liberates one gram-equivalent of any substance.",
+    "Primary cells (dry cell) cannot be recharged; secondary cells (lead storage, Ni–Cd, Li-ion) can. The H₂–O₂ fuel cell is fed continuously, E^°cell = 1.23 V, and produces only water."
+   ],
+   "terms": [
+    "Electrode potential",
+    "Standard electrode potential (E^°)",
+    "Cell potential (EMF)"
+   ],
+   "stats": {
+    "words": 4129,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Transition Metals",
+   "hours": 5,
+   "area": "Inorganic Chemistry",
+   "topics": [
+    "Characteristics of transition metals",
+    "Oxidation states",
+    "Complex ions and metal complexes",
+    "Shapes of complex ions",
+    "d-orbitals in complex ions (crystal field theory, octahedral complex)",
+    "Reasons for the colour of transition metal compounds",
+    "Catalytic properties of transition metals"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Characteristics of transition metals"
+    },
+    {
+     "no": "6.2",
+     "title": "Oxidation states"
+    },
+    {
+     "no": "6.3",
+     "title": "Complex ions and metal complexes"
+    },
+    {
+     "no": "6.4",
+     "title": "Shapes of complex ions"
+    },
+    {
+     "no": "6.5",
+     "title": "d-orbitals in complex ions (crystal field theory, octahedral complex)"
+    },
+    {
+     "no": "6.6",
+     "title": "Reasons for the colour of transition metal compounds"
+    },
+    {
+     "no": "6.7",
+     "title": "Catalytic properties of transition metals"
+    }
+   ],
+   "summary": [
+    "A transition element has a partially filled d subshell in the atom or in a common ion. Zn (3d¹⁰4s², Zn²⁺ = 3d¹⁰) is therefore not typical. Cr and Cu have 4s¹ configurations because half-filled and full d subshells are stable.",
+    "Characteristic properties: hardness, high melting point and density, variable oxidation states, coloured and paramagnetic ions, complex formation, catalysis, alloys and interstitial compounds.",
+    "Variable oxidation states arise because 3d and 4s are close in energy. The maximum state rises to +7 at Mn, then falls; the +2 state dominates on the right.",
+    "A complex ion is a central metal ion bonded to ligands by coordinate bonds. EAN = Z - (oxidation state) + 2(CN).",
+    "Shapes: CN 2 linear (sp); CN 4 tetrahedral (sp³) or square planar (dsp²); CN 6 octahedral (d²sp³).",
+    "CFT: in an octahedral field eg rises by 0.6Δo and t2g falls by 0.4Δo; CFSE = (-0.4n_t2g + 0.6n_eg)Δo. Weak field (Δo < P) gives high spin, strong field gives low spin. In a tetrahedral field the order inverts and Δt = (4)/(9)Δo.",
+    "Colour comes from d–d transitions whose energy matches visible light; d⁰ and d¹⁰ ions are colourless. MnO₄⁻ and Cr₂O₇²⁻ are coloured by charge transfer.",
+    "Spin-only magnetic moment μ = √n(n+2) BM."
+   ],
+   "terms": [
+    "Transition element",
+    "Effective atomic number (EAN)"
+   ],
+   "stats": {
+    "words": 3861,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Studies of Heavy Metals",
+   "hours": 15,
+   "area": "Inorganic Chemistry",
+   "topics": [
+    "Copper: occurrence and extraction from copper pyrite; properties with air, acids, aqueous ammonia, metal ions; uses; chemistry of blue vitriol; red oxide and black oxide (formula and uses)",
+    "Zinc: occurrence and extraction from zinc blende; properties with air, acid, alkali, displacement; uses; chemistry of white vitriol",
+    "Mercury: occurrence and extraction from cinnabar; properties; chemistry of calomel and corrosive sublimate",
+    "Iron: occurrence and extraction; properties and uses; manufacture of steel by Basic Oxygen Method and Open Hearth Process; corrosion of iron and its prevention",
+    "Silver: occurrence and extraction by cyanide process; preparation and uses of silver chloride and silver nitrate"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Copper"
+    },
+    {
+     "no": "7.2",
+     "title": "Zinc"
+    },
+    {
+     "no": "7.3",
+     "title": "Mercury"
+    },
+    {
+     "no": "7.4",
+     "title": "Iron"
+    },
+    {
+     "no": "7.5",
+     "title": "Silver"
+    }
+   ],
+   "summary": [
+    "Copper comes from copper pyrite, CuFeS₂: froth flotation → roasting → smelting with silica (FeSiO₃ slag, Cu₂S + FeS matte) → bessemerisation, where 2Cu₂O + Cu₂S → 6Cu + SO₂ gives blister copper by auto-reduction → poling and electrolytic refining (anode mud holds Ag, Au, Pt).",
+    "Copper is unattacked by dilute HCl or H₂SO₄ but dissolves in HNO₃ and in hot conc. H₂SO₄; with aqueous ammonia and air it gives deep blue Cu(NH₃)₄₂, Schweitzer's reagent. Blue vitriol is [Cu(H₂O)₄]SO₄·H₂O, white when anhydrous. Cu₂O is the red oxide, CuO the black.",
+    "Zinc comes from zinc blende, ZnS: flotation → roasting (2ZnS + 3O₂ → 2ZnO + 2SO₂) → reduction with coke (ZnO + C → Zn + CO), the zinc distilling off as vapour. Zinc is amphoteric: it gives H₂ with both dilute acid and hot alkali. White vitriol is ZnSO₄·7H₂O.",
+    "Mercury comes from cinnabar, HgS, by roasting alone: HgS + O₂ → Hg + SO₂, because HgO decomposes on heating. Excess mercury gives mercurous (Hg₂²⁺) salts, excess acid or halogen gives mercuric (Hg²⁺) salts. Calomel Hg₂Cl₂ is white, insoluble, harmless and blackened by ammonia; corrosive sublimate HgCl₂ is soluble, covalent and poisonous, ",
+    "Iron comes from haematite Fe₂O₃ in the blast furnace, the key step being FeO + CO → Fe + CO₂, with limestone as flux giving CaSiO₃ slag; the product is pig iron with ~4% C. Conc. HNO₃ makes iron passive.",
+    "Steel: the Basic Oxygen Process burns the impurities out with a lance of pure O₂ in 20 minutes, no fuel; the Open Hearth Process uses haematite as the oxidant and regenerative heating over 8–10 hours, with much better control of composition.",
+    "Rusting is electrochemical and needs water and oxygen: anode 2Fe → 2Fe²⁺ + 4e⁻, cathode O₂ + 4H⁺ + 4e⁻ → 2H₂O, product Fe₂O₃·xH₂O. Galvanising protects even when scratched; tinning does not.",
+    "Silver is extracted by the cyanide process: Ag₂S + 4NaCN ⇌ 2Na[Ag(CN)₂] + Na₂S, then 2Na[Ag(CN)₂] + Zn → Na₂[Zn(CN)₄] + 2Ag, then Moebius electrolytic refining. AgNO₃ is lunar caustic; AgCl is a white curdy precipitate soluble in ammonia and in hypo, and darkens in light."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 9402,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Haloalkanes",
+   "hours": 8,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction; nomenclature, isomerism and classification of monohaloalkanes",
+    "Preparation from alkanes, alkenes and alcohols",
+    "Physical properties",
+    "Chemical properties; substitution reactions SN1 and SN2 (basic concept)",
+    "Formation of alcohol, nitrile, amine, ether, thioether, carbylamines, nitrite and nitroalkane",
+    "Elimination reaction (dehydrohalogenation, Saytzeff's rule); Reduction; Wurtz reaction",
+    "Preparation of trichloromethane from ethanol and propanone",
+    "Chemical properties of trichloromethane: oxidation, reduction, action on silver powder, conc. nitric acid, propanone, aqueous alkali"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Introduction; nomenclature, isomerism and classification of monohaloalkanes"
+    },
+    {
+     "no": "8.2",
+     "title": "Preparation from alkanes, alkenes and alcohols"
+    },
+    {
+     "no": "8.3",
+     "title": "Physical properties"
+    },
+    {
+     "no": "8.4",
+     "title": "Chemical properties; substitution reactions S<sub>N</sub>1 and S<sub>N</sub>2"
+    },
+    {
+     "no": "8.5",
+     "title": "Formation of alcohol, nitrile, amine, ether, thioether, carbylamine, nitrite and nitroalkane"
+    },
+    {
+     "no": "8.6",
+     "title": "Elimination reaction; reduction; the Wurtz reaction"
+    },
+    {
+     "no": "8.7",
+     "title": "Preparation of trichloromethane from ethanol and propanone"
+    },
+    {
+     "no": "8.8",
+     "title": "Chemical properties of trichloromethane"
+    }
+   ],
+   "summary": [
+    "A monohaloalkane is CₙH₂ₙ₊₁X. It is 1°, 2° or 3° according to the number of carbons on the halogen-bearing carbon, and shows chain, position and (when that carbon has four different groups) optical isomerism. C₄H₉Br has four structural isomers.",
+    "Preparation: free radical halogenation of alkanes (gives mixtures); Markovnikov addition of HX to alkenes, reversed for HBr by peroxides; and — best — alcohols with conc. HX/ZnCl₂, PCl₃, PCl₅ or SOCl₂ (Darzen's process). Finkelstein (NaI/acetone) and Swarts (AgF) exchange halogens.",
+    "Boiling point rises RF < RCl < RBr < RI and with chain length, and falls with branching. Dipole moments run CH₃Cl > CH₃F > CH₃Br > CH₃I.",
+    "Reactivity in nucleophilic substitution is R–I > R–Br > R–Cl > R–F, because the C–X bond enthalpy falls in that order.",
+    "S<sub>N</sub>2: one step, backside attack, rate = k[RX][Nu^-], transition state with five groups on carbon, inversion of configuration, favoured by CH₃X > 1° > 2° > 3° and strong nucleophiles.",
+    "S<sub>N</sub>1: two steps through a planar carbocation, rate = k[RX], racemisation, favoured by 3° > 2° > 1°, weak nucleophiles and polar protic solvents. Its energy profile has two humps and an intermediate well; the S<sub>N</sub>2 profile has one hump and none.",
+    "The eight nucleophiles: OH⁻ → alcohol; KCN → nitrile but AgCN → isocyanide; NH₃ → amine; R'ONa → ether (Williamson); R'SNa → thioether; KNO₂ → alkyl nitrite but AgNO₂ → nitroalkane. Potassium attacks through C or O, silver through N.",
+    "Aqueous KOH substitutes (alcohol); alcoholic KOH eliminates (alkene), the more substituted alkene being the major product by Saytzeff's rule. Reduction gives the alkane; the Wurtz reaction (2RX + 2Na, dry ether) doubles the chain."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5304,
+    "figures": 6,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Haloarenes",
+   "hours": 3,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction; nomenclature and isomerism",
+    "Preparation of chlorobenzene from benzene and benzene diazonium chloride",
+    "Physical properties",
+    "Low reactivity vs haloalkanes in nucleophilic substitution",
+    "Reduction of chlorobenzene; electrophilic substitution reactions",
+    "Action with Na: Fittig and Wurtz-Fittig reaction; action with chloral",
+    "Uses"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Introduction; nomenclature and isomerism"
+    },
+    {
+     "no": "9.2",
+     "title": "Preparation of chlorobenzene from benzene and from benzene diazonium chloride"
+    },
+    {
+     "no": "9.3",
+     "title": "Physical properties"
+    },
+    {
+     "no": "9.4",
+     "title": "Low reactivity compared with haloalkanes in nucleophilic substitution"
+    },
+    {
+     "no": "9.5",
+     "title": "Reduction of chlorobenzene; electrophilic substitution reactions"
+    },
+    {
+     "no": "9.6",
+     "title": "Action with sodium: Fittig and Wurtz–Fittig reactions; action with chloral"
+    },
+    {
+     "no": "9.7",
+     "title": "Uses"
+    }
+   ],
+   "summary": [
+    "A haloarene has the halogen on an sp² ring carbon (C₆H₅Cl); an aralkyl halide has it on the side chain (C₆H₅CH₂Cl) and behaves like a haloalkane.",
+    "C₆H₄Cl₂ has three positional isomers; the para isomer has much the highest melting point because of symmetrical crystal packing.",
+    "Preparation: C₆H₆ + Cl₂ --(anhyd. AlCl₃, dark)--> C₆H₅Cl + HCl; industrially 2C₆H₆ + 2HCl + O₂ --(CuCl₂, 500 K)--> 2C₆H₅Cl + 2H₂O (Raschig).",
+    "From the diazonium salt: Sandmeyer (CuCl/HCl) and Gattermann (Cu/HCl), both giving C₆H₅Cl + N₂↑; KI alone gives iodobenzene.",
+    "Haloarenes are colourless, sweet-smelling, steam-volatile liquids, denser than and insoluble in water; boiling point rises Cl → Br → I.",
+    "Low reactivity to nucleophiles has four causes: resonance gives partial double-bond character (C–Cl 169 pm vs 177 pm), the sp² carbon is more electronegative, the π cloud repels the nucleophile, and neither S<sub>N</sub>1 (unstable phenyl cation) nor S<sub>N</sub>2 (no backside approach) is possible.",
+    "NO₂ groups ortho or para to the halogen switch nucleophilic substitution on; picryl chloride is hydrolysed by boiling water alone.",
+    "Cl is deactivating but ortho–para directing: –I effect slows the ring down, +R effect decides where the electrophile lands. Nitration gives about 30 % ortho and 70 % para."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4761,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Alcohols",
+   "hours": 7,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction; nomenclature, isomerism and classification of monohydric alcohol",
+    "Distinction of 1, 2, 3 alcohols by Victor Meyer's Method",
+    "Preparation from haloalkane, primary amines and esters",
+    "Industrial preparation: oxo process, hydroboration-oxidation of ethene, fermentation of sugar",
+    "Common terms: absolute alcohol, power alcohol, denatured alcohol, rectified spirit, alcoholic beverage",
+    "Physical properties",
+    "Chemical properties: HX/PX3/PCl5/SOCl2; reactive metals; dehydration; oxidation of 1/2/3 alcohols; catalytic dehydrogenation; esterification; test of ethanol"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Introduction; nomenclature, isomerism and classification of monohydric alcohol"
+    },
+    {
+     "no": "10.2",
+     "title": "Distinction of 1, 2, 3 alcohols by Victor Meyer's Method"
+    },
+    {
+     "no": "10.3",
+     "title": "Preparation from haloalkane, primary amines and esters"
+    },
+    {
+     "no": "10.4",
+     "title": "Industrial preparation: oxo process, hydroboration-oxidation of ethene, fermentation of sugar"
+    },
+    {
+     "no": "10.5",
+     "title": "Common terms: absolute alcohol, power alcohol, denatured alcohol, rectified spirit, alcoholic beverage"
+    },
+    {
+     "no": "10.6",
+     "title": "Physical properties"
+    },
+    {
+     "no": "10.7",
+     "title": "Chemical properties"
+    }
+   ],
+   "summary": [
+    "A monohydric alcohol is CₙH₂ₙ₊₁OH; it is 1°, 2° or 3° according to the number of carbon atoms (1, 2 or 3) attached to the carbinol carbon.",
+    "Victor Meyer: HI/red P → AgNO₂ → HNO₂/NaOH gives red (1°, nitrolic acid), blue (2°, pseudonitrole), colourless (3°). Lucas: turbidity at once (3°), in 5 min (2°), none cold (1°).",
+    "Preparations: R–X + aq. KOH; R–NH₂ + HNO₂ → R–OH + N₂; hydrolysis of esters. Industrial: oxo process (alkene + CO + H₂ → aldehyde → 1° alcohol, one extra carbon), hydroboration–oxidation (anti-Markovnikov), fermentation (C₆H₁₂O₆ --zymase--> 2C₂H₅OH + 2CO₂).",
+    "Rectified spirit = 95.6 % azeotrope; absolute alcohol = 100 %, made with CaO; denatured alcohol contains methanol and pyridine; power alcohol is petrol + 20–25 % ethanol.",
+    "High boiling point and water solubility come from intermolecular hydrogen bonding; both fall as the alkyl chain grows, and boiling point falls with branching.",
+    "OH replaced by halogen using HX/ZnCl₂, PX₃, PCl₅ or SOCl₂ (Darzen's, cleanest). With Na: 2R–OH + 2Na → 2R–ONa + H₂↑, reactivity 1° > 2° > 3°.",
+    "Dehydration with conc. H₂SO₄ gives the alkene at 170 °C and the ether at 140 °C; ease 3° > 2° > 1°, orientation by Saytzeff's rule.",
+    "Oxidation: 1° → aldehyde → acid; 2° → ketone only; 3° → no reaction. Cu at 300 °C dehydrogenates 1° and 2° but dehydrates 3°."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4551,
+    "figures": 5,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Phenols",
+   "hours": 4,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction and nomenclature",
+    "Preparation from chlorobenzene, diazonium salt, benzene sulphonic acid",
+    "Physical properties",
+    "Acidic nature: comparison with alcohol and water",
+    "Action with NH3, Zn, Na, benzene diazonium chloride, phthalic anhydride",
+    "Acylation, Kolbe's reaction, Reimer-Tiemann reaction",
+    "Electrophilic substitution: nitration, sulphonation, bromination, Friedel-Crafts alkylation",
+    "Test of phenol (FeCl3 test, aqueous bromine test, Libermann test); uses"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Introduction and nomenclature"
+    },
+    {
+     "no": "11.2",
+     "title": "Preparation from chlorobenzene, diazonium salt, benzene sulphonic acid"
+    },
+    {
+     "no": "11.3",
+     "title": "Physical properties"
+    },
+    {
+     "no": "11.4",
+     "title": "Acidic nature: comparison with alcohol and water"
+    },
+    {
+     "no": "11.5",
+     "title": "Action with NH₃, Zn, Na, benzene diazonium chloride, phthalic anhydride"
+    },
+    {
+     "no": "11.6",
+     "title": "Acylation, Kolbe's reaction, Reimer-Tiemann reaction"
+    },
+    {
+     "no": "11.7",
+     "title": "Electrophilic substitution: nitration, sulphonation, bromination, Friedel-Crafts alkylation"
+    },
+    {
+     "no": "11.8",
+     "title": "Test of phenol (FeCl₃ test, aqueous bromine test, Libermann test); uses"
+    }
+   ],
+   "summary": [
+    "A phenol has –OH bonded directly to the ring; benzyl alcohol has it on a side chain and behaves as a 1° alcohol.",
+    "Preparations: chlorobenzene + NaOH at 300 °C/150 atm (Dow); warming C₆H₅N₂Cl with water; fusion of C₆H₅SO₃Na with NaOH. Every route ends in sodium phenoxide and must be acidified.",
+    "Phenol is a colourless solid, m.p. 41 °C, sparingly soluble in water, corrosive, and turns pink in air.",
+    "Acidity: Ka = 1.0×10^-10, pKa = 10.0 — stronger than water (15.7) and ethanol (15.9) but weaker than carbonic acid (6.35). Hence it dissolves in NaOH but gives no CO₂ with NaHCO₃. The cause is resonance stabilisation of the phenoxide ion over C-2, C-4 and C-6.",
+    "With NH₃ over ZnCl₂ at 300 °C → aniline; with Zn dust → benzene; with Na → sodium phenoxide + H₂; with C₆H₅N₂Cl in cold alkali → p-hydroxyazobenzene (orange dye); with phthalic anhydride → phenolphthalein.",
+    "Kolbe: C₆H₅ONa + CO₂ at 125 °C/4–7 atm → sodium salicylate → salicylic acid → aspirin. Reimer–Tiemann: CHCl₃ + NaOH (via :CCl₂) → salicylaldehyde; CCl₄ gives salicylic acid.",
+    "Electrophilic substitution is fast and o,p-directed: dilute HNO₃ → o- and p-nitrophenol (separated by steam distillation, ortho is chelated); conc. HNO₃/H₂SO₄ → picric acid; bromine water → white 2,4,6-tribromophenol.",
+    "Tests: violet with neutral FeCl₃; white precipitate with bromine water; Libermann's test gives blue-green → red on dilution → blue-green with alkali."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3894,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Ethers",
+   "hours": 2,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction; nomenclature, classification and isomerism",
+    "Preparation of aliphatic and aromatic ethers by Williamson's synthesis",
+    "Physical properties",
+    "Chemical properties of ethoxyethane: action with HI, conc. HCl, conc. H2SO4, air and Cl2",
+    "Uses"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Introduction; nomenclature, classification and isomerism"
+    },
+    {
+     "no": "12.2",
+     "title": "Preparation of aliphatic and aromatic ethers by Williamson's synthesis"
+    },
+    {
+     "no": "12.3",
+     "title": "Physical properties"
+    },
+    {
+     "no": "12.4",
+     "title": "Chemical properties of ethoxyethane: action with HI, conc. HCl, conc. H₂SO₄, air and Cl₂"
+    },
+    {
+     "no": "12.5",
+     "title": "Uses"
+    }
+   ],
+   "summary": [
+    "An ether is R–O–R′, formula CₙH₂ₙ₊₂O — a functional isomer of an alcohol. Simple ethers have identical groups, mixed ethers different ones.",
+    "IUPAC names are alkoxyalkanes, the smaller group becoming the alkoxy substituent: C₂H₅OC₂H₅ is ethoxyethane, C₆H₅OCH₃ is methoxybenzene (anisole).",
+    "Ethers show metamerism (different sharing of carbons about the oxygen), chain isomerism and functional isomerism with alcohols. C₄H₁₀O has 3 ethers and 4 alcohols.",
+    "Williamson's synthesis: R–ONa + R′–X → R–O–R′ + NaX, an SN₂ reaction. The halide must be methyl or primary; a 3° halide gives an alkene and a haloarene gives nothing. For anisole use C₆H₅ONa + CH₃I.",
+    "No O–H means no self-hydrogen-bonding, so ethoxyethane boils at 34.6 °C, about 83 °C below butan-1-ol and close to pentane. It is still water-soluble, because oxygen can accept a hydrogen bond from water.",
+    "The oxygen lone pairs make ethers weak Lewis bases: cold conc. HCl or H₂SO₄ gives oxonium salts; hot acid cleaves both C–O bonds.",
+    "HI cold gives alcohol + iodoalkane; hot excess HI gives 2 iodoalkane + water; anisole gives phenol + iodomethane.",
+    "Ether left in air forms an explosive peroxide, CH₃CH(OOH)OC₂H₅ — store over sodium wire in dark bottles and never distil to dryness. Chlorine substitutes the α-hydrogens in the dark and every hydrogen in sunlight."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 3395,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Aldehydes and Ketones",
+   "hours": 10,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Aliphatic aldehydes and ketones: introduction, nomenclature, isomerism",
+    "Preparation: dehydrogenation and oxidation of alcohol, ozonolysis of alkenes, acid chloride, gem dihaloalkane, catalytic hydration of alkynes",
+    "Physical properties; structure and nature of carbonyl group",
+    "Distinction by 2,4-DNP, Tollen's reagent, Fehling's solution",
+    "Addition of H2, HCN, NaHSO3",
+    "Action with ammonia derivatives: NH2OH, NH2-NH2, phenyl hydrazine, semicarbazide",
+    "Aldol condensation; Cannizzaro's reaction",
+    "Clemmensen's reduction; Wolf-Kishner reduction",
+    "Action with PCl5 and LiAlH4; action of methanal with ammonia and phenol",
+    "Formalin and its uses",
+    "Aromatic: preparation of benzaldehyde from toluene and acetophenone from benzene",
+    "Properties of benzaldehyde: Perkin condensation, Benzoin condensation, Cannizzaro's reaction, electrophilic substitution"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Aliphatic aldehydes and ketones: introduction, nomenclature, isomerism"
+    },
+    {
+     "no": "13.2",
+     "title": "Preparation"
+    },
+    {
+     "no": "13.3",
+     "title": "Physical properties; structure and nature of the carbonyl group"
+    },
+    {
+     "no": "13.4",
+     "title": "Distinction by 2,4-DNP, Tollen's reagent and Fehling's solution"
+    },
+    {
+     "no": "13.5",
+     "title": "Addition of H₂, HCN and NaHSO₃"
+    },
+    {
+     "no": "13.6",
+     "title": "Action with ammonia derivatives"
+    },
+    {
+     "no": "13.7",
+     "title": "Aldol condensation and Cannizzaro's reaction"
+    },
+    {
+     "no": "13.8",
+     "title": "Clemmensen's reduction and Wolff–Kishner reduction"
+    },
+    {
+     "no": "13.9",
+     "title": "Action with PCl₅ and LiAlH₄; methanal with ammonia and with phenol"
+    },
+    {
+     "no": "13.10",
+     "title": "Formalin and its uses"
+    },
+    {
+     "no": "13.11",
+     "title": "Aromatic carbonyl compounds: benzaldehyde and acetophenone"
+    },
+    {
+     "no": "13.12",
+     "title": "Properties of benzaldehyde"
+    }
+   ],
+   "summary": [
+    "Aldehydes are R—CHO, ketones R—CO—R′; both are CₙH₂ₙO and are functional isomers of each other. Ketones also show position isomerism and metamerism.",
+    "The carbonyl carbon is sp², planar, 120°, C=O = 122 pm, strongly polarised Cδ+=Oδ−. This makes the carbon electrophilic, the oxygen basic and the α-hydrogen acidic.",
+    "Preparations: oxidation or Cu-dehydrogenation of alcohols (1° → aldehyde, 2° → ketone), reductive ozonolysis of alkenes, Rosenmund reduction of acid chlorides, hydrolysis of gem-dihalides, HgSO₄/H₂SO₄ hydration of alkynes (ethyne → ethanal, all others → ketone).",
+    "Both give 2,4-DNP; only aldehydes give Tollens' silver mirror, Fehling's Cu₂O and Schiff's pink. Benzaldehyde gives Tollens but not Fehling. Iodoform tests for CH₃CO—, not for the aldehyde group.",
+    "Nucleophilic addition: HCN → cyanohydrin, NaHSO₃ → bisulphite adduct, H₂/LiAlH₄ → alcohol. Reactivity HCHO > RCHO > RCOR′ > ArCHO, from +I and steric effects.",
+    "Ammonia derivatives H₂N—Z give >C=N—Z + H₂O: oxime, hydrazone, phenylhydrazone, semicarbazone.",
+    "α-hydrogen present → aldol; α-hydrogen absent → Cannizzaro. Clemmensen (Zn-Hg/HCl) and Wolff–Kishner (NH₂NH₂/KOH) both give the alkane.",
+    "Benzaldehyde: Perkin → cinnamic acid; benzoin condensation → benzoin; Cannizzaro → benzyl alcohol + sodium benzoate; electrophilic substitution is meta."
+   ],
+   "terms": [
+    "Aldehyde and ketone",
+    "Formalin"
+   ],
+   "stats": {
+    "words": 5305,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Carboxylic Acid and its Derivatives",
+   "hours": 9,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction, nomenclature, isomerism of aliphatic and aromatic carboxylic acids",
+    "Preparation of monocarboxylic acids from aldehydes, nitriles, dicarboxylic acid, sodium alkoxide, trihaloalkanes",
+    "Preparation of benzoic acid from alkyl benzene",
+    "Physical properties",
+    "Chemical properties: alkalies, metal oxides, metal carbonates, metal bicarbonates, PCl3, LiAlH4, dehydration",
+    "Hell-Volhard-Zelinsky reaction",
+    "Electrophilic substitution of benzoic acid: bromination, nitration, sulphonation",
+    "Effect of constituents on acidic strength; abnormal behaviour of methanoic acid",
+    "Derivatives (acid halides, amides, esters, anhydrides): preparation from carboxylic acid",
+    "Comparative physical and chemical properties: hydrolysis, ammonolysis, amines, alcoholysis, reduction",
+    "Claisen condensation; Hofmann bromamide reaction; amphoteric nature of amide; relative reactivity of acid derivatives"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Introduction, nomenclature and isomerism"
+    },
+    {
+     "no": "14.2",
+     "title": "Preparation of monocarboxylic acids"
+    },
+    {
+     "no": "14.3",
+     "title": "Preparation of benzoic acid from an alkylbenzene"
+    },
+    {
+     "no": "14.4",
+     "title": "Physical properties"
+    },
+    {
+     "no": "14.5",
+     "title": "Chemical properties"
+    },
+    {
+     "no": "14.6",
+     "title": "Hell–Volhard–Zelinsky (HVZ) reaction"
+    },
+    {
+     "no": "14.7",
+     "title": "Electrophilic substitution of benzoic acid"
+    },
+    {
+     "no": "14.8",
+     "title": "Effect of substituents on acid strength; methanoic acid"
+    },
+    {
+     "no": "14.9",
+     "title": "The four derivatives and their preparation from the acid"
+    },
+    {
+     "no": "14.10",
+     "title": "Comparative physical and chemical properties"
+    },
+    {
+     "no": "14.11",
+     "title": "Claisen condensation, Hofmann bromamide, amides and reactivity"
+    }
+   ],
+   "summary": [
+    "Carboxylic acids are R—COOH, CₙH₂ₙO₂; the carboxyl carbon is always C-1. They are functional isomers of esters (C₃H₆O₂ = propanoic acid, methyl ethanoate, ethyl methanoate).",
+    "Preparations: oxidation of a 1° alcohol or aldehyde, hydrolysis of a nitrile (+1 C), decarboxylation of a diacid (−1 C), carbonylation of a sodium alkoxide, hydrolysis of a trihaloalkane; benzoic acid from any alkylbenzene with a benzylic H by hot alkaline KMnO₄.",
+    "They form hydrogen-bonded dimers, so they boil above alcohols of the same molar mass (ethanoic acid 118 °C against propan-1-ol 97 °C).",
+    "Acidity: RCOOH > H₂CO₃ > C₆H₅OH > H₂O > ROH, because RCOO⁻ is resonance stabilised with both C—O bonds 127 pm. Effervescence with NaHCO₃ distinguishes an acid from a phenol.",
+    "−I substituents strengthen the acid (pKa: CH₃COOH 4.76, ClCH₂COOH 2.87, Cl₂CHCOOH 1.29, Cl₃CCOOH 0.66); +I groups weaken it; the effect falls off sharply with distance.",
+    "Methanoic acid is abnormal: strongest simple acid, reduces Tollens' and Fehling's, gives CO with conc. H₂SO₄, gives no anhydride and no HVZ reaction.",
+    "HVZ (Cl₂/red P) halogenates the α-carbon; —COOH is meta-directing and deactivating on a benzene ring.",
+    "Derivatives RCOCl, (RCO)₂O, RCOOR′, RCONH₂ all react by nucleophilic acyl substitution (addition then elimination) and all hydrolyse back to the acid. Reactivity RCOCl > (RCO)₂O > RCOOR′ > RCOOH > RCONH₂."
+   ],
+   "terms": [
+    "Carboxylic acid"
+   ],
+   "stats": {
+    "words": 5590,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Nitro Compounds",
+   "hours": 3,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Nitroalkanes: introduction, nomenclature, isomerism",
+    "Preparation from haloalkane and alkane; physical properties; reduction",
+    "Nitrobenzene: preparation from benzene; physical properties",
+    "Reduction in different media",
+    "Electrophilic substitution: nitration, sulphonation, bromination",
+    "Uses of nitro-compounds"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Nitroalkanes: introduction, nomenclature, isomerism"
+    },
+    {
+     "no": "15.2",
+     "title": "Preparation of nitroalkanes, physical properties and reduction"
+    },
+    {
+     "no": "15.3",
+     "title": "Nitrobenzene: preparation from benzene, physical properties"
+    },
+    {
+     "no": "15.4",
+     "title": "Reduction of nitrobenzene in different media"
+    },
+    {
+     "no": "15.5",
+     "title": "Electrophilic substitution in nitrobenzene"
+    },
+    {
+     "no": "15.6",
+     "title": "Uses of nitro compounds"
+    }
+   ],
+   "summary": [
+    "Nitroalkanes are R–NO₂ (CₙH₂ₙ₊₁NO₂); the nitro group is a resonance hybrid with two identical N–O bonds. Alkyl nitrites R–O–N=O are their functional isomers.",
+    "Nitroalkanes show chain, position, functional and nitro–aci tautomeric isomerism. Only 1° and 2° (α-H present) are acidic and dissolve in NaOH.",
+    "Preparation: R–X + AgNO₂ → R–NO₂ (with NaNO₂ you get the nitrite instead); CH₄ + HNO₃ at 400–450 °C → CH₃NO₂ + H₂O.",
+    "Reduction: 6[H] gives R–NH₂; 4[H] with Zn/NH₄Cl stops at R–NHOH.",
+    "Nitrobenzene: C₆H₆ + HNO₃ (conc. H₂SO₄, 50–60 °C) → C₆H₅NO₂ + H₂O, electrophile NO₂⁺. Pale yellow oil, b.p. 211 °C, bitter-almond smell, poisonous.",
+    "Reduction of nitrobenzene: acidic → aniline; neutral → phenylhydroxylamine; alkaline → azoxy, azo, hydrazobenzene; electrolytic in conc. H₂SO₄ → p-aminophenol; (NH₄)₂S reduces only one group of a dinitro compound.",
+    "NO₂ is −I and −R, so it deactivates the ring (≈10⁷ times slower nitration) and is meta-directing: nitration, sulphonation and bromination all give the m-product, and Friedel–Crafts fails.",
+    "Uses: aniline and dye manufacture, paracetamol, solvents, TNT, picric acid, nitroglycerine, metronidazole."
+   ],
+   "terms": [
+    "Nitroalkane"
+   ],
+   "stats": {
+    "words": 3258,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Amines",
+   "hours": 7,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Aliphatic amines: introduction, nomenclature, classification, isomerism",
+    "Separation of 1, 2, 3 amines by Hoffmann's method",
+    "Preparation of primary amines from haloalkane, nitriles, nitroalkanes and amides",
+    "Physical properties; basicity and comparative basic nature of 1, 2, 3 amines",
+    "Reaction of primary amines with chloroform, conc. HCl, R-X, RCOX and nitrous acid",
+    "Test of 1, 2, 3 amines (nitrous acid test)",
+    "Aniline: preparation from nitrobenzene and phenol; physical properties",
+    "Basicity of aniline compared with aliphatic amines and ammonia",
+    "Alkylation, acylation, diazotization, carbylamine and coupling reaction",
+    "Electrophilic substitution: nitration, sulphonation, bromination; uses"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Aliphatic amines: introduction, nomenclature, classification, isomerism"
+    },
+    {
+     "no": "16.2",
+     "title": "Separation of 1°, 2° and 3° amines by Hoffmann's method"
+    },
+    {
+     "no": "16.3",
+     "title": "Preparation of primary amines"
+    },
+    {
+     "no": "16.4",
+     "title": "Physical properties, basicity and comparative basic nature"
+    },
+    {
+     "no": "16.5",
+     "title": "Reactions of primary amines"
+    },
+    {
+     "no": "16.6",
+     "title": "Test of 1°, 2° and 3° amines"
+    },
+    {
+     "no": "16.7",
+     "title": "Aniline: preparation from nitrobenzene and phenol; physical properties"
+    },
+    {
+     "no": "16.8",
+     "title": "Basicity of aniline compared with aliphatic amines and ammonia"
+    },
+    {
+     "no": "16.9",
+     "title": "Alkylation, acylation, diazotisation, carbylamine and coupling"
+    },
+    {
+     "no": "16.10",
+     "title": "Electrophilic substitution in aniline; uses"
+    }
+   ],
+   "summary": [
+    "Amines are 1° (RNH₂), 2° (R₂NH) or 3° (R₃N) by the number of carbons on nitrogen; IUPAC names them alkanamines, with N- prefixes for groups on nitrogen. C₃H₉N has four isomers covering all three classes.",
+    "Hoffmann's method separates a mixture with diethyl oxalate: 1° → solid oxamide, 2° → liquid oxamic ester, 3° → no reaction; alkaline hydrolysis returns each amine.",
+    "Primary amines: C₂H₅Br + 2NH₃ → C₂H₅NH₂ + NH₄Br; CH₃CN + 4[H] → CH₃CH₂NH₂ (one more C); CH₃NO₂ + 6[H] → CH₃NH₂ + 2H₂O; CH₃CONH₂ + Br₂ + 4NaOH → CH₃NH₂ + Na₂CO₃ + 2NaBr + 2H₂O (one fewer C).",
+    "Boiling point 1° > 2° > 3° at equal mass (hydrogen bonding); amines boil below alcohols of similar mass.",
+    "Kb = [RNH3^+][OH^-]/[RNH2], and smaller pKb means stronger base. In water: (CH₃)₂NH > CH₃NH₂ > (CH₃)₃N > NH₃; in the gas phase 3° > 2° > 1° > NH₃.",
+    "Aniline (pKb = 9.38) is a far weaker base than ammonia because its lone pair is delocalised into the ring and that stabilisation is lost on protonation.",
+    "Distinguishing tests: HNO₂ gives N₂ effervescence (1°), a yellow nitrosoamine oil (2°) or just a salt (3°); CHCl₃ + alcoholic KOH gives the foul carbylamine only with 1°; Hinsberg's sulphonamide dissolves in NaOH only for 1°.",
+    "Diazotisation at 0–5 °C: C₆H₅NH₂ + NaNO₂ + 2HCl → C₆H₅N₂⁺Cl⁻ + NaCl + 2H₂O; the diazonium salt couples with phenol (weak alkali) or aniline (weak acid) to give azo dyes."
+   ],
+   "terms": [
+    "Amine"
+   ],
+   "stats": {
+    "words": 4269,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Organometallic Compounds",
+   "hours": 2,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Introduction, general formula and examples of organolithium, organocopper and organocadmium compounds",
+    "Nature of metal-carbon bond",
+    "Grignard reagent: preparation using haloalkane and haloarene",
+    "Reaction with water, aldehydes and ketones (preparation of 1, 2, 3 alcohols), carbon dioxide, HCN, RCN, ester and acid chloride"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Introduction, general formula and examples"
+    },
+    {
+     "no": "17.2",
+     "title": "Nature of the metal–carbon bond"
+    },
+    {
+     "no": "17.3",
+     "title": "Grignard reagent: preparation from haloalkane and haloarene"
+    },
+    {
+     "no": "17.4",
+     "title": "Reactions of the Grignard reagent"
+    }
+   ],
+   "summary": [
+    "An organometallic compound has a direct C–M bond; C₂H₅ONa and CH₃COONa do not qualify.",
+    "Classes: R–Li (organolithium), R–Mg–X (Grignard), R₂CuLi (Gilman cuprate), R₂Cd (organocadmium). Reactivity RLi > RMgX > R₂Cd; R₂Cd converts RCOCl into a ketone and stops there.",
+    "Carbon (2.55) is more electronegative than every one of these metals, so the bond is Cδ⁻–Mδ⁺. Ionic character: C–Li ≈ 46 %, C–Mg ≈ 32 %, C–Cd ≈ 17 %. More ionic means more carbanion-like and more reactive.",
+    "Preparation: R–X + Mg in dry ether → RMgX; reactivity R–I > R–Br > R–Cl. The ether coordinates to Mg. Chlorobenzene needs THF at reflux, not ether.",
+    "Any active hydrogen kills the reagent: CH₃MgI + H₂O → CH₄↑ + Mg(OH)I (the basis of Zerewitinoff's method).",
+    "Alcohols: HCHO → 1°, RCHO → 2°, ketone → 3°. CO₂ → carboxylic acid with one extra carbon. HCN → aldehyde, R'CN → ketone, ester (2 equiv.) → 3° alcohol with two identical groups, acid chloride → ketone then 3° alcohol."
+   ],
+   "terms": [
+    "Organometallic compound",
+    "Grignard reagent"
+   ],
+   "stats": {
+    "words": 2460,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Chemistry in the service of mankind",
+   "hours": 4,
+   "area": "Applied Chemistry",
+   "topics": [
+    "Polymers: addition and condensation polymers; elastomers and fibres; natural and synthetic polymers",
+    "Synthetic polymers: polythene, PVC, Teflon, polystyrene, nylon and bakelite",
+    "Dyes: introduction; types of dyes on the basis of structure and method of application",
+    "Drugs: characteristics; natural and synthetic drugs; classification of common drugs; habit-forming drugs and drug addiction",
+    "Pesticides: introduction to insecticides, herbicides and fungicides"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Polymers: addition and condensation; elastomers and fibres; natural and synthetic"
+    },
+    {
+     "no": "18.2",
+     "title": "Synthetic polymers: polythene, PVC, Teflon, polystyrene, nylon and bakelite"
+    },
+    {
+     "no": "18.3",
+     "title": "Dyes"
+    },
+    {
+     "no": "18.4",
+     "title": "Drugs"
+    },
+    {
+     "no": "18.5",
+     "title": "Pesticides: insecticides, herbicides and fungicides"
+    }
+   ],
+   "summary": [
+    "A polymer is many monomers joined; n is the degree of polymerisation and M(polymer) = n × M(monomer) for an addition polymer.",
+    "Addition polymerisation needs an unsaturated monomer and loses nothing; condensation polymerisation needs bifunctional monomers and expels H₂O, HCl or NH₃ at each link.",
+    "Elastomers stretch and recover (rubber), fibres are strong and thread-like (nylon), thermoplastics remould on heating (polythene), thermosets do not (bakelite).",
+    "Key polymers: polythene (ethene), PVC (chloroethene), Teflon (tetrafluoroethene), polystyrene (styrene) — all addition; nylon-6,6 (hexamethylenediamine + adipic acid) and bakelite (phenol + methanal) — both condensation.",
+    "A dye needs a chromophore (–N=N–, –NO₂, >C=O, quinonoid) for colour and an auxochrome (–OH, –NH₂, –SO₃H) to deepen it and fix it to the fibre.",
+    "Dyes by structure: azo, triphenylmethane, indigoid, anthraquinone, nitro, phthalein. By application: acid, basic, direct, vat, mordant, disperse, reactive and ingrain.",
+    "A good drug is effective at low dose, selectively toxic, non habit-forming and excretable. Classes: analgesic, antipyretic, antibiotic, antiseptic, disinfectant, tranquilliser, antacid, antihistamine, antimalarial, anaesthetic.",
+    "Antiseptics act on living tissue, disinfectants on non-living surfaces — often the same compound at different concentrations (phenol 0.2 % vs 1 %)."
+   ],
+   "terms": [
+    "Polymer and monomer",
+    "Dye",
+    "Drug"
+   ],
+   "stats": {
+    "words": 3469,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "Cement",
+   "hours": 4,
+   "area": "Applied Chemistry",
+   "topics": [
+    "Introduction",
+    "Raw materials for cement production",
+    "Main steps in cement production: crushing and grinding, strong heating, final grinding",
+    "Types of cement: OPC and PPC",
+    "Portland cement process with flow-sheet diagram",
+    "Cement Industry in Nepal"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Introduction"
+    },
+    {
+     "no": "19.2",
+     "title": "Raw materials for cement production"
+    },
+    {
+     "no": "19.3",
+     "title": "Main steps in cement production"
+    },
+    {
+     "no": "19.4",
+     "title": "Types of cement: OPC and PPC"
+    },
+    {
+     "no": "19.5",
+     "title": "Portland cement process with flow-sheet diagram"
+    },
+    {
+     "no": "19.6",
+     "title": "Cement industry in Nepal"
+    }
+   ],
+   "summary": [
+    "Cement is a hydraulic binder of calcium silicates and aluminates; Aspdin patented Portland cement in 1824.",
+    "Composition of OPC: CaO 60–67 %, SiO₂ 17–25 %, Al₂O₃ 3–8 %, Fe₂O₃ 0.5–6 %. Hydraulic modulus ≈ 2; silica modulus 2.5–4. Excess lime makes cement unsound.",
+    "Raw materials: calcareous (limestone), argillaceous (clay), correctives (sand, bauxite, iron ore) and 2–5 % gypsum added after burning.",
+    "Three stages: crushing/grinding (wet or dry process) → burning in a rotary kiln → final grinding with gypsum.",
+    "Kiln zones: drying (to 400 °C), calcination 900–1000 °C (CaCO₃ → CaO + CO₂↑), clinkering 1400–1500 °C (formation of C₃S, C₂S, C₃A, C₄AF), then rapid cooling.",
+    "Bogue compounds: C₃S gives early strength, C₂S later strength, C₃A causes flash set and most of the heat, C₄AF gives the grey colour. Gypsum retards C₃A by forming ettringite.",
+    "Setting: 2Ca₃SiO₅ + 6H₂O → Ca₃Si₂O₇·3H₂O + 3Ca(OH)₂ and 2Ca₂SiO₄ + 4H₂O → Ca₃Si₂O₇·3H₂O + Ca(OH)₂; the gel binds the aggregate, so concrete must be cured wet.",
+    "OPC = clinker + gypsum; PPC = clinker + gypsum + 15–35 % pozzolana, which consumes free Ca(OH)₂, lowers the heat of hydration and improves durability."
+   ],
+   "terms": [
+    "Cement"
+   ],
+   "stats": {
+    "words": 3412,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 20,
+   "title": "Paper and Pulp",
+   "hours": 3,
+   "area": "Applied Chemistry",
+   "topics": [
+    "Introduction",
+    "Raw materials and their sources",
+    "Stages in production of paper",
+    "Flow-sheet diagram for paper production",
+    "Quality of paper"
+   ],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "Introduction"
+    },
+    {
+     "no": "20.2",
+     "title": "Raw materials and their sources"
+    },
+    {
+     "no": "20.3",
+     "title": "Stages in production of paper"
+    },
+    {
+     "no": "20.4",
+     "title": "Flow sheet for paper production"
+    },
+    {
+     "no": "20.5",
+     "title": "Quality of paper"
+    }
+   ],
+   "summary": [
+    "Paper is a mat of cellulose fibres, (C₆H₁₀O₅)ₙ, bonded by hydrogen bonds; pulping is the removal of lignin, which is brown, stiff and light-sensitive.",
+    "Wood is roughly 45 % cellulose, 25 % hemicellulose and 25 % lignin; non-wood fibres such as babiyo grass and straw contain much less lignin.",
+    "Raw materials: softwood (long fibre, strength), hardwood (short fibre, smoothness), non-wood fibre, rags and lokta bark, and recycled waste paper.",
+    "Mechanical pulping gives 90–95 % yield but weak, yellowing pulp; chemical pulping gives 45–55 % yield of strong, stable fibre.",
+    "Kraft (sulphate) process: cook chips with white liquor (NaOH + Na₂S) at 170 °C for 2–4 h; the sulphite process uses Ca(HSO₃)₂ with free SO₂.",
+    "Chemical recovery: burn black liquor (Na₂SO₄ + 2C → Na₂S + 2CO₂↑), dissolve the smelt to green liquor, causticise it (Na₂CO₃ + Ca(OH)₂ → 2NaOH + CaCO₃↓) and reburn the lime mud (CaCO₃ → CaO + CO₂↑; CaO + H₂O → Ca(OH)₂).",
+    "Stages: chipping → pulping → washing and screening → bleaching (ECF with ClO₂, not Cl₂) → beating, sizing with rosin + alum and loading with clay → sheet formation on the Fourdrinier wire → pressing, drying, calendering, reeling.",
+    "Quality is measured by grammage (g m⁻²), caliper, brightness, opacity, tensile, burst and tear strength, sizing, ash content and pH; acid-free paper lasts longest."
+   ],
+   "terms": [
+    "Paper and pulp"
+   ],
+   "stats": {
+    "words": 3349,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 21,
+   "title": "Nuclear Chemistry and Applications of Radioactivity",
+   "hours": 2,
+   "area": "Applied Chemistry",
+   "topics": [
+    "Natural and artificial radioactivity",
+    "Units of radioactivity",
+    "Nuclear reactions",
+    "Nuclear fission and fusion reactions",
+    "Nuclear power and nuclear weapons",
+    "Industrial uses of radioactivity",
+    "Medical uses of radioactivity",
+    "Radiocarbon dating",
+    "Harmful effects of nuclear radiations"
+   ],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "Natural and artificial radioactivity"
+    },
+    {
+     "no": "21.2",
+     "title": "Units of radioactivity"
+    },
+    {
+     "no": "21.3",
+     "title": "Nuclear reactions"
+    },
+    {
+     "no": "21.4",
+     "title": "Nuclear fission and fusion reactions"
+    },
+    {
+     "no": "21.5",
+     "title": "Nuclear power and nuclear weapons"
+    },
+    {
+     "no": "21.6",
+     "title": "Industrial uses of radioactivity"
+    },
+    {
+     "no": "21.7",
+     "title": "Medical uses of radioactivity"
+    },
+    {
+     "no": "21.8",
+     "title": "Radiocarbon dating"
+    },
+    {
+     "no": "21.9",
+     "title": "Harmful effects of nuclear radiations"
+    }
+   ],
+   "summary": [
+    "Radioactivity is the spontaneous disintegration of an unstable nucleus; discovered by Becquerel (1896), it is unaffected by temperature, pressure or chemical combination.",
+    "α = ⁴₂He (high ionising, low penetrating), β = ⁰₋₁e, γ = electromagnetic (low ionising, high penetrating). α emission: A − 4, Z − 2; β emission: A same, Z + 1.",
+    "Artificial radioactivity (Joliot-Curie, 1934): ²⁷₁₃Al + ⁴₂He → ³⁰₁₅P + ¹₀n, and ³⁰₁₅P → ³⁰₁₄Si + ⁰₊₁e.",
+    "Units: activity 1 Bq = 1 dps, 1 Ci = 3.7 × 10¹⁰ Bq; absorbed dose 1 Gy = 1 J kg⁻¹ = 100 rad; equivalent dose 1 Sv = 100 rem.",
+    "In every nuclear equation the mass numbers and the atomic numbers must balance; the mass defect appears as energy, with 1 u = 931.5 MeV.",
+    "Fission: ²³⁵₉₂U + ¹₀n → ¹⁴¹₅₆Ba + ⁹²₃₆Kr + 3¹₀n + 200 MeV, giving a chain reaction above the critical mass. Fusion: ²₁H + ³₁H → ⁴₂He + ¹₀n + 17.6 MeV, needing 10⁷–10⁸ K.",
+    "Reactor parts: fuel (3–4 % ²³⁵U), moderator (graphite or D₂O), control rods (boron or cadmium), coolant and concrete shield; a weapon is the same reaction uncontrolled.",
+    "Industrial uses: thickness and level gauges, radiography of welds (⁶⁰Co, ¹⁹²Ir), leak detection (²⁴Na), sterilisation and food preservation, smoke detectors (²⁴¹Am). Medical uses: ⁹⁹ᵐTc imaging, ¹³¹I thyroid, ⁶⁰Co teletherapy, ³²P."
+   ],
+   "terms": [
+    "Radioactivity"
+   ],
+   "stats": {
+    "words": 3927,
+    "figures": 4,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 21,
+ "topic_count": 164,
+ "notes_ready": 21
+}

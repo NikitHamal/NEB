@@ -1,0 +1,743 @@
+{
+ "grade": "10",
+ "grade_label": "Class 10",
+ "grade_label_ne": "कक्षा १०",
+ "subject": "english",
+ "name": "English",
+ "name_ne": "अङ्ग्रेजी",
+ "icon": "menu_book",
+ "group": "compulsory",
+ "color": "#6B3FA0",
+ "lang": "en",
+ "code": "SEE",
+ "hours": 150,
+ "exam": "SEE, 3 hr, FM 75 written (+25 internal) | reading, writing, grammar, vocabulary",
+ "areas": [
+  "Units"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Unit 1: Current Affairs and Issues",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "How Driverless Cars Will Change Our World",
+    "Open Letter to UN Secretary-General Antonio Guterres",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "How Driverless Cars Will Change Our World"
+    },
+    {
+     "no": "1.2",
+     "title": "Open Letter to UN Secretary-General Antonio Guterres"
+    },
+    {
+     "no": "1.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "How Driverless Cars Will Change Our World (Jenny Cusack, BBC Future, 2021) explains that driverless cars could make roads safer and cities cleaner, but must still learn to cope with human drivers and settle legal liability.",
+    "Key names: Camilla Fowler and David Hynd (TRL), Richard Jinks (Oxbotica), Mcity (University of Michigan), Waymo One (Phoenix, USA).",
+    "The Open Letter to UN Secretary-General Antonio Guterres (7 August 2020, Save the Children) asks that children under 18 be included in the UN Youth Advisory Group on climate change.",
+    "The letter praises first, then complains, gives evidence (Greta Thunberg, Fabrizio of Peru) and ends with a clear request.",
+    "Reported speech: remove quotation marks, change pronouns, step the tense back after a past reporting verb, change time and place words.",
+    "Do not backshift when the reporting verb is in the present, or for universal truths.",
+    "Function verbs (apologised, promised, advised, warned, offered, thanked, admitted, informed) make reports shorter and better.",
+    "A newspaper article needs a headline, an introduction, short paragraphs and a conclusion; a formal letter needs a correct layout and a subject line."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5788,
+    "figures": 1,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Unit 2: Festivals and Celebrations",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Battle of the Oranges",
+    "Thanksgiving Around the World",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Battle of the Oranges"
+    },
+    {
+     "no": "2.2",
+     "title": "Thanksgiving Around the World"
+    },
+    {
+     "no": "2.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Battle of the Oranges (Margherita, The Crowded Planet) describes the Carnevale di Ivrea, Italy: orange-throwing teams (aranceri) fight carts, visitors wear the red hat, the symbol of freedom.",
+    "The narrator's shock (blood or blood orange?), Silvia's view (a release of stress) and Massi's \"Forget the nets\" are the key moments.",
+    "Thanksgiving Around the World describes harvest thanksgivings: USA (Thanksgiving), South Korea (Chuseok), Brazil (Dia de Ação de Graças), Liberia, Barbados (Crop Over), Ghana (Homowo) and Iran (Mehregan).",
+    "Reported questions use asked/wanted to know, if/whether for yes/no questions, the same wh-word for wh-questions, statement word order, backshift, and a full stop.",
+    "A festival essay covers history, people, activities, importance, duration and drawbacks; a news story answers who, what, when, where, why and how."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4724,
+    "figures": 1,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Unit 3: Health and Wellness",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "A Letter from a Patient",
+    "A Healthy Diet for a Healthy Life",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "A Letter from a Patient"
+    },
+    {
+     "no": "3.2",
+     "title": "A Healthy Diet for a Healthy Life"
+    },
+    {
+     "no": "3.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "A Letter from a Patient: a mother's respectful complaint about a hospital — bad-mouthing between staff, a busy nurse who made the baby feel \"not a priority\", repeated questions and a wrong chart. Message: health workers must be honest, serious and caring.",
+    "A Healthy Diet for a Healthy Life: a speech asking EU member states to cooperate on research; obesity is the greatest public-health challenge; Horizon 2020 (about 80 billion euros) can fund the research; a multidisciplinary approach is needed.",
+    "Reported commands: reporting verb + object + (not) to + infinitive; no backshift; choose told, ordered, requested, advised, warned, suggested by tone.",
+    "Said + that; told + object + that; asked + if/whether.",
+    "An apology email: sorry, what went wrong, what you will do, polite close. A speech: greeting, topic, main points, appeal, thanks."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4172,
+    "figures": 1,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Unit 4: Work and Leisure",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Cabbage White",
+    "Leave This Chanting and Singing",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Cabbage White"
+    },
+    {
+     "no": "4.2",
+     "title": "Leave This Chanting and Singing"
+    },
+    {
+     "no": "4.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Cabbage White (adapted from Jake Allsop): Sarah and Jamie get farm work picking caterpillars off cabbages, then destroy the field while trying to kill the butterflies, and slip away.",
+    "Themes: shortcuts and rash plans backfire; exaggeration makes humour; children want to help their parents.",
+    "Leave This Chanting and Singing is poem 11 of Rabindranath Tagore's Gitanjali (Nobel Prize 1913): God is with the tiller and the path-maker, so honest toil is worship.",
+    "Archaic forms: dost, thou, thine, thy, thee.",
+    "Modals: can, could, may, might (ability, permission, possibility), must / can't (certainty), should (advice), would (offers), have to / had to (compulsion).",
+    "Imperatives give commands, requests, advice, warnings and invitations; negative with don't; let's not.",
+    "A job application: heading, subject naming the post, paragraphs on qualification, skills and enclosures, polite close. Rules use a numbered list, imperatives and modals."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4484,
+    "figures": 1,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Unit 5: Science and Experiment",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Yes, You Can Boil Water at Room Temperature",
+    "The Voice of the Rain",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Yes, You Can Boil Water at Room Temperature"
+    },
+    {
+     "no": "5.2",
+     "title": "The Voice of the Rain"
+    },
+    {
+     "no": "5.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Yes, You Can Boil Water at Room Temperature: water boils when vapour pressure equals external pressure; lower pressure (altitude, a vacuum, a pulled syringe plunger) means a lower boiling point.",
+    "Key words: altitude, molecule, equilibrium, condense, factoid, vacuum, plunger.",
+    "The Voice of the Rain (Walt Whitman, free verse): the rain says it is \"the Poem of Earth\"; it rises, changes form, descends, revives seeds and returns, like a song.",
+    "Devices: personification, metaphor, free verse, antithesis.",
+    "Conditionals: zero (if + present, present); first (if + present, will); second (if + past, would); third (if + past perfect, would have + pp). Unless = if not; provided that / as long as = only if. No will in the if-clause.",
+    "Instructions: title, materials, numbered imperative steps, sequence words. A letter to the editor: address, date, subject, problem, causes and effects, solutions, thanks."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4400,
+    "figures": 2,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Unit 6: Food and Cuisine",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Strange Food from Around the World",
+    "You Inspire Others by Learning, Not Teaching",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Strange Food from Around the World"
+    },
+    {
+     "no": "6.2",
+     "title": "You Inspire Others by Learning, Not by Teaching"
+    },
+    {
+     "no": "6.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Strange Food from Around the World describes haggis (Scotland), shiokara (Japan), bush food (Australia), fermented horse milk, jellyfish (China), snails (France), bún riêu (Vietnam) and large insects; food is an adventure and taste is cultural.",
+    "Idiom: a bridge too far — too extreme.",
+    "You Inspire Others by Learning, Not by Teaching is an interview with Nepali chef Santosh Shah (MasterChef: The Professionals 2020, BBC One): humble start, hard work, pride in Nepali food, ambition for a Michelin star for Ayla.",
+    "Reasons: because, as, since + clause; because of, due to + noun. Purposes: to, in order to, so that.",
+    "Present continuous: now (now, at the moment), around now (this week, these days) and planned future (tonight, tomorrow, next week).",
+    "A recipe lists ingredients and numbered steps; an opinion paragraph states a view, gives reasons and concludes."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4039,
+    "figures": 1,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Unit 7: Cyber Security",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Parents",
+    "Cyber Security: Basic Internet Safety Tips",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Parents"
+    },
+    {
+     "no": "7.2",
+     "title": "Cyber Security: Basic Internet Safety Tips"
+    },
+    {
+     "no": "7.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Parents: a father's anxiety, a daughter's secret online identity and a comic misunderstanding in which a mother thinks the father is a suspicious stranger. Themes: generation gap, online safety, irony.",
+    "Words: lurk, obsessed, outfit, swerve, munch, leer, stammer, window shopping.",
+    "Cyber Security: Basic Internet Safety Tips: eight pieces of advice — strong passwords, safe personal data, secure devices, updates, careful Wi-Fi, two-factor authentication, private information, backups.",
+    "Should / ought to = advice and moral duty; must = compulsion or strong duty; must not = prohibition.",
+    "A before consonant sounds, an before vowel sounds, the for specific/unique things, no article for general plurals and uncountables.",
+    "A reply email thanks, explains and apologises; a newspaper article has a headline, introduction, body and conclusion."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4146,
+    "figures": 1,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Unit 8: Hobbies and Interests",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Common Hobbies",
+    "Climbing",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Common Hobbies"
+    },
+    {
+     "no": "8.2",
+     "title": "Climbing"
+    },
+    {
+     "no": "8.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Common Hobbies describes reading, dancing, painting, antiques, photography, journaling and knitting; hobbies relax us, build skills and can become careers.",
+    "Climbing by Amy Lowell (American Imagist poet): a child climbs an apple tree; the staircase of branches leads to a shining imagined town; message — determination can carry us to the top.",
+    "Devices in the poem: rhyming couplets, repetition, simile, metaphor, light imagery, symbolism.",
+    "Passive: be + past participle in the same tense as the active verb; use by + agent only when it matters; being / having been for -ing forms.",
+    "An essay has an introduction, body paragraphs and a conclusion; an advertisement gives post, qualifications, experience, how to apply and the deadline; a paraphrase says the same in your own words."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4555,
+    "figures": 1,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Unit 9: History and Culture",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Pratap Malla",
+    "Flowers in Russian Culture",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Pratap Malla"
+    },
+    {
+     "no": "9.2",
+     "title": "Flowers in Russian Culture"
+    },
+    {
+     "no": "9.3",
+     "title": "Grammar and writing tasks of the unit"
+    }
+   ],
+   "summary": [
+    "Pratap Malla (king of Kantipur, ruled about 1641–1674): kept the state safe by diplomacy between Lalitpur and Bhaktapur, gained wealth from Tibet–India trade, built and repaired temples and palaces (Hanuman Dhoka, Rani Pokhari), wrote in many languages and took the title Kabindra.",
+    "Flowers in Russian Culture: flower etiquette — red carnation (patriotism), white carnation (bad luck for performers), red poppy (fragile love), yellow flowers (break-up), white lily at weddings (death/split), chamomile (healing).",
+    "Compound words: gift-giving, heart-warming, cardboard, flower etiquette, break-up, fortune-telling, newly-wed.",
+    "Simple past for completed actions and sequences; past continuous for actions in progress; while + continuous, when + short action.",
+    "Past perfect (had + past participle) shows the earlier of two past actions.",
+    "Writing: events paragraph in time order with connectives; opinion essay with position, reasons and conclusion; story with beginning, middle, end and moral."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4859,
+    "figures": 1,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Unit 10: Games and Sports",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "The First Olympic Games",
+    "Popularity of Different Sports in the World",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "The First Olympic Games"
+    },
+    {
+     "no": "10.2",
+     "title": "Popularity of Different Sports in the World"
+    },
+    {
+     "no": "10.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "\"The First Olympic Games\" is a Greek myth: Tantalus offended the gods, was punished, Pelops was revived, won Hippodamia by a chariot race (the king's wheel pins were replaced by wax) and the games began at the feast.",
+    "The ancient Games began at Olympia in 776 BCE; the modern Games began in Athens in 1896; the torch is lit from the sun's rays.",
+    "\"Popularity of Different Sports\" is an informative text. Football and basketball need cheap equipment; cricket is popular in India, Pakistan and Australia; Naismith invented basketball; rugby is rough.",
+    "Present perfect = have/has + V3 (result); present perfect continuous = have/has been + V-ing (duration). For + period, since + starting point.",
+    "Passive = be (same tense) + V3; object becomes subject; by + doer; questions and modals keep their frame (might have been done).",
+    "A paragraph has a topic sentence, supporting sentences and a concluding sentence.",
+    "A dialogue uses speaker names, short natural turns and covers all the given points."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5112,
+    "figures": 2,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Unit 11: Ethics and Morality",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Wisdom of Little Girls",
+    "World Record",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Wisdom of Little Girls"
+    },
+    {
+     "no": "11.2",
+     "title": "World Record"
+    },
+    {
+     "no": "11.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "\"Wisdom of Little Girls\" (a version of Tolstoy's tale): a splash in a puddle leads to a street fight; the girls forgive, the adults are ashamed; the grandmother calms the crowd. Moral: forgive and forget; avoid pride.",
+    "\"World Record\" is a comic drama; Albert stands one-legged in hot soup for 7 h 2 min against a record of 7 h 3 min; Mabel pushes him. It satirises the craze for records.",
+    "Negative: do/does/did + base verb, not after be/have/modal; some→any, always→never, either→neither.",
+    "Agreement: a number of → plural; the number of → singular; either/neither … or/nor → nearer subject; each, everyone → singular; the + adjective → plural; gerund/infinitive subject → singular.",
+    "A story has opening, problem, climax, ending and moral.",
+    "A condolence message expresses sorrow, praises the person and wishes peace; a sympathy letter uses informal letter layout."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5086,
+    "figures": 3,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Unit 12: Nature and Development",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Kathmandu-Terai/Madhesh Fast Track",
+    "Composed Upon Westminster Bridge",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Kathmandu–Terai/Madhesh Fast Track"
+    },
+    {
+     "no": "12.2",
+     "title": "Composed Upon Westminster Bridge, September 3, 1802"
+    },
+    {
+     "no": "12.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "The Kathmandu–Terai/Madhesh Fast Track is a 72.5 km expressway from Khokana to Nijgadh; benefits: less travel time and fuel, trade, tourism, skills, regional development; challenges: link roads, technology, environmental damage.",
+    "Wordsworth's sonnet (1802): a calm London dawn; simile like a garment; personification of houses and river; metaphor mighty heart; theme: beauty in a peaceful city and harmony of man and nature.",
+    "A Petrarchan sonnet: 14 lines, octave abbaabba + sestet cdcdcd.",
+    "Future forms: present simple (timetable), present continuous (arrangement), going to (plan, evidence), will (decision, prediction), will be + -ing (in progress), will have + V3 (completed before), will have been + -ing (duration up to).",
+    "After if / when / before / until use the present tense.",
+    "A report: title, introduction, findings, conclusion/recommendation, writer and date.",
+    "A notice: issuer, heading, date, event details, writer with designation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4480,
+    "figures": 3,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Unit 13: Population and Migration",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "A Century of World Population Trends: 1950 to 2050",
+    "Discovering Migration: What Birds Reveal",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "A Century of World Population Trends: 1950 to 2050"
+    },
+    {
+     "no": "13.2",
+     "title": "Discovering Migration: What Birds Reveal"
+    },
+    {
+     "no": "13.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "World population: just over 2.5 billion in 1950; fastest growth about 2.1% a year (1960s); now below 1%; about 8.5 billion by 2030, 9.7 billion by 2050, peak about 10.4 billion in the 2080s. Fertility and mortality decide change.",
+    "Regions differ: sub-Saharan Africa grows fast (over 2 billion by 2040s); Europe and Northern America decline from the late 2030s; eight countries drive over half of the growth.",
+    "Birds migrate for food, breeding and climate, using stopovers, night flight and flocks; partial migration; mountain birds move up and down.",
+    "Although / though / even though + clause; despite / in spite of + noun or -ing; however + comma; never use although … but.",
+    "Graph interpretation: introduction, highest and lowest, trend, comparison, conclusion.",
+    "Essay: title, introduction with opinion, positive and negative effects, solutions, conclusion."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4390,
+    "figures": 3,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Unit 14: Travel and Adventure",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Expect the Unexpected",
+    "Weather",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Expect the Unexpected"
+    },
+    {
+     "no": "14.2",
+     "title": "Weathers"
+    },
+    {
+     "no": "14.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "\"Expect the Unexpected\": a travelogue on Kathmandu (murals, smiles, Pashupatinath and Durbar squares as World Heritage Sites; Nepalis see death as everyday), Chitwan (wildlife, jeep safari, canoeing; for active travellers) and Pokhara (paragliding, trekking, Sarangkot sunrise).",
+    "\"Weathers\" (Thomas Hardy, 1922): two nine-line stanzas with the refrain \"And so do I\". Spring weather (cuckoo, nightingale, chestnut showers, girls in sprig-muslin) is liked; winter weather (shepherd, brown beeches, overflowing streams, rooks going home) is shunned. Weather symbolises the bright and dark sides of life.",
+    "Question tags: reverse the polarity; repeat the auxiliary (or use do/does/did); use the pronoun for the subject.",
+    "Special tags: aren't I; will you (imperative); shall we (let's); they (everyone, nobody); it (nothing, everything); negatives like hardly, never take positive tags.",
+    "A travelogue is personal, in the past tense; a brochure uses headings and bullets to persuade."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4418,
+    "figures": 3,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Unit 15: People and Places",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Me at the Beginning of Life",
+    "Sugarloaf Mountain: 5 Interesting Facts",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Me at the Beginning of Life"
+    },
+    {
+     "no": "15.2",
+     "title": "Sugarloaf Mountain: 5 Interesting Facts"
+    },
+    {
+     "no": "15.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "\"Me at the Beginning of Life\": an extract from Jhamak Ghimire's autobiography Jiwan Kada Ki Phool (Madan Puraskar 2010). She writes with her left foot, was blamed by society, felt awareness a curse, and compares herself with Ostrovsky and Helen Keller. Themes: courage, the power of writing, social prejudice, family poverty.",
+    "Sugarloaf Mountain: about 396 m high at the entrance to Guanabara Bay, Rio de Janeiro; two cable cars (via Morro da Urca); about 270 climbing routes; bay with 130+ islands and sixteenth-century forts; first film Now, Voyager.",
+    "Relative pronouns: who (people), whom (object, after prepositions), whose (possession), which (things), that (defining), where (place), when (time). Defining clauses have no commas; non-defining have commas and cannot use that.",
+    "Prepositions: at (clock, point), on (days, surfaces), in (months, years, enclosed areas); dependent prepositions (afraid of, pleased with, good at).",
+    "A biography: third person, past tense, in order: introduction, early life, career, contribution and awards, conclusion.",
+    "An email invitation: subject, friendly tone, facts, clear invitation."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5080,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Unit 16: Success and Celebration",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Walt Disney: An Example of Struggle and Success",
+    "If",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Walt Disney: An Example of Struggle and Success"
+    },
+    {
+     "no": "16.2",
+     "title": "If"
+    },
+    {
+     "no": "16.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "Walt Disney (1901–1966): poor childhood under a domineering father; ambulance driver in France; first company bankrupt; Oswald lost; breakdown; Mickey Mouse (1928); Snow White (1937) a success; Pinocchio, Fantasia, Bambi flopped at first; television; Disneyland (1955, \"Black Sunday\"). Key quality: determination and perseverance.",
+    "Kipling's \"If\" (1910): four stanzas, rhyme ababcdcd; a father's advice: calm, self-trust, patience, truth, act on dreams, treat success and failure alike, rebuild, take risks, hold on by will, stay humble, use every minute; promise: \"you'll be a Man, my son!\"",
+    "Prepositions: at (clock times, points), on (days, trips, radio), in (months, years, periods); between … and, from … to, until, by, under, into; phrases such as at large, out of hand, in cash, on board, out of reach.",
+    "Congratulation message: short and warm; congratulation letter: letter layout.",
+    "Speech: greeting, topic, body with examples, conclusion/call to action, thanks."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5319,
+    "figures": 3,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Unit 17: Countries and Towns",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "London vs Paris",
+    "The Country Mouse and the City Mouse",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "London vs Paris"
+    },
+    {
+     "no": "17.2",
+     "title": "The Country Mouse and the City Mouse"
+    },
+    {
+     "no": "17.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "\"London vs Paris\": London is almost fifteen times larger, with a widespread transport network and about 240 museums; Paris is compact, better in food, slightly cheaper; rivers: Thames and Seine; best time for London is spring and early autumn.",
+    "\"The Country Mouse and the City Mouse\" is a fable of contentment: plain food in peace is better than a feast in fear. Moral: peace is worth more than luxury.",
+    "Adverbs: add -ly (poor → poorly); adjectives follow linking verbs; irregular: good → well.",
+    "Comparison: -er/-est, more/most, irregular better/best, worse/worst; as … as; than.",
+    "Connectives: because + clause, because of + noun, although + clause, despite + noun/-ing, however + comma, but.",
+    "A comparison essay: block or point-by-point with linking words. A description of a village covers location, scenery, people, buildings and feelings."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 4676,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Unit 18: Media and Entertainment",
+   "hours": null,
+   "area": "Units",
+   "topics": [
+    "Hachi: A Dog's Tale",
+    "Interesting Social Media Stories",
+    "Grammar and writing tasks of the unit"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Hachi: A Dog's Tale"
+    },
+    {
+     "no": "18.2",
+     "title": "Interesting Social Media Stories"
+    },
+    {
+     "no": "18.3",
+     "title": "Grammar and writing tasks"
+    }
+   ],
+   "summary": [
+    "\"Hachi: A Dog's Tale\" (2009), directed by Lasse Hallström, starring Richard Gere, is based on the true story of Hachikō in Tokyo (1923–1935); themes: love, devotion, loyalty; strengths: the bond between dog and master, traditional values; weaknesses (as the review lists): kissing and champagne scenes.",
+    "\"Interesting Social Media Stories\": Nathan Apodaca (viral video, truck of Ocean Spray), Charlie's birthday cards, the somersaulting school children, We Rate Dogs (700 US dollars for a wheelchair), the New York hawk rescued via Twitter — social media can do good.",
+    "Questions: yes/no (auxiliary + subject + verb); wh- (wh-word + auxiliary + subject + verb); subject questions have no auxiliary.",
+    "Causatives: have + person + base verb; get + person + to + verb; make / let + person + base verb; have / get + thing + past participle; be made to.",
+    "A review: title and rating, introduction, summary without the ending, evaluation, conclusion.",
+    "An opinion essay: introduction, advantages, disadvantages, your view, conclusion."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5172,
+    "figures": 3,
+    "examples": 3
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 18,
+ "topic_count": 54,
+ "notes_ready": 18
+}

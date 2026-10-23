@@ -115,25 +115,20 @@ A discount is measured on the marked price, while profit and loss are measured
 on the cost price. A sale can therefore show a big discount and still be
 profitable, which is exactly what shopkeepers rely on.
 
-```figure caption="The two percentages act on different bases. The discount comes off the marked price; profit or loss is then measured from the marked price down to the cost price."
-fig, ax = plt.subplots(figsize=(5.0, 2.5))
-ax.set_xlim(0, 10)
-ax.set_ylim(0, 5.2)
-ax.axis("off")
-ax.annotate("", xy=(0.6, 4.1), xytext=(9.4, 4.1),
-            arrowprops=dict(arrowstyle="<->", color=INK, lw=1.2))
-ax.text(5.0, 4.45, "marked price (MP)", ha="center", fontsize=7.0, color=INK)
-ax.plot([2.2, 2.2], [1.6, 4.0], color=SERIES[1], lw=1.6)
-ax.plot([2.2, 9.4], [1.6, 1.6], color=SERIES[1], lw=1.6)
-ax.text(5.8, 1.15, "selling price (SP) = MP - discount", ha="center", fontsize=6.8,
-        color=SERIES[1])
-ax.plot([0.6, 0.6], [0.4, 4.0], color=ACCENT, lw=1.6)
-ax.plot([0.6, 2.2], [0.4, 0.4], color=ACCENT, lw=1.6)
-ax.text(1.4, 0.0, "cost price (CP)", ha="center", fontsize=6.8, color=ACCENT)
-ax.text(0.75, 2.6, "discount", ha="left", fontsize=6.6, color=MUTED, rotation=90,
-        va="center")
-ax.text(2.35, 2.6, "profit or\\nloss", ha="left", fontsize=6.6, color=MUTED)
-fig.tight_layout()
+```figure caption="The jacket example below on one price line: CP = Rs 2,000, SP = Rs 2,560, MP = Rs 3,200. The discount (Rs 640) is the gap between MP and SP and is a percent of MP; the profit (Rs 560) is the gap between SP and CP and is a percent of CP."
+fig, ax = plt.subplots(figsize=(5.0, 2.4))
+ax.plot([1500, 3500], [0, 0], color=INK, lw=1.0)
+for v, lab, c in [(2000, "CP\nRs 2000", ACCENT), (2560, "SP\nRs 2560", SERIES[2]), (3200, "MP\nRs 3200", SERIES[1])]:
+    ax.plot([v], [0], "o", color=c, ms=7)
+    ax.text(v, -0.75, lab, ha="center", va="top", fontsize=9, color=c)
+def brace(x1, x2, y, text, c):
+    ax.annotate("", xy=(x1, y), xytext=(x2, y), arrowprops=dict(arrowstyle="<->", color=c, lw=1.3))
+    ax.plot([x1, x1], [0.15, y], color=c, lw=0.6, ls=":")
+    ax.plot([x2, x2], [0.15, y], color=c, lw=0.6, ls=":")
+    ax.text((x1 + x2) / 2, y + 0.25, text, ha="center", va="bottom", fontsize=9, color=c)
+brace(2000, 2560, 1.0, "profit Rs 560\n= 28% of CP", SERIES[2])
+brace(2560, 3200, 1.0, "discount Rs 640\n= 20% of MP", SERIES[1])
+ax.set_xlim(1500, 3500); ax.set_ylim(-2.2, 2.6); ax.axis("off")
 ```
 
 ::: example A sale with a discount
@@ -169,6 +164,46 @@ $$\text{MP}=\frac{2125\times100}{85}=\text{Rs }2500$$
 **Check.** 15 % of 2500 is 375, and $2500-375=2125$ ✓.
 :::
 
+::: example Discount percent from MP and SP
+**Problem.** An iron marked Rs 1,800 is sold for Rs 1,530. Find the discount
+percent.
+
+**Solution.** Discount $=1800-1530=$ Rs 270.
+
+$$\text{Discount percent}=\frac{270}{1800}\times100\%=15\%$$
+:::
+
+::: example Marked price — the "100x" method
+**Problem.** Nabin buys a mobile at 8 % discount and pays Rs 22,080. Find the
+marked price.
+
+**Solution.** Let MP $=100x$. Then discount $=8x$ and SP $=100x-8x=92x$.
+
+$92x=22\,080$, so $x=240$ and MP $=100x=$ **Rs 24,000**.
+
+**Check.** 8 % of 24,000 $=1920$; $24\,000-1920=22\,080$ ✓.
+:::
+
+::: example Marked above cost, then a discount
+**Problem.** Jujuman buys a computer for Rs 36,000. He marks it 25 % above the
+cost price and then sells it at a 25 % discount. Find (a) the marked price,
+(b) the discount, (c) the selling price, (d) his profit or loss percent.
+
+**Solution.**
+(a) MP $=36\,000+25\%$ of $36\,000=36\,000+9000=$ **Rs 45,000**.
+
+(b) Discount $=25\%$ of $45\,000=$ **Rs 11,250**.
+
+(c) SP $=45\,000-11\,250=$ **Rs 33,750**.
+
+(d) SP $<$ CP, so there is a loss. Loss $=36\,000-33\,750=$ Rs 2,250.
+
+$$\text{Loss percent}=\frac{2250}{36\,000}\times100\%=6.25\%$$
+
+**Note.** "25 % up, then 25 % off" does **not** bring the price back to the cost:
+the 25 % discount is taken on the bigger number (MP), so he makes a loss.
+:::
+
 ## 5.3 Commission
 
 A **commission** is a payment to an agent for selling something on someone
@@ -190,7 +225,7 @@ The owner receives $18\,00\,000-36\,000=\text{Rs }17\,64\,000$.
 **Check.** $17\,64\,000+36\,000=18\,00\,000$ ✓.
 :::
 
-## 5.5 Marked price, discount and VAT in order
+## 5.4 Marked price, discount and VAT in order
 
 The order of operations is where most marks are lost: **discount comes off the
 marked price, VAT goes on to what is left.**
@@ -337,27 +372,18 @@ always gives a net loss of $\frac{x^2}{100}\%$ — here
 $\frac{20^2}{100}=4\%$ ✓.
 :::
 
-**Extra practice**
+**Extra practice — textbook-style questions**
 
-**Group B (2 marks)**
-
-**11.** An article costing Rs 1,250 is sold at a profit of 16 %. Find the selling
-    price.
-**12.** VAT of Rs 338 was charged at 13 %. Find the price before VAT.
-
-**Group C (4 marks)**
-
-**13.** A radio marked at Rs 2,800 is sold at a 15 % discount with 13 % VAT. If the
-    shopkeeper still makes a 19 % profit, find the cost price.
+**1.** A sweater is sold for Rs 1,075 after a 14 % discount. Find its marked price.
+**2.** A torch bought for Rs 1,400 is marked 40 % above the cost price and sold at a 20 % discount. Find the MP, the discount, the SP and the profit.
+**3.** Rahaman marks a suitcase at Rs 6,000 and allows a 15 % discount; he still makes a profit of Rs 500. Find the SP, the CP and the profit percent.
+**4.** VAT of Rs 338 was charged at 13 %. Find the price before VAT.
 
 ::: note Extra practice — answers
-**11.** Profit $= 200$; S.P. $=$ **Rs 1,450**.
-**12.** Price $= \frac{338}{0.13} =$ **Rs 2,600**.
-**13.** After discount: $2800 - 15\%$ of $2800 = 2800 - 420 = $ Rs 2,380 — this is
-what the shopkeeper receives. If that is a 19 % profit, then
-$1.19 \times \text{C.P.} = 2380$, so C.P. $= \frac{2380}{1.19} =$ **Rs 2,000**.
-(The VAT of $13\%$ of $2380 = $ Rs 309.40 is collected for the government and is
-not part of the profit.)
+**1.** SP $=86\%$ of MP, so MP $=\frac{1075\times100}{86}=$ Rs 1,250.
+**2.** MP $=1400+560=$ Rs 1,960; discount $=20\%$ of $1960=$ Rs 392; SP $=1960-392=$ Rs 1,568; profit $=1568-1400=$ Rs 168 (12 %).
+**3.** Discount $=15\%$ of $6000=900$; SP $=$ Rs 5,100; CP $=5100-500=$ Rs 4,600; profit percent $=\frac{500}{4600}\times100\approx10.87\%$.
+**4.** Price $= \frac{338\times100}{13} =$ Rs 2,600.
 :::
 
 ## Objective practice
