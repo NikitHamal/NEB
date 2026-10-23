@@ -170,10 +170,12 @@ def crash(g=1.0):
 # ------------------------------------------------------------------ harmony
 CHORDS = {"Bm": [59, 62, 66], "G": [55, 59, 62], "D": [62, 66, 69], "A": [57, 61, 64]}
 ROOT = {"Bm": 35, "G": 31, "D": 38, "A": 33}
-TIMELINE = [(0, 2, "Bm"), (2, 4, "Bm"), (4, 6, "G"), (6, 7.5, "D"), (7.5, 8, "A"),
-            (8, 10, "Bm"), (10, 12, "G"), (12, 14, "D"), (14, 16, "A"), (16, 18, "Bm"), (18, 20, "G"),
-            (20, 22, "D"), (22, 24, "A"), (24, 26, "Bm"), (26, 26.5, "A"), (26.5, 28.5, "G"),
-            (28.5, 30.5, "A"), (30.5, 32, "D")]
+# Sections (seconds): intro, logo groove, break, "v1.7" drop and the feature run, break, ending, tail.
+INTRO, DROP1, BREAK1, DROP2, BREAK2, ENDING, TAIL = 0.0, 2.0, 3.5, 4.0, 26.0, 26.5, 30.5
+_RUN = ["Bm", "G", "D", "A"]
+TIMELINE = ([(0, 2, "Bm"), (2, 3.5, "G"), (3.5, 4, "A")] +
+            [(4 + 2 * k, 6 + 2 * k, _RUN[k % 4]) for k in range(11)] +
+            [(26, 26.5, "A"), (26.5, 28.5, "G"), (28.5, 30.5, "A"), (30.5, 32, "D")])
 
 
 def chord_at(t):
@@ -219,8 +221,8 @@ def score():
     for st in range(steps):
         t = st * 0.125
         beat, sixteenth = divmod(st, 4)
-        sec = ("intro" if t < 2 else "A" if t < 7.5 else "break" if t < 8 else "B" if t < 26 else
-               "break2" if t < 26.5 else "end" if t < 30.5 else "tail")
+        sec = ("intro" if t < DROP1 else "A" if t < BREAK1 else "break" if t < DROP2 else "B" if t < BREAK2 else
+               "break2" if t < ENDING else "end" if t < TAIL else "tail")
         c = chord_at(t)
         if sec == "intro":
             if sixteenth in (0, 2):
@@ -231,15 +233,15 @@ def score():
                 kicks.append(t)
             if sixteenth == 2:
                 put(drums, pan(hat(True, 0.75), 0.15), t)
-            if sec != "A" or t >= 4:
+            if sec != "A" or t >= 2.5:
                 if sixteenth in (1, 3):
                     put(drums, pan(hat(False, 0.35), -0.3), t)
-            if beat % 2 == 1 and sixteenth == 0 and (sec != "A" or t >= 4):
+            if beat % 2 == 1 and sixteenth == 0:
                 cl = clap(0.85)
                 put(drums, cl, t)
                 put(send, np.stack([cl, cl]) * 0.25, t)
         if sec == "break":
-            k = (t - 7.5) / 0.5
+            k = (t - BREAK1) / (DROP2 - BREAK1)
             put(drums, clap(0.25 + 0.6 * k), t)
             put(drums, clap(0.2 + 0.5 * k), t + 0.0625)
         if sec == "tail" and st % 8 == 0 and t < 31:
@@ -282,8 +284,8 @@ def score():
         put(drums, crash(1.0), t)
         put(drums, kick(1.2, 40), t)
         kicks.append(t)
-    put(drums, crash(0.7), 8.0)
-    put(drums, crash(0.6), 2.0)
+    put(drums, crash(0.7), DROP2)
+    put(drums, crash(0.6), DROP1)
     return drums, music, send, kicks
 
 

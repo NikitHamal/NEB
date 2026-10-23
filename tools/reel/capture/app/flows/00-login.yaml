@@ -22,22 +22,17 @@ name: Sign in with the demo account
       visible: "Already a NEBian\\?"
     commands:
       - tapOn: "Sign in"
-- tapOn: "Email or username"
+- tapOn: "you@example.com"
 - inputText: ${NEB_USER}
-- tapOn: "Password"
+- tapOn: "Your password"
 - inputText: ${NEB_PASS}
-- pressKey: Enter
+- takeScreenshot: login-filled
+- tapOn:
+    text: "Sign in"
+    index: 0
 - waitForAnimationToEnd:
     timeout: 8000
 - takeScreenshot: login-submitted
-- runFlow:
-    when:
-      visible: "New to NEBians\\?"
-    commands:
-      - tapOn:
-          text: "Sign in"
-          index: 0
-          optional: true
 - extendedWaitUntil:
     visible: "Home"
     timeout: 120000
