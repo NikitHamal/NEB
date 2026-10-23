@@ -2456,6 +2456,19 @@
   "source": "Wikimedia Commons",
   "title": "Wireless access point"
  },
+ "cs10/arduino": {
+  "author": "JrawX",
+  "bytes": 480089,
+  "credit": "Own work",
+  "fetched": "2026-10-23",
+  "file": "cs10/arduino.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Arduino_Uno_board.jpg",
+  "sha1": "b262c328fd263755",
+  "source": "Wikimedia Commons",
+  "title": "Arduino Uno board"
+ },
  "cs10/audacity": {
   "author": "Zurel",
   "bytes": 92162,
@@ -2573,6 +2586,32 @@
   "source": "Wikimedia Commons",
   "title": "Rj45plug-8p8c"
  },
+ "cs10/robot-arm": {
+  "author": "Oleg Yunakov",
+  "bytes": 168639,
+  "credit": "Own work",
+  "fetched": "2026-10-23",
+  "file": "cs10/robot-arm.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:KUKA_industrial_robotic_arm_performing_%22The_Beach%22_by_Roy_Nachum_-_03.jpg",
+  "sha1": "e6a50a9e959bed14",
+  "source": "Wikimedia Commons",
+  "title": "KUKA industrial robotic arm performing \"The Beach\" by Roy Nachum - 03"
+ },
+ "cs10/server-racks": {
+  "author": "NOIRLab/NSF/AURA/T. Slovinský",
+  "bytes": 200021,
+  "credit": "NOIRLab HQ Server Racks",
+  "fetched": "2026-10-23",
+  "file": "cs10/server-racks.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:NOIRLab_HQ_Server_Racks_(6V6A0402-CC).jpg",
+  "sha1": "d4c1ae98f91cede2",
+  "source": "Wikimedia Commons",
+  "title": "NOIRLab HQ Server Racks (6V6A0402-CC)"
+ },
  "cs10/switch-rack": {
   "author": "Dsimic",
   "bytes": 419601,
@@ -2598,6 +2637,19 @@
   "sha1": "032ac251a166851e",
   "source": "Wikimedia Commons",
   "title": "Turtle draw"
+ },
+ "cs10/vr-headset": {
+  "author": "InclusiveGameLab",
+  "bytes": 353582,
+  "credit": "Own work",
+  "fetched": "2026-10-23",
+  "file": "cs10/vr-headset.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:InclusiveGameLab_Person-Playing-Virtual-Reality_3_CC-BY-SA.jpg",
+  "sha1": "de31b44faae6c8ab",
+  "source": "Wikimedia Commons",
+  "title": "InclusiveGameLab Person-Playing-Virtual-Reality 3 CC-BY-SA"
  },
  "cs10/workbench": {
   "author": "MySQL",
