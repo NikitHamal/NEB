@@ -7,6 +7,10 @@ on:
         description: 'Run id of a "Build Student Release APKs & AAB" run to take the APK from (blank = latest on main)'
         required: false
         default: ''
+      flows:
+        description: 'Glob of flow names to run (without .yaml)'
+        required: false
+        default: '*'
 
 permissions:
   contents: read
@@ -65,6 +69,7 @@ jobs:
         env:
           NEB_USER: ${{ secrets.NEB_DEMO_USERNAME }}
           NEB_PASS: ${{ secrets.NEB_DEMO_PASSWORD }}
+          FLOWS: ${{ inputs.flows }}
         with:
           api-level: 35
           target: google_apis
