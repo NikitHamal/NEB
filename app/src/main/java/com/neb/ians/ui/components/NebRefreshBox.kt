@@ -101,6 +101,9 @@ fun NebRefreshBox(
             }
         }
     }
+    // Neby is only composed while the header can be seen: left playing at alpha 0, the looping
+    // sprite redrew every feed several times a second while nothing on screen moved
+    val showing by remember { derivedStateOf { shown || state.distanceFraction > 0f } }
 
     PullToRefreshBox(
         isRefreshing = shown,
@@ -120,7 +123,7 @@ fun NebRefreshBox(
                     },
                 contentAlignment = Alignment.Center
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                if (showing) Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                     val sprite = when (phase) {
                         RefreshPhase.Pulling -> PixelUiSprites.nebyIdle
                         RefreshPhase.Armed -> PixelUiSprites.nebyHop

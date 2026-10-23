@@ -144,6 +144,8 @@ fun isVideoMediaUrl(url: String?): String? {
     return if (clean.endsWith(".mp4") || clean.endsWith(".webm") || clean.endsWith(".mov") || clean.endsWith(".m4v") || clean.endsWith(".mkv")) url else null
 }
 
+private val VideoUrlRegex = Regex("""https?://[^\s<"]+?\.(?:mp4|webm|mov|m4v|mkv)(?:\?[^\s<"]*)?""", RegexOption.IGNORE_CASE)
+
 fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAttachment> {
     val result = post.attachments.toMutableList()
 
@@ -163,8 +165,7 @@ fun extractPostAttachments(post: ApiPost): List<com.neb.ians.data.api.ApiMediaAt
         }
     }
 
-    val videoRegex = Regex("""https?://[^\s<"]+?\.(?:mp4|webm|mov|m4v|mkv)(?:\?[^\s<"]*)?""", RegexOption.IGNORE_CASE)
-    videoRegex.findAll(post.content).forEach { match ->
+    VideoUrlRegex.findAll(post.content).forEach { match ->
         val vUrl = match.value
         if (result.none { it.url == vUrl }) {
             result.add(
@@ -290,7 +291,7 @@ fun ForumPostCard(
     val bodyColor = MaterialTheme.colorScheme.onSurfaceVariant
     val preview = remember(post.content) { markdownToInlinePreview(post.content) }
     val previewAnnotated = remember(preview, bodyColor, primary, codeBg, anonAccent, anonOnAccent) {
-        buildInlineAnnotatedString(preview, bodyColor, primary, codeBg, anonAccent, anonOnAccent)
+        buildInlineAnnotatedString(preview.clippedForCard(), bodyColor, primary, codeBg, anonAccent, anonOnAccent)
     }
     val bookmarked = post.isBookmarked == true
     var zoomImageUrlsList by remember { mutableStateOf<List<String>?>(null) }
@@ -480,7 +481,7 @@ fun ForumPostCard(
             }
 
             // ----- Media attachment badges (video/audio/files) -----
-            val allAttachments = remember(post) { extractPostAttachments(post) }
+            val allAttachments = remember(post.attachments, post.images, post.content) { extractPostAttachments(post) }
             if (allAttachments.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(10.dp))
                 ForumMediaBadges(allAttachments)

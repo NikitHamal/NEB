@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -139,6 +140,9 @@ sealed class Screen(val route: String) {
     data object InteractiveCourse : Screen("interactive/course/{courseSlug}") {
         fun createRoute(courseSlug: String) = "interactive/course/$courseSlug"
     }
+    data object StudyReader : Screen("study/{grade}/{subject}/{kind}/{no}") {
+        fun createRoute(grade: String, subject: String, kind: String, no: Int) = "study/$grade/$subject/$kind/$no"
+    }
     data object InteractiveLesson : Screen("interactive/lesson/{courseSlug}/{lessonSlug}") {
         fun createRoute(courseSlug: String, lessonSlug: String) = "interactive/lesson/$courseSlug/$lessonSlug"
     }
@@ -230,6 +234,10 @@ fun NEBiansNavHost(
     val userProfile by settingsViewModel.userProfile.collectAsStateWithLifecycle()
     val mediaPlayerViewModel: MediaPlayerViewModel = hiltViewModel()
     val mediaPlayerState by mediaPlayerViewModel.uiState.collectAsStateWithLifecycle()
+    // the player's position ticks four times a second; the host only needs to know whether there
+    // is something playing, so it does not recompose with every tick (MiniPlayerSlot reads the rest)
+    val playerResourceId by remember { derivedStateOf { mediaPlayerState.resource?.id } }
+    val playerStarted by remember { derivedStateOf { mediaPlayerState.isPlaying || mediaPlayerState.currentTimeMs > 0L } }
     var showMiniPlayer by remember { mutableStateOf(false) }
     val isAuthenticated = authState is AuthState.Authenticated
     LaunchedEffect(authState) {
@@ -292,12 +300,11 @@ fun NEBiansNavHost(
         if (currentRoute != "library") hideLibraryDetailChrome = false
     }
     val showBottomBar = currentRoute in glassNavItems.map { it.route } && !hideLibraryDetailChrome
-    LaunchedEffect(currentRoute, mediaPlayerState.resource?.id, mediaPlayerState.isPlaying, mediaPlayerState.currentTimeMs) {
+    LaunchedEffect(currentRoute, playerResourceId, playerStarted) {
         showMiniPlayer = when {
             currentRoute == Screen.ResourceDetail.route -> false
-            mediaPlayerState.resource == null -> false
-            mediaPlayerState.isPlaying -> true
-            mediaPlayerState.currentTimeMs > 0L -> true
+            playerResourceId == null -> false
+            playerStarted -> true
             else -> showMiniPlayer
         }
     }
@@ -503,6 +510,9 @@ fun NEBiansNavHost(
                     onInteractiveCourseClick = { courseSlug ->
                         navController.navigate(Screen.InteractiveCourse.createRoute(courseSlug))
                     },
+                    onStudyDocClick = { grade, subject, kind, no ->
+                        navController.navigate(Screen.StudyReader.createRoute(grade, subject, kind, no))
+                    },
                     onSyllabusDetailChromeChanged = { hideLibraryDetailChrome = it },
                     onRequestResourceClick = { navController.navigate(Screen.ResourceRequests.route) },
                     onCreatorClick = { slug -> navController.navigate(Screen.CreatorPage.createRoute(slug)) },
@@ -670,6 +680,17 @@ fun NEBiansNavHost(
                     },
                     onNavigateBack = { navController.popBackStack() }
                 )
+            }
+            composable(
+                route = Screen.StudyReader.route,
+                arguments = listOf(
+                    navArgument("grade") { type = NavType.StringType },
+                    navArgument("subject") { type = NavType.StringType },
+                    navArgument("kind") { type = NavType.StringType },
+                    navArgument("no") { type = NavType.StringType }
+                )
+            ) {
+                com.neb.ians.ui.screens.library.StudyReaderScreen(onBack = { navController.popBackStack() })
             }
             composable(
                 route = Screen.InteractiveLesson.route,
@@ -985,9 +1006,8 @@ fun NEBiansNavHost(
             )
         }
 
-        if (showMiniPlayer && currentRoute != Screen.ResourceDetail.route && mediaPlayerState.resource != null) {
-            MiniMediaPlayer(
-                uiState = mediaPlayerState,
+        if (showMiniPlayer && currentRoute != Screen.ResourceDetail.route && playerResourceId != null) {
+            MiniPlayerSlot(
                 viewModel = mediaPlayerViewModel,
                 onExpand = {
                     mediaPlayerState.resource?.id?.let { resourceId ->
@@ -1048,4 +1068,16 @@ fun NEBiansNavHost(
             }
         }
     }
+}
+
+/** The mini player, reading the player's state itself so its position ticks recompose only it. */
+@Composable
+private fun MiniPlayerSlot(
+    viewModel: MediaPlayerViewModel,
+    onExpand: () -> Unit,
+    onClose: () -> Unit,
+    modifier: Modifier
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    MiniMediaPlayer(uiState = uiState, viewModel = viewModel, onExpand = onExpand, onClose = onClose, modifier = modifier)
 }

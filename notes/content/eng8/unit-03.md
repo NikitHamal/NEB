@@ -7,366 +7,333 @@ hours: 0
 area: Units
 ---
 
-This unit is about two kinds of writing that tell people what to do. A **public
-announcement** tells a large number of people one piece of information in a
-hurry — a cancellation, a meeting, a lost article. A set of **instructions**
-tells one person, step by step, how to do a job — here, how to wash clothes in
-a washing machine. Both have to be clear the first time they are read, because
-nobody re-reads an announcement and nobody wants to guess a step. The unit also
-teaches how to report a yes/no question in indirect speech.
+Unit 3 is about **giving information to many people at once** and **giving
+instructions**. Reading I has two announcements: a pre-flight announcement by
+Nepal Airlines and a Parents Day announcement by Dibya Jyoti Secondary School.
+Reading II is a set of seven steps on how to wash clothes in a washing machine.
+The grammar is **reported speech of yes/no questions** (*She asked if…*). In
+writing you prepare an announcement and a set of instructions.
 
-::: key What this unit asks of you
-By the end you should be able to (1) write an announcement that answers what,
-where, when, who and what to do, (2) write instructions in the correct order
-using the imperative, (3) turn a direct yes/no question into reported speech
-with *if* or *whether*, and (4) pronounce the letter **r** correctly — sounded
-where it is followed by a vowel, silent where it is not.
+::: key What the exam asks from this unit
+(1) Find facts in an announcement: what, when, where, who. (2) Report yes/no
+questions with **if/whether**, changing tense, pronouns and time words.
+(3) Write an announcement that answers *what, when, where, who, how* and invites
+people. (4) Write numbered instructions with imperative verbs.
 :::
 
-## 3.1 Public Announcements
+## 3.1 Reading I: Public Announcements
 
-### About the text
+An **announcement** is a short public message, spoken or written, that tells
+people about an event, a change or a rule. It is made at airports, bus parks,
+schools, offices and on radio and TV.
 
-An announcement is a short, public notice. It is written to be read at a
-glance, so it uses short lines, a heading and sometimes a box. You meet
-announcements on a school notice board, at a bus park, in a hospital, on the
-radio and in a supermarket.
+### Text 1: Pre-flight announcement (Nepal Airlines)
 
-An announcement is **not** an essay. It does not discuss, explain or tell a
-story. It gives one piece of information and, usually, one action.
+The crew welcome passengers to **Flight RA-402 from Kathmandu to New Delhi**.
+The plane is **third in line** for take-off and should be in the air in about
+**five minutes**. Passengers are asked to:
 
-### What a good announcement contains
+1. fasten their seatbelts;
+2. keep their baggage under the seat or in the overhead compartments;
+3. put their seats in the **upright** position for take-off;
+4. turn off personal gadgets such as laptops and mobile phones.
 
-| Question | What the announcement must give | Example |
-|---|---|---|
-| What? | the event or the change | "The morning assembly is cancelled." |
-| Where? | the place, precisely | "in the main hall" |
-| When? | date and time | "on Sunday, 12 Bhadra, at 8 a.m." |
-| Who? | who must attend or who is affected | "all students of classes 8 and 9" |
-| What to do? | the action, and whom to contact | "report to your class teacher" |
-| Who said it? | the issuer and the date | "By order of the Principal" |
+Smoking is strictly prohibited. The announcement ends by thanking passengers for
+choosing Nepal Airlines.
 
-An announcement has no greeting and no *Dear students*. It begins with the
-heading, gives the information, and ends with the issuer's name. Any question it
-does not answer — a wrong date, a missing room — is a fault, because the reader
-cannot ask you back.
+### Text 2: Parents Day announcement (Dibya Jyoti Secondary School)
 
-```figure caption="The five questions every announcement answers. If one is missing, the reader has to ask somebody — and an announcement that has to be explained has failed."
-fig, ax = plt.subplots(figsize=(4.8, 2.6))
-ax.set_xlim(0, 10); ax.set_ylim(0, 5.6); ax.axis("off")
-cards = [("WHAT", "assembly cancelled", SERIES[0]),
-         ("WHERE", "main hall", SERIES[1]),
-         ("WHEN", "Sunday, 8 a.m.", SERIES[2]),
-         ("WHO", "classes 8 and 9", SERIES[3]),
-         ("DO", "report to class teacher", SERIES[4])]
-for i, (head, note, colour) in enumerate(cards):
-    x = 0.3 + i * 1.92
-    ax.add_patch(plt.Rectangle((x, 2.4), 1.74, 1.7, fc="white", ec=colour, lw=1.4))
-    ax.text(x + 0.87, 3.7, head, ha="center", fontsize=6.6, color=colour,
-            fontweight="bold")
-    ax.text(x + 0.87, 3.05, note, ha="center", fontsize=5.6, color=MUTED)
-ax.text(5.0, 1.6, "heading · information · issuer and date", ha="center",
-        fontsize=6.8, color=INK)
-fig.tight_layout()
-```
-
-### Model announcement
-
-> **NOTICE**
-> **INTER-HOUSE VOLLEYBALL TRIALS**
-> All students of classes 8, 9 and 10 who wish to play in the inter-house
-> volleyball tournament must attend the trials.
-> **Date:** Saturday, 18 Bhadra 2082
-> **Time:** 7:00 a.m. — 9:00 a.m.
-> **Place:** School playground
-> Bring your sports dress and a water bottle. Students who do not attend the
-> trials will not be selected.
-> — Prakash Adhikari, Sports Teacher
-
-### Vocabulary
-
-| Word | Meaning |
+| Question | Answer from the text |
 |---|---|
-| announcement | a public statement giving information |
-| notice | a written announcement put on a board |
-| cancelled | stopped from happening |
-| trials | a test to choose players for a team |
-| by order of | as instructed by (used in official announcements) |
-| venue | the place where something happens |
+| What? | Parents Day, on the school's **42nd anniversary** |
+| When? | **22nd of March**, at **11:00 a.m.** |
+| Where? | the **Assembly Hall** |
+| Who is the chief guest? | the **Mayor of Bardaghat Municipality**, an ex-student of the school |
+| What will happen? | the mayor confers prizes for academic, extra-curricular and co-curricular activities; a cultural performance by the school's talented students; a short photo session with the chief guest **at the end** |
 
-::: note Model answers
-**1. Why does an announcement use short lines rather than full paragraphs?**
-Because it must be understood in a few seconds by a reader who is standing up
-or walking past, and a short line can be taken in at one glance.
-**2. An announcement says "the exam will be held next week". Name the two
-pieces of information it is missing.**
-The exact day and the exact time (and also the room, if it is not the usual
-one).
+### Vocabulary (Exercise A)
+
+a. **baggage** b. **gadgets** c. **anniversary** d. **confer** e. **upright**
+f. **auspicious**
+
+### True or False (Exercise B)
+
+a. **False** — it is about take-off, not landing. b. **True**. c. **False** —
+it is on the 22nd of March. d. **False** — the school's own talented students
+perform. e. **False** — the photo session is at the end.
+
+### Comprehension (Exercise C) — model answers
+
+**a. What are the first and second announcements about?** The first tells
+passengers of flight RA-402 what to do before take-off; the second announces the
+celebration of Parents Day at Dibya Jyoti Secondary School.
+
+**b. State the travel route of flight RA-402.** It flies from Kathmandu to New
+Delhi.
+
+**c. Why should the seats be upright during take-off?** For safety: an upright
+seat holds the passenger firmly and keeps the way clear, so people can get out
+quickly in an emergency.
+
+**d. Who is the chief guest on Parents Day?** The Mayor of Bardaghat
+Municipality, who is an ex-student of the school.
+
+**e. When and where is the programme to be held?** On the 22nd of March at
+11:00 a.m. in the school's Assembly Hall.
+
+## 3.2 Writing I: Writing an announcement
+
+### Format
+
+1. **Heading** — the name of the organisation and/or *Announcement*.
+2. **Opening** — *We are pleased to announce that…* / *Attention, please!*
+3. **What, when, where, who, how** — the event, date, time, place, chief guest
+   or organiser, and the programme.
+4. **Request** — *All are requested to attend / to be on time.*
+5. **Closing** — *Thank you!* and the name of the person or office announcing.
+
+::: example Model answer — Children's Day announcement (Writing I)
+**Problem.** As class captain, write an announcement about celebrating an event
+at your school.
+
+**Solution.**
+
+**Shree Janata Secondary School, Butwal — Announcement**
+
+Dear friends and teachers, I am pleased to announce that our school is going
+to celebrate **Children's Day** on **Bhadra 29** (14 September). The programme
+will be held in the school ground from **10:30 a.m.** The ward chairperson will
+be the chief guest. There will be a quiz contest, a drawing competition, songs,
+dances and a short speech on children's rights by grade 8 students. Prizes will
+be given to the winners, and snacks will be served at the end. All students,
+teachers and parents are kindly requested to attend the programme on time and
+make it a success. Thank you!
+
+Ramesh Thapa
+Class Captain, Grade 8
 :::
 
-## 3.2 How to Wash Clothes in a Washing Machine
+::: caution Common mistakes in announcements
+- Missing the **date, time or place** — these carry the marks.
+- Writing it like a story in the past tense. Use **will / is going to** for the
+  event and the present for requests.
+- No request to attend at the end.
+:::
 
-### About the text
+## 3.3 Speaking and pronunciation: requests and /r/
 
-This text is a set of **instructions** — sometimes called a procedure. It tells
-one person how to carry out a task, in order. Instructions use the
-**imperative**: *check*, *put*, *add*, *close*, *start*.
-
-### The order of the steps
-
-Instructions only work if they are in the right order. Read the list below not
-as words but as a **sequence**, and notice that each step depends on the one
-before it: you cannot add detergent before the clothes are in the drum, and you
-cannot start the machine before the door is shut.
-
-1. **Check the pockets** of every item and empty them. A coin or a pen left in
-   a pocket stains the whole load and can damage the drum.
-2. **Sort the clothes** into whites, coloureds and dark items. Sort by fabric
-   too: heavy towels and jeans are washed separately from light shirts.
-3. **Read the care label** on each garment for a temperature limit and a
-   hand-wash-only warning.
-4. **Load the drum** loosely. A drum that is stuffed will not clean the clothes
-   and can strain the motor.
-5. **Add detergent** to the detergent drawer — not more than the manufacturer
-   recommends. Too much soap leaves a residue and makes the machine overflow.
-6. **Close the door firmly** until it clicks.
-7. **Choose the programme** and the temperature, then press **Start**.
-8. **Wait** until the machine signals that the cycle has finished. Never force
-   the door open mid-cycle while the drum may be full of water.
-9. **Unload and hang the clothes** in the sun immediately, so that creases and
-   damp smells do not set in.
-
-```figure caption="Instructions are a chain, not a list. Each step uses the result of the step before it, so moving one step changes the meaning of the whole set."
-fig, ax = plt.subplots(figsize=(4.5, 3.2))
-ax.set_xlim(0, 10); ax.set_ylim(0, 8.4); ax.axis("off")
-steps = ["1. Empty the pockets", "2. Sort by colour and fabric",
-         "3. Read the care label", "4. Load the drum loosely",
-         "5. Add detergent", "6. Close the door",
-         "7. Choose programme, start", "8. Unload and hang out"]
-for i, s in enumerate(steps):
-    y = 7.7 - i * 0.95
-    ax.add_patch(plt.Rectangle((1.6, y - 0.3), 6.8, 0.62, fc="white",
-                 ec=(ACCENT if i in (4, 6) else GRID), lw=1.2))
-    ax.text(1.85, y, s, va="center", fontsize=6.8, color=INK)
-    if i < len(steps) - 1:
-        ax.annotate("", xy=(1.6, y - 0.62), xytext=(1.6, y - 0.34),
-                    arrowprops=dict(arrowstyle="->", color=GRID, lw=1.2))
-ax.text(5.0, 0.28, "order matters: a step cannot come before its cause",
-        ha="center", fontsize=6.3, color=MUTED)
-fig.tight_layout()
-```
-
-### Vocabulary
-
-| Word | Meaning |
+| Making a request | Responding |
 |---|---|
-| detergent | soap powder or liquid used for washing |
-| drum | the round part of the machine that turns |
-| load | the quantity of clothes washed at one time |
-| cycle | one complete wash programme |
-| care label | the small label sewn inside a garment |
-| residue | a small amount left behind after washing |
+| Can I ask you to…? | Yes, what do you need? |
+| I was wondering if you could… | I'll see what I can do. |
+| Do you think you could…? | Let me check and get back to you. |
+| Could you please…? | Sure, no problem. / I'm sorry, I've injured my arm. |
+| Would you mind if I…? | Of course not. Go ahead. |
 
-## 3.3 Grammar and writing tasks of the unit
+Example from the clues: *Could you please help push my wheelchair across the
+road? — Sure, no problem.* / *I was wondering if you could lend me your bicycle
+for a few days. — I'm sorry, I need it myself.*
 
-### Grammar: Reported speech — yes/no questions
+**Pronunciation of r.** In standard British English, *r* is pronounced only
+before a vowel: in *compartment, turn off, your, confer, winner* the *r* at the
+end of a syllable is silent and the vowel is lengthened (*turn* /tɜːn/). In
+*overhead, anniversary, entertainment, guardian* — check whether a vowel
+follows. American English pronounces every *r*.
 
-When you report a **yes/no** question, you do not use the question word order
-and you do not use a question mark. Instead you join the two parts with **if**
-or **whether**. The tense usually moves back one step.
+## 3.4 Grammar: Reported speech — yes/no questions
 
-| Direct | Reported |
+When we report a yes/no question:
+
+1. Use **asked / wanted to know / inquired / wondered** as the reporting verb.
+2. Join with **if** or **whether**.
+3. Change the question into **statement word order** (subject + verb) and drop
+   the question mark.
+4. Remove *do/does/did* and change the tense one step back (if the reporting
+   verb is past).
+5. Change pronouns and time/place words.
+
+| Direct | Reported (past reporting verb) |
 |---|---|
-| She said, "Are you ready?" | She asked **if** I was ready. |
-| He said, "Do you like tea?" | He asked **whether** I liked tea. |
-| The teacher said, "Have you finished?" | The teacher asked **if** we had finished. |
-| Mother said, "Can you help me?" | Mother asked **if** I could help her. |
-| Ram said, "Will you come tomorrow?" | Ram asked **if** I would come the next day. |
+| is/are | was/were |
+| do/does + verb | past simple (*likes → liked*) |
+| did + verb / past simple | had + past participle |
+| has/have + pp | had + pp |
+| can / will / may | could / would / might |
+| today, tomorrow, this | that day, the next day, that |
 
-Three changes happen every time: the **tense** moves back, the **pronoun**
-changes to fit the new speaker, and the **time word** may change (*tomorrow* →
-*the next day*, *now* → *then*, *here* → *there*). The question word order
-disappears — "Are you ready" becomes "I was ready", with the subject first.
+*"Does he like singing?"* → *She asked **if he liked** singing.*
+
+If the reporting verb is **present** (*says, asks*), do **not** change the tense:
+*"Is your sister coming?" says Pallawi.* → *Pallawi **asks** if my sister **is**
+coming.*
+
+### Textbook answers — Grammar I
+
+**A (matching):** a–iii, b–v, c–vi, d–ii, e–i, f–iv.
+
+**B:** a. My father asked if she spent her money on books. b. They asked if the
+farmer had decided to sell her old oxen. c. She asked if she could borrow my
+pen. d. Rajani asked whether the students should concentrate on their studies.
+(*should* does not change.) e. Milan asked if I would come to his housewarming
+party the next day. f. My friend wanted to know whether Srijana had been born in
+that hospital. g. The waiter questioned whether he had put the spoon on the
+table. h. My father asked if his mother was a professor of History. i. Rachana
+inquired whether his sister had gone to market. j. She asked if I was a
+foreigner.
+
+### Textbook answers — Grammar II
+
+a. Pawan asked if I was going to the store. b. Pallawi asks if my sister is
+coming to the party. c. Sophie asked me if I liked pizza. d. Siddhartha asked
+Rani if her cat liked to chase mice. e. The guest inquired if it was raining
+outside. f. The teacher asked if I had finished my homework. g. My mom asked if
+I was feeling well. h. My friend asked if my boss expected me to work overtime
+that day. i. Smita wanted to know if my favourite colour was purple. j. The
+boss asked if I had seen the news that morning.
 
 ::: caution Common mistakes
-- *She asked if was I ready.* ✗ — reported speech is a statement: *She asked
-  if **I was** ready.* ✓
-- *He asked if I liked tea?* ✗ — there is no question mark in reported speech.
-- *He said if I liked tea.* ✗ — with a question use **asked**, not *said*.
+- *She asked **did I finish** my homework.* ✗ → *She asked **if I had finished**…* ✓
+- *He asked if was I ready?* ✗ → *He asked **if I was** ready.* ✓ (no question order, no ?)
+- *She said me if…* ✗ → *She **asked** me if…* ✓
+- Forgetting pronoun change: *"Are you a foreigner?" she asked* → *She asked if **I** was…*
 :::
 
-### Writing: An announcement
+## 3.5 Reading II: How to Wash Clothes in a Washing Machine
 
-Write in the order *heading → information → action → issuer*. Use the present
-simple (*the trial takes place*), the future (*will be held*) or the imperative
-(*report to…*). Do not use *Dear* or *Yours faithfully*, and do not thank
-anybody.
+A washing machine is a home **appliance** that washes clothes automatically. The
+text gives seven steps:
 
-::: example Worked example
-**Announcement.** **NOTICE — WATER SUPPLY INTERRUPTION.** The main water tank
-of the school hostel will be cleaned on Wednesday, 21 Bhadra 2082, from 9 a.m.
-to 2 p.m. There will be no water supply in the hostel during these hours.
-Students should fill their buckets the previous evening. — Hostel Warden.
-:::
+| Step | What to do | Why |
+|---|---|---|
+| 1. Separate your laundry | sort by fabric and colour; read the care label; wash delicate items by hand or on the delicate cycle in a mesh bag | to avoid damaging fabrics |
+| 2. Load the machine | put the clothes in; **do not overload** | an overloaded machine does not wash properly |
+| 3. Add detergent and fabric softener | read the manual to see which goes where; check the amount on the detergent box | the amount depends on load size and machine type |
+| 4. Turn on the washer | close the door and press start | some machines warn if the door is open, some do not |
+| 5. Choose the washing cycle | follow the care label; cycles: normal, permanent press, delicate, quick | to clean well and protect clothes |
+| 6. Set the water temperature | **hot** for towels, bedding, sturdy and very dirty items; **warm** for moderately dirty loads, dark colours, permanent press; **cold** is gentlest and saves energy | hot water kills germs but can shrink and fade clothes and uses more energy |
+| 7. Clean the machine | use a washing machine cleaner; leave the door open after use | to air it out and prevent mould |
 
-### Writing: A set of instructions
-
-Give a title, then number the steps and begin each with a verb in the
-imperative. Add one short *why* wherever a reader might be tempted to skip the
-step — "close the door firmly **so that water does not leak**". A warning goes
-before the step it applies to, never after it.
-
-## 3.4 The language of instructions
-
-Instructions are written to be **followed**, not admired: imperative verbs,
-one step per sentence, sequence words, and a warning where a mistake could
-cost something.
-
-| Element | Example |
-|---|---|
-| Imperative verb first | *Sort* the clothes by colour. |
-| One step, one sentence | *Add* the detergent. *Close* the lid. |
-| Sequence words | *first, next, then, after that, finally* |
-| Quantities and settings | *about 30 g of detergent*, *a 40 °C wash* |
-| Warning | *Do not overload the drum; the clothes will not rinse.* |
-| Result | *The machine will beep when the cycle ends.* |
-
-```figure caption="Washing clothes in a machine, as a flow of steps. A flow chart is the clearest way to check that no step is missing and none is out of order."
-fig, ax = flow([("Sort", "by colour"), ("Load", "the drum"),
-                ("Add", "detergent"), ("Choose", "the programme"),
-                ("Start", "and wait"), ("Dry", "in the sun")],
-               note="one step, one sentence, in this order")
+```figure caption="The seven steps in order. Instructions are always numbered and begin with a verb."
+fig, ax = flow(["Sort", "Load", "Soap", "Start", "Cycle", "Temp", "Clean"],
+               figsize=(5.2, 1.85))
 ```
 
-::: note Activity — instructions that actually work
-Write six steps for a task you can do well: making tea, mending a puncture,
-charging a solar lamp, planting a sapling. Give your steps to a partner who
-must do **exactly** what is written, nothing more. Most first drafts fail at
-one step — rewrite until a stranger could follow it.
+### Vocabulary (Exercise A)
+
+a–v (appliance: a device for a specific task), b–i (agitate: make something
+move around by shaking), c–ii (shrink), d–vi (detergent: a water-soluble
+cleaning substance), e–iv (dump: put down carelessly), f–iii (mould: a fungus).
+
+### Comprehension (Exercise B) — model answers
+
+**a. What is a washing machine?** It is a home appliance that does the laundry
+automatically, without anyone having to supervise it.
+
+**b. Why is it necessary to separate the laundry?** Different fabrics and
+colours need different cycles and temperatures; sorting stops colours running
+and protects delicate clothes from damage.
+
+**c. How can the user maximise the cleanliness of clothes?** By choosing the
+correct washing cycle and water temperature according to the fabric care label.
+
+**d. Mention the effects of overloading.** The clothes are not washed as well as
+they should be.
+
+**e. Why should we clean a washing machine regularly?** To keep it fresh and to
+prevent mould from growing inside it.
+
+**f. Is the text useful for you? How?** Yes. It teaches me to use a washing
+machine safely and correctly, so that clothes get clean without shrinking or
+fading and energy is saved.
+
+## 3.6 Writing II: Preparing a set of instructions
+
+- Give a **title** (*How to…*) and, if needed, a list of things required.
+- **Number** the steps in the right order.
+- Begin each step with an **imperative verb**: *Pour, Add, Stir, Press*.
+- Keep each step short; add warnings with *Make sure…* / *Do not…*.
+
+::: example Model answer — How to prepare sel roti (project work)
+**Things needed:** 2 cups of rice soaked overnight, ½ cup sugar, 2 tablespoons
+ghee, a little water or milk, oil for frying.
+
+1. Drain the soaked rice and grind it into a smooth, thick paste.
+2. Add the sugar and ghee and mix well; add a little water so that the batter
+   flows slowly.
+3. Leave the batter to rest for about half an hour.
+4. Heat the oil in a deep pan on a medium flame.
+5. Pour the batter into the oil in a ring shape, by hand or from a cone.
+6. Turn the roti with a stick when the lower side is golden brown.
+7. Take it out, let the extra oil drain, and serve warm.
+
+*Make sure the oil is hot enough before you pour; otherwise the roti will soak
+up oil.*
 :::
 
-::: example A public announcement, annotated
-> *May I have your attention, please.* *(opening)*
-> *The bus to Birgunj, due to leave at 7 a.m., will now leave at 7.45 a.m.*
-> *(what and when)*
-> *This is because of road repairs near Hetauda.* *(reason)*
-> *Passengers are requested to stay near Gate 2.* *(what to do)*
-> *We are sorry for the inconvenience.* *(apology)*
+## 3.7 Punctuation (Extra bit): comma, semicolon, colon
 
-Five elements, in that order. An announcement that gives no reason, or no
-instruction, always sounds incomplete.
-:::
+| Mark | Use | Example |
+|---|---|---|
+| comma (,) | items in a list; after linking phrases; before quoted speech; after *yes/no* | *On the other hand, phones have some disadvantages.* |
+| semicolon (;) | joins two closely related complete sentences; separates list items that already have commas | *I am going abroad this year; I will study there.* |
+| colon (:) | introduces a list or an explanation | *I need to buy: milk, bread and vegetables.* |
 
 ## Chapter summary
 
-- An announcement gives one piece of information in a hurry and answers what,
-  where, when, who and what to do.
-- It has a heading, the information, the action and the issuer — and no
-  greeting or closing.
-- Instructions use the imperative and must be in the correct order, because
-  each step depends on the one before it.
-- Reported yes/no questions are joined with **if** or **whether**, lose the
-  question mark and use statement word order.
-- Reported speech moves the tense one step back and changes the pronoun and the
-  time words.
-- The letter **r** is pronounced when a vowel follows it (*red*, *road*) and is
-  silent when it is at the end of a word or before a consonant (*car*, *park*
-  in standard British English).
+- Announcements give *what, when, where, who* and end with a request and thanks.
+- Flight RA-402, Kathmandu → New Delhi: seatbelts, baggage under seat or
+  overhead, seat upright, gadgets off, no smoking.
+- Parents Day: 22nd March, 11 a.m., Assembly Hall, 42nd anniversary, chief guest
+  the Mayor of Bardaghat (an ex-student).
+- Reported yes/no question: *asked + if/whether + subject + verb*, tense one
+  step back, no question mark.
+- Present reporting verb (*says/asks*) → no tense change.
+- Instructions: title, numbered steps, imperative verbs, warnings.
+- Washing: separate → load → detergent → turn on → cycle → temperature → clean.
 
 ## Practice questions
 
 **Reading**
 
-1. What are the five questions every announcement must answer? <span class="marks">[5]</span>
-2. Why should you read the care label before washing a garment? <span class="marks">[2]</span>
-3. Give two reasons why the drum should not be overloaded. <span class="marks">[2]</span>
+1. Read the practice announcement and answer. <span class="marks">[5]</span>
 
-::: note Answers
-**1.** What is happening; where; when; who is affected; and what they should do
-(plus who issued it and the date).
-**2.** The label gives the highest temperature the fabric can take and warns
-about garments that must not be machine-washed at all. Ignoring it shrinks or
-ruins the garment.
-**3.** An overloaded drum does not let the clothes move, so they stay dirty; and
-the extra weight strains the motor and can damage the machine.
+   > *Attention, please! The Kathmandu–Pokhara bus No. 3, scheduled to leave at
+   > 7:00 a.m., will now leave at 8:30 a.m. because of a landslide at
+   > Mugling. Passengers are requested to wait in the waiting hall and keep
+   > their tickets with them. We are sorry for the inconvenience.*
+
+   (a) Where is the bus going? (b) What was its original time? (c) How late
+   will it leave? (d) Why is it late? (e) Where should passengers wait?
+
+::: note Answers — Reading
+**1.** (a) From Kathmandu to Pokhara. (b) 7:00 a.m. (c) One and a half hours
+late, at 8:30 a.m. (d) Because of a landslide at Mugling. (e) In the waiting
+hall.
 :::
 
 **Grammar**
 
-4. Report these questions, beginning with *He asked…*. <span class="marks">[5]</span>
-   (a) "Are you coming to the meeting?" (b) "Do you know the answer?"
-   (c) "Have you seen my bag?" (d) "Can you swim?" (e) "Will you help me
-   tomorrow?"
+2. Change into reported speech. <span class="marks">[5]</span>
+   (a) "Are you hungry?" Mother asked me. (b) "Did Hari pass the exam?" the
+   teacher asked. (c) "Can you help me?" she said to him. (d) "Have you seen my
+   bag?" Sita asked Ram. (e) "Will it rain today?" he asked.
 
-5. Punctuate these sentences correctly. <span class="marks">[3]</span>
-   (a) where are you going asked Mira (b) the machine is not working he said
-   (c) do not touch the drum said the technician it is still turning
-
-::: note Answers
-**4.** (a) He asked if I was coming to the meeting. (b) He asked if I knew the
-answer. (c) He asked if I had seen his bag. (d) He asked if I could swim.
-(e) He asked if I would help him the next day.
-**5.** (a) "Where are you going?" asked Mira. (b) "The machine is not working,"
-he said. (c) "Do not touch the drum," said the technician. "It is still
-turning."
+::: note Answers — Grammar
+**2.** (a) Mother asked me if I was hungry. (b) The teacher asked if Hari had
+passed the exam. (c) She asked him if he could help her. (d) Sita asked Ram if
+he had seen her bag. (e) He asked if it would rain that day.
 :::
 
 **Writing**
 
-6. Write an announcement for your school notice board informing students that
-   the school is closed for three days for Dashain. <span class="marks">[5]</span>
-7. Write six numbered instructions for charging a mobile phone safely. <span class="marks">[4]</span>
+3. Write an announcement about a blood donation programme in your school. <span class="marks">[5]</span>
+4. Write instructions on how to make a cup of tea. <span class="marks">[5]</span>
 
-::: note Answers
-**6.** Include a heading (DASHAIN HOLIDAY), the dates on which the school is
-closed and the date on which it reopens, the fact that all classes are
-cancelled and that extra classes will be held afterwards, and the issuer.
-**7.** Sample: 1. Use the charger that came with the phone. 2. Check that the
-cable is not cut or frayed. 3. Plug the charger into the socket first, then
-into the phone. 4. Do not leave the phone charging overnight on a bed or a
-pillow. 5. Unplug the charger when the battery reaches 100 %. 6. Never charge a
-phone while it is inside a bag where heat cannot escape.
-:::
-
-**Extra practice**
-
-**Group B (2 marks each)**
-
-**11.** Turn into an instruction: *The detergent should be added to the drawer.*
-**12.** Write a two-sentence public announcement about a cancelled sports day.
-
-**Group C (4 marks)**
-
-**13.** Write instructions in six steps for using a mobile banking application to
-    send money, including one warning.
-
-::: note Extra practice — answers
-**11.** *Add the detergent to the drawer.*
-**12.** e.g. *May I have your attention, please. Today's inter-house sports day
-has been postponed to Friday because of heavy rain; students should report to
-their class teachers at 10 a.m. as usual.*
-**13.** Marks: six imperative steps in a sensible order (open the app, log in
-with the PIN, choose *send money*, enter the account number and amount, check
-the name shown, confirm with the password or fingerprint); sequence words; one
-clear warning (never share the PIN or one-time password with anyone, and check
-the account number twice because a transfer cannot be reversed).
-:::
-
-## Objective practice
-
-**Choose the correct answer.** <span class="marks">[5×1=5]</span>
-
-**1.** Instructions are written mainly in the
-   (a) imperative (b) past tense (c) passive voice (d) first person
-**2.** The correct order word for the last step is
-   (a) first (b) next (c) meanwhile (d) finally
-**3.** A public announcement should include
-   (a) the reason and what to do (b) the writer's opinion (c) a story (d) a poem
-**4.** *Add the detergent to the drawer* is
-   (a) a question (b) an instruction (c) a report (d) a request letter
-**5.** Which is **not** needed in instructions?
-   (a) sequence words (b) quantities (c) a warning (d) personal feelings
-
-::: note Objective practice — answers
-**1.** (a) — the imperative. **2.** (d) — *finally*. **3.** (a) — reason and instruction. **4.** (b) — an instruction. **5.** (d) — feelings belong in a diary, not in instructions.
+::: note Answers — Writing
+**3.** Heading; *We are pleased to announce…*; organiser (e.g. Junior Red Cross
+Circle with Nepal Red Cross Society); date, time, place; who can donate (healthy
+people aged 18–60 — teachers, parents); request to take part; thanks and name.
+**4.** Title, things needed (water, tea leaves, milk, sugar), 5–7 numbered steps
+starting with verbs (*Boil… Add… Simmer… Pour… Strain… Serve*), one safety
+warning.
 :::

@@ -11,19 +11,55 @@ export function detectQuality() {
   const cores = navigator.hardwareConcurrency || 4;
   const saveData = !!(navigator.connection && navigator.connection.saveData);
   const reducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const dpr = window.devicePixelRatio || 1;
   let tier = 'high';
   if (saveData || reducedMotion || (mobile && (mem <= 2 || cores <= 4))) tier = 'low';
   else if (mobile || mem <= 4 || cores <= 4) tier = 'medium';
   return {
     mobile,
     tier,
-    pixelRatio: Math.min(window.devicePixelRatio || 1, tier === 'low' ? 1 : tier === 'medium' ? 1.5 : 2),
-    antialias: tier !== 'low',
+    pixelRatio: Math.min(dpr, tier === 'low' ? 1 : tier === 'medium' ? 1.5 : 2),
+    // Drawing-buffer budget in pixels. A dense laptop panel at 2x asks for four times the pixels of
+    // 1x for a difference the eye cannot see at arm's length; the budget keeps sharpness where it
+    // shows and stops the GPU from shading pixels nobody resolves.
+    maxPixels: tier === 'low' ? 0.9e6 : tier === 'medium' ? 1.6e6 : 2.6e6,
+    // MSAA only where pixels are big enough for stair-steps to show.
+    antialias: tier !== 'low' && dpr < 1.5,
     shadows: tier === 'high',
     segments: tier === 'low' ? 16 : tier === 'medium' ? 24 : 48,
     saveData,
     reducedMotion,
   };
+}
+
+// ---------------------------------------------------------------------------
+// Cheaper soft shadows
+// ---------------------------------------------------------------------------
+// three's PCF and PCF-soft filters both read the shadow map 16-17 times per pixel per light. The
+// depth texture is sampled with hardware comparison and bilinear filtering, so each read is already
+// a 2x2 filtered test: four reads on a rotated grid give the same penumbra for a quarter of the cost.
+let SHADOW_PATCHED = false;
+function patchShadowFilter() {
+  if (SHADOW_PATCHED) return;
+  SHADOW_PATCHED = true;
+  const chunk = THREE.ShaderChunk.shadowmap_pars_fragment;
+  const a = chunk.indexOf('#if defined( SHADOWMAP_TYPE_PCF )');
+  const b = a < 0 ? -1 : chunk.indexOf('#elif defined( SHADOWMAP_TYPE_VSM )', a);
+  if (a < 0 || b < 0) return;
+  THREE.ShaderChunk.shadowmap_pars_fragment = chunk.slice(0, a) + `#if defined( SHADOWMAP_TYPE_PCF ) || defined( SHADOWMAP_TYPE_PCF_SOFT )
+			vec2 texelSize = vec2( 1.0 ) / shadowMapSize;
+			#if defined( SHADOWMAP_TYPE_PCF_SOFT )
+			vec2 k = texelSize;
+			#else
+			vec2 k = texelSize * max( shadowRadius * 0.6, 0.75 );
+			#endif
+			shadow = (
+				texture2DCompare( shadowMap, shadowCoord.xy + vec2( -0.5, -1.5 ) * k, shadowCoord.z ) +
+				texture2DCompare( shadowMap, shadowCoord.xy + vec2( 1.5, -0.5 ) * k, shadowCoord.z ) +
+				texture2DCompare( shadowMap, shadowCoord.xy + vec2( 0.5, 1.5 ) * k, shadowCoord.z ) +
+				texture2DCompare( shadowMap, shadowCoord.xy + vec2( -1.5, 0.5 ) * k, shadowCoord.z )
+			) * 0.25;
+		` + chunk.slice(b);
 }
 
 // ---------------------------------------------------------------------------
@@ -160,10 +196,11 @@ export function makeContactShadow(opts = {}) {
 
 export function createEngine(stage, opts = {}) {
   const quality = opts.quality || detectQuality();
+  patchShadowFilter();
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
-      antialias: quality.antialias,
+      antialias: opts.antialias ?? quality.antialias,
       alpha: opts.alpha !== false,
       powerPreference: quality.tier === 'low' ? 'default' : 'high-performance',
       stencil: false,
@@ -210,9 +247,14 @@ export function createEngine(stage, opts = {}) {
   const clock = new THREE.Clock();
   const resizeFns = [];
 
+  const maxPixels = quality.maxPixels || 2.6e6;
+  let ratio = quality.pixelRatio;
+  let appliedRatio = 0;
   function resize() {
     const w = stage.clientWidth || 1;
     const h = stage.clientHeight || 1;
+    const r = Math.max(0.5, Math.min(ratio, Math.sqrt(maxPixels / (w * h))));
+    if (r !== appliedRatio) { appliedRatio = r; renderer.setPixelRatio(r); }
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h, false);
@@ -237,42 +279,83 @@ export function createEngine(stage, opts = {}) {
   }
   document.addEventListener('visibilitychange', onVisibility);
 
-  // Adaptive resolution. Every few seconds the governor looks at how long frames actually
-  // took: a phone that cannot hold ~40 fps renders at a lower pixel ratio (the scene stays the
-  // same, it is just drawn on fewer pixels), and a fast device climbs back to full sharpness.
-  // Low-tier devices are also capped at 30 fps, which halves the battery the sim costs.
+  // Adaptive resolution. The governor learns the display's refresh interval, and when frames start
+  // missing it (the GPU cannot keep up), it renders on fewer pixels in proportion to the overrun.
+  // Once frames have been on time for a while it probes one step sharper; a probe that brings the
+  // misses back is undone and the next probe waits twice as long. Low tier is capped at 30 fps.
   const maxRatio = quality.pixelRatio;
-  const minRatio = Math.min(maxRatio, quality.tier === 'high' ? 1 : 0.75);
-  let ratio = maxRatio;
-  let budgetSum = 0;
-  let warm = false;
-  let calm = 0;
-  let budgetN = 0;
+  const minRatio = Math.max(0.5, maxRatio * (quality.tier === 'high' ? 0.6 : 0.5));
+  let refresh = 1000 / 60;
   let lastFrameAt = 0;
   let liteTick = 0;
+  let winSum = 0; let winN = 0; let winMiss = 0;
+  let onTime = 0; let probeFrom = 0; let probeAt = 0; let backoff = 4000; let since = 0;
   const frameInterval = quality.tier === 'low' ? 1000 / 31 : 0;
-  function govern(ms) {
-    if (window.__ixNoGovern) return;
-    budgetSum += ms; budgetN += 1;
-    if (budgetN < (warm ? 90 : 30)) return;
-    const avg = budgetSum / budgetN;
-    budgetSum = 0; budgetN = 0;
-    let next = ratio;
-    if (avg > 21 && ratio > minRatio) { next = Math.max(minRatio, ratio - (avg > 40 ? 0.5 : 0.25)); calm = 0; }
-    else if (avg < 12.5 && ratio < maxRatio) { calm++; if (calm >= 2) { next = Math.min(maxRatio, ratio + 0.25); calm = 0; } }
-    else calm = 0;
-    warm = true;
-    if (next !== ratio) { ratio = next; renderer.setPixelRatio(ratio); resize(); }
+  function setRatio(r) {
+    r = Math.round(Math.max(minRatio, Math.min(maxRatio, r)) * 20) / 20;
+    if (r === ratio) return false;
+    ratio = r; resize(); return true;
+  }
+  function govern(ms, now) {
+    if (window.__ixNoGovern || ms > 250) return;
+    if (ms > 4 && ms < refresh * 0.97 && !frameInterval) refresh = refresh * 0.9 + ms * 0.1;
+    const budget = frameInterval || refresh;
+    winSum += ms; winN += 1; if (ms > budget * 1.45) winMiss += 1;
+    if (winN < 24) return;
+    const avg = winSum / winN; const missRate = winMiss / winN;
+    winSum = 0; winN = 0; winMiss = 0;
+    if (missRate > 0.25 && avg > budget * 1.2) {
+      onTime = 0;
+      if (probeFrom && now - probeAt < 3000) { setRatio(probeFrom); backoff = Math.min(60000, backoff * 2); probeFrom = 0; since = now; return; }
+      probeFrom = 0;
+      setRatio(ratio * Math.max(0.7, Math.sqrt(budget / avg)));
+      since = now;
+    } else if (missRate < 0.05) {
+      onTime += 1;
+      if (probeFrom && now - probeAt > 3000) { probeFrom = 0; backoff = 4000; }
+      if (!probeFrom && ratio < maxRatio && now - since > backoff) {
+        const from = ratio;
+        if (setRatio(ratio + 0.1)) { probeFrom = from; probeAt = now; since = now; }
+      }
+    } else onTime = 0;
+  }
+
+  // Shadow maps are re-rendered only when a caster, or the light, has moved. A lab bench where only
+  // a pipette changes position pays for one shadow pass when the pipette moves, not sixty a second.
+  let shadowSig = NaN;
+  const sigCasters = [];
+  function shadowSignature() {
+    let sig = 0;
+    sigCasters.length = 0;
+    scene.traverseVisible((o) => { if (o.castShadow || o.isLight) sigCasters.push(o); });
+    for (let i = 0; i < sigCasters.length; i++) {
+      const o = sigCasters[i]; const e = o.matrixWorld.elements;
+      sig += (e[0] + e[5] * 3 + e[10] * 5 + e[12] * 7 + e[13] * 11 + e[14] * 13 + e[1] * 17 + e[8] * 19) * (i + 1);
+      if (o.isInstancedMesh) sig += o.instanceMatrix.version * 23 + o.count * 29;
+      if (o.geometry) { const pa = o.geometry.attributes.position; sig += (o.geometry.id * 43 + (pa ? pa.version * 47 : 0) + (o.geometry.drawRange.count % 1e6) * 53) * (i + 1); }
+      if (o.isLight && o.target) { const t = o.target.matrixWorld.elements; sig += (t[12] * 31 + t[13] * 37 + t[14] * 41) * (i + 1); }
+      if (o.userData.dynamicShadow) sig += performance.now();
+    }
+    return sig + sigCasters.length * 1e-3;
+  }
+  function updateShadows() {
+    const sm = renderer.shadowMap;
+    if (!sm.enabled || opts.shadowCache === false) return;
+    if (sm.autoUpdate) { sm.autoUpdate = false; sm.needsUpdate = true; shadowSig = NaN; return; }
+    scene.updateMatrixWorld();
+    const sig = shadowSignature();
+    if (sig !== shadowSig) { shadowSig = sig; sm.needsUpdate = true; }
   }
 
   function frame(now) {
     rafId = requestAnimationFrame(frame);
     if (frameInterval && now - lastFrameAt < frameInterval) return;
-    if (lastFrameAt) govern(now - lastFrameAt);
+    if (lastFrameAt) govern(now - lastFrameAt, now);
     lastFrameAt = now;
     const dt = Math.min(clock.getDelta(), 0.1);
     if (updateFn) updateFn(dt, clock.elapsedTime);
     if (opts.lite && (liteTick++ % 90 === 0)) liteScene(scene, { env: opts.envIntensity });
+    updateShadows();
     renderer.render(scene, camera);
   }
 
@@ -288,7 +371,7 @@ export function createEngine(stage, opts = {}) {
     }
   }
 
-  return {
+  const api = {
     THREE,
     scene,
     camera,
@@ -299,7 +382,8 @@ export function createEngine(stage, opts = {}) {
     onResize(fn) { resizeFns.push(fn); fn(stage.clientWidth || 1, stage.clientHeight || 1); },
     start() { running = true; syncLoop(); },
     stop() { running = false; syncLoop(); },
-    renderOnce() { renderer.render(scene, camera); },
+    renderOnce() { updateShadows(); renderer.render(scene, camera); },
+    get pixelRatio() { return appliedRatio; },
     dispose() {
       disposed = true;
       running = false;
@@ -319,8 +403,11 @@ export function createEngine(stage, opts = {}) {
       });
       renderer.dispose();
       if (renderer.domElement.parentNode) renderer.domElement.parentNode.removeChild(renderer.domElement);
+      if (stage.__engine === api) delete stage.__engine;
     },
   };
+  stage.__engine = api;
+  return api;
 }
 
 export function createOrbitControls(camera, dom, opts = {}) {

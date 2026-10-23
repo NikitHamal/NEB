@@ -217,6 +217,9 @@ The deploy script (`backend_python/scratch/deploy.ps1`) handles:
 
 **Do NOT manually SCP individual files or run SSH commands for deployment.** Use `deploy.ps1` instead. Manual SCP/SSH should only be used for quick debugging (e.g., checking logs, running Django shell queries).
 
+### Delta deploys (deploy.ps1, rewritten Oct 2026)
+`deploy.ps1` keeps `.deploy_manifest.json` (relpath → MD5) on the server and only zips/streams **changed** files (the server kills SCP/SFTP, so everything still goes over one SSH exec channel). It also **skips** `pip install` (unless `requirements.txt` changed), `collectstatic` (unless `web/static/` changed; `--clear` when files were removed), `manage.py check` + `migrate` + thumbnail backfill (unless `.py` changed), and the daphne restart (unless `.py` changed). LSAPI workers are recycled whenever anything changed. First run after the rewrite does a full upload to seed the manifest; a killed deploy self-heals because the manifest only lands after a successful unzip. The old `public/static/web/*` copy step was removed — WhiteNoise serves `/static/` from `staticfiles/` (the copies were never served and errored on `profile_art`). If a deploy is killed mid-run, just re-run `deploy.ps1` — the diff converges.
+
 ### CRITICAL: .env File Overrides settings.py Defaults
 The `.env` file at `/home/consicac/nebians_api/.env` is loaded by `dotenv` in `settings.py`. **Environment variables override `settings.py` defaults.** If you change a default value in `settings.py` but the `.env` still has the old value, the `.env` wins.
 

@@ -8,11 +8,9 @@ import com.neb.ians.data.news.NewsDetail
 import com.neb.ians.data.repository.CacheBus
 import com.neb.ians.data.repository.NewsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import java.net.URLDecoder
@@ -27,8 +25,6 @@ data class NewsDetailUiState(
     val comments: List<NewsComment> = emptyList(),
     val commentsLoading: Boolean = true,
     val commentSort: String = "oldest",
-    val commentDraft: String = "",
-    val threadDraft: String = "",
     val isPostingComment: Boolean = false,
     val snackbarMessage: String? = null
 ) {
@@ -78,6 +74,13 @@ class NewsDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(NewsDetailUiState(slug = slug))
     val uiState: StateFlow<NewsDetailUiState> = _uiState.asStateFlow()
 
+    // The composers' text lives apart from the screen state, so typing does not rebuild the
+    // article and its comments on every keystroke.
+    private val _commentDraft = MutableStateFlow("")
+    val commentDraft: StateFlow<String> = _commentDraft.asStateFlow()
+    private val _threadDraft = MutableStateFlow("")
+    val threadDraft: StateFlow<String> = _threadDraft.asStateFlow()
+
     // One in-flight like per comment: rapid taps are ignored instead of
     // stacking server toggles that flip the liked state back and forth.
     private val processingCommentLikes = mutableSetOf<String>()
@@ -93,21 +96,19 @@ class NewsDetailViewModel @Inject constructor(
 
     /** Cache-first with silent background updates: when the repository's SWR
      * refresh lands fresher detail/comments, re-read them (cache-only). */
-    @OptIn(FlowPreview::class)
     private fun collectCacheSignals() {
         viewModelScope.launch {
-            cacheBus.signals
-                .debounce(400)
-                .collect { key ->
-                    when (key) {
-                        CacheBus.PREFIX_NEWS_DETAIL + slug ->
-                            newsRepository.getAnnouncementDetail(slug, cacheOnly = true).onSuccess { detail ->
-                                _uiState.update { it.copy(detail = detail, isLoading = false, error = null) }
-                            }
-                        CacheBus.PREFIX_NEWS_COMMENTS + slug ->
-                            newsRepository.getComments(slug, cacheOnly = true).onSuccess { comments ->
-                                _uiState.update { it.copy(comments = comments, commentsLoading = false) }
-                            }
+            cacheBus.batches()
+                .collect { keys ->
+                    if (CacheBus.PREFIX_NEWS_DETAIL + slug in keys) {
+                        newsRepository.getAnnouncementDetail(slug, cacheOnly = true).onSuccess { detail ->
+                            _uiState.update { it.copy(detail = detail, isLoading = false, error = null) }
+                        }
+                    }
+                    if (CacheBus.PREFIX_NEWS_COMMENTS + slug in keys) {
+                        newsRepository.getComments(slug, cacheOnly = true).onSuccess { comments ->
+                            _uiState.update { it.copy(comments = comments, commentsLoading = false) }
+                        }
                     }
                 }
         }
@@ -116,11 +117,11 @@ class NewsDetailViewModel @Inject constructor(
     fun retry() = load(forceRefresh = true)
 
     fun onCommentDraftChange(value: String) {
-        _uiState.update { it.copy(commentDraft = value.take(4000)) }
+        _commentDraft.value = value.take(4000)
     }
 
     fun onThreadDraftChange(value: String) {
-        _uiState.update { it.copy(threadDraft = value.take(4000)) }
+        _threadDraft.value = value.take(4000)
     }
 
     fun setCommentSort(sort: String) {
@@ -128,7 +129,7 @@ class NewsDetailViewModel @Inject constructor(
     }
 
     fun postComment() {
-        val text = _uiState.value.commentDraft.trim()
+        val text = _commentDraft.value.trim()
         if (text.isBlank() || _uiState.value.isPostingComment) return
         viewModelScope.launch {
             _uiState.update { it.copy(isPostingComment = true) }
@@ -137,10 +138,10 @@ class NewsDetailViewModel @Inject constructor(
                     _uiState.update {
                         it.copy(
                             comments = it.comments.filterNot { current -> current.id == comment.id } + comment,
-                            commentDraft = "",
                             isPostingComment = false
                         )
                     }
+                    _commentDraft.value = ""
                 }
                 .onFailure { error ->
                     _uiState.update {
@@ -155,7 +156,7 @@ class NewsDetailViewModel @Inject constructor(
 
     /** Thread composer: posts a reply under the given parent comment. */
     fun postThreadReply(parentCommentId: String, onSuccess: () -> Unit = {}) {
-        val text = _uiState.value.threadDraft.trim()
+        val text = _threadDraft.value.trim()
         if (text.isBlank() || _uiState.value.isPostingComment) return
         viewModelScope.launch {
             _uiState.update { it.copy(isPostingComment = true) }
@@ -169,10 +170,10 @@ class NewsDetailViewModel @Inject constructor(
                         }
                         state.copy(
                             comments = bumped.filterNot { current -> current.id == comment.id } + comment,
-                            threadDraft = "",
                             isPostingComment = false
                         )
                     }
+                    _threadDraft.value = ""
                     onSuccess()
                 }
                 .onFailure { error ->

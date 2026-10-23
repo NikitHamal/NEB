@@ -1,0 +1,120 @@
+{
+ "book": "bio12",
+ "units": [
+  {
+   "no": 1,
+   "title": "Plant Anatomy",
+   "area": "Botany",
+   "words": 7565,
+   "read_min": 42,
+   "figures": 16,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Plant Physiology",
+   "area": "Botany",
+   "words": 11970,
+   "read_min": 66,
+   "figures": 11,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Genetics",
+   "area": "Botany",
+   "words": 8982,
+   "read_min": 50,
+   "figures": 15,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Embryology",
+   "area": "Botany",
+   "words": 4986,
+   "read_min": 28,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Biotechnology",
+   "area": "Botany",
+   "words": 6231,
+   "read_min": 35,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Animal Tissues",
+   "area": "Zoology",
+   "words": 5057,
+   "read_min": 28,
+   "figures": 20,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Developmental Biology",
+   "area": "Zoology",
+   "words": 4511,
+   "read_min": 25,
+   "figures": 10,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Human Biology",
+   "area": "Zoology",
+   "words": 13524,
+   "read_min": 75,
+   "figures": 25,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Human Population and Health Disorders",
+   "area": "Zoology",
+   "words": 4716,
+   "read_min": 26,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Applied Biology",
+   "area": "Zoology",
+   "words": 10441,
+   "read_min": 58,
+   "figures": 18,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank12",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Biology: Unit-wise Objective Question Bank",
+   "words": 10992,
+   "read_min": 61
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Biology: Unit-wise Subjective Question Bank",
+   "words": 15222,
+   "read_min": 85
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Biology: Model Question Sets and Predicted Questions",
+   "words": 9460,
+   "read_min": 53
+  }
+ ],
+ "guide": "The NEB Grade 12 Examination: Pattern, Grid and Strategy"
+}

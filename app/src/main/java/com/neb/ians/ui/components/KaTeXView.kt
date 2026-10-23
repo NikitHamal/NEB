@@ -46,13 +46,15 @@ private val LatexCommandRegex = Regex(
     """\\(frac|dfrac|tfrac|sqrt|int|iint|oint|sum|prod|lim|infty|partial|nabla|vec|hat|bar|dot|ddot|overline|underline|binom|begin|end|left|right|cdot|times|div|pm|mp|leq|geq|neq|approx|equiv|propto|alpha|beta|gamma|delta|epsilon|zeta|eta|theta|iota|kappa|lambda|mu|nu|xi|rho|sigma|tau|phi|chi|psi|omega|Gamma|Delta|Theta|Lambda|Sigma|Phi|Psi|Omega|ce|text|mathrm|mathbf|mathbb)\b"""
 )
 
+private val DigitMinusDigitRegex = Regex("""\d\s*-\s*\d""")
+
 private val InlineDollarRegex = Regex("""(?<!\\)\$([^$\n]{1,200})\$""")
 
 private fun looksLikeMath(candidate: String): Boolean {
     val s = candidate.trim()
     if (s.isEmpty() || s.length > 80) return false
     if (s.contains('\\')) return true
-    val hasOperator = s.any { it in "=+*/^_<>" } || Regex("""\d\s*-\s*\d""").containsMatchIn(s)
+    val hasOperator = s.any { it in "=+*/^_<>" } || DigitMinusDigitRegex.containsMatchIn(s)
     if (!hasOperator) return false
     return s.any { it.isDigit() || it.isLetter() }
 }
@@ -181,6 +183,8 @@ fun KaTeXMathView(
                     }
                 }
 
+                // tagged here so the first update does not load the same page (and KaTeX) twice
+                tag = htmlData
                 loadDataWithBaseURL(
                     "file:///android_asset/katex/",
                     htmlData,

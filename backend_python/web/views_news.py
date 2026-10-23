@@ -126,7 +126,7 @@ def news_detail(request, slug):
     top_level_replies, children_map, all_usernames = _serialize_blog_comments(a, user_id)
     comment_count = len(top_level_replies) + sum(len(v) for v in children_map.values())
 
-    related = Announcement.objects.filter(
+    related = Announcement.objects.select_related('author').filter(
         status='published', category=a.category
     ).exclude(pk=a.id).order_by('-published_at')[:4]
     related_items = [_serialize_announcement(r) for r in related]
@@ -255,10 +255,10 @@ def ajax_blog_comment(request):
 
 def results_guide(request):
     """Interactive step-by-step guide for checking NEB results + grade calculator."""
-    pinned = Announcement.objects.filter(
+    pinned = Announcement.objects.select_related('author').filter(
         status='published', category='exam_results', is_pinned=True
     ).order_by('-published_at')[:1]
-    recent_results_news = Announcement.objects.filter(
+    recent_results_news = Announcement.objects.select_related('author').filter(
         status='published', category='exam_results'
     ).order_by('-published_at')[:6]
 

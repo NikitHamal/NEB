@@ -23,7 +23,6 @@ import com.neb.ians.data.repository.ResourceRepository
 import com.neb.ians.data.repository.ResourcesResult
 import com.neb.ians.data.repository.ForumPostsResult
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.Job
@@ -138,40 +137,38 @@ class HomeViewModel @Inject constructor(
      * fresher data into the offline cache, quietly re-read it and update the
      * UI — no manual pull-to-refresh needed.
      */
-    @OptIn(FlowPreview::class)
     private fun collectCacheSignals() {
         viewModelScope.launch {
-            cacheBus.signals
-                .debounce(400)
-                .collect { key ->
-                    when {
-                        key.startsWith(CacheBus.PREFIX_SUGGESTED) ->
-                            feedRepository.getSuggestedFeed(cacheOnly = true).onSuccess { items ->
-                                appCache.suggestedItems = items
-                                _suggestedItems.value = items
-                            }
-                        key.startsWith(CacheBus.PREFIX_RESOURCES) -> {
-                            resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true)
-                                .onSuccess { result ->
-                                    _recentResources.update { current ->
-                                        val merged = mergeHead(result.resources, current) { it.id }
-                                        if (merged == current) current else merged.also { appCache.recentResources = it }
-                                    }
-                                }
-                            resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true)
-                                .onSuccess { result ->
-                                    appCache.popularResources = result.resources
-                                    _popularResources.value = result.resources
-                                }
+            cacheBus.batches()
+                .collect { keys ->
+                    if (keys.any { it.startsWith(CacheBus.PREFIX_SUGGESTED) }) {
+                        feedRepository.getSuggestedFeed(cacheOnly = true).onSuccess { items ->
+                            appCache.suggestedItems = items
+                            _suggestedItems.value = items
                         }
-                        key.startsWith(CacheBus.PREFIX_POSTS_LIST) ->
-                            forumRepository.getPosts(page = 1, cacheOnly = true)
-                                .onSuccess { result ->
-                                    _recentPosts.update { current ->
-                                        val merged = mergeHead(result.posts, current) { it.id }
-                                        if (merged == current) current else merged.also { appCache.recentPosts = it }
-                                    }
+                    }
+                    if (keys.any { it.startsWith(CacheBus.PREFIX_RESOURCES) }) {
+                        resourceRepository.getResources(sort = "newest", page = 1, cacheOnly = true)
+                            .onSuccess { result ->
+                                _recentResources.update { current ->
+                                    val merged = mergeHead(result.resources, current) { it.id }
+                                    if (merged == current) current else merged.also { appCache.recentResources = it }
                                 }
+                            }
+                        resourceRepository.getResources(sort = "trending", page = 1, cacheOnly = true)
+                            .onSuccess { result ->
+                                appCache.popularResources = result.resources
+                                _popularResources.value = result.resources
+                            }
+                    }
+                    if (keys.any { it.startsWith(CacheBus.PREFIX_POSTS_LIST) }) {
+                        forumRepository.getPosts(page = 1, cacheOnly = true)
+                            .onSuccess { result ->
+                                _recentPosts.update { current ->
+                                    val merged = mergeHead(result.posts, current) { it.id }
+                                    if (merged == current) current else merged.also { appCache.recentPosts = it }
+                                }
+                            }
                     }
                 }
         }
@@ -214,10 +211,11 @@ class HomeViewModel @Inject constructor(
             val postId = (payload["post_id"] as? kotlinx.serialization.json.JsonPrimitive)?.contentOrNull ?: return
             val count = (payload["thumbs_up_count"] as? kotlinx.serialization.json.JsonPrimitive)?.intOrNull ?: return
             if (processingPostLikes.contains(postId)) return
+            // likes arrive for posts all over the site; most are not in this feed
             _recentPosts.update { posts ->
-                val updated = posts.map { post ->
-                    if (post.id == postId) post.copy(thumbsUpCount = count) else post
-                }
+                val i = posts.indexOfFirst { it.id == postId }
+                if (i < 0 || posts[i].thumbsUpCount == count) return@update posts
+                val updated = posts.toMutableList().also { it[i] = posts[i].copy(thumbsUpCount = count) }
                 appCache.recentPosts = updated
                 updated
             }
@@ -259,10 +257,10 @@ class HomeViewModel @Inject constructor(
             }
 
             try {
-                if (authRepository.getBearerToken() != null) {
-                    try {
-                        authRepository.refreshProfile()
-                    } catch (_: Exception) {}
+                // MainActivity refreshes the profile at launch and signing in caches it, so only a
+                // pull-to-refresh asks again, and the feed requests never wait behind it
+                if (forceRefresh && authRepository.getBearerToken() != null) {
+                    viewModelScope.launch { authRepository.refreshProfile() }
                 }
                 val results = coroutineScope {
                     val resources = async { resourceRepository.getResources(sort = "newest", page = 1, forceRefresh = forceRefresh) }

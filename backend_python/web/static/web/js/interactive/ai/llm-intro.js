@@ -1,13 +1,15 @@
 /**
- * How language models work — a tiny language model you can watch. Text is split into tokens
- * (here, words and punctuation, each with its ID in the vocabulary), and the model predicts a
- * probability for every possible next token from counts of what followed the same one or two
- * tokens in its training text (a trigram model backed off to bigrams). Temperature reshapes those
- * probabilities before sampling. Tap a candidate to choose it yourself, or let it generate.
- * Real models do the same next-token step with a neural network that attends to the whole context.
+ * How language models work, in 3D — a tiny language model you can watch. Text is split into
+ * tokens (here, words and punctuation, each with its ID in the vocabulary) that sit as tiles on a
+ * track, with an empty slot for the next one. The model gives every possible next token a
+ * probability from counts of what followed the same one or two tokens in its training text (a
+ * trigram model backed off to bigrams); the arcs show which tokens it looked at, and the candidates
+ * stand on columns as tall as their probability. Temperature reshapes those probabilities before
+ * sampling. Tap a candidate to choose it yourself, or let it generate. Real models do the same
+ * next-token step with a neural network that attends to the whole context.
  */
-import { createKit, T, Spring, fmt, clamp, text, pill, withAlpha, card } from '../core/kit2d.js';
 import { createPanel, createHud } from '../core/sim-ui.js';
+import { createStudio, framer, slabCard, meshDrag, THREE } from './ai3d/stage.js';
 
 const CORPUS = `the cat sat on the mat . the dog sat on the rug . the cat chased the mouse . the dog chased the cat .
 a cat is a small animal . a dog is a loyal friend . the sun rises in the east . the moon rises at night .
@@ -28,32 +30,101 @@ for (let i = 0; i < TOK.length - 1; i++) {
 }
 const COLORS = ['#dbeafe', '#fce7f3', '#dcfce7', '#fef3c7', '#ede9fe', '#cffafe', '#ffe4e6', '#e0e7ff'];
 
+const SHOW = 9;            // token tiles kept on the track
+const SLOT_X = 2.2, TRACK_Z = -0.9, CAND_Z = 0.9;
+const TILE_H = 0.62;
+
 export default function init(stage) {
-  const k = createKit(stage, { trackPointer: true, label: 'Tokens of a sentence and a tiny language model\'s next-token probabilities' });
-  const hud = createHud(stage);
-  const badge = hud.badge('Tap a candidate word to add it', '#7c3aed');
+  const S = createStudio(stage, { camera: [0, 5.4, 7.4], target: [0, 0.8, 0.2], maxDistance: 22 });
+  if (!S) return null;
+  const { engine, scene, camera, controls } = S;
 
   let tokens = ['the', 'cat'], temp = 1, gen = false, genT = 0, genCount = 0, src = 'trigram';
   let cands = [], seen = [];
-  const grow = new Spring(0, 200, 16);
 
+  // ---- the track, the slot, the attention arcs ----
+  const track = new THREE.Mesh(new THREE.BoxGeometry(12, 0.08, 1.1), new THREE.MeshStandardMaterial({ color: 0x1e2440, roughness: 0.6, metalness: 0 }));
+  track.position.set(-1.6, 0.04, TRACK_Z); track.receiveShadow = true; scene.add(track);
+  const glowMat = new THREE.MeshBasicMaterial({ color: 0xa78bfa, toneMapped: false });
+  const slot = new THREE.Group(); slot.position.set(SLOT_X, 0.45, TRACK_Z); slot.rotation.x = -0.45; scene.add(slot);
+  for (const [w, h, x, y] of [[1.0, 0.03, 0, TILE_H / 2], [1.0, 0.03, 0, -TILE_H / 2], [0.03, TILE_H, -0.5, 0], [0.03, TILE_H, 0.5, 0]]) {
+    const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, 0.03), glowMat); m.position.set(x, y, 0); slot.add(m);
+  }
+  const qCard = slabCard({ w: 0.5, h: 0.4, depth: 0.02, color: 0x312e81, draw: (g, w, h) => { g.fillStyle = '#c4b5fd'; g.font = '800 72px Poppins, system-ui, sans-serif'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('?', w / 2, h / 2 + 4); } });
+  slot.add(qCard.mesh);
+  const arcs = [0, 1].map(() => { const m = new THREE.Mesh(new THREE.BufferGeometry(), new THREE.MeshBasicMaterial({ color: 0xa78bfa, toneMapped: false, transparent: true })); scene.add(m); return m; });
+
+  // ---- token tiles ----
+  const tiles = new Map();   // token index → { card, x }
+  function tileFor(i) {
+    let t = tiles.get(i);
+    if (t) return t;
+    const word = tokens[i], known = ID.has(word);
+    const w = 0.5 + Math.max(word.length, 3) * 0.13;
+    const card = slabCard({
+      w, h: TILE_H, depth: 0.06, color: new THREE.Color(COLORS[(ID.get(word) ?? 7) % COLORS.length]).getHex(),
+      draw: (g, cw, ch) => {
+        g.textAlign = 'center'; g.textBaseline = 'middle';
+        g.font = '700 54px Poppins, system-ui, sans-serif'; g.fillStyle = '#0f172a'; g.fillText(word, cw / 2, ch * 0.42);
+        g.font = '600 30px Poppins, system-ui, sans-serif'; g.fillStyle = known ? '#64748b' : '#dc2626'; g.fillText(known ? `#${ID.get(word)}` : 'unknown', cw / 2, ch * 0.8);
+      },
+    });
+    card.mesh.rotation.x = -0.45; scene.add(card.mesh);
+    t = { card, w, x: SLOT_X - 1, y: 0.45, used: 0 };
+    tiles.set(i, t);
+    return t;
+  }
+  function dropTiles() {
+    for (const [i, t] of tiles) if (i >= tokens.length || i < tokens.length - SHOW - 1) { scene.remove(t.card.mesh); t.card.dispose(); tiles.delete(i); }
+  }
+
+  // ---- candidates on columns ----
+  const colGeo = new THREE.CylinderGeometry(0.07, 0.07, 1, 16); colGeo.translate(0, 0.5, 0);
+  const candObjs = [];
+  for (let i = 0; i < 8; i++) {
+    const col = new THREE.Mesh(colGeo, new THREE.MeshStandardMaterial({ color: 0x7c3aed, emissive: 0x7c3aed, emissiveIntensity: 0.35, roughness: 0.3 }));
+    col.castShadow = true; scene.add(col);
+    const o = { col, word: '', p: 0, shown: 0, card: null };
+    o.card = slabCard({
+      w: 0.92, h: 0.5, depth: 0.05, color: 0xf8fafc,
+      draw: (g, cw, ch) => {
+        if (!o.word) return;
+        g.textAlign = 'center'; g.textBaseline = 'middle';
+        g.font = '700 50px Poppins, system-ui, sans-serif'; g.fillStyle = '#0f172a'; g.fillText(o.word, cw / 2, ch * 0.4);
+        g.font = '700 32px Poppins, system-ui, sans-serif'; g.fillStyle = '#7c3aed'; g.fillText(`${(o.p * 100).toFixed(1)} %`, cw / 2, ch * 0.78);
+      },
+    });
+    o.card.mesh.userData.cand = o; scene.add(o.card.mesh);
+    candObjs.push(o);
+  }
+  const flyer = { t: -1, from: new THREE.Vector3(), word: '', card: null };
+
+  // ---- panel ----
+  const hud = createHud(stage);
+  const badge = hud.badge('Tap a candidate word to add it', '#7c3aed');
   const panel = createPanel(stage, { title: 'Next-token prediction' });
   const row = document.createElement('div'); row.className = 'ix-ctrl-row';
   const input = document.createElement('input'); input.type = 'text'; input.value = tokens.join(' '); input.setAttribute('aria-label', 'Prompt');
   input.style.cssText = 'font:500 .85rem var(--md-font,Poppins,sans-serif);padding:9px 11px;border-radius:10px;border:1px solid #d9e1ee;background:#f6f8fc;color:#172033;width:100%;box-sizing:border-box';
   const lab = document.createElement('span'); lab.className = 'ix-ctrl-label'; lab.textContent = 'Your prompt (type, then press Enter)';
   row.appendChild(lab); row.appendChild(input); panel.body.appendChild(row);
-  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { tokens = tokenize(input.value); predict(); k.invalidate(); } });
-  input.addEventListener('change', () => { tokens = tokenize(input.value); predict(); k.invalidate(); });
-  panel.chips({ label: 'Start with', options: ['the cat', 'ai is', 'the sun', 'i love', 'a model'].map((s) => ({ value: s, label: s })), value: 'the cat', onChange: (s) => { tokens = s.split(' '); sync(); } });
-  panel.slider({ label: 'Temperature', min: 0.1, max: 2, step: 0.05, value: temp, format: (v) => v.toFixed(2), onChange: (v) => { temp = v; predict(); k.invalidate(); } });
-  const [genB] = panel.buttonRow([{ label: 'Generate', icon: 'auto_awesome', onClick: () => { gen = !gen; genCount = 0; genB.setLabel(gen ? 'Stop' : 'Generate'); k.animate(true); } }, { label: 'Undo', icon: 'undo', variant: 'ghost', onClick: () => { if (tokens.length > 1) tokens.pop(); sync(); } }]);
+  const setPrompt = () => { clearTiles(); tokens = tokenize(input.value); if (!tokens.length) tokens = ['the']; predict(); };
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') setPrompt(); });
+  input.addEventListener('change', setPrompt);
+  panel.chips({ label: 'Start with', options: ['the cat', 'ai is', 'the sun', 'i love', 'a model'].map((s) => ({ value: s, label: s })), value: 'the cat', onChange: (s) => { clearTiles(); tokens = s.split(' '); sync(); } });
+  panel.slider({ label: 'Temperature', min: 0.1, max: 2, step: 0.05, value: temp, format: (v) => v.toFixed(2), onChange: (v) => { temp = v; predict(); } });
+  const [genB] = panel.buttonRow([
+    { label: 'Generate', icon: 'auto_awesome', onClick: () => { gen = !gen; genCount = 0; genB.setLabel(gen ? 'Stop' : 'Generate'); } },
+    { label: 'Undo', icon: 'undo', variant: 'ghost', onClick: () => { if (tokens.length > 1) tokens.pop(); dropTiles(); sync(); } },
+  ]);
   const st = panel.stats([{ key: 'n', label: 'Tokens' }, { key: 'vocab', label: 'Vocabulary' }, { key: 'src', label: 'Prediction uses' }, { key: 'top', label: 'Most likely next' }]);
+  const seenInfo = panel.info('');
   panel.info('Low temperature always picks the most likely word (safe but repetitive); high temperature flattens the odds (creative, then nonsense). Training is counting (here) or adjusting billions of weights (real models); prompting is just running the prediction again and again.');
   st.vocab.set(`${VOCAB.length} tokens`);
 
+  function clearTiles() { for (const t of tiles.values()) { scene.remove(t.card.mesh); t.card.dispose(); } tiles.clear(); }
   function tokenize(s) { return s.toLowerCase().replace(/([.,!?])/g, ' $1 ').split(/\s+/).filter(Boolean); }
-  function sync() { input.value = tokens.join(' ').replace(/ \./g, '.'); predict(); k.invalidate(); }
+  function sync() { input.value = tokens.join(' ').replace(/ \./g, '.'); predict(); }
   function predict() {
     const counts = new Map();
     src = 'nothing it knows';
@@ -61,78 +132,102 @@ export default function init(stage) {
     if (n >= 2 && TRI.has(tokens[n - 2] + ' ' + tokens[n - 1])) { for (const [w, c] of TRI.get(tokens[n - 2] + ' ' + tokens[n - 1])) counts.set(w, (counts.get(w) || 0) + c * 4); src = 'last 2 tokens'; }
     if (n >= 1 && BI.has(tokens[n - 1])) { for (const [w, c] of BI.get(tokens[n - 1])) counts.set(w, (counts.get(w) || 0) + c); if (src === 'nothing it knows') src = 'last token only'; }
     seen = [];
-    if (n >= 2 && TRI.has(tokens[n - 2] + ' ' + tokens[n - 1])) for (const [w, c] of TRI.get(tokens[n - 2] + ' ' + tokens[n - 1])) seen.push(`"${tokens[n - 2]} ${tokens[n - 1]}" was followed by "${w}" ${c}×`);
-    if (n >= 1 && BI.has(tokens[n - 1])) for (const [w, c] of BI.get(tokens[n - 1])) seen.push(`"${tokens[n - 1]}" was followed by "${w}" ${c}×`);
+    if (n >= 2 && TRI.has(tokens[n - 2] + ' ' + tokens[n - 1])) for (const [w, c] of TRI.get(tokens[n - 2] + ' ' + tokens[n - 1])) seen.push(`"${tokens[n - 2]} ${tokens[n - 1]}" → "${w}" ${c}×`);
+    if (n >= 1 && BI.has(tokens[n - 1])) for (const [w, c] of BI.get(tokens[n - 1])) seen.push(`"${tokens[n - 1]}" → "${w}" ${c}×`);
     if (!counts.size) for (const w of ['the', 'a', 'i']) counts.set(w, 1);
-    let list = [...counts.entries()].map(([w, c]) => ({ w, p: Math.pow(c, 1 / temp) }));
+    const list = [...counts.entries()].map(([w, c]) => ({ w, p: Math.pow(c, 1 / temp) }));
     const z = list.reduce((s, x) => s + x.p, 0); list.forEach((x) => { x.p /= z; });
     list.sort((a, b) => b.p - a.p);
     cands = list.slice(0, 8);
-    grow.set(0); grow.to(1); k.animate(true);
+    candObjs.forEach((o, i) => { const c = cands[i]; o.word = c ? c.w : ''; o.p = c ? c.p : 0; o.card.redraw(); o.card.mesh.visible = !!c; o.col.visible = !!c; });
+    seenInfo.set(seen.length ? `What it saw in its training text: ${seen.slice(0, 6).join(' · ')}` : 'It has never seen these words together, so it falls back to common words.');
+    buildArcs();
   }
-  function sample() { let r = Math.random(), acc = 0; for (const c of cands) { acc += c.p; if (r <= acc) return c.w; } return cands[0].w; }
+  function sample() { const r = Math.random(); let acc = 0; for (const c of cands) { acc += c.p; if (r <= acc) return c.w; } return cands[0].w; }
 
-  let tx = 0, ty = 0, bx = 0, by = 0, bw = 0, rowH = 30;
-  const hits = [];
-  k.onResize((w, h) => { tx = 16; ty = 58; bx = 16; bw = w - 32; by = k.small ? 170 : 200; rowH = Math.min(36, (h - by - 20) / 8); });
-  k.drag({ hit: (x, y) => { for (const hh of hits) if (x > hh.x && x < hh.x + hh.w && y > hh.y && y < hh.y + hh.h) return 1; return false; }, up: (x, y) => { for (const hh of hits) if (x > hh.x && x < hh.x + hh.w && y > hh.y && y < hh.y + hh.h) { tokens.push(hh.wd); sync(); return; } }, cursor: 'pointer', cursorActive: 'pointer' });
-
-  k.frame((ctx, dt, w, h) => {
-    if (gen) { genT += dt; if (genT > 0.7) { genT = 0; tokens.push(sample()); genCount++; sync(); if (genCount >= 14 || tokens.length > 40) { gen = false; genB.setLabel('Generate'); } } }
-    const g = grow.step(dt);
-    ctx.fillStyle = '#f7f8fd'; ctx.fillRect(0, 0, w, h);
-    // token chips (wrap)
-    text(ctx, 'Tokens and their IDs', tx, ty - 12, T.ink2, 10.5, 700);
-    ctx.font = `600 ${k.small ? 12 : 14}px ${T.font}`;
-    let x = tx, y = ty;
-    const pos = [];
-    const start = Math.max(0, tokens.length - 30);
-    for (let i = start; i < tokens.length; i++) {
-      const t2 = tokens[i], tw = ctx.measureText(t2).width + 22;
-      if (x + tw > w - 16) { x = tx; y += k.small ? 40 : 46; }
-      const used = (src === 'last 2 tokens' && i >= tokens.length - 2) || (src === 'last token only' && i === tokens.length - 1);
-      ctx.fillStyle = COLORS[(ID.get(t2) ?? 7) % COLORS.length]; ctx.strokeStyle = used ? '#7c3aed' : 'rgba(23,32,51,0.12)'; ctx.lineWidth = used ? 2 : 1;
-      ctx.beginPath(); ctx.roundRect(x, y, tw, k.small ? 24 : 28, 7); ctx.fill(); ctx.stroke();
-      text(ctx, t2, x + tw / 2, y + (k.small ? 17 : 19), T.ink, k.small ? 12 : 14, 600, 'center');
-      text(ctx, ID.has(t2) ? `#${ID.get(t2)}` : 'unknown', x + tw / 2, y + (k.small ? 35 : 40), ID.has(t2) ? T.mute : T.red, 8.5, 600, 'center');
-      pos.push(x + tw / 2, y);
-      x += tw + 6;
-    }
-    // the slot for the next token
-    ctx.setLineDash([4, 4]); ctx.strokeStyle = '#7c3aed'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.roundRect(x, y, 46, k.small ? 24 : 28, 7); ctx.stroke(); ctx.setLineDash([]);
-    text(ctx, '?', x + 23, y + (k.small ? 17 : 19), '#7c3aed', 14, 800, 'center');
-    // attention arcs from the slot to the tokens it uses
+  function tilePos(i) {
+    // the newest token sits just left of the slot; earlier ones further left
+    let x = SLOT_X - 0.55;
+    for (let j = tokens.length - 1; j > i; j--) x -= tileFor(j).w + 0.12;
+    return x - tileFor(i).w / 2;
+  }
+  function buildArcs() {
     const nUsed = src === 'last 2 tokens' ? 2 : src === 'last token only' ? 1 : 0;
-    for (let u = 0; u < nUsed; u++) {
-      const pi = pos.length - 2 - u * 2; if (pi < 0) break;
-      const sx = x + 23, sy = y, ex = pos[pi], ey = pos[pi + 1];
-      ctx.strokeStyle = withAlpha('#7c3aed', u === 0 ? 0.8 : 0.45); ctx.lineWidth = u === 0 ? 3 : 2;
-      ctx.beginPath(); ctx.moveTo(sx, sy); ctx.quadraticCurveTo((sx + ex) / 2, Math.min(sy, ey) - 26 - u * 10, ex, ey); ctx.stroke();
-    }
-    // candidates
-    text(ctx, `Next-token probabilities (temperature ${fmt(temp, 2)}) — tap one to choose it`, bx, by - 12, T.ink2, 10.5, 700);
-    hits.length = 0;
-    for (let i = 0; i < cands.length; i++) {
-      const c = cands[i], yy = by + i * rowH, bwid = (bw - 120) * c.p * grow.x;
-      const hot = k.pointer.inside && k.pointer.y > yy && k.pointer.y < yy + rowH - 4 && k.pointer.x > bx && k.pointer.x < bx + bw;
-      ctx.fillStyle = hot ? '#f1edff' : '#ffffff'; ctx.strokeStyle = 'rgba(23,32,51,0.08)'; ctx.beginPath(); ctx.roundRect(bx, yy, bw, rowH - 4, 8); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = withAlpha('#7c3aed', i === 0 ? 0.75 : 0.4); ctx.beginPath(); ctx.roundRect(bx + 100, yy + 5, Math.max(2, bwid), rowH - 14, 5); ctx.fill();
-      text(ctx, c.w, bx + 12, yy + rowH * 0.62, T.ink, 13, 700);
-      text(ctx, `${fmt(c.p * 100, 1)} %`, bx + bw - 10, yy + rowH * 0.62, T.ink2, 11, 600, 'right');
-      hits.push({ x: bx, y: yy, w: bw, h: rowH - 4, wd: c.w });
-    }
-    const sy = by + cands.length * rowH + 16;
-    if (h - sy > 80 && seen.length) {
-      card(ctx, bx, sy, bw, Math.min(h - sy - 12, 26 + Math.min(seen.length, 8) * 18), 12);
-      text(ctx, 'What it saw in its training text', bx + 12, sy + 19, T.ink, 11, 700);
-      for (let i = 0; i < Math.min(seen.length, Math.floor((h - sy - 40) / 18), 8); i++) text(ctx, seen[i], bx + 12, sy + 40 + i * 18, T.ink2, 10.5, 500);
-    }
-    st.n.set(String(tokens.length)); st.src.set(src); st.top.set(cands.length ? `"${cands[0].w}" ${fmt(cands[0].p * 100, 0)} %` : '—');
-    badge.set(gen ? `Generating… ${genCount} new tokens` : src === 'nothing it knows' ? 'It has never seen these words: it can only guess common ones' : 'Tap a candidate word to add it');
-    k.animate(gen || g);
+    arcs.forEach((m, u) => {
+      m.visible = u < nUsed && tokens.length - 1 - u >= 0;
+      if (!m.visible) return;
+      const i = tokens.length - 1 - u, a = new THREE.Vector3(SLOT_X, 0.85, TRACK_Z - 0.1), b = new THREE.Vector3(tilePos(i), 0.85, TRACK_Z - 0.1);
+      const mid = a.clone().add(b).multiplyScalar(0.5); mid.y += 0.8 + u * 0.5;
+      m.geometry.dispose(); m.geometry = new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(a, mid, b), 40, u ? 0.022 : 0.034, 8, false);
+      m.material.opacity = u ? 0.55 : 0.95;
+    });
+  }
+
+  function choose(word, from) {
+    if (flyer.t >= 0) return;
+    flyer.t = 0; flyer.word = word; flyer.from.copy(from);
+    tokens.push(word); flyer.card = tileFor(tokens.length - 1); flyer.card.card.mesh.position.copy(from);
+    sync();
+  }
+
+  const drag = meshDrag(engine.canvas, camera, controls, {
+    objects: () => candObjs.filter((o) => o.card.mesh.visible).map((o) => o.card.mesh),
+    onDown: () => false,
+    onTap: (obj) => { if (obj && obj.userData.cand && !gen) choose(obj.userData.cand.word, obj.position); },
   });
 
+  let narrow = null, fit = null;
+  function layout() {
+    const nw = stage.clientWidth < 640;
+    if (nw === narrow) return;
+    narrow = nw;
+    fit = framer(stage, camera, controls, nw ? { width: 7.4, height: 7, center: [0.2, 0.8, 0.2] } : { width: 11.6, height: 5.5, center: [-0.2, 0.9, 0.1] });
+  }
+
   predict();
-  k.debug = { tokens: () => tokens.join(' '), cand: (i) => [bx + 40, by + i * rowH + rowH / 2], cands: () => cands.map((c) => c.w) };
-  return { dispose() { k.dispose(); panel.dispose(); hud.dispose(); } };
+  const tmp = new THREE.Vector3();
+  engine.setUpdate((dt) => {
+    dt = Math.min(dt, 0.05);
+    layout(); fit();
+    if (gen && flyer.t < 0) { genT += dt; if (genT > 0.75) { genT = 0; const w = sample(), o = candObjs.find((c) => c.word === w); choose(w, o ? o.card.mesh.position : tmp.set(0, 1, CAND_Z)); genCount++; if (genCount >= 14 || tokens.length > 40) { gen = false; genB.setLabel('Generate'); } } }
+    dropTiles();
+    // tiles glide along the track; the newest flies in from its column
+    const start = Math.max(0, tokens.length - SHOW);
+    for (let i = start; i < tokens.length; i++) {
+      const t = tileFor(i), goalX = tilePos(i);
+      if (flyer.t >= 0 && t === flyer.card) continue;
+      t.x += (goalX - t.x) * (1 - Math.exp(-dt * 8));
+      const fade = i - start < 1 && tokens.length > SHOW ? 0.6 : 1;
+      t.card.mesh.position.set(t.x, 0.45, TRACK_Z); t.card.mesh.scale.setScalar(fade);
+    }
+    if (flyer.t >= 0) {
+      flyer.t = Math.min(1, flyer.t + dt / 0.5);
+      const e = flyer.t * flyer.t * (3 - 2 * flyer.t), t = flyer.card, goal = tmp.set(tilePos(tokens.length - 1), 0.45, TRACK_Z);
+      t.card.mesh.position.lerpVectors(flyer.from, goal, e); t.card.mesh.position.y += Math.sin(Math.PI * e) * 0.9;
+      if (flyer.t >= 1) { t.x = goal.x; flyer.t = -1; buildArcs(); }
+    }
+    // candidates: a fan of columns in front, height = probability
+    const n = cands.length;
+    candObjs.forEach((o, i) => {
+      if (!o.card.mesh.visible) return;
+      o.shown += (o.p - o.shown) * (1 - Math.exp(-dt * 8));
+      const x = (i - (n - 1) / 2) * (narrow ? 0.74 : 1.02), z = CAND_Z + Math.abs(i - (n - 1) / 2) * (narrow ? 0.05 : 0.1), hgt = 0.08 + o.shown * 2.0;
+      o.col.position.set(x, 0, z); o.col.scale.y = hgt;
+      o.card.mesh.position.set(x, hgt + 0.28, z); o.card.mesh.rotation.set(-0.25, 0, 0); o.card.mesh.scale.setScalar(narrow ? 0.72 : 1);
+      o.col.material.emissiveIntensity = i === 0 ? 0.7 : 0.3;
+    });
+    qCard.mesh.rotation.y = Math.sin(performance.now() / 600) * 0.25;
+    controls.update(dt);
+    st.n.set(String(tokens.length)); st.src.set(src); st.top.set(cands.length ? `"${cands[0].w}" ${Math.round(cands[0].p * 100)} %` : '—');
+    badge.set(gen ? `Generating… ${genCount} new tokens` : src === 'nothing it knows' ? 'It has never seen these words: it can only guess common ones' : 'Tap a candidate word to add it');
+  });
+  engine.start();
+
+  stage.__llm = { tokens: () => tokens.join(' '), cands: () => cands.map((c) => c.w), pick: (i) => choose(cands[i].w, candObjs[i].card.mesh.position), gen: () => { gen = true; genB.setLabel('Stop'); } };
+  return {
+    dispose() {
+      drag.dispose(); clearTiles(); candObjs.forEach((o) => o.card.dispose()); qCard.dispose();
+      controls.dispose(); panel.dispose(); hud.dispose(); engine.dispose(); delete stage.__llm;
+    },
+  };
 }

@@ -15,7 +15,6 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.defaultMinSize
@@ -74,6 +73,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.platform.testTag
 import com.neb.ians.util.rememberTactileFeedback
 import com.neb.ians.util.TactileType
@@ -645,6 +645,22 @@ private fun formatFileSize(bytes: Long): String {
     }
 }
 
+/**
+ * Gives the card's banner its height from the card's own width, in the layout pass: a
+ * BoxWithConstraints did the same at the cost of a subcomposition for every card in a list.
+ */
+private fun Modifier.bannerBand(cardHeight: Dp?): Modifier = layout { measurable, constraints ->
+    val width = if (constraints.hasBoundedWidth) constraints.maxWidth.toDp() else Dp.Infinity
+    val band = if (cardHeight != null) {
+        (width * 0.46f).coerceAtMost(cardHeight * 0.52f).coerceAtLeast(72.dp)
+    } else {
+        (width * 0.46f).coerceIn(96.dp, 168.dp)
+    }
+    val h = band.roundToPx().coerceIn(constraints.minHeight, constraints.maxHeight)
+    val placeable = measurable.measure(constraints.copy(minHeight = h, maxHeight = h))
+    layout(placeable.width, placeable.height) { placeable.place(0, 0) }
+}
+
 @Composable
 fun WebResourceCard(
     resource: ApiResource,
@@ -689,117 +705,108 @@ fun WebResourceCard(
         // 110dp strip that looked right on a 220dp grid tile became a letterbox
         // slit on a tablet's 520dp row, and the drawings inside it size their
         // density off the box they are given — so the box has to be honest.
-        BoxWithConstraints(
-            modifier = Modifier.fillMaxWidth()
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .bannerBand(height)
         ) {
-            val bannerHeight = if (height != null) {
-                (maxWidth * 0.46f).coerceAtMost(height * 0.52f).coerceAtLeast(72.dp)
+            if (resource.thumbnailUrl.isNotBlank()) {
+                AsyncImage(
+                    model = resource.thumbnailUrl,
+                    contentDescription = resource.title,
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
             } else {
-                (maxWidth * 0.46f).coerceIn(96.dp, 168.dp)
+                ResourceBannerArt(
+                    seed = "${resource.id}|${resource.title}",
+                    subject = primarySubject,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(bannerHeight)
-            ) {
-                if (resource.thumbnailUrl.isNotBlank()) {
-                    AsyncImage(
-                        model = resource.thumbnailUrl,
-                        contentDescription = resource.title,
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-                } else {
-                    ResourceBannerArt(
-                        seed = "${resource.id}|${resource.title}",
-                        subject = primarySubject,
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
 
-                if (isVideo) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.22f)),
-                        contentAlignment = Alignment.Center
+            if (isVideo) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.22f)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Surface(
+                        shape = CircleShape,
+                        color = Color.White.copy(alpha = 0.9f),
+                        shadowElevation = 4.dp
                     ) {
-                        Surface(
-                            shape = CircleShape,
-                            color = Color.White.copy(alpha = 0.9f),
-                            shadowElevation = 4.dp
+                        Box(
+                            modifier = Modifier.size(40.dp),
+                            contentAlignment = Alignment.Center
                         ) {
-                            Box(
-                                modifier = Modifier.size(40.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Filled.PlayArrow,
-                                    contentDescription = "Play",
-                                    modifier = Modifier.size(28.dp),
-                                    tint = Color.Black
-                                )
-                            }
+                            Icon(
+                                imageVector = Icons.Filled.PlayArrow,
+                                contentDescription = "Play",
+                                modifier = Modifier.size(28.dp),
+                                tint = Color.Black
+                            )
                         }
                     }
                 }
+            }
 
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .padding(10.dp),
+                shape = WebPillShape,
+                color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
+            ) {
+                Text(
+                    text = resource.type.uppercase(),
+                    modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontWeight = FontWeight.Bold,
+                    maxLines = 1
+                )
+            }
+            if (resource.isPaid) {
                 Surface(
                     modifier = Modifier
-                        .align(Alignment.TopStart)
+                        .align(Alignment.TopEnd)
                         .padding(10.dp),
                     shape = WebPillShape,
-                    color = MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f)
+                    color = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.92f),
+                    shadowElevation = 2.dp
                 ) {
                     Text(
-                        text = resource.type.uppercase(),
+                        text = "Rs. ${resource.price.ifBlank { "0" }}",
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = MaterialTheme.colorScheme.inverseOnSurface,
                         fontWeight = FontWeight.Bold,
                         maxLines = 1
                     )
                 }
-                if (resource.isPaid) {
-                    Surface(
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(10.dp),
-                        shape = WebPillShape,
-                        color = MaterialTheme.colorScheme.inverseSurface.copy(alpha = 0.92f),
-                        shadowElevation = 2.dp
-                    ) {
-                        Text(
-                            text = "Rs. ${resource.price.ifBlank { "0" }}",
-                            modifier = Modifier.padding(horizontal = 9.dp, vertical = 4.dp),
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.inverseOnSurface,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 1
-                        )
-                    }
-                }
+            }
 
-                Surface(
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(10.dp)
-                        .size(28.dp),
-                    shape = CircleShape,
-                    color = subjectTheme.color,
-                    shadowElevation = 2.dp
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(10.dp)
+                    .size(28.dp),
+                shape = CircleShape,
+                color = subjectTheme.color,
+                shadowElevation = 2.dp
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize()
-                    ) {
-                        Icon(
-                            painter = painterResource(id = getSubjectIcon(primarySubject)),
-                            contentDescription = null,
-                            modifier = Modifier.size(14.dp),
-                            tint = Color.White
-                        )
-                    }
+                    Icon(
+                        painter = painterResource(id = getSubjectIcon(primarySubject)),
+                        contentDescription = null,
+                        modifier = Modifier.size(14.dp),
+                        tint = Color.White
+                    )
                 }
             }
         }

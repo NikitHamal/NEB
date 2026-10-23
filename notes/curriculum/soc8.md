@@ -1,7 +1,7 @@
-# SUBJECT: Social Studies and Human Value Education | GRADE: 8 | CODE: BEE-8 | WORKING_HOURS: 160
-# EXAM: Basic Education Examination (BEE), grade 8. The CDC basic-level assessment scheme gives continuous (internal) assessment 50 % weight and the external written paper 50 %; the local level (palika) conducts and marks it. The written paper asks objective, short-answer and long-answer questions. Practice sets here follow objective (1 mark), short answer (2 marks) and long answer (4 marks) unless your palika's grid says otherwise.
-# TEXTBOOK: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी; शिक्षक निर्देशिका २०८१ संस्करण) — 9 एकाइ, 41 पाठ. Unit titles, lesson titles and working hours are taken from the teacher's guide (2081); lesson titles below are a topic guide, not the official sub-topic text.
-# PART: Units
+# SUBJECT: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा | GRADE: 8 | CODE: BEE-8 | WORKING_HOURS: 160
+# EXAM: आधारभूत तह परीक्षा (कक्षा ८) — पाठ्यक्रम विकास केन्द्रको आधारभूत तह मूल्याङ्कन योजनाअनुसार आन्तरिक (निरन्तर) मूल्याङ्कनको भार ५० प्रतिशत र बाह्य लिखित परीक्षाको भार ५० प्रतिशत। स्थानीय तह (पालिका) ले परीक्षा सञ्चालन र मूल्याङ्कन गर्छ। लिखित परीक्षामा वस्तुगत, छोटो उत्तर र लामो उत्तरका प्रश्न सोधिन्छन्; यहाँका अभ्यास प्रश्न वस्तुगत (१ अङ्क), छोटो उत्तर (२ अङ्क) र लामो उत्तर (४ अङ्क) ढाँचामा छन्। आफ्नो पालिकाको विशिष्टीकरण तालिका फरक भए त्यसैलाई आधार मान्नुहोस्।
+# TEXTBOOK: सामाजिक अध्ययन तथा मानव मूल्य शिक्षा, कक्षा ८ (पाठ्यक्रम विकास केन्द्र, सानोठिमी; शिक्षक निर्देशिका २०८१ संस्करण) — ९ एकाइ, ४१ पाठ। एकाइ-शीर्षक, पाठ-शीर्षक र कार्यघण्टा शिक्षक निर्देशिका (२०८१) बाट लिइएका हुन्।
+# PART: एकाइ
 ## 1. हामी र हाम्रो समाज [16]
 - विकासको अवधारणा, महत्त्व र नेपालमा विकासका सम्भावना
 - नेपालको सङ्घीय राज्यको स्वरूप र सिद्धान्त

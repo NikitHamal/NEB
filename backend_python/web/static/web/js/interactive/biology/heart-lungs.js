@@ -1,6 +1,6 @@
 import { THREE, createEngine, createOrbitControls } from '../core/engine.js';
 import { createPanel, createHud, showInfoCard } from '../core/sim-ui.js';
-import { buildScene, backdrop } from './heartlungs/scene.js';
+import { buildScene, buildModels, backdrop } from './heartlungs/scene.js';
 import { PARTS, ANCHORS } from './heartlungs/heart-model.js';
 import { LOBES } from './heartlungs/lung-model.js';
 import { createBloodFlow, createAirFlow } from './heartlungs/flow.js';
@@ -159,8 +159,10 @@ export default function init(stage) {
     m.opacity = a;
   }
 
-  setTimeout(() => {
-    S = buildScene(quality);
+  let disposed = false;
+  buildModels(quality).then((models) => {
+    if (disposed) return;
+    S = buildScene(quality, models);
     scene.add(S.root);
     blood = createBloodFlow(quality);
     blood.mesh.visible = false;
@@ -176,7 +178,7 @@ export default function init(stage) {
     labels.add({ id: 'diaphragm', text: 'Diaphragm', anchor: new THREE.Vector3(-3.0, -8.0, 4.0), object: S.root, group: 'lung', minor: true });
     labels.add({ id: 'trachea', text: 'Trachea', anchor: new THREE.Vector3(0, 13.5, 0.2), object: S.root, group: 'air' });
     loading.remove();
-  }, 30);
+  });
 
   const LABEL_SET = {
     overview: (d) => ['aorta', 'svc', 'trunk', 'lv', 'rv', 'ra'].includes(d.id) || d.group === 'lung' || d.group === 'air',
@@ -246,6 +248,7 @@ export default function init(stage) {
   stage.__hl = { setView, pick, get scene() { return S; } };
   return {
     dispose() {
+      disposed = true;
       controls.dispose(); panel.dispose(); hud.dispose(); labels.dispose(); sound.dispose();
       if (blood) blood.dispose(); if (air) air.dispose(); if (S) S.dispose();
       engine.dispose();
