@@ -2547,6 +2547,19 @@
   "source": "Wikimedia Commons",
   "title": "Ethernet-media-converter-transceiver-0a"
  },
+ "cs10/python-idle": {
+  "author": "Максим Пе",
+  "bytes": 144891,
+  "credit": "Own work",
+  "fetched": "2026-10-23",
+  "file": "cs10/python-idle.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Python%27s_IDLE.png",
+  "sha1": "284f87ffb1c13da2",
+  "source": "Wikimedia Commons",
+  "title": "Python's IDLE"
+ },
  "cs10/rj45-pins": {
   "author": "Gutza , Mike1024",
   "bytes": 998011,
@@ -2572,6 +2585,19 @@
   "sha1": "b2c5145ff9377948",
   "source": "Wikimedia Commons",
   "title": "19-inch rackmount Ethernet switches and patch panels"
+ },
+ "cs10/turtle-robot": {
+  "author": "Valiant Technology Ltd.",
+  "bytes": 185400,
+  "credit": "Valiant Technology Ltd.",
+  "fetched": "2026-10-23",
+  "file": "cs10/turtle-robot.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Turtle_draw.jpg",
+  "sha1": "032ac251a166851e",
+  "source": "Wikimedia Commons",
+  "title": "Turtle draw"
  },
  "cs10/workbench": {
   "author": "MySQL",
