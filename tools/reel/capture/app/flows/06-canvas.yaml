@@ -23,20 +23,19 @@ name: Canvas boards
     commands:
       - tapOn: "Canvas title"
       - inputText: "Photosynthesis"
-      - tapOn:
-          text: "Create|Save|Open canvas"
-          optional: true
+      - tapOn: "Create & open"
 - waitForAnimationToEnd:
-    timeout: 6000
+    timeout: 8000
 - takeScreenshot: canvas-board
-- tapOn:
-    text: "Ask Neby to add a card…"
-    optional: true
-- inputText: "Photosynthesis: stages and equation"
+- tapOn: "Ask Neby to add a card…"
+- inputText: "Photosynthesis: stages and the equation"
 - tapOn:
     text: "Send prompt"
     optional: true
 - waitForAnimationToEnd:
-    timeout: 25000
+    timeout: 12000
+- takeScreenshot: canvas-ai-1
+- waitForAnimationToEnd:
+    timeout: 20000
 - takeScreenshot: canvas-ai
 - stopRecording

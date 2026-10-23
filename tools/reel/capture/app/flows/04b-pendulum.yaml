@@ -1,0 +1,52 @@
+appId: com.neb.ians
+name: 3D lab, pendulum
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 60000
+- tapOn:
+    text: "Library"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 4000
+- tapOn: "Interactive"
+- waitForAnimationToEnd:
+    timeout: 6000
+- scrollUntilVisible:
+    element:
+      text: "(?i)playground physics"
+    direction: DOWN
+    timeout: 15000
+- swipe:
+    from:
+      text: "(?i)playground physics"
+    direction: LEFT
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    text: "(?i)virtual physics.*"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: interactive-physics-course
+- scrollUntilVisible:
+    element:
+      text: "(?i).*pendulum.*"
+    direction: DOWN
+    timeout: 12000
+    optional: true
+- tapOn:
+    text: "(?i).*pendulum.*"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 12000
+- takeScreenshot: interactive-pendulum
+- startRecording: rec-pendulum
+- swipe:
+    start: "62%, 26%"
+    end: "38%, 30%"
+    duration: 1600
+- waitForAnimationToEnd:
+    timeout: 5000
+- stopRecording

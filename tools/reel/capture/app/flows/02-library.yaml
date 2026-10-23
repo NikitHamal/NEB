@@ -34,21 +34,26 @@ name: Library and the Syllabus hub
 - takeScreenshot: syllabus-hub
 - startRecording: rec-syllabus
 - tapOn:
-    text: "Class 8"
+    text: "8"
     optional: true
 - waitForAnimationToEnd:
     timeout: 2500
 - tapOn:
-    text: "Class 10"
+    text: "10"
     optional: true
 - waitForAnimationToEnd:
     timeout: 2500
 - tapOn:
-    text: "Class 11"
+    text: "11"
     optional: true
 - waitForAnimationToEnd:
     timeout: 3000
-- takeScreenshot: syllabus-class11
+- tapOn:
+    text: "12"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: syllabus-class12
 - tapOn:
     text: "Physics"
     index: 0

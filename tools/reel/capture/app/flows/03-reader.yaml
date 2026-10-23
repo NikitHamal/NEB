@@ -10,47 +10,42 @@ name: A syllabus chapter in the native reader
     index: 0
 - waitForAnimationToEnd:
     timeout: 4000
-- tapOn:
-    text: "Syllabus"
-    optional: true
+- tapOn: "Syllabus"
 - waitForAnimationToEnd:
     timeout: 4000
-- tapOn:
-    text: "Class 11"
-    optional: true
-- waitForAnimationToEnd:
-    timeout: 3000
+- scrollUntilVisible:
+    element:
+      text: "Physics"
+    direction: DOWN
+    timeout: 15000
 - tapOn:
     text: "Physics"
     index: 0
-    optional: true
 - waitForAnimationToEnd:
     timeout: 5000
-- scrollUntilVisible:
-    element:
-      text: "(?i).*curved mirror.*"
-    direction: DOWN
-    timeout: 20000
-    optional: true
-- tapOn:
-    text: "(?i).*curved mirror.*"
-    index: 0
-    optional: true
+- takeScreenshot: reader-subject
+- tapOn: "START HERE"
 - waitForAnimationToEnd:
-    timeout: 8000
+    timeout: 10000
 - takeScreenshot: reader-top
 - startRecording: rec-reader
 - swipe:
     start: "50%, 82%"
-    end: "50%, 32%"
-    duration: 1600
+    end: "50%, 34%"
+    duration: 1800
 - waitForAnimationToEnd:
     timeout: 2500
 - takeScreenshot: reader-mid
 - swipe:
     start: "50%, 82%"
-    end: "50%, 32%"
-    duration: 1600
+    end: "50%, 34%"
+    duration: 1800
+- waitForAnimationToEnd:
+    timeout: 2500
+- swipe:
+    start: "50%, 82%"
+    end: "50%, 34%"
+    duration: 1800
 - waitForAnimationToEnd:
     timeout: 2500
 - stopRecording

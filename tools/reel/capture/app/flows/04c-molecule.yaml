@@ -1,0 +1,46 @@
+appId: com.neb.ians
+name: 3D lab, molecule gallery
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 60000
+- tapOn:
+    text: "Library"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 4000
+- tapOn: "Interactive"
+- waitForAnimationToEnd:
+    timeout: 6000
+- scrollUntilVisible:
+    element:
+      text: "(?i)virtual chemistry.*"
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    text: "(?i)virtual chemistry.*"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: interactive-chemistry-course
+- scrollUntilVisible:
+    element:
+      text: "(?i).*molecule.*"
+    direction: DOWN
+    timeout: 12000
+    optional: true
+- tapOn:
+    text: "(?i).*molecule.*"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 12000
+- takeScreenshot: interactive-molecule
+- startRecording: rec-molecule
+- swipe:
+    start: "70%, 30%"
+    end: "30%, 34%"
+    duration: 2000
+- waitForAnimationToEnd:
+    timeout: 5000
+- stopRecording

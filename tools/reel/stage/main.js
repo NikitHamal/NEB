@@ -1,9 +1,6 @@
 'use strict';
 // Runtime: preload, then window.__seek(t) poses every scene for time t and resolves once images are decoded.
-const NEBY_USED = [
-  ['classic', ['wave', 'hop', 'think', 'talk', 'success', 'celebrate', 'blink', 'idle']],
-  ...LOOKS.map(([look, state]) => [look, [state]]),
-];
+const NEBY_USED = [['classic', ['wave', 'idle', 'celebrate']]];
 const world = document.getElementById('world');
 const flashEl = document.getElementById('flash');
 const grain = document.getElementById('grain');

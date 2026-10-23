@@ -71,15 +71,16 @@ name: The rebuilt PDF reader and its AI chat (05-pdf.pre.sh opens the resource f
 - waitForAnimationToEnd:
     timeout: 5000
 - takeScreenshot: pdf-ai-open
-- tapOn:
-    text: "(?i)ask.*|(?i).*message.*|(?i).*type.*"
-    index: 0
-    optional: true
+- tapOn: "Ask this PDF"
 - inputText: "Explain centripetal force in three short lines"
+- takeScreenshot: pdf-ai-typed
 - tapOn:
     text: "Send"
     optional: true
 - waitForAnimationToEnd:
-    timeout: 25000
+    timeout: 10000
+- takeScreenshot: pdf-ai-thinking
+- waitForAnimationToEnd:
+    timeout: 20000
 - takeScreenshot: pdf-ai-answer
 - stopRecording
