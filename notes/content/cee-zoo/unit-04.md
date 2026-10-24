@@ -114,8 +114,8 @@ ax.text(5.0, 0.75, "all stages haploid except zygote and ookinete", ha="center",
 4. **Gametogony.** After several cycles some merozoites develop into **gametocytes** inside RBCs. They do not divide further in man; they wait to be sucked up by a mosquito.
 
 The time from the bite to the first parasites in the blood is the **prepatent
-period**; to the first fever, the **incubation period** — usually about 10–14
-days for *P. vivax*.
+period**; to the first fever, the **incubation period** — usually about two
+weeks (12–17 days) for *P. vivax*.
 
 **B. In the female Anopheles — sexual phase**
 
@@ -334,17 +334,17 @@ mature before the ovaries — so **cross-fertilisation** is the rule.
 | **2 pairs of testes** in testis sacs | **10 and 11** | **1 pair of ovaries** (on septum 12/13) | **13** |
 | 2 pairs of seminal vesicles | 11 and 12 | ovarian funnels and oviducts | 13–14 |
 | vasa deferentia | 10 to 18 | **single female genital pore** | **14** |
-| 2 pairs of **prostate glands** | about 16/17 to 20/21 | **4 pairs of spermathecae** | **6, 7, 8, 9** |
+| 1 pair of large **prostate glands** | about 16/17 to 20/21 | **4 pairs of spermathecae** | **6, 7, 8, 9** |
 | male genital pores | **18** | | |
-| accessory glands (genital papillae) | **17 and 19** | | |
+| 2 pairs of accessory glands (open on the genital papillae) | **17 and 19** | | |
 
 **Copulation** (on damp nights): two worms join ventral surfaces head-to-tail
 and exchange sperm, which are stored in each other's **spermathecae**. Later the
 **clitellum secretes a cocoon**; as the worm wriggles backwards out of it, the
 cocoon collects **ova at segment 14** and **sperm from the spermathecae at
 segments 6–9**. **Fertilisation therefore takes place in the cocoon, outside the
-body (external)**. The cocoon is left in the soil; after about three weeks a few
-young worms (usually 1–4) hatch. **Development is direct — no larva.** Earthworms
+body (external)**. The cocoon is left in the soil; after about three weeks it
+releases 2–20 young worms (on average about four). **Development is direct — no larva.** Earthworms
 also **regenerate** lost parts.
 
 ::: caution Two marks that are regularly lost
