@@ -446,7 +446,9 @@ proteins with no nucleic acid** that cause scrapie in sheep, mad cow disease
 ::: tip Eliminating options on viruses
 If an option gives a virus both DNA and RNA, ribosomes, a cell wall,
 independent metabolism, or sensitivity to penicillin — strike it out. If it calls
-a virus a member of Monera — strike it out.
+a virus a member of Monera — strike it out. (Some question banks claim that the
+"leukoviruses" contain both; they are retroviruses whose genome is RNA, copied
+into DNA only inside the host cell.)
 :::
 
 ## Formula and fact sheet
@@ -527,8 +529,8 @@ a virus a member of Monera — strike it out.
    (a) chlorophyll *b* (b) fucoxanthin (c) c-phycocyanin (d) bacteriochlorophyll
 17. The term "contagium vivum fluidum" for the agent of tobacco mosaic was used by
    (a) D. Ivanowsky (b) W. M. Stanley (c) F. d'Hérelle (d) M. W. Beijerinck
-18. The nucleic acid of a virus is
-   (a) either DNA or RNA, never both (b) both DNA and RNA (c) always DNA (d) always RNA
+18. The genetic material of a virus is
+   (a) either DNA or RNA (b) both DNA and RNA together (c) always DNA (d) always RNA
 19. The protein coat of a virus is called the
    (a) envelope (b) nucleoid (c) capsid (d) peplomer
 20. Tobacco mosaic virus has
@@ -552,7 +554,7 @@ a virus a member of Monera — strike it out.
 **15.** (b) — Heterocysts lack photosystem II and have thick walls, so nitrogenase is protected from O₂. Akinetes are resting spores; hormogonia are fragments for propagation.
 **16.** (c) — c-Phycocyanin is the blue phycobilin. Cyanobacteria lack chlorophyll *b*; fucoxanthin is the pigment of brown algae.
 **17.** (d) — Beijerinck (1898) called it a contagious living fluid. Ivanowsky (1892) first showed it passes bacteria-proof filters; Stanley crystallised TMV in 1935.
-**18.** (a) — A virus carries DNA or RNA, never both. Many are DNA viruses (T4, pox) and many RNA viruses (TMV, HIV).
+**18.** (a) — A virus has a genome of DNA or of RNA, not both. Many are DNA viruses (T4, pox) and many RNA viruses (TMV, HIV).
 **19.** (c) — The capsid is made of capsomeres. The envelope is the extra lipid layer of some viruses; peplomers are its spikes.
 **20.** (b) — TMV is a rigid rod of 2130 capsomeres wound helically round single-stranded RNA.
 :::
