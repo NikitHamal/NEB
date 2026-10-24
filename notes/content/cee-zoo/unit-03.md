@@ -452,8 +452,8 @@ the **grey matter** and the autonomic nervous system. A **nerve** is a bundle of
 nerve fibres wrapped in connective tissue (endoneurium, perineurium,
 epineurium).
 
-**Neuroglia** — non-conducting supporting cells, about ten times as many as the
-neurons, which can still divide.
+**Neuroglia** — non-conducting supporting cells that make up about half the
+volume of nervous tissue and, unlike neurons, can still divide.
 
 | Glial cell | Job |
 |---|---|
