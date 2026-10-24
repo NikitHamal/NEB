@@ -227,3 +227,76 @@ def article_schema(item: dict, *, comment_count: int = 0) -> dict:
     if comment_count:
         node['commentCount'] = int(comment_count)
     return node
+
+
+def syllabus_course_schema(data: dict, url: str) -> dict:
+    """A Course for one syllabus subject page.
+
+    A syllabus is a course in schema.org's sense -- units, hours, a level --
+    and a Course result carries the units in the SERP. These 563 pages had no
+    structured data at all, and they are the pages people search for by name.
+    """
+    units = data.get('units') or []
+    node = {
+        '@context': 'https://schema.org',
+        '@type': 'Course',
+        '@id': url + '#course',
+        'name': '%s %s' % (data.get('grade_label') or '', data.get('name') or ''),
+        'description': ('Complete %s %s syllabus: %d units, every topic, working '
+                        'hours and exam pattern.'
+                        % (data.get('grade_label') or '', data.get('name') or '',
+                           len(units))),
+        'url': url,
+        'provider': {'@id': ORG_ID},
+        'inLanguage': 'ne' if data.get('lang') == 'ne' else 'en',
+        'isAccessibleForFree': True,
+        'educationalLevel': data.get('grade_label') or '',
+    }
+    if data.get('name'):
+        node['about'] = {'@type': 'Thing', 'name': data['name']}
+    hours = data.get('hours') or sum(u.get('hours') or 0 for u in units)
+    if hours:
+        node['timeRequired'] = 'PT%dH' % int(hours)
+    sections = [
+        {'@type': 'Syllabus', 'name': 'Unit %s: %s' % (u.get('no'), u.get('title') or '')}
+        for u in units[:40]
+    ]
+    if sections:
+        node['hasPart'] = sections
+    return node
+
+
+def chapter_schema(data: dict, doc: dict, kind: str, number, url: str) -> dict:
+    """A chapter, question bank or exam guide page.
+
+    ReadingMaterial is not a rich-result type, but it is what lets Google
+    connect a chapter to the Course it belongs to instead of treating 563
+    pages as unrelated documents.
+    """
+    name = doc.get('title') or 'Chapter'
+    node = {
+        '@context': 'https://schema.org',
+        '@type': 'LearningResource',
+        '@id': url + '#resource',
+        'url': url,
+        'name': name,
+        'description': ('%s %s %s on NEBians: %s' % (
+            data.get('grade_label') or '', data.get('name') or '',
+            'notes' if kind == 'unit' else ('questions' if kind == 'bank' else 'exam guide'),
+            name))[:300],
+        'learningResourceType': {'unit': 'Chapter notes', 'bank': 'Question bank',
+                                 'guide': 'Exam guide'}.get(kind, 'Notes'),
+        'educationalLevel': data.get('grade_label') or '',
+        'inLanguage': 'ne' if data.get('lang') == 'ne' else 'en',
+        'isAccessibleForFree': True,
+        'provider': {'@id': ORG_ID},
+        'isPartOf': {
+            '@type': 'Course',
+            '@id': '%s/app/syllabus/%s/%s/#course' % (
+                SITE, data.get('grade') or '', data.get('subject') or ''),
+            'name': '%s %s' % (data.get('grade_label') or '', data.get('name') or ''),
+        },
+    }
+    if isinstance(doc.get('read_min'), int) and doc['read_min']:
+        node['timeRequired'] = 'PT%dM' % doc['read_min']
+    return node

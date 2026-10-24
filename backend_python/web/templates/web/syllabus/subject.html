@@ -3,6 +3,13 @@
 {% block title %}{{ seo_title }}{% endblock %}
 {% block description %}{{ seo_description }}{% endblock %}
 {% block nav_library %}active{% endblock %}
+{% block head_extra %}
+{% comment %} Course + breadcrumb, built in views_syllabus via web/schema_forum.py.
+   A syllabus is a Course in schema.org's sense, and these are the pages people
+   search for by name. {% endcomment %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ syllabus_breadcrumb_json }}</script>
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ syllabus_course_json }}</script>
+{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">{% endblock %}
 {% block content %}
 <div class="md-container st-page" style="--syl-c: {{ syl.color }};" data-st-subject="{{ syl.grade }}/{{ syl.subject }}" data-st-units="{{ syl.unit_count }}">
