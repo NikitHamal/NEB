@@ -34,13 +34,15 @@ CARD_VERSION = 2
 # Static pages. `kicker` sits above the title in the subject accent, `meta` is
 # the dot-separated line under it, `hero` names a drawing in og_cards.HEROES.
 PAGES = {
+    # The address line at the foot already carries the domain, so the meta
+    # line here does not repeat it.
     'default': {
         'kicker': 'NEBians', 'title': "Nepal's Learning Community",
-        'meta': ('Free study material', 'nebians.consica.com.np'), 'hero': 'mark',
+        'meta': ('Free study material', 'Every subject, every level'), 'hero': 'mark',
     },
     'home': {
         'kicker': 'NEBians', 'title': "Nepal's Learning Community",
-        'meta': ('Free study material', 'nebians.consica.com.np'), 'hero': 'mark',
+        'meta': ('Free study material', 'Every subject, every level'), 'hero': 'mark',
     },
     'library': {
         'kicker': 'Library', 'title': 'Every paper, note and book in one place',
@@ -345,7 +347,7 @@ def _faq_card():
     from . import faq as faq_data
     return {
         'kicker': 'Help centre', 'title': 'Questions, answered.',
-        'meta': ('%d answers' % faq_data.question_count(), 'nebians.consica.com.np'),
+        'meta': ('%d answers' % faq_data.question_count(), 'Nepal'),
         'hero': 'question',
     }
 
