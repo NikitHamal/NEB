@@ -1,0 +1,664 @@
+{
+ "grade": "cee",
+ "grade_label": "CEE · MECEE-BL Medical Entrance",
+ "grade_label_ne": "CEE प्रवेश परीक्षा",
+ "short": "CEE",
+ "kind": "entrance",
+ "subject": "chemistry",
+ "name": "Chemistry",
+ "name_ne": "रसायन विज्ञान",
+ "icon": "experiment",
+ "group": "entrance",
+ "color": "#A8271F",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 50,
+ "exam": "3 hours, 200 single-best-answer MCQs with four options, 200 marks, 0.25 deducted per wrong answer, merit list from the 50th percentile | Zoology 40x1=40 | Botany 40x1=40 | Chemistry 50x1=50 | Physics 50x1=50 | Mental Agility Test 20x1=20",
+ "areas": [
+  "Physical Chemistry",
+  "Inorganic Chemistry",
+  "Organic Chemistry",
+  "Applied Chemistry",
+  "Analytical Chemistry"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Basic Concepts and Stoichiometry",
+   "hours": null,
+   "questions": 2,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Atoms, molecules, valency, radicals; relative atomic and molecular mass; the atomic mass unit",
+    "Chemical equations, empirical and molecular formulae, percentage composition",
+    "Dalton's atomic theory, the laws of stoichiometry and Avogadro's law",
+    "The mole concept, limiting reactant and percentage yield"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Atoms, molecules, valency and radicals; relative masses and the atomic mass unit"
+    },
+    {
+     "no": "1.2",
+     "title": "Chemical equations, empirical and molecular formulae, percentage composition"
+    },
+    {
+     "no": "1.3",
+     "title": "Dalton's atomic theory, the laws of stoichiometry and Avogadro's law"
+    },
+    {
+     "no": "1.4",
+     "title": "The mole concept, limiting reactant and percentage yield"
+    }
+   ],
+   "summary": [
+    "1 u = 1/12 of the mass of a ¹²C atom = 1.66 × 10⁻²⁴ g; relative atomic and molecular masses are unitless ratios; the tabulated atomic mass is an isotope-weighted average.",
+    "Formulae come from valencies by criss-cross; learn the radicals with their charges, and remember Hg₂²⁺ (Hg₂Cl₂), S₂O₃²⁻ and Cr₂O₇²⁻.",
+    "Percentage of an element = (atoms × A_r)/M × 100; urea is 46.7 % N, CuSO₄·5H₂O is 36.1 % water.",
+    "Empirical formula: % → ÷ A_r → ÷ smallest → whole numbers; molecular formula = n × empirical formula, with M = 2 × VD.",
+    "Lavoisier (mass), Proust (definite), Dalton (multiple), Richter (reciprocal), Gay-Lussac (gas volumes), Avogadro (equal volumes, equal molecules).",
+    "Dalton's indivisibility and identical-mass postulates failed (subatomic particles, isotopes, isobars); conservation of atoms in chemical change survives.",
+    "One mole = 6.022 × 10²³ entities (exact since 2019) = M grams = 22.4 L of gas at STP; n = m/M = N/NA = V/22.4.",
+    "Limiting reactant = smallest moles ÷ coefficient; it fixes the product. % yield = actual/theoretical × 100."
+   ],
+   "terms": [
+    "Atom and molecule",
+    "Radical",
+    "Atomic mass unit and relative atomic mass",
+    "Empirical and molecular formula",
+    "Avogadro's law (1811)",
+    "Mole (SI, 2019)",
+    "Limiting and excess reactant"
+   ],
+   "stats": {
+    "words": 7159,
+    "figures": 3,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Atomic Structure",
+   "hours": null,
+   "questions": 2,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Rutherford's and Bohr's atomic models; the spectrum of hydrogen",
+    "de Broglie's equation and Heisenberg's uncertainty principle",
+    "Orbitals and quantum numbers; the Aufbau principle, Pauli's exclusion principle and Hund's rule; electronic configuration"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Rutherford's and Bohr's atomic models; the spectrum of hydrogen"
+    },
+    {
+     "no": "2.2",
+     "title": "de Broglie's equation and Heisenberg's uncertainty principle"
+    },
+    {
+     "no": "2.3",
+     "title": "Orbitals and quantum numbers; Aufbau, Pauli and Hund; electronic configuration"
+    }
+   ],
+   "summary": [
+    "Rutherford: most of the atom is empty; positive charge and mass sit in a nucleus about 10⁻¹⁵ m across. The model fails on stability and on line spectra.",
+    "Bohr: stationary orbits with mvr = nh/2π; photons only on jumps, Δ E = hν. For one-electron species r ∝ n^2/Z, v ∝ Z/n, E = -13.6 Z^2/n^2 eV.",
+    "Hydrogen lines obey 1/λ = RH(1/n1^2 - 1/n2^2): Lyman (UV), Balmer (visible), Paschen, Brackett, Pfund (IR). A sample falling from level n gives n(n-1)/2 lines.",
+    "de Broglie: λ = h/mv; significant only for tiny masses; 2π r = nλ gives Bohr's rule.",
+    "Heisenberg: Δ x·Δ p ≥ h/4π, so orbits give way to orbitals (probability regions).",
+    "Quantum numbers n, l (0 to n − 1), m (−l to +l), s (±½); radial nodes n − l − 1, angular nodes l.",
+    "Aufbau by (n + l), Pauli (two electrons per orbital, opposite spins), Hund (no pairing until each degenerate orbital has one). Cr 3d⁵ 4s¹ and Cu 3d¹⁰ 4s¹; ions lose 4s before 3d."
+   ],
+   "terms": [
+    "Uncertainty principle",
+    "Aufbau, Pauli and Hund"
+   ],
+   "stats": {
+    "words": 5867,
+    "figures": 3,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Classification of Elements and Periodicity",
+   "hours": null,
+   "questions": 1,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Modern periodic law and table; s, p, d and f blocks; isoelectronic species",
+    "Periodic trends: atomic and ionic size, ionization energy, electronegativity, electron affinity and metallic character"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Modern periodic law and table; s, p, d and f blocks; isoelectronic species"
+    },
+    {
+     "no": "3.2",
+     "title": "Periodic trends: size, ionisation energy, electronegativity, electron affinity and metallic character"
+    }
+   ],
+   "summary": [
+    "Modern periodic law: properties are periodic functions of atomic number; periodicity comes from the recurrence of similar outer configurations.",
+    "7 periods (2, 8, 8, 18, 18, 32, 32 elements) and 18 groups; s, p, d and f blocks by the subshell that takes the last electron; He is s-block but sits in group 18.",
+    "Group from configuration: s-block ns electrons, p-block 10 + ns + np, d-block ns + (n − 1)d.",
+    "Isoelectronic species share an electron count; their radius falls as Z rises.",
+    "Across a period Z_eff rises: size falls; IE, EA and electronegativity rise; metallic character and basic character of oxides fall. Down a group the reverse.",
+    "IE exceptions Be > B, N > O (Mg > Al, P > S); EA exceptions Cl > F, S > O; noble gases, Be, Mg and N have near-zero or negative EA.",
+    "Highest IE He, lowest Cs; most electronegative F (4.0); highest EA Cl. A big jump in successive IEs counts the valence electrons.",
+    "Ga < Al in size (poor 3d shielding); Zr ≈ Hf (lanthanoid contraction)."
+   ],
+   "terms": [
+    "Modern periodic law",
+    "Isoelectronic species",
+    "Ionisation energy (ionisation enthalpy)",
+    "Electron affinity",
+    "Electronegativity"
+   ],
+   "stats": {
+    "words": 5505,
+    "figures": 2,
+    "examples": 2
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Chemical Bonding and Shapes of Molecules",
+   "hours": null,
+   "questions": 2,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Electronic theory of valency; ionic, covalent and coordinate bonds; Lewis structures of s- and p-block compounds",
+    "VSEPR theory and the shapes of simple molecules; valence bond theory, sigma and pi bonds, hybridization",
+    "Dipole moment, ionic character of covalent bonds and bond length",
+    "Hydrogen bonding, metallic bonding and van der Waals forces"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Electronic theory of valency; ionic, covalent and coordinate bonds; Lewis structures"
+    },
+    {
+     "no": "4.2",
+     "title": "VSEPR theory and shapes; valence bond theory, σ and π bonds, hybridisation"
+    },
+    {
+     "no": "4.3",
+     "title": "Dipole moment, ionic character of covalent bonds and bond length"
+    },
+    {
+     "no": "4.4",
+     "title": "Hydrogen bonding, metallic bonding and van der Waals forces"
+    }
+   ],
+   "summary": [
+    "Atoms bond to reach a noble-gas configuration: ionic (transfer), covalent (sharing), coordinate (a pair donated by one atom — NH₄⁺, H₃O⁺, H₃N→BF₃). The octet rule fails for BF₃, PCl₅, SF₆, NO and xenon fluorides.",
+    "Formal charge = V − L − B/2; the best Lewis structure minimises formal charges.",
+    "VSEPR: shape from the steric number SN = ½(V + M − c + a); lp–lp > lp–bp > bp–bp squeezes angles: CH₄ 109.5° > NH₃ 107° > H₂O 104.5°.",
+    "Lone pairs in a trigonal bipyramid go equatorial: SF₄ see-saw, ClF₃ T-shaped, XeF₂ linear; XeF₄ is square planar.",
+    "σ bonds come from head-on overlap, π bonds from sideways overlap; double = σ + π, triple = σ + 2π. Hybridisation sp, sp², sp³, sp³d, sp³d², sp³d³ for SN 2–7; more s character, shorter and stronger bond.",
+    "μ = q × d (debye); symmetric molecules have μ = 0; NH₃ > NF₃; % ionic character = μ(obs)/(e × d) × 100. Fajans: small, highly charged cations and large anions raise covalent character.",
+    "Bond length falls as bond order and s character rise; resonance makes equivalent bonds equal.",
+    "Hydrogen bonds (F, O, N) explain the high boiling points of H₂O, HF and NH₃, ice floating and o-nitrophenol's volatility; metallic bonds are an electron sea; London forces grow with size and surface area."
+   ],
+   "terms": [
+    "Coordinate bond",
+    "Hybridisation",
+    "Hydrogen bond"
+   ],
+   "stats": {
+    "words": 6231,
+    "figures": 2,
+    "examples": 3
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Redox Reactions",
+   "hours": null,
+   "questions": 1,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Classical and electronic concepts of oxidation and reduction; oxidation number",
+    "Balancing redox equations by the oxidation-number and ion-electron methods; applications"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Classical and electronic concepts of oxidation and reduction; oxidation number"
+    },
+    {
+     "no": "5.2",
+     "title": "Balancing redox equations by the oxidation-number and ion-electron methods; applications"
+    }
+   ],
+   "summary": [
+    "Classical: oxidation = addition of O or an electronegative element, removal of H or an electropositive element; reduction the reverse.",
+    "Electronic: oxidation = loss of electrons, reduction = gain; the oxidant is reduced and the reductant oxidised; both always occur together.",
+    "Oxidation number rules: free element 0; F −1; O −2 except peroxides (−1), superoxides (−½) and OF₂ (+2); H +1 except metal hydrides (−1); the sum equals the charge.",
+    "Watch the traps: Fe₃O₄ +8/3, S₄O₆²⁻ +2.5, CrO₅ and H₂S₂O₈ +6 (peroxide links), OsO₄ +8, NH₄NO₃ −3 and +5.",
+    "Highest oxidation state → only an oxidant; lowest → only a reductant; intermediate → both, and able to disproportionate (H₂O₂, Cl₂ in alkali, Cu⁺, HNO₂).",
+    "Balancing: equalise the total change in oxidation number, or add half-reactions after balancing O with H₂O, H with H⁺ (OH⁻ in base) and charge with electrons.",
+    "n-factors: MnO₄⁻ 5 (acid), 3 (neutral), 1 (strong base); Cr₂O₇²⁻ 6; moles react in the inverse ratio of n-factors."
+   ],
+   "terms": [
+    "Oxidation and reduction (electronic)",
+    "Oxidation number"
+   ],
+   "stats": {
+    "words": 4610,
+    "figures": 1,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "States of Matter",
+   "hours": null,
+   "questions": 2,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Gases: kinetic theory, the gas laws, the ideal and combined gas equations, deviation of real gases",
+    "Liquids: vapour pressure, boiling point, surface tension, viscosity, liquid crystals, solubility and solubility curves",
+    "Solids: crystalline and amorphous solids; efflorescent, deliquescent and hygroscopic substances; water of crystallization",
+    "The unit cell, the seven crystal systems and the fourteen Bravais lattices; types of crystalline solid by bonding"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Gases: kinetic theory, gas laws, ideal and combined gas equations, deviation of real gases"
+    },
+    {
+     "no": "6.2",
+     "title": "Liquids: vapour pressure, boiling point, surface tension, viscosity, liquid crystals, solubility and solubility curves"
+    },
+    {
+     "no": "6.3",
+     "title": "Solids: crystalline and amorphous solids; efflorescent, deliquescent and hygroscopic substances; water of crystallisation"
+    },
+    {
+     "no": "6.4",
+     "title": "The unit cell, the seven crystal systems and the fourteen Bravais lattices; types of crystalline solid by bonding"
+    }
+   ],
+   "summary": [
+    "Kinetic theory: random elastic motion, no attractions, negligible molecular volume; KE = (3/2)RT per mole for every gas; urms = √3RT/M and ump : uav : urms = 1 : 1.128 : 1.224.",
+    "Boyle, Charles, pressure and Avogadro laws combine into PV = nRT (R = 8.314 J or 0.0821 L atm mol⁻¹ K⁻¹); always use kelvin.",
+    "Dalton: pi = xiP; Graham: rate ∝ 1/√M (lighter gases diffuse faster; time ∝ √M).",
+    "Real gases: Z = PV/nRT; van der Waals a (attraction) and b (excluded volume); ideal behaviour at low P and high T; large a means easy liquefaction.",
+    "Vapour pressure depends only on the liquid and T; boiling occurs when VP = external pressure. Surface tension (N m⁻¹) and liquid viscosity (Pa s) fall as T rises.",
+    "Liquid crystals (nematic, smectic, cholesteric) flow but keep orientational order; used in LCDs and thermometers. Solubility curves show crystallisation yields; KNO₃ rises steeply, NaCl barely.",
+    "Crystalline solids: long-range order, sharp mp, anisotropic; amorphous: short-range order, soften over a range, isotropic. Efflorescent loses water; deliquescent dissolves; hygroscopic absorbs.",
+    "7 crystal systems, 14 Bravais lattices; sc, bcc, fcc have Z = 1, 2, 4 and CN 6, 8, 12; ρ = ZM/(a³N_A). Solids are ionic, covalent network, molecular or metallic."
+   ],
+   "terms": [
+    "Boiling point",
+    "Surface tension",
+    "Viscosity",
+    "Water of crystallisation",
+    "Crystal lattice and unit cell"
+   ],
+   "stats": {
+    "words": 6515,
+    "figures": 3,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Chemical and Ionic Equilibrium",
+   "hours": null,
+   "questions": 2,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Physical and chemical equilibrium; the law of mass action; Kc, Kp, the reaction quotient and the Kp–Kc relation",
+    "Le Chatelier's principle and its applications",
+    "Arrhenius, Brønsted–Lowry and Lewis acids and bases; Ostwald's dilution law",
+    "Ionic product of water, pH, pOH, pKa and pKb; common-ion effect; solubility product",
+    "Acidic and basic buffers; types of salts and their hydrolysis"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 8,
+   "title": "Volumetric Analysis",
+   "hours": null,
+   "questions": 1,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Equivalent weight; concentration as percentage, g/L, normality, molarity, molality, formality, ppm, ppb and mole fraction",
+    "Primary and secondary standards; the law of equivalence and the normality equation"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 9,
+   "title": "Chemical Kinetics",
+   "hours": null,
+   "questions": 1,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Rate of reaction, rate expressions, the rate constant and its units; order and molecularity",
+    "Integrated rate laws and half-lives of zero- and first-order reactions",
+    "Collision theory, activation and threshold energy, the activated complex; factors affecting rate; homogeneous, heterogeneous and enzyme catalysis"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 10,
+   "title": "Electrochemistry",
+   "hours": null,
+   "questions": 1,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Electrolytic cells and the qualitative and quantitative laws of electrolysis",
+    "Standard electrode potential, the standard hydrogen and calomel electrodes, the electrochemical series and its uses",
+    "Galvanic cells and their standard emf; primary, secondary and hydrogen–oxygen fuel cells"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 11,
+   "title": "Chemical Thermodynamics",
+   "hours": null,
+   "questions": 1,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Systems and surroundings; state functions; internal energy; intensive and extensive properties; the first law and enthalpy",
+    "Enthalpies of reaction, formation, combustion, neutralization, solution, fusion and vaporization; Laplace's and Hess's laws",
+    "Spontaneity, entropy and the second law; Gibbs free energy and its relation to the equilibrium constant"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 12,
+   "title": "Nuclear Chemistry",
+   "hours": null,
+   "questions": 1,
+   "area": "Physical Chemistry",
+   "topics": [
+    "Radioactivity and types of nuclear reaction",
+    "Radioisotopes and radiocarbon dating"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 13,
+   "title": "Chemistry of Non-metals",
+   "hours": null,
+   "questions": 4,
+   "area": "Inorganic Chemistry",
+   "topics": [
+    "Atomic, molecular and nascent hydrogen; isotopes of hydrogen; heavy water; types of oxides",
+    "Ozone: preparation, structure and tests; depletion of the ozone layer",
+    "Ammonia, phosphine and nitric acid",
+    "Chlorine, bromine and iodine; HCl, HBr and HI",
+    "Allotropes of carbon and carbon monoxide; hydrogen sulphide, sulphur dioxide and sulphuric acid"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 14,
+   "title": "Metallurgy and the Chemistry of Metals",
+   "hours": null,
+   "questions": 4,
+   "area": "Inorganic Chemistry",
+   "topics": [
+    "Metallurgical principles: ores, gangue, flux, slag, concentration, calcination, roasting, smelting, bessemerization, aluminothermy, electrolytic reduction, poling, electro-refining and zone refining",
+    "Alkali and alkaline-earth metals; sodium, sodium hydroxide and sodium carbonate",
+    "3d transition metals; shapes of complex ions; crystal field theory of octahedral complexes",
+    "Copper, zinc, mercury, silver and iron: occurrence, extraction and properties; blue vitriol, white vitriol, calomel and corrosive sublimate",
+    "Steel by the basic oxygen and open-hearth processes; corrosion of iron"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 15,
+   "title": "Bio-inorganic Chemistry",
+   "hours": null,
+   "questions": 2,
+   "area": "Inorganic Chemistry",
+   "topics": [
+    "Micro- and macronutrients; biological roles of sodium, potassium, magnesium, zinc, copper, cobalt, nickel, iron, chromium and calcium",
+    "The sodium–potassium pump and the sodium–glucose pump",
+    "Toxicity of iron, arsenic, mercury, lead and cadmium"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 16,
+   "title": "General Organic Chemistry",
+   "hours": null,
+   "questions": 3,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Tetravalency and catenation of carbon; classification of organic compounds; alkyl and aryl groups; functional groups and homologous series",
+    "IUPAC nomenclature of aliphatic compounds; isomerism",
+    "Homolytic and heterolytic fission; electrophiles, nucleophiles, carbocations, carbanions and free radicals; inductive and resonance effects"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 17,
+   "title": "Hydrocarbons",
+   "hours": null,
+   "questions": 3,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Cracking, pyrolysis and reforming; gasoline quality, octane and cetane numbers, gasoline additives",
+    "Alkanes, alkenes and alkynes: isomerism, nomenclature and preparation; properties of ethane; addition reactions of alkenes and alkynes; acidity of alkynes",
+    "Aromaticity and resonance; preparation and properties of benzene"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 18,
+   "title": "Haloalkanes, Haloarenes, Alcohols, Phenols and Ethers",
+   "hours": null,
+   "questions": 4,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Monohaloalkanes: nomenclature, isomerism, preparation and properties; SN1 and SN2 mechanisms",
+    "Chloroform and chlorobenzene",
+    "Monohydric alcohols: preparation and properties; oxo process, hydroboration–oxidation and fermentation; types of ethanol",
+    "Phenol: preparation and properties",
+    "Ethers: Williamson's synthesis and the properties of diethyl ether"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 19,
+   "title": "Aldehydes, Ketones, Carboxylic Acids and their Derivatives",
+   "hours": null,
+   "questions": 4,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Aliphatic aldehydes and ketones: nomenclature, preparation and reactions; benzaldehyde",
+    "Monocarboxylic acids: preparation and properties",
+    "Acid halides, anhydrides, amides and esters: preparation, properties and relative reactivity"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 20,
+   "title": "Nitro Compounds, Amines and Organometallics",
+   "hours": null,
+   "questions": 3,
+   "area": "Organic Chemistry",
+   "topics": [
+    "Nitroalkanes and nitrobenzene",
+    "Amines: classification, preparation of primary amines, basicity, Hofmann's separation; aniline",
+    "Organolithium, organocopper and organocadmium compounds; the Grignard reagent"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 21,
+   "title": "Applied Chemistry and Chemistry in Service to Mankind",
+   "hours": null,
+   "questions": 3,
+   "area": "Applied Chemistry",
+   "topics": [
+    "The chemical industry: stages of production, economics and plant management, batch and continuous processing, environmental effects and their control",
+    "Cement, paper and pulp; nitric acid (Ostwald), ammonia (Haber), sulphuric acid (contact), caustic soda (diaphragm cell), sodium carbonate (Solvay) and urea",
+    "Uses of the common non-metals, metals, inorganic compounds and organic compounds",
+    "Polymers, dyes, drugs, pesticides and fertilizers; colloids, osmotic pressure and buffers in daily life; medical and industrial uses of radioisotopes"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 22,
+   "title": "Analytical Chemistry",
+   "hours": null,
+   "questions": 3,
+   "area": "Analytical Chemistry",
+   "topics": [
+    "Tests for acid and basic radicals; tests for unsaturation and functional groups; distinction tests; Lassaigne's test; tests for fats, proteins and carbohydrates",
+    "Separation techniques: filtration, sublimation, evaporation, precipitation, crystallization, distillation, paper chromatography and atmolysis",
+    "Acid–base, redox (permanganometric, iodometric and iodimetric) and complexometric titrations; choice of indicator"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  }
+ ],
+ "unit_count": 22,
+ "topic_count": 74,
+ "notes_ready": 6
+}

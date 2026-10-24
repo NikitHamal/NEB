@@ -1,0 +1,439 @@
+{
+ "grade": "cee",
+ "grade_label": "CEE · MECEE-BL Medical Entrance",
+ "grade_label_ne": "CEE प्रवेश परीक्षा",
+ "short": "CEE",
+ "kind": "entrance",
+ "subject": "botany",
+ "name": "Botany",
+ "name_ne": "वनस्पतिशास्त्र",
+ "icon": "eco",
+ "group": "entrance",
+ "color": "#2F7D32",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 40,
+ "exam": "3 hours, 200 single-best-answer MCQs with four options, 200 marks, 0.25 deducted per wrong answer, merit list from the 50th percentile | Zoology 40x1=40 | Botany 40x1=40 | Chemistry 50x1=50 | Physics 50x1=50 | Mental Agility Test 20x1=20",
+ "areas": [
+  "Basic Components of Life",
+  "Biodiversity",
+  "Ecology and Vegetation",
+  "Cell Biology",
+  "Genetics",
+  "Plant Anatomy",
+  "Plant Physiology",
+  "Developmental and Applied Botany"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Biomolecules: Carbohydrates, Lipids, Proteins, Enzymes and Minerals",
+   "hours": null,
+   "questions": 2,
+   "area": "Basic Components of Life",
+   "topics": [
+    "Structure, types and biological role of carbohydrates and lipids",
+    "Minerals and their biological roles",
+    "Structure, types and biological role of proteins and enzymes"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Carbohydrates and lipids: structure, types and biological role"
+    },
+    {
+     "no": "1.2",
+     "title": "Minerals and their biological roles"
+    },
+    {
+     "no": "1.3",
+     "title": "Proteins and enzymes: structure, types and biological role"
+    }
+   ],
+   "summary": [
+    "Carbohydrates are polyhydroxy aldehydes or ketones; glucose is an aldohexose, fructose a ketohexose, ribulose a ketopentose.",
+    "Sucrose (glucose + fructose, α-1 → β-2) is non-reducing; maltose, lactose and cellobiose are reducing.",
+    "Starch (amylose + amylopectin) and glycogen are α-glucose stores with α-1,4 chains and α-1,6 branches; cellulose is β-1,4 glucose; chitin is β-1,4 N-acetylglucosamine; inulin is a fructose polymer.",
+    "A triglyceride is glycerol esterified with three fatty acids (three water molecules lost); lipids give about 39 kJ g⁻¹, more than twice carbohydrate.",
+    "Phospholipids are amphipathic and form membrane bilayers; steroids have four fused rings; waxes are esters of long-chain alcohols.",
+    "Seventeen elements are essential; Mg is in chlorophyll, Mo in nitrogenase, Mn and Cl split water, Ca forms calcium pectate, Zn is needed for auxin; mobile N, P, K, Mg show deficiency in old leaves first.",
+    "Proteins are chains of amino acids joined by peptide bonds (n − 1 for n residues); secondary structure is held by H-bonds, tertiary adds ionic, disulphide and hydrophobic bonds, quaternary needs two or more chains.",
+    "Enzymes lower activation energy; holoenzyme = apoenzyme + cofactor; the induced-fit model (Koshland) replaced lock-and-key (Fischer)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7275,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Classification, Monera and Viruses",
+   "hours": null,
+   "questions": 2,
+   "area": "Biodiversity",
+   "topics": [
+    "Two-kingdom system, taxonomic hierarchy and binomial nomenclature; five-kingdom and three-domain systems",
+    "Bacteria: cell structure, types, nutrition and growth; general characteristics of cyanobacteria",
+    "Viruses: characteristics, structure, chemical composition and types"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Classification systems, taxonomic hierarchy and binomial nomenclature"
+    },
+    {
+     "no": "2.2",
+     "title": "Bacteria and cyanobacteria"
+    },
+    {
+     "no": "2.3",
+     "title": "Viruses"
+    }
+   ],
+   "summary": [
+    "Linnaeus (1758) gave two kingdoms; Whittaker (1969) gave five — Monera, Protista, Fungi, Plantae, Animalia — chiefly on cell structure, body organisation and mode of nutrition; Woese (1990) placed three domains — Archaea, Bacteria, Eukarya — above them, on rRNA sequences.",
+    "The hierarchy runs kingdom, division, class, order (-ales), family (-aceae), genus, species; species is the basic unit.",
+    "Binomial names (Linnaeus, 1753): Latin, genus capitalised, epithet small, italicised or underlined separately; tautonyms are not allowed in plants.",
+    "Bacteria have a peptidoglycan wall, 70S ribosomes, a nucleoid and often plasmids; they are cocci, bacilli, vibrios or spirilla.",
+    "Gram-positive walls have thick peptidoglycan and stay violet; Gram-negative walls are thin with an outer lipopolysaccharide membrane and stain pink.",
+    "Bacteria are photoautotrophic (anoxygenic, except cyanobacteria), chemoautotrophic (Nitrosomonas, Nitrobacter), saprophytic, parasitic or symbiotic.",
+    "Binary fission doubles the population each generation (N = N0 × 2^n); the growth curve has lag, log, stationary and decline phases.",
+    "Cyanobacteria are oxygenic prokaryotes with chlorophyll a and phycobilins, cyanophycean starch, heterocysts for N₂ fixation, and no flagella or sexual reproduction."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5782,
+    "figures": 3,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Fungi, Lichens and Algae",
+   "hours": null,
+   "questions": 2,
+   "area": "Biodiversity",
+   "topics": [
+    "Phycomycetes, Ascomycetes, Basidiomycetes and Deuteromycetes; structure and reproduction of yeast and Mucor",
+    "Lichens: introduction and types",
+    "Algae: Chlorophyceae, Rhodophyceae and Phaeophyceae; structure and reproduction of Spirogyra"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Fungi: the four classes; yeast and Mucor"
+    },
+    {
+     "no": "3.2",
+     "title": "Lichens: introduction and types"
+    },
+    {
+     "no": "3.3",
+     "title": "Algae: green, red and brown; Spirogyra"
+    }
+   ],
+   "summary": [
+    "Fungi are eukaryotic, achlorophyllous absorptive heterotrophs with chitin walls and glycogen and oil as food; their sexual cycle is plasmogamy, karyogamy, meiosis.",
+    "Phycomycetes have coenocytic hyphae and zygospores or oospores; Ascomycetes form 8 endogenous ascospores in an ascus; Basidiomycetes form 4 exogenous basidiospores on a basidium; Deuteromycetes have no known sexual stage.",
+    "Phytophthora (late blight), Albugo (white rust), Claviceps (ergot), Puccinia (rust), Ustilago (smut), Alternaria (early blight) and Colletotrichum (red rot) are the classic disease fungi.",
+    "Yeast is a unicellular ascomycete that buds, ferments sugar with zymase to ethanol and CO₂, and forms 4 ascospores; its cycle is haplo-diplontic.",
+    "Mucor has a coenocytic mycelium without rhizoids, sporangia with a columella, heterothallic conjugation and a zygospore that is its only diploid stage.",
+    "A lichen is a fungus (mycobiont) living with an alga or cyanobacterium (phycobiont); its forms are crustose, foliose and fruticose, and it spreads by soredia and isidia.",
+    "Lichens are pioneers on bare rock and sensitive indicators of SO₂ pollution.",
+    "Green algae store starch and have chl a, b; brown algae store laminarin and mannitol and have fucoxanthin and algin; red algae store floridean starch, have phycoerythrin and agar, and never have flagella."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5294,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Bryophytes, Pteridophytes and Gymnosperms",
+   "hours": null,
+   "questions": 2,
+   "area": "Biodiversity",
+   "topics": [
+    "Liverworts, hornworts and mosses; structure and reproduction of Marchantia",
+    "Pteridophytes; structure and reproduction of Dryopteris",
+    "Gymnosperms; structure and reproduction of Pinus"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Bryophytes: liverworts, hornworts and mosses; Marchantia"
+    },
+    {
+     "no": "4.2",
+     "title": "Pteridophytes; Dryopteris"
+    },
+    {
+     "no": "4.3",
+     "title": "Gymnosperms; Pinus"
+    }
+   ],
+   "summary": [
+    "Bryophytes are non-vascular embryophytes with a dominant haploid gametophyte and a dependent diploid sporophyte; water is needed for their biflagellate sperm.",
+    "Liverworts (thalloid, unicellular rhizoids, scales, elaters), hornworts (horn-like capsule, one chloroplast per cell) and mosses (leafy, multicellular rhizoids, protonema, peristome) are the three classes.",
+    "Marchantia is a dioecious, dichotomous thallus with barrel-shaped air pores and gemma cups; it bears stalked antheridiophores and archegoniophores; its capsule holds haploid spores and diploid elaters.",
+    "Pteridophytes are the first vascular plants; their dominant sporophyte has roots, stems and leaves; most are homosporous, but Selaginella, Marsilea, Salvinia and Azolla are heterosporous.",
+    "Dryopteris has a rhizome with ramenta, circinate fronds, and sori with a reniform indusium; its sporangium opens by the annulus; the spore grows into a free-living, heart-shaped, protandrous prothallus; sperm are multiflagellate.",
+    "Gymnosperms bear naked ovules, are wind-pollinated, have a haploid endosperm formed before fertilisation and no double fertilisation, and lack vessels and fruits.",
+    "Pinus is monoecious with long and dwarf shoots, needles in fascicles, winged pollen, and two ovules on each ovuliferous scale; fertilisation follows pollination by about a year; polyembryony is common.",
+    "A Pinus seed holds three generations: seed coat 2n, endosperm n, embryo 2n."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5457,
+    "figures": 3,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Angiosperms and Economic Botany",
+   "hours": null,
+   "questions": 3,
+   "area": "Biodiversity",
+   "topics": [
+    "Morphology of root, stem, leaf, inflorescence, flower and fruit",
+    "Diagnostic characters, floral formulae and floral diagrams of Brassicaceae, Solanaceae, Fabaceae and Liliaceae",
+    "Economic importance of viruses, bacteria, blue-green algae, fungi, algae, bryophytes, pteridophytes, gymnosperms and angiosperms of Nepal",
+    "Medicinal plants of Nepal: neem, sarpagandha, yarsagumba, tulasi and ginger"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 6,
+   "title": "Ecology and Vegetation",
+   "hours": null,
+   "questions": 4,
+   "area": "Ecology and Vegetation",
+   "topics": [
+    "Pond and forest ecosystems: structure and function; biotic interactions",
+    "Carbon and nitrogen cycles; greenhouse effect, acid rain, ozone-layer depletion and climate change",
+    "Forest types of Nepal; biological invasion",
+    "Ecological succession: hydrosere and xerosere; ecological adaptation"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 7,
+   "title": "Cell Biology and Cell Division",
+   "hours": null,
+   "questions": 5,
+   "area": "Cell Biology",
+   "topics": [
+    "Prokaryotic and eukaryotic cells; the cell theory",
+    "Cell wall, cell membrane, mitochondria, chloroplasts, endoplasmic reticulum, Golgi body, lysosomes, ribosomes, nucleus, chromosomes, cilia, flagella and cell inclusions",
+    "The cell cycle; amitosis, mitosis and meiosis and their significance"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 8,
+   "title": "Molecular Genetics: DNA, RNA and the Genetic Code",
+   "hours": null,
+   "questions": 2,
+   "area": "Genetics",
+   "topics": [
+    "Composition, structure and functions of DNA and RNA",
+    "DNA replication; the central dogma; the genetic code"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 9,
+   "title": "Inheritance, Linkage, Mutation and Genetic Disorders",
+   "hours": null,
+   "questions": 4,
+   "area": "Genetics",
+   "topics": [
+    "Mendelian terminology and laws; incomplete dominance and co-dominance",
+    "Linkage (complete and incomplete) and crossing over",
+    "Sex-linked inheritance: colour blindness in humans, eye colour in Drosophila",
+    "Gene and chromosomal mutations; polyploidy",
+    "Down's, Turner's, Edwards' and Klinefelter's syndromes; albinism; haemophilia"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 10,
+   "title": "Plant Anatomy",
+   "hours": null,
+   "questions": 3,
+   "area": "Plant Anatomy",
+   "topics": [
+    "Plant tissues: characters, classification, structure and functions",
+    "Types of vascular bundles",
+    "T.S. of monocot and dicot root, stem and leaf"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 11,
+   "title": "Water Relations of Plants",
+   "hours": null,
+   "questions": 2,
+   "area": "Plant Physiology",
+   "topics": [
+    "Diffusion, diffusion pressure deficit, osmosis and plasmolysis",
+    "Osmotic pressure and potential, water potential, wall pressure and turgor pressure",
+    "Absorption, imbibition, ascent of sap, transpiration, guttation and wilting"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 12,
+   "title": "Photosynthesis and Respiration",
+   "hours": null,
+   "questions": 3,
+   "area": "Plant Physiology",
+   "topics": [
+    "Photosynthetic pigments; photosystems I and II; the light reactions",
+    "Calvin cycle (C3), Hatch–Slack pathway (C4) and photorespiration; factors; bacterial photosynthesis",
+    "Aerobic and anaerobic respiration: glycolysis, oxidative decarboxylation, Krebs cycle, electron transport and oxidative phosphorylation; factors"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 13,
+   "title": "Plant Growth, Germination and Dormancy",
+   "hours": null,
+   "questions": 1,
+   "area": "Plant Physiology",
+   "topics": [
+    "Auxins, gibberellins and cytokinins: roles and applications",
+    "Seed germination and its types; seed dormancy"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 14,
+   "title": "Developmental Botany",
+   "hours": null,
+   "questions": 2,
+   "area": "Developmental and Applied Botany",
+   "topics": [
+    "Asexual reproduction",
+    "Sporogenesis and gametogenesis in angiosperms",
+    "Pollination and fertilization",
+    "Monocot and dicot embryos; types and functions of endosperm"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 15,
+   "title": "Applied Botany",
+   "hours": null,
+   "questions": 3,
+   "area": "Developmental and Applied Botany",
+   "topics": [
+    "Plant tissue culture: concept, types and applications",
+    "Genetic engineering: concept and applications",
+    "Biofertilizers, green manures, plant breeding, bio-engineering, food safety and security"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  }
+ ],
+ "unit_count": 15,
+ "topic_count": 48,
+ "notes_ready": 4
+}
