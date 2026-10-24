@@ -16,9 +16,13 @@ from django.utils import timezone
 from api.models import Post, Resource, User
 
 SITE_BASE_URL = 'https://nebians.consica.com.np'
+# A sitemap file may hold at most 50,000 URLs and be at most 50 MB uncompressed.
+# The caps below are per group, and the index splits each group into its own
+# file, so no single document can cross the limit however big the site gets.
 _MAX_RESOURCES = 50000
-_MAX_POSTS = 20000
-_MAX_PROFILES = 20000
+_MAX_POSTS = 50000
+_MAX_PROFILES = 50000
+SITEMAP_CHUNK = 40000
 
 _PLACEHOLDER_TEXT_RE = re.compile(
     r'(^\s*(test|testing|untitled|new post|hello world)\s*\d*\s*$)'
@@ -117,90 +121,253 @@ def is_indexable_post(post: Post) -> bool:
     return True
 
 
-def sitemap_entries() -> Iterator[Dict[str, str]]:
-    now = timezone.now().isoformat()
-    yield {'loc': f'{SITE_BASE_URL}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/app/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/app/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/app/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/app/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/app/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/app/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now}
-    yield {'loc': f'{SITE_BASE_URL}/app/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now}
+# Static pages, with a priority that says what the site is actually for. No
+# lastmod here: these are served from templates, and stamping them with "now"
+# on every request is a lie that teaches a crawler to ignore lastmod entirely.
+STATIC_PAGES = (
+    ('/', 'daily', '1.0'),
+    ('/app/past-papers/', 'daily', '0.9'),
+    ('/app/model-questions/', 'daily', '0.9'),
+    ('/app/online-learning/', 'weekly', '0.8'),
+    ('/app/library/', 'daily', '0.9'),
+    ('/app/syllabus/', 'weekly', '0.9'),
+    ('/app/forum/', 'daily', '0.8'),
+    ('/app/news/', 'daily', '0.7'),
+    ('/app/marketplace/', 'weekly', '0.7'),
+    ('/app/library/?tab=interactive', 'weekly', '0.7'),
+    ('/app/results/', 'monthly', '0.6'),
+    ('/app/results/check/', 'monthly', '0.6'),
+    ('/app/faq/', 'monthly', '0.6'),
+    ('/app/tools/', 'monthly', '0.5'),
+    ('/app/requests/', 'weekly', '0.5'),
+    ('/app/upload/', 'monthly', '0.4'),
+    ('/app/privacy/', 'yearly', '0.2'),
+    ('/app/terms/', 'yearly', '0.2'),
+    ('/app/copyright/', 'yearly', '0.2'),
+)
 
+
+def _slug(value: str) -> str:
+    value = (value or '').lower().strip()
+    value = re.sub(r'[^a-z0-9]+', '-', value)
+    return value.strip('-')
+
+
+def _syllabus_entries() -> Iterator[Dict[str, str]]:
+    """The syllabus is the part of the site most likely to be searched for by
+    name ("class 12 physics syllabus"), and it was not in the sitemap at all."""
+    try:
+        from web import syllabus_data
+    except Exception:
+        return
+    index = syllabus_data.index()
+    for grade in index.get('grades', []):
+        grade_key = grade.get('grade') or ''
+        if not grade_key:
+            continue
+        yield {
+            'loc': f'{SITE_BASE_URL}/app/syllabus/{quote(str(grade_key), safe="")}/',
+            'changefreq': 'monthly', 'priority': '0.8',
+        }
+        for subject in grade.get('subjects', []):
+            subject_key = subject.get('subject') or ''
+            if not subject_key:
+                continue
+            base = f'{SITE_BASE_URL}/app/syllabus/{quote(str(grade_key), safe="")}/{quote(str(subject_key), safe="")}/'
+            yield {'loc': base, 'changefreq': 'monthly', 'priority': '0.8'}
+            for unit in range(1, int(subject.get('unit_count') or 0) + 1):
+                yield {'loc': base + 'unit-%d/' % unit,
+                       'changefreq': 'monthly', 'priority': '0.6'}
+
+
+def _interactive_entries() -> Iterator[Dict[str, str]]:
+    try:
+        from web import interactive
+        courses = interactive.get_all_courses()
+    except Exception:
+        return
+    for course in courses:
+        slug = course.get('slug') or ''
+        if not slug:
+            continue
+        yield {'loc': f'{SITE_BASE_URL}/app/interactive/{quote(str(slug), safe="")}/',
+               'changefreq': 'monthly', 'priority': '0.7'}
+        for lesson in course.get('lessons', []):
+            lesson_slug = lesson.get('slug') or ''
+            if lesson_slug:
+                yield {
+                    'loc': f'{SITE_BASE_URL}/app/interactive/{quote(str(slug), safe="")}/{quote(str(lesson_slug), safe="")}/',
+                    'changefreq': 'monthly', 'priority': '0.5',
+                }
+
+
+def _subject_entries() -> Iterator[Dict[str, str]]:
+    """Library subject pages: /app/subject/<grade>/<subject>/."""
+    seen = set()
     try:
         from web import curriculum as _curriculum
-        import re as _re
+        keys = list(_curriculum.CURRICULUM_MAP.keys())
+    except Exception:
+        keys = []
+    for (grade_val, subject_val) in keys:
+        grade_slug = _slug(grade_val)
+        if '10' in grade_slug and 'see' in grade_slug:
+            grade_slug = 'class-10-see'
+        subject_slug = _slug(subject_val)
+        if not grade_slug or not subject_slug or grade_slug == 'other':
+            continue
+        loc = f'{SITE_BASE_URL}/app/subject/{grade_slug}/{subject_slug}/'
+        if loc in seen:
+            continue
+        seen.add(loc)
+        yield {'loc': loc, 'changefreq': 'weekly', 'priority': '0.75'}
 
-        def _slug(value):
-            value = (value or '').lower().strip()
-            value = _re.sub(r'[^a-z0-9]+', '-', value)
-            return value.strip('-')
-
-        seen = set()
-        for (grade_val, subject_val) in _curriculum.CURRICULUM_MAP.keys():
-            grade_slug = _slug(grade_val)
-            if '10' in grade_slug and 'see' in grade_slug:
-                grade_slug = 'class-10-see'
-            subject_slug = _slug(subject_val)
-            if not grade_slug or not subject_slug or grade_slug == 'other':
-                continue
-            loc = f'{SITE_BASE_URL}/app/subject/{grade_slug}/{subject_slug}/'
-            if loc not in seen:
-                seen.add(loc)
-                yield {'loc': loc, 'changefreq': 'weekly', 'priority': '0.75', 'lastmod': now}
+    try:
+        rows = (Resource.objects.filter(approval_status='approved', is_lead=True)
+                .values_list('grade_level', 'subject')[:2000])
+        for grade, subjects in rows:
+            for subject in (subjects or '').split(','):
+                subject = subject.strip()
+                if not subject:
+                    continue
+                grade_slug = _slug(grade)
+                subject_slug = _slug(subject)
+                loc = f'{SITE_BASE_URL}/app/subject/{grade_slug}/{subject_slug}/'
+                if grade_slug and subject_slug and loc not in seen:
+                    seen.add(loc)
+                    yield {'loc': loc, 'changefreq': 'weekly', 'priority': '0.7'}
     except Exception:
         pass
 
+
+def _storefront_entries() -> Iterator[Dict[str, str]]:
+    """Published creator pages and their courses."""
     try:
-        from api.models import Announcement
-        announcements = Announcement.objects.filter(
-            status='published'
-        ).order_by('-published_at')[:500]
-        for announcement in announcements:
-            if not getattr(announcement, 'slug', None):
+        from api.models import CreatorCourse, CreatorPage
+    except Exception:
+        return
+    try:
+        pages = (CreatorPage.objects.filter(published=True)
+                 .only('slug', 'updated_at')
+                 .order_by('-updated_at')[:5000])
+        for page in pages:
+            if not page.slug:
                 continue
             yield {
-                'loc': f'{SITE_BASE_URL}/app/news/{quote(str(announcement.slug), safe="")}/',
-                'changefreq': 'weekly',
-                'priority': '0.6',
-                'lastmod': _to_lastmod(getattr(announcement, 'published_at', None), now),
+                'loc': f'{SITE_BASE_URL}/app/marketplace/{quote(page.slug, safe="")}/',
+                'changefreq': 'weekly', 'priority': '0.6',
+                'lastmod': _to_lastmod(page.updated_at),
+            }
+    except Exception:
+        pass
+    try:
+        courses = (CreatorCourse.objects.filter(status='published')
+                   .only('id', 'updated_at')
+                   .order_by('-updated_at')[:5000])
+        for course in courses:
+            yield {
+                'loc': f'{SITE_BASE_URL}/app/marketplace/course/{quote(str(course.id), safe="")}/',
+                'changefreq': 'weekly', 'priority': '0.6',
+                'lastmod': _to_lastmod(course.updated_at),
             }
     except Exception:
         pass
 
-    resources = (Resource.objects
-                 .filter(approval_status='approved')
-                 .select_related('uploaded_by')
-                 .order_by('-added_at')[:_MAX_RESOURCES])
+
+def sitemap_groups() -> Dict[str, Iterator[Dict[str, str]]]:
+    """The sitemap, grouped into files that can each stay under the limit.
+
+    A single urlset with every resource, thread and profile in it will one day
+    cross 50,000 URLs, and a crawler that meets an oversized file discards it
+    whole -- so the entries are grouped by what they are.
+    """
+    groups = {
+        'pages': _static_and_syllabus_entries,
+        'library': _resource_entries,
+        'forum': _post_entries,
+        'profiles': _profile_entries,
+    }
+    return {name: fn() for name, fn in groups.items()}
+
+
+def sitemap_entries() -> Iterator[Dict[str, str]]:
+    """Every public, indexable URL. Only for tooling -- the endpoint serves the
+    grouped files through sitemap_groups()."""
+    for entries in sitemap_groups().values():
+        yield from entries
+
+
+def _static_and_syllabus_entries() -> Iterator[Dict[str, str]]:
+    for path, changefreq, priority in STATIC_PAGES:
+        yield {'loc': SITE_BASE_URL + path, 'changefreq': changefreq,
+               'priority': priority}
+    yield from _syllabus_entries()
+    yield from _interactive_entries()
+    yield from _subject_entries()
+    yield from _storefront_entries()
+    yield from _news_entries()
+
+
+def _news_entries() -> Iterator[Dict[str, str]]:
+    try:
+        from api.models import Announcement
+        rows = (Announcement.objects.filter(status='published')
+                .order_by('-published_at')
+                .values_list('slug', 'published_at')[:5000])
+        for slug, published_at in rows:
+            if not slug:
+                continue
+            yield {
+                'loc': f'{SITE_BASE_URL}/app/news/{quote(str(slug), safe="")}/',
+                'changefreq': 'weekly', 'priority': '0.6',
+                'lastmod': _to_lastmod(published_at),
+            }
+    except Exception:
+        pass
+
+
+def _resource_entries() -> Iterator[Dict[str, str]]:
+    try:
+        resources = (Resource.objects.filter(approval_status='approved')
+                     .select_related('uploaded_by')
+                     .order_by('-added_at')[:_MAX_RESOURCES])
+    except Exception:
+        return
     for resource in resources:
         if not is_indexable_resource(resource):
             continue
-        ts = getattr(resource, 'updated_at', None) or resource.added_at
         yield {
             'loc': f'{SITE_BASE_URL}/app/reader/{quote(str(resource.id), safe="")}/',
-            'changefreq': 'weekly',
-            'priority': '0.7',
-            'lastmod': _to_lastmod(ts, now),
+            'changefreq': 'weekly', 'priority': '0.7',
+            'lastmod': _to_lastmod(getattr(resource, 'updated_at', None)
+                                   or resource.added_at),
         }
 
-    posts = (Post.objects
-             .filter(is_archived=False)
-             .select_related('user')
-             .order_by('-created_at')[:_MAX_POSTS])
+
+def _post_entries() -> Iterator[Dict[str, str]]:
+    try:
+        posts = (Post.objects.filter(is_archived=False)
+                 .select_related('user')
+                 .order_by('-created_at')[:_MAX_POSTS])
+    except Exception:
+        return
     for post in posts:
         if not is_indexable_post(post):
             continue
         yield {
             'loc': f'{SITE_BASE_URL}/app/forum/post/{quote(str(post.id), safe="")}/',
-            'changefreq': 'weekly',
-            'priority': '0.6',
-            'lastmod': _to_lastmod(post.edited_at or post.created_at, now),
+            'changefreq': 'weekly', 'priority': '0.6',
+            'lastmod': _to_lastmod(post.edited_at or post.created_at),
         }
 
-    users = (User.objects
-              .filter(is_locked=False, is_bot=False, email_verified=True)
-              .order_by('-contribution_score', '-follower_count', '-created_at')[:_MAX_PROFILES])
+
+def _profile_entries() -> Iterator[Dict[str, str]]:
+    try:
+        users = (User.objects
+                 .filter(is_locked=False, is_bot=False, email_verified=True)
+                 .order_by('-contribution_score', '-follower_count', '-created_at')[:_MAX_PROFILES])
+    except Exception:
+        return
     for user in users:
         if not has_public_profile_signal(user):
             continue
@@ -208,8 +375,13 @@ def sitemap_entries() -> Iterator[Dict[str, str]]:
             'loc': f'{SITE_BASE_URL}/app/profile/{quote(user.username, safe="")}/',
             'changefreq': 'weekly',
             'priority': '0.5' if (user.contribution_score or 0) > 0 else '0.3',
-            'lastmod': _to_lastmod(user.created_at, now),
+            'lastmod': _to_lastmod(user.created_at),
         }
+
+
+def sitemap_index() -> Dict[str, int]:
+    """name -> entry count, for building the index without holding every URL."""
+    return {name: sum(1 for _ in entries) for name, entries in sitemap_groups().items()}
 
 
 def build_sitemap_xml(entries: Optional[Iterable[Dict[str, str]]] = None) -> str:
@@ -218,7 +390,9 @@ def build_sitemap_xml(entries: Optional[Iterable[Dict[str, str]]] = None) -> str
     for entry in entries:
         lines.append('  <url>')
         lines.append(f"    <loc>{xml_escape(entry['loc'], quote=True)}</loc>")
-        lines.append(f"    <lastmod>{xml_escape(entry.get('lastmod') or timezone.now().isoformat(), quote=True)}</lastmod>")
+        lastmod = entry.get('lastmod')
+        if lastmod:
+            lines.append(f"    <lastmod>{xml_escape(str(lastmod), quote=True)}</lastmod>")
         lines.append(f"    <changefreq>{xml_escape(entry.get('changefreq', 'weekly'), quote=True)}</changefreq>")
         lines.append(f"    <priority>{xml_escape(entry.get('priority', '0.5'), quote=True)}</priority>")
         lines.append('  </url>')
