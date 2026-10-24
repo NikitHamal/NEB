@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}Syllabus for Class 8, 10, 11 and 12{% if syllabus_track_names %} and {{ syllabus_track_names }} Entrance Preparation{% endif %} — Units, Topics and Exam Pattern | NEBians{% endblock %}
-{% block description %}Complete CDC and NEB syllabus for Class 8, Class 10 (SEE), Class 11 and Class 12 with every unit, topic, working hour, exam pattern and key points.{% if syllabus_track_names %} Entrance preparation for {{ syllabus_track_names }} with MCQ practice and timed model papers.{% endif %} Track your progress topic by topic.{% endblock %}
+{% block description %}Complete CDC and NEB syllabus for Class 8, Class 10 (SEE), Class 11 and Class 12 with every unit, topic, working hour, exam pattern and key points.{% if syllabus_track_names %} Entrance preparation for {{ syllabus_track_names }} with MCQ practice{% if syllabus_track_papers %} and timed model papers{% endif %}.{% endif %} Track your progress topic by topic.{% endblock %}
 {% block nav_library %}active{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">{% endblock %}
 {% block content %}

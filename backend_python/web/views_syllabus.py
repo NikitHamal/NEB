@@ -22,6 +22,8 @@ def syllabus_hub_context(grade=None):
         "syllabus_totals": syllabus_data.summary(),
         "syllabus_tracks": tracks,
         "syllabus_track_names": _and_list([t.get("short", t["grade"]) for t in tracks]),
+        # the hub promises timed model papers only once a track has its model-papers book
+        "syllabus_track_papers": any(s.get("group") == "practice" for t in tracks for s in t.get("subjects", [])),
     }
 
 
