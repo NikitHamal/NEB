@@ -2,7 +2,10 @@
 <section class="syl-hub" data-syl-hub data-search-url="{% url 'web:syllabus_search' %}" data-base-url="{% url 'web:syllabus_hub' %}">
   <header class="syl-hub-head">
     <div>
-      <h2 class="syl-hub-title">Syllabus and study notes</h2>
+      {% comment %} The page's only h1: every other heading on this page is a
+         section. A page with no h1 gives a crawler nothing to read as the
+         subject. {% endcomment %}
+      <h1 class="syl-hub-title">Syllabus and study notes</h1>
       <p class="syl-hub-sub">Every unit of the CDC and NEB syllabus with the full chapter from the NEBians books, worked examples, self-check questions and a question bank in the board's pattern.</p>
     </div>
     <div class="syl-grade-switch" role="tablist" aria-label="Choose your class">
