@@ -327,6 +327,7 @@ private fun ChapterRow(unit: ApiSyllabusUnit, mark: StudyMark?, expanded: Boolea
                     Text(unit.title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
                     Text(
                         listOfNotNull(
+                            unit.exam?.takeIf { it.minutes > 0 }?.let { "Timed test · ${it.minutes} min" },
                             unit.weightLabel(),
                             if (unit.hasChapter) "${unit.readMin} min read" else "notes coming",
                             mark?.takeIf { it.tried > 0 }?.let { "${it.right}/${it.tried} right" },

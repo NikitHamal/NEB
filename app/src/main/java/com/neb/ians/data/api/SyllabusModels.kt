@@ -97,7 +97,9 @@ data class ApiSyllabusUnit(
     val summary: List<String> = emptyList(),
     val terms: List<String> = emptyList(),
     @SerialName("read_min") val readMin: Int = 0,
-    @SerialName("has_chapter") val hasChapter: Boolean = false
+    @SerialName("has_chapter") val hasChapter: Boolean = false,
+    /** Set on a model paper of an entrance mock book: it can be taken as a timed test. */
+    val exam: ApiStudyExam? = null
 )
 
 /** One question-bank chapter of a subject: objective, subjective or model sets. */
