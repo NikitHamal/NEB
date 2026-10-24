@@ -21,6 +21,7 @@
 - **`ANDROID_UI_CONTINUITY.md`** — the Android mono / Material 3 Expressive redesign (GitHub issues #41–#44): the owner's design contract, the house component signatures, platform constraints, what has shipped, what is still open, and the build/push recipe. **Read it before touching anything under `app/src/main/java/com/neb/ians/ui/`.**
 - **`CONTINUITY.md`** — Django/web backend, auth and deployment state.
 - **`docs/LAUNCH_VIDEO.md`** - the 15-second launch film (`tools/video/`, code-driven, no npm dependencies): storyboard, spec reference, and the table of what to change when the site changes. **After changing the brand palette, hero copy or chips, header nav, the logo, the library/forum/tools pages, or shipping a new headline feature, run `node tools/video/cli.mjs drift` and follow `docs/LAUNCH_VIDEO.md` to keep the film true.**
+- **`docs/OG_CARDS.md`** — the drawn link-preview cards (`web/og_cards.py`, `og_art`, `og_heroes`, `og_logo`): the design language, the grid, how to add a card kind or a sculpture, and the two rules that bite — **bump `CARD_VERSION` whenever the drawing changes**, and a card must never 404. Preview with `python3 tools/og/preview.py`.
 
 ## Overview
 
