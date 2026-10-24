@@ -324,7 +324,12 @@ class EntranceTrackTests(TestCase):
     def test_legacy_api_slugs(self):
         detail = self.client.get('/api/syllabus/subjects/cee/physics/').json()
         self.assertEqual(detail['grade_slug'], 'cee')
-        self.assertEqual([g['slug'] for g in detail['grade_list']], ['class-11', 'cee'])
+        self.assertEqual([g['slug'] for g in detail['grade_list']], ['cee'])
+        self.assertEqual([g['slug'] for g in self.client.get('/api/syllabus/subjects/class-11/physics/').json()['grade_list']],
+                         ['class-11'])
+        # pre-v2 app versions slugify a category's label to open it: they get the classes only
+        cats = self.client.get('/api/syllabus/categories/').json()['categories']
+        self.assertEqual([c['grade'] for c in cats], ['Class 11'])
         self.assertTrue(detail['chapters'][0]['name'].startswith('Chapter 1:'))
         self.assertEqual(self.client.get('/api/syllabus/subjects/class-11/physics/').json()['grade_slug'], 'class-11')
 
