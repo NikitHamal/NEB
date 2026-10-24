@@ -210,15 +210,41 @@
     "Economic importance of viruses, bacteria, blue-green algae, fungi, algae, bryophytes, pteridophytes, gymnosperms and angiosperms of Nepal",
     "Medicinal plants of Nepal: neem, sarpagandha, yarsagumba, tulasi and ginger"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Morphology of root, stem, leaf, inflorescence, flower and fruit"
+    },
+    {
+     "no": "5.2",
+     "title": "Brassicaceae, Solanaceae, Fabaceae and Liliaceae"
+    },
+    {
+     "no": "5.3",
+     "title": "Economic importance of plant groups in Nepal"
+    },
+    {
+     "no": "5.4",
+     "title": "Medicinal plants of Nepal: neem, sarpagandha, yarsagumba, tulasi and ginger"
+    }
+   ],
+   "summary": [
+    "A modified organ is identified by its origin, not its looks: nodes, buds or scale leaves mean stem (potato, ginger, onion, Colocasia, Opuntia pad, Asparagus cladode, Citrus thorn); sweet potato, carrot and radish are roots; pea tendrils and Opuntia spines are leaves.",
+    "Racemose inflorescences grow on and open acropetally; cymose ones end in a flower and open basipetally; tulasi has a verticillaster, Euphorbia a cyathium, the fig a hypanthodium and the sunflower a capitulum.",
+    "Flower terms the paper uses: actinomorphic or zygomorphic; hypo-, peri- or epigynous; valvate, twisted, imbricate or vexillary aestivation; monadelphous, diadelphous, syngenesious, epipetalous, tetradynamous and didynamous stamens.",
+    "Placentation is marginal (pea), axile (tomato, lily), parietal (mustard), free central (Dianthus) or basal (sunflower).",
+    "Fruits are simple, aggregate (many free carpels of one flower) or composite (a whole inflorescence); false fruits such as the apple include the thalamus.",
+    "Brassicaceae: Ebr ⊕ ⚥ K₂₊₂ C₄ A₂₊₄ G₍₂₎, siliqua. Fabaceae: Br % ⚥ K₍₅₎ C₁₊₂₊₍₂₎ A₍₉₎₊₁ G₁, legume. Solanaceae: ⊕ ⚥ K₍₅₎ C₍₅₎ A₅ G₍₂₎ with epipetalous stamens and an oblique ovary, berry. Liliaceae: Br ⊕ ⚥ P₃₊₃ A₃₊₃ G₍₃₎, capsule.",
+    "Every group matters in Nepal: nitrogen-fixing bacteria and blue-green algae, gundruk and kinema, mushrooms and yeast, agar, Sphagnum, Azolla, pine resin and timber, taxol, lokta paper and sal timber — and the harm done by plant viruses, late blight, aflatoxin, poisonous mushrooms and invasive weeds.",
+    "The five named medicinal plants: neem (Azadirachta indica, azadirachtin), sarpagandha (Rauwolfia serpentina, reserpine, roots), yarsagumba (Ophiocordyceps sinensis, an ascomycete on ghost-moth larvae, cordycepin), tulasi (Ocimum sanctum, eugenol, leaves) and ginger (Zingiber officinale, rhizome, gingerols)."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
+    "words": 7541,
+    "figures": 2,
     "examples": 0
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 6,
@@ -435,5 +461,5 @@
  ],
  "unit_count": 15,
  "topic_count": 48,
- "notes_ready": 4
+ "notes_ready": 5
 }
