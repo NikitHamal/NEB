@@ -1,4 +1,4 @@
-# SUBJECT: Optional Mathematics | GRADE: 8 | CODE: Optional (Basic Level)
+# SUBJECT: Optional Mathematics | GRADE: 8
 # EXAM: School annual examination, 2 hr, FM 50 written | Group A objective 10x1=10 | Group B short 10x2=20 | Group C long 5x4=20
 # SOURCE: CDC Optional Mathematics, Grade 8 — scope and sequence of subject matter (Algebra, Limit, Matrix, Coordinate Geometry, Trigonometry, Vector, Transformation, Statistics). Units follow that sequence; the three Algebra strands (relation and function, polynomials, sequence and series) are printed as three units because each is taught and examined on its own.
 # NOTE: optional mathematics at the basic level is examined by the school, not by a national board, so there is no national specification grid; the practice sets are written to the 50-mark school paper above, the same shape as the grade 8 compulsory mathematics book, so a student meets one pattern across both papers.

@@ -1,4 +1,4 @@
-# SUBJECT: Computer Science | GRADE: 8 | CODE: Optional (Basic Level)
+# SUBJECT: Computer Science | GRADE: 8
 # EXAM: School annual examination, 2 hr, FM 50 written (+ practical) | Group A objective 10x1=10 | Group B short 10x2=20 | Group C long 5x4=20
 # SOURCE: CDC Computer Education, Grade 8 — the twenty lessons of the CDC course and its teacher's guide (शिक्षक निर्देशिका, कम्प्युटर, कक्षा ८), in the same order. Content is brought up to date where the old course named software that is no longer in use (Office 2007, Windows XP); the QBASIC lesson is kept because it is still taught and examined in grade 8, and each programming lesson shows the same idea in Python, the language of the grade 9-10 CDC course.
 # NOTE: computer science at the basic level is examined by the school; the practice sets use the 50-mark shape of the SEE computer science paper (MCQ 1, short 2, long 4) so that grade 8 practice leads straight into grades 9 and 10. The CDC guide sets 4-5 periods for each lesson of the fundamentals part.
