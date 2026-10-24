@@ -135,7 +135,7 @@ class SyllabusViewModel @Inject constructor(
             delay(220)
             _uiState.update { it.copy(isSearching = true) }
             try {
-                val result = apiService.searchSyllabus(q, _uiState.value.grade)
+                val result = apiService.searchSyllabus(q, _uiState.value.grade, tracks = 1)
                 _uiState.update { it.copy(hits = result.results, hitTotal = result.total, isSearching = false) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isSearching = false) }

@@ -231,7 +231,9 @@ def _snippet(text, term, width=110):
     return ("…" if start else "") + text[start:start + width] + ("…" if start + width < len(text) else "")
 
 
-def search_payload(q, grade=None):
+def search_payload(q, grade=None, tracks=True):
+    """Chapters matching every word of q. `tracks=False` leaves out the entrance books (for app
+    versions that print every hit as "Class N")."""
     q = (q or "").strip()[:80]
     grade = syllabus_data.normalize_grade(grade)
     # a class search prefers the classes, an entrance search the entrance books; the selected
@@ -241,6 +243,8 @@ def search_payload(q, grade=None):
     hits = []
     if terms:
         for row in _search_rows():
+            if not tracks and row["kind"] != "school":
+                continue
             score, ok = 0.0, True
             for term in terms:
                 found = [(w, text) for w, text, folded in row["fields"] if term in folded]
