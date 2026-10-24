@@ -45,7 +45,10 @@ backend, web timed mode, Android). Everything below is pushed to this branch.
   (school only; installed apps print every entry as "Class N"), `tracks` (entrance
   entries) and `totals` (`grades` = school count, new `tracks`). Doc endpoints add `exam`
   (null when absent); subject endpoint units add `exam`; search hits add `short`/`kind`
-  (a search from a track ranks entrance books first, from a class the classes). Web hub:
+  (a search from a track ranks entrance books first, from a class the classes). The API
+  search returns entrance hits only with `tracks=1` (the new app sends it) or from a
+  track, and `/api/syllabus/categories/` lists the classes only, so installed app versions
+  never print "Class cee"; the web search always includes the tracks. Web hub:
   the classes, a hairline, then the tracks (buttons print `short`; on a phone the tracks
   get their own row); group titles "Exam subjects" / "Model papers and mock tests"; cards
   and subject pages say "N questions in the paper" ("5 of 22 chapters written" while a
@@ -73,7 +76,8 @@ backend, web timed mode, Android). Everything below is pushed to this branch.
   `syllabusShort` (never "Class cee"). Hub: one scrolling row, classes, a hairline, then
   tracks ("CEE" over "Entrance"); a remembered track stays selected; group titles and
   "N chapters · N questions" as on the web; search badge from `short`, "Chapter N" for
-  tracks. Subject screen: questions in the paper, question weightage, Chapter wording.
+  tracks. Subject screen: questions in the paper, question weightage, Chapter wording,
+  model papers marked "Timed test · 180 min" (`ApiSyllabusUnit.exam`).
   Reader: the app bundles its own script, so the timed mode is ported into
   `StudyReaderPage.kt` (`EXAM_JS`, `EXAM_CSS`): same behaviour as the web; state goes
   through the bridge (`NebStudy.examSave`) into `StudyProgress` (`x:<doc key>`) and back
@@ -97,10 +101,12 @@ backend, web timed mode, Android). Everything below is pushed to this branch.
   2 wrong, 1 blank → 3.5 / 7 with the per-section table, the deadline kept across a
   reload, the key hidden during the test and every explanation open after Submit; a
   200-question paper at 390×844 (the forks' harnesses, numbers checked).
-- Android: not compiled here. The page script was tested in a harness assembled from the
-  raw strings in `StudyReaderPage.kt` with a stub bridge (start, pick/change/clear,
-  palette, reload, submit 2.5 / 7, time-out, retake, practice, dark mode). Kotlin files were
-  re-read and checked for template-free `const val` strings.
+- Android: not compiled here (no JDK in the pod). The page script was tested in a harness
+  assembled from the raw strings in `StudyReaderPage.kt` with a stub bridge (start,
+  pick/change/clear, palette, reload, submit 2.5 / 7, time-out, retake, practice, dark mode;
+  a 200-question paper: 60 right, 60 wrong → 45 / 200 with the five section rows). Every
+  changed Kotlin file parses with tree-sitter-kotlin (no new parse errors against the base
+  commit), and the `const val` strings are template-free.
 
 **Left / TODO**
 
@@ -124,12 +130,10 @@ backend, web timed mode, Android). Everything below is pushed to this branch.
 3. **First real model paper** (`cee-mock` unit 2): check it on a phone in both the site
    and the app — 200 questions, the palette and the result table — and that its key
    boxes are found (`export_study._mcq_keys(far=True)`; mcqcheck must show every MCQ keyed).
-4. The app's subject list does not yet mark which chapters are timed papers
-   (`units[].exam` is in the subject API; `ApiSyllabusUnit` has no `exam` field yet).
-5. IOE / CSIT / BCA need no code: a track appears once its spines and a chapter exist
+4. IOE / CSIT / BCA need no code: a track appears once its spines and a chapter exist
    (button order = `TRACKS` order). Keep `TRACK_SUBJECTS` in `export_syllabus.py` in step
    with `spine.TRACK_SUBJECTS` if a new subject code is added.
-6. Pre-existing, outside this work: `web/static/web/vendor/katex/fonts/` holds 7 of the 16
+5. Pre-existing, outside this work: `web/static/web/vendor/katex/fonts/` holds 7 of the 16
    KaTeX fonts the CSS asks for (the rest 404 on the site; the app bundles its own).
 
 ## What exists (update the table as work lands)
