@@ -30,7 +30,7 @@ One counting formula (the steric number) answers most shape questions in seconds
 
 Kossel and Lewis (1916) explained bonding by the stability of the noble gases: **atoms
 combine so as to reach a stable noble-gas configuration** — eight outer electrons (an
-**octet**), or two (a **duplet**) for H, Li and Be²⁺. They do this by transferring
+**octet**), or two (a **duplet**) for H (in H₂), Li⁺ and Be²⁺. They do this by transferring
 electrons (ionic bond), by sharing them (covalent bond), or by sharing a pair that one atom
 supplies (coordinate bond). Only the valence electrons take part; in a **Lewis symbol** they
 are shown as dots round the element symbol.
@@ -170,7 +170,7 @@ panel(axs[0,0], 'linear', 'BeCl₂, CO₂  180°', [(-1,0,'s'), (1,0,'s')], [])
 panel(axs[0,1], 'trigonal planar', 'BF₃, SO₃  120°', [(*pol(90),'s'), (*pol(210),'s'), (*pol(330),'s')], [])
 tet = [(0, 1, 's'), (-0.94, -0.33, 's'), (0.42, -0.80, 'w'), (0.86, -0.22, 'd')]
 panel(axs[0,2], 'tetrahedral', 'CH₄, NH₄⁺  109.5°', tet, [])
-panel(axs[0,3], 'trigonal pyramidal', 'NH₃, PCl₃  107°', tet[1:], [90])
+panel(axs[0,3], 'trigonal pyramidal', 'NH₃  107°', tet[1:], [90])
 panel(axs[1,0], 'bent', 'H₂O  104.5°', [(*pol(270-52.25),'s'), (*pol(270+52.25),'s')], [55, 125])
 panel(axs[1,1], 'trigonal bipyramidal', 'PCl₅  90°, 120°', [(0,1,'s'), (0,-1,'s'), (1.0,-0.1,'s'), (-0.62,0.22,'d'), (-0.5,-0.36,'w')], [])
 panel(axs[1,2], 'octahedral', 'SF₆  90°', [(0,1,'s'), (0,-1,'s'), (1,0,'s'), (-1,0,'s'), (0.5,0.36,'d'), (-0.5,-0.36,'w')], [])
@@ -297,7 +297,7 @@ solvents: NaCl (801 °C) > MgCl₂ (714 °C) > AlCl₃ (sublimes near 180 °C).
 **decreases** as bond order increases, as the atoms get smaller and as the s character of
 the hybrid orbitals increases; **bond energy** moves the other way.
 
-| Bond | C–C | C=C (benzene) | C=C | C≡C | C–H (sp³ / sp² / sp) |
+| Bond | C–C | benzene C–C (order 1.5) | C=C | C≡C | C–H (sp³ / sp² / sp) |
 |---|---|---|---|---|---|
 | Length (pm) | 154 | 139 | 134 | 120 | 109 / 108 / 106 |
 
@@ -397,8 +397,10 @@ neopentane (9.5 °C).
 | van der Waals forces | below about 10 |
 
 ::: caution Hydrogen bonds need F, O or N
-A C–H hydrogen does not form hydrogen bonds — that is why CH₄ fits the normal boiling-point
-trend while NH₃, H₂O and HF do not. And a hydrogen bond lies **between** an H on one
+An ordinary C–H hydrogen (as in CH₄) is not polar enough to form hydrogen bonds — that is
+why CH₄ fits the normal boiling-point trend while NH₃, H₂O and HF do not. (Only when carbon
+carries strongly electron-withdrawing groups, as in CHCl₃, can a weak C–H···O bond form —
+chloroform with acetone.) And a hydrogen bond lies **between** an H on one
 electronegative atom and a lone pair on another; HCl, with a large, less electronegative Cl,
 forms only dipole–dipole attractions.
 :::

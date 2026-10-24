@@ -103,8 +103,8 @@ $$ PV = nRT, \qquad n = \frac{w}{M} \;\Rightarrow\; PV = \frac{w}{M}RT, \qquad \
 | L atm mol⁻¹ K⁻¹ | 0.0821 |
 | cal mol⁻¹ K⁻¹ | 1.987 (≈ 2) |
 
-R is the work done by (or the energy per kelvin of) one mole of an ideal gas; it is the
-same for all gases. An **ideal gas** obeys PV = nRT exactly at all temperatures and
+R is the work done by one mole of an ideal gas when it is heated through 1 K at constant
+pressure; it has the same value for all gases. An **ideal gas** obeys PV = nRT exactly at all temperatures and
 pressures; no real gas does.
 
 ::: example Combined gas equation
@@ -468,7 +468,7 @@ Waals forces, so it is soft and slippery.
 |---|---|
 | Kinetic gas equation | $PV = \frac{1}{3}mNu_{rms}^2$ |
 | Kinetic energy | (3/2)RT per mole; (3/2)kT per molecule; depends only on T |
-| Molecular speeds | $u_{rms} = \sqrt{3RT/M}$, $u_{av} = \sqrt{8RT/\pi M}$, $u_{mp} = \sqrt{2RT/M}$; ratio 1 : 1.128 : 1.224 |
+| Molecular speeds | $u_{mp} = \sqrt{2RT/M}$, $u_{av} = \sqrt{8RT/\pi M}$, $u_{rms} = \sqrt{3RT/M}$; $u_{mp} : u_{av} : u_{rms}$ = 1 : 1.128 : 1.224 |
 | Gas laws | PV = const (T); V/T = const (P); P/T = const (V); V/n = const |
 | Ideal and combined | PV = nRT; ρ = PM/RT; P₁V₁/T₁ = P₂V₂/T₂ |
 | R | 8.314 J mol⁻¹ K⁻¹ = 0.0821 L atm mol⁻¹ K⁻¹ = 1.987 cal mol⁻¹ K⁻¹ |

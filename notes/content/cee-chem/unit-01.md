@@ -435,8 +435,8 @@ ax.legend(loc='upper left', fontsize=8.2, frameon=False)
 ```
 
 ::: example Limiting reactant in ammonia synthesis
-**Problem.** 28 g of N₂ and 9 g of H₂ react completely: N₂ + 3H₂ → 2NH₃. Which reactant
-is limiting? What mass of NH₃ forms and what is left over?
+**Problem.** 28 g of N₂ and 9 g of H₂ react, N₂ + 3H₂ → 2NH₃, until one of them is used up.
+Which reactant is limiting? What mass of NH₃ forms and what is left over?
 
 **Solution.** N₂: 28/28 = 1 mol, 1/1 = 1. H₂: 9/2 = 4.5 mol, 4.5/3 = 1.5. N₂ gives the
 smaller value, so **N₂ is limiting**. NH₃ = 2 × 1 = 2 mol = **34 g**. H₂ used = 3 mol;
@@ -562,7 +562,7 @@ Molar volumes: 22.4 L (273 K, 1 atm, the CEE value) · 22.7 L (273 K, 1 bar) ·
    (a) 1 : 16 (b) 1 : 8 (c) 2 : 1 (d) 8 : 1
 
 ::: note Answers and explanations — Set A
-**1.** (c) — The ¹²C standard has been used since 1961; (a) was Dalton's hydrogen scale and (b) the old chemists' oxygen scale.
+**1.** (c) — The ¹²C standard has been used since 1961; (a) was Dalton's hydrogen scale and (b) the old physicists' scale (¹⁶O = 16); chemists took natural oxygen as 16 until 1961.
 **2.** (a) — 1 u = (1/N_A) g = 1/(6.02 × 10²³) g = 1.66 × 10⁻²⁴ g. Option (b) is the same number in kilograms; (d) is the mass of a whole ¹²C atom.
 **3.** (d) — Dalton deduced it from his atomic theory. Lavoisier: conservation of mass; Proust: definite proportions; Richter: reciprocal proportions.
 **4.** (b) — The same two elements form both: O per 32 g of S is 32 g in SO₂ and 48 g in SO₃, ratio 2 : 3. H₂O/D₂O differ only in isotope; (c) and (d) involve three elements.
@@ -634,7 +634,7 @@ Molar volumes: 22.4 L (273 K, 1 atm, the CEE value) · 22.7 L (273 K, 1 bar) ·
 
 **Set C — Application (11 questions)**
 
-1. 10 g of H₂ and 64 g of O₂ react completely to form water. The mass of water formed is
+1. 10 g of H₂ and 64 g of O₂ are exploded together until one of them is used up. The mass of water formed is
    (a) 74 g (b) 90 g (c) 72 g (d) 36 g
 2. Boron has two isotopes, ¹⁰B and ¹¹B, and an average atomic mass of 10.8. The percentage abundance of ¹¹B is
    (a) 80 % (b) 20 % (c) 50 % (d) 92 %

@@ -90,7 +90,8 @@ double decompositions) is not a redox reaction.
 | Others | OsO₄ +8 (the highest in any stable compound), Ni(CO)₄ 0, NH₄NO₃: N −3 and +5 |
 
 ::: caution When the simple sum gives an impossible answer
-A sum that exceeds the group number (Cr > +6, S > +6) means the formula hides a
+A sum that exceeds the element's highest possible oxidation state (+6 for both Cr and S)
+means the formula hides a
 **peroxide** (–O–O–) link, whose oxygens are −1. CrO₅ by simple arithmetic gives +10, but
 its structure has two peroxide groups and one ordinary oxygen: x + 4(−1) + (−2) = 0, so
 x = **+6**. Fractional values (Fe₃O₄, S₄O₆²⁻, HN₃) are averages over atoms in different
