@@ -538,9 +538,9 @@ ax.set_xlim(-0.4, 4.7); ax.set_ylim(-0.95, 1.6); ax.set_aspect('equal'); ax.axis
    (a) 16 (b) 24 (c) 32 (d) 8
 11. On a standard die (opposite faces add up to 7), which three numbers can be seen together at one corner?
    (a) 1, 6, 2 (b) 2, 5, 3 (c) 3, 4, 1 (d) 1, 2, 3
-12. Which word looks exactly the same in a mirror held upright beside it?
+12. Which word looks the same in a mirror held upright beside it?
    (a) DAD (b) MOM (c) NUN (d) POP
-13. Which word looks exactly the same in its water image?
+13. Which word looks the same in its water image?
    (a) MAT (b) TOY (c) BOX (d) WAX
 14. Which capital letter does NOT look the same in a mirror held upright beside it?
    (a) A (b) H (c) T (d) N
@@ -1155,7 +1155,7 @@ ax.set_xlim(0.0, 6.4); ax.set_ylim(-0.5, 2.6); ax.set_aspect('equal'); ax.axis('
 4. In the figure above, in which option is figure X embedded?
    (a) figure a (b) figure b (c) figure c (d) figure d
 
-```figure caption="For Set C, question 5: count the triangles. The four inner slanting lines join the midpoints of the sides."
+```figure caption="For Set C, question 5: count the triangles. Both diagonals of the square are drawn; the other four slanting lines join the midpoints of neighbouring sides."
 fig, ax = plt.subplots(figsize=(4.0, 2.4))
 ax.add_patch(Rectangle((0, 0), 2, 2, fc='none', ec=INK, lw=1.4))
 ax.plot([0, 2], [0, 2], color=INK, lw=1.4); ax.plot([0, 2], [2, 0], color=INK, lw=1.4)
@@ -1169,7 +1169,7 @@ ax.set_xlim(-0.9, 2.9); ax.set_ylim(-0.15, 2.15); ax.set_aspect('equal'); ax.axi
    (a) 16 (b) 32 (c) 48 (d) 8
 7. A cuboid 5 cm × 4 cm × 3 cm is painted on all its faces and cut into 1 cm cubes. How many cubes have exactly two painted faces?
    (a) 22 (b) 12 (c) 24 (d) 36
-8. A painted cube is cut into equal small cubes, and exactly 8 of the small cubes have no paint. How many small cubes have exactly one painted face?
+8. A cube painted on all its faces is cut into equal small cubes, and exactly 8 of the small cubes have no paint. How many small cubes have exactly one painted face?
    (a) 24 (b) 8 (c) 48 (d) 36
 9. A word is reflected in an upright mirror, and that image is then reflected in a horizontal mirror below it. Compared with the original word, the final image is
    (a) turned through 90° clockwise (b) turned through 180° (c) turned through 90° anticlockwise (d) unchanged
