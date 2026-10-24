@@ -83,9 +83,11 @@ backend, web timed mode, Android). Everything below is pushed to this branch.
   through the bridge (`NebStudy.examSave`) into `StudyProgress` (`x:<doc key>`) and back
   as `NEB_EXAM_STATE`, so it survives reloads, rotation and restarts; `NebStudy.exam(on)`
   hides "Show answers" while a test runs; Back closes the palette/intro sheets first.
-- **Data committed:** CEE physics 5, chemistry 6, zoology 4, botany 4, mental agility 3
-  chapters at first export (see the latest "syllabus + study export" commit for the
-  current numbers); `cee-mock` had no chapter yet, so no model paper is live.
+- **Data committed** (last export 22:15 UTC, from HEAD): CEE physics 5, chemistry 6,
+  zoology 4, botany 5, mental agility 4 chapters (see the latest "syllabus + study export"
+  commit). `cee-mock` has no chapter yet, so no model paper is live; the model-papers card,
+  the timed-test promise in the hub copy and the "Timed test" rows appear by themselves
+  once its first chapter is exported.
 
 **How it was tested**
 
@@ -124,7 +126,8 @@ backend, web timed mode, Android). Everything below is pushed to this branch.
    cee-chem …` (only books with chapters), copy `backend_python/web/data/syllabus/`
    (index.json + `<track>-*.json`), `backend_python/web/data/study/<track>-*/` and the new
    files of `backend_python/web/static/web/study/` back into the clone, lockpush exactly
-   those paths, `git worktree remove --force /tmp/neb-exp`. Never commit the untracked
+   those paths, `git worktree remove --force /tmp/neb-exp` (the worktree needs about
+   350 MB and ten seconds per book; whole-book re-export is deterministic). Never commit the untracked
    media that writers' `mcqcheck.py` runs leave in `web/static/web/study/` unless an
    exported JSON references them.
 3. **First real model paper** (`cee-mock` unit 2): check it on a phone in both the site
