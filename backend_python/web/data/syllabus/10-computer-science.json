@@ -1,0 +1,392 @@
+{
+ "grade": "10",
+ "grade_label": "Class 10",
+ "grade_label_ne": "कक्षा १०",
+ "subject": "computer-science",
+ "name": "Computer Science",
+ "name_ne": "कम्प्युटर विज्ञान",
+ "icon": "terminal",
+ "group": "optional",
+ "color": "#2E4057",
+ "lang": "en",
+ "code": "SEE (Optional Computer Science)",
+ "hours": 64,
+ "exam": "SEE, 2 hr, FM 50 written (+50 internal: practical and project 35, participation 5, terminal tests 10) | Group A MCQ 10x1=10 | Group B short 10x2=20 | Group C long 5x4=20",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Computer Network and Communication",
+   "hours": 14,
+   "area": "",
+   "topics": [
+    "Concept of telecommunication: bandwidth, throughput, broadband, mobile generations (3G, 4G, 5G), data packets, frequency and communication modes (simplex, half duplex, full duplex)",
+    "Communication media: guided media (twisted pair and CAT6, coaxial, optical fibre) and unguided media (radio wave, microwave, infrared, satellite, Wi-Fi, Bluetooth)",
+    "Connectors: RJ-45, RJ-11, BNC, fibre connectors (ST, SC, SMA) and the media converter",
+    "Networking devices: NIC, repeater, hub, switch, router, modem, wireless access point and gateway",
+    "Network topology: bus, ring, star, mesh and tree/hybrid",
+    "Networks by coverage: PAN, LAN, MAN and WAN",
+    "Network architecture: client-server and peer-to-peer",
+    "IP addressing: IPv4 and IPv6, private and public addresses, static and dynamic addresses, checking an IP address and default gateway",
+    "Internet, intranet and extranet"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Concept of telecommunication"
+    },
+    {
+     "no": "1.2",
+     "title": "Communication media: guided and unguided"
+    },
+    {
+     "no": "1.3",
+     "title": "Connectors: RJ-45, RJ-11, BNC, fibre connectors and the media converter"
+    },
+    {
+     "no": "1.4",
+     "title": "Networking devices"
+    },
+    {
+     "no": "1.5",
+     "title": "Network topology"
+    },
+    {
+     "no": "1.6",
+     "title": "Networks by coverage: PAN, LAN, MAN and WAN"
+    },
+    {
+     "no": "1.7",
+     "title": "Network architecture: client–server and peer-to-peer"
+    },
+    {
+     "no": "1.8",
+     "title": "IP addressing"
+    },
+    {
+     "no": "1.9",
+     "title": "Internet, intranet and extranet"
+    }
+   ],
+   "summary": [
+    "Telecommunication is exchanging information over a distance electronically; every link has a sender, message, medium, receiver and protocol.",
+    "Bandwidth is the maximum data rate of a link; throughput is the rate actually achieved; time = data in bits ÷ rate, and 1 byte = 8 bits.",
+    "Broadband (DSL, cable, fibre, satellite, wireless) is always-on and fast; 3G → 4G → 5G brought mobile Internet, then HD streaming, then very low latency for IoT. 4G reached Nepal in 2017.",
+    "Data travels in packets (header, payload, trailer). Frequency is cycles per second in hertz; λ = (c)/(f).",
+    "Modes: simplex (one way), half duplex (both ways, one at a time), full duplex (both ways together).",
+    "Guided media: twisted pair (CAT6, 100 m), coaxial, optical fibre (light, tens of km). Unguided: radio, microwave, infrared, satellite (uplink and downlink), Wi-Fi, Bluetooth, RFID.",
+    "Connectors: RJ-45 (Ethernet, 8 pins), RJ-11 (telephone), BNC (coaxial), ST, SC, LC and SMA (fibre); a media converter joins copper and fibre.",
+    "Devices: NIC (MAC address), repeater, hub (copies to all), switch (MAC, one port), bridge, router (IP, best path), modem/ONT, access point, gateway (different protocols)."
+   ],
+   "terms": [
+    "Telecommunication",
+    "Bandwidth",
+    "Throughput",
+    "Broadband",
+    "Data packet",
+    "Frequency",
+    "Communication media",
+    "Connector",
+    "Network topology",
+    "Computer network"
+   ],
+   "stats": {
+    "words": 12114,
+    "figures": 6,
+    "examples": 8
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Database Management System",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Introduction to database; data, information, database and DBMS; advantages of a DBMS",
+    "Data types in MySQL: numeric, string and date/time types",
+    "Table: field, record, and table design",
+    "Keys: primary key, foreign key, composite and candidate keys; types of relationship (one-to-one, one-to-many, many-to-many)",
+    "Introduction to MySQL: features, installing MySQL 8 and working in MySQL Workbench",
+    "Data Definition Language (DDL): CREATE, ALTER, DROP and TRUNCATE",
+    "Data Manipulation Language (DML): INSERT, SELECT with WHERE, ORDER BY and LIKE, UPDATE and DELETE"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Introduction to database: data, information, database and DBMS"
+    },
+    {
+     "no": "2.2",
+     "title": "Data types in MySQL: numeric, string and date/time types"
+    },
+    {
+     "no": "2.3",
+     "title": "Table: field, record and table design"
+    },
+    {
+     "no": "2.4",
+     "title": "Keys and relationships"
+    },
+    {
+     "no": "2.5",
+     "title": "Introduction to MySQL"
+    },
+    {
+     "no": "2.6",
+     "title": "Data Definition Language (DDL): CREATE, ALTER, DROP and TRUNCATE"
+    },
+    {
+     "no": "2.7",
+     "title": "Data Manipulation Language (DML): INSERT, SELECT, UPDATE and DELETE"
+    }
+   ],
+   "summary": [
+    "Data are raw facts; information is processed, meaningful data. A database is an organised collection of related data; a DBMS (MySQL, Oracle) is the software that manages it; an RDBMS keeps data in linked tables.",
+    "DBMS advantages: fast retrieval, less redundancy, consistency, security, multi-user access, backup. Disadvantages: cost, expertise, maintenance.",
+    "Data types: INT, SMALLINT, BIGINT, DECIMAL(p,s) (exact), FLOAT (approximate); CHAR(n) (fixed), VARCHAR(n) (variable), TEXT; DATE 'YYYY-MM-DD', TIME, DATETIME, TIMESTAMP; BOOLEAN = TINYINT(1).",
+    "A table has fields (columns) and records (rows). Keys: primary (unique, not NULL, one per table), candidate, alternate, composite (two or more fields), foreign (refers to another table's primary key).",
+    "Relationships: 1 : 1, 1 : M (most common), M : N (via a junction table).",
+    "Constraints: PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK, DEFAULT.",
+    "DDL: CREATE, ALTER (ADD, MODIFY, CHANGE, RENAME COLUMN, DROP COLUMN), DROP, TRUNCATE, RENAME — committed at once.",
+    "DML: INSERT, SELECT (WHERE, ORDER BY ASC/DESC, LIKE with % and _), UPDATE … SET … WHERE, DELETE … WHERE. Never forget WHERE."
+   ],
+   "terms": [
+    "Data and information",
+    "Database",
+    "DBMS",
+    "Relational DBMS (RDBMS)",
+    "Data type",
+    "Table, field and record",
+    "The keys you must know",
+    "SQL and query",
+    "Constraint"
+   ],
+   "stats": {
+    "words": 9868,
+    "figures": 4,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Multimedia",
+   "hours": 10,
+   "area": "",
+   "topics": [
+    "Introduction to multimedia, its elements and applications",
+    "Text: fonts, typography and text file formats",
+    "Graphics: raster and vector images, pixels and resolution, graphics file formats, and editing images in Pixlr and Canva",
+    "Audio: digital sound, audio file formats, and recording and editing audio in Audacity",
+    "Video: frames, frame rate and resolution, video file formats, and editing and exporting video in CapCut",
+    "Concept of animation: 2D and 3D animation, frame-by-frame and keyframe animation, and where animation is used"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Introduction to multimedia, its elements and applications"
+    },
+    {
+     "no": "3.2",
+     "title": "Text: fonts, typography and text file formats"
+    },
+    {
+     "no": "3.3",
+     "title": "Graphics: raster and vector, pixels and resolution, formats, and editing"
+    },
+    {
+     "no": "3.4",
+     "title": "Audio: digital sound, audio file formats, and recording and editing"
+    },
+    {
+     "no": "3.5",
+     "title": "Video: frames, frame rate and resolution, formats, and editing"
+    },
+    {
+     "no": "3.6",
+     "title": "Concept of animation"
+    }
+   ],
+   "summary": [
+    "Multimedia combines text, graphics, audio, video and animation; it may be linear or interactive and is used in education, entertainment, business, communication and content creation.",
+    "Text: serif, sans-serif and monospace fonts, size in points; typography arranges text for readability. Formats: TXT (plain), RTF (formatted), DOCX (Word), PDF (fixed layout). Use Unicode fonts for Nepali.",
+    "Raster images are grids of pixels (JPG, PNG, GIF, BMP, WebP) and pixelate when enlarged; vector images are mathematical shapes (SVG, AI, EPS) and stay sharp. Raw size = width × height × bytes per pixel.",
+    "Lossless compression keeps every detail (PNG, FLAC); lossy throws some away for small files (JPG, MP3, MP4).",
+    "Audio: amplitude = loudness, frequency = pitch; sampled at, e.g., 44,100 Hz with 16 bits. Size = rate × bits × channels × seconds. WAV is uncompressed; MP3 and AAC are compressed.",
+    "Video = frames shown at a frame rate (24, 25, 30, 60 fps) with a resolution (SD 720 × 480, HD 1280 × 720, FHD 1920 × 1080). Formats: MP4, MOV, AVI, MKV.",
+    "Tools: Pixlr (photo editing, layers, cutout; JPG/PNG/WEBP/PXZ), Canva (templates), Audacity/AudioMass (record, cut, effects, export), CapCut (timeline, trim, split, transitions, text, export MP4).",
+    "Animation: 2D (width, height) and 3D (with depth: model, rig, animate, render); frame-by-frame draws every frame, keyframe animation draws key poses and the software makes the tweens."
+   ],
+   "terms": [
+    "Multimedia",
+    "Raster graphics and pixel",
+    "Vector graphics",
+    "Video and frame",
+    "Animation"
+   ],
+   "stats": {
+    "words": 7729,
+    "figures": 5,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Programming in Python",
+   "hours": 16,
+   "area": "",
+   "topics": [
+    "Revision of the basics of Python: data types, variables, operators, input/output, selection and loops",
+    "User-defined functions: defining and calling functions, passing parameters and returning values",
+    "Concept of library and packages in Python: modules, math, random, datetime and pip",
+    "Graphics using Turtle",
+    "Error handling: syntax errors, runtime errors and exceptions, try-except blocks",
+    "File handling: text files, and CSV files with the pandas library",
+    "Introduction to data visualization with Matplotlib: line, bar and pie charts"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Revision of the basics of Python"
+    },
+    {
+     "no": "4.2",
+     "title": "User-defined functions"
+    },
+    {
+     "no": "4.3",
+     "title": "Libraries, packages and modules: math, random, datetime and pip"
+    },
+    {
+     "no": "4.4",
+     "title": "Graphics using Turtle"
+    },
+    {
+     "no": "4.5",
+     "title": "Error handling: errors, exceptions and try-except"
+    },
+    {
+     "no": "4.6",
+     "title": "File handling: text files, and CSV files with pandas"
+    },
+    {
+     "no": "4.7",
+     "title": "Introduction to data visualization with Matplotlib"
+    }
+   ],
+   "summary": [
+    "Basics: input() returns a string, so convert with int()/float(); types int, float, str, bool, list; / gives a float, // rounds down, % gives the remainder; selection with if, if-else, if-elif-else, nested if; loops with for … in range(start, stop, step) and while.",
+    "Functions: def name(parameters): … return value. Arguments may be positional, default (rate=10, placed last) or keyword (rate=8). A void function returns None; return a, b returns a tuple. Local variables live inside a function; global ones outside.",
+    "Modules, packages, libraries: import with import m, from m import f, import m as alias. math (sqrt, pow, pi, ceil, floor, factorial, radians), random (random, randint inclusive, randrange, choice, shuffle, seed), datetime (date, timedelta, strftime); install packages with pip install.",
+    "Turtle: forward, backward, left, right, goto, penup, pendown, pensize, color, fillcolor with begin_fill/end_fill, circle, shape, speed; a regular n-gon turns 360°/n at each corner.",
+    "Errors: syntax (caught before running), runtime exceptions (ZeroDivisionError, ValueError, TypeError, NameError, IndexError, FileNotFoundError) and logical errors. try → except (on error) or else (no error) → finally (always).",
+    "Files: open(name, mode) with r, w (overwrite), a (append), x (new only); read, read(n), readline, readlines, write (no automatic newline), writelines, close, or with. CSV with the csv module or pandas.",
+    "pandas: pd.read_csv, head, shape, columns, df[\"col\"], df[df[\"col\"] > n] (combine with &, | and brackets), sort_values, mean, to_csv(index=False).",
+    "Matplotlib: plt.plot (trend), plt.bar (compare), plt.pie with autopct (parts of a whole), plt.scatter (relationship); add title and axis labels; plt.show(). Seaborn makes statistical charts; Plotly makes interactive ones."
+   ],
+   "terms": [
+    "Function",
+    "Module, package and library"
+   ],
+   "stats": {
+    "words": 9816,
+    "figures": 6,
+    "examples": 32
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "AI and Contemporary Technologies",
+   "hours": 14,
+   "area": "",
+   "topics": [
+    "Artificial Intelligence and Machine Learning: meaning, types and applications",
+    "Learning techniques: supervised, unsupervised and reinforcement learning",
+    "AI in robotics: sensing, deciding and acting; simulating simple robotic tasks",
+    "Generative AI: how large language models and image generators work, prompting and limitations",
+    "Application of integrated AI tools in study and work",
+    "Ethics in AI: bias, privacy and security",
+    "Internet of Things (IoT) and its applications",
+    "Virtual reality, augmented reality and extended reality (XR)",
+    "Cloud computing: service models (IaaS, PaaS, SaaS) and applications",
+    "e-Commerce, e-Governance and e-Education in Nepal"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Artificial Intelligence and Machine Learning: meaning, types and applications"
+    },
+    {
+     "no": "5.2",
+     "title": "Learning techniques: supervised, unsupervised and reinforcement learning"
+    },
+    {
+     "no": "5.3",
+     "title": "AI in robotics: sensing, deciding and acting"
+    },
+    {
+     "no": "5.4",
+     "title": "Generative AI: how it works, prompting and limitations"
+    },
+    {
+     "no": "5.5",
+     "title": "Application of integrated AI tools in study and work"
+    },
+    {
+     "no": "5.6",
+     "title": "Ethics in AI: bias, privacy and security"
+    },
+    {
+     "no": "5.7",
+     "title": "Internet of Things (IoT) and its applications"
+    },
+    {
+     "no": "5.8",
+     "title": "Virtual reality, augmented reality and extended reality (XR)"
+    },
+    {
+     "no": "5.9",
+     "title": "Cloud computing: service models and applications"
+    },
+    {
+     "no": "5.10",
+     "title": "e-Commerce, e-Governance and e-Education in Nepal"
+    }
+   ],
+   "summary": [
+    "AI makes machines do tasks needing human intelligence; ML is AI that learns from data; deep learning and generative AI are inside ML. All present AI is narrow AI.",
+    "Learning techniques: supervised (labelled data, predicts labels), unsupervised (unlabelled data, finds groups), reinforcement (trial and error with rewards).",
+    "Robots sense (sensors), think (controller, AI) and act (actuators); simulators such as Scratch and RoboBlocky test robot programs.",
+    "Generative AI creates content from prompts: LLMs predict the next token; image generators remove noise step by step. Good prompts give task, context, format and limits. Limits: hallucination, bias, privacy, copyright, deepfakes.",
+    "AI is built into Google Docs, Gmail and Microsoft 365 (Copilot); use it with privacy, accuracy, fairness and honesty.",
+    "AI ethics: bias (fix with diverse data and human review), privacy (consent, minimal data), security (protect against hacking and poisoning).",
+    "IoT: sensors + connection + cloud + app + actuators, in smart homes, cities, farms, health, transport and schools.",
+    "VR replaces the real world; AR adds to it; MR mixes them; XR covers all three."
+   ],
+   "terms": [
+    "Artificial intelligence and machine learning",
+    "The three learning techniques",
+    "Robot and robotics",
+    "Generative AI",
+    "Internet of Things",
+    "VR, AR and XR",
+    "Cloud computing",
+    "e-Commerce",
+    "e-Governance",
+    "e-Education"
+   ],
+   "stats": {
+    "words": 7819,
+    "figures": 6,
+    "examples": 7
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 5,
+ "topic_count": 39,
+ "notes_ready": 5
+}
