@@ -252,6 +252,7 @@ class EntranceTrackTests(TestCase):
         self.assertIn('1 of 2 chapters written · 50 questions in the paper', page)
         self.assertIn('href="/app/syllabus/cee/physics/"', page)
         self.assertIn('Entrance preparation for CEE', page)
+        self.assertIn('model papers you can take as a timed test', page)   # the fixture has the model papers
         self.assertNotIn('Class cee', page)
         self.assertIn('aria-selected="true"', self.client.get('/app/syllabus/cee/').content.decode().split('data-syl-grade="cee"')[1][:40])
 

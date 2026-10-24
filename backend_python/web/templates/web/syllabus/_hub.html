@@ -3,7 +3,7 @@
   <header class="syl-hub-head">
     <div>
       <h2 class="syl-hub-title">Syllabus and study notes</h2>
-      <p class="syl-hub-sub">Every unit of the CDC and NEB syllabus with the full chapter from the NEBians books, worked examples, self-check questions and a question bank in the board's pattern.{% if syllabus_track_names %} Entrance preparation for {{ syllabus_track_names }}: every chapter of the official syllabus, MCQ practice with explained answers and model papers you can take as a timed test.{% endif %}</p>
+      <p class="syl-hub-sub">Every unit of the CDC and NEB syllabus with the full chapter from the NEBians books, worked examples, self-check questions and a question bank in the board's pattern.{% if syllabus_track_names %} Entrance preparation for {{ syllabus_track_names }}: chapters written to the official syllabus with its question weightage, and MCQ practice with explained answers{% if syllabus_track_papers %}, plus model papers you can take as a timed test{% endif %}.{% endif %}</p>
     </div>
     <div class="syl-grade-switch" role="tablist" aria-label="Choose your class{% if syllabus_tracks %} or entrance exam{% endif %}" data-syl-switch>
       {% for g in syllabus_grades %}
