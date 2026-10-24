@@ -3,11 +3,20 @@ package com.neb.ians.data.api
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * The syllabus tab. [grades] holds the school classes only (installed app versions print every
+ * entry as "Class N"); [tracks] holds the entrance-examination tracks (CEE, IOE, CSIT, BCA), which
+ * older servers do not send.
+ */
 @Serializable
 data class ApiSyllabusIndex(
     val grades: List<ApiSyllabusGrade> = emptyList(),
+    val tracks: List<ApiSyllabusGrade> = emptyList(),
     val totals: ApiSyllabusTotals = ApiSyllabusTotals()
-)
+) {
+    /** School classes first, then the entrance tracks: everything the class switch offers. */
+    val all: List<ApiSyllabusGrade> get() = grades + tracks
+}
 
 @Serializable
 data class ApiSyllabusTotals(
@@ -17,14 +26,21 @@ data class ApiSyllabusTotals(
     val topics: Int = 0
 )
 
+/** A school class ("11") or an entrance track ("cee"); [grade] is the key in every route. */
 @Serializable
 data class ApiSyllabusGrade(
     val grade: String = "",
     val label: String = "",
     @SerialName("label_ne") val labelNe: String = "",
     val exam: String = "",
+    /** What a button prints where a class number would go: "Class 11", "CEE". */
+    val short: String = "",
+    /** "school" or "entrance". */
+    val kind: String = "school",
     val subjects: List<ApiSyllabusSubjectCard> = emptyList()
-)
+) {
+    val isTrack: Boolean get() = isSyllabusTrack(kind, grade)
+}
 
 @Serializable
 data class ApiSyllabusSubjectCard(
@@ -35,6 +51,8 @@ data class ApiSyllabusSubjectCard(
     val group: String = "",
     val lang: String = "en",
     val hours: Int? = null,
+    /** Entrance tracks: how many questions of the paper the subject carries. */
+    val questions: Int? = null,
     @SerialName("unit_count") val unitCount: Int = 0,
     @SerialName("topic_count") val topicCount: Int = 0
 )
@@ -51,6 +69,10 @@ data class ApiSyllabusDoc(
     val lang: String = "en",
     val code: String = "",
     val hours: Int? = null,
+    /** Entrance tracks: questions in the paper for the whole subject (spine `QUESTIONS:`). */
+    val questions: Int? = null,
+    val kind: String = "school",
+    val short: String = "",
     val exam: String = "",
     val areas: List<String> = emptyList(),
     val units: List<ApiSyllabusUnit> = emptyList(),
@@ -58,13 +80,17 @@ data class ApiSyllabusDoc(
     @SerialName("topic_count") val topicCount: Int = 0,
     val banks: List<ApiSyllabusBank> = emptyList(),
     val guide: String? = null
-)
+) {
+    val isTrack: Boolean get() = isSyllabusTrack(kind, grade)
+}
 
 @Serializable
 data class ApiSyllabusUnit(
     val no: Int = 0,
     val title: String = "",
     val hours: Int? = null,
+    /** Entrance tracks: questions this chapter carries in the paper (hours stay null). */
+    val questions: Int? = null,
     val area: String = "",
     val topics: List<String> = emptyList(),
     val sections: List<ApiSyllabusBookSection> = emptyList(),
@@ -106,7 +132,16 @@ data class ApiStudyDoc(
     val no: Int? = null,
     val prev: Int? = null,
     val next: Int? = null,
-    @SerialName("media_base") val mediaBase: String = "https://nebians.consica.com.np/"
+    @SerialName("media_base") val mediaBase: String = "https://nebians.consica.com.np/",
+    /** Set on a model paper: it can be taken as a timed test. */
+    val exam: ApiStudyExam? = null
+)
+
+/** A model paper as a timed test: its length and the marks lost per wrong answer. */
+@Serializable
+data class ApiStudyExam(
+    val minutes: Int = 0,
+    val negative: Double = 0.0
 )
 
 @Serializable
@@ -132,9 +167,21 @@ data class ApiSyllabusSearch(
 @Serializable
 data class ApiSyllabusHit(
     val grade: String = "",
+    /** "Class 10" or "CEE"; older servers send none. */
+    val short: String = "",
     val subject: String = "",
     val name: String = "",
     val unit: Int = 0,
     val title: String = "",
     val match: String = ""
 )
+
+/** A school class has a numeric key ("8", "11"); entrance tracks have a name ("cee"). */
+fun isSchoolGrade(grade: String): Boolean = grade.isNotEmpty() && grade.all { it.isDigit() }
+
+/** An entry is a track when the server says so, or (older servers) when its key is not a number. */
+fun isSyllabusTrack(kind: String, grade: String): Boolean = kind != "school" || !isSchoolGrade(grade)
+
+/** What to print where a class number would go: the server's `short`, else "Class 11" or "CEE". */
+fun syllabusShort(grade: String, short: String = ""): String =
+    short.ifBlank { if (isSchoolGrade(grade)) "Class $grade" else grade.uppercase() }

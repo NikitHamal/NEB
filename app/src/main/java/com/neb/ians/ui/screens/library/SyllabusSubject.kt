@@ -52,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiSyllabusBank
 import com.neb.ians.data.api.ApiSyllabusDoc
 import com.neb.ians.data.api.ApiSyllabusUnit
+import com.neb.ians.data.api.syllabusShort
 import com.neb.ians.data.repository.StudyMark
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebEmptyState
@@ -69,6 +70,13 @@ import com.neb.ians.ui.theme.nebSpatialSpec
 
 private typealias OpenDoc = (grade: String, subject: String, kind: String, no: Int) -> Unit
 
+/** The entrance books number chapters, the school books units. */
+private val ApiSyllabusDoc.unitWord: String get() = if (isTrack) "Chapter" else "Unit"
+
+/** "2 questions" in the paper for an entrance chapter, else the school unit's teaching hours. */
+private fun ApiSyllabusUnit.weightLabel(): String? =
+    questions?.let { if (it == 1) "1 question" else "$it questions" } ?: hours?.let { "$it hrs" }
+
 @Composable
 internal fun SyllabusSubject(state: SyllabusUiState, viewModel: SyllabusViewModel, onOpenDoc: OpenDoc) {
     BackHandler(onBack = viewModel::closeSubject)
@@ -78,7 +86,7 @@ internal fun SyllabusSubject(state: SyllabusUiState, viewModel: SyllabusViewMode
             NebIconButton(icon = Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back to subjects", onClick = viewModel::closeSubject)
             Column(Modifier.weight(1f).padding(start = 4.dp)) {
                 Text(doc?.name ?: "Syllabus", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold, maxLines = 1, overflow = TextOverflow.Ellipsis)
-                Text(doc?.gradeLabel ?: "Class ${state.openGrade.orEmpty()}", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(doc?.gradeLabel ?: syllabusShort(state.openGrade.orEmpty()), style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
         when {
@@ -224,6 +232,7 @@ private fun SubjectHeader(doc: ApiSyllabusDoc, done: Int) {
     Text(
         listOfNotNull(
             "${doc.unitCount} chapters",
+            doc.questions?.let { "$it questions in the paper" },
             doc.hours?.let { "$it teaching hours" },
             reading.takeIf { it > 0 }?.let { "about ${(it + 30) / 60} h of reading" },
             doc.banks.size.takeIf { it > 0 }?.let { "$it question sets" }
@@ -256,7 +265,7 @@ private fun NextCards(state: SyllabusUiState, doc: ApiSyllabusDoc, onOpen: (ApiS
             val m = marks[main]
             NextCard(
                 kicker = when { inProgress != null -> "Continue"; anyStarted -> "Up next"; else -> "Start here" },
-                title = "Unit ${main.no}: ${main.title}",
+                title = "${doc.unitWord} ${main.no}: ${main.title}",
                 meta = if (m != null && m.isStarted) "${m.read}% read · about ${maxOf(1, (main.readMin * (100 - m.read)) / 100)} min left" else "${main.readMin} min read",
                 strong = true,
                 icon = Icons.AutoMirrored.Outlined.ArrowForward,
@@ -267,7 +276,7 @@ private fun NextCards(state: SyllabusUiState, doc: ApiSyllabusDoc, onOpen: (ApiS
         }
         if (weak != null && weak != main) {
             val m = marks[weak]!!
-            NextCard(kicker = "Worth revising", title = "Unit ${weak.no}: ${weak.title}", meta = "${m.right} of ${m.tried} self-check questions right", strong = false, icon = Icons.Outlined.Replay, onClick = { onOpen(weak) })
+            NextCard(kicker = "Worth revising", title = "${doc.unitWord} ${weak.no}: ${weak.title}", meta = "${m.right} of ${m.tried} self-check questions right", strong = false, icon = Icons.Outlined.Replay, onClick = { onOpen(weak) })
         }
     }
 }
@@ -318,7 +327,7 @@ private fun ChapterRow(unit: ApiSyllabusUnit, mark: StudyMark?, expanded: Boolea
                     Text(unit.title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
                     Text(
                         listOfNotNull(
-                            unit.hours?.let { "$it hrs" },
+                            unit.weightLabel(),
                             if (unit.hasChapter) "${unit.readMin} min read" else "notes coming",
                             mark?.takeIf { it.tried > 0 }?.let { "${it.right}/${it.tried} right" },
                             mark?.takeIf { it.isStarted }?.let { "${it.read}%" }
@@ -420,27 +429,35 @@ private fun ExamPanel(doc: ApiSyllabusDoc) {
                 }
             }
         }
-        val timed = doc.units.filter { (it.hours ?: 0) > 0 }
+        // entrance books weigh each part by its questions in the paper, school books by teaching hours;
+        // a book of whole model papers has nothing to weigh
+        val track = doc.isTrack
+        val weight: (ApiSyllabusUnit) -> Int = { u -> if (track) u.questions ?: 0 else u.hours ?: 0 }
+        val timed = if (doc.subject == "model-papers") emptyList<ApiSyllabusUnit>() else doc.units.filter { weight(it) > 0 }
         val byArea = if (timed.map { it.area }.distinct().size < 2) {
             // a subject without parts is shown unit by unit, the heaviest first
-            val rows = timed.map { "Unit ${it.no} · ${it.title}" to (it.hours ?: 0) }.sortedByDescending { it.second }
-            if (rows.size > 12) rows.take(11) + ("Other units" to rows.drop(11).sumOf { it.second }) else rows
+            val rows = timed.map { "${doc.unitWord} ${it.no} · ${it.title}" to weight(it) }.sortedByDescending { it.second }
+            if (rows.size > 12) rows.take(11) + ("Other ${doc.unitWord.lowercase()}s" to rows.drop(11).sumOf { it.second }) else rows
         } else {
-            timed.groupBy { it.area.ifBlank { "Units" } }.mapValues { (_, us) -> us.sumOf { it.hours ?: 0 } }.toList().sortedByDescending { it.second }
+            timed.groupBy { it.area.ifBlank { "Units" } }.mapValues { (_, us) -> us.sumOf { weight(it) } }.toList().sortedByDescending { it.second }
         }
         val total = byArea.sumOf { it.second }
         if (total > 0) {
             Surface(shape = WebPanelShape, color = MaterialTheme.colorScheme.surfaceContainerLow, border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), modifier = Modifier.fillMaxWidth()) {
                 Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                    Text("Where the hours go", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-                    Text("Teaching hours are the board's guide to how much of the paper each part carries.", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(if (track) "Where the questions are" else "Where the hours go", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+                    Text(
+                        if (track) "How many of the paper's $total questions each part carries." else "Teaching hours are the board's guide to how much of the paper each part carries.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
                     byArea.forEach { (area, hours) ->
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Text(area, style = MaterialTheme.typography.bodyMedium, modifier = Modifier.weight(1f), maxLines = 1, overflow = TextOverflow.Ellipsis)
                             Box(Modifier.weight(1f).height(8.dp).clip(RoundedCornerShape(4.dp)).background(MaterialTheme.colorScheme.surfaceContainerHighest)) {
                                 Box(Modifier.fillMaxWidth(hours.toFloat() / total).fillMaxHeight().clip(RoundedCornerShape(4.dp)).background(MaterialTheme.colorScheme.onSurface))
                             }
-                            Text("$hours h", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(44.dp).padding(start = 8.dp))
+                            Text(if (track) "$hours" else "$hours h", style = MaterialTheme.typography.labelMedium, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.width(44.dp).padding(start = 8.dp))
                         }
                     }
                 }
