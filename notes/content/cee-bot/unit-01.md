@@ -78,7 +78,7 @@ good stores.
 | Glycogen | α-glucose | α-1,4 + α-1,6 branches every ~8–12 units | highly branched | red-brown | store of animals and **fungi** ("animal starch") |
 | Cellulose | β-glucose | β-1,4 | straight chains in microfibrils | none | plant cell wall; the most abundant organic compound on Earth |
 | Chitin | N-acetylglucosamine | β-1,4 | straight | none | fungal cell wall, insect exoskeleton |
-| Inulin | **fructose** | β-2,1 | short chains | none | stored in *Dahlia* tubers and dandelion roots |
+| Inulin | **fructose** | β-2,1 | short chains | none | stored in the tuberous roots of *Dahlia* and dandelion |
 | Pectin | galacturonic acid | α-1,4 | — | none | middle lamella (as calcium pectate) |
 | Peptidoglycan (murein) | NAG + NAM with short peptides | β-1,4 + peptide cross-links | net-like sac | none | bacterial cell wall |
 | Agar, carrageenan | galactose (partly sulphated) | — | — | none | red algae (*Gelidium*, *Gracilaria*) |
@@ -86,7 +86,7 @@ good stores.
 ::: caution Three favourite traps
 1. **Sucrose is non-reducing**; maltose and lactose are reducing. "All disaccharides reduce Benedict's solution" is false.
 2. **Inulin is a fructose polymer**, not glucose — and glycogen, not starch, is the store of fungi.
-3. Cellulose and starch are both glucose. They differ only in α versus β linkage, and humans lack the enzyme (cellulase) for the β-1,4 bond; cattle digest grass only with the help of cellulase-making microbes in the rumen.
+3. Cellulose and starch are both glucose. They differ only in α versus β linkage, and humans lack the enzyme (cellulase) that splits the β-1,4 bond between glucose units; cattle digest grass only with the help of cellulase-making microbes in the rumen.
 :::
 
 | Test | Reagent | Positive result | Detects |
@@ -528,9 +528,9 @@ dissolve blood clots.
    (a) α-glucose joined by α-1,4 bonds (b) fructose joined by β-2,1 bonds (c) β-glucose joined by β-1,4 bonds (d) N-acetylglucosamine joined by β-1,4 bonds
 3. The branch points of amylopectin and glycogen are formed by
    (a) α-1,4 glycosidic bonds (b) α-1,6 glycosidic bonds (c) β-1,4 glycosidic bonds (d) ester bonds
-4. Inulin, the reserve food of *Dahlia* tubers, is a polymer of
+4. Inulin, the reserve food of the tuberous roots of *Dahlia*, is a polymer of
    (a) glucose (b) galactose (c) N-acetylglucosamine (d) fructose
-5. The cell wall of most fungi is made chiefly of
+5. The characteristic structural polysaccharide of the fungal cell wall is
    (a) cellulose (b) peptidoglycan (c) chitin (d) pectin
 6. A triglyceride is formed from one glycerol and three fatty acids by
    (a) three ester bonds with the loss of three water molecules (b) three glycosidic bonds with the loss of three water molecules (c) three ester bonds with the addition of three water molecules (d) two peptide bonds with the loss of two water molecules
@@ -568,7 +568,7 @@ dissolve blood clots.
 **2.** (c) — Cellulose is β-glucose linked β-1,4, which gives straight chains that bundle into microfibrils. Option (d) is chitin; option (b) is inulin.
 **3.** (b) — Both have α-1,4 chains; branches start where an α-1,6 bond joins a side chain. Amylopectin branches every 24–30 units, glycogen every 8–12.
 **4.** (d) — Inulin is a fructose polymer (fructan), unlike starch and glycogen, which are glucose polymers.
-**5.** (c) — Fungal walls are chitin (β-1,4 N-acetylglucosamine). Peptidoglycan is the bacterial wall; cellulose is the plant wall.
+**5.** (c) — Chitin (β-1,4 N-acetylglucosamine), together with glucans, builds the fungal wall. Peptidoglycan is the bacterial wall polymer; cellulose the plant one.
 **6.** (a) — Each –OH of glycerol forms an ester bond with the –COOH of a fatty acid, releasing one water molecule each — three in all. Glycosidic bonds join sugars, peptide bonds join amino acids.
 **7.** (d) — Palmitic acid (C16:0) has no C=C double bond. Oleic (one), linoleic (two) and linolenic (three) are unsaturated.
 **8.** (b) — Lecithin (phosphatidylcholine) is glycerol + two fatty acids + phosphate + choline, a phospholipid of membranes.
@@ -591,7 +591,7 @@ dissolve blood clots.
 1. Sucrose gives a brick-red precipitate with Benedict's reagent only after it has been boiled with dilute HCl and neutralised, because
    (a) HCl converts sucrose into starch (b) HCl activates a free aldehyde group of sucrose (c) the acid hydrolyses it into glucose and fructose, which are reducing (d) HCl itself reduces Benedict's reagent
 2. Humans cannot digest cellulose even though it is made only of glucose, because
-   (a) human enzymes cannot hydrolyse β-1,4 glycosidic bonds (b) cellulose is held by α-1,6 branches (c) cellulose contains L-glucose (d) cellulose is a protein–sugar complex
+   (a) humans lack cellulase, which breaks β-1,4 links between glucose units (b) cellulose is held by α-1,6 branches (c) cellulose contains L-glucose (d) cellulose is a protein–sugar complex
 3. Glycogen releases glucose faster than an unbranched amylose chain of the same mass, mainly because
    (a) it is made of β-glucose (b) it is unbranched and compact (c) it dissolves in lipids (d) its many branches give many chain ends at which enzymes work at once
 4. Mustard and groundnut seeds store oil rather than starch. The main advantage of this is that lipids
@@ -615,7 +615,7 @@ dissolve blood clots.
 
 ::: note Answers and explanations — Set B
 **1.** (c) — Sucrose has no free carbonyl group. Acid hydrolysis breaks the glycosidic bond and gives glucose and fructose, both reducing; neutralising lets the alkaline Benedict's test work.
-**2.** (a) — Our amylases attack α-1,4 bonds only; the β-1,4 bonds of cellulose need cellulase, which humans lack. Cellulose has no branches at all.
+**2.** (a) — Our amylases attack only α-1,4 links; the β-1,4 links between the glucose units of cellulose need cellulase, which humans do not make. (Lactase splits the β-1,4 bond of lactose, but that is a galactose–glucose bond.) Cellulose has no branches at all.
 **3.** (d) — Glycogen phosphorylase removes glucose from chain ends, and heavy branching (every 8–12 units) provides many ends at once. Glycogen is α-glucose and highly branched, so (a) and (b) are false.
 **4.** (b) — Lipid gives about 39 kJ g⁻¹ against 17 kJ g⁻¹ for starch and is stored anhydrous, so a small seed carries more energy. Lipids are not polymers and are insoluble in water.
 **5.** (a) — Nitrogen is mobile: it is withdrawn from old leaves to feed the growing tips, so old leaves yellow first. Ca, Fe and B are immobile, so their symptoms appear in young leaves.

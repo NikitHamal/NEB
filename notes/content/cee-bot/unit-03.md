@@ -35,7 +35,7 @@ digest food outside the body and **absorb** it — as **saprophytes** (on dead
 matter), **parasites** (on living hosts) or **symbionts** (in lichens and
 mycorrhizae). The body is a **mycelium**, a mass of thread-like **hyphae** that
 are either **aseptate and coenocytic** (multinucleate, no cross walls) or
-**septate**. The wall is of **chitin** (fungal cellulose), and the reserve food
+**septate**. The wall contains **chitin** (fungal cellulose) with glucans, and the reserve food
 is **glycogen and oil** — never starch. The study of fungi is **mycology**.
 
 Sexual reproduction has three steps: **plasmogamy** (fusion of protoplasts),
@@ -506,7 +506,7 @@ zygospore gives a germ sporangium with **many** spores.
 
 1. A *Spirogyra* zygospore germinates. How many haploid nuclei does meiosis produce, and how many survive?
    (a) 2 formed, 2 survive (b) 4 formed, 4 survive (c) 8 formed, 1 survives (d) 4 formed, 1 survives
-2. A fungus on wheat leaves has septate hyphae and forms four spores outside a club-shaped cell; no sex organs are seen. It belongs to
+2. A fungus has septate hyphae with clamp connections and forms four spores on the outside of a club-shaped cell; no sex organs are seen. It belongs to
    (a) Phycomycetes (b) Basidiomycetes (c) Ascomycetes (d) Deuteromycetes
 3. A fungus known only by its conidia is studied for years until asci with ascospores are found. It should now be placed in
    (a) Ascomycetes (b) Basidiomycetes (c) Phycomycetes (d) Deuteromycetes, where it was
@@ -523,7 +523,7 @@ zygospore gives a germ sporangium with **many** spores.
 
 ::: note Answers and explanations — Set C
 **1.** (d) — Meiosis of the 2n nucleus gives 4 haploid nuclei; three degenerate and one survives to form a single filament.
-**2.** (b) — Four exogenous spores on a basidium and no sex organs mark a basidiomycete — wheat rust (*Puccinia*) or smut (*Ustilago*).
+**2.** (b) — Clamp connections and four exogenous spores on a club-shaped basidium mark a basidiomycete such as *Agaricus*; the missing sex organs fit somatogamy. The basidium is the sexual stage, so (d) is wrong.
 **3.** (a) — Asci and ascospores are the sexual stage of Ascomycetes; once it is known the fungus leaves the "imperfect" group.
 **4.** (c) — 18 g ÷ 180 g mol⁻¹ = 0.1 mol glucose → 0.2 mol CO₂ × 44 g mol⁻¹ = 8.8 g. Option (b), 9.2 g, is the ethanol (0.2 × 46).
 **5.** (b) — Leaf-like lobes on rhizines = foliose; a separate algal zone = heteromerous (as in *Parmelia*).
