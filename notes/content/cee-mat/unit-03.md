@@ -387,7 +387,7 @@ ax.set_xlim(-0.7, 10.9); ax.set_ylim(-0.45, 2.6); ax.set_aspect('equal'); ax.axi
    (a) 1 (b) 2 (c) 0 (d) 3
 21. Which of the following years is a leap year?
    (a) 1900 (b) 2100 (c) 2000 (d) 2022
-22. If today is Wednesday, what day of the week will it be after 100 days?
+22. If today is Wednesday, what day of the week will it be exactly 100 days from today?
    (a) Friday (b) Thursday (c) Saturday (d) Tuesday
 23. The angle between the hands of a clock at 4:30 is
    (a) 30° (b) 60° (c) 15° (d) 45°

@@ -512,7 +512,7 @@ a legitimate and fast method.
    (a) no profit, no loss (b) 1 % gain (c) 2 % loss (d) 1 % loss
 5. A dishonest shopkeeper sells rice at cost price but uses a 900 g weight in place of 1 kg. His gain per cent is
    (a) 10 % (b) 11 1/9 % (c) 9 % (d) 12.5 %
-6. The difference between the compound and simple interest on Rs 8,000 for 2 years at 5 % per annum is
+6. The difference between the compound interest (compounded yearly) and the simple interest on Rs 8,000 for 2 years at 5 % per annum is
    (a) Rs 20 (b) Rs 40 (c) Rs 10 (d) Rs 80
 7. A and B together can do a piece of work in 10 days, and A alone can do it in 15 days. B alone can do it in
    (a) 25 days (b) 5 days (c) 30 days (d) 6 days
@@ -530,7 +530,7 @@ a legitimate and fast method.
    (a) 2 : 1 (b) 1 : 2 (c) 3 : 2 (d) 13 : 15
 14. The HCF of two numbers is 12 and their LCM is 360. If one number is 72, the other is
    (a) 30 (b) 60 (c) 120 (d) 180
-15. 19.98 % of 501.2 + 3.01 × 49.9 is closest to
+15. (19.98 % of 501.2) + (3.01 × 49.9) is closest to
    (a) 150 (b) 200 (c) 250 (d) 300
 
 ::: note Answers and explanations — Set B
@@ -557,13 +557,13 @@ a legitimate and fast method.
    (a) 12 % (b) 10 % (c) 8 % (d) 20 %
 2. A shopkeeper marks his goods 40 % above the cost price and allows a discount of 10 %. His profit per cent is
    (a) 30 % (b) 36 % (c) 26 % (d) 24 %
-3. A sum of money amounts to Rs 13,310 in 3 years at 10 % per annum compound interest. The sum is
+3. A sum of money amounts to Rs 13,310 in 3 years at 10 % per annum compound interest, compounded yearly. The sum is
    (a) Rs 10,000 (b) Rs 9,000 (c) Rs 11,000 (d) Rs 10,241
 4. A can do a job in 20 days and B in 30 days. They work together for 6 days, and then A leaves. B finishes the remaining work in
    (a) 12 days (b) 18 days (c) 9 days (d) 15 days
 5. A train crosses a 300 m long platform in 30 s and an electric pole in 15 s. The length of the train is
    (a) 300 m (b) 150 m (c) 450 m (d) 600 m
-6. A vendor has 40 litres of milk. He takes out 4 litres and replaces it with water, and then does the same once more. How much milk is left in the can?
+6. A vendor has 40 litres of milk. He takes out 4 litres and replaces it with water. After mixing, he again takes out 4 litres of the mixture and replaces it with water. How much milk is left?
    (a) 32 litres (b) 36 litres (c) 32.4 litres (d) 30.4 litres
 7. The average age of 30 students is 15 years. When the teacher's age is included, the average rises by 1 year. The teacher's age is
    (a) 31 years (b) 45 years (c) 16 years (d) 46 years
