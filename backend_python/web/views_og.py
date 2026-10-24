@@ -23,6 +23,14 @@ from . import og_cards
 SITE = 'https://nebians.consica.com.np'
 _SAFE_KEY = re.compile(r'^[A-Za-z0-9._/-]{1,120}$')
 
+# Bumped whenever the drawing changes rather than the words. The cache is keyed
+# on what a card says, which is right for a title edit and wrong for a redesign:
+# without this, a new renderer keeps serving the previous design for a day, and
+# every scraper that already fetched the URL keeps its own copy for longer. The
+# version goes into both the cache key and the URL, so a redesign is a new
+# address to a crawler rather than a changed picture at the same one.
+CARD_VERSION = 2
+
 # Static pages. `kicker` sits above the title in the subject accent, `meta` is
 # the dot-separated line under it, `hero` names a drawing in og_cards.HEROES.
 PAGES = {
@@ -102,7 +110,9 @@ PAGES = {
 def card_url(kind, key=''):
     """Absolute URL of a card, for the og:image tag."""
     key = str(key or '').strip('/')
-    return '%s/og/%s/%s.png' % (SITE, kind, key) if key else '%s/og/page/default.png' % SITE
+    if not key:
+        kind, key = 'page', 'default'
+    return '%s/og/%s/%s.png?v=%d' % (SITE, kind, key, CARD_VERSION)
 
 
 # ── What each kind puts on the card ───────────────────────────────────────
@@ -266,7 +276,7 @@ def _render_response(kind, key, spec):
     avatar = spec.pop('avatar', None)
     sig_src = repr(sorted(spec.items())) + ('|photo' if avatar is not None else '')
     sig = hashlib.sha256(sig_src.encode('utf-8')).hexdigest()[:20]
-    cache_key = 'og_card_png:%s:%s' % (kind, sig)
+    cache_key = 'og_card_png:v%d:%s:%s' % (CARD_VERSION, kind, sig)
 
     png = cache.get(cache_key)
     if png is None:

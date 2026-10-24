@@ -75,10 +75,15 @@ def _live_discussions():
 
 @require_GET
 def landing(request):
+    from .views_og import CARD_VERSION
     ctx = {
         'signed_in': bool(_get_user_id(request)),
         'discussions': _live_discussions(),
         'levels': LEVELS,
+        # The landing page carries its own head rather than using base.html,
+        # so it has to name the card itself. Taking the version from the
+        # renderer means a redesign bumps the URL here too.
+        'og_card_version': CARD_VERSION,
     }
     response = render(request, 'landing/landing.html', ctx)
     if not ctx['signed_in']:

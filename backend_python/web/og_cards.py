@@ -77,8 +77,9 @@ HERO_TUNING = {
     'spark': (4, 52, 86),
 }
 
-TITLE_MAX = 86
+TITLE_MAX = 148          # one short word may be this big
 TITLE_MIN = 40
+TITLE_BUDGET = 452       # vertical room the title may use, in card pixels
 KICKER_SIZE = 19
 META_SIZE = 21
 ADDRESS_SIZE = 17
@@ -237,53 +238,68 @@ def _mark_stage(canvas: Image.Image, accent, rng: Rng):
 
 def _avatar_stage(canvas: Image.Image, accent, rng: Rng,
                   avatar: Optional[Image.Image]):
-    """Profile: the photo on an isometric plate, or a monogram if there is
-    none. The plate is the same solid as every other hero, so a profile card
-    belongs to the set."""
-    size = int(HERO_R * 1.62)
+    """Profile: the portrait on an isometric plinth, or a monogram if there is
+    no photo. The plinth is the same solid as every other hero, so a profile
+    card belongs to the set rather than to a different design."""
+    size = int(HERO_R * 1.58)
     cx, cy = HERO_CX, HERO_CY
 
-    stage = Stage(canvas, cx + size * 0.06, cy + size * 0.10, size * 0.0075)
-    stage.box(-36, -36, 0, 72, 72, 7, face_palette(accent), rim=(238, 245, 255))
+    # Plinth first: one box, seen in plan, sized to the portrait's footprint
+    # plus a lip. Drawn before the portrait so the portrait sits on it.
+    _bloom(canvas, cx * SS, cy * SS, 300 * SS, saturate(accent, 1.2), 30)
 
-    # Circular window for the portrait.
+    # The plinth sits behind the portrait's lower edge, not under the whole
+    # card: its top face peeks out as a lip below the circle. Half-depth of an
+    # isometric square is 0.5 * sqrt(2) * side / 2, and that is how far down
+    # from the portrait's centre the lip lands.
+    plinth_side = size * 0.74
+    plinth_cy = cy + size * 0.40
+    stage = Stage(canvas, cx * SS, plinth_cy * SS, 1.0)
+    half = plinth_side / 2.0
+    # Height is measured downward from the plinth's top face: the box's base
+    # sits below the lip, so only the lip and a shallow edge show.
+    stage.box(-half, -half, -size * 0.20, plinth_side, plinth_side, size * 0.20,
+              face_palette(accent), rim=(238, 245, 255))
+
     plate = Image.new('RGBA', (size * SS, size * SS), (0, 0, 0, 0))
     pd = ImageDraw.Draw(plate)
     pd.ellipse((0, 0, size * SS - 1, size * SS - 1),
-               fill=mix(accent, (0, 0, 0), 0.55) + (255,))
+               fill=mix(accent, (0, 0, 0), 0.52) + (255,))
 
     if avatar is None:
-        pd = ImageDraw.Draw(plate)
-        f = font('bold', int(size * SS * 0.62))
+        f = font('bold', int(size * SS * 0.58))
         text = 'N'
         bbox = pd.textbbox((0, 0), text, font=f)
         pd.text(((size * SS - (bbox[2] - bbox[0])) / 2 - bbox[0],
                  (size * SS - (bbox[3] - bbox[1])) / 2 - bbox[1]),
-                text, font=f, fill=mix(accent, (255, 255, 255), 0.75))
+                text, font=f, fill=mix(accent, (255, 255, 255), 0.78))
     else:
         from PIL import ImageOps
         fitted = ImageOps.fit(avatar.convert('RGBA'), (size * SS, size * SS),
-                              method=Image.LANCZOS, centering=(0.5, 0.38))
+                              method=Image.LANCZOS, centering=(0.5, 0.36))
         plate.paste(fitted, (0, 0), fitted)
 
     mask = Image.new('L', (size * SS, size * SS), 0)
     ImageDraw.Draw(mask).ellipse((0, 0, size * SS - 1, size * SS - 1), fill=255)
     plate.putalpha(mask)
 
-    # Two rings: a bright one at the photo edge and a wider accent halo.
-    ring = Image.new('RGBA', (size * SS + 12 * SS, size * SS + 12 * SS), (0, 0, 0, 0))
-    rd = ImageDraw.Draw(ring)
-    rd.ellipse((3 * SS, 3 * SS, (size + 9) * SS - 1, (size + 9) * SS - 1),
-               outline=mix(accent, (255, 255, 255), 0.55) + (200,), width=int(2 * SS))
-
-    _bloom(canvas, cx * SS, cy * SS, 300 * SS, saturate(accent, 1.2), 34)
-
     ox = int(cx * SS - size * SS / 2)
-    oy = int(cy * SS - size * SS / 2)
-    ring_layer = Image.new('RGBA', canvas.size, (0, 0, 0, 0))
-    ring_layer.alpha_composite(ring, (ox - 6 * SS, oy - 6 * SS))
-    canvas.alpha_composite(ring_layer)
+    oy = int(cy * SS - size * SS / 2 - size * 0.02 * SS)
     canvas.alpha_composite(plate, (ox, oy))
+
+    # Ring last, over the portrait's edge: an accent hairline plus a wider
+    # soft halo, which is what separates a portrait from its ground.
+    ring = Image.new('RGBA', canvas.size, (0, 0, 0, 0))
+    rd = ImageDraw.Draw(ring)
+    rd.ellipse((ox - 2 * SS, oy - 2 * SS, ox + size * SS + 2 * SS - 1,
+                oy + size * SS + 2 * SS - 1),
+               outline=mix(accent, (255, 255, 255), 0.62) + (210,),
+               width=int(2.0 * SS))
+    rd.ellipse((ox - 14 * SS, oy - 14 * SS, ox + size * SS + 13 * SS,
+                oy + size * SS + 13 * SS),
+               outline=mix(accent, (255, 255, 255), 0.30) + (70,),
+               width=int(1.0 * SS))
+    canvas.alpha_composite(ring)
 
 
 # ── The card ──────────────────────────────────────────────────────────────
@@ -362,11 +378,14 @@ def render(kind: str, title: str, *, meta: Sequence[str] = (), kicker: str = '',
             if mx + w > MARGIN + TEXT_W:
                 break
             if i:
+                # Optical centre of the meta text, not its box centre: the
+                # font's ascender space puts a mathematically centred dot low.
                 r = 2.2
-                d.ellipse(((mx + 8 - r) * SS, (my + META_SIZE * 0.52 - r) * SS,
-                           (mx + 8 + r) * SS, (my + META_SIZE * 0.52 + r) * SS),
-                          fill=mix(accent, (255, 255, 255), 0.45) + (230,))
-                mx += 22
+                cy_dot = my + META_SIZE * 0.36
+                d.ellipse(((mx + 9 - r) * SS, (cy_dot - r) * SS,
+                           (mx + 9 + r) * SS, (cy_dot + r) * SS),
+                          fill=mix(accent, (255, 255, 255), 0.45) + (235,))
+                mx += 23
             d.text((mx * SS, my * SS), part, font=fm, fill=MUTED + (255,))
             mx += w
 
