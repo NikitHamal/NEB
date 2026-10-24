@@ -83,6 +83,32 @@
      "unit_count": 13,
      "topic_count": 61,
      "notes_ready": 13
+    },
+    {
+     "subject": "optional-mathematics",
+     "name": "Optional Mathematics",
+     "name_ne": "ऐच्छिक गणित",
+     "icon": "functions",
+     "group": "optional",
+     "color": "#7A3E8E",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 10,
+     "topic_count": 42,
+     "notes_ready": 10
+    },
+    {
+     "subject": "computer-science",
+     "name": "Computer Science",
+     "name_ne": "कम्प्युटर विज्ञान",
+     "icon": "terminal",
+     "group": "optional",
+     "color": "#2E4057",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 20,
+     "topic_count": 108,
+     "notes_ready": 20
     }
    ]
   },
@@ -195,6 +221,19 @@
      "unit_count": 6,
      "topic_count": 31,
      "notes_ready": 6
+    },
+    {
+     "subject": "computer-science",
+     "name": "Computer Science",
+     "name_ne": "कम्प्युटर विज्ञान",
+     "icon": "terminal",
+     "group": "optional",
+     "color": "#2E4057",
+     "lang": "en",
+     "hours": 64,
+     "unit_count": 5,
+     "topic_count": 39,
+     "notes_ready": 5
     }
    ]
   },

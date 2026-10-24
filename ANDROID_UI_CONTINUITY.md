@@ -1,6 +1,6 @@
 # NEBians Android — UI/UX Revamp Continuity
 
-**Last updated:** October 22, 2026
+**Last updated:** October 24, 2026
 **Working branches:** `design/nebians-onboarding-experience` (issue #44, §4), `design/profile-revamp` (§5), then `feature/marketplace-creator-pages` (§10)
 **Scope:** the mono / Material 3 Expressive redesign of the Android app (GitHub issues #41–#44). This file is the handoff for that work; `CONTINUITY.md` covers the Django/web side and is unrelated.
 
@@ -446,4 +446,29 @@ Second pass (same branch):
 Not measured on a device (no emulator here); CI (`Build Student Release APKs & AAB`) is the
 compile check. Worth doing next with a phone: a Macrobenchmark module to generate a real baseline
 profile and to measure Home's scroll jank before and after.
+
+## 15. Chapter reader: figure viewer, labelled answers, no sideways overflow (Oct 23–24, 2026), branch `syllabus/cs-omath-books`
+
+- **The eye icon** in `StudyReader` was "open every answer" (it toggled every `details.ans`), but nothing said
+  so. It is now a labelled pill in the top bar, "Show answers" / "Hide answers" (filled when on), reset per
+  chapter (`remember(state.key)`). The web reader got the same control in the chapter header instead of the
+  eye in the side rail.
+- **Figures zoom.** `StudyReaderPage.kt` (the page builder, split out of `StudyReader.kt`) wraps every
+  `figure img` with an expand badge; a tap opens a full-screen viewer inside the WebView: pinch, double-tap
+  and drag, SVG figures fitted to the screen up to 3×, photos up to 100%. The page calls
+  `NebStudy.zoom(true/false)`; `StudyReaderScreen` keeps `zoomOpen` and a `BackHandler` so Back (and the top
+  bar's back arrow) closes the viewer before leaving the chapter. The web reader has the same viewer plus
+  wheel zoom, double-click and Esc.
+- **Inline maths wraps.** `.m{white-space:nowrap}` made one long formula widen a chapter to 673 px on a
+  412 px viewport (the page zoomed out or scrolled sideways). Both readers now let KaTeX break at operators.
+  The web reader also clipped text on phones because the article (a grid item with `margin:auto`) sized to
+  its widest code line; it now takes the column width.
+- **Syllabus screens:** the hub shows a progress ring only once a subject has progress (a chevron
+  otherwise) and a one-line intro; the Exam tab's "Where the hours go" lists units by hours when a subject
+  has no areas (it showed one "Units" bar for Computer Science).
+- Verified in headless Chromium on a Pixel 7 profile with the exact page the app builds (CSS/JS constants
+  extracted from the Kotlin file, a real chapter's HTML, a stub `NebStudy`): 15/15 figures wrapped, the
+  viewer opens and reports `zoom(true)`, double-tap → `scale(2.5)`, close → `zoom(false)`, answers toggle
+  opens 3/3, `scrollWidth` 412. Compiled by CI on `f886b24` (green); later commits on the same branch were
+  queued when this was written — check `Build Student Release APKs & AAB` for the branch head.
 

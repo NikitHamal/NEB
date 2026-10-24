@@ -42,13 +42,22 @@ def _exam_rows(exam):
     return parts[0], rows
 
 
-def _area_weights(units):
-    hours, total = {}, 0
-    for u in units:
-        if u["hours"]:
+def _area_weights(units, limit=12):
+    """Teaching hours by part of the syllabus; a subject without parts is shown unit by unit."""
+    timed = [u for u in units if u["hours"]]
+    total = sum(u["hours"] for u in timed)
+    if not total:
+        return []
+    if len({u["area"] for u in timed}) < 2:
+        rows = sorted((("Unit %s · %s" % (u["no"], u["title"]), u["hours"]) for u in timed), key=lambda kv: -kv[1])
+        if len(rows) > limit:
+            rows = rows[:limit - 1] + [("Other units", sum(h for _, h in rows[limit - 1:]))]
+    else:
+        hours = {}
+        for u in timed:
             hours[u["area"] or "Units"] = hours.get(u["area"] or "Units", 0) + u["hours"]
-            total += u["hours"]
-    return [{"area": a, "hours": h, "pct": round(100.0 * h / total, 1)} for a, h in sorted(hours.items(), key=lambda kv: -kv[1])] if total else []
+        rows = sorted(hours.items(), key=lambda kv: -kv[1])
+    return [{"area": a, "hours": h, "pct": round(100.0 * h / total, 1)} for a, h in rows]
 
 
 def _subject_ctx(grade, subject):

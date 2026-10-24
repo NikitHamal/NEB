@@ -156,6 +156,8 @@ def export(slug):
     if prefix not in SUBJECTS or grade not in GRADES:
         return None
     key, name, name_ne, icon, group = SUBJECTS[prefix]
+    if prefix == "cs" and int(grade) <= 10:
+        group = "optional"
     head, units = spine.load(slug)
     nepali = prefix in ("nep", "soc", "health")
     out_units = []

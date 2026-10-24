@@ -61,16 +61,20 @@
     "The universal set U is the largest set in the problem, and A' is everything in U that is not in A; n(U)=n(A)+n(A').",
     "Disjoint sets have no common member, so n(A∩ B)=0; overlapping sets share at least one.",
     "n(A∪ B)=n(A)+n(B)-n(A∩ B), and n(A∩ B)=n(A)+n(B)-n(A∪ B).",
-    "A set with n members has 2^n subsets and 2^n-1 proper subsets.",
-    "In a Venn diagram, fill the intersection first and work outwards, then check that all the regions add up to n(U)."
+    "A Venn diagram shows U as a rectangle and its subsets as circles.",
+    "B⊂ A (proper subset) if B is made of some elements of A; the set itself is the improper subset (Asubseteq A); is a subset of every set.",
+    "A set with n members has 2^n subsets and 2^n-1 proper subsets."
    ],
    "terms": [
-    "Equal sets and equivalent sets"
+    "Equal sets and equivalent sets",
+    "Venn diagram",
+    "Disjoint and overlapping sets",
+    "Subset"
    ],
    "stats": {
-    "words": 2569,
-    "figures": 2,
-    "examples": 6
+    "words": 3571,
+    "figures": 3,
+    "examples": 10
    },
    "has_notes": true
   },
@@ -116,16 +120,16 @@
     "To convert to decimal, expand by place values and add.",
     "To convert from decimal, divide repeatedly by the base and read the remainders from the bottom upwards.",
     "To convert between two other bases, go through decimal in two steps.",
+    "To compare numbers in different bases, change both to decimal first.",
     "In base 2: 1+1=10, and the place values are 1, 2, 4, 8, 16, …",
     "In base 5: 4+1=10, and the place values are 1, 5, 25, 125, …",
-    "Add, subtract and multiply as in decimal but carry and borrow with the base.",
-    "Always check a base calculation by converting to decimal."
+    "Add, subtract and multiply as in decimal but carry and borrow with the base."
    ],
    "terms": [],
    "stats": {
-    "words": 2106,
+    "words": 2425,
     "figures": 2,
-    "examples": 9
+    "examples": 12
    },
    "has_notes": true
   },
@@ -168,13 +172,15 @@
     "An irrational number never repeats and cannot be written as a fraction; √n is irrational unless n is a perfect square.",
     "A surd is an exact irrational root; simplify by taking out the largest perfect-square factor, and add only like surds.",
     "Rationalise a denominator by multiplying the top and bottom by the surd.",
-    "Scientific notation is a×10^n with 1≤ a<10; multiply by multiplying the first parts and adding the indices, divide by dividing and subtracting."
+    "√2, √3, √5 are marked on a number line with right triangles (Pythagoras) and an arc from 0.",
+    "R=Q∪ Ir, and Q and Ir are disjoint.",
+    "Scientific notation is a×10^n with 1≤ a<10; to add or subtract, first make the powers of 10 equal; multiply by multiplying the first parts and adding the indices, divide by dividing and subtracting."
    ],
    "terms": [],
    "stats": {
-    "words": 2207,
-    "figures": 1,
-    "examples": 7
+    "words": 2589,
+    "figures": 2,
+    "examples": 10
    },
    "has_notes": true
   },
@@ -223,9 +229,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2212,
+    "words": 2539,
     "figures": 2,
-    "examples": 9
+    "examples": 14
    },
    "has_notes": true
   },
@@ -254,7 +260,7 @@
      "title": "Commission"
     },
     {
-     "no": "5.5",
+     "no": "5.4",
      "title": "Marked price, discount and VAT in order"
     }
    ],
@@ -269,9 +275,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2065,
+    "words": 2269,
     "figures": 2,
-    "examples": 7
+    "examples": 10
    },
    "has_notes": true
   },
@@ -306,6 +312,7 @@
    ],
    "summary": [
     "In direct variation, find the value of one unit by division and multiply.",
+    "With three quantities, compare the unknown with each one separately (D: new/old, I: old/new) and multiply.",
     "In inverse variation, find the constant total (man-days, man-hours, speed × time) and divide by the new value.",
     "total work=workerstimesdays; with hours, work=workerstimeshours per daytimesdays.",
     "For taps or pipes, work in \"fraction of the tank per hour\" and add the fractions; the time is the reciprocal of the sum.",
@@ -314,9 +321,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2158,
+    "words": 2574,
     "figures": 1,
-    "examples": 8
+    "examples": 13
    },
    "has_notes": true
   },
@@ -354,13 +361,16 @@
     "Rearranged: P=(100I)/(TR), R=(100I)/(PT), T=(100I)/(PR).",
     "When the amount is given, use A=Pleft(1+(TR)/(100)right) and solve for P.",
     "Simple interest is the same every year, so it grows in a straight line.",
+    "Income tax on interest is a percent of the interest only; amount received =P+I-tax.",
     "Comparing two offers means comparing P× T× R, not the rate alone."
    ],
-   "terms": [],
+   "terms": [
+    "Terms of simple interest"
+   ],
    "stats": {
-    "words": 1961,
-    "figures": 2,
-    "examples": 8
+    "words": 2355,
+    "figures": 1,
+    "examples": 11
    },
    "has_notes": true
   },
@@ -399,7 +409,9 @@
     }
    ],
    "summary": [
-    "Triangle: frac12 bh, or Heron's formula with s=(a+b+c)/(2).",
+    "Triangle: frac12 bh; equilateral frac√34a^2; isosceles frac b4√4a^2-b^2.",
+    "Any quadrilateral with diagonal d and offsets h1,h2: frac12d(h1+h2).",
+    "Shaded area = whole figure - unshaded part.",
     "Rectangle lb; square a^2; parallelogram bh; rhombus and kite frac12 d1d2; trapezium frac12(a+b)h.",
     "Circle: circumference 2π r, area π r^2; sector area (θ)/(360°)π r^2; arc length (θ)/(360°)2π r.",
     "Cylinder: curved surface 2π rh, total surface 2π r(r+h), volume π r^2h.",
@@ -408,9 +420,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2462,
-    "figures": 3,
-    "examples": 7
+    "words": 2912,
+    "figures": 4,
+    "examples": 12
    },
    "has_notes": true
   },
@@ -451,9 +463,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1592,
+    "words": 1717,
     "figures": 1,
-    "examples": 10
+    "examples": 12
    },
    "has_notes": true
   },
@@ -494,6 +506,14 @@
      "title": "The standard identities"
     },
     {
+     "no": "10.8",
+     "title": "Factorising x^2+bx+c"
+    },
+    {
+     "no": "10.9",
+     "title": "HCF and LCM of expressions that need factorising"
+    },
+    {
      "no": "10.7",
      "title": "The three identities as areas"
     }
@@ -505,13 +525,14 @@
     "For two expressions, HCFtimesLCM= product of the expressions.",
     "ab+ac=a(b+c); group four terms in pairs when no single factor is common to all of them.",
     "The standard identities in both directions: (a± b)^2=a^2±2ab+b^2 and (a+b)(a-b)=a^2-b^2.",
-    "Factorise completely: take out the common factor first, then look for an identity, then check by expanding."
+    "x^2+bx+c: find two numbers with product c and sum b, split the middle term and group.",
+    "For HCF and LCM of polynomials, factorise each expression completely first."
    ],
    "terms": [],
    "stats": {
-    "words": 1942,
-    "figures": 2,
-    "examples": 14
+    "words": 2526,
+    "figures": 1,
+    "examples": 22
    },
    "has_notes": true
   },
@@ -558,9 +579,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1663,
+    "words": 1768,
     "figures": 1,
-    "examples": 12
+    "examples": 15
    },
    "has_notes": true
   },
@@ -591,9 +612,15 @@
     {
      "no": "12.4",
      "title": "Inequality and its graph"
+    },
+    {
+     "no": "12.5",
+     "title": "Quadratic equations by factorisation"
     }
    ],
    "summary": [
+    "Two simultaneous equations are solved graphically by plotting both lines; the point where they cross gives x and y.",
+    "A quadratic equation ax^2+bx+c=0 is solved by factorising and putting each factor equal to zero; roots p, q give (x-p)(x-q)=0.",
     "A linear equation is solved by clearing fractions, expanding brackets, collecting like terms and dividing by the coefficient.",
     "Simultaneous equations are solved by elimination (make one coefficient match, then add or subtract) or substitution (make one variable the subject).",
     "A linear equation has infinitely many solutions, and its graph is a straight line; two points fix the line and a third checks it.",
@@ -603,9 +630,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 1798,
-    "figures": 1,
-    "examples": 9
+    "words": 2292,
+    "figures": 2,
+    "examples": 12
    },
    "has_notes": true
   },
@@ -634,7 +661,7 @@
      "title": "Parallel lines and a transversal"
     },
     {
-     "no": "13.5",
+     "no": "13.4",
      "title": "Reasons are the marks"
     }
    ],
@@ -645,11 +672,14 @@
     "Two lines are parallel if any one of those three conditions holds.",
     "Remember the shapes: F for corresponding, Z for alternate, C for co-interior."
    ],
-   "terms": [],
+   "terms": [
+    "Parallel lines and transversal",
+    "The three angle pairs"
+   ],
    "stats": {
-    "words": 2327,
+    "words": 2573,
     "figures": 3,
-    "examples": 6
+    "examples": 8
    },
    "has_notes": true
   },
@@ -697,9 +727,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2172,
-    "figures": 1,
-    "examples": 7
+    "words": 2784,
+    "figures": 2,
+    "examples": 8
    },
    "has_notes": true
   },
@@ -721,7 +751,7 @@
     },
     {
      "no": "15.2",
-     "title": "The four tests of congruence"
+     "title": "The tests of congruence"
     },
     {
      "no": "15.3",
@@ -730,16 +760,16 @@
    ],
    "summary": [
     "Congruent figures have the same shape and size; similar figures have the same shape at different sizes.",
-    "The four tests of congruence are SSS, SAS, ASA and RHS; there is no SSA test.",
+    "The tests of congruence are SSS, SAS, ASA, AAS and RHS; there is no SSA test.",
     "The order of the letters in △ ABCcong△ PQR gives the correspondence, and corresponding parts of congruent triangles are equal.",
     "Two triangles are similar if two angles match (AA), or if the three pairs of sides are in the same ratio (SSS similarity), or if two pairs of sides are in the same ratio with equal included angles (SAS similarity).",
     "In similar triangles, corresponding sides are in the same ratio k and areas are in the ratio k^2."
    ],
    "terms": [],
    "stats": {
-    "words": 2215,
+    "words": 2375,
     "figures": 2,
-    "examples": 5
+    "examples": 7
    },
    "has_notes": true
   },
@@ -780,11 +810,13 @@
     "Volume of a prism = base area × length; volume of a pyramid =frac13× base area × height.",
     "Surface area is in square units, volume in cubic units, and the two are never interchangeable."
    ],
-   "terms": [],
+   "terms": [
+    "Prism and pyramid"
+   ],
    "stats": {
-    "words": 1869,
+    "words": 2092,
     "figures": 3,
-    "examples": 5
+    "examples": 6
    },
    "has_notes": true
   },
@@ -825,9 +857,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2092,
-    "figures": 3,
-    "examples": 7
+    "words": 2353,
+    "figures": 2,
+    "examples": 10
    },
    "has_notes": true
   },
@@ -868,11 +900,13 @@
     "In semi-regular tessellations the same arrangement of two or more regular polygons occurs at every vertex, written as a list such as 4.8.8.",
     "Tilings use translation, reflection, rotation and glide reflection, and a periodic tiling repeats by translation."
    ],
-   "terms": [],
+   "terms": [
+    "Regular and semi-regular tessellation"
+   ],
    "stats": {
-    "words": 1929,
-    "figures": 1,
-    "examples": 2
+    "words": 2156,
+    "figures": 2,
+    "examples": 3
    },
    "has_notes": true
   },
@@ -914,8 +948,8 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2053,
-    "figures": 2,
+    "words": 2080,
+    "figures": 3,
     "examples": 8
    },
    "has_notes": true
@@ -940,7 +974,7 @@
      "title": "Scale drawing"
     },
     {
-     "no": "20.4",
+     "no": "20.3",
      "title": "Bearings on the compass rose"
     }
    ],
@@ -956,8 +990,8 @@
     "Bearing"
    ],
    "stats": {
-    "words": 2658,
-    "figures": 1,
+    "words": 2619,
+    "figures": 2,
     "examples": 7
    },
    "has_notes": true
@@ -987,7 +1021,7 @@
      "title": "Mean, median and mode"
     },
     {
-     "no": "21.5",
+     "no": "21.4",
      "title": "Choosing the right average"
     }
    ],
@@ -1002,9 +1036,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 2502,
+    "words": 2649,
     "figures": 4,
-    "examples": 7
+    "examples": 10
    },
    "has_notes": true
   }
