@@ -298,10 +298,24 @@ def _render_response(kind, key, spec):
     return resp
 
 
+# Scrapers are this endpoint's whole audience, and a debugger session ("Scrape
+# Again" a dozen times in a minute) looks exactly like an attack to a per-IP
+# counter. Facebook answered our 429 by dropping the image from the preview, so
+# known crawlers skip the limit and everyone else gets a generous one.
+_CRAWLER_UA = re.compile(
+    r'facebookexternalhit|twitterbot|linkedinbot|discordbot|telegrambot|whatsapp|'
+    r'slackbot|redditbot|pinterest|googlebot|bingbot|applebot|embedly|iframely|'
+    r'vkShare|W3C_Validator|preview|fetcher|crawler|spider|bot',
+    re.I,
+)
+
+
 def og_card(request, kind, key):
     """GET /og/<kind>/<key>.png"""
-    if _rate_limit(request, 'og_card', 120, 60, by_ip=True):
-        return HttpResponse(status=429)
+    ua = request.META.get('HTTP_USER_AGENT', '') or ''
+    if not _CRAWLER_UA.search(ua):
+        if _rate_limit(request, 'og_card', 600, 60, by_ip=True):
+            return HttpResponse(status=429)
 
     key = (key or '').strip('/')
     if key.endswith('.png'):
