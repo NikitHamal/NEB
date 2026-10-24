@@ -12,13 +12,27 @@ from .view_helpers import _ctx
 
 def syllabus_hub_context(grade=None):
     data = syllabus_data.index()
-    grades = data.get("grades", [])
-    current = syllabus_data.normalize_grade(grade) or (grades[-1]["grade"] if grades else None)
+    grades = data.get("grades", [])            # school grades first, then the entrance tracks
+    school = syllabus_data.school_entries()
+    tracks = syllabus_data.track_entries()
+    fallback = (school or grades)[-1]["grade"] if grades else None
     return {
         "syllabus_grades": grades,
-        "syllabus_current_grade": current,
+        "syllabus_current_grade": syllabus_data.normalize_grade(grade) or fallback,
         "syllabus_totals": syllabus_data.summary(),
+        "syllabus_tracks": tracks,
+        "syllabus_track_names": _and_list([t.get("short", t["grade"]) for t in tracks]),
     }
+
+
+def _and_list(items):
+    items = [i for i in items if i]
+    return items[0] if len(items) == 1 else (", ".join(items[:-1]) + " and " + items[-1] if items else "")
+
+
+def _unit_word(data):
+    """Entrance books call their units chapters, as their PDFs do."""
+    return "Unit" if data.get("kind", "school") == "school" else "Chapter"
 
 
 def syllabus_hub(request, grade=None):
@@ -42,20 +56,21 @@ def _exam_rows(exam):
     return parts[0], rows
 
 
-def _area_weights(units, limit=12):
-    """Teaching hours by part of the syllabus; a subject without parts is shown unit by unit."""
-    timed = [u for u in units if u["hours"]]
-    total = sum(u["hours"] for u in timed)
+def _area_weights(units, limit=12, field="hours", word="Unit"):
+    """Teaching hours (or, for an entrance book, questions in the paper) by part of the
+    syllabus; a subject without parts is shown unit by unit."""
+    timed = [u for u in units if u.get(field)]
+    total = sum(u[field] for u in timed)
     if not total:
         return []
     if len({u["area"] for u in timed}) < 2:
-        rows = sorted((("Unit %s · %s" % (u["no"], u["title"]), u["hours"]) for u in timed), key=lambda kv: -kv[1])
+        rows = sorted((("%s %s · %s" % (word, u["no"], u["title"]), u[field]) for u in timed), key=lambda kv: -kv[1])
         if len(rows) > limit:
-            rows = rows[:limit - 1] + [("Other units", sum(h for _, h in rows[limit - 1:]))]
+            rows = rows[:limit - 1] + [("Other %ss" % word.lower(), sum(h for _, h in rows[limit - 1:]))]
     else:
         hours = {}
         for u in timed:
-            hours[u["area"] or "Units"] = hours.get(u["area"] or "Units", 0) + u["hours"]
+            hours[u["area"] or "Units"] = hours.get(u["area"] or "Units", 0) + u[field]
         rows = sorted(hours.items(), key=lambda kv: -kv[1])
     return [{"area": a, "hours": h, "pct": round(100.0 * h / total, 1)} for a, h in rows]
 
@@ -80,6 +95,28 @@ def syllabus_subject(request, grade, subject):
         return redirect("web:syllabus_subject", grade=data["grade"], subject=subject, permanent=True)
     prev_s, next_s = syllabus_data.neighbours(data["grade"], subject)
     exam_head, exam_rows = _exam_rows(data.get("exam"))
+    school = data["kind"] == "school"
+    word = _unit_word(data)
+    if school:
+        weights = _area_weights(data["units"])
+        seo_title = "%s %s — Syllabus, Chapter Notes and Question Bank | NEBians" % (data["grade_label"], data["name"])
+        seo_description = "%s %s: all %d units of the syllabus with full chapter notes, worked examples, practice questions with answers and a question bank in the board's pattern." % (
+            data["grade_label"], data["name"], data["unit_count"])
+    elif data.get("group") == "practice":
+        # model papers: the weightage is the paper itself (the exam card), not chapters
+        weights = []
+        seo_title = "%s %s — Full Model Papers as a Timed Test, with Explained Keys | NEBians" % (data["short"], data["name"])
+        seo_description = ("%s entrance %s: full model papers in the official pattern%s, taken as a timed test with negative marking, "
+                           "then reviewed with an explained key." % (
+                               data["short"], data["name"].lower(),
+                               " (%d questions)" % data["questions"] if data.get("questions") else ""))
+    else:
+        weights = _area_weights(data["units"], field="questions", word=word)
+        seo_title = "%s %s — Entrance Preparation Notes, MCQs and Weightage | NEBians" % (data["short"], data["name"])
+        seo_description = ("%s entrance %s: all %d chapters of the official syllabus%s, with dense notes, worked examples and "
+                           "MCQ practice with explained answers." % (
+                               data["short"], data["name"], data["unit_count"],
+                               " (%d questions in the paper)" % data["questions"] if data.get("questions") else ""))
     ctx = _ctx(
         request,
         syl=data,
@@ -89,12 +126,13 @@ def syllabus_subject(request, grade, subject):
         syl_hours_total=hours_total,
         syl_exam_head=exam_head,
         syl_exam_rows=exam_rows,
-        syl_area_weights=_area_weights(data["units"]),
+        syl_area_weights=weights,
+        syl_weight_unit="h" if school else "Qs",
+        syl_unit_word=word,
         syl_read_min=sum(u.get("read_min", 0) for u in study["units"]),
         syl_siblings=(syllabus_data.grade_entry(data["grade"]) or {}).get("subjects", []),
-        seo_title="%s %s — Syllabus, Chapter Notes and Question Bank | NEBians" % (data["grade_label"], data["name"]),
-        seo_description="%s %s: all %d units of the syllabus with full chapter notes, worked examples, practice questions with answers and a question bank in the board's pattern." % (
-            data["grade_label"], data["name"], data["unit_count"]),
+        seo_title=seo_title,
+        seo_description=seo_description[:300],
     )
     return render(request, "web/syllabus/subject.html", ctx)
 
@@ -115,7 +153,20 @@ def _reader(request, grade, subject, doc, kind, number=None):
             prev_no = nos[i - 1] if i > 0 else None
             next_no = nos[i + 1] if i + 1 < len(nos) else None
     title = doc["title"]
-    label = {"unit": "Unit %s" % number, "bank": "Question bank", "guide": "Exam guide"}[kind]
+    word = _unit_word(data)
+    label = {"unit": "%s %s" % (word, number), "bank": "Question bank", "guide": "Exam guide"}[kind]
+    if data["kind"] == "school":
+        seo_title = "%s — %s %s %s | NEBians" % (title, data["grade_label"], data["name"], "notes" if kind == "unit" else label.lower())
+        seo_description = "%s %s, %s: %s. Full notes with worked examples, figures and practice questions with answers." % (
+            data["grade_label"], data["name"], label, title)
+    elif doc.get("exam"):
+        seo_title = "%s — %s Entrance Model Paper, Timed Test with Explained Key | NEBians" % (title, data["short"])
+        seo_description = "%s %s: a full model paper in the official pattern. Take it as a timed %d-minute test with negative marking, then review every answer with its explanation." % (
+            data["short"], title, doc["exam"].get("minutes") or 0)
+    else:
+        seo_title = "%s — %s %s Entrance Notes and MCQs | NEBians" % (title, data["short"], data["name"])
+        seo_description = "%s %s, %s: %s. Entrance notes with worked examples and MCQ practice with explained answers." % (
+            data["short"], data["name"], label, title)
     ctx = _ctx(
         request,
         syl=data,
@@ -125,12 +176,12 @@ def _reader(request, grade, subject, doc, kind, number=None):
         doc_no=number,
         doc_label=label,
         doc_unit=unit,
+        doc_unit_word=word,
         doc_prev=prev_no,
         doc_next=next_no,
         doc_key="%s/%s/%s%s" % (data["grade"], subject, kind, number or ""),
-        seo_title="%s — %s %s %s | NEBians" % (title, data["grade_label"], data["name"], "notes" if kind == "unit" else label.lower()),
-        seo_description=("%s %s, %s: %s. Full notes with worked examples, figures and practice questions with answers." % (
-            data["grade_label"], data["name"], label, title))[:300],
+        seo_title=seo_title,
+        seo_description=seo_description[:300],
     )
     return render(request, "web/syllabus/reader.html", ctx)
 
@@ -165,7 +216,8 @@ def _search_rows():
                 fields = [(4, u["title"])] + [(3, t) for t in u["topics"]]
                 fields += [(2, x["title"]) for x in u.get("sections", [])] + [(2, t) for t in u.get("terms", [])]
                 fields += [(1, p) for p in u.get("summary", [])]
-                rows.append({"grade": g["grade"], "subject": s["subject"], "name": s["name"],
+                rows.append({"grade": g["grade"], "short": g.get("short") or g["grade"], "kind": g.get("kind", "school"),
+                             "subject": s["subject"], "name": s["name"],
                              "unit": u["no"], "title": u["title"],
                              "fields": [(w, text, _fold(text)) for w, text in fields]})
     return rows
@@ -182,6 +234,9 @@ def _snippet(text, term, width=110):
 def search_payload(q, grade=None):
     q = (q or "").strip()[:80]
     grade = syllabus_data.normalize_grade(grade)
+    # a class search prefers the classes, an entrance search the entrance books; the selected
+    # one first of all (the order among the classes themselves is as it always was)
+    kind = ("school" if syllabus_data.is_school(grade) else "entrance") if grade else None
     terms = [t for t in _fold(q).split() if t]
     hits = []
     if terms:
@@ -197,9 +252,12 @@ def search_payload(q, grade=None):
                 continue
             if row["grade"] == grade:
                 score += 3
+            if kind and row["kind"] == kind:
+                score += 1.5
             inner = [(w, text) for w, text, folded in row["fields"][1:] if terms[0] in folded]
             match = max(inner, key=lambda f: f[0])[1] if inner else (row["fields"][1][1] if len(row["fields"]) > 1 else "")
-            hits.append((score, {"grade": row["grade"], "subject": row["subject"], "name": row["name"],
+            hits.append((score, {"grade": row["grade"], "short": row["short"], "kind": row["kind"],
+                                 "subject": row["subject"], "name": row["name"],
                                  "unit": row["unit"], "title": row["title"], "match": _snippet(match, terms[0])}))
     hits.sort(key=lambda h: -h[0])
     return {"q": q, "results": [h[1] for h in hits[:30]], "total": len(hits)}

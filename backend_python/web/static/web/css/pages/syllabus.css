@@ -14,8 +14,12 @@
 .syl-hub-title { margin: 0 0 6px; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.2; font-weight: 700; color: var(--md-on-surface); letter-spacing: -.01em; }
 .syl-hub-sub { margin: 0; max-width: 66ch; font-size: 14.5px; line-height: 1.6; color: var(--md-on-surface-variant); }
 
-.syl-grade-switch { display: inline-flex; padding: 4px; gap: 2px; border-radius: 999px; background: var(--md-surface-container-high); }
-.syl-grade-btn { border: 0; background: transparent; color: var(--md-on-surface-variant); font: 600 14px var(--md-font); padding: 9px 16px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
+/* school grades, a hairline, then the entrance tracks; one row that scrolls sideways when it
+   does not fit (more tracks are coming) */
+.syl-grade-switch { display: inline-flex; max-width: 100%; padding: 4px; gap: 2px; border-radius: 999px; background: var(--md-surface-container-high); overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.syl-grade-switch::-webkit-scrollbar { display: none; }
+.syl-grade-btn { flex: none; border: 0; background: transparent; color: var(--md-on-surface-variant); font: 600 14px var(--md-font); padding: 9px 16px; border-radius: 999px; cursor: pointer; white-space: nowrap; transition: background .15s, color .15s; }
+.syl-grade-sep { flex: none; align-self: stretch; width: 1px; margin: 7px 5px; background: var(--md-outline-variant); }
 .syl-grade-btn:hover { color: var(--md-on-surface); }
 .syl-grade-btn[aria-selected="true"] { background: var(--md-surface); color: var(--md-on-surface); box-shadow: 0 1px 2px rgba(0,0,0,.12); }
 .syl-grade-btn:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
@@ -168,8 +172,9 @@ a.st-unit-title::after { content: ""; position: absolute; inset: 0; }
 
 @media (max-width: 760px) {
   .syl-hub-head { align-items: stretch; }
-  .syl-grade-switch { width: 100%; }
-  .syl-grade-btn { flex: 1; padding: 9px 6px; }
+  .syl-grade-switch { width: 100%; border-radius: 18px; }
+  .syl-grade-btn { flex: 1 0 auto; padding: 9px 12px; border-radius: 14px; }
+  .syl-grade-sep { margin: 7px 2px; }
   .syl-continue { grid-template-columns: auto minmax(0, 1fr) auto; }
   .syl-continue-bar { grid-column: 1 / -1; grid-row: 2; }
   .syl-card-grid { grid-template-columns: 1fr; }
