@@ -64,6 +64,22 @@ def _style():
         "patch.linewidth": 0.9,
     })
 
+def namespace() -> dict:
+    """What every ```figure block can use without importing it. Common patch
+    classes are included so a figure never fails on a missing import;
+    `plt.Ellipse` and friends do not exist on pyplot."""
+    return {"plt": plt, "np": np, "matplotlib": matplotlib,
+            "INK": INK, "MUTED": MUTED, "GRID": GRID, "ACCENT": ACCENT, "SERIES": SERIES,
+            "matrix": matrix, "mateq": mateq,
+            "flow": flow, "cycle": cycle, "cards": cards,
+            "relation": relation, "barh_ranked": barh_ranked,
+            "Rectangle": mpatches.Rectangle, "Circle": mpatches.Circle,
+            "Ellipse": mpatches.Ellipse, "Polygon": mpatches.Polygon,
+            "Arc": mpatches.Arc, "Wedge": mpatches.Wedge,
+            "FancyArrow": mpatches.FancyArrow, "FancyArrowPatch": mpatches.FancyArrowPatch,
+            "matplotlib.patches": mpatches}
+
+
 def run(code: str, chapter_id: str = "") -> str | None:
     """Exec `code`; it must leave a Figure in `fig`. Returns svg path or None."""
     nep = chapter_id.startswith(("nep", "soc", "health"))
@@ -72,18 +88,7 @@ def run(code: str, chapter_id: str = "") -> str | None:
     if os.path.exists(out) and not os.environ.get("FIG_LINT"):
         return out
     _style()
-    # Common patch classes are injected so a figure never fails on a missing
-    # import; `plt.Ellipse` and friends do not exist on pyplot.
-    ns = {"plt": plt, "np": np, "matplotlib": matplotlib,
-          "INK": INK, "MUTED": MUTED, "GRID": GRID, "ACCENT": ACCENT, "SERIES": SERIES,
-          "matrix": matrix, "mateq": mateq,
-          "flow": flow, "cycle": cycle, "cards": cards,
-          "relation": relation, "barh_ranked": barh_ranked,
-          "Rectangle": mpatches.Rectangle, "Circle": mpatches.Circle,
-          "Ellipse": mpatches.Ellipse, "Polygon": mpatches.Polygon,
-          "Arc": mpatches.Arc, "Wedge": mpatches.Wedge,
-          "FancyArrow": mpatches.FancyArrow, "FancyArrowPatch": mpatches.FancyArrowPatch,
-          "matplotlib.patches": mpatches}
+    ns = namespace()
     try:
         exec(compile(code, "<figure>", "exec"), ns)
         fig = ns.get("fig") or plt.gcf()

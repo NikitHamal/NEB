@@ -1,0 +1,120 @@
+{
+ "book": "omath8",
+ "units": [
+  {
+   "no": 1,
+   "title": "Relation and Function",
+   "area": "",
+   "words": 4207,
+   "read_min": 23,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Polynomials",
+   "area": "",
+   "words": 3234,
+   "read_min": 18,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Sequence and Series",
+   "area": "",
+   "words": 3663,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Limit",
+   "area": "",
+   "words": 3877,
+   "read_min": 22,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Matrix",
+   "area": "",
+   "words": 3534,
+   "read_min": 20,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Coordinate Geometry",
+   "area": "",
+   "words": 3786,
+   "read_min": 21,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Trigonometry",
+   "area": "",
+   "words": 4431,
+   "read_min": 25,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Vector",
+   "area": "",
+   "words": 3413,
+   "read_min": 19,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Transformation",
+   "area": "",
+   "words": 3610,
+   "read_min": 20,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Statistics",
+   "area": "",
+   "words": 3519,
+   "read_min": 20,
+   "figures": 4,
+   "has_questions": true
+  }
+ ],
+ "bank_book": "qbank8",
+ "banks": [
+  {
+   "no": 1,
+   "kind": "objective",
+   "title": "Optional Mathematics: Unit-wise Objective Question Bank",
+   "words": 3278,
+   "read_min": 18
+  },
+  {
+   "no": 2,
+   "kind": "subjective",
+   "title": "Optional Mathematics: Unit-wise Subjective Question Bank",
+   "words": 3692,
+   "read_min": 21
+  },
+  {
+   "no": 3,
+   "kind": "model",
+   "title": "Optional Mathematics: Model Question Sets and Predicted Questions",
+   "words": 2964,
+   "read_min": 16
+  }
+ ],
+ "guide": "The Basic Level Examination: Pattern, Grid and Strategy"
+}

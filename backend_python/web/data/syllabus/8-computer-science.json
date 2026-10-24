@@ -1,0 +1,1204 @@
+{
+ "grade": "8",
+ "grade_label": "Class 8",
+ "grade_label_ne": "कक्षा ८",
+ "subject": "computer-science",
+ "name": "Computer Science",
+ "name_ne": "कम्प्युटर विज्ञान",
+ "icon": "terminal",
+ "group": "optional",
+ "color": "#2E4057",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "exam": "School annual examination, 2 hr, FM 50 written (+ practical) | Group A objective 10x1=10 | Group B short 10x2=20 | Group C long 5x4=20",
+ "areas": [
+  "Computer Fundamentals",
+  "Application Software",
+  "Web, Communication and Society",
+  "Number System, Graphics and Multimedia",
+  "Programming"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Fundamentals of Computer",
+   "hours": null,
+   "area": "Computer Fundamentals",
+   "topics": [
+    "Computer: definition; data, information and program; hardware and software",
+    "Working principle of a computer: input, process, output and storage (the IPOS cycle)",
+    "Characteristics of a computer: speed, accuracy, diligence, versatility, storage and automation",
+    "Limitations of a computer and its effects on society",
+    "Uses of computers in Nepal: education, banking, health, communication, agriculture and government"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Computer: definition; data, information and program; hardware and software"
+    },
+    {
+     "no": "1.2",
+     "title": "Working principle of a computer: the IPOS cycle"
+    },
+    {
+     "no": "1.3",
+     "title": "Characteristics of a computer"
+    },
+    {
+     "no": "1.4",
+     "title": "Limitations of a computer and its effects on society"
+    },
+    {
+     "no": "1.5",
+     "title": "Uses of computers in Nepal"
+    }
+   ],
+   "summary": [
+    "A computer (Latin computare, to calculate) is an electronic machine that accepts data, processes it under a program, stores it and gives information.",
+    "Data are raw facts; information is processed, meaningful data. A program is a set of instructions; software is a collection of programs.",
+    "Hardware is the physical, touchable part; software tells it what to do. Neither works without the other.",
+    "IPOS: input devices → CPU (control unit + arithmetic logic unit) → output devices, with storage (RAM temporary, secondary storage permanent) joined to the CPU.",
+    "Characteristics: speed (ms, μs, ns), accuracy (GIGO), diligence, versatility, storage (8 bits = 1 byte, 1024 bytes = 1 KB) and automation.",
+    "Limitations: no IQ, no feelings, needs a program, correct input and electricity. Effects on society are both positive and negative.",
+    "Uses in Nepal: education, banking, health, communication, agriculture and government (Nagarik App, e-passport, National ID)."
+   ],
+   "terms": [
+    "Computer",
+    "Data and information",
+    "Program and software",
+    "Hardware"
+   ],
+   "stats": {
+    "words": 5303,
+    "figures": 3,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "History of Computer",
+   "hours": null,
+   "area": "Computer Fundamentals",
+   "topics": [
+    "Early calculating devices: abacus, Napier's bones and the slide rule",
+    "Mechanical calculators: Pascaline, Leibniz's stepped reckoner and the Jacquard loom",
+    "Charles Babbage's Difference Engine and Analytical Engine; Ada Lovelace",
+    "Electromechanical and electronic machines: Hollerith's tabulating machine, Mark I, ABC, ENIAC, EDVAC and UNIVAC",
+    "Computers in Nepal: from the census of 2028 BS to today"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Early calculating devices: abacus, Napier's bones and the slide rule"
+    },
+    {
+     "no": "2.2",
+     "title": "Mechanical calculators: Pascaline, Leibniz's stepped reckoner and the Jacquard loom"
+    },
+    {
+     "no": "2.3",
+     "title": "Charles Babbage's Difference Engine and Analytical Engine; Ada Lovelace"
+    },
+    {
+     "no": "2.4",
+     "title": "Electromechanical and electronic machines"
+    },
+    {
+     "no": "2.5",
+     "title": "Computers in Nepal: from the census of 2028 BS to today"
+    }
+   ],
+   "summary": [
+    "Manual devices: abacus (c. 2700 BC; suanpan: heaven beads 5, earth beads 1), Napier's bones (John Napier, 1617; multiplication), slide rule (William Oughtred, c. 1622; analog).",
+    "Mechanical calculators: Pascaline (Blaise Pascal, 1642; add and subtract, automatic carry), stepped reckoner (Leibniz, 1673; all four operations), Jacquard loom (1804; punched cards as instructions).",
+    "Charles Babbage, father of the computer: Difference Engine (1822) and Analytical Engine (1834) with input cards, mill, store and output. Ada Lovelace wrote the first published program (1843).",
+    "Electromechanical: Hollerith's tabulator (1890 census; IBM, 1924), Harvard Mark I (Aiken and IBM, 1944).",
+    "Electronic: ABC (1942, first electronic digital), ENIAC (1946, first general-purpose; 17,468 tubes), EDVAC (stored program, binary), UNIVAC I (1951, first commercial in the USA).",
+    "Nepal: IBM 1401 rented in 2028 BS for the census; EDPC 2031 BS (later NCC); ICL 2950/10 in 2038 BS; microcomputers from 2039 BS."
+   ],
+   "terms": [
+    "Abacus",
+    "Napier's bones",
+    "Slide rule",
+    "Father of the computer",
+    "Electromechanical and electronic",
+    "Stored-program concept"
+   ],
+   "stats": {
+    "words": 5856,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Generations of Computer",
+   "hours": null,
+   "area": "Computer Fundamentals",
+   "topics": [
+    "Meaning of a computer generation",
+    "First generation: vacuum tubes",
+    "Second generation: transistors",
+    "Third generation: integrated circuits",
+    "Fourth generation: microprocessors",
+    "Fifth generation: artificial intelligence and parallel processing"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Meaning of a computer generation"
+    },
+    {
+     "no": "3.2",
+     "title": "First generation: vacuum tubes (about 1946–1958)"
+    },
+    {
+     "no": "3.3",
+     "title": "Second generation: transistors (about 1958–1964)"
+    },
+    {
+     "no": "3.4",
+     "title": "Third generation: integrated circuits (about 1964–1975)"
+    },
+    {
+     "no": "3.5",
+     "title": "Fourth generation: microprocessors (about 1975 to the present)"
+    },
+    {
+     "no": "3.6",
+     "title": "Fifth generation: artificial intelligence and parallel processing"
+    }
+   ],
+   "summary": [
+    "A generation is a stage of computer development marked by a major new technology, especially a new processing component; each generation is smaller, faster, cheaper, more reliable and more powerful.",
+    "1st (1946–1958): vacuum tubes, magnetic drums, machine language, milliseconds; huge, hot, unreliable. ENIAC, UNIVAC I.",
+    "2nd (1958–1964): transistors (Bell Labs, 1947), magnetic core memory, assembly language, FORTRAN and COBOL, microseconds. IBM 1401 (Nepal), IBM 7090.",
+    "3rd (1964–1975): integrated circuits (Kilby, 1958; Noyce, 1959), keyboards and monitors, time-sharing, BASIC and C, nanoseconds. IBM System/360.",
+    "4th (1975–present): microprocessors (Intel 4004, 1971; LSI, VLSI, ULSI), PCs, GUI, networks and the Internet. IBM PC, laptops, smartphones.",
+    "5th: artificial intelligence and parallel processing; natural language, learning machines, quantum research.",
+    "Moore's law: transistors on a chip double about every two years."
+   ],
+   "terms": [
+    "Generation of computer",
+    "Vacuum tube",
+    "Transistor",
+    "Integrated circuit",
+    "Microprocessor",
+    "Artificial intelligence",
+    "Parallel processing"
+   ],
+   "stats": {
+    "words": 4195,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Types of Computer",
+   "hours": null,
+   "area": "Computer Fundamentals",
+   "topics": [
+    "Classification by working principle: analog, digital and hybrid computers",
+    "Classification by size: supercomputer, mainframe, minicomputer and microcomputer",
+    "Microcomputers: desktop, laptop, tablet, smartphone and workstation",
+    "Classification by purpose: general-purpose and special-purpose computers",
+    "Choosing a computer for a task"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Classification by working principle: analog, digital and hybrid computers"
+    },
+    {
+     "no": "4.2",
+     "title": "Classification by size: supercomputer, mainframe, minicomputer and microcomputer"
+    },
+    {
+     "no": "4.3",
+     "title": "Microcomputers: desktop, laptop, tablet, smartphone and workstation"
+    },
+    {
+     "no": "4.4",
+     "title": "Classification by purpose: general-purpose and special-purpose computers"
+    },
+    {
+     "no": "4.5",
+     "title": "Choosing a computer for a task"
+    }
+   ],
+   "summary": [
+    "By working principle: analog computers measure continuous data (thermometer, speedometer, slide rule); digital computers count discrete data in 0s and 1s (PC, phone, calculator); hybrid computers do both (ECG, ICU monitor, petrol-pump dispenser).",
+    "By size: supercomputer (fastest; exaflops; weather, research — e.g. LineShine, Frontier), mainframe (thousands of users; banks, airlines — IBM z17), minicomputer (medium, multi-user — PDP-11; now servers), microcomputer (one user; microprocessor; PC).",
+    "Microcomputers: desktop, laptop (notebook), tablet, smartphone and workstation (powerful, for design and video).",
+    "By purpose: general-purpose computers run many programs; special-purpose computers do one job; one built into a machine is an embedded system.",
+    "Choosing a computer depends on the task and software, power, storage, portability, number of users and budget."
+   ],
+   "terms": [
+    "Analog, digital and hybrid data",
+    "Analog computer",
+    "Digital computer",
+    "Hybrid computer",
+    "Supercomputer",
+    "Mainframe computer",
+    "Minicomputer",
+    "Microcomputer",
+    "General-purpose and special-purpose computers"
+   ],
+   "stats": {
+    "words": 4504,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Computer Software",
+   "hours": null,
+   "area": "Computer Fundamentals",
+   "topics": [
+    "Software: meaning and importance; how hardware and software work together",
+    "System software: operating system, device drivers, utility programs and language processors",
+    "Application software: packaged and tailor-made software",
+    "Software licences: proprietary, freeware, shareware and open-source software",
+    "Installing, updating and removing software safely"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Software: meaning and importance; how hardware and software work together"
+    },
+    {
+     "no": "5.2",
+     "title": "System software: operating system, device drivers, utility programs and language processors"
+    },
+    {
+     "no": "5.3",
+     "title": "Application software: packaged and tailor-made software"
+    },
+    {
+     "no": "5.4",
+     "title": "Software licences: proprietary, freeware, shareware and open-source software"
+    },
+    {
+     "no": "5.5",
+     "title": "Installing, updating and removing software safely"
+    }
+   ],
+   "summary": [
+    "Software is a set of programs that tells the hardware what to do; it makes the computer usable, versatile and useful. It works in layers: user → application → operating system → device driver → hardware.",
+    "System software manages the computer: the operating system, device drivers (one for each device), utility programs (antivirus, backup, compression, disk cleanup) and language processors.",
+    "Assembler: assembly → machine code. Compiler: whole program at once, separate file, fast. Interpreter: line by line, stops at the first error.",
+    "Application software does the user's tasks: packaged (ready-made for many users — Word, Chrome, VLC) or tailor-made (built for one organization — a school's result system).",
+    "Licences: proprietary (buy; code secret), freeware (free; code secret), shareware (free trial, then pay), open source (free; code open to change and share). Piracy is illegal.",
+    "Install only from official sources, check requirements, keep software updated, and remove programs with Uninstall, not by deleting icons."
+   ],
+   "terms": [
+    "Software",
+    "System software",
+    "Device driver",
+    "Utility program",
+    "Language processor",
+    "Application software",
+    "Software licence"
+   ],
+   "stats": {
+    "words": 4968,
+    "figures": 2,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Operating System",
+   "hours": null,
+   "area": "Computer Fundamentals",
+   "topics": [
+    "Operating system: meaning and functions",
+    "Types of operating system: single-user and multi-user, CUI and GUI, desktop and mobile",
+    "Common operating systems: Windows, Linux, macOS, Android and iOS",
+    "Working with Windows: desktop, taskbar, Start menu, windows and dialog boxes",
+    "File management: files, folders, paths and extensions; copy, move, rename and delete; Recycle Bin",
+    "Settings: date and time, display, user accounts, installing and removing programs"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Operating system: meaning and functions"
+    },
+    {
+     "no": "6.2",
+     "title": "Types of operating system: single-user and multi-user, CUI and GUI, desktop and mobile"
+    },
+    {
+     "no": "6.3",
+     "title": "Common operating systems: Windows, Linux, macOS, Android and iOS"
+    },
+    {
+     "no": "6.4",
+     "title": "Working with Windows: desktop, taskbar, Start menu, windows and dialog boxes"
+    },
+    {
+     "no": "6.5",
+     "title": "File management: files, folders, paths and extensions; copy, move, rename and delete; Recycle Bin"
+    },
+    {
+     "no": "6.6",
+     "title": "Settings: date and time, display, user accounts, installing and removing programs"
+    }
+   ],
+   "summary": [
+    "An operating system manages all hardware and software and provides the user interface. Functions: process, memory, file and device management, security, user interface, booting.",
+    "Single-user (one user at a time — Windows 11 Home) vs multi-user (many at once — Linux servers). CUI (typed commands — MS-DOS, Linux terminal) vs GUI (windows, icons, menus, pointer — Windows, Android). Desktop OS (Windows, macOS, Linux) vs mobile OS (Android, iOS).",
+    "Windows (Microsoft, proprietary), Linux (Torvalds 1991, open source; Ubuntu, Fedora), macOS (Apple Macs), Android (Google, Linux-based, most-used mobile OS), iOS (iPhone).",
+    "Windows parts: desktop, icons, taskbar (Start, Search, apps, notification area, clock), Start menu, window (title bar, minimize/maximize/close, scroll bars, status bar), dialog box (tabs, text box, list, check box, option button, OK/Cancel/Apply).",
+    "A file has a name and an extension (.docx, .jpg, .exe); a folder holds files; a path gives the full address, e.g. D:\\School\\Grade 8\\summary.docx.",
+    "Copy (Ctrl + C, Ctrl + V) keeps the original; move (Ctrl + X, Ctrl + V) does not; rename with F2. Delete sends to the Recycle Bin (restore or empty); Shift + Delete and pen-drive deletions are permanent.",
+    "Settings (Win + I): time zone (UTC+05:45) Kathmandu, display, user accounts (administrator or standard), Apps → Installed apps to uninstall."
+   ],
+   "terms": [
+    "Operating system",
+    "CUI and GUI",
+    "File and folder",
+    "Path",
+    "Recycle Bin"
+   ],
+   "stats": {
+    "words": 5780,
+    "figures": 3,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Word Processing",
+   "hours": null,
+   "area": "Application Software",
+   "topics": [
+    "Word processor: features and examples",
+    "Creating, saving, opening and printing a document",
+    "Editing: select, cut, copy, paste, undo, find and replace, spelling and grammar check",
+    "Formatting: font, paragraph, bullets and numbering, page layout, header, footer and page numbers",
+    "Tables, pictures, shapes and WordArt",
+    "Mail merge"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Word processor: features and examples"
+    },
+    {
+     "no": "7.2",
+     "title": "Creating, saving, opening and printing a document"
+    },
+    {
+     "no": "7.3",
+     "title": "Editing: select, cut, copy, paste, undo, find and replace, spelling and grammar check"
+    },
+    {
+     "no": "7.4",
+     "title": "Formatting: font, paragraph, bullets and numbering, page layout, header, footer and page numbers"
+    },
+    {
+     "no": "7.5",
+     "title": "Tables, pictures, shapes and WordArt"
+    },
+    {
+     "no": "7.6",
+     "title": "Mail merge"
+    }
+   ],
+   "summary": [
+    "A word processor creates, edits, formats, saves and prints documents: Microsoft Word, LibreOffice Writer, Google Docs. Features include word wrap, find and replace, spell check, tables, pictures and mail merge.",
+    "Word's window: title bar, Quick Access Toolbar, ribbon (tabs → groups → commands), ruler, document area, insertion point, scroll bars, status bar.",
+    "New Ctrl + N, Open Ctrl + O, Save Ctrl + S (Save As F12 makes a new copy), Print Ctrl + P with copies, pages (1-3, 6) and sides; DOCX for Word, ODT for Writer, PDF for sharing.",
+    "Editing: select, Cut Ctrl + X (move), Copy Ctrl + C, Paste Ctrl + V, Undo Ctrl + Z, Find Ctrl + F, Replace Ctrl + H (match case, whole words), spelling and grammar F7.",
+    "Formatting: font, size (points), bold/italic/underline; alignment (Ctrl + L/E/R/J), line spacing, indents; bullets and numbering; margins (Normal 2.54 cm), orientation, A4 size; header (top), footer (bottom), page numbers (Insert → Page Number).",
+    "Objects: tables (rows × columns = cells; merge, split), pictures (Wrap Text), shapes and WordArt (Writer: Fontwork).",
+    "Mail merge = main document + data source → one merged copy per row (Mailings → Start Mail Merge → Select Recipients → Insert Merge Field → Preview → Finish & Merge)."
+   ],
+   "terms": [
+    "Word processor",
+    "Mail merge"
+   ],
+   "stats": {
+    "words": 5334,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Spreadsheet Software",
+   "hours": null,
+   "area": "Application Software",
+   "topics": [
+    "Spreadsheet: workbook, worksheet, row, column, cell, cell address and range",
+    "Entering and editing data; data types; AutoFill",
+    "Formulas and operators; relative and absolute cell references",
+    "Functions: SUM, AVERAGE, MAX, MIN, COUNT and IF",
+    "Formatting cells; sorting and filtering data",
+    "Charts: column, bar, line and pie"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Spreadsheet: workbook, worksheet, row, column, cell, cell address and range"
+    },
+    {
+     "no": "8.2",
+     "title": "Entering and editing data; data types; AutoFill"
+    },
+    {
+     "no": "8.3",
+     "title": "Formulas and operators; relative and absolute cell references"
+    },
+    {
+     "no": "8.4",
+     "title": "Functions: SUM, AVERAGE, MAX, MIN, COUNT and IF"
+    },
+    {
+     "no": "8.5",
+     "title": "Formatting cells; sorting and filtering data"
+    },
+    {
+     "no": "8.6",
+     "title": "Charts: column, bar, line and pie"
+    }
+   ],
+   "summary": [
+    "A spreadsheet (Excel, Calc, Google Sheets) calculates with data in rows and columns. A workbook (.xlsx, .ods) holds worksheets; a cell is where a row (number) meets a column (letter); its address is like C5; a range is written B2:E6 and has columns × rows cells.",
+    "Data types: text (left), numbers (right), currency, percentage, dates, formulas, TRUE/FALSE. Errors: #####, #DIV/0!, #NAME?, #VALUE!, #REF!. AutoFill with the fill handle copies or continues series.",
+    "Formulas start with =; operators + - * / ^ %, comparisons = <> > < >= <=, &; brackets first, then ^, then × ÷, then + −.",
+    "Relative references (B2) change when copied; absolute (B1) do not; mixed B1, B1; F4 toggles.",
+    "Functions: SUM, AVERAGE, MAX, MIN, COUNT (numbers only), IF(condition, if_true, if_false); nested IF for grades.",
+    "Formatting (Ctrl + 1) changes appearance, not values; sort the whole table (Data → Sort); filter hides rows (Data → Filter).",
+    "Charts: column and bar compare items, line shows change over time, pie shows parts of a whole (angle = share × 360°)."
+   ],
+   "terms": [
+    "Spreadsheet",
+    "Formula",
+    "Relative and absolute references",
+    "Function",
+    "Chart"
+   ],
+   "stats": {
+    "words": 5226,
+    "figures": 3,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Presentation Software",
+   "hours": null,
+   "area": "Application Software",
+   "topics": [
+    "Presentation software: features and examples",
+    "Creating a presentation: slides, layouts, themes and placeholders",
+    "Inserting text, pictures, tables, charts, audio and video",
+    "Transitions and animations",
+    "Slide views, the slide master and running a slide show",
+    "Designing an effective presentation"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Presentation software: features and examples"
+    },
+    {
+     "no": "9.2",
+     "title": "Creating a presentation: slides, layouts, themes and placeholders"
+    },
+    {
+     "no": "9.3",
+     "title": "Inserting text, pictures, tables, charts, audio and video"
+    },
+    {
+     "no": "9.4",
+     "title": "Transitions and animations"
+    },
+    {
+     "no": "9.5",
+     "title": "Slide views, the slide master and running a slide show"
+    },
+    {
+     "no": "9.6",
+     "title": "Designing an effective presentation"
+    }
+   ],
+   "summary": [
+    "Presentation software (PowerPoint, Impress, Google Slides, Keynote, Canva) creates and shows slides; files are .pptx or .odp.",
+    "A layout arranges placeholders on a slide (Title Slide, Title and Content, Two Content, Comparison, Title Only, Picture with Caption); a theme designs all slides; a placeholder holds a title, text or object.",
+    "New slide Ctrl + M; insert pictures, tables, charts, audio and video from the Insert tab; the Playback tab sets how audio and video start.",
+    "A transition works between slides (Transitions tab, Apply To All, Advance After); an animation works on objects (entrance, emphasis, exit, motion paths; On Click, With Previous, After Previous).",
+    "Views: Normal, Outline, Slide Sorter, Notes Page, Reading View, Slide Show. The slide master changes every slide at once.",
+    "Show: F5 from the beginning, Shift + F5 from the current slide, Esc to end; Presenter View for the speaker.",
+    "Effective slides: one idea per slide, 6 × 6 rule, large type, strong contrast, consistent design, few animations, rehearse."
+   ],
+   "terms": [
+    "Presentation software",
+    "Slide, layout, theme and placeholder",
+    "Transition and animation",
+    "Slide master"
+   ],
+   "stats": {
+    "words": 4544,
+    "figures": 4,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Web Page Design",
+   "hours": null,
+   "area": "Web, Communication and Society",
+   "topics": [
+    "World Wide Web: web page, website, web browser, URL and HTML",
+    "Structure of an HTML document: html, head, title and body",
+    "Formatting tags: headings, paragraphs, line breaks, bold, italic, underline and font",
+    "Lists, images and hyperlinks",
+    "Tables in HTML",
+    "Creating and viewing a small website"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "World Wide Web: web page, website, web browser, URL and HTML"
+    },
+    {
+     "no": "10.2",
+     "title": "Structure of an HTML document: html, head, title and body"
+    },
+    {
+     "no": "10.3",
+     "title": "Formatting tags: headings, paragraphs, line breaks, bold, italic, underline and font"
+    },
+    {
+     "no": "10.4",
+     "title": "Lists, images and hyperlinks"
+    },
+    {
+     "no": "10.5",
+     "title": "Tables in HTML"
+    },
+    {
+     "no": "10.6",
+     "title": "Creating and viewing a small website"
+    }
+   ],
+   "summary": [
+    "The WWW (Tim Berners-Lee, CERN, 1989–1991) is a collection of linked web pages on web servers, opened over the Internet with a browser. A web page is one HTML document; a website is related pages under one domain; the home page is index.html.",
+    "URL (Uniform Resource Locator) = protocol (https://) + domain name (www.name.edu.np) + path + file name. HTTP(S) is the transfer protocol.",
+    "HTML (HyperText Markup Language, now HTML5) uses tags in angle brackets: container tags <p>…</p>, empty tags <br>, <hr>, <img>; attributes go in the opening tag: name=\"value\".",
+    "Structure: <!DOCTYPE html>, <html>, <head> with <title> (shown on the tab), <body> (shown in the window). Close tags in reverse order.",
+    "Formatting: <h1>–<h6>, <p>, <br>, <hr>, <b>, <i>, <u>, <sup>, <sub>, <font face size color> (old; CSS today), align.",
+    "Lists: <ul type=\"disc|circle|square\">, <ol type=\"1|A|a|I|i\" start=\"n\">, <li>. Image: <img src alt width height>. Link: <a href=\"…\">, mailto:, target=\"_blank\".",
+    "Tables: <table border>, <caption>, <tr>, <th> (bold, centred), <td>; colspan, rowspan. A website is a folder of linked pages with the same menu, saved as .html and tested in a browser."
+   ],
+   "terms": [
+    "World Wide Web",
+    "HTML"
+   ],
+   "stats": {
+    "words": 4447,
+    "figures": 5,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 11,
+   "title": "Information and Communication Technology",
+   "hours": null,
+   "area": "Web, Communication and Society",
+   "topics": [
+    "ICT: meaning, components and uses",
+    "Communication technologies: telephone, mobile, radio, television, satellite and the internet",
+    "Internet services: WWW, e-mail, search engines, chat, video conferencing and cloud storage",
+    "ICT in Nepal: e-governance, online banking and digital payments, e-learning",
+    "Advantages and disadvantages of ICT; the digital divide"
+   ],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "ICT: meaning, components and uses"
+    },
+    {
+     "no": "11.2",
+     "title": "Communication technologies: telephone, mobile, radio, television, satellite and the Internet"
+    },
+    {
+     "no": "11.3",
+     "title": "Internet services: WWW, e-mail, search engines, chat, video conferencing and cloud storage"
+    },
+    {
+     "no": "11.4",
+     "title": "ICT in Nepal: e-governance, online banking and digital payments, e-learning"
+    },
+    {
+     "no": "11.5",
+     "title": "Advantages and disadvantages of ICT; the digital divide"
+    }
+   ],
+   "summary": [
+    "ICT is the use of computers, telecommunication equipment, networks and software to collect, store, process, send and receive information.",
+    "Its six components are hardware, software, data, network, people and procedures.",
+    "Communication technologies: telephone (voice over wire), mobile (radio waves to the tower of each cell), radio (one-way sound), television (one-way pictures and sound), satellite (uplink and downlink; geostationary at about 35,786 km) and the Internet (a network of networks that carries everything).",
+    "Nepal's milestones: Radio Nepal 1951, NTV 1985, e-mail 1994, first ISP 1995, GSM mobile 1999, 4G 2017, NepaliSat-1 2019, Nagarik App 2021.",
+    "Internet services: WWW (linked web pages; not the same as the Internet), e-mail (To, Cc, Bcc, attachment), search engines, chat, video conferencing and cloud storage.",
+    "ICT in Nepal: e-governance (G2C, G2B, G2G; Nagarik App), online banking and digital payments (eSewa, Khalti, Fonepay QR, connectIPS; never share an OTP or MPIN) and e-learning (Sikai Chautari, E-Paath).",
+    "The digital divide is the gap between those who have devices, the Internet and the skill to use them and those who do not; in 2021, 45.7% of urban but 21.5% of rural households had Internet."
+   ],
+   "terms": [
+    "Information and Communication Technology (ICT)",
+    "Communication satellite",
+    "Video conferencing",
+    "Cloud storage",
+    "e-Governance",
+    "Digital divide"
+   ],
+   "stats": {
+    "words": 6232,
+    "figures": 5,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 12,
+   "title": "Computer Ethics and Cyber Law",
+   "hours": null,
+   "area": "Web, Communication and Society",
+   "topics": [
+    "Computer ethics: meaning and the Ten Commandments of computer ethics",
+    "Cyber crime: hacking, phishing, cyber bullying, identity theft and software piracy",
+    "Intellectual property, copyright and plagiarism",
+    "Cyber law in Nepal: the Electronic Transactions Act, 2063",
+    "Digital citizenship and safe use of social media"
+   ],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Computer ethics: meaning and the Ten Commandments of computer ethics"
+    },
+    {
+     "no": "12.2",
+     "title": "Cyber crime: hacking, phishing, cyber bullying, identity theft and software piracy"
+    },
+    {
+     "no": "12.3",
+     "title": "Intellectual property, copyright and plagiarism"
+    },
+    {
+     "no": "12.4",
+     "title": "Cyber law in Nepal: the Electronic Transactions Act, 2063"
+    },
+    {
+     "no": "12.5",
+     "title": "Digital citizenship and safe use of social media"
+    }
+   ],
+   "summary": [
+    "Computer ethics are the moral rules for using computers; laws are enforced by the state. Every cyber crime is unethical, but not every unethical act is a crime.",
+    "The Ten Commandments (Computer Ethics Institute, 1992): do not harm, interfere, snoop, steal, lie, copy paid software, use others' resources or take others' work; think about society; respect others.",
+    "Cyber crime is any illegal act done with a computer or the Internet: hacking, phishing, cyber bullying, identity theft, software piracy, online fraud.",
+    "Intellectual property is protected by copyright, patents, trademarks and designs. In Nepal copyright lasts for the author's life plus 50 years (Copyright Act, 2059); plagiarism is using work without credit.",
+    "Nepal's cyber law is the Electronic Transactions Act, 2063, authenticated 22 Mansir 2063 (8 December 2006): 12 chapters, 80 sections, offences in sections 44–59.",
+    "Key punishments: s.44 source code and s.45 unauthorised access and s.46 damage — up to Rs 2 lakh or 3 years or both; s.47 illegal material — up to Rs 1 lakh or 5 years or both; s.52 fraud — Rs 1 lakh or 2 years or both. Report to the Cyber Bureau of Nepal Police.",
+    "A digital citizen follows netiquette, protects privacy, uses strong passwords and MFA, thinks before posting, checks facts and manages a digital footprint (active and passive)."
+   ],
+   "terms": [
+    "Computer ethics",
+    "Cyber crime",
+    "Intellectual property",
+    "Copyright",
+    "Plagiarism",
+    "Cyber law",
+    "Digital citizen"
+   ],
+   "stats": {
+    "words": 6559,
+    "figures": 3,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 13,
+   "title": "Computer Virus",
+   "hours": null,
+   "area": "Web, Communication and Society",
+   "topics": [
+    "Computer virus: meaning, history and how it spreads",
+    "Types of malware: virus, worm, Trojan horse, spyware, adware and ransomware",
+    "Symptoms of an infected computer",
+    "Antivirus software: how it works and examples",
+    "Protecting a computer: safe browsing, updates, backups and strong passwords"
+   ],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Computer virus: meaning, history and how it spreads"
+    },
+    {
+     "no": "13.2",
+     "title": "Types of malware: virus, worm, Trojan horse, spyware, adware and ransomware"
+    },
+    {
+     "no": "13.3",
+     "title": "Symptoms of an infected computer"
+    },
+    {
+     "no": "13.4",
+     "title": "Antivirus software: how it works and examples"
+    },
+    {
+     "no": "13.5",
+     "title": "Protecting a computer: safe browsing, updates, backups and strong passwords"
+    }
+   ],
+   "summary": [
+    "A computer virus is a harmful program that attaches itself to files, copies itself when the file is run, and damages data without the user's knowledge; malware is the general name for all harmful programs.",
+    "History: Creeper (1971), Elk Cloner (1982), the name \"computer virus\" by Fred Cohen (1983–84), Brain from Lahore (1986, first PC virus), Morris worm (1988), ILOVEYOU (2000), WannaCry (2017).",
+    "Viruses spread through pen drives, pirated software, e-mail attachments, fake links and apps, and networks.",
+    "Types: virus (needs a host; boot sector, file, macro, multipartite), worm (spreads by itself over networks), Trojan horse (disguised as useful), spyware (secretly watches; keyloggers), adware (unwanted adverts), ransomware (locks files for money).",
+    "Symptoms: slowness, crashes, missing or locked files, shortcut folders on pen drives, pop-ups, a disabled antivirus, messages sent without you.",
+    "Antivirus detects, blocks and removes malware by signature checking, behaviour checking and real-time scanning, then cleans, quarantines or deletes; it must be updated. Examples: Microsoft Defender, Avast, Kaspersky, Norton, ClamAV. A firewall guards the network, an antivirus the files.",
+    "Protection: antivirus and firewall, automatic updates, safe browsing and downloads, scanning pen drives, the 3-2-1 backup rule, strong unique passwords with MFA, and standard user accounts."
+   ],
+   "terms": [
+    "Computer virus",
+    "Antivirus software"
+   ],
+   "stats": {
+    "words": 5534,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 14,
+   "title": "Computer Network",
+   "hours": null,
+   "area": "Web, Communication and Society",
+   "topics": [
+    "Computer network: meaning, advantages and disadvantages",
+    "Network components: server, client, NIC, cables, hub, switch, router and modem",
+    "Transmission media: wired and wireless",
+    "Types of network: LAN, MAN and WAN",
+    "Network topology: bus, ring and star",
+    "The internet as a network of networks"
+   ],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Computer network: meaning, advantages and disadvantages"
+    },
+    {
+     "no": "14.2",
+     "title": "Network components: server, client, NIC, cables, hub, switch, router and modem"
+    },
+    {
+     "no": "14.3",
+     "title": "Transmission media: wired and wireless"
+    },
+    {
+     "no": "14.4",
+     "title": "Types of network: LAN, MAN and WAN"
+    },
+    {
+     "no": "14.5",
+     "title": "Network topology: bus, ring and star"
+    },
+    {
+     "no": "14.6",
+     "title": "The internet as a network of networks"
+    }
+   ],
+   "summary": [
+    "A computer network is two or more computers and devices connected by wired or wireless media to share data, hardware, software and an Internet connection; every device on it is a node, and all follow protocols.",
+    "Advantages: sharing hardware, data and one Internet line; fast communication; central control and backup. Disadvantages: cost and skill, fast spread of viruses, security risk, dependence on the server or switch.",
+    "Components: server (provides services), client (uses them), NIC (with a 48-bit MAC address), cables, hub (copies to all ports), switch (sends only to the destination port, by MAC address), router (joins networks, by IP address), modem (digital ↔ analog; ONT on fibre), Wi-Fi access point.",
+    "Wired media: twisted pair (UTP, RJ-45, 100 m), coaxial (cable TV), optical fibre (light, fastest, many km). Wireless media: radio and Wi-Fi, Bluetooth (about 10 m), microwave (line of sight), satellite, infrared.",
+    "LAN (building, up to about 1 km, fastest), MAN (city or valley), WAN (country or world; the Internet); PAN (one person, about 10 m). WLAN is a wireless LAN, not a WAN.",
+    "Topologies: bus (one backbone, terminators, one break stops all), ring (closed loop, one direction, token), star (own cable to a central switch; most common; the centre is the weak point).",
+    "The Internet is a network of networks joined by routers and TCP/IP; data travels in packets with IP addresses; ISPs meet at npIX; ARPANET began in 1969 and Nepal got the Internet in 1995.",
+    "Speed is in bits per second: divide Mbps by 8 to get MB per second."
+   ],
+   "terms": [
+    "Computer network",
+    "Protocol",
+    "Server and client",
+    "NIC and MAC address",
+    "Transmission media",
+    "LAN, MAN and WAN",
+    "Network topology",
+    "Internet"
+   ],
+   "stats": {
+    "words": 7525,
+    "figures": 5,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 15,
+   "title": "Number System",
+   "hours": null,
+   "area": "Number System, Graphics and Multimedia",
+   "topics": [
+    "Number systems: decimal, binary, octal and hexadecimal",
+    "Converting decimal numbers to binary, octal and hexadecimal",
+    "Converting binary, octal and hexadecimal numbers to decimal",
+    "Converting between binary, octal and hexadecimal",
+    "Bits, bytes and the units of memory"
+   ],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Number systems: decimal, binary, octal and hexadecimal"
+    },
+    {
+     "no": "15.2",
+     "title": "Converting decimal numbers to binary, octal and hexadecimal"
+    },
+    {
+     "no": "15.3",
+     "title": "Converting binary, octal and hexadecimal numbers to decimal"
+    },
+    {
+     "no": "15.4",
+     "title": "Converting between binary, octal and hexadecimal"
+    },
+    {
+     "no": "15.5",
+     "title": "Bits, bytes and the units of memory"
+    }
+   ],
+   "summary": [
+    "A number system writes numbers with a fixed set of digits; its base (radix) is the number of digits, and the largest digit is base − 1. Binary (2: 0, 1), octal (8: 0–7), decimal (10: 0–9), hexadecimal (16: 0–9, A–F with A = 10 … F = 15). Always write the base: (101)2.",
+    "All four are positional: place values are powers of the base, starting with base^0 = 1 at the right.",
+    "Computers use binary because their switches have two states (off/on); octal (3 bits per digit) and hexadecimal (4 bits per digit) are short ways of writing binary — hex is used for colour codes and MAC addresses.",
+    "Decimal → any base: divide by the base until the quotient is 0; read the remainders from the bottom up; write 10–15 as A–F.",
+    "Any base → decimal: multiply each digit by its place value and add.",
+    "Binary → octal / hex: group bits in threes / fours from the right, padding 0s on the left. Octal / hex → binary: write 3 / 4 bits for each digit. Octal ↔ hex: go through binary.",
+    "Memory: bit; nibble = 4 bits; byte = 8 bits; KB, MB, GB, TB, PB, EB, ZB, YB, each 1024 times the one before. Disk makers and network speeds use 1000."
+   ],
+   "terms": [
+    "Number system and base",
+    "Bit, nibble and byte"
+   ],
+   "stats": {
+    "words": 7181,
+    "figures": 5,
+    "examples": 21
+   },
+   "has_notes": true
+  },
+  {
+   "no": 16,
+   "title": "Computer Graphics",
+   "hours": null,
+   "area": "Number System, Graphics and Multimedia",
+   "topics": [
+    "Computer graphics: meaning and uses",
+    "Raster and vector graphics",
+    "Graphics software: Paint, GIMP, Inkscape and Canva",
+    "Drawing and editing a picture",
+    "Image file formats: BMP, JPEG, PNG, GIF and SVG"
+   ],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Computer graphics: meaning and uses"
+    },
+    {
+     "no": "16.2",
+     "title": "Raster and vector graphics"
+    },
+    {
+     "no": "16.3",
+     "title": "Graphics software: Paint, GIMP, Inkscape and Canva"
+    },
+    {
+     "no": "16.4",
+     "title": "Drawing and editing a picture"
+    },
+    {
+     "no": "16.5",
+     "title": "Image file formats: BMP, JPEG, PNG, GIF and SVG"
+    }
+   ],
+   "summary": [
+    "Computer graphics are pictures, drawings, charts and animations made, stored, edited and shown by computer; they may be 2D or 3D, interactive or non-interactive. Uses: design, advertising, entertainment, education, CAD, maps, medicine, charts and the GUI.",
+    "Raster (bitmap) graphics are grids of pixels; resolution is width × height in pixels; colour depth n bits gives 2^n colours (24-bit = 16,777,216). Uncompressed size = width × height × bits ÷ 8 bytes.",
+    "Each pixel's colour is a mix of red, green and blue, each 0–255.",
+    "Vector graphics store shapes as numbers and stay sharp at any size; raster pictures pixelate when enlarged.",
+    "Paint (raster, with Windows), GIMP (free raster editor, XCF, layers), Inkscape (free vector editor, SVG) and Canva (online templates, free and Pro plans).",
+    "Paint tools: select, crop, resize and skew, rotate/flip, pencil, fill, text, eraser, colour picker, magnifier, brushes, shapes, size, Colour 1 and 2.",
+    "BMP uncompressed; JPEG lossy, photos; PNG lossless, transparency; GIF 256 colours, animation; SVG vector."
+   ],
+   "terms": [
+    "Computer graphics",
+    "Raster graphics, pixel and resolution",
+    "Colour depth",
+    "Vector graphics",
+    "Graphics software",
+    "Layer",
+    "File format and compression"
+   ],
+   "stats": {
+    "words": 5520,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 17,
+   "title": "Multimedia",
+   "hours": null,
+   "area": "Number System, Graphics and Multimedia",
+   "topics": [
+    "Multimedia: meaning and elements (text, graphics, audio, video and animation)",
+    "Multimedia hardware and software",
+    "Uses of multimedia in education, entertainment, business and health",
+    "Advantages and disadvantages of multimedia"
+   ],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Multimedia: meaning and elements"
+    },
+    {
+     "no": "17.2",
+     "title": "Multimedia hardware and software"
+    },
+    {
+     "no": "17.3",
+     "title": "Uses of multimedia in education, entertainment, business and health"
+    },
+    {
+     "no": "17.4",
+     "title": "Advantages and disadvantages of multimedia"
+    }
+   ],
+   "summary": [
+    "Multimedia is the combined use of two or more media — text, graphics, audio, video and animation — usually with a computer.",
+    "Video is recorded from real life with a camera; animation is drawn or computer-made pictures shown quickly (about 12–30 a second) so they seem to move.",
+    "Linear multimedia plays in a fixed order (a film); interactive multimedia responds to the user (E-Paath, games, websites).",
+    "Hardware: input — microphone, webcam, camera, scanner, graphics tablet; output — monitor, speakers, headphones, projector; inside — CPU, RAM, graphics card, sound card; storage — SSD, hard disk, memory card, cloud.",
+    "Software: VLC (player), Audacity (audio), OpenShot, Kdenlive and CapCut (video), Pencil2D and Blender (animation), GIMP and Inkscape (graphics), PowerPoint (presentation).",
+    "Uncompressed sound = samples per second × bits × channels × seconds ÷ 8 bytes; one minute of CD sound ≈ 10.1 MB, as MP3 ≈ 0.92 MB; MP4 makes video about a hundred times smaller.",
+    "Uses: education, entertainment, business, health (medical images, telemedicine); advantages and disadvantages as in the table."
+   ],
+   "terms": [
+    "Multimedia",
+    "Multimedia system"
+   ],
+   "stats": {
+    "words": 4522,
+    "figures": 3,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 18,
+   "title": "Program Design Tools",
+   "hours": null,
+   "area": "Programming",
+   "topics": [
+    "Program and programming; steps of program development",
+    "Algorithm: meaning, features and writing algorithms",
+    "Flowchart: symbols, rules and drawing flowcharts",
+    "Sequence, selection and repetition in algorithms and flowcharts",
+    "Pseudocode"
+   ],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Program and programming; steps of program development"
+    },
+    {
+     "no": "18.2",
+     "title": "Algorithm: meaning, features and writing algorithms"
+    },
+    {
+     "no": "18.3",
+     "title": "Flowchart: symbols, rules and drawing flowcharts"
+    },
+    {
+     "no": "18.4",
+     "title": "Sequence, selection and repetition in algorithms and flowcharts"
+    },
+    {
+     "no": "18.5",
+     "title": "Pseudocode"
+    }
+   ],
+   "summary": [
+    "A program is a set of instructions in a programming language; programming is planning, writing, testing and correcting programs.",
+    "The program development life cycle: problem analysis (input, process, output), program design, coding, testing and debugging, documentation, implementation and maintenance.",
+    "An algorithm is a finite set of clear step-by-step instructions from Start to Stop; a good one has input, output, definiteness, finiteness and effectiveness.",
+    "A flowchart draws an algorithm with standard symbols: oval (start/stop), parallelogram (input/output), rectangle (process), diamond (decision), arrows (flow lines), circle (connector).",
+    "Flowchart rules: one Start and one Stop, top to bottom, arrows on every line, two labelled exits on every decision, no crossing lines.",
+    "Every algorithm is built from sequence, selection (decision, branching) and repetition (loop); a loop needs initialisation, a condition and an update, or it never ends.",
+    "Pseudocode is structured English with keywords (INPUT, PRINT, IF … ENDIF, WHILE … ENDWHILE, FOR … NEXT) that is easy to turn into a real program.",
+    "A trace table (dry run) follows an algorithm by hand to test it before coding."
+   ],
+   "terms": [
+    "Program, programming and programmer",
+    "Algorithm",
+    "Flowchart",
+    "Pseudocode"
+   ],
+   "stats": {
+    "words": 5792,
+    "figures": 5,
+    "examples": 9
+   },
+   "has_notes": true
+  },
+  {
+   "no": 19,
+   "title": "Fundamentals of Computer Programming",
+   "hours": null,
+   "area": "Programming",
+   "topics": [
+    "Programming languages: low-level (machine and assembly) and high-level languages",
+    "Language processors: compiler, interpreter and assembler",
+    "Syntax errors, logical errors and run-time errors; testing and debugging",
+    "Common high-level languages: QBASIC, Python, C and Java",
+    "Constants, variables and data types"
+   ],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Programming languages: low-level (machine and assembly) and high-level languages"
+    },
+    {
+     "no": "19.2",
+     "title": "Language processors: compiler, interpreter and assembler"
+    },
+    {
+     "no": "19.3",
+     "title": "Syntax errors, logical errors and run-time errors; testing and debugging"
+    },
+    {
+     "no": "19.4",
+     "title": "Common high-level languages: QBASIC, Python, C and Java"
+    },
+    {
+     "no": "19.5",
+     "title": "Constants, variables and data types"
+    }
+   ],
+   "summary": [
+    "A programming language is a set of words, symbols and rules (syntax) for writing instructions for a computer.",
+    "Low-level languages: machine language (binary; runs directly; machine-dependent) and assembly language (mnemonics such as MOV and ADD; needs an assembler). High-level languages (QBASIC, Python, C, Java) are English-like and portable.",
+    "Language processors turn source code into object code: a compiler translates the whole program at once and makes an object program; an interpreter translates and runs one line at a time; an assembler translates assembly language.",
+    "Syntax error: breaking the rules of the language. Run-time error: an impossible operation while running, such as division by zero. Logical error: wrong method, wrong output, no message.",
+    "Testing runs a program with test data of known answers; debugging finds and corrects errors (error messages, dry runs, printing values, stepping with F8, breakpoints with F9).",
+    "QBASIC (Microsoft, 1991; BASIC 1964), Python (Guido van Rossum, 1991), C (Dennis Ritchie, 1972), Java (James Gosling, Sun, 1995).",
+    "A constant never changes (numeric or string); a variable is a named memory location whose value can change; QBASIC names begin with a letter, have no spaces and are not keywords.",
+    "QBASIC data types: INTEGER %, LONG &, SINGLE ! (the default), DOUBLE #, STRING $."
+   ],
+   "terms": [
+    "Programming language",
+    "Language processor (translator)",
+    "Syntax error",
+    "Run-time error",
+    "Logical error",
+    "Constant",
+    "Variable"
+   ],
+   "stats": {
+    "words": 5629,
+    "figures": 3,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 20,
+   "title": "Computer Programming using QBASIC",
+   "hours": null,
+   "area": "Programming",
+   "topics": [
+    "QBASIC: features and the QBASIC screen",
+    "Character set, constants, variables and operators",
+    "Statements: CLS, REM, LET, INPUT, PRINT and END",
+    "Library functions: mathematical and string functions",
+    "Selection: IF...THEN...ELSE and SELECT CASE",
+    "Loops: FOR...NEXT, WHILE...WEND and DO...LOOP",
+    "Writing, running and debugging simple programs"
+   ],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "QBASIC: features and the QBASIC screen"
+    },
+    {
+     "no": "20.2",
+     "title": "Character set, constants, variables and operators"
+    },
+    {
+     "no": "20.3",
+     "title": "Statements: CLS, REM, LET, INPUT, PRINT and END"
+    },
+    {
+     "no": "20.4",
+     "title": "Library functions: mathematical and string functions"
+    },
+    {
+     "no": "20.5",
+     "title": "Selection: IF...THEN...ELSE and SELECT CASE"
+    },
+    {
+     "no": "20.6",
+     "title": "Loops: FOR...NEXT, WHILE...WEND and DO...LOOP"
+    },
+    {
+     "no": "20.7",
+     "title": "Writing, running and debugging simple programs"
+    }
+   ],
+   "summary": [
+    "QBASIC (Microsoft, 1991; from BASIC, 1964) is an interpreted, easy, structured language with a smart editor and built-in help; its screen has a title bar, menu bar, program window, Immediate window, scroll bars and status bar. Shift + F5 runs a program; F8 steps; F9 sets a breakpoint.",
+    "Character set: letters, digits and special characters. Operators: arithmetic (^ * / \\ MOD + -), relational (= <> > < >= <=, true = −1, false = 0), logical (NOT, AND, OR) and string +; brackets first, then ^, then * /, then \\, then MOD, then + -.",
+    "Statements: CLS clears the screen, REM writes a remark, LET assigns, INPUT reads (; adds \"? \"), PRINT displays (; joins, , jumps to a 14-column zone, TAB(n) moves to column n), END ends.",
+    "Library functions: mathematical (SQR, ABS, INT, FIX, CINT, SGN, RND …) and string (LEN, LEFT, RIGHT, MID, UCASE, LCASE, ASC, CHR, STR$, VAL, INSTR …).",
+    "Selection: single-line IF, block IF … ELSEIF … ELSE … END IF, and SELECT CASE with value lists, TO ranges, IS comparisons and CASE ELSE; only the first true branch runs.",
+    "Loops: FOR … NEXT (known count; STEP, negative STEP to count down), WHILE … WEND and DO WHILE … LOOP (test first; may run 0 times), DO … LOOP UNTIL (test last; runs at least once); loops can be nested.",
+    "Writing and debugging: plan, type, run, test with known answers, save as .BAS; syntax and run-time errors give messages, logical errors are found by testing, trace tables, F8 and F9."
+   ],
+   "terms": [
+    "QBASIC",
+    "Library function"
+   ],
+   "stats": {
+    "words": 6689,
+    "figures": 3,
+    "examples": 23
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 20,
+ "topic_count": 108,
+ "notes_ready": 20
+}
