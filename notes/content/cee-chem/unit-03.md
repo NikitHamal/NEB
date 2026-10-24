@@ -30,10 +30,10 @@ Everything follows from two ideas — effective nuclear charge and the number of
 **Mendeleev (1869)** arranged the elements by increasing atomic mass and grouped elements
 with similar properties. He left gaps and predicted the properties of undiscovered
 elements — eka-boron (Sc), eka-aluminium (Ga) and eka-silicon (Ge). But he had to reverse
-some pairs to keep the chemistry right (Ar 39.9 before K 39.1; Co before Ni; Te before I),
-and isotopes had no place. **Moseley (1913)** found that the square root of the frequency
-of an element's characteristic X-rays is proportional to its atomic number,
-$\sqrt{\nu} = a(Z - b)$. Ordered by Z, every reversal disappears.
+some pairs to keep the chemistry right (Te 127.6 before I 126.9; Co before Ni; and, once
+argon was discovered in 1894, Ar 39.9 before K 39.1), and isotopes had no place.
+**Moseley (1913)** found that the square root of the frequency of an element's
+characteristic X-rays varies linearly with its atomic number, $\sqrt{\nu} = a(Z - b)$. Ordered by Z, every reversal disappears.
 
 ::: definition Modern periodic law
 The physical and chemical properties of the elements are **periodic functions of their
@@ -59,7 +59,7 @@ elements. The period number is the principal quantum number of the outermost she
 |---|---|---|
 | 1 | alkali metals (H is placed here but is not one) | ns¹ |
 | 2 | alkaline earth metals | ns² |
-| 3–12 | transition metals | (n − 1)d¹⁻¹⁰ ns⁰⁻² |
+| 3–12 | transition metals (Zn, Cd, Hg of group 12 are d-block but not true transition metals: full d¹⁰) | (n − 1)d¹⁻¹⁰ ns⁰⁻² |
 | 13 | boron family | ns² np¹ |
 | 14 | carbon family | ns² np² |
 | 15 | nitrogen family (pnictogens) | ns² np³ |
@@ -76,8 +76,8 @@ elements. The period number is the principal quantum number of the outermost she
 | d | (n − 1)d | (n − 1)d¹⁻¹⁰ ns⁰⁻² | groups 3–12, periods 4–7 | transition metals: variable oxidation states, coloured ions, complexes, catalysts |
 | f | (n − 2)f | (n − 2)f¹⁻¹⁴ (n − 1)d⁰⁻¹ ns² | two rows below the table | inner transition: lanthanoids (4f, Z = 58–71) and actinoids (5f, Z = 90–103, all radioactive) |
 
-The **representative (main-group) elements** are the s- and p-block elements other than
-the noble gases. **Metalloids** (B, Si, Ge, As, Sb, Te) lie on the diagonal staircase
+The s- and p-block elements together are the **representative (main-group) elements**
+(some older books leave out the noble gases). **Metalloids** (B, Si, Ge, As, Sb, Te) lie on the diagonal staircase
 between metals and non-metals. **Helium** is 1s² — an s-block configuration — but sits in
 group 18 because its shell is complete and it is inert like the other noble gases.
 
@@ -330,7 +330,7 @@ ratios (polarising power).
 |---|---|---|
 | Atomic and ionic radius | decreases | increases |
 | Ionisation energy | increases (dips at groups 13 and 16) | decreases |
-| Electron affinity | increases (Cl > F) | decreases |
+| Electron affinity | increases (dips at groups 2, 15 and 18) | decreases (but Cl > F, S > O) |
 | Electronegativity | increases | decreases |
 | Metallic character, reducing power | decreases | increases |
 | Non-metallic character, oxidising power | increases | decreases |
@@ -416,7 +416,7 @@ the exception the setter is testing.
    (a) Na₂O (b) MgO (c) Al₂O₃ (d) SO₃
 17. Compared with its parent atom, a cation is always
    (a) larger (b) the same size (c) larger or smaller, depending on the group (d) smaller
-18. For any element, the second ionisation energy is
+18. For any element with two or more electrons, the second ionisation energy is
    (a) greater than the first (b) less than the first (c) equal to the first (d) zero
 19. Helium has the configuration 1s² but is placed in group 18 because
    (a) it is an s-block metal (b) it has eight valence electrons (c) its shell is complete and it is inert, like the noble gases (d) it has the highest atomic mass in period 1
@@ -424,13 +424,13 @@ the exception the setter is testing.
    (a) 3.0 (b) 4.0 (c) 3.5 (d) 2.8
 
 ::: note Answers and explanations — Set A
-**1.** (b) — Moseley showed atomic number, not atomic mass, is the fundamental property; ordering by mass forced Mendeleev to reverse pairs such as Ar and K.
+**1.** (b) — Moseley showed atomic number, not atomic mass, is the fundamental property; ordering by mass forced Mendeleev to reverse pairs such as Te and I (and, later, Ar and K).
 **2.** (d) — Moseley's law, √ν = a(Z − b), linked X-ray frequency to atomic number (1913). Mendeleev's law (1869) was based on atomic mass.
 **3.** (a) — Period 4 fills 4s, 3d and 4p: 2 + 10 + 6 = 18 elements (K to Kr).
 **4.** (c) — The lanthanoids and actinoids fill (n − 2)f orbitals: inner transition elements. "Transition elements" are the d-block.
 **5.** (c) — Fluorine, 4.0 on the Pauling scale. Oxygen (3.5) is second.
 **6.** (a) — Chlorine (349 kJ mol⁻¹) beats fluorine (328), whose tiny 2p shell repels the added electron.
-**7.** (b) — Helium (2372 kJ mol⁻¹): a 1s² pair held by two protons with no screening. Neon is next (2081).
+**7.** (b) — Helium (2372 kJ mol⁻¹): a 1s² pair held by two protons with no inner electrons to screen them. Neon is next (2081).
 **8.** (d) — Ionisation energy falls down group 1 as size grows; Cs (376 kJ mol⁻¹) is the lowest of these.
 **9.** (b) — The nuclear charge rises while electrons enter the same shell, so Z_eff rises and pulls the shell in.
 **10.** (a) — Silicon is a metalloid (semiconductor); Na is a metal, S and Cl are non-metals.
