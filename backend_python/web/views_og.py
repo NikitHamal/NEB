@@ -104,6 +104,46 @@ PAGES = {
         'kicker': 'Legal', 'title': 'Copyright and takedown',
         'meta': ('NEBians',), 'hero': 'paper',
     },
+    'syllabus': {
+        'kicker': 'Syllabus', 'title': 'The NEB syllabus, unit by unit',
+        'meta': ('Class 8 to 12', 'With notes for every unit'), 'hero': 'books',
+    },
+    'marketplace': {
+        'kicker': 'Marketplace', 'title': 'Learn from teachers who have sat the exam',
+        'meta': ('Courses', 'Storefronts'), 'hero': 'cards',
+    },
+    'interactive': {
+        'kicker': 'Interactive', 'title': 'Physics, chemistry and code you can touch',
+        'meta': ('Virtual labs', 'No install'), 'hero': 'flask',
+    },
+    'bookmarks': {
+        'kicker': 'Saved', 'title': 'The things you meant to come back to',
+        'meta': ('Bookmarks', 'Resources and threads'), 'hero': 'spark',
+    },
+    'achievements': {
+        'kicker': 'Achievements', 'title': 'What you have earned so far',
+        'meta': ('Badges', 'Milestones'), 'hero': 'spark',
+    },
+    'settings': {
+        'kicker': 'Account', 'title': 'Your NEBians account',
+        'meta': ('Profile', 'Preferences', 'Privacy'), 'hero': 'spark',
+    },
+    'credits': {
+        'kicker': 'Credits', 'title': 'The people who built NEBians',
+        'meta': ('NEBians',), 'hero': 'spark',
+    },
+    'code': {
+        'kicker': 'Code', 'title': 'Write it, run it, see it work',
+        'meta': ('Code sessions',), 'hero': 'graph',
+    },
+    'notifications': {
+        'kicker': 'Notifications', 'title': 'What happened while you were away',
+        'meta': ('NEBians',), 'hero': 'spark',
+    },
+    'study-spaces': {
+        'kicker': 'Study spaces', 'title': 'Study together, even apart',
+        'meta': ('Shared rooms', 'Quizzes and flashcards'), 'hero': 'bubbles',
+    },
 }
 
 
@@ -116,6 +156,183 @@ def card_url(kind, key=''):
 
 
 # ── What each kind puts on the card ───────────────────────────────────────
+
+def _syllabus_grade_card(key):
+    from . import syllabus_data
+    grade = syllabus_data.grade_entry(key)
+    if grade is None:
+        raise Http404('No such grade')
+    subjects = grade.get('subjects') or []
+    units = sum(s.get('unit_count', 0) for s in subjects)
+    meta = ['%d subjects' % len(subjects)]
+    if units:
+        meta.append('%d units' % units)
+    return {
+        'kicker': 'Syllabus', 'title': '%s syllabus' % grade.get('label', 'NEB'),
+        'meta': tuple(meta), 'hero': 'books', 'seed': 'grade-' + str(key),
+    }
+
+
+def _syllabus_subject_card(key):
+    """key is `12/physics`, the pair the syllabus page takes."""
+    from . import syllabus_data
+    parts = [p for p in key.split('/') if p]
+    if len(parts) != 2:
+        raise Http404('No such subject')
+    data = syllabus_data.subject(parts[0], parts[1])
+    if not data:
+        raise Http404('No such subject')
+    meta = [data.get('grade_label') or '', '%d units' % (data.get('unit_count') or 0)]
+    if data.get('hours'):
+        meta.append('%d hours' % data['hours'])
+    return {
+        'kicker': data.get('grade_label') or 'Syllabus',
+        'title': data.get('name') or 'Syllabus',
+        'meta': tuple(m for m in meta if m),
+        'subject': data.get('name') or '', 'hero': 'books',
+        'seed': 'syl-' + str(key),
+    }
+
+
+def _syllabus_chapter_card(key):
+    """key is `12/physics/3`."""
+    from . import syllabus_data
+    parts = [p for p in key.split('/') if p]
+    if len(parts) != 3:
+        raise Http404('No such chapter')
+    data = syllabus_data.subject(parts[0], parts[1])
+    if not data:
+        raise Http404('No such chapter')
+    try:
+        no = int(parts[2])
+    except ValueError:
+        raise Http404('No such chapter')
+    for unit in data.get('units') or []:
+        if int(unit.get('no') or 0) == no:
+            meta = [data.get('name') or '', data.get('grade_label') or '']
+            if unit.get('hours'):
+                meta.append('%d hours' % unit['hours'])
+            return {
+                'kicker': 'Unit %d' % no, 'title': unit.get('title') or 'Unit',
+                'meta': tuple(m for m in meta if m),
+                'subject': data.get('name') or '', 'hero': 'paper',
+                'seed': 'unit-' + str(key),
+            }
+    raise Http404('No such chapter')
+
+
+def _course_card(course_id):
+    from api.models import CreatorCourse
+    try:
+        course = CreatorCourse.objects.select_related('page').only(
+            'id', 'title', 'status', 'is_free', 'price', 'level',
+            'duration_label', 'lesson_count', 'page__display_name',
+            'page__accent_hex',
+        ).get(id=course_id)
+    except CreatorCourse.DoesNotExist:
+        raise Http404('Course not found')
+    if course.status != 'published':
+        raise Http404('Course not found')
+
+    meta = []
+    if course.page and course.page.display_name:
+        meta.append(course.page.display_name)
+    if course.level:
+        meta.append(course.level)
+    if course.lesson_count:
+        meta.append('%d lessons' % course.lesson_count)
+    elif course.duration_label:
+        meta.append(course.duration_label)
+    meta.append('Free' if course.is_free else 'Rs %s' % _money(course.price))
+    return {
+        'kicker': 'Course', 'title': course.title, 'meta': tuple(meta[:3]),
+        'hero': 'cards', 'seed': str(course.pk),
+        'accent': (course.page.accent_hex if course.page else '') or '',
+    }
+
+
+def _money(value):
+    try:
+        value = float(value or 0)
+    except (TypeError, ValueError):
+        return '0'
+    return ('%d' % value) if value == int(value) else ('%.2f' % value)
+
+
+def _creator_card(slug):
+    from api.models import CREATOR_KINDS, CreatorPage
+    try:
+        page = CreatorPage.objects.only(
+            'id', 'slug', 'display_name', 'tagline', 'kind', 'verified',
+            'accent_hex', 'published',
+        ).get(slug=slug)
+    except CreatorPage.DoesNotExist:
+        raise Http404('Creator not found')
+    if not page.published:
+        raise Http404('Creator not found')
+
+    # The tagline is the description here, not the meta line: a storefront is
+    # a person, and a person's one sentence belongs under their name.
+    return {
+        'kicker': 'Creator', 'title': page.display_name or 'NEBians creator',
+        'meta': tuple(m for m in (
+            dict(CREATOR_KINDS).get(page.kind, 'Creator'),
+            'Verified' if page.verified else '',
+        ) if m),
+        'hero': 'cards', 'seed': page.slug,
+        'accent': page.accent_hex or '',
+    }
+
+
+def _interactive_card(key):
+    """key is `course-slug` or `course-slug/lesson-slug`."""
+    from .interactive import get_course, get_lesson
+    parts = [p for p in key.split('/') if p]
+    if not parts:
+        raise Http404('No such course')
+    if len(parts) == 1:
+        course = get_course(parts[0])
+        if not course:
+            raise Http404('No such course')
+        return {
+            'kicker': course.get('category_label') or 'Interactive',
+            'title': course.get('title') or 'Interactive',
+            'meta': tuple(m for m in (course.get('level'),
+                                      '%d lessons' % (course.get('lesson_count') or 0))
+                          if m)[:3],
+            'subject': course.get('title') or '', 'hero': 'flask',
+            'seed': 'i-' + key, 'accent': course.get('color') or '',
+        }
+    course, lesson, _, _ = get_lesson(parts[0], parts[1])
+    if not course or not lesson:
+        raise Http404('No such lesson')
+    return {
+        'kicker': course.get('title') or 'Interactive',
+        'title': lesson.get('title') or 'Lesson',
+        'meta': tuple(m for m in (course.get('category_label'),
+                                  '%d min' % lesson.get('minutes')
+                                  if lesson.get('minutes') else '') if m)[:3],
+        'subject': course.get('title') or '', 'hero': 'flask',
+        'seed': 'il-' + key, 'accent': course.get('color') or '',
+    }
+
+
+def _study_space_card(space_id):
+    from api.models import StudySpace
+    try:
+        space = StudySpace.objects.only(
+            'id', 'title', 'visibility', 'subject', 'study_level',
+        ).get(id=space_id)
+    except (StudySpace.DoesNotExist, ValueError):
+        raise Http404('Space not found')
+    if space.visibility != StudySpace.VISIBILITY_PUBLIC:
+        raise Http404('Space not found')
+    return {
+        'kicker': 'Study space',
+        'title': (space.title or '').strip() or 'A NEBians study space',
+        'meta': tuple(m for m in (space.study_level, space.subject) if m)[:3],
+        'subject': space.subject or '', 'hero': 'bubbles', 'seed': str(space.pk),
+    }
 
 def _page_card(key):
     spec = PAGES.get(key)
@@ -265,6 +482,13 @@ KINDS = {
     'news': _news_card,
     'subject': _subject_card,
     'profile': _profile_card,
+    'syllabus': _syllabus_subject_card,
+    'grade': _syllabus_grade_card,
+    'chapter': _syllabus_chapter_card,
+    'course': _course_card,
+    'creator': _creator_card,
+    'interactive': _interactive_card,
+    'space': _study_space_card,
 }
 
 
@@ -286,7 +510,8 @@ def _render_response(kind, key, spec):
                               subject=spec.get('subject', ''),
                               seed=spec.get('seed', '') or key,
                               hero=spec.get('hero', 'mark'),
-                              avatar=avatar)
+                              avatar=avatar,
+                              accent_hex=spec.get('accent', '') or '')
         png = og_cards.to_png(img)
         cache.set(cache_key, png, 24 * 3600)
 
@@ -370,7 +595,18 @@ _ROUTE_PAGES = {
     'terms_of_service': 'terms',
     'copyright_takedown': 'copyright',
     'search': 'library',
-    'interactive_hub': 'study-lab',
+    'syllabus_hub': 'syllabus',
+    'marketplace': 'marketplace',
+    'interactive_hub': 'interactive',
+    'bookmarks': 'bookmarks',
+    'achievements': 'achievements',
+    'settings': 'settings',
+    'edit_profile': 'settings',
+    'password_change': 'settings',
+    'credits': 'credits',
+    'code': 'code',
+    'notifications': 'notifications',
+    'study_space_page': 'study-spaces',
 }
 
 # Routes whose card is drawn from the thing the URL names.
@@ -381,6 +617,24 @@ _ROUTE_OBJECTS = {
     'profile': ('profile', lambda kw: kw.get('username')),
     'subject_page': ('subject', lambda kw: '%s/%s' % (kw.get('grade_slug', ''),
                                                       kw.get('subject_slug', ''))),
+    # The syllabus pages name their subject twice over -- once as a grade and a
+    # subject, once as a grade and a unit -- so each gets its own builder.
+    'syllabus_grade': ('grade', lambda kw: kw.get('grade', '')),
+    'syllabus_subject': ('syllabus', lambda kw: '%s/%s' % (kw.get('grade', ''),
+                                                           kw.get('subject', ''))),
+    'syllabus_chapter': ('chapter', lambda kw: '%s/%s/%s' % (kw.get('grade', ''),
+                                                             kw.get('subject', ''),
+                                                             kw.get('unit_no', ''))),
+    'syllabus_bank': ('syllabus', lambda kw: '%s/%s' % (kw.get('grade', ''),
+                                                        kw.get('subject', ''))),
+    'syllabus_guide': ('syllabus', lambda kw: '%s/%s' % (kw.get('grade', ''),
+                                                         kw.get('subject', ''))),
+    'marketplace_course': ('course', lambda kw: kw.get('course_id')),
+    'marketplace_creator': ('creator', lambda kw: kw.get('slug')),
+    'interactive_course': ('interactive', lambda kw: kw.get('course_slug')),
+    'interactive_lesson': ('interactive', lambda kw: '%s/%s' % (kw.get('course_slug', ''),
+                                                                kw.get('lesson_slug', ''))),
+    'study_space_page': ('space', lambda kw: kw.get('space_id')),
 }
 
 _ALT = {
@@ -390,6 +644,13 @@ _ALT = {
     'profile': 'A NEBians profile card',
     'subject': 'A NEBians card for this subject',
     'page': "NEBians — Nepal's Learning Community",
+    'syllabus': 'A NEBians syllabus card',
+    'grade': 'A NEBians syllabus card',
+    'chapter': 'A NEBians card for this unit',
+    'course': 'A NEBians card for this course',
+    'creator': 'A NEBians storefront card',
+    'interactive': 'A NEBians interactive lesson card',
+    'space': 'A NEBians study space card',
 }
 
 
