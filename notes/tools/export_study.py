@@ -173,29 +173,48 @@ def _answers_fold(htm):
     return "".join(out)
 
 
-def _mcq_keys(htm):
-    """Tie each multiple-choice list to the answer key that follows it: <li data-key="b">."""
+def _answer_boxes(htm):
+    boxes = []
+    for d in re.finditer(r'<details class="ans[^"]*">(.*?)</details>', htm, re.S):
+        keys = {}
+        for n, letter in re.findall(r"<strong>([\d०-९]+)\.?</strong>\s*\(?\s*([a-dकखगघ])\s*\)", d.group(1)):
+            keys.setdefault(int(n.translate(_DEVA_NUM)), _NE_OPT.get(letter, letter))
+        boxes.append((d.start(), keys))
+    return boxes
+
+
+def _mcq_keys(htm, far=False):
+    """Tie each multiple-choice list to the answer key that follows it: <li data-key="b">.
+
+    `far` (the entrance books) also keys a list that starts at any number, as a model paper
+    numbered 1-200 straight through does, from the first later answer box that answers its
+    first question, however far below it the key is printed."""
+    boxes = _answer_boxes(htm) if far else []
     out, pos = [], 0
-    for m in re.finditer(r"<ol>(.*?)</ol>", htm, re.S):
-        block = m.group(1)
+    for m in re.finditer(r'<ol( start="(\d+)")?>(.*?)</ol>' if far else r"<ol>(.*?)</ol>", htm, re.S):
+        block = m.group(3) if far else m.group(1)
         if 'class="opts' not in block:
             continue
-        nxt = re.search(r'<details class="ans[^"]*">(.*?)</details>', htm[m.end():m.end() + 20000], re.S)
-        if not nxt:
-            continue
+        first = int(m.group(2) or 1) if far else 1
         keys = {}
-        for n, letter in re.findall(r"<strong>([\d०-९]+)\.?</strong>\s*\(?\s*([a-dकखगघ])\s*\)", nxt.group(1)):
-            keys[int(n.translate(_DEVA_NUM))] = _NE_OPT.get(letter, letter)
+        if far:
+            keys = next((k for start, k in boxes if start > m.end() and first in k), {})
+        else:
+            nxt = re.search(r'<details class="ans[^"]*">(.*?)</details>', htm[m.end():m.end() + 20000], re.S)
+            if nxt:
+                for n, letter in re.findall(r"<strong>([\d०-९]+)\.?</strong>\s*\(?\s*([a-dकखगघ])\s*\)", nxt.group(1)):
+                    keys[int(n.translate(_DEVA_NUM))] = _NE_OPT.get(letter, letter)
         if not keys:
             continue
-        i = [0]
+        i = [first - 1]
 
         def li(lm):
             i[0] += 1
             k = keys.get(i[0])
             return '<li data-key="%s">' % k if k and 'class="opts' in lm.group(1) else lm.group(0)
         new_block = re.sub(r"<li>(?=(.*?)</li>)", li, block, flags=re.S)
-        out.append(htm[pos:m.start()] + "<ol class=\"mcq\">" + new_block + "</ol>")
+        start = ' start="%d"' % first if far and m.group(2) else ""
+        out.append(htm[pos:m.start()] + '<ol class="mcq"%s>' % start + new_block + "</ol>")
         pos = m.end()
     out.append(htm[pos:])
     return "".join(out)
@@ -239,9 +258,9 @@ def _para_mcq(htm):
     return "".join(out)
 
 
-def _finish(htm):
+def _finish(htm, far=False):
     """Give every h2 an id, collect the table of contents, fold answers, key the MCQs."""
-    htm = _para_mcq(_mcq_keys(_answers_fold(htm)))
+    htm = _para_mcq(_mcq_keys(_answers_fold(htm), far))
     toc = []
 
     def head(m):
@@ -267,7 +286,8 @@ def _chapter(args):
         meta, htm, _n = md2html.convert(text, "%s-%s" % (slug, os.path.basename(path)[5:7]))
     finally:
         i18n.CUR = L
-    htm, toc = _finish(htm)
+    import spine
+    htm, toc = _finish(htm, far=bool(spine.track_of(slug)[0]))
     words = len(_plain(htm).split())
     qs = len(re.findall(r'<h2[^>]*class="qs"', htm))
     return {

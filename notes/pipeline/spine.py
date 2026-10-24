@@ -64,10 +64,60 @@ ALL = sorted(f[:-3] for f in os.listdir(CUR) if f.endswith(".md"))
 # secondary level: Nepali is not yet "compulsory", and science is "Science".
 BASIC_NAMES = {"nep": "नेपाली"}
 
+# Entrance-examination and bachelor-programme books are not graded by class:
+# their slug is `<track>-<subject>` (cee-phy, ioe-math, csit-eng, cee-mock).
+# `short` is what the site and the app print where a class number would go.
+TRACKS = {
+ "cee":  {"short": "CEE", "kind": "entrance", "order": 1,
+          "label": "CEE · MECEE-BL Medical Entrance",
+          "exam": "Medical Education Common Entrance Examination, Bachelor Level (MEC)"},
+ "ioe":  {"short": "IOE", "kind": "entrance", "order": 2,
+          "label": "IOE · BE/BArch Engineering Entrance",
+          "exam": "Institute of Engineering (TU) BE/BArch entrance examination"},
+ "csit": {"short": "CSIT", "kind": "entrance", "order": 3,
+          "label": "CSIT · BSc CSIT Entrance",
+          "exam": "BSc CSIT entrance examination (IOST, Tribhuvan University)"},
+ "bca":  {"short": "BCA", "kind": "entrance", "order": 4,
+          "label": "BCA · BCA Entrance",
+          "exam": "BCA entrance examination (FOHSS, Tribhuvan University)"},
+}
+TRACK_SUBJECTS = {
+ "phy":  ("Physics",                     "#4A42D6"),
+ "chem": ("Chemistry",                   "#A8271F"),
+ "zoo":  ("Zoology",                     "#0B6A62"),
+ "bot":  ("Botany",                      "#2F7D32"),
+ "mat":  ("Mental Agility Test",         "#7A3E8E"),
+ "math": ("Mathematics",                 "#8F5507"),
+ "eng":  ("English",                     "#6B3FA0"),
+ "comp": ("Computer Knowledge",          "#2E4057"),
+ "gk":   ("General Knowledge and IT",    "#C2410C"),
+ "mock": ("Model Papers and Mock Tests", "#B02A5B"),
+}
+
+
+def track_of(slug):
+    m = re.match(r"([a-z]+[0-9]*)-([a-z]+)$", slug or "")
+    if m and m.group(1) in TRACKS and m.group(2) in TRACK_SUBJECTS:
+        return m.group(1), m.group(2)
+    return None, None
+
+
 def meta_for(slug):
+    track, subj = track_of(slug)
+    if track:
+        name, colour = TRACK_SUBJECTS[subj]
+        return name, colour, TRACKS[track]["short"]
     k = re.match(r"([a-z]+)(\d+)", slug)
     name, colour = SUBJECTS[k.group(1)]
     grade = int(k.group(2))
     if grade <= 8:
         name = BASIC_NAMES.get(k.group(1), name)
     return name, colour, grade
+
+
+def pdf_name(slug):
+    name, _, grade = meta_for(slug)
+    track, _ = track_of(slug)
+    if track:
+        return f"NEBians-{TRACKS[track]['short']}-Entrance-{name.replace(' ', '-')}.pdf"
+    return f"NEBians-{name.replace(' ', '-')}-Grade-{grade}.pdf"

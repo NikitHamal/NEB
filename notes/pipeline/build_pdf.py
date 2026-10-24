@@ -216,7 +216,7 @@ html{{string-set:booktitle "{esc(subject)} · {L["grade"].split(" ·")[0].format
 {credits_html(list(photo.USED))}
 </body></html>"""
     os.makedirs(OUT, exist_ok=True)
-    name = f"NEBians-{subject.replace(' ', '-')}-Grade-{grade}.pdf"
+    name = spine.pdf_name(slug)
     path = os.path.join(OUT, name)
     HTML(string=doc, base_url=HERE).write_pdf(path, stylesheets=[CSS(filename=THEME)],
                                              optimize_images=True, jpeg_quality=80, dpi=170)
