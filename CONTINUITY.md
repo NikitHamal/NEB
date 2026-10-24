@@ -8,6 +8,24 @@
 
 ## Current Status
 
+### v1.7 launch reel, v5 (tools/reel, Oct 24, 2026)
+
+`tools/video/dist/nebians-v1.7-reel-v5.mp4` (42.5 s, 1080x1920, 60 fps, H.264 + AAC) and its poster.
+The owner asked for v3 polished, not replaced (a separate Remotion/cinetic film was rejected). v5 =
+v3 with: a new intro made from the app's own screens (icon tap -> app opens -> 3D ring of real screens ->
+v1.7 drop), lift-out zooms instead of the loupe with a dotted line and box, Mona Sans type, words rising
+whole, bigger app screens, no purple glow, fitted festival words, a 1.6 s end card, and the music back on
+the beat (Dance Zero is 123.995 BPM with its drop at 15.559 s; it was set to 123.05 / 14.12 s, so the
+film drifted 0.8% and the bass came in 1.5 s after the slam). Measured on the final mix: beats after the
+slam sit a median 1.2 ms off the film's 0.5 s grid; the low end rises 6.4 dB on the 6.0 s slam.
+
+- Build: see `tools/reel/README.md`. Renders run on the owner's molab box (`build.py --name <name>
+  --music dance`); the box can restart and wipe everything outside the notebook, so keep the source pushed.
+- Music and effects are Mixkit (free licence; never commit the audio on its own).
+- The reel says 492 chapters (the live count). After the backend deploy that adds CS 8/10 and Optional
+  Maths 8 the app shows 527: change `rollNumber(n, t, 10.0, 10.8, 492)` in `stage/film1.js` and re-render.
+- Next: the owner reviews v5; 16:9 and 1:1 cuts were not made.
+
 ### Computer Science 8 and 10, Optional Mathematics 8 + reader fixes (branch `syllabus/cs-omath-books`, Oct 23–24, 2026)
 
 Branch from `main` @ `97f51a5`; everything below is pushed. Not merged and not deployed.
