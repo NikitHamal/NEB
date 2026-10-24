@@ -23,6 +23,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.KeyboardArrowRight
 import androidx.compose.material.icons.automirrored.outlined.MenuBook
 import androidx.compose.material.icons.automirrored.outlined.TrendingUp
 import androidx.compose.material.icons.outlined.AccountBalance
@@ -199,7 +200,7 @@ private fun SyllabusIntro(units: Int, topics: Int) {
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            text = "Every unit of the CDC and NEB syllabus for Class 8, 10, 11 and 12 ($units chapters) with the full chapter from the NEBians books, self-check questions and a question bank in the board's pattern.",
+            text = "Class 8, 10, 11 and 12 · $units chapters with notes, self-checks and question banks",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -329,7 +330,11 @@ private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, onClick: 
                 )
             }
             Spacer(Modifier.width(10.dp))
-            SyllabusRing(progress = progress, diameter = 42)
+            if (progress > 0f) {
+                SyllabusRing(progress = progress, diameter = 42)
+            } else {
+                Icon(Icons.AutoMirrored.Outlined.KeyboardArrowRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
+            }
         }
     }
 }

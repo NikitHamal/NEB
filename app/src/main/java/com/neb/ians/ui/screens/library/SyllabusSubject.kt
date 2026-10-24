@@ -420,8 +420,14 @@ private fun ExamPanel(doc: ApiSyllabusDoc) {
                 }
             }
         }
-        val byArea = doc.units.filter { (it.hours ?: 0) > 0 }.groupBy { it.area.ifBlank { "Units" } }
-            .mapValues { (_, us) -> us.sumOf { it.hours ?: 0 } }.toList().sortedByDescending { it.second }
+        val timed = doc.units.filter { (it.hours ?: 0) > 0 }
+        val byArea = if (timed.map { it.area }.distinct().size < 2) {
+            // a subject without parts is shown unit by unit, the heaviest first
+            val rows = timed.map { "Unit ${it.no} · ${it.title}" to (it.hours ?: 0) }.sortedByDescending { it.second }
+            if (rows.size > 12) rows.take(11) + ("Other units" to rows.drop(11).sumOf { it.second }) else rows
+        } else {
+            timed.groupBy { it.area.ifBlank { "Units" } }.mapValues { (_, us) -> us.sumOf { it.hours ?: 0 } }.toList().sortedByDescending { it.second }
+        }
         val total = byArea.sumOf { it.second }
         if (total > 0) {
             Surface(shape = WebPanelShape, color = MaterialTheme.colorScheme.surfaceContainerLow, border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant), modifier = Modifier.fillMaxWidth()) {
