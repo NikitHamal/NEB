@@ -68,6 +68,11 @@ def _serialize_announcement(a, include_content=False):
         'tags': a.tags or '',
         'author_name': (a.author.display_name or a.author.username) if a.author else 'NEBians Team',
         'author_photo': _avatar_url(a.author) if a.author else '',
+        # The structured data needs a URL for the author, and a name alone is
+        # one of the fields Search Console flags.
+        'author_username': (a.author.username if a.author else ''),
+        'author_url': ('https://nebians.consica.com.np/app/profile/%s/' % a.author.username
+                       if a.author and a.author.username else ''),
         'published_at': a.published_at,
         'created_at': a.created_at,
         'view_count': a.view_count,
@@ -131,8 +136,17 @@ def news_detail(request, slug):
     ).exclude(pk=a.id).order_by('-published_at')[:4]
     related_items = [_serialize_announcement(r) for r in related]
 
+    from .views_forum import _ld_json
+    from .schema_forum import article_schema, breadcrumb_schema
+
     return render(request, 'web/news_detail.html', _ctx(request,
         announcement=item,
+        article_schema_json=_ld_json(article_schema(item, comment_count=comment_count)),
+        article_breadcrumb_json=_ld_json(breadcrumb_schema([
+            ('Home', 'https://nebians.consica.com.np/'),
+            ('Blog', 'https://nebians.consica.com.np/app/news/'),
+            (item.get('title') or 'Article', ''),
+        ])),
         related=related_items,
         top_level_replies=top_level_replies,
         children_map=children_map,

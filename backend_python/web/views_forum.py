@@ -1,9 +1,19 @@
 """Views Forum extracted from views.py."""
-import json as _json
+import json as _json  # noqa: F401
 import time
 from .view_helpers import *  # noqa: F401,F403
 from api import services
 from api.security import save_forum_media_upload, validate_forum_attachments
+
+
+def _ld_json(payload) -> str:
+    """JSON for a <script type="application/ld+json"> block.
+
+    Lives in schema_forum with the graph builders; re-exported here because
+    several views already import it from this module.
+    """
+    from .schema_forum import ld_json
+    return ld_json(payload)
 
 
 def _truthy(value) -> bool:
@@ -312,7 +322,17 @@ def forum_post(request, post_id):
     all_usernames = list(set(
         [post_obj.user.username] + [r['authorName'] for r in all_replies]
     ))
-    ctx = _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id, all_usernames=all_usernames, reply_sort=reply_sort)
+    # Structured data, built here rather than in the template: json.dumps
+    # escapes a title with a quote in it, and Google's forum rich result needs
+    # fields (text, comment, author.url) that are easy to forget by hand.
+    from .schema_forum import breadcrumb_schema, thread_schema
+    ctx = _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id, all_usernames=all_usernames, reply_sort=reply_sort,
+        post_schema_json=_ld_json(thread_schema(post, top_level)),
+        post_breadcrumb_json=_ld_json(breadcrumb_schema([
+            ('Home', 'https://nebians.consica.com.np/'),
+            ('Forum', 'https://nebians.consica.com.np/app/forum/'),
+            (post.get('title') or 'Discussion', ''),
+        ])))
 
     if getattr(request, 'htmx', False) and not getattr(request.htmx, 'history_restore_request', False):
         res = render(request, 'web/_forum_post_replies_section.html', ctx)
