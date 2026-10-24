@@ -608,14 +608,14 @@ B, the conclusion "Some A are B" is still true. Do not read the everyday meaning
    (a) Saw (b) Needle (c) Scalpel (d) Trowel
 16. Kidney : Nephrologist :: Heart : ?
    (a) Neurologist (b) Dermatologist (c) Cardiologist (d) Hepatologist
-17. 3 : 27 :: 5 : ?
-   (a) 25 (b) 125 (c) 75 (d) 150
+17. 4 : 64 :: 6 : ?
+   (a) 36 (b) 216 (c) 180 (d) 125
 18. Choose the odd one out.
    (a) Thermometer (b) Barometer (c) Hygrometer (d) Microscope
 19. Choose the odd one out.
    (a) 51 (b) 29 (c) 37 (d) 43
 20. Choose the odd one out.
-   (a) ACE (b) GIK (c) PRU (d) MOQ
+   (a) CEG (b) GIK (c) PRU (d) MOQ
 21. In a row of students, Kiran is 12th from the left and 17th from the right. How many students are in the row?
    (a) 29 (b) 28 (c) 27 (d) 30
 22. In a class of 40 students, Mina is 9th from the top. What is her rank from the bottom?
@@ -644,10 +644,10 @@ B, the conclusion "Some A are B" is still true. Do not read the everyday meaning
 **14.** (d) — We drink water, and in this code water is called "air". Option (a) is the real name, not the code name.
 **15.** (a) — A doctor's working tool is the stethoscope; a carpenter's is the saw. A trowel is a mason's tool, a scalpel a surgeon's.
 **16.** (c) — A nephrologist is the specialist for the kidney; a cardiologist for the heart.
-**17.** (b) — 27 = $3^3$, so the answer is $5^3$ = 125. 25 would be the square.
+**17.** (b) — 64 = $4^3$, so the answer is $6^3$ = 216. 36 is the square; 125 is the cube of the wrong number.
 **18.** (d) — The thermometer, barometer and hygrometer measure temperature, pressure and humidity; a microscope only magnifies.
 **19.** (a) — 29, 37 and 43 are prime; 51 = 3 × 17 is not.
-**20.** (c) — ACE, GIK and MOQ step +2, +2. PRU steps +2, +3.
+**20.** (c) — CEG, GIK and MOQ step +2, +2 (C 3, E 5, G 7). PRU steps +2, +3 (P 16, R 18, U 21).
 **21.** (b) — N = L + R − 1 = 12 + 17 − 1 = 28. Adding without the −1 gives 29, which counts Kiran twice.
 **22.** (d) — Rank from the other end = 40 − 9 + 1 = 32.
 **23.** (b) — The chain is T < Q < P < R < S, so S is the tallest.
@@ -663,7 +663,7 @@ B, the conclusion "Some A are B" is still true. Do not read the everyday meaning
    (a) 13 m north-east (b) 13 m south-east (c) 17 m north-east (d) 37 m east
 3. A man facing north turns 45° clockwise, then 180° clockwise, then 270° anticlockwise. Which direction is he facing now?
    (a) North-east (b) South-west (c) South-east (d) North-west
-4. One evening before sunset, Sita and Bina stood talking face to face. Bina's shadow fell exactly to her left. Which direction was Sita facing?
+4. One evening before sunset, Sita and Bina stood talking face to face. Bina's shadow fell exactly to Bina's left. Which direction was Sita facing?
    (a) East (b) North (c) West (d) South
 5. Pointing to a woman in a photograph, Arjun said, "Her mother's only son is my father." How is the woman related to Arjun?
    (a) mother (b) sister (c) grandmother (d) paternal aunt
