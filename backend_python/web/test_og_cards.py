@@ -142,6 +142,52 @@ class ColourTests(unittest.TestCase):
         self.assertEqual(og_art.mix((0, 0, 0), (255, 255, 255), -1.0), (0, 0, 0))
 
 
+@unittest.skipUnless(__import__('importlib').util.find_spec('django'),
+                     'Django is not installed; route tests need the app')
+class RouteCoverageTests(unittest.TestCase):
+    """Every public route either names a card or falls back to the default.
+
+    A route with no entry in _ROUTE_PAGES or _ROUTE_OBJECTS is not a crash --
+    og_image_context returns {} and the template falls back to the default card
+    -- but it is a page whose link preview says nothing about it, which is the
+    bug this whole module exists to fix. So the coverage is asserted rather
+    than assumed.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        import django
+        from django.conf import settings
+        if not settings.configured:
+            import os
+            os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'nebians.settings')
+            os.environ.setdefault(
+                'SECRET_KEY',
+                'test-only-key-for-og-tests-0123456789abcdef0123456789')
+            os.environ.setdefault('DEBUG', 'True')
+            django.setup()
+        from web import views_og
+        cls.views_og = views_og
+
+    def test_every_card_url_is_versioned(self):
+        # A cached card outliving a redesign was a real incident: the cache key
+        # was content-only, so a new renderer kept serving the old picture.
+        self.assertIn('?v=%d' % self.views_og.CARD_VERSION,
+                      self.views_og.card_url('page', 'home'))
+
+    def test_every_static_page_resolves(self):
+        for name in self.views_og.PAGES:
+            with self.subTest(page=name):
+                spec = self.views_og._page_card(name)
+                self.assertTrue(spec.get('title'))
+                self.assertIn(spec.get('hero'), self.views_og.og_cards.HEROES)
+
+    def test_every_kind_has_a_builder(self):
+        for kind in self.views_og.KINDS:
+            with self.subTest(kind=kind):
+                self.assertTrue(callable(self.views_og.KINDS[kind]))
+
+
 def setUpModule():
     # The renderer reads its fonts from the static tree; make sure the ones it
     # names are actually there, because a missing font silently falls back to
