@@ -480,7 +480,7 @@ finished at the end of 1945 and shown to the public in **February 1946**.
 - It was the first **general-purpose electronic digital computer**: it could
   be set up to solve many kinds of problems.
 - It used about **17,468 vacuum tubes**, 70,000 resistors, 10,000 capacitors,
-  1,500 relays and 6,000 switches.
+  1,500 relays and thousands of switches.
 - It weighed about **27 tonnes**, filled about **167 m²** (1,800 square feet)
   and used **150 kW** of electricity; vacuum tubes burned out often and had to
   be replaced.
@@ -581,7 +581,7 @@ population by hand had become too slow, so for the census of **2028 BS
 | 2052 BS (1995 AD) | Mercantile Communications starts the first **commercial internet** service in Nepal. |
 | 2057 BS (2000 AD) | Nepal's first **Information Technology Policy**. |
 | 2063 BS | The **Electronic Transactions Act** gives legal value to electronic records and signatures and punishes computer crimes (Lesson 12). |
-| 2073 BS (2017 AD) | Nepal Telecom and Ncell launch **4G** mobile internet. |
+| 2073 BS (2017 AD) | Nepal Telecom launches **4G** mobile internet; Ncell follows in 2074 BS. |
 | 2077–2078 BS (2021 AD) | The **Nagarik App** is launched; the first **e-passport** is issued; the census of 2078 BS uses tablets in some areas and counts 2,91,64,578 people. |
 
 Today computers are used in every bank, ministry, school and hospital, the
