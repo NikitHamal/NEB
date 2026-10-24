@@ -66,20 +66,26 @@ BASIC_NAMES = {"nep": "नेपाली"}
 
 # Entrance-examination and bachelor-programme books are not graded by class:
 # their slug is `<track>-<subject>` (cee-phy, ioe-math, csit-eng, cee-mock).
-# `short` is what the site and the app print where a class number would go.
+# `short` is what the site and the app print where a class number would go;
+# `minutes` and `negative` (marks lost per wrong answer, as a fraction of the
+# question's marks) drive the timed model-paper mode of the reader.
 TRACKS = {
  "cee":  {"short": "CEE", "kind": "entrance", "order": 1,
           "label": "CEE · MECEE-BL Medical Entrance",
-          "exam": "Medical Education Common Entrance Examination, Bachelor Level (MEC)"},
+          "exam": "Medical Education Common Entrance Examination, Bachelor Level (MEC)",
+          "minutes": 180, "negative": 0.25},
  "ioe":  {"short": "IOE", "kind": "entrance", "order": 2,
           "label": "IOE · BE/BArch Engineering Entrance",
-          "exam": "Institute of Engineering (TU) BE/BArch entrance examination"},
+          "exam": "Institute of Engineering (TU) BE/BArch entrance examination",
+          "minutes": 120, "negative": 0.1},
  "csit": {"short": "CSIT", "kind": "entrance", "order": 3,
           "label": "CSIT · BSc CSIT Entrance",
-          "exam": "BSc CSIT entrance examination (IOST, Tribhuvan University)"},
+          "exam": "BSc CSIT entrance examination (IOST, Tribhuvan University)",
+          "minutes": 120, "negative": 0},
  "bca":  {"short": "BCA", "kind": "entrance", "order": 4,
           "label": "BCA · BCA Entrance",
-          "exam": "BCA entrance examination (FOHSS, Tribhuvan University)"},
+          "exam": "BCA entrance examination (FOHSS, Tribhuvan University)",
+          "minutes": 120, "negative": 0},
 }
 TRACK_SUBJECTS = {
  "phy":  ("Physics",                     "#4A42D6"),
