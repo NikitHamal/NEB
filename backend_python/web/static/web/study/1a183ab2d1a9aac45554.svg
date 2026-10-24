@@ -1,0 +1,992 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="353.75pt" height="335.36pt" viewBox="0 0 353.75 335.36" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ 
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 335.36 
+L 353.75 335.36 
+L 353.75 0 
+L 0 0 
+L 0 335.36 
+z
+" style="fill: none"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 2.88 164.81 
+L 156.06 164.81 
+L 156.06 11.62 
+L 2.88 11.62 
+L 2.88 164.81 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_1"/>
+   <g id="matplotlib.axis_2"/>
+   <g id="line2d_1">
+    <path d="M 2.88 88.21 
+L 156.06 88.21 
+" clip-path="url(#p246ec36b03)" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_2">
+    <path d="M 79.47 164.81 
+L 79.47 11.62 
+" clip-path="url(#p246ec36b03)" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_3">
+    <path d="M 53.94 160.55 
+L 55.41 157.60 
+L 56.89 154.64 
+L 58.37 151.69 
+L 59.84 148.74 
+L 61.32 145.79 
+L 62.80 142.83 
+L 64.27 139.88 
+L 65.75 136.93 
+L 67.22 133.98 
+L 68.70 131.02 
+L 70.18 128.07 
+L 71.65 125.12 
+L 73.13 122.17 
+L 74.61 119.21 
+L 76.08 116.26 
+L 77.56 113.31 
+L 79.03 110.36 
+L 80.51 107.40 
+L 81.99 104.45 
+L 83.46 101.50 
+L 84.94 98.55 
+L 86.42 95.59 
+L 87.89 92.64 
+L 89.37 89.69 
+L 90.84 86.74 
+L 92.32 83.78 
+L 93.80 80.83 
+L 95.27 77.88 
+L 96.75 74.92 
+L 98.23 71.97 
+L 99.70 69.02 
+L 101.18 66.07 
+L 102.66 63.11 
+L 104.13 60.16 
+L 105.61 57.21 
+L 107.08 54.26 
+L 108.56 51.30 
+L 110.04 48.35 
+L 111.51 45.40 
+L 112.99 42.45 
+L 114.47 39.49 
+L 115.94 36.54 
+L 117.42 33.59 
+L 118.89 30.64 
+L 120.37 27.68 
+L 121.85 24.73 
+L 123.32 21.78 
+L 124.80 18.83 
+L 126.28 15.87 
+" clip-path="url(#p246ec36b03)" style="fill: none; stroke: #1d6fb8; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_4">
+    <path d="M 100.74 162.68 
+L 100.74 13.75 
+" clip-path="url(#p246ec36b03)" style="fill: none; stroke-dasharray: 4.07,1.76; stroke-dashoffset: 0; stroke: #b8860b; stroke-width: 1.1"/>
+   </g>
+   <g id="line2d_5">
+    <defs>
+     <path id="m725b04c392" d="M 0 2.5 
+C 0.66 2.5 1.29 2.23 1.76 1.76 
+C 2.23 1.29 2.5 0.66 2.5 0 
+C 2.5 -0.66 2.23 -1.29 1.76 -1.76 
+C 1.29 -2.23 0.66 -2.5 0 -2.5 
+C -0.66 -2.5 -1.29 -2.23 -1.76 -1.76 
+C -2.23 -1.29 -2.5 -0.66 -2.5 0 
+C -2.5 0.66 -2.23 1.29 -1.76 1.76 
+C -1.29 2.23 -0.66 2.5 0 2.5 
+z
+" style="stroke: #d9534f"/>
+    </defs>
+    <g clip-path="url(#p246ec36b03)">
+     <use xlink:href="#m725b04c392" x="100.74" y="66.94" style="fill: #d9534f; stroke: #d9534f"/>
+    </g>
+   </g>
+   <g id="text_1">
+    
+    <g style="fill: #2e8b57" transform="translate(41.83 9.62) scale(0.08 -0.08)">
+     <defs>
+      <path id="Inter-SemiBold-79" d="M 397 -1247 
+L 588 -613 
+L 684 -638 
+Q 869 -684 1012 -664 
+Q 1156 -644 1253 -539 
+Q 1350 -434 1391 -234 
+L 1441 -13 
+L 122 3494 
+L 991 3494 
+L 1628 1594 
+Q 1741 1256 1812 922 
+Q 1884 588 1972 238 
+L 1759 238 
+Q 1844 588 1928 923 
+Q 2013 1259 2125 1594 
+L 2784 3494 
+L 3644 3494 
+L 2144 -450 
+Q 2038 -728 1878 -926 
+Q 1719 -1125 1487 -1228 
+Q 1256 -1331 941 -1331 
+Q 769 -1331 623 -1306 
+Q 478 -1281 397 -1247 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-20" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-3d" d="M 647 2225 
+L 647 2919 
+L 3663 2919 
+L 3663 2225 
+L 647 2225 
+z
+M 647 772 
+L 647 1472 
+L 3663 1472 
+L 3663 772 
+L 647 772 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-32" d="M 419 0 
+L 419 600 
+L 2034 2191 
+Q 2263 2425 2417 2606 
+Q 2572 2788 2651 2958 
+Q 2731 3128 2731 3328 
+Q 2731 3547 2629 3706 
+Q 2528 3866 2354 3952 
+Q 2181 4038 1959 4038 
+Q 1725 4038 1551 3944 
+Q 1378 3850 1284 3676 
+Q 1191 3503 1191 3263 
+L 394 3263 
+Q 394 3703 595 4031 
+Q 797 4359 1151 4539 
+Q 1506 4719 1969 4719 
+Q 2434 4719 2787 4544 
+Q 3141 4369 3337 4064 
+Q 3534 3759 3534 3369 
+Q 3534 3109 3437 2862 
+Q 3341 2616 3091 2305 
+Q 2841 1994 2384 1556 
+L 1575 731 
+L 1575 697 
+L 3603 697 
+L 3603 0 
+L 419 0 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-78" d="M 156 0 
+L 1516 2109 
+L 1513 1478 
+L 225 3494 
+L 1119 3494 
+L 1475 2900 
+Q 1631 2634 1753 2381 
+Q 1875 2128 2000 1891 
+L 1663 1891 
+Q 1794 2125 1911 2379 
+Q 2028 2634 2188 2900 
+L 2556 3494 
+L 3431 3494 
+L 2125 1466 
+L 2125 2081 
+L 3484 0 
+L 2597 0 
+L 2166 700 
+Q 2009 966 1886 1216 
+Q 1763 1466 1638 1694 
+L 1975 1694 
+Q 1850 1466 1736 1216 
+Q 1622 966 1466 700 
+L 1034 0 
+L 156 0 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-2212" d="M 3697 2203 
+L 3697 1491 
+L 613 1491 
+L 613 2203 
+L 3697 2203 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-31" d="M 2241 4656 
+L 2241 0 
+L 1413 0 
+L 1413 3913 
+L 1381 3913 
+L 294 3131 
+L 294 3925 
+L 1316 4656 
+L 2241 4656 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-3a" d="M 1019 -53 
+Q 809 -53 664 90 
+Q 519 234 519 447 
+Q 519 656 664 800 
+Q 809 944 1019 944 
+Q 1231 944 1376 800 
+Q 1522 656 1522 447 
+Q 1522 234 1376 90 
+Q 1231 -53 1019 -53 
+z
+M 1019 2315 
+Q 809 2315 664 2458 
+Q 519 2602 519 2815 
+Q 519 3024 664 3168 
+Q 809 3312 1019 3312 
+Q 1231 3312 1376 3168 
+Q 1522 3024 1522 2815 
+Q 1522 2602 1376 2458 
+Q 1231 2315 1019 2315 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-66" d="M 2269 3494 
+L 2269 2856 
+L 63 2856 
+L 63 3494 
+L 2269 3494 
+z
+M 703 0 
+L 703 3828 
+Q 703 4178 848 4409 
+Q 994 4641 1242 4758 
+Q 1491 4875 1788 4875 
+Q 2003 4875 2168 4840 
+Q 2334 4806 2413 4778 
+L 2247 4147 
+Q 2194 4163 2117 4180 
+Q 2041 4197 1938 4197 
+Q 1709 4197 1611 4084 
+Q 1513 3972 1513 3766 
+L 1513 0 
+L 703 0 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-75" d="M 1628 -44 
+Q 1269 -44 998 109 
+Q 728 263 579 558 
+Q 431 853 431 1272 
+L 431 3494 
+L 1244 3494 
+L 1244 1397 
+Q 1244 1047 1426 847 
+Q 1609 647 1928 647 
+Q 2144 647 2312 740 
+Q 2481 834 2576 1015 
+Q 2672 1197 2672 1447 
+L 2672 3494 
+L 3488 3494 
+L 3488 0 
+L 2716 0 
+L 2706 863 
+L 2769 863 
+Q 2622 406 2334 181 
+Q 2047 -44 1628 -44 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-6e" d="M 1244 2047 
+L 1244 0 
+L 431 0 
+L 431 3494 
+L 1200 3494 
+L 1213 2631 
+L 1147 2631 
+Q 1294 3084 1578 3311 
+Q 1863 3538 2291 3538 
+Q 2650 3538 2919 3384 
+Q 3188 3231 3336 2937 
+Q 3484 2644 3484 2222 
+L 3484 0 
+L 2672 0 
+L 2672 2097 
+Q 2672 2447 2490 2647 
+Q 2309 2847 1991 2847 
+Q 1775 2847 1606 2753 
+Q 1438 2659 1341 2479 
+Q 1244 2300 1244 2047 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-63" d="M 1947 -72 
+Q 1438 -72 1063 154 
+Q 688 381 483 786 
+Q 278 1191 278 1728 
+Q 278 2272 483 2680 
+Q 688 3088 1063 3313 
+Q 1438 3538 1947 3538 
+Q 2238 3538 2488 3463 
+Q 2738 3388 2934 3245 
+Q 3131 3103 3264 2900 
+Q 3397 2697 3453 2441 
+L 2694 2281 
+Q 2659 2416 2595 2527 
+Q 2531 2638 2437 2716 
+Q 2344 2794 2222 2836 
+Q 2100 2878 1953 2878 
+Q 1669 2878 1481 2726 
+Q 1294 2575 1200 2317 
+Q 1106 2059 1106 1731 
+Q 1106 1409 1200 1150 
+Q 1294 891 1481 739 
+Q 1669 588 1953 588 
+Q 2103 588 2226 631 
+Q 2350 675 2445 756 
+Q 2541 838 2606 953 
+Q 2672 1069 2703 1209 
+L 3463 1050 
+Q 3406 788 3273 581 
+Q 3141 375 2942 229 
+Q 2744 84 2492 6 
+Q 2241 -72 1947 -72 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-74" d="M 2047 3494 
+L 2047 2856 
+L 63 2856 
+L 63 3494 
+L 2047 3494 
+z
+M 559 4325 
+L 1372 4325 
+L 1372 984 
+Q 1372 794 1453 705 
+Q 1534 616 1719 616 
+Q 1775 616 1867 630 
+Q 1959 644 2016 656 
+L 2144 28 
+Q 2009 -13 1868 -30 
+Q 1728 -47 1600 -47 
+Q 1097 -47 828 203 
+Q 559 453 559 916 
+L 559 4325 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-69" d="M 431 0 
+L 431 3494 
+L 1244 3494 
+L 1244 0 
+L 431 0 
+z
+M 837 3988 
+Q 643 3988 504 4119 
+Q 365 4250 365 4431 
+Q 365 4619 504 4748 
+Q 643 4878 837 4878 
+Q 1034 4878 1173 4748 
+Q 1312 4619 1312 4434 
+Q 1312 4250 1173 4119 
+Q 1034 3988 837 3988 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-6f" d="M 1947 -72 
+Q 1438 -72 1063 154 
+Q 688 381 483 786 
+Q 278 1191 278 1728 
+Q 278 2272 483 2680 
+Q 688 3088 1063 3313 
+Q 1438 3538 1947 3538 
+Q 2459 3538 2834 3313 
+Q 3209 3088 3414 2680 
+Q 3619 2272 3619 1728 
+Q 3619 1191 3414 786 
+Q 3209 381 2834 154 
+Q 2459 -72 1947 -72 
+z
+M 1947 588 
+Q 2231 588 2420 741 
+Q 2609 894 2701 1153 
+Q 2794 1413 2794 1731 
+Q 2794 2053 2701 2312 
+Q 2609 2572 2420 2725 
+Q 2231 2878 1947 2878 
+Q 1663 2878 1477 2725 
+Q 1291 2572 1198 2314 
+Q 1106 2056 1106 1731 
+Q 1106 1413 1198 1153 
+Q 1291 894 1477 741 
+Q 1663 588 1947 588 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Inter-SemiBold-79"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(58.83 0)"/>
+     <use xlink:href="#Inter-SemiBold-3d" transform="translate(84.03 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(151.31 0)"/>
+     <use xlink:href="#Inter-SemiBold-32" transform="translate(176.51 0)"/>
+     <use xlink:href="#Inter-SemiBold-78" transform="translate(238.81 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(295.70 0)"/>
+     <use xlink:href="#Inter-SemiBold-2212" transform="translate(320.89 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(388.18 0)"/>
+     <use xlink:href="#Inter-SemiBold-31" transform="translate(413.37 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(455.66 0)"/>
+     <use xlink:href="#Inter-SemiBold-3a" transform="translate(480.85 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(512.74 0)"/>
+     <use xlink:href="#Inter-SemiBold-66" transform="translate(537.93 0)"/>
+     <use xlink:href="#Inter-SemiBold-75" transform="translate(576.80 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(638.03 0)"/>
+     <use xlink:href="#Inter-SemiBold-63" transform="translate(699.21 0)"/>
+     <use xlink:href="#Inter-SemiBold-74" transform="translate(757.47 0)"/>
+     <use xlink:href="#Inter-SemiBold-69" transform="translate(792.77 0)"/>
+     <use xlink:href="#Inter-SemiBold-6f" transform="translate(818.94 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(879.83 0)"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="patch_3">
+    <path d="M 197.68 164.81 
+L 350.87 164.81 
+L 350.87 11.62 
+L 197.68 11.62 
+L 197.68 164.81 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_3"/>
+   <g id="matplotlib.axis_4"/>
+   <g id="line2d_6">
+    <path d="M 197.68 88.21 
+L 350.87 88.21 
+" clip-path="url(#p15428aa35c)" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_7">
+    <path d="M 274.28 164.81 
+L 274.28 11.62 
+" clip-path="url(#p15428aa35c)" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_8">
+    <path d="M 225.34 18.21 
+L 228.78 33.49 
+L 232.23 47.66 
+L 235.18 58.91 
+L 238.13 69.35 
+L 241.08 78.97 
+L 244.03 87.77 
+L 246.49 94.47 
+L 248.95 100.61 
+L 251.41 106.18 
+L 253.87 111.18 
+L 256.33 115.62 
+L 258.29 118.76 
+L 260.26 121.53 
+L 262.23 123.94 
+L 264.19 125.99 
+L 266.16 127.67 
+L 268.13 128.99 
+L 269.60 129.74 
+L 271.08 130.28 
+L 272.55 130.62 
+L 274.03 130.76 
+L 275.51 130.69 
+L 276.98 130.42 
+L 278.46 129.94 
+L 279.93 129.26 
+L 281.41 128.37 
+L 282.88 127.28 
+L 284.85 125.51 
+L 286.82 123.37 
+L 288.78 120.87 
+L 290.75 118.01 
+L 292.72 114.78 
+L 294.69 111.18 
+L 297.15 106.18 
+L 299.60 100.61 
+L 302.06 94.47 
+L 304.52 87.77 
+L 306.98 80.49 
+L 309.93 71.01 
+L 312.88 60.71 
+L 315.83 49.59 
+L 318.78 37.65 
+L 322.23 22.69 
+L 323.21 18.21 
+L 323.21 18.21 
+" clip-path="url(#p15428aa35c)" style="fill: none; stroke: #1d6fb8; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_9">
+    <path d="M 295.55 162.68 
+L 295.55 13.75 
+" clip-path="url(#p15428aa35c)" style="fill: none; stroke-dasharray: 4.07,1.76; stroke-dashoffset: 0; stroke: #b8860b; stroke-width: 1.1"/>
+   </g>
+   <g id="line2d_10">
+    <g clip-path="url(#p15428aa35c)">
+     <use xlink:href="#m725b04c392" x="295.55" y="109.49" style="fill: #d9534f; stroke: #d9534f"/>
+    </g>
+   </g>
+   <g id="text_2">
+    
+    <g style="fill: #2e8b57" transform="translate(236.51 9.62) scale(0.08 -0.08)">
+     <defs>
+      <path id="Inter-SemiBold-b2" d="M 359 2794 
+L 359 3266 
+L 1456 4078 
+Q 1594 4181 1683 4259 
+Q 1772 4338 1815 4408 
+Q 1859 4478 1859 4559 
+Q 1859 4716 1728 4802 
+Q 1597 4888 1400 4888 
+Q 1200 4888 1076 4806 
+Q 953 4725 953 4575 
+L 319 4575 
+Q 319 4956 619 5175 
+Q 919 5394 1400 5394 
+Q 1916 5394 2216 5180 
+Q 2516 4966 2516 4622 
+Q 2516 4516 2486 4405 
+Q 2456 4294 2365 4169 
+Q 2275 4044 2095 3898 
+Q 1916 3753 1616 3578 
+L 1288 3344 
+L 1288 3322 
+L 2584 3322 
+L 2584 2794 
+L 359 2794 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Inter-SemiBold-79"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(58.83 0)"/>
+     <use xlink:href="#Inter-SemiBold-3d" transform="translate(84.03 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(151.31 0)"/>
+     <use xlink:href="#Inter-SemiBold-78" transform="translate(176.51 0)"/>
+     <use xlink:href="#Inter-SemiBold-b2" transform="translate(233.39 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(278.75 0)"/>
+     <use xlink:href="#Inter-SemiBold-2212" transform="translate(303.95 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(371.24 0)"/>
+     <use xlink:href="#Inter-SemiBold-32" transform="translate(396.43 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(458.74 0)"/>
+     <use xlink:href="#Inter-SemiBold-3a" transform="translate(483.93 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(515.82 0)"/>
+     <use xlink:href="#Inter-SemiBold-66" transform="translate(541.01 0)"/>
+     <use xlink:href="#Inter-SemiBold-75" transform="translate(579.88 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(641.11 0)"/>
+     <use xlink:href="#Inter-SemiBold-63" transform="translate(702.29 0)"/>
+     <use xlink:href="#Inter-SemiBold-74" transform="translate(760.54 0)"/>
+     <use xlink:href="#Inter-SemiBold-69" transform="translate(795.84 0)"/>
+     <use xlink:href="#Inter-SemiBold-6f" transform="translate(822.02 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(882.91 0)"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_3">
+   <g id="patch_4">
+    <path d="M 2.88 332.48 
+L 156.06 332.48 
+L 156.06 179.30 
+L 2.88 179.30 
+L 2.88 332.48 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_5"/>
+   <g id="matplotlib.axis_6"/>
+   <g id="line2d_11">
+    <path d="M 2.88 255.89 
+L 156.06 255.89 
+" clip-path="url(#pc16cdf273d)" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_12">
+    <path d="M 79.47 332.48 
+L 79.47 179.30 
+" clip-path="url(#pc16cdf273d)" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_13">
+    <path d="M 143.30 255.89 
+L 143.17 251.87 
+L 142.79 247.86 
+L 142.16 243.89 
+L 141.28 239.96 
+L 140.15 236.10 
+L 138.79 232.32 
+L 137.18 228.63 
+L 135.35 225.05 
+L 133.30 221.59 
+L 131.03 218.26 
+L 128.56 215.09 
+L 125.89 212.08 
+L 123.03 209.24 
+L 120.01 206.59 
+L 116.82 204.13 
+L 113.49 201.88 
+L 110.02 199.85 
+L 106.43 198.03 
+L 102.73 196.45 
+L 98.94 195.10 
+L 95.07 194.00 
+L 91.14 193.14 
+L 87.16 192.53 
+L 83.16 192.17 
+L 79.13 192.06 
+L 75.11 192.21 
+L 71.11 192.61 
+L 67.14 193.26 
+L 63.22 194.16 
+L 59.36 195.31 
+L 55.59 196.70 
+L 51.90 198.32 
+L 48.33 200.17 
+L 44.88 202.24 
+L 41.57 204.53 
+L 38.41 207.02 
+L 35.41 209.70 
+L 32.59 212.57 
+L 29.96 215.61 
+L 27.52 218.81 
+L 25.28 222.15 
+L 23.27 225.63 
+L 21.47 229.24 
+L 19.91 232.94 
+L 18.58 236.74 
+L 17.50 240.61 
+L 16.66 244.55 
+L 16.07 248.53 
+L 15.73 252.54 
+L 15.64 256.56 
+L 15.81 260.58 
+L 16.24 264.58 
+L 16.91 268.55 
+L 17.83 272.46 
+L 19.00 276.31 
+L 20.40 280.08 
+L 22.05 283.76 
+L 23.91 287.32 
+L 26.01 290.76 
+L 28.31 294.05 
+L 30.81 297.20 
+L 33.51 300.19 
+L 36.40 302.99 
+L 39.45 305.61 
+L 42.66 308.03 
+L 46.02 310.25 
+L 49.51 312.25 
+L 53.12 314.03 
+L 56.84 315.57 
+L 60.64 316.88 
+L 64.52 317.94 
+L 68.46 318.76 
+L 72.44 319.33 
+L 76.45 319.65 
+L 80.47 319.71 
+L 84.49 319.52 
+L 88.49 319.08 
+L 92.46 318.38 
+L 96.37 317.44 
+L 100.21 316.25 
+L 103.97 314.83 
+L 107.64 313.17 
+L 111.19 311.28 
+L 114.62 309.17 
+L 117.90 306.85 
+L 121.04 304.33 
+L 124.01 301.61 
+L 126.80 298.71 
+L 129.40 295.65 
+L 131.81 292.42 
+L 134.00 289.05 
+L 135.99 285.55 
+L 137.74 281.93 
+L 139.27 278.21 
+L 140.55 274.40 
+L 141.60 270.51 
+L 142.40 266.57 
+L 142.94 262.58 
+L 143.24 258.57 
+L 143.30 255.89 
+L 143.30 255.89 
+" clip-path="url(#pc16cdf273d)" style="fill: none; stroke: #1d6fb8; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_14">
+    <path d="M 100.74 330.36 
+L 100.74 181.42 
+" clip-path="url(#pc16cdf273d)" style="fill: none; stroke-dasharray: 4.07,1.76; stroke-dashoffset: 0; stroke: #b8860b; stroke-width: 1.1"/>
+   </g>
+   <g id="line2d_15">
+    <g clip-path="url(#pc16cdf273d)">
+     <use xlink:href="#m725b04c392" x="100.74" y="195.71" style="fill: #d9534f; stroke: #d9534f"/>
+    </g>
+   </g>
+   <g id="line2d_16">
+    <g clip-path="url(#pc16cdf273d)">
+     <use xlink:href="#m725b04c392" x="100.74" y="316.07" style="fill: #d9534f; stroke: #d9534f"/>
+    </g>
+   </g>
+   <g id="text_3">
+    
+    <g style="fill: #d9534f" transform="translate(29.21 177.30) scale(0.08 -0.08)">
+     <defs>
+      <path id="Inter-SemiBold-2b" d="M 1800 275 
+L 1800 3419 
+L 2506 3419 
+L 2506 275 
+L 1800 275 
+z
+M 584 1516 
+L 584 2181 
+L 3725 2181 
+L 3725 1516 
+L 584 1516 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-39" d="M 1953 -66 
+Q 1516 -66 1177 106 
+Q 838 278 628 578 
+Q 419 878 366 1259 
+L 1191 1259 
+Q 1253 991 1448 823 
+Q 1644 656 1953 656 
+Q 2278 656 2503 847 
+Q 2728 1038 2845 1394 
+Q 2963 1750 2963 2247 
+L 2931 2247 
+Q 2819 2047 2642 1903 
+Q 2466 1759 2244 1681 
+Q 2022 1603 1769 1603 
+Q 1363 1603 1033 1798 
+Q 703 1994 512 2337 
+Q 322 2681 322 3119 
+Q 322 3578 534 3943 
+Q 747 4309 1125 4518 
+Q 1503 4728 2006 4722 
+Q 2338 4722 2652 4606 
+Q 2966 4491 3219 4231 
+Q 3472 3972 3622 3539 
+Q 3772 3106 3772 2466 
+Q 3772 1866 3645 1397 
+Q 3519 928 3280 601 
+Q 3041 275 2705 104 
+Q 2369 -66 1953 -66 
+z
+M 1991 2244 
+Q 2178 2244 2339 2316 
+Q 2500 2388 2619 2513 
+Q 2738 2638 2805 2800 
+Q 2872 2963 2872 3147 
+Q 2872 3388 2759 3591 
+Q 2647 3794 2451 3917 
+Q 2256 4041 2003 4041 
+Q 1756 4041 1561 3920 
+Q 1366 3800 1250 3595 
+Q 1134 3391 1134 3138 
+Q 1134 2888 1246 2684 
+Q 1359 2481 1551 2362 
+Q 1744 2244 1991 2244 
+z
+" transform="scale(0.01)"/>
+      <path id="Inter-SemiBold-61" d="M 1406 -72 
+Q 1075 -72 809 48 
+Q 544 169 391 403 
+Q 238 638 238 981 
+Q 238 1278 348 1472 
+Q 459 1666 648 1781 
+Q 838 1897 1075 1956 
+Q 1313 2016 1569 2041 
+Q 1872 2075 2062 2100 
+Q 2253 2125 2342 2181 
+Q 2431 2238 2431 2356 
+L 2431 2372 
+Q 2431 2544 2362 2664 
+Q 2294 2784 2158 2848 
+Q 2022 2913 1822 2913 
+Q 1619 2913 1470 2850 
+Q 1322 2788 1228 2688 
+Q 1134 2588 1091 2472 
+L 338 2625 
+Q 441 2934 656 3136 
+Q 872 3338 1170 3438 
+Q 1469 3538 1819 3538 
+Q 2066 3538 2317 3480 
+Q 2569 3422 2778 3284 
+Q 2988 3147 3116 2915 
+Q 3244 2684 3244 2334 
+L 3244 0 
+L 2466 0 
+L 2466 481 
+L 2434 481 
+Q 2356 334 2220 207 
+Q 2084 81 1882 4 
+Q 1681 -72 1406 -72 
+z
+M 1616 531 
+Q 1869 531 2051 631 
+Q 2234 731 2336 895 
+Q 2438 1059 2438 1253 
+L 2438 1666 
+Q 2397 1634 2301 1606 
+Q 2206 1578 2089 1556 
+Q 1972 1534 1858 1518 
+Q 1744 1503 1666 1494 
+Q 1484 1469 1337 1412 
+Q 1191 1356 1108 1254 
+Q 1025 1153 1025 991 
+Q 1025 841 1101 739 
+Q 1178 638 1311 584 
+Q 1444 531 1616 531 
+z
+" transform="scale(0.01)"/>
+     </defs>
+     <use xlink:href="#Inter-SemiBold-78"/>
+     <use xlink:href="#Inter-SemiBold-b2" transform="translate(56.88 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(102.24 0)"/>
+     <use xlink:href="#Inter-SemiBold-2b" transform="translate(127.44 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(194.72 0)"/>
+     <use xlink:href="#Inter-SemiBold-79" transform="translate(219.92 0)"/>
+     <use xlink:href="#Inter-SemiBold-b2" transform="translate(278.75 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(324.12 0)"/>
+     <use xlink:href="#Inter-SemiBold-3d" transform="translate(349.31 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(416.60 0)"/>
+     <use xlink:href="#Inter-SemiBold-39" transform="translate(441.79 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(505.76 0)"/>
+     <use xlink:href="#Inter-SemiBold-3a" transform="translate(530.95 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(562.84 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(588.03 0)"/>
+     <use xlink:href="#Inter-SemiBold-6f" transform="translate(649.21 0)"/>
+     <use xlink:href="#Inter-SemiBold-74" transform="translate(710.10 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(745.41 0)"/>
+     <use xlink:href="#Inter-SemiBold-61" transform="translate(770.60 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(828.02 0)"/>
+     <use xlink:href="#Inter-SemiBold-66" transform="translate(853.22 0)"/>
+     <use xlink:href="#Inter-SemiBold-75" transform="translate(892.08 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(953.32 0)"/>
+     <use xlink:href="#Inter-SemiBold-63" transform="translate(1014.50 0)"/>
+     <use xlink:href="#Inter-SemiBold-74" transform="translate(1072.75 0)"/>
+     <use xlink:href="#Inter-SemiBold-69" transform="translate(1108.05 0)"/>
+     <use xlink:href="#Inter-SemiBold-6f" transform="translate(1134.22 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(1195.11 0)"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_4">
+   <g id="patch_5">
+    <path d="M 197.68 332.48 
+L 350.87 332.48 
+L 350.87 179.30 
+L 197.68 179.30 
+L 197.68 332.48 
+z
+" style="fill: none"/>
+   </g>
+   <g id="matplotlib.axis_7"/>
+   <g id="matplotlib.axis_8"/>
+   <g id="line2d_17">
+    <path d="M 197.68 255.89 
+L 350.87 255.89 
+" clip-path="url(#p656d8c4780)" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_18">
+    <path d="M 274.28 332.48 
+L 274.28 179.30 
+" clip-path="url(#p656d8c4780)" style="fill: none; stroke: #5b6472; stroke-width: 0.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_19">
+    <path d="M 347.09 295.25 
+L 335.85 292.09 
+L 326.79 289.32 
+L 318.45 286.55 
+L 310.83 283.78 
+L 303.93 281.01 
+L 298.59 278.64 
+L 293.78 276.26 
+L 289.50 273.89 
+L 286.34 271.91 
+L 283.55 269.93 
+L 281.12 267.95 
+L 279.06 265.98 
+L 277.37 264.00 
+L 276.28 262.42 
+L 275.43 260.83 
+L 274.81 259.25 
+L 274.43 257.67 
+L 274.28 256.09 
+L 274.37 254.50 
+L 274.69 252.92 
+L 275.25 251.34 
+L 276.04 249.76 
+L 277.07 248.18 
+L 278.34 246.59 
+L 280.25 244.62 
+L 282.53 242.64 
+L 285.18 240.66 
+L 288.19 238.68 
+L 291.58 236.70 
+L 296.12 234.33 
+L 301.20 231.96 
+L 306.80 229.58 
+L 312.94 227.21 
+L 320.76 224.44 
+L 329.31 221.67 
+L 338.58 218.90 
+L 347.09 216.53 
+L 347.09 216.53 
+" clip-path="url(#p656d8c4780)" style="fill: none; stroke: #1d6fb8; stroke-width: 1.7; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_20">
+    <path d="M 295.55 330.36 
+L 295.55 181.42 
+" clip-path="url(#p656d8c4780)" style="fill: none; stroke-dasharray: 4.07,1.76; stroke-dashoffset: 0; stroke: #b8860b; stroke-width: 1.1"/>
+   </g>
+   <g id="line2d_21">
+    <g clip-path="url(#p656d8c4780)">
+     <use xlink:href="#m725b04c392" x="295.55" y="234.61" style="fill: #d9534f; stroke: #d9534f"/>
+    </g>
+   </g>
+   <g id="line2d_22">
+    <g clip-path="url(#p656d8c4780)">
+     <use xlink:href="#m725b04c392" x="295.55" y="277.17" style="fill: #d9534f; stroke: #d9534f"/>
+    </g>
+   </g>
+   <g id="text_4">
+    
+    <g style="fill: #d9534f" transform="translate(233.10 177.30) scale(0.08 -0.08)">
+     <use xlink:href="#Inter-SemiBold-78"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(56.88 0)"/>
+     <use xlink:href="#Inter-SemiBold-3d" transform="translate(82.08 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(149.36 0)"/>
+     <use xlink:href="#Inter-SemiBold-79" transform="translate(174.56 0)"/>
+     <use xlink:href="#Inter-SemiBold-b2" transform="translate(233.39 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(278.75 0)"/>
+     <use xlink:href="#Inter-SemiBold-3a" transform="translate(303.95 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(335.83 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(361.03 0)"/>
+     <use xlink:href="#Inter-SemiBold-6f" transform="translate(422.21 0)"/>
+     <use xlink:href="#Inter-SemiBold-74" transform="translate(483.10 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(518.40 0)"/>
+     <use xlink:href="#Inter-SemiBold-61" transform="translate(543.60 0)"/>
+     <use xlink:href="#Inter-SemiBold-20" transform="translate(601.02 0)"/>
+     <use xlink:href="#Inter-SemiBold-66" transform="translate(626.22 0)"/>
+     <use xlink:href="#Inter-SemiBold-75" transform="translate(665.08 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(726.31 0)"/>
+     <use xlink:href="#Inter-SemiBold-63" transform="translate(787.5 0)"/>
+     <use xlink:href="#Inter-SemiBold-74" transform="translate(845.75 0)"/>
+     <use xlink:href="#Inter-SemiBold-69" transform="translate(881.05 0)"/>
+     <use xlink:href="#Inter-SemiBold-6f" transform="translate(907.22 0)"/>
+     <use xlink:href="#Inter-SemiBold-6e" transform="translate(968.11 0)"/>
+    </g>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p246ec36b03">
+   <rect x="2.88" y="11.62" width="153.18" height="153.18"/>
+  </clipPath>
+  <clipPath id="p15428aa35c">
+   <rect x="197.68" y="11.62" width="153.18" height="153.18"/>
+  </clipPath>
+  <clipPath id="pc16cdf273d">
+   <rect x="2.88" y="179.30" width="153.18" height="153.18"/>
+  </clipPath>
+  <clipPath id="p656d8c4780">
+   <rect x="197.68" y="179.30" width="153.18" height="153.18"/>
+  </clipPath>
+ </defs>
+</svg>
