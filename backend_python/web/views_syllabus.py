@@ -80,6 +80,9 @@ def syllabus_subject(request, grade, subject):
         return redirect("web:syllabus_subject", grade=data["grade"], subject=subject, permanent=True)
     prev_s, next_s = syllabus_data.neighbours(data["grade"], subject)
     exam_head, exam_rows = _exam_rows(data.get("exam"))
+    from .schema_forum import breadcrumb_schema, ld_json, syllabus_course_schema
+    page_url = '%s/app/syllabus/%s/%s/' % (
+        'https://nebians.consica.com.np', data["grade"], subject)
     ctx = _ctx(
         request,
         syl=data,
@@ -95,6 +98,13 @@ def syllabus_subject(request, grade, subject):
         seo_title="%s %s — Syllabus, Chapter Notes and Question Bank | NEBians" % (data["grade_label"], data["name"]),
         seo_description="%s %s: all %d units of the syllabus with full chapter notes, worked examples, practice questions with answers and a question bank in the board's pattern." % (
             data["grade_label"], data["name"], data["unit_count"]),
+        syllabus_course_json=ld_json(syllabus_course_schema(data, page_url)),
+        syllabus_breadcrumb_json=ld_json(breadcrumb_schema([
+            ('Home', 'https://nebians.consica.com.np/'),
+            ('Syllabus', 'https://nebians.consica.com.np/app/syllabus/'),
+            (data["grade_label"], 'https://nebians.consica.com.np/app/syllabus/%s/' % data["grade"]),
+            (data["name"], ''),
+        ])),
     )
     return render(request, "web/syllabus/subject.html", ctx)
 
@@ -116,6 +126,11 @@ def _reader(request, grade, subject, doc, kind, number=None):
             next_no = nos[i + 1] if i + 1 < len(nos) else None
     title = doc["title"]
     label = {"unit": "Unit %s" % number, "bank": "Question bank", "guide": "Exam guide"}[kind]
+    from .schema_forum import breadcrumb_schema, chapter_schema, ld_json
+    suffix = {"unit": "unit-%s" % number, "bank": "bank-%s" % number,
+              "guide": "guide"}[kind]
+    page_url = "%s/app/syllabus/%s/%s/%s/" % (
+        "https://nebians.consica.com.np", data["grade"], subject, suffix)
     ctx = _ctx(
         request,
         syl=data,
@@ -131,6 +146,16 @@ def _reader(request, grade, subject, doc, kind, number=None):
         seo_title="%s — %s %s %s | NEBians" % (title, data["grade_label"], data["name"], "notes" if kind == "unit" else label.lower()),
         seo_description=("%s %s, %s: %s. Full notes with worked examples, figures and practice questions with answers." % (
             data["grade_label"], data["name"], label, title))[:300],
+        chapter_schema_json=ld_json(chapter_schema(data, doc, kind, number, page_url)),
+        chapter_breadcrumb_json=ld_json(breadcrumb_schema([
+            ('Home', 'https://nebians.consica.com.np/'),
+            ('Syllabus', 'https://nebians.consica.com.np/app/syllabus/'),
+            (data["grade_label"], 'https://nebians.consica.com.np/app/syllabus/%s/' % data["grade"]),
+            (data["name"], 'https://nebians.consica.com.np/app/syllabus/%s/%s/' % (data["grade"], subject)),
+            # The last crumb is this page, so it carries no link; the unit or
+            # bank number is what distinguishes it from its siblings anyway.
+            (title if kind == "unit" else "%s %s" % (label, number), ''),
+        ])),
     )
     return render(request, "web/syllabus/reader.html", ctx)
 

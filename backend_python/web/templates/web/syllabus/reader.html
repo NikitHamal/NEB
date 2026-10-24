@@ -3,6 +3,10 @@
 {% block title %}{{ seo_title }}{% endblock %}
 {% block description %}{{ seo_description }}{% endblock %}
 {% block nav_library %}active{% endblock %}
+{% block head_extra %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ chapter_breadcrumb_json }}</script>
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ chapter_schema_json }}</script>
+{% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">
