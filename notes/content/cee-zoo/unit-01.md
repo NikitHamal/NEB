@@ -17,7 +17,7 @@ chapter puts them in tables.
 
 ::: key What the paper asks from this chapter
 - The **reducing primitive atmosphere** — CH₄, NH₃, H₂ and water vapour, **no free O₂** — and the order monomers → polymers → coacervates/microspheres → protocell.
-- **Miller–Urey (1953)**: electric spark through CH₄, NH₃, H₂ (2 : 1 : 2) and steam for one week gave **amino acids** (glycine, alanine), not life.
+- **Miller–Urey (1953)**: electric spark through CH₄, NH₃, H₂ (2 : 2 : 1) and steam for one week gave **amino acids** (glycine, alanine), not life.
 - **Homologous** organs = same origin, different function = **divergent** evolution; **analogous** = different origin, same function = **convergent** evolution; vestigial organs and atavism.
 - **Connecting links** (*Peripatus*, *Neopilina*, *Balanoglossus*, lungfish, *Archaeopteryx*, platypus) and the **horse series** *Eohippus* → *Equus*.
 - **Haeckel's biogenetic law**, Nuttall's **precipitin test**, the universal genetic code and cytochrome c.
@@ -83,7 +83,7 @@ in the oceans now" is a standard wrong option.
 **Stanley L. Miller**, a student of **Harold C. Urey** at the University of
 Chicago, tested steps 1–2 in a closed glass apparatus.
 
-```figure caption="The Miller–Urey apparatus. Steam from the boiling flask carries water vapour into the spark flask filled with CH₄, NH₃ and H₂; the spark plays the part of lightning, the condenser the part of rain, and the products collect in the U-trap. After a week the trap held amino acids."
+```figure caption="The Miller–Urey apparatus. Steam from the boiling flask carries water vapour into the spark flask filled with CH₄, NH₃ and H₂; the spark plays the part of lightning, the condenser the part of rain, and the U-trap collects the products and returns them to the flask. After a week the water held amino acids."
 import numpy as np
 from matplotlib.patches import Circle, Rectangle, Polygon
 fig, ax = plt.subplots(figsize=(5.2, 3.9))
@@ -145,17 +145,17 @@ ax.text(1.55, 4.7, "water\nvapour", ha="right", va="center", fontsize=fs, color=
 lab("tungsten electrodes:\nspark = lightning", (7.2, 7.5), (8.0, 7.45))
 lab("5-litre flask of\nreducing gases", (7.55, 5.5), (8.0, 5.55))
 lab("condenser: cooling\nwater = rain", (6.8, 3.35), (8.0, 3.35))
-lab("U-trap: amino acids\ncollect (after 1 week)", (6.15, 0.7), (7.35, 1.2))
+lab("U-trap: products\nreturn to the flask", (6.15, 0.7), (7.35, 1.2))
 ax.text(5.55, 0.25, "sample", ha="right", va="center", fontsize=fs, color=MUTED)
 ```
 
 | Item | Detail |
 |---|---|
-| Gases in the spark flask | **CH₄, NH₃, H₂** (partial pressures 200 : 100 : 200 mm Hg, i.e. **2 : 1 : 2**) + water vapour; **no O₂** |
+| Gases in the spark flask | **CH₄, NH₃, H₂** — Miller's paper gives 20 cm, 20 cm and 10 cm of mercury, i.e. **CH₄ : NH₃ : H₂ = 2 : 2 : 1** — + water vapour; **no O₂** (some coaching books print 2 : 1 : 2; follow the original) |
 | Energy source | **electric spark** between tungsten electrodes (= lightning); the water was boiled to circulate steam (many textbooks quote "about 800 °C" for the hot zone) |
 | Cooling | condenser (= rain) |
 | Duration | **one week**, run continuously |
-| Analysis | paper chromatography of the liquid in the U-trap |
+| Analysis | paper chromatography of the solution that collected in the trap and boiling flask |
 | Products | **amino acids** — **glycine** and **alanine** most abundant, also aspartic acid; urea, HCN, aldehydes, simple acids. Later work gave sugars and nitrogen bases |
 | Conclusion | **organic monomers can form abiotically** from the reducing gases → supports Oparin–Haldane |
 
@@ -444,7 +444,7 @@ ax.set_axisbelow(True)
 | Stage | Time | Fossil site and discoverer | Cranial capacity | Diagnostic points |
 |---|---|---|---|---|
 | ***Dryopithecus*** ("oak ape") | Miocene, about 25–10 Mya | Africa, Europe, Asia | small, ape-sized | common ancestor of apes and man; knuckle-walker |
-| ***Ramapithecus*** ("Rama's ape") | Miocene, about 14–9 Mya | **Siwalik Hills, India — G. E. Lewis (1932)**; in Nepal at **Tinau Khola near Butwal (Palpa), 1980**, a jaw fragment dated to about 11 Mya | not known (jaws and teeth only) | small canines, thick-enamelled molars; long called the **first hominid**; now referred to *Sivapithecus*, on the orang-utan line |
+| ***Ramapithecus*** ("Rama's ape") | Miocene, about 14–9 Mya | **Siwalik Hills, India — G. E. Lewis (1932)**; in Nepal at **Tinau Khola near Butwal (Palpa), 1980**, a jaw fragment and teeth dated to about 9–11 Mya | not known (jaws and teeth only) | small canines, thick-enamelled molars; long called the **first hominid**; now referred to *Sivapithecus*, on the orang-utan line |
 | ***Australopithecus*** ("southern ape", **ape-man**) | Pliocene, about 4–2 Mya | **Taung child, South Africa — Raymond Dart (1924)**; **"Lucy"** (*A. afarensis*), Hadar, Ethiopia — D. Johanson (1974) | **400–500 cm³** | **first clearly bipedal** hominid; ape-sized brain; used stones but made no tools; ate fruit |
 | ***Homo habilis*** ("handy man") | 2.4–1.5 Mya | **Olduvai Gorge, Tanzania — Louis and Mary Leakey (1960)** | **650–800 cm³** | **first maker of stone tools** (Oldowan pebble choppers); first species of *Homo* |
 | ***Homo erectus*** ("upright man") | 1.9 Mya – about 0.3 Mya | **Java man** (*Pithecanthropus erectus*) — **Eugène Dubois (1891)**; **Peking man** (*Sinanthropus pekinensis*), Zhoukoudian, China (1920s) | **800–1100 cm³** (Java ≈ 900) | **first to use fire**; hand axes; hunted, ate meat; first to leave Africa; heavy brow ridge, no chin |
@@ -479,7 +479,7 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
 | Microspheres | Sidney Fox (proteinoids from heated amino acids) |
 | Primitive atmosphere | CH₄, NH₃, H₂, H₂O (+ CO₂, N₂, HCN); reducing; **no O₂**, no ozone |
 | First organisms | prokaryotic, anaerobic heterotrophs |
-| Miller–Urey | 1953; CH₄ : NH₃ : H₂ = 2 : 1 : 2 + steam; spark; 1 week; glycine, alanine, aspartic acid |
+| Miller–Urey | 1953; CH₄ : NH₃ : H₂ = 2 : 2 : 1 (20, 20, 10 cm Hg) + steam; spark; 1 week; glycine, alanine, aspartic acid |
 | Disproved spontaneous generation | Redi (1668), Spallanzani, Pasteur (swan-neck flask) |
 
 **Evidences**
@@ -528,7 +528,7 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
 ## Chapter summary
 
 - Life arose by **chemical evolution** (Oparin 1924, Haldane 1929) in a **reducing** atmosphere of CH₄, NH₃, H₂ and water vapour with **no free O₂**, energised by UV and lightning: monomers → polymers → coacervates/microspheres → protocell → anaerobic heterotroph.
-- **Miller–Urey (1953)** sparked CH₄, NH₃, H₂ (2 : 1 : 2) and steam for a week and obtained **amino acids** (glycine, alanine) — monomers, not life.
+- **Miller–Urey (1953)** sparked CH₄, NH₃, H₂ (2 : 2 : 1) and steam for a week and obtained **amino acids** (glycine, alanine) — monomers, not life.
 - **Homologous** organs (same origin, different use) show **divergent** evolution; **analogous** organs (different origin, same use) show **convergent** evolution; vestigial organs and atavism point to ancestors.
 - **Connecting links** — *Peripatus*, *Neopilina*, *Balanoglossus*, lungfish, *Archaeopteryx*, platypus — and the **horse series** (*Eohippus* → *Equus*, toes 4 → 1) are the classic fossil and living evidence.
 - **Haeckel's** biogenetic law (embryos), Nuttall's **precipitin test**, cytochrome c and the universal genetic code (biochemistry) complete the evidence.
@@ -547,8 +547,8 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
    (a) methane (b) ammonia (c) hydrogen (d) free oxygen
 3. Colloidal droplets of proteins and polysaccharides that Oparin regarded as forerunners of cells are called
    (a) coacervates (b) microspheres (c) liposomes (d) ribozymes
-4. In the Miller–Urey apparatus the gases methane, ammonia and hydrogen were taken in the ratio
-   (a) 1 : 2 : 2 (b) 2 : 2 : 1 (c) 1 : 1 : 1 (d) 2 : 1 : 2
+4. In the Miller–Urey apparatus the electric spark between the electrodes stood for
+   (a) ultraviolet light (b) volcanic heat (c) rain (d) lightning
 5. The two amino acids found in greatest amount in Miller's original experiment were
    (a) cysteine and methionine (b) tryptophan and tyrosine (c) glycine and alanine (d) lysine and histidine
 6. The swan-necked flask experiment that finally disproved spontaneous generation was performed by
@@ -596,7 +596,7 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
 **1.** (b) — Haldane (1929) called the primitive ocean a "hot dilute soup" of organic molecules; Oparin's word was *coacervate*.
 **2.** (d) — the primitive atmosphere was reducing: CH₄, NH₃, H₂ and water vapour. Free O₂ came later, from photosynthesis.
 **3.** (a) — coacervates are Oparin's; microspheres (option b) are Sidney Fox's proteinoid spheres.
-**4.** (d) — CH₄ : NH₃ : H₂ = 200 : 100 : 200 mm Hg = 2 : 1 : 2, with water vapour from the boiling flask.
+**4.** (d) — the spark supplied the energy of lightning; the boiling water stood for the sea and the condenser for rain. (The gases were CH₄ : NH₃ : H₂ = 2 : 2 : 1 by pressure.)
 **5.** (c) — glycine and alanine were the most abundant. No sulphur gas was used, so cysteine and methionine (a) could not form.
 **6.** (d) — Pasteur's swan-necked flask let air in but trapped dust and microbes in the bend; the broth stayed sterile.
 **7.** (b) — with no O₂ and a "soup" of organic food, the first cells were anaerobic heterotrophs; autotrophs came later.
@@ -611,7 +611,7 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
 **16.** (b) — Herbert Spencer coined it; Darwin adopted it in later editions of the *Origin*.
 **17.** (c) — the evening primrose *Oenothera lamarckiana*; its sudden new forms suggested evolution by jumps.
 **18.** (a) — the mice kept being born with normal tails: a mutilation acquired in life is not inherited.
-**19.** (c) — Tinau Khola near Butwal (Palpa) — a jaw fragment found in 1980 and dated to about 11 million years.
+**19.** (c) — Tinau Khola near Butwal (Palpa) — jaw and teeth found in 1980 and dated to roughly 9–11 million years.
 **20.** (a) — *H. habilis*, "handy man", made the Oldowan pebble tools. *Australopithecus* used stones but did not shape them.
 **21.** (d) — *H. erectus* (Peking man's hearths) first used fire.
 **22.** (b) — Neanderthals buried their dead with flowers and tools — the first evidence of ritual.
