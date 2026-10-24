@@ -68,9 +68,9 @@ details.ans[open]{border-style:solid;background:var(--card)}details.ans[open]>su
 .zoom{position:fixed;inset:0;z-index:30;background:#0b0b0b;display:flex;flex-direction:column;-webkit-user-select:none;user-select:none}
 .zoom-stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;touch-action:none}
 .zoom-stage img{max-width:100%;max-height:100%;background:#fff;border-radius:6px;transform-origin:50% 50%}
-.zoom-x{position:absolute;top:10px;right:10px;width:44px;height:44px;border:0;border-radius:22px;background:rgba(255,255,255,.14);color:#fff;font:400 26px/44px system-ui,sans-serif;padding:0}
+.zoom-x{position:absolute;z-index:2;top:10px;right:10px;width:44px;height:44px;border:0;border-radius:22px;background:rgba(28,28,28,.82);box-shadow:0 0 0 1px rgba(255,255,255,.2);color:#fff;font:400 26px/44px system-ui,sans-serif;padding:0}
 .zoom-cap{margin:0;padding:10px 18px 16px;max-height:28vh;overflow:auto;color:#d6d6d6;font-size:13px;line-height:1.5}
-.zoom-hint{position:absolute;left:50%;bottom:calc(28vh + 8px);transform:translateX(-50%);padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.12);color:#eee;font-size:12px;transition:opacity .4s}
+.zoom-hint{position:absolute;z-index:2;left:50%;bottom:calc(28vh + 8px);transform:translateX(-50%);padding:6px 12px;border-radius:99px;background:rgba(255,255,255,.12);color:#eee;font-size:12px;transition:opacity .4s}
 """
 
 private const val READER_JS = """
@@ -112,7 +112,8 @@ var ICON='<svg viewBox="0 0 24 24" width="17" height="17" aria-hidden="true"><pa
 var view=null,img=null,s=1,tx=0,ty=0,W=0,H=0,bw=0,bh=0,g=null,lastTap=0,moved=false;
 function apply(){img.style.transform='translate('+tx+'px,'+ty+'px) scale('+s+')'}
 function clamp(){var mx=Math.max(0,(bw*s-W)/2),my=Math.max(0,(bh*s-H)/2);tx=Math.max(-mx,Math.min(mx,tx));ty=Math.max(-my,Math.min(my,ty))}
-function measure(){var st=view.firstChild;W=st.clientWidth;H=st.clientHeight;var t=img.style.transform;img.style.transform='none';bw=img.offsetWidth;bh=img.offsetHeight;img.style.transform=t}
+function fit(){var st=view.firstChild,nw=img.naturalWidth||1,nh=img.naturalHeight||1,p=Math.min(24,Math.round(st.clientWidth*.04)),f=Math.min((st.clientWidth-2*p)/nw,(st.clientHeight-2*p)/nh,/[.]svg\b/i.test(img.src)?3:1);img.style.width=Math.round(nw*f)+'px';img.style.height=Math.round(nh*f)+'px'}
+function measure(){var st=view.firstChild;fit();W=st.clientWidth;H=st.clientHeight;var t=img.style.transform;img.style.transform='none';bw=img.offsetWidth;bh=img.offsetHeight;img.style.transform=t}
 function zoomAt(ns,px,py){ns=Math.max(1,Math.min(6,ns));var r=view.firstChild.getBoundingClientRect(),cx=r.left+W/2,cy=r.top+H/2;var ux=(px-cx-tx)/s,uy=(py-cy-ty)/s;s=ns;tx=px-cx-ux*s;ty=py-cy-uy*s;if(s===1){tx=0;ty=0}clamp();apply()}
 function close(){if(!view)return;view.remove();view=null;img=null;document.body.style.overflow='';try{NebStudy.zoom(false)}catch(e){}}
 window.nebZoomClose=close;
