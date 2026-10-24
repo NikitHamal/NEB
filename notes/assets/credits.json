@@ -3691,6 +3691,32 @@
   "source": "Wikimedia Commons",
   "title": "Countries initially affected in WannaCry ransomware attack"
  },
+ "cs8/word-context-menu": {
+  "author": "Hatas",
+  "bytes": 11244,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/word-context-menu.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Context_menu_in_LibreOffice_Writer_24.2.png",
+  "sha1": "536e3be61a75045a",
+  "source": "Wikimedia Commons",
+  "title": "Context menu in LibreOffice Writer 24.2"
+ },
+ "cs8/word-lo-tabbed": {
+  "author": "LucaLindholm",
+  "bytes": 283158,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/word-lo-tabbed.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Table_of_contents_-_TOC_--_LibreOffice_Writer.png",
+  "sha1": "c9f70a848ce1012b",
+  "source": "Wikimedia Commons",
+  "title": "Table of contents - TOC -- LibreOffice Writer"
+ },
  "eco10/ama-dablam": {
   "author": "Vyacheslav Argenberg",
   "bytes": 301254,
