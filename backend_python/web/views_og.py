@@ -29,7 +29,7 @@ _SAFE_KEY = re.compile(r'^[A-Za-z0-9._/-]{1,120}$')
 # every scraper that already fetched the URL keeps its own copy for longer. The
 # version goes into both the cache key and the URL, so a redesign is a new
 # address to a crawler rather than a changed picture at the same one.
-CARD_VERSION = 2
+CARD_VERSION = 3
 
 # Static pages. `kicker` sits above the title in the subject accent, `meta` is
 # the dot-separated line under it, `hero` names a drawing in og_cards.HEROES.

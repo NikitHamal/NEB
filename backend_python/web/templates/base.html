@@ -49,9 +49,11 @@
      og_image_url and og_image_alt come from the og_image_context processor, which
      works the card out from the route. A page that has a better image of its own --
      a thread with a photo in it -- overrides the block instead. {% endcomment %}
-  {% comment %} og_image_context always supplies a versioned URL, so there is no
-     literal fallback here to rot when CARD_VERSION is bumped. {% endcomment %}
-  {% firstof og_image_url 'https://nebians.consica.com.np/og/page/default.png?v={{ og_card_version }}' as og_img %}
+  {% comment %} og_image_context always supplies a versioned URL -- it falls back
+     to the default card rather than to nothing -- so this is simply the value.
+     It used to be a firstof with a literal fallback, which both broke once the
+     design changed and could not interpolate the card version. {% endcomment %}
+  {% firstof og_image_url as og_img %}
   <meta property="og:image" content="{% block og_image %}{{ og_img }}{% endblock %}">
   <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ og_img }}{% endblock %}">
   <meta property="og:image:type" content="{% block og_image_type %}image/png{% endblock %}">
