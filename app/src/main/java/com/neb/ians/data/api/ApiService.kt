@@ -2068,10 +2068,12 @@ interface ApiService {
         @Path("subject") subject: String
     ): ApiStudyDoc
 
+    /** [tracks] = 1 includes the entrance books (CEE, …); without it the server answers with the classes only. */
     @GET("api/syllabus/v2/search/")
     suspend fun searchSyllabus(
         @Query("q") query: String,
-        @Query("grade") grade: String? = null
+        @Query("grade") grade: String? = null,
+        @Query("tracks") tracks: Int? = null
     ): ApiSyllabusSearch
 
     // --- Interactive Learning (public, no auth required) ---

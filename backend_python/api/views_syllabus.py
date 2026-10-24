@@ -76,7 +76,12 @@ def syllabus_guide(request, grade, subject):
 @permission_classes([AllowAny])
 @throttle_classes([SearchRateThrottle])
 def syllabus_search(request):
-    return Response(search_payload(request.GET.get('q'), request.GET.get('grade')))
+    """Installed app versions print every hit as "Class N", so the entrance books are searched
+    only when the app asks for them (tracks=1, sent since the tracks reached the app) or the
+    search comes from a track."""
+    grade = syllabus_data.normalize_grade(request.GET.get('grade'))
+    tracks = request.GET.get('tracks') == '1' or bool(grade and not syllabus_data.is_school(grade))
+    return Response(search_payload(request.GET.get('q'), request.GET.get('grade'), tracks=tracks))
 
 
 def _legacy_slug(grade):

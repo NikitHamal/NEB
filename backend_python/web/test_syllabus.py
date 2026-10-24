@@ -312,8 +312,14 @@ class EntranceTrackTests(TestCase):
         self.assertTrue(data['results'])
         hit = data['results'][0]
         self.assertEqual((hit['grade'], hit['short'], hit['kind'], hit['subject']), ('cee', 'CEE', 'entrance', 'physics'))
-        api = self.client.get('/api/syllabus/v2/search/', {'q': 'projectile'}).json()
+        api = self.client.get('/api/syllabus/v2/search/', {'q': 'projectile', 'tracks': '1'}).json()
         self.assertIn('CEE', [r['short'] for r in api['results']])
+        # installed app versions (no tracks=1) print every hit as "Class N": they get the classes only
+        old_app = self.client.get('/api/syllabus/v2/search/', {'q': 'projectile', 'grade': '11'}).json()
+        self.assertTrue(old_app['results'])
+        self.assertEqual({r['kind'] for r in old_app['results']}, {'school'})
+        from_track = self.client.get('/api/syllabus/v2/search/', {'q': 'projectile', 'grade': 'cee'}).json()
+        self.assertEqual(from_track['results'][0]['grade'], 'cee')
 
     def test_legacy_api_slugs(self):
         detail = self.client.get('/api/syllabus/subjects/cee/physics/').json()
