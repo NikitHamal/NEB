@@ -217,11 +217,13 @@ def _bloom(canvas: Image.Image, cx: float, cy: float, r: float, colour, alpha: i
 
 
 def _mark_stage(canvas: Image.Image, accent, rng: Rng):
-    """The home page's hero: the real mark, lit, standing over a reflection."""
-    height = int(HERO_R * 2.32)
+    """The home page's hero: the real mark, lit, standing on a hairline plinth."""
+    height = int(HERO_R * 1.58)
     art = og_logo.mark(height * SS)
-    x = int((HERO_CX + 10) * SS - art.size[0] / 2)
-    y = int(HERO_CY * SS - art.size[1] / 2)
+    # Pulled left of centre: the mark is tall and narrow, and at full weight
+    # its right book runs off the frame at this size.
+    x = int((HERO_CX - 8) * SS - art.size[0] / 2)
+    y = int((HERO_CY + 6) * SS - art.size[1] / 2)
 
     _bloom(canvas, HERO_CX * SS, HERO_CY * SS, 330 * SS, saturate(accent, 1.2), 42)
     _bloom(canvas, HERO_CX * SS, HERO_CY * SS, 190 * SS,
@@ -229,11 +231,9 @@ def _mark_stage(canvas: Image.Image, accent, rng: Rng):
 
     canvas.alpha_composite(art, (x, y))
 
-    # A hairline plinth under it, so the mark is standing rather than floating.
-    d = ImageDraw.Draw(canvas, 'RGBA')
-    py = y + art.size[1] * 0.985
-    d.line([(HERO_CX * SS - 150 * SS, py), (HERO_CX * SS + 150 * SS, py)],
-           fill=mix(accent, (255, 255, 255), 0.55) + (90,), width=int(1.4 * SS))
+    # No plinth line: the mark's own books are a horizontal, and any rule
+    # placed near them reads as a strike-through at thumbnail size. The glow
+    # is what grounds it.
 
 
 def _avatar_stage(canvas: Image.Image, accent, rng: Rng,
