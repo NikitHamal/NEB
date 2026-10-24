@@ -205,7 +205,7 @@ syllabus begins animal classification with them.
 | **Anthozoa** (Actinozoa) | **polyp only**, no medusa | sea anemones ***Metridium***, ***Adamsia*** (on the hermit crab's shell); corals ***Corallium*** (red coral), *Madrepora*, *Meandrina* (brain coral), *Fungia* (mushroom coral); ***Gorgonia*** (sea fan), ***Pennatula*** (sea pen) |
 
 **Ctenophora (comb jellies)** are a small marine phylum close to the Cnidaria:
-biradial, diploblastic, with **eight comb plates (ctenes)** of fused cilia for
+biradial, diploblastic, with **eight rows of comb plates (ctenes)** of fused cilia for
 swimming, **colloblasts (lasso cells)** instead of nematocysts, and strong
 **bioluminescence**: *Pleurobrachia* (sea gooseberry), *Ctenoplana*.
 
@@ -494,7 +494,7 @@ coelom → segmentation → deuterostome plan → notochord.
 5. Alternation of a polyp generation with a medusa generation (metagenesis) is seen in
    (a) *Hydra* (b) *Obelia* (c) *Metridium* (d) *Pleurobrachia*
 6. Flame cells are the excretory structures of
-   (a) Aschelminthes (b) Annelida (c) Platyhelminthes (d) Arthropoda
+   (a) Mollusca (b) Annelida (c) Platyhelminthes (d) Arthropoda
 7. The tapeworm whose scolex bears both hooks and suckers, and whose intermediate host is the pig, is
    (a) *Taenia solium* (b) *Taenia saginata* (c) *Echinococcus granulosus* (d) *Fasciola hepatica*
 8. Elephantiasis is caused by
@@ -550,7 +550,7 @@ coelom → segmentation → deuterostome plan → notochord.
 **3.** (a) — nematocysts in cnidoblasts are the diagnostic feature of Cnidaria; Ctenophora have adhesive colloblasts instead.
 **4.** (d) — *Physalia* is a polymorphic floating hydrozoan colony; *Aurelia* is the moon jelly, *Adamsia* a sea anemone.
 **5.** (b) — *Obelia* alternates an asexual colonial polyp with a sexual medusa. *Hydra* and *Metridium* have no medusa; *Pleurobrachia* is a ctenophore.
-**6.** (c) — flame cells (protonephridia) of flatworms; Aschelminthes have renette cells, Annelida nephridia.
+**6.** (c) — flame cells (protonephridia) of flatworms; Annelida have nephridia, Arthropoda Malpighian tubules or green glands, Mollusca kidneys.
 **7.** (a) — *T. solium*, the pork tapeworm, has an armed scolex; *T. saginata* (beef) has suckers only.
 **8.** (d) — the filarial worm *Wuchereria*, carried by *Culex*, blocks lymph vessels.
 **9.** (b) — the roundworm cavity is not lined by mesoderm on the gut side: a pseudocoel. Flatworms are acoelomate.
