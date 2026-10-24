@@ -3067,6 +3067,32 @@
   "source": "Wikimedia Commons",
   "title": "Network utp unshielded twisted pair cable"
  },
+ "cs8/calc-sum": {
+  "author": "Arlo Barnes",
+  "bytes": 103126,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/calc-sum.png",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:SUM_formula_in_LibreOffice_Calc.png",
+  "sha1": "8a23e126300085be",
+  "source": "Wikimedia Commons",
+  "title": "SUM formula in LibreOffice Calc"
+ },
+ "cs8/calc-window": {
+  "author": "Jasozh",
+  "bytes": 156104,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/calc-window.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:LibreOffice_Calc_6.4.png",
+  "sha1": "448e83b5b588d1e8",
+  "source": "Wikimedia Commons",
+  "title": "LibreOffice Calc 6.4"
+ },
  "cs8/e-waste": {
   "author": "AvWijk",
   "bytes": 567559,
