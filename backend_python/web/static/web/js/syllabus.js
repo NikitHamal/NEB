@@ -92,6 +92,14 @@
       if (left < sw.scrollLeft + 8) sw.scrollLeft = Math.max(0, left - 24);
       else if (right > sw.scrollLeft + sw.clientWidth - 8) sw.scrollLeft = right - sw.clientWidth + 24;
     }
+    /* fade the edge that has more buttons beyond it */
+    function edges() {
+      if (!sw) return;
+      var max = sw.scrollWidth - sw.clientWidth;
+      sw.classList.toggle('is-more-left', max > 4 && sw.scrollLeft > 4);
+      sw.classList.toggle('is-more-right', max > 4 && sw.scrollLeft < max - 4);
+    }
+    if (sw) { sw.addEventListener('scroll', edges, { passive: true }); window.addEventListener('resize', edges); }
     function selectGrade(grade, push) {
       buttons.forEach(function (b) {
         var on = b.getAttribute('data-syl-grade') === grade;
@@ -120,6 +128,7 @@
     var remembered = read(GRADE, null);
     if (!explicit && remembered && hub.querySelector('[data-syl-panel="' + remembered + '"]')) selectGrade(remembered, false);
     else reveal(hub.querySelector('[data-syl-grade][aria-selected="true"]'));
+    edges();
 
     hub.querySelectorAll('[data-syl-card]').forEach(function (card) {
       var st = subjectStats(card.getAttribute('data-syl-card'), parseInt(card.getAttribute('data-units'), 10) || 0);
