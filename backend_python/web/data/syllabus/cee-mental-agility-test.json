@@ -190,15 +190,45 @@
     "Embedded figures and counting figures",
     "Figure series, analogies and matrices"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Nets, cubes and dice"
+    },
+    {
+     "no": "4.2",
+     "title": "Mirror and water images"
+    },
+    {
+     "no": "4.3",
+     "title": "Paper folding and cutting"
+    },
+    {
+     "no": "4.4",
+     "title": "Embedded figures and counting figures"
+    },
+    {
+     "no": "4.5",
+     "title": "Figure series, analogies and matrices"
+    }
+   ],
+   "summary": [
+    "Spatial relation / abstract reasoning carries 5 of the 20 MAT questions; the MEC samples are a net → cube question and a figure-sequence question.",
+    "Nets: find the opposite pairs (line of three, Z rule); options showing two opposite faces together are wrong; the remaining ones are decided by the clockwise order of the neighbours round a face.",
+    "Dice: faces seen together are adjacent; the face never seen with X is opposite X; a standard die has opposite faces adding to 7.",
+    "Painted cubes: 8, 12(n-2), 6(n-2)^2, (n-2)^3 for three, two, one and no painted faces.",
+    "Mirror image swaps left and right (reversed order, flipped letters); water image swaps top and bottom (same order).",
+    "Folded paper: 2^k holes from k folds; unfold in reverse, reflecting every hole in each fold line.",
+    "Count figures systematically, by corners or by sizes, or with the standard formulas.",
+    "Series, analogies and matrices: follow one element at a time and eliminate options."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5954,
+    "figures": 24,
+    "examples": 7
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 5,
@@ -222,5 +252,5 @@
  ],
  "unit_count": 5,
  "topic_count": 21,
- "notes_ready": 3
+ "notes_ready": 4
 }
