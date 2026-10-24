@@ -3080,6 +3080,58 @@
   "source": "Wikimedia Commons",
   "title": "Ewaste-pile"
  },
+ "cs8/gen-ic-chips": {
+  "author": "Kimmo Palosaari",
+  "bytes": 29520,
+  "credit": "en.wikipedia.org",
+  "fetched": "2026-10-24",
+  "file": "cs8/gen-ic-chips.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:IC_DIP_chips.JPG",
+  "sha1": "868182bc77fc4a02",
+  "source": "Wikimedia Commons",
+  "title": "IC DIP chips"
+ },
+ "cs8/gen-intel-4004": {
+  "author": "the Science Museum",
+  "bytes": 116141,
+  "credit": "[1]",
+  "fetched": "2026-10-24",
+  "file": "cs8/gen-intel-4004.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Intel_4004_open.jpg",
+  "sha1": "c7f4cae02fa10451",
+  "source": "Wikimedia Commons",
+  "title": "Intel 4004 open"
+ },
+ "cs8/gen-sms-card": {
+  "author": "ArnoldReinhold",
+  "bytes": 231933,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/gen-sms-card.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:IBM_SMS_card_component_side.jpg",
+  "sha1": "8f1d8c67dc147bdd",
+  "source": "Wikimedia Commons",
+  "title": "IBM SMS card component side"
+ },
+ "cs8/gen-vacuum-tubes": {
+  "author": "Mister rf",
+  "bytes": 532432,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/gen-vacuum-tubes.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:PCL82.jpg",
+  "sha1": "f7d85c46dd360e1a",
+  "source": "Wikimedia Commons",
+  "title": "PCL82"
+ },
  "cs8/gfx-gimp": {
   "author": "The GIMP Team",
   "bytes": 130421,
