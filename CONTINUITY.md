@@ -8,7 +8,7 @@
 
 ## Current Status
 
-### Share cards and SEO (main, Oct 24, 2026) — **deployed, needs a re-scrape**
+### Share cards and SEO (main, Oct 24, 2026) — **pushed; needs a deploy and a re-scrape**
 
 The OG cards were rebuilt from scratch and every public route now has one.
 Full design and maintenance guide: [`docs/OG_CARDS.md`](docs/OG_CARDS.md).
@@ -33,8 +33,9 @@ Full design and maintenance guide: [`docs/OG_CARDS.md`](docs/OG_CARDS.md).
   the old card.
 - `tools/og/preview.py` renders the whole set plus a contact sheet with no
   Django and no database.
-- Tests: `web/test_og_cards.py` (22), `web/test_schema_forum.py` (19),
-  `web/test_seo_sitemap.py` (11). All pass.
+- Tests: `web/test_og_cards.py` (28), `web/test_schema_forum.py` (19),
+  `web/test_seo_sitemap.py` (11) — 58 total, all pass, none needing a
+  production dependency set.
 
 **SEO, same round:**
 
@@ -49,15 +50,16 @@ Full design and maintenance guide: [`docs/OG_CARDS.md`](docs/OG_CARDS.md).
 - Syllabus pages carry Course + LearningResource + breadcrumb schema.
 - OG PNGs send `X-Robots-Tag: noindex` so a card cannot outrank its page.
 
-**Still to do:**
+**Still to do — the site is one deploy behind `main`:**
 
-1. **Re-scrape the site in the Facebook Sharing Debugger.** The live homepage
-   now points at `/og/page/default.png?v=2`, which is the new card — verified
-   by fetching it. Facebook caches per URL, so it needs a fresh scrape of the
-   page to pick up the new `?v=`. Same for any other page whose preview is
-   stale.
-2. Confirm the deploy that carries `29a635f7` is live before scraping.
-3. Optional: 16:9 variants for X/LinkedIn (they crop 1200x630 to 1.91:1).
+1. **Deploy.** As of `778e4263` the live site still serves `?v=2` cards, i.e.
+   the renderer from before the mark was uncropped. Backend deploys are manual
+   (the GitHub workflow is disabled on purpose); deploy, then confirm
+   `curl -s https://nebians.consica.com.np/ | grep -o 'v=[0-9]*'` says `v=3`.
+2. **Re-scrape in the Facebook Sharing Debugger** once `v=3` is live. Facebook
+   caches per URL, so the page must be re-scraped to pick up a new `?v=`.
+   Until both of those happen, the preview genuinely is the old card.
+3. Optional: 16:9 variants for X and LinkedIn, which crop 1200x630 to 1.91:1.
 
 ### v1.7 launch reel, v5 (tools/reel, Oct 24, 2026)
 
