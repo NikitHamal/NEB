@@ -34,6 +34,8 @@
   /* ---------- multiple choice ---------- */
   var mcqs = Array.prototype.slice.call(body.querySelectorAll('ol.mcq > li[data-key], .mcq-p[data-key]'));
   var saved = (Study.get(key) || {}).q || {};
+  /* js/study-exam.js (model papers) takes the options over while a timed test runs */
+  var Reader = window.NebReader = { root: root, body: body, key: key, mcqs: mcqs, exam: null };
   function scoreText() {
     var box = root.querySelector('[data-rd-score]');
     var k = Object.keys((Study.get(key) || {}).q || {});
@@ -69,7 +71,10 @@
       if (!o.getAttribute('data-opt')) o.setAttribute('data-opt', (letter || '').trim());
       o.setAttribute('role', 'button');
       o.tabIndex = 0;
-      function pick() { if (!li.classList.contains('is-answered')) mark(li, o.getAttribute('data-opt'), true); }
+      function pick() {
+        if (Reader.exam && Reader.exam.take(li, o)) return;
+        if (!li.classList.contains('is-answered')) mark(li, o.getAttribute('data-opt'), true);
+      }
       o.addEventListener('click', pick);
       o.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
     });
@@ -85,12 +90,22 @@
     redo.type = 'button'; redo.className = 'rd-link'; redo.textContent = 'Try the questions again';
     redo.addEventListener('click', function () {
       Study.put(key, { q: {} });
-      mcqs.forEach(function (li) { li.classList.remove('is-answered', 'got-it'); li.querySelectorAll('.opt').forEach(function (o) { o.className = 'opt'; o.removeAttribute('aria-disabled'); }); });
+      mcqs.forEach(unmark);
       scoreText();
     });
     root.querySelector('[data-rd-score]').appendChild(redo);
   }
   scoreText();
+  function unmark(li) {
+    li.classList.remove('is-answered', 'got-it');
+    li.querySelectorAll('.opt').forEach(function (o) { o.classList.remove('is-right', 'is-wrong'); o.removeAttribute('aria-disabled'); });
+  }
+  Reader.unmark = unmark;
+  Reader.paintPractice = function () {
+    var q = (Study.get(key) || {}).q || {};
+    mcqs.forEach(function (li, i) { unmark(li); if (q[i] !== undefined) mark(li, q[i] ? li.getAttribute('data-key') : '', false); });
+    scoreText();
+  };
 
   /* ---------- answers ---------- */
   var answers = body.querySelectorAll('details.ans');
@@ -104,6 +119,12 @@
     answers.forEach(function (d) { d.open = open; });
   });
   window.addEventListener('beforeprint', function () { answers.forEach(function (d) { d.open = true; }); });
+  Reader.answers = answers;
+  Reader.foldAnswers = function () {
+    allBtn.setAttribute('aria-pressed', 'false');
+    if (allLabel) allLabel.textContent = 'Show answers';
+    answers.forEach(function (d) { d.open = false; });
+  };
   var firstQs = body.querySelector('h2.qs');
   if (firstQs && !document.getElementById('questions')) {
     var anchor = document.createElement('span'); anchor.id = 'questions'; firstQs.parentNode.insertBefore(anchor, firstQs);
