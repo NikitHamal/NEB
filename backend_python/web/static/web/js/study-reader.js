@@ -110,10 +110,17 @@
   }
 
   /* ---------- figures open full screen: pinch, wheel or double-tap to zoom, drag to pan ---------- */
-  var view = null, vimg = null, zs = 1, zx = 0, zy = 0, W = 0, H = 0, bw = 0, bh = 0, gest = null, lastTap = 0, moved = false, opener = null;
+  var view = null, vimg = null, zs = 1, zx = 0, zy = 0, W = 0, H = 0, bw = 0, bh = 0, gest = null, lastTap = 0, moved = false, opener = null, touchAt = 0;
   function zApply() { vimg.style.transform = 'translate(' + zx + 'px,' + zy + 'px) scale(' + zs + ')'; }
   function zClamp() { var mx = Math.max(0, (bw * zs - W) / 2), my = Math.max(0, (bh * zs - H) / 2); zx = Math.max(-mx, Math.min(mx, zx)); zy = Math.max(-my, Math.min(my, zy)); }
-  function zMeasure() { var st = view.firstChild; W = st.clientWidth; H = st.clientHeight; var t = vimg.style.transform; vimg.style.transform = 'none'; bw = vimg.offsetWidth; bh = vimg.offsetHeight; vimg.style.transform = t; }
+  /* drawn figures are SVG and stay sharp, so they are fitted to the screen (up to 3x); photos never past 100% */
+  function zFit() {
+    var st = view.firstChild, nw = vimg.naturalWidth || 1, nh = vimg.naturalHeight || 1;
+    var pad = Math.min(32, Math.round(st.clientWidth * 0.04));
+    var f = Math.min((st.clientWidth - 2 * pad) / nw, (st.clientHeight - 2 * pad) / nh, /\.svg(\?|$)/i.test(vimg.src) ? 3 : 1);
+    vimg.style.width = Math.round(nw * f) + 'px'; vimg.style.height = Math.round(nh * f) + 'px';
+  }
+  function zMeasure() { var st = view.firstChild; zFit(); W = st.clientWidth; H = st.clientHeight; var t = vimg.style.transform; vimg.style.transform = 'none'; bw = vimg.offsetWidth; bh = vimg.offsetHeight; vimg.style.transform = t; }
   function zoomAt(ns, px, py) {
     var r = view.firstChild.getBoundingClientRect(), cx = r.left + W / 2, cy = r.top + H / 2;
     var ux = (px - cx - zx) / zs, uy = (py - cy - zy) / zs;
@@ -134,13 +141,13 @@
     var x = document.createElement('button'); x.type = 'button'; x.className = 'rd-zoom-x'; x.setAttribute('aria-label', 'Close');
     x.innerHTML = '<span class="material-symbols-outlined" aria-hidden="true">close</span>'; x.addEventListener('click', zClose); view.appendChild(x);
     if (cap) { var c = document.createElement('p'); c.className = 'rd-zoom-cap'; c.textContent = cap; view.appendChild(c); }
-    var hint = document.createElement('span'); hint.className = 'rd-zoom-hint'; hint.textContent = 'Scroll, pinch or double-click to zoom · Esc to close'; view.appendChild(hint);
+    var hint = document.createElement('span'); hint.className = 'rd-zoom-hint'; hint.textContent = window.matchMedia('(pointer: coarse)').matches ? 'Pinch or double-tap to zoom' : 'Scroll or double-click to zoom · Esc to close'; view.appendChild(hint);
     setTimeout(function () { hint.classList.add('is-gone'); }, 2200);
     document.body.appendChild(view); document.body.style.overflow = 'hidden';
     zs = 1; zx = 0; zy = 0; vimg.onload = zMeasure; if (vimg.complete) zMeasure();
     x.focus();
     st.addEventListener('wheel', function (e) { e.preventDefault(); zoomAt(zs * Math.exp(-e.deltaY * 0.0022), e.clientX, e.clientY); }, { passive: false });
-    st.addEventListener('dblclick', function (e) { zoomAt(zs > 1 ? 1 : 2.5, e.clientX, e.clientY); });
+    st.addEventListener('dblclick', function (e) { if (Date.now() - touchAt < 800) return; zoomAt(zs > 1 ? 1 : 2.5, e.clientX, e.clientY); });
     st.addEventListener('mousedown', function (e) { if (zs <= 1) return; e.preventDefault(); var sx = e.clientX, sy = e.clientY, ox = zx, oy = zy;
       function mv(ev) { zx = ox + ev.clientX - sx; zy = oy + ev.clientY - sy; zClamp(); zApply(); }
       function up() { window.removeEventListener('mousemove', mv); window.removeEventListener('mouseup', up); }
@@ -158,7 +165,7 @@
         zClamp(); zApply();
       }
       else if (t.length === 1 && gest.x !== undefined && zs > 1) { zx = gest.x0 + t[0].clientX - gest.x; zy = gest.y0 + t[0].clientY - gest.y; zClamp(); zApply(); } }, { passive: false });
-    st.addEventListener('touchend', function (e) { var t = e.changedTouches[0];
+    st.addEventListener('touchend', function (e) { var t = e.changedTouches[0]; touchAt = Date.now();
       if (e.touches.length === 0) {
         if (!moved && t) { var now = Date.now(); if (now - lastTap < 300) { zoomAt(zs > 1 ? 1 : 2.5, t.clientX, t.clientY); lastTap = 0; } else { lastTap = now; if (zs === 1 && e.target === st) setTimeout(function () { if (lastTap && Date.now() - lastTap >= 290) zClose(); }, 310); } }
         gest = null;
