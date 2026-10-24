@@ -187,6 +187,32 @@ class RouteCoverageTests(unittest.TestCase):
             with self.subTest(kind=kind):
                 self.assertTrue(callable(self.views_og.KINDS[kind]))
 
+    def test_every_mapped_route_actually_exists(self):
+        # A typo in a url_name is silent: the processor finds no match, no card
+        # is set, and the page falls back to the default. This is the only
+        # place that failure shows up as a failure.
+        #
+        # Read from the URLconf source rather than from get_resolver(): loading
+        # the resolver pulls in every view module, and most of them need the
+        # full dependency set, which makes this test unrunnable on a laptop
+        # without the production stack installed.
+        import os
+        import re
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        source = open(os.path.join(root, 'web', 'urls.py'), encoding='utf-8').read()
+        names = set(re.findall(r"name='([a-z0-9_]+)'", source))
+        for route in list(self.views_og._ROUTE_PAGES) + list(self.views_og._ROUTE_OBJECTS):
+            with self.subTest(route=route):
+                self.assertIn(route, names)
+
+    def test_every_mapped_page_has_a_definition(self):
+        # 'faq' is served by _faq_card, which counts the questions rather than
+        # reading the static table; every other name must be in PAGES.
+        special = {'faq'}
+        for page in set(self.views_og._ROUTE_PAGES.values()) - special:
+            with self.subTest(page=page):
+                self.assertIn(page, self.views_og.PAGES)
+
 
 def setUpModule():
     # The renderer reads its fonts from the static tree; make sure the ones it
