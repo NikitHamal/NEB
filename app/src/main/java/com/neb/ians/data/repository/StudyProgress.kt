@@ -87,6 +87,16 @@ class StudyProgress @Inject constructor(@ApplicationContext context: Context) {
         bump()
     }
 
+    /** A model paper taken as a timed test: the reader page's own JSON (start, deadline, picks, finish). */
+    fun exam(key: String): String? = prefs.getString("x:$key", null)
+
+    /** Kept on every pick so a test survives the app being closed; null or blank clears it. */
+    fun setExam(key: String, state: String?) {
+        val edit = prefs.edit()
+        if (state.isNullOrBlank()) edit.remove("x:$key") else edit.putString("x:$key", state)
+        edit.apply()
+    }
+
     /** Every mark on the device, keyed as above. */
     fun snapshot(): Map<String, StudyMark> =
         prefs.all.keys
