@@ -2049,186 +2049,70 @@ def copyright_takedown(request):
     return render(request, 'web/takedown.html', ctx)
 
 def sitemap_xml(request):
-    """
-    Generates a clean XML sitemap: public pages plus only approved resources,
-    public non-archived forum posts, and unlocked real profiles.
-    Search engines should not see private profiles, bots/test users, rejected
-    uploads, placeholders, or low-value empty pages.
-    """
-    sitemap_content = cache.get('sitemap_xml')
-    if sitemap_content is not None and not request.GET.get('fresh'):
-        return HttpResponse(sitemap_content, content_type='application/xml')
+    """The sitemap index.
 
-    from api.models import Resource, Post, User
+    This used to be one urlset holding every page, resource, thread and
+    profile. That is a protocol violation waiting to happen: a sitemap file may
+    hold at most 50,000 URLs, and a crawler discards an oversized file whole,
+    which is the worst possible failure -- silent and total. The entries are
+    now grouped by kind (web/seo.py) and served as separate files, and this
+    endpoint is the index that points at them.
+    """
+    from . import seo
     from django.utils import timezone
-    from urllib.parse import quote
     from xml.sax.saxutils import escape as xml_escape
 
-    base = 'https://nebians.consica.com.np'
-    now = timezone.now().isoformat()
-    urls = [
-        {'loc': f'{base}/', 'changefreq': 'daily', 'priority': '1.0', 'lastmod': now},
-        {'loc': f'{base}/app/past-papers/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
-        {'loc': f'{base}/app/model-questions/', 'changefreq': 'daily', 'priority': '0.95', 'lastmod': now},
-        {'loc': f'{base}/app/online-learning/', 'changefreq': 'weekly', 'priority': '0.9', 'lastmod': now},
-        {'loc': f'{base}/app/library/', 'changefreq': 'daily', 'priority': '0.9', 'lastmod': now},
-        {'loc': f'{base}/app/forum/', 'changefreq': 'daily', 'priority': '0.8', 'lastmod': now},
-        {'loc': f'{base}/app/news/', 'changefreq': 'daily', 'priority': '0.7', 'lastmod': now},
-        {'loc': f'{base}/app/results/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
-        {'loc': f'{base}/app/results/check/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now},
-        {'loc': f'{base}/app/tools/', 'changefreq': 'monthly', 'priority': '0.5', 'lastmod': now},
-        {'loc': f'{base}/app/faq/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now},
-        {'loc': f'{base}/app/library/?tab=interactive', 'changefreq': 'weekly', 'priority': '0.8', 'lastmod': now},
-    ]
+    cached = cache.get('sitemap_index_xml')
+    if cached is not None and not request.GET.get('fresh'):
+        return HttpResponse(cached, content_type='application/xml')
 
-    from . import interactive as interactive_catalog
-    for course in interactive_catalog.get_all_courses():
-        urls.append({'loc': f'{base}/app/interactive/{course["slug"]}/', 'changefreq': 'monthly', 'priority': '0.7', 'lastmod': now})
-        for lesson in course.get('lessons', []):
-            urls.append({'loc': f'{base}/app/interactive/{course["slug"]}/{lesson["slug"]}/', 'changefreq': 'monthly', 'priority': '0.6', 'lastmod': now})
+    base = seo.SITE_BASE_URL
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for name in ('pages', 'library', 'forum', 'profiles'):
+        lines.append('  <sitemap>')
+        lines.append('    <loc>%s</loc>' % xml_escape('%s/sitemap-%s.xml' % (base, name)))
+        lines.append('  </sitemap>')
+    lines.append('</sitemapindex>')
 
-    def _slugify(value):
-        import re
-        value = (value or '').lower().strip()
-        value = re.sub(r'[^a-z0-9]+', '-', value)
-        return value.strip('-')
-
-    def _lastmod(ts):
-        if isinstance(ts, int) and ts:
-            return timezone.datetime.fromtimestamp(ts / 1000, tz=timezone.get_current_timezone()).isoformat()
-        if hasattr(ts, 'isoformat') and ts:
-            return ts.isoformat()
-        return now
-
-    def _grade_slug(grade):
-        slug = _slugify(grade).replace('see', 'see')
-        if '10' in slug and 'see' in slug:
-            return 'class-10-see'
-        return slug or 'other'
-
-    seen_subject_urls = set()
-
-    def _add_subject_url(grade, subject):
-        grade_slug = _grade_slug(grade)
-        subject_slug = _slugify(subject)
-        if not grade_slug or not subject_slug or grade_slug == 'other':
-            return
-        loc = f'{base}/app/subject/{grade_slug}/{subject_slug}/'
-        if loc in seen_subject_urls:
-            return
-        seen_subject_urls.add(loc)
-        urls.append({'loc': loc, 'changefreq': 'weekly', 'priority': '0.75', 'lastmod': now})
-
-    try:
-        for (grade_val, subject_val) in curriculum.CURRICULUM_MAP.keys():
-            _add_subject_url(grade_val, subject_val)
-    except Exception:
-        pass
-
-    try:
-        rows = Resource.objects.filter(
-            approval_status='approved', is_lead=True
-        ).values_list('grade_level', 'subject')[:1000]
-        for grade, subjects in rows:
-            if not grade or not subjects:
-                continue
-            for subject in subjects.split(','):
-                subject = subject.strip()
-                if subject:
-                    _add_subject_url(grade, subject)
-    except Exception:
-        pass
-
-    try:
-        from api.models import Announcement
-        announcements = Announcement.objects.filter(
-            status='published'
-        ).order_by('-published_at').values_list('slug', 'published_at')[:500]
-        for slug, published_at in announcements:
-            if not slug:
-                continue
-            urls.append({
-                'loc': f'{base}/app/news/{quote(str(slug), safe="")}/',
-                'changefreq': 'weekly',
-                'priority': '0.6',
-                'lastmod': _lastmod(published_at),
-            })
-    except Exception:
-        pass
-
-    def _clean_text(value):
-        return (value or '').strip().lower()
-
-    def _looks_low_quality(title, body=''):
-        hay = (_clean_text(title) + ' ' + _clean_text(body)).strip()
-        if len(_clean_text(title)) < 4:
-            return True
-        bad = ('test', 'demo', 'dummy', 'sample placeholder', 'lorem ipsum', 'asdf', 'untitled')
-        return any(term in hay for term in bad)
-
-    resources = (Resource.objects
-                 .filter(approval_status='approved', is_lead=True)
-                 .select_related('uploaded_by')
-                 .order_by('-added_at')[:1500])
-    for r in resources:
-        if _looks_low_quality(r.title, r.description):
-            continue
-        uploader = getattr(r, 'uploaded_by', None)
-        if uploader and (getattr(uploader, 'is_locked', False) or getattr(uploader, 'is_bot', False)):
-            continue
-        ts = getattr(r, 'updated_at', None) or getattr(r, 'added_at', None)
-        urls.append({
-            'loc': f'{base}/app/reader/{r.id}/',
-            'changefreq': 'weekly',
-            'priority': '0.6',
-            'lastmod': _lastmod(ts),
-        })
-
-    posts = (Post.objects
-             .filter(is_archived=False)
-             .select_related('user')
-             .order_by('-created_at')[:1000])
-    for post in posts:
-        author = getattr(post, 'user', None)
-        if author and (getattr(author, 'is_locked', False) or getattr(author, 'is_bot', False)):
-            continue
-        if _looks_low_quality(post.title, post.content):
-            continue
-        urls.append({
-            'loc': f'{base}/app/forum/post/{post.id}/',
-            'changefreq': 'daily',
-            'priority': '0.7',
-            'lastmod': _lastmod(post.created_at),
-        })
-
-    users = (User.objects
-             .filter(is_locked=False, is_bot=False, email_verified=True)
-             .exclude(username='')
-             .order_by('-contribution_score', 'username')[:500])
-    for u in users:
-        uname = (u.username or '').strip()
-        if not uname or any(term in uname.lower() for term in ('test', 'demo', 'dummy', 'adminadmin')):
-            continue
-        urls.append({
-            'loc': f'{base}/app/profile/{uname}/',
-            'changefreq': 'weekly',
-            'priority': '0.4',
-            'lastmod': _lastmod(getattr(u, 'created_at', None)),
-        })
-
-    xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
-    xml_content += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-    for u in urls:
-        xml_content += '  <url>\n'
-        xml_content += f"    <loc>{xml_escape(u['loc'])}</loc>\n"
-        xml_content += f"    <lastmod>{xml_escape(u['lastmod'])}</lastmod>\n"
-        xml_content += f"    <changefreq>{u['changefreq']}</changefreq>\n"
-        xml_content += f"    <priority>{u['priority']}</priority>\n"
-        xml_content += '  </url>\n'
-    xml_content += '</urlset>\n'
-
-    cache.set('sitemap_xml', xml_content, 3600)
+    xml_content = '\n'.join(lines) + '\n'
+    cache.set('sitemap_index_xml', xml_content, 3600)
     return HttpResponse(xml_content, content_type='application/xml')
+
+
+def sitemap_part(request, name):
+    """One sitemap file: sitemap-pages.xml, sitemap-library.xml, ..."""
+    from . import seo
+    from xml.sax.saxutils import escape as xml_escape
+
+    groups = seo.sitemap_groups()
+    if name not in groups:
+        raise Http404('No such sitemap')
+
+    cache_key = 'sitemap_part_xml:%s' % name
+    cached = cache.get(cache_key)
+    if cached is not None and not request.GET.get('fresh'):
+        return HttpResponse(cached, content_type='application/xml')
+
+    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
+             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for entry in groups[name]:
+        lines.append('  <url>')
+        lines.append('    <loc>%s</loc>' % xml_escape(entry['loc'], quote=True))
+        lastmod = entry.get('lastmod')
+        if lastmod:
+            lines.append('    <lastmod>%s</lastmod>' % xml_escape(str(lastmod), quote=True))
+        if entry.get('changefreq'):
+            lines.append('    <changefreq>%s</changefreq>' % xml_escape(entry['changefreq']))
+        if entry.get('priority'):
+            lines.append('    <priority>%s</priority>' % xml_escape(entry['priority']))
+        lines.append('  </url>')
+    lines.append('</urlset>')
+
+    xml_content = '\n'.join(lines) + '\n'
+    cache.set(cache_key, xml_content, 3600)
+    return HttpResponse(xml_content, content_type='application/xml')
+
 
 def robots_txt(request):
     lines = [
@@ -2244,6 +2128,9 @@ def robots_txt(request):
         'Disallow: /login/',
         'Disallow: /logout/',
         'Disallow: /app/settings/',
+        # /og/ is deliberately not disallowed: social scrapers must be able to
+        # fetch the cards. They are kept out of image search with an
+        # X-Robots-Tag header on the PNG instead (views_og).
         'Disallow: /*?next=*',
         'Disallow: /*?*next=*',
         '',

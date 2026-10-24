@@ -520,6 +520,9 @@ def _render_response(kind, key, spec):
     # cache key already handles edits on our side.
     resp['Cache-Control'] = 'public, max-age=86400'
     resp['X-Content-Type-Options'] = 'nosniff'
+    # Fetchable, but not an image-search result of its own: the card is a
+    # preview of a page, and a card outranking its page is a duplicate.
+    resp['X-Robots-Tag'] = 'noindex'
     return resp
 
 
