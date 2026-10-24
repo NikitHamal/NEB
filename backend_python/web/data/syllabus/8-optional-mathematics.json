@@ -1,0 +1,535 @@
+{
+ "grade": "8",
+ "grade_label": "Class 8",
+ "grade_label_ne": "कक्षा ८",
+ "subject": "optional-mathematics",
+ "name": "Optional Mathematics",
+ "name_ne": "ऐच्छिक गणित",
+ "icon": "functions",
+ "group": "optional",
+ "color": "#7A3E8E",
+ "lang": "en",
+ "code": "Optional (Basic Level)",
+ "hours": null,
+ "exam": "School annual examination, 2 hr, FM 50 written | Group A objective 10x1=10 | Group B short 10x2=20 | Group C long 5x4=20",
+ "areas": [],
+ "units": [
+  {
+   "no": 1,
+   "title": "Relation and Function",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Ordered pairs and equal ordered pairs",
+    "Cartesian product of two sets",
+    "Relation: meaning, representation (ordered pairs, table, arrow diagram, graph), domain and range, inverse relation",
+    "Function: meaning and notation, domain, co-domain and range, image and pre-image",
+    "Representation of a function and the vertical line test"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Ordered pairs and equal ordered pairs"
+    },
+    {
+     "no": "1.2",
+     "title": "Cartesian product of two sets"
+    },
+    {
+     "no": "1.3",
+     "title": "Relation: meaning, representation (ordered pairs, table, arrow diagram, graph), domain and range, inverse relation"
+    },
+    {
+     "no": "1.4",
+     "title": "Function: meaning and notation, domain, co-domain and range, image and pre-image"
+    },
+    {
+     "no": "1.5",
+     "title": "Representation of a function and the vertical line test"
+    }
+   ],
+   "summary": [
+    "An ordered pair (a,b) has a first and a second component; (a,b)=(c,d) exactly when a=c and b=d.",
+    "The Cartesian product A× B=(a,b): a∈ A, b∈ B; n(A× B)=n(A)× n(B); A× B≠ B× A unless A=B.",
+    "A relation from A to B is a subset of A× B; it can be shown by ordered pairs, set-builder form, a table, an arrow diagram or a graph.",
+    "Domain = set of first components; range = set of second components.",
+    "The inverse R^-1=(y,x): (x,y)∈ R swaps the domain and the range.",
+    "A function f: A→ B is a relation in which every member of A has exactly one image; members of B may have none or several pre-images.",
+    "For y=f(x): y is the image of x, x is the pre-image of y; the range is a subset of the co-domain.",
+    "Vertical line test: a graph is a function of x if no vertical line meets it more than once."
+   ],
+   "terms": [
+    "Ordered pair",
+    "Equal ordered pairs",
+    "Cartesian product",
+    "Relation",
+    "Domain and range of a relation",
+    "Inverse relation",
+    "Function"
+   ],
+   "stats": {
+    "words": 4498,
+    "figures": 5,
+    "examples": 14
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Polynomials",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Polynomial expressions and polynomial functions; classification by degree and by number of terms",
+    "Degree of a polynomial, standard form and equal polynomials",
+    "Addition and subtraction of polynomials",
+    "Multiplication of polynomials"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Polynomial expressions and polynomial functions; classification by degree and by number of terms"
+    },
+    {
+     "no": "2.2",
+     "title": "Degree of a polynomial, standard form and equal polynomials"
+    },
+    {
+     "no": "2.3",
+     "title": "Addition and subtraction of polynomials"
+    },
+    {
+     "no": "2.4",
+     "title": "Multiplication of polynomials"
+    }
+   ],
+   "summary": [
+    "A polynomial has only whole-number powers of its variables; negative or fractional powers, roots of the variable and variables in a denominator are not allowed.",
+    "Degree = highest power of the variable (for several variables, the highest sum of powers in a term); a non-zero constant has degree 0.",
+    "By degree: constant (0), linear (1), quadratic (2), cubic (3), biquadratic (4). By terms: monomial, binomial, trinomial, polynomial.",
+    "Standard form: descending powers; the first coefficient is the leading coefficient.",
+    "Equal polynomials have equal coefficients of like powers: compare x^2 with x^2, x with x, constant with constant.",
+    "Add or subtract only like terms; to subtract, change the sign of every term being subtracted.",
+    "Multiply every term by every term; the degree of a product is the sum of the degrees.",
+    "(a± b)^2=a^2±2ab+b^2, (a+b)(a-b)=a^2-b^2; check any answer by substituting a number."
+   ],
+   "terms": [
+    "Polynomial",
+    "Equal polynomials"
+   ],
+   "stats": {
+    "words": 3718,
+    "figures": 4,
+    "examples": 16
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Sequence and Series",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Sequence: meaning, terms and the general term",
+    "Finding terms and the rule of a sequence",
+    "Series and the sigma (Σ) notation"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Sequence: meaning, terms and the general term"
+    },
+    {
+     "no": "3.2",
+     "title": "Finding terms and the rule of a sequence"
+    },
+    {
+     "no": "3.3",
+     "title": "Series and the sigma (Σ) notation"
+    }
+   ],
+   "summary": [
+    "A sequence is an ordered list made by a rule; its terms are t1, t2, ldots, tn. It is finite or infinite.",
+    "The general term tn gives the term in position n; a sequence is a function on the natural numbers.",
+    "Equal first differences d: arithmetic, tn=a+(n-1)d. Equal ratios r: geometric, tn=ar^n-1. Equal second differences: the rule contains n^2.",
+    "To test whether a number is a term, solve tn= number; it is a term only if n is a natural number.",
+    "A series is the sum of the terms; Sn=t1+t2+cdots+tn and tn=Sn-Sn-1.",
+    "Σk=1^ntk means \"add tk for k=1, 2, ldots, n\"; the number of terms is upper - lower +1.",
+    "Σk=1^nc=nc, Σ c tk=cΣ tk, Σ(ak+bk)=Σ ak+Σ bk.",
+    "1+2+cdots+n=(n(n+1))/(2) and 1+3+5+cdots+(2n-1)=n^2."
+   ],
+   "terms": [
+    "Sequence and terms",
+    "Series and the sum of n terms"
+   ],
+   "stats": {
+    "words": 3955,
+    "figures": 4,
+    "examples": 13
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Limit",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Concept of limit from sequences of numbers",
+    "Concept of limit from sequences of diagrams",
+    "Value of a function and its limiting value",
+    "Notation of limit"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Concept of limit from sequences of numbers"
+    },
+    {
+     "no": "4.2",
+     "title": "Concept of limit from sequences of diagrams"
+    },
+    {
+     "no": "4.3",
+     "title": "Value of a function and its limiting value"
+    },
+    {
+     "no": "4.4",
+     "title": "Notation of limit"
+    }
+   ],
+   "summary": [
+    "A sequence has limit l if its terms come as close to l as we wish and stay that close; the limit need not be a term.",
+    "(n)/(n+1)→1, (1)/(2^n)→0, 0.9, 0.99, ldots→1; sequences such as 1, 2, 3, ldots and 1, -1, 1, ldots have no limit.",
+    "Sequences of diagrams have limits too: inscribed polygons tend to the circle (perimeter →2π r, area →π r^2); shading half of what is left tends to the whole square.",
+    "The value f(a) is found by putting x=a; the limit comes from values of x close to a on both sides, never equal to a.",
+    "The limit can exist without the value (a hole), the two can differ, or there can be no limit (a jump).",
+    "Notation: limx→ af(x)=l; limn→∞tn=l; one-sided limits x→ a^- and x→ a^+ must agree for the limit to exist.",
+    "Polynomial limits: substitute. A (0)/(0) form: factorise, cancel the common factor, then substitute."
+   ],
+   "terms": [
+    "Limit of a sequence",
+    "Limit notation"
+   ],
+   "stats": {
+    "words": 4137,
+    "figures": 4,
+    "examples": 10
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Matrix",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Matrix: elements, rows, columns and order",
+    "Types of matrices: row, column, zero, rectangular, square, diagonal, scalar, unit, equal, symmetric and triangular",
+    "Addition and subtraction of matrices and the properties of matrix addition",
+    "Multiplication of a matrix by a scalar"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Matrix: elements, rows, columns and order"
+    },
+    {
+     "no": "5.2",
+     "title": "Types of matrices: row, column, zero, rectangular, square, diagonal, scalar, unit, equal, symmetric and triangular"
+    },
+    {
+     "no": "5.3",
+     "title": "Addition and subtraction of matrices and the properties of matrix addition"
+    },
+    {
+     "no": "5.4",
+     "title": "Multiplication of a matrix by a scalar"
+    }
+   ],
+   "summary": [
+    "A matrix is a rectangular array of numbers in rows and columns; a matrix with m rows and n columns has order m× n and mn elements; aij is the element in row i, column j.",
+    "Row 1× n, column m×1, zero (all 0), rectangular (m≠ n), square (m=n).",
+    "In a square matrix: diagonal (zero off the leading diagonal), scalar (diagonal with equal diagonal elements), unit I (scalar with 1s), symmetric (aij=aji), upper/lower triangular (zeros below/above the leading diagonal).",
+    "Equal matrices have the same order and equal corresponding elements.",
+    "A± B=[aij± bij], possible only for the same order.",
+    "Addition is closed, commutative and associative, with identity O and inverse -A; subtraction is not commutative.",
+    "kA=[k aij]; k(A+B)=kA+kB, (k+l)A=kA+lA, k(lA)=(kl)A, 1A=A, 0A=O."
+   ],
+   "terms": [
+    "Matrix, element, order",
+    "Equal matrices",
+    "Sum and difference of matrices",
+    "Scalar multiple of a matrix"
+   ],
+   "stats": {
+    "words": 3832,
+    "figures": 5,
+    "examples": 15
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Coordinate Geometry",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Distance formula and its applications",
+    "Section formula: dividing a line segment in a given ratio; mid-point",
+    "Slope of a line; lines parallel to the axes; slope-intercept form y = mx + c",
+    "Area of a triangle and a quadrilateral from the coordinates of the vertices"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Distance formula and its applications"
+    },
+    {
+     "no": "6.2",
+     "title": "Section formula: dividing a line segment in a given ratio; mid-point"
+    },
+    {
+     "no": "6.3",
+     "title": "Slope of a line; lines parallel to the axes; slope-intercept form y = mx + c"
+    },
+    {
+     "no": "6.4",
+     "title": "Area of a triangle and a quadrilateral from the coordinates of the vertices"
+    }
+   ],
+   "summary": [
+    "Distance: PQ=√(x2-x1)^2+(y2-y1)^2; from the origin √x^2+y^2. Compare squared lengths to classify triangles and quadrilaterals; AB+BC=AC means collinear.",
+    "Section formula (internal, m1:m2): left((m1x2+m2x1)/(m1+m2), (m1y2+m2y1)/(m1+m2)right).",
+    "Mid-point: left((x1+x2)/(2), (y1+y2)/(2)right); centroid left((x1+x2+x3)/(3), (y1+y2+y3)/(3)right).",
+    "Slope: m=(y2-y1)/(x2-x1)=tanθ; horizontal lines have slope 0, vertical lines have no defined slope; parallel lines have equal slopes.",
+    "Lines parallel to the axes: x=a and y=b; the axes are y=0 and x=0.",
+    "Slope-intercept form: y=mx+c, with slope m and y-intercept c; make y the subject before reading them.",
+    "Area of a triangle: (1)/(2)left|x1(y2-y3)+x2(y3-y1)+x3(y1-y2)right|; for a quadrilateral, use the arrow method with the vertices in order, or split into two triangles. Zero area means collinear."
+   ],
+   "terms": [
+    "Slope of a line"
+   ],
+   "stats": {
+    "words": 4011,
+    "figures": 6,
+    "examples": 18
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Trigonometry",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Measurement of angles: sexagesimal, centesimal and circular (radian) systems",
+    "Trigonometric ratios of an acute angle",
+    "Trigonometric identities and their conversions",
+    "Values of trigonometric ratios of 0°, 30°, 45°, 60° and 90°",
+    "Trigonometric ratios of (90° ± θ), (180° ± θ) and (−θ)",
+    "Height and distance with one angle of elevation or depression"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Measurement of angles: sexagesimal, centesimal and circular (radian) systems"
+    },
+    {
+     "no": "7.2",
+     "title": "Trigonometric ratios of an acute angle"
+    },
+    {
+     "no": "7.3",
+     "title": "Trigonometric identities and their conversions"
+    },
+    {
+     "no": "7.4",
+     "title": "Values of trigonometric ratios of 0°, 30°, 45°, 60° and 90°"
+    },
+    {
+     "no": "7.5",
+     "title": "Trigonometric ratios of (90° ± θ), (180° ± θ) and (−θ)"
+    },
+    {
+     "no": "7.6",
+     "title": "Height and distance with one angle of elevation or depression"
+    }
+   ],
+   "summary": [
+    "Right angle =90^°=100^g=left((π)/(2)right)^c; 1^°=60', 1'=60''; 1^g=100^c, 1^c=100^cc; π^c=180^°=200^g; (D)/(90)=(G)/(100)=(2R)/(π); arc l=rθ.",
+    "sinθ=(p)/(h), cosθ=(b)/(h), tanθ=(p)/(b); cosec, sec and cot are their reciprocals; tanθ=(sinθ)/(cosθ).",
+    "sin^2θ+cos^2θ=1, 1+tan^2θ=sec^2θ, 1+cot^2θ=cosec^2θ; prove identities from one side, one change per line.",
+    "sin0^°, sin30^°, sin45^°, sin60^°, sin90^°=0, (1)/(2), frac1√2, frac√32, 1; cosines in reverse order; tan45^°=1, tan60^°=√3, tan90^° not defined.",
+    "Signs by quadrant: All, Sin, Tan, Cos.",
+    "sin(-θ)=-sinθ, cos(-θ)=cosθ; with 90^°±θ the ratio changes to its partner, with 180^°±θ it keeps its name; the sign comes from the quadrant.",
+    "Elevation and depression are measured from the horizontal; the depression from A to B equals the elevation from B to A. Use tan for height and distance, sin or cos with a hypotenuse, and add the observer's eye height."
+   ],
+   "terms": [
+    "Radian",
+    "The six trigonometric ratios",
+    "Angle of elevation and angle of depression"
+   ],
+   "stats": {
+    "words": 4683,
+    "figures": 6,
+    "examples": 19
+   },
+   "has_notes": true
+  },
+  {
+   "no": 8,
+   "title": "Vector",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Vector and scalar quantities; magnitude and direction of a vector",
+    "Types of vectors: row, column, position, unit, null, equal and negative vectors; like and unlike vectors",
+    "Multiplication of a vector by a scalar; condition for parallel vectors",
+    "Addition and subtraction of vectors"
+   ],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Vector and scalar quantities; magnitude and direction of a vector"
+    },
+    {
+     "no": "8.2",
+     "title": "Types of vectors: row, column, position, unit, null, equal and negative vectors; like and unlike vectors"
+    },
+    {
+     "no": "8.3",
+     "title": "Multiplication of a vector by a scalar; condition for parallel vectors"
+    },
+    {
+     "no": "8.4",
+     "title": "Addition and subtraction of vectors"
+    }
+   ],
+   "summary": [
+    "A scalar has magnitude only (mass, distance, speed); a vector has magnitude and direction (displacement, velocity, force).",
+    "overrightarrowAB=binomx2-x1y2-y1 (head minus tail); |a|=√x^2+y^2; direction tanθ=(y)/(x), with the quadrant fixed by the signs.",
+    "Position vector overrightarrowOP=binomxy; unit vector a=(a)/(|a|); null vector binom00; i=binom10, j=binom01.",
+    "Equal vectors: same magnitude and direction (equal components); negative -a: same magnitude, opposite direction; overrightarrowBA=-overrightarrowAB.",
+    "ka=binomkxky, |ka|=|k||a|; parallel: a=kb, i.e. x1y2-x2y1=0; like if k>0, unlike if k<0.",
+    "apmb=binomx1± x2y1± y2; triangle law overrightarrowAB+overrightarrowBC=overrightarrowAC; parallelogram law; overrightarrowAB=b-a.",
+    "Addition is commutative and associative, with identity 0 and inverse -a; magnitudes do not add unless the vectors are like."
+   ],
+   "terms": [
+    "Scalar and vector quantities",
+    "Position vector",
+    "Equal vectors and the negative of a vector",
+    "Scalar multiple of a vector",
+    "Triangle law and parallelogram law of vector addition"
+   ],
+   "stats": {
+    "words": 3626,
+    "figures": 4,
+    "examples": 13
+   },
+   "has_notes": true
+  },
+  {
+   "no": 9,
+   "title": "Transformation",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Transformation: meaning; isometric and non-isometric transformations",
+    "Reflection in the x-axis and the y-axis",
+    "Rotation about the origin through 90°, 180°, 270° and 360°",
+    "Translation by a vector"
+   ],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Transformation: meaning; isometric and non-isometric transformations"
+    },
+    {
+     "no": "9.2",
+     "title": "Reflection in the x-axis and the y-axis"
+    },
+    {
+     "no": "9.3",
+     "title": "Rotation about the origin through 90°, 180°, 270° and 360°"
+    },
+    {
+     "no": "9.4",
+     "title": "Translation by a vector"
+    }
+   ],
+   "summary": [
+    "A transformation maps every point P of an object to a point P' of the image.",
+    "Isometric transformations keep all lengths: reflection, rotation and translation give congruent images. Non-isometric ones, such as enlargement, change lengths and give similar images.",
+    "Reflection reverses orientation; rotation and translation keep it. Points on the mirror line, and the centre of a rotation, are invariant.",
+    "Reflection in the x-axis: (x,y)→(x,-y); in the y-axis: (x,y)→(-x,y). Two reflections, one in each axis, make a rotation of 180^°.",
+    "Rotation about O: +90^°→(-y,x), 180^°→(-x,-y), +270^° (or -90^°) →(y,-x), 360^°→(x,y); distances from O are unchanged.",
+    "Translation by binomab: (x,y)→(x+a,y+b); the vector overrightarrowPP' is the same for every point; two translations add as vectors.",
+    "To find an object from its image, apply the reverse transformation."
+   ],
+   "terms": [
+    "Transformation, object and image",
+    "Isometric and non-isometric transformations"
+   ],
+   "stats": {
+    "words": 3802,
+    "figures": 5,
+    "examples": 11
+   },
+   "has_notes": true
+  },
+  {
+   "no": 10,
+   "title": "Statistics",
+   "hours": null,
+   "area": "",
+   "topics": [
+    "Arithmetic mean of ungrouped and grouped data",
+    "Median and quartiles of ungrouped data",
+    "Mode of ungrouped and grouped data",
+    "Range and coefficient of range"
+   ],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Arithmetic mean of ungrouped and grouped data"
+    },
+    {
+     "no": "10.2",
+     "title": "Median and quartiles of ungrouped data"
+    },
+    {
+     "no": "10.3",
+     "title": "Mode of ungrouped and grouped data"
+    },
+    {
+     "no": "10.4",
+     "title": "Range and coefficient of range"
+    }
+   ],
+   "summary": [
+    "Mean: X=(Σ x)/(n) (individual), (Σ fx)/(N) (discrete), (Σ fm)/(N) (continuous, m = mid-value); N=Σ f.",
+    "Median: arrange in order; Md = value of the left((n+1)/(2)right)th item; for a frequency table use cumulative frequencies.",
+    "Quartiles: Q1 = left((n+1)/(4)right)th item, Q3 = left((3(n+1))/(4)right)th item; interpolate between neighbours in individual data.",
+    "Mode: the most frequent value; for grouped data Mo=L+(f1-f0)/(2f1-f0-f2)× i in the modal class.",
+    "Choose the mean for ordinary measured data, the median when there are extreme values, the mode for the most common category.",
+    "Range =L-S; coefficient of range =(L-S)/(L+S), a number without units used to compare spreads."
+   ],
+   "terms": [
+    "Arithmetic mean",
+    "Median of ungrouped data",
+    "Quartiles of ungrouped data",
+    "Range and coefficient of range"
+   ],
+   "stats": {
+    "words": 3865,
+    "figures": 4,
+    "examples": 12
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 10,
+ "topic_count": 42,
+ "notes_ready": 10
+}
