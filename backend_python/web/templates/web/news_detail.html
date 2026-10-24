@@ -9,28 +9,10 @@
 {% block nav_news %}md-nav-active{% endblock %}
 
 {% block head_extra %}
-<script type="application/ld+json" nonce="{{ csp_nonce }}">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/"},
-    {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://nebians.consica.com.np/app/news/"},
-    {"@type": "ListItem", "position": 3, "name": "{{ announcement.title|escapejs }}"}
-  ]
-}
-</script>
-<script type="application/ld+json" nonce="{{ csp_nonce }}">
-{
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": "{{ announcement.title|escapejs }}",
-  "description": "{{ announcement.summary|default:announcement.title|escapejs }}",
-  "author": {"@type": "Person", "name": "{{ announcement.author_name|default:'NEBians Team'|escapejs }}"},
-  "publisher": {"@id": "https://nebians.consica.com.np/#organization"},
-  "mainEntityOfPage": "https://nebians.consica.com.np/app/news/{{ announcement.slug }}/"
-}
-</script>
+{% comment %} Built by web/schema_forum.py so json.dumps does the escaping and the
+   fields Google requires -- dates, image, author url -- cannot be forgotten. {% endcomment %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ article_breadcrumb_json }}</script>
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ article_schema_json }}</script>
 {% endblock %}
 
 {% block extra_css %}

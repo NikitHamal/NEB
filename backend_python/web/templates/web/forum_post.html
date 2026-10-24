@@ -21,17 +21,7 @@
 {% block nav_forum %}md-nav-active{% endblock %}
 
 {% block head_extra %}
-<script type="application/ld+json" nonce="{{ csp_nonce }}">
-{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://nebians.consica.com.np/"},
-    {"@type": "ListItem", "position": 2, "name": "Forum", "item": "https://nebians.consica.com.np/app/forum/"},
-    {"@type": "ListItem", "position": 3, "name": "{{ post.title|default:'Discussion'|escapejs }}"}
-  ]
-}
-</script>
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ post_breadcrumb_json }}</script>
 {% endblock %}
 
 {% block extra_css %}
@@ -42,29 +32,9 @@
 {% endblock %}
 
 {% block content %}
-<script type="application/ld+json" nonce="{{ csp_nonce }}">
-{
-  "@context": "https://schema.org",
-  "@type": "DiscussionForumPosting",
-  "@id": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}#post",
-  "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
-  "mainEntityOfPage": "{{ request.scheme }}://{{ request.get_host }}{{ request.path }}",
-  "headline": "{{ post.title|escapejs }}",
-  "description": "{{ post.content|strip_inline|truncatechars:220|escapejs }}",
-  "datePublished": "{{ post.createdAt|timestamp_to_iso }}",
-  "dateModified": "{% if post.isEdited and post.editedAt %}{{ post.editedAt|timestamp_to_iso }}{% else %}{{ post.createdAt|timestamp_to_iso }}{% endif %}",
-  "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
-  "author": {
-    "@type": "Person",
-    "name": "{{ post.authorName|escapejs }}"
-  },
-  "interactionStatistic": [
-    { "@type": "InteractionCounter", "interactionType": "https://schema.org/LikeAction", "userInteractionCount": {{ post.thumbsUpCount|default:0 }} },
-    { "@type": "InteractionCounter", "interactionType": "https://schema.org/CommentAction", "userInteractionCount": {{ post.replyCount|default:0 }} },
-    { "@type": "InteractionCounter", "interactionType": "https://schema.org/ViewAction", "userInteractionCount": {{ post.viewCount|default:0 }} }
-  ]
-}
-</script>
+{% comment %} Built by web/schema_forum.py: text, image, comment and author.url are
+   what Google's forum rich result requires, and json.dumps escapes the title. {% endcomment %}
+<script type="application/ld+json" nonce="{{ csp_nonce }}">{{ post_schema_json }}</script>
 
 
 <div class="md-container" style="padding-top:24px;">
