@@ -583,9 +583,9 @@ thrown straight up ($\theta = 90^{\circ}$) is momentarily at rest at the top.
    (a) displacement (b) average acceleration (c) distance covered (d) change in velocity
 12. A body starts from rest with uniform acceleration. The distances it covers in the 1st, 2nd and 3rd seconds are in the ratio
    (a) 1 : 3 : 5 (b) 1 : 2 : 3 (c) 1 : 4 : 9 (d) 1 : 2 : 4
-13. At the highest point of its path, a projectile moving without air resistance has
+13. At the highest point of its path, a body projected obliquely (no air resistance) has
    (a) zero velocity and zero acceleration (b) a horizontal velocity and acceleration g downward (c) zero velocity and acceleration g downward (d) a horizontal velocity and zero acceleration
-14. For a fixed speed of projection, the horizontal range on level ground is greatest when the angle of projection is
+14. For a fixed speed of projection and no air resistance, the horizontal range on level ground is greatest when the angle of projection is
    (a) 15° (b) 30° (c) 45° (d) 60°
 15. Neglecting air resistance, the path of a body projected obliquely near the Earth's surface is a
    (a) parabola (b) circle (c) hyperbola (d) straight line
@@ -641,7 +641,7 @@ thrown straight up ($\theta = 90^{\circ}$) is momentarily at rest at the top.
    (a) 5 m s⁻¹ and 5 m s⁻¹ (b) 0 and 5 m s⁻¹ (c) 5 m s⁻¹ and 2.5 m s⁻¹ (d) 5 m s⁻¹ and 0
 8. In the relation $v = at + \frac{b}{t+c}$, where v is a velocity and t a time, the dimensions of b are
    (a) [LT⁻¹] (b) [L] (c) [LT⁻²] (d) [T]
-9. A rod exactly 10.00 cm long is measured five times with a ruler that has a zero error: 10.21, 10.20, 10.22, 10.21 and 10.21 cm. These readings are
+9. A rod exactly 10.00 cm long is measured five times with a vernier calliper that has a zero error: 10.21, 10.20, 10.22, 10.21 and 10.21 cm. These readings are
    (a) precise but not accurate (b) accurate but not precise (c) both accurate and precise (d) neither accurate nor precise
 10. The momentum of a body of exactly known mass is measured with an error of 2 %. The percentage error in its kinetic energy is
    (a) 1 % (b) 2 % (c) 3 % (d) 4 %

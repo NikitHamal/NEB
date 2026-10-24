@@ -558,7 +558,7 @@ speed in a pipe $\propto r^{-2}$ (continuity).
 13. Ice of density 900 kg m⁻³ floats in water of density 1000 kg m⁻³. The fraction of its volume above the water surface is
    (a) 9/10 (b) 1/9 (c) 1/10 (d) 1/2
 14. An air bubble released at the bottom of a pond of water rises
-   (a) with constant acceleration g (b) with ever-increasing speed (c) only if the water is hot (d) at a terminal velocity, since its density is less than that of water
+   (a) with a constant acceleration equal to g (b) with a speed that keeps increasing without limit (c) only if the water is warm (d) at a terminal velocity, once viscous drag balances the net upthrust
 
 ::: note Answers and explanations — Set B
 **1.** (b) — a capillary never overflows; the water stops at the top and the meniscus radius grows ($hR$ constant), so the meniscus becomes flatter.
@@ -574,7 +574,7 @@ speed in a pipe $\propto r^{-2}$ (continuity).
 **11.** (c) — the viscosity of a liquid falls quickly with rising temperature; density hardly changes.
 **12.** (b) — continuity applies to the total flow: $A_{total}v$ is the same, and the capillaries together have a far larger cross-section, so $v$ is smaller. A single narrow tube (a) would give faster flow.
 **13.** (c) — fraction submerged $= 900/1000 = 9/10$, so one-tenth is above the surface. (a) is the submerged fraction.
-**14.** (d) — Stokes' law gives a terminal velocity with $\rho - \sigma$ negative, so the bubble moves **up** at a steady speed once the drag balances the net upthrust.
+**14.** (d) — the bubble is less dense than water, so the upthrust exceeds its weight; it speeds up only until the viscous drag balances this net upward force, then rises at a steady terminal velocity ($\rho - \sigma$ is negative in Stokes' formula, so $v_t$ points up). It grows slightly as the pressure falls near the top, but it never accelerates freely.
 :::
 
 **Set C — Application (12 questions)**
@@ -583,7 +583,7 @@ speed in a pipe $\propto r^{-2}$ (continuity).
    (a) 0.98 × 10⁵ Pa (b) 1.99 × 10⁵ Pa (c) 1.01 × 10⁵ Pa (d) 2.98 × 10⁵ Pa
 2. The pistons of a hydraulic lift have areas of 10 cm² and 1000 cm². The force on the small piston needed to lift a 2000 kg car (g = 9.8 m s⁻²) is
    (a) 196 N (b) 19.6 N (c) 1960 N (d) 1.96 × 10⁶ N
-3. Water (surface tension 0.072 N m⁻¹, angle of contact 0°) rises in a glass capillary of radius 0.1 mm. The height of rise is about (g = 9.8 m s⁻²)
+3. Water (surface tension 0.072 N m⁻¹, angle of contact 0°, density 1000 kg m⁻³) rises in a glass capillary of radius 0.1 mm. The height of rise is about (g = 9.8 m s⁻²)
    (a) 1.5 cm (b) 7.3 cm (c) 29 cm (d) 14.7 cm
 4. The excess pressure inside a soap bubble of radius 2 cm, if the surface tension of the solution is 0.03 N m⁻¹, is
    (a) 3 Pa (b) 1.5 Pa (c) 6 Pa (d) 12 Pa
@@ -593,7 +593,7 @@ speed in a pipe $\propto r^{-2}$ (continuity).
    (a) the same (b) 100 times (c) 1000 times (d) 10 times
 7. Water flows at 2 m s⁻¹ in a pipe of diameter 4 cm. The pipe narrows to a diameter of 2 cm. The speed in the narrow part is
    (a) 4 m s⁻¹ (b) 1 m s⁻¹ (c) 8 m s⁻¹ (d) 16 m s⁻¹
-8. In a horizontal pipe, water moves at 2 m s⁻¹ in one section and at 4 m s⁻¹ in another. The pressure difference between the sections is
+8. In a horizontal pipe, water (density 1000 kg m⁻³) moves at 2 m s⁻¹ in one section and at 4 m s⁻¹ in another. The pressure difference between the sections is
    (a) 6000 Pa (b) 2000 Pa (c) 1000 Pa (d) 12000 Pa
 9. A small hole is made in the side of a large open water tank, 5 m below the water surface. The speed of the emerging water is (g = 10 m s⁻²)
    (a) 5 m s⁻¹ (b) 7.1 m s⁻¹ (c) 50 m s⁻¹ (d) 10 m s⁻¹
