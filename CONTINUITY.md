@@ -37,6 +37,13 @@ full-screen figure viewer with pinch / double-tap / wheel zoom (Back closes it f
 wraps and the web article no longer clips on phones; hours panel lists units for subjects without areas; hub
 ring only with progress. Details: `ANDROID_UI_CONTINUITY.md` §15.
 
+**Quality pass (Oct 24):** 47 printed Python programs re-run and match their printed output (4 more read data
+files that the chapter describes but does not print); 14 worked maths answers and 36 MCQ keys recomputed, all
+correct; every MCQ in the three books is tappable in the reader; no text past the margins in the PDFs. Found and
+fixed: `theme.css` hyphenated code, so PDFs printed hyphens that are not in the program (`stu‐dents(roll)`,
+`docu‐ment.querySelector`). `code`/`pre` no longer hyphenate; rebuilt CS 8, 10, 11, 12 and Question Banks 8, 10,
+11, 12 (inserted hyphens in code now 0 in all of them; photos and pages checked against the old builds).
+
 **Tools:** `notes/pipeline/preview.py` uses `figrun.namespace()` (helper figures preview);
 `/data/workspace/scratch/gitcommit.sh` (session helper, not in the repo) locked commits of named paths.
 
