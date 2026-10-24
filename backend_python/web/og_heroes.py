@@ -111,18 +111,20 @@ def hero_paper(accent, rng, stage: Stage) -> None:
                    mix(pal[2], (255, 255, 255), 0.06 - tint * 0.06)),
                   rim=mix(RIM, pal[0], 0.10 + tint * 0.30))
 
-    # Rules on the top sheet. The first is a heading in full accent.
+    # Rules on the top sheet. The top sheet is drawn at (-1.00, -1.40) with a
+    # 2.00 x 2.80 footprint, and on this projection its long axis is y -- so a
+    # line of writing steps down x and runs along y, inset from both edges.
     d = ImageDraw.Draw(stage.canvas, 'RGBA')
     top = 0.48 + 0.036
+    x_in, y_in = -1.00, -1.40
     for i in range(7):
-        ly = -1.12 + i * 0.33
-        wide = 1.56 - (0.52 if i in (2, 5) else 0.0)
+        lx = x_in + 0.34 + i * 0.26
+        wide = (2.80 - 2 * 0.30) * (0.55 if i == 0 else (0.78 if i in (3, 5) else 1.0))
         colour = (mix(pal[0], (255, 255, 255), 0.02) if i == 0
-                  else mix(pal[0], (255, 255, 255), 0.62))
-        _line3d(d, stage, 1.00 - 0.16 - 1.56 + 0.0 * wide + 0.0, ly,
-                1.00 - 0.16 - 1.56 + wide, ly, top,
-                colour + (240 if i == 0 else 145,),
-                stage.u * (0.115 if i == 0 else 0.05))
+                  else mix(pal[0], (255, 255, 255), 0.22))
+        _line3d(d, stage, lx, y_in + 0.30, lx, y_in + 0.30 + wide, top,
+                colour + (245 if i == 0 else 185,),
+                stage.u * (0.105 if i == 0 else 0.042))
 
 
 def hero_bubbles(accent, rng, stage: Stage) -> None:
