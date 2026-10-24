@@ -3353,6 +3353,32 @@
   "source": "Wikimedia Commons",
   "title": "Nepal Telecom Tower"
  },
+ "cs8/impress-chart-slide": {
+  "author": "Software: The Document Foundation and contributors Template: Risyad Rais Screenshot: VulcanSphere",
+  "bytes": 152545,
+  "credit": "Self-taken; derivative work",
+  "fetched": "2026-10-24",
+  "file": "cs8/impress-chart-slide.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:LibreOffice_7.2.4.1_Impress_screenshot.png",
+  "sha1": "e4e207517499aee4",
+  "source": "Wikimedia Commons",
+  "title": "LibreOffice 7.2.4.1 Impress screenshot"
+ },
+ "cs8/impress-window": {
+  "author": "Jasozh",
+  "bytes": 137202,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/impress-window.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:LibreOffice_Impress_6.4.png",
+  "sha1": "9ba85a82c2d7a7ce",
+  "source": "Wikimedia Commons",
+  "title": "LibreOffice Impress 6.4"
+ },
  "cs8/mm-audacity": {
   "author": "Zurel",
   "bytes": 92162,
