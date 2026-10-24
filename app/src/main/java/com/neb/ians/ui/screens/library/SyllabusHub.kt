@@ -379,9 +379,9 @@ private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, onClick: 
                 }
                 Spacer(Modifier.height(2.dp))
                 // entrance subjects count the paper's questions; school subjects their teaching hours
-                val weight = card.questions?.let { "$it questions" } ?: card.hours?.let { "$it hrs" }
+                val paperWeight = card.questions?.let { "$it questions" } ?: card.hours?.let { "$it hrs" }
                 Text(
-                    text = listOfNotNull("${card.unitCount} chapters", weight).joinToString(" · "),
+                    text = listOfNotNull("${card.unitCount} chapters", paperWeight).joinToString(" · "),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
