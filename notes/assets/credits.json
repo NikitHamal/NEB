@@ -3431,6 +3431,32 @@
   "source": "Wikimedia Commons",
   "title": "Linksys-Wireless-G-Router"
  },
+ "cs8/os-android-phone": {
+  "author": "Gannu03",
+  "bytes": 159026,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/os-android-phone.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:OnePlus_Nord_smartphone_displaying_Android_home_screen.jpg",
+  "sha1": "6f876419b9c14d37",
+  "source": "Wikimedia Commons",
+  "title": "OnePlus Nord smartphone displaying Android home screen"
+ },
+ "cs8/os-bash-session": {
+  "author": "Seemplez",
+  "bytes": 49740,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/os-bash-session.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Example_bash_session.png",
+  "sha1": "0b34dbc7f731ce32",
+  "source": "Wikimedia Commons",
+  "title": "Example bash session"
+ },
  "cs8/pc-exploded": {
   "author": "User:HereToHelp",
   "bytes": 558531,
@@ -3443,6 +3469,19 @@
   "sha1": "bf01e448248c87a4",
   "source": "Wikimedia Commons",
   "title": "Personal computer, exploded 6"
+ },
+ "cs8/prog-devcpp": {
+  "author": "OxyLight",
+  "bytes": 130368,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/prog-devcpp.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Hello_World_program_in_Dev_C%2B%2B.png",
+  "sha1": "35979d0f98b60f68",
+  "source": "Wikimedia Commons",
+  "title": "Hello World program in Dev C++"
  },
  "cs8/prog-first-bug": {
   "author": "Courtesy of the Naval Surface Warfare Center, Dahlgren, VA., 1988.",
