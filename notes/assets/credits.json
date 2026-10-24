@@ -3080,6 +3080,45 @@
   "source": "Wikimedia Commons",
   "title": "Ewaste-pile"
  },
+ "cs8/eth-cc-spectrum": {
+  "author": "Shaddim; original CC license symbols by Creative Commons",
+  "bytes": 208684,
+  "credit": "https://creativecommons.org/about/downloads/ https://creativecommons.org/policies/ Original CC license icons licensed under CC BY 4.0",
+  "fetched": "2026-10-24",
+  "file": "cs8/eth-cc-spectrum.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Creative_commons_license_spectrum.svg",
+  "sha1": "5c458adc7d7ab1bc",
+  "source": "Wikimedia Commons",
+  "title": "Creative commons license spectrum"
+ },
+ "cs8/eth-https-padlock": {
+  "author": "Santeri Viinamäki",
+  "bytes": 142639,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/eth-https-padlock.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:HTTPS_and_padlock_in_website_address_bar.jpg",
+  "sha1": "b316d35d801b6d8a",
+  "source": "Wikimedia Commons",
+  "title": "HTTPS and padlock in website address bar"
+ },
+ "cs8/eth-phishing-email": {
+  "author": "Original template by User:Isochrone , amended by User:Belbury",
+  "bytes": 148877,
+  "credit": "File:Example phishing email.svg",
+  "fetched": "2026-10-24",
+  "file": "cs8/eth-phishing-email.png",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Example_bank_phishing_email.svg",
+  "sha1": "1fbe11eb96f0a979",
+  "source": "Wikimedia Commons",
+  "title": "Example bank phishing email"
+ },
  "cs8/gen-ic-chips": {
   "author": "Kimmo Palosaari",
   "bytes": 29520,
