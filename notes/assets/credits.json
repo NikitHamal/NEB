@@ -3743,6 +3743,32 @@
   "source": "Wikimedia Commons",
   "title": "Countries initially affected in WannaCry ransomware attack"
  },
+ "cs8/web-firefox": {
+  "author": "Mozilla Corporation",
+  "bytes": 236030,
+  "credit": "Taken from a Firefox 139.0.4 (64-bit) running on Ubuntu Operating system",
+  "fetched": "2026-10-24",
+  "file": "cs8/web-firefox.png",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Firefox_web_browser_on_wikipedia_page.png",
+  "sha1": "cfb06be2bc48eef2",
+  "source": "Wikimedia Commons",
+  "title": "Firefox web browser on wikipedia page"
+ },
+ "cs8/web-first-server": {
+  "author": "User:Coolcaesar at en.wikipedia",
+  "bytes": 234537,
+  "credit": "Own work",
+  "fetched": "2026-10-24",
+  "file": "cs8/web-first-server.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:First_Web_Server.jpg",
+  "sha1": "7d28b363a1b93f18",
+  "source": "Wikimedia Commons",
+  "title": "First Web Server"
+ },
  "cs8/word-context-menu": {
   "author": "Hatas",
   "bytes": 11244,
