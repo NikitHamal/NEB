@@ -554,7 +554,7 @@ speed in a pipe $\propto r^{-2}$ (continuity).
 11. Honey flows much more easily when it is warmed because
    (a) its density increases (b) its surface tension increases (c) its viscosity decreases (d) its viscosity increases
 12. Blood flows more slowly in the capillaries than in the aorta because
-   (a) the capillaries are narrower than the aorta (b) the total cross-sectional area of all the capillaries is much larger than that of the aorta (c) blood is more viscous in the capillaries (d) the pressure in the capillaries is higher
+   (a) the capillaries are narrower than the aorta (b) the capillaries together have a much larger total cross-section (c) blood is more viscous in the capillaries (d) the pressure in the capillaries is higher
 13. Ice of density 900 kg m⁻³ floats in water of density 1000 kg m⁻³. The fraction of its volume above the water surface is
    (a) 9/10 (b) 1/9 (c) 1/10 (d) 1/2
 14. An air bubble released at the bottom of a pond of water rises
