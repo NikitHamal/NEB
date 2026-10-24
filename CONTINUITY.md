@@ -8,6 +8,57 @@
 
 ## Current Status
 
+### Share cards and SEO (main, Oct 24, 2026) — **deployed, needs a re-scrape**
+
+The OG cards were rebuilt from scratch and every public route now has one.
+Full design and maintenance guide: [`docs/OG_CARDS.md`](docs/OG_CARDS.md).
+
+**What shipped** (all on `main`, deployed and verified live):
+
+- New renderer: `web/og_art.py` (isometric `Stage`, ground, palette),
+  `web/og_heroes.py` (ten sculptures), `web/og_cards.py` (composition),
+  `web/og_logo.py` (the real mark). Dark ground, the logo's own 30-degree
+  projection, subject colour from `subject_tokens.py`.
+- **The real NEBians logo** is on the cards, not a drawn "N". It is
+  rasterised once from `n-logo-tight.svg` by `tools/og/build_logo.py`
+  (needs cairosvg, build time only) into two committed PNGs.
+- Card coverage: 28 static pages, and new kinds for syllabus grade / syllabus
+  subject / unit, marketplace course, creator storefront, interactive course
+  and lesson, public study space — plus the existing resource, thread, news
+  and profile cards. 13 kinds in `KINDS`.
+- **`CARD_VERSION` in `views_og.py`** salts the cache key *and* the card URL.
+  Bump it on every drawing change. This exists because of a real incident: the
+  cache was keyed on card text only, so after the redesign `/og/page/home.png`
+  kept serving the old design for a day and the owner's Facebook scrape showed
+  the old card.
+- `tools/og/preview.py` renders the whole set plus a contact sheet with no
+  Django and no database.
+- Tests: `web/test_og_cards.py` (22), `web/test_schema_forum.py` (19),
+  `web/test_seo_sitemap.py` (11). All pass.
+
+**SEO, same round:**
+
+- Search Console's three forum errors fixed (`web/schema_forum.py`): the
+  posting now has `text`/`image`, replies become `comment`, and every author
+  has a `url`. BlogPosting gained dates, image and author url.
+- Sitemap rebuilt: an index at `/sitemap.xml` over `sitemap-pages.xml`,
+  `-library`, `-forum`, `-profiles`. It was one file that could exceed the
+  50,000-URL protocol limit, it stamped `lastmod` with the current time on
+  every static page, and the syllabus pages (563 URLs) were missing entirely.
+  `web/seo.py` is now the only implementation.
+- Syllabus pages carry Course + LearningResource + breadcrumb schema.
+- OG PNGs send `X-Robots-Tag: noindex` so a card cannot outrank its page.
+
+**Still to do:**
+
+1. **Re-scrape the site in the Facebook Sharing Debugger.** The live homepage
+   now points at `/og/page/default.png?v=2`, which is the new card — verified
+   by fetching it. Facebook caches per URL, so it needs a fresh scrape of the
+   page to pick up the new `?v=`. Same for any other page whose preview is
+   stale.
+2. Confirm the deploy that carries `29a635f7` is live before scraping.
+3. Optional: 16:9 variants for X/LinkedIn (they crop 1200x630 to 1.91:1).
+
 ### v1.7 launch reel, v5 (tools/reel, Oct 24, 2026)
 
 `tools/video/dist/nebians-v1.7-reel-v5.mp4` (42.5 s, 1080x1920, 60 fps, H.264 + AAC) and its poster.
