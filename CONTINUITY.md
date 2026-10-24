@@ -1,12 +1,45 @@
 # NEBians - Continuity Notes
 
-**Last updated:** October 22, 2026
+**Last updated:** October 24, 2026
 
 > **Android UI work lives in [`ANDROID_UI_CONTINUITY.md`](ANDROID_UI_CONTINUITY.md).** This file covers the Django/web side only.
 
 ---
 
 ## Current Status
+
+### Computer Science 8 and 10, Optional Mathematics 8 + reader fixes (branch `syllabus/cs-omath-books`, Oct 23–24, 2026)
+
+Branch from `main` @ `97f51a5`. Push with `git push origin syllabus/cs-omath-books` (a PAT credential helper is set
+up in the session's clone); commits go through `/data/workspace/scratch/gitcommit.sh "msg" paths…`, which locks,
+commits only the named paths and pushes.
+
+**Done and pushed**
+- Spines: `notes/curriculum/cs10.md` (CDC *Computer Science, Class 10*, 2082 BS — the Python curriculum first
+  examined in SEE 2083: 5 units, 64 h, SEE 2 h/50 marks: MCQ 10×1, short 10×2, long 5×4), `omath8.md` (CDC grade 8
+  optional mathematics scope and sequence, 10 units), `cs8.md` (the 20 lessons of the CDC grade 8 computer course,
+  5 areas). `qbank8.md` gains parts Optional Mathematics (20–22) and Computer Science (23–25); `qbank10.md` gains
+  Computer Science (20–22).
+- Chapters, all `check.py` OK, figures and photos looked at: `content/cs10/unit-01..05` (≈50k words, SQL run on
+  MySQL 8.4, Python run, textbook exercises answered, textbook slips corrected in caution boxes),
+  `content/omath8/unit-01..10` (≈35k words, 140 worked examples), `content/cs8/unit-01..20` (≈110k words, QBASIC
+  compiled with FreeBASIC `-lang qb` and QB64, Python twins), banks `qbank8/unit-20..25`, `qbank10/unit-20..22`,
+  plus a section on the optional papers appended to `qbank8/unit-01` and `qbank10/unit-01`.
+- Reader (app + web): figures open full screen (pinch / double-tap / wheel / drag; Back closes the viewer first via
+  `NebStudy.zoom`), the unlabelled eye became a labelled "Show answers / Hide answers" control, and inline maths
+  wraps (a long formula used to make chapters 673 px wide on a 412 px phone). Android page builder moved to
+  `StudyReaderPage.kt`. CI `Build Student Release APKs & AAB` green on `f886b24`.
+- `notes/pipeline/preview.py` uses `figrun.namespace()` so helper figures preview.
+
+**In flight / next exact steps**
+1. `python3 notes/tools/export_syllabus.py` (writes `web/data/syllabus/*.json`, new 8-computer-science,
+   8-optional-mathematics, 10-computer-science), then `python3 notes/tools/export_study.py omath8 cs8 cs10 qbank8 qbank10`
+   (needs `backend_python/web/data/study/` and `web/static/web/study/` in the sparse checkout; commit only new/changed files).
+2. PDFs on the molab notebook: `python3 notes/pipeline/build_pdf.py omath8 cs8 cs10 qbank8 qbank10` → `notes/pdf/`
+   (each file < 25 MB; `notes/tools/shrink_pdf.py` if not), copy back and commit.
+3. Syllabus UI polish (hub/subject pages on web and Android): optional subjects grouped, hours panel per unit when a
+   subject has no areas.
+4. Check `qbank8/unit-24.md` answers for CS lessons 8–10 against the chapters (the bank was written before them).
 
 ### API speed pass + people suggestions endpoint (branch `perf/backend`, Oct 22, 2026)
 
