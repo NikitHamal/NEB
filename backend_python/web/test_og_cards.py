@@ -205,6 +205,38 @@ class RouteCoverageTests(unittest.TestCase):
             with self.subTest(route=route):
                 self.assertIn(route, names)
 
+    def _context(self, url_name='', kwargs=None):
+        class Match:
+            pass
+        m = Match()
+        m.url_name = url_name
+        m.kwargs = kwargs or {}
+
+        class Req:
+            pass
+        r = Req()
+        r.resolver_match = m if url_name else None
+        return self.views_og.og_image_context(r)
+
+    def test_a_known_route_gets_its_own_card(self):
+        ctx = self._context('library')
+        self.assertIn('/og/page/library.png', ctx['og_image_url'])
+
+    def test_an_unknown_route_still_gets_the_default_card(self):
+        # A page with no og:image previews as a bare link, which is worse than
+        # a generic card.
+        ctx = self._context('some_route_we_have_not_covered')
+        self.assertIn('/og/page/default.png', ctx['og_image_url'])
+        self.assertIn('?v=', ctx['og_image_url'])
+
+    def test_no_resolver_match_still_gets_a_card(self):
+        ctx = self._context()
+        self.assertIn('/og/page/default.png', ctx['og_image_url'])
+
+    def test_the_template_can_version_its_own_fallback(self):
+        ctx = self._context('whatever')
+        self.assertEqual(ctx['og_card_version'], self.views_og.CARD_VERSION)
+
     def test_every_mapped_page_has_a_definition(self):
         # 'faq' is served by _faq_card, which counts the questions rather than
         # reading the static table; every other name must be in PAGES.

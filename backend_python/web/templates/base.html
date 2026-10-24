@@ -49,7 +49,9 @@
      og_image_url and og_image_alt come from the og_image_context processor, which
      works the card out from the route. A page that has a better image of its own --
      a thread with a photo in it -- overrides the block instead. {% endcomment %}
-  {% firstof og_image_url 'https://nebians.consica.com.np/og/page/default.png?v=2' as og_img %}
+  {% comment %} og_image_context always supplies a versioned URL, so there is no
+     literal fallback here to rot when CARD_VERSION is bumped. {% endcomment %}
+  {% firstof og_image_url 'https://nebians.consica.com.np/og/page/default.png?v={{ og_card_version }}' as og_img %}
   <meta property="og:image" content="{% block og_image %}{{ og_img }}{% endblock %}">
   <meta property="og:image:secure_url" content="{% block og_image_secure %}{{ og_img }}{% endblock %}">
   <meta property="og:image:type" content="{% block og_image_type %}image/png{% endblock %}">
@@ -83,12 +85,27 @@
           "height": 512
         },
         "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'web/img/n-logo-social-1200.png' %}",
-        "description": "Nepal's open learning platform and social network connecting teachers, students, schools, institutions, and explorers across all academic levels and subjects."
+        "description": "Nepal's open learning platform and social network connecting teachers, students, schools, institutions, and explorers across all academic levels and subjects.",
+        "email": "support@nebians.consica.com.np",
+        "areaServed": { "@type": "Country", "name": "Nepal" },
+        "address": { "@type": "PostalAddress", "addressCountry": "NP" },
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "email": "support@nebians.consica.com.np",
+          "availableLanguage": ["en", "ne"]
+        },
+        "knowsLanguage": ["en", "ne"],
+        "audience": {
+          "@type": "EducationalAudience",
+          "educationalRole": "student"
+        }
       },
       {
         "@type": "WebSite",
         "@id": "https://nebians.consica.com.np/#website",
         "name": "NEBians",
+        "alternateName": "NEBians Nepal",
         "url": "https://nebians.consica.com.np/",
         "publisher": { "@id": "https://nebians.consica.com.np/#organization" },
         "inLanguage": "en-NP",
