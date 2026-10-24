@@ -11,7 +11,13 @@ files named by their content hash instead of being inlined. Output:
     backend_python/web/data/study/<grade>-<subject>/index.json       what exists, for the pages
     backend_python/web/static/web/study/<hash>.svg|.webp              figures and photographs
 
-Run:  python3 notes/tools/export_study.py [book ...]     (default: every book of grades 8-12)
+Entrance books (`<track>-<subject>`, e.g. cee-phy) go to web/data/study/<track>-<subject key>/
+(cee-physics/). A chapter of a `*-mock` book whose spine tag is a number (a model paper, not
+the [Guide]) carries "exam": {"minutes", "negative"} from spine.TRACKS, in its JSON and on its
+item in index.json: the reader offers it as a timed test.
+
+Run:  python3 notes/tools/export_study.py [book ...]
+      (default: every book of grades 8-12, then every entrance book with a chapter written)
 Needs the book fonts (notes/pipeline/fonts/install.sh): without Inter and Noto Sans Devanagari
 matplotlib silently falls back and every Nepali label in a figure becomes a row of boxes. Clear
 notes/figures/_fig/ after installing them, or the figure cache keeps the old drawings.
@@ -31,6 +37,8 @@ ROOT = os.path.dirname(NOTES)
 PIPE = os.path.join(NOTES, "pipeline")
 sys.path.insert(0, PIPE)
 sys.path.insert(0, HERE)
+import spine  # noqa: E402
+from export_syllabus import TRACK_SUBJECTS as _TRACK_SUBJECTS  # noqa: E402
 
 DATA = os.path.join(ROOT, "backend_python", "web", "data", "study")
 MEDIA = os.path.join(ROOT, "backend_python", "web", "static", "web", "study")
@@ -59,6 +67,30 @@ SUBJECT_KEY = {"nep": "nepali", "eng": "english", "math": "mathematics", "sci": 
 def _split(slug):
     m = re.match(r"([a-z]+)(\d+)$", slug)
     return m.group(1), m.group(2)
+
+
+def _folder_name(slug):
+    """phy11 -> 11-physics; an entrance book cee-phy -> cee-physics."""
+    track, subj = spine.track_of(slug)
+    if track:
+        return "%s-%s" % (track, _TRACK_SUBJECTS[subj][0])
+    prefix, grade = _split(slug)
+    return "%s-%s" % (grade, SUBJECT_KEY[prefix])
+
+
+def _exam_units(slug):
+    """Unit numbers of a mock book's model papers (numeric spine tag) -> the timed-test rules."""
+    track, subj = spine.track_of(slug)
+    if not track or subj != "mock":
+        return {}
+    rules = {"minutes": spine.TRACKS[track]["minutes"], "negative": spine.TRACKS[track]["negative"]}
+    _, units = spine.load(slug)
+    return {u["no"]: dict(rules) for u in units if str(u["hours"]).isdigit() and int(u["hours"]) > 0}
+
+
+def _track_books():
+    """Every entrance book with a spine and at least one chapter written."""
+    return [slug for slug in spine.ALL if spine.track_of(slug)[0] and _units(slug)]
 
 
 def _media(src_path, ext=None):
@@ -309,21 +341,31 @@ def _chapter(args):
 
 def _units(slug):
     d = os.path.join(NOTES, "content", slug)
+    if not os.path.isdir(d):
+        return []
     return sorted(os.path.join(d, f) for f in os.listdir(d) if re.match(r"unit-\d+\.md$", f))
 
 
 def export_book(slug, pool):
-    prefix, grade = _split(slug)
-    subject = SUBJECT_KEY[prefix]
-    out = os.path.join(DATA, "%s-%s" % (grade, subject))
+    paths = _units(slug)
+    if not paths:
+        print("%-8s no chapters written yet, skipped" % slug, flush=True)
+        return
+    out = os.path.join(DATA, _folder_name(slug))
     os.makedirs(out, exist_ok=True)
-    chapters = pool.map(_chapter, [(slug, p) for p in _units(slug)])
+    chapters = pool.map(_chapter, [(slug, p) for p in paths])
+    exams = _exam_units(slug)
     items = []
     for ch in chapters:
+        if ch["no"] in exams:
+            ch["exam"] = exams[ch["no"]]
         name = "unit-%02d.json" % ch["no"]
         with open(os.path.join(out, name), "w", encoding="utf-8") as fh:
             json.dump(ch, fh, ensure_ascii=False, separators=(",", ":"))
-        items.append({k: ch[k] for k in ("no", "title", "area", "words", "read_min", "figures", "has_questions")})
+        item = {k: ch[k] for k in ("no", "title", "area", "words", "read_min", "figures", "has_questions")}
+        if "exam" in ch:
+            item["exam"] = ch["exam"]
+        items.append(item)
     _merge_index(out, {"book": slug, "units": items})
     print("%-8s %2d chapters -> %s" % (slug, len(chapters), os.path.relpath(out, ROOT)), flush=True)
 
@@ -411,7 +453,7 @@ def _fonts_or_die():
 
 def main():
     _fonts_or_die()
-    wanted = sys.argv[1:] or BOOKS + BANKS
+    wanted = sys.argv[1:] or BOOKS + BANKS + _track_books()
     os.makedirs(MEDIA, exist_ok=True)
     with Pool(max(1, os.cpu_count() - 1)) as pool:
         for slug in wanted:
