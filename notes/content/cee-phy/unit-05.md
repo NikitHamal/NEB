@@ -509,7 +509,7 @@ shaking sway most violently.
    (a) A/2 (b) A/√2 (c) A/4 (d) A
 9. The amplitude of a particle in SHM is doubled, with no other change. Its period
    (a) is unchanged and its total energy becomes four times (b) doubles and its energy doubles (c) is halved and its energy becomes four times (d) is unchanged and its energy doubles
-10. A spring of force constant k is cut into two equal halves, and the same mass is hung from one half. The new period is
+10. A mass m on a spring of force constant k oscillates with period T. The spring is cut into two equal halves and the same mass is hung from one half. The new period is
    (a) √2 T (b) 2T (c) T/√2 (d) T/2
 11. A particle executes SHM with frequency f. Its kinetic energy varies periodically with frequency
    (a) f/2 (b) f (c) 4f (d) 2f

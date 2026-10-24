@@ -447,8 +447,8 @@ energy unchanged" for a skater pulling in her arms are the classic distractors.
    (a) decreases her moment of inertia and increases her rate of spin (b) increases her angular momentum (c) increases her moment of inertia (d) decreases her angular momentum
 9. The net force on a rigid body is zero, but the net torque on it is not zero. The body
    (a) stays in complete equilibrium (b) has a linear acceleration but no angular acceleration (c) has an angular acceleration but no linear acceleration (d) must be at rest
-10. A planet moves faster when it is nearer the Sun. This follows from the conservation of
-   (a) linear momentum (b) mechanical energy only (c) mass (d) angular momentum
+10. A planet sweeps out equal areas in equal times, moving faster when it is nearer the Sun. This follows from the conservation of
+   (a) linear momentum (b) kinetic energy (c) mass (d) angular momentum
 11. Two uniform rods of the same length have masses M and 2M. About perpendicular axes through their centres, their radii of gyration are in the ratio
    (a) 1 : 1 (b) 1 : 2 (c) 2 : 1 (d) 1 : √2
 12. If the Earth shrank to half its present radius with no change in mass, the length of a day would become
@@ -466,7 +466,7 @@ energy unchanged" for a skater pulling in her arms are the classic distractors.
 **7.** (b) — the moment arm $r_\perp$ is zero, so $\tau = Fr_\perp = 0$ (e.g. pulling a door straight toward the hinge).
 **8.** (a) — tucking brings mass close to the axis, lowering $I$; with $L$ constant, $\omega$ increases. $L$ itself cannot change in mid-air (no external torque about the centre of mass).
 **9.** (c) — zero net force means no acceleration of the centre of mass; a non-zero torque gives $\alpha = \tau/I$. A couple is the example.
-**10.** (d) — the Sun's pull is central, so it exerts no torque about the Sun; $mvr$ stays constant and $v$ rises as $r$ falls (Kepler's second law).
+**10.** (d) — the Sun's pull is central, so it exerts no torque about the Sun; $L = mvr_\perp$ stays constant, which is the equal-areas law (areal speed $= L/2m$), and $v$ rises as $r$ falls. Kinetic energy is not constant — it changes as the planet speeds up.
 **11.** (a) — $k = L/(2\sqrt{3})$ for both: the radius of gyration does not depend on the mass.
 **12.** (c) — $I \propto R^2$ falls to one quarter, so $\omega$ rises four times and the period falls from 24 h to 6 h. (b) uses $I \propto R$.
 **13.** (d) — $K = \frac{1}{2}I\omega^2$ with the same $\omega$, so $K \propto I$: $\frac{ML^2/3}{ML^2/12} = 4$.
@@ -476,7 +476,7 @@ energy unchanged" for a skater pulling in her arms are the classic distractors.
 
 1. A uniform rod of mass 1 kg and length 1.2 m rotates about a perpendicular axis through one end. Its moment of inertia is
    (a) 0.12 kg m² (b) 0.24 kg m² (c) 0.48 kg m² (d) 1.44 kg m²
-2. Two balls of 2 kg each are fixed at the ends of a light rod 1 m long. The moment of inertia of the system about a perpendicular axis through the centre of the rod is
+2. Two small balls (point masses) of 2 kg each are fixed at the ends of a light rod 1 m long. The moment of inertia of the system about a perpendicular axis through the centre of the rod is
    (a) 1.0 kg m² (b) 0.5 kg m² (c) 2.0 kg m² (d) 4.0 kg m²
 3. A constant torque of 10 N m acts on a wheel of moment of inertia 2 kg m², initially at rest, for 5 s. The kinetic energy gained by the wheel is
    (a) 125 J (b) 250 J (c) 1250 J (d) 625 J
