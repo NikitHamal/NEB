@@ -661,22 +661,35 @@ _ALT = {
 
 
 def og_image_context(request):
-    """Template context: og_image_url and og_image_alt for the current route."""
+    """Template context: og_image_url and og_image_alt for the current route.
+
+    Always returns a card, even for a route with no entry above: a page whose
+    preview is generic is a missed opportunity, but a page with no og:image at
+    all gets a bare link. `og_card_version` goes to the template so a fallback
+    written in base.html can carry the same ?v= every other card does instead
+    of a number that rots on the next redesign.
+    """
+    ctx = {'og_card_version': CARD_VERSION,
+           'og_image_url': card_url('page', 'default'),
+           'og_image_alt': _ALT['page']}
+
     match = getattr(request, 'resolver_match', None)
     name = getattr(match, 'url_name', '') if match else ''
     if not name:
-        return {}
+        return ctx
 
     page = _ROUTE_PAGES.get(name)
     if page:
-        return {'og_image_url': card_url('page', page), 'og_image_alt': _ALT['page']}
+        ctx['og_image_url'] = card_url('page', page)
+        return ctx
 
     obj = _ROUTE_OBJECTS.get(name)
     if obj:
         kind, key_of = obj
         key = (key_of(getattr(match, 'kwargs', {}) or {}) or '').strip('/')
         # Ids, slugs and usernames only. A key that needs escaping is a key
-        # this route does not actually have, so fall through to the default.
+        # this route does not actually have, so stay on the default card.
         if key and _SAFE_KEY.match(key):
-            return {'og_image_url': card_url(kind, key), 'og_image_alt': _ALT[kind]}
-    return {}
+            ctx['og_image_url'] = card_url(kind, key)
+            ctx['og_image_alt'] = _ALT.get(kind, _ALT['page'])
+    return ctx
