@@ -4,7 +4,8 @@
  *   docs[key] = { p: furthest point read 0-100, d: 1 when marked done, q: { mcqIndex: 1|0 },
  *                 t: last opened (ms), n: title, u: url }
  *   last      = key of the chapter opened most recently
- * key is "<grade>/<subject>/unit<N>", ".../bank<N>" or ".../guide".
+ * key is "<grade>/<subject>/unit<N>", ".../bank<N>" or ".../guide"; an entrance track takes the
+ * place of the grade ("cee/physics/unit3").
  */
 (function () {
   'use strict';
@@ -81,9 +82,22 @@
     var buttons = hub.querySelectorAll('[data-syl-grade]');
     var panels = hub.querySelectorAll('[data-syl-panel]');
     var base = hub.getAttribute('data-base-url');
+    var sw = hub.querySelector('[data-syl-switch]');
 
+    /* the switch scrolls sideways on a phone once the tracks join the classes: keep the
+       selected button in view without moving the page */
+    function reveal(b) {
+      if (!sw || !b || sw.scrollWidth <= sw.clientWidth) return;
+      var left = b.offsetLeft - sw.offsetLeft, right = left + b.offsetWidth;
+      if (left < sw.scrollLeft + 8) sw.scrollLeft = Math.max(0, left - 24);
+      else if (right > sw.scrollLeft + sw.clientWidth - 8) sw.scrollLeft = right - sw.clientWidth + 24;
+    }
     function selectGrade(grade, push) {
-      buttons.forEach(function (b) { b.setAttribute('aria-selected', String(b.getAttribute('data-syl-grade') === grade)); });
+      buttons.forEach(function (b) {
+        var on = b.getAttribute('data-syl-grade') === grade;
+        b.setAttribute('aria-selected', String(on));
+        if (on) reveal(b);
+      });
       panels.forEach(function (p) { p.hidden = p.getAttribute('data-syl-panel') !== grade; });
       write(GRADE, grade);
       if (push && history.replaceState) {
@@ -102,9 +116,10 @@
       });
     });
     var url = new URL(window.location.href);
-    var explicit = url.searchParams.get('grade') || /\/app\/syllabus\/\d+\/?$/.test(url.pathname);
+    var explicit = url.searchParams.get('grade') || /\/app\/syllabus\/[a-z0-9]+\/?$/.test(url.pathname);
     var remembered = read(GRADE, null);
     if (!explicit && remembered && hub.querySelector('[data-syl-panel="' + remembered + '"]')) selectGrade(remembered, false);
+    else reveal(hub.querySelector('[data-syl-grade][aria-selected="true"]'));
 
     hub.querySelectorAll('[data-syl-card]').forEach(function (card) {
       var st = subjectStats(card.getAttribute('data-syl-card'), parseInt(card.getAttribute('data-units'), 10) || 0);
@@ -145,8 +160,8 @@
         ? '<div class="syl-results-empty">Nothing found for “' + esc(q) + '”. Try another word.</div>'
         : data.results.map(function (r, i) {
           return '<a class="syl-result" role="option" id="syl-r' + i + '" href="' + base + r.grade + '/' + r.subject + '/unit-' + r.unit + '/">' +
-            '<span class="syl-result-badge">Class ' + r.grade + '</span>' +
-            '<span class="syl-result-title">' + highlight(r.name + ' · Unit ' + r.unit + ': ' + r.title, terms) + '</span>' +
+            '<span class="syl-result-badge">' + esc(r.short || ('Class ' + r.grade)) + '</span>' +
+            '<span class="syl-result-title">' + highlight(r.name + ' · ' + (r.kind && r.kind !== 'school' ? 'Chapter ' : 'Unit ') + r.unit + ': ' + r.title, terms) + '</span>' +
             '<span class="syl-result-sub">' + highlight(r.match, terms) + '</span></a>';
         }).join('') + (data.total > data.results.length ? '<div class="syl-results-empty">The best ' + data.results.length + ' of ' + data.total + ' matches. Add a word to narrow down.</div>' : '');
       box.hidden = false;
@@ -183,6 +198,7 @@
   /* ------------------------------------------------------------ subject */
   function initSubject(root) {
     var prefix = root.getAttribute('data-st-subject');
+    var word = root.getAttribute('data-st-word') || 'Unit';
     var units = Array.prototype.slice.call(root.querySelectorAll('[data-st-unit]'));
     var total = parseInt(root.getAttribute('data-st-units'), 10) || units.length;
     var state = { q: '', show: 'all', area: '' };
@@ -236,7 +252,7 @@
         var started = Object.keys(Study.all()).some(function (k) { return k.indexOf(prefix + '/') === 0; });
         kicker.textContent = open ? 'Continue' : (started ? 'Up next' : 'Start here');
         a.href = main.getAttribute('data-st-href');
-        root.querySelector('[data-st-next-title]').textContent = 'Unit ' + main.getAttribute('data-st-unit') + ': ' + main.getAttribute('data-st-title');
+        root.querySelector('[data-st-next-title]').textContent = word + ' ' + main.getAttribute('data-st-unit') + ': ' + main.getAttribute('data-st-title');
         root.querySelector('[data-st-next-meta]').textContent = open
           ? Math.round(open.d.p) + '% read · about ' + Math.max(1, Math.round(main.getAttribute('data-st-min') * (1 - open.d.p / 100))) + ' min left'
           : main.getAttribute('data-st-min') + ' min read';
@@ -250,7 +266,7 @@
       var r = root.querySelector('[data-st-review]');
       if (weak && weak.u !== main) {
         r.href = weak.u.getAttribute('data-st-href') + '#questions';
-        root.querySelector('[data-st-review-title]').textContent = 'Unit ' + weak.u.getAttribute('data-st-unit') + ': ' + weak.u.getAttribute('data-st-title');
+        root.querySelector('[data-st-review-title]').textContent = word + ' ' + weak.u.getAttribute('data-st-unit') + ': ' + weak.u.getAttribute('data-st-title');
         root.querySelector('[data-st-review-meta]').textContent = 'You got ' + weak.sc.right + ' of ' + weak.sc.total + ' self-check questions right';
         r.hidden = false;
       } else r.hidden = true;
