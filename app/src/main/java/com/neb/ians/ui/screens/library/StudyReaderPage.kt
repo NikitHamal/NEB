@@ -153,7 +153,7 @@ addEventListener('resize',function(){if(view){measure();clamp();apply()}});
  * away), one option per question can be picked, changed or cleared, a palette jumps to any
  * question, and Submit or the deadline scores +1 per right answer and -negative per wrong one, with
  * a breakdown by the h2 section each question sits under; then the keys and explanations open.
- * The state (start, deadline, picks, finish) goes to the app through NebStudy.examSave and comes
+ * The state (start, deadline, question count, picks, finish) goes to the app through NebStudy.examSave and comes
  * back as NEB_EXAM_STATE; NebStudy.exam(on) lets the screen hide "Show answers" meanwhile, and the
  * sheets borrow NebStudy.zoom so Back closes them first. */
 private const val EXAM_CSS = """
@@ -205,7 +205,7 @@ var MS=X.minutes*60000,NEG=Math.max(0,+X.negative||0),LS='neb.exam.v1:'+(window.
 var st=null,timer=0,modal=null,stash=null;
 try{if(window.NEB_EXAM_STATE)st=JSON.parse(NEB_EXAM_STATE)}catch(e){st=null}
 if(!st&&!bridge){try{st=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){st=null}}
-if(st&&!(st.s>0&&st.e>st.s))st=null;if(st)st.a=st.a||{};
+if(st&&!(st.s>0&&st.e>st.s&&(!st.n||st.n===qs.length)))st=null;if(st)st.a=st.a||{};
 function on(){return !!(st&&!st.f)}
 window.nebExam={on:on};
 function save(){var j=st?JSON.stringify(st):'';if(bridge){try{NebStudy.examSave(j)}catch(e){}return}try{if(j)localStorage.setItem(LS,j);else localStorage.removeItem(LS)}catch(e){}}
@@ -247,7 +247,7 @@ var go=window.nebGo;window.nebGo=function(id){var h=document.getElementById(id);
 function btn(cls,x,t){return'<button type="button" class="'+cls+'" data-x="'+x+'">'+t+'</button>'}
 function intro(){openModal('<h3>Take this paper as a timed test</h3><p><b>'+Q.length+' questions · '+X.minutes+' minutes</b></p><p>'+(NEG?'+1 for a right answer, −'+fmt(NEG)+' for a wrong one, 0 for a blank.':'+1 for a right answer, 0 for a wrong one or a blank.')+'</p><p>Answers and explanations stay hidden until you submit. The clock cannot be paused: it keeps running if you leave this page.</p><div class="xm-row">'+btn('xbtn2','no','Cancel')+btn('xbtn','go','Start the test')+'</div>',
 function(m){m.querySelector('[data-x=no]').onclick=closeModal;m.querySelector('[data-x=go]').onclick=function(){closeModal();begin()}})}
-function begin(){var now=Date.now();st={s:now,e:now+MS,a:{},f:0};save();enter();window.scrollTo({top:Math.max(0,body.getBoundingClientRect().top+scrollY-12),behavior:'smooth'})}
+function begin(){var now=Date.now();st={s:now,e:now+MS,n:Q.length,a:{},f:0};save();enter();window.scrollTo({top:Math.max(0,body.getBoundingClientRect().top+scrollY-12),behavior:'smooth'})}
 function enter(){keep();wipe();res.hidden=true;document.body.classList.remove('exam-review');document.body.classList.add('exam-on');
 body.querySelectorAll('details.ans').forEach(function(d){d.open=false});Q.forEach(paintQ);count();clearInterval(timer);timer=setInterval(tick,500);tick();try{NebStudy.exam(true)}catch(e){}}
 function palette(){var a=answered(),h='<h3>Questions</h3><p class="xm-note">'+a+' answered · '+(Q.length-a)+' left. Tap a number to go to it.</p>';
