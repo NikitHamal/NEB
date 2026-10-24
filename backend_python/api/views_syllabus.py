@@ -89,8 +89,10 @@ def _legacy_slug(grade):
 
 
 def legacy_categories():
+    """The classes only: app versions from before api/syllabus/v2 open a category by slugifying
+    its label ("Class 10" -> class-10), which an entrance track's label would not survive."""
     categories = []
-    for order, g in enumerate(syllabus_data.index().get('grades', [])):
+    for order, g in enumerate(syllabus_data.school_entries()):
         categories.append({
             'grade': g['label'],
             'order': order,
@@ -128,7 +130,9 @@ def legacy_subject_detail(grade_slug, subject_slug):
         'subject': data['name'],
         'grade_slug': _legacy_slug(data['grade']),
         'subject_slug': data['subject'],
-        'grade_list': [{'name': g['label'], 'slug': _legacy_slug(g['grade'])} for g in syllabus_data.index().get('grades', [])],
+        # switching grade keeps to the same kind: the classes for a class, the tracks for a track
+        'grade_list': [{'name': g['label'], 'slug': _legacy_slug(g['grade'])} for g in syllabus_data.index().get('grades', [])
+                       if g.get('kind', 'school') == data.get('kind', 'school')],
         'subject_list': [{'name': s['name'], 'slug': s['subject']} for s in entry['subjects']],
         'chapters': chapters,
         'total_count': 0,
