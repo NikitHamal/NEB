@@ -13,7 +13,7 @@
 <div class="md-container rd-page" style="--syl-c: {{ syl.color }};" data-rd-key="{{ doc_key }}" data-rd-min="{{ doc.read_min }}" data-rd-title="{{ doc.title }}" data-rd-subject="{{ syl.grade }}/{{ syl.subject }}" data-rd-label="{{ syl.short }} · {{ syl.name }}"{% if doc.exam %} data-rd-exam-min="{{ doc.exam.minutes }}" data-rd-exam-neg="{{ doc.exam.negative|stringformat:'g' }}"{% endif %}>
   <nav class="st-crumbs" aria-label="Breadcrumb">
     <a href="{% url 'web:syllabus_grade' syl.grade %}">Syllabus</a><span aria-hidden="true">/</span>
-    <a href="{% url 'web:syllabus_grade' syl.grade %}">{{ syl.grade_label }}</a><span aria-hidden="true">/</span>
+    <a href="{% url 'web:syllabus_grade' syl.grade %}">{{ syl.short }}</a><span aria-hidden="true">/</span>
     <a href="{% url 'web:syllabus_subject' syl.grade syl.subject %}">{{ syl.name }}</a><span aria-hidden="true">/</span>
     <span aria-current="page">{{ doc_label }}</span>
   </nav>
