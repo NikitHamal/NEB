@@ -1,0 +1,41 @@
+{
+ "book": "cee-bot",
+ "units": [
+  {
+   "no": 1,
+   "title": "Biomolecules: Carbohydrates, Lipids, Proteins, Enzymes and Minerals",
+   "area": "Basic Components of Life",
+   "words": 6258,
+   "read_min": 35,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Classification, Monera and Viruses",
+   "area": "Biodiversity",
+   "words": 4902,
+   "read_min": 27,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Fungi, Lichens and Algae",
+   "area": "Biodiversity",
+   "words": 4715,
+   "read_min": 26,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Bryophytes, Pteridophytes and Gymnosperms",
+   "area": "Biodiversity",
+   "words": 4921,
+   "read_min": 27,
+   "figures": 5,
+   "has_questions": true
+  }
+ ]
+}

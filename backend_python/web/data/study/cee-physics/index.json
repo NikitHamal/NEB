@@ -1,0 +1,50 @@
+{
+ "book": "cee-phy",
+ "units": [
+  {
+   "no": 1,
+   "title": "Physical Quantities, Vectors and Kinematics",
+   "area": "Mechanics",
+   "words": 6215,
+   "read_min": 35,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Dynamics: Force, Momentum, Work, Energy and Power",
+   "area": "Mechanics",
+   "words": 6101,
+   "read_min": 34,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Rotational Dynamics",
+   "area": "Mechanics",
+   "words": 4798,
+   "read_min": 27,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Fluid Statics and Dynamics",
+   "area": "Mechanics",
+   "words": 5727,
+   "read_min": 32,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Circular Motion and Simple Harmonic Motion",
+   "area": "Mechanics",
+   "words": 5226,
+   "read_min": 29,
+   "figures": 4,
+   "has_questions": true
+  }
+ ]
+}

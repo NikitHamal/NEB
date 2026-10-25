@@ -6,11 +6,12 @@
          section. A page with no h1 gives a crawler nothing to read as the
          subject. {% endcomment %}
       <h1 class="syl-hub-title">Syllabus and study notes</h1>
-      <p class="syl-hub-sub">Every unit of the CDC and NEB syllabus with the full chapter from the NEBians books, worked examples, self-check questions and a question bank in the board's pattern.</p>
+      <p class="syl-hub-sub">Every unit of the CDC and NEB syllabus with the full chapter from the NEBians books, worked examples, self-check questions and a question bank in the board's pattern.{% if syllabus_track_names %} Entrance preparation for {{ syllabus_track_names }}: chapters written to the official syllabus with its question weightage, and MCQ practice with explained answers{% if syllabus_track_papers %}, plus model papers you can take as a timed test{% endif %}.{% endif %}</p>
     </div>
-    <div class="syl-grade-switch" role="tablist" aria-label="Choose your class">
+    <div class="syl-grade-switch" role="tablist" aria-label="Choose your class{% if syllabus_tracks %} or entrance exam{% endif %}" data-syl-switch>
       {% for g in syllabus_grades %}
-      <button type="button" role="tab" class="syl-grade-btn" data-syl-grade="{{ g.grade }}" aria-selected="{% if g.grade == syllabus_current_grade %}true{% else %}false{% endif %}" aria-controls="syl-grade-{{ g.grade }}" title="{{ g.exam }}">Class {{ g.grade }}</button>
+      {% ifchanged g.kind %}{% if not forloop.first %}<span class="syl-grade-sep" aria-hidden="true"></span>{% endif %}{% endifchanged %}
+      <button type="button" role="tab" class="syl-grade-btn{% if g.kind != 'school' %} syl-grade-track{% endif %}" data-syl-grade="{{ g.grade }}" aria-selected="{% if g.grade == syllabus_current_grade %}true{% else %}false{% endif %}" aria-controls="syl-grade-{{ g.grade }}" title="{{ g.exam }}">{{ g.short }}</button>
       {% endfor %}
     </div>
   </header>
@@ -28,7 +29,7 @@
 
   <div class="syl-search" role="search">
     <span class="material-symbols-outlined" aria-hidden="true">search</span>
-    <input type="search" class="syl-search-input" data-syl-search placeholder="Search a topic, chapter or term in any class" aria-label="Search the syllabus" aria-controls="syl-results" aria-expanded="false" autocomplete="off" spellcheck="false">
+    <input type="search" class="syl-search-input" data-syl-search placeholder="Search a topic, chapter or term in any class{% if syllabus_tracks %} or entrance book{% endif %}" aria-label="Search the syllabus" aria-controls="syl-results" aria-expanded="false" autocomplete="off" spellcheck="false">
     <kbd class="syl-kbd" aria-hidden="true">/</kbd>
     <div class="syl-search-results" id="syl-results" data-syl-results role="listbox" hidden></div>
   </div>
@@ -38,15 +39,15 @@
     <p class="syl-exam-line">{{ g.label }} · {{ g.exam }}</p>
     {% regroup g.subjects by group as groups %}
     {% for grp in groups %}
-    <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory{% elif grp.grouper == 'optional' %}Optional{% else %}Science stream{% endif %}</h3>
+    <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory{% elif grp.grouper == 'optional' %}Optional{% elif grp.grouper == 'entrance' %}Exam subjects{% elif grp.grouper == 'practice' %}Model papers and mock tests{% else %}Science stream{% endif %}</h3>
     <div class="syl-card-grid">
       {% for s in grp.list %}
       <a class="syl-subject-card" href="{% url 'web:syllabus_subject' g.grade s.subject %}" style="--syl-c: {{ s.color }};" data-syl-card="{{ g.grade }}/{{ s.subject }}" data-units="{{ s.unit_count }}">
         <span class="syl-card-icon material-symbols-outlined" aria-hidden="true">{{ s.icon }}</span>
         <span class="syl-card-body">
           <span class="syl-card-name">{{ s.name }}</span>
-          <span class="syl-card-meta"><span lang="ne">{{ s.name_ne }}</span></span>
-          <span class="syl-card-meta">{{ s.unit_count }} chapters{% if s.hours %} · {{ s.hours }} hrs{% endif %}</span>
+          {% if s.name_ne %}<span class="syl-card-meta"><span lang="ne">{{ s.name_ne }}</span></span>{% endif %}
+          <span class="syl-card-meta">{% if s.notes_ready is not None and s.notes_ready < s.unit_count %}{{ s.notes_ready }} of {{ s.unit_count }} chapters written{% else %}{{ s.unit_count }} chapters{% endif %}{% if s.questions %} · {{ s.questions }} questions in the paper{% elif s.hours %} · {{ s.hours }} hrs{% endif %}</span>
         </span>
         <span class="syl-card-pct" data-syl-pct></span>
         <span class="syl-card-bar" aria-hidden="true"><span data-syl-bar></span></span>

@@ -166,11 +166,13 @@ def _syllabus_grade_card(key):
         raise Http404('No such grade')
     subjects = grade.get('subjects') or []
     units = sum(s.get('unit_count', 0) for s in subjects)
+    school = grade.get('kind', 'school') == 'school'
     meta = ['%d subjects' % len(subjects)]
     if units:
-        meta.append('%d units' % units)
+        meta.append(('%d units' if school else '%d chapters') % units)
     return {
-        'kicker': 'Syllabus', 'title': '%s syllabus' % grade.get('label', 'NEB'),
+        'kicker': 'Syllabus' if school else 'Entrance preparation',
+        'title': '%s syllabus' % grade.get('label', 'NEB') if school else grade.get('label', 'Entrance'),
         'meta': tuple(meta), 'hero': 'books', 'seed': 'grade-' + str(key),
     }
 
@@ -184,11 +186,15 @@ def _syllabus_subject_card(key):
     data = syllabus_data.subject(parts[0], parts[1])
     if not data:
         raise Http404('No such subject')
-    meta = [data.get('grade_label') or '', '%d units' % (data.get('unit_count') or 0)]
-    if data.get('hours'):
+    school = data.get('kind', 'school') == 'school'
+    meta = [data.get('grade_label') if school else data.get('short'),
+            ('%d units' if school else '%d chapters') % (data.get('unit_count') or 0)]
+    if data.get('questions'):
+        meta.append('%d questions in the paper' % data['questions'])
+    elif data.get('hours'):
         meta.append('%d hours' % data['hours'])
     return {
-        'kicker': data.get('grade_label') or 'Syllabus',
+        'kicker': (data.get('grade_label') if school else '%s entrance' % data.get('short')) or 'Syllabus',
         'title': data.get('name') or 'Syllabus',
         'meta': tuple(m for m in meta if m),
         'subject': data.get('name') or '', 'hero': 'books',
@@ -209,13 +215,16 @@ def _syllabus_chapter_card(key):
         no = int(parts[2])
     except ValueError:
         raise Http404('No such chapter')
+    school = data.get('kind', 'school') == 'school'
     for unit in data.get('units') or []:
         if int(unit.get('no') or 0) == no:
-            meta = [data.get('name') or '', data.get('grade_label') or '']
-            if unit.get('hours'):
+            meta = [data.get('name') or '', (data.get('grade_label') if school else data.get('short')) or '']
+            if unit.get('questions'):
+                meta.append('%d questions in the paper' % unit['questions'])
+            elif unit.get('hours'):
                 meta.append('%d hours' % unit['hours'])
             return {
-                'kicker': 'Unit %d' % no, 'title': unit.get('title') or 'Unit',
+                'kicker': ('Unit %d' if school else 'Chapter %d') % no, 'title': unit.get('title') or 'Unit',
                 'meta': tuple(m for m in meta if m),
                 'subject': data.get('name') or '', 'hero': 'paper',
                 'seed': 'unit-' + str(key),

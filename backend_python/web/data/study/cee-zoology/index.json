@@ -1,0 +1,41 @@
+{
+ "book": "cee-zoo",
+ "units": [
+  {
+   "no": 1,
+   "title": "Evolutionary Biology",
+   "area": "Evolution and Diversity",
+   "words": 6300,
+   "read_min": 35,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Animal Diversity and Classification",
+   "area": "Evolution and Diversity",
+   "words": 5900,
+   "read_min": 33,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Animal Tissues and Histology",
+   "area": "Evolution and Diversity",
+   "words": 5019,
+   "read_min": 28,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Plasmodium, Earthworm and Frog",
+   "area": "Study of Selected Animals",
+   "words": 7084,
+   "read_min": 39,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

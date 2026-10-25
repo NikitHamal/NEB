@@ -6,8 +6,10 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -18,8 +20,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
@@ -32,14 +36,20 @@ import androidx.compose.material.icons.outlined.Biotech
 import androidx.compose.material.icons.outlined.Bolt
 import androidx.compose.material.icons.outlined.Calculate
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Computer
+import androidx.compose.material.icons.outlined.Eco
 import androidx.compose.material.icons.outlined.Functions
 import androidx.compose.material.icons.outlined.History
+import androidx.compose.material.icons.outlined.Pets
+import androidx.compose.material.icons.outlined.Psychology
 import androidx.compose.material.icons.outlined.Public
+import androidx.compose.material.icons.outlined.Quiz
 import androidx.compose.material.icons.outlined.Science
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.SelfImprovement
 import androidx.compose.material.icons.outlined.Terminal
 import androidx.compose.material.icons.outlined.Translate
+import androidx.compose.material.icons.outlined.TravelExplore
 import androidx.compose.material.icons.outlined.WaterDrop
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -60,10 +70,13 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.neb.ians.data.api.ApiSyllabusGrade
 import com.neb.ians.data.api.ApiSyllabusHit
 import com.neb.ians.data.api.ApiSyllabusSubjectCard
+import com.neb.ians.data.api.isSchoolGrade
+import com.neb.ians.data.api.syllabusShort
 import com.neb.ians.ui.components.ErrorCard
 import com.neb.ians.ui.components.NebEmptyState
 import com.neb.ians.ui.components.NebIconButton
@@ -105,13 +118,13 @@ private fun SyllabusHub(
             modifier = Modifier.padding(16.dp)
         )
         else -> {
-            val grade = index.grades.firstOrNull { it.grade == state.grade } ?: index.grades.lastOrNull()
+            val grade = index.all.firstOrNull { it.grade == state.grade } ?: index.grades.lastOrNull() ?: index.tracks.firstOrNull()
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 110.dp),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                item(key = "intro") { SyllabusIntro(index.totals.units, index.totals.topics) }
+                item(key = "intro") { SyllabusIntro(index.grades, index.tracks, index.totals.units) }
                 item(key = "search") { SyllabusSearchField(state.query, viewModel::search) }
                 if (state.query.trim().length >= 2) {
                     syllabusHits(state, viewModel)
@@ -131,7 +144,7 @@ private fun SyllabusHub(
                             }
                         }
                     }
-                    item(key = "grades") { GradeSwitch(index.grades, state.grade, viewModel::selectGrade) }
+                    item(key = "grades") { GradeSwitch(index.grades, index.tracks, grade?.grade ?: state.grade, viewModel::selectGrade) }
                     if (grade != null) {
                         val groups = grade.subjects.groupBy { it.group }
                         groups.forEach { (group, cards) ->
@@ -190,7 +203,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.syllabusHits(state: S
 }
 
 @Composable
-private fun SyllabusIntro(units: Int, topics: Int) {
+private fun SyllabusIntro(grades: List<ApiSyllabusGrade>, tracks: List<ApiSyllabusGrade>, units: Int) {
     Column(Modifier.padding(horizontal = 4.dp)) {
         Text(
             text = "Syllabus and study notes",
@@ -200,7 +213,7 @@ private fun SyllabusIntro(units: Int, topics: Int) {
         )
         Spacer(Modifier.height(4.dp))
         Text(
-            text = "Class 8, 10, 11 and 12 · $units chapters with notes, self-checks and question banks",
+            text = "${syllabusCoverage(grades, tracks)} · $units chapters with notes, self-checks and question banks",
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -262,41 +275,81 @@ private fun ContinueCard(title: String, label: String, progress: Float, onClick:
     }
 }
 
+/** "Class 8, 10, 11 and 12", and "the CEE entrance" once the server offers tracks. */
+private fun syllabusCoverage(grades: List<ApiSyllabusGrade>, tracks: List<ApiSyllabusGrade>): String {
+    fun spoken(items: List<String>): String =
+        if (items.size > 1) items.dropLast(1).joinToString(", ") + " and " + items.last() else items.firstOrNull().orEmpty()
+    val classes = "Class " + spoken(grades.map { it.grade }.ifEmpty { listOf("8", "10", "11", "12") })
+    if (tracks.isEmpty()) return classes
+    return "$classes, and the ${spoken(tracks.map { syllabusShort(it.grade, it.short) })} entrance"
+}
+
+/**
+ * The school classes, a hairline, then the entrance tracks. The buttons share the width while
+ * they fit; past that each keeps its own width and the row scrolls sideways.
+ */
 @Composable
-private fun GradeSwitch(grades: List<ApiSyllabusGrade>, selected: String, onSelect: (String) -> Unit) {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
-            .background(MaterialTheme.colorScheme.surfaceContainer)
-            .padding(4.dp),
-        horizontalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        grades.forEach { g ->
-            val isSelected = g.grade == selected
-            val container by animateColorAsState(
-                targetValue = if (isSelected) MaterialTheme.colorScheme.onSurface else Color.Transparent,
-                animationSpec = nebEffectsSpec(),
-                label = "grade_bg"
-            )
-            val content by animateColorAsState(
-                targetValue = if (isSelected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurfaceVariant,
-                animationSpec = nebEffectsSpec(),
-                label = "grade_fg"
-            )
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier
-                    .weight(1f)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(container)
-                    .nebPressable(onClick = { onSelect(g.grade) })
-                    .padding(vertical = 10.dp)
-            ) {
-                Text(g.grade, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = content)
-                Text("Class", style = MaterialTheme.typography.labelSmall, color = content)
+private fun GradeSwitch(grades: List<ApiSyllabusGrade>, tracks: List<ApiSyllabusGrade>, selected: String, onSelect: (String) -> Unit) {
+    BoxWithConstraints(Modifier.fillMaxWidth()) {
+        val count = (grades.size + tracks.size).coerceAtLeast(1)
+        val split = grades.isNotEmpty() && tracks.isNotEmpty()
+        val shared = (maxWidth - 8.dp - 4.dp * (count - 1) - (if (split) 13.dp else 0.dp)) / count
+        val minWidth = maxOf(shared, 64.dp)
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(20.dp))
+                .background(MaterialTheme.colorScheme.surfaceContainer)
+                .horizontalScroll(rememberScrollState())
+                .padding(4.dp),
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            grades.forEach { g -> GradeButton(g, g.grade == selected, minWidth, onSelect) }
+            if (split) {
+                Box(
+                    Modifier
+                        .padding(horizontal = 4.dp)
+                        .width(1.dp)
+                        .height(30.dp)
+                        .background(MaterialTheme.colorScheme.outlineVariant)
+                )
             }
+            tracks.forEach { g -> GradeButton(g, g.grade == selected, minWidth, onSelect) }
         }
+    }
+}
+
+/** A class keeps its big number over "Class"; a track prints its short name ("CEE") over "Entrance". */
+@Composable
+private fun GradeButton(g: ApiSyllabusGrade, isSelected: Boolean, minWidth: Dp, onSelect: (String) -> Unit) {
+    val container by animateColorAsState(
+        targetValue = if (isSelected) MaterialTheme.colorScheme.onSurface else Color.Transparent,
+        animationSpec = nebEffectsSpec(),
+        label = "grade_bg"
+    )
+    val content by animateColorAsState(
+        targetValue = if (isSelected) MaterialTheme.colorScheme.surface else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = nebEffectsSpec(),
+        label = "grade_fg"
+    )
+    val big = if (g.isTrack) syllabusShort(g.grade, g.short) else g.grade
+    val caption = when {
+        !g.isTrack -> "Class"
+        g.kind == "entrance" || g.kind == "school" -> "Entrance"
+        else -> g.kind.replaceFirstChar { it.uppercase() }
+    }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .widthIn(min = minWidth)
+            .clip(RoundedCornerShape(16.dp))
+            .background(container)
+            .nebPressable(onClick = { onSelect(g.grade) })
+            .padding(horizontal = 10.dp, vertical = 10.dp)
+    ) {
+        Text(big, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.Bold, color = content, maxLines = 1)
+        Text(caption, style = MaterialTheme.typography.labelSmall, color = content, maxLines = 1)
     }
 }
 
@@ -321,10 +374,14 @@ private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, onClick: 
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(card.name, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, maxLines = 2, overflow = TextOverflow.Ellipsis)
-                Text(card.nameNe, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                if (card.nameNe.isNotBlank()) {
+                    Text(card.nameNe, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                }
                 Spacer(Modifier.height(2.dp))
+                // entrance subjects count the paper's questions; school subjects their teaching hours
+                val paperWeight = card.questions?.let { "$it questions" } ?: card.hours?.let { "$it hrs" }
                 Text(
-                    text = listOfNotNull("${card.unitCount} chapters", card.hours?.let { "$it hrs" }).joinToString(" · "),
+                    text = listOfNotNull("${card.unitCount} chapters", paperWeight).joinToString(" · "),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -341,6 +398,7 @@ private fun SubjectCard(card: ApiSyllabusSubjectCard, progress: Float, onClick: 
 
 @Composable
 private fun HitRow(hit: ApiSyllabusHit, onClick: () -> Unit) {
+    val unitWord = if (isSchoolGrade(hit.grade)) "Unit" else "Chapter"
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -350,7 +408,7 @@ private fun HitRow(hit: ApiSyllabusHit, onClick: () -> Unit) {
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "Class ${hit.grade}",
+                text = syllabusShort(hit.grade, hit.short),
                 style = MaterialTheme.typography.labelSmall,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.surface,
@@ -361,7 +419,7 @@ private fun HitRow(hit: ApiSyllabusHit, onClick: () -> Unit) {
             )
             Spacer(Modifier.width(10.dp))
             Text(
-                text = "${hit.name} · Unit ${hit.unit}",
+                text = "${hit.name} · $unitWord ${hit.unit}",
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 maxLines = 1,
@@ -424,6 +482,8 @@ internal fun fraction(done: Int, total: Int): Float = if (total <= 0) 0f else (d
 private fun groupTitle(group: String): String = when (group) {
     "compulsory" -> "Compulsory subjects"
     "optional" -> "Optional subjects"
+    "entrance" -> "Exam subjects"
+    "practice" -> "Model papers and mock tests"
     else -> "Science stream"
 }
 
@@ -441,5 +501,12 @@ internal fun syllabusIcon(name: String): ImageVector = when (name) {
     "experiment" -> Icons.Outlined.WaterDrop
     "biotech" -> Icons.Outlined.Biotech
     "terminal" -> Icons.Outlined.Terminal
+    // the entrance tracks (the web prints Material Symbols; "genetics" has no Material Icon)
+    "genetics" -> Icons.Outlined.Pets
+    "eco" -> Icons.Outlined.Eco
+    "psychology" -> Icons.Outlined.Psychology
+    "computer" -> Icons.Outlined.Computer
+    "travel_explore" -> Icons.Outlined.TravelExplore
+    "quiz" -> Icons.Outlined.Quiz
     else -> Icons.Outlined.AutoStories
 }

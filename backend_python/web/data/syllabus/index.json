@@ -4,6 +4,8 @@
    "label": "Class 8",
    "label_ne": "कक्षा ८",
    "exam": "Basic Level Examination (BLE)",
+   "short": "Class 8",
+   "kind": "school",
    "grade": "8",
    "subjects": [
     {
@@ -116,6 +118,8 @@
    "label": "Class 10",
    "label_ne": "कक्षा १०",
    "exam": "Secondary Education Examination (SEE)",
+   "short": "Class 10",
+   "kind": "school",
    "grade": "10",
    "subjects": [
     {
@@ -241,6 +245,8 @@
    "label": "Class 11",
    "label_ne": "कक्षा ११",
    "exam": "NEB Grade 11 examination",
+   "short": "Class 11",
+   "kind": "school",
    "grade": "11",
    "subjects": [
     {
@@ -340,6 +346,8 @@
    "label": "Class 12",
    "label_ne": "कक्षा १२",
    "exam": "NEB Grade 12 examination",
+   "short": "Class 12",
+   "kind": "school",
    "grade": "12",
    "subjects": [
     {
@@ -432,6 +440,86 @@
      "unit_count": 7,
      "topic_count": 71,
      "notes_ready": 7
+    }
+   ]
+  },
+  {
+   "label": "CEE · MECEE-BL Medical Entrance",
+   "label_ne": "CEE प्रवेश परीक्षा",
+   "exam": "Medical Education Common Entrance Examination, Bachelor Level (MEC)",
+   "short": "CEE",
+   "kind": "entrance",
+   "grade": "cee",
+   "subjects": [
+    {
+     "subject": "physics",
+     "name": "Physics",
+     "name_ne": "भौतिक विज्ञान",
+     "icon": "bolt",
+     "group": "entrance",
+     "color": "#4A42D6",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 22,
+     "topic_count": 77,
+     "notes_ready": 5,
+     "questions": 50
+    },
+    {
+     "subject": "chemistry",
+     "name": "Chemistry",
+     "name_ne": "रसायन विज्ञान",
+     "icon": "experiment",
+     "group": "entrance",
+     "color": "#A8271F",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 22,
+     "topic_count": 74,
+     "notes_ready": 6,
+     "questions": 50
+    },
+    {
+     "subject": "zoology",
+     "name": "Zoology",
+     "name_ne": "प्राणीशास्त्र",
+     "icon": "genetics",
+     "group": "entrance",
+     "color": "#0B6A62",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 14,
+     "topic_count": 38,
+     "notes_ready": 4,
+     "questions": 40
+    },
+    {
+     "subject": "botany",
+     "name": "Botany",
+     "name_ne": "वनस्पतिशास्त्र",
+     "icon": "eco",
+     "group": "entrance",
+     "color": "#2F7D32",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 15,
+     "topic_count": 48,
+     "notes_ready": 5,
+     "questions": 40
+    },
+    {
+     "subject": "mental-agility-test",
+     "name": "Mental Agility Test",
+     "name_ne": "मानसिक क्षमता परीक्षण",
+     "icon": "psychology",
+     "group": "entrance",
+     "color": "#7A3E8E",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 5,
+     "topic_count": 21,
+     "notes_ready": 4,
+     "questions": 20
     }
    ]
   }
