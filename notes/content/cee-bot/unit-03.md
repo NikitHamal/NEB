@@ -129,7 +129,9 @@ zygospores form only when hyphae of two compatible strains, **+ and −**, meet
 4. The fused cell becomes a thick, black, warty-walled resting **zygospore**
    (2n) — the **only diploid stage**.
 5. On germination, meiosis occurs and the zygospore puts out a **germ
-   sporangium** (promycelium + sporangium) whose spores give + and − mycelia.
+   sporangium** (promycelium + sporangium). In *M. mucedo* only one meiotic
+   nucleus survives, so all spores of one germ sporangium are of one strain
+   (+ or −).
 
 A zygospore that forms without fusion is an **azygospore** (parthenospore).
 Since the only diploid structure is the zygote, the life cycle is
