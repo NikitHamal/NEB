@@ -273,3 +273,11 @@ lacks — stage the named paths and commit/push by hand, one commit per logical 
   front matter, TOC, worked examples, tables, diagrams, photographs, credits appendix) and
   machine-checked for margin overflow, blank pages and hyphens inside code. The Windows
   build recipe is above.
+- 2026-10-25 (Design Arena session) — `cee-mock` unit 01 (exam guide: groups, eligibility,
+  official unit weightage, negative-marking expected value E = 1.25p − 0.25 with figure,
+  120/60/15-day plans, how to use the papers) written; check.py OK, figures inspected.
+  Model Paper 1 started as a draft: `notes/drafts/cee-mock/mp1-a.md` holds Zoology 1–40
+  and Botany 41–80, every key explained (mcqcheck: 80 keyed). NEXT: write Chemistry
+  81–130, Physics 131–180, MAT 181–200 into `mp1-b.md`, concatenate, then
+  `python3 notes/tools/assemble_paper.py <draft> notes/content/cee-mock/unit-02.md`, add the
+  per-unit count table at the top (Zoology 3/4/4/6/15/4/2/2, Botany 2/2/2/2/3/4/5/2/4/3/2/3/1/2/3 by chapter).
