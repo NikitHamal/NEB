@@ -73,9 +73,9 @@ and old walls, common in Nepal's hills in the monsoon.
 - **Dorsal surface**: divided into polygonal **areolae**, each with a central
   **barrel-shaped air pore** (a ring of 4–5 tiers of cells) that **cannot
   close** — it is not a stoma. Along the midrib sit cup-like **gemma cups**.
-- **Ventral surface**: **scales** (ligulate and simple) and **rhizoids** of two
-  kinds — **smooth-walled** and **tuberculate** (with peg-like inward
-  thickenings).
+- **Ventral surface**: **scales** of two kinds (appendiculate and ligulate)
+  and **rhizoids** of two kinds — **smooth-walled** and **tuberculate** (with
+  peg-like inward thickenings).
 - **Internal structure** (vertical section): upper epidermis with air pores;
   **air chambers** containing branched **photosynthetic filaments**; a
   colourless **storage zone** of parenchyma (starch, oil bodies, mucilage
@@ -183,7 +183,7 @@ xylem and phloem**, but still without seeds or flowers.
 | Psilopsida | *Psilotum* (whisk fern) | no true roots; a "living fossil" |
 | Lycopsida | *Selaginella* (spike moss), *Lycopodium* (club moss) | microphylls; *Selaginella* is heterosporous and has a ligule |
 | Sphenopsida | *Equisetum* (horsetail) | jointed, ribbed stem with silica; whorled scale leaves |
-| Pteropsida | *Dryopteris*, *Pteris*, *Adiantum* (maidenhair fern), *Marsilea*, *Azolla* | large compound fronds; sori on the leaf underside |
+| Pteropsida | *Dryopteris*, *Pteris*, *Adiantum* (maidenhair fern), *Marsilea*, *Azolla* | large compound fronds in most; sori on the underside or inside sporocarps |
 
 In Nepal the young fronds of *Diplazium esculentum* (*niuro*) are a popular
 vegetable, tree ferns (*Cyathea*) grow in moist hill forests, and *Azolla*
@@ -426,7 +426,7 @@ ax.axis('off')
 | Vascular tissue | **absent** | present (tracheids) | present (tracheids; vessels only in Gnetales) |
 | True roots | absent (rhizoids) | present | present (tap root) |
 | Spores | homosporous | mostly homosporous; some heterosporous | **heterosporous** |
-| Male gamete | biflagellate, swims | **multiflagellate**, swims | carried by a **pollen tube** (motile only in *Cycas*, *Ginkgo*) |
+| Male gamete | biflagellate, swims | **multiflagellate** in ferns (biflagellate in club mosses), swims | carried by a **pollen tube** (motile only in *Cycas*, *Ginkgo*) |
 | Water for fertilisation | needed | needed | **not needed** |
 | Archegonia | present | present | present (reduced) |
 | Seeds | absent | absent | **present, naked** |
@@ -456,7 +456,7 @@ the gametophyte; the zygote is the first cell of the sporophyte.
 | *Dryopteris* sporophyte | rhizome with ramenta; adventitious roots; bipinnate fronds; circinate vernation; dictyostele |
 | *Dryopteris* sorus | underside of pinnule; reniform indusium; leptosporangia with annulus and stomium; 16 SMC → 64 spores |
 | Prothallus | heart-shaped, n, free-living; antheridia among rhizoids, archegonia near notch (ventral); protandrous |
-| Fern sperm | multiflagellate; attracted by malic acid |
+| Fern sperm | multiflagellate (biflagellate in *Lycopodium*, *Selaginella*); attracted by malic acid |
 | Gymnosperm features | naked ovules, no fruit, wind pollination, haploid endosperm before fertilisation, no double fertilisation, no vessels, albuminous cells |
 | *Pinus* shoots | long shoots (scale leaves) and dwarf shoots (needles in fascicles) |
 | Needles per spur | *P. roxburghii* 3, *P. wallichiana* 5, *P. merkusii* 2, *P. monophylla* 1 |

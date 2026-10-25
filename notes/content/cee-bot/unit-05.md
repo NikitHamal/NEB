@@ -61,7 +61,7 @@ buds or scale leaves is a stem**, however root-like it looks.
 | **Stem tuber** | swollen tip of an underground branch; "eyes" are nodes with buds | **potato** |
 | **Corm** | short, upright, swollen underground stem | *Colocasia* (pindalu), *Amorphophallus*, *Crocus*, *Gladiolus* |
 | **Bulb** | reduced disc-like stem with fleshy scale leaves | **onion** (tunicated), garlic (compound bulb of cloves), lily (scaly) |
-| Runner, stolon, offset, sucker | sub-aerial branches that root and form new plants | *Cynodon* (dubo grass), *Oxalis* (runners); jasmine, mint, strawberry (stolons); *Pistia*, water hyacinth (offsets); *Chrysanthemum*, banana, pineapple (suckers) |
+| Runner, stolon, offset, sucker | sub-aerial branches that root and form new plants | *Cynodon* (dubo grass), strawberry (runners); jasmine, mint (stolons); *Pistia*, water hyacinth (offsets); *Chrysanthemum*, banana, pineapple (suckers) |
 | **Stem tendril** | from an axillary or terminal bud | grape vine, cucurbits |
 | **Thorn** | from an axillary bud; has vascular supply | *Citrus*, *Bougainvillea*, pomegranate |
 | **Phylloclade** | flattened green stem of many internodes; leaves reduced to spines | *Opuntia*, *Euphorbia* |
@@ -359,8 +359,9 @@ fig.subplots_adjust(wspace=0.02, hspace=0.04)
   corolla) and the number **three** identify it. Modern classification moves
   onion and garlic to Amaryllidaceae and *Aloe* and *Asparagus* to other
   families, but the CEE syllabus keeps them in Liliaceae.
-- Pea, gram and lentil are **Fabaceae**, but the old name for this subfamily is
-  **Papilionaceae**; mustard's old family name is **Cruciferae**.
+- Pea, gram and lentil are **Fabaceae**, but this family has two older
+  names — **Papilionaceae** and **Leguminosae**; mustard's old family name is
+  **Cruciferae**.
 :::
 
 | Family | Food and other crops | Medicines, drugs, others |
