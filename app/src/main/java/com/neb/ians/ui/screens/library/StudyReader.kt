@@ -41,6 +41,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,6 +63,8 @@ import androidx.lifecycle.viewModelScope
 import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiStudyDoc
+import com.neb.ians.data.api.isSchoolGrade
+import com.neb.ians.data.api.syllabusShort
 import com.neb.ians.data.repository.StudyMark
 import com.neb.ians.data.repository.StudyProgress
 import com.neb.ians.ui.components.ErrorCard
@@ -85,14 +88,17 @@ data class StudyReaderState(
     val isLoading: Boolean = true,
     val error: String? = null,
     val mark: StudyMark = StudyMark(),
-    val answers: Map<Int, Boolean> = emptyMap()
+    val answers: Map<Int, Boolean> = emptyMap(),
+    /** A timed test of this model paper, as the page saved it (see EXAM_JS), or null. */
+    val examState: String? = null
 ) {
     val key: String get() = "$grade/$subject/" + if (kind == "guide") "guide" else "$kind$no"
     val label: String
         get() = when (kind) {
             "bank" -> "Question bank"
             "guide" -> "Exam guide"
-            else -> "Unit $no"
+            // the entrance books (grade "cee", …) number chapters
+            else -> if (isSchoolGrade(grade)) "Unit $no" else "Chapter $no"
         }
 }
 
@@ -125,8 +131,10 @@ class StudyReaderViewModel @Inject constructor(
                 "guide" -> api.getStudyGuide(s.grade, s.subject)
                 else -> api.getStudyChapter(s.grade, s.subject, s.no)
             }
-            progress.open(s.key, doc.title, "Class ${s.grade} · ${s.subject.replace('-', ' ').replaceFirstChar { it.uppercase() }}")
-            _state.update { it.copy(doc = doc, isLoading = false, mark = progress.get(s.key), answers = progress.answers(s.key)) }
+            progress.open(s.key, doc.title, "${syllabusShort(s.grade)} · ${s.subject.replace('-', ' ').replaceFirstChar { it.uppercase() }}")
+            _state.update {
+                it.copy(doc = doc, isLoading = false, mark = progress.get(s.key), answers = progress.answers(s.key), examState = progress.exam(s.key))
+            }
         } catch (e: Exception) {
             _state.update { it.copy(isLoading = false, error = ApiErrorMapper.mapException(e)) }
         }
@@ -156,6 +164,14 @@ class StudyReaderViewModel @Inject constructor(
         _state.update { it.copy(mark = progress.get(key), answers = emptyMap()) }
     }
 
+    /** The page's timed-test state; "" when the student went back to practice. Any thread. */
+    fun saveExam(json: String) {
+        val key = _state.value.key
+        val value = json.takeIf { it.isNotBlank() }
+        progress.setExam(key, value)
+        _state.update { it.copy(examState = value) }
+    }
+
     fun toggleDone() {
         val key = _state.value.key
         progress.setDone(key, !_state.value.mark.markedDone)
@@ -163,17 +179,23 @@ class StudyReaderViewModel @Inject constructor(
     }
 }
 
-/** What the page calls back into: reading credit, answers, the figure viewer. Called on a WebView thread. */
+/** What the page calls back into: reading credit, answers, the figure viewer, the timed test. Called on a WebView thread. */
 private class ReaderBridge(
     private val onReading: (Int, Int) -> Unit,
     private val onAnswer: (Int, Boolean) -> Unit,
     private val onClear: () -> Unit,
-    private val onZoom: (Boolean) -> Unit
+    private val onZoom: (Boolean) -> Unit,
+    private val onExam: (Boolean) -> Unit,
+    private val onExamSave: (String) -> Unit
 ) {
     @JavascriptInterface fun reading(read: Int, place: Int) = onReading(read, place)
     @JavascriptInterface fun answer(index: Int, right: Boolean) = onAnswer(index, right)
     @JavascriptInterface fun clear() = onClear()
     @JavascriptInterface fun zoom(open: Boolean) = onZoom(open)
+    /** A timed test started (true) or ended: "Show answers" is hidden meanwhile. */
+    @JavascriptInterface fun exam(on: Boolean) = onExam(on)
+    /** The timed test's state as JSON, saved on every pick; "" clears it. */
+    @JavascriptInterface fun examSave(state: String?) = onExamSave(state.orEmpty())
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -184,6 +206,9 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
     var showToc by remember { mutableStateOf(false) }
     var answersOpen by remember(state.key) { mutableStateOf(false) }
     var zoomOpen by remember { mutableStateOf(false) }
+    // set by the page (NebStudy.exam); not keyed by remember, the WebView's bridge holds this one state
+    var examOn by remember { mutableStateOf(false) }
+    LaunchedEffect(state.key) { examOn = false }
     val doc = state.doc
     val closeZoom = { web?.evaluateJavascript("window.nebZoomClose && nebZoomClose()", null); zoomOpen = false }
     BackHandler(enabled = zoomOpen) { closeZoom() }
@@ -203,7 +228,7 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
                 },
                 navigationIcon = { IconButton(onClick = { if (zoomOpen) closeZoom() else onBack() }) { Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back") } },
                 actions = {
-                    if (doc != null && doc.html.contains("details class=\"ans")) {
+                    if (doc != null && !examOn && doc.html.contains("details class=\"ans")) {
                         Text(
                             if (answersOpen) "Hide answers" else "Show answers",
                             style = MaterialTheme.typography.labelLarge,
@@ -236,7 +261,7 @@ fun StudyReaderScreen(onBack: () -> Unit, viewModel: StudyReaderViewModel = hilt
             when {
                 doc == null && state.isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { NebLoader(size = NebLoaderSize.Standard) }
                 doc == null -> ErrorCard(message = state.error ?: "This chapter could not be loaded.", onRetry = { viewModel.load() }, modifier = Modifier.padding(16.dp))
-                else -> ReaderWeb(state, doc, viewModel, onWeb = { web = it }, onZoom = { zoomOpen = it })
+                else -> ReaderWeb(state, doc, viewModel, onWeb = { web = it }, onZoom = { zoomOpen = it }, onExam = { examOn = it })
             }
         }
     }
@@ -317,7 +342,14 @@ private fun Color.hex(): String = String.format("#%06X", 0xFFFFFF and toArgb())
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-private fun ReaderWeb(state: StudyReaderState, doc: ApiStudyDoc, viewModel: StudyReaderViewModel, onWeb: (WebView) -> Unit, onZoom: (Boolean) -> Unit) {
+private fun ReaderWeb(
+    state: StudyReaderState,
+    doc: ApiStudyDoc,
+    viewModel: StudyReaderViewModel,
+    onWeb: (WebView) -> Unit,
+    onZoom: (Boolean) -> Unit,
+    onExam: (Boolean) -> Unit
+) {
     val c = MaterialTheme.colorScheme
     val dark = c.surface.toArgb().let { (android.graphics.Color.red(it) + android.graphics.Color.green(it) + android.graphics.Color.blue(it)) < 384 }
     val vars = "--bg:${c.surface.hex()};--ink:${c.onSurface.hex()};--mute:${c.onSurfaceVariant.hex()};--line:${c.outlineVariant.hex()};" +
@@ -337,7 +369,10 @@ private fun ReaderWeb(state: StudyReaderState, doc: ApiStudyDoc, viewModel: Stud
                         onReading = { r, p -> post { viewModel.reading(r, p) } },
                         onAnswer = { i, ok -> post { viewModel.answer(i, ok) } },
                         onClear = { post { viewModel.clearAnswers() } },
-                        onZoom = { open -> post { onZoom(open) } }
+                        onZoom = { open -> post { onZoom(open) } },
+                        onExam = { on -> post { onExam(on) } },
+                        // saved straight away, not posted: a pick made just before leaving must not be lost
+                        onExamSave = { json -> viewModel.saveExam(json) }
                     ),
                     "NebStudy"
                 )

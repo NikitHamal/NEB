@@ -189,8 +189,49 @@ SEC_NE = dict(
 NEPALI_MEDIUM = ("nep", "soc", "health")
 
 
+# Entrance-examination books. A chapter maps to a part of the official entrance
+# syllabus, and the number in a spine heading is how many questions that part
+# carries in the paper, not teaching hours.
+ENTRANCE_EN = dict(
+    grade="{g}",
+    cover_sub=("Complete preparation for the entrance examination: every topic of the "
+               "official syllabus in exam order, high-yield theory, formula sheets, shortcut "
+               "methods, common traps, and hundreds of multiple-choice questions with the "
+               "reasoning behind every answer."),
+    hrs=" Qs", teaching_hours="questions in the paper", unit="Chapter",
+    syl="Official syllabus — this chapter covers",
+    th=("Content area", "Chapters", "Questions in the paper"),
+    cover_h="Syllabus and weightage at a glance",
+    front_lead=("This book covers {subject} for the {g} entrance examination, topic by topic, "
+                "against the official syllabus published by the examining body. It is written "
+                "for the exam hall: what is asked, how it is asked, and how to get it right fast."),
+    org_p=("Each chapter maps to one part of the official entrance syllabus and opens with the "
+           "exact topics it must cover. Inside a chapter you will find:"),
+    org_li=["<strong>High-yield theory</strong> in the order of the official syllabus, with nothing the paper does not ask.",
+            "<strong>Formula and fact boxes</strong> to revise from in the last weeks.",
+            "<strong>Worked problems</strong> solved the fast way an entrance paper needs, with the full method shown.",
+            "<strong>Common traps</strong>: the wrong options examiners write, and why students pick them.",
+            "<strong>A chapter summary</strong> for the night before the exam.",
+            "<strong>Multiple-choice practice</strong> in the paper's own style, every answer explained."],
+    disclaimer=("This is a free community study aid, not an official publication of the examining "
+                "body. It was prepared from the official entrance syllabus and the prerequisite "
+                "Grade 11–12 curriculum. Every question in it is original practice written to the "
+                "syllabus; none is presented as a leaked or official paper. If you spot an error, "
+                "report it in the NEBians app so the next edition can fix it for everybody."),
+    no_grid="See the examining body's current notice for the pattern.",
+)
+
+
 def set_book(slug):
     global CUR
+    import spine
+    track, _ = spine.track_of(slug)
+    if track:
+        info = spine.TRACKS[track]
+        CUR = dict(EN, **ENTRANCE_EN)
+        CUR["grade"] = info["label"]
+        CUR["cover_sub"] = info.get("cover_sub", CUR["cover_sub"])
+        return CUR
     m = re.match(r"([a-z]+)(\d+)", slug or "")
     grade = int(m.group(2)) if m else 12
     base = NE if (slug or "").startswith(NEPALI_MEDIUM) else EN

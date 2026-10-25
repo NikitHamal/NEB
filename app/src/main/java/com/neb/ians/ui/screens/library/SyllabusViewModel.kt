@@ -26,6 +26,7 @@ data class SyllabusUiState(
     val index: ApiSyllabusIndex? = null,
     val isLoading: Boolean = true,
     val error: String? = null,
+    /** The class ("12") or entrance track ("cee") the hub shows. */
     val grade: String = "12",
     val query: String = "",
     val hits: List<ApiSyllabusHit> = emptyList(),
@@ -45,7 +46,7 @@ data class SyllabusUiState(
     val lastKey: String? = null,
     /** Reading progress per chapter, "<grade>/<subject>/unit<N>" -> mark (StudyProgress). */
     val marks: Map<String, StudyMark> = emptyMap(),
-    /** The chapter opened most recently: key, title, "Class 11 · Physics". */
+    /** The chapter opened most recently: key, title, "Class 11 · Physics" (or "CEE · Physics"). */
     val lastRead: Triple<String, String, String>? = null,
     val tab: SyllabusTab = SyllabusTab.Chapters
 ) {
@@ -59,9 +60,10 @@ data class SyllabusUiState(
 enum class SyllabusTab { Chapters, Bank, Exam }
 
 /**
- * The syllabus tab: Class 8, 10, 11 and 12, as exported from the NEBians books
- * (`api/syllabus/v2/`): every unit with its full chapter, the question bank and the exam
- * pattern. Reading progress comes from [StudyProgress], keyed like the website's.
+ * The syllabus tab: Class 8, 10, 11 and 12 and the entrance tracks (CEE now; IOE, CSIT and BCA
+ * as their books land), as exported from the NEBians books (`api/syllabus/v2/`): every unit
+ * with its full chapter, the question bank and the exam pattern. Reading progress comes from
+ * [StudyProgress], keyed like the website's ("11/physics/unit3", "cee/physics/unit3").
  */
 @HiltViewModel
 class SyllabusViewModel @Inject constructor(
@@ -105,8 +107,9 @@ class SyllabusViewModel @Inject constructor(
         try {
             val index = apiService.getSyllabusIndex()
             _uiState.update { state ->
-                val grade = state.grade.takeIf { g -> index.grades.any { it.grade == g } }
-                    ?: index.grades.lastOrNull()?.grade ?: state.grade
+                // a remembered track ("cee") stays selected while the server still offers it
+                val grade = state.grade.takeIf { g -> index.all.any { it.grade == g } }
+                    ?: index.grades.lastOrNull()?.grade ?: index.tracks.firstOrNull()?.grade ?: state.grade
                 state.copy(index = index, isLoading = false, grade = grade)
             }
         } catch (e: Exception) {
@@ -132,7 +135,7 @@ class SyllabusViewModel @Inject constructor(
             delay(220)
             _uiState.update { it.copy(isSearching = true) }
             try {
-                val result = apiService.searchSyllabus(q, _uiState.value.grade)
+                val result = apiService.searchSyllabus(q, _uiState.value.grade, tracks = 1)
                 _uiState.update { it.copy(hits = result.results, hitTotal = result.total, isSearching = false) }
             } catch (e: Exception) {
                 _uiState.update { it.copy(isSearching = false) }

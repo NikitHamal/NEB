@@ -11,7 +11,13 @@ files named by their content hash instead of being inlined. Output:
     backend_python/web/data/study/<grade>-<subject>/index.json       what exists, for the pages
     backend_python/web/static/web/study/<hash>.svg|.webp              figures and photographs
 
-Run:  python3 notes/tools/export_study.py [book ...]     (default: every book of grades 8-12)
+Entrance books (`<track>-<subject>`, e.g. cee-phy) go to web/data/study/<track>-<subject key>/
+(cee-physics/). A chapter of a `*-mock` book whose spine tag is a number (a model paper, not
+the [Guide]) carries "exam": {"minutes", "negative"} from spine.TRACKS, in its JSON and on its
+item in index.json: the reader offers it as a timed test.
+
+Run:  python3 notes/tools/export_study.py [book ...]
+      (default: every book of grades 8-12, then every entrance book with a chapter written)
 Needs the book fonts (notes/pipeline/fonts/install.sh): without Inter and Noto Sans Devanagari
 matplotlib silently falls back and every Nepali label in a figure becomes a row of boxes. Clear
 notes/figures/_fig/ after installing them, or the figure cache keeps the old drawings.
@@ -31,6 +37,8 @@ ROOT = os.path.dirname(NOTES)
 PIPE = os.path.join(NOTES, "pipeline")
 sys.path.insert(0, PIPE)
 sys.path.insert(0, HERE)
+import spine  # noqa: E402
+from export_syllabus import TRACK_SUBJECTS as _TRACK_SUBJECTS  # noqa: E402
 
 DATA = os.path.join(ROOT, "backend_python", "web", "data", "study")
 MEDIA = os.path.join(ROOT, "backend_python", "web", "static", "web", "study")
@@ -59,6 +67,30 @@ SUBJECT_KEY = {"nep": "nepali", "eng": "english", "math": "mathematics", "sci": 
 def _split(slug):
     m = re.match(r"([a-z]+)(\d+)$", slug)
     return m.group(1), m.group(2)
+
+
+def _folder_name(slug):
+    """phy11 -> 11-physics; an entrance book cee-phy -> cee-physics."""
+    track, subj = spine.track_of(slug)
+    if track:
+        return "%s-%s" % (track, _TRACK_SUBJECTS[subj][0])
+    prefix, grade = _split(slug)
+    return "%s-%s" % (grade, SUBJECT_KEY[prefix])
+
+
+def _exam_units(slug):
+    """Unit numbers of a mock book's model papers (numeric spine tag) -> the timed-test rules."""
+    track, subj = spine.track_of(slug)
+    if not track or subj != "mock":
+        return {}
+    rules = {"minutes": spine.TRACKS[track]["minutes"], "negative": spine.TRACKS[track]["negative"]}
+    _, units = spine.load(slug)
+    return {u["no"]: dict(rules) for u in units if str(u["hours"]).isdigit() and int(u["hours"]) > 0}
+
+
+def _track_books():
+    """Every entrance book with a spine and at least one chapter written."""
+    return [slug for slug in spine.ALL if spine.track_of(slug)[0] and _units(slug)]
 
 
 def _media(src_path, ext=None):
@@ -173,29 +205,48 @@ def _answers_fold(htm):
     return "".join(out)
 
 
-def _mcq_keys(htm):
-    """Tie each multiple-choice list to the answer key that follows it: <li data-key="b">."""
+def _answer_boxes(htm):
+    boxes = []
+    for d in re.finditer(r'<details class="ans[^"]*">(.*?)</details>', htm, re.S):
+        keys = {}
+        for n, letter in re.findall(r"<strong>([\d०-९]+)\.?</strong>\s*\(?\s*([a-dकखगघ])\s*\)", d.group(1)):
+            keys.setdefault(int(n.translate(_DEVA_NUM)), _NE_OPT.get(letter, letter))
+        boxes.append((d.start(), keys))
+    return boxes
+
+
+def _mcq_keys(htm, far=False):
+    """Tie each multiple-choice list to the answer key that follows it: <li data-key="b">.
+
+    `far` (the entrance books) also keys a list that starts at any number, as a model paper
+    numbered 1-200 straight through does, from the first later answer box that answers its
+    first question, however far below it the key is printed."""
+    boxes = _answer_boxes(htm) if far else []
     out, pos = [], 0
-    for m in re.finditer(r"<ol>(.*?)</ol>", htm, re.S):
-        block = m.group(1)
+    for m in re.finditer(r'<ol( start="(\d+)")?>(.*?)</ol>' if far else r"<ol>(.*?)</ol>", htm, re.S):
+        block = m.group(3) if far else m.group(1)
         if 'class="opts' not in block:
             continue
-        nxt = re.search(r'<details class="ans[^"]*">(.*?)</details>', htm[m.end():m.end() + 20000], re.S)
-        if not nxt:
-            continue
+        first = int(m.group(2) or 1) if far else 1
         keys = {}
-        for n, letter in re.findall(r"<strong>([\d०-९]+)\.?</strong>\s*\(?\s*([a-dकखगघ])\s*\)", nxt.group(1)):
-            keys[int(n.translate(_DEVA_NUM))] = _NE_OPT.get(letter, letter)
+        if far:
+            keys = next((k for start, k in boxes if start > m.end() and first in k), {})
+        else:
+            nxt = re.search(r'<details class="ans[^"]*">(.*?)</details>', htm[m.end():m.end() + 20000], re.S)
+            if nxt:
+                for n, letter in re.findall(r"<strong>([\d०-९]+)\.?</strong>\s*\(?\s*([a-dकखगघ])\s*\)", nxt.group(1)):
+                    keys[int(n.translate(_DEVA_NUM))] = _NE_OPT.get(letter, letter)
         if not keys:
             continue
-        i = [0]
+        i = [first - 1]
 
         def li(lm):
             i[0] += 1
             k = keys.get(i[0])
             return '<li data-key="%s">' % k if k and 'class="opts' in lm.group(1) else lm.group(0)
         new_block = re.sub(r"<li>(?=(.*?)</li>)", li, block, flags=re.S)
-        out.append(htm[pos:m.start()] + "<ol class=\"mcq\">" + new_block + "</ol>")
+        start = ' start="%d"' % first if far and m.group(2) else ""
+        out.append(htm[pos:m.start()] + '<ol class="mcq"%s>' % start + new_block + "</ol>")
         pos = m.end()
     out.append(htm[pos:])
     return "".join(out)
@@ -239,9 +290,9 @@ def _para_mcq(htm):
     return "".join(out)
 
 
-def _finish(htm):
+def _finish(htm, far=False):
     """Give every h2 an id, collect the table of contents, fold answers, key the MCQs."""
-    htm = _para_mcq(_mcq_keys(_answers_fold(htm)))
+    htm = _para_mcq(_mcq_keys(_answers_fold(htm), far))
     toc = []
 
     def head(m):
@@ -267,7 +318,8 @@ def _chapter(args):
         meta, htm, _n = md2html.convert(text, "%s-%s" % (slug, os.path.basename(path)[5:7]))
     finally:
         i18n.CUR = L
-    htm, toc = _finish(htm)
+    import spine
+    htm, toc = _finish(htm, far=bool(spine.track_of(slug)[0]))
     words = len(_plain(htm).split())
     qs = len(re.findall(r'<h2[^>]*class="qs"', htm))
     return {
@@ -289,21 +341,31 @@ def _chapter(args):
 
 def _units(slug):
     d = os.path.join(NOTES, "content", slug)
+    if not os.path.isdir(d):
+        return []
     return sorted(os.path.join(d, f) for f in os.listdir(d) if re.match(r"unit-\d+\.md$", f))
 
 
 def export_book(slug, pool):
-    prefix, grade = _split(slug)
-    subject = SUBJECT_KEY[prefix]
-    out = os.path.join(DATA, "%s-%s" % (grade, subject))
+    paths = _units(slug)
+    if not paths:
+        print("%-8s no chapters written yet, skipped" % slug, flush=True)
+        return
+    out = os.path.join(DATA, _folder_name(slug))
     os.makedirs(out, exist_ok=True)
-    chapters = pool.map(_chapter, [(slug, p) for p in _units(slug)])
+    chapters = pool.map(_chapter, [(slug, p) for p in paths])
+    exams = _exam_units(slug)
     items = []
     for ch in chapters:
+        if ch["no"] in exams:
+            ch["exam"] = exams[ch["no"]]
         name = "unit-%02d.json" % ch["no"]
         with open(os.path.join(out, name), "w", encoding="utf-8") as fh:
             json.dump(ch, fh, ensure_ascii=False, separators=(",", ":"))
-        items.append({k: ch[k] for k in ("no", "title", "area", "words", "read_min", "figures", "has_questions")})
+        item = {k: ch[k] for k in ("no", "title", "area", "words", "read_min", "figures", "has_questions")}
+        if "exam" in ch:
+            item["exam"] = ch["exam"]
+        items.append(item)
     _merge_index(out, {"book": slug, "units": items})
     print("%-8s %2d chapters -> %s" % (slug, len(chapters), os.path.relpath(out, ROOT)), flush=True)
 
@@ -391,7 +453,7 @@ def _fonts_or_die():
 
 def main():
     _fonts_or_die()
-    wanted = sys.argv[1:] or BOOKS + BANKS
+    wanted = sys.argv[1:] or BOOKS + BANKS + _track_books()
     os.makedirs(MEDIA, exist_ok=True)
     with Pool(max(1, os.cpu_count() - 1)) as pool:
         for slug in wanted:

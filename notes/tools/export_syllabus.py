@@ -4,10 +4,20 @@
 The spines in `notes/curriculum/` are the official unit lists (title, working
 hours, syllabus bullets, exam pattern); the chapters in `notes/content/` add
 what each unit actually teaches (its sections, its summary points, its key
-terms). This script joins the two for grades 8, 10, 11 and 12 and writes
+terms). This script joins the two for grades 8, 10, 11 and 12, and for the
+entrance-examination tracks (spine.TRACKS: cee, ioe, csit, bca) whose books have
+at least one chapter written, and writes
 
     backend_python/web/data/syllabus/index.json
-    backend_python/web/data/syllabus/<grade>-<subject>.json
+    backend_python/web/data/syllabus/<grade>-<subject>.json     (12-physics.json)
+    backend_python/web/data/syllabus/<track>-<subject>.json     (cee-physics.json)
+
+A track is listed in index.json like a grade, after the school grades: its "grade"
+is the track key, "kind" is "entrance" (school grades: "school"), "short" is what
+the site and the app print on its button ("CEE"; school: "Class 8"). In a track's
+spine the [n] of a chapter is the number of questions it carries in the paper, so
+its units carry "questions" (and "hours": null), and the subject a "questions"
+total from the spine header (QUESTIONS:).
 
 Run it after a spine or a chapter changes:  python3 notes/tools/export_syllabus.py
 """
@@ -24,10 +34,14 @@ import spine  # noqa: E402
 OUT = os.path.join(os.path.dirname(NOTES), "backend_python", "web", "data", "syllabus")
 
 GRADES = {
-    "8": {"label": "Class 8", "label_ne": "कक्षा ८", "exam": "Basic Level Examination (BLE)"},
-    "10": {"label": "Class 10", "label_ne": "कक्षा १०", "exam": "Secondary Education Examination (SEE)"},
-    "11": {"label": "Class 11", "label_ne": "कक्षा ११", "exam": "NEB Grade 11 examination"},
-    "12": {"label": "Class 12", "label_ne": "कक्षा १२", "exam": "NEB Grade 12 examination"},
+    "8": {"label": "Class 8", "label_ne": "कक्षा ८", "exam": "Basic Level Examination (BLE)",
+          "short": "Class 8", "kind": "school"},
+    "10": {"label": "Class 10", "label_ne": "कक्षा १०", "exam": "Secondary Education Examination (SEE)",
+           "short": "Class 10", "kind": "school"},
+    "11": {"label": "Class 11", "label_ne": "कक्षा ११", "exam": "NEB Grade 11 examination",
+           "short": "Class 11", "kind": "school"},
+    "12": {"label": "Class 12", "label_ne": "कक्षा १२", "exam": "NEB Grade 12 examination",
+           "short": "Class 12", "kind": "school"},
 }
 
 SUBJECTS = {
@@ -47,6 +61,23 @@ SUBJECTS = {
 }
 
 ORDER = ["nep", "eng", "math", "sci", "soc", "health", "omath", "acc", "eco", "phy", "chem", "bio", "cs"]
+
+# Entrance books (`<track>-<subject>`, spine.TRACK_SUBJECTS gives the English name and the
+# colour): subject key in the URL, Nepali name, icon (Material Symbols subset), group.
+TRACK_SUBJECTS = {
+    "phy": ("physics", "भौतिक विज्ञान", "bolt", "entrance"),
+    "chem": ("chemistry", "रसायन विज्ञान", "experiment", "entrance"),
+    "zoo": ("zoology", "प्राणीशास्त्र", "genetics", "entrance"),
+    "bot": ("botany", "वनस्पतिशास्त्र", "eco", "entrance"),
+    "mat": ("mental-agility-test", "मानसिक क्षमता परीक्षण", "psychology", "entrance"),
+    "math": ("mathematics", "गणित", "calculate", "entrance"),
+    "eng": ("english", "अङ्ग्रेजी", "menu_book", "entrance"),
+    "comp": ("computer-knowledge", "कम्प्युटर ज्ञान", "computer", "entrance"),
+    "gk": ("general-knowledge-it", "सामान्य ज्ञान तथा सूचना प्रविधि", "travel_explore", "entrance"),
+    "mock": ("model-papers", "नमुना प्रश्नपत्र तथा अभ्यास परीक्षा", "quiz", "practice"),
+}
+CARD_KEYS = ("subject", "name", "name_ne", "icon", "group", "color", "lang", "hours",
+             "unit_count", "topic_count", "notes_ready")
 
 SUMMARY_HEADS = ("Chapter summary", "पाठको सार", "एकाइको सार", "अध्यायको सारांश", "अध्यायको सार", "सारांश")
 DEVA_DIGITS = str.maketrans("०१२३४५६७८९", "0123456789")
@@ -203,23 +234,101 @@ def export(slug):
     return data
 
 
+def has_chapters(slug):
+    folder = os.path.join(NOTES, "content", slug)
+    return os.path.isdir(folder) and any(re.match(r"unit-\d+\.md$", f) for f in os.listdir(folder))
+
+
+def export_track(slug):
+    """An entrance book (cee-phy): its spine's [n] are questions in the paper, not hours."""
+    track, subj = spine.track_of(slug)
+    if not track or subj not in TRACK_SUBJECTS or not has_chapters(slug):
+        return None
+    key, name_ne, icon, group = TRACK_SUBJECTS[subj]
+    name, color = spine.TRACK_SUBJECTS[subj]
+    info = spine.TRACKS[track]
+    head, units = spine.load(slug)
+    out_units = []
+    for u in units:
+        body = read_unit(slug, u["no"]) or {}
+        out_units.append({
+            "no": u["no"],
+            "title": clean(u["title"]),
+            "hours": None,
+            "questions": int(u["hours"]) if str(u["hours"]).isdigit() and int(u["hours"]) > 0 else None,
+            "area": clean(u.get("area") or ""),
+            "topics": topics_for(u, body),
+            "sections": body.get("sections", []),
+            "summary": body.get("summary", []),
+            "terms": body.get("terms", []),
+            "stats": {k: body.get(k, 0) for k in ("words", "figures", "examples")},
+            "has_notes": bool(body),
+        })
+    areas = []
+    for u in out_units:
+        if u["area"] and u["area"] not in areas:
+            areas.append(u["area"])
+    total = (head.get("questions") or "").translate(DEVA_DIGITS)
+    questions = int(total) if total.isdigit() and int(total) > 0 else (
+        sum(u["questions"] or 0 for u in out_units) or None)
+    return {
+        "grade": track,
+        "grade_label": info["label"],
+        "grade_label_ne": track_label_ne(track),
+        "short": info["short"],
+        "kind": info["kind"],
+        "subject": key,
+        "name": name,
+        "name_ne": name_ne,
+        "icon": icon,
+        "group": group,
+        "color": color,
+        "lang": "en",
+        "code": head.get("code", ""),
+        "hours": None,
+        "questions": questions,
+        "exam": parse_exam(head.get("notes", [])),
+        "areas": areas,
+        "units": out_units,
+        "unit_count": len(out_units),
+        "topic_count": sum(len(u["topics"]) for u in out_units),
+        "notes_ready": sum(1 for u in out_units if u["has_notes"]),
+    }
+
+
+def track_label_ne(track):
+    return "%s प्रवेश परीक्षा" % spine.TRACKS[track]["short"]
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     grades = {g: [] for g in GRADES}
+    tracks = {}
+    track_order = list(spine.TRACK_SUBJECTS)
     for slug in spine.ALL:
-        data = export(slug)
+        track, subj = spine.track_of(slug)
+        data = export_track(slug) if track else export(slug)
         if not data:
             continue
         name = "%s-%s.json" % (data["grade"], data["subject"])
         with open(os.path.join(OUT, name), "w", encoding="utf-8") as fh:
             json.dump(data, fh, ensure_ascii=False, indent=1)
-        prefix = split_slug(slug)[0]
-        grades[data["grade"]].append((ORDER.index(prefix), {
-            k: data[k] for k in ("subject", "name", "name_ne", "icon", "group", "color",
-                                 "lang", "hours", "unit_count", "topic_count", "notes_ready")}))
+        if track:
+            card = {k: data[k] for k in CARD_KEYS}
+            card["questions"] = data["questions"]
+            tracks.setdefault(track, []).append((track_order.index(subj), card))
+        else:
+            prefix = split_slug(slug)[0]
+            grades[data["grade"]].append((ORDER.index(prefix), {k: data[k] for k in CARD_KEYS}))
         print("%-8s -> %-34s units=%-3d topics=%d" % (slug, name, data["unit_count"], data["topic_count"]))
     index = {"grades": [dict(GRADES[g], grade=g, subjects=[s for _, s in sorted(grades[g], key=lambda t: t[0])])
                         for g in GRADES]}
+    for track in sorted(tracks, key=lambda t: spine.TRACKS[t]["order"]):
+        info = spine.TRACKS[track]
+        index["grades"].append({
+            "label": info["label"], "label_ne": track_label_ne(track), "exam": info["exam"],
+            "short": info["short"], "kind": info["kind"], "grade": track,
+            "subjects": [s for _, s in sorted(tracks[track], key=lambda t: t[0])]})
     with open(os.path.join(OUT, "index.json"), "w", encoding="utf-8") as fh:
         json.dump(index, fh, ensure_ascii=False, indent=1)
 

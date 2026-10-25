@@ -1,0 +1,59 @@
+{
+ "book": "cee-chem",
+ "units": [
+  {
+   "no": 1,
+   "title": "Basic Concepts and Stoichiometry",
+   "area": "Physical Chemistry",
+   "words": 6385,
+   "read_min": 35,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Atomic Structure",
+   "area": "Physical Chemistry",
+   "words": 5203,
+   "read_min": 29,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Classification of Elements and Periodicity",
+   "area": "Physical Chemistry",
+   "words": 4778,
+   "read_min": 27,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Chemical Bonding and Shapes of Molecules",
+   "area": "Physical Chemistry",
+   "words": 5370,
+   "read_min": 30,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Redox Reactions",
+   "area": "Physical Chemistry",
+   "words": 3942,
+   "read_min": 22,
+   "figures": 1,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "States of Matter",
+   "area": "Physical Chemistry",
+   "words": 5745,
+   "read_min": 32,
+   "figures": 3,
+   "has_questions": true
+  }
+ ]
+}

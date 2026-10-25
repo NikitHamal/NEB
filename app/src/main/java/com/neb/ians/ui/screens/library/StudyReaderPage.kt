@@ -5,19 +5,26 @@ import org.json.JSONObject
 
 private fun esc(s: String) = s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 
+/** A string as a JS literal that is also safe inside <script>. */
+private fun jsString(s: String) = JSONObject.quote(s).replace("<", "\\u003c")
+
 /** The whole page the WebView shows: the book's HTML in the app's colours, KaTeX from assets. */
 internal fun readerPage(doc: ApiStudyDoc, state: StudyReaderState, vars: String, dark: Boolean): String {
     val body = doc.html.replace("src=\"/static/", "src=\"${doc.mediaBase}static/")
     val answers = JSONObject(state.answers.mapKeys { it.key.toString() }.mapValues { if (it.value) 1 else 0 }).toString()
+    // a model paper can be taken as a timed test (EXAM_JS); its state comes back from StudyProgress
+    val exam = doc.exam?.takeIf { it.minutes > 0 }
+        ?.let { JSONObject().put("minutes", it.minutes).put("negative", it.negative).toString() } ?: "null"
     val eyebrow = listOfNotNull(state.label, doc.area?.takeIf { it.isNotBlank() }, "${doc.readMin} min read").joinToString(" · ")
     return """<!doctype html><html lang="${doc.lang}"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<link rel="stylesheet" href="katex/katex.min.css"><style>:root{$vars}$READER_CSS</style></head>
+<link rel="stylesheet" href="katex/katex.min.css"><style>:root{$vars}$READER_CSS$EXAM_CSS</style></head>
 <body class="${if (dark) "dark" else ""}"><article>
 <p class="eyebrow">${esc(eyebrow)}</p><h1 class="title">${esc(doc.title)}</h1>
 <div class="body">$body</div></article>
 <script src="katex/katex.min.js"></script>
-<script>var NEB_ANSWERS=$answers, NEB_MIN=${maxOf(1, doc.readMin)}, NEB_PLACE=${state.mark.place}, NEB_READ=${state.mark.read};$READER_JS$ZOOM_JS</script>
+<script>var NEB_ANSWERS=$answers, NEB_MIN=${maxOf(1, doc.readMin)}, NEB_PLACE=${state.mark.place}, NEB_READ=${state.mark.read},
+NEB_EXAM=$exam, NEB_EXAM_STATE=${jsString(state.examState.orEmpty())}, NEB_DOC=${jsString(state.key)};$READER_JS$ZOOM_JS$EXAM_JS</script>
 </body></html>"""
 }
 
@@ -84,13 +91,13 @@ function mark(q,choice){var k=q.getAttribute('data-key');q.classList.add('done')
 function score(){var el=document.querySelector('.score');if(!el)return;var a=0,r=0;qs.forEach(function(q){if(q.classList.contains('done')){a++;if(q.dataset.ok==='1')r++}});
 el.style.display=a?'block':'none';el.firstChild.textContent=r+' of '+a+' right'+(a<qs.length?' · '+(qs.length-a)+' still to try':'')}
 qs.forEach(function(q,i){q.querySelectorAll('.opt').forEach(function(o){if(!o.getAttribute('data-opt')){var t=o.querySelector('i');o.setAttribute('data-opt',t?t.textContent.trim():'')}
-o.addEventListener('click',function(){if(q.classList.contains('done'))return;var ok=o.getAttribute('data-opt')===q.getAttribute('data-key');q.dataset.ok=ok?'1':'0';mark(q,o.getAttribute('data-opt'));NebStudy.answer(i,ok);score()})});
+o.addEventListener('click',function(){if(window.nebExam&&nebExam.on())return;if(q.classList.contains('done'))return;var ok=o.getAttribute('data-opt')===q.getAttribute('data-key');q.dataset.ok=ok?'1':'0';mark(q,o.getAttribute('data-opt'));NebStudy.answer(i,ok);score()})});
 if(NEB_ANSWERS[i]!==undefined){q.dataset.ok=String(NEB_ANSWERS[i]);mark(q,NEB_ANSWERS[i]?q.getAttribute('data-key'):'')}});
 if(qs.length){var first=qs[0].tagName==='LI'?qs[0].parentNode:qs[0];var tip=document.createElement('p');tip.className='tip';tip.textContent='Tap an option to check it. Worked answers stay folded until you open them.';first.parentNode.insertBefore(tip,first);
 var sc=document.createElement('div');sc.className='score';sc.appendChild(document.createTextNode(''));var b=document.createElement('button');b.textContent='Try the questions again';
 b.onclick=function(){NebStudy.clear();qs.forEach(function(q){q.classList.remove('done');delete q.dataset.ok;q.querySelectorAll('.opt').forEach(function(o){o.classList.remove('right','wrong')})});score()};
 sc.appendChild(document.createElement('br'));sc.appendChild(b);document.querySelector('article').appendChild(sc);score()}
-window.nebAnswers=function(open){body.querySelectorAll('details.ans').forEach(function(d){d.open=open})};
+window.nebAnswers=function(open){if(window.nebExam&&nebExam.on())return;body.querySelectorAll('details.ans').forEach(function(d){d.open=open})};
 window.nebGo=function(id){var h=document.getElementById(id);if(h)window.scrollTo({top:h.getBoundingClientRect().top+scrollY-12,behavior:'smooth'})};
 var rate=100/(NEB_MIN*60*0.25),credit=NEB_READ,here=0,last=Date.now(),sent=0;
 function pos(){var h=document.documentElement.scrollHeight-innerHeight;return h>0?Math.max(0,Math.min(100,100*scrollY/h)):100}
@@ -138,5 +145,133 @@ var w=document.createElement('span');w.className='zf';im.parentNode.insertBefore
 var b=document.createElement('span');b.className='zb';b.innerHTML=ICON;w.appendChild(b);
 w.addEventListener('click',function(){var f=im.closest('figure'),cap=f&&f.querySelector('figcaption');open(im.currentSrc||im.src,im.alt,cap?cap.textContent.replace(/\s+/g,' ').trim():'')})});
 addEventListener('resize',function(){if(view){measure();clamp();apply()}});
+})();
+"""
+
+/* A model paper (doc.exam set) can be taken as a timed test: the keys and the folded answers are
+ * hidden, a countdown runs to an absolute deadline (no pause; it keeps running while the student is
+ * away), one option per question can be picked, changed or cleared, a palette jumps to any
+ * question, and Submit or the deadline scores +1 per right answer and -negative per wrong one, with
+ * a breakdown by the h2 section each question sits under; then the keys and explanations open.
+ * The state (start, deadline, question count, picks, finish) goes to the app through NebStudy.examSave and comes
+ * back as NEB_EXAM_STATE; NebStudy.exam(on) lets the screen hide "Show answers" meanwhile, and the
+ * sheets borrow NebStudy.zoom so Back closes them first. */
+private const val EXAM_CSS = """
+.xstart{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:-4px 0 20px;padding:12px 14px;border-radius:14px;background:var(--card);border:1px solid var(--line)}
+.xstart span{font-size:13px;line-height:1.4;color:var(--mute)}
+.xbtn,.xbtn2{border:0;border-radius:99px;padding:10px 16px;font:600 14px/1.2 system-ui,sans-serif;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.xbtn{background:var(--ink);color:var(--bg)}.xbtn2{background:var(--card2);color:var(--ink)}
+.xbar{display:none}
+body.exam-on .xbar{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border-top:1px solid var(--line)}
+.xtime{flex:none;padding:8px 10px;border-radius:10px;background:var(--card2);font:700 17px/1 ui-monospace,'Roboto Mono',monospace;font-variant-numeric:tabular-nums}
+.xbar.low .xtime{background:var(--ink);color:var(--bg)}
+.xcount{flex:1;min-width:0;font-size:12px;line-height:1.3;color:var(--mute)}
+.xbar .xbtn,.xbar .xbtn2{padding:9px 13px;font-size:13px}
+body.exam-on article{padding-bottom:120px}
+body.exam-on details.ans,body.exam-on .xkey,body.exam-on .tip,body.exam-on .score,body.exam-on .resume,body.exam-on .xstart{display:none!important}
+body.exam-review .tip,body.exam-review .score,body.exam-review .xstart{display:none!important}
+.xclr{display:none}
+body.exam-on .xans>.xclr{display:inline-block;margin:.4em 0 0;padding:4px 2px;border:0;background:none;font:600 13px system-ui,sans-serif;color:var(--mute);text-decoration:underline;cursor:pointer}
+body.exam-on [data-xi] .opt{cursor:pointer}
+.opt.xpick{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:var(--card2)}.opt.xpick>i{color:var(--ink)}
+.xflash{outline:2px solid var(--ink);outline-offset:6px;border-radius:4px}
+body.exam-review .xblank:before{content:'Not answered';display:block;margin-bottom:.2em;font-size:.72em;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+.xres{margin:0 0 24px;padding:14px 16px;border-radius:16px;background:var(--card);border:1px solid var(--line)}
+.xres[hidden]{display:none}
+.xres .xk{margin:0;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+.xscore{margin:.15em 0 .2em;font-size:15px}.xscore b{font-size:34px;line-height:1.15;letter-spacing:-.02em}
+.xmeta{margin:0 0 .8em;font-size:13px;line-height:1.5;color:var(--mute)}
+.xtab{width:100%;margin:.2em 0 1em;border-collapse:collapse;font-size:13px;line-height:1.4}
+.xtab th,.xtab td{padding:.45em .4em;border-bottom:1px solid var(--line);text-align:right}.xtab th{font-weight:600;color:var(--mute)}
+.xtab th:first-child,.xtab td:first-child{text-align:left;padding-left:0}
+.xm-note{font-size:13px;color:var(--mute)}
+.xm{position:fixed;top:0;right:0;bottom:0;left:0;z-index:40;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.45)}
+.xm-card{width:100%;max-width:560px;max-height:86vh;overflow:auto;padding:18px 18px 22px;border-radius:20px 20px 0 0;background:var(--bg);color:var(--ink)}
+.xm-card h3{margin:0 0 .5em;font-size:18px;line-height:1.3}.xm-card p{margin:0 0 .7em;font-size:14.5px;line-height:1.5}
+.xm-row{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;margin-top:14px}
+.xres .xm-row{display:grid;grid-template-columns:1fr 1fr}.xres .xm-row button{padding:10px 8px}
+.xm-card .xpal-h,.xpal-h{margin:14px 0 6px;font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--mute)}
+.xpal-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(42px,1fr));gap:6px}
+.xpn{height:40px;padding:0;border-radius:10px;border:1px solid var(--line2);background:var(--bg);color:var(--ink);font:600 13px system-ui,sans-serif}
+.xpn.on{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+"""
+
+private const val EXAM_JS = """
+(function(){
+var X=window.NEB_EXAM;if(!X||!(X.minutes>0))return;
+var body=document.querySelector('.body'),art=document.querySelector('article');
+var qs=[].slice.call(body.querySelectorAll('ol.mcq > li[data-key], .mcq-p[data-key]'));if(!qs.length)return;
+var MS=X.minutes*60000,NEG=Math.max(0,+X.negative||0),LS='neb.exam.v1:'+(window.NEB_DOC||''),bridge=!!(window.NebStudy&&NebStudy.examSave);
+var st=null,timer=0,modal=null,stash=null;
+try{if(window.NEB_EXAM_STATE)st=JSON.parse(NEB_EXAM_STATE)}catch(e){st=null}
+if(!st&&!bridge){try{st=JSON.parse(localStorage.getItem(LS)||'null')}catch(e){st=null}}
+if(st&&!(st.s>0&&st.e>st.s&&(!st.n||st.n===qs.length)))st=null;if(st)st.a=st.a||{};
+function on(){return !!(st&&!st.f)}
+window.nebExam={on:on};
+function save(){var j=st?JSON.stringify(st):'';if(bridge){try{NebStudy.examSave(j)}catch(e){}return}try{if(j)localStorage.setItem(LS,j);else localStorage.removeItem(LS)}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function fmt(n){return String(Math.round(n*100)/100)}
+function hms(ms){var s=Math.max(0,Math.ceil(ms/1000)),h=Math.floor(s/3600),m=Math.floor(s%3600/60),x=s%60;return h+':'+(m<10?'0':'')+m+':'+(x<10?'0':'')+x}
+/* each question: its printed number (a paper is numbered straight through, ol start="41") and the h2 it sits under */
+function num(q,i){if(q.tagName==='LI'){var ol=q.parentNode;return(parseInt(ol.getAttribute('start'),10)||1)+[].indexOf.call(ol.children,q)}var b=q.querySelector('strong');return parseInt(b&&b.textContent,10)||i+1}
+function head(q){var n=q;while(n.parentNode&&n.parentNode!==body)n=n.parentNode;for(;n;n=n.previousElementSibling)if(n.tagName==='H2')return n;return null}
+var Q=qs.map(function(q,i){q.setAttribute('data-xi',i);return{i:i,el:q,n:num(q,i),key:q.getAttribute('data-key'),h:head(q)}});
+var secs=[];Q.forEach(function(x){var s=secs[secs.length-1];if(!s||s.h!==x.h){s={h:x.h,t:x.h?x.h.textContent.replace(/\s*\([^()]*\)\s*$/,'').trim():'Questions',q:[]};secs.push(s)}s.q.push(x)});
+/* sections that hold only the answer key are hidden while the clock runs */
+[].forEach.call(body.querySelectorAll('h2'),function(h){var g=[h],hasQ=false,hasA=false;for(var n=h.nextElementSibling;n&&n.tagName!=='H2';n=n.nextElementSibling){g.push(n);if(n.matches('details.ans')||n.querySelector('details.ans'))hasA=true;if(n.matches('ol.mcq,.mcq-p')||n.querySelector('[data-xi]'))hasQ=true}if(hasA&&!hasQ)g.forEach(function(e){e.classList.add('xkey')})});
+var box=document.createElement('div');box.className='xstart';
+box.innerHTML='<button type="button" class="xbtn">Take as a timed test</button><span>'+Q.length+' questions · '+X.minutes+' min'+(NEG?' · −'+fmt(NEG)+' a wrong answer':'')+'</span>';
+var res=document.createElement('section');res.className='xres';res.hidden=true;
+art.insertBefore(box,body);art.insertBefore(res,body);
+box.firstChild.onclick=intro;
+var bar=document.createElement('div');bar.className='xbar';
+bar.innerHTML='<span class="xtime"></span><span class="xcount"></span><button type="button" class="xbtn2">Questions</button><button type="button" class="xbtn">Submit</button>';
+document.body.appendChild(bar);
+var tm=bar.children[0],cnt=bar.children[1];bar.children[2].onclick=palette;bar.children[3].onclick=ask;
+Q.forEach(function(x){var b=document.createElement('button');b.type='button';b.className='xclr';b.textContent='Clear';b.onclick=function(){if(on())pick(x,null)};x.el.appendChild(b)});
+body.addEventListener('click',function(e){if(!on())return;var o=e.target.closest&&e.target.closest('.opt');var q=o&&o.closest('[data-xi]');if(!q)return;pick(Q[+q.getAttribute('data-xi')],o.getAttribute('data-opt'))});
+function answered(){return Object.keys(st.a).length}
+function paintQ(x){var l=st&&st.a[x.i];x.el.classList.toggle('xans',!!l);[].forEach.call(x.el.querySelectorAll('.opt'),function(o){o.classList.toggle('xpick',!!l&&o.getAttribute('data-opt')===l)})}
+function count(){var a=answered();cnt.textContent=a+' answered · '+(Q.length-a)+' left'}
+function pick(x,l){if(l)st.a[x.i]=l;else delete st.a[x.i];paintQ(x);count();save()}
+function tick(){if(!on())return;var left=st.e-Date.now();if(left<=0){finish(true);return}tm.textContent=hms(left);bar.classList.toggle('low',left<=300000)}
+/* the practice marks (tapped earlier) would give the keys away: kept aside, put back for practice */
+function keep(){if(!stash)stash=qs.map(function(q){return[q.className,[].map.call(q.querySelectorAll('.opt'),function(o){return o.className})]})}
+function wipe(){Q.forEach(function(x){x.el.classList.remove('done','xans','xblank');[].forEach.call(x.el.querySelectorAll('.opt'),function(o){o.classList.remove('right','wrong','xpick')})})}
+function closeModal(){if(!modal)return;modal.remove();modal=null;try{NebStudy.zoom(false)}catch(e){}}
+function openModal(h,wire){closeModal();modal=document.createElement('div');modal.className='xm';modal.innerHTML='<div class="xm-card" role="dialog" aria-modal="true">'+h+'</div>';
+modal.addEventListener('click',function(e){if(e.target===modal)closeModal()});document.body.appendChild(modal);wire(modal);try{NebStudy.zoom(true)}catch(e){}}
+/* Back (the app routes it through nebZoomClose) closes a sheet before it leaves the chapter */
+var zc=window.nebZoomClose;window.nebZoomClose=function(){if(modal){closeModal();return}if(zc)zc()};
+var go=window.nebGo;window.nebGo=function(id){var h=document.getElementById(id);if(on()&&h&&h.classList.contains('xkey'))return;if(go)go(id)};
+function btn(cls,x,t){return'<button type="button" class="'+cls+'" data-x="'+x+'">'+t+'</button>'}
+function intro(){openModal('<h3>Take this paper as a timed test</h3><p><b>'+Q.length+' questions · '+X.minutes+' minutes</b></p><p>'+(NEG?'+1 for a right answer, −'+fmt(NEG)+' for a wrong one, 0 for a blank.':'+1 for a right answer, 0 for a wrong one or a blank.')+'</p><p>Answers and explanations stay hidden until you submit. The clock cannot be paused: it keeps running if you leave this page.</p><div class="xm-row">'+btn('xbtn2','no','Cancel')+btn('xbtn','go','Start the test')+'</div>',
+function(m){m.querySelector('[data-x=no]').onclick=closeModal;m.querySelector('[data-x=go]').onclick=function(){closeModal();begin()}})}
+function begin(){var now=Date.now();st={s:now,e:now+MS,n:Q.length,a:{},f:0};save();enter();window.scrollTo({top:Math.max(0,body.getBoundingClientRect().top+scrollY-12),behavior:'smooth'})}
+function enter(){keep();wipe();res.hidden=true;document.body.classList.remove('exam-review');document.body.classList.add('exam-on');
+body.querySelectorAll('details.ans').forEach(function(d){d.open=false});Q.forEach(paintQ);count();clearInterval(timer);timer=setInterval(tick,500);tick();try{NebStudy.exam(true)}catch(e){}}
+function palette(){var a=answered(),h='<h3>Questions</h3><p class="xm-note">'+a+' answered · '+(Q.length-a)+' left. Tap a number to go to it.</p>';
+secs.forEach(function(s){h+='<p class="xpal-h">'+esc(s.t)+'</p><div class="xpal-g">';s.q.forEach(function(x){h+='<button type="button" class="xpn'+(st.a[x.i]?' on':'')+'" data-i="'+x.i+'">'+x.n+'</button>'});h+='</div>'});
+openModal(h+'<div class="xm-row">'+btn('xbtn2','no','Close')+btn('xbtn','sub','Submit')+'</div>',function(m){m.querySelector('[data-x=no]').onclick=closeModal;m.querySelector('[data-x=sub]').onclick=function(){closeModal();ask()};
+[].forEach.call(m.querySelectorAll('.xpn'),function(b){b.onclick=function(){closeModal();jump(Q[+b.getAttribute('data-i')])}})})}
+function jump(x){window.scrollTo({top:Math.max(0,x.el.getBoundingClientRect().top+scrollY-16),behavior:'smooth'});x.el.classList.add('xflash');setTimeout(function(){x.el.classList.remove('xflash')},1500)}
+function ask(){if(!on())return;var b=Q.length-answered();if(!b){finish(false);return}
+openModal('<h3>Submit the test?</h3><p>'+b+(b===1?' question is':' questions are')+' not answered. A blank scores 0.</p><div class="xm-row">'+btn('xbtn2','no','Keep going')+btn('xbtn','go','Submit now')+'</div>',function(m){m.querySelector('[data-x=no]').onclick=closeModal;m.querySelector('[data-x=go]').onclick=function(){finish(false)}})}
+function finish(out){if(!on())return;st.f=Math.min(Date.now(),st.e);if(out)st.t=1;save();clearInterval(timer);closeModal();review(true)}
+function review(scroll){keep();wipe();document.body.classList.remove('exam-on');document.body.classList.add('exam-review');
+var T={c:0,w:0,b:0},rows=secs.map(function(s){var r={t:s.t,n:s.q.length,c:0,w:0,b:0};s.q.forEach(function(x){var l=st.a[x.i];if(!l)r.b++;else if(l===x.key)r.c++;else r.w++});T.c+=r.c;T.w+=r.w;T.b+=r.b;return r});
+Q.forEach(function(x){var l=st.a[x.i];x.el.classList.add('done');x.el.classList.toggle('xblank',!l);[].forEach.call(x.el.querySelectorAll('.opt'),function(o){var v=o.getAttribute('data-opt');o.classList.toggle('right',v===x.key);o.classList.toggle('wrong',!!l&&v===l&&l!==x.key)})});
+body.querySelectorAll('details.ans').forEach(function(d){d.open=true});
+var att=T.c+T.w,used=Math.min(st.f,st.e)-st.s;
+var h='<p class="xk">Timed test result</p><p class="xscore"><b>'+fmt(T.c-NEG*T.w)+'</b> / '+Q.length+'</p><p class="xmeta">'+T.c+' right · '+T.w+' wrong · '+T.b+' blank · accuracy '+(att?fmt(100*T.c/att)+'%':'–')+' · time '+hms(used)+(st.t?' (time ran out)':'')+'</p>';
+if(rows.length>1){h+='<table class="xtab"><thead><tr><th>Section</th><th>Right</th><th>Wrong</th><th>Blank</th><th>Score</th></tr></thead><tbody>';rows.forEach(function(r){h+='<tr><td>'+esc(r.t)+'</td><td>'+r.c+'</td><td>'+r.w+'</td><td>'+r.b+'</td><td><b>'+fmt(r.c-NEG*r.w)+'</b> / '+r.n+'</td></tr>'});h+='</tbody></table>'}
+h+='<p class="xm-note">Right answers are marked, your wrong picks crossed, and every explanation is open below.</p><div class="xm-row">'+btn('xbtn2','practice','Back to practice')+btn('xbtn','retake','Retake the test')+'</div>';
+res.innerHTML=h;res.hidden=false;res.querySelector('[data-x=practice]').onclick=practice;res.querySelector('[data-x=retake]').onclick=function(){practice();intro()};
+if(scroll)window.scrollTo({top:Math.max(0,res.getBoundingClientRect().top+scrollY-12),behavior:'smooth'});try{NebStudy.exam(false)}catch(e){}}
+function practice(){st=null;save();clearInterval(timer);closeModal();wipe();res.hidden=true;document.body.classList.remove('exam-on','exam-review');
+if(stash){qs.forEach(function(q,i){q.className=stash[i][0];[].forEach.call(q.querySelectorAll('.opt'),function(o,j){if(stash[i][1][j]!=null)o.className=stash[i][1][j]})});stash=null}
+body.querySelectorAll('details.ans').forEach(function(d){d.open=false});try{NebStudy.exam(false)}catch(e){}}
+document.addEventListener('visibilitychange',function(){if(!document.hidden)tick()});
+if(st){if(st.f)review(false);else if(Date.now()>=st.e)finish(true);else enter()}
 })();
 """

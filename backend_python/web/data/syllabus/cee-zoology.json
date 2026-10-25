@@ -1,0 +1,395 @@
+{
+ "grade": "cee",
+ "grade_label": "CEE · MECEE-BL Medical Entrance",
+ "grade_label_ne": "CEE प्रवेश परीक्षा",
+ "short": "CEE",
+ "kind": "entrance",
+ "subject": "zoology",
+ "name": "Zoology",
+ "name_ne": "प्राणीशास्त्र",
+ "icon": "genetics",
+ "group": "entrance",
+ "color": "#0B6A62",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 40,
+ "exam": "3 hours, 200 single-best-answer MCQs with four options, 200 marks, 0.25 deducted per wrong answer, merit list from the 50th percentile | Zoology 40x1=40 | Botany 40x1=40 | Chemistry 50x1=50 | Physics 50x1=50 | Mental Agility Test 20x1=20",
+ "areas": [
+  "Evolution and Diversity",
+  "Study of Selected Animals",
+  "Human Biology and Physiology",
+  "Applied Zoology"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Evolutionary Biology",
+   "hours": null,
+   "questions": 3,
+   "area": "Evolution and Diversity",
+   "topics": [
+    "Origin of life: the Oparin–Haldane theory and the Miller–Urey experiment",
+    "Evidences of evolution: morphological, anatomical, palaeontological, embryological and biochemical",
+    "Lamarckism, Darwinism and Neo-Darwinism",
+    "Human evolution from Ramapithecus to modern man"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Origin of life: the Oparin–Haldane theory and the Miller–Urey experiment"
+    },
+    {
+     "no": "1.2",
+     "title": "Evidences of evolution: morphological, anatomical, palaeontological, embryological and biochemical"
+    },
+    {
+     "no": "1.3",
+     "title": "Lamarckism, Darwinism and Neo-Darwinism"
+    },
+    {
+     "no": "1.4",
+     "title": "Human evolution from Ramapithecus to modern man"
+    }
+   ],
+   "summary": [
+    "Life arose by chemical evolution (Oparin 1924, Haldane 1929) in a reducing atmosphere of CH₄, NH₃, H₂ and water vapour with no free O₂, energised by UV and lightning: monomers → polymers → coacervates/microspheres → protocell → anaerobic heterotroph.",
+    "Miller–Urey (1953) sparked CH₄, NH₃, H₂ (2 : 1 : 2) and steam for a week and obtained amino acids (glycine, alanine) — monomers, not life.",
+    "Homologous organs (same origin, different use) show divergent evolution; analogous organs (different origin, same use) show convergent evolution; vestigial organs and atavism point to ancestors.",
+    "Connecting links — Peripatus, Neopilina, Balanoglossus, lungfish, Archaeopteryx, platypus — and the horse series (Eohippus → Equus, toes 4 → 1) are the classic fossil and living evidence.",
+    "Haeckel's biogenetic law (embryos), Nuttall's precipitin test, cytochrome c and the universal genetic code (biochemistry) complete the evidence.",
+    "Lamarck (1809): use and disuse + inheritance of acquired characters — refuted by Weismann (22 generations of tailed mice; germplasm theory).",
+    "Darwin (1859): overproduction, struggle, variation, natural selection (\"survival of the fittest\", Spencer); weakness — no theory of variation or heredity. De Vries: mutation, Oenothera.",
+    "Neo-Darwinism: mutation + recombination + selection + isolation (+ drift, gene flow); the population evolves; Hardy–Weinberg p^2 + 2pq + q^2 = 1; Biston betularia is directional selection."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7361,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Animal Diversity and Classification",
+   "hours": null,
+   "questions": 4,
+   "area": "Evolution and Diversity",
+   "topics": [
+    "Diagnostic features and classification of animals from Protozoa to Chordata"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Diagnostic features and classification of animals from Protozoa to Chordata"
+    }
+   ],
+   "summary": [
+    "Animals are classified by level of organisation, symmetry, germ layers, coelom and segmentation: cellular → Porifera; tissue, radial, diploblastic → Coelenterata; acoelomate → Platyhelminthes; pseudocoelomate → Aschelminthes; schizocoelous protostomes → Annelida, Arthropoda, Mollusca; enterocoelous deuterostomes → Echinodermata, Hemichord",
+    "Protozoa are grouped by locomotion: pseudopodia (Amoeba, Entamoeba), flagella (Euglena, Trypanosoma, Leishmania), none (Sporozoa: Plasmodium), cilia (Paramecium, Balantidium).",
+    "Porifera: ostia, osculum, canal system, choanocytes, spicules or spongin, gemmules; Calcarea, Hexactinellida (Euplectella), Demospongiae (Euspongia, Spongilla).",
+    "Coelenterata: radial, diploblastic, coelenteron, nematocysts, polyp and medusa, metagenesis in Obelia; Hydrozoa, Scyphozoa, Anthozoa.",
+    "Platyhelminthes (flame cells; Fasciola, Taenia) and Aschelminthes (pseudocoel, complete gut, separate sexes; Ascaris, Wuchereria, Ancylostoma, Enterobius).",
+    "Annelida: metameres, setae/parapodia, closed circulation, nephridia; Polychaeta (Nereis), Oligochaeta (Pheretima), Hirudinea (Hirudinaria).",
+    "Arthropoda, the largest phylum: jointed legs, chitin, haemocoel, open circulation; Crustacea (2 pairs of antennae, gills, green glands), Myriapoda, Insecta (3 pairs of legs, tracheae, Malpighian tubules), Arachnida (4 pairs of legs, book lungs, no antennae).",
+    "Mollusca: mantle, shell, radula, ctenidia; seven classes from Neopilina to Sepia; Echinodermata: pentaradial adults, water vascular system, tube feet; Asteroidea to Crinoidea."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 7302,
+    "figures": 2,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Animal Tissues and Histology",
+   "hours": null,
+   "questions": 4,
+   "area": "Evolution and Diversity",
+   "topics": [
+    "Epithelial, connective, muscular and nervous tissues: structure, location and function"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Epithelial, connective, muscular and nervous tissues: structure, location and function"
+    }
+   ],
+   "summary": [
+    "A tissue is a group of similar cells with a common origin and function; the four primary tissues are epithelial, connective, muscular and nervous.",
+    "Epithelium rests on a basement membrane, has almost no matrix, is avascular and arises from all three germ layers; it is named by layers and cell shape — squamous (alveoli, capillaries), cuboidal (kidney tubules, thyroid), columnar (stomach, intestine), ciliated (oviduct), pseudostratified (trachea), stratified squamous (skin, oesophagus)",
+    "Glands are exocrine, endocrine or heterocrine (pancreas), and secrete in merocrine (salivary), apocrine (mammary) or holocrine (sebaceous) fashion.",
+    "Connective tissue has few cells (fibroblasts, macrophages, mast cells, plasma cells, fat cells) in abundant matrix with collagen, elastic and reticular fibres: areolar, adipose, tendon, ligament, cartilage, bone, blood and lymph.",
+    "Cartilage is avascular with chondrin matrix — hyaline (joints, trachea), elastic (pinna, epiglottis), fibrocartilage (intervertebral discs); bone has ossein and hydroxyapatite, osteocytes in lacunae and Haversian systems.",
+    "Blood: 55 % plasma; RBCs (5 million/mm³, 120 days, no nucleus), WBCs (6000–8000/mm³; neutrophils most, basophils fewest, monocytes largest) and platelets (clotting).",
+    "Muscle: skeletal (striated, voluntary, multinucleate), smooth (spindle, involuntary) and cardiac (branched, intercalated discs, myogenic); in contraction actin slides over myosin, the A band stays constant and the I band and H zone shorten.",
+    "Nervous tissue: neurons (cyton with Nissl granules, dendrites, axon, myelin from Schwann cells or oligodendrocytes, nodes of Ranvier) and neuroglia (astrocytes, oligodendrocytes, Schwann cells, microglia, ependymal cells)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 5985,
+    "figures": 3,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Plasmodium, Earthworm and Frog",
+   "hours": null,
+   "questions": 6,
+   "area": "Study of Selected Animals",
+   "topics": [
+    "Plasmodium: habitat, structure, life cycle and types of malaria",
+    "Earthworm (Pheretima): morphology, body systems, physiology and economic importance",
+    "Frog (Rana): morphology, body systems and physiology"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Plasmodium: habitat, structure, life cycle and types of malaria"
+    },
+    {
+     "no": "4.2",
+     "title": "Earthworm (Pheretima): morphology, body systems, physiology and economic importance"
+    },
+    {
+     "no": "4.3",
+     "title": "Frog (Rana): morphology, body systems and physiology"
+    }
+   ],
+   "summary": [
+    "Plasmodium (Sporozoa) is a digenetic intracellular parasite: asexual schizogony in man (intermediate host) — liver cells, then the 48-hour Golgi cycle in RBCs — and sexual phase in the female Anopheles (definitive host) — gametes, zygote, ookinete, oocyst, sporozoites in the salivary glands.",
+    "The sporozoite infects man and the gametocyte infects the mosquito; the zygote is the only diploid stage; the fever follows the synchronous bursting of RBCs and the release of haemozoin.",
+    "P. vivax (benign tertian, relapses from hypnozoites, commonest in Nepal), P. falciparum (malignant tertian, cerebral malaria), P. malariae (quartan, 72 h) and P. ovale (ovale tertian).",
+    "Pheretima posthuma: about 100–120 segments; prostomium; clitellum 14–16; perichaetine setae; female pore 14, male pores 18, papillae 17 and 19, spermathecal pores 5/6–8/9.",
+    "Earthworm gut: pharynx 4, gizzard 8–9, stomach 9–14 with calciferous glands, caeca and typhlosole from 26; closed circulation with Hb in plasma and four pairs of hearts (7, 9, 12, 13); cutaneous respiration; septal, integumentary and pharyngeal nephridia.",
+    "The earthworm is a protandrous hermaphrodite: testes 10–11, ovaries 13, spermathecae 6–9; cross-fertilisation, fertilisation in the cocoon, direct development; it is the farmer's friend and the basis of vermicomposting.",
+    "The frog (Rana tigrina) breathes by skin, buccopharynx and lungs (buccal force pump); its three-chambered heart with sinus venosus and spiral valve gives a double but incomplete circulation; RBCs are nucleated.",
+    "The frog is ureotelic with mesonephric kidneys; the male's ureter is a urinogenital duct; it has 10 pairs of cranial nerves, 9 vertebrae and a urostyle; fertilisation is external after amplexus, and thyroxine drives metamorphosis of the tadpole."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 8239,
+    "figures": 3,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Digestive System",
+   "hours": null,
+   "questions": 2,
+   "area": "Human Biology and Physiology",
+   "topics": [
+    "The alimentary canal and the digestive glands",
+    "Physiology of digestion and absorption"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 6,
+   "title": "Respiratory System",
+   "hours": null,
+   "questions": 2,
+   "area": "Human Biology and Physiology",
+   "topics": [
+    "Respiratory organs and the mechanism of breathing",
+    "Exchange and transport of gases; regulation of respiration",
+    "Respiratory disorders"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 7,
+   "title": "Circulatory System",
+   "hours": null,
+   "questions": 3,
+   "area": "Human Biology and Physiology",
+   "topics": [
+    "The heart, the heartbeat, the cardiac cycle and cardiac output",
+    "Arterial and venous systems; blood pressure",
+    "Blood and blood groups",
+    "Cardiovascular disorders"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 8,
+   "title": "Excretory System",
+   "hours": null,
+   "questions": 2,
+   "area": "Human Biology and Physiology",
+   "topics": [
+    "Excretory organs and the structure of the nephron",
+    "Formation of urine and its regulation",
+    "Renal disorders"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 9,
+   "title": "Nervous System and Sense Organs",
+   "hours": null,
+   "questions": 2,
+   "area": "Human Biology and Physiology",
+   "topics": [
+    "Central, peripheral and autonomic nervous systems",
+    "The nerve impulse and the synapse",
+    "The eye and the ear"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 10,
+   "title": "Endocrine System",
+   "hours": null,
+   "questions": 2,
+   "area": "Human Biology and Physiology",
+   "topics": [
+    "Endocrine glands and their hormones",
+    "Hormonal disorders"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 11,
+   "title": "Reproductive System",
+   "hours": null,
+   "questions": 2,
+   "area": "Human Biology and Physiology",
+   "topics": [
+    "Male and female reproductive organs",
+    "Gametogenesis",
+    "The ovarian and menstrual cycles"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 12,
+   "title": "Microbial Diseases and Immunology",
+   "hours": null,
+   "questions": 4,
+   "area": "Applied Zoology",
+   "topics": [
+    "Typhoid, tuberculosis, HIV/AIDS, cholera, influenza, hepatitis and candidiasis",
+    "Innate and acquired immunity; antigens and antibodies",
+    "Vaccines: live attenuated, inactivated and toxoid"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 13,
+   "title": "Medical Technology and Applied Biology",
+   "hours": null,
+   "questions": 2,
+   "area": "Applied Zoology",
+   "topics": [
+    "Tissue and organ transplantation, in-vitro fertilization, amniocentesis and transgenic animals",
+    "Applied microbiology: dairy and beverage microbes, sewage and drinking-water treatment, bio-control agents"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 14,
+   "title": "Biota, Environment and Conservation",
+   "hours": null,
+   "questions": 2,
+   "area": "Applied Zoology",
+   "topics": [
+    "Animal behaviour: reflex actions, taxes and migration",
+    "Air, water and soil pollution; pesticides",
+    "Aquatic, terrestrial and volant adaptations",
+    "Conservation biology: biodiversity, protected areas, hotspots, Ramsar sites, IUCN categories and endangered species of Nepal"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  }
+ ],
+ "unit_count": 14,
+ "topic_count": 38,
+ "notes_ready": 4
+}

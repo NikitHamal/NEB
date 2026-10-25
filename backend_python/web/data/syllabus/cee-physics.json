@@ -1,0 +1,648 @@
+{
+ "grade": "cee",
+ "grade_label": "CEE · MECEE-BL Medical Entrance",
+ "grade_label_ne": "CEE प्रवेश परीक्षा",
+ "short": "CEE",
+ "kind": "entrance",
+ "subject": "physics",
+ "name": "Physics",
+ "name_ne": "भौतिक विज्ञान",
+ "icon": "bolt",
+ "group": "entrance",
+ "color": "#4A42D6",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 50,
+ "exam": "3 hours, 200 single-best-answer MCQs with four options, 200 marks, 0.25 deducted per wrong answer, merit list from the 50th percentile | Zoology 40x1=40 | Botany 40x1=40 | Chemistry 50x1=50 | Physics 50x1=50 | Mental Agility Test 20x1=20",
+ "areas": [
+  "Mechanics",
+  "Heat and Thermodynamics",
+  "Waves and Optics",
+  "Current Electricity and Magnetism",
+  "Electrostatics and Capacitors",
+  "Modern Physics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Physical Quantities, Vectors and Kinematics",
+   "hours": null,
+   "questions": 2,
+   "area": "Mechanics",
+   "topics": [
+    "Precision, accuracy, significant figures and dimensional analysis",
+    "Scalars and vectors: laws of addition, resolution, scalar and vector products",
+    "Linear motion: equations of motion and their graphical treatment",
+    "Projectile motion, with and without a resistive force"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Precision, accuracy, significant figures and dimensional analysis"
+    },
+    {
+     "no": "1.2",
+     "title": "Scalars and vectors: laws of addition, resolution, scalar and vector products"
+    },
+    {
+     "no": "1.3",
+     "title": "Linear motion: equations of motion and their graphical treatment"
+    },
+    {
+     "no": "1.4",
+     "title": "Projectile motion, with and without a resistive force"
+    }
+   ],
+   "summary": [
+    "Accuracy is closeness to the true value; precision is closeness of repeated readings. Systematic errors spoil accuracy and are not removed by repeating.",
+    "Leading zeros never count as significant; trailing zeros after a decimal point do. Sums keep the fewest decimal places, products the fewest significant figures.",
+    "Percentage errors always add, each multiplied by its power: %(A^pB^q/C^r) = p%A + q%B + r%C.",
+    "Every term in a correct equation has the same dimensions; dimensions convert units and derive power-law relations, but cannot give numerical constants or tell work from torque.",
+    "R^2 = A^2 + B^2 + 2ABcosθ; |A - B| ≤ R ≤ A + B; two equal vectors at 120° have a resultant equal to either.",
+    "vec A·vec B = ABcosθ (zero when perpendicular), |vec A×vec B| = ABsinθ (zero when parallel, equals the parallelogram area).",
+    "v = u + at, s = ut + (1)/(2)at^2, v^2 = u^2 + 2as, sn = u + (a)/(2)(2n-1); slope of v–t = acceleration, area = displacement.",
+    "Projectile: T = 2usinθ/g, H = u^2sin^2θ/2g, R = u^2sin2θ/g; maximum range at 45°; complementary angles give equal ranges."
+   ],
+   "terms": [
+    "Accuracy and precision",
+    "Principle of homogeneity"
+   ],
+   "stats": {
+    "words": 7073,
+    "figures": 3,
+    "examples": 7
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Dynamics: Force, Momentum, Work, Energy and Power",
+   "hours": null,
+   "questions": 2,
+   "area": "Mechanics",
+   "topics": [
+    "Newton's laws of motion and the conditions of equilibrium",
+    "Impulse, linear momentum and its conservation",
+    "Work, energy and power; the work–energy theorem; conservation of energy",
+    "Elastic and inelastic collisions",
+    "Solid friction: laws, coefficient, angle of friction and angle of repose"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Newton's laws of motion and the conditions of equilibrium"
+    },
+    {
+     "no": "2.2",
+     "title": "Impulse, linear momentum and its conservation"
+    },
+    {
+     "no": "2.3",
+     "title": "Work, energy and power; the work–energy theorem; conservation of energy"
+    },
+    {
+     "no": "2.4",
+     "title": "Elastic and inelastic collisions"
+    },
+    {
+     "no": "2.5",
+     "title": "Solid friction: laws, coefficient, angle of friction and angle of repose"
+    }
+   ],
+   "summary": [
+    "Inertia is resistance to change of motion, measured by mass; vec F = dvec p/dt; action and reaction are equal, opposite and act on different bodies, so they never cancel.",
+    "A weighing machine reads m(g ± a) according to the direction of the acceleration; zero in free fall, mg at constant velocity.",
+    "Equilibrium of a rigid body needs zero net force and zero net torque; three concurrent forces in equilibrium obey Lami's theorem.",
+    "Impulse = change in momentum = area under the force–time graph; spreading the same impulse over more time lowers the force.",
+    "With no external force, total momentum is conserved: recoil, explosions, rockets and every collision.",
+    "W = Fscosθ; the net work equals the change in kinetic energy; K = p^2/2m; P = Fv.",
+    "Elastic collisions conserve KE (e = 1); perfectly inelastic ones stick together (e = 0) and lose the most KE; equal masses in an elastic head-on collision exchange velocities.",
+    "Limiting friction μsN is independent of area of contact; μk < μs; angle of repose = angle of friction, μs = tanθr."
+   ],
+   "terms": [
+    "Principle of conservation of linear momentum"
+   ],
+   "stats": {
+    "words": 6817,
+    "figures": 3,
+    "examples": 6
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Rotational Dynamics",
+   "hours": null,
+   "questions": 1,
+   "area": "Mechanics",
+   "topics": [
+    "Moment of inertia of a uniform rod and radius of gyration",
+    "Torque, rotational work, kinetic energy and power",
+    "Angular momentum and its conservation"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Moment of inertia of a uniform rod and radius of gyration"
+    },
+    {
+     "no": "3.2",
+     "title": "Torque, rotational work, kinetic energy and power"
+    },
+    {
+     "no": "3.3",
+     "title": "Angular momentum and its conservation"
+    }
+   ],
+   "summary": [
+    "Moment of inertia I = Σ mr^2 depends on the mass, its distribution and the axis — not on the angular velocity; it is the rotational analogue of mass.",
+    "Uniform rod: ML^2/12 about the centre, ML^2/3 about an end; the centre gives the least I of all parallel axes (I = Icm + Md^2).",
+    "Radius of gyration k = √I/M: L/(2√3) about the centre and L/√3 about an end; k doubles when I quadruples.",
+    "Torque τ = rFsinθ (unit N m, never joule) and τ = Iα; a force through the axis gives no torque; a couple turns without translating.",
+    "Rotational work τθ, power τω, kinetic energy (1)/(2)Iω^2; rotational equations of motion mirror the linear ones.",
+    "Angular momentum L = Iω = mvrsinθ (J s); τ = dL/dt.",
+    "With zero external torque Iω is constant: the skater, the diver, planets moving faster near the Sun; K = L^2/2I rises when I falls."
+   ],
+   "terms": [
+    "Moment of inertia",
+    "Radius of gyration",
+    "Torque",
+    "Angular momentum"
+   ],
+   "stats": {
+    "words": 5449,
+    "figures": 2,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Fluid Statics and Dynamics",
+   "hours": null,
+   "questions": 1,
+   "area": "Mechanics",
+   "topics": [
+    "Pressure in a fluid; surface tension, surface energy and capillary action",
+    "Viscosity: Newton's law of viscous flow, Stokes' law and terminal velocity, Poiseuille's formula",
+    "Equation of continuity and Bernoulli's principle with applications"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Pressure in a fluid; surface tension, surface energy and capillary action"
+    },
+    {
+     "no": "4.2",
+     "title": "Viscosity: Newton's law of viscous flow, Stokes' law and terminal velocity, Poiseuille's formula"
+    },
+    {
+     "no": "4.3",
+     "title": "Equation of continuity and Bernoulli's principle with applications"
+    }
+   ],
+   "summary": [
+    "Pressure in a liquid is P0 + hρ g, the same at one level, independent of the vessel's shape; Pascal's law multiplies force in a hydraulic lift; upthrust equals the weight of fluid displaced.",
+    "Surface tension (N m⁻¹) equals surface energy per unit area (J m⁻²); it falls with temperature and with soap or detergent; a soap film has two surfaces.",
+    "Excess pressure is 2T/r in a drop and 4T/r in a soap bubble — the smaller the bubble, the higher the pressure.",
+    "Capillary rise h = 2Tcosθ/(rρ g): liquids that wet glass (acute angle, concave meniscus) rise; mercury (obtuse, convex) is depressed; a short tube never overflows.",
+    "Viscous force F = η A dv/dx; viscosity of liquids falls and of gases rises on heating; SI unit Pa s.",
+    "Stokes' drag 6πη rv leads to the terminal velocity 2r^2(ρ - σ)g/9η, proportional to r^2.",
+    "Poiseuille's flow Q = π Pr^4/8η l depends on the fourth power of the radius.",
+    "Continuity A1v1 = A2v2 and Bernoulli P + (1)/(2)ρ v^2 + ρ gh = constant: faster flow means lower pressure — venturimeter, Torricelli's √2gh, wing lift, atomisers."
+   ],
+   "terms": [
+    "Pascal's law",
+    "Surface tension",
+    "Angle of contact",
+    "Newton's law of viscous flow",
+    "Stokes' law",
+    "Bernoulli's theorem"
+   ],
+   "stats": {
+    "words": 6370,
+    "figures": 3,
+    "examples": 5
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Circular Motion and Simple Harmonic Motion",
+   "hours": null,
+   "questions": 2,
+   "area": "Mechanics",
+   "topics": [
+    "Angular quantities; centripetal acceleration and force",
+    "Motion in a horizontal and in a vertical circle",
+    "Simple harmonic motion: displacement, velocity, acceleration, restoring force, energy, period and frequency",
+    "Simple pendulum and spring–mass system; forced oscillation and resonance"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Angular quantities; centripetal acceleration and force"
+    },
+    {
+     "no": "5.2",
+     "title": "Motion in a horizontal and in a vertical circle"
+    },
+    {
+     "no": "5.3",
+     "title": "Simple harmonic motion: displacement, velocity, acceleration, restoring force, energy, period and frequency"
+    },
+    {
+     "no": "5.4",
+     "title": "Simple pendulum and spring–mass system; forced oscillation and resonance"
+    }
+   ],
+   "summary": [
+    "In uniform circular motion speed is constant but velocity is not; the acceleration v^2/r = ω^2r points to the centre, and the centripetal force does no work.",
+    "The centripetal force is supplied by a real force: friction on a level road (vmax = √μ rg), the normal reaction on a banked road (tanθ = v^2/rg), tension, gravity.",
+    "In a vertical circle on a string the least speeds are √gr at the top and √5gr at the bottom; the tension is greatest at the bottom, by 6mg more than at the top.",
+    "SHM: acceleration = -ω^2× displacement; x = Asin(ω t + φ), v = ω√A^2 - x^2; speed is greatest at the mean position, acceleration at the extremes.",
+    "Total energy (1)/(2)mω^2A^2 is constant; KE = PE at x = A/√2; each form of energy oscillates at twice the frequency.",
+    "Simple pendulum T = 2π√l/g (independent of mass, depends on g); spring T = 2π√m/k (depends on mass, independent of g).",
+    "Springs in series are softer, in parallel stiffer; half a spring is twice as stiff.",
+    "Forced oscillations take the driver's frequency; at resonance (driving frequency = natural frequency) the amplitude is greatest, more sharply so with less damping."
+   ],
+   "terms": [
+    "Simple harmonic motion"
+   ],
+   "stats": {
+    "words": 5913,
+    "figures": 4,
+    "examples": 4
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Gravitation",
+   "hours": null,
+   "questions": 1,
+   "area": "Mechanics",
+   "topics": [
+    "Newton's law of gravitation; acceleration due to gravity and its variation",
+    "Gravitational field strength, potential and potential energy",
+    "Satellites: orbital velocity, period, energy, escape velocity, geostationary orbit"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 7,
+   "title": "Elasticity",
+   "hours": null,
+   "questions": 1,
+   "area": "Mechanics",
+   "topics": [
+    "Stress, strain and Hooke's law",
+    "Young's modulus, bulk modulus and modulus of rigidity; Poisson's ratio",
+    "Elastic potential energy and energy density"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 8,
+   "title": "Heat, Temperature and Heat Transfer",
+   "hours": null,
+   "questions": 2,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Thermal energy, heat and temperature; thermal equilibrium and the zeroth law",
+    "Thermometers: liquid-in-glass, resistance and radiation thermometers — principle, advantages and limitations",
+    "Conduction, convection and radiation; black-body radiation and the Stefan–Boltzmann law"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 9,
+   "title": "Thermal Expansion and Quantity of Heat",
+   "hours": null,
+   "questions": 2,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Linear, superficial and cubical expansion and their relation",
+    "Real and apparent expansion of liquids",
+    "Heat capacity, specific heat capacity and the method of mixtures",
+    "Latent heat of fusion and vaporization; the triple point"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 10,
+   "title": "Ideal Gas and Thermodynamics",
+   "hours": null,
+   "questions": 3,
+   "area": "Heat and Thermodynamics",
+   "topics": [
+    "Ideal-gas equation; kinetic theory: pressure, rms speed and energy of molecules",
+    "First law of thermodynamics: isothermal, adiabatic, isochoric and isobaric processes; molar heat capacities",
+    "Second law of thermodynamics: internal-combustion engines, refrigerators and entropy"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 11,
+   "title": "Waves and Sound",
+   "hours": null,
+   "questions": 3,
+   "area": "Waves and Optics",
+   "topics": [
+    "Progressive waves and the wave equation",
+    "Speed of sound in solids, liquids and gases, and the factors that affect it",
+    "Stationary waves: harmonics and overtones in strings and pipes",
+    "Pressure amplitude, intensity and loudness, pitch and quality",
+    "Doppler effect"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 12,
+   "title": "Ray Optics: Reflection, Refraction and Dispersion",
+   "hours": null,
+   "questions": 3,
+   "area": "Waves and Optics",
+   "topics": [
+    "Reflection at curved mirrors: mirror formula and magnification",
+    "Refraction at plane surfaces, critical angle and total internal reflection; refraction through a prism",
+    "Lenses: lens formula, lens maker's formula, power and combinations",
+    "Dispersion, chromatic aberration and achromatism"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 13,
+   "title": "Wave Optics: Interference, Diffraction and Polarization",
+   "hours": null,
+   "questions": 2,
+   "area": "Waves and Optics",
+   "topics": [
+    "Coherent sources and the conditions for interference; Young's double-slit experiment",
+    "Diffraction at a single slit and at a grating; resolving power of optical instruments",
+    "Polarization and Brewster's law"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 14,
+   "title": "Current Electricity and Thermoelectricity",
+   "hours": null,
+   "questions": 3,
+   "area": "Current Electricity and Magnetism",
+   "topics": [
+    "Ohm's law and Joule's law; resistance, resistivity, emf, potential difference, energy and power",
+    "Resistors in series and parallel; Kirchhoff's laws",
+    "Wheatstone bridge, metre bridge and potentiometer; a galvanometer converted to an ammeter and a voltmeter",
+    "Seebeck and Peltier effects; the thermocouple"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 15,
+   "title": "Magnetic Field and Magnetic Properties of Materials",
+   "hours": null,
+   "questions": 3,
+   "area": "Current Electricity and Magnetism",
+   "topics": [
+    "Magnetic field of a straight conductor, a circular coil and a long solenoid",
+    "Force on a moving charge and on a current-carrying conductor; torque on a coil; Hall effect",
+    "Dia-, para- and ferromagnetism: domains, relative permeability, susceptibility and hysteresis"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 16,
+   "title": "Electromagnetic Induction and Alternating Current",
+   "hours": null,
+   "questions": 3,
+   "area": "Current Electricity and Magnetism",
+   "topics": [
+    "Faraday's and Lenz's laws; the AC generator, the transformer and eddy currents",
+    "Self and mutual inductance; energy stored in an inductor",
+    "Peak and rms values; impedance, phase, power and Q-factor of LCR circuits",
+    "Rectification with a diode bridge"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 17,
+   "title": "Electrostatics and Capacitors",
+   "hours": null,
+   "questions": 4,
+   "area": "Electrostatics and Capacitors",
+   "topics": [
+    "Electric charge, electrostatic induction and Coulomb's law",
+    "Electric field of point charges; electric potential and potential energy; Gauss's law",
+    "Capacitors: the parallel-plate capacitor, combinations, energy density and the effect of a dielectric"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 18,
+   "title": "Electrons and Photons",
+   "hours": null,
+   "questions": 3,
+   "area": "Modern Physics",
+   "topics": [
+    "Motion of an electron in electric and magnetic fields",
+    "J. J. Thomson's experiment and Millikan's oil-drop experiment",
+    "Photons and the photoelectric effect: laws and Einstein's equation"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 19,
+   "title": "Atomic Physics and X-rays",
+   "hours": null,
+   "questions": 2,
+   "area": "Modern Physics",
+   "topics": [
+    "Bohr's theory of the hydrogen atom: energy levels and spectral series",
+    "de Broglie waves and the uncertainty principle",
+    "X-rays: production, properties and uses; Bragg's law"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 20,
+   "title": "Nuclear Physics and Radioactivity",
+   "hours": null,
+   "questions": 3,
+   "area": "Modern Physics",
+   "topics": [
+    "The nucleus: charge, size, mass and density; mass defect, binding energy per nucleon and E = mc²",
+    "Nuclear fission and fusion",
+    "Radioactivity: alpha, beta and gamma rays; the decay law, half-life and mean life; carbon dating",
+    "Medical uses of nuclear radiation and its health hazards"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 21,
+   "title": "Semiconductors and Logic Gates",
+   "hours": null,
+   "questions": 2,
+   "area": "Modern Physics",
+   "topics": [
+    "Energy bands in metals, semiconductors and insulators; intrinsic and extrinsic semiconductors",
+    "The p–n junction diode, its biasing and its use as a rectifier",
+    "Logic gates: AND, OR, NOT, NAND and NOR"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  },
+  {
+   "no": 22,
+   "title": "Particle Physics and Recent Trends",
+   "hours": null,
+   "questions": 2,
+   "area": "Modern Physics",
+   "topics": [
+    "Particles and antiparticles; leptons and quarks; the Higgs boson",
+    "Nanotechnology",
+    "The Big Bang theory and Hubble's law"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 0,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": false
+  }
+ ],
+ "unit_count": 22,
+ "topic_count": 77,
+ "notes_ready": 5
+}

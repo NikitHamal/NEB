@@ -12,10 +12,10 @@
 {% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">{% endblock %}
 {% block content %}
-<div class="md-container st-page" style="--syl-c: {{ syl.color }};" data-st-subject="{{ syl.grade }}/{{ syl.subject }}" data-st-units="{{ syl.unit_count }}">
+<div class="md-container st-page" style="--syl-c: {{ syl.color }};" data-st-subject="{{ syl.grade }}/{{ syl.subject }}" data-st-units="{{ syl.unit_count }}" data-st-word="{{ syl_unit_word }}">
   <nav class="st-crumbs" aria-label="Breadcrumb">
     <a href="{% url 'web:syllabus_grade' syl.grade %}">Syllabus</a><span aria-hidden="true">/</span>
-    <a href="{% url 'web:syllabus_grade' syl.grade %}">{{ syl.grade_label }}</a><span aria-hidden="true">/</span>
+    <a href="{% url 'web:syllabus_grade' syl.grade %}">{{ syl.short }}</a><span aria-hidden="true">/</span>
     <span aria-current="page">{{ syl.name }}</span>
   </nav>
 
@@ -23,8 +23,12 @@
     <span class="st-head-icon material-symbols-outlined" aria-hidden="true">{{ syl.icon }}</span>
     <div class="st-head-text">
       <h1 class="st-title">{{ syl.name }}</h1>
-      <p class="st-sub"><span lang="ne">{{ syl.name_ne }}</span> · {{ syl.grade_label }}{% if syl.code %} · Code {{ syl.code }}{% endif %}</p>
+      <p class="st-sub">{% if syl.name_ne %}<span lang="ne">{{ syl.name_ne }}</span> · {% endif %}{{ syl.grade_label }}{% if syl.code %} · Code {{ syl.code }}{% endif %}</p>
+      {% if syl.kind == 'school' %}
       <p class="st-meta">{{ syl.unit_count }} units{% if syl.hours %} · {{ syl.hours }} teaching hours{% endif %}{% if syl_read_min %} · about {% widthratio syl_read_min 60 1 %} h of reading{% endif %}{% if study.banks %} · {{ study.banks|length }} question sets{% endif %}</p>
+      {% else %}
+      <p class="st-meta">{{ syl.unit_count }} chapters{% if syl.questions %} · {{ syl.questions }} questions in the paper{% endif %}{% if syl.notes_ready < syl.unit_count %} · {{ syl.notes_ready }} written so far{% endif %}{% if syl_read_min %} · about {% widthratio syl_read_min 60 1 %} h of reading{% endif %}</p>
+      {% endif %}
     </div>
     <div class="st-head-progress" data-st-progress>
       <span class="st-progress-num"><b data-st-done>0</b> / {{ syl.unit_count }}</span>
@@ -85,11 +89,11 @@
             {% else %}
             <span class="st-unit-title">{{ u.title }}</span>
             {% endif %}
-            <span class="st-unit-meta">{% if u.hours %}{{ u.hours }} hrs · {% endif %}{% if u.study %}{{ u.study.read_min }} min read{% if u.study.figures %} · {{ u.study.figures }} figures{% endif %}{% else %}notes coming{% endif %}</span>
+            <span class="st-unit-meta">{% if u.study.exam %}Timed test · {{ u.study.exam.minutes }} min · {% endif %}{% if u.questions %}{{ u.questions }} question{{ u.questions|pluralize }}{% if not u.study.exam %} in the paper{% endif %} · {% elif u.hours %}{{ u.hours }} hrs · {% endif %}{% if u.study %}{{ u.study.read_min }} min read{% if u.study.figures %} · {{ u.study.figures }} figures{% endif %}{% else %}notes coming{% endif %}</span>
             <span class="st-unit-track" aria-hidden="true"><span data-st-unit-bar></span></span>
           </div>
           <span class="st-unit-state" data-st-state aria-live="polite"></span>
-          <button type="button" class="st-unit-more" data-st-more aria-expanded="false" aria-label="What unit {{ u.no }} covers">
+          <button type="button" class="st-unit-more" data-st-more aria-expanded="false" aria-label="What {{ syl_unit_word|lower }} {{ u.no }} covers">
             <span class="material-symbols-outlined" aria-hidden="true">expand_more</span>
           </button>
         </div>
@@ -102,7 +106,7 @@
           <p class="st-detail-head">Key points</p>
           <ul class="st-points">{% for p in u.summary|slice:":5" %}<li>{{ p }}</li>{% endfor %}</ul>
           {% endif %}
-          {% if u.study %}<a class="st-btn" href="{% url 'web:syllabus_chapter' syl.grade syl.subject u.no %}"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Read the chapter</a>{% endif %}
+          {% if u.study.exam %}<a class="st-btn" href="{% url 'web:syllabus_chapter' syl.grade syl.subject u.no %}"><span class="material-symbols-outlined" aria-hidden="true">timer</span>Open the paper</a>{% elif u.study %}<a class="st-btn" href="{% url 'web:syllabus_chapter' syl.grade syl.subject u.no %}"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Read the chapter</a>{% endif %}
         </div>
       </li>
       {% endfor %}
@@ -148,11 +152,16 @@
       {% endif %}
       {% if syl_area_weights %}
       <div class="st-card">
+        {% if syl.kind == 'school' %}
         <h2 class="st-card-title">Where the hours go</h2>
         <p class="st-card-note">Teaching hours are the board's guide to how much of the paper each part carries.</p>
+        {% else %}
+        <h2 class="st-card-title">Where the questions are</h2>
+        <p class="st-card-note">Questions each part carries in the paper{% if syl.questions %}, out of {{ syl.questions }}{% endif %}. Area totals follow the official syllabus; where single chapters are shown, the split between them is the NEBians estimate.</p>
+        {% endif %}
         <ul class="st-weights">
           {% for w in syl_area_weights %}
-          <li><span class="st-w-label">{{ w.area }}</span><span class="st-w-bar"><span style="width: {{ w.pct }}%"></span></span><span class="st-w-val">{{ w.hours }} h</span></li>
+          <li><span class="st-w-label">{{ w.area }}</span><span class="st-w-bar"><span style="width: {{ w.pct }}%"></span></span><span class="st-w-val">{{ w.hours }} {{ syl_weight_unit }}</span></li>
           {% endfor %}
         </ul>
       </div>

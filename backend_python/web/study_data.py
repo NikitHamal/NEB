@@ -7,6 +7,9 @@
     web/data/study/<grade>-<subject>/bank-NN.json    one question-bank chapter
     web/data/study/<grade>-<subject>/guide.json      the exam guide of the grade
 
+An entrance track is read the same way under its key (web/data/study/cee-physics/); the
+model papers of its mock book carry "exam": {"minutes", "negative"} for the timed test.
+
 The website's reader and the app's API both read through this module. Chapters are big
 (30-200 KB of HTML), so only the small indexes are cached for the life of the process;
 chapters are cached a few at a time.
