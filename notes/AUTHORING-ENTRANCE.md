@@ -209,10 +209,16 @@ A model paper is one chapter, numbered **straight through like the real paper**
    `python3 notes/tools/mcqcheck.py notes/content/<slug>/unit-NN.md` — prints how
    many MCQs it found per set, how many got a key, and the key-letter spread. Every
    MCQ must be keyed.
-4. Commit and push your file(s) yourself, so nothing is lost if the session dies:
+4. Read your keys against your options: `python3 notes/tools/keyview.py
+   notes/content/<slug>/unit-NN.md` prints every question beside the text of its keyed
+   option. Read the whole column; a key pointing at the wrong option shows at once.
+   Chemistry: pipe every equation through the balance check,
+   `grep -o "[^|]*[→⇌][^|]*" notes/content/<slug>/unit-NN.md | python3 notes/tools/eqcheck.py`,
+   and fix every BAD line that is meant to be a balanced equation.
+5. Commit and push your file(s) yourself, so nothing is lost if the session dies:
    `notes/tools/lockpush.sh "notes: <slug> unit NN — <title>" notes/content/<slug>/unit-NN.md`
    (only the paths you name are committed; never `git add -A`).
-5. Report: file, words, figures, number of MCQs per set, check.py status.
+6. Report: file, words, figures, number of MCQs per set, check.py status.
 
 Do **not** build PDFs or run the web export — the coordinator does that, once per
 book, so the builds do not fight over the two CPU cores.
