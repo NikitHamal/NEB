@@ -143,14 +143,19 @@ backend, web timed mode, Android). Everything below is pushed to this branch.
 
 | Book slug | Spine | Chapters written | PDF | Web export |
 |---|---|---|---|---|
-| cee-phy | `notes/curriculum/cee-phy.md` (22 ch, 50 Qs) | see `notes/content/cee-phy/` | — | — |
-| cee-chem | `cee-chem.md` (22 ch, 50 Qs) | | — | — |
-| cee-zoo | `cee-zoo.md` (14 ch, 40 Qs) | | — | — |
-| cee-bot | `cee-bot.md` (15 ch, 40 Qs) | | — | — |
-| cee-mat | `cee-mat.md` (5 ch, 20 Qs) | | — | — |
+| cee-phy | `notes/curriculum/cee-phy.md` (22 ch, 50 Qs) | see `notes/content/cee-phy/` | **84 pp, 2.9 MB** (Oct 25) | shipped |
+| cee-chem | `cee-chem.md` (22 ch, 50 Qs) | | **96 pp, 1.4 MB** (Oct 25) | shipped |
+| cee-zoo | `cee-zoo.md` (14 ch, 40 Qs) | | **101 pp, 1.2 MB** (Oct 25) | shipped |
+| cee-bot | `cee-bot.md` (15 ch, 40 Qs) | | **106 pp, 1.9 MB** (Oct 25) | shipped |
+| cee-mat | `cee-mat.md` (5 ch, 20 Qs) | | **84 pp, 1.2 MB** (Oct 25) | shipped |
 | cee-mock | `cee-mock.md` (guide + 5 model papers of 200) | | — | — |
 | ioe-* | not yet | | | |
 | csit-* / bca-* | not yet | | | |
+
+Built PDFs (commit `8125a944`): `notes/pdf/NEBians-CEE-Entrance-{Physics,Chemistry,Zoology,Botany,Mental-Agility-Test}.pdf`.
+`NEBians-Compulsory-English-Grade-8.pdf` was rebuilt in the same commit — its content was rewritten
+(`b7214a03`, 10-19) after the PDF it shipped with (`2ca7604a`, 10-16), so it was the only stale book
+in the library. 172 → 149 pp; the rewrite is net −667 lines, so the drop is the content, not a loss.
 
 Always check reality with `ls notes/content/<slug>/` and `git log --oneline`.
 
@@ -222,7 +227,9 @@ web, updates this file, pushes.
 
 1. Finish CEE: all chapters of cee-phy, cee-chem, cee-zoo, cee-bot, cee-mat; cee-mock
    unit 1 (exam guide) and five model papers.
-2. Build the six CEE PDFs; export syllabus + study JSON; check the reader keys.
+2. ~~Build the six CEE PDFs; export syllabus + study JSON; check the reader keys.~~
+   The five subjects with chapters are built (`8125a944`); cee-mock has no chapter yet, so its
+   paper is the only PDF still missing. Export + reader keys are done and tested.
 3. IOE spines (`ioe-math`, `ioe-phy`, `ioe-chem`, `ioe-eng`, `ioe-mock`) from the 2083
    syllabus → chapters → PDFs → export.
 4. CSIT (`csit-*`, incl. `csit-comp`) and BCA (`bca-math`, `bca-eng`, `bca-gk`, mocks).
@@ -230,8 +237,39 @@ web, updates this file, pushes.
 6. Web + Android: entrance tracks in the syllabus hub (API `tracks` key for
    backward compatibility), timed model-paper mode in the reader.
 
+## Building on Windows (this box, Oct 25) — the recipe the pod did not need
+
+WeasyPrint 70 needs a newer Pango than the GTK runtime that is first on PATH. Without this the
+build dies with `AttributeError: function/symbol 'pango_context_set_round_glyph_positions' not
+found in library '...\Gtk-Runtime\bin\libpango-1.0-0.dll'`:
+
+```powershell
+$env:PATH = "C:\Program Files\GTK3-Runtime Win64\bin;" + $env:PATH   # newer Pango wins
+cd notes/pipeline; python build_pdf.py cee-phy
+```
+
+Fonts are not vendored: fetch the five from Google Fonts into `~/.local/share/fonts/nebians`
+(the list is in `notes/pipeline/fonts/install.sh`; the variable-font URLs carry `%5B`/`%5D`, and
+PowerShell's `Invoke-WebRequest` silently writes 0-byte files for them — use `curl.exe`), then
+`python notes/pipeline/fonts.py` to snap the matplotlib static instances. WeasyPrint and
+matplotlib both resolve the families by name, so nothing in `theme.css` needs a path.
+
+What to check on every build before pushing: `check.py` and `mcqcheck.py` on each chapter
+(mcqcheck must show every MCQ keyed); the tail of the build output for `[math] … fell back`,
+`[figures] … failed` and `[photos] … failed` (a clean build prints none); no text block outside
+the ~18 pt margins and no blank page in the body; no U+00AD/U+2010 inside a JetBrains Mono span
+(the `code`/`pre` hyphenation bug). `notes/tools/lockpush.sh` needs `flock`, which this Git bash
+lacks — stage the named paths and commit/push by hand, one commit per logical change.
+
 ## Session log
 
 - 2026-10-24 20:00–20:45 UTC — recon, toolchain (WeasyPrint 70, matplotlib 3.11.2,
   fonts), official syllabi found and saved, pipeline track support, CEE spines,
   authoring contract, mcqcheck, lockpush; first wave of writers dispatched.
+- 2026-10-25 (Windows box) — the five CEE PDFs built and pushed (`8125a944`) and
+  Compulsory English 8 rebuilt after its content was found to be three days newer than its
+  PDF. All 25 CEE chapters re-passed `check.py` and `mcqcheck` (1229 MCQs, every one keyed,
+  key spread 10–16 per letter); the five books were read page by page at 110 dpi (covers,
+  front matter, TOC, worked examples, tables, diagrams, photographs, credits appendix) and
+  machine-checked for margin overflow, blank pages and hyphens inside code. The Windows
+  build recipe is above.
