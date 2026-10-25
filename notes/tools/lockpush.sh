@@ -13,7 +13,9 @@ git add -- "$@"
 if git diff --cached --quiet; then
   echo "lockpush: nothing to commit for: $*"
 else
-  git commit -q -m "$msg" -- "$@"
+  trailer="Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>"
+  case "$msg" in *"Co-Authored-By:"*) git commit -q -m "$msg" -- "$@" ;;
+    *) git commit -q -m "$msg" -m "$trailer" -- "$@" ;; esac
 fi
 for i in 1 2 3; do
   if git push -q origin "$branch" 2>/tmp/neb-push.err; then
