@@ -38,9 +38,19 @@ class LandingAndAppPrefixTests(TestCase):
         self.assertIn('/app/profile/edit/', self.client.get('/robots.txt').content.decode())
 
     def test_sitemap_points_at_app_pages(self):
-        body = self.client.get('/sitemap.xml').content.decode()
+        body = self.client.get('/sitemap-pages.xml').content.decode()
         self.assertIn('/app/library/', body)
         self.assertNotIn('consica.com.np/library/', body)
+
+    def test_every_sitemap_file_serves_well_formed_xml(self):
+        from xml.etree import ElementTree
+        urlset = '{http://www.sitemaps.org/schemas/sitemap/0.9}urlset'
+        for name in ('pages', 'library', 'forum', 'profiles'):
+            r = self.client.get('/sitemap-%s.xml' % name)
+            self.assertEqual(r.status_code, 200, name)
+            self.assertEqual(ElementTree.fromstring(r.content).tag, urlset, name)
+        self.assertTrue(len(ElementTree.fromstring(
+            self.client.get('/sitemap-pages.xml').content)), 'pages is never empty')
 
 
 class SiteThemeResolutionTests(TestCase):
