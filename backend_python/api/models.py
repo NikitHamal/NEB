@@ -357,7 +357,7 @@ class ResourceRequestUpvote(models.Model):
 class Post(models.Model):
     """Forum post."""
     id = models.CharField(max_length=36, primary_key=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='posts')
     title = models.CharField(max_length=300)
     content = models.TextField()
     category = models.CharField(max_length=100)
@@ -521,7 +521,7 @@ class Reply(models.Model):
         'self', on_delete=models.CASCADE,
         null=True, blank=True, related_name='children'
     )
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='replies')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='replies')
     content = models.TextField()
     thumbs_up_count = models.IntegerField(default=0)
     reply_count = models.IntegerField(default=0)
@@ -780,7 +780,7 @@ class ResourceComment(models.Model):
     """Comment on a resource — supports nested replies via parent_comment."""
     id = models.CharField(max_length=36, primary_key=True)
     resource = models.ForeignKey(Resource, on_delete=models.CASCADE, related_name='comments')
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='resource_comments')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='resource_comments')
     parent_comment = models.ForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True, related_name='children'
@@ -1674,7 +1674,7 @@ class Announcement(models.Model):
 class BlogComment(models.Model):
     id = models.CharField(max_length=36, primary_key=True)
     announcement = models.ForeignKey(Announcement, on_delete=models.CASCADE, related_name='comments')
-    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='blog_comments')
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='blog_comments')
     parent_comment = models.ForeignKey(
         'self', on_delete=models.CASCADE,
         null=True, blank=True, related_name='children'

@@ -38,6 +38,8 @@ def _make_abs_url(path: str) -> str:
     domain = 'https://nebians.consica.com.np'
     return domain + (path if path.startswith('/') else '/' + path)
 from api.authentication import verify_google_token
+
+DELETED_AUTHOR_NAME = 'Deleted user'
 from api.utils import now_ms, uuid_str
 from api import services
 from api import counters as _counters
@@ -396,6 +398,8 @@ def _serialize_resources(resources_qs):
 def _user_badge_info(user):
     """Build badge dict for a user (verification, moderator, admin, bot, achievements)."""
     badge = {}
+    if not user:
+        return badge
     if user.is_bot:
         badge['type'] = 'bot'
         badge['icon'] = 'smart_toy'
@@ -455,7 +459,7 @@ def _user_badge_info(user):
 
 def _user_achievement_badges(user):
     """Parse comma-separated achievement badge keys into a list of dicts."""
-    if not user.achievement_badges:
+    if not user or not user.achievement_badges:
         return []
     ACHIEVEMENT_MAP = {
         'top_contributor': {'icon': 'emoji_events', 'color': '#F59E0B', 'label': 'Top Contributor'},
@@ -574,15 +578,16 @@ def _serialize_posts(posts_qs, user_id=None):
     result = []
     for p in posts:
         anon = bool(getattr(p, 'is_anonymous', False))
+        author = None if anon else p.user
         result.append({
             'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
-            'authorName': 'Anonymous Nebian' if anon else p.user.username,
-            'authorPhotoUrl': '' if anon else _avatar_url(p.user),
-            'authorBadgeInfo': None if anon else _user_badge_info(p.user),
-            'authorAchievements': [] if anon else _user_achievement_badges(p.user),
-            'authorIsBot': False if anon else p.user.is_bot,
-            'authorId': '' if anon else p.user_id,
-        'authorUsername': '' if anon else (p.user.username or ''),
+            'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
+            'authorPhotoUrl': '' if anon else _avatar_url(author),
+            'authorBadgeInfo': None if anon else _user_badge_info(author),
+            'authorAchievements': [] if anon else _user_achievement_badges(author),
+            'authorIsBot': False if anon else (author.is_bot if author else False),
+            'authorId': '' if anon or not p.user_id else p.user_id,
+            'authorUsername': '' if anon else (author.username if author else ''),
             'isOwner': bool(user_id and p.user_id == user_id),
             'isAnonymous': anon,
             'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
@@ -617,16 +622,17 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
         else:
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='post', target_id=p.id).exists()
     anon = bool(getattr(p, 'is_anonymous', False))
+    author = None if anon else p.user
     media = [_serialize_web_media_item(m) for m in PostMedia.objects.filter(post_id=p.id).order_by('order', 'created_at')]
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
-        'authorName': 'Anonymous Nebian' if anon else p.user.username,
-        'authorPhotoUrl': '' if anon else _avatar_url(p.user),
-        'authorBadgeInfo': None if anon else _user_badge_info(p.user),
-        'authorAchievements': [] if anon else _user_achievement_badges(p.user),
-        'authorIsBot': False if anon else p.user.is_bot,
-        'authorId': '' if anon else p.user_id,
-        'authorUsername': '' if anon else (p.user.username or ''),
+        'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
+        'authorPhotoUrl': '' if anon else _avatar_url(author),
+        'authorBadgeInfo': None if anon else _user_badge_info(author),
+        'authorAchievements': [] if anon else _user_achievement_badges(author),
+        'authorIsBot': False if anon else (author.is_bot if author else False),
+        'authorId': '' if anon or not p.user_id else p.user_id,
+        'authorUsername': '' if anon else (author.username if author else ''),
         'isOwner': bool(user_id and p.user_id == user_id),
         'isAnonymous': anon,
         'thumbsUpCount': p.thumbs_up_count, 'thumbs_up_count': p.thumbs_up_count,
@@ -698,21 +704,22 @@ def _serialize_replies(replies_qs, user_id=None):
             if key not in seen:
                 seen.add(key)
                 child_authors.append({
-                    'id': '' if c_anon else c.user_id,
-                    'username': 'Anonymous Nebian' if c_anon else c.user.username,
+                    'id': '' if c_anon or not c.user_id else c.user_id,
+                    'username': 'Anonymous Nebian' if c_anon else (c.user.username if c.user else ''),
                     'photoUrl': '' if c_anon else _avatar_url(c.user),
                 })
         anon = bool(getattr(r, 'is_anonymous', False))
+        author = None if anon else r.user
         result.append({
             'id': r.id, 'postId': r.post_id, 'postTitle': r.post.title if r.post else '', 'parentReplyId': r.parent_reply_id,
             'content': r.content,
-            'authorName': 'Anonymous Nebian' if anon else r.user.username,
-            'authorPhotoUrl': '' if anon else _avatar_url(r.user),
-            'authorId': '' if anon else r.user_id,
-            'authorUsername': '' if anon else (r.user.username or ''),
-            'authorBadgeInfo': None if anon else _user_badge_info(r.user),
-            'authorAchievements': [] if anon else _user_achievement_badges(r.user),
-            'authorIsBot': False if anon else r.user.is_bot,
+            'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
+            'authorPhotoUrl': '' if anon else _avatar_url(author),
+            'authorId': '' if anon or not r.user_id else r.user_id,
+            'authorUsername': '' if anon else (author.username if author else ''),
+            'authorBadgeInfo': None if anon else _user_badge_info(author),
+            'authorAchievements': [] if anon else _user_achievement_badges(author),
+            'authorIsBot': False if anon else (author.is_bot if author else False),
             'isOwner': bool(user_id and r.user_id == user_id),
             'isAnonymous': anon,
             'thumbsUpCount': r.thumbs_up_count, 'childCount': total_descendants.get(r.id, len(children)),
@@ -741,6 +748,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
         else:
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='reply', target_id=r.id).exists()
     anon = bool(getattr(r, 'is_anonymous', False))
+    author = None if anon else r.user
     media = [{
         'id': m.id, 'kind': m.kind, 'url': m.url,
         'thumbnail_url': _make_abs_url(m.thumbnail_url), 'thumbnailUrl': _make_abs_url(m.thumbnail_url),
@@ -749,12 +757,12 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
     return {
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
         'content': r.content,
-        'authorName': 'Anonymous Nebian' if anon else r.user.username,
-        'authorPhotoUrl': '' if anon else _avatar_url(r.user),
-        'authorId': '' if anon else r.user_id,
-        'authorBadgeInfo': None if anon else _user_badge_info(r.user),
-        'authorAchievements': [] if anon else _user_achievement_badges(r.user),
-        'authorIsBot': False if anon else r.user.is_bot,
+        'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
+        'authorPhotoUrl': '' if anon else _avatar_url(author),
+        'authorId': '' if anon or not r.user_id else r.user_id,
+        'authorBadgeInfo': None if anon else _user_badge_info(author),
+        'authorAchievements': [] if anon else _user_achievement_badges(author),
+        'authorIsBot': False if anon else (author.is_bot if author else False),
         'isOwner': bool(user_id and r.user_id == user_id),
         'isAnonymous': anon,
         'thumbsUpCount': r.thumbs_up_count, 'childCount': r.reply_count,
@@ -1332,6 +1340,8 @@ def _blobatar_url_for(user_or_username, prefs=None):
 
 def _avatar_url(u):
     from api.services import avatar_or_photo_url
+    if not u:
+        return ''
     if hasattr(u, 'username'):
         return avatar_or_photo_url(u)
     if getattr(u, 'avatar_use_pp', False):

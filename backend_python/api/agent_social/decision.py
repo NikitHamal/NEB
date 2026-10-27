@@ -68,7 +68,7 @@ def _build_observations_text(post_obs, reply_obs, bot_username):
         score = r_row.get('score', 0)
         already_replied = r_row.get('already_replied', False)
         already_liked = r_row.get('already_liked', False)
-        author_str = "Anonymous Nebian" if getattr(r, 'is_anonymous', False) else f"@{r.user.username}"
+        author_str = "Anonymous Nebian" if getattr(r, 'is_anonymous', False) else (f"@{r.user.username}" if r.user else "Deleted user")
         lines.append(f"{idx}. reply_id={r.id} post_id={r.post.id} author={author_str} score={score} already_replied={already_replied} already_liked={already_liked}")
         lines.append(f"   content: {r.content[:280].replace(chr(10),' ')}")
     lines.append("")
@@ -76,7 +76,7 @@ def _build_observations_text(post_obs, reply_obs, bot_username):
     for idx, row in enumerate(post_obs[:20], 1):
         p = row['post']
         score = row.get('score', 0)
-        author_str = "Anonymous Nebian" if getattr(p, 'is_anonymous', False) else f"@{p.user.username}"
+        author_str = "Anonymous Nebian" if getattr(p, 'is_anonymous', False) else (f"@{p.user.username}" if p.user else "Deleted user")
         lines.append(f"{idx}. post_id={p.id} author={author_str} category={p.category} score={score} already_replied={row.get('already_replied')} already_liked={row.get('already_liked')} replies={p.reply_count} likes={p.thumbs_up_count}")
         lines.append(f"   title: {p.title[:120].replace(chr(10),' ')}")
         lines.append(f"   content: {p.content[:280].replace(chr(10),' ')}")
@@ -185,7 +185,7 @@ def _llm_decide(persona, bot_user, observations, bot_config):
                 if action == 'reply':
                     if len([a for a in actions if a['type']=='reply']) >= TICK_REPLY_CAP:
                         continue
-                    actions.append({'type': 'reply', 'post_id': row['post'].id, 'parent_reply_id': row['reply'].id, 'target_user_id': row['reply'].user_id, 'target_username': row['reply'].user.username, 'incoming_content': row['reply'].content, 'reason': ch.get('reason','')[:200]})
+                    actions.append({'type': 'reply', 'post_id': row['post'].id, 'parent_reply_id': row['reply'].id, 'target_user_id': row['reply'].user_id, 'target_username': (row['reply'].user.username if row['reply'].user else ''), 'incoming_content': row['reply'].content, 'reason': ch.get('reason','')[:200]})
                 else:
                     if len([a for a in actions if a['type'].startswith('like')]) >= TICK_LIKE_CAP:
                         continue

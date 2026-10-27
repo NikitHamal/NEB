@@ -426,24 +426,28 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_authorId(self, obj):
         # Anonymous content never leaks the real author id to clients.
-        return '' if obj.is_anonymous else str(obj.user_id)
+        if obj.is_anonymous or not obj.user_id:
+            return ''
+        return str(obj.user_id)
 
     def get_authorName(self, obj):
         if obj.is_anonymous:
             return 'Anonymous Nebian'
+        if not obj.user_id:
+            return 'Deleted user'
         try:
             return obj.user.username
         except Exception:
-            return 'Guest'
+            return 'Deleted user'
 
     def get_authorPhotoUrl(self, obj):
-        if obj.is_anonymous:
+        if obj.is_anonymous or not obj.user_id:
             return ''
         try:
             from .services import avatar_or_photo_url
             return avatar_or_photo_url(obj.user)
         except Exception:
-            return None
+            return ''
 
     def get_authorIsBot(self, obj):
         if obj.is_anonymous:
@@ -529,24 +533,28 @@ class ReplySerializer(serializers.ModelSerializer):
             return False
 
     def get_authorId(self, obj):
-        return '' if obj.is_anonymous else str(obj.user_id)
+        if obj.is_anonymous or not obj.user_id:
+            return ''
+        return str(obj.user_id)
 
     def get_authorName(self, obj):
         if obj.is_anonymous:
             return 'Anonymous Nebian'
+        if not obj.user_id:
+            return 'Deleted user'
         try:
             return obj.user.username
         except Exception:
-            return 'Guest'
+            return 'Deleted user'
 
     def get_authorPhotoUrl(self, obj):
-        if obj.is_anonymous:
+        if obj.is_anonymous or not obj.user_id:
             return ''
         try:
             from .services import avatar_or_photo_url
             return avatar_or_photo_url(obj.user)
         except Exception:
-            return None
+            return ''
 
     def get_authorIsBot(self, obj):
         if obj.is_anonymous:

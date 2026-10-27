@@ -336,7 +336,7 @@ def _build_post_context(post, max_replies=10, bot_name='Neby'):
         if getattr(post, 'is_anonymous', False):
             author_name = 'Anonymous Nebian'
         else:
-            author_name = post.user.display_name or post.user.username
+            author_name = (post.user.display_name or post.user.username) if post.user else 'Deleted user'
     except Exception:
         author_name = 'Unknown'
     lines.append(f"Post by {author_name} (in category: {post.category}):")
@@ -351,7 +351,7 @@ def _build_post_context(post, max_replies=10, bot_name='Neby'):
                 if getattr(r, 'is_anonymous', False):
                     r_name = 'Anonymous Nebian'
                 else:
-                    r_name = r.user.display_name or r.user.username
+                    r_name = (r.user.display_name or r.user.username) if r.user else 'Deleted user'
             except Exception:
                 r_name = 'Unknown'
             lines.append(f"  {r_name}: {r.content}")
@@ -370,17 +370,17 @@ def _build_reply_context(reply, max_context_replies=10, bot_name='Neby'):
         if getattr(post, 'is_anonymous', False):
             post_author = 'Anonymous Nebian'
         else:
-            post_author = post.user.display_name or post.user.username
+            post_author = (post.user.display_name or post.user.username) if post.user else 'Deleted user'
     except Exception:
         post_author = 'Unknown'
     try:
         if getattr(reply, 'is_anonymous', False):
             reply_author = 'Anonymous Nebian'
         else:
-            reply_author = reply.user.display_name or reply.user.username
+            reply_author = (reply.user.display_name or reply.user.username) if reply.user else 'Deleted user'
     except Exception:
         reply_author = 'Unknown'
-    reply_username = None if getattr(reply, 'is_anonymous', False) else reply.user.username
+    reply_username = None if getattr(reply, 'is_anonymous', False) else (reply.user.username if reply.user else None)
     lines.append(f"Post by {post_author} (category: {post.category}):")
     lines.append(f"Title: {post.title}")
     lines.append(f"Content: {post.content}")
@@ -395,7 +395,7 @@ def _build_reply_context(reply, max_context_replies=10, bot_name='Neby'):
                 if getattr(r, 'is_anonymous', False):
                     r_name = 'Anonymous Nebian'
                 else:
-                    r_name = r.user.display_name or r.user.username
+                    r_name = (r.user.display_name or r.user.username) if r.user else 'Deleted user'
             except Exception:
                 r_name = 'Unknown'
             lines.append(f"  {r_name}: {r.content}")
@@ -708,7 +708,7 @@ def _process_post_mention(task, config, bot_user):
         task.save(update_fields=['status', 'error_message', 'finished_at'])
         return
 
-    author_username = post.user.username
+    author_username = post.user.username if post.user else None
     if author_username and not response_text.startswith('@'):
         response_text = f'@{author_username} {response_text}'
 

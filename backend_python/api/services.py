@@ -17,7 +17,6 @@ from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike
 from .models import BlogComment, BlogCommentLike
 from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url, POST_IMAGE_MAX_COUNT
 from .utils import now_ms, uuid_str
-from . import cleanup as _cleanup
 from . import counters as _counters
 from . import notifications as _notif
 from . import neby as _neby
@@ -822,7 +821,7 @@ def _serialize_resource_comment(comment):
         'id': comment.id,
         'resourceId': comment.resource_id,
         'authorId': comment.user_id or '',
-        'authorName': comment.user.username if hasattr(comment, 'user') and comment.user else 'Anonymous',
+        'authorName': comment.user.username if hasattr(comment, 'user') and comment.user else 'Deleted user',
         'authorPhoto': author_photo,
         'parentCommentId': comment.parent_comment_id or '',
         'content': comment.content,
@@ -914,18 +913,6 @@ def delete_user_account(user_id, completed_by=None):
         requester_name='Anonymous'
     )
 
-    for post_id in list(Post.objects.filter(user=user).values_list('id', flat=True)):
-        try:
-            _cleanup.delete_post_with_cleanup(post_id)
-        except Post.DoesNotExist:
-            continue
-
-    for reply_id in list(Reply.objects.filter(user=user).values_list('id', flat=True)):
-        try:
-            _cleanup.delete_reply_with_cleanup(reply_id)
-        except Reply.DoesNotExist:
-            continue
-
     with transaction.atomic():
         post_likes = list(PostLike.objects.filter(user=user).values_list('post_id', 'post__user_id'))
         PostLike.objects.filter(user=user).delete()
@@ -990,28 +977,6 @@ def delete_user_account(user_id, completed_by=None):
                 User.objects.filter(pk=uid, following_count__gte=n).update(
                     following_count=F('following_count') - n
                 )
-
-        own_rcomments = list(
-            ResourceComment.objects.filter(user=user).values_list('id', 'resource_id', 'parent_comment_id')
-        )
-        ResourceComment.objects.filter(user=user).delete()
-        for resource_id, n in Counter(r for _, r, _ in own_rcomments if r).items():
-            Resource.objects.filter(pk=resource_id, comment_count__gte=n).update(
-                comment_count=F('comment_count') - n
-            )
-        for parent_id, n in Counter(p for _, _, p in own_rcomments if p).items():
-            ResourceComment.objects.filter(pk=parent_id, reply_count__gte=n).update(
-                reply_count=F('reply_count') - n
-            )
-
-        own_bcomments = list(
-            BlogComment.objects.filter(author=user).values_list('id', 'parent_comment_id')
-        )
-        BlogComment.objects.filter(author=user).delete()
-        for parent_id, n in Counter(p for _, p in own_bcomments if p).items():
-            BlogComment.objects.filter(pk=parent_id, reply_count__gte=n).update(
-                reply_count=F('reply_count') - n
-            )
 
         Bookmark.objects.filter(user=user).delete()
         EditHistory.objects.filter(edited_by=user).delete()

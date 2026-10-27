@@ -135,7 +135,7 @@
         {% endif %}
         <div class="admin-row-main">
           <div class="admin-row-title">{{ p.title }}</div>
-          <div class="admin-row-sub">{{ p.category }} · {{ p.user.username }}</div>
+          <div class="admin-row-sub">{{ p.category }} · {{ p.user.username|default:"Deleted user" }}</div>
         </div>
         <div class="admin-row-meta">
           <span><span class="material-symbols-outlined">thumb_up</span> {{ p.thumbs_up_count }}</span>
@@ -167,7 +167,7 @@
         {% endif %}
         <div class="admin-row-main">
           <div class="admin-row-title">{{ p.title }}</div>
-          <div class="admin-row-sub">{{ p.category }} · {{ p.user.username }}</div>
+          <div class="admin-row-sub">{{ p.category }} · {{ p.user.username|default:"Deleted user" }}</div>
         </div>
         <div class="admin-row-meta">
           <span><span class="material-symbols-outlined">visibility</span> {{ p.view_count }}</span>

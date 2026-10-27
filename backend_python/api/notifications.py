@@ -69,6 +69,8 @@ def _create_notification(*, recipient_id, actor_id, verb, target_type, target_id
     Note: bots are allowed to be actors (so bot replies can notify post authors),
     but bot accounts never receive notifications.
     """
+    if not recipient_id:
+        return None
     if str(recipient_id) == str(actor_id):
         return None
     try:
