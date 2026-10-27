@@ -70,6 +70,13 @@ class SitemapShapeTests(unittest.TestCase):
         ])
         self.assertIn('&amp;', xml)
 
+    def test_the_serialiser_escapes_quotes(self):
+        xml = seo.build_sitemap_xml([
+            {'loc': 'https://x/a?q="b"&c=2', 'changefreq': 'daily', 'priority': '1.0'},
+        ])
+        self.assertIn('&quot;b&quot;', xml)
+        self.assertIn('&amp;', xml)
+
     def test_library_and_forum_have_separate_caps_under_the_protocol_limit(self):
         self.assertLessEqual(seo._MAX_RESOURCES, 50000)
         self.assertLessEqual(seo._MAX_POSTS, 50000)

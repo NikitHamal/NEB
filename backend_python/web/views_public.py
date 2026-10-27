@@ -2083,7 +2083,6 @@ def sitemap_xml(request):
 def sitemap_part(request, name):
     """One sitemap file: sitemap-pages.xml, sitemap-library.xml, ..."""
     from . import seo
-    from xml.sax.saxutils import escape as xml_escape
 
     groups = seo.sitemap_groups()
     if name not in groups:
@@ -2094,22 +2093,7 @@ def sitemap_part(request, name):
     if cached is not None and not request.GET.get('fresh'):
         return HttpResponse(cached, content_type='application/xml')
 
-    lines = ['<?xml version="1.0" encoding="UTF-8"?>',
-             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
-    for entry in groups[name]:
-        lines.append('  <url>')
-        lines.append('    <loc>%s</loc>' % xml_escape(entry['loc'], quote=True))
-        lastmod = entry.get('lastmod')
-        if lastmod:
-            lines.append('    <lastmod>%s</lastmod>' % xml_escape(str(lastmod), quote=True))
-        if entry.get('changefreq'):
-            lines.append('    <changefreq>%s</changefreq>' % xml_escape(entry['changefreq']))
-        if entry.get('priority'):
-            lines.append('    <priority>%s</priority>' % xml_escape(entry['priority']))
-        lines.append('  </url>')
-    lines.append('</urlset>')
-
-    xml_content = '\n'.join(lines) + '\n'
+    xml_content = seo.build_sitemap_xml(groups[name])
     cache.set(cache_key, xml_content, 3600)
     return HttpResponse(xml_content, content_type='application/xml')
 

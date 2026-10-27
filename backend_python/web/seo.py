@@ -7,9 +7,16 @@ filtered here before sitemap generation.
 from __future__ import annotations
 
 import re
-from html import escape as xml_escape
 from typing import Dict, Iterable, Iterator, Optional
 from urllib.parse import quote
+from xml.sax.saxutils import escape as _xml_escape_text
+
+_XML_ATTRIBUTE_ENTITIES = {'"': '&quot;', "'": '&apos;'}
+
+
+def xml_escape(value, quote: bool = False) -> str:
+    """XML-escape a value. ``quote`` also escapes quotes, for attributes."""
+    return _xml_escape_text(str(value), _XML_ATTRIBUTE_ENTITIES if quote else None)
 
 from django.utils import timezone
 
