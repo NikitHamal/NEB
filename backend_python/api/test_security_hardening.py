@@ -10,6 +10,7 @@ from unittest.mock import patch
 
 from django.test import Client, TestCase
 from django.core.exceptions import ValidationError
+from django.db.models import QuerySet
 
 from .models import Resource, User, Post, Reply, FCMToken, Report
 from .security import (
@@ -319,6 +320,45 @@ class FCMTests(TestCase):
         token = 'a' * 100
         response = self.client.post('/api/fcm/register/', {'token': token}, content_type='application/json', **self.auth_header)
         self.assertEqual(response.status_code, 200)
+
+    def test_fcm_register_is_idempotent_for_the_same_token(self):
+        token = 'c' * 120
+        for _ in range(3):
+            response = self.client.post('/api/fcm/register/', {'token': token}, content_type='application/json', **self.auth_header)
+            self.assertEqual(response.status_code, 200)
+        self.assertEqual(FCMToken.objects.filter(token=token).count(), 1)
+        self.assertEqual(FCMToken.objects.get(token=token).user_id, self.user.id)
+
+    def test_fcm_register_reassigns_an_existing_token_to_the_caller(self):
+        token = 'd' * 120
+        FCMToken.objects.create(token=token, user=None, created_at=1)
+
+        response = self.client.post('/api/fcm/register/', {'token': token}, content_type='application/json', **self.auth_header)
+
+        self.assertEqual(response.status_code, 200)
+        stored = FCMToken.objects.get(token=token)
+        self.assertEqual(stored.user_id, self.user.id)
+        self.assertGreater(stored.created_at, 1)
+
+    def test_fcm_register_survives_a_lost_insert_race(self):
+        token = 'e' * 120
+        FCMToken.objects.create(token=token, user=None, created_at=1)
+        real_update = QuerySet.update
+        state = {'missed': False}
+
+        def update_with_one_miss(queryset, **kwargs):
+            if queryset.model is FCMToken and not state['missed']:
+                state['missed'] = True
+                return 0
+            return real_update(queryset, **kwargs)
+
+        with patch.object(QuerySet, 'update', update_with_one_miss):
+            response = self.client.post('/api/fcm/register/', {'token': token}, content_type='application/json', **self.auth_header)
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(state['missed'])
+        self.assertEqual(FCMToken.objects.filter(token=token).count(), 1)
+        self.assertEqual(FCMToken.objects.get(token=token).user_id, self.user.id)
 
 
 class SearchTests(TestCase):

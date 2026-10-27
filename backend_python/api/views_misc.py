@@ -80,15 +80,12 @@ def fcm_register(request):
         return Response({'error': 'Invalid FCM token format'}, status=400)
 
     now = _now_ms()
-    with transaction.atomic():
-        existing = FCMToken.objects.select_for_update().filter(token=token).first()
-        if existing:
-            if existing.user_id != user.id:
-                existing.user = user
-                existing.created_at = now
-                existing.save(update_fields=['user', 'created_at'])
-        else:
-            FCMToken.objects.create(token=token, user=user, created_at=now)
+    if not FCMToken.objects.filter(token=token).update(user=user, created_at=now):
+        try:
+            with transaction.atomic():
+                FCMToken.objects.create(token=token, user=user, created_at=now)
+        except IntegrityError:
+            FCMToken.objects.filter(token=token).update(user=user, created_at=now)
 
     return Response({'success': True})
 
