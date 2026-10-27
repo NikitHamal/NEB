@@ -61,8 +61,10 @@
         <div class="fp-meta-top">
           {% if post.isAnonymous %}
           <span class="author fp-author-anon"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;margin-right:2px;">visibility_off</span>Anonymous Nebian</span>
-          {% else %}
+          {% elif post.authorId %}
           <a href="{% url 'web:profile' username=post.authorName %}" class="author">{{ post.authorName }}</a>
+          {% else %}
+          <span class="author" style="color:var(--md-on-surface-variant);">{{ post.authorName }}</span>
           {% endif %}
           {% if post.authorBadgeInfo %}
           <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
@@ -1025,7 +1027,9 @@ function renderThreadParent(parent) {
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
           (parentAnon
             ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(parent.authorName || 'Anonymous Nebian') + '</span>'
-            : '<a href="/app/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>') +
+            : (parent.authorId
+              ? '<a href="/app/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>'
+              : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(parent.authorName || 'Deleted user') + '</span>')) +
           (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
           followBtn + ownerBtns +
         '</div>' +
@@ -1136,7 +1140,9 @@ function renderThreadReply(reply, parentInfo, depth) {
         '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
           (isAnon
             ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(reply.authorName) + '</span>'
-            : '<a href="/app/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>') +
+            : (reply.authorId
+              ? '<a href="/app/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>'
+              : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(reply.authorName || 'Deleted user') + '</span>')) +
           (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
           followBtn + ownerBtns +
         '</div>' +

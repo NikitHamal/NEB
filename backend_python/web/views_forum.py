@@ -320,7 +320,7 @@ def forum_post(request, post_id):
         if not is_owner:
             is_following = Follow.objects.filter(follower_id=user_id, following_id=post_obj.user_id).exists()
     all_usernames = list(set(
-        [post_obj.user.username] + [r['authorName'] for r in all_replies]
+        ([post_obj.user.username] if post_obj.user_id else []) + [r['authorName'] for r in all_replies if r['authorName']]
     ))
     # Structured data, built here rather than in the template: json.dumps
     # escapes a title with a quote in it, and Google's forum rich result needs

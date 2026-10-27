@@ -254,6 +254,13 @@ class AdminAccountDeletionTests(TestCase):
         )
         session = self.client.session
         session['auth_token'] = issue_auth_token(admin)
+        session['user_data'] = {
+            'id': admin.id,
+            'username': admin.username,
+            'display_name': admin.display_name,
+            'gender': admin.gender,
+            'is_admin': True,
+        }
         session.save()
         return admin
 
@@ -365,7 +372,7 @@ class AdminAccountDeletionTests(TestCase):
         )
         return {'doomed': doomed, 'other': other, 'p2': p2, 'res1': res1, 'ann1': ann1}
 
-    def test_delete_user_account_removes_everything(self):
+    def test_delete_user_account_removes_the_person_but_keeps_the_writing(self):
         admin = self._login_admin()
         world = self._build_full_world()
         doomed, other = world['doomed'], world['other']
@@ -373,11 +380,24 @@ class AdminAccountDeletionTests(TestCase):
         self.assertTrue(delete_user_account(doomed.id, completed_by=admin))
 
         self.assertFalse(User.objects.filter(pk=doomed.id).exists())
+
+        # Reddit rule: the writing outlives the account, the account does not.
+        p1 = Post.objects.get(pk='w_p1')
+        self.assertIsNone(p1.user_id)
+        self.assertEqual(p1.title, 'doomed post')
+        r1 = Reply.objects.get(pk='w_r1')
+        self.assertIsNone(r1.user_id)
+        self.assertTrue(Reply.objects.filter(pk='w_r2').exists())
+        c1 = ResourceComment.objects.get(pk='w_c1')
+        self.assertIsNone(c1.user_id)
+        b1 = BlogComment.objects.get(pk='w_b1')
+        self.assertIsNone(b1.author_id)
+        self.assertTrue(BlogComment.objects.filter(pk='w_b2').exists())
+
         for model, field in [
-            (Post, 'user_id'), (Reply, 'user_id'),
             (PostLike, 'user_id'), (ReplyLike, 'user_id'),
-            (ResourceLike, 'user_id'), (ResourceComment, 'user_id'),
-            (ResourceCommentLike, 'user_id'), (BlogCommentLike, 'user_id'),
+            (ResourceLike, 'user_id'), (ResourceCommentLike, 'user_id'),
+            (BlogCommentLike, 'user_id'),
             (Bookmark, 'user_id'), (EditHistory, 'edited_by_id'),
             (UserPhoto, 'user_id'), (FCMToken, 'user_id'),
             (PollVote, 'user_id'),
@@ -399,7 +419,7 @@ class AdminAccountDeletionTests(TestCase):
         self.assertIsNone(res1.uploaded_by_id)
         self.assertEqual(res1.source_type, 'anonymous')
         self.assertEqual(res1.like_count, 0)
-        self.assertEqual(res1.comment_count, 0)
+        self.assertEqual(res1.comment_count, 1)
 
         p2 = Post.objects.get(pk='w_p2')
         self.assertEqual(p2.thumbs_up_count, 0)
@@ -407,7 +427,7 @@ class AdminAccountDeletionTests(TestCase):
         self.assertEqual(r5.thumbs_up_count, 0)
         b3 = BlogComment.objects.get(pk='w_b3')
         self.assertEqual(b3.like_count, 0)
-        self.assertEqual(b3.reply_count, 0)
+        self.assertEqual(b3.reply_count, 1)
 
         other.refresh_from_db()
         self.assertEqual(other.follower_count, 0)
@@ -438,10 +458,14 @@ class AdminAccountDeletionTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertFalse(User.objects.filter(pk=doomed.id).exists())
-        self.assertFalse(Post.objects.filter(pk='w_p9').exists())
+        kept = Post.objects.get(pk='w_p9')
+        self.assertIsNone(kept.user_id)
         self.assertFalse(
             AccountDeletionRequest.objects.filter(pk=req.id).exists()
         )
+        page = self.client.get('/app/forum/post/w_p9/')
+        self.assertEqual(page.status_code, 200)
+        self.assertContains(page, 'Deleted user')
 
     def test_user_edit_page_delete_uses_full_cascade(self):
         self._login_admin()
@@ -468,7 +492,7 @@ class AdminAccountDeletionTests(TestCase):
         )
         self.assertEqual(response.status_code, 302)
         self.assertFalse(User.objects.filter(pk=doomed.id).exists())
-        self.assertFalse(Post.objects.filter(pk='w_p8').exists())
+        self.assertIsNone(Post.objects.get(pk='w_p8').user_id)
         self.assertFalse(PostLike.objects.filter(user_id=doomed.id).exists())
         self.assertFalse(Follow.objects.filter(follower_id=doomed.id).exists())
         survivor.refresh_from_db()

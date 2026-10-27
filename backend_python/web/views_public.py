@@ -1036,8 +1036,8 @@ def reader(request, resource_id):
         parent_id = c.parent_comment_id or ''
         c_data = {
             'id': c.id,
-            'authorId': c.user_id,
-            'authorName': c.user.username if c.user else '',
+            'authorId': c.user_id or '',
+            'authorName': c.user.username if c.user else 'Deleted user',
             'authorPhotoUrl': _avatar_url(c.user) if c.user else '',
             'authorBadgeInfo': _user_badge_info(c.user) if c.user else None,
             'parentReplyId': parent_id,

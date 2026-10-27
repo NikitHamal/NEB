@@ -16,7 +16,7 @@
       </div>
       <div class="fp-reply-meta">
         <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-          {% if reply.authorName %}
+          {% if reply.authorId %}
           <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
           {% else %}
           <span class="fp-reply-author">Deleted user</span>
@@ -99,7 +99,7 @@
           </div>
           <div class="fp-reply-meta">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-              {% if child.authorName %}
+              {% if child.authorId %}
               <a href="{% url 'web:profile' username=child.authorName %}" class="fp-reply-author" style="font-size:.75rem;">{{ child.authorName }}</a>
               {% else %}
               <span class="fp-reply-author" style="font-size:.75rem;">Deleted user</span>

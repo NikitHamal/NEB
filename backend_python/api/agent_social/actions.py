@@ -50,7 +50,7 @@ def _compose_reply(bot_config, bot_user, post, persona, target_username='', pare
         target_username = ''
         author_name = 'Anonymous Nebian'
     else:
-        author_name = target_username or (reply_obj.user.username if reply_obj else post.user.username) or 'a member'
+        author_name = target_username or ((reply_obj.user.username if reply_obj.user else '') if reply_obj else (post.user.username if post.user else '')) or 'a member'
 
     if reply_text:
         if is_anon:
