@@ -1,0 +1,91 @@
+appId: com.neb.ians
+name: The rebuilt PDF reader and its AI chat (05-pdf.pre.sh opens the resource first)
+onFlowStart:
+  - runFlow:
+      when:
+        visible: "(?i).*isn't responding.*"
+      commands:
+        - tapOn: "Wait"
+---
+- extendedWaitUntil:
+    visible: "Read"
+    timeout: 45000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: resource-detail
+- startRecording: rec-pdf
+- tapOn: "Read"
+- extendedWaitUntil:
+    visible: "Reading options"
+    timeout: 90000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: pdf-first
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 30%"
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 3000
+- swipe:
+    start: "50%, 80%"
+    end: "50%, 30%"
+    duration: 1500
+- waitForAnimationToEnd:
+    timeout: 3000
+- stopRecording
+- takeScreenshot: pdf-page
+- runFlow:
+    when:
+      notVisible: "Reading options"
+    commands:
+      - tapOn:
+          point: "50%, 50%"
+- tapOn: "Reading options"
+- waitForAnimationToEnd:
+    timeout: 3000
+- takeScreenshot: pdf-options
+- startRecording: rec-pdf-night
+- tapOn: "Night"
+- waitForAnimationToEnd:
+    timeout: 3000
+- back
+- waitForAnimationToEnd:
+    timeout: 3000
+- stopRecording
+- takeScreenshot: pdf-night
+- runFlow:
+    when:
+      visible: "Search in document"
+    commands:
+      - tapOn: "Search in document"
+      - inputText: "force"
+      - pressKey: Enter
+      - waitForAnimationToEnd:
+          timeout: 8000
+      - takeScreenshot: pdf-search
+      - back
+      - back
+- runFlow:
+    when:
+      notVisible: "Ask AI about this PDF"
+    commands:
+      - tapOn:
+          point: "50%, 50%"
+- startRecording: rec-pdf-ai
+- tapOn: "Ask AI about this PDF"
+- waitForAnimationToEnd:
+    timeout: 5000
+- takeScreenshot: pdf-ai-open
+- tapOn: "Ask this PDF"
+- inputText: "Explain centripetal force"
+- takeScreenshot: pdf-ai-typed
+- hideKeyboard
+- tapOn: "Send"
+- waitForAnimationToEnd:
+    timeout: 10000
+- takeScreenshot: pdf-ai-thinking
+- waitForAnimationToEnd:
+    timeout: 20000
+- takeScreenshot: pdf-ai-answer
+- stopRecording

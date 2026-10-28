@@ -1,0 +1,47 @@
+appId: com.neb.ians
+name: Sign in with the demo account
+onFlowStart:
+  - runFlow:
+      when:
+        visible: "(?i).*isn't responding.*"
+      commands:
+        - tapOn: "Wait"
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Continue with Email"
+    timeout: 60000
+- waitForAnimationToEnd:
+    timeout: 4000
+- takeScreenshot: login-welcome
+- tapOn: "Continue with Email"
+- waitForAnimationToEnd:
+    timeout: 3000
+- runFlow:
+    when:
+      visible: "New to NEBians\\?"
+    commands:
+      - takeScreenshot: login-form
+- runFlow:
+    when:
+      visible: "Already a NEBian\\?"
+    commands:
+      - tapOn: "Sign in"
+- tapOn: "you@example.com"
+- inputText: ${NEB_USER}
+- tapOn: "Your password"
+- inputText: ${NEB_PASS}
+- takeScreenshot: login-filled
+- tapOn:
+    text: "Sign in"
+    index: 0
+- waitForAnimationToEnd:
+    timeout: 8000
+- takeScreenshot: login-submitted
+- extendedWaitUntil:
+    visible: "Home"
+    timeout: 120000
+- waitForAnimationToEnd:
+    timeout: 6000
+- takeScreenshot: home-first

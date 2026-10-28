@@ -63,6 +63,8 @@ Full design and maintenance guide: [`docs/OG_CARDS.md`](docs/OG_CARDS.md).
 
 ### v1.7 launch reel, v5 (tools/reel, Oct 24, 2026)
 
+**Moved to `NikitHamal/Video` (Oct 2026).** `tools/reel`, `tools/video` and `videos/` no longer exist here; the reel, its build and the masters are under `neb/tools/reel/` and `neb/tools/video/dist/` in that repo. The notes below are kept as history.
+
 `tools/video/dist/nebians-v1.7-reel-v5.mp4` (42.5 s, 1080x1920, 60 fps, H.264 + AAC) and its poster.
 The owner asked for v3 polished, not replaced (a separate Remotion/cinetic film was rejected). v5 =
 v3 with: a new intro made from the app's own screens (icon tap -> app opens -> 3D ring of real screens ->
