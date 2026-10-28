@@ -20,8 +20,8 @@
 
 - **`ANDROID_UI_CONTINUITY.md`** — the Android mono / Material 3 Expressive redesign (GitHub issues #41–#44): the owner's design contract, the house component signatures, platform constraints, what has shipped, what is still open, and the build/push recipe. **Read it before touching anything under `app/src/main/java/com/neb/ians/ui/`.**
 - **`CONTINUITY.md`** — Django/web backend, auth and deployment state.
-- **`docs/LAUNCH_VIDEO.md`** - the 15-second launch film (`tools/video/`, code-driven, no npm dependencies): storyboard, spec reference, and the table of what to change when the site changes. **After changing the brand palette, hero copy or chips, header nav, the logo, the library/forum/tools pages, or shipping a new headline feature, run `node tools/video/cli.mjs drift` and follow `docs/LAUNCH_VIDEO.md` to keep the film true.**
 - **`docs/OG_CARDS.md`** — the drawn link-preview cards (`web/og_cards.py`, `og_art`, `og_heroes`, `og_logo`): the design language, the grid, how to add a card kind or a sculpture, and the two rules that bite — **bump `CARD_VERSION` whenever the drawing changes**, and a card must never 404. Preview with `python3 tools/og/preview.py`.
+- **Video pipelines live in another repo.** The launch films, chapter lessons, the launch reel and every rendered video are in the private `NikitHamal/Video` repo under `neb/` (history imported from this repo, paths rewritten). Nothing under `tools/video`, `tools/lessons`, `tools/reel`, `videos/` or `docs/LAUNCH_VIDEO.md` exists here any more. Those pipelines read this repo's brand assets through `NEBIANS_REPO`, so **after changing the brand palette, hero copy or chips, header nav, the logo, or shipping a new headline feature, run `node neb/tools/video/cli.mjs drift` there** and follow its `neb/docs/LAUNCH_VIDEO.md`.
 
 ## Overview
 
@@ -861,6 +861,8 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 
 ### What Was Worked On (Current Session - launch film)
 **Built a code-driven 15-second launch film for nebians.consica.com.np (Sep 29 2026), plus the pipeline and docs so any agent can keep it in sync.**
+
+**Moved (Oct 2026):** the pipeline, its docs and every deliverable now live in the private `NikitHamal/Video` repo under `neb/tools/video/`, `neb/docs/LAUNCH_VIDEO.md` and `neb/videos/`; the paths quoted below are the pre-move ones in this repo. The knowledge still applies — `cli.mjs`, the spec and `dist/` are there, not here.
 
 - **Where:** `tools/video/` (pipeline, stage, audio, spec, tests), `docs/LAUNCH_VIDEO.md` (maintenance guide), deliverables in `tools/video/dist/`. Zero npm dependencies: Node 22+, ffmpeg, Chrome.
 - **How it works:** deterministic HTML/JS stage (`window.__seek(t)`) -> headless Chrome over CDP (`tools/video/lib/cdp.mjs`) -> PNG -> ffmpeg (3-sample `tmix` motion blur, bt709, x264) plus a procedural 128 BPM score (`tools/video/audio/`) -> loudnorm -14 LUFS -> mux + QA. One spec (`tools/video/spec/launch.spec.json`) carries copy, timeline (in beats), palette (with `source` pointers into the site CSS), cues (they drive both visuals and sound) and `claims` about the live site.

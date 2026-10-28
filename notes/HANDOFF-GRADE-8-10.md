@@ -217,3 +217,7 @@ soc8, health8, soc10, nep8, nep10, sci8, sci10, acc10.
 A new 18-second mascot film, **Neby**, lives in `tools/video/neby/`
 (Skia + numpy, no browser). Master: `tools/video/dist/nebians-neby-launch-16x9.mp4`.
 See `tools/video/neby/README.md`.
+
+The film pipeline moved to the private `NikitHamal/Video` repo in Oct 2026: it is
+now `neb/tools/video/neby/` there, with the master in `neb/tools/video/dist/`.
+Nothing under `tools/video/` remains in this repo.
