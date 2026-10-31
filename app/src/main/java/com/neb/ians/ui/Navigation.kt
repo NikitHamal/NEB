@@ -468,6 +468,11 @@ fun NEBiansNavHost(
                         navController.navigate(Screen.Home.route) {
                             popUpTo(Screen.CompleteProfile.route) { inclusive = true }
                         }
+                    },
+                    onSignInAgain = {
+                        navController.navigate(Screen.Login.route) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }

@@ -30,6 +30,12 @@ sealed interface AuthState {
     data class Authenticated(val userId: String, val isProfileComplete: Boolean) : AuthState
 }
 
+sealed interface ProfileSaveResult {
+    data object Success : ProfileSaveResult
+    data object SessionExpired : ProfileSaveResult
+    data class Failure(val message: String) : ProfileSaveResult
+}
+
 @Singleton
 class AuthRepository @Inject constructor(
     @ApplicationContext private val appContext: Context,
@@ -473,9 +479,17 @@ class AuthRepository @Inject constructor(
         }
     }
 
-    suspend fun completeProfile(profile: com.neb.ians.data.api.UserProfileRequest): String? {
+    suspend fun completeProfile(profile: com.neb.ians.data.api.UserProfileRequest): String? =
+        when (val result = saveProfile(profile)) {
+            ProfileSaveResult.Success -> null
+            ProfileSaveResult.SessionExpired -> "Your sign-in expired. Please sign in again."
+            is ProfileSaveResult.Failure -> result.message
+        }
+
+    suspend fun saveProfile(profile: com.neb.ians.data.api.UserProfileRequest): ProfileSaveResult {
         return try {
-            val bearer = getBearerToken() ?: return "Not authenticated"
+            val bearer = getBearerToken()
+                ?: return ProfileSaveResult.SessionExpired
             val response = withContext(Dispatchers.IO) {
                 apiService.updateProfile(bearer, profile)
             }
@@ -505,9 +519,12 @@ class AuthRepository @Inject constructor(
                     prefs[USER_HAS_PASSWORD] = user.hasPassword
                 }
             }
-            null
+            ProfileSaveResult.Success
+        } catch (e: retrofit2.HttpException) {
+            if (e.code() == 401) ProfileSaveResult.SessionExpired
+            else ProfileSaveResult.Failure(ApiErrorMapper.mapException(e))
         } catch (e: Exception) {
-            ApiErrorMapper.mapException(e)
+            ProfileSaveResult.Failure(ApiErrorMapper.mapException(e))
         }
     }
 

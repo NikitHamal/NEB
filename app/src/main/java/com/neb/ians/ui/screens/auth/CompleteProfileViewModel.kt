@@ -6,6 +6,7 @@ import com.neb.ians.data.api.ApiService
 import com.neb.ians.data.api.ApiUserPhoto
 import com.neb.ians.data.api.UserProfileRequest
 import com.neb.ians.data.repository.AuthRepository
+import com.neb.ians.data.repository.ProfileSaveResult
 import com.neb.ians.data.repository.UserProfileCache
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,6 +18,9 @@ import com.neb.ians.data.api.CreateSocialLinkRequest
 import javax.inject.Inject
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+
+private const val SESSION_EXPIRED_MESSAGE =
+    "Your sign-in expired. Sign in again with the same account to finish setting up your profile."
 
 data class CompleteProfileUiState(
     val username: String = "",
@@ -43,6 +47,8 @@ data class CompleteProfileUiState(
     val isSubmitting: Boolean = false,
     val submissionResult: Boolean? = null,
     val submissionError: String? = null,
+    val needsReauth: Boolean = false,
+    val signOutReady: Boolean = false,
     val isEditing: Boolean = false,
     val showPhotoGallery: Boolean = false,
     val photos: List<ApiUserPhoto> = emptyList(),
@@ -108,6 +114,8 @@ class CompleteProfileViewModel @Inject constructor(
             }
         }
 
+        viewModelScope.launch { checkSessionIsUsable() }
+
         viewModelScope.launch {
             _usernameQuery
                 .debounce(500)
@@ -146,6 +154,25 @@ class CompleteProfileViewModel @Inject constructor(
                     }
                 }
                 .collect()
+        }
+    }
+
+    private suspend fun checkSessionIsUsable() {
+        val bearer = authRepository.getBearerToken() ?: run {
+            markSessionExpired()
+            return
+        }
+        try {
+            apiService.getAvatarStyle(bearer)
+        } catch (e: retrofit2.HttpException) {
+            if (e.code() == 401) markSessionExpired()
+        } catch (_: Exception) {
+        }
+    }
+
+    private fun markSessionExpired() {
+        _uiState.update {
+            it.copy(needsReauth = true, submissionError = SESSION_EXPIRED_MESSAGE)
         }
     }
 
@@ -309,7 +336,14 @@ class CompleteProfileViewModel @Inject constructor(
         val state = _uiState.value
         if (state.isSubmitting) return
 
-        _uiState.update { it.copy(isSubmitting = true, submissionResult = null, submissionError = null) }
+        _uiState.update {
+            it.copy(
+                isSubmitting = true,
+                submissionResult = null,
+                submissionError = null,
+                needsReauth = false
+            )
+        }
 
         viewModelScope.launch {
             val cachedUser = authRepository.userProfileFlow.first()
@@ -334,14 +368,35 @@ class CompleteProfileViewModel @Inject constructor(
                 bio = state.bio
             )
 
-            val errorMsg = authRepository.completeProfile(request)
-            _uiState.update {
-                it.copy(
-                    isSubmitting = false,
-                    submissionResult = errorMsg == null,
-                    submissionError = errorMsg
-                )
+            when (val result = authRepository.saveProfile(request)) {
+                ProfileSaveResult.Success -> _uiState.update {
+                    it.copy(isSubmitting = false, submissionResult = true, submissionError = null)
+                }
+                ProfileSaveResult.SessionExpired -> _uiState.update {
+                    it.copy(
+                        isSubmitting = false,
+                        submissionResult = false,
+                        needsReauth = true,
+                        submissionError = SESSION_EXPIRED_MESSAGE
+                    )
+                }
+                is ProfileSaveResult.Failure -> _uiState.update {
+                    it.copy(
+                        isSubmitting = false,
+                        submissionResult = false,
+                        submissionError = result.message
+                    )
+                }
             }
+        }
+    }
+
+    fun restartSignIn() {
+        if (_uiState.value.isSubmitting) return
+        _uiState.update { it.copy(isSubmitting = true, submissionError = null) }
+        viewModelScope.launch {
+            authRepository.logout()
+            _uiState.update { it.copy(isSubmitting = false, signOutReady = true) }
         }
     }
 

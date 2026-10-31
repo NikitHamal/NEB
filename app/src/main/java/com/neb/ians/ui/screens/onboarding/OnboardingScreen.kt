@@ -59,6 +59,7 @@ import com.neb.ians.ui.theme.nebSpatialSpec
 @Composable
 fun OnboardingScreen(
     onFinished: () -> Unit,
+    onSignInAgain: () -> Unit = {},
     viewModel: CompleteProfileViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -80,6 +81,10 @@ fun OnboardingScreen(
 
     LaunchedEffect(uiState.submissionResult) {
         if (uiState.submissionResult == true) onFinished()
+    }
+
+    LaunchedEffect(uiState.signOutReady) {
+        if (uiState.signOutReady) onSignInAgain()
     }
 
     val photoPicker = rememberLauncherForActivityResult(
@@ -187,6 +192,25 @@ fun OnboardingScreen(
                     NebTextLink(
                         text = "Skip for now",
                         onClick = { goNext() },
+                        enabled = !uiState.isSubmitting
+                    )
+                }
+            }
+
+            AnimatedVisibility(
+                visible = uiState.needsReauth,
+                enter = fadeIn(nebFastEffectsSpec()),
+                exit = fadeOut(nebFastEffectsSpec())
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(38.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    NebTextLink(
+                        text = "Sign in again",
+                        onClick = { viewModel.restartSignIn() },
                         enabled = !uiState.isSubmitting
                     )
                 }
