@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from api.models import User
-from api.security import hash_password, hash_auth_token
+from api.security import hash_password
 import time
 
 
@@ -77,8 +77,6 @@ class Command(BaseCommand):
             pk = user_data.pop('pk')
             user, created = User.objects.update_or_create(pk=pk, defaults=user_data)
             if created:
-                auth_token = User.generate_token()
-                user.auth_token = hash_auth_token(auth_token)
                 user.created_at = now
                 user.save()
                 self.stdout.write(self.style.SUCCESS(

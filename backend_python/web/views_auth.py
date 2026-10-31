@@ -106,7 +106,6 @@ def google_auth(request):
             pass
     if email and User.objects.filter(email__iexact=email).exists():
         return JsonResponse({'error': 'An account with this email already exists. Please log in with your original sign-in method first.'}, status=409)
-    auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
     db_user = User(
         pk=user_id,
@@ -117,9 +116,8 @@ def google_auth(request):
         email_verified=provider_verified,
         created_at=now_ms()
     )
-    db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
-    token = auth_token
+    token = issue_auth_token(db_user)
     user_data = _normalize_user_data(UserSerializer(db_user).data)
     user_data['isNewUser'] = True
     api.set_session_auth(request, token, user_data)
@@ -227,7 +225,6 @@ def google_oauth_callback(request):
         if next_url:
             return redirect(next_url)
         return redirect_result
-    auth_token = User.generate_token()
     temp_username = f"user_{user_id[:8]}"
     if email and User.objects.filter(email__iexact=email).exists():
         messages.error(request, 'An account with this email already exists. Please log in with your original sign-in method first.')
@@ -241,15 +238,14 @@ def google_oauth_callback(request):
         email_verified=bool(google_info.get('email_verified', False)),
         created_at=now_ms()
     )
-    db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
-    token = auth_token
+    token = issue_auth_token(db_user)
     user_data = _normalize_user_data(UserSerializer(db_user).data)
     user_data['isNewUser'] = True
     api.set_session_auth(request, token, user_data)
     logger.info('google_oauth_callback: new user created: %s (temp_username=%s)', user_id, temp_username)
     if is_mobile:
-        return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true&username={temp_username}')
+        return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=true&username={temp_username}')
     if next_url:
         return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
     return redirect('web:edit_profile')
@@ -409,7 +405,6 @@ def github_callback(request):
         if next_url:
             return redirect(next_url)
         return redirect_result
-    auth_token = User.generate_token()
     temp_username = f"github_{github_id[:8]}"
     base_username = temp_username
     suffix = 1
@@ -428,15 +423,14 @@ def github_callback(request):
         email_verified=github_email_verified,
         created_at=now_ms(),
     )
-    db_user.auth_token = hash_auth_token(auth_token)
     db_user.save()
-    token = auth_token
+    token = issue_auth_token(db_user)
     user_data = _normalize_user_data(UserSerializer(db_user).data)
     user_data['isNewUser'] = True
     api.set_session_auth(request, token, user_data)
     logger.info('github_callback: new user created: %s', user_pk)
     if is_mobile:
-        return deep_link(f'nebians://auth-callback?authToken={auth_token}&isNewUser=true&username={temp_username}')
+        return deep_link(f'nebians://auth-callback?authToken={token}&isNewUser=true&username={temp_username}')
     if next_url:
         return redirect(f"{reverse('web:edit_profile')}?next={next_url}")
     return redirect('web:edit_profile')
