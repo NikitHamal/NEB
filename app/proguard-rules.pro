@@ -12,8 +12,14 @@
 -keepattributes InnerClasses,EnclosingMethod
 -keepattributes SourceFile,LineNumberTable
 
-# Keep the application class
--keep public class * extends android.app.Application
+# Keep the application class.
+# AGP 9 turns on android.r8.strictFullModeForKeepRules, so a bare -keep no
+# longer implies keeping the default constructor. Every class below is
+# instantiated reflectively by the framework, so the constructor is kept
+# explicitly rather than relying on the old implicit behaviour.
+-keep public class * extends android.app.Application {
+    public <init>();
+}
 
 # Keep all classes in the app package (data models, etc.)
 -keep class com.neb.ians.data.model.** { *; }
@@ -44,8 +50,12 @@
 # Room Database
 # ----------------------------------------------------------------------------
 
--keep class * extends androidx.room.RoomDatabase
--keep @androidx.room.Entity class *
+-keep class * extends androidx.room.RoomDatabase {
+    public <init>();
+}
+-keep @androidx.room.Entity class * {
+    public <init>();
+}
 -dontwarn androidx.room.paging.**
 
 # Keep Room DAO methods
@@ -67,7 +77,9 @@
 -dontwarn dagger.**
 -keep class dagger.** { *; }
 -keep class javax.inject.** { *; }
--keep class * extends dagger.hilt.android.lifecycle.HiltViewModel
+-keep class * extends dagger.hilt.android.lifecycle.HiltViewModel {
+    public <init>();
+}
 
 # Keep Hilt generated components
 -keep class **_HiltModules* { *; }
@@ -166,7 +178,9 @@
 # WorkManager
 # ----------------------------------------------------------------------------
 
--keep class * extends androidx.work.Worker
+-keep class * extends androidx.work.Worker {
+    public <init>();
+}
 -keep class * extends androidx.work.ListenableWorker {
     public <init>(android.content.Context, androidx.work.WorkerParameters);
 }
