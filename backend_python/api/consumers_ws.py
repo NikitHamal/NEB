@@ -72,7 +72,6 @@ GRP_POST_FMT = 'post.{post_id}'
 GRP_RESOURCE_FMT = 'resource.{resource_id}'
 GRP_RESOURCE_REQUEST_FMT = 'resource_request.{request_id}'
 GRP_STUDY_SPACE_FMT = 'studyspace.{space_id}'
-GRP_CODE_DAEMON_FMT = 'code.daemon.{user_id}'
 
 
 def _is_authenticated(user):
@@ -243,16 +242,6 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         return r.approval_status == 'approved'
 
     @database_sync_to_async
-    def _owns_code_session(self, session_id: str) -> bool:
-        if not self._user_id or not session_id:
-            return False
-        from api.models import CodeSession
-        try:
-            return CodeSession.objects.filter(pk=session_id, user_id=self._user_id).exists()
-        except Exception:
-            return False
-
-    @database_sync_to_async
     def _user_track_open(self, user_id: str, channel_name: str):
         """Track the user's open connections in cache (capped)."""
         key = f'ws:conns:{user_id}'
@@ -280,13 +269,6 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
     def _user_should_evict(self, channel_name: str) -> bool:
         return bool(cache.get(f'ws:evict:{channel_name}'))
 
-    @database_sync_to_async
-    def _owns_code_session(self, session_id: str) -> bool:
-        from api.models import CodeSession
-        if not self._user_id or not session_id:
-            return False
-        return CodeSession.objects.filter(id=session_id, user_id=self._user_id).exists()
-
     # ------------------------------------------------------------------ lifecycle
 
     async def connect(self):
@@ -308,7 +290,6 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         await self.accept()
         self._groups: Set[str] = set()
         self._client_subscriptions = {}
-        self._code_role = ''  # '' | 'daemon'
         self._last_activity = time.monotonic()
         self._rate = _RateLimiter(self.RATE_PER_SECOND, self.RATE_PER_HOUR)
         self._batcher = _EventBatcher(self._send_json)
@@ -336,8 +317,6 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
                     await self.channel_layer.group_discard(group, self.channel_name)
                 except Exception:  # noqa: BLE001
                     pass
-            if getattr(self, '_code_role', '') == 'daemon' and self._user_id:
-                await self._code_daemon_offline()
             if self._user_id:
                 await self._user_track_close(self._user_id, self.channel_name)
             logger.info('WS disconnect user=%s code=%s', self._user_id, code)
@@ -377,16 +356,6 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
             await self._send_json({'type': 'since_ack', 'ts': msg.get('ts')})
         elif action == 'note_content':
             await self._handle_note_content(msg)
-        elif action == 'code.daemon.hello':
-            await self._handle_code_daemon_hello(msg)
-        elif action == 'code.daemon.ping':
-            self._code_daemon_touch()
-        elif action == 'code.result':
-            self._handle_code_result(msg)
-        elif action == 'code.term.data':
-            await self._handle_code_term(msg, final=False)
-        elif action == 'code.term.exit':
-            await self._handle_code_term(msg, final=True)
         elif action == 'note_cursor':
             await self._handle_note_cursor(msg)
         elif action == 'yjs_update':
@@ -441,9 +410,6 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
         elif channel.startswith('canvas.'):
             board_id = channel[len('canvas.'):]
             ok = await self._can_see_canvas(board_id) if self._user_id else False
-        elif channel.startswith('code.ui.'):
-            session_id = channel[len('code.ui.'):]
-            ok = await self._owns_code_session(session_id)
         else:
             await self._send_json({'type': 'error', 'code': 'unknown_channel', 'message': f'unsupported: {channel}'})
             return
@@ -690,92 +656,6 @@ class RealtimeConsumer(AsyncWebsocketConsumer):
                     },
                 }
             )
-
-    # ------------------------------------------------------------------ neby code daemon
-
-    def _code_daemon_touch(self):
-        from api import code_realtime
-        if self._code_role == 'daemon' and self._user_id:
-            info = getattr(self, '_code_info', {}) or {}
-            info['_ch'] = self.channel_name
-            code_realtime.set_presence(self._user_id, info)
-
-    def _handle_code_result(self, msg):
-        if self._code_role != 'daemon':
-            return
-        call_id = str(msg.get('call_id') or '')
-        if not call_id or len(call_id) > 64:
-            return
-        from api import code_realtime
-        payload = {'ok': bool(msg.get('ok')), 'data': msg.get('data'), 'error': msg.get('error') or ''}
-        code_realtime.store_result(call_id, payload)
-
-    async def _handle_code_daemon_hello(self, msg):
-        if not self._user_id:
-            await self._send_json({'type': 'error', 'code': 'auth_required', 'message': 'daemon needs auth'})
-            return
-        self._code_role = 'daemon'
-        info = msg.get('info') or {}
-        if not isinstance(info, dict):
-            info = {}
-        info['_ch'] = self.channel_name
-        self._code_info = info
-        group = GRP_CODE_DAEMON_FMT.format(user_id=self._user_id)
-        await self.channel_layer.group_add(group, self.channel_name)
-        self._groups.add(group)
-        from api import code_realtime
-        code_realtime.set_presence(self._user_id, info)
-        await self.channel_layer.group_send(f'user.{self._user_id}', {
-            'type': 'realtime.event',
-            'channel': f'user.{self._user_id}',
-            'event': 'daemon.status',
-            'data': {'online': True, 'info': {k: v for k, v in info.items() if k != '_ch'}},
-        })
-        await self._send_json({'type': 'code.hello_ok'})
-
-    async def _code_daemon_offline(self):
-        try:
-            from api import code_realtime
-            ch = (getattr(self, '_code_info', {}) or {}).get('_ch', '')
-            presence = code_realtime.get_presence(self._user_id) or {}
-            if ch and presence.get('_ch') != ch:
-                return
-            code_realtime.clear_presence(self._user_id, ch)
-            await self.channel_layer.group_send(f'user.{self._user_id}', {
-                'type': 'realtime.event',
-                'channel': f'user.{self._user_id}',
-                'event': 'daemon.status',
-                'data': {'online': False},
-            })
-        except Exception:  # noqa: BLE001
-            pass
-
-    async def _handle_code_term(self, msg, final=False):
-        if self._code_role != 'daemon':
-            return
-        session_id = str(msg.get('session_id') or '')
-        if not session_id or not self._user_id:
-            return
-        if not await self._owns_code_session(session_id):
-            return
-        data = {
-            'call_id': msg.get('call_id'),
-            'chunk': msg.get('chunk', ''),
-            'stream': msg.get('stream', 'out'),
-        }
-        if final:
-            data['exit_code'] = msg.get('exit_code')
-            data['duration_ms'] = msg.get('duration_ms')
-        await self.channel_layer.group_send(f'code.ui.{session_id}', {
-            'type': 'realtime.event',
-            'channel': f'code.ui.{session_id}',
-            'event': 'term.exit' if final else 'term.data',
-            'data': data,
-        })
-
-    async def code_event(self, event):
-        """Frames pushed by views/worker via the channel layer for this daemon."""
-        await self._send_json(event.get('payload') or {})
 
     # ------------------------------------------------------------------ internal
 

@@ -7,11 +7,6 @@ from nebians.features import marketplace_gate
 from . import views_syllabus
 from . import views_admin_media
 from . import views_admin_neby
-from . import views_admin_lazy
-from . import views_background_agent as ba_views
-from . import views_background_agent_lifecycle as ba_lifecycle_views
-from . import views_background_agent_mobile as ba_mobile_views
-from . import views_llm as ba_llm_views
 from . import views_monitor
 from . import views_needle
 from . import views_avatar
@@ -19,10 +14,7 @@ from . import views_content_images
 from . import views_canvas
 from . import views_canvas_features
 from . import views_canvas_objects
-from . import views_lazy
-from . import views_lazy_agent
 from . import views_tools
-from . import views_code
 from . import views_landing
 from . import views_admin_themes
 
@@ -100,20 +92,6 @@ urlpatterns = [
     path('app/credits/', views.credits_page, name='credits'),
     path('app/settings/', views.settings_page, name='settings'),
     path('app/my-avatar/', views_avatar.my_avatar, name='my_avatar'),
-    path('app/code/', views_code.code_home, name='code'),
-    path('app/code/<str:session_id>/', views_code.code_home, name='code_session'),
-    path('ajax/code/sessions/', views_code.ajax_code_sessions, name='ajax_code_sessions'),
-    path('ajax/code/sessions/create/', views_code.ajax_code_create_session, name='ajax_code_create_session'),
-    path('ajax/code/sessions/<str:session_id>/detail/', views_code.ajax_code_session_detail, name='ajax_code_session_detail'),
-    path('ajax/code/sessions/<str:session_id>/send/', views_code.ajax_code_send, name='ajax_code_send'),
-    path('ajax/code/sessions/<str:session_id>/update/', views_code.ajax_code_update_session, name='ajax_code_update_session'),
-    path('ajax/code/sessions/<str:session_id>/cancel/', views_code.ajax_code_cancel, name='ajax_code_cancel'),
-    path('ajax/code/sessions/<str:session_id>/delete/', views_code.ajax_code_delete_session, name='ajax_code_delete_session'),
-    path('ajax/code/status/', views_code.ajax_code_status, name='ajax_code_status'),
-    path('ajax/code/token/', views_code.ajax_code_token, name='ajax_code_token'),
-    path('ajax/code/fs/', views_code.ajax_code_fs, name='ajax_code_fs'),
-    path('ajax/code/git/', views_code.ajax_code_git, name='ajax_code_git'),
-    path('ajax/code/term/', views_code.ajax_code_term, name='ajax_code_term'),
     path('avatar/', views_avatar.avatar_svg_index, name='avatar_index'),
     path('avatar/<str:name>/', views_avatar.avatar_svg, name='avatar_svg'),
     path('ajax/avatar/change-username/', views_avatar.ajax_avatar_change_username, name='ajax_avatar_change_username'),
@@ -250,7 +228,6 @@ urlpatterns = [
     path('admin/bots/<int:bot_id>/create-user/', views.admin_bot_create_user, name='admin_bot_create_user'),
     path('admin/neby/', views_admin_neby.admin_neby_manager, name='admin_neby_manager'),
     path('admin/neby/task/<str:task_id>/delete/', views_admin_neby.admin_neby_task_delete, name='admin_neby_task_delete'),
-    path('admin/lazy/', views_admin_lazy.admin_lazy_config, name='admin_lazy_config'),
     path('admin/agents/activity/', views.admin_agent_activity, name='admin_agent_activity'),
     path('admin/agents/tick/', views.admin_agent_tick, name='admin_agent_tick'),
     path('admin/study-spaces/', views.admin_study_spaces, name='admin_study_spaces'),
@@ -270,8 +247,6 @@ urlpatterns = [
     path('admin/neby-studio/', views_admin_themes.admin_neby_studio, name='admin_neby_studio'),
     path('admin/art/', views_admin_themes.admin_art_library, name='admin_art_library'),
     path('admin/hero-backgrounds/', RedirectView.as_view(url='/admin/themes/', permanent=True)),
-    path('admin/agent-drops/', views.admin_agent_drops, name='admin_agent_drops'),
-    path('staff/agent-drops/', views.admin_agent_drops, name='staff_agent_drops'),
 
     # Study Lab
     path('app/study-lab/', views.study_lab, name='study_lab'),
@@ -347,30 +322,6 @@ urlpatterns = [
     path('ajax/canvas/nodes/<str:node_id>/followup/', views_canvas.ajax_canvas_node_followup, name='ajax_canvas_node_followup'),
     path('ajax/canvas/nodes/<str:node_id>/dig-deeper/', views_canvas.ajax_canvas_node_dig_deeper, name='ajax_canvas_node_dig_deeper'),
 
-    # Lazy — autonomous agentic workspace. /lazy loads the Ice Cream UI Harness
-    path('app/lazy/', views_lazy.lazy_page, name='lazy'),
-    path('app/lazy/<str:session_id>/', views_lazy.lazy_page, name='lazy_session'),
-    path('ajax/lazy/sessions/', views_lazy.ajax_lazy_sessions, name='ajax_lazy_sessions'),
-    path('ajax/lazy/sessions/create/', views_lazy.ajax_lazy_session_create, name='ajax_lazy_session_create'),
-    path('ajax/lazy/sessions/<str:session_id>/', views_lazy.ajax_lazy_session_detail, name='ajax_lazy_session_detail'),
-    path('ajax/lazy/sessions/<str:session_id>/delete/', views_lazy.ajax_lazy_session_delete, name='ajax_lazy_session_delete'),
-    path('ajax/lazy/sessions/<str:session_id>/chat/', views_lazy.ajax_lazy_chat, name='ajax_lazy_chat'),
-    path('ajax/lazy/sessions/<str:session_id>/save/', views_lazy.ajax_lazy_doc_save, name='ajax_lazy_doc_save'),
-    path('ajax/lazy/sessions/<str:session_id>/export/', views_lazy.ajax_lazy_export, name='lazy_export'),
-    path('ajax/lazy/upload/', views_lazy.ajax_lazy_upload, name='ajax_lazy_upload'),
-    path('ajax/lazy/file/<str:token>/', views_lazy.ajax_lazy_file, name='ajax_lazy_file'),
-
-    # Lazy agent — autonomous, plan-act-observe loop
-    path('app/lazy/agent/', views_lazy_agent.lazy_agent_page, name='lazy_agent'),
-    path('ajax/lazy/agent/run/', views_lazy_agent.agent_run_create, name='ajax_lazy_agent_run'),
-    path('ajax/lazy/agent/runs/', views_lazy_agent.agent_runs_list, name='ajax_lazy_agent_runs'),
-    path('ajax/lazy/agent/stream/<str:run_id>/', views_lazy_agent.agent_run_stream, name='ajax_lazy_agent_stream'),
-    path('ajax/lazy/agent/cancel/<str:run_id>/', views_lazy_agent.agent_run_cancel, name='ajax_lazy_agent_cancel'),
-    path('ajax/lazy/agent/run/<str:run_id>/', views_lazy_agent.agent_run_detail, name='ajax_lazy_agent_detail'),
-    path('ajax/lazy/agent/run/<str:run_id>/files/', views_lazy_agent.agent_workspace_files, name='ajax_lazy_agent_files'),
-    path('ajax/lazy/agent/session/<str:session_id>/history/', views_lazy_agent.agent_session_history, name='ajax_lazy_agent_history'),
-    path('ajax/lazy/agent-artifact/<str:run_id>/<path:path>', views_lazy_agent.agent_artifact, name='ajax_lazy_agent_artifact'),
-    path('ajax/lazy/artifact/<str:artifact_id>/', views_lazy_agent.agent_artifact_raw, name='ajax_lazy_artifact_raw'),
     path('ajax/study-space/<str:space_id>/learning-path/', views.ajax_space_learning_path, name='ajax_space_learning_path'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/role/', views.ajax_space_member_role, name='ajax_space_member_role'),
     path('ajax/study-space/<str:space_id>/members/<str:member_user_id>/remove/', views.ajax_space_member_remove, name='ajax_space_member_remove'),
@@ -392,34 +343,6 @@ path('ajax/study-space/<str:space_id>/summary/', views.ajax_space_generate_summa
     path('ajax/study-space/quiz/<str:quiz_id>/', views.ajax_space_quiz_detail, name='ajax_space_quiz_detail'),
     path('ajax/study-space/quiz/<str:quiz_id>/submit/', views.ajax_space_quiz_submit, name='ajax_space_quiz_submit'),
     path('ajax/study-space/flashcard/<str:card_id>/review/', views.ajax_space_flashcard_review, name='ajax_space_flashcard_review'),
-    # Background Agent (standalone, not admin-panel)
-    path('backgroundagent/login/', ba_views.background_agent_login, name='background_agent_login'),
-    path('backgroundagent/logout/', ba_views.background_agent_logout, name='background_agent_logout'),
-    path('backgroundagent/', ba_views.background_agent_page, name='background_agent'),
-    path('backgroundagent/session/<str:session_id>/', ba_views.background_agent_session_page, name='background_agent_session_page'),
-    path('backgroundagent/github/connect/', ba_views.background_agent_github_connect, name='background_agent_github_connect'),
-    path('backgroundagent/github/disconnect/', ba_views.background_agent_github_disconnect, name='background_agent_github_disconnect'),
-    path('backgroundagent/mobile/authorize/', ba_mobile_views.background_agent_mobile_authorize, name='background_agent_mobile_authorize'),
-    path('backgroundagent/api/state/', ba_views.background_agent_state, name='background_agent_state'),
-    path('backgroundagent/api/repositories/', ba_views.background_agent_repositories, name='background_agent_repositories'),
-    path('backgroundagent/api/branches/', ba_views.background_agent_branches, name='background_agent_branches'),
-    path('backgroundagent/api/projects/', ba_views.background_agent_create_project, name='background_agent_create_project'),
-    path('backgroundagent/api/sessions/', ba_views.background_agent_create_session, name='background_agent_create_session'),
-    path('backgroundagent/api/sessions/<str:session_id>/', ba_views.background_agent_session_detail, name='background_agent_session_detail'),
-    path('backgroundagent/api/sessions/<str:session_id>/events/', ba_views.background_agent_session_events, name='background_agent_session_events'),
-    path('backgroundagent/api/sessions/<str:session_id>/stream/', ba_views.background_agent_session_stream, name='background_agent_session_stream'),
-    path('backgroundagent/api/sessions/<str:session_id>/messages/', ba_views.background_agent_session_message, name='background_agent_session_message'),
-    path('backgroundagent/api/sessions/<str:session_id>/files/', ba_views.background_agent_session_files, name='background_agent_session_files'),
-    path('backgroundagent/api/sessions/<str:session_id>/file/', ba_views.background_agent_session_file, name='background_agent_session_file'),
-    path('backgroundagent/api/sessions/<str:session_id>/preview/', ba_views.background_agent_session_preview, name='background_agent_session_preview'),
-    path('backgroundagent/api/sessions/<str:session_id>/control/', ba_views.background_agent_session_control, name='background_agent_session_control'),
-    path('backgroundagent/api/sessions/<str:session_id>/actions/', ba_views.background_agent_session_action, name='background_agent_session_action'),
-    path('backgroundagent/api/sessions/<str:session_id>/lifecycle/', ba_lifecycle_views.background_agent_session_lifecycle, name='background_agent_session_lifecycle'),
-    path('backgroundagent/api/llm/providers/', ba_llm_views.background_agent_llm_providers, name='background_agent_llm_providers'),
-    path('backgroundagent/api/llm/providers/<str:provider_id>/', ba_llm_views.background_agent_llm_provider_detail, name='background_agent_llm_provider_detail'),
-    path('backgroundagent/api/llm/test/', ba_llm_views.background_agent_llm_test, name='background_agent_llm_test'),
-    path('backgroundagent/api/sessions/<str:session_id>/export/', ba_views.background_agent_session_export, name='background_agent_session_export'),
-    path('backgroundagent/api/sessions/<str:session_id>/artifacts/<str:kind>/', ba_views.background_agent_download_artifact, name='background_agent_download_artifact'),
     # Pages that moved under /app/ on 2026-10-18. Old links, bookmarks, search results
     # and shared URLs keep working: 308 keeps the method, so a stale form POST still lands.
     re_path(r'^(?P<path>(?:%s)(?:/.*)?)$' % '|'.join(views_landing.LEGACY_PREFIXES), views_landing.legacy_redirect),

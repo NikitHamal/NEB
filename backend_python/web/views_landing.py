@@ -23,8 +23,8 @@ from .view_helpers import _get_user_id
 LEGACY_PREFIXES = (
     'library', 'forum', 'marketplace', 'interactive', 'subject', 'search', 'news', 'results',
     'tools', 'reader', 'resource', 'upload', 'requests', 'profile', 'settings', 'bookmarks',
-    'analytics', 'credits', 'code', 'my-avatar', 'past-papers', 'model-questions',
-    'online-learning', 'faq', 'lazy', 'study-space', 'study-lab', 'canvas', 'notifications',
+    'analytics', 'credits', 'my-avatar', 'past-papers', 'model-questions',
+    'online-learning', 'faq', 'study-space', 'study-lab', 'canvas', 'notifications',
 )
 
 # Every level the library serves. The landing page lists them; each opens the library on it.

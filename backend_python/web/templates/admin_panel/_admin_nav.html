@@ -90,10 +90,6 @@
   <span class="material-symbols-outlined">psychology</span>
   Neby Manager
 </a>
-<a href="{% url 'web:admin_lazy_config' %}" class="{% if active_page == 'lazy' %}active{% endif %}" {% if active_page == 'lazy' %}aria-current="page"{% endif %}>
-  <span class="material-symbols-outlined">edit_document</span>
-  Lazy Config
-</a>
 <a href="{% url 'web:admin_agent_activity' %}" class="{% if active_page == 'agent_activity' %}active{% endif %}" {% if active_page == 'agent_activity' %}aria-current="page"{% endif %}>
   <span class="material-symbols-outlined">monitor_heart</span>
   Agent Heartbeat
@@ -105,10 +101,6 @@
 <a href="{% url 'web:admin_media_test' %}" class="{% if active_page == 'media_test' %}active{% endif %}" {% if active_page == 'media_test' %}aria-current="page"{% endif %}>
   <span class="material-symbols-outlined">perm_media</span>
   Media Test
-</a>
-<a href="{% url 'web:background_agent' %}" class="{% if active_page == 'background_agent' %}active{% endif %}" {% if active_page == 'background_agent' %}aria-current="page"{% endif %}>
-  <span class="material-symbols-outlined">terminal</span>
-  Background Agent
 </a>
 <div class="md-divider"></div>
 <a href="{% url 'web:home' %}" style="color:var(--md-on-surface-variant);">

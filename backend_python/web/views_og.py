@@ -134,10 +134,6 @@ PAGES = {
         'kicker': 'Credits', 'title': 'The people who built NEBians',
         'meta': ('NEBians',), 'hero': 'spark',
     },
-    'code': {
-        'kicker': 'Code', 'title': 'Write it, run it, see it work',
-        'meta': ('Code sessions',), 'hero': 'graph',
-    },
     'notifications': {
         'kicker': 'Notifications', 'title': 'What happened while you were away',
         'meta': ('NEBians',), 'hero': 'spark',
@@ -619,7 +615,6 @@ _ROUTE_PAGES = {
     'password': 'settings',
     'change_password': 'settings',
     'credits': 'credits',
-    'code': 'code',
     'notifications': 'notifications',
     'study_space_page': 'study-spaces',
 }
