@@ -113,8 +113,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
-    // Material 3 (version comes from the BOM)
-    implementation("androidx.compose.material3:material3")
+    // Material 3. Pinned rather than BOM-managed: the app is built on the
+    // Material3 Expressive APIs, which are still internal in the 1.4.0 that
+    // BOM 2026.09.00 resolves to. 1.5.0-beta02 is the newest release that
+    // exposes them publicly and it matches the BOM's Compose 1.12.1 runtime.
+    implementation("androidx.compose.material3:material3:1.5.0-beta02")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
 // Activity Compose
