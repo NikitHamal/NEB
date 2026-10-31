@@ -11,7 +11,6 @@ plugins {
 android {
     namespace = "com.neb.ians"
     compileSdk = 36
-    ndkVersion = "27.0.12077973"
 
     defaultConfig {
         applicationId = "com.neb.ians"
@@ -24,7 +23,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        resConfigs("en", "ne")
+        androidResources {
+            localeFilters += listOf("en", "ne")
+        }
     }
 
     signingConfigs {
@@ -47,9 +48,6 @@ android {
                 "proguard-rules.pro"
             )
             signingConfig = signingConfigs.getByName("release")
-            ndk {
-                debugSymbolLevel = "SYMBOL_TABLE"
-            }
         }
         debug {
             isMinifyEnabled = false
@@ -76,10 +74,6 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
-    }
-
     buildFeatures {
         compose = true
         buildConfig = true
@@ -89,6 +83,12 @@ android {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
 }
 
@@ -102,7 +102,7 @@ composeCompiler {
 
 dependencies {
     // Compose BOM
-    val composeBom = platform("androidx.compose:compose-bom:2025.10.00")
+    val composeBom = platform("androidx.compose:compose-bom:2026.09.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -114,8 +114,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
-    // Material 3
-    implementation("androidx.compose.material3:material3:1.5.0-alpha10")
+    // Material 3 (version comes from the BOM)
+    implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
 // Activity Compose
@@ -134,16 +134,16 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.5")
 
 // Room
-    implementation("androidx.room:room-runtime:2.6.1")
-    implementation("androidx.room:room-ktx:2.6.1")
-    ksp("androidx.room:room-compiler:2.6.1")
+    implementation("androidx.room:room-runtime:2.8.5")
+    implementation("androidx.room:room-ktx:2.8.5")
+    ksp("androidx.room:room-compiler:2.8.5")
 
 // Hilt
-    implementation("com.google.dagger:hilt-android:2.53.1")
-    ksp("com.google.dagger:hilt-android-compiler:2.53.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
-    implementation("androidx.hilt:hilt-work:1.2.0")
-    ksp("androidx.hilt:hilt-compiler:1.2.0")
+    implementation("com.google.dagger:hilt-android:2.60.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.60.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.4.0")
+    implementation("androidx.hilt:hilt-work:1.4.0")
+    ksp("androidx.hilt:hilt-compiler:1.4.0")
 
 // Coil Compose
     implementation("io.coil-kt:coil-compose:2.7.0")

@@ -23,7 +23,7 @@ jobs:
     timeout-minutes: 50
     steps:
       - name: Checkout the capture flows
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           sparse-checkout: tools/app-screens
 
@@ -45,7 +45,7 @@ jobs:
           echo "id=$RID" >> "$GITHUB_OUTPUT"
 
       - name: Download the APK
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v8
         with:
           pattern: NEBians-modern-v*
           run-id: ${{ steps.run.outputs.id }}
@@ -54,7 +54,7 @@ jobs:
           merge-multiple: true
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -81,7 +81,7 @@ jobs:
 
       - name: Upload captures
         if: always()
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v7
         with:
           name: app-captures
           path: app-captures
