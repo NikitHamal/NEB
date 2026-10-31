@@ -67,10 +67,6 @@ if not CONSICA_BRIDGE_KEY:
 
 ASTROWEB_BRIDGE_KEY = os.environ.get('ASTROWEB_BRIDGE_KEY', '') or CONSICA_BRIDGE_KEY
 
-AGENT_DROP_SECRET = os.environ.get('AGENT_DROP_SECRET', '')
-if not AGENT_DROP_SECRET and DEBUG:
-    AGENT_DROP_SECRET = 'dev-agent-drop-secret-change-me'
-
 ALLOWED_HOSTS = env_list(
     'ALLOWED_HOSTS',
     'localhost,127.0.0.1,nebians.consica.com.np,www.nebians.consica.com.np',
@@ -341,7 +337,6 @@ GOOGLE_CLIENT_SECRET = os.environ.get('GOOGLE_CLIENT_SECRET', '')
 # GitHub OAuth.
 GITHUB_CLIENT_ID = os.environ.get('GITHUB_CLIENT_ID', '')
 GITHUB_CLIENT_SECRET = os.environ.get('GITHUB_CLIENT_SECRET', '')
-BACKGROUND_AGENT_PUBLIC_URL = os.environ.get('BACKGROUND_AGENT_PUBLIC_URL', '').rstrip('/')
 
 # Server-wide fallback keys for official LLM providers (lowest priority —
 # user BYOK rows and admin bot configs override these). Drop a free key from
@@ -354,14 +349,6 @@ LLM_PROVIDER_KEYS = {
     'deepseek': os.environ.get('DEEPSEEK_API_KEY', ''),
 }
 
-# LLM call time budget for background-agent official providers (seconds).
-BACKGROUND_AGENT_PROVIDER_TIMEOUT = int(os.environ.get('BACKGROUND_AGENT_PROVIDER_TIMEOUT', '300'))
-# Context window for agent sessions (default 1M — Qwen models all support 1M).
-BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS = int(os.environ.get('BACKGROUND_AGENT_CONTEXT_WINDOW_TOKENS', '1000000'))
-BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION = os.environ.get('BACKGROUND_AGENT_ALLOW_LOCAL_EXECUTION', 'False').lower() in ('1', 'true', 'yes')
-BACKGROUND_AGENT_QWEN_HARNESS = os.environ.get('BACKGROUND_AGENT_QWEN_HARNESS', 'True').lower() in ('1', 'true', 'yes')
-BACKGROUND_AGENT_QWEN_MAX_TOKENS = int(os.environ.get('BACKGROUND_AGENT_QWEN_MAX_TOKENS', '8192'))
-BACKGROUND_AGENT_FORMAT_RETRIES = int(os.environ.get('BACKGROUND_AGENT_FORMAT_RETRIES', '2'))
 FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
 FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')
 FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')

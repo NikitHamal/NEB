@@ -1,6 +1,10 @@
-﻿from django.db import migrations, models
+﻿import uuid
 
-import api.models
+from django.db import migrations, models
+
+
+def _new_code_session_id() -> str:
+    return uuid.uuid4().hex
 
 
 class Migration(migrations.Migration):
@@ -12,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name="CodeSession",
             fields=[
-                ("id", models.CharField(default=api.models._new_code_session_id, max_length=32, primary_key=True, serialize=False)),
+                ("id", models.CharField(default=_new_code_session_id, max_length=32, primary_key=True, serialize=False)),
                 ("user_id", models.CharField(blank=True, db_index=True, default="", max_length=255)),
                 ("name", models.CharField(blank=True, default="New session", max_length=200)),
                 ("provider", models.CharField(blank=True, default="", max_length=40)),

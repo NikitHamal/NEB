@@ -1,7 +1,7 @@
 """At-rest encryption for user-supplied LLM API keys.
 
-Same AES-GCM pattern as `api.background_agent.crypto`, with its own
-associated-data domain so LLM keys can never be swapped with GitHub tokens.
+AES-GCM with its own associated-data domain so LLM keys can never be
+swapped with any other encrypted secret.
 """
 from __future__ import annotations
 
