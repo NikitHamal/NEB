@@ -859,6 +859,21 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 
 ## Continuity Notes
 
+### What Was Worked On (Current Session - OAuth signup blocker)
+**Fixed the production blocker where Android (and web) users who signed up with Google filled the whole onboarding form and then got `401 Authentication credentials were not provided.` on the last button. Deployed, verified live, and the 33 affected accounts were emailed.**
+
+- **Root cause:** `web/views_auth.py`'s three new-user branches (`google_auth`, `google_oauth_callback`, `github_callback`) minted a token by hand — `User.generate_token()` hashed into `User.auth_token` — without writing a `UserAuthToken` row. `api/security.py::_token_usable()` returns False for that column-only fallback, so every one of those tokens authenticated nothing. Regression introduced by `775c83b9` (Sep 19 2026, hardening H1–H9). Email signup was never affected (it always used `issue_auth_token`).
+- **Fix (server):** all three branches now `db_user.save()` then `token = issue_auth_token(db_user)`. Also removed the plaintext mint in `api/view_helpers.py::_link_or_create_oauth_user` and the one in `create_mock_users.py`. The resolver was deliberately **not** loosened, so the Sep-19 expiry hardening stays intact.
+- **Fix (app):** `AuthRepository.saveProfile()` returns a `ProfileSaveResult` (`Success` / `SessionExpired` / `Failure`) so a 401 is distinguishable from a normal failure; `CompleteProfileViewModel` checks session validity on arrival (`checkSessionIsUsable`, via `getAvatarStyle`), exposes `needsReauth` + `restartSignIn()`; `OnboardingScreen` shows a "Sign in again" link; `Navigation.kt` routes it to Login with `popUpTo(0)` so a dead token cannot bounce back; `ApiErrorMapper.friendlyAuthMessage()` rewrites DRF's raw 401 sentence. Offline is not treated as expired.
+- **Tests:** `web/test_auth_tokens.py` (5 tests, incl. an end-to-end sign-up-then-save-profile). Proven to fail pre-fix with exactly `401 != 200 : b'{"detail":"Authentication credentials were not provided."}'`.
+- **Recovery for stranded accounts:** they self-heal. Both callbacks look up the returning user by Google ID *first* and issue a fresh token with `isNewUser=false`, **before** the "email already exists" guard — so re-signing-in with the same Google account resumes onboarding with no loop. Only hashes are stored, so no server-side repair is possible.
+- **Stranded-account numbers (queried live):** 206 users, 122 with zero `UserAuthToken` rows. Split by date: **34 created on/after Sep 19** (true victims, Sep 21 → Oct 31) and 88 created before the regression (they just sign in normally). The newest victim was created **Oct 31, hours before the deploy** — the bug was still burning ~1 signup/day.
+- **Emailed the 33 valid addresses** (excluded `@ritimakumarisingh123@gmail.com`, leading `@`, would bounce; that person has a second valid account). Script: `backend_python/scratch/notify_stranded.py` (gitignored), `test` mode sends to the owner only. SMTP (`noreply@nebians.consica.com.np`:465 SSL) verified working; 33 sent, 0 failed.
+- **Version:** `versionCode` 24→25, `versionName` 1.7.0→1.7.1 (`6810d614`). CI "Build Student Release APKs & AAB" auto-builds on push to `app/**`; the owner makes the release afterwards.
+- **Deploy:** `scratch/deploy.ps1` delta (4 files), md5s verified identical to local. Live probe against production MariaDB passed 3/3: new-path token resolves, `UserAuthToken` row created, column-only token still rejected (`get_user_by_auth_token` **raises** `User.DoesNotExist`, it does not return None — worth knowing when writing checks). Note `manage.py test` cannot run on the server: the DB user lacks CREATE for `test_consicac_nebians`.
+- **Pre-existing outage found while verifying:** the background agent worker had been down since **Oct 18** (the DC migration) — already stopped before this deploy, so unrelated to this change. Restarted per AGENTS.md; running healthy. Worth watching, since nothing supervises it.
+- **Not done:** no APK seen on a device (no Android SDK here); the app-side fix only reaches users once the release ships.
+
 ### What Was Worked On (Current Session - launch film)
 **Built a code-driven 15-second launch film for nebians.consica.com.np (Sep 29 2026), plus the pipeline and docs so any agent can keep it in sync.**
 
