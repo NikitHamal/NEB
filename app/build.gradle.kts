@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
@@ -9,7 +10,7 @@ plugins {
 
 android {
     namespace = "com.neb.ians"
-    compileSdk = 37
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.neb.ians"
@@ -101,7 +102,7 @@ composeCompiler {
 
 dependencies {
     // Compose BOM
-    val composeBom = platform("androidx.compose:compose-bom:2026.09.00")
+    val composeBom = platform("androidx.compose:compose-bom:2025.10.00")
     implementation(composeBom)
     androidTestImplementation(composeBom)
 
@@ -113,11 +114,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
 
-    // Material 3. Pinned rather than BOM-managed: the app is built on the
-    // Material3 Expressive APIs, which are still internal in the 1.4.0 that
-    // BOM 2026.09.00 resolves to. 1.5.0-beta02 is the newest release that
-    // exposes them publicly and it matches the BOM's Compose 1.12.1 runtime.
-    implementation("androidx.compose.material3:material3:1.5.0-beta02")
+    // Material 3
+    implementation("androidx.compose.material3:material3:1.5.0-alpha10")
     implementation("androidx.compose.material:material-icons-extended:1.7.8")
 
 // Activity Compose
@@ -136,16 +134,16 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.8.5")
 
 // Room
-    implementation("androidx.room:room-runtime:2.8.5")
-    implementation("androidx.room:room-ktx:2.8.5")
-    ksp("androidx.room:room-compiler:2.8.5")
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
 
 // Hilt
-    implementation("com.google.dagger:hilt-android:2.60.1")
-    ksp("com.google.dagger:hilt-android-compiler:2.60.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.4.0")
-    implementation("androidx.hilt:hilt-work:1.4.0")
-    ksp("androidx.hilt:hilt-compiler:1.4.0")
+    implementation("com.google.dagger:hilt-android:2.53.1")
+    ksp("com.google.dagger:hilt-android-compiler:2.53.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("androidx.hilt:hilt-work:1.2.0")
+    ksp("androidx.hilt:hilt-compiler:1.2.0")
 
 // Coil Compose
     implementation("io.coil-kt:coil-compose:2.7.0")
