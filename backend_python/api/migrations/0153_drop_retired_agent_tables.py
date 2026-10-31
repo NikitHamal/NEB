@@ -74,7 +74,7 @@ def drop_retired_agent_tables(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('api', '0152_normalize_forum_categories'),
+        ('api', '0151_keep_deleted_user_content'),
     ]
 
     operations = [
