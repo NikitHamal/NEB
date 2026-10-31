@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.neb.ians"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.neb.ians"
