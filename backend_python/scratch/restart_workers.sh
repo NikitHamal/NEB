@@ -1,11 +1,11 @@
 #!/bin/bash
 # Restart the long-running daemons after a code deploy.
 #
-# Only daphne is (re)started here. The background agent worker, the code agent
-# worker and the cloudflared tunnel are intentionally OFF (owner request,
-# 2026-10-18 -- the same decision is recorded in watchdog.sh on the server).
-# Re-enable the DISABLED blocks below (and the matching watchdog.sh blocks)
-# when those features are needed again.
+# Only daphne is (re)started here. The background coding agent, the Neby Code
+# worker and the Lazy agent were removed from the codebase on 2026-10-31
+# (commit a74d5821), and the cloudflared tunnel is intentionally OFF because
+# outbound 7844 is firewalled on this box. Re-enable the DISABLED block below
+# when the provider opens 7844.
 cd /home/consicac/nebians_api || exit 1
 source /home/consicac/virtualenv/nebians_api/3.13/bin/activate
 
@@ -17,21 +17,20 @@ REALTIME_PORT="$(echo "$REALTIME_PORT" | tr -cd '0-9')"
 [ -z "$REALTIME_PORT" ] && REALTIME_PORT=8001
 echo "realtime port: $REALTIME_PORT"
 
-for pid in $(pgrep -f run_background_agent_worker); do kill -TERM "$pid" 2>/dev/null; done
-for pid in $(pgrep -f run_autofix_watch); do kill -TERM "$pid" 2>/dev/null; done
-for pid in $(pgrep -f run_code_agent_worker); do kill -TERM "$pid" 2>/dev/null; done
 for pid in $(pgrep -f "daphne.*${REALTIME_PORT}"); do kill -TERM "$pid" 2>/dev/null; done
 sleep 2
-for pid in $(pgrep -f run_background_agent_worker); do kill -KILL "$pid" 2>/dev/null; done
-for pid in $(pgrep -f run_autofix_watch); do kill -KILL "$pid" 2>/dev/null; done
-for pid in $(pgrep -f run_code_agent_worker); do kill -KILL "$pid" 2>/dev/null; done
 for pid in $(pgrep -f "daphne.*${REALTIME_PORT}"); do kill -KILL "$pid" 2>/dev/null; done
 
-# DISABLED 2026-10-18 (owner request: not in use right now). To re-enable,
-# uncomment the two worker lines below AND the matching blocks in watchdog.sh.
-# setsid nohup python manage.py run_background_agent_worker --recover-after 120 >> logs/worker.log 2>&1 < /dev/null &
-echo "autofix watcher removed (Sep 2026) - not started; old processes killed above." >> logs/autofix.log 2>&1
-# setsid nohup python manage.py run_code_agent_worker >> logs/code_worker.log 2>&1 < /dev/null &
+# The agent workers were removed with their features on 2026-10-31; any process
+# still running one is stale and gets killed so it cannot resurrect.
+for pat in run_background_agent_worker run_code_agent_worker run_autofix_watch; do
+    for pid in $(pgrep -f "$pat"); do kill -TERM "$pid" 2>/dev/null; done
+done
+sleep 1
+for pat in run_background_agent_worker run_code_agent_worker run_autofix_watch; do
+    for pid in $(pgrep -f "$pat"); do kill -KILL "$pid" 2>/dev/null; done
+done
+
 setsid nohup daphne -b 127.0.0.1 -p "${REALTIME_PORT}" nebians.asgi:application >> logs/daphne.log 2>&1 < /dev/null &
 
 # Deduplicate cloudflared - quick tunnel should be single process; old logs remain valid but extra workers waste RAM
@@ -85,4 +84,4 @@ else:
 PYEOF
 
 sleep 1
-echo "watcher: $(pgrep -f run_autofix_watch | wc -l) process(es); worker: $(pgrep -f run_background_agent_worker | wc -l) process(es); code_worker: $(pgrep -f run_code_agent_worker | wc -l) process(es); daphne: $(pgrep -f daphne | wc -l) process(es); cloudflared: $(pgrep -f cloudflared | wc -l) process(es)"
+echo "daphne: $(pgrep -f daphne | wc -l) process(es); cloudflared: $(pgrep -f cloudflared | wc -l) process(es)"
