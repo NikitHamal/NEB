@@ -385,9 +385,6 @@ def _link_oauth_user_model(email, user_pk, display_name, photo_url, provider_ver
         if photo_url and not existing.photo_url:
             existing.photo_url = photo_url
             update_fields.append('photo_url')
-        if not existing.auth_token:
-            existing.auth_token = User.generate_token()
-            update_fields.append('auth_token')
         if update_fields:
             existing.save(update_fields=update_fields)
         # Delete the OAuth-created duplicate account
