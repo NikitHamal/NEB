@@ -39,7 +39,7 @@ object ApiErrorMapper {
         if (!errorBodyStr.isNullOrEmpty()) {
             if (errorBodyStr.contains("imunify360", ignoreCase = true) || errorBodyStr.contains("Web Shield", ignoreCase = true)) return WAF_ERROR_MESSAGE
             val parsed = parseServerMessage(errorBodyStr)
-            if (!parsed.isNullOrBlank()) return parsed
+            if (!parsed.isNullOrBlank()) return friendlyAuthMessage(code, parsed) ?: parsed
         }
         return when (code) {
             400 -> "Please check the information and try again."
@@ -100,6 +100,20 @@ object ApiErrorMapper {
         } catch (_: Exception) {
             null
         }
+    }
+
+    private fun friendlyAuthMessage(code: Int, message: String): String? {
+        if (code != 401) return null
+        val lowered = message.lowercase()
+        val isAuthDetail = listOf(
+            "credentials were not provided",
+            "not authenticated",
+            "invalid token",
+            "token is invalid",
+            "token not valid",
+            "given token not valid"
+        ).any { it in lowered }
+        return if (isAuthDetail) "Your sign-in expired. Please sign in again." else null
     }
 
     private fun mapNetworkMessage(message: String?): String {
