@@ -291,8 +291,7 @@ lacks — stage the named paths and commit/push by hand, one commit per logical 
   similarity scan found eight repeated questions (papers 3–5), replaced. Study and syllabus data re-exported
   (`cee-model-papers`, timed `exam` flag on units 02–06).
   **Not done / honest caveats:** facts were checked from standard NEB +2 knowledge, not against a live source or a subject
-  expert — a human review pass of the biology and Nepal-specific facts is recommended before wide release. The five CEE subject
-  PDFs exist but the mock-paper PDF is not built (`python3 build_pdf.py cee-mock` from `notes/pipeline`). The timed mode has not been
+  expert — a human review pass of the biology and Nepal-specific facts is recommended before wide release. The cee-mock PDF is built (142 pages, 1.4 MB; needs `pip install weasyprint pymupdf`, fonts via `fonts/install.sh`). The timed mode has not been
   re-checked in a browser on the real papers. Android still uncompiled here.
-  **NEXT (ordered):** build the cee-mock PDF; phone check of a 200-question paper; then IOE (2083 syllabus: spine, chapters,
+  **NEXT (ordered):** phone check of a 200-question paper; then IOE (2083 syllabus: spine, chapters,
   papers), BSc CSIT and BCA entrance tracks, then bachelor first-semester books.
