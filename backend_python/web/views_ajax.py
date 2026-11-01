@@ -130,6 +130,7 @@ def ajax_resource_comment(request, resource_id):
         data = json.loads(request.body)
         content = data.get('content', '').strip()
         parent_id = data.get('parentCommentId')
+        is_anonymous = bool(data.get('isAnonymous'))
     except json.JSONDecodeError:
         return JsonResponse({'error': 'Invalid request'}, status=400)
     attachments, attach_error = _parse_web_attachments(data)
@@ -138,7 +139,7 @@ def ajax_resource_comment(request, resource_id):
     # Voice notes / attachments can be the entire comment.
     if not attachments and not content:
         return JsonResponse({'error': 'Content required'}, status=400)
-    result = services.create_resource_comment(user, resource_id, content, parent_id, attachments=attachments)
+    result = services.create_resource_comment(user, resource_id, content, parent_id, attachments=attachments, is_anonymous=is_anonymous)
     if result:
         return JsonResponse(result, status=201)
     return JsonResponse({'error': 'Failed'}, status=500)

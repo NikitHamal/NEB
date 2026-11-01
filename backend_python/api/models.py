@@ -789,6 +789,7 @@ class ResourceComment(models.Model):
     like_count = models.PositiveIntegerField(default=0)
     reply_count = models.PositiveIntegerField(default=0)
     is_edited = models.BooleanField(default=False)
+    is_anonymous = models.BooleanField(default=False)
     edited_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField()
 
@@ -1683,6 +1684,7 @@ class BlogComment(models.Model):
     like_count = models.PositiveIntegerField(default=0)
     reply_count = models.PositiveIntegerField(default=0)
     is_edited = models.BooleanField(default=False)
+    is_anonymous = models.BooleanField(default=False)
     edited_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField(default=0)
 

@@ -702,6 +702,7 @@
             att.name = data.attachment.name || att.name;
             att.size = data.attachment.size || att.size;
             att.mime = data.attachment.mime || '';
+            att.thumbnail_url = data.attachment.thumbnail_url || '';
             hideError();
             renderMediaList();
             return;
@@ -1293,7 +1294,8 @@
         poll: pollData,
         isAnonymous: document.getElementById('cp-anonymous').checked,
         attachments: pendingAttachments.filter(function(a) { return !a.uploading && a.url; }).map(function(a) {
-          return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime };
+          return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime,
+                   thumbnail_url: a.thumbnail_url || '' };
         })
       }));
     });

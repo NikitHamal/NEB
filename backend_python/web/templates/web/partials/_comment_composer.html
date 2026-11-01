@@ -1,0 +1,53 @@
+{% load web_extras %}
+{% comment %}The one comment composer — every surface where you post to other
+people includes this: a reply to a discussion, a reply inside a thread, a
+comment on a resource, a comment on a news post.
+
+An outlined field holding the identity chooser and a textarea that grows to a
+fixed cap, with the attach tool and the send button on a row of their own under
+it. Staged media and the hidden file input sit below the field, outside its
+stroke.
+
+Params
+  cc_id            wrapper id — page scripts resolve the field from it
+  cc_textarea_id   textarea id
+  cc_placeholder
+  cc_send_id, cc_send_action, cc_send_label
+  cc_attach_action, cc_compose_key   the inline attach tool
+  cc_media_id, cc_input_id           staged media + the hidden file input
+  cc_anon_id                         identity chooser
+  cc_keydown, cc_autofocus, cc_maxlength
+
+Hooks other scripts depend on, so they belong to the component: the field holds
+a bare `textarea`, the send button carries `reply-send-btn` with one Material
+Symbol inside it, and inline tools carry `fp-inline-tool`.{% endcomment %}
+<div class="neb-composer" id="{{ cc_id }}">
+  {% if cc_anon_id and is_authenticated %}
+  {% include "web/partials/_fp_identity_chooser.html" with fp_anon_id=cc_anon_id %}
+  {% endif %}
+  <div class="neb-composer-body">
+    <textarea id="{{ cc_textarea_id }}" placeholder="{{ cc_placeholder }}" rows="1" data-autoheight data-autoheight-max="120"
+            {% if cc_keydown %}data-keydown-action="{{ cc_keydown }}" {% endif %}{% if cc_autofocus %}data-neb-autofocus {% endif %}{% if cc_maxlength %}maxlength="{{ cc_maxlength }}" {% endif %}></textarea>
+    <div class="neb-composer-actions">
+      {% if cc_attach_action %}
+      <button type="button" class="fp-inline-tool" data-action="{{ cc_attach_action }}"
+              {% if cc_compose_key %}data-compose-key="{{ cc_compose_key }}"{% endif %}
+              title="{{ cc_attach_label|default:'Add video, audio or file' }}" aria-label="{{ cc_attach_label|default:'Add video, audio or file' }}">
+        <span class="material-symbols-outlined">attach_file</span>
+      </button>
+      {% endif %}
+      <button type="button" class="reply-send-btn" id="{{ cc_send_id }}"
+              {% if cc_send_action %}data-action="{{ cc_send_action }}" {% endif %}disabled
+              aria-label="{{ cc_send_label }}" title="{{ cc_send_label }}">
+        <span class="material-symbols-outlined">arrow_upward</span>
+      </button>
+    </div>
+  </div>
+</div>
+{% if cc_media_id %}
+<div class="cp-media-list" id="{{ cc_media_id }}" style="display:none"></div>
+{% endif %}
+{% if cc_input_id %}
+<input type="file" id="{{ cc_input_id }}" multiple style="display:none"
+       accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/opus,audio/wav,audio/flac,.m4v,.mov,.m4a,.pdf,.txt,.md,.csv,.json,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip">
+{% endif %}

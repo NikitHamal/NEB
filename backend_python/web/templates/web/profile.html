@@ -327,7 +327,7 @@
                 {% for link in social_links %}
                 <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pf-social-link-btn platform-{{ link.icon }}" title="{{ link.platform_label }}" data-link-id="{{ link.id }}" data-link-user-id="{{ profile_user.id }}" data-link-platform="{{ link.icon }}" data-link-url="{{ link.url }}">
                   {% if link.platform == 'website' and link.website_domain %}
-                    <img src="https://www.google.com/s2/favicons?domain={{ link.website_domain }}&sz=64" style="width:16px;height:16px;object-fit:contain;border-radius:2px;" alt="" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='inline-block';">
+                    <img src="https://www.google.com/s2/favicons?domain={{ link.website_domain }}&sz=64" style="width:16px;height:16px;object-fit:contain;border-radius:2px;" alt="" data-fallback="inline-block">
                     <span class="material-symbols-outlined" style="display:none;font-size:16px !important;">language</span>
                   {% else %}
                     <span class="material-symbols-outlined">{{ link.icon }}</span>
@@ -635,7 +635,7 @@
                 {% if r.thumbnail_url or r.type == 'Image' %}
                 <div class="pf-res-image-preview">
                   <a href="{% url 'web:reader' resource_id=r.id %}">
-                    <img src="{{ r.thumbnail_url|default:r.file_url }}" alt="" onerror="this.closest('.pf-res-image-preview').style.display='none';">
+                    <img src="{{ r.thumbnail_url|default:r.file_url }}" alt="" data-fallback="none">
                     <span class="pf-res-preview-badge">Preview</span>
                   </a>
                 </div>

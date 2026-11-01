@@ -12,7 +12,7 @@ from api import services
 from api.models import Announcement, BlogComment, BlogCommentLike, Bookmark, User
 from api.utils import now_ms, uuid_str
 
-from .view_helpers import DELETED_AUTHOR_NAME, _avatar_url, _ctx, _get_user_id, _user_badge_info
+from .view_helpers import DELETED_AUTHOR_NAME, _avatar_url, _comment_author, _ctx, _get_user_id, _user_badge_info
 
 
 CATEGORY_META = {
@@ -161,13 +161,10 @@ def _blog_comment_dict(c, user_id, liked_ids, bookmarked_ids):
     older Android builds (author_name/text fields) keep rendering."""
     parent_id = c.parent_comment_id or ''
     author = c.author
-    author_username = author.username if author else ''
+    author_block = _comment_author(author, c.is_anonymous)
     return {
         'id': c.id,
-        'authorId': c.author_id or '',
-        'authorName': author_username or DELETED_AUTHOR_NAME,
-        'authorPhotoUrl': _avatar_url(author),
-        'authorBadgeInfo': _user_badge_info(author),
+        **author_block,
         'parentReplyId': parent_id,
         'parentCommentId': parent_id,
         'content': c.text,
@@ -181,9 +178,9 @@ def _blog_comment_dict(c, user_id, liked_ids, bookmarked_ids):
         'isFollowed': False,
         'childAuthors': [],
         # Legacy durability for older app builds.
-        'author_name': author_username,
-        'author_initials': (author_username or 'N')[:2].upper(),
-        'author_photo': _avatar_url(author),
+        'author_name': author_block['authorName'],
+        'author_initials': (author_block['authorName'] or 'N')[:2].upper(),
+        'author_photo': author_block['authorPhotoUrl'],
         'text': c.text,
         'created_at': c.created_at,
     }
@@ -244,6 +241,7 @@ def ajax_blog_comment(request):
     slug = str(payload.get('slug', '')).strip()
     text = str(payload.get('text', '')).strip()
     parent_comment_id = payload.get('parentCommentId') or None
+    is_anonymous = bool(payload.get('isAnonymous'))
     if not slug or not text:
         return JsonResponse({'ok': False, 'error': 'Missing slug or text'}, status=400)
     if len(text) > 4000:
@@ -255,7 +253,7 @@ def ajax_blog_comment(request):
         return JsonResponse({'ok': False, 'error': 'Announcement not found'}, status=404)
     except User.DoesNotExist:
         return JsonResponse({'ok': False, 'error': 'User not found'}, status=401)
-    created = services.create_blog_comment(user, slug, text, parent_comment_id)
+    created = services.create_blog_comment(user, slug, text, parent_comment_id, is_anonymous=is_anonymous)
     if not created:
         return JsonResponse({'ok': False, 'error': 'Failed to create comment'}, status=500)
     try:

@@ -251,6 +251,10 @@ WHITENOISE_IMMUTABLE_FILE_TEST = _immutable_file_test
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = (BASE_DIR / 'public' / 'media') if (BASE_DIR / 'public').exists() else (BASE_DIR / 'media')
+# Shared hosting and dev machines frequently ship without ffmpeg on PATH, which
+# silently kills video poster extraction. Point these at a binary to enable it.
+FFMPEG_BIN = os.environ.get('FFMPEG_BIN', '').strip()
+FFPROBE_BIN = os.environ.get('FFPROBE_BIN', '').strip()
 PROFILE_PHOTO_MAX_BYTES = int(os.environ.get('PROFILE_PHOTO_MAX_BYTES', str(5 * 1024 * 1024)))
 FILE_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('FILE_UPLOAD_MAX_MEMORY_SIZE', str(110 * 1024 * 1024)))
 DATA_UPLOAD_MAX_MEMORY_SIZE = int(os.environ.get('DATA_UPLOAD_MAX_MEMORY_SIZE', str(110 * 1024 * 1024)))

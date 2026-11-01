@@ -1,0 +1,46 @@
+{% load web_extras %}
+{% comment %}Who to post as. The avatar is the control and the menu picks between
+the account and its anonymous mask; the checkbox inside is what the submit path
+already reads, so choosing an identity is only ever a write to that box.
+Belongs inside the composer field, which sizes it: a compact field gets the
+small chooser. Expects fp_anon_id. Every hook the script needs is a class, so
+any number of these can sit on one page without inventing ids per instance.
+`firstof` rather than `|default:` because a page rendered without a signed-in
+account has no user object to read the fallback off.{% endcomment %}
+{% firstof user.display_name user.username as fp_display_name %}
+<div class="fp-composer-avatar fp-identity">
+  <button type="button" class="fp-identity-trigger" aria-haspopup="true" aria-expanded="false" aria-label="Choose who to post as" title="Choose who to post as">
+    <span class="fp-identity-avatar">
+      {% if user.avatar_url %}
+      <img src="{{ user.avatar_url }}" alt="" width="32" height="32" decoding="async">
+      {% else %}
+      <span class="fp-avatar-letter">{{ fp_display_name|truncate_chars:1 }}</span>
+      {% endif %}
+      <span class="fp-identity-anon-mark"><span class="material-symbols-outlined">visibility_off</span></span>
+    </span>
+    <span class="material-symbols-outlined fp-identity-caret">expand_more</span>
+  </button>
+  <div class="fp-identity-menu" role="menu" aria-label="Choose who to post as">
+    <div class="fp-identity-head">Post anonymously as</div>
+    <button type="button" class="fp-identity-option" data-identity="1" role="menuitem">
+      <span class="fp-identity-option-avatar"><span class="material-symbols-outlined">visibility_off</span></span>
+      <span class="fp-identity-option-body">
+        <strong class="fp-identity-option-name">{{ user.anon_tag|default:"Anon#0000" }}</strong>
+        <span class="fp-identity-option-sub">Identity kept private</span>
+      </span>
+      <span class="material-symbols-outlined fp-identity-check">check</span>
+    </button>
+    <div class="fp-identity-head">Post as yourself</div>
+    <button type="button" class="fp-identity-option is-active" data-identity="0" role="menuitem">
+      <span class="fp-identity-option-avatar">
+        {% if user.avatar_url %}<img src="{{ user.avatar_url }}" alt="" width="26" height="26" decoding="async">{% endif %}
+      </span>
+      <span class="fp-identity-option-body">
+        <strong class="fp-identity-option-name">{{ fp_display_name }}</strong>
+        <span class="fp-identity-option-sub">@{{ user.username }}</span>
+      </span>
+      <span class="material-symbols-outlined fp-identity-check">check</span>
+    </button>
+  </div>
+  <input type="checkbox" id="{{ fp_anon_id }}" hidden>
+</div>

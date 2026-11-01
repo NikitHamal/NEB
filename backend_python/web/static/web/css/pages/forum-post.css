@@ -34,26 +34,30 @@
   .fp-section-count{font-size:.9375rem;font-weight:600;color:var(--md-on-surface-variant)}
   .fp-section-sub{font-size:.75rem;font-weight:500;color:var(--md-on-surface-variant)}
   .fp-reply-sort{display:flex;align-items:center;gap:4px}
-  .fp-reply-sort-btn{font-size:0.8125rem;font-weight:500;color:var(--md-on-surface-variant);text-decoration:none;padding:4px 10px;border-radius:100px;transition:all 0.15s}
+  .fp-reply-sort-btn{font-size:0.8125rem;font-weight:500;color:var(--md-on-surface-variant);text-decoration:none;padding:5px 12px;border-radius:999px;transition:all 0.15s ease}
   .fp-reply-sort-btn:hover{background:var(--md-surface-container-high);color:var(--md-on-surface);text-decoration:none}
   .fp-reply-sort-active{background:var(--md-secondary-container) !important;color:var(--md-on-secondary-container) !important;font-weight:600}
 
-  .fp-reply-list{display:flex;flex-direction:column;margin-top:4px}
-  .fp-reply{background:transparent;border:0;border-bottom:1px solid var(--md-outline-variant);border-radius:0;padding:18px 4px;margin:0;transition:background .15s}
+  .fp-reply-list{display:flex;flex-direction:column;margin:0}
+  .fp-reply{display:flex;align-items:flex-start;gap:12px;background:transparent;border:0;border-bottom:1px solid var(--md-outline-variant);border-radius:0;padding:16px 24px;margin:0;transition:background .15s ease}
   .fp-reply:last-of-type{border-bottom:0}
-  .fp-reply:hover{background:color-mix(in srgb, var(--md-on-surface) 2.5%, transparent)}
-  .fp-reply-header{display:flex;align-items:center;gap:10px;margin-bottom:8px;position:relative}
-  .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:var(--md-primary);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-  .fp-reply-avatar img{width:100%;height:100%;object-fit:cover}
-  .fp-reply-avatar-letter{font-size:.75rem;font-weight:700;color:var(--md-on-primary)}
+  .fp-reply:hover{background:color-mix(in srgb, var(--md-on-surface) 2%, transparent)}
+  .fp-reply-avatar{width:32px;height:32px;border-radius:50%;overflow:hidden;background:transparent;display:flex;align-items:center;justify-content:center;flex:0 0 32px;margin-top:2px;outline:none;border:none}
+  .fp-reply-avatar img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+  .fp-reply-avatar-letter{font-size:.8125rem;font-weight:700;color:var(--md-on-primary)}
+  .fp-reply-main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .fp-reply-header{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px;position:relative;width:100%}
   .fp-reply-meta{flex:1;min-width:0}
-  .fp-reply-author{font-weight:600;font-size:.8125rem;color:var(--md-on-surface);text-decoration:none}
-  .fp-reply-author:hover{color:var(--md-primary)}
-  .fp-reply-time{font-size:.6875rem;color:var(--md-on-surface-variant)}
-  .fp-reply-body{font-size:.9375rem;color:var(--md-on-surface);line-height:1.6;margin-bottom:6px}
-  .fp-reply-actions{display:flex;align-items:center;gap:2px;border-top:0;padding-top:4px;margin-top:2px}
+  .fp-reply-meta .author-line{display:flex;align-items:center;gap:6px;flex-wrap:wrap;line-height:1.3}
+  .fp-reply-author{font-weight:600;font-size:.875rem;color:var(--md-on-surface);text-decoration:none}
+  .fp-reply-author:hover{color:var(--md-primary);text-decoration:underline}
+  .fp-reply-meta-sep{color:var(--md-on-surface-variant);font-size:.75rem;opacity:0.7}
+  .fp-reply-time{font-size:.75rem;color:var(--md-on-surface-variant)}
+  .fp-reply-body{margin:0 0 8px 0;font-size:.9375rem;color:var(--md-on-surface);line-height:1.55;word-break:break-word}
+  .fp-reply .cp-media-list, .fp-reply .fp-attachments{margin:0 0 8px 0}
+  .fp-reply-actions{display:flex;align-items:center;gap:12px;border-top:0;padding-top:2px;margin:0}
   .fp-action-spacer{flex:1}
-  .fp-reply-action{display:inline-flex;align-items:center;gap:4px;padding:4px 8px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:6px;font-size:.75rem;font-family:inherit;transition:background .15s,color .15s}
+  .fp-reply-action{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;margin-left:-6px;border:none;background:transparent;color:var(--md-on-surface-variant);cursor:pointer;border-radius:999px;font-size:.8125rem;font-family:inherit;font-weight:500;transition:background .15s ease,color .15s ease}
   .fp-reply-action:hover{background:var(--md-surface-container-high);color:var(--md-primary)}
   .fp-reply-action.liked{color:var(--md-primary)}
   .fp-reply-action .material-symbols-outlined{font-size:16px}
@@ -83,23 +87,12 @@
   .fp-thread-avatars .fp-thread-avatar-letter{font-size:.5rem;font-weight:700;color:var(--md-on-primary)}
   .fp-thread-label{font-size:.75rem;font-weight:500;color:var(--md-primary)}
 
-  .fp-compose{background:var(--md-surface-container-lowest);border:1px solid var(--md-outline-variant);border-radius:14px;padding:16px 18px;margin-bottom:24px}
-  .fp-compose-title{font-size:.875rem;font-weight:600;color:var(--md-on-surface);margin-bottom:10px}
-  .fp-compose textarea{width:100%;padding:12px;border:1px solid var(--md-outline-variant);border-radius:8px;font-family:inherit;font-size:.875rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:vertical;min-height:80px;transition:border-color .15s}
-  .fp-compose textarea:focus{border-color:var(--md-primary)}
-  .fp-compose textarea::placeholder{color:var(--md-on-surface-variant)}
-  .fp-compose-actions{display:flex;justify-content:flex-end;margin-top:10px}
-
   .fp-login-prompt{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px 20px;border:1px solid var(--md-outline-variant);border-radius:14px;margin-bottom:24px}
   .fp-login-prompt p{color:var(--md-on-surface-variant);font-size:.875rem;margin:0}
 
   .fp-empty{text-align:center;padding:48px 24px;color:var(--md-on-surface-variant)}
   .fp-empty .material-symbols-outlined{font-size:48px;opacity:.4;margin-bottom:8px}
 
-  
-  
-  
-  
   .edit-form textarea,.edit-form input[type="text"]{width:100%;padding:10px 14px;border:1px solid var(--md-outline);border-radius:12px;font-family:inherit;font-size:.9375rem;background:var(--md-surface-container-lowest);color:var(--md-on-surface);outline:none;margin-bottom:12px}
   .edit-form textarea:focus,.edit-form input[type="text"]:focus{border-color:var(--md-primary)}
   .edit-form label{display:block;font-size:.8125rem;font-weight:600;color:var(--md-on-surface-variant);margin-bottom:4px}
@@ -111,23 +104,23 @@
      and the compose box for each. */
   .fp-thread-scroll{padding:0;gap:0}
   .fp-thread-compose{padding:12px 16px 16px;border-top:1px solid var(--md-outline-variant);flex-shrink:0;background:var(--md-surface)}
-  .fp-thread-compose textarea{width:100%;padding:10px 12px;border:1.5px solid var(--md-outline-variant);border-radius:12px;font-family:inherit;font-size:.8125rem;background:var(--md-surface-container-high);color:var(--md-on-surface);outline:none;resize:none;min-height:48px;max-height:120px;transition:border-color .15s}
-  .fp-thread-compose textarea:focus{border-color:var(--md-primary)}
-
   /* Thread parent message (the reply that started the thread) — flat, no heavy border */
-  .fp-thread-parent{padding:14px 16px;margin:0;background:transparent;border-bottom:1px solid var(--md-outline-variant)}
-  .fp-thread-parent .fp-reply-header{margin-bottom:6px}
-  .fp-thread-parent .fp-reply-body{font-size:.875rem;color:var(--md-on-surface);line-height:1.5}
-  .fp-thread-parent-actions{display:flex;align-items:center;gap:2px;padding-top:8px}
+  .fp-thread-parent{display:flex;align-items:flex-start;gap:12px;padding:14px 16px;margin:0;background:transparent;border-bottom:1px solid var(--md-outline-variant)}
+  .fp-thread-parent .fp-reply-main{flex:1;min-width:0;display:flex;flex-direction:column}
+  .fp-thread-parent .fp-reply-header{margin-bottom:4px}
+  .fp-thread-parent .fp-reply-body{margin:0 0 6px 0;font-size:.875rem;color:var(--md-on-surface);line-height:1.5}
+  .fp-thread-parent-actions{display:flex;align-items:center;gap:8px;padding-top:4px;margin:0}
 
   /* Thread conversation area — flat list, no indent */
   .fp-thread-convo{padding:4px 0 12px}
 
   /* Individual thread reply — flat, no nested tree view */
-  .fp-thread-reply{position:relative;padding:12px 16px;border-top:1px solid var(--md-outline-variant);margin:0}
+  .fp-thread-reply{display:flex;align-items:flex-start;gap:12px;position:relative;padding:12px 16px;border-top:1px solid var(--md-outline-variant);margin:0}
   .fp-thread-reply:first-child{border-top:none}
+  .fp-thread-reply .fp-reply-main{flex:1;min-width:0;display:flex;flex-direction:column}
   .fp-thread-reply .fp-reply-header{margin-bottom:4px}
-  .fp-thread-reply .fp-reply-body{font-size:.8125rem;line-height:1.5;color:var(--md-on-surface-variant)}
+  .fp-thread-reply .fp-reply-body{margin:0 0 6px 0;font-size:.8125rem;line-height:1.5;color:var(--md-on-surface-variant)}
+  .fp-thread-reply .fp-reply-actions{display:flex;align-items:center;gap:8px;padding-top:4px;margin:0}
 
   /* Highlight animation when scrolling to a parent reply */
   .fp-thread-flash{animation:fpFlashBg 1.4s ease-out}
@@ -161,7 +154,9 @@
   .fp-thread-sub-indicator .material-symbols-outlined{font-size:12px}
 
   /* Thread reply count badge */
-  .fp-thread-count{display:inline-flex;align-items:center;justify-content:center;background:var(--md-primary-container);color:var(--md-on-primary-container);font-size:.6875rem;font-weight:600;border-radius:100px;padding:1px 8px;margin-left:8px;flex-shrink:0}
+  /* No margin-left: the sheet head already gaps its children, and adding to it
+     here made the title-to-count space wider than count-to-close. */
+  .fp-thread-count{display:inline-flex;align-items:center;justify-content:center;background:var(--md-primary-container);color:var(--md-on-primary-container);font-size:.6875rem;font-weight:600;border-radius:100px;padding:1px 8px;flex-shrink:0}
 
   .fp-action-btn:focus-visible,
   .fp-reply-action:focus-visible,
@@ -214,4 +209,210 @@
     .fp-post-image-grid img{height:160px}
     .fp-post-image-grid-3 img:first-child{height:200px}
     .fp-poll-option{padding:8px 10px}
+  }
+
+  /* Twitter / X & Home Page 3-Column Shell Polish */
+  .fp-center-panel {
+    background: var(--md-surface-container-lowest);
+    border: 1px solid var(--md-outline-variant);
+    border-radius: 20px;
+    /* clip, not hidden: hidden makes the panel a scroll container, which is the
+       nearest scrollport the sticky header would then stick inside of -- and
+       this panel never scrolls, so the header would never move. clip rounds the
+       corners the same way without capturing the sticky child. */
+    overflow: clip;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .fp-header-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--md-outline-variant);
+    background: var(--md-surface-container-lowest);
+    position: sticky;
+    /* Flush under the sticky topbar, which is 64px at every width. */
+    top: 64px;
+    z-index: 5;
+  }
+
+  .fp-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: var(--md-on-surface);
+    text-decoration: none;
+    transition: background 0.15s ease;
+    cursor: pointer;
+  }
+
+  .fp-back-btn:hover {
+    background: var(--md-surface-container-high);
+  }
+
+  .fp-header-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+
+  .fp-header-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin: 0;
+  }
+
+  .fp-post-thread-main {
+    padding: 22px 24px 16px;
+    background: var(--md-surface-container-lowest);
+    border-bottom: 1px solid var(--md-outline-variant);
+  }
+
+  .fp-post-thread-main .fp-post-header {
+    margin-bottom: 14px;
+  }
+
+  .fp-meta-sub {
+    font-size: 0.8125rem;
+    color: var(--md-on-surface-variant);
+    margin-top: 2px;
+  }
+
+  .fp-author-handle {
+    color: var(--md-on-surface-variant);
+  }
+
+  .fp-meta-timestamp-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 18px;
+    padding-bottom: 12px;
+    /* No border here: the action bar below carries the one divider between the
+       post and its counts, and two adjacent hairlines read as a mistake. */
+    font-size: 0.8125rem;
+    color: var(--md-on-surface-variant);
+  }
+
+  .fp-meta-dot {
+    font-weight: bold;
+    opacity: 0.6;
+  }
+
+  .fp-stats-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--md-outline-variant);
+    font-size: 0.875rem;
+    color: var(--md-on-surface-variant);
+  }
+
+  .fp-stat-item strong {
+    font-weight: 700;
+    color: var(--md-on-surface);
+    margin-right: 3px;
+  }
+
+  /* Left-packed, not four columns across the card: spread to the far edge, the
+     share button reads as belonging to whatever row sits below. The row bleeds
+     12px each side so the pills have room, and the first button pulls back by
+     that same 12px to put its icon on the body text's edge. */
+  .fp-post-actions-bar {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0 -12px;
+    padding: 6px 12px;
+    border-top: 1px solid var(--md-outline-variant);
+  }
+
+  .fp-post-actions-bar .fp-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: none;
+    background: transparent;
+    color: var(--md-on-surface-variant);
+    cursor: pointer;
+    font-size: 0.875rem;
+    font-weight: 500;
+    transition: background 0.15s ease, color 0.15s ease;
+    width: fit-content;
+  }
+
+  .fp-post-actions-bar .fp-action-btn:first-child {
+    margin-left: -12px;
+  }
+
+  .fp-post-actions-bar .fp-action-btn:hover {
+    background: var(--md-surface-container);
+    color: var(--md-primary);
+  }
+
+  .fp-post-actions-bar .fp-action-btn.liked {
+    color: var(--md-primary);
+  }
+
+  .fp-post-actions-bar .fp-action-btn.bookmark-active {
+    color: var(--md-primary);
+  }
+
+  /* The panel has no padding of its own, so the composer takes the same inset
+     every other row here uses -- and leaves the focus ring room to sit outside
+     the field without touching the panel's edge. */
+  .fp-center-panel > .neb-composer {
+    margin: 12px;
+  }
+
+  #replies-section {
+    padding: 0;
+  }
+
+  .fp-replies-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--md-outline-variant);
+    background: var(--md-surface-container-lowest);
+  }
+
+  @media (max-width: 640px) {
+    .fp-center-panel {
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+    }
+    .fp-header-bar {
+      padding: 12px 16px;
+    }
+    .fp-post-thread-main {
+      padding: 18px 16px 0;
+    }
+    .fp-post-actions-bar {
+      margin: 0 -8px;
+      padding: 6px 8px;
+    }
+    .fp-replies-head {
+      padding: 14px 16px;
+    }
+    .fp-center-panel > .neb-composer {
+      margin: 10px 8px;
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+    .fp-reply {
+      padding: 14px 16px;
+    }
   }

@@ -61,10 +61,18 @@
   min-width: 0;
 }
 
+/* The badge is a sibling of the link, not inside it: an underline drawn
+   through the anchor would also run under the glyph. */
+.fp-user-popup-name-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+
 .fp-user-popup-name {
   display: flex;
   align-items: center;
-  gap: 3px;
   min-width: 0;
   font-size: 0.8125rem;
   font-weight: 600;
@@ -87,8 +95,10 @@
   text-overflow: ellipsis;
 }
 
-.fp-user-popup-name .role-badge {
+.fp-user-popup-name-row .role-badge {
   flex: none;
+  margin-left: 0;
+  background: none;
 }
 
 .fp-user-popup-username {

@@ -111,10 +111,12 @@
     var html = '<div class="fp-user-popup-header">' +
       '<a class="fp-user-popup-avatar" href="' + profileHref + '" aria-label="View ' + esc(name) + '\'s profile">' + avatarHtml + '</a>' +
       '<div class="fp-user-popup-id">' +
-        '<a class="fp-user-popup-name" href="' + profileHref + '">' +
-          '<span class="fp-user-popup-name-text">' + esc(name) + '</span>' +
+        '<div class="fp-user-popup-name-row">' +
+          '<a class="fp-user-popup-name" href="' + profileHref + '">' +
+            '<span class="fp-user-popup-name-text">' + esc(name) + '</span>' +
+          '</a>' +
           (data.badgeInfo ? '<span class="role-badge role-badge-' + esc(data.badgeInfo.type) + '" title="' + esc(data.badgeInfo.label) + '"><span class="material-symbols-outlined">' + esc(data.badgeInfo.icon) + '</span></span>' : '') +
-        '</a>' +
+        '</div>' +
         '<div class="fp-user-popup-username">@' + esc(data.username) + '</div>' +
       '</div>' +
       followBtn +

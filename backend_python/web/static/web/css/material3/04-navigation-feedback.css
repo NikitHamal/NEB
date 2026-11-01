@@ -415,7 +415,7 @@
 }
 
 .md-dialog {
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   border-radius: var(--md-radius-xl);
   padding: 24px;
   max-width: 480px;

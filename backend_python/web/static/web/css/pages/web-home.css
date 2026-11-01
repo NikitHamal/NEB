@@ -369,33 +369,37 @@
   font-weight: 600;
 }
 
-@media (max-width: 1149px) {
+/* Responsive 3-Column Shell & Icon-Only Left Sidebar */
+@media (max-width: 1200px) and (min-width: 900px) {
   .hf-shell {
-    grid-template-columns: 188px minmax(0, 1fr) 280px;
+    grid-template-columns: 68px minmax(0, 1fr) 280px;
+    gap: 16px;
   }
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 899px) and (min-width: 640px) {
   .hf-shell {
-    grid-template-columns: minmax(0, 1fr) 320px;
-  }
-
-  /* Scoped to the direct child so the later display:flex on the rail base
-     cannot resurrect it at this width. */
-  .hf-shell > .hf-left {
-    display: none;
-  }
-}
-
-@media (max-width: 819px) {
-  .hf-shell {
-    grid-template-columns: 1fr;
+    grid-template-columns: 68px minmax(0, 1fr);
+    gap: 16px;
   }
 
   .hf-shell > .hf-right {
     display: none;
   }
 }
+
+@media (max-width: 639px) {
+  .hf-shell {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .hf-shell > .hf-left,
+  .hf-shell > .hf-right {
+    display: none;
+  }
+}
+
 .hf-feed {
   display: flex;
   flex-direction: column;
@@ -595,10 +599,10 @@
 .hf-composer-input-btn {
   flex: 1;
   min-width: 0;
-  padding: 8px 12px;
+  padding: 9px 16px;
   border-radius: 9999px;
-  border: 1px solid transparent;
-  background: transparent;
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
   color: var(--md-on-surface-variant);
   font: inherit;
   font-size: 0.9375rem;
@@ -606,15 +610,15 @@
   text-align: left;
   cursor: pointer;
   outline: none;
-  transition: all 0.15s ease;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .hf-composer-input-btn:hover {
-  background: var(--md-surface-container-low);
-  border-color: var(--md-outline-variant);
+  background: var(--md-surface-container);
+  border-color: var(--md-outline);
   color: var(--md-on-surface);
 }
 
@@ -728,14 +732,51 @@
   transform: none;
 }
 
-.hf-btn-publish:disabled {
-  opacity: 0.35;
+.hf-btn-publish:disabled,
+.hf-btn-publish.is-disabled {
+  opacity: 0.32;
   cursor: not-allowed;
-  transform: none;
+  pointer-events: none;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+  border: 1px solid var(--md-outline-variant);
   box-shadow: none;
 }
 
+.hf-btn-publish:not(:disabled):not(.is-disabled) {
+  opacity: 1;
+  background: var(--md-on-surface);
+  color: var(--md-surface);
+  border: none;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
 /* ── Modal Dialog ──────────────────────────────────────────────────────────── */
+html.hf-dialog-open {
+  overflow: hidden !important;
+  height: 100% !important;
+  overscroll-behavior: none !important;
+}
+
+body.hf-dialog-open {
+  overflow: hidden !important;
+  height: 100% !important;
+  position: fixed !important;
+  width: 100% !important;
+  overscroll-behavior: none !important;
+  touch-action: none !important;
+}
+
+dialog.hf-post-dialog:not([open]) {
+  display: none !important;
+}
+
+dialog.hf-post-dialog[open] {
+  display: flex !important;
+  flex-direction: column;
+}
+
 .hf-post-dialog {
   border: 1px solid var(--md-outline-variant);
   border-radius: 20px;
@@ -743,12 +784,16 @@
   color: var(--md-on-surface);
   padding: 0;
   max-width: 620px;
-  width: min(92vw, 620px);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.06);
+  width: min(94vw, 620px);
+  height: min(88vh, 720px);
+  max-height: min(88vh, 720px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22), 0 4px 12px rgba(0, 0, 0, 0.08);
   margin: auto;
   position: fixed;
   inset: 0;
   overflow: hidden;
+  box-sizing: border-box;
+  z-index: 10000;
   animation: hfDialogIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -757,6 +802,19 @@
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   animation: hfBackdropIn 0.2s ease forwards;
+  z-index: 9999;
+}
+
+@media (max-width: 640px) {
+  .hf-post-dialog {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    border-radius: 0;
+    border: none;
+    inset: 0;
+  }
 }
 
 @keyframes hfDialogIn {
@@ -773,10 +831,16 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+  flex: 1 1 100%;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .hf-dialog-header {
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1162,12 +1226,55 @@
   visibility: visible;
 }
 
+/* Pinned Dialog Top (Title & Formatting Toolbar) */
+.hf-dialog-top {
+  flex: 0 0 auto;
+  padding: 12px 20px 4px;
+  background: var(--md-surface-container-lowest);
+  border-bottom: 1px solid var(--md-outline-variant);
+  display: flex;
+  flex-direction: column;
+}
+
+.hf-dialog-top .hf-format-toolbar {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding: 4px 0 6px;
+}
+
+.hf-dialog-top .hf-math-helper {
+  margin: 4px 0 6px;
+}
+
 /* Dialog body inputs */
 .hf-dialog-body {
   padding: 14px 20px 8px;
   display: flex;
   flex-direction: column;
   gap: 8px;
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hf-dialog-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.hf-dialog-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.hf-dialog-body::-webkit-scrollbar-thumb {
+  background: var(--md-outline-variant);
+  border-radius: 9999px;
+}
+
+.hf-dialog-body::-webkit-scrollbar-thumb:hover {
+  background: var(--md-outline);
 }
 
 .hf-dialog-title-input {
@@ -1189,6 +1296,286 @@
   font-weight: 500;
 }
 
+/* Markdown & LaTeX Formatting Toolbar */
+.hf-format-toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--md-outline-variant);
+  margin-bottom: 4px;
+  padding-bottom: 2px;
+}
+
+.hf-format-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 0;
+  border-bottom: none;
+  margin-bottom: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hf-format-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+.hf-format-btn {
+  width: 26px;
+  height: 26px;
+  min-width: 26px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: background 0.12s ease, color 0.12s ease;
+  flex: none;
+}
+
+.hf-format-btn:hover {
+  background: var(--md-surface-container);
+  color: var(--md-on-surface);
+}
+
+.hf-format-btn:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 1px;
+}
+
+.hf-format-btn svg {
+  display: block;
+  flex: none;
+}
+
+.hf-format-sep {
+  width: 1px;
+  height: 14px;
+  background: var(--md-outline-variant);
+  margin: 0 2px;
+  flex: none;
+}
+
+.hf-format-spacer {
+  display: none;
+}
+
+.hf-mode-toggle,
+.hf-format-mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  background: var(--md-surface-container-high);
+  border-radius: 8px;
+  padding: 2px;
+  gap: 2px;
+  margin-left: 0;
+  flex: 0 0 auto;
+}
+
+.hf-mode-btn,
+.hf-format-mode-btn {
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  cursor: pointer;
+  outline: none;
+  transition: all 0.15s ease;
+  flex: none;
+  padding: 0;
+}
+
+.hf-mode-btn:hover,
+.hf-format-mode-btn:hover {
+  background: var(--md-surface-container-highest);
+  color: var(--md-on-surface);
+}
+
+.hf-mode-btn.is-active,
+.hf-format-mode-btn.is-active {
+  background: var(--md-surface);
+  color: var(--md-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Math LaTeX Helper Bar */
+.hf-math-helper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--md-surface-container-low);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 8px;
+  margin: 4px 0 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hf-math-helper::-webkit-scrollbar {
+  display: none;
+}
+
+.hf-math-helper-label {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--md-on-surface-variant);
+  margin-right: 4px;
+  flex: none;
+}
+
+.hf-math-key {
+  padding: 2px 7px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 5px;
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  font-family: monospace, serif;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  flex: none;
+  outline: none;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.hf-math-key:hover {
+  background: var(--md-surface-container-highest);
+  border-color: var(--md-outline);
+}
+
+.hf-dialog-preview-box {
+  width: 100%;
+  min-height: 160px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding: 10px 12px;
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 10px;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--md-on-surface);
+  word-break: break-word;
+  box-sizing: border-box;
+}
+
+.hf-dialog-preview-box h1,
+.hf-dialog-preview-box h2,
+.hf-dialog-preview-box h3 {
+  margin: 10px 0 4px;
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
+.hf-dialog-preview-box p {
+  margin: 4px 0;
+}
+
+.hf-dialog-preview-box code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  padding: 2px 5px;
+  border-radius: 4px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+}
+
+.hf-dialog-preview-box pre {
+  background: var(--md-surface-container-high);
+  padding: 10px 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85em;
+  margin: 8px 0;
+}
+
+.hf-dialog-preview-box pre code {
+  padding: 0;
+  background: transparent;
+}
+
+.hf-dialog-preview-box blockquote {
+  border-left: 3px solid var(--md-primary);
+  padding-left: 10px;
+  margin: 8px 0;
+  color: var(--md-on-surface-variant);
+  font-style: italic;
+}
+
+.hf-dialog-preview-box ul,
+.hf-dialog-preview-box ol {
+  padding-left: 20px;
+  margin: 6px 0;
+}
+
+.hf-dialog-preview-box hr {
+  border: none;
+  border-top: 1px solid var(--md-outline-variant);
+  margin: 12px 0;
+}
+
+.hf-dialog-preview-box table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 0.875rem;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 8px;
+  overflow: hidden;
+  display: table;
+}
+
+.hf-dialog-preview-box th,
+.hf-dialog-preview-box td {
+  border: 1px solid var(--md-outline-variant);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.hf-dialog-preview-box th {
+  background: var(--md-surface-container-high);
+  font-weight: 600;
+  color: var(--md-on-surface);
+}
+
+.hf-dialog-preview-box tr:nth-child(even) td {
+  background: var(--md-surface-container-low);
+}
+
+.hf-dialog-preview-box .hf-spoiler {
+  background: var(--md-on-surface);
+  color: var(--md-on-surface);
+  border-radius: 3px;
+  padding: 1px 4px;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.15s ease;
+}
+
+.hf-dialog-preview-box .hf-spoiler.is-revealed {
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface);
+  user-select: text;
+}
+
 .hf-dialog-textarea {
   width: 100%;
   border: none;
@@ -1200,8 +1587,9 @@
   color: var(--md-on-surface);
   outline: none;
   box-shadow: none;
-  resize: vertical;
-  min-height: 160px;
+  resize: none;
+  min-height: 120px;
+  flex: 0 0 auto;
 }
 
 .hf-dialog-textarea::placeholder {
@@ -1724,6 +2112,7 @@
 
 /* Divider & Counter */
 .hf-dialog-divider-bar {
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -1765,6 +2154,7 @@
 
 /* Dialog Footer */
 .hf-dialog-footer {
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1782,6 +2172,148 @@
   height: 20px;
   background: var(--md-outline-variant);
   opacity: 0.7;
+}
+
+/* Emoji Picker Popover */
+.hf-emoji-anchor {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.hf-emoji-popover {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: -20px;
+  width: 320px;
+  max-width: min(88vw, 320px);
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 16px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22), 0 3px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  z-index: 60;
+  overflow: hidden;
+  animation: hfEmojiIn 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes hfEmojiIn {
+  from { opacity: 0; transform: translateY(6px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.hf-emoji-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-low);
+}
+
+.hf-emoji-search-wrap svg {
+  color: var(--md-on-surface-variant);
+  flex-shrink: 0;
+}
+
+.hf-emoji-search-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  font: inherit;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface);
+  outline: none;
+}
+
+.hf-emoji-search-input::placeholder {
+  color: var(--md-on-surface-variant);
+  opacity: 0.7;
+}
+
+.hf-emoji-tabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 8px;
+  border-bottom: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+}
+
+.hf-emoji-tab {
+  flex: 1;
+  height: 32px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  font-size: 1.15rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.12s ease;
+  outline: none;
+  padding: 0;
+}
+
+.hf-emoji-tab:hover {
+  background: var(--md-surface-container-high);
+}
+
+.hf-emoji-tab.is-active {
+  background: var(--md-surface-container-highest);
+  box-shadow: inset 0 -2px 0 var(--md-primary);
+}
+
+.hf-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+  padding: 8px;
+  max-height: 210px;
+  min-height: 160px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.hf-emoji-grid::-webkit-scrollbar {
+  width: 5px;
+}
+
+.hf-emoji-grid::-webkit-scrollbar-thumb {
+  background: var(--md-outline-variant);
+  border-radius: 9999px;
+}
+
+.hf-emoji-item {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  font-size: 1.35rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: none;
+  transition: transform 0.1s ease, background 0.1s ease;
+  padding: 0;
+}
+
+.hf-emoji-item:hover {
+  background: var(--md-surface-container-high);
+  transform: scale(1.2);
+}
+
+.hf-emoji-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 24px 12px;
+  font-size: 0.8125rem;
+  color: var(--md-on-surface-variant);
 }
 
 .hf-dialog-hint-wrap {
@@ -2318,10 +2850,10 @@
 
 /* ── Sections inside the feed ────────────────────────────────────────────────
    The app's rails (the same .hf-title / .hf-rail / card markup the live home
-   used) dropped between post rows instead of into a sidebar. The rail keeps
-   the live hscroll behaviour; only the bar is hidden until the section is
-   hovered, and the 10px strip below it holds the bar's space so revealing it
-   never changes the rail's height. */
+   used) dropped between post rows instead of into a sidebar. They scroll by
+   drag, trackpad and arrow keys but never show a bar -- a scrollbar inside a
+   bordered section reads as a widget that escaped its own box, and the 10px
+   strip below the rail keeps the cards' hover shadow off the clip edge. */
 .hf-feed-block {
   padding: 16px 20px 18px;
   border-bottom: 1px solid var(--md-outline-variant);
@@ -2331,30 +2863,130 @@
 .hf-feed-block .hf-rail {
   padding-bottom: 10px;
   scrollbar-width: none;
-}
-
-.hf-feed-block:hover .hf-rail {
-  padding-bottom: 0;
-  scrollbar-width: thin;
-  scrollbar-color: var(--md-outline-variant) transparent;
+  -ms-overflow-style: none;
 }
 
 .hf-feed-block .hf-rail::-webkit-scrollbar {
-  display: block;
-  height: 10px;
+  display: none;
+  width: 0;
+  height: 0;
 }
 
-.hf-feed-block .hf-rail::-webkit-scrollbar-track {
-  background: transparent;
+/* ── More to see that way ─────────────────────────────────────────────────────
+   A rail that runs past its box says so with a fade at the live edge and a
+   button that steps one card at a time. rail-scroll.js sets is-scrollable,
+   at-start and at-end on the wrapper; everything here just reads them, so a
+   rail that fits, or one already at an end, shows nothing at all. */
+.hf-rail-wrap {
+  position: relative;
 }
 
-.hf-feed-block .hf-rail::-webkit-scrollbar-thumb {
-  background: transparent;
-  border-radius: 999px;
+.hf-rail-wrap::before,
+.hf-rail-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 10px;
+  width: 40px;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 160ms ease;
 }
 
-.hf-feed-block:hover .hf-rail::-webkit-scrollbar-thumb {
-  background: var(--md-outline-variant);
+.hf-rail-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--md-surface-container-low), transparent);
+}
+
+.hf-rail-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--md-surface-container-low), transparent);
+}
+
+.hf-rail-btn {
+  position: absolute;
+  /* The rail keeps a 10px strip under the cards, so the true centre of the
+     cards sits 5px above the wrapper's. */
+  top: calc(50% - 5px);
+  transform: translateY(-50%);
+  z-index: 3;
+  width: 34px;
+  height: 34px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-surface-container-lowest);
+  color: var(--md-on-surface-variant);
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.14);
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 160ms ease, background 140ms ease, color 140ms ease, border-color 140ms ease;
+}
+
+.hf-rail-btn .material-symbols-outlined {
+  font-size: 20px;
+}
+
+.hf-rail-prev { left: 4px; }
+.hf-rail-next { right: 4px; }
+
+.hf-rail-wrap.is-scrollable .hf-rail-prev,
+.hf-rail-wrap.is-scrollable .hf-rail-next {
+  display: flex;
+}
+
+.hf-rail-wrap.at-start .hf-rail-prev,
+.hf-rail-wrap.at-end .hf-rail-next {
+  display: none;
+}
+
+.hf-feed-block:hover .hf-rail-btn {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hf-rail-btn:hover {
+  background: var(--md-primary-container);
+  border-color: color-mix(in srgb, var(--md-primary) 32%, transparent);
+  color: var(--md-on-primary-container);
+}
+
+.hf-rail-btn:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+.hf-rail-btn:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+}
+
+/* A click leaves the button focused, which is not the same as the pointer being
+   here: the reveal is hover, and keyboard focus only (:focus-visible). */
+.hf-feed-block:hover .hf-rail-wrap.is-scrollable:not(.at-start)::before,
+.hf-rail-wrap.is-scrollable:not(.at-start):has(:focus-visible)::before,
+.hf-feed-block:hover .hf-rail-wrap.is-scrollable:not(.at-end)::after,
+.hf-rail-wrap.is-scrollable:not(.at-end):has(:focus-visible)::after {
+  opacity: 1;
+}
+
+/* Nothing is hovered on a touch screen: the fades carry the hint instead and
+   the buttons, which would only sit on top of the artwork, stay gone. */
+@media (hover: none) {
+  .hf-rail-btn {
+    display: none !important;
+  }
+
+  .hf-rail-wrap.is-scrollable:not(.at-start)::before,
+  .hf-rail-wrap.is-scrollable:not(.at-end)::after {
+    opacity: 1;
+  }
 }
 
 @media (max-width: 600px) {
@@ -2364,8 +2996,14 @@
   }
 }
 
+/* It closes the panel, so it takes the panel's own bottom radius and drops the
+   edges it would only double up against the panel's border. */
 .hf-center-panel .hf-end {
-  padding: 18px 20px;
+  padding: 18px 20px 20px;
+  border-radius: 0 0 16px 16px;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
 }
 
 .hf-center-panel .hf-sentinel {
@@ -2374,4 +3012,75 @@
 
 .hf-center-panel .empty-state {
   padding: 32px 20px;
+}
+
+/* Icon-only left rail, at 1200px and below.
+   This block has to come last: the Glassdoor panel rules above re-declare
+   .hf-left .hf-nav-group / .hf-nav-link with the same specificity, and at equal
+   weight the later rule wins -- which left a 42px round button inside a 37.6px
+   padded box, so every icon sat right of its group's centre while the compose
+   button above it stayed centred. Source order is the only thing keeping the
+   narrow rail honest here, so nothing may be appended after this. */
+@media (max-width: 1200px) {
+  .hf-side.hf-left {
+    width: 68px;
+    min-width: 68px;
+    overflow-x: visible;
+  }
+
+  .hf-left .hf-left-cta {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+    padding: 0;
+    border-radius: 50%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hf-left .hf-left-cta .hf-cta-label {
+    display: none !important;
+  }
+
+  .hf-left .hf-left-cta .material-symbols-outlined {
+    font-size: 22px;
+    margin: 0;
+  }
+
+  .hf-left .hf-nav-group {
+    padding: 6px 4px;
+    border-radius: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .hf-left .hf-nav-title {
+    display: none !important;
+  }
+
+  .hf-left .hf-nav-link {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    gap: 0;
+  }
+
+  .hf-left .hf-nav-link .hf-link-text {
+    display: none !important;
+  }
+
+  .hf-left .hf-nav-link .material-symbols-outlined {
+    font-size: 20px;
+    margin: 0;
+  }
 }

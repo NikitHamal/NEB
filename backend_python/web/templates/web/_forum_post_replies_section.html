@@ -1,8 +1,7 @@
 {% load web_extras %}
-<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-  <div class="fp-section-title" style="margin-bottom:0;">Replies ({{ top_level_replies|length }})</div>
-  <div class="fp-reply-sort">
-    <span style="font-size:0.8125rem;color:var(--md-on-surface-variant);">Sort:</span>
+<div class="fp-replies-head">
+  <h2 class="fp-section-title">Replies <span class="fp-section-count">{{ post.replyCount }}</span>{% if top_level_replies|length != post.replyCount %}<span class="fp-section-sub">&middot; {{ top_level_replies|length }} threads</span>{% endif %}</h2>
+  <div class="fp-reply-sort" role="group" aria-label="Sort replies">
     <a href="?sort=oldest" class="fp-reply-sort-btn {% if reply_sort == 'oldest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=oldest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Oldest</a>
     <a href="?sort=newest" class="fp-reply-sort-btn {% if reply_sort == 'newest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=newest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Newest</a>
     <a href="?sort=top" class="fp-reply-sort-btn {% if reply_sort == 'top' %}fp-reply-sort-active{% endif %}" hx-get="?sort=top" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Top</a>

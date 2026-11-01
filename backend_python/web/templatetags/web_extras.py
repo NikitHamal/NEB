@@ -32,6 +32,10 @@ _USER_HTML_ATTRS = {
 _USER_HTML_PROTOCOLS = ['http', 'https', 'mailto']
 
 
+_DISALLOWED_TAGS_RE = re.compile(r'</?(?:script|style|iframe|object|embed|applet|meta|link|svg|form|input|button)\b[^>]*>', re.IGNORECASE)
+_DANGEROUS_ATTRS_RE = re.compile(r'(?:\bon\w+\s*=|javascript:|data:)', re.IGNORECASE)
+
+
 def _sanitize_user_html(html):
     if _bleach is not None:
         return _bleach.clean(
@@ -41,7 +45,9 @@ def _sanitize_user_html(html):
             protocols=_USER_HTML_PROTOCOLS,
             strip=True,
         )
-    return escape(html)
+    clean = _DISALLOWED_TAGS_RE.sub('', html)
+    clean = _DANGEROUS_ATTRS_RE.sub('', clean)
+    return clean
 
 register = template.Library()
 
@@ -342,7 +348,7 @@ _STRIP_BLOCK_RE = re.compile(r'</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|
 
 _BLOCK_END_RE = re.compile(r'</(?:p|div|li|h[1-6]|blockquote|tr)>\s*', re.IGNORECASE)
 _BR_HR_RE = re.compile(r'<(?:br|hr)\s*/?>', re.IGNORECASE)
-_TAG_STRIP_RE = re.compile(r'</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|tbody|tr|th|td|hr|div|p)[^>]*>', re.IGNORECASE)
+_TAG_STRIP_RE = re.compile(r"</?(?:h[1-6]|pre|blockquote|ul|ol|li|table|thead|tbody|tr|th|td|hr|div|p)\b[^>]*>", re.IGNORECASE)
 
 @register.filter
 def plain_excerpt(value, max_chars=110):
@@ -377,6 +383,7 @@ def render_content_inline(value):
     html_spaced = _BR_HR_RE.sub('<br>', html_spaced)
     html_spaced = re.sub(r'(?:<br\s*/?>\s*){3,}', '<br><br>', html_spaced)
     inline = _TAG_STRIP_RE.sub('', html_spaced)
+    inline = re.sub(r'^(?:<br\s*/?>\s*)+|(?:<br\s*/?>\s*)+$', '', inline).strip()
     return mark_safe(inline)
 
 

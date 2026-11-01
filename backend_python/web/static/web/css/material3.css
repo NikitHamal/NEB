@@ -39,6 +39,11 @@
   --md-surface-container: #EFF0F3;
   --md-surface-container-high: #E7E9ED;
   --md-surface-container-highest: #E0E2E7;
+  /* Floating panels -- menus, dialogs, sheets. Elevation runs the other way in
+     light mode: the container ramp gets GREYER as it rises, so a panel built
+     from it reads as a disabled field sitting on white cards. Raised surfaces
+     take the lightest one and let the border and shadow carry the lift. */
+  --md-elevated-surface: #FFFFFF;
   --md-inverse-surface: #2B2D35;
   --md-inverse-on-surface: #EFF0F3;
   --md-inverse-primary: #B4C5FF;
@@ -155,6 +160,9 @@
   --md-surface-container: #212329;
   --md-surface-container-high: #2B2D35;
   --md-surface-container-highest: #31343C;
+  /* Dark mode's ramp already gets lighter as it rises, so this is the same
+     colour the panels used before the token existed -- nothing here moves. */
+  --md-elevated-surface: #2B2D35;
   --md-inverse-surface: #E7E9ED;
   --md-inverse-on-surface: #1D1F25;
   --md-inverse-primary: #004AC6;
@@ -604,6 +612,32 @@ html {
   margin-bottom: 8px;
 }
 
+/* Custom stroke-vector action icons (comment, share, bookmark) used by the
+   forum card and thread action bars. They size the inline SVGs; the selectors
+   name the bars rather than the icon so each surface can set its own size. */
+.neb-post-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex: none;
+  stroke-width: 2;
+  color: currentColor;
+}
+
+.post-card-actions button .neb-post-icon,
+.post-card-actions a .neb-post-icon,
+.act-btn-stat .neb-post-icon,
+.fp-action-btn .neb-post-icon,
+.fp-reply-action .neb-post-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.more-menu-item .neb-post-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--md-on-surface-variant);
+}
+
 /* ---- material3/03-layout-topbar-dropdown.css ---- */
 /* Layout */
 .md-container {
@@ -668,32 +702,46 @@ html {
   transform: translateY(-2px);
 }
 
-/* Logo Dark Mode adjustment - change harsh white edges to blend with the dark background */
-[data-theme="dark"] svg g[stroke="#ffffff"],
-[data-theme="dark"] svg g[stroke-opacity="0.78"] {
-  stroke: var(--md-surface) !important;
-  stroke-opacity: 1 !important;
-}
-[data-theme="dark"] svg path[stroke="#eef5ff"] {
-  stroke: var(--md-surface) !important;
+[data-theme="dark"] .md-topbar-brand {
+  color: #FFFFFF;
 }
 
-/* Logo Dark Mode adjustment - prevent background pages from blending in */
-[data-theme="dark"] #darkGrad stop:nth-child(1) {
-  stop-color: #1e40af;
-}
-[data-theme="dark"] #darkGrad stop:nth-child(2) {
-  stop-color: #1e3a8a;
-}
-[data-theme="dark"] #darkGrad stop:nth-child(3) {
-  stop-color: #172554;
+/* Logo Dark Mode - Electric Azure Depth (Sculpted White + Vibrant Blue) */
+[data-theme="dark"] #frontGrad stop:nth-child(1) { stop-color: #FFFFFF; }
+[data-theme="dark"] #frontGrad stop:nth-child(2) { stop-color: #F8FAFC; }
+[data-theme="dark"] #frontGrad stop:nth-child(3) { stop-color: #E2E8F0; }
+
+[data-theme="dark"] #lightGrad stop:nth-child(1) { stop-color: #FFFFFF; }
+[data-theme="dark"] #lightGrad stop:nth-child(2) { stop-color: #FFFFFF; }
+[data-theme="dark"] #lightGrad stop:nth-child(3) { stop-color: #F1F5F9; }
+
+[data-theme="dark"] #innerGrad stop:nth-child(1) { stop-color: #3B82F6; }
+[data-theme="dark"] #innerGrad stop:nth-child(2) { stop-color: #1D4ED8; }
+
+[data-theme="dark"] #darkGrad stop:nth-child(1) { stop-color: #2563EB; }
+[data-theme="dark"] #darkGrad stop:nth-child(2) { stop-color: #1E3A8A; }
+[data-theme="dark"] #darkGrad stop:nth-child(3) { stop-color: #0F172A; }
+
+[data-theme="dark"] #frontShadowGrad stop:nth-child(1) { stop-color: #0F172A; stop-opacity: 0.6; }
+[data-theme="dark"] #frontShadowGrad stop:nth-child(2) { stop-color: #0F172A; stop-opacity: 0; }
+
+[data-theme="dark"] .topbar-logo g[stroke="#ffffff"],
+[data-theme="dark"] .topbar-logo g[stroke-opacity="0.78"] {
+  stroke: #60A5FA !important;
+  stroke-opacity: 0.35 !important;
 }
 
-[data-theme="dark"] #innerGrad stop:nth-child(1) {
-  stop-color: #2563eb;
+[data-theme="dark"] .topbar-logo path[stroke="#eef5ff"] {
+  stroke: #93C5FD !important;
+  stroke-opacity: 0.8 !important;
+  stroke-width: 7px !important;
 }
-[data-theme="dark"] #innerGrad stop:nth-child(2) {
-  stop-color: #1d4ed8;
+
+[data-theme="dark"] .topbar-logo path[fill="url(#frontGrad)"],
+[data-theme="dark"] .topbar-logo path[fill="url(#lightGrad)"] {
+  stroke: #FFFFFF !important;
+  stroke-opacity: 0.95 !important;
+  stroke-width: 7px !important;
 }
 
 .md-topbar-nav {
@@ -921,7 +969,7 @@ html {
   min-width: 236px;
   width: max-content;
   max-width: 280px;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   border: 1px solid var(--md-outline-variant);
   border-radius: 20px;
   box-shadow: var(--md-elevation-2);
@@ -1627,7 +1675,7 @@ html {
 }
 
 .md-dialog {
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   border-radius: var(--md-radius-xl);
   padding: 24px;
   max-width: 480px;
@@ -2663,7 +2711,7 @@ html {
   max-height: min(620px, calc(100vh - 48px));
   display: flex;
   flex-direction: column;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   color: var(--md-on-surface);
   border-radius: 30px;
   box-shadow: var(--md-elevation-3);
@@ -2781,7 +2829,7 @@ html {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 22px 0;
+  padding: 10px 22px;
 }
 .neb-sheet-head-text { flex: 1; min-width: 0; }
 .neb-sheet-title {
@@ -3732,7 +3780,7 @@ html {
   flex-direction: column;
   overflow: hidden;
   border: 0;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   color: var(--md-on-surface);
   border-radius: 30px;
   box-shadow: var(--md-elevation-3);
@@ -3868,7 +3916,7 @@ html {
   min-width: 212px;
   max-width: 300px;
   padding: 8px;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   border: 1px solid var(--md-outline-variant);
   border-radius: 20px;
   box-shadow: var(--md-elevation-2);
@@ -3883,14 +3931,6 @@ html {
 .more-menu[data-open] { opacity: 1; transform: translateY(0) scale(1); }
 /* Opening upwards means growing from the bottom edge, not the top. */
 .more-menu.neb-menu-up { transform-origin: bottom right; }
-
-/* The raised surface is a pale grey in light mode, which reads like a disabled
-   field against white cards. Keep the panel white and let its border and
-   shadow carry the elevation. */
-[data-theme="light"] .more-menu,
-[data-theme="light"] .more-menu.neb-menu-sheet {
-  background: var(--md-surface-container-lowest);
-}
 
 .more-menu-item {
   display: flex;
@@ -4025,7 +4065,7 @@ html {
   padding: 32px 28px;
   text-align: center;
   border-radius: 30px;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   color: var(--md-on-surface);
   box-shadow: var(--md-elevation-3);
 }
@@ -4495,28 +4535,3 @@ html {
    chips is furniture. */
 .neb-choice-sheet .neb-field-search[hidden],
 .neb-choice-sheet .neb-field-row[hidden] { display: none; }
-
-
-/* Custom Stroke Vector Action Icons (Comment, Share, etc.) */
-.neb-post-icon {
-  display: inline-block;
-  vertical-align: middle;
-  flex: none;
-  stroke-width: 2;
-  color: currentColor;
-}
-
-.post-card-actions button .neb-post-icon,
-.post-card-actions a .neb-post-icon,
-.act-btn-stat .neb-post-icon,
-.fp-action-btn .neb-post-icon,
-.fp-reply-action .neb-post-icon {
-  width: 16px;
-  height: 16px;
-}
-
-.more-menu-item .neb-post-icon {
-  width: 18px;
-  height: 18px;
-  color: var(--md-on-surface-variant);
-}

@@ -467,41 +467,11 @@
   font-weight: 700;
 }
 
-/* Composer — reuses the site-wide .reply-input-wrapper pill (see
-   app/09-global-overrides-markdown-messaging.css). That class is also on
-   inline-media.js's skip list, so the textarea stays a real textarea. */
+/* Composer — the field itself is the shared .neb-composer (see
+   app/18-comment-composer.css); this page only owns the space around it and
+   the character hint under it. */
 .nd-composer {
-  display: flex;
-  gap: 12px;
   margin-bottom: 22px;
-}
-
-.nd-composer-avatar {
-  flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  margin-top: 3px;
-  border-radius: 50%;
-  object-fit: cover;
-  background: var(--md-surface-container-high);
-  border: 1px solid var(--md-outline-variant);
-}
-
-.nd-composer-body {
-  flex: 1;
-  min-width: 0;
-}
-
-/* Let the pill grow past one line up to the global 120px cap. */
-.nd-composer .reply-input-wrapper {
-  align-items: flex-end !important;
-}
-
-.nd-composer .reply-input-wrapper textarea {
-  padding-top: 6px !important;
-  padding-bottom: 6px !important;
-  line-height: 20px !important;
-  overflow-y: auto !important;
 }
 
 .nd-composer-hint {
@@ -518,14 +488,6 @@
 
 .nd-composer-hint.is-warn {
   color: var(--md-error);
-}
-
-.nd-composer .reply-send-btn.is-posting .material-symbols-outlined {
-  animation: ndSpin 900ms linear infinite;
-}
-
-@keyframes ndSpin {
-  to { transform: rotate(360deg); }
 }
 
 /* Signed-out prompt */
@@ -1035,19 +997,6 @@
 
   .nd-comments {
     padding: 20px 18px 24px;
-  }
-
-  .nd-composer {
-    gap: 10px;
-  }
-
-  .nd-composer-avatar {
-    width: 34px;
-    height: 34px;
-  }
-
-  .nd-composer .reply-input-wrapper textarea {
-    font-size: 0.9375rem !important;
   }
 
   .nd-signin {

@@ -26,7 +26,7 @@
   <div class="hf-side-list">
     {% for c in home_contributors %}
     <div class="hf-side-person">
-      <a class="hf-side-person-link" href="{% url 'web:profile' username=c.username %}">
+      <a class="hf-side-person-link" href="{% if c.username %}{% url 'web:profile' username=c.username %}{% else %}#{% endif %}">
         {% if c.photo_url %}
         <img class="hf-side-avatar" src="{{ c.photo_url }}" alt="" loading="lazy">
         {% else %}
