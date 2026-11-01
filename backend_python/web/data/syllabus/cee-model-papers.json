@@ -1,0 +1,174 @@
+{
+ "grade": "cee",
+ "grade_label": "CEE · MECEE-BL Medical Entrance",
+ "grade_label_ne": "CEE प्रवेश परीक्षा",
+ "short": "CEE",
+ "kind": "entrance",
+ "subject": "model-papers",
+ "name": "Model Papers and Mock Tests",
+ "name_ne": "नमुना प्रश्नपत्र तथा अभ्यास परीक्षा",
+ "icon": "quiz",
+ "group": "practice",
+ "color": "#B02A5B",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 200,
+ "exam": "3 hours, 200 single-best-answer MCQs with four options, 200 marks, 0.25 deducted per wrong answer, merit list from the 50th percentile | Zoology 40x1=40 | Botany 40x1=40 | Chemistry 50x1=50 | Physics 50x1=50 | Mental Agility Test 20x1=20",
+ "areas": [
+  "The Examination",
+  "Full Model Papers"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "The MECEE-BL Examination: Pattern, Weightage and Strategy",
+   "hours": null,
+   "questions": null,
+   "area": "The Examination",
+   "topics": [
+    "Who sits the paper, the programme groups and the eligibility rules",
+    "The paper: 200 questions, unit by unit, and how the marks are counted",
+    "Negative marking and when to guess",
+    "A study plan for the last 120, 60 and 15 days",
+    "How to use the model papers in this book"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Who sits the paper, the programme groups and the eligibility rules"
+    },
+    {
+     "no": "1.2",
+     "title": "The paper: 200 questions, unit by unit, and how the marks are counted"
+    },
+    {
+     "no": "1.3",
+     "title": "Negative marking and when to guess"
+    },
+    {
+     "no": "1.4",
+     "title": "A study plan for the last 120, 60 and 15 days"
+    },
+    {
+     "no": "1.5",
+     "title": "How to use the model papers in this book"
+    }
+   ],
+   "summary": [
+    "MECEE-BL is MEC's single entrance for every bachelor-level health-science seat; the 2027 cycle's papers ran from 31 October to 4 November 2026.",
+    "Group I sits Zoology 40, Botany 40, Chemistry 50, Physics 50 and MAT 20; the unit counts inside each subject are official and drive every model paper here.",
+    "Marking is +1, −0.25, 0; answering pays whenever your chance of being right exceeds 0.2, so answer every question where you can eliminate an option for a reason.",
+    "A half-understood question can make you worse than random — distractors are built from common mistakes.",
+    "Work in three passes and fill the OMR section by section.",
+    "Build the base for four months, practise under the clock for two, and only consolidate in the last fortnight.",
+    "Use each model paper as a diagnostic: the key and the error log matter more than the score."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2523,
+    "figures": 2,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Model Paper 1",
+   "hours": null,
+   "questions": 200,
+   "area": "Full Model Papers",
+   "topics": [
+    "Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 10088,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Model Paper 2",
+   "hours": null,
+   "questions": 200,
+   "area": "Full Model Papers",
+   "topics": [
+    "Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 11280,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Model Paper 3",
+   "hours": null,
+   "questions": 200,
+   "area": "Full Model Papers",
+   "topics": [
+    "Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 10274,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Model Paper 4",
+   "hours": null,
+   "questions": 200,
+   "area": "Full Model Papers",
+   "topics": [
+    "Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 11207,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Model Paper 5",
+   "hours": null,
+   "questions": 200,
+   "area": "Full Model Papers",
+   "topics": [
+    "Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20, with an explained key"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 11251,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 10,
+ "notes_ready": 6
+}

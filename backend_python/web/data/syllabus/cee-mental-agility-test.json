@@ -224,7 +224,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5954,
+    "words": 5956,
     "figures": 24,
     "examples": 7
    },
@@ -237,20 +237,25 @@
    "questions": null,
    "area": "Mental Agility Test",
    "topics": [
-    "Timed 20-question sets in the paper's proportions, with explained keys"
+    "Timed 20-question sets in the paper's proportions"
    ],
-   "sections": [],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Timed 20-question sets in the paper's proportions"
+    }
+   ],
    "summary": [],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
+    "words": 4241,
+    "figures": 14,
     "examples": 0
    },
-   "has_notes": false
+   "has_notes": true
   }
  ],
  "unit_count": 5,
  "topic_count": 21,
- "notes_ready": 4
+ "notes_ready": 5
 }

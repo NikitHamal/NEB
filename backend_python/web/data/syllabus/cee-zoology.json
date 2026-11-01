@@ -54,7 +54,7 @@
    ],
    "summary": [
     "Life arose by chemical evolution (Oparin 1924, Haldane 1929) in a reducing atmosphere of CH₄, NH₃, H₂ and water vapour with no free O₂, energised by UV and lightning: monomers → polymers → coacervates/microspheres → protocell → anaerobic heterotroph.",
-    "Miller–Urey (1953) sparked CH₄, NH₃, H₂ (2 : 1 : 2) and steam for a week and obtained amino acids (glycine, alanine) — monomers, not life.",
+    "Miller–Urey (1953) sparked CH₄, NH₃, H₂ (2 : 2 : 1) and steam for a week and obtained amino acids (glycine, alanine) — monomers, not life.",
     "Homologous organs (same origin, different use) show divergent evolution; analogous organs (different origin, same use) show convergent evolution; vestigial organs and atavism point to ancestors.",
     "Connecting links — Peripatus, Neopilina, Balanoglossus, lungfish, Archaeopteryx, platypus — and the horse series (Eohippus → Equus, toes 4 → 1) are the classic fossil and living evidence.",
     "Haeckel's biogenetic law (embryos), Nuttall's precipitin test, cytochrome c and the universal genetic code (biochemistry) complete the evidence.",
@@ -64,7 +64,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7361,
+    "words": 7388,
     "figures": 2,
     "examples": 1
    },
@@ -97,7 +97,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7302,
+    "words": 7309,
     "figures": 2,
     "examples": 0
    },
@@ -130,7 +130,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5985,
+    "words": 5989,
     "figures": 3,
     "examples": 0
    },
@@ -173,7 +173,7 @@
    ],
    "terms": [],
    "stats": {
-    "words": 8239,
+    "words": 8250,
     "figures": 3,
     "examples": 1
    },

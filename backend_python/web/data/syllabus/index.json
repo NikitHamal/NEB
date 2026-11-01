@@ -518,8 +518,22 @@
      "hours": null,
      "unit_count": 5,
      "topic_count": 21,
-     "notes_ready": 4,
+     "notes_ready": 5,
      "questions": 20
+    },
+    {
+     "subject": "model-papers",
+     "name": "Model Papers and Mock Tests",
+     "name_ne": "नमुना प्रश्नपत्र तथा अभ्यास परीक्षा",
+     "icon": "quiz",
+     "group": "practice",
+     "color": "#B02A5B",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 6,
+     "topic_count": 10,
+     "notes_ready": 6,
+     "questions": 200
     }
    ]
   }

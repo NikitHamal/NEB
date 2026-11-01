@@ -281,3 +281,18 @@ lacks — stage the named paths and commit/push by hand, one commit per logical 
   81–130, Physics 131–180, MAT 181–200 into `mp1-b.md`, concatenate, then
   `python3 notes/tools/assemble_paper.py <draft> notes/content/cee-mock/unit-02.md`, add the
   per-unit count table at the top (Zoology 3/4/4/6/15/4/2/2, Botany 2/2/2/2/3/4/5/2/4/3/2/3/1/2/3 by chapter).
+
+- 2026-11-01 (Hoplite session, branch `hoplite/thourioi-50937b25`, content-identical to this branch's notes) — **CEE is
+  content-complete.** `cee-mock` units 02–06 (Model Papers 1–5, 200 questions each, explained keys; 1,000 MCQs) written as
+  parallel drafts (`notes/drafts/cee-mock/mpN-a.md` Zoology 1–40 + Botany 41–80, `mpN-b.md` Chemistry 81–130, Physics 131–180,
+  MAT 181–200), wrapped with `python3 notes/tools/mock_front.py N mpN-a.md mpN-b.md` (assemble + frontmatter, instructions,
+  count table, score line → `content/cee-mock/unit-(N+1).md`). All pass `check.py` and `mcqcheck` (200/200 keyed, key spread
+  within 48–53 per letter); numerics verified in Python by the writers, chemical equations through `eqcheck`. A cross-paper
+  similarity scan found eight repeated questions (papers 3–5), replaced. Study and syllabus data re-exported
+  (`cee-model-papers`, timed `exam` flag on units 02–06).
+  **Not done / honest caveats:** facts were checked from standard NEB +2 knowledge, not against a live source or a subject
+  expert — a human review pass of the biology and Nepal-specific facts is recommended before wide release. The five CEE subject
+  PDFs exist but the mock-paper PDF is not built (`python3 build_pdf.py cee-mock` from `notes/pipeline`). The timed mode has not been
+  re-checked in a browser on the real papers. Android still uncompiled here.
+  **NEXT (ordered):** build the cee-mock PDF; phone check of a 200-question paper; then IOE (2083 syllabus: spine, chapters,
+  papers), BSc CSIT and BCA entrance tracks, then bachelor first-semester books.
