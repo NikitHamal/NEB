@@ -356,6 +356,24 @@ One zygospore of *Spirogyra* → meiosis → 4 haploid nuclei → **3 degenerate
 zygospore gives a germ sporangium with **many** spores.
 :::
 
+::: example Zygospore yield in scalariform vs lateral conjugation of Spirogyra
+**Problem.** Two filaments of *Spirogyra*, each composed of 40 cells, undergo complete scalariform conjugation. How many zygospores are formed, and how many new filaments will germinate from them?
+
+**Solution.** Each conjugation tube pairs one cell from the male-acting filament with one cell from the female-acting filament, producing **40 zygospores** (whereas lateral conjugation in a single 40-cell filament yields 20 zygospores). Each zygospore undergoes meiosis to form 4 haploid nuclei, of which 3 degenerate and 1 survives, so **40 haploid filaments** germinate.
+:::
+
+::: example Distinguishing algal classes by pigment and reserve food
+**Problem.** A marine thalloid alga collected from the subtidal zone contains chlorophyll $a$, chlorophyll $d$, and $r$-phycoerythrin, stores floridean starch, and lacks flagellated stages throughout its life cycle. Assign its class.
+
+**Solution.** Chlorophyll $a + d$, phycoerythrin, floridean starch, and complete absence of motile flagellated cells uniquely identify **Rhodophyceae (red algae)** such as *Polysiphonia* or *Gelidium*.
+:::
+
+::: example Ploidy accounting in Mucor and Saccharomyces
+**Problem.** In *Mucor*, two compatible $(+)$ and $(-)$ hyphae fuse to form a zygospore ($2n = 16$). What is the chromosome number in a vegetative coenocytic hypha, a sporangiospore, and a germ-sporangium spore?
+
+**Solution.** The vegetative mycelium of *Mucor* is haploid ($n = 8$). Asexual sporangiospores are mitospores ($n = 8$), and the zygospore undergoes meiosis before forming the germ sporangium, so germspores are also haploid ($n = \mathbf{8}$).
+:::
+
 ## Formula and fact sheet
 
 | Item | Fact |

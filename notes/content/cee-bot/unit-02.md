@@ -451,6 +451,24 @@ a virus a member of Monera — strike it out. (Some question banks claim that th
 into DNA only inside the host cell.)
 :::
 
+::: example Bacterial exponential growth and generation count
+**Problem.** An *Escherichia coli* culture with a doubling time of 20 minutes starts with $5 \times 10^3$ cells mL$^{-1}$. How many cells mL$^{-1}$ are present after 2 hours of log-phase growth?
+
+**Solution.** Two hours $= 120$ minutes gives $n = 120 / 20 = 6$ generations. Therefore $N = N_0 \times 2^n = 5 \times 10^3 \times 2^6 = 5 \times 10^3 \times 64 = \mathbf{3.2 \times 10^5\text{ cells mL}^{-1}}$.
+:::
+
+::: example Decoding viral nucleic acid type from base composition
+**Problem.** Chemical analysis of a purified plant virus reveals 28 % adenine, 22 % uracil, 26 % guanine, and 24 % cytosine. What type of genome does this virus possess?
+
+**Solution.** The presence of uracil (and absence of thymine) proves the genome is **RNA**. Because $A \neq U$ (28 % vs 22 %) and $G \neq C$ (26 % vs 24 %), Chargaff's base-pairing equality fails, so the genome is **single-stranded RNA (ssRNA)**, typical of TMV.
+:::
+
+::: example Gram stain outcome and cell-wall chemistry
+**Problem.** During a Gram-staining practical, a student forgets the iodine mordant step and proceeds straight from crystal violet to ethanol decolourisation and safranin counterstain. How will *Staphylococcus aureus* (a Gram-positive coccus) appear?
+
+**Solution.** Without Gram's iodine ($\text{I}_2\text{/KI}$), the large crystal-violet–iodine (CV–I) complex never forms inside the thick peptidoglycan mesh. Ethanol washes the uncomplexed crystal violet out, and safranin stains the cells **pink/red** (a false Gram-negative result).
+:::
+
 ## Formula and fact sheet
 
 | Item | Fact |

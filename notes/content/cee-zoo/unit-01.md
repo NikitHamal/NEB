@@ -467,6 +467,18 @@ ancestor, but the paper still calls it the "first hominid" of the textbook line
 — answer in that language when the stem uses it.
 :::
 
+::: example Ordering cranial capacities along the hominin lineage
+**Problem.** Arrange *Australopithecus africanus*, *Homo habilis*, *Homo erectus*, and *Homo neanderthalensis* in ascending order of average cranial capacity and identify which stage first used fire.
+
+**Solution.** Cranial capacities rise steadily: *Australopithecus* ($\approx 450\text{–}500\text{ cm}^3$) $<$ *Homo habilis* ($\approx 650\text{–}800\text{ cm}^3$, first tool-maker) $<$ *Homo erectus* ($\approx 900\text{ cm}^3$, **first regular user of fire**) $<$ *Homo neanderthalensis* ($\approx 1{,}400\text{–}1{,}450\text{ cm}^3$).
+:::
+
+::: example Distinguishing homologous vs analogous organs in vertebrates
+**Problem.** Classify (a) the forelimb of a bat and the flipper of a whale, and (b) the wing of a bat and the wing of a butterfly, stating the type of evolution each pair demonstrates.
+
+**Solution.** (a) Bat forelimb and whale flipper share the pentadactyl bone plan (humerus, radius, ulna, carpals, metacarpals, phalanges) adapted to flight vs swimming: **homologous organs** showing **divergent evolution**. (b) Bat wing (skin fold over tetrapod bones) and butterfly wing (chitinous cuticular outgrowth) share function without common structural origin: **analogous organs** showing **convergent evolution**.
+:::
+
 ## Formula and fact sheet
 
 **Origin of life**

@@ -478,6 +478,24 @@ absorb** (cuboidal/columnar), **move something along** (ciliated), **resist wear
 (stratified) or **stretch** (transitional). The location follows from the job.
 :::
 
+::: example Matching epithelial linings to physiological roles
+**Problem.** Which specific epithelium lines (a) Bowman's capsule and pulmonary alveoli, (b) the proximal convoluted tubule (PCT) of the nephron, (c) the fallopian tube and bronchioles, and (d) the urinary bladder?
+
+**Solution.** (a) **Simple squamous** (thin diffusion barrier); (b) **brush-bordered simple cuboidal** (microvilli maximise reabsorption); (c) **ciliated columnar/cuboidal** (propels ovum or mucus); (d) **transitional epithelium / urothelium** (stretches without tearing).
+:::
+
+::: example Sarcomere band changes during skeletal-muscle contraction
+**Problem.** When a skeletal muscle fibre contracts under the sliding-filament mechanism, state what happens to the length of (a) the A-band, (b) the I-band, (c) the H-zone, and (d) the sarcomere (Z-to-Z distance).
+
+**Solution.** Thick (myosin) and thin (actin) filaments do not shorten; actin slides into the A-band. Therefore **(a) the A-band stays constant**, while **(b) the I-band, (c) the H-zone, and (d) the sarcomere all shorten**.
+:::
+
+::: example Distinguishing compact bone, hyaline cartilage and tendon
+**Problem.** Histological slide X shows concentric lamellae around Haversian canals connected by Volkmann's canals; slide Y shows chondrocytes in fluid-filled lacunae (2–4 per capsule) in an avascular basophilic matrix without Haversian systems. Identify X and Y.
+
+**Solution.** Haversian systems (osteons) are the hallmark of **mammalian compact bone** (X); avascular matrix with chondrocyte cell nests (isogenous groups) lacking Haversian canals is **hyaline cartilage** (Y).
+:::
+
 ## Formula and fact sheet
 
 | Item | Value or name |

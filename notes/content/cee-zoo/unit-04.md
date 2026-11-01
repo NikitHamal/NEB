@@ -547,6 +547,18 @@ Most frog questions are answered by placing the fact in one of three columns:
 urea, carnivore).
 :::
 
+::: example Timing erythrocytic schizogony and fever paroxysms in malaria
+**Problem.** A patient presents with classic paroxysms of chill, high fever, and sweating recurring every 48 hours, and peripheral blood smear shows enlarged, stippled RBCs with Schüffner's dots. Identify the *Plasmodium* species and explain why the fever recurs every 48 hours.
+
+**Solution.** A 48-hour benign tertian cycle with enlarged host RBCs bearing **Schüffner's dots** identifies ***Plasmodium vivax***. Fever spikes when **erythrocytic schizonts rupture synchronously** every 48 hours, releasing merozoites and the pyrogenic toxin **haemozoin** into the plasma.
+:::
+
+::: example Segmental landmarks of Pheretima posthuma
+**Problem.** Give the exact segment numbers in *Pheretima posthuma* for (a) the gizzard, (b) the clitellum, (c) the single female genital pore, (d) the paired male genital pores, and (e) the four pairs of spermathecal apertures.
+
+**Solution.** (a) Gizzard: **8 (or 8–9)**; (b) clitellum: **14, 15, and 16**; (c) female pore: mid-ventral on **14**; (d) male pores: ventro-lateral on **18**; (e) spermathecal pores: intersegmental grooves **5/6, 6/7, 7/8, and 8/9**.
+:::
+
 ## Formula and fact sheet
 
 **Plasmodium**

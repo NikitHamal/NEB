@@ -454,6 +454,11 @@ friction equals the applied force — **not** $\mu N$. A 10 kg box with $\mu_s =
 pushed with 20 N on a level floor feels 20 N of friction, not 49 N.
 :::
 
+
+::: caution Trap — action and reaction never cancel on the same body
+The third-law pair always acts on **two different bodies**, so the forces never appear in the same free-body diagram and never "cancel out". A horse pulls a cart because the *ground* pushes the horse (reaction to the horse pushing the ground backwards). Neighbouring traps: the normal reaction of a surface is **not** the reaction to the body's weight (weight is the Earth pulling the body; its pair is the body pulling the Earth), and in an *inelastic* collision kinetic energy is lost but **momentum is still conserved** provided no external impulse acts.
+:::
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

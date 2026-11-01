@@ -440,6 +440,24 @@ sporangium wall, pine needle, seed coat, embryo). Spores are the first cells of
 the gametophyte; the zygote is the first cell of the sporophyte.
 :::
 
+::: example Chromosome numbers across the Marchantia and Dryopteris life cycles
+**Problem.** In *Dryopteris*, a young coiled leaf (circinate vernation) has $2n = 82$ chromosomes. Give the chromosome number in (a) a prothallus cell, (b) a neck-canal cell, (c) a spore mother cell, and (d) an indusium cell.
+
+**Solution.** The leafy fern is the diploid sporophyte ($2n = 82$), so the spore mother cell and indusium cell are diploid (**82**). The prothallus is the haploid gametophyte ($n = 41$), and the archegonial neck-canal cell arises on it by mitosis, so both have **41** chromosomes.
+:::
+
+::: example Pinus ploidy contrast: gymnosperm vs angiosperm endosperm
+**Problem.** A root-tip cell of *Pinus roxburghii* contains $2n = 24$ chromosomes. How many chromosomes are present in (a) a cell of the female prothallus (endosperm), (b) a cell of the seed wing, and (c) a cotyledon cell of the embryo?
+
+**Solution.** Gymnosperm endosperm is pre-fertilisation female gametophyte tissue, so it is haploid ($n = \mathbf{12}$). The seed wing develops from the ovuliferous scale of the parent sporophyte ($2n = \mathbf{24}$), and the cotyledon belongs to the new sporophyte embryo ($2n = \mathbf{24}$).
+:::
+
+::: example Identifying bryophyte vs pteridophyte spore-dispersal structures
+**Problem.** Capsule A lacks a columella and disperses spores using diploid-origin nurse cells that become hygroscopic elaters with spiral thickenings; Capsule B has a central sterile columella, a peristome of 32 teeth, and no elaters. Identify A and B.
+
+**Solution.** Hygroscopic elaters without a columella characterise the liverwort ***Marchantia*** (A); a central columella and a two-ringed 32-tooth peristome characterise the moss ***Funaria*** (B).
+:::
+
 ## Formula and fact sheet
 
 | Item | Fact |
