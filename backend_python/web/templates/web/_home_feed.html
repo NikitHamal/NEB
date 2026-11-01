@@ -1,69 +1,18 @@
 {% load static web_extras %}
-{% comment %} ── The home feed ─────────────────────────────────────────────────────────
-   One column, the app's: post cards with the standing rails interleaved at the
-   positions HomeFeedModel.kt anchors them to. The view has already flattened
-   that into a list of typed entries, so this template only has to draw one row
-   per entry -- no nesting, and no cadence arithmetic in the markup.
-
-   Rendered twice: inside home.html for the first page, and on its own as the
-   response to the load-more request, which is why the sentinel at the bottom
-   is part of the partial rather than the page. {% endcomment %}
-{% url 'web:library' as hf_library_url %}
-{% url 'web:news_list' as hf_news_url %}
-{% comment %} No people directory on the web; the leaderboard is where all the
-   contributors are, which is what the app's people screen shows. {% endcomment %}
-{% url 'web:leaderboard' as hf_people_url %}
+{% comment %} ── The centre column ───────────────────────────────────────────────────────
+   Posts only. The suggested / news / people / library / featured modules are
+   drawn once in _home_aside.html, so the reading column stays a column instead
+   of alternating between cards and wide rails. The view still builds the
+   interleaved list because the app consumes it that way; this template simply
+   ignores the non-post entries, which is also why it can be reused by the
+   load-more response. {% endcomment %}
 {% for entry in feed_entries %}
   {% if entry.kind == 'post' %}
     {% with post=entry.post %}{% include "web/_forum_post_card.html" %}{% endwith %}
-
   {% elif entry.kind == 'carousel' %}
-    <section class="hf-block">
-      {% include "web/_home_section_title.html" with title="Suggested for you" action_url=hf_library_url %}
-      <div class="hf-rail hscroll">
-        {% for item in entry.items %}
-          {% if item.type == 'resource' %}
-            {% with r=item.resource %}{% include "web/_home_rail_resource.html" %}{% endwith %}
-          {% else %}
-            {% with p=item.post cat_color=item.post.category|subject_color %}{% include "web/_home_suggest_post.html" %}{% endwith %}
-          {% endif %}
-        {% endfor %}
-      </div>
-    </section>
-
-  {% elif entry.kind == 'news' %}
-    <section class="hf-block">
-      {% include "web/_home_section_title.html" with title="News & updates" action_url=hf_news_url %}
-      <div class="hf-rail hscroll">
-        {% for n in entry.items %}{% include "web/_home_news_card.html" %}{% endfor %}
-      </div>
-    </section>
-
+    {% include "web/_home_rail_suggested.html" with items=entry.items %}
   {% elif entry.kind == 'peers' %}
-    <section class="hf-block">
-      {% include "web/_home_section_title.html" with title="People you may know" action_url=hf_people_url %}
-      <div class="hf-rail hf-rail-peers hscroll">
-        {% for person in entry.items %}{% include "web/_home_peer_card.html" %}{% endfor %}
-      </div>
-    </section>
-
-  {% elif entry.kind == 'new_resources' %}
-    <section class="hf-block">
-      {% include "web/_home_section_title.html" with title="New in Library" action_url=hf_library_url %}
-      <div class="hf-rail hscroll">
-        {% for r in entry.items %}{% include "web/_home_rail_resource.html" %}{% endfor %}
-      </div>
-    </section>
-
-  {% elif entry.kind == 'highlight' %}
-    {% if entry.titled %}
-    <section class="hf-block hf-block-tight">
-      {% include "web/_home_section_title.html" with title="Featured Study Guide" action_url=hf_library_url %}
-      {% with r=entry.resource %}{% include "web/_home_highlight.html" %}{% endwith %}
-    </section>
-    {% else %}
-    {% with r=entry.resource %}{% include "web/_home_highlight.html" %}{% endwith %}
-    {% endif %}
+    {% include "web/_home_rail_people.html" with people=entry.items %}
   {% endif %}
 {% endfor %}
 
@@ -84,8 +33,7 @@
 <div class="hf-end">
   <span class="hf-end-icon material-symbols-outlined">check</span>
   <strong class="hf-end-title">You're all caught up!</strong>
-  <p class="hf-end-text">Explore the full dedicated discussion forum or dive into the digital library.</p>
-  <a class="md-btn md-btn-filled hf-end-btn" href="{% url 'web:forum' %}">Forum</a>
-  <a class="md-btn md-btn-outlined hf-end-btn" href="{% url 'web:library' %}">Library</a>
+  <p class="hf-end-text">Explore the digital library for notes, past papers and more.</p>
+  <a class="md-btn md-btn-filled hf-end-btn" href="{% url 'web:library' %}">Library</a>
 </div>
 {% endif %}

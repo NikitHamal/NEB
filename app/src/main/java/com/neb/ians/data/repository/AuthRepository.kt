@@ -19,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import javax.inject.Singleton
 import com.neb.ians.data.api.ApiErrorMapper
+import com.neb.ians.data.api.AuthExpiryBus
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 private val Whitespace = Regex("\\s+")
@@ -582,7 +583,15 @@ class AuthRepository @Inject constructor(
                     prefs[USER_ACHIEVEMENT_BADGES] = response.achievementBadges ?: ""
                 }
             }
-        } catch (_: Exception) { }
+        } catch (e: Exception) {
+            // The launch-time probe is the app's only session check, and it used to
+            // swallow this: a dead token meant every later call 401'd with no way
+            // back. Expiry is unambiguous, so surface it and let the nav layer
+            // sign the user out. A guest has no bearer and returns above.
+            if (e is retrofit2.HttpException && e.code() == 401) {
+                AuthExpiryBus.tryEmitExpired()
+            }
+        }
     }
 
     suspend fun getPublicProfile(username: String): com.neb.ians.data.api.UserProfileResponse? {

@@ -1,6 +1,6 @@
 {% load web_extras %}
 {% if posts %}
-<div style="display:flex;flex-direction:column;gap:0;">
+<div class="forum-post-list">
   {% for post in posts %}
   {% include "web/_forum_post_card.html" %}
   {% endfor %}
@@ -9,13 +9,13 @@
 {% if page_obj and page_obj.has_other_pages %}
 <div class="forum-pagination">
   {% if page_obj.has_previous %}
-  <a href="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}&page={{ page_obj.previous_page_number }}" class="forum-pagination-btn" hx-get="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}&page={{ page_obj.previous_page_number }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+  <a href="{% querystring page=page_obj.previous_page_number %}" class="forum-pagination-btn" hx-get="{% querystring page=page_obj.previous_page_number %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
     <span class="material-symbols-outlined">chevron_left</span> Prev
   </a>
   {% endif %}
   <span class="forum-pagination-info">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
   {% if page_obj.has_next %}
-  <a href="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}&page={{ page_obj.next_page_number }}" class="forum-pagination-btn" hx-get="?sort={{ current_sort }}{% if current_category %}&category={{ current_category }}{% endif %}&page={{ page_obj.next_page_number }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+  <a href="{% querystring page=page_obj.next_page_number %}" class="forum-pagination-btn" hx-get="{% querystring page=page_obj.next_page_number %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
     Next <span class="material-symbols-outlined">chevron_right</span>
   </a>
   {% endif %}
@@ -24,9 +24,16 @@
 
 {% else %}
 <div class="empty-state">
+  {% if search_query or current_category %}
+  <span class="material-symbols-outlined">search_off</span>
+  <h3>No discussions match</h3>
+  <p>Try a different search or category.</p>
+  <a href="{% url 'web:forum' %}" class="md-btn md-btn-outlined mt-2">Clear filters</a>
+  {% else %}
   <span class="material-symbols-outlined">forum</span>
   <h3>No discussions yet</h3>
-  <p>Be the first to start a discussion!</p>
-  <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start Discussion</a>
+  <p>Be the first to start one.</p>
+  <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled mt-2">Start a discussion</a>
+  {% endif %}
 </div>
 {% endif %}

@@ -1,0 +1,126 @@
+/* Shared forum card typography and actions.
+   The card reads as a row on the forum and as a card on home/search/profile,
+   so the parts that are shared live here. Page-level layout stays in
+   pages/forum.css. */
+.post-card h3.post-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--md-on-surface);
+  margin: 10px 0 5px;
+}
+
+.post-card h3.post-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card h3.post-card-title a:hover {
+  color: var(--md-primary);
+}
+
+.post-card-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+}
+
+.post-card-meta-top > a {
+  color: var(--md-on-surface);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.post-card-meta-top > a:hover {
+  color: var(--md-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.post-card-meta-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  flex-wrap: wrap;
+}
+
+.neb-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.neb-tag:hover {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  text-decoration: none;
+}
+
+.post-card-time,
+.post-card-author-muted {
+  color: var(--md-on-surface-variant);
+}
+
+.post-card-actions {
+  border-top: 0;
+  padding-top: 6px;
+  margin-top: 10px;
+}
+
+.post-card-actions button,
+.post-card-actions a,
+.post-card-actions .act-btn-stat {
+  font-size: 0.8125rem;
+  padding: 5px 8px;
+  white-space: nowrap;
+}
+
+.post-card-actions button:focus-visible,
+.post-card-actions a:focus-visible,
+.post-card-meta-top a:focus-visible,
+.post-card-title a:focus-visible,
+.more-btn:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+}
+
+.author-line {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.author-line .role-badge {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  margin-left: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.author-line .role-badge .material-symbols-outlined {
+  font-size: 14px;
+}
+
+.post-action-label {
+  margin-left: 1px;
+}

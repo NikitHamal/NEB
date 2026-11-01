@@ -1,12 +1,14 @@
 {% load static %}
 <section class="syl-hub" data-syl-hub data-search-url="{% url 'web:syllabus_search' %}" data-base-url="{% url 'web:syllabus_hub' %}">
   <header class="syl-hub-head">
-    <div>
-      {% comment %} The page's only h1: every other heading on this page is a
-         section. A page with no h1 gives a crawler nothing to read as the
-         subject. {% endcomment %}
-      <h1 class="syl-hub-title">Syllabus and study notes</h1>
-      <p class="syl-hub-sub">Every unit of the CDC and NEB syllabus with the full chapter from the NEBians books, worked examples, self-check questions and a question bank in the board's pattern.{% if syllabus_track_names %} Entrance preparation for {{ syllabus_track_names }}: chapters written to the official syllabus with its question weightage, and MCQ practice with explained answers{% if syllabus_track_papers %}, plus model papers you can take as a timed test{% endif %}.{% endif %}</p>
+    <div class="syl-hub-intro">
+      <h1 class="syl-hub-title">Syllabus &amp; Study Notes</h1>
+      <p class="syl-hub-sub">Complete CDC &amp; NEB curriculum and entrance preparation with chapters, question banks, and worked examples.</p>
+      <div class="syl-hub-badges">
+        <span class="syl-hub-badge"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span> Full Chapters &amp; Notes</span>
+        <span class="syl-hub-badge"><span class="material-symbols-outlined" aria-hidden="true">quiz</span> Question Bank &amp; MCQs</span>
+        <span class="syl-hub-badge"><span class="material-symbols-outlined" aria-hidden="true">analytics</span> Official Weightage</span>
+      </div>
     </div>
     <div class="syl-grade-switch" role="tablist" aria-label="Choose your class{% if syllabus_tracks %} or entrance exam{% endif %}" data-syl-switch>
       {% for g in syllabus_grades %}
@@ -17,12 +19,14 @@
   </header>
 
   <a class="syl-continue" data-syl-continue href="#" hidden>
-    <span class="material-symbols-outlined syl-continue-icon" aria-hidden="true">bookmark</span>
-    <span class="syl-continue-text">
+    <div class="syl-continue-icon-wrap">
+      <span class="material-symbols-outlined syl-continue-icon" aria-hidden="true">bookmark</span>
+    </div>
+    <div class="syl-continue-text">
       <span class="syl-continue-label">Continue reading</span>
       <span class="syl-continue-title" data-syl-continue-title></span>
       <span class="syl-continue-meta" data-syl-continue-meta></span>
-    </span>
+    </div>
     <span class="syl-continue-bar" aria-hidden="true"><span data-syl-continue-bar></span></span>
     <span class="material-symbols-outlined syl-continue-go" aria-hidden="true">arrow_forward</span>
   </a>
@@ -36,20 +40,27 @@
 
   {% for g in syllabus_grades %}
   <div class="syl-grade-panel" id="syl-grade-{{ g.grade }}" role="tabpanel" data-syl-panel="{{ g.grade }}" {% if g.grade != syllabus_current_grade %}hidden{% endif %}>
-    <p class="syl-exam-line">{{ g.label }} · {{ g.exam }}</p>
+    <p class="syl-exam-line">{% if g.kind == 'entrance' %}Entrance preparation for {{ g.short }}: chapters written to the official syllabus with its question weightage, and MCQ practice with explained answers{% if syllabus_track_papers %}, plus model papers you can take as a timed test{% endif %}.{% else %}{{ g.label }} · {{ g.exam }}{% endif %}</p>
     {% regroup g.subjects by group as groups %}
     {% for grp in groups %}
     <h3 class="syl-group-title">{% if grp.grouper == 'compulsory' %}Compulsory{% elif grp.grouper == 'optional' %}Optional{% elif grp.grouper == 'entrance' %}Exam subjects{% elif grp.grouper == 'practice' %}Model papers and mock tests{% else %}Science stream{% endif %}</h3>
     <div class="syl-card-grid">
       {% for s in grp.list %}
       <a class="syl-subject-card" href="{% url 'web:syllabus_subject' g.grade s.subject %}" style="--syl-c: {{ s.color }};" data-syl-card="{{ g.grade }}/{{ s.subject }}" data-units="{{ s.unit_count }}">
-        <span class="syl-card-icon material-symbols-outlined" aria-hidden="true">{{ s.icon }}</span>
-        <span class="syl-card-body">
-          <span class="syl-card-name">{{ s.name }}</span>
-          {% if s.name_ne %}<span class="syl-card-meta"><span lang="ne">{{ s.name_ne }}</span></span>{% endif %}
-          <span class="syl-card-meta">{% if s.notes_ready is not None and s.notes_ready < s.unit_count %}{{ s.notes_ready }} of {{ s.unit_count }} chapters written{% else %}{{ s.unit_count }} chapters{% endif %}{% if s.questions %} · {{ s.questions }} questions in the paper{% elif s.hours %} · {{ s.hours }} hrs{% endif %}</span>
-        </span>
-        <span class="syl-card-pct" data-syl-pct></span>
+        <div class="syl-card-icon-wrap">
+          <span class="syl-card-icon material-symbols-outlined" aria-hidden="true">{{ s.icon }}</span>
+        </div>
+        <div class="syl-card-body">
+          <div class="syl-card-header-row">
+            <span class="syl-card-name">{{ s.name }}</span>
+            {% if s.name_ne %}<span class="syl-card-nepali" lang="ne">{{ s.name_ne }}</span>{% endif %}
+          </div>
+          <div class="syl-card-meta">{% if s.notes_ready is not None and s.notes_ready < s.unit_count %}{{ s.notes_ready }} of {{ s.unit_count }} chapters written{% else %}{{ s.unit_count }} chapters{% endif %}{% if s.questions %} · {{ s.questions }} questions in the paper{% elif s.hours %} · {{ s.hours }} hrs{% endif %}</div>
+        </div>
+        <div class="syl-card-action">
+          <span class="syl-card-pct" data-syl-pct></span>
+          <span class="material-symbols-outlined syl-card-arrow" aria-hidden="true">arrow_forward</span>
+        </div>
         <span class="syl-card-bar" aria-hidden="true"><span data-syl-bar></span></span>
       </a>
       {% endfor %}

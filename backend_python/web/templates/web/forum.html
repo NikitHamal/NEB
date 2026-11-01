@@ -21,138 +21,50 @@
 
 {% block content %}
 <div class="forum-container">
-  <!-- Redesigned Forum Header -->
-  <div class="forum-header">
+  <header class="forum-header">
     <div class="forum-header-content">
       <h1 class="md-headline-large-emphasized">Forum</h1>
+      <p class="forum-sub">Ask questions, share what you know, and learn together.</p>
     </div>
     <a href="{% url 'web:create_post' %}" class="md-btn md-btn-filled md-hide-mobile">
       <span class="material-symbols-outlined">add</span>
-      New Discussion
+      New discussion
     </a>
-  </div>
+  </header>
+
+  <form class="forum-search" method="get" action="{% url 'web:forum' %}" role="search">
+    <span class="material-symbols-outlined" aria-hidden="true">search</span>
+    <input type="search" name="q" value="{{ search_query }}" placeholder="Search discussions" aria-label="Search discussions" autocomplete="off">
+    {% if current_category %}<input type="hidden" name="category" value="{{ current_category }}">{% endif %}
+    {% if current_sort %}<input type="hidden" name="sort" value="{{ current_sort }}">{% endif %}
+    <button type="submit" class="md-btn md-btn-tonal md-btn-small">Search</button>
+  </form>
 
   <div id="forum-main">
-  <!-- Sort Tabs + Category Filters -->
-  <div class="forum-controls-bar">
-    {% comment %}
-      NebTabRail. Hot / New / Top / Discussed was a row of pills in
-      --md-secondary-container with two !importants holding the selected one on,
-      drawn once here and again in _forum_main.html for the htmx swap -- the same
-      question the library and the profile ask, answered a fifth way. The rail
-      slides one container between the four instead of lighting a different pill,
-      and being the shared component it stays in step with the app.
-    {% endcomment %}
-    <nav class="neb-rail neb-rail-flush" role="tablist" aria-label="Sort posts">
-      <a href="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=hot{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">whatshot</span>
-        <span class="neb-rail-label">Hot</span>
-      </a>
-      <a href="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=new{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">schedule</span>
-        <span class="neb-rail-label">New</span>
-      </a>
-      <a href="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'top' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=top{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">thumb_up</span>
-        <span class="neb-rail-label">Top</span>
-      </a>
-      <a href="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'discussed' %}true{% else %}false{% endif %}" hx-get="{% url 'web:forum' %}?sort=discussed{% if current_category %}&category={{ current_category }}{% endif %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-        <span class="material-symbols-outlined">chat_bubble</span>
-        <span class="neb-rail-label">Discussed</span>
-      </a>
-    </nav>
+    {% include "web/_forum_body.html" %}
   </div>
-
-
-
-  <!-- Dual-Column Responsive Grid Layout -->
-  <div class="forum-layout">
-    <!-- Left Column: Posts List -->
-    <div class="forum-main-content">
-      {% include "web/_forum_posts.html" %}
-    </div>
-
-    <!-- Right Column: Sidebar (Desktop only) -->
-    <div class="forum-sidebar">
-      <!-- 1. Categories Sidebar Card -->
-      <div class="forum-card">
-        <div class="forum-card-title">
-          <span class="material-symbols-outlined">category</span>
-          Categories
-        </div>
-        <div class="sidebar-category-list">
-          <a href="{% url 'web:forum' %}?sort={{ current_sort }}" class="sidebar-category-row {% if not current_category %}active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-            <span style="display:flex;align-items:center;gap:10px;">
-              <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.8;">forum</span>
-              All Discussions
-            </span>
-          </a>
-          {% for cat in categories_data %}
-          <a href="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ cat.name }}" class="sidebar-category-row {% if current_category == cat.name %}active{% endif %}" hx-get="{% url 'web:forum' %}?sort={{ current_sort }}&category={{ cat.name }}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
-            <span style="display:flex;align-items:center;gap:10px;">
-              <span class="material-symbols-outlined" style="font-size: 18px; opacity: 0.8;">tag</span>
-              {{ cat.name }}
-            </span>
-            <span class="category-badge">{{ cat.formatted_count }}</span>
-          </a>
-          {% endfor %}
-        </div>
-        <a href="{% url 'web:forum_categories' %}" class="btn-leaderboard-link" style="margin-top: 8px;">
-          See All Categories
-        </a>
-      </div>
-
-      <!-- 2. Top Contributors Sidebar Card -->
-      <div class="forum-card">
-        <div class="forum-card-title">
-          <span class="material-symbols-outlined" style="color: var(--md-primary);">emoji_events</span>
-          Top Contributors
-        </div>
-        <div class="sidebar-contributor-list">
-          {% for contributor in top_contributors %}
-          <a href="{% url 'web:profile' username=contributor.username %}" class="sidebar-contributor-row" style="text-decoration:none;color:inherit;">
-            <div class="contributor-profile-wrapper">
-              <div class="contributor-avatar-container {% if contributor.badgeInfo and contributor.badgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
-                {% if contributor.photo_url %}
-                <img src="{{ contributor.photo_url }}" alt="{{ contributor.display_name }}" data-fallback="inline-flex">
-                <span class="contributor-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
-                {% else %}
-                <span class="contributor-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
-                {% endif %}
-                {% if contributor.badgeInfo and contributor.badgeInfo.type == 'verified' %}
-                  <span class="avatar-badge-overlay" style="--badge-bg: {{ contributor.badgeInfo.color }};" title="{{ contributor.badgeInfo.label }}">
-                    <span class="material-symbols-outlined">verified</span>
-                  </span>
-                {% endif %}
-              </div>
-              <div class="contributor-meta-data">
-                <span class="contributor-username-text">{{ contributor.username }}{% if contributor.badgeInfo %}<span class="role-badge role-badge-{{ contributor.badgeInfo.type }}" title="{{ contributor.badgeInfo.label }}"><span class="material-symbols-outlined">{{ contributor.badgeInfo.icon }}</span></span>{% endif %}</span>
-                <span class="contributor-level-text">{{ contributor.level }}</span>
-              </div>
-            </div>
-            <span class="contributor-score-text">{{ contributor.formatted_score }}</span>
-          </a>
-          {% empty %}
-          <div style="text-align:center; color:var(--md-on-surface-variant); font-size:0.875rem;">No contributors yet.</div>
-          {% endfor %}
-        </div>
-        {% if top_contributors %}
-        <a href="{% url 'web:leaderboard' %}" class="btn-leaderboard-link">
-          View Leaderboard
-        </a>
-        {% endif %}
-      </div>
-    </div>
-  </div>
-  </div>
-
-{% comment %} The create plus lives beside the rail now, in bottomnav.html. {% endcomment %}
-
+</div>
 {% endblock %}
 
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}">
 // ── Real-time forum list ──
+// HTMX history is disabled site-wide (base.html) for clean full-page back
+// navigation, so hx-push-url is inert. Keep the forum's filter state in the
+// address bar anyway: swaps still work, and a refresh/back lands on the view.
+document.addEventListener('htmx:afterRequest', function (e) {
+  var detail = e.detail || {};
+  if (!detail.successful) return;
+  var requestUrl = (detail.xhr && detail.xhr.responseURL) ||
+    (detail.requestConfig && detail.requestConfig.path);
+  if (!requestUrl) return;
+  var next = new URL(requestUrl, window.location.href);
+  if (next.pathname !== window.location.pathname) return;
+  if (next.pathname + next.search !== window.location.pathname + window.location.search) {
+    history.pushState({ forum: true }, '', next);
+  }
+});
+
 document.addEventListener('DOMContentLoaded', function() {
   if (!window.WS) return;
   window.WS.subscribe('forum.public');
@@ -177,6 +89,8 @@ document.addEventListener('DOMContentLoaded', function() {
       icon.classList.toggle('material-symbols-filled', data.isThumbedUp);
       icon.classList.toggle('material-symbols-outlined', !data.isThumbedUp);
     }
+    const likeBtn = document.querySelector('.post-card[data-post-id="' + data.post_id + '"] [data-action="toggle-forum-post-like"]');
+    if (likeBtn) likeBtn.setAttribute('aria-pressed', data.isThumbedUp ? 'true' : 'false');
     const countEl = document.getElementById('forum-post-like-count-' + data.post_id);
     if (countEl) countEl.textContent = data.thumbs_up_count;
   });
@@ -204,6 +118,7 @@ async function toggleForumPostLike(postId, btn) {
       const iconEl = btn.querySelector('.material-symbols-outlined');
       if (iconEl) { iconEl.textContent = 'thumb_up'; iconEl.style.fontVariationSettings = result.isThumbedUp ? "'FILL' 1" : ''; }
       btn.classList.toggle('liked', result.isThumbedUp);
+      btn.setAttribute('aria-pressed', result.isThumbedUp ? 'true' : 'false');
     }
   } catch (e) {
     showSnackbar('Failed to like post');

@@ -1,10 +1,406 @@
-{% comment %} ── The composer bar ──────────────────────────────────────────────────────
-   The app's HomeFeedComposerBar, at the top of the feed: your avatar, the
-   prompt, and the way in. The web's only way to start a discussion was the
-   bottom-bar plus button, which is gone from the web rail on purpose, so this
-   is now the one that is always in front of you. {% endcomment %}
-<a class="hf-composer" href="{% url 'web:create_post' %}">
-  <img class="hf-composer-avatar" src="{{ user.avatar_url }}" alt="" width="38" height="38" decoding="async">
-  <span class="hf-composer-prompt">Ask a question, share notes...</span>
-  <span class="hf-composer-icon material-symbols-outlined">forum</span>
-</a>
+{% comment %}
+  NEBians Minimal Quick Composer & Full Create Post Dialog
+  Crafted with bespoke Material 3 Expressive, crisp inline vector icons,
+  custom category selector, media/video attachments, interactive polls/MCQ quiz,
+  and seamless anonymous / personal identity switching.
+{% endcomment %}
+<div class="hf-composer-sticky">
+  <!-- Launcher card on the home feed -->
+  <div class="hf-composer-card" id="homeComposerLauncher">
+    <div class="hf-composer-top">
+      <!-- Identity Picker on Feed Launcher -->
+      <div class="hf-identity-picker hf-launcher-identity-picker" id="homeLauncherIdentityPicker">
+        <button type="button" class="hf-launcher-identity-trigger" id="homeLauncherIdentityTrigger" aria-haspopup="true" aria-expanded="false" title="Switch identity (Personal or Anonymous)">
+          <span class="hf-launcher-avatar-slot">
+            <img id="homeLauncherUserAvatar" class="hf-launcher-avatar-img" src="{{ user.avatar_url }}" alt="{{ user.display_name|default:user.username }}" width="38" height="38" decoding="async">
+            <span id="homeLauncherAnonAvatar" class="hf-launcher-avatar-anon" style="display: none;" hidden>
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                <line x1="1" y1="1" x2="23" y2="23"></line>
+              </svg>
+            </span>
+          </span>
+          <svg class="hf-launcher-identity-chevron" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <div class="hf-identity-dropdown" id="homeLauncherIdentityDropdown" role="menu" aria-label="Select identity">
+          <div class="hf-dropdown-section">
+            <div class="hf-dropdown-header">Post anonymously as</div>
+            <button type="button" class="hf-dropdown-option" data-identity="1" role="menuitem">
+              <span class="hf-option-check-wrap">
+                <svg class="hf-option-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="hf-option-avatar hf-option-avatar-anon">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </span>
+              <span class="hf-option-info">
+                <strong class="hf-option-title">{{ user.anon_tag|default:"Anon#0000" }}</strong>
+                <span class="hf-option-sub">Identity kept private</span>
+              </span>
+            </button>
+          </div>
+
+          <div class="hf-dropdown-divider"></div>
+
+          <div class="hf-dropdown-section">
+            <div class="hf-dropdown-header">Post as yourself</div>
+            <button type="button" class="hf-dropdown-option is-active" data-identity="0" role="menuitem">
+              <span class="hf-option-check-wrap">
+                <svg class="hf-option-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+              </span>
+              <span class="hf-option-avatar">
+                <img src="{{ user.avatar_url }}" alt="" width="28" height="28" decoding="async">
+              </span>
+              <span class="hf-option-info">
+                <strong class="hf-option-title">{{ user.display_name|default:user.username }}</strong>
+                <span class="hf-option-sub">@{{ user.username }}</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="hf-composer-input-btn" id="homeComposerPromptTrigger" aria-label="Start a discussion">
+        <span>What are you working on?</span>
+      </button>
+    </div>
+
+    <div class="hf-composer-bottom-collapse" id="homeComposerBottomCollapse">
+      <div class="hf-composer-bottom">
+        <div class="hf-composer-tools">
+          <button type="button" class="hf-c-tool-btn" id="homeFeedAddImageBtn" title="Attach photos" aria-label="Attach photos">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </button>
+
+          <button type="button" class="hf-c-tool-btn" id="homeFeedAddVideoBtn" title="Add video / media" aria-label="Add video / media">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="14" height="14" rx="3"></rect>
+              <polygon points="22 8 16 12 22 16 22 8"></polygon>
+            </svg>
+          </button>
+
+          <button type="button" class="hf-c-tool-btn" id="homeFeedAddPollBtn" title="Ask a poll or quiz" aria-label="Ask a poll or quiz">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </button>
+
+          <button type="button" class="hf-c-tool-btn" id="homeFeedAddBookBtn" title="Academic / Syllabus topic" aria-label="Academic syllabus topic">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Dialog for Creating Post -->
+<dialog id="homePostDialog" class="hf-post-dialog" aria-labelledby="homePostTitle">
+  <form id="homePostForm" class="hf-dialog-form" novalidate method="dialog">
+    <input type="hidden" id="homePostIdentity" name="is_anonymous" value="0">
+
+    <!-- Dialog Header -->
+    <div class="hf-dialog-header">
+      <div class="hf-dialog-header-left">
+        <button type="button" class="hf-dialog-close-btn" id="homePostDialogClose" aria-label="Close dialog" title="Close (Esc)">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </button>
+
+        <!-- Identity Picker in Dialog -->
+        <div class="hf-identity-picker" id="homeIdentityPicker">
+          <button type="button" class="hf-identity-trigger" id="homeIdentityTrigger" aria-haspopup="true" aria-expanded="false" title="Switch identity">
+            <span class="hf-identity-avatar-slot">
+              <img id="homeTriggerUserAvatar" class="hf-identity-avatar-img" src="{{ user.avatar_url }}" alt="" width="26" height="26" decoding="async">
+              <span id="homeTriggerAnonAvatar" class="hf-identity-avatar-anon" style="display: none;" hidden>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                </svg>
+              </span>
+            </span>
+            <span class="hf-identity-name" id="homeTriggerNameText">{{ user.display_name|default:user.username }}</span>
+            <svg class="hf-identity-chevron" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="hf-identity-dropdown" id="homeIdentityDropdown" role="menu" aria-label="Select identity">
+            <div class="hf-dropdown-section">
+              <div class="hf-dropdown-header">Post anonymously as</div>
+              <button type="button" class="hf-dropdown-option" data-identity="1" role="menuitem">
+                <span class="hf-option-check-wrap">
+                  <svg class="hf-option-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+                <span class="hf-option-avatar hf-option-avatar-anon">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                    <line x1="1" y1="1" x2="23" y2="23"></line>
+                  </svg>
+                </span>
+                <span class="hf-option-info">
+                  <strong class="hf-option-title">{{ user.anon_tag|default:"Anon#0000" }}</strong>
+                  <span class="hf-option-sub">Identity kept private</span>
+                </span>
+              </button>
+            </div>
+
+            <div class="hf-dropdown-divider"></div>
+
+            <div class="hf-dropdown-section">
+              <div class="hf-dropdown-header">Post as yourself</div>
+              <button type="button" class="hf-dropdown-option is-active" data-identity="0" role="menuitem">
+                <span class="hf-option-check-wrap">
+                  <svg class="hf-option-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+                <span class="hf-option-avatar">
+                  <img src="{{ user.avatar_url }}" alt="" width="28" height="28" decoding="async">
+                </span>
+                <span class="hf-option-info">
+                  <strong class="hf-option-title">{{ user.display_name|default:user.username }}</strong>
+                  <span class="hf-option-sub">@{{ user.username }}</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hf-dialog-header-right">
+        <!-- Custom Category Selector (not browser default) -->
+        <div class="hf-custom-cat" id="homePostCatDropdown">
+          <input type="hidden" id="homePostCategory" name="category" value="{{ composer_categories.0|default:'General' }}">
+          <button type="button" class="hf-cat-trigger" id="homePostCatTrigger" aria-haspopup="true" aria-expanded="false" title="Select category">
+            <span class="hf-cat-hash">#</span>
+            <span class="hf-cat-label" id="homePostCatLabel">{{ composer_categories.0|default:'General' }}</span>
+            <svg class="hf-cat-chevron" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="hf-custom-cat-menu" id="homePostCatMenu" role="menu" aria-label="Select Category">
+            <div class="hf-cat-menu-header">Category</div>
+            {% for c in composer_categories %}
+            <button type="button" class="hf-cat-menu-item{% if forloop.first %} is-active{% endif %}" data-cat-value="{{ c }}" role="menuitem">
+              <span class="hf-cat-item-hash">#</span>
+              <span class="hf-cat-item-text">{{ c }}</span>
+              <svg class="hf-cat-item-check" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </button>
+            {% endfor %}
+          </div>
+        </div>
+
+        <button type="submit" class="hf-btn-publish" id="homePostSubmit" aria-label="Publish post" title="Publish post">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="19" x2="12" y2="5"></line>
+            <polyline points="5 12 12 5 19 12"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Dialog Content Body -->
+    <div class="hf-dialog-body">
+      <input type="text" class="hf-dialog-title-input" id="homePostTitle" maxlength="200"
+             placeholder="Title (optional)"
+             data-user-name="{{ user.display_name|default:user.username }}"
+             data-anon-name="{{ user.anon_tag|default:'Anon#0000' }}"
+             autocomplete="off">
+
+      <textarea class="hf-dialog-textarea" id="homePostContent" rows="6" maxlength="20000"
+                placeholder="What are you working on? Ask a question, share notes, formulas, or exam tips..."></textarea>
+
+      <!-- Video / Media URL or Upload Panel -->
+      <div class="hf-composer-video-panel" id="homePostVideoPanel" style="display: none;">
+        <div class="hf-video-panel-inner">
+          <div class="hf-video-input-wrap">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="14" height="14" rx="3"></rect>
+              <polygon points="22 8 16 12 22 16 22 8"></polygon>
+            </svg>
+            <input type="url" id="homePostVideoUrlInput" class="hf-video-url-input" placeholder="Paste YouTube, Vimeo or video URL (https://...)" autocomplete="off">
+            <button type="button" class="hf-video-add-url-btn" id="homePostVideoUrlAddBtn">Add</button>
+          </div>
+          <div class="hf-video-or-divider"><span>or</span></div>
+          <button type="button" class="hf-video-upload-file-btn" id="homePostVideoUploadFileBtn">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <span>Upload video, audio or notes document</span>
+          </button>
+        </div>
+      </div>
+      <input type="file" id="homePostMediaInput" multiple hidden
+             accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/wav,.pdf,.doc,.docx,.ppt,.pptx,.zip">
+
+      <!-- Attached Media List -->
+      <div class="hf-composer-media-list" id="homeComposerMediaList" style="display: none;"></div>
+
+      <!-- Interactive Poll Panel -->
+      <div class="hf-composer-poll-panel" id="homePostPollPanel" style="display: none;">
+        <div class="hf-poll-panel-header">
+          <div class="hf-poll-panel-title">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+            <span>Poll / Quiz</span>
+          </div>
+          <button type="button" class="hf-poll-remove-btn" id="homePostRemovePoll" title="Remove poll">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+            <span>Remove</span>
+          </button>
+        </div>
+
+        <div class="hf-poll-type-row">
+          <button type="button" class="hf-poll-type-pill is-active" id="homePollTypeVoting" data-poll-type="voting">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>Voting Poll</span>
+          </button>
+          <button type="button" class="hf-poll-type-pill" id="homePollTypeMcq" data-poll-type="mcq">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+              <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
+            <span>MCQ Quiz</span>
+          </button>
+        </div>
+
+        <input type="text" class="hf-poll-question-input" id="homePostPollQuestion" placeholder="Ask a poll question (optional)..." maxlength="300">
+
+        <div class="hf-poll-options" id="homePostPollOptions"></div>
+
+        <div class="hf-poll-footer-row">
+          <button type="button" class="hf-poll-add-opt-btn" id="homePostAddOptionBtn">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>Add option</span>
+          </button>
+
+          <div class="hf-poll-settings-wrap">
+            <label class="hf-poll-duration-label" for="homePostPollDuration">Duration:</label>
+            <select class="hf-poll-duration-select" id="homePostPollDuration">
+              <option value="0">No expiry</option>
+              <option value="86400000" selected>24 hours</option>
+              <option value="259200000">3 days</option>
+              <option value="604800000">7 days</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="hf-poll-mcq-note" id="homePollMcqNote" style="display: none;">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>Click the check icon on the option that is the correct answer.</span>
+        </div>
+
+        <div class="hf-poll-explanation-row" id="homePollExplanationWrap" style="display: none;">
+          <input type="text" class="hf-poll-explanation-input" id="homePostPollExplanation" placeholder="Explanation for correct answer (optional)..." maxlength="500">
+        </div>
+      </div>
+
+      <!-- Image previews container -->
+      <div class="hf-composer-previews" id="homeComposerImagePreviews" hidden></div>
+
+      <div class="hf-composer-error" id="homePostError" role="alert"></div>
+    </div>
+
+    <!-- Divider Bar with Live Counter -->
+    <div class="hf-dialog-divider-bar">
+      <div class="hf-dialog-divider-line"></div>
+      <span class="hf-dialog-counter" id="homePostCharCounter">0 / 20,000</span>
+    </div>
+
+    <!-- Bottom Actions Toolbar -->
+    <div class="hf-dialog-footer">
+      <div class="hf-dialog-tools-left">
+        <div class="hf-composer-tools">
+          <button type="button" class="hf-c-tool-btn" id="homePostAddImageBtn" title="Attach photos" aria-label="Attach photos">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+          </button>
+          <input type="file" id="homePostFileInput" accept="image/jpeg,image/png,image/webp,image/gif" multiple hidden>
+
+          <button type="button" class="hf-c-tool-btn" id="homePostAddVideoBtn" title="Add video / media" aria-label="Add video / media">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="5" width="14" height="14" rx="3"></rect>
+              <polygon points="22 8 16 12 22 16 22 8"></polygon>
+            </svg>
+          </button>
+
+          <button type="button" class="hf-c-tool-btn" id="homePostAddPollBtn" title="Poll options" aria-label="Poll options">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="20" x2="18" y2="10"></line>
+              <line x1="12" y1="20" x2="12" y2="4"></line>
+              <line x1="6" y1="20" x2="6" y2="14"></line>
+            </svg>
+          </button>
+
+          <button type="button" class="hf-c-tool-btn" id="homePostAddBookBtn" title="CDC / NEB Syllabus & Notes" aria-label="Academic syllabus topic">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div class="hf-dialog-tools-divider"></div>
+
+        <button type="button" class="hf-c-tool-btn" id="homePostEmojiBtn" title="Insert emoji" aria-label="Insert emoji">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="9.5"></circle>
+            <path d="M8.5 14.5c1 1.2 2.3 1.8 3.5 1.8s2.5-.6 3.5-1.8"></path>
+            <circle cx="9" cy="9.5" r="1.2" fill="currentColor"></circle>
+            <circle cx="15" cy="9.5" r="1.2" fill="currentColor"></circle>
+          </svg>
+        </button>
+      </div>
+
+      <div class="hf-dialog-hint-wrap">
+        <span class="hf-dialog-hint-text">Markdown & LaTeX formulas supported</span>
+      </div>
+    </div>
+  </form>
+</dialog>

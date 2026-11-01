@@ -126,7 +126,9 @@
 html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden makes the root a scroll container, which cancels
+     the topbar's position: sticky. clip stops sideways overflow without one. */
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -136,8 +138,7 @@ body {
   color: var(--md-on-surface);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -258,4 +259,15 @@ img {
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.04em;
+}
+
+/* The browser's default selection and tap flash are saturated system blue,
+   which reads as a stray background on fields, menus and popovers. A soft
+   primary tint keeps selected text readable and matches the palette. */
+::selection {
+  background: color-mix(in srgb, var(--md-primary) 22%, transparent);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
 }

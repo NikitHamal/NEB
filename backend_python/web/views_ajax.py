@@ -241,6 +241,16 @@ def ajax_create_post(request):
                                   is_anonymous=is_anonymous, attachments=attachments)
     if result:
         _clear_page_cache()
+        try:
+            from django.template.loader import render_to_string
+            from .view_helpers import _serialize_post
+            from api.models import Post
+            created_post_obj = Post.objects.select_related('user').filter(pk=result.get('id')).first()
+            if created_post_obj:
+                serialized = _serialize_post(created_post_obj, user_id=user.id)
+                result['html'] = render_to_string('web/_forum_post_card.html', {'post': serialized, 'user': user, 'request': request}, request=request)
+        except Exception as e:
+            logger.warning('Failed to render post card HTML for ajax response: %s', e)
         return JsonResponse(result, status=201)
     return JsonResponse({'error': 'Missing fields'}, status=400)
 

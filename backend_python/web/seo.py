@@ -138,7 +138,6 @@ STATIC_PAGES = (
     ('/app/online-learning/', 'weekly', '0.8'),
     ('/app/library/', 'daily', '0.9'),
     ('/app/syllabus/', 'weekly', '0.9'),
-    ('/app/forum/', 'daily', '0.8'),
     ('/app/news/', 'daily', '0.7'),
     ('/app/marketplace/', 'weekly', '0.7'),
     ('/app/library/?tab=interactive', 'weekly', '0.7'),

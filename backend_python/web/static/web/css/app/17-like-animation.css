@@ -1,0 +1,176 @@
+/* Like feedback. js/like-anim.js adds .is-like-pop for the duration of a like
+   (never an unlike). The thumb fills and springs, a luminous halo and constellation
+   of micro-sparkles bloom, and the count smoothly rolls up. */
+[data-action*="like"] {
+  position: relative;
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1);
+}
+
+[data-action*="like"]:active {
+  transform: scale(0.96);
+}
+
+[data-action*="like"] .material-symbols-outlined {
+  transform-origin: center 70%;
+  transition: font-variation-settings 0.22s ease, transform 0.22s cubic-bezier(0.2, 0, 0, 1), color 0.18s ease;
+  will-change: transform;
+}
+
+@keyframes neb-like-pop {
+  0% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+  18% {
+    transform: scale(0.82) translateY(1.5px) rotate(-6deg);
+  }
+  45% {
+    transform: scale(1.24) translateY(-2px) rotate(4deg);
+  }
+  72% {
+    transform: scale(0.96) translateY(0.5px) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes neb-like-count {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  28% {
+    transform: translateY(-2.5px) scale(1.1);
+    color: var(--md-primary);
+  }
+  65% {
+    transform: translateY(0.5px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes neb-like-halo {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  30% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+
+@keyframes neb-like-ring {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.2);
+    border-width: 2px;
+  }
+  40% {
+    opacity: 0.6;
+    border-width: 1.5px;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.85);
+    border-width: 0.5px;
+  }
+}
+
+@keyframes neb-like-fly {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateX(0) scale(0.3);
+  }
+  20% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateX(calc(var(--d) * 0.45)) scale(1.15);
+  }
+  65% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateX(var(--d)) scale(0.2);
+  }
+}
+
+[data-action*="like"].is-like-pop .material-symbols-outlined {
+  color: var(--md-primary);
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+  animation: neb-like-pop 440ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-action*="like"].is-like-pop > span:not(.material-symbols-outlined) {
+  display: inline-block;
+  animation: neb-like-count 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.neb-like-burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.neb-like-halo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--md-primary) 38%, transparent) 0%, color-mix(in srgb, var(--md-primary) 12%, transparent) 50%, transparent 72%);
+  opacity: 0;
+  animation: neb-like-halo 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.neb-like-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  border: 2px solid var(--md-primary);
+  opacity: 0;
+  animation: neb-like-ring 420ms cubic-bezier(0.16, 1, 0.3, 1) 20ms forwards;
+}
+
+.neb-like-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--s, 3.5px);
+  height: var(--s, 3.5px);
+  margin: calc(var(--s, 3.5px) / -2) 0 0 calc(var(--s, 3.5px) / -2);
+  border-radius: 50%;
+  background: var(--md-primary);
+  opacity: 0;
+  animation: neb-like-fly 480ms cubic-bezier(0.16, 0.84, 0.44, 1) var(--t, 0ms) forwards;
+  will-change: transform, opacity;
+}
+
+.neb-like-dot-soft {
+  background: color-mix(in srgb, var(--md-primary) 35%, #ffffff);
+  box-shadow: 0 0 3px color-mix(in srgb, var(--md-primary) 40%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-action*="like"].is-like-pop,
+  [data-action*="like"].is-like-pop .material-symbols-outlined,
+  [data-action*="like"].is-like-pop > span:not(.material-symbols-outlined) {
+    animation: none;
+  }
+
+  .neb-like-burst {
+    display: none;
+  }
+}

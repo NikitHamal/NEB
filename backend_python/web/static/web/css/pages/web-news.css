@@ -521,3 +521,131 @@
     height: 16px;
   }
 }
+
+/* ── Glassdoor surface ─────────────────────────────────────────────────────
+   Blog rows live in one bordered panel; the sidebar is the matching panel.
+   Rows are separated by hairlines instead of being individual cards. */
+.news-main {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.news-filter-bar {
+  padding: 12px 16px;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+
+.news-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.news-card {
+  flex-direction: row;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--md-outline-variant);
+  border-radius: 0;
+}
+
+.news-card:last-child {
+  border-bottom: 0;
+}
+
+.news-card:hover {
+  background: color-mix(in srgb, var(--md-on-surface) 2.5%, transparent);
+  border-color: var(--md-outline-variant);
+}
+
+.news-card-cover,
+.news-card-cover-placeholder {
+  width: 180px;
+  min-width: 180px;
+  height: 128px;
+  padding-top: 0;
+  flex-shrink: 0;
+}
+
+.news-card-body {
+  padding: 16px 20px;
+}
+
+.news-card-pinned {
+  box-shadow: inset 3px 0 0 var(--md-primary);
+}
+
+.news-sidebar {
+  top: 88px;
+  gap: 0;
+  max-height: calc(100vh - 112px);
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 16px;
+}
+
+.news-sidebar-card {
+  padding: 16px;
+  border: 0;
+  border-bottom: 1px solid var(--md-outline-variant);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.news-sidebar-card:last-child {
+  border-bottom: 0;
+}
+
+.news-sidebar-card h3 {
+  margin: 0 0 10px;
+}
+
+.news-sidebar-categories {
+  gap: 0;
+}
+
+.news-sidebar-cat {
+  padding: 9px 0;
+  border-bottom: 1px solid var(--md-outline-variant);
+  border-radius: 0;
+}
+
+.news-sidebar-cat:last-child {
+  border-bottom: 0;
+}
+
+.news-sidebar-cat:hover {
+  background: transparent;
+  color: var(--md-primary);
+}
+
+.news-sidebar-cat.active {
+  background: transparent;
+  color: var(--cat-color, var(--md-primary));
+}
+
+.news-main .empty-state {
+  padding: 32px 20px;
+}
+
+@media (max-width: 640px) {
+  .news-card-cover,
+  .news-card-cover-placeholder {
+    width: 96px;
+    min-width: 96px;
+    height: 112px;
+  }
+
+  .news-card-body {
+    padding: 12px 14px;
+  }
+
+  .news-sidebar {
+    top: 0;
+    max-height: none;
+  }
+}

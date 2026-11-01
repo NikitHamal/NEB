@@ -1451,43 +1451,61 @@
 
 .avatar-badge-overlay {
   position: absolute !important;
-  bottom: -2px !important;
-  right: -2px !important;
-  width: 14px !important;
-  height: 14px !important;
-  border-radius: 50% !important;
-  background: var(--badge-bg, #1B9AF0) !important;
-  border: 1.5px solid var(--md-surface) !important;
+  bottom: -3px !important;
+  right: -3px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  color: var(--badge-bg, #1B9AF0) !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
   z-index: 5 !important;
-  color: #ffffff !important;
+  line-height: 0;
   pointer-events: none;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-[data-theme="dark"] .avatar-badge-overlay {
-  border-color: var(--md-surface-container) !important;
 }
 
 .avatar-badge-overlay .material-symbols-outlined {
-  font-size: 10px !important;
-  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+  font-size: 17px !important;
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24;
   line-height: 1 !important;
+  -webkit-text-stroke: 3px #fff;
+  paint-order: stroke fill;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.24));
+}
+
+/* The verified seal has its tick knocked out of the glyph, so over a photo the
+   hole showed the photo. A small white tick sits in the hole instead -- the
+   same construction as the reference badge. */
+.avatar-badge-overlay.is-verified::after {
+  content: "check";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Material Symbols Outlined';
+  font-size: 8.5px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fff;
+  font-variation-settings: 'FILL' 1, 'wght' 700;
+  pointer-events: none;
 }
 
 /* Specific position adjustments for larger profile page avatar */
 .pf-avatar-overlap-wrap.avatar-container-verified .avatar-badge-overlay {
-  width: 26px !important;
-  height: 26px !important;
-  bottom: 4px !important;
-  right: 4px !important;
-  border-width: 2.5px !important;
+  bottom: 0 !important;
+  right: 0 !important;
 }
 
 .pf-avatar-overlap-wrap.avatar-container-verified .avatar-badge-overlay .material-symbols-outlined {
-  font-size: 16px !important;
+  font-size: 28px !important;
+  -webkit-text-stroke-width: 4px;
+}
+
+.pf-avatar-overlap-wrap.avatar-container-verified .avatar-badge-overlay.is-verified::after {
+  font-size: 13px;
 }
 
 /* ---- app/03-filters-dialogs.css ---- */
@@ -3220,7 +3238,9 @@ button:focus-visible {
   min-height: calc(100vh - 64px - 72px);
   padding-top: 16px;
   padding-bottom: 24px;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden makes main a scroll container, which pushes every
+     sticky sidebar down by the header offset instead of letting it stick. */
+  overflow-x: clip;
 }
 
 .site-footer {
@@ -4767,11 +4787,542 @@ button.cp-media-item-icon.cp-audio-play.playing {
 [data-theme="dark"] .neb-chip img{box-shadow:0 0 0 1px color-mix(in srgb, var(--md-on-surface) 10%, transparent)}
 
 /* ---- app/13-card-polish.css ---- */
-/* Post cards on phones: the header read as three lines (name, "started a discussion" and the
-   category, then the time). The phrase restates what the card already is, so it goes on narrow
-   screens and the category and time share one quiet line under the name. */
+/* Post cards on phones: the category and time share one quiet line under the name. */
 @media (max-width: 600px) {
   .post-card-meta-bottom { gap: 8px !important; }
-  .post-card-meta-bottom .act-action-text { display: none; }
   .post-card-meta-bottom .post-card-time::before { content: "·"; margin-right: 8px; opacity: .6; }
+}
+
+/* ---- app/14-forum-card.css ---- */
+/* Shared forum card typography and actions.
+   The card reads as a row on the forum and as a card on home/search/profile,
+   so the parts that are shared live here. Page-level layout stays in
+   pages/forum.css. */
+.post-card h3.post-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--md-on-surface);
+  margin: 10px 0 5px;
+}
+
+.post-card h3.post-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-card h3.post-card-title a:hover {
+  color: var(--md-primary);
+}
+
+.post-card-meta-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  font-size: 0.8125rem;
+}
+
+.post-card-meta-top > a {
+  color: var(--md-on-surface);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.post-card-meta-top > a:hover {
+  color: var(--md-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.post-card-meta-sub {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+  font-size: 0.75rem;
+  color: var(--md-on-surface-variant);
+  flex-wrap: wrap;
+}
+
+.neb-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.neb-tag:hover {
+  background: var(--md-secondary-container);
+  color: var(--md-on-secondary-container);
+  text-decoration: none;
+}
+
+.post-card-time,
+.post-card-author-muted {
+  color: var(--md-on-surface-variant);
+}
+
+.post-card-actions {
+  border-top: 0;
+  padding-top: 6px;
+  margin-top: 10px;
+}
+
+.post-card-actions button,
+.post-card-actions a,
+.post-card-actions .act-btn-stat {
+  font-size: 0.8125rem;
+  padding: 5px 8px;
+  white-space: nowrap;
+}
+
+.post-card-actions button:focus-visible,
+.post-card-actions a:focus-visible,
+.post-card-meta-top a:focus-visible,
+.post-card-title a:focus-visible,
+.more-btn:focus-visible {
+  outline: 2px solid var(--md-primary);
+  outline-offset: 2px;
+}
+
+.author-line {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  flex-wrap: wrap;
+}
+
+.author-line .role-badge {
+  width: auto;
+  height: auto;
+  min-width: 0;
+  margin-left: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.author-line .role-badge .material-symbols-outlined {
+  font-size: 14px;
+}
+
+.post-action-label {
+  margin-left: 1px;
+}
+
+/* ---- app/15-glass-surfaces.css ---- */
+/* The Glassdoor-style surface shared by Library and Blog. Home has the same
+   values in web-home.css; these are the common pieces. */
+.glass-panel {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 16px;
+}
+
+.glass-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.glass-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.glass-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.glass-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.glass-scroll:hover {
+  scrollbar-color: var(--md-outline-variant) transparent;
+}
+
+.glass-scroll:hover::-webkit-scrollbar-thumb {
+  background: var(--md-outline-variant);
+}
+
+/* ---- app/16-user-popup.css ---- */
+/* Author hover card. js/user-popup.js builds this markup on every surface that
+   links a name: the home feed cards, the thread header and reply authors.
+   The skeleton is what shows when /ajax/user-popup/ is slow enough to notice. */
+.fp-user-popup {
+  position: fixed;
+  z-index: 950;
+  width: 252px;
+  max-width: calc(100vw - 24px);
+  padding: 12px;
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  box-shadow: var(--md-elevation-3);
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(4px);
+  transition: opacity 0.18s, transform 0.18s, visibility 0.18s;
+}
+
+.fp-user-popup.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.fp-user-popup-header {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.fp-user-popup-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--md-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  text-decoration: none;
+}
+
+.fp-user-popup-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fp-user-popup-avatar-letter {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--md-on-primary);
+}
+
+.fp-user-popup-id {
+  flex: 1;
+  min-width: 0;
+}
+
+.fp-user-popup-name {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  min-width: 0;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--md-on-surface);
+  text-decoration: none;
+}
+
+.fp-user-popup-name:hover {
+  color: var(--md-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.fp-user-popup-name-text {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fp-user-popup-name .role-badge {
+  flex: none;
+}
+
+.fp-user-popup-username {
+  margin-top: 1px;
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Compact follow pill sitting opposite the identity block. */
+.fp-user-popup .follow-btn-inline {
+  flex: none;
+  height: 26px;
+  padding: 0 11px;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+.fp-user-popup-bio {
+  margin-top: 8px;
+  font-size: 0.75rem;
+  line-height: 1.45;
+  color: var(--md-on-surface-variant);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.fp-user-popup-meta {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.fp-user-popup-dot {
+  opacity: 0.45;
+}
+
+/* Skeleton. Base fill plus a highlight that sweeps across; both derive from
+   the theme tokens so it works in light and dark. */
+.fp-sk {
+  position: relative;
+  overflow: hidden;
+  border-radius: 5px;
+  background: var(--md-surface-container);
+}
+
+.fp-sk::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--md-on-surface) 9%, transparent),
+    transparent
+  );
+  animation: fp-sk-sweep 1.15s ease-in-out infinite;
+}
+
+@keyframes fp-sk-sweep {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fp-sk::after {
+    animation: none;
+  }
+}
+
+.fp-sk-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.fp-sk-line {
+  height: 9px;
+  border-radius: 4px;
+}
+
+.fp-sk-line-sm {
+  height: 8px;
+}
+
+/* ---- app/17-like-animation.css ---- */
+/* Like feedback. js/like-anim.js adds .is-like-pop for the duration of a like
+   (never an unlike). The thumb fills and springs, a luminous halo and constellation
+   of micro-sparkles bloom, and the count smoothly rolls up. */
+[data-action*="like"] {
+  position: relative;
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1);
+}
+
+[data-action*="like"]:active {
+  transform: scale(0.96);
+}
+
+[data-action*="like"] .material-symbols-outlined {
+  transform-origin: center 70%;
+  transition: font-variation-settings 0.22s ease, transform 0.22s cubic-bezier(0.2, 0, 0, 1), color 0.18s ease;
+  will-change: transform;
+}
+
+@keyframes neb-like-pop {
+  0% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+  18% {
+    transform: scale(0.82) translateY(1.5px) rotate(-6deg);
+  }
+  45% {
+    transform: scale(1.24) translateY(-2px) rotate(4deg);
+  }
+  72% {
+    transform: scale(0.96) translateY(0.5px) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1) translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes neb-like-count {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  28% {
+    transform: translateY(-2.5px) scale(1.1);
+    color: var(--md-primary);
+  }
+  65% {
+    transform: translateY(0.5px) scale(0.98);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes neb-like-halo {
+  0% {
+    opacity: 0;
+    transform: scale(0.25);
+  }
+  30% {
+    opacity: 0.65;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.9);
+  }
+}
+
+@keyframes neb-like-ring {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.2);
+    border-width: 2px;
+  }
+  40% {
+    opacity: 0.6;
+    border-width: 1.5px;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.85);
+    border-width: 0.5px;
+  }
+}
+
+@keyframes neb-like-fly {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateX(0) scale(0.3);
+  }
+  20% {
+    opacity: 1;
+    transform: rotate(var(--a)) translateX(calc(var(--d) * 0.45)) scale(1.15);
+  }
+  65% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--a)) translateX(var(--d)) scale(0.2);
+  }
+}
+
+[data-action*="like"].is-like-pop .material-symbols-outlined {
+  color: var(--md-primary);
+  font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 20;
+  animation: neb-like-pop 440ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-action*="like"].is-like-pop > span:not(.material-symbols-outlined) {
+  display: inline-block;
+  animation: neb-like-count 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.neb-like-burst {
+  position: absolute;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.neb-like-halo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 32px;
+  height: 32px;
+  margin: -16px 0 0 -16px;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--md-primary) 38%, transparent) 0%, color-mix(in srgb, var(--md-primary) 12%, transparent) 50%, transparent 72%);
+  opacity: 0;
+  animation: neb-like-halo 420ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.neb-like-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 22px;
+  height: 22px;
+  margin: -11px 0 0 -11px;
+  border-radius: 50%;
+  border: 2px solid var(--md-primary);
+  opacity: 0;
+  animation: neb-like-ring 420ms cubic-bezier(0.16, 1, 0.3, 1) 20ms forwards;
+}
+
+.neb-like-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--s, 3.5px);
+  height: var(--s, 3.5px);
+  margin: calc(var(--s, 3.5px) / -2) 0 0 calc(var(--s, 3.5px) / -2);
+  border-radius: 50%;
+  background: var(--md-primary);
+  opacity: 0;
+  animation: neb-like-fly 480ms cubic-bezier(0.16, 0.84, 0.44, 1) var(--t, 0ms) forwards;
+  will-change: transform, opacity;
+}
+
+.neb-like-dot-soft {
+  background: color-mix(in srgb, var(--md-primary) 35%, #ffffff);
+  box-shadow: 0 0 3px color-mix(in srgb, var(--md-primary) 40%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-action*="like"].is-like-pop,
+  [data-action*="like"].is-like-pop .material-symbols-outlined,
+  [data-action*="like"].is-like-pop > span:not(.material-symbols-outlined) {
+    animation: none;
+  }
+
+  .neb-like-burst {
+    display: none;
+  }
 }

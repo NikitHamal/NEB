@@ -1,4 +1,5 @@
-from django.core.management.base import BaseCommand
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 
 from api.agent_social.birth import announce_if_needed
 from api.agent_social.ensure import ensure_neby
@@ -14,9 +15,13 @@ class Command(BaseCommand):
         parser.add_argument('--demo', action='store_true', help='Seed a few student posts if the forum is quiet.')
         parser.add_argument('--tick', action='store_true', help='Run one autonomous tick after seeding.')
         parser.add_argument('--no-birth', action='store_true', help='Skip the birth announcement post.')
+        parser.add_argument('--autonomy', action='store_true', help='Enable autonomous posting for this persona.')
+        parser.add_argument('--force', action='store_true', help='Allow demo seeding outside DEBUG')
 
     def handle(self, *args, **options):
-        user, config, persona = ensure_neby(autonomy_enabled=True)
+        if options['demo'] and not settings.DEBUG and not options['force']:
+            raise CommandError('Refusing to seed demo posts outside DEBUG. Pass --force if intentional.')
+        user, config, persona = ensure_neby(autonomy_enabled=options['autonomy'])
         self.stdout.write(self.style.SUCCESS(
             f'Neby ready: @{user.username} id={user.id} config={config.id} persona={persona.id} autonomy={persona.autonomy_enabled}'
         ))

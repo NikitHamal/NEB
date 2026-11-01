@@ -1,0 +1,94 @@
+{% load web_extras %}
+{% url 'web:library' as hf_library_url %}
+{% url 'web:news_list' as hf_news_url %}
+{% url 'web:leaderboard' as hf_people_url %}
+
+{% if home_unanswered %}
+<section class="hf-aside-block">
+  {% include "web/_home_section_title.html" with title="Unanswered" %}
+  <div class="hf-side-list">
+    {% for p in home_unanswered %}
+    <a class="hf-side-row" href="{% url 'web:forum_post' post_id=p.id %}">
+      <span class="hf-side-icon"><span class="material-symbols-outlined">help</span></span>
+      <span class="hf-side-meta">
+        <span class="hf-side-title">{{ p.title }}</span>
+        <span class="hf-side-sub">{{ p.category }} &middot; {{ p.createdAt|time_ago }}</span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% if home_contributors %}
+<section class="hf-aside-block">
+  {% include "web/_home_section_title.html" with title="Top contributors" action_url=hf_people_url %}
+  <div class="hf-side-list">
+    {% for c in home_contributors %}
+    <div class="hf-side-person">
+      <a class="hf-side-person-link" href="{% url 'web:profile' username=c.username %}">
+        {% if c.photo_url %}
+        <img class="hf-side-avatar" src="{{ c.photo_url }}" alt="" loading="lazy">
+        {% else %}
+        <span class="hf-side-avatar hf-side-avatar-letter">{{ c.display_name|default:c.username|truncate_chars:1 }}</span>
+        {% endif %}
+        <span class="hf-side-meta">
+          <span class="hf-side-title">{{ c.display_name|default:c.username }}</span>
+          <span class="hf-side-sub">{{ c.level }}</span>
+        </span>
+      </a>
+      <span class="hf-side-score">{{ c.formatted_score }}</span>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% for entry in feed_entries %}{% if entry.kind == 'new_resources' %}
+<section class="hf-aside-block">
+  {% include "web/_home_section_title.html" with title="New in Library" action_url=hf_library_url %}
+  <div class="hf-side-list">
+    {% for r in entry.items|slice:":3" %}
+    <a class="hf-side-row" href="{% url 'web:reader' resource_id=r.id %}">
+      <span class="hf-side-icon"><span class="material-symbols-outlined">{{ r.type|resource_type_icon }}</span></span>
+      <span class="hf-side-meta">
+        <span class="hf-side-title">{{ r.title }}</span>
+        <span class="hf-side-sub">{{ r.subject|split:','|first }} &middot; {{ r.type }}</span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}{% endfor %}
+
+{% for entry in feed_entries %}{% if entry.kind == 'news' %}
+<section class="hf-aside-block">
+  {% include "web/_home_section_title.html" with title="News & updates" action_url=hf_news_url %}
+  <div class="hf-side-list">
+    {% for n in entry.items|slice:":2" %}
+    <a class="hf-side-row" href="{% url 'web:news_detail' slug=n.slug %}">
+      <span class="hf-side-icon"><span class="material-symbols-outlined">{{ n.category_icon|default:"newspaper" }}</span></span>
+      <span class="hf-side-meta">
+        <span class="hf-side-title">{{ n.title }}</span>
+        <span class="hf-side-sub">{{ n.category_label }} &middot; {{ n.published_at|time_ago|default:"Latest" }}</span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}{% endfor %}
+
+{% for entry in feed_entries %}{% if entry.kind == 'highlight' and entry.titled %}
+<section class="hf-aside-block">
+  {% include "web/_home_section_title.html" with title="Featured guide" action_url=hf_library_url %}
+  {% with r=entry.resource %}
+  <a class="hf-side-row" href="{% url 'web:reader' resource_id=r.id %}">
+    <span class="hf-side-icon"><span class="material-symbols-outlined">lightbulb</span></span>
+    <span class="hf-side-meta">
+      <span class="hf-side-title">{{ r.title }}</span>
+      <span class="hf-side-sub">{{ r.subject|split:','|first }} &middot; {{ r.type }}</span>
+    </span>
+  </a>
+  {% endwith %}
+</section>
+{% endif %}{% endfor %}

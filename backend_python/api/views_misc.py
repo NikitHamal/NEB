@@ -454,6 +454,7 @@ def _resolve_ws_url_from_files():
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([AllowAny])
+@throttle_classes([])
 def realtime_config(request):
     """
     GET /api/realtime/config — public discovery endpoint for mobile and web clients.

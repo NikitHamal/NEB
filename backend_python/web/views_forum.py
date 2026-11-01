@@ -3,6 +3,7 @@ import json as _json  # noqa: F401
 import time
 from .view_helpers import *  # noqa: F401,F403
 from api import services
+from api.categories import CATEGORIES, normalize_category
 from api.security import save_forum_media_upload, validate_forum_attachments
 
 
@@ -62,7 +63,9 @@ def forum(request):
 
     user_id = _get_user_id(request)
     sort = request.GET.get('sort', 'hot')
-    category = request.GET.get('category', '')
+    category = request.GET.get('category', '').strip()
+    if category:
+        category = normalize_category(category)
     search = request.GET.get('q', '').strip()
     page_num = request.GET.get('page', 1)
 
@@ -196,9 +199,10 @@ def forum(request):
             posts = [s[1] for s in scored]
 
     category_counts = dict(
-        Post.objects.values('category').annotate(cnt=Count('id')).values_list('category', 'cnt')
+        Post.objects.filter(is_archived=False)
+        .values('category').annotate(cnt=Count('id')).values_list('category', 'cnt')
     )
-    standard_categories = ['General', 'Science', 'Math', 'Exam Prep', 'Entrance Exams']
+    standard_categories = list(CATEGORIES)
     categories_data = []
     for name in standard_categories:
         count = category_counts.get(name, 0)
@@ -225,11 +229,27 @@ def forum(request):
     sidebar_categories = categories_data[:5]
     has_more_categories = len(categories_data) > 5
 
+    unanswered_qs = (
+        Post.objects.filter(is_archived=False, reply_count=0, user__email_verified=True)
+        .select_related('user').order_by('-created_at')[:3]
+    )
+    unanswered_posts = [
+        {
+            'id': post.id,
+            'title': post.title,
+            'createdAt': post.created_at,
+            'authorName': post.user.username if post.user else '',
+            'authorDisplayName': (post.user.display_name or post.user.username) if post.user else '',
+        }
+        for post in unanswered_qs
+    ]
+
     ctx = _ctx(request,
         posts=posts,
         categories_data=sidebar_categories,
         has_more_categories=has_more_categories,
         top_contributors=top_contributors,
+        unanswered_posts=unanswered_posts,
         current_category=category,
         current_sort=sort,
         search_query=search,
@@ -246,9 +266,10 @@ def forum(request):
 
 def forum_categories(request):
     category_counts = dict(
-        Post.objects.values('category').annotate(cnt=Count('id')).values_list('category', 'cnt')
+        Post.objects.filter(is_archived=False)
+        .values('category').annotate(cnt=Count('id')).values_list('category', 'cnt')
     )
-    standard_categories = ['General', 'Science', 'Math', 'Exam Prep', 'Entrance Exams']
+    standard_categories = list(CATEGORIES)
     categories_data = []
     for name in standard_categories:
         count = category_counts.get(name, 0)
@@ -329,8 +350,7 @@ def forum_post(request, post_id):
     ctx = _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id, all_usernames=all_usernames, reply_sort=reply_sort,
         post_schema_json=_ld_json(thread_schema(post, top_level)),
         post_breadcrumb_json=_ld_json(breadcrumb_schema([
-            ('Home', 'https://nebians.consica.com.np/'),
-            ('Forum', 'https://nebians.consica.com.np/app/forum/'),
+            ('Home', 'https://nebians.consica.com.np/app/'),
             (post.get('title') or 'Discussion', ''),
         ])))
 
@@ -355,7 +375,7 @@ def create_post(request):
     if request.method == 'POST':
         title = request.POST.get('title', '').strip()
         content = request.POST.get('content', '').strip()
-        category = request.POST.get('category', '').strip()
+        category = normalize_category(request.POST.get('category', ''))
         image_urls = []
         for i in range(3):
             img = request.FILES.get(f'image_{i}')
@@ -386,14 +406,13 @@ def create_post(request):
             }
         is_anonymous = _truthy(request.POST.get('anonymous'))
         attachments = _collect_web_attachments(request)
-        if title and content and category:
+        if title and content:
             result = services.create_post(user, title, content, category, image_urls=image_urls, poll_data=poll_data,
                                           is_anonymous=is_anonymous, attachments=attachments)
             if result and result.get('id'):
                 _clear_page_cache()
                 return redirect('web:forum_post', post_id=result['id'])
-    categories = ['General', 'Physics', 'Chemistry', 'Mathematics', 'Biology', 'English', 'Computer Science', 'Exam Tips']
-    return render(request, 'web/create_post.html', _ctx(request, categories=categories))
+    return render(request, 'web/create_post.html', _ctx(request, categories=list(CATEGORIES)))
 
 def reply_post(request, post_id):
     user_id = _get_user_id(request)

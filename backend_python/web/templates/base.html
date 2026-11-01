@@ -211,7 +211,6 @@
     <nav class="md-nav-pill md-topbar-nav">
       <a href="{% url 'web:home' %}" class="{% block nav_home %}{% endblock %}">Home</a>
       <a href="{% url 'web:library' %}" class="{% block nav_library %}{% endblock %}">Library</a>
-      <a href="{% url 'web:forum' %}" class="{% block nav_forum %}{% endblock %}">Forum</a>
       <a href="{% url 'web:news_list' %}" class="{% block nav_news %}{% endblock %}">Blog</a>
     </nav>
     <div class="md-topbar-actions">
@@ -236,7 +235,7 @@
                 <span class="material-symbols-outlined">crown</span>
               </span>
             {% elif user.verification_level and user.verification_level > 0 %}
-              <span class="avatar-badge-overlay" style="--badge-bg: {% if user.verification_level == 1 %}#1B9AF0{% elif user.verification_level == 2 %}#2E7D32{% elif user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
+              <span class="avatar-badge-overlay is-verified" style="--badge-bg: {% if user.verification_level == 1 %}#1B9AF0{% elif user.verification_level == 2 %}#2E7D32{% elif user.verification_level == 3 %}#F59E0B{% else %}#1A1A1A{% endif %};" title="Verified User">
                 <span class="material-symbols-outlined">verified</span>
               </span>
             {% endif %}
@@ -342,32 +341,8 @@
       </div>
       <div class="site-footer-columns">
         <div class="site-footer-col">
-          <h4 class="site-footer-heading">NEB Resources</h4>
-          <ul class="site-footer-list">
-            <li><a href="{% url 'web:past_papers' %}">NEB Past Papers</a></li>
-            <li><a href="{% url 'web:model_questions' %}">NEB Model Questions</a></li>
-            <li><a href="{% url 'web:online_learning' %}">Nepal Online Learning</a></li>
-            <li><a href="{% url 'web:library' %}">Study Notes Library</a></li>
-            <li><a href="{% url 'web:library' %}?grade=Class+11">Class 11 Study Materials</a></li>
-            <li><a href="{% url 'web:library' %}?grade=Class+12">Class 12 Study Materials</a></li>
-            <li><a href="{% url 'web:resource_requests' %}">Resource Requests</a></li>
-          </ul>
-        </div>
-        <div class="site-footer-col">
-          <h4 class="site-footer-heading">Popular Subjects</h4>
-          <ul class="site-footer-list">
-            <li><a href="/app/subject/class-12/physics/">Class 12 Physics</a></li>
-            <li><a href="/app/subject/class-12/chemistry/">Class 12 Chemistry</a></li>
-            <li><a href="/app/subject/class-12/mathematics/">Class 12 Mathematics</a></li>
-            <li><a href="/app/subject/class-12/english/">Class 12 English</a></li>
-            <li><a href="/app/subject/class-11/physics/">Class 11 Physics</a></li>
-            <li><a href="/app/subject/class-11/chemistry/">Class 11 Chemistry</a></li>
-          </ul>
-        </div>
-        <div class="site-footer-col">
           <h4 class="site-footer-heading">Community &amp; Tools</h4>
           <ul class="site-footer-list">
-            <li><a href="{% url 'web:forum' %}">Discussion Forum</a></li>
             <li><a href="{% url 'web:result_check' %}">NEB Result Checker</a></li>
             <li><a href="{% url 'web:tools_hub' %}">Free Study Tools</a></li>
             <li><a href="{% url 'web:news_list' %}">Educational News &amp; Blog</a></li>
@@ -910,6 +885,9 @@
   <script nonce="{{ csp_nonce }}" src="{% load static %}{% static 'web/js/realtime.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/ai-widgets.js' %}"></script>
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neby-pixel.js' %}"></script>
+  {% comment %} The author hover card, shared by feed cards and thread names. {% endcomment %}
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/user-popup.js' %}"></script>
+  <script nonce="{{ csp_nonce }}" src="{% static 'web/js/like-anim.js' %}"></script>
   {% comment %} The dialog, sheet, picker, menu and choice-control controller.
      One file for all of them; see material3/09-overlays.css. {% endcomment %}
   <script nonce="{{ csp_nonce }}" src="{% static 'web/js/neb-overlays.js' %}"></script>

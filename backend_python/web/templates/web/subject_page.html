@@ -490,8 +490,7 @@
                     {% endif %}
                   </div>
                   <div class="post-card-meta-bottom" style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:2px; color:var(--md-on-surface-variant);">
-                    <span class="act-action-text">started a discussion</span>
-                    <a href="{% url 'web:forum' %}?category={{ p.category }}" class="post-card-category-link">{{ p.category }}</a>
+                    <span class="post-card-cat neb-tag">#{{ p.category }}</span>
                     <span class="post-card-time">{{ p.createdAt|time_ago }}</span>
                   </div>
                 </div>

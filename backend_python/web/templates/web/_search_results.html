@@ -104,7 +104,7 @@
               {% endif %}
             </div>
             <div class="post-meta-sub">
-              <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+              <span class="post-card-cat neb-tag">#{{ post.category }}</span>
               <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
             </div>
           </div>
@@ -355,7 +355,7 @@
                 {% endif %}
               </div>
               <div class="post-meta-sub">
-                <a href="{% url 'web:forum' %}?category={{ post.category }}" class="post-card-category-link">{{ post.category }}</a>
+                <span class="post-card-cat neb-tag">#{{ post.category }}</span>
                 <span class="post-card-time">{{ post.createdAt|time_ago }}</span>
               </div>
             </div>

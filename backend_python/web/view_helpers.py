@@ -576,12 +576,15 @@ def _serialize_posts(posts_qs, user_id=None):
             'userVote': user_vote,
         }
     result = []
+    from api.services import get_user_anon_tag
     for p in posts:
         anon = bool(getattr(p, 'is_anonymous', False))
         author = None if anon else p.user
+        anon_tag = get_user_anon_tag(p.user_id) if anon else ''
         result.append({
             'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
-            'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
+            'authorName': anon_tag if anon else (author.username if author else DELETED_AUTHOR_NAME),
+            'authorDisplayName': anon_tag if anon else ((author.display_name or author.username) if author else DELETED_AUTHOR_NAME),
             'authorPhotoUrl': '' if anon else _avatar_url(author),
             'authorBadgeInfo': None if anon else _user_badge_info(author),
             'authorAchievements': [] if anon else _user_achievement_badges(author),
@@ -623,10 +626,13 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='post', target_id=p.id).exists()
     anon = bool(getattr(p, 'is_anonymous', False))
     author = None if anon else p.user
+    from api.services import get_user_anon_tag
+    anon_tag = get_user_anon_tag(p.user_id) if anon else ''
     media = [_serialize_web_media_item(m) for m in PostMedia.objects.filter(post_id=p.id).order_by('order', 'created_at')]
     return {
         'id': p.id, 'title': p.title, 'content': p.content, 'category': p.category,
-        'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
+        'authorName': anon_tag if anon else (author.username if author else DELETED_AUTHOR_NAME),
+        'authorDisplayName': anon_tag if anon else ((author.display_name or author.username) if author else DELETED_AUTHOR_NAME),
         'authorPhotoUrl': '' if anon else _avatar_url(author),
         'authorBadgeInfo': None if anon else _user_badge_info(author),
         'authorAchievements': [] if anon else _user_achievement_badges(author),
@@ -710,10 +716,13 @@ def _serialize_replies(replies_qs, user_id=None):
                 })
         anon = bool(getattr(r, 'is_anonymous', False))
         author = None if anon else r.user
+        from api.services import get_user_anon_tag
+        anon_tag = get_user_anon_tag(r.user_id) if anon else ''
         result.append({
             'id': r.id, 'postId': r.post_id, 'postTitle': r.post.title if r.post else '', 'parentReplyId': r.parent_reply_id,
             'content': r.content,
-            'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
+            'authorName': anon_tag if anon else (author.username if author else DELETED_AUTHOR_NAME),
+            'authorDisplayName': anon_tag if anon else ((author.display_name or author.username) if author else DELETED_AUTHOR_NAME),
             'authorPhotoUrl': '' if anon else _avatar_url(author),
             'authorId': '' if anon or not r.user_id else r.user_id,
             'authorUsername': '' if anon else (author.username if author else ''),
@@ -758,6 +767,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
         'content': r.content,
         'authorName': 'Anonymous Nebian' if anon else (author.username if author else DELETED_AUTHOR_NAME),
+        'authorDisplayName': 'Anonymous Nebian' if anon else ((author.display_name or author.username) if author else DELETED_AUTHOR_NAME),
         'authorPhotoUrl': '' if anon else _avatar_url(author),
         'authorId': '' if anon or not r.user_id else r.user_id,
         'authorBadgeInfo': None if anon else _user_badge_info(author),
@@ -967,6 +977,8 @@ def _ctx(request, **extra):
     if user:
         user = _normalize_user_data(user)
         if user.get('id'):
+            from api.services import get_user_anon_tag
+            user['anon_tag'] = get_user_anon_tag(user['id'])
             db_user = _request_db_user(request, user['id'])
             if db_user:
                 user['is_admin'] = db_user.is_admin
@@ -1158,7 +1170,7 @@ def _build_local_stats_fallback(user_id):
 
 def _build_contributors_batch():
     from api.services import AVATAR_FIELDS
-    users = User.objects.filter(email_verified=True).order_by('-contribution_score').only(
+    users = User.objects.filter(email_verified=True, is_bot=False).order_by('-contribution_score').only(
         'id', 'display_name', *AVATAR_FIELDS,
         'contribution_score', 'post_count', 'reply_count',
         'likes_given_count', 'likes_received_count',

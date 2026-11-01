@@ -1,4 +1,5 @@
-from django.core.management.base import BaseCommand
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 from api.models import User
 from api.security import hash_password
 import time
@@ -7,7 +8,12 @@ import time
 class Command(BaseCommand):
     help = 'Create mock student, teacher, institution, and explorer accounts for local testing'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--force', action='store_true', help='Allow this outside DEBUG')
+
     def handle(self, *args, **options):
+        if not settings.DEBUG and not options['force']:
+            raise CommandError('Refusing to create mock accounts outside DEBUG. Pass --force if intentional.')
         now = int(time.time() * 1000)
 
         users = [

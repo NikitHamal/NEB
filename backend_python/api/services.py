@@ -47,19 +47,19 @@ def toggle_post_like(user, post_id):
             Post.objects.filter(pk=post_id).update(thumbs_up_count=F('thumbs_up_count') + 1)
             is_thumbed_up = True
             current_count = post.thumbs_up_count + 1
-            _counters.increment_user_likes_given(user.id)
+            transaction.on_commit(lambda: _counters.increment_user_likes_given(user.id))
             if post.user_id != user.id:
-                _counters.increment_user_likes_received(post.user_id)
-            _notif.notify_post_liked(user.id, post_id)
+                transaction.on_commit(lambda: _counters.increment_user_likes_received(post.user_id))
+            transaction.on_commit(lambda: _notif.notify_post_liked(user.id, post_id))
         else:
             like.delete()
             Post.objects.filter(pk=post_id, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
             is_thumbed_up = False
             current_count = max(post.thumbs_up_count - 1, 0)
-            _counters.decrement_user_likes_given(user.id)
+            transaction.on_commit(lambda: _counters.decrement_user_likes_given(user.id))
             if post.user_id != user.id:
-                _counters.decrement_user_likes_received(post.user_id)
-            _notif.notify_post_unliked(user.id, post_id)
+                transaction.on_commit(lambda: _counters.decrement_user_likes_received(post.user_id))
+            transaction.on_commit(lambda: _notif.notify_post_unliked(user.id, post_id))
     _rt.broadcast_post_like_changed(post_id, current_count, is_thumbed_up_by_viewer_hint=is_thumbed_up, user_id=str(user.id))
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
@@ -75,19 +75,19 @@ def toggle_reply_like(user, reply_id):
             Reply.objects.filter(pk=reply_id).update(thumbs_up_count=F('thumbs_up_count') + 1)
             is_thumbed_up = True
             current_count = reply.thumbs_up_count + 1
-            _counters.increment_user_likes_given(user.id)
+            transaction.on_commit(lambda: _counters.increment_user_likes_given(user.id))
             if reply.user_id != user.id:
-                _counters.increment_user_likes_received(reply.user_id)
-            _notif.notify_reply_liked(user.id, reply_id)
+                transaction.on_commit(lambda: _counters.increment_user_likes_received(reply.user_id))
+            transaction.on_commit(lambda: _notif.notify_reply_liked(user.id, reply_id))
         else:
             like.delete()
             Reply.objects.filter(pk=reply_id, thumbs_up_count__gt=0).update(thumbs_up_count=F('thumbs_up_count') - 1)
             is_thumbed_up = False
             current_count = max(reply.thumbs_up_count - 1, 0)
-            _counters.decrement_user_likes_given(user.id)
+            transaction.on_commit(lambda: _counters.decrement_user_likes_given(user.id))
             if reply.user_id != user.id:
-                _counters.decrement_user_likes_received(reply.user_id)
-            _notif.notify_reply_unliked(user.id, reply_id)
+                transaction.on_commit(lambda: _counters.decrement_user_likes_received(reply.user_id))
+            transaction.on_commit(lambda: _notif.notify_reply_unliked(user.id, reply_id))
     _rt.broadcast_reply_like_changed(reply.post_id, reply_id, current_count, is_thumbed_up_by_viewer_hint=is_thumbed_up, user_id=str(user.id))
     return {'thumbsUpCount': current_count, 'isThumbedUp': is_thumbed_up}
 
@@ -147,9 +147,11 @@ def create_post(user, title, content, category, image_urls=None, poll_data=None,
                 is_anonymous=False, attachments=None):
     if not getattr(user, 'email_verified', False):
         return None
+    from .categories import normalize_category
+
     title = title.strip()
     content = content.strip()
-    category = category.strip()
+    category = normalize_category(category)
     if not title or not content or not category:
         return None
     content, _img_ids = _prep_inline_images(content)
@@ -468,6 +470,18 @@ def avatar_or_photo_url(user):
         return avatar_url_for(user)
     photo = getattr(user, 'photo_url', None) or ''
     return photo or avatar_url_for(user)
+
+
+def get_user_anon_tag(user_or_id):
+    """Deterministic anonymous handle derived from user ID (e.g. Anon#8f2c)."""
+    if not user_or_id:
+        return 'Anonymous Nebian'
+    uid = getattr(user_or_id, 'id', user_or_id)
+    if not uid:
+        return 'Anonymous Nebian'
+    import hashlib
+    h = hashlib.sha256(str(uid).encode('utf-8')).hexdigest()[:4].lower()
+    return f'Anon#{h}'
 
 
 def save_avatar_customization(user, payload=None, user_id=None):
