@@ -37,6 +37,25 @@ def _make_abs_url(path: str) -> str:
         return path
     domain = 'https://nebians.consica.com.np'
     return domain + (path if path.startswith('/') else '/' + path)
+
+
+def _media_src(url: str) -> str:
+    """A same-site media URL as a root-relative path, so a page rendered on any
+    host (localhost, the canonical domain, a preview) still loads it. Foreign
+    URLs — a CDN, an external embed — are passed through untouched."""
+    if not url:
+        return ''
+    if not url.startswith(('http://', 'https://')):
+        return url
+    from urllib.parse import urlparse
+    from django.conf import settings
+    parsed = urlparse(url)
+    host = (parsed.hostname or '').lower()
+    allowed = {h.lstrip('.').lower() for h in (getattr(settings, 'ALLOWED_HOSTS', []) or []) if h}
+    allowed.add('nebians.consica.com.np')
+    if host in allowed:
+        return parsed.path + (('?' + parsed.query) if parsed.query else '')
+    return url
 from api.authentication import verify_google_token
 
 DELETED_AUTHOR_NAME = 'Deleted user'
@@ -259,7 +278,7 @@ def _serialize_resource(r, _uploaded_by_map=None):
         'mimeType': media['mime_type'], 'mime_type': media['mime_type'],
         'embedUrl': media['embed_url'], 'embed_url': media['embed_url'],
         'fileUrl': file_url, 'file_url': file_url,
-        'thumbnailUrl': r.thumbnail_url, 'thumbnail_url': r.thumbnail_url,
+        'thumbnailUrl': _media_src(r.thumbnail_url), 'thumbnail_url': _media_src(r.thumbnail_url),
         'fileSize': r.file_size, 'file_size': r.file_size,
         'addedAt': r.added_at, 'added_at': r.added_at,
         'viewCount': r.view_count, 'view_count': r.view_count,
@@ -509,8 +528,9 @@ def _serialize_post_poll(post_id, user_id=None):
 
 def _serialize_web_media_item(m):
     import json
-    from api.security import get_video_qualities
-    thumb = _make_abs_url(m.thumbnail_url)
+    from api.security import get_video_qualities, media_poster
+    thumb = _media_src(media_poster(m))
+    src = _media_src(m.url)
     quals = []
     quals_json = '[]'
     if m.kind == 'video':
@@ -522,9 +542,13 @@ def _serialize_web_media_item(m):
     return {
         'id': m.id,
         'kind': m.kind,
-        'url': m.url,
+        'url': src,
         'thumbnail_url': thumb,
         'thumbnailUrl': thumb,
+        # Link previews are read by crawlers that never see this page's origin,
+        # so they get the canonical absolute URL while the player gets a
+        # root-relative one that resolves on any host.
+        'thumbnailAbsolute': _make_abs_url(thumb),
         'qualities': quals,
         'qualities_json': quals_json,
         'name': m.name,
@@ -758,11 +782,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
             is_bookmarked = Bookmark.objects.filter(user_id=user_id, target_type='reply', target_id=r.id).exists()
     anon = bool(getattr(r, 'is_anonymous', False))
     author = None if anon else r.user
-    media = [{
-        'id': m.id, 'kind': m.kind, 'url': m.url,
-        'thumbnail_url': _make_abs_url(m.thumbnail_url), 'thumbnailUrl': _make_abs_url(m.thumbnail_url),
-        'name': m.name, 'mimeType': m.mime_type, 'sizeBytes': m.size_bytes, 'order': m.order,
-    } for m in r.media.all()]
+    media = [_serialize_web_media_item(m) for m in r.media.all()]
     return {
         'id': r.id, 'postId': r.post_id, 'parentReplyId': r.parent_reply_id,
         'content': r.content,
@@ -1293,6 +1313,11 @@ def _normalize_user_data(user):
     if 'enableInlineImages' not in user:
         user['enableInlineImages'] = user.get('enable_inline_images', True)
 
+    # The identity chooser shows the mask's own handle, not a placeholder.
+    if user.get('id') and not user.get('anon_tag'):
+        from api.services import get_user_anon_tag
+        user['anon_tag'] = get_user_anon_tag(user['id'])
+
     return user
 
 
@@ -1348,6 +1373,24 @@ def _blobatar_url_for(user_or_username, prefs=None):
     if prefs:
         url += '?' + '&'.join('%s=%s' % (k, _q(str(v), safe='')) for k, v in sorted(prefs.items()))
     return url
+
+
+def _comment_author(user, is_anonymous):
+    """The author block for a comment dict, with the anonymous mask applied the
+    same way the forum applies it: an anonymous comment keeps its author in the
+    database but shows only the tag, to nobody, owner included."""
+    if is_anonymous:
+        from api.services import get_user_anon_tag
+        tag = get_user_anon_tag(user.id) if user else 'Anonymous Nebian'
+        return {'authorId': '', 'authorName': tag, 'authorPhotoUrl': '', 'authorBadgeInfo': None,
+                'isAnonymous': True}
+    return {
+        'authorId': user.id if user else '',
+        'authorName': user.username if user else DELETED_AUTHOR_NAME,
+        'authorPhotoUrl': _avatar_url(user) if user else '',
+        'authorBadgeInfo': _user_badge_info(user) if user else None,
+        'isAnonymous': False,
+    }
 
 
 def _avatar_url(u):

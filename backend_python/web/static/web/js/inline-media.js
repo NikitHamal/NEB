@@ -2,16 +2,16 @@
 ;(function () {
   var TOKEN_RE = /\[\[img:(\d{1,10})\]\]/g;
 
-  var SKIP_SELECTOR = '[data-neb-skip],#neby-input,#chat-input,#bs-followup,#ba-goal,'
+  var SKIP_SELECTOR = '[data-neb-skip],#homePostContent,#homePostTitle,#homePostDialog textarea,#neby-input,#chat-input,#bs-followup,#ba-goal,'
     + '#agent_chat_input,#agent_new_task,#agent_home_task_input,'
     + '#ssTutorQuestion,#cbAiInput,.ss-ai-input,.cb-ai-input,'
-    + '.reply-input-wrapper textarea,.reply-input-wrapper,#mainReplyContent,#threadTextarea';
+    + '.neb-composer textarea,.neb-composer';
 
   function isSkipped(el) {
     if (!el || el.nodeType !== 1) return false;
     if (el.hasAttribute && el.hasAttribute('data-neb-skip')) return true;
     try {
-      if (el.closest && (el.closest('[data-neb-skip]') || el.closest('.reply-input-wrapper') || el.closest('.fp-compose'))) return true;
+      if (el.closest && (el.closest('[data-neb-skip]') || el.closest('.neb-composer'))) return true;
       if (el.matches && el.matches(SKIP_SELECTOR)) return true;
     } catch (_) {}
     return false;

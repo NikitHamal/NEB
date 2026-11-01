@@ -163,3 +163,29 @@
   color: var(--md-on-surface-variant);
   margin-bottom: 8px;
 }
+
+/* Custom stroke-vector action icons (comment, share, bookmark) used by the
+   forum card and thread action bars. They size the inline SVGs; the selectors
+   name the bars rather than the icon so each surface can set its own size. */
+.neb-post-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex: none;
+  stroke-width: 2;
+  color: currentColor;
+}
+
+.post-card-actions button .neb-post-icon,
+.post-card-actions a .neb-post-icon,
+.act-btn-stat .neb-post-icon,
+.fp-action-btn .neb-post-icon,
+.fp-reply-action .neb-post-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.more-menu-item .neb-post-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--md-on-surface-variant);
+}

@@ -341,6 +341,7 @@ class PostMediaSerializer(serializers.ModelSerializer):
     mimeType = serializers.CharField(source='mime_type', read_only=True)
     sizeBytes = serializers.IntegerField(source='size_bytes', read_only=True)
     createdAt = serializers.IntegerField(source='created_at', read_only=True)
+    thumbnail_url = serializers.SerializerMethodField()
     thumbnailUrl = serializers.SerializerMethodField()
     qualities = serializers.SerializerMethodField()
 
@@ -348,13 +349,17 @@ class PostMediaSerializer(serializers.ModelSerializer):
         model = PostMedia
         fields = ['id', 'kind', 'url', 'thumbnail_url', 'thumbnailUrl', 'qualities', 'name', 'mimeType', 'sizeBytes', 'order', 'createdAt']
 
-    def get_thumbnailUrl(self, obj):
-        url = getattr(obj, 'thumbnail_url', '') or ''
+    def get_thumbnail_url(self, obj):
+        from .security import media_poster
+        url = media_poster(obj)
         if url and not url.startswith('http'):
             request = self.context.get('request')
             if request:
                 return request.build_absolute_uri(url)
         return url
+
+    def get_thumbnailUrl(self, obj):
+        return self.get_thumbnail_url(obj)
 
     def get_qualities(self, obj):
         if getattr(obj, 'kind', '') == 'video':

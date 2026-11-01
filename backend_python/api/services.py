@@ -14,7 +14,7 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 
 from .models import User, Post, PostLike, PostImage, Poll, PollOption, PollVote, Reply, ReplyLike, Follow, UserPhoto, EditHistory, FollowRequest
 from .models import Resource, ResourceLike, ResourceComment, ResourceCommentLike, Bookmark, Notification, FCMToken, ResourceRequest, AccountDeletionRequest
-from .models import BlogComment, BlogCommentLike
+from .models import BlogComment, BlogCommentLike, Announcement
 from .security import hash_password, issue_auth_token, verify_password, validate_profile_photo_url, validate_external_https_url, POST_IMAGE_MAX_COUNT
 from .utils import now_ms, uuid_str
 from . import counters as _counters
@@ -727,7 +727,7 @@ def toggle_resource_comment_like(user, comment_id):
     return {'likeCount': current_count, 'isLiked': is_liked}
 
 
-def create_resource_comment(user, resource_id, content, parent_comment_id=None, attachments=None):
+def create_resource_comment(user, resource_id, content, parent_comment_id=None, attachments=None, is_anonymous=False):
     try:
         resource = Resource.objects.get(pk=resource_id)
     except Resource.DoesNotExist:
@@ -746,6 +746,7 @@ def create_resource_comment(user, resource_id, content, parent_comment_id=None, 
             content=content,
             like_count=0,
             reply_count=0,
+            is_anonymous=bool(is_anonymous),
             created_at=now,
         )
         Resource.objects.filter(pk=resource_id).update(comment_count=F('comment_count') + 1)
@@ -802,10 +803,10 @@ def delete_resource_comment(user, comment_id, is_admin=False):
 def _serialize_media_payload(media_iterable):
     """PostMedia/ResourceCommentMedia rows → camelCase attachment dicts,
     same shape as PostMediaSerializer."""
-    from .security import get_video_qualities
+    from .security import get_video_qualities, media_poster
     res = []
     for m in media_iterable:
-        thumb = getattr(m, 'thumbnail_url', '') or ''
+        thumb = media_poster(m)
         quals = get_video_qualities(m.url) if getattr(m, 'kind', '') == 'video' else []
         res.append({
             'id': m.id,
@@ -867,7 +868,7 @@ def toggle_blog_comment_like(user, comment_id):
             current_count = max(comment.like_count - 1, 0)
     return {'likeCount': current_count, 'isLiked': is_liked}
 
-def create_blog_comment(user, slug, content, parent_comment_id=None, attachments=None):
+def create_blog_comment(user, slug, content, parent_comment_id=None, attachments=None, is_anonymous=False):
     try:
         announcement = Announcement.objects.get(slug=slug, status='published')
     except Announcement.DoesNotExist:
@@ -886,11 +887,20 @@ def create_blog_comment(user, slug, content, parent_comment_id=None, attachments
             text=content,
             like_count=0,
             reply_count=0,
+            is_anonymous=bool(is_anonymous),
             created_at=now,
         )
         if parent_comment_id:
             BlogComment.objects.filter(pk=parent_comment_id).update(reply_count=F('reply_count') + 1)
-        _attach_forum_media(comment, attachments or [], 'blog_comment', now)
+        if attachments:
+            from .models import BlogCommentMedia
+            for order, item in enumerate(attachments):
+                BlogCommentMedia.objects.create(
+                    id=uuid_str(), comment=comment,
+                    kind=item['kind'], url=item['url'], name=item['name'],
+                    mime_type=item['mime_type'], size_bytes=item['size_bytes'],
+                    order=order, created_at=now,
+                )
     return {'id': comment.id}
 
 def delete_blog_comment(user, comment_id, is_admin=False):

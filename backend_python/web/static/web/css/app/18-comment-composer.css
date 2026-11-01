@@ -1,0 +1,416 @@
+/* ---- The comment composer ----
+   One field, every surface where you post to other people: a reply to a
+   discussion, a reply inside a thread, a comment on a resource, a comment on a
+   news post. Markup lives in web/templates/web/partials/_comment_composer.html;
+   nothing else should style these classes.
+
+   The face sits in its own column at the field's left; the text and the toolbar
+   below it form the other column, so the attach button hangs off the text it
+   belongs to instead of dropping under the avatar. The field grows with the
+   text up to 120px and only then scrolls. */
+.neb-composer {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 16px;
+  background: var(--md-surface-container-lowest);
+  transition: border-color 0.15s ease;
+}
+
+/* The ring is an outline, not a second border: the offset leaves the gap that a
+   box-shadow pressed against the stroke never has. */
+.neb-composer:focus-within {
+  border-color: var(--md-primary);
+  outline: 2px solid color-mix(in srgb, var(--md-primary) 45%, transparent);
+  outline-offset: 3px;
+}
+
+.neb-composer-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.neb-composer textarea {
+  width: 100%;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  resize: none;
+  color: var(--md-on-surface);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+  height: 36px;
+  padding: 7px 2px 7px 0;
+  box-sizing: border-box;
+  /* Height comes from textarea-grow.js up to the field's own cap, so the box
+     takes the shape of what you type. The bar only exists past the cap, and
+     then it is thin and trackless until you are in the field. */
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.neb-composer textarea.is-scrolling {
+  overflow-y: auto;
+}
+
+.neb-composer textarea.is-scrolling:hover,
+.neb-composer textarea.is-scrolling:focus {
+  scrollbar-color: var(--md-outline-variant) transparent;
+}
+
+.neb-composer textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.neb-composer textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.neb-composer textarea::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 999px;
+}
+
+.neb-composer textarea.is-scrolling:hover::-webkit-scrollbar-thumb,
+.neb-composer textarea.is-scrolling:focus::-webkit-scrollbar-thumb {
+  background: var(--md-outline-variant);
+}
+
+.neb-composer textarea::placeholder {
+  color: var(--md-on-surface-variant);
+  opacity: 0.8;
+}
+
+.neb-composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+}
+
+/* Send stays at the field's right edge whether or not there is an attach tool
+   beside it. The tool's 20px glyph is centred in a 36px target, so the target
+   starts 8px early to put the icon's ink on the same left edge as the text. */
+.neb-composer-actions .fp-inline-tool {
+  margin-right: auto;
+  margin-left: -8px;
+}
+
+/* ---- Inline tool (attach) ---- */
+.neb-composer .fp-inline-tool {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.neb-composer .fp-inline-tool:hover {
+  background: var(--md-surface-container-high);
+  color: var(--md-primary);
+}
+
+.neb-composer .fp-inline-tool:active {
+  transform: scale(0.96);
+}
+
+.neb-composer .fp-inline-tool .material-symbols-outlined {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+/* ---- Send ----
+   Same control as the home composer's publish button: one glyph, one ink, so
+   every place that posts reads as the same action. */
+.neb-composer .reply-send-btn {
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--md-on-surface);
+  color: var(--md-surface);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.15s ease, background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.neb-composer .reply-send-btn:hover {
+  opacity: 0.85;
+}
+
+.neb-composer .reply-send-btn:active {
+  transform: scale(0.96);
+}
+
+.neb-composer .reply-send-btn:disabled {
+  opacity: 1;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+  border: 1px solid var(--md-outline-variant);
+}
+
+.neb-composer .reply-send-btn .material-symbols-outlined {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.neb-composer .reply-send-btn.is-posting {
+  pointer-events: none;
+}
+
+.neb-composer .reply-send-btn.is-posting .material-symbols-outlined {
+  animation: composerSpin 900ms linear infinite;
+}
+
+@keyframes composerSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---- Staged media under the field ---- */
+.neb-composer + .cp-media-list {
+  margin-top: 8px;
+}
+
+/* ---- Who to post as ----
+   The avatar is the control and the menu picks between the account and its
+   anonymous mask. Its box is the row's 36px with the 32px disc centred inside,
+   so the face sits on the same mid-line as the text and the buttons. */
+.fp-composer-avatar {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fp-identity-trigger {
+  position: relative;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fp-identity-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--md-surface-container-high);
+  /* The disc carries the letter fallback; a photo covers it. */
+  color: var(--md-on-surface-variant);
+  /* The ring says "this is a control", which a bare photo against a field
+     border does not. */
+  box-shadow: 0 0 0 1px var(--md-outline-variant);
+  transition: box-shadow 0.15s ease;
+}
+
+.fp-identity-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fp-identity-avatar .fp-avatar-letter {
+  color: inherit;
+}
+
+/* Anonymous is a different face, not a badge on the user's own. */
+.fp-identity-anon-mark {
+  display: none;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+}
+
+.fp-identity.is-anon .fp-identity-anon-mark {
+  display: flex;
+}
+
+.fp-identity.is-anon .fp-identity-avatar img,
+.fp-identity.is-anon .fp-identity-avatar .fp-avatar-letter {
+  display: none;
+}
+
+.fp-identity-trigger:hover .fp-identity-avatar,
+.fp-identity.is-open .fp-identity-avatar {
+  box-shadow: 0 0 0 2px var(--md-outline);
+}
+
+.fp-identity-caret {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 15px;
+  height: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--md-outline-variant);
+  background: var(--md-elevated-surface);
+  color: var(--md-on-surface-variant);
+  font-size: 11px;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.fp-identity-menu {
+  position: absolute;
+  /* Anchored to the field, not the avatar, so the gap below it does not depend
+     on how tall the field has grown. */
+  top: calc(100% + 8px);
+  left: 12px;
+  z-index: 40;
+  width: 244px;
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 6px;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 14px;
+  background: var(--md-elevated-surface);
+  box-shadow: var(--md-elevation-2);
+  text-align: left;
+}
+
+.fp-identity.is-open .fp-identity-menu {
+  display: flex;
+}
+
+.fp-identity-head {
+  padding: 6px 8px 4px;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--md-on-surface-variant);
+}
+
+.fp-identity-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 8px;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--md-on-surface);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.fp-identity-option:hover {
+  background: var(--md-surface-container);
+}
+
+.fp-identity-option-avatar {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--md-surface-container-high);
+  color: var(--md-on-surface-variant);
+}
+
+.fp-identity-option-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fp-identity-option-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.fp-identity-option-name {
+  display: block;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fp-identity-option-sub {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--md-on-surface-variant);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fp-identity-check {
+  font-size: 18px;
+  flex: none;
+  opacity: 0;
+  color: var(--md-primary);
+}
+
+.fp-identity-option.is-active .fp-identity-check {
+  opacity: 1;
+}
+
+.fp-identity-anon-mark .material-symbols-outlined {
+  font-size: 18px;
+}
+
+/* No room below the field -- a composer at the bottom of a page -- so the menu
+   opens above it instead. identity-chooser.js sets the class from the viewport. */
+.fp-identity.is-up .fp-identity-menu {
+  top: auto;
+  bottom: calc(100% + 8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reply-send-btn.is-posting .material-symbols-outlined {
+    animation: none;
+  }
+}

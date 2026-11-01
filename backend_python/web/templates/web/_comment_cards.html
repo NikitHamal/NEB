@@ -16,7 +16,9 @@
       </div>
       <div class="fp-reply-meta">
         <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-          {% if reply.authorId %}
+          {% if reply.isAnonymous %}
+          <span class="fp-reply-author"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> {{ reply.authorName }}</span>
+          {% elif reply.authorId %}
           <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
           {% else %}
           <span class="fp-reply-author">Deleted user</span>
@@ -61,7 +63,7 @@
       </div>
     </div>
     {% if reply.content %}<div class="fp-reply-body" id="comment-content-{{ reply.id }}">{{ reply.content|mention_links }}</div>{% endif %}
-    {% with attachments=reply.attachments is_feed_card=True %}{% include "web/_forum_attachments.html" %}{% endwith %}
+    {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
     <div class="fp-reply-actions">
       <button data-action="toggle-comment-like" data-comment-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ reply.id }}">
         <span class="material-symbols-outlined">thumb_up</span>
@@ -99,7 +101,9 @@
           </div>
           <div class="fp-reply-meta">
             <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-              {% if child.authorId %}
+              {% if child.isAnonymous %}
+              <span class="fp-reply-author" style="font-size:.75rem;"><span class="material-symbols-outlined" style="font-size:12px;vertical-align:-2px;">visibility_off</span> {{ child.authorName }}</span>
+              {% elif child.authorId %}
               <a href="{% url 'web:profile' username=child.authorName %}" class="fp-reply-author" style="font-size:.75rem;">{{ child.authorName }}</a>
               {% else %}
               <span class="fp-reply-author" style="font-size:.75rem;">Deleted user</span>
@@ -141,7 +145,7 @@
           </div>
         </div>
         {% if child.content %}<div class="fp-reply-body" style="font-size:.8125rem;" id="comment-content-{{ child.id }}">{{ child.content|mention_links }}</div>{% endif %}
-        {% with attachments=child.attachments is_feed_card=True %}{% include "web/_forum_attachments.html" %}{% endwith %}
+        {% with attachments=child.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
         <div class="fp-reply-actions" style="margin-top:2px;">
           <button data-action="toggle-comment-like" data-comment-id="{{ child.id }}" class="fp-reply-action {% if child.isThumbedUp %}liked{% endif %}" id="comment-like-btn-{{ child.id }}" style="font-size:.6875rem;">
             <span class="material-symbols-outlined" style="font-size:14px;">thumb_up</span>

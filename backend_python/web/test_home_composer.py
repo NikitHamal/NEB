@@ -43,6 +43,10 @@ class HomeComposerTests(TestCase):
         self.assertContains(response, 'id="homePostIdentity"')
         self.assertContains(response, 'Post anonymously')
         self.assertContains(response, 'Entrance Exams')
+        self.assertContains(response, 'id="homePostFormatToolbar"')
+        self.assertContains(response, 'data-format="bold"')
+        self.assertContains(response, 'data-format="math"')
+        self.assertContains(response, 'id="homePostSubmit"')
 
     def test_composer_posts_both_anonymous_and_named(self):
         self._login()

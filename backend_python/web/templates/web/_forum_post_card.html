@@ -1,7 +1,7 @@
 {% load web_extras %}
 {% comment %} One forum post. Kept as a row rather than a card: the list reads as
    a feed, and the same markup still works on home, search and profiles. {% endcomment %}
-<article class="post-card" data-action="open-post" data-post-url="{% url 'web:forum_post' post_id=post.id %}">
+<article class="post-card">
   <div class="post-card-header">
     <div class="post-card-avatar {% if post.authorBadgeInfo and post.authorBadgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
       {% if post.isAnonymous %}
@@ -73,7 +73,7 @@
     </div>
   </div>
   <h3 class="post-card-title"><a href="{% url 'web:forum_post' post_id=post.id %}">{{ post.title }}</a></h3>
-  <div class="post-card-content">{{ post.content|render_content_inline }}</div>
+  <div class="post-card-content"><a href="{% url 'web:forum_post' post_id=post.id %}" class="post-card-content-link">{{ post.content|render_content_inline }}</a></div>
   {% with images=post.images %}{% include "web/_forum_post_images.html" %}{% endwith %}
   {% if post.poll %}
   <div class="post-card-poll-badge">

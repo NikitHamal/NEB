@@ -126,17 +126,8 @@
 
         {% if is_authenticated %}
         <div class="nd-composer" id="comment-form" data-slug="{{ announcement.slug }}">
-          <img class="nd-composer-avatar" src="{{ user.avatar_url }}" alt="" data-fallback="flex">
-          <div class="nd-composer-body">
-            <div class="reply-input-wrapper" id="comment-wrapper">
-              <textarea id="comment-input" maxlength="4000" rows="1"
-                        placeholder="Share your thoughts, ask a question, or add something useful…"></textarea>
-              <button type="button" class="reply-send-btn" id="comment-submit-btn" disabled aria-label="Post comment">
-                <span class="material-symbols-outlined">arrow_upward</span>
-              </button>
-            </div>
-            <div class="nd-composer-hint" id="comment-hint" role="status" aria-live="polite"></div>
-          </div>
+          {% include "web/partials/_comment_composer.html" with cc_id="comment-wrapper" cc_textarea_id="comment-input" cc_placeholder="Share your thoughts, ask a question, or add something useful" cc_maxlength=4000 cc_anon_id="newsCommentAnon" cc_send_id="comment-submit-btn" cc_send_label="Post comment" %}
+          <div class="nd-composer-hint" id="comment-hint" role="status" aria-live="polite"></div>
         </div>
         {% else %}
         <div class="nd-signin">
@@ -406,12 +397,6 @@
     if (!input || !btn) return;
 
     var MAX = 4000;
-    var MAX_H = 120;
-
-    function autoGrow() {
-      input.style.height = 'auto';
-      input.style.height = Math.min(input.scrollHeight, MAX_H) + 'px';
-    }
 
     function refresh() {
       var len = input.value.trim().length;
@@ -428,7 +413,6 @@
           hint.classList.remove('is-visible', 'is-warn');
         }
       }
-      autoGrow();
     }
 
     input.addEventListener('input', refresh);
@@ -454,7 +438,7 @@
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN },
         credentials: 'same-origin',
-        body: JSON.stringify({ slug: SLUG, text: text })
+        body: JSON.stringify({ slug: SLUG, text: text, isAnonymous: !!(document.getElementById('newsCommentAnon')||{}).checked })
       }).then(function(r) { return r.json(); }).then(function(data) {
         if (data.ok) {
           input.value = '';
@@ -474,15 +458,6 @@
       });
     });
   })();
-
-  /* Auto-grow every composer in the comments card (top-level + inline replies).
-     The global .reply-input-wrapper caps height at 120px, so mirror that cap. */
-  document.getElementById('comment-list')?.addEventListener('input', function(e) {
-    var ta = e.target;
-    if (!ta || ta.tagName !== 'TEXTAREA') return;
-    ta.style.height = 'auto';
-    ta.style.height = Math.min(ta.scrollHeight, 120) + 'px';
-  });
 
   /* ── Comment card actions ─────────────────────────────────────── */
   registerActions({
@@ -559,10 +534,10 @@
       var box = document.createElement('div');
       box.className = 'rd-inline-reply-box';
       box.style.cssText = 'display:flex;align-items:flex-end;gap:8px;';
-      box.innerHTML = '<div class="reply-input-wrapper" style="flex:1;min-width:0;">'
-        + '<textarea placeholder="Write a reply…" rows="1"></textarea>'
-        + '<button type="button" class="reply-send-btn" disabled><span class="material-symbols-outlined">arrow_upward</span></button>'
-        + '</div>'
+      box.innerHTML = '<div class="neb-composer" style="flex:1;min-width:0;"><div class="neb-composer-body">'
+        + '<textarea placeholder="Write a reply…" rows="1" data-autoheight data-autoheight-max="120"></textarea>'
+        + '<div class="neb-composer-actions"><button type="button" class="reply-send-btn" disabled aria-label="Post reply"><span class="material-symbols-outlined">arrow_upward</span></button></div>'
+        + '</div></div>'
         + '<button type="button" class="md-btn md-btn-text rd-cancel-reply-btn" style="min-height:36px;font-size:.8125rem;">Cancel</button>';
       var actionRow = parentCard.querySelector('.fp-reply-actions');
       if (actionRow) actionRow.after(box); else parentCard.appendChild(box);
@@ -580,7 +555,7 @@
           method: 'POST',
           headers: {'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN},
           credentials: 'same-origin',
-          body: JSON.stringify({ slug: SLUG, text: value, parentCommentId: commentId })
+          body: JSON.stringify({ slug: SLUG, text: value, parentCommentId: commentId, isAnonymous: !!(document.getElementById('newsCommentAnon')||{}).checked })
         }).then(function(r) { return r.json(); }).then(function(data) {
           if (data.ok) { ta.value = ''; showSnackbar('Reply posted!'); window.location.reload(); }
           else { showSnackbar(data.error || 'Could not reply'); sendBtn.disabled = !ta.value.trim(); }

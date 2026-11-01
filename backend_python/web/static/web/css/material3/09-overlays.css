@@ -66,7 +66,7 @@
   max-height: min(620px, calc(100vh - 48px));
   display: flex;
   flex-direction: column;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   color: var(--md-on-surface);
   border-radius: 30px;
   box-shadow: var(--md-elevation-3);
@@ -184,7 +184,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 22px 0;
+  padding: 10px 22px;
 }
 .neb-sheet-head-text { flex: 1; min-width: 0; }
 .neb-sheet-title {
@@ -1135,7 +1135,7 @@
   flex-direction: column;
   overflow: hidden;
   border: 0;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   color: var(--md-on-surface);
   border-radius: 30px;
   box-shadow: var(--md-elevation-3);
@@ -1271,7 +1271,7 @@
   min-width: 212px;
   max-width: 300px;
   padding: 8px;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   border: 1px solid var(--md-outline-variant);
   border-radius: 20px;
   box-shadow: var(--md-elevation-2);
@@ -1286,14 +1286,6 @@
 .more-menu[data-open] { opacity: 1; transform: translateY(0) scale(1); }
 /* Opening upwards means growing from the bottom edge, not the top. */
 .more-menu.neb-menu-up { transform-origin: bottom right; }
-
-/* The raised surface is a pale grey in light mode, which reads like a disabled
-   field against white cards. Keep the panel white and let its border and
-   shadow carry the elevation. */
-[data-theme="light"] .more-menu,
-[data-theme="light"] .more-menu.neb-menu-sheet {
-  background: var(--md-surface-container-lowest);
-}
 
 .more-menu-item {
   display: flex;
@@ -1428,7 +1420,7 @@
   padding: 32px 28px;
   text-align: center;
   border-radius: 30px;
-  background: var(--md-surface-container-high);
+  background: var(--md-elevated-surface);
   color: var(--md-on-surface);
   box-shadow: var(--md-elevation-3);
 }

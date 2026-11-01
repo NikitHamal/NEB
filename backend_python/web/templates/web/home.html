@@ -21,9 +21,9 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
-
-
 {% endblock %}
+
+{% block footer %}{% endblock %}
 
 {% block content %}
 {% comment %} ── Home ─────────────────────────────────────────────────────────────────────
@@ -43,32 +43,7 @@
   {% include "themes/_season_card.html" %}
   <div class="hf-shell">
     <aside class="hf-side hf-left" aria-label="Home navigation">
-      <a class="hf-left-cta" href="{% url 'web:create_post' %}">
-        <span class="material-symbols-outlined" aria-hidden="true">add</span>
-        New discussion
-      </a>
-
-      <div class="hf-nav-group">
-        <div class="hf-nav-title">Explore</div>
-        <a class="hf-nav-link" href="{% url 'web:library' %}"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span>Library</a>
-        <a class="hf-nav-link" href="{% url 'web:study_lab' %}"><span class="material-symbols-outlined" aria-hidden="true">psychology</span>Study Lab</a>
-        <a class="hf-nav-link" href="{% url 'web:upload_resource' %}"><span class="material-symbols-outlined" aria-hidden="true">upload_file</span>Upload notes</a>
-      </div>
-
-      {% if is_authenticated %}
-      <div class="hf-nav-group">
-        <div class="hf-nav-title">Your space</div>
-        <a class="hf-nav-link" href="{% url 'web:bookmarks' %}"><span class="material-symbols-outlined" aria-hidden="true">bookmark</span>Bookmarks</a>
-        <a class="hf-nav-link" href="{% url 'web:profile' username=user.username %}"><span class="material-symbols-outlined" aria-hidden="true">person</span>My profile</a>
-      </div>
-      {% endif %}
-
-      <div class="hf-nav-group">
-        <div class="hf-nav-title">Community</div>
-        <a class="hf-nav-link" href="{% url 'web:leaderboard' %}"><span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>Leaderboard</a>
-        <a class="hf-nav-link" href="{% url 'web:resource_requests' %}"><span class="material-symbols-outlined" aria-hidden="true">inbox</span>Requests</a>
-      </div>
-
+      {% include "web/_home_left_nav.html" %}
     </aside>
 
     <div class="hf-center">
@@ -282,7 +257,6 @@
     var dialog = document.getElementById('homePostDialog');
     var form = document.getElementById('homePostForm');
     var closeBtn = document.getElementById('homePostDialogClose');
-    var promptTrigger = document.getElementById('homeComposerPromptTrigger');
 
     var identityPicker = document.getElementById('homeIdentityPicker');
     var identityTrigger = document.getElementById('homeIdentityTrigger');
@@ -318,6 +292,7 @@
 
     var fileInput = document.getElementById('homePostFileInput');
     var mediaFileInput = document.getElementById('homePostMediaInput');
+    var docFileInput = document.getElementById('homePostDocInput');
     var previewsContainer = document.getElementById('homeComposerImagePreviews');
 
     var videoPanel = document.getElementById('homePostVideoPanel');
@@ -355,13 +330,379 @@
       charCounter.classList.toggle('is-over', len > 20000);
     }
 
+    // ── Dynamic Post Button State (Gray/Block unless user has written something) ──
+    function updateSubmitState() {
+      if (!submitBtn) return;
+      var hasContent = !!(contentInput && contentInput.value.trim().length > 0);
+      var hasTitle = !!(titleInput && titleInput.value.trim().length > 0);
+      var hasImages = uploadedImages.length > 0;
+      var hasMedia = attachedMedia.length > 0;
+      var hasPoll = isPollActive && pollQuestionInput && pollQuestionInput.value.trim().length > 0;
+
+      var canSubmit = hasContent || hasTitle || hasImages || hasMedia || hasPoll;
+      submitBtn.disabled = !canSubmit;
+      submitBtn.setAttribute('aria-disabled', canSubmit ? 'false' : 'true');
+      submitBtn.classList.toggle('is-disabled', !canSubmit);
+      submitBtn.title = canSubmit ? 'Publish post' : 'Write something to publish';
+    }
+
     if (contentInput) {
-      contentInput.addEventListener('input', updateCharCounter);
-      contentInput.addEventListener('keyup', updateCharCounter);
-      contentInput.addEventListener('change', updateCharCounter);
-      contentInput.addEventListener('paste', function () { setTimeout(updateCharCounter, 10); });
+      contentInput.addEventListener('input', function () { updateCharCounter(); updateSubmitState(); });
+      contentInput.addEventListener('keyup', function () { updateCharCounter(); updateSubmitState(); });
+      contentInput.addEventListener('change', function () { updateCharCounter(); updateSubmitState(); });
+      contentInput.addEventListener('paste', function () { setTimeout(function () { updateCharCounter(); updateSubmitState(); }, 10); });
+    }
+    if (titleInput) {
+      titleInput.addEventListener('input', updateSubmitState);
+      titleInput.addEventListener('keyup', updateSubmitState);
+      titleInput.addEventListener('change', updateSubmitState);
     }
     updateCharCounter();
+    updateSubmitState();
+
+    // ── Rich Markdown & LaTeX Formatting Toolset ──
+    var formatToolbar = document.getElementById('homePostFormatToolbar');
+    var mathHelper = document.getElementById('homePostMathHelper');
+    var writeModeBtn = document.getElementById('homePostWriteModeBtn');
+    var previewModeBtn = document.getElementById('homePostPreviewModeBtn');
+    var previewBox = document.getElementById('homePostPreviewBox');
+
+    function parseMarkdownWithTables(rawStr) {
+      var esc = function (s) {
+        return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      };
+      var text = esc(rawStr);
+
+      // Fenced code blocks ```...```
+      var codeBlocks = [];
+      text = text.replace(/```([\s\S]*?)```/g, function (m, p1) {
+        var placeholder = '<!--__CODE_' + codeBlocks.length + '__-->';
+        codeBlocks.push('<pre><code>' + p1.trim() + '</code></pre>');
+        return placeholder;
+      });
+
+      // Markdown tables: | col1 | col2 |\n|---|---|\n| val1 | val2 |
+      var tables = [];
+      text = text.replace(/(?:^[ \t]*\|[^\n]+\|[ \t]*\r?\n[ \t]*\|(?:[ \t]*:?-+:?[ \t]*\|)+[ \t]*\r?\n(?:[ \t]*\|[^\n]+\|[ \t]*\r?\n?)+)/gm, function (tblBlock) {
+        var rows = tblBlock.trim().split(/\r?\n/);
+        if (rows.length < 2) return tblBlock;
+        var parseCells = function (r) {
+          return r.trim().replace(/^\||\|$/g, '').split('|').map(function (c) { return c.trim(); });
+        };
+        var ths = parseCells(rows[0]);
+        var out = '<table class="hf-table"><thead><tr>' + ths.map(function (h) { return '<th>' + h + '</th>'; }).join('') + '</tr></thead><tbody>';
+        for (var i = 2; i < rows.length; i++) {
+          var tds = parseCells(rows[i]);
+          out += '<tr>' + tds.map(function (c) { return '<td>' + c + '</td>'; }).join('') + '</tr>';
+        }
+        out += '</tbody></table>';
+        var placeholder = '<!--__TBL_' + tables.length + '__-->';
+        tables.push(out);
+        return placeholder;
+      });
+
+      // Inline code
+      text = text.replace(/`([^`\n]+)`/g, '<code>$1</code>');
+
+      // Headings
+      text = text.replace(/^### (.*$)/gim, '<h3>$1</h3>');
+      text = text.replace(/^## (.*$)/gim, '<h2>$1</h2>');
+      text = text.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+
+      // Bold, Italic, Strikethrough
+      text = text.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
+      text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      text = text.replace(/\*([^*\n]+)\*/g, '<em>$1</em>');
+      text = text.replace(/~~(.*?)~~/g, '<del>$1</del>');
+
+      // Blockquotes
+      text = text.replace(/^> (.*$)/gim, '<blockquote>$1</blockquote>');
+
+      // Horizontal dividers
+      text = text.replace(/^---$/gim, '<hr>');
+
+      // Lists
+      text = text.replace(/^[-*] (.*$)/gim, '<li>$1</li>');
+
+      // Links
+      text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+
+      // Line breaks
+      text = text.replace(/\n/g, '<br>');
+
+      // Restore code blocks and tables without extra <br> corrupting them
+      codeBlocks.forEach(function (cb, idx) {
+        text = text.replace('<!--__CODE_' + idx + '__-->', cb);
+      });
+      tables.forEach(function (tbl, idx) {
+        text = text.replace('<!--__TBL_' + idx + '__-->', tbl);
+      });
+
+      return text;
+    }
+
+    function renderPreviewContent() {
+      if (!previewBox) return;
+      var raw = (contentInput ? contentInput.value : '').trim();
+      if (!raw) {
+        previewBox.innerHTML = '<p style="color:var(--md-on-surface-variant);font-style:italic;opacity:0.65;margin:0;">Nothing to preview yet. Write some notes, formulas, or markdown.</p>';
+        return;
+      }
+
+      // Pre-process spoilers: ||spoiler||
+      var processed = raw.replace(/\|\|(.*?)\|\|/g, '<span class="hf-spoiler" data-action="toggle-spoiler" role="button" tabindex="0" title="Click to reveal spoiler">$1</span>');
+
+      var html = '';
+      if (typeof window.marked !== 'undefined') {
+        try {
+          var parseFn = (typeof window.marked.parse === 'function') ? window.marked.parse : window.marked;
+          html = parseFn(processed, { gfm: true, breaks: true });
+        } catch (_) {
+          html = parseMarkdownWithTables(processed);
+        }
+      } else {
+        html = parseMarkdownWithTables(processed);
+      }
+
+      previewBox.innerHTML = html;
+
+      if (typeof renderMathInElement === 'function') {
+        try {
+          renderMathInElement(previewBox, window.KATEX_CONFIG || {
+            delimiters: [
+              {left: '$$', right: '$$', display: true},
+              {left: '\\[', right: '\\]', display: true},
+              {left: '$', right: '$', display: false},
+              {left: '\\(', right: '\\)', display: false}
+            ]
+          });
+        } catch (e) {}
+      }
+    }
+
+    function setEditorMode(mode) {
+      if (!contentInput || !previewBox) return;
+      if (mode === 'preview') {
+        if (writeModeBtn) {
+          writeModeBtn.classList.remove('is-active');
+          writeModeBtn.setAttribute('aria-selected', 'false');
+        }
+        if (previewModeBtn) {
+          previewModeBtn.classList.add('is-active');
+          previewModeBtn.setAttribute('aria-selected', 'true');
+        }
+        contentInput.style.display = 'none';
+        previewBox.style.display = 'block';
+        renderPreviewContent();
+      } else {
+        if (previewModeBtn) {
+          previewModeBtn.classList.remove('is-active');
+          previewModeBtn.setAttribute('aria-selected', 'false');
+        }
+        if (writeModeBtn) {
+          writeModeBtn.classList.add('is-active');
+          writeModeBtn.setAttribute('aria-selected', 'true');
+        }
+        previewBox.style.display = 'none';
+        contentInput.style.display = 'block';
+        contentInput.focus();
+      }
+    }
+
+    if (writeModeBtn) {
+      writeModeBtn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      writeModeBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        setEditorMode('write');
+      });
+    }
+
+    if (previewModeBtn) {
+      previewModeBtn.addEventListener('mousedown', function (e) { e.preventDefault(); });
+      previewModeBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        setEditorMode('preview');
+      });
+    }
+
+    if (previewBox) {
+      previewBox.addEventListener('click', function (e) {
+        var sp = e.target.closest('.hf-spoiler, [data-action="toggle-spoiler"]');
+        if (sp) sp.classList.toggle('is-revealed');
+      });
+    }
+
+    function applyFormat(type) {
+      if (!contentInput) return;
+      if (previewBox && previewBox.style.display !== 'none') {
+        setEditorMode('write');
+      }
+
+      contentInput.focus();
+      var start = contentInput.selectionStart;
+      var end = contentInput.selectionEnd;
+      var text = contentInput.value;
+      var selected = text.substring(start, end);
+      var replacement = '';
+      var selectStart = start;
+      var selectEnd = end;
+
+      switch (type) {
+        case 'bold':
+          replacement = '**' + (selected || 'bold text') + '**';
+          selectStart = start + 2;
+          selectEnd = selectStart + (selected || 'bold text').length;
+          break;
+        case 'italic':
+          replacement = '*' + (selected || 'italic text') + '*';
+          selectStart = start + 1;
+          selectEnd = selectStart + (selected || 'italic text').length;
+          break;
+        case 'strikethrough':
+          replacement = '~~' + (selected || 'strikethrough text') + '~~';
+          selectStart = start + 2;
+          selectEnd = selectStart + (selected || 'strikethrough text').length;
+          break;
+        case 'h2':
+          var hPre = (start > 0 && text[start - 1] !== '\n') ? '\n## ' : '## ';
+          replacement = hPre + (selected || 'Heading') + '\n';
+          selectStart = start + hPre.length;
+          selectEnd = selectStart + (selected || 'Heading').length;
+          break;
+        case 'code':
+          replacement = '`' + (selected || 'code') + '`';
+          selectStart = start + 1;
+          selectEnd = selectStart + (selected || 'code').length;
+          break;
+        case 'codeblock':
+          var cbPre = (start > 0 && text[start - 1] !== '\n') ? '\n```\n' : '```\n';
+          replacement = cbPre + (selected || '// your code here') + '\n```\n';
+          selectStart = start + cbPre.length;
+          selectEnd = selectStart + (selected || '// your code here').length;
+          break;
+        case 'math':
+          if (mathHelper) {
+            var isHidden = (mathHelper.style.display === 'none' || !mathHelper.style.display);
+            mathHelper.style.display = isHidden ? 'flex' : 'none';
+          }
+          if (selected) {
+            var isMultiline = selected.includes('\n');
+            replacement = isMultiline ? '$$\n' + selected + '\n$$\n' : '$' + selected + '$';
+            selectStart = isMultiline ? start + 3 : start + 1;
+            selectEnd = selectStart + selected.length;
+          } else {
+            replacement = '$E = mc^2$';
+            selectStart = start + 1;
+            selectEnd = selectStart + 'E = mc^2'.length;
+          }
+          break;
+        case 'quote':
+          var qPre = (start > 0 && text[start - 1] !== '\n') ? '\n> ' : '> ';
+          replacement = qPre + (selected || 'Quote') + '\n';
+          selectStart = start + qPre.length;
+          selectEnd = selectStart + (selected || 'Quote').length;
+          break;
+        case 'ul':
+          var ulPre = (start > 0 && text[start - 1] !== '\n') ? '\n- ' : '- ';
+          replacement = ulPre + (selected || 'List item') + '\n';
+          selectStart = start + ulPre.length;
+          selectEnd = selectStart + (selected || 'List item').length;
+          break;
+        case 'ol':
+          var olPre = (start > 0 && text[start - 1] !== '\n') ? '\n1. ' : '1. ';
+          replacement = olPre + (selected || 'List item') + '\n';
+          selectStart = start + olPre.length;
+          selectEnd = selectStart + (selected || 'List item').length;
+          break;
+        case 'link':
+          var url = prompt('Enter URL (https://...):', 'https://');
+          if (url === null) return;
+          if (!url) url = 'https://';
+          replacement = '[' + (selected || 'Link title') + '](' + url + ')';
+          selectStart = start + 1;
+          selectEnd = selectStart + (selected || 'Link title').length;
+          break;
+        case 'table':
+          var tblPre = (start > 0 && text[start - 1] !== '\n') ? '\n' : '';
+          replacement = tblPre + '| Header 1 | Header 2 |\n|---|---|\n| Data 1 | Data 2 |\n';
+          selectStart = start + replacement.length;
+          selectEnd = selectStart;
+          break;
+        case 'spoiler':
+          replacement = '||' + (selected || 'spoiler text') + '||';
+          selectStart = start + 2;
+          selectEnd = selectStart + (selected || 'spoiler text').length;
+          break;
+        case 'hr':
+          var hrPre = (start > 0 && text[start - 1] !== '\n') ? '\n---\n' : '---\n';
+          replacement = hrPre;
+          selectStart = start + replacement.length;
+          selectEnd = selectStart;
+          break;
+        default:
+          return;
+      }
+
+      contentInput.setRangeText(replacement, start, end, 'select');
+      contentInput.focus();
+      contentInput.setSelectionRange(selectStart, selectEnd);
+      contentInput.dispatchEvent(new Event('input', { bubbles: true }));
+      updateCharCounter();
+      updateSubmitState();
+      if (previewBox && previewBox.style.display !== 'none') {
+        renderPreviewContent();
+      }
+    }
+
+    if (formatToolbar) {
+      formatToolbar.querySelectorAll('.hf-format-btn').forEach(function (btn) {
+        btn.addEventListener('mousedown', function (e) {
+          e.preventDefault();
+        });
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          applyFormat(btn.dataset.format);
+        });
+      });
+    }
+
+    if (mathHelper) {
+      mathHelper.querySelectorAll('.hf-math-key').forEach(function (keyBtn) {
+        keyBtn.addEventListener('mousedown', function (e) {
+          e.preventDefault();
+        });
+        keyBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (!contentInput) return;
+          var latex = keyBtn.getAttribute('data-latex') || '';
+          if (!latex) return;
+          contentInput.focus();
+          var start = contentInput.selectionStart;
+          var end = contentInput.selectionEnd;
+          contentInput.setRangeText(latex, start, end, 'end');
+          contentInput.dispatchEvent(new Event('input', { bubbles: true }));
+          updateCharCounter();
+          updateSubmitState();
+          if (previewBox && previewBox.style.display !== 'none') {
+            renderPreviewContent();
+          }
+        });
+      });
+    }
+
+    if (contentInput) {
+      contentInput.addEventListener('keydown', function (e) {
+        if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey) {
+          var k = e.key.toLowerCase();
+          if (k === 'b') { e.preventDefault(); applyFormat('bold'); }
+          else if (k === 'i') { e.preventDefault(); applyFormat('italic'); }
+          else if (k === 'k') { e.preventDefault(); applyFormat('link'); }
+          else if (k === 'e') { e.preventDefault(); applyFormat('code'); }
+        }
+      });
+    }
 
     // ── Custom Category Dropdown Logic ──
     if (catTrigger && catDropdown) {
@@ -396,36 +737,59 @@
     function selectCategoryByName(name) {
       if (!catDropdown || !catHiddenInput || !catLabel) return;
       var found = null;
-      catDropdown.querySelectorAll('.hf-cat-menu-item').forEach(function (item) {
-        if (!found && item.dataset.catValue.toLowerCase().includes(name.toLowerCase())) {
+      var items = catDropdown.querySelectorAll('.hf-cat-menu-item');
+      items.forEach(function (item) {
+        var v = (item.dataset.catValue || '').toLowerCase();
+        if (!found && v.includes(name.toLowerCase())) {
           found = item;
         }
       });
+      if (!found) {
+        items.forEach(function (item) {
+          var v = (item.dataset.catValue || '').toLowerCase();
+          if (!found && (v.includes('exam') || v.includes('science') || v.includes('prep'))) {
+            found = item;
+          }
+        });
+      }
       if (found) {
-        found.click();
+        var val = found.dataset.catValue;
+        catHiddenInput.value = val;
+        catLabel.textContent = val;
+        items.forEach(function (i) {
+          i.classList.toggle('is-active', i === found);
+        });
       }
     }
 
     // ── Dialog Open & Dismiss Handlers ──
+    var savedScrollY = 0;
+
     function openPostDialog(toolAction) {
       if (!dialog) return;
+      savedScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
       if (!dialog.open) {
         dialog.showModal();
       }
+      document.documentElement.classList.add('hf-dialog-open');
+      document.body.classList.add('hf-dialog-open');
+      document.body.style.top = '-' + savedScrollY + 'px';
       if (toolAction === 'image') {
         isSelectingFile = true;
-        setTimeout(function () {
-          if (fileInput) fileInput.click();
-          setTimeout(function () { isSelectingFile = false; }, 800);
-        }, 100);
+        if (fileInput) fileInput.click();
+        setTimeout(function () { isSelectingFile = false; }, 1000);
       } else if (toolAction === 'video') {
         toggleVideoPanel(true);
       } else if (toolAction === 'poll') {
         togglePollPanel(true);
       } else if (toolAction === 'book') {
-        selectCategoryByName('Syllabus');
+        isSelectingFile = true;
+        if (docFileInput) docFileInput.click();
+        else if (mediaFileInput) mediaFileInput.click();
+        setTimeout(function () { isSelectingFile = false; }, 1000);
       }
       updateCharCounter();
+      updateSubmitState();
       setTimeout(function () {
         if (contentInput && !toolAction) contentInput.focus();
       }, 60);
@@ -435,12 +799,62 @@
       if (dialog && dialog.open) {
         dialog.close();
       }
+      document.documentElement.classList.remove('hf-dialog-open');
+      document.body.classList.remove('hf-dialog-open');
+      document.body.style.top = '';
+      window.scrollTo(0, savedScrollY);
       if (identityPicker) identityPicker.classList.remove('is-open');
       if (launcherIdentityPicker) launcherIdentityPicker.classList.remove('is-open');
       if (catDropdown) catDropdown.classList.remove('is-open');
+      if (emojiPopover) emojiPopover.style.display = 'none';
     }
 
-    if (promptTrigger) promptTrigger.addEventListener('click', function () { openPostDialog(); });
+    if (dialog) {
+      dialog.addEventListener('close', function () {
+        document.documentElement.classList.remove('hf-dialog-open');
+        document.body.classList.remove('hf-dialog-open');
+        document.body.style.top = '';
+        window.scrollTo(0, savedScrollY);
+      });
+      dialog.addEventListener('cancel', function () {
+        document.documentElement.classList.remove('hf-dialog-open');
+        document.body.classList.remove('hf-dialog-open');
+        document.body.style.top = '';
+        window.scrollTo(0, savedScrollY);
+      });
+    }
+
+    function handleDialogWheel(e) {
+      if (!dialog || !dialog.open) return;
+      var bodyEl = dialog.querySelector('.hf-dialog-body');
+      var previewEl = document.getElementById('homePostPreviewBox');
+      var activeScrollEl = (previewEl && previewEl.style.display !== 'none') ? previewEl : bodyEl;
+      if (!activeScrollEl || !activeScrollEl.contains(e.target)) {
+        e.preventDefault();
+        return;
+      }
+      var delta = e.deltaY;
+      var isAtTop = activeScrollEl.scrollTop <= 0 && delta < 0;
+      var isAtBottom = (activeScrollEl.scrollTop + activeScrollEl.clientHeight >= activeScrollEl.scrollHeight - 1) && delta > 0;
+      if (isAtTop || isAtBottom) {
+        e.preventDefault();
+      }
+    }
+
+    function handleDialogTouchMove(e) {
+      if (!dialog || !dialog.open) return;
+      var bodyEl = dialog.querySelector('.hf-dialog-body');
+      var previewEl = document.getElementById('homePostPreviewBox');
+      var activeScrollEl = (previewEl && previewEl.style.display !== 'none') ? previewEl : bodyEl;
+      if (!activeScrollEl || !activeScrollEl.contains(e.target)) {
+        e.preventDefault();
+      }
+    }
+
+    dialog.addEventListener('wheel', handleDialogWheel, { passive: false });
+    window.addEventListener('wheel', handleDialogWheel, { passive: false });
+    dialog.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
+    window.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
 
     // Open from left sidebar "New discussion" CTA without page reload
     var leftCta = document.querySelector('.hf-left-cta');
@@ -455,9 +869,17 @@
       setTimeout(function () { openPostDialog(); }, 150);
     }
 
-    // ── Scroll Hide/Reveal for Launcher ──
+    // ── Launcher: open the composer, hide on scroll ──
     var composerLauncher = document.getElementById('homeComposerLauncher');
     if (composerLauncher) {
+      /* The card reads as one control, so all of it opens the composer rather
+         than just the pill inside it. The identity picker is the one part with
+         its own behaviour, and the pill's click arrives here by bubbling. */
+      composerLauncher.addEventListener('click', function (e) {
+        if (e.target.closest('#homeLauncherIdentityPicker')) return;
+        openPostDialog();
+      });
+
       var lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
       var scrollTicking = false;
       var scrollThreshold = 10;
@@ -489,16 +911,16 @@
     }
 
     var feedAddImageBtn = document.getElementById('homeFeedAddImageBtn');
-    if (feedAddImageBtn) feedAddImageBtn.addEventListener('click', function (e) { e.stopPropagation(); openPostDialog('image'); });
+    if (feedAddImageBtn) feedAddImageBtn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openPostDialog('image'); });
 
     var feedAddVideoBtn = document.getElementById('homeFeedAddVideoBtn');
-    if (feedAddVideoBtn) feedAddVideoBtn.addEventListener('click', function (e) { e.stopPropagation(); openPostDialog('video'); });
+    if (feedAddVideoBtn) feedAddVideoBtn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openPostDialog('video'); });
 
     var feedAddPollBtn = document.getElementById('homeFeedAddPollBtn');
-    if (feedAddPollBtn) feedAddPollBtn.addEventListener('click', function (e) { e.stopPropagation(); openPostDialog('poll'); });
+    if (feedAddPollBtn) feedAddPollBtn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openPostDialog('poll'); });
 
     var feedAddBookBtn = document.getElementById('homeFeedAddBookBtn');
-    if (feedAddBookBtn) feedAddBookBtn.addEventListener('click', function (e) { e.stopPropagation(); openPostDialog('book'); });
+    if (feedAddBookBtn) feedAddBookBtn.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openPostDialog('book'); });
 
     if (closeBtn) {
       closeBtn.addEventListener('click', function (e) {
@@ -612,8 +1034,19 @@
       if (addPollBtn) addPollBtn.classList.toggle('is-active', isPollActive);
       if (isPollActive) {
         renderPollOptions();
-        if (pollQuestionInput) pollQuestionInput.focus();
+        if (pollQuestionInput) {
+          try {
+            pollQuestionInput.focus({ preventScroll: true });
+          } catch (e) {
+            pollQuestionInput.focus();
+          }
+        }
       }
+      updateSubmitState();
+    }
+
+    if (pollQuestionInput) {
+      pollQuestionInput.addEventListener('input', updateSubmitState);
     }
 
     function renderPollOptions() {
@@ -758,11 +1191,15 @@
         var card = document.createElement('div');
         card.className = 'hf-media-item-card';
 
+        var isPdfOrBook = att.kind === 'pdf' || att.kind === 'book' || (att.name && att.name.toLowerCase().endsWith('.pdf'));
+
         var icon = document.createElement('div');
         icon.className = 'hf-media-item-icon';
         icon.innerHTML = att.kind === 'video'
           ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="14" height="14" rx="3"></rect><polygon points="22 8 16 12 22 16 22 8"></polygon></svg>'
-          : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>';
+          : (isPdfOrBook
+            ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>'
+            : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>');
 
         var info = document.createElement('div');
         info.className = 'hf-media-item-info';
@@ -771,7 +1208,7 @@
         name.textContent = att.name;
         var meta = document.createElement('div');
         meta.className = 'hf-media-item-meta';
-        meta.textContent = att.uploading ? 'Uploading...' : (att.kind.toUpperCase() + (att.size ? (' • ' + (att.size > 1048576 ? (att.size / 1048576).toFixed(1) + ' MB' : (att.size / 1024).toFixed(0) + ' KB')) : ''));
+        meta.textContent = att.uploading ? 'Uploading...' : ((isPdfOrBook ? 'PDF / BOOK' : att.kind.toUpperCase()) + (att.size ? (' • ' + (att.size > 1048576 ? (att.size / 1048576).toFixed(1) + ' MB' : (att.size / 1024).toFixed(0) + ' KB')) : ''));
         info.appendChild(name);
         info.appendChild(meta);
 
@@ -790,77 +1227,311 @@
         card.appendChild(rem);
         mediaListContainer.appendChild(card);
       });
+      updateSubmitState();
+    }
+
+    async function handleMediaUploads(files, defaultKind) {
+      if (!files.length) return;
+      if (attachedMedia.length + files.length > 4) {
+        showSnackbar('Maximum 4 attachments allowed per post');
+        files = files.slice(0, Math.max(0, 4 - attachedMedia.length));
+      }
+
+      for (var i = 0; i < files.length; i++) {
+        var f = files[i];
+        var ext = (f.name.split('.').pop() || '').toLowerCase();
+        var kind = ['pdf', 'epub', 'djvu'].includes(ext) ? 'pdf' :
+                   (['mp4', 'webm', 'mov', 'm4v'].includes(ext) ? 'video' :
+                   (['mp3', 'm4a', 'wav', 'aac'].includes(ext) ? 'audio' : (defaultKind || 'file')));
+        var att = { name: f.name, kind: kind, size: f.size, uploading: true, url: '', mime: f.type };
+        attachedMedia.push(att);
+        renderMediaList();
+
+        var fd = new FormData();
+        fd.append('file', f);
+
+        try {
+          var res = await fetch('/api/forum/uploads/', {
+            method: 'POST',
+            headers: { 'X-CSRFToken': CSRF_TOKEN },
+            credentials: 'same-origin',
+            body: fd
+          });
+          var data = await res.json();
+          if (data.ok && data.attachment) {
+            att.url = data.attachment.url;
+            att.name = data.attachment.name || att.name;
+            att.kind = data.attachment.kind || att.kind;
+            att.size = data.attachment.size || att.size;
+            att.thumbnail_url = data.attachment.thumbnail_url || '';
+            att.uploading = false;
+          } else {
+            showSnackbar(data.error || 'Failed to upload ' + f.name);
+            var errIdx = attachedMedia.indexOf(att);
+            if (errIdx !== -1) attachedMedia.splice(errIdx, 1);
+          }
+        } catch (e) {
+          showSnackbar('Network error uploading ' + f.name);
+          var errIdx2 = attachedMedia.indexOf(att);
+          if (errIdx2 !== -1) attachedMedia.splice(errIdx2, 1);
+        }
+        renderMediaList();
+      }
     }
 
     if (mediaFileInput) {
       mediaFileInput.addEventListener('change', async function () {
         isSelectingFile = false;
         var files = Array.from(mediaFileInput.files || []);
-        if (!files.length) return;
-        if (attachedMedia.length + files.length > 4) {
-          showSnackbar('Maximum 4 attachments allowed per post');
-          files = files.slice(0, Math.max(0, 4 - attachedMedia.length));
-        }
-
-        for (var i = 0; i < files.length; i++) {
-          var f = files[i];
-          var ext = (f.name.split('.').pop() || '').toLowerCase();
-          var kind = ['mp4', 'webm', 'mov', 'm4v'].includes(ext) ? 'video' : (['mp3', 'm4a', 'wav', 'aac'].includes(ext) ? 'audio' : 'file');
-          var att = { name: f.name, kind: kind, size: f.size, uploading: true, url: '', mime: f.type };
-          attachedMedia.push(att);
-          renderMediaList();
-
-          var fd = new FormData();
-          fd.append('file', f);
-
-          try {
-            var res = await fetch('/api/forum/uploads/', {
-              method: 'POST',
-              headers: { 'X-CSRFToken': CSRF_TOKEN },
-              credentials: 'same-origin',
-              body: fd
-            });
-            var data = await res.json();
-            if (data.ok && data.attachment) {
-              att.url = data.attachment.url;
-              att.name = data.attachment.name || att.name;
-              att.kind = data.attachment.kind || att.kind;
-              att.size = data.attachment.size || att.size;
-              att.uploading = false;
-            } else {
-              showSnackbar(data.error || 'Failed to upload ' + f.name);
-              var errIdx = attachedMedia.indexOf(att);
-              if (errIdx !== -1) attachedMedia.splice(errIdx, 1);
-            }
-          } catch (e) {
-            showSnackbar('Network error uploading ' + f.name);
-            var errIdx2 = attachedMedia.indexOf(att);
-            if (errIdx2 !== -1) attachedMedia.splice(errIdx2, 1);
-          }
-          renderMediaList();
-        }
+        await handleMediaUploads(files, 'file');
         mediaFileInput.value = '';
       });
     }
 
-    if (addBookBtn) {
-      addBookBtn.addEventListener('click', function () {
-        selectCategoryByName('Syllabus');
-        if (contentInput) contentInput.focus();
+    if (docFileInput) {
+      docFileInput.addEventListener('cancel', function () {
+        isSelectingFile = false;
+        if (dialog && !dialog.open) dialog.showModal();
+      });
+      docFileInput.addEventListener('change', async function () {
+        isSelectingFile = false;
+        if (dialog && !dialog.open) dialog.showModal();
+        var files = Array.from(docFileInput.files || []);
+        await handleMediaUploads(files, 'pdf');
+        docFileInput.value = '';
       });
     }
 
+    if (addBookBtn) {
+      addBookBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (docFileInput) {
+          isSelectingFile = true;
+          docFileInput.click();
+          setTimeout(function () { isSelectingFile = false; }, 800);
+        } else if (mediaFileInput) {
+          isSelectingFile = true;
+          mediaFileInput.click();
+          setTimeout(function () { isSelectingFile = false; }, 800);
+        }
+      });
+    }
+
+    // ── Interactive Emoji Picker Popover ──
     var emojiBtn = document.getElementById('homePostEmojiBtn');
-    if (emojiBtn && contentInput) {
-      emojiBtn.addEventListener('click', function () {
-        var emojis = ['💡', '✍️', '📚', '❓', '✨'];
-        var randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
-        var pos = contentInput.selectionStart || contentInput.value.length;
-        var val = contentInput.value;
-        contentInput.value = val.slice(0, pos) + randomEmoji + ' ' + val.slice(pos);
+    var emojiPopover = document.getElementById('homePostEmojiPopover');
+    var emojiSearchInput = document.getElementById('homeEmojiSearchInput');
+    var emojiGrid = document.getElementById('homeEmojiGrid');
+    var emojiTabs = document.getElementById('homeEmojiTabs');
+    var activeEmojiCat = 'smileys';
+
+    var EMOJI_DATA = {
+      smileys: [
+        { e: '😀', k: 'grinning face happy smile' }, { e: '😃', k: 'smiley happy joy' }, { e: '😄', k: 'smile happy laugh' },
+        { e: '😁', k: 'beam grin happy' }, { e: '😆', k: 'laugh squint haha' }, { e: '😅', k: 'sweat smile phew' },
+        { e: '🤣', k: 'rofl lol laughing tears' }, { e: '😂', k: 'joy laugh tears happy' }, { e: '🙂', k: 'slight smile' },
+        { e: '🙃', k: 'upside down sarcastic' }, { e: '😉', k: 'wink playful' }, { e: '😊', k: 'blush smile warm' },
+        { e: '😇', k: 'innocent angel halo' }, { e: '🥰', k: 'love hearts smiling adored' }, { e: '😍', k: 'heart eyes love' },
+        { e: '🤩', k: 'star struck excited' }, { e: '😘', k: 'kiss blowing love' }, { e: '😗', k: 'kissing' },
+        { e: '😋', k: 'yum delicious tongue' }, { e: '😛', k: 'tongue silly' }, { e: '😜', k: 'wink tongue joke' },
+        { e: '🤪', k: 'zany goofy crazy' }, { e: '😝', k: 'squint tongue funny' }, { e: '🤑', k: 'money rich dollar' },
+        { e: '🤗', k: 'hug embrace friendly' }, { e: '🤭', k: 'hand over mouth oops' }, { e: '🤫', k: 'shh quiet secret' },
+        { e: '🤔', k: 'thinking ponder hmm question' }, { e: '🤐', k: 'zipper mouth silent secret' }, { e: '🤨', k: 'raised eyebrow skeptical' },
+        { e: '😐', k: 'neutral poker face' }, { e: '😑', k: 'expressionless fine' }, { e: '😶', k: 'no mouth speechless' },
+        { e: '😏', k: 'smirk cunning sly' }, { e: '😒', k: 'unamused annoyed' }, { e: '🙄', k: 'rolling eyes eye roll' },
+        { e: '😬', k: 'grimacing awkward yikes' }, { e: '😌', k: 'relieved peaceful calm' }, { e: '😔', k: 'pensive sad' },
+        { e: '😪', k: 'sleepy tired snot' }, { e: '😴', k: 'sleeping zzz tired' }, { e: '😷', k: 'mask sick flu' },
+        { e: '🤒', k: 'thermometer sick fever' }, { e: '🤕', k: 'bandage hurt head' }, { e: '🤢', k: 'nauseated sick' },
+        { e: '🤧', k: 'sneezing tissue cold' }, { e: '🥵', k: 'hot sweating fever' }, { e: '🥶', k: 'cold freezing ice' },
+        { e: '😵', k: 'dizzy knocked out' }, { e: '🤯', k: 'exploding head mind blown shock' }, { e: '🥳', k: 'partying celebrate horns' },
+        { e: '😎', k: 'cool sunglasses chill' }, { e: '🤓', k: 'nerd glasses smart study geek' }, { e: '🧐', k: 'monocle inspect curious' },
+        { e: '😕', k: 'confused huh' }, { e: '😟', k: 'worried concern' }, { e: '😮', k: 'open mouth wow surprise' },
+        { e: '😲', k: 'astonished shocked' }, { e: '😳', k: 'flushed surprised embarrassed' }, { e: '🥺', k: 'pleading puppy eyes please' },
+        { e: '😨', k: 'fearful scared' }, { e: '😰', k: 'anxious blue sweat stress' }, { e: '😥', k: 'sad relieved sweat' },
+        { e: '😢', k: 'crying tear sad' }, { e: '😭', k: 'loudly crying sobbing tears' }, { e: '😱', k: 'screaming fear panic' },
+        { e: '😞', k: 'disappointed sad down' }, { e: '😓', k: 'downcast sweat nervous' }, { e: '😩', k: 'weary tired exhausted' },
+        { e: '🥱', k: 'yawning bored sleepy' }, { e: '😤', k: 'triumph huff pride steam' }, { e: '😡', k: 'rage red angry mad' }
+      ],
+      study: [
+        { e: '📚', k: 'books study reading syllabus library exam' }, { e: '📖', k: 'open book study reading notes' },
+        { e: '📕', k: 'red book textbook' }, { e: '📗', k: 'green book notebook' }, { e: '📘', k: 'blue book manual' },
+        { e: '📙', k: 'orange book journal' }, { e: '📓', k: 'notebook composition book study' }, { e: '📒', k: 'ledger yellow notebook notes' },
+        { e: '📑', k: 'bookmark tabs page marker' }, { e: '📜', k: 'scroll certificate history diploma' }, { e: '📄', k: 'page paper exam sheet doc' },
+        { e: '📝', k: 'memo notes writing test assignment pencil' }, { e: '✍️', k: 'writing hand pen exam test' }, { e: '🖊️', k: 'ballpoint pen ink' },
+        { e: '🖋️', k: 'fountain pen writing' }, { e: '✏️', k: 'pencil writing drawing exam' }, { e: '🔍', k: 'magnifying glass search find explore' },
+        { e: '🔬', k: 'microscope science biology lab test' }, { e: '🔭', k: 'telescope astronomy science space stars' },
+        { e: '🧪', k: 'test tube chemistry science lab experiment' }, { e: '🧫', k: 'petri dish biology culture bacteria' },
+        { e: '🧬', k: 'dna genetics biology science helix' }, { e: '📐', k: 'triangular ruler geometry math triangle' },
+        { e: '📏', k: 'straight ruler measurement math centimeters' }, { e: '🧮', k: 'abacus math calculation count arithmetic' },
+        { e: '🎒', k: 'backpack school bag student bag' }, { e: '🎓', k: 'graduation cap degree university college graduate' },
+        { e: '🏫', k: 'school building education academy class' }, { e: '🏛️', k: 'classical building institution college' },
+        { e: '💡', k: 'light bulb idea inspiration tip brainstorm solution' }, { e: '🧠', k: 'brain knowledge smart memory intelligence' },
+        { e: '📌', k: 'pushpin notice pinned reminder' }, { e: '📍', k: 'round pushpin location mark' }, { e: '📎', k: 'paperclip attachment file' },
+        { e: '📋', k: 'clipboard task list survey exam' }, { e: '📊', k: 'bar chart statistics graph presentation' },
+        { e: '📈', k: 'chart increasing upward trend growth profit' }, { e: '📉', k: 'chart decreasing trend down loss' },
+        { e: '💻', k: 'laptop computer tech code programming' }, { e: '🖥️', k: 'desktop computer monitor pc' },
+        { e: '⌨️', k: 'keyboard typing code tech' }, { e: '💾', k: 'floppy disk save storage' }, { e: '⚙️', k: 'gear settings engineering mechanical' },
+        { e: '⚖️', k: 'scales balance law justice physics' }, { e: '⏳', k: 'hourglass flowing sand time exam timer' },
+        { e: '⌛', k: 'hourglass done time up' }, { e: '⏰', k: 'alarm clock time deadline morning' }, { e: '⏱️', k: 'stopwatch speed timer test exam' }
+      ],
+      gestures: [
+        { e: '👍', k: 'thumbs up like approve good yes upvote' }, { e: '👎', k: 'thumbs down dislike disapprove no downvote' },
+        { e: '👏', k: 'clapping applause bravo great job' }, { e: '🙌', k: 'raising hands celebrate praise hooray' },
+        { e: '👐', k: 'open hands welcome hug' }, { e: '🤲', k: 'palms up together request prayer' }, { e: '🤝', k: 'handshake deal agree partnership' },
+        { e: '🤞', k: 'crossed fingers hope luck exam' }, { e: '✌️', k: 'victory peace sign two' }, { e: '🤟', k: 'love you gesture rock' },
+        { e: '🤘', k: 'sign of the horns rock metal' }, { e: '🤙', k: 'call me gesture shaka chill' }, { e: '👈', k: 'backhand pointing left' },
+        { e: '👉', k: 'backhand pointing right' }, { e: '👆', k: 'backhand pointing up above' }, { e: '👇', k: 'backhand pointing down below' },
+        { e: '☝️', k: 'index pointing up attention note number one' }, { e: '✋', k: 'raised hand stop high five' },
+        { e: '👋', k: 'waving hand hello bye greeting' }, { e: '🤜', k: 'right fist bump brotherhood' }, { e: '🤛', k: 'left fist bump solidarity' },
+        { e: '✊', k: 'raised fist power strength resistance' }, { e: '👊', k: 'oncoming fist punch brofist' },
+        { e: '💪', k: 'flexed biceps muscle strong power workout' }, { e: '🙏', k: 'folded hands please thank you pray namaste respect' },
+        { e: '🙋', k: 'person raising hand question answer volunteer' }, { e: '🙆', k: 'person gesturing ok yes correct' },
+        { e: '🙇', k: 'person bowing apologize respect' }, { e: '👨‍🎓', k: 'man student student graduate' }, { e: '👩‍🎓', k: 'woman student student graduate' },
+        { e: '👨‍🏫', k: 'man teacher instructor professor' }, { e: '👩‍🏫', k: 'woman teacher instructor professor' },
+        { e: '👨‍💻', k: 'man technologist coder developer programmer' }, { e: '👩‍💻', k: 'woman technologist coder developer programmer' }
+      ],
+      reactions: [
+        { e: '🔥', k: 'fire lit hot flame awesome viral' }, { e: '✨', k: 'sparkles clean magic new shining star' },
+        { e: '⭐', k: 'star favorite rank rating gold' }, { e: '🌟', k: 'glowing star shine bright' },
+        { e: '💫', k: 'dizzy star burst spark' }, { e: '💥', k: 'collision boom impact explode' },
+        { e: '💯', k: 'hundred points perfect score full marks 100 exam' }, { e: '🎯', k: 'bullseye direct hit target goal accuracy' },
+        { e: '🚀', k: 'rocket launch fast speed growth ship' }, { e: '🏆', k: 'trophy champion win first award' },
+        { e: '🥇', k: '1st place medal gold winner' }, { e: '🥈', k: '2nd place medal silver' }, { e: '🥉', k: '3rd place medal bronze' },
+        { e: '🏅', k: 'sports medal award' }, { e: '🎖️', k: 'military medal honor' }, { e: '❤️', k: 'red heart love like affection' },
+        { e: '🧡', k: 'orange heart' }, { e: '💛', k: 'yellow heart friendship' }, { e: '💚', k: 'green heart nature' },
+        { e: '💙', k: 'blue heart trust peace' }, { e: '💜', k: 'purple heart' }, { e: '🖤', k: 'black heart' },
+        { e: '🤍', k: 'white heart pure' }, { e: '💔', k: 'broken heart heartbreak sad' }, { e: '❣️', k: 'heart exclamation mark' },
+        { e: '💕', k: 'two hearts love' }, { e: '💖', k: 'sparkling heart shiny love' }, { e: '🎉', k: 'party popper celebrate congrats' },
+        { e: '🎊', k: 'confetti ball celebration' }, { e: '🎈', k: 'balloon party birthday' }, { e: '💬', k: 'speech balloon comment discussion chat' }
+      ],
+      objects: [
+        { e: '✔️', k: 'check mark tick verified correct yes right' }, { e: '❌', k: 'cross mark x wrong false incorrect no' },
+        { e: '❓', k: 'red question mark query help ask' }, { e: '❗', k: 'red exclamation mark important alert' },
+        { e: '⚠️', k: 'warning caution danger alert attention' }, { e: '🚫', k: 'prohibited no entry banned forbidden' },
+        { e: '🔔', k: 'bell notification alert chime' }, { e: '🔕', k: 'bell with slash mute silent' },
+        { e: '📣', k: 'megaphone announcement shout broadcast' }, { e: '📢', k: 'loudspeaker announcement audio' },
+        { e: '✉️', k: 'envelope mail letter email message' }, { e: '📦', k: 'package box delivery parcel' },
+        { e: '🏷️', k: 'label tag category bookmark' }, { e: '☕', k: 'hot beverage coffee tea morning break study' },
+        { e: '🍵', k: 'tea green matcha cup' }, { e: '🍎', k: 'red apple fruit health education teacher' },
+        { e: '⚡', k: 'high voltage lightning electricity energy fast' }, { e: '☀️', k: 'sun sunny weather warm bright' },
+        { e: '🌙', k: 'crescent moon night evening dark' }, { e: '☁️', k: 'cloud weather cloud server' },
+        { e: '🌈', k: 'rainbow colorful weather' }, { e: '💧', k: 'droplet water tear sweat' },
+        { e: '🌍', k: 'globe showing europe africa earth world geography' }, { e: '🌐', k: 'globe with meridians internet web global' },
+        { e: '🎵', k: 'musical note audio tune sound' }, { e: '🎶', k: 'musical notes melody song music' },
+        { e: '🎨', k: 'artist palette art colors paint creative' }, { e: '🛠️', k: 'hammer and wrench tools fix settings build' },
+        { e: '🔧', k: 'wrench tool repair' }
+      ]
+    };
+
+    function renderEmojiGrid(filterQuery) {
+      if (!emojiGrid) return;
+      emojiGrid.innerHTML = '';
+      var query = (filterQuery || '').trim().toLowerCase();
+      var list = [];
+      if (query) {
+        Object.keys(EMOJI_DATA).forEach(function (cat) {
+          EMOJI_DATA[cat].forEach(function (item) {
+            if (item.k.includes(query) || item.e.includes(query)) {
+              list.push(item.e);
+            }
+          });
+        });
+      } else {
+        list = (EMOJI_DATA[activeEmojiCat] || []).map(function (item) { return item.e; });
+      }
+
+      if (!list.length) {
+        var empty = document.createElement('div');
+        empty.className = 'hf-emoji-empty';
+        empty.textContent = 'No matching emojis found';
+        emojiGrid.appendChild(empty);
+        return;
+      }
+
+      list.forEach(function (em) {
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'hf-emoji-item';
+        btn.textContent = em;
+        btn.title = em;
+        btn.setAttribute('role', 'option');
+        btn.addEventListener('click', function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          insertEmoji(em);
+        });
+        emojiGrid.appendChild(btn);
+      });
+    }
+
+    function insertEmoji(em) {
+      if (!contentInput) return;
+      var pos = contentInput.selectionStart != null ? contentInput.selectionStart : contentInput.value.length;
+      var end = contentInput.selectionEnd != null ? contentInput.selectionEnd : pos;
+      var val = contentInput.value;
+      contentInput.value = val.slice(0, pos) + em + val.slice(end);
+      var newPos = pos + em.length;
+      try {
+        contentInput.focus({ preventScroll: true });
+      } catch (e) {
         contentInput.focus();
-        contentInput.selectionStart = contentInput.selectionEnd = pos + randomEmoji.length + 1;
-        updateCharCounter();
+      }
+      contentInput.selectionStart = contentInput.selectionEnd = newPos;
+      updateCharCounter();
+      updateSubmitState();
+    }
+
+    if (emojiBtn && emojiPopover) {
+      emojiBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        var isOpen = emojiPopover.style.display !== 'none';
+        emojiPopover.style.display = isOpen ? 'none' : 'flex';
+        emojiBtn.setAttribute('aria-expanded', !isOpen ? 'true' : 'false');
+        if (!isOpen) {
+          renderEmojiGrid(emojiSearchInput ? emojiSearchInput.value : '');
+          if (emojiSearchInput) {
+            setTimeout(function () {
+              try { emojiSearchInput.focus({ preventScroll: true }); } catch (err) { emojiSearchInput.focus(); }
+            }, 50);
+          }
+        }
+      });
+
+      if (emojiSearchInput) {
+        emojiSearchInput.addEventListener('input', function () {
+          renderEmojiGrid(emojiSearchInput.value);
+        });
+        emojiSearchInput.addEventListener('click', function (e) {
+          e.stopPropagation();
+        });
+      }
+
+      if (emojiTabs) {
+        emojiTabs.querySelectorAll('.hf-emoji-tab').forEach(function (tab) {
+          tab.addEventListener('click', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            var cat = tab.dataset.cat;
+            if (!cat) return;
+            activeEmojiCat = cat;
+            emojiTabs.querySelectorAll('.hf-emoji-tab').forEach(function (t) {
+              var isActive = t === tab;
+              t.classList.toggle('is-active', isActive);
+              t.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+            if (emojiSearchInput) emojiSearchInput.value = '';
+            renderEmojiGrid('');
+          });
+        });
+      }
+
+      document.addEventListener('click', function (e) {
+        if (emojiPopover.style.display !== 'none' && !emojiPopover.contains(e.target) && e.target !== emojiBtn && !emojiBtn.contains(e.target)) {
+          emojiPopover.style.display = 'none';
+          emojiBtn.setAttribute('aria-expanded', 'false');
+        }
       });
     }
 
@@ -928,6 +1599,7 @@
         }
         previewsContainer.appendChild(item);
       });
+      updateSubmitState();
     }
 
     if (addImageBtn && fileInput) {
@@ -1009,6 +1681,7 @@
       renderPreviews();
       renderMediaList();
       updateCharCounter();
+      updateSubmitState();
     }
 
     // ── Submit Post Handler ──
@@ -1086,7 +1759,8 @@
 
         var finalImageUrls = uploadedImages.map(function (img) { return img.url; }).filter(Boolean);
         var finalAttachments = attachedMedia.map(function (m) {
-          return { name: m.name, url: m.url, size: m.size, kind: m.kind, mime: m.mime };
+          return { name: m.name, url: m.url, size: m.size, kind: m.kind, mime: m.mime,
+                   thumbnail_url: m.thumbnail_url || '' };
         }).filter(function (m) { return !!m.url; });
 
         var originalBtnHtml = submitBtn.innerHTML;

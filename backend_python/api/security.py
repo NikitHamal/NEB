@@ -689,8 +689,27 @@ def _sniff_forum_media_kind(data: bytes):
     return None
 
 
+def _ffmpeg_setting(name: str, exe: str):
+    """A configured binary from settings/env, verified to exist.
+
+    Shared hosting rarely ships ffmpeg on PATH, and a dev box may have it
+    somewhere non-standard, so both are given an explicit override."""
+    from django.conf import settings
+    configured = str(getattr(settings, name, '') or os.environ.get(name, '') or '').strip()
+    if configured and os.path.isfile(configured):
+        return configured
+    return None
+
+
 def find_ffmpeg_bin() -> str | None:
-    """Find a working ffmpeg binary across system and cPanel paths."""
+    """Find a working ffmpeg binary across configured, system and cPanel paths."""
+    override = None
+    try:
+        override = _ffmpeg_setting('FFMPEG_BIN', 'ffmpeg')
+    except Exception:
+        override = None
+    if override:
+        return override
     found = shutil.which('ffmpeg')
     if found and os.path.exists(found):
         return found
@@ -711,7 +730,14 @@ def find_ffmpeg_bin() -> str | None:
 
 
 def find_ffprobe_bin() -> str | None:
-    """Find a working ffprobe binary across system and cPanel paths."""
+    """Find a working ffprobe binary across configured, system and cPanel paths."""
+    override = None
+    try:
+        override = _ffmpeg_setting('FFPROBE_BIN', 'ffprobe')
+    except Exception:
+        override = None
+    if override:
+        return override
     found = shutil.which('ffprobe')
     if found and os.path.exists(found):
         return found
@@ -730,22 +756,25 @@ def find_ffprobe_bin() -> str | None:
 
 
 def _resolve_media_file(value: str):
-    """Resolve a media URL/path to an absolute file strictly under MEDIA_ROOT.
+    """Resolve a media URL or storage path to an absolute file inside MEDIA_ROOT.
 
-    Returns the absolute path, or None. Strict rules (fail closed):
-    - relative URLs, or absolute http(s) URLs whose host is this site
-      (ALLOWED_HOSTS); anything else (external hosts, other schemes such
-      as file:/javascript:/data:) is rejected;
-    - the URL path must START WITH MEDIA_URL (substring matches like
+    Returns the absolute path, or None. Three input shapes are accepted because
+    that is what the callers actually hold: a full URL of this site, a
+    MEDIA_URL-relative path, or a bare path as returned by default_storage.save()
+    (which has no /media/ prefix — refusing it used to make every thumbnail
+    silently "not found"). Strict rules (fail closed):
+    - absolute URLs must be http(s) with a host in ALLOWED_HOSTS; other schemes
+      (file:/javascript:/data:) and foreign hosts are rejected;
+    - a URL path must START WITH MEDIA_URL (substring matches like
       https://evil.com/media/x are rejected);
-    - the normalized path must resolve inside MEDIA_ROOT (no ../ escapes)
+    - bare paths must be relative — absolute filesystem paths are rejected;
+    - the normalized result must stay inside MEDIA_ROOT (no ../ escapes)
       and be an existing file.
     """
     if not value or not isinstance(value, str):
         return None
-    from django.conf import settings
     raw = value.split('?', 1)[0].split('#', 1)[0].strip()
-    if not raw:
+    if not raw or '\x00' in raw:
         return None
     parsed = urlparse(raw)
     if parsed.scheme and parsed.scheme not in ('http', 'https'):
@@ -755,18 +784,76 @@ def _resolve_media_file(value: str):
         allowed = {h.lstrip('.').lower() for h in (getattr(settings, 'ALLOWED_HOSTS', []) or []) if h}
         if host not in allowed:
             return None
-    path = parsed.path or ''
-    media_prefix = getattr(settings, 'MEDIA_URL', '/media/') or '/media/'
-    if not path.startswith(media_prefix):
+    media_prefix = (getattr(settings, 'MEDIA_URL', '/media/') or '/media/').rstrip('/')
+    path = parsed.path if (parsed.scheme or parsed.netloc) else raw.replace('\\', '/')
+    if media_prefix and path.startswith(media_prefix + '/'):
+        rel = path[len(media_prefix) + 1:]
+    elif parsed.scheme or parsed.netloc:
+        return None
+    elif os.path.isabs(path) or re.match(r'^[A-Za-z]:', path):
+        return None
+    else:
+        rel = path
+    rel = rel.lstrip('/')
+    if not rel:
         return None
     try:
         media_root = Path(settings.MEDIA_ROOT).resolve()
-        candidate = (media_root / path[len(media_prefix):].lstrip('/')).resolve()
+        candidate = (media_root / rel).resolve()
     except Exception:
         return None
     if not candidate.is_relative_to(media_root) or not candidate.is_file():
         return None
     return str(candidate)
+
+
+def _poster_paths(abs_video: str):
+    """(absolute, MEDIA_URL-relative) paths of the poster frame for a video.
+
+    The frame lives beside the media tree in a ``thumbnails`` sibling folder, so
+    a resource video at ``resources/a.mp4`` gets ``resources/thumbnails/a.jpg``
+    — the URL is derived from where the file actually went, which is what a
+    caller can then serve."""
+    from django.conf import settings
+    base_name = os.path.splitext(os.path.basename(abs_video))[0]
+    filename = f"thumb_{base_name}.jpg"
+    abs_thumb = os.path.join(os.path.dirname(os.path.dirname(abs_video)), 'thumbnails', filename)
+    media_root = str(settings.MEDIA_ROOT).replace('\\', '/').rstrip('/')
+    normalised = abs_thumb.replace('\\', '/')
+    rel = normalised[len(media_root):].lstrip('/') if normalised.startswith(media_root) else normalised
+    return abs_thumb, (getattr(settings, 'MEDIA_URL', '/media/') or '/media/') + rel
+
+
+def find_video_thumbnail(video_url: str) -> str:
+    """MEDIA_URL path of an already-extracted poster for this video, else ''.
+
+    Deliberately read-only — it never spawns ffmpeg, because it runs while a
+    page is being rendered. It exists so a post saved before its poster was
+    extracted (or by a client that dropped the field) still shows one as soon
+    as the frame is on disk; a video with no frame simply gets no poster and
+    the player draws its own fallback plate."""
+    try:
+        abs_video = _resolve_media_file(video_url)
+        if not abs_video:
+            return ''
+        abs_thumb, rel_thumb = _poster_paths(abs_video)
+        if os.path.isfile(abs_thumb) and os.path.getsize(abs_thumb) > 0:
+            return rel_thumb
+    except Exception:
+        return ''
+    return ''
+
+
+def media_poster(media) -> str:
+    """Poster URL for a PostMedia/ResourceMedia row: the URL it stores, else the
+    frame already extracted on disk. Never runs ffmpeg, so it is safe to call
+    while rendering a page."""
+    stored = (getattr(media, 'thumbnail_url', '') or '').strip()
+    if stored:
+        return stored
+    if getattr(media, 'kind', '') != 'video':
+        return ''
+    return find_video_thumbnail(getattr(media, 'url', '') or '')
 
 
 def generate_video_thumbnail(rel_path: str) -> str:
@@ -775,25 +862,21 @@ def generate_video_thumbnail(rel_path: str) -> str:
         return ''
     try:
         import subprocess
-        import shutil
-        from django.conf import settings
 
         abs_video = _resolve_media_file(rel_path)
 
         if not abs_video:
             logger.warning("generate_video_thumbnail: video file not found for input %s", rel_path)
             return ''
-            
-        thumb_dir = os.path.join(os.path.dirname(os.path.dirname(abs_video)), 'thumbnails')
+
+        abs_thumb, rel_thumb = _poster_paths(abs_video)
+        thumb_dir = os.path.dirname(abs_thumb)
+        thumb_filename = os.path.basename(abs_thumb)
         os.makedirs(thumb_dir, exist_ok=True)
-        base_name = os.path.splitext(os.path.basename(abs_video))[0]
-        thumb_filename = f"thumb_{base_name}.jpg"
-        abs_thumb = os.path.join(thumb_dir, thumb_filename)
-        rel_thumb = f"{settings.MEDIA_URL}forum_media/thumbnails/{thumb_filename}"
-        
+
         if os.path.exists(abs_thumb) and os.path.getsize(abs_thumb) > 0:
             return rel_thumb
-            
+
         ffmpeg_bin = find_ffmpeg_bin()
         if not ffmpeg_bin:
             logger.warning("generate_video_thumbnail: ffmpeg binary not found on system")

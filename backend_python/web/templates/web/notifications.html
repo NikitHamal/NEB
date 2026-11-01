@@ -69,7 +69,7 @@
               <a class="notif-avatar-link" href="{% if n.actor_name %}{% url 'web:profile' username=n.actor_name %}{% else %}#{% endif %}" title="View {{ n.actor_name }}'s profile">
                 <div class="notif-avatar-col notif-avatar-real">
                   {% if n.actor_photo_url %}
-                    <img src="{{ n.actor_photo_url }}" alt="{{ n.actor_name }}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <img src="{{ n.actor_photo_url }}" alt="{{ n.actor_name }}" loading="lazy" data-fallback="flex">
                     <div class="notif-avatar-fallback" style="display:none;">{{ n.actor_name|first|upper }}</div>
                   {% else %}
                     <div class="notif-avatar-fallback">{{ n.actor_name|first|upper }}</div>
@@ -399,7 +399,7 @@
           avatarHtml = `
             <a class="notif-avatar-link" href="${profileUrl}" title="View ${actorName}'s profile">
               <div class="notif-avatar-col notif-avatar-real">
-                <img src="${escapeHtml(n.actor_photo_url)}" alt="${actorName}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img src="${escapeHtml(n.actor_photo_url)}" alt="${actorName}" loading="lazy" data-fallback="flex">
                 <div class="notif-avatar-fallback" style="display:none;">${initial}</div>
               </div>
             </a>
@@ -705,7 +705,7 @@
         avatarHtml = `
           <a class="notif-avatar-link" href="${profileUrl}" title="View ${escapeHtml(actorName)}'s profile">
             <div class="notif-avatar-col notif-avatar-real">
-              <img src="${escapeHtml(actorPhoto)}" alt="${escapeHtml(actorName)}" loading="lazy" onerror="this.style.display='none'; if(this.nextElementSibling) this.nextElementSibling.style.display='flex';">
+              <img src="${escapeHtml(actorPhoto)}" alt="${escapeHtml(actorName)}" loading="lazy" data-fallback="flex">
               <div class="notif-avatar-fallback" style="display:none;">${initial}</div>
             </div>
           </a>

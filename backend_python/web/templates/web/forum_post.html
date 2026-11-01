@@ -7,15 +7,15 @@
 {% block og_title %}{{ post.title|default:"Discussion" }} - NEBians Forum{% endblock %}
 {% block og_description %}{{ post.content|strip_inline|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block og_type %}article{% endblock %}
-{% block og_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
-{% block og_image_secure %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
+{% block og_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailAbsolute %}{{ post.attachments.0.thumbnailAbsolute }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
+{% block og_image_secure %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailAbsolute %}{{ post.attachments.0.thumbnailAbsolute }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
 {% comment %}Dimensions only when the image is our drawn card. A photo's own
      size is not known here, and a wrong og:image:width is worse than none.{% endcomment %}
-{% block og_image_dims %}{% if not post.images %}{% if not post.attachments.0.thumbnailUrl %}{% if not post.attachments.0.thumbnail_url %}<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">{% endif %}{% endif %}{% endif %}{% endblock %}
-{% block og_image_type %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}image/jpeg{% else %}image/png{% endif %}{% endblock %}
-{% block og_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }}{% else %}A NEBians card for this discussion{% endif %}{% endblock %}
-{% block tw_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailUrl %}{{ post.attachments.0.thumbnailUrl }}{% elif post.attachments.0.thumbnail_url %}{{ post.attachments.0.thumbnail_url }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
-{% block tw_image_alt %}{% if post.images or post.attachments.0.thumbnailUrl or post.attachments.0.thumbnail_url %}Preview from: {{ post.title|default:"Discussion" }} on NEBians{% else %}A NEBians card for this discussion{% endif %}{% endblock %}
+{% block og_image_dims %}{% if not post.images %}{% if not post.attachments.0.thumbnailAbsolute %}<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">{% endif %}{% endif %}{% endblock %}
+{% block og_image_type %}{% if post.images or post.attachments.0.thumbnailAbsolute %}image/jpeg{% else %}image/png{% endif %}{% endblock %}
+{% block og_image_alt %}{% if post.images or post.attachments.0.thumbnailAbsolute %}Preview from: {{ post.title|default:"Discussion" }}{% else %}A NEBians card for this discussion{% endif %}{% endblock %}
+{% block tw_image %}{% if post.images %}{{ post.images.0.imageUrl }}{% elif post.attachments.0.thumbnailAbsolute %}{{ post.attachments.0.thumbnailAbsolute }}{% else %}{{ og_image_url }}{% endif %}{% endblock %}
+{% block tw_image_alt %}{% if post.images or post.attachments.0.thumbnailAbsolute %}Preview from: {{ post.title|default:"Discussion" }} on NEBians{% else %}A NEBians card for this discussion{% endif %}{% endblock %}
 {% block tw_title %}{{ post.title|default:"Discussion" }} - NEBians{% endblock %}
 {% block tw_description %}{{ post.content|strip_inline|truncatechars:200|default:"Discussion on NEBians forum" }}{% endblock %}
 {% block nav_forum %}md-nav-active{% endblock %}
@@ -28,8 +28,11 @@
 {% comment %} In the head, not in the body. A stylesheet found part-way down
    the document is found after the browser has already painted, so the page
    lays itself out twice on every load. {% endcomment %}
-<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261101r">
 {% endblock %}
+
+{% block footer %}{% endblock %}
 
 {% block content %}
 {% comment %} Built by web/schema_forum.py: text, image, comment and author.url are
@@ -37,224 +40,233 @@
 <script type="application/ld+json" nonce="{{ csp_nonce }}">{{ post_schema_json }}</script>
 
 
-<div class="md-container" style="padding-top:24px;">
-  {% if post %}
-    <a href="{% url 'web:home' %}" class="fp-back" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Go back
-    </a>
+<div class="md-container hf-container" style="padding-top:16px;">
+  <div class="hf-shell">
+    <aside class="hf-side hf-left" aria-label="Home navigation">
+      {% include "web/_home_left_nav.html" %}
+    </aside>
 
-  <!-- Post Content -->
-  <div class="fp-post">
-    <div class="fp-post-header">
-      <div class="fp-avatar">
-        {% if post.authorName == 'neby' or post.authorIsBot %}
-          <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
-        {% elif post.authorPhotoUrl %}
-          <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="flex">
-          <span class="fp-avatar-letter" style="display:none;">{{ post.authorDisplayName|default:post.authorName|truncate_chars:1|default:"?" }}</span>
+    <div class="hf-center">
+      <div class="hf-center-panel fp-center-panel">
+        {% if post %}
+        <div class="fp-header-bar">
+          <a href="{% url 'web:home' %}" class="fp-back-btn" data-action="go-back" title="Go back">
+            <span class="material-symbols-outlined">arrow_back</span>
+          </a>
+          <div class="fp-header-title-wrap">
+            <h2 class="fp-header-title">Discussion</h2>
+            <span class="fp-header-badge neb-tag">#{{ post.category }}</span>
+          </div>
+        </div>
+
+        <!-- Post Content -->
+        <article class="fp-post-thread-main">
+          <div class="fp-post-header">
+            <div class="fp-avatar {% if post.authorBadgeInfo and post.authorBadgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
+              {% if post.authorName == 'neby' or post.authorIsBot %}
+                <div class="neby-avatar-mini" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
+              {% elif post.authorPhotoUrl %}
+                <img src="{{ post.authorPhotoUrl }}" alt="" data-fallback="flex">
+                <span class="fp-avatar-letter" style="display:none;">{{ post.authorDisplayName|default:post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% else %}
+                <span class="fp-avatar-letter">{{ post.authorDisplayName|default:post.authorName|truncate_chars:1|default:"?" }}</span>
+              {% endif %}
+              {% if post.authorBadgeInfo and post.authorBadgeInfo.type == 'verified' %}
+                <span class="avatar-badge-overlay is-verified" style="--badge-bg: {{ post.authorBadgeInfo.color }};" title="{{ post.authorBadgeInfo.label }}">
+                  <span class="material-symbols-outlined">verified</span>
+                </span>
+              {% endif %}
+            </div>
+            <div class="fp-meta">
+              <div class="fp-meta-top author-line">
+                {% if post.isAnonymous %}
+                <span class="author fp-author-anon"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;margin-right:2px;">visibility_off</span>Anonymous Nebian</span>
+                {% elif post.authorId and post.authorName %}
+                <a href="{% url 'web:profile' username=post.authorName %}" class="author">{{ post.authorDisplayName|default:post.authorName }}</a>
+                {% else %}
+                <span class="author" style="color:var(--md-on-surface-variant);">{{ post.authorDisplayName|default:post.authorName|default:"Nebian" }}</span>
+                {% endif %}
+                {% if post.authorBadgeInfo %}
+                <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
+                {% endif %}
+                {% if is_authenticated and not is_owner and not post.isAnonymous %}
+                  <button class="follow-btn-inline {% if is_following %}following{% else %}not-following{% endif %}" id="followBtn" data-action="toggle-follow-post">{% if is_following %}Following{% else %}Follow{% endif %}</button>
+                {% endif %}
+              </div>
+              <div class="fp-meta-sub">
+                {% if not post.isAnonymous and post.authorName %}<span class="fp-author-handle">@{{ post.authorName }}</span> &middot; {% endif %}
+                <span>{{ post.createdAt|time_ago }}</span>
+              </div>
+            </div>
+            <div class="more-menu-wrapper">
+              <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
+              <div class="more-menu" id="post-menu-{{ post.id }}" style="display:none;" data-action="stop-propagation">
+                {% if is_authenticated %}
+                <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
+                  <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+                  <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
+                </button>
+                {% endif %}
+                <button class="more-menu-item" data-action="share-post" data-post-id="{{ post.id }}">
+                  <svg class="neb-post-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c0-5 3.5-9 8.5-9H19"></path><polyline points="14 4 19 9 14 14"></polyline></svg> Share
+                </button>
+                {% if is_authenticated and not is_owner %}
+                <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
+                  <span class="material-symbols-outlined">flag</span> Report
+                </button>
+                {% endif %}
+                {% if is_owner %}
+                <div class="more-menu-divider"></div>
+                <button class="more-menu-item" data-action="start-edit-post">
+                  <span class="material-symbols-outlined">edit</span> Edit post
+                </button>
+                <button class="more-menu-item" data-action="archive-post">
+                  <span class="material-symbols-outlined">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}
+                </button>
+                <button class="more-menu-item danger" data-action="delete-post">
+                  <span class="material-symbols-outlined">delete</span> Delete post
+                </button>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+          <h1 class="fp-post-title">{{ post.title }}</h1>
+          <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
+
+          {% with images=post.images %}{% include "web/_forum_post_slider.html" %}{% endwith %}
+
+          {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
+
+          {% if post.poll %}
+          <div class="fp-poll {% if post.poll.pollType == 'mcq' %}fp-poll-mcq{% endif %}" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}" data-poll-type="{{ post.poll.pollType }}" data-allow-multiple="{{ post.poll.allowMultiple|default:'false' }}">
+            <div class="fp-poll-type-badge">
+              <span class="material-symbols-outlined">{% if post.poll.pollType == 'mcq' %}quiz{% else %}how_to_vote{% endif %}</span>
+              {% if post.poll.pollType == 'mcq' %}MCQ Quiz{% else %}Poll{% endif %}
+              {% if post.poll.allowMultiple %}, multiple choice{% endif %}
+            </div>
+            {% if post.poll.question %}
+            <div class="fp-poll-question">{{ post.poll.question }}</div>
+            {% endif %}
+            <div class="fp-poll-options">
+              {% for opt in post.poll.options %}
+              <button class="fp-poll-option {% if post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}fp-poll-option-voted{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}fp-poll-option-correct{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and not opt.isCorrect and post.poll.userVote != opt.id %}fp-poll-option-wrong{% endif %}" data-action="vote-poll" data-poll-id="{{ post.poll.id }}" data-option-id="{{ opt.id }}" data-vote-count="{{ opt.voteCount }}" data-total-votes="{{ post.poll.totalVotes }}" data-is-correct="{{ opt.isCorrect|default:'false' }}">
+                <div class="fp-poll-option-bar" style="width:{% if post.poll.totalVotes > 0 %}{% widthratio opt.voteCount post.poll.totalVotes 100 %}{% else %}0{% endif %}%"></div>
+                <div class="fp-poll-option-text">
+                  <span class="fp-poll-option-label">{{ opt.text }}</span>
+                  {% if post.poll.userVote %}
+                  <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }}, {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
+                  {% endif %}
+                </div>
+                {% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}
+                <span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:'FILL' 1">done</span>
+                {% elif post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.userVote == opt.id and not opt.isCorrect %}
+                <span class="material-symbols-outlined fp-poll-option-wrong-icon">cancel</span>
+                {% elif post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}
+                <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">done</span>
+                {% endif %}
+              </button>
+              {% endfor %}
+            </div>
+            {% if post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.explanation %}
+            <div class="fp-poll-explanation">
+              <span class="material-symbols-outlined">lightbulb</span>
+              {{ post.poll.explanation }}
+            </div>
+            {% endif %}
+            <div class="fp-poll-meta">
+              <span>{{ post.poll.totalVotes }} vote{{ post.poll.totalVotes|pluralize }}</span>
+              {% if post.poll.isExpired %}
+              <span class="fp-poll-expired">Poll ended</span>
+              {% elif post.poll.durationMs > 0 %}
+              <span data-poll-expires="{{ post.poll.createdAt|add:post.poll.durationMs }}"></span>
+              {% endif %}
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="fp-meta-timestamp-row">
+            <time>{{ post.createdAt|time_ago }}</time>
+            {% if is_owner %}
+            <span class="fp-meta-dot">&middot;</span>
+            <span class="fp-views"><span class="material-symbols-outlined icon-sm">visibility</span> {{ post.viewCount|short_number }} views</span>
+            {% endif %}
+          </div>
+
+          <div class="fp-post-actions-bar">
+            <button type="button" data-action="toggle-post-like" data-post-id="{{ post.id }}" class="fp-action-btn {% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}" aria-label="Like this discussion" aria-pressed="{% if post.isThumbedUp %}true{% else %}false{% endif %}">
+              <span class="material-symbols-outlined">thumb_up</span>
+              <span id="post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
+            </button>
+            <button type="button" class="fp-action-btn" data-action="jump-to-replies" id="postReplyJump" aria-label="Reply">
+              <svg class="neb-post-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+              <span>{{ post.replyCount }}</span>
+            </button>
+            <button type="button" class="fp-action-btn {% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="post-bookmark-btn-{{ post.id }}" aria-label="Bookmark">
+              <span class="material-symbols-outlined">bookmark</span>
+            </button>
+            <button type="button" class="fp-action-btn" data-action="share-post" data-post-id="{{ post.id }}" aria-label="Share this discussion">
+              <svg class="neb-post-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c0-5 3.5-9 8.5-9H19"></path><polyline points="14 4 19 9 14 14"></polyline></svg>
+            </button>
+          </div>
+        </article>
+
+        <!-- The one comment composer, roomy variant: this page owns the field. -->
+        {% if is_authenticated %}
+        {% include "web/partials/_comment_composer.html" with cc_id="mainReplyWrapper" cc_textarea_id="mainReplyContent" cc_placeholder="Post your reply..." cc_anon_id="mainReplyAnon" cc_attach_action="reply-attach-media" cc_compose_key="main" cc_attach_label="Attach files or study notes" cc_send_id="mainReplySubmit" cc_send_action="submit-main-reply" cc_send_label="Post reply" cc_media_id="replyMediaList-main" cc_input_id="replyMediaInput" %}
         {% else %}
-          <span class="fp-avatar-letter">{{ post.authorDisplayName|default:post.authorName|truncate_chars:1|default:"?" }}</span>
+        <div class="fp-login-prompt" id="replySignIn">
+          <p>Sign in to join the discussion and post a reply.</p>
+          <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="md-btn md-btn-filled md-btn-small">Sign in</a>
+        </div>
+        {% endif %}
+
+        <!-- Replies Section -->
+        <div id="replies-section">
+          <div class="fp-replies-head">
+            <h2 class="fp-section-title">Replies <span class="fp-section-count">{{ post.replyCount }}</span>{% if top_level_replies|length != post.replyCount %}<span class="fp-section-sub">&middot; {{ top_level_replies|length }} threads</span>{% endif %}</h2>
+            <div class="fp-reply-sort" role="group" aria-label="Sort replies">
+              <a href="?sort=oldest" class="fp-reply-sort-btn {% if reply_sort == 'oldest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=oldest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Oldest</a>
+              <a href="?sort=newest" class="fp-reply-sort-btn {% if reply_sort == 'newest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=newest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Newest</a>
+              <a href="?sort=top" class="fp-reply-sort-btn {% if reply_sort == 'top' %}fp-reply-sort-active{% endif %}" hx-get="?sort=top" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Top</a>
+            </div>
+          </div>
+
+          {% include "web/_forum_post_replies.html" %}
+        </div>
+        {% else %}
+        <div class="fp-empty">
+          <span class="material-symbols-outlined">error_outline</span>
+          <h3>Post not found</h3>
+          <a href="{% url 'web:home' %}" class="md-btn md-btn-filled" style="margin-top:12px;" data-action="go-back">Go back</a>
+        </div>
         {% endif %}
       </div>
-      <div class="fp-meta">
-        <div class="fp-meta-top author-line">
-          {% if post.isAnonymous %}
-          <span class="author fp-author-anon"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;margin-right:2px;">visibility_off</span>Anonymous Nebian</span>
-          {% elif post.authorId %}
-          <a href="{% url 'web:profile' username=post.authorName %}" class="author">{{ post.authorDisplayName|default:post.authorName }}</a>
-          {% else %}
-          <span class="author" style="color:var(--md-on-surface-variant);">{{ post.authorDisplayName|default:post.authorName }}</span>
-          {% endif %}
-          {% if post.authorBadgeInfo %}
-          <span class="role-badge role-badge-{{ post.authorBadgeInfo.type }}" title="{{ post.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ post.authorBadgeInfo.icon }}</span></span>
-          {% endif %}
-          {% if is_authenticated and not is_owner and not post.isAnonymous %}
-            <button class="follow-btn-inline {% if is_following %}following{% else %}not-following{% endif %}" id="followBtn" data-action="toggle-follow-post">{% if is_following %}Following{% else %}Follow{% endif %}</button>
-          {% endif %}
-          <span class="fp-category neb-tag">#{{ post.category }}</span>
-        </div>
-        <div class="fp-meta-time">
-          <span>{{ post.createdAt|time_ago }}</span>
-          {% if is_owner %}
-          <span class="fp-views"><span class="material-symbols-outlined icon-sm">visibility</span> {{ post.viewCount|short_number }} views</span>
-          {% endif %}
-        </div>
-      </div>
-      <div class="more-menu-wrapper">
-        <button class="more-btn" data-action="toggle-more-menu" data-menu-id="post-menu-{{ post.id }}" aria-label="More options"><span class="material-symbols-outlined">more_vert</span></button>
-        <div class="more-menu" id="post-menu-{{ post.id }}" style="display:none;" data-action="stop-propagation">
-          {% if is_authenticated %}
-          <button class="more-menu-item" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}">
-            <span class="material-symbols-outlined" id="bookmark-icon-post-{{ post.id }}"{% if post.isBookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-            <span id="bookmark-label-post-{{ post.id }}">{% if post.isBookmarked %}Remove{% else %}Bookmark{% endif %}</span>
-          </button>
-          {% endif %}
-          <button class="more-menu-item" data-action="share-post" data-post-id="{{ post.id }}">
-            <svg class="neb-post-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c0-5 3.5-9 8.5-9H19"></path><polyline points="14 4 19 9 14 14"></polyline></svg> Share
-          </button>
-          {% if is_authenticated and not is_owner %}
-          <button class="more-menu-item" data-action="report-content" data-target-type="post" data-target-id="{{ post.id }}">
-            <span class="material-symbols-outlined">flag</span> Report
-          </button>
-          {% endif %}
-          {% if is_owner %}
-          <div class="more-menu-divider"></div>
-          <button class="more-menu-item" data-action="start-edit-post">
-            <span class="material-symbols-outlined">edit</span> Edit post
-          </button>
-          <button class="more-menu-item" data-action="archive-post">
-            <span class="material-symbols-outlined">{{ post.isArchived|yesno:"unarchive,archive" }}</span> {% if post.isArchived %}Unarchive{% else %}Archive{% endif %}
-          </button>
-          <button class="more-menu-item danger" data-action="delete-post">
-            <span class="material-symbols-outlined">delete</span> Delete post
-          </button>
-          {% endif %}
-        </div>
-      </div>
     </div>
-    <h1 class="fp-post-title">{{ post.title }}</h1>
-    <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
-    {% with images=post.images %}{% include "web/_forum_post_slider.html" %}{% endwith %}
-
-    {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
-
-{% if post.poll %}
-     <div class="fp-poll {% if post.poll.pollType == 'mcq' %}fp-poll-mcq{% endif %}" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}" data-poll-type="{{ post.poll.pollType }}" data-allow-multiple="{{ post.poll.allowMultiple|default:'false' }}">
-       <div class="fp-poll-type-badge">
-         <span class="material-symbols-outlined">{% if post.poll.pollType == 'mcq' %}quiz{% else %}how_to_vote{% endif %}</span>
-         {% if post.poll.pollType == 'mcq' %}MCQ Quiz{% else %}Poll{% endif %}
-         {% if post.poll.allowMultiple %}, multiple choice{% endif %}
-       </div>
-       {% if post.poll.question %}
-       <div class="fp-poll-question">{{ post.poll.question }}</div>
-       {% endif %}
-       <div class="fp-poll-options">
-         {% for opt in post.poll.options %}
-         <button class="fp-poll-option {% if post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}fp-poll-option-voted{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}fp-poll-option-correct{% endif %}{% if post.poll.pollType == 'mcq' and post.poll.userVote and not opt.isCorrect and post.poll.userVote != opt.id %}fp-poll-option-wrong{% endif %}" data-action="vote-poll" data-poll-id="{{ post.poll.id }}" data-option-id="{{ opt.id }}" data-vote-count="{{ opt.voteCount }}" data-total-votes="{{ post.poll.totalVotes }}" data-is-correct="{{ opt.isCorrect|default:'false' }}">
-           <div class="fp-poll-option-bar" style="width:{% if post.poll.totalVotes > 0 %}{% widthratio opt.voteCount post.poll.totalVotes 100 %}{% else %}0{% endif %}%"></div>
-           <div class="fp-poll-option-text">
-             <span class="fp-poll-option-label">{{ opt.text }}</span>
-             {% if post.poll.userVote %}
-             <span class="fp-poll-option-count">{{ opt.voteCount }} vote{{ opt.voteCount|pluralize }}, {% widthratio opt.voteCount post.poll.totalVotes 100 %}%</span>
-             {% endif %}
-           </div>
-           {% if post.poll.pollType == 'mcq' and post.poll.userVote and opt.isCorrect %}
-           <span class="material-symbols-outlined fp-poll-option-correct-icon" style="font-variation-settings:'FILL' 1">done</span>
-           {% elif post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.userVote == opt.id and not opt.isCorrect %}
-           <span class="material-symbols-outlined fp-poll-option-wrong-icon">cancel</span>
-           {% elif post.poll.userVote == opt.id or post.poll.userVote.0 == opt.id %}
-           <span class="material-symbols-outlined fp-poll-option-check" style="font-variation-settings:'FILL' 1">done</span>
-           {% endif %}
-         </button>
-         {% endfor %}
-       </div>
-       {% if post.poll.pollType == 'mcq' and post.poll.userVote and post.poll.explanation %}
-       <div class="fp-poll-explanation">
-         <span class="material-symbols-outlined">lightbulb</span>
-         {{ post.poll.explanation }}
-       </div>
-       {% endif %}
-       <div class="fp-poll-meta">
-         <span>{{ post.poll.totalVotes }} vote{{ post.poll.totalVotes|pluralize }}</span>
-         {% if post.poll.isExpired %}
-         <span class="fp-poll-expired">Poll ended</span>
-         {% elif post.poll.durationMs > 0 %}
-         <span data-poll-expires="{{ post.poll.createdAt|add:post.poll.durationMs }}"></span>
-         {% endif %}
-       </div>
-     </div>
-     {% endif %}
-
-    <div class="fp-post-actions">
-      <button data-action="toggle-post-like" data-post-id="{{ post.id }}" class="fp-action-btn {% if post.isThumbedUp %}liked{% endif %}" id="post-like-btn-{{ post.id }}" aria-label="Like this discussion" aria-pressed="{% if post.isThumbedUp %}true{% else %}false{% endif %}">
-        <span class="material-symbols-outlined">thumb_up</span>
-        <span id="post-like-count-{{ post.id }}">{{ post.thumbsUpCount }}</span>
-      </button>
-      <button class="fp-action-btn" data-action="jump-to-replies" id="postReplyJump">
-        <svg class="neb-post-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-        {{ post.replyCount }} repl{{ post.replyCount|pluralize:"y,ies" }}
-      </button>
-      <span class="fp-action-spacer"></span>
-      <button class="fp-action-btn {% if post.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="post" data-target-id="{{ post.id }}" id="post-bookmark-btn-{{ post.id }}">
-        <span class="material-symbols-outlined">bookmark</span>
-      </button>
-      <button class="fp-action-btn" data-action="share-post" data-post-id="{{ post.id }}" aria-label="Share this discussion">
-        <svg class="neb-post-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c0-5 3.5-9 8.5-9H19"></path><polyline points="14 4 19 9 14 14"></polyline></svg>
-      </button>
-    </div>
+    <aside class="hf-side hf-right" aria-label="More for you">
+      {% include "web/_home_aside.html" %}
+    </aside>
   </div>
+</div>
 
-  <!-- Edit Post Modal -->
-  <script type="text/plain" id="post-original-title">{{ post.title }}</script>
-  <script type="text/plain" id="post-original-content">{{ post.content }}</script>
-  <div class="modal-overlay" id="editPostModal">
-    <div class="modal-box">
-      <h3>Edit Post</h3>
-      <div class="edit-form">
-        <label for="editPostTitle">Title</label>
-        <input type="text" id="editPostTitle">
-        <label for="editPostContent">Content</label>
-        <textarea id="editPostContent" rows="6"></textarea>
-        <div class="form-actions">
-          <button class="md-btn md-btn-text" data-action="close-edit-post-modal">Cancel</button>
-          <button class="md-btn md-btn-filled" data-action="submit-edit-post">Save</button>
-        </div>
+<!-- Edit Post Modal -->
+<script type="text/plain" id="post-original-title">{{ post.title }}</script>
+<script type="text/plain" id="post-original-content">{{ post.content }}</script>
+<div class="modal-overlay" id="editPostModal">
+  <div class="modal-box">
+    <h3>Edit Post</h3>
+    <div class="edit-form">
+      <label for="editPostTitle">Title</label>
+      <input type="text" id="editPostTitle">
+      <label for="editPostContent">Content</label>
+      <textarea id="editPostContent" rows="6"></textarea>
+      <div class="form-actions">
+        <button class="md-btn md-btn-text" data-action="close-edit-post-modal">Cancel</button>
+        <button class="md-btn md-btn-filled" data-action="submit-edit-post">Save</button>
       </div>
     </div>
   </div>
-
-  <!-- Replies -->
-  <div id="replies-section">
-  <div class="fp-replies-head">
-    <h2 class="fp-section-title">Replies <span class="fp-section-count">{{ post.replyCount }}</span>{% if top_level_replies|length != post.replyCount %}<span class="fp-section-sub">&middot; {{ top_level_replies|length }} threads</span>{% endif %}</h2>
-    <div class="fp-reply-sort" role="group" aria-label="Sort replies">
-      <a href="?sort=oldest" class="fp-reply-sort-btn {% if reply_sort == 'oldest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=oldest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Oldest</a>
-      <a href="?sort=newest" class="fp-reply-sort-btn {% if reply_sort == 'newest' %}fp-reply-sort-active{% endif %}" hx-get="?sort=newest" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Newest</a>
-      <a href="?sort=top" class="fp-reply-sort-btn {% if reply_sort == 'top' %}fp-reply-sort-active{% endif %}" hx-get="?sort=top" hx-target="#replies-section" hx-swap="innerHTML" hx-push-url="true">Top</a>
-    </div>
-  </div>
-
-  {% include "web/_forum_post_replies.html" %}
-  </div>
-
-  <!-- Reply Form -->
-  {% if is_authenticated %}
-  <div class="fp-compose">
-    <div class="fp-compose-title">Add a reply</div>
-    <form id="mainReplyForm" data-action="submit-main-reply">
-      <div class="reply-input-wrapper" id="mainReplyWrapper">
-        <button type="button" class="fp-inline-tool" data-action="reply-attach-media" data-compose-key="main" title="Add video, audio or file">
-          <span class="material-symbols-outlined">add</span>
-        </button>
-        <label class="fp-inline-anon" data-anon-toggle title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
-          <input type="checkbox" id="mainReplyAnon">
-          <span class="material-symbols-outlined">visibility_off</span>
-        </label>
-        <textarea name="content" id="mainReplyContent" placeholder="Write something..."></textarea>
-        <button type="submit" class="reply-send-btn" id="mainReplySubmit" disabled>
-          <span class="material-symbols-outlined">arrow_upward</span>
-        </button>
-      </div>
-      <div class="cp-media-list" id="replyMediaList-main" style="display:none"></div>
-    </form>
-    <input type="file" id="replyMediaInput" multiple style="display:none"
-           accept="video/mp4,video/webm,video/quicktime,audio/mpeg,audio/mp4,audio/aac,audio/ogg,audio/opus,audio/wav,audio/flac,.m4v,.mov,.m4a,.pdf,.txt,.md,.csv,.json,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.zip">
-  </div>
-  {% else %}
-  <div class="fp-login-prompt" id="replySignIn">
-    <p>Sign in to join the discussion.</p>
-    <a href="{% url 'web:login' %}?next={{ request.path }}" rel="nofollow" class="md-btn md-btn-filled md-btn-small">Sign in</a>
-  </div>
-  {% endif %}
-  {% else %}
-  <div class="fp-empty">
-    <span class="material-symbols-outlined">error_outline</span>
-    <h3>Post not found</h3>
-    <a href="{% url 'web:home' %}" class="md-btn md-btn-filled" style="margin-top:12px;" data-action="go-back">Go back</a>
-  </div>
-  {% endif %}
 </div>
 
 <!-- Edit Reply Modal -->
@@ -315,24 +327,19 @@
     <div class="neb-sheet-body neb-sheet-body-flush fp-thread-scroll" id="threadScroll"></div>
     <div class="fp-thread-compose" id="threadCompose" style="display:none;">
       <button type="button" id="threadReplyingTo" class="fp-replying-to-bar" style="display:none;" data-action="scroll-to-reply-target" data-target-reply-id="">
-        <span class="material-symbols-outlined">format_quote</span>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 21c3 0 7-1 7-8V5c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2 0 4-1.5 6-3 8z"></path>
+          <path d="M17 21c3 0 7-1 7-8V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2 0 4-1.5 6-3 8z"></path>
+        </svg>
         <span class="fp-replying-to-bar-text"></span>
-        <span class="material-symbols-outlined fp-replying-to-bar-close" data-action="cancel-thread-reply-target">close</span>
+        <span class="fp-replying-to-bar-close" data-action="cancel-thread-reply-target">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </span>
       </button>
-      <div class="reply-input-wrapper" id="threadWrapper">
-        <button type="button" class="fp-inline-tool" data-action="reply-attach-media" data-compose-key="thread" title="Add video, audio or file">
-          <span class="material-symbols-outlined">add</span>
-        </button>
-        <label class="fp-inline-anon" data-anon-toggle title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
-          <input type="checkbox" id="threadAnon">
-          <span class="material-symbols-outlined">visibility_off</span>
-        </label>
-        <textarea id="threadTextarea" placeholder="Write something..." data-keydown-action="handle-thread-reply-key" data-neb-autofocus></textarea>
-        <button class="reply-send-btn" id="threadSubmit" data-action="submit-thread-reply" disabled>
-          <span class="material-symbols-outlined">arrow_upward</span>
-        </button>
-      </div>
-      <div class="cp-media-list" id="replyMediaList-thread" style="display:none"></div>
+      {% include "web/partials/_comment_composer.html" with cc_id="threadWrapper" cc_textarea_id="threadTextarea" cc_placeholder="Write something..." cc_keydown="handle-thread-reply-key" cc_autofocus=1 cc_anon_id="threadAnon" cc_attach_action="reply-attach-media" cc_compose_key="thread" cc_send_id="threadSubmit" cc_send_action="submit-thread-reply" cc_send_label="Post reply" cc_media_id="replyMediaList-thread" %}
     </div>
   </div>
 </div>
@@ -340,7 +347,6 @@
 {% endblock %}
 
 {% block extra_js %}
-<script src="{% static 'web/js/composer_voice.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 const POST_ID = '{{ post.id }}';
 const POST_AUTHOR_ID = '{{ post_author_id }}';
@@ -597,7 +603,7 @@ async function confirmDelete() {
 }
 
 /* ---------- Reply composer: media attachments + anonymous ---------- */
-var replyComposeState = { main: [], sidebar: [], sheet: [] };
+var replyComposeState = { main: [], thread: [] };
 var REPLY_MEDIA_MAX = 4;
 var REPLY_MEDIA_LIMITS = { video: 150 * 1024 * 1024, audio: 40 * 1024 * 1024, file: 30 * 1024 * 1024 };
 
@@ -700,6 +706,7 @@ function uploadReplyMedia(key, file, kindHint) {
           att.name = d.attachment.name || att.name;
           att.size = d.attachment.size || att.size;
           att.mime = d.attachment.mime || '';
+          att.thumbnail_url = d.attachment.thumbnail_url || '';
           renderReplyMediaList(key);
           return;
         }
@@ -724,7 +731,10 @@ function uploadReplyMedia(key, file, kindHint) {
 function collectReplyAttachments(key) {
   return replyComposeState[key]
     .filter(function(a) { return !a.uploading && a.url; })
-    .map(function(a) { return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime }; });
+    .map(function(a) {
+      return { url: a.url, kind: a.kind, name: a.name, size: a.size, mime: a.mime,
+               thumbnail_url: a.thumbnail_url || '' };
+    });
 }
 
 function replyComposeBusy(key) {
@@ -734,42 +744,35 @@ function replyComposeBusy(key) {
 function clearReplyCompose(key) {
   replyComposeState[key] = [];
   renderReplyMediaList(key);
+  /* The box grew itself to fit the text, so it has to be told to forget that
+     height too -- an input event is what the grower listens for. */
+  var ta = replyTextareaFor(key);
+  if (ta) ta.dispatchEvent(new Event('input', { bubbles: true }));
   refreshReplySendBtn(key);
 }
 
-/* ---- Send-disabled state that understands staged attachments + voice mode ---- */
-var REPLY_WRAPPER_IDS = { main: 'mainReplyWrapper', thread: 'threadWrapper' };
+/* Both composers on this page are the same component, so everything about a
+   reply is resolved from its field: the textarea and the send button. */
+var REPLY_COMPOSER_IDS = { main: 'mainReplyWrapper', thread: 'threadWrapper' };
+
+function replyComposer(key) {
+  return document.getElementById(REPLY_COMPOSER_IDS[key]);
+}
 
 function replyTextareaFor(key) {
-  var id = key === 'main' ? 'mainReplyContent' : 'threadTextarea';
-  return document.getElementById(id);
+  var composer = replyComposer(key);
+  return composer ? composer.querySelector('textarea') : null;
 }
 
 function refreshReplySendBtn(key) {
-  var wrapper = document.getElementById(REPLY_WRAPPER_IDS[key]);
-  if (!wrapper) return;
-  if (wrapper.__voice) { wrapper.__voice.refresh(); return; }
-  var btn = wrapper.querySelector('.reply-send-btn');
-  var ta = replyTextareaFor(key);
-  var hasText = !!(ta && ta.value.trim());
+  var composer = replyComposer(key);
+  if (!composer) return;
+  var btn = composer.querySelector('.reply-send-btn');
+  var ta = composer.querySelector('textarea');
   var hasMedia = collectReplyAttachments(key).length > 0;
-  if (btn) btn.disabled = !(hasText || hasMedia);
+  if (btn) btn.disabled = !((ta && ta.value.trim()) || hasMedia);
 }
 
-function initReplyVoiceComposer(key) {
-  if (!window.NebVoiceComposer) return;
-  var wrapper = document.getElementById(REPLY_WRAPPER_IDS[key]);
-  if (!wrapper) return;
-  NebVoiceComposer.attach(wrapper, {
-    hasAttachments: function() { return collectReplyAttachments(key).length > 0; },
-    onFile: function(file) {
-      uploadReplyMedia(key, file, 'audio');
-    },
-    onError: function(message) { showSnackbar(message); }
-  });
-}
-
-// Keep the mic/send morph in sync as attachments come and go.
 var _origRenderReplyMediaList = renderReplyMediaList;
 renderReplyMediaList = function(key) {
   _origRenderReplyMediaList(key);
@@ -777,14 +780,11 @@ renderReplyMediaList = function(key) {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-  ['main', 'thread'].forEach(initReplyVoiceComposer);
-  ['main', 'thread'].forEach(refreshReplySendBtn);
-  // Anonymous toggle styling inside the bar stroke
-  document.querySelectorAll('[data-anon-toggle] input[type="checkbox"]').forEach(function(box) {
-    box.addEventListener('change', function() {
-      var label = box.closest('.fp-inline-anon');
-      if (label) label.classList.toggle('anon-on', box.checked);
-    });
+  /* The send button is enabled by what the field holds: text or staged media. */
+  ['main', 'thread'].forEach(function(key) {
+    refreshReplySendBtn(key);
+    var ta = replyTextareaFor(key);
+    if (ta) ta.addEventListener('input', function () { refreshReplySendBtn(key); });
   });
 });
 
@@ -802,12 +802,12 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
-async function submitMainReply(e) {
-  e.preventDefault();
+async function submitMainReply() {
   const content = document.getElementById('mainReplyContent').value.trim();
   if (replyComposeBusy('main')) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
-  if (!content && !collectReplyAttachments('main').length) { showSnackbar('Write something or add a voice note first.'); return; }
-  const submitBtn = (e && e.target) ? e.target.querySelector('.reply-send-btn') : null;
+  if (!content && !collectReplyAttachments('main').length) { showSnackbar('Write something or attach a file first.'); return; }
+  const composer = replyComposer('main');
+  const submitBtn = composer ? composer.querySelector('.reply-send-btn') : null;
   if (submitBtn) submitBtn.disabled = true;
   try {
     const r = await fetch('/ajax/reply/' + POST_ID + '/', {
@@ -1031,28 +1031,30 @@ function renderThreadParent(parent) {
   const mentionContent = renderMentions(parent.content || '');
 
   return '<div class="fp-thread-parent" id="thread-reply-' + escapeHtml(parent.id) + '" data-reply-id="' + escapeHtml(parent.id) + '">' +
-    '<div class="fp-reply-header">' +
-      '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
-      '<div class="fp-reply-meta">' +
-        '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
-          (parentAnon
-            ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(parent.authorName || 'Anonymous Nebian') + '</span>'
-            : (parent.authorId
-              ? '<a href="/app/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>'
-              : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(parent.authorName || 'Deleted user') + '</span>')) +
-          (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
-          followBtn + ownerBtns +
+    '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
+    '<div class="fp-reply-main">' +
+      '<div class="fp-reply-header">' +
+        '<div class="fp-reply-meta">' +
+          '<div class="author-line">' +
+            (parentAnon
+              ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(parent.authorName || 'Anonymous Nebian') + '</span>'
+              : (parent.authorId
+                ? '<a href="/app/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>'
+                : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(parent.authorName || 'Deleted user') + '</span>')) +
+            (parent.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(parent.authorBadgeInfo.type) + '" title="' + escapeHtml(parent.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(parent.authorBadgeInfo.icon) + '</span></span>' : '') +
+            '<span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">' + (parent.createdAt ? formatTimeAgo(parent.createdAt) : '') + '</span>' +
+            followBtn + ownerBtns +
+          '</div>' +
         '</div>' +
-        '<div class="fp-reply-time">' + (parent.createdAt ? formatTimeAgo(parent.createdAt) : '') + '</div>' +
       '</div>' +
-    '</div>' +
-    '<div class="fp-reply-body">' + mentionContent + '</div>' +
-    renderAttachmentsHtml(parent.attachments) +
-    '<div class="fp-thread-parent-actions">' +
-      '<button data-action="toggle-reply-like" data-reply-id="' + escapeHtml(parent.id) + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + escapeHtml(parent.id) + '">' +
-        '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
-        '<span id="reply-like-count-' + escapeHtml(parent.id) + '">' + (parent.thumbsUpCount || 0) + '</span>' +
-      '</button>' +
+      '<div class="fp-reply-body">' + mentionContent + '</div>' +
+      renderAttachmentsHtml(parent.attachments) +
+      '<div class="fp-thread-parent-actions">' +
+        '<button data-action="toggle-reply-like" data-reply-id="' + escapeHtml(parent.id) + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + escapeHtml(parent.id) + '">' +
+          '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
+          '<span id="reply-like-count-' + escapeHtml(parent.id) + '">' + (parent.thumbsUpCount || 0) + '</span>' +
+        '</button>' +
+      '</div>' +
     '</div>' +
   '</div>';
 }
@@ -1144,30 +1146,32 @@ function renderThreadReply(reply, parentInfo, depth) {
   const mentionContent = renderMentions(reply.content);
 
   return '<div class="fp-thread-reply" id="thread-reply-' + escapeHtml(reply.id) + '" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '" data-reply-id="' + escapeHtml(reply.id) + '">' +
-    '<div class="fp-reply-header">' +
-      '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
-      '<div class="fp-reply-meta">' +
-        '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
-          (isAnon
-            ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(reply.authorName) + '</span>'
-            : (reply.authorId
-              ? '<a href="/app/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>'
-              : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(reply.authorName || 'Deleted user') + '</span>')) +
-          (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
-          followBtn + ownerBtns +
+    '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
+    '<div class="fp-reply-main">' +
+      '<div class="fp-reply-header">' +
+        '<div class="fp-reply-meta">' +
+          '<div class="author-line">' +
+            (isAnon
+              ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(reply.authorName) + '</span>'
+              : (reply.authorId
+                ? '<a href="/app/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>'
+                : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(reply.authorName || 'Deleted user') + '</span>')) +
+            (reply.authorBadgeInfo ? '<span class="role-badge role-badge-' + escapeHtml(reply.authorBadgeInfo.type) + '" title="' + escapeHtml(reply.authorBadgeInfo.label) + '"><span class="material-symbols-outlined">' + escapeHtml(reply.authorBadgeInfo.icon) + '</span></span>' : '') +
+            '<span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</span>' +
+            followBtn + ownerBtns +
+          '</div>' +
         '</div>' +
-        '<div class="fp-reply-time">' + formatTimeAgo(reply.createdAt) + '</div>' +
       '</div>' +
-    '</div>' +
-    replyingLine +
-    '<div class="fp-reply-body">' + mentionContent + '</div>' +
-    renderAttachmentsHtml(reply.attachments) +
-    '<div class="fp-reply-actions">' +
-      '<button data-action="toggle-reply-like" data-reply-id="' + reply.id + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
-        '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
-        '<span id="reply-like-count-' + reply.id + '">' + reply.thumbsUpCount + '</span>' +
-      '</button>' +
-      replyBtn +
+      replyingLine +
+      '<div class="fp-reply-body">' + mentionContent + '</div>' +
+      renderAttachmentsHtml(reply.attachments) +
+      '<div class="fp-reply-actions">' +
+        '<button data-action="toggle-reply-like" data-reply-id="' + reply.id + '" class="fp-reply-action ' + likedClass + '" id="reply-like-btn-' + reply.id + '">' +
+          '<span class="material-symbols-outlined"' + likedFill + '>' + likeIcon + '</span>' +
+          '<span id="reply-like-count-' + reply.id + '">' + reply.thumbsUpCount + '</span>' +
+        '</button>' +
+        replyBtn +
+      '</div>' +
       subIndicator +
     '</div>' +
   '</div>';
@@ -1223,7 +1227,7 @@ async function submitThreadReply() {
   if (!textarea) return;
   const content = textarea.value.trim();
   if (replyComposeBusy(composeKey)) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
-  if (!content && !collectReplyAttachments(composeKey).length) { showSnackbar('Write something or add a voice note first.'); return; }
+  if (!content && !collectReplyAttachments(composeKey).length) { showSnackbar('Write something or attach a file first.'); return; }
   const submitId = 'threadSubmit';
   const submitBtn = document.getElementById(submitId);
   if (submitBtn) submitBtn.disabled = true;
@@ -1648,7 +1652,7 @@ registerActions({
   'archive-reply': function(el) { closeAllMenus(); archiveReply(el.dataset.replyId); },
   'delete-reply': function(el) { closeAllMenus(); deleteReply(el.dataset.replyId); },
   'open-thread': function(el) { openThread(el.dataset.replyId); },
-  'submit-main-reply': function(form, e) { e.preventDefault(); submitMainReply(e); },
+  'submit-main-reply': function() { submitMainReply(); },
   'close-edit-reply-modal': function() { closeEditReplyModal(); },
   'submit-edit-reply': function() { submitEditReply(); },
   'close-delete-confirm-modal': function() { closeDeleteConfirmModal(); },

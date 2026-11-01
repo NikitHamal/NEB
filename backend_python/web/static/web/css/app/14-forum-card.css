@@ -2,6 +2,10 @@
    The card reads as a row on the forum and as a card on home/search/profile,
    so the parts that are shared live here. Page-level layout stays in
    pages/forum.css. */
+.post-card {
+  cursor: default;
+}
+
 .post-card h3.post-card-title {
   font-size: 1rem;
   font-weight: 600;
@@ -14,10 +18,26 @@
 .post-card h3.post-card-title a {
   color: inherit;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .post-card h3.post-card-title a:hover {
   color: var(--md-primary);
+}
+
+.post-card-content {
+  cursor: default;
+}
+
+.post-card-content-link {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+}
+
+.post-card-content-link:hover {
+  text-decoration: none;
 }
 
 .post-card-meta-top {

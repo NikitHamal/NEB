@@ -343,11 +343,34 @@ def forum_post(request, post_id):
     all_usernames = list(set(
         ([post_obj.user.username] if post_obj.user_id else []) + [r['authorName'] for r in all_replies if r['authorName']]
     ))
+    from django.core.cache import cache
+    home_unanswered = cache.get('home_unanswered_v1')
+    if home_unanswered is None:
+        unanswered_qs = Post.objects.filter(reply_count=0).exclude(id=post_id).order_by('-created_at')[:4]
+        home_unanswered = [_serialize_post(p, user_id) for p in unanswered_qs]
+        cache.set('home_unanswered_v1', home_unanswered, 180)
+
+    from .view_helpers import _build_contributors_batch
+    home_contributors = cache.get('home_contributors_v1')
+    if home_contributors is None:
+        home_contributors = _build_contributors_batch()[:3]
+        cache.set('home_contributors_v1', home_contributors, 300)
+
+    from api.models import Resource
+    new_resources = cache.get('home_new_res_v1')
+    if new_resources is None:
+        new_resources = list(Resource.objects.order_by('-added_at')[:3].values('id', 'title', 'type', 'subject'))
+        cache.set('home_new_res_v1', new_resources, 300)
+    feed_entries = [{'kind': 'new_resources', 'items': new_resources}]
+
     # Structured data, built here rather than in the template: json.dumps
     # escapes a title with a quote in it, and Google's forum rich result needs
     # fields (text, comment, author.url) that are easy to forget by hand.
     from .schema_forum import breadcrumb_schema, thread_schema
     ctx = _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id, all_usernames=all_usernames, reply_sort=reply_sort,
+        home_unanswered=home_unanswered,
+        home_contributors=home_contributors,
+        feed_entries=feed_entries,
         post_schema_json=_ld_json(thread_schema(post, top_level)),
         post_breadcrumb_json=_ld_json(breadcrumb_schema([
             ('Home', 'https://nebians.consica.com.np/app/'),

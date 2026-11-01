@@ -116,15 +116,8 @@ CATEGORIES: List[Dict] = [
         'id': 'tools',
         'label': 'AI study tools',
         'icon': 'auto_awesome',
-        'blurb': 'Study Lab, Canvas, and what the AI can and cannot do.',
+        'blurb': 'Canvas and what the AI can and cannot do.',
         'questions': [
-            {
-                'q': 'What is Study Lab?',
-                'a': "<a href=\"/app/study-lab/\">Study Lab</a> takes a document — yours, or anything in "
-                     "the library — and builds study material from it: a summary, a mindmap of how the "
-                     "ideas connect, a quiz that marks itself, and flashcards you can revise from. It "
-                     "is meant for the night before, when reading forty pages again is not an option.",
-            },
             {
                 'q': 'What is Canvas?',
                 'a': "<a href=\"/app/canvas/\">Canvas</a> is an infinite board for thinking on. You ask a "

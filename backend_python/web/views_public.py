@@ -314,7 +314,7 @@ def home(request):
     _suggest_cached = False
     if _anon_suggest:
         try:
-            _hit = cache.get('home_suggest_anon_v1')
+            _hit = cache.get('home_suggest_anon_v2')
         except Exception:
             _hit = None
         if _hit is not None:
@@ -323,18 +323,20 @@ def home(request):
     if not _suggest_cached:
         try:
             from api.views_feed import build_suggested_deck
-            deck, _suggest_note = build_suggested_deck(user_profile, limit=10)
-            deck_posts = [obj for kind, obj in deck if kind == 'post']
+            # The rail is a library teaser -- its "See All" goes to the library --
+            # so it carries resources only, even though the deck ranks posts
+            # alongside them. The deck is drawn deeper so the survivors are
+            # still a full rail's worth.
+            deck, _suggest_note = build_suggested_deck(user_profile, limit=20)
             deck_resources = [obj for kind, obj in deck if kind == 'resource']
-            posts_by_id = {p['id']: p for p in _serialize_posts(deck_posts, user_id)} if deck_posts else {}
             resources_by_id = {r['id']: r for r in _serialize_resources(deck_resources)} if deck_resources else {}
-            for kind, obj in deck:
-                card = posts_by_id.get(obj.id) if kind == 'post' else resources_by_id.get(obj.id)
+            for obj in deck_resources:
+                card = resources_by_id.get(obj.id)
                 if card:
-                    suggested_items.append({'type': kind, ('post' if kind == 'post' else 'resource'): card})
+                    suggested_items.append({'type': 'resource', 'resource': card})
             if _anon_suggest and suggested_items:
                 try:
-                    cache.set('home_suggest_anon_v1', suggested_items, 90)
+                    cache.set('home_suggest_anon_v2', suggested_items, 90)
                 except Exception:
                     pass
         except Exception:
@@ -1046,10 +1048,7 @@ def reader(request, resource_id):
         parent_id = c.parent_comment_id or ''
         c_data = {
             'id': c.id,
-            'authorId': c.user_id or '',
-            'authorName': c.user.username if c.user else 'Deleted user',
-            'authorPhotoUrl': _avatar_url(c.user) if c.user else '',
-            'authorBadgeInfo': _user_badge_info(c.user) if c.user else None,
+            **_comment_author(c.user, c.is_anonymous),
             'parentReplyId': parent_id,
             'parentCommentId': parent_id,
             'content': c.content,

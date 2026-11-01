@@ -1,0 +1,25 @@
+<a class="hf-left-cta" href="{% url 'web:create_post' %}" title="New discussion">
+  <span class="material-symbols-outlined" aria-hidden="true">add</span>
+  <span class="hf-cta-label">New discussion</span>
+</a>
+
+<div class="hf-nav-group">
+  <div class="hf-nav-title">Explore</div>
+  <a class="hf-nav-link" href="{% url 'web:library' %}" title="Library"><span class="material-symbols-outlined" aria-hidden="true">menu_book</span><span class="hf-link-text">Library</span></a>
+  <a class="hf-nav-link" href="{% url 'web:canvas' %}" title="Canvas"><span class="material-symbols-outlined" aria-hidden="true">draw</span><span class="hf-link-text">Canvas</span></a>
+  <a class="hf-nav-link" href="{% url 'web:upload_resource' %}" title="Upload notes"><span class="material-symbols-outlined" aria-hidden="true">upload_file</span><span class="hf-link-text">Upload notes</span></a>
+</div>
+
+{% if is_authenticated %}
+<div class="hf-nav-group">
+  <div class="hf-nav-title">Your space</div>
+  <a class="hf-nav-link" href="{% url 'web:bookmarks' %}" title="Bookmarks"><span class="material-symbols-outlined" aria-hidden="true">bookmark</span><span class="hf-link-text">Bookmarks</span></a>
+  <a class="hf-nav-link" href="{% if user.username %}{% url 'web:profile' username=user.username %}{% else %}#{% endif %}" title="My profile"><span class="material-symbols-outlined" aria-hidden="true">person</span><span class="hf-link-text">My profile</span></a>
+</div>
+{% endif %}
+
+<div class="hf-nav-group">
+  <div class="hf-nav-title">Community</div>
+  <a class="hf-nav-link" href="{% url 'web:leaderboard' %}" title="Leaderboard"><span class="material-symbols-outlined" aria-hidden="true">emoji_events</span><span class="hf-link-text">Leaderboard</span></a>
+  <a class="hf-nav-link" href="{% url 'web:resource_requests' %}" title="Requests"><span class="material-symbols-outlined" aria-hidden="true">inbox</span><span class="hf-link-text">Requests</span></a>
+</div>

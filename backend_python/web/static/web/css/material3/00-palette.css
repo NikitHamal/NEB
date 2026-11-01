@@ -35,6 +35,11 @@
   --md-surface-container: #EFF0F3;
   --md-surface-container-high: #E7E9ED;
   --md-surface-container-highest: #E0E2E7;
+  /* Floating panels -- menus, dialogs, sheets. Elevation runs the other way in
+     light mode: the container ramp gets GREYER as it rises, so a panel built
+     from it reads as a disabled field sitting on white cards. Raised surfaces
+     take the lightest one and let the border and shadow carry the lift. */
+  --md-elevated-surface: #FFFFFF;
   --md-inverse-surface: #2B2D35;
   --md-inverse-on-surface: #EFF0F3;
   --md-inverse-primary: #B4C5FF;
@@ -151,6 +156,9 @@
   --md-surface-container: #212329;
   --md-surface-container-high: #2B2D35;
   --md-surface-container-highest: #31343C;
+  /* Dark mode's ramp already gets lighter as it rises, so this is the same
+     colour the panels used before the token existed -- nothing here moves. */
+  --md-elevated-surface: #2B2D35;
   --md-inverse-surface: #E7E9ED;
   --md-inverse-on-surface: #1D1F25;
   --md-inverse-primary: #004AC6;

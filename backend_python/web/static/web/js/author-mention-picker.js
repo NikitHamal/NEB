@@ -10,7 +10,7 @@
   function avatarMarkup(photoUrl, name) {
     var letter = (name || '?').trim().charAt(0).toUpperCase() || '?';
     if (photoUrl) {
-      return '<img src="' + escapeHtml(photoUrl) + '" alt="" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'\';"><span style="display:none">' + escapeHtml(letter) + '</span>';
+      return '<img src="' + escapeHtml(photoUrl) + '" alt="" data-fallback="inline-flex"><span style="display:none">' + escapeHtml(letter) + '</span>';
     }
     return '<span>' + escapeHtml(letter) + '</span>';
   }
