@@ -37,6 +37,10 @@ cremaster muscles alter scrotal position and surface area, keeping the testes
 cooler than the abdomen. Each testis contains many coiled
 **seminiferous tubules**, where sperm are produced. Within their walls:
 
+```photo id="bio12/male-repro-nci" caption="The human reproductive systems. (a) Male, sectional side view." width="66"
+```
+
+
 - spermatogenic cells undergo mitosis/meiosis to form sperm;
 - **Sertoli cells** support, nourish and protect developing germ cells, form
   the blood–testis barrier, and secrete inhibin and androgen-binding protein;
@@ -106,6 +110,10 @@ ax.set_aspect('equal'); ax.axis('off')
 The **ovaries** lie in the pelvic cavity. Each contains follicles at different
 stages. A mature follicle ruptures at ovulation and then transforms into an
 endocrine corpus luteum; most follicles instead undergo atresia.
+
+```photo id="bio12/female-repro" caption="(b) Female, front view of the pelvic organs." width="66"
+```
+
 
 Each **uterine (fallopian) tube** has:
 

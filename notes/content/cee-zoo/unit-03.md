@@ -44,6 +44,10 @@ study of tissues. Animals have four primary tissues.
 intercellular matrix, resting on a non-cellular **basement membrane**, that
 covers the body surface and lines its cavities, ducts and tubes.
 
+```photo id="bio12/squamous-epithelium" caption="(a) Simple squamous epithelium in surface view (silver-stained whole mount, ×100): thin, flat, polygonal cells fit edge to edge like paving stones, and the silver outlines each boundary." width="66"
+```
+
+
 - It arises from **all three germ layers** — epidermis (ectoderm), gut lining (endoderm), lining of blood vessels and kidney tubules (mesoderm).
 - **Avascular**: no blood vessels enter it; nutrients diffuse from capillaries of the connective tissue below.
 - Cells are polar (free apical and basal surfaces) and joined by **cell junctions**: **tight junctions** (stop leakage between cells), **adhering junctions / desmosomes** (cement neighbouring cells), **gap junctions** (cytoplasmic channels for ions and small molecules).
@@ -175,6 +179,20 @@ the **mesoderm**, have **few cells in a large amount of matrix**, are usually
 **vascular** (cartilage is the exception) and bind, support, protect, store and
 transport.
 
+```photo id="bio12/areolar" caption="(a) Areolar (loose) connective tissue, spread preparation (×400): a loose meshwork of fibres with scattered cells in a soft ground substance." width="66"
+mark 0.50 0.50 "1"
+mark 0.30 0.74 "2"
+mark 0.60 0.28 "3"
+key 1 Collagen fibres — thick, pink, wavy bundles
+key 2 Elastic fibres — thin, dark, branching and straight
+key 3 Fibroblast nucleus
+```
+
+
+```photo id="bio12/columnar-epithelium" caption="(c) Simple columnar epithelium with goblet cells (×400): tall cells with basal oval nuclei line the lumen; the pale rounded cells between them are mucus-filled goblet cells." width="66"
+```
+
+
 **The fibres**
 
 | Fibre | Protein | Appearance | Property | Where |
@@ -245,6 +263,14 @@ formed elements**. Plasma is 90–92 % water and 6–8 % proteins — **albumin*
 (osmotic pressure), **globulins** (antibodies, transport) and **fibrinogen**
 (clotting) — with glucose, amino acids, salts, hormones and urea.
 
+```photo id="bio12/adipose" caption="(b) Adipose tissue (×100). The fat droplet fills each cell and pushes the cytoplasm and nucleus into a thin rim at the edge, so the cells look empty in a stained section." width="66"
+mark 0.13 0.22 "1"
+mark 0.60 0.55 "2"
+key 1 Nucleus pushed to one side by the fat droplet
+key 2 Adipocyte — the droplet-filled space
+```
+
+
 | Element | Number per mm³ | Structure | Life span | Job |
 |---|---|---|---|---|
 | **RBC (erythrocyte)** | **5–5.5 million** (men), about 4.5 million (women) | **biconcave, no nucleus** in mammals, about 7.5 μm; full of **haemoglobin** (12–16 g per 100 mL blood); made in red bone marrow | **120 days**; destroyed in the **spleen** (the "graveyard of RBCs") and liver | carry O₂ and some CO₂ |
@@ -272,6 +298,14 @@ filaments) and **myosin** (thick filaments). The cell membrane is the
 **sarcolemma**; the endoplasmic reticulum, which stores Ca²⁺, is the
 **sarcoplasmic reticulum**. Muscles are mesodermal, except the muscles of the
 **iris** and the myoepithelial cells of glands, which are ectodermal.
+
+```photo id="bio12/skeletal-muscle" caption="(a) Skeletal muscle in longitudinal section (×400): long, unbranched, cross-striated fibres, each with many nuclei at the edge." width="66"
+mark 0.10 0.40 "1"
+mark 0.25 0.55 "2"
+key 1 Cross-striations (alternating A and I bands)
+key 2 One of the many peripheral nuclei of a single fibre
+```
+
 
 | Feature | **Skeletal** (striated, voluntary) | **Smooth** (unstriated, involuntary, visceral) | **Cardiac** |
 |---|---|---|---|
@@ -367,6 +401,10 @@ shifts **tropomyosin** off the binding sites on actin; the **myosin heads**
 **ATP** is needed to detach each cross-bridge — after death ATP runs out and
 the muscles lock (**rigor mortis**). The filaments themselves do not shorten.
 
+```photo id="bio12/cardiac-discs2" caption="(b) Cardiac muscle (iron haematoxylin, ×400): short, striated, branching fibres joined end to end — each with one central nucleus — form a continuous network." width="66"
+```
+
+
 | Red (slow, type I) fibres | White (fast, type II) fibres |
 |---|---|
 | much **myoglobin**, many mitochondria, rich blood supply | little myoglobin, few mitochondria |
@@ -377,6 +415,16 @@ the muscles lock (**rigor mortis**). The filaments themselves do not shorten.
 
 Nervous tissue is **ectodermal** and consists of **neurons**, the structural and
 functional units that conduct impulses, and **neuroglia**, which support them.
+
+```photo id="bio12/neuron-motor" caption="A multipolar motor neuron in a spinal-cord smear (×100). The cell body with its large nucleus gives off several branching dendrites; the small dark dots around it are the nuclei of supporting neuroglial cells. The impulse travels dendrite → cyton → axon → synaptic knob, and never the other way." width="86"
+mark 0.45 0.58 "1"
+mark 0.28 0.47 "2"
+mark 0.70 0.81 "3"
+key 1 Cell body (cyton) with its nucleus
+key 2 Dendrite — branching, carries impulses towards the cell body
+key 3 Nucleus of a neuroglial cell
+```
+
 
 **The neuron**
 
@@ -451,6 +499,10 @@ matter** and the cranial and spinal nerves; **non-myelinated** fibres occur in
 the **grey matter** and the autonomic nervous system. A **nerve** is a bundle of
 nerve fibres wrapped in connective tissue (endoneurium, perineurium,
 epineurium).
+
+```photo id="bio12/smooth-muscle" caption="(c) Smooth muscle (×400): spindle-shaped, unstriated cells, each with a single central nucleus, lie in overlapping bundles." width="66"
+```
+
 
 **Neuroglia** — non-conducting supporting cells that make up about half the
 volume of nervous tissue and, unlike neurons, can still divide.

@@ -68,6 +68,14 @@ pith and medullary rays.
 Permanent cells arise from meristems by **differentiation**. Simple
 tissues are built of one cell type.
 
+```photo id="bio12/ground-tissues" caption="Parenchyma and sclerenchyma side by side in a transverse section of a *Cucurbita* stem (×100). The difference is in the wall: thin cellulose and large living cells in parenchyma; thick, uniformly lignified walls and a tiny lumen in sclerenchyma, whose cells are dead at maturity." width="84"
+mark 0.50 0.62 "1"
+mark 0.75 0.80 "2"
+key 1 Sclerenchyma — thick, lignified walls, narrow lumen, no living contents
+key 2 Parenchyma — thin-walled, large, living cells with intercellular spaces
+```
+
+
 | Tissue | Cells | Walls | Function and notes |
 |---|---|---|---|
 | **Parenchyma** | living, isodiametric | thin, cellulose | the packing/storage tissue; with chloroplasts = **chlorenchyma** (photosynthesis); with big air spaces = **aerenchyma** (hydrophytes, buoyancy and aeration) |
@@ -92,6 +100,20 @@ rigid** (only in organs that have finished elongating).
 **Phloem** translocates prepared food (mainly sucrose) from source to
 sink, in either direction as needed.
 
+```photo id="bio12/xylem-elements" caption="Xylem vessels in longitudinal section (*Cucurbita* stem, ×400). The walls are lignified and carry pits and bars of thickening; the cross-walls between vessel elements have broken down, so the vessel is an open pipe made of dead cells." width="84"
+mark 0.55 0.60 "1"
+mark 0.90 0.55 "2"
+key 1 Vessel with pitted, lignified wall — the lumen is empty (dead cell)
+key 2 Vessel with ladder-like (scalariform) thickening of the wall
+```
+
+
+```photo id="bio12/stone-cells" caption="Sclereids (stone cells) in the flesh of a pear (×400). A cluster of isodiametric cells with very thick, layered, lignified walls and a narrow lumen gives pear its gritty texture." width="70"
+mark 0.50 0.50 "1"
+key 1 Sclereid — thick layered wall with simple pits, almost no lumen
+```
+
+
 | Element | Living? | Structure and function |
 |---|---|---|
 | **Sieve tube elements** | living but **enucleate** | end-to-end tubes joined by perforated **sieve plates**; the conducting channel |
@@ -108,6 +130,12 @@ in **stems**. ("Roots are EXtroverts, stems are ENDoverts.")
 Special **secretory tissues** — laticifers carrying latex (*Euphorbia*,
 *Ficus*, rubber), resin ducts (pines), oil glands and nectaries — complete
 the list.
+
+```photo id="bio12/sieve-tubes" caption="Phloem sieve tubes in longitudinal section (*Cucurbita* stem, ×400). Sieve tubes are living cells joined end to end; their thin cross-walls are perforated as sieve plates and they have lost their nucleus, being kept alive by the companion cell beside each one." width="84"
+mark 0.48 0.60 "1"
+key 1 Sieve tube element — thin-walled, living, enucleate
+```
+
 
 
 ```figure caption="Water's inward road through a root in four doors: the epiblema and its hairs gather it, the cortex stores and passes it, the endodermis with its Casparian strips forces it through living membranes, and behind the pericycle — birthplace of lateral roots — the xylem vessels lift it up the plant."
@@ -216,6 +244,19 @@ that **gives rise to lateral roots** (endogenous origin). **Stele**:
 xylem and phloem in separate **alternating radial groups**, xylem
 **exarch**, with conjunctive parenchyma between them.
 
+```photo id="bio12/dicot-root-ts" caption="Transverse section of a young dicot root (*Ranunculus*), ×100. The boxed stele is tiny compared with the cortex — that proportion is itself diagnostic of a dicot root." width="96"
+mark 0.048 0.620 "1"
+mark 0.330 0.600 "2"
+mark 0.700 0.572 "3"
+mark 0.710 0.503 "4"
+box 0.646 0.366 0.170 0.238
+key 1 Epiblema (piliferous layer) — one cell thick, no cuticle, bears root hairs
+key 2 Cortex — a wide zone of thin-walled parenchyma packed with starch grains
+key 3 Endodermis — innermost cortical layer, its walls carrying Casparian strips
+key 4 Xylem of the stele — exarch, here tetrarch; the box outlines the whole stele
+```
+
+
 | Feature | Dicot root (e.g. *Ranunculus*, gram) | Monocot root (e.g. maize) |
 |---|---|---|
 | Xylem groups | 2–6 — diarch, triarch, **tetrarch** … hexarch | many, more than 6 — **polyarch** |
@@ -234,6 +275,21 @@ collateral, open and endarch**, separated by **medullary rays**; large
 central **pith**. The open bundles and ring layout are exactly what
 secondary growth needs: the cambium completes itself into a ring.
 
+```photo id="bio12/dicot-stem-ts" caption="Transverse section of a young dicot stem (*Helianthus*), ×40. The vascular bundles lie in a single ring around a wide pith." width="72"
+crop 0.215 0.020 0.775 1.000
+mark 0.438 0.934 "1"
+mark 0.241 0.902 "2"
+mark 0.598 0.884 "3"
+mark 0.598 0.820 "4"
+mark 0.473 0.444 "5"
+key 1 Epidermis, drawn out into ridges and carrying a cuticle
+key 2 Hypodermis of collenchyma, thickest under each ridge, then a narrow cortex
+key 3 Sclerenchymatous cap (pericyclic fibres) standing over each bundle
+key 4 Vascular bundle — conjoint, collateral and open; the wide cells are metaxylem
+key 5 Pith of parenchyma; medullary rays run out between the bundles
+```
+
+
 **Monocot stem (*Zea mays*).** Epidermis with thick cuticle; **hypodermis
 of sclerenchyma**; inside it, **no cortex/endodermis/pith at all** — one
 continuous parenchymatous **ground tissue**; vascular bundles
@@ -243,6 +299,19 @@ wrapped in a **sclerenchymatous bundle sheath**, and carrying a
 water-filled **lysigenous cavity** (protoxylem lacuna) where the earliest
 protoxylem vessel broke down. Scattered closed bundles are why a maize
 stem can never thicken into a trunk.
+
+```photo id="bio12/monocot-root-ts" caption="Transverse section of a monocot root (*Zea mays*), ×40. The vascular bundles form a ring enclosing a large central pith." width="74"
+crop 0.235 0.205 0.580 0.785
+mark 0.102 0.348 "1"
+mark 0.186 0.500 "2"
+mark 0.640 0.565 "3"
+mark 0.520 0.455 "4"
+key 1 Epidermis, with the remains of root hairs
+key 2 Cortex — wide and parenchymatous, as in a dicot root
+key 3 Ring of many alternating xylem and phloem groups (polyarch)
+key 4 Large central pith — the feature a dicot root does not have
+```
+
 
 ### Leaves
 
@@ -254,6 +323,32 @@ best light, the main photosynthetic layer — and **spongy parenchyma**
 below, loose cells and air spaces leading to the stomata. Vein bundles
 are conjoint, collateral and closed, with **xylem towards the upper side
 and phloem towards the lower**.
+
+```photo id="bio12/dicot-leaf-ts" caption="Transverse section of a dorsiventral dicot leaf (*Ligustrum*, privet), ×100. Palisade cells stand on end directly under the upper epidermis; the spongy mesophyll below is full of air spaces." width="96"
+mark 0.300 0.895 "1"
+mark 0.300 0.775 "2"
+mark 0.280 0.520 "3"
+mark 0.298 0.245 "4"
+mark 0.500 0.455 "5"
+key 1 Upper epidermis with a thick cuticle and few or no stomata
+key 2 Palisade parenchyma — elongated cells on end, holding most of the chloroplasts
+key 3 Spongy mesophyll — loose cells with large air spaces for gas exchange
+key 4 Lower epidermis — thinner cuticle, most of the stomata
+key 5 Midrib vascular bundle — xylem above, phloem below
+```
+
+
+```photo id="bio12/monocot-stem-ts" caption="Transverse section of a monocot stem (*Zea mays*), ×40. The bundles are scattered through a continuous ground tissue — small and crowded near the surface, large and widely spaced towards the centre." width="96"
+mark 0.440 0.920 "1"
+mark 0.305 0.858 "2"
+mark 0.330 0.470 "3"
+mark 0.430 0.645 "4"
+key 1 Epidermis with a thick cuticle, underlain by a sclerenchymatous hypodermis
+key 2 Small, crowded peripheral bundles
+key 3 Large, widely spaced central bundle — conjoint, collateral and closed
+key 4 Continuous parenchymatous ground tissue (no cortex, endodermis or pith)
+```
+
 
 A vertical monocot (grass/maize) leaf is alike on both sides —
 **isobilateral**: stomata on **both** epidermes with **dumb-bell-shaped

@@ -346,6 +346,26 @@ base(ax, 'Liliaceae', r'$\mathrm{Br}\ \oplus\ P_{3+3}\ A_{3+3}\ G_{(3)}$')
 fig.subplots_adjust(wspace=0.02, hspace=0.04)
 ```
 
+```photo id="cee-bot/potato-flower" caption="Potato (*Solanum tuberosum*, Solanaceae): a star-shaped, gamopetalous corolla with the five anthers pressed together into a yellow-orange cone around the style. Unopened buds show the twisted (plicate) fold of the corolla." width="66"
+call 0.14 0.90 0.15 0.78 "Flower bud"
+call 0.72 0.12 0.50 0.50 "Anther cone: 5 stamens"
+call 0.74 0.92 0.72 0.76 "Corolla: 5 petals united"
+```
+
+
+```photo id="cee-bot/pea-flower" caption="Garden pea (*Pisum sativum*, Fabaceae): the white, butterfly-shaped (papilionaceous) flower sits among pinnately compound leaves whose terminal leaflets are modified into tendrils." width="66"
+call 0.22 0.10 0.25 0.40 "Papilionaceous flower"
+call 0.80 0.90 0.60 0.80 "Compound leaf"
+```
+
+
+```photo id="cee-bot/mustard" caption="Mustard (*Brassica juncea*, Brassicaceae): a raceme of yellow flowers, each with four petals arranged like a cross. The slender stalks below the open flowers are the pedicels that will carry the long, narrow fruits (siliquae)." width="66"
+call 0.28 0.90 0.40 0.62 "Raceme of flowers"
+call 0.76 0.84 0.68 0.58 "Cruciform corolla: 4 petals"
+call 0.70 0.10 0.76 0.24 "Slender pedicel"
+```
+
+
 ::: caution Traps in the family questions
 - **Tetradynamous** (6: 4 long + 2 short) is Brassicaceae; **didynamous**
   (4: 2 long + 2 short) is Lamiaceae (tulasi). Do not swap them.
@@ -414,6 +434,12 @@ repels insects and stops them feeding and moulting — the basis of neem
 biopesticides and neem-coated urea. Leaves are stored with grain and clothes
 to keep insects away.
 
+```photo id="cee-bot/neem" caption="Neem (*Azadirachta indica*, Meliaceae): an imparipinnate compound leaf with serrate leaflets, and bunches of olive-like drupes. Seed oil (azadirachtin) is a natural insecticide; leaves and twigs are used as an antiseptic." width="70"
+call 0.12 0.10 0.40 0.30 "Drupes"
+call 0.82 0.10 0.88 0.48 "Compound leaf, serrate leaflets"
+```
+
+
 **Sarpagandha (*Rauwolfia serpentina*).** A small undershrub with whorled
 leaves and white-pink flowers. Its root alkaloid **reserpine** depletes
 noradrenaline at nerve endings, lowering blood pressure and calming the mind;
@@ -430,6 +456,13 @@ dark, club-shaped **stroma** grows from the larva's head above the ground (the
 is a major cash income for mountain households; the price runs to millions of
 rupees per kilogram, and over-harvesting has made the species **Vulnerable**
 on the IUCN Red List.
+
+```photo id="cee-bot/rauvolfia" caption="Sarpagandha (*Rauvolfia serpentina*): leaves in whorls and the shiny black drupes. The roots yield reserpine, once the standard treatment for high blood pressure and still used for some psychoses." width="48"
+call 0.64 0.93 0.30 0.78 "Drupe (ripe: purple-black)"
+call 0.74 0.30 0.58 0.14 "Drupe"
+call 0.66 0.55 0.82 0.66 "Whorled leaf"
+```
+
 
 **Tulasi (*Ocimum sanctum*).** An aromatic herb of the mint family with a
 **square stem**, opposite decussate leaves, **verticillaster** inflorescence,

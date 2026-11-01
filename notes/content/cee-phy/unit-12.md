@@ -588,6 +588,12 @@ separation term is as large as either power.
 refraction. It happens because the refractive index of a material is **not the same
 for all wavelengths**: it is largest for violet and smallest for red.
 
+```photo id="cee-phy/prism-dispersion" caption="White light dispersed into its spectrum. Red is deviated least and violet most, because the refractive index of glass rises as the wavelength falls." width="46"
+call 0.24 0.12 0.32 0.30 "Red end: least deviated"
+call 0.72 0.06 0.62 0.30 "Blue-violet end: most deviated"
+```
+
+
 $$ \mu_{\text{violet}} > \mu_{\text{yellow}} > \mu_{\text{red}} $$
 
 Since $\delta = (\mu-1)A$ for a thin prism, violet is deviated most and red least, so

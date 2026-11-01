@@ -45,6 +45,29 @@ functional unit** of all living organisms; all organisms are made of **one or mo
 cells**; new cells arise **only by division of existing cells**; and all cells are
 chemically similar, containing DNA, RNA, protein and a plasma membrane.
 
+```photo id="bio11/microscope" caption="A binocular compound light microscope. The first instrument a Grade 11 biology student must be able to name part by part — most practical examinations begin here." width="68"
+crop 0.04 0.02 0.96 0.99
+mark 0.30 0.93 "1"
+mark 0.52 0.79 "2"
+mark 0.47 0.665 "3"
+mark 0.40 0.575 "4"
+mark 0.33 0.485 "5"
+mark 0.46 0.385 "6"
+mark 0.80 0.345 "7"
+mark 0.78 0.60 "8"
+mark 0.55 0.10 "9"
+key 1 eyepiece (ocular lens)
+key 2 body tube and head
+key 3 revolving nosepiece
+key 4 objective lenses
+key 5 stage with clips
+key 6 condenser and iris diaphragm
+key 7 coarse and fine focus knobs
+key 8 arm
+key 9 base with illuminator
+```
+
+
 **Exceptions.** The theory has three standard exceptions:
 
 1. **Viruses, viroids and prions** are **acellular** — they have no cell, no cytoplasm and no ribosomes, and cannot reproduce outside a host.
@@ -70,43 +93,41 @@ chemically similar, containing DNA, RNA, protein and a plasma membrane.
 | Examples | bacteria, cyanobacteria, mycoplasma, archaea | protists, fungi, plants, animals |
 
 ```figure caption="(a) A prokaryotic cell: no nucleus, circular DNA in a nucleoid, 70S ribosomes, and a flagellum of flagellin. (b) A eukaryotic cell: a true nucleus, membrane-bound organelles and a cell wall."
-import matplotlib.pyplot as plt
-from matplotlib.patches import FancyBboxPatch, Circle, Ellipse
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.1, 2.9), gridspec_kw=dict(wspace=0.05))
-for ax in (ax1, ax2):
-    ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis("off"); ax.set_aspect("equal")
-ax1.add_patch(FancyBboxPatch((0.15, 0.34), 0.62, 0.34, boxstyle="round,pad=0.01,rounding_size=0.16",
-                             facecolor="#DCE7D6", edgecolor="#3F7D3A", lw=1.3))
-ax1.add_patch(FancyBboxPatch((0.17, 0.36), 0.58, 0.30, boxstyle="round,pad=0.008,rounding_size=0.14",
-                             facecolor="#F4F1E4", edgecolor="#8A8F98", lw=1.0))
-t = np.linspace(0, 2 * np.pi, 300)
-ax1.plot(0.36 + 0.09 * np.cos(t) + 0.012 * np.sin(6 * t),
-         0.51 + 0.065 * np.sin(t) + 0.010 * np.cos(5 * t), color="#4C5B6B", lw=1.4)
-ax1.add_patch(Circle((0.62, 0.56), 0.030, facecolor="none", edgecolor="#4C5B6B", lw=0.9))
-for x, y in [(0.30, 0.62), (0.50, 0.40), (0.66, 0.42), (0.70, 0.60)]:
-    ax1.add_patch(Circle((x, y), 0.013, facecolor="#A8271F", edgecolor="none"))
-ax1.plot([0.77, 0.92, 0.97], [0.46, 0.40, 0.47], color="#4C5B6B", lw=1.4)
-ax1.text(0.36, 0.80, "nucleoid", fontsize=7.0, ha="center", color="#4C5B6B")
-ax1.plot([0.36, 0.36], [0.78, 0.60], color=MUTED, lw=0.7)
-ax1.text(0.60, 0.24, "ribosomes", fontsize=7.0, ha="center", color="#A8271F")
-ax1.plot([0.56, 0.50], [0.27, 0.38], color=MUTED, lw=0.7)
-ax1.text(0.86, 0.26, "flagellum", fontsize=7.0, ha="center", color="#4C5B6B")
-ax1.plot([0.86, 0.93], [0.29, 0.39], color=MUTED, lw=0.7)
-ax1.text(0.46, 0.02, "(a) prokaryote", fontsize=7.6, ha="center", color=INK)
-ax2.add_patch(Ellipse((0.48, 0.52), 0.84, 0.76, facecolor="#DCE7D6", edgecolor="#3F7D3A", lw=1.3))
-ax2.add_patch(Ellipse((0.48, 0.52), 0.76, 0.68, facecolor="#E8F0E4", edgecolor="#3F7D3A", lw=0.8))
-ax2.add_patch(Circle((0.42, 0.56), 0.13, facecolor="#C9D8E8", edgecolor="#2C6E9B", lw=1.1))
-ax2.add_patch(Circle((0.46, 0.57), 0.038, facecolor="#2C6E9B", edgecolor="none"))
-for x, y in [(0.26, 0.36), (0.68, 0.36)]:
-    ax2.add_patch(Ellipse((x, y), 0.11, 0.06, facecolor="#B5482F", edgecolor="none", alpha=0.85))
-ax2.add_patch(Ellipse((0.68, 0.68), 0.10, 0.055, facecolor="#3F7D3A", edgecolor="none", alpha=0.85))
-ax2.text(0.26, 0.94, "nucleus", fontsize=7.0, ha="center", color="#2C6E9B")
-ax2.plot([0.28, 0.38], [0.91, 0.67], color=MUTED, lw=0.7)
-ax2.text(0.26, 0.13, "mitochondria", fontsize=7.0, ha="center", color="#B5482F")
-ax2.plot([0.27, 0.28], [0.16, 0.30], color=MUTED, lw=0.7)
-ax2.text(0.74, 0.94, "chloroplast", fontsize=7.0, ha="center", color="#3F7D3A")
-ax2.plot([0.72, 0.68], [0.91, 0.71], color=MUTED, lw=0.7)
-ax2.text(0.48, 0.02, "(b) eukaryote", fontsize=7.6, ha="center", color=INK)
+fig, axs = plt.subplots(1, 2, figsize=(7.2, 3.9), gridspec_kw={"width_ratios": [1, 1.12]})
+def lab(ax, xy, txy, s, c=INK, ha="left"):
+    ax.annotate(s, xy=xy, xytext=txy, fontsize=8.2, color=c, ha=ha, va="center",
+                arrowprops=dict(arrowstyle="-", color="#7a8494", lw=0.8, shrinkA=1, shrinkB=0))
+ax = axs[0]; ax.set_xlim(0, 10); ax.set_ylim(0, 8); ax.axis("off"); ax.set_aspect("equal")
+ax.add_patch(matplotlib.patches.FancyBboxPatch((1.2, 3.0), 6.4, 2.6, boxstyle="round,pad=0,rounding_size=1.2", fc="#f3efe2", ec="#3b7d3b", lw=2.4))
+ax.add_patch(matplotlib.patches.FancyBboxPatch((1.0, 2.8), 6.8, 3.0, boxstyle="round,pad=0,rounding_size=1.3", fc="none", ec="#8fbf8f", lw=0.9))
+t = np.linspace(0, 6.3, 120)
+ax.plot(3.2 + 1.5 * np.cos(t) * (0.6 + 0.12 * np.sin(5 * t)), 4.3 + 0.7 * np.sin(t) * (0.6 + 0.12 * np.cos(4 * t)), color="#4a4f5c", lw=1.5)
+ax.add_patch(Circle((5.9, 4.9), 0.35, fc="none", ec="#6a5acd", lw=1.3))
+for x, y in [(5.0, 3.6), (5.6, 3.9), (6.4, 3.5), (4.6, 5.0), (6.8, 4.3), (4.2, 3.5)]: ax.add_patch(Circle((x, y), 0.14, fc="#c0392b", ec="none"))
+xs = np.linspace(7.6, 9.8, 60); ax.plot(xs, 4.3 + 0.35 * np.sin((xs - 7.6) * 3.4), color="#7a5230", lw=1.8)
+lab(ax, (3.2, 4.6), (2.2, 7.3), "nucleoid (circular DNA)")
+lab(ax, (5.9, 5.2), (6.1, 7.0), "plasmid", "#6a5acd")
+lab(ax, (5.0, 3.6), (4.3, 1.6), "70S ribosomes", "#c0392b")
+lab(ax, (1.1, 3.6), (0.1, 0.35), "cell wall + membrane", "#3b7d3b")
+lab(ax, (9.2, 4.55), (7.5, 2.0), "flagellum", "#7a5230")
+ax.text(4.5, -0.9, "(a) prokaryote", ha="center", fontsize=9, fontweight="bold")
+ax = axs[1]; ax.set_xlim(0, 11); ax.set_ylim(0, 8); ax.axis("off"); ax.set_aspect("equal")
+ax.add_patch(Ellipse((5.2, 4.2), 9.6, 6.6, fc="#eef6ec", ec="#2f7d3b", lw=2.4))
+ax.add_patch(Ellipse((5.2, 4.2), 9.1, 6.1, fc="none", ec="#8fbf8f", lw=0.9))
+ax.add_patch(Circle((4.4, 4.7), 1.35, fc="#cfe0f2", ec="#1d6fb8", lw=1.8)); ax.add_patch(Circle((4.1, 4.9), 0.42, fc="#1d4f8a", ec="none"))
+ax.add_patch(Ellipse((7.6, 5.5), 1.9, 0.85, angle=25, fc="#e9a38b", ec="#b0472c", lw=1.3))
+for dx in (-0.5, -0.1, 0.3, 0.7): ax.plot([7.6 + dx * 0.9 - 0.15, 7.6 + dx * 0.9 + 0.15], [5.3 + dx * 0.4, 5.6 + dx * 0.4], color="#b0472c", lw=0.9)
+ax.add_patch(Ellipse((6.8, 2.5), 2.6, 1.0, angle=-15, fc="#9fd09b", ec="#2f7d3b", lw=1.3))
+for dx in (-0.8, -0.3, 0.2, 0.7): ax.plot([6.8 + dx - 0.2, 6.8 + dx + 0.2], [2.5 - dx * 0.25 + 0.0, 2.5 - dx * 0.25 + 0.0], color="#2f7d3b", lw=1.6)
+ax.add_patch(Ellipse((2.6, 2.6), 2.4, 1.7, fc="#e7ecf5", ec="#8a96a8", lw=1.1))
+lab(ax, (4.0, 5.9), (1.0, 7.5), "nucleus", "#1d6fb8")
+lab(ax, (4.1, 4.9), (0.2, 1.7), "nucleolus", "#1d4f8a")
+lab(ax, (7.9, 5.9), (6.0, 7.75), "mitochondrion", "#b0472c")
+lab(ax, (7.6, 2.1), (8.6, 0.9), "chloroplast", "#2f7d3b")
+lab(ax, (2.6, 2.6), (4.6, 0.3), "vacuole", "#5b6472")
+lab(ax, (9.5, 5.6), (9.4, 6.9), "cell wall", "#2f7d3b")
+ax.text(5.2, -0.9, "(b) eukaryote (plant cell)", ha="center", fontsize=9, fontweight="bold")
+fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.08, wspace=0.03)
 ```
 
 ## 7.2 The cell wall, the membrane and the organelles
@@ -198,6 +219,11 @@ project into the jelly-like **matrix**. On the inner membrane sit the **F₁ par
 The matrix holds the enzymes of the Krebs cycle, **circular DNA**, **70S ribosomes** and
 phosphate granules.
 
+```photo id="bio11/mito-tem" caption="Two mitochondria in a mammalian lung cell (TEM). Each is bounded by a double membrane; the inner membrane is thrown into cristae. Scale bar 50 nm." width="70"
+crop 0 0.1 1 1
+```
+
+
 Because a mitochondrion has its own DNA and ribosomes it is called **semi-autonomous**:
 it makes some of its own proteins but depends on nuclear genes for the rest, and it
 divides on its own. Mitochondrial DNA is inherited **from the mother** in humans. The
@@ -215,6 +241,10 @@ a **granum**, and the unstacked thylakoids that join one granum to the next are 
 **intergranal (stroma) lamellae**. The chlorophyll and the photosystems sit **in the
 thylakoid membrane**, not in the stroma — a favourite trap. Algal chloroplasts carry a
 protein body, the **pyrenoid**, around which starch is laid down.
+
+```photo id="bio11/chloroplast-tem" caption="Part of a chloroplast in a leaf cell of *Anemone* (TEM): stacks of thylakoids (grana) joined by stroma lamellae, inside the double envelope. Scale bar 500 nm." width="70"
+```
+
 
 | Part | Function |
 |---|---|

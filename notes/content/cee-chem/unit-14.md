@@ -35,6 +35,10 @@ the metal compound from the rock and then pull the metal out of the compound. Ev
 extraction, from iron to sodium, follows the same five stages, and the paper tests the
 name, the purpose and one example of each.
 
+```photo id="chem11/bauxite" caption="Bauxite, Al₂O₃·2H₂O — the ore of aluminium, a pale, pea-like (pisolitic) rock." width="55"
+```
+
+
 ### The vocabulary, defined once
 
 ::: definition Ore, mineral and gangue
@@ -66,6 +70,10 @@ memorising:
 **Acidic gangue needs a basic flux, and basic gangue needs an acidic flux.** The slag must
 be of the opposite character to the gangue so that the two combine.
 
+```photo id="chem11/haematite" caption="Haematite, Fe₂O₃ — the chief ore of iron." width="55"
+```
+
+
 ::: caution Gangue is not slag
 Gangue is the impurity that is *already* in the ore; slag is the *new* compound made when
 flux is added to it. A question that says "the impurity present in an ore is called" wants
@@ -91,6 +99,10 @@ Froth flotation is the method the paper asks about most often, and its two-part 
 worth stating: the **collector** makes the sulphide surface water-repellent, and the
 **frother** makes a stable foam that carries those particles to the top. Depressants and
 activators (NaCN, CuSO₄) are used to separate one sulphide from another in complex ores.
+
+```photo id="chem11/flotation" caption="A row of flotation cells in a concentrator: the froth carrying the mineral overflows into the launders while the gangue stays in the pulp." width="75"
+```
+
 
 ### Calcination and roasting — the two that are always confused
 
@@ -127,6 +139,10 @@ behind, which is why the next step is the same for both — reduction.
 **Smelting** is the reduction of a roasted or calcined ore at high temperature in the
 presence of a flux, giving molten metal and molten slag. The reducing agent is chosen from
 the reactivity of the metal:
+
+```photo id="chem11/blast-furnace" caption="A blast furnace on the outside: the tall shaft, the hot-blast stoves and chimneys beside it, and the conveyor that charges ore, coke and limestone at the top (Duisburg, Germany; preserved plant)." width="80"
+```
+
 
 | Method | Reducing agent | Metals | Example |
 |---|---|---|---|
@@ -210,6 +226,10 @@ At 90 % purity: 20.0/0.90 = **22.2 kg of limestone**.
 The alkali metals (group 1: Li, Na, K, Rb, Cs) have the configuration **ns¹** and the
 alkaline-earth metals (group 2: Be, Mg, Ca, Sr, Ba) have **ns²**. Both are so reactive that
 they are never found free.
+
+```photo id="chem11/flame-colours" caption="Flame colours of metal salts burning in methanol: each metal ion gives its own colour because its electrons fall between its own energy levels." width="70"
+```
+
 
 | Metal | Chief minerals |
 |---|---|
@@ -410,6 +430,10 @@ and easy redox swapping), and a passion for **complex ions** — a central metal
 lone pairs from **ligands** (NH₃, H₂O, Cl⁻, CN⁻, en…; chelating ligands like EDTA grip with
 several teeth — and are used clinically to drag Pb²⁺ out of poisoned patients, Ch. 15).
 
+```photo id="chem12/tm-colours" caption="Solutions of transition-metal compounds span the whole visible spectrum — the colour comes from d–d transitions in the hydrated or complexed ion." width="70"
+```
+
+
 | Coordination no. | Geometry | Familiar examples |
 |---|---|---|
 | 2 | linear | [Ag(NH₃)₂]⁺ (Tollens'), [AuCl₂]⁻ |
@@ -466,6 +490,10 @@ H-bonded) turning **white on heating** as the anhydrous salt forms — the class
 water; with lime it makes Bordeaux mixture, the vineyards' fungicide; Fehling's solution
 uses its tartrate complex to detect reducing sugars (Ch. 19). In moist air copper slowly
 coats with green basic carbonate — the skin of old roofs and temple bells.
+
+```photo id="chem12/cuso4" caption="Hydrated copper(II) sulfate, CuSO₄·5H₂O: the blue crystals owe their colour to the [Cu(H₂O)₄]²⁺ unit." width="35"
+```
+
 
 **Zinc** — ores **zinc blende ZnS** and **calamine ZnCO₃**. Roast/calcine to ZnO, reduce
 with coke at ~1400 K; zinc (b.p. 1180 K) leaves as **vapour and is condensed** (a built-in

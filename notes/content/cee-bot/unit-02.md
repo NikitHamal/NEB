@@ -135,6 +135,10 @@ Bacteria were first seen by **Antonie van Leeuwenhoek** (1676), who called them
 "animalcules". Most are 0.5–5 μm long; *Mycoplasma* (0.1–0.3 μm, no cell wall,
 unaffected by penicillin) is the smallest free-living cell.
 
+```photo id="bio11/ecoli" caption="Rod-shaped bacteria (bacilli): a colony of *Escherichia coli* under the scanning electron microscope (false colour). The scale bar is 5 μm." width="74"
+```
+
+
 | Shape | Name | Arrangements and examples |
 |---|---|---|
 | Spherical | **coccus** | diplococcus (pairs: *Streptococcus pneumoniae*), streptococcus (chains), staphylococcus (grape-like bunches: *Staphylococcus aureus*), tetrad (4), sarcina (cube of 8) |
@@ -216,6 +220,18 @@ Hans Christian **Gram (1884)**: stain with **crystal violet** → fix with **iod
 **safranin**. Gram-positive cells stay **violet**; Gram-negative cells lose the
 violet and take up the **pink-red** safranin.
 
+```photo id="bio11/gram" caption="A real Gram-stained smear of mixed bacteria: Gram-positive cells keep the crystal violet and appear purple, Gram-negative cells lose it and take the pink counterstain." width="84"
+```
+
+
+```photo id="bio11/pseudomonas" caption="A real rod-shaped bacterium (*Pseudomonas*) in negative-stain electron microscopy. The tuft of polar flagella and the plain, membrane-bounded outline of the cell are visible; there is no nucleus or other organelle to see. The scale bar is 0.5 μm." width="64"
+key 1 Rod-shaped cell (bacillus)
+key 2 Polar flagella — the whip-like organs of locomotion
+mark 0.5 0.55 "1"
+mark 0.56 0.24 "2"
+```
+
+
 | Feature | Gram-positive | Gram-negative |
 |---|---|---|
 | Peptidoglycan | thick (20–80 nm), many layers | thin (2–7 nm), one or two layers |
@@ -249,6 +265,10 @@ every **20 minutes**. **Endospores** help survival, not multiplication (one cell
 recombined by **transformation** (uptake of free DNA; Griffith, 1928),
 **conjugation** (transfer through a sex pilus; Lederberg and Tatum, 1946) and
 **transduction** (transfer by a bacteriophage; Zinder and Lederberg, 1952).
+
+```photo id="bio11/staph" caption="Spherical bacteria (cocci) of *Staphylococcus*, in the irregular grape-like clusters that give the genus its name, seen in a stained smear." width="74"
+```
+
 
 **Bacterial growth** means an increase in the number of cells. In the log phase
 the number doubles every generation, so after $n$ generations
@@ -381,50 +401,7 @@ RNA**.
 | Capsid | **2130 identical capsomeres**, each binding 3 nucleotides | head, collar, contractile **tail sheath** round a hollow core, **base plate** with six **tail fibres** |
 | Envelope | none | none |
 
-```figure caption="Two classic viruses. (a) A T4 bacteriophage, with complex symmetry: a polyhedral head holding double-stranded DNA on a helical, contractile tail. (b) Tobacco mosaic virus, with helical symmetry: capsomeres wound round a single strand of RNA (partly cut away)."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Polygon, Rectangle, Circle
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(5.2, 3.2), gridspec_kw=dict(width_ratios=[1.0, 1.15], wspace=0.05))
-hx = [0, 0.9, 0.9, 0, -0.9, -0.9]; hy = [7.6, 7.0, 5.4, 4.8, 5.4, 7.0]
-ax1.add_patch(Polygon(np.c_[hx, hy], closed=True, fc='#dbe7f3', ec=INK, lw=1.0))
-tt = np.linspace(0, 1, 300)
-ax1.plot(-0.5 + 1.0*tt + 0.12*np.sin(40*tt), 5.4 + 1.6*tt + 0.25*np.sin(13*tt), color='#A8271F', lw=0.9)
-ax1.add_patch(Rectangle((-0.35, 4.55), 0.7, 0.25, fc='#c9ced6', ec=INK, lw=0.8))
-for k in range(8):
-    ax1.add_patch(Rectangle((-0.32, 2.35 + k*0.275), 0.64, 0.24, fc='#f1d9a8', ec=INK, lw=0.6))
-ax1.add_patch(Polygon(np.c_[[-0.75, 0.75, 0.55, -0.55], [2.35, 2.35, 2.05, 2.05]], closed=True, fc='#c9ced6', ec=INK, lw=0.8))
-for sgn in (-1, 1):
-    for dx in (0.25, 0.6):
-        ax1.plot([sgn*dx, sgn*(dx + 0.55), sgn*(dx + 0.85)], [2.15, 1.35, 0.25], color=INK, lw=0.9)
-def lab1(t, xy, xyt):
-    ax1.annotate(t, xy=xy, xytext=xyt, fontsize=7.3, ha='left', va='center', color=INK,
-                 arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.6))
-lab1('head\n(protein capsid)', (0.9, 6.6), (1.6, 7.1))
-lab1('ds DNA', (0.3, 6.2), (1.6, 5.7))
-lab1('collar', (0.35, 4.68), (1.6, 4.68))
-lab1('tail sheath\n(contractile)', (0.33, 3.4), (1.6, 3.5))
-lab1('base plate', (0.7, 2.25), (1.6, 2.3))
-lab1('tail fibres', (1.2, 1.0), (1.6, 1.0))
-ax1.text(0, 8.25, '(a) T4 bacteriophage', fontsize=8, ha='center', color=INK)
-ax1.set_xlim(-1.9, 3.9); ax1.set_ylim(-0.2, 8.7); ax1.set_aspect('equal'); ax1.axis('off')
-y0, y1, xs = 0.9, 6.9, 1.6
-nrow = 15
-for i in range(nrow):
-    yy = y0 + (i + 0.5)*(y1 - y0)/nrow
-    xr = [-0.9, -0.45, 0.0, 0.45, 0.9] if yy > 4.0 else [-0.9, -0.45]
-    for xx in xr:
-        ax2.add_patch(Circle((xx + (0.2 if i % 2 else 0.0), yy), 0.2, fc='#d8ead8', ec='#2F7D32', lw=0.6))
-yy = np.linspace(y0, 4.0, 300)
-ax2.plot(0.55*np.sin(2*np.pi*(yy - y0)/0.8) + 0.25, yy, color='#A8271F', lw=1.2)
-ax2.plot([-1.25, 1.35], [4.0, 4.0], color=MUTED, lw=0.6, ls='--')
-def lab2(t, xy, xyt):
-    ax2.annotate(t, xy=xy, xytext=xyt, fontsize=7.3, ha='left', va='center', color=INK,
-                 arrowprops=dict(arrowstyle='-', color=MUTED, lw=0.6))
-lab2('capsomere\n(protein subunit)', (1.1, 5.6), (1.9, 5.9))
-lab2('single-stranded\nRNA (helical)', (0.8, 2.3), (1.9, 2.5))
-lab2('capsid cut away\nbelow this line', (1.35, 4.0), (1.9, 4.2))
-ax2.text(0.6, 8.25, '(b) tobacco mosaic virus', fontsize=8, ha='center', color=INK)
-ax2.set_xlim(-1.6, 4.6); ax2.set_ylim(-0.2, 8.7); ax2.set_aspect('equal'); ax2.axis('off')
+```photo id="bio11/t4" caption="Electron micrograph of a T4 bacteriophage: the angular head holds the DNA, and a rigid tail ends in a base plate and thin tail fibres." width="52"
 ```
 
 ### Types of viruses
@@ -442,6 +419,10 @@ RNA** molecules (about 250–400 nucleotides) with no protein coat that infect
 plants (potato spindle tuber, citrus exocortis). **Prions** are **infectious
 proteins with no nucleic acid** that cause scrapie in sheep, mad cow disease
 (BSE) and Creutzfeldt–Jakob disease in humans.
+
+```photo id="bio11/tmv" caption="Tobacco mosaic virus particles (negative-stain TEM): stiff straight rods, each a helix of protein around a single RNA strand. Scale bar 0.2 μm." width="60"
+```
+
 
 ::: tip Eliminating options on viruses
 If an option gives a virus both DNA and RNA, ribosomes, a cell wall,

@@ -36,6 +36,10 @@ charge radiates energy. So the electron should lose energy continuously, spiral
 into the nucleus in about $10^{-11}$ s, and the light it emitted should form a
 **continuous** spectrum that changes as the orbit shrinks.
 
+```photo id="phy12/spectroscope" caption="An old brass prism spectroscope: the collimator (with slit) on the right sends a parallel beam to the prism on the central table, and the telescope on the left views the spectrum." width="70"
+```
+
+
 Neither happens. Atoms are stable, and a hydrogen discharge emits a spectrum of
 **sharp lines** — a few fixed wavelengths, not a smear. Niels Bohr (1913) kept
 the nuclear model and added three postulates that remove both contradictions.

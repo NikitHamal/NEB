@@ -39,6 +39,23 @@ sternum. Two-thirds of it lies to the left of the midline, and its apex points
 down and to the left, reaching the **fifth intercostal space** about 9 cm from the
 midline.
 
+```photo id="bio12/heart-numbered" caption="Longitudinal (frontal) section of the human heart. Blue = deoxygenated blood, red = oxygenated; arrows show the direction of flow. Note the left ventricular wall, about three times thicker than the right." width="74"
+key 1 Right atrium
+key 2 Left atrium
+key 3 Superior vena cava
+key 4 Aorta
+key 5 Pulmonary artery
+key 6 Pulmonary veins
+key 7 Bicuspid (mitral) valve
+key 8 Aortic (semilunar) valve
+key 9 Left ventricle
+key 10 Right ventricle
+key 11 Inferior vena cava
+key 12 Tricuspid valve
+key 13 Pulmonary (semilunar) valve
+```
+
+
 It is enclosed in the **pericardium**: a tough outer **fibrous** layer and a
 **serous** layer of two sheets — the **parietal** lining the sac and the
 **visceral** stuck to the heart (the epicardium). Between them is a film of

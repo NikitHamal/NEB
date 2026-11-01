@@ -111,75 +111,7 @@ The respiratory membrane (alveolar epithelium + fused basement membrane +
 capillary endothelium) is only **0.5 μm** thick — about 1/100 of the thickness of
 this page — so diffusion is very fast.
 
-```figure caption="The respiratory tract from nostril to alveolus, with the numbers keyed on the right. The conducting part ends at the terminal bronchioles; gas exchange happens only in the alveoli. Note the C-shaped tracheal rings and the three lobes of the right lung."
-import numpy as np
-from matplotlib.patches import Circle, Ellipse, Polygon, Rectangle
-fig, ax = plt.subplots(figsize=(5.2, 4.6))
-ax.set_xlim(0, 13.4); ax.set_ylim(0, 10.4); ax.set_aspect("equal"); ax.axis("off")
-TIS, TISE = "#f0c9cc", "#a9555e"
-CART, CARTE = "#cfe0ee", "#6b8aa5"
-LUNG, LUNGE = "#fbe9ea", "#a9555e"
-
-ax.add_patch(Polygon([[1.75, 9.90], [3.05, 9.90], [2.85, 9.25], [1.95, 9.25]],
-                     closed=True, fc=TIS, ec=TISE, lw=1.2, zorder=3))
-ax.add_patch(Rectangle((2.05, 8.30), 0.70, 0.95, fc=TIS, ec=TISE, lw=1.2, zorder=3))
-ax.add_patch(Polygon([[1.95, 8.30], [2.85, 8.30], [2.75, 7.55], [2.05, 7.55]],
-                     closed=True, fc=CART, ec=CARTE, lw=1.3, zorder=4))
-ax.add_patch(Rectangle((2.05, 5.10), 0.70, 2.45, fc=TIS, ec=TISE, lw=1.2, zorder=3))
-for yy in np.arange(5.28, 7.50, 0.33):
-    ax.plot([2.00, 2.80], [yy, yy], color=CARTE, lw=2.4, solid_capstyle="butt",
-            zorder=4)
-ax.plot([2.40, 1.75, 1.55], [5.10, 4.70, 4.35], color=TISE, lw=6,
-        solid_capstyle="round", zorder=5)
-ax.plot([2.40, 3.05, 3.25], [5.10, 4.70, 4.35], color=TISE, lw=6,
-        solid_capstyle="round", zorder=5)
-
-ax.add_patch(Polygon([[1.55, 4.45], [0.85, 4.25], [0.55, 3.20], [0.60, 2.00],
-                      [1.05, 1.40], [1.75, 1.60], [1.95, 2.60], [1.90, 4.05]],
-                     closed=True, fc=LUNG, ec=LUNGE, lw=1.3, zorder=2))
-ax.add_patch(Polygon([[3.25, 4.45], [3.95, 4.25], [4.25, 3.20], [4.20, 2.00],
-                      [3.75, 1.40], [3.05, 1.60], [2.85, 2.60], [2.90, 4.05]],
-                     closed=True, fc=LUNG, ec=LUNGE, lw=1.3, zorder=2))
-ax.plot([0.62, 1.86], [3.55, 2.45], color=LUNGE, lw=0.9, ls="--", zorder=6)
-ax.plot([0.60, 1.86], [3.95, 3.55], color=LUNGE, lw=0.9, ls="--", zorder=6)
-ax.plot([2.94, 4.18], [3.55, 2.45], color=LUNGE, lw=0.9, ls="--", zorder=6)
-
-for x0, sgn in [(1.62, -1), (3.18, 1)]:
-    ax.plot([x0, x0], [4.20, 2.85], color=TISE, lw=2.0, zorder=6)
-    for yy in (3.60, 3.10):
-        ax.plot([x0, x0 + sgn * 0.30], [yy, yy - 0.10], color=TISE, lw=1.2,
-                zorder=6)
-        ax.add_patch(Circle((x0 + sgn * 0.40, yy - 0.14), 0.11, fc="white",
-                            ec=TISE, lw=0.9, zorder=7))
-
-xd = np.linspace(0.35, 4.45, 200)
-yd = 0.95 + 0.40 * np.cos((xd - 2.40) * 0.62)
-ax.fill_between(xd, 0.55, yd, color="#e8d2ae", alpha=0.75, zorder=1)
-ax.plot(xd, yd, color="#8a6642", lw=2.0, zorder=8)
-
-def disc(x, y, n):
-    ax.add_patch(Circle((x, y), 0.27, fc="white", ec=TISE, lw=1.0, zorder=10))
-    ax.text(x, y, str(n), ha="center", va="center", fontsize=6.9, color=INK,
-            zorder=11)
-
-disc(2.40, 10.12, 1); disc(3.10, 8.75, 2); disc(3.10, 7.95, 3)
-disc(1.62, 6.35, 4); disc(1.95, 4.78, 5); disc(1.18, 3.25, 6)
-disc(1.72, 2.55, 7); disc(0.78, 3.85, 8); disc(4.02, 3.85, 9)
-disc(2.40, 1.05, 10)
-
-key = ["1  Nasal cavity: warms and filters air",
-       "2  Pharynx: shared with food",
-       "3  Larynx: vocal cords, epiglottis",
-       "4  Trachea: C-shaped cartilage rings",
-       "5  Bronchi: right one wider, steeper",
-       "6  Bronchiole: muscle, no cartilage",
-       "7  Alveoli: exchange and surfactant",
-       "8  Right lung: three lobes",
-       "9  Left lung: two lobes, cardiac notch",
-       "10  Diaphragm: chief inspiratory muscle"]
-for i, t in enumerate(key):
-    ax.text(5.05, 9.95 - i * 0.98, t, fontsize=7.0, va="center", color=INK)
-ax.plot([4.78, 4.78], [0.55, 10.25], color=GRID, lw=0.9)
+```photo id="cee-zoo/respiratory-system" caption="The human respiratory system. The inset (top right) magnifies the alveoli and the capillary network that wraps them, where gas exchange happens. Lobar bronchi: three on the right, two on the left." width="70"
 ```
 
 ### The mechanism of breathing
@@ -315,6 +247,10 @@ commonest error in this topic.
 
 Gases move from a region of **higher partial pressure** to one of **lower partial
 pressure**. That single sentence explains all gas exchange.
+
+```photo id="bio12/alveoli" caption="Alveoli in a lung lobule. Each alveolar sac is a cluster of alveoli at the end of an alveolar duct, wrapped in a network of capillaries where gas exchange takes place." width="72"
+```
+
 
 | Site | pO₂ (mmHg) | pCO₂ (mmHg) |
 |---|---|---|

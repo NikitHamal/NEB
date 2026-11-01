@@ -47,6 +47,13 @@ regulators **auxin and cytokinin**, whose ratio steers development
 (Skoog and Miller 1957, Unit 13): high auxin → **roots**, high cytokinin
 → **shoots**, balanced → an unorganised **callus**.
 
+```photo id="cee-bot/tissue-culture" caption="A cucumber plantlet regenerated from a shoot-tip explant on Murashige-Skoog medium with 1 mg/L of the cytokinin benzylaminopurine - tissue culture in a single image. The scale bar is 2000 μm." width="70"
+call 0.15 0.92 0.14 0.68 "Cotyledon"
+call 0.60 0.92 0.50 0.72 "Shoot apex with new leaves"
+call 0.84 0.14 0.88 0.52 "Cotyledon"
+```
+
+
 The routine runs in steps, and the paper asks for them in order:
 
 1. **Explant** — a small piece (shoot tip, node, leaf disc, anther) from
@@ -171,6 +178,19 @@ selfing would need.
 joins it to carrier DNA, and delivers it into a host where it replicates
 and expresses. The toolkit:
 
+```photo id="bio12/gel-uv" caption="A real agarose gel under ultraviolet light. DNA is negatively charged, so it runs from the cathode (wells, top) towards the anode (bottom); small fragments travel furthest. The ladder lane is a mixture of fragments of known size used to read off the others." width="52"
+mark 0.55 0.82 "1"
+mark 0.14 0.60 "2"
+mark 0.64 0.50 "3"
+mark 0.82 0.36 "4"
+arrow 0.94 0.90 0.94 0.30
+key 1 Wells where the DNA samples were loaded (cathode end)
+key 2 Ladder lane — marker fragments of known sizes
+key 3 A band: fragments of one size, stained with a fluorescent dye
+key 4 Loading-dye front, running ahead of the smallest DNA
+```
+
+
 - **Restriction endonucleases — the molecular scissors.** Bacterial
   enzymes that cut DNA at specific sequences, usually leaving
   complementary **sticky ends**.
@@ -274,6 +294,12 @@ semi-dwarf wheats and IRRI's **IR8 rice** — stands behind Nepal's own
 releases such as Sabitri and Khumal-4 rice; its newest heir is
 **biofortification**, breeding in iron, zinc and provitamin A.
 
+```photo id="cee-bot/root-nodules" caption="Root nodules on a legume (clover, Fabaceae). Each pale swelling is packed with *Rhizobium* bacteria that fix atmospheric nitrogen; the plant supplies sugars and the red leghaemoglobin that keeps the nodule interior nearly oxygen-free." width="52"
+call 0.58 0.92 0.40 0.66 "Root nodules"
+call 0.64 0.40 0.45 0.40 "Main root"
+```
+
+
 ### Biofertilizers and green manures
 
 A **biofertilizer** is a preparation of living microbes that enriches
@@ -292,6 +318,11 @@ into the soil while still green**, donating biologically fixed nitrogen
 and organic matter to the following rice or wheat crop. The distinction
 the paper likes: a biofertilizer is **living inoculant added in small
 amount**; a green manure is **a whole crop sacrificed to the soil**.
+
+```photo id="cee-bot/azolla" caption="*Azolla*, a floating water fern, turns red-brown in strong light. Each tiny two-lobed frond has a cavity housing the nitrogen-fixing cyanobacterium *Anabaena azollae*; a dried Azolla mat in a paddy field works as a green manure." width="60"
+label 0.50 0.06 "A dense mat of Azolla fronds"
+```
+
 
 ### Bio-engineering
 

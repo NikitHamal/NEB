@@ -218,6 +218,10 @@ rays** were shown to be deflected towards the positive plate, to blacken a
 photographic plate, to make certain minerals fluoresce and to ionise the gas they
 passed through — so they are streams of **negative** particles.
 
+```photo id="phy12/thomson" caption="J. J. Thomson at work with a cathode-ray tube (colourised photograph)." width="60"
+```
+
+
 In 1897 J. J. Thomson measured the ratio of their charge to their mass. The ratio
 came out at about $1.76\times10^{11}$ C kg⁻¹, more than a thousand times the value for
 a hydrogen ion ($9.58\times10^{7}$ C kg⁻¹). Since the value did not change when the
@@ -229,6 +233,10 @@ electrons from its surface. This is **thermionic emission**, the source of elect
 in a cathode-ray tube, an X-ray tube and the old valve radios. It works because the
 electrons in a hot metal have a distribution of energies, and the fastest of them
 have enough energy to escape the attraction of the positive ions they leave behind.
+
+```photo id="phy12/millikan" caption="The viewing microscope of a Millikan oil-drop apparatus (teaching model). The drop is watched between the charged plates through this eyepiece." width="55"
+```
+
 
 ### 18.2.2 The crossed-field measurement of e/m
 

@@ -130,26 +130,23 @@ the absolute temperature. The **osmotic pressure** OP is simply
 Ψs with the sign flipped, a positive number.
 
 ```figure caption="One cell in three baths. The box is the wall, the shaded block the protoplast. In a hypotonic bath water enters until turgor (Psi_p) balances the solute pull; in a hypertonic bath the protoplast abandons the wall."
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-fig, axes = plt.subplots(1, 3, figsize=(5.2, 2.9))
-Rect = mpatches.Rectangle
-heads = ['hypotonic bath\nbath Psi_w = -0.1', 'isotonic bath\nbath Psi_w = -0.8', 'hypertonic bath\nbath Psi_w = -2.0']
-states = ['TURGID', 'FLACCID', 'PLASMOLYSED']
-inset = [0.03, 0.10, 0.26]
-sub = ['Psi_s -0.9, Psi_p +0.8\ncell Psi_w -0.1', 'Psi_s -0.8, Psi_p 0\ncell Psi_w -0.8', 'Psi_s -1.2, Psi_p 0\ncell Psi_w -1.2']
-flow = ['water IN', 'no net flow', 'water OUT']
-for k, ax in enumerate(axes):
-    ax.set_xlim(0, 1); ax.set_ylim(0, 1); ax.axis('off')
-    ax.add_patch(Rect((0.12, 0.44), 0.76, 0.42, fill=False, ec=INK, lw=1.7))
-    d = inset[k]
-    hh = 0.42 - 1.1*d
-    ax.add_patch(Rect((0.12 + d, 0.44 + (0.42 - hh)/2), 0.76 - 2*d, hh, fc='#dbeaf6', ec='#1d6fb8', lw=1.2))
-    ax.text(0.5, 0.985, heads[k], fontsize=6.7, ha='center', va='top', color=INK)
-    ax.text(0.5, 0.355, states[k], fontsize=7.2, ha='center', va='center', color='#1d6fb8' if k == 0 else INK)
-    ax.text(0.5, 0.255, sub[k], fontsize=6.3, ha='center', va='top', color=MUTED)
-    ax.text(0.5, 0.045, flow[k], fontsize=6.8, ha='center', va='center', color='#2e8b57')
-fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01, wspace=0.12)
+fig, axs = plt.subplots(1, 3, figsize=(7.0, 3.5))
+cases = [("Hypotonic bath", r"bath $\psi_w=-0.1$ MPa", 2.15, "turgid", "#1d6fb8", r"$\psi_s=-0.9$, $\psi_p=+0.8$", r"cell $\psi_w=-0.1$", "water IN", 1),
+         ("Isotonic bath", r"bath $\psi_w=-0.8$ MPa", 1.75, "flaccid", "#5b6472", r"$\psi_s=-0.8$, $\psi_p=0$", r"cell $\psi_w=-0.8$", "no net flow", 0),
+         ("Hypertonic bath", r"bath $\psi_w=-2.0$ MPa", 0.85, "plasmolysed", "#c0392b", r"$\psi_s=-1.2$, $\psi_p=0$", r"cell $\psi_w=-1.2$", "water OUT", -1)]
+for ax, (ttl, bath, size, state, col, l1, l2, flow, d) in zip(axs, cases):
+    ax.set_xlim(-1.5, 1.5); ax.set_ylim(-2.6, 2.4); ax.set_aspect("equal"); ax.axis("off")
+    ax.add_patch(Rectangle((-1.15, -1.15), 2.3, 2.3, fc="none", ec=INK, lw=2.6))
+    ax.add_patch(Rectangle((-size / 2, -size / 2), size, size, fc="#dbe9f6", ec="#1d6fb8", lw=1.5))
+    ax.text(0, 2.12, ttl, ha="center", fontsize=9, fontweight="bold"); ax.text(0, 1.82, bath, ha="center", fontsize=8)
+    if d:
+        for xx in (-0.55, 0.55):
+            y0, y1 = (1.62, 1.25) if d > 0 else (1.0, 1.55)
+            ax.annotate("", xy=(xx, y1 - 0.0 if d > 0 else y1), xytext=(xx, y0), arrowprops=dict(arrowstyle="-|>", color=col, lw=1.5, mutation_scale=9))
+    ax.text(0, -1.5, state.upper(), ha="center", fontsize=9, fontweight="bold", color=col)
+    ax.text(0, -1.9, l1, ha="center", fontsize=8); ax.text(0, -2.2, l2, ha="center", fontsize=8)
+    ax.text(0, -2.55, flow, ha="center", fontsize=8, color="#2e8b57", fontweight="bold")
+fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.01, wspace=0.04)
 ```
 
 ::: example Worked example — a cell coming to equilibrium (in both languages)
@@ -185,6 +182,19 @@ force is the huge matric potential of the dry colloid, and the heat
 released as water binds is the **heat of wetting**. Imbibition is the
 first step of seed germination.
 
+```photo id="bio12/stomata" caption="Lower epidermis of a leaf peeled and mounted, seen in the light microscope. Two open stomata sit among ordinary epidermal cells whose walls are wavy like jigsaw pieces." width="94"
+crop 0.00 0.28 0.78 1.00
+mark 0.115 0.760 "1"
+mark 0.385 0.375 "2"
+mark 0.450 0.500 "3"
+mark 0.795 0.200 "4"
+key 1 Ordinary epidermal cell — wavy walls, large vacuole, no chloroplasts
+key 2 Guard cell — kidney-shaped, one of a pair, with a thicker inner wall
+key 3 Stomatal pore (aperture) — the gap between the two guard cells
+key 4 Chloroplasts inside the guard cell; ordinary epidermal cells have none
+```
+
+
 Roots absorb mainly through the **root hair zone**: each hair is one
 epiblema cell with a thin wall, no cuticle and sap at a more negative Ψw
 than the soil solution (field-capacity soil sits near −0.015 MPa).
@@ -207,6 +217,19 @@ xylem sealed by the Casparian strip. It cannot drive the ascent of sap:
 0.1 MPa lifts water only about 10 m; it vanishes at midday when flow is
 fastest; many gymnosperms never show it; and killed stems still conduct.
 Its real jobs are refilling air-locked vessels and driving guttation.
+
+```photo id="bio12/guttation" caption="Guttation drops standing along the margin of a crucifer leaf at dawn. Each drop marks a hydathode at a vein ending — the drops are evenly spaced because the vein endings are." width="96"
+crop 0.08 0.28 1.00 1.00
+mark 0.565 0.288 "1"
+mark 0.424 0.382 "2"
+mark 0.886 0.632 "3"
+mark 0.652 0.611 "4"
+key 1 A guttation drop — liquid xylem sap forced out by root pressure
+key 2 The leaf margin, where the hydathodes and their water pores open
+key 3 The drops continue to the leaf tip, one to each vein ending
+key 4 The lamina itself stays dry — this is not condensation from the air
+```
+
 
 **Vital-force theories** (Godlewski's relay pump, J. C. Bose's pulsating
 cells) died with **Strasburger's experiment**: poison and boiling water

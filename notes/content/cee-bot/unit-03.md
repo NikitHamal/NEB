@@ -38,6 +38,12 @@ are either **aseptate and coenocytic** (multinucleate, no cross walls) or
 **septate**. The wall contains **chitin** (fungal cellulose) with glucans, and the reserve food
 is **glycogen and oil** — never starch. The study of fungi is **mycology**.
 
+```photo id="cee-bot/mucor" caption="*Mucor* growing on bread: each black globe is a sporangium full of sporangiospores, held up on a fine, unbranched sporangiophore. The hypha beneath is coenocytic (aseptate)." width="70"
+call 0.16 0.90 0.49 0.76 "Sporangium"
+call 0.76 0.18 0.58 0.40 "Sporangiophore"
+```
+
+
 Sexual reproduction has three steps: **plasmogamy** (fusion of protoplasts),
 **karyogamy** (fusion of nuclei) and **meiosis**. In Ascomycetes and
 Basidiomycetes karyogamy is delayed, so the hyphae pass through a
@@ -79,6 +85,10 @@ granules, one **nucleus** beside it, mitochondria, and reserve food as
 respires completely; without oxygen it ferments sugar with the enzyme complex
 **zymase** (Buchner, 1897):
 
+```photo id="bio11/rhizopus" caption="The mycelium of *Rhizopus stolonifer* under the microscope. The long, unbranched-looking hyphae carry upright sporangiophores topped by dark, round sporangia. The scale bar is 0.1 mm." width="80"
+```
+
+
 C₆H₁₂O₆ → 2C₂H₅OH + 2CO₂ + energy (2 ATP per glucose)
 
 **Reproduction.**
@@ -99,6 +109,10 @@ such as *Mucor* and *Rhizopus* break starch into sugar and yeasts ferment it;
 vitamin B complex and single-cell protein; recombinant hepatitis B vaccine;
 and the model eukaryote of genetics (first eukaryotic genome sequenced, 1996).
 *Candida albicans*, a yeast-like fungus, causes candidiasis.
+
+```photo id="bio11/agaricus" caption="Fruiting bodies (basidiocarps) of the button mushroom *Agaricus bisporus*. What we eat is the compact, tissue-like mass of hyphae; the mycelium itself stays hidden in the compost." width="72"
+```
+
 
 ### *Mucor* (pin mould)
 
@@ -193,6 +207,10 @@ penetrate the algal cells, some authors call it controlled parasitism, or
 **helotism**.) The mycobiont is usually an **ascomycete**; the phycobiont is
 usually a green alga (*Trebouxia*, *Trentepohlia*) or a cyanobacterium
 (*Nostoc*). Lichenology is the study of lichens.
+
+```photo id="bio11/usnea" caption="*Usnea*, a fruticose ("beard") lichen: pale green, branched and hanging like tiny shrubs from the bark." width="72"
+```
+
 
 | Basis | Types | Examples |
 |---|---|---|

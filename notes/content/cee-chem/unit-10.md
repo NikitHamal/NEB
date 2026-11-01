@@ -392,6 +392,10 @@ in electrochemistry papers.
 **Free energy and the equilibrium constant.** The electrical work a cell can do is the
 decrease in free energy:
 
+```photo id="chem12/daniell" caption="A Daniell cell set up in the laboratory: zinc in ZnSO₄ (left beaker) and copper in blue CuSO₄ (right beaker), joined through a voltmeter that reads about 1.07 V." width="75"
+```
+
+
 $$ \Delta G^\circ = -nFE^\circ $$
 
 with $n$ the number of moles of electrons transferred and $F = 96\,500$ C mol⁻¹. For the
@@ -434,6 +438,10 @@ room to dissolve.
 
 **The dry cell.** The zinc container is itself the anode; a central carbon rod with MnO₂
 and graphite powder is the cathode; the paste of NH₄Cl and ZnCl₂ is the electrolyte.
+
+```photo id="chem12/fuel-cell-stack" caption="The fuel-cell stack (grey case, centre) of a hydrogen car, beside its hydrogen tank. Hundreds of cells like the one above are stacked in series to give a useful voltage." width="75"
+```
+
 
 - Anode: Zn → Zn²⁺ + 2e⁻
 - Cathode: 2MnO₂ + 2H⁺ + 2e⁻ → Mn₂O₃ + H₂O

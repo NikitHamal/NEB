@@ -36,6 +36,11 @@ what gas came before it and which rival ion could imitate it.
 Qualitative salt analysis begins with the sample's appearance and solubility, but the
 systematic anion hunt starts with dilute H₂SO₄, warm if needed:
 
+```photo id="cee-chem/brown-ring" caption="The brown-ring test for nitrate. Concentrated H₂SO₄ is poured slowly down the side of a tube holding the test solution and freshly prepared FeSO₄; a brown ring of [Fe(H₂O)₅NO]²⁺ forms where the layers meet." width="40"
+call 0.80 0.38 0.54 0.38 "Brown ring"
+```
+
+
 | Observation with dil. H₂SO₄ | Ion indicated | Confirmation |
 |---|---|---|
 | Brisk effervescence; gas turns lime water milky, excess gas clears it (soluble bicarbonate) | CO₃²⁻ / HCO₃⁻ | CO₂ has no smell and no effect on dichromate paper |

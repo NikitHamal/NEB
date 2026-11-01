@@ -58,37 +58,31 @@ The **true coelom** is a cavity lined on both sides by mesoderm: the outer
 reduced and the main body cavity is a blood-filled **haemocoel**.
 
 ```figure caption="The three body plans in transverse section. Acoelomate: mesoderm fills the space between body wall and gut. Pseudocoelomate: a cavity lies between the mesoderm of the body wall and the endoderm of the gut, which has no mesoderm of its own. Coelomate: mesoderm lines both the body wall and the gut, and the coelom lies within it."
-import numpy as np
-from matplotlib.patches import Circle
-fig, axes = plt.subplots(1, 3, figsize=(5.2, 2.4))
-ECT, MES, END, CAV = "#cfe0ee", "#f2c9c2", "#f2e3c4", "#ffffff"
-titles = ["acoelomate\n(Platyhelminthes)", "pseudocoelomate\n(Aschelminthes)",
-          "coelomate\n(Annelida to Chordata)"]
-for k, ax in enumerate(axes):
-    ax.set_xlim(-1.25, 1.25); ax.set_ylim(-1.75, 1.1)
-    ax.set_aspect("equal"); ax.axis("off")
-    ax.add_patch(Circle((0, 0), 1.0, fc=ECT, ec="#2c5f96", lw=1.1))
-    ax.add_patch(Circle((0, 0), 0.86, fc=MES, ec="#a2453e", lw=0.9))
-    if k == 0:
-        ax.add_patch(Circle((0, 0), 0.34, fc=END, ec="#9a7330", lw=0.9))
-    elif k == 1:
-        ax.add_patch(Circle((0, 0), 0.70, fc=CAV, ec="#a2453e", lw=0.9))
-        ax.add_patch(Circle((0, 0), 0.34, fc=END, ec="#9a7330", lw=0.9))
-        ax.text(0, 0.52, "pseudocoel", ha="center", va="center", fontsize=6.6, color=INK)
+fig, axs = plt.subplots(1, 3, figsize=(7.0, 3.5))
+EC, ME, EN, GU = "#bcd3ec", "#f2c4bd", "#f5e3c0", "#ffffff"
+def ring(ax, r0, r1, fc):
+    ax.add_patch(matplotlib.patches.Wedge((0, 0), r1, 0, 360, width=r1 - r0, fc=fc, ec="#6b7686", lw=0.9))
+plans = [("Acoelomate", "(Platyhelminthes)", None), ("Pseudocoelomate", "(Aschelminthes)", "pseudocoel"), ("Coelomate", "(Annelida to Chordata)", "coelom")]
+for ax, (nm, ex, cav) in zip(axs, plans):
+    ax.set_xlim(-1.9, 1.9); ax.set_ylim(-2.35, 1.5); ax.set_aspect("equal"); ax.axis("off")
+    ring(ax, 0.92, 1.0, EC)
+    if cav is None:
+        ring(ax, 0.34, 0.92, ME)
+    elif cav == "pseudocoel":
+        ring(ax, 0.80, 0.92, ME); ring(ax, 0.34, 0.80, GU)
     else:
-        ax.add_patch(Circle((0, 0), 0.70, fc=CAV, ec="#a2453e", lw=0.9))
-        ax.add_patch(Circle((0, 0), 0.48, fc=MES, ec="#a2453e", lw=0.9))
-        ax.add_patch(Circle((0, 0), 0.34, fc=END, ec="#9a7330", lw=0.9))
-        ax.text(0, 0.59, "coelom", ha="center", va="center", fontsize=6.6, color=INK)
-    ax.add_patch(Circle((0, 0), 0.16, fc="white", ec="#9a7330", lw=0.7))
-    ax.text(0, -1.22, titles[k], ha="center", va="top", fontsize=7.0, color=INK,
-            linespacing=1.25)
-leg = [(ECT, "ectoderm"), (MES, "mesoderm"), (END, "endoderm (gut)")]
-for i, (c, t) in enumerate(leg):
-    x = 0.16 + 0.27 * i
-    fig.patches.append(plt.Rectangle((x, 0.035), 0.022, 0.05, fc=c, ec=MUTED,
-                                     lw=0.6, transform=fig.transFigure, figure=fig))
-    fig.text(x + 0.03, 0.06, t, fontsize=6.8, color=INK, va="center")
+        ring(ax, 0.80, 0.92, ME); ring(ax, 0.58, 0.80, GU); ring(ax, 0.46, 0.58, ME); ring(ax, 0.34, 0.46, ME)
+    ring(ax, 0.16, 0.34, EN); ring(ax, 0.0, 0.16, GU)
+    if cav:
+        ax.annotate(cav, xy=(0.0, -0.69 if cav == "coelom" else -0.57), xytext=(0.0, -1.45), ha="center", fontsize=8, color="#b0472c", arrowprops=dict(arrowstyle="-", color="#b0472c", lw=0.9))
+        ax.text(0, -1.78, nm, ha="center", fontsize=9, fontweight="bold"); ax.text(0, -2.1, ex, ha="center", fontsize=7.8, color=MUTED)
+    else:
+        ax.text(0, -1.5, nm, ha="center", fontsize=9, fontweight="bold"); ax.text(0, -1.82, ex, ha="center", fontsize=7.8, color=MUTED)
+        ax.text(0, -2.15, "no body cavity: mesoderm is solid", ha="center", fontsize=7.4, color=MUTED)
+for i, (c, n) in enumerate(((EC, "ectoderm"), (ME, "mesoderm"), (EN, "endoderm (gut wall)"))):
+    pass
+fig.legend(handles=[matplotlib.patches.Patch(fc=EC, ec="#6b7686", label="ectoderm"), matplotlib.patches.Patch(fc=ME, ec="#6b7686", label="mesoderm"), matplotlib.patches.Patch(fc=EN, ec="#6b7686", label="endoderm (gut wall)")], loc="lower center", ncol=3, fontsize=8, frameon=False)
+fig.subplots_adjust(left=0.01, right=0.99, top=0.99, bottom=0.1, wspace=0.02)
 ```
 
 ```figure caption="The classification tree of the animal phyla. Each fork is one basis of classification; read a phylum's characters off its path from the root."
@@ -161,6 +155,10 @@ ax.text(xc + 0.08, yD - 0.08, "(enterocoel)", **dn)
 In the five-kingdom system the protozoans are the **animal-like protists**; the
 syllabus begins animal classification with them.
 
+```photo id="bio11/amoeba" caption="*Amoeba proteus* under differential interference contrast: a single cell that moves by extending blunt pseudopodia (compare with ciliary movement in *Paramecium*)." width="84"
+```
+
+
 - Unicellular **eukaryotes** at the protoplasmic level; free-living or parasitic.
 - No cell wall; body covered by plasma membrane or a firm **pellicle**.
 - Nutrition holozoic, holophytic (*Euglena*), saprozoic or parasitic.
@@ -208,6 +206,10 @@ syllabus begins animal classification with them.
 biradial, diploblastic, with **eight rows of comb plates (ctenes)** of fused cilia for
 swimming, **colloblasts (lasso cells)** instead of nematocysts, and strong
 **bioluminescence**: *Pleurobrachia* (sea gooseberry), *Ctenoplana*.
+
+```photo id="bio11/hydra" caption="A living *Hydra*: a slender column attached by its basal disc, with tentacles around the mouth (hypostome) at the free end. Its green colour comes from symbiotic algae." width="68"
+```
+
 
 ### Phylum Platyhelminthes — flatworms
 
@@ -334,6 +336,32 @@ books made them a subphylum of Chordata; today they are a separate
 non-chordate phylum. The **tornaria** larva resembles echinoderm larvae.
 Examples: ***Balanoglossus*** (acorn worm), *Saccoglossus*.
 
+```photo id="bio11/asterias" caption="The starfish *Asterias*: a pentamerous body of five arms around a central disc with the spiny, studded upper surface visible." width="60"
+```
+
+
+```photo id="bio11/cockroach" caption="The American cockroach *Periplaneta americana*: a flattened body in head, thorax and abdomen, with long antennae, wings and three pairs of jointed legs." width="60"
+crop 0.0 0.13 1 1
+```
+
+
+```photo id="bio11/earthworm-ext" caption="A living earthworm on moist ground: elongated, cylindrical and segmented, with no limbs." width="70"
+crop 0.3 0.25 0.9 0.8
+```
+
+
+```photo id="bio11/ascaris-jar" caption="Preserved *Ascaris lumbricoides* in a jar: long, cylindrical, unsegmented, tapering at both ends." width="34"
+```
+
+
+```photo id="bio11/planaria" caption="*Planaria*, a free-living flatworm: leaf-shaped, flattened from top to bottom and unsegmented, with a smooth ciliated surface." width="70"
+```
+
+
+```photo id="bio11/paramecium" caption="*Paramecium caudatum* cells in a culture, light microscopy. The scale bar is 50 μm; the cells are slipper-shaped with a blunt front end and a tapering rear end." width="84"
+```
+
+
 ### Phylum Chordata
 
 Four **fundamental characters**, present at least in the embryo:
@@ -361,9 +389,17 @@ Four **fundamental characters**, present at least in the embryo:
 Urochordata and Cephalochordata together are the **protochordates**. Every
 vertebrate is a chordate, but not every chordate is a vertebrate.
 
+```photo id="bio11/rohu" caption="The rohu, *Labeo rohita*, a common freshwater carp: streamlined body, overlapping scales, paired and median fins and a forked tail." width="72"
+```
+
+
 Vertebrata divides into **Agnatha** (jawless — class Cyclostomata) and
 **Gnathostomata** (jawed — super-class Pisces with the two fish classes, and
 super-class Tetrapoda with four-limbed Amphibia, Reptilia, Aves and Mammalia).
+
+```photo id="bio11/rana-tigrina" caption="The Indian bullfrog *Hoplobatrachus tigerinus* (the frog historically called *Rana tigrina*). It has smooth moist skin, large eyes, a broad head and webbed hind feet." width="76"
+```
+
 
 | Class | Skin / exoskeleton | Skeleton | Heart | Respiration | Body temperature | Excretion | Reproduction | Examples |
 |---|---|---|---|---|---|---|---|---|

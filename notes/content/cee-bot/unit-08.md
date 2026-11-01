@@ -200,27 +200,33 @@ chromosomes, in which the DNA is wound round histone octamers into nucleosomes a
 then coiled into chromatin (Chapter 7).
 
 ```figure caption="The DNA ladder drawn flat. Each rung is one base pair: 0.34 nm deep, ten rungs to one 3.4 nm turn, and the helix 2 nm wide. The two strands run in opposite directions."
-import numpy as np, matplotlib.pyplot as plt
-fig, ax = plt.subplots(figsize=(4.5, 3.15))
-ax.set_xlim(-1.55, 3.30); ax.set_ylim(-0.55, 4.35)
-ax.axis("off"); ax.set_aspect("equal")
-ax.plot([0, 0], [0, 3.4], color=ACCENT, lw=2.2, solid_capstyle="round")
-ax.plot([2, 2], [0, 3.4], color="#B5482F", lw=2.2, solid_capstyle="round")
-for i in range(11):
-    ax.plot([0, 2], [i * 0.34, i * 0.34], color=MUTED, lw=0.8)
-ax.annotate("", xy=(0, 3.72), xytext=(2, 3.72),
-            arrowprops=dict(arrowstyle="<|-|>", color=INK, lw=0.9, mutation_scale=7))
-ax.text(1.0, 3.90, "2 nm", fontsize=7.4, ha="center", va="center", color=INK)
-ax.annotate("", xy=(2.55, 0), xytext=(2.55, 3.4),
-            arrowprops=dict(arrowstyle="<|-|>", color=INK, lw=0.9, mutation_scale=7))
-ax.text(2.68, 1.70, "3.4 nm\n(10 bp)", fontsize=7.4, ha="left", va="center", color=INK)
-ax.annotate("", xy=(-0.30, 0), xytext=(-0.30, 0.34),
-            arrowprops=dict(arrowstyle="<|-|>", color=INK, lw=0.9, mutation_scale=6))
-ax.text(-0.42, 0.17, "0.34 nm", fontsize=7.2, ha="right", va="center", color=INK)
-ax.text(-0.13, 3.55, "3\u2032", fontsize=7.6, ha="right", va="center", color=ACCENT)
-ax.text(-0.13, -0.18, "5\u2032", fontsize=7.6, ha="right", va="center", color=ACCENT)
-ax.text(2.13, 3.55, "5\u2032", fontsize=7.6, ha="left", va="center", color="#B5482F")
-ax.text(2.13, -0.18, "3\u2032", fontsize=7.6, ha="left", va="center", color="#B5482F")
+fig, ax = plt.subplots(figsize=(6.2, 5.4)); ax.set_aspect("equal"); ax.axis("off")
+pitch, R, turns = 3.4, 1.0, 2.0
+t = np.linspace(0, turns * 2 * np.pi, 600); y = t / (2 * np.pi) * pitch
+for ph, col in ((0, "#1d6fb8"), (np.pi, "#c0392b")):
+    x = R * np.cos(t + ph); depth = np.sin(t + ph)
+    for i in range(len(t) - 1):
+        ax.plot(x[i:i + 2], y[i:i + 2], color=col, lw=4.2 if depth[i] > 0 else 2.0, alpha=1 if depth[i] > 0 else 0.55, solid_capstyle="round", zorder=3 if depth[i] > 0 else 1)
+seq = ["A", "G", "C", "T", "A", "A", "G", "T", "C", "G", "T", "A", "C", "G", "A", "T", "G", "C", "T", "A"]
+comp = {"A": "T", "T": "A", "G": "C", "C": "G"}; bc = {"A": "#1d6fb8", "T": "#d9534f", "G": "#2e8b57", "C": "#d19a1b"}
+for k in range(20):
+    tt = (k + 0.5) * 2 * np.pi / 10; yy = tt / (2 * np.pi) * pitch
+    x1, x2 = R * np.cos(tt), -R * np.cos(tt); b = seq[k]
+    ax.plot([x1, 0], [yy, yy], color=bc[b], lw=2.2, zorder=2); ax.plot([0, x2], [yy, yy], color=bc[comp[b]], lw=2.2, zorder=2)
+ax.plot([-R - 0.35, -R - 0.35], [0.0, 0.0], lw=0)
+ax.annotate("", xy=(-1.0, 7.6), xytext=(1.0, 7.6), arrowprops=dict(arrowstyle="<->", color=INK, lw=1)); ax.text(0, 7.9, "2 nm", ha="center", fontsize=8.5)
+ax.annotate("", xy=(2.1, 0.0), xytext=(2.1, 3.4), arrowprops=dict(arrowstyle="<->", color=INK, lw=1)); ax.text(2.3, 1.7, "3.4 nm\n= one turn\n= 10 base pairs", fontsize=8.2, va="center")
+ax.annotate("", xy=(-2.0, 5.1), xytext=(-2.0, 5.44), arrowprops=dict(arrowstyle="<->", color=INK, lw=1))
+ax.annotate("0.34 nm between\nbase pairs", xy=(-1.9, 5.27), xytext=(-5.0, 5.9), fontsize=8.2, va="center", arrowprops=dict(arrowstyle="-", color="#7a8494", lw=0.8))
+ax.annotate("sugar-phosphate\nbackbone", xy=(-0.95, 2.6), xytext=(-5.0, 3.0), fontsize=8.2, va="center", color="#1d6fb8", arrowprops=dict(arrowstyle="-", color="#7a8494", lw=0.8))
+ax.annotate("base pairs held by\nhydrogen bonds", xy=(0.0, 1.45), xytext=(-5.0, 0.6), fontsize=8.2, va="center", arrowprops=dict(arrowstyle="-", color="#7a8494", lw=0.8))
+for s, c, yy in (("5'", "#1d6fb8", -0.35), ("3'", "#c0392b", -0.35)): pass
+ax.text(1.05, -0.4, "3'", color="#c0392b", fontsize=9, fontweight="bold", ha="center"); ax.text(-1.05, -0.4, "5'", color="#1d6fb8", fontsize=9, fontweight="bold", ha="center")
+ax.text(-1.05, 6.95, "3'", color="#1d6fb8", fontsize=9, fontweight="bold", ha="center"); ax.text(1.05, 6.95, "5'", color="#c0392b", fontsize=9, fontweight="bold", ha="center")
+for i, (n, c) in enumerate((("A", "#1d6fb8"), ("T", "#d9534f"), ("G", "#2e8b57"), ("C", "#d19a1b"))):
+    ax.add_patch(Rectangle((3.4, 6.6 - i * 0.62), 0.38, 0.38, fc=c, ec="none")); ax.text(3.95, 6.79 - i * 0.62, {"A": "adenine", "T": "thymine", "G": "guanine", "C": "cytosine"}[n], va="center", fontsize=8.2)
+ax.text(3.4, 3.95, "A=T: two H-bonds\nG\u2261C: three H-bonds", fontsize=8.2, va="center")
+ax.set_xlim(-5.2, 6.8); ax.set_ylim(-1.0, 8.4)
 ```
 
 ### Chargaff's rule and its arithmetic
@@ -387,26 +393,25 @@ the slower and more complicated of the two, and it is where the primers and the 
 are needed.
 
 ```figure caption="One replication fork. Helicase opens the duplex; the leading strand grows continuously towards the fork; the lagging strand is built as Okazaki fragments that grow away from it and are later joined by ligase."
-import numpy as np, matplotlib.pyplot as plt
-from matplotlib.patches import Circle
-fig, ax = plt.subplots(figsize=(5.0, 2.85))
-ax.set_xlim(0.4, 10.2); ax.set_ylim(0.15, 5.75); ax.axis("off")
-ax.plot([6.6, 9.7], [3.08, 3.08], color=ACCENT, lw=1.9)
-ax.plot([6.6, 9.7], [2.92, 2.92], color="#B5482F", lw=1.9)
-ax.plot([1.6, 6.6], [5.0, 3.0], color=ACCENT, lw=1.9)
-ax.plot([1.6, 6.6], [1.0, 3.0], color="#B5482F", lw=1.9)
-ax.add_patch(Circle((6.6, 3.0), 0.30, facecolor="white", edgecolor=INK, lw=1.1, zorder=5))
-ax.annotate("", xy=(6.25, 3.12), xytext=(2.30, 4.68),
-            arrowprops=dict(arrowstyle="-|>", color=ACCENT, lw=1.9, mutation_scale=9))
-for x1, y1, x2, y2 in [(6.00, 3.06, 5.20, 2.74), (4.90, 2.62, 4.10, 2.30),
-                       (3.80, 2.18, 3.00, 1.86)]:
-    ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
-                arrowprops=dict(arrowstyle="-|>", color="#2E8B57", lw=1.9, mutation_scale=8))
-ax.text(8.15, 3.42, "parental DNA", fontsize=7.4, ha="center", color=INK)
-ax.text(3.05, 5.10, "leading strand", fontsize=7.4, ha="center", color=ACCENT)
-ax.text(3.55, 0.62, "lagging strand: Okazaki fragments", fontsize=7.4, ha="center", color="#2E8B57")
-ax.text(7.15, 3.62, "helicase", fontsize=7.4, ha="left", color=INK)
-ax.plot([6.98, 6.78], [3.55, 3.22], color=MUTED, lw=0.8)
+fig, ax = plt.subplots(figsize=(6.4, 4.2)); ax.set_xlim(0, 12); ax.set_ylim(0, 9); ax.axis("off")
+Fk = np.array([6.4, 4.5]); P1 = np.array([0.9, 8.1]); P2 = np.array([0.9, 0.9])
+BL, RD, GR = "#1d6fb8", "#c0392b", "#2e8b57"
+ax.plot([Fk[0], 11.4], [Fk[1] + 0.12, Fk[1] + 0.12], color=BL, lw=2.4); ax.plot([Fk[0], 11.4], [Fk[1] - 0.12, Fk[1] - 0.12], color=RD, lw=2.4)
+ax.plot([Fk[0], P1[0]], [Fk[1] + 0.12, P1[1]], color=BL, lw=2.4); ax.plot([Fk[0], P2[0]], [Fk[1] - 0.12, P2[1]], color=RD, lw=2.4)
+u1 = (P1 - Fk) / np.linalg.norm(P1 - Fk); n1 = np.array([u1[1], -u1[0]]) * 0.42
+a = Fk + u1 * 5.6 + n1; b = Fk + u1 * 1.3 + n1
+ax.annotate("", xy=b, xytext=a, arrowprops=dict(arrowstyle="-|>", color="#0b3d6e", lw=3.2, mutation_scale=12))
+u2 = (P2 - Fk) / np.linalg.norm(P2 - Fk); n2 = np.array([-u2[1], u2[0]]) * 0.42
+for s, e in ((0.20, 0.42), (0.50, 0.72), (0.80, 0.98)):
+    p = Fk + (P2 - Fk) * s + n2; q = Fk + (P2 - Fk) * e + n2
+    ax.annotate("", xy=q, xytext=p, arrowprops=dict(arrowstyle="-|>", color=GR, lw=2.6, mutation_scale=10)); ax.add_patch(Circle(p, 0.09, fc="#222", ec="none", zorder=4))
+ax.add_patch(Circle(Fk + [0.15, 0], 0.42, fc="white", ec=INK, lw=1.6, zorder=5))
+ax.text(Fk[0] + 0.15, Fk[1], "H", ha="center", va="center", fontsize=8, fontweight="bold", zorder=6)
+ax.text(11.4, 5.35, "parental DNA", ha="right", fontsize=8.6, fontweight="bold")
+ax.annotate("helicase unwinds the duplex", xy=(Fk[0] + 0.3, Fk[1] - 0.4), xytext=(8.3, 2.6), fontsize=8.6, ha="left", arrowprops=dict(arrowstyle="-", color="#7a8494", lw=0.8))
+ax.text(2.2, 8.7, "leading strand: made continuously, toward the fork", color=BL, fontsize=8.6, ha="left")
+ax.text(1.6, 0.25, "lagging strand: Okazaki fragments, each started by an RNA primer (dot)", color=GR, fontsize=8.6, ha="left")
+ax.text(8.0, 1.45, "template strands: thin lines\nnew strands: thick arrows (5'\u21923')", fontsize=7.8, color=MUTED, ha="left", va="top")
 ```
 
 ### Transcription in outline
