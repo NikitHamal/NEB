@@ -878,6 +878,25 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
   - `pip install -r requirements.txt` does **not** uninstall anything, so the four dead packages had to be `pip uninstall`ed on the server separately. Verified `Required-by:` was empty for each first.
   - Both phases were verified against the full local suite in `backend_python/.venv` before deploying: 390 tests, 10 failures, byte-identical to the pre-upgrade baseline. No regressions.
 
+### What Was Worked On (Current Session - PDF assistant "HTTP 401")
+**The PDF AI panel showed a bare `HTTP 401`. The endpoint is fine; the app's stored bearer token was dead, and there was no session-expiry recovery anywhere outside onboarding. Fixed app-side, deployed to CI.**
+
+- **Symptom:** user reading a Grade XII Chemistry PDF asked "what is this?" in the AI Study Assistant panel and got a pink `HTTP 401` bubble with no way forward.
+- **Not a PDF bug - verified live.** Minted a token on the server and called `POST /api/resources/<id>/pdf-assistant/` with valid / missing / bogus tokens. Valid token → the assistant answered (422 for that one resource, a separate extraction issue). The 401 body is DRF's `{"detail":"Authentication credentials were not provided."}`, which comes from `DEFAULT_PERMISSION_CLASSES = IsAuthenticated` rejecting the request **before the view runs** - so `pdf_assistant_views._user_or_error()`'s own 401 is unreachable dead code. `AuthTokenAuthentication.authenticate()` returned `None`, i.e. the token resolved to no user.
+- **Root cause measured on the live DB: 156 of 208 accounts hold a token that can never authenticate.**
+  - **97 column-only** - `User.auth_token` is set but there is no `UserAuthToken` row. The column fallback is deliberately dead since the Sep-19 expiry hardening (`_token_usable(user, 0)` returns `False` for `expires_at=0`), so these can never resolve. This is the stranded-Google-signup population plus pre-Sep-19 accounts that have not signed in since.
+  - **59 all-rows-dead** - their only token rows expired. `AUTH_TOKEN_TTL_MS` defaults to 30 days and landed Sep 19 2026, so **every token issued before Oct 2 has now lapsed**. 221 of 299 live rows are already expired; 24 more expire within 7 days.
+  - Zero overlap between the two groups.
+- **Why it surfaced in the PDF assistant:** the library and the PDF reader are public, so that panel is the *first authenticated call* most users make. Browsing works fine; the session only fails when they ask a question.
+- **Why there was no recovery:** `AuthExpiryBus` existed in `data/api/AuthExpiryBus.kt` but nothing emitted to it and nothing collected it. `MainActivity` → `AuthRepository.refreshProfile()` → `GET api/users/profile/{username}/` is the app's only session probe, and its `catch (_: Exception) { }` discarded the 401, so the app served the locally cached profile and never learned. `SplashScreen` picks its destination from DataStore `auth_state` only - it never checks the token server-side. The only 401 → sign-out path was in `CompleteProfileViewModel`.
+- **The fix (4 files, app-side only - no server change was needed):**
+  - `PdfAssistantViewModel` maps failures through `ApiErrorMapper.mapException()` instead of printing `error.message`, so a 401 reads "Your sign-in expired. Please sign in again." Verified that exact 401 body produces that string (`detail` key → `parseServerMessage` → `friendlyAuthMessage`). It also emits the expiry event, because a dead token is not a per-request failure.
+  - `AuthRepository.refreshProfile()` emits on 401 instead of swallowing it. A guest has no bearer and returns before the call, so this cannot log guests out.
+  - `AuthExpiryBus` gains `tryEmitExpired()`; `Navigation.kt` collects it and calls `authRepository.logout()`, after which the **existing** `LaunchedEffect(authState)` (Navigation.kt:243-260) routes to Login with a clean back stack. No new navigation code.
+  - **`replay` changed 1 → 0.** With `replay = 1` the stale expiry survives: sign in again, rotate the device, and the recreated `LaunchedEffect(Unit)` re-delivers the old event and signs the freshly signed-in user straight back out. A dropped event only costs a recovery until the next 401.
+- **No unit tests added** - the app has no ViewModel test harness (one unrelated `PixelSkySceneTest` exists). Not built locally per instruction; CI run `41305739975` is the first compile. Version 25 → 26 / 1.7.2.
+- **Still open, and the reason this will recur:** the server has no token-refresh endpoint, so the only recovery is a forced re-login. A silent refresh (long-lived refresh token + short-lived access token) would remove the interruption entirely, but it is a security design decision, not a bug fix. Worth doing before the 30-day TTL bites the next cohort.
+
 ### What Was Worked On (Current Session - Android toolchain)
 **AGP 8.13.2 and Gradle 8.14.6, both the last of the 8.x line. CI green, both artifacts built. AGP 9.5.0 was attempted and abandoned - see below.**
 
