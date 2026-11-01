@@ -407,6 +407,24 @@ Chordata. Each step adds one feature: tissues → mesoderm → body cavity → t
 coelom → segmentation → deuterostome plan → notochord.
 :::
 
+::: example Diagnosing a phylum from body cavity, symmetry and excretory organ
+**Problem.** A bilateral, triploblastic, unsegmented endoparasite possesses a pseudocoelom, a complete digestive tract with a muscular pharynx, a syncytial epidermis, and H-shaped excretory canals lacking flame cells or cilia. Name the phylum and a human parasite belonging to it.
+
+**Solution.** Pseudocoelom + syncytial epidermis + H-shaped renette excretory system + complete gut uniquely define **Aschelminthes (Nematoda)**, exemplified by *Ascaris lumbricoides* or *Wuchereria bancrofti*.
+:::
+
+::: example Tracing water flow through Porifera canal systems
+**Problem.** Write the exact sequence of chambers water traverses in a syconoid sponge (*Sycon*) from the outside sea water to the exit opening, and name the flagellated cells that drive the current.
+
+**Solution.** Dermal ostia $\rightarrow$ **incurrent canal** $\rightarrow$ **prosopyle** $\rightarrow$ **radial (flagellated) canal** $\rightarrow$ **apopyle** $\rightarrow$ **spongocoel** $\rightarrow$ **osculum**. The current is driven by **choanocytes (collar cells)** lining the radial canals.
+:::
+
+::: example Separating cartilaginous and bony fishes in one table read
+**Problem.** A marine fish has a ventral mouth, placoid scales, 5 pairs of uncovered gill slits, a heterocercal caudal fin, lacks an air bladder, and excretes urea (ureotelic). Assign its class and contrast it with *Labeo rohita*.
+
+**Solution.** The marine specimen belongs to **Chondrichthyes** (e.g., *Scoliodon*). *Labeo rohita* (Osteichthyes) has a terminal mouth, cycloid scales, 4 pairs of gills covered by an **operculum**, a homocercal tail, a swim bladder, and is ammonotelic.
+:::
+
 ## Formula and fact sheet
 
 **One feature, one group**

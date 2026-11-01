@@ -511,6 +511,22 @@ $u\cos\theta$, not zero, and the acceleration is still $g$ downward. Only a body
 thrown straight up ($\theta = 90^{\circ}$) is momentarily at rest at the top.
 :::
 
+
+::: example Worked example — killing wrong options with dimensions
+A formula is offered for the period of a pendulum in four forms: T = 2π√(l/g), T = 2π√(g/l), T = 2π√(ml/g), T = 2π(l/g). Which survive a dimension check?
+
+- Dimensions: [l] = L, [g] = LT⁻², so l/g has dimensions T² and **√(l/g) has dimension T** ✓.
+- √(g/l) has dimension T⁻¹ ✗ (that is a frequency).
+- √(ml/g) contains M½T ✗ — a period cannot depend on mass this way.
+- (l/g) alone has dimension T² ✗.
+
+Only T = 2π√(l/g) can be correct — and you never needed the derivation. Note the limit of the method: it cannot verify dimensionless constants (the 2π) and cannot distinguish quantities with identical dimensions, like torque and energy.
+:::
+
+::: caution Trap — significant figures in multiplication
+2.4 × 1.35 = 3.24 on a calculator, but the answer may carry only **two** significant figures (that of 2.4): **3.2**. The rule: multiplication/division follows the **fewest significant figures**; addition/subtraction follows the **fewest decimal places**. Examiners place 3.24 and 3.2 side by side precisely to catch this.
+:::
+
 ## Formula and fact sheet
 
 | Topic | Formula or fact |

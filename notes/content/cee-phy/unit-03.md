@@ -320,6 +320,11 @@ whenever $I$ changes. Options that say "angular velocity unchanged" or "kinetic
 energy unchanged" for a skater pulling in her arms are the classic distractors.
 :::
 
+
+::: caution Trap — same mass and radius does not mean same moment of inertia
+About an axis through the centre: **ring** MR² > **disc** ½MR² > **solid sphere** (2/5)MR². What matters is how far the mass sits from the axis, not merely how much mass there is — hence in a race down an incline the solid sphere wins and the ring comes last, all with the same M and R. Also keep separate: **radius of gyration** (k, defined by I = Mk²) is not a physical radius of the body.
+:::
+
 ## Formula and fact sheet
 
 | Quantity | Formula | SI unit and dimensions |

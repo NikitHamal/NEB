@@ -468,6 +468,24 @@ cheese; **papain** from papaya and bromelain from pineapple to tenderise meat;
 invertase for confectionery syrup; **streptokinase** from *Streptococcus* to
 dissolve blood clots.
 
+::: example Counting peptide bonds and water loss in a polypeptide
+**Problem.** A functional plant enzyme consists of two polypeptide chains containing 120 and 80 amino acid residues respectively. What is the total number of peptide bonds in the enzyme, and what is the molecular mass of a linear malto-oligosaccharide made of 10 glucose units ($\text{C}_6\text{H}_{12}\text{O}_6 = 180$)?
+
+**Solution.** In a linear protein of $n$ total residues across $c$ polypeptide chains, the number of peptide bonds is $n - c$: here $(120 + 80) - 2 = \mathbf{198}$ peptide bonds. For 10 glucose units linked by $\alpha(1\rightarrow4)$ glycosidic bonds, $10 - 1 = 9$ water molecules ($9 \times 18 = 162$) are lost, so $M = 10 \times 180 - 162 = \mathbf{1638\text{ Da}}$.
+:::
+
+::: example Reading a Michaelis–Menten curve at half-maximal velocity
+**Problem.** An enzyme has $V_{\max} = 60\text{ }\mu\text{mol min}^{-1}$ and $K_m = 2.0\text{ mM}$. What initial reaction velocity $v_0$ is obtained at $[S] = 6.0\text{ mM}$, and how does $K_m$ change if a competitive inhibitor is added?
+
+**Solution.** By $v_0 = \frac{V_{\max}[S]}{K_m + [S]}$, at $[S] = 6.0\text{ mM}$ we have $[S] = 3K_m$, so $v_0 = \frac{3}{4}V_{\max} = \mathbf{45\text{ }\mu\text{mol min}^{-1}}$. A competitive inhibitor raises the apparent $K_m$ while leaving $V_{\max}$ unchanged.
+:::
+
+::: example Identifying mineral-deficiency mobility on the shoot
+**Problem.** A tomato seedling grown in nutrient-deficient sand shows chlorosis first on its oldest lower leaves, whereas a second seedling shows death of the terminal bud and hooked young leaves while old leaves stay green. Which two elements are deficient?
+
+**Solution.** Old-leaf chlorosis indicates a **mobile** element (N, P, K, or Mg) translocated to young sinks. Terminal-bud death with hooked young leaves is the signature of an **immobile** structural element, specifically **calcium ($\text{Ca}^{2+}$)** (or boron).
+:::
+
 ## Formula and fact sheet
 
 | Item | Fact |

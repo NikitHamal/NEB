@@ -64,6 +64,24 @@ seconds.
 | 2 | | | | | |
 | 3 | | | | | |
 
+::: example Fast-elimination strategy on a 20-question MAT block
+**Problem.** In a timed 20-question MAT section (target 16–18 minutes, 50 seconds per item), a candidate solves 15 items with certainty and eliminates two options on each of the remaining 5 items. What is the expected net MAT score if the candidate guesses on those 5 items?
+
+**Solution.** Each 50/50 guess has $E = 0.5(+1) + 0.5(-0.25) = +0.375$ mark. Across 5 such items the expected gain is $5 \times 0.375 = +1.875$, giving an expected MAT score of **$16.88 / 20$** vs $15.00$ if left blank.
+:::
+
+::: example Decoding a two-step blood-relation and direction hybrid
+**Problem.** A starts at $O$, walks $8\text{ m}$ North, turns right and walks $6\text{ m}$ to meet B, who is the only son of A's mother's father. How far is A from $O$, and how is B related to A?
+
+**Solution.** By Pythagoras, distance $= \sqrt{8^2 + 6^2} = \mathbf{10\text{ m}}$ North-East. "A's mother's father" is A's maternal grandfather; his only son is A's **maternal uncle**.
+:::
+
+::: example Quick parity and unit-digit check in number grids
+**Problem.** In a $3 \times 3$ grid where each row satisfies $(\text{col 1})^2 + (\text{col 2})^2 = \text{col 3}$, row 3 has $17$ and $144$ in columns 1 and 2. Pick the missing entry from (a) 20920 (b) 21025 (c) 21024 (d) 21028 in under 5 seconds.
+
+**Solution.** Check the **unit digit** only: $17^2$ ends in $9$ and $144^2$ ends in $6$; $9 + 6 = 15$, which ends in **$5$**. Only option **(b) 21025** ends in $5$ ($289 + 20736 = 21025$).
+:::
+
 ## Practice questions
 
 **Set 1 — timed: 20 questions, 18 minutes**

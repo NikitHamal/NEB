@@ -7,78 +7,275 @@ hours: 0
 area: The Examination
 ---
 
-This chapter is the map for the rest of the book. It explains who sits the Medical
-Education Common Entrance Examination for Bachelor Level (MECEE-BL, usually just
-called "CEE"), how the 200 questions are spread across the syllabus, how the
-negative marking really works and when a guess pays, and how to spend the last
-four months, the last two months and the last fortnight. The five model papers that
-follow are built on this map, question for question.
+This book contains five complete model papers for the **MECEE-BL** — the
+Medical Education Common Entrance Examination for bachelor-level health
+programmes, run by the **Medical Education Commission (MEC), Sanothimi**.
+This opening chapter explains the examination you are walking into: who
+may sit it, how the 200 questions are distributed, exactly how your
+score is computed, when guessing pays (the answer, proved below, is
+*almost always*), and how to spend your remaining days — whether you have
+120 of them or 15. Read it once, carefully, before you touch Model
+Paper 1.
 
-::: key The paper in one box
-- **200 single-best-answer MCQs, four options, 3 hours** (180 minutes, 54 seconds a question), 200 marks, answered on an OMR sheet.
-- **+1** for a right answer, **−0.25** for a wrong one, **0** for a blank.
-- Group I (MBBS, BDS, BSc Nursing, BSc Midwifery, BASLP, B Perfusion): **Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20**.
-- Setters are told to write **50 % recall, 30 % understanding, 20 % application**, with stems of at most 60 words.
-- A candidate must reach the **50th percentile** of the scores to enter the merit list; a place on the list is not yet a seat.
-- Syllabus in force: MEC bachelor-level syllabus, **third revision 2083-01-15 (28 April 2026)**. Older guides built on the second revision have different domains.
+::: key What this chapter settles
+- **Eligibility** — +2 (or equivalent) with Physics, Chemistry and Biology at 50% aggregate or 2.4 GPA; or a PCL/diploma in a health-science subject at 50% with council registration.
+- **The paper** — 200 single-best-answer MCQs, 3 hours, OMR sheet, based on the NEB Grade 11–12 Science syllabus (MEC syllabus, third revision, 28 April 2026).
+- **The split** — Zoology 40, Botany 40, Chemistry 50, Physics 50, Mental Agility Test 20.
+- **The scoring** — +1 for a correct answer, **−0.25** for a wrong one, 0 for a blank; merit list from the **50th percentile** (not 100 marks).
+- **The arithmetic of guessing** — even a blind guess has positive expected value (+1/16 mark); eliminating options makes it better. **Never leave a bubble empty.**
+- **The clock** — 54 seconds per question on average; two-pass technique; no question deserves three minutes.
 :::
 
 ## 1.1 Who sits the paper, the programme groups and the eligibility rules
 
-The examination is conducted by the **Medical Education Commission (MEC)** under the
-Medical Education Act, 2075. It is the single gateway to every bachelor-level
-health-science seat in Nepal — government and private, in every university and
-academy (TU, KU, BPKIHS, PAHS, NAMS, KAHS, Karnali and others). MEC names a cycle
-after the year of admission, so the papers sat from **31 October to 4 November
-2026 (Kartik 14–18, 2083)** belong to **MECEE-BL 2027**.
+The MECEE-BL is Nepal's single gateway to bachelor-level health-science
+programmes — MBBS, BDS, BSc Nursing, BAMS, BPH, BMLT, BSc MLT, BASLP,
+B Perfusion Technology, pharmacy, optometry, radiography, physiotherapy
+and their relatives, in universities and academies across the country.
+Candidates apply for a **programme group** (Group I is the PCB group —
+MBBS, BDS, BSc Nursing, BASLP, B Perfusion Technology and similar
+programmes, and it is the group this book serves); the question paper is
+common within the group, and admission proceeds strictly by **merit
+order** within the quota categories, through MEC's matching system.
 
-### The four programme groups
+**Eligibility** for Group I programmes, in the form the notices repeat
+every year (always re-check the current MEC notice for your own session —
+dates and fees change, these academic rules barely do):
 
-| Group | Programmes | Paper (200 questions) |
-|---|---|---|
-| I | MBBS, BDS, BSc Nursing, BSc Midwifery, BASLP, B Perfusion Technology | Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 |
-| II | BAMS, BSc MLT, BSc MIT, BSc Radiotherapy, BPT, B Pharm, B Optometry and similar | Zoology 40, Botany 40, Chemistry 40, Physics 40, programme-specific PCL content 20, MAT 20 |
-| III | BPH | Zoology 40, Botany 40, Chemistry 40, Physics 40, prerequisite health knowledge 20, MAT 20 |
-| IV | BNS, BMS (for nurses with a PCL) | nursing subjects 150, basic and integrated health science 30, MAT 20 |
+- **+2 Science (or A-Level or equivalent)** with Physics, Chemistry and
+  Biology, securing at least **50% aggregate** or a **2.4 GPA** overall
+  (equivalence certificate required for foreign boards); or
+- a **PCL/diploma in a health-science subject** with at least **50%**,
+  plus registration with the relevant professional council.
 
-This book follows the **Group I** paper, which is also the one that most +2 science
-students sit. A Group II or III candidate can use every chapter as it stands — the
-Physics and Chemistry sections are simply ten questions shorter in the real paper.
-
-### Eligibility in short
-
-| Route | Usual minimum (check the year's notice) |
-|---|---|
-| +2 Science (NEB) or equivalent | Physics, Chemistry and Biology studied; **at least 50 % aggregate or CGPA 2.4** |
-| Health-science PCL/diploma (for the programmes that allow it) | at least 50 % in the diploma, the Grade 12 science equivalence where required, and registration with the relevant council |
-| BNS / BMS | PCL or diploma in Nursing with at least 50 %, registered with the Nepal Nursing Council |
-
-The notice for each cycle can add conditions on subjects, equivalence, foreign
-qualifications and quota categories, and the dates change every year. The rules
-above are the stable core; the authority is always the current notice on the MEC
-website and the admit card, which names your centre and reporting time.
-
-::: caution Read the notice, not a coaching poster
-Dates, fees and category rules change between cycles. In the 2027 cycle the
-double-fee window closed in September 2026 and the MBBS paper was set for 31
-October 2026, 11:00 a.m. to 2:00 p.m. — but for any later cycle, check MEC's own
-notice before you plan backwards from a date.
-:::
+Registration is online through the MEC portal in the window the notice
+announces (for MECEE-BL 2027, applications ran in August–September 2026
+with a late double-fee window), and the examination is held at centres
+in and beyond the Kathmandu Valley. Treat any date or fee quoted by a
+website — including this paragraph — as provisional until you have seen
+it on mec.gov.np or in the MEC notice itself: **the Commission's notice
+is the only authoritative source**, and coaching-centre summaries have
+been wrong before.
 
 ## 1.2 The paper: 200 questions, unit by unit, and how the marks are counted
 
-The syllabus fixes the number of questions in every **unit** (area). How a unit's
-questions fall between its chapters is not published; the NEBians books give an
-estimate in each chapter, and the model papers use those estimates. The unit
-totals below are official.
+You receive one question booklet and one **OMR answer sheet**, and you
+have **3 hours (180 minutes)**. Every question has **four options and
+one best answer**; MEC instructs its paper-setters that a stem may run
+to at most 60 words and that the paper should mix roughly **50% recall,
+30% understanding and 20% application** questions. The syllabus is the
+NEB Grade 11 and 12 Science curriculum, organised by MEC into units
+with fixed question counts — these counts are the single most valuable
+planning fact you own:
 
-| Subject | Unit (official count) |
-|---|---|
-| Zoology (40) | Evolutionary biology 3 · Animal diversity and classification 4 · Animal tissues 4 · Plasmodium, earthworm and frog 6 · Human biology and physiology 15 · Microbial diseases and immunology 4 · Medical technology and applied biology 2 · Biota, environment and conservation 2 |
-| Botany (40) | Basic components of life 2 · Biodiversity 9 · Ecology and vegetation 4 · Cell biology 5 · Genetics 6 · Plant anatomy 3 · Plant physiology 6 · Developmental botany 2 · Applied botany 3 |
-| Chemistry (50) | Physical 17 · Inorganic 10 · Organic 17 · Applied 3 · Analytical 3 |
-| Physics (50) | Mechanics 10 · Heat and thermodynamics 7 · Waves and optics 8 · Current electricity and magnetism 9 · Electrostatics and capacitors 4 · Modern physics 12 |
-| MAT (20) | Verbal reasoning 5 · Numerical reasoning 5 · Logical sequencing 5 · Spatial relation and abstract reasoning 5 |
+| Subject | Questions | Where the weight sits (areas, with question counts) |
+|---|---|---|
+| **Zoology** | 40 | Evolution and Diversity 11 · Study of Selected Animals 6 · Human Biology and Physiology 15 · Applied Zoology 8 |
+| **Botany** | 40 | Basic Components of Life 2 · Biodiversity 9 · Ecology and Vegetation 4 · Cell Biology 5 · Genetics 6 · Plant Anatomy 3 · Plant Physiology 6 · Developmental and Applied Botany 5 |
+| **Chemistry** | 50 | Physical Chemistry 17 · Inorganic Chemistry 10 · Organic Chemistry 17 · Applied 3 · Analytical 3 (see the Chemistry book for the exact chapter split) |
+| **Physics** | 50 | Mechanics 10 · Heat and Thermodynamics 7 · Waves and Optics 8 · Current Electricity and Magnetism 9 · Electrostatics and Capacitors 4 · Modern Physics 12 (chapter split in the Physics book) |
+| **Mental Agility Test** | 20 | Verbal 5 · Numerical 5 · Logical sequencing 5 · Spatial/abstract 5 |
+
+(The five subject books of this series distribute these area totals
+across their chapters, and every model paper in this book follows the
+same distribution question for question; the count table printed at the
+top of each paper lets you verify it.)
+
+**How the marks are counted.** Each correct answer earns **+1**; each
+wrong answer **deducts 0.25**; an unattempted question scores 0. Your
+total out of 200 is therefore
+
+$$ \text{score} = (\text{number correct}) - 0.25 \times (\text{number wrong}) $$
+
+To enter the merit list at all, a candidate must reach the **50th
+percentile** of those who sat the paper. A percentile is a *position*,
+not a percentage: the 50th percentile is the score of the middle
+candidate, whatever that score happens to be — on a hard paper it may
+be well under 100. Do not let anyone tell you that you need "100 out of
+200 to pass"; you need to finish in the **top half of the hall**, and
+your final admission then depends on your merit rank against the seats
+in your category.
+
+::: caution The OMR sheet is part of the examination
+More MECEE marks are lost to bubbling than to biology. Fill each circle
+completely with the prescribed pen; a question with two darkened
+circles, or a correction scrubbed into ambiguity, earns −0.25, not the
+benefit of the doubt. And track your position: if you skip question 87,
+make sure your next bubble is 88, not a second 87. Practice papers exist
+partly to make this mechanical discipline automatic.
+:::
+
+## 1.3 Negative marking and when to guess
+
+Candidates fear the −0.25 far more than arithmetic justifies. Consider a
+question about which you know literally nothing, and guess at random
+among the four options. One time in four you gain 1 mark; three times
+in four you lose 0.25. Your expected score is
+
+$$ \frac{1}{4}(1) + \frac{3}{4}(-0.25) = 0.25 - 0.1875 = +\frac{1}{16} \approx +0.06 $$
+
+**A blind guess is worth, on average, +1/16 of a mark — better than the
+guaranteed zero of a blank.** Any knowledge at all improves the odds:
+
+| Your position | Chance of being right | Expected value |
+|---|---|---|
+| No idea (random among 4) | 1/4 | **+0.06** |
+| One option eliminated (guess among 3) | 1/3 | **+0.17** |
+| Two options eliminated (coin-flip) | 1/2 | **+0.38** |
+| Fairly confident | 3/4 | **+0.69** |
+
+The conclusion is absolute: **attempt every question.** There is no
+situation in this marking scheme in which leaving a bubble empty beats
+filling it with your best available guess. (This is a property of the
+gentle −0.25 penalty; with harsher penalties the answer would differ.)
+
+::: example Worked example — scoring a paper
+**Problem.** In Model Paper 1 a student answers 130 questions correctly,
+50 incorrectly, and leaves 20 blank. (a) What is her score? (b) What
+would she expect to gain by guessing those 20 blanks at random?
+
+**Solution.** (a) Score $= 130 - 0.25 \times 50 = 130 - 12.5 =
+\mathbf{117.5}$ out of 200.
+
+(b) Each blind guess is worth $+1/16$ of a mark in expectation, so 20
+guesses are worth $20/16 = \mathbf{+1.25}$ marks on average — typically
+about 5 right (+5) and 15 wrong (−3.75). One and a quarter marks is
+often dozens of merit ranks. The blanks were the most expensive answers
+on her sheet.
+:::
+
+Guessing well is a skill, not luck, and it can be practised:
+**eliminate before you guess** (one impossible option raises your odds
+from 1/4 to 1/3); distrust options that are obviously longer, vaguer or
+differently worded from the other three; in numerical questions, first
+kill the options with impossible units, signs or orders of magnitude —
+often two die before any calculation; and remember that MEC's setters
+build distractors out of the *common error* (the answer you get if you
+forget to halve, square, or convert units), so if your quick answer
+matches an option suspiciously easily, re-read the stem once.
+
+**Time strategy.** 180 minutes for 200 questions is **54 seconds each**
+— but the questions are not equal, so do not spend them equally. Work in
+**two passes**: on the first pass, answer everything you can settle in
+under a minute (for most students 120–150 questions) and mark the rest,
+guessing the truly hopeless at once rather than later; on the second
+pass, spend the remaining time on the marked calculations and
+two-option dilemmas. No single question is worth three minutes while
+unseen questions remain — a stuck numerical and a one-line recall item
+are both worth exactly one mark. Keep five minutes at the end
+exclusively for OMR hygiene: every row filled, no doubles, no strays.
+
+## 1.4 A study plan for the last 120, 60 and 15 days
+
+Plans fail when they are built on topics instead of on **questions**.
+The weightage table in §1.2 tells you where marks live: Human Physiology
+alone is 15 of the 40 Zoology questions; Biodiversity is 9 of Botany;
+Physical and Organic Chemistry are 34 of 50; Modern Physics is 12 of 50.
+Whatever your horizon, spend time **in proportion to marks**, and spend
+most of it answering questions rather than re-reading theory — recall
+under mild pressure is what the examination measures.
+
+**With about 120 days:** this is the full build. Work subject by
+subject through the five books of this series in weightage order,
+chapter by chapter, attempting each chapter's practice set *closed-book*
+and marking it honestly; keep an error notebook with four columns —
+topic, the trap, the correct fact, the page. Reserve the last 20 days
+of the 120 for the five model papers (one every fourth day, each sat
+like the real thing) and for re-attempting your error notebook. One
+full rest day a week is part of the plan, not a failure of it.
+
+**With about 60 days:** compress, do not panic. Take the chapters in
+weightage order and stop when the calendar says stop: it is better to
+own the chapters carrying 150 of the 200 questions than to have skimmed
+all of them. Read each chosen chapter's key box and formula sheet
+first, attempt the practice sets, and read the full text only where
+your errors point. From day 40, alternate days: a model paper under
+exam conditions, then a day spent purely on its autopsy (every wrong or
+guessed question understood, not just re-keyed).
+
+**With about 15 days:** this is triage, and triage can still win
+thirty marks. Days 1–9: the key boxes, formula and fact sheets and
+chapter summaries of the highest-weight units only (Human Physiology;
+Biodiversity, Genetics, Cell Biology, Plant Physiology; Physical and
+Organic Chemistry; Modern Physics and Mechanics; the MAT techniques
+chapters) — with each chapter's practice questions attempted and
+reviewed the same day. Days 10–14: Model Papers 1–4, one a day,
+3-hour sittings at the real exam's clock time if you can, autopsied the
+same evening; use the papers to find and patch the specific facts you
+are losing, not to re-read whole units. Final day: Model Paper 5 *or*
+rest — sleep is a performance drug; nobody's rank ever rose on an
+all-night cram. Throughout, guard the basics that scores silently
+depend on: regular sleep, daylight, food your stomach already knows,
+and a phone that is off more than it is on.
+
+## 1.5 How to use the model papers in this book
+
+Each of the five papers that follow is a **complete, original
+200-question paper** built to the official distribution, numbered as
+the real booklet is numbered (Zoology 1–40, Botany 41–80, Chemistry
+81–130, Physics 131–180, MAT 181–200), with an explained key at the end.
+They are *simulations*, and they work only if you treat them as
+simulations:
+
+1. **Sit the whole paper in one 3-hour block**, on paper if you
+   possibly can, bubbling a printed OMR-style grid, with no pauses, no
+   phone and no book. A paper "done" in five sittings with the key open
+   teaches almost nothing.
+2. **Score it with the real rule** (+1, −0.25), and record four numbers:
+   correct, wrong, blank, and score — overall and per subject. Watch the
+   *wrong* column as much as the score; it separates "did not know" from
+   "knew but fumbled".
+3. **Autopsy every error and every lucky guess.** For each, find the
+   fact in the subject book, write it in the error notebook, and
+   classify the failure: never knew it · misremembered · misread the
+   stem · calculation slip · OMR slip · ran out of time. The
+   classification tells you what to fix next; the raw score does not.
+4. **Space the papers out** (one every 3–4 days at closest) and
+   interleave them with targeted revision of what the last paper
+   exposed. Papers taken back-to-back mostly rehearse your existing
+   level instead of raising it.
+5. **Track the trend, not a single score.** Three papers near 120 with
+   falling "misread" counts mean more than one paper at 140. If a whole
+   subject lags, that subject's highest-weight chapters are your next
+   week.
+
+A last word of honesty: no model paper — this book's included — can
+tell you the questions MEC will set, and anyone who claims otherwise is
+selling something. What five honest rehearsals *can* do is remove every
+surprise except the questions themselves: the timing, the stamina, the
+bubbling, the negative marking, and your own recurring traps will all
+have been met before. Walk in having already sat the examination five
+times. That is the whole strategy.
+
+::: example Expected-value arithmetic of elimination on the OMR sheet
+**Problem.** On a 200-question MECEE-BL paper, a candidate knows 130 answers for sure, narrows 40 questions down to two options, and narrows 20 questions down to three options, leaving 10 untouched. What is the candidate's expected score?
+
+**Solution.** Certain items: $130 \times 1 = 130$. Two-option guesses ($p = 1/2$): $E = 1.25(0.5) - 0.25 = +0.375$ each, contributing $40 \times 0.375 = +15.0$. Three-option guesses ($p = 1/3$): $E = 1.25(1/3) - 0.25 = +1/6$ each, contributing $20 / 6 = +3.33$. Total expected score $= 130 + 15 + 3.33 = \mathbf{148.33 / 200}$.
+:::
+
+::: example Two-pass time budgeting across the 180-minute paper
+**Problem.** A candidate completes Pass 1 (all direct recall and one-step items across Biology, Chemistry, and MAT) in 95 minutes, answering 125 questions and bubbling them per page. How much time remains per question for the 55 Physics and Physical Chemistry numericals saved for Pass 2, keeping 10 minutes at the end for final verification?
+
+**Solution.** Usable Pass 2 time $= 180 - 95 - 10 = 75\text{ minutes} = 4{,}500\text{ seconds}$. Divided across 55 calculation items, the candidate has $\mathbf{81.8\text{ seconds}}$ per numerical — 50 % more than the 54-second raw average.
+:::
+
+## Formula and fact sheet
+
+- **Score** = correct − 0.25 × wrong (blank = 0). **Time** = 180 min ÷ 200 = **54 s per question**.
+- **Merit threshold** = **50th percentile** of the cohort — a rank, not 50% marks.
+- **Expected value of a guess**: blind +1/16; one option eliminated +1/6; two eliminated +3/8. **Always attempt.**
+- **Subject split**: Zoo 40 · Bot 40 · Chem 50 · Phy 50 · MAT 20; difficulty mix about 50 : 30 : 20 recall : understanding : application; stems at most 60 words.
+- **Eligibility (Group I)**: +2 PCB ≥ 50% or 2.4 GPA, or health-science PCL/diploma ≥ 50% + council registration — verify in the current MEC notice.
+- **Two-pass rule**: settle the sub-minute questions first, mark the rest, never spend 3 minutes while unseen questions remain, reserve 5 minutes for OMR checks.
+
+## Chapter summary
+
+- The MECEE-BL is MEC's single 200-question, 3-hour OMR gateway to bachelor health programmes, sat by Group I candidates meeting the PCB eligibility rules.
+- The paper's content is fixed and public: Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20, distributed unit by unit — study in proportion to those marks.
+- Scoring is +1/−0.25 with the merit list opening at the 50th percentile, a position in the cohort rather than a pass mark.
+- Because a blind guess is worth +1/16 of a mark in expectation, every bubble should be filled; elimination guessing and the two-pass time strategy convert that arithmetic into rank.
+- Study plans at 120, 60 and 15 days differ in depth, not in logic: weightage first, questions over re-reading, an error notebook, model papers as full rehearsals.
+- Each model paper must be sat whole, scored strictly and autopsied question by question — the classification of your errors is the real syllabus of your remaining days.
 
 ```figure caption="Where the 200 marks are. Each block is one official unit (the order of the table above), with its question count; the biggest single blocks are Human biology (15), Physical and Organic chemistry (17 each) and Modern physics (12)."
 fig, ax = plt.subplots(figsize=(5.2, 4.4))
@@ -109,45 +306,6 @@ ax.grid(axis="x", color=GRID, lw=0.6)
 ax.set_axisbelow(True)
 ```
 
-### The cognitive split and what it means for you
-
-MEC instructs setters to write about **100 recall, 60 understanding and 40
-application** questions. Recall questions (a name, a number, a definition, an
-example) are the fastest marks in the hall — ten to twenty seconds each if you
-know them. Application questions (a numerical, a cross, a reaction sequence) take
-one to two minutes. So the 54-second average is not spent evenly: a student who
-races through recall at 20 seconds a question banks more than an hour for the
-numericals.
-
-### How the score becomes a rank
-
-1. Raw score = right − 0.25 × wrong. Blanks score zero.
-2. Candidates at or above the **50th percentile** of the scores qualify for the
-   merit list (the notice sets a fallback — a 50 % score qualifies — for a
-   programme with fewer than twice as many applicants as seats).
-3. The merit list is used for seat matching by rank, quota category, seat type
-   (government scholarship or paying) and your stated preferences. A rank is not
-   a seat until you are matched and you complete admission on time.
-
-## 1.3 Negative marking and when to guess
-
-With four options and a quarter-mark penalty, the arithmetic is simpler than most
-students think. If $p$ is your chance of being right on a question, the expected
-mark from answering it is
-
-$$ E = p\times 1 - (1 - p)\times 0.25 = 1.25p - 0.25 $$
-
-$E$ is positive whenever $p > 0.2$. A blind guess among four options has
-$p = 0.25$, so even a blind guess has a small positive expectation
-($E = +0.0625$). Every option you can eliminate with confidence raises it sharply.
-
-| Options you can rule out | $p$ | Expected mark from answering | Verdict |
-|---|---|---|---|
-| none (blind) | 1/4 | +0.06 | barely worth it; costs time and adds variance |
-| one | 1/3 | +0.17 | answer |
-| two | 1/2 | +0.38 | answer, always |
-| three (you know it) | 1 | +1.00 | answer |
-
 ```figure caption="Expected mark from answering one question, against the probability $p$ that your choice is right. Above $p = 0.2$ answering pays; eliminating options moves you up the line."
 fig, ax = plt.subplots(figsize=(4.8, 2.9))
 p = np.linspace(0, 1, 200)
@@ -167,132 +325,40 @@ ax.spines[["top", "right"]].set_visible(False)
 ax.grid(color=GRID, lw=0.6)
 ```
 
-::: caution The trap in "a blind guess pays"
-The calculation assumes that a wrong option is chosen at random. Setters build
-distractors from the commonest mistakes, so a *half-understood* question can pull
-your $p$ **below** 0.2 — you are drawn to the trap, not to a random option. Answer
-when you have **eliminated at least one option for a reason**; skip when your
-"hunch" is really a vague memory of a word in one option.
+## Practice questions
+
+**Set A — Check the rules (10 questions)**
+
+1. The MECEE-BL question paper consists of
+   (a) 100 questions in 2 hours (b) 150 questions in 3 hours (c) 200 questions in 3 hours (d) 200 questions in 2 hours
+2. The marks deducted for each wrong answer in MECEE-BL are
+   (a) 0.25 (b) 0.5 (c) 1.0 (d) 0.2
+3. To be included in the merit list, a candidate must score at least at the
+   (a) 40th percentile (b) 50th percentile (c) 60% marks level (d) 50% marks level
+4. A candidate answers 140 questions correctly and 40 incorrectly, leaving 20 blank. Her score is
+   (a) 140 (b) 135 (c) 120 (d) 130
+5. The expected value of a completely blind guess in this marking scheme is
+   (a) negative (b) exactly zero (c) +1/16 of a mark (d) +1/4 of a mark
+6. The average time available per question in MECEE-BL is about
+   (a) 54 seconds (b) 90 seconds (c) 36 seconds (d) 2 minutes
+7. The largest single block of questions in the Zoology section comes from
+   (a) Evolution (b) Human Biology and Physiology (c) Animal Diversity (d) Applied Zoology
+8. The Mental Agility Test contributes how many questions to the paper?
+   (a) 10 (b) 15 (c) 25 (d) 20
+9. If two options of a question can be confidently eliminated, guessing between the remaining two has an expected value of
+   (a) 0 (b) +3/8 of a mark (c) −1/8 of a mark (d) +1 mark
+10. The syllabus on which the MECEE-BL paper is based is
+   (a) the BSc first-year syllabus (b) each university's own syllabus (c) the NEB Grade 11–12 Science syllabus as organised by MEC (d) the SEE syllabus
+
+::: note Answers and explanations — Set A
+**1.** (c) — 200 single-best-answer MCQs in 3 hours on an OMR sheet.
+**2.** (a) — One mark gained for a right answer, a quarter-mark lost for a wrong one.
+**3.** (b) — The 50th percentile of the cohort: the middle candidate's score, not 100/200.
+**4.** (d) — $140 - 0.25 \times 40 = 140 - 10 = 130$; the blanks contribute nothing either way.
+**5.** (c) — $\frac14(1) + \frac34(-0.25) = +\frac{1}{16}$: a filled bubble beats an empty one even with no knowledge.
+**6.** (a) — 10,800 seconds ÷ 200 = 54 seconds — hence the two-pass strategy.
+**7.** (b) — Human physiology carries 15 of the 40 Zoology questions; diversity follows with 11.
+**8.** (d) — 20 MAT questions: verbal, numerical, logical and spatial, five each.
+**9.** (b) — $\frac12(1) + \frac12(-0.25) = +\frac38$ of a mark: elimination is the profitable part of guessing.
+**10.** (c) — MEC's bachelor-level syllabus (third revision, 2026) reorganises the NEB +2 Science curriculum into weighted units.
 :::
-
-::: example Worked example 1.1 — what skipping costs
-**Problem.** A student knows 120 answers, can eliminate two options in 40 more,
-and has no idea about the last 40. Compare (i) answering only the 120, (ii)
-answering the 160, (iii) answering all 200 at random for the last 40.
-
-**Solution.** (i) 120. (ii) The 40 half-known questions add $40\times0.375 = 15$
-on average: about 135. (iii) The 40 blind guesses add $40\times0.0625 = 2.5$ on
-average, but with a spread of about ±3.5 marks. **Answering the half-known
-questions is worth fifteen marks — often thousands of places in rank.** Blind
-guessing is close to neutral; spend that time checking instead.
-:::
-
-### Three passes through the paper
-
-1. **First pass (≈ 90 min):** answer everything you know at once; mark (on the
-   question paper, not the OMR) questions that need work.
-2. **Second pass (≈ 60 min):** the marked numericals and two-step questions;
-   eliminate options and answer where at least one is ruled out.
-3. **Third pass (≈ 20 min):** OMR check — every bubble in the right row, darkened
-   completely, no stray marks — and a last look at the remaining blanks.
-
-::: tip OMR discipline
-Fill the OMR **section by section** (after every 20–30 questions), not all at the
-end and not one bubble at a time. A shifted row — answer 57 bubbled in row 58 —
-costs more marks than any hard question in the paper.
-:::
-
-## 1.4 A study plan for the last 120, 60 and 15 days
-
-The plans assume about 8–10 hours of study a day after +2 and the official
-weightage above. Adjust the share to your weak units, never to your favourite ones.
-
-### 120 days out: build the base
-
-| Weeks | Physics + Chemistry (100 Q) | Biology (80 Q) | MAT (20 Q) |
-|---|---|---|---|
-| 1–6 | Mechanics, Heat, Physical chemistry, General organic chemistry | Human physiology, Plasmodium/earthworm/frog, Biodiversity | 20 min a day, one area a week |
-| 7–12 | Optics, Electricity and magnetism, Inorganic, Hydrocarbons to Amines | Cell biology, Genetics, Plant physiology and anatomy | timed sets of 20 |
-| 13–17 | Modern physics, Electrostatics, Applied and Analytical chemistry | Evolution, Tissues, Applied zoology, Ecology, Applied botany | mixed sets |
-
-Every day: one chapter's theory, then **all its Set A and Set B questions**, then
-review every wrong answer and write the fact you missed in a one-line error log.
-
-### 60 days out: practise under the clock
-
-- One subject test (40–50 questions in 40–45 minutes) every day, rotating subjects.
-- From day 45: a **full model paper every fourth day**, 3 hours, OMR-style, in the
-  morning at the real exam time (11:00 to 14:00).
-- Score every paper with the negative marking; track right, wrong and blank per
-  unit in a table. Units with the most *wrong* answers get the next week's revision.
-
-### 15 days out: consolidate, do not start anything new
-
-- Revise only from the **Formula and fact sheets** and **Chapter summaries** of the
-  subject books and from your own error log.
-- Two full papers in the first ten days; none in the last three.
-- Sleep at the time you will sleep before the exam; travel to the centre once in
-  advance if it is unfamiliar. Keep the admit card, a photo ID and two black/blue
-  ballpoint pens ready the night before.
-
-::: memory The weightage in one line
-"**Fifty-fifty, forty-forty, twenty**": Physics 50, Chemistry 50, Zoology 40,
-Botany 40, MAT 20. Inside them, the giants are **Human biology 15**, **Physical
-chemistry 17**, **Organic chemistry 17** and **Modern physics 12** — 61 marks in four
-units.
-:::
-
-## 1.5 How to use the model papers in this book
-
-Each model paper (chapters 2–6) is a complete 200-question paper built to the
-official unit counts. A table at the top of each paper shows its actual count per
-unit. Every question is original practice written to the third-revision syllabus —
-none is copied from or claimed to be a past paper.
-
-- **On the NEBians website or app**, open a model paper and choose *Take as a timed
-  test*: a three-hour clock that does not pause, one answer per question, a
-  question palette, and the real marking (+1, −0.25, 0). At the end you get your
-  score, the right/wrong/blank count, a per-subject table and every explanation.
-- **On paper**, print the PDF, set a timer for 180 minutes, mark answers on a
-  separate sheet, and score with right − 0.25 × wrong.
-- **After each paper**, spend at least as long on the key as on the paper: for every
-  wrong or blank answer read the explanation, find the chapter in the subject book
-  and add the missed fact to your error log.
-- Take the papers **in order** and several days apart: each one tests different
-  facts and different numbers, so later papers measure improvement, not memory.
-
-::: tip Reading your score
-On these papers, aim first for **120+** (60 %) and then for **150+**. More useful
-than the total is the per-subject table: a section where you score under half is
-where the next week of study goes.
-:::
-
-## Formula and fact sheet
-
-| Item | Value |
-|---|---|
-| Questions, time, marks | 200 MCQs, 180 min, 200 marks; 54 s a question on average |
-| Marking | +1 right, −0.25 wrong, 0 blank; score = R − 0.25W |
-| Expected value of answering | $E = 1.25p - 0.25$; break-even $p = 0.2$ |
-| Blind / one out / two out | +0.06 / +0.17 / +0.38 per question |
-| Group I split | Zoology 40, Botany 40, Chemistry 50, Physics 50, MAT 20 |
-| Group II/III split | Physics 40 and Chemistry 40, plus 20 programme-specific |
-| Cognitive mix | recall 50 %, understanding 30 %, application 20 %; stem ≤ 60 words |
-| Merit list | 50th percentile and above (50 % score fallback for undersubscribed programmes) |
-| Syllabus | MEC third revision, 2083-01-15 (28 April 2026) |
-
-## Chapter summary
-
-- MECEE-BL is MEC's single entrance for every bachelor-level health-science seat;
-  the 2027 cycle's papers ran from 31 October to 4 November 2026.
-- Group I sits Zoology 40, Botany 40, Chemistry 50, Physics 50 and MAT 20; the unit
-  counts inside each subject are official and drive every model paper here.
-- Marking is +1, −0.25, 0; answering pays whenever your chance of being right
-  exceeds 0.2, so answer every question where you can eliminate an option for a reason.
-- A half-understood question can make you *worse* than random — distractors are
-  built from common mistakes.
-- Work in three passes and fill the OMR section by section.
-- Build the base for four months, practise under the clock for two, and only
-  consolidate in the last fortnight.
-- Use each model paper as a diagnostic: the key and the error log matter more than
-  the score.

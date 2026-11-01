@@ -344,6 +344,12 @@ Mg/Al, P/S, Cl/F, Ga/Al. If two options differ only in one adjacent pair, that p
 the exception the setter is testing.
 :::
 
+::: example Ranking ionic radii in an isoelectronic series
+**Problem.** Arrange the isoelectronic ions $\text{N}^{3-},\text{O}^{2-},\text{F}^-,\text{Na}^+,\text{Mg}^{2+},\text{Al}^{3+}$ in order of decreasing ionic radius and justify the order.
+
+**Solution.** All six ions contain $10\text{ e}^-$ ($1s^2 2s^2 2p^6$), while nuclear charge $Z$ rises from $7$ ($\text{N}^{3-}$) to $13$ ($\text{Al}^{3+}$). For isoelectronic species, radius $\propto 1/Z$, giving $\mathbf{\text{N}^{3-} > \text{O}^{2-} > \text{F}^- > \text{Na}^+ > \text{Mg}^{2+} > \text{Al}^{3+}}$.
+:::
+
 ## Formula and fact sheet
 
 | Item | Value or rule |

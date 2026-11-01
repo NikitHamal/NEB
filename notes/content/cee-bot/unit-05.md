@@ -452,6 +452,24 @@ largest ginger producers and exports much of it to India.
 - Tulasi is in **Lamiaceae** (didynamous, verticillaster), not Solanaceae.
 :::
 
+::: example Reading a floral formula into family and placentation
+**Problem.** A flower is actinomorphic, bisexual, hypogynous, has 5 fused sepals that persist in the fruit, 5 fused petals, 5 epipetalous stamens, and a bicarpellary syncarpous superior ovary with an obliquely placed septum and swollen axile placentation. Name the family.
+
+**Solution.** Persistent calyx $K_{(5)}$, epipetalous $C_{(5)} A_5$, and bicarpellary syncarpous superior ovary $G_{(2)}$ with an obliquely placed septum and swollen placenta are diagnostic of **Solanaceae** (e.g., *Solanum nigrum*, *Datura*).
+:::
+
+::: example Counting floral parts in Brassicaceae vs Fabaceae
+**Problem.** How many stamens and what arrangement occur in a single flower of (a) *Brassica campestris* and (b) *Pisum sativum*?
+
+**Solution.** *Brassica* (Brassicaceae) has **6 stamens in a tetradynamous $2 + 4$ arrangement** (2 outer short, 4 inner long). *Pisum* (Fabaceae) has **10 stamens in a diadelphous $(9) + 1$ arrangement** (9 fused into a staminal tube, 1 posterior stamen free).
+:::
+
+::: example Matching Nepali medicinal plants to active alkaloids and organs used
+**Problem.** Match the active principle and the plant part harvested in Nepal for *Rauwolfia serpentina* (sarpagandha) and *Ophiocordyceps sinensis* (yarsagumba).
+
+**Solution.** *Rauwolfia serpentina* yields the indole alkaloid **reserpine** (antihypertensive) from its **dried roots**. *Ophiocordyceps sinensis* is an ascomycete entomopathogenic fungus fruiting from the caterpillar of *Thitarodes* in alpine meadows ($3{,}500\text{–}5{,}000\text{ m}$), valued for **cordycepin**; the whole **stroma + mycosed larva** is collected.
+:::
+
 ## Formula and fact sheet
 
 | Item | Fact |

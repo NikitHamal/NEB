@@ -274,6 +274,17 @@ near the middle and slowly near the ends — so a pendulum spends most of its ti
 the extremes.
 :::
 
+
+::: example Worked example — reading a turning point from an SHM energy split
+A particle in SHM has total energy 16 J. At a displacement of half the amplitude (x = A/2), find the kinetic and potential energies.
+
+Potential energy varies as x² and equals the total at x = A, so at A/2 it is (1/2)² = **¼** of the total: PE = 4 J, KE = **12 J**. The same square law settles the favourite variants: KE = PE when x = A/√2 (≈ 0.71A, *not* at A/2), and at x = A/√2 the speed is vmax/√2. Most wrong answers here come from treating PE as proportional to x instead of x².
+:::
+
+::: caution Trap — what the pendulum's period ignores
+T = 2π√(l/g) contains **no mass and no amplitude** (for small swings): a heavier bob or a slightly wider swing does not change the period — the two most common distractors in this unit. What does change it: length, g (longer on the Moon/top of a mountain, shorter in a lift accelerating upward... where effective g becomes g + a) and, for the spring–mass system instead, the mass and the spring constant.
+:::
+
 ## 5.4 Simple pendulum and spring–mass system; forced oscillation and resonance
 
 ### Simple pendulum

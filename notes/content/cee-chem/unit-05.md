@@ -251,6 +251,28 @@ most slips.
 | Industry | Ostwald process (NH₃ oxidised to HNO₃), contact process (SO₂ → SO₃), chlorine water treatment |
 | Breath tests | orange Cr₂O₇²⁻ is reduced to green Cr³⁺ by ethanol |
 
+```figure caption="Oxidation-state ladder of sulphur, nitrogen and manganese. Species at the top of a column can only be reduced (oxidising agents only); species at the bottom can only be oxidised (reducing agents only); intermediate states can act as both and can disproportionate."
+import numpy as np, matplotlib.pyplot as plt
+fig, ax = plt.subplots(figsize=(4.9, 3.0))
+ax.set_xlim(0, 10); ax.set_ylim(-4.2, 8.2); ax.axis('off')
+for y in range(-3, 8, 2):
+    ax.plot([1.0, 9.2], [y, y], color=GRID, lw=0.7, zorder=1)
+    ax.text(0.65, y, f'{y:+d}' if y != 0 else '0', ha='right', va='center', fontsize=8.2, color=MUTED)
+ax.text(0.65, 7.8, 'O.N.', ha='right', va='center', fontsize=8.4, fontweight='bold', color=INK)
+cols = [
+    (2.6, 'Sulphur', SERIES[0], [(6, 'H₂SO₄ (ox only)'), (4, 'SO₂ (both)'), (0, 'S₈ (both)'), (-2, 'H₂S (red only)')]),
+    (5.5, 'Nitrogen', SERIES[1], [(5, 'HNO₃ (ox only)'), (3, 'HNO₂ (both)'), (0, 'N₂'), (-3, 'NH₃ (red only)')]),
+    (8.2, 'Manganese', SERIES[2], [(7, 'KMnO₄ (ox only)'), (4, 'MnO₂ (both)'), (2, 'Mn²⁺')])
+]
+for x, title, col, pts in cols:
+    ax.text(x, 7.8, title, ha='center', va='center', fontsize=8.8, fontweight='bold', color=col)
+    ys = [p[0] for p in pts]
+    ax.plot([x]*len(ys), ys, color=col, lw=1.6, zorder=2)
+    for y, lab in pts:
+        ax.plot([x], [y], 'o', ms=5, color=col, zorder=3)
+        ax.text(x + 0.22, y, lab, ha='left', va='center', fontsize=7.8, color=INK)
+```
+
 ## Formula and fact sheet
 
 | Item | Rule |
