@@ -1,0 +1,36 @@
+/* The Glassdoor-style surface shared by Library and Blog. Home has the same
+   values in web-home.css; these are the common pieces. */
+.glass-panel {
+  background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 16px;
+}
+
+.glass-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.glass-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.glass-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+}
+
+.glass-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.glass-scroll:hover {
+  scrollbar-color: var(--md-outline-variant) transparent;
+}
+
+.glass-scroll:hover::-webkit-scrollbar-thumb {
+  background: var(--md-outline-variant);
+}

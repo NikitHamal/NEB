@@ -55,7 +55,7 @@
     <span class="lp-ind" aria-hidden="true"></span>
     <a href="{% url 'web:library' %}">Library</a>
     <a href="#books">Books</a>
-    <a href="{% url 'web:forum' %}">Forum</a>
+    <a href="{% url 'web:home' %}">Community</a>
     <a href="#app">App</a>
   </nav>
   <div class="lp-nav-end">
@@ -70,7 +70,7 @@
   <nav aria-label="Menu">
     <a href="{% url 'web:library' %}" style="--i:0">Library</a>
     <a href="#books" style="--i:1">Books</a>
-    <a href="{% url 'web:forum' %}" style="--i:2">Forum</a>
+    <a href="{% url 'web:home' %}" style="--i:2">Forum</a>
     <a href="#levels" style="--i:3">Levels</a>
     <a href="#app" style="--i:4">App</a>
     {% if not signed_in %}<a class="lp-menu-signin" href="{% url 'web:login' %}" style="--i:5">Sign in</a>{% endif %}
@@ -153,7 +153,7 @@
     <div class="lp-wrap lp-forum-in">
       <div class="lp-forum-copy">
         <h2 id="lp-forum" class="lp-h2">Stuck at 11&nbsp;pm? <em>Ask.</em></h2>
-        <a class="lp-btn lp-btn-cream lp-btn-dark" href="{% url 'web:forum' %}"><span>Open the forum</span></a>
+        <a class="lp-btn lp-btn-cream lp-btn-dark" href="{% url 'web:home' %}"><span>Open the community</span></a>
       </div>
       <div class="lp-stack" style="--n:{{ discussions|length|default:2 }}">
         {% for p in discussions %}
@@ -223,7 +223,7 @@
     </div>
     <nav class="lp-foot-cols" aria-label="Footer">
       <div><small>Study</small><a href="{% url 'web:library' %}">Library</a><a href="{% url 'web:past_papers' %}">Past papers</a><a href="{% url 'web:result_check' %}">Results</a><a href="{% url 'web:doc_tools' %}">PDF tools</a></div>
-      <div><small>Community</small><a href="{% url 'web:forum' %}">Forum</a><a href="{% url 'web:news_list' %}">News</a><a href="{% url 'web:faq' %}">FAQ</a></div>
+      <div><small>Community</small><a href="{% url 'web:home' %}">Community</a><a href="{% url 'web:news_list' %}">News</a><a href="{% url 'web:faq' %}">FAQ</a></div>
       <div><small>Legal</small><a href="{% url 'web:privacy_policy' %}">Privacy</a><a href="{% url 'web:terms_of_service' %}">Terms</a><a href="{% url 'web:copyright_takedown' %}">Copyright</a></div>
     </nav>
   </div>

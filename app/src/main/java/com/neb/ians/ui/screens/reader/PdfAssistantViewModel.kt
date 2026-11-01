@@ -4,7 +4,9 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
+import com.neb.ians.data.api.ApiErrorMapper
 import com.neb.ians.data.api.ApiService
+import com.neb.ians.data.api.AuthExpiryBus
 import com.neb.ians.data.api.PdfAssistantHistoryItem
 import com.neb.ians.data.api.PdfAssistantRequest
 import com.neb.ians.data.repository.SecurePrefs
@@ -192,10 +194,16 @@ class PdfAssistantViewModel @Inject constructor(
                     _uiState.update { it.copy(messages = completed, isThinking = false, error = null) }
                 }
             }.onFailure { error ->
+                // A dead token is not a per-request failure: every authenticated call
+                // will 401 until the user signs in again, so ask the nav layer to
+                // recover instead of leaving them in a broken session.
+                if (error is retrofit2.HttpException && error.code() == 401) {
+                    AuthExpiryBus.tryEmitExpired()
+                }
                 val errorMsg = if (error is retrofit2.HttpException && error.code() == 402) {
                     "Neby Credits exhausted. You get 10 free credits every month, or convert 2 NEBians points into 1 credit. The credits screen has a WhatsApp link for more."
                 } else {
-                    error.message ?: "PDF AI is unavailable"
+                    ApiErrorMapper.mapException(error)
                 }
                 _uiState.update {
                     it.copy(isThinking = false, error = errorMsg)

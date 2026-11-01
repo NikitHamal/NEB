@@ -9,6 +9,7 @@ Channels layer is configured in settings.py with a Redis backend so
 broadcasts fan out across all daphne / Passenger worker processes.
 """
 import logging
+import time
 from typing import Any, Dict, Optional
 
 try:
@@ -35,15 +36,15 @@ from .utils import now_ms
 logger = logging.getLogger(__name__)
 
 
-def _send(group: str, event: str, data: Dict[str, Any]):
-    """Push an event to a single group. Best effort, never fatal.
+_redis_circuit_open_until = 0.0
 
-    Resolving the layer is part of the attempt, not a precondition: a channel
-    layer that cannot even be constructed (Redis not installed, wrong BACKEND,
-    Redis down) used to raise *outside* the guard, so a websocket push could
-    turn a successful database write — an approved payment, a posted reply —
-    into a 500 for the person who did it.
-    """
+
+def _send(group: str, event: str, data: Dict[str, Any]):
+    """Push an event to a single group. Best effort, never fatal."""
+    global _redis_circuit_open_until
+    now = time.time()
+    if now < _redis_circuit_open_until:
+        return
     try:
         layer = get_channel_layer()
     except Exception as e:  # noqa: BLE001
@@ -62,7 +63,7 @@ def _send(group: str, event: str, data: Dict[str, Any]):
             },
         )
     except Exception as e:  # noqa: BLE001
-        # Don't let WS failures cascade into HTTP 500s.
+        _redis_circuit_open_until = time.time() + 10.0
         logger.warning('realtime send failed (group=%s event=%s): %s', group, event, e)
 
 

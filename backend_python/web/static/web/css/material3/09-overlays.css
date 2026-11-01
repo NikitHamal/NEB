@@ -1287,6 +1287,14 @@
 /* Opening upwards means growing from the bottom edge, not the top. */
 .more-menu.neb-menu-up { transform-origin: bottom right; }
 
+/* The raised surface is a pale grey in light mode, which reads like a disabled
+   field against white cards. Keep the panel white and let its border and
+   shadow carry the elevation. */
+[data-theme="light"] .more-menu,
+[data-theme="light"] .more-menu.neb-menu-sheet {
+  background: var(--md-surface-container-lowest);
+}
+
 .more-menu-item {
   display: flex;
   align-items: center;

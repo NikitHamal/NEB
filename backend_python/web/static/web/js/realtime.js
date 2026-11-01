@@ -52,6 +52,8 @@
   var haveRefetched = false; // prevent infinite refetch loops
   var consecutiveFailures = 0;
   var lastFailedBase = '';
+  var lastRefetchTs = 0;
+  var MIN_REFETCH_INTERVAL = 30000;
 
   // ----- URL derivation -----------------------------------------------------
 
@@ -172,11 +174,19 @@
     });
 
     socket.addEventListener('error', function () {
+      stopHeartbeat();
       // 'close' will fire right after; reconnect happens there.
     });
   }
 
   function refetchWsUrl(callback) {
+    var now = Date.now();
+    if (wsUrl && (now - lastRefetchTs < MIN_REFETCH_INTERVAL)) {
+      callback();
+      return;
+    }
+    lastRefetchTs = now;
+
     var xhr = new XMLHttpRequest();
     xhr.open('GET', '/api/realtime/config/', true);
     xhr.withCredentials = true;
@@ -211,6 +221,8 @@
             }
           }
         } catch (e) { /* ignore parse errors */ }
+      } else if (xhr.status === 429) {
+        reconnectDelay = Math.max(reconnectDelay, 45000);
       }
       callback();
     };
@@ -257,7 +269,16 @@
   }
 
   function sendRaw(obj) {
-    if (state !== STATE.CONNECTED || !socket) return false;
+    if (state !== STATE.CONNECTED || !socket || socket.readyState !== 1) {
+      if (socket && (socket.readyState === 2 || socket.readyState === 3)) {
+        stopHeartbeat();
+        if (state === STATE.CONNECTED) {
+          setState(STATE.DISCONNECTED);
+          if (!paused) scheduleReconnect();
+        }
+      }
+      return false;
+    }
     try {
       socket.send(JSON.stringify(obj));
       return true;
@@ -322,7 +343,10 @@
   function startHeartbeat() {
     stopHeartbeat();
     heartbeatTimer = setInterval(function () {
-      if (state !== STATE.CONNECTED) return;
+      if (state !== STATE.CONNECTED || !socket || socket.readyState !== 1) {
+        stopHeartbeat();
+        return;
+      }
       // If the server hasn't pinged us in 2x interval, our connection may be
       // half-closed. Force a ping so we can detect a dead socket faster.
       var sinceServer = Date.now() - lastEventTs;

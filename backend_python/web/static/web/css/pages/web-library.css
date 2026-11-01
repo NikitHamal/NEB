@@ -334,3 +334,15 @@
     gap: 8px;
   }
 }
+
+/* ── Glassdoor surface ───────────────────────────────────────────────────── */
+.lib-glass-panel {
+  margin-top: 16px;
+  padding: 16px 20px;
+}
+
+@media (max-width: 600px) {
+  .lib-glass-panel {
+    padding: 12px;
+  }
+}

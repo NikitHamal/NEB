@@ -1,0 +1,74 @@
+{% load web_extras %}
+{% comment %}
+  One rail, three sections, hairline rules instead of three competing cards.
+  Categories stay sticky for filtering; Unanswered gives new threads somewhere
+  to be seen; contributors are people, never bots.
+{% endcomment %}
+<div class="forum-rail-card">
+  <section class="forum-rail-section">
+    <div class="forum-rail-head">
+      <h2 class="forum-rail-title">Categories</h2>
+      <a href="{% url 'web:forum_categories' %}" class="forum-rail-link">All</a>
+    </div>
+    <div class="forum-rail-list">
+      <a href="{% querystring category=None page=None %}" class="forum-rail-row {% if not current_category %}active{% endif %}" hx-get="{% querystring category=None page=None %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="forum-rail-name">All discussions</span>
+      </a>
+      {% for cat in categories_data %}
+      <a href="{% querystring category=cat.name page=None %}" class="forum-rail-row {% if current_category == cat.name %}active{% endif %}" hx-get="{% querystring category=cat.name page=None %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+        <span class="forum-rail-name">{{ cat.name }}</span>
+        <span class="forum-rail-count">{{ cat.formatted_count }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% if unanswered_posts %}
+  <section class="forum-rail-section">
+    <div class="forum-rail-head">
+      <h2 class="forum-rail-title">Unanswered</h2>
+    </div>
+    <div class="forum-unanswered-list">
+      {% for item in unanswered_posts %}
+      <a href="{% url 'web:forum_post' post_id=item.id %}" class="forum-unanswered-row">
+        <span class="forum-unanswered-title">{{ item.title }}</span>
+        <span class="forum-unanswered-meta">{{ item.authorDisplayName|default:item.authorName }} &middot; {{ item.createdAt|time_ago }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+
+  {% if top_contributors %}
+  <section class="forum-rail-section">
+    <div class="forum-rail-head">
+      <h2 class="forum-rail-title">Top contributors</h2>
+      <a href="{% url 'web:leaderboard' %}" class="forum-rail-link">All</a>
+    </div>
+    <div class="forum-contributor-list">
+      {% for contributor in top_contributors %}
+      <a href="{% url 'web:profile' username=contributor.username %}" class="forum-contributor-row">
+        <div class="forum-contributor-avatar {% if contributor.badgeInfo and contributor.badgeInfo.type == 'verified' %}avatar-container-verified{% endif %}">
+          {% if contributor.photo_url %}
+          <img src="{{ contributor.photo_url }}" alt="" data-fallback="inline-flex">
+          <span class="contributor-avatar-letter" style="display:none;">{{ contributor.display_name|truncate_chars:1 }}</span>
+          {% else %}
+          <span class="contributor-avatar-letter">{{ contributor.display_name|truncate_chars:1 }}</span>
+          {% endif %}
+          {% if contributor.badgeInfo and contributor.badgeInfo.type == 'verified' %}
+          <span class="avatar-badge-overlay is-verified" style="--badge-bg: {{ contributor.badgeInfo.color }};" title="{{ contributor.badgeInfo.label }}">
+            <span class="material-symbols-outlined">verified</span>
+          </span>
+          {% endif %}
+        </div>
+        <span class="forum-contributor-meta">
+          <span class="forum-contributor-name">{{ contributor.display_name }}</span>
+          <span class="forum-contributor-level">{{ contributor.level }}</span>
+        </span>
+        <span class="forum-contributor-score">{{ contributor.formatted_score }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+</div>

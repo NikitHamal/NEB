@@ -374,10 +374,20 @@ def home(request):
     # The rails used to be four separate context variables the page laid out
     # itself. They are entries in the feed now, so the only things left to hand
     # over are the feed and the hero's backdrop.
+    home_unanswered = [p for p in all_posts if not p.get('replyCount')][:3]
+    from .view_helpers import _build_contributors_batch
+    home_contributors = cache.get('home_contributors_v1')
+    if home_contributors is None:
+        home_contributors = _build_contributors_batch()[:3]
+        cache.set('home_contributors_v1', home_contributors, 300)
+    from api.categories import CATEGORIES
     return render(request, 'web/home.html', _ctx(request,
         hide_footer_links=False,
         needs_profile=needs_profile,
         feed_entries=feed_entries,
+        home_unanswered=home_unanswered,
+        home_contributors=home_contributors,
+        composer_categories=list(CATEGORIES),
         feed_next_offset=feed_next_offset,
         feed_has_more=home_stats.get('discussions', 0) > feed_next_offset,
     ))

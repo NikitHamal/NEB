@@ -1,7 +1,8 @@
 import uuid
 import time
 
-from django.core.management.base import BaseCommand
+from django.conf import settings
+from django.core.management.base import BaseCommand, CommandError
 from django.db import transaction
 
 from api.models import Post, Reply, User
@@ -10,7 +11,12 @@ from api.models import Post, Reply, User
 class Command(BaseCommand):
     help = 'Seed nested reply data for testing thread UI. Creates replies at multiple nesting levels on the most recent forum post.'
 
+    def add_arguments(self, parser):
+        parser.add_argument('--force', action='store_true', help='Allow this outside DEBUG')
+
     def handle(self, *args, **options):
+        if not settings.DEBUG and not options['force']:
+            raise CommandError('Refusing to seed dummy replies outside DEBUG. Pass --force if intentional.')
         post = Post.objects.order_by('-created_at').first()
         if not post:
             self.stdout.write(self.style.ERROR('No posts found. Create a post first.'))

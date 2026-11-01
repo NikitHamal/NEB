@@ -19,6 +19,7 @@ from collections import Counter
 
 from django.db import transaction
 from django.db.models import F
+from django.db.models.functions import Greatest
 
 from django.core.cache import cache
 
@@ -213,14 +214,14 @@ def delete_reply_with_cleanup(reply_id):
     descendant_ids = _collect_descendant_reply_ids(reply_id)
     all_ids = descendant_ids | {str(reply_id)}
 
-    all_replies_data = dict(
+    all_replies_data = list(
         Reply.objects.filter(id__in=all_ids).values_list('user_id', 'thumbs_up_count')
     )
 
     reply_count_by_author = Counter()
     likes_received_by_author = Counter()
     all_author_ids = set()
-    for author_id, thumbs in all_replies_data.items():
+    for author_id, thumbs in all_replies_data:
         all_author_ids.add(author_id)
         reply_count_by_author[author_id] += 1
         likes_received_by_author[author_id] += thumbs
@@ -251,8 +252,8 @@ def delete_reply_with_cleanup(reply_id):
         Reply.objects.filter(id__in=descendant_ids).delete()
         reply.delete()
 
-        Post.objects.filter(pk=post_id, reply_count__gt=0).update(
-            reply_count=F('reply_count') - 1
+        Post.objects.filter(pk=post_id).update(
+            reply_count=Greatest(F('reply_count') - len(all_ids), 0)
         )
         if parent_id:
             Reply.objects.filter(pk=parent_id, reply_count__gt=0).update(

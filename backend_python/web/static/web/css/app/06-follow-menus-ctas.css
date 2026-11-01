@@ -44,7 +44,9 @@
   min-height: calc(100vh - 64px - 72px);
   padding-top: 16px;
   padding-bottom: 24px;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden makes main a scroll container, which pushes every
+     sticky sidebar down by the header offset instead of letting it stick. */
+  overflow-x: clip;
 }
 
 .site-footer {

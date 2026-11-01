@@ -174,7 +174,7 @@ else:
         }
     }
 
-if os.environ.get('CHANNEL_LAYER_BACKEND') == 'inmemory':
+if os.environ.get('CHANNEL_LAYER_BACKEND') == 'inmemory' or _cache_backend != 'django.core.cache.backends.redis.RedisCache':
     CHANNEL_LAYERS = {
         'default': {'BACKEND': 'channels.layers.InMemoryChannelLayer'},
     }
@@ -196,6 +196,9 @@ if os.environ.get('DB_ENGINE') == 'sqlite':
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
+            'OPTIONS': {
+                'timeout': 20,
+            },
         }
     }
 else:

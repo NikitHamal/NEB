@@ -9,7 +9,7 @@
 .rd-page > .st-crumbs, .rd-layout { max-width: 1120px; margin-left: auto; margin-right: auto; }
 
 .rd-layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 40px; align-items: start; }
-.rd-side { position: sticky; top: 84px; max-height: calc(100vh - 100px); }
+.rd-side { position: sticky; top: 116px; max-height: calc(100vh - 132px); }
 .rd-side-inner { display: flex; flex-direction: column; max-height: inherit; }
 .rd-side-head { margin: 0 0 8px; font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--md-on-surface-variant); }
 .rd-toc { list-style: none; margin: 0; padding: 0 4px 0 0; overflow-y: auto; border-left: 2px solid var(--md-outline-variant); scrollbar-width: thin; }

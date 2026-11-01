@@ -1,6 +1,6 @@
 {% load web_extras %}
 {% if top_level_replies %}
-<div style="display:flex;flex-direction:column;gap:10px;">
+<div class="fp-reply-list">
   {% for reply in top_level_replies %}
   <div class="fp-reply" id="reply-card-{{ reply.id }}" data-raw-content="{{ reply.content|escape }}">
     <div class="fp-reply-header">
@@ -9,25 +9,22 @@
           <div class="neby-avatar-mini neby-size-reply" data-neby-avatar data-animation="idle" title="Neby AI Bot"></div>
         {% elif reply.authorPhotoUrl %}
           <img src="{{ reply.authorPhotoUrl }}" alt="" data-fallback="flex">
-          <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+          <span class="fp-reply-avatar-letter" style="display:none;">{{ reply.authorDisplayName|default:reply.authorName|truncate_chars:1|default:"?" }}</span>
         {% else %}
-          <span class="fp-reply-avatar-letter">{{ reply.authorName|truncate_chars:1|default:"?" }}</span>
+          <span class="fp-reply-avatar-letter">{{ reply.authorDisplayName|default:reply.authorName|truncate_chars:1|default:"?" }}</span>
         {% endif %}
       </div>
       <div class="fp-reply-meta">
-        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+        <div class="author-line">
           {% if reply.isAnonymous %}
           <span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> Anonymous Nebian</span>
           {% elif reply.authorId %}
-          <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorName }}</a>
+          <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorDisplayName|default:reply.authorName }}</a>
           {% else %}
-          <span class="fp-reply-author" style="color:var(--md-on-surface-variant);">{{ reply.authorName }}</span>
+          <span class="fp-reply-author" style="color:var(--md-on-surface-variant);">{{ reply.authorDisplayName|default:reply.authorName }}</span>
           {% endif %}
           {% if reply.authorBadgeInfo %}
           <span class="role-badge role-badge-{{ reply.authorBadgeInfo.type }}" title="{{ reply.authorBadgeInfo.label }}"><span class="material-symbols-outlined">{{ reply.authorBadgeInfo.icon }}</span></span>
-          {% endif %}
-          {% if is_authenticated and reply.authorId and reply.authorId != user.id %}
-            <button class="follow-btn-inline {% if reply.isFollowed %}following{% else %}not-following{% endif %}" data-user-id="{{ reply.authorId }}" data-action="toggle-follow" data-user-id="{{ reply.authorId }}">{% if reply.isFollowed %}Following{% else %}Follow{% endif %}</button>
           {% endif %}
         </div>
         <div class="fp-reply-time">{{ reply.createdAt|time_ago }}</div>
@@ -42,7 +39,7 @@
           </button>
           {% endif %}
           <button class="more-menu-item" data-action="share-reply" data-reply-id="{{ reply.id }}">
-            <span class="material-symbols-outlined">share</span> Share
+            <svg class="neb-post-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c0-5 3.5-9 8.5-9H19"></path><polyline points="14 4 19 9 14 14"></polyline></svg> Share
           </button>
           {% if is_authenticated and not reply.isOwner %}
           <button class="more-menu-item" data-action="report-content" data-target-type="reply" data-target-id="{{ reply.id }}">
@@ -67,20 +64,13 @@
     {% if reply.content %}<div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>{% endif %}
     {% with attachments=reply.attachments is_feed_card=True %}{% include "web/_forum_attachments.html" %}{% endwith %}
     <div class="fp-reply-actions">
-      <button data-action="toggle-reply-like" data-reply-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}">
+      <button data-action="toggle-reply-like" data-reply-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}" aria-label="Like this reply" aria-pressed="{% if reply.isThumbedUp %}true{% else %}false{% endif %}">
         <span class="material-symbols-outlined">thumb_up</span>
         <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
       </button>
       {% if is_authenticated %}
       <button class="fp-reply-action" data-action="open-thread-reply" data-reply-id="{{ reply.id }}" data-author-name="{{ reply.authorName|escapejs }}">
         <span class="material-symbols-outlined">reply</span> Reply
-      </button>
-      <span class="fp-action-spacer"></span>
-      <button class="fp-reply-action {% if reply.isBookmarked %}bookmark-active{% endif %}" data-action="toggle-bookmark" data-target-type="reply" data-target-id="{{ reply.id }}" id="reply-bookmark-btn-{{ reply.id }}">
-        <span class="material-symbols-outlined">bookmark</span>
-      </button>
-      <button class="fp-reply-action" data-action="share-reply" data-reply-id="{{ reply.id }}">
-        <span class="material-symbols-outlined">share</span>
       </button>
       {% endif %}
     </div>

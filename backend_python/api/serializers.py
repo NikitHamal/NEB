@@ -432,6 +432,9 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_authorName(self, obj):
         if obj.is_anonymous:
+            if obj.user_id:
+                from .services import get_user_anon_tag
+                return get_user_anon_tag(obj.user_id)
             return 'Anonymous Nebian'
         if not obj.user_id:
             return 'Deleted user'
@@ -539,6 +542,9 @@ class ReplySerializer(serializers.ModelSerializer):
 
     def get_authorName(self, obj):
         if obj.is_anonymous:
+            if obj.user_id:
+                from .services import get_user_anon_tag
+                return get_user_anon_tag(obj.user_id)
             return 'Anonymous Nebian'
         if not obj.user_id:
             return 'Deleted user'

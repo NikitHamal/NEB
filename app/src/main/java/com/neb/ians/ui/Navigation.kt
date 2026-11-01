@@ -43,6 +43,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.neb.ians.data.api.AuthExpiryBus
 import com.neb.ians.data.repository.AuthRepository
 import com.neb.ians.data.repository.AuthState
 import com.neb.ians.util.DeepLinkBus
@@ -268,6 +269,16 @@ fun NEBiansNavHost(
                 }
             }
             else -> {}
+        }
+    }
+
+    // A 401 anywhere means the stored bearer token no longer resolves (30-day TTL,
+    // or a legacy column-only token). Rather than leaving the user in a session
+    // where every authenticated call fails, sign out here; the authState effect
+    // above then routes them to Login with a clean back stack.
+    LaunchedEffect(Unit) {
+        AuthExpiryBus.events.collect {
+            authRepository.logout()
         }
     }
 

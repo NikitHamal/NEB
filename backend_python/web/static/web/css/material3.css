@@ -291,7 +291,9 @@
 html {
   scroll-behavior: smooth;
   scrollbar-gutter: stable;
-  overflow-x: hidden;
+  /* clip, not hidden: hidden makes the root a scroll container, which cancels
+     the topbar's position: sticky. clip stops sideways overflow without one. */
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -301,8 +303,7 @@ body {
   color: var(--md-on-surface);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-y: scroll;
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -423,6 +424,17 @@ img {
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.04em;
+}
+
+/* The browser's default selection and tap flash are saturated system blue,
+   which reads as a stray background on fields, menus and popovers. A soft
+   primary tint keeps selected text readable and matches the palette. */
+::selection {
+  background: color-mix(in srgb, var(--md-primary) 22%, transparent);
+}
+
+html {
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ---- material3/02-buttons-cards-chips.css ---- */
@@ -3872,6 +3884,14 @@ img {
 /* Opening upwards means growing from the bottom edge, not the top. */
 .more-menu.neb-menu-up { transform-origin: bottom right; }
 
+/* The raised surface is a pale grey in light mode, which reads like a disabled
+   field against white cards. Keep the panel white and let its border and
+   shadow carry the elevation. */
+[data-theme="light"] .more-menu,
+[data-theme="light"] .more-menu.neb-menu-sheet {
+  background: var(--md-surface-container-lowest);
+}
+
 .more-menu-item {
   display: flex;
   align-items: center;
@@ -4475,3 +4495,28 @@ img {
    chips is furniture. */
 .neb-choice-sheet .neb-field-search[hidden],
 .neb-choice-sheet .neb-field-row[hidden] { display: none; }
+
+
+/* Custom Stroke Vector Action Icons (Comment, Share, etc.) */
+.neb-post-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex: none;
+  stroke-width: 2;
+  color: currentColor;
+}
+
+.post-card-actions button .neb-post-icon,
+.post-card-actions a .neb-post-icon,
+.act-btn-stat .neb-post-icon,
+.fp-action-btn .neb-post-icon,
+.fp-reply-action .neb-post-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.more-menu-item .neb-post-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--md-on-surface-variant);
+}

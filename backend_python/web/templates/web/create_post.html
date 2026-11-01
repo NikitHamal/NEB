@@ -30,7 +30,7 @@
 
 {% block content %}
 <div class="cp-page">
-    <a href="{% url 'web:forum' %}" class="cp-back" data-action="go-back">
+    <a href="{% url 'web:home' %}" class="cp-back" data-action="go-back">
       <span class="material-symbols-outlined">arrow_back</span>
       Go back
     </a>
@@ -255,7 +255,7 @@
         <span class="material-symbols-outlined">send</span>
         Post Discussion
       </button>
-      <a href="{% url 'web:forum' %}" class="cp-cancel">Cancel</a>
+      <a href="{% url 'web:home' %}" class="cp-cancel">Cancel</a>
     </div>
   </div>
 
@@ -291,10 +291,6 @@
           {% endfor %}
         </div>
         <p class="neb-choice-empty" data-choice-empty hidden></p>
-        <div class="neb-field-row" data-choice-add>
-          <input class="neb-field" type="text" placeholder="Add your own" autocomplete="off" aria-label="Add a category">
-          <button type="button" class="md-btn md-btn-tonal md-btn-small" disabled>Add</button>
-        </div>
       </div>
       <div class="neb-sheet-foot">
         <button type="button" class="md-btn md-btn-filled neb-foot-major" data-choice-done>Done</button>

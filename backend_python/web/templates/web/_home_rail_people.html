@@ -1,0 +1,12 @@
+{% load web_extras %}
+<section class="hf-block hf-feed-block" aria-labelledby="hf-people-title">
+  <div class="hf-title">
+    <h2 class="hf-title-text" id="hf-people-title">People you may know</h2>
+    <a class="hf-title-action" href="{% url 'web:leaderboard' %}">See All</a>
+  </div>
+  <div class="hf-rail hf-rail-peers hscroll">
+    {% for person in people|slice:":8" %}
+      {% include "web/_home_peer_card.html" with person=person %}
+    {% endfor %}
+  </div>
+</section>

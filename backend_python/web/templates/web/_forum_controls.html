@@ -1,0 +1,52 @@
+{% comment %}
+  Sort, the phone-only category chips, and the two removable filter pills.
+  {% querystring %} keeps q / category / sort together, so changing one control
+  never silently drops the others.
+{% endcomment %}
+<div class="forum-controls-bar">
+  <nav class="neb-rail neb-rail-flush" role="tablist" aria-label="Sort posts">
+    <a href="{% querystring sort='hot' page=None %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'hot' %}true{% else %}false{% endif %}" hx-get="{% querystring sort='hot' page=None %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+      <span class="material-symbols-outlined">whatshot</span>
+      <span class="neb-rail-label">Hot</span>
+    </a>
+    <a href="{% querystring sort='new' page=None %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'new' %}true{% else %}false{% endif %}" hx-get="{% querystring sort='new' page=None %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+      <span class="material-symbols-outlined">schedule</span>
+      <span class="neb-rail-label">New</span>
+    </a>
+    <a href="{% querystring sort='top' page=None %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'top' %}true{% else %}false{% endif %}" hx-get="{% querystring sort='top' page=None %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+      <span class="material-symbols-outlined">thumb_up</span>
+      <span class="neb-rail-label">Top</span>
+    </a>
+    <a href="{% querystring sort='discussed' page=None %}" class="neb-rail-item" role="tab" aria-selected="{% if current_sort == 'discussed' %}true{% else %}false{% endif %}" hx-get="{% querystring sort='discussed' page=None %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">
+      <span class="material-symbols-outlined">chat_bubble</span>
+      <span class="neb-rail-label">Discussed</span>
+    </a>
+  </nav>
+  {% if page_obj %}
+  <span class="forum-result-count">{{ page_obj.paginator.count }} discussion{{ page_obj.paginator.count|pluralize }}</span>
+  {% endif %}
+</div>
+
+<div class="forum-mobile-cats" role="group" aria-label="Categories">
+  <a href="{% querystring category=None page=None %}" class="forum-cat-chip {% if not current_category %}active{% endif %}" hx-get="{% querystring category=None page=None %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">All</a>
+  {% for cat in categories_data %}
+  <a href="{% querystring category=cat.name page=None %}" class="forum-cat-chip {% if current_category == cat.name %}active{% endif %}" hx-get="{% querystring category=cat.name page=None %}" hx-target="#forum-main" hx-swap="innerHTML" hx-push-url="true">{{ cat.name }} <span>{{ cat.formatted_count }}</span></a>
+  {% endfor %}
+</div>
+
+{% if search_query or current_category %}
+<div class="forum-active-filters">
+  {% if search_query %}
+  <a class="forum-filter-chip" href="{% querystring q=None page=None %}">
+    Search: {{ search_query }}
+    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+  </a>
+  {% endif %}
+  {% if current_category %}
+  <a class="forum-filter-chip" href="{% querystring category=None page=None %}">
+    {{ current_category }}
+    <span class="material-symbols-outlined" aria-hidden="true">close</span>
+  </a>
+  {% endif %}
+</div>
+{% endif %}

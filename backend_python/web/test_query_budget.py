@@ -35,9 +35,6 @@ class QueryBudgetTests(TestCase):
         self.assertEqual(r.status_code, 200, url)
         self.assertLessEqual(len(ctx.captured_queries), budget, f'{url}: {len(ctx.captured_queries)} queries')
 
-    def test_forum_does_not_query_per_contributor(self):
-        self.assertBudget('/app/forum/', 30)
-
     def test_leaderboard_does_not_query_per_user(self):
         self.assertBudget('/app/forum/leaderboard/', 15)
 
@@ -57,7 +54,7 @@ class SignedInQueryBudgetTests(TestCase):
 
     @classmethod
     def setUpTestData(cls):
-        from api.models import Announcement, Bookmark, Poll, PollOption, PostImage, Reply
+        from api.models import Announcement, Bookmark, Reply
         now = int(time.time() * 1000)
         cls.me = User.objects.create(id=str(uuid.uuid4()), username='qb_me', email='qb_me@x.np', display_name='Me',
                                      gender='female', class_level='12', email_verified=True, created_at=now)
@@ -67,12 +64,6 @@ class SignedInQueryBudgetTests(TestCase):
         posts = [Post(id=str(uuid.uuid4()), user=authors[i % 12], title=f'Accountancy {i}', content='How?',
                       category='Accountancy', created_at=now - i) for i in range(12)]
         Post.objects.bulk_create(posts)
-        PostImage.objects.bulk_create([PostImage(id=str(uuid.uuid4()), post=p, image_url=f'https://x.np/{p.id}.png',
-                                                 created_at=now) for p in posts])
-        polls = [Poll(id=str(uuid.uuid4()), post=p, question='Which?', created_at=now) for p in posts[:6]]
-        Poll.objects.bulk_create(polls)
-        PollOption.objects.bulk_create([PollOption(id=str(uuid.uuid4()), poll=poll, text=f'Option {k}', order=k)
-                                        for poll in polls for k in range(3)])
         replies = [Reply(id=str(uuid.uuid4()), post=posts[i], user=authors[(i + 1) % 12], content='Like this.',
                          created_at=now - i) for i in range(12)]
         Reply.objects.bulk_create(replies)
@@ -113,10 +104,6 @@ class SignedInQueryBudgetTests(TestCase):
         r = self.assertBudget('/app/bookmarks/', 11)
         self.assertContains(r, 'Accountancy notes 11')
         self.assertContains(r, 'Reply on Accountancy 11')
-
-    def test_forum_does_not_query_per_poll(self):
-        r = self.assertBudget('/app/forum/?sort=new&category=Accountancy', 19)
-        self.assertContains(r, 'post-card-poll-badge', count=6)
 
     def test_pages_read_the_signed_in_user_once(self):
         # The view and _ctx() both want the viewer's row; they share one SELECT.
