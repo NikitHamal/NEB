@@ -2,8 +2,8 @@
 
 1. Sidney Fox's microspheres, regarded as models of the first protocells, formed when hot aqueous solutions of which substances were allowed to cool?
    (a) nucleotides (b) phospholipids (c) proteinoids (d) polysaccharides
-2. Darwin's idea of a "struggle for existence" was strongly influenced by the essay on population written by
-   (a) Thomas Malthus (b) Charles Lyell (c) Jean-Baptiste Lamarck (d) August Weismann
+2. Darwin's five-year voyage (1831–36) as naturalist was made aboard HMS
+   (a) Beagle (b) Challenger (c) Endeavour (d) Bounty
 3. A fossil skull has a cranial capacity of about 1450 cm³, heavy brow ridges, a sloping forehead and no chin. It was found in a burial with Mousterian flake tools. It most probably belongs to
    (a) Homo habilis (b) Homo erectus (c) Australopithecus (d) Neanderthal man
 4. Jawless vertebrates with a circular suctorial mouth, no paired fins and a cartilaginous skeleton, such as *Petromyzon*, belong to
@@ -34,8 +34,8 @@
    (a) the brain and head (b) the lungs only (c) the body muscles and gut (d) the lungs and the skin
 17. Vocal sacs, which amplify the croaking call during the breeding season, are present in
    (a) male frogs only (b) female frogs only (c) both sexes equally (d) tadpoles only
-18. Brunner's glands, which secrete an alkaline mucus that protects the intestinal wall from acid chyme, lie in the
-   (a) mucosa of the stomach (b) muscularis of the ileum (c) submucosa of the duodenum (d) serosa of the colon
+18. The hepatopancreatic ampulla (of Vater) opens into the
+   (a) stomach (b) jejunum (c) duodenum (d) ileum
 19. Pepsinogen, secreted by the chief (peptic) cells of the stomach, is first converted into active pepsin by
    (a) enterokinase (b) hydrochloric acid (c) bile salts (d) trypsin
 20. As CO₂ enters red blood cells in the tissues, bicarbonate ions diffuse out into the plasma and chloride ions move in to keep the electrical balance. This is the
@@ -72,8 +72,8 @@
    (a) one heavy and one light chain (b) two heavy chains only (c) two heavy and two light chains joined by disulphide bonds (d) five Y-shaped units joined by a J chain
 36. In the third week of untreated typhoid, a patient develops sudden severe abdominal pain and signs of peritonitis. The intestinal perforation has most probably occurred at the
    (a) gastric mucosa (b) vermiform appendix (c) rectum (d) Peyer's patches of the ileum
-37. Rosie (1997), the first transgenic cow, produced milk enriched with
-   (a) human insulin (b) human α-lactalbumin (c) human growth hormone (d) human clotting factor IX
+37. Dolly the sheep (1996) was cloned from the nucleus of a cell taken from the
+   (a) fertilised egg (b) mammary gland (c) embryonic stem cell (d) blastomere
 38. The large holes ("eyes") in Swiss cheese are produced by carbon dioxide released by
    (a) *Lactobacillus acidophilus* (b) *Streptococcus thermophilus* (c) *Propionibacterium shermanii* (d) *Penicillium roqueforti*
 39. Salmon live in the sea but swim up rivers to spawn in fresh water. This type of migration is
@@ -83,7 +83,7 @@
 
 ::: note Answers — Zoology (1–40)
 **1.** (c) — Fox heated dry amino acids into proteinoids (thermal polypeptides); in cooling water these formed microspheres with a selectively permeable boundary. Oparin's protobionts were coacervates.
-**2.** (a) — Malthus (1798) argued that populations grow geometrically but food only arithmetically, so many must perish; Darwin applied this to all organisms. Lyell shaped his view of geological time.
+**2.** (a) — HMS Beagle visited the Galápagos in 1835; Challenger (1872–76) was an oceanographic expedition.
 **3.** (d) — Neanderthals had about 1300–1600 cm³ brains, heavy brow ridges and no chin, made Mousterian tools and buried their dead. *H. erectus* was about 900–1100 cm³; Cro-Magnon man had a chin.
 **4.** (b) — Cyclostomata (Agnatha) are jawless, with a round sucking mouth and no paired fins. Cephalochordates have no cranium or vertebrae at all.
 **5.** (b) — insects such as the cockroach remove uric acid through Malpighian tubules. The earthworm uses nephridia, *Pila* a kidney, and *Hydra* simple diffusion.
@@ -99,7 +99,7 @@
 **15.** (b) — fertilisation occurs inside the cocoon, and a small worm hatches directly; earthworms have no larva. A trochophore occurs in marine polychaetes.
 **16.** (d) — the pulmocutaneous arch divides into pulmonary and cutaneous arteries; both lungs and skin are respiratory surfaces in the frog.
 **17.** (a) — paired vocal sacs (with nuptial pads) are male secondary sexual characters used for the mating call.
-**18.** (c) — Brunner's glands lie in the submucosa of the duodenum only; their alkaline mucus protects the wall from acid chyme.
+**18.** (c) — bile and pancreatic ducts join and open into the duodenum, controlled by the sphincter of Oddi.
 **19.** (b) — HCl from the oxyntic cells activates pepsinogen; pepsin then activates more pepsinogen (autocatalysis). Enterokinase activates trypsinogen.
 **20.** (d) — the chloride shift (Hamburger phenomenon) keeps RBCs electrically neutral as HCO₃⁻ formed by carbonic anhydrase leaves the cell.
 **21.** (a) — 104 − 40 = 64 mm Hg. The CO₂ gradient is much smaller (45 − 40 ≈ 5 mm Hg), but CO₂ is about 20 times more soluble.
@@ -118,7 +118,7 @@
 **34.** (b) — the influenza genome has eight RNA segments; in a host infected by two strains, segments mix (reassortment), giving a new antigenic type.
 **35.** (c) — IgG is a Y-shaped monomer of two heavy and two light chains held by disulphide bonds. Five units with a J chain is IgM.
 **36.** (d) — *Salmonella* Typhi multiplies in the lymphoid Peyer's patches of the ileum; they ulcerate and may perforate in the third week.
-**37.** (b) — Rosie's milk had about 2.4 g/L of human α-lactalbumin, making it nutritionally closer to human milk.
+**37.** (b) — Dolly came from an adult mammary-gland cell transferred into an enucleated egg (somatic cell nuclear transfer).
 **38.** (c) — *Propionibacterium shermanii* ferments lactate to propionic acid (flavour) and CO₂ (holes). *P. roqueforti* is the blue-cheese mould.
 **39.** (a) — anadromous fish run from sea to fresh water to breed; catadromous fish (freshwater eels) go from fresh water to the sea.
 **40.** (d) — the gharial is Critically Endangered; Nepal breeds and releases it from the Gharial Breeding Centre at Kasara, Chitwan National Park.
@@ -130,8 +130,8 @@
    (a) simple lipid (b) derived lipid (c) compound lipid (d) wax
 42. Plants deficient in zinc show "little leaf" and rosetting of the stem, because zinc is needed for the synthesis of
    (a) chlorophyll (b) gibberellin (c) calcium pectate (d) tryptophan, the precursor of auxin
-43. The starting point of modern botanical nomenclature is Linnaeus's *Species Plantarum*, published in
-   (a) 1753 (b) 1735 (c) 1859 (d) 1866
+43. In the name Oryza sativa L., the letter L. stands for
+   (a) the author citation, Linnaeus (b) the variety (c) the family (d) the locality of the type
 44. Infoldings of the bacterial plasma membrane, believed to help in respiration and in separating replicated DNA, are
    (a) plasmids (b) pili (c) mesosomes (d) heterocysts
 45. Aflatoxins, cancer-causing poisons found in groundnuts and maize stored in damp conditions, are produced by
@@ -178,8 +178,8 @@
    (a) male *Drosophila* (b) female *Drosophila* (c) maize (d) sweet pea
 66. A haemophilic man marries a woman who is homozygous normal. Their daughter marries a normal man. The probability that a son of this daughter is haemophilic is
    (a) 0 (b) 1/2 (c) 1/4 (d) 1
-67. A living mechanical tissue whose cells are thickened with cellulose and pectin mainly at the corners, found below the epidermis of young dicot stems, is
-   (a) sclerenchyma (b) chlorenchyma (c) collenchyma (d) aerenchyma
+67. Wood of a dicot tree trunk is produced by the activity of
+   (a) cork cambium (b) apical meristem (c) vascular cambium (d) pericycle
 68. Concentric amphivasal (leptocentric) vascular bundles, in which xylem surrounds phloem, occur in
    (a) the *Cucurbita* stem (b) the sunflower stem (c) the fern rhizome (d) *Dracaena*
 69. A T.S. shows a single ring of conjoint, collateral, open vascular bundles with endarch xylem, an endodermis rich in starch and a large pith. It is a
@@ -210,7 +210,7 @@
 ::: note Answers — Botany (41–80)
 **41.** (b) — steroids such as cholesterol are derived lipids. Fats and waxes are simple lipids; phospholipids and glycolipids are compound lipids.
 **42.** (d) — zinc is needed to make tryptophan, from which IAA is formed; low auxin gives short internodes and small leaves.
-**43.** (a) — *Species Plantarum* (1 May 1753) is the starting point of plant names. 1735 is *Systema Naturae*, 1859 the *Origin of Species*, 1866 Mendel's paper.
+**43.** (a) — a name is followed by the abbreviated author who published it; L. is Linnaeus.
 **44.** (c) — mesosomes are membrane infoldings linked with respiration, wall formation and DNA separation. Plasmids are extra-chromosomal DNA; heterocysts are N₂-fixing cells of cyanobacteria.
 **45.** (c) — *Aspergillus flavus* (and *A. parasiticus*) produce aflatoxins, a food-safety concern in groundnuts and maize; they damage the liver and can cause liver cancer.
 **46.** (a) — red algae store floridean starch. Brown algae store laminarin and mannitol, green algae true starch, and blue-green algae cyanophycean starch.
@@ -234,7 +234,7 @@
 **64.** (c) — both alleles are fully expressed side by side (codominance). In incomplete dominance the hybrid is an intermediate blend (pink four-o'clock).
 **65.** (a) — male *Drosophila* show no crossing over, so linked genes are always inherited together. Maize, sweet pea and female *Drosophila* show incomplete linkage.
 **66.** (b) — the daughter must be a carrier (XᴴXʰ); each of her sons receives Xʰ or Xᴴ from her, so the chance is 1/2.
-**67.** (c) — collenchyma is living, with pectocellulose thickening at the corners, giving flexible support. Sclerenchyma is dead and lignified.
+**67.** (c) — the vascular cambium cuts secondary xylem (wood) inward; the cork cambium makes cork.
 **68.** (d) — *Dracaena* and *Yucca* have amphivasal (leptocentric) bundles. Fern rhizomes have amphicribral bundles; *Cucurbita* has bicollateral bundles.
 **69.** (b) — a ring of conjoint, collateral, open bundles with endarch xylem and a starch sheath is a dicot stem. Roots have radial bundles with exarch xylem.
 **70.** (a) — DPD = OP − TP = 12 − 4 = 8 atm.

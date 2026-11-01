@@ -34,8 +34,8 @@
    (a) +5.71 kJ mol⁻¹ (b) −2.48 kJ mol⁻¹ (c) −57.1 kJ mol⁻¹ (d) −5.71 kJ mol⁻¹
 97. In the nuclear reaction ²⁷₁₃Al + ¹₀n → X + ⁴₂He, the product X is
    (a) ²⁴₁₂Mg (b) ²⁸₁₃Al (c) ²³₁₁Na (d) ²⁴₁₁Na
-98. Which isotope of hydrogen is radioactive?
-   (a) Protium (b) Tritium (c) Deuterium (d) None of them
+98. The hydrogen isotope whose nucleus has one proton and one neutron is
+   (a) protium (b) deuterium (c) tritium (d) positronium
 99. Ammonia gas is dried by passing it over
    (a) quicklime (CaO) (b) concentrated H₂SO₄ (c) anhydrous CaCl₂ (d) phosphorus pentoxide
 100. Which reaction does NOT take place?
@@ -119,7 +119,7 @@
 **95.** (b) — E°cell = E°cathode − E°anode = 0.80 − (−2.37) = 3.17 V. E° is intensive, so it is not doubled for 2Ag⁺.
 **96.** (d) — ΔG° = −2.303RT log K = −2.303 × 8.314 × 298 × 1 ≈ −5705 J ≈ −5.71 kJ mol⁻¹; K > 1 means ΔG° < 0.
 **97.** (d) — Mass number: 27 + 1 − 4 = 24; atomic number: 13 + 0 − 2 = 11, which is sodium-24.
-**98.** (b) — Tritium, ³₁H (one proton, two neutrons), is a β⁻ emitter with t½ ≈ 12.3 years; protium and deuterium are stable.
+**98.** (b) — deuterium, ²₁H (D), has one neutron; protium has none and tritium has two.
 **99.** (a) — Basic NH₃ reacts with acidic H₂SO₄ and P₂O₅ and forms an adduct (CaCl₂·8NH₃) with CaCl₂; basic CaO absorbs only the water.
 **100.** (d) — Oxidizing power is F₂ > Cl₂ > Br₂ > I₂; a halogen displaces only those below it, so I₂ cannot oxidize Cl⁻.
 **101.** (c) — In graphite each C forms three σ bonds within a layer; the fourth electron is delocalized over the layer and carries charge. Diamond's four sp³ σ bonds leave none free.
@@ -164,8 +164,8 @@
    (a) conservation of angular momentum (b) Bernoulli's principle (c) Newton's law of gravitation (d) conservation of linear momentum
 134. If the linear momentum of a body increases by 20 %, its kinetic energy increases by
    (a) 20 % (b) 40 % (c) 10 % (d) 44 %
-135. A flywheel of moment of inertia 0.5 kg m² rotates at 20 rad s⁻¹. Its rotational kinetic energy is
-   (a) 100 J (b) 200 J (c) 50 J (d) 10 J
+135. A body of moment of inertia 2 kg m² rotates at 3 rad s⁻¹. Its angular momentum is
+   (a) 6 kg m² s⁻¹ (b) 1.5 kg m² s⁻¹ (c) 12 kg m² s⁻¹ (d) 18 kg m² s⁻¹
 136. When a glass capillary tube is dipped in mercury, the mercury level inside the tube
    (a) rises, with a concave meniscus (b) is depressed, with a convex meniscus (c) rises, with a convex meniscus (d) stays at the outside level
 137. Roads are banked at curves mainly so that
@@ -228,8 +228,8 @@
    (a) 0.04 N (b) 0.4 N (c) 1.2 N (d) 4 N
 166. The electric field near an infinite plane sheet carrying uniform surface charge density σ is
    (a) σ/ε₀, decreasing with distance (b) σ/2ε₀, decreasing as 1/r² (c) σ/2ε₀, independent of distance from the sheet (d) zero
-167. The work done in moving a 2 μC charge between two points on an equipotential surface at 100 V is
-   (a) 200 μJ (b) 50 μJ (c) 2 × 10⁸ J (d) zero
+167. The electric potential at 3 m from a point charge of 2 nC in vacuum is (k = 9 × 10⁹ N m² C⁻²)
+   (a) 18 V (b) 3 V (c) 54 V (d) 6 V
 168. Capacitors of 2 μF and 3 μF are connected in parallel across a 10 V supply. The total energy stored is
    (a) 2.5 × 10⁻⁴ J (b) 1.2 × 10⁻⁴ J (c) 5.0 × 10⁻⁴ J (d) 2.5 × 10⁻² J
 169. An electron enters a uniform electric field moving at right angles to the field. Inside the field its path is
@@ -262,7 +262,7 @@
 **132.** (a) — 72 km h⁻¹ = 20 m s⁻¹; s = (u + v)t/2 = (20 + 0) × 4/2 = 40 m (a = 5 m s⁻²).
 **133.** (d) — Exhaust gas gets backward momentum and the rocket an equal forward momentum, so total momentum stays zero (Newton's third law).
 **134.** (d) — K = p²/2m, so K ∝ p²: (1.2)² = 1.44, an increase of 44 %.
-**135.** (a) — K = ½Iω² = 0.5 × 0.5 × 20² = 100 J.
+**135.** (a) — L = Iω = 2 × 3 = 6 kg m² s⁻¹.
 **136.** (b) — Mercury–glass angle of contact is obtuse (about 140°), so cos θ < 0 and h = 2T cos θ/rρg is negative: the level falls.
 **137.** (a) — On a banked road N sin θ supplies mv²/r, so a car can turn at the design speed tan θ = v²/rg without relying on friction.
 **138.** (d) — a = −ω²x, so |a| is greatest (ω²A) where |x| = A, while the speed is zero there.
@@ -294,7 +294,7 @@
 **164.** (a) — A changing current in the primary changes the flux linked with the secondary, inducing an emf there. It therefore cannot step up steady DC.
 **165.** (b) — F = 9 × 10⁹ × (1 × 10⁻⁶)(4 × 10⁻⁶)/(0.3)² = 0.036/0.09 = 0.4 N, repulsive.
 **166.** (c) — By Gauss's law, a cylinder through the sheet encloses σA with flux 2EA, so E = σ/2ε₀ at every distance.
-**167.** (d) — W = qΔV and ΔV = 0 between points of equal potential; the field is everywhere perpendicular to the surface.
+**167.** (d) — V = kq/r = 9 × 10⁹ × 2 × 10⁻⁹ / 3 = 6 V.
 **168.** (a) — Parallel: C = 5 μF; U = ½CV² = 0.5 × 5 × 10⁻⁶ × 100 = 2.5 × 10⁻⁴ J. (1.2 × 10⁻⁴ J is the series value.)
 **169.** (b) — The force eE is constant and perpendicular to the initial velocity, like gravity on a horizontal projectile. A magnetic field would give a circle.
 **170.** (c) — ν₀ = φ/h = 3.3 × 1.6 × 10⁻¹⁹/6.6 × 10⁻³⁴ = 8.0 × 10¹⁴ Hz; lower frequencies eject no electrons however intense.
