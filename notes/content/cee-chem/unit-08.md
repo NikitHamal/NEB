@@ -280,6 +280,10 @@ calculation. Twenty millilitres of 0.1 N acid neutralises exactly twenty millili
 0.1 N base, whatever the acid and whatever the base, because "equivalent" already means
 "capable of reacting with one mole of the other partner".
 
+```photo id="chem12/volflask" caption="A 500 cm³ volumetric flask: the single mark on the narrow neck is the volume it is calibrated to contain." width="32"
+```
+
+
 ::: example Acid against base, by both routes
 **Problem.** 25.0 mL of 0.100 M Na₂CO₃ is titrated with 0.200 M HCl to the methyl orange
 end point. Find the volume of acid used.

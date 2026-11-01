@@ -35,6 +35,12 @@ of the two displacements. The waves pass through one another and separate again
 unchanged. What we see on a screen is not the displacement but the **intensity**,
 which is proportional to the square of the resultant amplitude:
 
+```photo id="cee-phy/ripple-interference" caption="Two-source interference in a ripple tank. The bright curved bands are lines of constructive interference (antinodal lines) and the darker gaps between them are destructive interference - the water-wave version of Young's double-slit fringes." width="72"
+call 0.22 0.92 0.30 0.68 "Antinodal line: crests meet crests"
+call 0.84 0.92 0.66 0.56 "Nodal line: calm water"
+```
+
+
 $$ I = I_1 + I_2 + 2\sqrt{I_1I_2}\cos\phi $$
 
 where $I_1$ and $I_2$ are the intensities the waves would have separately and $\phi$
@@ -50,6 +56,12 @@ For two **equal** sources, $I_1 = I_2 = I_0$: the maximum is $4I_0$ (not $2I_0$ 
 amplitudes add, and $2^2 = 4$) and the minimum is exactly zero. Energy is not
 destroyed; it is redistributed from the dark fringes into the bright ones, and the
 average intensity over the pattern is still $2I_0$.
+
+```photo id="cee-phy/newtons-rings" caption="Newton's rings in monochromatic light: concentric bright and dark fringes formed by interference between light reflected at the curved lens surface and the flat plate beneath it. The rings crowd together towards the edge because the air film thickens faster there." width="62"
+call 0.74 0.08 0.50 0.50 "Centre: point of contact"
+call 0.22 0.92 0.30 0.78 "Fringes crowd outward"
+```
+
 
 ::: caution Adding intensities is wrong
 Two identical lamps lighting a wall give $2I$. Two *coherent* beams of the same

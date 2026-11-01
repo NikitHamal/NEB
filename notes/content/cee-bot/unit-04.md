@@ -34,6 +34,10 @@ Bryophytes are small, non-vascular land plants of moist, shady places — the
 **amphibians of the plant kingdom**, because they live on land but need water
 for fertilisation. Their study is bryology.
 
+```photo id="bio11/funaria" caption="*Funaria hygrometrica* growing on soil. The small green leafy gametophyte is the plant you see; each slender yellow seta lifts a capsule, the sporophyte, which stays attached to the gametophyte." width="82"
+```
+
+
 - The plant body is the **gametophyte (n)** — thalloid or leafy, attached by
   **rhizoids**; there are no true roots, stems, leaves, xylem or phloem.
 - Sex organs are **multicellular and jacketed**: the **antheridium** makes
@@ -67,6 +71,13 @@ together colonise bare rock in succession.
 
 *Marchantia* (*M. polymorpha*) is a liverwort of wet soil, rocks near streams
 and old walls, common in Nepal's hills in the monsoon.
+
+```photo id="cee-bot/marchantia" caption="Thallus of the liverwort *Marchantia polymorpha*, the gametophyte. The cup-shaped gemma cups hold green gemmae that splash out in rain and grow into new plants - asexual reproduction." width="76"
+call 0.20 0.92 0.35 0.62 "Gemma cup"
+call 0.80 0.12 0.68 0.46 "Gemma cup (cut open)"
+call 0.40 0.08 0.50 0.28 "Dorsal thallus; pale dots are air pores"
+```
+
 
 - **Thallus**: flat, green, **dorsiventral**, **dichotomously branched**, with a
   midrib and a notch (growing point) at each tip.

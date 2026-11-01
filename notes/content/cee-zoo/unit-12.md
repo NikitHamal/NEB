@@ -32,6 +32,10 @@ means that infection or its toxins/immune consequences damage function enough
 to cause signs and symptoms. Infection can therefore be asymptomatic, latent
 or carried transmissibly without present illness.
 
+```photo id="bio12/hiv-virion" caption="Structure of the HIV virion. The gp120–gp41 spike binds CD4; reverse transcriptase copies the viral RNA into DNA, which integrase then inserts into the host chromosome." width="68"
+```
+
+
 | Agent group | Organisation | Chapter examples | Main attack principle |
 |---|---|---|---|
 | Bacteria | prokaryotic cells, 70S ribosomes, cell wall | typhoid, TB, cholera | antibiotics can exploit bacterial structures/processes |
@@ -63,6 +67,19 @@ counterstain—hence **acid-fast bacilli (AFB)**. The wall also contributes to
 slow growth and survival inside macrophages. BCG is live attenuated
 *Mycobacterium bovis*, especially useful against severe childhood forms such
 as miliary TB and TB meningitis; protection against adult pulmonary TB varies.
+
+```photo id="bio12/afb-sputum" caption="Sputum smear stained by the Ziehl–Neelsen method. Every red rod is an acid-fast bacillus; everything that is not a mycobacterium has been decolourised and has taken only the blue counterstain." width="96"
+crop 0.05 0.22 0.78 0.98
+mark 0.527 0.522 "1"
+mark 0.651 0.678 "2"
+mark 0.534 0.362 "3"
+mark 0.151 0.289 "4"
+key 1 A single acid-fast bacillus — a slender, slightly curved red rod a few micrometres long
+key 2 A second bacillus well away from the first; the bacilli are scattered right across the field, and the laboratory grades the smear (1+, 2+, 3+) by counting how many appear per field
+key 3 A clump of pus cells and mucus, stained blue — these are not acid-fast, so the acid–alcohol washed the carbol fuchsin straight out of them
+key 4 A third bacillus, here against the pale background of the rest of the sputum; only the mycobacteria have held the red dye
+```
+
 
 **Typhoid carriage.** *Salmonella* Typhi is adapted to humans. After recovery,
 some people continue to harbour bacteria in the gall bladder and shed them in

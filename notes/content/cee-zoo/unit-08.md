@@ -99,94 +99,17 @@ low pressure, which is what allows reabsorption.
 
 ### The kidney in section
 
-```figure caption="The urinary system. Each kidney drains through a ureter into the bladder; the urethra carries urine out. The hilum, where vessels and ureter meet the kidney, faces the midline."
-import numpy as np
-from matplotlib.patches import Ellipse, Circle, Polygon
-fig, ax = plt.subplots(figsize=(4.9, 3.3))
-ax.set_xlim(0, 12); ax.set_ylim(0, 8.2); ax.set_aspect("equal"); ax.axis("off")
-
-def bean(cx, cy, a, b):
-    t = np.linspace(0, 2*np.pi, 400)
-    x = cx + a*np.cos(t) - 0.52*a*np.exp(-(np.sin(t)**2)/0.05)
-    y = cy + b*np.sin(t)
-    return x, y
-
-x, y = bean(3.0, 5.6, 1.25, 1.62)
-ax.fill(x, y, color="#b8434f", lw=0, zorder=3)
-ax.fill(12 - x, y, color="#b8434f", lw=0, zorder=3)
-
-def bez(p0, p1, p2, n=80):
-    t = np.linspace(0, 1, n)[:, None]
-    return ((1-t)**2*np.array(p0) + 2*(1-t)*t*np.array(p1)
-            + t**2*np.array(p2))
-
-u = bez((3.75, 5.1), (4.45, 3.55), (5.35, 2.75))
-ax.plot(u[:, 0], u[:, 1], color=MUTED, lw=2.0, zorder=4)
-ax.plot(12 - u[:, 0], u[:, 1], color=MUTED, lw=2.0, zorder=4)
-ax.add_patch(Ellipse((6, 2.15), 2.45, 1.55, fc="#e7c39a", ec="#a9773f", lw=1.3, zorder=4))
-ax.add_patch(Polygon([[5.55, 1.55], [6.45, 1.55], [6.3, 0.95], [5.7, 0.95]],
-                     closed=True, fc="#e7c39a", ec="#a9773f", lw=1.2, zorder=4))
-ax.plot([6.0, 6.0], [0.95, 0.35], color=MUTED, lw=2.0, zorder=4)
-
-fs = 7.6
-def lab(t, xy, xyt, ha="left"):
-    ax.annotate(t, xy=xy, xytext=xyt, fontsize=fs, color=INK, ha=ha,
-                va="center", zorder=9,
-                arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7,
-                                shrinkA=2, shrinkB=2))
-
-lab("kidney", (2.55, 6.55), (0.15, 7.65))
-lab("ureter", (4.55, 3.75), (0.15, 3.15))
-lab("urinary\nbladder", (6.85, 1.95), (8.55, 1.15))
-lab("urethra", (6.05, 0.55), (7.45, 0.35))
-ax.text(6.0, 7.55, "the two kidneys lie against the back wall", ha="center",
-        fontsize=7.0, color=MUTED)
+```photo id="bio12/urinary-system" caption="(a) The human urinary system, anterior view: the kidneys make urine, the ureters carry it to the bladder, and the urethra discharges it." width="52"
 ```
 
-```figure caption="Longitudinal section of the kidney. The cortex caps the medulla and dips between the pyramids as the renal columns. Each pyramid ends in a papilla that opens into a minor calyx; the calyces join to form the pelvis, which continues as the ureter."
-import numpy as np
-from matplotlib.patches import Polygon
-fig, ax = plt.subplots(figsize=(5.0, 3.4))
-ax.set_xlim(0, 13); ax.set_ylim(0, 8); ax.set_aspect("equal"); ax.axis("off")
-
-t = np.linspace(0, 2*np.pi, 500)
-cx, cy, a, b = 4.5, 4.0, 2.95, 2.85
-xo = cx + a*np.cos(t) - 0.5*a*np.exp(-(np.sin(t)**2)/0.05)
-yo = cy + b*np.sin(t)
-ax.fill(xo, yo, color="#f0d9d4", ec=INK, lw=1.4, zorder=2)
-
-# medullary pyramids, apex toward the pelvis
-pyramids = [
-    [(2.95, 6.30), (2.45, 5.25), (5.35, 4.72)],
-    [(2.40, 4.32), (2.40, 3.68), (5.35, 4.00)],
-    [(2.50, 2.72), (3.05, 1.75), (5.35, 3.28)],
-]
-for p in pyramids:
-    ax.add_patch(Polygon(p, closed=True, fc="#c97b74", ec="none", zorder=3))
-
-# pelvis and calyces
-ax.add_patch(Polygon([[5.35, 4.62], [6.02, 4.0], [5.35, 3.38], [5.52, 4.0]],
-                     closed=True, fc="#efe2b8", ec="#9c8340", lw=1.0, zorder=5))
-for ap in [(5.35, 4.62), (5.35, 4.0), (5.35, 3.38)]:
-    ax.plot([5.52, ap[0]], [4.0, ap[1]], color="#9c8340", lw=2.0, zorder=5)
-ax.plot([6.02, 6.85], [4.0, 3.45], color="#9c8340", lw=3.0,
-        solid_capstyle="round", zorder=5)
-
-fs = 7.4
-def lab(t, xy, xyt, ha="left"):
-    ax.annotate(t, xy=xy, xytext=xyt, fontsize=fs, color=INK, ha=ha,
-                va="center", zorder=9,
-                arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7,
-                                shrinkA=2, shrinkB=2))
-
-lab("capsule", (2.95, 6.55), (0.15, 7.55))
-lab("cortex", (2.55, 5.65), (0.15, 6.05))
-lab("medulla", (2.55, 3.05), (0.15, 2.35))
-lab("renal pyramid", (2.85, 2.10), (1.35, 0.55))
-lab("renal pelvis", (5.75, 4.15), (7.35, 5.15))
-lab("ureter", (6.55, 3.60), (7.75, 2.75))
-ax.text(8.4, 7.35, "renal columns of cortical\ntissue lie between the pyramids",
-        fontsize=7.0, color=MUTED, va="center", linespacing=1.35)
+```photo id="bio12/kidney-gray" caption="Longitudinal section of a kidney (Gray's Anatomy). The cortex is the outer band; the medulla is everything inside it, built of pyramids whose tips (papillae) open into the renal pelvis, which drains to the ureter." width="62"
+key 1 Adrenal (suprarenal) gland
+key 2 Renal pyramid
+key 3 Renal hilum
+key 4 Renal papilla
+key 5 Renal pelvis
+key 6 Renal cortex
+key 7 Ureter
 ```
 
 | Region | Contents | Job |
@@ -206,57 +129,19 @@ holds about **one million**. There are two kinds. **Cortical nephrons** (about
 loops** running deep into it; only they can build the steep gradient needed for
 concentrated urine.
 
-```figure caption="A juxtamedullary nephron with its blood supply. The filtrate passes Bowman's capsule → PCT → descending limb → loop → ascending limb → DCT → collecting duct. The peritubular capillaries absorb what is reabsorbed in the cortex; the vasa recta (dashed) run beside the loop in the medulla."
-import numpy as np
-from matplotlib.patches import Circle
-fig, ax = plt.subplots(figsize=(5.0, 3.9))
-ax.set_xlim(0, 10.6); ax.set_ylim(0, 9); ax.set_aspect("equal"); ax.axis("off")
-ax.axhspan(0, 4.55, color="#f6f1e9", zorder=0)
-ax.plot([0, 10.6], [4.55, 4.55], color=GRID, lw=1.0, zorder=1)
-ax.text(9.9, 4.85, "cortex", ha="right", fontsize=7.0, color=MUTED)
-ax.text(9.9, 0.35, "medulla", ha="right", fontsize=7.0, color=MUTED)
-
-TUB = "#cf8f8a"
-ax.add_patch(Circle((1.55, 7.25), 0.82, fc="#f7e7e5", ec=TUB, lw=3.0, zorder=3))
-ax.add_patch(Circle((1.55, 7.25), 0.44, fc="#c0605c", ec="none", zorder=4))
-
-xs = np.linspace(2.37, 3.62, 90)
-ys = 7.25 - 0.22*np.sin((xs - 2.37)*11.0)
-ax.plot(xs, ys, color=TUB, lw=5.0, solid_capstyle="round", zorder=3)
-
-ax.plot([3.62, 3.62], [7.05, 1.55], color=TUB, lw=5.0, solid_capstyle="round", zorder=3)
-th = np.linspace(np.pi, 2*np.pi, 60)
-ax.plot(4.07 + 0.45*np.cos(th), 1.55 + 0.45*np.sin(th), color=TUB, lw=5.0,
-        solid_capstyle="round", zorder=3)
-ax.plot([4.52, 4.52], [1.55, 5.15], color=TUB, lw=5.0, solid_capstyle="round", zorder=3)
-
-xs2 = np.linspace(4.52, 5.85, 90)
-ys2 = 5.15 + 0.28*np.sin((xs2 - 4.52)*9.0)
-ax.plot(xs2, ys2, color=TUB, lw=5.0, solid_capstyle="round", zorder=3)
-ax.plot([5.85, 6.20], [5.35, 0.55], color=TUB, lw=5.0, solid_capstyle="round", zorder=3)
-
-# vasa recta
-vr = np.array([[3.95, 4.55], [3.95, 1.05], [4.20, 1.05], [4.20, 4.55]])
-ax.plot(vr[:, 0], vr[:, 1], color="#a33a3a", lw=1.3, ls=(0, (3, 2)), zorder=5)
-# peritubular capillary
-ax.plot([2.45, 3.35], [8.15, 8.05], color="#a33a3a", lw=1.3, ls=(0, (3, 2)), zorder=5)
-ax.plot([4.75, 5.65], [6.35, 6.55], color="#a33a3a", lw=1.3, ls=(0, (3, 2)), zorder=5)
-
-fs = 7.3
-def lab(t, xy, xyt, ha="left"):
-    ax.annotate(t, xy=xy, xytext=xyt, fontsize=fs, color=INK, ha=ha,
-                va="center", zorder=9,
-                arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7,
-                                shrinkA=2, shrinkB=2))
-
-lab("Bowman's\ncapsule", (0.95, 7.75), (0.0, 8.55))
-lab("glomerulus", (1.40, 7.10), (0.0, 6.15))
-lab("proximal convoluted\ntubule (PCT)", (3.05, 7.55), (2.30, 8.65))
-lab("descending limb", (3.60, 3.20), (0.55, 3.30))
-lab("ascending limb", (4.55, 3.20), (5.95, 3.35))
-lab("distal convoluted\ntubule (DCT)", (5.25, 5.50), (6.35, 7.60))
-lab("collecting duct", (6.08, 3.60), (7.90, 4.05))
-lab("peritubular capillaries\nand vasa recta (dashed)", (4.15, 1.30), (5.55, 0.95))
+```photo id="bio12/nephron-numbered" caption="Parts of a nephron and its blood supply. The drawn figure that follows adds the osmolarity gradient of the medulla." width="64"
+key 1 Interlobular artery
+key 2 Afferent arteriole
+key 3 Juxtaglomerular apparatus
+key 4 Renal corpuscle
+key 5 Glomerulus
+key 6 Bowman's capsule
+key 7 Efferent arteriole
+key 8 Proximal convoluted tubule
+key 9 Loop of Henle
+key 10 Distal convoluted tubule
+key 11 Connecting tubule leading to the collecting duct
+key 12 Interlobular vein
 ```
 
 | Segment | Epithelium | Main job |
@@ -382,53 +267,24 @@ mechanism has four steps:
    permeabilities**, the gradient is multiplied along the length of the loop.
 
 ```figure caption="The counter-current multiplier. The descending limb loses water, so the filtrate becomes concentrated; the ascending limb pumps out NaCl but cannot lose water, so the filtrate becomes dilute. The interstitial fluid is graded from 300 to 1200 mOsm L⁻¹, and the vasa recta remove water without removing the salt."
-import numpy as np
-from matplotlib.patches import Polygon, FancyArrowPatch
-fig, ax = plt.subplots(figsize=(4.7, 3.6))
-ax.set_xlim(0, 10); ax.set_ylim(0, 8.4); ax.axis("off")
-
-levels = [(7.0, 7.6, "300", 0.12), (5.7, 7.0, "400", 0.22),
-          (4.4, 5.7, "600", 0.36), (3.1, 4.4, "900", 0.52),
-          (1.0, 3.1, "1200", 0.70)]
-for y0, y1, txt, al in levels:
-    ax.add_patch(Polygon([[0.35, y0], [1.55, y0], [1.55, y1], [0.35, y1]],
-                         closed=True, fc="#8a6fae", ec="white", lw=0.8, alpha=al))
-    ax.text(0.95, (y0 + y1)/2, txt, ha="center", va="center", fontsize=7.4,
-            color=INK)
-ax.text(0.95, 8.05, "interstitium\n(mOsm L⁻¹)", ha="center", va="center",
-        fontsize=7.2, color=MUTED, linespacing=1.3)
-
-# limbs
-ax.plot([4.0, 4.0], [7.6, 1.35], color="#cf8f8a", lw=9, solid_capstyle="butt", zorder=3)
-ax.plot([5.7, 5.7], [7.6, 1.35], color="#cf8f8a", lw=9, solid_capstyle="butt", zorder=3)
-th = np.linspace(np.pi, 2*np.pi, 80)
-ax.plot(4.85 + 0.85*np.cos(th), 1.35 + 0.85*np.sin(th), color="#cf8f8a", lw=9,
-        solid_capstyle="butt", zorder=3)
-
-ax.text(4.0, 7.95, "descending", ha="center", fontsize=7.4, color=INK)
-ax.text(5.7, 7.95, "ascending", ha="center", fontsize=7.4, color=INK)
-ax.text(4.0, 6.95, "300", ha="center", fontsize=7.2, color="white", zorder=5)
-ax.text(4.0, 1.75, "1200", ha="center", fontsize=7.2, color="white", zorder=5)
-ax.text(5.7, 6.95, "100", ha="center", fontsize=7.2, color="white", zorder=5)
-
-for y in (5.6, 4.3, 3.0):
-    ax.annotate("", xy=(3.55, y), xytext=(3.95, y),
-                arrowprops=dict(arrowstyle="-|>", color="#1d6fb8", lw=1.2))
-for y in (2.6, 4.0, 5.4):
-    ax.annotate("", xy=(6.15, y), xytext=(5.75, y),
-                arrowprops=dict(arrowstyle="-|>", color="#b8434f", lw=1.2))
-
-ax.text(3.45, 6.35, "H₂O", ha="right", fontsize=7.2, color="#1d6fb8")
-ax.text(6.25, 6.35, "NaCl", ha="left", fontsize=7.2, color="#b8434f")
-ax.annotate("water leaves:\nfiltrate concentrates", xy=(3.62, 4.9),
-            xytext=(2.25, 2.35), fontsize=7.0, color=INK, ha="left",
-            va="center", linespacing=1.35,
-            arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7))
-ax.annotate("salt pumped out,\nwater cannot follow", xy=(6.05, 3.3),
-            xytext=(7.05, 2.35), fontsize=7.0, color=INK, ha="left",
-            va="center", linespacing=1.35,
-            arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.7))
-ax.text(4.85, 0.55, "loop of Henle", ha="center", fontsize=7.2, color=MUTED)
+fig, ax = plt.subplots(figsize=(6.4, 4.8)); ax.set_xlim(0, 12); ax.set_ylim(0, 10); ax.axis("off")
+grad = np.linspace(0, 1, 256).reshape(-1, 1)
+ax.imshow(grad, extent=[4.1, 7.9, 0.9, 9.0], origin="upper", cmap=matplotlib.colors.LinearSegmentedColormap.from_list("m", ["#efeaf6", "#a995c9"]), aspect="auto", zorder=0)
+for v, yy in ((300, 8.6), (600, 6.6), (900, 4.4), (1200, 2.2)):
+    ax.text(3.9, yy, str(v), ha="right", va="center", fontsize=8.4, color="#5a4a82"); ax.plot([3.95, 4.1], [yy, yy], color="#5a4a82", lw=0.8)
+ax.text(3.9, 9.5, "interstitial fluid\n(mOsm per litre)", ha="right", va="center", fontsize=7.8, color="#5a4a82")
+TUBE = "#c98b87"
+ax.plot([5.2, 5.2], [9.0, 2.2], color=TUBE, lw=10, solid_capstyle="butt", zorder=2); ax.plot([6.8, 6.8], [9.0, 2.2], color=TUBE, lw=10, solid_capstyle="butt", zorder=2)
+t = np.linspace(np.pi, 2 * np.pi, 60); ax.plot(6.0 + 0.8 * np.cos(t), 2.2 + 0.8 * np.sin(t), color=TUBE, lw=10, zorder=2)
+for yy in (7.8, 6.2, 4.6, 3.3): ax.annotate("", xy=(4.4, yy), xytext=(4.95, yy), arrowprops=dict(arrowstyle="-|>", color="#1d6fb8", lw=1.5, mutation_scale=9), zorder=4)
+for yy in (7.8, 6.2, 4.6, 3.3): ax.annotate("", xy=(7.65, yy), xytext=(7.05, yy), arrowprops=dict(arrowstyle="-|>", color="#c0392b", lw=1.5, mutation_scale=9), zorder=4)
+ax.annotate("", xy=(5.2, 8.7), xytext=(5.2, 9.7), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.2)); ax.text(5.2, 9.9, "from PCT", ha="center", fontsize=8.2)
+ax.annotate("", xy=(6.8, 9.7), xytext=(6.8, 8.7), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.2)); ax.text(6.8, 9.9, "to DCT", ha="center", fontsize=8.2)
+ax.text(0.1, 5.6, "DESCENDING LIMB", fontsize=8.4, fontweight="bold", va="center"); ax.text(0.1, 5.05, "permeable to water,\nnot to salt: water leaves,\nfiltrate becomes\nconcentrated", fontsize=8, va="top", color="#1d6fb8")
+ax.plot([2.65, 4.9], [5.6, 5.6], color="#7a8494", lw=0.8)
+ax.text(11.9, 5.6, "ASCENDING LIMB", fontsize=8.4, fontweight="bold", va="center", ha="right"); ax.text(11.9, 5.05, "thick part pumps out\nNa\u207a, K\u207a, Cl\u207b; water\ncannot follow, so the\nfiltrate gets dilute", fontsize=8, va="top", ha="right", color="#c0392b")
+ax.plot([9.35, 7.1], [5.6, 5.6], color="#7a8494", lw=0.8)
+ax.text(6.0, 0.35, "loop of Henle (in the medulla)", ha="center", fontsize=8.6, fontweight="bold")
 ```
 
 | Level | Interstitial osmolarity | Filtrate in the loop |

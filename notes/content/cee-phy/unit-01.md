@@ -33,6 +33,10 @@ A **physical quantity** is anything that can be measured; it is written as a
 number times a unit. The SI system has seven **base (fundamental) quantities**;
 every other quantity is **derived** from them.
 
+```photo id="phy11/vernier" caption="A vernier calliper. The jaws on the left grip the object; the sliding vernier scale beside the fixed main scale gives the fractional millimetre." width="80"
+```
+
+
 | Base quantity | SI unit | Symbol | Dimension |
 |---|---|---|---|
 | Length | metre | m | [L] |
@@ -68,6 +72,10 @@ For readings $a_1, a_2, \dots, a_n$ with mean $\bar a$: the **absolute error** o
 reading is $|\bar a - a_i|$; the **mean absolute error** $\Delta a$ is the mean of
 these; **relative error** $= \Delta a/\bar a$; **percentage error**
 $= (\Delta a/\bar a)\times 100\,\%$.
+
+```photo id="phy11/micrometer" caption="A micrometer screw gauge. The object is held between the anvil and the spindle; the thimble (circular scale) is turned until the ratchet clicks." width="70"
+```
+
 
 **Least count** (the smallest reading an instrument can make):
 vernier calliper LC = 1 MSD − 1 VSD $=$ (value of 1 MSD)/(number of vernier

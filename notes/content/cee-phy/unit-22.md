@@ -284,6 +284,10 @@ The **Big Bang theory** says that the universe was once far hotter and denser th
 is now, and that it has been expanding and cooling ever since. It is supported by
 three independent observations.
 
+```photo id="phy11/hudf" caption="The Hubble Ultra Deep Field: almost every smear and speck in this small patch of sky is an entire galaxy, each receding from us." width="60"
+```
+
+
 1. **The expansion.** Distant galaxies recede from us, and the farther one is, the
    faster it recedes.
 2. **The cosmic microwave background (CMB).** A faint radiation fills all of space,
@@ -301,6 +305,10 @@ the seeds from which galaxies grew.
 ### 22.3.2 Redshift
 
 Light from a receding source is stretched to longer wavelengths. The **redshift** is
+
+```photo id="phy11/cmb" caption="The cosmic microwave background as mapped by ESA's Planck satellite. Blue and red patches differ by only about one part in 100 000 in temperature; they are the seeds of today's galaxies." width="75"
+```
+
 
 $$ z=\frac{\lambda_{obs}-\lambda_{emit}}{\lambda_{emit}} $$
 

@@ -147,6 +147,10 @@ about **1450 °C**, emerging as marble-sized **clinker**. Its strength minerals 
 aluminate (C₃A, rapid early reaction/heat) and ferrite (C₄AF). The clinker is ground with
 about 3–5% **gypsum**, which retards the otherwise flash-setting hydration of C₃A.
 
+```photo id="chem12/kiln" caption="The rotary kiln of a cement works: a long steel cylinder, slightly inclined, that turns slowly while the charge moves down through the hot zone." width="75"
+```
+
+
 Ordinary Portland cement (OPC) is essentially clinker + gypsum. Portland pozzolana cement
 (PPC) intergrinds reactive material such as fly ash; the pozzolan later consumes Ca(OH)₂
 from hydration to make more binding calcium-silicate-hydrate, often improving durability

@@ -33,6 +33,22 @@ travel as electrical impulses along neurons and act within milliseconds.
 Unlike hormones, whose effects may persist for minutes or hours, a nervous
 signal is brief, precisely addressed and quickly switched off.
 
+```photo id="bio12/brain-sagittal" caption="The human brain in longitudinal (sagittal) section. Anterior is to the left." width="66"
+mark 0.28 0.91 "1"
+mark 0.53 0.79 "2"
+mark 0.49 0.63 "3"
+mark 0.50 0.50 "4"
+mark 0.70 0.52 "5"
+mark 0.56 0.275 "6"
+key 1 Cerebrum — the folded cerebral cortex
+key 2 Corpus callosum — the band of fibres joining the two hemispheres
+key 3 Thalamus and hypothalamus
+key 4 Midbrain and pons
+key 5 Cerebellum
+key 6 Medulla oblongata, continuing as the spinal cord
+```
+
+
 ### The neuron: the signalling cell
 
 A **neuron** is the structural and functional unit of the nervous system. Its
@@ -222,6 +238,18 @@ An unstimulated axon maintains a **resting membrane potential** of about
 the inside negative. Large intracellular anions that cannot cross the membrane
 also contribute.
 
+```photo id="bio12/neuron-smear" caption="A motor neuron from the spinal cord (smear, ×400). The large cell body holds a prominent nucleus and gives off several branching dendrites; the small dark nuclei around it belong to neuroglial cells. The impulse always travels dendrite → cell body → axon → synaptic knob." width="84"
+mark 0.38 0.70 "1"
+mark 0.45 0.55 "2"
+mark 0.11 0.58 "3"
+mark 0.68 0.65 "4"
+key 1 Cell body (cyton)
+key 2 Nucleus with its dark nucleolus
+key 3 Dendrite
+key 4 Nucleus of a neuroglial cell
+```
+
+
 When a stimulus depolarises the membrane to threshold, roughly **−55 mV**,
 voltage-gated Na⁺ channels open regeneratively. Na⁺ rushes in and the inside
 becomes positive, peaking around +30 to +40 mV. This is
@@ -366,46 +394,37 @@ canal of Schlemm. Blocked drainage can raise intraocular pressure in
 **glaucoma**. The jelly-like **vitreous humour** fills the posterior cavity
 and helps maintain shape.
 
-```figure caption="Horizontal section through the human eye. Light passes through cornea, aqueous humour, pupil, lens and vitreous humour before reaching the retina."
-from matplotlib.patches import Circle, Ellipse, Polygon
-fig, ax = plt.subplots(figsize=(5.2, 3.5))
-# eyeball and front structures
-ax.add_patch(Circle((4.8,0),2.55,fc='#fff7e8',ec='#6b4f3a',lw=1.4,zorder=1))
-th=np.linspace(np.deg2rad(-115),np.deg2rad(115),250)
-ax.plot(4.8+2.35*np.cos(th),2.35*np.sin(th),color='#e58a3c',lw=4.0,zorder=2)
-ax.add_patch(Circle((2.55,0),1.02,fc='#cfe8f7',ec='#2f7da7',lw=1.2,alpha=0.72,zorder=3))
-ax.plot([3.02,3.02],[0.48,1.45],color='#5a3d99',lw=5,solid_capstyle='butt',zorder=5)
-ax.plot([3.02,3.02],[-1.45,-0.48],color='#5a3d99',lw=5,solid_capstyle='butt',zorder=5)
-ax.add_patch(Ellipse((3.52,0),0.62,1.55,fc='#d8ecff',ec='#2f6da3',lw=1.2,zorder=6))
-for sy in (1,-1):
-    ax.add_patch(Polygon([(2.92,sy*1.35),(3.18,sy*1.58),(3.38,sy*1.30)],closed=True,
-                         fc='#90785e',ec='#6b5138',lw=0.8,zorder=5))
-    ax.plot([3.25,3.48],[sy*1.34,sy*0.73],color=MUTED,lw=0.8,zorder=5)
-# optic nerve and retinal landmarks
-ax.add_patch(Polygon([(6.75,-0.98),(9.25,-1.10),(9.25,-0.42),(6.80,-0.35)],closed=True,
-                     fc='#f0c9c2',ec='#a8625a',lw=1.0,zorder=2))
-ax.plot(7.15,0,'o',color='#b3261e',ms=4,zorder=8)
-ax.plot(7.03,-0.73,'o',color=INK,ms=4,zorder=8)
-# schematic light rays
-fovea=(7.12,0.02)
-for y0,yl in [(0.85,0.35),(0,0),(-0.85,-0.35)]:
-    ax.plot([-0.25,2.15,3.55,fovea[0]],[y0,y0,yl,fovea[1]],color='#d6a419',lw=1.0,zorder=4)
-    ax.annotate('',xy=(6.95,0.02+yl*0.08),xytext=(6.55,yl*0.55),
-                arrowprops=dict(arrowstyle='-|>',color='#d6a419',lw=0.9,mutation_scale=7),zorder=4)
-# labels with separate leader lines
-labels=[('cornea',(1.20,3.02),(1.95,0.92)),('iris',(0.15,2.28),(2.98,1.05)),
-        ('pupil',(0.15,1.47),(2.96,0.02)),('ciliary body',(0.35,-2.28),(3.08,-1.42)),
-        ('lens',(2.75,-3.05),(3.48,-0.72)),('vitreous humour',(5.20,-3.03),(5.18,-1.22)),
-        ('retina',(8.15,2.95),(6.62,1.66)),('fovea',(8.15,2.08),(7.15,0.05)),
-        ('blind spot',(8.15,-1.62),(7.06,-0.74)),('optic nerve',(8.15,-2.42),(8.50,-0.78))]
-for txt,(tx,ty),(px,py) in labels:
-    ha='center' if tx>2.4 else 'left'
-    ax.text(tx,ty,txt,fontsize=6.5,color=INK,ha=ha,va='center',zorder=20)
-    sx=tx+0.115*len(txt) if ha=='left' else tx
-    sy=ty if ha=='left' else ty+(-0.18 if py<ty else 0.18)
-    ax.plot([sx,px],[sy,py],color=MUTED,lw=0.65,zorder=19)
-ax.set_xlim(-0.75,9.65); ax.set_ylim(-3.35,3.35)
-ax.set_aspect('equal'); ax.axis('off')
+```photo id="bio12/eye" caption="Horizontal section of the human eye. Light passes cornea → aqueous humour → pupil → lens → vitreous humour → retina, where it forms a real, inverted, diminished image." width="76"
+key 1 Posterior segment — vitreous humour filling the eyeball
+key 2 Ora serrata — front edge of the retina
+key 3 Ciliary muscle
+key 4 Suspensory ligament (ciliary zonules) of the lens
+key 5 Canal of Schlemm
+key 6 Pupil
+key 7 Anterior chamber — filled with aqueous humour
+key 8 Cornea
+key 9 Iris
+key 10 Lens cortex
+key 11 Lens nucleus
+key 12 Ciliary process
+key 13 Conjunctiva
+key 14 Inferior oblique muscle
+key 15 Inferior rectus muscle
+key 16 Medial rectus muscle
+key 17 Retinal arteries and veins
+key 18 Blind spot (optic disc)
+key 19 Dura mater
+key 20 Central retinal artery
+key 21 Central retinal vein
+key 22 Optic nerve
+key 23 Vorticose vein
+key 24 Sheath around the eyeball
+key 25 Macula
+key 26 Fovea — centre of sharpest vision
+key 27 Sclera
+key 28 Choroid
+key 29 Superior rectus muscle
+key 30 Retina
 ```
 
 ### Focusing and accommodation
@@ -472,6 +491,26 @@ large tympanic membrane is delivered by a lever system to the much smaller
 oval window, increasing pressure roughly twentyfold. The stapes moves the oval
 window; pressure waves travel through perilymph, displace the basilar
 membrane, and are relieved at the round window.
+
+```photo id="bio12/ear" caption="The human ear: outer, middle and inner divisions. The cochlea hears; the semicircular canals and vestibule give balance." width="80"
+mark 0.12 0.555 "1"
+mark 0.33 0.447 "2"
+mark 0.56 0.40 "3"
+mark 0.555 0.54 "4"
+mark 0.68 0.60 "5"
+mark 0.77 0.44 "6"
+mark 0.90 0.52 "7"
+mark 0.77 0.24 "8"
+key 1 Pinna (auricle) — collects sound
+key 2 External auditory canal
+key 3 Tympanic membrane (eardrum)
+key 4 Ear ossicles — malleus, incus and stapes
+key 5 Semicircular canals — balance
+key 6 Cochlea — hearing
+key 7 Auditory nerve
+key 8 Eustachian tube — to the pharynx, equalises pressure
+```
+
 
 Hair cells of the **organ of Corti**, resting on the basilar membrane, bend
 against the tectorial membrane. This bending opens mechanically gated channels

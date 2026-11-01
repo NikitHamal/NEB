@@ -33,6 +33,17 @@ to act elsewhere. The syllabus names the three great promoters; the
 inhibitor **abscisic acid (ABA)** enters through dormancy, where it
 belongs.
 
+```photo id="bio12/mimosa" caption="*Mimosa pudica* — lajjawati, the touch-me-not. One bipinnate leaf: four pinnae spread from the tip of a single petiole, each carrying leaflets in pairs. Every joint marked below is a pulvinus, and every pulvinus is a place where the leaf can move." width="96"
+crop 0.00 0.30 0.80 1.00
+mark 0.625 0.229 "1"
+mark 0.200 0.714 "2"
+mark 0.300 0.330 "3"
+key 1 Leaflets in opposite pairs along a pinna; on touching, each pair folds upwards and closes like a book
+key 2 A second pinna of the same leaf — the four pinnae fold together towards one another
+key 3 Pulvinus — the swollen joint where the pinnae meet the petiole; its motor cells lose turgor and the whole leaf drops
+```
+
+
 ### Auxins
 
 The principal natural auxin is **indole-3-acetic acid (IAA)**, made from

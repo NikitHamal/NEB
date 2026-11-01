@@ -277,6 +277,10 @@ abundant they are). A major threat mnemonic is **HIPPO**: Habitat loss,
 Invasive species, Pollution, Population/consumption pressure and
 Overexploitation—now all amplified by climate change.
 
+```photo id="bio11/rhino" caption="The greater one-horned rhinoceros, *Rhinoceros unicornis*, a flagship species of Nepal's Terai." width="76"
+```
+
+
 ::: example Measuring evenness with Simpson's index
 A sample contains four species with counts 50, 25, 15 and 10, so $N=100$.
 Simpson's dominance is
@@ -305,6 +309,10 @@ described in current departmental summaries as 13 national parks, one wildlife
 reserve, one hunting reserve and seven conservation areas, in addition to
 buffer zones. Management categories differ:
 
+```photo id="bio11/red-panda" caption="The red panda, *Ailurus fulgens*, a threatened species of the forests of eastern and central Nepal." width="68"
+```
+
+
 | Category | Nepal example | Defining management |
 |---|---|---|
 | National park | Chitwan (first, 1973); Sagarmatha; Bardiya | strict ecosystem protection; resource extraction/hunting prohibited |
@@ -328,6 +336,10 @@ associated lakes, Gosaikunda and associated lakes, Phoksundo Lake, Rara Lake,
 Mai Pokhari and the Lake Cluster of Pokhara Valley. Ramsar designation is a
 commitment to “wise use”, not automatically the same legal category as a
 national park.
+
+```photo id="bio11/tiger" caption="A Bengal tiger in Bardiya National Park." width="76"
+```
+
 
 ### IUCN categories and threatened animals of Nepal
 

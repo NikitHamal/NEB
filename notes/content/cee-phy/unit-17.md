@@ -33,6 +33,10 @@ There are two kinds of electric charge. **Like charges repel, unlike charges
 attract.** A body is charged when it gains or loses electrons; protons do not move
 from one body to another in ordinary charging.
 
+```photo id="phy11/electroscope" caption="A gold-leaf electroscope: the brass disc on top, the rod, and the leaves hanging inside the glass case." width="45"
+```
+
+
 1. **Quantisation.** Every charge is a whole-number multiple of the elementary
    charge: $q = ne$, with $e = 1.6\times10^{-19}$ C. So one coulomb is the charge of
    $1/1.6\times10^{-19} = 6.25\times10^{18}$ electrons. An electron carries $-e$, a

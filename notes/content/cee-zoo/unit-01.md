@@ -186,11 +186,19 @@ hair and the skin muscle (panniculus). Others: the **pelvic girdle and hind-limb
 remnants of python and whale**, the wings of the kiwi and ostrich, the splint
 bones of the horse.
 
+```photo id="bio11/homology" caption="Analogous wings in three vertebrates: a pterodactyl (a reptile), a bat (a mammal) and a bird. The wing of each is built on the same forelimb skeleton, but the flight surface is different: a skin membrane on one long finger, a membrane stretched over four fingers, and feathers." width="50"
+```
+
+
 **Atavism** is the sudden reappearance of an ancestral character: a short tail in
 a newborn, dense body hair, extra nipples, long canines.
 
 **Connecting links** are living or fossil organisms with characters of two
 groups — evidence that one group arose from the other.
+
+```photo id="bio11/haeckel" caption="Comparative embryology: Haeckel's plate of eight vertebrates (fish, salamander, tortoise, chick, hog, calf, rabbit, human) at three stages. In row I the embryos are nearly alike, all with pharyngeal gill slits and a post-anal tail; species characters appear only in rows II and III. Haeckel overstated the similarity of the earliest stage; the lesson is von Baer's law, not recapitulation." width="90"
+```
+
 
 | Connecting link | Between | Characters of the first group | Characters of the second group |
 |---|---|---|---|
@@ -286,6 +294,10 @@ stages like the **embryo** of a fish, not the adult fish. Haeckel's literal
 of evolution in ***Philosophie Zoologique* (1809)**. He also popularised the word
 *biology*.
 
+```photo id="bio11/finches-gould" caption="Beaks of four Galápagos finches (Gould's plate for Darwin): 1 *Geospiza magnirostris*, the large ground finch with a heavy crushing beak; 2 *G. fortis*; 3 *G. parvula*; 4 *Certhidea olivacea*, the warbler finch with a thin probing beak." width="76"
+```
+
+
 1. **Internal vital force** — organisms tend to increase in size.
 2. **Effect of environment and new needs** — a changed environment creates new needs and new habits.
 3. **Use and disuse of organs** — an organ used more grows stronger; one not used weakens and disappears.
@@ -314,6 +326,10 @@ populations grow geometrically, food arithmetically). **Alfred Russel Wallace**,
 working in the Malay Archipelago, reached the same idea; their joint papers were
 read at the Linnean Society in **1858**, and ***On the Origin of Species by Means
 of Natural Selection*** appeared on **24 November 1859**.
+
+```photo id="bio11/biston" caption="Two forms of the peppered moth on one birch trunk: the pale form blends with the lichen-covered bark, while the dark form shows up clearly against it." width="76"
+```
+
 
 | Postulate | Content |
 |---|---|

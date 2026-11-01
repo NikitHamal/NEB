@@ -382,6 +382,10 @@ It is described by the edge lengths a, b, c and the angles α, β, γ between th
 Only **seven crystal systems** are possible, and placing particles at corners, body centres,
 face centres or end-face centres gives **fourteen Bravais lattices** in all (Bravais, 1848).
 
+```photo id="chem11/nacl-cell" caption="A ball-and-stick model of the sodium chloride unit cell: each ion sits at the centre of an octahedron of six ions of the opposite charge (6 : 6 coordination)." width="50"
+```
+
+
 | Crystal system | Edges | Angles | Bravais lattices | Examples |
 |---|---|---|---|---|
 | Cubic | a = b = c | α = β = γ = 90° | 3 (simple, body-centred, face-centred) | NaCl, Cu, diamond, ZnS |
@@ -399,6 +403,10 @@ the least.
 
 A corner particle is shared by 8 unit cells (contributes 1/8), an edge particle by 4 (1/4),
 a face-centre particle by 2 (1/2), and a body-centre particle belongs wholly to its cell.
+
+```photo id="chem11/halite-crystal" caption="A crystal of halite (rock salt, NaCl). Its cube-like faces and cleavage planes reflect the face-centred cubic arrangement of the ions inside." width="60"
+```
+
 
 ```figure caption="The three cubic unit cells. Z is the number of atoms belonging to one cell and CN the coordination number (nearest neighbours of each atom)."
 import numpy as np, matplotlib.pyplot as plt

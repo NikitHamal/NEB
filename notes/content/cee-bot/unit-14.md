@@ -87,6 +87,16 @@ and the embryo sac are the reduced haploid **gametophytes**, kept inside
 it. Angiosperms are **heterosporous**: the anther (microsporangium) makes
 microspores, the ovule (megasporangium) makes megaspores.
 
+```photo id="bio12/anther-lilium" caption="Transverse section of a young tetrasporangiate anther (*Lilium*). Two thecae, each with two microsporangia (pollen sacs), are joined by a central connective carrying the vascular strand; the sacs are packed with developing pollen." width="80"
+mark 0.21 0.74 "1"
+mark 0.51 0.57 "2"
+mark 0.72 0.93 "3"
+key 1 Microsporangium (pollen sac) packed with microspore mother cells / pollen grains
+key 2 Connective with the vascular bundle
+key 3 Anther wall — epidermis, endothecium and middle layers surround the sporogenous tissue; the tapetum is the innermost layer
+```
+
+
 ### The male side — anther to pollen
 
 An anther typically has two lobes, each with two pollen sacs. Its wall

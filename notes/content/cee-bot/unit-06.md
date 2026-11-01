@@ -352,6 +352,11 @@ Sagarmatha, so a day's walk uphill passes the belts of a whole continent. About 
 the land is forest or other wooded land**. Temperature falls by roughly **0.6 °C for
 every 100 m of ascent**, and the monsoon is heaviest in the east.
 
+```photo id="bio11/sal-forest" caption="Tropical Sal (*Shorea robusta*) forest in Chitwan National Park — the dominant vegetation of Nepal below 1000 m." width="92"
+crop 0.02 0.02 0.98 0.99
+```
+
+
 | Belt | Altitude | Climate | Characteristic species |
 |---|---|---|---|
 | **Tropical** | below 1 000 m — Terai, inner Terai, Chitwan, Bardia | hot, monsoon 1 500–2 500 mm, mean above 24 °C | **sal** *Shorea robusta*, **sissoo** *Dalbergia sissoo*, **khair** *Acacia catechu*, **simal** *Bombax ceiba*, tall elephant grass (*Saccharum–Phragmites*) |
@@ -407,6 +412,18 @@ enemies they outgrow the native flora.
 Control is **manual removal before flowering**, **biological control** with host-specific
 insects against *Mikania* and water hyacinth, and above all **keeping the ground covered**
 so invaders cannot establish.
+
+```photo id="bio11/khaptad-patan" caption="A subalpine meadow (*patan*) in Khaptad National Park, with the conifer forest ending on the ridge above it. Meadows like this are grazed by cattle and sheep through the summer and left empty in winter." width="88"
+crop 0.00 0.34 0.56 1.00
+call 0.45 0.88 0.76 0.61 "conifer forest and tree line"
+call 0.30 0.47 0.52 0.27 "open grazing meadow"
+```
+
+
+```photo id="bio11/rhododendron-forest" caption="Temperate oak–rhododendron forest in the Annapurna Conservation Area. *Rhododendron arboreum* (lali gurans), Nepal's national flower, flowers between about 2000 and 3000 m in March and April." width="86"
+crop 0.14 0.00 0.80 1.00
+```
+
 
 ## 6.4 Ecological succession: hydrosere and xerosere; ecological adaptation
 

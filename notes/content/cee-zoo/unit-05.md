@@ -312,77 +312,37 @@ can ask any cell.
 | **Peptidases** (aminopeptidase, dipeptidase) | intestinal brush border | peptides → amino acids | jejunum, ileum | 7.5–8 |
 | **Intestinal lipase** | intestinal mucosa | fats → fatty acids + glycerol | ileum | 7.5–8 |
 
-```figure caption="The alimentary canal with its glands. The tube is drawn as a continuous passage; the numbers are keyed on the right. Note the two ducts that open into the duodenum — the bile duct and the pancreatic duct — and the fact that the colon frames the coiled small intestine."
-import numpy as np
-from matplotlib.patches import Circle, Ellipse
-fig, ax = plt.subplots(figsize=(5.2, 4.6))
-ax.set_xlim(0, 13.6); ax.set_ylim(0, 10.6); ax.set_aspect("equal"); ax.axis("off")
-SM, SME = "#f4cdd0", "#a9555e"     # small intestine
-LG, LGE = "#e8d2ae", "#8a7132"     # large intestine
-GL = "#d8b48c"
-
-def tube(xs, ys, lw=12, c=SM, e=SME, z=3, halo=False):
-    if halo:
-        ax.plot(xs, ys, color="white", lw=lw + 7.0, solid_capstyle="round",
-                solid_joinstyle="round", zorder=z - 1)
-    ax.plot(xs, ys, color=e, lw=lw + 2.4, solid_capstyle="round",
-            solid_joinstyle="round", zorder=z)
-    ax.plot(xs, ys, color=c, lw=lw, solid_capstyle="round",
-            solid_joinstyle="round", zorder=z + 1)
-
-# mouth, oesophagus
-ax.add_patch(Ellipse((2.0, 9.75), 1.30, 0.55, fc=SM, ec=SME, lw=1.3, zorder=4))
-tube([2.0, 2.0], [9.50, 8.40], lw=8)
-# stomach
-ax.add_patch(Ellipse((2.55, 7.35), 1.95, 2.60, angle=-14, fc=SM, ec=SME,
-                     lw=1.3, zorder=4))
-# duodenum
-tube([3.45, 4.55, 5.05, 5.05, 4.60], [6.95, 6.86, 6.35, 5.30, 5.12], lw=9, z=6)
-# jejunum and ileum
-tube([4.60, 4.60, 5.45, 5.45, 3.95, 3.95, 5.45, 5.45, 3.95, 3.95, 5.35],
-     [5.12, 4.95, 4.95, 4.45, 4.45, 3.95, 3.95, 3.45, 3.45, 3.02, 3.02], lw=8)
-# colon, rectum, anal canal
-tube([5.35, 6.15, 6.15, 3.20, 3.20, 3.65], [3.02, 2.80, 5.72, 5.72, 2.85, 2.25],
-     lw=11, c=LG, e=LGE, z=9, halo=True)
-tube([3.65, 3.65], [2.25, 1.05], lw=9, c=LG, e=LGE, z=9, halo=True)
-tube([3.65, 3.65], [1.05, 0.55], lw=6, c=LG, e=LGE, z=9, halo=True)
-# liver
-ax.add_patch(Ellipse((5.55, 8.05), 3.00, 1.50, angle=-6, fc=GL, ec="#8a6642",
-                     lw=1.2, zorder=4))
-ax.text(5.55, 8.05, "LIVER", ha="center", va="center", fontsize=7.4, color=INK,
-        zorder=6)
-# gall bladder
-ax.add_patch(Ellipse((4.55, 7.42), 0.62, 0.86, angle=12, fc="#9ec98a", ec="#4f7a3c",
-                     lw=1.1, zorder=5))
-# pancreas
-ax.add_patch(Ellipse((5.90, 6.58), 2.40, 0.46, angle=-5, fc="#d5dcb0", ec="#6f7d3a",
-                     lw=1.1, zorder=4))
-
-def disc(x, y, n):
-    ax.add_patch(Circle((x, y), 0.29, fc="white", ec=SME, lw=1.0, zorder=10))
-    ax.text(x, y, str(n), ha="center", va="center", fontsize=6.9, color=INK,
-            zorder=11)
-
-disc(2.00, 10.20, 1); disc(1.60, 8.95, 2); disc(2.55, 7.35, 3)
-disc(6.15, 8.35, 4); disc(4.55, 7.48, 5); disc(6.62, 6.58, 6)
-disc(4.28, 6.92, 7); disc(4.70, 4.25, 8); disc(5.75, 2.62, 9)
-disc(6.55, 4.30, 10); disc(3.65, 1.65, 11); disc(4.20, 0.52, 12)
-
-key = ["1  Buccal cavity and salivary glands",
-       "2  Oesophagus: peristalsis only",
-       "3  Stomach: HCl, pepsinogen, chyme",
-       "4  Liver: bile, largest gland (1.5 kg)",
-       "5  Gall bladder: stores bile",
-       "6  Pancreas: amylase, trypsin, lipase",
-       "7  Duodenum: bile + pancreatic juice",
-       "8  Jejunum and ileum: absorption",
-       "9  Caecum and vermiform appendix",
-       "10  Colon: absorbs water and salts",
-       "11  Rectum: stores faeces",
-       "12  Anal canal: egestion"]
-for i, t in enumerate(key):
-    ax.text(7.15, 10.05 - i * 0.82, t, fontsize=7.0, va="center", color=INK)
-ax.plot([6.95, 6.95], [0.15, 10.40], color=GRID, lw=0.9)
+```photo id="bio12/alimentary" caption="The human alimentary canal with its associated glands, anterior view. Numbers 1–11 are the mouth and pharynx region, 12–17 the glands, 18–30 the intestines." width="62"
+key 1 Mouth (oral cavity)
+key 2 Palate
+key 3 Uvula
+key 4 Tongue
+key 5 Teeth
+key 6 Salivary glands (the three pairs are numbered 7–9)
+key 7 Sublingual gland
+key 8 Submandibular gland
+key 9 Parotid gland
+key 10 Pharynx
+key 11 Oesophagus
+key 12 Liver
+key 13 Gall bladder
+key 14 Common bile duct
+key 15 Stomach
+key 16 Pancreas
+key 17 Pancreatic duct
+key 18 Small intestine (19–21 are its three parts)
+key 19 Duodenum
+key 20 Jejunum
+key 21 Ileum
+key 22 Appendix
+key 23 Large intestine (24–29 are its parts)
+key 24 Transverse colon
+key 25 Ascending colon
+key 26 Caecum
+key 27 Descending colon
+key 28 Sigmoid colon
+key 29 Rectum
+key 30 Anus
 ```
 
 ## 5.2 Physiology of digestion and absorption

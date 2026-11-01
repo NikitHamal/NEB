@@ -39,6 +39,10 @@ reducing power: atomic H > nascent [H] > molecular H₂. (Modern chemistry treat
 "nascent" effects as adsorbed hydrogen atoms/electron transfer at the metal surface —
 the exam keeps the classical name and ranking.)
 
+```photo id="chem11/kipp" caption="A glass Kipp's apparatus. Solid sits in the middle bulb, acid is fed from the top reservoir, and the tap at the side draws off the gas." width="40"
+```
+
+
 | Isotope | Nucleus | Abundance/behaviour | Uses |
 |---|---|---|---|
 | Protium ¹H | 1 p | 99.985 % | — |
@@ -228,6 +232,18 @@ soccer-ball cages), **graphene** (a single graphite sheet — Physics Ch. 22), n
 and the amorphous family (coke, charcoal — adsorptive, gas masks; lampblack/carbon black —
 inks, tyres). Whichever the costume, the chemistry (combustion to CO₂ 393.5 kJ per mole
 for graphite) is carbon's.
+
+```photo id="cee-chem/carbon-allotropes" caption="Eight allotropes of carbon. Diamond (a) and lonsdaleite (c) are sp³ networks; graphite (b) is stacked sp² sheets; (d), (e) and (f) are fullerenes; (g) is amorphous carbon; (h) is a single-walled nanotube." width="74"
+key a Diamond - cubic sp3 network, hardest natural substance
+key b Graphite - layers of sp2 hexagons, conducts electricity
+key c Lonsdaleite - hexagonal diamond, found in meteorites
+key d C60 Buckminsterfullerene - 12 pentagons, 20 hexagons
+key e C540 fullerene - a larger cage
+key f C70 fullerene - rugby-ball shaped
+key g Amorphous carbon - no long-range order (soot, charcoal)
+key h Carbon nanotube - a graphene sheet rolled into a tube
+```
+
 
 **Carbon monoxide CO.** Laboratory: dehydrate formic (or oxalic) acid with hot conc.
 H₂SO₄: HCOOH → CO↑ + H₂O. Industrial: **producer gas** (air over red-hot coke: CO + N₂)

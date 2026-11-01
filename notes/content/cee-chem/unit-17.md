@@ -33,6 +33,14 @@ electrons but fights to keep its aromatic sextet.
 Crude oil fractions seldom match market demand or engine design. Refineries therefore
 perform molecular tailoring.
 
+```photo id="cee-chem/fractional-distillation" caption="A laboratory fractional distillation: the flask in a heating bath, a fractionating column to separate liquids of close boiling points, a Liebig condenser with cooling water, and a receiver. The thermometer at the top records the boiling point of the fraction collecting." width="70"
+call 0.15 0.94 0.19 0.70 "Fractionating column"
+call 0.55 0.95 0.55 0.72 "Liebig condenser"
+call 0.14 0.06 0.16 0.14 "Heated bath"
+call 0.78 0.32 0.86 0.14 "Receiver"
+```
+
+
 **Cracking** uses heat and/or a catalyst to split a long-chain hydrocarbon into shorter
 molecules. A representative split is
 

@@ -258,6 +258,10 @@ $\mu_0$ and $\pi$ cancel, and the answer is a ratio of two or three numbers.
 
 A charge $q$ moving with velocity $\vec v$ in a magnetic field $\vec B$ experiences
 
+```photo id="phy12/galvanometer" caption="A moving-coil galvanometer from the early 20th century: the coil hangs between the poles of the permanent magnet and turns a pointer over a scale." width="60"
+```
+
+
 $$ \vec F=q\,\vec v\times\vec B \qquad\text{so}\qquad F=qvB\sin\theta $$
 
 where $\theta$ is the angle between $\vec v$ and $\vec B$. The direction is given by

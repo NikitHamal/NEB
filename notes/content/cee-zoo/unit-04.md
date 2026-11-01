@@ -117,6 +117,13 @@ The time from the bite to the first parasites in the blood is the **prepatent
 period**; to the first fever, the **incubation period** — usually about two
 weeks (12–17 days) for *P. vivax*.
 
+```photo id="cee-zoo/plasmodium-smear" caption="Thin blood film from a *Plasmodium vivax* infection (Giemsa stain). The two large purple-spotted bodies are developing parasites inside red cells; every other round pink cell is a red cell. Rings, schizonts and gametocytes are all found in the film." width="70"
+call 0.60 0.97 0.38 0.80 "Parasite in a red cell"
+call 0.74 0.10 0.44 0.26 "Parasite in a red cell"
+call 0.78 0.52 0.72 0.46 "Uninfected red cell"
+```
+
+
 **B. In the female Anopheles — sexual phase**
 
 1. **Gamogony** (in the stomach, within minutes of the blood meal): the **microgametocyte** throws out **4–8 flagellated microgametes** (exflagellation); the **macrogametocyte** matures into one **macrogamete**. All other blood stages are digested.
@@ -156,6 +163,12 @@ when the RBCs rupture.
 oocysts in the stomach wall of *Anopheles* and proved transmission by the
 mosquito (Nobel Prize 1902); **Grassi (1898)** completed the human cycle in
 *Anopheles*; **Shortt and Garnham (1948)** found the liver stage.
+
+```photo id="cee-zoo/plasmodium-schizont" caption="A mature *P. vivax* schizont at high power: the nucleus has divided many times and the cell is dividing into merozoites (purple dots) with brown haemozoin pigment in the centre. The infected red cell is enlarged." width="44"
+call 0.66 0.93 0.54 0.56 "Schizont: merozoites forming"
+call 0.70 0.08 0.60 0.20 "Uninfected red cell"
+```
+
 
 **Diagnosis, treatment and control.** Thick and thin **blood smears** stained by
 Giemsa or Leishman, or rapid antigen tests. Drugs: **quinine** (from *Cinchona*
@@ -267,6 +280,11 @@ contract to make the front segments long and thin and push them forward; setae
 anchor them; longitudinal muscles then shorten the body and pull the rear up.
 **Chloragogen cells** on the gut and blood vessels store glycogen and fat and
 remove nitrogenous waste (compared with the vertebrate liver).
+
+```photo id="bio11/earthworm-ext" caption="A living earthworm on moist ground: elongated, cylindrical and segmented, with no limbs." width="70"
+crop 0.3 0.25 0.9 0.8
+```
+
 
 ### Digestive system
 
@@ -413,6 +431,14 @@ with villi (digestion completed, absorption) → **rectum** → **cloaca**. The
 **pancreas** lies between stomach and duodenum; the bile duct and pancreatic
 duct join to form the **common bile duct**, opening into the **duodenum**. The
 adult's gut is **short** (carnivore); the herbivorous tadpole's is long and coiled.
+
+```photo id="bio11/frog-anglas" caption="Dissection plate of a frog opened from the ventral side, showing the chief organs of the body cavity: the red heart and liver at the top and the coiled intestine below. The legs are fully extended." width="46"
+```
+
+
+```photo id="bio11/rana-tigrina" caption="The Indian bullfrog *Hoplobatrachus tigerinus* (the frog historically called *Rana tigrina*). It has smooth moist skin, large eyes, a broad head and webbed hind feet." width="76"
+```
+
 
 ### Respiration
 
