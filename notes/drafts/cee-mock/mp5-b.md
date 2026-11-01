@@ -178,8 +178,8 @@
    (a) stress to strain (b) longitudinal strain to lateral strain (c) lateral strain to longitudinal strain (d) shear stress to shear strain
 141. Two solid spheres of the same material, of radii r and 2r, are at the same temperature. The ratio of the powers they radiate is
    (a) 1 : 2 (b) 1 : 4 (c) 1 : 8 (d) 1 : 16
-142. The zeroth law of thermodynamics provides the basis for
-   (a) the concept of entropy (b) the conservation of energy (c) the direction of heat flow (d) the concept of temperature
+142. A mercury-in-glass thermometer cannot be used to measure temperatures below about −39 °C because
+   (a) glass contracts too much (b) mercury vaporizes (c) mercury expands irregularly (d) mercury freezes
 143. A steel measuring tape correctly calibrated at 20 °C is used to measure a rod on a day when the temperature is 40 °C. The reading obtained is
    (a) more than the true length (b) exactly the true length (c) less than the true length (d) more or less, depending on the rod
 144. 10 g of steam at 100 °C condenses and the water then cools to 40 °C. The heat released is (L_v = 2260 J g⁻¹, c = 4.2 J g⁻¹ K⁻¹)
@@ -269,7 +269,7 @@
 **139.** (a) — g = GM/R² ∝ R⁻²; 1/0.99² ≈ 1.02, an increase of about 2 %.
 **140.** (c) — Poisson's ratio σ = lateral strain / longitudinal strain (dimensionless, about 0.2–0.4 for metals).
 **141.** (b) — P = σεAT⁴ with A = 4πr², so at equal T the ratio is r² : (2r)² = 1 : 4.
-**142.** (d) — Bodies each in thermal equilibrium with a third are in equilibrium with each other, so they share a property: temperature.
+**142.** (d) — Mercury freezes at −38.8 °C; alcohol thermometers (freezing point about −114 °C) are used for lower temperatures.
 **143.** (c) — The tape expands, so each marked unit is longer than its true value and fewer units fit along the rod.
 **144.** (a) — Q = mL + mcΔT = 22 600 + 10 × 4.2 × 60 = 22 600 + 2520 = 25 120 J ≈ 25.1 kJ.
 **145.** (b) — E = (3/2)kT = 1.5 × 1.38 × 10⁻²³ × 300 = 6.21 × 10⁻²¹ J; (a) is kT and (c) the energy of a mole, not a molecule.
@@ -326,14 +326,14 @@
    (a) 400 (b) 450 (c) 600 (d) 500
 187. A sum at compound interest amounts to Rs 2,420 in 2 years and Rs 2,662 in 3 years. The rate of interest is
    (a) 8 % (b) 12 % (c) 10 % (d) 5 %
-188. A can finish a job in 12 days and B in 18 days. They work together for 4 days, after which A leaves. In how many more days will B finish the job?
-   (a) 6 (b) 8 (c) 10 (d) 12
+188. Pipe A can fill a tank in 6 hours and pipe B can empty the full tank in 9 hours. If both are opened together on the empty tank, it fills in
+   (a) 15 hours (b) 18 hours (c) 12 hours (d) 3 hours
 189. The ratio of the present ages of a father and his son is 7 : 2. After 10 years the ratio will be 9 : 4. The son's present age is
    (a) 8 years (b) 12 years (c) 15 years (d) 10 years
-190. A boat moves at 12 km/h in still water, and the stream flows at 3 km/h. How long does it take to go 45 km downstream and return?
-   (a) 8 h (b) 7.5 h (c) 6 h (d) 9 h
-191. Find the next term: 6, 11, 21, 36, 56, ?
-   (a) 76 (b) 80 (c) 81 (d) 86
+190. Rs 1,800 is divided among A, B and C in the ratio 2 : 3 : 4. C's share is
+   (a) Rs 800 (b) Rs 600 (c) Rs 900 (d) Rs 400
+191. Find the next term: 2, 3, 10, 15, 26, ?
+   (a) 37 (b) 36 (c) 35 (d) 34
 192. Find the next letter: B, E, J, Q, ?
    (a) X (b) Y (c) W (d) Z
 193. Each row of a grid follows one rule. Row 1: 7, 3, 40. Row 2: 9, 5, 56. Row 3: 8, 6, ?. Find the missing number.
@@ -346,8 +346,8 @@
    (a) 54 cm² (b) 81 cm² (c) 162 cm² (d) 108 cm²
 197. The six faces of a cube are coloured so that red is opposite green, blue is opposite yellow and white is opposite black. Which two colours can share an edge?
    (a) red and blue (b) red and green (c) blue and yellow (d) white and black
-198. How many diagonals can be drawn in a regular hexagon?
-   (a) 6 (b) 12 (c) 9 (d) 15
+198. A square sheet is folded in half and then in half again, so that the centre of the sheet becomes one corner of the folded piece. That corner is cut off. When unfolded, the sheet has
+   (a) four holes near the corners (b) two holes (c) one hole at the centre (d) no hole
 199. In triangle ABC, three line segments are drawn from vertex A to three different points on side BC. How many triangles are there in the figure?
    (a) 4 (b) 7 (c) 12 (d) 10
 200. A standard die, whose opposite faces add up to 7, shows 2 on top and 3 at the front. It is tipped forward so that the front face goes to the bottom. Which number is now on top?
@@ -361,17 +361,17 @@
 **185.** (b) — Bina is 12 + 5 = 17th from the left, so 40 − 17 + 1 = 24th from the right.
 **186.** (d) — Pass mark = 180 + 20 = 200 = 40 % of the maximum, so the maximum = 200/0.4 = 500.
 **187.** (c) — The third year's interest is 2662 − 2420 = 242 on 2420, i.e. 10 %.
-**188.** (b) — Together they do 4 × (1/12 + 1/18) = 5/9 of the job; B does the remaining 4/9 in 4/9 × 18 = 8 days.
+**188.** (b) — Net rate = 1/6 − 1/9 = 1/18 of the tank per hour, so it fills in 18 hours.
 **189.** (d) — (7x + 10)/(2x + 10) = 9/4 gives 28x + 40 = 18x + 90, x = 5; the son is 2 × 5 = 10 years old.
-**190.** (a) — Downstream 45/15 = 3 h; upstream 45/9 = 5 h; total 8 h.
-**191.** (c) — The differences are 5, 10, 15, 20, so the next is 25: 56 + 25 = 81.
+**190.** (a) — C gets 4/(2 + 3 + 4) × 1800 = 4/9 × 1800 = Rs 800.
+**191.** (c) — Terms are n² + 1 and n² − 1 alternately (1+1, 4−1, 9+1, 16−1, 25+1), so the next is 36 − 1 = 35.
 **192.** (d) — Positions 2, 5, 10, 17 are n² + 1; next is 5² + 1 = 26, which is Z.
 **193.** (a) — Third = first² − second²: 49 − 9 = 40, 81 − 25 = 56, 64 − 36 = 28.
 **194.** (b) — 31 + 30 + 31 = 92 days = 13 weeks + 1 day, so Friday + 1 = Saturday.
 **195.** (c) — θ = |30H − 5.5M| = |120 − 110| = 10°.
 **196.** (d) — Original 6 × 9 = 54 cm²; 27 small cubes have 27 × 6 = 162 cm²; increase = 108 cm².
 **197.** (a) — Each face is adjacent to every face except the one opposite it; the other three pairs are opposite faces.
-**198.** (c) — n(n − 3)/2 = 6 × 3/2 = 9.
+**198.** (c) — All four layers meet at that corner, which is the sheet's centre, so the four cut pieces join into a single central hole.
 **199.** (d) — BC carries 5 points (B, three points, C); any two of them with A form a triangle: ⁵C₂ = 10.
 **200.** (b) — Tipping forward brings the back face to the top; the back is opposite the front (3), so it is 7 − 3 = 4.
 :::
