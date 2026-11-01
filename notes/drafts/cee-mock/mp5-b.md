@@ -8,18 +8,18 @@
    (a) 5p (b) 4f (c) 6s (d) 4d
 84. The spin-only magnetic moment of the Cr³⁺ ion (Z of Cr = 24) is about
    (a) 3.87 BM (b) 2.83 BM (c) 4.90 BM (d) 1.73 BM
-85. Which member of the isoelectronic series N³⁻, O²⁻, F⁻, Na⁺, Mg²⁺ has the largest radius?
-   (a) Na⁺ (b) F⁻ (c) N³⁻ (d) Mg²⁺
-86. According to VSEPR theory, the shape of the ClF₃ molecule is
-   (a) trigonal planar (b) T-shaped (c) trigonal pyramidal (d) see-saw
+85. Which of these elements has the most pronounced metallic character?
+   (a) sodium (b) magnesium (c) potassium (d) aluminium
+86. Which molecule is non-polar even though its bonds are polar?
+   (a) NH₃ (b) CCl₄ (c) CHCl₃ (d) H₂O
 87. Which molecule contains both sp²- and sp³-hybridized carbon atoms?
    (a) propene (b) propyne (c) propane (d) ethene
 88. In the reaction 2MnO₄⁻ + 5H₂O₂ + 6H⁺ → 2Mn²⁺ + 5O₂ + 8H₂O, hydrogen peroxide acts as
    (a) an oxidizing agent (b) an acid (c) a catalyst (d) a reducing agent
 89. Which property of a liquid decreases as its temperature rises?
    (a) vapour pressure (b) rate of evaporation (c) average kinetic energy of its molecules (d) viscosity
-90. How many of the fourteen Bravais lattices belong to the cubic crystal system?
-   (a) 2 (b) 3 (c) 4 (d) 7
+90. A crystal system whose unit cell has a ≠ b ≠ c and α = β = γ = 90° is
+   (a) tetragonal (b) orthorhombic (c) monoclinic (d) triclinic
 91. For 2SO₂(g) + O₂(g) ⇌ 2SO₃(g), Kc = 100 at a certain temperature. At the same temperature, Kc for SO₃(g) ⇌ SO₂(g) + ½O₂(g) is
    (a) 0.1 (b) 0.01 (c) 10 (d) 50
 92. The solubility product of Mg(OH)₂ is 3.2 × 10⁻¹¹ at 25 °C. Its molar solubility in pure water is
@@ -32,22 +32,22 @@
    (a) 0.9 g (b) 2.7 g (c) 0.3 g (d) 1.8 g
 96. The standard enthalpy of formation of CO₂(g) is −394 kJ mol⁻¹ and the enthalpy of combustion of CO(g) is −283 kJ mol⁻¹. The enthalpy of formation of CO(g) is
    (a) −677 kJ mol⁻¹ (b) +111 kJ mol⁻¹ (c) −283 kJ mol⁻¹ (d) −111 kJ mol⁻¹
-97. A radioactive nucleus emits one α-particle and then two β⁻-particles. The final nucleus is, of the original one, an
-   (a) isobar (b) isotope (c) isotone (d) isomer with higher atomic number
+97. In the nuclear reaction ²⁷₁₃Al + ⁴₂He → ³⁰₁₅P + X, the particle X is
+   (a) a proton (b) a neutron (c) an electron (d) a deuteron
 98. Which of these oxides is neutral, reacting with neither acids nor bases?
    (a) N₂O (b) Al₂O₃ (c) SO₂ (d) MgO
-99. The two oxygen–oxygen bonds in the ozone molecule are
-   (a) one single and one double, of different lengths (b) both single bonds (c) equal in length, between single and double bond (d) both double bonds in a linear molecule
+99. Concentrated nitric acid is stored in brown bottles because, in light, it
+   (a) absorbs moisture from the air (b) attacks clear glass (c) decomposes, giving brown NO₂ (d) becomes more concentrated
 100. Copper reacts with hot, concentrated nitric acid to give copper(II) nitrate, water and mainly
    (a) NO (b) N₂O (c) NH₄NO₃ (d) NO₂
 101. The fullerene C₆₀ (buckminsterfullerene) is a closed cage made of
    (a) 20 pentagons and 12 hexagons (b) 12 pentagons and 20 hexagons (c) 30 hexagons only (d) 60 hexagons only
 102. In the extraction of copper from copper pyrites, the iron present is removed mainly as
    (a) FeSiO₃ slag (b) FeS₂ (c) Fe₂O₃ dust (d) metallic iron
-103. The compound known as corrosive sublimate is
-   (a) Hg₂Cl₂ (b) ZnSO₄·7H₂O (c) HgCl₂ (d) AgNO₃
-104. In an octahedral crystal field, the d orbitals forming the higher-energy eg set are
-   (a) dxy and dz² (b) dxy, dyz and dxz (c) dxz and dyz (d) dx²−y² and dz²
+103. Which alkali-metal carbonate decomposes on moderate heating to give carbon dioxide?
+   (a) Na₂CO₃ (b) K₂CO₃ (c) Li₂CO₃ (d) Cs₂CO₃
+104. The coordination number and oxidation state of iron in K₄[Fe(CN)₆] are, respectively,
+   (a) 4 and +2 (b) 6 and +3 (c) 4 and +3 (d) 6 and +2
 105. Iron rusts fastest when it is exposed to
    (a) dry air (b) moist, salty air (c) boiled water in a sealed tube (d) dry oxygen
 106. Which metal is an essential component of the enzyme carbonic anhydrase?
@@ -74,10 +74,10 @@
    (a) benzoic acid (b) phenyl acetate (c) benzaldehyde (d) salicylic acid
 117. Diethyl ether heated with excess concentrated hydroiodic acid gives
    (a) ethyl iodide and water (b) ethanol and ethane (c) ethanol only (d) ethyl iodide and ethane
-118. Rosenmund reduction, using H₂ over Pd poisoned with BaSO₄, converts acetyl chloride into
-   (a) ethanol (b) ethane (c) acetaldehyde (d) acetic acid
-119. In Clemmensen reduction, a carbonyl group is converted to a –CH₂– group using
-   (a) LiAlH₄ in dry ether (b) zinc amalgam and concentrated HCl (c) hydrazine and KOH in glycol (d) H₂ over Lindlar's catalyst
+118. Acetaldehyde reacts with HCN (in the presence of a little base) to give
+   (a) acetonitrile (b) propanoic acid (c) 2-hydroxypropanenitrile (d) ethylamine
+119. Acetic acid reacts with phosphorus pentachloride to give
+   (a) chloroacetic acid (b) acetyl chloride (c) methyl chloride (d) ethyl chloride
 120. Which compound is hydrolysed most readily by water?
    (a) acetamide (b) ethyl acetate (c) acetic anhydride (d) acetyl chloride
 121. An ester, C₄H₈O₂, is hydrolysed. The acid formed reduces Tollens' reagent and the alcohol formed gives a positive iodoform test. The ester is
@@ -106,26 +106,26 @@
 **82.** (c) — 16 g O₂ = 0.5 mol; 14 g N₂ = 0.5 mol, whereas 16 g SO₂ = 0.25 mol and 2 g H₂ and 44 g CO₂ are 1 mol each.
 **83.** (d) — n + l = 6 for 5p, 6s and 4d, but 7 for 4f; among equal sums the lower n (4d) fills first.
 **84.** (a) — Cr³⁺ is [Ar] 3d³ with 3 unpaired electrons; μ = √(n(n + 2)) = √15 ≈ 3.87 BM.
-**85.** (c) — All have 10 electrons; N³⁻ has the fewest protons (7), so the weakest pull and the largest radius.
-**86.** (b) — Cl has 3 bond pairs and 2 lone pairs (sp³d); the lone pairs take equatorial positions, leaving a T-shape.
+**85.** (c) — Metallic character rises down a group and falls across a period; K is below Na and left of Mg and Al, so it loses its electron most easily.
+**86.** (b) — The four C–Cl bond dipoles of tetrahedral CCl₄ cancel; NH₃ and H₂O have lone pairs and CHCl₃ has unequal bonds, so they are polar.
 **87.** (a) — In CH₂=CH–CH₃ the two alkene carbons are sp² and the methyl carbon sp³; propyne has sp and sp³, propane only sp³, ethene only sp².
 **88.** (d) — O in H₂O₂ goes from −1 to 0 in O₂ (oxidized), while Mn goes from +7 to +2; so H₂O₂ is the reducing agent.
 **89.** (d) — Faster molecules overcome intermolecular attractions more easily, so viscosity (and surface tension) fall; the other three rise.
-**90.** (b) — Simple (primitive), body-centred and face-centred cubic; there are seven crystal systems and fourteen Bravais lattices in all.
+**90.** (b) — Orthorhombic has three unequal axes, all at right angles; tetragonal has a = b ≠ c, and monoclinic and triclinic have non-right angles.
 **91.** (a) — Reversing gives 1/100; halving the coefficients takes the square root: (0.01)^½ = 0.1.
 **92.** (c) — Ksp = s(2s)² = 4s³; s³ = 8 × 10⁻¹², s = 2.0 × 10⁻⁴ M.
 **93.** (b) — Mn goes from +7 to +4 (3 electrons): equivalent weight = 158/3 = 52.7.
 **94.** (c) — t = (2.303/k) log 1000 = 6.909/k and t½ = 0.693/k, so t ≈ 9.97 t½ ≈ 10 half-lives.
 **95.** (a) — 9650 C = 0.1 F; Al³⁺ needs 3 F per mole, so 0.1/3 mol × 27 g mol⁻¹ = 0.9 g.
 **96.** (d) — Hess's law: C + ½O₂ → CO equals (C + O₂ → CO₂) minus (CO + ½O₂ → CO₂): −394 − (−283) = −111 kJ mol⁻¹.
-**97.** (b) — α lowers Z by 2 and A by 4; two β⁻ raise Z by 2. Same Z, A smaller by 4: an isotope.
+**97.** (b) — Mass numbers: 27 + 4 = 30 + A gives A = 1; atomic numbers: 13 + 2 = 15 + Z gives Z = 0; so X is ¹₀n (the first artificial radioactivity).
 **98.** (a) — N₂O (like CO and NO) is neutral; Al₂O₃ is amphoteric, SO₂ acidic and MgO basic.
-**99.** (c) — Two resonance structures make both O–O bonds equal (128 pm, bond order 1.5) in a bent molecule with an angle of about 117°.
+**99.** (c) — 4HNO₃ → 4NO₂ + O₂ + 2H₂O in sunlight; the dissolved NO₂ turns the acid yellow, so brown glass is used to cut out light.
 **100.** (d) — Cu + 4HNO₃ → Cu(NO₃)₂ + 2NO₂ + 2H₂O; dilute acid gives mainly NO instead.
 **101.** (b) — The soccer-ball cage has 12 five-membered and 20 six-membered rings, each C being sp²-like and bonded to three others.
 **102.** (a) — Roasting converts FeS to FeO, which combines with the silica flux in the furnace: FeO + SiO₂ → FeSiO₃ (slag).
-**103.** (c) — HgCl₂ is corrosive sublimate; Hg₂Cl₂ is calomel and ZnSO₄·7H₂O is white vitriol.
-**104.** (d) — dx²−y² and dz² point straight at the six ligands, so they are raised (eg); dxy, dyz, dxz lie between them (t₂g).
+**103.** (c) — The small, highly polarizing Li⁺ destabilizes the large CO₃²⁻ ion: Li₂CO₃ → Li₂O + CO₂; the other alkali carbonates are stable to heat.
+**104.** (d) — Six CN⁻ ligands surround Fe; 4(+1) + x + 6(−1) = 0 gives x = +2 (potassium ferrocyanide).
 **105.** (b) — Rusting is electrochemical: it needs both O₂ and water, and dissolved salt increases the conductivity of the electrolyte.
 **106.** (c) — A Zn²⁺ ion at the active site catalyses CO₂ + H₂O ⇌ HCO₃⁻ + H⁺ in red blood cells.
 **107.** (a) — As(III) bonds strongly to thiol groups of enzymes such as pyruvate dehydrogenase, stopping cellular respiration.
@@ -139,8 +139,8 @@
 **115.** (b) — Carbylamine reaction: C₆H₅NH₂ + CHCl₃ + 3KOH → C₆H₅NC + 3KCl + 3H₂O; it is a test for primary amines.
 **116.** (d) — Kolbe's reaction places –COO⁻ ortho to –O⁻, and acidification gives salicylic acid (2-hydroxybenzoic acid).
 **117.** (a) — C₂H₅OC₂H₅ + 2HI → 2C₂H₅I + H₂O; with excess hot HI the ethanol first formed is also converted to ethyl iodide.
-**118.** (c) — The poisoned catalyst stops reduction at the aldehyde stage: CH₃COCl + H₂ → CH₃CHO + HCl.
-**119.** (b) — Zn–Hg with conc. HCl reduces C=O to CH₂; hydrazine/KOH is the Wolff–Kishner method.
+**118.** (c) — CN⁻ adds to the carbonyl carbon (nucleophilic addition), giving the cyanohydrin CH₃CH(OH)CN.
+**119.** (b) — PCl₅ replaces –OH by –Cl: CH₃COOH + PCl₅ → CH₃COCl + POCl₃ + HCl.
 **120.** (d) — Reactivity is acid chloride > anhydride > ester > amide; Cl⁻ is the best leaving group.
 **121.** (c) — HCOOCH(CH₃)₂ gives HCOOH (reduces Tollens') and propan-2-ol (has CH₃CH(OH)–, iodoform positive); ethyl acetate gives acetic acid, which does not.
 **122.** (a) — CH₃CONH₂ + Br₂ + 4KOH → CH₃NH₂ + K₂CO₃ + 2KBr + 2H₂O: the amine has one carbon fewer than the amide.
@@ -156,16 +156,16 @@
 
 ## Physics (questions 131–180)
 
-131. Planck's constant has the same dimensions as
-   (a) energy (b) linear momentum (c) angular momentum (d) power
+131. For two non-zero vectors A and B, the magnitude of A × B equals A · B. The angle between them is
+   (a) 0° (b) 90° (c) 45° (d) 60°
 132. A body starts from rest with uniform acceleration. The ratio of the distance covered in the 3rd second to that covered in the first 3 seconds is
    (a) 5 : 9 (b) 1 : 3 (c) 5 : 3 (d) 3 : 5
 133. A 60 kg man stands on a weighing scale in a lift that is accelerating downward at 2 m s⁻². The scale reads (g = 10 m s⁻²)
    (a) 600 N (b) 720 N (c) 0 N (d) 480 N
 134. A ball of mass m moving with speed u collides head-on, elastically, with a ball of mass 3m at rest. Afterwards, the first ball moves with speed
    (a) u/2 in its original direction (b) u/2 in the opposite direction (c) zero (d) u in the opposite direction
-135. A skater spinning freely pulls in her arms, reducing her moment of inertia to one-third. Her rotational kinetic energy becomes
-   (a) unchanged (b) three times (c) one-third (d) nine times
+135. A wheel starting from rest reaches an angular speed of 20 rad s⁻¹ in 4 s with uniform angular acceleration. The angle it turns through in this time is
+   (a) 80 rad (b) 40 rad (c) 20 rad (d) 160 rad
 136. At a fixed pressure difference, the radius of a capillary tube is doubled with its length unchanged. The volume rate of viscous flow becomes
    (a) 2 times (b) 4 times (c) 8 times (d) 16 times
 137. A cyclist rides round a level circular track of radius 20 m at 10 m s⁻¹. If θ is the angle at which he must lean from the vertical, tan θ equals (g = 10 m s⁻²)
@@ -178,8 +178,8 @@
    (a) stress to strain (b) longitudinal strain to lateral strain (c) lateral strain to longitudinal strain (d) shear stress to shear strain
 141. Two solid spheres of the same material, of radii r and 2r, are at the same temperature. The ratio of the powers they radiate is
    (a) 1 : 2 (b) 1 : 4 (c) 1 : 8 (d) 1 : 16
-142. The zeroth law of thermodynamics provides the basis for
-   (a) the concept of entropy (b) the conservation of energy (c) the direction of heat flow (d) the concept of temperature
+142. A mercury-in-glass thermometer cannot be used to measure temperatures below about −39 °C because
+   (a) glass contracts too much (b) mercury vaporizes (c) mercury expands irregularly (d) mercury freezes
 143. A steel measuring tape correctly calibrated at 20 °C is used to measure a rod on a day when the temperature is 40 °C. The reading obtained is
    (a) more than the true length (b) exactly the true length (c) less than the true length (d) more or less, depending on the rod
 144. 10 g of steam at 100 °C condenses and the water then cools to 40 °C. The heat released is (L_v = 2260 J g⁻¹, c = 4.2 J g⁻¹ K⁻¹)
@@ -190,8 +190,8 @@
    (a) γ (b) Cv/γ (c) zero (d) R
 147. A Carnot engine has an efficiency of 40 % with its sink at 27 °C. The temperature of its source is
    (a) 750 K (b) 500 K (c) 450 K (d) 67.5 K
-148. At constant temperature, the speed of sound in air does not change when the air's
-   (a) pressure changes (b) humidity changes (c) molar mass changes (d) adiabatic index changes
+148. The speed of sound in air at 0 °C is 332 m s⁻¹. At 91 °C it is about
+   (a) 383 m s⁻¹ (b) 443 m s⁻¹ (c) 332 m s⁻¹ (d) 360 m s⁻¹
 149. An open organ pipe and a pipe closed at one end have the same fundamental frequency. The ratio of their lengths (open : closed) is
    (a) 1 : 2 (b) 1 : 1 (c) 2 : 1 (d) 4 : 1
 150. If the intensity of a sound increases by a factor of 100, its intensity level increases by
@@ -252,30 +252,30 @@
    (a) 25 Hz (b) 100 Hz (c) 0 Hz (d) 50 Hz
 178. For inputs A = 1 and B = 0, which of these gives an output of 0?
    (a) an AND gate (b) an OR gate (c) a NAND gate (d) a NOT gate fed with B
-179. The Higgs boson, detected at CERN in 2012, is associated with
-   (a) the strong force that binds quarks (b) the emission of β-particles (c) the origin of the mass of elementary particles (d) the gravitational force
-180. Nanotechnology deals with structures whose size lies roughly in the range
-   (a) 1–100 pm (b) 1–100 nm (c) 1–100 μm (d) 1–100 mm
+179. The antiparticle of the electron is the
+   (a) proton (b) neutrino (c) positron (d) antiproton
+180. According to the quark model, a meson consists of
+   (a) two quarks (b) a quark and an antiquark (c) three quarks (d) three leptons
 
 ::: note Answers — Physics (131–180)
-**131.** (c) — E = hf gives h in J s = [ML²T⁻¹], the dimension of angular momentum (mvr); Bohr's L = nh/2π shows this.
+**131.** (c) — AB sin θ = AB cos θ gives tan θ = 1, so θ = 45°.
 **132.** (a) — s₃rd = a(2n − 1)/2 = 2.5a and s(3 s) = ½a·9 = 4.5a, giving 5 : 9.
 **133.** (d) — mg − N = ma gives N = m(g − a) = 60 × 8 = 480 N.
 **134.** (b) — v₁ = (m₁ − m₂)u/(m₁ + m₂) = (m − 3m)u/4m = −u/2, so it rebounds at u/2.
-**135.** (b) — L is conserved and K = L²/2I, so K becomes 3 times; the extra energy comes from the work she does pulling her arms in.
+**135.** (b) — α = 20/4 = 5 rad s⁻²; θ = ½αt² = ½ × 5 × 16 = 40 rad (or average ω × t = 10 × 4).
 **136.** (d) — Poiseuille's formula, V/t = πPr⁴/8ηl, gives a factor 2⁴ = 16.
 **137.** (c) — tan θ = v²/rg = 100/(20 × 10) = 0.5.
 **138.** (a) — ω = v_max/A = 5 rad s⁻¹; a_max = ω²A = 25 × 4 = 100 cm s⁻² = 1.0 m s⁻².
 **139.** (a) — g = GM/R² ∝ R⁻²; 1/0.99² ≈ 1.02, an increase of about 2 %.
 **140.** (c) — Poisson's ratio σ = lateral strain / longitudinal strain (dimensionless, about 0.2–0.4 for metals).
 **141.** (b) — P = σεAT⁴ with A = 4πr², so at equal T the ratio is r² : (2r)² = 1 : 4.
-**142.** (d) — Bodies each in thermal equilibrium with a third are in equilibrium with each other, so they share a property: temperature.
+**142.** (d) — Mercury freezes at −38.8 °C; alcohol thermometers (freezing point about −114 °C) are used for lower temperatures.
 **143.** (c) — The tape expands, so each marked unit is longer than its true value and fewer units fit along the rod.
 **144.** (a) — Q = mL + mcΔT = 22 600 + 10 × 4.2 × 60 = 22 600 + 2520 = 25 120 J ≈ 25.1 kJ.
 **145.** (b) — E = (3/2)kT = 1.5 × 1.38 × 10⁻²³ × 300 = 6.21 × 10⁻²¹ J; (a) is kT and (c) the energy of a mole, not a molecule.
 **146.** (d) — Mayer's relation: at constant pressure, the extra heat does work P ΔV = R ΔT per mole, so Cp − Cv = R.
 **147.** (b) — η = 1 − T₂/T₁: 0.4 = 1 − 300/T₁, so T₁ = 300/0.6 = 500 K.
-**148.** (a) — v = √(γP/ρ) and P/ρ = RT/M is fixed at fixed T, so pressure has no effect; humidity changes M and γ.
+**148.** (a) — v ∝ √T: 332 × √(364/273) = 332 × 1.155 ≈ 383 m s⁻¹.
 **149.** (c) — v/2L_o = v/4L_c gives L_o = 2L_c.
 **150.** (d) — ΔL = 10 log₁₀(I₂/I₁) = 10 × 2 = 20 dB.
 **151.** (c) — Real image: m = −3, so v = 60 cm in front; 1/f = 1/60 + 1/20 = 4/60, giving f = 15 cm.
@@ -306,8 +306,8 @@
 **176.** (b) — About 200 MeV per fission, mostly as kinetic energy of the fission fragments.
 **177.** (d) — Only one half of each cycle passes, giving one pulse per cycle: 50 Hz (a full-wave rectifier would give 100 Hz).
 **178.** (a) — AND gives 1·0 = 0; OR gives 1, NAND gives 1 and NOT B gives 1.
-**179.** (c) — Particles gain mass by interacting with the Higgs field; gluons carry the strong force and W bosons mediate β-decay.
-**180.** (b) — Nanotechnology manipulates matter at about 1–100 nanometres, where surface and quantum effects dominate.
+**179.** (c) — The positron has the electron's mass and spin but charge +e; an electron–positron pair annihilates into γ-ray photons.
+**180.** (b) — Mesons (e.g. pions) are quark–antiquark pairs; baryons such as protons and neutrons contain three quarks.
 :::
 
 ## Mental Agility Test (questions 181–200)
@@ -326,14 +326,14 @@
    (a) 400 (b) 450 (c) 600 (d) 500
 187. A sum at compound interest amounts to Rs 2,420 in 2 years and Rs 2,662 in 3 years. The rate of interest is
    (a) 8 % (b) 12 % (c) 10 % (d) 5 %
-188. A can finish a job in 12 days and B in 18 days. They work together for 4 days, after which A leaves. In how many more days will B finish the job?
-   (a) 6 (b) 8 (c) 10 (d) 12
+188. Pipe A can fill a tank in 6 hours and pipe B can empty the full tank in 9 hours. If both are opened together on the empty tank, it fills in
+   (a) 15 hours (b) 18 hours (c) 12 hours (d) 3 hours
 189. The ratio of the present ages of a father and his son is 7 : 2. After 10 years the ratio will be 9 : 4. The son's present age is
    (a) 8 years (b) 12 years (c) 15 years (d) 10 years
-190. A boat moves at 12 km/h in still water, and the stream flows at 3 km/h. How long does it take to go 45 km downstream and return?
-   (a) 8 h (b) 7.5 h (c) 6 h (d) 9 h
-191. Find the next term: 6, 11, 21, 36, 56, ?
-   (a) 76 (b) 80 (c) 81 (d) 86
+190. Rs 1,800 is divided among A, B and C in the ratio 2 : 3 : 4. C's share is
+   (a) Rs 800 (b) Rs 600 (c) Rs 900 (d) Rs 400
+191. Find the next term: 2, 3, 10, 15, 26, ?
+   (a) 37 (b) 36 (c) 35 (d) 34
 192. Find the next letter: B, E, J, Q, ?
    (a) X (b) Y (c) W (d) Z
 193. Each row of a grid follows one rule. Row 1: 7, 3, 40. Row 2: 9, 5, 56. Row 3: 8, 6, ?. Find the missing number.
@@ -346,8 +346,8 @@
    (a) 54 cm² (b) 81 cm² (c) 162 cm² (d) 108 cm²
 197. The six faces of a cube are coloured so that red is opposite green, blue is opposite yellow and white is opposite black. Which two colours can share an edge?
    (a) red and blue (b) red and green (c) blue and yellow (d) white and black
-198. How many diagonals can be drawn in a regular hexagon?
-   (a) 6 (b) 12 (c) 9 (d) 15
+198. A square sheet is folded in half and then in half again, so that the centre of the sheet becomes one corner of the folded piece. That corner is cut off. When unfolded, the sheet has
+   (a) four holes near the corners (b) two holes (c) one hole at the centre (d) no hole
 199. In triangle ABC, three line segments are drawn from vertex A to three different points on side BC. How many triangles are there in the figure?
    (a) 4 (b) 7 (c) 12 (d) 10
 200. A standard die, whose opposite faces add up to 7, shows 2 on top and 3 at the front. It is tipped forward so that the front face goes to the bottom. Which number is now on top?
@@ -361,17 +361,17 @@
 **185.** (b) — Bina is 12 + 5 = 17th from the left, so 40 − 17 + 1 = 24th from the right.
 **186.** (d) — Pass mark = 180 + 20 = 200 = 40 % of the maximum, so the maximum = 200/0.4 = 500.
 **187.** (c) — The third year's interest is 2662 − 2420 = 242 on 2420, i.e. 10 %.
-**188.** (b) — Together they do 4 × (1/12 + 1/18) = 5/9 of the job; B does the remaining 4/9 in 4/9 × 18 = 8 days.
+**188.** (b) — Net rate = 1/6 − 1/9 = 1/18 of the tank per hour, so it fills in 18 hours.
 **189.** (d) — (7x + 10)/(2x + 10) = 9/4 gives 28x + 40 = 18x + 90, x = 5; the son is 2 × 5 = 10 years old.
-**190.** (a) — Downstream 45/15 = 3 h; upstream 45/9 = 5 h; total 8 h.
-**191.** (c) — The differences are 5, 10, 15, 20, so the next is 25: 56 + 25 = 81.
+**190.** (a) — C gets 4/(2 + 3 + 4) × 1800 = 4/9 × 1800 = Rs 800.
+**191.** (c) — Terms are n² + 1 and n² − 1 alternately (1+1, 4−1, 9+1, 16−1, 25+1), so the next is 36 − 1 = 35.
 **192.** (d) — Positions 2, 5, 10, 17 are n² + 1; next is 5² + 1 = 26, which is Z.
 **193.** (a) — Third = first² − second²: 49 − 9 = 40, 81 − 25 = 56, 64 − 36 = 28.
 **194.** (b) — 31 + 30 + 31 = 92 days = 13 weeks + 1 day, so Friday + 1 = Saturday.
 **195.** (c) — θ = |30H − 5.5M| = |120 − 110| = 10°.
 **196.** (d) — Original 6 × 9 = 54 cm²; 27 small cubes have 27 × 6 = 162 cm²; increase = 108 cm².
 **197.** (a) — Each face is adjacent to every face except the one opposite it; the other three pairs are opposite faces.
-**198.** (c) — n(n − 3)/2 = 6 × 3/2 = 9.
+**198.** (c) — All four layers meet at that corner, which is the sheet's centre, so the four cut pieces join into a single central hole.
 **199.** (d) — BC carries 5 points (B, three points, C); any two of them with A form a triangle: ⁵C₂ = 10.
 **200.** (b) — Tipping forward brings the back face to the top; the back is opposite the front (3), so it is 7 − 3 = 4.
 :::
