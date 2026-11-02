@@ -279,5 +279,13 @@
   "credits": 3,
   "accent": "#0369A1",
   "status": "done"
+ },
+ "semester-7/cyber-security-and-ethical-hacking": {
+  "name": "Cyber Security and Ethical Hacking",
+  "code": "BCA 401",
+  "semester": 7,
+  "credits": 3,
+  "accent": "#7F1D1D",
+  "status": "done"
  }
 }

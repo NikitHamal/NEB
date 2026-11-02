@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**35 of 44 subject slots are written, built and QA-checked; 1 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (519,035 raw words of study material, counted over the unit files, including code listings and tables):
+**36 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (531,926 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -40,6 +40,7 @@
 | 6 | BCA 353 | [Cryptography and Network Security](course/semester-6/cryptography-network-security/) | 15,592 | 45 | done |
 | 6 | BCA 354 | [Technical Writing](course/semester-6/technical-writing/) | 12,133 | 36 | done |
 | 6 | BCA 355 | [Distributed System](course/semester-6/distributed-system/) | 17,866 | 54 | done |
+| 7 | BCA 401 | [Cyber Security and Ethical Hacking](course/semester-7/cyber-security-and-ethical-hacking/) | 12,891 | 43 | done |
 | 7 | BCA 403 | [Financial Accounting](course/semester-7/financial-accounting/) | 10,528 | 37 | done |
 | 8 | BCA 451 | [Cloud Computing](course/semester-8/cloud-computing/) | 10,596 | 37 | done |
 
