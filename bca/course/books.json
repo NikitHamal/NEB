@@ -151,5 +151,13 @@
   "credits": 3,
   "accent": "#0E7490",
   "status": "done"
+ },
+ "semester-4/numerical-methods": {
+  "name": "Numerical Methods",
+  "code": "BCA 253",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#B45309",
+  "status": "done"
  }
 }
