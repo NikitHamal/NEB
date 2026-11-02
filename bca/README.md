@@ -8,7 +8,7 @@ Everything here is Markdown first (readable on GitHub, diffable, forkable) with 
 | **Course** | [`course/`](course/README.md) | The 8-semester BCA programme: the verified curriculum map and the subject books written so far, PDFs in `course/semester-N/pdfs/` |
 | Reviews | [`entrance/REVIEW_ENTRANCE.md`](entrance/REVIEW_ENTRANCE.md), [`course/REVIEW_COURSE.md`](course/REVIEW_COURSE.md) | What was audited, found, fixed, and what is still open |
 | Sources | [`SOURCES.md`](SOURCES.md) | Where the curriculum and exam facts come from, and how reliable each is |
-| Tools | [`tools/`](tools/) | `build_pdfs.py` (Markdown → PDF), `sync_entrance.sh`, `check_c_examples.py` |
+| Tools | [`tools/`](tools/) | `nebpdf.py` (builds PDFs with the NEBians house pipeline), `qa_pdf.py` (visual/structural PDF QA), `sync_entrance.sh`, `check_c_examples.py` |
 
 ## Clone
 
@@ -21,13 +21,20 @@ cd NEB/bca
 
 Total PDF size is a few megabytes (text and vector only, no photographs), well under GitHub's limits, so the PDFs are ordinary committed files. Git LFS was not used; it would make a plain `git clone` return pointer files instead of readable PDFs.
 
-## Rebuild the PDFs
+## Rebuild the PDFs — same pipeline as CEE, IOE and Grades 8–12
+
+BCA books are built by the **house pipeline in `notes/pipeline/`** (Markdown → HTML → WeasyPrint, `theme.css`, Poppins / Inter / Source Serif 4 / JetBrains Mono, N watermark, linked contents, roman-numbered front matter, matplotlib maths). `bca/tools/nebpdf.py` is only an adapter: it stages `bca/` sources into the shape the pipeline expects, generates a spine for each course book from its unit files (+ `bca/course/books.json`), and calls the pipeline's own `build()`. An earlier stand-alone builder (own CSS, own fonts) produced PDFs that did not match the house style and was removed.
 
 ```
-pip install weasyprint markdown pygments     # + libpango-1.0-0 libpangoft2-1.0-0 fonts-liberation fonts-dejavu
-python3 bca/tools/build_pdfs.py              # every book under bca/
+sudo apt-get install -y fontconfig poppler-utils libpango-1.0-0 libpangoft2-1.0-0
+bash notes/pipeline/fonts/install.sh                       # the 5 book fonts
+python3.12 -m venv v && v/bin/pip install weasyprint markdown matplotlib numpy pymupdf pypdf fonttools pillow
+v/bin/python bca/tools/nebpdf.py                           # all books  (or: entrance | course | course/semester-1/digital-logic)
+v/bin/python bca/tools/qa_pdf.py --png /tmp/qa             # structural QA + PNG contact sheets to eyeball
 ```
-Any directory containing `unit-NN.md` files is a book. Tested with WeasyPrint 70 on Python 3.11.
+**Python 3.12 is required** (the pipeline uses 3.12 f-string syntax). Tested with WeasyPrint 70, matplotlib 3.11. `qa_pdf.py` fails on: missing cover/contents/links/outline, missing page numbers, house fonts not embedded, text running into the margin, clipped code lines, leaked TeX or stray `$`, stranded headings; and warns on near-empty pages. `nebpdf.py` exits non-zero if any formula or figure falls back to plain text.
+
+Entrance Markdown is canonical in `notes/content/bca-*` and mirrored here by `tools/sync_entrance.sh`; edit both or edit the canonical copy and re-sync.
 
 ## Honest status
 

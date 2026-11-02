@@ -29,7 +29,7 @@ The second reasoning chapter covers the questions that depend on pattern spottin
 - Odd days: ordinary year 1, leap year 2. 100 years have 5, 200 have 3, 300 have 1, 400 have 0.
 - Leap year: divisible by 4; century years only if divisible by 400 (2000 yes; 1900, 2100 no).
 - Months: 31 days → 3 odd days; 30 days → 2; February 28 → 0 (29 → 1).
-- Day after $n$ days: $n\bmod7$ steps forward. 100 days after Monday is Wednesday ($100=14\times7+2$).
+- Day after $n$ days: $n \mathrm{mod} 7$ steps forward. 100 days after Monday is Wednesday ($100=14\times7+2$).
 - 1 January 2026 is a Thursday, so 1 January 2027 is a Friday (2026 is not a leap year), and 5 March 2026 (day 64) is also a Thursday.
 
 ## 15.3 Clock problems

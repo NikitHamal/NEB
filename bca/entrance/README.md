@@ -15,7 +15,7 @@ Start with `model-papers/unit-01.md` (pattern, eligibility, 12-week plan), then 
 
 - `<book>/unit-NN.md` — one chapter per file: opening, "What the paper asks", one `## N.k` section per syllabus bullet, formula and fact sheet, chapter summary, then Sets A (recall), B (understanding), C (application), each with a keyed answer box.
 - `<book>/SPINE.md` — the syllabus spine the chapters follow, with the estimated number of questions per chapter.
-- `pdfs/` — the printable books, rebuilt from the Markdown by `bca/tools/build_pdfs.py`.
+- `pdfs/` — the printable books, rebuilt from the Markdown by `bca/tools/nebpdf.py`.
 - `REVIEW_ENTRANCE.md` — the audit: what was checked, what was found, what was changed.
 
 ## Source of truth
@@ -28,7 +28,7 @@ Start with `model-papers/unit-01.md` (pattern, eligibility, 12-week plan), then 
 pip install weasyprint markdown pygments        # plus libpango + fonts-liberation + fonts-dejavu
 bca/tools/sync_entrance.sh
 python3 notes/tools/bcacheck.py notes/content/bca-*/unit-*.md
-python3 bca/tools/build_pdfs.py bca/entrance/mathematics bca/entrance/english bca/entrance/gk-and-it bca/entrance/model-papers
+python3 bca/tools/nebpdf.py entrance
 ```
 
 ## Facts that expire
