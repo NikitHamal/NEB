@@ -214,3 +214,29 @@ rustup target add x86_64-pc-windows-gnu
 
 ### pip install (real error + fix)
 `pip install fonttools brotli` → `error: externally-managed-environment` (PEP 668). Fixed with `pip install --break-system-packages fonttools brotli`.
+
+## Probe — BCA course session (this session)
+
+Fresh sandbox again; the repo is private so unauthenticated access fails exactly as before; authenticated clone (token only in the clone URL, never in git config) works.
+
+```
+$ git --version && which git
+git version 2.39.5
+/usr/bin/git
+$ git ls-remote https://github.com/NikitHamal/NEB.git        # anonymous
+fatal: could not read Username for 'https://github.com': No such device or address
+$ git ls-remote <authenticated url>  | grep bca-entrance-complete
+42abf217b84a0da68d92a6e61ca787b36eded246	refs/heads/claude/bca-entrance-complete
+$ python3 --version
+Python 3.11.2
+$ python3 -c "import weasyprint; print(weasyprint.__version__)"   # before install
+ModuleNotFoundError: No module named 'weasyprint'
+$ which pandoc pdftoppm ; rustc --version                      # before install
+(nothing) ; rustc: command not found
+$ node --version
+v22.23.4
+$ curl -sI https://github.com | head -1
+HTTP/2 200
+```
+
+Installed this session: `apt-get install pandoc poppler-utils libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b`; `pip install --break-system-packages weasyprint markdown matplotlib pyyaml pymupdf`. After install: weasyprint 70.0, `/usr/bin/pandoc`, `/usr/bin/pdftoppm`. Rust is not needed by the pipeline.
