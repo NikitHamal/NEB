@@ -34,14 +34,14 @@ The word **जिन्सी** covers both kinds of goods an office holds: **co
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 fig, ax = plt.subplots(figsize=(5.1,2.5))
-ax.axis('off'); ax.set_xlim(0,10); ax.set_ylim(0,6)
-steps=[(0.2,"Purchase and\nbill passed"),(2.1,"Received into store\n(जिन्सी दाखिला)"),
-       (4.0,"Entered in the\nstore ledger and bin card"),(5.9,"Issued on requisition\n(जिन्सी निकासा)"),
-       (7.8,"Physical verification\nand stock statement")]
+ax.axis('off'); ax.set_xlim(0,10); ax.set_ylim(0,6); fig.subplots_adjust(0.01,0.01,0.99,0.99)
+steps=[(0.2,"Purchase and\nbill passed"),(2.1,"Received into\nstore\n(जिन्सी दाखिला)"),
+       (4.0,"Entered in the\nstore ledger\nand bin card"),(5.9,"Issued on\nrequisition\n(जिन्सी निकासा)"),
+       (7.8,"Physical\nverification and\nstock statement")]
 for x,t in steps:
     ax.add_patch(FancyBboxPatch((x,2.3),1.75,1.7,boxstyle="round,pad=0.05",
                  fc="#eaf1ff" if x<4 else "#f6f8fc", ec=ACCENT if x<4 else MUTED, lw=1.0))
-    ax.text(x+0.875,3.15,t,ha='center',va='center',fontsize=5.6,color=INK)
+    ax.text(x+0.875,3.15,t,ha='center',va='center',fontsize=6.0,color=INK)
 for a,b in ((1.95,2.1),(3.85,4.0),(5.75,5.9),(7.65,7.8)):
     ax.add_patch(FancyArrowPatch((a,3.15),(b,3.15),arrowstyle="-|>",mutation_scale=8,color=INK,lw=1.0))
 ax.text(5.0,1.2,"No article may move without a document",ha='center',fontsize=6.4,color=MUTED)

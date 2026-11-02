@@ -155,8 +155,9 @@ layers = [(2.4, "#e8eef7", "Backups"), (1.8, "#d4e0f2", "Updated software"), (1.
 for i, (r, c, name) in enumerate(layers):
     ax.add_patch(Circle((0, 0), r, fc=c, ec="white", lw=1.5))
     y = r - 0.3
-    ax.annotate(name, xy=(0, y), xytext=(3.0, 2.2 - i*1.0), fontsize=8, color=INK, va="center",
-                arrowprops=dict(arrowstyle="-", color=MUTED, lw=0.8))
+    ty = 2.2 - i*1.0
+    ax.plot([0, 2.9], [y, ty], color=MUTED, lw=0.8)
+    ax.text(3.0, ty, name, fontsize=8, color=INK, va="center", ha="left")
 ax.text(0, 0, "Account", ha="center", va="center", fontsize=6.5, color=INK, weight="bold")
 ax.set_xlim(-2.6, 5.6); ax.set_ylim(-2.6, 2.7); ax.set_aspect("equal")
 ax.axis("off")
