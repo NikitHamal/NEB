@@ -177,9 +177,9 @@ Step 2 — The deductions belong to the employees and to the tax authority, so t
 **Problem.** The divisible fund for a year is Rs. 1,20,000 crore. The recommended shares are 30 per cent to the provinces and 25 per cent to the local levels, the remainder staying with the federation. A province receives its share according to a formula in which population has a weight of 50 per cent, area 25 per cent and development 25 per cent. Province A has 20 per cent of the national population, 15 per cent of the area and ranks as a less developed province with a development indicator of 30 per cent. Compute (a) the total provincial share, (b) the total local share and (c) Province A's entitlement as a percentage of the provincial share.
 
 **Solution.**
-Step 1 — Provincial share $= 30\% 	imes 1{,}20{,}000 = Rs.\ 36{,}000$ crore.
-Step 2 — Local share $= 25\% 	imes 1{,}20{,}000 = Rs.\ 30{,}000$ crore.
-Step 3 — Province A's weighted index $= (50\% 	imes 20\%) + (25\% 	imes 15\%) + (25\% 	imes 30\%) = 10\% + 3.75\% + 7.5\%$.
+Step 1 — Provincial share $= 30\% \times 1{,}20{,}000 = Rs.\ 36{,}000$ crore.
+Step 2 — Local share $= 25\% \times 1{,}20{,}000 = Rs.\ 30{,}000$ crore.
+Step 3 — Province A's weighted index $= (50\% \times 20\%) + (25\% \times 15\%) + (25\% \times 30\%) = 10\% + 3.75\% + 7.5\%$.
 Step 4 — Weighted index $= 21.25$ per cent of the total weight, which after normalising across all provinces gives its share of the provincial pool.
 
 **Answer.** (a) Rs. 36,000 crore to the provinces, (b) Rs. 30,000 crore to the local levels, (c) Province A's weighted entitlement works out to an index of 21.25 per cent before normalisation.

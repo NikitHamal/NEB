@@ -52,3 +52,35 @@ HTTP/2 200
 ## install notes (honest)
 - weasyprint was initially absent: `ModuleNotFoundError`. Installed with `pip install --break-system-packages weasyprint markdown matplotlib numpy pymupdf pyyaml pillow` (PEP 668 blocks plain pip), then `sudo apt-get update && apt-get install libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 poppler-utils pandoc` (first import failed on libpango).
 - rustc is not installed; it is not needed for the school-book pipeline (desktop app only), so it was not installed.
+
+## Session 3 (continuation) — env + baseline verify
+Sandbox was a bare Vite project; repo re-cloned (shallow, branch only), PAT supplied via GIT_ASKPASS env var, not in .git/config or any file.
+```
+$ git --version && which git
+git version 2.39.5
+/usr/bin/git
+$ git ls-remote origin polish/school-books-claude  (authenticated)
+5a441618c9b24a27d49ac9b1d0fc036a091ac02e	refs/heads/polish/school-books-claude
+$ system python3 (3.11, NOT used for the pipeline)
+Python 3.11.2
+$ build venv: uv venv --python 3.12
+Python 3.12.16
+weasyprint 70.0
+$ which pandoc pdftoppm pdftotext; node --version
+/usr/bin/pandoc
+/usr/bin/pdftoppm
+/usr/bin/pdftotext
+v20.20.2
+$ curl -sI https://github.com | head -1
+HTTP/2 200 
+$ fc-list : family (book fonts)
+Inter
+JetBrains Mono
+Noto Sans Devanagari
+Poppins
+Poppins Light
+Poppins SemiBold
+Source Serif 4
+```
+Fonts: not vendored. Located via `notes/pipeline/fonts/install.sh` (downloads from github.com/google/fonts into ~/.local/share/fonts/nebians). All five families (Poppins, Inter, Source Serif 4, Noto Sans Devanagari, JetBrains Mono) installed and visible to fontconfig before any build; no wrong-font builds.
+Python 3.12 obtained with `pip install uv; uv python install 3.12` (Debian 12 only ships 3.11).
