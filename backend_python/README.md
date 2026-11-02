@@ -64,7 +64,7 @@ Content lives in the repo: `web/data/{syllabus,study}` (JSON) and `web/static/we
 
 ```bash
 cd backend_python
-DB_ENGINE=sqlite DEBUG=True python manage.py test api.test_content_api api.test_desktop_auth
+DB_ENGINE=sqlite DEBUG=True python manage.py test api.test_content_api api.test_desktop_auth api.test_avatar_profile
 ```
 
 ## Docker
