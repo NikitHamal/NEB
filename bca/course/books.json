@@ -159,5 +159,13 @@
   "credits": 3,
   "accent": "#B45309",
   "status": "done"
+ },
+ "semester-4/software-engineering": {
+  "name": "Software Engineering",
+  "code": "BCA 252",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#BE123C",
+  "status": "done"
  }
 }
