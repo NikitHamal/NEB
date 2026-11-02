@@ -36,6 +36,25 @@ An OS has two faces:
 
 The **kernel** is the always-resident core of the OS; **system calls** are the doorway through which programs ask the kernel for services (open a file, create a process).
 
+```svgfig label="3.1" caption="Layered view of an operating system: hardware, kernel, shell and user programs."
+f = Fig(760, 350)
+cx, cy = 190, 175
+for r, bg, st, lab in ((165, SOFT, SLATE, "Applications"), (128, BLUE, NAVY, "Shell (CLI / GUI)"), (92, MINT, TEAL, "Kernel"), (56, SAND, AMBER, "")):
+    f.circle(cx, cy, r, fill=bg, stroke=st, sw=1.8)
+    if lab: f.text(cx, cy - r + 22, lab, size=10.5, color=st, bold=True)
+f.text(cx, cy, "HARDWARE\nCPU · RAM\ndisk · I/O", size=10, color=AMBER, bold=True, vmid=True)
+rows = [("User and application programs", "browser, Word, games; request services by system calls", SLATE),
+        ("Shell", "command interpreter or GUI (bash, PowerShell, desktop)", NAVY),
+        ("Kernel", "core of the OS: process, memory, file and device management", TEAL),
+        ("Hardware", "CPU, memory, disks and devices managed by the kernel", AMBER)]
+for i, (a, b, c) in enumerate(rows):
+    y = 60 + i * 66
+    f.box(400, y, 12, 12, "", fill=c, stroke=c, r=2)
+    f.text(422, y + 6, a, size=11.5, color=c, bold=True, anchor="start", vmid=True)
+    f.text(422, y + 28, b, size=9.5, color=SLATE, anchor="start")
+f.text(570, 30, "Layers of an operating system", size=12, color=NAVY, bold=True)
+```
+
 ## 3.2 Types of operating system
 
 | Type | Idea | Example / use |
@@ -93,6 +112,20 @@ Four processes arrive together at time 0 with burst times P1 = 5, P2 = 3, P3 = 8
 :::
 
 **Deadlock.** Processes are deadlocked when each holds a resource the next one needs, forming a cycle. It needs four conditions together: mutual exclusion, hold-and-wait, no pre-emption, circular wait. Breaking any one prevents it.
+
+```svgfig label="3.2" caption="Five-state process model and the events that cause each transition."
+f = Fig(760, 310)
+S = {"New": (20, 110, SLATE, SOFT), "Ready": (190, 110, TEAL, MINT), "Running": (390, 110, NAVY, BLUE), "Terminated": (590, 110, RED, ROSE), "Waiting": (290, 230, AMBER, SAND)}
+for n, (x, y, c, bg) in S.items():
+    f.box(x, y, 120, 54, n, fill=bg, stroke=c, color=c, size=12.5, bold=True, r=27)
+f.arrow([(140, 137), (190, 137)], color=SLATE, label="admit", lpos=(165, 127))
+f.arrow([(310, 137), (390, 137)], color=SLATE, label="dispatch", lpos=(350, 127))
+f.arrow([(510, 137), (590, 137)], color=SLATE, label="exit", lpos=(550, 127))
+f.arrow([(450, 110), (450, 62), (250, 62), (250, 110)], color=NAVY, label="time slice over / interrupt", lpos=(350, 55))
+f.arrow([(470, 164), (470, 257), (410, 257)], color=AMBER, label="waits for I/O", lpos=(525, 215))
+f.arrow([(290, 257), (225, 257), (225, 164)], color=TEAL, label="I/O completed", lpos=(170, 215))
+f.text(380, 20, "Process state diagram (five-state model)", size=12, color=NAVY, bold=True)
+```
 
 ## 3.4 Memory management
 
@@ -206,5 +239,77 @@ Useful Linux commands: `pwd` (where am I), `ls -l` (list with permissions), `cd 
 **12.** FIFO with 3 frames: 7, 0, 1 load (3 faults); 2 evicts 7 (fault); 0 is a hit; 3 evicts 0 (fault). Total **5 faults**.
 **13.** Use the table in §3.2: batch, multiprogramming, time-sharing, multiprocessing, real-time, distributed, network, mobile, embedded, one line and example each.
 **14.** Steps 1–5 in §3.6.
+**13–14.** Full ten-mark answers are in the section *Model answers* below.
 **15.** Paging: fixed-size pages and frames, page table, translation example in §3.4. Virtual memory: demand loading, page faults, replacement, thrashing.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q13. Explain the types of operating systems. (10 marks)**
+
+**Introduction.** An **operating system (OS)** is system software that manages the hardware and gives users and programs a convenient interface (Figure 3.1). Operating systems are classified by how they schedule jobs and serve users.
+
+1. **Batch OS:** similar jobs are collected and run one after another without user interaction. *Advantage:* high CPU use for large jobs. *Limitation:* long waiting time, no interaction. *Example:* early IBM mainframes, payroll runs.
+2. **Multiprogramming OS:** several programs stay in memory and the CPU switches to another when one waits for I/O, so the CPU is rarely idle.
+3. **Time-sharing (multitasking) OS:** the CPU gives each user or task a short time slice, so many users feel they have the machine alone. *Example:* UNIX, Linux, Windows.
+4. **Multiprocessor OS:** two or more CPUs share memory and work in parallel for speed and reliability. *Example:* servers running Linux.
+5. **Real-time OS (RTOS):** responds within a guaranteed time. *Hard* real time (air-bag, pacemaker) must never miss a deadline; *soft* real time (video streaming) can tolerate small delays.
+6. **Distributed OS:** many networked computers act as one system and share resources and load. *Example:* cluster and cloud platforms.
+7. **Network OS:** runs on a server and provides file, print and user sharing to client computers. *Example:* Windows Server, Linux server.
+8. **Embedded and mobile OS:** small OS for devices with limited resources. *Example:* Android, iOS, router firmware.
+
+| Type | Interaction | Main aim | Example |
+|---|---|---|---|
+| Batch | none | throughput | old mainframe |
+| Time-sharing | high | fair response | Linux |
+| Real-time | immediate | deadline | RTOS in a car |
+| Distributed | high | resource sharing | cloud cluster |
+| Mobile | touch | battery, apps | Android |
+
+**Conclusion.** Modern desktop and server systems combine multiprogramming, time-sharing and multiprocessing, while special devices use real-time or embedded systems. The best type depends on the workload.
+
+**Q14. Explain the booting process of a computer. (10 marks)**
+
+**Introduction.** **Booting** is the process of starting a computer and loading the operating system from secondary storage into RAM. Because RAM is empty at power-on, a small program stored in ROM must start the process. *Cold boot* is a start from power-off, *warm boot* is a restart.
+
+**Steps**
+
+1. **Power on:** the power supply stabilises its voltages and sends a "power good" signal; the CPU starts at a fixed address in the ROM.
+2. **Firmware (BIOS/UEFI) starts:** the code in the ROM chip takes control and reads the settings kept in CMOS memory.
+3. **POST (power-on self test):** checks the CPU, RAM, keyboard, video and drives. A fault gives beep codes or an error message.
+4. **Find the boot device:** the firmware follows the boot order (SSD, USB, network) and looks for a bootable disk (MBR or GPT).
+5. **Bootloader loads:** a small program such as GRUB or the Windows Boot Manager is loaded from the boot sector.
+6. **Kernel loads:** the bootloader copies the OS kernel into RAM and hands over control; drivers are initialised.
+7. **System services start:** the init or service manager starts background services, the network and the file systems.
+8. **Login and desktop:** the login screen or shell appears and the computer is ready for use.
+
+**Process flow:** power on → firmware → POST → boot device → bootloader → kernel → services → login.
+
+| Item | BIOS (legacy) | UEFI |
+|---|---|---|
+| Disk scheme | MBR, up to 2 TB | GPT, very large disks |
+| Interface | text | graphical, mouse |
+| Boot speed | slower | faster, Secure Boot |
+
+**Conclusion.** Booting is a chain of small programs, each loading a bigger one, until the full OS is running in RAM. Knowing the sequence helps to fix start-up problems such as a missing boot device.
+
+**Q15-M. Explain the states of a process with a diagram. (5 marks)**
+
+A **process** is a program in execution. During its life it passes through five states (Figure 3.2).
+
+1. **New:** the process is being created.
+2. **Ready:** it is in memory and waiting for the CPU.
+3. **Running:** the CPU is executing its instructions; only one process per core is running at a time.
+4. **Waiting (blocked):** it waits for I/O or an event, such as disk input.
+5. **Terminated:** it has finished, and its resources are freed.
+
+| Transition | Cause |
+|---|---|
+| New → Ready | admitted by the scheduler |
+| Ready → Running | dispatched by the CPU scheduler |
+| Running → Ready | time slice expired or higher-priority process arrived |
+| Running → Waiting | needs I/O or an event |
+| Waiting → Ready | I/O or event completed |
+| Running → Terminated | finishes or is killed |
+
+*Example:* while a text editor waits for a key press it is *waiting*; when the key arrives it becomes *ready*, then *running*. The OS keeps this information in a **process control block (PCB)**.

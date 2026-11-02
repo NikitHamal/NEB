@@ -84,6 +84,54 @@ Other kinds: **client–server** (dedicated servers serve clients) and **peer-to
 
 A **full mesh** of 6 nodes needs 6 × 5 / 2 = **15** links, and each node needs 5 ports.
 
+```svgfig label="5.1" caption="The five network topologies with the main merit and demerit of each."
+import math
+f = Fig(760, 330)
+names = ["BUS", "STAR", "RING", "MESH", "HYBRID (tree)"]
+facts = [("+ cheap, little cable", "− backbone fault stops all"), ("+ one fault, one node", "− hub/switch is the risk"),
+         ("+ orderly, no collisions", "− one break can stop all"), ("+ most reliable, many paths", "− n(n−1)/2 links: costly"),
+         ("+ scalable, mixes types", "− complex, costly")]
+for i, n in enumerate(names):
+    x0 = 8 + i * 150; cx = x0 + 70
+    f.box(x0, 8, 140, 26, n, fill=NAVY, stroke=NAVY, color="#ffffff", size=11, bold=True)
+    f.box(x0, 40, 140, 190, "", fill=SOFT, stroke="#cbd5e1")
+    f.text(cx, 266, facts[i][0], size=9.5, color=TEAL, bold=True)
+    f.text(cx, 284, facts[i][1], size=9.5, color=RED, bold=True)
+    if i == 0:
+        f.line(x0 + 12, 135, x0 + 128, 135, color=SLATE, sw=3)
+        for k, nx in enumerate((x0 + 28, x0 + 56, x0 + 84, x0 + 112)):
+            ny = 85 if k % 2 == 0 else 185
+            f.line(nx, 135, nx, ny + (10 if k % 2 == 0 else -10), color=SLATE)
+            f.circle(nx, ny, 10, fill=BLUE, stroke=NAVY)
+        f.box(x0 + 6, 125, 8, 20, "", fill=AMBER, stroke=AMBER, r=1); f.box(x0 + 126, 125, 8, 20, "", fill=AMBER, stroke=AMBER, r=1)
+        f.text(cx, 222, "terminator at each end", size=9, color=AMBER, bold=True)
+    elif i == 1:
+        for a in range(4):
+            ang = math.radians(90 * a + 45); nx, ny = cx + 52 * math.cos(ang), 135 + 52 * math.sin(ang)
+            f.line(cx, 135, nx, ny, color=SLATE); f.circle(nx, ny, 10, fill=BLUE, stroke=NAVY)
+        f.box(cx - 17, 123, 34, 24, "HUB", fill=SAND, stroke=AMBER, size=9, bold=True)
+    elif i == 2:
+        pts = [(cx + 50 * math.cos(math.radians(-90 + 72 * k)), 135 + 50 * math.sin(math.radians(-90 + 72 * k))) for k in range(5)]
+        for k in range(5):
+            a, b = pts[k], pts[(k + 1) % 5]
+            f.line(a[0], a[1], b[0], b[1], color=SLATE, sw=1.8)
+        for p in pts: f.circle(p[0], p[1], 10, fill=BLUE, stroke=NAVY)
+        f.text(cx, 135, "token\n→", size=9, color=AMBER, bold=True)
+    elif i == 3:
+        pts = [(cx + 52 * math.cos(math.radians(-90 + 72 * k)), 135 + 52 * math.sin(math.radians(-90 + 72 * k))) for k in range(5)]
+        for a in range(5):
+            for b in range(a + 1, 5): f.line(pts[a][0], pts[a][1], pts[b][0], pts[b][1], color=SLATE, sw=1.2)
+        for p in pts: f.circle(p[0], p[1], 10, fill=BLUE, stroke=NAVY)
+    else:
+        f.line(cx - 30, 100, cx + 30, 100, color=SLATE, sw=2.5)
+        f.box(cx - 52, 90, 34, 20, "SW", fill=SAND, stroke=AMBER, size=9, bold=True); f.box(cx + 18, 90, 34, 20, "SW", fill=SAND, stroke=AMBER, size=9, bold=True)
+        for sx, dx in ((cx - 38, -1), (cx + 38, 1)):
+            for k in (-1, 0, 1):
+                nx, ny = sx + 22 * k, 175
+                f.line(sx, 110, nx, ny, color=SLATE); f.circle(nx, ny, 9, fill=BLUE, stroke=NAVY)
+f.text(380, 316, "Circle = computer / node · shaded box = hub or switch", size=9.5, color=SLATE, italic=True)
+```
+
 ## 5.4 Network devices
 
 | Device | Layer | Function |
@@ -121,6 +169,26 @@ The **TCP/IP model** has four layers: **Application** (OSI 5–7), **Transport**
 - **UDP**: connectionless, no guarantee, low delay. Used for DNS queries, video calls, games.
 
 **Common application protocols:** HTTP 80 / HTTPS 443, FTP 21, SSH 22, SMTP 25, DNS 53, POP3 110, IMAP 143.
+
+```svgfig label="5.2" caption="OSI seven-layer model compared with the four-layer TCP/IP model, with protocols and data units."
+f = Fig(760, 350)
+osi = [("7  Application", NAVY), ("6  Presentation", NAVY), ("5  Session", NAVY), ("4  Transport", TEAL), ("3  Network", AMBER), ("2  Data link", RED), ("1  Physical", RED)]
+f.text(145, 18, "OSI model (7 layers)", size=11.5, color=NAVY, bold=True)
+f.text(425, 18, "TCP/IP model (4 layers)", size=11.5, color=NAVY, bold=True)
+f.text(655, 18, "Protocols · data unit", size=11.5, color=NAVY, bold=True)
+for i, (n, c) in enumerate(osi):
+    f.box(40, 30 + i * 44, 210, 40, n, fill="#ffffff", stroke=c, color=c, size=11.5, bold=True)
+tc = [("Application", 30, 128, NAVY, BLUE, "HTTP · HTTPS · DNS · SMTP · FTP\ndata / message"),
+      ("Transport", 162, 40, TEAL, MINT, "TCP · UDP\nsegment / datagram"),
+      ("Internet", 206, 40, AMBER, SAND, "IP · ICMP · ARP\npacket"),
+      ("Network access", 250, 84, RED, ROSE, "Ethernet · Wi-Fi · PPP\nframe  →  bits")]
+for n, y, h, c, bg, pr in tc:
+    f.box(330, y, 190, h, n, fill=bg, stroke=c, color=c, size=12, bold=True)
+    f.text(655, y + h / 2, pr, size=10, color=SLATE, bold=True, vmid=True)
+    f.line(522, y + h / 2, 560, y + h / 2, color="#cbd5e1", dash=True)
+for y1, y2 in ((30, 158), (162, 202), (206, 246), (250, 334)):
+    f.line(252, (y1 + y2) / 2, 328, (y1 + y2) / 2, color="#94a3b8", sw=1.2, dash=True)
+```
 
 ## 5.6 Addressing: MAC and IP
 
@@ -212,6 +280,78 @@ Other services: **DHCP** hands out IP addresses automatically; **DNS** maps name
 **12.** 8 subnets need 3 bits → /27, mask 255.255.255.224, size 32. Networks: 192.168.5.0, .32, .64, .96, .128, .160, .192, .224 (30 usable hosts each).
 **13.** 25 MB = 25 × 8 = 200 Mbit; 200 / 20 = **10 s**.
 **14.** Use the table in §5.5, adding one sentence on the protocol/example for each layer.
-**15.** Use the table in §5.3.
+**14–16.** Full ten-mark and five-mark answers, with Figures 5.1 and 5.2, are in the section *Model answers* that follows.
 **16.** Circuit switching: a path reserved end to end, constant delay, wasted when idle, used by classic telephony. Packet switching: data cut into packets routed independently, efficient sharing, variable delay, the basis of the Internet.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q14. Explain the seven layers of the OSI model with the function of each. (10 marks)**
+
+**Introduction.** The **OSI (Open Systems Interconnection) model**, published by ISO in 1984, divides network communication into seven layers. Each layer serves the layer above it and is served by the layer below, so hardware and software from different makers can work together (Figure 5.2).
+
+**The seven layers (from top to bottom)**
+
+1. **Application (7):** gives network services to user programs, such as web browsing, email and file transfer. Protocols: HTTP, SMTP, FTP, DNS.
+2. **Presentation (6):** translates, compresses and encrypts data so both ends understand it (ASCII/Unicode, JPEG, TLS).
+3. **Session (5):** opens, manages and closes a dialogue between two applications and adds checkpoints for recovery.
+4. **Transport (4):** end-to-end delivery between processes using port numbers; splits data into segments and provides flow control and error recovery. Protocols: TCP (reliable), UDP (fast).
+5. **Network (3):** logical addressing and routing of packets across networks. Protocols: IP, ICMP; device: router.
+6. **Data link (2):** moves frames between two directly connected nodes using MAC addresses, with error detection (CRC) and access control. Devices: switch, bridge.
+7. **Physical (1):** sends raw bits as electrical, light or radio signals; defines cables, connectors, voltages and data rates. Devices: hub, repeater, NIC.
+
+**Data units.** Data become segments at transport, packets at network, frames at data link and bits at the physical layer. Each layer adds a header while the data go down (*encapsulation*) and removes it on the way up at the receiver.
+
+| Layer | PDU | Address used | Device |
+|---|---|---|---|
+| Transport | segment | port | firewall (L4) |
+| Network | packet | IP address | router |
+| Data link | frame | MAC address | switch |
+| Physical | bits | none | hub, cable |
+
+**Conclusion.** The OSI model is a reference model that makes network design and troubleshooting easier because a fault can be traced layer by layer. The Internet itself runs on the simpler TCP/IP model. A useful memory aid, from the top, is "All People Seem To Need Data Processing".
+
+**Q15. Describe the network topologies with their merits and demerits. (10 marks)**
+
+**Introduction.** A **topology** is the arrangement of the nodes and links of a network. The *physical topology* is the real cabling, and the *logical topology* is the path the data follow. The five common topologies are shown in Figure 5.1.
+
+**Topologies**
+
+1. **Bus:** all nodes attach to one backbone cable with a terminator at each end. *Merits:* cheap, easy to extend, little cable. *Demerits:* one break in the backbone stops everyone, performance falls as nodes are added, and collisions occur.
+2. **Star:** every node connects to a central hub or switch. *Merits:* easy to install and troubleshoot, one cable failure affects only one node. *Demerits:* the central device is a single point of failure and more cable is needed. This is the most common LAN design today.
+3. **Ring:** each node connects to two neighbours, forming a closed loop, and data (or a token) travel in one direction. *Merits:* orderly access, no collisions. *Demerits:* one break or one failed node can stop the ring unless it is a dual ring.
+4. **Mesh:** every node is linked to every other node. A full mesh of *n* nodes needs n(n − 1)/2 links; 5 nodes need 10 links. *Merits:* very reliable and fast, many alternative paths. *Demerits:* very expensive and hard to install.
+5. **Hybrid or tree:** a combination, for example several star LANs joined by a backbone. *Merits:* scalable and flexible. *Demerits:* complex and costly to manage.
+
+| Topology | Cable | Fault tolerance | Cost | Typical use |
+|---|---|---|---|---|
+| Bus | least | poor | low | small old LANs |
+| Star | medium | good (except hub) | medium | offices, schools |
+| Ring | medium | poor | medium | token ring, FDDI |
+| Mesh | most | excellent | high | WAN backbone, ISPs |
+| Hybrid | varies | good | high | campuses, banks |
+
+**Example.** A college in Kathmandu connects each lab with a star LAN of switches, and joins the labs with a fibre backbone, which is a hybrid (tree) topology.
+
+**Conclusion.** The topology is chosen by cost, reliability and size. Star-based hybrids dominate today, while the mesh is used where reliability matters most.
+
+**Q16-M. Distinguish between the OSI and TCP/IP models. (5 marks)**
+
+Both models describe how data move across a network in layers (Figure 5.2).
+
+| Basis | OSI model | TCP/IP model |
+|---|---|---|
+| Layers | 7 | 4 (some books use 5) |
+| Developed by | ISO, a general reference model | US DoD (ARPANET), built around protocols |
+| Top layers | application, presentation, session separate | one application layer |
+| Bottom layers | data link and physical separate | one network access layer |
+| Use | teaching and troubleshooting | the real Internet |
+| Approach | model first, protocols later | protocols first, model later |
+| Reliability | transport layer offers connection-oriented service | TCP reliable, UDP unreliable choices |
+
+1. The TCP/IP **application** layer covers the OSI session, presentation and application layers.
+2. The **transport** layers match exactly (TCP and UDP).
+3. The TCP/IP **internet** layer matches the OSI network layer (IP).
+4. The TCP/IP **network access** layer covers the OSI data link and physical layers.
+
+*Example:* a web page request passes HTTP (application), TCP (transport), IP (internet) and Ethernet or Wi-Fi (network access) on the sender's side, and the same layers in reverse at the server.
