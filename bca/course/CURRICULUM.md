@@ -42,7 +42,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | V | BCA 306 | Project II | 3 | project (no notes) |
 | VI | BCA 351 | Computer Graphics and Animation | 3 | **full book** (`semester-6/computer-graphics`) |
 | VI | BCA 352 | Mobile Programming | 3 | **full book** (`semester-6/mobile-programming`) |
-| VI | BCA 353 | Cryptography and Network Security | 3 | mapped only |
+| VI | BCA 353 | Cryptography and Network Security | 3 | **full book** (`semester-6/cryptography-network-security`) |
 | VI | BCA 354 | Technical Writing | 2 | mapped only |
 | VI | BCA 355 | Distributed System | 3 | mapped only |
 | VI | BCA 356 | Project III | 3 | project (no notes) |
