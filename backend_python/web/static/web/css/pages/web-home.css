@@ -56,18 +56,18 @@
    post cards are not widened to do it. */
 .hf-page,
 .hf-container {
-  max-width: 1202px;
+  max-width: 1280px;
   margin: 0 auto;
   /* The shell's own frame: landing.css zeroes the main padding these pages
      inherit, so the feed and every detail page that reuses the shell state the
      same inset and top gap here, once. */
-  padding: 20px 24px 0;
+  padding: 20px 16px 0;
 }
 
 @media (max-width: 600px) {
   .hf-page,
   .hf-container {
-    padding: 16px 16px 0;
+    padding: 16px 12px 0;
   }
 }
 
