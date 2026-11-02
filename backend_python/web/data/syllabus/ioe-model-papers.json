@@ -1,0 +1,88 @@
+{
+ "grade": "ioe",
+ "grade_label": "IOE · BE/BArch Engineering Entrance",
+ "grade_label_ne": "IOE प्रवेश परीक्षा",
+ "short": "IOE",
+ "kind": "entrance",
+ "subject": "model-papers",
+ "name": "Model Papers and Mock Tests",
+ "name_ne": "नमुना प्रश्नपत्र तथा अभ्यास परीक्षा",
+ "icon": "quiz",
+ "group": "practice",
+ "color": "#B02A5B",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 100,
+ "exam": "2 hours, 100 single-best-answer MCQs with four options, 140 marks (Section A 60x1=60, Section B 40x2=80), 10% of a question's marks deducted per wrong answer | Mathematics 50 | Physics 40 | Chemistry 30 | English 20",
+ "areas": [
+  "The Examination",
+  "Full Model Papers"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "The IOE Entrance Examination: Pattern, Weightage and Strategy",
+   "hours": null,
+   "questions": null,
+   "area": "The Examination",
+   "topics": [
+    "Who sits the paper, the five constituent campuses and the affiliated colleges, and the eligibility rules",
+    "The paper: mode, duration, 100 questions, 140 marks, and how the marks are counted",
+    "Negative marking (10% of a question's marks) and the guessing rule it dictates",
+    "A time plan for 120 minutes and a 12-week study plan",
+    "How to use the model papers in this book"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 2038,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Model Paper 1",
+   "hours": null,
+   "questions": 100,
+   "area": "Full Model Papers",
+   "topics": [
+    "Mathematics 35, Physics 27, Chemistry 22, English 16, with an explained key"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3326,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Model Paper 2",
+   "hours": null,
+   "questions": 100,
+   "area": "Full Model Papers",
+   "topics": [
+    "Mathematics 35, Physics 27, Chemistry 22, English 16, with an explained key"
+   ],
+   "sections": [],
+   "summary": [],
+   "terms": [],
+   "stats": {
+    "words": 3052,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 3,
+ "topic_count": 7,
+ "notes_ready": 3
+}

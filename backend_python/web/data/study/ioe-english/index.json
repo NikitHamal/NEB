@@ -1,0 +1,41 @@
+{
+ "book": "ioe-eng",
+ "units": [
+  {
+   "no": 1,
+   "title": "Grammar I",
+   "area": "English",
+   "words": 2099,
+   "read_min": 12,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Grammar II",
+   "area": "English",
+   "words": 2095,
+   "read_min": 12,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Phonetics",
+   "area": "English",
+   "words": 1208,
+   "read_min": 7,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Comprehension",
+   "area": "English",
+   "words": 1788,
+   "read_min": 10,
+   "figures": 0,
+   "has_questions": true
+  }
+ ]
+}

@@ -536,6 +536,86 @@
      "questions": 200
     }
    ]
+  },
+  {
+   "label": "IOE · BE/BArch Engineering Entrance",
+   "label_ne": "IOE प्रवेश परीक्षा",
+   "exam": "Institute of Engineering (TU) BE/BArch entrance examination",
+   "short": "IOE",
+   "kind": "entrance",
+   "grade": "ioe",
+   "subjects": [
+    {
+     "subject": "physics",
+     "name": "Physics",
+     "name_ne": "भौतिक विज्ञान",
+     "icon": "bolt",
+     "group": "entrance",
+     "color": "#4A42D6",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 6,
+     "topic_count": 35,
+     "notes_ready": 6,
+     "questions": 27
+    },
+    {
+     "subject": "chemistry",
+     "name": "Chemistry",
+     "name_ne": "रसायन विज्ञान",
+     "icon": "experiment",
+     "group": "entrance",
+     "color": "#A8271F",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 3,
+     "topic_count": 17,
+     "notes_ready": 3,
+     "questions": 22
+    },
+    {
+     "subject": "mathematics",
+     "name": "Mathematics",
+     "name_ne": "गणित",
+     "icon": "calculate",
+     "group": "entrance",
+     "color": "#8F5507",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 7,
+     "topic_count": 22,
+     "notes_ready": 7,
+     "questions": 35
+    },
+    {
+     "subject": "english",
+     "name": "English",
+     "name_ne": "अङ्ग्रेजी",
+     "icon": "menu_book",
+     "group": "entrance",
+     "color": "#6B3FA0",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 4,
+     "topic_count": 12,
+     "notes_ready": 4,
+     "questions": 16
+    },
+    {
+     "subject": "model-papers",
+     "name": "Model Papers and Mock Tests",
+     "name_ne": "नमुना प्रश्नपत्र तथा अभ्यास परीक्षा",
+     "icon": "quiz",
+     "group": "practice",
+     "color": "#B02A5B",
+     "lang": "en",
+     "hours": null,
+     "unit_count": 3,
+     "topic_count": 7,
+     "notes_ready": 3,
+     "questions": 100
+    }
+   ]
   }
  ]
 }

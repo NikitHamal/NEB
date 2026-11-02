@@ -1,0 +1,68 @@
+{
+ "book": "ioe-math",
+ "units": [
+  {
+   "no": 1,
+   "title": "Set, Logic and Functions",
+   "area": "Mathematics",
+   "words": 1618,
+   "read_min": 9,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Algebra",
+   "area": "Mathematics",
+   "words": 1624,
+   "read_min": 9,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Trigonometry",
+   "area": "Mathematics",
+   "words": 939,
+   "read_min": 5,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Coordinate Geometry",
+   "area": "Mathematics",
+   "words": 1116,
+   "read_min": 6,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Calculus",
+   "area": "Mathematics",
+   "words": 1389,
+   "read_min": 8,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Vectors and their Products",
+   "area": "Mathematics",
+   "words": 1113,
+   "read_min": 6,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Statistics and Probability",
+   "area": "Mathematics",
+   "words": 1043,
+   "read_min": 6,
+   "figures": 0,
+   "has_questions": true
+  }
+ ]
+}

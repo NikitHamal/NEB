@@ -1,0 +1,358 @@
+{
+ "grade": "ioe",
+ "grade_label": "IOE · BE/BArch Engineering Entrance",
+ "grade_label_ne": "IOE प्रवेश परीक्षा",
+ "short": "IOE",
+ "kind": "entrance",
+ "subject": "physics",
+ "name": "Physics",
+ "name_ne": "भौतिक विज्ञान",
+ "icon": "bolt",
+ "group": "entrance",
+ "color": "#4A42D6",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 27,
+ "exam": "",
+ "areas": [
+  "Physics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Mechanics",
+   "hours": null,
+   "questions": 8,
+   "area": "Physics",
+   "topics": [
+    "Physical quantities, vectors and kinematics: dimensions, resolution and polygon law, vector algebra, equations of motion, projectile motion, relative motion",
+    "Newton's laws of motion and friction: conservation of linear momentum, equilibrium and non-equilibrium applications, laws of solid friction",
+    "Work, energy and power: work-energy theorem, kinetic and potential energy, conservation of energy, conservative and non-conservative forces, elastic and inelastic collisions",
+    "Circular motion, gravitation and SHM: centripetal force, conical pendulum, banking, gravitational potential, variation of g, satellites, rocket launch, energy in SHM, spring-mass system, simple pendulum, damped and forced oscillation, resonance",
+    "Rotational dynamics: moment of inertia, radius of gyration, rotational KE, centre of gravity and mass, torque, conservation of angular momentum",
+    "Elasticity: Hooke's law, Young modulus, bulk modulus, modulus of rigidity, Poisson's ratio, elastic energy",
+    "Fluid mechanics: buoyancy, flotation, Archimedes' principle, surface tension, capillarity, viscosity, Newton, Stokes and Poiseuille formulae, Reynolds number, continuity, Bernoulli"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Physical quantities, vectors and kinematics"
+    },
+    {
+     "no": "1.2",
+     "title": "Newton's laws of motion and friction"
+    },
+    {
+     "no": "1.3",
+     "title": "Work, energy and power"
+    },
+    {
+     "no": "1.4",
+     "title": "Circular motion, gravitation and SHM"
+    },
+    {
+     "no": "1.5",
+     "title": "Rotational dynamics"
+    },
+    {
+     "no": "1.6",
+     "title": "Elasticity"
+    },
+    {
+     "no": "1.7",
+     "title": "Fluid mechanics"
+    }
+   ],
+   "summary": [
+    "Check units by dimensions; use sin2θ for range, sin^2θ for height.",
+    "Momentum is conserved in every collision; kinetic energy only in elastic ones.",
+    "For circular and orbital motion identify what supplies the centripetal force.",
+    "SHM periods depend only on the system constants (m,k or l,g), not on amplitude.",
+    "Angular momentum conservation changes ω when I changes.",
+    "Elastic energy density is (1)/(2)× stress × strain.",
+    "Fluids: continuity first for speeds, then Bernoulli for pressure."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2646,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Heat and Thermodynamics",
+   "hours": null,
+   "questions": 4,
+   "area": "Physics",
+   "topics": [
+    "Temperature and quantity of heat: thermal equilibrium, specific heat, latent heat, method of mixture, Newton's law of cooling, triple point",
+    "Thermal expansion of solids and liquids",
+    "Transfer of heat: conduction, convection, radiation, thermal conductivity, black body, Stefan-Boltzmann law",
+    "Thermal properties of matter: kinetic theory of gases, heat capacities of gases and solids",
+    "Laws of thermodynamics: first law, processes, second law, heat engine, Carnot, Otto and Diesel cycles, refrigerator, entropy"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Temperature and quantity of heat"
+    },
+    {
+     "no": "2.2",
+     "title": "Thermal expansion"
+    },
+    {
+     "no": "2.3",
+     "title": "Transfer of heat"
+    },
+    {
+     "no": "2.4",
+     "title": "Thermal properties of matter and kinetic theory"
+    },
+    {
+     "no": "2.5",
+     "title": "Laws of thermodynamics"
+    }
+   ],
+   "summary": [
+    "Heat lost = heat gained; check for a phase change first.",
+    "γ=3α; blocked expansion gives stress YαΔ T.",
+    "Radiation scales as T^4 (kelvin), conduction as Δ T/L.",
+    "bar K=(3)/(2)kT for every ideal gas; vrms∝√T/M.",
+    "Know the four processes' W, Q and Δ U; adiabatic means PV^γ= const.",
+    "No engine beats Carnot; entropy of an isolated system never decreases."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1781,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Geometric and Physical Optics",
+   "hours": null,
+   "questions": 4,
+   "area": "Physics",
+   "topics": [
+    "Reflection: plane and curved mirrors, mirror formula",
+    "Refraction: plane surface, critical angle, total internal reflection, lateral shift, prism, minimum deviation, lenses, lens maker's formula, combination of lenses, optical fibre",
+    "Dispersion: spectrum, dispersive power, chromatic and spherical aberration, achromatism, scattering of light",
+    "Nature and propagation of light: Huygens' principle, velocity of light",
+    "Interference: coherent sources, Young's double slit experiment",
+    "Diffraction: Fraunhofer diffraction, grating, resolving power",
+    "Polarization: Brewster's law, transverse nature, Polaroid"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Reflection"
+    },
+    {
+     "no": "3.2",
+     "title": "Refraction"
+    },
+    {
+     "no": "3.3",
+     "title": "Dispersion"
+    },
+    {
+     "no": "3.4",
+     "title": "Nature and propagation of light"
+    },
+    {
+     "no": "3.5",
+     "title": "Interference"
+    },
+    {
+     "no": "3.6",
+     "title": "Diffraction"
+    },
+    {
+     "no": "3.7",
+     "title": "Polarization"
+    }
+   ],
+   "summary": [
+    "Mirror and lens formulas are used with a consistent sign convention.",
+    "sin C=1/n; TIR only from dense to rare; fibres use it with NA =√n1^2-n2^2.",
+    "Prisms: minimum deviation relation; thin prism δ=(n-1)A.",
+    "Violet bends most; achromatism needs two glasses.",
+    "β=(λ D)/(d) shrinks in a medium.",
+    "Polarisation shows light is transverse; Brewster and Malus give the numbers."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1764,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Waves and Sound",
+   "hours": null,
+   "questions": 2,
+   "area": "Physics",
+   "topics": [
+    "Wave motion: travelling and stationary waves",
+    "Mechanical waves: velocity of sound in solid, liquid and gas; effect of temperature, pressure, humidity",
+    "Waves in pipes and strings: closed and open pipes, resonance tube, laws of vibration of a string",
+    "Acoustic phenomena: pressure amplitude, intensity level, quality and pitch, ultrasonic and infrasonic, Doppler effect"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Wave motion: travelling and stationary waves"
+    },
+    {
+     "no": "4.2",
+     "title": "Mechanical waves: speed of sound"
+    },
+    {
+     "no": "4.3",
+     "title": "Waves in pipes and strings"
+    },
+    {
+     "no": "4.4",
+     "title": "Acoustic phenomena"
+    }
+   ],
+   "summary": [
+    "v=fλ; stationary-wave nodes are (λ)/(2) apart.",
+    "Sound speed depends on temperature, medium and humidity; not on pressure alone.",
+    "Closed pipes give odd harmonics; the resonance-tube method gives v=2f(l2-l1).",
+    "A string's frequency rises with tension and falls with length and mass density.",
+    "Beats count the frequency difference; a ten-fold intensity change is 10 dB."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1530,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Electricity and Magnetism",
+   "hours": null,
+   "questions": 7,
+   "area": "Physics",
+   "topics": [
+    "Electrostatics: Coulomb's law, field, Gauss's law, potential, capacitors and their combinations, dielectrics, energy stored",
+    "DC circuits: Ohm's law, resistivity, work and power, galvanometer and ohmmeter, internal resistance, Joule's law, Kirchhoff's laws",
+    "Thermoelectric effect: Seebeck, thermocouples, Peltier, thermopile, Thomson",
+    "Magnetic effect: force on a conductor and a charge, torque, Hall effect, Biot-Savart law, Ampere's law, force between parallel conductors",
+    "Magnetic properties of matter: earth's magnetism, magnetic materials, permeability, susceptibility, hysteresis",
+    "Electromagnetic induction: Faraday's law, induced emf, AC generator, self and mutual induction, energy in an inductor, transformer",
+    "Alternating currents: rms value, phasors of R, L, C, quality factor, power factor"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Electrostatics"
+    },
+    {
+     "no": "5.2",
+     "title": "DC circuits"
+    },
+    {
+     "no": "5.3",
+     "title": "Thermoelectric effect"
+    },
+    {
+     "no": "5.4",
+     "title": "Magnetic effect of current"
+    },
+    {
+     "no": "5.5",
+     "title": "Magnetic properties of matter"
+    },
+    {
+     "no": "5.6",
+     "title": "Electromagnetic induction"
+    },
+    {
+     "no": "5.7",
+     "title": "Alternating currents"
+    }
+   ],
+   "summary": [
+    "E=(kQ)/(r^2), V=(kQ)/(r); Gauss's law gives symmetric fields.",
+    "Series capacitors share charge; parallel share voltage; energy (1)/(2)CV^2.",
+    "Terminal voltage is varepsilon-Ir; shunts go in parallel, multipliers in series.",
+    "Moving charges in B go in circles; parallel currents attract.",
+    "Para-, dia- and ferro-magnetism differ in sign and size of chi.",
+    "Induced emf opposes the change (Lenz); transformers trade voltage for current.",
+    "RLC: Z, resonance at frac12π√LC and power factor (R)/(Z)."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2274,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Modern Physics",
+   "hours": null,
+   "questions": 2,
+   "area": "Physics",
+   "topics": [
+    "Electrons: Millikan's experiment, cathode rays, specific charge",
+    "Photons and quantization of energy: photoelectric effect, Planck's constant, Bohr theory, spectral series, de Broglie, uncertainty principle, X-rays and Bragg's law, laser",
+    "Solids and semiconductor devices: intrinsic and extrinsic semiconductors, p-n junction, rectification, Zener diode, transistor, logic gates",
+    "Radioactivity and nuclear reactions: atomic mass, isotopes, nuclear density, mass-energy relation, mass defect, fission and fusion, radioactive decay law, carbon dating, health hazard",
+    "Recent trends: particle physics, the universe, seismology, telecommunication, environment, new technology and materials"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Electrons"
+    },
+    {
+     "no": "6.2",
+     "title": "Photons and quantization of energy"
+    },
+    {
+     "no": "6.3",
+     "title": "Solids and semiconductor devices"
+    },
+    {
+     "no": "6.4",
+     "title": "Radioactivity and nuclear reaction"
+    },
+    {
+     "no": "6.5",
+     "title": "Recent trends in physics"
+    }
+   ],
+   "summary": [
+    "Photons carry hf; only frequency above threshold ejects electrons.",
+    "Bohr energies scale as 1/n^2; series are named by the final level.",
+    "Wave–particle duality: λ=h/p; the uncertainty principle limits x and p.",
+    "Forward bias narrows the depletion layer; NAND and NOR are universal.",
+    "N=N0(tfrac12)^n after n half-lives; binding energy peaks near iron.",
+    "Know the recent-trends vocabulary: quark, boson, Hubble, LIGO, P/S waves, nano, superconductor."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1964,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 6,
+ "topic_count": 35,
+ "notes_ready": 6
+}
