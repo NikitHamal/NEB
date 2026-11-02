@@ -255,5 +255,13 @@
   "credits": 2,
   "accent": "#CA8A04",
   "status": "done"
+ },
+ "semester-6/distributed-system": {
+  "name": "Distributed System",
+  "code": "BCA 355",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }

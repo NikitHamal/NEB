@@ -44,7 +44,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | VI | BCA 352 | Mobile Programming | 3 | **full book** (`semester-6/mobile-programming`) |
 | VI | BCA 353 | Cryptography and Network Security | 3 | **full book** (`semester-6/cryptography-network-security`) |
 | VI | BCA 354 | Technical Writing | 2 | **full book** (`semester-6/technical-writing`) |
-| VI | BCA 355 | Distributed System | 3 | mapped only |
+| VI | BCA 355 | Distributed System | 3 | **full book** (`semester-6/distributed-system`) |
 | VI | BCA 356 | Project III | 3 | project (no notes) |
 | VII | BCA 401 | Cyber Security and Ethical Hacking | 3 | mapped only |
 | VII | BCA 402 | Software Project Management | 3 | mapped only |
