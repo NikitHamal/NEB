@@ -191,5 +191,13 @@
   "credits": 3,
   "accent": "#0E7490",
   "status": "done"
+ },
+ "semester-5/artificial-intelligence": {
+  "name": "Artificial Intelligence",
+  "code": "BCA 302",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#7C3AED",
+  "status": "done"
  }
 }
