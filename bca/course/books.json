@@ -55,5 +55,13 @@
   "credits": 3,
   "accent": "#9A3412",
   "status": "done"
+ },
+ "semester-2/oop-in-java": {
+  "name": "OOP in Java",
+  "code": "BCA 153",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#B91C1C",
+  "status": "done"
  }
 }
