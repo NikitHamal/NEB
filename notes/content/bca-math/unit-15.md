@@ -112,7 +112,7 @@ The second reasoning chapter covers the questions that depend on pattern spottin
 **3.** (d) — n(n + 1): 1·2, 2·3, …, 6·7 = 42.
 **4.** (b) — every second letter.
 **5.** (c) — add 3.
-**6.** (d) — 100 years: 76 ordinary + 24 leap = 76 + 48 = 124 odd days = 5 weeks... remainder 5.
+**6.** (d) — 100 years = 76 ordinary + 24 leap years: 76 + 48 = 124 odd days = 17 weeks + 5 days.
 **7.** (a) — the 400-year cycle repeats exactly.
 **8.** (b) — 365 = 52 weeks + 1 day.
 **9.** (d) — 360° in 60 minutes.

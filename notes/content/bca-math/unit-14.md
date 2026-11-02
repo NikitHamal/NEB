@@ -159,7 +159,7 @@ Reasoning is worth 7–10 of the 50 mathematics questions in the published patte
 **2.** (a) — 14 + 15 = 29.
 **3.** (d) — he ends 6 m east of the start: 10 north, 6 east, then 10 south.
 **4.** (b) — 6-8-10 triangle.
-**5.** (c) — A's mother's mother's mother... C is A's mother and D is C's father, so A is D's granddaughter.
+**5.** (c) — A is B's sister and C is B's mother, so C is also A's mother; D is C's father, so A is D's granddaughter.
 **6.** (a) — grandfather's only son is her father; his son is her brother.
 **7.** (d) — 40 − 12 + 1 = 29.
 **8.** (b) — left of north is west; turning 180° faces east.
