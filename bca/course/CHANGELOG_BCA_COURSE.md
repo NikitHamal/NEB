@@ -60,3 +60,23 @@ Word counts are raw (whitespace-split over the unit files, so code listings, tab
 Also not started: elective slots BCA 405/406 and 453/454 (see `CURRICULUM.md`). The six project/internship subjects have no study material because they are not taught from notes; a guide for them is a possible later addition.
 
 **Tooling changes:** `tools/check_java_examples.py` (compiles and runs every Java program in a book and compares the printed output), `tools/check_math1.py`, `tools/check_math2.py`, `tools/check_discrete.py` (re-derive the numeric answers). The PDF pipeline itself was not changed. The pipeline needs Python 3.12 (it uses f-string syntax that 3.11 rejects) and the fonts from `notes/pipeline/fonts/install.sh`; see ENV.md.
+
+
+## Session 5 — Semester III completed (6 of 6 core subjects)
+
+Semester III is now fully done (30 → 24 core subjects were not-started before this session counted 30 incl. 8 slots; see STATUS.md for the live count). Raw words count the unit files including code, tables and generated output blocks. QA = `tools/qa_pdf.py` (cover, linked contents, page numbers, fonts, margins, clipped code, leaked TeX, stranded headings): 0 failures on all six; every warning is a natural short page (table-of-contents overflow or the last answers of a chapter) and is noted in the subject README.
+
+| Subject | Code | Units | Raw words | PDF pages | QA |
+|---|---|---|---|---|---|
+| Data Structure and Algorithms | BCA 201 | 11 | 22,743 | 75 | pass: 0 failures; 1 warning: p3 TOC overflow |
+| Database Management System | BCA 202 | 9 | 15,156 | 56 | pass: 0 failures; 3 warnings: p3 TOC overflow; p26, p50 chapter-end answer spill |
+| Web Technology I | BCA 203 | 7 | 9,924 | 45 | pass: 0 failures; 2 warnings: p3 TOC overflow; p34 chapter-end answer spill |
+| System Analysis and Design | BCA 204 | 5 | 9,919 | 33 | pass: 0 failures; 1 warning: p3 TOC overflow |
+| Probability and Statistics | BCA 205 | 7 | 9,323 | 30 | pass: 0 failures; 2 warnings: p3 TOC overflow; p10 chapter-end answer spill |
+| Applied Economics | BCA 206 | 7 | 11,390 | 34 | pass: 0 failures; 2 warnings: p3 TOC overflow; p25 chapter-end spill |
+
+Total new material: 78,455 raw words. **Tooling added:** `tools/fill_c_outputs.py` (runs each C program and inserts its real output), `tools/fill_sql_outputs.py` (runs each SQL block on PostgreSQL, real results and error messages), `tools/fill_web_outputs.py` + `tools/jq_runner.js` (Node and jsdom/jQuery outputs, xmllint check of XML), `tools/normalize_md.py` (blank line before lists, which the house Markdown parser needs), `tools/check_stats.py`, `tools/check_economics.py` (recompute every worked and practice number). The PDF pipeline was not changed.
+
+**Layout lesson recorded:** the house CSS makes every `pre` block `break-inside: avoid`, so a program taller than the space left on a page jumps to the next page and leaves a near-empty page behind its heading. Three long programs (stack/postfix, all sorts, graph algorithms) were therefore split into two shorter complete programs each; this removed three blank pages from the Data Structure and Algorithms PDF.
+
+**Not done in this session:** Semesters IV–VIII (16 core subjects) and the 8 project/internship/elective slots. No subject-teacher review of any book has happened.

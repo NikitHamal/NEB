@@ -135,5 +135,13 @@
   "credits": 3,
   "accent": "#BE185D",
   "status": "done"
+ },
+ "semester-3/applied-economics": {
+  "name": "Applied Economics",
+  "code": "BCA 206",
+  "semester": 3,
+  "credits": 2,
+  "accent": "#047857",
+  "status": "done"
  }
 }

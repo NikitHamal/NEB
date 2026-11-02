@@ -49,7 +49,7 @@ blk = [f"<!-- COURSE-STATUS -->", "## BCA course: real status", "",
        "", "| Sem | Code | Subject | Words | PDF pages | Status |", "|---|---|---|---|---|---|"]
 for r in done:
     blk.append(f"| {r[0]} | {r[1]} | [{r[2]}](course/{r[5]}/) | {r[7]:,} | {r[8]} | done |")
-blk += ["", "Semester I and Semester II are fully done. Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.", "<!-- /COURSE-STATUS -->"]
+blk += ["", "Semesters I, II and III are fully done. Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.", "<!-- /COURSE-STATUS -->"]
 block = "\n".join(blk)
 for path, prefix in ((os.path.join(BCA, "README.md"), ""), (os.path.join(C, "README.md"), "course/")):
     s = open(path, encoding="utf-8").read()

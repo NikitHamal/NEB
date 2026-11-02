@@ -39,3 +39,28 @@ The revised (2082-batch) per-subject syllabus PDFs could not be retrieved. Sourc
 - https://benchpartner.com/bim-tu/principles-of-management/305/syllabus : TU BIM Principles of Management outline (planning, organising, leading, controlling, quality, change).
 - https://benchpartner.com/bca-tu/introduction-to-management/contents : unit titles of the older TU BCA Introduction to Management (CAMG304).
 - collegenote.net 'Principles of Management 156' unit list, read from a search-result excerpt only: the page itself, when fetched, returned unrelated spam and was not used. The revised 1-credit BCA 156 syllabus PDF was not retrieved.
+
+
+## Semester III (session 5, accessed 2026-11-02)
+All syllabus pages below are third-party reproductions of the TU course outlines; the revised-curriculum PDFs themselves were not retrievable in this session either (unauthenticated and authenticated fetches reached only these mirrors).
+
+### BCA 201 Data Structure and Algorithms (TU CACS201, 11 units)
+- https://benchpartner.com/bca-tu/data-structures-and-algorithms/11/syllabus : unit titles and hours (Units 1–11), lab list, code CACS201, full marks 60 + 20 + 20.
+- https://notebahadur.com/tu-bca-3rd-semester-data-structures-and-algorithms/ and https://www.tupapers.com/faculty/bca/third-semester/data-structures-and-algorithms/syllabus/ : full topic text including Unit 6 Recursion, Unit 10 (Warshall, Kruskal and Round-Robin) and Unit 11 (deterministic/non-deterministic, divide and conquer, series/parallel, heuristic/approximate).
+- Substitution: the 2074 CACS201 outline is used as the proxy for BCA 201.
+
+### BCA 202 Database Management System (9 units, 45 hours)
+- https://bcapoint.com/database-management-system-syllabus-tu/ : nine units with hours (Introduction 3; Design, Architecture and Model 6; Relational Model 4; Normalization 4; SQL DDL 6; Querying 8; Stored Procedures, Triggers, Indexing 5; Query Processing and Security 5; Transaction and Concurrency 4) and the Oracle-based lab note.
+- https://www.collegesnepal.com/syllabus/bca/ : confirms code BCA 202, Semester 3, 3 credits. Substitution: the older CACS255 (Semester IV) list as the proxy.
+
+### BCA 203 Web Technology I (7 units)
+- https://www.ckundan.com.np/2023/02/web-technologies-i-complete-bca-notes-pdf.html : seven unit titles (Internet and WWW; HTML and Graphics; Scripting Language; CSS; XML; Introduction to jQuery; Website Page Layout and Design Issues). Hours not found. Substitution: the 2074 "Web Technology" outline as the proxy.
+
+### BCA 204 System Analysis and Design (TU CACS203, 5 units)
+- https://www.ishan12.com.np/2024/04/bca-system-analysis-and-design-syllabus.html : five units with hours 9/7/13/12/4 and full topic lists; course code CACS203, 3 credits.
+
+### BCA 205 Probability and Statistics (TU CAST202, 7 units)
+- https://notebahadur.com/tu-bca-3rd-semester-probability-statistics/ : seven units with hours 3/6/6/8/6/10/6 and the SPSS lab note. Also https://bcapoint.com/bca-third-semester-syllabus/ (credits, lecture/tutorial/lab hours).
+
+### BCA 206 Applied Economics (7 units)
+- https://benchpartner.com/bca-tu/applied-economics/31/syllabus : seven units with hours 6/6/6/6/9/6/6, code CAEC353 (3 credits, Sixth semester in the 2074 curriculum). The revised BCA 206 is 2 credits; the unit list of the 3-credit outline is used and the README says so.
