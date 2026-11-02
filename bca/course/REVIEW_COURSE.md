@@ -27,4 +27,4 @@ Scope: Semester I **Programming in C** (7 units) and **Digital Logic** (5 units)
 
 - **Pipeline fixed.** The 6 PDFs committed earlier were built with a stand-alone WeasyPrint stylesheet (flat navy cover, no contents, no watermark, different fonts). All are rebuilt through the house pipeline (`notes/pipeline`), the same as CEE/IOE; checked with `tools/qa_pdf.py` (0 failures) and by eye on rendered pages.
 - **Computer Fundamentals Unit 1** (≈3,100 words, 11 pp. PDF): every numeric answer was recomputed. **One wrong key was found and fixed in this pass** (Q13: 1 TB / 700 MB is 1497, not 1498 — 700 × 1498 overflows the disk).
-- **Still not done:** Units 2–7 of Computer Fundamentals, the lab component of every subject, and ~43 other subjects (`STATUS.md`). Nothing here has had a subject-teacher review.
+- **Still not done:** Units 2–7 of Computer Fundamentals, the lab component of every subject, and 39 other subjects of the 42 in the revised curriculum (`STATUS.md`). Nothing here has had a subject-teacher review.

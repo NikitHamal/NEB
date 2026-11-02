@@ -32,6 +32,6 @@ Mathematics I/II and Probability overlap the entrance Mathematics book (units 3�
 
 ## Status index (generated)
 
-Every subject, its code, credits and real status is in [`STATUS.md`](STATUS.md). Short version: **2 subjects done** (Programming in C, Digital Logic), **1 in progress** (Computer Fundamentals and Applications — Unit 1 of 7, written to full depth and verified), the rest **missing**. The ~43 remaining subjects were not written in the last session either; no subject is marked done unless every unit exists.
+Every subject, its code, credits and real status is in [`STATUS.md`](STATUS.md). Short version: **2 subjects done** (Programming in C, Digital Logic), **1 in progress** (Computer Fundamentals and Applications — Unit 1 of 7, written to full depth and verified), the rest **missing**. The 39 remaining subjects were not written in the last session either; no subject is marked done unless every unit exists.
 
 `books.json` is the registry `tools/nebpdf.py` reads; adding a subject = add its folder of `unit-NN.md` files and one line there.
