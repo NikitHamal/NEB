@@ -23,6 +23,8 @@ struct Item {
     target_id: String,
     read: bool,
     created: i64,
+    actor: String,
+    photo: String,
 }
 
 #[derive(Default)]
@@ -44,6 +46,31 @@ fn icon_for(verb: &str) -> Icon {
     }
 }
 
+/// (headline, optional detail) — the server's message when it has one, otherwise a sentence built from the verb.
+fn describe(it: &Item, who: &str) -> (String, String) {
+    let msg = it.message.trim();
+    let sentence = match it.verb.as_str() {
+        v if v.contains("reply") => format!("{who} replied to your post"),
+        v if v.contains("comment") => format!("{who} commented on your resource"),
+        v if v.contains("like") => format!("{who} liked your {}", if it.target_type.contains("reply") { "reply" } else { "post" }),
+        v if v.contains("follow") => format!("{who} started following you"),
+        v if v.contains("mention") => format!("{who} mentioned you"),
+        "resource_approved" => "Your resource was approved — it is now visible to everyone".to_string(),
+        "resource_rejected" => "Your resource wasn't approved".to_string(),
+        other => {
+            let t = other.replace('_', " ");
+            if it.actor.is_empty() { t } else { format!("{who} · {t}") }
+        }
+    };
+    if msg.is_empty() {
+        (sentence, String::new())
+    } else if msg.to_lowercase().contains(&who.to_lowercase()) || it.actor.is_empty() {
+        (msg.to_string(), String::new())
+    } else {
+        (sentence, crate::util::truncate(msg, 140))
+    }
+}
+
 pub fn show(ui: &mut Ui, env: &mut Env, st: &mut NotificationsState) {
     let th = env.theme.clone();
     if env.signed_in() && !st.loaded && st.load.is_none() && !env.demo {
@@ -62,6 +89,8 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut NotificationsState) {
                             target_id: if s(x, "targetId").is_empty() { s(x, "referenceId") } else { s(x, "targetId") },
                             read: b(x, "isRead"),
                             created: n(x, "createdAt"),
+                            actor: s(x, "actorName"),
+                            photo: s(x, "actorPhotoUrl"),
                         })
                         .collect()
                 })
@@ -144,28 +173,58 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut NotificationsState) {
             return;
         }
         let mut open: Option<Route> = None;
+        let text_w = (w - 150.0).max(160.0);
         for it in st.items.clone() {
-            let (rect, resp) = ui.allocate_exact_size(vec2(w, 74.0), Sense::click());
+            let who = if it.actor.is_empty() { "Someone".to_string() } else { it.actor.clone() };
+            let (title, detail) = describe(&it, &who);
+            let font = if it.read { fonts::regular(14.5) } else { fonts::medium(14.5) };
+            let galley = ui.painter().layout(title, font, th.p.ink, text_w);
+            let detail_g = (!detail.is_empty()).then(|| ui.painter().layout(detail, fonts::regular(13.0), th.p.ink_muted, text_w));
+            let body_h = galley.size().y + detail_g.as_ref().map(|g| g.size().y + 4.0).unwrap_or(0.0) + 6.0 + 16.0;
+            let h = (body_h + 28.0).max(78.0);
+            let (rect, resp) = ui.allocate_exact_size(vec2(w, h), Sense::click());
             let hover = ui.ctx().animate_bool_with_time(resp.id.with("h"), resp.hovered(), 0.1);
             let fill = if it.read { th.p.card } else { crate::theme::mix(th.p.card, th.p.accent_soft, 0.55) };
-            ui.painter().rect(rect, Rounding::same(20.0), fill, Stroke::new(1.0, th.p.hairline));
-            ui.painter().rect_filled(rect, Rounding::same(20.0), th.p.ink.gamma_multiply(0.05 * hover));
-            let tile = egui::Rect::from_min_size(rect.min + vec2(14.0, 15.0), vec2(44.0, 44.0));
-            ui.painter().rect_filled(tile, Rounding::same(15.0), if it.read { th.p.field } else { th.p.accent_soft });
-            icons::paint(ui.painter(), egui::Rect::from_center_size(tile.center(), vec2(22.0, 22.0)), icon_for(&it.verb), if it.read { th.p.ink_muted } else { th.p.on_accent_soft });
-            let galley = ui.painter().layout(it.message.clone(), if it.read { fonts::regular(14.5) } else { fonts::medium(14.5) }, th.p.ink, rect.width() - 100.0);
-            ui.painter().galley(rect.min + vec2(72.0, 14.0), galley, th.p.ink);
-            ui.painter().text(rect.min + vec2(72.0, 54.0), egui::Align2::LEFT_CENTER, time_ago(it.created), fonts::regular(12.0), th.p.ink_faint);
+            ui.painter().rect(rect, Rounding::same(18.0), fill, Stroke::new(1.0, th.p.hairline));
+            ui.painter().rect_filled(rect, Rounding::same(18.0), th.p.ink.gamma_multiply(0.05 * hover));
+            let av = egui::Rect::from_min_size(egui::pos2(rect.min.x + 16.0, rect.center().y - 22.0), vec2(44.0, 44.0));
+            if it.photo.is_empty() || it.actor.is_empty() {
+                ui.painter().rect_filled(av, Rounding::same(22.0), if it.read { th.p.field } else { th.p.accent_soft });
+                icons::paint(ui.painter(), egui::Rect::from_center_size(av.center(), vec2(22.0, 22.0)), icon_for(&it.verb), if it.read { th.p.ink_muted } else { th.p.on_accent_soft });
+            } else {
+                let mut child = ui.new_child(egui::UiBuilder::new().max_rect(av));
+                crate::ui::remote_image::avatar(&mut child, &th, &it.actor, 0, 44.0, &it.photo);
+                let badge = egui::Rect::from_center_size(av.right_bottom() - vec2(4.0, 4.0), vec2(20.0, 20.0));
+                ui.painter().circle_filled(badge.center(), 10.0, th.p.card);
+                ui.painter().circle_filled(badge.center(), 9.0, th.p.accent_soft);
+                icons::paint(ui.painter(), egui::Rect::from_center_size(badge.center(), vec2(12.0, 12.0)), icon_for(&it.verb), th.p.on_accent_soft);
+            }
+            let x = rect.min.x + 76.0;
+            let top = rect.center().y - body_h / 2.0;
+            let mut y = top;
+            let gh = galley.size().y;
+            ui.painter().galley(egui::pos2(x, y), galley, th.p.ink);
+            y += gh + 4.0;
+            if let Some(g) = detail_g {
+                let dh = g.size().y;
+                ui.painter().galley(egui::pos2(x, y), g, th.p.ink_muted);
+                y += dh + 4.0;
+            }
+            ui.painter().text(egui::pos2(x, y + 8.0), egui::Align2::LEFT_CENTER, time_ago(it.created), fonts::regular(12.0), th.p.ink_faint);
             if !it.read {
-                ui.painter().circle_filled(rect.right_center() - vec2(20.0, 0.0), 5.0, th.p.accent);
+                ui.painter().circle_filled(rect.right_center() - vec2(22.0, 0.0), 5.0, th.p.accent);
             }
             if resp.hovered() {
                 ui.ctx().set_cursor_icon(egui::CursorIcon::PointingHand);
             }
-            if resp.clicked() && it.target_type.to_lowercase().contains("post") && !it.target_id.is_empty() {
-                open = Some(Route::Post(it.target_id.clone()));
+            if resp.clicked() {
+                if it.target_type.to_lowercase().contains("post") && !it.target_id.is_empty() {
+                    open = Some(Route::Post(it.target_id.clone()));
+                } else if it.verb.contains("follow") && !it.actor.is_empty() {
+                    open = Some(Route::User(it.actor.clone()));
+                }
             }
-            ui.add_space(8.0);
+            ui.add_space(10.0);
         }
         if let Some(r) = open {
             env.go(r);
@@ -179,7 +238,7 @@ impl NotificationsState {
     /// Sample items for the screenshot tour only (see `Env::demo`).
     pub fn demo(&mut self) {
         let now = crate::util::now_secs() as i64 * 1000;
-        let mk = |id: &str, msg: &str, verb: &str, read: bool, ago: i64| Item { id: id.into(), message: msg.into(), verb: verb.into(), target_type: "post".into(), target_id: "d1".into(), read, created: now - ago * 60_000 };
+        let mk = |id: &str, msg: &str, verb: &str, read: bool, ago: i64| Item { id: id.into(), message: msg.into(), verb: verb.into(), target_type: "post".into(), target_id: "d1".into(), read, created: now - ago * 60_000, actor: String::new(), photo: String::new() };
         self.items = vec![
             mk("n1", "Anish Karki replied to your post: \"How do you approach projectile-motion MCQs in IOE?\"", "reply", false, 6),
             mk("n2", "Sita Rai and 3 others liked your post", "like", false, 55),

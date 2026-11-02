@@ -1,16 +1,16 @@
 //! `Env` — the shared services every screen receives: theme, persisted store,
 //! content root, cached syllabus data, the action queue and toasts.
 //! Screens keep their own local state and talk to the rest of the app through `Env`.
-use std::collections::HashMap;
 use std::path::PathBuf;
 use std::sync::Arc;
 
 use egui::Context;
 
 use crate::actions::Action;
-use crate::data::content::ContentRoot;
+use crate::data::content::{ContentRepo, Manifest};
+use crate::data::lazy::{Lazy, View};
+use crate::errors::Result;
 use crate::data::models::*;
-use crate::data::search::SearchIndex;
 use crate::data::store::{Store, ThemeMode};
 use crate::data::tasks::Task;
 use crate::router::Route;
@@ -19,12 +19,19 @@ use crate::ui::logo::Logo;
 use crate::ui::toast::Toasts;
 use crate::ui::LayoutMode;
 
+pub enum ContentStatus {
+    Loading,
+    Ready,
+    Failed(String),
+}
+
 pub struct Env {
     pub ctx: Context,
     pub theme: Theme,
     pub store: Store,
-    pub content: Option<ContentRoot>,
-    pub content_error: Option<String>,
+    pub repo: ContentRepo,
+    pub status: ContentStatus,
+    pub manifest: Option<Manifest>,
     pub tracks: Vec<Track>,
     pub actions: Vec<Action>,
     pub layout: LayoutMode,
@@ -35,24 +42,27 @@ pub struct Env {
     /// Screenshot tour: never talk to the server, use bundled sample data for signed-in screens.
     pub demo: bool,
     pub config_dir: PathBuf,
-    pub search_index: Option<Arc<SearchIndex>>,
-    search_task: Option<Task<SearchIndex>>,
-    syllabi: HashMap<String, Option<Arc<Syllabus>>>,
-    study_idx: HashMap<String, Option<Arc<StudyIndex>>>,
+    pub dl: crate::data::downloads::Downloads,
+    boot: Option<Task<Result<(Vec<Track>, Option<Manifest>)>>>,
+    syllabi: Lazy<Syllabus>,
+    study_idx: Lazy<StudyIndex>,
 }
 
 impl Env {
-    pub fn new(ctx: Context, store: Store, content: Option<ContentRoot>, system_dark: bool, config_dir: PathBuf) -> Self {
+    pub fn new(ctx: Context, store: Store, system_dark: bool, config_dir: PathBuf) -> Self {
         let dark = Self::resolve_dark(&store, system_dark);
         let theme = Theme::new(dark);
         theme.apply(&ctx);
         let logo = Logo::load(&ctx);
+        let repo = ContentRepo::new(&config_dir);
+        crate::ui::remote_image::init(repo.clone());
         let mut env = Self {
             ctx,
             theme,
             store,
-            content: None,
-            content_error: None,
+            repo,
+            status: ContentStatus::Loading,
+            manifest: None,
             tracks: vec![],
             actions: vec![],
             layout: LayoutMode::Wide,
@@ -62,12 +72,12 @@ impl Env {
             srv: Default::default(),
             demo: false,
             config_dir,
-            search_index: None,
-            search_task: None,
-            syllabi: HashMap::new(),
-            study_idx: HashMap::new(),
+            dl: Default::default(),
+            boot: None,
+            syllabi: Lazy::default(),
+            study_idx: Lazy::default(),
         };
-        env.set_content(content);
+        env.reload_content();
         env
     }
 
@@ -79,33 +89,20 @@ impl Env {
         }
     }
 
-    /// (Re)load the track index from a content root and start building the search index.
-    pub fn set_content(&mut self, content: Option<ContentRoot>) {
+    /// (Re)load the catalogue from the server (or the cache when offline).
+    pub fn reload_content(&mut self) {
+        self.syllabi.retry_failed();
+        self.study_idx.retry_failed();
+        self.status = ContentStatus::Loading;
+        let repo = self.repo.clone();
+        self.boot = Some(Task::spawn(&self.ctx, move || repo.bootstrap()));
+    }
+
+    /// Forget everything in memory too (after clearing the cache).
+    pub fn drop_content_memory(&mut self) {
         self.syllabi.clear();
         self.study_idx.clear();
-        self.search_index = None;
-        self.search_task = None;
-        self.tracks.clear();
-        self.content_error = None;
-        match content {
-            Some(root) => match root.tracks() {
-                Ok(t) => {
-                    let r2 = root.clone();
-                    let t2 = t.clone();
-                    self.search_task = Some(Task::spawn(&self.ctx, move || SearchIndex::build(&r2, &t2)));
-                    self.tracks = t;
-                    self.content = Some(root);
-                }
-                Err(e) => {
-                    self.content_error = Some(format!("Found the content folder but could not read it: {e}"));
-                    self.content = Some(root);
-                }
-            },
-            None => {
-                self.content_error = Some("NEBians could not find its study content. Point it at your NEB checkout in Settings.".into());
-                self.content = None;
-            }
-        }
+        crate::ui::remote_image::clear();
     }
 
     pub fn refresh_theme(&mut self) {
@@ -118,11 +115,25 @@ impl Env {
 
     /// Per-frame housekeeping: finish background jobs.
     pub fn poll(&mut self) {
-        if let Some(t) = self.search_task.as_mut() {
-            if let Some(idx) = t.poll() {
-                self.search_index = Some(Arc::new(idx));
-                self.search_task = None;
+        if let Some(t) = self.boot.as_mut() {
+            if let Some(res) = t.poll() {
+                self.boot = None;
+                match res {
+                    Ok((tracks, manifest)) => {
+                        self.tracks = tracks;
+                        self.manifest = manifest.or(self.manifest.take());
+                        self.status = ContentStatus::Ready;
+                        self.dl.scan(&self.ctx, &self.repo, &self.tracks);
+                    }
+                    Err(e) => self.status = ContentStatus::Failed(e.to_string()),
+                }
             }
+        }
+        if !self.dl.jobs.is_empty() {
+            self.ctx.request_repaint_after(std::time::Duration::from_millis(150));
+        }
+        for m in self.dl.poll() {
+            self.toasts.push(m);
         }
         self.server_poll();
     }
@@ -157,22 +168,34 @@ impl Env {
         }
     }
 
+    pub fn syllabus_view(&mut self, track: &str, subject: &str) -> View<Syllabus> {
+        let (repo, t, sb) = (self.repo.clone(), track.to_string(), subject.to_string());
+        self.syllabi.get(&self.ctx, &format!("{track}-{subject}"), move || repo.syllabus(&t, &sb))
+    }
+
+    pub fn study_index_view(&mut self, track: &str, subject: &str) -> View<StudyIndex> {
+        let (repo, t, sb) = (self.repo.clone(), track.to_string(), subject.to_string());
+        self.study_idx.get(&self.ctx, &format!("{track}-{subject}"), move || repo.study_index(&t, &sb))
+    }
+
     pub fn syllabus(&mut self, track: &str, subject: &str) -> Option<Arc<Syllabus>> {
-        let key = format!("{track}-{subject}");
-        if !self.syllabi.contains_key(&key) {
-            let v = self.content.as_ref().and_then(|c| c.syllabus(track, subject).ok()).map(Arc::new);
-            self.syllabi.insert(key.clone(), v);
+        match self.syllabus_view(track, subject) {
+            View::Ready(v) => Some(v),
+            _ => None,
         }
-        self.syllabi.get(&key).cloned().flatten()
     }
 
     pub fn study_index(&mut self, track: &str, subject: &str) -> Option<Arc<StudyIndex>> {
-        let key = format!("{track}-{subject}");
-        if !self.study_idx.contains_key(&key) {
-            let v = self.content.as_ref().and_then(|c| c.study_index(track, subject).ok()).map(Arc::new);
-            self.study_idx.insert(key.clone(), v);
+        match self.study_index_view(track, subject) {
+            View::Ready(v) => Some(v),
+            _ => None,
         }
-        self.study_idx.get(&key).cloned().flatten()
+    }
+
+    pub fn forget_subject(&mut self, track: &str, subject: &str) {
+        let key = format!("{track}-{subject}");
+        self.syllabi.forget(&key);
+        self.study_idx.forget(&key);
     }
 
     /// Total number of readable chapters across the whole library.

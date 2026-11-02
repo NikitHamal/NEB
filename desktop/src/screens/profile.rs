@@ -6,7 +6,7 @@ use crate::actions::Action;
 use crate::env::Env;
 use crate::router::Route;
 use crate::theme::fonts;
-use crate::ui::avatar::{avatar, tone, TONES};
+use crate::ui::avatar::{tone, TONES};
 use crate::ui::icons::Icon;
 use crate::ui::widgets::{self, BtnKind};
 
@@ -17,8 +17,9 @@ pub struct ProfileState {
 
 fn stat(ui: &mut Ui, env: &Env, w: f32, value: String, label: &str) {
     let th = &env.theme;
-    widgets::card(ui, th, vec2(w, 84.0), 14.0, |ui| {
-        widgets::label(ui, RichText::new(value).font(fonts::bold(24.0)).color(th.p.ink));
+    widgets::card(ui, th, vec2(w, 100.0), 16.0, |ui| {
+        widgets::label(ui, RichText::new(value).font(fonts::bold(26.0)).color(th.p.ink));
+        ui.add_space(4.0);
         widgets::label(ui, RichText::new(label).font(fonts::regular(12.5)).color(th.p.ink_muted));
     });
 }
@@ -33,7 +34,8 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
             _ => "Local profile".to_string(),
         };
         ui.horizontal(|ui| {
-            avatar(ui, &th, &p.display_name, p.avatar_tone, 84.0);
+            let photo = env.store.s.session.as_ref().map(|s| s.photo_url.clone()).unwrap_or_default();
+            crate::ui::remote_image::avatar(ui, &th, &p.display_name, p.avatar_tone, 84.0, &photo);
             ui.add_space(6.0);
             ui.vertical(|ui| {
                 ui.spacing_mut().item_spacing.y = 2.0;
@@ -43,7 +45,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
             });
         });
         ui.add_space(14.0);
-        ui.horizontal_wrapped(|ui| {
+        crate::ui::widgets::flow(ui, |ui| {
             let label = if st.editing { "Done" } else { "Edit profile" };
             if widgets::button(ui, &th, label, if st.editing { BtnKind::Primary } else { BtnKind::Secondary }, Some(if st.editing { Icon::Check } else { Icon::Edit }), None).clicked() {
                 if st.editing {
@@ -90,7 +92,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
                 ui.add(egui::TextEdit::multiline(&mut bio).desired_rows(3).desired_width(w.min(460.0)).char_limit(160));
                 ui.add_space(10.0);
                 widgets::label(ui, RichText::new("Avatar colour").font(fonts::medium(13.0)).color(th.p.ink_muted));
-                ui.horizontal_wrapped(|ui| {
+                crate::ui::widgets::flow(ui, |ui| {
                     for i in 0..TONES.len() {
                         let (rect, resp) = ui.allocate_exact_size(vec2(34.0, 34.0), egui::Sense::click());
                         ui.painter().circle_filled(rect.center(), 14.0, tone(i));
