@@ -119,5 +119,13 @@
   "credits": 3,
   "accent": "#0F766E",
   "status": "done"
+ },
+ "semester-3/system-analysis-and-design": {
+  "name": "System Analysis and Design",
+  "code": "BCA 204",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#6D28D9",
+  "status": "done"
  }
 }
