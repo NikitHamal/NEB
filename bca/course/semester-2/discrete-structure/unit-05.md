@@ -1,0 +1,164 @@
+---
+subject: Discrete Structure
+grade: BCA Semester 2
+unit: 5
+title: Graphs and Trees
+area: BCA 151 · Discrete Structure · Unit 5
+---
+
+Graphs model networks of every kind: roads, the Internet, social ties, compiler flow, dependencies between tasks. Trees are the graphs that organise data (file systems, parse trees, search trees). This unit gives the vocabulary, the key theorems and the standard algorithms, with fully worked numerical examples.
+
+::: key What this unit gives you
+- Graph terminology, special graphs, degree and the handshake lemma, representations.
+- Paths, connectivity, Euler and Hamilton circuits, planarity and colouring.
+- Weighted graphs: Dijkstra's shortest path, minimum spanning trees (Kruskal, Prim).
+- Trees and binary trees: properties, traversals, spanning trees.
+:::
+
+## 5.1 Graph terminology
+
+A **graph** G = (V, E) has a set of **vertices** and a set of **edges** (pairs of vertices). In an **undirected** graph an edge {u, v} has no direction; in a **directed** graph (digraph) edges are ordered pairs (u, v). A **simple** graph has no loops (edge from a vertex to itself) or parallel edges; a **multigraph** allows parallel edges.
+
+- **Degree** deg(v): number of edges at v (a loop counts 2). In a digraph: in-degree and out-degree.
+- **Handshake lemma**: Σ deg(v) = 2|E|, so the number of odd-degree vertices is always even.
+- **Adjacent** vertices share an edge; an edge is **incident** to its endpoints.
+- **Path**: a sequence of edges joining vertices; **cycle**: a path that returns to its start with no repeated vertex; **length** = number of edges.
+- **Connected**: a path exists between every pair. A **component** is a maximal connected piece.
+- **Subgraph**; **complement**; **isomorphic** graphs have the same structure under a renaming (same number of vertices, edges and degree sequence are necessary, not sufficient).
+
+**Special graphs**
+
+| Graph | Description | Edges |
+|---|---|---|
+| Complete Kₙ | every pair adjacent | n(n − 1)/2 |
+| Cycle Cₙ | one cycle through n vertices | n |
+| Path Pₙ | n vertices in a line | n − 1 |
+| Wheel Wₙ | cycle Cₙ plus a hub | 2n |
+| Bipartite | vertices split into two sets, edges only between them (no odd cycle) | complete K_{m,n}: mn |
+| Regular | all degrees equal | nk/2 for k-regular |
+| Hypercube Qₙ | vertices = n-bit strings, adjacent if they differ in one bit | n·2ⁿ⁻¹ |
+
+::: example Worked example
+K₅ has 5·4/2 = **10** edges. A graph has degrees 3, 3, 2, 2, 2: sum 12, so |E| = **6** ✓ (even sum). Degrees 3, 3, 3, 2 are impossible: sum 11 is odd. Can 4 people each be friends with exactly 3 others? K₄ yes (degree 3 each, 6 edges). Can 5 people each have exactly 3 friends? 5·3 = 15 is odd, so **no**.
+:::
+
+**Representations.** For vertices 1…n:
+
+- **Adjacency matrix** A[i][j] = 1 if edge i–j (symmetric if undirected). Space n²; edge test O(1); (Aᵏ)[i][j] counts walks of length k from i to j.
+- **Adjacency list**: for each vertex, the list of neighbours. Space n + 2|E|; best for sparse graphs; the standard in programs.
+- **Incidence matrix**: vertices × edges.
+
+For the graph with edges 1–2, 1–3, 2–3, 3–4: adjacency lists 1: [2, 3], 2: [1, 3], 3: [1, 2, 4], 4: [3]. Degrees 2, 2, 3, 1, sum 8 = 2·4 ✓.
+
+## 5.2 Traversal, connectivity and Euler/Hamilton
+
+**Breadth-first search (BFS)** explores by layers using a queue and finds shortest paths (in edges). **Depth-first search (DFS)** goes as deep as possible using a stack or recursion; used for cycle detection, topological sort and components. Both run in O(V + E) with adjacency lists.
+
+::: example Worked example: BFS and DFS
+Graph (alphabetical neighbour order): A: B, C; B: A, D; C: A, D, E; D: B, C, F; E: C, F; F: D, E.
+**BFS from A:** A; then B, C; then D, E (neighbours of B and C); then F. Order **A, B, C, D, E, F**. Distance from A: B 1, C 1, D 2, E 2, F 3.
+**DFS from A:** A → B → D → C → E → F. Order **A, B, D, C, E, F**.
+:::
+
+**Euler circuit** (uses every edge exactly once and returns): exists in a connected graph iff **every degree is even**. **Euler path** (not returning): exists iff exactly **two vertices have odd degree** (start and end there). The Königsberg bridges had four odd-degree land masses, so no walk exists.
+
+**Hamilton circuit** visits every vertex exactly once. There is no simple criterion (the problem is NP-complete). **Dirac's sufficient condition**: n ≥ 3 and deg(v) ≥ n/2 for all v. The **travelling salesman problem** asks for the cheapest Hamilton circuit; K₁₀ has 9!/2 = 181,440 distinct circuits.
+
+## 5.3 Planarity and colouring
+
+A graph is **planar** if it can be drawn without crossing edges. **Euler's formula** for a connected planar graph: **V − E + F = 2** (F counts the outer face). For simple planar graphs with V ≥ 3: **E ≤ 3V − 6** (and E ≤ 2V − 4 if bipartite). **K₅** (10 > 3·5 − 6 = 9) and **K₃,₃** (9 > 2·6 − 4 = 8) are not planar, and **Kuratowski's theorem** says a graph is planar iff it contains no subdivision of K₅ or K₃,₃.
+
+**Colouring.** A **proper colouring** gives adjacent vertices different colours; the **chromatic number** χ(G) is the minimum number of colours. χ(Kₙ) = n; χ(even cycle) = 2; χ(odd cycle) = 3; χ(bipartite) = 2; **four-colour theorem**: every planar graph has χ ≤ 4. Applications: exam timetabling (vertices are exams, edges connect exams that share students, colours are time slots), register allocation, frequency assignment.
+
+::: example Worked example: exam timetable
+Exams A, B, C, D, E; clashes: A–B, A–C, B–C, C–D, D–E. A, B, C form a triangle, so χ ≥ 3. Colour A = 1, B = 2, C = 3, D = 1, E = 2: valid with 3 slots. **χ = 3.**
+:::
+
+## 5.4 Weighted graphs: shortest paths and spanning trees
+
+Consider the weighted graph with edges AB 4, AC 2, BC 1, BD 5, CD 8, CE 10, DE 2, DF 6, EF 3.
+
+**Dijkstra's algorithm** (non-negative weights): keep a tentative distance for each vertex (0 for the source, ∞ for the rest); repeatedly fix the closest unfixed vertex and relax the edges out of it.
+
+::: example Worked example: Dijkstra from A
+Start: A = 0. Fix **A**: B = 4, C = 2.
+Fix **C** (2): B = min(4, 2 + 1) = 3; D = 2 + 8 = 10; E = 2 + 10 = 12.
+Fix **B** (3): D = min(10, 3 + 5) = 8.
+Fix **D** (8): E = min(12, 8 + 2) = 10; F = 8 + 6 = 14.
+Fix **E** (10): F = min(14, 10 + 3) = 13.
+Fix **F** (13).
+**Distances from A:** B 3, C 2, D 8, E 10, F 13. Shortest path to F: A → C → B → D → E → F (2 + 1 + 5 + 2 + 3 = 13).
+With a priority queue the running time is O((V + E) log V). Dijkstra fails with negative weights (use Bellman–Ford).
+:::
+
+**Spanning tree**: a subgraph that is a tree containing all vertices. A connected graph with V vertices has spanning trees of exactly V − 1 edges. A **minimum spanning tree (MST)** has least total weight.
+
+**Kruskal's algorithm**: sort edges by weight; add each edge unless it makes a cycle (use union–find). **Prim's algorithm**: grow a tree from a start vertex, always adding the cheapest edge leaving the tree.
+
+::: example Worked example: Kruskal on the same graph
+Sorted: BC 1, AC 2, DE 2, EF 3, AB 4, BD 5, DF 6, CD 8, CE 10.
+Take BC (1); AC (2); DE (2); EF (3); AB (4) would join A and B, which are already connected via C, so **skip**; BD (5) joins {A, B, C} with {D, E, F}: **take**. Now 5 edges = V − 1, stop.
+**MST weight = 1 + 2 + 2 + 3 + 5 = 13.** *Prim from A* gives the same weight: A–C (2), C–B (1), B–D (5), D–E (2), E–F (3) = 13.
+:::
+
+## 5.5 Trees
+
+A **tree** is a connected graph with no cycles. Equivalent statements (for n vertices): connected and n − 1 edges; acyclic and n − 1 edges; exactly one path between any two vertices; connected and removing any edge disconnects it. Every tree with n ≥ 2 vertices has at least two **leaves** (degree-1 vertices).
+
+**Rooted trees.** Terms: root, parent, child, sibling, leaf, internal node, **level** (root 0), **height** (longest root-to-leaf path), **subtree**. A **binary tree** has at most two children per node; an **m-ary tree** at most m. A **full** m-ary tree with i internal nodes has n = mi + 1 nodes and l = (m − 1)i + 1 leaves. A binary tree of height h has at most **2ʰ⁺¹ − 1** nodes and at most **2ʰ leaves**, so n nodes need height at least ⌊log₂ n⌋.
+
+**Traversals of a binary tree.** *Preorder* (root, left, right), *inorder* (left, root, right), *postorder* (left, right, root), and *level order* (BFS).
+
+::: example Worked example: traversals
+Tree: root 1; left child 2 (with children 4 and 5); right child 3 (with right child 6).
+Preorder: **1, 2, 4, 5, 3, 6**. Inorder: **4, 2, 5, 1, 3, 6**. Postorder: **4, 5, 2, 6, 3, 1**. Level order: 1, 2, 3, 4, 5, 6.
+**Expression tree** for (3 + 4) × 5: root ×, left subtree +(3, 4), right 5. Inorder gives 3 + 4 × 5 (parentheses lost); postorder gives **3 4 + 5 ×**, the postfix form a stack evaluates: push 3, push 4, "+" → 7, push 5, "×" → 35.
+A tree is uniquely determined by its preorder and inorder sequences together.
+:::
+
+**Binary search trees** keep left < node < right, so inorder traversal gives sorted order; search, insert and delete take O(height): O(log n) if balanced (AVL, red–black), O(n) if skewed. **Heaps** and **tries** are other trees; **decision trees** show that any comparison sort needs at least ⌈log₂ n!⌉ comparisons (about n log₂ n).
+
+**Huffman coding** builds an optimal prefix code tree by repeatedly merging the two least frequent symbols. Frequencies a 45, b 13, c 12, d 16, e 9, f 5 (total 100): merge f + e = 14; merge c + b = 25; merge 14 + d = 30; merge 25 + 30 = 55; merge a + 55 = 100. Codes: a = 0 (1 bit), c = 100, b = 101, d = 111, f = 1100, e = 1101. Average length = 0.45·1 + 0.12·3 + 0.13·3 + 0.16·3 + 0.05·4 + 0.09·4 = **2.24 bits**, against 3 bits for a fixed-length code.
+
+## Formula and fact sheet
+
+- Σdeg = 2E; Kₙ has n(n−1)/2 edges; K_{m,n} has mn.
+- Euler circuit: all degrees even; Euler path: exactly two odd.
+- Planar: V − E + F = 2; E ≤ 3V − 6. K₅ and K₃,₃ non-planar. Four-colour theorem.
+- Tree: connected, acyclic, n − 1 edges. Binary tree of height h: ≤ 2ʰ⁺¹ − 1 nodes.
+- BFS/DFS O(V + E); Dijkstra O((V + E) log V); Kruskal O(E log E).
+- Traversals: pre (root first), in (root middle), post (root last).
+
+## Chapter summary
+
+- Graphs are vertices and edges; degree, paths and connectivity answer structural questions, and the handshake lemma constrains degrees.
+- Euler's theorem decides Euler circuits by degrees; Hamilton circuits have no simple test.
+- Planarity and colouring have formulas and applications in scheduling.
+- Dijkstra gives shortest paths and Kruskal/Prim give minimum spanning trees.
+- Trees are acyclic connected graphs; traversals, search trees and Huffman codes are their main uses.
+
+## Practice
+
+1. A graph has 8 vertices, each of degree 3. How many edges? Does it have an Euler circuit?
+2. Draw K₄ and give its adjacency matrix. How many Hamilton circuits does K₅ have?
+3. Does a graph with degree sequence (2, 2, 4, 4, 2, 2) have an Euler circuit if it is connected? Find |E|.
+4. Show that K₃,₃ is not planar using E ≤ 2V − 4.
+5. A planar connected graph has 7 vertices and 10 edges. How many faces?
+6. Run BFS and DFS on: A: B, D; B: A, C; C: B, D, E; D: A, C; E: C.
+7. Apply Dijkstra from S: SA 7, SB 2, BA 3, AC 1, BC 8, CT 2, AT 6. Give the shortest distance to T.
+8. Find an MST of the same graph with Kruskal.
+9. Write the preorder, inorder and postorder of the tree with root 8, left child 3 (children 1 and 6), right child 10 (right child 14).
+10. A full binary tree has 15 leaves. How many internal nodes and total nodes?
+
+::: note Answers and worked solutions
+**1.** 8·3/2 = **12** edges; degrees are odd, so **no** Euler circuit.
+**2.** Adjacency matrix of K₄: 0 on the diagonal, 1 elsewhere. K₅ Hamilton circuits: (5 − 1)!/2 = **12**.
+**3.** All degrees even and connected, so **yes**; sum = 16 ⇒ |E| = **8**.
+**4.** V = 6, E = 9; bipartite planar graphs need E ≤ 2V − 4 = 8; 9 > 8, so not planar.
+**5.** F = 2 − V + E = 2 − 7 + 10 = **5** faces.
+**6.** BFS: A, B, D, C, E. DFS: A, B, C, D, E (from A visit B; B visits C; C visits D (D's neighbour A visited), then E).
+**7.** S = 0; B = 2; A = min(7, 2 + 3) = 5; C = min(2 + 8, 5 + 1) = 6; T = min(5 + 6, 6 + 2) = **8** (path S–B–A–C–T).
+**8.** Sorted: AC 1, SB 2, CT 2, BA 3, AT 6, SA 7, BC 8. Take AC, SB, CT, BA (joins {S,B} with {A,C,T}) = 4 edges for 5 vertices. **MST weight = 1 + 2 + 2 + 3 = 8.**
+**9.** Preorder 8, 3, 1, 6, 10, 14. Inorder 1, 3, 6, 8, 10, 14 (sorted, since it is a BST). Postorder 1, 6, 3, 14, 10, 8.
+**10.** l = i + 1 for a full binary tree, so i = **14**; total nodes = 14 + 15 = **29**.
+:::

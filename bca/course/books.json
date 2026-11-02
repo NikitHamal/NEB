@@ -47,5 +47,13 @@
   "credits": 1,
   "accent": "#475569",
   "status": "done"
+ },
+ "semester-2/discrete-structure": {
+  "name": "Discrete Structure",
+  "code": "BCA 151",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#9A3412",
+  "status": "done"
  }
 }
