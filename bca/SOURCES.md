@@ -34,3 +34,8 @@ The revised (2082-batch) per-subject syllabus PDFs could not be retrieved. Sourc
 - https://hamronotes.com/bca/semester-2/ux-ui-design/chapters : topic lists for all eight units, including Unit 6 Wireframing and Prototyping and Unit 8 VUI/NLP-based UI and wearables.
 - https://bcatu.com/semesters/2/subjects/bca-155-uxui-design/syllabus : confirms code BCA 155, 3 credits, 100 marks (listing page only).
 - Official TU syllabus PDF not retrieved.
+
+## BCA 156 Principles of Management (session 3)
+- https://benchpartner.com/bim-tu/principles-of-management/305/syllabus : TU BIM Principles of Management outline (planning, organising, leading, controlling, quality, change).
+- https://benchpartner.com/bca-tu/introduction-to-management/contents : unit titles of the older TU BCA Introduction to Management (CAMG304).
+- collegenote.net 'Principles of Management 156' unit list, read from a search-result excerpt only: the page itself, when fetched, returned unrelated spam and was not used. The revised 1-credit BCA 156 syllabus PDF was not retrieved.
