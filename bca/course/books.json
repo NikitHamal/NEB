@@ -175,5 +175,13 @@
   "credits": 3,
   "accent": "#1D4ED8",
   "status": "done"
+ },
+ "semester-4/web-technology-2": {
+  "name": "Web Technology II",
+  "code": "BCA 255",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#0369A1",
+  "status": "done"
  }
 }
