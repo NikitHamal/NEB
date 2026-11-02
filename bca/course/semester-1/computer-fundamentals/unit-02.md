@@ -89,6 +89,7 @@ A **flowchart** is a diagram of the algorithm.
 
 ::: example Worked example: largest of three numbers
 **Algorithm**
+
 1. Start.
 2. Read A, B, C.
 3. Set MAX = A.
@@ -103,6 +104,7 @@ A **flowchart** is a diagram of the algorithm.
 
 ::: example Worked example: sum of the digits of a number
 **Algorithm**
+
 1. Start. Read N. Set SUM = 0.
 2. While N > 0: take DIGIT = N mod 10; SUM = SUM + DIGIT; N = N div 10 (integer division).
 3. Print SUM. Stop.

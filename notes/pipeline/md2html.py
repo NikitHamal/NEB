@@ -2,7 +2,7 @@
 import base64, os, re, html as _html
 import markdown as _md
 import mathsvg
-import devaeqn, figrun, photo, assets, i18n
+import devaeqn, figrun, photo, assets, i18n, svgkit
 
 _PLACE = "\x00NEB{}\x00"
 
@@ -53,6 +53,26 @@ def _extract_figures(body, store, chapter_id):
             + "</figure>")
         return "\n\n" + _PLACE.format(i) + "\n\n"
     return re.sub(r"^```figure([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
+
+
+def _extract_svgfigs(body, store, chapter_id):
+    """```svgfig label="1.1" caption="…"  + svgkit code -> numbered vector figure (no matplotlib)."""
+    def rep(m):
+        info, code = m.group(1) or "", m.group(2)
+        cap = re.search(r'caption\s*=\s*"([^"]*)"', info)
+        lab = re.search(r'label\s*=\s*"([^"]*)"', info)
+        try:
+            svg = svgkit.render(code, f"{chapter_id}:{lab.group(1) if lab else '?'}")
+        except Exception as e:
+            svgkit.WARN.append(f"{chapter_id}: svgfig failed: {e}")
+            raise
+        uri = "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
+        i = len(store)
+        c = (f'<figcaption><b>{_html.escape(("Figure " + lab.group(1) + ".") if lab else "Figure.")}</b> '
+             f'{_inline_math_html(cap.group(1))}</figcaption>') if cap else ""
+        store.append(f'<figure class="nobreak diagram"><img src="{uri}" alt="diagram">{c}</figure>')
+        return "\n\n" + _PLACE.format(i) + "\n\n"
+    return re.sub(r"^```svgfig([^\n]*)\n(.*?)^```\s*$", rep, body, flags=re.S | re.M)
 
 
 def _extract_photos(body, store, chapter_id):
@@ -317,6 +337,7 @@ def convert(text, chapter_id="", fig_no_start=1):
     meta, body = parse_front(text)
     store = []
     body = _extract_figures(body, store, chapter_id)
+    body = _extract_svgfigs(body, store, chapter_id)
     body = _extract_photos(body, store, chapter_id)
     body = _extract_display_math(body, store)
     body = _extract_inline_math(body, store)
