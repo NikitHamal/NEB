@@ -9,7 +9,7 @@
 {% block nav_news %}md-nav-active{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}?v=20261103d">
 {% endblock %}
 
 {% block bottomnav %}
@@ -21,7 +21,6 @@
   <div class="news-header">
     <div class="news-header-content">
       <h1 class="md-headline-large-emphasized">Blog &amp; Updates</h1>
-      <p class="md-body-medium news-subtitle">Articles, exam updates, official notices, and platform updates — all in one place.</p>
     </div>
   </div>
 
@@ -40,36 +39,32 @@
       {% if announcements %}
       <div class="news-list">
         {% for a in announcements %}
-        <a href="{% url 'web:news_detail' slug=a.slug %}" class="news-card {% if a.is_pinned %}news-card-pinned{% endif %}">
-          {% if a.cover_image_url %}
+        <a href="{% url 'web:news_detail' slug=a.slug %}" class="news-card">
           <div class="news-card-cover">
+            {% if a.cover_image_url %}
             <img src="{{ a.cover_image_url }}" alt="{{ a.title }}" loading="lazy">
-            <span class="news-category-badge" style="background:{{ a.category_color }}">
-              <span class="material-symbols-outlined">{{ a.category_icon }}</span>
-              {{ a.category_label }}
-            </span>
+            {% else %}
+            {% comment %} The drawn banner set the resource cards already use: one scene
+               per category family, a variant per post, day or night with the theme. {% endcomment %}
+            <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ a.category_art }}" data-neb-seed="news|{{ a.id }}"></div>
+            {% endif %}
           </div>
-          {% else %}
-          <div class="news-card-cover news-card-cover-placeholder" style="background:linear-gradient(135deg, {{ a.category_color }}22, {{ a.category_color }}08);">
-            <span class="material-symbols-outlined news-card-cover-icon" style="color:{{ a.category_color }}">{{ a.category_icon }}</span>
-            <span class="news-category-badge" style="background:{{ a.category_color }}">
-              <span class="material-symbols-outlined">{{ a.category_icon }}</span>
-              {{ a.category_label }}
-            </span>
-            {% if a.is_pinned %}<span class="news-pin-badge"><span class="material-symbols-outlined">push_pin</span></span>{% endif %}
-          </div>
-          {% endif %}
           <div class="news-card-body">
             <h2 class="news-card-title">{{ a.title }}</h2>
             {% if a.summary %}<p class="news-card-summary">{{ a.summary }}</p>{% endif %}
             <div class="news-card-meta">
+              {% if a.is_pinned %}
+              <span class="news-card-pin"><span class="material-symbols-outlined" aria-hidden="true">push_pin</span>Pinned</span>
+              <span class="news-card-dot" aria-hidden="true">·</span>
+              {% endif %}
               <span class="news-card-author">
                 {% if a.author_photo %}<img src="{{ a.author_photo }}" alt="">{% endif %}
                 {{ a.author_name|mention_links_plain }}
               </span>
-              <span>{{ a.published_at|time_ago }}</span>
-              <span class="material-symbols-outlined icon-sm">visibility</span>
-              {{ a.view_count|short_number }}
+              <span class="news-card-dot" aria-hidden="true">·</span>
+              <span class="news-card-when">{{ a.published_at|time_ago }}</span>
+              <span class="news-card-dot" aria-hidden="true">·</span>
+              <span class="news-card-views"><span class="material-symbols-outlined" aria-hidden="true">visibility</span>{{ a.view_count|short_number }}</span>
             </div>
           </div>
         </a>

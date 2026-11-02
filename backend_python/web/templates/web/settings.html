@@ -17,10 +17,8 @@
    styles, which is why every group had slightly different padding and the
    groups themselves were in a different order from the app's. {% endcomment %}
 <div class="st-page">
-  <a href="{% url 'web:profile' username=user.username %}" class="md-btn md-btn-text st-back" data-action="go-back">
-    <span class="material-symbols-outlined">arrow_back</span>
-    Back to profile
-  </a>
+  {% url 'web:profile' username=user.username as back_href %}
+  {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to profile" %}
 
   <div class="st-head">
     <h1 class="st-title">Settings</h1>

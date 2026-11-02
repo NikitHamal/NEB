@@ -15,13 +15,16 @@ from api.utils import now_ms, uuid_str
 from .view_helpers import DELETED_AUTHOR_NAME, _avatar_url, _comment_author, _ctx, _get_user_id, _user_badge_info
 
 
+# `art` is the subject the pixel banner family resolves to -- pixel-art.js reads
+# it through the same keyword table the app's Color.kt uses, so a news card and
+# an app card of the same kind show the same scene.
 CATEGORY_META = {
-    'exam_results': {'icon': 'fact_check', 'label': 'Exam Results', 'color': '#dc2626'},
-    'notice':       {'icon': 'campaign',     'label': 'Notice',       'color': '#2563eb'},
-    'event':        {'icon': 'event',       'label': 'Event',        'color': '#7c3aed'},
-    'update':       {'icon': 'upgrade',     'label': 'Update',       'color': '#059669'},
-    'alert':        {'icon': 'warning',     'label': 'Alert',        'color': '#d97706'},
-    'general':      {'icon': 'info',        'label': 'General',      'color': '#6b7280'},
+    'exam_results': {'icon': 'fact_check', 'label': 'Exam Results', 'color': '#dc2626', 'art': 'exam prep'},
+    'notice':       {'icon': 'campaign',   'label': 'Notice',       'color': '#2563eb', 'art': 'general'},
+    'event':        {'icon': 'event',      'label': 'Event',        'color': '#7c3aed', 'art': 'social studies'},
+    'update':       {'icon': 'upgrade',    'label': 'Update',       'color': '#059669', 'art': 'computer'},
+    'alert':        {'icon': 'warning',    'label': 'Alert',        'color': '#d97706', 'art': 'general'},
+    'general':      {'icon': 'info',       'label': 'General',      'color': '#6b7280', 'art': 'general'},
 }
 
 
@@ -62,6 +65,7 @@ def _serialize_announcement(a, include_content=False):
         'category_icon': meta['icon'],
         'category_label': meta['label'],
         'category_color': meta['color'],
+        'category_art': meta['art'],
         'is_pinned': a.is_pinned,
         'cover_image_url': a.cover_image_url or '',
         'external_url': a.external_url or '',

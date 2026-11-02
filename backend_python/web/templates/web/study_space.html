@@ -18,9 +18,8 @@
 {% block content %}
 <div class="ss-page">
   <div class="ss-topbar">
-    <a href="{% url 'web:study_lab' %}" class="ss-back-btn" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span> <span>Study Lab</span>
-    </a>
+    {% url 'web:study_lab' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Study Lab" %}
     <button class="md-btn md-btn-icon ss-menu-btn" data-action="ss-toggle-sidebar" title="Documents &amp; members" aria-label="Open documents panel">
       <span class="material-symbols-outlined">menu</span>
     </button>

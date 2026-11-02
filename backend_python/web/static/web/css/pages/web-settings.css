@@ -10,16 +10,6 @@
   padding: 16px 16px 48px;
 }
 
-.st-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin: 0 0 12px -8px;
-  padding: 6px 10px;
-  text-decoration: none;
-}
-.st-back .material-symbols-outlined { font-size: 20px; }
-
 .st-head { margin-bottom: 8px; }
 .st-title {
   margin: 0;

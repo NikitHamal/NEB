@@ -16,8 +16,8 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/web-news-detail.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}?v=20261103d">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-news-detail.css' %}?v=20261103e">
 {% endblock %}
 
 {% block bottomnav %}
@@ -29,18 +29,8 @@
 
 <div class="md-container news-detail-page">
 
-  <nav class="nd-crumbs" aria-label="Breadcrumb">
-    <a href="{% url 'web:home' %}">Home</a>
-    <span class="material-symbols-outlined">chevron_right</span>
-    <a href="{% url 'web:news_list' %}">Blog</a>
-    <span class="material-symbols-outlined">chevron_right</span>
-    <span class="nd-crumb-current">{{ announcement.title }}</span>
-  </nav>
-
-  <a href="{% url 'web:news_list' %}" class="back-link nd-back" data-action="go-back">
-    <span class="material-symbols-outlined">arrow_back</span>
-    Back to Blog
-  </a>
+  {% url 'web:news_list' as back_href %}
+  {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Blog" %}
 
   <div class="nd-layout">
     <div class="nd-main">
@@ -75,11 +65,12 @@
               {% if announcement.author_photo %}<img src="{{ announcement.author_photo }}" alt="">{% endif %}
               {{ announcement.author_name|mention_links_plain }}
             </span>
-            <span>{{ announcement.published_at|time_ago }}</span>
-            <span class="material-symbols-outlined icon-sm">visibility</span>
-            <span>{{ announcement.view_count|short_number }} views</span>
-            <span class="material-symbols-outlined icon-sm">schedule</span>
-            <span>{{ announcement.read_time }} min read</span>
+            <span class="news-card-dot" aria-hidden="true">·</span>
+            <span class="news-card-when">{{ announcement.published_at|time_ago }}</span>
+            <span class="news-card-dot" aria-hidden="true">·</span>
+            <span class="news-card-views"><span class="material-symbols-outlined" aria-hidden="true">visibility</span>{{ announcement.view_count|short_number }} views</span>
+            <span class="news-card-dot" aria-hidden="true">·</span>
+            <span class="news-card-views"><span class="material-symbols-outlined" aria-hidden="true">schedule</span>{{ announcement.read_time }} min read</span>
           </div>
         </header>
 
@@ -154,15 +145,13 @@
         <div class="nd-related-grid">
           {% for r in related %}
           <a href="{% url 'web:news_detail' slug=r.slug %}" class="news-card news-card-compact">
-            {% if r.cover_image_url %}
             <div class="news-card-cover">
+              {% if r.cover_image_url %}
               <img src="{{ r.cover_image_url }}" alt="{{ r.title }}" loading="lazy">
+              {% else %}
+              <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ r.category_art }}" data-neb-seed="news|{{ r.id }}"></div>
+              {% endif %}
             </div>
-            {% else %}
-            <div class="news-card-cover news-card-cover-placeholder" style="background:linear-gradient(135deg, {{ r.category_color }}22, {{ r.category_color }}08);">
-              <span class="material-symbols-outlined news-card-cover-icon" style="color:{{ r.category_color }}">{{ r.category_icon }}</span>
-            </div>
-            {% endif %}
             <div class="news-card-body">
               <h3 class="news-card-title">{{ r.title }}</h3>
               <div class="news-card-meta"><span>{{ r.published_at|time_ago }}</span></div>

@@ -28,8 +28,10 @@
 {% comment %} In the head, not in the body. A stylesheet found part-way down
    the document is found after the browser has already painted, so the page
    lays itself out twice on every load. {% endcomment %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261102a">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}?v=20261103e">
+<link rel="stylesheet" href="{% static 'web/css/pages/forum-post.css' %}?v=20261103e">
+<link rel="stylesheet" href="{% static 'web/css/skullet.css' %}">
+<script type="module" src="{% static 'web/js/skullet/element.mjs' %}"></script>
 {% endblock %}
 
 {% block footer %}{% endblock %}
@@ -50,9 +52,8 @@
       <div class="hf-center-panel fp-center-panel">
         {% if post %}
         <div class="fp-header-bar">
-          <a href="{% url 'web:home' %}" class="fp-back-btn" data-action="go-back" title="Go back">
-            <span class="material-symbols-outlined">arrow_back</span>
-          </a>
+          {% url 'web:home' as back_href %}
+          {% include "web/partials/_back.html" with back_label="Go back" %}
           <div class="fp-header-title-wrap">
             <h2 class="fp-header-title">Discussion</h2>
             <span class="fp-header-badge neb-tag">#{{ post.category }}</span>
@@ -80,7 +81,7 @@
             <div class="fp-meta">
               <div class="fp-meta-top author-line">
                 {% if post.isAnonymous %}
-                <span class="author fp-author-anon"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;margin-right:2px;">visibility_off</span>Anonymous Nebian</span>
+                <span class="author">{{ post.authorName }}</span>
                 {% elif post.authorId and post.authorName %}
                 <a href="{% url 'web:profile' username=post.authorName %}" class="author">{{ post.authorDisplayName|default:post.authorName }}</a>
                 {% else %}
@@ -324,7 +325,22 @@
         <span class="material-symbols-outlined">close</span>
       </button>
     </div>
-    <div class="neb-sheet-body neb-sheet-body-flush fp-thread-scroll" id="threadScroll"></div>
+    {% comment %}The thread body is a skullet reveal: the sample card below is
+    measured, never seen, and its bars hold exactly the space the real replies
+    will take. If the module does not load, the two call sites in this page fall
+    back to plain innerHTML, so the sheet still fills.{% endcomment %}
+    <skullet-reveal class="neb-sheet-body neb-sheet-body-flush fp-thread-scroll" id="threadScroll" loading label="Loading thread">
+      <div class="fp-thread-reply" aria-hidden="true">
+        <div class="fp-reply-avatar"><span class="fp-reply-avatar-letter">N</span></div>
+        <div class="fp-reply-main">
+          <div class="fp-reply-header">
+            <div class="fp-reply-meta"><span class="fp-reply-author">Loading</span><span class="fp-reply-meta-sep">&middot;</span><span class="fp-reply-time">now</span></div>
+          </div>
+          <div class="fp-reply-body">This card is only measured, never shown: the skeleton is drawn over it, and the real replies take its place the moment they arrive.</div>
+          <div class="fp-reply-actions"><span class="fp-reply-action">Reply</span></div>
+        </div>
+      </div>
+    </skullet-reveal>
     <div class="fp-thread-compose" id="threadCompose" style="display:none;">
       <button type="button" id="threadReplyingTo" class="fp-replying-to-bar" style="display:none;" data-action="scroll-to-reply-target" data-target-reply-id="">
         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -751,6 +767,14 @@ function clearReplyCompose(key) {
   refreshReplySendBtn(key);
 }
 
+/* skullet appends what it is given, so an HTML string has to arrive as nodes
+   rather than as one big text node. */
+function threadNodes(html) {
+  const t = document.createElement('template');
+  t.innerHTML = html;
+  return t.content;
+}
+
 /* Both composers on this page are the same component, so everything about a
    reply is resolved from its field: the textarea and the send button. */
 var REPLY_COMPOSER_IDS = { main: 'mainReplyWrapper', thread: 'threadWrapper' };
@@ -833,6 +857,7 @@ async function submitMainReply() {
             card.style.transition = 'opacity 0.3s';
             card.style.opacity = '1';
             if (window.renderAllMath) window.renderAllMath(card);
+            if (window.NebClamp) window.NebClamp.refresh(card);
           });
         }
         // Increment the counter
@@ -863,7 +888,12 @@ function openThread(replyId) {
   }
   document.getElementById('threadTitle').textContent = 'Thread';
   document.getElementById('threadCount').style.display = 'none';
-  document.getElementById('threadScroll').innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);"><span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;">forum</span>Loading thread...</div>';
+  /* The reveal draws its skeleton from the sample card, or from the shape of
+     the last thread it showed; the plain-div path is only for a blocked
+     module script. */
+  const threadScrollEl = document.getElementById('threadScroll');
+  if (threadScrollEl.load) { threadScrollEl.load(); }
+  else { threadScrollEl.removeAttribute('loading'); threadScrollEl.innerHTML = '<div style="text-align:center;padding:32px;color:var(--md-on-surface-variant);"><span class="material-symbols-outlined" style="font-size:32px;display:block;margin-bottom:8px;opacity:.4;">forum</span>Loading thread...</div>'; }
   document.getElementById('threadCompose').style.display = 'none';
   NebUI.open('threadPanel');
   loadThreadReplies(replyId);
@@ -871,8 +901,9 @@ function openThread(replyId) {
 
 let pendingThreadReplyContent = null;
 
-function openThreadReply(parentId, authorName) {
-  pendingThreadReplyContent = (authorName && authorName !== 'Anonymous Nebian') ? '@' + authorName + ' ' : '';
+function openThreadReply(parentId, authorName, isAnonymous) {
+  /* An anonymous handle is not a mention target: @Anon#12ab reaches nobody. */
+  pendingThreadReplyContent = (authorName && !isAnonymous) ? '@' + authorName + ' ' : '';
   activeParentReplyId = parentId;
   openThread(parentId);
 }
@@ -985,12 +1016,17 @@ async function loadThreadReplies(replyId) {
       document.getElementById('threadTitle').textContent = title;
       const countEl = document.getElementById('threadCount');
       if (totalReplies > 0) { countEl.textContent = countText; countEl.style.display = ''; } else { countEl.style.display = 'none'; }
-      document.getElementById('threadScroll').innerHTML = html;
+      const threadBody = document.getElementById('threadScroll');
+      if (threadBody.show) { threadBody.show(threadNodes(html)); }
+      else { threadBody.removeAttribute('loading'); threadBody.innerHTML = html; }
       document.getElementById('threadCompose').style.display = IS_AUTHENTICATED ? '' : 'none';
     }
     if (window.renderAllMath) {
       window.renderAllMath(document.getElementById('threadScroll'));
     }
+    /* The sheet only lays out now, so this is the first moment a thread
+       comment can be measured for folding. */
+    if (window.NebClamp) window.NebClamp.refresh(document.getElementById('threadScroll'));
     if (IS_AUTHENTICATED) {
       const threadTA = document.getElementById('threadTextarea');
       if (threadTA) initMentionAutocomplete(threadTA);
@@ -1037,7 +1073,7 @@ function renderThreadParent(parent) {
         '<div class="fp-reply-meta">' +
           '<div class="author-line">' +
             (parentAnon
-              ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(parent.authorName || 'Anonymous Nebian') + '</span>'
+              ? '<span class="fp-reply-author">' + escapeHtml(parent.authorName || 'Anonymous') + '</span>'
               : (parent.authorId
                 ? '<a href="/app/profile/' + encodeURIComponent(parent.authorName || '') + '/" class="fp-reply-author">' + escapeHtml(parent.authorName || 'Unknown') + '</a>'
                 : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(parent.authorName || 'Deleted user') + '</span>')) +
@@ -1152,7 +1188,7 @@ function renderThreadReply(reply, parentInfo, depth) {
         '<div class="fp-reply-meta">' +
           '<div class="author-line">' +
             (isAnon
-              ? '<span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> ' + escapeHtml(reply.authorName) + '</span>'
+              ? '<span class="fp-reply-author">' + escapeHtml(reply.authorName) + '</span>'
               : (reply.authorId
                 ? '<a href="/app/profile/' + encodeURIComponent(reply.authorName) + '/" class="fp-reply-author">' + escapeHtml(reply.authorName) + '</a>'
                 : '<span class="fp-reply-author" style="color:var(--md-on-surface-variant);">' + escapeHtml(reply.authorName || 'Deleted user') + '</span>')) +
@@ -1567,6 +1603,7 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(function () {
           card.style.transition = 'opacity 0.3s';
           card.style.opacity = '1';
+          if (window.NebClamp) window.NebClamp.refresh(card);
         });
         updateReplyCount(1);
         showSnackbar('New reply from @' + (data.authorName || 'someone'));
@@ -1646,7 +1683,7 @@ registerActions({
   'submit-edit-post': function() { submitEditPost(); },
   'toggle-follow': async function(el) { await toggleFollowBtn(el, el.dataset.userId); },
   'toggle-reply-like': function(el) { toggleReplyLike(el.dataset.replyId); },
-  'open-thread-reply': function(el) { openThreadReply(el.dataset.replyId, el.dataset.authorName); },
+  'open-thread-reply': function(el) { openThreadReply(el.dataset.replyId, el.dataset.authorName, el.dataset.anonymous === '1'); },
   'share-reply': function(el) { closeAllMenus(); shareReply(el.dataset.replyId); },
   'start-edit-reply': function(el) { closeAllMenus(); startEditReply(el.dataset.replyId); },
   'archive-reply': function(el) { closeAllMenus(); archiveReply(el.dataset.replyId); },

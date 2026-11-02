@@ -9,9 +9,8 @@
 <section class="tools-page">
   <div class="tools-page-shell">
     <header class="tools-page-header">
-      <a href="{% url 'web:home' %}" class="md-btn-icon" title="Back" aria-label="Back to home" data-action="go-back">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </a>
+      {% url 'web:home' as back_href %}
+      {% include "web/partials/_back.html" with back_label="Back to Home" %}
       <div class="tools-page-header-copy">
         <p class="tools-page-eyebrow">Available utilities</p>
         <h1 class="md-headline-large-emphasized tools-page-title">Tools</h1>

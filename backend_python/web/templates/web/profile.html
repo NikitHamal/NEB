@@ -21,7 +21,7 @@
    visibly re-laid itself out on every load. {% endcomment %}
 <link rel="stylesheet" href="{% static 'web/css/pages/agents.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/app/10-social-links.css' %}?v=1.1">
-<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/profile.css' %}?v=20261103e">
 {% endblock %}
 
 {% block head_extra %}
@@ -87,9 +87,8 @@
                 <div class="pf-banner-sheen" aria-hidden="true"></div>
               </div>
             {% endif %}
-            <a href="#" data-action="go-back" class="profile-banner-back-btn" title="Go Back">
-              <span class="material-symbols-outlined">arrow_back</span>
-            </a>
+            {% url 'web:home' as back_href %}
+            {% include "web/partials/_back.html" with back_label="Go back" back_class="neb-back-on-art" %}
             {% comment %} The utility actions live on the cover rather than in the text
                column: the app keeps them in the top bar, and down here they
                competed with the name for the first line the eye lands on. {% endcomment %}

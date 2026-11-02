@@ -13,6 +13,8 @@
 {% include "web/partials/bottomnav.html" with current="library" %}
 {% endblock %}
 
+{% block footer %}{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/css/pages/web-library.css' %}">
 {% if current_tab == 'interactive' %}
@@ -20,7 +22,7 @@
 {% if current_tab == 'marketplace' %}
 <link rel="stylesheet" href="{% static 'web/css/pages/marketplace.css' %}">{% endif %}
 {% if current_tab == 'categories' %}
-<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">{% endif %}
+<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261102m">{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -249,7 +251,7 @@
 
 {% block extra_js %}
 {% if current_tab == 'categories' %}
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261102j" defer></script>
 {% endif %}
 {% if current_tab == 'marketplace' %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/marketplace_price.js' %}"></script>

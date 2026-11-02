@@ -93,7 +93,7 @@
           <div class="post-card-meta">
             <div class="post-meta-line">
               {% if post.isAnonymous %}
-              <span class="fp-author-anon" style="font-weight:700;"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">visibility_off</span> Anonymous Nebian</span>
+              <span style="font-weight:700;">{{ p.authorName }}</span>
               {% elif post.authorId %}
               <a href="{% url 'web:profile' username=post.authorName %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a>
               {% else %}
@@ -344,7 +344,7 @@
             <div class="post-card-meta">
               <div class="post-meta-line">
                 {% if post.isAnonymous %}
-                <span class="fp-author-anon" style="font-weight:700;"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:-2px;">visibility_off</span> Anonymous Nebian</span>
+                <span style="font-weight:700;">{{ p.authorName }}</span>
                 {% elif post.authorId %}
                 <a href="{% url 'web:profile' username=post.authorName %}" style="font-weight:700;cursor:pointer;text-decoration:none;color:inherit;">{{ post.authorName }}</a>
                 {% else %}

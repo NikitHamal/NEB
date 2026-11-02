@@ -48,17 +48,15 @@
 {% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-resource-detail.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-resource-detail.css' %}?v=20261103e">
 <link rel="stylesheet" href="{% static 'web/css/pages/media-player.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="md-container-narrow">
   {% if resource %}
-    <a href="{% url 'web:library' %}" class="rd-back" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Go back
-    </a>
+    {% url 'web:library' as back_href %}
+    {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Library" %}
 
   <!-- Hero Card -->
   <div class="rd-hero" style="--subject-color: {{ resource.subject|split:','|first|subject_color }}">

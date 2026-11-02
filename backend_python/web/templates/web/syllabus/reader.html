@@ -9,18 +9,13 @@
 {% endblock %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'web/vendor/katex/katex.min.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/pages/study-reader.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/syllabus.css' %}?v=20261102m">
+<link rel="stylesheet" href="{% static 'web/css/pages/study-reader.css' %}?v=20261102j">
 {% endblock %}
 {% block content %}
 <div class="rd-progress" aria-hidden="true"><span data-rd-bar></span></div>
 <div class="md-container rd-page" style="--syl-c: {{ syl.color }};" data-rd-key="{{ doc_key }}" data-rd-min="{{ doc.read_min }}" data-rd-title="{{ doc.title }}" data-rd-subject="{{ syl.grade }}/{{ syl.subject }}" data-rd-label="{{ syl.short }} · {{ syl.name }}"{% if doc.exam %} data-rd-exam-min="{{ doc.exam.minutes }}" data-rd-exam-neg="{{ doc.exam.negative|stringformat:'g' }}"{% endif %}>
-  <nav class="st-crumbs" aria-label="Breadcrumb">
-    <a href="{% url 'web:syllabus_grade' syl.grade %}">Syllabus</a><span aria-hidden="true">/</span>
-    <a href="{% url 'web:syllabus_grade' syl.grade %}">{{ syl.short }}</a><span aria-hidden="true">/</span>
-    <a href="{% url 'web:syllabus_subject' syl.grade syl.subject %}">{{ syl.name }}</a><span aria-hidden="true">/</span>
-    <span aria-current="page">{{ doc_label }}</span>
-  </nav>
+  {% include "web/syllabus/_crumbs.html" %}
 
   <div class="rd-layout">
     <aside class="rd-side" aria-label="In this {% if doc_kind == 'unit' %}chapter{% else %}set{% endif %}">
@@ -87,7 +82,7 @@
 {% endblock %}
 {% block extra_js %}
 <script nonce="{{ csp_nonce }}" src="{% static 'web/vendor/katex/katex.min.js' %}" defer></script>
-<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}" defer></script>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/syllabus.js' %}?v=20261102j" defer></script>
 <script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-reader.js' %}" defer></script>
 {% if doc.exam %}<script nonce="{{ csp_nonce }}" src="{% static 'web/js/study-exam.js' %}" defer></script>{% endif %}
 {% endblock %}

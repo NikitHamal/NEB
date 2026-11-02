@@ -7,9 +7,8 @@
 {% block content %}
 <div class="md-container di-wrap">
   <header style="margin-bottom: 18px; display: flex; align-items: center; gap: 12px;">
-    <a href="{% url 'web:tools_hub' %}" class="md-btn-icon" style="color: var(--md-on-surface); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Back">
-      <span class="material-symbols-outlined">arrow_back</span>
-    </a>
+    {% url 'web:tools_hub' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Study Tools" %}
     <div style="flex:1">
       <p class="di-kicker"><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle">neurology</span> On-Device · Offline Forever · Tiny ML</p>
       <h1 class="md-headline-large-emphasized" style="margin: 0; line-height: 1.2;">Doc Intelligence</h1>
