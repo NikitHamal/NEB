@@ -292,9 +292,10 @@ SCRAPER_PRESETS: List[ProviderPreset] = [
     ),
     ProviderPreset(
         slug='longcat', label='LongCat (longcat.chat — free, no login)', format=FORMAT_SCRAPER,
-        base_url='https://longcat.chat/api/v1/chat-completion-oversea-V2', default_model='longcat/LongCat-2.0',
+        base_url='https://longcat.chat/api/v1/chat-completion-oversea-V2', default_model='longcat/LongCat-2.5',
         models=[
-            ModelSpec('longcat/LongCat-2.0', 'LongCat 2.0 Flash', 'Meituan · reasoning + web search · 128k'),
+            ModelSpec('longcat/LongCat-2.5', 'LongCat 2.5',
+                      'Meituan · 1.6T MoE (48B active) · thinking + web search · 128k'),
         ],
         context_window=128000, max_output_tokens=8000,
         key_required=False, official=False, scraper_module='longcat_proxy',
