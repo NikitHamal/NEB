@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**18 of 44 subject slots are written, built and QA-checked; 18 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (244,171 raw words of study material, counted over the unit files, including code listings and tables):
+**19 of 44 subject slots are written, built and QA-checked; 17 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (271,869 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -25,8 +25,9 @@
 | 3 | BCA 204 | [System Analysis and Design](course/semester-3/system-analysis-and-design/) | 9,919 | 33 | done |
 | 3 | BCA 205 | [Probability and Statistics](course/semester-3/probability-and-statistics/) | 9,323 | 30 | done |
 | 3 | BCA 206 | [Applied Economics](course/semester-3/applied-economics/) | 11,390 | 34 | done |
+| 4 | BCA 251 | [Operating Systems](course/semester-4/operating-systems/) | 27,698 | 85 | done |
 
-Semesters I, II and III are fully done. Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
+Semesters I, II and III are fully done. Semester IV: 1 of 5 core subjects done. Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
 <!-- /COURSE-STATUS -->
 
 

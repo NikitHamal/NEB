@@ -64,3 +64,21 @@ All syllabus pages below are third-party reproductions of the TU course outlines
 
 ### BCA 206 Applied Economics (7 units)
 - https://benchpartner.com/bca-tu/applied-economics/31/syllabus : seven units with hours 6/6/6/6/9/6/6, code CAEC353 (3 credits, Sixth semester in the 2074 curriculum). The revised BCA 206 is 2 credits; the unit list of the 3-credit outline is used and the README says so.
+
+## Semester IV (session 6, accessed 2026-11-02)
+All syllabus pages are third-party reproductions of the TU outlines (CACS25x, 2074 curriculum). The revised BCA 251–255 PDFs were not retrievable. The revised list (BCA 251 Operating Systems, 252 Software Engineering, 253 Numerical Methods, 254 Python Programming, 255 Web Technology II, 256 Project I) is from edusanjal.com, collegesnepal.com and texasintl.edu.np. Note the revised codes swap the old order of Software Engineering and Numerical Methods (old CACS252 Numerical Methods, CACS253 Software Engineering).
+
+### BCA 251 Operating Systems (TU CACS251, 10 units, 45 hours)
+- https://notebahadur.com/tu-bca-4th-semester-operating-system/ : full unit text with hours (2, 2, 15, 4, 7, 4, 2, 3, 4, 2), lab note, textbooks (Tanenbaum, Modern Operating Systems; Silberschatz et al., Operating System Concepts). Cross-read with https://www.ishan12.com.np/2025/08/bca-4th-semester-operating-system.html (unit list). Substitution: 2074 CACS251 used as proxy for BCA 251.
+
+### BCA 252 Software Engineering (old CACS253, 8 units)
+- https://notebahadur.com/tu-bca-5th-semester-software-engineering/ (the page title says 5th semester; its text says CACS253, year II/IV): 8 units with hours 4, 8, 10, 10, 2, 6, 3, 2. Cross-read with https://www.ishan12.com.np/2025/08/bca-4th-semester-software-engineering.html. Substitution: 2074 CACS253 as proxy.
+
+### BCA 253 Numerical Methods (old CACS252, 6 units)
+- https://notebahadur.com/tu-bca-5th-semester-numerical-methods/ (text: CACS252, II/IV): units 1, 2, 3, 5, 6 with hours 10, 8, 5, 7, 5 and the C/C++ lab note; the mirror's excerpt skips the *Linear Algebraic Equations* unit (its lab note and the course description both include it, and other TU outlines place it as Unit 4), so Unit 4 is included here with the hours left unstated. Cross-read: https://esikhcha.com/numerical-method-bca-fourth-semester-tu/ . Substitution: 2074 CACS252 as proxy.
+
+### BCA 254 Python Programming (revised; no TU unit list retrieved)
+- Only the course code, title and credit (3) were confirmed (collegesnepal.com, edusanjal.com, texasintl.edu.np, esikhcha.com). **No TU unit list for BCA 254 was found.** The old CACS254 *Scripting Language* (JavaScript + PHP/MySQL + AJAX/jQuery/CMS, https://bcapoint.com/bca-fourth-semester-scripting-language-syllabus-tu/) is a different subject and was *not* used for Python. The nine units of this book are a **reconstruction** from the standard shape of a first Python course and of other universities' BCA Python outlines (basics, control flow, data structures, functions and modules, files and exceptions, OOP, NumPy/Pandas/Matplotlib, standard library and databases). Check your college's notice for the exact units.
+
+### BCA 255 Web Technology II (revised; no TU unit list retrieved)
+- Code, title and credit confirmed (collegesnepal.com, edusanjal.com). The unit list is taken from the server-side half of the old CACS254 Scripting Language outline (bcapoint.com page above: PHP 8 h, MySQL 7 h, OOP in PHP, AJAX, CMS), because Web Technology I (BCA 203) already covers client-side JavaScript and jQuery in this repository. The BIM Web Technology II outline (benchpartner.com, PHP and MySQL, 12 h on databases) was read for cross-checking only. Chapters on security (SQL injection, XSS, CSRF, password hashing), REST/JSON and the PHP ecosystem were added because they are standard in any such course; the README says which units are syllabus-derived and which are additions.

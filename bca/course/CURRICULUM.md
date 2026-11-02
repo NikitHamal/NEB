@@ -28,7 +28,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | III | BCA 204 | System Analysis and Design | 3 | **full book** (`semester-3/system-analysis-and-design`) |
 | III | BCA 205 | Probability and Statistics | 3 | **full book** (`semester-3/probability-and-statistics`) |
 | III | BCA 206 | Applied Economics | 2 | **full book** (`semester-3/applied-economics`) |
-| IV | BCA 251 | Operating Systems | 3 | mapped only |
+| IV | BCA 251 | Operating Systems | 3 | **full book** (`semester-4/operating-systems`) |
 | IV | BCA 252 | Software Engineering | 3 | mapped only |
 | IV | BCA 253 | Numerical Methods | 3 | mapped only |
 | IV | BCA 254 | Python Programming | 3 | mapped only |

@@ -143,5 +143,13 @@
   "credits": 2,
   "accent": "#047857",
   "status": "done"
+ },
+ "semester-4/operating-systems": {
+  "name": "Operating Systems",
+  "code": "BCA 251",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#0E7490",
+  "status": "done"
  }
 }
