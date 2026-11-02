@@ -1,12 +1,14 @@
 # CHANGELOG — BCA course
 
-## Session 3: remaining subjects, Semester II onward (running log)
+## Session 3: remaining subjects, Semester II onward
+
+Word counts are raw (whitespace-split over the unit files, so code listings, tables and answer keys are included) and are the numbers `tools/gen_status.py` prints; they are larger than prose-only counts. **Semester II is now fully done (6 of 6 subjects).**
 
 **Finished this session (each pushed on its own):**
 
-- Semester 2 · BCA 152 · Microprocessor and Computer Architecture: 24,493 raw words (units only; includes code listings and tables), 76 PDF pages, 8 units, QA 0 failures (1 soft warning: a short page at the end of the contents). 13 assembly programs assembled and executed on the 8085 simulator in `tools/check_mpca.py`, which also recomputes Booth, division, IEEE-754, pipeline, cache, paging, disk and Amdahl numbers (100 checks, all pass).
-- Semester 2 · BCA 155 · UX/UI Design: 21,732 raw words (units only), 71 PDF pages, 8 units, QA 0 failures (3 soft warnings: short pages at the end of the contents and of two chapters). Theory subject: `tools/check_uxui.py` recomputes 36 numbers (WCAG contrast, Fitts, Hick, SUS, KLM, sample size, type scales, grids).
-- Semester 2 · BCA 156 · Principles of Management (1 credit): 15,123 raw words (units only), 50 PDF pages, 6 units, QA 0 failures (1 soft warning: short contents page). `tools/check_management.py` recomputes 46 numbers. Syllabus reconstructed from the older TU Introduction to Management / BIM outline (revised 1-credit PDF not retrievable); see its README.
+- Semester 2 · BCA 152 · Microprocessor and Computer Architecture: 25,282 raw words (units only; includes code listings and tables), 76 PDF pages, 8 units, QA 0 failures (1 soft warning: a short page at the end of the contents). 13 assembly programs assembled and executed on the 8085 simulator in `tools/check_mpca.py`, which also recomputes Booth, division, IEEE-754, pipeline, cache, paging, disk and Amdahl numbers (100 checks, all pass).
+- Semester 2 · BCA 155 · UX/UI Design: 22,095 raw words (units only), 71 PDF pages, 8 units, QA 0 failures (3 soft warnings: short pages at the end of the contents and of two chapters). Theory subject: `tools/check_uxui.py` recomputes 36 numbers (WCAG contrast, Fitts, Hick, SUS, KLM, sample size, type scales, grids).
+- Semester 2 · BCA 156 · Principles of Management (1 credit): 15,475 raw words (units only), 50 PDF pages, 6 units, QA 0 failures (1 soft warning: short contents page). `tools/check_management.py` recomputes 46 numbers. Syllabus reconstructed from the older TU Introduction to Management / BIM outline (revised 1-credit PDF not retrievable); see its README.
 
 ## Session 2: remaining-subject push
 

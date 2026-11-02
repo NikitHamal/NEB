@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**9 of 42 subjects are written, built and QA-checked; 33 are not started.** Full per-subject table: [`course/STATUS.md`](course/STATUS.md). Done so far (102,864 words of study material):
+**12 of 44 subject slots are written, built and QA-checked; 24 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (165,716 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -14,10 +14,13 @@
 | 1 | BCA 105 | [Professional Communication and Ethics](course/semester-1/professional-communication-ethics/) | 10,381 | 34 | done |
 | 1 | BCA 106 | [Hardware Workshop](course/semester-1/hardware-workshop/) | 7,838 | 24 | done |
 | 2 | BCA 151 | [Discrete Structure](course/semester-2/discrete-structure/) | 12,728 | 34 | done |
+| 2 | BCA 152 | [Microprocessor and Computer Architecture](course/semester-2/microprocessor-computer-architecture/) | 25,282 | 76 | done |
 | 2 | BCA 153 | [OOP in Java](course/semester-2/oop-in-java/) | 10,096 | 41 | done |
 | 2 | BCA 154 | [Mathematics II](course/semester-2/mathematics-2/) | 9,256 | 23 | done |
+| 2 | BCA 155 | [UX/UI Design](course/semester-2/ux-ui-design/) | 22,095 | 71 | done |
+| 2 | BCA 156 | [Principles of Management](course/semester-2/principles-of-management/) | 15,475 | 50 | done |
 
-Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
+Semester I and Semester II are fully done. Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
 <!-- /COURSE-STATUS -->
 
 
@@ -29,7 +32,7 @@ Everything here is Markdown first (readable on GitHub, diffable, forkable) with 
 | **Course** | [`course/`](course/README.md) | The 8-semester BCA programme: the verified curriculum map and the subject books written so far, PDFs in `course/semester-N/pdfs/` |
 | Reviews | [`entrance/REVIEW_ENTRANCE.md`](entrance/REVIEW_ENTRANCE.md), [`course/REVIEW_COURSE.md`](course/REVIEW_COURSE.md) | What was audited, found, fixed, and what is still open |
 | Sources | [`SOURCES.md`](SOURCES.md) | Where the curriculum and exam facts come from, and how reliable each is |
-| Tools | [`tools/`](tools/) | `nebpdf.py` (builds PDFs with the NEBians house pipeline), `qa_pdf.py` (visual/structural PDF QA), `sync_entrance.sh`, `check_c_examples.py` |
+| Tools | [`tools/`](tools/) | `nebpdf.py` (builds PDFs with the NEBians house pipeline), `qa_pdf.py` (visual/structural PDF QA), `sync_entrance.sh`, `gen_status.py` (status tables), `check_*.py` (per-subject verifiers: compile-and-diff C and Java, SymPy maths, an 8085 simulator, numeric checkers) |
 
 ## Clone
 

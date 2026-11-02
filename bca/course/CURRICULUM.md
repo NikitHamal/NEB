@@ -11,17 +11,17 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | Sem | Code | Subject | Cr | In this repo |
 |---|---|---|---|---|
 | I | BCA 101 | Computer Fundamentals and Applications | 3 | **full book** (`semester-1/computer-fundamentals`) |
-| I | BCA 102 | **Programming in C** | 3 | **full book** (`semester-1/programming-in-c`) |
-| I | BCA 103 | **Digital Logic** | 3 | **full book** (`semester-1/digital-logic`) |
+| I | BCA 102 | Programming in C | 3 | **full book** (`semester-1/programming-in-c`) |
+| I | BCA 103 | Digital Logic | 3 | **full book** (`semester-1/digital-logic`) |
 | I | BCA 104 | Mathematics I | 3 | **full book** (`semester-1/mathematics-1`) |
 | I | BCA 105 | Professional Communication and Ethics | 3 | **full book** (`semester-1/professional-communication-ethics`) |
 | I | BCA 106 | Hardware Workshop | 1 | **full book** (`semester-1/hardware-workshop`) |
 | II | BCA 151 | Discrete Structure | 3 | **full book** (`semester-2/discrete-structure`) |
-| II | BCA 152 | Microprocessor and Computer Architecture | 3 | mapped only |
+| II | BCA 152 | Microprocessor and Computer Architecture | 3 | **full book** (`semester-2/microprocessor-computer-architecture`) |
 | II | BCA 153 | OOP in Java | 3 | **full book** (`semester-2/oop-in-java`) |
 | II | BCA 154 | Mathematics II | 3 | **full book** (`semester-2/mathematics-2`) |
-| II | BCA 155 | UX/UI Design | 3 | mapped only |
-| II | BCA 156 | Principles of Management | 1 | mapped only |
+| II | BCA 155 | UX/UI Design | 3 | **full book** (`semester-2/ux-ui-design`) |
+| II | BCA 156 | Principles of Management | 1 | **full book** (`semester-2/principles-of-management`) |
 | III | BCA 201 | Data Structure and Algorithms | 3 | mapped only |
 | III | BCA 202 | Database Management System | 3 | mapped only |
 | III | BCA 203 | Web Technology I | 3 | mapped only |
