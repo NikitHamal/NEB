@@ -1,7 +1,15 @@
 /* News and Announcements Stylesheet */
 
 .news-page {
-  padding: 32px 24px 64px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 16px 0;
+}
+
+@media (max-width: 600px) {
+  .news-page {
+    padding: 16px 12px 0;
+  }
 }
 
 .news-header {
@@ -47,8 +55,8 @@
 /* Layout Grid */
 .news-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
-  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
   align-items: start;
 }
 
@@ -306,7 +314,7 @@
 /* Sidebar Styling */
 .news-sidebar {
   position: sticky;
-  top: 96px;
+  top: 80px;
   display: flex;
   flex-direction: column;
   gap: 20px;

@@ -35,8 +35,15 @@
 /* md-container sets max-width:1400px and the horizontal gutter; only the
    vertical rhythm and the reading width are overridden here. */
 .news-detail-page {
-  max-width: 1168px;
-  padding-block: 20px 72px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 20px 16px 72px;
+}
+
+@media (max-width: 600px) {
+  .news-detail-page {
+    padding: 16px 12px 64px;
+  }
 }
 
 /* ── Breadcrumb + back link ───────────────────────────────────────── */
@@ -97,8 +104,8 @@
 
 @media (min-width: 1080px) {
   .nd-layout {
-    grid-template-columns: minmax(0, 1fr) 260px;
-    gap: 36px;
+    grid-template-columns: minmax(0, 1fr) 320px;
+    gap: 24px;
   }
 }
 
@@ -154,7 +161,7 @@
 
 .news-detail-title {
   font-family: 'Poppins', sans-serif;
-  font-size: clamp(1.5rem, 1.15rem + 1.5vw, 2.125rem);
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.28;
   letter-spacing: -0.02em;
@@ -163,7 +170,7 @@
 }
 
 .news-detail-summary {
-  font-size: 1.0625rem;
+  font-size: 0.9375rem;
   line-height: 1.65;
   color: var(--md-on-surface-variant);
   margin: 0 0 22px;
@@ -232,8 +239,8 @@
 /* ── Article body ─────────────────────────────────────────────────── */
 .news-detail-content {
   padding: 32px 36px 8px;
-  font-size: 1.0625rem;
-  line-height: 1.85;
+  font-size: 0.9375rem;
+  line-height: 1.7;
   color: var(--md-on-surface);
   overflow-wrap: break-word;
 }
@@ -769,7 +776,7 @@
   .nd-sidebar {
     display: flex;
     position: sticky;
-    top: 84px;
+    top: 80px;
   }
 }
 

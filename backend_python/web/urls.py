@@ -5,6 +5,7 @@ from . import views_admin_chat
 from . import views_marketplace
 from nebians.features import marketplace_gate
 from . import views_syllabus
+from . import views_desktop_auth
 from . import views_admin_media
 from . import views_admin_neby
 from . import views_monitor
@@ -109,6 +110,7 @@ urlpatterns = [
     path('ajax/profile/<str:username>/replies/', views.ajax_profile_replies, name='ajax_profile_replies'),
     path('ajax/profile/<str:username>/resources/', views.ajax_profile_resources, name='ajax_profile_resources'),
     path('login/', views.login_page, name='login'),
+    path('desktop-auth/', views_desktop_auth.desktop_auth_page, name='desktop_auth'),
     path('auth/token-login/', views.token_login, name='token_login'),
     path('auth/google/', views.google_auth, name='google_auth'),
     path('auth/google/login/', views.google_login, name='google_login'),

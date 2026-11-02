@@ -1,7 +1,7 @@
 .profile-page {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 24px 48px;
+    padding: 0 16px 48px;
   }
 
   /* ── Banner ── */
@@ -59,7 +59,7 @@
   /* Mobile padding overrides */
   @media (max-width: 900px) {
     .profile-page {
-      padding: 0 16px 24px;
+      padding: 0 12px 24px;
       overflow: hidden;
     }
   }
