@@ -1,0 +1,49 @@
+@page { size: A4; margin: 20mm 17mm 20mm 17mm;
+  @top-left { content: string(run); font: 8pt "Liberation Sans", "DejaVu Sans", sans-serif; color: #8a8a8a; }
+  @bottom-left { content: "NEBians — free for every student"; font: 7.5pt "Liberation Sans", sans-serif; color: #aaa; }
+  @bottom-right { content: counter(page); font: 8.5pt "Liberation Sans", sans-serif; color: #555; } }
+@page :first { margin: 0; @top-left { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+body { string-set: run attr(data-run); font: 10pt/1.48 "Liberation Serif", "DejaVu Serif", serif; color: #1c1c1c; }
+.cover { page-break-after: always; height: 297mm; padding: 70mm 24mm 0 24mm; background: #14213d; color: #fff; box-sizing: border-box; position: relative; }
+.cover .brand { font: 700 30pt "Liberation Sans", sans-serif; letter-spacing: 1px; color: #fca311; }
+.cover .tag { font: 11pt "Liberation Sans", sans-serif; color: #c9d3e8; margin-bottom: 38mm; }
+.cover .ct { font: 700 34pt/1.15 "Liberation Sans", sans-serif; margin: 0 0 6mm 0; border: 0; color: #fff; }
+.cover .cl { font: 15pt "Liberation Sans", sans-serif; color: #fca311; margin-bottom: 8mm; }
+.cover .cm { font: 10pt "Liberation Sans", sans-serif; color: #c9d3e8; }
+.cover .cf { position: absolute; bottom: 22mm; left: 24mm; font: 9pt/1.5 "Liberation Sans", sans-serif; color: #9fb0d0; }
+.tocpage { page-break-after: always; }
+.toc { font: 10.5pt/1.9 "Liberation Sans", sans-serif; padding-left: 22px; } .toc a { color: #14213d; text-decoration: none; }
+.toc a::after { content: leader('.') target-counter(attr(href), page); color: #666; }
+h1, h2, h3, h4 { font-family: "Liberation Sans", "DejaVu Sans", sans-serif; color: #14213d; }
+.chapter { page-break-before: always; }
+h1 { bookmark-level: 1; bookmark-label: content(); }
+.chapter h1 { font-size: 20pt; line-height: 1.2; margin: 0 0 6mm 0; padding-bottom: 3mm; border-bottom: 2.5px solid #fca311; }
+.chapter h1 .un { display: inline-block; background: #14213d; color: #fff; border-radius: 4px; padding: 0 8px; margin-right: 9px; font-size: 16pt; }
+.chapter h1.plain, .tocpage h1 { border-bottom: 2.5px solid #14213d; }
+.kick { font: 600 8pt "Liberation Sans", sans-serif; text-transform: uppercase; letter-spacing: 1.3px; color: #b36b00; margin-bottom: 2mm; }
+h2 { font-size: 13.5pt; margin: 7mm 0 2mm; color: #8f5507; bookmark-level: 2; bookmark-label: content(); page-break-after: avoid; }
+h3 { font-size: 11pt; margin: 5mm 0 1.5mm; page-break-after: avoid; }
+p { margin: 0 0 2.4mm; orphans: 3; widows: 3; }
+ul, ol { margin: 0 0 3mm; padding-left: 6mm; } li { margin-bottom: 1mm; }
+table { border-collapse: collapse; margin: 3mm 0 4mm; font: 8.6pt/1.35 "Liberation Sans", "DejaVu Sans", sans-serif; width: 100%; }
+tr { page-break-inside: avoid; } th { background: #14213d; color: #fff; font-weight: 600; text-align: left; } th, td { border: 0.6px solid #c8cdd8; padding: 1.6mm 2mm; vertical-align: top; }
+tbody tr:nth-child(even) td { background: #f5f7fb; }
+code { font: 8.6pt "DejaVu Sans Mono", monospace; background: #eef0f5; padding: 0 2px; border-radius: 2px; }
+.hl { background: #f7f8fa; border: 0.6px solid #d5d9e2; border-left: 3px solid #14213d; border-radius: 3px; margin: 2mm 0 4mm; padding: 2.5mm 3mm; }
+.hl pre { margin: 0; font: 8.2pt/1.38 "DejaVu Sans Mono", monospace; white-space: pre-wrap; word-break: break-all; }
+.box { border-left: 4px solid #888; background: #f3f3f3; border-radius: 3px; padding: 2mm 3.5mm 1mm; margin: 3mm 0 4mm; font-size: 9.4pt; page-break-inside: avoid; }
+.box .bt { font: 700 9.2pt "Liberation Sans", sans-serif; margin-bottom: 1mm; }
+.box p, .box ul, .box ol { margin-bottom: 1.6mm; }
+.box.key, .box.definition { border-color: #2f5fd0; background: #eaf0fd; } .box.key .bt, .box.definition .bt { color: #2f5fd0; }
+.box.example { border-color: #e0a100; background: #fff7df; } .box.example .bt { color: #8f5507; }
+.box.caution { border-color: #d03a2f; background: #fdecea; } .box.caution .bt { color: #b32a20; }
+.box.tip { border-color: #2e9c4a; background: #e9f6ec; } .box.tip .bt { color: #1f7a37; }
+.box.memory { border-color: #7a4fd0; background: #f1ebfb; } .box.memory .bt { color: #5b34a8; }
+.box.note { page-break-inside: auto; font-size: 8.8pt; line-height: 1.4; } .box.note p { margin-bottom: 0.8mm; }
+.m { font-family: "Liberation Serif", "DejaVu Serif", serif; font-style: italic; white-space: nowrap; }
+.dm { text-align: center; margin: 2mm 0 3mm; font-size: 11pt; } .dm .m { white-space: normal; }
+.fr { display: inline-block; vertical-align: middle; text-align: center; font-size: 0.88em; line-height: 1.15; margin: 0 1px; }
+.fr .n { display: block; border-bottom: 0.7px solid #222; padding: 0 2px; } .fr .d { display: block; padding: 0 2px; }
+.sq { border-top: 0.7px solid #222; padding: 0 1px; } .ov { text-decoration: overline; }
+.opts { display: block; margin: 0.6mm 0 1.2mm 0; font: 9pt "Liberation Sans", "DejaVu Sans", sans-serif; } .opts .o { display: inline-block; width: 24%; vertical-align: top; margin-right: 0.5%; }
+strong { color: #000; } blockquote { margin: 2mm 0 3mm 0; padding-left: 4mm; border-left: 3px solid #fca311; color: #444; }

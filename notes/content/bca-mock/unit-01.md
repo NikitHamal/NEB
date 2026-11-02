@@ -12,14 +12,14 @@ The BCA entrance examination is how Tribhuvan University's Faculty of Humanities
 ::: key What the paper asks, in one view
 - **100 multiple-choice questions, 100 marks, 2 hours.** English grammar 40, Mathematics 50, General Knowledge and IT 10.
 - **Layout in the Dean's Office model papers**: Group A English (Q1–40), Group B Mathematics (Q41–90), Group C General Knowledge and IT (Q91–100).
-- **One mark each; no negative marking is reported** by the sources we found, so *never leave a question blank*. Confirm this in the notice of your year.
+- **One mark each; no negative marking is reported** by the sources we found, so *never leave a question blank*. Confirm this in the notice of your year. **Pass mark:** sources disagree (35 on some sites, 40 on others) and TU's page lists none, so treat it as unconfirmed. In practice seats go by merit rank, so aim far above either figure.
 - **Mathematics is half the paper**: arithmetic, algebra, calculus, coordinate geometry, trigonometry, vectors and reasoning.
 :::
 
 ## 1.1 Who sits the paper, eligibility and how admission works
 
 - **Conducting body**: Tribhuvan University, Faculty of Humanities and Social Sciences, Office of the Dean, through the portal `entrance.tufohss.edu.np`. Applications open once a year, usually in Shrawan–Bhadra; the 2082 batch paid Rs 1,500 and the 2083 notice gave an exam date in mid-August 2026. Fees and dates change: always read the current notice.
-- **Eligibility** (as published by the faculty and repeated by college sites): +2 / PCL or equivalent in **any stream**, with at least a D grade in each subject of grades 11 and 12 and a CGPA of 1.8 or more (or second division). Students awaiting the grade 12 result may apply. Mathematics in +2 is *not* compulsory.
+- **Eligibility** (as published by the faculty and repeated by college sites): +2 / PCL or equivalent in **any stream**. For students who passed grade 12 in **2079 BS or later**: at least a **D** grade in each subject of grades 11 and 12 and a **CGPA of 1.8 or more** (or second division marks). For those who passed *before* 2079 BS the older rule applies: D+ in each subject and CGPA 2.0. Students awaiting the grade 12 result may apply, but must show the completion certificate at the time of entrance. Mathematics in +2 is *not* compulsory.
 - **Admission**: candidates are ranked by entrance score and choose from TU-affiliated colleges that run BCA; each college has a limited number of seats (often about 35–48 per section), so the merit position matters more than the pass mark.
 - **Source honesty**: TU's own page describes only the *proportions* (English grammar 40 %, Mathematics 50 %, General Knowledge 10 %). The topic lists below come from the Dean's Office model questions and widely used syllabus summaries. The per-chapter question counts in this book are NEBians estimates.
 
@@ -69,7 +69,7 @@ BCA is a four-year, eight-semester programme under TU FOHSS, taught in English. 
 | VII | Cyber Security and Ethical Hacking; Software Project Management; Financial Accounting; Project IV; two electives |
 | VIII | Cloud Computing; Internship; two electives |
 
-Under the older 2074 curriculum, C is taught in semester II, and courses such as English I/II, Society and Technology, Scripting Language, DotNet Technology and Operations Research appear. Assessment is 60 % final examination and 40 % internal. **Why this matters for the entrance**: Mathematics I and II, Discrete Structure, Probability and Statistics and Numerical Methods all build on the algebra, sequences, matrices, counting and calculus in this book.
+The full 2082-batch course, with a code-by-code map from the old 2074 subjects, is in `bca/course/CURRICULUM.md` of this repository. Under the older 2074 curriculum, C is taught in semester II, and courses such as English I/II, Society and Technology, Scripting Language, DotNet Technology and Operations Research appear. Assessment is 60 % final examination and 40 % internal. **Why this matters for the entrance**: Mathematics I and II, Discrete Structure, Probability and Statistics and Numerical Methods all build on the algebra, sequences, matrices, counting and calculus in this book.
 
 ## 1.5 How to use the books
 
