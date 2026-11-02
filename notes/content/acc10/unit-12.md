@@ -87,15 +87,15 @@ from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 fig, ax = plt.subplots(figsize=(5.1,2.8))
 ax.axis('off'); ax.set_xlim(0,10); ax.set_ylim(0,8)
 ax.add_patch(FancyBboxPatch((3.2,6.2),3.6,1.3,boxstyle="round,pad=0.06",fc="#eaf1ff",ec=ACCENT,lw=1.2))
-ax.text(5.0,6.85,"Divisible fund\\n(VAT, income tax, royalties)",ha='center',va='center',fontsize=6.6,color=INK)
+ax.text(5.0,6.85,"Divisible fund\n(VAT, income tax, royalties)",ha='center',va='center',fontsize=6.6,color=INK)
 ax.add_patch(FancyBboxPatch((0.3,3.9),4.0,1.3,boxstyle="round,pad=0.06",fc="#f6f8fc",ec=MUTED,lw=1.1))
-ax.text(2.3,4.55,"Provincial share →\\nseven provincial funds",ha='center',va='center',fontsize=6.6,color=INK)
+ax.text(2.3,4.55,"Provincial share →\nseven provincial funds",ha='center',va='center',fontsize=6.6,color=INK)
 ax.add_patch(FancyBboxPatch((5.7,3.9),4.0,1.3,boxstyle="round,pad=0.06",fc="#f6f8fc",ec=MUTED,lw=1.1))
-ax.text(7.7,4.55,"Local share →\\n753 local funds",ha='center',va='center',fontsize=6.6,color=INK)
+ax.text(7.7,4.55,"Local share →\n753 local funds",ha='center',va='center',fontsize=6.6,color=INK)
 ax.add_patch(FancyArrowPatch((4.3,6.15),(2.5,5.25),arrowstyle="-|>",mutation_scale=10,color=INK,lw=1.1))
 ax.add_patch(FancyArrowPatch((5.7,6.15),(7.5,5.25),arrowstyle="-|>",mutation_scale=10,color=INK,lw=1.1))
 ax.add_patch(FancyBboxPatch((1.4,1.1),7.2,1.7,boxstyle="round,pad=0.06",fc="#fdf3f3",ec=SERIES[1],lw=1.1))
-ax.text(5.0,1.95,"Formula recommended by the National Natural Resources\\nand Fiscal Commission: population, area, development\\nand revenue effort",
+ax.text(5.0,1.95,"Formula recommended by the National Natural Resources\nand Fiscal Commission: population, area, development\nand revenue effort",
         ha='center',va='center',fontsize=6.2,color=INK)
 ```
 

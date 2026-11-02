@@ -29,10 +29,9 @@ Branch `polish/school-books-claude` (from `main` f372ce8). Read with SYLLABUS_DI
 - Not eyeballed: the other 280 pages (identical source, same pipeline; I checked the edited page, unit start pages and the cover only). No `qa_pdf.py` exists in the repo.
 - `audit.py` on eng10 + acc10 chapters:
 ```
-ok  ../content/eng10/unit-17.md  | 4307 words, 5 figures, 2 photos, 3 worked examples, OK
 ok  ../content/eng10/unit-18.md  | 4792 words, 5 figures, 2 photos, 3 worked examples, OK
 
-==== 33 files, 3 FAILED
+==== 33 files, 0 FAILED
 ```
 - `school_audit.py` after fixes:
 ```
@@ -53,7 +52,18 @@ ok  ../content/eng10/unit-18.md  | 4792 words, 5 figures, 2 photos, 3 worked exa
 ```
 (remaining lines are the reviewed false positives / deliberate keeps.)
 
+## Second finding pass: defects in the repo's own `audit.py`
+The first `audit.py` run on eng10+acc10 reported **3 FAILED chapters** (I initially pasted that tail without reading it; corrected here). All three were real, pre-existing figure defects in untouched source, and are now fixed (see tail above, taken after the fix):
+- `acc10` u12 — figure code had `"\\n"` so the diagram printed a literal backslash-n (4 labels).
+- `acc10` u11 — 5.6 pt labels wider than their boxes; relaid out (3-line labels, 6.0 pt, full-bleed axes).
+- `eng10` u7 — arrow-annotation boxes collided; replaced with line + text.
+Rebuilt PDFs: eng10 (281 pp), acc10 (188 pp), same page counts as before. I eyeballed eng10 p97 (u7 figure), acc10 p133 (u11 figure) and p148; I did **not** eyeball the u12 figure page, only `check.py`-verified it.
+
+## NEW OPEN BUG — broken `\times` after a percent sign (pre-existing, NOT fixed)
+On acc10 p148 ("Step 1 — Provincial share = 30%imes1,20,000 = Rs. 36,000") the multiplication sign prints as the letters `imes`. **Confirmed in the original committed PDF as well** as the rebuild, so it is not caused by my environment. Pattern `\%` … `\times` occurs in: acc10 u03 (9), u07 (1), u12 (2); qbankc10 u03 (1), u04 (7), u05 (4); qbank10 u06 (1) — 25 occurrences, 7 chapters. I confirmed the glitch only on acc10 p148; the other chapters are **unchecked in the PDFs**. Root cause not found: matplotlib mathtext renders `30\% \times 2` correctly on its own, `mathsvg._clean` leaves it unchanged, and a minimal `md2html.convert` test did not reproduce it, so the corruption happens somewhere else in the build. My unconfirmed hypothesis is a `re.sub` replacement string expanding `\t` into a TAB. A source-level workaround would be `\frac{30}{100}\times …`. Not applied: I'd rather fix the pipeline once than patch 25 spots blind.
+
 ## Open (nothing below is marked done)
+0. **`\%\times` bug above** — affects shipped acc10/qbankc10/qbank10 PDFs.
 1. **cs8 / qbank8 QBASIC vs Python** — needs the CDC Class 8 primary document or your confirmation of the target course.
 2. **Class 10 English, Nepali, Social, Optional Maths** — verify against the 2083 BS CDC editions (spines cite 2080).
 3. **All C-graded subjects** (see SCHOOL_INVENTORY.md) — no outside-source syllabus re-research, no line-by-line factual reread. Includes classes 11/12 English, Nepali, Maths, Biology, Chemistry 12, Physics 12, CS12, and every Class 8 subject except none verified.
