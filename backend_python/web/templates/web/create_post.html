@@ -30,10 +30,8 @@
 
 {% block content %}
 <div class="cp-page">
-    <a href="{% url 'web:home' %}" class="cp-back" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Go back
-    </a>
+    {% url 'web:home' as back_href %}
+    {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Home" %}
 
   <h1 class="cp-title">New Discussion</h1>
 
@@ -245,7 +243,7 @@
     </div>
 
     <div class="cp-actions">
-      <label class="cp-anon-toggle" id="cp-anon-toggle" title="Your name and profile stay hidden. Other Nebians will see 'Anonymous Nebian'.">
+      <label class="cp-anon-toggle" id="cp-anon-toggle" title="Your name and profile stay hidden. Others see your anonymous handle, {{ user.anon_tag }}.">
         <input type="checkbox" id="cp-anonymous">
         <span class="cp-anon-track"><span class="cp-anon-thumb"></span></span>
         <span class="material-symbols-outlined" style="font-size:18px">visibility_off</span>

@@ -951,11 +951,9 @@
 {% block content %}
 <div class="rc-page">
   <div class="rc-hero" style="text-align:left;padding:16px 16px 24px;">
-    <a href="{% url 'web:home' %}" class="md-button" data-action="go-back" style="display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--md-radius-full);text-decoration:none;font-weight:600;font-size:13px;background:var(--md-surface-container-high);color:var(--md-on-surface-variant);margin-bottom:8px;">
-      <span class="material-symbols-outlined" style="font-size:18px;">arrow_back</span>
-      Go back
-    </a>
-    <h1 class="md-headline-medium-emphasized" style="margin-top:8px;">Result Checker</h1>
+    {% url 'web:home' as back_href %}
+    {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Home" %}
+    <h1 class="md-headline-medium-emphasized">Result Checker</h1>
     <p>Access your exam marksheet instantly. We cache lookup results so you can retrieve them even when the official boards are down.</p>
   </div>
 

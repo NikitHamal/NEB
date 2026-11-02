@@ -7,9 +7,8 @@
 {% block content %}
 <div class="md-container dt-wrap">
   <header style="margin-bottom: 20px; display: flex; align-items: center; gap: 12px;">
-    <a href="{% url 'web:tools_hub' %}" class="md-btn-icon" style="color: var(--md-on-surface); text-decoration: none; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Back" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-    </a>
+    {% url 'web:tools_hub' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Study Tools" %}
     <div>
       <p class="dt-kicker">Powered by Lazy's document engine</p>
       <h1 class="md-headline-large-emphasized" style="margin: 0; line-height: 1.2;">Lazy Tools</h1>

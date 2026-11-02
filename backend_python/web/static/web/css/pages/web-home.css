@@ -135,43 +135,6 @@
   padding-right: 2px;
 }
 
-.hf-left-cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 38px;
-  padding: 0 10px;
-  border-radius: 12px;
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-  text-decoration: none;
-  transition: filter 150ms ease;
-}
-
-.hf-left-cta:hover {
-  color: var(--md-on-primary);
-  filter: brightness(1.06);
-  text-decoration: none;
-}
-
-.hf-left-cta:active {
-  filter: brightness(0.97);
-}
-
-.hf-left-cta .material-symbols-outlined {
-  flex: none;
-  font-size: 17px;
-  line-height: 1;
-}
-
 .hf-nav-group {
   margin-top: 22px;
 }
@@ -249,7 +212,7 @@
 
 .hf-side-row {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 10px;
   margin: 0 -8px;
   padding: 8px;
@@ -268,15 +231,36 @@
   align-items: center;
   justify-content: center;
   flex: none;
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: var(--md-surface-container-high);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--md-primary) 12%, transparent);
   color: var(--md-primary);
 }
 
 .hf-side-icon .material-symbols-outlined {
-  font-size: 17px;
+  font-size: 20px;
+}
+
+/* A post that carries a picture shows the picture; the tinted plate above is
+   what a post with none falls back to. Same box either way, so the rail stays
+   one column and the rows keep their height. */
+.hf-side-thumb {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  box-sizing: border-box;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--md-surface-container-high);
+}
+
+.hf-side-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .hf-side-meta {
@@ -443,11 +427,11 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
+  /* opening is the deliberate half; the collapse gets its own shorter curve below */
   transition: border-color 0.2s ease,
               box-shadow 0.2s ease,
-              padding 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              gap 0.28s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: padding, gap;
+              padding 0.26s cubic-bezier(0.2, 0, 0, 1),
+              gap 0.26s cubic-bezier(0.2, 0, 0, 1);
 }
 
 .hf-composer-card:hover {
@@ -455,11 +439,15 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-/* Compact single-row state when user scrolls down */
+/* Compact single-row state while the composer is pinned to the top bar */
 .hf-composer-card.is-scrolled-down {
   padding: 8px 14px;
   gap: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease,
+              box-shadow 0.2s ease,
+              padding 0.16s ease-out,
+              gap 0.16s ease-out;
 }
 
 .hf-composer-top {
@@ -621,7 +609,10 @@
   text-align: left;
   cursor: pointer;
   outline: none;
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: background-color 0.18s cubic-bezier(0.2, 0, 0, 1),
+              border-color 0.18s cubic-bezier(0.2, 0, 0, 1),
+              color 0.18s ease,
+              transform 0.12s ease;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -633,18 +624,26 @@
   color: var(--md-on-surface);
 }
 
+.hf-composer-input-btn:active {
+  transform: scale(0.985);
+}
+
+.hf-composer-input-btn:focus-visible {
+  border-color: var(--md-primary);
+  box-shadow: inset 0 0 0 1px var(--md-primary);
+}
+
 /* Smooth collapse container for the extra options */
 .hf-composer-bottom-collapse {
   display: grid;
   grid-template-rows: 1fr;
   opacity: 1;
   transform: translateY(0);
-  transition: grid-template-rows 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              opacity 0.22s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.28s;
+  transition: grid-template-rows 0.26s cubic-bezier(0.2, 0, 0, 1),
+              opacity 0.2s cubic-bezier(0.2, 0, 0, 1),
+              transform 0.26s cubic-bezier(0.2, 0, 0, 1),
+              visibility 0.26s;
   visibility: visible;
-  will-change: grid-template-rows, opacity, transform;
 }
 
 .hf-composer-bottom-collapse > .hf-composer-bottom {
@@ -652,12 +651,17 @@
   min-height: 0;
 }
 
+/* the exit is the soft half: shorter, smaller travel, no scale on text */
 .hf-composer-card.is-scrolled-down .hf-composer-bottom-collapse {
   grid-template-rows: 0fr;
   opacity: 0;
-  transform: translateY(-8px) scale(0.98);
+  transform: translateY(-4px);
   pointer-events: none;
   visibility: hidden;
+  transition: grid-template-rows 0.16s ease-out,
+              opacity 0.12s ease-out,
+              transform 0.16s ease-out,
+              visibility 0.16s;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2741,10 +2745,6 @@ dialog.hf-post-dialog[open] {
   background: var(--md-outline-variant);
 }
 
-.hf-left .hf-left-cta {
-  margin-top: 0;
-}
-
 .hf-left .hf-nav-group {
   margin-top: 0;
   padding: 10px;
@@ -3029,36 +3029,14 @@ dialog.hf-post-dialog[open] {
    This block has to come last: the Glassdoor panel rules above re-declare
    .hf-left .hf-nav-group / .hf-nav-link with the same specificity, and at equal
    weight the later rule wins -- which left a 42px round button inside a 37.6px
-   padded box, so every icon sat right of its group's centre while the compose
-   button above it stayed centred. Source order is the only thing keeping the
-   narrow rail honest here, so nothing may be appended after this. */
+   padded box, so every icon sat right of its group's centre. Source order is
+   the only thing keeping the narrow rail honest here, so nothing may be
+   appended after this. */
 @media (max-width: 1200px) {
   .hf-side.hf-left {
     width: 68px;
     min-width: 68px;
     overflow-x: visible;
-  }
-
-  .hf-left .hf-left-cta {
-    width: 46px;
-    height: 46px;
-    min-width: 46px;
-    min-height: 46px;
-    padding: 0;
-    border-radius: 50%;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .hf-left .hf-left-cta .hf-cta-label {
-    display: none !important;
-  }
-
-  .hf-left .hf-left-cta .material-symbols-outlined {
-    font-size: 22px;
-    margin: 0;
   }
 
   .hf-left .hf-nav-group {

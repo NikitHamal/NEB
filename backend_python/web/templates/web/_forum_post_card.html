@@ -25,7 +25,7 @@
     <div class="post-card-meta">
       <div class="post-card-meta-top author-line">
         {% if post.isAnonymous %}
-        <span class="fp-author-anon"><span class="material-symbols-outlined icon-sm" aria-hidden="true">visibility_off</span> {{ post.authorDisplayName|default:"Anonymous Nebian" }}</span>
+        <span>{{ post.authorName }}</span>
         {% elif post.authorId %}
         <a href="{% url 'web:profile' username=post.authorName %}" data-user-popup="{{ post.authorName }}">{{ post.authorDisplayName|default:post.authorName }}</a>
         {% else %}

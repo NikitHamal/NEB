@@ -1,6 +1,4 @@
 /* ── Resource Detail Page ── */
-  .rd-back{display:inline-flex;align-items:center;gap:6px;padding:4px 0;color:var(--md-on-surface-variant);font-size:.875rem;font-weight:500;text-decoration:none;transition:color .15s;margin-bottom:16px}
-  .rd-back:hover{color:var(--md-primary)}
 
   /* Hero card */
   .rd-hero{background:var(--md-surface-container-lowest);border:1px solid var(--md-outline-variant);border-radius:8px;padding:24px;margin-bottom:24px;position:relative;overflow:hidden}

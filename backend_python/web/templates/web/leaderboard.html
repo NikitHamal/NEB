@@ -16,10 +16,8 @@
 
 {% block content %}
 <div class="leaderboard-page-container">
-    <a href="{% url 'web:home' %}" class="back-link" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Go back
-    </a>
+    {% url 'web:home' as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to Home" %}
 
   <div class="leaderboard-page-header">
     <span class="material-symbols-outlined" style="font-size:32px; color: var(--md-primary);">emoji_events</span>

@@ -72,6 +72,16 @@
 }
 
 /* Utility actions, on the cover opposite the back button. */
+/* The cover's two chrome clusters are one row: the utility buttons are 34px
+   at 14px, so a 36px circle centres with them at 13px and takes the same
+   inset on its side. */
+.pf-card-banner .neb-back {
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  z-index: 10;
+}
+
 .pf-banner-actions {
   position: absolute;
   top: 14px;

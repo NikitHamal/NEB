@@ -1,7 +1,4 @@
 .cp-page{max-width:720px;margin:0 auto;padding:24px 16px 48px}
-.cp-back{display:inline-flex;align-items:center;gap:6px;padding:4px 0;color:var(--md-on-surface-variant);font-size:.875rem;font-weight:500;text-decoration:none;transition:color .15s;margin-bottom:16px}
-.cp-back:hover{color:var(--md-primary)}
-.cp-back .material-symbols-outlined{font-size:18px}
 .cp-title{font-size:1.5rem;font-weight:700;color:var(--md-on-surface);margin:0 0 24px}
 
 .cp-card{background:var(--md-surface-container-lowest);border:1px solid var(--md-outline-variant);border-radius:16px;padding:24px}

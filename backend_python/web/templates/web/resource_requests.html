@@ -10,10 +10,8 @@
 
 {% block content %}
 <div class="md-container-narrow" style="padding-top: 16px;">
-  <a href="{% url 'web:library' %}" class="back-link" data-action="go-back">
-    <span class="material-symbols-outlined">arrow_back</span>
-    Back to Library
-  </a>
+  {% url 'web:library' as back_href %}
+  {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Library" %}
 
   <div class="requests-page" style="padding: 0 0 48px;">
     <div class="requests-header">
@@ -113,24 +111,6 @@
 
 {% block extra_css %}
 <style>
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 0;
-  color: var(--md-on-surface-variant);
-  font-size: 0.875rem;
-  font-weight: 500;
-  text-decoration: none;
-  transition: color 0.15s;
-  margin-bottom: 16px;
-}
-.back-link:hover {
-  color: var(--md-primary);
-}
-.back-link .material-symbols-outlined {
-  font-size: 18px;
-}
 .requests-page { max-width: 720px; margin: 0 auto; padding: 24px 16px 48px; }
 .requests-header { background: var(--md-surface-container-high); border-radius: 20px; padding: 28px 24px; margin-bottom: 20px; border: 1px solid var(--md-outline-variant); }
 .requests-header h1 { font-size: 1.5rem; font-weight: 700; color: var(--md-on-surface); margin: 0 0 6px; }

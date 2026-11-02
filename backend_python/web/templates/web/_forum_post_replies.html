@@ -18,7 +18,7 @@
         <div class="fp-reply-meta">
           <div class="author-line">
             {% if reply.isAnonymous %}
-            <span class="fp-reply-author fp-author-anon"><span class="material-symbols-outlined" style="font-size:13px;vertical-align:-2px;">visibility_off</span> Anonymous Nebian</span>
+            <span class="fp-reply-author">{{ reply.authorName }}</span>
             {% elif reply.authorId and reply.authorName %}
             <a href="{% url 'web:profile' username=reply.authorName %}" class="fp-reply-author">{{ reply.authorDisplayName|default:reply.authorName }}</a>
             {% else %}
@@ -63,7 +63,7 @@
           </div>
         </div>
       </div>
-      {% if reply.content %}<div class="fp-reply-body" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>{% endif %}
+      {% if reply.content %}<div class="fp-reply-body" data-clamp="132" id="reply-content-{{ reply.id }}">{{ reply.content|mention_links:all_usernames }}</div>{% endif %}
       {% with attachments=reply.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
       <div class="fp-reply-actions">
         <button data-action="toggle-reply-like" data-reply-id="{{ reply.id }}" class="fp-reply-action {% if reply.isThumbedUp %}liked{% endif %}" id="reply-like-btn-{{ reply.id }}" aria-label="Like this reply" aria-pressed="{% if reply.isThumbedUp %}true{% else %}false{% endif %}">
@@ -71,7 +71,7 @@
           <span id="reply-like-count-{{ reply.id }}">{{ reply.thumbsUpCount }}</span>
         </button>
         {% if is_authenticated %}
-        <button class="fp-reply-action" data-action="open-thread-reply" data-reply-id="{{ reply.id }}" data-author-name="{{ reply.authorName|escapejs }}">
+        <button class="fp-reply-action" data-action="open-thread-reply" data-reply-id="{{ reply.id }}" data-author-name="{{ reply.authorName|escapejs }}" data-anonymous="{% if reply.isAnonymous %}1{% endif %}">
           <span class="material-symbols-outlined">reply</span> Reply
         </button>
         {% endif %}

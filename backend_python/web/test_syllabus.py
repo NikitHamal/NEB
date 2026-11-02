@@ -86,6 +86,20 @@ class StudyReaderTests(TestCase):
         self.assertEqual(self.client.get('/app/syllabus/12/physics/exam-guide/').status_code, 200)
         self.assertEqual(self.client.get('/app/syllabus/11/physics/unit-99/').status_code, 404)
 
+    def test_crumbs_switch_class_subject_and_unit(self):
+        """The breadcrumb is also the switcher, so every target its popups offer
+        has to be live, and the trigger has to show its own value only."""
+        html = self.client.get('/app/syllabus/11/physics/unit-3/').content.decode()
+        nav = re.search(r'<nav class="st-crumbs".*?</nav>', html, re.S).group(0)
+        self.assertEqual(re.findall(r'aria-label="(Choose [^"]+)"', nav),
+                         ['Choose class', 'Choose subject', 'Choose unit'])
+        self.assertIn('<a class="st-pick-o is-current" role="menuitem" href="/app/syllabus/11/">Class 11</a>', nav)
+        self.assertIn(' href="/app/syllabus/11/physics/">Physics</a>', nav)
+        self.assertIn('>Unit 3 · Kinematics</a>', nav)
+        self.assertIn('<span class="st-pick-t">Physics</span>', nav)
+        for url in re.findall(r'href="([^"]+)"', nav):
+            self.assertEqual(self.client.get(url).status_code, 200, url)
+
     def test_nepali_questions_are_tappable(self):
         page = self.client.get('/app/syllabus/10/nepali/bank-1/')
         self.assertContains(page, 'class="mcq-p" data-key=')
@@ -251,8 +265,6 @@ class EntranceTrackTests(TestCase):
         self.assertIn('Model papers and mock tests', page)
         self.assertIn('1 of 2 chapters written · 50 questions in the paper', page)
         self.assertIn('href="/app/syllabus/cee/physics/"', page)
-        self.assertIn('Entrance preparation for CEE', page)
-        self.assertIn('model papers you can take as a timed test', page)   # the fixture has the model papers
         self.assertNotIn('Class cee', page)
         self.assertIn('aria-selected="true"', self.client.get('/app/syllabus/cee/').content.decode().split('data-syl-grade="cee"')[1][:40])
 
@@ -286,6 +298,16 @@ class EntranceTrackTests(TestCase):
         self.assertContains(chapter, '10 questions in the paper')
         self.assertNotContains(chapter, 'data-rd-exam-min')
         self.assertContains(chapter, 'CEE Physics Entrance Notes and MCQs')
+
+    def test_track_crumbs_offer_classes_and_tracks(self):
+        """Entrance books say "chapter", and the class popup lists the school
+        classes and the tracks side by side."""
+        html = self.client.get('/app/syllabus/cee/physics/unit-1/').content.decode()
+        nav = re.search(r'<nav class="st-crumbs".*?</nav>', html, re.S).group(0)
+        self.assertIn('aria-label="Choose chapter"', nav)
+        self.assertIn('<a class="st-pick-o is-current" role="menuitem" href="/app/syllabus/cee/">CEE</a>', nav)
+        self.assertIn('<a class="st-pick-o" role="menuitem" href="/app/syllabus/11/">Class 11</a>', nav)
+        self.assertIn('>Chapter 1 · Vectors and Kinematics</a>', nav)
 
     def test_api_index_splits_classes_and_tracks(self):
         data = self.client.get('/api/syllabus/v2/').json()

@@ -3468,6 +3468,16 @@ button:focus-visible {
 }
 
 /* Utility actions, on the cover opposite the back button. */
+/* The cover's two chrome clusters are one row: the utility buttons are 34px
+   at 14px, so a 36px circle centres with them at 13px and takes the same
+   inset on its side. */
+.pf-card-banner .neb-back {
+  position: absolute;
+  top: 13px;
+  left: 14px;
+  z-index: 10;
+}
+
 .pf-banner-actions {
   position: absolute;
   top: 14px;
@@ -4741,7 +4751,9 @@ button.cp-media-item-icon.cp-audio-play.playing {
    The skeleton is what shows when /ajax/user-popup/ is slow enough to notice. */
 .fp-user-popup {
   position: fixed;
-  z-index: 950;
+  /* Above the sheets and dialogs (2000-2400): this card is opened from inside
+     a thread, and under them it renders behind the panel. */
+  z-index: 2500;
   width: 252px;
   max-width: calc(100vw - 24px);
   padding: 12px;
@@ -5136,12 +5148,12 @@ button.cp-media-item-icon.cp-audio-play.playing {
   transition: border-color 0.15s ease;
 }
 
-/* The ring is an outline, not a second border: the offset leaves the gap that a
-   box-shadow pressed against the stroke never has. */
+/* Focus thickens the field's own stroke from the inside: a second outline
+   outside the border reads as a different object appearing, not as this field
+   being focused. The inset shadow costs no layout. */
 .neb-composer:focus-within {
   border-color: var(--md-primary);
-  outline: 2px solid color-mix(in srgb, var(--md-primary) 45%, transparent);
-  outline-offset: 3px;
+  box-shadow: inset 0 0 0 1px var(--md-primary);
 }
 
 .neb-composer-body {
@@ -5528,5 +5540,150 @@ button.cp-media-item-icon.cp-audio-play.playing {
 @media (prefers-reduced-motion: reduce) {
   .reply-send-btn.is-posting .material-symbols-outlined {
     animation: none;
+  }
+}
+
+/* ---- app/19-clamp-toggle.css ---- */
+/* ---- Clamp and reveal ----
+   A long comment folds to a fixed height, its last line fading out, with a text
+   button that opens the rest. clamp-toggle.js only applies the fold when the
+   content is genuinely taller than the cap, so a short comment never grows a
+   mask or a button. Mark the element with data-clamp="pixels". */
+[data-clamp].is-clamped {
+  max-height: var(--clamp-height, 132px);
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 26px), transparent);
+}
+
+.neb-clamp-toggle {
+  align-self: flex-start;
+  margin: -4px 0 8px -10px;
+  padding: 4px 10px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-primary);
+  font-family: inherit;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.neb-clamp-toggle:hover {
+  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
+}
+
+.neb-clamp-toggle:active {
+  transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-clamp-toggle {
+    transition: none;
+  }
+}
+
+/* ---- app/20-back-button.css ---- */
+/* One back affordance for every sub-page. It is a 36px circle with a 24px
+   arrow, the shape the discussion header already used. The href is where you
+   land when there is no same-origin history to step back through; the go-back
+   action in delegated-events prefers history.back() when there is. */
+.neb-back {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--md-on-surface);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease,
+              color 0.15s ease,
+              border-color 0.15s ease,
+              transform 0.12s ease;
+}
+
+.neb-back .material-symbols-outlined {
+  flex: none;
+  font-size: 24px;
+}
+
+.neb-back:hover {
+  background: var(--md-surface-container-high);
+  color: var(--md-primary);
+}
+
+.neb-back:active {
+  transform: scale(0.96);
+}
+
+/* focus thickens the circle's own stroke rather than drawing a ring outside it */
+.neb-back:focus-visible {
+  outline: none;
+  border-color: var(--md-primary);
+  color: var(--md-primary);
+}
+
+/* the row the circle sits in, and what it is going back to */
+.neb-back-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.neb-back-row-label {
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-size: 0.9375rem;
+  color: var(--md-on-surface-variant);
+}
+
+/* For a page that opens with the circle above its title in normal flow --
+   what most sub-pages do. A page that puts the circle in a header row with
+   the title does not take it, because a bottom margin would off-centre it. */
+.neb-back-block {
+  margin-bottom: 20px;
+}
+
+/* Cover art is drawn once and does not follow the theme, so a circle that
+   takes its colours from --md-* lands on a background it was never checked
+   against. On art the plate is fixed: white, dark ink, same as the media
+   overlays. The page keeps the positioning; this only owns the legibility. */
+.neb-back-on-art,
+.neb-back-on-art:hover {
+  background: rgba(255, 255, 255, 0.85);
+  color: #16181D;
+  border-color: rgba(0, 0, 0, 0.06);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+.neb-back-on-art:hover {
+  background: #fff;
+  color: #16181D;
+}
+
+.neb-back-on-art:focus-visible {
+  border-color: #16181D;
+  color: #16181D;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-back {
+    transition: none;
+  }
+
+  .neb-back:active {
+    transform: none;
   }
 }

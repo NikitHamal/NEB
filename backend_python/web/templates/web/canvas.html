@@ -26,7 +26,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&display=swap">
 <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=49">
+<link rel="stylesheet" href="{% static 'web/css/canvas.css' %}?v=20261103e">
 <link rel="stylesheet" href="{% static 'web/css/canvas-advanced.css' %}?v=49">
 <link rel="stylesheet" href="{% static 'web/css/tool-groups.css' %}?v=49">
 <link rel="stylesheet" href="{% static 'web/css/widgets.css' %}?v=49">
@@ -51,9 +51,8 @@
 <div class="canvas-app" id="canvasApp">
   <aside class="canvas-sidebar" id="canvasSidebar">
     <div class="cs-top">
-      <a class="cs-back" href="/app/" aria-label="Back to NEBians" title="Back">
-        <span class="material-symbols-outlined">arrow_back</span>
-      </a>
+      {% url 'web:home' as back_href %}
+      {% include "web/partials/_back.html" with back_label="Back to NEBians" %}
       <div class="cs-brand">
         <div class="cs-logo-mark">
           <svg viewBox="0 0 1024 1024" width="16" height="16"><g transform="translate(210.601 86.137) scale(0.610119)"><path d="M51 228 L51 1132 L263 1346 L267 812 L775 1353 L775 887 L691 800 L685 902 Z" fill="#1a3a5c"/><path d="M306 320 L307 377 L613 706 L613 485 Z" fill="#8ab0f0"/><path d="M441 191 L441 282 L691 447 L691 799 L774 886 L775 408 Z" fill="#0e2a4d"/><path d="M500 42 L501 135 L856 370 L858 1287 L943 1219 L943 331 Z" fill="#08204a"/></g></svg>

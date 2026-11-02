@@ -8,11 +8,9 @@
 
 {% block content %}
 <div class="upload-page">
-  <div style="margin-top: 8px; margin-bottom: 24px;">
-    <a href="{% url 'web:reader' resource_id=resource.id %}" class="back-link" style="margin-bottom: 12px; display: inline-flex;" data-action="go-back">
-      <span class="material-symbols-outlined">arrow_back</span>
-      Go back
-    </a>
+  <div style="margin-top: 8px; margin-bottom: 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px;">
+    {% url 'web:reader' resource_id=resource.id as back_href %}
+    {% include "web/partials/_back.html" with back_label="Back to the resource" %}
     <h1 class="md-headline-medium-emphasized" style="margin: 0;">Edit Resource</h1>
     <p style="margin: 6px 0 0; color: var(--md-on-surface-variant); font-size: 0.875rem; line-height: 1.5;">
       Update your resource details. Changes will be reviewed before publishing.

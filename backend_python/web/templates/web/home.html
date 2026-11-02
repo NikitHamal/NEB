@@ -20,7 +20,7 @@
 
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}?v=20261103e">
 {% endblock %}
 
 {% block footer %}{% endblock %}
@@ -856,58 +856,36 @@
     dialog.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
     window.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
 
-    // Open from left sidebar "New discussion" CTA without page reload
-    var leftCta = document.querySelector('.hf-left-cta');
-    if (leftCta) {
-      leftCta.addEventListener('click', function (e) {
-        e.preventDefault();
-        openPostDialog();
-      });
-    }
-
     if (window.location.search.includes('compose=1') || window.location.search.includes('create=1')) {
       setTimeout(function () { openPostDialog(); }, 150);
     }
 
-    // ── Launcher: open the composer, hide on scroll ──
+    // ── Launcher: the pill and the tool icons open it, nothing else does ──
+    var composerPill = document.getElementById('homeComposerPromptTrigger');
+    if (composerPill) {
+      composerPill.addEventListener('click', function () { openPostDialog(); });
+    }
+
     var composerLauncher = document.getElementById('homeComposerLauncher');
-    if (composerLauncher) {
-      /* The card reads as one control, so all of it opens the composer rather
-         than just the pill inside it. The identity picker is the one part with
-         its own behaviour, and the pill's click arrives here by bubbling. */
-      composerLauncher.addEventListener('click', function (e) {
-        if (e.target.closest('#homeLauncherIdentityPicker')) return;
-        openPostDialog();
-      });
-
-      var lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-      var scrollTicking = false;
-      var scrollThreshold = 10;
-
-      function onScrollDirection() {
-        var currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
-        if (currentScrollY < 0) currentScrollY = 0;
-        var delta = currentScrollY - lastScrollY;
-
-        if (currentScrollY <= 45) {
-          composerLauncher.classList.remove('is-scrolled-down');
-        } else if (Math.abs(delta) >= scrollThreshold) {
-          if (delta > 0 && currentScrollY > 60) {
-            composerLauncher.classList.add('is-scrolled-down');
-          } else if (delta < 0) {
-            composerLauncher.classList.remove('is-scrolled-down');
-          }
-          lastScrollY = currentScrollY;
-        }
-        scrollTicking = false;
+    var composerSticky = document.querySelector('.hf-composer-sticky');
+    if (composerLauncher && composerSticky) {
+      var composerTicking = false;
+      /* The tool row belongs to the composer only while it still sits above the
+         first post. Once it is pinned it stays collapsed, whichever way the page
+         is moving -- scrolling back up must not re-open it. */
+      function onComposerScroll() {
+        var stickyTop = parseFloat(getComputedStyle(composerSticky).top) || 0;
+        composerLauncher.classList.toggle(
+          'is-scrolled-down', composerSticky.getBoundingClientRect().top <= stickyTop + 0.5);
+        composerTicking = false;
       }
-
       window.addEventListener('scroll', function () {
-        if (!scrollTicking) {
-          window.requestAnimationFrame(onScrollDirection);
-          scrollTicking = true;
+        if (!composerTicking) {
+          composerTicking = true;
+          window.requestAnimationFrame(onComposerScroll);
         }
       }, { passive: true });
+      onComposerScroll();
     }
 
     var feedAddImageBtn = document.getElementById('homeFeedAddImageBtn');
