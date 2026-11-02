@@ -231,5 +231,13 @@
   "credits": 3,
   "accent": "#DB2777",
   "status": "done"
+ },
+ "semester-6/mobile-programming": {
+  "name": "Mobile Programming",
+  "code": "BCA 352",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#0EA5E9",
+  "status": "done"
  }
 }
