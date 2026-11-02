@@ -43,3 +43,16 @@ Scope: 30 chapters (15 Mathematics, 7 English, 4 GK and IT, 4 model-paper chapte
 - **No real past papers.** None were reachable as text except the 2018 Dean's Office model. Every question is original practice.
 - **GK and IT current affairs** are dated to mid-2026 and expire; the FIFA World Cup 2026, Women's ODI World Cup 2025, Kami Rita Sherpa and Everest-height claims were taken over from the first session's sourcing and not re-searched here (only the Prime Minister / election item was).
 - Entrance PDFs are text-math (Unicode and CSS fractions), not LaTeX-typeset; complicated expressions are legible but not publication typography.
+
+## 5. Final review pass (Phase 3, after the course work)
+
+| Check | Result |
+|---|---|
+| `bcacheck.py` over all 30 chapters, re-run | 0 failures |
+| `bca/entrance/*` mirrors vs canonical `notes/content/bca-*` | identical for all four books |
+| Draft-marker grep across `bca/` | no TODO, TBD, placeholder or "refer to textbook" in content |
+| Built PDFs scanned with `pdftotext` for raw LaTeX, placeholder characters and stray `$` | none in any of the 4 entrance PDFs (39, 24, 79 and 29 pages) |
+| Cross-reference: `model-papers/unit-01` programme table vs `course/CURRICULUM.md` | identical |
+| Exam facts re-searched in this pass | pattern, 2083 date, eligibility split, PM and election, as listed in section 1 |
+
+**Defect found in the review pass itself:** the first WeasyPrint build swallowed every inline formula (its placeholder characters collided with python-markdown's internal ones) and clipped box titles by one character. Found by rendering and looking at page 5, fixed, rebuilt; all PDFs in the repository are the corrected builds.
