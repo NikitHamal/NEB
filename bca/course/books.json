@@ -103,5 +103,13 @@
   "credits": 3,
   "accent": "#0E7490",
   "status": "done"
+ },
+ "semester-3/dbms": {
+  "name": "Database Management System",
+  "code": "BCA 202",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#9A3412",
+  "status": "done"
  }
 }
