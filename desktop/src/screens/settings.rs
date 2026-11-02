@@ -220,12 +220,20 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
         });
 
         group(ui, &th, "About", |ui| {
+            if link_row(ui, &th, "Help", "Questions, offline use and support", Icon::Info) {
+                env.go(Route::Help);
+            }
+            widgets::hairline(ui, &th);
+            if link_row(ui, &th, "Reading history", "Chapters you opened recently", Icon::History) {
+                env.go(Route::History);
+            }
+            widgets::hairline(ui, &th);
             if link_row(ui, &th, "Privacy policy", "How we protect your data", Icon::Lock) {
-                env.open_url(&format!("{SITE_URL}/privacy/"));
+                env.go(Route::Legal("privacy".into()));
             }
             widgets::hairline(ui, &th);
             if link_row(ui, &th, "Terms of service", "Rules and guidelines for usage", Icon::File) {
-                env.open_url(&format!("{SITE_URL}/terms/"));
+                env.go(Route::Legal("terms".into()));
             }
             widgets::hairline(ui, &th);
             if link_row(ui, &th, "About NEBians", &format!("Version {VERSION}"), Icon::Info) {

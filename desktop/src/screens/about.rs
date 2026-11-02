@@ -50,10 +50,10 @@ pub fn show(ui: &mut Ui, env: &mut Env) {
                     env.open_url(SITE_URL);
                 }
                 if widgets::button(ui, &th, "Privacy", BtnKind::Secondary, Some(Icon::Lock), None).clicked() {
-                    env.open_url(&format!("{SITE_URL}/privacy/"));
+                    env.go(crate::router::Route::Legal("privacy".into()));
                 }
                 if widgets::button(ui, &th, "Terms", BtnKind::Secondary, Some(Icon::File), None).clicked() {
-                    env.open_url(&format!("{SITE_URL}/terms/"));
+                    env.go(crate::router::Route::Legal("terms".into()));
                 }
             });
         });

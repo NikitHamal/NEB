@@ -115,10 +115,6 @@ impl Tour {
             Step { name: "community-dark", settle: 24, setup: |a, _| go(a, Route::Community) },
             Step { name: "login-dark", settle: 24, setup: |a, _| go(a, Route::Login) },
             Step { name: "reader-dark", settle: 150, setup: |a, _| { a.screens.reader.set_jump("s2"); go(a, Route::Reader(ChapterRef::new("11", "physics", ChapterKind::Unit, 1))) } },
-            Step { name: "narrow-home", settle: 40, setup: |a, c| { light(a); size(c, 700.0, 780.0); go(a, Route::Home) } },
-            Step { name: "narrow-community", settle: 30, setup: |a, _| go(a, Route::Community) },
-            Step { name: "narrow-login", settle: 30, setup: |a, _| go(a, Route::Login) },
-            Step { name: "narrow-reader", settle: 150, setup: |a, c| { size(c, 700.0, 780.0); go(a, Route::Reader(ChapterRef::new("cee", "physics", ChapterKind::Unit, 1))) } },
         ];
         Self { dir, idx: 0, frames: 0, phase: Phase::Setup, steps }
     }

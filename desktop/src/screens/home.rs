@@ -76,10 +76,10 @@ fn quick_actions(ui: &mut Ui, env: &mut Env) {
     let bm = env.store.s.bookmarks.len();
     let books = env.manifest.as_ref().map(|m| m.books).unwrap_or(0);
     let items: Vec<(Icon, &str, String, Route)> = vec![
-        (Icon::Library, "Library", format!("{} chapters ready", env.total_chapters()), Route::Library),
-        (Icon::Bookmark, "Bookmarks", if bm == 0 { "Nothing saved yet".into() } else { format!("{bm} saved") }, Route::Bookmarks),
+        (Icon::Library, "Library", format!("{} chapters", env.total_chapters()), Route::Library),
+        (Icon::Bookmark, "Bookmarks", if bm == 0 { "None saved yet".into() } else { format!("{bm} saved") }, Route::Bookmarks),
         (Icon::Article, "Study books", if books == 0 { "PDF study books".into() } else { format!("{books} PDF books") }, Route::Books),
-        (Icon::Globe, "Web app", "Forum, Neby AI, Canvas".into(), Route::About),
+        (Icon::Globe, "Web app", "Neby AI & more".into(), Route::About),
     ];
     widgets::grid(ui, 180.0, spacing::GRID_GAP, items.len(), |ui, i, w| {
         let (icon, title, sub, route) = &items[i];
