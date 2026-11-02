@@ -15,6 +15,9 @@ pub enum Route {
     Search,
     Bookmarks,
     Downloads,
+    History,
+    Help,
+    Legal(String),
     Books,
     People,
     User(String),
@@ -40,7 +43,8 @@ impl Route {
             Route::Library | Route::Category(_) | Route::Subject { .. } | Route::Reader(_) => Route::Library,
             Route::Community | Route::Post(_) | Route::User(_) => Route::Community,
             Route::Profile => Route::Profile,
-            Route::About => Route::Settings,
+            Route::About | Route::Help | Route::Legal(_) => Route::Settings,
+            Route::History => Route::Bookmarks,
             other => other.clone(),
         }
     }

@@ -94,7 +94,19 @@ fn agent(read_secs: u64) -> ureq::Agent {
         .build()
 }
 
+static OFFLINE: std::sync::atomic::AtomicBool = std::sync::atomic::AtomicBool::new(false);
+
+/// True when the last network attempt could not reach the server (the app is then serving its cache).
+pub fn is_offline() -> bool {
+    OFFLINE.load(std::sync::atomic::Ordering::Relaxed)
+}
+
+fn set_offline(v: bool) {
+    OFFLINE.store(v, std::sync::atomic::Ordering::Relaxed);
+}
+
 fn net_err(e: ureq::Error) -> AppError {
+    set_offline(!matches!(e, ureq::Error::Status(..)));
     match e {
         ureq::Error::Status(404, _) => AppError::Content("That item isn't on the server (any more).".into()),
         ureq::Error::Status(429, _) => AppError::Network("The server is rate-limiting this device. Try again in a minute.".into()),
@@ -139,6 +151,7 @@ impl ContentRepo {
 
     fn get_bytes(&self, path: &str) -> Result<Vec<u8>> {
         let resp = agent(30).get(&Self::url(path)).set("Accept", "application/json").call().map_err(net_err)?;
+        set_offline(false);
         let mut out = vec![];
         resp.into_reader().take(64 * 1024 * 1024).read_to_end(&mut out)?;
         Ok(out)
@@ -174,7 +187,11 @@ impl ContentRepo {
         if cached.is_some() && !metag.is_empty() {
             req = req.set("If-None-Match", &metag);
         }
-        match req.call() {
+        let res = req.call();
+        if res.is_ok() {
+            set_offline(false);
+        }
+        match res {
             Ok(resp) if resp.status() == 304 && cached.is_some() => {
                 let _ = fs::write(&meta, format!("{cur}\n{metag}"));
                 Ok(cached.unwrap_or_default())
@@ -483,6 +500,7 @@ impl ContentRepo {
         });
         match fetched {
             Ok(out) if !out.is_empty() => {
+                set_offline(false);
                 let _ = write_atomic(&file, &out);
                 Ok(out)
             }

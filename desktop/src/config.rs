@@ -17,7 +17,7 @@ pub fn api_base() -> String {
 }
 
 pub const DEFAULT_WINDOW: [f32; 2] = [1180.0, 780.0];
-pub const MIN_WINDOW: [f32; 2] = [640.0, 480.0];
+pub const MIN_WINDOW: [f32; 2] = [820.0, 560.0];
 
 /// Below this width the labelled sidebar collapses to an icon rail.
 pub const BREAKPOINT_RAIL: f32 = 1000.0;
@@ -36,6 +36,8 @@ pub struct Cli {
     pub config_dir: Option<PathBuf>,
     pub screenshots: Option<PathBuf>,
     pub reset: bool,
+    /// `--size 1440x900`: open at this inner size (used for screenshots / testing layouts).
+    pub size: Option<[f32; 2]>,
 }
 
 impl Cli {
@@ -47,12 +49,18 @@ impl Cli {
                 "--config" => cli.config_dir = args.next().map(PathBuf::from),
                 "--screenshots" => cli.screenshots = args.next().map(PathBuf::from),
                 "--reset" => cli.reset = true,
+                "--size" => {
+                    cli.size = args.next().and_then(|v| {
+                        let (w, h) = v.split_once('x')?;
+                        Some([w.parse().ok()?, h.parse().ok()?])
+                    })
+                }
                 "--version" | "-V" => {
                     println!("NEBians Desktop {VERSION}");
                     std::process::exit(0);
                 }
                 "--help" | "-h" => {
-                    println!("NEBians Desktop {VERSION}\n\nUSAGE: nebians [--config DIR] [--reset] [--screenshots DIR]");
+                    println!("NEBians Desktop {VERSION}\n\nUSAGE: nebians [--config DIR] [--reset] [--size WxH] [--screenshots DIR]\n\nEnvironment: NEB_API_BASE=https://your-backend/  (default: the NEBians production API)");
                     std::process::exit(0);
                 }
                 _ => {}

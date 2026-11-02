@@ -29,7 +29,7 @@ pub fn run(cli: Cli) -> eframe::Result<()> {
     let config_dir = cli.config_dir.clone().unwrap_or_else(Store::default_dir);
     let store = Store::load(&config_dir, cli.reset);
     let geom = store.s.window.filter(|_| store.s.prefs.remember_window && cli.screenshots.is_none());
-    let size = geom.map(|g| [g.w.max(MIN_WINDOW[0]), g.h.max(MIN_WINDOW[1])]).unwrap_or(DEFAULT_WINDOW);
+    let size = cli.size.map(|s| [s[0].max(MIN_WINDOW[0]), s[1].max(MIN_WINDOW[1])]).or(geom.map(|g| [g.w.max(MIN_WINDOW[0]), g.h.max(MIN_WINDOW[1])])).unwrap_or(DEFAULT_WINDOW);
 
     let mut vp = egui::ViewportBuilder::default()
         .with_title("NEBians")
@@ -105,6 +105,12 @@ impl NebApp {
                 }
             }
             if i.consume_key(cmd, Key::D) {
+                acts.push(Action::Go(Route::Downloads));
+            }
+            if i.consume_key(cmd, Key::H) {
+                acts.push(Action::Go(Route::History));
+            }
+            if i.consume_key(Modifiers::COMMAND | Modifiers::SHIFT, Key::D) {
                 acts.push(Action::ToggleDark);
             }
             if i.consume_key(Modifiers::ALT, Key::ArrowLeft) || i.pointer.button_pressed(egui::PointerButton::Extra1) {
@@ -244,6 +250,26 @@ impl NebApp {
         let route = self.router.current.clone();
         let th = self.env.theme.clone();
         if route.has_shell() {
+            ui::menubar::show(ctx, &mut self.env, &route, &self.router);
+            if crate::data::content::is_offline() {
+                let mut retry = false;
+                egui::TopBottomPanel::top("offline_banner")
+                    .exact_height(40.0)
+                    .frame(Frame::none().fill(th.p.secondary_container).inner_margin(egui::Margin::symmetric(16.0, 0.0)))
+                    .show(ctx, |ui| {
+                        ui.horizontal_centered(|ui| {
+                            ui.label(egui::RichText::new("You're offline — showing what's saved on this computer.").font(fonts::medium(13.5)).color(th.p.on_secondary_container));
+                            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                                if ui::widgets::button(ui, &th, "Retry", ui::widgets::BtnKind::Ghost, Some(ui::icons::Icon::Refresh), None).clicked() {
+                                    retry = true;
+                                }
+                            });
+                        });
+                    });
+                if retry {
+                    self.env.act(Action::ReloadContent);
+                }
+            }
             match self.env.layout {
                 LayoutMode::Compact => ui::nav::bottom_bar(ctx, &mut self.env, &route),
                 _ => ui::nav::sidebar(ctx, &mut self.env, &route),
@@ -275,6 +301,9 @@ impl NebApp {
                 Route::Settings => screens::settings::show(ui, env, &mut sc.settings),
                 Route::Profile => screens::profile::show(ui, env, &mut sc.profile),
                 Route::About => screens::about::show(ui, env),
+                Route::History => screens::history::show(ui, env),
+                Route::Help => screens::help::show(ui, env),
+                Route::Legal(k) => screens::legal::show(ui, env, k),
             }
         });
     }

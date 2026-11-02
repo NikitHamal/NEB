@@ -155,10 +155,10 @@ pub fn chip(ui: &mut Ui, th: &Theme, text: &str, selected: bool) -> Response {
 
 /// Small non-interactive tag.
 pub fn badge(ui: &mut Ui, text: &str, fg: Color32, bg: Color32) {
-    let galley = ui.painter().layout_no_wrap(text.to_owned(), fonts::medium(11.5), Color32::PLACEHOLDER);
-    let (rect, _) = ui.allocate_exact_size(vec2(galley.size().x + 16.0, 22.0), Sense::hover());
+    let galley = ui.painter().layout_no_wrap(text.to_owned(), fonts::medium(12.5), Color32::PLACEHOLDER);
+    let (rect, _) = ui.allocate_exact_size(vec2(galley.size().x + 24.0, 28.0), Sense::hover());
     ui.painter().rect_filled(rect, Rounding::same(spacing::PILL), bg);
-    ui.painter().galley(egui::pos2(rect.min.x + 8.0, rect.center().y - galley.size().y / 2.0), galley, fg);
+    ui.painter().galley(egui::pos2(rect.min.x + 12.0, rect.center().y - galley.size().y / 2.0), galley, fg);
 }
 
 /// Clickable card with a fixed size. Contents are laid out inside; the whole

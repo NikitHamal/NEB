@@ -3,7 +3,6 @@
 //! "active indicator" that grows in with a short spring-like ease.
 use egui::{vec2, Align, Align2, Color32, Context, CursorIcon, Frame, Layout, Margin, Rect, Rounding, Sense, Stroke, Ui};
 
-use super::avatar::avatar;
 use super::icons::{self, Icon};
 use super::LayoutMode;
 use crate::env::Env;

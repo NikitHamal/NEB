@@ -6,7 +6,7 @@ use crate::actions::Action;
 use crate::env::Env;
 use crate::router::Route;
 use crate::theme::fonts;
-use crate::ui::avatar::{avatar, tone, TONES};
+use crate::ui::avatar::{tone, TONES};
 use crate::ui::icons::Icon;
 use crate::ui::widgets::{self, BtnKind};
 
@@ -17,8 +17,9 @@ pub struct ProfileState {
 
 fn stat(ui: &mut Ui, env: &Env, w: f32, value: String, label: &str) {
     let th = &env.theme;
-    widgets::card(ui, th, vec2(w, 84.0), 14.0, |ui| {
-        widgets::label(ui, RichText::new(value).font(fonts::bold(24.0)).color(th.p.ink));
+    widgets::card(ui, th, vec2(w, 100.0), 16.0, |ui| {
+        widgets::label(ui, RichText::new(value).font(fonts::bold(26.0)).color(th.p.ink));
+        ui.add_space(4.0);
         widgets::label(ui, RichText::new(label).font(fonts::regular(12.5)).color(th.p.ink_muted));
     });
 }
