@@ -1,5 +1,26 @@
 # BCA Course — Tribhuvan University (revised 2082-batch curriculum)
 
+<!-- COURSE-STATUS -->
+## BCA course: real status
+
+**9 of 42 subjects are written, built and QA-checked; 33 are not started.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (102,864 words of study material):
+
+| Sem | Code | Subject | Words | PDF pages | Status |
+|---|---|---|---|---|---|
+| 1 | BCA 101 | [Computer Fundamentals and Applications](semester-1/computer-fundamentals/) | 16,040 | 53 | done |
+| 1 | BCA 102 | [Programming in C](semester-1/programming-in-c/) | 15,229 | 56 | done |
+| 1 | BCA 103 | [Digital Logic](semester-1/digital-logic/) | 9,853 | 29 | done |
+| 1 | BCA 104 | [Mathematics I](semester-1/mathematics-1/) | 11,443 | 33 | done |
+| 1 | BCA 105 | [Professional Communication and Ethics](semester-1/professional-communication-ethics/) | 10,381 | 34 | done |
+| 1 | BCA 106 | [Hardware Workshop](semester-1/hardware-workshop/) | 7,838 | 24 | done |
+| 2 | BCA 151 | [Discrete Structure](semester-2/discrete-structure/) | 12,728 | 34 | done |
+| 2 | BCA 153 | [OOP in Java](semester-2/oop-in-java/) | 10,096 | 41 | done |
+| 2 | BCA 154 | [Mathematics II](semester-2/mathematics-2/) | 9,256 | 23 | done |
+
+Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
+<!-- /COURSE-STATUS -->
+
+
 **Read this first: this is not yet the complete BCA course.** The programme has about 45 subject slots over 8 semesters. Two subject books, both in Semester I, are written in full. Everything else is mapped in [`CURRICULUM.md`](CURRICULUM.md) (verified list of subjects, codes, credits, electives, and a code map from the old 2074 curriculum) but has **no notes yet**. Nothing is padded to look finished.
 
 ## Written in full
