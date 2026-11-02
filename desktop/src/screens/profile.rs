@@ -33,7 +33,8 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
             _ => "Local profile".to_string(),
         };
         ui.horizontal(|ui| {
-            avatar(ui, &th, &p.display_name, p.avatar_tone, 84.0);
+            let photo = env.store.s.session.as_ref().map(|s| s.photo_url.clone()).unwrap_or_default();
+            crate::ui::remote_image::avatar(ui, &th, &p.display_name, p.avatar_tone, 84.0, &photo);
             ui.add_space(6.0);
             ui.vertical(|ui| {
                 ui.spacing_mut().item_spacing.y = 2.0;

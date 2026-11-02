@@ -1,25 +1,46 @@
 name: desktop-windows
+
+# Produces ONLY the Windows executable and its SHA-256 checksum.
+# No notes, docs, content bundles or other artifacts are built or attached.
+
 on:
   push:
     paths: ["desktop/**", ".github/workflows/desktop-windows.yml"]
   workflow_dispatch:
+
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: windows-latest
-    defaults: { run: { working-directory: desktop } }
+    defaults:
+      run:
+        working-directory: desktop
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-pc-windows-msvc
       - uses: Swatinem/rust-cache@v2
-        with: { workspaces: desktop }
-      - run: cargo test --release
-      - run: cargo build --release
-      - name: Bundle with content
+        with:
+          workspaces: desktop
+      - name: Unit tests
+        run: cargo test --release --target x86_64-pc-windows-msvc
+      - name: Build release exe
+        run: cargo build --release --target x86_64-pc-windows-msvc
+      - name: Stage exe + checksum
         shell: bash
         run: |
-          mkdir -p dist/NEBians-Desktop-windows/content/static/web
-          cp target/release/nebians.exe dist/NEBians-Desktop-windows/
-          cp -r ../backend_python/web/data dist/NEBians-Desktop-windows/content/data
-          cp -r ../backend_python/web/static/web/study dist/NEBians-Desktop-windows/content/static/web/study
+          mkdir -p dist
+          cp target/x86_64-pc-windows-msvc/release/nebians.exe dist/nebians-windows-x86_64.exe
+          cd dist
+          sha256sum nebians-windows-x86_64.exe > nebians-windows-x86_64.exe.sha256
+          cat nebians-windows-x86_64.exe.sha256
       - uses: actions/upload-artifact@v4
-        with: { name: NEBians-Desktop-windows, path: desktop/dist/NEBians-Desktop-windows }
+        with:
+          name: nebians-windows-x86_64
+          if-no-files-found: error
+          path: |
+            desktop/dist/nebians-windows-x86_64.exe
+            desktop/dist/nebians-windows-x86_64.exe.sha256

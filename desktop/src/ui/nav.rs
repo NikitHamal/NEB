@@ -221,7 +221,8 @@ fn account_chip(ui: &mut Ui, env: &mut Env, th: &Theme, current: &Route, inner_w
     ui.painter().rect(rect, Rounding::same(22.0), fill, Stroke::new(1.0, th.p.hairline));
     ui.painter().rect_filled(rect, Rounding::same(22.0), th.p.ink.gamma_multiply(0.06 * hover));
     let mut child = ui.new_child(egui::UiBuilder::new().max_rect(rect.shrink2(vec2(if wide { 10.0 } else { 0.0 }, 8.0))).layout(if wide { Layout::left_to_right(Align::Center) } else { Layout::top_down(Align::Center) }));
-    avatar(&mut child, th, &name, env.store.s.profile.avatar_tone, 40.0);
+    let photo = env.store.s.session.as_ref().map(|s| s.photo_url.clone()).unwrap_or_default();
+    super::remote_image::avatar(&mut child, th, &name, env.store.s.profile.avatar_tone, 40.0, &photo);
     if wide {
         child.vertical(|ui| {
             ui.spacing_mut().item_spacing.y = 0.0;

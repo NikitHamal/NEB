@@ -470,13 +470,24 @@ impl ContentRepo {
         }
         let hash: String = Sha256::digest(abs.as_bytes()).iter().take(12).map(|b| format!("{b:02x}")).collect();
         let file = self.dir.join("images").join(&hash);
-        if let Ok(b) = fs::read(&file) {
-            return Ok(b);
+        // Fresh for a day; after that try the server again but fall back to the stale copy (offline-first).
+        let cached = fs::read(&file).ok().filter(|b| !b.is_empty());
+        let fresh = fs::metadata(&file).and_then(|m| m.modified()).ok().and_then(|m| m.elapsed().ok()).map(|e| e.as_secs() < 86_400).unwrap_or(false);
+        if let (Some(b), true) = (&cached, fresh) {
+            return Ok(b.clone());
         }
-        let resp = agent(20).get(&abs).call().map_err(net_err)?;
-        let mut out = vec![];
-        resp.into_reader().take(6 * 1024 * 1024).read_to_end(&mut out)?;
-        let _ = write_atomic(&file, &out);
-        Ok(out)
+        let fetched = agent(20).get(&abs).call().map_err(net_err).and_then(|resp| {
+            let mut out = vec![];
+            resp.into_reader().take(6 * 1024 * 1024).read_to_end(&mut out)?;
+            Ok(out)
+        });
+        match fetched {
+            Ok(out) if !out.is_empty() => {
+                let _ = write_atomic(&file, &out);
+                Ok(out)
+            }
+            Ok(_) => cached.ok_or_else(|| AppError::Content("Empty image".into())),
+            Err(e) => cached.ok_or(e),
+        }
     }
 }
