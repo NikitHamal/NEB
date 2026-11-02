@@ -115,3 +115,6 @@ No TU unit list was retrieved for any of the six subjects below (no web retrieva
 
 ### BCA 354 Technical Writing (6 units)
 - Standard technical-writing practice; Flesch, Kincaid and Gunning formulas; WCAG 2 contrast formula; IEEE and APA 7th reference formats; OpenAPI 3.0; Diataxis; Tufte's lie factor. `check_techwriting.py`.
+
+### BCA 403 Financial Accounting (7 units, Semester VII)
+- Standard financial-accounting practice (accounting equation, golden/modern rules, subsidiary books, BRS, SLM/WDV, FIFO/weighted average, final accounts, ratio analysis, DuPont); IAS 1, 2, 16 and IFRS 9 as adopted in Nepal's NFRS; Companies Act 2063, Income Tax Act 2058 and VAT Act 2052 from memory, not re-fetched. VAT 13%, corporate tax 25% and TDS on rent 10% are teaching figures; income-tax depreciation block rates are stated as recalled and flagged for verification. Every figure is cross-checked by `check_accounting.py`.

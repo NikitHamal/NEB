@@ -48,7 +48,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | VI | BCA 356 | Project III | 3 | project (no notes) |
 | VII | BCA 401 | Cyber Security and Ethical Hacking | 3 | mapped only |
 | VII | BCA 402 | Software Project Management | 3 | mapped only |
-| VII | BCA 403 | Financial Accounting | 2 | mapped only |
+| VII | BCA 403 | Financial Accounting | 2 | **full book** (`semester-7/financial-accounting`) |
 | VII | BCA 404 | Project IV | 3 | project (no notes) |
 | VII | BCA 405 / 406 | Elective I / Elective II | 3 + 3 | mapped only |
 | VIII | BCA 451 | Cloud Computing | 3 | mapped only |
