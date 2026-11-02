@@ -46,3 +46,13 @@ All: structure MATCH (spine↔chapters↔PDF). Outside-source checks: `chem11` (
 | acc10 u11 figure labels overflow boxes / below 6.8 pt | STRUCTURAL | FIXED (tip commit) |
 | eng10 u7 figure labels overlap | STRUCTURAL | FIXED (tip commit) |
 | `\%` … `\times` prints `imes` (25 spots / 7 chapters, confirmed on acc10 p148 in old and new PDF) | FACTUAL (rendering) | **OPEN**, see SCHOOL_REVIEW.md |
+
+## 6. Session 3 updates
+| Item | Status |
+|---|---|
+| §1 `cs8` QBASIC → Python | **FIXED (teacher-confirmed; no document source).** Unit 20 rewritten as *Computer Programming using Python* (8 sections: intro/IDLE, tokens and types, operators, I/O, built-ins and math module, selection, loops, debugging; 27 worked examples, every output produced by running the code on Python 3.12). Units 5, 6, 18, 19 and the spine de-QBASICed (unit 19's QBASIC data-type/variable sections rewritten for Python). cs8 sources and the rebuilt PDF: 0 mentions of QBASIC/QB64/.BAS/FreeBASIC. Commit: the `class-8: computer` commit on this branch. |
+| `qbank8` units 23–25 (Computer Science question bank) | **OPEN — still QBASIC.** ~40 references remain, including all of §23.20 and §24.20 (QBASIC programs and outputs), Model Set questions in unit 25, and the unit 23 marks figure. The textbook now teaches Python while this question bank still tests QBASIC. Needs a rewrite of those sections and a `qbank8` rebuild; not started. |
+| §5 `\%…\times` prints `imes` | **FIXED — root cause differs from the earlier note.** The 25 `\%…\times` sites are correct and render correctly (acc10 p45 `13% × 2,00,000` confirmed in the shipped PDF). The real defect is **12 literal TAB characters** where the `\t` of `\times` was eaten at authoring time (TAB + `imes`): acc10 unit-12 lines 180–182 (5) and **omath8 unit-02** (7: lines 48, 50, 327, 423, 424, 427). No pipeline fault. Commit 76b9185. Commerce (`qbankc10`) and `qbank10` were **not** affected. |
+| Class 10 English/Nepali/Social/Optional Maths vs 2083 editions | **OPEN — not started this session.** |
+| Class 8/11/12 primary curriculum PDFs | **OPEN — not retried this session.** |
+| All C-graded subjects | **OPEN — unchanged.** |
