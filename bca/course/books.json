@@ -183,5 +183,13 @@
   "credits": 3,
   "accent": "#0369A1",
   "status": "done"
+ },
+ "semester-5/computer-networking": {
+  "name": "Computer Networking",
+  "code": "BCA 301",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#0E7490",
+  "status": "done"
  }
 }

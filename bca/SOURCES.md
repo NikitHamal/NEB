@@ -82,3 +82,8 @@ All syllabus pages are third-party reproductions of the TU outlines (CACS25x, 20
 
 ### BCA 255 Web Technology II (revised; no TU unit list retrieved)
 - Code, title and credit confirmed (collegesnepal.com, edusanjal.com). The unit list is taken from the server-side half of the old CACS254 Scripting Language outline (bcapoint.com page above: PHP 8 h, MySQL 7 h, OOP in PHP, AJAX, CMS), because Web Technology I (BCA 203) already covers client-side JavaScript and jQuery in this repository. The BIM Web Technology II outline (benchpartner.com, PHP and MySQL, 12 h on databases) was read for cross-checking only. Chapters on security (SQL injection, XSS, CSRF, password hashing), REST/JSON and the PHP ecosystem were added because they are standard in any such course; the README says which units are syllabus-derived and which are additions.
+
+## Semester V (session 7)
+
+### BCA 301 Computer Networking (old CACS303, 7 units)
+- https://edu-mate.com/bca-fifth-semester-tribhuvan-university-syllabus-pdf/ and https://www.scribd.com/document/628171402/CACS-303-Computer-Networking-BCA-5th-Sem (search snippets read this session): TU CACS303 is organised as introduction, physical layer, data link layer, network layer, transport layer, application layer (DNS, DHCP, WWW, HTTP, HTTPS, Telnet, FTP, SMTP, POP, IMAP, traffic analysers MRTG, PRTG, SNMP, Packet Tracer, Wireshark) and network security. Per-unit hours are a reconstruction summing to 45. Text order follows Tanenbaum and Kurose-Ross; all prose original. Numbers: `bca/tools/check_networking.py`.
