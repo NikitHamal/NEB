@@ -97,3 +97,9 @@ Total new material: 78,455 raw words. **Tooling added:** `tools/fill_c_outputs.p
 **Syllabus substitutions.** BCA 254 and BCA 255 have no retrievable TU unit list; both READMEs and `SOURCES.md` say so. The Numerical Methods "Linear Algebraic Equations" unit is missing from the mirror's list and is included as Unit 4 (hours inferred). See `bca/SOURCES.md`.
 
 **Open items.** (1) Subject-teacher review of everything in Semester IV. (2) Text extraction of `==` from the code listings of the PDFs (house JetBrains Mono ligatures) returns `>=` in the Python book and neither string in the C book; the visual rendering was not eyeballed for this and the copy-and-paste of code from the PDFs should be checked; Markdown is unaffected. (3) MySQL 8 was not available; SQL ran on MariaDB 10.11. (4) The JavaScript and mail/upload snippets in Web Technology II are not machine-executed. (5) Project I (BCA 256) has no notes by nature.
+
+## Session 7 — Semester V
+
+| Subject | Units | Raw words | PDF pages | QA | Verification |
+|---|---|---|---|---|---|
+| BCA 301 Computer Networking | 7 | see STATUS.md | 65 | 0 fail, 1 warn (p3) | `check_networking.py` (all numbers asserted; `--verify` finds 47/47 key values in the book); every python block executed incl. sockets, `ip`, `ss`, `ping` |
