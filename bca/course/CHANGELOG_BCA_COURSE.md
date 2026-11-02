@@ -80,3 +80,20 @@ Total new material: 78,455 raw words. **Tooling added:** `tools/fill_c_outputs.p
 **Layout lesson recorded:** the house CSS makes every `pre` block `break-inside: avoid`, so a program taller than the space left on a page jumps to the next page and leaves a near-empty page behind its heading. Three long programs (stack/postfix, all sorts, graph algorithms) were therefore split into two shorter complete programs each; this removed three blank pages from the Data Structure and Algorithms PDF.
 
 **Not done in this session:** Semesters IV–VIII (18 core subjects: IV 5, V 5, VI 5, VII 2, VIII 1) and the 8 project/internship/elective slots. No subject-teacher review of any book has happened.
+
+
+## Session 6: Semester IV (all five core subjects)
+
+| Subject | Units | Raw words | PDF pages | QA | How the numbers/code were verified |
+|---|---|---|---|---|---|
+| BCA 251 Operating Systems (`7c546ddc`) | 10 | 27,698 | 85 | 0 fail, 1 warn (p3, contents overflow) | `check_os.py`, `check_os_misc.py`; six C programs compiled (gcc 12, -Wall) and run |
+| BCA 253 Numerical Methods (`c847eee0`) | 6 | 14,925 | 43 | 0 fail, 1 warn (p3) | `check_numerical.py` generates every table (191 tokens) |
+| BCA 252 Software Engineering (`4afa1e68`) | 8 | 16,448 | 54 | 0 fail, 1 warn (p3) | `check_se.py` (COCOMO, FPA, CPM/PERT, EVM, cyclomatic tests executed) |
+| BCA 254 Python Programming (`cce92f9c`) | 9 | 15,321 | 79 | 0 fail, 3 warn (p3 omitted; p20, p46, p71 are the short last pages of Units 2, 5, 8) | every python block executed (Python 3.12) |
+| BCA 255 Web Technology II | 8 | 15,000 | 64 | 0 fail, 2 warn (p3, p51) | every php and sql block executed (PHP 8.2, MariaDB 10.11) |
+
+**Word-count honesty.** The brief targeted 9,000-14,000 raw words per subject. Operating Systems (27.7k, 10 units and 45 hours of syllabus, numbers counted with table separators), Software Engineering (16.4k), Python (15.3k), Web Technology II (15.0k) and Numerical Methods (14.9k) are above target; they were not trimmed.
+
+**Syllabus substitutions.** BCA 254 and BCA 255 have no retrievable TU unit list; both READMEs and `SOURCES.md` say so. The Numerical Methods "Linear Algebraic Equations" unit is missing from the mirror's list and is included as Unit 4 (hours inferred). See `bca/SOURCES.md`.
+
+**Open items.** (1) Subject-teacher review of everything in Semester IV. (2) Text extraction of `==` from the code listings of the PDFs (house JetBrains Mono ligatures) returns `>=` in the Python book and neither string in the C book; the visual rendering was not eyeballed for this and the copy-and-paste of code from the PDFs should be checked; Markdown is unaffected. (3) MySQL 8 was not available; SQL ran on MariaDB 10.11. (4) The JavaScript and mail/upload snippets in Web Technology II are not machine-executed. (5) Project I (BCA 256) has no notes by nature.

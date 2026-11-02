@@ -32,7 +32,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | IV | BCA 252 | Software Engineering | 3 | **full book** (`semester-4/software-engineering`) |
 | IV | BCA 253 | Numerical Methods | 3 | **full book** (`semester-4/numerical-methods`) |
 | IV | BCA 254 | Python Programming | 3 | **full book** (`semester-4/python-programming`) |
-| IV | BCA 255 | Web Technology II | 3 | mapped only |
+| IV | BCA 255 | Web Technology II | 3 | **full book** (`semester-4/web-technology-2`) |
 | IV | BCA 256 | Project I | 2 | project (no notes) |
 | V | BCA 301 | Computer Network | 3 | mapped only |
 | V | BCA 302 | Artificial Intelligence | 3 | mapped only |
