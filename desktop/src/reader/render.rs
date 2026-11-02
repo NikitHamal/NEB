@@ -8,7 +8,7 @@ use egui::{
 
 use super::model::*;
 use crate::actions::Action;
-use crate::data::content::ContentRoot;
+use crate::data::content::ContentRepo;
 use crate::theme::{fonts, mix, Theme};
 use crate::ui::icons::{self, Icon};
 
@@ -16,7 +16,7 @@ pub struct RenderCx<'a> {
     pub th: &'a Theme,
     /// Reading text scale (Settings ▸ text size).
     pub scale: f32,
-    pub content: Option<&'a ContentRoot>,
+    pub content: Option<&'a ContentRepo>,
     /// Heading id the TOC asked us to scroll to.
     pub jump: &'a mut Option<String>,
     /// (heading id, screen y) of every heading drawn this frame — drives TOC highlighting.
@@ -334,7 +334,7 @@ fn figure(ui: &mut Ui, cx: &mut RenderCx, src: &str, caption: &[Span], pct: Opti
                     ui.add(egui::Image::new(uri).fit_to_original_size(1.3).max_width((max_w - 20.0).max(80.0)));
                 }
                 None => {
-                    ui.add(Label::new(RichText::new("Figure not available offline").color(Color32::GRAY)).selectable(false));
+                    ui.add(Label::new(RichText::new("Figure couldn't be loaded — check your connection").color(Color32::GRAY)).selectable(false));
                 }
             }
         });

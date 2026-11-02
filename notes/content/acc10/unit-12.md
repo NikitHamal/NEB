@@ -87,15 +87,15 @@ from matplotlib.patches import FancyBboxPatch, FancyArrowPatch
 fig, ax = plt.subplots(figsize=(5.1,2.8))
 ax.axis('off'); ax.set_xlim(0,10); ax.set_ylim(0,8)
 ax.add_patch(FancyBboxPatch((3.2,6.2),3.6,1.3,boxstyle="round,pad=0.06",fc="#eaf1ff",ec=ACCENT,lw=1.2))
-ax.text(5.0,6.85,"Divisible fund\\n(VAT, income tax, royalties)",ha='center',va='center',fontsize=6.6,color=INK)
+ax.text(5.0,6.85,"Divisible fund\n(VAT, income tax, royalties)",ha='center',va='center',fontsize=6.6,color=INK)
 ax.add_patch(FancyBboxPatch((0.3,3.9),4.0,1.3,boxstyle="round,pad=0.06",fc="#f6f8fc",ec=MUTED,lw=1.1))
-ax.text(2.3,4.55,"Provincial share →\\nseven provincial funds",ha='center',va='center',fontsize=6.6,color=INK)
+ax.text(2.3,4.55,"Provincial share →\nseven provincial funds",ha='center',va='center',fontsize=6.6,color=INK)
 ax.add_patch(FancyBboxPatch((5.7,3.9),4.0,1.3,boxstyle="round,pad=0.06",fc="#f6f8fc",ec=MUTED,lw=1.1))
-ax.text(7.7,4.55,"Local share →\\n753 local funds",ha='center',va='center',fontsize=6.6,color=INK)
+ax.text(7.7,4.55,"Local share →\n753 local funds",ha='center',va='center',fontsize=6.6,color=INK)
 ax.add_patch(FancyArrowPatch((4.3,6.15),(2.5,5.25),arrowstyle="-|>",mutation_scale=10,color=INK,lw=1.1))
 ax.add_patch(FancyArrowPatch((5.7,6.15),(7.5,5.25),arrowstyle="-|>",mutation_scale=10,color=INK,lw=1.1))
 ax.add_patch(FancyBboxPatch((1.4,1.1),7.2,1.7,boxstyle="round,pad=0.06",fc="#fdf3f3",ec=SERIES[1],lw=1.1))
-ax.text(5.0,1.95,"Formula recommended by the National Natural Resources\\nand Fiscal Commission: population, area, development\\nand revenue effort",
+ax.text(5.0,1.95,"Formula recommended by the National Natural Resources\nand Fiscal Commission: population, area, development\nand revenue effort",
         ha='center',va='center',fontsize=6.2,color=INK)
 ```
 
@@ -177,9 +177,9 @@ Step 2 — The deductions belong to the employees and to the tax authority, so t
 **Problem.** The divisible fund for a year is Rs. 1,20,000 crore. The recommended shares are 30 per cent to the provinces and 25 per cent to the local levels, the remainder staying with the federation. A province receives its share according to a formula in which population has a weight of 50 per cent, area 25 per cent and development 25 per cent. Province A has 20 per cent of the national population, 15 per cent of the area and ranks as a less developed province with a development indicator of 30 per cent. Compute (a) the total provincial share, (b) the total local share and (c) Province A's entitlement as a percentage of the provincial share.
 
 **Solution.**
-Step 1 — Provincial share $= 30\% 	imes 1{,}20{,}000 = Rs.\ 36{,}000$ crore.
-Step 2 — Local share $= 25\% 	imes 1{,}20{,}000 = Rs.\ 30{,}000$ crore.
-Step 3 — Province A's weighted index $= (50\% 	imes 20\%) + (25\% 	imes 15\%) + (25\% 	imes 30\%) = 10\% + 3.75\% + 7.5\%$.
+Step 1 — Provincial share $= 30\% \times 1{,}20{,}000 = Rs.\ 36{,}000$ crore.
+Step 2 — Local share $= 25\% \times 1{,}20{,}000 = Rs.\ 30{,}000$ crore.
+Step 3 — Province A's weighted index $= (50\% \times 20\%) + (25\% \times 15\%) + (25\% \times 30\%) = 10\% + 3.75\% + 7.5\%$.
 Step 4 — Weighted index $= 21.25$ per cent of the total weight, which after normalising across all provinces gives its share of the provincial pool.
 
 **Answer.** (a) Rs. 36,000 crore to the provinces, (b) Rs. 30,000 crore to the local levels, (c) Province A's weighted entitlement works out to an index of 21.25 per cent before normalisation.

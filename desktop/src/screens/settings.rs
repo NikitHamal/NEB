@@ -5,7 +5,6 @@ use egui::{vec2, RichText, Ui};
 use super::common::*;
 use crate::actions::Action;
 use crate::config::{SITE_URL, VERSION};
-use crate::data::content::ContentRoot;
 use crate::data::store::{ReadingWidth, ThemeMode};
 use crate::env::Env;
 use crate::router::Route;
@@ -15,10 +14,9 @@ use crate::ui::widgets::{self, BtnKind};
 
 #[derive(Default)]
 pub struct SettingsState {
-    path_input: String,
-    path_msg: Option<(String, bool)>,
+    stats: crate::data::content::CacheStats,
+    stats_at: Option<std::time::Instant>,
     confirm_reset: bool,
-    inited: bool,
     pw: Option<PwDialog>,
 }
 
@@ -66,10 +64,6 @@ fn toggle_row(ui: &mut Ui, th: &crate::theme::Theme, title: &str, sub: &str, on:
 }
 
 pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
-    if !st.inited {
-        st.inited = true;
-        st.path_input = env.content.as_ref().map(|c| c.base.display().to_string()).unwrap_or_default();
-    }
     scroll_page(ui, env, "settings", |ui, env| {
         let th = env.theme.clone();
         widgets::screen_header(ui, &th, "Settings", Some("Preferences are saved on this computer."));
@@ -174,43 +168,48 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
             }
         });
 
-        group(ui, &th, "Content", |ui| {
+        group(ui, &th, "Storage & sync", |ui| {
+            if st.stats_at.map(|t| t.elapsed().as_secs() >= 3).unwrap_or(true) {
+                st.stats = env.repo.stats();
+                st.stats_at = Some(std::time::Instant::now());
+            }
+            let server = crate::config::api_base();
             ui.add_space(10.0);
-            widgets::label(ui, RichText::new("Study content folder").font(fonts::medium(15.0)).color(th.p.ink));
-            widgets::label(ui, RichText::new("Your NEB checkout (contains backend_python/web/data) or a bundled content/ folder.").font(fonts::regular(12.5)).color(th.p.ink_muted));
-            ui.add_space(8.0);
-            let w = ui.available_width();
-            widgets::text_field(ui, &th, &mut st.path_input, "/path/to/NEB", Some(Icon::Folder), w, false);
-            ui.add_space(8.0);
-            ui.horizontal_wrapped(|ui| {
-                if widgets::button(ui, &th, "Apply", BtnKind::Primary, Some(Icon::Check), None).clicked() {
-                    match ContentRoot::from_dir(std::path::Path::new(st.path_input.trim())) {
-                        Some(root) => {
-                            env.store.s.prefs.content_dir = Some(root.base.display().to_string());
-                            env.store.touch();
-                            env.set_content(Some(root));
-                            st.path_msg = Some((format!("Loaded {} subjects.", env.tracks.iter().map(|t| t.subjects.len()).sum::<usize>()), true));
-                        }
-                        None => st.path_msg = Some(("That folder has no backend_python/web/data/syllabus/index.json (or data/syllabus/index.json).".into(), false)),
-                    }
-                }
-                if widgets::button(ui, &th, "Auto-detect", BtnKind::Secondary, None, None).clicked() {
-                    match ContentRoot::detect(None, None) {
-                        Some(root) => {
-                            st.path_input = root.base.display().to_string();
-                            env.store.s.prefs.content_dir = None;
-                            env.store.touch();
-                            env.set_content(Some(root));
-                            st.path_msg = Some(("Found content next to the app.".into(), true));
-                        }
-                        None => st.path_msg = Some(("Nothing found next to the app or in its parent folders.".into(), false)),
-                    }
+            widgets::setting_row(ui, &th, "Library server", Some(&server), |ui| {
+                widgets::badge(ui, if matches!(env.status, crate::env::ContentStatus::Ready) { "Connected" } else { "Offline" }, th.p.ok, th.p.ok_soft);
+            });
+            ui.add_space(10.0);
+            widgets::hairline(ui, &th);
+            ui.add_space(10.0);
+            let (cb, bb) = (st.stats.content_bytes, st.stats.book_bytes);
+            widgets::setting_row(ui, &th, "Saved study content", Some(&format!("{} on this computer — chapters and figures you opened or saved offline", crate::util::fmt_bytes(cb))), |ui| {
+                if widgets::button(ui, &th, "Clear", BtnKind::Secondary, Some(Icon::Trash), None).clicked() {
+                    env.repo.clear_content();
+                    env.dl.offline.clear();
+                    env.drop_content_memory();
+                    env.reload_content();
+                    st.stats_at = None;
+                    env.toast("Saved study content cleared");
                 }
             });
-            if let Some((m, ok)) = &st.path_msg {
-                ui.add_space(6.0);
-                ui.add(egui::Label::new(RichText::new(m).color(if *ok { th.p.ok } else { th.p.danger })));
-            }
+            ui.add_space(10.0);
+            widgets::hairline(ui, &th);
+            ui.add_space(10.0);
+            widgets::setting_row(ui, &th, "Downloaded books", Some(&format!("{} in {} PDF files", crate::util::fmt_bytes(bb), st.stats.book_files)), |ui| {
+                if widgets::button(ui, &th, "Delete all", BtnKind::Secondary, Some(Icon::Trash), None).clicked() {
+                    env.repo.clear_books();
+                    st.stats_at = None;
+                    env.toast("Downloaded books deleted");
+                }
+            });
+            ui.add_space(10.0);
+            widgets::hairline(ui, &th);
+            ui.add_space(10.0);
+            widgets::setting_row(ui, &th, "Refresh the library", Some("Check the server for new notes and question banks"), |ui| {
+                if widgets::button(ui, &th, "Refresh", BtnKind::Secondary, Some(Icon::Refresh), None).clicked() {
+                    env.act(crate::actions::Action::ReloadContent);
+                }
+            });
             ui.add_space(10.0);
         });
 
@@ -221,12 +220,20 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
         });
 
         group(ui, &th, "About", |ui| {
+            if link_row(ui, &th, "Help", "Questions, offline use and support", Icon::Info) {
+                env.go(Route::Help);
+            }
+            widgets::hairline(ui, &th);
+            if link_row(ui, &th, "Reading history", "Chapters you opened recently", Icon::History) {
+                env.go(Route::History);
+            }
+            widgets::hairline(ui, &th);
             if link_row(ui, &th, "Privacy policy", "How we protect your data", Icon::Lock) {
-                env.open_url(&format!("{SITE_URL}/privacy/"));
+                env.go(Route::Legal("privacy".into()));
             }
             widgets::hairline(ui, &th);
             if link_row(ui, &th, "Terms of service", "Rules and guidelines for usage", Icon::File) {
-                env.open_url(&format!("{SITE_URL}/terms/"));
+                env.go(Route::Legal("terms".into()));
             }
             widgets::hairline(ui, &th);
             if link_row(ui, &th, "About NEBians", &format!("Version {VERSION}"), Icon::Info) {
@@ -236,7 +243,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
 
         group(ui, &th, "Account control", |ui| {
             ui.add_space(10.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 if env.signed_in() || env.store.s.guest {
                     if widgets::button(ui, &th, "Sign out", BtnKind::Secondary, Some(Icon::Logout), None).clicked() {
                         env.act(Action::SignOut);

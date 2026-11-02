@@ -102,3 +102,75 @@ rustup target add x86_64-pc-windows-gnu
 
 ### pip install (real error + fix)
 `pip install fonttools brotli` → `error: externally-managed-environment` (PEP 668). Fixed with `pip install --break-system-packages fonttools brotli`.
+
+## Session 3 probe (2026-11-02) — pasted from real commands
+```
+$ git --version
+git version 2.39.5
+$ which git
+/usr/bin/git
+$ rustc --version
+rustc 1.99.1 (58cf8f9c3 2026-10-13)
+$ cargo --version
+cargo 1.99.1 (5f94df478 2026-08-27)
+$ python3 --version
+Python 3.11.2
+$ node --version
+v22.23.4
+$ which pandoc weasyprint pdftoppm
+/usr/bin/pandoc
+/usr/bin/pdftoppm
+$ sudo -n true && echo sudo-ok
+sudo-ok
+$ curl -sI https://github.com | head -1
+HTTP/2 200 
+$ git log --oneline -8
+481bbc4 ci(desktop): workflow builds and attaches only the Windows .exe + sha256; desktop: avatars on sidebar, profile, community, stale-while-offline image cache
+d61169a desktop: server-backed content with disk cache (no content folder), books, offline manager, people & member profiles, avatars, new auth layout; menu bar removed
+4475fcd backend: read-only content API for the desktop app (manifest, syllabus, chapters, search, books with Range), 8 tests
+2193bf3 auth, web: fix desktop auth csrf and logo, polish resource comments ui
+3b470dd web: reduce left and right side margins across all page containers
+e3e29c1 Merge branch 'desktop/claude' into main
+2beba85 web: harmonize page layouts and eliminate desktop scrim overlay
+bac4504 desktop: v0.2.0 — Windows .exe, 31 screenshots, docs (backend, parity, design, architecture, build, limitations)
+$ python3 -c 'import weasyprint'
+ModuleNotFoundError: No module named 'weasyprint'
+$ git ls-remote origin (PAT via transient header)
+481bbc48ab27f22c723c08363f3873ad57ec97c1	HEAD
+42abf217b84a0da68d92a6e61ca787b36eded246	refs/heads/claude/bca-entrance-complete
+bac4504b0d0c9ad70a278701fe8f4096ef2750e5	refs/heads/desktop/claude
+481bbc48ab27f22c723c08363f3873ad57ec97c1	refs/heads/main
+2505fe3d56599d099cbcaac185ca9a63a0bc4482	refs/heads/overhaul/showreel
+e3468a9c969343c80192d829302ac3449945b162	refs/heads/resources/bca-complete
+12f65e59b5e291490d8e2e0c6b178054b30bce2c	refs/pull/1/head
+06541a540a57957c51a640eab03d78d62b502679	refs/pull/10/head
+05977d92ef658f7f0430f9143dad4fb5388aee81	refs/pull/11/head
+eedf16a36ebd64e8b239191f456014b345a7e576	refs/pull/12/head
+$ git ls-tree -r origin/main --name-only | grep -E '^(desktop|backend_python)/' | grep -E 'content|remote_image|menu|desktop_auth'
+backend_python/api/content_api.py
+backend_python/api/content_images.py
+backend_python/api/content_search.py
+backend_python/api/desktop_auth.py
+backend_python/api/management/commands/purge_bot_content.py
+backend_python/api/migrations/0039_syllabuscontent_and_more.py
+backend_python/api/migrations/0040_syllabuscontent_question_answers.py
+backend_python/api/migrations/0074_study_space_board_content.py
+backend_python/api/migrations/0116_content_image.py
+backend_python/api/migrations/0123_syllabus_rich_content.py
+backend_python/api/migrations/0151_keep_deleted_user_content.py
+backend_python/api/test_content_api.py
+backend_python/api/test_desktop_auth.py
+backend_python/api/test_purge_bot_content.py
+backend_python/api/views_content.py
+backend_python/api/views_content_images.py
+backend_python/api/views_desktop_auth.py
+backend_python/web/templates/web/_library_content.html
+backend_python/web/templates/web/desktop_auth.html
+backend_python/web/templates/web/interactive/_hub_content.html
+backend_python/web/views_content_images.py
+backend_python/web/views_desktop_auth.py
+desktop/scripts/bundle-content.sh
+desktop/src/data/content.rs
+desktop/src/ui/remote_image.rs
+```
+Note: the repo is private — unauthenticated `git ls-remote` fails with 'could not read Username'. Rust, mingw, xvfb were installed this session via apt/rustup (not present at start: `rustc: command not found`).

@@ -124,6 +124,11 @@ fn drive(env: &mut Env, st: &mut LoginState) {
 
 pub fn show(ui: &mut Ui, env: &mut Env, st: &mut LoginState) {
     drive(env, st);
+    split_layout(ui, env, |ui, env, with_logo| form(ui, env, st, with_logo));
+}
+
+/// The sign-in journey's shared frame: a brand panel on the left (wide windows) and the form on the right.
+pub fn split_layout(ui: &mut Ui, env: &mut Env, add: impl FnOnce(&mut Ui, &mut Env, bool)) {
     let th = env.theme.clone();
     let full = ui.available_rect_before_wrap();
     let split = full.width() >= 900.0;
@@ -134,7 +139,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut LoginState) {
         brand_panel(ui, env, panel.shrink2(vec2(44.0, 44.0)));
     }
     let right = Rect::from_min_max(egui::pos2(full.min.x + left_w, full.min.y), full.max);
-    ui.allocate_new_ui(UiBuilder::new().max_rect(right), |ui| form(ui, env, st, !split));
+    ui.allocate_new_ui(UiBuilder::new().max_rect(right), |ui| add(ui, env, !split));
 }
 
 fn brand_panel(ui: &mut Ui, env: &mut Env, rect: Rect) {

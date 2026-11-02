@@ -355,7 +355,7 @@ Dear Sir,
 
 I am writing to apply for the post of School Secretary advertised in *The Tanahun Post*.
 
-I am twenty years old. After passing my SLC, I worked for a year as an office secretary at Himalayan Investment Company Limited, where I managed correspondence, files and accounts. I am confident in both Nepali and English and use a computer well.
+I am twenty years old. After passing my SEE, I worked for a year as an office secretary at Himalayan Investment Company Limited, where I managed correspondence, files and accounts. I am confident in both Nepali and English and use a computer well.
 
 I enjoy working with students and teachers, and I am punctual, honest and hard-working. I believe I can be a valuable member of your staff.
 
