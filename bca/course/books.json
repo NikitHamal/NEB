@@ -63,5 +63,13 @@
   "credits": 3,
   "accent": "#B91C1C",
   "status": "done"
+ },
+ "semester-2/mathematics-2": {
+  "name": "Mathematics II",
+  "code": "BCA 154",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#6D28D9",
+  "status": "done"
  }
 }
