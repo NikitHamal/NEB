@@ -40,7 +40,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | V | BCA 304 | MIS and e-Business | 3 | **full book** (`semester-5/mis-and-e-business`) |
 | V | BCA 305 | Society and Technology | 3 | **full book** (`semester-5/society-and-technology`) |
 | V | BCA 306 | Project II | 3 | project (no notes) |
-| VI | BCA 351 | Computer Graphics and Animation | 3 | mapped only |
+| VI | BCA 351 | Computer Graphics and Animation | 3 | **full book** (`semester-6/computer-graphics`) |
 | VI | BCA 352 | Mobile Programming | 3 | mapped only |
 | VI | BCA 353 | Cryptography and Network Security | 3 | mapped only |
 | VI | BCA 354 | Technical Writing | 2 | mapped only |
