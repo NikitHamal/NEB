@@ -95,5 +95,13 @@
   "credits": 1,
   "accent": "#B45309",
   "status": "done"
+ },
+ "semester-3/data-structure-and-algorithms": {
+  "name": "Data Structure and Algorithms",
+  "code": "BCA 201",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#0E7490",
+  "status": "done"
  }
 }
