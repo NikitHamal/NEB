@@ -23,5 +23,13 @@
   "credits": 3,
   "accent": "#2F6B3A",
   "status": "done"
+ },
+ "semester-1/mathematics-1": {
+  "name": "Mathematics I",
+  "code": "BCA 104",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#7A3E9D",
+  "status": "done"
  }
 }
