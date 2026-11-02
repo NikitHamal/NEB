@@ -69,9 +69,9 @@
     "Principle of homogeneity"
    ],
    "stats": {
-    "words": 7073,
+    "words": 7258,
     "figures": 3,
-    "examples": 7
+    "examples": 8
    },
    "has_notes": true
   },
@@ -124,7 +124,7 @@
     "Principle of conservation of linear momentum"
    ],
    "stats": {
-    "words": 6817,
+    "words": 6923,
     "figures": 3,
     "examples": 6
    },
@@ -171,7 +171,7 @@
     "Angular momentum"
    ],
    "stats": {
-    "words": 5449,
+    "words": 5542,
     "figures": 2,
     "examples": 5
    },
@@ -271,9 +271,9 @@
     "Simple harmonic motion"
    ],
    "stats": {
-    "words": 5913,
+    "words": 6111,
     "figures": 4,
-    "examples": 4
+    "examples": 5
    },
    "has_notes": true
   },
@@ -288,15 +288,40 @@
     "Gravitational field strength, potential and potential energy",
     "Satellites: orbital velocity, period, energy, escape velocity, geostationary orbit"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Newton's law of gravitation; acceleration due to gravity and its variation"
+    },
+    {
+     "no": "6.2",
+     "title": "Gravitational field strength, potential and potential energy"
+    },
+    {
+     "no": "6.3",
+     "title": "Satellites: orbital velocity, period, energy, escape velocity, geostationary orbit"
+    }
+   ],
+   "summary": [
+    "Every mass attracts every other with F = Gm1m2/r^2; the force is always attractive, mutual, central and conservative.",
+    "Surface gravity is g = GM/R^2; it belongs to the planet, not to the falling body.",
+    "With height gh = g(R/(R+h))^2 (inverse square); with depth gd = g(1-d/R) (linear, because the outer shell pulls equally all round). g is zero at the centre.",
+    "Rotation reduces g most at the equator: gλ = g - Rω^2cos^2λ; the poles have the largest g and the equator the smallest.",
+    "Field strength GM/r^2 is a vector in N kg⁻¹; potential -GM/r is a scalar in J kg⁻¹, zero at infinity and negative everywhere else.",
+    "Potential energy is -GMm/r; mgh is only its near-surface approximation. The work by an external agent is +Δ U.",
+    "Orbital speed √GM/r and period 2π√r^3/GM: higher orbits are slower, and T^2 ∝ r^3.",
+    "Satellite energy: K = GMm/2r, U = -GMm/r, E = -GMm/2r. The total is negative and equals -K; raising the orbit increases E but decreases K."
+   ],
+   "terms": [
+    "Newton's law of gravitation",
+    "Gravitational potential"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6409,
+    "figures": 4,
+    "examples": 5
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 7,
@@ -309,15 +334,42 @@
     "Young's modulus, bulk modulus and modulus of rigidity; Poisson's ratio",
     "Elastic potential energy and energy density"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Stress, strain and Hooke's law"
+    },
+    {
+     "no": "7.2",
+     "title": "Young's modulus, bulk modulus and modulus of rigidity; Poisson's ratio"
+    },
+    {
+     "no": "7.3",
+     "title": "Elastic potential energy and energy density"
+    }
+   ],
+   "summary": [
+    "Elasticity is the recovery of shape after a deforming force is removed; beyond the elastic limit the deformation is plastic and permanent.",
+    "Stress is force per unit area inside the material (Pa); strain is a fractional change of length, volume or angle and has no unit.",
+    "Hooke's law — stress proportional to strain — holds only up to the proportional limit; the constant is the modulus of elasticity.",
+    "Y=(FL)/(AΔ L) applies to stretching and compressing solids. It depends on the material, not on the wire's dimensions; the extension itself obeys Δ L∝ L/d^2.",
+    "K=-(Δ P)/(Δ V/V) applies to every state of matter; for a gas it is P isothermally and γ P adiabatically.",
+    "G=(F/A)/(θ) applies to solids only; liquids and gases have no rigidity.",
+    "Poisson's ratio σ=-(Δ d/d)/(Δ L/L) is dimensionless, 0 for cork, about 0.3 for steel and 0.5 for rubber.",
+    "The three moduli are linked: Y=2G(1+σ) and Y=3K(1-2σ)."
+   ],
+   "terms": [
+    "Elasticity",
+    "Stress",
+    "Strain",
+    "Hooke's law"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5804,
+    "figures": 4,
+    "examples": 6
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 8,
@@ -330,15 +382,40 @@
     "Thermometers: liquid-in-glass, resistance and radiation thermometers — principle, advantages and limitations",
     "Conduction, convection and radiation; black-body radiation and the Stefan–Boltzmann law"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Thermal energy, heat and temperature; thermal equilibrium and the zeroth law"
+    },
+    {
+     "no": "8.2",
+     "title": "Thermometers"
+    },
+    {
+     "no": "8.3",
+     "title": "Conduction, convection and radiation; black-body radiation and the Stefan–Boltzmann law"
+    }
+   ],
+   "summary": [
+    "Temperature measures the average kinetic energy of molecules; thermal energy is the total internal energy (so it depends on mass); heat is energy in transit because of a temperature difference.",
+    "Two bodies in thermal contact reach the same temperature — thermal equilibrium — with no net heat flow. The zeroth law makes \"same temperature\" transitive and so makes thermometry possible.",
+    "T=θC+273 and θF=(9)/(5)θC+32; the scales agree at −40°; absolute zero is −273.15 °C.",
+    "Liquid-in-glass thermometers read the apparent expansion of the liquid; mercury covers −39 to 357 °C, alcohol −115 to 78 °C.",
+    "Resistance thermometers use R=R0(1+αθ) and are the most accurate over a wide range; thermocouples use the Seebeck emf and are small, fast and wide-ranging; pyrometers measure radiation without contact.",
+    "Conduction obeys H=kAΔθ/L; the temperature gradient is steepest in the poorer conductor, and thermal resistances L/kA add in series.",
+    "Convection is heat carried by a moving fluid; it needs gravity for the natural case.",
+    "Newton's law of cooling gives an exponential approach to the surroundings' temperature, with equal fractions of the excess lost in equal times."
+   ],
+   "terms": [
+    "Zeroth law of thermodynamics",
+    "Black body"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6268,
+    "figures": 4,
+    "examples": 4
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 9,
@@ -352,15 +429,48 @@
     "Heat capacity, specific heat capacity and the method of mixtures",
     "Latent heat of fusion and vaporization; the triple point"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Linear, superficial and cubical expansion and their relation"
+    },
+    {
+     "no": "9.2",
+     "title": "Real and apparent expansion of liquids"
+    },
+    {
+     "no": "9.3",
+     "title": "Heat capacity, specific heat capacity and the method of mixtures"
+    },
+    {
+     "no": "9.4",
+     "title": "Latent heat of fusion and vaporization; the triple point"
+    }
+   ],
+   "summary": [
+    "Δ L = LαΔ T, Δ A = AβΔ T, Δ V = VγΔ T, with β = 2α and γ = 3α for an isotropic solid. Area takes 2α, volume takes 3α — never the other way round.",
+    "A hole or a cavity in a heated plate grows by the same fraction as the metal itself; nothing shrinks on heating except water below 4 °C.",
+    "A clamped rod develops σ = YαΔ T, compressive on heating. A pendulum clock runs slow when hot, losing (1)/(2)αΔθ of its time.",
+    "A liquid's real expansion exceeds its apparent expansion by the vessel's: γr = γa + γv. The level in a warmed vessel first dips (the glass grows first) and then rises.",
+    "Water is densest at 4 °C; that is why ice floats, ponds freeze from the top, and pipes burst in a hard frost.",
+    "Q = mcΔ T raises temperature; Q = mL changes phase at constant temperature. Never use both for the same stage.",
+    "The calorimeter's water equivalent W = mccc/cw must be added to the water mass. Ignoring it makes the hot body's specific heat come out too low.",
+    "In an ice problem, first compare the heat available with mLf. If the ice cannot all melt, the final temperature is 0 °C with ice left over."
+   ],
+   "terms": [
+    "Coefficients of expansion",
+    "Apparent and real expansion",
+    "Heat capacity and specific heat capacity",
+    "Newton's law of cooling",
+    "Specific latent heat",
+    "Triple point"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 8478,
+    "figures": 4,
+    "examples": 7
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 10,
@@ -373,15 +483,40 @@
     "First law of thermodynamics: isothermal, adiabatic, isochoric and isobaric processes; molar heat capacities",
     "Second law of thermodynamics: internal-combustion engines, refrigerators and entropy"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Ideal-gas equation; kinetic theory: pressure, rms speed and energy of molecules"
+    },
+    {
+     "no": "10.2",
+     "title": "First law of thermodynamics: isothermal, adiabatic, isochoric and isobaric processes; molar heat capacities"
+    },
+    {
+     "no": "10.3",
+     "title": "Second law of thermodynamics: internal-combustion engines, refrigerators and entropy"
+    }
+   ],
+   "summary": [
+    "PV = nRT = NkT; R = NAk; P = ρ RT/M. Temperature must be in kelvin, and one mole of any gas occupies 22.4 L at STP.",
+    "Kinetic theory gives P = (1)/(3)ρ crms^2, hence crms = √3RT/M: at the same temperature the lighter gas is faster, and doubling crms needs four times the absolute temperature.",
+    "Average translational kinetic energy is (3)/(2)kT per molecule whatever the gas; the internal energy of an ideal gas depends only on T.",
+    "Degrees of freedom 3, 5, 6 give Cv = (f)/(2)R, Cp = Cv + R and γ = 1.67, 1.40, 1.33. Cp > Cv because the extra heat at constant pressure does work.",
+    "First law: Q = Δ U + W with W done by the gas; Δ U = nCvΔ T in every process.",
+    "Isothermal: Δ U = 0, Q = W = nRTln(V2/V1). Adiabatic: Q = 0, W = -Δ U, PV^γ constant, and the curve is γ times steeper. Isochoric: W = 0, all the heat goes to internal energy. Isobaric: W = nRΔ T, Q = nCpΔ T.",
+    "A cycle has Δ U = 0, so Qnet = Wnet = the area enclosed.",
+    "η = 1 - Q2/Q1 ≤ 1 - T2/T1, with kelvin temperatures; a real engine is always below the Carnot value."
+   ],
+   "terms": [
+    "The second law",
+    "Entropy"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7567,
+    "figures": 4,
+    "examples": 6
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 11,
@@ -396,15 +531,45 @@
     "Pressure amplitude, intensity and loudness, pitch and quality",
     "Doppler effect"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Progressive waves and the wave equation"
+    },
+    {
+     "no": "11.2",
+     "title": "Speed of sound in solids, liquids and gases"
+    },
+    {
+     "no": "11.3",
+     "title": "Stationary waves: harmonics and overtones in strings and pipes"
+    },
+    {
+     "no": "11.4",
+     "title": "Pressure amplitude, intensity and loudness, pitch and quality"
+    },
+    {
+     "no": "11.5",
+     "title": "Doppler effect"
+    }
+   ],
+   "summary": [
+    "A progressive wave is y = Asin(ω t - kx), with v = ω/k = fλ; the minus sign means it travels towards +x.",
+    "Particle velocity is vp = -vtimesslope of the profile, with maximum Aω — a completely different number from the wave speed.",
+    "Sound speed is set by stiffness and density: √Y/ρ in solids, √B/ρ in liquids, √γ P/ρ = √γ RT/M in gases. It rises with temperature, falls with molar mass, and does not change with pressure at constant temperature.",
+    "A string fixed at both ends and an open pipe give every harmonic, fn = nv/2L; a closed pipe gives odd harmonics only, fn = (2n-1)v/4L, and has half the fundamental of the open pipe of the same length.",
+    "End correction e = 0.3d per open end; the resonance tube removes it by using l2 - l1 = λ/2.",
+    "Beats: fb = |f1 - f2|, audible only for small differences; waxing a fork lowers its frequency, filing raises it.",
+    "Intensity is 2π^2ρ vf^2A^2, falls as 1/r^2, and converts to loudness by L = 10log(I/I0); +10 dB is ten times the intensity, +3 dB is two sources.",
+    "Doppler: f' = f(v ± vo)/(v mp vs) with the upper sign for approach; a source moving away lowers the pitch, and motion across the line of sight gives no shift."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 8298,
+    "figures": 5,
+    "examples": 7
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 12,
@@ -418,15 +583,41 @@
     "Lenses: lens formula, lens maker's formula, power and combinations",
     "Dispersion, chromatic aberration and achromatism"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Reflection at curved mirrors: mirror formula and magnification"
+    },
+    {
+     "no": "12.2",
+     "title": "Refraction at plane surfaces, critical angle and TIR; refraction through a prism"
+    },
+    {
+     "no": "12.3",
+     "title": "Lenses: lens formula, lens maker's formula, power and combinations"
+    },
+    {
+     "no": "12.4",
+     "title": "Dispersion, chromatic aberration and achromatism"
+    }
+   ],
+   "summary": [
+    "The Cartesian convention fixes everything: origin at the pole or optical centre, positive along the incident light; a real object has u<0, a concave mirror f<0, a convex lens f>0.",
+    "Mirror: (1)/(v)+(1)/(u)=(1)/(f) and m=-(v)/(u); R = 2f; a convex mirror is always virtual, erect and diminished.",
+    "Refraction: μ = c/v and μ1sin i = μ2sin r; frequency is unchanged at a boundary, wavelength and speed are not.",
+    "Apparent depth = d/μ; a slab shifts the ray sideways without changing its direction; sin C = 1/μ, and TIR needs dense-to-rare plus i>C.",
+    "Prism: A = r1+r2 and δ = i1+i2-A; at minimum deviation the ray is symmetrical and μ = sin((A+δm)/2)/sin(A/2); a thin prism gives δ = (μ-1)A.",
+    "Lens: (1)/(v)-(1)/(u)=(1)/(f), m=(v)/(u), (1)/(f)=(μ-1)(1/R1-1/R2), P = 1/f in dioptres.",
+    "In contact P = P1+P2; separated by d, P = P1+P2-dP1P2. A converging lens in water has a longer focal length — about four times longer for glass.",
+    "Dispersion: μ falls as λ rises, so violet bends most; ω measures the spread; a crown–flint doublet with ω1/f1+ω2/f2=0 is achromatic, and mirrors never show chromatic aberration."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7904,
+    "figures": 5,
+    "examples": 6
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 13,
@@ -439,15 +630,39 @@
     "Diffraction at a single slit and at a grating; resolving power of optical instruments",
     "Polarization and Brewster's law"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Coherent sources and the conditions for interference; Young's double-slit experiment"
+    },
+    {
+     "no": "13.2",
+     "title": "Diffraction at a single slit and at a grating; resolving power of optical instruments"
+    },
+    {
+     "no": "13.3",
+     "title": "Polarization and Brewster's law"
+    }
+   ],
+   "summary": [
+    "Interference is superposition of coherent waves; intensity is I1+I2+2√I1I2cosφ with φ = 2πΔ/λ. Equal sources give 4I0 bright and zero dark.",
+    "Bright fringes need Δ = nλ; dark fringes need Δ = (2n-1)λ/2. Optical path is μ times geometrical path.",
+    "Coherent beams are made by dividing a wavefront (double slit) or an amplitude (thin film). Two independent lamps never interfere.",
+    "Young's double slit: yn = nλ D/d for bright fringes and β = λ D/d for the spacing — independent of the order, proportional to λ and D, inversely proportional to d, and divided by μ in a liquid.",
+    "A slab of thickness t shifts the whole pattern by (μ-1)t/β fringes towards the covered slit without changing β.",
+    "In a thin film the reflected beams differ by 2μ tcos r + λ/2; in Newton's rings the reflected centre is dark and rn = √nλ R for dark rings.",
+    "Single slit: minima at asinθ = nλ, central maximum of width 2Dλ/a, twice the width of the secondary maxima.",
+    "Grating: (a+b)sinθ = nλ; highest order nmax = d/λ; the maxima are sharp because many slits contribute."
+   ],
+   "terms": [
+    "Coherent sources"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7700,
+    "figures": 4,
+    "examples": 9
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 14,
@@ -461,15 +676,44 @@
     "Wheatstone bridge, metre bridge and potentiometer; a galvanometer converted to an ammeter and a voltmeter",
     "Seebeck and Peltier effects; the thermocouple"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Ohm's law and Joule's law; resistance, resistivity, emf, potential difference, energy and power"
+    },
+    {
+     "no": "14.2",
+     "title": "Resistors in series and parallel; Kirchhoff's laws"
+    },
+    {
+     "no": "14.3",
+     "title": "Wheatstone bridge, metre bridge and potentiometer; a galvanometer converted to an ammeter and a voltmeter"
+    },
+    {
+     "no": "14.4",
+     "title": "Seebeck and Peltier effects; the thermocouple"
+    }
+   ],
+   "summary": [
+    "Current is the rate of flow of charge; I = nAevd with a drift speed of only about 10^-4 m s⁻¹, while the field that drives it travels at nearly light speed.",
+    "Ohm's law V = IR holds for metals at constant temperature; R = ρ L/A, and ρ = m/(ne^2τ) is a property of the material, unchanged by cutting or bending.",
+    "Metals have α > 0 (about 4×10^-3 K⁻¹), semiconductors α < 0, and alloys such as manganin α ≈ 0, which is why they make standard resistors.",
+    "A real cell gives V = E - Ir; the V–I graph has intercept E and slope -r, and the terminal voltage exceeds the emf only while the cell is being charged.",
+    "P = VI = I^2R = V^2/R; use I^2R in series and V^2/R in parallel; 1 kWh = 3.6×10^6 J, and the bill is (power in kW) × (hours) × (rate).",
+    "Series adds resistances and shares the current; parallel adds conductances and shares the voltage. Cells in series raise the emf, in parallel lower the internal resistance, and mixed rows do both with I = nE/(R + nr/m).",
+    "Kirchhoff: charge is conserved at a junction, energy round a loop. Fix a sign convention, solve, and check the power balance.",
+    "Wheatstone balance P/Q = R/S; metre bridge R = Sl/(100-l), most accurate with the balance near the middle; potentiometer E ∝ l, a null method that draws no current and so measures emf rather than terminal pd."
+   ],
+   "terms": [
+    "Ohm's law",
+    "Kirchhoff's laws"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7736,
+    "figures": 5,
+    "examples": 6
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 15,
@@ -482,15 +726,37 @@
     "Force on a moving charge and on a current-carrying conductor; torque on a coil; Hall effect",
     "Dia-, para- and ferromagnetism: domains, relative permeability, susceptibility and hysteresis"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Magnetic field of a straight conductor, a circular coil and a long solenoid"
+    },
+    {
+     "no": "15.2",
+     "title": "Force on a moving charge and on a current-carrying conductor; torque on a coil; Hall effect"
+    },
+    {
+     "no": "15.3",
+     "title": "Dia-, para- and ferromagnetism: domains, relative permeability, susceptibility and hysteresis"
+    }
+   ],
+   "summary": [
+    "A long straight wire gives B=μ0I/2π r, with circular field lines; two parallel wires with currents in the same direction attract, with F/L=μ0I1I2/2π d.",
+    "At the centre of a coil B=μ0NI/2R; on the axis B=μ0NIR^2/2(R^2+x^2)^3/2, which is 0.354 of the centre value at x=R and falls as 1/x^3 far away.",
+    "Inside a long solenoid B=μ0nI is uniform, outside it is nearly zero, and at the ends it is half the interior value.",
+    "The magnetic force F=qvBsinθ is perpendicular to vec v and does no work, so speed and kinetic energy stay constant; r=mv/qB and T=2π m/qB, independent of speed. A velocity component along vec B turns the circle into a helix of pitch v_∥ T.",
+    "A wire feels F=BILsinθ; a coil feels τ=NIABsinθ, maximum when its plane is parallel to the field. A radial field makes a galvanometer's deflection proportional to current.",
+    "The Hall voltage VH=BI/net is inversely proportional to thickness, independent of width, and its polarity reveals whether the carriers are positive or negative.",
+    "μr=1+chi. Diamagnets have a tiny negative chi and are repelled; paramagnets a tiny positive chi obeying chi=C/T and are attracted; ferromagnets have domains and a very large chi below the Curie point.",
+    "The hysteresis loop gives retentivity (residual B), coercivity (field to erase B) and, through its area, the energy lost per cycle. Soft iron's narrow loop suits transformer cores; steel's wide loop suits permanent magnets."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7270,
+    "figures": 4,
+    "examples": 7
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 16,
@@ -504,15 +770,44 @@
     "Peak and rms values; impedance, phase, power and Q-factor of LCR circuits",
     "Rectification with a diode bridge"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Faraday's and Lenz's laws; the AC generator, the transformer and eddy currents"
+    },
+    {
+     "no": "16.2",
+     "title": "Self and mutual inductance; energy stored in an inductor"
+    },
+    {
+     "no": "16.3",
+     "title": "Peak and rms values; impedance, phase, power and Q-factor of LCR circuits"
+    },
+    {
+     "no": "16.4",
+     "title": "Rectification with a diode bridge"
+    }
+   ],
+   "summary": [
+    "The flux through a coil is Phi=BAcosθ; the emf is the negative rate of change of flux linkage, varepsilon=-N dPhi/dt, and only a changing flux induces one.",
+    "Lenz's law says the induced current opposes the change in flux; that opposition is what makes the law a statement of energy conservation.",
+    "A rod moving across a field has varepsilon=Bvl; the magnetic drag is B^2l^2v/R and the mechanical power you supply equals the I^2R heat produced.",
+    "A coil rotating in a field gives varepsilon=NBAωsinω t; the peak emf is NBAω and it occurs when the flux through the coil is zero.",
+    "A transformer obeys Vs/Vp=Ns/Np=Ip/Is; it needs alternating current, cannot change the frequency, and loses energy to copper, eddy currents, hysteresis and leakage.",
+    "Self-inductance is NPhi=LI with varepsilon=-L dI/dt; a solenoid has L=μ0N^2A/l, and the stored energy is frac12LI^2, in the field with density B^2/2μ0.",
+    "Mutual inductance M couples two coils and is the basis of the transformer; M12=M21.",
+    "rms values are peak values divided by √2; the power is VrmsIrmscosφ, never V0I0cosφ."
+   ],
+   "terms": [
+    "Faraday's law of induction",
+    "Lenz's law"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7018,
+    "figures": 5,
+    "examples": 8
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 17,
@@ -525,15 +820,37 @@
     "Electric field of point charges; electric potential and potential energy; Gauss's law",
     "Capacitors: the parallel-plate capacitor, combinations, energy density and the effect of a dielectric"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Electric charge, electrostatic induction and Coulomb's law"
+    },
+    {
+     "no": "17.2",
+     "title": "Electric field, potential and Gauss's law"
+    },
+    {
+     "no": "17.3",
+     "title": "Capacitors"
+    }
+   ],
+   "summary": [
+    "Charge is quantised (q = ne), conserved, and additive as a scalar. One coulomb is 6.25×10^18 electronic charges.",
+    "Charging by conduction gives the same sign as the charging body; charging by induction gives the opposite sign, provided the earth is removed before the rod.",
+    "Coulomb's law: F = kq1q2/r^2 in vacuum, divided by K in a medium. Forces superpose as vectors, so the net force is found one charge at a time.",
+    "The null point of two like charges lies between them, nearer the smaller; for equilibrium of three charges the third is opposite in sign and fixed in magnitude.",
+    "Field lines leave positive charge, end on negative charge, never cross, and are perpendicular to conductors. E = 0 inside a conductor, but V is constant there, not zero.",
+    "V = kq/r is a scalar; U = qV; E = -dV/dr points downhill in potential.",
+    "Gauss's law gives the three standard fields: kQ/r^2 for a sphere, λ/(2πvarepsilon0r) for a line, σ/(2varepsilon0) for a sheet.",
+    "C = Q/V = varepsilon0A/d, multiplied by K with a dielectric; series adds reciprocals, parallel adds directly."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7538,
+    "figures": 4,
+    "examples": 4
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 18,
@@ -546,15 +863,39 @@
     "J. J. Thomson's experiment and Millikan's oil-drop experiment",
     "Photons and the photoelectric effect: laws and Einstein's equation"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Motion of an electron in electric and magnetic fields"
+    },
+    {
+     "no": "18.2",
+     "title": "J. J. Thomson's experiment and Millikan's oil-drop experiment"
+    },
+    {
+     "no": "18.3",
+     "title": "Photons and the photoelectric effect: laws and Einstein's equation"
+    }
+   ],
+   "summary": [
+    "An electron in a field along its velocity is accelerated: eV=(1)/(2)mv^2, so v∝√V.",
+    "In a transverse electric field the path is a parabola, y=eEx^2/(2mv^2); the oscilloscope deflection VdL^2/(4dVa) does not contain e/m, and it falls when the accelerating voltage rises.",
+    "In a magnetic field the path is a circle of radius r=mv/eB, traced at constant speed; the period 2π m/eB is the same for every speed. A velocity component along vec B turns the circle into a helix.",
+    "Thomson used crossed fields: balance gives v=E/B, and the radius in the magnetic field alone gives e/m=E/(B^2r)=1.76×10^11 C kg⁻¹. He measured a ratio, and its constancy proved electrons are in all matter.",
+    "Millikan held a charged drop stationary, so the drag vanished and qE=mg. Every charge was a whole multiple of e=1.60×10^-19 C: charge is quantised.",
+    "A photon has energy hf=hc/λ and momentum h/λ, zero rest mass and no charge. 1240/λ(nm) gives the energy in eV.",
+    "The photoelectric laws: a threshold frequency; Kmax set by frequency and metal only; current proportional to intensity; emission instantaneous. The wave theory fails the first, second and fourth.",
+    "Einstein: hf=φ+Kmax. Hence f0=φ/h, λ0=hc/φ, and eV0=hf-φ."
+   ],
+   "terms": [
+    "Work function"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7213,
+    "figures": 4,
+    "examples": 6
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 19,
@@ -567,15 +908,41 @@
     "de Broglie waves and the uncertainty principle",
     "X-rays: production, properties and uses; Bragg's law"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Bohr's theory of the hydrogen atom: energy levels and spectral series"
+    },
+    {
+     "no": "19.2",
+     "title": "de Broglie waves and the uncertainty principle"
+    },
+    {
+     "no": "19.3",
+     "title": "X-rays: production, properties and uses; Bragg's law"
+    }
+   ],
+   "summary": [
+    "Bohr kept the nuclear atom and added stationary states, mvr = nh/2π, and photon emission on a jump, hf = E2 - E1.",
+    "For hydrogen rn = 0.529n^2 Å, vn = 2.19×10^6/n m s⁻¹ and En = -13.6/n^2 eV; the ground state is bound by 13.6 eV.",
+    "A downward jump n2 → n1 emits 1/λ = R(1/n1^2 - 1/n2^2); each n1 names a series.",
+    "Lyman ends on n = 1 and is ultraviolet; Balmer ends on n = 2 and is the only visible series; Paschen, Brackett and Pfund are infrared.",
+    "The number of lines from level n is n(n-1)/2; lines crowd to a series limit.",
+    "de Broglie: λ = h/p; an electron at 100 V has λ ≈ 1.2 Å, small enough to diffract from crystals, which is the evidence for matter waves.",
+    "Δ xΔ p ≥ h/4π: confinement increases momentum spread, which is why electrons cannot live in nuclei and why atomic orbits are not sharp paths.",
+    "X-rays come from a Coolidge tube: thermionic electrons accelerated onto a heavy target; over 99 % of the energy becomes heat."
+   ],
+   "terms": [
+    "Bohr's postulates",
+    "Uncertainty principle",
+    "Bragg's law"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5912,
+    "figures": 3,
+    "examples": 5
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 20,
@@ -589,15 +956,41 @@
     "Radioactivity: alpha, beta and gamma rays; the decay law, half-life and mean life; carbon dating",
     "Medical uses of nuclear radiation and its health hazards"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "The nucleus: charge, size, mass and density; mass defect, binding energy and E = mc²"
+    },
+    {
+     "no": "20.2",
+     "title": "Nuclear fission and fusion"
+    },
+    {
+     "no": "20.3",
+     "title": "Radioactivity: alpha, beta and gamma rays; the decay law, half-life and mean life; carbon dating"
+    },
+    {
+     "no": "20.4",
+     "title": "Medical uses of nuclear radiation and its health hazards"
+    }
+   ],
+   "summary": [
+    "The nucleus has Z protons and A-Z neutrons; R = R0A^1/3, so volume ∝ A and density is the same for all nuclei (2.3×10^17 kg m⁻³).",
+    "A nucleus is lighter than its parts by Δ m; the missing mass is the binding energy, Eb = Δ m c^2, with 1 u = 931.5 MeV.",
+    "Binding energy per nucleon peaks near iron-56 at 8.8 MeV. Fusion of light nuclei and fission of heavy nuclei both move nuclei up this curve and release energy.",
+    "Fission: a heavy nucleus splits into two mid-mass fragments plus neutrons, releasing about 200 MeV; a chain reaction needs a critical mass.",
+    "Fusion: light nuclei join, releasing energy; it needs about 10^7 K to overcome the Coulomb barrier, and powers the Sun.",
+    "Alpha is a helium nucleus (A-4, Z-2), beta is an electron or positron (Z±1), gamma is a photon (no change). Alpha ionises most and penetrates least; gamma is the reverse.",
+    "N = N0e^-λ t, T1/2 = 0.693/λ, τ = 1/λ; after n half-lives a fraction 2^-n remains. Half-life is unaffected by temperature or chemical state.",
+    "Activity A = λ N, measured in becquerels; 1 Ci = 3.7×10^10 Bq."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6000,
+    "figures": 3,
+    "examples": 4
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 21,
@@ -610,15 +1003,37 @@
     "The p–n junction diode, its biasing and its use as a rectifier",
     "Logic gates: AND, OR, NOT, NAND and NOR"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "Energy bands in metals, semiconductors and insulators; intrinsic and extrinsic semiconductors"
+    },
+    {
+     "no": "21.2",
+     "title": "The p–n junction diode, its biasing and its use as a rectifier"
+    },
+    {
+     "no": "21.3",
+     "title": "Logic gates: AND, OR, NOT, NAND and NOR"
+    }
+   ],
+   "summary": [
+    "In a solid the atomic levels broaden into bands; the valence band is full, the conduction band is where moving electrons live, and the gap between them decides the class of the solid.",
+    "Metals have no gap (or overlapping bands) and their resistance rises with temperature; semiconductors have Eg of about 1 eV and their resistance falls; insulators have Eg>3 eV.",
+    "In an intrinsic semiconductor ne=nh=ni, and conduction is by electron–hole pairs created by thermal energy.",
+    "A pentavalent donor makes an n-type crystal (electrons majority); a trivalent acceptor makes a p-type crystal (holes majority). The crystal stays neutral, and nenh=ni^2.",
+    "At a p–n junction, diffusion and recombination leave a depletion layer of fixed ions and a barrier of 0.7 V (Si) or 0.3 V (Ge).",
+    "Forward bias narrows the depletion layer and lowers the barrier; reverse bias widens it and raises it. The reverse current is a small minority-carrier drift, not zero, and a diode's resistance is not constant.",
+    "A diode rectifies: one diode gives half-wave output at f with average 0.318V0; two or four give full-wave output at 2f with average 0.637V0.",
+    "AND gives 1 only for 11; OR gives 1 for any 1; NOT inverts; NAND is the negation of AND; NOR the negation of OR."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5828,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 22,
@@ -631,18 +1046,40 @@
     "Nanotechnology",
     "The Big Bang theory and Hubble's law"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "22.1",
+     "title": "Particles and antiparticles; leptons and quarks; the Higgs boson"
+    },
+    {
+     "no": "22.2",
+     "title": "Nanotechnology"
+    },
+    {
+     "no": "22.3",
+     "title": "The Big Bang theory and Hubble's law"
+    }
+   ],
+   "summary": [
+    "The Standard Model has six quarks and six leptons, in three generations, each with an antiparticle of the same mass and opposite charge.",
+    "Quarks are confined: only combinations are seen. Baryons are three quarks (p=uud, n=udd); mesons are a quark–antiquark pair (π^+=ubar d).",
+    "The four interactions are strong (gluon), electromagnetic (photon), weak (W, Z) and gravitational (graviton, not yet observed), with strengths in the approximate ratio 1:10^-2:10^-6:10^-38 and ranges from 10^-18 m to infinity.",
+    "The Higgs boson (about 125 GeV/c^2, found at CERN in 2012) is the quantum of the field that gives mass to fundamental particles — not to the photon or gluon, and not most of the mass of a proton.",
+    "Nanotechnology works at 1–100 nm, where the surface-to-volume ratio is large and quantum effects set in; real uses include drug delivery, water treatment, coatings and nanoscale transistors.",
+    "The Big Bang is supported by the expansion, the 2.725 K CMB and the abundances of the light elements.",
+    "Redshift z=Δλ/λ, with v≈ cz for small z; Hubble's law v=H0d with H0≈70 km s⁻¹ Mpc⁻¹.",
+    "1/H0≈14 Gyr is a rough age; the accepted age is 13.8 Gyr, and the expansion has no centre."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5206,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   }
  ],
  "unit_count": 22,
  "topic_count": 77,
- "notes_ready": 5
+ "notes_ready": 22
 }

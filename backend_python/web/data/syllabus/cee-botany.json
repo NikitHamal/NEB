@@ -63,9 +63,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7275,
+    "words": 7602,
     "figures": 2,
-    "examples": 0
+    "examples": 3
    },
    "has_notes": true
   },
@@ -106,9 +106,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5782,
-    "figures": 3,
-    "examples": 0
+    "words": 6050,
+    "figures": 2,
+    "examples": 3
    },
    "has_notes": true
   },
@@ -149,9 +149,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5294,
+    "words": 5563,
     "figures": 2,
-    "examples": 0
+    "examples": 3
    },
    "has_notes": true
   },
@@ -192,9 +192,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5457,
+    "words": 5734,
     "figures": 3,
-    "examples": 0
+    "examples": 3
    },
    "has_notes": true
   },
@@ -240,9 +240,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7541,
+    "words": 7768,
     "figures": 2,
-    "examples": 0
+    "examples": 3
    },
    "has_notes": true
   },
@@ -258,15 +258,41 @@
     "Forest types of Nepal; biological invasion",
     "Ecological succession: hydrosere and xerosere; ecological adaptation"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Pond and forest ecosystems: structure and function"
+    },
+    {
+     "no": "6.2",
+     "title": "Carbon and nitrogen cycles; greenhouse effect, acid rain, ozone depletion and climate change"
+    },
+    {
+     "no": "6.3",
+     "title": "Forest types of Nepal; biological invasion"
+    },
+    {
+     "no": "6.4",
+     "title": "Ecological succession: hydrosere and xerosere; ecological adaptation"
+    }
+   ],
+   "summary": [
+    "An ecosystem has a structure (abiotic factors plus producers, consumers and decomposers) and a function (productivity, decomposition, energy flow, nutrient cycling).",
+    "A pond is zoned into littoral, limnetic, profundal and benthic; a forest is layered from canopy to litter.",
+    "Energy flow is unidirectional and follows Lindeman's 10 % law, so food chains are short; the energy pyramid is always upright while number and biomass pyramids can invert.",
+    "Decomposers work at every trophic level and form a detrital pathway, not the apex of the pyramid.",
+    "The six interactions: mutualism (+ +), commensalism (+ 0), parasitism (+ −), predation (+ −), competition (− −), amensalism (0 −).",
+    "In the nitrogen cycle Rhizobium, Azotobacter, Clostridium and Anabaena fix N₂; Nitrosomonas makes nitrite; Nitrobacter makes nitrate; Pseudomonas and Clostridium denitrify.",
+    "Greenhouse gases absorb outgoing infrared; doubling CO₂ forces the climate by 3.71 W m⁻². Acid rain (pH below 5) comes from SO₂ and NOₓ; ozone loss is a chlorine-catalysed chain started by CFCs.",
+    "Nepal runs from tropical sal below 1 000 m through subtropical chir pine, temperate oak and subalpine fir to alpine cushion plants; the four named invaders are Lantana, Mikania, water hyacinth and Parthenium."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 8433,
+    "figures": 5,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 7,
@@ -279,15 +305,37 @@
     "Cell wall, cell membrane, mitochondria, chloroplasts, endoplasmic reticulum, Golgi body, lysosomes, ribosomes, nucleus, chromosomes, cilia, flagella and cell inclusions",
     "The cell cycle; amitosis, mitosis and meiosis and their significance"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Prokaryotic and eukaryotic cells; the cell theory"
+    },
+    {
+     "no": "7.2",
+     "title": "The cell wall, the membrane and the organelles"
+    },
+    {
+     "no": "7.3",
+     "title": "The cell cycle; amitosis, mitosis and meiosis"
+    }
+   ],
+   "summary": [
+    "The cell theory (Schleiden 1838, Schwann 1839, Virchow 1855) has exceptions: viruses are acellular and coenocytic hyphae are multinucleate without cross walls.",
+    "Prokaryotes have no nucleus or membrane-bound organelles, 70S ribosomes, a peptidoglycan wall and binary fission; eukaryotes have a nucleus, 80S cytoplasmic ribosomes and mitosis.",
+    "The plant wall is middle lamella (calcium pectate), primary wall (cellulose) and secondary wall (cellulose plus lignin); plasmodesmata connect neighbouring cells.",
+    "The plasma membrane is a fluid mosaic of phospholipid bilayer and proteins (Singer and Nicolson, 1972), selectively permeable.",
+    "Mitochondria (cristae) and chloroplasts (grana, thylakoids, stroma) are double-membraned and semi-autonomous, with their own DNA and 70S ribosomes; chlorophyll sits in the thylakoid membrane.",
+    "Lysosomes are single-membraned bags of acid hydrolases — the \"suicidal bags\"; the Golgi packages and secretes and forms the cell plate.",
+    "Chromatin is DNA wound round histone octamers into nucleosomes; a replicated chromosome has two chromatids joined at the centromere, with telomeres at the ends.",
+    "Eukaryotic cilia and flagella are 9+2 microtubules moved by dynein and ATP; bacterial flagella are flagellin and rotate."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7344,
+    "figures": 5,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 8,
@@ -299,15 +347,33 @@
     "Composition, structure and functions of DNA and RNA",
     "DNA replication; the central dogma; the genetic code"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Composition, structure and functions of DNA and RNA"
+    },
+    {
+     "no": "8.2",
+     "title": "DNA replication; the central dogma; the genetic code"
+    }
+   ],
+   "summary": [
+    "Griffith showed that a heat-killed virulent pneumococcus could transform a live avirulent one; Avery's group proved with DNase that the principle is DNA; Hershey and Chase proved with ³²P and ³⁵S that DNA, not protein, enters the bacterium.",
+    "A nucleotide is phosphate + pentose + base; purines (A, G) have two rings and pyrimidines (C, T, U) one; nucleotides are joined by phosphodiester bonds into a 5′ → 3′ chain.",
+    "The Watson–Crick helix is right-handed and antiparallel, 2 nm wide, 3.4 nm per turn, 10 bp per turn and 0.34 nm per base pair, with A=T (2 hydrogen bonds) and G≡C (3 hydrogen bonds) — so GC-rich DNA is more stable.",
+    "Chargaff: A = T, G = C, so purines = pyrimidines; one given percentage fixes the other three.",
+    "mRNA carries codons, tRNA is the cloverleaf adaptor with an anticodon and a CCA-3′ amino-acid end, and rRNA is the most abundant RNA and the catalyst that forms peptide bonds.",
+    "Replication is semi-conservative: Meselson and Stahl's ¹⁵N experiment gave one hybrid band after one division and equal hybrid and light bands after two.",
+    "Helicase unwinds, primase primes, DNA polymerase III extends 5′ → 3′, DNA polymerase I replaces the primer and ligase seals the nicks; the leading strand is continuous and the lagging strand is a series of Okazaki fragments.",
+    "Transcription copies one gene with RNA polymerase and needs no primer; the central dogma is DNA → RNA → protein, with reverse transcription as the exception."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7829,
+    "figures": 5,
+    "examples": 5
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 9,
@@ -322,15 +388,48 @@
     "Gene and chromosomal mutations; polyploidy",
     "Down's, Turner's, Edwards' and Klinefelter's syndromes; albinism; haemophilia"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Mendelian terminology and laws; incomplete dominance and co-dominance"
+    },
+    {
+     "no": "9.2",
+     "title": "Linkage (complete and incomplete) and crossing over"
+    },
+    {
+     "no": "9.3",
+     "title": "Sex-linked inheritance: colour blindness in humans, eye colour in Drosophila"
+    },
+    {
+     "no": "9.4",
+     "title": "Gene and chromosomal mutations; polyploidy"
+    },
+    {
+     "no": "9.5",
+     "title": "Down's, Turner's, Edwards' and Klinefelter's syndromes; albinism; haemophilia"
+    }
+   ],
+   "summary": [
+    "Mendel's pea crosses gave genetics its language (allele, dominant, genotype) and its first two laws: dominance, and segregation — alleles part into gametes unaltered, which meiosis I explains physically.",
+    "The signature ratios flow from gamete combinations: 3 : 1 and 9 : 3 : 3 : 1 in F₂, and test-cross ratios that print out the gametes of the heterozygote directly.",
+    "Incomplete dominance (pink Mirabilis, 1 : 2 : 1) and co-dominance (AB blood group) modify expression, never segregation — pure types reappear in F₂.",
+    "Genes on one chromosome are linked; their recombination frequency (test-cross minority classes) measures distance in centimorgans, capped at 50%.",
+    "Sex-linked recessives (colour blindness, haemophilia, white eye in Drosophila) hit hemizygous males, travel criss-cross through carrier females, and betray themselves by unequal reciprocal crosses.",
+    "Mutations change bases (substitutions, frameshifts), chromosome structure, or chromosome number; non-disjunction produces the aneuploid syndromes.",
+    "Polyploidy multiplies whole sets: triploids are sterile (seedless fruit), doubled hybrids are fertile new species (bread wheat, Triticale).",
+    "Count the karyotype to name the syndrome: 45,XO Turner (female), 47,XXY Klinefelter (male), +21 Down, +18 Edwards; albinism is autosomal recessive (no tyrosinase), haemophilia X-linked recessive (no factor VIII)."
+   ],
+   "terms": [
+    "The words you must use correctly",
+    "Law of dominance and law of segregation"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5714,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 10,
@@ -343,15 +442,36 @@
     "Types of vascular bundles",
     "T.S. of monocot and dicot root, stem and leaf"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Plant tissues: characters, classification, structure and functions"
+    },
+    {
+     "no": "10.2",
+     "title": "Types of vascular bundles"
+    },
+    {
+     "no": "10.3",
+     "title": "T.S. of monocot and dicot root, stem and leaf"
+    }
+   ],
+   "summary": [
+    "Tissues are meristematic (still dividing: apical, intercalary and lateral; primary and, by dedifferentiation, secondary) or permanent (simple and complex).",
+    "Parenchyma packs and stores (aerenchyma in hydrophytes), living pectin-rich collenchyma supports growing organs flexibly, and dead lignified sclerenchyma (fibres and stone cells) supports finished ones rigidly.",
+    "Xylem moves water up through dead tracheids and vessels, its parenchyma alone alive; phloem moves food through enucleate sieve tubes serviced by companion cells, with bast fibres for strength.",
+    "Bundle names encode geometry: radial in roots; collateral and bicollateral conjoint bundles in stems; concentric amphivasal (xylem out) and amphicribral (phloem out); open bundles carry cambium, closed do not.",
+    "Roots show epiblema with hairs, a Casparian-striped endodermis with passage cells, pericycle that births lateral roots, and exarch radial groups — few and pith-less in dicots, polyarch with a big pith in monocots.",
+    "Dicot stems ring their open bundles round a pith (ready for secondary growth); monocot stems scatter closed, sheathed bundles with a lysigenous cavity through undifferentiated ground tissue.",
+    "Dorsiventral dicot leaves split mesophyll into palisade and spongy layers and hide stomata below; isobilateral grass leaves keep mesophyll uniform, bear stomata and dumb-bell guard cells on both faces, and roll up by their bulliform cells."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 4793,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 11,
@@ -364,15 +484,36 @@
     "Osmotic pressure and potential, water potential, wall pressure and turgor pressure",
     "Absorption, imbibition, ascent of sap, transpiration, guttation and wilting"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Diffusion, diffusion pressure deficit, osmosis and plasmolysis"
+    },
+    {
+     "no": "11.2",
+     "title": "Osmotic pressure and potential, water potential, wall pressure and turgor pressure"
+    },
+    {
+     "no": "11.3",
+     "title": "Absorption, imbibition, ascent of sap, transpiration, guttation and wilting"
+    }
+   ],
+   "summary": [
+    "Diffusion needs no membrane; osmosis is water diffusing across a selectively permeable one; plasmolysis (reversible) demonstrates both the membrane's selectivity and the cell sap's osmotic strength.",
+    "Water potential Ψw = Ψs + Ψp rules every movement: pure water is zero, all else negative, and water runs from less negative to more negative; van't Hoff's Ψs = −imRT sizes any solution.",
+    "The older DPD = OP − TP is the same physics with flipped signs (Ψw = −DPD): fully turgid means DPD zero; flaccid means DPD = OP.",
+    "Roots absorb through root hairs by apoplast, symplast and aquaporin routes, with the Casparian strip as the membrane checkpoint; imbibition by colloids (protein strongest) starts germination.",
+    "Root pressure (≈0.1–0.2 MPa) is too feeble and too nocturnal to lift sap; the sun does it instead — transpiration tension dragging a cohesive, adhesive water column from soil to air (Dixon and Joly), with xylem under negative pressure.",
+    "Transpiration is mostly stomatal, opened by potassium influx and closed by ABA, driven by vapour pressure deficit and measured with a potometer.",
+    "Liquid water forced out of hydathodes by root pressure is guttation (not dew, not bleeding), and loss of turgor shows as wilting — temporary at midday, permanent below the soil's wilting point of about −1.5 MPa."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 4674,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 12,
@@ -385,15 +526,37 @@
     "Calvin cycle (C3), Hatch–Slack pathway (C4) and photorespiration; factors; bacterial photosynthesis",
     "Aerobic and anaerobic respiration: glycolysis, oxidative decarboxylation, Krebs cycle, electron transport and oxidative phosphorylation; factors"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Photosynthetic pigments; photosystems I and II; the light reactions"
+    },
+    {
+     "no": "12.2",
+     "title": "Calvin cycle (C3), Hatch–Slack pathway (C4) and photorespiration; factors; bacterial photosynthesis"
+    },
+    {
+     "no": "12.3",
+     "title": "Aerobic and anaerobic respiration: glycolysis, oxidative decarboxylation, Krebs cycle, electron transport and oxidative phosphorylation; factors"
+    }
+   ],
+   "summary": [
+    "Chlorophyll a (Mg-centred) alone converts light energy; accessory pigments widen the catch and protect the reaction centres P680 (PS II, acting first) and P700 (PS I).",
+    "The Z-scheme drags electrons from water (photolysis at the Mn₄CaO₅ complex, O₂ and protons into the lumen) to NADP⁺, minting ATP chemiosmotically on the way; cyclic flow around PS I adds ATP only, balancing the 3 : 2 budget.",
+    "The stromal Calvin cycle carboxylates RuBP via RuBisCO into 3-PGA and, at 3 ATP + 2 NADPH per CO₂, builds glucose for 18 ATP + 12 NADPH.",
+    "Photorespiration — RuBisCO fixing O₂ — wastes carbon through a three-organelle salvage loop; C4 plants suppress it spatially (Kranz anatomy, PEP carboxylase pump, 5 ATP per CO₂) and CAM plants temporally.",
+    "Blackman's limiting-factor law and the two compensation points govern how light, CO₂ (now 0.043%), temperature and water set the photosynthetic rate; bacteria photosynthesise with H₂S and release no O₂.",
+    "Glycolysis (cytoplasm) nets 2 ATP + 2 NADH; the link reaction and Krebs cycle (matrix) strip the six carbons out as CO₂, loading 10 NADH and 2 FADH₂ in all.",
+    "The cristae electron-transport chain, ending at oxygen, converts those carriers into most of the modern 30–32 ATP per glucose (38 classically).",
+    "Without oxygen, fermentation merely regenerates NAD⁺ for glycolysis's 2 ATP (Pasteur effect), and the RQ — 1.0, 0.7, 0.82, above 1 — reports the substrate being burned."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5362,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 13,
@@ -405,15 +568,31 @@
     "Auxins, gibberellins and cytokinins: roles and applications",
     "Seed germination and its types; seed dormancy"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Auxins, gibberellins and cytokinins: roles and applications"
+    },
+    {
+     "no": "13.2",
+     "title": "Seed germination and its types; seed dormancy"
+    }
+   ],
+   "summary": [
+    "Auxin (IAA) was hunted down through the Darwin–Boysen-Jensen–Paál–Went experiments; it elongates cells, enforces apical dominance, roots cuttings and, as 2,4-D, selectively kills dicot weeds — always with a bell-shaped, tissue-specific dose response.",
+    "Gibberellins, discovered through the bakanae fungus, elongate internodes (curing genetic dwarfs), bolt rosettes, break dormancy and order the aleurone to make α-amylase.",
+    "Cytokinins (kinetin, then natural zeatin from maize) drive cell division with auxin, free lateral buds, and delay senescence; the auxin : cytokinin ratio steers tissue culture between roots, shoots and callus.",
+    "Germination begins with imbibition, is powered by aerobic respiration, and is fed when embryo gibberellin switches on the aleurone; the radicle leads the way out.",
+    "Hypocotyl growth lifts the cotyledons in epigeal species (bean, castor), epicotyl growth leaves them buried in hypogeal ones (pea, maize), and mangroves skip the wait by vivipary.",
+    "Dormant seeds refuse even perfect conditions because of impermeable coats, unfinished embryos or ABA-based inhibition; scarification, stratification, light, gibberellin and leaching remove the blocks nature uses to time germination."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 4410,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 14,
@@ -427,15 +606,42 @@
     "Pollination and fertilization",
     "Monocot and dicot embryos; types and functions of endosperm"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Asexual reproduction"
+    },
+    {
+     "no": "14.2",
+     "title": "Sporogenesis and gametogenesis in angiosperms"
+    },
+    {
+     "no": "14.3",
+     "title": "Pollination and fertilization"
+    },
+    {
+     "no": "14.4",
+     "title": "Monocot and dicot embryos; types and functions of endosperm"
+    }
+   ],
+   "summary": [
+    "Plants clone themselves by rhizomes, tubers, bulbs, runners, leaf buds and even apomictic seed — fast and faithful, but variation-free; growers exploit the same tricks by cutting, layering and grafting.",
+    "The anther's tapetum feeds microspores produced four-at-a-time by PMC meiosis; each becomes a sporopollenin-armoured pollen grain carrying a tube cell and a generative cell (source of the two gametes).",
+    "The ovule's single functional megaspore builds, by three mitoses, the 7-celled, 8-nucleate Polygonum embryo sac — egg apparatus, central cell with two polar nuclei, three antipodals.",
+    "Pollination spans autogamy to xenogamy on wind, water, insects, birds and bats, with cleistogamy guaranteeing selfing and dicliny, dichogamy, herkogamy, heterostyly and self-incompatibility enforcing crossing.",
+    "Double fertilization — syngamy making the 2n zygote, triple fusion the 3n endosperm — is unique to angiosperms and economical: food tissue is made only when an embryo exists.",
+    "The dicot embryo (suspensor, two cotyledons, terminal plumule) contrasts with the monocot's scutellum, coleoptile and coleorhiza.",
+    "Endosperm develops by nuclear, cellular or helobial patterns and may persist (albuminous seeds, with aleurone in cereals) or be absorbed into the cotyledons (exalbuminous); perisperm is persistent 2n nucellus, not endosperm."
+   ],
+   "terms": [
+    "Double fertilization"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 4537,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 15,
@@ -448,18 +654,40 @@
     "Genetic engineering: concept and applications",
     "Biofertilizers, green manures, plant breeding, bio-engineering, food safety and security"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Plant tissue culture: concept, types and applications"
+    },
+    {
+     "no": "15.2",
+     "title": "Genetic engineering: concept and applications"
+    },
+    {
+     "no": "15.3",
+     "title": "Biofertilizers, green manures, plant breeding, bio-engineering, food safety and security"
+    }
+   ],
+   "summary": [
+    "Tissue culture milks totipotency on MS medium: sterilised explants pass through callus to shoots (cytokinin) and roots (auxin), then hardening — the engine of micropropagation and the finishing step of all plant genetic engineering.",
+    "Specialised cultures earn their keep: meristems for virus-free stock, anthers for haploids and instant pure lines, rescued embryos for wide crosses, fused protoplasts for somatic hybrids, liquid nitrogen for germplasm.",
+    "Genetic engineering cuts with restriction enzymes, glues with ligase, ferries genes on plasmid or Ti vectors, selects on markers, and amplifies DNA with PCR; its products range from Humulin and Flavr Savr to Bt crops and Golden Rice, under Cartagena-style biosafety rules (and no registered GM cultivation in Nepal).",
+    "Plant breeding improves crops by introduction, selection, hybridisation, mutation and polyploidy — trading variation for uniformity carefully, using backcrosses for single resistance genes and heterosis for yield.",
+    "Biofertilizers inoculate the soil with nitrogen fixers, phosphate solubilisers and mycorrhiza; green manures sacrifice a legume crop to feed the next one.",
+    "Bio-engineering runs biology at industrial scale — fermenters, biogas, bioremediation — while food safety (hazard control: HACCP, DFTQC) and food security (FAO's four pillars of access) frame why all of it matters."
+   ],
+   "terms": [
+    "Plant tissue culture"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5123,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   }
  ],
  "unit_count": 15,
  "topic_count": 48,
- "notes_ready": 5
+ "notes_ready": 15
 }

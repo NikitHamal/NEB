@@ -162,9 +162,9 @@
     "Electronegativity"
    ],
    "stats": {
-    "words": 5558,
+    "words": 5623,
     "figures": 2,
-    "examples": 2
+    "examples": 3
    },
    "has_notes": true
   },
@@ -255,7 +255,7 @@
    ],
    "stats": {
     "words": 4613,
-    "figures": 1,
+    "figures": 2,
     "examples": 4
    },
    "has_notes": true
@@ -327,15 +327,54 @@
     "Ionic product of water, pH, pOH, pKa and pKb; common-ion effect; solubility product",
     "Acidic and basic buffers; types of salts and their hydrolysis"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Physical and chemical equilibrium; law of mass action; Kc, Kp and Q"
+    },
+    {
+     "no": "7.2",
+     "title": "Le Chatelier's principle and its applications"
+    },
+    {
+     "no": "7.3",
+     "title": "Arrhenius, Brønsted–Lowry and Lewis acids and bases; Ostwald's dilution law"
+    },
+    {
+     "no": "7.4",
+     "title": "Ionic product of water, pH, pOH, pKa, pKb; common-ion effect; solubility product"
+    },
+    {
+     "no": "7.5",
+     "title": "Acidic and basic buffers; types of salts and their hydrolysis"
+    }
+   ],
+   "summary": [
+    "At dynamic equilibrium the forward and reverse rates are equal and concentrations are constant, but both reactions continue; a catalyst only shortens the time taken to get there.",
+    "Kc and Kp take products over reactants with each concentration raised to its coefficient; pure solids and pure liquids are omitted because their concentrations are constant.",
+    "Kp = Kc(RT)^Δ n. When Δ n = 0 the two are equal and both are dimensionless; when Δ n = -2, Kc carries L² mol⁻² and Kp atm⁻².",
+    "Q is the same ratio at any moment: Q < K shifts forward, Q > K shifts backward. Only temperature changes K; pressure shifts the position only if Δ n ≠ 0.",
+    "Le Chatelier: added reactant, removed product, higher pressure (towards fewer gas moles) and lower temperature (for an exothermic reaction) all push the equilibrium forward. Haber, contact and Ostwald each use a compromise temperature of roughly 700–800 K for rate, with pressure chosen from Δ n.",
+    "Arrhenius: H⁺/OH⁻ in water. Brønsted–Lowry: proton donor/acceptor, with conjugate pairs differing by one H⁺. Lewis: electron-pair acceptor/donor. Amphiprotic species (H₂O, HCO₃⁻) can act either way.",
+    "Ostwald's dilution law gives α = √Ka/C: dilution raises the fraction dissociated but lowers [H^+] = √KaC.",
+    "Kw = 10^-14 at 25 °C, pH + pOH = 14, pKa + pKb = 14. Neutral is pH 7 only at 25 °C."
+   ],
+   "terms": [
+    "Dynamic equilibrium",
+    "Law of mass action (Guldberg and Waage, 1864)",
+    "Le Chatelier's principle (1884)",
+    "Brønsted–Lowry acid and base",
+    "Degree of dissociation",
+    "Common-ion effect",
+    "Solubility product",
+    "Buffer"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 9408,
+    "figures": 4,
+    "examples": 10
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 8,
@@ -347,15 +386,39 @@
     "Equivalent weight; concentration as percentage, g/L, normality, molarity, molality, formality, ppm, ppb and mole fraction",
     "Primary and secondary standards; the law of equivalence and the normality equation"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Equivalent weight and every concentration unit"
+    },
+    {
+     "no": "8.2",
+     "title": "Primary and secondary standards; the law of equivalence"
+    }
+   ],
+   "summary": [
+    "Volumetric analysis measures the volume of a standard solution needed to react completely with a measured volume of analyte; the end point is the indicator's approximation to the equivalence point.",
+    "Equivalent weight E = M/n; the n-factor is the basicity of an acid, the acidity of a base, the cation charge of a salt, or the electron change of an oxidant or reductant.",
+    "KMnO₄ has three equivalent weights because it is reduced to Mn²⁺ (n = 5), MnO₂ (n = 3) or MnO₄²⁻ (n = 1); K₂Cr₂O₇ is always n = 6.",
+    "Molarity is per litre of solution and changes with temperature; molality is per kilogram of solvent and does not. Normality = molarity × n-factor.",
+    "M = 10 × %w/w × d / MB is the only conversion that needs the density; ppm and ppb are mass ratios, and mole fractions sum to 1.",
+    "Dilution conserves moles: M1V1 = M2V2.",
+    "A primary standard is pure, stable, non-hygroscopic, soluble, fast-reacting and of high molar mass; NaOH, HCl, KMnO₄, Na₂S₂O₃ and I₂ are secondary standards and must be standardised.",
+    "At the equivalence point N1V1 = N2V2, and equivalents can be counted as NV, mass/E, or n-factor × moles."
+   ],
+   "terms": [
+    "Volumetric analysis",
+    "Equivalent weight",
+    "Primary standard",
+    "Secondary standard",
+    "Law of equivalence"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6053,
+    "figures": 3,
+    "examples": 8
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 9,
@@ -368,15 +431,43 @@
     "Integrated rate laws and half-lives of zero- and first-order reactions",
     "Collision theory, activation and threshold energy, the activated complex; factors affecting rate; homogeneous, heterogeneous and enzyme catalysis"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Rate of reaction, rate expressions, the rate constant and its units; order and molecularity"
+    },
+    {
+     "no": "9.2",
+     "title": "Integrated rate laws and half-lives of zero- and first-order reactions"
+    },
+    {
+     "no": "9.3",
+     "title": "Collision theory, activation and threshold energy, the activated complex; factors affecting rate; catalysis"
+    }
+   ],
+   "summary": [
+    "Rate is positive: for a reactant rate = -(1/a)d[R]/dt; the coefficient of every species must be included. Average rate is a chord, instantaneous rate a tangent.",
+    "The rate law is experimental; order is the sum of the exponents and may be 0, fractional or negative, while molecularity is a theoretical whole number for one step.",
+    "Units of k: mol L⁻¹ s⁻¹ (0), s⁻¹ (1), L mol⁻¹ s⁻¹ (2), L² mol⁻² s⁻¹ (3).",
+    "Zero order: [A] = [A]0 - kt, t1/2 = [A]0/2k (doubles when [A]0 doubles), and the reaction finishes at [A]0/k.",
+    "First order: ln([A]0/[A]) = kt, [A] = [A]0e^-kt, t1/2 = 0.693/k — independent of [A]0; n half-lives leave (1/2)^n.",
+    "A straight ln[A]–t plot (slope -k) is the test for first order; a straight [A]–t plot is the test for zero order.",
+    "Collision theory: rate depends on collision frequency and on the fraction of collisions with energy ≥ threshold energy and correct orientation; the activated complex is the top of the barrier.",
+    "k = Ae^-Ea/RT; a 10 °C rise roughly doubles the rate; the barrier itself does not fall with temperature."
+   ],
+   "terms": [
+    "Rate of reaction",
+    "Rate law and rate constant",
+    "Order and molecularity",
+    "Threshold energy, activation energy and activated complex",
+    "Catalyst"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6986,
+    "figures": 4,
+    "examples": 5
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 10,
@@ -389,15 +480,43 @@
     "Standard electrode potential, the standard hydrogen and calomel electrodes, the electrochemical series and its uses",
     "Galvanic cells and their standard emf; primary, secondary and hydrogen–oxygen fuel cells"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Electrolytic cells and the qualitative and quantitative laws of electrolysis"
+    },
+    {
+     "no": "10.2",
+     "title": "Standard electrode potential, the SHE and the calomel electrode, and the electrochemical series"
+    },
+    {
+     "no": "10.3",
+     "title": "Galvanic cells and their standard emf; primary, secondary and hydrogen–oxygen fuel cells"
+    }
+   ],
+   "summary": [
+    "An electrolytic cell uses electrical energy to drive a non-spontaneous reaction; the anode is positive and the cathode negative, but oxidation is at the anode and reduction at the cathode in every cell.",
+    "Products of electrolysis follow preferential discharge: the ion with the higher E^° is reduced at the cathode; with inert electrodes in water, O₂ appears at the anode unless a concentrated halide gives Cl₂, Br₂ or I₂.",
+    "Faraday's first law: m = ZIt with Z = E/96 500; second law: m1/m2 = E1/E2, and one faraday deposits one gram equivalent.",
+    "E^° is a reduction potential measured against the SHE (0.00 V; 1 M H⁺, 1 atm H₂, 298 K, Pt black); the calomel electrode is a portable secondary reference at about 0.24 V.",
+    "The electrochemical series gives reactivity, displacement, cell emf and electrolysis products; higher E^° gains electrons, lower E^° loses them.",
+    "E^°cell = E^°cathode - E^°anode; positive means spontaneous; E^° is intensive, so doubling a half-reaction leaves it unchanged.",
+    "Nernst: E = E^° - (0.059/n)log Q at 298 K; Δ G^° = -nFE^°; at equilibrium E = 0 and E^° = (0.059/n)log K.",
+    "Primary cells (dry cell 1.5 V, alkaline) cannot be recharged; secondary cells (lead–acid 2 V per cell, lithium-ion) can; fuel cells (H₂–O₂) run continuously and give only water."
+   ],
+   "terms": [
+    "Electrolysis and electrolytic cell",
+    "Faraday's first law of electrolysis",
+    "Faraday's second law of electrolysis",
+    "Standard electrode potential",
+    "Galvanic cell"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6941,
+    "figures": 4,
+    "examples": 4
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 11,
@@ -410,15 +529,48 @@
     "Enthalpies of reaction, formation, combustion, neutralization, solution, fusion and vaporization; Laplace's and Hess's laws",
     "Spontaneity, entropy and the second law; Gibbs free energy and its relation to the equilibrium constant"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Systems and surroundings; state functions; internal energy; intensive and extensive properties; the first law and enthalpy"
+    },
+    {
+     "no": "11.2",
+     "title": "Enthalpies of reaction, formation, combustion, neutralisation, solution, fusion and vaporisation; Laplace's and Hess's laws"
+    },
+    {
+     "no": "11.3",
+     "title": "Spontaneity, entropy and the second law; Gibbs free energy and its relation to the equilibrium constant"
+    }
+   ],
+   "summary": [
+    "A system is open, closed or isolated; only an isolated system has Δ U = 0 always. U, H, S and G are state functions; q and w are path functions whose sum alone is fixed.",
+    "Extensive properties scale with amount (mass, U, H, S, G); intensive ones do not (T, P, density, molar enthalpy).",
+    "First law (IUPAC): Δ U = q + w, with q positive into the system and w = -PΔ V positive when work is done on it. An expanding gas has negative work.",
+    "H = U + PV; Δ H = qp at constant pressure and Δ U = qv at constant volume; Δ H = Δ U + Δ ng RT.",
+    "Δ Hf^° is zero only for an element in its standard state; Δ H^°rxn is products minus reactants.",
+    "Combustion is always exothermic; neutralisation of a strong acid by a strong base is −57.1 kJ mol⁻¹; fusion and vaporisation are always endothermic, and Δ Hsub = Δ Hfus + Δ Hvap.",
+    "Laplace's law: reversing a reaction reverses the sign of Δ H. Hess's law: Δ H is path-independent, so equations can be added, reversed and multiplied.",
+    "Second law: Δ Suniverse > 0 for a spontaneous change; Δ Ssurr = -Δ H/T, so an exothermic reaction can be spontaneous even when its own entropy falls."
+   ],
+   "terms": [
+    "System and surroundings",
+    "State function",
+    "Intensive and extensive",
+    "The first law of thermodynamics",
+    "Enthalpy",
+    "Standard enthalpy of formation",
+    "Laplace's law",
+    "Hess's law of constant heat summation",
+    "Entropy",
+    "The second law of thermodynamics"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7143,
+    "figures": 4,
+    "examples": 9
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 12,
@@ -430,15 +582,55 @@
     "Radioactivity and types of nuclear reaction",
     "Radioisotopes and radiocarbon dating"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Radioactivity and the types of nuclear reaction"
+    },
+    {
+     "no": "12.2",
+     "title": "The three radiations"
+    },
+    {
+     "no": "12.3",
+     "title": "Nuclear equations and the shift in the periodic table"
+    },
+    {
+     "no": "12.4",
+     "title": "The decay law and half-life"
+    },
+    {
+     "no": "12.5",
+     "title": "Nuclear fission and fusion"
+    },
+    {
+     "no": "12.6",
+     "title": "Radioisotopes: how they are made and what they are used for"
+    },
+    {
+     "no": "12.7",
+     "title": "Radiocarbon dating"
+    },
+    {
+     "no": "12.8",
+     "title": "Hazards and safe handling"
+    }
+   ],
+   "summary": [
+    "Write the two bookkeeping integers (A, Z) honestly and every nuclear equation, including series staircases of a dozen steps, falls into place.",
+    "Stability is geography: inside the neutron-bending belt (magic addresses preferred) nuclei endure; outside, β-decays walk them home and the heavies shed α-particles.",
+    "Bombardment extends the map: artificial transmutation and induced radioactivity brew the isotopes that medicine and industry now order by catalogue.",
+    "Carbon-14 is the belt's most famous emigrant: made in the sky, eaten by everything alive, and read back as a 50 000-year clock."
+   ],
+   "terms": [
+    "Radioactivity"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 8052,
+    "figures": 4,
+    "examples": 7
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 13,
@@ -453,15 +645,42 @@
     "Chlorine, bromine and iodine; HCl, HBr and HI",
     "Allotropes of carbon and carbon monoxide; hydrogen sulphide, sulphur dioxide and sulphuric acid"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Atomic, molecular and nascent hydrogen; isotopes; heavy water; types of oxides"
+    },
+    {
+     "no": "13.2",
+     "title": "Ozone: preparation, structure and tests; depletion of the ozone layer"
+    },
+    {
+     "no": "13.3",
+     "title": "Ammonia, phosphine and nitric acid"
+    },
+    {
+     "no": "13.4",
+     "title": "Chlorine, bromine and iodine; HCl, HBr and HI"
+    },
+    {
+     "no": "13.5",
+     "title": "Allotropes of carbon and carbon monoxide; H₂S, SO₂ and sulphuric acid"
+    }
+   ],
+   "summary": [
+    "Hydrogen's personas scale in reducing violence (H₂ < [H] < atomic H); its isotopes give heavy water (a moderator) and tritium (a tracer).",
+    "Oxides sort by character — acidic, basic, amphoteric, neutral, peroxide, superoxide, mixed — and ozone is oxygen's bent, resonating, oxidizing allotrope, whose stratospheric veil CFC chemistry taught us to defend.",
+    "Ammonia is base and ligand in one lone pair; phosphine its feebler, fouler sibling; nitric acid an oxidizing acid whose product gas advertises its concentration.",
+    "Halogens weaken downwards as oxidants while their hydrides strengthen as acids and reductants; HF alone is weak — and alone eats glass.",
+    "Carbon reinvents itself from diamond to graphene; CO poisons quietly and refines metals; the sulphur trio H₂S/SO₂/H₂SO₄ escalates from analytical precipitant to the dehydrating, oxidizing king of chemicals."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6100,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 14,
@@ -476,15 +695,46 @@
     "Copper, zinc, mercury, silver and iron: occurrence, extraction and properties; blue vitriol, white vitriol, calomel and corrosive sublimate",
     "Steel by the basic oxygen and open-hearth processes; corrosion of iron"
    ],
-   "sections": [],
-   "summary": [],
-   "terms": [],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Metallurgical principles"
+    },
+    {
+     "no": "14.2",
+     "title": "Alkali and alkaline-earth metals; sodium, sodium hydroxide and sodium carbonate"
+    },
+    {
+     "no": "14.3",
+     "title": "3d transition metals: complex shapes and crystal field theory"
+    },
+    {
+     "no": "14.4",
+     "title": "Copper, zinc, mercury, silver and iron (with their signature salts)"
+    },
+    {
+     "no": "14.5",
+     "title": "Steel: basic oxygen and open hearth; corrosion of iron"
+    }
+   ],
+   "summary": [
+    "Ores are concentrated (flotation owns the sulphides), converted to oxides (calcination without air, roasting with it), then reduced by the cheapest agent the Ellingham ladder allows — carbon for the middle class, electricity for the aristocrats, self-reduction for copper and mercury.",
+    "Refining polishes with green poles, electric baths and moving molten zones; impurities are sorted by the same electrochemical series that runs the cells.",
+    "The s-block supplies sodium's industrial trio (metal, hydroxide, carbonate) by Downs, chlor-alkali and Solvay routes, and calcium's lime cycle closes on itself.",
+    "Transition metals wear complexes whose colours, spins and geometries crystal-field splitting predicts — from tetraammine blue to chemotherapy's cisplatin.",
+    "Iron's blast furnace and the two steel converters turn carbon content into a dial (pig ≫ cast > steel > wrought), while rust — a wet electrochemical cell — is fought by smarter neighbours: zinc above all."
+   ],
+   "terms": [
+    "Ore, mineral and gangue",
+    "Flux and slag",
+    "Calcination and roasting"
+   ],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7574,
+    "figures": 6,
+    "examples": 4
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 15,
@@ -497,15 +747,37 @@
     "The sodium–potassium pump and the sodium–glucose pump",
     "Toxicity of iron, arsenic, mercury, lead and cadmium"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "15.1",
+     "title": "Micro- and macronutrients and the biological roles of metal ions"
+    },
+    {
+     "no": "15.2",
+     "title": "The sodium–potassium pump and sodium–glucose cotransport"
+    },
+    {
+     "no": "15.3",
+     "title": "Toxicity of iron, arsenic, mercury, lead and cadmium"
+    }
+   ],
+   "summary": [
+    "Macro- and microminerals differ in required amount, not in importance; chemical form and dose decide benefit or harm.",
+    "Na⁺ dominates extracellular fluid, K⁺ dominates cytosol, Mg²⁺ partners ATP and chlorophyll, and Ca²⁺ combines a structural role in bone with rapid signalling roles.",
+    "Zn²⁺ is a redox-inert catalytic/structural ion; Fe and Cu handle oxygen and electrons but must be protein-bound; cobalt reaches human metabolism through microbially made vitamin B₁₂.",
+    "Nickel has established roles in plants and microbes, while chromium(III)'s supposed essential role in humans remains unproved; chromium(VI) is an important carcinogen.",
+    "Na⁺/K⁺-ATPase is the primary-active 3-out/2-in pump. SGLTs spend the Na⁺ gradient, not ATP directly, to import glucose.",
+    "Oral rehydration works because intestinal SGLT1 links glucose uptake to Na⁺ and water absorption.",
+    "Iron overload produces hydroxyl radicals; arsenic blocks thiol enzymes and imitates phosphate; organic mercury biomagnifies and crosses into brain and fetus.",
+    "Lead injures the developing nervous system without an identified safe childhood threshold, while cadmium accumulates in kidney and secondarily destroys bone."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5985,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 16,
@@ -518,15 +790,37 @@
     "IUPAC nomenclature of aliphatic compounds; isomerism",
     "Homolytic and heterolytic fission; electrophiles, nucleophiles, carbocations, carbanions and free radicals; inductive and resonance effects"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "16.1",
+     "title": "Tetravalency and catenation; classification; alkyl and aryl groups; functional groups and homologous series"
+    },
+    {
+     "no": "16.2",
+     "title": "IUPAC nomenclature of aliphatic compounds and isomerism"
+    },
+    {
+     "no": "16.3",
+     "title": "Bond fission, reactive intermediates and electronic effects"
+    }
+   ],
+   "summary": [
+    "Carbon's tetravalency, strong self-linking and multiple bonding create an enormous set of stable molecular architectures.",
+    "Functional groups and homologous series convert that diversity into learnable families; alkyl, aryl and benzyl must be distinguished by where the free valence lies.",
+    "Degree of unsaturation counts rings plus π bonds and is the fastest check before drawing or naming structures.",
+    "IUPAC names are built by seniority, parent selection, low-locant numbering and alphabetical assembly.",
+    "Structural isomers differ in connectivity; stereoisomers keep connectivity but differ in arrangement. E/Z, enantiomers, diastereomers, racemates and meso forms each answer a different question.",
+    "Homolysis makes radicals, heterolysis makes ions. Curly arrows track electron pairs from nucleophile to electrophile.",
+    "Alkyl donation and hyperconjugation stabilize carbocations/radicals but destabilize carbanions; resonance can dominate all three.",
+    "Inductive effects fade through σ bonds, while resonance operates only where p orbitals overlap; acid/base and intermediate-strength orders usually reveal which effect controls the system."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5989,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 17,
@@ -539,15 +833,35 @@
     "Alkanes, alkenes and alkynes: isomerism, nomenclature and preparation; properties of ethane; addition reactions of alkenes and alkynes; acidity of alkynes",
     "Aromaticity and resonance; preparation and properties of benzene"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "17.1",
+     "title": "Cracking, pyrolysis and reforming; petrol quality, octane and cetane numbers and additives"
+    },
+    {
+     "no": "17.2",
+     "title": "Alkanes, alkenes and alkynes: isomerism, nomenclature and preparation; properties of ethane; additions and alkyne acidity"
+    },
+    {
+     "no": "17.3",
+     "title": "Aromaticity and resonance; preparation and properties of benzene"
+    }
+   ],
+   "summary": [
+    "Refineries crack long chains, pyrolyse feedstocks to light alkenes and reform straight chains into branched/aromatic molecules that engines and polymer plants actually want.",
+    "Octane rewards resistance to autoignition; cetane rewards prompt compression ignition. Molecular shape therefore wins opposite prizes in the two fuels.",
+    "Alkanes are strong-σ, nonpolar and slow to react except by combustion and radical pathways; ethane exemplifies combustion, UV substitution and cracking.",
+    "Alkenes spend a π bond in addition reactions. Carbocation stability explains Markovnikov orientation, while peroxide changes HBr addition into a radical anti-Markovnikov process.",
+    "Alkynes can be stopped at a cis- or trans-alkene by choosing the reduction system; their terminal C–H is acidic because an sp conjugate base is comparatively stable.",
+    "Benzene is stabilized by a six-electron cyclic π system (Hückel 4n+2), so electrophiles substitute a ring hydrogen rather than permanently adding and destroying aromaticity."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5787,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 18,
@@ -562,15 +876,44 @@
     "Phenol: preparation and properties",
     "Ethers: Williamson's synthesis and the properties of diethyl ether"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "18.1",
+     "title": "Monohaloalkanes: nomenclature, isomerism, preparation and properties; SN1 and SN2"
+    },
+    {
+     "no": "18.2",
+     "title": "Chloroform and chlorobenzene"
+    },
+    {
+     "no": "18.3",
+     "title": "Monohydric alcohols: preparation and properties; oxo process, hydroboration–oxidation, fermentation and types of ethanol"
+    },
+    {
+     "no": "18.4",
+     "title": "Phenol: preparation and properties"
+    },
+    {
+     "no": "18.5",
+     "title": "Ethers: Williamson synthesis and properties of diethyl ether"
+    }
+   ],
+   "summary": [
+    "Monohaloalkanes react through a mechanistic fork: unhindered substrates invite concerted SN2 backside attack, while cation-stabilizing substrates ionize in SN1; bases and heat open the elimination side-road.",
+    "The leaving-group order RI > RBr > RCl >> RF and the aqueous/alcoholic KOH distinction settle a large share of conversion questions.",
+    "Chloroform's examination identity is haloform preparation, phosgene formation in air and dichlorocarbene reactions; chlorobenzene's is a strong aryl C–Cl bond that refuses ordinary substitution until Dow conditions.",
+    "Alcohols combine hydrogen bonding with four reaction exits — alkoxide formation, substitution, dehydration and oxidation — whose class orders identify 1°, 2° and 3° alcohols.",
+    "Hydroboration–oxidation and hydration are regiochemical opposites, the oxo process adds a carbon before reduction, and fermentation is enzyme-limited ethanol production.",
+    "Phenol's acidity and ring activation both flow from conjugation with the ring: phenoxide is stabilized, NaHCO₃ is not decomposed, and bromine water gives instant tribromination.",
+    "Williamson synthesis succeeds when the SN2 partner is chosen as the less hindered halide; diethyl ether is a useful inert solvent whose peroxide formation is its defining hazard."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5998,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 19,
@@ -583,15 +926,37 @@
     "Monocarboxylic acids: preparation and properties",
     "Acid halides, anhydrides, amides and esters: preparation, properties and relative reactivity"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "19.1",
+     "title": "Aliphatic aldehydes and ketones: nomenclature, preparation and reactions; benzaldehyde"
+    },
+    {
+     "no": "19.2",
+     "title": "Monocarboxylic acids: preparation and properties"
+    },
+    {
+     "no": "19.3",
+     "title": "Acid halides, anhydrides, amides and esters: preparation, properties and relative reactivity"
+    }
+   ],
+   "summary": [
+    "Aldehydes and ketones are distinguished by oxidation behaviour, not by 2,4-DNP: aldehydes reduce Tollens' reagent; ordinary ketones do not.",
+    "Controlled stopping power is the theme of preparation — PCC stops at aldehyde, poisoned Pd stops Rosenmund at aldehyde, and soft organometallics stop at ketone.",
+    "Enolate chemistry at the α-carbon gives aldol products and the haloform reaction; blocking α-H switches an aldehyde to Cannizzaro disproportionation.",
+    "Benzaldehyde combines an aldehyde's Tollens response with aromatic specialities: no Fehling reaction, Cannizzaro, benzoin and Perkin condensations.",
+    "Carboxylic acids owe their acidity and high boiling points to carboxylate resonance and hydrogen-bonded dimers; substituent effects and HVZ chemistry operate through that same functional group.",
+    "Formic acid breaks the family pattern by reducing mild oxidants and dehydrating to CO.",
+    "Acyl derivatives react by addition–elimination in the order chloride > anhydride > ester > amide; easy conversions run down that ladder.",
+    "Saponification, Claisen condensation and Hofmann bromamide degradation are the derivative reactions most likely to be recognized by product and carbon count."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5512,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 20,
@@ -604,15 +969,36 @@
     "Amines: classification, preparation of primary amines, basicity, Hofmann's separation; aniline",
     "Organolithium, organocopper and organocadmium compounds; the Grignard reagent"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "20.1",
+     "title": "Nitroalkanes and nitrobenzene"
+    },
+    {
+     "no": "20.2",
+     "title": "Amines: classification, preparation, basicity, Hoffmann separation and aniline"
+    },
+    {
+     "no": "20.3",
+     "title": "Organolithium, organocopper and organocadmium compounds; the Grignard reagent"
+    }
+   ],
+   "summary": [
+    "The nitro group withdraws electrons, acidifies an α-C–H and can be reduced all the way to an amine or stopped/dimerized at intermediate oxidation levels by choosing the medium.",
+    "Nitrobenzene's ring is deactivated and meta-directing, in complete contrast to the aniline produced from it.",
+    "Primary-amine synthesis is an exercise in carbon bookkeeping: nitrile reduction extends, Hofmann degradation shortens, and Gabriel protects nitrogen from over-alkylation.",
+    "Aqueous basicity balances alkyl donation against solvation; resonance makes aniline and especially p-nitroaniline feeble bases.",
+    "Hoffmann and Hinsberg separations exploit the presence or absence of N–H bonds; nitrous acid and the carbylamine reaction identify amine class in test tubes.",
+    "Diazotization converts aniline into a versatile leaving group for phenols, haloarenes and azo dyes, while ring protection tames aniline for controlled substitution.",
+    "Organometallic carbon is nucleophilic: lithium gives force, magnesium gives generality, and copper/cadmium give the selectivity needed to stop at ketones or form chosen C–C bonds."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5397,
+    "figures": 3,
+    "examples": 4
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 21,
@@ -626,15 +1012,41 @@
     "Uses of the common non-metals, metals, inorganic compounds and organic compounds",
     "Polymers, dyes, drugs, pesticides and fertilizers; colloids, osmotic pressure and buffers in daily life; medical and industrial uses of radioisotopes"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "21.1",
+     "title": "The chemical industry: stages of production, economics and plant management, batch and continuous processing, environmental effects and their control"
+    },
+    {
+     "no": "21.2",
+     "title": "Cement, paper and pulp; the six heavy-chemical processes"
+    },
+    {
+     "no": "21.3",
+     "title": "Uses of common non-metals, metals, inorganic and organic compounds"
+    },
+    {
+     "no": "21.4",
+     "title": "Polymers, dyes, drugs, pesticides and fertilizers; colloids, osmotic pressure and buffers; radioisotopes"
+    }
+   ],
+   "summary": [
+    "A viable process joins reaction chemistry to separation, recycle, energy, quality and waste systems; batch suits variety, continuous suits volume.",
+    "Cement clinker minerals and gypsum explain strength and setting, while limestone calcination makes process CO₂ unavoidable without substitution/capture.",
+    "Kraft pulping's chemical-recovery loop is why a paper mill can be both a fibre factory and a power station.",
+    "Haber, Ostwald, Contact, chlor-alkali, Solvay and urea each compress to one catalyst/reagent, one equilibrium trick and one product-separation trick.",
+    "Uses of common substances are predictable from properties such as conductivity, oxide passivation, alkalinity, π reactivity and hydrogen bonding.",
+    "Addition versus condensation polymerization, chromophore/auxochrome design and drug action classes organize the consumer-chemical world.",
+    "Fertilizer value is printed as N–P₂O₅–K₂O; pesticide persistence and nutrient runoff are the environmental price of careless dosage.",
+    "Tyndall scattering identifies colloids, iCRT prices osmosis from saline drips to desalination, and bicarbonate keeps blood near pH 7.4."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5903,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 22,
@@ -647,18 +1059,40 @@
     "Separation techniques: filtration, sublimation, evaporation, precipitation, crystallization, distillation, paper chromatography and atmolysis",
     "Acid–base, redox (permanganometric, iodometric and iodimetric) and complexometric titrations; choice of indicator"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "22.1",
+     "title": "Tests for acid and basic radicals; unsaturation and functional groups; distinction tests; Lassaigne's test; fats, proteins and carbohydrates"
+    },
+    {
+     "no": "22.2",
+     "title": "Separation techniques: filtration, sublimation, evaporation, precipitation, crystallization, distillation, paper chromatography and atmolysis"
+    },
+    {
+     "no": "22.3",
+     "title": "Acid–base, redox and complexometric titrations; choice of indicator"
+    }
+   ],
+   "summary": [
+    "Anion analysis begins with acid-evolved gases and ends with precipitate confirmations whose acid/ammonia solubilities separate look-alikes.",
+    "Cation groups are solubility cliffs climbed in order; group reagents work because pH controls S²⁻, OH⁻ and CO₃²⁻ availability.",
+    "Organic tests are the functional-group reactions of Chapters 17–20 read backwards from product to structure, with benzene and phenol as the standing bromine-test traps.",
+    "Lassaigne's fusion converts covalent N, S and halogens into CN⁻, S²⁻ and X⁻ so inorganic colour chemistry can see them.",
+    "Molisch, Benedict, iodine, Biuret, ninhydrin and grease-spot tests identify the three great food classes by their reactive groups.",
+    "Separation choice is property choice: volatility for distillation, solubility for crystallization, partition for chromatography and √M for atmolysis.",
+    "An indicator is chosen from the pH of the salt at equivalence, not from habit; the end point is an observation that must be engineered onto the equivalence point.",
+    "Permanganate counts five electrons in acid and announces itself; iodine methods split into direct iodimetry and indirect iodometry with late starch."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6194,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   }
  ],
  "unit_count": 22,
  "topic_count": 74,
- "notes_ready": 6
+ "notes_ready": 22
 }

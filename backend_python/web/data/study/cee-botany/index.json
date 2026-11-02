@@ -5,8 +5,8 @@
    "no": 1,
    "title": "Biomolecules: Carbohydrates, Lipids, Proteins, Enzymes and Minerals",
    "area": "Basic Components of Life",
-   "words": 6258,
-   "read_min": 35,
+   "words": 6576,
+   "read_min": 37,
    "figures": 2,
    "has_questions": true
   },
@@ -14,27 +14,126 @@
    "no": 2,
    "title": "Classification, Monera and Viruses",
    "area": "Biodiversity",
-   "words": 4902,
-   "read_min": 27,
-   "figures": 3,
+   "words": 5361,
+   "read_min": 30,
+   "figures": 8,
    "has_questions": true
   },
   {
    "no": 3,
    "title": "Fungi, Lichens and Algae",
    "area": "Biodiversity",
-   "words": 4715,
-   "read_min": 26,
-   "figures": 4,
+   "words": 5103,
+   "read_min": 28,
+   "figures": 8,
    "has_questions": true
   },
   {
    "no": 4,
    "title": "Bryophytes, Pteridophytes and Gymnosperms",
    "area": "Biodiversity",
-   "words": 4921,
-   "read_min": 27,
+   "words": 5270,
+   "read_min": 29,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Angiosperms and Economic Botany",
+   "area": "Biodiversity",
+   "words": 6913,
+   "read_min": 38,
+   "figures": 7,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Ecology and Vegetation",
+   "area": "Ecology and Vegetation",
+   "words": 7528,
+   "read_min": 42,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Cell Biology and Cell Division",
+   "area": "Cell Biology",
+   "words": 6459,
+   "read_min": 36,
+   "figures": 8,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Molecular Genetics: DNA, RNA and the Genetic Code",
+   "area": "Genetics",
+   "words": 7059,
+   "read_min": 39,
    "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Inheritance, Linkage, Mutation and Genetic Disorders",
+   "area": "Genetics",
+   "words": 5194,
+   "read_min": 29,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Plant Anatomy",
+   "area": "Plant Anatomy",
+   "words": 4895,
+   "read_min": 27,
+   "figures": 13,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Water Relations of Plants",
+   "area": "Plant Physiology",
+   "words": 4447,
+   "read_min": 25,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Photosynthesis and Respiration",
+   "area": "Plant Physiology",
+   "words": 4840,
+   "read_min": 27,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Plant Growth, Germination and Dormancy",
+   "area": "Plant Physiology",
+   "words": 4084,
+   "read_min": 23,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Developmental Botany",
+   "area": "Developmental and Applied Botany",
+   "words": 4123,
+   "read_min": 23,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Applied Botany",
+   "area": "Developmental and Applied Botany",
+   "words": 4762,
+   "read_min": 26,
+   "figures": 8,
    "has_questions": true
   }
  ]

@@ -5,8 +5,8 @@
    "no": 1,
    "title": "Basic Concepts and Stoichiometry",
    "area": "Physical Chemistry",
-   "words": 6385,
-   "read_min": 35,
+   "words": 6406,
+   "read_min": 36,
    "figures": 3,
    "has_questions": true
   },
@@ -23,7 +23,7 @@
    "no": 3,
    "title": "Classification of Elements and Periodicity",
    "area": "Physical Chemistry",
-   "words": 4778,
+   "words": 4893,
    "read_min": 27,
    "figures": 2,
    "has_questions": true
@@ -32,7 +32,7 @@
    "no": 4,
    "title": "Chemical Bonding and Shapes of Molecules",
    "area": "Physical Chemistry",
-   "words": 5370,
+   "words": 5401,
    "read_min": 30,
    "figures": 2,
    "has_questions": true
@@ -41,18 +41,162 @@
    "no": 5,
    "title": "Redox Reactions",
    "area": "Physical Chemistry",
-   "words": 3942,
+   "words": 3988,
    "read_min": 22,
-   "figures": 1,
+   "figures": 2,
    "has_questions": true
   },
   {
    "no": 6,
    "title": "States of Matter",
    "area": "Physical Chemistry",
-   "words": 5745,
+   "words": 5828,
    "read_min": 32,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 7,
+   "title": "Chemical and Ionic Equilibrium",
+   "area": "Physical Chemistry",
+   "words": 8281,
+   "read_min": 46,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 8,
+   "title": "Volumetric Analysis",
+   "area": "Physical Chemistry",
+   "words": 5254,
+   "read_min": 29,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 9,
+   "title": "Chemical Kinetics",
+   "area": "Physical Chemistry",
+   "words": 6170,
+   "read_min": 34,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 10,
+   "title": "Electrochemistry",
+   "area": "Physical Chemistry",
+   "words": 6193,
+   "read_min": 34,
+   "figures": 6,
+   "has_questions": true
+  },
+  {
+   "no": 11,
+   "title": "Chemical Thermodynamics",
+   "area": "Physical Chemistry",
+   "words": 6344,
+   "read_min": 35,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 12,
+   "title": "Nuclear Chemistry",
+   "area": "Physical Chemistry",
+   "words": 7261,
+   "read_min": 40,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 13,
+   "title": "Chemistry of Non-metals",
+   "area": "Inorganic Chemistry",
+   "words": 5624,
+   "read_min": 31,
+   "figures": 5,
+   "has_questions": true
+  },
+  {
+   "no": 14,
+   "title": "Metallurgy and the Chemistry of Metals",
+   "area": "Inorganic Chemistry",
+   "words": 7179,
+   "read_min": 40,
+   "figures": 13,
+   "has_questions": true
+  },
+  {
+   "no": 15,
+   "title": "Bio-inorganic Chemistry",
+   "area": "Inorganic Chemistry",
+   "words": 5406,
+   "read_min": 30,
    "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 16,
+   "title": "General Organic Chemistry",
+   "area": "Organic Chemistry",
+   "words": 5244,
+   "read_min": 29,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 17,
+   "title": "Hydrocarbons",
+   "area": "Organic Chemistry",
+   "words": 5187,
+   "read_min": 29,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 18,
+   "title": "Haloalkanes, Haloarenes, Alcohols, Phenols and Ethers",
+   "area": "Organic Chemistry",
+   "words": 5452,
+   "read_min": 30,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 19,
+   "title": "Aldehydes, Ketones, Carboxylic Acids and their Derivatives",
+   "area": "Organic Chemistry",
+   "words": 4927,
+   "read_min": 27,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 20,
+   "title": "Nitro Compounds, Amines and Organometallics",
+   "area": "Organic Chemistry",
+   "words": 4765,
+   "read_min": 26,
+   "figures": 3,
+   "has_questions": true
+  },
+  {
+   "no": 21,
+   "title": "Applied Chemistry and Chemistry in Service to Mankind",
+   "area": "Applied Chemistry",
+   "words": 5238,
+   "read_min": 29,
+   "figures": 4,
+   "has_questions": true
+  },
+  {
+   "no": 22,
+   "title": "Analytical Chemistry",
+   "area": "Analytical Chemistry",
+   "words": 5474,
+   "read_min": 30,
+   "figures": 4,
    "has_questions": true
   }
  ]

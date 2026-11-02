@@ -360,7 +360,7 @@ def export_book(slug, pool):
         if ch["no"] in exams:
             ch["exam"] = exams[ch["no"]]
         name = "unit-%02d.json" % ch["no"]
-        with open(os.path.join(out, name), "w", encoding="utf-8") as fh:
+        with open(os.path.join(out, name), "w", encoding="utf-8", newline="\n") as fh:
             json.dump(ch, fh, ensure_ascii=False, separators=(",", ":"))
         item = {k: ch[k] for k in ("no", "title", "area", "words", "read_min", "figures", "has_questions")}
         if "exam" in ch:
@@ -416,13 +416,13 @@ def export_bank(slug, pool):
         for i, (kind, ch) in enumerate(sorted(chs, key=lambda t: order[t[0]]), 1):
             ch["kind"] = kind
             name = "bank-%02d.json" % i
-            with open(os.path.join(out, name), "w", encoding="utf-8") as fh:
+            with open(os.path.join(out, name), "w", encoding="utf-8", newline="\n") as fh:
                 json.dump(ch, fh, ensure_ascii=False, separators=(",", ":"))
             banks.append({"no": i, "kind": kind, "title": ch["title"], "words": ch["words"], "read_min": ch["read_min"]})
         guide = guides[0] if guides else None
         if guide:
             guide["kind"] = "guide"
-            with open(os.path.join(out, "guide.json"), "w", encoding="utf-8") as fh:
+            with open(os.path.join(out, "guide.json"), "w", encoding="utf-8", newline="\n") as fh:
                 json.dump(guide, fh, ensure_ascii=False, separators=(",", ":"))
         _merge_index(out, {"bank_book": slug, "banks": banks, "guide": guide["title"] if guide else None})
     print("%-8s %2d chapters -> %d subjects" % (slug, len(chapters), len(by_subject)), flush=True)
@@ -435,7 +435,7 @@ def _merge_index(out, patch):
         # commerce and general banks never share a subject; keep both if they ever do
         patch["banks"] = data.get("banks", []) + patch["banks"]
     data.update(patch)
-    with open(path, "w", encoding="utf-8") as fh:
+    with open(path, "w", encoding="utf-8", newline="\n") as fh:
         json.dump(data, fh, ensure_ascii=False, indent=1)
 
 

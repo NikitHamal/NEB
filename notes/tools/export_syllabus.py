@@ -311,7 +311,9 @@ def main():
         if not data:
             continue
         name = "%s-%s.json" % (data["grade"], data["subject"])
-        with open(os.path.join(OUT, name), "w", encoding="utf-8") as fh:
+        # newline="\n": the data is checked in with LF endings, and Windows would
+        # otherwise rewrite every byte of every file on each export.
+        with open(os.path.join(OUT, name), "w", encoding="utf-8", newline="\n") as fh:
             json.dump(data, fh, ensure_ascii=False, indent=1)
         if track:
             card = {k: data[k] for k in CARD_KEYS}
@@ -329,7 +331,7 @@ def main():
             "label": info["label"], "label_ne": track_label_ne(track), "exam": info["exam"],
             "short": info["short"], "kind": info["kind"], "grade": track,
             "subjects": [s for _, s in sorted(tracks[track], key=lambda t: t[0])]})
-    with open(os.path.join(OUT, "index.json"), "w", encoding="utf-8") as fh:
+    with open(os.path.join(OUT, "index.json"), "w", encoding="utf-8", newline="\n") as fh:
         json.dump(index, fh, ensure_ascii=False, indent=1)
 
 
