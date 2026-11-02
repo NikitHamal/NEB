@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**9 of 42 subjects are written, built and QA-checked; 33 are not started.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (102,864 words of study material):
+**12 of 44 subject slots are written, built and QA-checked; 24 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (165,716 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -14,32 +14,26 @@
 | 1 | BCA 105 | [Professional Communication and Ethics](semester-1/professional-communication-ethics/) | 10,381 | 34 | done |
 | 1 | BCA 106 | [Hardware Workshop](semester-1/hardware-workshop/) | 7,838 | 24 | done |
 | 2 | BCA 151 | [Discrete Structure](semester-2/discrete-structure/) | 12,728 | 34 | done |
+| 2 | BCA 152 | [Microprocessor and Computer Architecture](semester-2/microprocessor-computer-architecture/) | 25,282 | 76 | done |
 | 2 | BCA 153 | [OOP in Java](semester-2/oop-in-java/) | 10,096 | 41 | done |
 | 2 | BCA 154 | [Mathematics II](semester-2/mathematics-2/) | 9,256 | 23 | done |
+| 2 | BCA 155 | [UX/UI Design](semester-2/ux-ui-design/) | 22,095 | 71 | done |
+| 2 | BCA 156 | [Principles of Management](semester-2/principles-of-management/) | 15,475 | 50 | done |
 
-Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
+Semester I and Semester II are fully done. Everything else in `CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
 <!-- /COURSE-STATUS -->
 
 
-**Read this first: this is not yet the complete BCA course.** The programme has about 45 subject slots over 8 semesters. Two subject books, both in Semester I, are written in full. Everything else is mapped in [`CURRICULUM.md`](CURRICULUM.md) (verified list of subjects, codes, credits, electives, and a code map from the old 2074 curriculum) but has **no notes yet**. Nothing is padded to look finished.
+**Read this first: this is not yet the complete BCA course.** Semesters I and II (12 subjects) are written in full. Semesters III–VIII (24 core subjects) are mapped in [`CURRICULUM.md`](CURRICULUM.md) (verified list of subjects, codes, credits, electives, and a code map from the old 2074 curriculum) but have **no notes yet**; 8 further slots are projects, the internship and electives that are not taught from notes. Nothing is padded to look finished.
 
-## Written in full
+Folder pattern: `semester-N/<subject>/unit-NN.md` (+ `README.md` with syllabus mapping, verification and honesty notes), PDFs in `semester-N/pdfs/`. Every unit has a "what this gives you" box, worked examples, a formula and fact sheet, a chapter summary and a practice set with worked answers. Programming subjects have compiled-and-run programs; maths and theory subjects have numeric checkers in `../tools/` (`check_*.py`); Microprocessor and Computer Architecture has an 8085 assembler/simulator that runs every assembly program in the book.
 
-| Sem | Subject | Units | Words | Verification | PDF |
-|---|---|---|---|---|---|
-| I | **Programming in C** (BCA 102 / CACS151) | 7 | 15087 | all 26 programs compiled and run, output diffed against the text | [`semester-1/pdfs/NEBians-BCA-Course-Semester-1-Programming-in-C.pdf`](semester-1/pdfs/) |
-| I | **Digital Logic** (BCA 103 / CACS105) | 5 | 9676 | numbers, K-maps and FSM designs checked by script | [`semester-1/pdfs/NEBians-BCA-Course-Semester-1-Digital-Logic.pdf`](semester-1/pdfs/) |
+## Next in priority order
 
-Folder pattern: `semester-N/<subject>/unit-NN.md` (+ `README.md` with syllabus mapping and honesty notes), PDFs in `semester-N/pdfs/`. Every unit has a "what this gives you" box, worked examples, a formula and fact sheet, a chapter summary and a practice set with worked answers.
+1. Semester III: Data Structure and Algorithms, DBMS, Web Technology I, System Analysis and Design, Probability and Statistics, Applied Economics.
+2. Semesters IV–VIII: Operating Systems, Software Engineering, Numerical Methods, Python, Web Technology II, Computer Network, AI, Advanced Java, MIS, Society and Technology, Graphics, Mobile, Cryptography, Technical Writing, Distributed Systems, Cyber Security, Software Project Management, Financial Accounting, Cloud Computing; then the electives, projects and internship guides.
 
-## Not yet written (next in priority order)
-
-1. Semester I: Computer Fundamentals and Applications, Mathematics I, Professional Communication and Ethics, Hardware Workshop.
-2. Semester II: Discrete Structure, Microprocessor and Computer Architecture, OOP in Java, Mathematics II, UX/UI Design, Principles of Management.
-3. Semester III: Data Structure and Algorithms, DBMS, Web Technology I, System Analysis and Design, Probability and Statistics, Applied Economics.
-4. Semesters IV–VIII: Operating Systems, Software Engineering, Numerical Methods, Python, Web Technology II, Computer Network, AI, Advanced Java, MIS, Society and Technology, Graphics, Mobile, Cryptography, Technical Writing, Distributed Systems, Cyber Security, Software Project Management, Financial Accounting, Cloud Computing, four electives; projects and internship (these have no notes by nature).
-
-Mathematics I/II and Probability overlap the entrance Mathematics book (units 3–7, 11–13); students may use it as a bridge until those books exist.
+Mathematics I/II and Probability overlap the entrance Mathematics book (units 3–7, 11–13); students may use it as a bridge until the Probability book exists.
 
 ## Documents
 
@@ -53,6 +47,4 @@ Mathematics I/II and Probability overlap the entrance Mathematics book (units 3�
 
 ## Status index (generated)
 
-Every subject, its code, credits and real status is in [`STATUS.md`](STATUS.md). Short version: **2 subjects done** (Programming in C, Digital Logic), **1 in progress** (Computer Fundamentals and Applications — Unit 1 of 7, written to full depth and verified), the rest **missing**. The 39 remaining subjects were not written in the last session either; no subject is marked done unless every unit exists.
-
-`books.json` is the registry `tools/nebpdf.py` reads; adding a subject = add its folder of `unit-NN.md` files and one line there.
+Every subject, its code, credits and real status is in [`STATUS.md`](STATUS.md), regenerated by `python3 tools/gen_status.py` (it also keeps the status block above and the "In this repo" column of `CURRICULUM.md` in step). `books.json` is the registry `tools/nebpdf.py` reads; adding a subject = add its folder of `unit-NN.md` files and one entry there.
