@@ -7,6 +7,7 @@ Checks per subject:
   - frontmatter title / hours / area equal the spine (STRUCTURAL)
   - number of `## N.k` sections equals the number of spine bullets (MISSING/DEPTH)
   - stale-term scan (OUTDATED / FACTUAL candidates)
+  - control characters mid-line (eaten `\\t`/`\\b`/`\\f` escapes, e.g. TAB+"imes" for \\times)
   - a built PDF exists
 
 Run:  python3 notes/tools/school_audit.py [--md out.md]
@@ -86,6 +87,14 @@ def main():
                 continue
             d, text = fm(files[n])
             words += len(text.split())
+            # A TAB/BS/FF/BEL/VT in the middle of a line is an eaten backslash escape
+            # (`\\times` authored un-raw -> TAB + "imes"; `\\beta` -> BS; `\\frac` -> FF).
+            raw = open(files[n], encoding="utf-8", errors="replace").read()
+            bad = [(i, repr(m.group())) for i, l in enumerate(raw.split("\n"), 1)
+                   for m in re.finditer(r"[\x07\x08\x0b\x0c]|\t", l)
+                   if m.group() != "\t" or l[:m.start()].strip()]
+            if bad:
+                issues.append((slug, n, "FACTUAL", f"{len(bad)} eaten-escape control char(s), first at L{bad[0][0]} {bad[0][1]}"))
             nm = bool(NEPALI_MEDIUM.match(slug))
             if (not nm and d.get("title") and norm(d["title"]) != norm(u["title"])
                     and not norm(u["title"]).startswith(norm(d["title"]) + " - ")):
