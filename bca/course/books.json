@@ -223,5 +223,13 @@
   "credits": 3,
   "accent": "#9333EA",
   "status": "done"
+ },
+ "semester-6/computer-graphics": {
+  "name": "Computer Graphics and Animation",
+  "code": "BCA 351",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#DB2777",
+  "status": "done"
  }
 }
