@@ -1762,3 +1762,6 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - Always render and look at the PDF page (`pdftoppm -png -r 110 -f N -l N`) after adding a figure: check that no arrow crosses a label.
 - Book working copy used by `build_book.sh` is `/tmp/src/<name>/`; push credentials are an out-of-repo `GIT_ASKPASS` helper (`/tmp/gitenv.sh`), never stored in the repo.
 - BCA 101 (`semester-1/computer-fundamentals`) was polished with this standard: six figures in Unit 1, generations/applications expanded, 5-mark and 10-mark worked answers at full exam length.
+- Status of BCA 101 after this pass: Units 1, 3 and 5 polished (figures 1.1–1.6, 3.1–3.2, 5.1–5.2; long/medium model answers). Units 2, 4, 6, 7 still have the original short answers and no figures; BCA 103/104/102/105 and BCA 256 were not started.
+- `build_book.sh` re-runs every ```sql fence on MariaDB; BCA 101 Unit 4's SQL blocks are intentionally not self-contained (outputs checked on SQLite), so a variant without the `fill_script_outputs.py` line was used for this book. Do not run the fill step on that book.
+- Fonts: run `notes/pipeline/fonts/install.sh` before building, or `qa_pdf.py` fails on missing Poppins/Inter/Source Serif 4. Diagram labels print at about 0.66 × their nominal px size (soft "tiny text" warnings).
