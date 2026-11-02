@@ -239,5 +239,13 @@
   "credits": 3,
   "accent": "#0EA5E9",
   "status": "done"
+ },
+ "semester-6/cryptography-network-security": {
+  "name": "Cryptography and Network Security",
+  "code": "BCA 353",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#B91C1C",
+  "status": "done"
  }
 }
