@@ -54,6 +54,19 @@ fn profile(app: &mut NebApp) {
     s.prefs.show_toc = true;
 }
 
+fn light(a: &mut NebApp) {
+    a.env.store.s.prefs.theme = ThemeMode::Light;
+    a.env.refresh_theme();
+}
+
+fn signed(app: &mut NebApp) {
+    use crate::data::store::Session;
+    app.env.store.s.guest = false;
+    app.env.store.s.session = Some(Session { email: "aarav@example.com".into(), username: "aarav_sharma".into(), token: "tour".into(), user_id: "tour".into(), display_name: "Aarav Sharma".into(), photo_url: String::new(), provider: "email".into() });
+    app.env.store.s.profile.display_name = "Aarav Sharma".into();
+    app.env.store.s.profile.handle = "aarav_sharma".into();
+}
+
 fn size(ctx: &Context, w: f32, h: f32) {
     ctx.send_viewport_cmd(ViewportCommand::InnerSize(egui::vec2(w, h)));
 }
@@ -63,11 +76,13 @@ impl Tour {
         let _ = std::fs::create_dir_all(&dir);
         let steps = vec![
             Step { name: "splash", settle: 20, setup: |a, _| { a.env.store.s.onboarded = false; a.env.store.s.guest = false; go(a, Route::Splash) } },
-            Step { name: "login", settle: 20, setup: |a, _| go(a, Route::Login) },
-            Step { name: "email-signin", settle: 20, setup: |a, _| go(a, Route::EmailAuth) },
+            Step { name: "login", settle: 24, setup: |a, _| { a.screens.login.clear(); go(a, Route::Login) } },
+            Step { name: "login-browser-handoff", settle: 24, setup: |a, _| { a.screens.login.demo_waiting(); go(a, Route::Login) } },
+            Step { name: "email-signin", settle: 24, setup: |a, _| { a.screens.login.clear(); go(a, Route::EmailAuth) } },
+            Step { name: "complete-profile", settle: 24, setup: |a, _| { signed(a); a.screens.complete = Default::default(); go(a, Route::CompleteProfile) } },
             Step { name: "onboarding-role", settle: 20, setup: |a, _| { a.env.store.s.profile.role = "student".into(); a.screens.onboarding = Default::default(); a.screens.onboarding.goto(1); go(a, Route::Onboarding) } },
             Step { name: "onboarding-subjects", settle: 20, setup: |a, _| { a.env.store.s.profile.subjects = vec!["Physics".into(), "Mathematics".into()]; a.screens.onboarding.goto(7); go(a, Route::Onboarding) } },
-            Step { name: "home", settle: 30, setup: |a, _| { profile(a); a.env.store.s.prefs.theme = ThemeMode::Light; a.env.refresh_theme(); recent(a); go(a, Route::Home) } },
+            Step { name: "home", settle: 30, setup: |a, _| { profile(a); signed(a); light(a); recent(a); go(a, Route::Home) } },
             Step { name: "library", settle: 20, setup: |a, _| go(a, Route::Library) },
             Step { name: "category-class-11", settle: 20, setup: |a, _| go(a, Route::Category("11".into())) },
             Step { name: "subject-physics", settle: 20, setup: |a, _| go(a, Route::Subject { track: "11".into(), subject: "physics".into() }) },
@@ -78,6 +93,9 @@ impl Tour {
                 a.screens.reader.set_jump("s4");
                 go(a, Route::Reader(ChapterRef::new("11", "physics", ChapterKind::Unit, 1)))
             } },
+            Step { name: "community-feed", settle: 24, setup: |a, _| { a.screens.community.demo(); go(a, Route::Community) } },
+            Step { name: "community-thread", settle: 24, setup: |a, _| go(a, Route::Post("d1".into())) },
+            Step { name: "notifications", settle: 24, setup: |a, _| { a.env.srv.unread = 3; a.screens.notifications.demo(); go(a, Route::Notifications) } },
             Step { name: "search", settle: 90, setup: |a, _| { a.screens.search.query = "projectile".into(); go(a, Route::Search) } },
             Step { name: "bookmarks", settle: 20, setup: |a, _| {
                 for (t, s, n, title, sn) in [("11", "physics", 1, "Physical Quantities", "Physics"), ("cee", "chemistry", 2, "Atomic Structure", "Chemistry"), ("12", "mathematics", 3, "Differentiation", "Mathematics")] {
@@ -87,12 +105,16 @@ impl Tour {
                 go(a, Route::Bookmarks)
             } },
             Step { name: "downloads", settle: 40, setup: |a, _| go(a, Route::Downloads) },
-            Step { name: "settings", settle: 20, setup: |a, _| go(a, Route::Settings) },
-            Step { name: "profile", settle: 20, setup: |a, _| go(a, Route::Profile) },
+            Step { name: "settings", settle: 24, setup: |a, _| go(a, Route::Settings) },
+            Step { name: "profile", settle: 24, setup: |a, _| go(a, Route::Profile) },
             Step { name: "about", settle: 20, setup: |a, _| go(a, Route::About) },
             Step { name: "home-dark", settle: 30, setup: |a, _| { a.env.store.s.prefs.theme = ThemeMode::Dark; a.env.refresh_theme(); go(a, Route::Home) } },
+            Step { name: "community-dark", settle: 24, setup: |a, _| go(a, Route::Community) },
+            Step { name: "login-dark", settle: 24, setup: |a, _| go(a, Route::Login) },
             Step { name: "reader-dark", settle: 150, setup: |a, _| { a.screens.reader.set_jump("s2"); go(a, Route::Reader(ChapterRef::new("11", "physics", ChapterKind::Unit, 1))) } },
-            Step { name: "narrow-window", settle: 40, setup: |a, c| { a.env.store.s.prefs.theme = ThemeMode::Light; a.env.refresh_theme(); size(c, 700.0, 780.0); go(a, Route::Home) } },
+            Step { name: "narrow-home", settle: 40, setup: |a, c| { light(a); size(c, 700.0, 780.0); go(a, Route::Home) } },
+            Step { name: "narrow-community", settle: 30, setup: |a, _| go(a, Route::Community) },
+            Step { name: "narrow-login", settle: 30, setup: |a, _| go(a, Route::Login) },
             Step { name: "narrow-reader", settle: 150, setup: |a, c| { size(c, 700.0, 780.0); go(a, Route::Reader(ChapterRef::new("cee", "physics", ChapterKind::Unit, 1))) } },
         ];
         Self { dir, idx: 0, frames: 0, phase: Phase::Setup, steps }

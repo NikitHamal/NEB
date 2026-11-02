@@ -67,6 +67,8 @@ pub fn run(cli: Cli) -> eframe::Result<()> {
 impl NebApp {
     fn new(env: Env, cli: &Cli) -> Self {
         let tour = cli.screenshots.clone().map(Tour::new);
+        let mut env = env;
+        env.demo = tour.is_some();
         Self {
             env,
             router: Router::new(Route::Splash),
@@ -102,7 +104,7 @@ impl NebApp {
             if i.consume_key(cmd, Key::Comma) {
                 acts.push(Action::Go(Route::Settings));
             }
-            for (k, r) in [(Key::Num1, Route::Home), (Key::Num2, Route::Library), (Key::Num3, Route::Search), (Key::Num4, Route::Bookmarks), (Key::Num5, Route::Downloads)] {
+            for (k, r) in [(Key::Num1, Route::Home), (Key::Num2, Route::Library), (Key::Num3, Route::Community), (Key::Num4, Route::Notifications), (Key::Num5, Route::Bookmarks), (Key::Num6, Route::Downloads)] {
                 if i.consume_key(cmd, k) {
                     acts.push(Action::Go(r));
                 }
@@ -133,6 +135,8 @@ impl NebApp {
                 }
             } else if shell {
                 acts.push(Action::Back);
+            } else if matches!(self.router.current, Route::Login) && self.env.store.s.onboarded {
+                acts.push(Action::Replace(Route::Home));
             } else if matches!(self.router.current, Route::EmailAuth) {
                 acts.push(Action::Replace(Route::Login));
             }
@@ -193,12 +197,8 @@ impl NebApp {
             }
             Action::Toast(m) => self.env.toast(m),
             Action::SignOut => {
-                self.env.store.s.session = None;
-                self.env.store.s.guest = false;
-                self.env.store.s.onboarded = false;
-                self.env.store.s.profile = Default::default();
-                self.env.store.touch();
-                self.screens.onboarding = Default::default();
+                self.env.sign_out();
+                self.screens = Screens::default();
                 self.router.replace(Route::Login);
             }
             Action::ResetAll => {
@@ -265,8 +265,12 @@ impl NebApp {
             let sc = &mut self.screens;
             match &route {
                 Route::Splash => screens::splash::show(ui, env, &mut sc.splash),
-                Route::Login => screens::login::show(ui, env),
+                Route::Login => screens::login::show(ui, env, &mut sc.login),
                 Route::EmailAuth => screens::email_auth::show(ui, env, &mut sc.email),
+                Route::CompleteProfile => screens::complete_profile::show(ui, env, &mut sc.complete),
+                Route::Community => screens::community::show(ui, env, &mut sc.community),
+                Route::Post(id) => screens::community::show_post(ui, env, &mut sc.community, id),
+                Route::Notifications => screens::notifications::show(ui, env, &mut sc.notifications),
                 Route::Onboarding => screens::onboarding::show(ui, env, &mut sc.onboarding),
                 Route::Home => screens::home::show(ui, env),
                 Route::Library => screens::library::show_library(ui, env, &mut sc.library),
@@ -297,7 +301,7 @@ impl eframe::App for NebApp {
         self.env.poll();
         self.handle_keys(ctx);
         self.shell(ctx);
-        let bottom = if self.env.layout == LayoutMode::Compact && self.router.current.has_shell() { 62.0 } else { 0.0 };
+        let bottom = if self.env.layout == LayoutMode::Compact && self.router.current.has_shell() { ui::nav::BOTTOM_BAR_H } else { 0.0 };
         let th = self.env.theme.clone();
         self.env.toasts.show(ctx, &th, bottom);
         ui::shortcuts::show(ctx, &th, &mut self.show_shortcuts);

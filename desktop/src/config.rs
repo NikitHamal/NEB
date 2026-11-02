@@ -6,6 +6,16 @@ pub const VERSION: &str = env!("CARGO_PKG_VERSION");
 pub const SITE_URL: &str = "https://nebians.consica.com.np";
 pub const API_BASE: &str = "https://nebians.consica.com.np/";
 
+/// The API root. Override with `NEB_API_BASE` to point the app at a self-hosted / staging backend
+/// (always ends in `/`).
+pub fn api_base() -> String {
+    let mut b = std::env::var("NEB_API_BASE").ok().filter(|v| v.starts_with("http")).unwrap_or_else(|| API_BASE.to_string());
+    if !b.ends_with('/') {
+        b.push('/');
+    }
+    b
+}
+
 pub const DEFAULT_WINDOW: [f32; 2] = [1180.0, 780.0];
 pub const MIN_WINDOW: [f32; 2] = [640.0, 480.0];
 

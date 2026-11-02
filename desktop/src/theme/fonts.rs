@@ -34,6 +34,9 @@ pub fn install(ctx: &Context) {
     add(&mut fonts, "poppins-deva-400", include_bytes!("../../assets/fonts/poppins-devanagari-400.ttf"));
     add(&mut fonts, "poppins-deva-600", include_bytes!("../../assets/fonts/poppins-devanagari-600.ttf"));
 
+    add(&mut fonts, "material-icons", include_bytes!("../../assets/fonts/MaterialIconsRound-Regular.otf"));
+    fonts.families.insert(FontFamily::Name(crate::ui::icons::FAMILY.into()), vec!["material-icons".to_owned()]);
+
     let fallbacks: Vec<String> = fonts.families.get(&FontFamily::Proportional).cloned().unwrap_or_default();
     let mono_fallback: Vec<String> = fonts.families.get(&FontFamily::Monospace).cloned().unwrap_or_default();
     let tail = |extra: &[&str]| -> Vec<String> {
