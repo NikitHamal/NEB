@@ -49,8 +49,10 @@ pub fn menu_bar(ui: &mut Ui, env: &mut Env, st: &MenuState) {
             item(ui, env, "Home", "Ctrl+1", true, Action::Go(Route::Home));
             item(ui, env, "Library", "Ctrl+2", true, Action::Go(Route::Library));
             item(ui, env, "Search", "Ctrl+K", true, Action::Go(Route::Search));
-            item(ui, env, "Bookmarks", "Ctrl+4", true, Action::Go(Route::Bookmarks));
-            item(ui, env, "Downloads", "Ctrl+5", true, Action::Go(Route::Downloads));
+            item(ui, env, "Community", "Ctrl+3", true, Action::Go(Route::Community));
+            item(ui, env, "Notifications", "Ctrl+4", true, Action::Go(Route::Notifications));
+            item(ui, env, "Bookmarks", "Ctrl+5", true, Action::Go(Route::Bookmarks));
+            item(ui, env, "Downloads", "Ctrl+6", true, Action::Go(Route::Downloads));
         });
         ui.menu_button("Help", |ui| {
             item(ui, env, "Keyboard shortcuts", "F1", true, Action::ShowShortcuts);

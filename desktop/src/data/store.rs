@@ -85,6 +85,15 @@ pub struct Session {
     pub email: String,
     pub username: String,
     pub token: String,
+    #[serde(default)]
+    pub user_id: String,
+    #[serde(default)]
+    pub display_name: String,
+    #[serde(default)]
+    pub photo_url: String,
+    /// "email" | "browser" (Google / GitHub through the website)
+    #[serde(default)]
+    pub provider: String,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

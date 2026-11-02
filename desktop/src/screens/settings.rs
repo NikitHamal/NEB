@@ -19,6 +19,15 @@ pub struct SettingsState {
     path_msg: Option<(String, bool)>,
     confirm_reset: bool,
     inited: bool,
+    pw: Option<PwDialog>,
+}
+
+#[derive(Default)]
+struct PwDialog {
+    current: String,
+    new: String,
+    busy: Option<crate::data::tasks::Task<crate::errors::Result<String>>>,
+    error: Option<String>,
 }
 
 fn group(ui: &mut Ui, th: &crate::theme::Theme, title: &str, f: impl FnOnce(&mut Ui)) {
@@ -80,8 +89,21 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
                 env.go(Route::Bookmarks);
             }
             widgets::hairline(ui, &th);
-            if link_row(ui, &th, "Account security", "Password and sessions — opens the NEBians website", Icon::Lock) {
+            if env.signed_in() {
+                if link_row(ui, &th, "Change password", "Other devices are signed out when you change it", Icon::Key) {
+                    st.pw = Some(PwDialog::default());
+                }
+                widgets::hairline(ui, &th);
+            }
+            if link_row(ui, &th, "Account security", "Email address, sessions and account deletion — opens the NEBians website", Icon::Lock) {
                 env.open_url(SITE_URL);
+            }
+            if env.signed_in() {
+                widgets::hairline(ui, &th);
+                let server = crate::config::api_base();
+                if link_row(ui, &th, "Server", &format!("{server}  (set NEB_API_BASE to change)"), Icon::Cloud) {
+                    env.open_url(SITE_URL);
+                }
             }
         });
 
@@ -215,8 +237,12 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
         group(ui, &th, "Account control", |ui| {
             ui.add_space(10.0);
             ui.horizontal_wrapped(|ui| {
-                if widgets::button(ui, &th, "Sign out", BtnKind::Secondary, Some(Icon::Logout), None).clicked() {
-                    env.act(Action::SignOut);
+                if env.signed_in() || env.store.s.guest {
+                    if widgets::button(ui, &th, "Sign out", BtnKind::Secondary, Some(Icon::Logout), None).clicked() {
+                        env.act(Action::SignOut);
+                    }
+                } else if widgets::button(ui, &th, "Sign in", BtnKind::Primary, Some(Icon::Login), None).clicked() {
+                    env.act(Action::Replace(Route::Login));
                 }
                 if widgets::button(ui, &th, "Reset all local data", BtnKind::Danger, Some(Icon::Trash), None).clicked() {
                     st.confirm_reset = true;
@@ -228,6 +254,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
         });
     });
 
+    password_dialog(ui.ctx(), env, st);
     if st.confirm_reset {
         let th = env.theme.clone();
         let mut open = true;
@@ -247,5 +274,75 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SettingsState) {
         if !open {
             st.confirm_reset = false;
         }
+    }
+}
+
+fn password_dialog(ctx: &egui::Context, env: &mut Env, st: &mut SettingsState) {
+    let Some(d) = st.pw.as_mut() else { return };
+    let th = env.theme.clone();
+    if let Some(t) = d.busy.as_mut() {
+        if let Some(r) = t.poll() {
+            d.busy = None;
+            match r {
+                Ok(m) => {
+                    env.toast(m);
+                    st.pw = None;
+                    // the server revokes every token on change; sign in again
+                    env.act(Action::SignOut);
+                    return;
+                }
+                Err(e) => {
+                    if env.handle_api_error(&e) {
+                        st.pw = None;
+                        return;
+                    }
+                    d.error = Some(e.to_string());
+                }
+            }
+        }
+    }
+    let d = st.pw.as_mut().unwrap();
+    let mut close = false;
+    let mut submit = false;
+    egui::Window::new("Change password")
+        .title_bar(false)
+        .collapsible(false)
+        .resizable(false)
+        .anchor(egui::Align2::CENTER_CENTER, [0.0, 0.0])
+        .fixed_size([ctx.screen_rect().width().min(460.0) - 40.0, 0.0])
+        .frame(egui::Frame::none().fill(th.p.card).rounding(egui::Rounding::same(28.0)).stroke(egui::Stroke::new(1.0, th.p.hairline)).shadow(ctx.style().visuals.window_shadow).inner_margin(egui::Margin::same(24.0)))
+        .show(ctx, |ui| {
+            let w = ui.available_width();
+            widgets::heading(ui, &th, "Change password", 22.0);
+            widgets::muted(ui, &th, "You will be signed out everywhere and asked to sign in again.");
+            ui.add_space(14.0);
+            widgets::field(ui, &th, &mut d.current, "Current password", Some(Icon::Lock), w, true, false);
+            ui.add_space(10.0);
+            widgets::field(ui, &th, &mut d.new, "New password (8+ characters)", Some(Icon::Key), w, true, false);
+            if let Some(e) = d.error.clone() {
+                ui.add_space(10.0);
+                crate::screens::login::error_banner(ui, &th, &e, w);
+            }
+            ui.add_space(16.0);
+            ui.horizontal(|ui| {
+                right(ui, |ui| {
+                    ui.add_enabled_ui(d.busy.is_none() && !d.current.is_empty() && d.new.len() >= 8, |ui| {
+                        if widgets::button(ui, &th, if d.busy.is_some() { "Saving…" } else { "Change password" }, BtnKind::Primary, None, None).clicked() {
+                            submit = true;
+                        }
+                    });
+                    if widgets::button(ui, &th, "Cancel", BtnKind::Ghost, None, None).clicked() {
+                        close = true;
+                    }
+                });
+            });
+        });
+    if submit {
+        let (cur, new, tok) = (d.current.clone(), d.new.clone(), env.token().unwrap_or_default());
+        d.error = None;
+        d.busy = Some(crate::data::tasks::Task::spawn(ctx, move || crate::data::auth::change_password(&tok, &cur, &new)));
+    }
+    if close || ctx.input(|i| i.key_pressed(egui::Key::Escape)) {
+        st.pw = None;
     }
 }

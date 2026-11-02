@@ -28,7 +28,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
         let th = env.theme.clone();
         let p = env.store.s.profile.clone();
         let who = match (&env.store.s.session, env.store.s.guest) {
-            (Some(s), _) => format!("Signed in · {}", s.email),
+            (Some(s), _) => format!("Signed in · {}", if s.email.is_empty() { "NEBians account" } else { &s.email }),
             (None, true) => "Guest — your data stays on this computer".to_string(),
             _ => "Local profile".to_string(),
         };
@@ -46,6 +46,12 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
         ui.horizontal_wrapped(|ui| {
             let label = if st.editing { "Done" } else { "Edit profile" };
             if widgets::button(ui, &th, label, if st.editing { BtnKind::Primary } else { BtnKind::Secondary }, Some(if st.editing { Icon::Check } else { Icon::Edit }), None).clicked() {
+                if st.editing {
+                    env.push_profile();
+                    if env.signed_in() {
+                        env.toast("Profile saved to your account");
+                    }
+                }
                 st.editing = !st.editing;
             }
             if widgets::button(ui, &th, "Settings", BtnKind::Ghost, Some(Icon::Settings), None).clicked() {
@@ -135,10 +141,10 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
             widgets::panel_frame(&th).show(ui, |ui| {
                 ui.set_width(ui.available_width());
                 widgets::heading(ui, &th, "Sign in to sync with the community", 16.0);
-                widgets::muted(ui, &th, "Guests can read everything. Sign in with email to use your NEBians account.");
-                ui.add_space(8.0);
-                if widgets::button(ui, &th, "Sign in with email", BtnKind::Primary, Some(Icon::Mail), None).clicked() {
-                    env.act(Action::Go(Route::EmailAuth));
+                widgets::muted(ui, &th, "Guests can read everything. Sign in with Google, GitHub or email to post, reply and keep your profile on every device.");
+                ui.add_space(10.0);
+                if widgets::button(ui, &th, "Sign in or join", BtnKind::Primary, Some(Icon::Login), None).clicked() {
+                    env.act(Action::Replace(Route::Login));
                 }
             });
         }

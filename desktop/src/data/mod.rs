@@ -1,6 +1,8 @@
 //! Data layer: models, the content loader (reads the repo's existing
 //! `backend_python/web/data` JSON), persistence, background tasks, search, auth.
+pub mod api;
 pub mod auth;
+pub mod browser_auth;
 pub mod content;
 pub mod models;
 pub mod search;

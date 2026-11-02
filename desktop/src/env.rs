@@ -31,6 +31,9 @@ pub struct Env {
     pub toasts: Toasts,
     pub logo: Logo,
     pub system_dark: bool,
+    pub srv: crate::server::ServerState,
+    /// Screenshot tour: never talk to the server, use bundled sample data for signed-in screens.
+    pub demo: bool,
     pub config_dir: PathBuf,
     pub search_index: Option<Arc<SearchIndex>>,
     search_task: Option<Task<SearchIndex>>,
@@ -56,6 +59,8 @@ impl Env {
             toasts: Toasts::default(),
             logo,
             system_dark,
+            srv: Default::default(),
+            demo: false,
             config_dir,
             search_index: None,
             search_task: None,
@@ -119,6 +124,7 @@ impl Env {
                 self.search_task = None;
             }
         }
+        self.server_poll();
     }
 
     pub fn go(&mut self, r: Route) {

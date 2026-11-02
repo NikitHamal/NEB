@@ -18,20 +18,26 @@ pub enum Route {
     Settings,
     Profile,
     About,
+    Community,
+    Post(String),
+    Notifications,
+    CompleteProfile,
 }
 
 impl Route {
     /// Routes that show the app shell (menu + navigation). Splash and the
     /// sign-in journey run full-bleed, like on Android.
     pub fn has_shell(&self) -> bool {
-        !matches!(self, Route::Splash | Route::Login | Route::EmailAuth | Route::Onboarding)
+        !matches!(self, Route::Splash | Route::Login | Route::EmailAuth | Route::Onboarding | Route::CompleteProfile)
     }
 
     /// Which top-level destination should be highlighted.
     pub fn nav_root(&self) -> Route {
         match self {
             Route::Library | Route::Category(_) | Route::Subject { .. } | Route::Reader(_) => Route::Library,
-            Route::Profile | Route::About => Route::Settings,
+            Route::Community | Route::Post(_) => Route::Community,
+            Route::Profile => Route::Profile,
+            Route::About => Route::Settings,
             other => other.clone(),
         }
     }

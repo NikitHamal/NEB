@@ -10,6 +10,7 @@ mod env;
 mod errors;
 mod reader;
 mod router;
+mod server;
 mod screens;
 mod theme;
 mod ui;

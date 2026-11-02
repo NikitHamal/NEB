@@ -20,6 +20,7 @@ pub enum Mode {
     SignUp,
     Verify,
     Forgot,
+    Reset,
 }
 
 enum Reply {
@@ -35,23 +36,14 @@ pub struct EmailState {
     password: String,
     username: String,
     code: String,
+    new_password: String,
     busy: Option<Task<Result<Reply>>>,
     error: Option<String>,
     info: Option<String>,
 }
 
 fn finish(env: &mut Env, s: Session) {
-    if env.store.s.profile.handle.is_empty() {
-        env.store.s.profile.handle = s.username.clone();
-    }
-    if env.store.s.profile.display_name.is_empty() {
-        env.store.s.profile.display_name = s.username.clone();
-    }
-    env.store.s.session = Some(s);
-    env.store.s.guest = false;
-    env.store.touch();
-    let next = if env.store.s.onboarded { Route::Home } else { Route::Onboarding };
-    env.act(Action::Replace(next));
+    super::auth_flow::complete_sign_in(env, s, false);
 }
 
 pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
@@ -62,6 +54,9 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
             match res {
                 Ok(Reply::Session(s)) => finish(env, s),
                 Ok(Reply::Message(m)) => {
+                    if st.mode == Mode::Forgot {
+                        st.mode = Mode::Reset;
+                    }
                     st.info = Some(m);
                     st.error = None;
                 }
@@ -89,7 +84,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                     env.act(Action::Replace(Route::Login));
                 }
             });
-            ui.add_space((avail.y * 0.5 - 300.0).max(8.0));
+            ui.add_space((avail.y * 0.5 - 330.0).max(8.0));
             env.logo.show(ui, 52.0);
             ui.add_space(18.0);
             let (title, sub) = match st.mode {
@@ -97,49 +92,58 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                 Mode::SignUp => ("Create your account", "A verification code will be emailed to you."),
                 Mode::Verify => ("Check your email", "Enter the 6-digit code we sent you."),
                 Mode::Forgot => ("Reset your password", "We will email a reset code to your address."),
+                Mode::Reset => ("Choose a new password", "Enter the code we emailed you and a new password."),
             };
             ui.add(egui::Label::new(RichText::new(title).font(fonts::bold(26.0)).color(th.p.ink)).selectable(false));
             ui.add(egui::Label::new(RichText::new(sub).color(th.p.ink_muted)).selectable(false));
             ui.add_space(22.0);
 
             ui.add_enabled_ui(!busy, |ui| {
-                if st.mode != Mode::Verify {
-                    widgets::text_field(ui, &th, &mut st.email, "Email address", Some(Icon::Mail), w, false);
+                if !matches!(st.mode, Mode::Verify) {
+                    widgets::field(ui, &th, &mut st.email, "Email address", Some(Icon::Mail), w, false, false);
                     ui.add_space(10.0);
                 }
                 if st.mode == Mode::SignUp {
-                    widgets::text_field(ui, &th, &mut st.username, "Username", Some(Icon::User), w, false);
+                    widgets::field(ui, &th, &mut st.username, "Username", Some(Icon::User), w, false, false);
                     ui.add_space(10.0);
                 }
                 if matches!(st.mode, Mode::SignIn | Mode::SignUp) {
-                    let r = widgets::text_field(ui, &th, &mut st.password, "Password", Some(Icon::Lock), w, true);
+                    let r = widgets::field(ui, &th, &mut st.password, "Password", Some(Icon::Lock), w, true, false);
                     if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) && st.mode == Mode::SignIn {
                         submit(env, st);
                     }
                     ui.add_space(10.0);
                 }
-                if st.mode == Mode::Verify {
-                    widgets::text_field(ui, &th, &mut st.code, "Verification code", Some(Icon::Lock), w, false);
+                if matches!(st.mode, Mode::Verify | Mode::Reset) {
+                    widgets::field(ui, &th, &mut st.code, "Verification code", Some(Icon::Key), w, false, false);
+                    ui.add_space(10.0);
+                }
+                if st.mode == Mode::Reset {
+                    let r = widgets::field(ui, &th, &mut st.new_password, "New password", Some(Icon::Lock), w, true, false);
+                    if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) {
+                        submit(env, st);
+                    }
                     ui.add_space(10.0);
                 }
             });
             if let Some(e) = &st.error {
-                ui.add(egui::Label::new(RichText::new(e).color(th.p.danger)));
-                ui.add_space(8.0);
+                super::login::error_banner(ui, &th, e, w);
+                ui.add_space(10.0);
             }
             if let Some(i) = &st.info {
-                ui.add(egui::Label::new(RichText::new(i).color(th.p.ink_muted)));
-                ui.add_space(8.0);
+                ui.add(egui::Label::new(RichText::new(i).font(fonts::regular(14.0)).color(th.p.ink_muted)));
+                ui.add_space(10.0);
             }
             let label = match st.mode {
                 Mode::SignIn => "Sign in",
                 Mode::SignUp => "Create account",
                 Mode::Verify => "Verify",
                 Mode::Forgot => "Send reset code",
+                Mode::Reset => "Set new password",
             };
             ui.add_space(4.0);
             ui.add_enabled_ui(!busy, |ui| {
-                if widgets::button(ui, &th, if busy { "Please wait…" } else { label }, BtnKind::Primary, None, Some(w)).clicked() {
+                if widgets::button_sized(ui, &th, if busy { "Please wait…" } else { label }, BtnKind::Primary, None, Some(w), 56.0).clicked() {
                     submit(env, st);
                 }
             });
@@ -161,7 +165,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                         go(ui, "Create an account", Mode::SignUp, st);
                         go(ui, "Forgot password?", Mode::Forgot, st);
                     }
-                    Mode::SignUp | Mode::Forgot => go(ui, "I already have an account", Mode::SignIn, st),
+                    Mode::SignUp | Mode::Forgot | Mode::Reset => go(ui, "I already have an account", Mode::SignIn, st),
                     Mode::Verify => {
                         if ui.link(RichText::new("Resend code").font(fonts::medium(13.5)).color(th.p.accent)).clicked() && !st.email.is_empty() {
                             let email = st.email.clone();
@@ -172,10 +176,8 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                 }
             });
             ui.add_space(18.0);
-            if widgets::button(ui, &th, "Continue as guest instead", BtnKind::Ghost, None, Some(w)).clicked() {
-                env.store.s.guest = true;
-                env.store.touch();
-                env.act(Action::Replace(Route::Onboarding));
+            if widgets::button_sized(ui, &th, "Continue as guest instead", BtnKind::Ghost, None, Some(w), 52.0).clicked() {
+                super::auth_flow::continue_as_guest(env);
             }
         });
     });
@@ -211,6 +213,15 @@ fn submit(env: &mut Env, st: &mut EmailState) {
                 return;
             }
             st.busy = Some(Task::spawn(&ctx, move || auth::verify(&email, &code).map(Reply::Session)));
+        }
+        Mode::Reset => {
+            let code = st.code.trim().to_string();
+            let np = st.new_password.clone();
+            if email.is_empty() || code.is_empty() || np.len() < 8 {
+                st.error = Some("Enter your email, the emailed code and a new password of 8+ characters.".into());
+                return;
+            }
+            st.busy = Some(Task::spawn(&ctx, move || auth::reset_password(&email, &code, &np).map(Reply::Session)));
         }
         Mode::Forgot => {
             if !email.contains('@') {
