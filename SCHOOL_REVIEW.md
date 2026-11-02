@@ -77,3 +77,11 @@ On acc10 p148 ("Step 1 — Provincial share = 30%imes1,20,000 = Rs. 36,000") the
 
 ## Security
 The PAT you pasted has been shared across sessions and was used here. It was passed per command (`http.extraheader`) and never written to the repo, remote URL or git config. **Rotate it now.**
+
+## Session 3 (continuation) — what was and was not done
+**Fixed**
+1. **`imes` bug (76b9185).** Root cause: 12 TAB characters in markdown source (`\times` authored un-raw → TAB + `imes`), in acc10 u12 (5) and omath8 u02 (7). The earlier "25 sites / 7 chapters / Commerce / Question Bank 10" attribution was wrong: those sites contain a correct `\%` … `\times` and render correctly. Fixed at source (inverse of the corruption), acc10 and omath8 PDFs rebuilt. `school_audit.py` now flags any mid-line TAB/BS/FF/BEL/VT (tested: reports both files before the fix, nothing after). A repo-wide scan found no other eaten escapes (`\b \f \r \a` absent). Because math is drawn as images, `pdftotext` cannot see the bug; verification was source-level plus rendering pages. Side note: omath8 grew 150 → 154 pages; chapter summaries match up to unit 2 (the edited unit) and drift from unit 3 where the source is unchanged, i.e. layout reflow from newer Pyphen/WeasyPrint, not from the fix.
+2. **cs8 QBASIC → Python** (see SYLLABUS_DIFF §6): teacher-confirmed; unit 20 rewritten; 373-page PDF rebuilt; `pdftotext` finds 0 QBASIC. QA found and fixed a defect of my own: the first IDLE figure overflowed its boxes. I also corrected a wrong claim I had drafted (a misspelt `print` is a `NameError`, a run-time error — not a syntax error).
+**Verified against primary vs proxy:** Python depth for Class 8 — proxy (CDC Grade 9 book for the progression; no Class 8 document). Everything else unchanged from sessions 1–2.
+**Judgement calls:** lists/dictionaries/functions left to Class 9; kept the SEE grade program's bands from the old lesson; the monospace font draws `>=` as a ligature (`≥`) in code blocks — house style, unchanged.
+**Still open (honest):** `qbank8` Computer Science QBASIC content; Class 10 2083 edition checks; Class 8/11/12 primary-source retries; every C-graded subject; no subject was upgraded from C this session.
