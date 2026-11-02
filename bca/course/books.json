@@ -207,5 +207,13 @@
   "credits": 3,
   "accent": "#C2410C",
   "status": "done"
+ },
+ "semester-5/mis-and-e-business": {
+  "name": "MIS and e-Business",
+  "code": "BCA 304",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }

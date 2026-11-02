@@ -37,7 +37,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | V | BCA 301 | Computer Network | 3 | **full book** (`semester-5/computer-networking`) |
 | V | BCA 302 | Artificial Intelligence | 3 | **full book** (`semester-5/artificial-intelligence`) |
 | V | BCA 303 | Advanced Java Programming | 3 | **full book** (`semester-5/advanced-java`) |
-| V | BCA 304 | MIS and e-Business | 3 | mapped only |
+| V | BCA 304 | MIS and e-Business | 3 | **full book** (`semester-5/mis-and-e-business`) |
 | V | BCA 305 | Society and Technology | 3 | mapped only |
 | V | BCA 306 | Project II | 3 | project (no notes) |
 | VI | BCA 351 | Computer Graphics and Animation | 3 | mapped only |
