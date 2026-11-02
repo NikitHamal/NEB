@@ -2,15 +2,15 @@
    The feed is deliberately narrower than the old 1400px grid; long forum text
    was running the full width of the page. */
 .forum-container {
-  max-width: 1202px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 20px 24px 0;
+  padding: 20px 16px 0;
   font-family: 'Poppins', sans-serif;
 }
 
 @media (max-width: 600px) {
   .forum-container {
-    padding: 16px 16px 0;
+    padding: 16px 12px 0;
   }
 }
 

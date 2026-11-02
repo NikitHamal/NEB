@@ -35,14 +35,14 @@
 /* md-container sets max-width:1400px and the horizontal gutter; only the
    vertical rhythm and the reading width are overridden here. */
 .news-detail-page {
-  max-width: 1202px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 20px 24px 72px;
+  padding: 20px 16px 72px;
 }
 
 @media (max-width: 600px) {
   .news-detail-page {
-    padding: 16px 16px 64px;
+    padding: 16px 12px 64px;
   }
 }
 

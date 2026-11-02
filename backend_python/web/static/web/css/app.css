@@ -3243,7 +3243,7 @@ button:focus-visible {
 }
 
 .site-footer {
-  padding: 36px 24px 20px;
+  padding: 36px 16px 20px;
   color: var(--md-on-surface-variant);
   font-size: 0.8125rem;
   background: var(--md-surface-container-low);
