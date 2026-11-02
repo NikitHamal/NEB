@@ -58,12 +58,12 @@ impl ReaderState {
         let (pj, pa) = (self.pending_jump.take(), std::mem::take(&mut self.pending_answers));
         *self = ReaderState { current: Some(c.clone()), pending_jump: pj, pending_answers: pa, ..Default::default() };
         env.ctx.forget_all_images();
-        let root = env.content.clone();
+        let repo = env.repo.clone();
         let r = c.clone();
         self.restore = env.store.progress(c).map(|p| p.scroll).filter(|s| *s > 40.0);
         self.task = Some(Task::spawn(&env.ctx, move || -> Loaded {
-            let root = root.ok_or_else(|| AppError::Content("Study content folder not found.".into()))?;
-            let ch = root.chapter(&r)?;
+            let ch = repo.chapter(&r)?;
+            repo.prefetch_assets(&ch.html);
             let doc = html::parse(&ch.html);
             Ok((ChMeta { title: ch.title, area: ch.area, read_min: ch.read_min, words: ch.words, figures: ch.figures, toc: ch.toc, exam: ch.exam }, doc))
         }));
@@ -263,7 +263,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ReaderState, c: &ChapterRef) {
                     let mut cx = render::RenderCx {
                         th: &th,
                         scale,
-                        content: env.content.as_ref(),
+                        content: Some(&env.repo),
                         jump: &mut st.jump,
                         heads: &mut st.heads,
                         mcq: &mut st.mcq,
@@ -298,7 +298,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ReaderState, c: &ChapterRef) {
 
 fn chapter_header(ui: &mut Ui, env: &mut Env, st: &mut ReaderState, meta: &ChMeta, c: &ChapterRef) {
     let th = env.theme.clone();
-    ui.horizontal_wrapped(|ui| {
+    crate::ui::widgets::flow(ui, |ui| {
         if !meta.area.is_empty() {
             widgets::badge(ui, &meta.area, th.p.accent, th.p.accent_soft);
         }
@@ -316,7 +316,7 @@ fn chapter_header(ui: &mut Ui, env: &mut Env, st: &mut ReaderState, meta: &ChMet
         ui.add_space(8.0);
         widgets::panel_frame(&th).inner_margin(Margin::symmetric(16.0, 12.0)).show(ui, |ui| {
             ui.set_width(ui.available_width());
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 widgets::label(ui, RichText::new("Timed test").font(fonts::bold(14.5)).color(th.p.ink));
                 widgets::label(ui, RichText::new(format!("{} minutes · −{} per wrong answer", ex.minutes, ex.negative)).font(fonts::regular(13.0)).color(th.p.ink_muted));
             });
@@ -390,7 +390,7 @@ fn footer(ui: &mut Ui, env: &mut Env, c: &ChapterRef, done: bool, prev: &Option<
     let th = env.theme.clone();
     widgets::hairline(ui, &th);
     ui.add_space(14.0);
-    ui.horizontal_wrapped(|ui| {
+    crate::ui::widgets::flow(ui, |ui| {
         if let Some(p) = prev {
             if widgets::button(ui, &th, "Previous", BtnKind::Secondary, Some(Icon::Back), None).clicked() {
                 open_chapter(env, p.clone());

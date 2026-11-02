@@ -1,15 +1,14 @@
 //! Search (Ctrl+K): instant structural results (subjects, units, topics) plus a
 //! debounced, cancellable full-text scan of every chapter on disk. ↑/↓/Enter
 //! navigate results from the keyboard.
-use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::Arc;
 use std::time::{Duration, Instant};
 
 use egui::text::{LayoutJob, TextFormat};
 use egui::{vec2, Align, Key, RichText, Ui};
 
 use super::common::*;
-use crate::data::search::{dir_infos, fulltext, HitKind, SearchHit};
+use crate::data::search::{remote, HitKind, SearchHit};
+use crate::errors::Result;
 use crate::data::tasks::Task;
 use crate::env::Env;
 use crate::router::Route;
@@ -23,13 +22,11 @@ pub struct SearchState {
     pub focus: bool,
     structural: Vec<SearchHit>,
     text_hits: Vec<SearchHit>,
-    text_task: Option<Task<Vec<SearchHit>>>,
-    cancel: Option<Arc<AtomicBool>>,
+    text_task: Option<Task<Result<Vec<SearchHit>>>>,
+    error: Option<String>,
     last_run: String,
     changed_at: Option<Instant>,
-    text_for: String,
     selected: usize,
-    index_len_seen: usize,
 }
 
 fn open_hit(env: &mut Env, h: &SearchHit) {
@@ -75,48 +72,38 @@ fn highlight(th: &crate::theme::Theme, text: &str, q: &str, size: f32, base: egu
 pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SearchState) {
     let th = env.theme.clone();
 
-    // refresh structural results when the query changed or the index just finished building
-    let idx_len = env.search_index.as_ref().map(|i| i.len()).unwrap_or(0);
-    if st.query != st.last_run || idx_len != st.index_len_seen {
-        st.index_len_seen = idx_len;
-        if st.query != st.last_run {
-            st.selected = 0;
-            st.changed_at = Some(Instant::now());
-        }
+    if st.query != st.last_run {
         st.last_run = st.query.clone();
-        st.structural = env.search_index.as_ref().map(|i| i.query(&st.query)).unwrap_or_default();
-        if st.query.trim().chars().count() < 3 {
+        st.selected = 0;
+        st.changed_at = Some(Instant::now());
+        if st.query.trim().chars().count() < 2 {
+            st.structural.clear();
             st.text_hits.clear();
-            st.text_for.clear();
-            if let Some(c) = st.cancel.take() {
-                c.store(true, Ordering::Relaxed);
-            }
+            st.error = None;
             st.text_task = None;
+            st.changed_at = None;
         }
     }
-    // debounced full-text scan
-    if let (Some(t0), true) = (st.changed_at, st.query.trim().chars().count() >= 3) {
-        if t0.elapsed() > Duration::from_millis(280) {
+    if let (Some(t0), true) = (st.changed_at, st.query.trim().chars().count() >= 2) {
+        if t0.elapsed() > Duration::from_millis(250) {
             st.changed_at = None;
-            if let Some(c) = st.cancel.take() {
-                c.store(true, Ordering::Relaxed);
-            }
-            if let Some(root) = env.content.clone() {
-                let cancel = Arc::new(AtomicBool::new(false));
-                st.cancel = Some(cancel.clone());
-                let infos = dir_infos(&env.tracks);
-                let q = st.query.trim().to_string();
-                st.text_for = q.clone();
-                st.text_task = Some(Task::spawn(&env.ctx, move || fulltext(&root, &infos, &q, cancel)));
-            }
+            let q = st.query.trim().to_string();
+            st.text_task = Some(Task::spawn(&env.ctx, move || remote(&q)));
         } else {
-            ui.ctx().request_repaint_after(Duration::from_millis(300));
+            ui.ctx().request_repaint_after(Duration::from_millis(100));
         }
     }
     if let Some(t) = st.text_task.as_mut() {
-        if let Some(h) = t.poll() {
-            st.text_hits = h;
+        if let Some(res) = t.poll() {
             st.text_task = None;
+            match res {
+                Ok(h) => {
+                    st.structural = h.iter().filter(|x| x.kind != HitKind::Text).cloned().collect();
+                    st.text_hits = h.into_iter().filter(|x| x.kind == HitKind::Text).collect();
+                    st.error = None;
+                }
+                Err(e) => st.error = Some(e.to_string()),
+            }
         }
     }
 
@@ -151,7 +138,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SearchState) {
         let q = st.query.trim().to_string();
         if q.is_empty() {
             widgets::section_header(ui, &th, "Try searching for", None);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for s in ["projectile motion", "Ohm's law", "vectors", "accountancy", "photosynthesis", "matrix", "IOE model paper"] {
                     if widgets::chip(ui, &th, s, false).clicked() {
                         st.query = s.to_string();
@@ -182,14 +169,23 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SearchState) {
             }
             return;
         }
-        if env.search_index.is_none() {
+        if let Some(e) = &st.error {
+            widgets::empty_state(ui, &th, Icon::Warning, "Search is unavailable", e);
+            return;
+        }
+        if st.text_task.is_some() && flat.is_empty() {
             ui.horizontal(|ui| {
                 ui.spinner();
-                widgets::muted(ui, &th, "Building the search index…");
+                widgets::muted(ui, &th, "Searching the library…");
             });
+            return;
         }
-        if flat.is_empty() && st.text_task.is_none() && env.search_index.is_some() {
-            widgets::empty_state(ui, &th, Icon::Search, "No results", &format!("Nothing matched “{q}”. Try a shorter or different word."));
+        if flat.is_empty() && st.changed_at.is_none() && st.text_task.is_none() {
+            if q.chars().count() < 2 {
+                widgets::muted(ui, &th, "Keep typing — two letters or more.");
+            } else {
+                widgets::empty_state(ui, &th, Icon::Search, "No results", &format!("Nothing matched “{q}”. Try a shorter or different word."));
+            }
             return;
         }
         let mut n = 0usize;

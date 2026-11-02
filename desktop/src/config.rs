@@ -28,13 +28,11 @@ pub const BREAKPOINT_TOC: f32 = 1060.0;
 
 /// Options understood by the binary.
 ///
-/// * `--content <dir>`      repo checkout (or bundled `content/`) to read study material from
 /// * `--config <dir>`       where to keep `desktop-state.json` (default: OS config dir)
 /// * `--screenshots <dir>`  scripted tour that saves PNGs of every screen, then exits
 /// * `--reset`              ignore any saved state
 #[derive(Debug, Default, Clone)]
 pub struct Cli {
-    pub content: Option<PathBuf>,
     pub config_dir: Option<PathBuf>,
     pub screenshots: Option<PathBuf>,
     pub reset: bool,
@@ -46,7 +44,6 @@ impl Cli {
         let mut args = std::env::args().skip(1);
         while let Some(a) = args.next() {
             match a.as_str() {
-                "--content" => cli.content = args.next().map(PathBuf::from),
                 "--config" => cli.config_dir = args.next().map(PathBuf::from),
                 "--screenshots" => cli.screenshots = args.next().map(PathBuf::from),
                 "--reset" => cli.reset = true,
@@ -55,14 +52,11 @@ impl Cli {
                     std::process::exit(0);
                 }
                 "--help" | "-h" => {
-                    println!("NEBians Desktop {VERSION}\n\nUSAGE: nebians [--content DIR] [--config DIR] [--reset] [--screenshots DIR]");
+                    println!("NEBians Desktop {VERSION}\n\nUSAGE: nebians [--config DIR] [--reset] [--screenshots DIR]");
                     std::process::exit(0);
                 }
                 _ => {}
             }
-        }
-        if cli.content.is_none() {
-            cli.content = std::env::var_os("NEB_CONTENT_DIR").map(PathBuf::from);
         }
         if cli.config_dir.is_none() {
             cli.config_dir = std::env::var_os("NEB_CONFIG_DIR").map(PathBuf::from);

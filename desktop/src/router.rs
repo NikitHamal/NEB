@@ -15,6 +15,9 @@ pub enum Route {
     Search,
     Bookmarks,
     Downloads,
+    Books,
+    People,
+    User(String),
     Settings,
     Profile,
     About,
@@ -35,7 +38,7 @@ impl Route {
     pub fn nav_root(&self) -> Route {
         match self {
             Route::Library | Route::Category(_) | Route::Subject { .. } | Route::Reader(_) => Route::Library,
-            Route::Community | Route::Post(_) => Route::Community,
+            Route::Community | Route::Post(_) | Route::User(_) => Route::Community,
             Route::Profile => Route::Profile,
             Route::About => Route::Settings,
             other => other.clone(),

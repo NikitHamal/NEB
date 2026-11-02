@@ -43,7 +43,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
             });
         });
         ui.add_space(14.0);
-        ui.horizontal_wrapped(|ui| {
+        crate::ui::widgets::flow(ui, |ui| {
             let label = if st.editing { "Done" } else { "Edit profile" };
             if widgets::button(ui, &th, label, if st.editing { BtnKind::Primary } else { BtnKind::Secondary }, Some(if st.editing { Icon::Check } else { Icon::Edit }), None).clicked() {
                 if st.editing {
@@ -90,7 +90,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ProfileState) {
                 ui.add(egui::TextEdit::multiline(&mut bio).desired_rows(3).desired_width(w.min(460.0)).char_limit(160));
                 ui.add_space(10.0);
                 widgets::label(ui, RichText::new("Avatar colour").font(fonts::medium(13.0)).color(th.p.ink_muted));
-                ui.horizontal_wrapped(|ui| {
+                crate::ui::widgets::flow(ui, |ui| {
                     for i in 0..TONES.len() {
                         let (rect, resp) = ui.allocate_exact_size(vec2(34.0, 34.0), egui::Sense::click());
                         ui.painter().circle_filled(rect.center(), 14.0, tone(i));

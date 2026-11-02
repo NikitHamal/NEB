@@ -367,7 +367,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut CommunityState) {
             guest_banner(ui, env, w);
             ui.add_space(14.0);
         }
-        ui.horizontal_wrapped(|ui| {
+        crate::ui::widgets::flow(ui, |ui| {
             if widgets::chip(ui, &th, "All", st.category.is_none()).clicked() && st.category.is_some() {
                 st.category = None;
                 st.loaded = false;
@@ -480,7 +480,7 @@ fn composer_window(ctx: &egui::Context, env: &mut Env, st: &mut CommunityState) 
             ui.add_space(10.0);
             widgets::text_area(ui, &th, &mut c.body, "What would you like to discuss or ask?", w, 6);
             ui.add_space(12.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for (i, name) in CATEGORIES.iter().enumerate() {
                     if widgets::chip(ui, &th, name, c.category == i).clicked() {
                         c.category = i;

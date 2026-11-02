@@ -36,7 +36,9 @@ pub fn study_entries() -> Vec<NavEntry> {
     vec![
         entry("Search", Icon::Search, Route::Search, "Ctrl+K"),
         entry("Bookmarks", Icon::Bookmark, Route::Bookmarks, "Ctrl+5"),
-        entry("Downloads", Icon::Download, Route::Downloads, "Ctrl+6"),
+        entry("Books", Icon::Article, Route::Books, "Ctrl+6"),
+        entry("People", Icon::User, Route::People, "Ctrl+7"),
+        entry("Offline", Icon::Download, Route::Downloads, "Ctrl+8"),
     ]
 }
 

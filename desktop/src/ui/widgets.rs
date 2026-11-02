@@ -497,3 +497,11 @@ pub fn text_area(ui: &mut Ui, th: &Theme, text: &mut String, hint: &str, width: 
         })
         .inner
 }
+
+/// Wrapping row with room to breathe: chips and tags never touch, wrapped rows keep a real gap.
+pub fn flow(ui: &mut Ui, add: impl FnOnce(&mut Ui)) {
+    ui.horizontal_wrapped(|ui| {
+        ui.spacing_mut().item_spacing = vec2(10.0, 12.0);
+        add(ui);
+    });
+}
