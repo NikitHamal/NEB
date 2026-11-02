@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**34 of 44 subject slots are written, built and QA-checked; 2 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (508,439 raw words of study material, counted over the unit files, including code listings and tables):
+**35 of 44 subject slots are written, built and QA-checked; 1 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (519,035 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -41,6 +41,7 @@
 | 6 | BCA 354 | [Technical Writing](semester-6/technical-writing/) | 12,133 | 36 | done |
 | 6 | BCA 355 | [Distributed System](semester-6/distributed-system/) | 17,866 | 54 | done |
 | 7 | BCA 403 | [Financial Accounting](semester-7/financial-accounting/) | 10,528 | 37 | done |
+| 8 | BCA 451 | [Cloud Computing](semester-8/cloud-computing/) | 10,596 | 37 | done |
 
 Semesters I, II, III and IV are fully done (Semester IV's Project I is a project with no notes by nature). Everything else in `CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
 <!-- /COURSE-STATUS -->

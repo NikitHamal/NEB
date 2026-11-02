@@ -271,5 +271,13 @@
   "credits": 2,
   "accent": "#047857",
   "status": "done"
+ },
+ "semester-8/cloud-computing": {
+  "name": "Cloud Computing",
+  "code": "BCA 451",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#0369A1",
+  "status": "done"
  }
 }
