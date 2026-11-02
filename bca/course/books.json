@@ -31,5 +31,13 @@
   "credits": 3,
   "accent": "#7A3E9D",
   "status": "done"
+ },
+ "semester-1/professional-communication-ethics": {
+  "name": "Professional Communication and Ethics",
+  "code": "BCA 105",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }

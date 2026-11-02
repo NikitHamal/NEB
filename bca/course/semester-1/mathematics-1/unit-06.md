@@ -131,7 +131,7 @@ Coffee at 90 °C in a 30 °C room cools to 70 °C in 5 minutes. T = 30 + 60e^{�
 ::: note Answers and worked solutions
 **1.** dy/y = dx/x ⇒ y = Cx; y(1) = 3 ⇒ **y = 3x**.
 **2.** dy/(1 + y²) = x dx ⇒ tan⁻¹y = x²/2 + c ⇒ **y = tan(x²/2 + c)**.
-**3.** Put y = vx: v + x v′ = (1 + v²)/v ⇒ x v′ = 1/v ⇒ v dv = dx/x ⇒ v²/2 = ln|x| + c ⇒ **y² = 2x²(ln|x| + C)**. Check by differentiating: 2yy′ = 4x ln|x| + 2x + 2Cx,, which equals 2y·(x² + y²)/(xy) = 2(x² + y²)/x once y² is substituted ✓.
+**3.** Put y = vx: v + x v′ = (1 + v²)/v ⇒ x v′ = 1/v ⇒ v dv = dx/x ⇒ v²/2 = ln|x| + c ⇒ **y² = 2x²(ln|x| + C)**. Check by differentiating: 2yy′ = 4x ln|x| + 2x + 2Cx, which equals 2y·(x² + y²)/(xy) = 2(x² + y²)/x once y² is substituted ✓.
 **4.** μ = x; (xy)′ = x⁴ ⇒ xy = x⁵/5 + C ⇒ y = x⁴/5 + C/x. y(1) = 1: 1/5 + C = 1 ⇒ C = 4/5: **y = x⁴/5 + 4/(5x)**.
 **5.** M_y = 3x² = N_x ✓. F = x³y + 2x + g(y); F_y = x³ + g′ = x³ + 4y ⇒ g = 2y². **x³y + 2x + 2y² = C**.
 **6.** m² + m − 6 = (m + 3)(m − 2): **y = C₁e^{−3x} + C₂e^{2x}**. (m − 3)² = 0: **y = (C₁ + C₂x)e^{3x}**. m = ±3i: **y = C₁ cos 3x + C₂ sin 3x**.
