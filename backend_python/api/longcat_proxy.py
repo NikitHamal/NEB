@@ -38,11 +38,19 @@ _SIGNER_LOCK = threading.Lock()
 _SIGNER_PROC: Optional[subprocess.Popen] = None
 
 MODELS = [
-    {"id": "longcat/LongCat-2.0", "name": "LongCat 2.0 Flash", "reasoning": True, "vision": False,
+    {"id": "longcat/LongCat-2.5", "name": "LongCat 2.5", "reasoning": True, "vision": False,
      "web_search": True, "context_window": 128000},
 ]
 
 MODEL_MAP = {m["id"]: m for m in MODELS}
+
+LEGACY_MODEL_IDS = {
+    "longcat/LongCat-2.0": "longcat/LongCat-2.5",
+}
+
+
+def _resolve_model(model: str) -> Optional[Dict]:
+    return MODEL_MAP.get(LEGACY_MODEL_IDS.get(model or "", model))
 
 _UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36"
 
@@ -91,6 +99,15 @@ def _sign_via_sidecar(url: str, method: str, body: str) -> Optional[Dict]:
     except Exception:
         pass
     return None
+
+
+def _read_json(resp) -> Dict:
+    try:
+        raw = b"".join(resp.iter_content())
+        return json.loads(raw.decode("utf-8", errors="replace"))
+    except Exception as exc:
+        logger.warning("LongCat JSON body unreadable: %s", exc)
+        return {}
 
 
 def http_post_json(host: str, port: int, payload: dict, timeout: float = 15) -> Optional[dict]:
@@ -195,23 +212,26 @@ def _build_messages(messages: List[Dict[str, str]], content: str) -> List[Dict]:
     return out
 
 
-def _build_body(messages: List[Dict[str, str]], content: str, search_enabled: int = 0) -> Dict:
+def _build_body(messages: List[Dict[str, str]], content: str, search_enabled: int = 0,
+                reason_enabled: int = 0) -> Dict:
     return {
         "content": content[:8000],
         "agentId": "1",
         "messages": _build_messages(messages, content),
-        "reasonEnabled": 1 if search_enabled else 0,
-        "searchEnabled": search_enabled,
+        "reasonEnabled": 1 if reason_enabled else 0,
+        "searchEnabled": 1 if search_enabled else 0,
         "regenerate": 0,
     }
 
 
 def stream_chat(
     messages: List[Dict[str, str]],
-    model: str = "longcat/LongCat-2.0",
+    model: str = "longcat/LongCat-2.5",
     proxy: Optional[str] = None,
+    reasoning: bool = False,
+    web_search: bool = False,
 ) -> Generator[Dict, None, None]:
-    if model not in MODEL_MAP:
+    if not _resolve_model(model):
         yield {"type": "error", "error": f"Unknown model '{model}'"}
         return
 
@@ -226,7 +246,8 @@ def stream_chat(
         content = f"{system_prefix}\n\n{content}"[:12000]
     history_wo_last = history[:-1] if history else []
 
-    body = _build_body(history_wo_last, content)
+    body = _build_body(history_wo_last, content, search_enabled=int(bool(web_search)),
+                       reason_enabled=int(bool(reasoning)))
     body_str = json.dumps(body)
 
     proxies = ([proxy] if proxy else []) or _proxies()
@@ -260,6 +281,20 @@ def stream_chat(
                 yield {"type": "error", "error": last_error}
                 return
 
+            content_type = (resp.headers.get("content-type") or "").lower()
+            if "application/json" in content_type:
+                payload = _read_json(resp)
+                code = payload.get("code") if isinstance(payload, dict) else None
+                message = (payload.get("message") if isinstance(payload, dict) else "") or ""
+                if code == 429:
+                    last_error = f"LongCat: {message or 'rate limited'}"
+                    logger.warning("%s (attempt %d)", last_error, attempt + 1)
+                    time.sleep(2 ** attempt + random.random())
+                    continue
+                yield {"type": "error",
+                       "error": f"LongCat: {message or 'unexpected JSON response (code %s)' % code}"}
+                return
+
             saw_any = False
             buffer = ""
             try:
@@ -281,6 +316,10 @@ def stream_chat(
                             continue
                         event = ev.get("event") or {}
                         etype = event.get("type")
+                        if etype is None and ev.get("code") not in (None, 0):
+                            yield {"type": "error",
+                                   "error": f"LongCat: {ev.get('message') or 'error %s' % ev.get('code')}"}
+                            return
                         if etype == "content":
                             delta = event.get("content") or ""
                             if delta:
@@ -322,14 +361,19 @@ def stream_chat(
             except Exception:
                 pass
 
-    yield {"type": "error", "error": f"LongCat: {last_error}"}
+    if last_error.startswith("LongCat"):
+        yield {"type": "error", "error": last_error}
+    else:
+        yield {"type": "error", "error": f"LongCat: {last_error}"}
 
 
 def simple_chat(
     user_message: str,
-    model: str = "longcat/LongCat-2.0",
+    model: str = "longcat/LongCat-2.5",
     system_prompt: str = "",
     max_tokens: int = 500,
+    reasoning: bool = False,
+    web_search: bool = False,
     **kwargs,
 ) -> Optional[str]:
     messages = []
@@ -338,7 +382,7 @@ def simple_chat(
     messages.append({"role": "user", "content": user_message})
 
     collected = []
-    for chunk in stream_chat(messages=messages, model=model):
+    for chunk in stream_chat(messages=messages, model=model, reasoning=reasoning, web_search=web_search):
         t = chunk.get("type")
         if t == "text":
             collected.append(chunk.get("content", ""))

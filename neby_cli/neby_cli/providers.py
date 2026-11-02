@@ -58,9 +58,9 @@ CATALOG = [
         "label": "LongCat (longcat.chat — free, no login)",
         "type": "reverse",
         "models": [
-            {"id": "longcat/LongCat-2.0", "name": "LongCat 2.0 Flash", "desc": "Meituan · reasoning + search · 128k"},
+            {"id": "longcat/LongCat-2.5", "name": "LongCat 2.5", "desc": "Meituan · 1.6T MoE · thinking + search · 128k"},
         ],
-        "default_model": "longcat/LongCat-2.0",
+        "default_model": "longcat/LongCat-2.5",
     },
     {
         "provider": "geminiweb",
@@ -305,7 +305,7 @@ def stream_chat(
 
     elif provider == "longcat":
         from api import longcat_proxy
-        yield from longcat_proxy.stream_chat(messages, model=model or "longcat/LongCat-2.0")
+        yield from longcat_proxy.stream_chat(messages, model=model or "longcat/LongCat-2.5")
         return
 
     elif provider == "geminiweb":

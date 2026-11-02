@@ -203,7 +203,7 @@ def _call_community(slug: str, model: str, system: str, prompt: str, effort: str
         return call_qwen(system, prompt, model=model or 'qwen3.8-max', max_tokens=max_tokens)
     if slug == 'longcat':
         from api import longcat_proxy
-        return longcat_proxy.simple_chat(prompt, model=model or 'longcat/LongCat-2.0', system_prompt=system, max_tokens=max_tokens)
+        return longcat_proxy.simple_chat(prompt, model=model or 'longcat/LongCat-2.5', system_prompt=system, max_tokens=max_tokens)
     if slug == 'geminiweb':
         from api import geminiweb_proxy
         return geminiweb_proxy.simple_chat(prompt, model=model or 'geminiweb/gemini-flash-lite', system_prompt=system, max_tokens=max_tokens)

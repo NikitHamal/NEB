@@ -113,6 +113,9 @@ def _iter_scraper_chunks(slug, message, history, model, reasoning, web_search):
         kwargs['thinking'] = reasoning
     elif slug == 'geminiweb':
         kwargs['enable_search'] = web_search
+    elif slug == 'longcat':
+        kwargs['reasoning'] = reasoning
+        kwargs['web_search'] = web_search
     for chunk in mod.stream_chat(**kwargs):
         t = chunk.get('type')
         if t == 'text':

@@ -598,7 +598,7 @@ The "Neby AI" chat (Android `NebyAiViewModel`, web `subject_page.html` chat pane
 | `deepai` | `api/deepai_proxy.py` | `standard` | Scraper |
 | `inception` | `api/inception_proxy.py` | `mercury-2` | Scraper, `reasoning_effort` kwarg |
 | `tryingopen` | `api/tryingopen_proxy.py` | `qwen/qwen3.8-27b` | 16 open models, effort levels quick/balanced/deep, native file upload |
-| `longcat` | `api/longcat_proxy.py` | `longcat/LongCat-2.0` | Meituan LongCat web reverse — needs H5guard signing (see below) |
+| `longcat` | `api/longcat_proxy.py` | `longcat/LongCat-2.5` | Meituan LongCat web reverse — needs H5guard signing (see below) |
 | `geminiweb` | `api/geminiweb_proxy.py` | `geminiweb/gemini-flash-lite` | Gemini anonymous web tier (Flash-Lite), no login |
 
 ### LongCat + GeminiWeb reverse proxies (added Aug 2026)
@@ -858,6 +858,17 @@ A trycloudflare URL looks like `https://abc123.trycloudflare.com` â€” diffe
 ---
 
 ## Continuity Notes
+
+### What Was Worked On (Current Session - LongCat 2.5)
+**The free anonymous `longcat.chat/t` endpoint is already serving LongCat-2.5 (Meituan shipped it Nov 2 2026); our proxy just still called it "2.0 Flash". Model id/label moved to `longcat/LongCat-2.5` and the thinking/web-search flags are now actually wired.**
+
+- **Proof the upstream changed, not a guess:** a signed POST to `/api/v1/chat-completion-oversea-V2` returns `"model":"LongCat-2.5-Agent"` on every chunk. The anonymous page's own bundle posts to the same shape (`agentId: "1"`, no model field — the server picks the model), so no request-format change was needed.
+- **Flags work again:** `reasonEnabled: 1` produces `reason`+`think` events, `searchEnabled: 1` produces `search` events carrying `content.query` and `content.resultList` (title/url/snippet). Before this, `_build_body` tied `reasonEnabled` to `search_enabled`, and `stream_chat` never passed `search_enabled` at all, so thinking was **permanently off** on this provider even though the admin chat showed a thinking toggle.
+- **Files:** `api/longcat_proxy.py` (MODELS, `LEGACY_MODEL_IDS` + `_resolve_model`, `stream_chat(..., reasoning, web_search)`, `simple_chat(..., reasoning, web_search)`, JSON-error handling), `api/llm/registry.py` (preset default + ModelSpec), `api/generation_executors.py`, `api/code_agent_providers.py`, `neby_cli/neby_cli/providers.py`, `web/views_admin_chat.py` (forwards `reasoning`/`web_search` to longcat). No migration — the model id lives in a free CharField, and `LEGACY_MODEL_IDS` maps stored `longcat/LongCat-2.0` rows onto 2.5 so existing bot/arena configs keep working.
+- **New bug found and fixed:** the endpoint rate-limits per IP and answers **HTTP 200 with a JSON body** `{"code":429,"message":"Too many requests, try again later"}`. The proxy parsed only SSE `data:` lines, so a throttled request looked like "stream ended without content" after three silent retries. It now detects a JSON content type (and a code-bearing `data:` line), backs off on 429 and reports the real message.
+- **Watch the quota:** the limit is per IP and it is not a short window — after tripping it we retried every 60 s for 8 minutes with no recovery, so assume an hourly-or-longer cooldown. `LONGCAT_PROXIES` rotation is the only way past it.
+- **Unsigned requests appear to get a smaller allowance.** `node` is **not installed** on the production box (`which node` → not found), so the H5guard sidecar never runs there and every request is unsigned ("H5guard signing unavailable; falling back to unsigned request" in the log). Today's evidence: the server's unsigned IP got ~3 messages before the 429, while a signed local IP got ~12 before the same 429. Installing a Node binary under `~/.local/bin` would restore signing; until then LongCat is a low-volume provider.
+- **Committed Nov 2 2026** (`23592b8d` carried the IOE books; this work went in as its own commit with the owner's explicit go-ahead, after `api` 240/7 and `web` 159/2 — both the pre-existing failure sets). The Nov 2 `scratch/deploy.ps1` delta (527 files) shipped it with the owner's go-ahead to send the tree as-is, and also carried ~500 files of other sessions' WIP (CEE study data, landing.css). Server-verified before the quota closed: registry/catalog show `longcat/LongCat-2.5`, `P.simple_chat()` returned `OK`, legacy `longcat/LongCat-2.0` resolves, and reason-only mode answered `17 × 23 = 391` with `reason`+`think` events.
 
 ### What Was Worked On (Current Session - agent feature removal + package audit)
 **Removed the background coding agent, the Neby Code IDE and the Lazy agentic workspace end to end; audited every dependency against live CVE data. Deployed and verified. Nothing was changed to package versions yet - that is the next phase.**
