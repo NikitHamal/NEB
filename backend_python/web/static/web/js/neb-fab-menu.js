@@ -84,6 +84,11 @@
     window.addEventListener('pageshow', function () {
       setOpen(menu, scrim, fab, false);
     });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 768 && menu.hasAttribute('data-open')) {
+        setOpen(menu, scrim, fab, false);
+      }
+    });
   }
 
   function scan() {

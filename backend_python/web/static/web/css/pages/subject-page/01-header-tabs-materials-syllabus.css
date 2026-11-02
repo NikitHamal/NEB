@@ -1,3 +1,14 @@
+.md-container[class*="subject-"] {
+  max-width: 1202px;
+  margin: 0 auto;
+  padding: 20px 24px 0;
+}
+@media (max-width: 600px) {
+  .md-container[class*="subject-"] {
+    padding: 16px 16px 0;
+  }
+}
+
 /* Breadcrumbs Navigation */
   .subj-breadcrumbs {
     display: flex;
