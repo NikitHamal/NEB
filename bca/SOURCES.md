@@ -13,3 +13,8 @@
 | Technical content of the course books | written from standard computer-science knowledge; **machine-verified** where possible (26 C programs compiled and run with gcc 12 -Wall; number-system results with Python; K-map minimisation with SymPy; counter and FSM designs by bit-level simulation) | Verified where stated in each subject README; prose explanations are not machine-checkable |
 
 No textbook or paid material was copied. Examples, questions and explanations are original.
+
+## Computer Fundamentals and Applications (BCA 101 / CACS101)
+
+Unit list and hours (16, 3, 4, 8, 10, 6, 13 = 60 theory hours; labs: OS, word processor, spreadsheet, presentation, photo editing) cross-read on four independent syllabus transcriptions of the **2074** CACS101 syllabus — esikhcha.com (Feb 2025), bcastudynepal.blogspot.com (2019), benchpartner.com, notebahadur.com. **Not verified:** the revised 2082-batch BCA 101 outline; it may differ in unit order or content, and TU's own syllabus PDF was not retrieved. The CACS101 textbook cited by those pages is Peter Norton, *Introduction to Computers*, 7th ed. Facts in Unit 1 (generations, memory sizes and speeds, USB/SATA rates) are standard textbook values; speeds and capacities in the hierarchy table are typical ranges, labelled as such.
+IOE exam pattern and eligibility (used in `ioe/`): IOE admission page and 2083/84 notice as quoted by collegenp.com, edusanjal.com, icenepal.com (Jun–Aug 2026).
