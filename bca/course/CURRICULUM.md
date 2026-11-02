@@ -22,12 +22,12 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | II | BCA 154 | Mathematics II | 3 | **full book** (`semester-2/mathematics-2`) |
 | II | BCA 155 | UX/UI Design | 3 | **full book** (`semester-2/ux-ui-design`) |
 | II | BCA 156 | Principles of Management | 1 | **full book** (`semester-2/principles-of-management`) |
-| III | BCA 201 | Data Structure and Algorithms | 3 | mapped only |
-| III | BCA 202 | Database Management System | 3 | mapped only |
-| III | BCA 203 | Web Technology I | 3 | mapped only |
-| III | BCA 204 | System Analysis and Design | 3 | mapped only |
-| III | BCA 205 | Probability and Statistics | 3 | mapped only |
-| III | BCA 206 | Applied Economics | 2 | mapped only |
+| III | BCA 201 | Data Structure and Algorithms | 3 | **full book** (`semester-3/data-structure-and-algorithms`) |
+| III | BCA 202 | Database Management System | 3 | **full book** (`semester-3/dbms`) |
+| III | BCA 203 | Web Technology I | 3 | **full book** (`semester-3/web-technology-1`) |
+| III | BCA 204 | System Analysis and Design | 3 | **full book** (`semester-3/system-analysis-and-design`) |
+| III | BCA 205 | Probability and Statistics | 3 | **full book** (`semester-3/probability-and-statistics`) |
+| III | BCA 206 | Applied Economics | 2 | **full book** (`semester-3/applied-economics`) |
 | IV | BCA 251 | Operating Systems | 3 | mapped only |
 | IV | BCA 252 | Software Engineering | 3 | mapped only |
 | IV | BCA 253 | Numerical Methods | 3 | mapped only |

@@ -283,3 +283,5 @@ $ curl -sI https://github.com | head -1
 HTTP/2 200 
 ```
 Fresh sandbox: nothing was installed at session start (python3 -c weasyprint -> ModuleNotFoundError; pandoc/pdftoppm absent). Installed: apt pandoc poppler-utils gcc default-jdk-headless libpango libharfbuzz; pip weasyprint markdown pyyaml pymupdf matplotlib sympy numpy uv; Python 3.12 venv via uv; fonts via notes/pipeline/fonts/install.sh. The repo is private-or-auth-gated for clone: an unauthenticated clone failed ('could not read Username'), so a GIT_ASKPASS helper in /tmp reads the PAT from an env var; the PAT is in no repo file and not in .git/config. Test build of Hardware Workshop: 24 pages, 0 failures (test PDF reverted).
+
+Session 5 additions: `pip install --break-system-packages scipy numpy` (statistics checks); `apt install libxml2-utils` (xmllint); `npm i jquery@3 jsdom` in /tmp/jsd (jQuery checks); PostgreSQL 15 on 127.0.0.1:5432 was already running (used by `fill_sql_outputs.py`).
