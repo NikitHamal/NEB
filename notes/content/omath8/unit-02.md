@@ -45,9 +45,9 @@ Polynomials are not invented for examinations; they appear the moment a quantity
 | Cost of $x$ copies at Rs 45 and a bag at Rs 600 | $45x+600$ | linear |
 | Area of a square floor of side $x$ m with a 1 m border | $(x+2)^2=x^2+4x+4$ | quadratic |
 | Distance in metres a stone falls in $t$ seconds (roughly) | $5t^2$ | quadratic monomial |
-| Volume of an open box made from a $10	imes8$ cm card by cutting squares of side $x$ cm from the corners | $x(10-2x)(8-2x)=4x^3-36x^2+80x$ | cubic |
+| Volume of an open box made from a $10\times8$ cm card by cutting squares of side $x$ cm from the corners | $x(10-2x)(8-2x)=4x^3-36x^2+80x$ | cubic |
 
-In the box, if $x=1$ the volume is $1	imes8	imes6=48$ cm³, and the polynomial gives $4-36+80=48$ as well. A formula and its polynomial form must always agree.
+In the box, if $x=1$ the volume is $1\times8\times6=48$ cm³, and the polynomial gives $4-36+80=48$ as well. A formula and its polynomial form must always agree.
 
 ### Polynomial functions
 
@@ -324,7 +324,7 @@ The inverse property is the reason subtraction works by changing signs: subtract
 
 **Solution.** Revenue $R(x)=150x$ and cost $C(x)=60x+1200$. Profit is revenue minus cost:
 $$ P(x)=R(x)-C(x)=150x-(60x+1200)=90x-1200 $$
-For 50 plates: $P(50)=90	imes50-1200=4500-1200=$ Rs 3,300.
+For 50 plates: $P(50)=90\times50-1200=4500-1200=$ Rs 3,300.
 
 The stall makes a profit only when $90x>1200$, that is when $x>13.3$; it must sell **at least 14 plates** a day to cover its costs.
 :::
@@ -420,11 +420,11 @@ Polynomials can also be multiplied in columns, exactly like long multiplication 
 |---|---|---|---|---|
 | top | | $x^2$ | $+2x$ | $+1$ |
 | bottom | | | $x$ | $+3$ |
-| $	imes3$ | | $3x^2$ | $+6x$ | $+3$ |
-| $	imes x$ | $x^3$ | $+2x^2$ | $+x$ | |
+| $\times3$ | | $3x^2$ | $+6x$ | $+3$ |
+| $\times x$ | $x^3$ | $+2x^2$ | $+x$ | |
 | product | $x^3$ | $+5x^2$ | $+7x$ | $+3$ |
 
-So $(x^2+2x+1)(x+3)=x^3+5x^2+7x+3$. Now put $x=10$: the top becomes 121, the bottom 13, and the product $1000+500+70+3=1573$. Indeed $121	imes13=1573$. Multiplying polynomials **is** long multiplication; the only difference is that the columns never carry, because $x$ is not fixed at 10.
+So $(x^2+2x+1)(x+3)=x^3+5x^2+7x+3$. Now put $x=10$: the top becomes 121, the bottom 13, and the product $1000+500+70+3=1573$. Indeed $121\times13=1573$. Multiplying polynomials **is** long multiplication; the only difference is that the columns never carry, because $x$ is not fixed at 10.
 
 ::: key Degree of a product
 If $f(x)$ has degree $m$ and $g(x)$ has degree $n$, then $f(x)\cdot g(x)$ has degree $m+n$, because the leading terms multiply to give the highest power: $x^m\cdot x^n=x^{m+n}$.

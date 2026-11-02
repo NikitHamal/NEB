@@ -60,8 +60,20 @@ def _public(fn):
     return api_view(['GET', 'HEAD'])(fn)
 
 
+_warm = {'started': False}
+
+
+def _warm_search():
+    if _warm['started']:
+        return
+    _warm['started'] = True
+    import threading
+    threading.Thread(target=content_search._docs, daemon=True).start()
+
+
 @_public
 def content_manifest(request):
+    _warm_search()
     return _decorate(JsonResponse(C.manifest()), cache='public, max-age=60, must-revalidate')
 
 

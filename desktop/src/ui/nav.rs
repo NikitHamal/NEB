@@ -3,7 +3,6 @@
 //! "active indicator" that grows in with a short spring-like ease.
 use egui::{vec2, Align, Align2, Color32, Context, CursorIcon, Frame, Layout, Margin, Rect, Rounding, Sense, Stroke, Ui};
 
-use super::avatar::avatar;
 use super::icons::{self, Icon};
 use super::LayoutMode;
 use crate::env::Env;
@@ -36,7 +35,9 @@ pub fn study_entries() -> Vec<NavEntry> {
     vec![
         entry("Search", Icon::Search, Route::Search, "Ctrl+K"),
         entry("Bookmarks", Icon::Bookmark, Route::Bookmarks, "Ctrl+5"),
-        entry("Downloads", Icon::Download, Route::Downloads, "Ctrl+6"),
+        entry("Books", Icon::Article, Route::Books, "Ctrl+6"),
+        entry("People", Icon::User, Route::People, "Ctrl+7"),
+        entry("Offline", Icon::Download, Route::Downloads, "Ctrl+8"),
     ]
 }
 
@@ -219,7 +220,8 @@ fn account_chip(ui: &mut Ui, env: &mut Env, th: &Theme, current: &Route, inner_w
     ui.painter().rect(rect, Rounding::same(22.0), fill, Stroke::new(1.0, th.p.hairline));
     ui.painter().rect_filled(rect, Rounding::same(22.0), th.p.ink.gamma_multiply(0.06 * hover));
     let mut child = ui.new_child(egui::UiBuilder::new().max_rect(rect.shrink2(vec2(if wide { 10.0 } else { 0.0 }, 8.0))).layout(if wide { Layout::left_to_right(Align::Center) } else { Layout::top_down(Align::Center) }));
-    avatar(&mut child, th, &name, env.store.s.profile.avatar_tone, 40.0);
+    let photo = env.store.s.session.as_ref().map(|s| s.photo_url.clone()).unwrap_or_default();
+    super::remote_image::avatar(&mut child, th, &name, env.store.s.profile.avatar_tone, 40.0, &photo);
     if wide {
         child.vertical(|ui| {
             ui.spacing_mut().item_spacing.y = 0.0;

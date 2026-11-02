@@ -7,7 +7,6 @@ use eframe::egui::{self, Context, Frame, Key, Modifiers, ViewportCommand};
 
 use crate::actions::Action;
 use crate::config::{Cli, DEFAULT_WINDOW, MIN_WINDOW};
-use crate::data::content::ContentRoot;
 use crate::data::models::ChapterRef;
 use crate::data::store::{PersistedState, Store, ThemeMode, WindowGeom};
 use crate::devtools::Tour;
@@ -15,7 +14,7 @@ use crate::env::Env;
 use crate::router::{Route, Router};
 use crate::screens::{self, Screens};
 use crate::theme::fonts;
-use crate::ui::{self, menu::MenuState, LayoutMode};
+use crate::ui::{self, LayoutMode};
 
 pub struct NebApp {
     pub(crate) env: Env,
@@ -24,14 +23,13 @@ pub struct NebApp {
     show_shortcuts: bool,
     last_geom: Option<(f32, f32)>,
     pub(crate) tour: Option<Tour>,
-    cli_content: Option<std::path::PathBuf>,
 }
 
 pub fn run(cli: Cli) -> eframe::Result<()> {
     let config_dir = cli.config_dir.clone().unwrap_or_else(Store::default_dir);
     let store = Store::load(&config_dir, cli.reset);
     let geom = store.s.window.filter(|_| store.s.prefs.remember_window && cli.screenshots.is_none());
-    let size = geom.map(|g| [g.w.max(MIN_WINDOW[0]), g.h.max(MIN_WINDOW[1])]).unwrap_or(DEFAULT_WINDOW);
+    let size = cli.size.map(|s| [s[0].max(MIN_WINDOW[0]), s[1].max(MIN_WINDOW[1])]).or(geom.map(|g| [g.w.max(MIN_WINDOW[0]), g.h.max(MIN_WINDOW[1])])).unwrap_or(DEFAULT_WINDOW);
 
     let mut vp = egui::ViewportBuilder::default()
         .with_title("NEBians")
@@ -56,9 +54,7 @@ pub fn run(cli: Cli) -> eframe::Result<()> {
             egui_extras::install_image_loaders(&cc.egui_ctx);
             let system_dark = cc.egui_ctx.input(|i| i.raw.system_theme) == Some(egui::Theme::Dark);
             let store = store_opt.take().expect("store");
-            let saved = store.s.prefs.content_dir.clone().map(std::path::PathBuf::from);
-            let content = ContentRoot::detect(cli2.content.as_deref(), saved.as_deref());
-            let env = Env::new(cc.egui_ctx.clone(), store, content, system_dark, config_dir);
+            let env = Env::new(cc.egui_ctx.clone(), store, system_dark, config_dir);
             Ok(Box::new(NebApp::new(env, &cli2)))
         }),
     )
@@ -76,7 +72,6 @@ impl NebApp {
             show_shortcuts: false,
             last_geom: None,
             tour,
-            cli_content: cli.content.clone(),
         }
     }
 
@@ -104,12 +99,18 @@ impl NebApp {
             if i.consume_key(cmd, Key::Comma) {
                 acts.push(Action::Go(Route::Settings));
             }
-            for (k, r) in [(Key::Num1, Route::Home), (Key::Num2, Route::Library), (Key::Num3, Route::Community), (Key::Num4, Route::Notifications), (Key::Num5, Route::Bookmarks), (Key::Num6, Route::Downloads)] {
+            for (k, r) in [(Key::Num1, Route::Home), (Key::Num2, Route::Library), (Key::Num3, Route::Community), (Key::Num4, Route::Notifications), (Key::Num5, Route::Bookmarks), (Key::Num6, Route::Books), (Key::Num7, Route::People), (Key::Num8, Route::Downloads)] {
                 if i.consume_key(cmd, k) {
                     acts.push(Action::Go(r));
                 }
             }
             if i.consume_key(cmd, Key::D) {
+                acts.push(Action::Go(Route::Downloads));
+            }
+            if i.consume_key(cmd, Key::H) {
+                acts.push(Action::Go(Route::History));
+            }
+            if i.consume_key(Modifiers::COMMAND | Modifiers::SHIFT, Key::D) {
                 acts.push(Action::ToggleDark);
             }
             if i.consume_key(Modifiers::ALT, Key::ArrowLeft) || i.pointer.button_pressed(egui::PointerButton::Extra1) {
@@ -211,10 +212,8 @@ impl NebApp {
                 self.router.replace(Route::Login);
             }
             Action::ReloadContent => {
-                let saved = self.env.store.s.prefs.content_dir.clone().map(std::path::PathBuf::from);
-                let root = ContentRoot::detect(self.cli_content.as_deref(), saved.as_deref());
-                self.env.set_content(root);
-                self.env.toast("Content reloaded");
+                self.env.reload_content();
+                self.env.toast("Refreshing the library…");
             }
             Action::Quit => ctx.send_viewport_cmd(ViewportCommand::Close),
         }
@@ -243,7 +242,7 @@ impl NebApp {
     }
 
     pub(crate) fn is_busy(&self) -> bool {
-        self.screens.reader.is_loading() || self.env.search_index.is_none() && self.env.content.is_some()
+        self.screens.reader.is_loading() || matches!(self.env.status, crate::env::ContentStatus::Loading)
     }
 
     // ---------------------------------------------------------------- screens
@@ -251,10 +250,26 @@ impl NebApp {
         let route = self.router.current.clone();
         let th = self.env.theme.clone();
         if route.has_shell() {
-            let st = MenuState { can_back: self.router.can_back(), can_forward: self.router.can_forward() };
-            egui::TopBottomPanel::top("menu_bar").frame(Frame::none().fill(th.p.page).inner_margin(egui::Margin::symmetric(8.0, 2.0)).stroke(egui::Stroke::new(1.0, th.p.hairline))).show(ctx, |ui| {
-                ui::menu::menu_bar(ui, &mut self.env, &st);
-            });
+            ui::menubar::show(ctx, &mut self.env, &route, &self.router);
+            if crate::data::content::is_offline() {
+                let mut retry = false;
+                egui::TopBottomPanel::top("offline_banner")
+                    .exact_height(40.0)
+                    .frame(Frame::none().fill(th.p.secondary_container).inner_margin(egui::Margin::symmetric(16.0, 0.0)))
+                    .show(ctx, |ui| {
+                        ui.horizontal_centered(|ui| {
+                            ui.label(egui::RichText::new("You're offline — showing what's saved on this computer.").font(fonts::medium(13.5)).color(th.p.on_secondary_container));
+                            ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| {
+                                if ui::widgets::button(ui, &th, "Retry", ui::widgets::BtnKind::Ghost, Some(ui::icons::Icon::Refresh), None).clicked() {
+                                    retry = true;
+                                }
+                            });
+                        });
+                    });
+                if retry {
+                    self.env.act(Action::ReloadContent);
+                }
+            }
             match self.env.layout {
                 LayoutMode::Compact => ui::nav::bottom_bar(ctx, &mut self.env, &route),
                 _ => ui::nav::sidebar(ctx, &mut self.env, &route),
@@ -280,9 +295,15 @@ impl NebApp {
                 Route::Search => screens::search::show(ui, env, &mut sc.search),
                 Route::Bookmarks => screens::bookmarks::show(ui, env),
                 Route::Downloads => screens::downloads::show(ui, env, &mut sc.downloads),
+                Route::Books => screens::books::show(ui, env, &mut sc.books),
+                Route::People => screens::people::show(ui, env, &mut sc.people),
+                Route::User(name) => screens::user::show(ui, env, &mut sc.user, name),
                 Route::Settings => screens::settings::show(ui, env, &mut sc.settings),
                 Route::Profile => screens::profile::show(ui, env, &mut sc.profile),
                 Route::About => screens::about::show(ui, env),
+                Route::History => screens::history::show(ui, env),
+                Route::Help => screens::help::show(ui, env),
+                Route::Legal(k) => screens::legal::show(ui, env, k),
             }
         });
     }
