@@ -57,7 +57,7 @@ What each new subject covers, and where it is honest about limits.
 - *Judgement call:* the claim that Adobe XD is in maintenance mode reflects Adobe's 2023 announcement and may need updating.
 
 **Principles of Management (BCA 156, 1 credit, 6 units).** Organisations and goals, management and Fayol; schools of thought and the environment (with Nepal examples); planning, MBO, SWOT, break-even, decision criteria and trees, critical path/PERT; organising (departmentalisation, span, delegation, structures); leading (leadership, groups, conflict, motivation, communication); control, TQM, Deming, Kaizen, Six Sigma, 5S, global context, Nepal trends.
-- *Verification:* `tools/check_management.py` (60 numeric checks); it caught two of the author's slips (EVPI = 10, EOQ = 141).
+- *Verification:* `tools/check_management.py` (46 numeric checks); it caught two of the author's slips (EVPI = 10, EOQ = 141).
 - *Gap/judgement:* the revised 1-credit syllabus was not retrievable; the book is built from the older TU Introduction to Management / BIM outline and is longer than a 1-credit course strictly needs (the README says which units are core). One syllabus site returned unrelated spam when fetched and was not used beyond a search excerpt.
 
 **Not done in this session:** Semesters III–VIII (24 core subjects), and the 8 project/internship/elective slots. No subject-teacher review of any book has happened.
