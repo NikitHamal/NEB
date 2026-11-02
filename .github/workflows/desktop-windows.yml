@@ -1,0 +1,25 @@
+name: desktop-windows
+on:
+  push:
+    paths: ["desktop/**", ".github/workflows/desktop-windows.yml"]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+    defaults: { run: { working-directory: desktop } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+        with: { workspaces: desktop }
+      - run: cargo test --release
+      - run: cargo build --release
+      - name: Bundle with content
+        shell: bash
+        run: |
+          mkdir -p dist/NEBians-Desktop-windows/content/static/web
+          cp target/release/nebians.exe dist/NEBians-Desktop-windows/
+          cp -r ../backend_python/web/data dist/NEBians-Desktop-windows/content/data
+          cp -r ../backend_python/web/static/web/study dist/NEBians-Desktop-windows/content/static/web/study
+      - uses: actions/upload-artifact@v4
+        with: { name: NEBians-Desktop-windows, path: desktop/dist/NEBians-Desktop-windows }

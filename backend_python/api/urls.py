@@ -14,12 +14,15 @@ from . import views_avatar_api
 from . import views_content_images
 from . import views_site_theme
 from . import views_syllabus
+from . import views_desktop_auth
 
 urlpatterns = [
     # Auth
     path('site-theme/', views_site_theme.site_theme, name='site-theme'),
     path('auth/google/', views.auth_google, name='auth-google'),
     path('auth/github/', views.auth_github, name='auth-github'),
+    path('auth/desktop/start/', views_desktop_auth.desktop_auth_start, name='auth-desktop-start'),
+    path('auth/desktop/poll/', views_desktop_auth.desktop_auth_poll, name='auth-desktop-poll'),
     path('auth/email/signup/', views.auth_email_signup, name='auth-email-signup'),
     path('auth/email/verify/', views.auth_email_verify, name='auth-email-verify'),
     path('auth/email/resend/', views.auth_email_resend, name='auth-email-resend'),

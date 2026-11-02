@@ -53,7 +53,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="md-container-narrow" style="padding-top:24px;">
+<div class="md-container-narrow">
   {% if resource %}
     <a href="{% url 'web:library' %}" class="rd-back" data-action="go-back">
       <span class="material-symbols-outlined">arrow_back</span>
@@ -341,18 +341,20 @@
   {% endif %}
 
   <!-- Comments Section -->
-  <div class="rd-section-title">
-    Comments <span class="count">({{ comment_count }})</span>
-  </div>
+  <div class="rd-comments" id="rd-comments">
+    <div class="rd-section-title">
+      Comments <span class="count">({{ comment_count }})</span>
+    </div>
 
-  <!-- The one comment composer, compact: comments share this page with the file. -->
-  <div class="rd-compose" id="comment-compose">
-    <div class="rd-compose-header">Add a comment</div>
-    {% include "web/partials/_comment_composer.html" with cc_id="rdCommentWrapper" cc_textarea_id="comment-input" cc_placeholder="Write something..." cc_anon_id="rdCommentAnon" cc_send_id="comment-submit-btn" cc_send_action="submit-comment" cc_send_label="Post comment" %}
-  </div>
+    <!-- The one comment composer, compact: comments share this page with the file. -->
+    <div class="rd-compose" id="comment-compose">
+      <div class="rd-compose-header">Add a comment</div>
+      {% include "web/partials/_comment_composer.html" with cc_id="rdCommentWrapper" cc_textarea_id="comment-input" cc_placeholder="Write something..." cc_anon_id="rdCommentAnon" cc_send_id="comment-submit-btn" cc_send_action="submit-comment" cc_send_label="Post comment" %}
+    </div>
 
-  <div id="comment-list">
-    {% include "web/_comment_cards.html" %}
+    <div id="comment-list" class="rd-comment-list">
+      {% include "web/_comment_cards.html" %}
+    </div>
   </div>
 
   <!-- Related Resources -->

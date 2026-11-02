@@ -42,7 +42,9 @@
 
 .site-main {
   min-height: calc(100vh - 64px - 72px);
-  padding-top: 16px;
+  /* The one page frame: every screen enters under the topbar by the same gap,
+     and each container below adds only its own side inset. */
+  padding-top: 20px;
   padding-bottom: 24px;
   /* clip, not hidden: hidden makes main a scroll container, which pushes every
      sticky sidebar down by the header offset instead of letting it stick. */
@@ -50,7 +52,7 @@
 }
 
 .site-footer {
-  padding: 36px 24px 20px;
+  padding: 36px 16px 20px;
   color: var(--md-on-surface-variant);
   font-size: 0.8125rem;
   background: var(--md-surface-container-low);

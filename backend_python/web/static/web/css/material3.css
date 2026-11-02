@@ -643,13 +643,13 @@ html {
 .md-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 16px;
 }
 
 .md-container-narrow {
   max-width: 800px;
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 16px;
 }
 
 /* Navigation Bar */
@@ -661,7 +661,7 @@ html {
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--md-outline-variant);
-  padding: 0 24px;
+  padding: 0 16px;
   height: 64px;
   display: flex;
   align-items: center;
@@ -1614,6 +1614,12 @@ html {
 [data-theme="dark"] .neb-fab-scrim { background: rgba(0, 0, 0, 0.62); }
 .neb-fab-scrim[data-open] { opacity: 1; pointer-events: auto; }
 
+@media (min-width: 769px) {
+  .neb-fab-scrim {
+    display: none !important;
+  }
+}
+
 /* The anchor keeps the .md-fab look but stops being fixed -- the menu column
    positions it now -- and spins to an x when the menu is open. */
 .neb-fab-menu .md-fab { position: static; }
@@ -1807,7 +1813,12 @@ html {
     display: flex;
   }
 
-  .md-container {
+  .md-container,
+  .md-container-narrow {
+    padding: 0 12px;
+  }
+
+  .md-topbar {
     padding: 0 12px;
   }
 
