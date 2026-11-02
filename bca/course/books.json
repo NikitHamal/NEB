@@ -87,5 +87,13 @@
   "credits": 3,
   "accent": "#BE185D",
   "status": "done"
+ },
+ "semester-2/principles-of-management": {
+  "name": "Principles of Management",
+  "code": "BCA 156",
+  "semester": 2,
+  "credits": 1,
+  "accent": "#B45309",
+  "status": "done"
  }
 }
