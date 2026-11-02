@@ -54,10 +54,21 @@
    Right: the same suggested / people / library / news modules the feed used to
    interleave, now in one place. The side columns are what fill the page; the
    post cards are not widened to do it. */
-.hf-page {
+.hf-page,
+.hf-container {
   max-width: 1202px;
-  padding-left: 16px;
-  padding-right: 16px;
+  margin: 0 auto;
+  /* The shell's own frame: landing.css zeroes the main padding these pages
+     inherit, so the feed and every detail page that reuses the shell state the
+     same inset and top gap here, once. */
+  padding: 20px 24px 0;
+}
+
+@media (max-width: 600px) {
+  .hf-page,
+  .hf-container {
+    padding: 16px 16px 0;
+  }
 }
 
 .hf-shell {

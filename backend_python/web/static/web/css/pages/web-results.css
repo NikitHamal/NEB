@@ -1,10 +1,15 @@
 /* Results Guide & Grade Calculator Stylesheet */
 
 .results-page {
-  /* block padding only: the shorthand used to zero md-container's side gutters */
-  padding-top: 32px;
-  padding-bottom: 64px;
-  max-width: 1200px;
+  max-width: 1202px;
+  margin: 0 auto;
+  padding: 20px 24px 64px;
+}
+
+@media (max-width: 600px) {
+  .results-page {
+    padding: 16px 16px 48px;
+  }
 }
 
 /* Hero Section */
@@ -174,7 +179,7 @@
 .results-layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
-  gap: 40px;
+  gap: 24px;
   align-items: start;
 }
 

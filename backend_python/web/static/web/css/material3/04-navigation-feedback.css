@@ -354,6 +354,12 @@
 [data-theme="dark"] .neb-fab-scrim { background: rgba(0, 0, 0, 0.62); }
 .neb-fab-scrim[data-open] { opacity: 1; pointer-events: auto; }
 
+@media (min-width: 769px) {
+  .neb-fab-scrim {
+    display: none !important;
+  }
+}
+
 /* The anchor keeps the .md-fab look but stops being fixed -- the menu column
    positions it now -- and spins to an x when the menu is open. */
 .neb-fab-menu .md-fab { position: static; }
