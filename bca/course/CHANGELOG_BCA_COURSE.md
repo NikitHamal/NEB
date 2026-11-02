@@ -64,7 +64,7 @@ Also not started: elective slots BCA 405/406 and 453/454 (see `CURRICULUM.md`). 
 
 ## Session 5 — Semester III completed (6 of 6 core subjects)
 
-Semester III is now fully done (30 → 24 core subjects were not-started before this session counted 30 incl. 8 slots; see STATUS.md for the live count). Raw words count the unit files including code, tables and generated output blocks. QA = `tools/qa_pdf.py` (cover, linked contents, page numbers, fonts, margins, clipped code, leaked TeX, stranded headings): 0 failures on all six; every warning is a natural short page (table-of-contents overflow or the last answers of a chapter) and is noted in the subject README.
+Semester III is now fully done. Accounting note: the repository's own STATUS.md counts 44 slots (the session briefing's "42 / 22 core" undercounted by two); at the start of this session it read 12 done · 24 core missing · 8 project/internship/elective slots. After this session it reads **18 done · 18 core missing · 8 slots**.
 
 | Subject | Code | Units | Raw words | PDF pages | QA |
 |---|---|---|---|---|---|
@@ -79,4 +79,4 @@ Total new material: 78,455 raw words. **Tooling added:** `tools/fill_c_outputs.p
 
 **Layout lesson recorded:** the house CSS makes every `pre` block `break-inside: avoid`, so a program taller than the space left on a page jumps to the next page and leaves a near-empty page behind its heading. Three long programs (stack/postfix, all sorts, graph algorithms) were therefore split into two shorter complete programs each; this removed three blank pages from the Data Structure and Algorithms PDF.
 
-**Not done in this session:** Semesters IV–VIII (16 core subjects) and the 8 project/internship/elective slots. No subject-teacher review of any book has happened.
+**Not done in this session:** Semesters IV–VIII (18 core subjects: IV 5, V 5, VI 5, VII 2, VIII 1) and the 8 project/internship/elective slots. No subject-teacher review of any book has happened.
