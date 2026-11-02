@@ -93,3 +93,25 @@ All syllabus pages are third-party reproductions of the TU outlines (CACS25x, 20
 
 ### BCA 303 Advanced Java Programming (7 units; no TU unit list retrieved)
 - Only the code, title and credit are confirmed by the repository's own CURRICULUM.md (old CACS354). **No TU unit list was retrieved this session**; the units follow the topics named in the course brief (Swing/JavaFX, JDBC, servlets and JSP, JavaBeans, RMI, CORBA, sockets) in the usual textbook order (Horstmann Core Java vol. 2, Deitel, Oracle tutorials, Jakarta EE tutorial). Hours are a reconstruction summing to 45. Code verified with `bca/tools/fill_java_outputs.py` (OpenJDK 17, Xerial SQLite JDBC 3.40, servlet-api 4.0).
+
+## Semester V completion and Semester VI (session 8)
+
+No TU unit list was retrieved for any of the six subjects below (no web retrieval of syllabi this session except the statutory-penalty check noted under BCA 305). Every unit list is a **reconstruction** from the topics named in the course brief and the usual structure of each subject; hours are reconstructed.
+
+### BCA 304 MIS and e-Business (7 units)
+- General knowledge of the standard MIS textbooks (Laudon and Laudon; O'Brien and Marakas) for TPS/MIS/DSS/ESS/KMS, Porter's five forces and value chain, ERP/CRM/SCM, decision theory and investment appraisal. Nepali payment architecture (NRB under the Payment and Settlement Act 2075, PSO/PSP licences, NCHL NPI and ConnectIPS, Fonepay, wallets) is from general sector knowledge, flagged in the text as subject to change. All figures are invented for teaching. Numbers: `bca/tools/check_mis.py`.
+
+### BCA 305 Society and Technology (7 units)
+- Theory (determinism, SCOT, ANT, Winner), TAM/UTAUT, Rogers and Bass: standard literature. Digital Nepal Framework (2019, eight sectors) from public knowledge. **Statutory penalties:** read this session — bankingtayari.com (ETA 2063 study note), attorneynepal.com (online fraud complaint), courtmarriageinnepal.com.np (cybercrime laws) and lawalpine.com (ETA guide). They **agree** on sections 44, 45, 46 (3 years / Rs 2,00,000), 47 (5 years / Rs 1,00,000) and 52 (2 years / Rs 1,00,000); they **disagree** (amounts, chapter and section numbers) on sections 48-55, which are therefore not tabulated; the primary text (Nepal Law Commission) must be checked. Numbers: `check_society.py`.
+
+### BCA 351 Computer Graphics and Animation (7 units)
+- Hearn and Baker, *Computer Graphics (C version)* and Foley et al. for algorithms; FIPS/Android not involved. Pixel traces verified by independent code in `check_graphics.py`.
+
+### BCA 352 Mobile Programming (7 units)
+- Android developer documentation (lifecycle, components, Room, WorkManager, permissions) and Flutter/React Native documentation as remembered, not re-fetched. Python/Java harnesses executed; Kotlin, XML, Gradle and Dart snippets are **not executed** (no Android SDK) and are labelled so. `check_mobile.py`.
+
+### BCA 353 Cryptography and Network Security (7 units)
+- Stallings, *Cryptography and Network Security*; Paar and Pelzl, *Understanding Cryptography*; FIPS-197, RFC 2104, 4231, 8446. AES verified against the FIPS-197 vector and the `cryptography` library. `check_crypto.py`.
+
+### BCA 354 Technical Writing (6 units)
+- Standard technical-writing practice; Flesch, Kincaid and Gunning formulas; WCAG 2 contrast formula; IEEE and APA 7th reference formats; OpenAPI 3.0; Diataxis; Tufte's lie factor. `check_techwriting.py`.
