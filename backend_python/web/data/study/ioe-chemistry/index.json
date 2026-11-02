@@ -1,0 +1,32 @@
+{
+ "book": "ioe-chem",
+ "units": [
+  {
+   "no": 1,
+   "title": "Physical Chemistry",
+   "area": "Chemistry",
+   "words": 2362,
+   "read_min": 13,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Inorganic Chemistry",
+   "area": "Chemistry",
+   "words": 2038,
+   "read_min": 11,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Organic Chemistry",
+   "area": "Chemistry",
+   "words": 2174,
+   "read_min": 12,
+   "figures": 0,
+   "has_questions": true
+  }
+ ]
+}

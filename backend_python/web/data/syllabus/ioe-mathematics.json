@@ -1,0 +1,314 @@
+{
+ "grade": "ioe",
+ "grade_label": "IOE · BE/BArch Engineering Entrance",
+ "grade_label_ne": "IOE प्रवेश परीक्षा",
+ "short": "IOE",
+ "kind": "entrance",
+ "subject": "mathematics",
+ "name": "Mathematics",
+ "name_ne": "गणित",
+ "icon": "calculate",
+ "group": "entrance",
+ "color": "#8F5507",
+ "lang": "en",
+ "code": "",
+ "hours": null,
+ "questions": 35,
+ "exam": "computer-based, 2 hours, 100 MCQs with four options, 140 marks: Section A 60 x 1, Section B 40 x 2; 10% of a question's marks deducted for a wrong answer | Mathematics 50 | Physics 40 | Chemistry 30 | English 20",
+ "areas": [
+  "Mathematics"
+ ],
+ "units": [
+  {
+   "no": 1,
+   "title": "Set, Logic and Functions",
+   "hours": null,
+   "questions": 3,
+   "area": "Mathematics",
+   "topics": [
+    "Set, real number system, intervals, absolute value, logic, connectives, laws of logic",
+    "Function, types of functions: injective, surjective, bijective, algebraic, trigonometric, exponential and logarithmic; inverse of a function, composite functions"
+   ],
+   "sections": [
+    {
+     "no": "1.1",
+     "title": "Set, real number system, intervals, absolute value, logic, connectives, laws of logic"
+    },
+    {
+     "no": "1.2",
+     "title": "Function, types of functions, inverse and composite functions"
+    }
+   ],
+   "summary": [
+    "A set of n elements has 2^n subsets, 2^n-1 proper ones.",
+    "Use inclusion-exclusion; keep the three-set formula's alternating signs.",
+    "|x-a|<r is an interval around a; >r is its outside.",
+    "p→ q is false only for T → F; the contrapositive is equivalent, the converse is not.",
+    "Injective means distinct inputs give distinct outputs; onto means range = codomain.",
+    "Inverse exists only for bijections; compose in reverse order to invert a composite."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2102,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 2,
+   "title": "Algebra",
+   "hours": null,
+   "questions": 8,
+   "area": "Mathematics",
+   "topics": [
+    "Matrices and determinants, types and properties, inverse of a matrix",
+    "Complex numbers and polynomial equations",
+    "Sequence and series, permutation and combination",
+    "Binomial theorem, exponential and logarithmic series"
+   ],
+   "sections": [
+    {
+     "no": "2.1",
+     "title": "Matrices and determinants, types and properties, inverse of a matrix"
+    },
+    {
+     "no": "2.2",
+     "title": "Complex numbers and polynomial equations"
+    },
+    {
+     "no": "2.3",
+     "title": "Sequence and series, permutation and combination"
+    },
+    {
+     "no": "2.4",
+     "title": "Binomial theorem, exponential and logarithmic series"
+    }
+   ],
+   "summary": [
+    "Determinants scale as k^n; rows in AP, or two proportional rows, give zero.",
+    "A^-1 needs |A|≠0; for 2×2 swap the diagonal and negate the rest.",
+    "Reduce powers of i and ω by their cycles (4 and 3).",
+    "For any quadratic question first write the sum and product of the roots.",
+    "tn=Sn-Sn-1 and the infinite GP needs |r|<1.",
+    "\"No two together\" = arrange the others, then fill gaps; \"at least\" = cases or complement.",
+    "Constant term and coefficient questions are solved by the general term Tr+1."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 2078,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 3,
+   "title": "Trigonometry",
+   "hours": null,
+   "questions": 4,
+   "area": "Mathematics",
+   "topics": [
+    "Trigonometric equations and general values",
+    "Inverse trigonometric functions, principal value",
+    "Properties of triangles, in-centre, ortho-centre and circum-centre, solution of triangles"
+   ],
+   "sections": [
+    {
+     "no": "3.1",
+     "title": "Trigonometric equations and general values"
+    },
+    {
+     "no": "3.2",
+     "title": "Inverse trigonometric functions, principal value"
+    },
+    {
+     "no": "3.3",
+     "title": "Properties of triangles, in-centre, ortho-centre and circum-centre, solution of triangles"
+    }
+   ],
+   "summary": [
+    "Reduce to one trig function, factorise, then write the general solution of each factor.",
+    "|c|>√a^2+b^2 means no solution to asinθ+bcosθ=c.",
+    "Know the three principal ranges; sin^-1(sin x) folds x into [-π/2,π/2].",
+    "For two triangle quantities, find Δ first (Heron), then r=Δ/s or R=abc/4Δ.",
+    "A right triangle has R= half the hypotenuse."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1298,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 4,
+   "title": "Coordinate Geometry",
+   "hours": null,
+   "questions": 6,
+   "area": "Mathematics",
+   "topics": [
+    "Straight lines, pair of lines",
+    "Circles, equations of circle in different forms, tangent and normal",
+    "Conic sections: parabola, ellipse and hyperbola, standard equations and simple properties",
+    "Coordinates in space, plane and its equation"
+   ],
+   "sections": [
+    {
+     "no": "4.1",
+     "title": "Straight lines, pair of lines"
+    },
+    {
+     "no": "4.2",
+     "title": "Circles, equations in different forms, tangent and normal"
+    },
+    {
+     "no": "4.3",
+     "title": "Conic sections: parabola, ellipse and hyperbola"
+    },
+    {
+     "no": "4.4",
+     "title": "Coordinates in space, plane and its equation"
+    }
+   ],
+   "summary": [
+    "Distance, angle and area formulas for lines are one-liners; learn them exactly.",
+    "x^2+y^2+2gx+2fy+c=0: centre (-g,-f), radius √g^2+f^2-c.",
+    "Tangency to a circle is c^2=r^2(1+m^2); to a parabola c=a/m.",
+    "Latus rectum: 4a for the parabola, 2b^2/a for ellipse and hyperbola.",
+    "A plane's normal is (a,b,c); parallel planes differ only in d."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1532,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  },
+  {
+   "no": 5,
+   "title": "Calculus",
+   "hours": null,
+   "questions": 8,
+   "area": "Mathematics",
+   "topics": [
+    "Limit and continuity of functions, indeterminate forms, L'Hospital's rule",
+    "Derivatives, rules of derivatives, geometrical and physical meanings, higher order derivatives, applications of derivative: tangent and normal, rate of change, maxima and minima",
+    "Integration, linear properties, rules of integration, standard integrals, definite integral, applications of definite integral: area under a curve and area between two curves",
+    "Differential equations: definition, order and degree, first order and first degree: variable separable, homogeneous, linear and exact equations, integrating factor"
+   ],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "Limit and continuity of functions, indeterminate forms, L'Hospital's rule"
+    },
+    {
+     "no": "5.2",
+     "title": "Derivatives, rules, applications"
+    },
+    {
+     "no": "5.3",
+     "title": "Integration, definite integral, area"
+    },
+    {
+     "no": "5.4",
+     "title": "Differential equations"
+    }
+   ],
+   "summary": [
+    "Standard limits plus L'Hôpital settle every limit; check the form before using L'Hôpital.",
+    "Chain rule, parametric and logarithmic differentiation cover all derivative types.",
+    "Critical points from f'=0; the sign of f'' decides max or min; compare endpoints on closed intervals.",
+    "Integrate by substitution, by parts (ILATE) or by the e^x(f+f') pattern; use symmetry for definite integrals.",
+    "Areas: find the intersections, then integrate top minus bottom.",
+    "Classify a first-order equation (separable, homogeneous, linear, exact) before solving."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1882,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 6,
+   "title": "Vectors and their Products",
+   "hours": null,
+   "questions": 3,
+   "area": "Mathematics",
+   "topics": [
+    "Vectors in plane and space, algebra of vectors, linear combination of vectors, linearly dependent and independent sets of vectors",
+    "Product of two vectors, scalar and vector product of two vectors, scalar triple product"
+   ],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Vectors in plane and space, algebra, linear combination, dependence"
+    },
+    {
+     "no": "6.2",
+     "title": "Product of two vectors, scalar and vector product, scalar triple product"
+    }
+   ],
+   "summary": [
+    "Head minus tail gives overrightarrowAB; the section formula weights the opposite end.",
+    "Dot product zero means perpendicular; cross product zero means parallel; triple product zero means coplanar.",
+    "Projection is (vec a·vec b)/(|vec a|), a signed scalar.",
+    "Areas come from |vec a×vec b|, volumes from the scalar triple product."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1413,
+    "figures": 0,
+    "examples": 0
+   },
+   "has_notes": true
+  },
+  {
+   "no": 7,
+   "title": "Statistics and Probability",
+   "hours": null,
+   "questions": 3,
+   "area": "Mathematics",
+   "topics": [
+    "Measures of location and measures of dispersion",
+    "Correlation and regression",
+    "Basic terms of probability, conditional and compound probability, additive and multiplicative rules, Bayes' theorem, binomial distribution"
+   ],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "Measures of location and dispersion"
+    },
+    {
+     "no": "7.2",
+     "title": "Correlation and regression"
+    },
+    {
+     "no": "7.3",
+     "title": "Probability: rules, conditional, Bayes, binomial"
+    }
+   ],
+   "summary": [
+    "Mean, median, mode answer \"where\"; σ and CV answer \"how spread out\"; spread ignores a shift.",
+    "Both regression lines meet at the means; r^2=byxbxy.",
+    "For \"at least one\", use the complement.",
+    "Bayes' theorem reverses a conditional: weigh each cause by prior × likelihood, then normalise.",
+    "Binomial needs a fixed n, independent trials and a constant p."
+   ],
+   "terms": [],
+   "stats": {
+    "words": 1351,
+    "figures": 0,
+    "examples": 1
+   },
+   "has_notes": true
+  }
+ ],
+ "unit_count": 7,
+ "topic_count": 22,
+ "notes_ready": 7
+}

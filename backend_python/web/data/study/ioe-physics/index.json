@@ -1,0 +1,59 @@
+{
+ "book": "ioe-phy",
+ "units": [
+  {
+   "no": 1,
+   "title": "Mechanics",
+   "area": "Physics",
+   "words": 2212,
+   "read_min": 12,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Heat and Thermodynamics",
+   "area": "Physics",
+   "words": 1454,
+   "read_min": 8,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 3,
+   "title": "Geometric and Physical Optics",
+   "area": "Physics",
+   "words": 1459,
+   "read_min": 8,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 4,
+   "title": "Waves and Sound",
+   "area": "Physics",
+   "words": 1255,
+   "read_min": 7,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 5,
+   "title": "Electricity and Magnetism",
+   "area": "Physics",
+   "words": 1929,
+   "read_min": 11,
+   "figures": 0,
+   "has_questions": true
+  },
+  {
+   "no": 6,
+   "title": "Modern Physics",
+   "area": "Physics",
+   "words": 1637,
+   "read_min": 9,
+   "figures": 0,
+   "has_questions": true
+  }
+ ]
+}
