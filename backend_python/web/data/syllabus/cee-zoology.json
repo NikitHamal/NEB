@@ -54,7 +54,7 @@
    ],
    "summary": [
     "Life arose by chemical evolution (Oparin 1924, Haldane 1929) in a reducing atmosphere of CH₄, NH₃, H₂ and water vapour with no free O₂, energised by UV and lightning: monomers → polymers → coacervates/microspheres → protocell → anaerobic heterotroph.",
-    "Miller–Urey (1953) sparked CH₄, NH₃, H₂ (2 : 1 : 2) and steam for a week and obtained amino acids (glycine, alanine) — monomers, not life.",
+    "Miller–Urey (1953) sparked CH₄, NH₃, H₂ (2 : 2 : 1) and steam for a week and obtained amino acids (glycine, alanine) — monomers, not life.",
     "Homologous organs (same origin, different use) show divergent evolution; analogous organs (different origin, same use) show convergent evolution; vestigial organs and atavism point to ancestors.",
     "Connecting links — Peripatus, Neopilina, Balanoglossus, lungfish, Archaeopteryx, platypus — and the horse series (Eohippus → Equus, toes 4 → 1) are the classic fossil and living evidence.",
     "Haeckel's biogenetic law (embryos), Nuttall's precipitin test, cytochrome c and the universal genetic code (biochemistry) complete the evidence.",
@@ -64,9 +64,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7361,
+    "words": 7555,
     "figures": 2,
-    "examples": 1
+    "examples": 3
    },
    "has_notes": true
   },
@@ -97,9 +97,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 7302,
+    "words": 7541,
     "figures": 2,
-    "examples": 0
+    "examples": 3
    },
    "has_notes": true
   },
@@ -130,9 +130,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 5985,
+    "words": 6207,
     "figures": 3,
-    "examples": 0
+    "examples": 3
    },
    "has_notes": true
   },
@@ -173,9 +173,9 @@
    ],
    "terms": [],
    "stats": {
-    "words": 8239,
+    "words": 8416,
     "figures": 3,
-    "examples": 1
+    "examples": 3
    },
    "has_notes": true
   },
@@ -189,15 +189,33 @@
     "The alimentary canal and the digestive glands",
     "Physiology of digestion and absorption"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "5.1",
+     "title": "The alimentary canal and the digestive glands"
+    },
+    {
+     "no": "5.2",
+     "title": "Physiology of digestion and absorption"
+    }
+   ],
+   "summary": [
+    "The canal is a 8–9 m tube of four coats (mucosa, submucosa, muscularis, serosa); the enteric plexus runs peristalsis, modified by vagus (up) and sympathetic (down).",
+    "The mouth has 32 permanent teeth, the bolus is made there, and salivary amylase (pH 6.8) starts starch digestion; the three gland pairs are parotid (Stensen's), submandibular (Wharton's) and sublingual (Rivinus).",
+    "The stomach secretes 2–3 L of juice at pH 1.5–2.5: parietal cells give HCl and intrinsic factor, chief cells pepsinogen, rennin and lipase, G cells gastrin. HCl activates pepsinogen, kills bacteria and denatures protein; pepsin works only at pH 1.5–2 and stops at peptones.",
+    "The small intestine (duodenum 25 cm, jejunum 2.5 m, ileum 3.5 m) receives bile and pancreatic juice, and its folds, villi and microvilli raise the absorptive area to about 200 m².",
+    "The liver (1.5 kg, largest gland) makes 0.5–1 L of bile a day at pH 7.6–8.6 with no enzymes; bile salts emulsify fat. The gall bladder stores and concentrates bile and contracts under CCK.",
+    "Pancreatic juice (1–1.5 L, pH 8.0–8.3) supplies amylase, trypsin, chymotrypsin, carboxypeptidase, lipase, nucleases and bicarbonate. Enterokinase converts trypsinogen to trypsin, which activates the other two zymogens.",
+    "Hormones: gastrin (food → acid), secretin (acid → bicarbonate), CCK (fat → bile + enzymes).",
+    "Absorption: monosaccharides and amino acids into blood capillaries → hepatic portal vein → liver; fats as chylomicrons into lacteals → thoracic duct; B₁₂ in the ileum with intrinsic factor; water and salts in the colon."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 8568,
+    "figures": 3,
+    "examples": 4
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 6,
@@ -210,15 +228,37 @@
     "Exchange and transport of gases; regulation of respiration",
     "Respiratory disorders"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "6.1",
+     "title": "Respiratory organs and the mechanism of breathing"
+    },
+    {
+     "no": "6.2",
+     "title": "Exchange and transport of gases; regulation of respiration"
+    },
+    {
+     "no": "6.3",
+     "title": "Respiratory disorders"
+    }
+   ],
+   "summary": [
+    "Air passes nostrils → nasal cavity → pharynx → larynx → trachea → bronchi → bronchioles → alveoli; the conducting part is lined by pseudostratified ciliated columnar epithelium, the alveolus by simple squamous.",
+    "The trachea has 16–20 C-shaped hyaline rings and divides at the carina; the right bronchus is wider, shorter and more vertical, so it takes inhaled objects.",
+    "The right lung has three lobes, the left two; the pleura holds the lung against the chest wall with a negative intrapleural pressure.",
+    "Alveoli number 300–500 million, give 70–80 m² of surface and a 0.5 μm barrier; type II cells make surfactant, without which premature babies get RDS.",
+    "Inspiration is active (diaphragm, phrenic C3–C5, plus external intercostals); quiet expiration is passive.",
+    "Volumes: TV 500, IRV 3000, ERV 1100, RV 1200 mL; VC = TV + IRV + ERV = 4600; TLC = VC + RV = 5800; FRC = ERV + RV.",
+    "Gas exchange is by simple diffusion down partial-pressure gradients: alveolar pO₂ 104, venous 40; venous pCO₂ 45, alveolar 40; CO₂ diffuses about 20× faster than O₂.",
+    "O₂: 97 % on haemoglobin, 3 % dissolved; the sigmoid curve has P₅₀ ≈ 27 mmHg and shifts right with CO₂, H⁺, heat and 2,3-BPG (Bohr effect)."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6589,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 7,
@@ -232,15 +272,41 @@
     "Blood and blood groups",
     "Cardiovascular disorders"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "7.1",
+     "title": "The heart, the heartbeat, the cardiac cycle and cardiac output"
+    },
+    {
+     "no": "7.2",
+     "title": "Arterial and venous systems; blood pressure"
+    },
+    {
+     "no": "7.3",
+     "title": "Blood and blood groups"
+    },
+    {
+     "no": "7.4",
+     "title": "Cardiovascular disorders"
+    }
+   ],
+   "summary": [
+    "The heart (250–300 g) lies in the mediastinum inside the pericardium; its wall is epicardium, myocardium (thickest in the left ventricle) and endocardium.",
+    "Four chambers and four valves: tricuspid and bicuspid (mitral) AV valves with chordae tendineae, and the pulmonary and aortic semilunar valves; all open and close passively.",
+    "Double circulation: right ventricle → lungs → left atrium (pulmonary); left ventricle → body → right atrium (systemic). The coronary arteries arise from the ascending aorta.",
+    "The SA node (70–80 min⁻¹) is the pacemaker because it depolarises fastest; the impulse passes SA → AV → bundle of His → Purkinje, with a 0.1 s delay at the AV node.",
+    "The cardiac cycle lasts 0.8 s: atrial systole 0.1 s, ventricular systole 0.3 s, diastole 0.5 s; S1 is AV valve closure, S2 semilunar closure.",
+    "CO = SV × HR ≈ 70 × 72 ≈ 5 L min⁻¹; ejection fraction ≈ 60 %; exercise raises output to 20–25 L min⁻¹.",
+    "ECG: P = atrial depolarisation, QRS = ventricular depolarisation, T = ventricular repolarisation.",
+    "Arteries are thick-walled, valveless and high-pressure; veins are thin-walled, valved and low-pressure; the hepatic portal vein carries gut blood to the liver before the heart."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7470,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 8,
@@ -253,15 +319,37 @@
     "Formation of urine and its regulation",
     "Renal disorders"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "8.1",
+     "title": "Excretory organs and the structure of the nephron"
+    },
+    {
+     "no": "8.2",
+     "title": "Formation of urine and its regulation"
+    },
+    {
+     "no": "8.3",
+     "title": "Renal disorders"
+    }
+   ],
+   "summary": [
+    "The excretory organs are the kidneys, ureters, bladder and urethra; the skin, lungs and liver are accessory routes, and the liver makes urea while the kidney excretes it.",
+    "Each kidney has about one million nephrons, in a cortex (corpuscles, convoluted tubules) and a medulla (pyramids, loops, collecting ducts) that drains through the pelvis into the ureter.",
+    "Ultrafiltration at the glomerulus passes water and small solutes but holds back cells and protein by pore size and negative charge; net pressure ≈ 10 mmHg, GFR ≈ 125 mL min⁻¹ (180 L day⁻¹).",
+    "Reabsorption recovers about 99 % of the filtrate: glucose and amino acids by active transport in the PCT (threshold 180 mg/dL, Tm 375 mg min⁻¹), water by osmosis.",
+    "The counter-current multiplier works because the descending limb is permeable to water and the ascending limb is not but pumps salt; the medulla is graded 300 → 1200 mOsm L⁻¹, and the vasa recta preserve the gradient.",
+    "Secretion adds H⁺, K⁺, NH₃, creatinine and drugs to the tubule and is the main route for acid removal.",
+    "ADH (made in the hypothalamus, stored in the posterior pituitary) concentrates urine; aldosterone retains Na⁺ and loses K⁺; ANP does the opposite. Diabetes insipidus = ADH problem = large dilute urine; diabetes mellitus = insulin problem = large glucose-containing urine.",
+    "Abnormal constituents: glucose (diabetes), protein (nephritis), ketones (starvation, ketoacidosis), blood (nephritis, stones), casts (tubular damage)."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 7379,
+    "figures": 2,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 9,
@@ -274,15 +362,37 @@
     "The nerve impulse and the synapse",
     "The eye and the ear"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "9.1",
+     "title": "Central, peripheral and autonomic nervous systems"
+    },
+    {
+     "no": "9.2",
+     "title": "The nerve impulse and the synapse"
+    },
+    {
+     "no": "9.3",
+     "title": "The eye and the ear"
+    }
+   ],
+   "summary": [
+    "The CNS integrates information; the PNS connects it with receptors and effectors through cranial and spinal nerves.",
+    "Cerebral cortex supports conscious perception and voluntary action, while the hypothalamus, cerebellum and medulla have sharply testable special roles.",
+    "Spinal reflexes use dorsal sensory entry and ventral motor exit and can act before conscious perception.",
+    "Sympathetic and parasympathetic divisions differ in origin, fibre length, transmitter and typical visceral effects.",
+    "An action potential is an all-or-none, self-propagating reversal of membrane potential driven first by Na⁺ entry and then by K⁺ exit.",
+    "Myelination permits rapid saltatory conduction between nodes of Ranvier.",
+    "Chemical synapses use Ca²⁺-triggered transmitter release and are one-way, summable and pharmacologically vulnerable.",
+    "In the eye, the cornea supplies most fixed refraction, the lens accommodates, rods favour sensitivity and foveal cones favour acuity and colour."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 6028,
+    "figures": 3,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 10,
@@ -294,15 +404,33 @@
     "Endocrine glands and their hormones",
     "Hormonal disorders"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "10.1",
+     "title": "Endocrine glands and their hormones"
+    },
+    {
+     "no": "10.2",
+     "title": "Hormonal disorders"
+    }
+   ],
+   "summary": [
+    "Hormones are blood-borne messengers whose effects depend on receptors, chemical class, transport and feedback regulation.",
+    "The hypothalamus controls the anterior pituitary through portal blood and supplies the posterior pituitary with ADH and oxytocin.",
+    "Pituitary tropic hormones organise thyroid, adrenal-cortical and gonadal activity; GH and prolactin act more directly on non-endocrine tissues.",
+    "Thyroid hormones set metabolic rate and are essential to development; PTH and calcitonin act in opposite directions on blood calcium.",
+    "The adrenal cortex preserves salt, water and glucose during stress, whereas the medulla supplies a rapid catecholamine emergency response.",
+    "Insulin and glucagon form an antagonistic pair around blood glucose.",
+    "Endocrine diagnosis rests on direction and feedback: identify what is high, what is low and whether the controller is responding appropriately.",
+    "The major named disorders follow mechanically from hormone function, so symptoms can be derived rather than memorised in isolation."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 4501,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 11,
@@ -315,15 +443,36 @@
     "Gametogenesis",
     "The ovarian and menstrual cycles"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "11.1",
+     "title": "Male and female reproductive organs"
+    },
+    {
+     "no": "11.2",
+     "title": "Gametogenesis"
+    },
+    {
+     "no": "11.3",
+     "title": "The ovarian and menstrual cycles"
+    }
+   ],
+   "summary": [
+    "The testes produce sperm in seminiferous tubules under FSH, testosterone and Sertoli-cell support; Leydig cells supply testosterone.",
+    "Sperm mature and are stored in the epididymis, then travel through the vas deferens and urethra in semen produced mainly by accessory glands.",
+    "The ovaries produce oocytes and steroid hormones; uterine tubes capture the oocyte and normally host fertilisation in the ampulla.",
+    "Spermatogenesis is continuous and quantitatively equal, whereas oogenesis begins before birth, is interrupted twice and conserves cytoplasm in one ovum.",
+    "Fertilisation restores diploidy, blocks polyspermy and initiates cleavage; the blastocyst implants in a progesterone-prepared endometrium.",
+    "The menstrual cycle is driven by changing feedback among GnRH, FSH/LH, oestrogen and progesterone.",
+    "Ovulation follows the LH surge, and the corpus luteum either regresses— causing menstruation—or is rescued by hCG in pregnancy."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 4519,
+    "figures": 4,
+    "examples": 4
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 12,
@@ -336,15 +485,37 @@
     "Innate and acquired immunity; antigens and antibodies",
     "Vaccines: live attenuated, inactivated and toxoid"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "12.1",
+     "title": "Typhoid, tuberculosis, HIV/AIDS, cholera, influenza, hepatitis and candidiasis"
+    },
+    {
+     "no": "12.2",
+     "title": "Innate and acquired immunity; antigens and antibodies"
+    },
+    {
+     "no": "12.3",
+     "title": "Vaccines: live attenuated, inactivated and toxoid"
+    }
+   ],
+   "summary": [
+    "The named diseases separate cleanly by agent class, route and mechanism: water-borne typhoid/cholera, airborne TB/influenza, blood/sexual HIV and HBV/HCV, and opportunistic candidiasis.",
+    "TB's mycolic-acid wall explains acid-fast staining and macrophage survival; cholera toxin explains massive fluid loss without requiring bacteraemia.",
+    "HIV disables adaptive immunity at its CD4 coordinator and converts normal microbiota or ordinarily controlled organisms into opportunistic threats.",
+    "Influenza's segmented genome permits reassortment shifts as well as drift.",
+    "Hepatitis viruses A–E share a target organ but differ in genome, route, chronicity and vaccine strategy.",
+    "Innate defences act immediately and broadly; adaptive defences recognise epitopes specifically and remember them.",
+    "Antibody classes have distinct timing, location and effector roles, with IgM first and IgG dominant later.",
+    "Vaccines generate artificial active memory; their construction determines replication, strength, booster needs and cautions."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 4962,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 13,
@@ -356,15 +527,33 @@
     "Tissue and organ transplantation, in-vitro fertilization, amniocentesis and transgenic animals",
     "Applied microbiology: dairy and beverage microbes, sewage and drinking-water treatment, bio-control agents"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "13.1",
+     "title": "Tissue and organ transplantation, IVF, amniocentesis and transgenic animals"
+    },
+    {
+     "no": "13.2",
+     "title": "Applied microbiology: dairy and beverage microbes, sewage and drinking-water treatment, bio-control agents"
+    }
+   ],
+   "summary": [
+    "Transplant compatibility is an immunological problem centred on HLA recognition; immunosuppression prevents rejection at the cost of infection risk.",
+    "IVF moves fertilisation to the laboratory, while ICSI additionally bypasses failures of sperm number, movement or oocyte penetration.",
+    "Amniocentesis provides fetal cells for definitive chromosome/DNA diagnosis, but as an invasive test it follows careful counselling and screening.",
+    "Transgenic animals produce disease models and valuable proteins, yet require welfare, containment and biosafety oversight.",
+    "Dairy and beverage industries are controlled fermentations whose acids, gases and ethanol explain product texture, preservation and flavour.",
+    "Sewage treatment relocates microbial oxidation from rivers to engineered aeration systems and extracts energy from sludge by anaerobic digestion.",
+    "Drinking-water safety is a multi-barrier process monitored with faecal indicator organisms.",
+    "Biocontrol uses ecological specificity—especially Bt, baculoviruses and Trichoderma—as an alternative or complement to chemical pesticides."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 4483,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   },
   {
    "no": 14,
@@ -378,18 +567,44 @@
     "Aquatic, terrestrial and volant adaptations",
     "Conservation biology: biodiversity, protected areas, hotspots, Ramsar sites, IUCN categories and endangered species of Nepal"
    ],
-   "sections": [],
-   "summary": [],
+   "sections": [
+    {
+     "no": "14.1",
+     "title": "Animal behaviour: reflex actions, taxes and migration"
+    },
+    {
+     "no": "14.2",
+     "title": "Air, water and soil pollution; pesticides"
+    },
+    {
+     "no": "14.3",
+     "title": "Aquatic, terrestrial and volant adaptations"
+    },
+    {
+     "no": "14.4",
+     "title": "Conservation biology: biodiversity, protected areas, hotspots, Ramsar sites, IUCN categories and endangered species of Nepal"
+    }
+   ],
+   "summary": [
+    "Reflexes, taxes and kineses differ by pathway, body involvement and whether movement is directed.",
+    "Migration trades travel costs for seasonal access to food and breeding habitat and relies on multiple navigational cues.",
+    "Air pollution separates into particles/toxic gases, smog, acid deposition, ozone depletion and greenhouse warming.",
+    "Water and soil pollutants may be biodegradable, nutrient-like or persistent; persistence plus fat solubility creates biomagnification.",
+    "Aquatic and terrestrial animals solve opposite mechanical/osmotic problems, while flight imposes the strictest combined demands for lift, power and low mass.",
+    "Biodiversity includes genes, species and ecosystems, and evenness matters as well as species count.",
+    "In-situ protected areas preserve whole systems; ex-situ collections are a complementary safety net.",
+    "Hotspots and Ramsar sites prioritise exceptional endemic-rich and wetland ecosystems under threat."
+   ],
    "terms": [],
    "stats": {
-    "words": 0,
-    "figures": 0,
-    "examples": 0
+    "words": 5239,
+    "figures": 4,
+    "examples": 3
    },
-   "has_notes": false
+   "has_notes": true
   }
  ],
  "unit_count": 14,
  "topic_count": 38,
- "notes_ready": 4
+ "notes_ready": 14
 }

@@ -1,0 +1,79 @@
+{
+ "book": "cee-mock",
+ "units": [
+  {
+   "no": 1,
+   "title": "The MECEE-BL Examination: Pattern, Weightage and Strategy",
+   "area": "The Examination",
+   "words": 3208,
+   "read_min": 18,
+   "figures": 2,
+   "has_questions": true
+  },
+  {
+   "no": 2,
+   "title": "Model Paper 1",
+   "area": "Full Model Papers",
+   "words": 9956,
+   "read_min": 55,
+   "figures": 0,
+   "has_questions": false,
+   "exam": {
+    "minutes": 180,
+    "negative": 0.25
+   }
+  },
+  {
+   "no": 3,
+   "title": "Model Paper 2",
+   "area": "Full Model Papers",
+   "words": 6063,
+   "read_min": 34,
+   "figures": 0,
+   "has_questions": false,
+   "exam": {
+    "minutes": 180,
+    "negative": 0.25
+   }
+  },
+  {
+   "no": 4,
+   "title": "Model Paper 3",
+   "area": "Full Model Papers",
+   "words": 5895,
+   "read_min": 33,
+   "figures": 0,
+   "has_questions": false,
+   "exam": {
+    "minutes": 180,
+    "negative": 0.25
+   }
+  },
+  {
+   "no": 5,
+   "title": "Model Paper 4",
+   "area": "Full Model Papers",
+   "words": 6611,
+   "read_min": 37,
+   "figures": 0,
+   "has_questions": false,
+   "exam": {
+    "minutes": 180,
+    "negative": 0.25
+   }
+  },
+  {
+   "no": 6,
+   "title": "Model Paper 5",
+   "area": "Full Model Papers",
+   "words": 7281,
+   "read_min": 40,
+   "figures": 0,
+   "has_questions": false,
+   "exam": {
+    "minutes": 180,
+    "negative": 0.25
+   }
+  }
+ ]
+}
