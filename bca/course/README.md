@@ -28,4 +28,4 @@ Mathematics I/II and Probability overlap the entrance Mathematics book (units 3�
 
 ## Tooling
 
-`bca/tools/build_pdfs.py` (Markdown → PDF with WeasyPrint), `bca/tools/check_c_examples.py` (compile-and-diff every C example). The PDFs are ordinary committed files, not Git LFS.
+`bca/tools/nebpdf.py` (Markdown → PDF through the house pipeline), `bca/tools/check_c_examples.py` (compile-and-diff every C example). The PDFs are ordinary committed files, not Git LFS.
