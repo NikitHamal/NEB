@@ -167,5 +167,13 @@
   "credits": 3,
   "accent": "#BE123C",
   "status": "done"
+ },
+ "semester-4/python-programming": {
+  "name": "Python Programming",
+  "code": "BCA 254",
+  "semester": 4,
+  "credits": 3,
+  "accent": "#1D4ED8",
+  "status": "done"
  }
 }
