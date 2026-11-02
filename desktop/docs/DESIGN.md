@@ -22,3 +22,17 @@ Android rules honoured: mono chrome (blue only for action/brand), no shadows/glo
 
 ## Desktop behaviours
 Native title bar (OS decorations) + in-app menu bar; window size/position remembered; Tab-focus rings on every control; hover animation + pointing-hand cursor; mouse back/forward buttons; smooth keyboard scrolling in the reader; system dark-mode detection.
+
+---
+
+## Session 2: Material 3 Expressive, matching the Android app
+
+**Tokens.** `theme/colors.rs` now carries the Android `Palette.kt` roles for light and dark (`primary #004AC6 / #B4C5FF`, `surface #F3F4F6 / #191B20`, `secondaryContainer`, `surfaceContainer*`, `inverseSurface`, `error`…). Page = `surface`, cards = `surfaceContainerLowest/Container`, fields = `surfaceContainerHigh`, nav indicator and selected chips = `secondaryContainer`. Shapes follow `NEBiansShapes`: cards 20, panels 28, pills 999.
+
+**Icons.** Google's Material Icons (Rounded) font is embedded; `ui/icons.rs` maps 82 named icons to the *official* codepoints from the font's `.codepoints` file (generated, not hand-drawn). Provider marks (Google "G", GitHub) are SVGs rendered with `egui_extras`.
+
+**Expressive behaviour.** Buttons are pills that **morph to a squarer corner while pressed**; hover/press use state layers (8 % / 12 % of the content colour); the nav pill indicator grows in with a slight overshoot ease (egui has no spring primitive — this approximates the Android spatial springs). Chips are filter chips (tonal fill + check). Empty states: one tonal icon tile + one line, as in the Android contract. Skeleton placeholders on the community feed.
+
+**Text input fix.** Inputs are painted background → floating label → editor with an explicit `text_color`, so typed text is always visible in light and dark (`widgets::field`, `text_field`, `text_area`).
+
+**Layout.** Wide (≥1000 px): 268 px labelled rail + content column ≤ 1120 px. Medium (≥760): 88 px rail. Narrow: 76 px bottom bar (Home · Library · Community · Alerts · You). Login uses a brand panel + form on wide windows and the form alone on narrow ones.

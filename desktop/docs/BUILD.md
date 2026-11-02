@@ -54,3 +54,33 @@ sys	0m26.223s
 FRESH_EXIT 0
 ```
 `./target/release/nebians --version` → `NEBians Desktop 0.1.0`.
+
+---
+
+# Session 2 build log (v0.2.0) — real results
+
+**Linux:** `cd desktop && cargo build --release` → `Finished release profile [optimized]` (clean build ≈ 3.5 min on 2 vCPU; incremental ≈ 75 s).
+
+**Windows `.exe`:** `rustup target add x86_64-pc-windows-gnu && cargo build --release --target x86_64-pc-windows-gnu` (linker `x86_64-w64-mingw32-gcc`, from `.cargo/config.toml`; needs `sudo apt install mingw-w64`) → `WIN_DONE`, `target/x86_64-pc-windows-gnu/release/nebians.exe`, 11.7 MB, a real PE32+ executable (`MZ` header, mingw `objdump` reports `pei-x86-64`). Copied to `releases/nebians-windows-x86_64.exe`; hash in `releases/SHA256SUMS`. It was **not launched** (no Windows/wine here); `.github/workflows/desktop-windows.yml` builds it natively on `windows-latest`.
+
+**Screenshots:** 31 PNGs in `screenshots/`, produced by the running Linux build under Xvfb with software GL:
+`xvfb-run -a -s "-screen 0 1400x900x24 +extension GLX" env LIBGL_ALWAYS_SOFTWARE=1 target/release/nebians --content .. --screenshots screenshots --reset`
+(`scripts/screenshots.sh`). Signed-in screens use sample data — see LIMITATIONS.md.
+
+**Live end-to-end hand-off test** (real Rust client ↔ real Django `runserver`, sqlite):
+```
+$ DB_ENGINE=sqlite DEBUG=True python manage.py runserver 127.0.0.1:8765 --noreload &
+$ NEB_API_BASE=http://127.0.0.1:8765/ cargo test --release live_handoff -- --ignored --nocapture &
+$ python scripts/e2e-handoff.py http://127.0.0.1:8765 <token of test user>
+signed-out visitor is sent to login: /login/?next=/desktop-auth/%3Fstate%3D-BtnB65vVLBckCkOxRRJgX ...
+consent page approved
+--- cargo test output ---
+SESSION user=e2e_tester is_new=false provider=browser
+AUTHED unread-count reply: {"count":0}
+test data::browser_auth::tests::live_handoff ... ok
+```
+The test additionally asserts that a bogus bearer token is rejected and that redeeming the same hand-off twice fails.
+
+**Backend unit tests:** `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=… python manage.py test api.test_desktop_auth` → `Ran 10 tests … OK`.
+
+**Problems met and fixed this session:** Django needs `DB_ENGINE=sqlite` (default is MySQL) and `DEBUG=True` or a real `SECRET_KEY` to start; my first test of the device-name sanitiser expected parentheses to be stripped, but they're intentionally allowed (test corrected); `pkill -f` killed my own shell once (pattern matched the command line).

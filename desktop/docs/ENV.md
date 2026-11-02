@@ -102,3 +102,22 @@ rustup target add x86_64-pc-windows-gnu
 
 ### pip install (real error + fix)
 `pip install fonttools brotli` → `error: externally-managed-environment` (PEP 668). Fixed with `pip install --break-system-packages fonttools brotli`.
+
+---
+
+# Session 2 probes (Material 3 redesign + accounts) — real output
+
+Sandbox: 2 vCPU, 1982 MB RAM, 20 GB free disk (`free -m`, `nproc`, `df -h .`).
+
+| Probe | Result |
+|---|---|
+| `git --version` / `which git` | `git version 2.39.5` / `/usr/bin/git` |
+| `sudo -n true` | works (passwordless) |
+| `curl -sI https://github.com \| head -1` | `HTTP/2 200` |
+| `git ls-remote https://github.com/NikitHamal/NEB.git` (anonymous) | `fatal: could not read Username for 'https://github.com'` — **the repo is private**; anonymous reads fail. Authenticated reads with the PAT (passed via URL at the command line, never written to a file) succeed and list the branches incl. `desktop/claude`. |
+| `rustc --version` at session start | `command not found` — Rust was **not** installed in this sandbox. Installed with `curl https://sh.rustup.rs \| sh -s -- -y --profile minimal` → `rustc 1.99.1`, `cargo 1.99.1` |
+| `dpkg -l \| grep -E "xvfb\|mesa\|mingw"` at start | nothing installed. `sudo apt-get install -y xvfb xauth libgl1-mesa-dri libglx-mesa0 libxkbcommon-x11-0 mingw-w64 imagemagick python3-venv python3-pip` fixed that (`xvfb-run`, `x86_64-w64-mingw32-gcc` now on PATH) |
+| `rustup target add x86_64-pc-windows-gnu` | done by `scripts/build.sh windows` (see BUILD.md for the real result of this session's build) |
+| Backend test environment | `python3 -m venv /tmp/venv && pip install -r backend_python/requirements.txt`; tests run with `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=… python manage.py test api.test_desktop_auth` |
+
+A first attempt to create the venv failed (`pip: No such file`) because `python3-venv` was missing; `apt-get install python3-venv` fixed it.
