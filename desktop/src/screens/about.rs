@@ -29,14 +29,14 @@ pub fn show(ui: &mut Ui, env: &mut Env) {
             ui.set_width(ui.available_width());
             widgets::heading(ui, &th, "In this library", 16.0);
             ui.add_space(6.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 widgets::badge(ui, &format!("{tracks} categories"), th.p.accent, th.p.accent_soft);
                 widgets::badge(ui, &format!("{subjects} subjects"), th.p.accent, th.p.accent_soft);
                 widgets::badge(ui, &format!("{chapters} chapters"), th.p.accent, th.p.accent_soft);
             });
             ui.add_space(8.0);
-            if let Some(c) = &env.content {
-                widgets::label(ui, RichText::new(format!("Reading from {}", c.base.display())).font(fonts::regular(12.5)).color(th.p.ink_faint));
+            if let Some(m) = &env.manifest {
+                widgets::label(ui, RichText::new(format!("Content release {} · {} study books", m.version, m.books)).font(fonts::regular(12.5)).color(th.p.ink_faint));
             }
         });
         ui.add_space(14.0);
@@ -45,7 +45,7 @@ pub fn show(ui: &mut Ui, env: &mut Env) {
             widgets::heading(ui, &th, "On the web and Android", 16.0);
             widgets::muted(ui, &th, "The community forum, Neby AI, Canvas and the marketplace need an account and live in the web app and the Android app.");
             ui.add_space(8.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 if widgets::button(ui, &th, "Open NEBians web", BtnKind::Primary, Some(Icon::Globe), None).clicked() {
                     env.open_url(SITE_URL);
                 }

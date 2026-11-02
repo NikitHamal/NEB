@@ -25,7 +25,7 @@ pub fn show_library(ui: &mut Ui, env: &mut Env, st: &mut LibraryState) {
         let tracks = env.tracks.clone();
         widgets::grid(ui, 300.0, spacing::GRID_GAP, tracks.len(), |ui, i, w| {
             let t = &tracks[i];
-            let resp = widgets::card(ui, &th, vec2(w, 118.0), 16.0, |ui| {
+            let resp = widgets::card(ui, &th, vec2(w, 136.0), 16.0, |ui| {
                 widgets::label_trunc(ui, RichText::new(&t.label).font(fonts::bold(17.0)).color(th.p.ink));
                 widgets::label_trunc(ui, RichText::new(&t.exam).font(fonts::regular(12.5)).color(th.p.ink_muted));
                 ui.add_space(8.0);
@@ -43,7 +43,7 @@ pub fn show_library(ui: &mut Ui, env: &mut Env, st: &mut LibraryState) {
         });
         ui.add_space(spacing::SECTION_GAP);
         widgets::section_header(ui, &th, "All subjects", None);
-        ui.horizontal_wrapped(|ui| {
+        crate::ui::widgets::flow(ui, |ui| {
             if widgets::chip(ui, &th, "All", st.filter == 0).clicked() {
                 st.filter = 0;
             }
@@ -104,7 +104,7 @@ pub fn show_category(ui: &mut Ui, env: &mut Env, grade: &str) {
             });
         });
         ui.add_space(8.0);
-        ui.horizontal_wrapped(|ui| {
+        crate::ui::widgets::flow(ui, |ui| {
             widgets::badge(ui, &format!("{} subjects", track.subjects.len()), th.p.accent, th.p.accent_soft);
             widgets::badge(ui, &format!("{} chapters", track.ready_total()), th.p.ink_muted, th.p.field);
             let done: u32 = track.subjects.iter().map(|s| env.store.done_count_in(&track.grade, &s.subject)).sum();

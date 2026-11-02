@@ -294,7 +294,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
             ui.add(egui::Label::new(RichText::new(format!("{} {}, {}", MONTHS[st.month], st.day, st.year)).color(th.p.ink_muted)));
         }
         Step::Gender => {
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for g in GENDERS {
                     if widgets::chip(ui, &th, g, env.store.s.profile.gender == g).clicked() {
                         env.store.s.profile.gender = g.to_string();
@@ -305,7 +305,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
         }
         Step::Level => {
             let levels: &[&str] = if role == "teacher" { &TEACHER_LEVELS } else { &STUDENT_LEVELS };
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for l in levels {
                     if widgets::chip(ui, &th, l, env.store.s.profile.level == *l).clicked() {
                         env.store.s.profile.level = l.to_string();
@@ -315,7 +315,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
             });
         }
         Step::Subjects => {
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for s in SUBJECTS {
                     let on = env.store.s.profile.subjects.iter().any(|x| x == s);
                     if widgets::chip(ui, &th, s, on).clicked() {
@@ -333,7 +333,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
         Step::Place => {
             widgets::label(ui, RichText::new("Province").font(fonts::medium(13.5)).color(th.p.ink_muted));
             ui.add_space(4.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for p in PRADESH {
                     if widgets::chip(ui, &th, p, env.store.s.profile.pradesh == p).clicked() {
                         env.store.s.profile.pradesh = p.to_string();
@@ -364,7 +364,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
             }
             if role == "institution" {
                 ui.add_space(14.0);
-                ui.horizontal_wrapped(|ui| {
+                crate::ui::widgets::flow(ui, |ui| {
                     for t in INSTITUTION_TYPES {
                         if widgets::chip(ui, &th, t, env.store.s.profile.institution_type == t).clicked() {
                             env.store.s.profile.institution_type = t.to_string();
@@ -378,7 +378,7 @@ fn step_body(ui: &mut Ui, env: &mut Env, st: &mut OnboardingState, step: Step, w
             let name = env.store.s.profile.display_name.clone();
             ui.vertical_centered(|ui| avatar(ui, &th, &name, env.store.s.profile.avatar_tone, 112.0));
             ui.add_space(20.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 for i in 0..TONES.len() {
                     let (rect, resp) = ui.allocate_exact_size(vec2(40.0, 40.0), Sense::click());
                     ui.painter().circle_filled(rect.center(), 17.0, tone(i));

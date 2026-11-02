@@ -73,6 +73,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
         }
     }
     let busy = st.busy.is_some();
+    super::login::split_layout(ui, env, |ui, env, with_logo| {
     egui::ScrollArea::vertical().auto_shrink([false, false]).show(ui, |ui| {
         let avail = ui.available_size();
         let w = (avail.x - 48.0).clamp(280.0, 420.0);
@@ -84,9 +85,24 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                     env.act(Action::Replace(Route::Login));
                 }
             });
-            ui.add_space((avail.y * 0.5 - 330.0).max(8.0));
-            env.logo.show(ui, 52.0);
-            ui.add_space(18.0);
+            let est = match st.mode { Mode::SignUp => 640.0, Mode::Reset => 600.0, _ => 520.0 };
+            ui.add_space(((avail.y - est) / 2.0 - 40.0).max(8.0));
+            if with_logo {
+                env.logo.show(ui, 52.0);
+                ui.add_space(18.0);
+            }
+            if matches!(st.mode, Mode::SignIn | Mode::SignUp) {
+                let mut sel = usize::from(st.mode == Mode::SignUp);
+                ui.scope(|ui| {
+                    ui.set_width(w);
+                    if widgets::segmented(ui, &th, &["Sign in", "Create account"], &mut sel) {
+                        st.mode = if sel == 1 { Mode::SignUp } else { Mode::SignIn };
+                        st.error = None;
+                        st.info = None;
+                    }
+                });
+                ui.add_space(24.0);
+            }
             let (title, sub) = match st.mode {
                 Mode::SignIn => ("Sign in", "Use the email you registered with."),
                 Mode::SignUp => ("Create your account", "A verification code will be emailed to you."),
@@ -94,8 +110,9 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                 Mode::Forgot => ("Reset your password", "We will email a reset code to your address."),
                 Mode::Reset => ("Choose a new password", "Enter the code we emailed you and a new password."),
             };
-            ui.add(egui::Label::new(RichText::new(title).font(fonts::bold(26.0)).color(th.p.ink)).selectable(false));
-            ui.add(egui::Label::new(RichText::new(sub).color(th.p.ink_muted)).selectable(false));
+            ui.add(egui::Label::new(RichText::new(title).font(fonts::bold(28.0)).color(th.p.ink)).selectable(false));
+            ui.add_space(4.0);
+            ui.add(egui::Label::new(RichText::new(sub).font(fonts::regular(15.0)).color(th.p.ink_muted)).selectable(false));
             ui.add_space(22.0);
 
             ui.add_enabled_ui(!busy, |ui| {
@@ -109,6 +126,12 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                 }
                 if matches!(st.mode, Mode::SignIn | Mode::SignUp) {
                     let r = widgets::field(ui, &th, &mut st.password, "Password", Some(Icon::Lock), w, true, false);
+                    if st.mode == Mode::SignUp {
+                        let n = st.password.chars().count();
+                        let (msg, col) = if n == 0 { ("Use 8 or more characters.", th.p.ink_faint) } else if n < 8 { ("A little longer — 8 characters minimum.", th.p.warn) } else { ("Looks good.", th.p.ok) };
+                        ui.add_space(4.0);
+                        widgets::label(ui, RichText::new(msg).font(fonts::regular(12.5)).color(col));
+                    }
                     if r.lost_focus() && ui.input(|i| i.key_pressed(egui::Key::Enter)) && st.mode == Mode::SignIn {
                         submit(env, st);
                     }
@@ -152,7 +175,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                 ui.spinner();
             }
             ui.add_space(14.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 let mut go = |ui: &mut Ui, text: &str, mode: Mode, st: &mut EmailState| {
                     if ui.link(RichText::new(text).font(fonts::medium(13.5)).color(th.p.accent)).clicked() {
                         st.mode = mode;
@@ -161,11 +184,9 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                     }
                 };
                 match st.mode {
-                    Mode::SignIn => {
-                        go(ui, "Create an account", Mode::SignUp, st);
-                        go(ui, "Forgot password?", Mode::Forgot, st);
-                    }
-                    Mode::SignUp | Mode::Forgot | Mode::Reset => go(ui, "I already have an account", Mode::SignIn, st),
+                    Mode::SignIn => go(ui, "Forgot your password?", Mode::Forgot, st),
+                    Mode::SignUp => {}
+                    Mode::Forgot | Mode::Reset => go(ui, "Back to sign in", Mode::SignIn, st),
                     Mode::Verify => {
                         if ui.link(RichText::new("Resend code").font(fonts::medium(13.5)).color(th.p.accent)).clicked() && !st.email.is_empty() {
                             let email = st.email.clone();
@@ -180,6 +201,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                 super::auth_flow::continue_as_guest(env);
             }
         });
+    });
     });
 }
 

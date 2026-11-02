@@ -29,8 +29,13 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SubjectState, track: &str, subj
             widgets::empty_state(ui, &th, Icon::Library, "Subject not found", "Pick one from the Library.");
             return;
         };
-        let syl = env.syllabus(&track, &subject);
-        let idx = env.study_index(&track, &subject);
+        let (sv, iv) = (env.syllabus_view(&track, &subject), env.study_index_view(&track, &subject));
+        let syl = if let crate::data::lazy::View::Ready(v) = &sv { Some(v.clone()) } else { None };
+        let idx = if let crate::data::lazy::View::Ready(v) = &iv { Some(v.clone()) } else { None };
+        let failed = match (&sv, &iv) {
+            (crate::data::lazy::View::Failed(m), _) | (_, crate::data::lazy::View::Failed(m)) => Some(m.clone()),
+            _ => None,
+        };
         let color = th.subject_color(&sum.color);
         let done = env.store.done_count_in(&track, &subject);
         let ready: Vec<u32> = idx.as_ref().map(|i| i.units.iter().map(|u| u.no).collect()).unwrap_or_default();
@@ -58,7 +63,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SubjectState, track: &str, subj
                 });
             });
             ui.add_space(12.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 widgets::badge(ui, &format!("{} chapters", sum.notes_ready), color, th.p.card);
                 widgets::badge(ui, &format!("{} topics", sum.topic_count), th.p.ink_muted, th.p.card);
                 if let Some(h) = sum.hours.filter(|h| *h > 0) {
@@ -75,13 +80,27 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SubjectState, track: &str, subj
             ui.add_space(6.0);
             widgets::label(ui, RichText::new(format!("{done} of {} chapters finished", sum.unit_count)).font(fonts::regular(12.5)).color(th.p.ink_muted));
             ui.add_space(12.0);
-            ui.horizontal_wrapped(|ui| {
+            crate::ui::widgets::flow(ui, |ui| {
                 let resume = env.store.s.recent.iter().find(|r| r.chapter.track == track && r.chapter.subject == subject).map(|r| r.chapter.clone());
                 let first = ready.first().copied().map(|n| unit_ref(&track, &subject, n));
                 if let Some(c) = resume.clone().or(first.clone()) {
                     let label = if resume.is_some() { "Continue reading" } else { "Start first chapter" };
                     if widgets::button(ui, &th, label, BtnKind::Primary, Some(Icon::Play), None).clicked() {
                         open_chapter(env, c);
+                    }
+                }
+                {
+                    let key = crate::data::downloads::subject_key(&track, &subject);
+                    if let Some(j) = env.dl.job(&key) {
+                        let txt = format!("Saving {:.0}%", j.progress.frac() * 100.0);
+                        if widgets::button(ui, &th, &txt, BtnKind::Secondary, Some(Icon::Close), None).on_hover_text("Cancel").clicked() {
+                            env.dl.cancel(&key);
+                        }
+                    } else if env.dl.is_offline(&track, &subject) {
+                        widgets::badge(ui, "Saved offline", th.p.ok, th.p.ok_soft);
+                    } else if widgets::button(ui, &th, "Save offline", BtnKind::Secondary, Some(Icon::Download), None).clicked() {
+                        let repo = env.repo.clone();
+                        env.dl.start_subject(&env.ctx.clone(), &repo, &track, &subject, &sum.name);
                     }
                 }
                 if let Some(i) = &idx {
@@ -93,8 +112,13 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SubjectState, track: &str, subj
         });
         ui.add_space(20.0);
 
+        if syl.is_none() || idx.is_none() {
+            let (t, sb) = (track.clone(), subject.clone());
+            load_state(ui, &th, failed, || env.forget_subject(&t, &sb));
+            return;
+        }
         let n_banks = idx.as_ref().map(|i| i.banks.len() + usize::from(!i.guide.is_empty())).unwrap_or(0);
-        ui.horizontal_wrapped(|ui| {
+        crate::ui::widgets::flow(ui, |ui| {
             for (i, label) in [format!("Units ({})", syl.as_ref().map(|s| s.units.len()).unwrap_or(0)), format!("Question banks ({n_banks})"), "Syllabus".to_string()].iter().enumerate() {
                 if widgets::chip(ui, &th, label, st.tab == i).clicked() {
                     st.tab = i;
@@ -124,7 +148,7 @@ fn units_tab(ui: &mut Ui, env: &mut Env, track: &str, subject: &str, syl: Option
         let c = unit_ref(track, subject, u.no);
         let prog = env.store.progress(&c).cloned();
         let w = ui.available_width();
-        let resp = widgets::card(ui, &th, vec2(w, 84.0), 14.0, |ui| {
+        let resp = widgets::card(ui, &th, vec2(w, 96.0), 14.0, |ui| {
             ui.horizontal(|ui| {
                 let (rect, _) = ui.allocate_exact_size(vec2(44.0, 44.0), Sense::hover());
                 let finished = prog.as_ref().is_some_and(|p| p.done);
@@ -226,7 +250,7 @@ fn syllabus_tab(ui: &mut Ui, env: &mut Env, syl: Option<&crate::data::models::Sy
             ui.add(egui::Label::new(RichText::new(&syl.exam).font(fonts::regular(15.0)).color(th.p.ink)));
             if !syl.areas.is_empty() {
                 ui.add_space(8.0);
-                ui.horizontal_wrapped(|ui| {
+                crate::ui::widgets::flow(ui, |ui| {
                     for a in &syl.areas {
                         widgets::badge(ui, a, th.p.accent, th.p.accent_soft);
                     }

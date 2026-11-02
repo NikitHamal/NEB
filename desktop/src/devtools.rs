@@ -104,7 +104,10 @@ impl Tour {
                 }
                 go(a, Route::Bookmarks)
             } },
-            Step { name: "downloads", settle: 40, setup: |a, _| go(a, Route::Downloads) },
+            Step { name: "books", settle: 90, setup: |a, _| go(a, Route::Books) },
+            Step { name: "people", settle: 30, setup: |a, _| { a.screens.people.demo(); go(a, Route::People) } },
+            Step { name: "member-profile", settle: 40, setup: |a, _| { a.screens.user.demo(); go(a, Route::User("anish_karki".into())) } },
+            Step { name: "offline-library", settle: 60, setup: |a, _| go(a, Route::Downloads) },
             Step { name: "settings", settle: 24, setup: |a, _| go(a, Route::Settings) },
             Step { name: "profile", settle: 24, setup: |a, _| go(a, Route::Profile) },
             Step { name: "about", settle: 20, setup: |a, _| go(a, Route::About) },
