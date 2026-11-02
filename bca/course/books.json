@@ -247,5 +247,13 @@
   "credits": 3,
   "accent": "#B91C1C",
   "status": "done"
+ },
+ "semester-6/technical-writing": {
+  "name": "Technical Writing",
+  "code": "BCA 354",
+  "semester": 6,
+  "credits": 2,
+  "accent": "#CA8A04",
+  "status": "done"
  }
 }
