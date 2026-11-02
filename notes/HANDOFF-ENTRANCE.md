@@ -149,7 +149,11 @@ backend, web timed mode, Android). Everything below is pushed to this branch.
 | cee-bot | `cee-bot.md` (15 ch, 40 Qs) | | **106 pp, 1.9 MB** (Oct 25) | shipped |
 | cee-mat | `cee-mat.md` (5 ch, 20 Qs) | | **84 pp, 1.2 MB** (Oct 25) | shipped |
 | cee-mock | `cee-mock.md` (guide + 5 model papers of 200) | | — | — |
-| ioe-* | not yet | | | |
+| ioe-math | `ioe-math.md` (7 ch, 35 Qs) | see `notes/content/ioe-math/` | not built | chapters + export |
+| ioe-phy | `ioe-phy.md` (6 ch, 27 Qs) | see `notes/content/ioe-phy/` | not built | chapters + export |
+| ioe-chem | `ioe-chem.md` (3 ch, 22 Qs) | see `notes/content/ioe-chem/` | not built | chapters + export |
+| ioe-eng | `ioe-eng.md` (4 ch, 16 Qs) | see `notes/content/ioe-eng/` | not built | chapters + export |
+| ioe-mock | `ioe-mock.md` (guide + 2 model papers of 100) | see `notes/content/ioe-mock/` | not built | chapters + export |
 | csit-* / bca-* | not yet | | | |
 
 Built PDFs (commit `8125a944`): `notes/pdf/NEBians-CEE-Entrance-{Physics,Chemistry,Zoology,Botany,Mental-Agility-Test}.pdf`.
@@ -230,8 +234,10 @@ web, updates this file, pushes.
 2. ~~Build the six CEE PDFs; export syllabus + study JSON; check the reader keys.~~
    The five subjects with chapters are built (`8125a944`); cee-mock has no chapter yet, so its
    paper is the only PDF still missing. Export + reader keys are done and tested.
-3. IOE spines (`ioe-math`, `ioe-phy`, `ioe-chem`, `ioe-eng`, `ioe-mock`) from the 2083
-   syllabus → chapters → PDFs → export.
+3. ~~IOE spines (`ioe-math`, `ioe-phy`, `ioe-chem`, `ioe-eng`, `ioe-mock`) from the 2083
+   syllabus → chapters → PDFs → export.~~ Spines and chapters are in and exported
+   (`notes/HANDOFF-IOE.md`); figures, MCQ depth, model papers 3–5, the PDFs and the
+   two-weight timed mode are still open.
 4. CSIT (`csit-*`, incl. `csit-comp`) and BCA (`bca-math`, `bca-eng`, `bca-gk`, mocks).
 5. Bachelor programmes (first semesters of BSc CSIT and BCA first), as new tracks.
 6. Web + Android: entrance tracks in the syllabus hub (API `tracks` key for

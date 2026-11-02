@@ -1,0 +1,169 @@
+---
+subject: Physics
+grade: IOE
+unit: 3
+title: Geometric and Physical Optics
+hours: 4
+area: Physics
+---
+
+Optics carries about **4 questions** (our estimate). The two halves are ray optics (mirror and lens formulae, refraction, prism, total internal reflection) and wave optics (Young's fringe width, grating, Brewster's law, Malus' law). Almost every numerical question uses one of five formulae.
+
+::: key What the paper asks from this chapter
+- Mirror $\frac{1}{v}+\frac{1}{u}=\frac{1}{f}$, $f=\frac{R}{2}$; lens $\frac{1}{v}-\frac{1}{u}=\frac{1}{f}$; magnification; sign convention.
+- Refraction: Snell, critical angle $\sin C=\frac{1}{n}$, apparent depth, lateral shift.
+- Prism: $n=\frac{\sin\frac{A+\delta_m}{2}}{\sin\frac{A}{2}}$; lens maker's formula; lenses in contact $P=P_1+P_2$.
+- Dispersion, dispersive power, chromatic aberration, rainbow, scattering ($\propto\lambda^{-4}$).
+- Young's fringe width $\beta=\frac{\lambda D}{d}$; diffraction grating $d\sin\theta=n\lambda$; resolving power.
+- Polarisation: Brewster's $\tan\theta_p=n$, Malus' law $I=I_0\cos^2\theta$.
+:::
+
+## 3.1 Reflection
+
+Laws: the incident ray, reflected ray and normal are coplanar; $\angle i=\angle r$. A plane mirror forms a virtual image as far behind as the object is in front; rotating the mirror by $\theta$ rotates the reflected ray by $2\theta$; two mirrors at angle $\theta$ form $\frac{360^\circ}{\theta}-1$ images. Minimum mirror length to see oneself fully is half one's height.
+
+**Spherical mirrors** (Cartesian sign convention: distances measured from the pole, positive in the direction of the incident light; concave mirror has negative $f$, $R$): $\dfrac{1}{v}+\dfrac{1}{u}=\dfrac{1}{f}=\dfrac{2}{R}$, $m=-\dfrac{v}{u}=\dfrac{h_i}{h_o}$. With the "real-is-positive" shortcut for a concave mirror: object at $u=30$ cm with $f=20$ cm gives $\frac{1}{v}=\frac{1}{20}-\frac{1}{30}$, $v=60$ cm real, inverted, $m=-2$. Convex mirror always gives a virtual, erect, diminished image (rear-view mirrors, wide field).
+
+## 3.2 Refraction
+
+Snell's law $\dfrac{\sin i}{\sin r}={}_1n_2=\dfrac{n_2}{n_1}=\dfrac{v_1}{v_2}$; $n=\frac{c}{v}$; the frequency is unchanged, so $\lambda_{medium}=\frac{\lambda}{n}$. **Apparent depth** $=\frac{\text{real}}{n}$ (a 12 cm column of water, $n=\frac{4}{3}$, looks 9 cm). **Lateral shift** through a slab of thickness $t$: $d=t\sin(i-r)/\cos r$.
+
+**Critical angle:** $\sin C=\dfrac{1}{n}$ (glass 1.5: $41.8^\circ$; $n=\sqrt{2}$: $45^\circ$; diamond 2.42: $24^\circ$). **Total internal reflection** needs light going from the denser to the rarer medium at $i>C$. Applications: prisms in binoculars, mirages, sparkle of diamonds, endoscope, and the **optical fibre** (core $n_1>$ cladding $n_2$): numerical aperture $\text{NA}=\sqrt{n_1^2-n_2^2}$ (core 1.5, cladding 1.4: 0.54); used in telecommunication with very low loss.
+
+**Prism:** $\delta=i+e-A$; minimum deviation when the ray passes symmetrically, $n=\dfrac{\sin\frac{A+\delta_m}{2}}{\sin\frac{A}{2}}$; for a thin prism $\delta=(n-1)A$. For $A=60^\circ$, $n=\sqrt{3}$: $\delta_m=60^\circ$.
+
+**Thin lens:** $\dfrac{1}{v}-\dfrac{1}{u}=\dfrac{1}{f}$ (Cartesian), $m=\dfrac{v}{u}$; **lens maker's formula** $\dfrac{1}{f}=(n-1)\Big(\dfrac{1}{R_1}-\dfrac{1}{R_2}\Big)$ (for $n$ relative to the surrounding medium: a glass lens in water has longer focal length, $f_w=f_a\frac{(n_g-1)}{(n_g/n_w-1)}$; $f_{water}\approx4f_{air}$). **Power** $P=\frac{1}{f}$ (metres) in dioptres; lenses in contact $P=P_1+P_2$, $\frac{1}{f}=\frac{1}{f_1}+\frac{1}{f_2}$; separated by $d$: $\frac{1}{f}=\frac{1}{f_1}+\frac{1}{f_2}-\frac{d}{f_1f_2}$. A convex lens gives a real image with $m=-1$ at $u=2f$. Eye defects: myopia (concave lens), hypermetropia (convex lens). Microscope $M\approx\frac{v_o}{u_o}\cdot\frac{D}{f_e}$, telescope $M=\frac{f_o}{f_e}$.
+
+## 3.3 Dispersion
+
+White light splits into a spectrum because $n$ depends on wavelength ($n_{violet}>n_{red}$; violet bends most). **Dispersive power** $\omega=\dfrac{n_v-n_r}{n_y-1}$. **Angular dispersion** $\delta_v-\delta_r=(n_v-n_r)A$. **Chromatic aberration** (different foci for different colours) is removed by an **achromatic doublet**: convex crown with concave flint, $\frac{\omega_1}{f_1}+\frac{\omega_2}{f_2}=0$. **Spherical aberration** (marginal rays focus nearer) is reduced by a stop or a parabolic mirror. **Rainbow:** dispersion plus internal reflection in raindrops (primary bow: one internal reflection, red outside at $42^\circ$). **Scattering** (Rayleigh) $\propto\lambda^{-4}$: the sky is blue, the Sun red at sunrise and sunset; red is used for danger signals.
+
+## 3.4 Nature and propagation of light
+
+**Huygens' principle:** every point of a wavefront is a source of secondary wavelets, and the envelope forms the new wavefront; it derives the laws of reflection and refraction and shows that light slows down in a denser medium. The speed of light in vacuum $c=3\times10^8$ m s⁻¹ (Römer, Fizeau's toothed wheel, Foucault's rotating mirror, Michelson). In a medium $v=\frac{c}{n}$ ($n=1.5$: $2\times10^8$ m s⁻¹). Wavefronts are plane (distant source), spherical (point source) or cylindrical (slit).
+
+## 3.5 Interference
+
+**Coherent sources** have a constant phase difference (produced by splitting one wavefront). **Young's double slit:** path difference $\Delta=\frac{yd}{D}$; bright fringe $\Delta=n\lambda$, dark $(n+\frac{1}{2})\lambda$; **fringe width** $\beta=\dfrac{\lambda D}{d}$ (for $\lambda=600$ nm, $D=1$ m, $d=1$ mm: 0.6 mm). Immersing the apparatus in a medium of index $n$ reduces $\beta$ to $\frac{\beta}{n}$; a thin sheet of thickness $t$ over one slit shifts the pattern by $\frac{(n-1)tD}{d}$. Intensity $I=4I_0\cos^2\frac{\phi}{2}$; for two sources of intensities $I_1,I_2$: $I_{max}/I_{min}=\Big(\frac{\sqrt{I_1}+\sqrt{I_2}}{\sqrt{I_1}-\sqrt{I_2}}\Big)^2$. Thin films (colours of soap bubbles) and Newton's rings are the same effect. Interference is energy redistribution, not creation.
+
+## 3.6 Diffraction
+
+Bending of waves around obstacles; significant when the aperture is comparable with $\lambda$. **Fraunhofer single slit:** minima at $a\sin\theta=n\lambda$; central maximum width $\frac{2\lambda D}{a}$. **Diffraction grating:** $d\sin\theta=n\lambda$ with $d=\frac{1}{N}$ (5000 lines cm⁻¹: $d=2\,\mu$m; $\lambda=500$ nm gives $\sin\theta_1=0.25$); the maximum order is $n<\frac{d}{\lambda}$. **Resolving power** of a telescope: minimum angle $\theta=\dfrac{1.22\lambda}{D}$ (Rayleigh); a larger aperture resolves better; microscope $\frac{2n\sin\theta}{1.22\lambda}$; grating $\frac{\lambda}{\Delta\lambda}=nN$.
+
+## 3.7 Polarization
+
+Polarisation proves light is a **transverse** wave (sound cannot be polarised). **Malus' law:** $I=I_0\cos^2\theta$; unpolarised light through a polariser loses half. **Brewster's law:** reflected light is completely polarised when $\tan\theta_p=n$, and the reflected and refracted rays are at $90^\circ$ ($n=\sqrt{3}$: $60^\circ$). **Polaroid** (aligned molecules) is used in sunglasses (to cut glare) and 3-D cinema. Optical activity (sugar solution) and double refraction (calcite).
+
+::: caution Optics traps
+Sign convention first: write it down. Frequency never changes on refraction. TIR needs *denser to rarer*. A larger refractive index means a *shorter* wavelength and a *smaller* fringe width. Brewster's angle depends on $n$.
+:::
+
+## Formula and fact sheet
+
+| Topic | Result |
+|---|---|
+| mirror | $\frac{1}{v}+\frac{1}{u}=\frac{2}{R}$ |
+| lens | $\frac{1}{v}-\frac{1}{u}=\frac{1}{f}$; $\frac{1}{f}=(n-1)(\frac{1}{R_1}-\frac{1}{R_2})$ |
+| critical angle | $\sin C=\frac{1}{n}$ |
+| apparent depth | real depth$/n$ |
+| prism | $n=\frac{\sin(A+\delta_m)/2}{\sin A/2}$ |
+| dispersive power | $\frac{n_v-n_r}{n_y-1}$ |
+| fringe width | $\frac{\lambda D}{d}$ |
+| grating | $d\sin\theta=n\lambda$ |
+| Brewster / Malus | $\tan\theta_p=n$ / $I_0\cos^2\theta$ |
+| resolving angle | $\frac{1.22\lambda}{D}$ |
+
+## Chapter summary
+
+- Mirror and lens formulas are used with a consistent sign convention.
+- $\sin C=1/n$; TIR only from dense to rare; fibres use it with NA $=\sqrt{n_1^2-n_2^2}$.
+- Prisms: minimum deviation relation; thin prism $\delta=(n-1)A$.
+- Violet bends most; achromatism needs two glasses.
+- $\beta=\frac{\lambda D}{d}$ shrinks in a medium.
+- Polarisation shows light is transverse; Brewster and Malus give the numbers.
+
+## Practice questions
+
+**Set A — Recall (10 questions)**
+
+1. The focal length of a concave mirror of radius 40 cm is
+   (a) 10 cm (b) 20 cm (c) 40 cm (d) 80 cm
+2. The critical angle for a medium of refractive index $\sqrt{2}$ is
+   (a) $30^\circ$ (b) $60^\circ$ (c) $45^\circ$ (d) $90^\circ$
+3. The power of a lens of focal length 50 cm is
+   (a) 2 D (b) 0.5 D (c) 5 D (d) 50 D
+4. Total internal reflection can occur when light travels from
+   (a) air to water (b) a rarer to a denser medium (c) a denser to a rarer medium (d) air to glass
+5. A rainbow is formed by
+   (a) interference (b) diffraction (c) polarisation (d) dispersion with total internal reflection
+6. Light is completely polarised on reflection from a medium of index $\sqrt{3}$ at the angle
+   (a) $60^\circ$ (b) $30^\circ$ (c) $45^\circ$ (d) $90^\circ$
+7. In Young's experiment $\lambda=600$ nm, $D=1$ m and $d=1$ mm. The fringe width is
+   (a) 0.06 mm (b) 0.6 mm (c) 6 mm (d) 0.3 mm
+8. The transverse nature of light is shown by
+   (a) interference (b) diffraction (c) reflection (d) polarisation
+9. The speed of light in a medium of refractive index 1.5 is
+   (a) $3\times10^8$ m s⁻¹ (b) $2\times10^8$ m s⁻¹ (c) $4.5\times10^8$ m s⁻¹ (d) $1.5\times10^8$ m s⁻¹
+10. A biconvex glass lens ($n=1.5$) has both radii 20 cm. Its focal length is
+    (a) 10 cm (b) 40 cm (c) 20 cm (d) 30 cm
+
+::: note Answers and explanations — Set A
+**1.** (b) — $f=\frac{R}{2}$.
+**2.** (c) — $\sin C=\frac{1}{\sqrt{2}}$.
+**3.** (a) — $P=\frac{1}{0.5}=2$ D.
+**4.** (c) — only from denser to rarer, with $i>C$.
+**5.** (d) — refraction and dispersion in the drop, with internal reflection.
+**6.** (a) — $\tan\theta_p=\sqrt{3}$.
+**7.** (b) — $\frac{\lambda D}{d}=\frac{600\times10^{-9}\times1}{10^{-3}}$.
+**8.** (d) — only transverse waves can be polarised.
+**9.** (b) — $\frac{3\times10^8}{1.5}$.
+**10.** (c) — $\frac{1}{f}=0.5\big(\frac{1}{20}+\frac{1}{20}\big)=\frac{1}{20}$.
+:::
+
+**Set B — Understanding (7 questions)**
+
+1. An object is 30 cm from a concave mirror of focal length 20 cm. The image distance is
+   (a) 60 cm (b) 12 cm (c) 30 cm (d) 15 cm
+2. A convex lens of $f=10$ cm forms the image of an object placed 15 cm away at
+   (a) 6 cm (b) 25 cm (c) 30 cm (d) 150 cm
+3. A prism of angle $60^\circ$ and index $\sqrt{3}$ has minimum deviation
+   (a) $60^\circ$ (b) $30^\circ$ (c) $45^\circ$ (d) $75^\circ$
+4. Two thin lenses of powers $+10$ D and $-2.5$ D are in contact. The combination has power
+   (a) 12.5 D (b) 7.5 D (c) 25 D (d) 4 D
+5. A fish is 12 cm below the surface of water ($n=\frac{4}{3}$). Its apparent depth is
+   (a) 16 cm (b) 12 cm (c) 8 cm (d) 9 cm
+6. A grating has 5000 lines per cm. For $\lambda=500$ nm the first-order $\sin\theta$ is
+   (a) 0.5 (b) 0.1 (c) 0.25 (d) 0.75
+7. When the whole Young's apparatus is immersed in water ($n=\frac{4}{3}$), the fringe width
+   (a) increases by $\frac{4}{3}$ (b) is unchanged (c) vanishes (d) decreases to $\frac{3}{4}$ of its value
+
+::: note Answers and explanations — Set B
+**1.** (a) — $\frac{1}{v}=\frac{1}{20}-\frac{1}{30}=\frac{1}{60}$: real image, $m=-2$.
+**2.** (c) — $\frac{1}{v}=\frac{1}{10}-\frac{1}{15}=\frac{1}{30}$.
+**3.** (a) — $\sin\frac{A+\delta_m}{2}=\sqrt{3}\sin30^\circ=\frac{\sqrt{3}}{2}$, so $\frac{60+\delta_m}{2}=60^\circ$.
+**4.** (b) — powers add: $10-2.5$.
+**5.** (d) — $12\times\frac{3}{4}=9$ cm.
+**6.** (c) — $d=\frac{1}{5000\,\text{cm}^{-1}}=2\,\mu$m; $\sin\theta=\frac{0.5}{2}$.
+**7.** (d) — $\lambda_{water}=\frac{\lambda}{n}$, so $\beta\to\frac{\beta}{n}$.
+:::
+
+**Set C — Application (5 questions)**
+
+1. A convex lens forms a real image twice the size of the object on a screen 60 cm from the lens. Its focal length is
+   (a) 15 cm (b) 20 cm (c) 40 cm (d) 30 cm
+2. An optical fibre has a core of index 1.5 and cladding of 1.4. Its numerical aperture is
+   (a) 0.54 (b) 0.1 (c) 0.29 (d) 1.0
+3. A telescope objective has aperture 0.1 m. For $\lambda=500$ nm the minimum angular separation resolved is
+   (a) $5\times10^{-6}$ rad (b) $6.1\times10^{-7}$ rad (c) $6.1\times10^{-6}$ rad (d) $1.2\times10^{-5}$ rad
+4. Unpolarised light of intensity $I_0$ passes through two polaroids whose axes are at $60^\circ$. The emerging intensity is
+   (a) $I_0/2$ (b) $I_0/4$ (c) 0 (d) $I_0/8$
+5. A glass lens ($n=1.5$) has focal length 20 cm in air. In water ($n=\frac{4}{3}$) its focal length is
+   (a) 80 cm (b) 40 cm (c) 20 cm (d) 60 cm
+
+::: note Answers and explanations — Set C
+**1.** (b) — $v=2u=60\Rightarrow u=30$; $\frac{1}{f}=\frac{1}{30}+\frac{1}{60}=\frac{1}{20}$.
+**2.** (a) — $\sqrt{1.5^2-1.4^2}=\sqrt{0.29}$.
+**3.** (c) — $\frac{1.22\times5\times10^{-7}}{0.1}$.
+**4.** (d) — $\frac{I_0}{2}\cos^260^\circ=\frac{I_0}{8}$.
+**5.** (a) — $\frac{1/f_w}{1/f_a}=\frac{1.5/(4/3)-1}{0.5}=\frac{0.125}{0.5}=\frac{1}{4}$, so $f_w=4f_a$.
+:::
