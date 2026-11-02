@@ -11,7 +11,6 @@ use crate::env::Env;
 use crate::errors::Result;
 use crate::router::Route;
 use crate::theme::fonts;
-use crate::ui::avatar::avatar;
 use crate::ui::icons::{self, Icon};
 use crate::ui::widgets::{self, BtnKind};
 
@@ -32,6 +31,7 @@ pub struct Post {
     pub anonymous: bool,
     pub owner: bool,
     pub created: i64,
+    pub photo: String,
 }
 
 #[derive(Clone, Default)]
@@ -42,6 +42,7 @@ pub struct Reply {
     pub likes: i64,
     pub liked: bool,
     pub created: i64,
+    pub photo: String,
 }
 
 fn parse_post(v: &Value) -> Post {
@@ -59,6 +60,7 @@ fn parse_post(v: &Value) -> Post {
         anonymous: b(v, "isAnonymous"),
         owner: b(v, "isOwner"),
         created: n(v, "createdAt"),
+        photo: if b(v, "isAnonymous") { String::new() } else { s(v, "authorPhotoUrl") },
     }
 }
 
@@ -70,6 +72,7 @@ fn parse_reply(v: &Value) -> Reply {
         likes: n(v, "thumbsUpCount"),
         liked: b(v, "isThumbedUp"),
         created: n(v, "createdAt"),
+        photo: if b(v, "isAnonymous") { String::new() } else { s(v, "authorPhotoUrl") },
     }
 }
 
@@ -274,11 +277,11 @@ fn pill(ui: &mut Ui, env: &Env, icon: Icon, label: &str, active: bool) -> egui::
     resp
 }
 
-fn author_row(ui: &mut Ui, env: &Env, name: &str, meta: &str, tone: usize) {
+fn author_row(ui: &mut Ui, env: &Env, name: &str, meta: &str, tone: usize, photo: &str) {
     let th = &env.theme;
     ui.horizontal(|ui| {
         ui.spacing_mut().item_spacing.x = 12.0;
-        avatar(ui, th, name, tone, 38.0);
+        crate::ui::remote_image::avatar(ui, th, name, tone, 38.0, photo);
         ui.vertical(|ui| {
             ui.spacing_mut().item_spacing.y = 0.0;
             widgets::label(ui, RichText::new(name).font(fonts::medium(14.0)).color(th.p.ink));
@@ -300,7 +303,7 @@ fn post_card(ui: &mut Ui, env: &mut Env, st: &mut CommunityState, p: &Post, w: f
         .show(ui, |ui| {
             ui.set_width(w - 42.0);
             ui.horizontal(|ui| {
-                author_row(ui, env, &p.author, &time_ago(p.created), p.author.len());
+                author_row(ui, env, &p.author, &time_ago(p.created), p.author.len(), &p.photo);
                 ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
                     widgets::badge(ui, &p.category, th.p.on_secondary_container, th.p.secondary_container);
                 });
@@ -612,7 +615,7 @@ pub fn show_post(ui: &mut Ui, env: &mut Env, st: &mut CommunityState, id: &str) 
         egui::Frame::none().fill(th.p.card).stroke(Stroke::new(1.0, th.p.hairline)).rounding(Rounding::same(28.0)).inner_margin(egui::Margin::same(24.0)).show(ui, |ui| {
             ui.set_width(w - 50.0);
             ui.horizontal(|ui| {
-                author_row(ui, env, &p.author, &time_ago(p.created), p.author.len());
+                author_row(ui, env, &p.author, &time_ago(p.created), p.author.len(), &p.photo);
                 right(ui, |ui| widgets::badge(ui, &p.category, th.p.on_secondary_container, th.p.secondary_container));
             });
             ui.add_space(14.0);
@@ -673,7 +676,7 @@ pub fn show_post(ui: &mut Ui, env: &mut Env, st: &mut CommunityState, id: &str) 
         for r in st.thread.replies.clone() {
             egui::Frame::none().fill(th.p.card).stroke(Stroke::new(1.0, th.p.hairline)).rounding(Rounding::same(20.0)).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
                 ui.set_width(w - 38.0);
-                author_row(ui, env, &r.author, &time_ago(r.created), r.author.len());
+                author_row(ui, env, &r.author, &time_ago(r.created), r.author.len(), &r.photo);
                 ui.add_space(8.0);
                 ui.add(egui::Label::new(RichText::new(plain(&r.content)).font(fonts::regular(15.0)).color(th.p.ink)));
             });
@@ -700,7 +703,7 @@ impl CommunityState {
             replies,
             views,
             liked,
-            created: now - ago_min * 60_000,
+            created: now - ago_min * 60_000, photo: String::new(),
             ..Default::default()
         };
         self.posts = vec![
@@ -719,8 +722,8 @@ impl CommunityState {
         let now = crate::util::now_secs() as i64 * 1000;
         self.thread = Thread { id: id.to_string(), post: self.posts.first().cloned(), ..Default::default() };
         self.thread.replies = vec![
-            Reply { id: "r1".into(), author: "Anish Karki".into(), content: "First check what is given: if the launch angle is missing, the question almost always hands you either the range and the maximum height, or the time of flight. Use their ratio to get the angle, then everything else follows.".into(), likes: 9, liked: false, created: now - 30 * 60_000 },
-            Reply { id: "r2".into(), author: "Prabin Shrestha".into(), content: "Write the three standard results (T, R, H) on one line at the top of the page before you start. It saves time and stops you mixing them up.".into(), likes: 4, liked: true, created: now - 12 * 60_000 },
+            Reply { id: "r1".into(), author: "Anish Karki".into(), content: "First check what is given: if the launch angle is missing, the question almost always hands you either the range and the maximum height, or the time of flight. Use their ratio to get the angle, then everything else follows.".into(), likes: 9, liked: false, created: now - 30 * 60_000, photo: String::new() },
+            Reply { id: "r2".into(), author: "Prabin Shrestha".into(), content: "Write the three standard results (T, R, H) on one line at the top of the page before you start. It saves time and stops you mixing them up.".into(), likes: 4, liked: true, created: now - 12 * 60_000, photo: String::new() },
         ];
     }
 }
