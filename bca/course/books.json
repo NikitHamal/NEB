@@ -71,5 +71,13 @@
   "credits": 3,
   "accent": "#6D28D9",
   "status": "done"
+ },
+ "semester-2/microprocessor-computer-architecture": {
+  "name": "Microprocessor and Computer Architecture",
+  "code": "BCA 152",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }

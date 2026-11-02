@@ -240,3 +240,24 @@ HTTP/2 200
 ```
 
 Installed this session: `apt-get install pandoc poppler-utils libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b`; `pip install --break-system-packages weasyprint markdown matplotlib pyyaml pymupdf`. After install: weasyprint 70.0, `/usr/bin/pandoc`, `/usr/bin/pdftoppm`. Rust is not needed by the pipeline.
+
+## Probe — BCA course session 3 (remaining subjects, Semester II onward)
+
+```
+$ git --version && which git
+git version 2.39.5
+/usr/bin/git
+$ git ls-remote <authenticated url> claude/bca-entrance-complete
+fcb441d42559f740f5a5ec7dfd21efce8f441d0e	refs/heads/claude/bca-entrance-complete   (confirmed tip)
+$ python3 --version
+Python 3.11.2
+$ python3 -c "import weasyprint; print(weasyprint.__version__)"   # before install
+ModuleNotFoundError: No module named 'weasyprint'
+$ which pandoc pdftoppm ; rustc --version                         # before install
+(nothing) ; /bin/bash: rustc: command not found
+$ node --version
+v22.23.4
+$ curl -sI https://github.com | head -1
+HTTP/2 200
+```
+Fixes this session: `apt-get install pandoc poppler-utils gcc default-jdk-headless libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b`; `pip install --break-system-packages weasyprint markdown pyyaml matplotlib pymupdf sympy numpy uv`; fonts via `notes/pipeline/fonts/install.sh`; **Python 3.12** (the pipeline needs it) via `uv python install 3.12 && uv venv --python 3.12 /tmp/venv && uv pip install --python /tmp/venv/bin/python weasyprint markdown pyyaml matplotlib pymupdf sympy numpy pillow`. After that: weasyprint 70.0 on Python 3.12.16, `/usr/bin/pandoc`, `/usr/bin/pdftoppm`, gcc, javac 17. Rust is not needed. Test build of Mathematics II: 23 pages, 0 math/figure failures.
