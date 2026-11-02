@@ -38,3 +38,11 @@ All: structure MATCH (spine↔chapters↔PDF). Outside-source checks: `chem11` (
 | `cs11` u6 `<bgsound>` / Internet Explorer | Explicitly taught as obsolete. |
 | census 2068 (26.49 M) in `cs10`, `bio12`, `qbank10` | Appears alongside 2021 data (29.16 M); correct as historical series. |
 | `qbank10` u22 "Python 2, 3, 1" | Regex false positive (question counts). |
+
+## 5. Added after the second pass (FACTUAL/STRUCTURAL → fixed; one OPEN)
+| Item | Class | Status |
+|---|---|---|
+| acc10 u12 figure printed literal `\n` | STRUCTURAL | FIXED (this branch's tip commit) |
+| acc10 u11 figure labels overflow boxes / below 6.8 pt | STRUCTURAL | FIXED (tip commit) |
+| eng10 u7 figure labels overlap | STRUCTURAL | FIXED (tip commit) |
+| `\%` … `\times` prints `imes` (25 spots / 7 chapters, confirmed on acc10 p148 in old and new PDF) | FACTUAL (rendering) | **OPEN**, see SCHOOL_REVIEW.md |

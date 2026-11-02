@@ -28,7 +28,7 @@ A = official CDC document itself · A- = official textbook contents list reprodu
 | `acc10` | 10 | 15 | 72,453 | yes `NEBians-Accountancy-Grade-10.pdf` | 188 | CURRENT (structure only) | spine ↔ chapters ↔ PDF consistent; no outside-source re-research this session | C |
 | `cs10` | 10 | 5 | 59,530 | yes `NEBians-Computer-Science-Grade-10.pdf` | 183 | CURRENT | already the Python curriculum (QBASIC/C removed); unit list matches CDC 2081/82 outline | B+ |
 | `eco10` | 10 | 6 | 38,271 | yes `NEBians-Economics-Grade-10.pdf` | 96 | CURRENT (structure only) | spine ↔ chapters ↔ PDF consistent; no outside-source re-research this session | C |
-| `eng10` | 10 | 18 | 87,894 | yes `NEBians-Compulsory-English-Grade-10.pdf` | 281 | UPDATED | one anachronism fixed (SLC→SEE in model letter); PDF rebuilt | B |
+| `eng10` | 10 | 18 | 87,894 | yes `NEBians-Compulsory-English-Grade-10.pdf` | 281 | UPDATED (figure fixes u7 + SLC→SEE) | one anachronism fixed (SLC→SEE in model letter); PDF rebuilt | B |
 | `math10` | 10 | 18 | 55,560 | yes `NEBians-Mathematics-Grade-10.pdf` | 227 | CURRENT | 18 chapters = CDC Grade 10 Mathematics textbook contents | A |
 | `nep10` | 10 | 17 | 72,709 | yes `NEBians-अनिवार्य-नेपाली-Grade-10.pdf` | 261 | CURRENT (structure only) | spine ↔ chapters ↔ PDF consistent; no outside-source re-research this session | C |
 | `omath10` | 10 | 12 | 44,653 | yes `NEBians-Optional-Mathematics-Grade-10.pdf` | 186 | CURRENT (structure only) | spine ↔ chapters ↔ PDF consistent; no outside-source re-research this session | C |
