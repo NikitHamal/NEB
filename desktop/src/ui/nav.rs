@@ -48,7 +48,7 @@ fn badge_dot(ui: &Ui, th: &Theme, center: egui::Pos2, count: u32) {
     let w = if text.len() > 1 { 22.0 } else { 16.0 };
     let r = Rect::from_center_size(center, vec2(w, 16.0));
     ui.painter().rect_filled(r, Rounding::same(8.0), th.p.danger);
-    let fg = if th.dark { th.p.on_accent_soft } else { Color32::WHITE };
+    let fg = if th.dark { Color32::from_rgb(0x69, 0x00, 0x05) } else { Color32::WHITE };
     ui.painter().text(r.center(), Align2::CENTER_CENTER, text, fonts::bold(10.0), fg);
 }
 

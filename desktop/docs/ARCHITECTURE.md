@@ -23,3 +23,20 @@ src/
 **Search.** `SearchIndex::build` runs once in the background from all syllabus files; `fulltext` scans every chapter JSON on demand with an `AtomicBool` cancel flag.
 
 **Testing.** `cargo test` covers the LaTeX converter; the `--screenshots` tour drives every screen headlessly as an end-to-end smoke test.
+
+---
+
+## Session 2 additions
+
+```
+src/
+  server.rs            impl Env: token, unread polling, profile pull/push, 401 handling, sign-out
+  data/api.rs          authenticated JSON client (Bearer header, 401→Unauthorized, 410→Gone, server messages verbatim)
+  data/auth.rs         email auth + reset + change-password + logout; Session::from_reply
+  data/browser_auth.rs PKCE hand-off client (start / poll) + live e2e test
+  screens/auth_flow.rs what happens after any sign-in (profile merge, next route)
+  screens/login.rs     Google / GitHub / email / guest + hand-off state machine
+  screens/complete_profile.rs, community.rs, notifications.rs
+  ui/icons.rs          Material icon font glyphs; ui/nav.rs rail + bottom bar
+```
+**Data flow for server features.** A screen spawns a `data::tasks::Task` (thread + repaint wake-up) that calls `Api`; the screen polls the task each frame and updates its own state. Any `AppError::Unauthorized` goes through `Env::handle_api_error`, which drops the session and routes to Login. Likes and bookmarks are optimistic and roll back on failure. The unread badge refreshes every 60 s while signed in.
