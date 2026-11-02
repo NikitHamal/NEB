@@ -32,3 +32,9 @@ Any directory containing `unit-NN.md` files is a book. Tested with WeasyPrint 70
 ## Honest status
 
 See `course/README.md` for exactly which subjects are fully written and which are only mapped. Nothing is marked complete that is not.
+
+## Merge log
+
+| Date (UTC) | What |
+|---|---|
+| 2026-11-02 | `origin/main` (tip `2193bf3f`) merged into `claude/bca-entrance-complete` as commit `9519f189`. Brought in: the IOE entrance track (`backend_python/web/data/study/ioe-*`, `notes/curriculum/ioe-*`, `notes/HANDOFF-IOE.md`, `notes/sources/entrance/IOE-BE-BArch-entrance-syllabus-2083.pdf`), the house PDF pipeline in `notes/pipeline/` (WeasyPrint + `theme.css`), the CEE/Grade 8–12 books in `notes/pdf/`, the Rust desktop app, and the web/auth fixes. One textual conflict (`ENV.md`, added on both sides) — resolved by keeping both: the BCA/IOE probe first, main's desktop probe verbatim as an appendix. Verified after the merge: 0 files deleted and 0 files modified relative to `origin/main` other than `ENV.md`; all 65 pre-merge `bca/` files present. |
