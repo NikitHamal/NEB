@@ -49,6 +49,7 @@ pub struct ReaderState {
     mcq: HashMap<usize, char>,
     timer: Option<Instant>,
     pending_jump: Option<String>,
+    jump_age: u32,
     pending_answers: Vec<(usize, char)>,
 }
 
@@ -277,6 +278,14 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut ReaderState, c: &ChapterRef) {
                 });
             });
         });
+        if st.jump.is_some() {
+            st.jump_age += 1;
+            ui.ctx().request_repaint();
+            if st.jump_age > 30 {
+                st.jump = None;
+                st.jump_age = 0;
+            }
+        }
         st.offset = out.state.offset.y;
         st.content_h = out.content_size.y;
         st.view_h = out.inner_rect.height();
@@ -355,6 +364,7 @@ fn toc_panel(ui: &mut Ui, env: &mut Env, st: &mut ReaderState, meta: &ChMeta, do
             }
             if resp.clicked() {
                 st.jump = Some(t.id.clone());
+                st.jump_age = 0;
             }
         }
         if !doc.mcq_keys.is_empty() {

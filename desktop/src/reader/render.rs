@@ -131,8 +131,8 @@ fn block(ui: &mut Ui, cx: &mut RenderCx, b: &Block) {
             if !id.is_empty() {
                 cx.heads.push((id.clone(), r.rect.top()));
                 if cx.jump.as_deref() == Some(id.as_str()) {
+                    // The reader keeps `jump` alive for a few frames so late-loading figures cannot leave us short.
                     ui.scroll_to_rect(r.rect.expand2(vec2(0.0, 14.0)), Some(Align::TOP));
-                    *cx.jump = None;
                 }
             }
             if *level <= 2 {
