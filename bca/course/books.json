@@ -111,5 +111,13 @@
   "credits": 3,
   "accent": "#9A3412",
   "status": "done"
+ },
+ "semester-3/web-technology-1": {
+  "name": "Web Technology I",
+  "code": "BCA 203",
+  "semester": 3,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }
