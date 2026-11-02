@@ -1,5 +1,27 @@
 {
-  "_comment": "Registry of BCA course books. Key = path under bca/course/. Add one entry per subject folder; tools/nebpdf.py generates the house-pipeline spine from this plus the unit files.",
-  "semester-1/programming-in-c": {"name": "Programming in C", "code": "BCA 102", "semester": 1, "credits": 3, "accent": "#1F4E8C"},
-  "semester-1/digital-logic":    {"name": "Digital Logic",    "code": "BCA 103", "semester": 1, "credits": 3, "accent": "#B4531A"}
+ "_comment": "Registry of BCA course books. Key = path under bca/course/. Add one entry per subject folder; tools/nebpdf.py generates the house-pipeline spine from this plus the unit files.",
+ "semester-1/programming-in-c": {
+  "name": "Programming in C",
+  "code": "BCA 102",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#1F4E8C",
+  "status": "done"
+ },
+ "semester-1/digital-logic": {
+  "name": "Digital Logic",
+  "code": "BCA 103",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#B4531A",
+  "status": "done"
+ },
+ "semester-1/computer-fundamentals": {
+  "name": "Computer Fundamentals and Applications",
+  "code": "BCA 101",
+  "semester": 1,
+  "credits": 3,
+  "accent": "#2F6B3A",
+  "status": "in progress (unit 1 of 7)"
+ }
 }
