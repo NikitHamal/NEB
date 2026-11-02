@@ -1,5 +1,5 @@
 {% load static %}<!DOCTYPE html>
-<html lang="en" class="no-js" data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}" data-neby-look="{{ site_theme.neby.look|default:'classic' }}"{% if site_theme.neby.greet %} data-neby-greet="{{ site_theme.neby.greet }}"{% endif %}{% if site_theme.neby and not site_theme.neby.ambient %} data-neby-ambient="false"{% endif %}{% if site_theme.neby and not site_theme.neby.reactions %} data-neby-reactions="false"{% endif %}>
+<html lang="en" class="no-js" data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -37,11 +37,9 @@
 @font-face{font-family:P;font-weight:600;font-display:swap;unicode-range:U+0900-097F,U+1CD0-1CFF,U+A8E0-A8FF;src:url("{% static 'web/fonts/app/poppins-600-devanagari.woff2' %}") format("woff2")}
 </style>
 <link rel="stylesheet" href="{% static 'web/css/landing.css' %}">
-<link rel="stylesheet" href="{% static 'web/css/neby-pixel.css' %}">
 {% if site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">{% endif %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"NEBians","url":"https://nebians.consica.com.np/","potentialAction":{"@type":"SearchAction","target":"https://nebians.consica.com.np/app/search/?q={q}","query-input":"required name=q"}}</script>
 <script src="{% static 'web/js/landing.js' %}" defer></script>
-<script src="{% static 'web/js/neby-pixel.js' %}" defer></script>
 </head>
 <body class="lp">
 <a class="lp-skip" href="#main">Skip to content</a>
@@ -60,13 +58,11 @@
   </nav>
   <div class="lp-nav-end">
     {% if not signed_in %}<a class="lp-btn lp-btn-ghost lp-btn-sm lp-signin" href="{% url 'web:login' %}"><span>Sign in</span></a>{% endif %}
-    <b class="lp-peek" data-neby-avatar data-crop="true" data-animation="idle" aria-hidden="true"></b>
     <a class="lp-btn lp-btn-sm" href="{% url 'web:home' %}"><span>Open app</span></a>
     <button class="lp-burger" type="button" aria-expanded="false" aria-controls="lp-menu" aria-label="Menu"><i></i><i></i></button>
   </div>
 </header>
 <div class="lp-menu" id="lp-menu" hidden>
-  <b class="lp-menu-neby" data-neby-avatar data-animation="wave" aria-hidden="true"></b>
   <nav aria-label="Menu">
     <a href="{% url 'web:library' %}" style="--i:0">Library</a>
     <a href="#books" style="--i:1">Books</a>
@@ -97,9 +93,8 @@
         </div>
       </div>
     </div>
-    <div class="lp-hero-logo">{% include "landing/_logo.html" with cls="lp-logo" p="h" %}</div>
   </div>
-  <p class="lp-word" aria-hidden="true">{% for c in "NEBians" %}<span style="--i:{{ forloop.counter0 }}">{% if forloop.counter0 == 3 %}ı<b class="lp-neby" data-neby-avatar data-hero="true" data-animation="idle" title="Neby — tap me"></b>{% else %}{{ c }}{% endif %}</span>{% endfor %}</p>
+  <p class="lp-word" aria-hidden="true">{% for c in "NEBians" %}<span style="--i:{{ forloop.counter0 }}">{{ c }}</span>{% endfor %}</p>
 </section>
 </div>
 

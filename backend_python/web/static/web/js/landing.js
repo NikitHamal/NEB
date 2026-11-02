@@ -146,25 +146,6 @@
     });
   }
 
-  /* ---- Neby on the wordmark: says hello, reacts, keeps out of the tab order ---- */
-  var neby = document.querySelector('.lp-word .lp-neby');
-  if (neby) {
-    var say = document.createElement('span'); say.className = 'lp-neby-say';
-    var lines = ['Namaste!', 'Need notes?', 'Ask me anything', 'Study mates!', 'Tap again'];
-    var n = 0, sayT = 0;
-    function speak(text, ms) { say.textContent = text; say.classList.add('on'); clearTimeout(sayT); sayT = setTimeout(function () { say.classList.remove('on'); }, ms || 1800); }
-    neby.addEventListener('click', function () { speak(lines[n++ % lines.length]); });
-    var settle = setInterval(function () {
-      if (!neby.hasAttribute('data-neby-initialized')) return;
-      clearInterval(settle);
-      neby.setAttribute('tabindex', '-1'); neby.appendChild(say);
-      if (!still) setTimeout(function () { speak('Namaste!', 2200); }, 1700);
-    }, 120);
-  }
-  var peek = document.querySelector('.lp-peek');
-  var openApp = document.querySelector('.lp-nav .lp-btn-sm');
-  if (peek && openApp) openApp.addEventListener('pointerenter', function () { if (peek.__nebyInstance) peek.__nebyInstance.react('wave'); });
-
   /* festival decor pauses whenever it is off screen */
   if ('IntersectionObserver' in window) {
     var decorIo = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.parentElement.classList.toggle('is-paused', !e.isIntersecting); }); });

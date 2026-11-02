@@ -94,8 +94,6 @@ svg{display:block}
 .lp-nav-end{display:flex;align-items:center;gap:14px}
 .lp-quiet{font-weight:600;font-size:14px;padding:9px 12px;border-radius:9px;transition:background-color .25s}
 .lp-quiet:hover{background:rgba(10,22,54,.06)}
-.lp-peek{width:40px;height:40px;margin-right:-6px;flex:0 0 auto;transition:transform .45s cubic-bezier(.3,1.7,.45,1)}
-.lp-nav-end:hover .lp-peek{transform:translateY(-3px) rotate(-4deg)}
 .lp-burger{display:none;width:44px;height:44px;border:0;background:none;padding:0;cursor:pointer;position:relative;border-radius:12px}
 .lp-burger:hover{background:rgba(10,22,54,.06)}
 .lp-burger i{position:absolute;left:12px;right:12px;height:2px;background:var(--ink);transition:transform .45s var(--ease),width .3s}
@@ -114,11 +112,9 @@ svg{display:block}
 .lp-menu nav{counter-reset:m}
 .lp-menu a:hover{color:var(--sky)}
 .lp-menu.is-open a{transform:none;opacity:1;transition-delay:calc(.18s + var(--i) * .06s)}
-.lp-menu-neby{position:relative;width:96px;height:96px;margin:0 0 12px -8px;opacity:0;transform:translateY(20px);transition:opacity .5s .5s,transform .7s .5s cubic-bezier(.3,1.6,.45,1)}
-.lp-menu.is-open .lp-menu-neby{opacity:1;transform:none}
 
 /* ---------- hero ----------
-   A column: the copy and the logo share the top, the wordmark sits at the bottom in normal flow.
+   A column: the copy sits at the top, the wordmark at the bottom in normal flow.
    When space runs out the wordmark is pushed down and cropped; it can never sit on the copy. */
 .lp-hero-track{position:relative;height:200svh;background:var(--ink)}
 .lp-hero{position:sticky;top:0;height:100svh;min-height:600px;overflow:hidden;background:var(--paper);display:flex;flex-direction:column;
@@ -127,7 +123,7 @@ svg{display:block}
 .lp-hero>.st-decor{z-index:0;top:74px}
 .lp-hero .st-kite{display:none}
 .lp-hero-grid{position:relative;z-index:2;flex:1 0 auto;width:100%;max-width:var(--max);margin:0 auto;padding:calc(92px + 3svh) var(--pad) clamp(16px,3svh,36px);
-  display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center;
+  display:grid;grid-template-columns:minmax(0,1fr);align-items:center;
   translate:0 calc(var(--p,0) * -12svh)}
 .lp-greet{display:inline-block;margin:0 0 18px;padding:6px 12px;border-radius:4px;background:var(--ink);color:#fff;font-weight:600;font-size:14px;
   opacity:0;transition:opacity .8s 1s}
@@ -140,15 +136,11 @@ svg{display:block}
 .lp-lede{margin:0 0 24px;font-size:clamp(16px,1.3vw,19px);line-height:1.55;color:var(--mute)}
 .lp-actions{display:flex;align-items:center;gap:26px;flex-wrap:wrap}
 
-/* the logo, built facet by facet */
-.lp-hero-logo{display:flex;justify-content:center;align-items:center;min-height:0}
-.lp-logo{height:min(46svh,40vw);width:auto;max-width:100%;overflow:visible;filter:drop-shadow(0 30px 40px rgba(0,60,195,.16))}
+/* the brand mark's facets fly in on load; the topbar mark shares these rules */
 .lg-f{transform-box:view-box;opacity:0;transition:transform 1.25s var(--ease),opacity .6s}
 .lg-4{transform:translate(0,90px)}.lg-1{transform:translate(0,-110px)}.lg-2{transform:translate(0,-80px)}.lg-3{transform:translate(-90px,-60px)}
 .lg-4{transition-delay:.35s}.lg-1{transition-delay:.5s}.lg-2{transition-delay:.62s}.lg-3{transition-delay:.76s}.lg-5{transition-delay:.9s}
 .ready .lg-f{transform:none;opacity:1}
-.ready.is-live .lp-logo{animation:float 7s 2.2s ease-in-out infinite}
-@keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
 
 .lp-word{position:relative;z-index:1;flex:none;pointer-events:none;user-select:none;margin:0 0 -.16em;text-align:center;white-space:nowrap;
   font:800 min(25.6vw,40svh)/.8 var(--sans);letter-spacing:-.075em;padding-right:.075em;color:var(--blue)}
@@ -337,12 +329,9 @@ svg{display:block}
   .lp-hero-grid{display:flex;flex-direction:column;align-items:stretch;gap:clamp(12px,2.4svh,28px);padding-top:calc(82px + 2svh)}
   .lp-hero:has(>.st-decor) .lp-hero-grid{padding-top:calc(110px + 2svh)}
   .lp-h1{font-size:min(11vw,8.4svh)}
-  .lp-hero-logo{flex:1 1 0;min-height:0}
-  .lp-logo{width:auto;height:100%;max-height:min(40svh,62vw);min-height:0}
 }
 @media (max-height:520px) and (orientation:landscape){
   .lp-hero{min-height:520px}
-  .lp-hero-logo{display:none}
   .lp-hero-grid{grid-template-columns:1fr}
 }
 
@@ -362,25 +351,13 @@ svg{display:block}
   .lg-f{transform:none;opacity:1}
 }
 
-/* ---------- pixel Neby on the wordmark ----------
-   Neby stands on the cap of the B, riding its parallax; sized in em so it scales with the word. */
-.lp-word span:nth-child(4){position:relative}
-.lp-word .lp-neby{position:absolute;left:50%;bottom:.6em;width:.27em;height:.27em;margin-left:-.135em;z-index:3;cursor:pointer;
-  filter:drop-shadow(0 .012em 0 rgba(10,22,54,.18));transform-origin:50% 100%;transition:transform .45s cubic-bezier(.3,1.7,.45,1)}
-.lp-word .lp-neby:hover{transform:translateY(-.02em) scale(1.04)}
-.lp-word .lp-neby::after{content:"";position:absolute;left:18%;right:18%;bottom:-.01em;height:.03em;border-radius:50%;background:rgba(10,22,54,.18);z-index:-1}
-.lp-neby-say{position:absolute;left:50%;bottom:105%;padding:.06em .12em;transform:translate(-50%,6px) scale(.9);transform-origin:50% 100%;opacity:0;white-space:nowrap;
-  font:700 max(13px,.045em)/1.2 var(--sans);letter-spacing:0;color:var(--ink);background:#fff;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink);
-  transition:opacity .25s,transform .4s cubic-bezier(.3,1.7,.45,1);pointer-events:none}
-.lp-neby-say.on{opacity:1;transform:translate(-50%,0) scale(1)}
-@media (max-width:640px){.lp-peek{display:none}}
 .lp-nav.is-menu{background:transparent!important;box-shadow:none!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
 .lp-nav.is-menu::after{opacity:0}
 .lp-nav.is-menu .lp-brand{color:var(--paper)}
 .lp-nav.is-menu .lp-burger i{background:var(--paper)}
 .lp-nav.is-menu .lp-burger:hover{background:rgba(255,255,255,.08)}
-.lp-nav.is-menu .lp-peek,.lp-nav.is-menu .lp-btn-sm,.lp-nav.is-menu .lp-quiet{opacity:0;pointer-events:none}
-.lp-nav .lp-brand,.lp-nav .lp-burger i,.lp-nav .lp-peek{transition:color .4s,background-color .4s,opacity .3s,transform .45s cubic-bezier(.3,1.7,.45,1)}
+.lp-nav.is-menu .lp-btn-sm,.lp-nav.is-menu .lp-quiet{opacity:0;pointer-events:none}
+.lp-nav .lp-brand,.lp-nav .lp-burger i{transition:color .4s,background-color .4s,opacity .3s,transform .45s cubic-bezier(.3,1.7,.45,1)}
 
 /* Sign in: a pixel key in outline, with a pixel door-arrow glyph */
 .lp-btn-ghost{--face:rgba(255,255,255,.55);--edge:rgba(10,22,54,.22);--fg:var(--ink);--hi:rgba(255,255,255,.95)}
