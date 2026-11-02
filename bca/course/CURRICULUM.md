@@ -51,7 +51,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | VII | BCA 403 | Financial Accounting | 2 | **full book** (`semester-7/financial-accounting`) |
 | VII | BCA 404 | Project IV | 3 | project (no notes) |
 | VII | BCA 405 / 406 | Elective I / Elective II | 3 + 3 | mapped only |
-| VIII | BCA 451 | Cloud Computing | 3 | mapped only |
+| VIII | BCA 451 | Cloud Computing | 3 | **full book** (`semester-8/cloud-computing`) |
 | VIII | BCA 452 | Internship | 3 | internship (no notes) |
 | VIII | BCA 453 / 454 | Elective III / Elective IV | 3 + 3 | mapped only |
 
