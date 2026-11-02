@@ -4,16 +4,16 @@ Generated from `CURRICULUM.md` (revised 2082-batch list) and `books.json`. **don
 
 | Sem | Code | Subject | Cr | Status | Book / PDF |
 |---|---|---|---|---|---|
-| 1 | BCA 101 | Computer Fundamentals and Applications | 3 | **in progress (unit 1 of 7)** | [`semester-1/computer-fundamentals/`](semester-1/computer-fundamentals/) · [PDF](semester-1/pdfs/NEBians-BCA-Course-Semester-1-Computer-Fundamentals-and-Applications.pdf) |
+| 1 | BCA 101 | Computer Fundamentals and Applications | 3 | **done** | [`semester-1/computer-fundamentals/`](semester-1/computer-fundamentals/) · [PDF](semester-1/pdfs/NEBians-BCA-Course-Semester-1-Computer-Fundamentals-and-Applications.pdf) |
 | 1 | BCA 102 | Programming in C | 3 | **done** | [`semester-1/programming-in-c/`](semester-1/programming-in-c/) · [PDF](semester-1/pdfs/NEBians-BCA-Course-Semester-1-Programming-in-C.pdf) |
 | 1 | BCA 103 | Digital Logic | 3 | **done** | [`semester-1/digital-logic/`](semester-1/digital-logic/) · [PDF](semester-1/pdfs/NEBians-BCA-Course-Semester-1-Digital-Logic.pdf) |
-| 1 | BCA 104 | Mathematics I | 3 | missing | — |
-| 1 | BCA 105 | Professional Communication and Ethics | 3 | missing | — |
-| 1 | BCA 106 | Hardware Workshop | 1 | missing | — |
-| 2 | BCA 151 | Discrete Structure | 3 | missing | — |
+| 1 | BCA 104 | Mathematics I | 3 | **done** | [`semester-1/mathematics-1/`](semester-1/mathematics-1/) · [PDF](semester-1/pdfs/NEBians-BCA-Course-Semester-1-Mathematics-I.pdf) |
+| 1 | BCA 105 | Professional Communication and Ethics | 3 | **done** | [`semester-1/professional-communication-ethics/`](semester-1/professional-communication-ethics/) · [PDF](semester-1/pdfs/NEBians-BCA-Course-Semester-1-Professional-Communication-and-Ethics.pdf) |
+| 1 | BCA 106 | Hardware Workshop | 1 | **done** | [`semester-1/hardware-workshop/`](semester-1/hardware-workshop/) · [PDF](semester-1/pdfs/NEBians-BCA-Course-Semester-1-Hardware-Workshop.pdf) |
+| 2 | BCA 151 | Discrete Structure | 3 | **done** | [`semester-2/discrete-structure/`](semester-2/discrete-structure/) · [PDF](semester-2/pdfs/NEBians-BCA-Course-Semester-2-Discrete-Structure.pdf) |
 | 2 | BCA 152 | Microprocessor and Computer Architecture | 3 | missing | — |
-| 2 | BCA 153 | OOP in Java | 3 | missing | — |
-| 2 | BCA 154 | Mathematics II | 3 | missing | — |
+| 2 | BCA 153 | OOP in Java | 3 | **done** | [`semester-2/oop-in-java/`](semester-2/oop-in-java/) · [PDF](semester-2/pdfs/NEBians-BCA-Course-Semester-2-OOP-in-Java.pdf) |
+| 2 | BCA 154 | Mathematics II | 3 | **done** | [`semester-2/mathematics-2/`](semester-2/mathematics-2/) · [PDF](semester-2/pdfs/NEBians-BCA-Course-Semester-2-Mathematics-II.pdf) |
 | 2 | BCA 155 | UX/UI Design | 3 | missing | — |
 | 2 | BCA 156 | Principles of Management | 1 | missing | — |
 | 3 | BCA 201 | Data Structure and Algorithms | 3 | missing | — |
@@ -47,4 +47,4 @@ Generated from `CURRICULUM.md` (revised 2082-batch list) and `books.json`. **don
 | 8 | BCA 451 | Cloud Computing | 3 | missing | — |
 | 8 | BCA 452 | Internship | 3 | missing | — |
 
-**Totals (42 subjects in the revised curriculum): 2 done, 1 in progress, 39 missing.**
+**Totals (42 subjects in the revised curriculum): 9 done, 33 missing.** (The 6 project/internship subjects, BCA 256, 306, 356, 404, 452, and the 8 elective slots have no notes planned yet.)

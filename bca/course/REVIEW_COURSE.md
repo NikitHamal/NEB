@@ -28,3 +28,20 @@ Scope: Semester I **Programming in C** (7 units) and **Digital Logic** (5 units)
 - **Pipeline fixed.** The 6 PDFs committed earlier were built with a stand-alone WeasyPrint stylesheet (flat navy cover, no contents, no watermark, different fonts). All are rebuilt through the house pipeline (`notes/pipeline`), the same as CEE/IOE; checked with `tools/qa_pdf.py` (0 failures) and by eye on rendered pages.
 - **Computer Fundamentals Unit 1** (≈3,100 words, 11 pp. PDF): every numeric answer was recomputed. **One wrong key was found and fixed in this pass** (Q13: 1 TB / 700 MB is 1497, not 1498 — 700 × 1498 overflows the disk).
 - **Still not done:** Units 2–7 of Computer Fundamentals, the lab component of every subject, and 39 other subjects of the 42 in the revised curriculum (`STATUS.md`). Nothing here has had a subject-teacher review.
+
+
+## Update — remaining-subject push
+
+What each new subject covers, and where it is honest about limits.
+
+- **Computer Fundamentals (BCA 101), units 2–7**: software and translators, algorithms/flowcharts; OS (scheduling, paging, booting; waits FCFS 7.25, SJF 6.25, RR 10.75 recomputed); DBMS with SQL run on SQLite; networks (Shannon, subnetting, OSI/TCP-IP); Internet/WWW; contemporary technologies. Limit: unit 7's TU sub-topic list was not confirmed; the lab (OS, word, spreadsheet, presentation, photo editing) is described but not taught step by step.
+- **Mathematics I (BCA 104)**: single-variable calculus in six units (functions, limits, derivatives, applications, integration, differential equations). All answers checked in SymPy. **Unit division reconstructed; TU's own list not retrievable.**
+- **Professional Communication and Ethics (BCA 105)**: communication process, listening/speaking/presentations, professional writing with models, teamwork and etiquette, ethics, IP, privacy and Nepal's cyber-law framework with four case studies. Limit: no code or numbers to verify beyond Flesch scores; legal section numbers/penalties deliberately omitted; structure reconstructed.
+- **Hardware Workshop (BCA 106)**: safety, components with selection arithmetic, PC assembly, BIOS/UEFI and OS installation, troubleshooting, printers, T568B cabling. Limit: a lab subject; nothing was bench-tested; header layouts and beep codes vary by vendor.
+- **Discrete Structure (BCA 151)**: logic and proofs, sets/relations/functions, counting, induction and recurrences, graphs and trees, number theory with RSA and groups. Every numeric answer recomputed by `check_discrete.py`. Limit: no formal languages/automata; structure reconstructed.
+- **OOP in Java (BCA 153)**: 20 Java programs compiled and run on OpenJDK 17 with real output (the Swing and JDBC programs are compile-only). The checker caught two errors of mine: a wrong file-size in the first draft and a missing 42² = 1764 in a stream example; both fixed before the PDF was published. Limit: applets/RMI omitted as obsolete.
+- **Mathematics II (BCA 154)**: matrices, linear systems, vector spaces, eigenvalues, 3-D vectors, checked in SymPy. Limit: **unit division reconstructed; syllabus extras (Fourier, vector calculus) not included.**
+
+**Errors found in my own drafts during this pass** (all fixed before shipping): messy self-correcting answers in Discrete Structure Q1 and Mathematics I unit 6 Q3; a wrong expected output in OOP unit 5; three muddled sentences in Mathematics II. The first PDF of Computer Fundamentals was pushed with the wrong fonts because the sandbox lacked the house fonts and Python 3.12; it was rebuilt and re-pushed within the same session (QA showed fonts missing, then 0 failures).
+
+**Not reviewed by a subject teacher. 33 of 42 subjects are still not written.**
