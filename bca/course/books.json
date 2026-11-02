@@ -79,5 +79,13 @@
   "credits": 3,
   "accent": "#0F766E",
   "status": "done"
+ },
+ "semester-2/ux-ui-design": {
+  "name": "UX/UI Design",
+  "code": "BCA 155",
+  "semester": 2,
+  "credits": 3,
+  "accent": "#BE185D",
+  "status": "done"
  }
 }

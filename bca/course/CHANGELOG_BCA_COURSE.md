@@ -5,6 +5,7 @@
 **Finished this session (each pushed on its own):**
 
 - Semester 2 · BCA 152 · Microprocessor and Computer Architecture: 24,493 raw words (units only; includes code listings and tables), 76 PDF pages, 8 units, QA 0 failures (1 soft warning: a short page at the end of the contents). 13 assembly programs assembled and executed on the 8085 simulator in `tools/check_mpca.py`, which also recomputes Booth, division, IEEE-754, pipeline, cache, paging, disk and Amdahl numbers (100 checks, all pass).
+- Semester 2 · BCA 155 · UX/UI Design: 21,732 raw words (units only), 71 PDF pages, 8 units, QA 0 failures (3 soft warnings: short pages at the end of the contents and of two chapters). Theory subject: `tools/check_uxui.py` recomputes 36 numbers (WCAG contrast, Fitts, Hick, SUS, KLM, sample size, type scales, grids).
 
 ## Session 2: remaining-subject push
 
@@ -22,7 +23,6 @@
 
 **Not started (exactly):**
 
-- Semester 2 · BCA 155 · UX/UI Design
 - Semester 2 · BCA 156 · Principles of Management
 - Semester 3 · BCA 201 · Data Structure and Algorithms
 - Semester 3 · BCA 202 · Database Management System

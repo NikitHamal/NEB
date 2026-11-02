@@ -28,3 +28,9 @@ The revised (2082-batch) per-subject syllabus PDFs could not be retrieved. Sourc
 - https://bcastudynepal.blogspot.com/2019/02/microprocessor-and-computer-architecture.html : TU BCA CACS155 (2074) unit list: fundamentals of microprocessor, 8085 instruction set, counters/delay/interfacing, basic computer architecture, microprogrammed control, CPU, pipeline/vector/multiprocessors.
 - https://www.cdcsit.edu.np/wp-content/uploads/2021/06/Microprocessor-and-Computer-Architecture-BIT151.pdf : TU-style BIT151 syllabus (8 units incl. I/O organisation, DMA, memory organisation, cache, virtual memory, RISC/CISC, Flynn's classification, pipelining). The PDF text could not be fully extracted; unit titles were read from the search excerpt. The official BCA 152 PDF itself was not retrievable.
 - Reference texts followed for worked examples: M. Morris Mano, Computer System Architecture; R. Gaonkar, Microprocessor Architecture, Programming and Applications with the 8085.
+
+## BCA 155 UX/UI Design (session 3)
+- https://nneducation.com/tu-bca-second-semester-syllabus-ux-ui-design/ : TU BCA 155 syllabus: 8 units, hours for units 1-5 and 7 (4, 4, 6, 12, 6, 6) and the 48-hour lab outcomes.
+- https://hamronotes.com/bca/semester-2/ux-ui-design/chapters : topic lists for all eight units, including Unit 6 Wireframing and Prototyping and Unit 8 VUI/NLP-based UI and wearables.
+- https://bcatu.com/semesters/2/subjects/bca-155-uxui-design/syllabus : confirms code BCA 155, 3 credits, 100 marks (listing page only).
+- Official TU syllabus PDF not retrieved.
