@@ -199,5 +199,13 @@
   "credits": 3,
   "accent": "#7C3AED",
   "status": "done"
+ },
+ "semester-5/advanced-java": {
+  "name": "Advanced Java Programming",
+  "code": "BCA 303",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#C2410C",
+  "status": "done"
  }
 }

@@ -104,3 +104,4 @@ Total new material: 78,455 raw words. **Tooling added:** `tools/fill_c_outputs.p
 |---|---|---|---|---|---|
 | BCA 301 Computer Networking | 7 | see STATUS.md | 65 | 0 fail, 1 warn (p3) | `check_networking.py` (all numbers asserted; `--verify` finds 47/47 key values in the book); every python block executed incl. sockets, `ip`, `ss`, `ping` |
 | BCA 302 Artificial Intelligence | 6 | see STATUS.md | 59 | 0 fail, 1 warn (p3) | `check_ai.py` (all search traces, game trees, probabilities, perceptron and back-propagation numbers asserted, finite-difference gradient check; `--verify` 36/36); every python block executed |
+| BCA 303 Advanced Java Programming | 7 | see STATUS.md | 61 | see final report | `fill_java_outputs.py`: 19 programs compiled, 18 executed (JDK 17, SQLite JDBC, RMI, servlet API); 0 failures |
