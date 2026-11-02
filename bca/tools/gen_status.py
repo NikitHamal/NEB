@@ -44,12 +44,14 @@ done = [r for r in rows if r[4] == "done"]
 core_missing = [r for r in rows if r[4] == "missing"]
 noteless = [r for r in rows if r[4] not in ("done", "missing")]
 tw = sum(r[7] for r in done)
+s4 = [r for r in done if r[0] == 4]
+SEMNOTE = "Semesters I, II and III are fully done." + (f" Semester IV: {len(s4)} of 5 core subjects done." if s4 else "")
 blk = [f"<!-- COURSE-STATUS -->", "## BCA course: real status", "",
        f"**{len(done)} of {len(rows)} subject slots are written, built and QA-checked; {len(core_missing)} core subjects are not started; {len(noteless)} slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far ({tw:,} raw words of study material, counted over the unit files, including code listings and tables):",
        "", "| Sem | Code | Subject | Words | PDF pages | Status |", "|---|---|---|---|---|---|"]
 for r in done:
     blk.append(f"| {r[0]} | {r[1]} | [{r[2]}](course/{r[5]}/) | {r[7]:,} | {r[8]} | done |")
-blk += ["", "Semesters I, II and III are fully done. Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.", "<!-- /COURSE-STATUS -->"]
+blk += ["", SEMNOTE + " Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.", "<!-- /COURSE-STATUS -->"]
 block = "\n".join(blk)
 for path, prefix in ((os.path.join(BCA, "README.md"), ""), (os.path.join(C, "README.md"), "course/")):
     s = open(path, encoding="utf-8").read()
