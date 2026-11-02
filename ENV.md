@@ -261,3 +261,25 @@ $ curl -sI https://github.com | head -1
 HTTP/2 200
 ```
 Fixes this session: `apt-get install pandoc poppler-utils gcc default-jdk-headless libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz0b`; `pip install --break-system-packages weasyprint markdown pyyaml matplotlib pymupdf sympy numpy uv`; fonts via `notes/pipeline/fonts/install.sh`; **Python 3.12** (the pipeline needs it) via `uv python install 3.12 && uv venv --python 3.12 /tmp/venv && uv pip install --python /tmp/venv/bin/python weasyprint markdown pyyaml matplotlib pymupdf sympy numpy pillow`. After that: weasyprint 70.0 on Python 3.12.16, `/usr/bin/pandoc`, `/usr/bin/pdftoppm`, gcc, javac 17. Rust is not needed. Test build of Mathematics II: 23 pages, 0 math/figure failures.
+
+## Session 5 baseline (Semester III start)
+```
+$ git --version && which git
+git version 2.39.5
+/usr/bin/git
+$ git ls-remote origin claude/bca-entrance-complete   (credentials via GIT_ASKPASS env helper, not stored)
+eefb48c83c6a8c163523c0cab58f1bd25995ecef	refs/heads/claude/bca-entrance-complete
+$ python3 --version; python3 -c "import weasyprint; print(weasyprint.__version__)"
+Python 3.11.2
+70.0
+$ /tmp/venv/bin/python --version  (Python 3.12 venv used for the pipeline)
+Python 3.12.16
+70.0
+$ which pandoc pdftoppm; node --version
+/usr/bin/pandoc
+/usr/bin/pdftoppm
+v22.23.4
+$ curl -sI https://github.com | head -1
+HTTP/2 200 
+```
+Fresh sandbox: nothing was installed at session start (python3 -c weasyprint -> ModuleNotFoundError; pandoc/pdftoppm absent). Installed: apt pandoc poppler-utils gcc default-jdk-headless libpango libharfbuzz; pip weasyprint markdown pyyaml pymupdf matplotlib sympy numpy uv; Python 3.12 venv via uv; fonts via notes/pipeline/fonts/install.sh. The repo is private-or-auth-gated for clone: an unauthenticated clone failed ('could not read Username'), so a GIT_ASKPASS helper in /tmp reads the PAT from an env var; the PAT is in no repo file and not in .git/config. Test build of Hardware Workshop: 24 pages, 0 failures (test PDF reverted).
