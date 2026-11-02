@@ -15,12 +15,20 @@ from . import views_content_images
 from . import views_site_theme
 from . import views_syllabus
 from . import views_desktop_auth
+from . import views_content
 
 urlpatterns = [
     # Auth
     path('site-theme/', views_site_theme.site_theme, name='site-theme'),
     path('auth/google/', views.auth_google, name='auth-google'),
     path('auth/github/', views.auth_github, name='auth-github'),
+    path('content/manifest/', views_content.content_manifest, name='content-manifest'),
+    path('content/index/', views_content.content_index, name='content-index'),
+    path('content/syllabus/<str:key>/', views_content.content_syllabus, name='content-syllabus'),
+    path('content/study/<str:key>/<str:name>/', views_content.content_study, name='content-study'),
+    path('content/search/', views_content.content_search_view, name='content-search'),
+    path('content/books/', views_content.content_books, name='content-books'),
+    path('content/books/<str:slug>/file/', views_content.content_book_file, name='content-book-file'),
     path('auth/desktop/start/', views_desktop_auth.desktop_auth_start, name='auth-desktop-start'),
     path('auth/desktop/poll/', views_desktop_auth.desktop_auth_poll, name='auth-desktop-poll'),
     path('auth/email/signup/', views.auth_email_signup, name='auth-email-signup'),
