@@ -215,5 +215,13 @@
   "credits": 3,
   "accent": "#0F766E",
   "status": "done"
+ },
+ "semester-5/society-and-technology": {
+  "name": "Society and Technology",
+  "code": "BCA 305",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#9333EA",
+  "status": "done"
  }
 }
