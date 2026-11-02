@@ -94,7 +94,14 @@ def check(path):
     if run:
         runs.append(run)
     if len(runs) != len(keys):
-        errs.append(f"{len(runs)} question runs but {len(keys)} answer boxes")
+        # a model paper numbers straight through while keeping one answer box per section
+        flat_q = [x for r in runs for x in r]
+        flat_k = [x for b in keys for x in b]
+        if [n for n, _ in flat_q] == [n for n, _ in flat_k] and len(keys) > 1:
+            runs = [flat_q]
+            keys = [flat_k]
+        else:
+            errs.append(f"{len(runs)} question runs but {len(keys)} answer boxes")
     spread = collections.Counter()
     for r, box in zip(runs, keys):
         qn = [n for n, _ in r]
