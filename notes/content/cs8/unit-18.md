@@ -7,7 +7,7 @@ hours: 0
 area: Programming
 ---
 
-A computer does exactly what it is told, in exactly the order it is told, and nothing else. It cannot guess what you meant. So before anyone writes a program, they plan the solution on paper: what goes in, what must be worked out, what comes out, and in which order. This lesson teaches the three planning tools every programmer uses — the **algorithm**, the **flowchart** and **pseudocode** — and the three patterns from which every plan is built: **sequence**, **selection** and **repetition**. Lessons 19 and 20 then turn these plans into real programs in QBASIC, and grade 9 does the same in Python.
+A computer does exactly what it is told, in exactly the order it is told, and nothing else. It cannot guess what you meant. So before anyone writes a program, they plan the solution on paper: what goes in, what must be worked out, what comes out, and in which order. This lesson teaches the three planning tools every programmer uses — the **algorithm**, the **flowchart** and **pseudocode** — and the three patterns from which every plan is built: **sequence**, **selection** and **repetition**. Lessons 19 and 20 then turn these plans into real programs in Python, the language that grades 9 and 10 continue with.
 
 ::: key What the examination asks from this lesson
 Expect **definitions** (program, programming, algorithm, flowchart, pseudocode, debugging), the **steps of program development** as a list or a long answer, the **features of a good algorithm**, the **flowchart symbols** drawn and named, and two-point **differences** (algorithm and flowchart, flowchart and pseudocode). Almost every paper has a **4-mark question** that says "Write an algorithm and draw a flowchart to …" — area, simple interest, greater of two numbers, odd or even, sum of numbers, multiplication table or factorial. That question is usually marked 2 + 2: the algorithm and the flowchart must match each other step for step.
@@ -27,7 +27,7 @@ Writing a program is done in a fixed order of steps, called the **program develo
 
 1. **Problem analysis.** Understand the problem completely before trying to solve it. Find out what **input** the program will receive, what **output** it must give, and what **processing** turns one into the other. Many programmers write this as an **IPO chart** (Input–Process–Output).
 2. **Program design.** Plan the solution step by step, using the design tools of this lesson: an **algorithm**, a **flowchart** or **pseudocode**. A good design is independent of any programming language.
-3. **Coding.** Write the design as a program in a programming language such as QBASIC, Python or C. The program as typed by the programmer is called the **source code**.
+3. **Coding.** Write the design as a program in a programming language such as Python, C or Java. The program as typed by the programmer is called the **source code**.
 4. **Testing and debugging.** Run the program with **test data** whose correct answers are already known, and compare. An error in a program is called a **bug**; finding and removing it is **debugging**. (Lesson 19 explains the three kinds of error.)
 5. **Documentation.** Write explanations: comments inside the program, and a user guide that tells people how to install and use it. Good documentation lets another programmer — or you, a year later — understand and change the program.
 6. **Implementation and maintenance.** Install the program where it will be used, train the users, and keep it working: fix bugs that appear later, and update it when rules change. A billing program must be changed when the VAT rate changes, and a school result program when the grading system changes.
@@ -39,7 +39,7 @@ fig, ax = plt.subplots(figsize=(5.2, 3.0))
 ax.set_xlim(0, 10.4); ax.set_ylim(0, 6.0); ax.axis("off")
 steps = [("1. Problem analysis", "input, process, output"),
          ("2. Program design", "algorithm, flowchart,\npseudocode"),
-         ("3. Coding", "write it in QBASIC\nor Python"),
+         ("3. Coding", "write it in Python\nor C"),
          ("4. Testing and\ndebugging", "test data; find and\nremove errors"),
          ("5. Documentation", "comments and\na user guide"),
          ("6. Implementation\nand maintenance", "install, use,\nupdate and fix")]
@@ -777,7 +777,7 @@ Work in pairs. Each of you writes an algorithm for an everyday job — crossing 
 5. What is a flowchart? Write any four rules for drawing a flowchart and any two of its advantages. <span class="marks">[1+2+1]</span>
 
 ::: note Answers to Group C
-**1.** (i) **Problem analysis**: understand the problem and list its input, process and output. (ii) **Program design**: plan the solution step by step with an algorithm, flowchart or pseudocode. (iii) **Coding**: write the plan in a programming language such as QBASIC or Python. (iv) **Testing and debugging**: run the program with test data whose answers are known, and find and remove errors. (v) **Documentation**: write comments and a user guide. (vi) **Implementation and maintenance**: install the program, train users, and fix and update it later. (Four steps well explained earn full marks.)
+**1.** (i) **Problem analysis**: understand the problem and list its input, process and output. (ii) **Program design**: plan the solution step by step with an algorithm, flowchart or pseudocode. (iii) **Coding**: write the plan in a programming language such as Python or C. (iv) **Testing and debugging**: run the program with test data whose answers are known, and find and remove errors. (v) **Documentation**: write comments and a user guide. (vi) **Implementation and maintenance**: install the program, train users, and fix and update it later. (Four steps well explained earn full marks.)
 
 **2.** *Algorithm.* Step 1: Start. Step 2: Read R. Step 3: A = 3.14 × R × R. Step 4: C = 2 × 3.14 × R. Step 5: Display A and C. Step 6: Stop.
 *Flowchart.* Start (oval) → Read R (parallelogram) → A = 3.14 × R × R (rectangle) → C = 2 × 3.14 × R (rectangle) → Display A, C (parallelogram) → Stop (oval), joined top to bottom by arrows. Test: R = 7 gives A = 153.86 and C = 43.96.
