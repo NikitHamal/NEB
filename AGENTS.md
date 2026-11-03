@@ -1737,3 +1737,21 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 3. **Gamification & Quests:** Redefining traditional Q&A forum sections as interactive **Academic Quests** with bounties, where students post challenges and peers/teachers earn contribution points for solving them.
 
 **CRITICAL REFERENCE:** A separate, highly detailed product specification and architecture document is available in `docs/SAAS_VISION.md`. Review it to understand the technical plans, DB model adjustments, and UI requirements before designing features related to user roles, quizzing, collaboration rooms, or dashboards.
+
+---
+
+## Working in sandboxed agent sessions (workaround, read first)
+
+- The file tool is rooted at the workspace dir (`/app`) and cannot reach `/tmp`;
+  bash can reach everything. Clone to `/tmp/NEB` and symlink it
+  (`ln -sfn /tmp/NEB /app/neb`), then edit with the file tool using `neb/...` paths.
+- Never put a GitHub token in the repo or `.git/config`. Use an out-of-repo
+  `GIT_ASKPASS` script (`/tmp/gitenv.sh`) that echoes `$NEB_GH_PAT`, and run
+  `git diff --cached | grep -c ghp_` (must print 0) before each commit.
+- Push after every milestone, then verify with `git ls-remote origin <branch>`.
+- Django tests without root: `pip install --user --break-system-packages -r backend_python/requirements.txt`,
+  then `DB_ENGINE=sqlite SECRET_KEY=x DEBUG=1 python3 manage.py test <module>`.
+- Headless Chromium without root: `npm i playwright && npx playwright install chromium`,
+  fetch missing shared libs with `apt-get -o Dir::State::Lists=/tmp/apt/lists -o Dir::Cache=/tmp/apt/cache download <pkg>`,
+  `dpkg -x` them into a folder and export `LD_LIBRARY_PATH`.
+- Analytics internals, definitions and deploy steps: `docs/ANALYTICS.md`.

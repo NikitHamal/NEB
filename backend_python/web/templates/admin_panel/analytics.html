@@ -25,7 +25,7 @@
       <a href="?range={{ key }}&amp;source={{ source }}" class="{% if r.range.key == key %}is-on{% endif %}"{% if r.range.key == key %} aria-current="true"{% endif %}>{{ label }}</a>
       {% endfor %}
       <details class="an-pop{% if r.range.key == 'custom' %} is-on{% endif %}">
-        <summary aria-label="Custom range"><span class="an-pop-label">{% if r.range.key == 'custom' %}{{ r.range.label }}{% else %}Custom{% endif %}</span></summary>
+        <summary aria-label="Custom range" title="Custom range"><span class="an-pop-label">{% if r.range.key == 'custom' %}{{ r.range.label }}{% else %}Custom{% endif %}</span></summary>
         <form method="get" class="an-pop-body">
           <label>From <input type="date" name="from" value="{% if r.range.key == 'custom' %}{{ r.range.from }}{% endif %}" max="{{ max_date }}" required></label>
           <label>To <input type="date" name="to" value="{% if r.range.key == 'custom' %}{{ r.range.to }}{% endif %}" max="{{ max_date }}" required></label>

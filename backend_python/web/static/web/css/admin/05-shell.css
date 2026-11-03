@@ -299,3 +299,11 @@ html[data-theme="dark"] .admin-theme-btn .theme-icon-dark {
     padding: 0 14px;
   }
 }
+
+/* Phones: keep the top bar on one line. */
+@media (max-width: 720px) {
+  .admin-brand-sub { display: none; }
+  .admin-brand span,
+  .admin-topbar-spacer .md-btn { white-space: nowrap; }
+  .admin-topbar-spacer .md-btn-text { display: none; }
+}

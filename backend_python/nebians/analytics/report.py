@@ -446,7 +446,7 @@ def _demographics(qs) -> dict:
         rows = []
         for r in members.values(field).annotate(count=Count('id')):
             raw = (r[field] or '').strip()
-            name = (label_map or {}).get(raw.lower(), raw.title()) if raw else 'Not set'
+            name = (label_map or {}).get(raw.lower(), raw if raw.isupper() or raw.isdigit() else raw.title()) if raw else 'Not set'
             rows.append({'name': name, 'count': r['count']})
         merged: dict[str, int] = {}
         for r in rows:
