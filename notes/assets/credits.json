@@ -1026,6 +1026,58 @@
   "source": "Wikimedia Commons",
   "title": "Portrait of Karl Weierstrass (1815-1897), Mathematician (2552869153)"
  },
+ "bca105/pen": {
+  "author": "Petar Milošević",
+  "bytes": 1656787,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca105/pen.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Writing_a_letter.jpg",
+  "sha1": "b32830550af95f03",
+  "source": "Wikimedia Commons",
+  "title": "Writing a letter"
+ },
+ "bca105/phone": {
+  "author": "Amitbalani",
+  "bytes": 930127,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca105/phone.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:British-made_Antique_Rotary_Telephone.jpg",
+  "sha1": "c0f01a0f8fb3c82c",
+  "source": "Wikimedia Commons",
+  "title": "British-made Antique Rotary Telephone"
+ },
+ "bca105/scrum": {
+  "author": "Syced",
+  "bytes": 668277,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca105/scrum.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Stand-up_meeting_before_road_works.jpg",
+  "sha1": "a7ba0a071a948a86",
+  "source": "Wikimedia Commons",
+  "title": "Stand-up meeting before road works"
+ },
+ "bca105/speaker": {
+  "author": "Jordan Samhi",
+  "bytes": 431579,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca105/speaker.jpg",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Dr._Jordan_Samhi_giving_a_Talk_at_Macau_Conference,_2023.jpg",
+  "sha1": "3baa932afb844c16",
+  "source": "Wikimedia Commons",
+  "title": "Dr. Jordan Samhi giving a Talk at Macau Conference, 2023"
+ },
  "bca106/crimpkit": {
   "author": "www.heimnetzwerke.net",
   "bytes": 636121,

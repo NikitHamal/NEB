@@ -132,6 +132,50 @@ Nepal Police's **Cyber Bureau** investigates cybercrime. The government has also
 
 **Equifax data breach (2017).** Personal data of about 147 million people leaked after a known vulnerability was not patched. *Lessons:* patch management is an ethical duty; collecting sensitive data creates a responsibility to protect it.
 
+```svgfig label="5.1" caption="A six-step method for an ethical decision. Walk through the steps in order and write the answers down. The newspaper test in step 4 asks whether you would be comfortable if your family, a journalist or your teacher read about the decision."
+f = Fig(760, 250)
+steps = [("1 Facts", "who, what, when;\nknown vs assumed"), ("2 Issue and\nstakeholders", "users, client,\nemployer, public"), ("3 Options", "include\n\"do nothing\""), ("4 Test each", "legal? code of ethics?\nwho is harmed?"), ("5 Decide\nand act", "document it,\nseek advice"), ("6 Review", "what did we\nlearn?")]
+for i, (t, d) in enumerate(steps):
+    x = 10 + i * 125
+    f.box(x, 24, 112, 78, "", fill=BLUE if i % 2 == 0 else SOFT, stroke=NAVY)
+    for j, ln in enumerate(t.split("\n")): f.text(x + 56, 46 + j * 15, ln, size=11.5, color=NAVY, bold=True)
+    for j, ln in enumerate(d.split("\n")): f.text(x + 56, 100 + 18 + j * 13, ln, size=9.5, color=SLATE)
+    if i < 5: f.arrow([(x + 112, 63), (x + 125, 63)], color=TEAL, sw=2)
+f.box(10, 170, 740, 60, "", fill=SAND, stroke=AMBER)
+f.text(380, 192, "NEWSPAPER TEST (step 4): would I be comfortable if my family, a journalist or my professor read about this?", size=11, color=AMBER, bold=True)
+f.text(380, 212, "Example: a manager says \"launch the payment module even though it sometimes charges twice, and do not tell the client\" - the answer is NO.", size=10, color=SLATE)
+```
+
+```svgfig label="5.2" caption="Forms of intellectual property (top) and software licences from most restrictive to most open (bottom). Copyright arises automatically when a work is created; a licence is the permission the owner gives to others. Durations differ by country and law, so check the current Act."
+f = Fig(760, 330)
+cards = [("Copyright", "expression: code,\ntext, images, music", "program source, app art"), ("Patent", "new, useful\ninvention", "novel compression method"), ("Trademark", "brand names,\nlogos", "\"Daraz\" and its logo"), ("Trade secret", "confidential\nbusiness know-how", "private algorithm"), ("Design", "look of a\nproduct", "icon set design")]
+for i, (t, p, e) in enumerate(cards):
+    x = 10 + i * 150
+    f.box(x, 10, 140, 130, "", fill=BLUE if i % 2 == 0 else SOFT, stroke=NAVY)
+    f.text(x + 70, 32, t, size=12.5, color=NAVY, bold=True)
+    for j, ln in enumerate(p.split("\n")): f.text(x + 70, 56 + j * 14, ln, size=10, color=SLATE)
+    f.text(x + 70, 100, "e.g.", size=9, color=TEAL, bold=True); f.text(x + 70, 114, e, size=9, color=TEAL)
+f.text(380, 172, "Software licences", size=12, color=NAVY, bold=True)
+f.arrow([(40, 190), (720, 190)], color=SLATE, sw=2, both=True); f.text(40, 206, "more restricted", size=9.5, color=RED, bold=True, anchor="start"); f.text(720, 206, "more open", size=9.5, color=TEAL, bold=True, anchor="end")
+lic = [("Proprietary\n(EULA)", "use only", ROSE, RED), ("MIT / BSD", "use, change,\nsell; keep notice", MINT, TEAL), ("Apache 2.0", "like MIT + patent\ngrant", MINT, TEAL), ("GPL\n(copyleft)", "derivatives must\nstay GPL + source", SAND, AMBER), ("Creative\nCommons", "for content;\nCC BY needs credit", BLUE, NAVY)]
+for i, (t, d, fl, st) in enumerate(lic):
+    x = 10 + i * 150
+    f.box(x, 220, 140, 100, "", fill=fl, stroke=st)
+    for j, ln in enumerate(t.split("\n")): f.text(x + 70, 242 + j * 14, ln, size=11.5, color=st, bold=True)
+    for j, ln in enumerate(d.split("\n")): f.text(x + 70, 286 + j * 13, ln, size=9.5, color=SLATE)
+```
+
+## 5.8 Eight responsibilities of an IT professional
+
+1. **Honesty and integrity.** A professional tells the truth about what a system can do and about its defects. Hiding a bug, as in the double-charge example, harms customers and ends careers. Honest reports build long-term trust with clients.
+2. **Competence and continuous learning.** Accept only work you are able to do, and keep skills up to date. Technology changes fast, so reading, courses and practice are a duty. Poor work in banking or health software can hurt many people.
+3. **Respect for privacy and confidentiality.** Data of customers, such as phone numbers, citizenship numbers and bank details, must be used only for the stated purpose. Collect the minimum, store it safely and do not share it. A leak from one ConnectIPS-type service could affect thousands.
+4. **Respect for intellectual property.** Use only licensed software, follow open-source licence terms and credit the authors of code and content. Do not use cracked software or copy a friend's project. This protects creators and keeps your own work credible.
+5. **Security and safety of users.** Design with passwords hashed, input checked and updates applied. A professional thinks of how the system can be attacked or misused, and fixes weaknesses before release. Safety-critical software, such as hospital systems, needs extra care.
+6. **Obeying the law.** Know the basics of the Electronic Transactions Act, the Copyright Act and the Privacy rules relevant to your work, and never help in hacking, fraud or harassment online. Ignorance of the law is not a defence. If a request seems illegal, refuse and seek advice.
+7. **Fairness and respect for people.** Treat colleagues, users and clients without discrimination by gender, caste, religion, language or ability. Make software that is accessible, for example with Nepali-language support and readable text. Fairness widens the number of people who can benefit.
+8. **Accountability and whistle-blowing.** Accept responsibility for your decisions and mistakes, and report serious wrongdoing through proper channels when the public may be harmed. Keep records of your decisions. Courage to speak up is part of professional ethics.
+
 ## Formula and fact sheet
 
 - Theories: utilitarian (outcomes), deontological (duty), virtue (character), rights, justice.
@@ -179,3 +223,34 @@ Nepal Police's **Cyber Bureau** investigates cybercrime. The government has also
 **11.** The training data encoded historical bias, so the model learned it. Fix: audit outcomes by group, remove proxies, rebalance or reweight data, test fairness metrics, add human review, and allow appeals.
 **12.** Decline unless the owner gives written permission and a scope. Unauthorised testing is a crime and breaches ethical-hacking norms. Offer to help set up a legal test, for example on a lab you control or through a bug-bounty programme.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Compare the MIT licence and the GNU GPL. Which would you choose for (a) a library you want everyone to use freely and (b) a program whose improvements you want kept open?**
+
+A **software licence** is the permission the copyright owner gives to others to use, copy, change and share the software. Open-source licences fall into two groups: *permissive* (few conditions) and *copyleft* (conditions that keep derived work open).
+
+| Point | MIT (permissive) | GPL (copyleft) |
+|---|---|---|
+| Use and modify | allowed | allowed |
+| Redistribute | allowed | allowed |
+| Use inside closed, paid products | allowed | not allowed: derivative works must also be GPL |
+| Obligation | keep the copyright and licence notice | release source of derivatives under the GPL |
+| Effect | maximum adoption | keeps improvements open to all |
+| Examples | many JavaScript libraries | the Linux kernel |
+
+**Choice.** (a) For a library that everyone, including companies, should be free to use, the **MIT** licence is best because it does not restrict commercial use. (b) For a program whose improvements should stay open, the **GPL** is best, because anyone who distributes a modified version must share its source. *Conclusion:* the choice depends on whether the owner values wide adoption or guaranteed openness. Whatever the licence, the user must read it, keep the notices and give credit.
+
+**Q (10 marks). Define professional ethics. Explain the steps of an ethical decision, illustrate with the example of hiding a software defect, and discuss intellectual property and cyber law as part of the professional's duty in Nepal.**
+
+**Introduction.** **Ethics** is the study of what is right and wrong; **professional ethics** are the standards of conduct that a profession expects of its members: honesty, competence, confidentiality, fairness and responsibility to the public. Law sets the minimum, while ethics asks what we should do beyond it. Codes of ethics (such as the ACM and IEEE codes) guide computing professionals.
+
+**Ethical decision method (Figure 5.1).** (1) Identify the facts. (2) Identify the issue and the stakeholders. (3) List the options, including doing nothing. (4) Test each option: is it legal, is it consistent with the code of ethics, who is helped or harmed, and does it pass the newspaper test? (5) Decide, act, document and seek advice. (6) Review the result.
+
+**Example.** The day before launch you find that the payment module charges customers twice about once in 200 transactions, and your manager says "Launch anyway, do not tell the client". The stakeholders are customers (money lost), the client (reputation, liability), the employer and you. The options are: obey silently, launch with a clear warning and a quick fix, or delay the launch. Silent launch is harmful and fails the newspaper test; the ethical choice is to inform the client, fix or delay, and record the decision, escalating if necessary.
+
+**Intellectual property (Figure 5.2).** Copyright protects expression (code, text, images) automatically; a patent protects a new useful invention; a trademark protects brand names and logos; a trade secret protects confidential know-how. Nepal's Copyright Act, 2059 (2002) covers computer programs, and the Patent, Design and Trademark Act, 2022 covers inventions, designs and marks. Licences such as MIT, Apache, GPL and Creative Commons tell others what they may do. Piracy and code plagiarism are unethical and illegal.
+
+**Cyber law in Nepal.** The **Electronic Transactions Act, 2063 (2008)** gives legal recognition to electronic records and digital signatures and defines computer-related offences such as unauthorised access, damage to computer systems and publishing unlawful material. Specific penalties and sections change, so check the current text. Professionals must also protect personal data and follow the privacy rules that apply.
+
+**Conclusion.** Professionals should not stop at "is it legal?": they should ask whether a decision is honest, fair and safe for everyone affected. A clear method, respect for intellectual property and knowledge of cyber law help students make such decisions with confidence.
