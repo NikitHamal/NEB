@@ -87,6 +87,65 @@ Price rises from 50 to 60 and the quantity supplied from 200 to 260: midpoint %�
 **In Excel:** put prices in B2:B3 and quantities in C2:C3; the midpoint elasticity is `=((C3-C2)/AVERAGE(C2:C3))/((B3-B2)/AVERAGE(B2:B3))`; the point elasticity at P = 20 for Q = 100 − 2P is `=-2*20/(100-2*20)`; the total outlay is `=B2*C2` and `=B3*C3`.
 :::
 
+## 2.5 Seeing elasticity: five cases, the demand line and the bumper harvest
+
+```svgfig label="2.1" caption="The five cases of price elasticity of demand. The flatter the curve, the more sensitive buyers are to price; the steeper, the less. Unit elasticity is a rectangular hyperbola (price × quantity constant)."
+f = Fig(580, 175)
+names = [("Perfectly inelastic", "e = 0"), ("Inelastic", "0 < e < 1"), ("Unit elastic", "e = 1"), ("Elastic", "1 < e < ∞"), ("Perfectly elastic", "e = ∞")]
+for i, (n, e) in enumerate(names):
+    a = Axes(f, 26 + i * 114, 10, 90, 100, (0, 10), (0, 10))
+    a.axes("Q", "P")
+    f.text(71 + i * 114, 140, n, size=10.5, color=NAVY, bold=True); f.text(71 + i * 114, 157, e, size=11, color=TEAL, bold=True)
+    if i == 0: a.vline(5, 0, 10, color=NAVY, dash=False, sw=2.4)
+    if i == 1: f.line(a.X(3.5), a.Y(9), a.X(6), a.Y(1.5), color=NAVY, sw=2.4)
+    if i == 2: a.curve(lambda q: 16 / q, 1.6, 10, color=NAVY)
+    if i == 3: f.line(a.X(1), a.Y(7), a.X(9), a.Y(3), color=NAVY, sw=2.4)
+    if i == 4: a.hline(5, 0, 10, color=NAVY, dash=False, sw=2.4)
+```
+
+```svgfig label="2.2" caption="Linear demand Q = 100 − 2P. (a) Elasticity falls along the line: 1.5 at P = 30 (elastic), 1.0 at the midpoint P = 25, 0.667 at P = 20 (inelastic). (b) Total revenue P × Q rises while demand is elastic, peaks at 1,250 where e = 1, then falls."
+f = Fig(580, 245)
+a = Axes(f, 42, 14, 225, 175, (0, 100), (0, 50))
+a.grid(20, 10).axes("Quantity", "Price")
+a.curve(lambda q: 50 - q / 2, 0, 100, color=NAVY)
+a.area(lambda q: 50 - q / 2, 0, 50, fill="#fde68a", opacity=0.35)
+a.pt(40, 30, "e = 1.5", dx=8, dy=-6, color=RED); a.pt(50, 25, "e = 1", dx=8, dy=-6, color=TEAL); a.pt(60, 20, "e = 0.667", dx=8, dy=-6, color=AMBER)
+a.tag(14, 14, "elastic zone", size=10.5, color=RED, bold=True); a.tag(86, 20, "inelastic", size=10.5, color=AMBER, bold=True)
+b = Axes(f, 335, 14, 225, 175, (0, 100), (0, 1400))
+b.grid(20, 400).axes("Quantity", "Total revenue")
+b.curve(lambda q: q * (100 - q) / 2, 0, 100, color=TEAL)
+b.vline(50, 0, 1250, color=AMBER); b.pt(50, 1250, "max 1,250", dx=-8, dy=-8, anchor="end")
+b.tag(20, 300, "e > 1", size=10.5, color=RED, bold=True); b.tag(82, 300, "e < 1", size=10.5, color=AMBER, bold=True)
+f.text(155, 232, "(a) demand line and elasticity zones", size=11, color=SLATE, italic=True)
+f.text(448, 232, "(b) total revenue peaks where e = 1", size=11, color=SLATE, italic=True)
+```
+
+```photogrid label="2.1" cols="2" ratio="1.0" caption="Why a bumper harvest can hurt farmers. (a) Spices and staple foods at Asan have few close substitutes, so demand is steep (inelastic). (b) With demand P = 60 − 0.4Q, a good harvest moves supply from S1 to S2: price falls from 16 to 8 while quantity rises only from 110 to 130, so revenue drops from 1,760 to 1,040."
+@ photo id="bca206/spice" cap="Spice stalls, Asan Bazaar, Kathmandu"
+fit 1.0
+focus 0.5 0.45
+@ svg cap="Inelastic demand and a supply increase"
+f = Fig(300, 300)
+a = Axes(f, 40, 12, 245, 220, (0, 150), (0, 60))
+a.grid(50, 20, size=10.5).axes("Q", "P")
+a.curve(lambda q: 60 - 0.4 * q, 0, 150, color=NAVY)
+a.curve(lambda q: 0.1 * q + 5, 0, 150, color=TEAL); a.curve(lambda q: 0.1 * q - 5, 50, 150, color=AMBER, dash=True)
+a.pt(110, 16, "", color=TEAL); a.pt(130, 8, "", color=RED)
+f.text(180, 262, "S1 → S2 (dashed)", size=12, color=AMBER, bold=True)
+f.text(150, 282, "revenue 1,760 → 1,040", size=12.5, color=RED, bold=True)
+```
+
+## 2.6 Eight uses of elasticity in business, government and Nepal
+
+1. **Setting the price of a product.** If demand is elastic, a small price cut brings a large rise in sales, so total revenue grows. A Nepali mobile-data company with many rivals therefore offers cheap packs to win users. If demand is inelastic, a price cut only loses revenue, so a seller of an essential item keeps the price firm.
+2. **Choosing which goods to tax.** Governments prefer to tax goods with inelastic demand, such as fuel, cigarettes and alcohol, because buyers keep buying and the revenue is steady. Nepal's excise duties follow this logic. Heavy taxes on an elastic luxury would simply push buyers to stop or to smuggle.
+3. **Sharing the burden of a tax.** The side of the market with the less elastic curve pays the larger part of a tax. When demand for petrol is inelastic, nearly all of a new tax passes to the motorist. Knowing this lets a student predict who will really pay, whatever the law says.
+4. **Understanding the farmers' paradox.** Food has inelastic demand, so a bumper harvest lowers the price by more than it raises the quantity sold. The farmers of the Terai may earn less from a record rice crop than from an average one. This is why support prices and storage are discussed every season.
+5. **Exchange rate and trade policy.** A weaker currency makes exports cheaper and imports dearer, but the trade balance improves only if demand elasticities are high enough (Marshall-Lerner: the sum is above 1). Nepal's imports of fuel and medicine are inelastic, so a depreciation helps little. The rule explains why trade policy needs more than a change in the rate.
+6. **Forecasting demand as incomes grow.** Income elasticity shows how fast demand rises when incomes rise. Luxuries, such as smartphones and air travel, grow faster than income, while inferior goods, such as cheap noodles, fall. Banks and telecom firms use this to decide where to expand.
+7. **Reading competition between products.** Cross elasticity is large and positive for close substitutes, such as two mobile-wallet apps. A firm that sees this knows a price rise will send customers to its rival. For complements, such as printers and ink, a fall in one price raises sales of the other.
+8. **Timing and planning supply.** Supply is more elastic over a longer period because factories, farms and servers can be expanded. A hydropower plant cannot respond to a price signal this year, but it can in ten years. Planners use the idea to decide whether a shortage is temporary or needs investment.
+
 ## Formula and fact sheet
 
 - e_d = %ΔQ/%ΔP; point: (dQ/dP)(P/Q); arc: (ΔQ/Q̄)/(ΔP/P̄).
@@ -120,3 +179,70 @@ Price rises from 50 to 60 and the quantity supplied from 200 to 260: midpoint %�
 **6.** Substitutes, necessity vs luxury, share of income, time period (also market definition).
 **7.** ΔQ = 60, Q̄ = 530 → 11.32%; ΔP = 10, P̄ = 105 → 9.52%; **e_s = 1.19**.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the total outlay method of measuring price elasticity of demand. A price falls from NPR 10 to 8 and quantity rises from 100 to 130; what do you conclude?**
+
+*Introduction.* **Price elasticity of demand** measures how strongly the quantity demanded responds to a change in price. The **total outlay (expenditure) method**, due to Marshall, finds it without any formula by comparing what buyers spend, TE = P × Q, before and after the price change.
+
+*Rule.*
+
+| Price change | Outlay rises | Outlay unchanged | Outlay falls |
+|---|---|---|---|
+| Price falls | elastic (e > 1) | unitary (e = 1) | inelastic (e < 1) |
+| Price rises | inelastic | unitary | elastic |
+
+In words: if price and outlay move in **opposite** directions the demand is **elastic**; in the **same** direction, **inelastic**; if outlay does not change, **unitary**.
+
+*Numerical case.* Before: TE = 10 × 100 = 1,000. After: TE = 8 × 130 = 1,040. Price fell and outlay rose, which is the opposite direction, so demand is **elastic**. A cross-check by the midpoint formula gives %ΔQ = 30/115 = 26.09% and %ΔP = −2/9 = −22.22%, so e = −1.174, which agrees (Figure 2.2b shows the same idea: revenue rises while e > 1).
+
+*Merit and limit.* The method is simple and needs no calculus, but it gives only the class of elasticity, not its numerical value.
+
+*Conclusion.* Outlay rose after the price fell, so demand is elastic and the seller gains by the cut.
+
+**Q2 (5 marks). Define income elasticity and cross elasticity of demand. Show how they classify goods, with a numerical example of each.**
+
+*Introduction.* Price is not the only determinant of demand. **Income elasticity** and **cross elasticity** measure the response of quantity to income and to another good's price.
+
+*Income elasticity* e_y = %ΔQ ÷ %ΔIncome.
+
+1. e_y > 1: **luxury** (smartphones, air travel); demand rises faster than income.
+2. 0 < e_y < 1: **necessity** (books, rice); demand rises more slowly.
+3. e_y < 0: **inferior** good (cheap noodles); demand falls as income rises.
+
+*Example.* Income rises from NPR 20,000 to 24,000 and book purchases from 50 to 56. %ΔQ = 6/53 = 11.32% and %ΔIncome = 4,000/22,000 = 18.18%, so e_y = **0.623**, a necessity.
+
+*Cross elasticity* e_xy = %ΔQ_x ÷ %ΔP_y.
+
+1. e_xy > 0: **substitutes** (tea and coffee).
+2. e_xy < 0: **complements** (printers and ink).
+3. e_xy = 0: unrelated goods.
+
+*Example.* The price of tea rises from 10 to 12 and coffee sales rise from 80 to 88. %ΔQ = 8/84 = 9.52% and %ΔP = 2/11 = 18.18%, so e_xy = **+0.524**: substitutes.
+
+*Conclusion.* Firms use e_y to forecast growth of demand and e_xy to measure rivalry and set the prices of related products.
+
+**Q3 (10 marks). Define price elasticity of demand. Explain its types and determinants, describe the three methods of measuring it, and discuss its practical uses.**
+
+*Introduction.* **Price elasticity of demand** is the percentage change in quantity demanded divided by the percentage change in price. Since price and quantity move in opposite directions the value is negative, and we usually quote its absolute value |e|.
+
+*Types (Figure 2.1).* (1) **Perfectly inelastic**, e = 0: vertical curve, as for a life-saving drug. (2) **Inelastic**, 0 < e < 1: steep curve, as for salt or electricity. (3) **Unitary**, e = 1: a rectangular hyperbola with constant outlay. (4) **Elastic**, e > 1: flat curve, as for restaurant meals or a branded phone with many rivals. (5) **Perfectly elastic**, e = ∞: horizontal curve, as for one wheat farmer in a perfect market.
+
+*Determinants.* Number and closeness of **substitutes**; necessity or luxury; **share of income** spent; **time period** (longer means more elastic); breadth of the market definition; and habit.
+
+*Measurement.*
+
+1. **Total outlay method:** compare P × Q before and after (Q1). Opposite movement means elastic.
+2. **Point method:** e = (dQ/dP) × (P/Q). For Q = 100 − 2P, dQ/dP = −2, so e = −2 × 30/40 = **−1.5** at P = 30 (elastic), **−1** at P = 25 (midpoint, revenue 1,250 is maximum) and **−0.667** at P = 20 (inelastic); see Figure 2.2.
+3. **Arc method:** e = (ΔQ/Q̄) ÷ (ΔP/P̄), for example −1.174 for the move from (10, 100) to (8, 130).
+
+*Uses.* (1) **Pricing:** cut price if demand is elastic, raise it if inelastic. (2) **Taxation:** tax inelastic goods such as fuel for steady revenue. (3) **Agriculture:** a bumper harvest lowers farm income because food demand is inelastic (Plate 2.1). (4) **Trade:** devaluation helps only if elasticities sum to more than 1. (5) **Planning:** income and cross elasticities guide investment and competition policy.
+
+| Elasticity | Price rise by 10% | Revenue effect | Best seller action |
+|---|---|---|---|
+| e = 2 (elastic) | quantity falls 20% | revenue falls | cut price |
+| e = 1 | quantity falls 10% | unchanged | hold price |
+| e = 0.5 (inelastic) | quantity falls 5% | revenue rises | raise price |
+
+*Conclusion.* Elasticity turns the shape of the demand curve into a number that managers and governments can act on.

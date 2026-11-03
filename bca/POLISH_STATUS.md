@@ -156,6 +156,17 @@ Had ZERO figures before. Photos are reuses of already-licensed assets (no new do
 - U7: Fig 7.1 variation split (strip plot + stacked SS bar), Fig 7.2 F(2,12) tail, Fig 7.3 randomised block layout, Fig 7.4 two-way SS partition (no photo: abstract topic); 8 uses (7.7); 2 medium + 1 long (two-way ANOVA).
 - All new numbers recomputed with numpy/scipy before writing; `check_stats.py --assert` still passes. No fill_script_outputs run needed (no code blocks).
 
+## BCA 206 applied-economics (semester-3/applied-economics) -- [x] POLISHED (session 21), 66 pp (was 34), qa fails=0 warns=1 (p3 near-empty, pre-existing)
+Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 photos (bca206/, licence-gated, all viewed): smith, marshall, keynes (portraits), asan (vegetable seller), spice (Asan spice lane), kalimati (wholesale market street), ntc (Nepal Telecom head office), note (old NRB banknote), nrb (Thapathali), dryport (Birgunj customs). Rejected after viewing: Kulekhani (lake shot, no dam).
+- U1: Fig 1.1 PPF with U/X points and growth shift, Fig 1.2 equilibrium + ceiling | demand shift + tax, Plate 1.1 (3-up Smith/Marshall/Asan); 8 applications (1.7); 2 medium + 1 long (equilibrium, CS 1,156, DWL 15).
+- U2: Fig 2.1 five elasticity cases, Fig 2.2 linear demand elasticity zones + revenue curve, Plate 2.1 (spice photo + bumper-harvest SVG); 8 uses (2.6); 2 medium + 1 long.
+- U3: Fig 3.1 TU/MU, Fig 3.2 equi-marginal bars, Fig 3.3 IC + budget + Hicks A->C->B; 8 uses (3.5); 2 medium + 1 long. No photo (abstract).
+- U4: Fig 4.1 total and unit cost curves from the schedule, Fig 4.2 LAC envelope, Fig 4.3 revenue curves (3 panels); 8 uses (4.6); 2 medium + 1 long. No photo (abstract).
+- U5: Plate 5.1 (3-up Kalimati/spice/NTC), Fig 5.1 price-taker cases, 5.2 monopoly + DWL 800, 5.3 price discrimination, 5.4 kinked demand + prisoner's-dilemma pay-offs; 8 lessons (5.8); 3 medium + 1 long.
+- U6: Fig 6.1 four-sector circular flow, 6.2 Keynesian cross + multiplier chain, 6.3 GDP->DI waterfall, Plate 6.1 (Keynes/Kalimati/Asan); 8 uses (6.6); 2 medium + 1 long.
+- U7: Plate 7.1 (note/NRB/dry port), Fig 7.1 deposit creation, 7.2 AD-AS demand-pull and cost-push, 7.3 policy transmission chain, 7.4 BoP waterfall; 8 roles (7.6); 2 medium + 2 long.
+- All new numbers recomputed with Python (check_economics.py still passes). No fill_script_outputs needed (no code blocks).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -172,5 +183,6 @@ Had ZERO figures before. Photos are reuses of already-licensed assets (no new do
 - [x] BCA 153 OOP in Java (session 19, 66 pp)
 - [x] BCA 153 OOP in Java and System Analysis and Design polished (session 19)
 - [x] Probability and Statistics polished (session 20, 35 -> 57 pp)
-- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Applied Economics (34), Technical Writing (36), Financial Accounting (37), Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] Applied Economics polished (session 21, 34 -> 66 pp)
+- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Technical Writing (36), Financial Accounting (37), Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time

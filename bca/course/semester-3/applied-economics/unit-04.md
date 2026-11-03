@@ -71,6 +71,67 @@ TR = 100Q − Q²; MR = 100 − 2Q. At Q = 20: P = 80, TR = 1,600, MR = 60. At Q
 
 **Excel exercise:** build the schedule in columns Q, TVC, then `=TVC+100` for TC, `=C3-C2` for MC, `=C3/A3` for AC; chart AC and MC on one graph to see MC cut AC at its minimum, and `=P*Q`, `=TR3-TR2` for revenue.
 
+## 4.5 Seeing costs and revenues: schedules, the long-run envelope and the MR line
+
+```svgfig label="4.1" caption="The cost schedule with TFC = 100. (a) Total costs: TFC is flat, TVC rises, TC = TFC + TVC lies 100 above TVC. (b) Unit costs: AFC falls throughout; AVC and AC are U-shaped; MC cuts AVC at its minimum (Q = 3 to 4, 40) and AC at its minimum (Q = 5, 64)."
+f = Fig(580, 262)
+a = Axes(f, 42, 14, 225, 190, (0, 6.5), (0, 420))
+a.grid(1, 100).axes("Output Q", "Total cost")
+def line(ax, xs, ys, col, dash=False):
+    p = " ".join(f"{ax.X(x)},{ax.Y(y)}" for x, y in zip(xs, ys))
+    f.raw(f'<polyline points="{p}" fill="none" stroke="{col}" stroke-width="2.3" stroke-linejoin="round"{" stroke-dasharray=\"6 4\"" if dash else ""}/>')
+    for x, y in zip(xs, ys): ax.pt(x, y, "", r=2.6, color=col)
+Q = [0, 1, 2, 3, 4, 5, 6]
+line(a, Q, [100] * 7, SLATE, True); line(a, Q, [0, 50, 90, 120, 160, 220, 300], AMBER); line(a, Q, [100, 150, 190, 220, 260, 320, 400], NAVY)
+a.tag(5.4, 372, "TC", size=11, color=NAVY, bold=True); a.tag(5.3, 262, "TVC", size=11, color=AMBER, bold=True); a.tag(5.6, 118, "TFC", size=11, color=SLATE, bold=True)
+b = Axes(f, 335, 14, 225, 190, (0, 6.5), (0, 160))
+b.grid(1, 40).axes("Output Q", "Cost per unit")
+Q1 = [1, 2, 3, 4, 5, 6]
+line(b, Q1, [100, 50, 33.3, 25, 20, 16.7], SLATE, True); line(b, Q1, [50, 45, 40, 40, 44, 50], TEAL); line(b, Q1, [150, 95, 73.3, 65, 64, 66.7], NAVY); line(b, Q1, [50, 40, 30, 40, 60, 80], RED)
+b.tag(1.3, 148, "AC", size=11, color=NAVY, bold=True); b.tag(1.6, 108, "AFC", size=11, color=SLATE, bold=True); b.tag(6.1, 86, "MC", size=11, color=RED, bold=True); b.tag(6.2, 38, "AVC", size=11, color=TEAL, bold=True)
+b.pt(5, 64, "min AC = 64", dx=-6, dy=-16, anchor="middle", color=NAVY)
+f.text(155, 250, "(a) total cost curves", size=11, color=SLATE, italic=True); f.text(448, 250, "(b) unit cost curves", size=11, color=SLATE, italic=True)
+```
+
+```svgfig label="4.2" caption="Long-run average cost as the envelope of short-run average cost curves. Each thin curve is the SAC of one plant size and touches the thick LAC at a single output. LAC falls through economies of scale, is flat near the minimum efficient scale, and rises through diseconomies of scale."
+f = Fig(580, 250)
+a = Axes(f, 50, 14, 360, 190, (0, 90), (0, 110))
+a.grid(15, 20).axes("Output", "Cost per unit")
+lac = lambda q: 50 + 0.012 * (q - 45) ** 2
+for m in [8, 22, 38, 55, 70, 84]:
+    s = 0.024 * (m - 45)
+    a.curve(lambda q, m=m, s=s: lac(m) + s * (q - m) + 0.03 * (q - m) ** 2, max(m - 22, 0), min(m + 22, 90), color=TEAL, sw=1.3)
+a.curve(lac, 0, 90, color=NAVY, sw=3)
+a.tag(78, 86, "LAC", size=12, color=NAVY, bold=True); a.tag(7, 36, "SAC", size=10.5, color=TEAL, bold=True)
+a.vline(45, 0, 50, color=AMBER); a.pt(45, 50, "minimum efficient scale", dx=10, dy=34, anchor="start")
+f.box(430, 30, 140, 44, "Economies of scale:\nLAC falls", fill=MINT, stroke=TEAL, size=10.5)
+f.box(430, 88, 140, 44, "Constant returns:\nLAC flat", fill=SAND, stroke=AMBER, size=10.5)
+f.box(430, 146, 140, 44, "Diseconomies:\nLAC rises", fill=ROSE, stroke=RED, size=10.5)
+```
+
+```svgfig label="4.3" caption="Revenue curves. (a) A price-taking firm has AR = MR = P, a horizontal line. (b) With AR = 60 − Q the firm has MR = 60 − 2Q, below AR and cutting the axis at half the distance. (c) TR = 60Q − Q² peaks at Q = 30 (TR = 900), exactly where MR = 0."
+f = Fig(580, 240)
+a = Axes(f, 36, 14, 150, 160, (0, 60), (0, 70)); a.grid(20, 20).axes("Q", "P")
+a.hline(40, 0, 60, color=NAVY, dash=False, sw=2.4); a.tag(50, 46, "AR = MR = P", size=10, color=NAVY, bold=True)
+b = Axes(f, 226, 14, 150, 160, (0, 65), (-10, 70)); b.grid(20, 20).axes("Q", "P")
+b.curve(lambda q: 60 - q, 0, 60, color=NAVY); b.curve(lambda q: 60 - 2 * q, 0, 35, color=RED)
+b.tag(52, 12, "AR", size=11, color=NAVY, bold=True); b.tag(42, -4, "MR", size=11, color=RED, bold=True); b.vline(30, -10, 0, color=AMBER)
+c = Axes(f, 416, 14, 150, 160, (0, 65), (0, 1000)); c.grid(20, 250).axes("Q", "TR")
+c.curve(lambda q: 60 * q - q * q, 0, 60, color=TEAL); c.vline(30, 0, 900, color=AMBER); c.pt(30, 900, "TR max 900", dx=-6, dy=-8, anchor="middle")
+f.text(111, 214, "(a) perfect competition", size=10.5, color=SLATE, italic=True); f.text(301, 214, "(b) AR and MR", size=10.5, color=SLATE, italic=True); f.text(491, 214, "(c) total revenue", size=10.5, color=SLATE, italic=True)
+```
+
+## 4.6 Eight uses of cost and revenue analysis
+
+1. **Deciding the price of a product.** A firm must cover its average cost, so it never sells below the minimum of the AC curve for long. A Kathmandu printing press adds a margin to the unit cost of each job. Without knowing the cost curve the price would be a guess.
+2. **Choosing how much to produce.** Output should rise as long as marginal revenue is above marginal cost. A bakery in Pokhara bakes extra batches only while the extra income covers the extra flour, gas and labour. This simple rule is the base of all profit decisions.
+3. **Deciding to shut down or to continue.** In the short run fixed costs are sunk, so a firm keeps working if the price covers AVC even when it loses on AC. A hotel in the off-season may stay open on these grounds. If price falls below AVC, closing is the better choice.
+4. **Planning plant size and expansion.** The long-run cost curve shows which factory size gives the lowest unit cost. A cement plant in Hetauda gains from economies of scale, while a very large unit may suffer from poor management. Banks study these curves before lending for expansion.
+5. **Understanding economies of scale in technology.** Software has a high fixed cost to build and almost zero marginal cost per user. The average cost per user therefore falls steadily as the user base grows. This is why apps such as eSewa and Foodmandu fight to gain users quickly.
+6. **Separating accounting and economic profit.** An owner who counts only cash costs may feel rich while earning less than a salary elsewhere. Economic profit includes the opportunity cost of own time and capital. A small shopkeeper uses it to decide whether the shop is worth running.
+7. **Understanding pricing power.** A firm with a falling AR curve knows that MR is lower than price, so each extra unit sold earns less than the price shown. This is the basis of limited output and higher prices in monopolies. It also explains discounts that are offered only to some groups.
+8. **Controlling and budgeting costs.** Splitting costs into fixed and variable lets a manager forecast the bill at any output. A college planning more students knows that rent stays the same but staff and electricity rise. Break-even analysis follows directly from TC and TR.
+
 ## Formula and fact sheet
 
 - TC = TFC + TVC; AFC = TFC/Q; AVC = TVC/Q; AC = AFC + AVC; MC = ΔTC/ΔQ.
@@ -104,3 +165,69 @@ TR = 100Q − Q²; MR = 100 − 2Q. At Q = 20: P = 80, TR = 1,600, MR = 60. At Q
 **6.** To sell one more unit a monopolist must lower the price on **all** units, so the extra revenue is less than the price; a price-taker sells every unit at the same fixed price, so MR = P.
 **7.** Accounting profit = 800 − 500 = **300**; economic profit = 800 − 850 = **−50** (a loss compared with the best alternative).
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Distinguish between explicit and implicit costs, and between accounting profit and economic profit, with a numerical example.**
+
+*Introduction.* To a business owner a cost is more than the cash paid out. Economists count every resource at what it could have earned elsewhere, its **opportunity cost**.
+
+*Explicit and implicit cost.*
+
+| Point | Explicit cost | Implicit cost |
+|---|---|---|
+| Meaning | payments to outsiders for inputs | opportunity cost of the owner's own resources |
+| Examples | wages, rent, raw material, electricity | own capital, own time, own building |
+| Recorded in books | yes | no |
+| Used in | accounting cost | economic cost (explicit + implicit) |
+
+*Profit.* **Accounting profit** = revenue − explicit costs. **Economic profit** = revenue − (explicit + implicit costs). The implicit costs include **normal profit**, the minimum reward that keeps the owner in the business.
+
+*Example.* A shop earns revenue NPR 500,000 and pays explicit costs of 350,000. Accounting profit is 150,000. The owner could earn a 100,000 salary elsewhere and her capital could earn 30,000, so implicit cost is 130,000. Economic profit = 150,000 − 130,000 = **20,000**. Zero economic profit would mean exactly normal profit.
+
+*Conclusion.* A business that shows an accounting profit may still be a poor choice if the owner's best alternative pays more.
+
+**Q2 (5 marks). Explain total, average and marginal revenue. Show how AR and MR are related in perfect competition and under imperfect competition.**
+
+*Introduction.* **Total revenue** TR = P × Q is the money received from sales. **Average revenue** AR = TR/Q = P, so the AR curve is the demand curve. **Marginal revenue** MR = ΔTR/ΔQ is the extra revenue from selling one more unit (Figure 4.3).
+
+*Perfect competition.* The firm is a **price-taker**. Every unit sells at the market price, so **AR = MR = P** and both are one horizontal line. TR is a straight line through the origin.
+
+*Imperfect competition.* The firm faces a downward-sloping demand curve and must cut the price to sell more. Therefore **MR < AR**. For AR = a − bQ, TR = aQ − bQ² and **MR = a − 2bQ**: the same intercept and twice the slope, so MR cuts the quantity axis at half the distance.
+
+*Numerical illustration.* For AR = 60 − Q, MR = 60 − 2Q. At Q = 20, AR = 40 but MR = 20. TR = 60Q − Q² rises until MR = 0 at Q = 30, where TR = 900, and falls after that. At that point elasticity is exactly 1.
+
+*Conclusion.* The price taker sees MR equal to price; every other firm sees MR below price, which is the root of monopoly power.
+
+**Q3 (10 marks). Explain the short-run cost curves and their relationships using a schedule. How is the long-run average cost curve derived, and why is it U-shaped?**
+
+*Introduction.* In the **short run** some input, such as plant, is fixed; in the **long run** all inputs can change. Costs are therefore divided into fixed and variable parts.
+
+*Cost concepts.* TFC does not change with output; TVC rises with output; **TC = TFC + TVC**. Per unit: AFC = TFC/Q, AVC = TVC/Q, **AC = AFC + AVC**, and **MC = ΔTC/ΔQ**.
+
+*Schedule and curves (Figure 4.1), TFC = 100.*
+
+| Q | 1 | 2 | 3 | 4 | 5 | 6 |
+|---|---|---|---|---|---|---|
+| TC | 150 | 190 | 220 | 260 | 320 | 400 |
+| MC | 50 | 40 | 30 | 40 | 60 | 80 |
+| AVC | 50 | 45 | 40 | 40 | 44 | 50 |
+| AC | 150 | 95 | 73.3 | 65 | 64 | 66.7 |
+
+*Relationships.*
+
+1. **AFC** falls throughout (a rectangular hyperbola), so AC and AVC come closer as output grows.
+2. **AVC, AC and MC are U-shaped** because of the law of variable proportions: at first extra workers raise output a lot and MC falls; later crowding makes MC rise.
+3. **MC cuts AVC and AC at their minimum points.** Here AVC is minimum (40) at Q = 3 to 4 and AC is minimum (64) at Q = 5. When MC is below the average, the average falls; when above, it rises.
+
+*Long-run curve (Figure 4.2).* In the long run the firm may pick any plant size. Each plant has its own SAC curve. For any output the firm chooses the plant with the lowest cost, so **LAC is the lower envelope of the SAC curves**, touching each at one output. LMC cuts LAC at its minimum.
+
+*Why U-shaped.* Falling LAC comes from **economies of scale**: specialisation, bulk buying, spreading overhead and better technology. The flat part near the minimum efficient scale shows constant returns. Rising LAC comes from **diseconomies of scale**: coordination, communication and management problems.
+
+| Feature | Short-run AC | Long-run AC |
+|---|---|---|
+| Fixed input | at least one | none |
+| Shape cause | variable proportions | scale of operations |
+| Curve | U, steeper | U, flatter envelope |
+
+*Conclusion.* Short-run curves guide daily output decisions; the long-run curve guides the choice of plant size.

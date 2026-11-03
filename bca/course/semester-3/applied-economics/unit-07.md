@@ -81,6 +81,95 @@ Because it is a double-entry record the BoP **always balances in total** (with e
 Merchandise exports 100 and imports 450 (units of NPR billion): **BoT = −350** (deficit). Net services and income +10; remittances and other transfers +300. **Current account** = −350 + 10 + 300 = **−40**. Capital and financial account = +30 (loans and investment inflows). **Overall balance** = −40 + 30 = **−10**, financed by a fall in foreign exchange reserves of 10. This pattern, a large trade deficit offset by remittance inflows, is typical of Nepal.
 :::
 
+## 7.5 Seeing money, inflation, central banking and trade
+
+```photogrid label="7.1" cols="3" ratio="1.0" caption="Money, bank and border. (a) A Nepal Rastra Bank one-rupee-era banknote: fiat money whose value rests on the law and on trust. (b) The Nepal Rastra Bank offices at Thapathali, Kathmandu, where currency is issued and monetary policy is set. (c) The customs office at the Birgunj dry port, the main gateway for Nepal's trade with and through India."
+@ photo id="bca206/note" cap="Old Nepal Rastra Bank note"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca206/nrb" cap="Nepal Rastra Bank, Thapathali"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca206/dryport" cap="Birgunj dry port customs office"
+fit 1.0
+focus 0.4 0.5
+```
+
+```svgfig label="7.1" caption="Deposit creation with an initial deposit of NPR 1,000. (a) With a 10% reserve ratio each round's new deposit is 90% of the last: 1,000, 900, 810, 729, ... (b) The running total approaches 1,000 × 1/0.10 = 10,000 for r = 10% but only 1,000 × 1/0.20 = 5,000 for r = 20%: a higher reserve ratio restricts money creation."
+f = Fig(580, 255)
+a = Axes(f, 48, 14, 215, 190, (0, 9), (0, 1100))
+a.grid(1, 250).axes("", "New deposit"); f.text(155, 228, "Round of lending", size=9.5, color=SLATE)
+for i in range(1, 9):
+    d = 1000 * 0.9 ** (i - 1)
+    f.raw(f'<rect x="{a.X(i)-10}" y="{a.Y(d)}" width="20" height="{a.Y(0)-a.Y(d)}" fill="#fde68a" stroke="{AMBER}" stroke-width="1.2"/>')
+    f.text(a.X(i), a.Y(d) - 4, f"{d:.0f}", size=8.5, color=SLATE, bold=True)
+b = Axes(f, 340, 14, 220, 190, (0, 30), (0, 11000))
+b.grid(5, 2500).axes("", "Total deposits"); f.text(450, 228, "Round of lending", size=9.5, color=SLATE)
+b.curve(lambda n: 1000 * (1 - 0.9 ** n) / 0.1, 0, 30, color=NAVY); b.curve(lambda n: 1000 * (1 - 0.8 ** n) / 0.2, 0, 30, color=TEAL)
+b.hline(10000, 0, 30, color=NAVY); b.hline(5000, 0, 30, color=TEAL)
+b.tag(17, 9500, "r = 10%: limit 10,000", size=10, color=NAVY, bold=True); b.tag(20, 4350, "r = 20%: limit 5,000", size=10, color=TEAL, bold=True)
+f.text(155, 244, "(a) new deposit each round (r = 10%)", size=11, color=SLATE, italic=True); f.text(450, 244, "(b) total deposits versus reserve ratio", size=11, color=SLATE, italic=True)
+```
+
+```svgfig label="7.2" caption="Two causes of inflation in an AD-AS diagram. (a) Demand-pull: AD shifts right from AD1 to AD2 along a rising AS curve, so output rises (61 to 75) and the price level rises (49 to 65). (b) Cost-push: higher fuel or wage costs shift AS up, so the price level rises (49 to 57) while output falls (61 to 53): stagflation."
+import math
+f = Fig(580, 234)
+def eq(c_as, c_ad):
+    # 0.008 y^2 + y - (c_ad - c_as) = 0
+    k = c_ad - c_as; y = (-1 + math.sqrt(1 + 4 * 0.008 * k)) / 0.016
+    return y, c_as + 0.008 * y * y
+for L, kind in [(42, "a"), (335, "b")]:
+    a = Axes(f, L, 14, 225, 170, (0, 100), (0, 110))
+    a.grid(20, 20).axes("Real output Y", "Price level")
+    a.curve(lambda y: 110 - y, 0, 100, color=NAVY)
+    if kind == "a":
+        a.curve(lambda y: 20 + 0.008 * y * y, 0, 100, color=TEAL); a.curve(lambda y: 140 - y, 30, 100, color=NAVY, dash=True)
+        y1, p1 = eq(20, 110); y2, p2 = eq(20, 140)
+        a.pt(y1, p1, "E1", dx=-8, dy=14, anchor="end"); a.pt(y2, p2, "E2", dx=8, dy=-8, color=TEAL)
+        a.tag(26, 100, "AD1", size=10, color=NAVY, bold=True); a.tag(58, 104, "AD2", size=10, color=NAVY, bold=True); a.tag(92, 20, "AS", size=10, color=TEAL, bold=True)
+    else:
+        a.curve(lambda y: 20 + 0.008 * y * y, 0, 100, color=TEAL); a.curve(lambda y: 35 + 0.008 * y * y, 0, 100, color=RED, dash=True)
+        y1, p1 = eq(20, 110); y2, p2 = eq(35, 110)
+        a.pt(y1, p1, "E1", dx=8, dy=14, color=NAVY); a.pt(y2, p2, "E2", dx=-8, dy=-8, anchor="end", color=RED)
+        a.tag(26, 100, "AD", size=10, color=NAVY, bold=True); a.tag(88, 90, "AS2", size=10, color=RED, bold=True); a.tag(94, 62, "AS1", size=10, color=TEAL, bold=True)
+f.text(155, 224, "(a) demand-pull inflation", size=11, color=SLATE, italic=True); f.text(448, 224, "(b) cost-push inflation", size=11, color=SLATE, italic=True)
+```
+
+```svgfig label="7.3" caption="How a tight monetary policy works. The Nepal Rastra Bank raises its policy rate or the cash reserve ratio; banks have less to lend and charge more; borrowing and spending fall; demand pressure and inflation ease, at the price of slower growth. A loose policy runs the same chain in the opposite direction."
+f = Fig(580, 150)
+steps = [("NRB raises\npolicy rate\nor CRR", NAVY, BLUE), ("Banks' lending\nfunds fall,\nloan rates rise", NAVY, BLUE), ("Borrowing and\ninvestment\nfall", AMBER, SAND), ("Total spending\nand demand\nfall", AMBER, SAND), ("Inflation eases;\ngrowth and jobs\nslow down", RED, ROSE)]
+for i, (t, s, fl) in enumerate(steps):
+    f.box(8 + i * 115, 28, 100, 66, t, fill=fl, stroke=s, size=10.5, bold=True, color=NAVY)
+    if i < 4: f.arrow([(108 + i * 115, 61), (123 + i * 115, 61)], color=SLATE)
+f.text(290, 118, "Instruments: cash reserve ratio, SLR, bank rate, repo / standing liquidity facility,", size=10, color=SLATE, italic=True); f.text(290, 133, "open market operations, moral suasion", size=10, color=SLATE, italic=True)
+```
+
+```svgfig label="7.4" caption="Balance of payments in the worked example (NPR billion). Exports +100 and imports −450 give a trade deficit of −350; services and income +10 and remittances and transfers +300 bring the current account to −40; capital and financial inflows of +30 leave an overall balance of −10, paid for by a fall in reserves."
+f = Fig(580, 255)
+a = Axes(f, 48, 14, 505, 190, (0, 8), (-400, 200))
+a.grid(1, 100, labels=False).axes("", "")
+for v in range(-400, 201, 100): f.text(42, a.Y(v) + 4, str(v), size=9.5, color=SLATE, anchor="end")
+bars = [("Exports", 0, 100, TEAL), ("Imports", 100, -350, RED), ("Trade\nbalance", 0, -350, NAVY), ("Services\n+ income", -350, -340, TEAL), ("Remittances\n+ transfers", -340, -40, TEAL), ("Current\naccount", 0, -40, NAVY), ("Capital +\nfinancial", -40, -10, TEAL), ("Overall\nbalance", 0, -10, RED)]
+for i, (n, s, e, c) in enumerate(bars):
+    lo, hi = min(s, e), max(s, e); h = max(a.Y(lo) - a.Y(hi), 2)
+    f.raw(f'<rect x="{a.X(i+0.5)-26}" y="{a.Y(hi)}" width="52" height="{h}" fill="{c}" opacity="0.28" stroke="{c}" stroke-width="1.6"/>')
+    lab = {0: "+100", 1: "−450", 2: "−350", 3: "+10", 4: "+300", 5: "−40", 6: "+30", 7: "−10"}[i]
+    f.text(a.X(i + 0.5), a.Y(hi) - 5, lab, size=10, color=c, bold=True)
+    l1 = n.split("\n"); f.text(a.X(i + 0.5), 222, l1[0], size=9.5, color=SLATE); f.text(a.X(i + 0.5), 235, l1[1] if len(l1) > 1 else "", size=9.5, color=SLATE)
+f.line(a.X(0), a.Y(0), a.X(8), a.Y(0), color=SLATE, sw=1.2)
+```
+
+## 7.6 Eight roles of money, banks and trade in everyday Nepali life
+
+1. **Money makes exchange simple.** Without money a farmer who wants a phone must find a phone seller who wants rice. A common medium of exchange removes this double coincidence of wants. Notes, cards and QR payments such as Fonepay all do the same job.
+2. **Money is a store of value and a unit of account.** Savings kept as money can be spent later, but they lose value when prices rise. Every price in a Nepali shop is quoted in rupees, so goods can be compared quickly. Inflation reduces this value, which is why real assets are sometimes preferred.
+3. **Banks turn savings into loans.** A bank lends most of its deposits, and the loan is deposited again, so deposits multiply. This lets a small saving finance a farm loan, a shop or a house. The reserve ratio limits how far the process can go.
+4. **Inflation changes who gains and who loses.** Borrowers repay in cheaper money and gain, while pensioners and salaried people lose buying power. Prices of fuel, rice and vegetables matter most to poor families. This is why governments watch the consumer price index every month.
+5. **The central bank guards stability.** The Nepal Rastra Bank issues notes, supervises banks and sets policy rates to keep prices and the financial system stable. When it raises rates, loans become costlier and spending cools. It also acts as the lender of last resort in a crisis.
+6. **Digital banking cuts transaction costs.** ConnectIPS, eSewa and mobile banking let people send money without travelling to a branch. A migrant worker's family in Gorkha can receive money in minutes. Lower costs help small firms and bring more people into the formal system.
+7. **Trade lets Nepal specialise.** By the principle of comparative advantage, a country gains by making what it produces at lowest opportunity cost and importing the rest. Nepal exports items such as cardamom, tea and handicrafts, and imports fuel, machinery and vehicles. The gains come through lower prices and wider choice.
+8. **The balance of payments shows dependence on remittance.** A big trade deficit is paid for by money sent home by workers abroad, as in the worked example. This keeps reserves safe but ties the economy to foreign labour markets. Reading the BoP tells whether this pattern can last.
+
 ## Formula and fact sheet
 
 - Money: medium of exchange, unit of account, store of value, standard of deferred payment.
@@ -118,3 +207,87 @@ Merchandise exports 100 and imports 450 (units of NPR billion): **BoT = −350**
 **7.** Banks must hold more cash with the NRB, lend less, deposit creation falls, so money supply contracts.
 **8.** Factor mobility, currency, laws and tariffs, transport and risk, language and customs.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Define money and explain its functions. How do banks create deposits? Show with an example of NPR 1,000 and a 10% reserve ratio.**
+
+*Introduction.* **Money** is anything generally accepted as a means of payment and for settling debts. It removes the **double coincidence of wants** of barter. Forms include commodity money, fiat notes, bank deposits and digital payments.
+
+*Functions.* (1) **Medium of exchange:** buyers and sellers accept it for any good. (2) **Unit of account:** all prices are quoted in rupees, so values can be compared. (3) **Store of value:** purchasing power can be saved for later. (4) **Standard of deferred payment:** loans and wages are fixed in money.
+
+*Deposit creation (Figure 7.1).* Banks keep a fraction r of deposits as reserve and lend the rest, and the loan returns as a new deposit. With an initial deposit of 1,000 and r = 10%, the bank lends 900, then 810, then 729, and so on. The **money multiplier** is 1/r = 10, so total deposits can reach 1,000 × 10 = **10,000**, of which **9,000** is newly created. With r = 20% the multiplier is 5 and total deposits are 5,000.
+
+*Conclusion.* A higher reserve ratio limits credit creation; this is the lever the central bank uses to tighten or loosen money.
+
+**Q2 (5 marks). Distinguish between balance of trade and balance of payments. From the data, calculate the current account and the overall balance.**
+
+*Introduction.* International transactions are recorded in two ways: a narrow account for goods and a wide account for everything.
+
+| Point | Balance of trade | Balance of payments |
+|---|---|---|
+| Covers | visible goods only | goods, services, income, transfers, capital and finance |
+| Formula | exports − imports | current + capital + financial account |
+| Balances? | rarely | always, as a double-entry record |
+| Nepal | large deficit | cushioned by remittance |
+
+*Structure.* The **current account** has trade in goods, services, primary income and secondary income (remittances and grants). The **capital account** has capital transfers. The **financial account** has foreign investment, loans and changes in reserves.
+
+*Calculation (Figure 7.4), NPR billion.* BoT = 100 − 450 = **−350**. Current account = −350 + 10 + 300 = **−40**. Capital and financial account = +30. Overall balance = −40 + 30 = **−10**, financed by a fall of 10 in foreign-exchange reserves.
+
+*Conclusion.* A large trade deficit offset by remittances is typical of Nepal; the BoP shows how it is financed.
+
+**Q3 (10 marks). Define inflation. Explain its types, causes, effects and the measures to control it. A basket costs NPR 5,000 in the base year and 5,900 now; last year's CPI was 112.**
+
+*Introduction.* **Inflation** is a sustained rise in the general price level, equal to a fall in the value of money. It is measured by the percentage change in a price index such as the consumer price index (CPI).
+
+*Measurement.* CPI = 5,900/5,000 × 100 = **118**. Inflation = (118 − 112)/112 × 100 = **5.36%**. One rupee now buys 100/118 = 0.85 of what it bought in the base year.
+
+*Types.* By speed: **creeping** (below 3%), **walking** (3 to 10%), **galloping** (10% and more) and **hyperinflation**. By cause: demand-pull, cost-push and structural.
+
+*Causes (Figure 7.2).*
+
+1. **Demand-pull:** too much money chasing too few goods, through money growth, deficit spending, rising remittance spending and easy credit. AD shifts right.
+2. **Cost-push:** higher wages, fuel and raw material prices, imported inflation, taxes, monopoly pricing. AS shifts up and output falls (stagflation).
+3. **Structural:** poor roads, weak supply chains and bottlenecks. In Nepal prices also follow India's through the open border and the peg.
+
+*Effects.* Debtors gain and creditors lose; pensioners and salaried people lose real income; savers lose if the interest rate is below inflation; uncertainty reduces investment; exports become less competitive; real assets such as land and gold gain.
+
+*Control.*
+
+| Measure | Examples | Works against |
+|---|---|---|
+| Monetary | higher policy rate, higher CRR, selling securities | demand-pull |
+| Fiscal | lower spending, higher taxes, surplus budget | demand-pull |
+| Supply-side | more production, better supply chain, buffer stocks | cost-push, structural |
+| Controls | temporary price and wage limits | short-term relief |
+
+*Conclusion.* Mild inflation of 2 to 5% is consistent with growth; the right cure depends on whether demand or supply is the cause.
+
+**Q4 (10 marks). Explain the functions of the Nepal Rastra Bank and the instruments it uses to control credit.**
+
+*Introduction.* The **Nepal Rastra Bank (NRB)** is Nepal's central bank. It was established in 1956 (2013 BS) and now works under the Nepal Rastra Bank Act, 2058. It is the apex monetary authority and, unlike a commercial bank, it does not work for profit or deal with the public.
+
+*Functions.*
+
+1. **Issuer of currency:** it holds the sole right to issue notes.
+2. **Banker, agent and adviser to the government:** it keeps government accounts and manages public debt.
+3. **Banker to banks:** it holds their reserves and settles payments between them.
+4. **Lender of last resort:** it lends to a sound bank in a liquidity crisis, which protects depositors.
+5. **Monetary policy:** it controls the money supply, interest rates, inflation and the exchange rate.
+6. **Regulation and supervision:** it licenses banks and sets capital adequacy and lending directives.
+7. **Reserve manager:** it holds and manages foreign-exchange reserves and the rate regime.
+
+*Instruments of credit control (Figure 7.3).*
+
+| Type | Instrument | How it works |
+|---|---|---|
+| Quantitative | **Cash reserve ratio (CRR)** | a higher ratio leaves banks less to lend |
+| Quantitative | **Statutory liquidity ratio (SLR)** | banks must hold a share in liquid assets |
+| Quantitative | **Bank rate, repo and standing liquidity facility** | a higher rate makes borrowing from NRB dearer |
+| Quantitative | **Open market operations** | selling securities drains money; buying adds it |
+| Qualitative | Moral suasion, credit rationing, margin rules, sector limits | direct guidance of lending |
+
+*Effect.* A tight policy (higher rates and CRR) cuts borrowing and spending and lowers inflation, but it slows growth and jobs. A loose policy does the opposite. With a reserve ratio change from 10% to 20% the multiplier halves from 10 to 5, which shows how strong a lever the CRR is.
+
+*Conclusion.* The NRB keeps prices, the banking system and the external position stable, and trades off inflation against growth in choosing its instruments.

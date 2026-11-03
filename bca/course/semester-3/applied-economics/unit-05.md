@@ -90,6 +90,96 @@ Two identical firms, market demand P = 100 − Q, MC = 20 (no fixed cost). **Joi
 **Instability:** if firm A secretly produces 30 while B keeps to 20, Q = 50, P = 50: A earns (50 − 20) × 30 = **900** (up from 800) and B only (50 − 20) × 20 = **600**. Each has an incentive to cheat, and cartels are hard to keep together without enforcement (and are illegal in many countries).
 :::
 
+## 5.7 Seeing the market structures: price taker, monopolist, discriminator, oligopolist
+
+```photogrid label="5.1" cols="3" ratio="1.0" caption="Market structures in Kathmandu. (a) Wholesale vegetables: very many sellers and buyers, near-identical products, price set by the market (close to perfect competition). (b) A spice and grocery lane: many sellers of differentiated goods, each with some brand or location power (monopolistic competition). (c) Nepal Telecom's customer head office: a few large firms in mobile services whose prices depend on each other (oligopoly)."
+@ photo id="bca206/kalimati" cap="Kalimati market street"
+fit 1.0
+focus 0.55 0.5
+@ photo id="bca206/spice" cap="Spice and grocery stalls, Asan"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca206/ntc" cap="Nepal Telecom head office"
+fit 1.0
+focus 0.4 0.5
+```
+
+```svgfig label="5.1" caption="A price-taking firm using the cost schedule of Unit 4. Output is where P = MC. At P = 80 the firm produces 6 and earns a profit of 80; at P = 60 it produces 5 and loses 20 but still covers AVC (44), so it keeps producing; at P = 40, MC meets the minimum of AVC at Q = 4: the shutdown point."
+f = Fig(580, 262)
+a = Axes(f, 48, 14, 300, 200, (0, 7), (0, 160))
+a.grid(1, 40).axes("Output Q", "Price / cost")
+def line(xs, ys, col, dash=False):
+    p = " ".join(f"{a.X(x)},{a.Y(y)}" for x, y in zip(xs, ys))
+    f.raw(f'<polyline points="{p}" fill="none" stroke="{col}" stroke-width="2.4" stroke-linejoin="round"/>')
+    for x, y in zip(xs, ys): a.pt(x, y, "", r=2.5, color=col)
+Q = [1, 2, 3, 4, 5, 6]
+line(Q, [150, 95, 73.3, 65, 64, 66.7], NAVY); line(Q, [50, 45, 40, 40, 44, 50], TEAL); line(Q, [50, 40, 30, 40, 60, 80], RED)
+for p, c in [(80, TEAL), (60, AMBER), (40, SLATE)]: a.hline(p, 0, 7, color=c)
+a.tag(6.7, 85, "P=80", size=10, color=TEAL, bold=True); a.tag(6.7, 65, "P=60", size=10, color=AMBER, bold=True); a.tag(6.7, 45, "P=40", size=10, color=SLATE, bold=True)
+a.tag(1.3, 150, "AC", size=11, color=NAVY, bold=True); a.tag(1.4, 58, "AVC", size=11, color=TEAL, bold=True); a.tag(6.3, 100, "MC", size=11, color=RED, bold=True)
+a.pt(6, 80, "", color=TEAL, r=5); a.pt(5, 60, "", color=AMBER, r=5); a.pt(4, 40, "", color=SLATE, r=5)
+f.box(372, 20, 198, 56, "P = 80 → Q = 6\nTR 480 − TC 400\nprofit = 80", fill=MINT, stroke=TEAL, size=10.5)
+f.box(372, 88, 198, 66, "P = 60 → Q = 5\nTR 300 − TC 320 = −20\nP > AVC 44: keep producing", fill=SAND, stroke=AMBER, size=10.5)
+f.box(372, 166, 198, 56, "P = 40 → shutdown point\nP = min AVC = 40\nbelow this, produce nothing", fill=BLUE, stroke=SLATE, size=10.5)
+```
+
+```svgfig label="5.2" caption="Monopoly with demand P = 100 − Q, MC = 20 and TC = 500 + 20Q. The monopolist sets MR = MC at Q = 40 and reads the price 60 from the demand curve. Profit = (60 − 32.5) × 40 = 1,100 (amber rectangle, AC = 32.5). The competitive outcome would be Q = 80, P = 20; the red triangle is the deadweight loss of 800."
+f = Fig(580, 232)
+a = Axes(f, 48, 14, 300, 176, (0, 110), (0, 110))
+a.grid(20, 20).axes("Quantity", "Price")
+f.raw(f'<rect x="{a.X(0)}" y="{a.Y(60)}" width="{a.X(40)-a.X(0)}" height="{a.Y(32.5)-a.Y(60)}" fill="#fde68a" opacity="0.7"/>')
+f.raw(f'<polygon points="{a.X(40)},{a.Y(60)} {a.X(40)},{a.Y(20)} {a.X(80)},{a.Y(20)}" fill="#fecaca" opacity="0.85"/>')
+a.curve(lambda q: 100 - q, 0, 100, color=NAVY); a.curve(lambda q: 100 - 2 * q, 0, 50, color=RED)
+a.hline(20, 0, 110, color=TEAL, dash=False, sw=2.2); a.curve(lambda q: 500 / q + 20, 6, 110, color=SLATE, sw=1.8)
+a.vline(40, 0, 60, color=SLATE); a.hline(60, 0, 40, color=SLATE)
+a.pt(40, 60, "M (40, 60)", dx=10, dy=-8); a.pt(80, 20, "C (80, 20)", dx=0, dy=20, anchor="middle", color=TEAL)
+a.tag(27, 91, "D = AR", size=10.5, color=NAVY, bold=True); a.tag(52, 6, "MR", size=10.5, color=RED, bold=True); a.tag(103, 28, "MC", size=10.5, color=TEAL, bold=True); a.tag(100, 40, "AC", size=10.5, color=SLATE, bold=True)
+f.box(372, 14, 198, 56, "Monopoly\nQ = 40, P = 60\nprofit = 1,100", fill=SAND, stroke=AMBER, size=11)
+f.box(372, 82, 198, 56, "Competition (P = MC)\nQ = 80, P = 20\nprice equals marginal cost", fill=MINT, stroke=TEAL, size=11)
+f.box(372, 150, 198, 50, "Deadweight loss\n½ × 40 × 40 = 800", fill=ROSE, stroke=RED, size=11)
+```
+
+```svgfig label="5.3" caption="Third-degree price discrimination with MC = 20. Each market is served where its own MR = MC. Market 1 (less elastic, P = 100 − Q) gets Q = 40 at price 60; market 2 (more elastic, P = 60 − Q) gets Q = 20 at price 40. Profit 2,000 beats the single-price profit of 1,800."
+f = Fig(580, 240)
+for k, (L, a0, q, p, t) in enumerate([(42, 100, 40, 60, "Market 1: P = 100 − Q"), (335, 60, 20, 40, "Market 2: P = 60 − Q")]):
+    a = Axes(f, L, 16, 225, 170, (0, 100), (0, 100))
+    a.grid(20, 20).axes("Quantity", "Price")
+    f.raw(f'<rect x="{a.X(0)}" y="{a.Y(p)}" width="{a.X(q)-a.X(0)}" height="{a.Y(20)-a.Y(p)}" fill="#fde68a" opacity="0.75"/>')
+    a.curve(lambda x, a0=a0: a0 - x, 0, a0, color=NAVY); a.curve(lambda x, a0=a0: a0 - 2 * x, 0, a0 / 2, color=RED); a.hline(20, 0, 100, color=TEAL, dash=False, sw=2.2)
+    a.pt(q, p, f"P = {p}", dx=8, dy=-8); a.vline(q, 0, p, color=SLATE)
+    f.text(L + 112, 214, t, size=11, color=SLATE, italic=True)
+    f.text(L + 112, 232, f"Q = {q}, profit = ({p} − 20) × {q} = {(p-20)*q}", size=10.5, color=AMBER, bold=True)
+```
+
+```svgfig label="5.4" caption="Oligopoly. (a) Kinked demand: rivals ignore a price rise (flat, elastic upper part) but copy a price cut (steep, inelastic lower part), so MR has a gap at Q = 50 (from 40 down to 10). Any marginal cost in the gap leaves the price at 50. (b) The cartel pay-off table (profit to A, B) is a prisoner's dilemma: cheating pays whatever the rival does, yet both cheating (600 each) is worse than both keeping the quota (800 each)."
+f = Fig(580, 262)
+a = Axes(f, 42, 14, 225, 190, (0, 90), (0, 70))
+a.grid(10, 10).axes("Quantity", "Price")
+a.curve(lambda q: 60 - 0.2 * q, 0, 50, color=NAVY, sw=2.4); a.curve(lambda q: 90 - 0.8 * q, 50, 90, color=NAVY, sw=2.4)
+a.curve(lambda q: 60 - 0.4 * q, 0, 50, color=RED, sw=1.8, dash=True); a.curve(lambda q: 90 - 1.6 * q, 50, 56, color=RED, sw=1.8, dash=True)
+a.vline(50, 0, 50, color=SLATE); a.pt(50, 50, "kink P = 50", dx=8, dy=-8)
+a.hline(20, 0, 90, color=TEAL, dash=False, sw=1.6); a.hline(35, 0, 90, color=AMBER, dash=False, sw=1.6)
+a.tag(30, 23, "MC1", size=10, color=TEAL, bold=True); a.tag(84, 39, "MC2", size=10, color=AMBER, bold=True); a.tag(14, 30, "MR gap", size=10, color=RED, bold=True)
+f.text(155, 244, "(a) kinked demand and the MR gap", size=11, color=SLATE, italic=True)
+x0, y0 = 338, 52
+f.text(x0 + 112, 24, "Firm B", size=11, color=NAVY, bold=True); f.text(x0 + 56, 42, "keeps 20", size=10.5, color=SLATE); f.text(x0 + 168, 42, "cheats 30", size=10.5, color=SLATE)
+f.text(x0 - 10, y0 + 40, "A keeps", size=10.5, color=SLATE, anchor="end"); f.text(x0 - 10, y0 + 120, "A cheats", size=10.5, color=SLATE, anchor="end")
+for i, (r, c, t, fl) in enumerate([(0, 0, "800 , 800", MINT), (0, 1, "600 , 900", SAND), (1, 0, "900 , 600", SAND), (1, 1, "600 , 600", ROSE)]):
+    f.box(x0 + c * 112, y0 + r * 80, 110, 76, t, fill=fl, stroke=SLATE, size=13, bold=True, color=NAVY)
+f.text(448, 244, "(b) cartel pay-offs (profit A , profit B)", size=11, color=SLATE, italic=True)
+```
+
+## 5.8 Eight lessons from market structures for Nepali firms and consumers
+
+1. **Competition keeps prices close to cost.** In a market with many sellers, such as vegetables at Kalimati, no seller can charge much above the going price. A trader who raises the price loses customers to the next stall. Consumers gain, and sellers earn only a normal profit in the long run.
+2. **A monopoly can charge more and produce less.** A single seller sets output where MR equals MC and reads a higher price from the demand curve. This is why services such as electricity distribution and water supply are regulated. Without a rule the buyer has no other place to go.
+3. **Natural monopoly needs regulation, not competition.** Where one big network is cheaper than two, as in power transmission lines, duplicating the network wastes resources. The state therefore owns it or controls its prices. The aim is to keep the cost advantage and still protect users.
+4. **Price discrimination raises profit and can raise access.** Different prices for students, residents and tourists work only if the markets can be separated. Nepal's museum and national-park tickets charge SAARC and foreign visitors more than Nepalis. The seller gains, and low-price groups may get a service they could not otherwise afford.
+5. **Monopolistic competition gives variety at a price.** Restaurants, clothing shops and mobile apps sell similar but not identical goods. Each firm advertises to make demand less elastic, and entry of new rivals removes the profit in time. Consumers get choice, but firms run below the lowest-cost scale.
+6. **Oligopolists watch each other.** In mobile services, banking and airlines a price cut by one is copied by the others, so firms prefer non-price competition such as offers and service. Prices stay stable for long periods, which the kinked demand curve explains. A student who reads telecom offers can see this at work.
+7. **Cartels are unstable and often illegal.** Firms could earn monopoly profit together, but each gains by cheating on its quota. The pay-off table shows why the agreement breaks down without enforcement. Competition law exists to stop firms from agreeing on prices.
+8. **Entry barriers decide long-run profit.** Free entry removes extra profit; blocked entry keeps it. Licences, patents, large capital needs and brand loyalty are the barriers. Anyone planning a business in Nepal should ask first how easy it is for rivals to enter.
+
 ## Formula and fact sheet
 
 - Maximum profit: MR = MC with MC rising; shutdown if P < min AVC.
@@ -126,3 +216,76 @@ Two identical firms, market demand P = 100 − Q, MC = 20 (no fixed cost). **Joi
 **7.** Rivals match price cuts but not rises, so demand is elastic above and inelastic below the current price; MR has a vertical gap, and cost changes within the gap do not change price.
 **8.** Each member gains by secretly selling more than its quota (the prisoner's dilemma), and monitoring is difficult.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the short-run equilibrium of a firm under perfect competition. When does it shut down? Use the cost table of Unit 4.**
+
+*Introduction.* In perfect competition there are many sellers of an identical product, entry is free, and each firm is a **price-taker**. The firm's demand curve is horizontal, so **AR = MR = P**.
+
+*Equilibrium rule.* The firm maximises profit where **MR = MC**, which here is **P = MC** with MC rising. At that output it may earn supernormal profit (P > AC), normal profit (P = AC) or a loss (P < AC).
+
+*Cases with TFC = 100 (Figure 5.1).*
+
+| Price | Output where P = MC | TR | TC | Result |
+|---|---|---|---|---|
+| 80 | 6 | 480 | 400 | profit 80 |
+| 60 | 5 | 300 | 320 | loss 20, but P > AVC (44): keep producing |
+| 40 | 3 to 4 | 160 | 260 | P = min AVC: shutdown point |
+
+*Shutdown rule.* If P covers AVC, the firm covers all variable cost and part of fixed cost, so producing loses less than closing (loss 20 instead of 100). If P falls below minimum AVC, each unit adds more to cost than to revenue and the firm closes, losing only the fixed cost.
+
+*Conclusion.* The firm's supply curve is the rising part of MC above minimum AVC.
+
+**Q2 (5 marks). Compare monopoly with perfect competition. Demand is P = 100 − Q and MC = 20; find the equilibrium in each and the deadweight loss.**
+
+*Introduction.* A **monopoly** is the single seller of a good with no close substitute. It faces the whole market demand, so **MR < AR**, and it is a price-maker.
+
+*Numerical solution (Figure 5.2).* MR = 100 − 2Q.
+
+1. **Monopoly:** MR = MC gives 100 − 2Q = 20, so **Q = 40**. The price is read from demand: **P = 60**. With TC = 500 + 20Q, TC = 1,300, TR = 2,400 and profit = **1,100**.
+2. **Competition:** P = MC gives **P = 20** and **Q = 80**.
+3. **Deadweight loss:** ½ × (60 − 20) × (80 − 40) = **800**, the value of trades lost.
+
+| Point | Perfect competition | Monopoly |
+|---|---|---|
+| Sellers | very many | one |
+| Entry | free | blocked |
+| Demand faced | horizontal | downward |
+| Rule | P = MC | MR = MC, so P > MC |
+| Output and price | high, low | low, high |
+| Long-run profit | normal | can stay supernormal |
+
+*Conclusion.* The monopolist restricts output to raise price, so societies use price caps, competition law or public ownership.
+
+**Q3 (5 marks). What is price discrimination? State its conditions and degrees, and show with an example that it can raise profit.**
+
+*Introduction.* **Price discrimination** means charging different prices for the same good to different buyers, for reasons not based on cost.
+
+*Conditions.* (1) The seller has market power. (2) The markets can be **separated** by age, place, time or income. (3) There is no resale (**arbitrage**) between them. (4) The markets have different elasticities of demand.
+
+*Degrees.* **First degree:** each buyer pays the most he would pay, so the seller takes all consumer surplus. **Second degree:** price depends on quantity, as in block tariffs for electricity. **Third degree:** price depends on the segment, as in student and foreign-tourist tickets.
+
+*Example (Figure 5.3), MC = 20.* Market 1: P = 100 − Q gives MR = 100 − 2Q = 20, so Q = 40 and P = 60. Market 2: P = 60 − Q gives Q = 20 and P = 40. Profit = (60 − 20) × 40 + (40 − 20) × 20 = 1,600 + 400 = **2,000**. With a single price the best result is Q = 60, P = 50 and profit **1,800**.
+
+*Conclusion.* The higher price is charged in the less elastic market, and total profit rises by 200.
+
+**Q4 (10 marks). Define oligopoly and explain its features. Describe the kinked demand curve model and the cartel model with a numerical example.**
+
+*Introduction.* **Oligopoly** is a market with a few large sellers, such as telecom, airlines, banking and cement. Each firm's decision depends on how rivals react, so no single equilibrium theory exists.
+
+*Features.* (1) Few firms with large market shares. (2) **Interdependence** of price and output decisions. (3) **Barriers to entry**: capital, licences, brands. (4) **Price rigidity**. (5) **Non-price competition**: advertising, offers, service. (6) Possible **collusion**. (7) The product may be identical (cement) or differentiated (mobile plans).
+
+*Kinked demand curve (Figure 5.4a).* If a firm raises its price, rivals do not follow, so it loses many customers: demand above the present price is elastic. If it cuts its price, rivals follow, so it gains few customers: demand below is inelastic. The demand curve therefore has a **kink** at the present price (50, at Q = 50), and the MR curve has a **vertical gap** (from 40 to 10). Marginal cost may rise or fall inside the gap, from 20 to 35 in the figure, without changing price or output. This explains **price rigidity**.
+
+*Cartel model.* Firms agree to behave as one monopoly. For two identical firms with P = 100 − Q and MC = 20, MR = MC gives total Q = 40 and **P = 60**. Each makes 20 units and earns (60 − 20) × 20 = **800**, joint profit 1,600. Independent price-taking competition would drive profit to zero.
+
+*Instability (Figure 5.4b).* If A secretly makes 30 while B keeps to 20, then Q = 50 and P = 50: A earns 900 and B only 600. If both cheat with 30, then Q = 60 and P = 40 and each earns 600. Cheating is the best reply to either choice, yet both lose compared with 800 each. This is the **prisoner's dilemma**, and it is why cartels need enforcement and are banned by competition law in many countries.
+
+| Model | Key idea | Outcome |
+|---|---|---|
+| Kinked demand | rivals copy cuts, ignore rises | stable price |
+| Cartel | joint profit maximisation | monopoly price, unstable |
+| Price leadership | one firm sets, others follow | tacit collusion |
+
+*Conclusion.* Oligopoly lies between competition and monopoly: prices are rigid, rivalry is shown in advertising, and collusion is tempting but fragile.
