@@ -177,6 +177,18 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - U6: Plate 6.1 (letter/handshake/career fair), Fig 6.1 four editing levels, Fig 6.2 concision 44 to 22 words; 6.6.1 eight habits; Q1-Q3 (e-mail specimen).
 - No code was added or changed, so fill_script_outputs.py was NOT run; existing executed outputs untouched.
 
+## BCA 403 financial-accounting (semester-7/financial-accounting) -- [x] POLISHED (session 22), 65 pp (was 37), qa fails=0 warns=1 (p3 near-empty, pre-existing)
+- Photos (bca403/, licence-gated, all viewed): ledger2 (1855 merchant ledger page), ledger (bound account book), register (antique cash register, Darjeeling), cheque (1909 cheque), note (old Nepal Rastra Bank 5-rupee note), warehouse (racked cartons). Reused bca306/code.
+- Section numbering: new "seeing the ideas" section is inserted BEFORE the old "Summary and exercises", which is renumbered (+1). Helper `/tmp/ins3.py` (recreate: regex on `## U.K Summary and exercises`, `@S@` placeholder for U.K).
+- U1: Plate 1.1 (ledger/register/cheque), Fig 1.1 equation in 3 transactions, Fig 1.2 accounting cycle; 1.7.1 eight uses of accounting information; Q1-Q3 (Q3 10 marks).
+- U2: Plate 2.1 (note photo + tax-invoice SVG), Fig 2.1 Dr/Cr rules, Fig 2.2 Cash T-account (4,92,000); 2.8.1 eight controls; Q1-Q3 with trial balance 7,31,000.
+- U3: Plate 3.1 (account book + three-column cash book SVG), Fig 3.1 subsidiary books, Fig 3.2 transposition hunt (900); 3.7.1 eight habits; Q1-Q3 (suspense).
+- U4: Plate 4.1 (cheque + anatomy SVG), Fig 4.1 reconciliation bridge (49,050), Fig 4.2 sorting differences; 4.7.1 eight benefits; Q1-Q3.
+- U5: Plate 5.1 (warehouse + FIFO layers SVG), Fig 5.1 SLM vs WDV curves, Fig 5.2 disposal (gain 24,000); 5.7.1 eight reasons; Q1-Q3 (FIFO 14,900 vs WAC 15,555.56).
+- U6: Fig 6.1 profit waterfall, Fig 6.2 balance sheet to scale (7,69,000), Fig 6.3 adjustments double effect (no photo: abstract); 6.8.1 eight checks; Q1-Q3.
+- U7: Plate 7.1 (code photo + ledger-tables SVG), Fig 7.1 ratio dashboard, Fig 7.2 DuPont tree; 7.9.1 eight uses; Q1-Q3.
+- All figures use numbers already produced by the book's executed programs (no code changed, fill_script_outputs.py NOT run). Gotcha: a heading directly above a figure can be stranded at a page bottom (qa FAIL): add one sentence under the heading.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -195,5 +207,6 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - [x] Probability and Statistics polished (session 20, 35 -> 57 pp)
 - [x] Applied Economics polished (session 21, 34 -> 66 pp)
 - [x] Technical Writing polished (session 22, 36 -> 59 pp)
-- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Financial Accounting (37), Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] Financial Accounting polished (session 22, 37 -> 65 pp)
+- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
