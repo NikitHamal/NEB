@@ -169,7 +169,7 @@
   "code": "0081 (New course) Set 'H'",
   "time": "3 hrs",
   "marks": "75",
-  "students": "General stream \u00b7 for students whose first two digits of registration number are 78 or 79",
+  "students": "General stream · for students whose first two digits of registration number are 78 or 79",
   "category": "Board Exam",
   "pages": 12,
   "bytes": 584136,
@@ -206,6 +206,22 @@
   "pages": 8,
   "bytes": 474829,
   "id": "12-math-2082-set-r"
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Compulsory-Nepali-2082-0021B.pdf",
+  "subject": "Compulsory Nepali",
+  "grade": "12",
+  "year_bs": "2082",
+  "year_ad": "2025",
+  "stream": "Regular and Partial · 0021 'B'",
+  "code": "००२१ 'B'",
+  "time": "३ घण्टा",
+  "marks": "७५",
+  "students": "रजिस्ट्रेसन नम्बरका सुरुका दुई अङ्क ७८, ७९, ८० र ८१ भएका नियमित तथा आंशिक परीक्षार्थीहरूका लागि",
+  "category": "Board Exam",
+  "pages": 11,
+  "bytes": 116630,
+  "id": "12-nep-2082-0021b"
  },
  {
   "file": "NEBians-Past-Paper-Grade-12-Physics-2080-General.pdf",
