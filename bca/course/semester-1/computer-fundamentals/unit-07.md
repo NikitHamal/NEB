@@ -32,11 +32,39 @@ Computing keeps changing. This unit surveys the technologies that shape work and
 
 **Digital payments in Nepal:** bank cards and mobile banking, **QR payments** interoperable through Fonepay, and digital wallets such as eSewa, Khalti and IME Pay. A payment gateway links shop, bank and customer; the shop never sees the card secret, and the transaction is authorised, then settled. Nepal Rastra Bank licenses payment service providers.
 
+```svgfig label="7.2" caption="Digital signature: the sender hashes the document and encrypts the hash with the private key; the receiver decrypts with the public key and compares hashes."
+f = Fig(760, 290)
+f.text(190, 14, "SENDER (Sita)", size=12, color=NAVY, bold=True); f.text(570, 14, "RECEIVER (Ram)", size=12, color=TEAL, bold=True)
+f.box(20, 36, 110, 44, "Document", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(20, 120, 110, 44, "Hash (digest)\nSHA-256", fill=SOFT, stroke=SLATE, size=10, bold=True)
+f.box(180, 120, 130, 44, "Encrypt hash with\nSita's PRIVATE key", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+f.box(180, 200, 130, 40, "Digital signature", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.arrow([(75, 80), (75, 120)]); f.arrow([(130, 142), (180, 142)]); f.arrow([(245, 164), (245, 200)], color=AMBER)
+f.arrow([(310, 220), (440, 220)], color=SLATE, label="doc + sign + cert", lpos=(375, 210), lsize=9)
+f.box(440, 36, 110, 44, "Document\n(received)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(440, 120, 110, 44, "New hash\nH2", fill=SOFT, stroke=SLATE, size=10.5, bold=True)
+f.box(600, 120, 140, 44, "Decrypt signature with\nSita's PUBLIC key = H1", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.box(600, 200, 140, 40, "H1 = H2 ?  valid : reject", fill=ROSE, stroke=RED, size=10, bold=True)
+f.arrow([(495, 80), (495, 120)]); f.arrow([(660, 164), (660, 200)], color=TEAL); f.arrow([(550, 142), (600, 142)], color=SLATE, dash=True)
+f.arrow([(495, 164), (495, 220), (600, 220)], color=SLATE)
+f.text(380, 270, "A valid match proves integrity (not altered) and authenticity (signed by Sita); the certificate from a CA (Nepal: Office of the Controller of Certification) binds the public key to Sita.", size=8.5, color=SLATE)
+```
+
 ## 7.2 E-governance
 
 **E-governance** uses ICT to deliver government services and to make administration transparent and efficient. Four interaction types: **G2C** (citizens: passport and licence applications, online tax filing), **G2B** (businesses: company registration, customs), **G2G** (between agencies: shared databases) and **G2E** (employees: payroll, leave). Examples in Nepal include the online filing of income tax with the Inland Revenue Department, company registration, the national ID (NID) programme, online driving licence and passport booking, and the Government Integrated Data Centre.
 
 Benefits: less corruption through less face-to-face handling, 24×7 service, lower cost and faster work. Barriers: the **digital divide** (unequal access and skill), electricity and connectivity, security and privacy of citizen data, legacy paper processes, resistance to change.
+
+```svgfig label="7.3" caption="E-governance interaction models: the government (centre) serves citizens (G2C), businesses (G2B), other agencies (G2G) and employees (G2E)."
+f = Fig(760, 290)
+f.box(250, 108, 260, 74, "GOVERNMENT service platform\n(data centre, NID,\ndigital signature)", fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+M = [(20, 20, "G2C  Citizen", "Nagarik App, online\nPAN / passport form", AMBER, SAND), (540, 20, "G2B  Business", "Customs ASYCUDA,\ncompany registration", TEAL, MINT), (20, 205, "G2G  Agency", "shared NID data,\nIRD with banks", NAVY, BLUE), (540, 205, "G2E  Employee", "online leave, payroll,\nSutra system", RED, ROSE)]
+for x, y, t, e, c, bg in M:
+    f.box(x, y, 200, 66, t + "\n" + e, fill=bg, stroke=c, size=10, bold=False)
+f.arrow([(220, 60), (290, 125)], color=AMBER, both=True); f.arrow([(540, 60), (470, 125)], color=TEAL, both=True)
+f.arrow([(220, 235), (290, 165)], color=NAVY, both=True); f.arrow([(540, 235), (470, 165)], color=RED, both=True)
+```
 
 ## 7.3 Multimedia
 
@@ -56,6 +84,13 @@ Benefits: less corruption through less face-to-face handling, 24×7 service, low
 :::
 
 Applications: education, entertainment, advertising, simulation, games, digital libraries. **Authoring tools:** Photoshop/GIMP (images), Audacity (audio), DaVinci Resolve/Premiere (video), Blender (3D and animation).
+
+```photogrid label="7.1" cols="4" ratio="1.2" caption="Contemporary technologies as real devices: (a) a VR headset, (b) a Raspberry Pi single-board computer that runs IoT projects, (c) a PIR motion sensor used in IoT nodes, (d) a 3D printer building an object layer by layer."
+@ photo id="bca101/vr" cap="VR headset: display + lenses + head tracking"
+@ photo id="bca101/rpi" cap="Raspberry Pi 4: a small Linux computer for IoT gateways"
+@ photo id="bca101/pir" cap="PIR sensor: detects motion by infrared change"
+@ photo id="bca101/print3d" cap="3D printing: additive manufacturing"
+```
 
 ## 7.4 Artificial intelligence and machine learning
 
@@ -98,6 +133,22 @@ Technologies: distributed storage and processing (**Hadoop**, **Spark**), NoSQL 
 | **SaaS** | just use it | everything | Gmail, Google Docs, Microsoft 365 |
 
 **Deployment models:** *public* (shared, run by a provider), *private* (one organisation), *hybrid* (both), *community*. **Features:** on-demand self-service, broad network access, resource pooling, rapid elasticity, measured service. **Benefits:** no upfront hardware cost, scale up and down, global access, built-in backup. **Concerns:** dependence on connectivity, data privacy and jurisdiction, vendor lock-in, outages. **Virtualisation** (many virtual machines on one physical server) underlies it; **edge computing** processes data near its source to reduce delay. (Semester VIII: *Cloud Computing*.)
+
+```svgfig label="7.1" caption="Cloud service models as a stack: what the provider manages (shaded) and what the customer manages, for IaaS, PaaS and SaaS."
+f = Fig(760, 300)
+layers = ["Application", "Data", "Runtime / middleware", "Operating system", "Virtualisation, servers", "Storage and network"]
+cols = [("On-premises", 10), ("IaaS", 200), ("PaaS", 390), ("SaaS", 580)]
+cust = {"On-premises": 6, "IaaS": 4, "PaaS": 2, "SaaS": 0}
+ex = {"On-premises": "own server room", "IaaS": "AWS EC2, Azure VM", "PaaS": "Google App Engine, Heroku", "SaaS": "Gmail, Google Docs, eSewa web"}
+for name, x in cols:
+    f.text(x + 85, 14, name, size=12.5, color=NAVY, bold=True)
+    for i, l in enumerate(layers):
+        mine = i < cust[name]
+        f.box(x, 28 + i * 34, 170, 30, l, fill=SAND if mine else MINT, stroke=AMBER if mine else TEAL, size=9.5, bold=mine)
+    f.text(x + 85, 248, ex[name], size=9.5, color=SLATE, italic=True)
+f.box(200, 268, 14, 14, "", fill=SAND, stroke=AMBER); f.text(222, 275, "customer manages", size=9.5, anchor="start")
+f.box(360, 268, 14, 14, "", fill=MINT, stroke=TEAL); f.text(382, 275, "provider manages", size=9.5, anchor="start")
+```
 
 ## 7.8 Blockchain and cryptocurrency
 
@@ -182,3 +233,113 @@ Uses: cryptocurrencies (Bitcoin, Ethereum), supply-chain tracing, land and acade
 **15.** Use §7.2: benefits (transparency, speed, cost, 24×7) and barriers (digital divide, security, infrastructure, skills).
 **16.** Conventional programming: rules + data → answers. ML: data + answers → rules (a model). Supervised: spam filter; unsupervised: customer clustering; reinforcement: game agent.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+### Medium question (5 marks)
+
+**Q10. Explain the Internet of Things (IoT) with its layers and applications. (5 marks)**
+
+The **Internet of Things** is a network of physical objects with sensors, small processors and network connections that collect and exchange data without human typing (Plate 7.1).
+
+1. **Sensing layer:** sensors and actuators (temperature, motion, soil moisture, GPS) such as the PIR sensor in Plate 7.1.
+2. **Network layer:** Wi-Fi, Bluetooth, LoRa, 4G/5G or Ethernet carries the readings.
+3. **Gateway/edge:** a small computer such as a Raspberry Pi filters data and forwards it.
+4. **Cloud/data layer:** servers store and analyse the data.
+5. **Application layer:** dashboards, mobile apps and automatic actions.
+
+| Domain | Nepali example |
+|---|---|
+| Agriculture | soil-moisture sensors that control irrigation in Terai farms |
+| Smart home | motion light, smart meter of the electricity authority |
+| Health | wearable heart-rate bands |
+| Transport | GPS tracking of buses and ambulances |
+| Environment | air-quality monitors in Kathmandu Valley |
+
+**Challenges.** Weak device security, privacy, battery life, poor connectivity and standards. **Example.** A farmer's sensor sends moisture data through a gateway to the cloud, and the app starts the pump when the soil is dry.
+
+### Long question (10 marks)
+
+**Q14. Explain cloud computing with its service and deployment models. (10 marks)**
+
+**Introduction.** **Cloud computing** is the delivery of computing resources (servers, storage, databases, software) over the Internet on demand, usually paid by use. NIST lists five characteristics: on-demand self-service, broad network access, resource pooling, rapid elasticity and measured service.
+
+**Service models** (Figure 7.1)
+
+1. **IaaS (Infrastructure as a Service):** the provider gives virtual machines, storage and networks; the customer installs the OS and applications. *Example:* AWS EC2, Azure VM.
+2. **PaaS (Platform as a Service):** the provider gives the OS and runtime; the customer deploys only code and data. *Example:* Google App Engine, Heroku.
+3. **SaaS (Software as a Service):** ready-made software used through a browser. *Example:* Gmail, Google Docs, Microsoft 365.
+
+**Deployment models**
+
+4. **Public cloud:** shared infrastructure owned by a provider (AWS, Azure, Google Cloud). Cheap and scalable.
+5. **Private cloud:** used by one organisation, in its own or hired data centre. More control and security, higher cost.
+6. **Hybrid cloud:** public and private clouds joined together; sensitive data stays private while peak load goes public.
+7. **Community cloud:** shared by organisations with common needs, such as several banks or universities.
+
+| Model | Customer manages | Example |
+|---|---|---|
+| IaaS | OS, runtime, data, app | virtual server |
+| PaaS | data and app | app platform |
+| SaaS | only own data and settings | webmail |
+
+**Benefits.** Low start-up cost, elasticity, access from anywhere, automatic backup and updates. **Challenges.** Internet dependence, data privacy and legal location of data, vendor lock-in and security responsibility.
+
+**Nepali example.** A college hosts its results portal on a cloud VM (IaaS), uses Google Workspace for email (SaaS), and scales servers up during results week.
+
+**Conclusion.** Cloud computing turns computing into a utility. The service model decides how much work the customer keeps, and the deployment model decides who shares the infrastructure.
+
+**Q15. Discuss the benefits and challenges of e-governance in Nepal. (10 marks)**
+
+**Introduction.** **E-governance** is the use of ICT by government to deliver services, share information and involve citizens. Its models are G2C, G2B, G2G and G2E (Figure 7.3). Nepal's Digital Nepal Framework, the National ID project, the Nagarik App and the Electronic Transactions Act 2063 support it.
+
+**Benefits**
+
+1. **Transparency:** online records and tracking reduce hidden decisions and bribery.
+2. **Saves time and cost:** a citizen applies for a PAN or driving-licence service online instead of travelling to several offices.
+3. **Efficiency:** shared data (G2G) avoids repeated forms and speeds up approvals.
+4. **Wider access:** remote districts can use services through mobile phones and common service centres.
+5. **Accountability:** every action is logged and signed with a digital signature (Figure 7.2).
+6. **Revenue:** online tax filing and customs systems increase collection.
+
+**Challenges**
+
+7. **Digital divide:** low internet access, cost and digital literacy in rural areas.
+8. **Security and privacy:** large national databases attract hackers and need strong law and encryption.
+9. **Infrastructure and power:** unreliable electricity and network links.
+10. **Legacy processes and resistance:** paper rules, staff skills and lack of interoperability between offices.
+
+| Aspect | Benefit | Challenge |
+|---|---|---|
+| Citizens | fast, cheap service | no device or skill |
+| Government | efficiency, revenue | cost, staff training |
+| Data | one source of truth | privacy and breaches |
+
+**Examples in Nepal.** Online vehicle tax, Nagarik App documents, Inland Revenue return filing, customs clearance, and the Sutra payroll system.
+
+**Conclusion.** E-governance makes services faster and more transparent. Its success in Nepal depends on connectivity, training, privacy law and trust.
+
+**Q16. Explain how machine learning differs from conventional programming, with examples of its three types. (10 marks)**
+
+**Introduction.** In **conventional programming** a human writes the rules; the program applies the rules to data and gives answers. In **machine learning (ML)** the computer receives data and answers, and it finds the rules itself. The learned rules are called a **model**.
+
+| Basis | Conventional programming | Machine learning |
+|---|---|---|
+| Input | data and rules | data and expected answers |
+| Output | answers | rules (model) |
+| Rules written by | programmer | algorithm from examples |
+| Suitable for | clear fixed logic (payroll) | patterns too complex to write (faces, speech) |
+| Changes | edit the code | retrain with new data |
+| Example | tax calculator | spam filter |
+
+**Three types of machine learning**
+
+1. **Supervised learning:** learns from **labelled** examples. *Classification* predicts a category (spam or not spam, pass or fail); *regression* predicts a number (house price). *Example:* predicting whether a student will pass from attendance and marks.
+2. **Unsupervised learning:** finds structure in **unlabelled** data. *Clustering* groups similar items; *association* finds items bought together. *Example:* grouping customers of a Kathmandu supermarket by buying habits.
+3. **Reinforcement learning:** an agent acts in an environment and receives **rewards or penalties**, learning the best policy by trial and error. *Example:* a robot learning to walk, or a game-playing program.
+
+**Workflow.** Collect data, clean it, split into training and test sets, train a model, evaluate accuracy, deploy and monitor. A model that memorises the training data is **overfitted** and fails on new data.
+
+**Applications.** Nepali-language speech recognition, crop-disease detection from photographs, credit scoring and fraud detection in banks, and recommendations on video sites.
+
+**Conclusion.** Machine learning replaces hand-written rules by rules learned from data. Supervised, unsupervised and reinforcement learning cover prediction, discovery and decision-making, and all depend on good-quality data.
