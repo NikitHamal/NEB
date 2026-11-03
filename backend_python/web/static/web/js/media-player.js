@@ -832,6 +832,13 @@
     });
   }
 
+  window.NebMedia = {
+    mount: function (root) {
+      if (root.matches && root.matches('[data-nmp]') && !root._nmp) initPlayer(root);
+      root.querySelectorAll('[data-nmp]').forEach(function (el) { if (!el._nmp) initPlayer(el); });
+    }
+  };
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
   } else {

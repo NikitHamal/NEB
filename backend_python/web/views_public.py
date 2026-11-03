@@ -980,35 +980,11 @@ def reader(request, resource_id):
     resource['purchase_status'] = purchase_obj.status if purchase_obj else ''
     resource['purchase_id'] = purchase_obj.id if purchase_obj else ''
 
-    # Validate file URL for "open in new tab" / download links (only if user has access)
-    raw_file_url = resource.get('file_url') or ''
-    safe_file_url = ''
-    file_url_error = ''
-    if has_access and raw_file_url:
-        media_prefix = settings.MEDIA_URL
-        if raw_file_url.startswith(media_prefix) or (request and raw_file_url.startswith(request.build_absolute_uri(media_prefix))):
-            safe_file_url = raw_file_url
-        else:
-            try:
-                safe_file_url = validate_resource_file_url(raw_file_url)
-            except ValidationError as exc:
-                file_url_error = ' '.join(exc.messages)
-    resource['safe_file_url'] = safe_file_url
-    resource['file_url_error'] = file_url_error
-
-    # Classify media type for template
-    rtype_lower = (resource.get('type') or '').lower().strip()
-    if rtype_lower == 'pdf':
-        media_type = 'pdf'
-    elif rtype_lower == 'video':
-        media_type = 'video'
-    elif rtype_lower == 'audio':
-        media_type = 'audio'
-    elif rtype_lower == 'image':
-        media_type = 'image'
-    else:
-        media_type = 'document'
-    resource['media_type'] = media_type
+    from .viewer_parts import build_part, build_parts, PLAY_STORE_URL
+    current_part = build_part(request, resource, has_access, resource_id)
+    resource['safe_file_url'] = current_part['safe_file_url']
+    resource['file_url_error'] = current_part['error']
+    resource['media_type'] = current_part['media_type']
 
     # User-specific state: liked, bookmarked
     is_liked = False
@@ -1103,6 +1079,7 @@ def reader(request, resource_id):
         group_resources = _serialize_resources(group_qs)
 
     resource_files = group_resources if group_resources else [resource]
+    parts = build_parts(request, resource_files, has_access, resource_id) if len(resource_files) > 1 else [current_part]
 
     return render(request, 'web/resource_detail.html', _ctx(request,
         resource=resource,
@@ -1117,6 +1094,9 @@ def reader(request, resource_id):
         comment_count=resource_obj.comment_count,
         related_resources=related_resources,
         resource_files=resource_files,
+        part=current_part,
+        parts=parts,
+        play_store_url=PLAY_STORE_URL,
     ))
 
 
