@@ -1,0 +1,7 @@
+{% comment %}The NEBians brand: the N on a cookie tile plus the wordmark. Used by the landing page and the app
+top bar so they can never look like two products.  {% include "components/_brand.html" with href="/" %}
+`word=0` hides the wordmark; `motif=1` adds the festive-theme motif.{% endcomment %}
+<a class="brand" href="{{ href|default:'/' }}" aria-label="NEBians home">
+  <span class="brand-tile">{% include "components/_mark.html" with cls="brand-mark" %}</span>
+  {% if word != "0" %}<span class="brand-name">NEBians</span>{% endif %}{% if motif %}{% include "themes/_motif.html" %}{% endif %}
+</a>

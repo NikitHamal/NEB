@@ -26,7 +26,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(os.path.dirname(HERE))
 CSS = os.path.join(ROOT, "backend_python/web/static/web/css")
 
-ENTRIES = ["material3", "app", "pages/marketplace"]
+ENTRIES = ["material3", "app", "pages/marketplace", "m3x", "m3x-app"]
 IMPORT = re.compile(r'^@import\s+url\("([^"]+)"\);\s*$')
 
 BANNER = (

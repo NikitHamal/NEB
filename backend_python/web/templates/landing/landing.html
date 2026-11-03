@@ -6,7 +6,7 @@
 <title>NEBians — Study materials. Study mates.</title>
 <meta name="description" content="Free notes, past papers and solved study books for every class, field and level in Nepal, and a forum where students answer each other.">
 <link rel="canonical" href="https://nebians.consica.com.np/">
-<meta name="theme-color" content="#fff8f4">
+<meta name="theme-color" content="#f6f8ff">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NEBians">
 <meta property="og:title" content="NEBians — Study materials. Study mates.">
@@ -26,16 +26,13 @@
 <link rel="icon" type="image/svg+xml" href="{% static 'web/img/favicon.svg' %}">
 <link rel="apple-touch-icon" href="{% static 'web/img/n-logo-180.png' %}">
 <link rel="manifest" href="{% url 'web:manifest_json' %}" crossorigin="use-credentials">
-<link rel="preload" href="{% static 'web/fonts/landing/display-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{% static 'web/fonts/landing/body-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
-<style>
-@font-face{font-family:Display;font-weight:500 800;font-display:swap;src:url("{% static 'web/fonts/landing/display-latin.woff2' %}") format("woff2")}
-@font-face{font-family:Body;font-weight:400 800;font-display:swap;src:url("{% static 'web/fonts/landing/body-latin.woff2' %}") format("woff2")}
-</style>
-<link rel="stylesheet" href="{% static 'web/css/landing-shapes.css' %}">
+<link rel="preload" href="{% static 'web/fonts/m3x/display-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{% static 'web/fonts/m3x/body-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{% static 'web/css/m3x.css' %}">
 <link rel="stylesheet" href="{% static 'web/css/landing.css' %}">
 {% if site_theme.festive %}<link rel="stylesheet" href="{% static 'web/css/themes.css' %}">{% endif %}
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"WebSite","name":"NEBians","url":"https://nebians.consica.com.np/","potentialAction":{"@type":"SearchAction","target":"https://nebians.consica.com.np/app/search/?q={q}","query-input":"required name=q"}}</script>
+<script src="{% static 'web/js/m3x.js' %}" defer></script>
 <script src="{% static 'web/js/landing.js' %}" defer></script>
 </head>
 <body class="lp">
@@ -43,12 +40,8 @@
 
 {# ---------------------------------------------------------------- navigation #}
 <header class="nav" data-nav>
-  <a class="brand" href="/" aria-label="NEBians home">
-    <span class="brand-tile">{% include "landing/_mark.html" with cls="brand-mark" %}</span>
-    <span class="brand-name">NEBians</span>
-  </a>
-  <nav class="nav-links" aria-label="Main">
-    <span class="nav-ind" aria-hidden="true"></span>
+  {% include "components/_brand.html" with href="/" %}
+  <nav class="m3-pill" data-m3-nav data-spy aria-label="Main">
     <a href="#inside">Library</a>
     <a href="#levels">Levels</a>
     <a href="#books">Books</a>
@@ -56,8 +49,8 @@
     <a href="#app">App</a>
   </nav>
   <div class="nav-end">
-    {% if not signed_in %}<a class="btn btn-text btn-sm nav-signin" href="{% url 'web:login' %}">Sign in</a>{% endif %}
-    <a class="btn btn-sm" href="{% url 'web:home' %}"><span>Open app</span>{% include "landing/_arrow.html" %}</a>
+    {% if not signed_in %}<a class="m3-btn m3-btn-text m3-btn-sm nav-signin" href="{% url 'web:login' %}">Sign in</a>{% endif %}
+    <a class="m3-btn m3-btn-sm" href="{% url 'web:home' %}"><span>Open app</span>{% include "components/_arrow.html" %}</a>
     <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i></i><i></i><i></i></button>
   </div>
 </header>
@@ -81,14 +74,14 @@
     <div class="hero-copy">
       {% if site_theme.greeting %}<p class="greet intro" style="--i:0">{{ site_theme.greeting.en }}</p>{% endif %}
       <h1 id="hero-title" class="display">
-        <span class="line intro" style="--i:1"><span>Notes.</span><i class="glyph shp-cookie g-coral" aria-hidden="true"></i></span>
-        <span class="line intro" style="--i:2"><span>Past papers.</span><i class="glyph shp-sunny g-gold" aria-hidden="true"></i></span>
-        <span class="line intro" style="--i:3"><span>Answers.</span><i class="glyph shp-flower g-mint" aria-hidden="true"></i></span>
+        <span class="line intro" style="--i:1"><span>Notes.</span><i class="glyph shp-cookie g-azure" aria-hidden="true"></i></span>
+        <span class="line intro" style="--i:2"><span>Past papers.</span><i class="glyph shp-sunny g-sky" aria-hidden="true"></i></span>
+        <span class="line intro" style="--i:3"><span>Answers.</span><i class="glyph shp-flower g-aqua" aria-hidden="true"></i></span>
       </h1>
       <p class="hero-lede intro" style="--i:4">Free, for every class and level.</p>
       <div class="hero-cta intro" style="--i:5">
-        <a class="btn btn-lg" href="{% url 'web:library' %}"><span>Open the library</span>{% include "landing/_arrow.html" %}</a>
-        <a class="btn btn-lg btn-gold" href="#app"><span>Get the app</span></a>
+        <a class="m3-btn m3-btn-lg" href="{% url 'web:library' %}"><span>Open the library</span>{% include "components/_arrow.html" %}</a>
+        <a class="m3-btn m3-btn-lg m3-btn-sky" href="#app"><span>Get the app</span></a>
       </div>
     </div>
 
@@ -100,20 +93,20 @@
           <span class="finder-text"><span data-type>Physics Class 12</span><i class="caret"></i></span>
         </div>
         <ul class="finder-rows" data-rows>
-          <li style="--i:0"><span class="ico shp-cookie g-coral"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6"/></svg></span><b>Chapter notes</b></li>
-          <li style="--i:1"><span class="ico shp-sunny g-gold"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9l1.5 1.5L14 7M9 15h6"/></svg></span><b>Past papers</b></li>
-          <li style="--i:2"><span class="ico shp-flower g-mint"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span><b>Solved exercises</b></li>
+          <li style="--i:0"><span class="ico shp-cookie g-azure"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6"/></svg></span><b>Chapter notes</b></li>
+          <li style="--i:1"><span class="ico shp-sunny g-sky"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9l1.5 1.5L14 7M9 15h6"/></svg></span><b>Past papers</b></li>
+          <li style="--i:2"><span class="ico shp-flower g-aqua"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span><b>Solved exercises</b></li>
         </ul>
       </div>
-      <span class="float f-1 shp-gem g-rose"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></span>
-      <span class="float f-2 shp-burst g-gold"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></span>
+      <span class="float f-1 shp-gem g-peri"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></span>
+      <span class="float f-2 shp-burst g-sky"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z"/></svg></span>
     </div>
   </div>
 </section>
 
 <div class="strip" aria-hidden="true">
   <div class="strip-track">
-    {% for pass in "ab" %}<ul>{% for s in subjects %}<li><i class="dot g-{% cycle 'coral' 'gold' 'mint' 'rose' %}"></i>{{ s }}</li>{% endfor %}</ul>{% endfor %}
+    {% for pass in "ab" %}<ul>{% for s in subjects %}<li><i class="dot g-{% cycle 'azure' 'sky' 'aqua' 'peri' %}"></i>{{ s }}</li>{% endfor %}</ul>{% endfor %}
   </div>
 </div>
 
@@ -122,23 +115,23 @@
   <div class="wrap">
     <h2 id="inside-h" class="h2" data-reveal>Everything you study with, in one place.</h2>
     <div class="trio">
-      <a class="tile t-coral" href="{% url 'web:library' %}" data-reveal style="--i:0">
-        <span class="tile-art shp-cookie g-coral-d"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6"/></svg></span>
+      <a class="tile t-azure" href="{% url 'web:library' %}" data-reveal style="--i:0">
+        <span class="tile-art shp-cookie g-azure-d"><svg viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6"/></svg></span>
         <h3>Notes and ebooks</h3>
         <p>Every chapter, every subject.</p>
-        <span class="tile-go">{% include "landing/_arrow.html" %}</span>
+        <span class="tile-go">{% include "components/_arrow.html" %}</span>
       </a>
-      <a class="tile t-gold" href="{% url 'web:past_papers' %}" data-reveal style="--i:1">
-        <span class="tile-art shp-sunny g-gold-d"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9l1.5 1.5L14 7M9 15h6"/></svg></span>
+      <a class="tile t-sky" href="{% url 'web:past_papers' %}" data-reveal style="--i:1">
+        <span class="tile-art shp-sunny g-sky-d"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM9 9l1.5 1.5L14 7M9 15h6"/></svg></span>
         <h3>Past papers</h3>
         <p>Board papers and model questions.</p>
-        <span class="tile-go">{% include "landing/_arrow.html" %}</span>
+        <span class="tile-go">{% include "components/_arrow.html" %}</span>
       </a>
-      <a class="tile t-mint" href="{% url 'web:home' %}" data-reveal style="--i:2">
-        <span class="tile-art shp-flower g-mint-d"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></span>
+      <a class="tile t-aqua" href="{% url 'web:home' %}" data-reveal style="--i:2">
+        <span class="tile-art shp-flower g-aqua-d"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></span>
         <h3>Student forum</h3>
         <p>Ask. Students and teachers answer.</p>
-        <span class="tile-go">{% include "landing/_arrow.html" %}</span>
+        <span class="tile-go">{% include "components/_arrow.html" %}</span>
       </a>
     </div>
   </div>
@@ -156,13 +149,13 @@
         </div>
         <div class="lv-panels">
           {% for l in levels %}
-          <div class="lv-panel lv-panel-{{ forloop.counter0 }}" style="--c:var(--{% cycle 'coral' 'gold' 'mint' 'rose' %}-c)">
+          <div class="lv-panel lv-panel-{{ forloop.counter0 }}" style="--c:var(--{% cycle 'azure' 'sky' 'aqua' 'peri' %}-c)">
             <span class="lv-art shp-{% cycle 'cookie' 'sunny' 'flower' 'clover' 'burst' 'gem' %}" aria-hidden="true"></span>
             <p class="lv-sub">{{ l.sub }}</p>
             <ul class="chips">
               {% for label, q in l.items %}<li style="--i:{{ forloop.counter0 }}"><a class="chip" href="{% url 'web:library' %}?{{ q }}">{{ label }}</a></li>{% endfor %}
             </ul>
-            <a class="btn" href="{% url 'web:library' %}?{{ l.query }}"><span>Browse {{ l.name }}</span>{% include "landing/_arrow.html" %}</a>
+            <a class="m3-btn" href="{% url 'web:library' %}?{{ l.query }}"><span>Browse {{ l.name }}</span>{% include "components/_arrow.html" %}</a>
           </div>
           {% endfor %}
         </div>
@@ -177,11 +170,11 @@
     <div class="books-copy" data-reveal>
       <h2 id="books-h" class="h2">NEBians study books.</h2>
       <ul class="ticks">
-        <li>{% include "landing/_check.html" %}Every lesson in plain language</li>
-        <li>{% include "landing/_check.html" %}Every textbook exercise solved</li>
-        <li>{% include "landing/_check.html" %}Built on the CDC syllabus</li>
+        <li>{% include "components/_check.html" %}Every lesson in plain language</li>
+        <li>{% include "components/_check.html" %}Every textbook exercise solved</li>
+        <li>{% include "components/_check.html" %}Built on the CDC syllabus</li>
       </ul>
-      <a class="btn btn-lg btn-ink" href="{% url 'web:library' %}?q=NEBians"><span>Read the books</span>{% include "landing/_arrow.html" %}</a>
+      <a class="m3-btn m3-btn-lg m3-btn-ink" href="{% url 'web:library' %}?q=NEBians"><span>Read the books</span>{% include "components/_arrow.html" %}</a>
     </div>
     <div class="shelf" data-reveal aria-hidden="true">
       {% for c in book_classes %}
@@ -199,11 +192,11 @@
   <div class="wrap forum-in">
     <div class="forum-copy" data-reveal>
       <h2 id="community-h" class="h2">Stuck at 11&nbsp;pm? Ask.</h2>
-      <a class="btn btn-lg" href="{% url 'web:home' %}"><span>Open the community</span>{% include "landing/_arrow.html" %}</a>
+      <a class="m3-btn m3-btn-lg" href="{% url 'web:home' %}"><span>Open the community</span>{% include "components/_arrow.html" %}</a>
     </div>
     <div class="threads">
       {% for p in discussions %}
-      <a class="thread th-{% cycle 'coral' 'gold' 'mint' 'rose' %}" href="/app/forum/post/{{ p.id }}/" data-reveal style="--i:{{ forloop.counter0 }}">
+      <a class="thread th-{% cycle 'azure' 'sky' 'aqua' 'peri' %}" href="/app/forum/post/{{ p.id }}/" data-reveal style="--i:{{ forloop.counter0 }}">
         <span class="thread-head">
           {% if p.avatar %}<img class="ava shp-{% cycle 'cookie' 'sunny' 'flower' 'clover' as avs %}" src="{{ p.avatar }}" alt="" width="44" height="44" loading="lazy" decoding="async">{% else %}<span class="ava ava-i shp-cookie">{{ p.initial }}</span>{% endif %}
           <span class="thread-who"><b>{{ p.name }}</b><small>{{ p.ago }} ago</small></span>
@@ -218,7 +211,7 @@
         </span>
       </a>
       {% empty %}
-      <a class="thread th-coral" href="{% url 'web:home' %}" data-reveal style="--i:0">
+      <a class="thread th-azure" href="{% url 'web:home' %}" data-reveal style="--i:0">
         <span class="thread-head"><span class="ava ava-i shp-cookie">A</span><span class="thread-who"><b>Asha</b><small>today</small></span><span class="tag">Chemistry</span></span>
         <b class="thread-title">Why is the second ionisation energy always higher?</b>
         <span class="thread-text">Once one electron is gone the rest are held more tightly. Is that the whole reason?</span>
@@ -234,7 +227,7 @@
     <div class="app-copy" data-reveal>
       <h2 id="app-h" class="h2">The whole library, in your pocket.</h2>
       <p class="app-line">Lost on a page? Tap <b>Ask Neby</b>.</p>
-      <a class="btn btn-lg btn-gold" href="https://play.google.com/store/apps/details?id=com.neb.ians" rel="noopener">
+      <a class="m3-btn m3-btn-lg m3-btn-sky" href="https://play.google.com/store/apps/details?id=com.neb.ians" rel="noopener">
         <svg class="play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 3.3 13.6 12 4 20.7c-.4-.2-.6-.6-.6-1.1V4.4c0-.5.2-.9.6-1.1Zm13 5.5-3.4 3.2 3.4 3.2 3.4-1.9c.9-.5.9-1.8 0-2.4ZM13.6 12 4 3.3c.3-.1.7-.1 1 .1L17 8.8Zm0 0L17 15.2 5 20.6c-.3.2-.7.2-1 .1Z"/></svg>
         <span>Get it on Google Play</span>
       </a>
@@ -283,7 +276,7 @@
     <span class="orb orb-1 shp-burst"></span><span class="orb orb-2 shp-gem"></span><span class="orb orb-3 shp-cookie"></span>
     <div class="wrap foot-cta-in" data-reveal>
       <p class="h2">Open a book. Ask a question.</p>
-      <a class="btn btn-lg btn-light" href="{% url 'web:home' %}"><span>{% if signed_in %}Open NEBians{% else %}Start, free{% endif %}</span>{% include "landing/_arrow.html" %}</a>
+      <a class="m3-btn m3-btn-lg m3-btn-light" href="{% url 'web:home' %}"><span>{% if signed_in %}Open NEBians{% else %}Start, free{% endif %}</span>{% include "components/_arrow.html" %}</a>
     </div>
   </div>
   <div class="wrap foot-in">
