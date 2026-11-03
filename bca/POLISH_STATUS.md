@@ -350,7 +350,7 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] U7: Plate 7.1 (IBM 1401 / Y2K sticker / server room), Fig 7.1 maintenance shares 21/25/50/4, 7.2 Boehm AME = 0.15 x 120 = 18 pm/yr (144 of 264 pm = 54.5%), 7.3 re-engineering cycle, 7.4 version history with branch + merge, 7.5 change-control flow; 7.6.1 eight cost reasons; Q1-Q2 (5), Q3-Q4 (10).
 - [x] U8: Plate 8.1 (Gantt / Brooks / communication-paths SVG 10, 45, 190), Fig 8.1 COCOMO 32 KLOC (organic 91.3 pm in 13.9 mo; semi 145.5; embedded 230.4), 8.2 FPA (UFP 260, VAF 1.07, FP 278.2), 8.3 CPM network computed in-cell (14 weeks, A-B-D-F, slack C 4, E 2), 8.4 PERT (mu 14.67, sigma 1.05, P(16 wk) 89.7%), 8.5 EVM (CV -50,000, SPI 0.8, EAC 11,25,000), 8.6 risk exposure ranking; 8.7.1 eight causes of late projects; Q1-Q2 (5), Q3 (10), Q4 (5), Q5 (10). All numbers Python-computed (token substitution).
 - BOOK DONE: Software Engineering 54 -> 103 pp, qa fails=0 warns=2 (p3 pre-existing, one short tail). Photos used: bug, hamilton, ariane, mco, royce, boehm, jacobson, y2k, card, dijkstra, brooks, dsky, gantt (13 of 15; beck and hopper unused). Reused: bca256 scrum/kanban/pair, bca102 pdp11, bca101 ibm1401, bca401 serverroom, bca106 tester.
-- NEXT SESSION STARTS AT: Principles of Management (50 pp), then DBMS (56 pp), then rest of Semesters II-VIII. (unused photos: gantt (U8), hopper, y2k/card used in U3, hamilton used U1).
+- (superseded, see the NEXT SESSION line in the Queue) NEXT SESSION STARTED AT: Principles of Management (50 pp), then DBMS (56 pp), then rest of Semesters II-VIII. (unused photos: gantt (U8), hopper, y2k/card used in U3, hamilton used U1).
 - QA gotcha: `$` in text fails qa (write "370 million US dollars"). Numbered list after a bold line needs a blank line first.
 
 
@@ -363,7 +363,7 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] U5: Plate 5.1 (Maslow photo + hierarchy SVG), Plate 5.2 (Hillary/Tenzing + Tuckman SVG), Fig 5.1 managerial grid, 5.2 Herzberg, 5.3 communication process, 5.4 expectancy (0.8 x 0.9 x 0.7 = 0.504); 5.1.1 eight qualities of a leader; Q1-Q2 (5), Q3 (10), Q4 (5).
 - [x] U6: Plate 6.1 (Shewhart / Deming / Ohno, 3-up), Fig 6.1 control process + timings, 6.2 control chart (20 samples, UCL 54.5, LCL 45.5, sample 12 out; mean 50.77), 6.3 PDCA + 5S, 6.4 Pareto (42/25/15/8/10, cumulative 42/67/82/90/100), 6.5 fishbone; 6.6.1 eight benefits of TQM; Q1-Q2 (5; variance 12 percent over), Q3 (10), Q4 (5; DPMO 600).
 - Every number above was recomputed in Python before it was written. Not done: the old short Practice answers were kept; the existing fact sheets were not rewritten.
-- NEXT SESSION STARTS AT: DBMS (semester-3/dbms, 56 pp), then the rest of Semesters II-VIII (see Queue).
+- (superseded, see the NEXT SESSION line in the Queue) NEXT SESSION STARTED AT: DBMS (semester-3/dbms, 56 pp), then the rest of Semesters II-VIII (see Queue).
 
 ## BCA 202 dbms (semester-3/dbms) -- [x] POLISHED (session 33): all 9 units, 56 -> 100 pp, qa fails=0 warns=2
 Photos (bca202/, licence-gated, all viewed): jimgray, bachman, stonebraker (portraits), catalog + drawers (card catalogues), ramac (IBM 350 disk), booking (railway reservation counter), atm, tapelib (StorageTek library), nlmtape (reel shelves), tu (Tribhuvan University). Reserved but unused so far: jimgray (Unit 9), drawers (Unit 7 index), tapelib (Unit 8/9), tu (Unit 8 or 6). Reuse bca451/hsm, bca306/padlock, bca451/facebook where useful.
