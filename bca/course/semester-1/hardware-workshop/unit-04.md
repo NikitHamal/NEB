@@ -64,6 +64,20 @@ A technician is paid for fixing things methodically. This unit teaches the troub
 
 **Cost of running a PC (illustrative).** A 150 W PC used 8 hours a day for 30 days consumes 0.150 × 8 × 30 = **36 kWh**; at Rs 10 per unit (illustrative figure; check the current tariff) that is about **Rs 360** a month.
 
+```photogrid label="4.1" cols="4" ratio="1.1" caption="Instruments and parts for fault-finding. (a) A POST diagnostic card in a PCI slot shows the boot code on its display. (b) A network cable tester, with a main unit and a remote unit. (c) A patch cable with RJ45 plugs. (d) A laser toner cartridge, the most replaced part of a laser printer."
+@ photo id="bca106/postcard" cap="POST diagnostic card"
+fit 1.1
+call 0.40 0.90 0.30 0.62 "Code display"
+@ photo id="bca106/tester" cap="Cable tester pair"
+fit 1.1
+focus 0.5 0.35
+call 0.50 0.90 0.30 0.62 "LEDs 1 to 8"
+@ photo id="bca101/rj45" cap="RJ45 patch cables"
+fit 1.1
+@ photo id="bca106/toner" cap="HP laser toner cartridge"
+fit 1.1
+```
+
 ## 4.4 Printers, monitors and input devices
 
 **Inkjet printer.** A print head fires microscopic droplets of liquid ink from nozzles (heated by **thermal** elements or pushed by **piezoelectric** crystals). Cheap to buy, costly per page; heads clog if unused (run cleaning cycles and print weekly). Faults: streaks (clean heads), colours missing (empty cartridge), paper jam, smudging (wrong paper).
@@ -126,6 +140,41 @@ All use an **RJ-45** plug and a maximum channel of **100 m**. UTP is unshielded;
 
 **Basic LAN set-up:** connect PCs by straight cables to a **switch**; the switch connects to the **router**, which connects to the ISP. Assign addresses automatically with DHCP, or manually: for example PC1 192.168.1.10, PC2 192.168.1.11, mask 255.255.255.0, gateway 192.168.1.1. Test with ping. Name the PCs, share a folder, and set permissions. For Wi-Fi: secure with **WPA2/WPA3**, change the router's default password, and update its firmware.
 
+```svgfig label="4.1" caption="T568B colour order for an RJ45 plug (clip down, pin 1 on the left). The stripe is shown as a white band. Pairs: 1-2 orange (transmit), 3-6 green (receive), 4-5 blue, 7-8 brown. Both ends of a straight-through cable use the same order."
+f = Fig(760, 190)
+cols = [("#f59e0b", True, "1 w/orange"), ("#f59e0b", False, "2 orange"), ("#16a34a", True, "3 w/green"), ("#2563eb", False, "4 blue"), ("#2563eb", True, "5 w/blue"), ("#16a34a", False, "6 green"), ("#92400e", True, "7 w/brown"), ("#92400e", False, "8 brown")]
+for i, (c, st, n) in enumerate(cols):
+    x = 60 + i * 80
+    f.box(x, 20, 56, 90, "", fill=c, stroke=NAVY)
+    if st:
+        for k in range(5): f.box(x, 24 + k * 18, 56, 8, "", fill="#ffffff", stroke="#ffffff")
+    f.text(x + 28, 130, n, size=9.5, color=NAVY, bold=True)
+f.text(380, 160, "Straight-through: T568B at both ends (PC to switch).   Crossover: T568A at one end (PC to PC).", size=10.5, color=SLATE)
+f.text(380, 180, "Tester lights 1 to 8 must run in order on both units; a skipped light means a bad contact.", size=10.5, color=SLATE)
+```
+
+```svgfig label="4.2" caption="The troubleshooting cycle. The steps repeat until the fault is closed; recording what was done is as important as the repair itself."
+f = Fig(760, 150)
+steps = ["1 Identify\nsymptom", "2 Ask the user,\nback up data", "3 Guess the\nprobable cause", "4 Test the\ncause", "5 Fix and\nverify", "6 Document\nand advise"]
+for i, s in enumerate(steps):
+    x = 10 + i * 124
+    f.box(x, 22, 106, 54, s, fill=BLUE if i < 4 else SOFT, stroke=NAVY, size=10.5, bold=True)
+    if i < 5: f.arrow([(x + 106, 49), (x + 124, 49)], color=NAVY)
+f.arrow([(580, 76), (580, 108), (470, 108), (470, 82)], color=AMBER)
+f.text(520, 126, "cause not confirmed: new theory", size=10, color=AMBER, bold=True)
+```
+
+## 4.6 Eight preventive maintenance tasks
+
+1. **Dust cleaning.** Blow dust from fans, heatsinks and filters every three to six months with a blower or soft brush (hold the fan still). Dust blocks airflow and raises the CPU temperature. Nepal's dry, dusty season makes this task more urgent.
+2. **Thermal paste renewal.** Replace the paste on the CPU every two to three years or when the temperature climbs. Clean the old paste with isopropyl alcohol and apply a fresh pea-sized drop. Dry paste conducts heat poorly.
+3. **Software updates.** Keep the OS, drivers and BIOS up to date, because many updates close security holes. Schedule them outside working hours. Test important updates on one machine first.
+4. **Antivirus and safe habits.** Use an updated antivirus and a firewall, and avoid pirated software and unknown USB drives. Teach users not to open suspicious links. Many Nepali offices are infected through pen drives.
+5. **Backups.** Follow the 3-2-1 rule: three copies, on two kinds of media, one stored elsewhere. Test a restore now and then. A backup that has never been restored is only a hope.
+6. **Disk care.** Check the disk health (SMART), free space and file-system errors, and defragment only HDDs. Keep at least 15 % of the disk free. A failing disk usually gives early warnings such as clicking sounds and slow response.
+7. **Power protection.** Use a surge protector or UPS because mains voltage in Nepal can spike and load-shedding can cut power abruptly. Shut down properly when the UPS warns. Sudden power loss damages file systems.
+8. **Records and inspection.** Keep a log of each machine's faults, repairs and parts, and label cables and ports. Check cables, connectors and fans for wear during every visit. A history shows which parts fail repeatedly.
+
 ## Formula and fact sheet
 
 - Troubleshooting: identify → theory → test → plan → verify → document.
@@ -168,3 +217,44 @@ All use an **RJ-45** plug and a maximum channel of **100 m**. UTP is unshielded;
 **9.** Monthly: update OS and antivirus, check disk space and SMART, test backups, clean keyboards and mice, check UPS status, inspect cables and fans, log faults and repairs; every 3 to 6 months remove dust from each case.
 **10.** 0.15 × 6 × 26 = **23.4 kWh**; × 12 = **Rs 280.80**.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Describe the procedure to make and test a straight-through Ethernet cable.**
+
+A **straight-through** cable has the same colour standard (T568B) at both ends and joins unlike devices such as a PC and a switch (Figure 4.1). Tools: Cat5e/Cat6 cable, RJ45 plugs, a stripper, a crimper and a cable tester (Plate 4.1).
+
+1. Cut the cable end square and strip about 2.5 cm of the outer jacket without nicking the wires.
+2. Untwist the four pairs and straighten them. Arrange them in the T568B order: white/orange, orange, white/green, blue, white/blue, green, white/brown, brown.
+3. Flatten the wires and trim them to the same length, about 1.3 cm out of the jacket.
+4. With the clip side down, push the wires into the plug until every wire touches the front and the jacket enters the plug.
+5. Place the plug in the crimper and squeeze firmly; repeat on the other end with the same order.
+6. Test: connect both ends to the tester. LEDs 1 to 8 must light in order on both units. A skipped light shows a broken contact; swapped numbers show a wiring error (a crossover cable shows 1-3, 2-6 swapped).
+
+The maximum length is 100 m, and Gigabit Ethernet gives about 117 MB/s of real data after overhead.
+
+**Q (10 marks). Explain the systematic method of troubleshooting a computer. Give a fault-finding table for six common faults.**
+
+*Introduction.* Troubleshooting is the logical process of finding the cause of a fault and removing it. A fixed method saves time, prevents damage and avoids repeated visits (Figure 4.2).
+
+*The six steps.*
+
+1. **Identify the problem.** Ask what happened, when it began and what changed (new software, power cut, moved the PC). Reproduce the symptom.
+2. **Protect the data.** Back up before any risky repair, and note the current state with a photo.
+3. **Form a theory.** Start with the simplest and most likely causes, such as cables, power and settings, before suspecting the board.
+4. **Test the theory.** Swap with a known good part, run diagnostics or use the POST card (Plate 4.1a); if the theory fails, form a new one or escalate.
+5. **Fix and verify.** Apply the repair, then test the whole system and ask the user to confirm that the problem is gone.
+6. **Document.** Record the symptom, cause, action and parts used; advise the user how to prevent a repeat.
+
+*Fault-finding table.*
+
+| Symptom | Likely cause | Test | Fix |
+|---|---|---|---|
+| No power, no fans | mains, PSU, PWR pins | try another cable and socket; PSU paper-clip test | replace cable or PSU |
+| Fans spin, no display | RAM, GPU, monitor cable | reseat RAM; try the onboard port | reseat or replace |
+| Restarts or shuts down | overheating, weak PSU | check temperatures and fan | clean dust, new paste |
+| "Operating system not found" | boot order, disk fault | check BIOS boot list and SMART | set order, repair boot loader |
+| Slow, clicking disk | failing HDD | SMART status | back up, replace with SSD |
+| No network | cable, adapter, IP | test cable; `ipconfig` | re-crimp, enable adapter |
+
+*Conclusion.* The method works from the cheapest and most likely cause to the most expensive one. Testing one change at a time and keeping a record is what separates a technician from a guesser.
