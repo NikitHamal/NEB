@@ -189,6 +189,17 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - U7: Plate 7.1 (code photo + ledger-tables SVG), Fig 7.1 ratio dashboard, Fig 7.2 DuPont tree; 7.9.1 eight uses; Q1-Q3.
 - All figures use numbers already produced by the book's executed programs (no code changed, fill_script_outputs.py NOT run). Gotcha: a heading directly above a figure can be stranded at a page bottom (qa FAIL): add one sentence under the heading.
 
+## BCA 451 cloud-computing (semester-8/cloud-computing) -- [x] POLISHED (session 23), 65 pp (was 37), qa fails=0 warns=0
+- Photos (bca451/, licence-gated, all viewed): facebook (data-centre aisle), xeon (Broadwell-EP die), meter (kWh meter), containers (Chittagong port), tape (tape library), hsm (nCipher HSM), queue (station ticket queue). Reused: bca101 hdd-platter/nvme/fibre-cable/router, bca306 padlock/switch, bca403 register.
+- U1: Plate 1.1 (3-up aisle/Xeon die/meter), Fig 1.1 NIST 5-4-3, 1.2 who-manages-what grid, 1.3 elasticity vs fixed fleet (430 vs 1,200 server-hours); 1.8.1 eight benefits; Q1-Q3.
+- U2: Plate 2.1 (container yard + image-layer SVG), Fig 2.1 type-1/type-2/containers stacks, 2.2 nested paging; 2.8.1 eight benefits; Q1-Q3.
+- U3: Plate 3.1 (tape/HDD/NVMe), Fig 3.1 replication vs RS(4,2), 3.2 hash ring, 3.3 quorum; 3.5.1 eight features; Q1-Q3.
+- U4: Plate 4.1 (fibre/switch/router), Fig 4.1 VPC two-AZ, 4.2 VXLAN packet to scale, 4.3 CDN + LB path; 4.7.1 eight benefits; Q1-Q3.
+- U5: Plate 5.1 (queue photo + M/M/1 curve SVG), Fig 5.1 Kubernetes architecture, 5.2 HPA 4->8->5, 5.3 monolith vs microservices; 5.6.1 eight benefits; Q1-Q4 (M/M/1 lambda 90, mu 100 recomputed).
+- U6: Plate 6.1 (padlock + HSM), Fig 6.1 shared responsibility, 6.2 IAM evaluation, 6.3 envelope encryption (600 MB vs 10 TB); 6.6.1 eight practices; Q1-Q4.
+- U7: Plate 7.1 (meter/register/aisle), Fig 7.1 pricing index, 7.2 break-even 5,256 h, 7.3 series vs parallel availability, 7.4 nines (log bars); 7.7.1 eight FinOps practices; Q1-Q4.
+- No code was changed, so fill_script_outputs.py was NOT run. Helper `/tmp/ins2.py` inserts figures before "K Summary and exercises" (renumbers it) and appends answers.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -208,5 +219,6 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - [x] Applied Economics polished (session 21, 34 -> 66 pp)
 - [x] Technical Writing polished (session 22, 36 -> 59 pp)
 - [x] Financial Accounting polished (session 22, 37 -> 65 pp)
-- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] Cloud Computing polished (session 23, 37 -> 65 pp)
+- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
