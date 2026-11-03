@@ -20,7 +20,7 @@
 
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}?v=20261103e">
+<link rel="stylesheet" href="{% static 'web/css/pages/web-home.css' %}?v=20261103f">
 {% endblock %}
 
 {% block footer %}{% endblock %}
@@ -874,11 +874,18 @@
       var composerTicking = false;
       /* The tool row belongs to the composer only while it still sits above the
          first post. Once it is pinned it stays collapsed, whichever way the page
-         is moving -- scrolling back up must not re-open it. */
+         is moving -- scrolling back up must not re-open it.
+         Two thresholds, because compacting the card takes 44px out of the flow:
+         a single hairline would let the browser's own scroll bookkeeping flip it
+         straight back. See the overflow-anchor rule in web-home.css. */
       function onComposerScroll() {
         var stickyTop = parseFloat(getComputedStyle(composerSticky).top) || 0;
-        composerLauncher.classList.toggle(
-          'is-scrolled-down', composerSticky.getBoundingClientRect().top <= stickyTop + 0.5);
+        var top = composerSticky.getBoundingClientRect().top;
+        if (top <= stickyTop + 1) {
+          composerLauncher.classList.add('is-scrolled-down');
+        } else if (top >= stickyTop + 12) {
+          composerLauncher.classList.remove('is-scrolled-down');
+        }
         composerTicking = false;
       }
       window.addEventListener('scroll', function () {

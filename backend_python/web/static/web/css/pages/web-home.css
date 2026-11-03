@@ -409,6 +409,16 @@
 }
 
 /* ── The sticky composer ──────────────────────────────────────────────────── */
+/* Compacting the launcher takes 44px out of the flow. Scroll anchoring reads
+   that as content moving and pulls scrollY back by the same amount, which
+   un-pins the composer, which expands it, which anchoring pushes forward
+   again -- a loop that only settles when you keep scrolling. Off wherever the
+   composer exists, so the collapse is a plain layout change and the transition
+   alone moves the feed. */
+html:has(.hf-composer-sticky) {
+  overflow-anchor: none;
+}
+
 .hf-composer-sticky {
   position: sticky;
   top: 64px;

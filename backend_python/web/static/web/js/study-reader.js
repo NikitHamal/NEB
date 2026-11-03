@@ -218,12 +218,25 @@
 
   /* ---------- done ---------- */
   var doneBtn = root.querySelector('[data-rd-done]');
+  var doneLabel = root.querySelector('[data-rd-done-label]');
   function paintDone() {
     var d = Study.get(key), on = !!(d && d.d);
     doneBtn.setAttribute('aria-pressed', String(on));
-    root.querySelector('[data-rd-done-label]').textContent = on ? 'Done' : 'Mark as done';
+    doneBtn.setAttribute('aria-label', on ? 'Done. Tap to undo' : 'Mark as done');
+    doneBtn.title = on ? 'Done' : 'Mark as done';
+    if (doneLabel) doneLabel.textContent = on ? 'Done' : 'Mark as done';
+    paintUnits();
   }
   doneBtn.addEventListener('click', function () { Study.put(key, { d: doneBtn.getAttribute('aria-pressed') === 'true' ? 0 : 1 }); paintDone(); });
+
+  /* ---------- the units rail: which chapters are already read ---------- */
+  var unitLinks = root.querySelectorAll('[data-rd-unit]');
+  function paintUnits() {
+    var docs = Study.all();
+    unitLinks.forEach(function (a) {
+      a.classList.toggle('is-read', Study.isDone(docs[a.getAttribute('data-rd-unit')]));
+    });
+  }
   paintDone();
 
   /* ---------- progress, resume and the contents rail ---------- */
@@ -281,10 +294,42 @@
     setTimeout(function () { if (chip.isConnected) chip.classList.add('is-quiet'); }, 9000);
   }
 
-  /* contents as a sheet on small screens */
+  /* The units rail folds away, and the text takes the window. */
+  var unitsBtn = root.querySelector('[data-rd-units-toggle]');
+  if (unitsBtn) {
+    function syncUnits() {
+      var open = !root.classList.contains('rd-no-units');
+      unitsBtn.setAttribute('aria-expanded', String(open));
+      unitsBtn.setAttribute('aria-label', open ? 'Hide units' : 'Show units');
+      unitsBtn.title = open ? 'Hide units' : 'Show units';
+    }
+    unitsBtn.addEventListener('click', function () { root.classList.toggle('rd-no-units'); syncUnits(); });
+    syncUnits();
+  }
+
+  /* Contents: a column on a wide window, a sheet on a narrow one. The bar button
+     is the only opener either way. */
   var side = root.querySelector('.rd-side');
-  var fab = root.querySelector('[data-rd-toc-open]');
-  fab.addEventListener('click', function () { side.classList.toggle('is-open'); fab.setAttribute('aria-expanded', String(side.classList.contains('is-open'))); });
-  side.addEventListener('click', function (e) { if (e.target === side || e.target.closest('a')) side.classList.remove('is-open'); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') side.classList.remove('is-open'); });
+  var tocBtns = root.querySelectorAll('[data-rd-toc-open]');
+  function tocNarrow() { return window.matchMedia('(max-width: 1024px)').matches; }
+  function syncToc() {
+    var open = tocNarrow() ? side.classList.contains('is-open') : !root.classList.contains('rd-no-toc');
+    tocBtns.forEach(function (b) { b.setAttribute('aria-expanded', String(open)); });
+  }
+  tocBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (tocNarrow()) side.classList.toggle('is-open');
+      else root.classList.toggle('rd-no-toc');
+      syncToc();
+    });
+  });
+  side.addEventListener('click', function (e) {
+    if (!tocNarrow()) return;
+    if (e.target === side || e.target.closest('a')) { side.classList.remove('is-open'); syncToc(); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && side.classList.contains('is-open')) { side.classList.remove('is-open'); syncToc(); }
+  });
+  window.addEventListener('resize', syncToc);
+  syncToc();
 })();
