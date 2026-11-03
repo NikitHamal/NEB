@@ -21,7 +21,7 @@ Data should pass through the same steps every time, and each step should be test
 
 ```svgfig label="3.1" caption="KhetSense data pipeline. A message is validated and stored once; a cleaning step produces a tidy series; analysis finds anomalies and forecasts; the rule engine turns the forecast into plain-word advice for the app."
 f = Fig(580, 150)
-names = ["Ingest message", "Validate range and id", "Store (SQLite)", "Clean series", "Analyse + forecast", "Rule engine advice"]
+names = ["Ingest\nmessage", "Validate\nrange, id", "Store\n(SQLite)", "Clean\nseries", "Analyse +\nforecast", "Rule engine\nadvice"]
 for i, n in enumerate(names):
     x = 6 + i * 96
     f.box(x, 45, 86, 60, n, fill=(BLUE if i % 2 == 0 else SOFT), stroke=(NAVY if i < 3 else TEAL), size=10, color=NAVY)
@@ -201,10 +201,10 @@ focus 0.5 0.45
 call 0.5 0.9 0.5 0.7 "One node per terrace"
 @ svg cap="Advice bands"
 f = Fig(300, 300)
-f.box(20, 20, 130, 60, "Above 35: skip, soil is wet", fill=BLUE, stroke=NAVY, size=11, color=NAVY)
-f.box(20, 90, 130, 60, "25 to 35: fine, check tomorrow", fill=SOFT, stroke=TEAL, size=11, color=NAVY)
-f.box(20, 160, 130, 60, "18 to 25: water soon", fill=SOFT, stroke=AMBER, size=11, color=NAVY)
-f.box(20, 230, 130, 60, "Below 18: water now", fill=BLUE, stroke=RED, size=11, color=NAVY)
+f.box(20, 20, 130, 60, "Above 35:\nskip, soil is wet", fill=BLUE, stroke=NAVY, size=11, color=NAVY)
+f.box(20, 90, 130, 60, "25 to 35: fine,\ncheck tomorrow", fill=SOFT, stroke=TEAL, size=11, color=NAVY)
+f.box(20, 160, 130, 60, "18 to 25:\nwater soon", fill=SOFT, stroke=AMBER, size=11, color=NAVY)
+f.box(20, 230, 130, 60, "Below 18:\nwater now", fill=BLUE, stroke=RED, size=11, color=NAVY)
 f.arrow([(150,50),(200,50)], color=NAVY)
 f.arrow([(150,120),(200,120)], color=NAVY)
 f.arrow([(150,190),(200,190)], color=NAVY)

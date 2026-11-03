@@ -62,12 +62,12 @@ Almost every IoT project has the same four layers, and each layer solves one pro
 3. **Cloud (server) layer**: a broker that receives messages and a database that stores them; analysis code runs here.
 4. **Application layer**: the phone app or web page that shows values and advice to the farmer.
 
-```svgfig label="1.1" caption="KhetSense four-layer architecture. Sensors feed an ESP32 node, which sends a small JSON message over Wi-Fi to a gateway; the server stores the data, analyses it and exposes a REST API that the Android app reads. The dotted arrow is the app's offline cache."
+```svgfig label="1.1" caption="KhetSense four-layer architecture. Sensors feed an ESP32 node, which sends a small JSON message over Wi-Fi to a gateway; the server stores the data, analyses it and exposes a REST API that the Android app reads."
 f = Fig(580, 230)
-f.box(8, 80, 100, 70, "Soil probe + DHT22", fill=BLUE, stroke=NAVY, size=11, color=NAVY)
-f.box(150, 80, 100, 70, "ESP32 node (battery)", fill=SOFT, stroke=TEAL, size=11, color=NAVY)
-f.box(292, 80, 100, 70, "Gateway / broker", fill=SOFT, stroke=AMBER, size=11, color=NAVY)
-f.box(434, 20, 138, 60, "Server: SQLite + analysis", fill=BLUE, stroke=RED, size=11, color=NAVY)
+f.box(8, 80, 100, 70, "Soil probe\n+ DHT22", fill=BLUE, stroke=NAVY, size=11, color=NAVY)
+f.box(150, 80, 100, 70, "ESP32 node\n(battery)", fill=SOFT, stroke=TEAL, size=11, color=NAVY)
+f.box(292, 80, 100, 70, "Gateway /\nbroker", fill=SOFT, stroke=AMBER, size=11, color=NAVY)
+f.box(434, 20, 138, 60, "Server: SQLite\n+ analysis", fill=BLUE, stroke=RED, size=11, color=NAVY)
 f.box(434, 140, 138, 60, "Android app + cache", fill=SOFT, stroke=NAVY, size=11, color=NAVY)
 f.arrow([(108,115),(150,115)], color=NAVY)
 f.arrow([(250,115),(292,115)], color=NAVY)

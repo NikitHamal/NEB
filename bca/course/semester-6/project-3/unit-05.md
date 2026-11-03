@@ -71,7 +71,7 @@ A Project III report follows the same skeleton as Project I and II, with extra e
 
 ```svgfig label="5.1" caption="Map of a Project III report. The chapters in teal are the ones that are specific to a sensor and mobile project; the others follow the usual college format."
 f = Fig(580, 170)
-chs = ["Introduction + objectives", "Literature + similar systems", "Requirements + design", "Hardware + firmware", "Data + analysis", "Mobile app", "Field test + results", "Conclusion + future work"]
+chs = ["Introduction\n+ objectives", "Literature +\nsimilar systems", "Requirements\n+ design", "Hardware +\nfirmware", "Data +\nanalysis", "Mobile app", "Field test\n+ results", "Conclusion +\nfuture work"]
 for i, c in enumerate(chs):
     x = 8 + (i % 4) * 143; y = 15 + (i // 4) * 75
     teal = i in (3, 4, 5, 6)
@@ -114,11 +114,11 @@ focus 0.5 0.5
 call 0.5 0.9 0.5 0.7 "Runs broker + database"
 @ svg cap="Ten-minute demo timeline"
 f = Fig(300, 300)
-steps = [("0-1 Problem + objectives", "slide"), ("1-3 Node reads soil, live", "recorded clip"), ("3-5 Data appear in server", "saved screenshot"), ("5-7 App shows advice", "emulator"), ("7-8 Aeroplane-mode test", "video"), ("8-10 Results table + Q&A", "printed copy")]
+steps = [("0-1 Problem", "slide"), ("1-3 Live sensor read", "clip"), ("3-5 Data on server", "screenshot"), ("5-7 App advice", "emulator"), ("7-8 Offline test", "video"), ("8-10 Results, Q&A", "print-out")]
 for i, (a, b) in enumerate(steps):
     y = 10 + i * 48
-    f.box(10, y, 170, 40, a, fill=BLUE, stroke=NAVY, size=10, color=NAVY)
-    f.box(190, y, 100, 40, "B: " + b, fill=SOFT, stroke=AMBER, size=10, color=NAVY)
+    f.box(10, y, 150, 40, a, fill=BLUE, stroke=NAVY, size=10, color=NAVY)
+    f.box(170, y, 120, 40, "B: " + b, fill=SOFT, stroke=AMBER, size=10, color=NAVY)
 ```
 
 ## 5.4 Honesty, consent and ethics
