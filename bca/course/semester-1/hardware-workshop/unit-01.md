@@ -43,6 +43,57 @@ Hardware Workshop is a hands-on subject: you open a computer, identify every par
 | POST diagnostic card, spare known-good parts | fault finding |
 | Bootable USB (OS installer, live Linux, diagnostics), driver disks | software side |
 
+```photogrid label="1.1" cols="3" ratio="1.25" caption="The technician's first three tools. (a) An anti-static wrist strap: the clip goes to the bare metal of the case so that your body and the board stay at the same voltage. (b) A digital multimeter measures volts, ohms and continuity. (c) A network toolkit: cable tester, punch-down tool and RJ45 crimper."
+@ photo id="bca106/strap" cap="Anti-static wrist strap"
+fit 1.25
+call 0.50 0.88 0.40 0.62 "Wrist band"
+call 0.72 0.14 0.85 0.45 "Crocodile clip to case"
+@ photo id="bca106/meter" cap="Digital multimeter"
+fit 1.25
+focus 0.45 0.45
+call 0.50 0.90 0.50 0.62 "LCD reading"
+call 0.50 0.10 0.50 0.32 "Selector dial"
+@ photo id="bca106/crimpkit" cap="Cable tester and crimp kit"
+fit 1.25
+call 0.30 0.90 0.25 0.50 "Cable tester"
+call 0.72 0.12 0.72 0.45 "RJ45 crimper"
+```
+
+```photogrid label="1.2" cols="3" ratio="1.3" caption="Three parts to recognise on sight. (a) An ATX power supply unit with its bundle of cables. (b) A PCI Express graphics card: heatsink, two fans and the gold x16 edge connector. (c) A micro-ATX motherboard, on which the CPU, memory and cards are mounted."
+@ photo id="bca106/psu" cap="ATX power supply unit"
+fit 1.3
+call 0.50 0.90 0.50 0.62 "Vents and fan side"
+call 0.50 0.12 0.62 0.35 "Cable bundle"
+@ photo id="bca106/gpu" cap="PCIe graphics card"
+fit 1.3
+call 0.50 0.90 0.55 0.65 "Cooling fans"
+call 0.50 0.12 0.50 0.25 "PCIe x16 gold fingers"
+@ photo id="bca101/mobo" cap="Micro-ATX motherboard"
+fit 1.3
+call 0.50 0.92 0.55 0.75 "CPU, RAM slots"
+call 0.50 0.10 0.45 0.25 "PCIe slots, I/O"
+```
+
+```svgfig label="1.1" caption="How the parts of a PC connect. The motherboard is the hub: the PSU gives it power, the CPU and RAM talk over the fast memory bus, the graphics card and NVMe drive use PCI Express lanes, and SATA drives and the ports use slower buses."
+f = Fig(760, 300)
+f.box(290, 110, 180, 70, "MOTHERBOARD\nchipset + buses", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(300, 8, 160, 40, "Power supply (PSU)", fill=SOFT, stroke=AMBER, size=11, bold=True)
+f.arrow([(380, 48), (380, 110)], color=AMBER, label="24-pin, 12 V", lpos=(440, 82))
+f.box(20, 40, 150, 44, "CPU + cooler", fill=SOFT, stroke=NAVY, size=11, bold=True)
+f.arrow([(170, 62), (290, 125)], color=NAVY, label="socket", lpos=(210, 78))
+f.box(20, 130, 150, 44, "RAM (DDR4/DDR5)", fill=SOFT, stroke=NAVY, size=11, bold=True)
+f.arrow([(170, 152), (290, 148)], color=TEAL, label="memory bus", lpos=(232, 140))
+f.box(20, 220, 150, 44, "Graphics card", fill=SOFT, stroke=NAVY, size=11, bold=True)
+f.arrow([(170, 242), (300, 180)], color=RED, label="PCIe x16", lpos=(224, 230))
+f.box(590, 40, 150, 44, "NVMe SSD (M.2)", fill=SOFT, stroke=NAVY, size=11, bold=True)
+f.arrow([(590, 62), (470, 125)], color=RED, label="PCIe x4", lpos=(540, 78))
+f.box(590, 130, 150, 44, "SATA HDD / SSD", fill=SOFT, stroke=NAVY, size=11, bold=True)
+f.arrow([(590, 152), (470, 148)], color=TEAL, label="SATA", lpos=(526, 140))
+f.box(590, 220, 150, 44, "USB, LAN, audio ports", fill=SOFT, stroke=NAVY, size=11, bold=True)
+f.arrow([(590, 242), (460, 180)], color=NAVY, label="I/O", lpos=(534, 230))
+f.text(380, 290, "Thicker, shorter buses are faster: memory > PCIe > SATA > USB", size=10.5, color=SLATE)
+```
+
 ## 1.3 Inside the PC: components and what their specs mean
 
 **Case (chassis).** Sizes follow the motherboard **form factor**: full/mid tower (ATX), mini tower (micro-ATX), small form factor (mini-ITX). It provides mounting for the board (brass *standoffs*), drives, fans, front-panel ports and the PSU. Airflow: front intake, rear and top exhaust.
@@ -103,6 +154,17 @@ For four 2 TB drives: RAID 0 = 8 TB, RAID 5 = 6 TB, RAID 6 = 4 TB, RAID 10 = 4 T
 
 **(g) UPS sizing.** UPS capacity is in VA; real power (W) = VA × power factor (about 0.6 for small units). A 300 W load needs at least 300 / 0.6 = 500 VA; add 25 % headroom: 625 VA, so buy a **650 or 700 VA** unit. A 12 V 7 Ah battery stores 84 Wh; at 85 % inverter efficiency and a 300 W load: 84 × 0.85 / 300 ≈ 0.24 h ≈ **14 minutes at best**, enough to save and shut down properly.
 
+## 1.6 Eight rules of safe and careful workshop practice
+
+1. **Switch off and unplug first.** Turn off the PSU switch and pull the power cable before opening the case. Even when the computer is "off", the motherboard keeps a small standby voltage. This one habit prevents most shocks and burnt boards.
+2. **Discharge static electricity.** Wear an anti-static strap clipped to bare case metal, or touch the metal often. A spark you cannot feel (below 3,000 V) can still kill a RAM chip. Dry winter air in Kathmandu makes static much worse.
+3. **Never open a power supply.** The capacitors inside hold dangerous voltage for days after unplugging. Replace a faulty PSU as a whole and never repair it in a college lab. A shock from it can stop the heart.
+4. **Handle parts by the edges.** Hold RAM, cards and the motherboard by their edges, never by the gold contacts or chips. Keep parts in their anti-static bags until use. Oil from fingers and tiny scratches cause hidden faults.
+5. **Use the right tool and the right force.** Use a magnetic Phillips screwdriver, and tighten only until snug. Parts should slide in with firm, even pressure; if they do not, check the notch and the direction. Forcing a CPU or RAM stick bends pins and breaks slots.
+6. **Keep a tidy bench.** Work on a clean, dry, non-metal table with the screws in a small tray. Label cable positions with a photo before removing them. A lost screw under the motherboard can cause a short circuit.
+7. **Protect the data.** Back up important files before opening, formatting or reinstalling. A technician is trusted with a customer's photos, accounts and exam files. Never view or copy private data.
+8. **Think about people and environment.** Lift heavy cases with a straight back, keep cables out of walkways and use a fire extinguisher rated for electrical fires. Hand old batteries, monitors and boards to an e-waste collector instead of burning or dumping them. Nepal has few recycling points, so responsible disposal is part of the job.
+
 ## Formula and fact sheet
 
 - ESD: wrist strap, anti-static bags, touch the case. Never open a PSU.
@@ -144,3 +206,56 @@ For four 2 TB drives: RAID 0 = 8 TB, RAID 5 = 6 TB, RAID 6 = 4 TB, RAID 10 = 4 T
 **9.** 250 / 0.6 = 417 VA; with 25 % headroom 521 VA, so a **600 VA** unit (runtime a few minutes).
 **10.** The CPU socket matches; the chipset and BIOS version support the CPU; the cooler fits that socket (and the PSU can supply its TDP).
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). List the safety precautions a technician must follow while assembling or repairing a PC. Why is ESD dangerous?**
+
+**Electrostatic discharge (ESD)** is a sudden flow of static charge between two objects at different voltages. A person can carry 3,000 V or more without feeling anything, while a RAM or CPU chip can be damaged by only 100 V, so the part may be killed or weakened without any visible sign. Its failure may appear weeks later as random crashes.
+
+*Precautions* (see Plate 1.1):
+
+1. Switch off the PSU, unplug the mains cable and press the power button once to drain the board.
+2. Wear an anti-static wrist strap clipped to bare case metal, or touch the case frequently.
+3. Work on a clean, dry bench; avoid carpet and nylon clothes.
+4. Hold components by their edges and keep them in anti-static bags.
+5. Never open a power supply, and never use a metal tool near live circuits.
+6. Use the correct screwdriver and do not force any part.
+7. Back up data before starting, and dispose of old parts as e-waste.
+
+| Hazard | Cause | Prevention |
+|---|---|---|
+| Electric shock | live PSU or monitor | unplug; never open PSU |
+| ESD damage | static from body | wrist strap, edges only |
+| Cuts | sharp case edges | careful handling, gloves |
+| Short circuit | loose screw, wet bench | tidy dry bench |
+| Fire | overloaded socket | surge-protected strip, extinguisher |
+
+**Q (10 marks). Describe the main components of a desktop PC and explain how to choose compatible parts. A student plans a PC with a 65 W CPU and a 150 W graphics card; calculate the power supply rating.**
+
+*Introduction.* A desktop PC is built from separate, standard parts that are joined by the motherboard (Figure 1.1). Knowing the job and the main specification of each part allows a technician to choose a balanced and compatible system.
+
+*Components and key specifications* (Plate 1.2).
+
+1. **Case:** holds and cools the parts; sizes ATX, micro-ATX and mini-ITX; has fans, drive bays and the front-panel connectors.
+2. **Motherboard:** the main circuit board; its **socket** decides the CPU, its **slots** decide the RAM type and number of cards, and its **chipset** decides features.
+3. **CPU:** the processor; judged by cores, threads, clock speed (GHz) and cache; needs a cooler and thermal paste.
+4. **RAM:** the working memory, such as 8 GB DDR4; must match the board's DDR generation and speed.
+5. **Storage:** HDD (cheap, large, slow) or SSD (SATA or NVMe, fast); the OS should be on an SSD.
+6. **PSU:** converts 220 V AC to the 12 V, 5 V and 3.3 V used inside; rated in watts and 80 PLUS efficiency.
+7. **Graphics card:** needed for games and design; many CPUs have a built-in GPU that is enough for office work.
+8. **Ports and cooling:** USB, HDMI, LAN and audio ports; fans or a liquid cooler remove heat.
+
+*Compatibility rules.* (1) CPU socket = motherboard socket (for example AM4 or LGA1700). (2) RAM generation (DDR4 or DDR5) = board support, because the notches differ. (3) Case form factor must fit the board. (4) The graphics card must fit the case length and have the power connectors from the PSU. (5) The PSU must supply enough watts and the right connectors.
+
+*Power supply calculation.* Add the maximum power of the parts: CPU 65 W + graphics 150 W + motherboard and RAM 40 W + SSD and HDD 15 W + fans 10 W = **280 W**. Allow a 40 to 50 % margin for peaks and ageing: 280 × 1.5 = 420 W. The next standard size is a **450 W** PSU (a 500 W unit is a safer choice). A PSU run near its full rating is hot, noisy and short-lived.
+
+| Part | Match with | Example mismatch |
+|---|---|---|
+| CPU | motherboard socket | LGA1700 CPU on an AM4 board |
+| RAM | board DDR type | DDR5 stick in a DDR4 slot |
+| Board | case form factor | ATX board in a mini-ITX case |
+| GPU | slot, case length, PSU connectors | 300 mm card in a 250 mm case |
+| PSU | total watts | 300 W PSU for a 420 W build |
+
+*Conclusion.* A good PC is a balanced one: a fast CPU with slow memory or an undersized PSU wastes money and causes faults. Check the compatibility table before buying any part.

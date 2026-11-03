@@ -1789,3 +1789,4 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **credits.json is CRLF**: `assets.py get` rewrites it with LF; convert back (`replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")`) so the diff is only the new entries.
 - **Montage viewing:** render PDF pages with pymupdf into one PNG in `/app/_view/` and read it with the File tool; do the bash and the read_file in separate turns (parallel calls race). Delete `/app/_view` before `/app` validation.
 - Next: hardware-workshop, mathematics-1, professional-communication-ethics, then non-core slots.
+- **BCA 106 hardware-workshop is DONE** (session 12; 40 pp, qa fails=0; 11 new bca106/ photos, 4 photo plates + 2 more, 7 SVGs, 8-point sections, 5/10-mark answers in all four units). `call X Y TX TY "text"`: keep labels short and X near 0.5, long labels clip at the cell edge. Next: mathematics-1, professional-communication-ethics.
