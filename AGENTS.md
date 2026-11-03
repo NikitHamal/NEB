@@ -291,7 +291,7 @@ curl -sI https://nebians.consica.com.np/static/web/css/pages/<new-file>.css | he
 ```
 
 **NEVER do these:**
-- Do NOT change `STATICFILES_STORAGE` from `whitenoise.storage.CompressedManifestStaticFilesStorage` â€” note Django 5.1+ `STORAGES['staticfiles']` also exists in settings.py and must stay consistent
+- Do NOT change `STATICFILES_STORAGE` / `STORAGES['staticfiles']` from `whitenoise.storage.CompressedStaticFilesStorage` (settings.py lines 240 and 243, both must stay consistent). **This is NOT the manifest backend** - there is no `staticfiles.json`, no hashed filenames and no cache-busting, so plain `/static/web/css/m3x.css` URLs are correct and expected (verified Nov 2026).
 - Do NOT delete `.gz` files or hashed manifest files from `staticfiles/`
 - Do NOT change `STATIC_ROOT` â€” it must stay as `BASE_DIR / 'staticfiles'`
 
@@ -1695,7 +1695,7 @@ UI/UX revamp â€” home page, library, search, and design system consistency 
 
 14. **Redis cache is persistent across LSAPI workers** â€” Unlike LocMemCache, Redis is shared between all LSAPI workers and persists across restarts. This means cached pages, auth tokens, and sessions survive worker respawns. However, Redis is configured without persistence (`--save ''` on manual start, but the crontab config has `save` directives). If Redis restarts, the cache will be empty but will regenerate.
 
-15. **CRITICAL: Static files are served from TWO locations â€” do NOT change STATICFILES_STORAGE** â€” LiteSpeed/LSAPI serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are DIFFERENT directories. The `CompressedManifestStaticFilesStorage` (WhiteNoise) generates hashed filenames (e.g., `app.7d01927028c0.css`) and a `staticfiles.json` manifest. **Never switch to `StaticFilesStorage`** â€” it will break the manifest, delete hashed files, and cause UI corruption.
+15. **CRITICAL: Static files are served from TWO locations â€” do NOT change STATICFILES_STORAGE** â€” LiteSpeed/LSAPI serves static files from `public/static/`, but Django's `STATIC_ROOT` points to `staticfiles/`. These are DIFFERENT directories. WhiteNoise's `CompressedStaticFilesStorage` serves each file under its plain name - there is no `staticfiles.json`, no hashed filenames and no cache-busting (verified Nov 2026, see the corrected section above). **Never switch to `StaticFilesStorage`** â€” it will break the manifest, delete hashed files, and cause UI corruption.
 
 16. **CRITICAL: How to deploy CSS/JS changes correctly** â€” After editing files in `web/static/`, you MUST do BOTH of these:
     - Run `python manage.py collectstatic --noinput` (writes to `staticfiles/`)
