@@ -339,6 +339,8 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 15 licence-gated `bca252/` photos fetched and viewed: bug (1947 moth logbook), hamilton (Apollo listing), ariane (501 wreckage), dsky, boehm, brooks, royce, beck (graduation podium, UNUSED), jacobson, hopper (UNIVAC room, unused), gantt, mco (Mars Climate Orbiter), card (COBOL punch card), dijkstra, y2k (sticker). Reused bca256 scrum/kanban/pair.
 - [x] U1: Plate 1.1 (3-up bug/Hamilton/Ariane with callouts), Plate 1.2 (MCO photo + unit-mismatch SVG), Fig 1.1 cost of change (1:5:10:20:100, illustrative), 1.2 hardware vs software failure curves, 1.3 quality attribute tree; 1.7.1 eight reasons (Nepal); Q1-Q2 (5), Q3 (10). 60 pp.
 - [x] U2: Plate 2.1 (Royce/Boehm/Jacobson), Plate 2.2 (scrum/kanban/pair), Fig 2.1 waterfall, 2.2 spiral, 2.3 incremental vs waterfall (120 feature-weeks), 2.4 Scrum sprint, 2.5 model-choice flow; 2.10.1 eight agile advantages; Q1-Q2 (5), Q3-Q4 (10). Book now 67 pp, qa fails=0 warns=1 (p3 pre-existing).
-- [ ] U3 .. U8 pending (unused photos: dsky, brooks, gantt, dijkstra, card, y2k, hopper).
+- [x] U3: Plate 3.1 (Y2K sticker / punched card / two-digit-year SVG), Fig 3.1 RE process, 3.2 use case diagram, 3.3 vague-to-testable NFRs, 3.4 value/cost ranking (4.00..0.50), 3.5 SRS layout, 3.6 payback 2.4 y, ROI 108.3%; 3.8.1 eight SRS characteristics; Q1-Q2 (5), Q3-Q4 (10).
+- [x] U4: Plate 4.1 (Dijkstra / Brooks / Apollo DSKY), Fig 4.1 MVC, 4.2 cohesion + coupling ladders, 4.3 structure chart (Henry-Kafura 1,800), 4.4 level-1 DFD, 4.5 class diagram, 4.6 good vs poor error message; 4.5.1 eight design principles; Q1-Q2 (5), Q3-Q4 (10). Book 81 pp, qa fails=0 warns=2.
+- [ ] U5 .. U8 pending (unused photos: gantt (U8), hopper, y2k/card used in U3, hamilton used U1).
 - QA gotcha: `$` in text fails qa (write "370 million US dollars"). Numbered list after a bold line needs a blank line first.
 
