@@ -1843,3 +1843,9 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Next:** polish BCA 154 Mathematics II, BCA 151 Discrete Structure, BCA 153 OOP in Java (thin books first), then the 3 non-core slots, then the rest of Semesters II-VIII.
 - **BCA 154 Mathematics II polished** (same session, 34 pp from 23, qa fails=0): 5 SVG figures (determinant area, three line cases, four subspaces, eigen-ellipse, plane and normal), eight-use sections and one medium + one long SymPy-verified answer per unit. No photographs were added (abstract topic); say so rather than claim pillar 1. Helper used: `/tmp/ins2.py FILE A.md B.md` (insert A before "## Formula and fact sheet", append B). **Next: BCA 151 Discrete Structure, BCA 153 OOP in Java**, then the 3 non-core slots, then the rest of Semesters II-VIII.- **BCA 151 Discrete Structure is PARTIALLY polished** (units 1-4 of 6; 34 -> 43 pp, qa fails=0): figures 1.1, 2.1, 3.1, 4.1, eight-use sections and one medium + one long answer per unit; `check_discrete.py` ALL OK. **Next session starts at BCA 151 units 5 and 6**, then BCA 153 OOP in Java.
 
+
+## BCA polish session 19 (BCA 151 Discrete Structure close-out)
+
+- **BCA 151 units 5-6 DONE** (43 -> 49 pp, qa fails=0): Fig 5.1 (weighted graph: MST + Dijkstra distances), Fig 6.1 (clock arithmetic + RSA path), eight-use sections 5.7 and 6.7, 1 medium + 1 long model answer per unit; `check_discrete.py` ALL OK. No photographs (abstract maths; none claimed). View check: pages rendered with pymupdf into `/app/_view/` (delete before /app validation).
+- **Setup in this sandbox:** `sudo apt-get` works; `pip install --user --break-system-packages uv`; `uv venv --python 3.12 /tmp/v`; same package list as session 18. Credentials via out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT`; the owner must rotate the PAT supplied in the prompt.
+- **Next:** BCA 153 OOP in Java, then remaining Semester II-VIII books (see `bca/POLISH_STATUS.md` Queue).

@@ -107,6 +107,53 @@ A **Boolean algebra** is a complemented distributive lattice with 0 and 1. The t
 
 **Divisor lattice of 12**: elements {1, 2, 3, 4, 6, 12}; join of 4 and 6 = lcm = 12; meet = gcd = 2. It is *not* complemented (4 has no complement), so it is a lattice but not a Boolean algebra; the divisors of 30 (= 2·3·5) form one, with 8 = 2³ elements.
 
+## 6.6 Clock arithmetic and the RSA message path
+
+Modular arithmetic is clock arithmetic. On a 12-hour clock, 9 + 7 = 16, which the clock shows as 4, because 16 = 12 + 4, written 16 ≡ 4 (mod 12). The left half of Figure 6.1 shows this "wrap-around": adding 7 hours to 9 o'clock walks 7 steps round the dial and lands on 4. The same picture explains why 7 has an inverse mod 12 but 4 does not: stepping 7 at a time visits all 12 positions (gcd(7, 12) = 1), whereas stepping 4 at a time only ever visits 0, 4 and 8 (gcd(4, 12) = 4). The right half traces the toy RSA of Section 6.3 from the sender to the receiver: only the receiver's private number d = 2753 can undo the public encryption.
+
+```svgfig label="6.1" caption="Left: clock arithmetic mod 12, 9 + 7 = 16 and 16 mod 12 = 4; stepping by 7 reaches every hour, stepping by 4 reaches only 0, 4, 8. Right: the toy RSA message path with p = 61, q = 53, n = 3233, e = 17, d = 2753; message 65 becomes 2790 and back."
+import math
+f = Fig(600, 270)
+cx, cy, R = 120, 135, 90
+f.circle(cx, cy, R + 14, fill="#ffffff", stroke=NAVY, sw=2)
+def pos(h, r=R):
+    a = math.radians(h * 30 - 90)
+    return cx + r * math.cos(a), cy + r * math.sin(a)
+for h in range(12):
+    x, y = pos(h)
+    hot = h in (9, 4)
+    f.circle(x, y, 12, fill="#fde68a" if hot else (BLUE if h % 4 == 0 else "#ffffff"), stroke=NAVY if hot else SLATE, sw=1.5, label=str(h), size=11, color=NAVY)
+x1, y1 = pos(9, 62); x2, y2 = pos(4, 62)
+f.arrow([(x1, y1), (cx, cy - 30), (x2, y2)], color=RED, sw=2.2, label="+ 7 steps", lpos=(cx - 5, cy - 38), lsize=11)
+f.text(cx, cy + 12, "9 + 7 = 16", size=12, color=NAVY, bold=True)
+f.text(cx, cy + 30, "16 = 12 + 4", size=12, color=NAVY)
+f.text(cx, cy + 48, "so 16 ≡ 4 (mod 12)", size=12, color=RED, bold=True)
+f.text(cx, 258, "step 7: all 12 hours | step 4: only 0, 4, 8", size=11, color=TEAL, bold=True)
+f.box(250, 28, 190, 52, "Sender: m = 65", fill=BLUE, color=NAVY, size=12, bold=True)
+f.box(250, 108, 190, 56, "c = 65^17 mod 3233 = 2790", fill="#fde68a", color=NAVY, size=11, bold=True)
+f.box(250, 192, 190, 52, "Receiver: m = 65", fill="#bbf7d0", color=NAVY, size=12, bold=True)
+f.arrow([(345, 80), (345, 108)], color=SLATE, sw=2)
+f.arrow([(345, 164), (345, 192)], color=SLATE, sw=2)
+f.box(466, 108, 126, 56, "public key (17, 3233)", fill="#ffffff", stroke=TEAL, color=NAVY, size=10.5)
+f.arrow([(466, 136), (440, 136)], color=TEAL, sw=1.8)
+f.box(466, 192, 126, 52, "private d = 2753", fill="#ffffff", stroke=RED, color=NAVY, size=10.5)
+f.arrow([(466, 218), (440, 218)], color=RED, sw=1.8)
+f.text(528, 50, "d = 17^-1 mod 3120", size=10, color=SLATE, bold=True)
+f.text(528, 66, "17 x 2753 = 15 x 3120 + 1", size=10, color=SLATE)
+f.text(529, 260, "kept secret", size=10, color=RED, bold=True)
+```
+
+## 6.7 Eight uses of number theory and algebraic structures
+
+1. **Online banking and payments.** RSA and elliptic-curve keys protect the HTTPS link between your phone and an app such as ConnectIPS or Fonepay. The modular exponentiation of Section 6.3 runs every time a secure session starts.
+2. **Hash tables.** The function h(k) = k mod m spreads student roll numbers or customer IDs over m slots. Choosing a prime m reduces collisions, so lookups stay fast even for a large university database.
+3. **Check digits.** ISBN, bank-card and barcode numbers end with a digit computed with modular arithmetic. A single mistyped digit is caught immediately because the modulus is prime or coprime to the weights.
+4. **Error-correcting codes.** QR codes and CDs use Reed–Solomon codes built on finite fields. A damaged label on a parcel can still be scanned because the missing data is rebuilt from the extra field-based symbols.
+5. **Calendars and schedules.** Day-of-week calculations use mod 7, clock times use mod 12 or mod 24, and rotating duty rosters use mod n. Converting a Bikram Sambat date to a weekday is a modular exercise.
+6. **Random numbers.** A linear congruential generator X(n+1) = (aXn + c) mod m produces the pseudo-random numbers behind simulations and games. Choosing a, c and m with the right gcd conditions gives a long, non-repeating cycle.
+7. **Symmetric encryption.** AES works on bytes as elements of the field GF(2⁸), so every substitution step is invertible. This is what protects stored passwords and Wi-Fi traffic in homes and offices.
+8. **Circuit design and logic.** A Boolean algebra is the common law-book of logic, sets and switching circuits. Simplifying an expression with these laws gives a cheaper chip with fewer gates.
+
 ## Formula and fact sheet
 
 - a = dq + r; gcd(a, b) = gcd(b, a mod b); gcd · lcm = ab; Bézout: gcd = ax + by.
@@ -149,3 +196,53 @@ A **Boolean algebra** is a complemented distributive lattice with 0 and 1. The t
 **9.** If digit i (weight i) changes by δ ≠ 0 (|δ| ≤ 10), the weighted sum changes by iδ, which is not ≡ 0 (mod 11) because 11 is prime and divides neither i (1 to 10) nor δ.
 **10.** 18 = 2 · 3² is not square-free (it has a repeated prime factor), so the divisor lattice (1, 2, 3, 6, 9, 18) is **not** a Boolean algebra (6 elements is not 2ⁿ).
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Find gcd(252, 105) with the Euclidean algorithm, express it as 105x + 252y, and state when 105 has an inverse modulo 252.**
+
+*Introduction.* The Euclidean algorithm uses the identity gcd(a, b) = gcd(b, a mod b). It stops when a remainder is 0, and the last non-zero remainder is the gcd.
+
+*Division steps.*
+
+1. 252 = 2 × 105 + 42
+2. 105 = 2 × 42 + 21
+3. 42 = 2 × 21 + 0
+
+The last non-zero remainder is 21, so **gcd(252, 105) = 21**, and lcm = 252 × 105 ÷ 21 = 1,260.
+
+*Extended Euclid (Bézout).* Work backwards: 21 = 105 − 2 × 42, and 42 = 252 − 2 × 105, so 21 = 105 − 2(252 − 2 × 105) = 5 × 105 − 2 × 252. Hence x = 5 and y = −2. Check: 525 − 504 = 21.
+
+*Inverse.* An inverse of a modulo m exists if and only if gcd(a, m) = 1. Here gcd(105, 252) = 21, not 1, so 105 has **no inverse** modulo 252. By contrast, 7 has the inverse 15 modulo 26 because 7 × 15 = 105 = 4 × 26 + 1.
+
+*Conclusion.* The extended Euclidean algorithm gives the gcd and the coefficients together; the coefficients are what produce modular inverses in RSA.
+
+**Q2 (10 marks). Explain the RSA algorithm with a numerical example, and state the group, ring and field axioms with one example each.**
+
+*Introduction.* RSA is a public-key system: anyone can encrypt with the public key, but only the owner of the private key can decrypt. Its security rests on the difficulty of factoring a large number n = pq.
+
+*Algorithm.*
+
+1. **Choose primes.** p = 61, q = 53.
+2. **Compute n and φ.** n = pq = 3,233; φ = (p − 1)(q − 1) = 60 × 52 = 3,120.
+3. **Public exponent.** Choose e = 17, coprime to 3,120. The public key is (17, 3233).
+4. **Private exponent.** d = e⁻¹ mod φ = 2,753, since 17 × 2,753 = 46,801 = 15 × 3,120 + 1.
+5. **Encrypt.** For m = 65, c = 65¹⁷ mod 3233 = 2,790.
+6. **Decrypt.** m = 2790²⁷⁵³ mod 3233 = 65. This works because ed ≡ 1 (mod φ) and Euler's theorem.
+
+Figure 6.1 shows this path. Real keys use n of 2,048 bits or more, with padding such as OAEP.
+
+*Algebraic structures.*
+
+7. **Group.** A set with one operation that is closed, associative, has an identity and has inverses. Example: ℤ₆ under addition mod 6 (identity 0, inverse of 2 is 4); it is cyclic, generated by 1.
+8. **Ring and field.** A ring has two operations (addition forms an abelian group, multiplication is associative and distributes over addition); ℤ is a ring. A field also gives every non-zero element a multiplicative inverse; ℤₚ is a field when p is prime.
+
+| Structure | Axioms | Example |
+|---|---|---|
+| Semigroup | closed, associative | (ℕ, +) |
+| Monoid | + identity | (ℤ, ×) |
+| Group | + inverses | (ℤ, +) |
+| Ring | two operations, distributive | ℤ |
+| Field | non-zero elements invertible | ℤ₇ |
+
+*Conclusion.* RSA uses arithmetic in the ring ℤₙ and the group of units mod φ, so its correctness is an application of group theory. The same structures also underlie AES and elliptic-curve cryptography.
