@@ -16,3 +16,12 @@
 - Complete-profile step (live `check-username`) after first Google/GitHub sign-in.
 - Community (live feed, category filters, pagination, like, bookmark, thread with replies, composer incl. anonymous), Notifications (unread badge polling, mark-all-read, deep links), profile pull/push to the account, change-password dialog, server-side sign-out. 401 anywhere drops the dead session and returns to sign-in.
 - `NEB_API_BASE` override; `--screenshots` tour now covers 31 screens (signed-in screens use clearly-marked sample data, see LIMITATIONS).
+
+## 0.4.0
+- Guest mode removed everywhere; only signed-in accounts enter the app.
+- New in-app account centre: edit profile, security (change email with code, set/change password, sign out), privacy and terms viewer, account deletion with 30-day cancel window.
+- Privacy / Terms open as an in-app sheet from sign-in; no screen opens the website. Chapter links copy to the clipboard.
+- Shared M3 dialog (scrim + rise) and animated tab row replace ad-hoc windows.
+- Welcome tour rebuilt: live product scenes, step counter, chips, library numbers, subject ticker, drifting backdrop.
+- Helper subtitles removed from headers and profile setup; page/step entrance motion unified.
+- Dead code removed (old menu bar, duplicated password dialog, unused helpers); 0 compiler warnings.

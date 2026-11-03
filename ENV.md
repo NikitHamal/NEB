@@ -174,3 +174,16 @@ desktop/src/data/content.rs
 desktop/src/ui/remote_image.rs
 ```
 Note: the repo is private — unauthenticated `git ls-remote` fails with 'could not read Username'. Rust, mingw, xvfb were installed this session via apt/rustup (not present at start: `rustc: command not found`).
+
+## Agent workaround: the file tool is rooted at /app, shell is not
+Clone to `/tmp/NEB` and `ln -sfn /tmp/NEB /app/neb`; the file tool then reaches `neb/...`. For images, make a
+directory under `/app` (e.g. `/app/shots_out`) and write screenshots there. Do not issue a write and the read of
+the same file in one parallel tool block (the read can race and report "does not exist").
+Push with an out-of-repo `GIT_ASKPASS` helper that reads the token from an env var; never write it to a file in the repo.
+Headless GUI: `LIBGL_ALWAYS_SOFTWARE=1 xvfb-run`, and `xdotool windowfocus $(xdotool search --name NEBians|head -1)` first (no WM means no key focus).
+
+## File-tool workaround (added 2026-11, desktop M3 pass)
+The agent file tool is rooted at the sandbox project dir, not at the clone. Clone to `/tmp/NEB`, then
+`ln -sfn /tmp/NEB <tool-root>/neb` and edit files as `neb/desktop/...`. Screenshots: `ln -sfn /tmp/shots <tool-root>/shots`.
+The PAT is only ever read from an out-of-repo env file through a `GIT_ASKPASS` helper (`/tmp/gitenv.sh`); it is never written into the repo.
+Tools installed this session: rustup (minimal), gcc-mingw-w64-x86-64, xvfb, imagemagick, wine.

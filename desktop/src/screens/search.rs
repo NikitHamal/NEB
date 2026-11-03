@@ -121,7 +121,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SearchState) {
     }
 
     scroll_page(ui, env, "search", |ui, env| {
-        widgets::screen_header(ui, &th, "Search", Some("Subjects, units, topics — and the text of every chapter."));
+        widgets::screen_header(ui, &th, "Search");
         let w = ui.available_width();
         let r = widgets::text_field(ui, &th, &mut st.query, "Search notes, topics and question banks", Some(Icon::Search), w.min(720.0), false);
         if st.focus {
@@ -189,7 +189,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SearchState) {
             return;
         }
         let mut n = 0usize;
-        let mut section = |ui: &mut Ui, env: &mut Env, st: &SearchState, title: &str, hits: Vec<SearchHit>, n: &mut usize| {
+        let section = |ui: &mut Ui, env: &mut Env, st: &SearchState, title: &str, hits: Vec<SearchHit>, n: &mut usize| {
             if hits.is_empty() {
                 return;
             }
@@ -211,7 +211,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut SearchState) {
                     });
                 });
                 if selected {
-                    ui.painter().rect_stroke(resp.rect, spacing::CARD_RADIUS, egui::Stroke::new(2.0, th.p.accent));
+                    ui.painter().rect_stroke(resp.rect, spacing::CARD_RADIUS, egui::Stroke::new(2.0_f32, th.p.accent));
                     if down || up {
                         ui.scroll_to_rect(resp.rect, Some(Align::Center));
                     }

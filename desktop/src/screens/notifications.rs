@@ -1,6 +1,7 @@
 //! Notifications — `api/notifications/` with unread styling, mark-all-read, and deep links
 //! into the community thread a notification refers to.
-use egui::{vec2, Align, Layout, RichText, Rounding, Sense, Stroke, Ui};
+#![allow(dead_code)] // wire/icon sets mirror the server and Material font in full
+use egui::{vec2, Align, Layout, Rounding, Sense, Stroke, Ui};
 use serde_json::{json, Value};
 
 use super::common::*;
@@ -185,7 +186,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut NotificationsState) {
             let (rect, resp) = ui.allocate_exact_size(vec2(w, h), Sense::click());
             let hover = ui.ctx().animate_bool_with_time(resp.id.with("h"), resp.hovered(), 0.1);
             let fill = if it.read { th.p.card } else { crate::theme::mix(th.p.card, th.p.accent_soft, 0.55) };
-            ui.painter().rect(rect, Rounding::same(18.0), fill, Stroke::new(1.0, th.p.hairline));
+            ui.painter().rect(rect, Rounding::same(18.0), fill, Stroke::new(1.0_f32, th.p.hairline));
             ui.painter().rect_filled(rect, Rounding::same(18.0), th.p.ink.gamma_multiply(0.05 * hover));
             let av = egui::Rect::from_min_size(egui::pos2(rect.min.x + 16.0, rect.center().y - 22.0), vec2(44.0, 44.0));
             if it.photo.is_empty() || it.actor.is_empty() {

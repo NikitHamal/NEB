@@ -24,12 +24,14 @@ impl SplashState {
 
 pub fn next_route(env: &Env) -> Route {
     let s = &env.store.s;
-    if s.onboarded {
-        Route::Home
-    } else if s.session.is_some() || s.guest {
-        Route::Onboarding
-    } else {
+    if !s.intro_done {
+        Route::Intro
+    } else if s.session.is_none() {
         Route::Login
+    } else if s.onboarded {
+        Route::Home
+    } else {
+        Route::Onboarding
     }
 }
 
