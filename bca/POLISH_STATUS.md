@@ -321,7 +321,8 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] MIS and e-Business polished (session 28, 45 -> 77 pp)
 - [x] BCA 353 Cryptography and Network Security polished (session 29, 45 -> 83 pp)
 - [x] BCA 355 Distributed System polished (session 30, 54 -> 86 pp)
-- [~] (NEXT SESSION STARTS HERE) Software Engineering (semester-4): see its section below for the exact unit; then Principles of Management (50 pp), DBMS (56 pp), then the rest of Semesters II-VIII.
+- [x] BCA 252 Software Engineering polished (session 31, 54 -> 103 pp)
+- [~] (NEXT SESSION STARTS HERE) Principles of Management (50 pp), then DBMS (56 pp), then the rest of Semesters II-VIII.
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
 
@@ -335,7 +336,7 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - U6: Plate 6.1 (3-up Paxos island / Brewer / data-hall racks), SVG 6.1 quorums, 6.2 Paxos round, 6.3 Raft log + commit index; 8 uses (6.7.1); Q1-Q3; stale-read and availability tables computed.
 - U7: Plate 7.1 (3-up Theodosian Walls / failed HDD / storage rack), SVG 7.1 Byzantine n=4, 7.2 Chandy-Lamport snapshot, 7.3 HDFS; 8 reasons (7.5.1); Q1-Q3; OM(f) message counts, replica-loss probability, HDFS sizes computed.
 
-## BCA 252 software-engineering (semester-4/software-engineering) -- [~] IN PROGRESS (session 31)
+## BCA 252 software-engineering (semester-4/software-engineering) -- [x] POLISHED (session 31): all 8 units, 103 pp (was 54), qa fails=0
 15 licence-gated `bca252/` photos fetched and viewed: bug (1947 moth logbook), hamilton (Apollo listing), ariane (501 wreckage), dsky, boehm, brooks, royce, beck (graduation podium, UNUSED), jacobson, hopper (UNIVAC room, unused), gantt, mco (Mars Climate Orbiter), card (COBOL punch card), dijkstra, y2k (sticker). Reused bca256 scrum/kanban/pair.
 - [x] U1: Plate 1.1 (3-up bug/Hamilton/Ariane with callouts), Plate 1.2 (MCO photo + unit-mismatch SVG), Fig 1.1 cost of change (1:5:10:20:100, illustrative), 1.2 hardware vs software failure curves, 1.3 quality attribute tree; 1.7.1 eight reasons (Nepal); Q1-Q2 (5), Q3 (10). 60 pp.
 - [x] U2: Plate 2.1 (Royce/Boehm/Jacobson), Plate 2.2 (scrum/kanban/pair), Fig 2.1 waterfall, 2.2 spiral, 2.3 incremental vs waterfall (120 feature-weeks), 2.4 Scrum sprint, 2.5 model-choice flow; 2.10.1 eight agile advantages; Q1-Q2 (5), Q3-Q4 (10). Book now 67 pp, qa fails=0 warns=1 (p3 pre-existing).
@@ -343,6 +344,9 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] U4: Plate 4.1 (Dijkstra / Brooks / Apollo DSKY), Fig 4.1 MVC, 4.2 cohesion + coupling ladders, 4.3 structure chart (Henry-Kafura 1,800), 4.4 level-1 DFD, 4.5 class diagram, 4.6 good vs poor error message; 4.5.1 eight design principles; Q1-Q2 (5), Q3-Q4 (10). Book 81 pp, qa fails=0 warns=2.
 - [x] U5: Plate 5.1 (COBOL card / PDP-11 / pair programming), Fig 5.1 bad vs good code (VAT 13%: Rs 1,130), 5.2 coding quality pipeline, 5.3 Halstead (n 20, N 57, V 246.3, D 16.5, E 4064, B 0.082, Python-computed); 5.4.1 eight coding rules; Q1-Q2 (5), Q3 (10).
 - [x] U6: Plate 6.1 (moth log / cable tester / Ariane fragment), Fig 6.1 V-model, 6.2 equivalence + BVA, 6.3 CFG clamp(x) V(G)=3 (outputs run in Python), 6.4 reliability (R(100)=0.8187, availability 99.2063%), 6.5 CMM stairs; 6.7.1 eight testing principles; Q1-Q2 (5), Q3-Q4 (10). Book 91 pp, qa fails=0.
-- [ ] U7 .. U8 pending (unused photos: gantt (U8), hopper, y2k/card used in U3, hamilton used U1).
+- [x] U7: Plate 7.1 (IBM 1401 / Y2K sticker / server room), Fig 7.1 maintenance shares 21/25/50/4, 7.2 Boehm AME = 0.15 x 120 = 18 pm/yr (144 of 264 pm = 54.5%), 7.3 re-engineering cycle, 7.4 version history with branch + merge, 7.5 change-control flow; 7.6.1 eight cost reasons; Q1-Q2 (5), Q3-Q4 (10).
+- [x] U8: Plate 8.1 (Gantt / Brooks / communication-paths SVG 10, 45, 190), Fig 8.1 COCOMO 32 KLOC (organic 91.3 pm in 13.9 mo; semi 145.5; embedded 230.4), 8.2 FPA (UFP 260, VAF 1.07, FP 278.2), 8.3 CPM network computed in-cell (14 weeks, A-B-D-F, slack C 4, E 2), 8.4 PERT (mu 14.67, sigma 1.05, P(16 wk) 89.7%), 8.5 EVM (CV -50,000, SPI 0.8, EAC 11,25,000), 8.6 risk exposure ranking; 8.7.1 eight causes of late projects; Q1-Q2 (5), Q3 (10), Q4 (5), Q5 (10). All numbers Python-computed (token substitution).
+- BOOK DONE: Software Engineering 54 -> 103 pp, qa fails=0 warns=2 (p3 pre-existing, one short tail). Photos used: bug, hamilton, ariane, mco, royce, boehm, jacobson, y2k, card, dijkstra, brooks, dsky, gantt (13 of 15; beck and hopper unused). Reused: bca256 scrum/kanban/pair, bca102 pdp11, bca101 ibm1401, bca401 serverroom, bca106 tester.
+- NEXT SESSION STARTS AT: Principles of Management (50 pp), then DBMS (56 pp), then rest of Semesters II-VIII. (unused photos: gantt (U8), hopper, y2k/card used in U3, hamilton used U1).
 - QA gotcha: `$` in text fails qa (write "370 million US dollars"). Numbered list after a bold line needs a blank line first.
 
