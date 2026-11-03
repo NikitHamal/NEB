@@ -48,14 +48,21 @@
     } else finish();
   }
 
+  function pdfFallback() {
+    if (navigator.pdfViewerEnabled === false) return appCard('download', 'This browser cannot show PDFs');
+    var f = el('iframe', 'vw-iframe', { title: title, referrerpolicy: 'no-referrer' });
+    f.src = src + '#toolbar=0&navpanes=0&view=FitH';
+    return f;
+  }
+
   function build() {
     var node;
     if (kind === 'pdf') {
-      if (navigator.pdfViewerEnabled === false) { node = appCard('download', 'This browser cannot show PDFs'); }
-      else {
-        node = el('iframe', 'vw-iframe', { title: title, referrerpolicy: 'no-referrer' });
-        node.src = src + '#toolbar=0&navpanes=0&view=FitH';
-      }
+      if (window.NebPdf && 'IntersectionObserver' in window) {
+        var pdf = window.NebPdf.mount(src, title);
+        node = pdf.node;
+        node._ready = pdf.ready;
+      } else node = pdfFallback();
     } else if (kind === 'image') {
       node = el('div', 'vw-image');
       var img = el('img', '', { alt: title, draggable: 'false' });
@@ -88,6 +95,12 @@
       if (kind === 'video' || kind === 'audio') {
         if (window.NebMedia) window.NebMedia.mount(node);
         settle(null);
+      } else if (node._ready) {
+        node._ready.then(function () { settle(null); }, function () {
+          var alt = pdfFallback();
+          view.replaceChild(alt, node);
+          settle(alt);
+        });
       } else settle(node._probe || node);
     }
     stage.setAttribute('data-state', 'reading');
