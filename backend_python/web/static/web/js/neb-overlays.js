@@ -41,6 +41,23 @@
   var openMenu = null;
   var scrollLock = { count: 0, top: 0 };
 
+  /* While anything floats over the page the page is inert and every frame steps aside: a PDF or
+   * video frame is composited above backdrop-filter, so without this it stays sharp and bright
+   * through the blur, and keyboard focus can still wander into the page behind. */
+  var inerted = [];
+  function syncOverlayState() {
+    document.documentElement.classList.toggle('neb-has-overlay', stack.length > 0 || !!openMenu);
+    inerted.forEach(function (n) { n.removeAttribute('inert'); });
+    inerted = [];
+    if (!stack.length) return;
+    var top = stack[stack.length - 1].el;
+    Array.prototype.forEach.call(document.body.children, function (n) {
+      if (n === top || n.contains(top) || n.hasAttribute('inert') || /^(SCRIPT|STYLE|LINK|TEMPLATE|NOSCRIPT)$/.test(n.tagName)) return;
+      n.setAttribute('inert', '');
+      inerted.push(n);
+    });
+  }
+
   function reducedMotion() {
     return window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
@@ -142,6 +159,7 @@
     stack.push(entry);
     lockScroll();
     liftToBody(el);
+    syncOverlayState();
     el.hidden = false;
     el.setAttribute('aria-hidden', 'false');
     /* Now that it has layout, anything that had to be measured can be. */
@@ -183,6 +201,7 @@
 
     var done = function () {
       el.hidden = true;
+      syncOverlayState();
       el.removeAttribute('data-closing');
       el.setAttribute('aria-hidden', 'true');
       if (p) p.style.transform = '';
@@ -308,6 +327,7 @@
     placeMenu(menu, trigger);
     trigger.setAttribute('aria-expanded', 'true');
     openMenu = { menu: menu, trigger: trigger };
+    syncOverlayState();
     requestAnimationFrame(function () { menu.setAttribute('data-open', ''); });
     menu.dispatchEvent(new CustomEvent('neb:open', { bubbles: true }));
   }
@@ -317,6 +337,7 @@
     var m = openMenu.menu;
     var t = openMenu.trigger;
     openMenu = null;
+    syncOverlayState();
     m.removeAttribute('data-open');
     t.setAttribute('aria-expanded', 'false');
     if (refocus) t.focus();
@@ -796,6 +817,7 @@
     for (var i = stack.length - 1; i >= 0; i--) {
       if (!document.contains(stack[i].el)) {
         var entry = stack.splice(i, 1)[0];
+        syncOverlayState();
         unlockScroll();
         if (entry.opts && entry.opts.onClose) entry.opts.onClose({ reason: 'swap' });
       }
@@ -964,6 +986,7 @@
       p.setAttribute('aria-modal', 'true');
     }
     stack.push({ el: el, restore: document.activeElement, opts: {}, legacy: true });
+    syncOverlayState();
     lockScroll();
     focusFirst(el);
   }
@@ -975,6 +998,7 @@
     for (var i = 0; i < stack.length; i++) {
       if (stack[i].el !== el) continue;
       var entry = stack.splice(i, 1)[0];
+      syncOverlayState();
       unlockScroll();
       if (entry.restore && document.contains(entry.restore)) {
         try { entry.restore.focus({ preventScroll: true }); } catch (e) { entry.restore.focus(); }
