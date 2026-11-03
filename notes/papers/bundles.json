@@ -8,10 +8,11 @@
    "12-bio-2082-general",
    "12-bio-2081-general",
    "12-bio-2081-9101",
-   "12-bio-2080-general"
+   "12-bio-2080-general",
+   "12-bio-2080-9101"
   ],
-  "pages": 58,
-  "bytes": 999548,
+  "pages": 71,
+  "bytes": 1269021,
   "category": "Board Exam Bundle"
  },
  {
@@ -26,7 +27,7 @@
    "12-chem-2080-general"
   ],
   "pages": 50,
-  "bytes": 1065415,
+  "bytes": 1065419,
   "category": "Board Exam Bundle"
  },
  {
@@ -42,7 +43,7 @@
    "12-eng-2080-0041g"
   ],
   "pages": 44,
-  "bytes": 589461,
+  "bytes": 589463,
   "category": "Board Exam Bundle"
  },
  {
@@ -56,7 +57,7 @@
    "12-nep-2080-0021b"
   ],
   "pages": 36,
-  "bytes": 383470,
+  "bytes": 383467,
   "category": "Board Exam Bundle"
  },
  {
@@ -70,7 +71,7 @@
    "12-cs-2080-4281"
   ],
   "pages": 29,
-  "bytes": 430754,
+  "bytes": 430756,
   "category": "Board Exam Bundle"
  },
  {
@@ -86,7 +87,7 @@
    "12-math-2080-set-h"
   ],
   "pages": 50,
-  "bytes": 2580347,
+  "bytes": 2580350,
   "category": "Board Exam Bundle"
  },
  {
@@ -101,7 +102,7 @@
    "12-phy-2080-general"
   ],
   "pages": 63,
-  "bytes": 2143672,
+  "bytes": 2143670,
   "category": "Board Exam Bundle"
  }
 ]

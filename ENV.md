@@ -188,3 +188,8 @@ Note: the repo is private — unauthenticated `git ls-remote` fails with 'could 
 
 ## Session 10 (past papers)
 - File tool root is /app. Workaround: `git clone` to /tmp/NEB, `ln -sfn /tmp/NEB /app/neb`, use `neb/...` paths in the file tool. Git auth via out-of-repo GIT_ASKPASS helper `/tmp/gitenv.sh` reading `$NEB_GH_TOKEN`; never put the token in the repo. Full details in notes/papers/PAPERS_TRACKER.md (Session 10 notes).
+
+## Past-papers session 11 (2026-11-03)
+- File tool root is `/app`; the repo is cloned to `/tmp/NEB` and exposed with `ln -sfn /tmp/NEB /app/neb`. Scratch page images live in `/tmp/psrc`, exposed with `ln -sfn /tmp/psrc /app/psrc`.
+- Git auth: `/tmp/gitenv.sh` (outside the repo) answers GIT_ASKPASS from `$NEB_GH_TOKEN`; export `GIT_ASKPASS=/tmp/gitenv.sh GIT_TERMINAL_PROMPT=0` before git commands. The token is never stored in the repo or `.git/config`.
+- The clone is about 3 GB; run it in the background and poll the log.
