@@ -1351,6 +1351,45 @@
   "source": "Wikimedia Commons",
   "title": "Technician with laptop working on server rack at NERSC"
  },
+ "bca404/datacenter": {
+  "author": "Hugovanmeijeren",
+  "bytes": 529581,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca404/datacenter.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Cern_datacenter.jpg",
+  "sha1": "8f790c0e6d3fd086",
+  "source": "Wikimedia Commons",
+  "title": "Cern datacenter"
+ },
+ "bca404/gpu": {
+  "author": "Advanced Micro Devices, Inc. (AMD)",
+  "bytes": 101339,
+  "credit": "Webpage: https://www.amd.com/us-en/0,,3715_16038,00.html Image: https://www.amd.com/PublishingImages/Restricted/Photograph_ProductShots/LowResolutionJPEG/ATrHD5",
+  "fetched": "2026-11-03",
+  "file": "bca404/gpu.jpg",
+  "license": "Attribution",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:ATI_Radeon_HD_5870_Graphics_Card-vertical_-_oblique_view.jpg",
+  "sha1": "f1586292fc05c6d6",
+  "source": "Wikimedia Commons",
+  "title": "ATI Radeon HD 5870 Graphics Card-vertical - oblique view"
+ },
+ "bca404/students": {
+  "author": "Jonashtand",
+  "bytes": 427805,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca404/students.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:202412_Students_outside_of_classroom,_Shree_Bhagawati_Secondary_School,_Sankhu_3.jpg",
+  "sha1": "c170373039f5b015",
+  "source": "Wikimedia Commons",
+  "title": "202412 Students outside of classroom, Shree Bhagawati Secondary School, Sankhu 3"
+ },
  "bio11/agaricus": {
   "author": "Fumikas Sagisavas",
   "bytes": 410745,

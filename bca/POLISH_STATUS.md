@@ -87,6 +87,16 @@ Companion handbook (README says the structure is reconstructed; no TU topic list
 - U5 Field test/report/viva: Fig 5.1 report map, Plate 5.1 (Pi photo + demo timeline SVG); field-test PASS/FAIL table script (O1 honestly FAILS), report page budget; 12 viva Q&A, illustrative rubric, 8 habits (5.7); 2 medium + 1 long.
 - Gotchas: python fences need a closing ``` (an unclosed fence swallows the unit); no `fill_script_outputs` problems since every block is self-contained; numbers in prose were copied from real runs (seeded, so re-runs match). Calibration figure is drawn with ideal positions (caption says so). No unit-5 real field photo exists (no real deployment).
 
+## BCA 404 project-4 (semester-7/project-4) -- [x] DONE (session 17), 64 pp, qa fails=0
+Companion handbook (README says the structure is reconstructed; no TU topic list). Running example **SikshyaSignal** (invented early-warning tool ranking 600 simulated first-year students by risk of failing; NumPy logistic regression written from scratch, seed 404). Different from CampusShelf (P1), ClinicQ (P2), KhetSense (P3). 5 units, 24,169 raw words.
+- Photos (bca404/, licence-gated, all viewed): students (Sankhu school building, CC BY-SA), gpu (Radeon card), datacenter (CERN hall). Reused: bca306/code, bca306/tech, bca256/poster.
+- U1 Framing/ethics: Fig 1.1 pipeline, Plate 1.1 (3-up school/GPU/datacentre), Fig 1.2 accuracy trap bars, Fig 1.3 should-we-use-ML chart; dataset + baseline script; 8 reasons (1.6); 2 medium + 1 long.
+- U2 Data: Fig 2.1 histogram, 2.2 split, 2.3 leakage timeline, Plate 2.1 (code photo + cleaning flow SVG); cleaning, features/correlation/split, leakage-AUC scripts; 8 habits (2.6); 2 medium + 1 long.
+- U3 Modelling: Fig 3.1 logistic regression, 3.2 learning curve (Axes), 3.3 confusion matrix, 3.4 precision-recall trade-off; training log, threshold sweep + test report, 5-fold CV + group fairness + bootstrap; 8 ways models mislead (3.5); 2 medium + 1 long. No photo (abstract topic).
+- U4 Deployment: Fig 4.1 request life, 4.2 PSI + AUC bars, Plate 4.1 (technician photo + deployment-levels SVG); model.json + predict service, 8 PASS-line tests, PSI drift on 3 batches (covariate vs concept drift); privacy table, Dockerfile (fence tag `text`, not run); 8 habits (4.6); 2 medium + 1 long.
+- U5 Defence: Fig 5.1 report map, 5.2 talk timeline, Plate 5.1 (poster photo + results-slide SVG); report page budget, 15-minute plan, shingle-similarity, rubric scripts; 12 viva Q&A; 8 habits (5.7); 2 medium + 1 long.
+- Gotchas: `Axes.tag(x, y, s)` takes DATA coordinates (not ax.X/ax.Y pixels); `Axes.axes(xl, yl)` writes labels inside the plot corners and collides with tick labels, so pass empty strings and draw labels with `f.text` outside; every python block repeats a 12-line data generator (blocks must be self-contained for fill_script_outputs); text near-empty p3 warning is only the TOC overflow (warn, not fail).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -96,5 +106,6 @@ Companion handbook (README says the structure is reconstructed; no TU topic list
 - [x] BCA 256 Project I DONE (session 14)
 - [x] BCA 306 Project II DONE (session 15)
 - [x] BCA 356 Project III DONE (session 16)
-- [ ] (NEXT SESSION STARTS HERE) BCA 404 Project IV (semester-7/project-4; books.json code BCA 404, 3 credits; handbook with a fourth running example, e.g. an AI/data-science or enterprise system with deployment and a final-defence focus), then BCA 452 Internship handbook
+- [x] BCA 404 Project IV DONE (session 17)
+- [ ] (NEXT SESSION STARTS HERE) BCA 452 Internship (semester-8/internship; books.json code BCA 452, 3 credits; handbook: placement search, workplace conduct, daily log, report, presentation; use a fifth running example)
 - [ ] remaining non-core slots (BCA 356, 404 projects, 402 SPM if not a core book, 452 internship, 4 electives), then polish semesters II-VIII one book at a time

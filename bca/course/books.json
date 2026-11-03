@@ -311,5 +311,13 @@
   "credits": 3,
   "accent": "#0F766E",
   "status": "done"
+ },
+ "semester-7/project-4": {
+  "name": "Project IV",
+  "code": "BCA 404",
+  "semester": 7,
+  "credits": 3,
+  "accent": "#9333EA",
+  "status": "done"
  }
 }
