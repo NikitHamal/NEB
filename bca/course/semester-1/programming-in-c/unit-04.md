@@ -115,6 +115,41 @@ int main(void)
 10 13 14 29 37 
 ```
 
+```svgfig label="4.1" caption="How arrays sit in memory. (a) int a[5] occupies five consecutive 4-byte cells, so a[i] is at base + 4i. (b) A string is a char array that ends with the null character. (c) int m[2][3] is stored row by row (row-major), so m[i][j] is at base + 4(3i + j)."
+f = Fig(760, 290)
+f.text(14, 18, "(a) int a[5] with base address 1000", size=11, color=TEAL, bold=True, anchor="start")
+for i, v in enumerate([12, 7, 25, 3, 9]):
+    x = 20 + i * 90
+    f.box(x, 30, 90, 36, str(v), fill=BLUE, stroke=NAVY, size=12, bold=True)
+    f.text(x + 45, 82, f"a[{i}]", size=10.5, color=NAVY, bold=True)
+    f.text(x + 45, 98, str(1000 + 4 * i), size=10, color=SLATE)
+f.text(14, 134, "(b) char s[] = \"NEPAL\"  (6 bytes)", size=11, color=TEAL, bold=True, anchor="start")
+for i, ch in enumerate(["N", "E", "P", "A", "L", "\\0"]):
+    x = 20 + i * 60
+    f.box(x, 146, 60, 34, ch, fill=RED if i == 5 else BLUE, stroke=NAVY, size=12, bold=True)
+    f.text(x + 30, 196, f"s[{i}]", size=10, color=NAVY, bold=True)
+f.text(14, 232, "(c) int m[2][3]", size=11, color=TEAL, bold=True, anchor="start")
+for i in range(2):
+    for j in range(3):
+        k = 3 * i + j
+        f.box(20 + k * 70, 244, 70, 30, f"m[{i}][{j}]", fill=BLUE if i == 0 else SOFT, stroke=NAVY, size=10.5, bold=True)
+f.text(560, 262, "row 0 first, then row 1", size=10.5, color=SLATE, anchor="start")
+```
+
+```svgfig label="4.2" caption="Bubble sort of 5, 3, 8, 1, 4. After each pass the largest unsorted value has moved to the end (shown in red). Pass 4 makes no swap, so the list is sorted."
+f = Fig(760, 220)
+rows = [("start", [5, 3, 8, 1, 4], 0), ("pass 1", [3, 5, 1, 4, 8], 1), ("pass 2", [3, 1, 4, 5, 8], 2), ("pass 3", [1, 3, 4, 5, 8], 3), ("pass 4", [1, 3, 4, 5, 8], 5)]
+for r, (lab, v, done) in enumerate(rows):
+    y = 12 + r * 40
+    f.text(80, y + 22, lab, size=11, color=NAVY, bold=True, anchor="end")
+    for i, x in enumerate(v):
+        sorted_ = i >= 5 - done
+        f.box(100 + i * 56, y, 50, 32, str(x), fill=RED if sorted_ else BLUE, stroke=NAVY, size=12, bold=True)
+notes = ["n - 1 = 4 passes at most", "pass 1: 3 swaps (5-3, 8-1, 8-4)", "pass 2: 2 swaps (5-1, 5-4)", "pass 3: 1 swap (3-1)", "no swap: stop early"]
+for r, s in enumerate(notes):
+    f.text(410, 12 + r * 40 + 21, s, size=10.5, color=SLATE, anchor="start")
+```
+
 ## 4.3 Two-dimensional arrays
 
 `int m[3][4];` is 3 rows by 4 columns, stored **row by row** (row-major). `m[i][j]` is row *i*, column *j*. Initialise: `int m[2][3] = {{1,2,3},{4,5,6}};` (only the first dimension may be omitted when initialising).
@@ -221,6 +256,17 @@ Vowels in "Programming in C is fun": o, a, i, i, i, u = 6. Writing `strlen`, `st
 `strcpy(dest, src)` with a `dest` smaller than `src` is a buffer overflow. `char *p = "abc"; p[0] = 'x';` is undefined (string literals are read-only); use `char p[] = "abc";`. `sizeof(s)` is the array size, `strlen(s)` is the text length. Remember the `+1` for `'\0'` when sizing buffers.
 :::
 
+## 4.5 Eight uses of arrays and strings
+
+1. **Storing marks and records.** One array of 40 marks replaces 40 separate variables, and a loop can total or rank them. A class result in a Tribhuvan University college is handled this way. Using `marks[i]` makes the program the same size for 4 or 400 students.
+2. **Searching.** Linear search checks each element, and binary search halves a sorted array each time. Finding a roll number in a list of 1,000 needs at most 10 steps with binary search. This is the idea behind every lookup in a database.
+3. **Sorting and ranking.** Bubble, selection and insertion sort arrange an array in order. Sorting marks in descending order gives the merit list. A sorted array also makes later searching much faster.
+4. **Statistics.** Mean, maximum, minimum, median and frequency of values are computed with one pass over the array. The daily rainfall of Pokhara for 30 days is a typical example. The result is only as good as the loop limits, so check `i < n`.
+5. **Matrices.** A two-dimensional array stores a table or a matrix, so addition, multiplication and transpose become nested loops. Image pixels, spreadsheet cells and the seating plan of an examination hall are also 2-D arrays. Elements are kept row by row in memory.
+6. **Names and text.** A string is an array of characters ending in `'\0'`, so names, addresses and messages can be stored and compared. `strcmp`, `strcpy`, `strcat` and `strlen` do the common work. A student's name in a registration form is a `char name[50]`.
+7. **Text processing.** Counting vowels, reversing a word, checking a palindrome and converting case are loops over the characters of a string. The same idea powers spell-checkers, search boxes and the Nepali SMS filters of mobile operators. Always leave one extra byte for `'\0'`.
+8. **Buffers and tables.** Programs keep data from a keyboard, a file or a network in an array called a buffer, and use look-up tables such as the days in each month. A table is faster than a long chain of `if` statements. The danger is writing beyond the end of the array, which C does not check.
+
 ## Formula and fact sheet
 
 - `a[n]` has indices 0 … n−1; no bounds checking. Element count = `sizeof(a)/sizeof(a[0])`.
@@ -273,3 +319,80 @@ Vowels in "Programming in C is fun": o, a, i, i, i, u = 6. Writing `strlen`, `st
 **11.** Loop `i` from 0 to 2 and `j` from `i+1` to 2; if any `a[i][j] != a[j][i]` it is not symmetric.
 **12.** `int f[26] = {0}; for (i = 0; s[i]; i++) if (s[i] >= 'a' && s[i] <= 'z') f[s[i] - 'a']++;` then print the non-zero counts.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Explain the bubble sort algorithm and write a C program to sort five integers in ascending order. Show the passes for 5, 3, 8, 1, 4.**
+
+**Bubble sort** compares each pair of neighbouring elements and swaps them if they are in the wrong order. After the first pass the largest value has "bubbled" to the last position; after the second pass the second largest is in place, and so on. For n elements at most n - 1 passes are needed, and the sort can stop early when a whole pass makes no swap (Figure 4.2).
+
+*Algorithm.* (1) Repeat for i = 0 to n - 2. (2) Set swapped = 0. (3) For j = 0 to n - 2 - i, if a[j] > a[j+1] swap them and set swapped = 1. (4) If swapped is 0, stop. (5) Print the array.
+
+```c
+#include <stdio.h>
+int main(void) {
+    int a[5] = {5, 3, 8, 1, 4}, n = 5, i, j, t, swapped;
+    for (i = 0; i < n - 1; i++) {
+        swapped = 0;
+        for (j = 0; j < n - 1 - i; j++)
+            if (a[j] > a[j + 1]) { t = a[j]; a[j] = a[j + 1]; a[j + 1] = t; swapped = 1; }
+        if (!swapped) break;
+    }
+    for (i = 0; i < n; i++) printf("%d ", a[i]);
+    printf("\n");
+    return 0;
+}
+```
+
+```text
+1 3 4 5 8 
+```
+
+Trace: start 5 3 8 1 4; pass 1 gives 3 5 1 4 8; pass 2 gives 3 1 4 5 8; pass 3 gives 1 3 4 5 8; pass 4 makes no swap and the sort stops. The time taken is proportional to n² in the worst case and to n for an already sorted list, and it needs no extra array.
+
+**Q (10 marks). What is a string in C? Explain how strings are declared, initialised, read and printed. Describe any five string-handling functions of `<string.h>` and write a program that reverses a string and checks a palindrome.**
+
+*Introduction.* C has no separate string type. A **string** is a one-dimensional array of characters that ends with the **null character `'\0'`** (Figure 4.1b). The null character marks the end, so string functions know where to stop.
+
+*Declaration and initialisation.* `char name[20];` reserves 20 bytes. `char s[] = "NEPAL";` creates 6 bytes (five letters and `'\0'`) and the size is counted by the compiler. `char s[6] = {'N','E','P','A','L','\0'};` is the same. One extra byte must always be kept for `'\0'`.
+
+*Input and output.* `scanf("%s", name)` reads one word and stops at a space, and no `&` is needed because an array name is already an address. `fgets(name, 20, stdin)` reads a full line safely and limits the length. `printf("%s", name)` and `puts(name)` print the string. The function `gets` must never be used, because it cannot limit the input and causes buffer overflow.
+
+*Important functions.*
+
+| Function | Purpose | Example | Result |
+|---|---|---|---|
+| `strlen(s)` | length without `'\0'` | `strlen("Nepal")` | 5 |
+| `strcpy(d, s)` | copy s into d | `strcpy(t, "Nepal-")` | t = "Nepal-" |
+| `strcat(d, s)` | append s to d | `strcat(t, "Level")` | "Nepal-Level" |
+| `strcmp(a, b)` | compare; 0 if equal, <0 if a < b | `strcmp("apple", "banana")` | negative |
+| `strrev` / manual loop | reverse (not standard) | loop below | "leveL" |
+
+*Program.* The program reverses "Level", compares it with the original ignoring case, and joins two strings.
+
+```c
+#include <stdio.h>
+#include <string.h>
+int main(void) {
+    char s[20] = "Level", r[20], t[40];
+    int i, n = strlen(s), pal = 1;
+    for (i = 0; i < n; i++) r[i] = s[n - 1 - i];
+    r[n] = '\0';
+    for (i = 0; i < n; i++)
+        if (s[i] != r[i] && s[i] + 32 != r[i] && s[i] - 32 != r[i]) pal = 0;
+    strcpy(t, "Nepal-");
+    strcat(t, s);
+    printf("%s %zu %s\n", r, strlen(t), t);
+    printf("%d %d\n", strcmp("apple", "banana") < 0, pal);
+    return 0;
+}
+```
+
+```text
+leveL 11 Nepal-Level
+1 1
+```
+
+The reversed string is `leveL`; it matches the original apart from case, so `pal` stays 1 (a palindrome). The joined string has 11 characters, and `strcmp` is negative, so the printed 1 means "apple" comes before "banana".
+
+*Conclusion.* A string is only a char array with a terminator, so every error about arrays (writing beyond the end, forgetting `'\0'`) is also a string error. Use `fgets` and `strncpy`-style limits, and always allocate one byte more than the longest text.

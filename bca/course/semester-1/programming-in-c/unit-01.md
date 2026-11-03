@@ -154,6 +154,28 @@ Text rendering of the flowchart for "largest of two numbers":
 
 **Features:** small core (32 keywords in C89), fast, portable, structured (functions, blocks), rich operators, direct memory access through pointers, a standard library for the rest (I/O, strings, maths). **Weaknesses:** no automatic bounds checking, manual memory management, no built-in strings, objects or exceptions. Many security bugs in real software are C buffer overflows; this course teaches you to avoid them.
 
+```photogrid label="1.1" cols="3" ratio="1.3" caption="The birthplace of C. (a) Ken Thompson (left) and Dennis Ritchie at a DEC PDP-11 in 1973. (b) A PDP-11 at the Computer History Museum: C was first written for this 16-bit minicomputer. (c) Version 5 UNIX, written largely in C, running on a PDP-11 simulator."
+@ photo id="bca102/ritchie" cap="Thompson and Ritchie, 1973"
+fit 1.3
+@ photo id="bca102/pdp11" cap="DEC PDP-11/20 minicomputer"
+fit 1.3
+focus 0.5 0.5
+call 0.50 0.88 0.50 0.60 "Front panel: switches, lamps"
+@ photo id="bca102/unix-v5" cap="UNIX V5 source tree on a PDP-11"
+fit 1.3
+```
+
+### 1.5.1 Eight features of C
+
+1. **Small and simple core.** C has only 32 keywords, so a learner can know the whole language in a few weeks. Everything else, such as input, output and string handling, comes from library functions. A small core also makes compilers easy to write, which is why C exists on every machine from a Nepal Telecom SIM chip to a supercomputer.
+2. **Speed and efficiency.** C code is compiled into machine code with almost no hidden work added. A loop in C usually runs many times faster than the same loop in an interpreted language. This is why operating systems, game engines and database kernels are written in C.
+3. **Portability.** The same C source can be compiled on Windows, Linux or an Android phone with small changes. The standard library hides the differences between machines. The Nagarik App's fingerprint driver and the ATM firmware of a Nepali bank are often ported in this way.
+4. **Structured programming.** C divides a program into functions and uses `if`, `while`, `for` and `switch` for control, which gives clear top-down design. Each function does one job and can be tested alone. A TU billing program, for example, can have separate functions for reading marks, finding grades and printing results.
+5. **Middle-level nature.** C joins high-level ideas (functions, structures) with low-level power (pointers, bitwise operators, direct addresses). A programmer can write a device driver and a payroll report in the same language. This mixed character is why C is called a "middle-level" language.
+6. **Rich set of operators and data types.** C has arithmetic, relational, logical, bitwise, assignment and conditional operators, and types such as `int`, `float`, `char`, arrays, structures and unions. One can express complex ideas in a short line. Users can also create their own types with `struct` and `typedef`.
+7. **Pointers and dynamic memory.** A pointer stores the address of a variable, so a program can reach any memory location and request memory at run time with `malloc`. This gives full control over data structures such as linked lists and trees. It is also the most dangerous feature, because a wrong address crashes the program.
+8. **Extensible through libraries.** A programmer can write functions, store them in header and object files, and reuse them in many programs. Standard libraries (`stdio.h`, `math.h`, `string.h`) save work, and thousands of third-party libraries exist. The ability to grow the language by libraries keeps C alive after fifty years.
+
 ## 1.6 Structure of a C program
 
 ```c
@@ -210,6 +232,22 @@ gcc -Wall -o hello hello.c
 ```
 
 `-Wall` turns on warnings; **always use it** while learning, because many logical mistakes are first reported as warnings. In Turbo C or Code::Blocks the same steps are hidden behind Compile and Run buttons.
+
+```svgfig label="1.1" caption="The build pipeline of a C program. The preprocessor, compiler, assembler and linker each produce a new file; the loader of the operating system then places the executable in memory and starts main."
+f = Fig(760, 210)
+steps = [("hello.c", "source", SOFT), ("Preprocessor", "cpp", BLUE), ("Compiler", "cc1", BLUE), ("Assembler", "as", BLUE), ("Linker", "ld", BLUE), ("hello", "executable", SOFT)]
+for i, (a, b, c) in enumerate(steps):
+    x = 14 + i * 124
+    f.box(x, 40, 100, 56, a, fill=c, stroke=NAVY, size=11.5, bold=True)
+    f.text(x + 50, 116, b, size=10, color=SLATE)
+    if i < 5: f.arrow([(x + 100, 68), (x + 124, 68)], color=NAVY)
+f.text(76, 150, "expanded .i file", size=10, color=TEAL, bold=True)
+f.text(324, 150, "assembly .s file", size=10, color=TEAL, bold=True)
+f.text(448, 150, "object .o file", size=10, color=TEAL, bold=True)
+f.text(572, 150, "adds libc code", size=10, color=TEAL, bold=True)
+f.box(14, 166, 732, 32, "", fill=SOFT, stroke="#cbd5e1")
+f.text(380, 187, "Syntax errors appear in the compiler, undefined references in the linker, runtime errors only after loading.", size=10.5, color=NAVY)
+```
 
 ## 1.8 Errors and debugging
 
@@ -274,3 +312,46 @@ gcc -Wall -o hello hello.c
 **11.** (84,36) → (36,12) → (12,0): GCD 12. (17,5) → (5,2) → (2,1) → (1,0): GCD 1, so 17 and 5 are coprime.
 **12.** rev ← 0; while n > 0: rev ← rev × 10 + n mod 10; n ← n div 10. For 1,230: rev 0, then 0, 3, 32, 321. The trailing zero becomes a leading zero, which an integer does not display.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Explain the steps in creating and running a C program, from the source file to the output. Name the file produced at each step.**
+
+A C program passes through five steps before it produces output (see Figure 1.1). In the **edit** step the programmer types the source code in an editor and saves it as `hello.c`. In the **preprocessing** step the preprocessor removes comments, pastes the contents of every `#include` file and replaces every `#define` name; the result is an expanded source file. In the **compile** step the compiler checks the syntax and translates the expanded source into assembly and then into an **object file** (`hello.o`) of machine code in which the address of library functions such as `printf` is still unknown. In the **link** step the linker combines the object file with the library code from `libc` and fixes all the addresses, giving one executable file (`hello` or `hello.exe`). In the **load and run** step the operating system copies the executable into memory and starts `main`.
+
+| Step | Tool | Input | Output | Typical error |
+|---|---|---|---|---|
+| Edit | editor / IDE | ideas | `hello.c` | typing mistake |
+| Preprocess | `cpp` | `hello.c` | expanded source | missing header file |
+| Compile | `cc1` | expanded source | `hello.o` | syntax error |
+| Link | `ld` | `.o` + libc | executable | undefined reference |
+| Run | loader / OS | executable | output | division by zero |
+
+For example, on Linux the command `gcc -Wall -o hello hello.c` performs the first four steps at once and `./hello` runs the program. Using `-Wall` is good practice, because many logical mistakes first appear as warnings.
+
+**Q (10 marks). Describe the history of the C language and explain its important features. Why is C called a middle-level language?**
+
+*Introduction.* C is a general-purpose, structured, compiled programming language. It was created by **Dennis Ritchie** at Bell Laboratories, USA, in 1972 on a DEC PDP-11 computer (Plate 1.1). Its purpose was to rewrite the UNIX operating system, which until then was written in assembly language.
+
+*History.* ALGOL 60 (1960) gave the idea of structured blocks. CPL and then BCPL (Martin Richards, 1967) simplified it, and **B** (Ken Thompson, 1970) was a small version of BCPL for the first UNIX. B had no data types, so Ritchie added types and structures and called the new language C. The UNIX kernel was rewritten in C in 1973. In 1978 Kernighan and Ritchie published *The C Programming Language* (K&R C). The American standard **ANSI C (C89)** came in 1989, followed by **C99** (`//` comments, `long long`), **C11** (threads) and **C17** (bug fixes).
+
+*Important features.*
+
+1. A small core of 32 keywords, with everything else in libraries.
+2. High speed, because compiled code is close to machine code.
+3. Portability across machines with a standard library.
+4. Structured programming with functions and blocks.
+5. A rich set of operators (arithmetic, relational, logical, bitwise).
+6. Pointers and dynamic memory allocation.
+7. User-defined types through `struct`, `union`, `enum` and `typedef`.
+8. Extensibility through header files and user libraries.
+
+*Why middle-level?* C has **high-level** features: functions, loops, structured control and readable names. It also has **low-level** features: pointers that hold raw addresses, bitwise operators that work on single bits, and `register` and inline assembly that reach the hardware. Because it can express both a payroll report and a device driver, it sits between a high-level language such as Python and an assembly language.
+
+| Language level | Example | Close to |
+|---|---|---|
+| High | Python, Java | human thinking |
+| Middle | **C** | both human and machine |
+| Low | Assembly | machine |
+
+*Conclusion.* C joined the clarity of a high-level language with the control of assembly. It is still the language of operating systems, embedded devices and compilers, so it remains the best first step for a BCA student who wants to understand how a computer really works.

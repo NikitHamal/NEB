@@ -91,6 +91,35 @@ sizeof(Student)=28
 
 Passing a structure to a function **by value** copies all of it; for anything bigger than a couple of members pass a pointer (`const Student *s`) as `print` does. An **array of structures** is a table; sorting it swaps whole records. **Nested structures** model "has-a" relations (`p.dob.y`). **Self-referential** structures hold a pointer to their own type and form linked lists: `struct node { int data; struct node *next; };`.
 
+```photogrid label="7.1" cols="4" ratio="1.1" caption="Where files are kept. A file is a named collection of bytes on permanent storage. (a) A punched card, the first file medium: one card held one 80-column record. (b) Hard disk head and platter: fopen asks the operating system to find the file's blocks here. (c) An NVMe solid-state drive. (d) A USB pen drive, the commonest way to carry files in Nepal."
+@ photo id="bca101/punchcard" cap="Punched card (one record)"
+fit 1.1
+@ photo id="bca101/hdd-arm" cap="Hard disk head and platter"
+fit 1.1
+@ photo id="bca101/nvme" cap="NVMe SSD (M.2)"
+fit 1.1
+@ photo id="bca101/pendrive" cap="USB pen drive"
+fit 1.1
+```
+
+```svgfig label="7.1" caption="Memory layout of a structure and a union. The struct keeps every member (4 + 30 + 2 padding + 4 = 40 bytes); the union keeps all members on the same 4 bytes, so only the last one written is valid."
+f = Fig(760, 250)
+f.text(14, 18, "struct student  (sizeof = 40)", size=11, color=TEAL, bold=True, anchor="start")
+parts = [("roll", 4, BLUE), ("name[30]", 30, SOFT), ("pad", 2, "#fef3c7"), ("marks", 4, BLUE)]
+x = 20
+for n, b, c in parts:
+    w = max(b * 16, 46) if b < 30 else 330
+    f.box(x, 30, w, 40, n, fill=c, stroke=NAVY, size=10.5, bold=True)
+    f.text(x + w / 2, 88, f"{b} B", size=10, color=SLATE)
+    x += w
+f.text(14, 134, "union val  (sizeof = 4)", size=11, color=TEAL, bold=True, anchor="start")
+for n, y, c in [("int i", 148, BLUE), ("float f", 180, SOFT), ("char c[4]", 212, BLUE)]:
+    f.box(20, y, 256, 28, n, fill=c, stroke=NAVY, size=10.5, bold=True)
+f.text(300, 170, "all members start at the same address", size=10.5, color=SLATE, anchor="start")
+f.text(300, 192, "writing f overwrites i and c", size=10.5, color=RED, bold=True, anchor="start")
+f.text(300, 214, "size = largest member", size=10.5, color=SLATE, anchor="start")
+```
+
 ## 7.2 Unions and enumerations
 
 A **union** declares members that all share the *same* memory. Its size is that of the largest member, and only one member holds a valid value at a time (the last one written).
@@ -233,6 +262,31 @@ Here `Rec` is 24 bytes (4 + 16 + 4), so three records occupy 72 bytes, and `fsee
 Opening with `"w"` erases the file. Mixing reads and writes on a `"r+"` stream needs an `fseek` or `fflush` between them. Writing a structure that contains a pointer to a binary file stores the *address*, not the pointed-to data. Binary files are not portable between machines with different sizes or byte orders.
 :::
 
+```svgfig label="7.2" caption="Life cycle of a file in C. fopen returns a FILE pointer (or NULL), the program reads or writes through it, and fclose flushes the buffer and releases the file."
+f = Fig(760, 200)
+steps = [("fopen(name, mode)", "FILE *fp or NULL"), ("test fp == NULL", "stop if failed"), ("fprintf / fwrite / fputc", "write"), ("fscanf / fread / fgets", "read"), ("fclose(fp)", "flush and release")]
+for i, (a, b) in enumerate(steps):
+    x = 10 + i * 148
+    f.box(x, 24, 134, 50, a, fill=BLUE if i != 1 else "#fef3c7", stroke=NAVY, size=10, bold=True)
+    f.text(x + 67, 94, b, size=10, color=SLATE)
+    if i < 4: f.arrow([(x + 134, 49), (x + 148, 49)], color=NAVY)
+modes = [("r", "read, file must exist"), ("w", "write, creates or erases"), ("a", "append at end"), ("r+ / w+ / a+", "read and write"), ("rb wb ab", "binary versions")]
+for i, (m, d) in enumerate(modes):
+    f.text(60 + i * 148, 138, m, size=11, color=TEAL, bold=True, anchor="middle")
+    f.text(60 + i * 148, 156, d, size=9.5, color=SLATE)
+```
+
+## 7.5 Eight uses of structures, unions and files
+
+1. **Records of people and things.** A `struct` groups a roll number, a name and marks in one variable, which is how a college keeps a student record. An array of structures is a small table. All data of one person travels together.
+2. **Real-world models.** Dates, points on a map, complex numbers and bank accounts are naturally structures. A `struct date` with day, month and year (for example Bikram Sambat 2082-01-15) avoids three loose variables. Code becomes closer to the problem.
+3. **Nested and linked structures.** A structure may contain another structure or a pointer to its own type, which builds linked lists and trees. Each node holds data and the address of the next node. This is the base of most data structures.
+4. **Memory saving with unions.** A union lets different types share the same bytes, so a variable that is either an int or a float costs only 4 bytes. Protocol packets and device registers use unions to read the same bytes in different ways. Only one member holds a valid value at a time.
+5. **Named constants with enum.** `enum day {SUN, MON, TUE}` gives readable names to small whole numbers, so `if (d == MON)` is clearer than `if (d == 1)`. Compilers can also warn about mistakes. Menus and states of a program are often written this way.
+6. **Permanent storage.** Variables vanish when the program ends, but a file keeps the data. Student marks saved in `students.dat` are available the next day. This is the difference between a toy program and a useful one.
+7. **Text and binary files.** Text files (`fprintf`, `fgets`) can be read in Notepad and exchanged easily, like a CSV from an exam office. Binary files (`fwrite`, `fread`) store structures exactly, are faster, and allow direct access to the n-th record with `fseek`. Choose text for sharing and binary for speed.
+8. **Logs, reports and configuration.** Programs append events to a log file (mode `"a"`), write reports for printing and read settings at start. A server in a Nepali bank records every transaction in this way. Always check that `fopen` did not return `NULL` and always `fclose`.
+
 ## Formula and fact sheet
 
 - `.` for a structure variable, `->` for a pointer to a structure; `s2 = s1` copies everything.
@@ -287,3 +341,83 @@ Opening with `"w"` erases the file. Mixing reads and writes on a `"r+"` stream n
 **12.** Loop over characters: every `'\n'` adds a line; a word starts when a non-space follows a space; every character adds to the count.
 **13.** Open with `"rb+"`; read records until `rec.roll == key`; `fseek(fp, -(long)sizeof rec, SEEK_CUR)`; change the marks; `fwrite` the record back; close.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Differentiate a structure and a union. Declare both and show the memory they use.**
+
+A **structure** (`struct`) groups variables of different types under one name, and every member has its **own** memory; the size is the sum of the members plus any padding. A **union** also groups members, but all members **share the same memory**, so its size is that of the largest member, and only the member written last holds a valid value (Figure 7.1).
+
+```c
+struct student { int roll; char name[30]; float marks; };
+union val { int i; float f; char c[4]; };
+```
+
+| Point | `struct` | `union` |
+|---|---|---|
+| Keyword | `struct` | `union` |
+| Memory | separate for each member | shared by all members |
+| Size | sum of members + padding (40 bytes here) | largest member (4 bytes here) |
+| Members usable together | yes | no, only the last written |
+| Use | records, nodes | save memory, view the same bytes in different ways |
+
+On a typical PC `sizeof(struct student)` is 40 (4 + 30 + 2 bytes of padding + 4) and `sizeof(union val)` is 4. Members are reached with the dot operator (`s1.roll`) or, through a pointer, with the arrow (`p->roll`).
+
+**Q (10 marks). Explain file handling in C. Describe file opening modes and the main functions for reading and writing. Write a program that stores three student records in a binary file and reads back the second record.**
+
+*Introduction.* Variables live in RAM and disappear when the program ends. A **file** is a named collection of bytes on permanent storage (Plate 7.1) that keeps data between runs. C accesses a file through a **file pointer** of type `FILE *` declared in `<stdio.h>`.
+
+*Steps (Figure 7.2).* (1) `FILE *fp = fopen("students.dat", "wb");` opens the file. (2) Test `if (fp == NULL)`, because the file may not exist or the disk may be full. (3) Read or write. (4) `fclose(fp);` writes any buffered data and releases the file.
+
+*Opening modes.*
+
+| Mode | Meaning |
+|---|---|
+| `"r"` | read; file must exist |
+| `"w"` | write; creates the file or **erases** old contents |
+| `"a"` | append at the end; creates if missing |
+| `"r+"`, `"w+"`, `"a+"` | read and write |
+| add `b` (`"rb"`, `"wb"`) | binary mode |
+
+*Main functions.* Character: `fgetc`, `fputc`. String: `fgets`, `fputs`. Formatted text: `fscanf`, `fprintf`. Binary blocks: `fread(ptr, size, count, fp)` and `fwrite(ptr, size, count, fp)`. Position: `fseek(fp, offset, origin)` with `SEEK_SET`, `SEEK_CUR` or `SEEK_END`, `ftell` and `rewind`. End test: `feof(fp)`.
+
+*Program.* It writes three records, then jumps straight to the second one with `fseek`.
+
+```c
+#include <stdio.h>
+#include <string.h>
+struct student { int roll; char name[30]; float marks; };
+union val { int i; float f; char c[4]; };
+int main(void) {
+    struct student s[3] = {{1, "Sita", 82.5f}, {2, "Ram", 74.0f}, {3, "Gita", 91.25f}}, r;
+    FILE *fp = fopen("students.dat", "wb");
+    if (!fp) return 1;
+    fwrite(s, sizeof(struct student), 3, fp);
+    fclose(fp);
+    fp = fopen("students.dat", "rb");
+    if (!fp) return 1;
+    fseek(fp, 1 * sizeof(struct student), SEEK_SET);
+    fread(&r, sizeof(struct student), 1, fp);
+    fclose(fp);
+    printf("sizeof student = %zu, sizeof union = %zu\n", sizeof(struct student), sizeof(union val));
+    printf("record 2: %d %s %.2f\n", r.roll, r.name, r.marks);
+    return 0;
+}
+```
+
+```text
+sizeof student = 40, sizeof union = 4
+record 2: 2 Ram 74.00
+```
+
+The file is 3 × 40 = 120 bytes. Skipping 40 bytes puts the file position at the start of record 2, so no loop is needed; this *direct access* is the main reason to prefer binary files for fixed-size records.
+
+| Point | Text file | Binary file |
+|---|---|---|
+| Content | readable characters | raw bytes |
+| Functions | `fprintf`, `fscanf`, `fgets` | `fwrite`, `fread` |
+| Size | larger | smaller, exact |
+| Portability | easy to share | machine dependent |
+| Direct access | difficult | easy with `fseek` |
+
+*Conclusion.* File handling turns a program into a tool that remembers. Always check the result of `fopen`, close every file, and be careful with mode `"w"`, which destroys existing data.

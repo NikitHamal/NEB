@@ -219,6 +219,37 @@ int main(void)
 
 (Declaring `int i` inside `for` needs C99 or later; compile with `-std=c99` or `-std=c11`.) For a pattern, count per row: spaces = `n − i`, stars = `2i − 1`; this "row formula" method solves every pattern question.
 
+```svgfig label="3.1" caption="Flowcharts of the three control structures. (a) if-else chooses one of two paths; (b) the while loop tests first and may run zero times; (c) the do-while loop runs the body once before testing."
+f = Fig(760, 270)
+def dia(x, y, t):
+    f.box(x - 52, y, 104, 40, t, fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+dia(100, 20, "cond?")
+f.arrow([(100, 60), (100, 90)], color=NAVY); f.text(114, 80, "no", size=9.5, color=RED, bold=True)
+f.box(40, 90, 120, 30, "else part", fill=SOFT, stroke=NAVY, size=10.5)
+f.arrow([(152, 40), (205, 40), (205, 90)], color=NAVY); f.text(170, 33, "yes", size=9.5, color=TEAL, bold=True)
+f.box(165, 90, 80, 30, "then part", fill=SOFT, stroke=NAVY, size=10.5)
+f.arrow([(205, 120), (205, 150)], color=NAVY)
+f.box(10, 150, 235, 28, "next statement", fill=SOFT, stroke=TEAL, size=10.5)
+f.arrow([(100, 120), (100, 150)], color=NAVY)
+f.text(30, 18, "(a) if-else", size=11, color=TEAL, bold=True)
+dia(350, 20, "cond?")
+f.arrow([(350, 60), (350, 94)], color=NAVY); f.text(364, 80, "true", size=9.5, color=TEAL, bold=True)
+f.box(290, 94, 120, 30, "loop body", fill=SOFT, stroke=NAVY, size=10.5)
+f.arrow([(290, 109), (255, 109), (255, 40), (298, 40)], color=AMBER)
+f.arrow([(402, 40), (440, 40), (440, 160)], color=NAVY); f.text(420, 32, "false", size=9.5, color=RED, bold=True)
+f.box(290, 150, 160, 28, "next statement", fill=SOFT, stroke=TEAL, size=10.5)
+f.text(260, 12, "(b) while / for", size=11, color=TEAL, bold=True)
+f.box(570, 20, 120, 30, "loop body", fill=SOFT, stroke=NAVY, size=10.5)
+f.arrow([(630, 50), (630, 80)], color=NAVY)
+dia(630, 80, "cond?")
+f.arrow([(578, 100), (540, 100), (540, 35), (570, 35)], color=AMBER); f.text(556, 92, "true", size=9.5, color=TEAL, bold=True)
+f.arrow([(630, 120), (630, 150)], color=NAVY); f.text(644, 140, "false", size=9.5, color=RED, bold=True)
+f.box(550, 150, 160, 28, "next statement", fill=SOFT, stroke=TEAL, size=10.5)
+f.text(540, 12, "(c) do-while", size=11, color=TEAL, bold=True)
+f.text(380, 214, "while: entry-controlled (test, then body).   do-while: exit-controlled (body, then test).", size=10.5, color=SLATE)
+f.text(380, 236, "for (init; test; update) is a while loop with the three parts on one line.", size=10.5, color=SLATE)
+```
+
 ## 3.4 `break`, `continue`, `goto`
 
 - `break` leaves the *innermost* loop or `switch` immediately.
@@ -251,6 +282,17 @@ Trace: even `i` skipped; at `i = 9` (odd, > 7) the loop breaks, so `i` is 9 afte
 ::: caution Loop traps
 `for (i = 0; i < 5; i++);` — the stray semicolon is an empty body; the following block runs once. `while (i = 5)` assigns instead of testing. `for (float x = 0; x != 1.0; x += 0.1)` may never terminate because 0.1 has no exact binary form; compare with `<` or a tolerance. An unsigned counter counting down with `i >= 0` never ends because it cannot go negative.
 :::
+
+## 3.5 Eight uses of loops and decisions in real programs
+
+1. **Menu-driven programs.** A `do-while` loop shows the menu at least once and repeats until the user chooses Exit. A `switch` then selects the action. A mobile top-up or ATM menu in Nepal works in just this way.
+2. **Input validation.** A loop asks again until the value is acceptable, for example a mark between 0 and 100. The decision `if (m < 0 || m > 100)` stops wrong data from entering the record. This protects every later calculation.
+3. **Processing a list of records.** A `for` loop visits each student, voter or customer in turn to add, count or find the largest. A TU result program with 500 students needs one loop and a few decisions. Without loops the same code would have to be written 500 times.
+4. **Grading and classification.** An `if-else if` ladder maps a percentage to Distinction, First, Second or Pass. The conditions are tested from top to bottom, and the first true one wins. The order of the conditions therefore matters.
+5. **Searching and sorting.** Linear search uses a loop with a `break` when the key is found, and bubble sort uses a loop inside a loop. These are the base of every directory and phone-book function. The number of repeats decides the speed.
+6. **Number problems.** Sum of digits, reversal, prime test, GCD and Fibonacci series all use `while` loops with `%` and `/`. A prime test loops only up to the square root of n to save work. These are the favourite exam programs.
+7. **Pattern printing.** Nested loops print triangles and pyramids: the outer loop controls the rows, the inner loop controls the columns. This trains the habit of tracing two counters together. The same idea draws rows and columns on a screen.
+8. **Games and real-time monitoring.** A game loop reads input, updates the state and redraws the screen until the player quits. A sensor program that checks a river level every minute and sounds an alarm above a limit is also an endless loop with a decision. In such programs a `break` is the safe exit.
 
 ## Formula and fact sheet
 
@@ -298,3 +340,64 @@ Trace: even `i` skipped; at `i = 9` (odd, > 7) the loop breaks, so `i` is 9 afte
 **9.** `for (i = 1; i <= 4; i++) { for (j = 1; j <= i; j++) printf("%d ", j); printf("\n"); }`
 **10.** `do { printf("1.Add 2.Sub 3.Mul 4.Div 5.Quit: "); scanf("%d",&ch); switch (ch) { case 1: ...; break; ... case 5: break; default: printf("invalid"); } } while (ch != 5);`
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Differentiate between `if-else if` ladder and `switch`. Write a program that prints the day name for a number from 1 to 7.**
+
+Both statements choose one action out of many. The **`if-else if` ladder** tests a chain of conditions from top to bottom and runs the block of the first true condition; its conditions can be any logical or relational expression, including ranges such as `marks >= 80`. The **`switch`** compares one integer or character expression with constant `case` labels, jumps directly to the matching label and needs `break` to stop falling into the next case; a `default` label handles all other values.
+
+| Point | `if-else if` | `switch` |
+|---|---|---|
+| Condition | any expression, ranges, `&&` `\|\|` | one integer/char value against constants |
+| Data types | int, float, char, strings (with `strcmp`) | int and char only |
+| Speed | tests one by one | often a jump table, faster |
+| Missing `break` | not applicable | falls through to next case |
+| Best use | ranges, grades | menus, days, options |
+
+```c
+#include <stdio.h>
+int main(void) {
+    int d;
+    scanf("%d", &d);
+    switch (d) {
+        case 1: printf("Sunday\n");    break;
+        case 2: printf("Monday\n");    break;
+        case 3: printf("Tuesday\n");   break;
+        case 4: printf("Wednesday\n"); break;
+        case 5: printf("Thursday\n");  break;
+        case 6: printf("Friday\n");    break;
+        case 7: printf("Saturday\n");  break;
+        default: printf("Invalid day\n");
+    }
+    return 0;
+}
+```
+
+For input 6 the output is `Friday`. In Nepal's week Saturday is the holiday, so a programmer could group `case 7` with a message "Holiday" without any change to the other cases.
+
+**Q (10 marks). Explain the loop statements of C with syntax, flowchart and an example of each. Compare the `while`, `do-while` and `for` loops, and explain `break` and `continue`.**
+
+*Introduction.* A **loop** repeats a block of statements as long as a condition holds. Loops remove repeated code, so a program that handles 500 students needs the same few lines as one that handles 5. C has three loops: `while`, `do-while` and `for` (Figure 3.1).
+
+*The while loop.* `while (condition) { body }`. The condition is tested **first**; if it is false at the start, the body never runs (entry-controlled). Example: `i = 1; while (i <= 5) { printf("%d ", i); i++; }` prints `1 2 3 4 5`.
+
+*The do-while loop.* `do { body } while (condition);` The body runs **once before** the test (exit-controlled), so it always runs at least once. Note the semicolon after the condition. It suits menus: `do { show_menu(); scanf("%d", &c); } while (c != 0);`
+
+*The for loop.* `for (init; condition; update) { body }`. The initialisation runs once, then the condition is tested before every pass and the update runs after every pass. Example: `for (i = 1; i <= 5; i++) sum += i;` gives sum = 15. It is the best choice when the number of repeats is known.
+
+*Jump statements.* **`break`** leaves the nearest loop or `switch` at once; for example, a linear search stops when the key is found. **`continue`** skips the rest of the current pass and goes to the next test (in a `for` loop to the update); for example, skipping negative marks while adding. `goto` jumps to a label and should be avoided.
+
+*Comparison.*
+
+| Point | `while` | `do-while` | `for` |
+|---|---|---|---|
+| Test position | before body | after body | before body |
+| Minimum runs | 0 | 1 | 0 |
+| Best when | repeats unknown | menu, validation | repeats known |
+| Init/update | separate lines | separate lines | in header |
+| Semicolon at end | no | **yes** | no |
+
+*Nested loops.* A loop inside a loop runs the inner loop fully for each pass of the outer loop. A 4-row triangle uses `for (i = 1; i <= 4; i++) { for (j = 1; j <= i; j++) printf("*"); printf("\n"); }` and prints 1, 2, 3 and 4 stars in the four rows, 10 stars in total.
+
+*Conclusion.* The three loops are interchangeable in power, so the choice is about clarity: `for` for counting, `while` for waiting on a condition, `do-while` when the body must run once. A loop must always change something that leads to a false condition, or it never ends.
