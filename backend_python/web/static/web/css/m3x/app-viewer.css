@@ -171,3 +171,24 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
   .vw-sprite, .vw-pixels i { animation: none; }
   .vw-sprite, .vw-part, .vw-part-ico, .vw-image img { transition-duration: .01s; }
 }
+
+/* ---------- PDF reader (pdf-reader.js): page canvases on a tonal field, a floating zoom dock ---------- */
+.vw-pdf { position: absolute; inset: 0; }
+.vw-pdf-scroll { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 10px 88px; outline: none; -webkit-overflow-scrolling: touch; }
+.vw-pdf-page { flex: none; position: relative; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid var(--md-outline-variant); }
+.vw-pdf-page::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--md-primary) 10%, transparent) 50%, transparent 70%) 0 0 / 240% 100%; animation: vw-sheen 1.4s linear infinite; pointer-events: none; }
+.vw-pdf-page.is-ready::after { display: none; }
+.vw-pdf-page canvas { display: block; user-select: none; -webkit-user-drag: none; }
+@keyframes vw-sheen { from { background-position: 140% 0; } to { background-position: -40% 0; } }
+.vw-pdf-dock {
+  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 3; display: flex; align-items: center; gap: 4px; padding: 6px;
+  border-radius: 28px; background: var(--x-float); border: 1px solid var(--x-float-line); color: var(--md-on-surface);
+}
+.vw-pdf-btn { width: 44px; height: 44px; border: 0; border-radius: 50%; display: grid; place-items: center; cursor: pointer; background: var(--md-secondary-container); color: var(--md-on-secondary-container); transition: border-radius .45s var(--spring), transform .3s var(--spring); }
+.vw-pdf-btn:hover { border-radius: 14px; }
+.vw-pdf-btn:active { transform: scale(.9); }
+.vw-pdf-count { min-width: 72px; text-align: center; font-weight: 600; font-size: .9375rem; font-variant-numeric: tabular-nums; }
+.vw-pdf-count b { font-weight: 700; }
+.vw-pdf-count i { font-style: normal; color: var(--md-on-surface-variant); }
+@media (min-width: 640px) { .vw-pdf-scroll { padding-inline: 20px; } }
+@media (prefers-reduced-motion: reduce) { .vw-pdf-page::after { animation: none; } }
