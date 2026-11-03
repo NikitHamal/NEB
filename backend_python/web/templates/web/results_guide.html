@@ -195,7 +195,7 @@
         <div class="results-sidebar-news">
           {% for n in recent_news %}
           <a href="{% url 'web:news_detail' slug=n.slug %}" class="results-sidebar-news-item">
-            <span class="material-symbols-outlined results-sidebar-news-icon" style="color:{{ n.category_color }}">{{ n.category_icon }}</span>
+            <span class="material-symbols-outlined results-sidebar-news-icon" style="color:color-mix(in srgb, {{ n.category_color }} 60%, var(--md-on-surface))">{{ n.category_icon }}</span>
             <div>
               <span class="results-sidebar-news-title">{{ n.title }}</span>
               <span class="results-sidebar-news-date">{{ n.published_at|time_ago }}</span>

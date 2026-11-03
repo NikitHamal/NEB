@@ -12,11 +12,19 @@
 
 /* a fill with a hard-coded colour needs a hard-coded label, never a role colour that flips */
 .tools-card-badge { color: var(--tool-on, var(--md-on-primary)); }
-.tools-card--green { --tool-on: #fff; --tool-accent: #11703b; }
-.tools-card--purple { --tool-on: #fff; --tool-accent: #6a2bc4; }
 
 /* the old tools page switched all motion off; motion stays, and only reduced-motion turns it off */
 .tools-page *, .tools-audio-page * { animation: revert !important; transition: revert !important; }
 .tools-page .tools-card:hover, .tools-page .tools-card:focus-visible,
 .tools-audio-page .btn:hover, .tools-audio-page .btn.primary:hover, .tools-audio-page .chunk-btn:hover { transform: revert !important; }
 @media (prefers-reduced-motion: reduce) { .tools-page *, .tools-audio-page * { animation: none !important; transition: none !important; } }
+
+/* page stylesheets load after this file and set these at the same specificity (opacity .4 and so on);
+   `:root` lifts the guard over them. Icons that carry meaning are never faded below the 3:1 line. */
+:root .syl-card-arrow, :root .st-chevron, :root .results-quick-link-arrow,
+:root .upload-dropzone-hint, :root .neb-field-trigger-placeholder { opacity: 1; }
+:root .syl-card-arrow, :root .st-chevron { color: var(--md-on-surface-variant); }
+:root .results-quick-link-arrow { color: var(--md-primary); }
+:root .news-card-dot { opacity: 1; color: var(--md-on-surface-variant); }
+:root .neb-field-trigger-placeholder { color: var(--md-on-surface-variant); }
+:root .neb-sheet-close { color: var(--md-on-surface-variant); }
