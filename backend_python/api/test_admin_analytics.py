@@ -1,5 +1,6 @@
 """Admin analytics: rules, tracking pipeline, report maths, views, backfill."""
 import io
+import os
 import time
 from unittest import mock
 
@@ -166,6 +167,30 @@ class WriterTests(TestCase):
         self.assertEqual(rows[0].session_id, rows[1].session_id)
         self.assertNotEqual(rows[1].session_id, rows[2].session_id)
         self.assertIsNone(rows[0].ip_address)  # raw IP is never stored
+
+    def test_forked_child_gets_its_own_worker_and_queue(self):
+        """LSAPI forks per request. The child inherits the Thread object (still
+        `is_alive()`) but not the OS thread, so the writer must notice the pid
+        change and rebuild both, or events pile up with no consumer."""
+        class Ghost:  # what a forked child sees: an "alive" thread that is not running
+            def is_alive(self):
+                return True
+
+        old_q, old_w, old_pid = writer._queue, writer._worker, writer._owner_pid
+        try:
+            writer._worker = Ghost()
+            writer._owner_pid = old_pid + 1  # pretend we were forked from another pid
+            writer._ensure_worker()
+            self.assertIsNot(writer._worker, None)
+            self.assertNotIsInstance(writer._worker, Ghost)
+            self.assertTrue(writer._worker.is_alive())
+            self.assertIsNot(writer._queue, old_q)
+            self.assertEqual(writer._owner_pid, os.getpid())
+            # and the rebuilt worker really drains the rebuilt queue
+            writer._queue.put_nowait(self._event(f'a-fork-{time.time()}', int(time.time() * 1000)))
+            writer._queue.join()
+        finally:
+            writer._queue, writer._worker, writer._owner_pid = old_q, old_w, old_pid
 
     def test_remote_geo_is_off_by_default(self):
         with mock.patch.object(writer, '_geo_remote') as remote:

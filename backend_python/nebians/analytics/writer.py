@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import hashlib
 import logging
+import os
 import queue
 import secrets
 import threading
@@ -41,6 +42,13 @@ _MAX_PENDING = 512
 _queue: "queue.Queue[dict]" = queue.Queue(maxsize=_MAX_PENDING)
 _worker: threading.Thread | None = None
 _worker_lock = threading.Lock()
+# Fork safety. LiteSpeed's LSAPI (and gunicorn --preload, uWSGI) fork request
+# processes from a parent that may already have called submit(). A forked child
+# inherits the Thread *object* (is_alive() can still say True) but not the OS
+# thread, and the inherited queue's lock may be held by a thread that no longer
+# exists. So remember which pid built the worker and rebuild everything when the
+# pid changes.
+_owner_pid = os.getpid()
 
 # ip-api.com free tier answers 45/minute per calling IP and bans for an hour
 # after that. Stay under it on purpose.
@@ -135,25 +143,36 @@ def _write(item: dict) -> None:
         close_old_connections()
 
 
-def _run() -> None:
+def _run(q: "queue.Queue[dict]") -> None:
     while True:
-        item = _queue.get()
+        item = q.get()
         try:
             _write(item)
         except Exception:
             logger.debug('page view write failed', exc_info=True)
         finally:
-            _queue.task_done()
+            q.task_done()
 
 
 def _ensure_worker() -> None:
-    global _worker
+    global _worker, _queue, _worker_lock, _owner_pid
+    pid = os.getpid()
+    if pid != _owner_pid:
+        # We are a forked child: nothing inherited from the parent works here.
+        _worker_lock = threading.Lock()
+        _queue = queue.Queue(maxsize=_MAX_PENDING)
+        _worker = None
+        _owner_pid = pid
     if _worker is not None and _worker.is_alive():
         return
     with _worker_lock:
         if _worker is not None and _worker.is_alive():
             return
-        _worker = threading.Thread(target=_run, name='nebians-pageviews', daemon=True)
+        # The thread targets the queue it was created for, so a rebuilt queue
+        # can never be drained by a stale worker.
+        _worker = threading.Thread(
+            target=_run, args=(_queue,), name='nebians-pageviews', daemon=True,
+        )
         _worker.start()
 
 
