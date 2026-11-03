@@ -32,6 +32,22 @@
   "id": "12-bio-2081-general"
  },
  {
+  "file": "NEBians-Past-Paper-Grade-12-Biology-2081-Technical-9101.pdf",
+  "subject": "Biology",
+  "grade": "12",
+  "year_bs": "2081",
+  "year_ad": "2024",
+  "stream": "Technical 9101",
+  "code": "9101 (New course) Technical stream",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For students of the technical stream whose first two digits of registration number start from 79 and 80",
+  "category": "Board Exam",
+  "pages": 11,
+  "bytes": 177629,
+  "id": "12-bio-2081-9101"
+ },
+ {
   "file": "NEBians-Past-Paper-Grade-12-Biology-2082-General.pdf",
   "subject": "Biology",
   "grade": "12",
@@ -92,7 +108,7 @@
   "students": "For regular and grade increment students of the technical stream whose first two digits of registration number start from 79 and 80",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 346770,
+  "bytes": 347391,
   "id": "12-chem-2081-9111"
  },
  {
@@ -415,7 +431,7 @@
   "students": "For regular and grade increment civil / computer / electrical engineering students whose first two digits of registration number start from 79 and 80",
   "category": "Board Exam",
   "pages": 15,
-  "bytes": 536138,
+  "bytes": 539003,
   "id": "12-phy-2081-9131"
  },
  {
