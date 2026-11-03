@@ -124,7 +124,98 @@ At 500 requests per second with a 200 ms duration the platform must run 100 inst
 A steady API with predictable load and long-lived connections suits Kubernetes with an HPA. A bursty image-resize job triggered by uploads, idle most of the day, suits functions. Many systems use both.
 :::
 
-## 5.6 Summary and exercises
+## 5.6 Seeing the ideas: the cluster, the autoscaler, the monolith and the queue
+
+Queueing theory looks abstract until you stand in a line. Plate 5.1 sets a real ticket queue beside the M/M/1 curve that predicts what happens to waiting time as a server gets busier.
+
+```photogrid label="5.1" cols="2" ratio="1.25" caption="Queues are everywhere. (a) People waiting at ticket counters in a railway station: if arrivals approach the speed at which the counters serve, the line grows without limit. (b) The M/M/1 curve L = rho / (1 - rho): at 80% utilisation a worker holds 4 requests, at 95% it holds 19, so the last few percent of utilisation cost the most waiting."
+@ photo id="bca451/queue" cap="Ticket queue at a station"
+fit 1.25
+focus 0.5 0.5
+@ svg cap="Requests in system versus utilisation"
+f = Fig(300, 256)
+ax = Axes(f, 40, 14, 245, 180, (0, 1), (0, 20))
+ax.grid(0.2, 5)
+ax.axes("", "")
+ax.curve(lambda r: r / (1 - r), 0, 0.955, color=NAVY)
+ax.pt(0.8, 4, "rho 0.8: L = 4", dx=-8, dy=-16, anchor="end")
+ax.pt(0.95, 19, "rho 0.95: L = 19", dx=-8, dy=4, anchor="end")
+f.text(165, 226, "utilisation rho = lambda / mu", size=10, color=SLATE)
+f.text(165, 244, "L = average requests in the system", size=10, color=SLATE)
+```
+
+```svgfig label="5.1" caption="Kubernetes architecture. The control plane (API server, etcd, scheduler, controller manager) stores desired state and decides placement; each worker node runs a kubelet, kube-proxy and a container runtime that start the Pods. Every component talks to the API server."
+f = Fig(580, 250)
+f.box(8, 8, 564, 100, "", fill="#f8fafc", stroke=NAVY)
+f.text(80, 22, "Control plane", size=10.5, color=NAVY, bold=True)
+f.box(150, 34, 130, 36, "kube-apiserver\n(front door, REST)", fill=BLUE, stroke=NAVY, size=9.5, bold=True)
+f.box(20, 34, 100, 36, "etcd\n(cluster state)", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+f.box(310, 34, 110, 36, "kube-scheduler\n(pick a node)", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.box(440, 34, 120, 36, "controller-manager\n(reconcile loops)", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.arrow([(120, 52), (150, 52)], both=True)
+f.arrow([(280, 52), (310, 52)], both=True)
+f.arrow([(420, 52), (440, 52)], both=True)
+f.text(290, 98, "kubectl and CI/CD send desired state here", size=9.5, color=SLATE)
+for i, nm in enumerate(["Worker node 1", "Worker node 2", "Worker node 3"]):
+    x = 8 + i * 192
+    f.box(x, 124, 180, 118, "", fill="#ecfdf5", stroke=TEAL)
+    f.text(x + 90, 138, nm, size=10, color=TEAL, bold=True)
+    f.box(x + 8, 148, 76, 24, "kubelet", fill=BLUE, stroke=NAVY, size=9.5)
+    f.box(x + 96, 148, 76, 24, "kube-proxy", fill=BLUE, stroke=NAVY, size=9.5)
+    f.box(x + 8, 178, 164, 20, "container runtime (containerd)", fill=SAND, stroke=AMBER, size=9)
+    f.box(x + 8, 204, 50, 30, "Pod", fill=ROSE, stroke=RED, size=9.5)
+    f.box(x + 66, 204, 50, 30, "Pod", fill=ROSE, stroke=RED, size=9.5)
+    f.box(x + 124, 204, 48, 30, "Pod", fill=ROSE, stroke=RED, size=9.5)
+    f.arrow([(x + 90, 124), (215, 108)], dash=True, color=SLATE)
+```
+
+```svgfig label="5.2" caption="The Horizontal Pod Autoscaler in action. With a target of 50% CPU, 4 replicas running at 90% give ceil(4 x 90 / 50) = ceil(7.2) = 8 replicas. After the surge, 8 replicas at 30% give ceil(8 x 30 / 50) = ceil(4.8) = 5 replicas. The controller repeats this calculation every cycle."
+f = Fig(580, 180)
+S = [("Normal", 4, 50, MINT, TEAL), ("Surge: CPU 90%", 4, 90, ROSE, RED), ("After scale-out", 8, 45, MINT, TEAL), ("Quiet: CPU 30%", 8, 30, SAND, AMBER), ("After scale-in", 5, 48, MINT, TEAL)]
+for i, (t, n, cpu, fl, st) in enumerate(S):
+    x = 8 + i * 114
+    f.text(x + 52, 14, t, size=10, color=NAVY, bold=True)
+    for k in range(n):
+        f.box(x + (k % 4) * 26, 24 + (k // 4) * 30, 22, 24, "", fill=fl, stroke=st)
+    f.text(x + 52, 96, "%d Pods" % n, size=10.5, color=st, bold=True)
+    f.text(x + 52, 112, "CPU %d%%" % cpu, size=10, color=SLATE)
+    if i < 4: f.arrow([(x + 104, 50), (x + 118, 50)])
+f.text(290, 144, "desired = ceil( current replicas x current metric / target metric )", size=10.5, color=NAVY, bold=True)
+f.text(290, 164, "inside the 0.1 tolerance band around the target, nothing changes", size=10, color=SLATE)
+```
+
+```svgfig label="5.3" caption="Monolith versus microservices. The monolith is one deployable unit with one shared database; microservices are separate services with their own data behind an API gateway, and a circuit breaker stops calls to a failing dependency so one fault does not bring down the system."
+f = Fig(580, 212)
+f.text(100, 14, "Monolith", size=11.5, color=NAVY, bold=True)
+f.box(14, 24, 172, 100, "", fill=BLUE, stroke=NAVY)
+for i, t in enumerate(["Orders", "Payments", "Catalogue"]):
+    f.box(24, 32 + i * 28, 152, 24, t, fill="#ffffff", stroke=NAVY, size=10)
+f.box(14, 138, 172, 30, "One shared database", fill=SAND, stroke=AMBER, size=10)
+f.text(100, 200, "scale, release and fail together", size=10, color=RED)
+f.text(390, 14, "Microservices", size=11.5, color=NAVY, bold=True)
+f.box(220, 78, 76, 36, "API\ngateway", fill=BLUE, stroke=NAVY, bold=True, size=10)
+for i, t in enumerate(["Orders", "Payments", "Catalogue"]):
+    y = 26 + i * 52
+    f.box(340, y, 90, 30, t, fill=MINT, stroke=TEAL, size=10)
+    f.box(460, y, 108, 30, "own database", fill=SAND, stroke=AMBER, size=9.5)
+    f.arrow([(296, 96), (340, y + 15)])
+    f.arrow([(430, y + 15), (460, y + 15)])
+f.box(300, 160, 150, 26, "circuit breaker opens on failure", fill=ROSE, stroke=RED, size=9)
+f.text(480, 200, "scale and release independently", size=10, color=TEAL)
+```
+
+### 5.6.1 Eight benefits of Kubernetes for cloud applications
+
+1. **Self-healing.** If a container or a node fails, Kubernetes starts replacements automatically because the observed state no longer matches the declared state. A payment service stays up without a person watching it at night. Health checks also restart containers that hang.
+2. **Automatic scaling.** The Horizontal Pod Autoscaler adds Pods when load rises and removes them when it falls. A ticket-booking site for a festival can grow within minutes. Nodes can be added by a cluster autoscaler as well.
+3. **Rolling updates and rollbacks.** A Deployment replaces old Pods with new ones gradually, so users see no downtime. If the new version fails its checks, one command returns to the old version. Releases become routine instead of risky.
+4. **Service discovery and load balancing.** A Service gives a stable name and address to a changing set of Pods. Other services call it by name and traffic is spread across the healthy Pods. Developers do not track individual IP addresses.
+5. **Declarative configuration.** The whole system is described in YAML files that can be stored in Git and reviewed. The same files rebuild the system in another region. This is the idea of infrastructure as code.
+6. **Efficient resource use.** The scheduler packs Pods onto nodes by their CPU and memory requests, so servers are well filled. Fewer machines are needed for the same work. Namespaces and quotas stop one team from taking everything.
+7. **Portability.** The same manifests run on any major cloud and on a college's own servers. A company can move from one provider to another with much less rework. This reduces vendor lock-in.
+8. **Rich ecosystem.** Tools for monitoring, logging, service mesh, secrets and CI/CD plug into Kubernetes. Skills learnt for one project apply to many employers. Open standards keep the knowledge useful for years.
+
+## 5.7 Summary and exercises
 
 Microservices trade simplicity for independence; Kubernetes reconciles desired and observed state; the HPA scales replicas by ⌈current × metric ÷ target⌉ within tolerance and bounds; Little's Law and M/M/1 show why queues explode near full utilisation, and give serverless concurrency directly.
 
@@ -134,3 +225,60 @@ Microservices trade simplicity for independence; Kubernetes reconciles desired a
 4. For λ = 45 req/s and μ = 50 req/s compute ρ, L and W for M/M/1.
 5. A function runs 300 ms at 200 invocations per second. What concurrency is needed?
 6. Give two advantages and two disadvantages of microservices for a five-person team.
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Compare monolithic and microservice architectures.**
+
+*Introduction.* A monolith is one deployable unit; microservices split the system into small services that each own one business capability and their data (Figure 5.3).
+
+| Point | Monolith | Microservices |
+|---|---|---|
+| Deployment | One unit, whole release | Each service separately |
+| Scaling | Whole application | Only the busy service |
+| Fault isolation | One bug can stop all | Failure contained |
+| Technology | One stack | Different stack per service |
+| Data | One shared database | Database per service |
+| Complexity | Simple to build and debug | Network calls, distributed tracing |
+| Best for | Small teams, early stage | Large teams, fast-changing systems |
+
+*Resilience patterns.* Timeouts, retries with backoff, circuit breakers, bulkheads and an API gateway keep one slow service from bringing down others. *Example:* an online shop can scale only the catalogue service during a Dashain sale. *Conclusion:* start with a well-structured monolith and split into microservices when team size and scale demand it.
+
+**Q2 (5 marks). Explain the Horizontal Pod Autoscaler with a calculation.**
+
+The **HPA** changes the number of Pod replicas of a Deployment from observed metrics such as CPU use, using
+
+**desiredReplicas = ceil( currentReplicas x currentMetric / targetMetric )**
+
+clamped between minReplicas and maxReplicas. No change is made while the ratio is within a tolerance of 0.1 of 1.0, which avoids flapping (Figure 5.2).
+
+*Calculation.* A web Deployment has 4 replicas, a target of 50% CPU and a measured average of 90%. Desired = ceil(4 x 90 / 50) = ceil(7.2) = **8**. After the surge, 8 replicas at 30% give ceil(8 x 30 / 50) = ceil(4.8) = **5**. A stabilisation window delays scale-in so a short dip does not remove Pods too early. *Conclusion:* the HPA keeps the metric near its target, matching capacity to demand automatically.
+
+**Q3 (5 marks). State Little's Law and analyse an M/M/1 queue with arrival rate 90 requests/s and service rate 100 requests/s.**
+
+**Little's Law:** L = lambda x W for any stable system, where L is the average number in the system, lambda the arrival rate and W the average time spent in it. It needs no assumption about the arrival pattern.
+
+*M/M/1 results.* Utilisation rho = lambda / mu = 90 / 100 = 0.9. Average number in system L = rho / (1 - rho) = 0.9 / 0.1 = **9**. Waiting in queue Lq = rho^2 / (1 - rho) = 0.81 / 0.1 = **8.1**. Time in system W = 1 / (mu - lambda) = 1 / 10 = **0.1 s = 100 ms**. Waiting time Wq = rho x W = **90 ms**. Check: lambda x W = 90 x 0.1 = 9 = L.
+
+Compared with the book's 80% case (L = 4, W = 50 ms), a 12.5% rise in load doubles the response time (Plate 5.1). *Conclusion:* keep utilisation well below 100%, usually below 70 to 80%, and scale out before the curve turns steep.
+
+**Q4 (10 marks). Explain Kubernetes: its architecture, main objects and the reconcile loop. Compare it with serverless for running cloud workloads.**
+
+*Introduction.* **Kubernetes** (K8s) is an open-source container orchestrator that schedules containers on a cluster, keeps them healthy, scales them and exposes them as services. It grew from Google's internal system Borg and is now the industry standard.
+
+*Architecture (Figure 5.1).* The **control plane** has the *kube-apiserver* (the REST front door), *etcd* (consistent store of cluster state), the *scheduler* (chooses a node for each new Pod from resource requests, affinity and taints) and the *controller manager* (runs control loops). Each **worker node** runs a *kubelet* (starts and watches Pods), *kube-proxy* (Service networking rules) and a container runtime such as containerd.
+
+*Core objects.* A **Pod** is the smallest unit: one or more containers sharing network and storage. A **ReplicaSet** keeps a set number of Pods running. A **Deployment** manages ReplicaSets and rolling updates. A **Service** gives a stable address to changing Pods. An **Ingress** routes external HTTP traffic. **ConfigMaps** and **Secrets** hold configuration; **PersistentVolumes** hold data.
+
+*Reconcile loop.* Kubernetes is declarative: you state the desired state (three replicas) and controllers repeatedly compare it with the observed state and act. A crashed Pod is replaced because the count drifted, not because someone detected the crash. The HPA adds scaling: 4 Pods at 90% CPU with a 50% target become ceil(7.2) = 8 (Figure 5.2).
+
+| Point | Kubernetes | Serverless (FaaS) |
+|---|---|---|
+| Unit | Container Pod | Function |
+| Servers | You manage cluster size | None to manage |
+| Scaling | HPA, minutes | Per request, seconds, to zero |
+| Billing | Nodes while running | Per request and millisecond |
+| Cold start | Rare | Present |
+| Best for | Steady APIs, long connections | Bursty, event-driven jobs |
+
+*Benefits.* Self-healing, autoscaling, rolling updates, service discovery, declarative configuration, efficient packing, portability and ecosystem (see the eight points above). *Limitations.* Operational complexity and learning curve; small projects may prefer a managed platform. *Conclusion.* Kubernetes turns a fleet of machines into one programmable platform driven by desired state; many systems use it for steady services and serverless for bursty jobs.

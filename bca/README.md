@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (744,175 raw words of study material, counted over the unit files, including code listings and tables):
+**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (778,391 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -40,13 +40,13 @@
 | 6 | BCA 351 | [Computer Graphics and Animation](course/semester-6/computer-graphics/) | 15,737 | 44 | done |
 | 6 | BCA 352 | [Mobile Programming](course/semester-6/mobile-programming/) | 12,817 | 44 | done |
 | 6 | BCA 353 | [Cryptography and Network Security](course/semester-6/cryptography-network-security/) | 15,592 | 45 | done |
-| 6 | BCA 354 | [Technical Writing](course/semester-6/technical-writing/) | 12,133 | 36 | done |
+| 6 | BCA 354 | [Technical Writing](course/semester-6/technical-writing/) | 21,589 | 59 | done |
 | 6 | BCA 355 | [Distributed System](course/semester-6/distributed-system/) | 17,866 | 54 | done |
 | 6 | BCA 356 | [Project III](course/semester-6/project-3/) | 18,133 | 50 | done |
 | 7 | BCA 401 | [Cyber Security and Ethical Hacking](course/semester-7/cyber-security-and-ethical-hacking/) | 12,891 | 43 | done |
-| 7 | BCA 403 | [Financial Accounting](course/semester-7/financial-accounting/) | 10,528 | 37 | done |
+| 7 | BCA 403 | [Financial Accounting](course/semester-7/financial-accounting/) | 22,122 | 65 | done |
 | 7 | BCA 404 | [Project IV](course/semester-7/project-4/) | 24,169 | 64 | done |
-| 8 | BCA 451 | [Cloud Computing](course/semester-8/cloud-computing/) | 10,596 | 37 | done |
+| 8 | BCA 451 | [Cloud Computing](course/semester-8/cloud-computing/) | 23,762 | 65 | done |
 | 8 | BCA 452 | [Internship](course/semester-8/internship/) | 17,628 | 49 | done |
 
 Semesters I, II, III and IV are fully done (Semester IV's Project I is a project with no notes by nature). Everything else in `course/CURRICULUM.md` is mapped only (no notes). Nothing here has had a subject-teacher review.
