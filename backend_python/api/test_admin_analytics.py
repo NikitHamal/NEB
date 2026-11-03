@@ -126,6 +126,17 @@ class TrackingTests(TestCase):
         self.assertTrue(evs)
         self.assertEqual(evs[0]['user_identifier'], '42')
 
+    def test_cached_anonymous_hits_are_still_counted(self):
+        """The anonymous page cache answers repeat hits on `/`; those are real
+        visits and must not vanish from the numbers."""
+        from django.core.cache import cache
+
+        cache.clear()
+        first = self._hit('/')
+        second = self._hit('/')
+        third = self._hit('/')
+        self.assertEqual((len(first), len(second), len(third)), (1, 1, 1))
+
     def test_online_now_is_gone(self):
         for name in ('admin_analytics_online_users', 'admin_analytics_refresh'):
             with self.assertRaises(NoReverseMatch):
