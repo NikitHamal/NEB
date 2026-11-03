@@ -30,39 +30,8 @@
     {% if resource_results %}
     <div class="section">
       <h3 class="md-title-medium" style="margin-bottom:16px;">{{ resource_results|length }} resource{{ resource_results|length|pluralize }}</h3>
-      <div class="resource-grid">
-        {% for r in resource_results %}
-        <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
-          <div class="resource-card-art">
-            {# Generative banner art. Same seed, same drawing as the Android app. #}
-            <div class="neb-art" data-neb-art="banner"
-                 data-neb-subject="{{ r.subject|split:','|first }}"
-                 data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
-            {% if r.thumbnail_url %}
-              <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
-            {% endif %}
-            <span class="resource-card-type-pill">{{ r.type }}</span>
-            <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
-          </div>
-          <div class="resource-card-info">
-            <div class="resource-card-subject-chip">
-              {% with subjs=r.subject|split:"," %}
-                {{ subjs|first }}
-                {% if subjs|length > 1 %}
-                  +{{ subjs|length|add:"-1" }} more
-                {% endif %}
-              {% endwith %}
-            </div>
-            <div class="resource-card-title">{% if r.highlight and r.highlight.title %}{{ r.highlight.title|safe }}{% else %}{{ r.title }}{% endif %}</div>
-            <div class="resource-card-meta">
-              {{ r.grade_level }}{% if r.file_size %}, {{ r.file_size|file_size_human }}{% endif %}
-            </div>
-            <div class="resource-card-stats">
-              <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} views, {{ r.added_at|time_ago }}
-            </div>
-          </div>
-        </a>
-        {% endfor %}
+      <div class="x-grid">
+        {% for r in resource_results %}{% include "components/_resource_card.html" with r=r stats=True hl=True %}{% endfor %}
       </div>
     </div>
     {% else %}
@@ -229,39 +198,8 @@
           <h2>Resources</h2>
           <a href="{% url 'web:search' %}?q={{ query }}&tab=resources" class="md-btn md-btn-text">View all</a>
         </div>
-        <div class="resource-grid">
-          {% for r in resource_results|slice:":6" %}
-          <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
-            <div class="resource-card-art">
-              {# Generative banner art. Same seed, same drawing as the Android app. #}
-              <div class="neb-art" data-neb-art="banner"
-                   data-neb-subject="{{ r.subject|split:','|first }}"
-                   data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
-              {% if r.thumbnail_url %}
-                <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
-              {% endif %}
-              <span class="resource-card-type-pill">{{ r.type }}</span>
-              <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
-            </div>
-            <div class="resource-card-info">
-              <div class="resource-card-subject-chip">
-                {% with subjs=r.subject|split:"," %}
-                  {{ subjs|first }}
-                  {% if subjs|length > 1 %}
-                    +{{ subjs|length|add:"-1" }} more
-                  {% endif %}
-                {% endwith %}
-              </div>
-              <div class="resource-card-title">{% if r.highlight and r.highlight.title %}{{ r.highlight.title|safe }}{% else %}{{ r.title }}{% endif %}</div>
-              <div class="resource-card-meta">
-                {{ r.grade_level }}{% if r.file_size %}, {{ r.file_size|file_size_human }}{% endif %}
-              </div>
-              <div class="resource-card-stats">
-                <span class="material-symbols-outlined">visibility</span> {{ r.view_count|short_number }} views, {{ r.added_at|time_ago }}
-              </div>
-            </div>
-          </a>
-          {% endfor %}
+        <div class="x-grid">
+          {% for r in resource_results|slice:":6" %}{% include "components/_resource_card.html" with r=r stats=True hl=True %}{% endfor %}
         </div>
       </div>
       {% endif %}
@@ -415,18 +353,11 @@
   {% endif %}
 
   {% else %}
-  {# No query — landing page #}
-  <div class="section" style="margin-top:8px;">
-    <h3 class="md-title-medium mb-2">Popular Searches</h3>
-    <div class="chip-group">
-      <a href="{% url 'web:search' %}?q=physics" class="md-chip">Physics</a>
-      <a href="{% url 'web:search' %}?q=chemistry" class="md-chip">Chemistry</a>
-      <a href="{% url 'web:search' %}?q=mathematics" class="md-chip">Mathematics</a>
-      <a href="{% url 'web:search' %}?q=biology" class="md-chip">Biology</a>
-      <a href="{% url 'web:search' %}?q=english" class="md-chip">English</a>
-      <a href="{% url 'web:search' %}?q=notes" class="md-chip">Notes</a>
-      <a href="{% url 'web:search' %}?q=textbook" class="md-chip">Textbook</a>
-      <a href="{% url 'web:search' %}?q=past+papers" class="md-chip">Past Papers</a>
+  {# No query #}
+  <div class="x-pop">
+    <h2 class="x-sub">Try searching</h2>
+    <div class="x-pop-grid">
+      {% for q, icon in popular_searches %}<a href="{% url 'web:search' %}?q={{ q|urlencode }}" class="x-pop-tile"><span class="material-symbols-outlined" aria-hidden="true">{{ icon }}</span>{{ q }}</a>{% endfor %}
     </div>
   </div>
   {% endif %}

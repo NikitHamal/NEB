@@ -53,105 +53,34 @@
 {% endblock %}
 
 {% block content %}
-<div class="md-container-narrow">
+<div class="x-page">
   {% if resource %}
     {% url 'web:library' as back_href %}
     {% include "web/partials/_back.html" with back_class="neb-back-block" back_label="Back to Library" %}
 
-  <!-- Hero Card -->
-  <div class="rd-hero" style="--subject-color: {{ resource.subject|split:','|first|subject_color }}">
-    {# The resource's pixel banner, the same picture as its card and as the app's detail screen. #}
-    <div class="rd-hero-art">
-      <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ resource.subject|split:','|first }}" data-neb-seed="{{ resource.id }}|{{ resource.type }}"></div>
-    </div>
-    <div class="rd-chips">
-      {% for subj in resource.subject|split:"," %}
-      <span class="rd-chip rd-chip-subject" style="--subject-color: {{ subj|subject_color }};">
-        <span class="material-symbols-outlined icon-sm">{{ subj|subject_icon }}</span>
-        {{ subj }}
-      </span>
-      {% endfor %}
-      <span class="rd-chip rd-chip-type">
-        <span class="material-symbols-outlined icon-sm">{{ resource.type|resource_type_icon }}</span>
-        {{ resource.type }}
-      </span>
-      {% if resource.is_paid or resource.isPaid %}
-      <span class="rd-chip rd-chip-paid">
-        <span class="material-symbols-outlined icon-sm">payments</span>
-        PAID Rs. {{ resource.price|floatformat:"0" }}
-      </span>
-      {% endif %}
-      <span class="rd-chip rd-chip-grade">{{ resource.grade_level }}</span>
-    </div>
-    <h1 class="rd-title">{{ resource.title }}</h1>
-    <!-- Metadata bar -->
-    <div class="rd-meta-bar">
-      {% if resource.source_type == 'user' and resource.uploadedByName %}
-        <span class="rd-meta-item rd-meta-user">
-          <span class="material-symbols-outlined">cloud_upload</span>
-          Community
-        </span>
-        <span class="rd-meta-item">
-          {% if resource.uploadedByPhoto %}
-          <span class="rd-uploader-avatar"><img src="{{ resource.uploadedByPhoto }}" alt="" data-fallback="flex"><span class="rd-uploader-avatar-letter" style="display:none">{{ resource.uploadedByName|truncate_chars:1 }}</span></span>
+  <div class="vw">
+    <div class="vw-main">
+      <div class="vw-stage" id="vw-stage">
+        {% if resource.has_access and resource.safe_file_url %}
+          <div class="vw-bar">
+            <span class="vw-bar-title">{{ resource.title }}</span>
+            <button type="button" class="x-icon-btn" id="vw-fs" aria-label="Full screen"><span class="material-symbols-outlined" aria-hidden="true">fullscreen</span></button>
+          </div>
+          {% if resource.media_type == 'image' %}
+          <div class="vw-image"><img src="{{ resource.safe_file_url }}" alt="{{ resource.title }}" draggable="false"></div>
+          {% elif resource.media_type == 'video' or resource.media_type == 'audio' %}
+          {% include "web/partials/nmp_player.html" %}
           {% else %}
-          <span class="rd-uploader-avatar"><span class="rd-uploader-avatar-letter">{{ resource.uploadedByName|truncate_chars:1 }}</span></span>
+          <div class="vw-frame"><iframe src="{{ resource.safe_file_url }}#toolbar=0&navpanes=0&view=FitH" title="{{ resource.title }}" referrerpolicy="no-referrer"></iframe></div>
           {% endif %}
-          {% if resource.uploadedByUsername %}
-          <a href="{% url 'web:profile' username=resource.uploadedByUsername %}" class="rd-uploader-link">{{ resource.uploadedByName }}</a>
-          {% else %}
-          <span>{{ resource.uploadedByName }}</span>
-          {% endif %}
-        </span>
-      {% elif resource.source_type == 'anonymous' %}
-        <span class="rd-meta-item">
-          <span class="material-symbols-outlined">person_off</span>
-          Anonymous
-        </span>
-      {% elif resource.source_type == 'external' %}
-        <span class="rd-meta-item rd-meta-external">
-          <span class="material-symbols-outlined">public</span>
-          {% if resource.sourceLabel %}{{ resource.sourceLabel }}{% else %}External Source{% endif %}
-        </span>
-        {% if resource.source_url %}
-        <span class="rd-meta-item">
-          <a href="{{ resource.source_url }}" target="_blank" rel="noopener" class="rd-uploader-link">Source ↗</a>
-        </span>
+        {% elif not resource.has_access %}
+          <div class="vw-lock"><span class="material-symbols-outlined" aria-hidden="true">lock</span><h2 class="x-sub">Paid resource</h2></div>
+        {% elif resource.file_url_error %}
+          <div class="vw-lock"><span class="material-symbols-outlined" aria-hidden="true">lock</span><h2 class="x-sub">Preview unavailable</h2><p>{{ resource.file_url_error }}</p></div>
+        {% else %}
+          <div class="vw-lock"><span class="material-symbols-outlined" aria-hidden="true">description</span><h2 class="x-sub">Nothing to preview</h2></div>
         {% endif %}
-      {% else %}
-        <span class="rd-meta-item rd-meta-admin">
-          <span class="material-symbols-outlined">verified</span>
-          NEBians Team
-        </span>
-        {% if resource.author_name %}
-        <span class="rd-meta-item">
-          <span class="material-symbols-outlined">person</span>
-          {{ resource.author_name|mention_links_plain }}
-        </span>
-        {% endif %}
-      {% endif %}
-
-      <span class="rd-meta-item">
-        <span class="material-symbols-outlined">schedule</span>
-        {{ resource.added_at|time_ago }}
-      </span>
-
-      <span class="rd-meta-item">
-        <span class="material-symbols-outlined">visibility</span>
-        {{ resource.view_count|format_count }} views
-      </span>
-
-      {% if resource.file_size %}
-      <span class="rd-meta-item">
-        <span class="material-symbols-outlined">folder</span>
-        {{ resource.file_size|file_size_human }}
-      </span>
-      {% endif %}
-    </div>
-    {% if resource.description %}
-    <div class="rd-description">{{ resource.description|linkify }}</div>
-    {% endif %}
-
+      </div>
     <!-- Paid Content Access Guard / Purchase Box -->
     {% if resource.is_paid and not resource.has_access %}
     <div class="rd-paid-lock-box">
@@ -242,102 +171,71 @@
     </div>
     {% endif %}
 
-    <!-- Files List Section -->
-    <div class="rd-files-section">
-      <h3 class="rd-files-title">
-        <span class="material-symbols-outlined">description</span>
-        Available Files ({{ resource_files|length }})
-      </h3>
-      <div class="rd-files-grid">
-        {% for file in resource_files %}
-        <div class="rd-file-card">
-          <div class="rd-file-info">
-            <span class="material-symbols-outlined rd-file-icon">
-              {{ file.type|resource_type_icon }}
-            </span>
-            <div class="rd-file-details">
-              <div class="rd-file-name" title="{{ file.title }}">{{ file.title }}</div>
-              <div class="rd-file-meta">
-                <span class="rd-file-badge">{{ file.type }}</span>
-                {% if file.file_size %}
-                <span class="rd-file-size">{{ file.file_size|file_size_human }}</span>
-                {% endif %}
-              </div>
-            </div>
-          </div>
-          <div class="rd-file-actions">
-            {% if resource.has_access %}
-              {% if file.id == resource.id %}
-                {% with f_url=resource.safe_file_url|default:resource.file_url %}
-                {% if f_url %}
-                  <a href="{{ f_url }}" target="_blank" rel="noopener noreferrer" class="rd-file-btn btn-read">
-                    {% if resource.media_type == 'pdf' %}
-                      <span class="material-symbols-outlined">visibility</span>
-                      Read
-                    {% elif resource.media_type == 'image' %}
-                      <span class="material-symbols-outlined">image</span>
-                      View
-                    {% elif resource.media_type == 'video' or resource.media_type == 'audio' %}
-                      <span class="material-symbols-outlined">play_circle</span>
-                      Play
-                    {% else %}
-                      <span class="material-symbols-outlined">open_in_new</span>
-                      Open
-                    {% endif %}
-                  </a>
-                  <a href="{{ f_url }}" download class="rd-file-btn btn-download">
-                    <span class="material-symbols-outlined">download</span>
-                    Download
-                  </a>
-                {% endif %}
-                {% endwith %}
-              {% endif %}
-            {% else %}
-              <span class="rd-file-badge rd-file-badge-locked">
-                <span class="material-symbols-outlined">lock</span> Paid Content
-              </span>
-            {% endif %}
-          </div>
+    </div>
+
+    <aside class="vw-side">
+      <div class="vw-card" style="--sc: {{ resource.subject|split:','|first|subject_color }}">
+        <div class="rcard-tags">
+          {% for subj in resource.subject|split:"," %}<span class="rcard-tag is-subject" style="--sc: {{ subj|subject_color }}">{{ subj }}</span>{% endfor %}
+          <span class="rcard-tag">{{ resource.type }}</span>
+          {% if resource.grade_level %}<span class="rcard-tag">{{ resource.grade_level }}</span>{% endif %}
+          {% if resource.is_paid or resource.isPaid %}<span class="rcard-tag" style="background:var(--md-tertiary);color:var(--md-on-tertiary)">Rs. {{ resource.price|floatformat:"0" }}</span>{% endif %}
         </div>
-        {% endfor %}
+        <h1 class="vw-title">{{ resource.title }}</h1>
+        {% if resource.description %}<div class="vw-desc rd-description">{{ resource.description|linkify }}</div>{% endif %}
+        <div class="vw-facts">
+          <div class="vw-fact"><b>{{ resource.view_count|format_count }}</b><span>Views</span></div>
+          <div class="vw-fact"><b>{{ resource.added_at|time_ago }}</b><span>Added</span></div>
+          {% if resource.file_size %}<div class="vw-fact"><b>{{ resource.file_size|file_size_human }}</b><span>Size</span></div>{% endif %}
+        </div>
+        <div class="vw-by">
+          {% if resource.source_type == 'user' and resource.uploadedByName %}
+            <span class="rcard-avatar">{% if resource.uploadedByPhoto %}<img src="{{ resource.uploadedByPhoto }}" alt="">{% else %}{{ resource.uploadedByName|truncate_chars:1 }}{% endif %}</span>
+            {% if resource.uploadedByUsername %}<a href="{% url 'web:profile' username=resource.uploadedByUsername %}">{{ resource.uploadedByName }}</a>{% else %}<strong>{{ resource.uploadedByName }}</strong>{% endif %}
+          {% elif resource.source_type == 'anonymous' %}
+            <span class="rcard-avatar"><span class="material-symbols-outlined" style="font-size:16px">person_off</span></span><strong>Anonymous</strong>
+          {% elif resource.source_type == 'external' %}
+            <span class="rcard-avatar"><span class="material-symbols-outlined" style="font-size:16px">public</span></span>
+            <strong>{% if resource.sourceLabel %}{{ resource.sourceLabel }}{% else %}External source{% endif %}</strong>
+            {% if resource.source_url %}<a href="{{ resource.source_url }}" target="_blank" rel="noopener">Source</a>{% endif %}
+          {% else %}
+            <span class="rcard-avatar"><img src="{% static 'web/img/n-logo-48.png' %}" alt=""></span><strong>NEBians</strong>
+            {% if resource.author_name %}<span>{{ resource.author_name|mention_links_plain }}</span>{% endif %}
+          {% endif %}
+        </div>
+        <div class="vw-actions">
+          <button data-action="toggle-resource-like" data-resource-id="{{ resource.id }}" class="x-btn x-btn-tonal vw-like {% if is_liked %}liked{% endif %}" id="resource-like-btn">
+            <span class="material-symbols-outlined"{% if is_liked %} style="font-variation-settings:'FILL' 1"{% endif %}>thumb_up</span>
+            <span id="resource-like-count">{{ resource.like_count }}</span>
+          </button>
+          {% if is_authenticated %}
+          <button class="x-icon-btn {% if is_bookmarked %}is-on{% endif %}" data-action="toggle-bookmark" data-target-type="resource" data-target-id="{{ resource.id }}" id="resource-bookmark-btn" aria-label="Bookmark">
+            <span class="material-symbols-outlined"{% if is_bookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
+          </button>
+          {% endif %}
+          <button class="x-icon-btn" data-action="share-resource" aria-label="Share"><span class="material-symbols-outlined">share</span></button>
+          {% if can_edit %}<a href="{% url 'web:edit_resource' resource_id=resource.id %}" class="x-icon-btn" aria-label="Edit"><span class="material-symbols-outlined">edit</span></a>{% endif %}
+        </div>
       </div>
-    </div>
 
-    <!-- Actions -->
-    <div class="rd-actions">
-      <span class="rd-action-spacer"></span>
-      <button data-action="toggle-resource-like" data-resource-id="{{ resource.id }}" class="rd-action-btn rd-btn-like {% if is_liked %}liked{% endif %}" id="resource-like-btn">
-        <span class="material-symbols-outlined"{% if is_liked %} style="font-variation-settings:'FILL' 1"{% endif %}>thumb_up</span>
-        <span id="resource-like-count">{{ resource.like_count }}</span>
-      </button>
-      {% if is_authenticated %}
-      <button class="rd-action-btn rd-btn-bookmark {% if is_bookmarked %}bookmarked{% endif %}" data-action="toggle-bookmark" data-target-type="resource" data-target-id="{{ resource.id }}" id="resource-bookmark-btn">
-        <span class="material-symbols-outlined"{% if is_bookmarked %} style="font-variation-settings:'FILL' 1"{% endif %}>bookmark</span>
-      </button>
+      {% if resource_files|length > 1 %}
+      <div class="vw-card">
+        <h2 class="x-sub" style="margin:0">Files</h2>
+        <div class="vw-files">
+          {% for file in resource_files %}
+          {% if file.id == resource.id %}
+          <div class="vw-file is-here"><span class="material-symbols-outlined" aria-hidden="true">{{ file.type|resource_type_icon }}</span><div><b>{{ file.title }}</b><span class="t">{{ file.type }}{% if file.file_size %} · {{ file.file_size|file_size_human }}{% endif %}</span></div></div>
+          {% else %}
+          <a class="vw-file" href="{% url 'web:reader' resource_id=file.id %}"><span class="material-symbols-outlined" aria-hidden="true">{{ file.type|resource_type_icon }}</span><div><b>{{ file.title }}</b><span class="t">{{ file.type }}{% if file.file_size %} · {{ file.file_size|file_size_human }}{% endif %}</span></div></a>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
       {% endif %}
-      {% if can_edit %}
-      <a href="{% url 'web:edit_resource' resource_id=resource.id %}" class="rd-action-btn rd-btn-like" style="text-decoration:none;">
-        <span class="material-symbols-outlined">edit</span>
-        Edit
-      </a>
-      {% endif %}
-      <button class="rd-action-btn rd-btn-share" data-action="share-resource">
-        <span class="material-symbols-outlined">share</span>
-      </button>
-    </div>
+    </aside>
   </div>
 
-  <!-- Media Preview (inline) -->
-  {% if resource.safe_file_url %}
-  {% if resource.media_type == 'image' %}
-  <div class="rd-preview">
-    <img src="{{ resource.safe_file_url }}" alt="{{ resource.title }}" class="rd-preview-image" loading="lazy">
-  </div>
-  {% elif resource.media_type == 'video' or resource.media_type == 'audio' %}
-  {% include "web/partials/nmp_player.html" %}
-  {% endif %}
-  {% endif %}
-
+  <div class="vw-below">
   <!-- Comments Section -->
   <div class="rd-comments" id="rd-comments">
     <div class="rd-section-title">
@@ -358,39 +256,14 @@
   <!-- Related Resources -->
   {% if related_resources %}
   <div class="rd-related">
-    <div class="rd-section-title" style="font-size:1rem;">More in {{ resource.subject }}</div>
-    <div class="rd-related-grid">
-      {% for r in related_resources %}
-      <a href="{% url 'web:reader' resource_id=r.id %}" class="resource-card subject-{{ r.subject|split:','|first|subject_slug }}">
-        <div class="resource-card-art">
-          {# Generative banner art. Same seed, same drawing as the Android app. #}
-          <div class="neb-art" data-neb-art="banner"
-               data-neb-subject="{{ r.subject|split:','|first }}"
-               data-neb-seed="{{ r.id }}|{{ r.type }}"></div>
-          {% if r.thumbnail_url %}
-            <img src="{{ r.thumbnail_url }}" alt="" class="resource-card-art-img" loading="lazy">
-          {% endif %}
-          <span class="resource-card-type-pill">{{ r.type }}</span>
-          <span class="resource-card-art-icon material-symbols-outlined">{{ r.subject|split:','|first|subject_icon }}</span>
-        </div>
-        <div class="resource-card-info">
-          <div class="resource-card-subject-chip">
-            {% with subjs=r.subject|split:"," %}
-              {{ subjs|first }}
-              {% if subjs|length > 1 %}
-                +{{ subjs|length|add:"-1" }} more
-              {% endif %}
-            {% endwith %}
-          </div>
-          <div class="resource-card-title">{{ r.title }}</div>
-          <div class="resource-card-meta">{{ r.grade_level }}{% if r.file_size %}, {{ r.file_size|file_size_human }}{% endif %}</div>
-        </div>
-      </a>
-      {% endfor %}
+    <h2 class="x-sub">More in {{ resource.subject }}</h2>
+    <div class="x-grid">
+      {% for r in related_resources %}{% include "components/_resource_card.html" with r=r %}{% endfor %}
     </div>
   </div>
   {% endif %}
 
+  </div>
   {% else %}
   <div class="empty-state" style="padding-top:64px;">
     <span class="material-symbols-outlined">error_outline</span>
@@ -402,6 +275,22 @@
 {% endblock %}
 
 {% block extra_js %}
+<script nonce="{{ csp_nonce }}">
+(function () {
+  var stage = document.getElementById('vw-stage');
+  if (!stage) return;
+  var fs = document.getElementById('vw-fs');
+  if (fs) fs.addEventListener('click', function () {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else if (stage.requestFullscreen) stage.requestFullscreen();
+  });
+  document.addEventListener('fullscreenchange', function () {
+    if (fs) fs.querySelector('.material-symbols-outlined').textContent = document.fullscreenElement ? 'fullscreen_exit' : 'fullscreen';
+  });
+  stage.addEventListener('contextmenu', function (e) { if (e.target.closest('img, video, audio')) e.preventDefault(); });
+  stage.querySelectorAll('video, audio').forEach(function (m) { m.setAttribute('controlsList', 'nodownload noremoteplayback'); m.setAttribute('disablePictureInPicture', ''); });
+})();
+</script>
 <script src="{% static 'web/js/media-player.js' %}" nonce="{{ csp_nonce }}"></script>
 <script nonce="{{ csp_nonce }}">
 var RESOURCE_ID = '{{ resource.id|default:"" }}';

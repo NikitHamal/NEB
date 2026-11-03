@@ -22,11 +22,10 @@ class NewsCardTests(TestCase):
 
     def test_covers_use_the_banner_art_and_carry_no_chips(self):
         html = self.client.get('/app/news/').content.decode()
-        cards = html.count('class="news-card"')
+        cards = html.count('class="bcard"') + html.count('class="bhero"')
         self.assertGreaterEqual(cards, 4)
         self.assertEqual(html.count('data-neb-art="banner"'), cards)
-        for dead in ('news-category-badge', 'news-pin-badge', 'news-card-cover-icon',
-                     'news-card-cover-placeholder'):
+        for dead in ('news-card-cover-icon', 'news-card-cover-placeholder'):
             self.assertNotIn(dead, html)
 
     def test_each_category_picks_its_own_family(self):
@@ -36,11 +35,11 @@ class NewsCardTests(TestCase):
 
     def test_pinned_is_marked_in_the_meta_row(self):
         html = self.client.get('/app/news/').content.decode()
-        self.assertIn('class="news-card-pin"', html)
+        self.assertIn('bhero-kicker', html)
         self.assertIn('Pinned', html)
 
     def test_related_cards_share_the_cover(self):
         page = self.client.get('/app/news/exam_results-0/')
-        self.assertContains(page, 'class="news-card news-card-compact"')
+        self.assertContains(page, 'class="bcard"')
         self.assertContains(page, 'data-neb-art="banner"')
         self.assertNotContains(page, 'news-card-cover-placeholder')

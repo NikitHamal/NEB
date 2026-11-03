@@ -142,20 +142,11 @@
           <h2>More in {{ announcement.category_label }}</h2>
           <a href="{% url 'web:news_list' %}?category={{ announcement.category }}">View all</a>
         </div>
-        <div class="nd-related-grid">
+        <div class="bgrid">
           {% for r in related %}
-          <a href="{% url 'web:news_detail' slug=r.slug %}" class="news-card news-card-compact">
-            <div class="news-card-cover">
-              {% if r.cover_image_url %}
-              <img src="{{ r.cover_image_url }}" alt="{{ r.title }}" loading="lazy">
-              {% else %}
-              <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ r.category_art }}" data-neb-seed="news|{{ r.id }}"></div>
-              {% endif %}
-            </div>
-            <div class="news-card-body">
-              <h3 class="news-card-title">{{ r.title }}</h3>
-              <div class="news-card-meta"><span>{{ r.published_at|time_ago }}</span></div>
-            </div>
+          <a href="{% url 'web:news_detail' slug=r.slug %}" class="bcard" style="--cc: {{ r.category_color }}">
+            <div class="bcard-art">{% if r.cover_image_url %}<img src="{{ r.cover_image_url }}" alt="" loading="lazy">{% else %}<div class="neb-art" data-neb-art="banner" data-neb-subject="{{ r.category_art }}" data-neb-seed="news|{{ r.id }}"></div>{% endif %}</div>
+            <div class="bcard-body"><h3 class="bcard-title">{{ r.title }}</h3><div class="bcard-meta"><span>{{ r.published_at|time_ago }}</span></div></div>
           </a>
           {% endfor %}
         </div>
@@ -175,8 +166,7 @@
           <span class="material-symbols-outlined">school</span>
         </div>
         <h4>Keep learning</h4>
-        <p>Past papers, notes, and model questions for every NEB subject — all free in the library.</p>
-        <a href="{% url 'web:library' %}" class="md-btn md-btn-tonal">Browse library</a>
+        <a href="{% url 'web:library' %}" class="x-btn">Browse library</a>
       </div>
     </aside>
   </div>
