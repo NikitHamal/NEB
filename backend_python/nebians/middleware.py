@@ -203,11 +203,10 @@ class PageViewTrackingMiddleware:
     def __call__(self, request):
         response = self.get_response(request)
 
-        # Anonymous page-cache hits skip the view but still pass through here.
-        # Writing a row per cached hit would give the cache win back as DB
-        # pressure, so cached hits are not tracked.
-        if response.get('X-Page-Cache') == 'hit':
-            return response
+        # Anonymous page-cache hits are page views like any other. They used to
+        # be skipped (a DB write per hit), which hid most logged-out traffic on
+        # the public pages. Recording is now a non-blocking queue put, so the
+        # cache win is kept and the visit is still counted.
         try:
             if analytics.is_trackable_request(request, response):
                 event = analytics.event_from_request(request)
