@@ -325,7 +325,7 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] BCA 156 Principles of Management polished (session 32, 50 -> 83 pp)
 - [x] DBMS (BCA 202, session 33) DONE, 100 pp.
 - [x] Data Structure and Algorithms (BCA 201, session 34) DONE, 125 pp.
-- [ ] NEXT SESSION STARTS AT: Operating Systems (semester-4/operating-systems, 85 pp, BCA 251), then Python Programming, Web Technology II, Microprocessor and Computer Architecture, UX/UI Design, Computer Networking, Artificial Intelligence, Advanced Java (the unpolished books; all check scripts are in bca/tools).
+- [ ] NEXT SESSION STARTS AT: Operating Systems UNIT 3 (units 1-2 done in session 35; see the BCA 251 section at the end), then Python Programming, Web Technology II, Microprocessor and Computer Architecture, UX/UI Design, Computer Networking, Artificial Intelligence, Advanced Java (the unpolished books; all check scripts are in bca/tools).
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
 
@@ -392,3 +392,11 @@ Section naming: new "N.K Seeing the ideas" before the first of "Formula and fact
 - [x] U9 Searching and hashing: Plate 9.1 (airmail pigeonholes + chained hash table SVG), Fig 9.1 binary search trace for 56 (4 probes), 9.2 linear probing table (13 probes, verified in Python), 9.3 average comparisons for n=1,000,000 (500,000 / 20 / 1.25); 9.7.1 eight applications; Q1-Q3.
 - [x] U10 Graphs: Plate 10.1 (Koenigsberg map, Dijkstra, Kathmandu Ring Road; 3-up), Fig 10.1 Euler graph of the seven bridges (degrees 5,3,3,3), 10.2 BFS A B C D E F vs DFS A B D C E F, 10.3 Dijkstra table + Kruskal MST on one graph (F=13, MST weight 13, both checked in Python); 10.8.1 eight applications; Q1-Q3.
 - [x] U11 Algorithm design: Plate 11.1 (Cray-1 [new bca201/cray], GPU card [bca106/gpu], CERN hall [bca355/lhc]; 3-up), Fig 11.1 divide-and-conquer levels (n=8, 32 units), 11.2 parallel sum + Amdahl speed-ups (1.82..9.91), 11.3 nearest-neighbour TSP 38 vs optimum 32 and 2-approx vertex cover, 11.4 deterministic vs non-deterministic (subset sum); 11.6.1 eight points; Q1-Q3 (Q3 is 548 words, slightly above the 500 target).
+
+
+## BCA 251 operating-systems (semester-4/operating-systems) -- [~] IN PROGRESS (session 35): units 1-2 of 10 polished, 85 -> 96 pp so far, qa fails=0 warns=1 (p3 pre-existing)
+9 licence-gated `bca251/` photos fetched and viewed: s360 (IBM System/360 Model 91 console), atlas (Manchester Atlas 1963), torvalds (Linuxcon 2011), bsod (NT 4 blue screen), philosophers (dining philosophers diagram), floppy (8/5.25/3.5 inch drives), tux (plush Tux), pic8259 (8259A interrupt controller chip), headcrash (scratched HDD platter). Unused so far: bsod, philosophers (U3/U4), floppy (U6/U7), tux (U10), pic8259 (U6), headcrash (U6). Reused: bca102 unix-v5, bca101 dos/win10b.
+- [x] U1: Plate 1.1 (3-up S/360 / Atlas / Torvalds), Fig 1.1 two roles of an OS, 1.2 utilisation 1-0.8^n (20.0/59.0/83.2/89.3 %), 1.3 user/kernel mode switch; 1.6.1 eight functions of an OS; Q1-Q2 (5), Q3 (10, generations), Q4 (5).
+- [x] U2: Plate 2.1 (3-up UNIX V5 / MS-DOS / Windows 10 shells), Fig 2.1 write() system-call path, 2.2 monolithic/microkernel/hybrid (file read 2 vs 8 mode switches), 2.3 THE layered system, 2.4 Type 1 vs Type 2 hypervisor, 2.5 shell fork/exec/pipe; 2.7.1 eight advantages of virtual machines; Q1-Q2 (5), Q3 (10, OS structures), Q4 (5, 12 VMs = 0.96 cores).
+- [ ] U3 Process management (biggest unit, 5948 words) -- NEXT; U4 Deadlocks; U5 Memory; U6 I/O + disk; U7 Files; U8 Security; U9 Distributed; U10 DOS/Windows/UNIX/Linux.
+- Workflow: `/tmp/w/aN.md` (plate + figures + eight-point section) and `/tmp/w/bN.md` (model answers); `/tmp/ins2.py unit-0N.md aN.md bN.md`; build `NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/semester-4/operating-systems`; qa with `/tmp/v/bin/python bca/tools/qa_pdf.py <pdf>`. A page with only 2-3 trailing lines (p27 once) triggers a near-empty warning: trim text.
