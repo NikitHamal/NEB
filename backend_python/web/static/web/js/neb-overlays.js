@@ -317,6 +317,23 @@
     menu.style.visibility = '';
   }
 
+  /* A fixed menu is positioned against the nearest ancestor that has a transform, filter, contain or
+   * container-type, not the viewport -- inside a feed card that put it a card-height below its button.
+   * Open menus live on <body>; they go home when they close so the markup stays where the page put it. */
+  function portalMenu(menu) {
+    if (menu.parentNode === document.body) return;
+    menu.__home = { parent: menu.parentNode, next: menu.nextSibling };
+    document.body.appendChild(menu);
+  }
+
+  function unportalMenu(menu) {
+    var h = menu.__home;
+    if (!h || menu.hasAttribute('data-open')) return;
+    menu.__home = null;
+    if (h.parent && document.contains(h.parent)) h.parent.insertBefore(menu, h.next && h.next.parentNode === h.parent ? h.next : null);
+    else if (menu.parentNode) menu.parentNode.removeChild(menu);
+  }
+
   function showMenu(menu, trigger) {
     if (openMenu && openMenu.menu === menu) { closeMenu(); return; }
     closeMenu();
@@ -324,6 +341,7 @@
      * inline style beats every rule in the stylesheet. Hand the element over
      * to `hidden` once and it stays handed over. */
     if (menu.style.display) menu.style.display = '';
+    portalMenu(menu);
     placeMenu(menu, trigger);
     trigger.setAttribute('aria-expanded', 'true');
     openMenu = { menu: menu, trigger: trigger };
@@ -342,7 +360,7 @@
     t.setAttribute('aria-expanded', 'false');
     if (refocus) t.focus();
     hideMenuScrim();
-    var hide = function () { if (!m.hasAttribute('data-open')) m.hidden = true; };
+    var hide = function () { if (!m.hasAttribute('data-open')) { m.hidden = true; unportalMenu(m); } };
     if (reducedMotion()) hide(); else setTimeout(hide, 260);
     m.dispatchEvent(new CustomEvent('neb:close', { bubbles: true }));
   }

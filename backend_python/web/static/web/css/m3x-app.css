@@ -348,6 +348,15 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
 .neb-sheet, .neb-dialog { overflow: hidden; }
 @media (min-width: 768px) { .neb-scrim-bottom:not(.neb-scrim-side) .neb-sheet-head { padding-top: 22px; } }
 
+/* ---------- post / comment overflow menu: compact, anchored, never taller than the room it has ---------- */
+.more-menu { min-width: 188px; max-width: 264px; padding: 6px; border-radius: 20px; z-index: 5200; }
+.more-menu-item {
+  display: flex; align-items: center; gap: 12px; width: 100%; min-height: 40px; padding: 8px 12px;
+  border: 0; background: transparent; font-family: inherit; font-weight: 500; font-size: 14px; line-height: 1.25; text-align: left; cursor: pointer;
+}
+.more-menu-item .material-symbols-outlined, .more-menu-item .neb-post-icon { font-size: 20px; width: 20px; height: 20px; flex: none; }
+.more-menu-divider { height: 1px; margin: 4px 8px; background: var(--md-outline-variant); }
+
 /* ---- m3x/app-surfaces.css ---- */
 /* m3x surfaces: the feed, rails, resource cards, side navigation, chips and badges, rebuilt on
    the one scheme. Containers are tonal steps of the brand blue (never white-on-white), corners
