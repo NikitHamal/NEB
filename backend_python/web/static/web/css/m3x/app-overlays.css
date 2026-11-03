@@ -114,3 +114,19 @@
 }
 .more-menu-item .material-symbols-outlined, .more-menu-item .neb-post-icon { font-size: 20px; width: 20px; height: 20px; flex: none; }
 .more-menu-divider { height: 1px; margin: 4px 8px; background: var(--md-outline-variant); }
+
+/* ---------- legacy .modal-box without header/body parts: still a padded, spaced card ---------- */
+.modal-overlay { z-index: 2600; }
+.modal-box:not(:has(> .modal-header, > .modal-body)) { padding: 24px; gap: 4px; overflow-y: auto; }
+.modal-box:not(:has(> .modal-header, > .modal-body)) > h3 {
+  margin: 0 0 8px; font-family: var(--display); font-size: 1.375rem; font-weight: 600; letter-spacing: -.02em; line-height: 1.25;
+}
+.modal-box .edit-form { display: flex; flex-direction: column; gap: 6px; }
+.modal-box .edit-form > label { font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: var(--md-on-surface-variant); margin-top: 6px; }
+.modal-box .edit-form :is(input[type=text], textarea) {
+  width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 16px;
+  border: 1px solid var(--md-outline-variant); background: var(--md-surface-container-lowest, var(--md-surface));
+  color: var(--md-on-surface); font: inherit; resize: vertical;
+}
+.modal-box .edit-form :is(input[type=text], textarea):focus { outline: 2px solid var(--md-primary); outline-offset: 0; border-color: transparent; }
+.modal-box .form-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
