@@ -386,4 +386,6 @@ Section naming: new "N.K Seeing the ideas" before the first of "Formula and fact
 - [x] U4 List: Plate 4.1 (bca202/catalog + insert-shift SVG), Fig 4.1 shifts by position (n=6, average 3), 4.2 static vs dynamic; 4.5.1 eight applications; Q1-Q3.
 - [x] U5 Linked lists: Plate 5.1 (chain coupling, Nepal Railway coach, node SVG; 3-up), Fig 5.1 insertion with numbered pointer steps, 5.2 delete + doubly + circular; 5.6.1 eight advantages; Q1-Q3.
 - [x] U6 Recursion: Plate 6.1 (Hanoi toy + nautilus), Fig 6.1 factorial(4) call stack, 6.2 fib(5) call tree (15 calls), 6.3 Hanoi n=3 moves and 2^n-1 table (64 discs = 18,446,744,073,709,551,615 moves, about 585 billion years); 6.6.1 eight applications; Q1-Q3.
-- [ ] U7 Trees (adelson), U8 Sorting (hoare, sorter), U9 Searching/hashing (mail), U10 Graphs (konigsberg, dijkstra, ringroad), U11 Algorithms (euclid reuse).
+- [x] U7 Trees: Plate 7.1 (Adelson-Velsky + BST SVG), Fig 7.1 pre/in/post-order of the 7-key BST, 7.2 AVL left rotation (10,20,30), 7.3 Huffman tree for A45 B13 C12 D16 E9 F5 (224 vs 300 bits, 25.3 percent saved; computed with heapq); 7.8.1 eight applications; Q1-Q3.
+- [x] U8 Sorting: Plate 8.1 (IBM 082 sorter + Hoare), Fig 8.1 merge sort tree, 8.2 quick-sort Lomuto partition (verified in Python), 8.3 comparisons bubble vs merge for n=1,000 and 1,000,000 (log scale); 8.10.1 eight applications; Q1-Q3 (bubble trace, quick sort, merge sort + comparison table).
+- [ ] U9 Searching/hashing (mail), U10 Graphs (konigsberg, dijkstra, ringroad), U11 Algorithms (euclid reuse).
