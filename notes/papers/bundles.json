@@ -64,17 +64,18 @@
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Computer-Science-2080-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Computer-Science-2079-2082-Bundle.pdf",
   "subject": "Computer Science",
   "grade": "12",
-  "years_bs": "2080-2082",
+  "years_bs": "2079-2082",
   "papers": [
    "12-cs-2082-general",
    "12-cs-2081-general",
-   "12-cs-2080-4281"
+   "12-cs-2080-4281",
+   "12-cs-2079-4281"
   ],
-  "pages": 29,
-  "bytes": 430756,
+  "pages": 39,
+  "bytes": 581966,
   "category": "Board Exam Bundle"
  },
  {
