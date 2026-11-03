@@ -1781,3 +1781,11 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **photogrid labels.** `call X Y TX TY "text"`: the label is centred on (X,Y), so keep X within about 0.25-0.75 for long labels or they clip; y is from the bottom; `fit R` + `focus` crop a cell to ratio R before overlays are drawn. Do not prefix `cap=` with "(a)" (the pipeline adds it).
 - **BCA 101 is DONE** (100 pp, qa fails=0). Next: BCA 103 digital-logic.
 - **BCA 103 digital-logic is DONE** (session 11): 14 SVG figures, 4 photo plates (photogrid with `@ photo` and `@ svg` cells), 8-point sections and 5/10-mark answers in all five units. In svgkit, `BLUE` is a light FILL colour: never use it for `line`/`text` colours (invisible); use NAVY/TEAL/RED/AMBER/SLATE. Next: programming-in-c, mathematics-1, professional-communication-ethics, hardware-workshop (see `bca/POLISH_STATUS.md`).
+
+## BCA polish session 12 (BCA 102 Programming in C)
+
+- **BCA 102 is DONE** (78 pp, qa fails=0): 12 SVG figures, 2 photo plates (C history; file media), 8-point sections and 5/10-mark answers in all seven units; every program in the new answers was compiled with `gcc -Wall` and its real output pasted. See `bca/POLISH_STATUS.md`.
+- **Helper:** `/tmp/ins.py FILE "## Heading prefix"|--append CONTENTFILE` inserts a block before a heading (recreate if /tmp is wiped). Keep one unit per bash call.
+- **credits.json is CRLF**: `assets.py get` rewrites it with LF; convert back (`replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")`) so the diff is only the new entries.
+- **Montage viewing:** render PDF pages with pymupdf into one PNG in `/app/_view/` and read it with the File tool; do the bash and the read_file in separate turns (parallel calls race). Delete `/app/_view` before `/app` validation.
+- Next: hardware-workshop, mathematics-1, professional-communication-ethics, then non-core slots.

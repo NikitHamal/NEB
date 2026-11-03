@@ -714,6 +714,58 @@
   "source": "Wikimedia Commons",
   "title": "MicrosoftEdge Desktop Screenshot Fawiki"
  },
+ "bca102/kr-cover": {
+  "author": "Julesmazur",
+  "bytes": 147543,
+  "credit": "derivative work from book cover which is copyright Prentice Hall",
+  "fetched": "2026-11-03",
+  "file": "bca102/kr-cover.png",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:The_C_Programming_Language,_First_Edition_Cover.svg",
+  "sha1": "84fc1b30fe129890",
+  "source": "Wikimedia Commons",
+  "title": "The C Programming Language, First Edition Cover"
+ },
+ "bca102/pdp11": {
+  "author": "Don DeBold",
+  "bytes": 594379,
+  "credit": "Flickr : DEC PDP11/20 Computer",
+  "fetched": "2026-11-03",
+  "file": "bca102/pdp11.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:DEC_PDP-11_20_computer_at_the_Computer_History_Museum.jpg",
+  "sha1": "a0053667d1b2458d",
+  "source": "Wikimedia Commons",
+  "title": "DEC PDP-11 20 computer at the Computer History Museum"
+ },
+ "bca102/ritchie": {
+  "author": "Unknown author Unknown author",
+  "bytes": 19590,
+  "credit": "http://www.catb.org/~esr/jargon/html/U/Unix.html",
+  "fetched": "2026-11-03",
+  "file": "bca102/ritchie.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Ken_Thompson_and_Dennis_Ritchie--1973.jpg",
+  "sha1": "6e31defa2f9e4d0c",
+  "source": "Wikimedia Commons",
+  "title": "Ken Thompson and Dennis Ritchie--1973"
+ },
+ "bca102/unix-v5": {
+  "author": "Huihermit",
+  "bytes": 9741,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca102/unix-v5.png",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Version_5_Unix_SIMH_PDP11_Emulation.png",
+  "sha1": "fedd66cba876b1b8",
+  "source": "Wikimedia Commons",
+  "title": "Version 5 Unix SIMH PDP11 Emulation"
+ },
  "bca103/breadboard": {
   "author": "oomlout",
   "bytes": 148081,

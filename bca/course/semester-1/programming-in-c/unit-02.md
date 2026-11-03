@@ -77,6 +77,17 @@ INT_MAX=2147483647
 
 **Derived** types are built from these (arrays, pointers, structures); **user-defined** types come from `typedef` and `enum`; `void` means "no value".
 
+```svgfig label="2.1" caption="Storage taken by the basic C types on a typical 64-bit PC with GCC (each bar is drawn to scale: 1 byte = 36 px). The size of int and long can differ on other compilers, so use sizeof to check."
+f = Fig(760, 250)
+rows = [("char", 1, "-128 to 127", SOFT), ("short", 2, "-32,768 to 32,767", SOFT), ("int", 4, "about ±2.1 billion", BLUE), ("float", 4, "6-7 digits, ±3.4e38", BLUE), ("long", 8, "about ±9.2e18", SOFT), ("double", 8, "15-16 digits, ±1.8e308", BLUE)]
+for i, (n, b, r, c) in enumerate(rows):
+    y = 14 + i * 38
+    f.text(60, y + 21, n, size=12, color=NAVY, bold=True, anchor="end")
+    f.box(70, y, b * 36, 28, f"{b} B", fill=c, stroke=NAVY, size=11, bold=True)
+    f.text(70 + b * 36 + 14, y + 19, r, size=10.5, color=SLATE, anchor="start")
+f.text(380, 244, "1 byte = 8 bits; a type with n bytes has 2^(8n) different bit patterns", size=10, color=SLATE)
+```
+
 ## 2.3 Variables and constants
 
 A **variable** is a named memory location whose value can change. **Declare** before use: `int age;`. **Initialise** at declaration: `int age = 19;`. An uninitialised local variable holds garbage, not zero.
@@ -166,6 +177,17 @@ max=7, 8 > 3 > 1 is 0
 
 Check the last line: `8 > 3` is 1, then `1 > 1` is 0. Check `x`: starts 5; `x++` uses 5 (y = 15) and x becomes 6; `++x` makes 7, z = 14.
 
+```svgfig label="2.2" caption="Operator precedence from highest (top) to lowest (bottom). Operators on one row have equal precedence and are grouped in the direction shown. When in doubt, add brackets."
+f = Fig(760, 300)
+rows = [("( )  [ ]  ->  .  x++  x--", "left to right"), ("!  ~  ++x  --x  +x  -x  (type)  *p  &x  sizeof", "right to left"), ("*   /   %", "left to right"), ("+   -", "left to right"), ("<   <=   >   >=", "left to right"), ("==   !=", "left to right"), ("&&", "left to right"), ("||", "left to right"), ("?:   =   +=  -=  *=  /=", "right to left")]
+for i, (a, b) in enumerate(rows):
+    y = 10 + i * 31
+    f.box(30, y, 470, 26, a, fill=BLUE if i % 2 == 0 else SOFT, stroke=NAVY, size=11.5, bold=True)
+    f.text(520, y + 18, b, size=10.5, color=TEAL, bold=True, anchor="start")
+f.arrow([(735, 20), (735, 280)], color=AMBER, label="lower", lpos=(722, 150))
+f.text(640, 14, "highest", size=10, color=AMBER, bold=True)
+```
+
 ## 2.5 Formatted output with `printf`
 
 `printf("format", args...)` copies the format text and replaces each `%…` with the next argument.
@@ -231,6 +253,17 @@ int main(void)
 [   12][12   ][00012][   3.142][ff]
 ```
 
+## 2.7 Eight common mistakes with data types, operators and input/output
+
+1. **Using `=` instead of `==`.** In `if (x = 5)` the value 5 is assigned to x and the condition is always true. The compiler may not report an error, so the program quietly takes the wrong branch. Write the constant first (`5 == x`) or compile with `-Wall` to catch it.
+2. **Integer division.** In C, `7 / 2` is 3, not 3.5, because both operands are integers and the fraction is cut off. To get 3.5 make one operand a float, for example `7 / 2.0` or `(float)7 / 2`. A marks-average program that divides two `int` values will always give a wrong answer for this reason.
+3. **Wrong format specifier.** `printf("%d", 3.14)` prints garbage, because `%d` expects an `int`. Use `%f` for `float` and `double` in `printf`, `%lf` for `double` in `scanf`, and `%c` for a character. The compiler warns about this only if warnings are turned on.
+4. **Forgetting `&` in `scanf`.** `scanf("%d", n)` passes the value of n instead of its address, so the input is written to a random place and the program may crash. Write `scanf("%d", &n)`. For a string array the name already is an address, so no `&` is used.
+5. **Leaving a newline in the buffer.** After `scanf("%d", &n)` the Enter key stays in the input, so a following `getchar()` or `scanf("%c")` reads that newline and seems to skip the input. A space before the specifier, `scanf(" %c", &ch)`, removes the leftover white space.
+6. **Overflow and wrong type size.** An `int` that holds 2,147,483,647 becomes negative when 1 is added. Factorials and sums over many Nepali census records easily pass this limit, so use `long long` for large totals. Always check the range of the type before choosing it.
+7. **Comparing floating-point numbers with `==`.** Because 0.1 cannot be stored exactly in binary, `0.1 + 0.2 == 0.3` is false. Compare the difference with a small tolerance, for example `fabs(a - b) < 1e-9`. This matters in billing programs that add many decimal amounts.
+8. **Confusing `++` forms and precedence.** `i = i++` is undefined, and `a = b++ + ++b` has no fixed answer. Also `a & b == c` means `a & (b == c)`, not `(a & b) == c`. Use one increment per statement and brackets for mixed operators.
+
 ## Formula and fact sheet
 
 - Identifier: letters, digits, `_`; not starting with a digit; not a keyword; case-sensitive.
@@ -288,3 +321,51 @@ int main(void)
 **15.** With a temp: `t = a; a = b; b = t;`. Without: `a = a + b; b = a - b; a = a - b;` (or `a ^= b; b ^= a; a ^= b;`; both fail if `a` and `b` are the same object).
 **16.** `printf("%.2f %.2f", 3.14159 * r * r, 2 * 3.14159 * r);` with `r` a `double` read using `%lf`.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). What is a data type? Explain the basic data types of C with their size, range and format specifier.**
+
+A **data type** tells the compiler how much memory a variable needs and how the stored bits are to be read. For example, the same 32 bits mean 1,078,530,011 as an `int` but 3.14159 as a `float`. C has four basic types: `char`, `int`, `float` and `double`, which can be changed by the modifiers `short`, `long`, `signed` and `unsigned` (Figure 2.1). A `char` takes 1 byte and holds one character or a small number (-128 to 127). An `int` takes 4 bytes on a modern PC and holds whole numbers from about -2.1 billion to +2.1 billion. A `float` takes 4 bytes and gives 6 to 7 correct digits; a `double` takes 8 bytes and gives 15 to 16 digits.
+
+| Type | Size | Range (typical) | Format |
+|---|---|---|---|
+| `char` | 1 B | -128 to 127 | `%c` |
+| `int` | 4 B | ±2,147,483,647 | `%d` |
+| `unsigned int` | 4 B | 0 to 4,294,967,295 | `%u` |
+| `long long` | 8 B | ±9.2 × 10¹⁸ | `%lld` |
+| `float` | 4 B | ±3.4 × 10³⁸ | `%f` |
+| `double` | 8 B | ±1.8 × 10³⁰⁸ | `%lf` (`%f` in printf) |
+
+For a student's roll number use `int`, for a grade letter use `char`, and for a CGPA such as 3.62 use `float` or `double`. The operator `sizeof(type)` gives the exact size on your machine.
+
+**Q (10 marks). Explain the different types of operators in C with examples. Describe operator precedence and associativity, and evaluate the expression `x = 10 + 4 * 3 % 5 - 2 > 8 && !0` .**
+
+*Introduction.* An **operator** is a symbol that tells the compiler to perform an operation on one or more **operands**. An expression is a combination of operands and operators that yields a value. C has a rich set of operators, which makes programs short.
+
+*Types of operators.*
+
+1. **Arithmetic:** `+ - * / %`. `17 % 5` is 2 and `17 / 5` is 3 for integers.
+2. **Relational:** `< <= > >= == !=`. The result is 1 (true) or 0 (false).
+3. **Logical:** `&& || !`. `(a > 0 && b > 0)` is true only when both parts are true; the right side of `&&` is skipped if the left side is false (short-circuit).
+4. **Assignment:** `= += -= *= /= %=`. `x += 5` means `x = x + 5`.
+5. **Increment and decrement:** `++` and `--`. In `y = x++` the old value is used first; in `y = ++x` the new value is used.
+6. **Bitwise:** `& | ^ ~ << >>`. `5 & 3` is 1 and `5 << 1` is 10.
+7. **Conditional (ternary):** `c ? a : b`. `max = (a > b) ? a : b;`
+8. **Special:** `sizeof`, comma `,`, address `&`, indirection `*`, and type cast `(float)`.
+
+*Precedence and associativity.* **Precedence** decides which operator is applied first when an expression has several; **associativity** decides the order for operators of equal precedence (Figure 2.2). Multiplication, division and modulus come before addition and subtraction. Relational operators come before `&&`, and `&&` before `||`. Assignment is the lowest and associates from right to left, so `a = b = 5` gives both variables the value 5.
+
+*Evaluation of the expression.* Step 1: `4 * 3` = 12. Step 2: `12 % 5` = 2 (same level as `*`, left to right). Step 3: `10 + 2` = 12, then `12 - 2` = 10. Step 4: `10 > 8` = 1. Step 5: `!0` = 1. Step 6: `1 && 1` = 1. Finally the assignment stores **x = 1**.
+
+| Level | Operators | Order |
+|---|---|---|
+| 1 (high) | `( ) [ ] ++ --` (postfix) | left to right |
+| 2 | `! ~ ++ -- sizeof (type)` | right to left |
+| 3 | `* / %` | left to right |
+| 4 | `+ -` | left to right |
+| 5 | `< <= > >=` then `== !=` | left to right |
+| 6 | `&&` then `\|\|` | left to right |
+| 7 (low) | `?:  =  +=` | right to left |
+
+*Conclusion.* Knowing the operators and their precedence lets a programmer write correct expressions; when the order is unclear, brackets cost nothing and make the meaning certain.

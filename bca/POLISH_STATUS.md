@@ -21,7 +21,18 @@ Real units (NOT the brief's guess): U1 Intro, U2 Software, U3 OS, U4 DBMS, U5 Ne
 - Photos (bca103/): scope, ic7447, hc00, breadboard, seg7, logican (all licence-gated via assets.py).
 - Not done: Unit 5 has no photo (abstract topic); units 2-5 only have the new model answers listed above (old short Practice answers kept).
 
+## BCA 102 programming-in-c (semester-1/programming-in-c) -- [x] DONE (session 12), 78 pp, qa fails=0
+- U1: Plate 1.1 (3-up: Thompson+Ritchie 1973, PDP-11/20, UNIX V5 screenshot; bca102/ photos), SVG 1.1 build pipeline; 8 features of C (1.5.1); 1 medium + 1 long answer.
+- U2: SVG 2.1 type sizes to scale, SVG 2.2 operator precedence; 8 common mistakes (2.7); medium (data types) + long (operators, evaluated expression).
+- U3: SVG 3.1 flowcharts if-else/while/do-while; 8 uses of loops/decisions (3.5); medium (if ladder vs switch + program) + long (loops).
+- U4: SVG 4.1 array/string/2-D memory layout, SVG 4.2 bubble sort passes; 8 uses of arrays/strings (4.5); medium (bubble sort, program run) + long (strings, program run).
+- U5: SVG 5.1 call stack of factorial(3), SVG 5.2 storage classes; 8 advantages of functions (5.5); medium (value vs address, run) + long (recursion + storage classes, run).
+- U6: SVG 6.1 pointer/array arithmetic, SVG 6.2 malloc/realloc/free; 8 uses of pointers (6.6); medium (dynamic allocation) + long (pointers, program run).
+- U7: Plate 7.1 (4-up punched card / HDD head / NVMe / pen drive, bca101 photos reused), SVG 7.1 struct vs union, SVG 7.2 file life cycle; 8 uses (7.5); medium (struct vs union) + long (file handling, binary file program run).
+- All C programs in the new answers were compiled with gcc -Wall and the printed output pasted from the real run.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
-- [ ] (NEXT SESSION STARTS HERE) programming-in-c, mathematics-1, professional-communication-ethics, hardware-workshop
+- [x] programming-in-c DONE (session 12)
+- [ ] (NEXT SESSION STARTS HERE) hardware-workshop (BCA 106, photo-heavy: do first), then mathematics-1, professional-communication-ethics
 - [ ] non-core slots (256, 356, 403 project, 452, electives), then semesters II-VIII

@@ -162,6 +162,21 @@ Trace `fact(3)`: `fact(3)` → `3 * fact(2)` → `2 * fact(1)` → `fact(1)` ret
 
 **Recursion vs iteration.** Recursion: shorter and clearer for self-similar problems, slower and more memory-hungry. Iteration: faster and constant memory, sometimes clumsier.
 
+```svgfig label="5.1" caption="The call stack while factorial(3) runs. Each call pushes a new frame holding its own n; the calls wait for each other until n = 1 is reached, then the answers return in reverse order: 1, 2, 6."
+f = Fig(760, 270)
+frames = [("main()", "calls factorial(3)"), ("factorial(3)", "n = 3, waits for 3 * factorial(2)"), ("factorial(2)", "n = 2, waits for 2 * factorial(1)"), ("factorial(1)", "n = 1, base case: returns 1")]
+for i, (a, b) in enumerate(frames):
+    y = 214 - i * 52
+    f.box(30, y, 300, 44, "", fill=BLUE if i < 3 else SOFT, stroke=NAVY)
+    f.text(46, y + 19, a, size=11.5, color=NAVY, bold=True, anchor="start")
+    f.text(46, y + 36, b, size=10, color=SLATE, anchor="start")
+f.arrow([(350, 236), (350, 30)], color=AMBER, label="stack grows", lpos=(398, 130))
+f.text(560, 40, "Returning", size=11.5, color=TEAL, bold=True)
+for i, s in enumerate(["factorial(1) returns 1", "factorial(2) returns 2 * 1 = 2", "factorial(3) returns 3 * 2 = 6", "main prints 6"]):
+    f.text(470, 70 + i * 34, f"{i + 1}.  {s}", size=11, color=NAVY, anchor="start")
+f.text(470, 224, "Without a base case the stack overflows.", size=10.5, color=RED, bold=True, anchor="start")
+```
+
 ## 5.4 Scope and storage classes
 
 **Scope** is where a name can be used. A *local* variable lives in a block `{ }` and is created on entry and destroyed on exit; a *global* variable is declared outside every function and is visible to all functions below it. An inner declaration **shadows** an outer one of the same name. Prefer locals and parameters: globals make code hard to reason about.
@@ -212,6 +227,33 @@ int main(void)
 `calls` keeps its value (1, 2, 3), `fresh` is rebuilt every call. The three calls are made in separate statements on purpose: the order in which the arguments of one `printf(…)` are evaluated is **unspecified** in C (GCC happens to go right to left), so `printf("%d %d", counter(), counter())` has no guaranteed output. `main`'s local `g` shadows the global `g = 100`.
 
 **Header files and the `main` arguments.** A header holds prototypes and macros; `#include "mine.h"` (quotes) searches your folder first, `#include <stdio.h>` searches system folders. `int main(int argc, char *argv[])` receives the command line: `argc` is the number of words and `argv[0]` is the program name.
+
+```svgfig label="5.2" caption="Where the four storage classes live. Local (auto) variables sit on the stack and vanish when the function returns; static and global variables live for the whole run in the data segment; register asks for a CPU register."
+f = Fig(760, 260)
+segs = [("Code (text)", "machine instructions", SOFT), ("Data segment", "global and static variables", BLUE), ("Heap", "malloc / calloc memory, grows up", SOFT), ("free space", "", "#ffffff"), ("Stack", "auto variables, parameters, grows down", BLUE)]
+for i, (a, b, c) in enumerate(segs):
+    y = 10 + i * 46
+    f.box(30, y, 270, 42, "", fill=c, stroke=NAVY)
+    f.text(165, y + 19, a, size=11.5, color=NAVY, bold=True)
+    if b: f.text(165, y + 35, b, size=9.5, color=SLATE)
+rows = [("auto", "block", "stack", "garbage"), ("static", "block / file", "data", "0"), ("extern", "program", "data", "0"), ("register", "block", "CPU register", "garbage")]
+f.text(330, 22, "class", size=10.5, color=TEAL, bold=True, anchor="start"); f.text(410, 22, "scope", size=10.5, color=TEAL, bold=True, anchor="start"); f.text(520, 22, "stored in", size=10.5, color=TEAL, bold=True, anchor="start"); f.text(650, 22, "default", size=10.5, color=TEAL, bold=True, anchor="start")
+for i, r in enumerate(rows):
+    for j, x in enumerate((330, 410, 520, 650)):
+        f.text(x, 52 + i * 30, r[j], size=10.5, color=NAVY if j == 0 else SLATE, bold=(j == 0), anchor="start")
+f.text(330, 200, "Lifetime: auto = one call; static, extern = whole program.", size=10.5, color=SLATE, anchor="start")
+```
+
+## 5.5 Eight advantages of using functions
+
+1. **Divide and conquer.** A big problem is split into small tasks, each written as a function such as `read_marks()` or `find_grade()`. Each function can be understood by itself. A team of four students can then write four functions in parallel.
+2. **Reusability.** A function is written once and called many times, with different arguments. `power(base, exp)` can serve a loan calculator and a physics program alike. This saves typing and reduces mistakes.
+3. **Easy testing and debugging.** Each function can be tested alone with a few known inputs. When the total is wrong, the programmer checks only the `total()` function. This is much faster than reading a 500-line `main`.
+4. **Shorter, clearer `main`.** `main` becomes a short list of calls that reads like a plan of the program. A reader sees at once what happens in what order. The details stay hidden inside the functions.
+5. **Easy maintenance.** If the VAT rate in Nepal changes, only the function `vat()` is edited, and all bills follow the new rule. Without functions the same rate would be hunted in many places. Maintenance cost is a big part of software cost.
+6. **Library building.** Functions can be collected in header and object files and shared between programs, as the C library itself does with `printf` and `sqrt`. A college can keep its own `student.h`. Code grows into a library instead of being copied.
+7. **Recursion.** A function that calls itself solves problems with a self-similar structure, such as factorial, Fibonacci, the Tower of Hanoi and tree traversal. The code is short and close to the mathematical definition. It needs a base case and uses stack memory for every call.
+8. **Data protection through scope.** Local variables exist only inside their function, so two functions can both use a variable named `i` without conflict. Only the values passed as arguments cross the boundary. This lowers the chance of one part of the program damaging another.
 
 ## Formula and fact sheet
 
@@ -264,3 +306,71 @@ int main(void)
 **11.** `int bs(int a[], int lo, int hi, int k){ if (lo > hi) return -1; int m = lo + (hi - lo) / 2; if (a[m] == k) return m; return a[m] < k ? bs(a, m + 1, hi, k) : bs(a, lo, m - 1, k); }`
 **12.** `void minmax(int a[], int n, int *mn, int *mx){ *mn = *mx = a[0]; for (int i = 1; i < n; i++){ if (a[i] < *mn) *mn = a[i]; if (a[i] > *mx) *mx = a[i]; } }`
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Differentiate call by value and call by reference (address). Write a program that shows that a swap function needs addresses.**
+
+In **call by value** the function receives a *copy* of each argument. Changes made to the parameters affect only the copy, so the caller's variables stay unchanged. In **call by reference** (in C, done by passing the *address* with `&` and receiving it in a pointer parameter) the function works on the original memory through `*p`, so changes are visible to the caller. C itself always passes by value; "by reference" is imitated by passing a pointer.
+
+| Point | Call by value | Call by address |
+|---|---|---|
+| What is passed | copy of the value | address of the variable |
+| Original changed? | no | yes |
+| Call | `swap(x, y)` | `swap(&x, &y)` |
+| Parameter | `int a` | `int *a` |
+| Use | read-only inputs | results, arrays, large structures |
+
+```c
+#include <stdio.h>
+void swap_val(int a, int b) { int t = a; a = b; b = t; }
+void swap_ref(int *a, int *b) { int t = *a; *a = *b; *b = t; }
+int main(void) {
+    int x = 10, y = 20;
+    swap_val(x, y);
+    printf("after call by value:   x=%d y=%d\n", x, y);
+    swap_ref(&x, &y);
+    printf("after call by address: x=%d y=%d\n", x, y);
+    return 0;
+}
+```
+
+```text
+after call by value:   x=10 y=20
+after call by address: x=20 y=10
+```
+
+`swap_val` swapped only its own copies, which disappeared when it returned. `swap_ref` changed the real x and y. An array is always passed by address, so a function that sorts an array changes the caller's array.
+
+**Q (10 marks). What is recursion? Explain it with a factorial and a Fibonacci function, and show how the call stack works. Compare recursion with iteration. Also explain the four storage classes of C.**
+
+*Introduction.* **Recursion** is a method in which a function calls itself to solve a smaller copy of the same problem. A recursive function needs (1) a **base case** that stops the calls and (2) a **recursive case** that moves toward the base case.
+
+*Factorial.* n! = n × (n - 1)!, with 0! = 1! = 1. The function `long fact(int n) { return n <= 1 ? 1 : n * fact(n - 1); }` gives 5! = 120. For `fact(3)` the calls go down to `fact(1)`, which returns 1; then 2 × 1 = 2 and 3 × 2 = 6 come back (Figure 5.1). Each pending call keeps its own `n` in a **stack frame**.
+
+*Fibonacci.* `int fib(int n) { return n < 2 ? n : fib(n - 1) + fib(n - 2); }` gives 0 1 1 2 3 5 8 for n = 0 to 6. It is simple, but `fib(n)` recomputes the same values many times, so the time grows roughly as 1.6ⁿ; a loop takes only n steps.
+
+```text
+5! = 120
+0 1 1 2 3 5 8 
+```
+
+*Recursion versus iteration.*
+
+| Point | Recursion | Iteration |
+|---|---|---|
+| Method | function calls itself | loop repeats a block |
+| Termination | base case | loop condition |
+| Memory | one stack frame per call | constant |
+| Speed | slower (call overhead) | faster |
+| Code | short, close to the definition | longer, but efficient |
+| Risk | stack overflow | endless loop |
+
+*Storage classes* decide the scope (where a name can be used), lifetime and default value (Figure 5.2).
+
+1. **`auto`**: default for local variables; lives on the stack during one call; starts with garbage.
+2. **`register`**: a request to keep the variable in a CPU register for speed; its address cannot be taken.
+3. **`static`**: a local variable that keeps its value between calls and starts at 0. A function with `static int c = 0; return ++c;` called three times returns 3.
+4. **`extern`**: declares a global variable defined in another place or file, so several files share one variable.
+
+*Conclusion.* Recursion expresses self-similar problems clearly, and the stack makes it work, but every call costs memory. Use it for trees, divide and conquer and the Tower of Hanoi, and use loops when a simple loop is enough.
