@@ -8,6 +8,10 @@ The file-edit tool cannot see paths outside its workspace root (`/app`); bash ca
 The Django landing needs `pip install --user --break-system-packages` of requirements plus `bleach django-htmx meilisearch gradio_client js2py`;
 run with `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x`. Playwright Chromium needs `sudo apt-get install libnspr4 libnss3 libgbm1 libasound2 ...`.
 
+## Admin panel
+
+Read `docs/ADMIN_PANEL.md` before touching `/admin/` templates or `static/web/css/admin/`. One nav list (`admin_extras.NAV_GROUPS`), M3 confirm dialog instead of `confirm()`, tonal surfaces, finite radii on every hover shape; `web/test_admin_shell.py` enforces it. Analytics: `docs/ANALYTICS.md`.
+
 ## Web design system (m3x) -- read before touching templates/CSS
 
 - Tokens: `static/web/css/m3x/tokens.css` (`--md-*` roles, `--x-float` = the white/raised surface for every menu, dialog, sheet, popover). Never hard-code a colour; a fill and its label are always a role pair.
