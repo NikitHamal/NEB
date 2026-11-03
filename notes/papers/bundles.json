@@ -16,19 +16,20 @@
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Chemistry-2080-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Chemistry-2079-2082-Bundle.pdf",
   "subject": "Chemistry",
   "grade": "12",
-  "years_bs": "2080-2082",
+  "years_bs": "2079-2082",
   "papers": [
    "12-chem-2082-general",
    "12-chem-2082-9111",
    "12-chem-2081-general",
    "12-chem-2081-9111",
-   "12-chem-2080-general"
+   "12-chem-2080-general",
+   "12-chem-2079-3021h"
   ],
-  "pages": 64,
-  "bytes": 1465072,
+  "pages": 78,
+  "bytes": 1661471,
   "category": "Board Exam Bundle"
  },
  {
