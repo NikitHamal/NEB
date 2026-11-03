@@ -134,6 +134,90 @@ A single one-week bump of 20 units in demand (week 3) becomes orders of **140** 
 
 Enterprise applications are rarely bought from one vendor, so they must exchange data. Approaches: **point-to-point interfaces** (simple, but n systems may need n(n − 1)/2 interfaces); **middleware** or an **enterprise service bus** (each system connects once to the bus); **APIs** (REST/JSON web services); **file exchange** (CSV or EDI through a scheduled job); and **master data management**, which keeps one authoritative customer, product and vendor list. Integration failures are mostly *data* failures: different codes for the same item, mismatched units, duplicate customers. Before connecting anything, define who owns each data item.
 
+## 3.6 Seeing enterprise systems: one database, costs and the bullwhip
+
+Enterprise systems are about flows: goods, information and money, and the stock that sits between them. The plate shows a real warehouse and the three flows of a supply chain; the figures give the numbers of Section 3.3 and 3.4 a shape: the cost curve of the EOQ model, the stock cycle with its safety buffer and the growth of order variance up the chain.
+
+```photogrid label="3.1" cols="2" ratio="1.2" caption="(a) A forklift inside a warehouse: the physical end of the supply chain, where stock is held, counted and moved. Every pallet in the picture is an item that ties up money. (b) The three flows of a supply chain. Goods move forward from supplier to customer, orders and forecasts move backward as information, and money flows back as payment. SCM software coordinates all three, and the bullwhip effect arises when the information flow distorts."
+@ photo id="bca304/forklift" cap="Warehouse forklift"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Three flows of a supply chain"
+f = Fig(330, 275)
+names = ["Supplier", "Factory", "Distributor", "Retailer"]
+for i, n in enumerate(names):
+    f.box(6 + i * 82, 100, 76, 36, n, fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+for i in range(3):
+    f.arrow([(82 + i * 82, 112), (88 + i * 82, 112)], color=TEAL)
+f.arrow([(30, 80), (300, 80)], color=TEAL); f.text(165, 66, "goods and services", size=11.5, color=TEAL, bold=True)
+f.arrow([(300, 160), (30, 160)], color=AMBER); f.text(165, 180, "orders and forecasts (information)", size=11, color=AMBER, bold=True)
+f.arrow([(300, 214), (30, 214)], color=RED); f.text(165, 234, "money (payment)", size=11.5, color=RED, bold=True)
+f.text(165, 26, "Each stage sees only the next one", size=11.5, color=SLATE, bold=True)
+```
+
+```svgfig label="3.1" caption="Why ERP uses one database. Finance, HR, sales, inventory and production modules all read and write the same database, so a sale entered once appears at once in stock, accounts and the delivery list. Before ERP each department kept its own files and data was re-typed, so numbers disagreed. The cost of the integration is that all processes must agree on common definitions, which is why an ERP project changes the organisation as much as the software."
+f = Fig(580, 200)
+f.box(210, 74, 160, 52, "One shared\ndatabase", fill=BLUE, stroke=NAVY, size=12, bold=True)
+mods = [("Finance", 20, 14), ("Sales", 210, 6), ("HR", 440, 14), ("Inventory", 20, 142), ("Production", 210, 150), ("Purchasing", 440, 142)]
+for n, x, y in mods:
+    f.box(x, y, 120, 40, n, fill=MINT, stroke=TEAL, size=11, bold=True)
+    cx = x + 60
+    f.arrow([(cx, y + 40 if y < 100 else y), (290 if x == 210 else (250 if x < 210 else 330), 74 if y < 100 else 126)], color=SLATE, both=True)
+```
+
+```svgfig label="3.2" caption="The EOQ cost curve. With D = 12,000 units a year, S = Rs 500 per order and H = Rs 20 per unit per year, total cost TC(Q) = (D / Q) x S + (Q / 2) x H. At Q = 500, TC = 24 x 500 + 250 x 20 = Rs 17,000; at Q = 1,000, TC = 12 x 500 + 500 x 20 = Rs 16,000; at the optimum Q* = 774.6, TC = Rs 7,746 + Rs 7,746 = Rs 15,492. The lowest point is where ordering cost equals holding cost, and the curve is flat near it, so a rounded order of 750 or 800 costs almost the same."
+f = Fig(580, 230)
+ax = Axes(f, 60, 10, 490, 170, (200, 1600), (0, 30000))
+ax.grid(200, 5000, yfmt=lambda v: f"{int(v/1000)}k").axes("", "")
+ax.curve(lambda q: 12000 / q * 500 + q / 2 * 20, 200, 1600, color=NAVY, sw=2.6)
+ax.curve(lambda q: 12000 / q * 500, 200, 1600, color=AMBER, dash=True, sw=1.6)
+ax.curve(lambda q: q / 2 * 20, 200, 1600, color=TEAL, dash=True, sw=1.6)
+ax.pt(774.6, 15492, "Q* = 774.6, Rs 15,492", dx=10, dy=-22)
+ax.pt(500, 17000, "500: 17,000", dx=-8, dy=-8, anchor="end")
+ax.pt(1000, 16000, "1,000: 16,000", dx=12, dy=-12)
+f.text(60, 205, "ordering cost (dashed, falls)", size=10, color=AMBER, bold=True, anchor="start")
+f.text(260, 205, "holding cost (dashed, rises)", size=10, color=TEAL, bold=True, anchor="start")
+f.text(300, 222, "order quantity Q (units)", size=10, color=SLATE, bold=True)
+```
+
+```svgfig label="3.3" caption="Reorder point and safety stock. Average demand is 150 units a day, lead time 9 days, so demand during the lead time is 150 x 9 = 1,350 units. With a daily standard deviation of 40 and a 95 percent service level (z = 1.645), safety stock = 1.645 x 40 x 3 = 197.4 units and the reorder point is 1,350 + 197.4 = 1,547.4 units. When stock falls to the reorder point an order is placed; stock should arrive just as it reaches the safety level. If the lead time becomes 16 days, the safety stock rises to 1.645 x 40 x 4 = 263.2 units."
+f = Fig(580, 200)
+f.line(40, 170, 560, 170, color=SLATE); f.line(40, 20, 40, 170, color=SLATE)
+f.line(40, 60, 560, 60, color=RED, dash=True); f.text(560, 52, "reorder point 1,547.4", size=10, color=RED, bold=True, anchor="end")
+f.line(40, 140, 560, 140, color=TEAL, dash=True); f.text(560, 156, "safety stock 197.4", size=10, color=TEAL, bold=True, anchor="end")
+for i in range(2):
+    x0 = 60 + i * 250
+    f.raw(f'<polyline points="{x0},24 {x0+160},140 {x0+160},24" fill="none" stroke="#1e3a8a" stroke-width="2.2"/>')
+f.raw('<polyline points="60,24 220,140 220,24 310,24 470,140 470,24" fill="none" stroke="#1e3a8a" stroke-width="2.2"/>')
+f.text(135, 188, "lead time 9 days", size=10, color=NAVY, bold=True)
+f.text(300, 14, "stock on hand", size=10, color=SLATE, bold=True)
+f.text(380, 188, "time", size=10, color=SLATE, bold=True)
+f.arrow([(220, 60), (220, 128)], color=AMBER, label="order placed at ROP", lpos=(305, 100))
+```
+
+```svgfig label="3.4" caption="The bullwhip effect. A small change in customer demand becomes a larger swing in orders at every stage upstream. The variance of orders divided by the variance of demand is 1.62 at the retailer, 4.06 at the wholesaler, 10.16 at the distributor and 36.82 at the factory, so the standard deviation of the factory's orders is 6.07 times that of real demand. The causes are demand-forecast updating, order batching, price fluctuation and rationing; the cures are sharing real sales data, smaller more frequent orders and stable prices."
+f = Fig(580, 190)
+st = [("Retailer", 1.62, 1.27), ("Wholesaler", 4.06, 2.02), ("Distributor", 10.16, 3.19), ("Factory", 36.82, 6.07)]
+for i, (n, v, s) in enumerate(st):
+    y = 12 + i * 44
+    f.text(10, y + 18, n, size=10.5, color=SLATE, bold=True, anchor="start")
+    f.box(110, y, v * 10 + 0.01, 18, "", fill=ROSE, stroke=RED, r=2)
+    f.text(116 + v * 10, y + 10, f"variance x {v}", size=9.5, color=RED, bold=True, anchor="start")
+    f.box(110, y + 20, s * 10 + 0.01, 14, "", fill=BLUE, stroke=NAVY, r=2)
+    f.text(116 + s * 10, y + 28, f"std dev x {s}", size=9.5, color=NAVY, bold=True, anchor="start")
+```
+
+### 3.6.1 Eight benefits of an ERP system for a growing company
+
+1. **One version of the truth.** All departments use the same database, so a sale entered once appears in stock, accounts and delivery at once. Managers no longer argue about whose spreadsheet is correct. A trading company in Birgunj can close its monthly books in days instead of weeks.
+2. **Less duplication of work.** Data is typed once and reused by every module. Clerks stop copying the same order into three registers. The time saved goes to checking and serving customers.
+3. **Better inventory control.** The system shows stock by item and by warehouse in real time and warns when the reorder point is reached. Using EOQ and safety stock, it reduces both stock-outs and idle money. A hardware wholesaler can free cash that was tied up in slow-moving goods.
+4. **Faster, more accurate reporting.** Reports of sales, profit and payables come straight from the database. Tax and audit reports are easier because the records are complete. Owners see problems while there is still time to act.
+5. **Improved customer service.** A salesperson can see stock, credit limit and delivery dates while talking to the customer. Orders are confirmed with correct dates. Customers return to suppliers that keep their promises.
+6. **Standard processes and control.** The system forces a standard way of approving purchases and payments, with a record of who approved what. This lowers the chance of fraud and mistakes. A bank or a school with many branches can apply the same rules everywhere.
+7. **Scalability.** New branches, products or users are added to the same system. A company that grows from one shop to ten does not need to start again. The cost per transaction usually falls as volume grows.
+8. **Better planning.** Linked sales, stock and production data allow forecasts and purchase plans to be made from facts. A manufacturer can plan raw materials for the festival season months ahead. Planning on facts reduces waste and rush costs.
+
 ## Chapter summary
 
 - ERP shares one database across finance, sales, procurement, inventory, manufacturing and HR; implementation may be big bang, phased, parallel or pilot, and weighted scoring supports vendor choice.
@@ -166,3 +250,58 @@ Enterprise applications are rarely bought from one vendor, so they must exchange
 **9.** 8 × 7 / 2 = 28 interfaces; a bus needs 8 connections.
 **10.** Push produces from forecasts; pull produces in response to actual orders.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). A shop sells 12,000 units a year. Ordering costs Rs 500 per order and holding costs Rs 20 per unit per year. Calculate the EOQ, number of orders, cycle time and total cost, and compare with an order size of 1,000.**
+
+*Introduction.* The economic order quantity is the order size that minimises the sum of annual ordering and holding costs (section 3.3, Figure 3.2).
+
+1. **Formula.** EOQ = square root of (2DS / H) = square root of (2 x 12,000 x 500 / 20) = square root of 600,000 = **774.6 units**.
+2. **Orders per year.** 12,000 / 774.6 = **15.49** orders.
+3. **Cycle time.** 365 / 15.49 = **23.6 days** between orders.
+4. **Costs at EOQ.** Ordering = 15.49 x 500 = Rs 7,746; holding = (774.6 / 2) x 20 = Rs 7,746; total = **Rs 15,492**. At the optimum the two are equal.
+5. **Comparison.** At Q = 1,000: ordering 12 x 500 = 6,000 and holding 500 x 20 = 10,000, total **Rs 16,000**, which is Rs 508 a year more.
+6. **Assumptions.** Constant demand, fixed costs, instant delivery and no discounts.
+
+| Q | Orders | Ordering | Holding | Total (Rs) |
+|---|---|---|---|---|
+| 500 | 24 | 12,000 | 5,000 | 17,000 |
+| 774.6 | 15.49 | 7,746 | 7,746 | 15,492 |
+| 1,000 | 12 | 6,000 | 10,000 | 16,000 |
+
+*Conclusion.* The EOQ balances many small orders against large stocks; because the curve is flat near the minimum, a rounded quantity close to 775 is acceptable.
+
+**Q2 (5 marks). What is the bullwhip effect? Explain its causes and the ways to reduce it, using the retailer-to-factory example.**
+
+*Introduction.* The bullwhip effect is the growth of the variability of orders as they move upstream from the customer to the factory (section 3.4, Figure 3.4).
+
+1. **The pattern.** Order variance relative to demand variance is 1.62 at the retailer, 4.06 at the wholesaler, 10.16 at the distributor and 36.82 at the factory; the standard deviation is 6.07 times larger at the factory.
+2. **Demand forecast updating.** Each stage treats the order of the next as demand and adds safety stock, so small changes are amplified.
+3. **Order batching.** Placing weekly or monthly bulk orders makes demand look lumpy.
+4. **Price fluctuations.** Discounts and promotions encourage forward buying, which then disappears.
+5. **Rationing and gaming.** When supply is short, buyers order more than they need, and then cancel.
+6. **Remedies.** Share point-of-sale data with every stage, use smaller and more frequent orders, keep stable prices, shorten lead times and use vendor-managed inventory.
+
+*Conclusion.* Bullwhip is caused by the information structure of the chain, not by customers; sharing real demand data is the most effective cure.
+
+**Q3 (10 marks). Explain ERP, CRM and SCM. Show how they are integrated in an enterprise, and describe the benefits and the risks of ERP implementation.**
+
+*Introduction.* Large organisations need their departments to work from the same facts. Enterprise systems provide this: ERP integrates internal processes, SCM coordinates the flow of goods with suppliers and distributors, and CRM manages relations with customers. Together they form the backbone of the digital firm (sections 3.1 to 3.5, Figures 3.1 and 3.4).
+
+1. **ERP.** A suite of modules (finance, HR, sales, inventory, production, purchasing) on one shared database, so data is entered once and used everywhere.
+2. **CRM.** Stores customer contacts, orders, complaints and campaigns, and gives a complete view of each customer for sales, marketing and service.
+3. **SCM.** Plans and controls material, information and money flows from suppliers to customers: forecasting, purchasing, EOQ and safety stock, warehousing and delivery.
+4. **Integration.** A CRM order feeds ERP stock and finance, which triggers SCM replenishment and delivery; payment flows back to finance.
+5. **Benefits.** One version of the truth, less duplication, better inventory, faster reports, better service and control.
+6. **Implementation strategies.** Big bang (everything at once, fast, risky), phased (module by module, safer) and parallel (old and new together, costly).
+7. **Risks.** High cost, resistance to change, poor data migration, over-customisation and weak top-management support.
+8. **Choosing a vendor.** Use weighted scoring of fit, cost, support, scalability and local presence.
+
+| System | Focus | Main users |
+|---|---|---|
+| ERP | Internal processes | All departments |
+| CRM | Customers | Sales, marketing, service |
+| SCM | Suppliers and delivery | Purchasing, logistics |
+
+*Conclusion.* ERP, CRM and SCM share data and cover the whole business from supplier to customer. Success depends less on software than on process change, good data and committed management.

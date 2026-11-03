@@ -112,6 +112,77 @@ Functional information systems are the other way to slice the organisation: **ac
 
 Nepal's public and private sectors already show the whole pyramid. **Core banking systems** in the commercial banks are TPS at their centre, with branch MIS reporting to Nepal Rastra Bank. The **Nepal Stock Exchange's Trade Management System** is an online TPS. The **Inland Revenue Department's taxpayer portal** and the **customs ASYCUDA World system** are TPS with MIS reporting. The **Nagarik App** and the **National ID** programme (see *Society and Technology*) show e-government systems. At small scale, a **Palika's** (municipality's) ward-registration software is a TPS whose summaries feed the mayor's decisions. The recurring challenges are the same everywhere: poor data quality at entry, unreliable connectivity outside cities, scarce trained staff, and systems bought without redesigning the procedures around them.
 
+## 1.7 Seeing information systems: machines, pyramids and flows
+
+Information systems are easier to grasp when the machines and the levels of an organisation are drawn out. The plate shows three transaction-processing machines from three eras, and the figures show how data becomes knowledge, which system serves which level of management, and how the systems feed one another.
+
+```photogrid label="1.1" cols="3" ratio="1.1" caption="Transaction processing, then and now. (a) An IBM 1401 data-processing system of the type used for large record-keeping jobs such as the national census of Nepal in 2028 BS: punched-card readers, a printer and a console in a room of their own. (b) A bank ATM in Nepal, where every withdrawal is one transaction recorded in the bank's database within seconds. (c) A supermarket self-checkout: each scan reads a barcode, looks up a price and updates the stock. The machines change, but the pattern is the same: capture the event, store it, report on it."
+@ photo id="bca101/ibm1401" cap="IBM 1401, the census era"
+fit 1.1
+focus 0.5 0.5
+@ photo id="bca101/atm-nepal" cap="ATM in Nepal"
+fit 1.1
+focus 0.5 0.55
+@ photo id="bca304/selfcheck" cap="Barcode self-checkout"
+fit 1.1
+focus 0.5 0.5
+```
+
+```svgfig label="1.1" caption="From data to knowledge. The number 78 alone is data. With context (Sita Sharma, DBMS, 2081) it becomes information. When many such facts are analysed, for example that students who attend at least 80 percent of lab classes average 15 marks more, the result is knowledge, which supports an action: a rule that low attendance triggers a call to the student. Each step adds context, meaning and use, and each step needs people as well as software."
+f = Fig(580, 200)
+st = [("Data", "78", "raw facts, no context", BLUE, NAVY), ("Information", "Sita scored 78\nin DBMS, 2081", "data with context", MINT, TEAL), ("Knowledge", "Lab attendance 80%+\nraises marks by\nabout 15", "patterns, rules, experience", SAND, AMBER), ("Action", "Call students below\n80% attendance", "decision that uses it", ROSE, RED)]
+for i, (t, ex, d, fl, c) in enumerate(st):
+    x = 8 + i * 144
+    f.box(x, 14, 134, 30, t, fill=fl, stroke=c, size=12, bold=True)
+    f.box(x, 56, 134, 70, ex, fill="#ffffff", stroke=c, size=9.5, bold=True)
+    f.text(x + 67, 146, d, size=9.5, color=SLATE, bold=True)
+    if i < 3: f.arrow([(x + 134, 29), (x + 144, 29)], color=SLATE)
+f.text(290, 184, "Each step adds context, meaning and use.", size=10.5, color=NAVY, bold=True)
+```
+
+```svgfig label="1.2" caption="Levels of an organisation and the systems that serve them, with a college as the example. Operational staff (the exam section clerk) use transaction processing systems and make structured decisions that follow fixed rules. Middle managers (the head of department) use MIS reports and DSS models for semi-structured decisions. Senior managers (campus chief, board) use executive support systems for unstructured, long-term decisions. Volume of data is largest at the bottom and the time horizon is longest at the top."
+f = Fig(580, 214)
+f.poly([(290, 8), (400, 78), (180, 78)], fill=ROSE, stroke=RED, label="Strategic", lx=290, ly=56, size=11)
+f.poly([(180, 78), (400, 78), (460, 142), (120, 142)], fill=SAND, stroke=AMBER, label="Management", lx=290, ly=112, size=11)
+f.poly([(120, 142), (460, 142), (530, 206), (50, 206)], fill=MINT, stroke=TEAL, label="Operational", lx=290, ly=176, size=11)
+rows = [("ESS", "unstructured, long term", 40), ("MIS, DSS", "semi-structured, medium term", 112), ("TPS", "structured, daily", 176)]
+for t, d, y in rows:
+    f.text(480, y - 6 if y > 100 else y + 2, t, size=11, color=NAVY, bold=True, anchor="start") if False else None
+f.text(420, 40, "ESS", size=11, color=RED, bold=True, anchor="start"); f.text(420, 56, "unstructured, long term", size=9.5, color=SLATE, anchor="start")
+f.text(480, 106, "MIS and DSS", size=11, color=AMBER, bold=True, anchor="start"); f.text(480, 122, "semi-structured", size=9.5, color=SLATE, anchor="start")
+f.text(2, 176, "TPS", size=11, color=TEAL, bold=True, anchor="start"); f.text(2, 192, "structured, daily", size=9.5, color=SLATE, anchor="start")
+f.text(10, 40, "Campus chief,", size=9.5, color=SLATE, anchor="start"); f.text(10, 54, "board", size=9.5, color=SLATE, anchor="start")
+f.text(10, 106, "Head of", size=9.5, color=SLATE, anchor="start"); f.text(10, 120, "department", size=9.5, color=SLATE, anchor="start")
+f.text(560, 176, "Clerks", size=9.5, color=SLATE, anchor="end")
+```
+
+```svgfig label="1.3" caption="How the systems feed one another in a college. Every admission, fee payment and exam mark is captured by transaction processing systems into one database. MIS reads the database to print routine reports (fees collected per month, pass percentage per subject). DSS runs what-if models on the same data (what if the fee rises 5 percent?). ESS compresses the key figures into a dashboard for the board. Decisions flow back as new transactions, such as a revised fee schedule."
+f = Fig(580, 200)
+f.box(10, 70, 110, 56, "TPS\nadmission, fees,\nmarks", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(160, 70, 100, 56, "Database", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(320, 10, 120, 40, "MIS reports", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(320, 80, 120, 40, "DSS models", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(320, 150, 120, 40, "ESS dashboard", fill=ROSE, stroke=RED, size=11, bold=True)
+f.arrow([(120, 98), (160, 98)], color=TEAL)
+for y in (30, 100, 170):
+    f.arrow([(260, 98), (320, y)], color=SLATE)
+f.box(490, 70, 82, 56, "Managers\ndecide", fill=SOFT, stroke=NAVY, size=10.5, bold=True)
+for y in (30, 100, 170):
+    f.arrow([(440, y), (490, 98)], color=SLATE)
+f.arrow([(531, 126), (531, 190), (65, 190), (65, 126)], color=TEAL, label="new transactions", lpos=(300, 183))
+```
+
+### 1.7.1 Eight benefits of information systems for an organisation
+
+1. **Faster and more accurate records.** A transaction system captures each event once and stores it in a database, so there is no copying from paper to paper. A college fee counter that records a payment on the screen gives the receipt in seconds. Totals at the end of the day then match without a long search for errors.
+2. **Better decisions.** Managers see current numbers instead of guesses. A department head who reads the pass percentage of each subject can find the weak subject before the next exam. Good decisions need good information, and systems deliver it on time.
+3. **Lower costs.** Automation reduces repeated manual work such as typing the same marks in three registers. A bank that moved statements to an app saves printing and posting. The saving is real, but the system itself has a cost (Unit 7).
+4. **Improved customer service.** Customers get answers and services at any hour. The Nagarik App and mobile banking let citizens and clients act without queues. A faster service builds trust and brings repeat business.
+5. **Competitive advantage.** Systems can create a lead that rivals find hard to copy, such as a delivery tracking system or a wide wallet network. A company known for reliable online ordering wins customers from slower rivals. The advantage lasts only while the system keeps improving.
+6. **Better control and security.** Access rights, logs and audit trails show who did what and when. A marks-entry system that records every change prevents quiet alteration of results. Control also protects the organisation from fraud.
+7. **Better communication and coordination.** Email, shared databases and messaging connect departments and branches. A bank with branches in Biratnagar and Nepalgunj sees the same customer record in both. Coordination improves because everyone works from the same facts.
+8. **Support for growth and new business.** A system built for 500 customers can often serve 50,000 with more servers. An online shop can open a new city without opening a new building. This lets small Nepali firms reach customers abroad as well.
+
 ## Chapter summary
 
 - Data become information when processed in context, and knowledge when combined with experience; good information is accurate, timely, relevant, complete, consistent, secure and worth its cost.
@@ -145,3 +216,63 @@ Nepal's public and private sectors already show the whole pyramid. **Core bankin
 **9.** Separate departmental systems with duplicate, conflicting data; removed by a shared database, master data management, integration/API layers or an ERP.
 **10.** TPS: core-banking posting. MIS: branch performance report. DSS: loan-portfolio what-if model. ESS: CEO dashboard of profit and NPL ratio. KMS: an intranet wiki of audit findings.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Distinguish between data, information and knowledge with examples from a college.**
+
+*Introduction.* The three words describe three stages of value in the same material, from raw facts to something that supports an action (section 1.1, Figure 1.1).
+
+1. **Data** are raw, unprocessed facts without context, for example the number 78 or the word Sharma. Data on their own cannot support a decision.
+2. **Information** is data that has been processed and given context so that it has meaning: Sita Sharma scored 78 in DBMS in 2081. A report of the average marks per subject is also information.
+3. **Knowledge** is information combined with experience, patterns and rules that tell us what to do. For example, students who attend 80 percent or more of lab classes average 15 marks more, so low attendance should trigger counselling.
+4. **Relationship.** Data are processed into information, information is analysed into knowledge and knowledge is used to take actions that create new data.
+5. **Value.** Each step adds context and use, and each needs both software and people.
+
+| Point | Data | Information | Knowledge |
+|---|---|---|---|
+| Meaning | None alone | Has context | Has pattern and use |
+| Example | 78 | Sita scored 78 in DBMS | Lab attendance raises marks |
+| Supports | Nothing | Reports | Decisions |
+
+*Conclusion.* A system turns data into information, and people turn information into knowledge; the value of an information system lies in this chain.
+
+**Q2 (5 marks). Compare transaction processing systems, management information systems and decision support systems.**
+
+*Introduction.* Each type of system serves a different level and kind of decision in the organisation (section 1.4, Figures 1.2 and 1.3).
+
+1. **TPS.** It records the daily events of the business, such as fee payments, ATM withdrawals and orders. Its users are operational staff, the decisions are structured, and its main needs are speed, accuracy and reliability.
+2. **MIS.** It summarises TPS data into routine reports, such as monthly fees collected or subject-wise pass percentage. Users are middle managers and the reports are periodic, fixed in format.
+3. **DSS.** It combines data with models and lets the manager ask what-if questions, for instance the effect of a 5 percent fee rise on income. It is interactive and used for semi-structured decisions.
+4. **Data flow.** TPS feed the database; MIS and DSS read from it.
+5. **Output and flexibility.** TPS give detailed records, MIS give summaries, DSS give analyses and answers to special questions.
+
+| Point | TPS | MIS | DSS |
+|---|---|---|---|
+| Users | Clerks | Middle managers | Managers and analysts |
+| Decision type | Structured | Mostly structured | Semi-structured |
+| Output | Records, receipts | Routine reports | What-if analysis |
+| Example | ATM withdrawal | Monthly fee report | Fee-increase model |
+
+*Conclusion.* TPS collect, MIS report and DSS analyse; together they give a complete flow from the counter to the manager's desk.
+
+**Q3 (10 marks). Explain the types of information systems at the different levels of an organisation. Describe how they are related, with a diagram and an example of a college or bank.**
+
+*Introduction.* An organisation is commonly drawn as a pyramid of operational, management and strategic levels. Each level has different decisions, a different time horizon and a different need for information, so no single system can serve all of them. Information systems are therefore grouped into types that match the levels (sections 1.3 to 1.5, Figures 1.2 and 1.3).
+
+1. **Operational level, TPS.** Transaction processing systems record daily events such as deposits, withdrawals, admissions and fee receipts. Decisions here are structured and follow rules.
+2. **Office automation and KMS.** Word processing, email and document systems help all levels, and knowledge-management systems store lessons and expertise so that they can be reused.
+3. **Management level, MIS.** MIS produce summary reports from TPS data: branch-wise deposits per month, subject-wise results. They support control and planning for the next weeks or months.
+4. **Management level, DSS.** DSS add models and what-if tools for semi-structured decisions, for example how many loan officers a bank needs if loan applications grow 20 percent.
+5. **Strategic level, ESS.** Executive support systems show a few key indicators and trends on a dashboard, drawing on internal and external data (market share, interest rates). They support unstructured, long-term decisions.
+6. **Relationships.** TPS are the base and supply the data. MIS, DSS and ESS draw on the same database, and decisions made at the higher levels produce new transactions below.
+7. **Characteristics by level.** Moving up the pyramid, detail decreases, time horizon grows and the share of unstructured decisions grows.
+8. **Nepali example.** A bank branch records deposits in the core banking system (TPS), the head office prints monthly branch reports (MIS), the credit department models loan growth (DSS) and the board watches a dashboard of profit, non-performing loans and deposits (ESS).
+
+| Level | Typical user | System | Decision type |
+|---|---|---|---|
+| Operational | Clerk, teller | TPS | Structured |
+| Management | Department head, branch manager | MIS, DSS | Semi-structured |
+| Strategic | Chief executive, board | ESS | Unstructured |
+
+*Conclusion.* The systems form a hierarchy that mirrors the organisation: TPS capture the facts, MIS and DSS turn them into reports and analyses, and ESS give the top managers a clear view of the whole organisation.
