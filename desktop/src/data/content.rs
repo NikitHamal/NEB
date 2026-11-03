@@ -137,10 +137,6 @@ impl ContentRepo {
         Self { dir, version: Arc::new(Mutex::new(v.trim().to_string())) }
     }
 
-    pub fn dir(&self) -> &Path {
-        &self.dir
-    }
-
     fn url(path: &str) -> String {
         format!("{}{}", api_base(), path.trim_start_matches('/'))
     }

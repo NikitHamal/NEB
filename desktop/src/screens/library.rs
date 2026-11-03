@@ -20,7 +20,7 @@ pub fn show_library(ui: &mut Ui, env: &mut Env, st: &mut LibraryState) {
             content_missing(ui, env);
             return;
         }
-        widgets::screen_header(ui, &th, "Library", Some("Every note, syllabus and question bank — available offline."));
+        widgets::screen_header(ui, &th, "Library");
         widgets::section_header(ui, &th, "Categories", None);
         let tracks = env.tracks.clone();
         widgets::grid(ui, 300.0, spacing::GRID_GAP, tracks.len(), |ui, i, w| {

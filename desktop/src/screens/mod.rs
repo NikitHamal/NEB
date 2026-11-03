@@ -1,6 +1,7 @@
 //! One module per screen. Each exposes `show(ui, env, state)` and keeps its own
 //! local state struct; shared plumbing lives in `common`.
 pub mod about;
+pub mod account;
 pub mod auth_flow;
 pub mod bookmarks;
 pub mod books;
@@ -50,5 +51,5 @@ pub struct Screens {
     pub intro: intro::IntroState,
     pub user: user::UserState,
     pub settings: settings::SettingsState,
-    pub profile: profile::ProfileState,
+    pub account: account::AccountState,
 }

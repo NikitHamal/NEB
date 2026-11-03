@@ -62,7 +62,7 @@ impl Default for Prefs {
     }
 }
 
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
 pub struct Profile {
     pub role: String,
@@ -136,7 +136,6 @@ pub struct PersistedState {
     pub onboarded: bool,
     /// The animated welcome tour has been seen.
     pub intro_done: bool,
-    pub guest: bool,
     pub session: Option<Session>,
     pub bookmarks: Vec<Bookmark>,
     pub progress: HashMap<String, Progress>,
@@ -190,10 +189,6 @@ impl Store {
         }
         self.dirty = false;
         self.last_save = Instant::now();
-    }
-
-    pub fn path(&self) -> &Path {
-        &self.path
     }
 
     // ---- bookmarks ----

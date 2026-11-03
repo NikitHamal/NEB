@@ -44,6 +44,7 @@ pub struct Env {
     pub srv: crate::server::ServerState,
     /// Screenshot tour: never talk to the server, use bundled sample data for signed-in screens.
     pub demo: bool,
+    #[allow(dead_code)]
     pub config_dir: PathBuf,
     pub dl: crate::data::downloads::Downloads,
     boot: Option<Task<Result<(Vec<Track>, Option<Manifest>)>>>,
@@ -163,8 +164,8 @@ impl Env {
     pub fn toast(&mut self, m: impl Into<String>) {
         self.toasts.push(m);
     }
-    pub fn open_url(&mut self, url: &str) {
-        self.actions.push(Action::OpenUrl(url.to_string()));
+    pub fn copy(&mut self, text: &str) {
+        self.actions.push(Action::Copy(text.to_string()));
     }
 
     pub fn track(&self, grade: &str) -> Option<&Track> {
