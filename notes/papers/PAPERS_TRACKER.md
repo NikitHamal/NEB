@@ -48,7 +48,7 @@ Variants per year: General stream (regular + partial), Technical stream, partial
 | Grade | Subject | Year | Variant | Status |
 |---|---|---|---|---|
 | 12 | Physics | 2082 | General | DONE (11 pp, MCQ key + all solutions) |
-| 12 | Chemistry | 2082 | General | sources fetched, not authored |
+| 12 | Chemistry | 2082 | General | DONE (10 pp, MCQ key + all solutions, 2 drawn figures) |
 | 12 | Biology | 2082 | General | sources fetched, not authored |
 | 12 | Mathematics | 2082 | General | sources fetched, not authored |
 | 12 | Computer Science | 2082 | General | sources fetched, not authored |

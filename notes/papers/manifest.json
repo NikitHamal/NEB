@@ -1,5 +1,21 @@
 [
  {
+  "file": "NEBians-Past-Paper-Grade-12-Chemistry-2082-General.pdf",
+  "subject": "Chemistry",
+  "grade": "12",
+  "year_bs": "2082",
+  "year_ad": "2025",
+  "stream": "General Stream",
+  "code": "3021 'D'",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
+  "category": "Board Exam",
+  "pages": 10,
+  "bytes": 206201,
+  "id": "12-chem-2082-general"
+ },
+ {
   "file": "NEBians-Past-Paper-Grade-12-Physics-2082-General.pdf",
   "subject": "Physics",
   "grade": "12",
@@ -12,7 +28,7 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 11,
-  "bytes": 469529,
+  "bytes": 469515,
   "id": "12-phy-2082-general"
  }
 ]

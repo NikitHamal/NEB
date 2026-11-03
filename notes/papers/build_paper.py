@@ -15,7 +15,7 @@ from weasyprint import HTML, CSS
 
 CONTENT = os.path.join(HERE, "content")
 OUT = os.path.join(HERE, "pdf")
-MARK = re.compile(r"\[\[(\d+)\]\]")
+MARK = re.compile(r"\[\[([\d+]+)\]\]")
 ROMAN = re.compile(r"^\((i{1,3}|iv|v)\)\s")
 PART = re.compile(r"^\(([a-e])\)\s")
 
@@ -36,6 +36,7 @@ def marks(s):
 def exam_markup(src):
     """@q N / (a) parts / (i) sub-parts / @or / @mcq N + @opts -> markdown with classed paragraphs."""
     out, num, first, buf = [], None, False, None
+    after_or = False
 
     def flush():
         nonlocal buf
@@ -49,14 +50,15 @@ def exam_markup(src):
             flush(); num = s.split()[1]; first = True
             if s.startswith("@mcq "):
                 buf = (f'<b class="qn">{num}.</b>', "part")
+                first = False
                 mc = True
             else:
                 mc = False
             continue
         if s == "@or":
-            flush(); out.append('\n<p class="or">Or</p>\n'); first = False; num = None; continue
+            flush(); out.append('\n<p class="or">Or</p>\n'); first = False; num = None; after_or = True; continue
         if s.startswith("@opts"):
-            flush()
+            flush(); first = False; num = None
             col = s.startswith("@opts-col")
             opts = [o.strip() for o in s.split(" ", 1)[1].split("|")]
             cells = "".join(f'<span class="opt"><i>{chr(65+i)}</i>{marks(o)}</span>' for i, o in enumerate(opts))
@@ -66,8 +68,12 @@ def exam_markup(src):
             buf = (buf[0] + " " + s, "part"); continue
         m = PART.match(s)
         r = ROMAN.match(s)
+        if s and not (m or r) and buf is None and after_or and not s.startswith(("#", "<", "`", "|", "@")):
+            buf = (s, "part cont"); after_or = False; continue
+        if s and not (m or r) and buf is None and first and num:
+            buf = (f'<b class="qn">{num}.</b> ' + s, "part"); first = False; continue
         if m or r:
-            flush()
+            flush(); after_or = False
             if r:
                 buf = (s, "sub")
             else:
@@ -80,7 +86,7 @@ def exam_markup(src):
         if not s:
             flush(); out.append(""); continue
         if buf:
-            buf = (buf[0] + " " + s, buf[1])
+            buf = (buf[0] + "<br>" + s, buf[1])
         else:
             out.append(ln)
     flush()
@@ -90,7 +96,13 @@ def exam_markup(src):
 def solution_markup(src):
     src = re.sub(r"^@s (\S+)\s*$", r'\n<p class="sq">Question \1</p>\n', src, flags=re.M)
     src = re.sub(r"\n(?=\(i{1,3}\)|Loop law|Dividing)", "\n\n", src)
-    return marks(src)
+    out = []
+    for l in src.split("\n"):
+        starts = l.startswith(("**(", "**Or", "- ", "1. "))
+        if starts and out and out[-1].strip() and not (l[:2] in ("- ", "1.") and out[-1][:2] in ("- ", "1.")):
+            out.append("")
+        out.append(l)
+    return marks("\n".join(out))
 
 
 def render(pid):
