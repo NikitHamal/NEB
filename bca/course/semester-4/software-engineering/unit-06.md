@@ -172,6 +172,113 @@ The SEI's CMM (now CMMI) assesses the maturity of a software organisation's proc
 
 Moving up takes years: a typical step takes 18 to 24 months. Most offshore software companies seek level 3 or higher (CMMI) to win export contracts.
 
+## 6.7 Testing in pictures: from the first bug to the V-model
+
+Testing cannot prove that a program is correct, but it is the main way of finding out how wrong it still is. Plate 6.1 shows three real objects of testing history; Figures 6.1 to 6.5 draw the V-model, the choice of black-box test data, the control-flow graph used for basis-path testing, a reliability curve and the five levels of the Capability Maturity Model.
+
+```photogrid label="6.1" cols="3" ratio="1.0" caption="Three faces of testing. (a) The moth of 9 September 1947 in the Harvard Mark II logbook: the first 'debugging' that is recorded in writing. (b) A network cable tester: a test instrument applies known inputs (one signal on each wire) and compares the outputs with the expected pattern, which is exactly what a software test case does. (c) The recovered fragment of Ariane 501: the guidance software had been tested on Ariane 4 flight data but never on the faster Ariane 5 trajectory, so the fault was found by the rocket itself at a cost of about 370 million US dollars."
+@ photo id="bca252/bug" cap="First recorded debugging"
+fit 1.0
+focus 0.5 0.55
+@ photo id="bca106/tester" cap="Cable tester: input, expected output"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca252/ariane" cap="Ariane 501 fragment"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="6.1" caption="The V-model. The left arm goes down from requirements to coding (verification: are we building the product right?); the right arm goes up through the four levels of testing (validation: are we building the right product?). Each test level is planned against the document on the same row, so acceptance tests are written from the requirements, system tests from the system design, integration tests from the detailed design and unit tests from the code."
+f = Fig(580, 240)
+left = ["Requirements", "System design", "Detailed design", "Coding"]
+right = ["Acceptance test", "System test", "Integration test", "Unit test"]
+for i in range(4):
+    y = 14 + i * 50
+    f.box(10 + 50 * i, y, 126, 36, left[i], fill=BLUE, stroke=NAVY, size=10, bold=True)
+    f.box(444 - 50 * i, y, 126, 36, right[i], fill=MINT, stroke=TEAL, size=10, bold=True)
+    f.arrow([(136 + 50 * i, y + 18), (444 - 50 * i, y + 18)], color=AMBER, dash=True)
+f.text(290, 8, "test plans written early", size=9.5, color=AMBER, bold=True)
+f.text(80, 228, "verification (build it right)", size=10, color=NAVY, bold=True)
+f.text(500, 228, "validation (right product)", size=10, color=TEAL, bold=True)
+```
+
+```svgfig label="6.2" caption="Test data for an input that accepts marks from 0 to 100. Equivalence partitioning gives three classes: below 0 (invalid), 0 to 100 (valid) and above 100 (invalid); one test per class is enough. Boundary value analysis adds the values on and next to each edge: -1, 0, 1, 99, 100 and 101, because programs most often fail at boundaries (for example '<' written instead of '<=')."
+f = Fig(580, 200)
+f.line(40, 100, 540, 100, color=SLATE, sw=2)
+f.box(40, 60, 120, 34, "invalid: below 0", fill=ROSE, stroke=RED, size=10, bold=True)
+f.box(230, 60, 120, 34, "valid: 0 to 100", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(420, 60, 120, 34, "invalid: above 100", fill=ROSE, stroke=RED, size=10, bold=True)
+tests = [(160, "-1"), (200, "0"), (230, "1"), (350, "99"), (380, "100"), (420, "101")]
+xs = {"-1": 150, "0": 205, "1": 245, "99": 335, "100": 375, "101": 430}
+for k, v in xs.items():
+    ok = k in ("0", "1", "99", "100")
+    f.circle(v, 100, 6, fill=(MINT if ok else ROSE), stroke=(TEAL if ok else RED))
+    f.text(v, 128, k, size=11, color=(TEAL if ok else RED), bold=True)
+f.text(290, 160, "boundary tests: -1 (reject), 0 and 1, 99 and 100 (accept), 101 (reject)", size=10.5, color=SLATE, bold=True)
+f.text(290, 182, "equivalence tests: -20, 50, 130 (one per class)", size=10.5, color=SLATE, bold=True)
+```
+
+```svgfig label="6.3" caption="The control-flow graph of clamp(x), which returns |x| limited to 100. Nodes 1 to 6 are blocks (1 start, 2 test x < 0, 3 x = -x, 4 test x > 100, 5 x = 100, 6 return). There are 7 edges and 6 nodes, so V(G) = E - N + 2 = 7 - 6 + 2 = 3, which equals the two decisions plus one. Three basis paths need three tests: 1-2-4-6 with x = 50, 1-2-3-4-6 with x = -5, and 1-2-4-5-6 with x = 150."
+f = Fig(580, 270)
+nodes = {1: (290, 22, "1"), 2: (290, 76, "2 x<0?"), 3: (150, 76, "3 x=-x"), 4: (290, 138, "4 x>100?"), 5: (150, 198, "5 x=100"), 6: (290, 246, "6 return x")}
+for k, (x, y, t) in nodes.items():
+    f.circle(x, y, 22 if k in (1,) else 24, fill=(SAND if k in (2, 4) else BLUE), stroke=(AMBER if k in (2, 4) else NAVY), label="")
+    f.text(x, y + 1, t, size=9, color=NAVY, bold=True, vmid=True)
+f.arrow([(290, 44), (290, 52)], color=SLATE)
+f.arrow([(266, 76), (174, 76)], color=SLATE, label="yes", lpos=(220, 66), lsize=9)
+f.arrow([(150, 100), (270, 130)], color=SLATE)
+f.arrow([(290, 100), (290, 114)], color=SLATE, label="no", lpos=(310, 108), lsize=9)
+f.arrow([(268, 144), (172, 192)], color=SLATE, label="yes", lpos=(210, 156), lsize=9)
+f.arrow([(290, 162), (290, 222)], color=SLATE, label="no", lpos=(310, 192), lsize=9)
+f.arrow([(172, 206), (270, 240)], color=SLATE)
+f.box(400, 40, 170, 40, "V(G) = 7 - 6 + 2 = 3", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(400, 96, 170, 36, "P1: 1-2-4-6   x = 50", fill="#ffffff", stroke=NAVY, size=9.5, bold=True)
+f.box(400, 142, 170, 36, "P2: 1-2-3-4-6   x = -5", fill="#ffffff", stroke=NAVY, size=9.5, bold=True)
+f.box(400, 188, 170, 36, "P3: 1-2-4-5-6   x = 150", fill="#ffffff", stroke=NAVY, size=9.5, bold=True)
+```
+
+```svgfig label="6.4" caption="Reliability and availability for a system with a mean time to failure (MTTF) of 500 hours and a mean time to repair (MTTR) of 4 hours. The failure rate is 1 / 500 = 0.002 per hour, and the probability of running without failure for t hours is R(t) = exp(-t / 500): R(100) = 0.8187 and R(500) = 0.3679. Availability = MTTF / (MTTF + MTTR) = 500 / 504 = 99.2063%."
+import math
+f = Fig(580, 240)
+f.line(60, 190, 540, 190, color=SLATE, sw=1.5)
+f.line(60, 20, 60, 190, color=SLATE, sw=1.5)
+pts = []
+for i in range(0, 101):
+    t = i * 10
+    pts.append((60 + t * 0.48, 190 - 160 * math.exp(-t / 500)))
+f.raw('<polyline points="' + " ".join(str(round(a, 1)) + "," + str(round(b, 1)) for a, b in pts) + '" fill="none" stroke="#1d4ed8" stroke-width="2.6"/>')
+for t in (100, 500):
+    x = 60 + t * 0.48
+    y = 190 - 160 * math.exp(-t / 500)
+    f.circle(x, y, 5, fill=SAND, stroke=RED)
+    f.line(x, y, x, 190, color=AMBER, sw=1.2, dash=True)
+    f.text(x + 8, y - 8, "R(" + str(t) + ") = " + str(round(math.exp(-t / 500), 4)), size=10.5, color=RED, bold=True, anchor="start")
+for t in (0, 250, 500, 750, 1000):
+    f.text(60 + t * 0.48, 208, str(t) + " h", size=9.5, color=SLATE)
+f.text(300, 232, "operating time t", size=10, color=SLATE, bold=True)
+f.text(66, 16, "R(t)", size=10.5, color=NAVY, bold=True, anchor="start")
+```
+
+```svgfig label="6.5" caption="The five levels of the Capability Maturity Model (CMM). An organisation climbs from level 1, where success depends on individual heroes, to level 5, where it measures its processes and uses the data to improve them. Each level adds key process areas; levels cannot be skipped."
+f = Fig(580, 250)
+lv = [("1 Initial", "ad hoc, heroes", ROSE, RED), ("2 Repeatable", "project control", SAND, AMBER), ("3 Defined", "standard process", BLUE, NAVY), ("4 Managed", "measured quality", MINT, TEAL), ("5 Optimizing", "continual change", MINT, TEAL)]
+for i, (a, b, fl, st) in enumerate(lv):
+    h = 56 + i * 30
+    f.box(10 + i * 112, 220 - h, 104, h, a + "\n" + b, fill=fl, stroke=st, size=10, bold=True)
+f.text(290, 14, "process maturity rises from left to right", size=10.5, color=NAVY, bold=True)
+```
+
+### 6.7.1 Eight principles of software testing
+
+1. **Testing shows the presence of defects, not their absence.** Even after many passed tests a program may still contain faults. Testing reduces the chance of undiscovered defects but can never prove that none remain. The honest report is "no defects found by these tests", not "the program is correct".
+2. **Exhaustive testing is impossible.** A function with two 32-bit inputs has about 1.8 x 10 to the power 19 input combinations, which no computer can try. Testers therefore choose a small set of effective tests using equivalence classes, boundary values and risk, as in Figure 6.2. Choosing wisely is the skill of testing.
+3. **Test early.** Testing activities begin with the requirements, not after coding, as the V-model in Figure 6.1 shows. A fault found in requirements costs a fraction of one found after release (Figure 1.1). Reviewing the SRS and writing acceptance tests early prevents many defects.
+4. **Defects cluster.** A small number of modules usually contain most of the defects, often following the 80-20 rule. Complex or frequently changed modules, found with metrics such as cyclomatic complexity, deserve extra testing. Past defect reports show where to look.
+5. **The pesticide paradox.** If the same tests are repeated, they stop finding new defects, as insects become resistant to one pesticide. Test cases must be reviewed and new ones added regularly. Regression tests protect old behaviour, but new tests find new faults.
+6. **Testing depends on context.** A game, a hospital system and a banking app are tested differently. Safety-critical software needs formal coverage and independent review, while a short-lived website needs fewer formal tests. The level of testing follows the level of risk, such as the harm a fault can do to a ConnectIPS payment.
+7. **Absence of errors is not enough.** A system with no defects can still fail if it does not meet the users' needs. Validation with real users, as in acceptance testing, checks that the right product was built. Passing all the tests of a wrong specification gives a wrong product.
+8. **Independent testing finds more.** Authors tend to test what they intended, so an independent tester or team sees what the author misses. Independence can be a colleague, a separate test team or an outside company. It is most important for critical software.
+
 ## Formula and fact sheet
 
 - V(G) = E − N + 2P = decisions + 1 = minimum tests for branch coverage.
@@ -213,3 +320,96 @@ Moving up takes years: a typical step takes 18 to 24 months. Most offshore softw
 **9.** Initial (ad hoc), Repeatable (project management), Defined (organisation standard process), Managed (quantitative control), Optimising (continuous improvement).
 **10.** That the organisation has a documented quality management system and follows it, as verified by an audit. It does not guarantee that every product is free of defects.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain equivalence partitioning and boundary value analysis. Design test cases for a field that accepts marks from 0 to 100.**
+
+*Introduction.* Both are black-box techniques, which test the behaviour of the program from the specification without looking at the code (section 6.2).
+
+1. **Equivalence partitioning.** The input domain is divided into classes in which the program should behave the same way, and one test per class is enough. Marks have three classes: below 0 (invalid), 0 to 100 (valid) and above 100 (invalid) (Figure 6.2).
+2. **Test data for the classes.** -20 (rejected), 50 (accepted), 130 (rejected): three tests.
+3. **Boundary value analysis.** Faults concentrate at the edges of classes, so values on and next to each boundary are tested.
+4. **Test data for the boundaries.** -1, 0, 1, 99, 100 and 101.
+
+| Test | Input | Expected result |
+|---|---|---|
+| 1 | -1 | rejected |
+| 2 | 0 | accepted |
+| 3 | 1 | accepted |
+| 4 | 99 | accepted |
+| 5 | 100 | accepted |
+| 6 | 101 | rejected |
+
+*Conclusion.* Together, the nine cases (three classes plus six boundaries) cover the specification at low cost, and they catch the common error of writing `<` where `<=` is needed.
+
+**Q2 (5 marks). Differentiate between verification and validation. Show the relation with the V-model.**
+
+*Introduction.* Verification asks "Are we building the product right?" and validation asks "Are we building the right product?" (Boehm).
+
+1. **Verification** checks that each work product conforms to its specification, using reviews, walkthroughs, inspections and static analysis. It is done without running the program as a whole.
+2. **Validation** checks that the finished product meets the real needs of the user, by executing it in acceptance and system tests, often with real users.
+3. **In the V-model** (Figure 6.1) the left arm is verification of each phase against the one before it, and the right arm is validation through unit, integration, system and acceptance testing.
+4. **Example.** Reviewing the SRS of a result system for missing rules is verification; letting examiners enter real marks and check the output is validation.
+
+| Aspect | Verification | Validation |
+|---|---|---|
+| Question | built right? | right product? |
+| Method | reviews, inspections | testing, execution |
+| Timing | during development | after build |
+| Done by | developers, reviewers | testers, users |
+
+*Conclusion.* Both are needed: a product can be built correctly to a wrong specification, and a right idea can be badly built.
+
+**Q3 (10 marks). Explain white-box testing, statement, branch and path coverage, and basis path testing. For the function clamp(x) of Figure 6.3 draw the control-flow graph, compute V(G) and write the test cases.**
+
+*Introduction.* White-box (structural) testing designs tests from the internal logic of the code, so the tester must see the source. It complements black-box testing: black-box finds missing functions, white-box finds untested code.
+
+**Coverage criteria, weakest to strongest.** *Statement coverage* executes every statement at least once. *Branch (decision) coverage* makes every decision true and false at least once; it implies statement coverage. *Condition coverage* makes every simple condition true and false. *Path coverage* executes every path, which is usually impossible when there are loops. *Basis path testing* is the practical compromise: execute a set of independent paths whose size equals the cyclomatic complexity.
+
+**The function.**
+```text
+def clamp(x):           # 1
+    if x < 0:           # 2
+        x = -x          # 3
+    if x > 100:         # 4
+        x = 100         # 5
+    return x            # 6
+```
+
+**Control-flow graph and V(G).** Nodes: 6; edges: 1-2, 2-3, 2-4, 3-4, 4-5, 4-6, 5-6 = 7. V(G) = E - N + 2 = 7 - 6 + 2 = 3. Check by decisions: two decisions + 1 = 3. By regions: the graph has 2 inner regions + 1 outer = 3. So at least three tests are needed.
+
+**Basis paths and test cases (Figure 6.3).**
+
+| Path | Nodes | Input | Expected output |
+|---|---|---|---|
+| P1 | 1-2-4-6 | x = 50 | 50 |
+| P2 | 1-2-3-4-6 | x = -5 | 5 |
+| P3 | 1-2-4-5-6 | x = 150 | 100 |
+
+These three tests give statement coverage (all six nodes) and branch coverage (each decision is true once and false once: x < 0 is true for P2 and false for P1 and P3; x > 100 is true for P3 and false for P1 and P2). A fourth path, 1-2-3-4-5-6 (x = -200, output 100), is not independent: it is a combination of the others, but it is a useful extra test for the combined condition.
+
+**Advantages and limits.** White-box tests find unreachable code, logic errors and missing branches, and the coverage can be measured automatically. They cannot find a missing requirement, and 100% coverage does not mean 100% correct.
+
+*Conclusion.* Cyclomatic complexity tells the tester the minimum number of tests; for clamp(x) it is three, and each is a real test with a known expected output.
+
+**Q4 (10 marks). Explain software quality management. Discuss reliability measures, ISO 9000 and the Capability Maturity Model (CMM).**
+
+*Introduction.* Software quality management makes sure that the product meets its requirements and the process is under control. It has three activities: quality assurance (define standards and processes), quality planning (select the standards for the project) and quality control (check that they are followed, through reviews and testing).
+
+**Product and process quality.** Product quality is judged by the attributes of Figure 1.3 (maintainability, dependability, efficiency, acceptability). Process quality is judged by how well the development process is defined and followed; a good process makes good products more likely, although it does not guarantee them.
+
+**Reliability measures (Figure 6.4).** *Probability of failure on demand* for rarely used systems such as a safety shutdown; *rate of occurrence of failures* (ROCOF); *mean time to failure* (MTTF); *mean time to repair* (MTTR); *availability* = MTTF / (MTTF + MTTR). For MTTF = 500 h and MTTR = 4 h: availability = 500 / 504 = 99.2063%, failure rate = 0.002 per hour and R(100) = exp(-100 / 500) = 0.8187. *Defect removal efficiency* DRE = found before release / (found before + found after): with 90 found before and 10 after, DRE = 90 / 100 = 90%.
+
+**ISO 9000.** A family of international standards for quality management systems; ISO 9001 specifies requirements for the process, and ISO 90003 is the guide for software. It requires documented procedures, quality records, audits and corrective action. An ISO certificate shows that the company follows its own documented process; it does not certify the product itself.
+
+**CMM (Figure 6.5).** Five levels: (1) *Initial*, ad hoc and dependent on individuals; (2) *Repeatable*, basic project management so that earlier successes can be repeated; (3) *Defined*, a standard process documented and used across the organisation; (4) *Managed*, processes and products are measured and controlled using data; (5) *Optimizing*, continuous process improvement using feedback and new ideas.
+
+| Aspect | ISO 9001 | CMM |
+|---|---|---|
+| Nature | pass/fail certification | five maturity levels |
+| Focus | meets documented quality system | continuous improvement path |
+| Scope | any industry | software organisations |
+| Result | certificate valid for a period | rating from level 1 to 5 |
+
+*Conclusion.* Quality is built into the process, measured with metrics such as reliability and DRE, and improved over time; ISO 9000 shows that a process exists and CMM shows how mature it is.
