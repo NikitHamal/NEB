@@ -1,18 +1,19 @@
 [
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Biology-2080-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Biology-2079-2082-Bundle.pdf",
   "subject": "Biology",
   "grade": "12",
-  "years_bs": "2080-2082",
+  "years_bs": "2079-2082",
   "papers": [
    "12-bio-2082-general",
    "12-bio-2081-general",
    "12-bio-2081-9101",
    "12-bio-2080-general",
-   "12-bio-2080-9101"
+   "12-bio-2080-9101",
+   "12-bio-2079-2021n"
   ],
-  "pages": 71,
-  "bytes": 1269021,
+  "pages": 85,
+  "bytes": 1548768,
   "category": "Board Exam Bundle"
  },
  {
