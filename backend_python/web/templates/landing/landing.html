@@ -1,5 +1,5 @@
 {% load static %}<!DOCTYPE html>
-<html lang="en" class="no-js" data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}">
+<html lang="en" class="no-js" data-theme="light" data-site-theme="{{ site_theme.key }}" style="{{ site_theme.css }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -7,6 +7,7 @@
 <meta name="description" content="Free notes, past papers and solved study books for every class, field and level in Nepal, and a forum where students answer each other.">
 <link rel="canonical" href="https://nebians.consica.com.np/">
 <meta name="theme-color" content="#f6f8ff">
+<script nonce="{{ csp_nonce }}">(function(){var d=document.documentElement,t=null;try{t=localStorage.getItem('theme')}catch(e){}if(t!=='dark'&&t!=='light'){t={% if dark_mode %}'dark'{% else %}(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'){% endif %}}d.setAttribute('data-theme',t);var m=document.querySelector('meta[name=theme-color]');if(m&&t==='dark')m.content='#090f1f'})()</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="NEBians">
 <meta property="og:title" content="NEBians — Study materials. Study mates.">
@@ -50,6 +51,10 @@
   </nav>
   <div class="nav-end">
     {% if not signed_in %}<a class="m3-btn m3-btn-text m3-btn-sm nav-signin" href="{% url 'web:login' %}">Sign in</a>{% endif %}
+    <button class="theme-btn" type="button" data-theme-toggle aria-label="Switch to dark theme" aria-pressed="false">
+      <svg class="ic-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3 7 7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7"/></svg>
+      <svg class="ic-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"/></svg>
+    </button>
     <a class="m3-btn m3-btn-sm" href="{% url 'web:home' %}"><span>Open app</span>{% include "components/_arrow.html" %}</a>
     <button class="burger" type="button" aria-expanded="false" aria-controls="menu" aria-label="Menu"><i></i><i></i><i></i></button>
   </div>
@@ -62,6 +67,7 @@
     <a href="#community" style="--i:3">Community</a>
     <a href="#app" style="--i:4">App</a>
     {% if not signed_in %}<a href="{% url 'web:login' %}" style="--i:5">Sign in</a>{% endif %}
+    <a class="menu-cta" href="{% url 'web:home' %}" style="--i:6">Open app</a>
   </nav>
 </div>
 
@@ -227,10 +233,7 @@
     <div class="app-copy" data-reveal>
       <h2 id="app-h" class="h2">The whole library, in your pocket.</h2>
       <p class="app-line">Lost on a page? Tap <b>Ask Neby</b>.</p>
-      <a class="m3-btn m3-btn-lg m3-btn-sky" href="https://play.google.com/store/apps/details?id=com.neb.ians" rel="noopener">
-        <svg class="play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M4 3.3 13.6 12 4 20.7c-.4-.2-.6-.6-.6-1.1V4.4c0-.5.2-.9.6-1.1Zm13 5.5-3.4 3.2 3.4 3.2 3.4-1.9c.9-.5.9-1.8 0-2.4ZM13.6 12 4 3.3c.3-.1.7-.1 1 .1L17 8.8Zm0 0L17 15.2 5 20.6c-.3.2-.7.2-1 .1Z"/></svg>
-        <span>Get it on Google Play</span>
-      </a>
+      <a class="play-badge" href="https://play.google.com/store/apps/details?id=com.neb.ians" rel="noopener" aria-label="Get it on Google Play"><img src="{% static 'web/img/google-play-badge.svg' %}" alt="Get it on Google Play" width="180" height="53" loading="lazy" decoding="async"></a>
     </div>
     <div class="phone-wrap" data-reveal data-live aria-hidden="true">
       <span class="phone-blob shp-clover"></span>

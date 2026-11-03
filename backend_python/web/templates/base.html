@@ -122,8 +122,8 @@
   </script>
   {% block head_extra %}{% endblock %}
   <link rel="preload" href="{% static 'web/fonts/app/material-symbols-outlined.woff2' %}" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{% static 'web/fonts/m3x/display-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="{% static 'web/fonts/m3x/body-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/poppins-400-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="{% static 'web/fonts/app/poppins-600-latin.woff2' %}" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="{% static 'web/css/fonts.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/material3.css' %}">
   <link rel="stylesheet" href="{% static 'web/css/app.css' %}">
@@ -370,6 +370,11 @@
       document.getElementById('htmx-loading-bar').style.display = 'none';
       showSnackbar('Something went wrong. Please try again.');
     });
+
+    (function syncThemeIcon() {
+      var ic = document.getElementById('theme-icon');
+      if (ic) ic.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light_mode' : 'dark_mode';
+    })();
 
     registerActions({
       'toggle-theme': function () {

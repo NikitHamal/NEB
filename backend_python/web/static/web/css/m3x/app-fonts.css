@@ -1,0 +1,11 @@
+/* In-app type is Poppins (self-hosted, see fonts.css). The landing page never loads this file,
+   so it keeps Bricolage Grotesque + Figtree. Everything in the app reads --body / --display /
+   --md-font, so repointing the tokens here is the whole switch. */
+:root {
+  --body: Poppins, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --display: Poppins, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --md-font: var(--body);
+  --md-font-display: var(--display);
+}
+html, body, button, input, select, textarea { font-family: var(--md-font); }
+.brand-name { font-weight: 700; letter-spacing: -.03em; }

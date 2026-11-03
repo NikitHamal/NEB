@@ -1,0 +1,66 @@
+/* m3x surfaces: the feed, rails, resource cards, side navigation, chips and badges, rebuilt on
+   the one scheme. Containers are tonal steps of the brand blue (never white-on-white), corners
+   are large and shift shape on hover/press, and every label has its own on-* partner so a fill
+   and its text can never be the same colour. */
+
+/* ---------- feed rows ---------- */
+.post-card { position: relative; transition: background-color .2s, border-radius .6s var(--spring); }
+@media (hover: hover) { .post-card:hover { background: color-mix(in srgb, var(--md-primary) 4%, var(--md-surface-container-lowest)); } }
+.post-card-title { font-family: var(--display); font-weight: 600; letter-spacing: -.015em; color: var(--md-on-surface); }
+.post-card-content, .post-card-content-link { color: var(--md-on-surface-variant); }
+.post-card-time, .post-card-meta-sub { color: var(--md-on-surface-tertiary); }
+.post-card-poll-badge { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); border-radius: 10px; padding: 2px 8px; font-weight: 600; }
+
+/* ---------- resource cards ---------- */
+.resource-card {
+  border-radius: var(--md-shape-lg); background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant);
+  transition: border-radius .6s var(--spring), transform .55s var(--spring), border-color .2s, background-color .2s;
+}
+@media (hover: hover) { .resource-card:hover { border-radius: var(--md-shape-xl); border-color: var(--md-outline); transform: translateY(-3px); } }
+.resource-card:active { transform: scale(.98); border-radius: var(--md-shape-md); }
+.resource-card-title { font-family: var(--display); font-weight: 600; color: var(--md-on-surface); }
+.resource-card-meta, .resource-card-time, .resource-card-views { color: var(--md-on-surface-variant); }
+.resource-card-type-pill { background: var(--md-surface-container-lowest); color: var(--md-on-surface); border-radius: 12px; font-weight: 700; }
+.resource-card-subject-chip { border-radius: 10px; font-weight: 700; }
+.resource-card-paid-pill { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); border-radius: 10px; font-weight: 700; }
+
+/* ---------- side navigation (home left rail) ---------- */
+.hf-nav-group { background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-lg); padding: 8px; }
+.hf-nav-title { color: var(--md-on-surface-variant); font-weight: 700; }
+.hf-nav-link { color: var(--md-on-surface); border-radius: 18px; transition: border-radius .5s var(--spring), background-color .15s; }
+.hf-nav-link .material-symbols-outlined { color: var(--md-on-surface-variant); }
+@media (hover: hover) { .hf-nav-link:hover { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); border-radius: 24px; } }
+.hf-nav-link.active, .hf-nav-link[aria-current="page"] { background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-weight: 600; }
+.hf-nav-link.active .material-symbols-outlined, .hf-nav-link[aria-current="page"] .material-symbols-outlined { color: var(--md-on-secondary-container); }
+
+/* ---------- right rail cards ---------- */
+.hf-news-cat { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 10px; font-weight: 700; }
+.hf-news-time { color: var(--md-on-surface-tertiary); }
+.hf-peer { background: var(--md-surface-container-lowest); border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-lg); transition: border-radius .6s var(--spring); }
+@media (hover: hover) { .hf-peer:hover { border-radius: var(--md-shape-xl); } }
+.hf-peer-reason { color: var(--md-on-surface-variant); }
+.hf-peer-follow { background: var(--md-primary); color: var(--md-on-primary); border-radius: 999px; font-weight: 700; transition: border-radius .5s var(--spring), transform .4s var(--spring); }
+.hf-peer-follow:hover { border-radius: 14px; }
+.hf-peer-follow:active { transform: scale(.94); }
+.hf-peer-follow:not(.not-following) { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+
+/* ---------- tonal "See all" and section heads ---------- */
+.hf-section-more, .hf-see-all, a.see-all { background: var(--md-secondary-container); color: var(--md-on-secondary-container); border-radius: 999px; font-weight: 700; }
+
+/* ---------- avatars and badges: the ring is a border, not a shadow ---------- */
+.avatar-ring { border: 2px solid var(--md-outline-variant); }
+.notif-dot { background: var(--md-error); border: 2px solid var(--md-surface); }
+.role-badge { border-radius: 10px; }
+
+/* ---------- footer ---------- */
+.site-footer { background: var(--md-surface-container-low); border-top: 1px solid var(--md-outline-variant); color: var(--md-on-surface-variant); }
+.site-footer-logo, .site-footer-heading { color: var(--md-on-surface); font-family: var(--display); }
+.site-footer a { color: var(--md-on-surface-variant); }
+.site-footer a:hover { color: var(--md-primary); }
+
+/* ---------- selection, focus, tables ---------- */
+::selection { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--md-primary) 70%, transparent); outline-offset: 2px; border-radius: inherit; }
+table th { background: var(--md-surface-container-high); color: var(--md-on-surface); }
+table td { color: var(--md-on-surface); border-color: var(--md-outline-variant); }

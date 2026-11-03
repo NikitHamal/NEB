@@ -109,7 +109,7 @@
 
 .news-detail-badges .news-category-badge {
   background: color-mix(in srgb, var(--cat-color, var(--md-primary)) 14%, transparent);
-  color: var(--cat-color, var(--md-primary));
+  color: color-mix(in srgb, var(--cat-color, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
   border: 1px solid color-mix(in srgb, var(--cat-color, var(--md-primary)) 30%, transparent);
 }
 

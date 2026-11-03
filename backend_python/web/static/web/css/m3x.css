@@ -40,6 +40,7 @@
    point at the same roles, so the two surfaces can not drift apart. */
 
 :root {
+  color-scheme: light;
   /* ---- roles: light ---- */
   --md-primary: #0058df;
   --md-on-primary: #ffffff;
@@ -174,7 +175,8 @@
   --aqua-c:  #0b3b37;  --aqua-d:  #8ae9da;
   --peri-c:  #25306a;  --peri-d:  #c1ccff;
   --on-c: #e3e8f7;
-  --ink: #dbe4ff;      --on-ink: #06235f;
+  --ink: #16397f;      --on-ink: #e6eeff;
+  color-scheme: dark;
 }
 
 /* a festive theme recolours the accent; tonal containers stay */

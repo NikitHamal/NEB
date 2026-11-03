@@ -140,7 +140,7 @@
 
 .mkt-includes .material-symbols-outlined {
   font-size: 18px;
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-buy {

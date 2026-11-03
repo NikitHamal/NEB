@@ -58,7 +58,7 @@
   justify-content: center;
   border-radius: var(--md-radius-md);
   background: color-mix(in srgb, var(--ix-color) 14%, transparent);
-  color: var(--ix-color);
+  color: color-mix(in srgb, var(--ix-color) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .ix-cat-icon .material-symbols-outlined { font-size: 22px; }
@@ -107,7 +107,7 @@
   justify-content: center;
   border-radius: var(--md-radius-md);
   background: color-mix(in srgb, var(--ix-color) 15%, transparent);
-  color: var(--ix-color);
+  color: color-mix(in srgb, var(--ix-color) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .ix-card-icon .material-symbols-outlined { font-size: 22px; }
@@ -127,7 +127,7 @@
 
 .ix-chip-age { background: color-mix(in srgb, var(--ix-color) 14%, transparent); color: color-mix(in srgb, var(--ix-color) 60%, #000); }
 
-[data-theme="dark"] .ix-chip-age { color: var(--ix-color); }
+[data-theme="dark"] .ix-chip-age { color: color-mix(in srgb, var(--ix-color) var(--ink-mix, 58%), var(--md-on-surface)); }
 
 .ix-chip-level { background: var(--md-surface-variant); color: var(--md-on-surface-variant); }
 

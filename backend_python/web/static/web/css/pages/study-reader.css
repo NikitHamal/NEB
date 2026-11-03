@@ -27,7 +27,7 @@
 
 .rd-article { max-width: 760px; min-width: 0; }
 .rd-head { margin-bottom: 22px; }
-.rd-eyebrow { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--syl-c, var(--md-primary)); }
+.rd-eyebrow { margin: 0 0 8px; font-size: 13px; font-weight: 600; color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-title { margin: 0; font-size: clamp(26px, 3.4vw, 36px); line-height: 1.18; font-weight: 700; letter-spacing: -.015em; color: var(--md-on-surface); }
 .rd-syllabus { margin-top: 16px; border: 1px solid var(--md-outline-variant); border-radius: 14px; background: var(--md-surface-container-low); }
 .rd-syllabus summary { cursor: pointer; padding: 11px 14px; font-size: 14px; font-weight: 600; color: var(--md-on-surface); list-style: none; display: flex; align-items: center; gap: 8px; }
@@ -143,13 +143,13 @@
 /* chapter summary */
 .rd-body .chsum { margin: 2.2em 0 1.4em; padding: 1.1em 1.3em .4em; border-radius: 16px; background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); }
 .rd-body .chsum h2 { margin-top: 0; font-size: 1.15em; }
-.rd-body .chsum h2::before { content: "checklist"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 1.2em; vertical-align: -.2em; margin-right: .35em; color: var(--syl-c, var(--md-primary)); }
+.rd-body .chsum h2::before { content: "checklist"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 1.2em; vertical-align: -.2em; margin-right: .35em; color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-body .chsum ul.cols2 { columns: 2; column-gap: 2em; }
 .rd-body .chsum ul.cols2 li { break-inside: avoid; }
 
 /* practice questions */
 .rd-body h2.qs { padding-top: 1.2em; border-top: 1px solid var(--md-outline-variant); }
-.rd-body h2.qs::before { content: "quiz"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 1.05em; vertical-align: -.15em; margin-right: .35em; color: var(--syl-c, var(--md-primary)); }
+.rd-body h2.qs::before { content: "quiz"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 1.05em; vertical-align: -.15em; margin-right: .35em; color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-body .marks { margin-left: .35em; padding: .05em .5em; border-radius: 99px; font-size: .74em; font-weight: 600; color: var(--md-on-surface-variant); background: var(--md-surface-container-high); white-space: nowrap; vertical-align: .08em; }
 .rd-body .opts { display: grid; gap: .45em; margin: .6em 0 .2em; }
 .rd-body .opts.c4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
@@ -178,7 +178,7 @@
 .rd-body details.ans { margin: 1em 0 1.6em; border-radius: 14px; border: 1px dashed var(--md-outline); background: transparent; padding: 0; }
 .rd-body details.ans > summary { display: flex; align-items: center; gap: .5em; margin: 0; padding: .8em 1.1em; cursor: pointer; list-style: none; color: var(--md-on-surface); }
 .rd-body details.ans > summary::-webkit-details-marker { display: none; }
-.rd-body details.ans > summary::before { content: "visibility"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 1.4em; letter-spacing: 0; text-transform: none; color: var(--syl-c, var(--md-primary)); }
+.rd-body details.ans > summary::before { content: "visibility"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 1.4em; letter-spacing: 0; text-transform: none; color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-body details.ans > summary::after { content: "Show"; margin-left: auto; font-size: .95em; letter-spacing: .02em; text-transform: none; font-weight: 600; color: var(--md-on-surface-variant); }
 .rd-body details.ans[open] { border-style: solid; background: var(--md-surface-container-low); }
 .rd-body details.ans[open] > summary::before { content: "visibility_off"; }
@@ -191,7 +191,7 @@
 .rd-end { margin-top: 40px; padding-top: 24px; border-top: 1px solid var(--md-outline-variant); }
 .rd-score { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 16px; margin-bottom: 14px; border-radius: 14px; background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); font-size: 14.5px; color: var(--md-on-surface); }
 .rd-score[hidden] { display: none; }
-.rd-score > .material-symbols-outlined { color: var(--syl-c, var(--md-primary)); }
+.rd-score > .material-symbols-outlined { color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-score small { color: var(--md-on-surface-variant); font-size: 13.5px; }
 .rd-link { margin-left: auto; border: 0; background: none; padding: 4px 0; font: 600 13.5px var(--md-font); color: var(--md-primary); cursor: pointer; }
 .rd-done { display: inline-flex; align-items: center; gap: 10px; padding: 12px 20px; border-radius: 999px; border: 1px solid var(--md-outline); background: var(--md-surface); color: var(--md-on-surface); font: 600 15px var(--md-font); cursor: pointer; }
@@ -239,7 +239,7 @@
 
 .rd-body [data-key] { scroll-margin: 96px 0; }
 .rd-exam-on .rd-body [data-key] .opt.is-picked { border-color: var(--syl-c, var(--md-primary)); background: color-mix(in srgb, var(--syl-c, var(--md-primary)) 11%, var(--md-surface)); box-shadow: inset 0 0 0 1px var(--syl-c, var(--md-primary)); }
-.rd-exam-on .rd-body [data-key] .opt.is-picked > i { color: var(--syl-c, var(--md-primary)); }
+.rd-exam-on .rd-body [data-key] .opt.is-picked > i { color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-exam-review .rd-body [data-key].is-blank .opt.is-right { border-style: dashed; }
 .rd-body [data-key].is-flash, .rd-body .ansline.is-flash { border-radius: 10px; animation: rd-x-flash 1.7s ease-out; }
 @keyframes rd-x-flash {
@@ -281,7 +281,7 @@
 .rd-xbar-score { display: inline-flex; align-items: center; gap: 10px; min-width: 0; margin-right: auto; padding: 6px 10px 6px 2px; border: 0; border-radius: 14px; background: none; color: var(--md-on-surface); font: 600 14px var(--md-font); font-variant-numeric: tabular-nums; text-align: left; cursor: pointer; }
 .rd-xbar-score b { font-size: 19px; }
 .rd-xbar-score small { font-size: 13px; color: var(--md-on-surface-variant); }
-.rd-xbar-score .material-symbols-outlined { color: var(--syl-c, var(--md-primary)); }
+.rd-xbar-score .material-symbols-outlined { color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-xbar button:focus-visible, .rd-xdlg button:focus-visible, .rd-xres button:focus-visible, .rd-x-tools button:focus-visible { outline: 2px solid var(--md-on-surface); outline-offset: 2px; }
 
 /* dialogs: the intro, the confirmation, the palette */
@@ -322,7 +322,7 @@
 /* the result, above the paper */
 .rd-xres { margin: 0 0 28px; padding: 20px 20px 18px; border-radius: 20px; border: 1px solid var(--md-outline-variant); background: var(--md-surface-container-low); color: var(--md-on-surface); outline: none; scroll-margin-top: 90px; }
 .rd-xres-kick { display: flex; align-items: center; gap: 8px; margin: 0 0 6px; font-size: 13.5px; font-weight: 600; color: var(--md-on-surface-variant); }
-.rd-xres-kick .material-symbols-outlined { font-size: 19px; color: var(--syl-c, var(--md-primary)); }
+.rd-xres-kick .material-symbols-outlined { font-size: 19px; color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .rd-xres-score { margin: 0; font-size: 40px; line-height: 1.1; font-weight: 700; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
 .rd-xres-score span { font-size: 17px; font-weight: 600; letter-spacing: 0; color: var(--md-on-surface-variant); }
 .rd-xres-sum { margin: 6px 0 0; font-size: 14px; color: var(--md-on-surface-variant); font-variant-numeric: tabular-nums; }

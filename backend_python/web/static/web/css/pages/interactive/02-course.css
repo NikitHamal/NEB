@@ -44,7 +44,7 @@
   justify-content: center;
   border-radius: var(--md-radius-lg);
   background: color-mix(in srgb, var(--ix-color) 16%, transparent);
-  color: var(--ix-color);
+  color: color-mix(in srgb, var(--ix-color) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .ix-course-hero-icon .material-symbols-outlined { font-size: 44px; }
@@ -80,7 +80,7 @@
   color: var(--md-on-surface-variant);
 }
 
-.ix-skill-chip .material-symbols-outlined { font-size: 15px; color: var(--ix-color); }
+.ix-skill-chip .material-symbols-outlined { font-size: 15px; color: color-mix(in srgb, var(--ix-color) var(--ink-mix, 58%), var(--md-on-surface)); }
 
 .ix-course-hero-actions { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
 
@@ -118,7 +118,7 @@
   justify-content: center;
   border-radius: 50%;
   background: color-mix(in srgb, var(--ix-color) 13%, transparent);
-  color: var(--ix-color);
+  color: color-mix(in srgb, var(--ix-color) var(--ink-mix, 58%), var(--md-on-surface));
   font-size: 0.8125rem;
   font-weight: 700;
 }

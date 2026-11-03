@@ -313,7 +313,7 @@
   border-radius: 8px;
   font-size: 16px;
   background: color-mix(in srgb, var(--cat-color, var(--md-primary)) 12%, var(--md-surface-container-low));
-  color: var(--cat-color, var(--md-primary));
+  color: color-mix(in srgb, var(--cat-color, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .news-sidebar-cat:hover {
@@ -333,7 +333,7 @@
 
 .news-sidebar-cat.active {
   background: color-mix(in srgb, var(--cat-color, var(--md-primary)) 10%, transparent);
-  color: var(--cat-color, var(--md-primary));
+  color: color-mix(in srgb, var(--cat-color, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
   font-weight: 600;
 }
 

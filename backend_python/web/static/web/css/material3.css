@@ -1965,7 +1965,7 @@ html {
   align-items: center;
   justify-content: center;
   background: color-mix(in srgb, var(--subject-color, #5F6368) 12%, transparent);
-  color: var(--subject-color, #5F6368);
+  color: color-mix(in srgb, var(--subject-color, #5F6368) var(--ink-mix, 58%), var(--md-on-surface));
   flex-shrink: 0;
 }
 
