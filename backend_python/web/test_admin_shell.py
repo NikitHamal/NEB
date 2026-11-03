@@ -34,17 +34,17 @@ class AdminShellTests(TestCase):
 
     def test_native_dialogs_are_gone_from_admin_templates(self):
         for path in ADMIN_TEMPLATES.rglob('*.html'):
-            src = path.read_text()
+            src = path.read_text(encoding='utf-8')
             self.assertNotRegex(src, r'(?<![\w.])confirm\(', path.name)
             self.assertNotRegex(src, r'(?<![\w.])alert\(', path.name)
 
     def test_no_box_shadow_in_admin(self):
         for path in list(ADMIN_CSS.glob('*.css')) + list(ADMIN_TEMPLATES.rglob('*.html')):
-            for decl in re.findall(r'box-shadow\s*:\s*([^;}]+)', path.read_text()):
+            for decl in re.findall(r'box-shadow\s*:\s*([^;}]+)', path.read_text(encoding='utf-8')):
                 self.assertEqual(decl.strip().replace('!important', '').strip(), 'none', '%s: %s' % (path.name, decl))
 
     def test_no_square_radius_in_admin_css(self):
         for path in ADMIN_CSS.glob('*.css'):
-            for decl in re.findall(r'border-radius\s*:\s*([^;}]+)', path.read_text()):
+            for decl in re.findall(r'border-radius\s*:\s*([^;}]+)', path.read_text(encoding='utf-8')):
                 parts = decl.split('/')[0].split()
                 self.assertFalse(all(p in ('0', '0px') for p in parts), '%s: %s' % (path.name, decl))

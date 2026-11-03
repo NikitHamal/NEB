@@ -909,7 +909,7 @@ class CreatorThemeTests(MarketplaceTestBase):
         section is simply absent when they go and look.
         """
         markup = (Path(settings.BASE_DIR) / 'web' / 'templates' / 'web'
-                  / 'marketplace_page.html').read_text()
+                  / 'marketplace_page.html').read_text(encoding='utf-8')
         rendered = set(re.findall(r"block\.type == '([a-z]+)'", markup))
         self.assertEqual(sorted(set(BLOCK_FIELDS) - rendered), [])
 

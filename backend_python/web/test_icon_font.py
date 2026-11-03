@@ -11,7 +11,7 @@ ICON = re.compile(r'class="[^"]*material-symbols-outlined[^"]*"[^>]*>\s*([a-z][a
 
 class IconFontSubsetTests(SimpleTestCase):
     def test_every_literal_icon_is_in_the_font(self):
-        included = set((WEB / 'static/web/fonts/app/material-symbols-outlined.txt').read_text().split())
+        included = set((WEB / 'static/web/fonts/app/material-symbols-outlined.txt').read_text(encoding='utf-8').split())
         missing = {}
         for path in list((WEB / 'templates').rglob('*.html')) + list((WEB / 'static/web/js').rglob('*.js')):
             for name in ICON.findall(path.read_text(encoding='utf-8', errors='ignore')):
