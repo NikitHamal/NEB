@@ -67,6 +67,7 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | Grade | Subject | Year | Variant | Status |
 |---|---|---|---|---|
 | 12 | Physics | 2082 | General | DONE (12 pp) |
+| 12 | Physics | 2080 | General 1021 'Q' (reg. 78, 79) | DONE (17 pp; session 4; 7 EXACT figure crops (PV cycle, beaker, NOR-gate combination, loop, potentiometer, photoelectric graph, parallel wires), 8 drawn solution/question figures; long answers sized to the marks standard) |
 | 12 | Chemistry | 2082 | General | DONE (10 pp) |
 | 12 | Chemistry | 2081 | General 3021 'Q' | DONE (13 pp; session 2; 3 drawn figures: galvanic cell, blast furnace, energy profile) |
 | 12 | Biology | 2082 | General | DONE (12 pp; schematic redraws) |
@@ -78,7 +79,7 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 12 | Compulsory English | 2082 Regular 0041 'C' | regular (reg. no. 81) | DONE (8 pp; session 3). OR alternatives *On Libraries* (Q2b) has NO model answer yet (source text not verified) |
 | 12 | Compulsory English | 2082 Partial (own reading passage), 2083, 2080 (0041 'G' and old-course 004) | all | queued. Partial page: `/2025/05/Compulsory-English-Question-Paper-2082-2025-of-Class-12-Partial-Students-NEB-PDF-Download.html` (different passage from the regular paper) |
 | 12 | Compulsory Nepali | 2082, 2081, 2080 | | queued |
-| 12 | Physics | 2081, 2080 | General | queued (2080 URL below; 2081 general URL not found on the aggregator, search `dhanrajgurung.com` or the NEB site) |
+| 12 | Physics | 2081 | General | queued (2080 URL below; 2081 general URL not found on the aggregator, search `dhanrajgurung.com` or the NEB site) |
 | 12 | Chemistry, Biology, Mathematics, CS | 2080 | General / grade increment | queued |
 | 12 | Mathematics | 2081 | Regular 0081 'W' | DONE (11 pp; session 3; MCQ sheet + paper transcribed from images; 2 solution figures) |
 | 12 | Physics, Chemistry, Biology, Mathematics | 2082, 2081, 2080 | Technical | queued |
@@ -86,7 +87,7 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 11 | all science subjects | | | queued |
 | 10, 8 | all | | 7 provinces each | queued |
 
-Bundles built so far (`python3 bundle_papers.py`): Chemistry, Biology, Computer Science, Mathematics (2081-2082). Physics gets a bundle once a second year exists.
+Bundles built so far (`python3 bundle_papers.py`): Chemistry, Biology, Computer Science, Mathematics, English (2081-2082), Physics (2080-2082). Physics gets a bundle once a second year exists.
 
 ### Source index (internal use only; never cite in a PDF). Base `https://www.dhanraj.com.np/`
 2081: `2025/03/Chemistry-General-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Chemistry-General-Stream-MCQ-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Biology-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Biology-MCQs-2081-2024-of-Class-12-NEB`, `.../Computer-Science-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Computer-Science-MCQs-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Compulsory-English-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Mathematics-Question-Paper-2081-2024-for-Regular-Students-of-Class-12-NEB`, `.../Mathematics-MCQs-2081-2024-for-Regular-Students-of-Class-12-NEB`, `.../Mathematics-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Physics-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../chemistry-technical-stream-question-paper-2081-2024-of-class-12-neb`, `.../Biology-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Optional-English-...`, `.../Optional-Nepali-...`; Nepali: `2024/08/nepali-question-paper-2081-2024-of-class12-neb`.
@@ -124,3 +125,12 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - Session 3 result: Mathematics 2081 'W', Compulsory English 2081 'B', Compulsory English 2082 'C' built and pushed (total 11 single papers; bundles: Biology, Chemistry, CS, Mathematics, English where two years exist). English literature answers were written from the textbook facts found by web search (Neighbours, A Respectable Woman, A Devoted Son, A Day, Marriage as a Social Institution, A Very Old Man with Enormous Wings, A Matter of Husbands, Facing Death, Soft Storm, Half-Closed Eyes of the Buddha, The Bull, Every Morning I Wake, Humility, Knowledge and Wisdom). Still to answer in English papers: *Human Rights and the Age of Inequality* (2081 Q3a OR) and *On Libraries* (2082 Q2b OR). Fix these first next session.
 - Literature answers are model answers (not an official marking scheme); MCQ/grammar keys are ours and un-reviewed. English 2081 Q8d has two defensible answers (heart, hectic); the solution says so.
 - **Next session order**: (1) Physics 2080 General 1021 'Q' (fetched as key `phy80`, 7 pages, if /tmp/psrc still exists; else refetch with the `.html` URL in the index), find Physics 2081 general, (2) Compulsory English 2080 'G' + 2082 Partial + 2083, (3) Chemistry/Biology/CS 2080, (4) Compulsory Nepali 2082/2081/2080, (5) Technical stream, (6) Management/Humanities, (7) Grade 11, (8) SEE with 7 provinces, Grade 8. Realistic pace: 2 to 3 papers per session when each is transcribed from images and fully solved.
+
+## Session 4 notes (same branch)
+- Fresh sandbox again: re-cloned to /tmp/NEB (symlink /app/neb), `/tmp/psrc` symlinked as /app/psrc, `sudo apt-get update` is needed before installing libpango-1.0-0 libpangoft2-1.0-0 fontconfig, then `fc-cache -f ~/.local/share/fonts/nebians`.
+- Built Physics 2080 General 'Q' (`content/12-phy-2080-general.md`) and the Physics 2080-2082 bundle. Fetch URL (with `.html`): `/2025/09/Physics-General-Stream-NEB-Class-12-Question-Paper-2080-2023-New-Course-Code-1021Q-PDF.html`.
+- **Builder gotcha:** a ```figure fence inside the QUESTION part needs a blank line before and after it, otherwise it is swallowed into the preceding paragraph and printed as code. `@img` lines are fine.
+- **Crop tool gotcha:** thin lines (field arrows, faint wave sketches, small text) vanish with the default levels; redraw those with matplotlib instead (done for Q20 sound sketch, Q22 frame, LCR circuit). Coordinates: displayed page images are ~1.02x smaller than the file (page jpgs are ~1132x1600).
+- `build_paper.py --all` rewrites every PDF byte-differently; only commit the PDFs whose source changed (`git checkout` the rest).
+- Answer notes: Q19(b)(ii) (S in the galvanometer branch) -> no shift, stated with the reason; Q12 OR (b) assumes the 60 N restoring force acts at the amplitude. The figure in Q20(c)(ii) is labelled v + v_s, so the solution treats a receding source.
+- Next: Physics 2081 general (find source), English 2080 'G'/'D', 2082 partial, 2083, Chemistry/Biology/CS 2080, Nepali, Technical, Management/Humanities, then Grade 11, 10 (7 provinces), 8.
