@@ -116,6 +116,14 @@ Math-heavy, so SVG figures and worked answers rather than photographs (no suitab
 - U5: Fig 5.1 plane, normal, distance; 5.6 eight uses; Q1 line through two points, Q2 plane through three points, distance 5/7, triangle area 3.5.
 - Every number in the new answers was recomputed with SymPy; `check_math2.py` still prints ALL OK. Not done: no photographs; units 1 to 5 keep their original short Practice answers.
 
+## BCA 151 discrete-structure (semester-2/discrete-structure) -- [~] IN PROGRESS (session 18): units 1-4 polished, units 5-6 PENDING; 43 pp, qa fails=0
+Math-heavy: SVG figures and worked answers, no photographs (none claimed).
+- U1: Fig 1.1 proof-technique decision chain; 1.7 eight uses of logic; Q1 contrapositive truth table, Q2 proof techniques with examples.
+- U2: Fig 2.1 injective / surjective / bijective mapping diagrams; 2.6 eight uses; Q1 equivalence relation mod 3, Q2 function types, composition, inverse, 2^n subsets.
+- U3: Fig 3.1 Pascal's triangle; 3.9 eight uses; Q1 KATHMANDU arrangements (181,440; A's together 40,320), Q2 counting toolkit (74, 67, D4 = 9).
+- U4: Fig 4.1 merge-sort recursion tree; 4.6 eight uses; Q1 induction (sum of odd numbers), Q2 recurrence a(n)=2*3^n-2^n verified numerically, Hanoi 1,023, merge sort.
+- TODO U5 Graphs and Trees (figure idea: graph with Euler/Hamilton paths or Dijkstra step table; Kruskal), U6 Number Theory and algebraic structures (figure idea: clock arithmetic mod 12 or RSA flow). Same recipe: `/tmp/ins2.py FILE A.md B.md` (A inserted before "## Formula and fact sheet" with figure + 8-point section numbered n.(k+1); B appended with 1 medium + 1 long answer). Run `check_discrete.py` (prints ALL OK) after.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -128,5 +136,5 @@ Math-heavy, so SVG figures and worked answers rather than photographs (no suitab
 - [x] BCA 404 Project IV DONE (session 17)
 - [x] BCA 452 Internship DONE (session 18)
 - [x] BCA 154 Mathematics II polished (session 18, SVG + answers, no photos)
-- [ ] (NEXT SESSION STARTS HERE) polish thin core books, in this order: BCA 151 Discrete Structure (34 pp), BCA 153 OOP in Java (41 pp), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [ ] (NEXT SESSION STARTS HERE) polish thin core books, in this order: BCA 151 Discrete Structure units 5-6 (units 1-4 done), BCA 153 OOP in Java (41 pp), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
