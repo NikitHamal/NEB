@@ -10,6 +10,7 @@ from urllib.parse import quote
 import markdown as md_lib
 from api import content_images
 from . import subject_tokens
+from web import forum_markup
 
 try:
     import bleach as _bleach
@@ -424,6 +425,7 @@ def _render_user_content(value):
     Pure in its input (no database reads), so the result is memoised per worker: a feed
     page used to re-run markdown + bleach on twenty posts on every request."""
     text = content_images.tokenize_for_markdown(value)
+    text, _math = forum_markup.protect_math(text)
     mention_re = re.compile(r'@([A-Za-z0-9_]+)')
 
     def replace_mentions(text):
@@ -459,6 +461,8 @@ def _render_user_content(value):
     html = _linkify_html(html)
 
     html = _sanitize_user_html(html)
+
+    html = forum_markup.restore_math(html, _math)
 
     html = content_images.detokenize_html(html)
 

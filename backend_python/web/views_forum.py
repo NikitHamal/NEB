@@ -334,6 +334,12 @@ def forum_post(request, post_id):
             top_level.append(r)
         else:
             children_map.setdefault(r['parentReplyId'], []).append(r)
+    top_level.sort(key=lambda r: 0 if r.get('label') == 'accepted' else 1)
+    label_counts = {}
+    for r in all_replies:
+        if r.get('label'):
+            label_counts[r['label']] = label_counts.get(r['label'], 0) + 1
+    from . import forum_labels
     is_following = False
     is_owner = False
     if user_id:
@@ -368,6 +374,7 @@ def forum_post(request, post_id):
     # fields (text, comment, author.url) that are easy to forget by hand.
     from .schema_forum import breadcrumb_schema, thread_schema
     ctx = _ctx(request, post=post, replies=all_replies, top_level_replies=top_level, children_map=children_map, post_id=post_id, is_owner=is_owner, is_following=is_following, post_author_id=post_obj.user_id, all_usernames=all_usernames, reply_sort=reply_sort,
+        label_meta=forum_labels.meta(), label_meta_json=_json.dumps(forum_labels.meta()), label_counts=label_counts,
         home_unanswered=home_unanswered,
         home_contributors=home_contributors,
         feed_entries=feed_entries,

@@ -368,6 +368,8 @@ class Post(models.Model):
     edited_at = models.BigIntegerField(default=0)
     is_archived = models.BooleanField(default=False)
     is_anonymous = models.BooleanField(default=False)
+    is_resolved = models.BooleanField(default=False)
+    accepted_reply_id = models.CharField(max_length=36, blank=True, default='')
     created_at = models.BigIntegerField()
 
     class Meta:
@@ -530,6 +532,10 @@ class Reply(models.Model):
     edited_at = models.BigIntegerField(default=0)
     is_archived = models.BooleanField(default=False)
     is_anonymous = models.BooleanField(default=False)
+    kind = models.CharField(max_length=12, blank=True, default='comment')
+    label = models.CharField(max_length=12, blank=True, default='')
+    labeled_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='+')
+    labeled_at = models.BigIntegerField(default=0)
     created_at = models.BigIntegerField()
 
     class Meta:
