@@ -80,6 +80,37 @@ v₁ = (1, 1, 0), v₂ = (1, 0, 1). ‖v₁‖ = √2, q₁ = (1, 1, 0)/√2. v�
 
 **Least squares** is a projection: the best approximate solution of an inconsistent AX = B is the X making AX the projection of B onto the column space, found from AᵀAX = AᵀB. Fitting y = a + bx to (1, 1), (2, 2), (3, 2): A = [[1, 1], [1, 2], [1, 3]], B = (1, 2, 2); AᵀA = [[3, 6], [6, 14]], AᵀB = (5, 11); solving gives b = 0.5, a = 2/3: **y = 0.667 + 0.5x**.
 
+## 3.6 The four subspaces in one picture
+
+An m × n matrix A of rank r carries four subspaces, and rank–nullity says how they fit together (Figure 3.1). The **row space** (dimension r) and the **null space** (dimension n − r) split the input space ℝⁿ, and they are perpendicular. The **column space** (dimension r) and the **left null space** (dimension m − r) split the output space ℝᵐ, also perpendicular. A sends the row space one-to-one onto the column space and squashes the null space to zero. Everything an m × n matrix can do is visible in this picture.
+
+```svgfig label="3.1" caption="The four fundamental subspaces of an m by n matrix of rank r. Input space (left): row space (dim r) and null space (dim n minus r), perpendicular. Output space (right): column space (dim r) and left null space (dim m minus r), perpendicular. A maps the row space onto the column space and the null space to zero."
+f = Fig(580, 230)
+f.box(20, 20, 200, 190, "", fill="#ffffff", stroke=NAVY)
+f.box(20, 20, 200, 190, "", fill="#ffffff", stroke=NAVY)
+f.text(120, 14, "input space R^n", size=11, color=NAVY, bold=True)
+f.box(32, 36, 176, 82, "Row space\ndim r", fill=BLUE, stroke=NAVY, size=12, color=NAVY, bold=True)
+f.box(32, 126, 176, 74, "Null space\ndim n - r\nA x = 0", fill="#fde68a", stroke=AMBER, size=12, color=NAVY, bold=True)
+f.box(360, 20, 200, 190, "", fill="#ffffff", stroke=NAVY)
+f.text(460, 14, "output space R^m", size=11, color=NAVY, bold=True)
+f.box(372, 36, 176, 82, "Column space\ndim r", fill=SOFT, stroke=TEAL, size=12, color=NAVY, bold=True)
+f.box(372, 126, 176, 74, "Left null space\ndim m - r\nA^T y = 0", fill="#fecaca", stroke=RED, size=12, color=NAVY, bold=True)
+f.arrow([(208, 77), (372, 77)], color=NAVY, label="A: one-to-one", lpos=(290, 62))
+f.arrow([(208, 163), (330, 163), (330, 150)], color=AMBER, label="A x = 0", lpos=(270, 182))
+f.text(290, 130, "perpendicular pairs", size=10, color=SLATE, italic=True)
+```
+
+## 3.7 Eight uses of vector spaces and linear maps
+
+1. **Data as vectors.** A student record with five marks is a vector in ℝ⁵; a photo with a million pixels is a vector in ℝ¹⁰⁰⁰⁰⁰⁰. Distances and angles between vectors measure similarity. This is the starting point of every data-science method.
+2. **Face unlock and recognition.** A phone reduces a face image to a short vector using a few basis directions (principal components). Two faces are compared by the distance between their vectors. Basis and dimension are the central ideas.
+3. **Compression.** JPEG and MP3 change to a better basis in which most coordinates are nearly zero, then drop the small ones. The picture or song is the same vector written in a smarter basis. Files shrink by ten times with little visible loss.
+4. **Recommender systems.** A table of users and films has low rank, because tastes follow a few patterns. Finding the column space of the table lets a service suggest what you may like. The rank is the number of independent tastes.
+5. **Graphics and robotics.** Rotating, scaling and reflecting a shape are linear transformations. A robot arm composes several of them, one per joint, by multiplying their matrices. Kernel and image tell which movements are lost.
+6. **Error-correcting codes.** Codes used in QR codes, SIM cards and storage are subspaces of vector spaces over the numbers 0 and 1. A received word is corrected by finding the nearest vector in the subspace. Dimension tells how much real data a code carries.
+7. **Signals and communication.** A radio or mobile signal is a vector in a space of waveforms; the Fourier transform is a change of basis. Filters are linear transformations. FM stations in Nepal share the air because their signals sit in different directions of this space.
+8. **Differential equations and systems.** The solutions of a linear homogeneous equation form a vector space whose dimension equals the order of the equation. Knowing a basis of solutions gives every solution as a combination. The same idea explains the null space of a matrix.
+
 ## Formula and fact sheet
 
 - Subspace test: contains 0, closed under + and scalar multiplication.
@@ -120,3 +151,45 @@ v₁ = (1, 1, 0), v₂ = (1, 0, 1). ‖v₁‖ = √2, q₁ = (1, 1, 0)/√2. v�
 **9.** **No**: (0, 0) does not satisfy y = 2x + 1, so the zero vector is missing (a line not through the origin).
 **10.** A = [[1, 0], [1, 1], [1, 2]], B = (1, 3, 4): AᵀA = [[3, 3], [3, 5]], AᵀB = (8, 11). Solve 3a + 3b = 8, 3a + 5b = 11 ⇒ 2b = 3 ⇒ b = 1.5, a = 8/3 − 1.5 = 7/6: **y = 1.167 + 1.5x**.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Find the rank, nullity, a basis for the null space and a basis for the column space of A = [[1, 2, 3], [2, 4, 6], [1, 0, 1]], and verify rank–nullity.**
+
+*Introduction.* The rank is the number of independent rows (equivalently columns); the nullity is the dimension of the solution space of AX = 0; rank–nullity states rank + nullity = n.
+
+*Row reduction.* R2 → R2 − 2R1 gives [0, 0, 0]. R3 → R3 − R1 gives [0, −2, −2]. So the non-zero rows are [1, 2, 3] and [0, −2, −2]: **rank = 2**.
+
+*Null space.* x + 2y + 3z = 0 and −2y − 2z = 0 give y = −z and x = −3z + 2z = −z. With z = 1 the vector is (−1, −1, 1); the null space is the line spanned by it, so **nullity = 1**. Check: −1 − 2 + 3 = 0 and −1 + 0 + 1 = 0.
+
+*Column space.* The pivot columns are columns 1 and 2, so a basis is {(1, 2, 1), (2, 4, 0)}; column 3 equals column 1 + column 2, which agrees with the null vector.
+
+*Verification.* rank + nullity = 2 + 1 = 3 = number of columns n. *Conclusion.* rank 2, nullity 1, null basis {(−1, −1, 1)}, column basis {(1, 2, 1), (2, 4, 0)}.
+
+**Q2 (10 marks). Define linear independence, basis and dimension, and linear transformation, with examples; relate kernel, image and rank–nullity.**
+
+*Introduction.* A vector space is a set closed under addition and scalar multiplication. Its structure is described by independence, basis and dimension, and its maps by linear transformations.
+
+*Linear independence, basis, dimension.*
+
+1. **Linear combination.** c₁v₁ + c₂v₂ + … + cₖvₖ.
+2. **Independent.** Vectors are independent if the only combination equal to 0 has all cᵢ = 0. The vectors (1, 0, 1), (0, 1, 1), (1, 1, 2) are **dependent**, because the third equals the sum of the first two (rank 2, not 3).
+3. **Basis.** A set that is independent and spans the space. The standard basis (1, 0, 0), (0, 1, 0), (0, 0, 1) is a basis of ℝ³.
+4. **Dimension.** The number of vectors in any basis; all bases have the same size, so dim ℝ³ = 3.
+
+*Linear transformations.*
+
+5. **Definition.** T is linear if T(u + v) = T(u) + T(v) and T(cu) = cT(u). Every linear map ℝⁿ → ℝᵐ is multiplication by an m × n matrix.
+6. **Example.** T(x, y) = (x + y, x − y) has matrix [[1, 1], [1, −1]] with determinant −2, so it is invertible.
+7. **Kernel and image.** ker T = {v : T(v) = 0} is the null space; im T is the column space.
+8. **Rank–nullity.** dim ker T + dim im T = dim of the input space. For the example, ker T = {0} (dimension 0) and im T = ℝ² (dimension 2), so 0 + 2 = 2.
+
+| Idea | Test or formula |
+|---|---|
+| Independent | only trivial combination gives 0 (rank = number of vectors) |
+| Basis | independent and spanning |
+| Dimension | size of any basis |
+| Rank–nullity | rank + nullity = n |
+| Invertible map | kernel = {0} and square matrix |
+
+*Conclusion.* Independence, basis and dimension measure the size of a space, and kernel and image measure what a linear map keeps and what it destroys; rank–nullity balances the two.
