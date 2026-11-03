@@ -1,3 +1,4 @@
+{% load static %}
 {% comment %}
   NEBians Minimal Quick Composer & Full Create Post Dialog
   Crafted with bespoke Material 3 Expressive, crisp inline vector icons,
@@ -426,7 +427,7 @@
             <line x1="12" y1="16" x2="12" y2="12"></line>
             <line x1="12" y1="8" x2="12.01" y2="8"></line>
           </svg>
-          <span>Click the check icon on the option that is the correct answer.</span>
+          <span>Tick the correct answer</span>
         </div>
 
         <div class="hf-poll-explanation-row" id="homePollExplanationWrap" style="display: none;">
@@ -524,3 +525,4 @@
     </div>
   </form>
 </dialog>
+<script nonce="{{ csp_nonce }}" src="{% static 'web/js/composer-chips.js' %}" defer></script>
