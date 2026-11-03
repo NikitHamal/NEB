@@ -134,6 +134,59 @@ Each primitive has a wrapper: `Integer`, `Long`, `Double`, `Boolean`, `Character
 
 `Math`: `abs`, `pow`, `sqrt`, `max`, `min`, `round`, `floor`, `ceil`, `random`, `hypot`; `Math.floorMod(-7, 3)` is 2 whereas `-7 % 3` is −1. For **money** use `java.math.BigDecimal`, not `double` (0.1 + 0.2 is 0.30000000000000004). Dates: `java.time.LocalDate.of(2026, 5, 14).plusDays(30)`, `LocalDateTime`, `Duration`, `DateTimeFormatter`; avoid the old `Date`.
 
+## 4.4 Two pictures: the exception family and the string pool
+
+Every error in Java is an object of a class under `Throwable` (Figure 4.1). **Errors** such as `OutOfMemoryError` signal that the JVM itself is in trouble and are not normally caught. **Exceptions** are problems a program can handle. Those under `RuntimeException` are **unchecked** (programming bugs such as a bad index or a null reference); every other exception, such as `IOException`, is **checked**, and the compiler forces you to catch it or declare it with `throws`. Figure 4.2 explains why strings need care: a `String` never changes, and identical literals share one object in the **string pool**, whereas `new String("nepal")` always creates another object on the heap. That is why `==` on strings is unreliable and `equals` must be used.
+
+```svgfig label="4.1" caption="The Throwable family. Checked exceptions (amber) must be caught or declared; unchecked exceptions (green) and errors need not be. A try block may be followed by several catch blocks and one finally block that always runs."
+f = Fig(600, 250)
+f.box(230, 10, 140, 34, "Throwable", fill=BLUE, color=NAVY, size=12, bold=True)
+f.box(90, 78, 110, 34, "Error", fill="#fecaca", stroke=RED, color=NAVY, size=11, bold=True)
+f.box(300, 78, 120, 34, "Exception", fill=BLUE, color=NAVY, size=11, bold=True)
+f.arrow([(300, 44), (300, 62), (145, 62), (145, 78)], color=SLATE, sw=1.6)
+f.arrow([(300, 44), (360, 78)], color=SLATE, sw=1.6)
+f.box(210, 150, 120, 40, "IOException\nSQLException", fill="#fde68a", stroke=AMBER, color=NAVY, size=10.5, bold=True)
+f.box(380, 150, 140, 40, "RuntimeException", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.arrow([(340, 112), (340, 130), (270, 130), (270, 150)], color=SLATE, sw=1.6)
+f.arrow([(380, 112), (380, 130), (450, 130), (450, 150)], color=SLATE, sw=1.6)
+f.box(10, 150, 170, 40, "OutOfMemoryError\nStackOverflowError", fill="#ffffff", stroke=RED, color=NAVY, size=10, bold=True)
+f.arrow([(145, 112), (145, 150)], color=SLATE, sw=1.6)
+f.text(450, 208, "NullPointerException, ArithmeticException,", size=10, color=NAVY, bold=True)
+f.text(450, 222, "ArrayIndexOutOfBounds, NumberFormatException", size=10, color=NAVY, bold=True)
+f.text(270, 208, "checked", size=10.5, color=AMBER, bold=True)
+f.text(95, 208, "not caught normally", size=10.5, color=RED, bold=True)
+f.text(450, 240, "unchecked", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="4.2" caption="String pool. The literals a and b share one pooled object, so a == b is true. new String(...) makes a separate heap object, so a == c is false even though equals gives true. intern() returns the pooled copy."
+f = Fig(600, 220)
+f.text(90, 16, "Variables", size=11.5, color=NAVY, bold=True)
+f.text(400, 16, "Memory", size=11.5, color=NAVY, bold=True)
+for i, (n, c) in enumerate((("a", BLUE), ("b", BLUE), ("c", "#fde68a"))):
+    f.box(40, 34 + i * 50, 100, 34, n, fill=c, color=NAVY, size=12, bold=True)
+f.box(290, 28, 250, 60, "", fill="#bbf7d0", stroke=TEAL)
+f.text(415, 44, "String pool", size=10.5, color=TEAL, bold=True)
+f.text(415, 68, "\"nepal\"  (one shared object)", size=11.5, color=NAVY, bold=True)
+f.box(290, 118, 250, 56, "", fill="#fde68a", stroke=AMBER)
+f.text(415, 134, "Heap (new String)", size=10.5, color=AMBER, bold=True)
+f.text(415, 156, "\"nepal\"  (separate object)", size=11.5, color=NAVY, bold=True)
+f.arrow([(140, 51), (290, 56)], color=TEAL, sw=1.8)
+f.arrow([(140, 101), (290, 66)], color=TEAL, sw=1.8)
+f.arrow([(140, 151), (290, 146)], color=AMBER, sw=1.8)
+f.text(300, 205, "a == b true  |  a == c false  |  a.equals(c) true  |  c.intern() == a true", size=11, color=RED, bold=True)
+```
+
+## 4.5 Eight benefits of exception handling and of immutable strings
+
+1. **Programs survive errors.** A caught exception lets the program recover, for example by asking the user for a new file name. Without it the program would stop at the first problem. A bank's mobile app must not crash because one request had a bad value.
+2. **Error code is separated from normal code.** The `try` block holds the main logic and the `catch` blocks hold the repair. The normal path stays easy to read instead of being buried under many `if` checks.
+3. **Errors travel upward.** If a method cannot handle a problem it lets the exception pass to the caller, which may know what to do. A low-level file reader can report failure and the screen code can show a message to the user.
+4. **Compiler-enforced care.** Checked exceptions force the programmer to plan for failures such as a missing file or a network break. This reduces nasty surprises after deployment.
+5. **Clean-up is guaranteed.** The `finally` block, or try-with-resources, always runs, so files and database connections are closed. This prevents resource leaks in a server that runs for weeks.
+6. **Meaningful custom errors.** You can define your own exception, such as `InsufficientFundsException`, with a clear message. Support staff then see exactly what went wrong instead of a vague failure.
+7. **Safe sharing of strings.** Because a `String` can never change, many parts of a program can share one object without surprises. This also makes strings safe as keys in a `HashMap` and safe between threads.
+8. **Memory and speed savings.** The string pool stores each distinct literal once, and the hash code of a string is cached. A program that uses the word "Kathmandu" thousands of times keeps just one copy.
+
 ## Formula and fact sheet
 
 - Checked: must handle or declare. Unchecked (`RuntimeException`): bugs. `Error`: do not catch.
@@ -174,3 +227,107 @@ Each primitive has a wrapper: `Integer`, `Long`, `Double`, `Boolean`, `Character
 **9.** `new` always creates a distinct object; `valueOf` returns cached objects for −128…127.
 **10.** `0.1 + 0.2` as `double` is 0.30000000000000004 because binary floating point cannot represent 0.1 exactly. `new BigDecimal("0.1").add(new BigDecimal("0.2"))` is exactly 0.3 (always build from strings).
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain exception handling in Java with try, catch, finally, throw and throws. Distinguish checked and unchecked exceptions.**
+
+*Introduction.* An exception is an object that represents an abnormal event during execution. Exception handling lets a program deal with it without crashing (Figure 4.1).
+
+*Keywords.*
+
+1. **`try`.** Encloses code that may fail.
+2. **`catch`.** Handles one exception type; several catch blocks are checked from top to bottom, so the specific type comes first.
+3. **`finally`.** Runs whether or not an exception occurred; used for clean-up.
+4. **`throw`.** Raises an exception explicitly: `throw new IllegalArgumentException("...")`.
+5. **`throws`.** In a method header, declares the checked exceptions the method may pass to its caller.
+
+*Checked versus unchecked.* Checked exceptions (`IOException`, user-defined subclasses of `Exception`) must be caught or declared. Unchecked exceptions (subclasses of `RuntimeException`) need not be, because they usually show a bug.
+
+```java
+public class ExcDemo {
+    static class InsufficientFundsException extends Exception {
+        InsufficientFundsException(String m) { super(m); }
+    }
+    static int parse(String s) {
+        try { return Integer.parseInt(s); }
+        catch (NumberFormatException e) { System.out.println("bad number: " + s); return -1; }
+        finally { System.out.println("finally for " + s); }
+    }
+    static void withdraw(double bal, double amt) throws InsufficientFundsException {
+        if (amt > bal) throw new InsufficientFundsException("need Rs " + (amt - bal) + " more");
+    }
+    public static void main(String[] args) {
+        System.out.println(parse("42"));
+        System.out.println(parse("4x2"));
+        try { withdraw(500, 800); } catch (InsufficientFundsException e) { System.out.println("Caught: " + e.getMessage()); }
+        try { int[] a = new int[2]; a[2] = 1; }
+        catch (ArrayIndexOutOfBoundsException | ArithmeticException e) { System.out.println("Unchecked: " + e.getMessage()); }
+    }
+}
+```
+```output
+finally for 42
+42
+bad number: 4x2
+finally for 4x2
+-1
+Caught: need Rs 300.0 more
+Unchecked: Index 2 out of bounds for length 2
+```
+
+*Conclusion.* The output shows `finally` running in both cases. Use checked exceptions for failures a caller can reasonably handle and unchecked ones for programming mistakes.
+
+**Q2 (10 marks). Explain the `String`, `StringBuilder` and `StringBuffer` classes. Why is `String` immutable? Illustrate the string pool and common methods with a program.**
+
+*Introduction.* Text in Java is handled by three classes. `String` is immutable; `StringBuilder` and `StringBuffer` are mutable buffers for building text.
+
+*Key points.*
+
+1. **Immutability.** A `String` object never changes; methods like `toUpperCase()` return a new object.
+2. **Reasons.** Safe sharing, safe use as hash keys, thread safety, security (file names, class names) and pooling.
+3. **String pool.** Literals with equal text share one object (Figure 4.2); `new String` creates another; `intern()` returns the pooled one.
+4. **Comparison.** `==` compares addresses; `equals` compares characters; `compareTo` gives alphabetical order.
+5. **Common methods.** `length`, `charAt`, `substring`, `indexOf`, `replace`, `split`, `trim`, `toLowerCase`.
+6. **`StringBuilder`.** Mutable, not synchronised, fast; use it to build text in loops.
+7. **`StringBuffer`.** Mutable and synchronised (thread-safe) but slower.
+8. **Concatenation in loops.** `s += x` creates a new object each time, so n additions cost about n² copying; a builder costs about n.
+
+```java
+public class StringDemo {
+    public static void main(String[] args) {
+        String a = "nepal", b = "nepal", c = new String("nepal");
+        System.out.println(a == b);
+        System.out.println(a == c);
+        System.out.println(a.equals(c));
+        System.out.println(a == c.intern());
+        String s = "Tribhuvan University";
+        System.out.println(s.toUpperCase() + " | original still: " + s);
+        System.out.println(s.substring(0, 8) + " " + s.indexOf("Uni") + " " + s.length());
+        int vowels = 0;
+        for (char ch : s.toLowerCase().toCharArray()) if ("aeiou".indexOf(ch) >= 0) vowels++;
+        System.out.println("vowels = " + vowels);
+        StringBuilder sb = new StringBuilder();
+        for (String w : s.split(" ")) sb.insert(0, w + " ");
+        System.out.println(sb.toString().trim() + " | reversed: " + new StringBuilder(s).reverse());
+    }
+}
+```
+```output
+true
+false
+true
+true
+TRIBHUVAN UNIVERSITY | original still: Tribhuvan University
+Tribhuva 10 20
+vowels = 7
+University Tribhuvan | reversed: ytisrevinU navuhbirT
+```
+
+| Class | Mutable | Thread-safe | Use |
+|---|---|---|---|
+| `String` | no | yes (immutable) | fixed text, keys |
+| `StringBuilder` | yes | no | building text, single thread |
+| `StringBuffer` | yes | yes | building text shared by threads |
+
+*Conclusion.* Strings are immutable so they can be pooled and shared safely; compare content with `equals`, and use `StringBuilder` when text is assembled in a loop.

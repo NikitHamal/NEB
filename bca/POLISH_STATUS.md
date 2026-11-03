@@ -125,6 +125,17 @@ Math-heavy: SVG figures and worked answers, no photographs (none claimed).
 - U5 (session 19): Fig 5.1 weighted graph with MST (thick teal) and Dijkstra distances (red); 5.7 eight uses; Q1 Kruskal MST (13), Q2 Dijkstra table + BFS/MST comparison.
 - U6 (session 19): Fig 6.1 clock arithmetic mod 12 + toy RSA message path; 6.7 eight uses; Q1 extended Euclid (gcd 21 = 5*105 - 2*252), Q2 RSA + group/ring/field. `check_discrete.py` ALL OK.
 
+## BCA 153 oop-in-java (semester-2/oop-in-java) -- [x] POLISHED (session 19), 66 pp (was 41), qa fails=0
+- Photos (bca153/, licence-gated, all viewed): gosling (James Gosling portrait), simchip (smart-card chip die, Java Card context), socdie (SoC die, threads/cores), dcrack (data-centre aisle, JDBC servers).
+- U1: Plate 1.1 (Gosling + SIM-chip die), Fig 1.1 write-once-run-anywhere pipeline, Fig 1.2 four pillars on an Account class diagram; 1.7 eight features; Q1 JDK/JRE/JVM, Q2 pillars + BankDemo run.
+- U2: Fig 2.1 stack vs heap references; 2.8 eight benefits; Q1 pass-by-value (PassDemo run), Q2 Student class with equals/hashCode in HashSet (StudentDemo run).
+- U3: Fig 3.1 payroll interface/abstract/subclass design; 3.7 eight uses; Q1 abstract class vs interface (PayDemo run), Q2 overloading/overriding/dispatch (DispatchDemo run).
+- U4: Fig 4.1 Throwable family, Fig 4.2 string pool; 4.5 eight benefits; Q1 exceptions (ExcDemo run), Q2 String/StringBuilder (StringDemo run).
+- U5: Fig 5.1 collections map, Fig 5.2 stream pipeline; 5.7 eight uses; Q1 List/Set/Map (CollDemo run), Q2 lambdas/streams/generics (StreamDemo run).
+- U6: Plate 6.1 (SoC die + data-centre aisle), Fig 6.1 thread states, Fig 6.2 JDBC architecture; 6.6 eight uses; Q1 threads/race/executor (RaceDemo run), Q2 JDBC on H2 in-memory (JdbcDemo run).
+- All new Java programs compiled and run with JDK 17 (`fill_java_outputs.py`); needs `sudo apt-get install openjdk-17-jdk-headless libh2-java libslf4j-java libservlet-api-java`. After fill, run `/tmp/fixblank.py`-style pass: add a blank line after every closing ```output fence when text follows directly (otherwise tables/paragraphs may merge into the code placeholder).
+- Not done: old short Practice answers kept; no photograph for abstract units 2-5 (none claimed).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -138,5 +149,6 @@ Math-heavy: SVG figures and worked answers, no photographs (none claimed).
 - [x] BCA 452 Internship DONE (session 18)
 - [x] BCA 154 Mathematics II polished (session 18, SVG + answers, no photos)
 - [x] BCA 151 Discrete Structure units 5-6 (session 19)
-- [ ] (NEXT SESSION STARTS HERE) polish thin core books, in this order: BCA 153 OOP in Java (41 pp), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] BCA 153 OOP in Java (session 19, 66 pp)
+- [ ] (NEXT SESSION STARTS HERE) polish thin core books, in this order: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
