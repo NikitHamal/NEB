@@ -513,7 +513,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 2.25rem;
   font-weight: 800;
-  color: #059669;
+  color: color-mix(in srgb, #059669 55%, var(--md-on-surface));
   line-height: 1.1;
 }
 

@@ -308,34 +308,21 @@
   <footer class="site-footer">
     {% if not hide_footer_links %}
     <div class="site-footer-inner">
-      <div class="site-footer-brand">
-        <span class="site-footer-logo">NEBians</span>
-        <p class="site-footer-tagline">Nepal's Learning Community — An open learning platform, social network, and knowledge exchange uniting teachers, students, schools, institutions, and curious explorers across all subjects and fields in Nepal.</p>
-      </div>
-      <div class="site-footer-columns">
-        <div class="site-footer-col">
-          <h4 class="site-footer-heading">Community &amp; Tools</h4>
-          <ul class="site-footer-list">
-            <li><a href="{% url 'web:result_check' %}">NEB Result Checker</a></li>
-            <li><a href="{% url 'web:tools_hub' %}">Free Study Tools</a></li>
-            <li><a href="{% url 'web:news_list' %}">Educational News &amp; Blog</a></li>
-            <li><a href="{% url 'web:leaderboard' %}">Community Leaderboard</a></li>
-          </ul>
-        </div>
-        <div class="site-footer-col">
-          <h4 class="site-footer-heading">About &amp; Legal</h4>
-          <ul class="site-footer-list">
-            <li><a href="{% url 'web:faq' %}">Help &amp; FAQ</a></li>
-            <li><a href="{% url 'web:privacy_policy' %}">Privacy Policy</a></li>
-            <li><a href="{% url 'web:terms_of_service' %}">Terms of Service</a></li>
-            <li><a href="{% url 'web:copyright_takedown' %}">Copyright Policy &amp; Takedown</a></li>
-          </ul>
-        </div>
-      </div>
+      {% url 'web:home' as footer_home %}{% include "components/_brand.html" with href=footer_home %}
+      <nav class="site-footer-links" aria-label="Footer">
+        <a href="{% url 'web:result_check' %}">Results</a>
+        <a href="{% url 'web:tools_hub' %}">Tools</a>
+        <a href="{% url 'web:news_list' %}">Blog</a>
+        <a href="{% url 'web:leaderboard' %}">Leaderboard</a>
+        <a href="{% url 'web:faq' %}">Help</a>
+        <a href="{% url 'web:privacy_policy' %}">Privacy</a>
+        <a href="{% url 'web:terms_of_service' %}">Terms</a>
+        <a href="{% url 'web:copyright_takedown' %}">Copyright</a>
+      </nav>
     </div>
     {% endif %}
     <div class="site-footer-bottom">
-      <p>&copy; 2026 NEBians — Nepal's Learning Community. All rights reserved.</p>
+      <p>&copy; 2026 NEBians</p>
     </div>
   </footer>
   {% endblock %}

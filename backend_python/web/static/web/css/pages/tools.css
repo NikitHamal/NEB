@@ -148,8 +148,6 @@
   line-height: 1.35;
 }
 
-.tools-card--green { --tool-accent: #168447; }
-.tools-card--purple { --tool-accent: #7434d6; }
 
 .tools-page *,
 .tools-audio-page * {
