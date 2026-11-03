@@ -29,6 +29,20 @@ def front(text):
     return meta, m.group(2)
 
 
+def inline_imgs(src):
+    """@img <file in figures/> | caption | width%  ->  an embedded figure (exact crop from the published sheet)."""
+    import base64
+    def rep(m):
+        parts = [x.strip() for x in m.group(1).split("|")]
+        f = parts[0]
+        cap = parts[1] if len(parts) > 1 else ""
+        w = parts[2] if len(parts) > 2 and parts[2] else "40"
+        data = base64.b64encode(open(os.path.join(HERE, "figures", f), "rb").read()).decode()
+        c = f"<figcaption>{_html.escape(cap)}</figcaption>" if cap else ""
+        return (f'\n<figure class="nobreak photo"><img src="data:image/png;base64,{data}" style="width:{w}%" alt="figure">{c}</figure>\n')
+    return re.sub(r"^@img (.+?)\s*$", rep, src, flags=re.M)
+
+
 def marks(s):
     return MARK.sub(r'<span class="marks">[\1]</span>', s)
 
@@ -122,6 +136,7 @@ def render(pid):
     meta, body = front(open(os.path.join(CONTENT, pid + ".md"), encoding="utf-8").read())
     qsrc, _, ssrc = body.partition("<!-- SOLUTIONS -->")
     figno = 1
+    qsrc, ssrc = inline_imgs(qsrc), inline_imgs(ssrc)
     _, qhtml, figno = md2html.convert(exam_markup(qsrc), pid + "-q", figno)
     _, shtml, figno = md2html.convert(solution_markup(ssrc), pid + "-s", figno)
     e = _html.escape

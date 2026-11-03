@@ -1,5 +1,21 @@
 [
  {
+  "file": "NEBians-Past-Paper-Grade-12-Biology-2081-General.pdf",
+  "subject": "Biology",
+  "grade": "12",
+  "year_bs": "2081",
+  "year_ad": "2024",
+  "stream": "General Stream",
+  "code": "2021 'W'",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
+  "category": "Board Exam",
+  "pages": 16,
+  "bytes": 273379,
+  "id": "12-bio-2081-general"
+ },
+ {
   "file": "NEBians-Past-Paper-Grade-12-Biology-2082-General.pdf",
   "subject": "Biology",
   "grade": "12",
@@ -12,7 +28,7 @@
   "students": "For regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 202235,
+  "bytes": 202229,
   "id": "12-bio-2082-general"
  },
  {
@@ -28,7 +44,7 @@
   "students": "For the regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 13,
-  "bytes": 234736,
+  "bytes": 234745,
   "id": "12-chem-2081-general"
  },
  {
@@ -60,7 +76,7 @@
   "students": "For regular and partial students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 7,
-  "bytes": 107532,
+  "bytes": 107539,
   "id": "12-cs-2082-general"
  },
  {
@@ -76,7 +92,7 @@
   "students": "For the students whose first two digits of registration number start from 80 (partial) and 81 (regular)",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 474836,
+  "bytes": 474828,
   "id": "12-math-2082-set-r"
  },
  {
@@ -92,7 +108,7 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 470863,
+  "bytes": 470869,
   "id": "12-phy-2082-general"
  }
 ]
