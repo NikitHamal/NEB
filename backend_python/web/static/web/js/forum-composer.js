@@ -172,6 +172,14 @@
     var pop = root.querySelector('.fc-pop');
     var modeBtns = root.querySelectorAll('.fc-mode');
     var toolBtns = root.querySelectorAll('.fc-tool');
+    var modesEl = root.querySelector('.fc-modes');
+    if (actions && modesEl) {
+      actions.insertBefore(modesEl, counter);
+      modesEl.addEventListener('click', function (e) {
+        var mb = e.target.closest('.fc-mode');
+        if (mb) setMode(mb.getAttribute('data-mode'));
+      });
+    }
 
     function closePop() {
       pop.hidden = true;
