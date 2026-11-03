@@ -323,7 +323,7 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] BCA 355 Distributed System polished (session 30, 54 -> 86 pp)
 - [x] BCA 252 Software Engineering polished (session 31, 54 -> 103 pp)
 - [x] BCA 156 Principles of Management polished (session 32, 50 -> 83 pp)
-- [~] (NEXT SESSION STARTS HERE) DBMS (56 pp), then the rest of Semesters II-VIII.
+- [~] DBMS (BCA 202, session 33, IN PROGRESS: units 1-4 done, NEXT SESSION STARTS AT UNIT 5 SQL DDL; see section below), then the rest of Semesters II-VIII.
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
 
@@ -362,3 +362,13 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] U6: Plate 6.1 (Shewhart / Deming / Ohno, 3-up), Fig 6.1 control process + timings, 6.2 control chart (20 samples, UCL 54.5, LCL 45.5, sample 12 out; mean 50.77), 6.3 PDCA + 5S, 6.4 Pareto (42/25/15/8/10, cumulative 42/67/82/90/100), 6.5 fishbone; 6.6.1 eight benefits of TQM; Q1-Q2 (5; variance 12 percent over), Q3 (10), Q4 (5; DPMO 600).
 - Every number above was recomputed in Python before it was written. Not done: the old short Practice answers were kept; the existing fact sheets were not rewritten.
 - NEXT SESSION STARTS AT: DBMS (semester-3/dbms, 56 pp), then the rest of Semesters II-VIII (see Queue).
+
+## BCA 202 dbms (semester-3/dbms) -- [~] IN PROGRESS (session 33)
+Photos (bca202/, licence-gated, all viewed): jimgray, bachman, stonebraker (portraits), catalog + drawers (card catalogues), ramac (IBM 350 disk), booking (railway reservation counter), atm, tapelib (StorageTek library), nlmtape (reel shelves), tu (Tribhuvan University). Reserved but unused so far: jimgray (Unit 9), drawers (Unit 7 index), tapelib (Unit 8/9), tu (Unit 8 or 6). Reuse bca451/hsm, bca306/padlock, bca451/facebook where useful.
+Section numbering: new section "N.K Seeing the ideas" is inserted before the first of "Formula and fact sheet"/"Chapter summary" (eight-point list is N.K.1); model answers appended as "## Model answers (5 and 10 marks)". Helpers `/tmp/ins2.py unit.md A.md B.md` and `/tmp/wc.py unit.md` (word counts per Q) -- recreate from AGENTS.md session 33 notes if /tmp is wiped.
+- [x] U1 Intro: Plate 1.1 (tape/RAMAC/Bachman 3-up), Plate 1.2 (booking + ATM), Fig 1.1 redundancy, 1.2 DBMS architecture, 1.3 data-to-action; 1.6.1 eight applications; Q1-Q2 (5 marks), Q3 (10 marks).
+- [x] U2 Architecture/E-R: Plate 2.1 (catalogue photo + three-cards SVG), Fig 2.1 three-schema, 2.2 college E-R, 2.3 hierarchical/network/relational, 2.4 specialisation; 2.7.1 eight advantages; Q1-Q2, Q3 (10 marks).
+- [x] U3 Relational model: Plate 3.1 (Stonebraker + relation anatomy), Fig 3.1 keys, 3.2 schema diagram + RI, 3.3 four joins, 3.4 query trees; 3.5.1 eight advantages; Q1-Q2, Q3 (algebra on sample data).
+- [x] U4 Normalisation: Plate 4.1 (card drawers + anomalies SVG), Fig 4.1 dependency diagram, 4.2 closure chain, 4.3 4NF split (9 vs 6 rows); 4.9.1 eight advantages; Q1-Q2, Q3 (Registration to 3NF/BCNF).
+- [ ] U5 SQL DDL, [ ] U6 SQL queries (verify outputs with sqlite3 from python), [ ] U7 procedures/triggers/indexing, [ ] U8 query processing + security, [ ] U9 transactions.
+
