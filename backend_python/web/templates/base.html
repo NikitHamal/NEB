@@ -193,9 +193,7 @@
         <span class="material-symbols-outlined">search</span>
       </a>
 
-      <button class="md-btn-icon" data-action="toggle-theme" title="Toggle dark mode" aria-label="Toggle dark mode">
-        <span class="material-symbols-outlined" id="theme-icon">dark_mode</span>
-      </button>
+      {% include "components/_theme_toggle.html" %}
       {% if is_authenticated %}
       <div class="profile-dropdown-container" id="profileDropdown">
         <button class="profile-dropdown-trigger" data-action="toggle-profile-dropdown" aria-label="Open user menu">
@@ -371,25 +369,7 @@
       showSnackbar('Something went wrong. Please try again.');
     });
 
-    (function syncThemeIcon() {
-      var ic = document.getElementById('theme-icon');
-      if (ic) ic.textContent = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light_mode' : 'dark_mode';
-    })();
-
     registerActions({
-      'toggle-theme': function () {
-        const html = document.documentElement;
-        const isDark = html.getAttribute('data-theme') === 'dark';
-        // "light", not "": an empty attribute reads as "no opinion" to every
-        // script that asks, and they then guess from the OS.
-        html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-        const themeIcon = document.getElementById('theme-icon');
-        themeIcon.textContent = isDark ? 'dark_mode' : 'light_mode';
-        localStorage.setItem('theme', isDark ? 'light' : 'dark');
-        // Canvas-painted art can't inherit a CSS variable; it has to be told.
-        document.dispatchEvent(new CustomEvent('neb:theme-change'));
-        fetch('/ajax/theme/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
-      },
       'toggle-profile-dropdown': function (el, e) {
         e.stopPropagation();
         const dropdown = document.getElementById('profileDropdown');
@@ -456,14 +436,6 @@
         menu.classList.remove('show');
       }
     });
-
-    // The attribute itself was resolved in <head>, before first paint. All that
-    // is left here is the icon, which needs the DOM.
-    (function () {
-      if (document.documentElement.getAttribute('data-theme') !== 'dark') return;
-      const themeIcon = document.getElementById('theme-icon');
-      if (themeIcon) themeIcon.textContent = 'light_mode';
-    })();
 
     function showSnackbar(msg, duration = 3000) {
       const container = document.getElementById('snackbar-container');

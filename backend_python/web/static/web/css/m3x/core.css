@@ -119,6 +119,25 @@
 @media (hover: hover) { .md-btn-icon:hover, .md-icon-btn:hover { border-radius: 14px; background: var(--md-surface-container-high); } }
 .md-btn-icon:active, .md-icon-btn:active { transform: scale(.9); border-radius: 12px; }
 
+/* ---------- theme toggle: one button for the landing page and the app (components/_theme_toggle.html) ----------
+   Round, squares up (but never to a corner) on hover, squishes on press; the sun turns into the moon. */
+.theme-btn {
+  --tb: 44px; position: relative; display: grid; place-items: center; flex: none;
+  width: var(--tb); height: var(--tb); padding: 0; border: 0; border-radius: calc(var(--tb) / 2);
+  background: var(--sf-high, var(--md-surface-container-high)); color: var(--on, var(--md-on-surface)); cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-radius .5s var(--spring), transform .4s var(--spring), background-color .2s;
+}
+@media (hover: hover) { .theme-btn:hover { border-radius: 15px; background: var(--sf-highest, var(--md-surface-container-highest)); } }
+.theme-btn:active { transform: scale(.9); border-radius: 13px; }
+.theme-btn svg { grid-area: 1 / 1; width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: transform .6s var(--spring), opacity .25s; }
+.theme-btn .ic-moon { opacity: 0; transform: rotate(-90deg) scale(.4); }
+.theme-btn .ic-sun { opacity: 1; }
+[data-theme="dark"] .theme-btn .ic-sun { opacity: 0; transform: rotate(90deg) scale(.4); }
+[data-theme="dark"] .theme-btn .ic-moon { opacity: 1; transform: none; fill: currentColor; }
+.theming::view-transition-old(root), .theming::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+.theming::view-transition-new(root) { z-index: 2; }
+
 /* ---------- reveal ---------- */
 .js [data-reveal] { opacity: 0; transform: translateY(32px); }
 .js [data-reveal].in {

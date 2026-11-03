@@ -336,17 +336,7 @@ img{display:block;max-width:100%}
   .js:not(.ready) .intro{opacity:1}
 }
 
-/* ---------- theme toggle: a tonal round button that morphs on press ---------- */
-.theme-btn{position:relative;display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:22px;background:var(--sf-high);color:var(--on);cursor:pointer;transition:border-radius .5s var(--spring),transform .4s var(--spring),background-color .2s}
-@media (hover:hover){.theme-btn:hover{border-radius:14px;background:var(--sf-highest)}}
-.theme-btn:active{transform:scale(.9);border-radius:12px}
-.theme-btn svg{grid-area:1/1;width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:transform .6s var(--spring),opacity .25s}
-.theme-btn .ic-moon{opacity:0;transform:rotate(-90deg) scale(.4)}
-.theme-btn .ic-sun{opacity:1}
-[data-theme="dark"] .theme-btn .ic-sun{opacity:0;transform:rotate(90deg) scale(.4)}
-[data-theme="dark"] .theme-btn .ic-moon{opacity:1;transform:none;fill:currentColor}
-::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
-::view-transition-new(root){z-index:2}
+
 
 /* ---------- real Google Play badge ---------- */
 .play-badge{display:inline-block;line-height:0;border-radius:10px;transition:transform .45s var(--spring),border-radius .45s var(--spring)}
@@ -362,7 +352,7 @@ img{display:block;max-width:100%}
 [data-theme="dark"] .bk-0,[data-theme="dark"] .bk-1,[data-theme="dark"] .bk-2{color:#06235f}
 [data-theme="dark"] .foot-cta :focus-visible{outline-color:var(--on-pri)}
 [data-theme="dark"] .brand-name{color:var(--on)}
-@media (max-width:920px){.theme-btn{width:48px;height:48px;border-radius:24px}}
+@media (max-width:920px){.theme-btn{--tb:48px}}
 @media (max-width:560px){.nav-end>.m3-btn{display:none}.nav{padding:0 10px 0 8px}}
 .menu a.menu-cta{color:var(--pri)}
 [data-theme="dark"] .foot-cta{background:var(--md-primary-container);color:var(--md-on-primary-container)}
