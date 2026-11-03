@@ -30,6 +30,8 @@ from api.security import (
     save_resource_thumbnail_upload, maybe_autoset_video_thumbnail,
 )
 
+from . import forum_labels as _forum_labels
+
 def _make_abs_url(path: str) -> str:
     if not path:
         return ''
@@ -622,6 +624,7 @@ def _serialize_posts(posts_qs, user_id=None):
             'viewCount': p.view_count, 'view_count': p.view_count,
             'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
             'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
+            'isResolved': bool(p.is_resolved), 'acceptedReplyId': p.accepted_reply_id or '',
             'isThumbedUp': p.id in liked_ids,
             'isFollowingAuthor': False if anon else p.user_id in followed_author_ids,
             'isBookmarked': p.id in bookmarked_ids,
@@ -670,6 +673,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
         'viewCount': p.view_count, 'view_count': p.view_count,
         'createdAt': p.created_at, 'updatedAt': p.edited_at or p.created_at,
         'isEdited': p.is_edited, 'editedAt': p.edited_at, 'isArchived': p.is_archived,
+            'isResolved': bool(p.is_resolved), 'acceptedReplyId': p.accepted_reply_id or '',
         'isThumbedUp': is_thumbed_up,
         'isFollowingAuthor': False if anon else is_following_author,
         'isBookmarked': is_bookmarked,
@@ -680,6 +684,7 @@ def _serialize_post(p, user_id=None, _liked_ids=None, _followed_ids=None, _bookm
 
 def _serialize_replies(replies_qs, user_id=None):
     replies = list(replies_qs)
+    _viewer_is_admin = bool(user_id and User.objects.filter(pk=user_id, is_admin=True).exists())
     liked_ids = set()
     followed_author_ids = set()
     bookmarked_ids = set()
@@ -765,6 +770,7 @@ def _serialize_replies(replies_qs, user_id=None):
             'isFollowed': False if anon else r.user_id in followed_author_ids,
             'isBookmarked': r.id in bookmarked_ids,
             'attachments': all_media.get(r.id, []),
+            **_forum_labels.reply_extras(r, user_id, _viewer_is_admin),
         })
     return result
 
@@ -802,6 +808,7 @@ def _serialize_reply(r, user_id=None, _liked_ids=None, _bookmarked_ids=None):
         'isThumbedUp': is_thumbed_up,
         'isBookmarked': is_bookmarked,
         'attachments': media,
+        **_forum_labels.reply_extras(r, user_id, False),
     }
 
 def _get_user_id(request):
