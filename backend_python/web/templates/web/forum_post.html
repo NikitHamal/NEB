@@ -820,6 +820,30 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 
+async function refreshReplies(focusId, quiet) {
+  const section = document.getElementById('replies-section');
+  if (!section) { location.reload(); return false; }
+  const active = section.querySelector('.fp-reply-sort-active');
+  const sort = active ? (new URL(active.href, location.href)).searchParams.get('sort') : 'oldest';
+  try {
+    const res = await fetch(location.pathname + '?sort=' + encodeURIComponent(sort || 'oldest'), {
+      credentials: 'same-origin', headers: { 'HX-Request': 'true' }
+    });
+    if (!res.ok) throw new Error('refresh failed');
+    section.innerHTML = await res.text();
+    if (window.htmx) window.htmx.process(section);
+    if (window.renderAllMath) window.renderAllMath(section);
+    if (window.NebClamp) window.NebClamp.refresh(section);
+    const card = focusId && document.getElementById('reply-card-' + focusId);
+    if (card) {
+      card.classList.add('is-fresh');
+      if (!quiet) card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      setTimeout(function () { card.classList.remove('is-fresh'); }, 2400);
+    }
+    return true;
+  } catch (e) { return false; }
+}
+
 async function submitMainReply() {
   const content = document.getElementById('mainReplyContent').value.trim();
   if (replyComposeBusy('main')) { showSnackbar('Please wait for attachments to finish uploading.'); return; }
@@ -839,31 +863,7 @@ async function submitMainReply() {
     });
     const d = await r.json();
     if (d && d.id) {
-      // Live insert: prepend the new reply without reloading
-      const list = document.querySelector('.fp-reply-list');
-      if (list && typeof renderThreadReply === 'function') {
-        const tmp = document.createElement('div');
-        tmp.innerHTML = renderThreadReply(d, '');
-        const card = tmp.firstElementChild;
-        if (card) {
-          card.style.opacity = '0';
-          list.insertBefore(card, list.firstChild);
-          requestAnimationFrame(function () {
-            card.style.transition = 'opacity 0.3s';
-            card.style.opacity = '1';
-            if (window.renderAllMath) window.renderAllMath(card);
-            if (window.NebClamp) window.NebClamp.refresh(card);
-          });
-        }
-        // Increment the counter
-        const counters = document.querySelectorAll('[data-reply-count], .fp-reply-count');
-        counters.forEach(function (el) {
-          const cur = parseInt(el.textContent || '0', 10) || 0;
-          el.textContent = cur + 1;
-        });
-      } else {
-        location.reload();
-      }
+      refreshReplies(d.id);
       document.getElementById('mainReplyContent').value = '';
       document.getElementById('mainReplyContent').dispatchEvent(new Event('input', { bubbles: true }));
       if (window.ForumComposer) ForumComposer.reset('mainReplyContent');
@@ -1594,26 +1594,13 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(function () { node.remove(); updateReplyCount(-1); }, 300);
       }
     });
-    // Live reply inserted: prepend to the reply list
     window.WS.on('post.' + POST_ID + ':reply.created', function (data) {
       if (!data || !data.id) return;
-      if (document.getElementById('reply-card-' + data.id)) return; // dedupe
-      const list = document.querySelector('.fp-reply-list');
-      if (!list) return;
-      const tmp = document.createElement('div');
-      tmp.innerHTML = renderThreadReply(data, '');
-      const card = tmp.firstElementChild;
-      if (card) {
-        card.style.opacity = '0';
-        list.insertBefore(card, list.firstChild);
-        requestAnimationFrame(function () {
-          card.style.transition = 'opacity 0.3s';
-          card.style.opacity = '1';
-          if (window.NebClamp) window.NebClamp.refresh(card);
-        });
-        updateReplyCount(1);
-        showSnackbar('New reply from @' + (data.authorName || 'someone'));
-      }
+      if (document.getElementById('reply-card-' + data.id)) return;
+      if (data.parentReplyId || data.parent_reply_id) return;
+      refreshReplies(data.id, true).then(function (ok) {
+        if (ok && data.authorId !== USER_ID) showSnackbar('New reply from @' + (data.authorName || 'someone'));
+      });
     });
     // Live reply like count changes
     window.WS.on('post.' + POST_ID + ':reply.like_changed', function (data) {
