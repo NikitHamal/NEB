@@ -15,6 +15,7 @@ use crate::env::Env;
 use crate::errors::{AppError, Result};
 use crate::router::Route;
 use crate::theme::fonts;
+use crate::ui::shapes::Kind;
 use crate::ui::icons::Icon;
 use crate::ui::widgets::{self, BtnKind};
 
@@ -135,43 +136,39 @@ pub fn split_layout(ui: &mut Ui, env: &mut Env, add: impl FnOnce(&mut Ui, &mut E
     let left_w = if split { (full.width() * 0.44).min(600.0) } else { 0.0 };
     if split {
         let panel = Rect::from_min_size(full.min, vec2(left_w, full.height())).shrink(14.0);
-        ui.painter().rect_filled(panel, Rounding::same(36.0), th.p.accent_soft);
+        ui.painter().rect_filled(panel, Rounding::same(36.0), th.p.ink_brand);
         brand_panel(ui, env, panel.shrink2(vec2(44.0, 44.0)));
     }
     let right = Rect::from_min_max(egui::pos2(full.min.x + left_w, full.min.y), full.max);
     ui.allocate_new_ui(UiBuilder::new().max_rect(right), |ui| add(ui, env, !split));
+    let tog = Rect::from_min_size(egui::pos2(full.max.x - 62.0, full.min.y + 16.0), vec2(44.0, 44.0));
+    ui.allocate_new_ui(UiBuilder::new().max_rect(tog), |ui| {
+        if crate::ui::theme_toggle::show(ui, &th).clicked() {
+            env.act(crate::actions::Action::ToggleDark);
+        }
+    });
 }
 
 fn brand_panel(ui: &mut Ui, env: &mut Env, rect: Rect) {
     let th = env.theme.clone();
+    let time = ui.input(|i| i.time) as f32;
+    let motion_on = !crate::theme::motion::reduced();
+    let c = rect.center() + vec2(0.0, rect.height() * 0.02);
+    let d = (rect.width().min(rect.height()) * 0.78).min(420.0);
+    let t = if motion_on { 0.5 + 0.5 * (time * 0.6).sin() } else { 0.0 };
+    // soft satellite, big morphing mark
+    let sat = Rect::from_center_size(c + vec2(d * 0.46, -d * 0.52), vec2(d * 0.26, d * 0.26));
+    crate::ui::shapes::paint_morph(ui.painter(), sat, Kind::Burst, Kind::Sunny, t, -time * 0.4, th.p.on_ink_brand.gamma_multiply(0.18));
+    let main = Rect::from_center_size(c, vec2(d, d));
+    crate::ui::shapes::paint_morph(ui.painter(), main, Kind::Cookie, Kind::Flower, t, time * 0.12, th.p.accent);
+    let logo = Rect::from_center_size(c, vec2(d * 0.34, d * 0.34));
+    env.logo.paint(ui, logo, 1.0);
     ui.allocate_new_ui(UiBuilder::new().max_rect(rect).layout(Layout::top_down(Align::Min)), |ui| {
-        ui.horizontal(|ui| {
-            env.logo.show(ui, 44.0);
-            widgets::label(ui, RichText::new("NEBians").font(fonts::bold(26.0)).color(th.p.on_accent_soft));
-        });
-        ui.add_space((rect.height() * 0.16).max(24.0));
-        ui.add(egui::Label::new(RichText::new("Study smarter,\ntogether.").font(fonts::bold(46.0)).color(th.p.on_accent_soft)).selectable(false));
-        ui.add_space(14.0);
-        ui.add(egui::Label::new(RichText::new("The open learning community for Nepal — notes, syllabus and question banks from Class 8 to Bachelor.").font(fonts::regular(16.5)).color(th.p.on_accent_soft)).selectable(false));
-        ui.add_space(34.0);
-        for (icon, title, body) in [
-            (Icon::Library, "A full library", "Chapters, practice sets and model papers, readable offline."),
-            (Icon::Forum, "A community that answers", "Ask questions, share what you know, follow classmates."),
-            (Icon::Cloud, "One account everywhere", "Your profile, bookmarks and progress follow you across devices."),
-        ] {
-            ui.horizontal(|ui| {
-                let (r, _) = ui.allocate_exact_size(vec2(48.0, 48.0), egui::Sense::hover());
-                ui.painter().rect_filled(r, Rounding::same(16.0), th.p.card.gamma_multiply(0.75));
-                crate::ui::icons::paint(ui.painter(), Rect::from_center_size(r.center(), vec2(24.0, 24.0)), icon, th.p.accent);
-                ui.vertical(|ui| {
-                    ui.spacing_mut().item_spacing.y = 1.0;
-                    widgets::label(ui, RichText::new(title).font(fonts::bold(15.0)).color(th.p.on_accent_soft));
-                    ui.add(egui::Label::new(RichText::new(body).font(fonts::regular(13.5)).color(th.p.on_accent_soft)).selectable(false).wrap());
-                });
-            });
-            ui.add_space(14.0);
-        }
+        widgets::label(ui, RichText::new("NEBians").font(fonts::bold(26.0)).color(th.p.on_ink_brand));
     });
+    if motion_on {
+        ui.ctx().request_repaint();
+    }
 }
 
 fn form(ui: &mut Ui, env: &mut Env, st: &mut LoginState, with_logo: bool) {
@@ -197,8 +194,6 @@ fn form(ui: &mut Ui, env: &mut Env, st: &mut LoginState, with_logo: bool) {
             job.append("Welcome to ", 0.0, TextFormat { font_id: fonts::bold(big), color: th.p.ink, ..Default::default() });
             job.append("NEBians", 0.0, TextFormat { font_id: fonts::bold(big), color: th.p.accent, ..Default::default() });
             ui.add(egui::Label::new(job).selectable(false));
-            ui.add_space(8.0);
-            ui.add(egui::Label::new(RichText::new("Sign in to sync your profile, join the community and keep your progress on every device.").font(fonts::regular(15.0)).color(th.p.ink_muted)).selectable(false));
             ui.add_space(28.0);
 
             if let Some(e) = st.error.clone() {
