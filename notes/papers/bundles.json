@@ -9,20 +9,21 @@
    "12-bio-2081-general"
   ],
   "pages": 29,
-  "bytes": 493434,
+  "bytes": 493428,
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Chemistry-2081-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Chemistry-2080-2082-Bundle.pdf",
   "subject": "Chemistry",
   "grade": "12",
-  "years_bs": "2081-2082",
+  "years_bs": "2080-2082",
   "papers": [
    "12-chem-2082-general",
-   "12-chem-2081-general"
+   "12-chem-2081-general",
+   "12-chem-2080-general"
   ],
-  "pages": 24,
-  "bytes": 465005,
+  "pages": 38,
+  "bytes": 723058,
   "category": "Board Exam Bundle"
  },
  {
@@ -37,7 +38,7 @@
    "12-eng-2080-0041g"
   ],
   "pages": 36,
-  "bytes": 476792,
+  "bytes": 476789,
   "category": "Board Exam Bundle"
  },
  {
@@ -51,7 +52,7 @@
    "12-nep-2080-0021b"
   ],
   "pages": 36,
-  "bytes": 383471,
+  "bytes": 383470,
   "category": "Board Exam Bundle"
  },
  {
@@ -64,7 +65,7 @@
    "12-cs-2081-general"
   ],
   "pages": 18,
-  "bytes": 282669,
+  "bytes": 282663,
   "category": "Board Exam Bundle"
  },
  {
@@ -78,7 +79,7 @@
    "12-math-2080-set-h"
   ],
   "pages": 32,
-  "bytes": 1597475,
+  "bytes": 1597474,
   "category": "Board Exam Bundle"
  },
  {
@@ -91,7 +92,7 @@
    "12-phy-2080-general"
   ],
   "pages": 30,
-  "bytes": 1035674,
+  "bytes": 1035675,
   "category": "Board Exam Bundle"
  }
 ]
