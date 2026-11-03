@@ -1800,3 +1800,14 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - Next: BCA 105 professional-communication-ethics, then non-core slots (256, 356, 403 project, 452, electives), then semesters II-VIII.
 - **BCA 105 professional-communication-ethics is DONE** (session 13; 48 pp, qa fails=0): 4 bca105/ photos, 9 figures/plates, 8-point sections and 5/10-mark answers in all five units. All Semester I books are now polished. Check every photo visually before use (three search hits this session were unusable). Next: non-core slots (BCA 256, 356, 403 project, 452, electives) then semesters II-VIII.
 
+
+## BCA polish session 14 (BCA 256 Project I)
+
+- **Queue state found:** the brief's "Priority 1" (BCA 101) and all Semester I books were already DONE (sessions 10-13: real photo plates, SVGs, 8-point sections, model answers). This session therefore started on the first unfinished item, non-core slots, and finished **BCA 256 Project I** (`bca/course/semester-4/project-1`, registered in `books.json`, 50 pp, qa fails=0). Nothing else was claimed.
+- **Content:** companion handbook around the invented CampusShelf library system, 5 units, 14 figures/plates, 5 new `bca256/` photos (hackathon pitch, Kanban, Scrum board, pair programming, poster presenter), executed Python (feasibility score, critical path, real git run, sqlite schema + FK rejection, full `campusshelf.py` demo, `unittest` run, report-budget). README states that TU publishes no topic list and the structure is reconstructed.
+- **Gotcha 1:** `fill_script_outputs.py` only executes fences tagged `python|php|sql` and each block must be self-contained. A listing whose output must come from another file (the unittest file) uses fence tag `py` and a hand-pasted ```output fence. To regenerate: extract the Unit 4 `python` listing up to `# ---- demo ----` into `/tmp/cs/campusshelf.py`, put the `py` block in `/tmp/cs/test_campusshelf.py`, run it there and paste the output.
+- **Gotcha 2:** an unclosed ```svgfig fence swallows the rest of the unit and nebpdf prints a SyntaxError from the next paragraph; always close the fence. `@ svg` cells inside `photogrid` should use a small canvas (about 250-330 px wide) so text stays above 6 pt.
+- **Gotcha 3:** `matplotlib`, `scipy`, `pandas` must be installed in `/tmp/v` or nebpdf fails; use `uv pip install --python /tmp/v/bin/python ...`.
+- **gen_status.py** now says "Semesters I-IV fully done" when Semester IV has 5 or more done books (Project I is now a book).
+- **Credentials:** `/tmp/gitenv.sh` echoes `$NEB_PAT` for username/password prompts; the PAT was supplied in the prompt and must be rotated by the owner. It was never written to the repo.
+- **Next:** BCA 306 Project II (see `bca/POLISH_STATUS.md` queue), then BCA 356, 404, 452, electives, then polish Semesters II-VIII.

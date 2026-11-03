@@ -56,11 +56,22 @@ Real units (NOT the brief's guess): U1 Intro, U2 Software, U3 OS, U4 DBMS, U5 Ne
 - U4: Plate 4.1 (team stand-up photo + Tuckman curve SVG), Fig 4.1 Eisenhower matrix; 8 team characteristics (4.7); medium (Tuckman) + long (teamwork, conflict, SBI, time).
 - U5: Fig 5.1 ethical decision flow, Fig 5.2 IP types and licence spectrum; 8 responsibilities (5.8); medium (MIT vs GPL) + long (ethics, IP, ETA 2063; no penalty figures given).
 
+## BCA 256 project-1 (semester-4/project-1) -- [x] DONE (session 14), qa fails=0
+Project I has no TU topic list, so this is a reconstructed companion handbook (README says so) built around one running example, CampusShelf (invented college library book-issue system). 5 units, about 14,000 words.
+- Photos (bca256/, licence-gated, all viewed): pitch (hackathon pitch), kanban (3-column board), scrum (task board), pair (pair programming), poster (poster-session presenter).
+- U1 Scoping: Plate 1.1 (pitch photo + idea-funnel SVG), Fig 1.2 life cycle; feasibility score script (executed); 8 reasons projects fail (1.7); 2 medium + 1 long answers.
+- U2 Planning: Fig 2.1 Gantt to scale (matches critical-path script), Plate 2.1 (3-up kanban/scrum/pair photos with callouts), Fig 2.2 Git branches; critical-path script + real `git` run output; 8 team practices (2.6); 2 medium + 1 long.
+- U3 Analysis/design: Fig 3.1 use case, 3.2 DFD level 0, 3.3 DFD level 1, 3.4 ER; sqlite schema script (FK rejection shown); Plate 3.1 (3 wireframe SVGs); 8 benefits (3.6); 2 medium + 1 long.
+- U4 Build/test: Fig 4.1 three layers, 4.2 V-model, 4.3 bug life cycle; full `campusshelf.py` listing run by fill_script_outputs; `unittest` file (fence tag `py`, NOT `python`, so fill_script_outputs does not wipe its hand-pasted output; regenerate with /tmp/cs recipe in AGENTS.md); 8 reasons (4.7); 2 medium + 1 long.
+- U5 Report/viva: Fig 5.1 report map, Plate 5.1 (poster photo + clean-slide SVG), report-budget script, 12 viva Q&A, illustrative rubric (flagged as not official); 8 habits (5.8); 2 medium + 1 long.
+- Known cosmetic: the Level-1 DFD labels render at about 6 pt (qa warn only).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
 - [x] hardware-workshop DONE (session 12)
 - [x] mathematics-1 (BCA 104) DONE (session 13)
 - [x] professional-communication-ethics (BCA 105) DONE (session 13)
-- [ ] (NEXT SESSION STARTS HERE) non-core slots: BCA 256 Project I (see bca/course/STATUS.md)
-- [ ] non-core slots (256, 356, 403 project, 452, electives), then semesters II-VIII
+- [x] BCA 256 Project I DONE (session 14)
+- [ ] (NEXT SESSION STARTS HERE) BCA 306 Project II (semester-5/project-2; same CampusShelf-style handbook but with a different running example, e.g. a web app with Flask or Node plus REST API, deployment, security testing; books.json code BCA 306, 3 credits)
+- [ ] remaining non-core slots (BCA 306, 356, 404 projects, 402 SPM if not a core book, 452 internship, 4 electives), then polish semesters II-VIII one book at a time
