@@ -212,6 +212,110 @@ Segmentation has no internal fragmentation, makes sharing and protection natural
 | Address | one number (split by hardware) | two numbers: segment and offset |
 | Sharing/protection | per page, harder to match logical units | per segment, natural |
 
+## 5.5 Seeing the ideas: memory, swap space and the page table
+
+Memory management is mostly arithmetic on addresses, so the figures below are drawn from computed numbers. The plate shows the physical memory that the OS manages, a hard-disk platter that holds swap space for pages pushed out of RAM, and the page table that connects the two. The figures then show the three placement strategies, address translation with a page table and TLB, the page-replacement traces and Belady's anomaly.
+
+```photogrid label="5.1" cols="3" ratio="1.0" caption="Where the pages live. (a) A DDR memory module: the physical RAM whose frames the OS hands out. (b) A hard-disk platter: the swap area of a computer lives on disk, and a page that is not in RAM is fetched from here (a page fault costs milliseconds, not nanoseconds). (c) A small page table for a 4 KB page size: page 3 is stored in frame 7, so logical address 13000 (page 3, offset 712) becomes physical address 7 x 4096 + 712 = 29384."
+@ photo id="bca101/ram" cap="RAM module = frames"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.4 0.04 0.9 "physical memory"
+@ photo id="bca101/hdd-platter" cap="Disk platter = swap space"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.5 0.04 0.9 "swap lives here"
+@ svg cap="Page table for 4 KB pages"
+f = Fig(200, 190)
+f.text(100, 12, "page table", size=11, color=NAVY, bold=True)
+tab = [(0, 5), (1, 2), (2, 9), (3, 7)]
+for i, (p, fr) in enumerate(tab):
+    y = 24 + i * 30
+    f.box(20, y, 60, 26, "page %d" % p, fill=SOFT, stroke=SLATE, size=10.5, bold=True, r=0)
+    f.box(80, y, 70, 26, "frame %d" % fr, fill=MINT if p == 3 else BLUE, stroke=TEAL if p == 3 else NAVY, size=10.5, bold=True, r=0)
+f.text(100, 158, "13000 = page 3, offset 712", size=10, color=RED, bold=True)
+f.text(100, 176, "physical = 7 x 4096 + 712 = 29384", size=9.5, color=TEAL, bold=True)
+```
+
+```svgfig label="5.1" caption="Three placement strategies for four requests (212, 417, 112 and 426 KB) into free holes of 100, 500, 200, 300 and 600 KB. First fit takes the first hole that is big enough: 212 goes to 500, 417 to 600, 112 to the remaining 288 of the 500 hole, and 426 must wait. Best fit takes the smallest hole that fits: 212 to 300, 417 to 500, 112 to 200 and 426 to 600, so all four are placed. Worst fit takes the largest hole: 212 and 112 go to 600 and 417 to 500, and 426 waits. Best fit wins on this data, but there is no universal winner."
+f = Fig(580, 230)
+res = [("First fit", ["212 -> 500", "417 -> 600", "112 -> 500 (288 left)", "426 -> waits"], AMBER),
+       ("Best fit", ["212 -> 300", "417 -> 500", "112 -> 200", "426 -> 600"], TEAL),
+       ("Worst fit", ["212 -> 600", "417 -> 500", "112 -> 600 (388 left)", "426 -> waits"], RED)]
+f.text(290, 14, "free holes (KB):  100   500   200   300   600", size=10.5, color=NAVY, bold=True)
+for k, (nm, lines, col) in enumerate(res):
+    x = 10 + k * 192
+    f.box(x, 30, 180, 150, "", fill=SOFT, stroke=col)
+    f.text(x + 90, 48, nm, size=11.5, color=col, bold=True)
+    for j, ln in enumerate(lines):
+        f.text(x + 90, 76 + j * 24, ln, size=10, color=RED if "waits" in ln else SLATE, bold="waits" in ln)
+f.text(100, 202, "placed: 3 of 4", size=10.5, color=AMBER, bold=True)
+f.text(290, 202, "placed: 4 of 4", size=10.5, color=TEAL, bold=True)
+f.text(480, 202, "placed: 3 of 4", size=10.5, color=RED, bold=True)
+f.text(290, 222, "first fit is fastest to search; best fit leaves tiny unusable holes (external fragmentation)", size=9.5, color=SLATE, bold=True)
+```
+
+```svgfig label="5.2" caption="Address translation with paging and a TLB. The CPU produces a logical address split into page number p and offset d. The TLB (a small, fast cache of page-table entries) is searched first. On a hit the frame number is available at once; on a miss the page table in memory is read, which costs one extra memory access. With a TLB search of 20 ns, memory access of 100 ns and hit ratio 90 percent, the effective access time is 0.9 x 120 + 0.1 x 220 = 130 ns instead of 200 ns without a TLB."
+f = Fig(580, 230)
+f.box(10, 80, 90, 44, "CPU\nlogical (p, d)", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.box(150, 20, 110, 44, "TLB\n(fast cache)", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(150, 140, 110, 44, "page table\n(in RAM)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(330, 80, 110, 44, "frame f + d", fill=SOFT, stroke=SLATE, size=10.5, bold=True)
+f.box(480, 80, 90, 44, "physical\nmemory", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.arrow([(100, 92), (150, 48)], color=SLATE, sw=1.6)
+f.arrow([(100, 112), (150, 160)], color=SLATE, sw=1.6)
+f.arrow([(260, 42), (330, 90)], color=TEAL, sw=1.8, label="hit: 120 ns", lpos=(310, 54))
+f.arrow([(260, 162), (330, 114)], color=RED, sw=1.8, label="miss: 220 ns", lpos=(312, 150))
+f.arrow([(440, 102), (480, 102)], color=SLATE, sw=1.6)
+f.text(290, 214, "EAT = 0.9 x 120 + 0.1 x 220 = 130 ns   (no TLB: 200 ns)", size=10.5, color=AMBER, bold=True)
+```
+
+```svgfig label="5.3" caption="Page replacement for the reference string 7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1 7 0 1 with three frames, here FIFO. Each column shows the three frames after the reference; a red column is a page fault. FIFO replaces the page that has been in memory longest and has 15 faults. LRU (replace the page unused for the longest time) has 12 faults and the optimal algorithm OPT (replace the page used farthest in the future) has 9, the lower bound."
+refs = [7,0,1,2,0,3,0,4,2,3,0,3,2,1,2,0,1,7,0,1]
+slots = [None] * 3; ptr = 0; cols = []
+for r in refs:
+    fault = r not in slots
+    if fault:
+        if None in slots:
+            slots[slots.index(None)] = r
+        else:
+            slots[ptr] = r; ptr = (ptr + 1) % 3
+    cols.append((r, list(slots), fault))
+f = Fig(580, 170)
+for i, (r, sl, fault) in enumerate(cols):
+    x = 8 + i * 28.4
+    f.box(x, 8, 26, 22, str(r), fill=ROSE if fault else SOFT, stroke=RED if fault else SLATE, size=10, bold=True, r=0)
+    for j in range(3):
+        v = sl[j]
+        f.box(x, 34 + j * 24, 26, 22, "" if v is None else str(v), fill=ROSE if fault else "#ffffff", stroke=RED if fault else "#cbd5e1", size=10, r=0)
+nf = sum(1 for c in cols if c[2])
+f.text(290, 124, "FIFO: %d faults of 20 references (red columns)" % nf, size=11, color=RED, bold=True)
+f.text(290, 144, "LRU: 12 faults   OPT: 9 faults (minimum possible)", size=10.5, color=TEAL, bold=True)
+f.text(290, 162, "reference row on top; frames F1 to F3 below", size=9.5, color=SLATE)
+```
+
+```svgfig label="5.4" caption="Belady's anomaly. For the reference string 1 2 3 4 1 2 5 1 2 3 4 5, FIFO gives 9 page faults with 3 frames but 10 faults with 4 frames: more memory, more faults. The anomaly happens with FIFO because the set of pages in 3 frames is not always a subset of the set in 4 frames. LRU and OPT are stack algorithms and never show the anomaly."
+f = Fig(580, 210)
+ax = Axes(f, 60, 20, 250, 150, (0, 5), (0, 12))
+ax.grid(1, 2).axes("number of frames", "page faults")
+ax.curve(lambda n: 9 + (n - 3), 3, 4, color=RED, sw=2.6)
+ax.pt(3, 9, "9 faults", color=RED, dx=-8, dy=-10, anchor="end")
+ax.pt(4, 10, "10 faults", color=RED, dx=8, dy=-10)
+f.box(340, 40, 230, 110, "FIFO, string of 12 references\n3 frames: 9 faults\n4 frames: 10 faults\nmore frames, MORE faults!\nLRU and OPT: never worse", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.text(290, 196, "fix: use a stack algorithm (LRU) or a good approximation (clock)", size=10, color=TEAL, bold=True)
+```
+
+### 5.5.1 Eight advantages of virtual memory
+
+1. **Programs larger than RAM can run.** Only the pages in use must be in memory; the rest stay on disk. A 4 GB program can run on a laptop with 2 GB RAM. The programmer does not have to cut the program into overlays.
+2. **More programs at the same time.** Because each program needs only part of its pages in RAM, more processes fit in memory. The degree of multiprogramming and CPU use rise. A lab PC in a Nepali college can keep a browser, an IDE and a PDF reader open together.
+3. **Protection between processes.** Each process has its own page table, so it cannot name another process's memory. A bug or a virus in one program cannot read or overwrite the pages of another. This is basic to any phone that holds banking apps.
+4. **No external fragmentation.** Pages and frames have the same size, so any free frame can hold any page. Memory is not wasted in odd-sized holes. Only a little internal fragmentation remains in the last page.
+5. **Simple programming model.** Every program sees one large, continuous address space starting at zero. The compiler and linker need not know where the program will lie in RAM. The same executable runs on a 4 GB and an 8 GB machine.
+6. **Sharing of code and data.** Several processes can map the same frames, for example the C library or a read-only program file. Fifty copies of a browser tab share one copy of the code. This saves memory and makes `fork` cheap through copy-on-write.
+7. **Faster start-up.** With demand paging a program starts as soon as its first page is loaded. The rest is brought in only when needed. A large application opens in seconds instead of waiting for the whole file.
+8. **Efficient use of memory.** Pages that are never used, such as error-handling code, never occupy RAM. Pages that have not been used for a long time are moved to disk and the freed frames serve active programs. The OS keeps the most useful pages in the fastest memory.
+
 ## Formula and fact sheet
 
 - Physical address = frame × page size + offset; page = ⌊LA / page size⌋; offset = LA mod page size.
@@ -258,3 +362,138 @@ Segmentation has no internal fragmentation, makes sharing and protection natural
 **11.** Thrashing: a process spends more time paging than executing because it lacks enough frames for its working set. Working set: keep pages used in the last Δ references and suspend processes if the sum exceeds memory. PFF: raise or lower a process's frames to keep its fault rate between limits.
 **12.** ⟨1, 250⟩: 250 < 300, physical 1500 + 250 = **1750**. ⟨0, 250⟩: 250 ≥ 200: **trap (addressing error)**.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1. Differentiate between paging and segmentation. (5 marks)**
+
+**Paging** divides logical memory into fixed-size **pages** and physical memory into frames of the same size. The OS keeps a **page table** for each process that maps a page number to a frame number. The division is made by the hardware and is invisible to the programmer. A logical address is a pair (page number p, offset d); the physical address is frame x page size + d. Paging removes external fragmentation, though the last page of a process wastes some space (internal fragmentation).
+
+**Segmentation** divides the program into variable-size **segments** that match its logical units: main code, functions, stack, heap and data. A logical address is (segment number s, offset d). The **segment table** holds a base and a limit for each segment; the address is valid only if d is less than the limit. It matches the programmer's view and supports sharing and protection per segment, but variable sizes cause external fragmentation.
+
+| Point | Paging | Segmentation |
+|---|---|---|
+| Unit size | fixed | variable |
+| Visible to programmer | no | yes |
+| Table | page table (frame number) | segment table (base, limit) |
+| Fragmentation | internal | external |
+| Sharing and protection | per page, less natural | per segment, natural |
+
+Modern systems such as x86-64 Linux use paging, sometimes combined with segmentation.
+
+**Q2. Explain first fit, best fit and worst fit with an example. (5 marks)**
+
+When a process is loaded into variable-size partitions, the OS must choose a free **hole**. **First fit** scans the free list and takes the first hole that is large enough; it is fast. **Best fit** searches the whole list and takes the smallest hole that is large enough; it leaves the smallest leftover but creates many tiny useless holes. **Worst fit** takes the largest hole so that the leftover is big enough to be useful, but it quickly breaks up the large holes.
+
+**Example (Figure 5.1).** Holes of 100, 500, 200, 300 and 600 KB receive requests of 212, 417, 112 and 426 KB in this order.
+
+| Algorithm | 212 | 417 | 112 | 426 |
+|---|---|---|---|---|
+| First fit | 500 | 600 | 500 (288 left) | waits |
+| Best fit | 300 | 500 | 200 | 600 |
+| Worst fit | 600 | 500 | 600 (388 left) | waits |
+
+Best fit places all four processes, while first fit and worst fit leave the last process waiting. Both leave **external fragmentation**: free space exists in total but not in one piece. It can be reduced by **compaction**, moving processes together, or removed by paging.
+
+**Q3. What is virtual memory? Explain demand paging and the effect of page faults. (10 marks)**
+
+**Introduction.** **Virtual memory** is a technique that lets a process run although only part of it is in physical memory. The programmer sees a large address space; the OS and hardware keep the active pages in RAM and the others in swap space on disk (Plate 5.1).
+
+**Demand paging.** A page is brought into memory only when it is first used. Each page-table entry has a **valid bit**. If the bit is 1 the page is in memory. If it is 0, the access causes a **page fault**, a trap to the OS.
+
+**Steps of a page fault:**
+
+1. The CPU raises a trap and the OS checks that the address is legal; if not, the process is terminated.
+2. The OS finds a free frame; if there is none, a **page-replacement** algorithm chooses a victim (written back to disk if its dirty bit is set).
+3. The OS starts a disk read of the needed page into the frame.
+4. When the read finishes, the page table is updated (frame number, valid bit = 1).
+5. The faulting instruction is restarted and now succeeds.
+
+**Performance.** With fault probability p, memory access time 200 ns and page-fault service time 8 ms, the effective access time is EAT = (1 - p) x 200 + p x 8,000,000 ns. For p = 1/1000, EAT = 199.8 + 8000 = **8199.8 ns**, about 41 times slower than 200 ns. To keep slowdown under 10 percent, p must be below about 1 in 400,000. A low fault rate therefore matters greatly.
+
+**Thrashing.** If a process has too few frames, it faults continually, spending more time paging than computing, and CPU use collapses. The remedy is to give each process its **working set** of frames or to reduce the number of processes.
+
+| Item | Meaning |
+|---|---|
+| Valid bit | page in memory or not |
+| Dirty bit | page modified, must be written back |
+| Page fault | access to a page not in memory |
+| Thrashing | excessive paging, low CPU use |
+
+**Conclusion.** Virtual memory gives large address spaces, protection and sharing, at the cost of page faults, which are kept rare by good replacement and enough frames.
+
+**Q4. Apply FIFO, LRU and optimal page replacement to the reference string 7 0 1 2 0 3 0 4 2 3 0 3 2 1 2 0 1 7 0 1 with 3 frames. Compare the number of page faults and explain Belady's anomaly. (10 marks)**
+
+**Rules.** **FIFO** replaces the page that has been in memory longest. **LRU** replaces the page not used for the longest time in the past. **OPT** replaces the page that will not be used for the longest time in the future; it needs knowledge of the future, so it is used only as a benchmark. In the tables F means a page fault.
+
+**FIFO**
+
+| Ref | 7 | 0 | 1 | 2 | 0 | 3 | 0 | 4 | 2 | 3 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| F1 | 7 | 7 | 7 | 2 | 2 | 2 | 2 | 4 | 4 | 4 |
+| F2 | - | 0 | 0 | 0 | 0 | 3 | 3 | 3 | 2 | 2 |
+| F3 | - | - | 1 | 1 | 1 | 1 | 0 | 0 | 0 | 3 |
+| Fault | F | F | F | F | - | F | F | F | F | F |
+
+| Ref | 0 | 3 | 2 | 1 | 2 | 0 | 1 | 7 | 0 | 1 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| F1 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 7 | 7 |
+| F2 | 2 | 2 | 2 | 1 | 1 | 1 | 1 | 1 | 0 | 0 |
+| F3 | 3 | 3 | 3 | 3 | 2 | 2 | 2 | 2 | 2 | 1 |
+| Fault | F | - | - | F | F | - | - | F | F | F |
+
+**LRU**
+
+| Ref | 7 | 0 | 1 | 2 | 0 | 3 | 0 | 4 | 2 | 3 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| F1 | 7 | 7 | 7 | 2 | 2 | 2 | 2 | 4 | 4 | 4 |
+| F2 | - | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 3 |
+| F3 | - | - | 1 | 1 | 1 | 3 | 3 | 3 | 2 | 2 |
+| Fault | F | F | F | F | - | F | - | F | F | F |
+
+| Ref | 0 | 3 | 2 | 1 | 2 | 0 | 1 | 7 | 0 | 1 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| F1 | 0 | 0 | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| F2 | 3 | 3 | 3 | 3 | 3 | 0 | 0 | 0 | 0 | 0 |
+| F3 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 7 | 7 | 7 |
+| Fault | F | - | - | F | - | F | - | F | - | - |
+
+**OPT**
+
+| Ref | 7 | 0 | 1 | 2 | 0 | 3 | 0 | 4 | 2 | 3 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| F1 | 7 | 7 | 7 | 2 | 2 | 2 | 2 | 2 | 2 | 2 |
+| F2 | - | 0 | 0 | 0 | 0 | 0 | 0 | 4 | 4 | 4 |
+| F3 | - | - | 1 | 1 | 1 | 3 | 3 | 3 | 3 | 3 |
+| Fault | F | F | F | F | - | F | - | F | - | - |
+
+| Ref | 0 | 3 | 2 | 1 | 2 | 0 | 1 | 7 | 0 | 1 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| F1 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 7 | 7 | 7 |
+| F2 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| F3 | 3 | 3 | 3 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
+| Fault | F | - | - | F | - | - | - | F | - | - |
+
+| Algorithm | Page faults (of 20) | Hit ratio |
+|---|---|---|
+| FIFO | 15 | 25 percent |
+| LRU | 12 | 40 percent |
+| OPT | 9 | 55 percent |
+
+**Belady's anomaly.** One expects more frames to give fewer faults. With FIFO this is not always true. For the string 1 2 3 4 1 2 5 1 2 3 4 5, FIFO has 9 faults with 3 frames and 10 faults with 4 frames (Figure 5.4). LRU and OPT are **stack algorithms**, which never show the anomaly.
+
+**Conclusion.** OPT is best (9 faults), LRU is close (12) and FIFO is worst (15). Real systems use approximations of LRU, such as the reference-bit and clock algorithms.
+
+**Q5. A system has a page size of 4 KB. Explain address translation in paging and calculate the physical address of logical address 13000 if page 3 is in frame 7. Find the effective access time with a TLB. (5 marks)**
+
+**Translation.** The logical address is split into page number p = address / page size and offset d = address mod page size. The page table gives the frame number f for page p, and the physical address is f x page size + d.
+
+**Calculation.** Page size = 4096 bytes. For 13000: p = 13000 / 4096 = 3 (integer part) and d = 13000 - 3 x 4096 = 13000 - 12288 = **712**. Page 3 is in frame 7, so the physical address = 7 x 4096 + 712 = 28672 + 712 = **29384**.
+
+**Effect of the TLB.** Reading the page table in memory costs one extra access for every reference. The **TLB** keeps recent page-table entries in fast hardware. With a TLB search time of 20 ns, memory access of 100 ns and a hit ratio of 90 percent (Figure 5.2):
+
+- hit: 20 + 100 = 120 ns;
+- miss: 20 + 100 (page table) + 100 (data) = 220 ns;
+- EAT = 0.9 x 120 + 0.1 x 220 = 108 + 22 = **130 ns**.
+
+Without a TLB every access takes 200 ns, so the TLB gives a saving of 35 percent.
