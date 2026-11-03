@@ -171,6 +171,91 @@ With six live processes the election costs 12 messages regardless of who starts:
 
 Real systems avoid hand-built election. A **lease** is a lock with an expiry time: the holder must renew it, and if the holder crashes the lease lapses and the lock is free, with no need to detect the crash. Because clocks differ and pauses (garbage collection, a stalled VM) can outlast the lease, a stale holder may still believe it holds the lock, so lock services issue **fencing tokens** (monotonically increasing numbers) which the protected resource checks, rejecting an older token. **ZooKeeper**, **etcd** and **Consul** run a consensus protocol (Zab, Raft; Unit 6) among a few replicas and expose primitives (ephemeral nodes, watches, compare-and-swap) from which leader election and locks are built. Kubernetes controllers elect a leader by renewing a lease object in etcd; Kafka's brokers elect a controller through such a service.
 
+## 4.8 Seeing coordination: shared hardware, quorums and elections
+
+Coordination is needed wherever several machines share one thing: a disk, a database row, a leadership role. Plate 4.1 shows two kinds of shared medium, an old token-passing network card and a modern server room, and Figures 4.1 to 4.3 show three coordination algorithms with the message counts worked out by a program.
+
+```photogrid label="4.1" cols="2" ratio="1.5" caption="Shared media need rules. (a) An ISA Token Ring network card: in a token ring only the station holding the circulating token may transmit, so two stations can never send at once. This is a hardware version of the token-ring mutual-exclusion algorithm of Section 4.5. (b) A server room with cables running between racks: with many machines and cables, deciding which machine owns a resource or acts as leader cannot be left to chance, and the algorithms of this unit decide it by exchanging messages."
+@ photo id="bca355/tokenring" cap="Token Ring network card"
+fit 1.5
+focus 0.5 0.5
+call 0.3 0.5 0.4 0.15 "token-ring chip set"
+@ photo id="bca401/serverroom" cap="Racks and cabling"
+fit 1.5
+focus 0.5 0.5
+```
+
+```svgfig label="4.1" caption="Ricart-Agrawala with three processes that all want the critical section at once. Their requests carry Lamport timestamps P1 = 5, P2 = 3, P3 = 7. A process replies at once if it is not interested or its own request is later; otherwise it defers the reply. Order of entry by (timestamp, id): P2 (3), P1 (5), P3 (7). Each entry costs 2 x (N - 1) = 4 messages."
+f = Fig(580, 250)
+for x, nm, ts, col in ((90, "P1", 5, BLUE), (290, "P2", 3, MINT), (490, "P3", 7, SAND)):
+    f.box(x - 45, 8, 90, 30, nm + " (ts " + str(ts) + ")", fill=col, stroke=NAVY, size=11, bold=True)
+    f.line(x, 38, x, 240, color=SLATE)
+f.arrow([(290, 60), (90, 80)], color=RED, label="REQ(3)", lpos=(190, 62))
+f.arrow([(290, 66), (490, 86)], color=RED, label="REQ(3)", lpos=(390, 68))
+f.arrow([(90, 100), (490, 120)], color=AMBER, label="REQ(5)", lpos=(300, 104))
+f.arrow([(90, 106), (290, 130)], color=AMBER)
+f.arrow([(490, 140), (290, 160)], color=TEAL)
+f.arrow([(490, 146), (90, 170)], color=TEAL, label="REQ(7)", lpos=(330, 150))
+f.arrow([(90, 190), (290, 206)], color=TEAL, dash=True)
+f.text(290, 226, "P2 enters first (smallest ts); its deferred replies then go to P1, then P3", size=10, color=NAVY, bold=True)
+```
+
+```svgfig label="4.2" caption="Maekawa's quorums for nine processes in a 3 x 3 grid. The quorum of a process is its row plus its column, 5 processes. The quorum of process 0 is [0, 1, 2, 3, 6] and of process 8 is [2, 5, 6, 7, 8]. They share [2, 6], so any two quorums intersect and two processes can never both obtain permission from all of their members. A request costs about 3 x (K - 1) = 12 messages with K = 5, against 16 for Ricart-Agrawala."
+f = Fig(580, 230)
+q0 = [0, 1, 2, 3, 6]
+q8 = [2, 5, 6, 7, 8]
+for i in range(9):
+    r, c = divmod(i, 3)
+    x, y = 40 + c * 56, 20 + r * 62
+    inA, inB = i in q0, i in q8
+    if inA and inB:
+        fill, st = SAND, AMBER
+    elif inA:
+        fill, st = BLUE, NAVY
+    elif inB:
+        fill, st = MINT, TEAL
+    else:
+        fill, st = "#f1f5f9", SLATE
+    f.box(x, y, 46, 46, str(i), fill=fill, stroke=st, size=14, bold=True)
+f.box(240, 20, 330, 46, "blue: quorum of 0 = row 0 + column 0", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(240, 82, 330, 46, "green: quorum of 8 = row 2 + column 2", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(240, 144, 330, 46, "amber: in both, so it can grant only one", fill=SAND, stroke=AMBER, size=11, bold=True)
+```
+
+```svgfig label="4.3" caption="The Bully election with six processes where process 6 (the coordinator) has crashed and process 2 notices. Process 2 sends ELECTION to 3, 4, 5 and 6; 3, 4 and 5 answer OK and start their own elections; only 5 gets no answer from 6, so 5 wins and sends COORDINATOR to the others. The program counts 20 messages in total; if the highest living process (5) had noticed first, only 5 messages would be needed."
+import math
+f = Fig(580, 230)
+cx, cy, R = 150, 115, 80
+pts = {}
+for k in range(6):
+    a = -math.pi / 2 + k * 2 * math.pi / 6
+    pts[k + 1] = (cx + R * math.cos(a), cy + R * math.sin(a))
+for p in (3, 4, 5, 6):
+    f.arrow([pts[2], pts[p]], color=AMBER, sw=1.2)
+for p in (1, 2, 3, 4, 6):
+    pass
+for k in range(1, 7):
+    x, y = pts[k]
+    dead = k == 6
+    win = k == 5
+    f.circle(x, y, 17, fill=("#e5e7eb" if dead else (MINT if win else BLUE)), stroke=(RED if dead else (TEAL if win else NAVY)), label=str(k), size=13)
+f.box(300, 14, 270, 40, "1. 2 sends ELECTION to 3, 4, 5, 6 (4 msgs)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(300, 62, 270, 40, "2. 3, 4, 5 reply OK (3 msgs), then each", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(300, 110, 270, 40, "   repeats upward: 3+2+2+1+1 more msgs", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(300, 158, 270, 50, "3. 5 hears nothing from 6, wins, sends\nCOORDINATOR to 1, 2, 3, 4 (4 msgs): total 20", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+```
+
+### 4.8.1 Eight uses of mutual exclusion and leader election
+
+1. **One writer for a shared record.** If two servers update the same bank balance at the same moment, one update can overwrite the other. A distributed lock lets only one server write at a time. The lock must be released even if its holder crashes, which is why locks are given as leases with a time limit.
+2. **Running a job exactly once.** A nightly task such as the end-of-day settlement or the result publication must run on one machine only. If every server ran it, customers could be charged twice. The servers elect a leader, and only the leader starts the task.
+3. **Database primary selection.** A replicated database has one primary that accepts writes and several replicas. When the primary fails, the survivors run an election and the winner is promoted. Clients are then told the new address so that writes continue after a short pause.
+4. **Cluster managers.** Tools such as Kubernetes keep their cluster state in a small group of nodes that elect a leader using a consensus protocol. The leader orders all changes, and the others follow. If the leader's machine fails, a new one is chosen within seconds.
+5. **Shared files and devices.** When several machines use one shared disk or printer, only one may use it at a time. A token or a request queue decides the order. The token ring in Plate 4.1 did this for the network cable itself.
+6. **Avoiding the thundering herd.** Instead of letting all clients compete for a resource, a coordinator hands out turns. Ricart-Agrawala and Maekawa do this without a central server, using 16 and 12 messages for nine processes. Fewer messages mean lower delay for every user.
+7. **Fairness and ordering.** Lamport timestamps make the order of entry follow the order of requests, so no process waits forever. This matters in a ticketing or admission system where the first applicant should get the seat. Starvation is impossible when the order is fixed by (timestamp, id).
+8. **Fault tolerance.** An algorithm must survive crashed processes. The Bully algorithm elects the highest living identifier even if the old leader is gone, and the ring algorithm sends a message around the circle so that every live node learns the winner (12 messages for six nodes). Failure detectors with time-outs trigger these elections.
+
 ## Chapter summary
 
 - Mutual exclusion must be safe, live and fair; compare algorithms by messages and delay.
@@ -203,3 +288,61 @@ Real systems avoid hand-built election. A **lease** is a lock with an expiry tim
 **9.** 8 election + 8 coordinator = **16**.
 **10.** A number issued with each lock grant that increases every time; the resource rejects requests carrying an older number than one it has already seen, so a paused process whose lease expired cannot corrupt data.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the Ricart-Agrawala algorithm and count its messages.**
+
+*Introduction.* Ricart-Agrawala is a distributed mutual-exclusion algorithm that needs no central coordinator and orders requests by Lamport timestamps (section 4.3, Figure 4.1).
+
+1. **Request.** A process that wants the critical section sends REQUEST(timestamp, id) to all N - 1 others.
+2. **Reply rule.** On receiving a request, a process replies immediately if it is not interested, or if its own request is later than the incoming one. If it is in the critical section or has an earlier request, it defers the reply.
+3. **Entry.** A process enters when it has received N - 1 replies.
+4. **Exit.** On leaving, it sends all deferred replies.
+5. **Example.** With timestamps P1 = 5, P2 = 3, P3 = 7 the order of entry is P2, P1, P3.
+6. **Cost.** Each entry needs (N - 1) requests and (N - 1) replies = 2(N - 1) messages, which is 4 for N = 3 and 16 for N = 9. A single crashed process blocks everybody unless failures are detected.
+
+*Conclusion.* The algorithm is fair and has no single point of control, but it costs more messages than a central coordinator and is sensitive to crashes.
+
+**Q2 (5 marks). Describe the Bully algorithm with an example.**
+
+*Introduction.* The Bully algorithm elects the live process with the highest identifier as coordinator. It assumes that every process knows the identifiers of all the others (section 4.6, Figure 4.3).
+
+1. **Detection.** A process that finds the coordinator unresponsive sends ELECTION to every process with a higher identifier.
+2. **Reply.** Any live higher process answers OK and takes over by starting its own election.
+3. **Winning.** A process that receives no OK within a time-out wins and sends COORDINATOR to all lower processes.
+4. **Example.** With six processes and process 6 crashed, process 2 starts. The simulation counts 20 messages and process 5 wins. If process 5 starts, only 5 messages are used, so the best case is much cheaper than the worst.
+5. **Cost.** The worst case is O(N squared) messages, when the lowest process starts.
+
+*Conclusion.* The algorithm is simple and fast when the highest process starts, but it is message-heavy in the worst case and assumes reliable failure detection.
+
+**Q3 (10 marks). Compare the centralised, Ricart-Agrawala, Maekawa and token-ring mutual-exclusion algorithms. Explain Maekawa's quorums with a diagram.**
+
+*Introduction.* Mutual exclusion lets only one process at a time use a shared resource. A good algorithm gives safety (never two inside), liveness (every request is eventually granted) and fairness (requests granted in order). Algorithms differ in message cost, delay and tolerance of failure (sections 4.2 to 4.5).
+
+*Centralised.* A coordinator grants permission from a queue: request, grant and release make 3 messages per entry. It is simple and fair, but the coordinator is a single point of failure and a bottleneck.
+
+*Ricart-Agrawala.* Every process is asked and all must reply: 2(N - 1) messages, no coordinator, but every process is critical.
+
+*Maekawa.* Each process asks only the members of its quorum. In a grid of nine, the quorum is a row plus a column, 5 processes. The quorums of processes 0 and 8 are [0, 1, 2, 3, 6] and [2, 5, 6, 7, 8]; they intersect in [2, 6], so two processes cannot both be granted permission (Figure 4.2). The cost is about 3(K - 1) = 12 messages for N = 9. Deadlock is possible and needs extra messages to resolve.
+
+*Token ring.* A token circulates; only its holder may enter. The cost is between 1 and N - 1 messages per entry, and messages are passed even when nobody wants the resource. A lost token must be regenerated.
+
+| N | Centralised | Ricart-Agrawala | Maekawa | Token ring |
+|---|---|---|---|---|
+| 4 | 3 | 6 | 6 | 1 to 3 |
+| 9 | 3 | 16 | 12 | 1 to 8 |
+| 16 | 3 | 30 | 18 | 1 to 15 |
+| 25 | 3 | 48 | 24 | 1 to 24 |
+| 100 | 3 | 198 | 54 | 1 to 99 |
+
+| Algorithm | Fault tolerance | Fairness | Delay before entry |
+|---|---|---|---|
+| Centralised | coordinator single point | yes | 2 messages |
+| Ricart-Agrawala | any crash blocks | yes | 2(N - 1) messages in one round |
+| Maekawa | crash in quorum blocks | yes, with care | 2 to 3 sqrt(N) messages |
+| Token ring | lost token must be rebuilt | ring order | up to N - 1 hops |
+
+*Election.* If the coordinator or token holder fails, a new leader is chosen: the Bully algorithm (20 messages in the six-process example) or the ring algorithm (12 messages for six nodes).
+
+*Conclusion.* The centralised method is best for small systems, quorums reduce messages for large ones, token rings suit steady heavy load, and in practice leases in a coordination service such as ZooKeeper or etcd are used.
