@@ -1,4 +1,6 @@
 import datetime as dt
+import re
+from pathlib import Path
 
 from django.core.cache import cache
 from django.test import Client, TestCase
@@ -15,10 +17,54 @@ class LandingAndAppPrefixTests(TestCase):
     def test_landing_is_its_own_light_page(self):
         r = self.client.get('/')
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, 'Study <em>mates.</em>')
+        self.assertContains(r, 'Past papers.')
+        self.assertContains(r, 'Pick your level.')
         self.assertNotContains(r, 'For students in Nepal')
         self.assertNotContains(r, 'material3.css')
         self.assertContains(r, 'href="/app/library/"')
+
+
+class LandingDesignRulesTests(TestCase):
+    """The founder's hard rules for the landing page, kept as tests so a later edit cannot undo them."""
+
+    def setUp(self):
+        cache.clear()
+        base = Path(__file__).resolve().parent / 'static' / 'web'
+        self.css = (base / 'css' / 'landing.css').read_text() + (base / 'css' / 'landing-shapes.css').read_text()
+        self.js = (base / 'js' / 'landing.js').read_text()
+        self.html = self.client.get('/').content.decode()
+
+    def test_no_box_shadows_or_drop_shadows(self):
+        for src in (self.css, self.html):
+            self.assertNotIn('box-shadow', src)
+            self.assertNotIn('drop-shadow', src)
+            self.assertNotIn('text-shadow', src)
+
+    def test_no_gradients(self):
+        self.assertNotRegex(self.css + self.html, r'(linear|radial|conic)-gradient')
+        self.assertNotIn('<linearGradient', self.html)
+
+    def test_no_nepali_script_or_emoji(self):
+        for src in (self.html, self.css, self.js):
+            self.assertIsNone(re.search('[\u0900-\u097F]', src), 'Devanagari on the landing page')
+            self.assertIsNone(re.search('[\U0001F000-\U0001FAFF\u2600-\u27BF]', src), 'emoji on the landing page')
+
+    def test_no_live_badge_and_no_stale_page_count(self):
+        self.assertNotRegex(self.html, r'(?i)>\s*live\s*<')
+        self.assertNotIn('6,000', self.html)
+        self.assertNotRegex(self.html, r'(?i)\b(six thousand|\d[\d,]*k?\+? pages)\b')
+
+    def test_every_level_renders_a_tab_and_a_panel(self):
+        from .views_landing import LEVELS
+        self.assertLessEqual(len(LEVELS), 8, 'landing.css only has tab rules for eight levels')
+        for i in range(len(LEVELS)):
+            self.assertContains(self.client.get('/'), 'id="lv-%d"' % i)
+            self.assertContains(self.client.get('/'), 'lv-panel-%d' % i)
+
+    def test_springs_and_shapes_are_generated(self):
+        self.assertIn('--shape-cookie:polygon(', self.css)
+        self.assertIn('--spring:linear(', self.css)
+
 
     def test_app_home_lives_under_app(self):
         self.assertEqual(self.client.get('/app/').status_code, 200)
