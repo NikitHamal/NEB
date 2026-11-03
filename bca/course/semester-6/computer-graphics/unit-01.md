@@ -87,6 +87,77 @@ A renderer for 3D scenes performs a sequence of stages, the **graphics pipeline*
 
 A **graphics processing unit (GPU)** is a processor with thousands of simple cores that run the *same* program on many vertices or pixels at once (data parallelism); programmable **vertex shaders** and **fragment (pixel) shaders** replaced the fixed-function pipeline. Programmers reach it through **APIs** such as **OpenGL**, **Vulkan**, **DirectX** and **Metal** (and WebGL in browsers); older textbooks use a simple library such as the *Graphics Library of the C language*. The principles are unchanged.
 
+## 1.5 Seeing the ideas: pixels, tubes, tables and the pipeline
+
+Every picture a computer shows is made of tiny coloured cells. Plate 1.1 shows the real hardware behind the words of this unit: an LCD magnified until its red, green and blue sub-pixels are visible, the colour picture tube that raster scanning was invented for, an early green vector-style monitor, and a modern graphics card that fills the frame buffer.
+
+```photogrid label="1.1" cols="4" ratio="1.0" caption="From pixel to GPU. (a) A close-up photograph of an RGB TFT LCD: each pixel is three side-by-side sub-pixels, and the letters are staircases of pixels (aliasing). (b) Cutaway of a colour cathode-ray tube: (1) electron guns, (5-7) screen and beam path, (8) the shadow mask over red, green and blue phosphor dots. (c) A green-phosphor monitor of 1984 drawing a waveform as lit points and lines. (d) A graphics card: the GPU, the video memory that holds the frame buffer and the ports that carry the signal."
+@ photo id="bca-cg/lcd" cap="LCD sub-pixels"
+fit 1.0
+focus 0.5 0.84
+@ photo id="bca-cg/crt" cap="Colour CRT cutaway"
+fit 1.0
+focus 0.55 0.5
+@ photo id="bca-cg/phosphor" cap="Phosphor monitor"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca-cg/radeon" cap="Graphics card"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="1.1" caption="Raster scan and random scan side by side. The raster beam sweeps every line from top to bottom whatever the picture contains (left); the random-scan beam jumps only along the lines of the display list (right). Raster handles filled areas and photographs; random scan gives smooth lines with very little memory."
+f = Fig(580, 190)
+f.box(10, 10, 270, 150, "", fill="#f8fafc", stroke=SLATE)
+for i in range(7):
+    y = 24 + i * 19
+    f.arrow([(24, y), (264, y)], color=NAVY, sw=1.2)
+    if i < 6:
+        f.line(264, y, 24, y + 19, color=AMBER, sw=0.9, dash=True)
+f.text(145, 176, "Raster: all scan lines, dashed = retrace", size=10, color=NAVY, bold=True)
+f.box(300, 10, 270, 150, "", fill="#f8fafc", stroke=SLATE)
+f.arrow([(320, 140), (380, 40), (440, 140)], color=TEAL, sw=2); f.arrow([(440, 140), (320, 140)], color=TEAL, sw=2)
+f.arrow([(480, 50), (550, 50), (550, 120)], color=TEAL, sw=2)
+f.text(435, 176, "Random scan: beam follows the display list", size=10, color=TEAL, bold=True)
+```
+
+```svgfig label="1.2" caption="Frame-buffer size to scale (bytes). Full HD at 24 bits needs 62,20,800 bytes, and 4K at 32 bits needs 3,31,77,600 bytes, 4 times the pixels and 5.3 times the memory. The 640 x 480 8-bit buffer of older machines is a sliver by comparison."
+f = Fig(580, 150)
+rows = [("640 x 480, 8 bit", 307200), ("1920 x 1080, 24 bit", 6220800), ("3840 x 2160, 32 bit", 33177600)]
+for i, (n, v) in enumerate(rows):
+    y = 14 + i * 40
+    f.text(8, y + 14, n, size=10, color=NAVY, bold=True, anchor="start")
+    f.box(150, y, max(v / 33177600 * 300, 3), 24, "", fill=[SAND, BLUE, ROSE][i], stroke=[AMBER, NAVY, RED][i])
+    f.text(150 + v / 33177600 * 300 + 8, y + 13, "{:,} B".format(v), size=10, color=SLATE, bold=True, anchor="start")
+f.text(290, 140, "size = width x height x bits per pixel / 8", size=10, color=RED, bold=True)
+```
+
+```svgfig label="1.3" caption="The graphics pipeline in nine stages, in the order the units of this book follow. Geometry stages (blue) work on vertices; the pixel stages (green) work on fragments. A GPU runs the same shader program on thousands of vertices or pixels at once."
+f = Fig(580, 170)
+names = ["Model", "Model\ntransform", "View\ntransform", "Projection", "Clipping", "Viewport\nmap", "Raster-\nisation", "Visibility\nand shading", "Frame\nbuffer"]
+unit = ["U7,U5", "U3,U5", "U5", "U5", "U4", "U3", "U2", "U6", "U1"]
+for i, (n, u) in enumerate(zip(names, unit)):
+    r, c = divmod(i, 5)
+    x = 8 + c * 114 if r == 0 else 65 + c * 114
+    y = 12 + r * 80
+    fl, sk = (BLUE, NAVY) if i < 6 else (MINT, TEAL)
+    f.box(x, y, 100, 52, n + "\n(" + u + ")", fill=fl, stroke=sk, size=9.6, bold=True)
+    if c < (4 if r == 0 else 3):
+        f.arrow([(x + 100, y + 26), (x + 114, y + 26)], color=SLATE)
+f.arrow([(520, 64), (520, 74), (122, 74), (122, 92)], color=SLATE)
+```
+
+### 1.5.1 Eight applications of computer graphics
+
+1. **User interfaces.** Every window, icon and touch gesture on a phone is drawn by graphics routines. A clear screen makes services such as ConnectIPS and Fonepay easier to use. Good graphics reduce errors and training time.
+2. **CAD and engineering design.** Engineers draw bridges, buildings and circuit boards on screen before anything is built. A civil engineer in Kathmandu tests a drawing for a hill road without spending on a model. Changes are cheap and exact.
+3. **Visualisation of data.** Charts, weather maps and flood maps turn numbers into pictures. The Department of Hydrology and Meteorology shows rainfall as colours on a map. People understand risk faster from a picture.
+4. **Medical imaging.** CT and MRI scans are stacks of slices that graphics turns into 3D views. A doctor can rotate an organ and plan surgery. Hospitals such as TUTH depend on this for diagnosis.
+5. **Games and entertainment.** Games redraw the screen 30 to 120 times a second using the GPU. Animated films and music videos use the same mathematics offline. Nepali studios use it for advertisements and film effects.
+6. **Education and simulation.** Pilots, drivers and students practise safely on simulators. A virtual chemistry lab shows a reaction that is too dangerous to try. Learning by seeing is faster and safer.
+7. **Maps and navigation.** Map apps draw roads, traffic and routes from vector data. Ride apps like Pathao show where the rider is on screen. Fast zooming needs efficient clipping and scaling.
+8. **Digital art and publishing.** Posters, logos and fonts are drawn with vector curves that scale without loss. Newspapers and textbooks, including this one, depend on vector and raster graphics. Quality printing needs correct resolution.
+
 ## Chapter summary
 
 - Graphics covers modelling, rendering, animation and image processing; applications range from CAD to games to maps.
@@ -120,3 +191,69 @@ A **graphics processing unit (GPU)** is a processor with thousands of simple cor
 **9.** Modelling, modelling transform, viewing transform, projection, clipping, viewport mapping, rasterisation, visibility and shading, display.
 **10.** Vector graphics are resolution-independent: they scale without blur and have small files.
 :::
+
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Differentiate raster-scan and random-scan displays with a diagram and give uses of each.**
+
+*Introduction.* A display system must decide how the beam or the pixels are addressed. In raster scan the whole screen is swept line by line; in random scan only the lines of the picture are drawn (section 1.2, Figure 1.1).
+
+1. **Storage.** Raster stores the colour of every pixel in a frame buffer; random scan stores a short list of line commands (display list).
+2. **Refresh.** Raster refreshes at a fixed rate (for example 60 Hz) whatever the content; random scan refresh time grows with the number of lines.
+3. **Quality.** Raster shows filled areas and photographs well but lines have staircases; random scan draws smooth lines but cannot fill areas.
+4. **Scaling.** A raster image becomes blocky when enlarged; a line drawing scales perfectly.
+5. **Cost and use.** Raster is cheap and universal (monitors, TVs, phones); random scan survives in plotters, laser shows and vector formats such as SVG.
+
+| Point | Raster scan | Random scan |
+|---|---|---|
+| Stores | Every pixel | List of lines |
+| Memory | Large | Small |
+| Filled areas | Excellent | Poor |
+| Lines | Aliased | Smooth |
+| Use | Monitors, phones | Plotters, laser shows |
+
+*Conclusion.* Raster scan dominates because modern pictures are full of colour and filled shapes; random scan ideas live on in vector graphics.
+
+**Q2 (5 marks). A 1280 x 720 display uses 24 bits per pixel and is refreshed 60 times a second. Find the frame-buffer size and the refresh bandwidth. How much memory would an 8-bit look-up-table version need?**
+
+*Introduction.* The frame buffer holds one value for every pixel; its size follows from the resolution and colour depth (section 1.3, Figure 1.2).
+
+*Frame buffer.* Pixels = 1280 x 720 = 9,21,600. Size = 9,21,600 x 24 / 8 = 9,21,600 x 3 = **27,64,800 bytes** (2.64 MiB).
+
+*Refresh bandwidth.* 27,64,800 x 60 = **16,58,88,000 bytes per second** (165.9 MB/s). The video controller must read this much memory every second, in addition to what the processor writes.
+
+*Look-up table version.* With 8 bits per pixel the indices need 9,21,600 bytes and the table of 256 entries x 3 bytes needs 768 bytes: total **9,22,368 bytes**, about one third of the true-colour buffer, but only 256 colours can appear at once.
+
+| Version | Memory (bytes) |
+|---|---|
+| 24-bit true colour | 27,64,800 |
+| 8-bit with LUT | 9,22,368 |
+
+*Conclusion.* True colour costs three times the memory of an indexed palette but removes the 256-colour limit.
+
+**Q3 (10 marks). Explain the graphics pipeline. Describe each stage, the role of the GPU and the frame buffer, and show how the units of this subject fit into it.**
+
+*Introduction.* A 3D scene is turned into a 2D picture by a fixed sequence of operations called the graphics pipeline. Each stage takes the output of the previous one (section 1.4, Figure 1.3).
+
+*Stages.*
+1. **Modelling:** objects are described in their own coordinates, as meshes or curves (Units 5, 7).
+2. **Modelling transformation:** each object is placed in the world by scaling, rotating and translating (Units 3, 5).
+3. **Viewing transformation:** the world is expressed relative to the camera (Unit 5).
+4. **Projection:** 3D coordinates are reduced to 2D, by parallel or perspective projection (Unit 5).
+5. **Clipping:** everything outside the view volume is discarded (Unit 4).
+6. **Viewport mapping:** window coordinates are scaled to screen pixels (Unit 3).
+7. **Rasterisation:** lines and polygons become pixels, using DDA, Bresenham and fill algorithms (Unit 2).
+8. **Visibility and shading:** hidden surfaces are removed and each visible pixel receives a colour (Unit 6).
+9. **Display:** the result is written to the frame buffer, which the video controller sends to the screen (Unit 1).
+
+*The GPU.* A graphics processing unit has thousands of simple cores that run the same program on many vertices or pixels at once. Programmable vertex shaders handle stages 2 to 4 and fragment shaders handle stage 8, reached through APIs such as OpenGL and Vulkan.
+
+*Frame buffer.* Double buffering draws the next frame into a back buffer and swaps it during the vertical retrace, which avoids tearing. A depth buffer stores the nearest surface at each pixel.
+
+| Stage group | Works on | Units |
+|---|---|---|
+| Geometry (1 to 6) | Vertices | 3, 4, 5, 7 |
+| Pixel (7 to 9) | Fragments | 1, 2, 6 |
+
+*Conclusion.* The pipeline lets complex scenes be drawn in real time because every stage is a simple, parallel operation; understanding it explains the structure of this whole subject.

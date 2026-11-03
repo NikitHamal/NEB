@@ -207,6 +207,93 @@ Region 1 ends at **(7, 3)**, where region 2 starts with p2₀ = **-23.00**. The 
 
 **Antialiasing** reduces jaggies: **supersampling** renders at a higher resolution and averages blocks of samples (4 × 4 samples per pixel give 16 intensity levels); **area (coverage) sampling** sets a pixel's intensity in proportion to the fraction of the pixel the primitive covers; **filtering** (Gaussian or box) smooths before sampling. The price is more computation, which is why GPUs offer multisampling (MSAA) as a setting.
 
+## 2.7 Seeing the ideas: pixel grids, decisions and symmetry
+
+Scan conversion decides which pixels to light. Plate 2.1 pairs a historic photograph with a worked grid. The photograph shows Ivan Sutherland at the TX-2 console in 1963 using Sketchpad, the first interactive drawing program, in which lines and circles were drawn on a display for the first time under program control. The grid shows the pixels Bresenham's algorithm selects for the line from (5, 5) to (13, 10).
+
+```photogrid label="2.1" cols="2" ratio="1.1" caption="From the first drawing program to the first pixel decisions. (a) Ivan Sutherland using Sketchpad on the TX-2 computer at MIT Lincoln Laboratory (1963), the ancestor of every drawing and CAD program. (b) The pixels chosen by Bresenham's algorithm for the line from (5, 5) to (13, 10): the dots are the pixels, the thin line is the true line. At each column the algorithm picks the pixel nearest to it using only integer arithmetic."
+@ photo id="bca-cg/sketchpad" cap="Sketchpad on the TX-2, 1963"
+fit 1.1
+focus 0.5 0.5
+@ svg cap="Bresenham pixels, (5,5) to (13,10)"
+f = Fig(300, 270)
+ys = [5, 6, 6, 7, 8, 8, 9, 9, 10]
+for i in range(10):
+    f.line(30 + i * 26, 20, 30 + i * 26, 230, color="#cbd5e1", sw=1)
+for j in range(7):
+    f.line(30, 20 + j * 35, 264, 20 + j * 35, color="#cbd5e1", sw=1)
+f.line(30 + 13, 20 + 6 * 35 - 17, 30 + 8 * 26 + 13, 20 + 17, color=AMBER, sw=1.6)
+for i, y in enumerate(ys):
+    f.circle(30 + i * 26 + 13, 20 + (10 - y) * 35 + 17, 7, fill=BLUE, stroke=NAVY)
+f.text(147, 252, "x = 5 ... 13  (columns),  y = 5 ... 10", size=12.5, color=SLATE, bold=True)
+```
+
+```svgfig label="2.1" caption="The midpoint circle for radius 8 and its eight-fold symmetry. Only the octant from (0, 8) to (5, 6) is calculated (left, dots); every point (x, y) is reflected into the other seven octants as (+-x, +-y) and (+-y, +-x) (right), so about one eighth of the work gives the whole circle."
+f = Fig(580, 230)
+c1 = (130, 112); u = 11.5
+for i in range(-9, 10):
+    f.line(c1[0] + i * u, 12, c1[0] + i * u, 212, color="#e2e8f0", sw=0.8); f.line(30, c1[1] + i * u, 230, c1[1] + i * u, color="#e2e8f0", sw=0.8)
+f.line(30, c1[1], 230, c1[1], color=SLATE, sw=1.2); f.line(c1[0], 12, c1[0], 212, color=SLATE, sw=1.2)
+oct = [(0, 8), (1, 8), (2, 8), (3, 7), (4, 7), (5, 6)]
+for (x, y) in oct:
+    f.circle(c1[0] + x * u, c1[1] - y * u, 4.6, fill=RED, stroke=RED)
+for (x, y) in oct:
+    f.circle(c1[0] + x * u, c1[1] - y * u, 4.6, fill=RED, stroke=RED)
+f.text(130, 224, "calculated octant", size=10, color=RED, bold=True)
+c2 = (440, 112)
+import math
+f.circle(c2[0], c2[1], 8 * u, fill="#ffffff", stroke=SLATE, sw=1)
+f.line(c2[0] - 100, c2[1], c2[0] + 100, c2[1], color=SLATE, sw=1); f.line(c2[0], c2[1] - 100, c2[0], c2[1] + 100, color=SLATE, sw=1)
+f.line(c2[0] - 70, c2[1] - 70, c2[0] + 70, c2[1] + 70, color=SLATE, sw=1); f.line(c2[0] - 70, c2[1] + 70, c2[0] + 70, c2[1] - 70, color=SLATE, sw=1)
+for (x, y) in oct:
+    for sx in (1, -1):
+        for sy in (1, -1):
+            for (a, b) in ((x, y), (y, x)):
+                f.circle(c2[0] + sx * a * u, c2[1] - sy * b * u, 2.8, fill=NAVY if (a, b) != (x, y) else RED, stroke=NAVY if (a, b) != (x, y) else RED)
+f.text(440, 224, "seven reflections of each point", size=10, color=NAVY, bold=True)
+```
+
+```svgfig label="2.2" caption="The decision at each step. Left: for a line of slope below 1, Bresenham chooses between the pixel to the east (same row) and the north-east pixel (next row), whichever is closer to the true line; the sign of p_k tells which. Right: for a circle, the midpoint algorithm evaluates the circle function at the midpoint between the east and south-east pixels: inside the circle (p < 0) keep y, outside reduce y by 1."
+f = Fig(580, 200)
+f.box(6, 6, 280, 150, "", fill="#f8fafc", stroke=SLATE)
+f.line(30, 130, 270, 50, color=AMBER, sw=1.6)
+f.circle(80, 112, 6, fill=BLUE, stroke=NAVY); f.circle(140, 112, 6, fill=BLUE, stroke=NAVY); f.circle(140, 76, 6, fill=BLUE, stroke=NAVY)
+f.text(80, 135, "(x_k, y_k)", size=9.6, color=NAVY, bold=True); f.text(168, 118, "east", size=9.6, color=NAVY, bold=True); f.text(172, 70, "north-east", size=9.6, color=NAVY, bold=True)
+f.text(146, 172, "p_k < 0: plot east;  p_k >= 0: plot north-east", size=10, color=NAVY, bold=True)
+f.box(300, 6, 274, 150, "", fill="#f8fafc", stroke=SLATE)
+f.arrow([(320, 140), (340, 70), (410, 28), (520, 24)], color=SLATE, sw=1.2, dash=True)
+f.circle(400, 38, 6, fill=BLUE, stroke=NAVY); f.circle(450, 38, 6, fill=BLUE, stroke=NAVY); f.circle(450, 78, 6, fill=BLUE, stroke=NAVY); f.circle(450, 58, 3.5, fill=RED, stroke=RED)
+f.text(437, 108, "red = midpoint between east and south-east", size=9.4, color=NAVY, bold=True)
+f.text(437, 172, "p_k < 0: midpoint inside, keep y;  else y - 1", size=10, color=NAVY, bold=True)
+f.text(290, 194, "Both tests use only integer additions: p_k+1 = p_k + a constant that depends on the branch", size=10, color=RED, bold=True)
+```
+
+```svgfig label="2.3" caption="Filling an area from a seed pixel. A 4-connected fill (left) moves only up, down, left and right, so it cannot leak through a diagonal gap in the boundary; an 8-connected fill (right) also moves diagonally and does leak through such a gap. Use 4-connected fill for 8-connected boundaries and the reverse."
+f = Fig(580, 170)
+for ox, lab, leak in [(20, "4-connected fill: stays inside", False), (320, "8-connected fill: leaks out", True)]:
+    for r in range(5):
+        for c in range(7):
+            b = (r == 0 or r == 4 or c == 0 or c == 6) and not (r == 4 and c == 6)
+            ins = not b and 0 < r < 4 and 0 < c < 6
+            fl = "#475569" if b else (MINT if ins else "#ffffff")
+            if leak and (r, c) == (4, 6): fl = MINT
+            f.box(ox + c * 34, 8 + r * 24, 34, 24, "", fill=fl, stroke="#94a3b8", sw=0.8, r=0)
+    f.text(ox + 119, 142, lab, size=10, color=NAVY if not leak else RED, bold=True)
+f.circle(ox - 300 + 119, 56, 4, fill=RED, stroke=RED)
+f.text(290, 162, "dark = boundary pixels (one corner pixel missing), green = filled", size=9.4, color=SLATE)
+```
+
+### 2.7.1 Eight reasons why Bresenham's algorithm is preferred for lines
+
+1. **It uses only integers.** The decision parameter changes by adding constants, so no floating-point numbers are needed. Integer addition is fast on every processor, from a phone to an embedded display controller. This was vital on early machines without floating-point hardware.
+2. **It never rounds.** DDA rounds a floating-point y at every step, and the small errors can add up on long lines. Bresenham's decision is exact for every pixel. The line it draws is always the closest set of pixels to the true line.
+3. **It is faster than DDA.** One comparison and one addition per pixel replace a multiplication and a rounding. For a long diagonal on a 1920-pixel screen the saving is visible. Graphics hardware therefore builds Bresenham-style logic into the chip.
+4. **It works for every slope.** By swapping the roles of x and y, and by changing the sign of the step, the same method handles all eight octants. A short wrapper chooses the right case. One routine can serve all lines in a drawing.
+5. **It gives uniform brightness.** Each column or row has exactly one pixel, so a line looks even without gaps or doubled pixels. Drawn on a plotter or LCD, the line appears straight. Quality is better than naive rounding.
+6. **Its idea extends to circles and ellipses.** The midpoint circle and ellipse algorithms use the same decision parameter and integer updates. Learning one algorithm prepares you for the others. A single idea draws most of the basic shapes.
+7. **It is easy to implement and test.** The whole algorithm is about ten lines of code. You can check it by hand with a table, as in the worked answers. Small code means fewer bugs.
+8. **It is the basis of hardware rasterisers.** GPUs draw millions of lines and triangle edges a second using incremental methods of the same type. A student who understands Bresenham understands why edge functions in GPUs are incremental. The method has lasted for sixty years.
+
 ## Chapter summary
 
 - Scan conversion picks pixels for primitives; step along the major axis and update an error term.
@@ -239,3 +326,76 @@ Region 1 ends at **(7, 3)**, where region 2 starts with p2₀ = **-23.00**. The 
 **9.** 4-connected fill spreads to up/down/left/right neighbours; 8-connected also uses the diagonals and can leak through diagonal gaps in a boundary.
 **10.** Supersampling (render at higher resolution and average) and area/coverage sampling (intensity proportional to the covered fraction of the pixel).
 :::
+
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Compare the DDA and Bresenham line-drawing algorithms.**
+
+*Introduction.* Both algorithms convert a line between two end points into the pixels of a raster display; they differ in how they decide the next pixel (sections 2.2, 2.3 and Figure 2.2).
+
+1. **Method.** DDA adds a fixed increment (1 and the slope) to the coordinates at every step and rounds the result. Bresenham keeps an integer decision parameter and chooses between two candidate pixels.
+2. **Arithmetic.** DDA uses floating-point addition and rounding; Bresenham uses integer addition and comparison only.
+3. **Accuracy.** Rounding errors can accumulate in DDA on long lines; Bresenham is exact for every pixel.
+4. **Speed.** Bresenham is faster and is easily put in hardware.
+5. **Generality.** DDA is simple to understand and to extend to any slope; Bresenham needs a case for each octant but one wrapper handles all of them.
+
+| Point | DDA | Bresenham |
+|---|---|---|
+| Arithmetic | Floating point | Integer only |
+| Rounding | Every step | None |
+| Speed | Slower | Faster |
+| Error | May accumulate | None |
+| Ease | Very easy | Slightly harder |
+
+*Conclusion.* DDA is good for teaching; Bresenham is the standard for real use.
+
+**Q2 (5 marks). Use Bresenham's algorithm to find the pixels of the line from (5, 5) to (13, 10).**
+
+*Introduction.* Here dx = 8 and dy = 5, so the slope is 0.625 (between 0 and 1) and we step x by one. The initial parameter is p0 = 2dy - dx = 10 - 8 = 2. If p < 0 plot (x + 1, y) and add 2dy = 10; otherwise plot (x + 1, y + 1) and add 2dy - 2dx = 10 - 16 = -6.
+
+| k | p_k | Next pixel |
+|---|---|---|
+| start | p0 = 2*5 - 8 = 2 | (5, 5) |
+| 0 | 2 | (6, 6) |
+| 1 | -4 | (7, 6) |
+| 2 | 6 | (8, 7) |
+| 3 | 0 | (9, 8) |
+| 4 | -6 | (10, 8) |
+| 5 | 4 | (11, 9) |
+| 6 | -2 | (12, 9) |
+| 7 | 8 | (13, 10) |
+
+*Result.* The pixels are (5, 5), (6, 6), (7, 6), (8, 7), (9, 8), (10, 8), (11, 9), (12, 9) and (13, 10): nine pixels, one per column, ending exactly at the end point (Plate 2.1). The parameter ends at p = 8, and the last step used the "otherwise" branch because 8 is not negative.
+
+*Conclusion.* Eight additions and eight comparisons produced the whole line without any division or rounding.
+
+**Q3 (10 marks). Explain the midpoint circle algorithm. Derive the decision parameter, state the steps and generate the first-octant pixels of a circle of radius 8 centred at the origin.**
+
+*Introduction.* A circle x^2 + y^2 = r^2 is symmetric in eight ways, so only the octant from (0, r) to the line x = y needs to be computed; the other seven octants are reflections (Figure 2.1).
+
+*Circle function.* f(x, y) = x^2 + y^2 - r^2 is negative inside the circle, zero on it and positive outside. At each step x increases by 1 and the choice is between (x + 1, y) and (x + 1, y - 1). Evaluate f at the midpoint (x + 1, y - 1/2); its value is the decision parameter p_k (Figure 2.2).
+
+*Derivation and steps.* With the start (0, r) the first parameter is p0 = 1 - r. For each step: if p_k < 0 the midpoint is inside, so plot (x + 1, y) and p_k+1 = p_k + 2(x + 1) + 1; otherwise plot (x + 1, y - 1) and p_k+1 = p_k + 2(x + 1) + 1 - 2(y - 1). Stop when x >= y, then plot the eight reflections of every point.
+
+*Worked example, r = 8.* p0 = 1 - 8 = -7, first point (0, 8).
+
+| k | p_k | Next (x, y) |
+|---|---|---|
+| 0 | -7 | (1, 8) |
+| 1 | -4 | (2, 8) |
+| 2 | 1 | (3, 7) |
+| 3 | -6 | (4, 7) |
+| 4 | 3 | (5, 6) |
+| 5 | 2 | (6, 5) |
+
+The step to (6, 5) has x > y, so the octant ends at (5, 6); (6, 5) is only the mirror image of (5, 6). The octant pixels are (0, 8), (1, 8), (2, 8), (3, 7), (4, 7) and (5, 6): six calculated points give 8 x 6 = 48 plotted points before the duplicates on the axes and the diagonal are removed.
+
+| Property | Value |
+|---|---|
+| Decision parameter start | 1 - r |
+| Arithmetic | Integer only |
+| Calculated points per circle | One octant |
+| Reflections | Seven |
+
+*Conclusion.* The midpoint circle algorithm uses the same idea as Bresenham's line algorithm: an incremental integer decision between two candidate pixels, made faster by symmetry.

@@ -130,6 +130,65 @@ The triangle's area is 1150.0 square units; the clipped polygon's area (shoelace
 
 **Limitation.** For a *concave* polygon the algorithm can produce extra edges that run along the boundary connecting separate pieces (a degenerate overlap that looks fine when filled but is not a true polygon). The **Weiler–Atherton** algorithm handles concave polygons and concave windows by tracing the boundaries and producing separate polygons; **Cyrus–Beck** extends parametric clipping to any convex window. **Text and curves** are clipped at the level of whole characters, strings or by clipping their approximating lines. In 3D the same ideas clip against a view volume (Unit 5), done in hardware after projection.
 
+## 4.5 Seeing the ideas: region codes, parameters and polygon clipping
+
+Clipping is arithmetic on rectangles and lines, so the useful pictures are diagrams with real numbers. All three figures use one window, x from 20 to 100 and y from 20 to 80, and the same line from A(10, 30) to B(110, 70). No photograph is used in this unit because the topic is pure geometry.
+
+```svgfig label="4.1" caption="Cohen-Sutherland region codes (bits TOP, BOTTOM, RIGHT, LEFT) around the window x 20-100, y 20-80. The line A(10,30) to B(110,70) has codes 0001 and 0010: neither is 0000 and the AND is 0000, so it is neither trivially accepted nor rejected. Clipping at x = 20 gives (20, 34) and at x = 100 gives (100, 66)."
+f = Fig(580, 214)
+X = lambda v: 60 + v * 3.2; Y = lambda v: 200 - v * 2.3
+cols = [20, 100]; rows = [20, 80]
+xs = [0, 20, 100, 120]; ys = [0, 20, 80, 100]
+codes = {(0, 2): "1001", (1, 2): "1000", (2, 2): "1010", (0, 1): "0001", (1, 1): "0000", (2, 1): "0010", (0, 0): "0101", (1, 0): "0100", (2, 0): "0110"}
+for (i, j), c in codes.items():
+    x0, x1 = xs[i], xs[i + 1]; y0, y1 = ys[j], ys[j + 1]
+    f.box(X(x0), Y(y1), X(x1) - X(x0), Y(y0) - Y(y1), c, fill=MINT if c == "0000" else "#f8fafc", stroke="#94a3b8", size=11, bold=True, r=0, sw=1)
+f.box(X(20), Y(80), X(100) - X(20), Y(20) - Y(80), "", fill="none", stroke=TEAL, r=0, sw=2.6)
+f.line(X(10), Y(30), X(110), Y(70), color=RED, sw=1.4, dash=True)
+f.line(X(20), Y(34), X(100), Y(66), color=RED, sw=3)
+f.circle(X(10), Y(30), 4, fill=RED, stroke=RED); f.circle(X(110), Y(70), 4, fill=RED, stroke=RED)
+f.text(X(10) - 8, Y(30) + 14, "A 0001", size=9.6, color=RED, bold=True); f.text(X(110) + 4, Y(70) - 8, "B 0010", size=9.6, color=RED, bold=True)
+f.box(452, 20, 124, 170, "Trivial tests\naccept: both\ncodes 0000\nreject: AND of\ncodes not 0000\nelse: clip at an\nedge, repeat\n\nA: left edge\n-> (20, 34)\nB: right edge\n-> (100, 66)", fill=SAND, stroke=AMBER, size=9.6, bold=True)
+```
+
+```svgfig label="4.2" caption="Liang-Barsky for the same line. The parameter u runs from 0 at A to 1 at B. Entering the window at the left edge at u = 0.1 and leaving at the right edge at u = 0.9; the bottom and top edges give -0.25 and 1.25, outside [0, 1], so they do not limit the line. The visible part is u = 0.1 to 0.9: (20, 34) to (100, 66)."
+f = Fig(580, 176)
+U = lambda u: 40 + u * 500
+f.line(U(0), 70, U(1), 70, color=SLATE, sw=1.4)
+f.box(U(0.1), 56, U(0.9) - U(0.1), 28, "", fill=MINT, stroke=TEAL, sw=2)
+for u, lab, col in [(0, "u = 0  A", SLATE), (0.1, "u1 = 0.1", TEAL), (0.9, "u2 = 0.9", TEAL), (1, "u = 1  B", SLATE)]:
+    f.circle(U(u), 70, 4, fill=col, stroke=col); f.text(U(u), 100 if u in (0, 1) else 46, lab, size=10, color=col, bold=True)
+f.text(U(0.0), 122, "-0.25 (bottom, entering)", size=9.4, color=AMBER, bold=True, anchor="start")
+f.text(U(1.0), 122, "1.25 (top, leaving)", size=9.4, color=AMBER, bold=True, anchor="end")
+f.box(40, 136, 500, 34, "p = [-100, 100, -40, 40],  q = [-10, 90, 10, 50]:  u1 = max(0, 0.1, -0.25) = 0.1,  u2 = min(1, 0.9, 1.25) = 0.9", fill="#f8fafc", stroke=SLATE, size=10, bold=True)
+```
+
+```svgfig label="4.3" caption="Sutherland-Hodgman polygon clipping against the window x 20-100, y 20-80. The quadrilateral (10,40), (60,10), (110,50), (60,90) (left, dashed) has all four corners outside the window or on its edge; clipping against the four edges in turn gives an eight-sided polygon with vertices (50,80), (20,50), (20,34), (43.33,20), (72.5,20), (100,42), (100,58), (72.5,80) (right, filled)."
+f = Fig(580, 214)
+def pan(ox, poly, fill, st, dash, title):
+    X = lambda v: ox + 20 + v * 2.2; Y = lambda v: 198 - v * 2.0
+    f.box(X(20), Y(80), X(100) - X(20), Y(20) - Y(80), "", fill="#f8fafc", stroke=TEAL, r=0, sw=2)
+    pts = [(X(x), Y(y)) for x, y in poly]
+    if dash:
+        f.arrow(pts + [pts[0]], color=st, sw=1.8, dash=True)
+    else:
+        f.poly(pts, fill=fill, stroke=st, sw=2.2)
+    f.text(X(60), 208, title, size=10, color=st, bold=True)
+pan(6, [(10, 40), (60, 10), (110, 50), (60, 90)], "none", SLATE, True, "input polygon (4 vertices)")
+pan(296, [(50, 80), (20, 50), (20, 34), (43.33, 20), (72.5, 20), (100, 42), (100, 58), (72.5, 80)], MINT, TEAL, False, "clipped polygon (8 vertices)")
+```
+
+### 4.5.1 Eight uses of clipping in graphics systems
+
+1. **Showing only the visible part of a scene.** A game or map draws only what lies inside the screen. Everything else is discarded early, so no time is wasted on it. This keeps the frame rate high.
+2. **Zooming and panning in maps.** When a user zooms into Kathmandu, roads outside the window must not be drawn on the rest of the page. Clipping cuts each road at the edge of the map view. Map apps such as Pathao do this for every frame.
+3. **Windowed user interfaces.** A window on a desktop clips its contents to its own rectangle so text does not spill onto neighbouring windows. Overlapping windows depend on correct clipping. Scrolling a list also relies on it.
+4. **Printing and exporting.** A drawing larger than the paper is clipped to the page area. Only the part inside the printable region is sent. This avoids wasted ink and errors.
+5. **Speeding up the pipeline.** Triangles wholly outside the view are rejected before shading, saving the most expensive work. GPUs clip in hardware and use trivial reject tests of the Cohen-Sutherland type. Early rejection is the cheapest optimisation.
+6. **Windows into CAD models.** An engineer inspecting one bay of a building plan shows only that region. Clipping lets the screen show a detail without redrawing the whole model. Large drawings stay responsive.
+7. **Cutting parts of images.** Cropping a photo to a rectangle is clipping; a mask in the shape of a polygon uses polygon clipping. Photo editors and ID-card makers use this for passport-size pictures.
+8. **Collision and selection tests.** Selecting objects with a rubber-band rectangle is a clipping test of each object against the rectangle. The same rejection codes decide quickly which objects are inside. Touch interfaces use this idea.
+
 ## Chapter summary
 
 - Clipping discards geometry outside the window; efficient algorithms accept or reject trivially before computing intersections.
@@ -162,3 +221,78 @@ The triangle's area is 1150.0 square units; the clipped polygon's area (shoelace
 **9.** Four: left, right, bottom, top.
 **10.** Large scenes with a small window, where nearly all objects lie wholly outside.
 :::
+
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the Cohen-Sutherland line clipping algorithm. Clip the line A(10, 30) to B(110, 70) against the window x 20-100, y 20-80.**
+
+*Introduction.* The algorithm gives each end point a 4-bit region code and uses the codes to accept, reject or clip a line quickly (section 4.2, Figure 4.1).
+
+1. **Region codes.** Bits are TOP (y > ymax), BOTTOM (y < ymin), RIGHT (x > xmax) and LEFT (x < xmin); a point inside has code 0000.
+2. **Trivial accept.** If both codes are 0000, draw the whole line.
+3. **Trivial reject.** If the bitwise AND of the codes is not 0000, both ends lie on the same outside side; discard the line.
+4. **Clip.** Otherwise pick an end point outside, intersect the line with the window edge indicated by a set bit, replace the end point and repeat.
+
+*Worked example.* The slope is (70 - 30) / (110 - 10) = 0.4. Code of A: x = 10 < 20, so LEFT: **0001**. Code of B: x = 110 > 100, so RIGHT: **0010**. Neither is 0000 and the AND is 0000, so clip. A against x = 20: y = 30 + 0.4 x 10 = **34**, point (20, 34), code 0000. B against x = 100: y = 30 + 0.4 x 90 = **66**, point (100, 66), code 0000. Both codes are now 0000, so draw the line from (20, 34) to (100, 66).
+
+| Step | Point | Code |
+|---|---|---|
+| Start A | (10, 30) | 0001 |
+| Start B | (110, 70) | 0010 |
+| Clip A at left | (20, 34) | 0000 |
+| Clip B at right | (100, 66) | 0000 |
+
+*Conclusion.* Region codes make the common accept and reject cases very cheap; only lines that cross the window need arithmetic.
+
+**Q2 (5 marks). Use the Liang-Barsky algorithm to clip the same line. Show the p and q values and the parameters.**
+
+*Introduction.* Liang-Barsky writes the line as x = x1 + u dx, y = y1 + u dy with 0 <= u <= 1 and clips against each edge using four inequalities u p_k <= q_k (section 4.3, Figure 4.2).
+
+*Values.* dx = 100 and dy = 40. For left, right, bottom and top: p = [-dx, dx, -dy, dy] = [-100, 100, -40, 40] and q = [x1 - xmin, xmax - x1, y1 - ymin, ymax - y1] = [-10, 90, 10, 50].
+
+*Parameters.* If p < 0 the line enters across that edge at u = q / p; if p > 0 it leaves at u = q / p.
+
+| Edge | p | q | q / p | Role |
+|---|---|---|---|---|
+| Left | -100 | -10 | 0.10 | enter |
+| Right | 100 | 90 | 0.90 | leave |
+| Bottom | -40 | 10 | -0.25 | enter |
+| Top | 40 | 50 | 1.25 | leave |
+
+u1 = max(0, 0.10, -0.25) = **0.1**; u2 = min(1, 0.90, 1.25) = **0.9**. Since u1 < u2 the line is visible. New end points: u = 0.1 gives (10 + 10, 30 + 4) = **(20, 34)**; u = 0.9 gives (10 + 90, 30 + 36) = **(100, 66)**, the same result as Cohen-Sutherland.
+
+*Conclusion.* Liang-Barsky needs only four divisions and no repeated intersections, so it is faster than Cohen-Sutherland for lines that need clipping.
+
+**Q3 (10 marks). Explain Sutherland-Hodgman polygon clipping with the four cases. Clip the polygon (10, 40), (60, 10), (110, 50), (60, 90) against the window x 20-100, y 20-80.**
+
+*Introduction.* Clipping a polygon is not the same as clipping its edges one by one, because the result must again be a closed polygon. Sutherland-Hodgman clips the whole polygon against one window edge at a time and passes the result to the next edge (section 4.4, Figure 4.3).
+
+*The four cases.* For each polygon edge from vertex a to vertex b, relative to one clipping edge:
+1. both inside: output b;
+2. a inside, b outside: output the intersection;
+3. both outside: output nothing;
+4. a outside, b inside: output the intersection and then b.
+
+*Procedure.* Clip against left, right, bottom and top in turn; the output list of one edge is the input of the next. Intersections use the line equation; the inside test is a comparison with the edge.
+
+*Worked example.* The window is x 20-100, y 20-80.
+
+| Clip edge | Output vertices | Count |
+|---|---|---|
+| left x = 20 | (20, 50), (20, 34), (60, 10), (110, 50), (60, 90) | 5 |
+| right x = 100 | (20, 50), (20, 34), (60, 10), (100, 42), (100, 58), (60, 90) | 6 |
+| bottom y = 20 | (20, 50), (20, 34), (43.33, 20), (72.5, 20), (100, 42), (100, 58), (60, 90) | 7 |
+| top y = 80 | (50, 80), (20, 50), (20, 34), (43.33, 20), (72.5, 20), (100, 42), (100, 58), (72.5, 80) | 8 |
+
+The final polygon has eight vertices: **(50, 80), (20, 50), (20, 34), (43.33, 20), (72.5, 20), (100, 42), (100, 58), (72.5, 80)**. Every vertex lies on or inside the window, and the four clipped corners of the original have been replaced by edges along the window boundary.
+
+*Limitation.* For a concave polygon the algorithm can produce extra edges along the window boundary joining separate pieces; these show as degenerate lines and are removed or avoided by other algorithms such as Weiler-Atherton.
+
+| Algorithm | Clips | Idea |
+|---|---|---|
+| Cohen-Sutherland | Lines | Region codes |
+| Liang-Barsky | Lines | Parametric inequalities |
+| Sutherland-Hodgman | Polygons | One edge at a time |
+
+*Conclusion.* Polygon clipping is performed edge by edge, so the vertex count can change (here from 4 to 8); the result is a closed polygon inside the window.
