@@ -38,9 +38,20 @@ Real units (NOT the brief's guess): U1 Intro, U2 Software, U3 OS, U4 DBMS, U5 Ne
 - U3: Plate 3.1 (GParted + Ubuntu + Windows desktops), SVG 3.1 boot sequence, SVG 3.2 MBR vs GPT layout; 8 install tips (3.6); medium (MBR vs GPT, 2 TiB calc) + long (BIOS/UEFI, dual boot).
 - U4: Plate 4.1 (4-up POST card/tester/patch cables/toner), SVG 4.1 T568B colours, SVG 4.2 troubleshooting cycle; 8 maintenance tasks (4.6); medium (straight cable) + long (troubleshooting method + fault table).
 
+## BCA 104 mathematics-1 (semester-1/mathematics-1) -- [x] DONE (session 13), 56 pp, qa fails=0
+- New helper: `Axes` class in `notes/pipeline/svgkit.py` (grid/axes/curve/area/bars/pt/hline/vline/tag) for plotted graphs inside ```svgfig / `@ svg` cells. Photos (bca104/, all licence-gated): dish, arch, newton, leibniz, cauchy, weier, speedo, taylor, riemann, archimedes, kgdam, coffee, ecoli, spring (+ bca103/scope reused).
+- U1 Functions: Fig 1.1 gallery of 6 standard graphs, Plate 1.1 (3-up dish/arch/oscilloscope), Fig 1.2 inverse (e^x, ln x, y=x), Fig 1.3 transformations; 8 uses (1.6); 2 medium + 1 long.
+- U2 Limits: Fig 2.1 hole/jump/infinite, Plate 2.1 (Cauchy, Weierstrass + eps-delta SVG), Fig 2.2 squeeze, Fig 2.3 IVT; 8 uses (2.5); 2 medium + 1 long.
+- U3 Differentiation: Fig 3.1 secant to tangent + table, Plate 3.1 (speedometer, Newton, Leibniz), Fig 3.2 f and f', Fig 3.3 implicit circle; 8 uses (3.7); 2 medium + 1 long.
+- U4 Applications: Fig 4.1 ladder, Fig 4.2 can optimisation, Fig 4.3 MVT, Plate 4.1 (Taylor portrait + Maclaurin sin x + e^0.1 error); 8 uses (4.8); 2 medium + 1 long.
+- U5 Integration: Plate 5.1 (Archimedes, Riemann, Kaligandaki dam), Fig 5.1 Riemann sums, Fig 5.2 area between curves + disc volume, Fig 5.3 improper integrals; 8 uses (5.8); 2 medium + 1 long.
+- U6 Differential equations: Fig 6.1 slope field, Fig 6.2 method decision chain, Fig 6.3 damping cases, Fig 6.4 cooling + logistic, Plate 6.1 (coffee, E. coli, spring); 8 uses (6.8); 2 medium + 1 long.
+- Every numeric claim in the new answers was recomputed with SymPy; `check_math1.py --verify` prints ALL OK.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
 - [x] hardware-workshop DONE (session 12)
-- [ ] (NEXT SESSION STARTS HERE) mathematics-1 (BCA 104), then professional-communication-ethics (BCA 105)
+- [x] mathematics-1 (BCA 104) DONE (session 13)
+- [ ] (NEXT SESSION STARTS HERE) professional-communication-ethics (BCA 105)
 - [ ] non-core slots (256, 356, 403 project, 452, electives), then semesters II-VIII
