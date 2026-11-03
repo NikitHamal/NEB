@@ -30,8 +30,8 @@ class LandingDesignRulesTests(TestCase):
     def setUp(self):
         cache.clear()
         base = Path(__file__).resolve().parent / 'static' / 'web'
-        self.css = (base / 'css' / 'landing.css').read_text() + (base / 'css' / 'm3x.css').read_text()
-        self.js = (base / 'js' / 'landing.js').read_text() + (base / 'js' / 'm3x.js').read_text()
+        self.css = (base / 'css' / 'landing.css').read_text(encoding='utf-8') + (base / 'css' / 'm3x.css').read_text(encoding='utf-8')
+        self.js = (base / 'js' / 'landing.js').read_text(encoding='utf-8') + (base / 'js' / 'm3x.js').read_text(encoding='utf-8')
         self.html = self.client.get('/').content.decode()
 
     def test_no_box_shadows_or_drop_shadows(self):
@@ -176,8 +176,8 @@ class M3XDesignSystemTests(TestCase):
 
     def setUp(self):
         base = Path(__file__).resolve().parent / 'static' / 'web' / 'css'
-        self.shared = (base / 'm3x.css').read_text()
-        self.app = (base / 'm3x-app.css').read_text()
+        self.shared = (base / 'm3x.css').read_text(encoding='utf-8')
+        self.app = (base / 'm3x-app.css').read_text(encoding='utf-8')
 
     def test_no_shadows_or_gradients_in_the_design_system(self):
         for src in (self.shared, self.app):
@@ -192,7 +192,7 @@ class M3XDesignSystemTests(TestCase):
     def test_landing_and_app_share_one_brand_partial_and_one_pill_nav(self):
         root = Path(__file__).resolve().parent / 'templates'
         for tpl in ('landing/landing.html', 'base.html'):
-            src = (root / tpl).read_text()
+            src = (root / tpl).read_text(encoding='utf-8')
             self.assertIn('components/_brand.html', src, tpl)
             self.assertIn('data-m3-nav', src, tpl)
 
