@@ -51,7 +51,7 @@ Variants per year: General stream (regular + partial), Technical stream, partial
 | 12 | Chemistry | 2082 | General | DONE (10 pp, MCQ key + all solutions, 2 drawn figures) |
 | 12 | Biology | 2082 | General | sources fetched, not authored |
 | 12 | Mathematics | 2082 | General | sources fetched, not authored |
-| 12 | Computer Science | 2082 | General | sources fetched, not authored |
+| 12 | Computer Science | 2082 | Regular + Partial | DONE (7 pp, MCQ key + all solutions) |
 | 12 | Compulsory English | 2082 | Regular / Partial | queued |
 | 12 | Compulsory Nepali | 2082 | Regular | queued |
 | 12 | Physics, Chemistry, Biology, Mathematics, CS, English, Nepali | 2081, 2080 | General | queued |
