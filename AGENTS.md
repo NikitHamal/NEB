@@ -19,6 +19,10 @@ Read `docs/ADMIN_PANEL.md` before touching `/admin/` templates or `static/web/cs
 - One resource card: `templates/components/_resource_card.html` (library, search, related). One theme button: `components/_theme_toggle.html`. Tabs/categories: `<nav class="m3-pill x-seg" data-m3-nav>` with `aria-current` on the active link (sliding indicator from `m3x.js`).
 - Radii are finite (pill = 28px) so hover morphs never hit a square corner. No box-shadow anywhere (`web/test_landing.py` enforces it).
 - Resources are view-only: `resource_detail.html` embeds the file (`#toolbar=0`), the media player has no download link, `web/test_viewer.py` guards it. Raw file URLs still exist server-side; a hard block needs signed, streamed responses.
+- Overflow menus (`.more-menu`, `.neb-menu`) are portaled to `<body>` while open (`portalMenu` in `neb-overlays.js`); never position one inside a card, a transformed ancestor re-bases `position: fixed`. One handler for every page: `window.toggleMoreMenu`.
+- Post composer (`_home_composer.html` + `m3x/app-composer.css`, `composer-chips.js`): the emoji picker inserts into the last focused text field (`emojiTarget` in `home.html`), not always the body. Poll duration is a native select kept as source of truth with chips drawn over it. Composer rules are prefixed `#homePostForm` to beat `pages/web-home.css`.
+- PDFs read through `js/pdf-reader.js` (`NebPdf`, PDF.js legacy build vendored in `js/vendor/pdfjs/`), view-only, lazy pages. `resource-viewer.js` falls back to the browser viewer, then to the app card. Download always leads to the get-app dialog.
+- Sandbox: shallow clone only (`git clone --depth 1`, repo is 2GB+); push after every milestone. Screenshots: playwright (`pip install --user playwright`, `python3 -m playwright install chromium`), symlink the shots dir into `/app` for the file tool.
 - Local run: `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x python3 manage.py runserver --noreload` (restart after template edits: templates are cached with `--noreload`), `manage.py create_mock_users`, `tools/design/seed_demo.py` for a logged-in session.
 
 ## Coding Conventions

@@ -997,10 +997,10 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 .vw-pdf { position: absolute; inset: 0; }
 .vw-pdf-scroll { position: absolute; inset: 0; overflow: auto; overscroll-behavior: contain; display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 16px 10px 88px; outline: none; -webkit-overflow-scrolling: touch; }
 .vw-pdf-page { flex: none; position: relative; background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid var(--md-outline-variant); }
-.vw-pdf-page::after { content: ""; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, color-mix(in srgb, var(--md-primary) 10%, transparent) 50%, transparent 70%) 0 0 / 240% 100%; animation: vw-sheen 1.4s linear infinite; pointer-events: none; }
+.vw-pdf-page::after { content: ""; position: absolute; inset: 0; background: color-mix(in srgb, var(--md-primary) 9%, transparent); animation: vw-pulse 1.3s ease-in-out infinite; pointer-events: none; }
 .vw-pdf-page.is-ready::after { display: none; }
 .vw-pdf-page canvas { display: block; user-select: none; -webkit-user-drag: none; }
-@keyframes vw-sheen { from { background-position: 140% 0; } to { background-position: -40% 0; } }
+@keyframes vw-pulse { 0%, 100% { opacity: .35; } 50% { opacity: 1; } }
 .vw-pdf-dock {
   position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 3; display: flex; align-items: center; gap: 4px; padding: 6px;
   border-radius: 28px; background: var(--x-float); border: 1px solid var(--x-float-line); color: var(--md-on-surface);
