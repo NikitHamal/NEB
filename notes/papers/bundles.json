@@ -1,0 +1,41 @@
+[
+ {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Biology-2081-2082-Bundle.pdf",
+  "subject": "Biology",
+  "grade": "12",
+  "years_bs": "2081-2082",
+  "papers": [
+   "12-bio-2082-general",
+   "12-bio-2081-general"
+  ],
+  "pages": 29,
+  "bytes": 493430,
+  "category": "Board Exam Bundle"
+ },
+ {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Chemistry-2081-2082-Bundle.pdf",
+  "subject": "Chemistry",
+  "grade": "12",
+  "years_bs": "2081-2082",
+  "papers": [
+   "12-chem-2082-general",
+   "12-chem-2081-general"
+  ],
+  "pages": 24,
+  "bytes": 464997,
+  "category": "Board Exam Bundle"
+ },
+ {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Computer-Science-2081-2082-Bundle.pdf",
+  "subject": "Computer Science",
+  "grade": "12",
+  "years_bs": "2081-2082",
+  "papers": [
+   "12-cs-2082-general",
+   "12-cs-2081-general"
+  ],
+  "pages": 18,
+  "bytes": 282666,
+  "category": "Board Exam Bundle"
+ }
+]

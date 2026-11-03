@@ -174,3 +174,9 @@ desktop/src/data/content.rs
 desktop/src/ui/remote_image.rs
 ```
 Note: the repo is private — unauthenticated `git ls-remote` fails with 'could not read Username'. Rust, mingw, xvfb were installed this session via apt/rustup (not present at start: `rustc: command not found`).
+
+## Past-papers session environment (session 2, branch `resources/past-papers-class12`)
+- File tool root is `/app`; bash sees everything. Workaround: clone to `/tmp/NEB`, then `ln -sfn /tmp/NEB /app/neb` (file-tool paths: `neb/...`), and `ln -sfn /tmp/psrc /app/psrc` for the scratch page images.
+- Auth: out-of-repo `GIT_ASKPASS=/tmp/gitenv.sh` that prints `x-access-token` for the username prompt and `$GH_PAT` for the password prompt; `export GH_PAT=...` in the shell only. The token is never written to the repo or `.git/config` (checked with `git diff --cached | grep -c ghp_` before each commit; remote tip checked with `git ls-remote origin resources/past-papers-class12`).
+- Python 3.11: `pip install --user --break-system-packages weasyprint markdown matplotlib numpy pymupdf pillow requests`; `sudo -n apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 fontconfig`; `bash notes/pipeline/fonts/install.sh && fc-cache -f ~/.local/share/fonts/nebians`.
+- Everything about the papers pipeline is in `notes/papers/PAPERS_TRACKER.md`.
