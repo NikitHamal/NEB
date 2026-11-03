@@ -467,6 +467,22 @@
   "id": "12-phy-2082-general"
  },
  {
+  "file": "NEBians-Past-Paper-Grade-12-Physics-2082-Technical-9131.pdf",
+  "subject": "Physics",
+  "grade": "12",
+  "year_bs": "2082",
+  "year_ad": "2025",
+  "stream": "Technical 9131",
+  "code": "9131 (New course) Technical stream",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For regular and partial technical stream (civil / computer / electrical engineering) students whose first two digits of registration number start from 79, 80 and 81",
+  "category": "Board Exam",
+  "pages": 14,
+  "bytes": 526771,
+  "id": "12-phy-2082-9131"
+ },
+ {
   "file": "NEBians-Past-Paper-Grade-12-Physics-2081-General.pdf",
   "subject": "Physics",
   "grade": "12",
