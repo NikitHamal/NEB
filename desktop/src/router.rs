@@ -4,6 +4,7 @@ use crate::data::models::ChapterRef;
 #[derive(Clone, Debug, PartialEq)]
 pub enum Route {
     Splash,
+    Intro,
     Login,
     EmailAuth,
     Onboarding,
@@ -12,6 +13,8 @@ pub enum Route {
     Category(String),
     Subject { track: String, subject: String },
     Reader(ChapterRef),
+    /// In-app PDF viewer for a downloaded book.
+    Pdf(std::path::PathBuf),
     Search,
     Bookmarks,
     Downloads,
@@ -34,7 +37,7 @@ impl Route {
     /// Routes that show the app shell (menu + navigation). Splash and the
     /// sign-in journey run full-bleed, like on Android.
     pub fn has_shell(&self) -> bool {
-        !matches!(self, Route::Splash | Route::Login | Route::EmailAuth | Route::Onboarding | Route::CompleteProfile)
+        !matches!(self, Route::Splash | Route::Intro | Route::Login | Route::EmailAuth | Route::Onboarding | Route::CompleteProfile)
     }
 
     /// Which top-level destination should be highlighted.
@@ -45,6 +48,7 @@ impl Route {
             Route::Profile => Route::Profile,
             Route::About | Route::Help | Route::Legal(_) => Route::Settings,
             Route::History => Route::Bookmarks,
+            Route::Pdf(_) => Route::Books,
             other => other.clone(),
         }
     }

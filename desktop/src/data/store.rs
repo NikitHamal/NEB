@@ -134,12 +134,16 @@ pub struct PersistedState {
     pub prefs: Prefs,
     pub profile: Profile,
     pub onboarded: bool,
+    /// The animated welcome tour has been seen.
+    pub intro_done: bool,
     pub guest: bool,
     pub session: Option<Session>,
     pub bookmarks: Vec<Bookmark>,
     pub progress: HashMap<String, Progress>,
     pub recent: Vec<Recent>,
     pub window: Option<WindowGeom>,
+    /// Last page read per PDF (keyed by file name).
+    pub pdf_pos: HashMap<String, usize>,
 }
 
 pub struct Store {

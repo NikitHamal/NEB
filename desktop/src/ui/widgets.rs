@@ -53,8 +53,8 @@ pub fn button_sized(ui: &mut Ui, th: &Theme, text: &str, kind: BtnKind, icon: Op
     let icon_w = if icon.is_some() { 30.0 } else { 0.0 };
     let w = width.unwrap_or(galley.size().x + icon_w + 48.0);
     let (rect, resp) = ui.allocate_exact_size(vec2(w, h), Sense::click());
-    let hover = ui.ctx().animate_bool_with_time(resp.id.with("hover"), resp.hovered() && enabled, 0.12);
-    let press = ui.ctx().animate_bool_with_time(resp.id.with("press"), resp.is_pointer_button_down_on() && enabled, 0.09);
+    let hover = crate::theme::motion::spring_bool(ui.ctx(), resp.id.with("hover"), resp.hovered() && enabled, crate::theme::motion::FAST).clamp(0.0, 1.0);
+    let press = crate::theme::motion::spring_bool(ui.ctx(), resp.id.with("press"), resp.is_pointer_button_down_on() && enabled, crate::theme::motion::FAST).clamp(0.0, 1.3);
     let p = &th.p;
     let (bg, fg, border) = match kind {
         BtnKind::Primary => (p.accent, p.on_accent, Color32::TRANSPARENT),
