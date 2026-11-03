@@ -5316,6 +5316,19 @@
   "source": "Wikimedia Commons",
   "title": "Alberti cipher disk"
  },
+ "crypto353/ap": {
+  "author": "Mbrickn",
+  "bytes": 1145732,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "crypto353/ap.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Outdoors_Wireless_Access_Point.jpg",
+  "sha1": "504bc4a7e3dde2df",
+  "source": "Wikimedia Commons",
+  "title": "Outdoors Wireless Access Point"
+ },
  "crypto353/asa": {
   "author": "ShakataGaNai",
   "bytes": 366017,
@@ -5328,6 +5341,19 @@
   "sha1": "790ad0f27549172a",
   "source": "Wikimedia Commons",
   "title": "Cisco ASA 5510"
+ },
+ "crypto353/asic": {
+  "author": "Steve Rainwater from Irving, US",
+  "bytes": 955560,
+  "credit": "2018-06-24_10-48-06",
+  "fetched": "2026-11-03",
+  "file": "crypto353/asic.jpg",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Antminer_ASIC_Miner.jpeg",
+  "sha1": "57b26abc350f8172",
+  "source": "Wikimedia Commons",
+  "title": "Antminer ASIC Miner"
  },
  "crypto353/bombe": {
   "author": "Vintage Fan 5678",
@@ -5407,6 +5433,19 @@
   "source": "Wikimedia Commons",
   "title": "Pierre de Fermat3"
  },
+ "crypto353/firewall-wall": {
+  "author": "Вячеслав Бабияк",
+  "bytes": 408338,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "crypto353/firewall-wall.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Brandmauer_St-Petersburg.jpg",
+  "sha1": "58c0526ecb75c53f",
+  "source": "Wikimedia Commons",
+  "title": "Brandmauer St-Petersburg"
+ },
  "crypto353/gauss": {
   "author": "Christian Albrecht Jensen",
   "bytes": 1282878,
@@ -5433,6 +5472,19 @@
   "source": "Wikimedia Commons",
   "title": "NCipher nShield F3 Hardware Security Module"
  },
+ "crypto353/ipsecrouter": {
+  "author": "Project Kei",
+  "bytes": 487865,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "crypto353/ipsecrouter.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:IPsec_vpn_router.jpg",
+  "sha1": "50a0eda082223d39",
+  "source": "Wikimedia Commons",
+  "title": "IPsec vpn router"
+ },
  "crypto353/lorenz": {
   "author": "Farai Gandiya",
   "bytes": 614540,
@@ -5446,6 +5498,19 @@
   "source": "Wikimedia Commons",
   "title": "Lorenz SZ42"
  },
+ "crypto353/rivest": {
+  "author": "Ronald L. Rivest",
+  "bytes": 76422,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "crypto353/rivest.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Ronald_L_Rivest_photo.jpg",
+  "sha1": "1a109b3231206ef5",
+  "source": "Wikimedia Commons",
+  "title": "Ronald L Rivest photo"
+ },
  "crypto353/scytale": {
   "author": "Burkhard Mücke",
   "bytes": 1006603,
@@ -5458,6 +5523,19 @@
   "sha1": "796909111cb9c255",
   "source": "Wikimedia Commons",
   "title": "Skytale auf Rundholz 3"
+ },
+ "crypto353/wrt54g": {
+  "author": "“Jonathan Zander ( Digon3 )”",
+  "bytes": 331447,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "crypto353/wrt54g.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:WRT54G_Linksys_Router_with_7_dBi_Antennas_Digon3.jpg",
+  "sha1": "035d24ce4e83798d",
+  "source": "Wikimedia Commons",
+  "title": "WRT54G Linksys Router with 7 dBi Antennas Digon3"
  },
  "crypto353/zimmermann": {
   "author": "Phil Zimmermann, uploaded by Matt Crypto",
