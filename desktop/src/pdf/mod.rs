@@ -56,6 +56,7 @@ struct Shared {
 }
 
 pub struct PdfEngine {
+    #[allow(dead_code)]
     pub path: PathBuf,
     /// Page sizes in PDF points, once the document has been parsed.
     pub pages: Vec<(f32, f32)>,
@@ -179,9 +180,6 @@ impl PdfEngine {
         self.failed.iter().any(|k| k.page == page && k.night == night) && !self.tiles.keys().any(|k| k.page == page && k.night == night)
     }
 
-    pub fn clear_night_variants(&mut self) {
-        self.failed.clear();
-    }
 }
 
 impl Drop for PdfEngine {

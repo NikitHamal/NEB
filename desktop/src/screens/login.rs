@@ -1,4 +1,4 @@
-//! Welcome / sign-in chooser (Android `LoginScreen.kt`): Google, GitHub, email, or guest.
+//! Welcome / sign-in chooser (Android `LoginScreen.kt`): Google, GitHub, email, or email.
 //! Google and GitHub run through the browser hand-off in `data::browser_auth`; this screen
 //! drives that little state machine (start → open browser → poll → session).
 use std::sync::Arc;
@@ -8,7 +8,6 @@ use egui::text::{LayoutJob, TextFormat};
 use egui::{vec2, Align, Layout, Rect, RichText, Rounding, Ui, UiBuilder};
 
 use super::auth_flow;
-use crate::config::SITE_URL;
 use crate::data::browser_auth::{self, Handoff, Poll};
 use crate::data::tasks::Task;
 use crate::env::Env;
@@ -79,7 +78,7 @@ fn drive(env: &mut Env, st: &mut LoginState) {
             w.start = None;
             match r {
                 Ok(h) => {
-                    env.open_url(&h.login_url);
+                    open_browser(env, &h.login_url);
                     w.next_poll = Instant::now() + Duration::from_secs(h.interval_secs);
                     w.began = Instant::now();
                     w.handoff = Some(Arc::new(h));
@@ -214,11 +213,7 @@ fn form(ui: &mut Ui, env: &mut Env, st: &mut LoginState, with_logo: bool) {
             if widgets::button_sized(ui, &th, "Continue with email", BtnKind::Primary, Some(Icon::Mail), Some(w), 56.0).clicked() {
                 env.go(Route::EmailAuth);
             }
-            ui.add_space(8.0);
-            if widgets::button_sized(ui, &th, "Continue as guest", BtnKind::Ghost, None, Some(w), 52.0).clicked() {
-                auth_flow::continue_as_guest(env);
-            }
-            ui.add_space(18.0);
+            ui.add_space(22.0);
             legal(ui, env, w);
         });
     });
@@ -267,14 +262,25 @@ fn waiting(ui: &mut Ui, env: &mut Env, st: &mut LoginState, w: f32) {
     ui.add_space(22.0);
     if let Some(u) = &url {
         if widgets::button_sized(ui, &th, "Open browser again", BtnKind::Tonal, Some(Icon::External), Some(w), 52.0).clicked() {
-            env.open_url(u);
+            open_browser(env, u);
         }
-        ui.add_space(6.0);
-        ui.add(egui::Label::new(RichText::new(u).font(fonts::regular(11.5)).color(th.p.ink_faint)).wrap());
+        ui.add_space(8.0);
+        if widgets::button_sized(ui, &th, "Copy link", BtnKind::Secondary, Some(Icon::Share), Some(w), 52.0).clicked() {
+            env.copy(u);
+        }
         ui.add_space(14.0);
     }
     if widgets::button_sized(ui, &th, "Cancel", BtnKind::Ghost, None, Some(w), 52.0).clicked() {
         st.wait = None;
+    }
+}
+
+/// The one place the app leaves itself: Google and GitHub only allow sign-in in a real browser
+/// (embedded web views are refused), so the hand-off page opens there and the app continues by
+/// itself. Email sign-in, sign-up and everything after it stay inside the app.
+fn open_browser(env: &mut Env, url: &str) {
+    if open::that(url).is_err() {
+        env.toast("Could not open a browser. Copy the link instead.");
     }
 }
 
@@ -286,11 +292,11 @@ fn legal(ui: &mut Ui, env: &mut Env, w: f32) {
             ui.add_space(((w - 215.0) / 2.0).max(0.0));
             ui.spacing_mut().item_spacing.x = 4.0;
             if ui.link(RichText::new("Terms of Service").font(fonts::medium(12.5)).color(th.p.accent)).clicked() {
-                env.open_url(&format!("{SITE_URL}/terms/"));
+                env.act(crate::actions::Action::ShowLegal("terms".into()));
             }
             ui.add(egui::Label::new(RichText::new("and").font(fonts::regular(12.5)).color(th.p.ink_faint)).selectable(false));
             if ui.link(RichText::new("Privacy Policy").font(fonts::medium(12.5)).color(th.p.accent)).clicked() {
-                env.open_url(&format!("{SITE_URL}/privacy/"));
+                env.act(crate::actions::Action::ShowLegal("privacy".into()));
             }
         });
     });

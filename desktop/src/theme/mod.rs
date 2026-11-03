@@ -31,34 +31,34 @@ impl Theme {
         v.code_bg_color = p.field;
         v.override_text_color = Some(p.ink);
         v.hyperlink_color = p.accent;
-        v.window_stroke = Stroke::new(1.0, p.hairline);
+        v.window_stroke = Stroke::new(1.0_f32, p.hairline);
         v.window_rounding = Rounding::same(spacing::PANEL_RADIUS);
         v.menu_rounding = Rounding::same(spacing::SHAPE_MD);
         // No shadows anywhere: separation is tone + outline (same rule as the web).
         v.window_shadow = egui::epaint::Shadow::NONE;
         v.popup_shadow = egui::epaint::Shadow::NONE;
         v.selection.bg_fill = if self.dark { mix(p.page, p.accent, 0.40) } else { mix(p.page, p.accent, 0.28) };
-        v.selection.stroke = Stroke::new(1.0, p.accent);
+        v.selection.stroke = Stroke::new(1.0_f32, p.accent);
         let r = Rounding::same(spacing::SHAPE_SM);
         for w in [&mut v.widgets.noninteractive, &mut v.widgets.inactive, &mut v.widgets.hovered, &mut v.widgets.active, &mut v.widgets.open] {
             w.rounding = r;
         }
         v.widgets.noninteractive.bg_fill = p.card;
-        v.widgets.noninteractive.bg_stroke = Stroke::new(1.0, p.hairline);
-        v.widgets.noninteractive.fg_stroke = Stroke::new(1.0, p.ink);
+        v.widgets.noninteractive.bg_stroke = Stroke::new(1.0_f32, p.hairline);
+        v.widgets.noninteractive.fg_stroke = Stroke::new(1.0_f32, p.ink);
         v.widgets.inactive.bg_fill = p.field;
         v.widgets.inactive.weak_bg_fill = p.field;
-        v.widgets.inactive.bg_stroke = Stroke::new(1.0, p.hairline);
-        v.widgets.inactive.fg_stroke = Stroke::new(1.0, p.ink);
+        v.widgets.inactive.bg_stroke = Stroke::new(1.0_f32, p.hairline);
+        v.widgets.inactive.fg_stroke = Stroke::new(1.0_f32, p.ink);
         let hov = mix(p.field, p.ink, 0.06);
         v.widgets.hovered.bg_fill = hov;
         v.widgets.hovered.weak_bg_fill = hov;
-        v.widgets.hovered.bg_stroke = Stroke::new(1.0, p.hairline_strong);
-        v.widgets.hovered.fg_stroke = Stroke::new(1.0, p.ink);
+        v.widgets.hovered.bg_stroke = Stroke::new(1.0_f32, p.hairline_strong);
+        v.widgets.hovered.fg_stroke = Stroke::new(1.0_f32, p.ink);
         v.widgets.active.bg_fill = mix(p.field, p.ink, 0.12);
         v.widgets.active.weak_bg_fill = mix(p.field, p.ink, 0.12);
-        v.widgets.active.bg_stroke = Stroke::new(1.0, p.accent);
-        v.widgets.active.fg_stroke = Stroke::new(1.0, p.ink);
+        v.widgets.active.bg_stroke = Stroke::new(1.0_f32, p.accent);
+        v.widgets.active.fg_stroke = Stroke::new(1.0_f32, p.ink);
         v.widgets.open.bg_fill = p.accent_soft;
         v.widgets.open.weak_bg_fill = p.accent_soft;
         ctx.set_visuals(v);

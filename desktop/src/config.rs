@@ -1,9 +1,7 @@
 //! Compile-time constants and command-line options.
 use std::path::PathBuf;
 
-pub const APP_NAME: &str = "NEBians";
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");
-pub const SITE_URL: &str = "https://nebians.consica.com.np";
 pub const API_BASE: &str = "https://nebians.consica.com.np/";
 
 /// The API root. Override with `NEB_API_BASE` to point the app at a self-hosted / staging backend
@@ -23,8 +21,6 @@ pub const MIN_WINDOW: [f32; 2] = [820.0, 560.0];
 pub const BREAKPOINT_RAIL: f32 = 1000.0;
 /// Below this width the rail becomes a bottom navigation bar.
 pub const BREAKPOINT_COMPACT: f32 = 760.0;
-/// Reader shows the table-of-contents pane only when the window is at least this wide.
-pub const BREAKPOINT_TOC: f32 = 1060.0;
 
 /// Options understood by the binary.
 ///

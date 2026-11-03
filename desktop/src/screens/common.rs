@@ -112,6 +112,10 @@ pub fn right(ui: &mut Ui, f: impl FnOnce(&mut Ui)) {
     ui.with_layout(Layout::right_to_left(Align::Center), f);
 }
 
-pub fn push_toast(env: &mut Env, m: &str) {
-    env.act(Action::Toast(m.to_string()));
+/// Entrance used by every page and tab: content rises 16 px and fades in on the shared ease.
+/// `key` identifies the page; call `motion::reset_enter` with the same id to replay it.
+pub fn rise(ui: &mut Ui, key: egui::Id) {
+    let e = crate::theme::motion::enter(ui.ctx(), key, 0.0, 0.42);
+    ui.set_opacity(e);
+    ui.add_space((1.0 - e) * 16.0);
 }

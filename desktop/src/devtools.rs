@@ -8,7 +8,7 @@ use eframe::egui::{self, Context, ViewportCommand};
 use crate::app::NebApp;
 use crate::data::models::{ChapterKind, ChapterRef};
 use crate::data::store::ThemeMode;
-use crate::router::Route;
+use crate::router::{AccountTab, Route};
 
 type Setup = fn(&mut NebApp, &Context);
 
@@ -40,7 +40,6 @@ fn go(app: &mut NebApp, r: Route) {
 fn profile(app: &mut NebApp) {
     let s = &mut app.env.store.s;
     s.onboarded = true;
-    s.guest = true;
     s.profile.role = "student".into();
     s.profile.display_name = "Aarav Sharma".into();
     s.profile.handle = "aarav_sharma".into();
@@ -61,22 +60,22 @@ fn light(a: &mut NebApp) {
 
 fn signed(app: &mut NebApp) {
     use crate::data::store::Session;
-    app.env.store.s.guest = false;
     app.env.store.s.session = Some(Session { email: "aarav@example.com".into(), username: "aarav_sharma".into(), token: "tour".into(), user_id: "tour".into(), display_name: "Aarav Sharma".into(), photo_url: String::new(), provider: "email".into() });
     app.env.store.s.profile.display_name = "Aarav Sharma".into();
     app.env.store.s.profile.handle = "aarav_sharma".into();
-}
-
-fn size(ctx: &Context, w: f32, h: f32) {
-    ctx.send_viewport_cmd(ViewportCommand::InnerSize(egui::vec2(w, h)));
 }
 
 impl Tour {
     pub fn new(dir: PathBuf) -> Self {
         let _ = std::fs::create_dir_all(&dir);
         let steps = vec![
-            Step { name: "splash", settle: 20, setup: |a, _| { a.env.store.s.onboarded = false; a.env.store.s.guest = false; go(a, Route::Splash) } },
+            Step { name: "intro-read", settle: 150, setup: |a, _| { a.screens.intro.goto(0); go(a, Route::Intro) } },
+            Step { name: "intro-practice", settle: 150, setup: |a, _| { a.screens.intro.goto(1); go(a, Route::Intro) } },
+            Step { name: "intro-search", settle: 150, setup: |a, _| { a.screens.intro.goto(2); go(a, Route::Intro) } },
+            Step { name: "intro-offline", settle: 160, setup: |a, _| { a.screens.intro.goto(3); go(a, Route::Intro) } },
+            Step { name: "splash", settle: 20, setup: |a, _| { a.env.store.s.onboarded = false; a.env.store.s.session = None; go(a, Route::Splash) } },
             Step { name: "login", settle: 24, setup: |a, _| { a.screens.login.clear(); go(a, Route::Login) } },
+            Step { name: "login-legal-sheet", settle: 40, setup: |a, _| { a.legal_sheet = Some("privacy".into()); go(a, Route::Login) } },
             Step { name: "login-browser-handoff", settle: 24, setup: |a, _| { a.screens.login.demo_waiting(); go(a, Route::Login) } },
             Step { name: "email-signin", settle: 24, setup: |a, _| { a.screens.login.clear(); go(a, Route::EmailAuth) } },
             Step { name: "complete-profile", settle: 24, setup: |a, _| { signed(a); a.screens.complete = Default::default(); go(a, Route::CompleteProfile) } },
@@ -110,9 +109,17 @@ impl Tour {
             Step { name: "offline-library", settle: 60, setup: |a, _| go(a, Route::Downloads) },
             Step { name: "settings", settle: 24, setup: |a, _| go(a, Route::Settings) },
             Step { name: "profile", settle: 24, setup: |a, _| go(a, Route::Profile) },
+            Step { name: "account-profile", settle: 30, setup: |a, _| { a.legal_sheet = None; light(a); go(a, Route::Account(AccountTab::Profile)) } },
+            Step { name: "account-security", settle: 40, setup: |a, _| go(a, Route::Account(AccountTab::Security)) },
+            Step { name: "account-password-dialog", settle: 40, setup: |a, _| { a.screens.account.demo_password_dialog(); go(a, Route::Account(AccountTab::Security)) } },
+            Step { name: "account-privacy", settle: 40, setup: |a, _| { go(a, Route::Account(AccountTab::Privacy)) } },
+            Step { name: "account-delete", settle: 40, setup: |a, _| go(a, Route::Account(AccountTab::Delete)) },
+            Step { name: "account-delete-dialog", settle: 40, setup: |a, _| { a.screens.account.demo_delete_dialog(); go(a, Route::Account(AccountTab::Delete)) } },
             Step { name: "about", settle: 20, setup: |a, _| go(a, Route::About) },
             Step { name: "home-dark", settle: 30, setup: |a, _| { a.env.store.s.prefs.theme = ThemeMode::Dark; a.env.refresh_theme(); go(a, Route::Home) } },
             Step { name: "community-dark", settle: 24, setup: |a, _| go(a, Route::Community) },
+            Step { name: "account-security-dark", settle: 40, setup: |a, _| go(a, Route::Account(AccountTab::Security)) },
+            Step { name: "intro-dark", settle: 150, setup: |a, _| { a.screens.intro.goto(1); go(a, Route::Intro) } },
             Step { name: "login-dark", settle: 24, setup: |a, _| go(a, Route::Login) },
             Step { name: "reader-dark", settle: 150, setup: |a, _| { a.screens.reader.set_jump("s2"); go(a, Route::Reader(ChapterRef::new("11", "physics", ChapterKind::Unit, 1))) } },
         ];

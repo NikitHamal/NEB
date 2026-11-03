@@ -1,6 +1,7 @@
 //! Serde models for the content the website and the Android app already read:
 //! `data/syllabus/*.json` and `data/study/<track>-<subject>/*.json`.
 //! Deserialisation is deliberately lenient (numbers may be strings, nulls appear).
+#![allow(dead_code)] // wire/icon sets mirror the server and Material font in full
 use serde::{Deserialize, Deserializer, Serialize};
 use serde_json::Value;
 

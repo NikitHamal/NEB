@@ -6,6 +6,7 @@ use egui::{epaint::Vertex, pos2, Color32, Mesh, Painter, Pos2, Rect, Shape as PS
 use super::shapes_data as d;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[allow(dead_code)]
 pub enum Kind {
     Circle,
     Cookie,
@@ -58,9 +59,6 @@ pub fn paint_morph(p: &Painter, rect: Rect, from: Kind, to: Kind, t: f32, rot: f
         mesh.indices.extend_from_slice(&[0, 1 + i, 1 + (i + 1) % 120]);
     }
     p.add(PShape::mesh(mesh));
-    p.add(PShape::closed_line(pts, Stroke::new(1.0, color)));
+    p.add(PShape::closed_line(pts, Stroke::new(1.0_f32, color)));
 }
 
-pub fn paint(p: &Painter, rect: Rect, kind: Kind, color: Color32) {
-    paint_morph(p, rect, kind, kind, 0.0, 0.0, color);
-}

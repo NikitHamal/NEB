@@ -21,6 +21,10 @@ impl Api {
         Self { token: token.filter(|t| !t.is_empty()) }
     }
 
+    pub fn token(&self) -> Option<&str> {
+        self.token.as_deref()
+    }
+
     pub fn anon() -> Self {
         Self { token: None }
     }
@@ -75,6 +79,10 @@ impl Api {
 
     pub fn post(&self, path: &str, body: Value) -> Result<Value> {
         Self::finish(self.request("POST", path, &[]).send_json(body))
+    }
+
+    pub fn delete(&self, path: &str) -> Result<Value> {
+        Self::finish(self.request("DELETE", path, &[]).call())
     }
 }
 
