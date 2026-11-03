@@ -148,6 +148,108 @@ Each transaction gets a unique **timestamp** TS(T) on starting (older = smaller)
 TS(T1) = 5, TS(T2) = 9. Initially R-ts(A) = W-ts(A) = 0. T2 writes A: allowed, W-ts(A) = 9. T1 then reads A: TS(T1) = 5 < W-ts(A) = 9, so T1 would be reading a value "from the future": **T1 is rolled back** and restarted with a larger timestamp.
 :::
 
+## 9.9 Seeing the ideas: transactions, schedules and locks
+
+Transactions are the idea that lets millions of people use one database at the same time without trouble. When you withdraw cash at an ATM or book a seat, a transaction either completes entirely or leaves no trace. The theory was put into its modern form by Jim Gray, who received the Turing Award in 1998 for his work on databases and transaction processing.
+
+```photogrid label="9.1" cols="3" ratio="1.0" caption="Transactions in daily life. (a) Jim Gray, the computer scientist who made transaction processing a science and who is associated with the ACID properties and with locking granularity. (b) A bank ATM: one withdrawal is a transaction that checks the balance, reduces it, records the withdrawal and dispenses the cash, and all of this must happen together or not at all. (c) A railway reservation counter: many counters sell seats at the same time, so the DBMS needs concurrency control to give each seat to only one buyer."
+@ photo id="bca202/jimgray" cap="Jim Gray"
+fit 1.0
+focus 0.5 0.28
+@ photo id="bca202/atm" cap="ATM: one withdrawal, one transaction"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca202/booking" cap="Reservation counter: concurrent sellers"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="9.1" caption="Atomicity and durability with a log. Transfer of 300 from account A (1,000) to account B (500). Before each change, the DBMS writes a log record with the old and new value (write-ahead logging). If the system crashes after A has been written but before the transaction commits, recovery reads the log, sees that the transaction never committed and undoes it by restoring A to 1,000, so the database returns to the state before the transfer. If the crash comes after the commit record is on disk, recovery redoes the changes (A = 700, B = 800), which is durability."
+f = Fig(580, 230)
+steps = [("start", "A=1,000\nB=500", SOFT, SLATE), ("write A", "A=700\nlog: A 1000->700", BLUE, NAVY), ("write B", "B=800\nlog: B 500->800", BLUE, NAVY), ("commit", "log: COMMIT\nflushed to disk", MINT, TEAL)]
+for i, (a, b, fl, st) in enumerate(steps):
+    x = 8 + i * 144
+    f.box(x, 24, 128, 58, "", fill=fl, stroke=st, sw=1.6)
+    f.text(x + 64, 38, a, size=11, color=st, bold=True)
+    f.text(x + 64, 62, b, size=9, color=SLATE)
+    if i < 3:
+        f.arrow([(x + 128, 53), (x + 144, 53)], color=SLATE, sw=1.5)
+f.box(152, 110, 270, 30, "CRASH here (after write A, before commit)", fill=ROSE, stroke=RED, size=10, bold=True)
+f.arrow([(220, 110), (220, 84)], color=RED, sw=1.6)
+f.box(8, 160, 270, 56, "Recovery: no COMMIT in the log\nUNDO: put A back to 1,000\nresult: as if nothing happened (atomic)", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+f.box(300, 160, 272, 56, "Crash after COMMIT on disk\nREDO: A = 700, B = 800\nresult: committed work survives (durable)", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+```
+
+```svgfig label="9.2" caption="The lost-update anomaly. Balance is 100. T1 adds 10 and T2 adds 20. In the bad interleaving both read 100 before either writes: T1 writes 110 and T2 then writes 120, which overwrites T1's result, so 10 is lost and the final balance is 120. Any serial order gives 130. The cure is a lock: if T1 takes an exclusive lock when it reads for update, T2 must wait until T1 commits at 110 and then reads 110 and writes 130. In SQL this is written SELECT ... FOR UPDATE or is handled by a stricter isolation level."
+f = Fig(580, 230)
+f.text(145, 12, "Without locking (bad)", size=11, color=RED, bold=True)
+f.line(75, 20, 75, 200, color=SLATE, sw=1.2); f.line(215, 20, 215, 200, color=SLATE, sw=1.2)
+f.text(75, 32, "T1 (+10)", size=10, color=NAVY, bold=True); f.text(215, 32, "T2 (+20)", size=10, color=NAVY, bold=True)
+ev = [(55, 75, "read 100"), (80, 215, "read 100"), (105, 75, "write 110"), (130, 215, "write 120"), (155, 75, "commit"), (178, 215, "commit")]
+for y, x, s in ev:
+    f.box(x - 40, y - 10, 80, 20, s, fill=ROSE if "120" in s else BLUE, stroke=RED if "120" in s else NAVY, size=9, bold=True)
+f.text(145, 214, "final = 120: T1's +10 is lost", size=10, color=RED, bold=True)
+f.text(435, 12, "With an exclusive lock (good)", size=11, color=TEAL, bold=True)
+f.line(365, 20, 365, 200, color=SLATE, sw=1.2); f.line(505, 20, 505, 200, color=SLATE, sw=1.2)
+f.text(365, 32, "T1 (+10)", size=10, color=NAVY, bold=True); f.text(505, 32, "T2 (+20)", size=10, color=NAVY, bold=True)
+ev2 = [(55, 365, "lock-X, read 100", BLUE, NAVY), (80, 505, "lock-X: WAIT", SAND, AMBER), (105, 365, "write 110, commit", BLUE, NAVY), (130, 505, "granted, read 110", MINT, TEAL), (155, 505, "write 130, commit", MINT, TEAL)]
+for y, x, s, fl, st in ev2:
+    f.box(x - 55, y - 10, 110, 20, s, fill=fl, stroke=st, size=9, bold=True)
+f.text(435, 214, "final = 130: same as a serial schedule", size=10, color=TEAL, bold=True)
+```
+
+```svgfig label="9.3" caption="Two graphs that decide correctness. Left: the precedence graph of schedule S1 has a single edge T1 to T2, so it has no cycle and is conflict serializable, equivalent to running T1 and then T2. The graph of S2 (the lost-update pattern R1(A) R2(A) W1(A) W2(A)) has edges both ways, a cycle, so S2 is not serializable. Right: a wait-for graph for the deadlock in which T1 holds a lock on A and waits for B while T2 holds B and waits for A; the cycle means deadlock, and the DBMS breaks it by rolling back one victim transaction."
+f = Fig(580, 230)
+f.text(70, 12, "S1: no cycle", size=10.5, color=TEAL, bold=True)
+f.circle(30, 70, 20, fill=BLUE, stroke=NAVY, label="T1", size=11)
+f.circle(110, 70, 20, fill=BLUE, stroke=NAVY, label="T2", size=11)
+f.arrow([(50, 70), (90, 70)], color=TEAL, sw=2)
+f.text(70, 112, "serializable:\nT1 then T2", size=9.5, color=TEAL, bold=True)
+f.text(235, 12, "S2: cycle", size=10.5, color=RED, bold=True)
+f.circle(195, 70, 20, fill=ROSE, stroke=RED, label="T1", size=11)
+f.circle(275, 70, 20, fill=ROSE, stroke=RED, label="T2", size=11)
+f.arrow([(213, 60), (257, 60)], color=RED, sw=2)
+f.arrow([(257, 80), (213, 80)], color=RED, sw=2)
+f.text(235, 112, "not serializable\n(lost update)", size=9.5, color=RED, bold=True)
+f.text(450, 12, "Wait-for graph: deadlock", size=10.5, color=RED, bold=True)
+f.circle(395, 70, 20, fill=SAND, stroke=AMBER, label="T1", size=11)
+f.circle(505, 70, 20, fill=SAND, stroke=AMBER, label="T2", size=11)
+f.arrow([(415, 60), (485, 60)], color=RED, sw=2, label="waits for B", lpos=(450, 50), lsize=8.5)
+f.arrow([(485, 82), (415, 82)], color=RED, sw=2, label="waits for A", lpos=(450, 102), lsize=8.5)
+f.box(340, 130, 230, 44, "choose a victim, ROLLBACK it,\nthe other continues", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.box(10, 150, 300, 60, "Prevention: wait-die / wound-wait by timestamp\nDetection: wait-for graph, cycle = deadlock\nTimeout: abort anyone who waits too long", fill=SOFT, stroke=SLATE, size=9.5, bold=True)
+```
+
+```svgfig label="9.4" caption="Two-phase locking and the timestamp rule. Under two-phase locking a transaction first only acquires locks (growing phase), reaches its lock point when it holds the last lock it will need, and then only releases locks (shrinking phase); it never acquires after it has released, and this guarantees conflict serializability. Right: a timestamp example. T1 has TS = 5 and T2 has TS = 9. After T2 writes A, W-ts(A) = 9, so when the older T1 tries to read A (5 is less than 9) it would see a value from the future and is rolled back and restarted with a new, larger timestamp."
+f = Fig(580, 220)
+f.text(145, 12, "Two-phase locking", size=10.5, color=NAVY, bold=True)
+f.line(20, 190, 280, 190, color=SLATE, sw=1.3)
+f.line(20, 190, 20, 30, color=SLATE, sw=1.3)
+f.text(10, 28, "locks\nheld", size=8.5, color=SLATE, bold=True, anchor="end")
+f.raw('<polyline points="20,190 70,150 120,110 150,70 190,100 230,140 270,190" fill="none" stroke="#0f766e" stroke-width="2.6"/>')
+f.line(150, 190, 150, 70, color=RED, sw=1.2, dash=True)
+f.text(150, 58, "lock point", size=9.5, color=RED, bold=True)
+f.text(85, 168, "growing", size=10, color=TEAL, bold=True)
+f.text(225, 168, "shrinking", size=10, color=AMBER, bold=True)
+f.text(145, 208, "time", size=9.5, color=SLATE, bold=True)
+f.text(435, 12, "Timestamp ordering: TS(T1)=5, TS(T2)=9", size=10, color=NAVY, bold=True)
+tl = [(40, "T2 writes A", "allowed, W-ts(A) = 9", MINT, TEAL), (92, "T1 reads A", "5 < W-ts 9: too late", ROSE, RED), (144, "T1 rolled back", "restart, new TS = 12", SAND, AMBER), (190, "T1 reads A", "12 > 9: allowed", MINT, TEAL)]
+for y, a, b, fl, st in tl:
+    f.box(310, y, 120, 38, a, fill=st, stroke=st, color="#ffffff", size=9.5, bold=True)
+    f.box(430, y, 140, 38, b, fill=fl, stroke=st, size=9.5, bold=True)
+```
+
+### 9.9.1 Eight benefits of ACID transactions and concurrency control
+
+1. **Money and data are never half done.** Atomicity means a transfer from one account to another either completes or leaves no trace (Figure 9.1). A power cut in the middle of a ConnectIPS or Fonepay payment cannot take money from the sender without giving it to the receiver. Customers can trust the system.
+2. **The database always follows its rules.** Consistency means every transaction moves the database from one valid state to another, with keys, constraints and totals still correct. A transaction that would break a rule is rolled back. The data in reports are therefore always meaningful.
+3. **Many users work at the same time.** Isolation lets hundreds of counters, web sites and apps use the same tables together. Each transaction behaves as if it ran alone. Without it a busy system would have to serve one customer at a time.
+4. **Committed work survives crashes.** Durability, supported by the log, means a result that was reported as saved is still there after a power failure or a restart. A student's examination result entered by the office does not disappear overnight. Recovery by redo restores it.
+5. **No lost updates.** Locks make a second writer wait for the first, so two clerks adding to the same balance both have their effect (Figure 9.2). Each update is built on the latest value. Totals in the books remain correct.
+6. **No wrong reads.** Isolation levels prevent dirty reads of values that are later rolled back, and stronger levels prevent non-repeatable reads and phantoms. A report that adds up a column sees a consistent snapshot of the data. The level can be chosen to balance accuracy and speed.
+7. **Deadlocks are resolved automatically.** The DBMS finds a cycle of waiting transactions (Figure 9.3) and rolls one back, so the system does not freeze. The application only has to retry the failed transaction. Prevention rules such as wait-die reduce the chance of such cycles.
+8. **Good performance with safety.** Multiple granularity locking lets the DBMS lock a single row for a small update and a whole table for a big report, using intention locks to keep the two compatible. Fine locks allow high concurrency, and coarse locks are cheap. The designer therefore gets both speed and correctness.
+
 ## Formula and fact sheet
 
 - ACID: Atomicity, Consistency, Isolation, Durability.
@@ -186,3 +288,59 @@ TS(T1) = 5, TS(T2) = 9. Initially R-ts(A) = W-ts(A) = 0. T2 writes A: allowed, W
 **8.** Wait–die: an older requester waits; a younger requester aborts. Wound–wait: an older requester aborts (wounds) the younger holder; a younger requester waits.
 **9.** They show a lock at a lower level (row) to the higher level (table) so a request for a whole-table S or X lock can be refused or queued without examining every row.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). What is a transaction? Explain the ACID properties with an example.**
+
+*Introduction.* A transaction is a sequence of read and write operations on the database that takes it from one consistent state to another and is treated as one logical unit of work. It ends with `COMMIT` (make permanent) or `ROLLBACK` (undo). The standard example is the transfer of 300 from account A (1,000) to account B (500): read(A), A = A - 300, write(A), read(B), B = B + 300, write(B).
+
+1. **Atomicity.** All operations happen or none does. If the system fails after write(A) and before write(B), the log is used to undo the change, so A returns to 1,000 (Figure 9.1).
+2. **Consistency.** The transaction preserves integrity rules. The sum A + B is 1,500 before the transfer and 1,500 after it.
+3. **Isolation.** Concurrent transactions do not see each other's partial results. Another transaction must not see A = 700 and B = 500, which would show a total of 1,200.
+4. **Durability.** Once the transaction has committed, its changes survive a crash. The log records are forced to disk at commit, and recovery redoes the work if needed.
+5. **Mechanisms.** Atomicity and durability come from write-ahead logging with undo and redo, and isolation comes from concurrency control such as locking.
+
+*Conclusion.* ACID together make a transaction a safe unit of work, which is why banks, ticket counters and online shops depend on DBMS transactions.
+
+**Q2 (5 marks). Explain the problems caused by concurrent transactions and the SQL isolation levels.**
+
+*Introduction.* When transactions run at the same time without control, their operations interleave and can give wrong results. Figure 9.2 shows the best-known problem.
+
+1. **Lost update.** T1 and T2 both read 100, add 10 and 20 and write; the second write overwrites the first, so the result is 120 and not 130.
+2. **Dirty read.** T2 reads a value written by T1, which later rolls back, so T2 used data that never really existed.
+3. **Non-repeatable read.** T1 reads a row twice and gets different values because T2 updated and committed in between.
+4. **Phantom.** T1 runs the same query twice and finds new rows inserted by T2.
+5. **Isolation levels.** `SET TRANSACTION ISOLATION LEVEL ...` chooses between safety and speed.
+
+| Level | Dirty read | Non-repeatable read | Phantom |
+|---|---|---|---|
+| READ UNCOMMITTED | possible | possible | possible |
+| READ COMMITTED | no | possible | possible |
+| REPEATABLE READ | no | no | possible |
+| SERIALIZABLE | no | no | no |
+
+*Conclusion.* SERIALIZABLE is the safest and slowest, READ COMMITTED is the usual default, and the designer picks the level that the application can afford.
+
+**Q3 (10 marks). What is serializability? Explain two-phase locking and how a DBMS handles deadlock.**
+
+*Introduction.* A schedule is the order in which the operations of several transactions are executed. A serial schedule, which runs the transactions one after the other, is always correct but slow. A schedule is serializable if its result equals that of some serial schedule, so concurrent execution is allowed as long as it is equivalent to a serial one.
+
+*Conflict serializability.* Two operations conflict if they belong to different transactions, use the same item and at least one is a write. A precedence graph has a node for each transaction and an edge Ti → Tj if an operation of Ti conflicts with a later operation of Tj. A schedule is conflict serializable if and only if the graph has no cycle (Figure 9.3). For S1 = R1(A) W1(A) R2(A) W2(A) R1(B) W1(B) R2(B) W2(B) every edge goes from T1 to T2, so it is equal to the serial order T1, T2. For S2 = R1(A) R2(A) W1(A) W2(A) there are edges both ways, a cycle, so it is not serializable: it is the lost-update pattern.
+
+*Lock-based protocols.* A lock controls access to a data item. A shared (S) lock allows reading by many, an exclusive (X) lock allows writing by one. S is compatible with S only; X is compatible with nothing.
+
+*Two-phase locking (2PL).* Each transaction has a growing phase in which it acquires locks and releases none, then a shrinking phase in which it releases locks and acquires none (Figure 9.4). The moment of the last lock is the lock point. 2PL guarantees conflict serializability. Strict 2PL holds all exclusive locks until commit, which also prevents cascading rollback.
+
+*Deadlock.* A deadlock is a cycle of transactions each waiting for a lock held by the next, as when T1 holds A and wants B while T2 holds B and wants A.
+1. **Prevention.** Request locks in a fixed order, or use timestamps: wait-die (an older transaction waits, a younger one that requests a lock held by an older one is aborted) or wound-wait (an older transaction rolls back a younger holder).
+2. **Detection.** The DBMS keeps a wait-for graph; a cycle means deadlock, and it chooses a victim, usually the transaction with the least work done, and rolls it back.
+3. **Timeout.** A transaction that waits too long is aborted, which is simple but may abort needlessly.
+
+| Method | Idea | Weakness |
+|---|---|---|
+| Prevention | never allow a cycle | may abort needlessly |
+| Detection | find the cycle, kill a victim | graph upkeep |
+| Timeout | abort long waiters | wrong guesses |
+
+*Conclusion.* Serializability defines what correct concurrency means, 2PL is the usual way to achieve it, and deadlock handling keeps the lock-based system moving.
