@@ -1811,3 +1811,10 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **gen_status.py** now says "Semesters I-IV fully done" when Semester IV has 5 or more done books (Project I is now a book).
 - **Credentials:** `/tmp/gitenv.sh` echoes `$NEB_PAT` for username/password prompts; the PAT was supplied in the prompt and must be rotated by the owner. It was never written to the repo.
 - **Next:** BCA 306 Project II (see `bca/POLISH_STATUS.md` queue), then BCA 356, 404, 452, electives, then polish Semesters II-VIII.
+
+## BCA polish session 15 (BCA 306 Project II)
+
+- **BCA 306 Project II is DONE** (47 pp, qa fails=0, 15,586 raw words): ClinicQ handbook, 5 units, 5 new `bca306/` photos in 4 photogrid plates, 9 SVG figures, executed code (stdlib REST API on a real local port, race condition, PBKDF2, HMAC token, SQL injection, brute-force arithmetic, unittest suite, Little's-law capacity, generated API doc), 8-point sections and 5/10-mark model answers in every unit. Details in `bca/POLISH_STATUS.md`.
+- Queue state: Semester 1 books and BCA 256/306 are done. **Next: BCA 356 Project III (semester-6/project-3)**, then BCA 404 Project IV, BCA 402 SPM if not core, BCA 452 Internship, 4 electives, then polish Semesters II to VIII.
+- Registration checklist for a new book: `books.json` entry (no CRLF in that file), `CURRICULUM.md` row, `gen_status.py` (updates STATUS/README counts), PDF in `semester-N/pdfs/`, credits.json CRLF restored after `assets.py get`.
+- Session setup that worked: `sudo apt-get update` first, `pip install --user --break-system-packages uv`, `uv venv --python 3.12 /tmp/v`, `bash notes/pipeline/fonts/install.sh`; edit books in place under `bca/course/...` and run `bca/tools/nebpdf.py course/<rel>` + `qa_pdf.py` (about 20 s). `/tmp/gitenv.sh` echoes `$NEB_PAT`; the PAT given in the prompt must be rotated and was never written to the repo.

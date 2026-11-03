@@ -66,6 +66,17 @@ Project I has no TU topic list, so this is a reconstructed companion handbook (R
 - U5 Report/viva: Fig 5.1 report map, Plate 5.1 (poster photo + clean-slide SVG), report-budget script, 12 viva Q&A, illustrative rubric (flagged as not official); 8 habits (5.8); 2 medium + 1 long.
 - Known cosmetic: the Level-1 DFD labels render at about 6 pt (qa warn only).
 
+## BCA 306 project-2 (semester-5/project-2) -- [x] DONE (session 15), 47 pp, qa fails=0
+Companion handbook (README says the structure is reconstructed; no TU topic list). Running example **ClinicQ** (invented health-post token queue; REST API + security + deployment), different from Project I's CampusShelf. 5 units, 15,586 raw words.
+- Photos (bca306/, licence-gated, all viewed): rack (NERSC server rack, CC0), switch (rack switch + patch panels), tech (technician at server rack, CC0), padlock, code (code on monitor, CC0).
+- U1 Scope/architecture: Fig 1.1 three-tier, Plate 1.1 (3-up rack/switch/technician with callouts); stack table, REST table, user stories; 8 reasons web projects fail (1.7); 2 medium + 1 long.
+- U2 API/database: Fig 2.1 ER, Fig 2.2 request life; 78-line stdlib REST API (http.server + sqlite3) run over a real local port; race-condition script (barrier forces duplicates; UNIQUE + retry fixes; output deterministic); 8 reasons (2.6); 2 medium + 1 long.
+- U3 Security: Fig 3.1 login flow, Plate 3.1 (padlock photo + defence-in-depth SVG); executed PBKDF2 salt demo, HMAC token (issue/verify/expiry/forgery), SQL injection bad vs placeholder, brute-force arithmetic; attack table; 8 practices (3.7); 2 medium + 1 long.
+- U4 Testing/deploy: Plate 4.1 (code photo + test pyramid SVG), Fig 4.1 pipeline; 9-test unittest suite (per-test PASS lines, deterministic), 10-row test-case table, Little's-law capacity script, systemd + Nginx files (not executed); 8 practices (4.6); 2 medium + 1 long.
+- U5 Docs/demo/viva: Fig 5.1 report map, Plate 5.1 (technician photo + demo timeline SVG); generated API-doc script, demo-plan script; 12 viva Q&A; 8 habits (5.5); 2 medium + 1 long.
+- Gotchas: `Fig.arrow` takes a list of points (`f.arrow([(x1,y1),(x2,y2)], color=)`), not four numbers; literal `<role>` in prose is stripped as HTML (use square brackets); the Unit 2 API deliberately has no login (Unit 3 adds it conceptually; routes table in 5.2 shows the protected version).
+- Not done: Unit 2 has no photo; Unit 3 login/hash code is not wired into the Unit 2 server (separate self-contained demos).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -73,5 +84,6 @@ Project I has no TU topic list, so this is a reconstructed companion handbook (R
 - [x] mathematics-1 (BCA 104) DONE (session 13)
 - [x] professional-communication-ethics (BCA 105) DONE (session 13)
 - [x] BCA 256 Project I DONE (session 14)
-- [ ] (NEXT SESSION STARTS HERE) BCA 306 Project II (semester-5/project-2; same CampusShelf-style handbook but with a different running example, e.g. a web app with Flask or Node plus REST API, deployment, security testing; books.json code BCA 306, 3 credits)
-- [ ] remaining non-core slots (BCA 306, 356, 404 projects, 402 SPM if not a core book, 452 internship, 4 electives), then polish semesters II-VIII one book at a time
+- [x] BCA 306 Project II DONE (session 15)
+- [ ] (NEXT SESSION STARTS HERE) BCA 356 Project III (semester-6/project-3; handbook with a third running example, e.g. a mobile/IoT or data-driven system: Android or Flutter client, sensor data, ML or analytics; books.json code BCA 356, 3 credits)
+- [ ] remaining non-core slots (BCA 356, 404 projects, 402 SPM if not a core book, 452 internship, 4 electives), then polish semesters II-VIII one book at a time
