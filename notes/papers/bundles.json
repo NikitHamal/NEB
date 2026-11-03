@@ -97,20 +97,21 @@
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Physics-2080-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Physics-2079-2082-Bundle.pdf",
   "subject": "Physics",
   "grade": "12",
-  "years_bs": "2080-2082",
+  "years_bs": "2079-2082",
   "papers": [
    "12-phy-2082-general",
    "12-phy-2082-9131",
    "12-phy-2081-general",
    "12-phy-2081-9131",
    "12-phy-2080-general",
-   "12-phy-2080-9131"
+   "12-phy-2080-9131",
+   "12-phy-2079-general"
   ],
-  "pages": 93,
-  "bytes": 3104698,
+  "pages": 109,
+  "bytes": 3620409,
   "category": "Board Exam Bundle"
  }
 ]

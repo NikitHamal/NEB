@@ -593,5 +593,21 @@
   "pages": 16,
   "bytes": 495413,
   "id": "12-phy-2080-9131"
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Physics-2079-General.pdf",
+  "subject": "Physics",
+  "grade": "12",
+  "year_bs": "2079",
+  "year_ad": "2022",
+  "stream": "General Stream",
+  "code": "1021 'O'",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For regular students (except technical stream) (new course)",
+  "category": "Board Exam",
+  "pages": 16,
+  "bytes": 557567,
+  "id": "12-phy-2079-general"
  }
 ]
