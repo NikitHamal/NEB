@@ -9,7 +9,7 @@
    "12-bio-2081-general"
   ],
   "pages": 29,
-  "bytes": 493442,
+  "bytes": 493430,
   "category": "Board Exam Bundle"
  },
  {
@@ -22,21 +22,22 @@
    "12-chem-2081-general"
   ],
   "pages": 24,
-  "bytes": 465009,
+  "bytes": 465001,
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Compulsory-English-2081-2083-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Compulsory-English-2080-2083-Bundle.pdf",
   "subject": "Compulsory English",
   "grade": "12",
-  "years_bs": "2081-2083",
+  "years_bs": "2080-2083",
   "papers": [
    "12-eng-2083-0041c",
    "12-eng-2082-0041c",
-   "12-eng-2081-0041b"
+   "12-eng-2081-0041b",
+   "12-eng-2080-0041g"
   ],
-  "pages": 27,
-  "bytes": 363606,
+  "pages": 36,
+  "bytes": 476792,
   "category": "Board Exam Bundle"
  },
  {
@@ -49,7 +50,7 @@
    "12-cs-2081-general"
   ],
   "pages": 18,
-  "bytes": 282663,
+  "bytes": 282669,
   "category": "Board Exam Bundle"
  },
  {
@@ -62,7 +63,7 @@
    "12-math-2081-set-w"
   ],
   "pages": 20,
-  "bytes": 1059715,
+  "bytes": 1059689,
   "category": "Board Exam Bundle"
  },
  {
@@ -75,7 +76,7 @@
    "12-phy-2080-general"
   ],
   "pages": 30,
-  "bytes": 1035672,
+  "bytes": 1035674,
   "category": "Board Exam Bundle"
  }
 ]
