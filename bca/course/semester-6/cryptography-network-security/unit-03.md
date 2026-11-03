@@ -169,6 +169,88 @@ In the program output, ECB's first two ciphertext blocks are **equal** (the repe
 | Structure | Feistel | Feistel ×3 | Substitution–permutation |
 | Status | Broken (brute force) | Deprecated | Standard |
 
+## 3.7 Seeing symmetric ciphers: hardware, rounds and chaining
+
+Symmetric ciphers are built from a few repeated pieces, and they are easier to understand when drawn as machines. The plate shows real hardware that attacked DES and hardware that now stores keys, and the figures draw the Feistel round, the DES frame, the four steps of an AES round, the CBC chain and the time needed to search each key space.
+
+```photogrid label="3.1" cols="2" ratio="1.15" caption="Symmetric cryptography in hardware. (a) A circuit board from the EFF DES cracker 'Deep Crack' (1998): each board carries rows of custom search chips, and together over 1,800 chips tried about 90 billion DES keys per second, finding a key in 56 hours. It proved that a 56-bit key was too short. (b) A PCI-Express hardware security module (nCipher nShield): a tamper-resistant card that keeps keys inside and performs AES, RSA and signing operations for a bank or certificate authority, so the keys never appear in server memory."
+@ photo id="crypto353/descracker" cap="EFF DES cracker board"
+fit 1.15
+focus 0.5 0.5
+call 0.5 0.1 0.5 0.35 "custom DES search chips"
+@ photo id="crypto353/hsm" cap="Hardware security module"
+fit 1.15
+focus 0.5 0.5
+call 0.5 0.9 0.5 0.62 "crypto processor under heat sink"
+```
+
+```svgfig label="3.1" caption="Two rounds of a Feistel network. The block is split into a left half L and a right half R. In each round the new left half is the old right half, and the new right half is the old left half XOR F(R, K), where F is the round function and K the round key. F need not be invertible: decryption runs the same circuit with the round keys in reverse order, which is why DES hardware serves for both directions."
+f = Fig(580, 250)
+f.box(60, 8, 100, 28, "L0", fill=BLUE, stroke=NAVY, size=12, bold=True); f.box(300, 8, 100, 28, "R0", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(300, 58, 100, 32, "F  (key K1)", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.arrow([(350, 36), (350, 58)], color=SLATE)
+f.circle(350, 112, 12, fill="#ffffff", stroke=RED, label="+", size=15, color=RED)
+f.arrow([(350, 90), (350, 100)], color=SLATE)
+f.arrow([(110, 36), (110, 112), (338, 112)], color=SLATE)
+f.box(60, 134, 100, 28, "L1 = R0", fill=BLUE, stroke=NAVY, size=12, bold=True); f.box(300, 134, 100, 28, "R1", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.arrow([(350, 124), (350, 134)], color=SLATE)
+f.arrow([(300, 22), (240, 22), (240, 148), (160, 148)], color=SLATE)
+f.text(480, 30, "Round i:", size=12, color=NAVY, bold=True)
+f.text(480, 52, "L(i) = R(i-1)", size=11.5, color=SLATE)
+f.text(480, 72, "R(i) = L(i-1) XOR F(R(i-1), Ki)", size=10, color=SLATE)
+f.text(480, 110, "Decryption: same rounds,", size=11, color=TEAL, bold=True)
+f.text(480, 126, "subkeys used K16 ... K1", size=11, color=TEAL, bold=True)
+f.text(290, 200, "DES: 16 rounds, 64-bit block, 56-bit key, 48-bit round keys", size=11.5, color=NAVY, bold=True)
+f.text(290, 222, "F = expand 32 to 48 bits, XOR key, eight S-boxes (6 bits to 4 bits), permute", size=10.5, color=SLATE)
+```
+
+```svgfig label="3.2" caption="One round of AES-128 on the 4 x 4 byte state. SubBytes replaces every byte by its image in the S-box (the inverse in GF(2 to the 8) followed by an affine map); ShiftRows rotates row r to the left by r places (0, 1, 2, 3); MixColumns multiplies each column by a fixed matrix over GF(2 to the 8); AddRoundKey XORs the round key. There are 10 rounds for a 128-bit key (12 for 192 bits, 14 for 256 bits), and the last round omits MixColumns."
+f = Fig(580, 220)
+st = [("SubBytes", "byte-wise S-box\nconfusion"), ("ShiftRows", "row r rotates\nleft by r"), ("MixColumns", "matrix on each\ncolumn: diffusion"), ("AddRoundKey", "XOR with\n128-bit round key")]
+cl = [(BLUE, NAVY), (SAND, AMBER), (MINT, TEAL), (ROSE, RED)]
+for i, (t, d) in enumerate(st):
+    x = 8 + i * 144
+    f.box(x, 10, 126, 34, t, fill=cl[i][0], stroke=cl[i][1], size=12, bold=True)
+    f.text(x + 63, 62, d, size=10, color=SLATE)
+    if i < 3: f.arrow([(x + 126, 27), (x + 144, 27)], color=SLATE)
+f.text(60, 108, "State before", size=10.5, color=NAVY, bold=True); f.text(290, 108, "ShiftRows: rows 0 1 2 3 shift by 0 1 2 3", size=10.5, color=AMBER, bold=True)
+for r in range(4):
+    for c in range(4):
+        f.box(10 + c * 28, 120 + r * 22, 26, 20, f"b{r}{c}", fill=BLUE, stroke=NAVY, size=9, r=3, sw=1)
+        f.box(240 + c * 28, 120 + r * 22, 26, 20, f"b{r}{(c + r) % 4}", fill=(SAND if r else BLUE), stroke=(AMBER if r else NAVY), size=9, r=3, sw=1)
+f.arrow([(130, 164), (236, 164)], color=SLATE)
+f.text(470, 128, "AES key sizes and rounds", size=11, color=NAVY, bold=True)
+f.text(470, 148, "128 bits: 10 rounds", size=10.5, color=SLATE); f.text(470, 164, "192 bits: 12 rounds", size=10.5, color=SLATE); f.text(470, 180, "256 bits: 14 rounds", size=10.5, color=SLATE)
+f.text(470, 204, "block is always 128 bits", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="3.3" caption="CBC chaining of three blocks. Each plaintext block is XORed with the previous ciphertext block before it is encrypted, and the first block is XORed with a random initial vector (IV) that is sent in the clear. Equal plaintext blocks therefore give different ciphertext blocks, unlike ECB. Decryption can run in parallel, but encryption cannot, and one corrupted ciphertext block damages two plaintext blocks."
+f = Fig(580, 206)
+for i in range(3):
+    x = 90 + i * 160
+    f.box(x, 8, 60, 24, f"P{i+1}", fill=BLUE, stroke=NAVY, size=12, bold=True)
+    f.circle(x + 30, 66, 11, fill="#ffffff", stroke=RED, label="+", size=14, color=RED)
+    f.box(x, 94, 60, 32, "E (key K)", fill=SAND, stroke=AMBER, size=11, bold=True)
+    f.box(x, 150, 60, 26, f"C{i+1}", fill=MINT, stroke=TEAL, size=12, bold=True)
+    f.arrow([(x + 30, 32), (x + 30, 55)], color=SLATE); f.arrow([(x + 30, 77), (x + 30, 94)], color=SLATE); f.arrow([(x + 30, 126), (x + 30, 150)], color=SLATE)
+    if i < 2:
+        f.arrow([(x + 60, 163), (x + 80, 163), (x + 80, 66), (x + 101 + 0, 66)] if False else [(x + 60, 163), (x + 78, 163), (x + 78, 66), (x + 149, 66)], color=TEAL, dash=True)
+f.box(8, 50, 56, 32, "IV", fill=ROSE, stroke=RED, size=12, bold=True)
+f.arrow([(64, 66), (109, 66)], color=RED)
+f.text(290, 198, "C(i) = E( P(i) XOR C(i-1) ),  C(0) = IV", size=11, color=NAVY, bold=True)
+```
+
+### 3.7.1 Eight reasons AES replaced DES
+
+1. **A longer key.** DES has a 56-bit key, so 2 to the power 56 (about 7.2 x 10 to the power 16) keys exist. A search at 90 billion keys per second, the speed of Deep Crack, exhausts them in about 9 days. AES-128 has 2 to the power 128 keys, which at the same speed would need about 1.2 x 10 to the power 20 years.
+2. **A larger block.** DES encrypts 64-bit blocks, so after about 2 to the power 32 blocks (32 GB of data) repeated blocks become likely and leak information. AES uses 128-bit blocks, which pushes that limit far beyond any real file. This matters for video, disk images and bank backups.
+3. **Speed in software.** AES uses simple byte operations and table lookups, and modern processors have special AES instructions. A laptop can encrypt data at several gigabytes per second. DES was designed for 1970s hardware and is slow in software.
+4. **Strong, open design.** AES was chosen in 2001 after a public competition in which cryptographers from many countries tried to break the candidates. Rijndael won on security, speed and simplicity. DES was designed with S-boxes whose design reasons were not published for years, which raised doubts.
+5. **Flexible key sizes.** AES offers 128, 192 and 256 bits with 10, 12 or 14 rounds. A bank can choose 256 bits for long-term secrets and 128 bits for ordinary traffic. DES offered one choice only.
+6. **No weak keys of concern.** DES has a few weak and semi-weak keys, and its complementation property halves some searches. AES has a clean algebraic structure with no known weak keys in normal use. This makes key generation simple: any random key is acceptable.
+7. **Easy hardware and small devices.** AES can be built in a few thousand gates, so smart cards, SIM cards and IoT sensors can encrypt cheaply. A phone SIM in Nepal and a bank card chip both use such circuits. Triple DES needed three times the work for the same strength.
+8. **Wide standards support.** AES is the standard cipher in TLS, Wi-Fi (WPA2 and WPA3), disk encryption, messaging apps and cloud storage. A programmer rarely needs to implement it, because every library provides it. This common support makes systems from different vendors work together.
+
 ## Chapter summary
 
 - Confusion (substitution) and diffusion (permutation) are combined over many rounds; a Feistel network's rounds are invertible even if F is not.
@@ -201,3 +283,60 @@ In the program output, ECB's first two ciphertext blocks are **equal** (the repe
 **9.** The (nonce, counter) pair: reuse produces the same keystream, and XORing two ciphertexts removes it.
 **10.** Authentication (integrity of the ciphertext and associated data), not only confidentiality.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the Feistel structure. Why can the same circuit encrypt and decrypt?**
+
+*Introduction.* A Feistel network (used in DES) builds a strong block cipher from a round function that does not need to be invertible (section 3.2, Figure 3.1).
+
+1. **Split.** The n-bit block is divided into a left half L and a right half R.
+2. **One round.** The new halves are L(i) = R(i-1) and R(i) = L(i-1) XOR F(R(i-1), K(i)), where K(i) is the round key.
+3. **Many rounds.** DES applies 16 rounds, and the halves are swapped after the last round.
+4. **Decryption.** From L(i) and R(i) we can recover L(i-1) = R(i) XOR F(L(i), K(i)) and R(i-1) = L(i), because XOR with the same value twice cancels. So the same rounds with the keys in reverse order K16 to K1 undo encryption.
+5. **Consequence.** F can use non-invertible S-boxes and expansions freely; only the XOR and swap structure guarantees reversibility. The design principles are Shannon's **confusion** (S-boxes hide the key relation) and **diffusion** (permutations spread each bit).
+
+| Feature | Feistel (DES) | AES (SPN) |
+|---|---|---|
+| Structure | Halves, XOR | Whole-state substitution-permutation |
+| Round function | Need not be invertible | Every step invertible |
+| Decryption | Same circuit, keys reversed | Inverse steps |
+
+**Q2 (5 marks). Compare the ECB, CBC and CTR modes of operation.**
+
+*Introduction.* A block cipher encrypts one block of 128 bits (AES) or 64 bits (DES). A **mode of operation** defines how longer messages are encrypted block by block (section 3.5, Figure 3.3).
+
+1. **ECB (electronic codebook).** Each block is encrypted separately: C(i) = E(K, P(i)). Equal plaintext blocks give equal ciphertext blocks, so patterns in images and tables remain visible. It should not be used for real data.
+2. **CBC (cipher block chaining).** C(i) = E(K, P(i) XOR C(i-1)) with a random IV for the first block. Equal blocks give different ciphertext. Encryption is sequential and padding is needed.
+3. **CTR (counter).** The cipher encrypts a counter value, and the result is XORed with the plaintext: C(i) = P(i) XOR E(K, nonce || i). It turns the block cipher into a stream cipher, needs no padding, and both encryption and decryption run in parallel. A nonce and counter must never repeat under one key.
+4. **Integrity.** None of these three modes detects changes; **GCM** adds an authentication tag to CTR and is preferred in TLS.
+
+| Mode | Parallel encryption | Padding | Pattern leak | Note |
+|---|---|---|---|---|
+| ECB | Yes | Yes | Yes | Avoid |
+| CBC | No | Yes | No | Random IV |
+| CTR | Yes | No | No | Never reuse nonce |
+
+**Q3 (10 marks). Describe the AES algorithm: its structure, the four round transformations, the key sizes and how it compares with DES.**
+
+*Introduction.* The Advanced Encryption Standard (FIPS-197, 2001) is the Rijndael cipher of Daemen and Rijmen. It replaced DES because DES's 56-bit key had become breakable by search (Deep Crack, 1998). AES is a **substitution-permutation network** that encrypts a 128-bit block with a 128-, 192- or 256-bit key (section 3.4, Figures 3.1 to 3.2).
+
+1. **State.** The 16 bytes of a block are arranged in a 4 x 4 matrix called the state, filled column by column.
+2. **Initial step.** AddRoundKey XORs the first round key with the state.
+3. **SubBytes.** Each byte is replaced using a fixed S-box built from the multiplicative inverse in GF(2 to the 8) followed by an affine map. This gives **confusion** and resists linear and differential attack.
+4. **ShiftRows.** Row r is rotated left by r bytes (0, 1, 2, 3), moving bytes between columns.
+5. **MixColumns.** Each column is multiplied by a fixed matrix over GF(2 to the 8), with entries 2, 3, 1, 1 in rotated rows. Together with ShiftRows, this gives **diffusion**: after two rounds every output byte depends on every input byte.
+6. **AddRoundKey.** The state is XORed with the round key, the only step that uses the key.
+7. **Rounds and key schedule.** There are 10, 12 or 14 rounds for 128-, 192- or 256-bit keys. The last round omits MixColumns. A key schedule expands the key into 11, 13 or 15 round keys.
+8. **Test vector.** With key 000102...0f and plaintext 00112233...ff the ciphertext is 69c4e0d86a7b0430d8cdb78070b4c55a (the FIPS-197 example, reproduced by the program in section 3.4).
+
+| Feature | DES | AES |
+|---|---|---|
+| Block size | 64 bits | 128 bits |
+| Key size | 56 bits | 128, 192 or 256 bits |
+| Rounds | 16 | 10, 12 or 14 |
+| Structure | Feistel | Substitution-permutation |
+| Status | Broken by search (1998) | Secure, standard |
+| Search time at 9 x 10 to the 10 keys/s | about 9 days | about 1.2 x 10 to the 20 years |
+
+*Conclusion.* AES is fast, flexible and carefully analysed. It is used in HTTPS, Wi-Fi, disk and file encryption, and the right way to use it is a standard mode such as GCM from a vetted library, never a home-made program.

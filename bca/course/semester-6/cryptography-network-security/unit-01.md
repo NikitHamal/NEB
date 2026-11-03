@@ -144,6 +144,121 @@ The brute-force numbers show *why* key size matters but also that a large key sp
 
 Using a random key as long as the message, used **once**, and XORing (or adding mod 26) gives the **one-time pad** (Vernam), which Shannon proved is **perfectly secret**: for every ciphertext, every plaintext of the same length is equally likely, so the ciphertext carries no information about the plaintext. It is impractical because the key must be as long as the data, truly random, shared securely and *never reused*: if two messages share a pad, XORing the two ciphertexts removes the pad and exposes the XOR of the plaintexts (the **two-time pad** mistake, behind several real breaks). Practical stream ciphers (Unit 3) imitate the pad with a short key and a pseudo-random generator, giving computational rather than perfect security.
 
+## 1.8 Seeing the ciphers: machines, frequencies and keyspaces
+
+Classical ciphers look like word puzzles on paper, but they were once real devices, and the same few ideas (substitute, rearrange, hide the pattern, enlarge the key) explain all of them. The first plate shows four historical devices. The figures then show the attack model, the Caesar shift, the letter frequencies that break simple substitution, the rail-fence zigzag and the size of each cipher's key space.
+
+```photogrid label="1.1" cols="4" ratio="1.0" caption="Ciphers as objects. (a) A scytale: a strip of leather or paper is wound around a rod, the message is written along the rod, and the unwound strip shows scrambled letters. Only a rod of the same width brings the text back. This is a transposition cipher. (b) The Alberti cipher disk of the 1460s: an inner ring of lower-case letters turns inside an outer ring of capitals, so every turn of the disk gives a new substitution alphabet. (c) A three-rotor Enigma machine: every key press moves the rotors and changes the substitution for the next letter. (d) The Lorenz SZ42 teleprinter cipher attachment (the German Tunny), whose twelve wheels produced a long stream of key bits that were combined with the message letter by letter."
+@ photo id="crypto353/scytale" cap="Scytale (transposition)"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.9 0.5 0.62 "wooden rod"
+@ photo id="crypto353/alberti" cap="Alberti cipher disk"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.9 0.5 0.8 "outer ring: plaintext"
+@ photo id="bca401/enigma" cap="Enigma rotor machine"
+fit 1.0
+focus 0.5 0.5
+@ photo id="crypto353/lorenz" cap="Lorenz SZ42 (Tunny)"
+fit 1.0
+focus 0.3 0.5
+call 0.35 0.9 0.28 0.55 "key wheels"
+```
+
+```svgfig label="1.1" caption="The attack model. Alice sends a message to Bob over an open channel. Eve only listens (a passive attack on confidentiality). Mallory sits in the channel and can change, replay or block messages (active attacks on integrity, authentication and availability). Cryptography puts the cipher and the key at the two ends so that what travels on the channel is useless to Eve and any change by Mallory is detected."
+f = Fig(580, 230)
+f.box(10, 70, 110, 60, "Alice\nplaintext P", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(460, 70, 110, 60, "Bob\nplaintext P", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(140, 82, 90, 36, "Encrypt\nkey K", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(350, 82, 90, 36, "Decrypt\nkey K", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.arrow([(120, 100), (140, 100)], color=SLATE); f.arrow([(230, 100), (350, 100)], color=SLATE, label="ciphertext C on an open channel", lpos=(290, 136))
+f.arrow([(440, 100), (460, 100)], color=SLATE)
+f.box(150, 172, 130, 44, "Eve: eavesdrops\n(passive)", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.arrow([(215, 172), (270, 104)], color=AMBER, dash=True)
+f.box(320, 8, 150, 44, "Mallory: modifies, replays,\nblocks (active)", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.arrow([(395, 52), (380, 90)], color=RED, dash=True)
+f.text(480, 190, "Services protected:", size=10.5, color=NAVY, bold=True)
+f.text(480, 206, "confidentiality, integrity,", size=10, color=SLATE)
+f.text(480, 220, "authentication, availability", size=10, color=SLATE)
+```
+
+```svgfig label="1.2" caption="A Caesar shift of 3 drawn as two sliding alphabets. The lower alphabet is the upper one moved three places to the left, so A is written as D, T as W, C as F and so on. ATTACKATDAWN becomes DWWDFNDWGDZQ, and decrypting is the same slide in the opposite direction. Because there are only 25 useful shifts, an attacker can try them all in a minute."
+f = Fig(580, 150)
+A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+f.text(10, 16, "Plain", size=10, color=NAVY, bold=True, anchor="start"); f.text(10, 74, "Cipher", size=10, color=RED, bold=True, anchor="start")
+for i, ch in enumerate(A):
+    x = 52 + i * 20
+    f.box(x, 24, 18, 22, ch, fill=BLUE, stroke=NAVY, size=10, bold=True, r=3, sw=1)
+    f.box(x, 58, 18, 22, A[(i + 3) % 26], fill=ROSE, stroke=RED, size=10, bold=True, r=3, sw=1)
+    f.line(x + 9, 46, x + 9, 58, color="#94a3b8", sw=0.8)
+f.text(290, 108, "ATTACKATDAWN  with key 3  gives  DWWDFNDWGDZQ", size=12, color=NAVY, bold=True)
+f.text(290, 128, "C = (P + 3) mod 26        P = (C - 3) mod 26        only 25 keys", size=10.5, color=SLATE)
+```
+
+```svgfig label="1.3" caption="Letter frequencies in English text (percent, from the standard published table). E is far ahead at 12.7, then T 9.1, A 8.2, O 7.5, I 7.0, N 6.7. A Caesar, affine or any single-alphabet substitution only renames the bars, so the tallest ciphertext bar probably stands for E. The Vigenere cipher flattens the picture by using several alphabets in turn. The sum of the squared frequencies is about 0.0655 for English and 1/26 = 0.0385 for random letters, which is the index of coincidence used to guess key length."
+f = Fig(580, 200)
+A = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+fr = [8.167,1.492,2.782,4.253,12.702,2.228,2.015,6.094,6.966,0.153,0.772,4.025,2.406,6.749,7.507,1.929,0.095,5.987,6.327,9.056,2.758,0.978,2.360,0.150,1.974,0.074]
+base = 168
+for i, v in enumerate(fr):
+    x = 12 + i * 21.8
+    h = v * 10.5
+    top = v > 6
+    f.box(x, base - h, 17, h, "", fill=("#fde68a" if top else BLUE), stroke=(AMBER if top else NAVY), sw=1, r=2)
+    f.text(x + 8.5, base + 14, A[i], size=10, color=NAVY, bold=True)
+    if v > 6: f.text(x + 8.5, base - h - 5, f"{v:.1f}", size=8.5, color=AMBER, bold=True)
+f.line(8, base, 576, base, color=SLATE, sw=1)
+f.text(330, 40, "Six commonest letters (amber): E T A O I N", size=10.5, color=AMBER, bold=True, anchor="start")
+f.text(330, 58, "make about half of ordinary English text", size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="1.4" caption="Rail fence with three rails for WEAREDISCOVEREDFLEEATONCE. The letters are written in a zigzag down and up the rails (top rail W, E, C, R, L, T, E; middle rail E, R, D, S, O, E, E, F, E, A, O, C; bottom rail A, I, V, D, E, N). Reading the rails one after another gives WECRLTEERDSOEEFEAOCAIVDEN. Only the number of rails is secret, so an attacker tries 2, 3, 4 and so on."
+f = Fig(580, 150)
+msg = "WEAREDISCOVEREDFLEEATONCE"
+n = 3
+rail = [min(k % 4, 4 - k % 4) for k in range(len(msg))]
+cols = ["#fde68a", BLUE, MINT]; sts = [AMBER, NAVY, TEAL]
+pts = []
+for i, ch in enumerate(msg):
+    x = 14 + i * 22.4; y = 20 + rail[i] * 36
+    pts.append((x + 9, y + 11))
+for i in range(len(pts) - 1):
+    f.line(pts[i][0], pts[i][1], pts[i + 1][0], pts[i + 1][1], color="#cbd5e1", sw=1)
+for i, ch in enumerate(msg):
+    x = 14 + i * 22.4; y = 20 + rail[i] * 36
+    f.box(x, y, 18, 22, ch, fill=cols[rail[i]], stroke=sts[rail[i]], size=10.5, bold=True, r=3, sw=1)
+rows = ["".join(msg[i] for i in range(len(msg)) if rail[i] == r) for r in range(3)]
+f.text(290, 136, "Read rail by rail:  " + "  ".join(rows), size=10.5, color=NAVY, bold=True)
+```
+
+```photogrid label="1.2" cols="2" ratio="1.25" caption="Breaking ciphers is a matter of counting. (a) A reconstructed Turing-Welchman Bombe at Bletchley Park: each drum bank tested one possible Enigma setting against a guessed piece of plaintext (a crib), so the machine searched a key space mechanically. (b) The key space of each cipher in bits (log base 2 of the number of keys): Caesar 4.6, affine 8.3, a five-letter Vigenere key 23.5, a general substitution table 88.4, AES-128 128. A search of 2 to the power 40 keys is easy today; 2 to the power 128 is impossible."
+@ photo id="crypto353/bombe" cap="Bombe: a key-search machine"
+fit 1.25
+focus 0.5 0.55
+call 0.5 0.9 0.5 0.62 "banks of rotating drums"
+@ svg cap="Key space in bits"
+f = Fig(340, 272)
+rows = [("Caesar", 4.64, "25"), ("Affine", 8.29, "312"), ("Vigenere, 5 letters", 23.50, "26^5"), ("Vigenere, 10 letters", 47.00, "26^10"), ("Substitution table", 88.38, "26!"), ("AES-128", 128.0, "2^128")]
+for i, (nm, b, k) in enumerate(rows):
+    y = 14 + i * 40
+    f.text(4, y + 5, nm, size=12, color=NAVY, bold=True, anchor="start")
+    w = b / 128 * 330
+    f.box(4, y + 12, max(w, 6), 14, "", fill=(MINT if b > 80 else SAND if b > 20 else ROSE), stroke=(TEAL if b > 80 else AMBER if b > 20 else RED), sw=1, r=3)
+    f.text(10 + w if w < 250 else 330, y + 38 if w >= 250 else y + 24, f"{b:.1f} bits  ({k} keys)", size=12, color=SLATE, bold=True, anchor="start" if w < 250 else "end")
+```
+
+### 1.8.1 Eight places where cryptography protects daily life in Nepal
+
+1. **Mobile and internet banking.** When a customer logs in to a bank app or pays through ConnectIPS, the data travel inside an encrypted TLS session. An eavesdropper on the same Wi-Fi sees only ciphertext. The lessons of this unit (key, cipher, attack) are the ancestors of that protection.
+2. **QR and wallet payments.** Fonepay QR codes and wallet apps send a payment request that must not be altered on the way. The apps protect the request with encryption and with message checks, so that changing an amount from Rs 100 to Rs 1,000 is detected. This is integrity, one of the five services in section 1.1.
+3. **Passwords and OTP codes.** A well-built system never stores your password in plain form. It stores a scrambled value, so that a stolen database does not reveal the password. One-time codes sent to your phone are a modern, short-lived cousin of the one-time pad idea.
+4. **Government portals.** Services such as the Nagarik App, tax filing and the passport system carry citizens' personal records. Encryption keeps the records private on the network, and login checks prove that the user is who they claim to be (authentication).
+5. **Exam and result systems.** A university must keep question papers secret until the exam hour and must stop anyone changing marks afterwards. Encryption protects files in storage and in transfer, and checks on the files detect tampering. This shows confidentiality and integrity working together.
+6. **Messaging and email.** Chat apps use end-to-end encryption, so that even the company running the server cannot read the messages. This idea goes back to the simple wish of Caesar to keep a message from the messenger himself.
+7. **Mobile SIM and phone locks.** The SIM card holds a secret key and proves to the network that the phone belongs to a real subscriber. Phone storage is also encrypted, so a lost phone does not give away its photos and chats.
+8. **Wi-Fi at home and campus.** A WPA2 or WPA3 password does two jobs: it controls who may join (authentication) and it derives the keys that encrypt every packet. An open network without encryption allows any neighbour with a laptop to act as Eve.
+
 ## Chapter summary
 
 - Security services are confidentiality, integrity, authentication, non-repudiation and availability; attacks are passive or active; security must rest on the key (Kerckhoffs).
@@ -176,3 +291,61 @@ Using a random key as long as the message, used **once**, and XORing (or adding 
 **9.** The key must be as long as the message, truly random and shared in secret; reusing it lets an attacker XOR two ciphertexts and cancel the key, exposing the XOR of the plaintexts.
 **10.** Security should depend only on the secrecy of the key, not of the algorithm.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the five security services and the main types of attack against them.**
+
+*Introduction.* Information security aims to protect data in storage and in transit. The ITU X.800 standard groups the aims into five services, and attacks are grouped by what the attacker does to the message (section 1.1, Figure 1.1).
+
+1. **Confidentiality** means only authorised parties can read the data. Eavesdropping on an open Wi-Fi network defeats it.
+2. **Integrity** means data are not changed without detection. A modified payment amount is an attack on integrity.
+3. **Authentication** proves who sent the data. Masquerade, where Mallory pretends to be the bank, defeats it.
+4. **Non-repudiation** stops a sender from denying a message, as when a customer denies sending a transfer order.
+5. **Availability** keeps the service usable. A denial-of-service flood breaks it.
+
+Attacks are **passive** (release of message contents and traffic analysis, no change to the data, hard to detect, so we prevent them by encryption) or **active** (modification, replay, masquerade and denial of service, easier to detect, so we add checks). Following **Kerckhoffs's principle**, the security of a system must rest only on the secrecy of the key, never on the secrecy of the method.
+
+| Service | Typical attack | Typical defence |
+|---|---|---|
+| Confidentiality | Eavesdropping | Encryption |
+| Integrity | Modification, replay | MAC, hash, sequence numbers |
+| Authentication | Masquerade | Passwords, certificates |
+| Non-repudiation | Denial of an order | Digital signature |
+| Availability | Flooding | Filtering, redundancy |
+
+**Q2 (5 marks). Encrypt ATTACKATDAWN with the Vigenere key LEMON and explain how a Vigenere cipher is broken.**
+
+*Introduction.* The Vigenere cipher uses the letters of a keyword as a series of Caesar shifts, so one plaintext letter can become different ciphertext letters (section 1.2).
+
+1. **Rule.** Write the key under the message, repeating it, and add the numbers (A = 0 to Z = 25) modulo 26.
+2. **Working.** A + L = L, T + E = X, T + M = F, A + O = O, C + N = P, K + L = V, A + E = E, T + M = F, D + O = R, A + N = N, W + L = H, N + E = R.
+3. **Ciphertext.** LXFOPVEFRNHR. Note that the three Ts become X, F and F, so the frequencies are flattened.
+4. **Decryption.** Subtract the same key letters, giving back ATTACKATDAWN.
+5. **Breaking it.** First find the key length m by Kasiski examination (repeated groups of letters in the ciphertext lie at distances that are multiples of m) or by the index of coincidence (about 0.0655 for English, about 0.0385 for random letters). Then split the text into m groups. Each group is an ordinary Caesar cipher and falls to frequency analysis, where the most common letter stands for E.
+
+Strength depends on the key length: a 5-letter key gives 26 to the power 5 = 11,881,376 keys, but the attack above never needs to try them all.
+
+**Q3 (10 marks). Describe the classical substitution and transposition ciphers. Explain how each can be broken and why none is used today.**
+
+*Introduction.* Before computers, messages were protected by hand ciphers that either **replace** letters (substitution) or **rearrange** them (transposition). They are the ancestors of modern block ciphers, which repeat both operations many times, and studying their weaknesses explains what a modern cipher must avoid (Figures 1.2 to 1.5, Plate 1.1).
+
+1. **Caesar cipher.** C = (P + k) mod 26. With k = 3, ATTACKATDAWN becomes DWWDFNDWGDZQ. There are only 25 keys, so brute force finishes in seconds.
+2. **Affine cipher.** C = (aP + b) mod 26 with gcd(a, 26) = 1. For a = 5 and b = 8, D (3) gives 23 = X. The key space is 12 times 26 = 312, still tiny. Decryption uses the inverse of a, here 21, because 5 times 21 = 105 = 1 mod 26.
+3. **Vigenere cipher.** A keyword gives a different shift to each position. It hides single-letter frequencies but repeats every m letters, so Kasiski and the index of coincidence find m and then m Caesar problems remain.
+4. **Playfair cipher.** Pairs of letters are replaced using a 5 by 5 key square, so there are 600 digraphs instead of 26 letters. Frequency analysis is harder, but digraph frequencies still leak (TH and HE are common), and a known-plaintext attack is practical.
+5. **Hill cipher.** C = K times P mod 26 with a matrix key. It hides digraph and trigraph frequencies, but it is linear: n known plaintext blocks give the matrix by solving equations. The key needs gcd(det K, 26) = 1.
+6. **Rail fence cipher.** A transposition: the message is written in a zigzag and read by rails. The letters keep their original frequencies, so the ciphertext still looks like language, and trying small numbers of rails breaks it.
+7. **One-time pad.** A random key as long as the message, used once, gives perfect secrecy (Shannon). It fails only in practice, because distributing and never reusing such keys is costly.
+
+| Cipher | Type | Key space | Weakness |
+|---|---|---|---|
+| Caesar | Substitution | 25 | Brute force |
+| Affine | Substitution | 312 | Brute force, frequencies |
+| General substitution | Substitution | 26! (88 bits) | Frequency analysis |
+| Vigenere | Polyalphabetic | 26 to the power m | Kasiski, coincidence index |
+| Playfair | Digraph | about 25! | Digraph statistics |
+| Hill | Block, linear | depends on n | Known plaintext |
+| Rail fence | Transposition | n rails | Trying every n |
+
+*Conclusion.* All of them leave a structure of the language or a linear equation behind. Modern ciphers (Unit 3) aim for confusion and diffusion, large keys and a public algorithm, and are judged by published cryptanalysis, never by secrecy of design.
