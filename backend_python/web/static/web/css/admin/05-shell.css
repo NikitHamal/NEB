@@ -301,6 +301,8 @@ body.admin-nav-open { overflow: hidden; }
 /* ---- Dialogs (confirm + quick jump) ---- */
 .admin-dialog {
   width: min(400px, calc(100% - 32px));
+  max-height: calc(100dvh - 32px);
+  margin: auto;
   padding: 0;
   border: 0;
   border-radius: var(--admin-radius-lg);
@@ -446,3 +448,7 @@ body.admin-body.admin-theme-swap *::after {
 .admin-logo path:first-child { fill: #052566; }
 html[data-theme="dark"] .admin-logo path:first-child { fill: #b4c5ff; }
 html[data-theme="dark"] .admin-logo path:last-child { fill: #6d9bff; }
+
+/* The pill is the focus indicator; the bare input inside it draws nothing. */
+.admin-palette-search:focus-within { outline: 2px solid var(--md-primary); outline-offset: 0; }
+body.admin-body .admin-palette-search input:focus-visible { outline: none; }
