@@ -85,6 +85,58 @@ Principles: **one diagram, one message**; limit to about seven elements per leve
 
 A presentation supports a speaker; it is not the speech. **Slides:** one idea per slide with a **sentence-style headline** that states the point ("Response time doubles above 200 users", not "Results"); large fonts (at least 24 pt body, 32 pt titles; readable from the back of the room), few words, high contrast, consistent template; one chart or image per slide with the message highlighted; no reading from the slide. The "6 × 6" rule (at most six lines of six words) is a rough guide. Structure the talk: *tell them what you will say, say it, tell them what you said*, with an opening that states the problem, three or four points, a clear conclusion and call to action. **Rehearse** with a timer (a common rate is about two minutes per slide), prepare for questions, test the projector and file format, and bring a backup (PDF). **Posters** for project exhibitions: a title and authors, the problem and objective, method, results as large figures, conclusion; readable at 1–2 metres; roughly 300–800 words in total; QR code to the demo or repository.
 
+## 5.7 Seeing the ideas: honest axes, chart choice and contrast
+
+```svgfig label="5.1" caption="The lie factor. The data rose from 100 to 105 (+5%). (a) On an axis that starts at 95 the bars are 5 and 10 units tall: a 100% jump, lie factor 100/5 = 20. (b) On a zero-based axis the bars are 100 and 105 tall and the picture shows what the data say, lie factor 1."
+f = Fig(580, 240)
+f.text(145, 18, "(a) axis starts at 95: misleading", size=12, color=RED, bold=True)
+f.line(40, 200, 250, 200, color=SLATE, sw=1.6)
+f.box(70, 200 - 60, 60, 60, "100", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(160, 200 - 120, 60, 120, "105", fill=ROSE, stroke=RED, size=11, bold=True)
+f.text(145, 220, "baseline 95: heights 5 and 10", size=10.5, color=SLATE, italic=True)
+f.text(435, 18, "(b) axis starts at 0: honest", size=12, color=TEAL, bold=True)
+f.line(330, 200, 540, 200, color=SLATE, sw=1.6)
+f.box(360, 200 - 120, 60, 120, "100", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(450, 200 - 126, 60, 126, "105", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.text(435, 220, "baseline 0: heights 100 and 105", size=10.5, color=SLATE, italic=True)
+```
+
+```svgfig label="5.2" caption="Choosing a chart by the question the reader asks. Follow the question to the chart; if no chart fits, use a table or a sentence."
+f = Fig(580, 214)
+f.box(200, 8, 180, 34, "What is the question?", fill=NAVY, color="#ffffff", bold=True, size=12)
+C = [(8, "Exact values?", "Table", MINT, TEAL), (124, "Compare\ncategories?", "Bar chart", BLUE, NAVY), (240, "Change\nover time?", "Line chart", SAND, AMBER), (356, "Parts of a\nwhole (few)?", "Pie or\nstacked bar", ROSE, RED), (472, "Two variables\nrelated?", "Scatter plot", MINT, TEAL)]
+for x, q, c, fl, st in C:
+    f.arrow([(290, 42), (x + 50, 74)], color=SLATE)
+    f.box(x, 74, 100, 46, q, fill=fl, stroke=st, size=11)
+    f.arrow([(x + 50, 120), (x + 50, 146)], color=SLATE)
+    f.box(x, 146, 100, 44, c, fill="#ffffff", stroke=st, bold=True, size=11.5)
+f.text(290, 206, "start each chart with a title that states the message", size=10.5, color=SLATE, italic=True)
+```
+
+```svgfig label="5.3" caption="WCAG contrast ratios computed in this unit: the same sentence in five text colours on white. The AA requirement for body text is 4.5 to 1. Medium grey looks clean but fails; red just misses."
+f = Fig(580, 176)
+S = [("#000000", "21.00:1", "pass"), ("#0000ff", "8.59:1", "pass"), ("#767676", "4.54:1", "pass"), ("#ff0000", "4.00:1", "fail"), ("#999999", "2.85:1", "fail")]
+for i, (c, r, v) in enumerate(S):
+    x = 10 + i * 114
+    f.box(x, 12, 104, 72, "", fill="#ffffff", stroke=SLATE)
+    f.text(x + 52, 40, "Aa Sample", size=14, color=c, bold=True)
+    f.text(x + 52, 66, "text", size=12, color=c)
+    f.text(x + 52, 104, c, size=11, color=SLATE)
+    f.box(x + 12, 114, 80, 24, r, fill=MINT if v == "pass" else ROSE, stroke=TEAL if v == "pass" else RED, size=11.5, bold=True)
+    f.text(x + 52, 156, "AA " + v, size=11.5, color=TEAL if v == "pass" else RED, bold=True)
+```
+
+### 5.7.1 Eight rules for honest and readable visuals
+
+1. **Choose the graphic from the question.** Use a table for exact values, a bar chart to compare categories, a line chart for change over time and a scatter plot for a relationship. A pie chart only works for a few parts of one whole. The wrong chart hides the message even when the data are correct.
+2. **Start bar charts at zero.** Bars encode length, so a cut axis changes the story. In Figure 5.1 a 5% rise looks like 100%. If a line chart must be cut, mark the break clearly.
+3. **Give every graphic a message title.** "Uptime rose 5% after the upgrade" tells the reader what to see, while "Uptime chart" does not. Add units, axis labels and the source. A reader should understand the figure without reading the paragraph.
+4. **Keep it simple.** Remove 3-D effects, heavy grid lines and decoration that carry no data. Use direct labels instead of a legend where possible. A Nepal Rastra Bank report with clean charts is easier to trust than one with shadows and gradients.
+5. **Do not use colour alone.** One man in twelve has some colour-vision deficiency, and many pages are printed in black and white. Add labels, patterns or shapes. Use limited, consistent colours so each means one thing.
+6. **Check contrast.** Body text needs at least 4.5 to 1 on its background (Figure 5.3). Light grey on white is a frequent failure on slides and websites. Test with a contrast checker before publishing.
+7. **Draw diagrams with a purpose.** A diagram should have one idea, consistent boxes and arrows, a legend if needed and labels you can read in print. Flowcharts, block diagrams and network maps each have conventions to follow. Too many boxes on one page become a puzzle.
+8. **Design slides for the room.** Use one message per slide, at most about six lines, a font of at least 24 points and a picture instead of a paragraph. Put detail in a handout. A speaker at a college project defence should be heard, not read from the screen.
+
 ## Chapter summary
 
 - Choose the medium by purpose: tables for exact values, charts for patterns, diagrams for structure; every graphic is referred to, numbered, captioned and self-explanatory.
@@ -117,3 +169,66 @@ A presentation supports a speaker; it is not the speech. **Slides:** one idea pe
 **9.** Rounded terminator (start/end), rectangle (process step), diamond (decision with Yes/No exits), parallelogram (input/output), arrows (flow).
 **10.** One idea per slide, sentence headlines, large fonts and high contrast, minimal text with a clear visual, consistent template, rehearse with a timer (any four).
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the lie factor with an example. How can charts be made honest?**
+
+*Definition.* Tufte's **lie factor** = (size of effect shown in the graphic) / (size of effect in the data). An honest graphic has a lie factor close to 1.
+
+*Example (Figure 5.1).* A company's uptime rose from 100 to 105, a 5% increase. If the bars start at 95, their heights are 5 and 10, so the picture shows a 100% rise. Lie factor = 100 / 5 = **20**: the reader believes the quantity doubled. On a zero-based axis the bars are 100 and 105 tall and the factor is 1.
+
+*Making charts honest.*
+
+1. Start bar charts at zero; mark any break on a line chart.
+2. Keep the aspect ratio reasonable and the scale even.
+3. Show units, source and sample size.
+4. Avoid 3-D and area effects that exaggerate size.
+5. Choose the chart from the reader's question.
+
+*Conclusion.* A chart is evidence, so its size must match the data. A distorted chart misleads even if every number printed on it is correct.
+
+**Q2 (5 marks). What is colour accessibility? Compute and interpret WCAG contrast for the colours given in the unit.**
+
+*Accessibility.* About 1 in 12 men and 1 in 200 women have a colour-vision deficiency; readers also use black-and-white printouts and read in sunlight. So never use colour as the only carrier of meaning, and give text enough contrast with its background.
+
+*WCAG rule.* The contrast ratio is (L1 + 0.05) / (L2 + 0.05), where L is relative luminance. WCAG AA asks for **4.5 : 1** for body text and 3 : 1 for large text.
+
+| Text on white | Hex | Ratio | AA body text |
+|---|---|---|---|
+| Black | #000000 | 21.00:1 | pass |
+| Blue | #0000ff | 8.59:1 | pass |
+| Dark grey | #767676 | 4.54:1 | pass |
+| Red | #ff0000 | 4.00:1 | fail |
+| Medium grey | #999999 | 2.85:1 | fail |
+
+*Interpretation.* #767676 is the lightest grey that still passes on white; #999999 looks neat but fails. Fix by darkening the text, adding a label or pattern, and checking with a contrast tool. *Conclusion:* accessible design helps everyone, not only people with disabilities.
+
+**Q3 (10 marks). Explain how to choose and design tables, charts, diagrams and slides for a technical document.**
+
+*Introduction.* Words, tables, charts and diagrams each carry information best in different cases. The writer must choose by the reader's question and then design the graphic so that it is honest, readable and accessible (Figures 5.1 to 5.3).
+
+*1. Tables.* Use when readers need exact values or comparisons across several attributes. Rules: a title, clear column headings with units, aligned numbers, consistent decimals, light lines, no empty cells without a note.
+
+*2. Charts.* Choose by question (Figure 5.2): bar for categories, line for time, scatter for relationships, pie or stacked bar for a few parts of a whole, histogram for distribution. Give a message title, axis labels with units and the data source.
+
+*3. Honest scales.* Bars start at zero. The lie factor compares the effect drawn with the effect in the data: truncating an axis for a 5% change gives a factor of 20.
+
+*4. Colour and accessibility.* Do not rely on colour alone; use patterns and labels; keep contrast at 4.5 : 1 or better (#767676 passes at 4.54, #999999 fails at 2.85).
+
+*5. Technical diagrams.* One idea per diagram; consistent shapes and arrows; labels in readable size; a legend; a caption and a reference in the text. Types: flowchart, block, network, UML, ER and sequence diagrams.
+
+*6. Slides and posters.* One message per slide, at most about six lines, large type, one picture, and detail in a handout. Rehearse with a timer.
+
+*Comparison.*
+
+| Need | Best form | Avoid |
+|---|---|---|
+| exact values | table | chart without labels |
+| compare categories | bar chart | pie with 12 slices |
+| trend over time | line chart | 3-D bars |
+| relationship | scatter plot | dual axes without warning |
+| process | flowchart | paragraph of steps |
+| talk | slide with one idea | slide of full sentences |
+
+*Conclusion.* Good visuals are chosen by the question, drawn with honest scales and checked for contrast, so they let the reader see the point in seconds without being misled.

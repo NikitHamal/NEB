@@ -1611,6 +1611,58 @@
   "source": "Wikimedia Commons",
   "title": "Technician with laptop working on server rack at NERSC"
  },
+ "bca354/library": {
+  "author": "Dr. Marcus Gossler",
+  "bytes": 415722,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca354/library.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "http://creativecommons.org/licenses/by-sa/3.0/",
+  "page": "https://commons.wikimedia.org/wiki/File:Graz_University-Library_reading-room.jpg",
+  "sha1": "afd8aa8479ff2978",
+  "source": "Wikimedia Commons",
+  "title": "Graz University-Library reading-room"
+ },
+ "bca354/manual": {
+  "author": "Mrbeastmodeallday",
+  "bytes": 578041,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca354/manual.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Yaris_Owner_Manual.jpg",
+  "sha1": "0dd2d3716d35f2be",
+  "source": "Wikimedia Commons",
+  "title": "Yaris Owner Manual"
+ },
+ "bca354/typewriter": {
+  "author": "Sammlung der Medien und Wissenschaft",
+  "bytes": 204284,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca354/typewriter.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Olympia_Simplex.jpg",
+  "sha1": "6dcbd03f84e5a677",
+  "source": "Wikimedia Commons",
+  "title": "Olympia Simplex"
+ },
+ "bca354/warning": {
+  "author": "Dietmar Rabich",
+  "bytes": 447265,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca354/warning.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:San_Francisco_(CA,_USA),_Ferry_Building,_Warning_sign_--_2012_--_4248.jpg",
+  "sha1": "cb8e88be8397d5cf",
+  "source": "Wikimedia Commons",
+  "title": "San Francisco (CA, USA), Ferry Building, Warning sign -- 2012 -- 4248"
+ },
  "bca404/datacenter": {
   "author": "Hugovanmeijeren",
   "bytes": 529581,

@@ -122,6 +122,44 @@ The lightly edited copy scores high (most triples are identical), and the paraph
 
 **Using AI tools.** Text and code generators can help with brainstorming, outlines, language polishing and explanation, but they can also **invent facts and references** that look real. Follow your institution's policy; **disclose** what you used and how; **verify every claim and every citation** against the original; never submit generated text as your own analysis; and remember that you remain responsible for the accuracy of what you submit.
 
+## 4.6 Seeing the ideas: the library, the hourglass and two citation styles
+
+```photogrid label="4.1" cols="2" ratio="1.0" caption="(a) A university reading room: the literature review begins in places like this, or today on a library portal such as TU's. Searching, reading and noting sources is the slow, honest part of research. (b) The IMRaD paper is an hourglass: it opens broad, narrows to what you did and found, then widens again to meaning."
+@ photo id="bca354/library" cap="University reading room"
+fit 1.0
+focus 0.5 0.55
+@ svg cap="IMRaD hourglass"
+f = Fig(300, 300)
+f.poly([(20, 10), (280, 10), (200, 90), (100, 90)], fill=BLUE, stroke=NAVY, label="Introduction\nbroad to narrow", lx=150, ly=45, size=12.5, color=NAVY)
+f.box(100, 90, 100, 56, "Methods\nwhat you did", fill=MINT, stroke=TEAL, size=12.5)
+f.box(100, 146, 100, 56, "Results\nwhat you found", fill=SAND, stroke=AMBER, size=12.5)
+f.poly([(100, 202), (200, 202), (280, 282), (20, 282)], fill=ROSE, stroke=RED, label="Discussion\nnarrow to broad", lx=150, ly=244, size=12.5, color=NAVY)
+```
+
+```svgfig label="4.1" caption="The same reference in APA 7 and IEEE style. APA puts the year right after the authors; IEEE numbers the source, uses initials first, quotes the title and ends with the year. Both give the same facts, so choose one style and keep it throughout."
+f = Fig(580, 200)
+def row(y, lab, parts):
+    f.text(14, y - 10, lab, size=12, color=NAVY, bold=True, anchor="start")
+    x = 14
+    for t, w, fl, st in parts:
+        f.box(x, y, w, 40, t, fill=fl, stroke=st, size=9.5)
+        x += w + 4
+row(32, "APA 7", [("Rivest, R., Shamir, A., &\nAdleman, L.", 140, BLUE, NAVY), ("(1978).", 50, SAND, AMBER), ("A method for obtaining digital\nsignatures and public-key\ncryptosystems.", 160, MINT, TEAL), ("Communications of the ACM,\n21(2), 120-126.", 178, ROSE, RED)])
+row(112, "IEEE", [("[1] R. Rivest, A. Shamir, and\nL. Adleman,", 150, BLUE, NAVY), ("\"A method for obtaining digital\nsignatures and public-key\ncryptosystems,\"", 166, MINT, TEAL), ("Commun. ACM,\nvol. 21, no. 2,\npp. 120-126,", 120, ROSE, RED), ("1978.", 100, SAND, AMBER)])
+f.text(290, 176, "author  |  title  |  source  |  year: the same four parts in a different order", size=11, color=SLATE, italic=True)
+```
+
+### 4.6.1 Eight habits of honest academic writing
+
+1. **Define a narrow question.** A proposal that says "study the internet in Nepal" is too wide to finish. "How many of 120 BCA students at one Pokhara campus use mobile wallets weekly?" can be answered in a month. A sharp question decides the method, the sample and the length.
+2. **Read before you write.** Spend the first weeks finding five to fifteen good sources and noting what each says. Use Google Scholar, institutional access and the university library. The review shows what is already known and where your work fits.
+3. **Keep a source log.** Record author, year, title, source, page and a one-line note for every source as you read. This takes a minute and saves hours when the bibliography is due. A spreadsheet or a free reference manager is enough.
+4. **Quote, paraphrase and cite correctly.** Put exact words in quotation marks with a page number, and when paraphrasing change the structure and still cite. Every number, figure and idea that is not common knowledge needs a source. Copying a few lines from a blog without credit is plagiarism even if it is short.
+5. **Use one citation style.** APA is common in social science and IEEE in engineering and computing, but a department may demand its own. Check the guide at the start, then use a formatter or tool consistently. Mixed styles look careless and make sources hard to find.
+6. **Write the abstract last.** A good abstract states the problem, method, main result and conclusion in 150 to 250 words. Because it summarises the finished work, write it after the discussion. It is the part most readers see, so check every number.
+7. **Report the method so others can repeat it.** Give the sample size, tools, versions, dates and steps. A reader should be able to follow the Methods section and get a similar result. Hiding the method makes the work impossible to check.
+8. **Be honest about limits and AI use.** Say what the study could not show, such as a small sample from one campus. Follow the institution's rule on AI tools and disclose any help, and never accept a reference without finding the real source. Honesty about limits makes the findings more trusted, not less.
+
 ## Chapter summary
 
 - A proposal states a specific problem, answerable research questions, a review ending in a gap, a method, scope, timeline and references.
@@ -155,3 +193,68 @@ The lightly edited copy scores high (most triples are identical), and the paraph
 **9.** Invented facts or references, no real understanding or originality, and a breach of integrity rules if undisclosed.
 **10.** Whenever you use or adapt someone else's code, library or tool in your work, to give credit and meet the licence.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the structure of a research proposal.**
+
+*Introduction.* A **research proposal** asks permission and funding to carry out a study by showing that the question is worth asking and the plan is sound. It is judged on clarity, feasibility and value.
+
+*Parts.*
+
+1. **Title:** specific and informative.
+2. **Abstract or summary:** the whole plan in 150 to 250 words.
+3. **Introduction and background:** the problem and why it matters.
+4. **Literature review:** what is known, and the gap.
+5. **Objectives or research questions:** two to four, measurable.
+6. **Methodology:** design, population and sample, data collection, analysis, ethics.
+7. **Work plan (Gantt chart) and budget:** tasks, weeks, costs.
+8. **Expected outcome and references.**
+
+*Example.* "Mobile-wallet use among 120 BCA students of one Pokhara campus": objective, to estimate weekly use; method, an online questionnaire with a random sample; analysis, percentages and a chi-square test; timeline, 8 weeks. *Conclusion:* a proposal convinces by being narrow, feasible and clearly planned.
+
+**Q2 (5 marks). Distinguish plagiarism from legitimate use of sources. How can plagiarism be avoided?**
+
+*Plagiarism* is presenting another person's words, ideas, data or code as your own. Forms include copying without quotation marks, patchwork copying with a few words changed, paraphrasing without credit, submitting bought or AI-generated work as your own, and self-plagiarism.
+
+*Legitimate use* acknowledges the source in the text and in a reference list.
+
+| Action | Plagiarism? |
+|---|---|
+| Quoting with quotation marks, page and citation | no |
+| Paraphrasing in your own structure and citing | no |
+| Common knowledge (water boils at 100 °C at sea level) | no citation needed |
+| Copying a paragraph, changing a few words | yes |
+| Using a figure without credit | yes |
+
+*Avoiding it.* Keep a source log, take notes in your own words, quote exactly when needed, cite as you write, use one style, and check with a similarity tool. A similarity checker only measures matching text: in the book's shingle program, a lightly edited copy scored 0.80 while a true paraphrase scored 0.00, so a person must still judge. *Conclusion:* credit every borrowed idea and the work stays honest.
+
+**Q3 (10 marks). Explain the structure of a scientific paper (IMRaD), the literature review and the APA and IEEE citation styles.**
+
+*Introduction.* A scientific report follows a conventional structure so that readers can find what they need quickly. The most common is **IMRaD** (Figure 4.1 hourglass in Plate 4.1).
+
+*IMRaD.*
+
+1. **Abstract:** a stand-alone summary of problem, method, result and conclusion.
+2. **Introduction:** begins broad, states the problem, the gap and the objective.
+3. **Methods:** exactly what was done, so it can be repeated.
+4. **Results:** the findings, with tables and figures, without interpretation.
+5. **Discussion:** what the results mean, how they compare with earlier work, limits and future work.
+6. **Conclusion and references.**
+
+*Literature review.* It is a critical summary of existing work, organised by theme and not by source, that shows what is known, where studies disagree and what gap remains. Steps: search (keywords, databases), screen, read, note, group by theme, compare, state the gap. It is not a list of abstracts.
+
+*Citation.* Citing credits sources, lets readers verify and avoids plagiarism. Two styles (Figure 4.1 in the text):
+
+| Feature | APA 7 | IEEE |
+|---|---|---|
+| In-text | (Rivest et al., 1978) | [1] |
+| Order of list | alphabetical by author | order of first citation |
+| Author names | Rivest, R. | R. Rivest |
+| Year | after the authors | at the end |
+| Title | plain, sentence case | in quotation marks |
+| Typical field | social science, education | engineering, computing |
+
+*Example output of the book's formatter.* APA: Rivest, R., Shamir, A., & Adleman, L. (1978). A method for obtaining digital signatures and public-key cryptosystems. *Communications of the ACM, 21*(2), 120–126. IEEE: R. Rivest, A. Shamir, and L. Adleman, "A method for obtaining digital signatures and public-key cryptosystems," *Communications of the ACM*, vol. 21, no. 2, pp. 120–126, 1978.
+
+*Conclusion.* IMRaD gives every paper the same map, the literature review shows the gap, and one consistent citation style gives credit and makes sources traceable.

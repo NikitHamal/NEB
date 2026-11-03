@@ -73,6 +73,55 @@ Technical writers and engineers hold readers' trust, and carelessness or dishone
 
 **A short ethical test** for a questionable communication: *Is it true? Is it complete enough to avoid misleading? Does it credit others? Would I be comfortable if the affected people read it? Does it comply with the law and with my organisation's policy?*
 
+## 6.6 Seeing the ideas: the four edits, the handwritten letter and the first meeting
+
+```photogrid label="6.1" cols="3" ratio="1.0" caption="Professional communication is people communication. (a) A handwritten letter: before e-mail, tone, layout and a clear request were already the writer's job. (b) A handshake at the end of a meeting: the follow-up e-mail and minutes are written so the agreement survives memory. (c) A career-fair table: the CV and cover letter are read here in under a minute."
+@ photo id="bca105/pen" cap="Handwritten letter"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca452/handshake" cap="Handshake"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca452/interview" cap="Career-fair table"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="6.1" caption="The four levels of editing, worked from large to small. Fixing commas in a paragraph that will be deleted wastes time, so structure comes first and proofreading last."
+f = Fig(580, 214)
+L = [("1 Substantive", "content and structure", "Is the purpose met?\nAnything missing or\nin the wrong order?", MINT, TEAL), ("2 Copy edit", "sentences and words", "Clear, concise,\ncorrect, consistent?\nGrammar and terms.", BLUE, NAVY), ("3 Technical edit", "accuracy", "Are facts, numbers,\ncommands and diagrams\nright? Run the code.", SAND, AMBER), ("4 Proofread", "surface of final text", "Typos, punctuation,\nnumbers, cross-\nreferences, layout.", ROSE, RED)]
+for i, (t, s, q, fl, st) in enumerate(L):
+    x = 8 + i * 144
+    f.box(x, 12, 134, 34, t, fill=fl, stroke=st, bold=True, size=12)
+    f.text(x + 67, 62, s, size=10.5, color=st, italic=True)
+    f.box(x, 74, 134, 86, q, fill="#ffffff", stroke=st, size=10.5)
+    if i < 3: f.arrow([(x + 134, 29), (x + 144, 29)])
+f.arrow([(40, 176), (540, 176)], color=SLATE, label="large changes to small changes", lpos=(290, 196))
+```
+
+```svgfig label="6.2" caption="The concision edit of 6.2 in numbers: 44 words become 22, a 50.0% cut, by five mechanical replacements. Each block is one phrase removed or shortened."
+f = Fig(580, 150)
+f.text(14, 16, "Before: 44 words", size=12, color=RED, bold=True, anchor="start")
+f.box(14, 24, 44 * 11.8, 30, "", fill=ROSE, stroke=RED)
+f.text(14 + 44 * 11.8 / 2, 39, "44 words", size=11, color=RED, bold=True)
+f.text(14, 84, "After: 22 words", size=12, color=TEAL, bold=True, anchor="start")
+f.box(14, 92, 22 * 11.8, 30, "", fill=MINT, stroke=TEAL)
+f.text(14 + 22 * 11.8 / 2, 107, "22 words", size=11, color=TEAL, bold=True)
+f.box(14 + 22 * 11.8 + 6, 92, 22 * 11.8 - 6, 30, "22 words saved (50.0%)", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.text(290, 142, "In order to > To   |   due to the fact that > because   |   at this point in time > now", size=10, color=SLATE, italic=True)
+```
+
+### 6.6.1 Eight habits of professional communicators
+
+1. **Write a clear subject line.** The subject should tell the reader the topic and the action, such as "Approval needed by Friday: lab server purchase". A reader decides from this line whether to open the message now. Vague lines like "Hello" or "Urgent" are ignored or distrusted.
+2. **Open with the point.** The first sentence says why you are writing, and details follow. A busy principal or manager may read only two lines. Put the request, the date and the number first.
+3. **Keep a polite, direct tone.** Replace "Kindly do the needful" with "Please send the signed form by Friday". Greet by name and thank the reader when it is natural. Courtesy and clarity together get better answers than long formal phrases.
+4. **Edit in separate passes.** First check structure, then sentences, then facts, then the surface. Wait a day if you can, and read aloud. A single quick read finds only a few of the mistakes.
+5. **Record meetings in minutes.** Minutes list date, attendees, decisions, actions, owners and deadlines. Send them within 24 hours so that an agreement is not lost. In a college committee they protect everyone from "I never agreed to that".
+6. **Make your CV and cover letter specific.** Use one or two pages, action verbs and numbers: "built a library system used by 300 students" beats "hard-working team player". Tailor the letter to the job and check every date. Recruiters in Kathmandu often read for under a minute.
+7. **Protect confidentiality and credit.** Do not forward private messages or customer data, and use "bcc" for large groups. Credit teammates and sources by name. A leaked client list or a copied report can end a career.
+8. **Follow the code of ethics.** Be honest about data and limits, avoid misleading charts, disclose conflicts of interest and AI help, and report risks to safety. Ethical writing is part of being a professional, not an optional extra, and a signed report carries the writer's name.
+
 ## Chapter summary
 
 - Edit in levels (substantive, copy, proofread, technical) from large to small; use a checklist, rest, read aloud and verify every number.
@@ -105,3 +154,85 @@ Technical writers and engineers hold readers' trust, and carelessness or dishone
 **9.** Refuse, document the request, and escalate to a supervisor or appropriate authority; altering results is dishonest and may be unlawful.
 **10.** Alt text for images, real headings and table headers, sufficient contrast, plain language, not relying on colour alone, captions for media.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the levels of editing and the techniques of proofreading.**
+
+*Introduction.* Editing improves a draft after it is written. It is done in levels, from large to small, because it is wasteful to correct commas in a paragraph that will be deleted (Figure 6.1).
+
+*Levels.*
+
+1. **Substantive (developmental) editing:** content and structure; is the purpose met, is anything missing, redundant or out of order?
+2. **Copy editing:** sentences and words; clarity, concision, grammar, usage and consistent terms.
+3. **Technical editing:** accuracy of facts, numbers, commands and diagrams; the editor runs the code.
+4. **Proofreading:** the final surface; typos, punctuation, numbering, cross-references and layout.
+
+*Proofreading techniques.* Let the text rest for a day, read it aloud, read backward sentence by sentence for spelling, use a ruler or cursor line, check every number against its source and every cross-reference against its target, and print a copy because errors hide on screens.
+
+*Example.* The concision edit of 6.2 cut 44 words to 22 (50.0%). *Conclusion:* edit in levels, large to small, and proofread last.
+
+**Q2 (5 marks). Write a professional e-mail request and explain the features that make it effective.**
+
+*Specimen.*
+
+> **Subject:** Request: two-day extension for Project Report (Roll 24)
+>
+> Dear Mr Sharma,
+>
+> I am writing to request a two-day extension for the Project II report, due on 12 Poush. My laptop's storage failed on 8 Poush, and I have recovered the files but lost two days. I can submit the complete report by 14 Poush at 5 pm. I attach the recovery receipt and my current draft.
+>
+> Thank you for considering this request.
+>
+> Sincerely,
+> Anisha Gurung, BCA Semester VI, Roll 24
+
+*Features.*
+
+| Feature | In the e-mail |
+|---|---|
+| Clear subject | topic, action and identifier |
+| Point first | the request in the first sentence |
+| Reason, brief | one fact with evidence |
+| Specific proposal | new date and time |
+| Courtesy | greeting, thanks, polite tone |
+| Attachments named | receipt and draft |
+
+*Conclusion.* An effective e-mail can be understood in ten seconds and answered with one reply.
+
+**Q3 (10 marks). Describe professional reports, minutes, CVs and cover letters, and discuss the ethical responsibilities of a technical communicator.**
+
+*Introduction.* Beyond manuals and papers, a graduate writes reports, meeting minutes and job applications. Each has a conventional form that the reader expects (Plate 6.1).
+
+*1. Reports.* A formal report has a title page, summary (the answer in 3 to 5 sentences), table of contents, introduction, body with headings, conclusions, recommendations, references and appendices. The summary comes first because the reader may stop there (inverted pyramid).
+
+*2. Minutes.* Record the date, time, place, attendees, apologies, agenda items, decisions, actions with an owner and a deadline, and the next meeting. They are brief, neutral, in the past tense and sent within a day.
+
+*3. CV.* One or two pages: contact details, a short profile, education, projects, experience, skills and references. Use action verbs and numbers, a plain layout and a consistent date format. Check spelling twice.
+
+*4. Cover letter.* Addressed to a named person; the first paragraph names the job and the main reason you fit, the middle gives two or three specific proofs, and the close asks for an interview and thanks the reader.
+
+*5. Ethics in technical communication.*
+
+| Responsibility | Meaning | Example |
+|---|---|---|
+| Honesty | state facts and limits | report a failed test |
+| Accuracy | check numbers and sources | recompute totals |
+| Fair visuals | no distorted charts | zero-based axis |
+| Credit | cite sources and teammates | APA or IEEE reference |
+| Confidentiality | protect private data | bcc, access control |
+| Safety | warn clearly of danger | warning before the step |
+| Disclosure | conflicts of interest and AI help | statement in the report |
+
+*6. Professional codes.* Societies such as the IEEE and the ACM publish codes that require public safety, honesty and avoidance of harm. A communicator who sees a risk hidden in a report should raise it through the proper channel, and, in the last resort, refuse to sign.
+
+*Comparison of the four documents.*
+
+| Document | Reader | Length | Key rule |
+|---|---|---|---|
+| Report | manager, client | pages | summary first |
+| Minutes | members | 1 to 2 pages | decisions, owners, dates |
+| CV | recruiter | 1 to 2 pages | facts and numbers |
+| Cover letter | recruiter | 1 page | tailored to the job |
+
+*Conclusion.* Each document is judged by whether the reader can act on it quickly, and an ethical writer ensures that what is written is true, fair and safe.

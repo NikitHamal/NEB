@@ -100,6 +100,48 @@ Verify the first one by hand: the Plain text has 15 words in 3 sentences (3 + 3 
 
 Reading good technical English (documentation of widely used tools, standards such as RFCs, quality newspapers) is the best way to absorb idiom; use a spell-checker and a grammar tool, but verify their suggestions, and keep your own list of recurring errors.
 
+## 2.5 Seeing the ideas: scores and sentence surgery
+
+```svgfig label="2.1" caption="The three texts of the executed program in 2.3. Lower bars are easier. The heavy sentence needs a postgraduate reading level (FK 19.0, Fog 21.7); the seven-word rewrite sits near fourth grade. After is a tiny sample, so its Fog (8.5) exceeds Plain (7.3) even though it is shorter."
+f = Fig(580, 214)
+rows = [("Plain (15 words)", 4.5, 7.3), ("Before (21 words)", 19.0, 21.7), ("After (7 words)", 4.0, 8.5)]
+k = 11
+for i, (t, fk, fog) in enumerate(rows):
+    y = 14 + i * 62
+    f.text(14, y + 25, t, size=11.5, color=NAVY, bold=True, anchor="start", vmid=True)
+    f.box(130, y + 4, fk * k, 22, "", fill=BLUE, stroke=NAVY)
+    f.text(130 + fk * k + 6, y + 15, "FK %.1f" % fk, size=10.5, color=NAVY, anchor="start", vmid=True)
+    f.box(130, y + 30, fog * k, 22, "", fill=SAND, stroke=AMBER)
+    f.text(130 + fog * k + 6, y + 41, "Fog %.1f" % fog, size=10.5, color=AMBER, anchor="start", vmid=True)
+f.line(130 + 8 * k, 8, 130 + 8 * k, 198, color=TEAL, dash=True)
+f.text(130 + 8 * k, 208, "grade 8 target for general readers", size=10, color=TEAL, italic=True)
+f.box(440, 20, 130, 74, "FK = Flesch-Kincaid\ngrade level\nFog = Gunning Fog\nindex (also a grade)", fill=MINT, stroke=TEAL, size=10.5)
+```
+
+```svgfig label="2.2" caption="Sentence surgery on the 21-word instruction. Struck-out words are deadwood or abstract nouns; each coloured pair shows the replacement. Result: 7 words, one instruction, active voice."
+f = Fig(580, 196)
+W = ["It is imperative that", "users of the application", "ensure", "the utilization of", "authentication credentials", "prior to", "the initiation of any", "transaction."]
+X = [14, 14, 14, 14, 14, 14, 14, 14]
+f.box(14, 12, 552, 40, "It is imperative that users of the application ensure the utilization of authentication\ncredentials prior to the initiation of any transaction.", fill=ROSE, stroke=RED, size=11)
+steps = [("It is imperative\nthat", "delete", 14), ("users of the\napplication", "you", 154), ("ensure the utilization\nof authentication\ncredentials", "log in", 294), ("prior to the initiation\nof any", "before you start a", 434)]
+for t, r, x in steps:
+    f.box(x, 66, 132, 50, t, fill=SAND, stroke=AMBER, size=10)
+    f.arrow([(x + 66, 116), (x + 66, 130)], color=TEAL)
+    f.box(x, 130, 132, 26, r, fill=MINT, stroke=TEAL, bold=True, size=11)
+f.box(150, 164, 280, 24, "Log in before you start a transaction.", fill=NAVY, color="#ffffff", bold=True, size=12)
+```
+
+### 2.5.1 Eight benefits of plain language in Nepali public and business writing
+
+1. **Fewer mistakes by citizens.** A form that says "write your name as on your citizenship certificate" is filled correctly, while one that says "furnish particulars as per the instrument of identity" is returned. Every returned form costs the citizen a trip and the office a second review. Plain words cut rework on both sides.
+2. **Faster service.** Staff spend less time explaining what a notice means when the notice is clear. A Department of Transport Management counter that hands out a one-page numbered checklist answers fewer repeated questions. The queue moves faster for everybody.
+3. **Wider reach for second-language readers.** Many Nepali readers learn English as a second or third language after Nepali and a mother tongue. Short sentences and common words are understood without a dictionary. This is why Nagarik App help text should avoid words like "authenticate" when "sign in" will do.
+4. **Lower support cost.** Every unclear error message becomes a call or a visit to the help desk. Replacing "Error 0x80070057" with "The file name is too long. Use fewer than 100 characters." removes the need to ask. A bank or wallet such as Fonepay saves money when users solve problems alone.
+5. **Safer instructions.** In electrical, medical or office-safety text, a misread step can injure someone. One action per sentence and the warning before the step reduce the chance of error. The same rule protects a data centre technician who must pull cables in the right order.
+6. **Better legal and financial clarity.** Contracts, terms and tax notices written in plain language leave less room for dispute. A loan notice that states "pay NPR 12,500 by 15 Magh 2082" is harder to misunderstand than "remit the requisite amount in due course". Clear dates and amounts also protect the writer.
+7. **Stronger trust.** Readers trust a writer who does not hide behind long words. An institution whose circulars are easy to read looks organised and honest. Tribhuvan University EMIS notices that give a plain date and time are respected more than vague ones.
+8. **Easier translation and reuse.** Short, active sentences with consistent terms translate into Nepali, Maithili or Newari with fewer errors, and they can be reused in a manual, a chatbot and a poster. Machine translation also works better on plain text. One clear source becomes many useful documents.
+
 ## Chapter summary
 
 - Write short, active sentences with strong verbs, concrete words, specific numbers and consistent terms; cut deadwood and noun stacks.
@@ -133,3 +175,64 @@ Reading good technical English (documentation of widely used tools, standards su
 **9.** They ignore content, structure and the reader's background knowledge; they can be gamed; they are unreliable on short samples and non-English text.
 **10.** "Please send me the signed form by Friday." (State the action, the object and the deadline.)
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). State the rules for writing clear technical sentences, with examples.**
+
+*Introduction.* A technical sentence should be read once and understood the first time, because the reader is usually trying to do something. Figure 2.2 shows how a 21-word sentence becomes a 7-word one.
+
+*Rules with examples.*
+
+1. **Short sentences** of 15 to 20 words on average, one instruction in each.
+2. **Active voice** when the actor matters: "The system saves the file", not "The file is saved by the system".
+3. **Strong verbs, not nominalisations:** "analyse", not "perform an analysis of".
+4. **Familiar words:** "use" for "utilise", "start" for "initiate".
+5. **No deadwood:** "because" for "due to the fact that"; "if" for "in the event that".
+6. **Specific numbers:** "loads in under 2 seconds on 4G", not "loads fast".
+7. **Conditions before actions:** "If the light is red, press Reset".
+8. **Parallel structure** in lists and headings, and one term for one thing.
+
+*Example.* "It is imperative that users of the application ensure the utilization of authentication credentials prior to the initiation of any transaction" (21 words, FK 19.0) becomes "Log in before you start a transaction" (7 words, FK 4.0). *Conclusion:* clarity comes from short sentences, active verbs and plain words.
+
+**Q2 (5 marks). Compute the Flesch Reading Ease and Flesch-Kincaid grade for a text of 120 words, 8 sentences and 180 syllables. Interpret the result.**
+
+*Formulae.* FRE = 206.835 − 1.015 (w/s) − 84.6 (y/w); FK = 0.39 (w/s) + 11.8 (y/w) − 15.59.
+
+*Working.* Words per sentence w/s = 120 / 8 = 15. Syllables per word y/w = 180 / 120 = 1.5.
+
+1. FRE = 206.835 − 1.015 × 15 − 84.6 × 1.5 = 206.835 − 15.225 − 126.9 = **64.71**.
+2. FK = 0.39 × 15 + 11.8 × 1.5 − 15.59 = 5.85 + 17.7 − 15.59 = **7.96**.
+
+*Interpretation.* A score of 60 to 70 is "plain English", and a grade near 8 means an eighth-grade student can read it. This suits a general audience such as a user guide for a ward-level service.
+
+| Measure | Value | Meaning |
+|---|---|---|
+| FRE | 64.7 | plain English |
+| FK | 7.96 | about grade 8 |
+
+*Limits.* Both formulas count only sentence and word length. They ignore order, layout and the reader's knowledge, and they are unreliable below 100 words. *Conclusion:* use the scores as a rough check, then test with real readers.
+
+**Q3 (10 marks). Explain readability and its measures (Flesch, Flesch-Kincaid and Gunning Fog). Discuss their limitations and describe how to improve a hard-to-read text.**
+
+*Introduction.* **Readability** is how easily a reader can read and understand a text. Formulas estimate it from surface features, and writers use them as a quick signal (Figure 2.1).
+
+*The three measures.*
+
+1. **Flesch Reading Ease** = 206.835 − 1.015 (w/s) − 84.6 (y/w). Higher is easier: 90 to 100 very easy, 60 to 70 plain English, 30 to 50 difficult, below 30 very difficult.
+2. **Flesch-Kincaid Grade** = 0.39 (w/s) + 11.8 (y/w) − 15.59, an approximate school grade.
+3. **Gunning Fog** = 0.4 [(w/s) + 100 (c/w)], where c is the number of complex words (three or more syllables); it also gives a grade.
+
+*Worked data from the book's program.*
+
+| Text | Words | Sentences | FRE | FK | Fog |
+|---|---|---|---|---|---|
+| Plain | 15 | 3 | 72.0 | 4.5 | 7.3 |
+| Before | 21 | 1 | −3.8 | 19.0 | 21.7 |
+| After | 7 | 1 | 78.9 | 4.0 | 8.5 |
+
+*Limitations.* (a) They ignore content, logic, order and layout. (b) Short sentences can still confuse, as in a string of unexplained abbreviations. (c) Syllable counting is approximate. (d) Tiny samples mislead: *After* has a higher Fog than *Plain* because one complex word is a large share of seven words. (e) They do not measure the reader's prior knowledge, so a technical term such as "router" may be easy for a BCA student but not for a villager.
+
+*Improving a hard text.* (1) Split long sentences. (2) Replace nominalisations and long words with familiar ones. (3) Use the active voice and the imperative. (4) Cut deadwood. (5) Add headings, lists and tables. (6) Define unavoidable jargon on first use. (7) Re-measure on at least 100 words. (8) Test with five real readers.
+
+*Conclusion.* Readability formulas are a thermometer, not a diagnosis. They show that a text is hard; the writer's edit and a reader's test show why and how to fix it.
