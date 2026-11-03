@@ -2612,6 +2612,19 @@
   "source": "Wikimedia Commons",
   "title": "Floppy Disk Drives 8 5 3"
  },
+ "bca251/gridlock": {
+  "author": "Mathias Lück",
+  "bytes": 459935,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca251/gridlock.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Gridlock_(Wiesbaden,_Germany).jpg",
+  "sha1": "8903e669089d83f1",
+  "source": "Wikimedia Commons",
+  "title": "Gridlock (Wiesbaden, Germany)"
+ },
  "bca251/headcrash": {
   "author": "Jeepika",
   "bytes": 250447,
@@ -2650,6 +2663,19 @@
   "sha1": "8947eae245ffe9ca",
   "source": "Wikimedia Commons",
   "title": "Intel 8259A IRQ chip"
+ },
+ "bca251/railsignal": {
+  "author": "Mtaylor848",
+  "bytes": 1038303,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca251/railsignal.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Semaphore_signal_gantry,_Knaresborough_railway_station_(24th_August_2019).jpg",
+  "sha1": "8676d5bb37142756",
+  "source": "Wikimedia Commons",
+  "title": "Semaphore signal gantry, Knaresborough railway station (24th August 2019)"
  },
  "bca251/s360": {
   "author": "Carlo Nardone from Roma, Italy",
