@@ -710,6 +710,12 @@ def faq(request):
     )
     return render(request, 'web/faq.html', ctx)
 
+POPULAR_SEARCHES = (
+    ('Physics', 'science'), ('Chemistry', 'experiment'), ('Mathematics', 'calculate'), ('Biology', 'biotech'),
+    ('English', 'translate'), ('Computer Science', 'computer'), ('Past papers', 'history_edu'), ('Notes', 'sticky_note_2'),
+)
+
+
 def search(request):
     from api.models import User as _LocalUser
     user_id = _get_user_id(request)
@@ -869,6 +875,7 @@ def search(request):
         current_grade=grade,
         current_type=rtype,
         meilisearch_enabled=meilisearch_enabled() if query else False,
+        popular_searches=POPULAR_SEARCHES,
     )
     if getattr(request, 'htmx', False) and not getattr(request.htmx, 'history_restore_request', False):
         res = render(request, 'web/_search_results.html', ctx)

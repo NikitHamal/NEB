@@ -10,8 +10,8 @@
 
 /* ---------- dialogs ---------- */
 .neb-dialog, .subject-pick-dialog, .social-link-dialog, .upload-progress-dialog {
-  background: var(--md-surface-container-high); color: var(--md-on-surface);
-  border: 1px solid var(--md-outline-variant); border-radius: 28px;
+  background: var(--x-float); color: var(--md-on-surface);
+  border: 1px solid var(--x-float-line); border-radius: 28px;
 }
 .neb-dialog { transform: scale(.9) translateY(16px); transition: transform .55s var(--spring), opacity .2s; }
 .neb-scrim[data-open] .neb-dialog { transform: none; }
@@ -26,17 +26,16 @@
 
 /* ---------- sheets ---------- */
 .neb-sheet, .neb-choice-sheet {
-  background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-bottom: 0;
+  background: var(--x-float); border: 1px solid var(--x-float-line); border-bottom: 0;
   border-radius: 28px 28px 0 0; transition: transform .55s var(--spring);
 }
-.neb-sheet-handle { width: 36px; height: 4px; border-radius: 2px; background: var(--md-outline); opacity: .6; }
 .neb-sheet-title { font-family: var(--display); font-weight: 600; letter-spacing: -.02em; }
-.neb-sheet-close { border-radius: 50%; background: var(--md-surface-container-highest); color: var(--md-on-surface); }
+.neb-sheet-close { border-radius: 50%; background: var(--md-surface-container); color: var(--md-on-surface); }
 
 /* ---------- menus (neb-menu, more-menu, fab menu, identity menu, profile dropdown) ---------- */
 .neb-menu, .more-menu, .neb-fab-menu, .fp-identity-menu, .profile-dropdown-menu {
-  background: var(--md-surface-container-high); color: var(--md-on-surface);
-  border: 1px solid var(--md-outline-variant); border-radius: 24px; padding: 8px;
+  background: var(--x-float); color: var(--md-on-surface);
+  border: 1px solid var(--x-float-line); border-radius: 24px; padding: 8px;
 }
 .neb-menu { transform: scale(.9) translateY(-6px); transition: transform .45s var(--spring), opacity .18s; }
 .profile-dropdown-menu {
@@ -70,7 +69,7 @@
 .notif-popup-badge { background: var(--md-error); color: var(--md-on-error); border-radius: 10px; min-width: 20px; text-align: center; font-weight: 700; }
 
 /* ---------- user popup (hover card) ---------- */
-.fp-user-popup { background: var(--md-surface-container-high); border: 1px solid var(--md-outline-variant); border-radius: 28px; color: var(--md-on-surface); }
+.fp-user-popup { background: var(--x-float); border: 1px solid var(--x-float-line); border-radius: 28px; color: var(--md-on-surface); }
 .fp-user-popup-bio, .fp-user-popup-meta, .fp-user-popup-username { color: var(--md-on-surface-variant); }
 
 /* ---------- snackbar: a pill from the inverse surface, above the bottom bar on phones ---------- */
@@ -88,3 +87,21 @@
 @media (prefers-reduced-motion: reduce) {
   .neb-dialog, .neb-menu, .profile-dropdown-menu, .neb-sheet, .md-snackbar { transition-duration: .01s; animation-duration: .01s; }
 }
+
+/* ---------- sheets on a wide screen are centred dialogs: the same spring, from the middle ---------- */
+.neb-sheet-handle::before { background: var(--md-outline-variant); }
+@media (min-width: 768px) {
+  .neb-scrim-bottom:not(.neb-scrim-side) { align-items: center; padding: 24px; }
+  .neb-scrim-bottom:not(.neb-scrim-side) .neb-sheet {
+    max-width: 560px; border-radius: 28px; border-bottom: 1px solid var(--x-float-line);
+    transform: scale(.92) translateY(18px); opacity: 0; transition: transform .55s var(--spring), opacity .2s;
+  }
+  .neb-scrim-bottom:not(.neb-scrim-side)[data-open] .neb-sheet { transform: none; opacity: 1; }
+  .neb-scrim-bottom:not(.neb-scrim-side)[data-closing] .neb-sheet { transform: scale(.97); opacity: 0; transition-duration: .16s; }
+  .neb-scrim-bottom:not(.neb-scrim-side) .neb-sheet-handle { display: none; }
+}
+.neb-sheet-body { padding-bottom: 6px; }
+.neb-sheet-foot { border-top: 1px solid var(--md-outline-variant); background: var(--x-float); }
+.neb-scrim { z-index: 5000; }
+.neb-sheet, .neb-dialog { overflow: hidden; }
+@media (min-width: 768px) { .neb-scrim-bottom:not(.neb-scrim-side) .neb-sheet-head { padding-top: 22px; } }
