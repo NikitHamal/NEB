@@ -15,37 +15,6 @@
   } else { ready(); }
 
 
-  /* ---- theme toggle ----
-     Same storage key as the app (localStorage "theme"), so the choice follows the reader in
-     and out of the app. The change is a circular reveal from the button (View Transitions);
-     browsers without it, or readers who asked for less motion, just swap. */
-  var themeBtn = document.querySelector('[data-theme-toggle]');
-  function paintTheme(t) {
-    doc.setAttribute('data-theme', t);
-    if (themeBtn) {
-      themeBtn.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
-      themeBtn.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
-    }
-    var m = document.querySelector('meta[name=theme-color]');
-    if (m) m.content = t === 'dark' ? '#090f1f' : '#f6f8ff';
-  }
-  if (themeBtn) {
-    paintTheme(doc.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
-    themeBtn.addEventListener('click', function () {
-      var next = doc.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      try { localStorage.setItem('theme', next); } catch (e) {}
-      if (!document.startViewTransition || still) { paintTheme(next); return; }
-      var r = themeBtn.getBoundingClientRect();
-      var x = r.left + r.width / 2, y = r.top + r.height / 2;
-      var end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
-      var vt = document.startViewTransition(function () { paintTheme(next); });
-      vt.ready.then(function () {
-        doc.animate({ clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + end + 'px at ' + x + 'px ' + y + 'px)'] },
-          { duration: 750, easing: 'cubic-bezier(.2,.8,.2,1)', pseudoElement: '::view-transition-new(root)' });
-      }).catch(function () {});
-    });
-  }
-
   /* ---- navigation bar: solid once scrolled ---- */
   var nav = document.querySelector('[data-nav]');
   if (nav) {

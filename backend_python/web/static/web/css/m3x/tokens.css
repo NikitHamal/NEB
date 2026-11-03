@@ -75,6 +75,10 @@
   --md-shape-lg: 24px;
   --md-shape-xl: 32px;
   --md-shape-xxl: 44px;
+  /* a pill is a FINITE radius: 28px is a perfect pill up to 56px tall. 9999px made a hover morph
+     (spring overshoot) pass through 0px, which flashed square corners. */
+  --md-shape-full: 28px;
+  --md-radius-full: 28px;
 
   /* ---- motion ---- */
   --ease-io: cubic-bezier(.65, 0, .35, 1);
