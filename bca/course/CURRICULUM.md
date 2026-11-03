@@ -52,7 +52,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | VII | BCA 404 | Project IV | 3 | **full book** (`semester-7/project-4`) |
 | VII | BCA 405 / 406 | Elective I / Elective II | 3 + 3 | mapped only |
 | VIII | BCA 451 | Cloud Computing | 3 | **full book** (`semester-8/cloud-computing`) |
-| VIII | BCA 452 | Internship | 3 | internship (no notes) |
+| VIII | BCA 452 | Internship | 3 | **full book** (`semester-8/internship`) |
 | VIII | BCA 453 / 454 | Elective III / Elective IV | 3 + 3 | mapped only |
 
 **Electives (each college runs a subset).** I: Machine Learning, E-Commerce, Database Administration, Linux. II: DotNet Technology, Business Intelligence, Software Testing and Quality Assurance, Data Visualization. III: Network Administration, E-Governance, Database Programming, Geographical Information System. IV: Digital Marketing and SEO, Image Processing, Internet of Things, Data Mining and Data Warehouse.

@@ -97,6 +97,16 @@ Companion handbook (README says the structure is reconstructed; no TU topic list
 - U5 Defence: Fig 5.1 report map, 5.2 talk timeline, Plate 5.1 (poster photo + results-slide SVG); report page budget, 15-minute plan, shingle-similarity, rubric scripts; 12 viva Q&A; 8 habits (5.7); 2 medium + 1 long.
 - Gotchas: `Axes.tag(x, y, s)` takes DATA coordinates (not ax.X/ax.Y pixels); `Axes.axes(xl, yl)` writes labels inside the plot corners and collides with tick labels, so pass empty strings and draw labels with `f.text` outside; every python block repeats a 12-line data generator (blocks must be self-contained for fill_script_outputs); text near-empty p3 warning is only the TOC overflow (warn, not fail).
 
+## BCA 452 internship (semester-8/internship) -- [x] DONE (session 18), 49 pp, qa fails=0
+Companion handbook (README says the structure is reconstructed; no TU topic list). Running example **InternTrail**: invented 8-week placement of Anisha Gurung at the invented Lalitpur agency Himal Digital; different from CampusShelf, ClinicQ, KhetSense, SikshyaSignal. 5 units, 17,628 raw words.
+- Photos (bca452/, licence-gated, all viewed): berlin (open-plan office), cowork (lounge), handshake, interview (career-fair table), lanyard (ID badge). Rejected after viewing: NIH "Interns" (black-and-white lab). Reused: bca256/kanban, bca256/pair, bca256/poster, bca306/code, bca306/tech, bca105/speaker, bca105/pen.
+- U1 Placement search: Fig 1.1 12-week search timeline, Fig 1.2 CV anatomy, Plate 1.1 (3-up office/interview/handshake); weighted shortlist script (Himal 4.25, sensitivity 4.10); 8 reasons (1.6); 2 medium + 1 long.
+- U2 Conduct: Fig 2.1 four information levels, Fig 2.2 15-minute rule, Plate 2.1 (lounge + badge photos + channel-guide SVG); secrets-scanner script (4 findings, masked); 8 habits (2.5); 2 medium + 1 long.
+- U3 Weeks: Fig 3.1 hours-per-week stacked bars (from script output), Fig 3.2 8-week plan chart, Plate 3.1 (kanban + pair photos + log-card SVG); simulated 40-day log analysis (276.5 h, 33 of 40 days >= 6 h so L3 honestly fails); 8 rules (3.5); 2 medium + 1 long.
+- U4 Technical: Fig 4.1 ticket life cycle, Plate 4.1 (code + technician photos + review-request SVG); HD-31 VAT rounding bug reproduced (float 0.565 -> 55.25 vs Decimal 55.26, 2 of 4 invoices) and a 6-test suite (6 passed); 8 practices (4.7); 2 medium + 1 long.
+- U5 Report/viva: Fig 5.1 report map, Fig 5.2 skills before/after bars, Plate 5.1 (speaker + letter + poster photos); report page budget script (40 pp, ch 4+5 = 40%), skills self-assessment script (2.25 -> 4.00); 12 viva Q&A; 8 habits (5.7); 2 medium + 1 long.
+- Gotchas: square `@ svg` cells inside photogrid need font size >= 12.5 on a 300 px canvas (scale ~0.53) or text drops below 6 pt; always close python fences; heredoc with quoted EOF keeps `\"` literally (run `sed -i 's/\\"/"/g'` on the file); `fill_script_outputs.py` can leave a duplicate trailing fence, check fence count is even.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -107,5 +117,6 @@ Companion handbook (README says the structure is reconstructed; no TU topic list
 - [x] BCA 306 Project II DONE (session 15)
 - [x] BCA 356 Project III DONE (session 16)
 - [x] BCA 404 Project IV DONE (session 17)
-- [ ] (NEXT SESSION STARTS HERE) BCA 452 Internship (semester-8/internship; books.json code BCA 452, 3 credits; handbook: placement search, workplace conduct, daily log, report, presentation; use a fifth running example)
-- [ ] remaining non-core slots (BCA 356, 404 projects, 402 SPM if not a core book, 452 internship, 4 electives), then polish semesters II-VIII one book at a time
+- [x] BCA 452 Internship DONE (session 18)
+- [ ] (NEXT SESSION STARTS HERE) polish thin core books, in this order: BCA 154 Mathematics II (23 pp), BCA 151 Discrete Structure (34 pp), BCA 153 OOP in Java (41 pp), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
