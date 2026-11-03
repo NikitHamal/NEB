@@ -33,5 +33,19 @@ class IconFontSubsetTests(SimpleTestCase):
         used |= {resource_type_icon(kind) for kind in
                  ('pdf', 'note', 'notes', 'video', 'audio', 'image', 'link', 'textbook',
                   'paper', 'past paper', 'model paper', 'presentation', 'slides', 'document', '')}
+        from web import forum_labels
+        used |= {k[2] for k in forum_labels.KINDS} | {k[2] for k in forum_labels.LABELS}
         missing = sorted(used - font_names())
+        self.assertFalse(missing, f'icons missing from the subset (run scripts/build_icon_font.py): {missing}')
+
+    def test_icons_named_in_script_objects_are_in_the_font(self):
+        named = re.compile(r"\bicon:\s*'([a-z][a-z0-9_]+)'")
+        included = font_names()
+        missing = {}
+        for path in (WEB / 'static/web/js').rglob('*.js'):
+            if 'vendor' in path.parts or path.name.endswith('.min.js') or path.name == 'yjs.bundle.js':
+                continue
+            for name in named.findall(path.read_text(encoding='utf-8', errors='ignore')):
+                if name not in included:
+                    missing.setdefault(name, path.name)
         self.assertFalse(missing, f'icons missing from the subset (run scripts/build_icon_font.py): {missing}')
