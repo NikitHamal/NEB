@@ -17,7 +17,9 @@ pub mod legal_data;
 pub mod library;
 pub mod login;
 pub mod notifications;
+pub mod intro;
 pub mod onboarding;
+pub mod pdf;
 pub mod people;
 pub mod profile;
 pub mod reader;
@@ -44,6 +46,8 @@ pub struct Screens {
     pub downloads: downloads::DownloadsState,
     pub books: books::BooksState,
     pub people: people::PeopleState,
+    pub pdf: pdf::PdfState,
+    pub intro: intro::IntroState,
     pub user: user::UserState,
     pub settings: settings::SettingsState,
     pub profile: profile::ProfileState,

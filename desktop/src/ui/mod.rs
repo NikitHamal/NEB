@@ -3,9 +3,11 @@ pub mod avatar;
 pub mod icons;
 pub mod logo;
 pub mod remote_image;
-pub mod menubar;
 pub mod nav;
+pub mod shapes;
+pub mod shapes_data;
 pub mod shortcuts;
+pub mod theme_toggle;
 pub mod toast;
 pub mod widgets;
 

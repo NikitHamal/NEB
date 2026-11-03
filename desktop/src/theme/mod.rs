@@ -2,6 +2,7 @@
 //! and the translation of all of that into egui `Visuals` / `Style`.
 pub mod colors;
 pub mod fonts;
+pub mod motion;
 pub mod spacing;
 
 use egui::{Color32, Context, FontFamily, FontId, Rounding, Stroke, TextStyle};
@@ -24,7 +25,7 @@ impl Theme {
         let p = &self.p;
         let mut v = if self.dark { egui::Visuals::dark() } else { egui::Visuals::light() };
         v.panel_fill = p.page;
-        v.window_fill = p.card;
+        v.window_fill = p.surface_high;
         v.extreme_bg_color = p.field;
         v.faint_bg_color = p.field;
         v.code_bg_color = p.field;
@@ -32,12 +33,13 @@ impl Theme {
         v.hyperlink_color = p.accent;
         v.window_stroke = Stroke::new(1.0, p.hairline);
         v.window_rounding = Rounding::same(spacing::PANEL_RADIUS);
-        v.menu_rounding = Rounding::same(10.0);
-        v.window_shadow = egui::epaint::Shadow { offset: egui::vec2(0.0, 8.0), blur: 32.0, spread: 0.0, color: Color32::from_black_alpha(if self.dark { 120 } else { 40 }) };
-        v.popup_shadow = v.window_shadow;
+        v.menu_rounding = Rounding::same(spacing::SHAPE_MD);
+        // No shadows anywhere: separation is tone + outline (same rule as the web).
+        v.window_shadow = egui::epaint::Shadow::NONE;
+        v.popup_shadow = egui::epaint::Shadow::NONE;
         v.selection.bg_fill = if self.dark { mix(p.page, p.accent, 0.40) } else { mix(p.page, p.accent, 0.28) };
         v.selection.stroke = Stroke::new(1.0, p.accent);
-        let r = Rounding::same(10.0);
+        let r = Rounding::same(spacing::SHAPE_SM);
         for w in [&mut v.widgets.noninteractive, &mut v.widgets.inactive, &mut v.widgets.hovered, &mut v.widgets.active, &mut v.widgets.open] {
             w.rounding = r;
         }

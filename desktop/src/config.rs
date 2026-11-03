@@ -38,6 +38,8 @@ pub struct Cli {
     pub reset: bool,
     /// `--size 1440x900`: open at this inner size (used for screenshots / testing layouts).
     pub size: Option<[f32; 2]>,
+    /// `nebians book.pdf` or `--open-pdf book.pdf`: open straight into the PDF viewer.
+    pub open_pdf: Option<PathBuf>,
 }
 
 impl Cli {
@@ -49,6 +51,8 @@ impl Cli {
                 "--config" => cli.config_dir = args.next().map(PathBuf::from),
                 "--screenshots" => cli.screenshots = args.next().map(PathBuf::from),
                 "--reset" => cli.reset = true,
+                "--open-pdf" => cli.open_pdf = args.next().map(PathBuf::from),
+                other if other.to_ascii_lowercase().ends_with(".pdf") => cli.open_pdf = Some(PathBuf::from(other)),
                 "--size" => {
                     cli.size = args.next().and_then(|v| {
                         let (w, h) = v.split_once('x')?;

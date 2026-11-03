@@ -120,15 +120,6 @@ fn stacked_item(ui: &mut Ui, th: &Theme, label: &str, icon: Icon, selected: bool
     resp.clicked()
 }
 
-fn section_label(ui: &mut Ui, th: &Theme, text: &str) {
-    ui.add_space(14.0);
-    ui.horizontal(|ui| {
-        ui.add_space(14.0);
-        ui.add(egui::Label::new(egui::RichText::new(text).font(fonts::medium(12.0)).color(th.p.ink_faint)).selectable(false));
-    });
-    ui.add_space(4.0);
-}
-
 pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
     let wide = env.layout == LayoutMode::Wide;
     let th = env.theme.clone();
@@ -146,6 +137,11 @@ pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
                 if wide {
                     ui.add_space(4.0);
                     super::widgets::label(ui, egui::RichText::new("NEBians").font(fonts::bold(21.0)).color(th.p.ink));
+                    ui.with_layout(Layout::right_to_left(Align::Center), |ui| {
+                        if super::theme_toggle::show(ui, &th).clicked() {
+                            env.act(crate::actions::Action::ToggleDark);
+                        }
+                    });
                 }
             });
             ui.add_space(if wide { 20.0 } else { 14.0 });
@@ -162,11 +158,7 @@ pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
                     env.act(crate::actions::Action::Go(e.route.clone()));
                 }
             }
-            if wide {
-                section_label(ui, &th, "Study tools");
-            } else {
-                ui.add_space(8.0);
-            }
+            ui.add_space(if wide { 16.0 } else { 8.0 });
             for e in study_entries() {
                 let hit = if wide {
                     wide_item(ui, &th, &e, root == e.route, inner_w, 0)
@@ -189,6 +181,14 @@ pub fn sidebar(ctx: &Context, env: &mut Env, current: &Route) {
                 }
                 ui.add_space(4.0);
                 account_chip(ui, env, &th, current, inner_w, wide);
+                if !wide {
+                    ui.add_space(4.0);
+                    ui.allocate_ui_with_layout(vec2(inner_w, 44.0), Layout::top_down(Align::Center), |ui| {
+                        if super::theme_toggle::show(ui, &th).clicked() {
+                            env.act(crate::actions::Action::ToggleDark);
+                        }
+                    });
+                }
             });
         });
 }
