@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**36 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (594,965 raw words of study material, counted over the unit files, including code listings and tables):
+**37 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 7 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (611,366 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -30,6 +30,7 @@
 | 4 | BCA 253 | [Numerical Methods](semester-4/numerical-methods/) | 14,925 | 43 | done |
 | 4 | BCA 254 | [Python Programming](semester-4/python-programming/) | 15,321 | 79 | done |
 | 4 | BCA 255 | [Web Technology II](semester-4/web-technology-2/) | 15,068 | 64 | done |
+| 4 | BCA 256 | [Project I](semester-4/project-1/) | 16,401 | 49 | done |
 | 5 | BCA 301 | [Computer Network](semester-5/computer-networking/) | 23,727 | 65 | done |
 | 5 | BCA 302 | [Artificial Intelligence](semester-5/artificial-intelligence/) | 20,790 | 59 | done |
 | 5 | BCA 303 | [Advanced Java Programming](semester-5/advanced-java/) | 16,715 | 61 | done |

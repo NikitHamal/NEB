@@ -45,7 +45,7 @@ core_missing = [r for r in rows if r[4] == "missing"]
 noteless = [r for r in rows if r[4] not in ("done", "missing")]
 tw = sum(r[7] for r in done)
 s4 = [r for r in done if r[0] == 4]
-SEMNOTE = ("Semesters I, II, III and IV are fully done (Semester IV's Project I is a project with no notes by nature)." if len(s4) == 5 else "Semesters I, II and III are fully done." + (f" Semester IV: {len(s4)} of 5 core subjects done." if s4 else ""))
+SEMNOTE = ("Semesters I, II, III and IV are fully done (Semester IV's Project I is a project with no notes by nature)." if len(s4) >= 5 else "Semesters I, II and III are fully done." + (f" Semester IV: {len(s4)} of 5 core subjects done." if s4 else ""))
 blk = [f"<!-- COURSE-STATUS -->", "## BCA course: real status", "",
        f"**{len(done)} of {len(rows)} subject slots are written, built and QA-checked; {len(core_missing)} core subjects are not started; {len(noteless)} slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far ({tw:,} raw words of study material, counted over the unit files, including code listings and tables):",
        "", "| Sem | Code | Subject | Words | PDF pages | Status |", "|---|---|---|---|---|---|"]

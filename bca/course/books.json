@@ -287,5 +287,13 @@
   "credits": 3,
   "accent": "#7F1D1D",
   "status": "done"
+ },
+ "semester-4/project-1": {
+  "name": "Project I",
+  "code": "BCA 256",
+  "semester": 4,
+  "credits": 2,
+  "accent": "#7C3AED",
+  "status": "done"
  }
 }
