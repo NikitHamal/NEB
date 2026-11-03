@@ -321,7 +321,7 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] MIS and e-Business polished (session 28, 45 -> 77 pp)
 - [x] BCA 353 Cryptography and Network Security polished (session 29, 45 -> 83 pp)
 - [x] BCA 355 Distributed System polished (session 30, 54 -> 86 pp)
-- [~] (NEXT SESSION STARTS HERE) Software Engineering (semester-4, 54 pp), then Principles of Management (50), DBMS (56), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [~] (NEXT SESSION STARTS HERE) Software Engineering (semester-4): see its section below for the exact unit; then Principles of Management (50 pp), DBMS (56 pp), then the rest of Semesters II-VIII.
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
 
@@ -334,3 +334,11 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - U5: Plate 5.1 (3-up ATM / Jim Gray / tape), SVG 5.1 2PC, 5.2 conflict graphs (computed), 5.3 global deadlock; 8 uses (5.7.1); Q1-Q3.
 - U6: Plate 6.1 (3-up Paxos island / Brewer / data-hall racks), SVG 6.1 quorums, 6.2 Paxos round, 6.3 Raft log + commit index; 8 uses (6.7.1); Q1-Q3; stale-read and availability tables computed.
 - U7: Plate 7.1 (3-up Theodosian Walls / failed HDD / storage rack), SVG 7.1 Byzantine n=4, 7.2 Chandy-Lamport snapshot, 7.3 HDFS; 8 reasons (7.5.1); Q1-Q3; OM(f) message counts, replica-loss probability, HDFS sizes computed.
+
+## BCA 252 software-engineering (semester-4/software-engineering) -- [~] IN PROGRESS (session 31)
+15 licence-gated `bca252/` photos fetched and viewed: bug (1947 moth logbook), hamilton (Apollo listing), ariane (501 wreckage), dsky, boehm, brooks, royce, beck (graduation podium, UNUSED), jacobson, hopper (UNIVAC room, unused), gantt, mco (Mars Climate Orbiter), card (COBOL punch card), dijkstra, y2k (sticker). Reused bca256 scrum/kanban/pair.
+- [x] U1: Plate 1.1 (3-up bug/Hamilton/Ariane with callouts), Plate 1.2 (MCO photo + unit-mismatch SVG), Fig 1.1 cost of change (1:5:10:20:100, illustrative), 1.2 hardware vs software failure curves, 1.3 quality attribute tree; 1.7.1 eight reasons (Nepal); Q1-Q2 (5), Q3 (10). 60 pp.
+- [x] U2: Plate 2.1 (Royce/Boehm/Jacobson), Plate 2.2 (scrum/kanban/pair), Fig 2.1 waterfall, 2.2 spiral, 2.3 incremental vs waterfall (120 feature-weeks), 2.4 Scrum sprint, 2.5 model-choice flow; 2.10.1 eight agile advantages; Q1-Q2 (5), Q3-Q4 (10). Book now 67 pp, qa fails=0 warns=1 (p3 pre-existing).
+- [ ] U3 .. U8 pending (unused photos: dsky, brooks, gantt, dijkstra, card, y2k, hopper).
+- QA gotcha: `$` in text fails qa (write "370 million US dollars"). Numbered list after a bold line needs a blank line first.
+

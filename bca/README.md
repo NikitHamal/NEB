@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (924,481 raw words of study material, counted over the unit files, including code listings and tables):
+**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (929,829 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -26,7 +26,7 @@
 | 3 | BCA 205 | [Probability and Statistics](course/semester-3/probability-and-statistics/) | 22,709 | 57 | done |
 | 3 | BCA 206 | [Applied Economics](course/semester-3/applied-economics/) | 26,422 | 66 | done |
 | 4 | BCA 251 | [Operating Systems](course/semester-4/operating-systems/) | 27,698 | 85 | done |
-| 4 | BCA 252 | [Software Engineering](course/semester-4/software-engineering/) | 16,608 | 54 | done |
+| 4 | BCA 252 | [Software Engineering](course/semester-4/software-engineering/) | 21,956 | 67 | done |
 | 4 | BCA 253 | [Numerical Methods](course/semester-4/numerical-methods/) | 25,492 | 66 | done |
 | 4 | BCA 254 | [Python Programming](course/semester-4/python-programming/) | 15,321 | 79 | done |
 | 4 | BCA 255 | [Web Technology II](course/semester-4/web-technology-2/) | 15,068 | 64 | done |
