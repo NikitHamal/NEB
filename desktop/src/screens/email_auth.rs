@@ -176,7 +176,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
             }
             ui.add_space(14.0);
             crate::ui::widgets::flow(ui, |ui| {
-                let mut go = |ui: &mut Ui, text: &str, mode: Mode, st: &mut EmailState| {
+                let go = |ui: &mut Ui, text: &str, mode: Mode, st: &mut EmailState| {
                     if ui.link(RichText::new(text).font(fonts::medium(13.5)).color(th.p.accent)).clicked() {
                         st.mode = mode;
                         st.error = None;
@@ -196,10 +196,6 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut EmailState) {
                     }
                 }
             });
-            ui.add_space(18.0);
-            if widgets::button_sized(ui, &th, "Continue as guest instead", BtnKind::Ghost, None, Some(w), 52.0).clicked() {
-                super::auth_flow::continue_as_guest(env);
-            }
         });
     });
     });

@@ -59,7 +59,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut BooksState) {
     }
     scroll_page(ui, env, "books", |ui, env| {
         let th = env.theme.clone();
-        widgets::screen_header(ui, &th, "Study books", Some("Print-quality PDF editions of every subject. Download once, read anywhere."));
+        widgets::screen_header(ui, &th, "Study books");
         let Some(books) = st.books.clone() else {
             match st.error.clone() {
                 Some(e) => load_state(ui, &th, Some(e), || st.asked = false),
@@ -107,7 +107,7 @@ fn book_card(ui: &mut Ui, env: &mut Env, b: &Book, w: f32) {
         let c = hue[n % hue.len()];
         Color32::from_rgb((c >> 16) as u8, (c >> 8) as u8, c as u8)
     };
-    Frame::none().fill(th.p.card).stroke(Stroke::new(1.0, th.p.hairline)).rounding(Rounding::same(spacing::CARD_RADIUS)).inner_margin(Margin::same(16.0)).show(ui, |ui| {
+    Frame::none().fill(th.p.card).stroke(Stroke::new(1.0_f32, th.p.hairline)).rounding(Rounding::same(spacing::CARD_RADIUS)).inner_margin(Margin::same(16.0)).show(ui, |ui| {
         ui.vertical(|ui| {
         ui.set_width(w - 34.0);
         ui.horizontal(|ui| {

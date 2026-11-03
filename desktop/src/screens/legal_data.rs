@@ -1,6 +1,7 @@
 //! Privacy Policy and Terms of Service text — generated from the Android app's `LegalContent.kt`
 //! so both apps always show the same words.
 pub struct Section { pub n: &'static str, pub title: &'static str, pub paras: &'static [&'static str] }
+#[allow(dead_code)]
 pub struct Doc { pub key: &'static str, pub title: &'static str, pub updated: &'static str, pub url: &'static str, pub sections: &'static [Section] }
 pub static PRIVACY: Doc = Doc { key: "privacy", title: "Privacy Policy", updated: "Last updated: May 2026", url: "https://nebians.consica.com.np/privacy/", sections: &[
     Section { n: "1", title: "Information We Collect", paras: &["When you create or use an account, we collect the information needed to operate your account. This may include your name, username, email address, Google account ID if you use Google sign-in, profile photo, and optional profile details such as date of birth, gender, class level, subjects, province, district, school, and bio. If you use email/password sign-in, passwords are stored only as one-way password hashes, not as plaintext."] },
