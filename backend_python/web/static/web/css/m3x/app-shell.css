@@ -29,7 +29,7 @@ h1, h2, h3, .md-display-large, .md-display-medium, .md-display-small, .md-displa
 
 /* ---------- page enter: the main column springs in once per navigation ---------- */
 @media (prefers-reduced-motion: no-preference) {
-  .site-main { animation: m3-enter .7s var(--spring-soft) both; }
+  .site-main { animation: m3-enter .7s var(--spring-soft) backwards; }
 }
 
 /* ---------- top bar: a floating pill, the same bar as the landing page ---------- */
