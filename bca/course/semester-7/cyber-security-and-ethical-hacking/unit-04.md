@@ -189,7 +189,76 @@ With `Lax`, a cross-site POST form does not carry the cookie, which already bloc
 
 Keep dependencies updated and pinned; send security headers (`Strict-Transport-Security`, `X-Content-Type-Options: nosniff`, a CSP); enforce authorisation on the server for every object (check that *this* user may access *this* record, not only that they are logged in); log security events without logging secrets; use framework features for authentication, cryptography and session management rather than inventing your own.
 
-## 4.7 Summary and exercises
+## 4.7 Seeing the ideas: the secure lifecycle, safe queries, cookie flags and the validate-encode pipeline
+
+This unit is about software, so there is no hardware to photograph; the four figures below carry the architecture. The first shows where security work sits in the lifecycle.
+
+```svgfig label="4.1" caption="A secure software development lifecycle. Each phase gets a security activity, and the cost of fixing a flaw tends to rise from left to right (the trend is widely reported; exact multiples vary), so early activities such as threat modelling pay the most."
+f = Fig(580, 232)
+ph = [("Requirements", "Security and\nprivacy needs\nabuse cases"), ("Design", "Threat model\n(STRIDE)\ndesign review"), ("Code", "Coding standard\npeer review\nSAST in CI"), ("Test", "DAST scan\naccess-rule\ntests, fuzzing"), ("Release", "Dependency and\nsecret scans\nsigned builds"), ("Operate", "Logging, alerts\npatching\nincident plan")]
+for i, (t, s) in enumerate(ph):
+    x = 6 + i * 96
+    f.box(x, 8, 90, 34, t, fill=BLUE, stroke=NAVY, bold=True, size=10.5)
+    f.box(x, 50, 90, 100, s, fill=MINT if i % 2 == 0 else SAND, stroke=TEAL if i % 2 == 0 else AMBER, size=8.8)
+    if i < 5:
+        f.arrow([(x + 90, 25), (x + 96, 25)], color=NAVY)
+f.arrow([(30, 190), (550, 190)], color=RED, label="cost of fixing a flaw tends to rise with each phase (illustrative)", lpos=(290, 174), lsize=10)
+f.text(290, 216, "Fix at the design table, not after the press release", size=10.5, color=NAVY, bold=True)
+```
+
+```svgfig label="4.2" caption="Building a SQL statement by pasting text together lets user data be read as part of the command. A parameterised query sends the command template and the values separately, so the database can only ever treat the values as data."
+f = Fig(580, 218)
+f.box(6, 8, 278, 28, "Concatenated string (unsafe)", fill=ROSE, stroke=RED, bold=True, size=11)
+f.box(6, 46, 278, 34, "command text + user text  ->  ONE string", fill="#f8fafc", stroke=SLATE, size=10)
+f.arrow([(145, 80), (145, 100)], color=RED)
+f.box(6, 100, 278, 40, "Database parses the whole string:\nuser text may change the meaning of the command", fill=ROSE, stroke=RED, size=10)
+f.box(296, 8, 278, 28, "Parameterised query (safe)", fill=MINT, stroke=TEAL, bold=True, size=11)
+f.box(296, 46, 130, 34, "Template with\nplaceholders (?)", fill=BLUE, stroke=NAVY, size=10)
+f.box(444, 46, 130, 34, "Values sent\nseparately", fill=SAND, stroke=AMBER, size=10)
+f.arrow([(361, 80), (361, 100)], color=TEAL)
+f.arrow([(509, 80), (509, 100)], color=TEAL)
+f.box(296, 100, 278, 40, "Command is fixed before the values arrive:\nvalues are only ever data", fill=MINT, stroke=TEAL, size=10)
+f.box(6, 158, 568, 52, "Rule: never build commands for a database, the shell or the file system by joining strings that contain user input.\nUse parameters, allow-lists and the least-privileged database account as the second layer.", fill="#f8fafc", stroke=SLATE, size=10)
+```
+
+```svgfig label="4.3" caption="The security flags of a session cookie. HttpOnly hides it from page scripts, Secure sends it only over HTTPS, SameSite=Lax withholds it from cross-site form posts, and a short Max-Age limits how long a stolen cookie works."
+f = Fig(580, 222)
+f.box(8, 8, 564, 36, "Set-Cookie: session=7f3a9c...; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=1800", fill="#0f172a", stroke="#0f172a", color="#e2e8f0", size=11, bold=True)
+flags = [("HttpOnly", "JavaScript on the page cannot read it, so a script-injection bug cannot steal the session", BLUE, NAVY), ("Secure", "Browser sends it only over HTTPS, never over plain HTTP", MINT, TEAL),
+         ("SameSite=Lax", "Not sent with cross-site POST forms; state changes must still use tokens, never GET", SAND, AMBER), ("Max-Age=1800", "Expires in 30 minutes; log out also destroys the server-side session", ROSE, RED)]
+for i, (t, s, fl, st) in enumerate(flags):
+    y = 56 + i * 41
+    f.box(8, y, 130, 34, t, fill=fl, stroke=st, bold=True, size=10.5)
+    f.box(146, y, 426, 34, s, fill="#f8fafc", stroke=SLATE, size=9.8)
+```
+
+```svgfig label="4.4" caption="The validate-then-encode pipeline. Input is validated on arrival against an allow-list; the data is processed; and on the way out it is encoded for the exact context it lands in."
+f = Fig(580, 214)
+f.box(6, 62, 100, 50, "Untrusted input\nform, URL, API,\nfile upload", fill=SAND, stroke=AMBER, size=9.5, bold=True)
+f.box(140, 62, 120, 50, "1  VALIDATE\nallow-list: type,\nlength, range", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.box(290, 62, 100, 50, "2  PROCESS\nbusiness logic,\nparameterised SQL", fill=BLUE, stroke=NAVY, size=9.5, bold=True)
+f.box(420, 62, 152, 50, "3  ENCODE for context\nso data stays data", fill=ROSE, stroke=RED, size=9.5, bold=True)
+f.arrow([(106, 87), (140, 87)])
+f.arrow([(260, 87), (290, 87)])
+f.arrow([(390, 87), (420, 87)])
+for i, t in enumerate(["HTML body", "HTML attribute", "JavaScript", "URL", "SQL"]):
+    f.box(14 + i * 112, 150, 104, 30, t, fill="#f8fafc", stroke=SLATE, size=10, bold=True)
+f.text(290, 138, "each output context needs its own encoding", size=10, color=NAVY, bold=True)
+f.text(290, 204, "Reject, do not repair: failing validation returns a clear error", size=10, color=SLATE)
+```
+
+### 4.7.1 Eight secure coding practices
+
+1. **Validate every input.** Check type, length, range and format with an allow-list before using any data. A phone-number field should accept only digits and a plus sign. Everything outside the list is rejected with a clear error.
+2. **Encode every output.** Put data into HTML, URLs or scripts only after encoding for that context. A modern template engine does this by default. This stops a comment field from becoming running code on another user's page.
+3. **Use parameterised queries.** Send SQL commands and values separately so values stay data. Frameworks such as an ORM do this automatically. Never join user text into a query, even for an internal tool.
+4. **Enforce authorisation on the server.** Check that this user may open this record, on every request. Hiding a button is not security. Many leaks happen because a user could change an id in a URL.
+5. **Protect sessions.** Use HttpOnly, Secure and SameSite cookies, rotate the session id after login and expire it. Add anti-CSRF tokens for state changes. A short life limits the harm of a stolen cookie.
+6. **Keep secrets out of code.** Passwords and API keys belong in environment variables or a secrets vault. A key pushed to a public repository can be abused within minutes. Rotate any key that has leaked.
+7. **Update dependencies.** Most applications are mostly third-party libraries. Track versions, scan for known flaws and patch quickly. An old library can undo careful work on your own code.
+8. **Log safely and fail safely.** Record logins, access failures and admin actions without writing passwords. Show users a generic error and keep details in the log. Good logs let a team detect and investigate incidents.
+
+## 4.8 Summary and exercises
 
 Validate input with allow-lists, encode output for its context, bind query values with placeholders, deliver a restrictive CSP, set Secure, HttpOnly and SameSite on cookies and verify anti-CSRF tokens. Automated checks for each (a query linter, a header auditor, token tests) belong in the build pipeline.
 
@@ -199,3 +268,76 @@ Validate input with allow-lists, encode output for its context, bind query value
 4. Describe the difference between `Strict` and `Lax` with one scenario where Strict harms usability.
 5. Why must a CSRF token be tied to the session? What happens if it is a constant for all users?
 6. List three controls from this unit that you would automate in a CI pipeline.
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). What is injection? Explain how parameterised queries and validation prevent it.**
+
+*Introduction.* Injection happens when untrusted input is mixed into a command or query so that the interpreter treats part of the data as instructions. It is a classic OWASP Top 10 risk and a leading cause of data breaches in web applications (section 4.3).
+
+*Cause.* The programmer builds a SQL statement by joining text and user input. The database receives one string and cannot tell which part the developer wrote and which part the user typed (Figure 4.2).
+
+*Defences.*
+
+1. **Parameterised queries.** The SQL template with placeholders is sent first and the values are sent separately, so the values can only be data.
+2. **Allow-list validation.** Accept only the expected type, length and format, such as a numeric id of at most 8 digits.
+3. **Least privilege.** The application's database account should read and write only the tables it needs and never own the schema.
+4. **Generic errors.** Do not show database error messages to users.
+
+| Approach | Stops injection? | Note |
+|---|---|---|
+| String concatenation | No | Never use |
+| Parameterised query | Yes | First choice |
+| Validation only | Partly | Second layer |
+| Escaping by hand | Fragile | Avoid |
+
+*Conclusion.* The reliable fix is structural: keep code and data apart with parameters, then add validation and least privilege as extra layers.
+
+**Q2 (5 marks). Explain session cookies and CSRF. How do cookie flags and tokens protect a web application?**
+
+*Introduction.* HTTP is stateless, so after login the server gives the browser a session cookie that identifies the user on later requests. Whoever holds the cookie is treated as the user, so it must be protected (section 4.5).
+
+*Cookie flags (Figure 4.3).* **HttpOnly** hides the cookie from page scripts. **Secure** sends it only over HTTPS. **SameSite=Lax** withholds it from cross-site form posts. A short **Max-Age** and a server-side logout limit the lifetime.
+
+*CSRF.* Cross-site request forgery tricks a logged-in user's browser into sending a state-changing request, such as a fund transfer, because the browser attaches the cookie automatically. The attacker never sees the cookie; the browser's habit is abused.
+
+*Defences.*
+
+1. Use SameSite cookies, which already block the classic forged form post.
+2. Add a secret **anti-CSRF token** to every state-changing form and verify it on the server.
+3. Never change state with GET requests.
+4. Re-ask for the password or an OTP before critical actions such as changing the email address.
+
+*Conclusion.* Flags protect the cookie itself and tokens protect the requests; both are needed.
+
+**Q3 (10 marks). Describe a secure software development lifecycle. Explain how it addresses the OWASP Top 10 risk categories.**
+
+*Introduction.* Security is cheapest at design time and expensive after release. A secure SDLC adds security activities to each phase of normal development, rather than a single test at the end (section 4.1 and Figure 4.1).
+
+*Phases and activities.*
+
+| Phase | Security activity | Output |
+|---|---|---|
+| Requirements | Security and privacy requirements, abuse cases | Requirement list |
+| Design | Threat model (STRIDE), secure design review | Threat list with mitigations |
+| Code | Coding standard, peer review, static analysis (SAST) | Reviewed code |
+| Test | Dynamic scan (DAST), access-rule unit tests, fuzzing | Test report |
+| Release | Dependency and secret scanning, signed builds, hardening | Release checklist |
+| Operate | Logging, monitoring, patching, incident response | Alerts and fixes |
+
+*Link to the OWASP Top 10 (2021).* The Top 10 groups common web risks, and each has a matching practice:
+
+1. **Broken access control:** enforce authorisation on the server for every object and test it.
+2. **Cryptographic failures:** use TLS, strong algorithms and managed keys; never store plain passwords.
+3. **Injection:** parameterised queries, allow-list validation and output encoding (Figure 4.4).
+4. **Insecure design:** threat modelling and secure design patterns before coding.
+5. **Security misconfiguration:** hardened defaults, security headers and no default passwords.
+6. **Vulnerable and outdated components:** inventory and patch dependencies.
+7. **Identification and authentication failures:** MFA, rate limiting and secure session handling.
+8. **Software and data integrity failures:** signed updates and a protected build pipeline.
+9. **Logging and monitoring failures:** record security events and alert on them.
+10. **Server-side request forgery:** validate outgoing request destinations and block internal addresses.
+
+*Culture and people.* Training developers, giving them a short checklist and rewarding found bugs matter as much as tools. A team in a Nepali software company can start with three habits: peer review of every pull request, a dependency scan in the build and a written threat model for each new feature.
+
+*Conclusion.* A secure SDLC builds security in at every step, maps directly to the OWASP risks and produces evidence that auditors and clients can check.

@@ -136,7 +136,79 @@ The first vector (network-reachable, easy, no privileges, no user interaction, f
 CVSS measures the **severity of a vulnerability in general**, not **risk to your organisation**. A 9.8 on a system that is not exposed and holds nothing valuable may matter less than a 6.5 on your internet-facing payment service. Combine CVSS with asset value, exposure and known exploitation to prioritise.
 :::
 
-## 1.7 Summary and exercises
+## 1.7 Seeing the ideas: real hardware, the triad, STRIDE and the risk matrix
+
+Security is not only software. Plate 1.1 shows three physical things a defender must think about: the machine room that holds the assets, the cipher machine that made confidentiality famous, and the camera that deters a physical threat.
+
+```photogrid label="1.1" cols="3" ratio="1.15" caption="Security starts with assets and places. (a) A server room: every cable and rack is an asset with a threat model of its own. (b) A Swiss Army Enigma-K cipher machine, an early device built for confidentiality of messages. (c) A dome CCTV camera with a warning sign: a detective and deterrent physical control."
+@ photo id="bca401/serverroom" cap="Server room (assets)"
+fit 1.15
+focus 0.5 0.5
+@ photo id="bca401/enigma" cap="Enigma-K cipher machine (confidentiality)"
+fit 1.15
+focus 0.5 0.45
+@ photo id="bca401/cctv" cap="CCTV dome and sign (deterrence)"
+fit 1.15
+focus 0.7 0.45
+```
+
+```svgfig label="1.1" caption="The CIA triad. Each goal has typical controls and a typical failure. The three goals pull against each other: strong encryption protects confidentiality but a lost key destroys availability."
+f = Fig(580, 232)
+f.poly([(115, 24), (30, 190), (200, 190)], fill="#f8fafc", stroke=SLATE, sw=1.6)
+f.circle(115, 24, 18, fill=BLUE, stroke=NAVY, label="C", size=13)
+f.circle(30, 190, 18, fill=MINT, stroke=TEAL, label="I", size=13)
+f.circle(200, 190, 18, fill=SAND, stroke=AMBER, label="A", size=13)
+f.text(115, 112, "Security", size=11, color=NAVY, bold=True)
+f.text(115, 128, "goals", size=11, color=NAVY, bold=True)
+f.box(250, 8, 322, 66, "Confidentiality: only authorised people read it\nControls: encryption, access control, MFA\nFailure: customer records published by mistake", fill=BLUE, stroke=NAVY, size=10)
+f.box(250, 83, 322, 66, "Integrity: it changes only in authorised ways\nControls: hashing, signatures, change control\nFailure: a tampered balance or exam result", fill=MINT, stroke=TEAL, size=10)
+f.box(250, 158, 322, 66, "Availability: usable when needed\nControls: backups, redundancy, DDoS protection\nFailure: a bank app down on salary day", fill=SAND, stroke=AMBER, size=10)
+```
+
+```svgfig label="1.2" caption="STRIDE on a data-flow diagram of a municipal tax portal. The dashed line is the trust boundary. Badges show which threats apply to which element: S spoofing, T tampering, R repudiation, I information disclosure, D denial of service, E elevation of privilege."
+f = Fig(580, 236)
+f.box(8, 66, 90, 46, "Taxpayer\n(external entity)", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.circle(238, 89, 40, fill=BLUE, stroke=NAVY, label="Portal\nprocess", size=10)
+f.box(420, 66, 112, 46, "Tax database\n(data store)", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.arrow([(98, 89), (198, 89)], label="login, payment", lpos=(148, 74))
+f.arrow([(278, 89), (420, 89)], label="queries, updates", lpos=(349, 74))
+for (x1, y1, x2, y2) in [(150, 20, 480, 20), (480, 20, 480, 160), (480, 160, 150, 160), (150, 160, 150, 20)]:
+    f.line(x1, y1, x2, y2, color=RED, sw=1.6, dash=True)
+f.text(315, 36, "trust boundary (our servers)", size=9.5, color=RED, bold=True)
+for (x, y, s) in [(30, 128, "S"), (56, 128, "R"), (148, 108, "T"), (172, 108, "I"), (214, 138, "S"), (238, 138, "D"), (262, 138, "E"), (410, 128, "T"), (436, 128, "I"), (462, 128, "D")]:
+    f.circle(x, y, 10, fill=ROSE, stroke=RED, label=s, size=9.5, color=RED)
+f.box(8, 182, 564, 46, "S Spoofing breaks authenticity | T Tampering breaks integrity | R Repudiation breaks non-repudiation\nI Information disclosure breaks confidentiality | D Denial of service breaks availability | E Elevation breaks authorisation", fill="#f8fafc", stroke=SLATE, size=9.5)
+```
+
+```svgfig label="1.3" caption="A 5 x 5 risk matrix (likelihood x impact). Cell value = likelihood x impact. R1 (5 x 4 = 20) is critical, R2 (3 x 4 = 12) is high and R3 (2 x 2 = 4) is low, so the team fixes R1 first."
+f = Fig(580, 262)
+def col(v):
+    return MINT if v <= 4 else ("#fde68a" if v <= 9 else ("#fdba74" if v <= 16 else ROSE))
+for l in range(1, 6):
+    for i in range(1, 6):
+        f.box(60 + (i - 1) * 44, 14 + (5 - l) * 44, 44, 44, str(l * i), fill=col(l * i), stroke=SLATE, size=10)
+for (l, i, n) in [(5, 4, "R1"), (3, 4, "R2"), (2, 2, "R3")]:
+    f.circle(60 + (i - 1) * 44 + 22, 14 + (5 - l) * 44 + 22, 13, fill=NAVY, stroke=NAVY, label=n, size=9.5, color="#ffffff")
+f.text(170, 252, "Impact (1 negligible ... 5 severe)", size=10.5, color=NAVY, bold=True)
+f.text(30, 124, "Likelihood", size=10.5, color=NAVY, bold=True)
+f.box(330, 20, 240, 40, "1-4 Low: accept and monitor", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(330, 68, 240, 40, "5-9 Medium: plan a fix", fill="#fde68a", stroke=AMBER, size=10.5, bold=True)
+f.box(330, 116, 240, 40, "10-16 High: fix this quarter", fill="#fdba74", stroke=AMBER, size=10.5, bold=True)
+f.box(330, 164, 240, 40, "17-25 Critical: fix now", fill=ROSE, stroke=RED, size=10.5, bold=True)
+```
+
+### 1.7.1 Eight principles of secure design
+
+1. **Least privilege.** Every user and program gets only the access needed for the job. A clerk in a municipality needs to read tax files, not delete them. If that account is stolen, the damage stays small.
+2. **Defence in depth.** Several different layers protect an asset, so one failure is not fatal. A bank uses guards, firewalls, encryption and monitoring together. An attacker must beat every layer, not just one.
+3. **Fail-safe defaults.** Access is denied unless it is clearly allowed. A new Wi-Fi router should reject strangers until a password is set. This is safer than a system that allows everything until someone blocks it.
+4. **Economy of mechanism.** Simple designs have fewer hidden mistakes. A login form with one clear check is easier to audit than five tangled ones. Small, clear code is easier for a student team to review.
+5. **Complete mediation.** Every request is checked every time, not only the first one. Fonepay-style apps should recheck the session before each transfer. Caching an old "allowed" answer lets stolen sessions slip through.
+6. **Separation of duties.** One person should not control a whole sensitive process. The person who creates a payment should not also approve it. This stops both fraud and honest mistakes from passing unnoticed.
+7. **Open design.** Security must not depend on keeping the method secret, only the key. Public algorithms such as AES and TLS are trusted because experts have tested them for years. A secret homemade cipher is usually broken quickly.
+8. **Psychological acceptability.** If a control is too hard, people work around it. Staff who must change a password daily will write it on a sticky note. Good security fits the way people actually work, for example a fingerprint unlock on a phone.
+
+## 1.8 Summary and exercises
 
 Security protects confidentiality, integrity and availability through layered, least-privilege controls; threat modelling with DFDs and STRIDE finds problems before they are built; risk can be ranked with a matrix or DREAD average; and CVSS gives a reproducible severity score that must be combined with context.
 
@@ -146,3 +218,65 @@ Security protects confidentiality, integrity and availability through layered, l
 4. Compute the ISS for C:L, I:L, A:N and the unchanged-scope Impact.
 5. Why can a vulnerability with a lower CVSS score deserve earlier patching?
 6. Explain two cases where confidentiality and availability conflict.
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the CIA triad with examples and controls.**
+
+*Introduction.* The CIA triad is the base model of information security. It names three goals that every control tries to protect: confidentiality, integrity and availability (Figure 1.1).
+
+1. **Confidentiality** means only authorised people can read the information. A hospital record must be seen by the treating doctor, not by every staff member. Controls are encryption, access control lists and multi-factor login.
+2. **Integrity** means data changes only in authorised and detectable ways. A student's exam mark must not be edited silently. Controls are hashing, digital signatures, input validation and change control with audit logs.
+3. **Availability** means the system works when users need it. A bank app that is down on salary day fails this goal even if no data leaks. Controls are backups, redundant servers, capacity planning and DDoS protection.
+
+| Goal | Threat example | Control example |
+|---|---|---|
+| Confidentiality | Records published by mistake | Encrypt data, restrict access |
+| Integrity | Tampered balance | SHA-256 hash, signed logs |
+| Availability | Server outage | Backup site, load balancer |
+
+*Conclusion.* The goals can conflict: strong encryption helps confidentiality, but a lost key ruins availability. A good design balances all three for the value of the asset.
+
+**Q2 (5 marks). What is threat modelling? Describe the STRIDE categories using a data-flow diagram.**
+
+*Introduction.* Threat modelling is a structured way to find what can go wrong in a design before the system is built. Fixing a design flaw on paper costs far less than fixing it after launch (section 1.4).
+
+*Method.* The team draws a data-flow diagram (DFD) with external entities, processes, data stores, data flows and a trust boundary. Each element is then checked against the six STRIDE threats (Figure 1.2).
+
+| Letter | Threat | Property broken | Typical mitigation |
+|---|---|---|---|
+| S | Spoofing | Authenticity | Strong login, MFA |
+| T | Tampering | Integrity | Hashes, signatures, TLS |
+| R | Repudiation | Non-repudiation | Audit logs, signatures |
+| I | Information disclosure | Confidentiality | Encryption, access control |
+| D | Denial of service | Availability | Rate limits, redundancy |
+| E | Elevation of privilege | Authorisation | Least privilege, input checks |
+
+*Example.* In a municipal tax portal, the taxpayer-to-portal flow crosses the trust boundary, so tampering and disclosure are checked first. The database element is checked for tampering, disclosure and denial of service. Each threat found is written down with a mitigation and an owner.
+
+*Conclusion.* Threat modelling turns a vague worry into a checklist the team can fix and test.
+
+**Q3 (10 marks). Explain how a security team assesses and ranks the risk of a web portal using the risk matrix, DREAD and CVSS.**
+
+*Introduction.* A portal such as a tax-payment site has more weaknesses than a team can fix at once. Risk assessment ranks them so that limited time is spent on the dangers that matter most. Risk is the combination of how likely an event is and how bad the result would be (sections 1.5 and 1.6).
+
+*Step 1: list assets, threats and vulnerabilities.* The assets are taxpayer records, payment data and the portal's availability. STRIDE on the data-flow diagram (Figure 1.2) gives the threats, and scanning and code review give the vulnerabilities.
+
+*Step 2: qualitative ranking with a matrix.* Each risk gets a likelihood and an impact from 1 to 5, and the product is its score (Figure 1.3). In the example R1 is 5 x 4 = 20 (critical), R2 is 3 x 4 = 12 (high) and R3 is 2 x 2 = 4 (low). The order of work is therefore R1, R2, R3.
+
+*Step 3: DREAD average.* The team scores Damage, Reproducibility, Exploitability, Affected users and Discoverability from 0 to 10 and takes the mean. A threat with 6, 5, 4, 9 and 3 has an average of 5.4, which is a medium rating. DREAD is easy but subjective, so two reviewers should score separately and compare.
+
+*Step 4: CVSS for known vulnerabilities.* CVSS v3.1 turns a vector into a repeatable score. For AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H the impact sub-score is ISS = 1 - (0.44 x 0.44 x 0.44) = 0.9148, so Impact = 6.42 x 0.9148 = 5.873. Exploitability is 8.22 x 0.85 x 0.77 x 0.85 x 0.85 = 3.887. The base score is the round-up of 5.873 + 3.887 = 9.76, which is **9.8 (Critical)**.
+
+*Step 5: decide the treatment.*
+
+| Option | Meaning | Example |
+|---|---|---|
+| Mitigate | Add controls to cut the risk | Patch and add a web application firewall |
+| Transfer | Share the cost with another party | Cyber insurance, managed provider |
+| Avoid | Stop the risky activity | Remove an unused upload page |
+| Accept | Live with a small risk | Low-score issue on an internal tool |
+
+*Caution.* CVSS measures the severity of a flaw in general, not risk to your organisation. A 9.8 on an unreachable test server may matter less than a 6.5 on the public payment service, so context always adjusts the order.
+
+*Conclusion.* A defensible ranking uses several tools: STRIDE to find threats, the matrix and DREAD to compare them, CVSS for known flaws, and business context to decide. The result is a written risk register that the management can approve.

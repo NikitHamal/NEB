@@ -133,7 +133,77 @@ Discovery tools probe other systems, so *how* they are used is a legal and profe
 - **Protect the results.** An accurate inventory of services and versions is itself sensitive; store it with access control and share it on a need-to-know basis.
 - **Close the loop.** Every unexpected item gets an owner, a decision and a due date; track the percentage of assets with a known owner as a metric.
 
-## 2.7 Summary and exercises
+## 2.7 Seeing the ideas: perimeter hardware, the TCP header, the handshake and the flag byte
+
+Packets travel through real boxes. Plate 2.1 shows a firewall appliance on a rack shelf and a ceiling-mounted Wi-Fi access point: two places where a defender captures, filters or inspects the traffic studied in this unit.
+
+```photogrid label="2.1" cols="2" ratio="1.7" caption="Where packets are inspected. (a) A Cisco PIX 515 firewall appliance mounted in a rack: a stateful firewall tracks the handshake state described in section 2.3. (b) A wall-mounted wireless access point: all Wi-Fi traffic of a classroom or office passes through it, so it is a natural capture and monitoring point."
+@ photo id="bca401/pix" cap="Rack-mount firewall (PIX 515)"
+fit 1.7
+focus 0.5 0.55
+@ photo id="bca401/ap" cap="Wireless access point"
+fit 1.7
+focus 0.5 0.45
+```
+
+```svgfig label="2.1" caption="The TCP header drawn to scale: 32 bits per row, 20 bytes without options. Ports identify the services, sequence and acknowledgement numbers order the bytes, the 8 flag bits drive the state machine, and the window size controls how much the sender may transmit."
+f = Fig(580, 246)
+f.text(40, 10, "bit 0", size=9, color=SLATE, anchor="start")
+f.text(552, 10, "bit 31", size=9, color=SLATE, anchor="end")
+rows = [[("Source port", 16, BLUE), ("Destination port", 16, BLUE)], [("Sequence number", 32, MINT)], [("Acknowledgement number", 32, MINT)],
+        [("Offset", 4, SAND), ("", 4, "#e2e8f0"), ("Flags", 8, ROSE), ("Window size", 16, BLUE)],
+        [("Checksum", 16, SAND), ("Urgent pointer", 16, SAND)], [("Options and padding (0 to 40 bytes)", 32, "#f1f5f9")]]
+for r, row in enumerate(rows):
+    x = 40
+    for (lab, bits, fl) in row:
+        f.box(x, 20 + r * 34, bits * 16, 34, lab, fill=fl, stroke=SLATE, size=9 if bits < 10 else 10)
+        x += bits * 16
+    f.text(20, 38 + r * 34, str(r * 4), size=9.5, color=NAVY, bold=True)
+f.text(290, 236, "byte numbers on the left; the 8 flag bits are CWR ECE URG ACK PSH RST SYN FIN, tested with a bitwise AND", size=9.5, color=SLATE)
+```
+
+```svgfig label="2.2" caption="The three-way handshake with the numbers of section 2.3. A SYN consumes one sequence number, so the SYN-ACK acknowledges 2001 (client ISN 2000 + 1) and the final ACK acknowledges 1001 (server ISN 1000 + 1). After this both sides are ESTABLISHED."
+f = Fig(580, 232)
+f.box(60, 8, 120, 28, "Client", fill=SAND, stroke=AMBER, bold=True, size=11)
+f.box(400, 8, 120, 28, "Server", fill=BLUE, stroke=NAVY, bold=True, size=11)
+f.line(120, 36, 120, 220, color=SLATE, dash=True)
+f.line(460, 36, 460, 220, color=SLATE, dash=True)
+f.arrow([(120, 58), (460, 90)], color=NAVY, label="1  SYN (0x02)  seq = 2000", lpos=(290, 62))
+f.arrow([(460, 112), (120, 144)], color=TEAL, label="2  SYN-ACK (0x12)  seq = 1000, ack = 2001", lpos=(290, 116))
+f.arrow([(120, 166), (460, 198)], color=RED, label="3  ACK (0x10)  ack = 1001", lpos=(290, 170))
+f.text(54, 100, "SYN-SENT", size=9.5, color=AMBER, bold=True)
+f.text(54, 178, "ESTABLISHED", size=9.5, color=TEAL, bold=True)
+f.text(526, 100, "SYN-RECEIVED", size=9.5, color=AMBER, bold=True)
+f.text(526, 210, "ESTABLISHED", size=9.5, color=TEAL, bold=True)
+```
+
+```svgfig label="2.3" caption="The flag byte. Each of the 8 bits is one flag. 0x12 = 0001 0010 sets ACK (0x10) and SYN (0x02), a normal SYN-ACK. A program tests a flag with a bitwise AND, for example flags AND 0x10 is non-zero when ACK is set. 0x03 sets FIN and SYN together, which no normal stack sends."
+f = Fig(580, 168)
+names = ["CWR", "ECE", "URG", "ACK", "PSH", "RST", "SYN", "FIN"]
+vals = [128, 64, 32, 16, 8, 4, 2, 1]
+on = {3, 6}
+for i in range(8):
+    fl = ROSE if i in on else "#f1f5f9"
+    f.box(30 + i * 64, 26, 60, 30, names[i], fill=fl, stroke=SLATE, bold=True, size=11)
+    f.box(30 + i * 64, 56, 60, 30, "1" if i in on else "0", fill=fl, stroke=SLATE, bold=True, size=13)
+    f.text(60 + i * 64, 98, str(vals[i]), size=9.5, color=SLATE)
+f.text(290, 12, "bit values 128 64 32 16 8 4 2 1", size=10, color=NAVY, bold=True)
+f.box(30, 112, 250, 44, "0x12 = 16 + 2 = ACK + SYN\nnormal second step of the handshake", fill=MINT, stroke=TEAL, size=10)
+f.box(310, 112, 250, 44, "0x03 = 2 + 1 = SYN + FIN\ninvalid: raise an alert", fill=ROSE, stroke=RED, size=10)
+```
+
+### 2.7.1 Eight uses of protocol analysis for defenders
+
+1. **Finding unexpected services.** Comparing live ports with an approved list exposes forgotten database or test servers. A college may discover port 3306 open on a lab PC that nobody remembers. Closing it removes a real entry point.
+2. **Troubleshooting slow links.** Captures show retransmissions, zero windows and long handshakes. A school network that "feels slow" may be losing packets on one cable. The trace proves where, so the right part is replaced.
+3. **Verifying encryption.** An analyst can confirm that a login page really uses TLS and not plain HTTP. If a capture shows readable passwords, the app is unsafe. This check is cheap and should be repeated after each release.
+4. **Detecting scans and floods.** Many SYN packets with no final ACK suggest a scan or a SYN flood. A rate rule can raise an alert in seconds. This protects portals such as ConnectIPS from being overwhelmed.
+5. **Detecting malformed packets.** Invalid flag combinations, as in Figure 2.3, signal broken tools or probing. Sensors can drop them at the firewall. Normal users never send them.
+6. **Incident investigation.** Saved captures show who talked to whom and when. After a breach, the team can see which hosts contacted a suspicious address. This turns guesses into evidence.
+7. **Testing firewall rules.** After a rule change, a capture shows whether blocked traffic really stops. Many outages come from a rule that works differently than expected. Testing on a trace avoids guessing.
+8. **Teaching and baselining.** Students learn protocols fastest by reading real headers. Teams also record normal traffic volumes as a baseline. Later, a jump from the baseline is an early warning.
+
+## 2.8 Summary and exercises
 
 The TCP header packs ports, sequence numbers and a flag bitmask into 20 bytes; the handshake and sequence arithmetic give a framework for judging normal behaviour; invalid flag combinations are detection signals; and a service inventory, built under written authority, is the baseline against which exposure is measured.
 
@@ -143,3 +213,68 @@ The TCP header packs ports, sequence numbers and a flag bitmask into 20 bytes; t
 4. List three controls that depend on the transport layer, and what each reads from the header.
 5. Compare observed ports {22, 25, 443, 5432} with the approved set {22, 443}. What are the findings and the action for each?
 6. Draft four conditions that a discovery authorisation letter should contain.
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the TCP three-way handshake with sequence and acknowledgement numbers.**
+
+*Introduction.* TCP is a connection-oriented transport protocol, so both sides must agree on starting sequence numbers before data flows. The three-way handshake does this in three segments (Figure 2.2).
+
+1. **Step 1, SYN.** The client sends a segment with the SYN flag (0x02) and its initial sequence number, say 2000.
+2. **Step 2, SYN-ACK.** The server answers with SYN and ACK set (0x12). It gives its own initial number, say 1000, and acknowledges 2001, because a SYN consumes one sequence number.
+3. **Step 3, ACK.** The client sends ACK (0x10) with acknowledgement 1001. Both sides are now in the ESTABLISHED state.
+
+| Segment | Flags | Seq | Ack |
+|---|---|---|---|
+| Client to server | SYN | 2000 | - |
+| Server to client | SYN, ACK | 1000 | 2001 |
+| Client to server | ACK | 2001 | 1001 |
+
+*Data and closing.* After 300 bytes sent from sequence 2001, the receiver acknowledges 2301. A connection closes with a FIN in each direction, or abruptly with RST.
+
+*Security relevance.* A stateful firewall remembers these states and drops segments that do not fit them. Many SYNs with no final ACK point to a scan or flood.
+
+**Q2 (5 marks). How are TCP flags stored? Show how a program decodes them and name two invalid combinations.**
+
+*Introduction.* The TCP header holds 8 control flags in one byte, so each flag is one bit (Figure 2.3). Programs read them using bitwise operations.
+
+*Layout.* From the left the bits are CWR (128), ECE (64), URG (32), ACK (16), PSH (8), RST (4), SYN (2) and FIN (1). The byte is the sum of the flags that are set.
+
+*Decoding.* To test ACK, a program computes flags AND 0x10; a non-zero result means ACK is set. For 0x12 this gives 0x10, so ACK is set, and 0x12 AND 0x02 is non-zero, so SYN is set too. The byte 0x12 is therefore a SYN-ACK.
+
+| Byte | Binary | Flags | Verdict |
+|---|---|---|---|
+| 0x02 | 0000 0010 | SYN | Valid, connection request |
+| 0x18 | 0001 1000 | PSH, ACK | Valid, data push |
+| 0x00 | 0000 0000 | none | Invalid |
+| 0x03 | 0000 0011 | FIN, SYN | Invalid |
+
+*Why invalid ones matter.* No compliant TCP stack sends no flags, or SYN with FIN together. They come from faulty software or from probing tools, so an intrusion sensor raises an alert or the firewall drops them.
+
+**Q3 (10 marks). Explain service inventory and network discovery. Describe how the results are compared with an approved list and the governance needed.**
+
+*Introduction.* A network cannot be defended if the owner does not know what runs on it. A service inventory lists every host, open port, protocol and version, and discovery is the process of building it (sections 2.5 and 2.6). Because discovery probes other systems, it is both a technical and a legal activity.
+
+*Methods of discovery.* There are two families:
+
+| Method | How it works | Strength | Risk |
+|---|---|---|---|
+| Passive | Reads flow records, DHCP and DNS logs, switch tables | Safe for fragile devices | Misses silent hosts |
+| Agent based | Software on each host reports what listens | Accurate, includes versions | Needs deployment |
+| Active | Sends probes and records replies | Finds unknown devices | Can disturb old equipment |
+
+*Comparing with the approved list.* The team keeps a list of approved ports for each server. A program compares observed ports with it. For observed {22, 25, 443, 5432} against approved {22, 443}, the unapproved listening ports are 25 and 5432, and no approved port is missing. Port 25 (mail) suggests an open relay risk and port 5432 (PostgreSQL) should never face the internet, so each gets an owner and a closing date.
+
+*Reading the results.* Every finding is classified as expected, unknown or forbidden. Unknown items are investigated, forbidden items are removed, and the inventory is updated so the next run starts from a clean baseline.
+
+*Governance rules.*
+
+1. Obtain **written authorisation** with scope, time window, methods, contacts and an emergency stop procedure.
+2. Prefer **passive and agent-based** methods on production systems.
+3. **Throttle and schedule** active scans and tell the operations team in advance.
+4. **Protect the results**, because a list of services and versions helps an attacker too.
+5. **Close the loop**: every unexpected item gets an owner, a decision and a due date.
+
+*Legal link.* Probing systems without permission can be an offence under Nepal's Electronic Transactions Act 2063 (Unit 7), so a signed letter is the first deliverable, not an extra.
+
+*Conclusion.* A good inventory combines several discovery methods, compares them with an approved baseline and is run under written authority. The result is a smaller attack surface and an audit trail that shows the work was lawful.

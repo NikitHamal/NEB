@@ -211,6 +211,18 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - U6: Plate 6.1 (coffee photo + stencil SVG), Fig 6.1 solved plate (42.857, 52.679, ...), 6.2 Gauss-Seidel progress; 6.6.1 eight uses; Q1-Q3 (symmetry solution verified).
 - All numbers recomputed in Python before writing. check_numerical.py was not needed (no code changed); fill_script_outputs.py not run.
 
+## BCA 401 cyber-security-and-ethical-hacking (semester-7/cyber-security-and-ethical-hacking) -- [x] POLISHED (session 24), 73 pp (was 48), qa fails=0 warns=1 (p31 = short unit-3 tail, natural unit end)
+- Photos (bca401/, 11 new, licence-gated, all viewed): yubikey, fingerprint, enigma, writeblocker, pix, metrocard, ap, cctv, tpm, serverroom, imager, switch, singha (13 files). Reused across units where a physical device repeats (pix, ap, serverroom, cctv).
+- New sections are numbered after the last numbered section (1.7, 2.7, 3.6, 4.7, 5.7, 6.6, 7.6); Summary renumbered by /tmp/ins.py. Each has "x.y.1 Eight ..." (8 points, 3-4 sentences, Nepali examples).
+- U1: Plate 1.1 (server room / Enigma-K / CCTV), Fig 1.1 CIA triad, 1.2 STRIDE on a DFD, 1.3 5x5 risk matrix; 8 secure-design principles; Q1 CIA, Q2 STRIDE, Q3 (10) risk ranking + CVSS 9.8 arithmetic (ISS 0.9148, impact 5.873, exploitability 3.887).
+- U2: Plate 2.1 (PIX firewall + access point), Fig 2.1 TCP header to scale, 2.2 handshake ladder (2000/1000/2001/1001), 2.3 flag byte (0x12, 0x03); 8 uses of protocol analysis; Q1 handshake, Q2 flags, Q3 (10) service inventory + governance (ports 25, 5432 unapproved).
+- U3: Plate 3.1 4-up (YubiKey, fingerprint, RFID card, TPM chip), Fig 3.1 factor families + strength ladder, 3.2 entropy bars (37.6/47.6/51.7/77.5/78.7), 3.3 DAC/MAC/RBAC/ABAC; 8 authentication practices; Q1 MFA, Q2 entropy (26^8 = 208,827,064,576; 7776^6), Q3 (10) access control models.
+- U4: no photo (software unit, none claimed). Fig 4.1 secure SDLC, 4.2 concatenation vs parameterised query (no payloads), 4.3 cookie flags, 4.4 validate-encode pipeline; 8 secure coding practices; Q1 injection, Q2 cookies and CSRF, Q3 (10) secure SDLC + OWASP Top 10.
+- U5: Plate 5.1 (switches/patch panels, PIX, AP), Fig 5.1 zones/DMZ, 5.2 DNSSEC chain, 5.3 WPA2 key hierarchy, 5.4 token bucket (run accepted 59 of 1000, bound 60); 8 network defence practices; Q1 DNSSEC, Q2 token bucket, Q3 (10) defended network + first-match ACL table.
+- U6: Plate 6.1 (write blocker + disk imager), Fig 6.1 sensor placement, 6.2 confusion matrix (99/1/999/98,901, precision 9.02%), 6.3 NIST IR cycle, 6.4 hash-chained custody log; 8 IR/forensics practices; Q1 base-rate, Q2 IR lifecycle, Q3 (10) forensics.
+- U7: Plate 7.1 (Singha Durbar, server room, CCTV), Fig 7.1 audit cycle, 7.2 ALE/ROSI (50,000 -> 10,000, ROSI 100%), 7.3 pen-test ROE gate (7 of 9 fields), 7.4 ETA 2063 penalties; 8 audit benefits; Q1 audit vs VA vs pentest vs red team, Q2 ALE/ROSI, Q3 (10) ROE, ethics and Nepal law.
+- check_cybersec.py --verify: 39 tokens, 0 missing. No code was changed. Figure-fit gotchas: svgfig text does not wrap; keep a line under about 17 chars per 90 px box; do not put long labels in 90-px boxes; poly labels need a diamond about 100 px wide.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -232,5 +244,6 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - [x] Financial Accounting polished (session 22, 37 -> 65 pp)
 - [x] Cloud Computing polished (session 23, 37 -> 65 pp)
 - [x] Numerical Methods polished (session 23, 43 -> 66 pp)
-- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Cyber Security and Ethical Hacking (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] Cyber Security and Ethical Hacking polished (session 24, 48 -> 73 pp)
+- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Society and Technology (44), Computer Graphics and Animation (44), Mobile Programming (44), Web Technology I (45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
