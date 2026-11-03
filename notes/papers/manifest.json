@@ -12,7 +12,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 16,
-  "bytes": 273380,
+  "bytes": 273386,
   "id": "12-bio-2081-general"
  },
  {
@@ -28,7 +28,7 @@
   "students": "For regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 202234,
+  "bytes": 202232,
   "id": "12-bio-2082-general"
  },
  {
@@ -44,7 +44,7 @@
   "students": "For the regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 13,
-  "bytes": 234738,
+  "bytes": 234739,
   "id": "12-chem-2081-general"
  },
  {
@@ -60,7 +60,7 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 10,
-  "bytes": 206219,
+  "bytes": 206228,
   "id": "12-chem-2082-general"
  },
  {
@@ -76,7 +76,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 10,
-  "bytes": 144064,
+  "bytes": 144067,
   "id": "12-cs-2081-general"
  },
  {
@@ -92,8 +92,24 @@
   "students": "For regular and partial students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 7,
-  "bytes": 107537,
+  "bytes": 107543,
   "id": "12-cs-2082-general"
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Compulsory-English-2081-0041B.pdf",
+  "subject": "Compulsory English",
+  "grade": "12",
+  "year_bs": "2081",
+  "year_ad": "2024",
+  "stream": "Code 0041 'B'",
+  "code": "0041 'B' (New course)",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
+  "category": "Board Exam",
+  "pages": 8,
+  "bytes": 108708,
+  "id": "12-eng-2081-0041b"
  },
  {
   "file": "NEBians-Past-Paper-Grade-12-Mathematics-2081-Set-W.pdf",
@@ -108,7 +124,7 @@
   "students": "For regular students whose first two digits of registration number start from 80",
   "category": "Board Exam",
   "pages": 11,
-  "bytes": 618221,
+  "bytes": 618222,
   "id": "12-math-2081-set-w"
  },
  {
@@ -124,7 +140,7 @@
   "students": "For the students whose first two digits of registration number start from 80 (partial) and 81 (regular)",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 474828,
+  "bytes": 474834,
   "id": "12-math-2082-set-r"
  },
  {
@@ -140,7 +156,7 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 470873,
+  "bytes": 470860,
   "id": "12-phy-2082-general"
  }
 ]
