@@ -19,3 +19,7 @@ Security goals and classical ciphers (Caesar, Vigenère, Playfair, Hill, rail fe
 ## Source and honesty
 
 No TU unit list for BCA 353 was retrieved; the seven units are a reconstruction from the topics named in the course brief (classical ciphers, modular arithmetic, symmetric and asymmetric cryptography, hashes and MACs, signatures and PKI, Kerberos/TLS/IPsec/PGP, firewalls/IDS). Algorithms follow Stallings, *Cryptography and Network Security*, Paar and Pelzl, *Understanding Cryptography*, and the cited standards (FIPS-197, RFC 2104, 4231, 8446); prose is original. The Python implementations are **teaching code, not for production**: use a vetted library. The AES implementation is not constant-time.
+
+## Figures and photographs
+
+Every unit ends with a section of plates and figures: real photographs from Wikimedia Commons (scytale, Alberti disk, Enigma, Lorenz SZ42, Bombe, the EFF DES cracker board, hardware security module, portraits of Euler, Fermat, Gauss, Diffie and Hellman, Rivest, Zimmermann, a fire wall, a Cisco ASA, a VPN router, Wi-Fi access points), all licence-gated and credited in the Picture Credits; about 35 SVG schematics (attack model, Feistel round, AES round, CBC, RSA with the textbook numbers, an elliptic-curve addition on real axes, HMAC, signatures, chain of trust, Kerberos, TLS 1.3, ESP, DMZ, rule matching, base-rate arithmetic, Wi-Fi generations, key life cycle); an eight-point section per unit and 5-mark and 10-mark model answers.

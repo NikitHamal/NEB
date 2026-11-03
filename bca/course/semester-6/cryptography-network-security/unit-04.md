@@ -152,6 +152,113 @@ G has **order 19** (19G = O), so there are 19 distinct multiples; 2G = (6, 3). I
 
 RSA is simple and universal but its keys are large and key generation slow; elliptic curves give small keys and signatures and dominate on mobile and in TLS 1.3. **Quantum computers** running Shor's algorithm would break RSA, DH and ECC; NIST has standardised **post-quantum** algorithms (ML-KEM/Kyber for key exchange, ML-DSA/Dilithium for signatures), and "harvest now, decrypt later" is the reason migration is already under way, while symmetric ciphers need only larger keys (AES-256).
 
+## 4.6 Seeing public-key cryptography: pioneers, keys and curves
+
+Public-key cryptography solves the oldest problem of secret writing: how can two people who have never met agree on a key over an open line? The plate shows the two researchers who first published the answer and a worked key exchange with small numbers. The figures show the two-key idea, the RSA steps with the textbook numbers, an elliptic-curve addition drawn on real axes and the key sizes that give equal strength.
+
+```photogrid label="4.1" cols="2" ratio="1.25" caption="The first public answer to key exchange. (a) Whitfield Diffie (left) and Martin Hellman (right), who published 'New Directions in Cryptography' in 1976, showing that two people can agree on a shared secret using only public messages. (b) Their exchange with the small numbers p = 23 and g = 5: Alice keeps a = 6 and sends A = 5 to the power 6 mod 23 = 8; Bob keeps b = 15 and sends B = 19; each then computes the same secret 2. An eavesdropper sees only 23, 5, 8 and 19."
+@ photo id="crypto353/diffie" cap="Diffie and Hellman"
+fit 1.25
+focus 0.5 0.5
+call 0.25 0.1 0.25 0.45 "Whitfield Diffie"
+call 0.75 0.1 0.75 0.45 "Martin Hellman"
+@ svg cap="Diffie-Hellman with p = 23, g = 5"
+f = Fig(340, 272)
+f.text(170, 14, "Public: p = 23, g = 5", size=13, color=NAVY, bold=True)
+f.box(6, 30, 130, 70, "Alice\nsecret a = 6\nA = 5^6 mod 23 = 8", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(204, 30, 130, 70, "Bob\nsecret b = 15\nB = 5^15 mod 23 = 19", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.arrow([(136, 52), (204, 52)], color=AMBER, label="A = 8", lpos=(170, 44), lsize=12)
+f.arrow([(204, 80), (136, 80)], color=AMBER, label="B = 19", lpos=(170, 98), lsize=12)
+f.box(6, 130, 130, 56, "Alice computes\n19^6 mod 23 = 2", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.box(204, 130, 130, 56, "Bob computes\n8^15 mod 23 = 2", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.arrow([(71, 100), (71, 130)], color=SLATE); f.arrow([(269, 100), (269, 130)], color=SLATE)
+f.box(60, 210, 220, 44, "Shared secret K = 2\nEve knows 23, 5, 8, 19 only", fill=SAND, stroke=AMBER, size=12, bold=True)
+```
+
+```svgfig label="4.1" caption="Two keys instead of one. Bob publishes his public key for anyone to use and keeps his private key to himself. Anyone, including Alice, encrypts with the public key; only Bob's private key opens the message (confidentiality). In the reverse use, Bob signs with his private key and anyone checks the signature with his public key (authentication and non-repudiation). The two keys are mathematically linked, but the private key cannot be worked out from the public one in practice."
+f = Fig(580, 230)
+f.box(8, 20, 100, 44, "Alice\nplaintext", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(160, 20, 130, 44, "Encrypt with\nBob's PUBLIC key", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(340, 20, 100, 44, "Ciphertext", fill=SAND, stroke=AMBER, size=12, bold=True)
+f.box(470, 20, 100, 44, "Decrypt with\nBob's PRIVATE\nkey", fill=ROSE, stroke=RED, size=10.5, bold=True)
+for a, b in ((108, 160), (290, 340), (440, 470)): f.arrow([(a, 42), (b, 42)], color=SLATE)
+f.text(290, 92, "Confidentiality: anyone can send, only Bob can read", size=11.5, color=TEAL, bold=True)
+f.box(8, 130, 100, 44, "Bob\nmessage", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(160, 130, 130, 44, "Sign with Bob's\nPRIVATE key", fill=ROSE, stroke=RED, size=11, bold=True)
+f.box(340, 130, 100, 44, "Signature", fill=SAND, stroke=AMBER, size=12, bold=True)
+f.box(470, 130, 100, 44, "Verify with\nBob's PUBLIC\nkey", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+for a, b in ((108, 160), (290, 340), (440, 470)): f.arrow([(a, 152), (b, 152)], color=SLATE)
+f.text(290, 202, "Authentication: anyone can check, only Bob can sign", size=11.5, color=RED, bold=True)
+```
+
+```svgfig label="4.2" caption="RSA with the textbook numbers. Key generation: choose primes p = 61 and q = 53, so n = 3233 and phi(n) = 3120; choose e = 17 (gcd 1 with 3120) and find d = 2753 by the extended Euclidean algorithm. The public key is (3233, 17); the private key is d = 2753 (with p and q destroyed). Encrypting m = 65 gives c = 65 to the power 17 mod 3233 = 2790; decrypting gives 2790 to the power 2753 mod 3233 = 65."
+f = Fig(580, 214)
+st = [("1  Choose primes", "p = 61, q = 53", BLUE, NAVY), ("2  Modulus", "n = p x q = 3233\nphi = 60 x 52 = 3120", BLUE, NAVY), ("3  Public exponent", "e = 17\n(gcd(17, 3120) = 1)", SAND, AMBER), ("4  Private exponent", "d = 2753\n(17 x 2753 = 1 mod 3120)", ROSE, RED)]
+for i, (t, d, fl, c) in enumerate(st):
+    x = 8 + i * 144
+    f.box(x, 10, 134, 26, t, fill=fl, stroke=c, size=10.5, bold=True)
+    f.box(x, 40, 134, 46, d, fill="#ffffff", stroke=c, size=10.5, bold=True)
+    if i < 3: f.arrow([(x + 134, 23), (x + 144, 23)], color=SLATE)
+f.box(30, 120, 240, 46, "Encrypt  c = m^e mod n\n65^17 mod 3233 = 2790", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.box(310, 120, 240, 46, "Decrypt  m = c^d mod n\n2790^2753 mod 3233 = 65", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.arrow([(270, 143), (310, 143)], color=SLATE, label="send c", lpos=(290, 135), lsize=10)
+f.text(290, 194, "Public key (3233, 17).  Private key d = 2753.  Security rests on the difficulty of factoring n.", size=10.5, color=NAVY, bold=True)
+```
+
+```svgfig label="4.3" caption="Adding points on the elliptic curve y squared = x cubed - 3x + 3 over the real numbers. To add P = (-1, 2.236) and Q = (1, 1), draw the line through them; it meets the curve a third time, and reflecting that third point in the x-axis gives P + Q = (0.382, -1.382). The same chord-and-reflect rule, carried out with arithmetic modulo a prime, defines the group used in ECC. For doubling a point the tangent line replaces the chord."
+import math
+f = Fig(580, 260)
+ax = Axes(f, 30, 14, 300, 232, (-2.6, 2.6), (-3.2, 3.2))
+ax.grid(1, 1)
+fy = lambda x: math.sqrt(max(0.0, x**3 - 3 * x + 3))
+ax.curve(fy, -2.1037, 2.6, color=NAVY)
+ax.curve(lambda x: -fy(x), -2.1037, 2.6, color=NAVY)
+m = (1 - math.sqrt(5)) / 2
+ax.curve(lambda x: math.sqrt(5) + m * (x + 1), -1.9, 2.2, color=AMBER, dash=True)
+xr = m * m - 0
+xr = m * m - (-1) - 1
+yr = math.sqrt(5) + m * (xr + 1)
+f.line(ax.X(xr), ax.Y(yr), ax.X(xr), ax.Y(-yr), color=SLATE, sw=1.2, dash=True)
+ax.pt(-1, math.sqrt(5), "P", dx=-14, dy=-8, anchor="end")
+ax.pt(1, 1, "Q", dx=8, dy=-8)
+ax.pt(xr, yr, "-R", dx=10, dy=-6)
+ax.pt(xr, -yr, "R = P + Q", dx=10, dy=14, color=TEAL)
+f.text(350, 40, "Chord-and-reflect rule", size=12, color=NAVY, bold=True, anchor="start")
+f.text(350, 62, "1. Draw the line through P and Q.", size=10.5, color=SLATE, anchor="start")
+f.text(350, 80, "2. Find the third point -R on the curve.", size=10.5, color=SLATE, anchor="start")
+f.text(350, 98, "3. Reflect it in the x-axis: R = P + Q.", size=10.5, color=SLATE, anchor="start")
+f.text(350, 130, "Over the field of 17 elements", size=12, color=TEAL, bold=True, anchor="start")
+f.text(350, 150, "y^2 = x^3 + 2x + 2: 19 points,", size=10.5, color=SLATE, anchor="start")
+f.text(350, 168, "G = (5, 1), 2G = (6, 3), 3G = (10, 6)", size=10.5, color=SLATE, anchor="start")
+f.text(350, 186, "19G = O (the point at infinity).", size=10.5, color=SLATE, anchor="start")
+f.text(350, 220, "Hard problem: given G and kG, find k.", size=10.5, color=RED, bold=True, anchor="start")
+```
+
+```svgfig label="4.4" caption="Key sizes with the same strength (NIST SP 800-57). For 128-bit security a symmetric key needs 128 bits, RSA needs 3072 bits and an elliptic curve needs only 256 bits. At 256-bit security RSA would need 15360 bits against 512 bits for ECC, which is why phones and smart cards prefer curves. The reason is that the best attacks on RSA and Diffie-Hellman are sub-exponential, while the best attacks on a well-chosen curve are fully exponential."
+f = Fig(580, 214)
+rows = [("112-bit security", 112, 2048, 224), ("128-bit security", 128, 3072, 256), ("192-bit security", 192, 7680, 384), ("256-bit security", 256, 15360, 512)]
+f.text(4, 12, "bits of key (bar length to scale for RSA 15360)", size=9.5, color=SLATE, anchor="start")
+for i, (nm, s, r, c) in enumerate(rows):
+    y = 24 + i * 46
+    f.text(4, y + 6, nm, size=10.5, color=NAVY, bold=True, anchor="start")
+    wr = r / 15360 * 330
+    f.box(130, y - 4, max(wr, 4), 11, "", fill=ROSE, stroke=RED, sw=1, r=2)
+    f.text(136 + wr, y + 5, f"RSA {r}", size=10, color=RED, bold=True, anchor="start")
+    f.box(130, y + 9, max(c / 15360 * 330, 4), 11, "", fill=MINT, stroke=TEAL, sw=1, r=2)
+    f.text(136 + c / 15360 * 330, y + 18, f"ECC {c}   (AES {s})", size=10, color=TEAL, bold=True, anchor="start")
+```
+
+### 4.6.1 Eight applications of public-key cryptography
+
+1. **HTTPS and online banking.** When a browser opens a bank or ConnectIPS site, the server proves its identity with a certificate and the two sides agree a session key with public-key methods (RSA or elliptic-curve Diffie-Hellman). The bulk data are then encrypted with fast AES. The padlock beside the address is the visible result.
+2. **Digital signatures.** A signer uses a private key to sign a document, and anybody can verify it with the public key. This proves who signed and that the content was not changed. Nepal's Electronic Transactions Act gives legal standing to digital signatures issued by licensed certifying authorities.
+3. **Key exchange for private chats.** Messaging apps use Diffie-Hellman variants so that two phones agree on a fresh key without sending it. Even if the server is hacked later, old conversations stay safe when the keys were temporary. This is called forward secrecy.
+4. **Secure email and files.** PGP and S/MIME let a sender encrypt an email with the receiver's public key and sign it with their own private key. A hospital can send a patient report so that only the doctor named can open it. No shared password has to be agreed first.
+5. **Software updates.** Phone and computer vendors sign each update with a private key, and the device checks the signature with a built-in public key before installing it. This stops an attacker from sending a fake update with malware. The same idea protects app stores.
+6. **Server login with SSH keys.** System administrators log in to servers by proving that they hold a private key instead of typing a password. The server stores only the public key, so a stolen server file does not allow log-in. Cloud teams in Kathmandu use this daily.
+7. **Cryptocurrency and blockchain.** A wallet address is derived from a public key, and a transaction is authorised by a signature made with the matching private key (elliptic-curve signatures). Anyone can verify the payment, and nobody can spend without the private key. Losing the key means losing the funds.
+8. **Smart cards and national ID.** Chips in bank cards, passports and national ID cards store a private key that never leaves the chip. The chip signs a challenge from a reader to prove that the card is genuine. ECC is favoured here because its small keys fit small chips.
+
 ## Chapter summary
 
 - Public-key cryptography removes the shared-secret problem: n users need n key pairs instead of n(n − 1)/2, and it is used to exchange symmetric keys (hybrid encryption).
@@ -184,3 +291,67 @@ RSA is simple and universal but its keys are large and key generation slow; elli
 **9.** It is deterministic and malleable, and has attacks for small messages and small e; OAEP/PSS randomised padding fixes it.
 **10.** The best known attacks on the elliptic-curve discrete logarithm are fully exponential, whereas factoring and the ordinary discrete log have sub-exponential algorithms, so smaller keys reach the same security.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). With p = 3 and q = 11, generate RSA keys with e = 7 and encrypt and decrypt the message m = 4.**
+
+*Introduction.* RSA is a public-key system whose security depends on the difficulty of factoring the product of two large primes (section 4.2, Figure 4.2).
+
+1. **Modulus.** n = p x q = 3 x 11 = 33.
+2. **Totient.** phi(n) = (3 - 1)(11 - 1) = 20.
+3. **Public exponent.** e = 7 is valid because gcd(7, 20) = 1.
+4. **Private exponent.** d is the inverse of 7 modulo 20. Since 7 x 3 = 21 = 1 (mod 20), d = 3.
+5. **Encryption.** c = m to the power e mod n = 4 to the power 7 mod 33 = 16384 mod 33 = **16**, because 33 x 496 = 16368.
+6. **Decryption.** m = c to the power d mod n = 16 to the power 3 mod 33 = 4096 mod 33 = **4**, because 33 x 124 = 4092. The message is recovered.
+
+| Item | Value |
+|---|---|
+| Public key (n, e) | (33, 7) |
+| Private key d | 3 |
+| Ciphertext of 4 | 16 |
+
+These numbers are far too small to be secure; real keys use primes of 1024 bits or more.
+
+**Q2 (5 marks). Explain Diffie-Hellman key exchange with an example. Why is it vulnerable to a man-in-the-middle attack?**
+
+*Introduction.* Diffie-Hellman (1976) lets two parties agree on a shared secret over a public channel (section 4.3, Plate 4.1).
+
+1. **Public values.** A prime p = 23 and a generator g = 5 are agreed openly.
+2. **Private choices.** Alice picks a = 6, Bob picks b = 15, and each keeps their number secret.
+3. **Exchange.** Alice sends A = 5 to the power 6 mod 23 = 8. Bob sends B = 5 to the power 15 mod 23 = 19.
+4. **Shared key.** Alice computes B to the power a = 19 to the power 6 mod 23 = 2. Bob computes A to the power b = 8 to the power 15 mod 23 = 2. Both obtain K = 2.
+5. **Security.** An eavesdropper sees p, g, A and B but must solve the discrete logarithm problem to find a or b, which is infeasible for large p.
+6. **Weakness.** The exchange does not check who is at the other end. Mallory can run one exchange with Alice and another with Bob, and read and forward all messages. The defence is to authenticate the exchanged values, using digital signatures and certificates, as TLS does.
+
+**Q3 (5 marks). Explain elliptic-curve cryptography and point addition with an example.**
+
+*Introduction.* ECC uses the group of points on a curve y squared = x cubed + ax + b over a finite field. It gives the same security as RSA with much smaller keys (section 4.4, Figure 4.3).
+
+1. **Curve and group.** Points (x, y) on the curve, plus a point at infinity O, form a group under a chord-and-tangent addition rule.
+2. **Addition formulas.** For P not equal to Q the slope is (y2 - y1)/(x2 - x1); for doubling it is (3 x1 squared + a)/(2 y1). Then x3 = slope squared - x1 - x2 and y3 = slope (x1 - x3) - y1, all modulo p.
+3. **Example.** On y squared = x cubed + 2x + 2 mod 17 with G = (5, 1): slope = (3 x 25 + 2)/2 = 77/2 = 9 x 9 = 81 = 13 (mod 17). Then x3 = 169 - 10 = 159 = 6, y3 = 13(5 - 6) - 1 = -14 = 3. So 2G = (6, 3). Continuing gives 3G = (10, 6) and 19G = O, so G has order 19.
+4. **Hard problem.** Given G and kG, finding k (the elliptic-curve discrete logarithm) has no sub-exponential algorithm, so a 256-bit curve matches 3072-bit RSA.
+5. **Use.** ECDH key exchange and ECDSA signatures in TLS, Bitcoin and smart cards.
+
+**Q4 (10 marks). Describe the RSA algorithm: key generation, encryption and decryption, with a worked example, the reason that it works, the attacks on it and a comparison with Diffie-Hellman and ECC.**
+
+*Introduction.* RSA (Rivest, Shamir and Adleman, 1977) is the most widely taught public-key system. It provides encryption and signatures, and its security rests on the factoring problem: multiplying two primes is easy, recovering them from the product is hard (section 4.2, Figure 4.2).
+
+1. **Key generation.** Choose two large random primes p and q (Miller-Rabin tested). Compute n = pq and phi(n) = (p - 1)(q - 1). Choose e with gcd(e, phi) = 1 (commonly 65537). Compute d with ed = 1 (mod phi) by the extended Euclidean algorithm. Publish (n, e); keep d.
+2. **Encryption and decryption.** c = m to the power e mod n, then m = c to the power d mod n.
+3. **Worked example.** p = 61, q = 53 give n = 3233 and phi = 3120. With e = 17 the private exponent is d = 2753. For m = 65: c = 65 to the power 17 mod 3233 = 2790, and 2790 to the power 2753 mod 3233 = 65.
+4. **Why it works.** ed = 1 + k phi(n), so (m to the power e) to the power d = m times (m to the power phi) to the power k, which is m (mod n) by Euler's theorem (the case gcd(m, n) not 1 follows by the Chinese remainder theorem).
+5. **Attacks.** Factoring n (use at least 2048 bits); small exponent and no padding (use OAEP padding); timing and side-channel attacks (use blinding and constant-time code); reusing primes across keys (a gcd test of two public keys reveals them).
+6. **Practical use.** RSA encrypts only short data, so it protects an AES session key; it also signs hashes.
+7. **Speed.** Decryption with the Chinese remainder theorem is about four times faster than a direct power.
+
+| Point | RSA | Diffie-Hellman | ECC |
+|---|---|---|---|
+| Purpose | Encryption, signature | Key agreement | Key agreement, signature |
+| Hard problem | Factoring | Discrete logarithm | Elliptic-curve discrete log |
+| Key for 128-bit security | 3072 bits | 3072 bits | 256 bits |
+| Speed | Slow private operation | Moderate | Fast |
+| Typical use | Certificates, signatures | TLS key exchange | Phones, smart cards, TLS |
+
+*Conclusion.* RSA made secure communication between strangers practical. It is now mostly used for signatures and key transport, with elliptic curves taking over where small keys and speed matter, and every system must add padding and authentication to be safe.

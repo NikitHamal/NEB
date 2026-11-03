@@ -280,13 +280,17 @@ New section in each unit is x.7 (U1 1.7 ... U7 7.7, U3 is 3.6, U5 5.6, U6 6.6) i
 - [x] U7: Plate 7.1 (Singha Durbar + switches), Fig 7.1 cumulative cash flow (payback 3.00, 3.98), 7.2 NPV profile (IRR 17.82%), 7.3 TCO (46,00,000 vs 48,50,000; PV 36,37,296 vs 35,28,536), 7.4 break-even (10,000; profit 1,80,000); 7.7.1 eight failure reasons; Q1-Q2 (5), Q3 (10). All numbers recomputed in Python.
 - Known cosmetic: Fig 3.2 point labels sit close together; Fig 3.3 sawtooth is schematic.
 
-## BCA 353 cryptography-network-security (semester-6/cryptography-network-security) -- [~] IN PROGRESS (session 29): units 1-3 polished
+## BCA 353 cryptography-network-security (semester-6/cryptography-network-security) -- [x] POLISHED (session 29): all 7 units, 83 pp (was 45), qa fails=0 warns=0
 New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, alberti (drawing of cipher disk), bombe, lorenz, euler, fermat, gauss, descracker (EFF Deep Crack board), diffie (Diffie + Hellman portraits), zimmermann, hsm (nCipher nShield PCIe card), cerberus, asa (Cisco ASA 5510). Reused: bca401/enigma. Rejected after viewing: chip-and-pin (a pub table), cryptographers panel (unlabelled people).
 - U1: Plate 1.1 (4-up scytale/Alberti/Enigma/Lorenz with callouts), Plate 1.2 (Bombe photo + key-space-in-bits SVG), Fig 1.1 attack model, 1.2 Caesar sliders, 1.3 letter frequencies, 1.4 rail fence; 8 uses of cryptography in Nepal (1.8.1); Q1, Q2 (5 marks), Q3 (10 marks).
 - U2: Plate 2.1 (3-up Euler/Fermat/Gauss), Fig 2.1 clock mod 7, 2.2 Euclid chain + back-substitution, 2.3 power cycles mod 7, 2.4 Miller-Rabin flow + trace for 561, 2.5 CRT rows; 8 uses (2.7.1); Q1 (inverse of 17 mod 3120 = 2753), Q2 (Fermat/Euler), Q3 (primality, 10 marks). All numbers recomputed in Python/sympy.
 - U3: Plate 3.1 (DES cracker board + HSM card), Fig 3.1 Feistel, 3.2 AES round + ShiftRows, 3.3 CBC chain; 8 reasons AES replaced DES (3.7.1); Q1 Feistel, Q2 modes, Q3 AES (10 marks). Search-time numbers: 2^56 / 9e10 keys/s = 9.3 days; 2^128 / 9e10 = 1.2e20 years.
 - Gotchas: each svgfig cell has its own namespace (define A = alphabet in every cell that uses it); Fig arrow lists must END at the target edge (check dashed arrows in the render); qa passes even if an arrow misses its target, so look at the render.
-- Next: units 4-7 (RSA/DH/ECC, hashes/MACs/PKI, Kerberos/TLS/IPsec, firewalls/IDS/VPN/wireless). Unused fetched photos: diffie (U4), zimmermann (U6), cerberus (U6), asa (U7), hsm reuse (U5).
+- U4: Plate 4.1 (Diffie+Hellman portraits + SVG of DH with p=23, g=5), Fig 4.1 two-key idea, 4.2 RSA textbook numbers (3233, 17, 2753, 65 -> 2790), 4.3 elliptic-curve chord-and-reflect (Axes, real curve y^2 = x^3 - 3x + 3), 4.4 key sizes at equal strength; 8 applications (4.6.1); Q1 RSA p=3 q=11, Q2 DH + MITM, Q3 ECC mod 17 (2G = (6,3), order 19), Q4 RSA long (10 marks).
+- U5: Plate 5.1 (3-up ASIC SHA-256 miner / Rivest / YubiKey), Fig 5.1 avalanche (real SHA-256 abc vs abd: 122 of 256 bits), 5.2 HMAC, 5.3 signature flow, 5.4 chain of trust, 5.5 collision cost; 8 uses (5.7.1); Q1 hash properties, Q2 HMAC (RFC 4231 vector), Q3 MAC vs signature, Q4 PKI (10 marks).
+- U6: Plate 6.1 (Cerberus / Zimmermann / IPsec router), Plate 6.2 (https padlock photo + challenge-response SVG), Fig 6.1 Kerberos six messages, 6.2 TLS 1.3 handshake, 6.3 ESP tunnel packet, 6.4 protocol stack; 8 reasons TLS 1.3 beats 1.2 (6.7.1); Q1 Kerberos, Q2 TLS 1.3, Q3 IPsec, Q4 TLS/IPsec/SSH/PGP comparison (10 marks).
+- U7: Plate 7.1 (fire wall building + Cisco ASA, callouts), Plate 7.2 (3-up router / outdoor AP / HSM), Fig 7.1 DMZ, 7.2 first-match rule table, 7.3 base-rate 99/1,098 = 9.0%, 7.4 site-to-site VPN, 7.5 Wi-Fi WEP to WPA3, 7.6 key life cycle; 8 rules for a campus network (7.7.1); Q1 firewalls, Q2 IDS/IPS, Q3 WEP/WPA2/WPA3, Q4 college network design (10 marks).
+- Numbers: every figure value was recomputed in Python (hashlib, hmac, cryptography AES, sympy) before it went into the text; the old executed outputs are untouched.
 
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
@@ -315,5 +319,6 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] BCA 352 Mobile Programming polished (session 27, 44 -> 90 pp)
 - [x] Web Technology I polished (session 28, 45 -> 85 pp)
 - [x] MIS and e-Business polished (session 28, 45 -> 77 pp)
-- [~] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Cryptography and Network Security (45), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] BCA 353 Cryptography and Network Security polished (session 29, 45 -> 83 pp)
+- [~] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Distributed System (54), Software Engineering (54), Principles of Management (50), DBMS (56), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
