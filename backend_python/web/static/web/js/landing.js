@@ -1,158 +1,155 @@
-/* NEBians landing. One passive scroll listener and one rAF write per frame: each on-screen
-   [data-track] element gets --p (progress through its pinned stretch) and --e (how far it has
-   entered). CSS turns those into motion. Off-screen elements are skipped entirely. */
+/* NEBians landing. Small on purpose: everything visual lives in landing.css; this file only
+   flips classes. Nothing here is needed to read the page (no-js shows every section).
+   - .ready      fonts are in (or 900 ms passed): the hero entrance plays
+   - .in         a [data-reveal] element has scrolled into view: its spring plays once
+   - .is-live    a [data-live] section is on screen: its looping motion runs, otherwise it pauses
+   - nav         menu sheet, scrolled state, and a pill that follows the current section
+   - [data-type] the hero search types through a few subjects */
 (function () {
   var doc = document.documentElement;
   doc.classList.remove('no-js');
   doc.classList.add('js');
   var still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canObserve = 'IntersectionObserver' in window;
 
   function ready() { requestAnimationFrame(function () { doc.classList.add('ready'); }); }
   if (document.fonts && document.fonts.ready) {
     Promise.race([document.fonts.ready, new Promise(function (r) { setTimeout(r, 900); })]).then(ready);
   } else { ready(); }
 
-  /* ---- scroll-linked progress ---- */
-  var tracks = [].slice.call(document.querySelectorAll('[data-track]'));
-  var live = new Set();
-  var vh = innerHeight;
-  var queued = false;
-
-  function measure() {
-    queued = false;
-    // read every rect first, then write: interleaving would force a layout per element
-    var reads = [];
-    live.forEach(function (el) { reads.push([el, el.getBoundingClientRect()]); });
-    reads.forEach(function (pair) {
-      var el = pair[0], r = pair[1];
-      var span = r.height - vh;
-      var p = span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : Math.min(1, Math.max(0, (vh - r.top) / (vh + r.height)));
-      var e = Math.min(1, Math.max(0, (vh - r.top) / vh));
-      el.style.setProperty('--p', p.toFixed(4));
-      el.style.setProperty('--e', e.toFixed(4));
-    });
-  }
-  function queue() { if (!queued) { queued = true; requestAnimationFrame(measure); } }
-
-  if (!still && 'IntersectionObserver' in window) {
-    var watch = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) live.add(en.target); else live.delete(en.target);
-        en.target.classList.toggle('is-live', en.isIntersecting);
-      });
-      queue();
-    }, { rootMargin: '10% 0px' });
-    tracks.forEach(function (el) { watch.observe(el); });
-    addEventListener('scroll', queue, { passive: true });
-    addEventListener('resize', function () { vh = innerHeight; queue(); });
-  }
-  /* the flag only waves while the hero is on screen */
-  var hero = document.querySelector('.lp-hero-track');
-  if (hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(function (en) { doc.classList.toggle('is-live', en[0].isIntersecting); }).observe(hero);
-  }
+  var all = function (sel) { return [].slice.call(document.querySelectorAll(sel)); };
 
   /* ---- reveal once ---- */
-  var reveal = [].slice.call(document.querySelectorAll('[data-reveal], .lp-phone'));
-  if ('IntersectionObserver' in window && !still) {
+  var reveal = all('[data-reveal], .foot-word');
+  if (canObserve && !still) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
       });
-    }, { rootMargin: '0px 0px -12% 0px' });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
     reveal.forEach(function (el) { io.observe(el); });
   } else {
     reveal.forEach(function (el) { el.classList.add('in'); });
   }
 
-  /* ---- nav: solid once off the top, hides going down, returns going up ---- */
-  var nav = document.querySelector('[data-nav]');
-  var lastY = scrollY;
-  var navQueued = false;
-  function navFrame() {
-    navQueued = false;
-    var y = scrollY;
-    nav.classList.toggle('is-solid', y > 40);
-    if (!menuOpen) nav.classList.toggle('is-hidden', y > 300 && y > lastY + 4);
-    if (Math.abs(y - lastY) > 4) lastY = y;
+  /* ---- looping motion only while on screen ---- */
+  var live = all('[data-live]');
+  if (canObserve) {
+    var lio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { en.target.classList.toggle('is-live', en.isIntersecting); });
+    }, { rootMargin: '10% 0px' });
+    live.forEach(function (el) { lio.observe(el); });
+  } else {
+    live.forEach(function (el) { el.classList.add('is-live'); });
   }
-  addEventListener('scroll', function () { if (!navQueued) { navQueued = true; requestAnimationFrame(navFrame); } }, { passive: true });
 
-  /* ---- mobile menu ---- */
-  var burger = document.querySelector('.lp-burger');
-  var menu = document.getElementById('lp-menu');
-  var menuOpen = false;
+  /* ---- navigation ---- */
+  var nav = document.querySelector('[data-nav]');
+  var burger = document.querySelector('.burger');
+  var menu = document.getElementById('menu');
   function setMenu(open) {
-    menuOpen = open;
-    burger.setAttribute('aria-expanded', String(open));
-    if (open) { menu.hidden = false; requestAnimationFrame(function () { menu.classList.add('is-open'); }); }
-    else { menu.classList.remove('is-open'); setTimeout(function () { if (!menuOpen) menu.hidden = true; }, 700); }
-    nav.classList.remove('is-hidden'); nav.classList.toggle('is-menu', open);
-    document.body.style.overflow = open ? 'hidden' : '';
+    doc.classList.toggle('menu-open', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    menu.setAttribute('aria-hidden', open ? 'false' : 'true');
   }
   if (burger && menu) {
-    burger.addEventListener('click', function () { setMenu(!menuOpen); });
+    burger.addEventListener('click', function () { setMenu(!doc.classList.contains('menu-open')); });
     menu.addEventListener('click', function (e) { if (e.target.closest('a')) setMenu(false); });
-    addEventListener('keydown', function (e) { if (e.key === 'Escape' && menuOpen) { setMenu(false); burger.focus(); } });
+    addEventListener('keydown', function (e) { if (e.key === 'Escape') setMenu(false); });
+    matchMedia('(min-width: 921px)').addEventListener('change', function (m) { if (m.matches) setMenu(false); });
+  }
+  if (nav) {
+    var onScroll = function () { nav.classList.toggle('is-scrolled', scrollY > 24); };
+    addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
   }
 
-  /* ---- nav: sliding pill under the hovered or current link, scroll progress ---- */
-  var links = document.querySelector('.lp-links');
-  var ind = links && links.querySelector('.lp-ind');
+  var links = all('.nav-links a');
+  var ind = document.querySelector('.nav-ind');
   var current = null;
-  function pillTo(a) {
+  function place(link) {
     if (!ind) return;
-    if (!a) { ind.classList.remove('on'); return; }
-    ind.style.width = a.offsetWidth + 'px';
-    ind.style.transform = 'translateX(' + a.offsetLeft + 'px)';
+    if (!link) { ind.classList.remove('on'); return; }
+    ind.style.setProperty('--x', link.offsetLeft + 'px');
+    ind.style.setProperty('--w', link.offsetWidth + 'px');
     ind.classList.add('on');
   }
-  if (links && ind) {
-    links.addEventListener('pointerover', function (e) { var a = e.target.closest('a'); if (a) pillTo(a); });
-    links.addEventListener('pointerleave', function () { pillTo(current); });
-    links.addEventListener('focusin', function (e) { var a = e.target.closest('a'); if (a) pillTo(a); });
-    var sections = [].slice.call(links.querySelectorAll('a[href^="#"]')).map(function (a) { return [a, document.querySelector(a.getAttribute('href'))]; }).filter(function (p) { return p[1]; });
-    if ('IntersectionObserver' in window && sections.length) {
-      var seen = new Map();
-      var spy = new IntersectionObserver(function (entries) {
-        entries.forEach(function (en) { seen.set(en.target, en.isIntersecting); });
-        var on = null;
-        sections.forEach(function (p) { p[0].classList.remove('is-on'); if (!on && seen.get(p[1])) on = p[0]; });
-        current = on; if (on) on.classList.add('is-on');
-        if (!links.matches(':hover')) pillTo(current);
-      }, { rootMargin: '-45% 0px -45% 0px' });
-      sections.forEach(function (p) { spy.observe(p[1]); });
+  function setCurrent(link) {
+    current = link;
+    links.forEach(function (a) { if (a === link) a.setAttribute('aria-current', 'true'); else a.removeAttribute('aria-current'); });
+    place(link);
+  }
+  links.forEach(function (a) {
+    a.addEventListener('mouseenter', function () { place(a); });
+    a.addEventListener('focus', function () { place(a); });
+    a.addEventListener('mouseleave', function () { place(current); });
+    a.addEventListener('blur', function () { place(current); });
+  });
+  addEventListener('resize', function () { place(current); });
+  if (canObserve && links.length) {
+    var seen = {};
+    var sio = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { seen[en.target.id] = en.isIntersecting ? en.intersectionRatio : 0; });
+      var best = null, top = 0;
+      links.forEach(function (a) {
+        var id = a.getAttribute('href').slice(1);
+        if ((seen[id] || 0) > top) { top = seen[id]; best = a; }
+      });
+      setCurrent(best);
+    }, { rootMargin: '-30% 0px -40% 0px', threshold: [0, 0.1, 0.3, 0.6, 1] });
+    links.forEach(function (a) {
+      var t = document.getElementById(a.getAttribute('href').slice(1));
+      if (t) sio.observe(t);
+    });
+  }
+
+  /* ---- hero: the search types through a few subjects ---- */
+  var typed = document.querySelector('[data-type]');
+  var rows = document.querySelector('[data-rows]');
+  var words = ['Physics Class 12', 'Mathematics Class 10', 'Accountancy Class 11', 'Biology Class 12', 'Science Class 8'];
+  if (typed && !still) {
+    var wi = 0, ci = typed.textContent.length, dir = -1, timer = null, running = false;
+    var step = function () {
+      var w = words[wi];
+      if (dir > 0) {
+        ci++;
+        typed.textContent = w.slice(0, ci);
+        if (ci >= w.length) { dir = -1; return later(1900); }
+        return later(55 + Math.random() * 45);
+      }
+      ci--;
+      typed.textContent = w.slice(0, Math.max(ci, 0));
+      if (ci <= 0) {
+        dir = 1; wi = (wi + 1) % words.length;
+        if (rows) {
+          rows.classList.remove('swap');
+          void rows.offsetWidth; // restart the pop
+          rows.classList.add('swap');
+        }
+        return later(260);
+      }
+      later(26);
+    };
+    var later = function (ms) { timer = setTimeout(step, ms); };
+    var stage = document.querySelector('.stage');
+    var tio = new IntersectionObserver(function (en) {
+      var on = en[0].isIntersecting;
+      if (on && !running) { running = true; later(1600); }
+      if (!on && running) { running = false; clearTimeout(timer); }
+    });
+    if (stage) tio.observe(stage);
+
+    /* pointer parallax on the floating shapes (fine pointers only) */
+    if (stage && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      var raf = 0;
+      addEventListener('pointermove', function (e) {
+        if (raf) return;
+        raf = requestAnimationFrame(function () {
+          raf = 0;
+          stage.style.setProperty('--mx', (e.clientX / innerWidth * 2 - 1).toFixed(3));
+          stage.style.setProperty('--my', (e.clientY / innerHeight * 2 - 1).toFixed(3));
+        });
+      }, { passive: true });
     }
   }
-  var progQueued = false;
-  function progress() {
-    progQueued = false;
-    var max = document.documentElement.scrollHeight - innerHeight;
-    nav.style.setProperty('--sp', max > 0 ? Math.min(1, scrollY / max).toFixed(4) : 0);
-  }
-  addEventListener('scroll', function () { if (!progQueued) { progQueued = true; requestAnimationFrame(progress); } }, { passive: true });
-
-  /* ---- menu: keep focus inside while open ---- */
-  if (menu) {
-    menu.addEventListener('keydown', function (e) {
-      if (e.key !== 'Tab' || !menuOpen) return;
-      var f = [burger].concat([].slice.call(menu.querySelectorAll('a')));
-      var i = f.indexOf(document.activeElement);
-      if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); }
-      else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); }
-    });
-    burger && burger.addEventListener('keydown', function (e) {
-      if (e.key === 'Tab' && menuOpen && !e.shiftKey) { var first = menu.querySelector('a'); if (first) { e.preventDefault(); first.focus(); } }
-    });
-  }
-
-  /* festival decor pauses whenever it is off screen */
-  if ('IntersectionObserver' in window) {
-    var decorIo = new IntersectionObserver(function (es) { es.forEach(function (e) { e.target.parentElement.classList.toggle('is-paused', !e.isIntersecting); }); });
-    document.querySelectorAll('.st-decor').forEach(function (d) { decorIo.observe(d); });
-  }
-
-  measure();
-  live = new Set(tracks.filter(function (el) { var r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < vh; }));
-  queue();
 })();

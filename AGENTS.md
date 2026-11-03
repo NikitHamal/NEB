@@ -1,5 +1,13 @@
 ﻿# NEBians - Project Knowledge Base
 
+## Sandbox tooling workaround (file tool is rooted at /app only)
+
+The file-edit tool cannot see paths outside its workspace root (`/app`); bash can. Clone the repo to `/tmp/NEB` and symlink it:
+`ln -sfn /tmp/NEB /app/neb`, then edit with the file tool at `neb/...`. Git auth: use an out-of-repo `GIT_ASKPASS` helper
+(`/tmp/gitenv.sh` that `echo "$GH_PAT"`) and keep `.git/config` token-free; always run `git diff --cached` before pushing.
+The Django landing needs `pip install --user --break-system-packages` of requirements plus `bleach django-htmx meilisearch gradio_client js2py`;
+run with `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x`. Playwright Chromium needs `sudo apt-get install libnspr4 libnss3 libgbm1 libasound2 ...`.
+
 ## Coding Conventions
 
 ### Modular Approach (MANDATORY)
