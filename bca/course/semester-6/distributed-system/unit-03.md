@@ -168,11 +168,90 @@ Study the trace. Event e4 (P2 receives m1) has L = 3 and V = (2, 2, 0): it knows
 
 **Uses.** Dynamo-style stores attach vector clocks to object versions to detect conflicting concurrent writes (siblings) that the application must merge; **causal ordering** of messages (deliver a message only after everything that causally precedes it) uses vectors; version-control systems and CRDTs rely on the same idea. **Hybrid logical clocks** combine a physical timestamp with a logical counter to stay close to wall-clock time while keeping causality.
 
+## 3.7 Seeing time: clocks, clock servers and event diagrams
+
+Time in a distributed system comes from physical devices and from counting events. Plate 3.1 shows three physical sources of time and of the people who reasoned about it, and Figures 3.1 to 3.3 show the algorithms that turn them into agreement.
+
+```photogrid label="3.1" cols="3" ratio="1.0" caption="From atomic time to logical time. (a) Louis Essen (right) and Jack Parry beside the first caesium atomic clock at the National Physical Laboratory, 1955: it counts the 9,192,631,770 oscillations of a caesium-133 atom that now define one second. (b) Leslie Lamport, whose 1978 paper 'Time, Clocks, and the Ordering of Events in a Distributed System' showed that agreement on the order of events needs counters and not wall clocks; he received the Turing Award in 2013. (c) A drawing of the GPS satellite constellation: every satellite carries atomic clocks and broadcasts the time, so a receiver anywhere can obtain UTC within a fraction of a microsecond; many data centres and mobile base stations take their time from GPS."
+@ photo id="bca355/essen" cap="First caesium clock, 1955"
+fit 1.0
+focus 0.5 0.5
+call 0.5 0.45 0.35 0.2 "atomic clock"
+@ photo id="bca355/lamport" cap="Leslie Lamport"
+fit 1.0
+focus 0.5 0.45
+@ photo id="bca352/gps" cap="GPS constellation"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="3.1" caption="Cristian's algorithm with real numbers. The client sends a request at T0 = 0 ms and receives the reply at T1 = 40 ms by its own clock, so the round trip is 40 ms. The server's reply says its clock read Ts = 5020 ms. The client assumes the reply took half the round trip, so server time now is Ts + RTT/2 = 5040 ms. With a minimum one-way delay of 5 ms the error is at most 15 ms."
+f = Fig(580, 230)
+f.box(30, 8, 130, 30, "Client", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(420, 8, 130, 30, "Time server (UTC)", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.line(95, 38, 95, 220, color=NAVY); f.line(485, 38, 485, 220, color=TEAL)
+f.text(90, 70, "T0 = 0", size=10.5, color=NAVY, bold=True, anchor="end")
+f.arrow([(95, 70), (485, 100)], color=SLATE, label="request", lpos=(290, 76))
+f.text(490, 110, "reads Ts = 5020", size=10, color=TEAL, bold=True, anchor="start")
+f.arrow([(485, 110), (95, 150)], color=SLATE, label="reply carries Ts", lpos=(290, 142))
+f.text(90, 155, "T1 = 40", size=10.5, color=NAVY, bold=True, anchor="end")
+f.box(120, 172, 340, 46, "set clock = Ts + (T1 - T0) / 2 = 5040 ms\nerror at most +/- 15 ms", fill=SAND, stroke=AMBER, size=11, bold=True)
+```
+
+```svgfig label="3.2" caption="The Berkeley algorithm. The master (3:00) asks the others for their times, finds the differences (A is 10 minutes behind, B is 25 minutes ahead), and averages them with its own: (0 - 10 + 25) / 3 = +5 minutes. It then sends each machine the adjustment to apply, not a time: master +5, A +15, B -20 minutes. All three end at 3:05. No machine needs a UTC source, only agreement."
+f = Fig(580, 200)
+f.box(220, 10, 140, 44, "Master\n3:00", fill=SAND, stroke=AMBER, size=11.5, bold=True)
+f.box(30, 130, 140, 44, "Machine A\n2:50", fill=BLUE, stroke=NAVY, size=11.5, bold=True)
+f.box(410, 130, 140, 44, "Machine B\n3:25", fill=BLUE, stroke=NAVY, size=11.5, bold=True)
+f.arrow([(250, 54), (120, 130)], color=SLATE, label="1. your time?", lpos=(140, 82))
+f.arrow([(330, 54), (460, 130)], color=SLATE, label="1. your time?", lpos=(440, 82))
+f.text(290, 100, "2. average = 3:05", size=11, color=RED, bold=True)
+f.text(100, 192, "3. adjust +15 min", size=10.5, color=TEAL, bold=True)
+f.text(480, 192, "3. adjust -20 min", size=10.5, color=TEAL, bold=True)
+f.text(290, 70, "3. adjust +5 min", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="3.3" caption="An event diagram with Lamport and vector timestamps, computed by a short program. Time runs to the right; diagonal arrows are messages. Each event shows its Lamport counter and, below it, its vector clock. Event b happened before h (b to c to d to f to g to h), so its vector is smaller; events with no message path between them, such as a and e, are concurrent and their vectors cannot be ordered. Concurrent pairs here: a||e, b||e, c||e, d||e."
+ev = [('P1', 'local', 'a', None, 1, (1, 0, 0)), ('P1', 'send', 'b', 'm1', 2, (2, 0, 0)), ('P2', 'recv', 'c', 'm1', 3, (2, 1, 0)), ('P2', 'send', 'd', 'm2', 4, (2, 2, 0)), ('P3', 'local', 'e', None, 1, (0, 0, 1)), ('P3', 'recv', 'f', 'm2', 5, (2, 2, 2)), ('P3', 'send', 'g', 'm3', 6, (2, 2, 3)), ('P1', 'recv', 'h', 'm3', 7, (3, 2, 3))]
+f = Fig(580, 270)
+ypos = {"P1": 50, "P2": 130, "P3": 210}
+for p in ypos:
+    f.line(40, ypos[p], 570, ypos[p], color=SLATE, sw=1.2)
+    f.text(20, ypos[p] + 4, p, size=11, color=NAVY, bold=True)
+xs = {}
+for i, e in enumerate(ev):
+    xs[e[2]] = 70 + i * 63
+sendpos = {}
+for e in ev:
+    if e[1] == "send":
+        sendpos[e[3]] = (xs[e[2]], ypos[e[0]])
+for e in ev:
+    if e[1] == "recv":
+        sx, sy = sendpos[e[3]]
+        f.arrow([(sx, sy), (xs[e[2]], ypos[e[0]])], color=AMBER, sw=1.6)
+for e in ev:
+    x, y = xs[e[2]], ypos[e[0]]
+    f.circle(x, y, 10, fill=BLUE, stroke=NAVY, label=e[2], size=10)
+    f.text(x, y - 16, "L=" + str(e[4]), size=9, color=RED, bold=True)
+    f.text(x, y + 24, "(" + ",".join(map(str, e[5])) + ")", size=8.5, color=TEAL, bold=True)
+```
+
+### 3.7.1 Eight uses of synchronised and logical time
+
+1. **Ordering log records.** When many servers write logs, an engineer must know which event came first. Wall-clock stamps from synchronised servers allow a rough order, and logical clocks give a safe one. This is how the cause of a failed payment is traced across several services.
+2. **Certificate and token validity.** A website certificate or a login token is valid between two dates and times. A device whose clock is wrong by a day may reject a good certificate or accept an expired one. This is why phones and servers run NTP all the time.
+3. **Expiry of leases and sessions.** A lock lease or a login session ends after a set time. The holder and the server must agree closely on how long a second is. Clock drift of 50 ppm adds up to 4.32 seconds a day if it is never corrected.
+4. **Fair ordering of transactions.** A bank, a stock exchange or a ticket system must decide who was first. Timestamps with a tie-break on the node identifier give every event a unique place in a total order. Two payments to the same account are then always applied in the same order on every replica.
+5. **Detecting conflicting updates.** Vector clocks show whether one version of a record comes after another or whether they are concurrent. Systems such as Amazon's Dynamo use them to keep both concurrent versions and ask the application to merge them. This avoids silently losing a student's edit made on an offline phone.
+6. **Consistent snapshots and backups.** To record a global state of many processes, we must pick a cut that respects the order of messages. Logical time tells us which cuts are consistent. Backup and debugging tools use this to restore a system to a state that could really have happened.
+7. **Cellular and radio networks.** Mobile base stations must transmit in exact time slots, so they take time from GPS or from a network clock. A drift of a few microseconds would make neighbouring stations interfere. Nepali operators and the broadcasters rely on the same source of precise time.
+8. **Scientific and financial records.** Experiments such as the CERN grid in Plate 1.1 stamp every measurement with a precise time so that data from many sites can be joined. In finance, regulations require records stamped within a small error of UTC. Synchronised clocks make such audits possible.
+
 ## Chapter summary
 
 - Physical clocks drift at ρ (about 10 ppm = 0.864 s/day); synchronisation must repeat about every δ/2ρ.
 - Cristian: estimate = Tₛ + RTT/2, accuracy ± (RTT/2 − min). Berkeley: average clock differences and send each node its adjustment. NTP: θ = ((t₁−t₀)+(t₂−t₃))/2, δ = (t₃−t₀) − (t₂−t₁); path asymmetry remains as error.
-- Happened-before is a partial order; Lamport clocks give L(a) < L(b) whenever a → b but not the converse; vector clocks give a → b ⇔ V(a) < V(b) and expose concurrency.
+- Happened-before is a partial order; Lamport clocks give `L(a) < L(b)` whenever a → b but not the converse; vector clocks give a → b ⇔ V(a) < V(b) and expose concurrency.
 
 ## Practice
 
@@ -181,7 +260,7 @@ Study the trace. Event e4 (P2 receives m1) has L = 3 and V = (2, 2, 0): it knows
 3. A client sends a request at T₀ = 5,000 ms, receives the reply at T₁ = 5,030 ms, and the server timestamp is 5,400 ms. Find the client's estimate of the server time and the offset. If the minimum one-way delay is 8 ms, what is the error bound?
 4. Three clocks read 10:00, 10:06 and 9:57 (minutes). The master (10:00) runs Berkeley without a fault threshold. Give each node's adjustment.
 5. NTP timestamps: t₀ = 200, t₁ = 330, t₂ = 332, t₃ = 242 (ms). Compute θ and δ.
-6. State the Lamport clock rules. If L(a) < L(b), can we conclude a → b?
+6. State the Lamport clock rules. If `L(a) < L(b)`, can we conclude a → b?
 7. Vectors: A = (3, 1, 0), B = (2, 2, 1), C = (3, 2, 1). Classify each pair as before, after or concurrent.
 8. Why can't Lamport clocks detect concurrent events but vector clocks can? What is the cost?
 9. Why should a program never measure a duration by subtracting two wall-clock readings?
@@ -197,3 +276,80 @@ Study the trace. Event e4 (P2 receives m1) has L = 3 and V = (2, 2, 0): it knows
 **8.** A Lamport clock is one integer, so two incomparable histories can still be ordered numerically. A vector holds per-process counts, so incomparability is visible. Cost: N integers per message and per version.
 **9.** The wall clock may be stepped by NTP or a manual change and can go backwards; use a monotonic clock for durations.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain Cristian's and the Berkeley algorithms. Compute one example of each.**
+
+*Introduction.* Both algorithms synchronise physical clocks over a network whose delay is not known exactly (sections 3.2 and 3.3, Figures 3.1 and 3.2).
+
+1. **Cristian: idea.** A client asks a time server that has a UTC source. It measures the round trip RTT = T1 - T0 and assumes the reply took half of it.
+2. **Cristian: example.** With T0 = 0 ms, T1 = 40 ms and Ts = 5020 ms, RTT = 40 ms and the new time is 5020 + 20 = 5040 ms. If the minimum one-way delay is 5 ms, the accuracy is +/- (20 - 5) = +/- 15 ms.
+3. **Berkeley: idea.** No machine has UTC. The master polls all machines, computes the average difference and tells each machine how much to adjust, so message delay matters less.
+4. **Berkeley: example.** Clocks 3:00 (master), 2:50 and 3:25 differ from the master by 0, -10 and +25 minutes. The average is +5 minutes, so the common time is 3:05 and the adjustments are +5, +15 and -20 minutes.
+5. **Practice.** Clocks are slewed (run slightly faster or slower) so that time never goes backwards. Real systems use NTP, which adds filtering and a hierarchy of strata.
+
+| Feature | Cristian | Berkeley |
+|---|---|---|
+| Time source | external UTC server | none, internal average |
+| Who computes | client | master |
+| Messages | 2 per client | polling plus adjustments |
+| Accuracy | +/- RTT/2 | agreement only |
+
+*Conclusion.* Use Cristian when a reliable time server exists and Berkeley when only mutual agreement is needed.
+
+**Q2 (5 marks). State the happened-before relation and the rules of Lamport logical clocks. Timestamp the events of the diagram in Figure 3.3.**
+
+*Introduction.* Without a global clock we cannot compare physical times, so Lamport (1978) defined an ordering based only on events and messages (section 3.5).
+
+1. **Happened-before.** a to b holds if a and b are in the same process and a comes first, or a sends a message that b receives, or by transitivity. Events not related by it are concurrent.
+2. **Rule 1.** Before each local or send event, a process increments its counter: C = C + 1.
+3. **Rule 2.** A message carries the sender's counter. On receipt, the receiver sets C = max(C, message counter) + 1.
+4. **Result.** If a to b, then C(a) < C(b). The converse is false.
+5. **Application to the diagram.** The program gives the following timestamps.
+
+| Event | Process | Kind | Lamport |
+|---|---|---|---|
+| a | P1 | local | 1 |
+| b | P1 | send m1 | 2 |
+| c | P2 | recv m1 | 3 |
+| d | P2 | send m2 | 4 |
+| e | P3 | local | 1 |
+| f | P3 | recv m2 | 5 |
+| g | P3 | send m3 | 6 |
+| h | P1 | recv m3 | 7 |
+
+*Conclusion.* Lamport clocks give a consistent total order (ties broken by process id) but cannot show that two events are concurrent; vector clocks can.
+
+**Q3 (10 marks). Explain why physical clocks are not enough in a distributed system, describe vector clocks with an example, and compare them with Lamport clocks.**
+
+*Introduction.* Every computer has its own quartz clock, and no two run at exactly the same rate. A typical drift of 50 ppm is 4.32 seconds a day. To keep two clocks within 10 ms of each other the system must resynchronise at least every 100 seconds. Even then message delay varies, so wall-clock time cannot decide the order of close events.
+
+*Physical synchronisation.* GPS and atomic clocks give UTC; Cristian's algorithm and NTP copy it across the network with an error of about half the round trip (Figure 3.1); the Berkeley algorithm averages the clocks of a group (Figure 3.2).
+
+*Logical time.* Lamport clocks count events, and each message carries the counter, so that a send is always stamped lower than its receive.
+
+*Vector clocks.* Each process keeps a vector with one counter per process. A local or send event increments the own entry; a receive takes the entry-wise maximum with the message vector and then increments the own entry. Vector V is before W if every entry of V is at most that of W and the vectors differ; otherwise, if neither is before the other, the events are concurrent. In Figure 3.3 the program gives the table below.
+
+| Event | Process | Kind | Lamport | Vector |
+|---|---|---|---|---|
+| a | P1 | local | 1 | (1,0,0) |
+| b | P1 | send m1 | 2 | (2,0,0) |
+| c | P2 | recv m1 | 3 | (2,1,0) |
+| d | P2 | send m2 | 4 | (2,2,0) |
+| e | P3 | local | 1 | (0,0,1) |
+| f | P3 | recv m2 | 5 | (2,2,2) |
+| g | P3 | send m3 | 6 | (2,2,3) |
+| h | P1 | recv m3 | 7 | (3,2,3) |
+
+For example b is before h because (2,0,0) is below (3,2,3) entry by entry, while a and e are concurrent because (1,0,0) and (0,0,1) cannot be ordered. Concurrent pairs here are a||e, b||e, c||e, d||e.
+
+| Property | Lamport clock | Vector clock |
+|---|---|---|
+| Size | one integer | one integer per process |
+| If a before b then | C(a) < C(b) | V(a) < V(b) |
+| If C(a) < C(b) then | cannot tell | a before b only if V(a) < V(b) |
+| Detects concurrency | no | yes |
+| Use | total order, mutual exclusion | conflict detection in replicas |
+
+*Conclusion.* Physical clocks give approximate real time; logical clocks give a correct order. Vector clocks cost more space but are the tool for detecting concurrent updates.

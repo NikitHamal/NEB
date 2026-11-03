@@ -247,6 +247,85 @@ processed: ['m1', 'm3', 'm2']
 ```
 The consumer crashed on `m2` before acknowledging, so `m2` came back last: four deliveries for three messages, and the processing order changed. Practical consequences: do not rely on global ordering (Kafka orders within a partition only), make handlers idempotent, and send poisoned messages to a **dead-letter queue** after a retry limit.
 
+## 2.7 Seeing communication: wires, handshakes, stubs and queues
+
+Every message in this unit travels through hardware first. Plate 2.1 shows the machines at the three ends of the story: the box that forwards frames, the first web server that answered requests, and the cable that carries them. Figures 2.1 to 2.3 then show the protocols that run over that hardware.
+
+```photogrid label="2.1" cols="3" ratio="1.1" caption="The hardware under every socket. (a) A small Ethernet switch with two cables plugged in: it learns which computer is on which port and forwards each frame only there, so many nodes can talk at once. (b) The NeXT computer that Tim Berners-Lee used at CERN as the first web server in 1990-91: it was a server process listening on a TCP socket, with a handwritten label asking that it not be switched off. (c) The RJ-45 plug of a twisted-pair cable: eight thin copper wires in four twisted pairs carry the bits between the network card and the switch."
+@ photo id="bca101/switch" cap="Ethernet switch"
+fit 1.1
+focus 0.5 0.5
+call 0.35 0.62 0.3 0.45 "ports"
+@ photo id="bca203/firstserver" cap="First web server (CERN)"
+fit 1.1
+focus 0.75 0.5
+call 0.82 0.35 0.45 0.12 "the server"
+@ photo id="cs12/utp-cable" cap="RJ-45 plug, twisted pairs"
+fit 1.1
+focus 0.4 0.5
+call 0.45 0.5 0.7 0.3 "eight wires"
+```
+
+```svgfig label="2.1" caption="The TCP socket calls and the three-way handshake. The server runs socket, bind, listen and accept and then waits. The client runs socket and connect, which sends SYN; the server answers SYN-ACK; the client sends ACK. After one round trip the connection is open, and data can flow in both directions. A round trip over a 3,000 km fibre link already costs about 30 ms before any data is sent."
+f = Fig(580, 270)
+f.box(40, 10, 150, 34, "Client", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(390, 10, 150, 34, "Server", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.line(115, 44, 115, 262, color=NAVY); f.line(465, 44, 465, 262, color=TEAL)
+f.text(465, 58, "socket, bind, listen, accept", size=9.5, color=TEAL, bold=True, anchor="middle")
+f.text(115, 74, "socket, connect", size=9.5, color=NAVY, bold=True)
+f.arrow([(115, 100), (465, 130)], color=SLATE, label="SYN (seq = x)", lpos=(290, 104))
+f.arrow([(465, 150), (115, 180)], color=SLATE, label="SYN-ACK (seq = y, ack = x + 1)", lpos=(290, 154))
+f.arrow([(115, 196), (465, 222)], color=SLATE, label="ACK (ack = y + 1)", lpos=(290, 198))
+f.text(290, 255, "open after one round trip, then send and recv", size=10, color=RED, bold=True)
+```
+
+```svgfig label="2.2" caption="The path of one remote procedure call. The client program calls an ordinary-looking function; the client stub marshals the arguments into bytes (a 3-field record is 11 bytes in fixed binary, 11 bytes in Protocol Buffers and 35 bytes as JSON text); the network carries the request; the server stub unmarshals, calls the real procedure and sends the result back by the same route. The caller waits for the whole round trip."
+f = Fig(580, 210)
+f.box(10, 20, 100, 60, "Client\nprogram", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(130, 20, 100, 60, "Client stub\nmarshal", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(350, 20, 100, 60, "Server stub\nunmarshal", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(470, 20, 100, 60, "Server\nprocedure", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.arrow([(110, 40), (130, 40)], color=SLATE); f.arrow([(230, 40), (350, 40)], color=SLATE, label="request bytes", lpos=(290, 28))
+f.arrow([(450, 40), (470, 40)], color=SLATE)
+f.arrow([(470, 62), (450, 62)], color=AMBER); f.arrow([(350, 62), (230, 62)], color=AMBER, label="reply bytes", lpos=(290, 76))
+f.arrow([(130, 62), (110, 62)], color=AMBER)
+f.box(10, 120, 560, 70, "", fill=SAND, stroke=AMBER)
+f.text(290, 142, "Failure cases the caller cannot tell apart: request lost, server crashed,", size=10.5, color=NAVY, bold=True)
+f.text(290, 160, "reply lost, or just slow. Semantics: at-most-once (no retry) or at-least-once", size=10.5, color=NAVY, bold=True)
+f.text(290, 178, "(retry, so the procedure must be idempotent).", size=10.5, color=NAVY, bold=True)
+```
+
+```svgfig label="2.3" caption="Message-oriented middleware. In a point-to-point queue (top), each message is taken by exactly one of the competing consumers, which shares the work. In publish-subscribe (bottom), each message is copied to every subscriber of the topic. Producers and consumers need not be running at the same time because the broker stores the messages until they are acknowledged."
+f = Fig(580, 240)
+f.box(10, 28, 90, 44, "Producer", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(150, 28, 140, 44, "Queue: m1 m2 m3 m4", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(350, 6, 100, 36, "Consumer A", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(350, 58, 100, 36, "Consumer B", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.arrow([(100, 50), (150, 50)], color=SLATE); f.arrow([(290, 40), (350, 24)], color=SLATE); f.arrow([(290, 60), (350, 76)], color=SLATE)
+f.text(462, 50, "to one consumer", size=9.5, color=TEAL, bold=True, anchor="start")
+f.line(10, 116, 570, 116, color=SLATE, dash=True)
+f.box(10, 150, 90, 44, "Publisher", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(150, 150, 140, 44, "Topic: result-day", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(350, 126, 100, 34, "Subscriber 1", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(350, 168, 100, 34, "Subscriber 2", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(350, 210, 100, 28, "Subscriber 3", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.arrow([(100, 172), (150, 172)], color=SLATE)
+for y in (143, 185, 224):
+    f.arrow([(290, 172), (350, y)], color=SLATE)
+f.text(462, 185, "to every subscriber", size=9.5, color=TEAL, bold=True, anchor="start")
+```
+
+### 2.7.1 Eight advantages of message queues and RPC frameworks
+
+1. **Decoupling in time.** A producer can send a message even when the consumer is switched off. The broker stores the message until the consumer returns. A result-day SMS system uses this so that a slow gateway does not stop the examination system.
+2. **Smoothing sudden load.** Thousands of requests may arrive in one second, for example when a payment offer is announced. The queue absorbs the burst and the consumers work through it at their own speed. Users wait a little longer but nothing is lost.
+3. **Load sharing.** Several competing consumers can read from one queue, and the broker gives each message to only one of them. Adding a consumer increases throughput without changing the producer. This is the simplest way to scale a worker pool.
+4. **Fault isolation.** If a consumer crashes while it is working, the message is not acknowledged and is delivered again to another consumer. One failing component does not bring down the sender. The cost is possible duplicates, so consumers should be idempotent.
+5. **Broadcast to many parties.** In publish-subscribe, one event reaches many subscribers. A bank can publish one 'payment received' event that is used by the SMS service, the statement service and the fraud checker. New subscribers can be added without touching the publisher.
+6. **Compact and fast encoding.** gRPC with Protocol Buffers sends the same record in 11 bytes instead of the 35 bytes of JSON text. Smaller messages mean less bandwidth and less parsing time, which matters on mobile data in the hills. The schema also keeps old and new versions compatible.
+7. **Strongly typed contracts.** An interface definition file generates client and server code in many languages. A wrong field name is found when the code is compiled and not on the live system. This keeps teams that work on different services in agreement.
+8. **Streaming and multiplexing.** HTTP/2 lets gRPC send many calls at once over one connection and stream data in both directions. This avoids opening a new TCP handshake for every call, saving one round trip each time. Live location, chat and sensor feeds use this style.
+
 ## Chapter summary
 
 - Sockets expose TCP streams (reliable, ordered, need framing) and UDP datagrams (lossy, message-preserving); TCP's reliability does not replace end-to-end application acknowledgements.
@@ -280,3 +359,63 @@ The consumer crashed on `m2` before acknowledging, so `m2` came back last: four 
 **9.** Unary (get a user), server streaming (price feed), client streaming (chunked upload), bidirectional (chat).
 **10.** A point-to-point message is delivered to one consumer; publish-subscribe delivers to every subscriber. An unacknowledged message becomes visible again after the visibility timeout and is redelivered, which can reorder messages.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Compare TCP and UDP sockets and say when each is suitable.**
+
+*Introduction.* A socket is an endpoint identified by an IP address and a port; the transport protocol decides how it behaves (section 2.1, Figure 2.1).
+
+1. **Connection.** TCP is connection-oriented: a three-way handshake (SYN, SYN-ACK, ACK) opens a connection. UDP is connectionless and sends each datagram on its own.
+2. **Reliability.** TCP numbers every byte, acknowledges it and retransmits losses, so data arrive complete and in order. UDP may lose, reorder or duplicate datagrams and does nothing about it.
+3. **Boundaries.** TCP is a byte stream, so the application must mark where each message ends. UDP keeps one datagram as one message.
+4. **Overhead and delay.** TCP keeps state and uses congestion control, which costs time; its throughput is also limited by window / round-trip time. With a 64 KB window and a 30 ms round trip the limit is 17.5 Mbit/s, and to fill a 100 Mbit/s link at that delay a window of 366 KB is needed. UDP has no such limit but no safety either.
+5. **Uses.** TCP suits web pages, e-mail, databases and RPC, where every byte matters. UDP suits DNS queries, voice, video and games, where a late packet is worse than a lost one.
+
+| Feature | TCP | UDP |
+|---|---|---|
+| Connection | yes, handshake | no |
+| Delivery | reliable, ordered | best effort |
+| Message boundary | none | kept |
+| Overhead | higher | low |
+| Example | HTTP, SSH | DNS, video call |
+
+*Conclusion.* Choose TCP when correctness matters more than delay, and UDP when timeliness matters and the application can tolerate or repair loss.
+
+**Q2 (5 marks). Explain how a remote procedure call works and discuss its call semantics.**
+
+*Introduction.* RPC lets a program call a procedure on another machine as if it were local, hiding sockets and message formats (section 2.3, Figure 2.2).
+
+1. **Client stub.** The client calls the stub, which marshals the arguments into bytes. A record of three fields takes 11 bytes in fixed binary, 11 in Protocol Buffers and 35 as JSON.
+2. **Transport.** The request message is sent over the network with a request number so that the reply can be matched.
+3. **Server stub.** It unmarshals the arguments, calls the real procedure and marshals the result.
+4. **Reply.** The result returns by the same route and the client stub gives it to the caller as an ordinary return value.
+5. **Semantics.** *Maybe*: no retry, no guarantee. *At-least-once*: the client retries until it gets a reply, so a procedure may run more than once and must be idempotent (for example 'set balance to 500', not 'add 500'). *At-most-once*: the server remembers request numbers and does not repeat a request, but a crash may lose the reply. Exactly-once cannot be guaranteed in general.
+
+*Conclusion.* RPC makes distribution look simple, but delay and partial failure remain, so the caller must always handle timeouts.
+
+**Q3 (10 marks). Compare sockets, RPC, RMI, gRPC and message queues as ways for distributed programs to communicate.**
+
+*Introduction.* Distributed programs communicate by messages. The mechanisms differ in how much they hide and in how closely they bind the sender and the receiver (Figures 2.1 to 2.3).
+
+*Sockets.* They give the most control: the programmer chooses TCP or UDP, frames the messages and handles errors. They are fast and universal but need the most code.
+
+*RPC.* The stub hides marshalling and sockets behind a procedure call. Interfaces are described in an IDL file. The caller blocks until the reply arrives, so caller and callee must be running together.
+
+*RMI.* Java's RMI extends the idea to objects: a remote object is called through a proxy, and arguments can be objects passed by value or by remote reference. It is convenient inside Java but ties the system to one language.
+
+*gRPC.* It combines an IDL (Protocol Buffers), generated stubs in many languages and HTTP/2. It supports four styles: unary, server streaming, client streaming and bidirectional streaming. Binary encoding gives 11 bytes against 35 bytes of JSON for the same record.
+
+*Message queues.* Brokers such as RabbitMQ and Kafka decouple sender and receiver in time. Point-to-point queues share work, publish-subscribe broadcasts events, and log-based brokers keep messages for replay. Delivery can be at-most-once, at-least-once (duplicates possible) or, with extra work, effectively once.
+
+| Mechanism | Level | Coupling | Blocking | Typical use |
+|---|---|---|---|---|
+| Socket | bytes | tight | optional | custom protocols, games |
+| RPC | procedure | tight in time | yes | internal services |
+| RMI | object | tight, one language | yes | Java enterprise |
+| gRPC | procedure, streams | tight in time | yes or stream | microservices, mobile |
+| Message queue | message | loose | no | events, background jobs |
+
+*Choosing.* Use RPC or gRPC for a quick answer needed now, a queue when the work can be done later or by many consumers, and raw sockets only when a standard mechanism does not fit.
+
+*Conclusion.* The right choice trades simplicity, speed, language freedom and tolerance of failure. A real system, such as a payment platform, uses several: gRPC between services and queues for notifications and statements.
