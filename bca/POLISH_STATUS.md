@@ -322,7 +322,8 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] BCA 353 Cryptography and Network Security polished (session 29, 45 -> 83 pp)
 - [x] BCA 355 Distributed System polished (session 30, 54 -> 86 pp)
 - [x] BCA 252 Software Engineering polished (session 31, 54 -> 103 pp)
-- [~] (NEXT SESSION STARTS HERE) Principles of Management (50 pp), then DBMS (56 pp), then the rest of Semesters II-VIII.
+- [x] BCA 156 Principles of Management polished (session 32, 50 -> 83 pp)
+- [~] (NEXT SESSION STARTS HERE) DBMS (56 pp), then the rest of Semesters II-VIII.
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
 
@@ -351,10 +352,13 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - QA gotcha: `$` in text fails qa (write "370 million US dollars"). Numbered list after a bold line needs a blank line first.
 
 
-## BCA 156 principles-of-management (semester-2/principles-of-management) -- [~] IN PROGRESS (session 32)
-16 licence-gated `bca156/` photos registered: taylor, fayol, weber, ford, hawthorne, mayo, maslow, deming, gantt, shewhart, singha, tenzing, ntc, tu, nrb, ohno (nrb unused so far).
+## BCA 156 principles-of-management (semester-2/principles-of-management) -- [x] POLISHED (session 32): all 6 units, 50 -> 83 pp, qa fails=0 warns=1 (p3 pre-existing)
+16 licence-gated `bca156/` photos registered and viewed: taylor, fayol, weber, ford, hawthorne, mayo, maslow, deming, gantt, shewhart, singha, tenzing, ntc, tu, nrb, ohno. All 16 are used (mayo, hawthorne, ford in plate 2.2; nrb in plate 4.1; maslow in 5.1; tenzing in 3.1 and 5.2).
 - [x] U1: Plate 1.1 (3-up NTC / Singha Durbar / TU with callouts), Fig 1.1 open system, 1.2 POLC cycle, 1.3 levels pyramid + Katz skill mix (illustrative); 1.2.1 eight reasons; Q1-Q2 (5), Q3 (10).
 - [x] U2: Plate 2.1 (3-up Taylor/Fayol/Weber), Plate 2.2 (3-up Ford line / Hawthorne / Mayo), Fig 2.1 timeline of thought, 2.2 environment layers; 2.5.1 eight reasons for CSR; Q1-Q2 (5), Q3 (10), Q4 (5).
 - [x] U3: Plate 3.1 (Gantt portrait / Hillary-Tenzing / Gantt SVG), Fig 3.1 hierarchy of plans, 3.2 SWOT, 3.3 break-even chart (600 units, Rs 3,00,000, computed), 3.4 decision tree (EMV 15.6 / 8.8, EVPI 4.0 lakh, computed); 3.1.1 eight advantages of planning; Q1-Q2 (5), Q3 (10), Q4 (5).
-- [ ] U4 Organising, [ ] U5 Leading (Maslow, Mayo reuse), [ ] U6 Controlling (Deming, Shewhart, Ohno, nrb).
-- NEXT SESSION STARTS AT: first unchecked unit above (U4), then DBMS (56 pp), then the rest of Semesters II-VIII.
+- [x] U4: Plate 4.1 (NRB Pokhara photo + head-office/region SVG, 2-up), Fig 4.1 line and staff, 4.2 four bases of departmentalisation, 4.3 tall vs flat (4,096 staff: 1,365 vs 585 managers; Graicunas 44 vs 1,080, computed); 4.6.1 eight advantages of delegation; Q1-Q2 (5), Q3 (10), Q4 (5).
+- [x] U5: Plate 5.1 (Maslow photo + hierarchy SVG), Plate 5.2 (Hillary/Tenzing + Tuckman SVG), Fig 5.1 managerial grid, 5.2 Herzberg, 5.3 communication process, 5.4 expectancy (0.8 x 0.9 x 0.7 = 0.504); 5.1.1 eight qualities of a leader; Q1-Q2 (5), Q3 (10), Q4 (5).
+- [x] U6: Plate 6.1 (Shewhart / Deming / Ohno, 3-up), Fig 6.1 control process + timings, 6.2 control chart (20 samples, UCL 54.5, LCL 45.5, sample 12 out; mean 50.77), 6.3 PDCA + 5S, 6.4 Pareto (42/25/15/8/10, cumulative 42/67/82/90/100), 6.5 fishbone; 6.6.1 eight benefits of TQM; Q1-Q2 (5; variance 12 percent over), Q3 (10), Q4 (5; DPMO 600).
+- Every number above was recomputed in Python before it was written. Not done: the old short Practice answers were kept; the existing fact sheets were not rewritten.
+- NEXT SESSION STARTS AT: DBMS (semester-3/dbms, 56 pp), then the rest of Semesters II-VIII (see Queue).
