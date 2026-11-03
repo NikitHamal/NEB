@@ -24,8 +24,8 @@ Plate 2.1 shows the wiring of a real node and its pins as a diagram.
 ```photogrid label="2.1" cols="2" ratio="1.0" caption="A breadboard node and its wiring. (a) An ESP32 board plugged in beside a breadboard; the long rows of holes on the board are the power rails. (b) The three wires of a capacitive soil probe: 3.3 V, ground and the analogue signal into an ADC pin."
 @ photo id="bca356/esp32" cap="ESP32 beside a breadboard"
 fit 1.0
-focus 0.5 0.6
-call 0.5 0.9 0.5 0.7 "Power rails"
+focus 0.5 0.3
+call 0.5 0.15 0.5 0.3 "Breadboard rails"
 @ svg cap="Probe wiring to the ESP32"
 f = Fig(300, 300)
 f.box(20, 90, 100, 120, "ESP32", fill=SOFT, stroke=TEAL, size=13, color=NAVY)
@@ -82,8 +82,8 @@ ax.curve(lambda c: (3100 - c) / 16, 1500, 3100, color=RED, dash=True)
 ax.curve(lambda c: -0.0263 * c + 81.33, 1400, 3200, color=TEAL)
 for m in (8, 12, 16, 20, 24, 28, 32, 36, 40, 44):
     ax.pt(3100 - 38 * m, m, "", hollow=True)
-f.text(235, 55, "vendor index", size=10, color=RED)
-f.text(330, 175, "fitted line", size=10, color=TEAL)
+ax.tag(2250, 72, "vendor index", size=10, color=RED)
+ax.tag(2800, 24, "fitted line", size=10, color=TEAL)
 ```
 
 ## 2.3 Noise and filters

@@ -35,23 +35,23 @@ fit 1.0
 focus 0.5 0.55
 call 0.5 0.9 0.5 0.7 "Touch screen"
 @ svg cap="Home: advice per plot"
-f = Fig(260, 300)
-f.box(50, 10, 160, 280, "", fill=SOFT, stroke=NAVY, size=10, color=NAVY)
-f.box(60, 30, 140, 50, "Plot 1: WATER NOW (16%)", fill=BLUE, stroke=RED, size=10, color=NAVY)
-f.box(60, 90, 140, 50, "Plot 2: fine (29%)", fill=BLUE, stroke=TEAL, size=10, color=NAVY)
-f.box(60, 150, 140, 50, "Plot 3: water soon (21%)", fill=BLUE, stroke=AMBER, size=10, color=NAVY)
-f.text(130, 235, "Updated 06:15", size=10, color=NAVY)
-f.text(130, 260, "Offline: showing saved data", size=9, color=RED)
+f = Fig(170, 230)
+f.box(10, 5, 150, 220, "", fill=SOFT, stroke=NAVY, size=10, color=NAVY)
+f.box(18, 16, 134, 46, "Plot 1: WATER NOW\n16%", fill=BLUE, stroke=RED, size=10, color=NAVY)
+f.box(18, 70, 134, 46, "Plot 2: fine\n29%", fill=BLUE, stroke=TEAL, size=10, color=NAVY)
+f.box(18, 124, 134, 46, "Plot 3: water soon\n21%", fill=BLUE, stroke=AMBER, size=10, color=NAVY)
+f.text(85, 190, "Updated 06:15", size=10, color=NAVY)
+f.text(85, 209, "Offline: saved data", size=10, color=RED)
 @ svg cap="Plot detail"
-f = Fig(260, 300)
-f.box(50, 10, 160, 280, "", fill=SOFT, stroke=NAVY, size=10, color=NAVY)
-f.text(130, 30, "Plot 1  16%", size=12, color=NAVY)
-ax = Axes(f, 70, 50, 130, 100, (0, 7), (0, 50))
+f = Fig(170, 230)
+f.box(10, 5, 150, 220, "", fill=SOFT, stroke=NAVY, size=10, color=NAVY)
+f.text(85, 24, "Plot 1  16%", size=11, color=NAVY)
+ax = Axes(f, 30, 38, 112, 80, (0, 7), (0, 50))
 ax.axes("", "")
 ax.curve(lambda d: 38 - 3.1 * d, 0, 7, color=TEAL)
-f.text(130, 175, "7-day moisture", size=9, color=NAVY)
-f.box(65, 200, 130, 40, "Done watering", fill=BLUE, stroke=NAVY, size=11, color=NAVY)
-f.text(130, 265, "1 action waiting to sync", size=9, color=AMBER)
+f.text(85, 135, "7-day moisture", size=10, color=NAVY)
+f.box(25, 148, 120, 34, "Done watering", fill=BLUE, stroke=NAVY, size=11, color=NAVY)
+f.text(85, 203, "1 action waiting", size=10, color=AMBER)
 ```
 
 ## 4.3 Offline-first synchronisation
@@ -63,11 +63,11 @@ When the phone has no signal, the farmer taps "Done watering". The app must not 
 3. **Idempotence.** If the server receives the action but the confirmation is lost, the phone sends it again. The server must recognise the id and ignore the repeat.
 
 ```svgfig label="4.1" caption="Sync sequence with a lost acknowledgement. The phone stores the action, sends it, the server applies it, but the acknowledgement is lost. The phone retries with the same id; the server answers 'duplicate, already applied' and the phone finally clears the queue."
-f = Fig(560, 250)
+f = Fig(560, 260)
 f.box(40, 10, 110, 36, "Phone app", fill=BLUE, stroke=NAVY, size=12, color=NAVY)
 f.box(410, 10, 110, 36, "Server", fill=SOFT, stroke=TEAL, size=12, color=NAVY)
-f.line(95, 46, 95, 240, color=SLATE, dash=True)
-f.line(465, 46, 465, 240, color=SLATE, dash=True)
+f.line(95, 46, 95, 222, color=SLATE, dash=True)
+f.line(465, 46, 465, 222, color=SLATE, dash=True)
 f.arrow([(95,75),(465,75)], color=NAVY)
 f.text(280, 66, "1. send action a7 (id a7)", size=10, color=NAVY)
 f.arrow([(465,110),(95,110)], color=RED, dash=True)
@@ -76,8 +76,8 @@ f.arrow([(95,150),(465,150)], color=NAVY)
 f.text(280, 141, "3. retry action a7 (same id)", size=10, color=NAVY)
 f.arrow([(465,185),(95,185)], color=TEAL)
 f.text(280, 176, "4. duplicate, already applied", size=10, color=TEAL)
-f.text(95, 225, "queue cleared", size=10, color=NAVY)
-f.text(465, 225, "state applied once", size=10, color=NAVY)
+f.text(95, 242, "queue cleared", size=10, color=NAVY)
+f.text(465, 242, "state applied once", size=10, color=NAVY)
 ```
 
 The script simulates six actions made offline in a field. During sync, 40 percent of requests and 40 percent of acknowledgements are lost. It also shows what happens when two phones change the same note for a plot.
