@@ -76,7 +76,8 @@ body.admin-body {
 .admin-content .md-input:focus {
   outline: none;
   border-color: var(--md-primary);
-  box-shadow: 0 0 0 1px var(--md-primary);
+  outline: 2px solid var(--md-primary);
+  outline-offset: -1px;
 }
 .admin-content .md-input::placeholder {
   color: var(--md-on-surface-variant);
