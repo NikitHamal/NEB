@@ -135,6 +135,61 @@ A **postmortem** (incident review) records an incident to learn, not to blame. T
 
 **Docs as code:** store documentation (Markdown, reStructuredText, AsciiDoc) in version control beside the code, review it in pull requests, build it automatically (static site generators such as MkDocs or Sphinx), and run link checkers and linters in the pipeline. Treat out-of-date documentation as a bug.
 
+## 3.7 Seeing the ideas: the four kinds of documents and the life of an incident
+
+```photogrid label="3.1" cols="3" ratio="1.0" caption="Software documents are written for people in real places. (a) Source code on a screen: the README and inline comments sit next to it and explain what the code cannot. (b) A server rack: the runbook is the text an on-call engineer reads here at 2 am. (c) A stand-up briefing: the short, dated notes that feed minutes and postmortems."
+@ photo id="bca306/code" cap="Code on a screen"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca306/rack" cap="Server rack"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca105/scrum" cap="Team briefing"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="3.1" caption="The four kinds of documentation (Diátaxis). Each answers a different question for a different reader mood; mixing them in one page is the commonest reason a manual feels confusing."
+f = Fig(580, 250)
+Q = [(14, 14, "Tutorial", "learning-oriented", "A guided first lesson:\nbuild a tiny working\nexample step by step.", MINT, TEAL), (296, 14, "How-to guide", "task-oriented", "Steps to reach a goal:\n\"Print a certificate\",\n\"Roll back a release\".", BLUE, NAVY), (14, 132, "Explanation", "understanding-oriented", "Why it works this way:\nbackground, design\nchoices, trade-offs.", SAND, AMBER), (296, 132, "Reference", "information-oriented", "Complete, accurate facts:\nAPI endpoints, options,\nerror codes.", ROSE, RED)]
+for x, y, t, s, d, fl, st in Q:
+    f.box(x, y, 270, 108, "", fill=fl, stroke=st)
+    f.text(x + 135, y + 20, t, size=14, color=NAVY, bold=True)
+    f.text(x + 135, y + 38, s, size=11, color=st, italic=True)
+    f.text(x + 135, y + 74, d, size=11.5, color=SLATE)
+f.text(290, 124, "study", size=10, color=SLATE, italic=True)
+f.text(290, 242, "work", size=10, color=SLATE, italic=True)
+```
+
+```svgfig label="3.2" caption="Anatomy of a good requirement and the timeline of a blameless postmortem. (a) One requirement has an ID, a priority word, a measurable condition and a way to test it. (b) The incident story is written in clock times so the reader can see detection and recovery delay."
+f = Fig(580, 250)
+f.box(14, 10, 552, 30, "R7 | The system shall display the result page within 3 seconds for 95% of requests at 200 users.", fill=BLUE, stroke=NAVY, size=11)
+P = [(14, 52, 80, "R7", "unique ID"), (100, 52, 80, "shall", "priority word"), (186, 52, 150, "within 3 seconds", "measurable limit"), (342, 52, 110, "95% of requests", "how often"), (458, 52, 108, "at 200 users", "test condition")]
+for x, y, w, t, d in P:
+    f.arrow([(x + w / 2, 42), (x + w / 2, 62)], color=TEAL)
+    f.box(x, y + 12, w, 32, t, fill=MINT, stroke=TEAL, size=10.5, bold=True)
+    f.text(x + w / 2, y + 58, d, size=10, color=SLATE, italic=True)
+f.line(40, 190, 540, 190, color=SLATE, sw=2)
+T = [(40, "14:02", "deploy"), (150, "14:09", "alerts fire"), (260, "14:20", "rollback"), (370, "14:31", "recovered"), (500, "next day", "review")]
+for x, t, d in T:
+    f.circle(x, 190, 6, fill=AMBER, stroke=RED)
+    f.text(x, 172, t, size=11, color=NAVY, bold=True)
+    f.text(x, 214, d, size=10.5, color=SLATE)
+f.text(290, 242, "(b) detection 7 min, recovery 29 min after the deploy", size=10.5, color=SLATE, italic=True)
+f.text(290, 148, "(a) requirement parts above", size=10, color=SLATE, italic=True)
+```
+
+### 3.7.1 Eight reasons to document software properly
+
+1. **New people start quickly.** A good README and setup guide let a new teammate run the project in an hour instead of a week. A student joining a college project team can then contribute on day one. The cost of writing the guide is paid back every time someone joins.
+2. **Requirements stop arguments.** A numbered, testable requirement such as "R7: results within 3 seconds for 95% of requests" is the same for the client and the developer. When the system is delivered, both sides can check it. Vague words like "fast" or "user-friendly" cause disputes.
+3. **Maintainers understand the design.** Software lives for years, and the author may have left. Short design notes explain why a choice was made, for example why a ConnectIPS-style payment callback is retried three times. Without them the next developer breaks something that was done on purpose.
+4. **APIs can be used without asking.** A clear reference with examples, error codes and a try-it page lets another team call your service by themselves. A school management system can then connect to the Tribhuvan University EMIS format without a meeting. Missing error documentation is the most common gap.
+5. **Incidents are solved faster.** A runbook tells the on-call engineer what an alert means and which steps to follow. At 2 am nobody remembers rarely used commands, so a tested checklist shortens downtime. It also lets a junior engineer handle a fault safely.
+6. **Teams learn from failures.** A blameless postmortem records what happened, the timeline and the actions that follow. The goal is to fix the process, not to punish a person. Banks and telecom companies in Nepal keep such reviews so the same outage does not repeat.
+7. **Users succeed without support.** A task-based user guide with numbered steps and screenshots answers questions before they reach the help desk. A Nagarik App guide for renewing a document in six steps saves thousands of calls. Fewer calls mean lower cost and happier users.
+8. **Audits and handovers are possible.** Many clients, banks and government offices ask for documents before accepting a system: SRS, test report, user manual and deployment guide. A project without them cannot be handed over or audited. Good documentation is therefore part of the deliverable, not an extra.
+
 ## Chapter summary
 
 - Each document serves a reader at a time: SRS (agree), README (start), guide (do), reference (look up), runbook (respond), postmortem (learn).
@@ -168,3 +223,69 @@ A **postmortem** (incident review) records an incident to learn, not to blame. T
 **9.** "Prevent crash when phone number is empty" (imperative, under about 50 characters).
 **10.** Keeping documentation in version control with the code, reviewing and building it automatically, and testing it like software.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). What makes a good software requirement? Rewrite a poor requirement.**
+
+*Introduction.* A **requirement** states what a system must do or the quality it must have. It becomes a contract between the client and the developer, so it must be checkable (Figure 3.2a).
+
+*Qualities.* A good requirement is **unique** (has an ID), **clear** (one meaning), **testable** (a measurable condition), **necessary**, **feasible** and **consistent** with the others. It uses *shall* for a must and avoids weak words such as *fast*, *user-friendly*, *etc.*, *and/or* and *as appropriate*.
+
+*Linter result from the book's program.*
+
+| ID | Result | Reason |
+|---|---|---|
+| R1 | PASS | clear and measurable |
+| R2 | FAIL | uses "should"; weak words *fast*, *user-friendly* |
+| R3 | FAIL | uses *etc* |
+| R4 | PASS | clear and measurable |
+
+*Rewrite.* Poor: "The system should be fast and user-friendly." Good: "R7: The system shall display the result page within 3 seconds for 95% of requests at 200 concurrent users." The fixed version has an ID, *shall*, a number, a proportion and a test condition. *Conclusion:* a requirement that cannot be tested cannot be accepted or rejected.
+
+**Q2 (5 marks). Explain the four kinds of documentation (tutorial, how-to guide, reference, explanation).**
+
+*Introduction.* The Diátaxis framework says that documentation serves four different needs, and each kind should be written differently (Figure 3.1).
+
+1. **Tutorial** (learning-oriented): a guided lesson for a beginner, building a small working example. It must work every time, so the author tests each step.
+2. **How-to guide** (task-oriented): numbered steps for a competent user with a goal, such as "Roll back a release". It starts with the goal and prerequisites and leaves out theory.
+3. **Reference** (information-oriented): complete, accurate and consistent facts, such as every endpoint, parameter and error code. It is for looking up, not reading in order.
+4. **Explanation** (understanding-oriented): the why, covering design choices, trade-offs and background.
+
+| Kind | Reader needs | Style | Example |
+|---|---|---|---|
+| Tutorial | to learn | friendly, step by step | "Build your first API call" |
+| How-to | to do a task | imperative, short | "Print a certificate" |
+| Reference | to look up | dry, complete | OpenAPI file |
+| Explanation | to understand | discursive | "Why we retry payments" |
+
+*Conclusion.* Keeping the four kinds separate stops a tutorial from turning into a reference and makes each page easier to use.
+
+**Q3 (10 marks). Describe the major documents of a software project (SRS, README, API reference, runbook, postmortem). Explain how each is written and checked.**
+
+*Introduction.* A software project produces several documents, each for a different reader and moment. Together they carry the knowledge that code cannot (Plate 3.1 and Figure 3.2).
+
+*1. SRS (Software Requirements Specification).* Written at the start for clients and developers. It has purpose, scope, users, functional requirements, non-functional requirements (performance, security, usability) and constraints. Each requirement has a unique ID, priority, a measurable condition and a test. *Check:* a **requirement linter** flags weak words (*fast*, *etc*, *should*) as the program in 3.2 does; a review confirms that every requirement is traceable to a test.
+
+*2. README.* The front door: title and one-line description, a screenshot, install and run steps, a minimal example, configuration, licence and contact. A reader decides in 30 seconds whether to continue. *Check:* follow the steps on a clean machine.
+
+*3. User guide.* Organised by tasks, in the imperative, with prerequisites, numbered steps, expected results and troubleshooting. *Check:* usability test with five real users.
+
+*4. API reference (OpenAPI).* Lists each path, operation, parameter, request and response schema, and every error. It should include examples and authentication. *Check:* an OpenAPI **checker** such as the one in 3.4 reports gaps, for example "GET /certificates: no 4xx response documented" and "POST /certificates: missing summary".
+
+*5. Runbook.* The operations manual of a service: dependencies, deploy and rollback, dashboards, and a step-by-step response for each alert, written so a tired engineer can follow it. *Check:* a game day or drill where someone unfamiliar follows it.
+
+*6. Postmortem.* A blameless incident review with summary (impact), timeline in clock times, root cause, what went well and badly, and dated action items with owners (Figure 3.2b). *Check:* each action item has an owner and a date and is tracked to closure.
+
+*Comparison.*
+
+| Document | Reader | When | Main check |
+|---|---|---|---|
+| SRS | client, developer | start | linter and review |
+| README | new user | always | clean-machine run |
+| User guide | end user | release | usability test |
+| API reference | integrator | release | OpenAPI checker |
+| Runbook | on-call engineer | operations | drill |
+| Postmortem | whole team | after incident | action-item follow-up |
+
+*Conclusion.* Each document has one reader, one purpose and one test. Writing them for that reader, and checking them with tools and real people, makes software maintainable and handover possible.

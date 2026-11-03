@@ -167,6 +167,16 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - U7: Plate 7.1 (note/NRB/dry port), Fig 7.1 deposit creation, 7.2 AD-AS demand-pull and cost-push, 7.3 policy transmission chain, 7.4 BoP waterfall; 8 roles (7.6); 2 medium + 2 long.
 - All new numbers recomputed with Python (check_economics.py still passes). No fill_script_outputs needed (no code blocks).
 
+## BCA 354 technical-writing (semester-6/technical-writing) -- [x] POLISHED (session 22), 59 pp (was 36), qa fails=0 warns=1 (p3 near-empty, pre-existing)
+- Photos (bca354/, licence-gated, all viewed): typewriter (Olympia Simplex 1935), manual (car owner's manual), warning (tsunami hazard sign), library (Graz reading room). Reused: bca306 code/rack, bca105 scrum/pen, bca452 handshake/interview.
+- U1: Plate 1.1 (3-up typewriter/manual/sign), Fig 1.1 inverted pyramid, Fig 1.2 writing-process loop; 1.8.1 eight habits; Q1, Q2 (5 marks), Q3 (10 marks).
+- U2: Fig 2.1 FK/Fog bars from the executed program numbers, Fig 2.2 sentence surgery; 2.5.1 eight benefits of plain language; Q1, Q2 (FRE 64.71, FK 7.96 computed), Q3.
+- U3: Plate 3.1 (code/rack/briefing), Fig 3.1 Diataxis 2x2, Fig 3.2 requirement anatomy + postmortem timeline; 3.7.1 eight reasons to document; Q1-Q3.
+- U4: Plate 4.1 (library photo + IMRaD hourglass SVG), Fig 4.1 APA vs IEEE anatomy; 4.6.1 eight habits; Q1-Q3.
+- U5: Fig 5.1 lie factor 20 vs 1, Fig 5.2 chart chooser, Fig 5.3 WCAG contrast swatches; 5.7.1 eight rules; Q1-Q3.
+- U6: Plate 6.1 (letter/handshake/career fair), Fig 6.1 four editing levels, Fig 6.2 concision 44 to 22 words; 6.6.1 eight habits; Q1-Q3 (e-mail specimen).
+- No code was added or changed, so fill_script_outputs.py was NOT run; existing executed outputs untouched.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -184,5 +194,6 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - [x] BCA 153 OOP in Java and System Analysis and Design polished (session 19)
 - [x] Probability and Statistics polished (session 20, 35 -> 57 pp)
 - [x] Applied Economics polished (session 21, 34 -> 66 pp)
-- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Technical Writing (36), Financial Accounting (37), Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] Technical Writing polished (session 22, 36 -> 59 pp)
+- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Financial Accounting (37), Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
