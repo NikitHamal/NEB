@@ -84,6 +84,70 @@ The maintenance process mirrors a small SDLC: (1) **obtain a maintenance request
 
 **Configuration management** keeps track of every version of every component (**version control** such as Git), **builds** and **releases**, so a faulty change can be rolled back and the production system is reproducible. **Factors affecting maintenance cost:** number and quality of **documentation**, code **complexity** and structure, staff experience and turnover, the **age** of the system, use of standards, the **number of users**, and the quality of the original development. The best way to cut maintenance cost is to invest in **quality at analysis and design**. Eventually a system reaches the end of its useful life: when the cost of change exceeds the cost of **replacement**, a new project starts at Unit 2.
 
+## 5.3 Testing levels, installation strategies and maintenance types, in pictures
+
+Testing proves that the system matches the requirements, and each test level checks a different layer of the design (Figure 5.1). Small units are tested first by the programmer; the whole system is tested next by the testers; and the last test, **user acceptance**, is done by the customer against the original requirements. After testing, the system must be installed, and the strategy decides how much risk the organisation accepts (Figure 5.2). Once the system is live, maintenance begins; it is never only bug fixing (Figure 5.3). Plate 5.1 shows the kind of infrastructure that a production system runs on after installation.
+
+```svgfig label="5.1" caption="Testing as a V. Each test level on the right checks the work product on the left at the same height: acceptance tests check requirements, system tests check the design, integration tests check module interfaces, and unit tests check code."
+f = Fig(600, 250)
+f.line(150, 38, 440, 38, color=AMBER, sw=1.2, dash=True)
+f.line(180, 88, 410, 88, color=AMBER, sw=1.2, dash=True)
+f.line(210, 138, 380, 138, color=AMBER, sw=1.2, dash=True)
+for n, x, y, w in (("Requirements", 10, 20, 140), ("System design", 40, 70, 140), ("Module design", 70, 120, 140)):
+    f.box(x, y, w, 36, n, fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(180, 170, 120, 36, "Coding", fill="#fbcfe8", color=NAVY, size=11, bold=True)
+for n, x, y, w in (("Acceptance test", 440, 20, 150), ("System test", 410, 70, 150), ("Integration test", 380, 120, 150), ("Unit test", 320, 170, 110)):
+    f.box(x, y, w, 36, n, fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.arrow([(80, 56), (100, 70)], color=SLATE, sw=1.6)
+f.arrow([(110, 106), (130, 120)], color=SLATE, sw=1.6)
+f.arrow([(140, 156), (200, 170)], color=SLATE, sw=1.6)
+f.arrow([(300, 188), (320, 188)], color=SLATE, sw=1.6)
+f.arrow([(400, 170), (420, 156)], color=SLATE, sw=1.6)
+f.arrow([(450, 120), (470, 106)], color=SLATE, sw=1.6)
+f.arrow([(480, 70), (500, 56)], color=SLATE, sw=1.6)
+f.text(300, 235, "dashed lines: each test level verifies the stage at the same height", size=10.5, color=AMBER, bold=True)
+```
+
+```svgfig label="5.2" caption="Four installation strategies drawn on a time axis. Direct cutover switches at one moment (fast, risky); parallel runs old and new together (safe, costly); phased moves one module at a time; pilot tries the new system at one site first."
+f = Fig(600, 240)
+rows = [("Direct", [(0, 4, "old", "#e2e8f0"), (4, 10, "new", "#bbf7d0")]), ("Parallel", [(0, 4, "old", "#e2e8f0"), (4, 7, "old + new", "#fde68a"), (7, 10, "new", "#bbf7d0")]), ("Phased", [(0, 3, "old", "#e2e8f0"), (3, 6, "module 1 new", "#fde68a"), (6, 10, "all new", "#bbf7d0")]), ("Pilot", [(0, 3, "old everywhere", "#e2e8f0"), (3, 6, "new at 1 site", "#fde68a"), (6, 10, "new everywhere", "#bbf7d0")])]
+x0, w = 100, 480
+for i, (n, segs) in enumerate(rows):
+    y = 20 + i * 50
+    f.text(90, y + 17, n, size=12, color=NAVY, bold=True, anchor="end", vmid=True)
+    for a, b, t, c in segs:
+        f.box(x0 + a * w / 10, y, (b - a) * w / 10, 34, t, fill=c, stroke=NAVY, color=NAVY, size=10.5, bold=True)
+f.text(340, 226, "time  -->   (go-live at the colour change)", size=10.5, color=SLATE, bold=True)
+```
+
+```svgfig label="5.3" caption="Four types of maintenance. Corrective repairs faults; adaptive keeps the system working when the environment changes; perfective adds features or speed; preventive improves structure to avoid future faults."
+f = Fig(600, 230)
+f.text(190, 14, "fix a problem", size=11, color=SLATE, bold=True)
+f.text(440, 14, "improve", size=11, color=SLATE, bold=True)
+f.box(60, 24, 250, 90, "Corrective\nrepair faults found in use\ne.g. wrong fine calculation", fill="#fecaca", stroke=RED, color=NAVY, size=11, bold=True)
+f.box(320, 24, 250, 90, "Perfective\nnew features, better speed\ne.g. SMS reminder added", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(60, 124, 250, 90, "Adaptive\nenvironment changes\ne.g. new tax rate, new OS", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.box(320, 124, 250, 90, "Preventive\nrestructure code, update docs\ne.g. split a huge module", fill=BLUE, color=NAVY, size=11, bold=True)
+```
+
+```photogrid label="5.1" cols="2" ratio="1.3" caption="Where an installed system lives. (a) Network switch and cabling in a server rack. (b) A data-centre hall: power, cooling and backup are part of the installation plan."
+@ photo id="bca306/rack" cap="Server rack and network cabling"
+fit 1.3
+@ photo id="bca404/datacenter" cap="Data-centre hall"
+fit 1.3
+```
+
+## 5.4 Eight reasons why testing and maintenance planning pay off
+
+1. **Faults are found before users find them.** Testing in layers catches coding errors at unit level and interface errors at integration level. A wrong fine calculation found by a tester costs nothing; found by a student at the counter it costs trust.
+2. **The system is checked against the requirements.** Acceptance tests are written from the requirement list, so the customer decides whether the promised features exist. This prevents disputes at delivery.
+3. **Installation risk is chosen deliberately.** Direct, parallel, phased and pilot strategies trade speed against safety. A bank usually runs parallel; a small shop may cut over directly.
+4. **Data is converted safely.** Old records are cleaned, converted and verified before go-live. Missing student records after a change of system would be a serious failure.
+5. **Users are trained.** Training and manuals turn a working system into a used system. Without them even a perfect system is blamed for user mistakes.
+6. **Maintenance is expected and budgeted.** Most of a system's lifetime cost occurs after delivery. Planning for corrective, adaptive, perfective and preventive work avoids surprise bills.
+7. **Change is controlled.** Change requests are logged, assessed, tested and approved before release. This stops a quick fix for one office from breaking another.
+8. **Knowledge is preserved.** Updated documentation, a version history and test cases let new staff maintain the system. The system outlives the team that built it.
+
 ## Formula and fact sheet
 
 - Testing levels: unit → integration → system → acceptance (alpha, beta, UAT). Black-box vs white-box.
@@ -120,3 +184,56 @@ The maintenance process mirrors a small SDLC: (1) **obtain a maintenance request
 **8.** The system lives for years while the business, laws and technology change, and each change must be analysed, built, tested and documented; poor design and documentation make each change costlier.
 **9.** Control of versions and changes to all components so any version can be rebuilt or rolled back, and changes are authorised and traceable.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the levels of software testing and the role of user acceptance testing.**
+
+*Introduction.* Testing is the process of running a system to find faults and to confirm that it meets its requirements. It is done in levels, each checking one stage of the design (Figure 5.1).
+
+*Levels.*
+
+1. **Unit testing.** The programmer tests each function or module alone, usually with automated test cases. It finds logic and calculation errors.
+2. **Integration testing.** Modules are combined and the interfaces between them are tested, for example the data passed from the issue module to the loans database.
+3. **System testing.** The complete system is tested against the design for functions, performance, security and recovery.
+4. **Acceptance testing.** The users test the system with real data against the original requirements. Alpha testing is done in-house, beta testing at selected user sites.
+
+*Approaches.* Black-box testing checks outputs for given inputs without seeing the code; white-box testing uses knowledge of the code paths.
+
+| Level | Who tests | What is checked |
+|---|---|---|
+| Unit | programmer | one module |
+| Integration | developers | interfaces |
+| System | test team | whole system |
+| Acceptance | users | requirements |
+
+*Conclusion.* Acceptance testing is the final gate: the customer decides whether the system does what was agreed, and only then is it installed.
+
+**Q2 (10 marks). Describe the strategies for installing a new information system and the types of system maintenance. Compare the installation strategies.**
+
+*Introduction.* Installation replaces the old way of working with the new system; maintenance keeps the installed system useful for its whole life. Both carry risk that must be planned.
+
+*Installation strategies (Figure 5.2).*
+
+1. **Direct cutover.** The old system is switched off and the new one on at a stated moment. It is quick and cheap, but a failure stops the business.
+2. **Parallel.** Old and new run together for a period and results are compared. It is the safest, but double work and cost are needed.
+3. **Phased.** One module or function moves at a time. Risk is spread, but the old and new systems need temporary interfaces.
+4. **Pilot (single location).** The new system runs at one branch or department first, and lessons are used before full roll-out.
+
+*Other installation tasks.* Data conversion, hardware and network set-up, user training, and final documentation.
+
+*Maintenance types (Figure 5.3).*
+
+5. **Corrective.** Repairing faults found in use.
+6. **Adaptive.** Changing the system to suit a new environment, such as a new law, tax rate or operating system.
+7. **Perfective.** Adding features or improving performance in response to users.
+8. **Preventive.** Restructuring code and updating documentation to avoid future problems.
+
+| Strategy | Risk | Cost | Best when |
+|---|---|---|---|
+| Direct | high | low | small or non-critical system |
+| Parallel | low | high | critical system such as banking |
+| Phased | medium | medium | modular system |
+| Pilot | low to medium | medium | many branches |
+
+*Conclusion.* The right installation strategy balances speed, cost and risk, and maintenance in all four forms usually costs more over the system's life than the original build. Planning for both is part of systems analysis.

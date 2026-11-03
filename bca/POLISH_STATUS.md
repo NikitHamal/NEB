@@ -136,6 +136,15 @@ Math-heavy: SVG figures and worked answers, no photographs (none claimed).
 - All new Java programs compiled and run with JDK 17 (`fill_java_outputs.py`); needs `sudo apt-get install openjdk-17-jdk-headless libh2-java libslf4j-java libservlet-api-java`. After fill, run `/tmp/fixblank.py`-style pass: add a blank line after every closing ```output fence when text follows directly (otherwise tables/paragraphs may merge into the code placeholder).
 - Not done: old short Practice answers kept; no photograph for abstract units 2-5 (none claimed).
 
+## System Analysis and Design (semester-3/system-analysis-and-design) -- [x] POLISHED (session 19), 51 pp (was 33), qa fails=0
+Had ZERO figures before. Photos are reuses of already-licensed assets (no new downloads): bca256 kanban/scrum/pair, bca452 interview, bca101 atm-nepal/android, bca306 rack, bca404 datacenter.
+- U1: Fig 1.1 SDLC waterfall with cost multipliers, Plate 1.1 (3-up agile practice photos); 1.11 eight reasons; Q1 SDLC phases, Q2 model comparison + recommendation.
+- U2: Fig 2.1 cumulative discounted net benefit (payback 2.35 yr), Fig 2.2 Gantt to scale; 2.7 eight reasons; Q1 six feasibility types, Q2 library NPV/ROI/payback/BCR (all recomputed in Python: NPV 125,229; BCR 1.30; IRR 30.7%; discounted payback 2.64 yr).
+- U3: Plate 3.1 (interview photo + techniques SVG), Fig 3.1 context diagram, 3.2 level-0 DFD, 3.3 ER with LOAN associative entity; 3.5 eight benefits; Q1 DFD symbols/rules, Q2 library models.
+- U4: Fig 4.1 normalisation 1NF-3NF, Plate 4.1 (ATM + smartphone UI), Fig 4.2 annotated admission form; 4.6 eight rules; Q1 normalise ORDER_FORM, Q2 form/report/interface guidelines.
+- U5: Fig 5.1 V-model testing, 5.2 installation strategies timeline, 5.3 maintenance 2x2, Plate 5.1 (rack + data-centre photos); 5.4 eight reasons; Q1 test levels, Q2 installation + maintenance types.
+- Not done: old short Practice answers kept; no checks script exists for this book (numbers verified ad hoc).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -150,5 +159,6 @@ Math-heavy: SVG figures and worked answers, no photographs (none claimed).
 - [x] BCA 154 Mathematics II polished (session 18, SVG + answers, no photos)
 - [x] BCA 151 Discrete Structure units 5-6 (session 19)
 - [x] BCA 153 OOP in Java (session 19, 66 pp)
-- [ ] (NEXT SESSION STARTS HERE) polish thin core books, in this order: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] BCA 153 OOP in Java and System Analysis and Design polished (session 19)
+- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Probability and Statistics (30 pp, semester-3), Applied Economics (34), Technical Writing (36), Financial Accounting (37), Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time

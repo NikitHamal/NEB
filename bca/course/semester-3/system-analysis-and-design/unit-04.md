@@ -138,6 +138,62 @@ Keyboard, mouse, trackpad, **touch screen** (large targets, gestures), stylus, *
 Login screen → (valid) Menu → choose *View result* → Select semester (drop-down) → Result screen → *Print* / *Back* / *Log out*. Alternate paths: invalid login → error message and retry (max 3 times then lock); no result published → informative message with a *Back* button. Each arrow is a user action; each box a screen. Drawing this diagram first exposes the missing "no result yet" path before any screen is coded.
 :::
 
+## 4.5 Normalisation and screen design, drawn out
+
+Figure 4.1 follows one badly designed table through the three normal forms. The starting table repeats customer and item facts on every row, so a price change or a spelling correction must be made in many places. Each normal form removes one kind of repetition: **1NF** makes every value atomic, **2NF** removes facts that depend on only part of the key, and **3NF** removes facts that depend on a non-key column. The end result is four small tables joined by keys. Figure 4.2 and Plate 4.1 then move from data design to the screen: the same care that keeps tables clean is needed to keep forms and interfaces clear.
+
+```svgfig label="4.1" caption="Normalising ORDER_FORM(order_id, date, cust_id, cust_name, item_id, item_name, price, qty) with key (order_id, item_id). 2NF moves facts that depend on only part of the key; 3NF moves cust_name, which depends on cust_id rather than on the key."
+f = Fig(600, 280)
+f.box(10, 10, 580, 40, "Unnormalised: ORDER_FORM(order_id, date, cust_id, cust_name, item_id, item_name, price, qty)", fill="#fecaca", stroke=RED, color=NAVY, size=11, bold=True)
+f.arrow([(300, 50), (300, 80)], color=SLATE, sw=2, label="2NF: remove partial dependencies", lpos=(440, 66), lsize=10)
+f.box(10, 82, 190, 56, "ORDER\norder_id, date, cust_id, cust_name", fill="#fde68a", stroke=AMBER, color=NAVY, size=10, bold=True)
+f.box(210, 82, 180, 56, "ITEM\nitem_id, item_name, price", fill="#fde68a", stroke=AMBER, color=NAVY, size=10, bold=True)
+f.box(400, 82, 190, 56, "ORDER_LINE\norder_id, item_id, qty", fill="#fde68a", stroke=AMBER, color=NAVY, size=10, bold=True)
+f.arrow([(105, 138), (105, 178)], color=SLATE, sw=2, label="3NF: remove transitive dependency", lpos=(240, 160), lsize=10)
+f.box(10, 180, 150, 50, "ORDER\norder_id, date, cust_id", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10, bold=True)
+f.box(180, 180, 140, 50, "CUSTOMER\ncust_id, cust_name", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10, bold=True)
+f.box(340, 180, 120, 50, "ITEM", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(470, 180, 120, 50, "ORDER_LINE", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.text(300, 258, "result: four tables, each fact stored once, joined by order_id, cust_id, item_id", size=11, color=TEAL, bold=True)
+```
+
+```photogrid label="4.1" cols="2" ratio="1.2" caption="Interfaces in everyday use in Nepal. (a) An ATM screen and keypad: few choices per screen, large buttons and a fixed order of steps. (b) A smartphone app screen: touch targets, icons and immediate feedback."
+@ photo id="bca101/atm-nepal" cap="ATM in Nepal"
+fit 1.2
+@ photo id="bca101/android" cap="Smartphone interface"
+fit 1.2
+```
+
+```svgfig label="4.2" caption="Layout of a good data-entry form. Related fields are grouped, labels sit above or beside their boxes, required fields are marked, a drop-down limits Faculty to valid values, the date format is shown, and the primary action is the most visible button."
+f = Fig(600, 250)
+f.box(60, 10, 480, 230, "", fill="#ffffff", stroke=NAVY)
+f.box(60, 10, 480, 30, "Student admission form", fill=NAVY, color="#ffffff", size=12, bold=True)
+for i, (lab, y) in enumerate((("Full name *", 54), ("Date of birth *  (YYYY-MM-DD)", 96), ("Faculty *", 138))):
+    f.text(80, y, lab, size=11, color=NAVY, bold=True, anchor="start")
+    f.box(80, y + 6, 240, 24, "", fill="#f1f5f9", stroke=SLATE)
+f.text(300, 150, "v", size=12, color=NAVY, bold=True)
+f.box(80, 190, 90, 32, "Save", fill=TEAL, color="#ffffff", size=12, bold=True)
+f.box(184, 190, 90, 32, "Cancel", fill="#e2e8f0", stroke=SLATE, color=NAVY, size=12)
+f.text(338, 74, "(1) grouped,", size=10.5, color=RED, bold=True, anchor="start")
+f.text(338, 90, "labelled fields", size=10.5, color=RED, bold=True, anchor="start")
+f.text(338, 118, "(2) format hint", size=10.5, color=RED, bold=True, anchor="start")
+f.text(338, 160, "(3) drop-down", size=10.5, color=RED, bold=True, anchor="start")
+f.text(338, 176, "validates input", size=10.5, color=RED, bold=True, anchor="start")
+f.text(338, 206, "(4) clear primary", size=10.5, color=RED, bold=True, anchor="start")
+f.text(338, 222, "action", size=10.5, color=RED, bold=True, anchor="start")
+```
+
+## 4.6 Eight rules for good forms, reports and interfaces
+
+1. **Be consistent.** Use the same layout, terms and colours on every screen. A user who learns one screen of the college system should be able to guess how the next works.
+2. **Group related items.** Put name, address and contact fields together, and mark required ones. A grouped form is quicker to fill and has fewer missing values.
+3. **Limit what can be typed.** Use drop-down lists, date pickers and check boxes where the set of valid values is known. The faculty field then cannot contain a spelling mistake.
+4. **Validate at once.** Check the value when it is entered and say what is wrong in plain words. "Roll number must have 6 digits" is better than "Error 12".
+5. **Give feedback.** Show a confirmation after saving, a progress message for long jobs and a clear error when something fails. Users should never wonder whether a payment went through.
+6. **Keep reports readable.** Give each report a title, date, page numbers and column headings; align numbers to the right and total them. A mark sheet should be understood at a glance.
+7. **Design for the user's skill.** Beginners need guidance and menus; experts want shortcuts. A public service kiosk needs very simple screens, while an accountant prefers keyboard commands.
+8. **Make errors forgivable.** Offer undo, confirmation before deleting and safe defaults. A confirmation dialog before deleting a student record saves hours of recovery work.
+
 ## Formula and fact sheet
 
 - Normalised relations: CUSTOMER, INVOICE, ITEM, INVOICE_LINE (invoice example). Merge relations, resolve synonyms and homonyms.
@@ -175,3 +231,58 @@ Login screen → (valid) Menu → choose *View result* → Select semester (drop
 **8.** Menus: easy for novices, recognition-based, slower for experts. Command languages: fast and powerful for experts, hard to learn and remember.
 **9.** Insert card → enter PIN (3 tries) → menu → withdraw → choose amount → balance check (insufficient: message and back to amount) → dispense cash → receipt? → return card.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). What is normalisation? Normalise ORDER_FORM(order_id, date, cust_id, cust_name, item_id, item_name, price, qty) up to third normal form.**
+
+*Introduction.* Normalisation is the process of organising data into tables so that each fact is stored once. It removes redundancy and the insertion, deletion and update anomalies it causes (Figure 4.1).
+
+*Normal forms.*
+
+1. **1NF.** Every column holds one atomic value and there are no repeating groups. ORDER_FORM already satisfies this with the composite key (order_id, item_id).
+2. **2NF.** No non-key column depends on only part of the key. Here date, cust_id and cust_name depend only on order_id, and item_name and price depend only on item_id, so the table is split.
+3. **3NF.** No non-key column depends on another non-key column. cust_name depends on cust_id, so it moves to its own table.
+
+*Result.*
+
+| Table | Columns | Key |
+|---|---|---|
+| ORDER | order_id, date, cust_id | order_id |
+| CUSTOMER | cust_id, cust_name | cust_id |
+| ITEM | item_id, item_name, price | item_id |
+| ORDER_LINE | order_id, item_id, qty | (order_id, item_id) |
+
+*Benefit.* A price change is made in one row of ITEM, and a customer's name is corrected in one row of CUSTOMER.
+
+*Conclusion.* Each normal form removes one kind of dependency, and 3NF gives tables that are free of the main update anomalies.
+
+**Q2 (10 marks). Explain the guidelines for designing forms, reports and user interfaces, and describe how a student admission form should be laid out.**
+
+*Introduction.* Input and output design decide whether users can work accurately and quickly. A system with correct logic still fails if its screens confuse people (Plate 4.1, Figure 4.2).
+
+*General guidelines.*
+
+1. **Consistency** in layout, terms and colours.
+2. **Grouping** of related fields, with required fields marked.
+3. **Restricted input** through drop-down lists, check boxes, date pickers and masks.
+4. **Immediate validation** with clear error messages: type, range, format, presence and check-digit tests.
+5. **Feedback** on every action, such as confirmation after saving.
+6. **Defaults** for common values to reduce typing.
+7. **Error recovery** with undo and confirmation before destructive actions.
+8. **Accessibility:** readable fonts, enough contrast and large touch targets.
+
+*Reports.* A report needs a title, date, page numbers, column headings, sensible sort order, right-aligned numeric columns with totals, and only the information the reader needs.
+
+*Interface types.* Command line (fast for experts), menus (easy to learn), forms (data entry), graphical or touch interfaces (direct manipulation) and voice (hands-free).
+
+*Admission form layout (Figure 4.2).* The title bar names the form. Fields are grouped in one column with labels above the boxes; required ones carry an asterisk; the date hint shows the format; the **Faculty** field is a drop-down so only valid faculties can be chosen; **Save** is the most visible button and **Cancel** is secondary. After saving, a message shows the new roll number.
+
+| Interface | Strength | Weakness |
+|---|---|---|
+| Command line | fast, scriptable | hard to learn |
+| Menu | easy to learn | slow for experts |
+| Form | structured data entry | needs careful design |
+| Touch (GUI) | direct and intuitive | needs larger controls |
+
+*Conclusion.* Good design makes the right action obvious and the wrong action hard. Applying these guidelines reduces data-entry errors and training cost.

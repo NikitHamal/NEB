@@ -3,7 +3,7 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (708,867 raw words of study material, counted over the unit files, including code listings and tables):
+**41 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 3 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (715,757 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
@@ -22,7 +22,7 @@
 | 3 | BCA 201 | [Data Structure and Algorithms](course/semester-3/data-structure-and-algorithms/) | 22,743 | 75 | done |
 | 3 | BCA 202 | [Database Management System](course/semester-3/dbms/) | 15,156 | 56 | done |
 | 3 | BCA 203 | [Web Technology I](course/semester-3/web-technology-1/) | 9,924 | 45 | done |
-| 3 | BCA 204 | [System Analysis and Design](course/semester-3/system-analysis-and-design/) | 9,919 | 33 | done |
+| 3 | BCA 204 | [System Analysis and Design](course/semester-3/system-analysis-and-design/) | 16,809 | 51 | done |
 | 3 | BCA 205 | [Probability and Statistics](course/semester-3/probability-and-statistics/) | 9,323 | 30 | done |
 | 3 | BCA 206 | [Applied Economics](course/semester-3/applied-economics/) | 11,390 | 34 | done |
 | 4 | BCA 251 | [Operating Systems](course/semester-4/operating-systems/) | 27,698 | 85 | done |

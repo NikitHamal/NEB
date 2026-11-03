@@ -122,6 +122,44 @@ Slack: A 0, C 0, E 0, F 0; **B = 4 − 3 = 1 and D = 6 − 5 = 1**. Critical pat
 
 Project management software (MS Project, Jira, Trello, OpenProject) records tasks, dependencies, resources and baselines, draws Gantt charts, recalculates the critical path when dates change, tracks actual versus planned effort, and produces reports. Typical risks: unclear requirements, scope creep, unrealistic estimates, staff turnover, new technology; managed by identifying, rating (probability × impact), planning responses and monitoring.
 
+## 1.10 The life cycle as a picture, and agile practice in the field
+
+Figure 1.1 draws the five SDLC phases as the classic waterfall staircase. Each step has a **review gate**: the work is checked and the sponsor decides whether to go on, change course or stop. In practice a problem found in design often sends the team back to analysis, so the staircase is rarely followed without some rework. Plate 1.1 shows what the agile alternative looks like in a real team: a visible task board, short stand-up meetings and developers working in pairs. Notice that agile does not remove planning, analysis or testing; it repeats small amounts of each in every short iteration instead of doing each once.
+
+```svgfig label="1.1" caption="SDLC waterfall. Each phase hands a document to the next and ends with a review gate. Red arrows show the hand-over of documents. The cost multiplier under each phase is the usual rule of thumb for fixing a requirement error found at that stage."
+f = Fig(600, 250)
+names = [("1 Planning", "baseline plan"), ("2 Analysis", "requirements"), ("3 Design", "design spec"), ("4 Implement", "tested system"), ("5 Maintain", "updates")]
+cols = [BLUE, "#fde68a", "#bbf7d0", "#fbcfe8", "#e2e8f0"]
+for i, (n, o) in enumerate(names):
+    x, y = 10 + i * 116, 20 + i * 34
+    f.box(x, y, 100, 40, n, fill=cols[i], color=NAVY, size=11, bold=True)
+    f.text(x + 50, y + 54, o, size=9.5, color=SLATE)
+    if i < 4:
+        f.arrow([(x + 100, y + 20), (x + 108, y + 20), (x + 108, y + 54), (x + 116, y + 54)], color=RED, sw=1.8)
+    f.text(x + 50, 232, ["1x", "5x", "10x", "50x", "100x"][i], size=11, color=RED, bold=True)
+f.text(300, 246, "relative cost of fixing the same requirement error", size=10, color=RED, bold=True)
+```
+
+```photogrid label="1.1" cols="3" ratio="1.2" caption="Agile practice. (a) A task board of cards moving from To do to Done keeps the whole team's work visible. (b) A scrum-style board and short daily meeting. (c) Pair programming: two developers share one screen, so code is reviewed as it is written."
+@ photo id="bca256/kanban" cap="Task board (To do / Doing / Done)"
+fit 1.2
+@ photo id="bca256/scrum" cap="Scrum board and stand-up"
+fit 1.2
+@ photo id="bca256/pair" cap="Pair programming"
+fit 1.2
+```
+
+## 1.11 Eight reasons why a systematic life cycle matters
+
+1. **Clear stages and responsibilities.** Every phase has a known purpose and a named output, so the team always knows what is finished and who owns what. A college project team can say, for example, that analysis ends when the requirements document is signed off.
+2. **Cheaper error correction.** Mistakes found early cost far less than mistakes found after delivery. Spending an extra week checking the requirements can save months of rework after the system is live.
+3. **Better user involvement.** Users take part in analysis, design reviews and acceptance tests. A system for a municipal office is more likely to be used if the ward staff helped to define its screens.
+4. **Management control.** Review gates give the sponsor points to approve, change or stop the project. Money is released stage by stage instead of all at once, which limits the loss from a bad idea.
+5. **Documentation.** Each phase leaves models and documents behind. When a new developer joins, or the original team leaves, the system can still be maintained and understood.
+6. **Risk reduction.** Feasibility study and planning expose technical, financial and schedule risks before large sums are spent. Many failed projects skipped this step.
+7. **Quality through testing.** Testing is planned from the requirements, so the delivered system can be checked against what was promised. Acceptance criteria are written before coding begins.
+8. **Support for change.** Iterative and agile variants of the life cycle accept that requirements change. Working increments are shown to users every few weeks so a wrong turn is caught quickly.
+
 ## Formula and fact sheet
 
 - SDLC: planning → analysis → design → implementation → maintenance.
@@ -159,3 +197,52 @@ Project management software (MS Project, Jira, Trello, OpenProject) records task
 **8.** Paths: A-B-D = 2 + 4 + 2 = 8; A-C-D = 2 + 3 + 2 = 7. Duration **8**; critical path **A → B → D**; slack of C = 8 − 7 = **1**.
 **9.** t = (4 + 24 + 14)/6 = **7**.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Describe the phases of the systems development life cycle (SDLC) and the main output of each.**
+
+*Introduction.* The SDLC is a structured, phase-by-phase method for building an information system. Each phase answers one question and ends with a review gate before the next begins (Figure 1.1).
+
+*Phases.*
+
+1. **Planning.** Decides whether the project is worth doing. Activities: identify and select the project, study feasibility (economic, technical, operational, schedule, legal, political). Output: the baseline project plan.
+2. **Analysis.** Decides what the system must do. Requirements are gathered by interviews, questionnaires and observation, and modelled with data flow diagrams and entity-relationship diagrams. Output: requirements specification and logical models.
+3. **Design.** Decides how the system will do it. Logical design is turned into physical design: database tables, screens, reports and program structure. Output: design specification.
+4. **Implementation.** Coding, testing, installation, data conversion, documentation and user training. Output: the working, accepted system.
+5. **Maintenance.** The system is corrected, adapted and enhanced during its life. Output: change requests, patches and new versions.
+
+| Phase | Question | Main output |
+|---|---|---|
+| Planning | Is it worth doing? | baseline plan |
+| Analysis | What must it do? | requirements, models |
+| Design | How will it do it? | design specification |
+| Implementation | Build and deliver | tested system |
+| Maintenance | Keep it useful | updates |
+
+*Conclusion.* Errors cost much more to fix in later phases (Figure 1.1), so early phases deserve careful effort.
+
+**Q2 (10 marks). Compare the waterfall, prototyping, spiral, RAD and agile approaches to system development, and recommend one for a college result-management system whose rules change every semester.**
+
+*Introduction.* No single life-cycle model suits every project. The choice depends on how clear the requirements are, how risky the project is, and how involved the users can be.
+
+*The models.*
+
+1. **Waterfall.** Phases run strictly in sequence with documents as contracts. It is simple and easy to manage, but users see the product only at the end and change is costly.
+2. **Prototyping.** A quick working model is shown to users and refined. It is excellent when requirements are unclear, but can drift into endless iteration.
+3. **Spiral.** Repeated cycles of planning, risk analysis, building and evaluation. It suits large, risky systems but needs risk expertise and is expensive.
+4. **Incremental.** Working slices are delivered one after another, giving early value.
+5. **RAD.** Timeboxed builds of 60 to 90 days with heavy user involvement, reuse and CASE tools. It suits well-bounded systems.
+6. **Agile.** One- to four-week iterations deliver working software, with continuous customer collaboration and welcome for change (Plate 1.1).
+
+| Model | Requirements | User involvement | Risk handling | Best for |
+|---|---|---|---|---|
+| Waterfall | fixed, clear | low until end | weak | stable, well-known systems |
+| Prototyping | unclear | high | moderate | new interfaces |
+| Spiral | evolving | medium | strong | large, risky systems |
+| RAD | bounded | very high | moderate | small, fast systems |
+| Agile | changing | continuous | strong, by short cycles | volatile needs |
+
+*Recommendation.* A result-management system whose rules change every semester has changing requirements and strong user involvement (examination staff). **Agile with short iterations** is the best fit: build the core mark entry and result calculation first, show it to staff after two weeks, and adjust the rules in the next iteration. A short initial feasibility study is still needed, because even agile projects must justify cost.
+
+*Conclusion.* Waterfall suits fixed requirements; prototyping, RAD and agile suit uncertainty; spiral suits risk. Matching the model to the project is part of good analysis.
