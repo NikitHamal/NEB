@@ -95,6 +95,33 @@ K-maps give **J₁ = Q₀, K₁ = 1, J₀ = Q₁', K₀ = 1.** Check from 01: J�
 
 **Applications.** *Frequency division and timing*: a **digital clock** uses a 32,768 Hz quartz crystal divided by a chain of 15 flip-flops (2¹⁵ = 32,768) to get exactly 1 Hz; the seconds then feed a MOD-10 and MOD-6 counter (00–59), then another MOD-10/MOD-6 pair for minutes, then a MOD-12 or MOD-24 counter for hours, each stage driving a BCD-to-seven-segment decoder. A **frequency counter** opens an AND gate for exactly one second and counts the input pulses that pass through; the count in that second is the frequency in Hz. Counters are also used as address generators, event counters and in timers.
 
+```svgfig label="4.1" caption="A 3-bit asynchronous (ripple) up counter of three T flip-flops (T = 1). Each stage toggles when the previous output falls, so Q0 runs at f/2, Q1 at f/4 and Q2 at f/8; Q2 Q1 Q0 counts 000 to 111."
+f = Fig(760, 340)
+for i in range(3):
+    x = 120 + i * 150
+    f.box(x, 14, 90, 50, f"T-FF  Q{i}", fill=SOFT, stroke=NAVY, size=11, bold=True)
+    f.arrow([(x - 30, 39), (x, 39)], color=SLATE)
+    if i < 2: f.arrow([(x + 90, 24), (x + 120, 24), (x + 120, 39), (x + 150 - 30 + 30 - 30, 39)], color=SLATE)
+f.text(60, 43, "CLK in", size=10.5, color=NAVY, bold=True)
+def wave(y, init, toggles, label, col):
+    f.text(48, y + 16, label, size=11, color=col, bold=True, anchor="end")
+    lvl = init; x = 60
+    for t in toggles + [700]:
+        yy = y if lvl else y + 22
+        f.line(x, yy, t, yy, color=col, sw=2.2)
+        if t != 700:
+            f.line(t, y, t, y + 22, color=col, sw=2.2); lvl ^= 1
+        x = t
+wave(100, 1, [100 + 40 * j for j in range(15)], "CLK", NAVY)
+wave(146, 0, [100 + 80 * k for k in range(8)], "Q0", TEAL)
+wave(192, 0, [100 + 80 * k for k in (1, 3, 5, 7)], "Q1", RED)
+wave(238, 0, [100 + 80 * k for k in (3, 7)], "Q2", AMBER)
+for c in range(8):
+    f.text(80 if c == 0 else 60 + 80 * c, 292, format(c, "03b"), size=10.5, color=NAVY, bold=True)
+f.text(48, 296, "count", size=10.5, color=NAVY, bold=True, anchor="end")
+f.text(380, 326, "outputs change on the falling edge of the previous stage (ripple delay ignored here)", size=9.5, color=SLATE)
+```
+
 ## 4.3 Registers
 
 A **register** is a group of flip-flops holding a binary word, all sharing one clock; an n-bit register stores n bits. A **shift register** also moves the bits one position on each clock pulse. Four modes:
@@ -109,6 +136,38 @@ A **register** is a group of flip-flops holding a binary word, all sharing one c
 Built from D flip-flops with each Q wired to the next D. Loading 1011 serially (first bit 1 entered first): after four clocks the register holds Q₃Q₂Q₁Q₀ = 1011 with the *first* bit at the far end. **Right shift** moves bits towards the LSB end (divides an unsigned number by 2); **left shift** doubles it. A **universal shift register** (74194) has a mode control to do hold, shift left, shift right and parallel load, and is built with a 4-to-1 MUX in front of every flip-flop.
 
 Registers are used for temporary storage in the CPU, serial communication (UART), delay lines, sequence generation (ring and Johnson counters are shift registers with feedback), and arithmetic (shift-and-add multiplication).
+
+```svgfig label="4.2" caption="A 4-bit serial-in serial-out shift register of D flip-flops. At every clock edge each bit moves one place to the right. The table shows the contents after each clock when the data 1, 0, 1, 1 is shifted in (first bit first)."
+f = Fig(760, 250)
+f.text(40, 50, "Serial in", size=10.5, color=NAVY, bold=True)
+for i in range(4):
+    x = 120 + i * 120
+    f.box(x, 24, 70, 54, f"D-FF\nQ{i}", fill=SOFT, stroke=NAVY, size=11, bold=True)
+    f.arrow([(x - 40 if i else x - 36, 51), (x, 51)], color=SLATE)
+    f.line(x + 35, 78, x + 35, 96, color=SLATE)
+f.arrow([(120 + 3 * 120 + 70, 51), (740, 51)], color=TEAL, label="Serial out", lpos=(716, 40))
+f.line(110, 96, 560, 96, color=AMBER, sw=1.6); f.text(335, 112, "common clock", size=10, color=AMBER, bold=True)
+rows = [("start", "0 0 0 0"), ("clock 1", "1 0 0 0"), ("clock 2", "0 1 0 0"), ("clock 3", "1 0 1 0"), ("clock 4", "1 1 0 1")]
+f.text(210, 134, "Q0 Q1 Q2 Q3", size=10.5, color=NAVY, bold=True, anchor="start")
+for i, (a, b) in enumerate(rows):
+    y = 152 + i * 18
+    f.text(120, y, a, size=10.5, color=SLATE, anchor="start"); f.text(210, y, b, size=10.5, color=TEAL if i else SLATE, bold=True, anchor="start")
+f.box(420, 130, 310, 94, "", fill=SOFT, stroke="#cbd5e1")
+f.text(575, 154, "Four clocks load four bits (serial to parallel).", size=10.5, color=NAVY, bold=True)
+f.text(575, 176, "Four more clocks move them out", size=10.5, color=SLATE); f.text(575, 194, "(parallel to serial).", size=10.5, color=SLATE)
+f.text(575, 214, "Delay = n clock periods for n bits.", size=10.5, color=SLATE)
+```
+
+## 4.4 Applications of flip-flops, counters and registers: eight uses
+
+1. **Memory cells.** A flip-flop stores one bit as long as power is on. Registers inside a CPU and the cache memory are arrays of such cells. A 32-bit register is simply 32 flip-flops sharing one clock.
+2. **Frequency division.** A T flip-flop halves the clock frequency, so n stages divide by 2ⁿ. A 32.768 kHz watch crystal passes through 15 stages to give exactly 1 Hz. The same idea gives slower clocks inside microcontrollers.
+3. **Digital clocks and timers.** Counters count seconds, minutes and hours, and a decoder drives the display. The token board at a bank counter and the timer on a microwave oven are examples. A MOD-60 counter resets after 59.
+4. **Event and frequency counters.** A counter can count pulses from a sensor in a fixed time. A factory in Hetauda counting bottles on a belt, or a meter measuring the speed of a motor, works in this way. The count is the reading.
+5. **Serial-to-parallel conversion.** A shift register collects bits one by one from a wire and then offers them all together. USB, UART and Ethernet ports do this at high speed. Parallel-to-serial conversion works in the opposite direction.
+6. **Delay lines and pipelines.** A shift register delays a signal by a known number of clock periods. Pipelined CPUs put registers between stages to hold each instruction while the next one starts. This raises the speed of the whole processor.
+7. **Ring and Johnson counters for control.** A ring counter keeps one flip-flop at 1 and moves it around. It gives timing pulses that switch traffic lights or step a stepper motor in sequence. Johnson counters give 2n states from n flip-flops.
+8. **Synchronisation and debouncing.** A D flip-flop samples an input at the clock edge, which turns a noisy or asynchronous signal into a clean one. Keyboard keys and push buttons need this because their contacts bounce. It also protects the CPU from signals that arrive at random times.
 
 ## Formula and fact sheet
 
@@ -152,3 +211,44 @@ Registers are used for temporary storage in the CPU, serial communication (UART)
 **9.** At 1 kHz one clock period is 1 ms. One pulse loads the word and then four periods shift the four bits out, so the word is transmitted in 4 ms after a 1 ms load (5 ms in all).
 **10.** A single binary counter for 60 states needs 6 flip-flops (2⁶ = 64 ≥ 60). The practical BCD build is a MOD-10 counter (4 flip-flops) cascaded with a MOD-6 counter (3 flip-flops), 7 in total: the MOD-10 carries into the MOD-6 every ten pulses, and both give BCD outputs for a two-digit display counting 00–59.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Explain the JK flip-flop with its truth table and characteristic equation. How does it avoid the invalid state of the SR flip-flop? What is the race-around condition?**
+
+A **JK flip-flop** is a clocked bistable circuit with two inputs J (set) and K (reset) and outputs Q and Q'. It is the most flexible flip-flop because every input combination has a defined result.
+
+| J | K | Q⁺ (next state) | Action |
+|---|---|---|---|
+| 0 | 0 | Q | hold |
+| 0 | 1 | 0 | reset |
+| 1 | 0 | 1 | set |
+| 1 | 1 | Q' | toggle |
+
+Characteristic equation: **Q⁺ = JQ' + K'Q**. In an SR flip-flop the input S = R = 1 is forbidden, because both outputs would try to go to 0 and the final state is unpredictable. In the JK flip-flop the outputs are fed back to the input gates so that the combination J = K = 1 simply **toggles** the output. The invalid state is therefore turned into a useful function.
+
+**Race-around.** In a *level-triggered* JK flip-flop with J = K = 1, the output toggles and, since the clock is still high, the new output feeds back and toggles it again, many times during one pulse; the final state is uncertain. It is cured by (1) using edge triggering, (2) a master–slave construction, or (3) making the clock pulse shorter than the propagation delay. With J = K = T the JK becomes a T flip-flop, and with K = J' it becomes a D flip-flop.
+
+**Q (10 marks). Describe the 3-bit asynchronous (ripple) counter with its timing diagram. Compare asynchronous and synchronous counters.**
+
+*Introduction.* A **counter** is a sequential circuit built from flip-flops that goes through a fixed sequence of states when clock pulses arrive. A counter with n flip-flops has at most 2ⁿ states; the number of states it uses is its **modulus** (MOD). A 3-bit binary counter is MOD-8.
+
+*Construction.* Use three T flip-flops (JK with J = K = 1), as in Figure 4.1. The external clock drives only the first stage. The output Q0 of the first stage is the clock of the second, and Q1 is the clock of the third. Each flip-flop toggles on the **falling edge** of its own clock input.
+
+*Operation.* Starting from 000: the first falling edge of CLK makes Q0 = 1 (001). The second makes Q0 = 0, and that falling edge toggles Q1, giving 010. The third gives 011, and the fourth takes Q0 and Q1 to 0 and toggles Q2, giving 100. The count continues to 111 and then returns to 000 on the eighth edge. Frequencies: Q0 = f/2, Q1 = f/4 and Q2 = f/8, so a counter is also a divider.
+
+*Ripple delay and its limit.* Each stage waits for the previous one, so the delay of an n-bit ripple counter is n × t_pd. For a 3-stage counter with t_pd = 10 ns the final output settles after 30 ns, and the maximum clock is limited to about 1 / (n × t_pd). During the ripple the outputs pass through false states (for example 011 → 010 → 000 → 100), which may cause glitches in a decoder.
+
+*Other counters.* **Down counter**: use Q' to clock the next stage. **MOD-N counter**: detect state N with a NAND gate and use it to clear all flip-flops asynchronously; for MOD-6 detect 110 (Q2 Q1) and clear.
+
+| Point | Asynchronous (ripple) | Synchronous |
+|---|---|---|
+| Clock | only the first stage | all stages together |
+| Delay | n × t_pd | one t_pd |
+| Speed | slow | fast |
+| Hardware | simplest | extra AND gates |
+| False states | yes | no |
+| Design | trivial | uses excitation tables |
+| Use | frequency dividers | CPUs, high-speed counters |
+
+*Conclusion.* The ripple counter is simple, cheap and good as a frequency divider; when speed matters, a synchronous counter is used because all flip-flops change at the same instant.
