@@ -101,7 +101,7 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 12 | Chemistry | 2082 | Technical 9111 (reg. 79, 80, 81; regular + partial) | DONE (14 pp; session 13; source `chemT82`, 4 exam page images; text paper; 2 drawn figures (standard hydrogen electrode, zinc extraction flow chart), blast furnace reused from Chemistry 2081 Technical; assumptions: MCQ 3 key C because option B is printed as neutral H2PO4, MCQ 10 key B propene (ozonolysis gives ethanal + methanal), Q22(b) item 'i' printed twice, second is item (ii); Chemistry bundle now 5 papers) |
 | 12 | Physics | 2082 | Technical 9131 | queued (page `2026/03/Physics-Technical-Stream-Question-Paper-2082-2025-of-Class-12-NEB`) |
 | 12 | Chemistry | 2080 | Technical 9111 | queued (linked from the 2082 Chemistry Technical page) |
-| 12 | Mathematics | 2082 | Technical 9121 | queued (source page `2026/03/Mathematics-Technical-Stream-Question-Paper-2082-2025-of-Class-12-`, cached as `mathT82`) |
+| 12 | Mathematics | 2082 | Technical 9121 (plant and animal science; reg. 79, 80, 81; regular + partial) | DONE (10 pp; session 13; source `mathT82`, 3 exam page images; no printed figures; 1 drawn figure (area between y^2 = 8x and y = x), matrix inverse drawn with `mateq`; stated openly in the solutions: Q17(a) needs the events to be exhaustive (sum of probabilities 1), Q21(c) gives r = 1.94 > 1 so the coefficient cannot be calculated, MCQ 4 takes theta acute; Mathematics bundle now 6 papers) |
 | 12 | Mathematics | 2080 | Technical 9121 | queued |
 | 12 | Management / Humanities / Education / Law | 2082-2080 | all | queued |
 | 11 | all science subjects | | | queued |
@@ -233,5 +233,5 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - The session 12 claim that dhanraj has no Chemistry / Mathematics Technical 2082 post was wrong: the blogger feed search (`/feeds/posts/default?q=Chemistry%20Technical&alt=json`) finds `2026/03/Chemistry-Technical-Stream-Question-Paper-2082-2025-of-Class-12-NEB`, `2026/03/Mathematics-Technical-Stream-Question-Paper-2082-2025-of-Class-12-` and `2026/03/Physics-Technical-...`. Use the feed query, not only the cached index.
 - New helper `tools/add_paper.py <id>`: builds one paper, adds it to manifest.json, refreshes only that subject's bundle and restores the other bundle PDFs. Use it instead of `build_paper.py --all` + `bundle_papers.py`.
 - mathtext has no `\xrightarrow` and no `\tfrac`: use `\longrightarrow` and `\frac`, put the conditions in the sentence.
-- Built Chemistry 2082 Technical 9111. Next: Mathematics Technical 2082 (`mathT82` already fetched), Physics Technical 2082, Chemistry Technical 2080, then Mathematics 2082 / 2080 other sets, then Grade 11.
+- Built Chemistry 2082 Technical 9111. Next: Physics Technical 2082, Chemistry Technical 2080, then Mathematics 2082 / 2080 other sets, then Grade 11.
 - Grade 12 Management / Humanities / Education / Law: the repo has no note book for them (`notes/content` has only phy, chem, bio, math, cs, eng, nep for grade 12 plus qbank12), so they are outside the 'every class in the note pipeline' scope unless the owner wants them added.
