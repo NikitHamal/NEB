@@ -384,4 +384,6 @@ Section naming: new "N.K Seeing the ideas" before the first of "Formula and fact
 - [x] U2 Stack: Plate 2.1 (plates photo + array stack SVG), Fig 2.1 postfix evaluation of 8 2 + 3 * 6 2 / - = 27, 2.2 bracket matching; 2.7.1 eight applications; Q1, Q2 (A+B*(C-D)/E = 14), Q3.
 - [x] U3 Queue: Plate 3.1 (ticket queue + circular queue SVG), Fig 3.1 false overflow, 3.2 priority queue and deque; 3.5.1 eight applications; Q1-Q3.
 - [x] U4 List: Plate 4.1 (bca202/catalog + insert-shift SVG), Fig 4.1 shifts by position (n=6, average 3), 4.2 static vs dynamic; 4.5.1 eight applications; Q1-Q3.
-- [ ] U5 Linked lists (photos chain, janakpur), U6 Recursion (hanoi, nautilus), U7 Trees (adelson), U8 Sorting (hoare, sorter), U9 Searching/hashing (mail), U10 Graphs (konigsberg, dijkstra, ringroad), U11 Algorithms (euclid reuse).
+- [x] U5 Linked lists: Plate 5.1 (chain coupling, Nepal Railway coach, node SVG; 3-up), Fig 5.1 insertion with numbered pointer steps, 5.2 delete + doubly + circular; 5.6.1 eight advantages; Q1-Q3.
+- [x] U6 Recursion: Plate 6.1 (Hanoi toy + nautilus), Fig 6.1 factorial(4) call stack, 6.2 fib(5) call tree (15 calls), 6.3 Hanoi n=3 moves and 2^n-1 table (64 discs = 18,446,744,073,709,551,615 moves, about 585 billion years); 6.6.1 eight applications; Q1-Q3.
+- [ ] U7 Trees (adelson), U8 Sorting (hoare, sorter), U9 Searching/hashing (mail), U10 Graphs (konigsberg, dijkstra, ringroad), U11 Algorithms (euclid reuse).
