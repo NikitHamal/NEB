@@ -145,6 +145,17 @@ Had ZERO figures before. Photos are reuses of already-licensed assets (no new do
 - U5: Fig 5.1 V-model testing, 5.2 installation strategies timeline, 5.3 maintenance 2x2, Plate 5.1 (rack + data-centre photos); 5.4 eight reasons; Q1 test levels, Q2 installation + maintenance types.
 - Not done: old short Practice answers kept; no checks script exists for this book (numbers verified ad hoc).
 
+## BCA 205 probability-and-statistics (semester-3/probability-and-statistics) -- [x] POLISHED (session 20), 57 pp (was 35), qa fails=0 warns=1 (p3 near-empty, pre-existing)
+- Photos (bca205/, licence-gated, all viewed): hollerith (CHM replica, CC0), pearson (public domain), galton (Galton board, CC BY-SA), gosset (1908 portrait, PD), guinness (Gosset plaque, CC BY-SA). Fisher snapshot rejected (family photo, no value).
+- U1: Fig 1.1 data-type tree, Plate 1.1 (Hollerith photo + 5-step study pipeline SVG); 8 reasons (1.6); 2 medium + 1 long.
+- U2: Fig 2.1 grouped histogram with mean/median/mode, Fig 2.2 skewness trio, Fig 2.3 box plot; 8 uses (2.4); 2 medium (grouped averages, CV compare) + 1 long (six dispersion measures, computed).
+- U3: Fig 3.1 three scatter plots (r = +0.98, -0.19, -0.96), Plate 3.1 (Pearson portrait + least-squares residual SVG), Fig 3.2 two regression lines; 8 uses (3.4); 2 medium (r + regression; Spearman) + 1 long.
+- U4: Fig 4.1 Bayes natural-frequency tree, Plate 4.1 (Galton board photo + 68-95-99.7 SVG), Fig 4.2 binomial and Poisson bars, Fig 4.3 normal areas; 8 uses (4.6); 2 medium (Bayes, normal) + 1 long (binomial vs Poisson, approximation compared).
+- U5: Fig 5.1 survey life cycle with error entry points, Fig 5.2 sample size vs margin, Fig 5.3 bias-vs-scatter targets (no photo: no suitable free Nepal survey photo found); 8 rules (5.6); 2 medium + 1 long.
+- U6: Fig 6.1 four sampling designs on a 10x10 grid, Plate 6.1 (Gosset portrait + Guinness plaque + t vs z SVG, 3-up), Fig 6.2 CLT, Fig 6.3 chi-square tail; 8 designs/tools (6.10); 2 medium (SRSWOR, Neyman) + 1 long (t-test with CI, z compared).
+- U7: Fig 7.1 variation split (strip plot + stacked SS bar), Fig 7.2 F(2,12) tail, Fig 7.3 randomised block layout, Fig 7.4 two-way SS partition (no photo: abstract topic); 8 uses (7.7); 2 medium + 1 long (two-way ANOVA).
+- All new numbers recomputed with numpy/scipy before writing; `check_stats.py --assert` still passes. No fill_script_outputs run needed (no code blocks).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -160,5 +171,6 @@ Had ZERO figures before. Photos are reuses of already-licensed assets (no new do
 - [x] BCA 151 Discrete Structure units 5-6 (session 19)
 - [x] BCA 153 OOP in Java (session 19, 66 pp)
 - [x] BCA 153 OOP in Java and System Analysis and Design polished (session 19)
-- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Probability and Statistics (30 pp, semester-3), Applied Economics (34), Technical Writing (36), Financial Accounting (37), Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] Probability and Statistics polished (session 20, 35 -> 57 pp)
+- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Applied Economics (34), Technical Writing (36), Financial Accounting (37), Cloud Computing (37), Hardware Workshop photos ok, Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time

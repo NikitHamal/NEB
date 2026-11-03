@@ -102,6 +102,88 @@ Preference for a language by gender: 30 men and 20 women choose Java, and 20 men
 Goodness of fit: a die rolled 60 times gives counts 8, 12, 9, 11, 10, 10; expected 10 each; χ² = (4 + 4 + 1 + 1 + 0 + 0)/10 = **1.0** < 11.07 (df 5): consistent with a fair die.
 :::
 
+## 6.9 Pictures of sampling designs and sampling distributions
+
+```svgfig label="6.1" caption="Four ways to draw 20 units from a population of 100 shown as a 10 × 10 grid (red = selected). (a) Simple random: any 20 positions, no pattern. (b) Stratified: the grid is split into three strata (rows 1-3, 4-7, 8-10) and a random share is drawn from each, here in proportion 6, 8, 6. (c) Systematic: every 5th unit after a random start of 3. (d) Cluster: four whole columns (clusters) are chosen and every unit in them is surveyed."
+f = Fig(580, 225)
+srs = {(1, 2), (4, 0), (7, 1), (2, 5), (9, 4), (5, 3), (0, 8), (3, 9), (6, 7), (8, 6), (1, 6), (4, 4), (7, 9), (9, 0), (2, 1), (5, 8), (8, 3), (0, 4), (6, 2), (3, 6)}
+strat = {(r, c) for r, c in [(0, 1), (0, 6), (1, 3), (1, 8), (2, 0), (2, 5), (3, 2), (3, 7), (4, 4), (4, 9), (5, 1), (5, 6), (6, 3), (6, 8), (7, 5), (8, 0), (8, 4), (8, 7), (9, 2), (9, 9)]}
+syst = {((i - 1) // 10, (i - 1) % 10) for i in range(3, 101, 5)}
+clus = {(r, c) for c in (1, 4, 6, 8) for r in range(10)}
+cs = 12.5
+for k, (t, sel, strata) in enumerate([("(a) simple random", srs, False), ("(b) stratified", strat, True), ("(c) systematic", syst, False), ("(d) cluster", clus, False)]):
+    x0 = 14 + k * 144
+    for r in range(10):
+        for c in range(10):
+            on = (r, c) in sel
+            f.circle(x0 + c * cs + 6, 30 + r * cs + 6, 4.4 if on else 3.2, fill=RED if on else "#cbd5e1", stroke=RED if on else "#cbd5e1", sw=0.8)
+    if strata:
+        f.line(x0, 30 + 3 * cs, x0 + 10 * cs, 30 + 3 * cs, color=NAVY, sw=1.6, dash=True); f.line(x0, 30 + 7 * cs, x0 + 10 * cs, 30 + 7 * cs, color=NAVY, sw=1.6, dash=True)
+    f.text(x0 + 63, 16, t, size=11, color=NAVY, bold=True)
+f.text(290, 196, "Stratified and cluster designs use the structure of the population; simple random and systematic ignore it.", size=10.5, color=SLATE, italic=True)
+f.text(290, 212, "Stratify when groups are internally alike; cluster when groups are internally mixed and travel is costly.", size=10.5, color=SLATE, italic=True)
+```
+
+```photogrid label="6.1" cols="3" ratio="1.0" caption="Student's t. (a) William Sealy Gosset (1876-1937), brewer and statistician, working at the Guinness brewery in Dublin where he needed to judge barley and beer from very small samples. (b) The plaque in the Guinness Storehouse recognises the 't test' he published in 1908 under the pen name Student. (c) With few degrees of freedom the t curve has heavier tails than the normal curve, so its critical values are larger."
+@ photo id="bca205/gosset" cap="W. S. Gosset, 1908"
+fit 1.0
+focus 0.5 0.3
+@ photo id="bca205/guinness" cap="Gosset plaque, Guinness Storehouse, Dublin"
+fit 1.0
+focus 0.5 0.4
+@ svg cap="t (df = 3, red) versus normal (blue)"
+import math
+f = Fig(300, 300)
+ax = Axes(f, 14, 40, 272, 190, (-4, 4), (0, 0.45))
+N = lambda z: math.exp(-z * z / 2) / math.sqrt(2 * math.pi)
+T = lambda x, v=3: math.gamma((v + 1) / 2) / (math.sqrt(v * math.pi) * math.gamma(v / 2)) * (1 + x * x / v) ** (-(v + 1) / 2)
+ax.curve(N, -4, 4, color=NAVY, sw=2.4); ax.curve(T, -4, 4, color=RED, sw=2.4)
+f.line(ax.X(-4), ax.Y(0), ax.X(4), ax.Y(0), color=SLATE, sw=1.2)
+for z in (-2, 0, 2): f.text(ax.X(z), ax.Y(0) + 15, str(z), size=12.5, color=SLATE)
+f.text(150, 22, "t has fatter tails", size=13, color=RED, bold=True)
+f.text(150, 262, "two-tail 5%: z = 1.96, t₃ = 3.18", size=12.5, color=SLATE, bold=True)
+```
+
+```svgfig label="6.2" caption="The central limit theorem in pictures. If individual values have spread σ (n = 1, wide curve), the mean of n values has spread σ/√n: it is already much narrower for n = 4 and very narrow for n = 25. Sampling distributions of the mean are approximately normal for large n whatever the shape of the population, and larger samples give more precise estimates."
+import math
+f = Fig(580, 200)
+ax = Axes(f, 60, 18, 460, 140, (-3, 3), (0, 2.2))
+for s, c, t in [(1.0, SLATE, "n = 1, SE = σ"), (0.5, TEAL, "n = 4, SE = σ/2"), (0.2, RED, "n = 25, SE = σ/5")]:
+    ax.curve(lambda x, s=s: math.exp(-x * x / (2 * s * s)) / (s * math.sqrt(2 * math.pi)), -3, 3, color=c, sw=2.4)
+f.line(ax.X(-3), ax.Y(0), ax.X(3), ax.Y(0), color=SLATE, sw=1.2)
+f.text(ax.X(0), ax.Y(0) + 14, "μ", size=11.5, color=SLATE, bold=True)
+for x, y, t, c in [(ax.X(1.45), ax.Y(0.2), "n = 1, SE = σ", SLATE), (ax.X(1.1), ax.Y(0.6), "n = 4, SE = σ/2", TEAL), (ax.X(0.6), ax.Y(1.7), "n = 25, SE = σ/5", RED)]:
+    f.text(x, y, t, size=11, color=c, bold=True, anchor="start")
+f.text(290, 192, "Precision grows with √n: to halve the standard error you need four times the sample.", size=10.5, color=SLATE, italic=True)
+```
+
+```svgfig label="6.3" caption="The chi-square test as a picture. For 3 degrees of freedom the curve is skewed right; the 5% critical value is 7.815. If the computed χ² = Σ(O − E)²/E falls in the shaded tail the observed counts are too far from the expected ones and the hypothesis is rejected. The goodness-of-fit value 1.0 (die, 5 df, critical 11.07) is nowhere near its tail."
+import math
+f = Fig(580, 200)
+C = lambda x, k=3: x ** (k / 2 - 1) * math.exp(-x / 2) / (2 ** (k / 2) * math.gamma(k / 2))
+ax = Axes(f, 60, 18, 460, 140, (0, 14), (0, 0.3))
+ax.grid(2, 0.1, labels=False); ax.axes("χ²", "")
+ax.area(C, 7.815, 14, fill="#fbbf24", opacity=0.85)
+ax.curve(C, 0.05, 14, color=NAVY, sw=2.6)
+for v in range(0, 15, 2): f.text(ax.X(v), ax.Y(0) + 14, str(v), size=10.5, color=SLATE)
+ax.vline(7.815, 0, 0.17, color=RED, dash=False, sw=1.8)
+f.text(ax.X(7.815) + 5, ax.Y(0.17) + 4, "critical 7.815", size=11, color=RED, bold=True, anchor="start")
+f.text(ax.X(11.2), ax.Y(0.05), "reject H₀ (area 5%)", size=11, color=AMBER, bold=True)
+f.text(ax.X(2.5), ax.Y(0.25), "do not reject", size=11, color=TEAL, bold=True)
+f.text(290, 192, "Fixed rule: χ² > critical value means reject; otherwise the data are consistent with the hypothesis.", size=10.5, color=SLATE, italic=True)
+```
+
+## 6.10 Eight sampling designs and tools, and what each is used for
+
+1. **Simple random sampling.** Every unit has the same chance, like drawing lots, so the estimate is unbiased and easy to analyse. It suits a small, well-listed population such as 200 students of one batch. It is the baseline against which other designs are compared.
+2. **Stratified sampling.** The population is split into alike groups (strata) such as Terai, hill and mountain, and each is sampled separately. This guarantees that every group is represented and often gives a smaller variance than simple random sampling. A national household survey in Nepal is naturally stratified by ecological region.
+3. **Systematic sampling.** Pick a random start and then every k-th unit, such as every 20th voter on a list. It is quick, spreads the sample evenly and needs no random-number table. It fails if the list repeats with the same period as k, for example a weekly pattern with k = 7.
+4. **Cluster and multistage sampling.** Whole villages, wards or schools are chosen at random and then units inside them are surveyed. It cuts travel cost enormously when no list of individuals exists. The price is a larger error, because people in one ward resemble each other.
+5. **PPS sampling.** Big clusters are given a bigger chance of selection, in proportion to size. A village with 600 households is then six times more likely to be drawn than one with 100. The estimator divides each total by its selection probability to stay unbiased.
+6. **Ratio and regression estimation.** When an easy-to-know variable such as farm area is correlated with the target, say production, it sharpens the estimate. The ratio estimator uses the known population total of the helper variable. It gave 31.25 instead of 30 in the worked example of Section 6.7.
+7. **The z and t distributions.** They give confidence intervals and tests for a mean. Use z when σ is known or n is large, and t when σ is unknown and n is small, as Gosset showed. A software tester comparing the load times of 12 pages uses t.
+8. **The chi-square test.** It compares observed counts with expected counts. A college can test whether language preference differs by gender, or whether a die or random-number generator is fair. The decision rule is the shaded tail of Figure 6.3.
+
 ## Formula and fact sheet
 
 - SRSWOR: Var(ȳ) = (1 − f)s²/n; total Ŷ = Nȳ, Var = N²(1 − f)s²/n. SRSWR: s²/n.
@@ -136,3 +218,63 @@ Goodness of fit: a die rolled 60 times gives counts 8, 12, 9, 11, 10, 10; expect
 **7.** Row totals 50, 50; column totals 60, 40; expected: 30, 20 / 30, 20. χ² = (10²/30 + 10²/20) × 2 = (3.333 + 5) × 2 = **16.67** > 3.841 → **reject independence**.
 **8.** When σ is unknown and the sample is small (n < 30), the data being roughly normal.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). A population has N = 800 students. A simple random sample without replacement of n = 40 gives mean marks ȳ = 65 and s = 10. Estimate the variance and standard error of the mean, a 95% confidence interval, and the population total with its standard error.**
+
+*Introduction.* Under SRSWOR the sample mean is an unbiased estimate of the population mean and its variance includes the finite population correction (1 − f), where f = n/N.
+
+*Sampling fraction.* f = 40/800 = 0.05, so 1 − f = 0.95.
+
+*Variance and SE.* Est. Var(ȳ) = (1 − f)s²/n = 0.95 × 100/40 = **2.375**, so SE(ȳ) = √2.375 = **1.541**.
+
+*Confidence interval.* ȳ ± 1.96 SE = 65 ± 1.96 × 1.541 = 65 ± 3.02, that is **(61.98, 68.02)**.
+
+*Total.* Ŷ = Nȳ = 800 × 65 = **52,000**. SE(Ŷ) = N × SE(ȳ) = 800 × 1.541 = **1,232.9**.
+
+*Interpretation and conclusion.* We are 95% confident the true mean mark lies between about 62 and 68. Without the correction the SE would be 1.581, a little too large, so ignoring (1 − f) overstates the uncertainty. The estimates are valid only if the 40 students were truly chosen at random from a complete list (Figure 6.1a).
+
+**Q2 (5 marks). A population has two strata: N₁ = 600 with s₁ = 4 and N₂ = 400 with s₂ = 12. Allocate a sample of n = 50 by (a) proportional and (b) Neyman allocation, and compare the variances.**
+
+*Introduction.* Stratified sampling draws a separate random sample from each stratum. The allocation decides how many units come from each.
+
+*(a) Proportional allocation* n_h = nN_h/N. n₁ = 50 × 600/1000 = **30** and n₂ = 50 × 400/1000 = **20**.
+
+*(b) Neyman (optimum) allocation* n_h ∝ N_hS_h. N₁S₁ = 2,400 and N₂S₂ = 4,800, total 7,200. n₁ = 50 × 2400/7200 = 16.7 ≈ **17**; n₂ = 50 × 4800/7200 = 33.3 ≈ **33**.
+
+*Variance of the stratified mean* Var = Σ W_h²(1 − f_h)s_h²/n_h with W₁ = 0.6 and W₂ = 0.4.
+
+| Allocation | n₁, n₂ | Var(ȳ_st) | SE |
+|---|---|---|---|
+| Proportional | 30, 20 | 1.2768 | 1.130 |
+| Neyman | 17, 33 | 0.9698 | 0.985 |
+
+*Conclusion.* Neyman allocation gives a **24% smaller variance** because it samples more heavily from the highly variable stratum 2. It is the best design when the strata differ strongly in variability; proportional allocation is simpler and nearly as good when they do not.
+
+**Q3 (10 marks). Explain the z, t and chi-square distributions with their uses. A sample of 9 response times has mean 52 ms and s = 6 ms. Test H₀: μ = 48 ms against H₁: μ ≠ 48 ms at the 5% level and give a 95% confidence interval. Compare with a z-test.**
+
+*Introduction.* The **sampling distribution** of a statistic is its distribution over all possible samples. By the **central limit theorem** the sample mean is approximately normal with standard error σ/√n for large n (Figure 6.2). Three families are used for inference.
+
+*The three distributions (Table).*
+
+| Distribution | Use | Statistic | Shape |
+|---|---|---|---|
+| z (standard normal) | mean with known σ or n ≥ 30; proportions | z = (x̄ − μ)/(σ/√n) | symmetric bell |
+| Student's t | mean, σ unknown, small n; df = n − 1 | t = (x̄ − μ)/(s/√n) | symmetric, heavier tails |
+| χ² | goodness of fit, independence, variance | χ² = Σ(O − E)²/E | skewed right, df-dependent |
+
+*Key points.* The t curve approaches the normal as df grows (Plate 6.1); χ² is never negative and its decision tail is on the right (Figure 6.3).
+
+*Hypothesis test (t-test).*
+
+1. **Hypotheses:** H₀: μ = 48; H₁: μ ≠ 48 (two-tailed).
+2. **Statistic:** SE = 6/√9 = 2. t = (52 − 48)/2 = **2.0**, with df = 8.
+3. **Critical value:** t₀.₀₂₅ with 8 df = **2.306**.
+4. **Decision:** |2.0| < 2.306, so we **do not reject H₀**. The two-tailed p-value is 0.0805, greater than 0.05.
+
+*Confidence interval.* 52 ± 2.306 × 2 = 52 ± 4.61, that is **(47.39, 56.61)**. The value 48 lies inside, which agrees with the test.
+
+*Comparison with z.* If σ were wrongly taken as 6 (known), z = 2.0 and the critical value is 1.96, so the same data would **reject** H₀ (p = 0.0455). The z-test is too eager with only 9 observations because it ignores the extra uncertainty of estimating σ; that is exactly why Gosset invented the t distribution.
+
+*Conclusion.* With a small sample and unknown σ, use t. Here the evidence (52 ms against 48 ms) is suggestive but not statistically significant at the 5% level; a larger sample would be needed to settle it.

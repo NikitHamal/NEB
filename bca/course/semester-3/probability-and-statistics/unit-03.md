@@ -50,6 +50,67 @@ The residual at x = 2: ŷ = 3.4, actual 4, error 0.6. The residuals sum to zero.
 
 **Dependent and independent variables:** choose which to predict *before* fitting; the y-on-x line minimises vertical errors, and is wrong for predicting x from y. **Assumptions:** linear relationship, errors independent with roughly constant variance, no influential outliers. **Using software:** Excel `=CORREL(x,y)`, `=SLOPE(y,x)`, `=INTERCEPT(y,x)`; SPSS *Analyze → Correlate / Regression*; Python `numpy.polyfit`.
 
+## 3.3 Seeing correlation and regression
+
+```svgfig label="3.1" caption="Three scatter diagrams of 12 points each. (a) The points hug a rising line: r = +0.98, very strong positive correlation. (b) A shapeless cloud: r = −0.19, practically no linear correlation. (c) The points hug a falling line: r = −0.96, very strong negative correlation. The sign of r gives the direction and its size gives the tightness."
+f = Fig(580, 205)
+X = [1.0, 1.7, 2.5, 3.2, 3.9, 4.6, 5.4, 6.1, 6.8, 7.5, 8.3, 9.0]
+sets = [("(a) r = +0.98", [1.0, 2.0, 2.3, 2.4, 3.5, 3.7, 5.5, 7.3, 6.4, 6.9, 8.7, 9.3], TEAL),
+        ("(b) r = −0.19", [1.3, 5.1, 4.7, 8.3, 6.0, 5.1, 5.0, 3.0, 1.1, 2.5, 6.5, 2.6], AMBER),
+        ("(c) r = −0.96", [9.1, 7.4, 7.5, 7.5, 4.8, 4.9, 2.7, 2.6, 1.4, 2.3, 0.5, 1.3], RED)]
+for k, (t, Y, c) in enumerate(sets):
+    ax = Axes(f, 14 + k * 192, 30, 168, 140, (0, 10), (0, 10))
+    ax.grid(2, 2, labels=False); ax.axes("x", "y")
+    for a, b in zip(X, Y):
+        ax.pt(a, b, "", r=3.8, color=c)
+    f.text(98 + k * 192, 16, t, size=11.5, color=NAVY, bold=True)
+f.text(290, 196, "Correlation describes association only: a high r never proves that x causes y.", size=10.5, color=SLATE, italic=True)
+```
+
+```photogrid label="3.1" cols="2" ratio="1.0" caption="Karl Pearson and the line of best fit. (a) Karl Pearson (1857-1936) defined the product-moment correlation coefficient used in this unit. (b) The least-squares line ŷ = 2.2 + 0.6x for the study-hours data; the dashed segments are the residuals, and the line is chosen so that the sum of their squares is as small as possible."
+@ photo id="bca205/pearson" cap="Karl Pearson, English statistician"
+fit 1.0
+focus 0.5 0.4
+@ svg cap="Least squares: residuals of the worked example"
+f = Fig(300, 300)
+ax = Axes(f, 42, 12, 245, 235, (0, 6.5), (0, 7))
+ax.grid(1, 1); ax.axes("hours", "marks")
+ax.curve(lambda x: 2.2 + 0.6 * x, 0.4, 6.2, color=NAVY, sw=2.6)
+for a, b in zip([1, 2, 3, 4, 5], [2, 4, 5, 4, 5]):
+    f.line(ax.X(a), ax.Y(b), ax.X(a), ax.Y(2.2 + 0.6 * a), color=RED, sw=1.6, dash=True)
+    ax.pt(a, b, "", r=4.2, color=RED)
+f.text(ax.X(3.6), ax.Y(1.0), "ŷ = 2.2 + 0.6x", size=13, color=NAVY, bold=True)
+f.text(ax.X(1.3), ax.Y(6.4), "r = 0.775", size=13, color=SLATE, bold=True)
+```
+
+```svgfig label="3.2" caption="Two regression lines for the same data. The line of y on x (navy, slope b_yx = 0.6) minimises vertical errors; the line of x on y (red, equivalent to y = x + 1, slope 1/b_xy = 1) minimises horizontal errors. They cross at the mean point (3, 4); the product of the two regression coefficients is 0.6 × 1.0 = 0.6 = r²."
+f = Fig(580, 215)
+ax = Axes(f, 50, 14, 300, 175, (0, 7), (0, 7))
+ax.grid(1, 1); ax.axes("x (hours)", "y (marks)")
+ax.curve(lambda x: 2.2 + 0.6 * x, 0, 7, color=NAVY, sw=2.4)
+ax.curve(lambda x: x + 1, 0, 6, color=RED, sw=2.4)
+for a, b in zip([1, 2, 3, 4, 5], [2, 4, 5, 4, 5]):
+    ax.pt(a, b, "", r=3.8, color=TEAL)
+ax.pt(3, 4, "(x̄, ȳ) = (3, 4)", r=5.5, color=AMBER, dx=10, dy=18)
+f.text(372, 40, "y on x:  ŷ = 2.2 + 0.6x", size=11.5, color=NAVY, bold=True, anchor="start")
+f.text(372, 62, "x on y:  x̂ = y − 1", size=11.5, color=RED, bold=True, anchor="start")
+f.text(372, 96, "b_yx × b_xy = r²", size=11.5, color=SLATE, anchor="start", bold=True)
+f.text(372, 116, "0.6 × 1.0 = 0.6", size=11.5, color=SLATE, anchor="start")
+f.text(372, 150, "r = 0 → lines perpendicular", size=10.5, color=SLATE, anchor="start", italic=True)
+f.text(372, 168, "|r| = 1 → one single line", size=10.5, color=SLATE, anchor="start", italic=True)
+```
+
+## 3.4 Eight uses of correlation and regression
+
+1. **Predicting a number from another.** A simple regression can estimate a student's final mark from internal marks. The line gives a quick, honest estimate with a known error. A college can then warn students who are likely to fail early.
+2. **Forecasting demand and sales.** Shops link sales to price, festival season or rainfall. Before Dashain, a Kathmandu electronics shop fits a line of past sales on advertising spend to plan stock. Better forecasts reduce both lost sales and unsold goods.
+3. **Machine learning baseline.** Linear regression is the first model every data scientist tries. It is fast, easy to explain and a yardstick for complex models. Slope and intercept show directly which factor matters.
+4. **Finding related features.** Correlation between columns of a data set shows duplicated information. If two sensors have r = 0.99, one can be dropped to save storage. Analysts also use r to pick features that relate to the target.
+5. **Performance modelling in computing.** Run time often grows with input size, and regression estimates by how much. A developer fits time against file size to predict when a script will become too slow. Server planners do the same with traffic and CPU load.
+6. **Economics and public policy.** Economists relate income to spending, and rainfall to paddy yield. Nepal Rastra Bank studies relationships such as remittance and consumption this way. Policy makers still remember that correlation alone does not prove cause.
+7. **Health and agriculture.** Doctors relate dose to response, and farmers relate fertiliser to yield. The slope tells how much extra yield one more kilogram of fertiliser gives. The r² value shows how much of the yield variation fertiliser explains.
+8. **Quality checks of other methods.** Calibration of a cheap instrument against an accurate one uses a regression line. An r close to 1 shows the cheap instrument is trustworthy. The residuals reveal where it fails.
+
 ## Formula and fact sheet
 
 - r = Sxy/√(Sxx·Syy); −1 ≤ r ≤ 1; r² = proportion explained.
@@ -78,3 +139,70 @@ The residual at x = 2: ŷ = 3.4, actual 4, error 0.6. The residuals sum to zero.
 **5.** That line minimises errors in y, not in x; the x-on-y line is the correct one for estimating x.
 **6.** Between −1 and 1; independent of origin and scale; unitless.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). A shop records advertising spend x (in thousand rupees) and weekly sales y (in tens of thousands): x = 2, 4, 6, 8, 10 and y = 5, 7, 10, 12, 16. Find Karl Pearson's coefficient of correlation and the regression line of y on x.**
+
+*Introduction.* Karl Pearson's r measures the strength and direction of a *linear* relationship between two quantitative variables. Regression then gives the line for prediction.
+
+*Working.* n = 5, Σx = 30, Σy = 50, Σxy = 354, Σx² = 220, Σy² = 574.
+
+*Correlation.* r = [nΣxy − ΣxΣy] / √{[nΣx² − (Σx)²][nΣy² − (Σy)²]} = (5 × 354 − 30 × 50) / √[(1100 − 900)(2870 − 2500)] = 270 / √(200 × 370) = 270/272.03 = **0.9925**. This is a very strong positive correlation.
+
+*Regression.* b = Sxy/Sxx = 270/200 = **1.35**. x̄ = 6, ȳ = 10, so a = 10 − 1.35 × 6 = **1.9**. The line is **ŷ = 1.9 + 1.35x**.
+
+*Interpretation.* Every extra thousand rupees of advertising goes with 1.35 tens of thousands of extra sales, and r² = 0.985 means 98.5% of the variation in sales is associated with advertising. *Conclusion.* Spend and sales move together very closely, but this data alone does not prove that advertising caused the sales.
+
+**Q2 (5 marks). Six students have marks in Mathematics: 86, 72, 65, 91, 58, 77 and in Statistics: 80, 70, 60, 88, 62, 75. Calculate Spearman's rank correlation coefficient and say when it is preferred to Pearson's r.**
+
+*Introduction.* **Spearman's rank correlation** r_s = 1 − 6Σd²/[n(n² − 1)] measures association between the *ranks* of two variables, where d is the difference of ranks.
+
+*Ranking (highest = 1).*
+
+| Maths | 86 | 72 | 65 | 91 | 58 | 77 |
+|---|---|---|---|---|---|---|
+| Rank R₁ | 2 | 4 | 5 | 1 | 6 | 3 |
+| Statistics | 80 | 70 | 60 | 88 | 62 | 75 |
+| Rank R₂ | 2 | 4 | 6 | 1 | 5 | 3 |
+| d = R₁ − R₂ | 0 | 0 | −1 | 0 | 1 | 0 |
+
+Σd² = 0 + 0 + 1 + 0 + 1 + 0 = 2, and n = 6. So r_s = 1 − (6 × 2)/(6 × 35) = 1 − 12/210 = **0.943**.
+
+*Interpretation.* The two rankings agree almost perfectly: students strong in Mathematics are strong in Statistics. *When preferred:* Spearman is used when data are only ordinal (ranks, grades), when the relation is monotonic but not a straight line, or when outliers would distort Pearson's r. *Conclusion.* r_s = 0.943 shows a very strong positive association.
+
+**Q3 (10 marks). Explain correlation and regression. The CPU load x (%) and response time y (ms) of a server were: x = 10, 20, 30, 40, 50, 60 and y = 12, 15, 21, 23, 30, 31. Find r, both regression lines, verify r² = b_yx × b_xy, and predict y at x = 45.**
+
+*Introduction.* **Correlation** measures how closely two variables move together; **regression** fits a line to predict one variable (y, dependent) from the other (x, independent). Figure 3.1 shows the patterns of r and Figure 3.2 the two regression lines.
+
+*Key ideas.*
+
+1. **Scatter diagram.** Plot the pairs first; a curve or an outlier makes r misleading.
+2. **Pearson's r** = Sxy/√(Sxx·Syy), with −1 ≤ r ≤ +1, unit-free and unchanged by a change of origin or scale.
+3. **Coefficient of determination** r² is the share of variation in y explained by x.
+4. **Least squares** chooses ŷ = a + bx to minimise Σ(y − ŷ)²; b = Sxy/Sxx and a = ȳ − b x̄.
+5. **Two lines.** y on x has slope b_yx = Sxy/Sxx; x on y has slope b_xy = Sxy/Syy. They intersect at (x̄, ȳ).
+6. **Link.** r² = b_yx × b_xy, and r has the sign of both coefficients.
+
+*Calculation.* n = 6, Σx = 210, Σy = 132, Σx² = 9100, Σy² = 3200, Σxy = 5330. x̄ = 35, ȳ = 22. Sxx = 9100 − 210²/6 = **1750**. Syy = 3200 − 132²/6 = **296**. Sxy = 5330 − (210 × 132)/6 = **710**.
+
+*Correlation.* r = 710/√(1750 × 296) = 710/719.7 = **0.9865**, r² = **0.973**.
+
+*Regression of y on x.* b_yx = 710/1750 = **0.4057**; a = 22 − 0.4057 × 35 = **7.80**. So **ŷ = 7.80 + 0.4057x**.
+
+*Regression of x on y.* b_xy = 710/296 = **2.3986**, so x̂ = 35 + 2.3986(y − 22).
+
+*Verification.* b_yx × b_xy = 0.4057 × 2.3986 = **0.9732 = r²** ✓.
+
+*Prediction.* At x = 45%: ŷ = 7.80 + 0.4057 × 45 = **26.06 ms**. This is interpolation (45 lies inside 10-60) and is reliable; predicting at 90% load would be extrapolation and may fail.
+
+*Comparison (Table).*
+
+| Point | Correlation | Regression |
+|---|---|---|
+| Purpose | strength of association | prediction of y from x |
+| Variables | symmetric, x and y interchangeable | asymmetric, dependent and independent |
+| Result | one number r | an equation a + bx |
+| Units | none | units of y per unit of x |
+
+*Conclusion.* Response time rises by about 0.41 ms for every extra 1% of CPU load, and 97% of the variation is explained by load. The relation is strong, but the model is valid only within the observed range.
