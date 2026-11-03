@@ -30,13 +30,13 @@ class LandingDesignRulesTests(TestCase):
     def setUp(self):
         cache.clear()
         base = Path(__file__).resolve().parent / 'static' / 'web'
-        self.css = (base / 'css' / 'landing.css').read_text() + (base / 'css' / 'landing-shapes.css').read_text()
-        self.js = (base / 'js' / 'landing.js').read_text()
+        self.css = (base / 'css' / 'landing.css').read_text() + (base / 'css' / 'm3x.css').read_text()
+        self.js = (base / 'js' / 'landing.js').read_text() + (base / 'js' / 'm3x.js').read_text()
         self.html = self.client.get('/').content.decode()
 
     def test_no_box_shadows_or_drop_shadows(self):
         for src in (self.css, self.html):
-            self.assertNotIn('box-shadow', src)
+            self.assertNotRegex(src, r'box-shadow\s*:\s*(?!\s*none)')
             self.assertNotIn('drop-shadow', src)
             self.assertNotIn('text-shadow', src)
 
@@ -169,3 +169,35 @@ class AppThemeTests(TestCase):
         self.assertEqual(d['light']['primary'], '#006A60')
         self.assertEqual(d['motif'], 'drop')
         self.assertIn('cta', d['card'])
+
+
+class M3XDesignSystemTests(TestCase):
+    """The m3x layer is shared by the landing page and every app page: it carries the same hard rules."""
+
+    def setUp(self):
+        base = Path(__file__).resolve().parent / 'static' / 'web' / 'css'
+        self.shared = (base / 'm3x.css').read_text()
+        self.app = (base / 'm3x-app.css').read_text()
+
+    def test_no_shadows_or_gradients_in_the_design_system(self):
+        for src in (self.shared, self.app):
+            self.assertNotRegex(src, r'box-shadow\s*:\s*(?!\s*none)')
+            self.assertNotRegex(src, r'(drop|text)-shadow\s*:\s*(?!\s*none)')
+            self.assertNotRegex(src, r'(linear|radial|conic)-gradient')
+
+    def test_brand_blue_comes_from_the_logo(self):
+        self.assertIn('--md-primary: #0058df', self.shared)
+        self.assertIn('--ink: #06235f', self.shared)
+
+    def test_landing_and_app_share_one_brand_partial_and_one_pill_nav(self):
+        root = Path(__file__).resolve().parent / 'templates'
+        for tpl in ('landing/landing.html', 'base.html'):
+            src = (root / tpl).read_text()
+            self.assertIn('components/_brand.html', src, tpl)
+            self.assertIn('data-m3-nav', src, tpl)
+
+    def test_app_pages_load_the_design_system(self):
+        html = self.client.get('/app/library/').content.decode()
+        self.assertIn('css/m3x.css', html)
+        self.assertIn('css/m3x-app.css', html)
+        self.assertIn('js/m3x.js', html)
