@@ -7,6 +7,7 @@ tests, and external code do not need to change.
 from .view_helpers import *  # noqa: F401,F403
 from .views_public import *  # noqa: F401,F403
 from .views_forum import *  # noqa: F401,F403
+from .views_forum_tools import *  # noqa: F401,F403
 from .views_profile import *  # noqa: F401,F403
 from .views_auth import *  # noqa: F401,F403
 from .views_ajax import *  # noqa: F401,F403
