@@ -323,7 +323,7 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] BCA 355 Distributed System polished (session 30, 54 -> 86 pp)
 - [x] BCA 252 Software Engineering polished (session 31, 54 -> 103 pp)
 - [x] BCA 156 Principles of Management polished (session 32, 50 -> 83 pp)
-- [~] DBMS (BCA 202, session 33, IN PROGRESS: units 1-4 done, NEXT SESSION STARTS AT UNIT 5 SQL DDL; see section below), then the rest of Semesters II-VIII.
+- [~] DBMS (BCA 202, session 33, IN PROGRESS: units 1-7 done, NEXT SESSION STARTS AT UNIT 8 Query processing and security; see section below), then the rest of Semesters II-VIII.
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
 
@@ -370,5 +370,7 @@ Section numbering: new section "N.K Seeing the ideas" is inserted before the fir
 - [x] U2 Architecture/E-R: Plate 2.1 (catalogue photo + three-cards SVG), Fig 2.1 three-schema, 2.2 college E-R, 2.3 hierarchical/network/relational, 2.4 specialisation; 2.7.1 eight advantages; Q1-Q2, Q3 (10 marks).
 - [x] U3 Relational model: Plate 3.1 (Stonebraker + relation anatomy), Fig 3.1 keys, 3.2 schema diagram + RI, 3.3 four joins, 3.4 query trees; 3.5.1 eight advantages; Q1-Q2, Q3 (algebra on sample data).
 - [x] U4 Normalisation: Plate 4.1 (card drawers + anomalies SVG), Fig 4.1 dependency diagram, 4.2 closure chain, 4.3 4NF split (9 vs 6 rows); 4.9.1 eight advantages; Q1-Q2, Q3 (Registration to 3NF/BCNF).
-- [ ] U5 SQL DDL, [ ] U6 SQL queries (verify outputs with sqlite3 from python), [ ] U7 procedures/triggers/indexing, [ ] U8 query processing + security, [ ] U9 transactions.
-
+- [x] U5 SQL DDL (no photo: abstract): Fig 5.1 CREATE TABLE anatomy, 5.2 six rejected inserts with REAL PostgreSQL messages, 5.3 ON DELETE actions (real results), 5.4 DELETE/TRUNCATE/DROP/ALTER; 5.7.1 eight advantages of constraints; Q1-Q2, Q3 (10 marks).
+- [x] U6 SQL queries: Plate 6.1 (TU photo + result_view SVG), Fig 6.1 logical order of evaluation, 6.2 NULL three-valued logic, 6.3 uncorrelated vs correlated subquery; 6.8.1 eight benefits of views; Q1-Q2, Q3. All outputs from real PostgreSQL (psql on the sandbox DB, scratch schema dropped afterwards).
+- [x] U7 Procedures/triggers/indexing: Plate 7.1 (catalogue/HDD arm/platter 3-up), Fig 7.1 real EXPLAIN BUFFERS (735 vs 3 blocks on 100,000 rows), 7.2 B+ tree, 7.3 trigger firing, 7.4 round trips; 7.5.1 eight reasons; Q1-Q2, Q3 (10 marks).
+- [ ] U8 query processing + security (reserved photos: tapelib, hsm from bca451, padlock from bca306), [ ] U9 transactions (reserved: jimgray, atm/booking reuse).
