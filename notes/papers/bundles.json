@@ -9,7 +9,7 @@
    "12-bio-2081-general"
   ],
   "pages": 29,
-  "bytes": 493425,
+  "bytes": 493434,
   "category": "Board Exam Bundle"
  },
  {
@@ -22,7 +22,7 @@
    "12-chem-2081-general"
   ],
   "pages": 24,
-  "bytes": 465001,
+  "bytes": 465005,
   "category": "Board Exam Bundle"
  },
  {
@@ -37,7 +37,21 @@
    "12-eng-2080-0041g"
   ],
   "pages": 36,
-  "bytes": 476785,
+  "bytes": 476792,
+  "category": "Board Exam Bundle"
+ },
+ {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Compulsory-Nepali-2080-2082-Bundle.pdf",
+  "subject": "Compulsory Nepali",
+  "grade": "12",
+  "years_bs": "2080-2082",
+  "papers": [
+   "12-nep-2082-0021b",
+   "12-nep-2081-0021b",
+   "12-nep-2080-0021b"
+  ],
+  "pages": 36,
+  "bytes": 383471,
   "category": "Board Exam Bundle"
  },
  {
@@ -64,7 +78,7 @@
    "12-math-2080-set-h"
   ],
   "pages": 32,
-  "bytes": 1597469,
+  "bytes": 1597475,
   "category": "Board Exam Bundle"
  },
  {
@@ -77,7 +91,7 @@
    "12-phy-2080-general"
   ],
   "pages": 30,
-  "bytes": 1035671,
+  "bytes": 1035674,
   "category": "Board Exam Bundle"
  }
 ]
