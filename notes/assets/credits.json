@@ -1221,6 +1221,58 @@
   "source": "Wikimedia Commons",
   "title": "HP 117A - black laser toner cartridge-2407"
  },
+ "bca153/dcrack": {
+  "author": "PiDatacenters",
+  "bytes": 897476,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca153/dcrack.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Racks_Amravati_Data_Center.jpg",
+  "sha1": "baa8f4f30d1950f5",
+  "source": "Wikimedia Commons",
+  "title": "Racks Amravati Data Center"
+ },
+ "bca153/gosling": {
+  "author": "Eugene Zelenko",
+  "bytes": 1007797,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca153/gosling.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:James_Gosling_2008-1.jpg",
+  "sha1": "2e053a1c94079734",
+  "source": "Wikimedia Commons",
+  "title": "James Gosling 2008-1"
+ },
+ "bca153/simchip": {
+  "author": "Martijn Boer",
+  "bytes": 1086032,
+  "credit": "https://www.flickr.com/photos/140974729@N05/49791771966/",
+  "fetched": "2026-11-03",
+  "file": "bca153/simchip.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:SIM_card_chip_5.jpg",
+  "sha1": "996d85d090795e31",
+  "source": "Wikimedia Commons",
+  "title": "SIM card chip 5"
+ },
+ "bca153/socdie": {
+  "author": "Brendan Crain",
+  "bytes": 1871033,
+  "credit": "https://www.flickr.com/photos/196983670@N03/53964912603/",
+  "fetched": "2026-11-03",
+  "file": "bca153/socdie.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Vizio_V6_7603B0-CFE3_Smart_TV_SOC_Die_Shot.jpg",
+  "sha1": "c328109822daadd0",
+  "source": "Wikimedia Commons",
+  "title": "Vizio V6 7603B0-CFE3 Smart TV SOC Die Shot"
+ },
  "bca256/kanban": {
   "author": "Jeff.lasovski",
   "bytes": 543145,

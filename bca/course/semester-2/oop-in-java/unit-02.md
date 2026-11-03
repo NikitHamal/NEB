@@ -183,6 +183,42 @@ HIGH 3 1
 
 A **record** (Java 16+) is a compact immutable data class: `record Point(int x, int y) {}` automatically gives a constructor, accessors `x()` and `y()`, `equals`, `hashCode` and `toString`. **Nested classes:** a `static` nested class (like `P` above) is independent of an outer instance; an **inner (non-static)** class holds a reference to its outer object; **anonymous classes** and **lambdas** (Unit 5) create one-off implementations. The **singleton** pattern: private constructor + static `getInstance()`; the **builder** pattern constructs complex objects stepwise.
 
+## 2.7 Seeing references: stack and heap
+
+Most beginner bugs in Java come from not seeing what a variable really holds. A **primitive** variable holds the value itself. A **reference** variable holds the *address* of an object on the heap. In Figure 2.1, `a` and `b` hold the same address, so they are two names for one object; `c` points to a second, separate object that merely has equal contents. That is why `a == b` is true (same address), `a == c` is false, and `a.equals(c)` is true once `equals` compares the fields. The same picture explains parameter passing: Java always passes a *copy* of the variable, so a method receives a copy of the address and can change the object but cannot make the caller's variable point elsewhere.
+
+```svgfig label="2.1" caption="Stack and heap after: a = new Student(Sita); b = a; c = new Student(Sita). a and b share one object; c is a different object with equal contents. a == b is true, a == c is false, a.equals(c) is true when equals compares names."
+f = Fig(600, 250)
+f.text(100, 18, "Stack (local variables)", size=11.5, color=NAVY, bold=True)
+f.text(430, 18, "Heap (objects)", size=11.5, color=NAVY, bold=True)
+f.box(40, 36, 120, 36, "a   0x1A40", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(40, 86, 120, 36, "b   0x1A40", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(40, 136, 120, 36, "c   0x2B90", fill="#fde68a", color=NAVY, size=11, bold=True)
+f.box(330, 44, 190, 70, "", fill="#bbf7d0", stroke=TEAL)
+f.text(425, 62, "Student object @0x1A40", size=10.5, color=NAVY, bold=True)
+f.text(425, 84, "name = \"Sita\"", size=11, color=NAVY)
+f.text(425, 102, "marks = 78", size=11, color=NAVY)
+f.box(330, 138, 190, 70, "", fill="#fde68a", stroke=AMBER)
+f.text(425, 156, "Student object @0x2B90", size=10.5, color=NAVY, bold=True)
+f.text(425, 178, "name = \"Sita\"", size=11, color=NAVY)
+f.text(425, 196, "marks = 78", size=11, color=NAVY)
+f.arrow([(160, 54), (330, 66)], color=TEAL, sw=1.8)
+f.arrow([(160, 104), (330, 92)], color=TEAL, sw=1.8)
+f.arrow([(160, 154), (330, 166)], color=AMBER, sw=1.8)
+f.text(300, 232, "a == b true   |   a == c false   |   a.equals(c) true", size=11, color=RED, bold=True)
+```
+
+## 2.8 Eight benefits of good class design
+
+1. **Data protection.** Private fields can be changed only through methods that check the new value. A `Student` class can refuse marks above 100, so wrong data never gets into the object. This is encapsulation at work.
+2. **Reuse.** A class written once can be used in many programs and can be extended by subclasses. A `Student` class built for a library system can also serve a fee-collection program in a college. Less code is written, so fewer bugs appear.
+3. **Easy maintenance.** When the inside of a class changes, code that uses its public methods does not need to change. A college can change how it stores marks without rewriting the result-printing code. Changes stay local.
+4. **Clear model of the real world.** Nouns of a problem become classes and verbs become methods. Students, courses and teachers map directly to code, which makes designs easy to discuss with non-programmers.
+5. **Constructors guarantee valid objects.** A constructor sets the starting state, so an object never exists half-built. A `Student` can require a roll number at creation. This removes many null and uninitialised-value errors.
+6. **Shared data with `static`.** A `static` field belongs to the class, not to any object, so all objects see one value. A counter of registered students or the college name can be kept this way. It saves memory and keeps one source of truth.
+7. **Correct comparison and hashing.** Overriding `equals` and `hashCode` lets objects work properly in sets and maps. Two `Student` objects with the same roll number can then be recognised as the same person, which prevents duplicate entries in a register.
+8. **Readable output.** Overriding `toString` gives each object a clear text form for logs and screens. Debugging a program that prints `Student[roll=7, name=Sita]` is far easier than reading `Student@1b6d3586`.
+
 ## Formula and fact sheet
 
 - Class = fields + methods + constructors; `new` creates an object on the heap; variables hold references.
@@ -225,3 +261,100 @@ A **record** (Java 16+) is a compact immutable data class: `record Point(int x, 
 **9.** `public final class Money { private final long paisa; Money(long p){paisa=p;} Money add(Money o){ return new Money(paisa + o.paisa); } long paisa(){ return paisa; } }`
 **10.** A singleton has one instance. Simple (not thread-safe): `static Foo inst; static Foo get(){ if(inst==null) inst=new Foo(); return inst; }`. Safe: `enum Foo { INSTANCE; }` or a holder class `private static class H { static final Foo I = new Foo(); }`.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Java is "pass by value". Explain with a program how objects and primitives behave when passed to a method.**
+
+*Introduction.* When a method is called, Java copies the value of each argument into the parameter. For a primitive the copy is the number itself; for an object the copy is the *reference* (address), so both names point to the same object (Figure 2.1).
+
+*Behaviour.*
+
+1. **Primitives.** The method changes only its own copy; the caller's variable is unchanged.
+2. **Object contents.** Through the copied reference the method can modify the object's fields, and the caller sees the change.
+3. **Re-pointing.** Assigning a new object to the parameter changes only the copy; the caller's reference is unaffected, so a classic `swap(a, b)` method cannot work.
+
+```java
+public class PassDemo {
+    static class Box { int v; Box(int v) { this.v = v; } }
+    static void bump(int x) { x = x + 10; }
+    static void bump(Box b) { b.v = b.v + 10; }
+    static void replace(Box b) { b = new Box(999); }
+    public static void main(String[] args) {
+        int n = 5; Box box = new Box(5);
+        bump(n);   System.out.println("after bump(int):  n = " + n);
+        bump(box); System.out.println("after bump(Box):  v = " + box.v);
+        replace(box); System.out.println("after replace():  v = " + box.v);
+    }
+}
+```
+```output
+after bump(int):  n = 5
+after bump(Box):  v = 15
+after replace():  v = 15
+```
+
+*Reading the output.* `n` stays 5 (copy), `v` becomes 15 (shared object changed), and `replace` leaves 15 because only the parameter was re-pointed.
+
+*Conclusion.* Java never passes objects themselves, only copies of references. Methods can mutate an object but cannot change which object the caller's variable names.
+
+**Q2 (10 marks). Design a Java class `Student` with private fields, constructors, a static counter, and overridden `toString`, `equals` and `hashCode`. Explain each element and show how it behaves in a `HashSet`.**
+
+*Introduction.* A class defines the fields and methods of its objects. Good design hides the fields and exposes a small, safe interface. Overriding the methods of `Object` makes the class behave correctly in collections.
+
+*Design elements.*
+
+1. **Private fields.** `roll` and `name` cannot be read or written from outside except through methods.
+2. **Constructor.** `Student(int roll, String name)` creates a valid object and rejects a roll below 1.
+3. **`static int count`.** One counter shared by the class, increased in the constructor.
+4. **`toString`.** Gives the readable form `Student[roll=7, name=Sita]`.
+5. **`equals`.** Two students are equal when their roll numbers are equal.
+6. **`hashCode`.** Must agree with `equals`: equal objects must give the same hash code, here `Integer.hashCode(roll)`.
+7. **`this`.** Separates the field from the parameter of the same name.
+8. **`HashSet`.** Uses `hashCode` to find a bucket and `equals` to compare, so the duplicate is dropped.
+
+```java
+import java.util.HashSet;
+import java.util.Set;
+
+public class StudentDemo {
+    static class Student {
+        private final int roll;
+        private final String name;
+        static int count = 0;
+        Student(int roll, String name) {
+            if (roll < 1) throw new IllegalArgumentException("roll must be >= 1");
+            this.roll = roll; this.name = name; count++;
+        }
+        @Override public String toString() { return "Student[roll=" + roll + ", name=" + name + "]"; }
+        @Override public boolean equals(Object o) {
+            return o instanceof Student s && s.roll == roll;
+        }
+        @Override public int hashCode() { return Integer.hashCode(roll); }
+    }
+    public static void main(String[] args) {
+        Student a = new Student(7, "Sita"), b = new Student(7, "Sita R."), c = new Student(8, "Ram");
+        System.out.println(a);
+        System.out.println("a == b: " + (a == b) + ", a.equals(b): " + a.equals(b));
+        Set<Student> set = new HashSet<>(Set.of(a, c));
+        System.out.println("set.add(b) -> " + set.add(b) + ", size = " + set.size());
+        System.out.println("objects created: " + Student.count);
+    }
+}
+```
+```output
+Student[roll=7, name=Sita]
+a == b: false, a.equals(b): true
+set.add(b) -> false, size = 2
+objects created: 3
+```
+
+*Comparison.*
+
+| Operation | Compares | Result here |
+|---|---|---|
+| `a == b` | addresses | false |
+| `a.equals(b)` | roll numbers (our rule) | true |
+| `set.add(b)` | `hashCode` then `equals` | false (duplicate) |
+
+*Conclusion.* Private fields and a validating constructor protect the object, `static` shares class-wide data, and consistent `equals`/`hashCode` make the class safe in `HashSet` and `HashMap`.

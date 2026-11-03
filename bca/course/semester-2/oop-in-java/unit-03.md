@@ -155,6 +155,37 @@ public class Sorting {
 
 **Design principles (SOLID, in one line each):** one reason to change per class; extend without modifying; subtypes substitutable; small focused interfaces; depend on abstractions, not concretions.
 
+## 3.6 One call, many behaviours
+
+Figure 3.1 shows a small payroll design that uses every idea of this unit. `Payable` is an **interface**: it promises a `pay()` method and says nothing about how. `Employee` is an **abstract class** that partly implements it and holds the shared field `name`. `Teacher` and `Clerk` are concrete subclasses with different pay rules, and `Vendor` is an unrelated class that also implements `Payable`. A single loop over `List<Payable>` can print a pay slip for all of them, and at run time the JVM picks the right `pay()` for each object (dynamic dispatch). The loop does not change when a new kind of payee is added, which is the practical value of polymorphism.
+
+```svgfig label="3.1" caption="Payroll design. Solid arrows with a hollow tip mean extends; dashed arrows mean implements. The call p.pay() on a Payable variable runs Teacher.pay(), Clerk.pay() or Vendor.pay() depending on the real object."
+f = Fig(600, 270)
+f.box(190, 12, 220, 52, "interface Payable\n+ pay() : double", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.box(30, 118, 220, 52, "abstract class Employee\n# name : String", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(380, 118, 190, 52, "class Vendor\n+ pay() = invoice", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(10, 208, 140, 48, "Teacher\npay() = hours x rate", fill="#ffffff", stroke=NAVY, color=NAVY, size=10, bold=True)
+f.box(170, 208, 140, 48, "Clerk\npay() = fixed salary", fill="#ffffff", stroke=NAVY, color=NAVY, size=10, bold=True)
+f.arrow([(140, 118), (140, 90), (260, 90), (260, 64)], color=AMBER, sw=1.8, dash=True)
+f.arrow([(475, 118), (475, 90), (340, 90), (340, 64)], color=AMBER, sw=1.8, dash=True)
+f.arrow([(80, 208), (80, 188), (110, 188), (110, 170)], color=NAVY, sw=1.8)
+f.arrow([(240, 208), (240, 188), (170, 188), (170, 170)], color=NAVY, sw=1.8)
+f.text(330, 105, "implements", size=10, color=AMBER, bold=True, anchor="start")
+f.text(470, 236, "for (Payable p : list)", size=11, color=RED, bold=True)
+f.text(470, 252, "    p.pay();   // late binding", size=11, color=RED)
+```
+
+## 3.7 Eight uses of inheritance, polymorphism and interfaces
+
+1. **Code reuse.** A subclass inherits fields and methods of its parent and adds only what is new. A `Teacher` and a `Clerk` share `name` and `toString` from `Employee`. Fixing a bug in the parent fixes it for every child.
+2. **Extending without editing.** New behaviour is added by writing a new subclass, so tested code stays untouched. Adding a `Contractor` to the payroll needs no change in the loop that prints pay slips.
+3. **Common handling of different objects.** A parent-type or interface variable can hold any child. One method can accept a `Payable` and work for staff, vendors and scholarship payments alike.
+4. **Contracts between teams.** An interface fixes the method names and types before anyone writes the code. One team can write the user interface while another writes the payment code, and they meet at the interface.
+5. **Multiple capabilities.** A class can extend only one class but implement many interfaces. A `Student` can be `Comparable` for sorting and `Serializable` for saving at the same time.
+6. **Flexible testing.** Code that depends on an interface can be tested with a simple fake object. A fee-collection program can be tested with a fake payment gateway instead of a real bank connection.
+7. **Framework design.** Libraries define interfaces such as `Runnable`, `Comparator` and `List`, and your classes plug in. The Android and Java collections frameworks both work this way.
+8. **Controlled templates.** An abstract class gives the fixed steps and leaves some steps for subclasses. A report generator can fix the layout and let each subclass supply its own data.
+
 ## Formula and fact sheet
 
 - Single inheritance of classes, multiple of interfaces; `super(...)` first in a constructor.
@@ -195,3 +226,119 @@ public class Sorting {
 **9.** `if (obj instanceof String s) { s.length(); }` tests and binds. `Object o = "text"; Integer i = (Integer) o;` throws `ClassCastException`.
 **10.** A `Rectangle` promises that setting width does not change height. A `Square` must change both, so code written for rectangles (`r.setWidth(5); r.setHeight(2); assert area == 10`) fails for a square.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Differentiate an abstract class and an interface, and show both in one Java program.**
+
+*Introduction.* Both define a type that cannot be instantiated directly and that subclasses must complete, but they serve different purposes: an abstract class shares state and partial code; an interface defines a pure capability.
+
+*Differences.*
+
+1. **State.** An abstract class may have instance fields; an interface has only constants.
+2. **Code.** An abstract class may have constructors and ordinary methods; an interface has abstract methods plus `default` and `static` methods.
+3. **Inheritance.** A class extends only one abstract class but may implement many interfaces.
+4. **Relation.** An abstract class expresses *is-a* with shared code; an interface expresses *can-do*.
+
+| Point | Abstract class | Interface |
+|---|---|---|
+| Keyword | `abstract class` / `extends` | `interface` / `implements` |
+| Fields | any | `public static final` only |
+| Constructor | yes | no |
+| Multiple | no | yes |
+
+```java
+import java.util.List;
+
+public class PayDemo {
+    interface Payable {
+        double pay();
+        default String slip() { return String.format("Pay slip: Rs %.2f", pay()); }
+    }
+    static abstract class Employee implements Payable {
+        protected final String name;
+        Employee(String n) { name = n; }
+        @Override public String toString() { return name; }
+    }
+    static class Teacher extends Employee {
+        private final double hours, rate;
+        Teacher(String n, double h, double r) { super(n); hours = h; rate = r; }
+        public double pay() { return hours * rate; }
+    }
+    static class Clerk extends Employee {
+        Clerk(String n) { super(n); }
+        public double pay() { return 32000; }
+    }
+    static class Vendor implements Payable {
+        public double pay() { return 12500.5; }
+        @Override public String toString() { return "Vendor"; }
+    }
+    public static void main(String[] args) {
+        List<Payable> list = List.of(new Teacher("Sita", 90, 450), new Clerk("Ram"), new Vendor());
+        for (Payable p : list) System.out.println(p + " -> " + p.slip());
+    }
+}
+```
+```output
+Sita -> Pay slip: Rs 40500.00
+Ram -> Pay slip: Rs 32000.00
+Vendor -> Pay slip: Rs 12500.50
+```
+
+*Conclusion.* Use an abstract class when subclasses share fields and code (`Employee`); use an interface for a capability that unrelated classes can offer (`Payable`, implemented even by `Vendor`).
+
+**Q2 (10 marks). Explain method overloading and overriding, dynamic dispatch and the `instanceof` check with a program. Differentiate overloading and overriding.**
+
+*Introduction.* Polymorphism means "many forms": one name, different behaviour. Java has compile-time polymorphism (overloading) and run-time polymorphism (overriding).
+
+*Concepts.*
+
+1. **Overloading.** Several methods in the same class share a name but differ in parameter lists. The compiler chooses by the argument types.
+2. **Overriding.** A subclass supplies its own version of an inherited method with the same signature, marked `@Override`.
+3. **Dynamic dispatch.** For an overridden method the JVM picks the version from the *actual object* at run time, not from the declared type (Figure 3.1).
+4. **Static methods.** They are hidden, not overridden, so the declared type decides.
+5. **`instanceof`.** Tests the real type before a downcast; a pattern such as `a instanceof Dog d` tests and casts in one step.
+6. **`super`.** Lets an override call the parent's version.
+7. **`final`.** A `final` method cannot be overridden; a `final` class cannot be extended.
+8. **Access.** An override may not reduce visibility.
+
+```java
+public class DispatchDemo {
+    static class Animal {
+        String sound() { return "..."; }
+        static String kind() { return "animal"; }
+    }
+    static class Dog extends Animal {
+        @Override String sound() { return "Woof"; }
+        static String kind() { return "dog"; }
+        String fetch() { return "fetching"; }
+    }
+    static int area(int side) { return side * side; }
+    static double area(double w, double h) { return w * h; }
+    public static void main(String[] args) {
+        Animal a = new Dog();
+        System.out.println("a.sound() = " + a.sound());
+        System.out.println("Animal.kind() = " + Animal.kind() + ", Dog.kind() = " + Dog.kind());
+        if (a instanceof Dog d) System.out.println("downcast ok: " + d.fetch());
+        System.out.println("area(3) = " + area(3) + ", area(2.5, 4) = " + area(2.5, 4));
+        Animal plain = new Animal();
+        System.out.println("plain instanceof Dog: " + (plain instanceof Dog));
+    }
+}
+```
+```output
+a.sound() = Woof
+Animal.kind() = animal, Dog.kind() = dog
+downcast ok: fetching
+area(3) = 9, area(2.5, 4) = 10.0
+plain instanceof Dog: false
+```
+
+| Feature | Overloading | Overriding |
+|---|---|---|
+| Where | same class | parent and child |
+| Signature | different parameters | identical |
+| Binding | compile time | run time |
+| Purpose | convenience | specialised behaviour |
+
+*Conclusion.* The variable's declared type decides what can be called, while the object's real type decides which overridden version runs. That separation makes extensible designs possible.

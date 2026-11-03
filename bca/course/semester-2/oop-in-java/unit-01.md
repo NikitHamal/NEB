@@ -142,6 +142,66 @@ public class ReadInput {
 
 (Here the `Scanner` reads from a string so the example is self-contained; use `new Scanner(System.in)` for the keyboard.) **Common bug:** after `nextInt()` the newline remains, so a following `nextLine()` returns an empty string; consume it with an extra `nextLine()`, as above. `String.format` and `printf` share the format codes: `%5d` width, `%-8s` left-aligned, `%08.3f` zero-padded, `%x` hex. Command-line arguments arrive in `String[] args`.
 
+## 1.6 From idea to running program
+
+Java was designed at Sun Microsystems in the early 1990s by a team led by James Gosling, first for small consumer devices and then for the Internet. Its central trick is the **bytecode**: the compiler does not produce machine code for one processor, it produces instructions for an imaginary computer (the JVM) that every platform implements. Plate 1.1 shows the creator and one of the smallest places Java still runs. Figure 1.1 shows the full path from source file to running program, and Figure 1.2 shows the four pillars on one small class design that the Model Answers below turn into working code.
+
+```photogrid label="1.1" cols="2" ratio="1.1" caption="(a) James Gosling, who led the team that created Java at Sun Microsystems. (b) The silicon die of a SIM-card chip. Java Card, a cut-down Java platform, runs on chips of this kind in SIM cards and bank cards, which shows how small the JVM idea can be made."
+@ photo id="bca153/gosling" cap="James Gosling, creator of Java"
+fit 1.1
+focus 0.5 0.62
+@ photo id="bca153/simchip" cap="Die of a smart-card (SIM) chip: memory blocks and logic"
+fit 1.1
+focus 0.5 0.5
+call 0.28 0.80 0.30 0.55 "Memory array"
+```
+
+```svgfig label="1.1" caption="Write once, run anywhere. Hello.java is compiled once by javac into platform-neutral bytecode (Hello.class). Each platform has its own JVM, which loads, verifies and runs the same bytecode; the JIT compiler turns hot methods into machine code."
+f = Fig(600, 240)
+f.box(14, 90, 100, 52, "Hello.java\nsource code", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(160, 90, 100, 52, "javac\ncompiler", fill="#fde68a", color=NAVY, size=11, bold=True)
+f.box(306, 90, 100, 52, "Hello.class\nbytecode", fill="#bbf7d0", color=NAVY, size=11, bold=True)
+f.arrow([(114, 116), (160, 116)], color=SLATE, sw=2)
+f.arrow([(260, 116), (306, 116)], color=SLATE, sw=2)
+for i, (name, y) in enumerate((("JVM on Windows", 20), ("JVM on Linux", 90), ("JVM on Android", 160))):
+    f.box(452, y, 140, 52, name, fill="#ffffff", stroke=TEAL, color=NAVY, size=10.5, bold=True)
+    f.arrow([(406, 116), (430, 116), (430, y + 26), (452, y + 26)], color=TEAL, sw=1.6)
+f.text(210, 170, "java Hello", size=11, color=RED, bold=True)
+f.text(210, 186, "loads, verifies, interprets,", size=10, color=SLATE)
+f.text(210, 200, "JIT-compiles hot code", size=10, color=SLATE)
+f.text(160, 70, "once per program", size=10.5, color=TEAL, bold=True)
+f.text(500, 232, "once per platform", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="1.2" caption="Four pillars on one design. Encapsulation: balance is private. Abstraction: Account is abstract and promises monthlyEffect(). Inheritance: Savings and Current extend Account. Polymorphism: the same call applyMonth() runs different code for each subclass."
+f = Fig(600, 250)
+f.box(190, 14, 220, 78, "", fill=BLUE, stroke=NAVY)
+f.text(300, 30, "abstract class Account", size=12, color=NAVY, bold=True)
+f.line(190, 40, 410, 40, color=NAVY, sw=1)
+f.text(300, 55, "- balance : double   (private)", size=10.5, color=NAVY)
+f.text(300, 70, "+ deposit(a)   + applyMonth()", size=10.5, color=NAVY)
+f.text(300, 85, "+ abstract monthlyEffect()", size=10.5, color=RED, bold=True)
+f.box(70, 160, 190, 58, "Savings\nmonthlyEffect() = +interest", fill="#bbf7d0", color=NAVY, size=10.5, bold=True)
+f.box(340, 160, 190, 58, "Current\nmonthlyEffect() = -50 fee", fill="#fde68a", color=NAVY, size=10.5, bold=True)
+f.arrow([(165, 160), (165, 126), (300, 126), (300, 92)], color=SLATE, sw=1.8)
+f.arrow([(435, 160), (435, 126), (300, 126)], color=SLATE, sw=1.8)
+f.text(310, 120, "extends (is-a)", size=10, color=SLATE, bold=True, anchor="start")
+f.text(430, 46, "Encapsulation", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(430, 62, "Abstraction", size=10.5, color=TEAL, bold=True, anchor="start")
+f.text(300, 240, "Polymorphism: for (Account a : list) a.applyMonth();", size=10.5, color=NAVY, bold=True)
+```
+
+## 1.7 Eight features of Java
+
+1. **Platform independence.** The compiler produces bytecode, and any computer with a JVM can run it. A billing program written on a Windows laptop in Kathmandu runs unchanged on the Linux server of a bank. This saves the cost of rewriting software for each machine.
+2. **Object-oriented design.** Almost everything in Java lives inside a class, and programs are built from cooperating objects. This keeps large programs organised, because each class owns its data and its behaviour. Teams can work on different classes at the same time.
+3. **Automatic memory management.** The garbage collector frees objects that nothing refers to any more, so programmers never call `free()`. This removes whole families of bugs such as memory leaks and dangling pointers. A long-running service, like a mobile-banking back end, stays stable for months.
+4. **Strong typing and compile-time checks.** Every variable has a declared type, and the compiler rejects mistakes such as assigning text to an `int`. Many errors are therefore found before the program ever runs. This is valuable in systems where a wrong value means a wrong payment.
+5. **Robust exception handling.** Errors are objects that can be thrown and caught, so a program can recover instead of crashing. Checked exceptions force the programmer to think about failure, such as a missing file or a lost network link.
+6. **Built-in multithreading.** Threads are part of the language and the standard library, so one program can do several jobs at once. A web server can answer many users together, and a desktop program can stay responsive while it downloads.
+7. **Security.** The JVM verifies bytecode and has no raw pointers, which blocks many attacks that exploit memory errors. A security manager and class loaders can restrict what downloaded code may do. This is one reason Java is trusted in banking and government systems.
+8. **Rich standard library and ecosystem.** Collections, networking, file handling, dates, GUI and database access (JDBC) come ready-made. Android apps, large web back ends and tools used by Nepali fintech companies are all written with the same library.
+
 ## Formula and fact sheet
 
 - Pillars: encapsulation, abstraction, inheritance, polymorphism.
@@ -183,3 +243,91 @@ public class ReadInput {
 **9.** Widening goes to a larger type automatically (`long l = 5;`); narrowing needs a cast and may lose data (`int i = (int) 9.8;` gives 9).
 **10.** `==` compares references (whether both names point to the same object); `equals` compares the characters. Always use `equals` to compare string contents.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Differentiate JDK, JRE and JVM, and explain how Java achieves platform independence.**
+
+*Introduction.* Java is compiled and interpreted: the source file becomes bytecode, and the bytecode is run by a virtual machine. Three terms describe the layers of this system.
+
+*The three layers.*
+
+1. **JVM (Java Virtual Machine).** It loads, verifies and executes bytecode, with a JIT compiler for speed and a garbage collector for memory. The JVM itself is different for each operating system.
+2. **JRE (Java Runtime Environment).** The JVM plus the standard class libraries (`java.lang`, `java.util` and others). It is what a user needs to run a program.
+3. **JDK (Java Development Kit).** The JRE plus development tools: `javac`, `jar`, `javadoc` and `jshell`. A programmer needs it to write programs.
+
+| Term | Contains | Used by |
+|---|---|---|
+| JVM | bytecode executor, GC, JIT | the machine |
+| JRE | JVM + class libraries | end user |
+| JDK | JRE + compiler and tools | developer |
+
+*Platform independence.* `javac` turns `Hello.java` into `Hello.class`, bytecode for an imaginary processor (Figure 1.1). Each platform supplies a JVM that understands this bytecode, so the **same** `.class` file runs on Windows, Linux or macOS. Only the JVM is platform-specific; the program is not.
+
+*Conclusion.* JDK contains JRE, which contains JVM (JDK ⊃ JRE ⊃ JVM). Bytecode plus a JVM per platform gives "write once, run anywhere".
+
+**Q2 (10 marks). Explain the four pillars of object-oriented programming with a Java program, and differentiate procedural and object-oriented programming.**
+
+*Introduction.* Object-oriented programming (OOP) organises a program as objects that combine data (fields) and behaviour (methods). A class is the blueprint and an object is one instance. Four ideas guide good design: encapsulation, abstraction, inheritance and polymorphism (Figure 1.2).
+
+*The four pillars.*
+
+1. **Encapsulation.** Fields are `private` and changed only through methods that enforce rules. In the program, `balance` can change only through `deposit`, which rejects zero or negative amounts.
+2. **Abstraction.** `Account` is abstract: it states that every account has a `monthlyEffect()` without saying how it is calculated.
+3. **Inheritance.** `Savings` and `Current` extend `Account` and reuse `deposit` and `applyMonth` (an *is-a* relation).
+4. **Polymorphism.** The loop calls `applyMonth()` on each `Account`; at run time Java picks the version belonging to the real object (dynamic dispatch).
+
+```java
+import java.util.List;
+
+public class BankDemo {
+    static abstract class Account {
+        private double balance;
+        protected final String owner;
+        Account(String owner, double opening) { this.owner = owner; this.balance = opening; }
+        void deposit(double a) {
+            if (a <= 0) throw new IllegalArgumentException("deposit must be positive");
+            balance += a;
+        }
+        double getBalance() { return balance; }
+        abstract double monthlyEffect();
+        void applyMonth() { balance += monthlyEffect(); }
+    }
+    static class Savings extends Account {
+        Savings(String o, double b) { super(o, b); }
+        double monthlyEffect() { return getBalance() * 0.04 / 12; }
+    }
+    static class Current extends Account {
+        Current(String o, double b) { super(o, b); }
+        double monthlyEffect() { return -50; }
+    }
+    public static void main(String[] args) {
+        List<Account> list = List.of(new Savings("Sita", 10000), new Current("Ram", 5000));
+        list.get(0).deposit(2000);
+        try { list.get(1).deposit(-5); } catch (IllegalArgumentException e) { System.out.println("Rejected: " + e.getMessage()); }
+        for (Account a : list) {
+            a.applyMonth();
+            System.out.printf("%-5s %-8s %9.2f%n", a.owner, a.getClass().getSimpleName(), a.getBalance());
+        }
+    }
+}
+```
+```output
+Rejected: deposit must be positive
+Sita  Savings   12040.00
+Ram   Current    4950.00
+```
+
+The output shows encapsulation (the bad deposit is rejected) and polymorphism (Sita gains 40.00 interest on 12,000, Ram pays a 50.00 fee, from one loop).
+
+*Procedural versus object-oriented.*
+
+| Point | Procedural (C) | Object-oriented (Java) |
+|---|---|---|
+| Unit of design | function | class and object |
+| Data and code | kept separate | bundled together |
+| Data hiding | weak (global data) | strong (`private`) |
+| Reuse | copy or call functions | inheritance, composition |
+| Change | edits spread widely | changes stay inside a class |
+
+*Conclusion.* The four pillars make programs easier to extend and protect their data; Java enforces them with `private`, `abstract`, `extends` and overriding.
