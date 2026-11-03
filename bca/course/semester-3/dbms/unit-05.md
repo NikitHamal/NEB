@@ -190,6 +190,94 @@ NOTICE:  drop cascades to constraint d2_d1_id_fkey on table d2
 `DROP` deletes structure and data; `TRUNCATE` deletes all data, keeps structure; `DELETE` deletes chosen rows, keeps structure and is transaction-safe. Always run `SELECT` with the same `WHERE` first.
 :::
 
+## 5.7 Seeing the ideas: constraints in action
+
+Every statement in this section was run on a real PostgreSQL server, and the error messages quoted in the figures are the exact messages it printed. The test database has three tables: department(dept_id, dept_name), student(sid, name, email, dob, dept_id, status) and enrollment(sid, cid, marks) with the composite key (sid, cid).
+
+```svgfig label="5.1" caption="Anatomy of a CREATE TABLE statement. Each coloured tag points to the part of the statement that creates one kind of rule. Column constraints (written after one column) govern that column; table constraints (written after all columns) can involve several columns, such as the composite primary key (sid, cid) of enrollment. The DBMS stores all these rules in the data dictionary and checks them on every INSERT, UPDATE and DELETE."
+f = Fig(580, 270)
+f.box(10, 10, 350, 250, "", fill=SOFT, stroke=SLATE, sw=1.2)
+code = ["CREATE TABLE student (", "  sid     INT PRIMARY KEY,", "  name    VARCHAR(40) NOT NULL,", "  email   VARCHAR(60) UNIQUE,", "  dob     DATE,", "  dept_id INT REFERENCES", "          department(dept_id)", "          ON DELETE SET NULL,", "  status  VARCHAR(10) DEFAULT 'active'", "          CHECK (status IN", "          ('active','passed','left'))", ");"]
+for i, ln in enumerate(code):
+    f.text(20, 30 + i * 18.5, ln, size=10.5, color=NAVY, anchor="start", bold=(i in (0, 11)))
+tags = [(48, "primary key: unique + not null", TEAL), (67, "required value", TEAL), (86, "no duplicates (NULL allowed)", TEAL), (141, "foreign key: must exist in department", RED), (159, "delete action", RED), (178, "default used when omitted", AMBER), (197, "domain rule", AMBER)]
+for y, s, c in tags:
+    f.arrow([(520 - 150, y - 3), (366, y - 3)], color=c, sw=1.1)
+    f.text(374, y - 12, s, size=9.5, color=c, bold=True, anchor="start")
+f.text(470, 250, "real PostgreSQL syntax", size=9.5, color=SLATE, bold=True)
+```
+
+```svgfig label="5.2" caption="Six bad INSERT statements and what PostgreSQL did with each. Every one was refused and no row was stored, because each broke a declared rule. The right-hand column quotes the first line of the real error message. Constraints therefore protect the data even when a careless program or a typing error produces wrong values."
+f = Fig(580, 290)
+rows = [
+ ("INSERT student (4, 'Mina', 'sita@x.np', 10)", "duplicate key value violates unique constraint \"student_email_key\"", "UNIQUE"),
+ ("INSERT student (5, 'Mina', dept_id 99)", "violates foreign key constraint \"student_dept_id_fkey\"", "FOREIGN KEY"),
+ ("INSERT student (1, 'Dup')", "duplicate key value violates unique constraint \"student_pkey\"", "PRIMARY KEY"),
+ ("INSERT student (6, 'Gita', status 'gone')", "violates check constraint \"student_status_check\"", "CHECK"),
+ ("INSERT enrollment (1, 'C3', marks 150)", "violates check constraint \"enrollment_marks_check\"", "CHECK"),
+ ("INSERT student (7, name NULL)", "null value in column \"name\" violates not-null constraint", "NOT NULL"),
+]
+f.box(6, 8, 230, 22, "Statement attempted", fill=NAVY, stroke=NAVY, color="#ffffff", size=10, bold=True, r=0)
+f.box(236, 8, 270, 22, "PostgreSQL answer (first line)", fill=NAVY, stroke=NAVY, color="#ffffff", size=10, bold=True, r=0)
+f.box(506, 8, 70, 22, "Rule", fill=NAVY, stroke=NAVY, color="#ffffff", size=10, bold=True, r=0)
+for i, (a, b, c) in enumerate(rows):
+    y = 30 + i * 38
+    fl = ROSE if i % 2 == 0 else SOFT
+    f.box(6, y, 230, 38, a.replace(" (", "\n("), fill=fl, stroke=SLATE, size=9, r=0)
+    f.box(236, y, 270, 38, b.replace(" violates", "\nviolates").replace(" value in", "\nvalue in") if len(b) > 50 else b, fill=fl, stroke=SLATE, size=8.5, r=0, color=RED)
+    f.box(506, y, 70, 38, c, fill=fl, stroke=SLATE, size=8.5, r=0, bold=True, color=NAVY)
+f.text(290, 278, "result for all six: 0 rows inserted, database unchanged", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="5.3" caption="The ON DELETE actions, shown with real results. Before the deletes, department 10 (BCA) has students Sita and Ram, and Sita has two enrolment rows. With ON DELETE SET NULL on student.dept_id, deleting BCA succeeded and both students stayed with dept_id NULL. With ON DELETE CASCADE on enrollment.sid, deleting Sita also deleted her two enrolment rows (the count fell from 2 to 0). With RESTRICT or NO ACTION the delete would have been refused while child rows exist."
+f = Fig(580, 234)
+f.text(100, 12, "SET NULL", size=11, color=AMBER, bold=True)
+f.box(10, 22, 180, 24, "DELETE department 10", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.box(10, 60, 85, 24, "1 Sita | 10", fill=BLUE, stroke=NAVY, size=9.5, r=0)
+f.box(10, 84, 85, 24, "2 Ram | 10", fill=BLUE, stroke=NAVY, size=9.5, r=0)
+f.arrow([(100, 84), (115, 84)], color=SLATE, sw=1.5)
+f.box(120, 60, 70, 24, "1 Sita | NULL", fill=MINT, stroke=TEAL, size=9, r=0)
+f.box(120, 84, 70, 24, "2 Ram | NULL", fill=MINT, stroke=TEAL, size=9, r=0)
+f.text(100, 130, "children kept, link cleared", size=9.5, color=SLATE, bold=True)
+f.text(300, 12, "CASCADE", size=11, color=RED, bold=True)
+f.box(210, 22, 180, 24, "DELETE student 1 (Sita)", fill=ROSE, stroke=RED, size=10, bold=True)
+f.box(210, 60, 85, 24, "(1, C1, 85)", fill=BLUE, stroke=NAVY, size=9.5, r=0)
+f.box(210, 84, 85, 24, "(1, C2, 72)", fill=BLUE, stroke=NAVY, size=9.5, r=0)
+f.arrow([(300, 84), (315, 84)], color=SLATE, sw=1.5)
+f.box(320, 66, 70, 36, "0 rows\nleft", fill=MINT, stroke=TEAL, size=9.5, bold=True)
+f.text(300, 130, "children deleted with parent", size=9.5, color=SLATE, bold=True)
+f.text(490, 12, "RESTRICT / NO ACTION", size=11, color=NAVY, bold=True)
+f.box(410, 22, 170, 24, "DELETE department 10", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.box(410, 60, 170, 48, "refused: students still\nreference department 10", fill=ROSE, stroke=RED, size=10, bold=True)
+f.text(495, 130, "parent is protected", size=9.5, color=SLATE, bold=True)
+f.box(10, 160, 560, 62, "Choose by meaning:\nSET NULL for an optional link (a student may have no department yet)\nCASCADE for a part that cannot exist alone (enrolment rows of a deleted student)\nRESTRICT when deletion is probably a mistake (a department that still has students)", fill=SOFT, stroke=SLATE, size=9.5, bold=True)
+```
+
+```svgfig label="5.4" caption="What each statement removes. DELETE removes chosen rows and can use WHERE; the table, its columns and its constraints stay, and a transaction can undo it. TRUNCATE removes all rows quickly and keeps the table definition; it takes no WHERE clause. DROP TABLE removes the rows and the table itself, including its indexes and constraints. ALTER TABLE changes the structure (add, drop or change a column, add or drop a constraint) and keeps the data. In PostgreSQL even TRUNCATE and DROP can be rolled back inside a transaction, whereas MySQL and Oracle commit implicitly after DDL statements."
+f = Fig(580, 200)
+hdr = ["", "Rows", "Table structure", "WHERE allowed", "Undo (ROLLBACK)"]
+xs = [6, 96, 186, 316, 436]
+ws = [90, 90, 130, 120, 138]
+data = [("DELETE", "chosen rows", "kept", "yes", "yes"), ("TRUNCATE", "all rows", "kept", "no", "PostgreSQL yes; MySQL no"), ("DROP TABLE", "all rows", "removed", "no", "PostgreSQL yes; MySQL no"), ("ALTER TABLE", "kept", "changed", "no", "PostgreSQL yes; MySQL no")]
+for j, h in enumerate(hdr):
+    f.box(xs[j], 8, ws[j], 24, h, fill=NAVY, stroke=NAVY, color="#ffffff", size=9.5, bold=True, r=0)
+for i, row in enumerate(data):
+    for j, v in enumerate(row):
+        f.box(xs[j], 32 + i * 34, ws[j], 34, v.replace("; ", ";\n"), fill=(BLUE if i % 2 == 0 else SOFT), stroke=NAVY, size=9, r=0, bold=(j == 0))
+f.text(290, 188, "DDL = CREATE, ALTER, DROP, TRUNCATE      DML = INSERT, UPDATE, DELETE, SELECT", size=10, color=SLATE, bold=True)
+```
+
+### 5.7.1 Eight advantages of declaring constraints in the table definition
+
+1. **Rules are written once.** A rule such as marks between 0 and 100 is part of the table and applies to every program that uses it. Without it, each program, from the clerk's data-entry screen to the import tool, would need its own check. One definition is easier to read, to test and to change.
+2. **Bad data is stopped at the door.** As Figure 5.2 shows, wrong values are refused at the moment of insertion with a clear message. It is much cheaper to refuse a mark of 150 than to find and correct it after results have been printed. Clean data means trustworthy reports.
+3. **Duplicates are impossible.** A primary key or UNIQUE rule stops two students from sharing a roll number or an email address. This holds even when two clerks save a record at the same moment, because the DBMS itself checks. A manual search for duplicates is no longer needed.
+4. **Links between tables stay valid.** A foreign key guarantees that every enrolment belongs to a real student and every student belongs to a real department. No orphan rows can appear. Joins therefore never lose rows because of broken links.
+5. **Deletions behave in a planned way.** ON DELETE CASCADE, SET NULL or RESTRICT decides in advance what happens to dependent rows (Figure 5.3). The designer thinks about it once, and the database then behaves the same way for every user. Accidental loss of important parents is prevented.
+6. **Defaults save typing and mistakes.** A DEFAULT value such as status 'active' or the current date is filled in when no value is given. Data-entry staff type less and forget fewer fields. Every row starts in a sensible state.
+7. **The schema documents itself.** Reading the CREATE TABLE statement tells a new team member the keys, the allowed values and the links between tables. The data dictionary can also be queried by tools. Documentation can never be out of date, because it is the definition itself.
+8. **Queries and the optimiser benefit.** Knowing that a column is unique or not null lets the optimiser choose faster plans, and primary and unique keys automatically get an index. A lookup by sid is quick without extra work. Good constraints therefore improve speed as well as correctness.
+
 ## Formula and fact sheet
 
 - DDL: `CREATE`, `ALTER`, `DROP`, `TRUNCATE`. Constraints: PRIMARY KEY, NOT NULL, UNIQUE, FOREIGN KEY, CHECK, DEFAULT.
@@ -222,3 +310,87 @@ NOTICE:  drop cascades to constraint d2_d1_id_fkey on table d2
 **6.** Dropping it would leave `student.dept_id` values pointing to nothing, breaking referential integrity; use CASCADE or drop `student` first.
 **7.** `VARCHAR2(30)`, `NUMBER(10)`, and a sequence or identity column (`GENERATED ALWAYS AS IDENTITY`).
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). Differentiate between DROP, TRUNCATE and DELETE.**
+
+*Introduction.* All three remove data, but they remove different things and belong to different SQL groups. DELETE is a DML statement, while DROP and TRUNCATE are DDL statements (Figure 5.4).
+
+1. **DELETE.** It removes the rows chosen by the WHERE clause, or all rows if there is no WHERE. For example `DELETE FROM student WHERE sid = 3;` removes one student. The table, its columns and its constraints remain, and the action is logged row by row, so it can be rolled back and can fire triggers.
+2. **TRUNCATE.** It removes all rows at once, quickly, and resets storage. `TRUNCATE enrollment;` empties the table but keeps its definition. It has no WHERE clause and does not fire row-level delete triggers.
+3. **DROP.** It removes the whole table, including rows, columns, indexes and constraints: `DROP TABLE student;`. The table no longer exists, and any foreign key that refers to it makes the statement fail unless `CASCADE` is added.
+4. **Transactions.** In MySQL and Oracle, DDL statements commit implicitly and cannot be rolled back. PostgreSQL allows DDL inside a transaction, so TRUNCATE and DROP can be undone there.
+5. **When to use.** Use DELETE to remove some rows, TRUNCATE to empty a table for reuse, and DROP when the table is no longer needed.
+
+*Conclusion.* DELETE trims the data, TRUNCATE empties the table and DROP removes the table itself.
+
+**Q2 (5 marks). What are SQL constraints? Write a CREATE TABLE statement that uses them.**
+
+*Introduction.* Constraints are rules attached to a table so that the DBMS itself keeps the data valid. The types are PRIMARY KEY, NOT NULL, UNIQUE, FOREIGN KEY, CHECK and DEFAULT (Figure 5.1).
+
+```sql
+CREATE TABLE student (
+    sid     INT PRIMARY KEY,
+    name    VARCHAR(40) NOT NULL,
+    email   VARCHAR(60) UNIQUE,
+    dept_id INT REFERENCES department(dept_id) ON DELETE SET NULL,
+    status  VARCHAR(10) DEFAULT 'active'
+            CHECK (status IN ('active','passed','left'))
+);
+```
+
+1. **PRIMARY KEY** makes sid unique and not null; each table has one, which may be composite.
+2. **NOT NULL** forces a name to be given.
+3. **UNIQUE** forbids two students with the same email, but allows several NULLs.
+4. **FOREIGN KEY ... REFERENCES** forces dept_id to exist in department; `ON DELETE SET NULL` clears it if the department is deleted.
+5. **CHECK** limits status to three values, and **DEFAULT** supplies 'active' when no value is given.
+
+*Test.* On a real server, inserting a second student with email sita@x.np failed with "duplicate key value violates unique constraint", and a status of 'gone' failed with "violates check constraint".
+
+*Conclusion.* Declared constraints guard every insert and update, whichever program sends it.
+
+**Q3 (10 marks). Write SQL statements to create the tables department, student and enrollment with suitable constraints. Then add a column, change its type, and explain ON DELETE CASCADE and SET NULL with the result of deleting a department and a student.**
+
+*Introduction.* SQL has data definition statements, `CREATE`, `ALTER`, `DROP`, `TRUNCATE`, that build and change the structure, and data manipulation statements that handle rows. We define the tables of the college database with their keys and rules first.
+
+```sql
+CREATE TABLE department (
+    dept_id   INT PRIMARY KEY,
+    dept_name VARCHAR(40) NOT NULL UNIQUE
+);
+CREATE TABLE student (
+    sid     INT PRIMARY KEY,
+    name    VARCHAR(40) NOT NULL,
+    dept_id INT REFERENCES department(dept_id) ON DELETE SET NULL
+);
+CREATE TABLE enrollment (
+    sid   INT REFERENCES student(sid) ON DELETE CASCADE,
+    cid   VARCHAR(8),
+    marks INT CHECK (marks BETWEEN 0 AND 100),
+    PRIMARY KEY (sid, cid)
+);
+```
+
+*Design choices.* The order of creation matters: department first, then student, then enrollment, because a foreign key can refer only to an existing table. Enrollment has a composite primary key because the pair (sid, cid) identifies one enrolment.
+
+*Altering.* The structure is changed without losing data:
+
+```sql
+ALTER TABLE student ADD COLUMN phone VARCHAR(15);
+ALTER TABLE student ALTER COLUMN name TYPE VARCHAR(60);
+ALTER TABLE student RENAME COLUMN phone TO mobile;
+```
+
+*Referential actions.* With department rows (10, BCA) and (20, BIT), students Sita and Ram in 10 and Hari in 20, and two enrolments of Sita, we ran the deletes on a real server.
+1. `DELETE FROM department WHERE dept_id = 10;` succeeded, and Sita and Ram stayed with dept_id NULL because of `ON DELETE SET NULL`.
+2. `DELETE FROM student WHERE sid = 1;` removed Sita, and her two enrollment rows disappeared too (the count fell from 2 to 0) because of `ON DELETE CASCADE`.
+3. Without these clauses the default NO ACTION refuses the delete while child rows exist.
+
+| Action | Effect on child rows | Typical use |
+|---|---|---|
+| CASCADE | deleted with the parent | enrolments of a student |
+| SET NULL | foreign key becomes NULL | optional link such as department |
+| RESTRICT / NO ACTION | delete refused | protect important parents |
+
+*Conclusion.* DDL statements define the structure and the rules; ON DELETE actions let the designer decide, once, how deletions spread, so the database stays consistent without extra program code.
