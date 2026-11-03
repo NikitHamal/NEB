@@ -324,7 +324,8 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] BCA 252 Software Engineering polished (session 31, 54 -> 103 pp)
 - [x] BCA 156 Principles of Management polished (session 32, 50 -> 83 pp)
 - [x] DBMS (BCA 202, session 33) DONE, 100 pp.
-- [~] Data Structure and Algorithms (BCA 201, session 34, IN PROGRESS, see section at the end).
+- [x] Data Structure and Algorithms (BCA 201, session 34) DONE, 125 pp.
+- [ ] NEXT SESSION STARTS AT: Operating Systems (semester-4/operating-systems, 85 pp, BCA 251), then Python Programming, Web Technology II, Microprocessor and Computer Architecture, UX/UI Design, Computer Networking, Artificial Intelligence, Advanced Java (the unpolished books; all check scripts are in bca/tools).
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
 
@@ -377,7 +378,7 @@ Section numbering: new section "N.K Seeing the ideas" is inserted before the fir
 - [x] U8 Query processing + security: Plate 8.1 (tape library/HSM/padlock 3-up), Fig 8.1 three stages, 8.2 join costs on a log scale (10,000,400 vs 1,400), 8.3 defence in depth, 8.4 DAC (real PostgreSQL permission-denied tests) vs MAC, 8.5 symmetric/asymmetric/hash (SHA-256 values computed with hashlib); 8.11.1 eight DBA responsibilities; Q1-Q2, Q3 (10 marks).
 - [x] U9 Transactions: Plate 9.1 (Jim Gray/ATM/booking counter 3-up), Fig 9.1 log + crash, 9.2 lost update with and without lock, 9.3 precedence and wait-for graphs, 9.4 2PL and timestamp example; 9.9.1 eight benefits of ACID; Q1-Q2, Q3 (10 marks). Note: the deadlock text is standard theory, not a captured server message (the live two-session test did not reproduce one).
 
-## BCA 201 data-structure-and-algorithms (semester-3/data-structure-and-algorithms) -- [~] IN PROGRESS (session 34)
+## BCA 201 data-structure-and-algorithms (semester-3/data-structure-and-algorithms) -- [x] POLISHED (session 34): all 11 units, 75 -> 125 pp, qa fails=0 warns=1 (p3 pre-existing)
 15 licence-gated `bca201/` photos fetched and viewed: euclid (papyrus), knuth, plates, queue, hanoi (magnetic toy), hoare, sorter (IBM 082), mail (pigeonholes), konigsberg (Merian map), dijkstra, ringroad (Kathmandu), adelson, nautilus, chain (coupling), janakpur (Nepal Railway coach). Unused so far (reserved): hanoi U6, nautilus U6, chain+janakpur U5, hoare+sorter U8, mail U9, konigsberg+dijkstra+ringroad U10, adelson U7, euclid reused in U11 if wanted. Reuse bca202/catalog (used U4).
 Section naming: new "N.K Seeing the ideas" before the first of "Formula and fact sheet"/"Chapter summary"; eight-point list N.K.1; model answers "## Model answers (5 and 10 marks)" (Q1-Q2 5 marks 180-250 words, Q3 10 marks 350-500 words). Helpers /tmp/ins2.py, /tmp/view.py, /tmp/wc.py are recreated from AGENTS.md session 34 notes.
 - [x] U1 Intro: Plate 1.1 (Euclid papyrus + Knuth), Fig 1.1 classification tree, 1.2 ADT interface vs implementation, 1.3 growth of cost (log scale, n = 1,000,000); 1.6.1 eight applications; Q1-Q2, Q3.
@@ -388,4 +389,6 @@ Section naming: new "N.K Seeing the ideas" before the first of "Formula and fact
 - [x] U6 Recursion: Plate 6.1 (Hanoi toy + nautilus), Fig 6.1 factorial(4) call stack, 6.2 fib(5) call tree (15 calls), 6.3 Hanoi n=3 moves and 2^n-1 table (64 discs = 18,446,744,073,709,551,615 moves, about 585 billion years); 6.6.1 eight applications; Q1-Q3.
 - [x] U7 Trees: Plate 7.1 (Adelson-Velsky + BST SVG), Fig 7.1 pre/in/post-order of the 7-key BST, 7.2 AVL left rotation (10,20,30), 7.3 Huffman tree for A45 B13 C12 D16 E9 F5 (224 vs 300 bits, 25.3 percent saved; computed with heapq); 7.8.1 eight applications; Q1-Q3.
 - [x] U8 Sorting: Plate 8.1 (IBM 082 sorter + Hoare), Fig 8.1 merge sort tree, 8.2 quick-sort Lomuto partition (verified in Python), 8.3 comparisons bubble vs merge for n=1,000 and 1,000,000 (log scale); 8.10.1 eight applications; Q1-Q3 (bubble trace, quick sort, merge sort + comparison table).
-- [ ] U9 Searching/hashing (mail), U10 Graphs (konigsberg, dijkstra, ringroad), U11 Algorithms (euclid reuse).
+- [x] U9 Searching and hashing: Plate 9.1 (airmail pigeonholes + chained hash table SVG), Fig 9.1 binary search trace for 56 (4 probes), 9.2 linear probing table (13 probes, verified in Python), 9.3 average comparisons for n=1,000,000 (500,000 / 20 / 1.25); 9.7.1 eight applications; Q1-Q3.
+- [x] U10 Graphs: Plate 10.1 (Koenigsberg map, Dijkstra, Kathmandu Ring Road; 3-up), Fig 10.1 Euler graph of the seven bridges (degrees 5,3,3,3), 10.2 BFS A B C D E F vs DFS A B D C E F, 10.3 Dijkstra table + Kruskal MST on one graph (F=13, MST weight 13, both checked in Python); 10.8.1 eight applications; Q1-Q3.
+- [x] U11 Algorithm design: Plate 11.1 (Cray-1 [new bca201/cray], GPU card [bca106/gpu], CERN hall [bca355/lhc]; 3-up), Fig 11.1 divide-and-conquer levels (n=8, 32 units), 11.2 parallel sum + Amdahl speed-ups (1.82..9.91), 11.3 nearest-neighbour TSP 38 vs optimum 32 and 2-approx vertex cover, 11.4 deterministic vs non-deterministic (subset sum); 11.6.1 eight points; Q1-Q3 (Q3 is 548 words, slightly above the 500 target).
