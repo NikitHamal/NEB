@@ -211,6 +211,22 @@
   "id": "12-nep-2082-0021b"
  },
  {
+  "file": "NEBians-Past-Paper-Grade-12-Computer-Science-2080-4281.pdf",
+  "subject": "Computer Science",
+  "grade": "12",
+  "year_bs": "2080",
+  "year_ad": "2023",
+  "stream": "General Stream",
+  "code": "4281",
+  "time": "2 hrs",
+  "marks": "50",
+  "students": "For students whose first two digits of registration number start from 78 or 79",
+  "category": "Board Exam",
+  "pages": 11,
+  "bytes": 146370,
+  "id": "12-cs-2080-4281"
+ },
+ {
   "file": "NEBians-Past-Paper-Grade-12-Computer-Science-2081.pdf",
   "subject": "Computer Science",
   "grade": "12",

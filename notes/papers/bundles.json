@@ -10,7 +10,7 @@
    "12-bio-2080-general"
   ],
   "pages": 47,
-  "bytes": 820616,
+  "bytes": 820615,
   "category": "Board Exam Bundle"
  },
  {
@@ -24,7 +24,7 @@
    "12-chem-2080-general"
   ],
   "pages": 38,
-  "bytes": 723057,
+  "bytes": 723058,
   "category": "Board Exam Bundle"
  },
  {
@@ -39,7 +39,7 @@
    "12-eng-2080-0041g"
   ],
   "pages": 36,
-  "bytes": 476787,
+  "bytes": 476790,
   "category": "Board Exam Bundle"
  },
  {
@@ -53,20 +53,21 @@
    "12-nep-2080-0021b"
   ],
   "pages": 36,
-  "bytes": 383468,
+  "bytes": 383470,
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Computer-Science-2081-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Computer-Science-2080-2082-Bundle.pdf",
   "subject": "Computer Science",
   "grade": "12",
-  "years_bs": "2081-2082",
+  "years_bs": "2080-2082",
   "papers": [
    "12-cs-2082-general",
-   "12-cs-2081-general"
+   "12-cs-2081-general",
+   "12-cs-2080-4281"
   ],
-  "pages": 18,
-  "bytes": 282666,
+  "pages": 29,
+  "bytes": 430756,
   "category": "Board Exam Bundle"
  },
  {
