@@ -1881,9 +1881,10 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 ## BCA polish session 24 (BCA 401 Cyber Security and Ethical Hacking)
 
 - **Queue state found:** every book up to Numerical Methods was DONE and pushed; the first unfinished item was Cyber Security and Ethical Hacking (48 pp). **Done and pushed this session: only that book** (7 units, 48 -> 73 pp, qa fails=0). Details in `bca/POLISH_STATUS.md`.
-- **Content:** 13 new `bca401/` photos (YubiKey, fingerprint sensor, Enigma-K, write blocker, PIX firewall, RFID card, access point, CCTV, TPM chip, server room, disk imager, switches, Singha Durbar), 6 photogrids, 27 SVG figures, eight-point section and Q1-Q3 (2 medium + 1 long, 10-mark) in every unit. Unit 4 has no photo (software topic; none claimed).
+- **Content:** 13 `bca401/` photo files (YubiKey, fingerprint sensor, Enigma-K, write blocker, PIX firewall, RFID card, access point, CCTV, TPM chip, server room, disk imager, switches, Singha Durbar), 6 photogrids, 25 SVG figures, eight-point section and Q1-Q3 (2 medium + 1 long, 10-mark) in every unit. Unit 4 has no photo (software topic; none claimed).
 - **Method that worked:** one unit per bash call in two parts (figures + eight points, then answers) via `/tmp/ins.py FILE sec CONTENT "## N.M Summary" NEWNUM` / `app`; recompute every number in Python first (CVSS 9.8, 26^8, 7776^6, ALE). View montages with `/tmp/view.py PDF OUT.png pages...` (70 dpi) into `/app/_view/` and delete it before `/app` validation. First build showed clipped text in 6 figures (svgkit does not wrap): fix by line breaks and wider boxes.
 - **Numbering gotcha:** new section = last numbered section + 1 (check `grep -n "^## " unit-0N.md` first: units 5 and 6 each already had an "Operating"/"Forensics" section before the summary).
-- **Next:** Society and Technology (44 pp), Computer Graphics and Animation, Mobile Programming, Web Technology I, MIS and e-Business, Cryptography and Network Security.
+- **Also this session (partial, pushed):** Society and Technology units 1-3 (44 -> 56 pp, IN PROGRESS in POLISH_STATUS): 3 new `bca-st/` photos, 3 photo plates, 11 SVG figures, eight-point sections and Q1-Q3 each. Units 4-7 remain.
+- **Next:** finish Society and Technology units 4-7, then Computer Graphics and Animation, Mobile Programming, Web Technology I, MIS and e-Business, Cryptography and Network Security.
 - **Credentials:** out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT`; the PAT given in the prompt was never written to the repo and must be rotated by the owner.
 

@@ -90,6 +90,68 @@ Two related laws: **Metcalfe's law** (network value grows as the square of users
 
 Nepal's remittance economy shows the double edge: video calls and wallet transfers connect families across the Gulf and Malaysia, while new patterns of scams and loan apps target the same users. The sociological habit is to look at **who gains, who loses and who decides**, not to declare technology good or bad.
 
+## 1.6 Seeing the ideas: four information revolutions, the timeline and Moore's law
+
+Each information revolution came with a machine. Plate 1.1 puts four of them side by side: the printing press, the vacuum-tube computer, the first microprocessor and today's smartphone.
+
+```photogrid label="1.1" cols="4" ratio="1.0" caption="Four machines of the information revolutions. (a) A replica of a Gutenberg-style printing press (c. 1450): books became cheap and literacy spread. (b) A vacuum tube from the ENIAC era (1940s): electronic computing began. (c) The Intel 4004 (1971), the first commercial microprocessor, with about 2,300 transistors. (d) An Android smartphone: billions of transistors, a camera and a network in one pocket."
+@ photo id="bca-st/gutenberg" cap="Printing press (c. 1450)"
+fit 1.0
+focus 0.5 0.35
+@ photo id="bca101/vacuum-tube" cap="Vacuum tube (1940s)"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca-st/intel4004" cap="Intel 4004 (1971)"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca101/android" cap="Smartphone (2000s)"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="1.1" caption="A timeline of information technologies. The gaps between the dots shrink: thousands of years from writing to print, about 400 years from print to the telegraph, then decades, then years. Each step changed how people work, learn and govern."
+f = Fig(580, 200)
+f.arrow([(14, 100), (566, 100)], color=SLATE, sw=2)
+ev = [(40, "c. 3200 BCE", "Writing\n(Sumer)", SAND, AMBER), (120, "c. 1450", "Printing\npress", BLUE, NAVY), (200, "1844", "Telegraph", MINT, TEAL), (270, "1876", "Telephone", SAND, AMBER), (345, "1946", "ENIAC", BLUE, NAVY), (410, "1971", "Micro-\nprocessor", MINT, TEAL), (475, "1991", "World\nWide Web", SAND, AMBER), (538, "2007", "Smart-\nphone", ROSE, RED)]
+for i, (x, y, t, fl, st) in enumerate(ev):
+    f.circle(x, 100, 7, fill=fl, stroke=st)
+    up = (i % 2 == 0)
+    f.text(x, 78 if up else 124, y, size=9.5, color=st, bold=True)
+    f.box(x - 32, 20 if up else 138, 64, 40, t, fill=fl, stroke=st, size=9.5, bold=True)
+    f.line(x, 60 if up else 138, x, 93 if up else 107, color=st, sw=1)
+f.text(290, 194, "dates are conventional; the pattern is what matters: each gap is shorter than the one before", size=9.5, color=SLATE)
+```
+
+```svgfig label="1.2" caption="Moore's law on a logarithmic scale. Doubling every two years from 2,300 transistors (1971) predicts 77,175,193,600 in 2021: 25 doublings, a factor of 2^25 = 33,554,432. On a log axis exponential growth is a straight line."
+f = Fig(580, 214)
+data = [(1971, 2300), (1981, 73600), (1991, 2355200), (2001, 75366400), (2011, 2411724800), (2021, 77175193600)]
+import math
+f.line(70, 180, 70, 20, color=SLATE); f.line(70, 180, 360, 180, color=SLATE)
+for i, (yr, v) in enumerate(data):
+    h = (math.log10(v) - 3) * 28
+    x = 84 + i * 46
+    f.box(x, 180 - h, 34, h, "", fill=BLUE if i < 5 else MINT, stroke=NAVY if i < 5 else TEAL)
+    f.text(x + 17, 194, str(yr), size=9, color=SLATE)
+for e in [3, 5, 7, 9, 11]:
+    y = 180 - (e - 3) * 28
+    f.line(66, y, 360, y, color="#e2e8f0", sw=0.8)
+    f.text(60, y + 3, "10^%d" % e, size=9, color=SLATE, anchor="end")
+f.box(390, 24, 184, 52, "Each decade: 5 doublings\nx 32 transistors", fill=MINT, stroke=TEAL, bold=True, size=10.5)
+f.box(390, 88, 184, 52, "Growth of 41.4% per year\n(sqrt 2 - 1), compounding", fill=BLUE, stroke=NAVY, bold=True, size=10.5)
+f.box(390, 152, 184, 48, "Trend and roadmap,\nnot a law of physics", fill=SAND, stroke=AMBER, bold=True, size=10.5)
+```
+
+### 1.6.1 Eight social impacts of computing
+
+1. **Faster access to information.** A student in Dolpa can now read the same article as a student in Kathmandu if a connection exists. Search engines, e-books and recorded lectures reduce the cost of learning. The gain is largest where libraries are few.
+2. **New kinds of work.** Software, freelancing, digital marketing and remote jobs did not exist at scale a generation ago. Many young Nepalis now earn from international clients. At the same time, some clerical jobs are shrinking.
+3. **Easier payments and services.** Fonepay, eSewa, Khalti and ConnectIPS let people pay bills without standing in a queue. Remittances reach families faster. Small shops gain customers who carry no cash.
+4. **Stronger communication.** Messaging and video calls keep migrant workers close to their families. Disaster alerts reach people within minutes. Community groups organise on social media.
+5. **Privacy risks.** Phones, apps and cameras record where we go and what we buy. This data can be sold, leaked or misused. People need clear rules and the habit of sharing less.
+6. **Misinformation and harm.** False news and scams spread as fast as true news. Online fraud and bullying cause real losses and distress. Media literacy and reporting channels are needed.
+7. **Unequal access.** Those with devices, electricity, skills and language benefit first. Others fall further behind, which is the digital divide of Unit 3. Public policy must widen access, not only improve it for the connected.
+8. **Environmental cost.** Devices use energy, minerals and water, and they become e-waste after a few years. Data centres draw large amounts of power. Responsible use and recycling reduce the damage (Unit 7).
+
 ## Chapter summary
 
 - Society, culture and structure change under many forces, technology among them; technology comprises artefacts, knowledge and organisation.
@@ -123,3 +185,68 @@ Nepal's remittance economy shows the double edge: video calls and wallet transfe
 **9.** Benefits: free or cheap video calls; instant remittance. Risks: scams targeting remitters; weaker face-to-face bonds (also loan-app harassment).
 **10.** Who benefits? Who pays or is harmed? Who is absent from the design and decision?
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). State Moore's law. Use it to predict the transistor count of a chip in 2021 starting from the Intel 4004 of 1971.**
+
+*Introduction.* In 1965 Gordon Moore noticed that the number of components on a chip was doubling regularly, and in 1975 he set the period at about two years. It is an empirical trend and an industry roadmap, not a law of physics (section 1.4).
+
+*Calculation.* The Intel 4004 (1971) had about 2,300 transistors. From 1971 to 2021 is 50 years, so there are 50 / 2 = 25 doublings. The factor is 2^25 = 33,554,432, so the predicted count is 2,300 x 33,554,432 = **77,175,193,600** (Figure 1.2).
+
+| Year | Doublings | Predicted transistors |
+|---|---|---|
+| 1971 | 0 | 2,300 |
+| 1991 | 10 | 2,355,200 |
+| 2011 | 20 | 2,411,724,800 |
+| 2021 | 25 | 77,175,193,600 |
+
+*Meaning.* Doubling every two years is a growth of sqrt(2) - 1 = 41.4% per year, compounding. Flagship processors of the early 2020s have tens of billions of transistors, so the trend has held roughly for fifty years.
+
+*Effect on society.* Cheap, powerful chips made computers personal and then pocket-sized. The same cost curve explains why smartphones now reach villages.
+
+**Q2 (5 marks). Compare technological determinism and social shaping of technology, with an example from Nepal.**
+
+*Introduction.* People disagree about whether technology drives society or society drives technology (section 1.2).
+
+1. **Technological determinism.** Technology is the main cause of social change. The argument is that the printing press, the telegraph and the internet each forced new ways of living. A weakness is that the same technology has had different effects in different countries.
+2. **Social shaping (social construction).** Laws, markets, culture and choices decide which technologies are built and how they are used. Mobile money succeeded in some countries quickly and slowly in others because of regulation and trust, not just technology.
+3. **Co-evolution (the usual modern view).** Technology and society shape each other in a loop.
+
+| Point | Determinism | Social shaping |
+|---|---|---|
+| Cause | Technology | Society and choices |
+| Policy implication | Adapt to the tool | Steer the tool |
+| Weakness | Ignores context | Underrates technical limits |
+
+*Nepali example.* QR payments spread after Fonepay and banks agreed on shared standards, and after COVID-19 made cash risky. The technology existed earlier; policy, trust and need decided the timing.
+
+*Conclusion.* A balanced answer says that technology opens possibilities and society chooses among them.
+
+**Q3 (10 marks). Describe the information revolutions in history and discuss the social impacts of computing, with examples from Nepal.**
+
+*Introduction.* An information revolution is a change in how information is recorded, copied or moved that reshapes society. History has several of them, and each arrived faster than the one before (section 1.3 and Figure 1.1).
+
+*The revolutions.*
+
+1. **Writing (c. 3200 BCE).** Records outlive memory, so trade, law and administration become possible.
+2. **Printing (c. 1450).** Books become cheap (Plate 1.1a), literacy spreads and ideas travel faster than rulers can control.
+3. **Telegraph and telephone (1844, 1876).** Messages travel at the speed of electricity, linking markets and governments.
+4. **Electronic computers (1946).** ENIAC and its vacuum tubes (Plate 1.1b) automate calculation for the census, banks and science.
+5. **Microprocessor (1971).** The Intel 4004 (Plate 1.1c) begins the personal computer; Moore's law then multiplies power by a factor of 33 million in fifty years.
+6. **Web and mobile (1991, 2007).** Anyone can publish, and a smartphone (Plate 1.1d) is a computer, camera and bank in one hand.
+
+*Social impacts (section 1.5).*
+
+| Area | Positive effect | Negative effect |
+|---|---|---|
+| Education | Free lectures and e-books | Distraction, cheating |
+| Work | Remote jobs, freelancing | Job loss from automation |
+| Money | Fonepay, eSewa, ConnectIPS | Online fraud |
+| Communication | Contact with migrant workers | Misinformation |
+| Privacy | Personalised services | Tracking and data leaks |
+| Environment | Paperless offices | E-waste and energy use |
+
+*Discussion.* The benefits are real, but they are not equally shared. People without devices, skills or electricity gain little, so policy such as the Digital Nepal Framework matters. Society should treat technology as a choice that can be steered by law, education and ethics, not as a force that cannot be questioned.
+
+*Conclusion.* Each information revolution lowered the cost of information and raised the speed of change. Computing is the largest so far, so its social effects, good and bad, need deliberate management.

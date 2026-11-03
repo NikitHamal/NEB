@@ -259,6 +259,45 @@
   "source": "Wikimedia Commons",
   "title": "Velocity Micro \"ProMagix HD60\" Workstation Computer"
  },
+ "bca-st/gutenberg": {
+  "author": "International Printing Museum",
+  "bytes": 2708622,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca-st/gutenberg.png",
+  "license": "CC0",
+  "license_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "page": "https://commons.wikimedia.org/wiki/File:Gutenberg_press.png",
+  "sha1": "d98130b06a4f18c6",
+  "source": "Wikimedia Commons",
+  "title": "Gutenberg press"
+ },
+ "bca-st/intel4004": {
+  "author": "the Science Museum",
+  "bytes": 116141,
+  "credit": "[1]",
+  "fetched": "2026-11-03",
+  "file": "bca-st/intel4004.jpg",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Intel_4004_open.jpg",
+  "sha1": "c7f4cae02fa10451",
+  "source": "Wikimedia Commons",
+  "title": "Intel 4004 open"
+ },
+ "bca-st/nokia1100": {
+  "author": "Georgy90",
+  "bytes": 570753,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca-st/nokia1100.jpg",
+  "license": "CC BY-SA 3.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/3.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Nokia_1100.JPG",
+  "sha1": "6e1c8220672d809b",
+  "source": "Wikimedia Commons",
+  "title": "Nokia 1100"
+ },
  "bca101/android": {
   "author": "Pikalab",
   "bytes": 1042069,
