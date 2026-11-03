@@ -74,7 +74,8 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 12 | Mathematics | 2082 | Set R | DONE (8 pp). Other 2082 sets not yet built |
 | 12 | Computer Science | 2082 | Regular + Partial | DONE (7 pp) |
 | 12 | Computer Science | 2081 | Regular + grade increment 4281 | DONE (10 pp; session 2) |
-| 12 | Compulsory English | 2082, 2081, 2080 | all | queued (see source index) |
+| 12 | Compulsory English | 2081 | 0041 'B' | DONE (8 pp; session 3). Two OR alternatives (Humility Q2d, Human Rights Q3a) have NO model answer yet: source texts not verified; fill in next session |
+| 12 | Compulsory English | 2082 Regular + Partial, 2083, 2080 (0041 'G' and old-course 004) | all | queued (2082 + 2083 pages already fetched into /tmp/psrc during session 3 if still present) |
 | 12 | Compulsory Nepali | 2082, 2081, 2080 | | queued |
 | 12 | Physics | 2081, 2080 | General | queued (2080 URL below; 2081 general URL not found on the aggregator, search `dhanrajgurung.com` or the NEB site) |
 | 12 | Chemistry, Biology, Mathematics, CS | 2080 | General / grade increment | queued |
