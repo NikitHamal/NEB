@@ -78,10 +78,10 @@
   "category": "Board Exam Bundle"
  },
  {
-  "file": "bundles/NEBians-Past-Papers-Grade-12-Mathematics-2080-2082-Bundle.pdf",
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Mathematics-2079-2082-Bundle.pdf",
   "subject": "Mathematics",
   "grade": "12",
-  "years_bs": "2080-2082",
+  "years_bs": "2079-2082",
   "papers": [
    "12-math-2082-4021a",
    "12-math-2082-set-r",
@@ -90,10 +90,11 @@
    "12-math-2081-old216",
    "12-math-2081-set-w",
    "12-math-2081-9121",
-   "12-math-2080-set-h"
+   "12-math-2080-set-h",
+   "12-math-2079-set-k"
   ],
-  "pages": 91,
-  "bytes": 4517424,
+  "pages": 102,
+  "bytes": 5019316,
   "category": "Board Exam Bundle"
  },
  {
