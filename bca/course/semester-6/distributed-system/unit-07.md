@@ -163,6 +163,84 @@ replica placement for a write from a2: ['a2', 'b1', 'b2']
 ```
 A 1000 MB file occupies 8 blocks (the last only 104 MB) and 24 replicas, 3000 MB of raw disk. The NameNode keeps all metadata in RAM, which limits the number of files, not their size, and is why HDFS prefers a few large files to millions of small ones (a **standby NameNode** with a quorum journal removes the old single point of failure). If three nodes of a hundred fail at once, a given block is lost only if its three replicas are exactly those nodes: probability 1/C(100,3), about 6.18e-06. Two failures can never lose a 3-replica block.
 
+## 7.5 Seeing failure: walls, disks, racks and snapshots
+
+Failures are physical: disks that stop spinning, racks that lose power, and sometimes a component that lies. Plate 7.1 shows three pictures that give this unit its vocabulary, and Figures 7.1 to 7.3 show a Byzantine vote, a consistent snapshot and a distributed file system, each checked by a program.
+
+```photogrid label="7.1" cols="3" ratio="1.0" caption="Failure in picture. (a) The Theodosian Walls of Constantinople: Lamport, Shostak and Pease named the Byzantine Generals problem (1982) after commanders of a besieging army, some of whom might be traitors, who must agree on a common plan by messenger. (b) The inside of a failed hard disk: the read-write arm rests beside the platter, and a disk that has crashed this way takes its data with it, which is why file systems keep several copies. (c) A rack of storage servers with rows of drive bays: a large cluster loses disks every day, so the software must treat failure as normal."
+@ photo id="bca355/walls" cap="Theodosian Walls (Byzantium)"
+fit 1.0
+focus 0.5 0.55
+@ photo id="bca355/hdfail" cap="Failed hard disk"
+fit 1.0
+focus 0.6 0.4
+call 0.5 0.3 0.15 0.12 "read-write arm"
+@ photo id="cs12/server-racks" cap="Rack of storage servers"
+fit 1.0
+focus 0.5 0.7
+```
+
+```svgfig label="7.1" caption="Byzantine agreement with four generals (f = 1 traitor, n = 3f + 1 = 4). The commander C is loyal and orders ATTACK. Lieutenant L3 is a traitor and tells the other lieutenants RETREAT. Each loyal lieutenant takes a majority of the three values it holds: L1 sees ATTACK from C, ATTACK from L2 and RETREAT from L3, so it decides ATTACK; L2 does the same. The oral-messages algorithm OM(1) sends 9 messages for n = 4."
+f = Fig(580, 230)
+f.box(240, 8, 100, 40, "Commander C\nloyal", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(40, 150, 110, 44, "L1 (loyal)\nsees A, A, R", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(235, 150, 110, 44, "L2 (loyal)\nsees A, A, R", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(430, 150, 120, 44, "L3 (traitor)\nsends R", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.arrow([(260, 48), (110, 150)], color=NAVY); f.arrow([(290, 48), (290, 150)], color=NAVY); f.arrow([(320, 48), (480, 150)], color=NAVY)
+f.arrow([(430, 172), (345, 172)], color=RED, dash=True)
+f.arrow([(235, 186), (150, 186)], color=NAVY, dash=True)
+f.arrow([(480, 194), (110, 206)], color=RED, dash=True)
+f.text(185, 76, "ATTACK", size=10, color=NAVY, bold=True)
+f.text(330, 100, "ATTACK", size=10, color=NAVY, bold=True)
+f.text(285, 222, "L1 and L2 both decide ATTACK: agreement despite the traitor", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="7.2" caption="A Chandy-Lamport snapshot. Process A starts with Rs 600, B with Rs 400, and A sends Rs 200 to B. A records its state after sending (Rs 400) and sends a MARKER on the channel. B receives the marker before the money, so it records its state (Rs 400) and records the channel A to B as holding Rs 200. The snapshot total is 400 + 400 + 200 = Rs 1000, equal to the real total, though no instant ever had exactly these three values."
+f = Fig(580, 200)
+f.text(30, 54, "A", size=13, color=NAVY, bold=True)
+f.text(30, 144, "B", size=13, color=NAVY, bold=True)
+f.line(50, 50, 560, 50, color=SLATE, sw=1.4); f.line(50, 140, 560, 140, color=SLATE, sw=1.4)
+f.circle(110, 50, 7, fill=BLUE, stroke=NAVY)
+f.text(110, 30, "send Rs 200", size=10, color=NAVY, bold=True)
+f.circle(190, 50, 8, fill=SAND, stroke=AMBER)
+f.text(190, 30, "record A = 400", size=10, color=AMBER, bold=True)
+f.arrow([(110, 50), (400, 140)], color=NAVY, sw=1.8)
+f.arrow([(190, 50), (330, 140)], color=AMBER, sw=1.8, dash=True)
+f.circle(330, 140, 8, fill=SAND, stroke=AMBER)
+f.text(330, 168, "marker arrives first: record B = 400", size=10, color=AMBER, bold=True)
+f.circle(400, 140, 7, fill=BLUE, stroke=NAVY)
+f.text(450, 120, "money arrives: counted in channel", size=10, color=TEAL, bold=True, anchor="start")
+f.text(290, 192, "snapshot: A 400 + B 400 + channel 200 = 1000", size=11, color=RED, bold=True)
+```
+
+```svgfig label="7.3" caption="A distributed file system in the HDFS style. The NameNode holds only metadata (file names and block locations, about 150 bytes per object, so 100,000,000 files with their blocks need about 30 GB of memory). The DataNodes hold 128 MB blocks, each copied to three nodes on two racks. A 1 GB file becomes 8 blocks and 24 stored replicas, using 3 GB of raw disk. Clients get block locations from the NameNode and then read data directly from the DataNodes."
+f = Fig(580, 240)
+f.box(200, 8, 180, 44, "NameNode (metadata)\nfile -> blocks -> nodes", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(10, 100, 270, 130, "", fill="#f8fafc", stroke=SLATE)
+f.box(300, 100, 270, 130, "", fill="#f8fafc", stroke=SLATE)
+f.text(145, 116, "Rack 1", size=10.5, color=NAVY, bold=True)
+f.text(435, 116, "Rack 2", size=10.5, color=NAVY, bold=True)
+f.box(24, 130, 112, 40, "DataNode 1\nB1  B2", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(154, 130, 112, 40, "DataNode 2\nB1  B3", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(24, 180, 112, 40, "DataNode 3\nB2  B3", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(314, 130, 112, 40, "DataNode 4\nB1  B3", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(444, 130, 112, 40, "DataNode 5\nB2", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.box(314, 180, 112, 40, "DataNode 6\nB2  B3", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.arrow([(240, 52), (160, 100)], color=SLATE, dash=True); f.arrow([(340, 52), (420, 100)], color=SLATE, dash=True)
+f.text(150, 74, "heartbeats, block reports", size=9, color=SLATE)
+```
+
+### 7.5.1 Eight reasons why fault tolerance matters and how it is achieved
+
+1. **Failures are normal at scale.** A cluster with 1,000 disks and a 2% yearly failure rate loses about 20 disks a year. The software must keep working while hardware is replaced. Designing for failure is cheaper than hoping it will not happen.
+2. **Replication protects data.** Keeping three copies means that a block is lost only if all three disks fail before the system makes a new copy. With a 12-hour repair window, the chance of that after one disk failure is about 7.5e-10. For the whole cluster this is roughly 1.5e-08 events per year.
+3. **Availability depends on repair time.** Availability is MTBF divided by (MTBF + MTTR). With a mean time between failures of 1000 hours and a repair time of 4 hours it is 99.60%. Faster repair raises availability as surely as fewer failures do.
+4. **Failure detection by heartbeats.** Nodes send small messages regularly, and a node that is silent for too long is declared dead. A short time-out detects failure quickly but can wrongly condemn a slow node. The designer must balance the two.
+5. **Byzantine tolerance for untrusted parties.** When some nodes may lie, as in a blockchain or an interbank network, 3f + 1 nodes are needed to tolerate f faulty ones. For f = 1, 2, 3 the minimum is 4, 7 and 10 nodes. Most data-centre systems only assume crashes, which needs just 2f + 1.
+6. **Checkpoints and snapshots.** A consistent snapshot, as in Figure 7.2, lets a long computation restart from a saved state instead of from the beginning. The recorded total is correct (Rs 1000) even though processes did not stop. This saves hours of work after a crash.
+7. **Rack-aware placement.** A distributed file system puts replicas on different racks, so that the loss of a whole rack's power or switch does not remove all copies. Reads choose the nearest replica, which also saves network bandwidth. A government data centre or a university cluster would use the same idea.
+8. **Self-healing.** When a DataNode stops sending heartbeats, the NameNode finds the blocks that now have only two copies and orders new copies to be made. The user sees nothing. This continuous repair is what makes cheap commodity disks usable for important data.
+
 ## Chapter summary
 
 - Redundancy is the basis of fault tolerance; failure detectors suspect silent nodes by timeout; crash tolerance needs 2f + 1 replicas for majorities, Byzantine tolerance 3f + 1.
@@ -195,3 +273,56 @@ A 1000 MB file occupies 8 blocks (the last only 104 MB) and 24 replicas, 3000 MB
 **9.** 700 / 128 = 5.47, so 6 blocks (5 of 128 MB and one of 60 MB); 18 replicas; raw storage 2100 MB.
 **10.** First replica on the writer's node, second in a different rack, third on another node in the second replica's rack.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the Byzantine Generals problem and the condition n >= 3f + 1.**
+
+*Introduction.* In a Byzantine failure a node may behave arbitrarily, including lying or sending different values to different nodes. The problem asks whether loyal nodes can still agree (section 7.2, Figure 7.1).
+
+1. **Statement.** A commander sends an order to n - 1 lieutenants. Agreement requires that all loyal lieutenants obey the same order, and that they obey the commander's order if the commander is loyal.
+2. **Bound.** With oral (unsigned) messages, agreement is possible if and only if n >= 3f + 1. For f = 1, 2, 3 the minimum n is 4, 7, 10.
+3. **Why three are not enough.** With n = 3 and f = 1, a lieutenant who hears ATTACK from the commander and RETREAT from the other lieutenant cannot tell which of the two is the traitor.
+4. **Algorithm OM(f).** The commander sends to all; each lieutenant relays what it received to the others, recursively f times, and each takes the majority. For n = 4, f = 1 this needs 9 messages; for n = 7, f = 2 it needs 156 messages.
+5. **Practical form.** PBFT and blockchain protocols reduce the cost with signatures and quorums, but the 3f + 1 bound for nodes remains.
+
+| f | Minimum nodes n = 3f + 1 | Quorum size 2f + 1 | OM(f) messages |
+|---|---|---|---|
+| 1 | 4 | 3 | 9 |
+| 2 | 7 | 5 | 156 |
+| 3 | 10 | 7 | 3609 |
+
+*Conclusion.* Tolerating liars costs more nodes and many more messages than tolerating crashes, so Byzantine protocols are used only where trust is limited.
+
+**Q2 (5 marks). Describe the Chandy-Lamport snapshot algorithm with an example.**
+
+*Introduction.* A global snapshot records a state of all processes and channels that could have occurred, without stopping the system. It is used for checkpoints and for detecting stable properties such as deadlock (section 7.3, Figure 7.2).
+
+1. **Initiate.** A process records its own state, then sends a MARKER on every outgoing channel.
+2. **First marker.** A process that receives a marker for the first time records its own state, marks that channel as empty, and sends markers on all its outgoing channels.
+3. **Later markers.** On every other incoming channel, it records the messages that arrive before that channel's marker. These are the messages in transit.
+4. **Termination.** The snapshot is complete when every process has received a marker on every incoming channel.
+5. **Example.** A starts with Rs 600 and B with Rs 400. A sends Rs 200 and then records Rs 400; B receives the marker first and records Rs 400; the channel holds Rs 200. Total 400 + 400 + 200 = Rs 1000, which equals the true total.
+
+*Conclusion.* The snapshot may not match any real instant, but it is consistent: it is a cut that no message crosses backwards. Channels must be FIFO.
+
+**Q3 (10 marks). Discuss fault tolerance in distributed systems and describe how a distributed file system such as HDFS achieves reliability. Compare NFS, GFS and HDFS.**
+
+*Introduction.* A fault-tolerant system continues to work correctly although some components fail. It is judged by its dependability: availability, reliability, safety and maintainability. Availability is MTBF / (MTBF + MTTR), so with MTBF = 1000 h and MTTR = 4 h it is 99.60%.
+
+*Types of failure.* Crash (a node stops), omission (a message is lost), timing (a reply is late), and arbitrary or Byzantine (the node misbehaves). Byzantine failures need n >= 3f + 1 nodes (Figure 7.1), crashes only 2f + 1.
+
+*Techniques.* (1) Redundancy: information (checksums), time (retry), physical (replicas). (2) Failure detection by heartbeats and time-outs. (3) Recovery by checkpoints and logs, and consistent snapshots (Figure 7.2). (4) Masking by replication and voting.
+
+*HDFS design (Figure 7.3).* A single NameNode keeps the namespace and block map in memory (about 150 bytes per object, so 100,000,000 files with blocks take about 30 GB). DataNodes store 128 MB blocks and report by heartbeat. A 1 GB file is split into 8 blocks; with replication factor 3 that means 24 replicas and 3 GB of raw disk. Placement puts the first replica on the writer's node and the others on a different rack. A lost replica is detected by missing heartbeats and recreated from the survivors. With 12-hour repair, the chance that a block loses all three copies after one failure is about 7.5e-10.
+
+| Feature | NFS | GFS | HDFS |
+|---|---|---|---|
+| Design aim | share files on a LAN | huge files on commodity PCs | open-source GFS clone |
+| Metadata | server | single master | single NameNode (with standby) |
+| Unit of storage | file | 64 MB chunk | 128 MB block |
+| Replication | none by default | 3 copies | 3 copies, rack-aware |
+| Consistency | close-to-open | relaxed, append-friendly | write-once, append |
+| Failure handling | server crash blocks clients | automatic re-replication | automatic re-replication |
+
+*Conclusion.* Fault tolerance is achieved by redundancy, detection and recovery working together. A file system such as HDFS shows the pattern in practice: cheap, failing disks are made reliable by replication across racks and by constant self-repair.

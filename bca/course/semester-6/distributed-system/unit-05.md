@@ -115,8 +115,8 @@ S1 local cycle: None
 S2 local cycle: None
 S3 local cycle: None
 global cycle: ['T1', 'T2', 'T3', 'T1']
-S1 edges: [(1, 2), (2, 1)] -> NOT serializable, cycle [1, 2, 1]
-S2 edges: [(1, 2)] -> serializable
+S1 edges: T1 to T2 and T2 to T1 -> NOT serializable, cycle [1, 2, 1]
+S2 edges: T1 to T2 -> serializable
 ```
 The last two lines test serializability: S1 reads x in T1, lets T2 write it and then lets T1 write: T1 → T2 and T2 → T1, a cycle, so it is not serializable (a lost update). S2 runs T1 entirely before T2 and is serializable.
 
@@ -134,6 +134,84 @@ Both guarantee that waiting only goes one way along the age order, so no cycle c
 ## 5.6 Sagas for microservices
 
 A two-phase commit across independently owned microservices is usually impractical (they use different databases and cannot hold locks across the network). A **saga** breaks the business operation into a sequence of local transactions, each with a **compensating action** that semantically undoes it. Order placement: reserve stock, charge the card, schedule delivery. If delivery scheduling fails, run "refund the card" and "release the stock". Sagas give atomicity-by-compensation but not isolation; intermediate states are visible, so designs add flags such as *pending* and idempotent steps with request IDs (Unit 2).
+
+## 5.7 Seeing transactions: logs, graphs and compensations
+
+A transaction is only as trustworthy as the record it leaves on disk, so the first thing to look at is the hardware of durability. Plate 5.1 shows a cash machine, a pioneer of transactions, and a tape used for logs and backups. Figures 5.1 to 5.3 then show the commit protocol, the serializability test and the distributed deadlock, each checked by a short program.
+
+```photogrid label="5.1" cols="3" ratio="1.0" caption="Where transactions matter. (a) A cash machine (ATM): withdrawing money must debit the account and dispense the notes together, or neither; if the power fails between the two steps, a log decides which happened. (b) Jim Gray (1944-2007), who received the 1998 Turing Award for his work on transaction processing, including the ACID properties and the idea of the write-ahead log. (c) A magnetic tape cartridge: tape was long the medium for backups and archived logs, and a log is what allows a crashed participant to find out whether it had voted yes before the failure."
+@ photo id="bca304/atm" cap="Cash machine (ATM)"
+fit 1.0
+focus 0.5 0.45
+call 0.5 0.35 0.2 0.12 "screen and keypad"
+@ photo id="bca355/gray" cap="Jim Gray"
+fit 1.0
+focus 0.5 0.75
+@ photo id="bca304/tape" cap="Magnetic tape cartridge"
+fit 1.0
+focus 0.45 0.35
+```
+
+```svgfig label="5.1" caption="Two-phase commit with three participants. Phase 1: the coordinator writes PREPARE to its log and asks every participant to vote; each participant that can commit forces a 'prepared' record to disk and votes YES. Phase 2: if all voted YES the coordinator logs COMMIT and tells everyone; otherwise it logs ABORT. The protocol uses 4 x N = 12 messages for N = 3 participants and at least two round trips (70 ms with a 30 ms round trip and 5 ms per forced log write)."
+f = Fig(580, 250)
+f.box(10, 90, 110, 50, "Coordinator", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(10, 20, 110, 34, "log: PREPARE", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.box(10, 186, 110, 34, "log: COMMIT", fill=ROSE, stroke=RED, size=10, bold=True)
+f.arrow([(65, 54), (65, 90)], color=NAVY)
+f.arrow([(65, 140), (65, 186)], color=RED)
+for i, y in enumerate((14, 100, 186)):
+    f.box(470, y, 100, 50, "Participant " + str(i + 1) + "\nprepared, YES", fill=MINT, stroke=TEAL, size=10, bold=True)
+    f.arrow([(120, 108 + i * 8), (470, y + 14)], color=NAVY)
+    f.arrow([(470, y + 38), (120, 124 + i * 8)], color=TEAL, dash=True)
+f.text(300, 24, "1. PREPARE (vote request)", size=10.5, color=NAVY, bold=True)
+f.text(300, 236, "2. votes YES   3. COMMIT to all   4. ACK", size=10.5, color=RED, bold=True)
+```
+
+```svgfig label="5.2" caption="The conflict-graph test for serializability, computed by a program. Schedule S1 = r1(A) w1(A) r2(A) w2(A) r1(B) w1(B) r2(B) w2(B) gives the edges T1 to T2: no cycle, so it is conflict-serializable and equivalent to running T1 then T2. Schedule S2 = r1(A) r2(A) w1(A) w2(A) gives the edges T1 to T2 and T2 to T1: T1 and T2 each precede the other, a cycle, so S2 is not serializable (it loses an update)."
+f = Fig(580, 170)
+f.text(145, 18, "S1: edge T1 to T2 only", size=11, color=TEAL, bold=True)
+f.circle(80, 80, 24, fill=MINT, stroke=TEAL, label="T1", size=13)
+f.circle(210, 80, 24, fill=MINT, stroke=TEAL, label="T2", size=13)
+f.arrow([(104, 80), (186, 80)], color=TEAL, sw=2)
+f.text(145, 140, "acyclic: serializable", size=11, color=TEAL, bold=True)
+f.text(435, 18, "S2: edges both ways", size=11, color=RED, bold=True)
+f.circle(370, 80, 24, fill=ROSE, stroke=RED, label="T1", size=13)
+f.circle(500, 80, 24, fill=ROSE, stroke=RED, label="T2", size=13)
+f.arrow([(394, 68), (476, 68)], color=RED, sw=2)
+f.arrow([(476, 92), (394, 92)], color=RED, sw=2)
+f.text(435, 140, "cycle: not serializable", size=11, color=RED, bold=True)
+```
+
+```svgfig label="5.3" caption="A distributed deadlock that no site can see alone. Site 1 knows only that T1 waits for T2, site 2 that T2 waits for T3, and site 3 that T3 waits for T1. Each local wait-for graph is acyclic (cycle found at no single site), but the union is the cycle T1, T2, T3, T1 (global cycle: yes). Detection needs the sites to send their edges to a detector (centralised) or to forward probes along the edges (edge chasing)."
+f = Fig(580, 200)
+for x, nm in ((30, "Site 1"), (220, "Site 2"), (410, "Site 3")):
+    f.box(x, 8, 140, 150, "", fill="#f8fafc", stroke=SLATE)
+    f.text(x + 70, 26, nm, size=11, color=NAVY, bold=True)
+f.circle(70, 100, 20, fill=BLUE, stroke=NAVY, label="T1", size=12)
+f.circle(150, 100, 20, fill=BLUE, stroke=NAVY, label="T2", size=12)
+f.arrow([(90, 100), (130, 100)], color=RED, sw=2)
+f.circle(260, 100, 20, fill=BLUE, stroke=NAVY, label="T2", size=12)
+f.circle(340, 100, 20, fill=BLUE, stroke=NAVY, label="T3", size=12)
+f.arrow([(280, 100), (320, 100)], color=RED, sw=2)
+f.circle(450, 100, 20, fill=BLUE, stroke=NAVY, label="T3", size=12)
+f.circle(530, 100, 20, fill=BLUE, stroke=NAVY, label="T1", size=12)
+f.arrow([(470, 100), (510, 100)], color=RED, sw=2)
+f.text(110, 140, "T1 waits for T2", size=10, color=SLATE)
+f.text(300, 140, "T2 waits for T3", size=10, color=SLATE)
+f.text(490, 140, "T3 waits for T1", size=10, color=SLATE)
+f.text(290, 184, "global graph: T1 to T2 to T3 to T1 = deadlock", size=10.5, color=RED, bold=True)
+```
+
+### 5.7.1 Eight practical uses of distributed transactions
+
+1. **Moving money between banks.** A transfer from one bank to another must debit one account and credit the other. A transaction coordinator makes sure that both happen or neither does, so money is never created or lost. Interbank services such as ConnectIPS depend on exactly this guarantee, although the details of their design are not public.
+2. **Booking a seat or a ticket.** Reserving a seat, taking the payment and issuing the ticket are separate steps. If payment fails, the seat must be released. A saga does this with compensations: if issuing the ticket fails, it undoes charge wallet and then reserve seat, in reverse order.
+3. **Placing an online order.** An order touches the stock service, the payment service and the delivery service, each with its own database. Two-phase commit across all of them would be slow, so many shops use sagas. The customer sees a clear result: order accepted, or order cancelled and refunded.
+4. **Seat allocation in admissions.** When a university or an entrance system assigns a seat to a student, it must lower the free-seat count and record the allocation together. Concurrency control keeps two students from taking the last seat. Serializability is the formal word for this protection.
+5. **Updating several replicas.** A write that must reach several copies of a record can use atomic commit so that all replicas apply it or none does. This keeps the copies in agreement. The price is 12 messages for three participants and a wait of at least 70 ms in our example.
+6. **Inventory and stock control.** Two shops selling from the same warehouse may both try to sell the last item. Locks or timestamps order their updates so that one succeeds and the other is told 'out of stock'. This is the lost-update problem of schedule S2 in Figure 5.2.
+7. **Detecting and breaking deadlocks.** When transactions wait for each other across sites, as in Figure 5.3, the system must find the cycle and abort one transaction. Aborting the youngest wastes the least work. Without detection, the transactions would wait for ever.
+8. **Recovery after a crash.** The write-ahead log, kept on stable storage as in Plate 5.1(c), records what each participant promised. After a crash a participant reads its log: if it voted YES but has not heard the outcome, it asks the coordinator. This is why every participant forces the 'prepared' record to disk before voting.
 
 ## Chapter summary
 
@@ -168,3 +246,56 @@ A two-phase commit across independently owned microservices is usually impractic
 **9.** Wait-die: T5 (older) requests from T9 (younger) so T5 waits; T9 (younger) requests from T5 (older) so T9 aborts and restarts. Wound-wait: T5 (older) wounds T9, which aborts; T9 (younger) requests from T5 and waits.
 **10.** An operation that semantically undoes an earlier committed local transaction. Booking saga: reserve seat, charge card, issue ticket; if issuing fails, refund the card and release the seat.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the two-phase commit protocol. What are its message cost and its main weakness?**
+
+*Introduction.* Atomic commit means that all participants of a distributed transaction commit or all abort. Two-phase commit (2PC) achieves this with a coordinator (section 5.2, Figure 5.1).
+
+1. **Phase 1, voting.** The coordinator logs PREPARE and sends it to all participants. Each participant that can commit forces a 'prepared' record to its log and replies YES; one that cannot replies NO and aborts.
+2. **Phase 2, decision.** If all vote YES, the coordinator logs COMMIT and sends it to all; if any votes NO or times out, it logs ABORT. Participants obey and send an acknowledgement.
+3. **Cost.** With N participants there are 4N messages: N prepares, N votes, N decisions and N acknowledgements. For N = 3 this is 12, and for N = 10 it is 40. With a 30 ms round trip and 5 ms per forced log write the minimum latency is 2 x 30 + 2 x 5 = 70 ms.
+4. **Weakness.** If the coordinator crashes after the participants have voted YES, they are in the *uncertain* state and must hold their locks until it recovers: 2PC is a *blocking* protocol.
+5. **Fixes.** Three-phase commit adds a pre-commit phase to avoid blocking under a crash (18 messages for N = 3) but fails under partitions; modern systems run the coordinator on a consensus group such as Paxos or Raft.
+
+*Conclusion.* 2PC is simple and gives atomicity, but costs latency and can block, so it is used where participants are few and reliable.
+
+**Q2 (5 marks). What is serializability? Test the schedules S1 and S2 using a conflict graph.**
+
+*Introduction.* A schedule is serializable if its result equals that of some serial execution of the same transactions. It is the correctness criterion of concurrency control (section 5.4, Figure 5.2).
+
+1. **Conflicts.** Two operations of different transactions conflict if they touch the same item and at least one is a write.
+2. **Graph.** Draw a node for each transaction and an edge Ti to Tj when an operation of Ti conflicts with a later operation of Tj.
+3. **Test.** The schedule is conflict-serializable if and only if the graph has no cycle.
+4. **S1.** r1(A) w1(A) r2(A) w2(A) r1(B) w1(B) r2(B) w2(B). The conflicts all go from T1 to T2, edges T1 to T2, so the graph has no cycle and S1 is equivalent to T1 followed by T2.
+5. **S2.** r1(A) r2(A) w1(A) w2(A). Edges T1 to T2 and T2 to T1 form a cycle, so S2 is not serializable; both transactions read the old value and one update is lost.
+
+| Schedule | Edges | Cycle | Serializable |
+|---|---|---|---|
+| S1 | T1 to T2 | no | yes |
+| S2 | T1 to T2 and T2 to T1 | yes | no |
+
+*Conclusion.* Two-phase locking and timestamp ordering guarantee acyclic graphs without testing every schedule.
+
+**Q3 (10 marks). Describe the ACID properties and the concurrency-control and deadlock problems of distributed transactions. Include a diagram and a comparison of 2PC, 3PC and sagas.**
+
+*Introduction.* A transaction is a group of operations that the system treats as one unit of work. In a distributed system the data are on several sites, so extra protocols are needed for atomicity, isolation and deadlock handling.
+
+*ACID.* **Atomicity**: all or nothing (atomic commit, Figure 5.1). **Consistency**: the database moves from one valid state to another. **Isolation**: concurrent transactions behave as if serial (serializability, Figure 5.2). **Durability**: committed results survive crashes, which needs a forced log on stable storage.
+
+*Concurrency control.* Two-phase locking (a growing phase and a shrinking phase) guarantees serializability but can deadlock. Timestamp ordering aborts a transaction that arrives too late. Optimistic control runs first and checks for conflict at commit time.
+
+*Distributed deadlock.* Each site sees only part of the wait-for graph; in Figure 5.3 the local graphs are acyclic (no cycle at any single site) but the global graph has a cycle. Detection can be centralised (send all edges to one site), distributed (edge-chasing probes) or avoided with wait-die or wound-wait timestamps. A victim is aborted and restarted.
+
+*Atomic commit and alternatives.* In 2PC the coordinator collects votes and decides: 12 messages for three participants, and participants block if the coordinator fails. 3PC adds a pre-commit step (18 messages) to reduce blocking. Sagas split a long business transaction into local transactions with a compensation for each; if step 3 fails, the compensations run in reverse: undo charge wallet, then undo reserve seat.
+
+| Feature | 2PC | 3PC | Saga |
+|---|---|---|---|
+| Messages (N = 3) | 12 | 18 | about 2 per step |
+| Latency (30 ms RTT) | 70 ms | 105 ms | per step, no waiting for all |
+| Isolation | strong, locks held | strong, locks held | weak, intermediate states visible |
+| Blocking | yes | less | no |
+| Typical use | databases, XA | rare | microservices, bookings |
+
+*Conclusion.* Strong atomicity costs latency and availability. Databases keep ACID with 2PC inside one organisation, while services across organisations use sagas and accept temporary inconsistency, repaired by compensation.

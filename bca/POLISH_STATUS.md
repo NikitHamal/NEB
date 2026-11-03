@@ -320,11 +320,17 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] Web Technology I polished (session 28, 45 -> 85 pp)
 - [x] MIS and e-Business polished (session 28, 45 -> 77 pp)
 - [x] BCA 353 Cryptography and Network Security polished (session 29, 45 -> 83 pp)
-- [~] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Distributed System (54), Software Engineering (54), Principles of Management (50), DBMS (56), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] BCA 355 Distributed System polished (session 30, 54 -> 86 pp)
+- [~] (NEXT SESSION STARTS HERE) Software Engineering (semester-4, 54 pp), then Principles of Management (50), DBMS (56), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
-## BCA 355 distributed-system (semester-6/distributed-system) -- [~] IN PROGRESS (session 30)
-- [x] U1: Plate 1.1 (3-up: LHC grid hall / blade chassis / NIC), SVG 1.1 three-tier, 1.2 serial vs parallel availability, 1.3 Chord ring path 3->14; 8 applications (1.8.1); Q1-Q3 (2 medium + 1 long).
-- [x] U2: Plate 2.1 (3-up: switch / first web server / RJ-45), SVG 2.1 TCP handshake, 2.2 RPC stub path, 2.3 queue vs pub-sub; 8 advantages (2.7.1); Q1-Q3. Serialization sizes computed in Python.
-- [x] U3: Plate 3.1 (3-up: caesium clock / Lamport / GPS), SVG 3.1 Cristian, 3.2 Berkeley, 3.3 event diagram with Lamport+vector clocks (simulated); 8 uses (3.7.1); Q1-Q3.
-- [ ] U4-U7 pending. Photos already fetched under bca355/: googledc(exterior only), tokenring, paxos, walls, gray, brewer, hdfail (U4-U7).
+
+## BCA 355 distributed-system (semester-6/distributed-system) -- [x] DONE (session 30), 54 -> 86 pp, qa fails=0 warns=1 (p3 pre-existing)
+- 12 licence-gated photos fetched under bca355/ (googledc is an exterior-only shot and is NOT used); other photos reused from bca101/bca152/bca203/bca304/bca352/bca401/cs12.
+- U1: Plate 1.1 (3-up CERN grid hall / blade chassis / NIC), SVG 1.1 three-tier, 1.2 serial vs parallel availability, 1.3 Chord ring 3->14; 8 applications (1.8.1); Q1-Q3 (2 medium + 1 long).
+- U2: Plate 2.1 (3-up switch / first web server / RJ-45), SVG 2.1 TCP handshake, 2.2 RPC stub path, 2.3 queue vs pub-sub; 8 advantages (2.7.1); Q1-Q3; serialization sizes (11/11/35 bytes) and TCP window limit computed.
+- U3: Plate 3.1 (3-up caesium clock / Lamport / GPS), SVG 3.1 Cristian, 3.2 Berkeley, 3.3 event diagram with Lamport+vector clocks (simulated); 8 uses (3.7.1); Q1-Q3.
+- U4: Plate 4.1 (2-up token-ring card / server room), SVG 4.1 Ricart-Agrawala, 4.2 Maekawa 3x3 quorums, 4.3 Bully election (20 msgs worst, 5 best, simulated); 8 uses (4.8.1); Q1-Q3.
+- U5: Plate 5.1 (3-up ATM / Jim Gray / tape), SVG 5.1 2PC, 5.2 conflict graphs (computed), 5.3 global deadlock; 8 uses (5.7.1); Q1-Q3.
+- U6: Plate 6.1 (3-up Paxos island / Brewer / data-hall racks), SVG 6.1 quorums, 6.2 Paxos round, 6.3 Raft log + commit index; 8 uses (6.7.1); Q1-Q3; stale-read and availability tables computed.
+- U7: Plate 7.1 (3-up Theodosian Walls / failed HDD / storage rack), SVG 7.1 Byzantine n=4, 7.2 Chandy-Lamport snapshot, 7.3 HDFS; 8 reasons (7.5.1); Q1-Q3; OM(f) message counts, replica-loss probability, HDFS sizes computed.
