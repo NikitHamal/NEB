@@ -306,7 +306,6 @@
 :focus-visible {
   outline: 2px solid var(--md-primary);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
 .md-input:focus-visible,
