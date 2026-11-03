@@ -196,6 +196,91 @@ Warshall closure:
   0 0 0 0 
 ```
 
+## 10.8 Seeing the ideas: graphs of bridges, roads and routes
+
+Graph theory began with a walk. In 1736 the people of Königsberg (now Kaliningrad) wondered whether one could cross each of the city's seven bridges exactly once and return home. Leonhard Euler proved that it was impossible by replacing the map with a graph of four land masses and seven bridges. In 1956 Edsger Dijkstra designed his shortest-path algorithm in about twenty minutes, without pencil and paper, to show off a computer's ability to find a route between two Dutch cities. Today the same idea finds the best route on the Kathmandu Ring Road.
+
+```photogrid label="10.1" cols="3" ratio="1.0" caption="From a puzzle to routing. (a) A seventeenth-century map of Königsberg by Matthaeus Merian: the Pregel river divides the city into four land areas joined by seven bridges; Euler's graph of this map founded graph theory. (b) Edsger Dijkstra, who published the shortest-path algorithm in 1959. (c) The Ring Road of Kathmandu: junctions are vertices, road sections are edges, and the length or travel time of a section is the edge weight on which a route finder works."
+@ photo id="bca201/konigsberg" cap="Konigsberg (Merian map)"
+fit 1.0
+focus 0.5 0.5
+call 0.45 0.5 0.04 0.9 "4 land areas, 7 bridges"
+@ photo id="bca201/dijkstra" cap="Edsger W. Dijkstra"
+fit 1.0
+focus 0.4 0.3
+@ photo id="bca201/ringroad" cap="Kathmandu Ring Road (weighted graph)"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="10.1" caption="Euler's graph of the seven bridges. Each land area is a vertex (A is the island, B and C the two river banks, D the eastern land) and each bridge is an edge, so there are two parallel edges between A and B and two between A and C. The degrees are A 5, B 3, C 3, D 3; the sum 14 is twice the 7 edges. Euler showed that a walk that uses every edge exactly once exists only if at most two vertices have odd degree. Here all four are odd, so no such walk exists."
+f = Fig(580, 230)
+P = {"A": (290, 115), "B": (290, 28), "C": (290, 202), "D": (470, 115)}
+f.line(284, 40, 284, 103, color=NAVY, sw=1.8); f.line(296, 40, 296, 103, color=NAVY, sw=1.8)
+f.line(284, 127, 284, 190, color=NAVY, sw=1.8); f.line(296, 127, 296, 190, color=NAVY, sw=1.8)
+f.line(290, 28, 470, 115, color=NAVY, sw=1.8); f.line(290, 202, 470, 115, color=NAVY, sw=1.8); f.line(290, 115, 470, 115, color=NAVY, sw=1.8)
+for k, (x, y) in P.items():
+    f.circle(x, y, 20, fill=ROSE if k != "A" else SAND, stroke=RED if k != "A" else AMBER, label=k, size=13)
+deg = {"A": 5, "B": 3, "C": 3, "D": 3}
+f.text(160, 28, "degree 3 (odd)", size=10, color=RED, bold=True)
+f.text(160, 202, "degree 3 (odd)", size=10, color=RED, bold=True)
+f.text(160, 115, "degree 5 (odd)", size=10, color=RED, bold=True)
+f.text(525, 115, "degree 3\n(odd)", size=10, color=RED, bold=True, anchor="start")
+f.text(10, 14, "4 odd vertices: no Euler walk", size=10.5, color=NAVY, bold=True, anchor="start")
+```
+
+```svgfig label="10.2" caption="Breadth-first and depth-first traversal of the same graph from vertex A, taking neighbours in alphabetical order. The graph has edges A-B, A-C, B-D, C-D, C-E, D-F and E-F. BFS uses a queue and visits level by level: A; B, C; D, E; F, so the order is A B C D E F and each vertex is reached by a path with the fewest edges. DFS uses a stack (or recursion) and goes as deep as possible before backing up: A, B, D, C, E, F. Both visit every vertex and edge once, so the time is O(V + E) with adjacency lists."
+f = Fig(580, 230)
+pos = {"A": (60, 110), "B": (140, 50), "C": (140, 170), "D": (230, 50), "E": (230, 170), "F": (310, 110)}
+for a, b in ["AB", "AC", "BD", "CD", "CE", "DF", "EF"]:
+    f.line(pos[a][0], pos[a][1], pos[b][0], pos[b][1], color=SLATE, sw=1.4)
+bfs = "ABCDEF"
+for k, (x, y) in pos.items():
+    f.circle(x, y, 17, fill=BLUE, stroke=NAVY, label=k, size=12)
+    f.text(x + 22, y - 18, str(bfs.index(k) + 1), size=11, color=TEAL, bold=True)
+f.text(185, 215, "numbers = BFS visit order", size=10, color=TEAL, bold=True)
+f.text(470, 14, "BFS (queue)", size=11, color=TEAL, bold=True)
+for i, v in enumerate("ABCDEF"):
+    f.box(380 + i * 32, 24, 30, 28, v, fill=MINT, stroke=TEAL, size=12, bold=True, r=0)
+f.text(470, 80, "levels: {A} {B, C} {D, E} {F}", size=10, color=SLATE, bold=True)
+f.text(470, 116, "DFS (stack)", size=11, color=AMBER, bold=True)
+for i, v in enumerate("ABDCEF"):
+    f.box(380 + i * 32, 126, 30, 28, v, fill=SAND, stroke=AMBER, size=12, bold=True, r=0)
+f.text(470, 176, "deep first: A B D, back to C, then E F", size=10, color=SLATE, bold=True)
+```
+
+```svgfig label="10.3" caption="Dijkstra's algorithm and a minimum spanning tree on one weighted graph with edges A-B 4, A-C 2, B-C 1, B-D 5, C-D 8, C-E 10, D-E 2, D-F 6, E-F 3. Dijkstra from A fixes vertices in the order A 0, C 2, B 3 (through C, since 2 + 1 beats 4), D 8 (through B), E 10 (through D) and F 13 (through E). Kruskal sorts the edges and keeps an edge when it joins two different components: B-C 1, A-C 2, D-E 2, E-F 3, then B-D 5 (A-B 4 is rejected because A and B are already connected). The tree has 5 edges and total weight 13."
+f = Fig(580, 260)
+pos = {"A": (40, 130), "B": (130, 50), "C": (130, 210), "D": (240, 50), "E": (240, 210), "F": (330, 130)}
+W = [("A", "B", 4), ("A", "C", 2), ("B", "C", 1), ("B", "D", 5), ("C", "D", 8), ("C", "E", 10), ("D", "E", 2), ("D", "F", 6), ("E", "F", 3)]
+mst = {("B", "C"), ("A", "C"), ("D", "E"), ("E", "F"), ("B", "D")}
+for a, b, w in W:
+    inm = (a, b) in mst
+    f.line(pos[a][0], pos[a][1], pos[b][0], pos[b][1], color=TEAL if inm else "#94a3b8", sw=3.0 if inm else 1.2)
+    mx, my = (pos[a][0] + pos[b][0]) / 2, (pos[a][1] + pos[b][1]) / 2
+    f.text(mx + (8 if (a, b) not in [("C", "D")] else -10), my - 4, str(w), size=11, color=RED if inm else SLATE, bold=True)
+for k, (x, y) in pos.items():
+    f.circle(x, y, 17, fill=BLUE, stroke=NAVY, label=k, size=12)
+f.text(185, 250, "thick teal edges = minimum spanning tree, weight 13", size=10, color=TEAL, bold=True)
+f.text(400, 14, "Dijkstra from A", size=11, color=NAVY, bold=True, anchor="start")
+for i, (v, d, via) in enumerate([("A", 0, "-"), ("C", 2, "A"), ("B", 3, "C"), ("D", 8, "B"), ("E", 10, "D"), ("F", 13, "E")]):
+    y = 26 + i * 34
+    f.box(400, y, 40, 28, v, fill=NAVY, stroke=NAVY, color="#ffffff", size=11, bold=True, r=0)
+    f.box(440, y, 60, 28, "d = %d" % d, fill=MINT, stroke=TEAL, size=11, bold=True, r=0)
+    f.box(500, y, 70, 28, "via " + via, fill=SOFT, stroke=SLATE, size=10.5, bold=True, r=0)
+```
+
+### 10.8.1 Eight applications of graphs
+
+1. **Maps and route finding.** Road maps are weighted graphs whose vertices are junctions and whose edges are road sections. Ride-hailing and map applications run Dijkstra-type algorithms to find the quickest route through the Kathmandu valley. The edge weight can be distance, time or toll cost.
+2. **Computer networks.** The internet is a graph of routers joined by links. Routing protocols such as OSPF use shortest-path algorithms to choose where to send each packet. When a link fails, the graph is updated and new routes are found.
+3. **Social networks.** People are vertices and friendships are edges. Platforms use traversals to suggest friends of friends and to measure how closely two people are connected. Telecom companies such as Nepal Telecom study call graphs in the same way.
+4. **Telecommunication and utility design.** A minimum spanning tree gives the cheapest way to connect all towns, villages or buildings with cable, pipe or fibre. For the graph of Figure 10.3 the cheapest network costs 13 units. Planners of hydropower transmission lines and rural internet networks use it.
+5. **Project scheduling.** Tasks and their dependencies form a directed graph, and a topological order gives a valid sequence. The longest path through it is the critical path that decides the project time. A construction plan for a bridge or a software project uses this.
+6. **Web crawling and search engines.** Web pages are vertices and hyperlinks are edges. A crawler visits pages by BFS, and ranking methods study the link structure. Every search result you see began with a graph traversal.
+7. **Dependency and prerequisite checking.** Course prerequisites at a university, package dependencies in software and build orders in a compiler form directed graphs. A cycle in the graph means an impossible requirement. DFS detects such a cycle.
+8. **Puzzles and artificial intelligence.** Each state of a puzzle is a vertex and each legal move is an edge. BFS finds the shortest solution of a sliding puzzle, and game-playing programs search graphs of positions. The Königsberg problem itself, with its odd degrees, is the first example.
+
 ## Formula and fact sheet
 
 - Σ deg(v) = 2|E|. Complete graph: n(n−1)/2 edges. Tree: n − 1 edges.
@@ -235,3 +320,70 @@ Warshall closure:
 **8.** Dijkstra finalises a vertex when it is the closest unfinished one, assuming later paths can only be longer; a negative edge can make a later path shorter. Example: A→B 2, A→C 3, C→B −2: Dijkstra finalises B at 2 but the true shortest A→B is 1.
 **9.** For any cut of the vertices, the lightest edge crossing it belongs to some MST. Kruskal's next edge is the lightest edge between two different components, i.e. across a cut separating them, so it is always safe.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1. Define a graph and explain its terms and representations. (5 marks)**
+
+A **graph** G = (V, E) consists of a set V of **vertices** (nodes) and a set E of **edges** that connect pairs of vertices. In an **undirected** graph an edge has no direction; in a **directed** graph (digraph) each edge goes from one vertex to another; in a **weighted** graph each edge has a number such as distance or cost (Plate 10.1c).
+
+**Terms.** Two vertices are **adjacent** if an edge joins them. The **degree** of a vertex is the number of edges at it (in a digraph, in-degree and out-degree). A **path** is a sequence of vertices joined by edges, a **cycle** is a path that returns to its start, and a graph is **connected** if every vertex can be reached from every other. A **tree** is a connected graph with no cycle, and a graph with V vertices has at most V(V - 1)/2 edges if undirected.
+
+**Representations.** For the graph with vertices A, B, C, D and edges A-B, A-C, B-C, C-D:
+
+| | A | B | C | D |
+|---|---|---|---|---|
+| A | 0 | 1 | 1 | 0 |
+| B | 1 | 0 | 1 | 0 |
+| C | 1 | 1 | 0 | 1 |
+| D | 0 | 0 | 1 | 0 |
+
+- **Adjacency matrix:** a V x V array, as above. It uses O(V squared) space, tests an edge in O(1), and is good for dense graphs.
+- **Adjacency list:** A: B, C; B: A, C; C: A, B, D; D: C. It uses O(V + E) space (here 4 + 8 = 12 entries) and is good for sparse graphs such as road maps.
+
+**Q2. Compare breadth-first search and depth-first search. (5 marks)**
+
+Both algorithms visit every vertex reachable from a start vertex exactly once and mark visited vertices so that cycles do not cause endless loops. With adjacency lists both take **O(V + E)** time.
+
+**BFS** visits the start vertex, then all its neighbours, then their neighbours, level by level. It uses a **queue**: dequeue a vertex, enqueue its unvisited neighbours. **DFS** goes as deep as possible along one path and then backtracks. It uses a **stack** or recursion: push a vertex, move to an unvisited neighbour, pop when none is left.
+
+For the graph of Figure 10.2 from A with neighbours in alphabetical order, BFS gives **A B C D E F** and DFS gives **A B D C E F**.
+
+| Point | BFS | DFS |
+|---|---|---|
+| Data structure | queue | stack / recursion |
+| Order | level by level | deep first |
+| Shortest path (unweighted) | yes | not guaranteed |
+| Memory | can be large (whole level) | proportional to depth |
+| Typical uses | shortest path, web crawling, friend suggestion | cycle detection, topological sort, maze solving |
+
+BFS is chosen when the nearest answer is needed; DFS is chosen to explore all possibilities, detect cycles and order tasks.
+
+**Q3. Explain Dijkstra's shortest-path algorithm and apply it to the graph with edges A-B 4, A-C 2, B-C 1, B-D 5, C-D 8, C-E 10, D-E 2, D-F 6, E-F 3 from source A. (10 marks)**
+
+**Introduction.** Dijkstra's algorithm (1956, published 1959) finds the shortest path from one source vertex to every other vertex in a graph with **non-negative** edge weights. It is a **greedy** algorithm: it always fixes the nearest unfixed vertex next, and that distance can never be improved later.
+
+**Algorithm.**
+1. Set `dist[source] = 0` and `dist[v] = infinity` for every other vertex; mark all vertices unvisited; set `prev[v]` to none.
+2. Choose the unvisited vertex `u` with the smallest `dist[u]` and mark it visited (its distance is final).
+3. For every unvisited neighbour `v` of `u`: if `dist[u] + w(u, v) < dist[v]`, set `dist[v] = dist[u] + w(u, v)` and `prev[v] = u`. This step is called **relaxation**.
+4. Repeat steps 2 and 3 until all vertices are visited or the smallest distance is infinity.
+5. Read a path backwards from the target through `prev`.
+
+**Worked example (Figure 10.3).**
+
+| Step | Vertex fixed | A | B | C | D | E | F |
+|---|---|---|---|---|---|---|---|
+| Start | | 0 | inf | inf | inf | inf | inf |
+| 1 | A (0) | 0 | 4 | 2 | inf | inf | inf |
+| 2 | C (2) | 0 | 3 | 2 | 10 | 12 | inf |
+| 3 | B (3) | 0 | 3 | 2 | 8 | 12 | inf |
+| 4 | D (8) | 0 | 3 | 2 | 8 | 10 | 14 |
+| 5 | E (10) | 0 | 3 | 2 | 8 | 10 | 13 |
+| 6 | F (13) | 0 | 3 | 2 | 8 | 10 | 13 |
+
+The shortest distances from A are B 3, C 2, D 8, E 10 and F 13. The path to F is read backwards: F came from E, E from D, D from B, B from C, C from A, so the route is **A - C - B - D - E - F** with length 2 + 1 + 5 + 2 + 3 = 13.
+
+**Complexity.** With an adjacency matrix or a simple array search for the minimum the time is O(V squared); with adjacency lists and a binary heap (priority queue) it is O((V + E) log V). Space is O(V). The method fails if an edge weight is negative, for which Bellman-Ford is used instead. A BFS gives the same answer only when all weights are equal.
+
+**Conclusion.** Dijkstra's algorithm is the basis of route finding in maps and routing protocols. Its correctness rests on the greedy choice of the nearest unfixed vertex and on non-negative weights.
