@@ -1969,5 +1969,5 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 ## BCA polish session 35 (Operating Systems, in progress)
 
-- **Done:** BCA 251 Operating Systems units 1-2 of 10 polished (85 -> 96 pp, qa fails=0 warns=1 p3 pre-existing); 9 `bca251/` photos fetched. Exact state and the next unit (Unit 3 Process Management) are in `bca/POLISH_STATUS.md`.
+- **Done:** BCA 251 Operating Systems units 1-4 of 10 polished (85 -> 110 pp, qa fails=0 warns=1 p3 pre-existing); 9 `bca251/` photos fetched. Exact state and the next unit (Unit 5 Memory Management) are in `bca/POLISH_STATUS.md`.
 - **Setup:** shallow clone with out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT` as GIT_ASKPASS (PAT never in the repo; the owner must rotate the PAT that was pasted in the prompt); `sudo apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 poppler-utils fontconfig`; `pip install --user --break-system-packages uv`; `uv venv --python 3.12 /tmp/v`; `uv pip install --python /tmp/v/bin/python weasyprint pymupdf pypdf markdown pygments pillow numpy requests sympy matplotlib fonttools scipy pandas`; `bash notes/pipeline/fonts/install.sh`. Helpers `/tmp/ins2.py`, `/tmp/view.py`, `/tmp/wc.py` as in session 34 notes.
