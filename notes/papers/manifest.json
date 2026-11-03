@@ -12,7 +12,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 16,
-  "bytes": 273386,
+  "bytes": 273373,
   "id": "12-bio-2081-general"
  },
  {
@@ -28,7 +28,7 @@
   "students": "For regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 202234,
+  "bytes": 202232,
   "id": "12-bio-2082-general"
  },
  {
@@ -44,7 +44,7 @@
   "students": "For the regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 13,
-  "bytes": 234742,
+  "bytes": 234747,
   "id": "12-chem-2081-general"
  },
  {
@@ -60,7 +60,7 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 10,
-  "bytes": 206225,
+  "bytes": 206216,
   "id": "12-chem-2082-general"
  },
  {
@@ -76,7 +76,7 @@
   "students": "For grade increment students whose registration number is 78 only",
   "category": "Board Exam",
   "pages": 9,
-  "bytes": 109840,
+  "bytes": 109842,
   "id": "12-eng-2080-0041g"
  },
  {
@@ -92,7 +92,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 109031,
+  "bytes": 109019,
   "id": "12-eng-2081-0041b"
  },
  {
@@ -108,7 +108,7 @@
   "students": "For regular students whose first two digits of registration number start from 81",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 108610,
+  "bytes": 108607,
   "id": "12-eng-2082-0041c"
  },
  {
@@ -124,8 +124,25 @@
   "students": "For regular students whose first two digits of registration number start from 82",
   "category": "Board Exam",
   "pages": 10,
-  "bytes": 110801,
+  "bytes": 110799,
   "id": "12-eng-2083-0041c"
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Compulsory-Nepali-2080-0021B.pdf",
+  "subject": "Compulsory Nepali",
+  "grade": "12",
+  "year_bs": "2080",
+  "year_ad": "2023",
+  "stream": "Regular \u00b7 0021 'B'",
+  "code": "\u0966\u0966\u0968\u0967 'B'",
+  "time": "\u0969 \u0918\u0923\u094d\u091f\u093e",
+  "marks": "\u096d\u096b",
+  "students": "\u0930\u091c\u093f\u0938\u094d\u091f\u094d\u0930\u0947\u0938\u0928 \u0928\u092e\u094d\u092c\u0930\u0915\u093e \u0938\u0941\u0930\u0941\u0915\u093e \u0926\u0941\u0908 \u0905\u0919\u094d\u0915 \u096d\u096e \u0930 \u096d\u096f \u0939\u0941\u0928\u0947 \u0938\u093e\u0927\u093e\u0930\u0923 \u0927\u093e\u0930\u0924\u0930\u094d\u092b\u0915\u093e \u092a\u0930\u0940\u0915\u094d\u0937\u093e\u0930\u094d\u0925\u0940\u0939\u0930\u0942\u0915\u093e \u0932\u093e\u0917\u093f \u092e\u093e\u0924\u094d\u0930",
+  "category": "Board Exam",
+  "lang": "ne",
+  "pages": 12,
+  "bytes": 121857,
+  "id": "12-nep-2080-0021b"
  },
  {
   "file": "NEBians-Past-Paper-Grade-12-Compulsory-Nepali-2081-0021B.pdf",
@@ -141,7 +158,7 @@
   "category": "Board Exam",
   "lang": "ne",
   "pages": 12,
-  "bytes": 124110,
+  "bytes": 124121,
   "id": "12-nep-2081-0021b"
  },
  {
@@ -156,8 +173,9 @@
   "marks": "\u096d\u096b",
   "students": "\u0930\u091c\u093f\u0938\u094d\u091f\u094d\u0930\u0947\u0938\u0928 \u0928\u092e\u094d\u092c\u0930\u0915\u093e \u0938\u0941\u0930\u0941\u0915\u093e \u0926\u0941\u0908 \u0905\u0919\u094d\u0915 \u096d\u096e, \u096d\u096f, \u096e\u0966 \u0930 \u096e\u0967 \u092d\u090f\u0915\u093e \u0928\u093f\u092f\u092e\u093f\u0924 \u0924\u0925\u093e \u0906\u0902\u0936\u093f\u0915 \u092a\u0930\u0940\u0915\u094d\u0937\u093e\u0930\u094d\u0925\u0940\u0939\u0930\u0942\u0915\u093e \u0932\u093e\u0917\u093f",
   "category": "Board Exam",
+  "lang": "ne",
   "pages": 11,
-  "bytes": 116630,
+  "bytes": 116634,
   "id": "12-nep-2082-0021b"
  },
  {
@@ -173,7 +191,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 10,
-  "bytes": 144061,
+  "bytes": 144062,
   "id": "12-cs-2081-general"
  },
  {
@@ -189,7 +207,7 @@
   "students": "For regular and partial students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 7,
-  "bytes": 107541,
+  "bytes": 107540,
   "id": "12-cs-2082-general"
  },
  {
@@ -205,7 +223,7 @@
   "students": "General stream \u00b7 for students whose first two digits of registration number are 78 or 79",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 584136,
+  "bytes": 584150,
   "id": "12-math-2080-set-h"
  },
  {
@@ -221,7 +239,7 @@
   "students": "For regular students whose first two digits of registration number start from 80",
   "category": "Board Exam",
   "pages": 11,
-  "bytes": 618228,
+  "bytes": 618230,
   "id": "12-math-2081-set-w"
  },
  {
@@ -237,7 +255,7 @@
   "students": "For the students whose first two digits of registration number start from 80 (partial) and 81 (regular)",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 474829,
+  "bytes": 474839,
   "id": "12-math-2082-set-r"
  },
  {
@@ -253,7 +271,7 @@
   "students": "For general stream students whose first two digits of registration number start from 78 and 79 (new course)",
   "category": "Board Exam",
   "pages": 17,
-  "bytes": 585253,
+  "bytes": 585264,
   "id": "12-phy-2080-general"
  },
  {
@@ -269,7 +287,7 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 470863,
+  "bytes": 470859,
   "id": "12-phy-2082-general"
  }
 ]
