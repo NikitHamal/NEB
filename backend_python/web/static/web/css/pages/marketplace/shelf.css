@@ -55,7 +55,7 @@
 
 .mkt-owner-icon {
   font-size: 26px;
-  color: var(--creator-accent, var(--md-primary));
+  color: color-mix(in srgb, var(--creator-accent, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));
 }
 
 .mkt-owner-text {

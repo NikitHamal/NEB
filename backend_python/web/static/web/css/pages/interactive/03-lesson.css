@@ -339,7 +339,7 @@
 
 .ix-info-close .material-symbols-outlined { font-size: 18px; }
 
-.ix-info-title { margin: 0 22px 6px 0; font-size: 0.875rem; font-weight: 700; color: var(--ix-color, #9ec1ff); }
+.ix-info-title { margin: 0 22px 6px 0; font-size: 0.875rem; font-weight: 700; color: color-mix(in srgb, var(--ix-color, #9ec1ff) var(--ink-mix, 58%), var(--md-on-surface)); }
 
 .ix-info-body { margin: 0; font-size: 0.7813rem; line-height: 1.55; opacity: 0.92; }
 
@@ -355,7 +355,7 @@
   color: var(--md-on-surface);
 }
 
-.ix-section-title .material-symbols-outlined { font-size: 21px; color: var(--ix-color, var(--md-primary)); }
+.ix-section-title .material-symbols-outlined { font-size: 21px; color: color-mix(in srgb, var(--ix-color, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 
 .ix-objectives-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
 
@@ -368,7 +368,7 @@
   line-height: 1.5;
 }
 
-.ix-objectives-list .material-symbols-outlined { font-size: 17px; color: var(--ix-color, var(--md-primary)); margin-top: 2px; flex-shrink: 0; }
+.ix-objectives-list .material-symbols-outlined { font-size: 17px; color: color-mix(in srgb, var(--ix-color, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); margin-top: 2px; flex-shrink: 0; }
 
 .ix-knowledge { padding: 18px 20px; }
 
@@ -469,7 +469,7 @@
   border: 1px solid color-mix(in srgb, #16A34A 35%, transparent);
 }
 
-.ix-quiz-result .material-symbols-outlined { font-size: 24px; color: var(--ix-color, var(--md-primary)); }
+.ix-quiz-result .material-symbols-outlined { font-size: 24px; color: color-mix(in srgb, var(--ix-color, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 
 .ix-lesson-nav { display: flex; flex-direction: column; gap: 10px; margin-top: 6px; }
 
