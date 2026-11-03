@@ -102,7 +102,20 @@ def solution_markup(src):
         if starts and out and out[-1].strip() and not (l[:2] in ("- ", "1.") and out[-1][:2] in ("- ", "1.")):
             out.append("")
         out.append(l)
-    return marks("\n".join(out))
+    # keep the author's line breaks inside a paragraph (one reaction / step per line)
+    res, fence, disp = [], False, False
+    for i, l in enumerate(out):
+        s = l.strip()
+        if s.startswith("```"):
+            fence = not fence
+        if s == "$$" or (s.startswith("$$") and s.endswith("$$") is False and s.count("$$") == 1):
+            disp = not disp
+        nxt = out[i + 1].strip() if i + 1 < len(out) else ""
+        plain = (s and nxt and not fence and not disp and not s.startswith(("|", "#", "```", "<", "$$", "@s")) and not nxt.startswith(("|", "#", "```", "<", "- ", "1. ", "$$", "@s", "**(", "**Or")) and not s.endswith("$$"))
+        if plain and not s.startswith(("- ", "1. ")) or (plain and s.startswith(("- ", "1. ")) is False):
+            l = l.rstrip() + "  "
+        res.append(l)
+    return marks("\n".join(res))
 
 
 def render(pid):
