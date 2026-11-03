@@ -9,7 +9,7 @@
    "12-bio-2081-general"
   ],
   "pages": 29,
-  "bytes": 493430,
+  "bytes": 493445,
   "category": "Board Exam Bundle"
  },
  {
@@ -22,7 +22,7 @@
    "12-chem-2081-general"
   ],
   "pages": 24,
-  "bytes": 464997,
+  "bytes": 465005,
   "category": "Board Exam Bundle"
  },
  {
@@ -35,7 +35,20 @@
    "12-cs-2081-general"
   ],
   "pages": 18,
-  "bytes": 282666,
+  "bytes": 282671,
+  "category": "Board Exam Bundle"
+ },
+ {
+  "file": "bundles/NEBians-Past-Papers-Grade-12-Mathematics-2081-2082-Bundle.pdf",
+  "subject": "Mathematics",
+  "grade": "12",
+  "years_bs": "2081-2082",
+  "papers": [
+   "12-math-2082-set-r",
+   "12-math-2081-set-w"
+  ],
+  "pages": 20,
+  "bytes": 1059691,
   "category": "Board Exam Bundle"
  }
 ]

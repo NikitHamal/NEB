@@ -78,13 +78,13 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 12 | Compulsory Nepali | 2082, 2081, 2080 | | queued |
 | 12 | Physics | 2081, 2080 | General | queued (2080 URL below; 2081 general URL not found on the aggregator, search `dhanrajgurung.com` or the NEB site) |
 | 12 | Chemistry, Biology, Mathematics, CS | 2080 | General / grade increment | queued |
-| 12 | Mathematics | 2081 | Regular 0081 'W' | queued (paper + MCQ sheet) |
+| 12 | Mathematics | 2081 | Regular 0081 'W' | DONE (11 pp; session 3; MCQ sheet + paper transcribed from images; 2 solution figures) |
 | 12 | Physics, Chemistry, Biology, Mathematics | 2082, 2081, 2080 | Technical | queued |
 | 12 | Management / Humanities / Education / Law | 2082-2080 | all | queued |
 | 11 | all science subjects | | | queued |
 | 10, 8 | all | | 7 provinces each | queued |
 
-Bundles built so far (`python3 bundle_papers.py`): Chemistry 2081-2082, Biology 2081-2082, Computer Science 2081-2082. Physics and Mathematics get a bundle once a second year exists.
+Bundles built so far (`python3 bundle_papers.py`): Chemistry, Biology, Computer Science, Mathematics (2081-2082). Physics gets a bundle once a second year exists.
 
 ### Source index (internal use only; never cite in a PDF). Base `https://www.dhanraj.com.np/`
 2081: `2025/03/Chemistry-General-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Chemistry-General-Stream-MCQ-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Biology-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Biology-MCQs-2081-2024-of-Class-12-NEB`, `.../Computer-Science-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Computer-Science-MCQs-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Compulsory-English-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Mathematics-Question-Paper-2081-2024-for-Regular-Students-of-Class-12-NEB`, `.../Mathematics-MCQs-2081-2024-for-Regular-Students-of-Class-12-NEB`, `.../Mathematics-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Physics-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../chemistry-technical-stream-question-paper-2081-2024-of-class-12-neb`, `.../Biology-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Optional-English-...`, `.../Optional-Nepali-...`; Nepali: `2024/08/nepali-question-paper-2081-2024-of-class12-neb`.
@@ -113,3 +113,9 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - Session 1: pipeline + 5 Grade 12 papers (Physics, Chemistry, Computer Science, Mathematics, Biology; all 2082).
 - Session 2 (same branch): re-cloned to /tmp/NEB (symlink /app/neb); added Chemistry 2081, Biology 2081 (with 2 exact figure crops), Computer Science 2081; added `tools/cropfig.py`, the `@img` directive, `bundle_papers.py`, solution line-break fix; researched variants and answer-length standard (above). 8 papers + 3 bundles in total. NOT done: the other ~60 Grade 12 papers (English, Nepali, Physics 2081/2080, 2080 science papers, Mathematics 2081 and other sets, Technical, Management/Humanities), Grade 11, 10 (7 provinces), 8.
 - Next session, in this order: (1) Mathematics 2081 Regular (+ 2080 'H'), (2) Compulsory English 2082, 2081, 2080, (3) Physics 2080 General and find Physics 2081 general, (4) Chemistry/Biology/CS 2080, (5) Compulsory Nepali 2082/2081/2080, (6) Technical stream papers, (7) Management/Humanities, (8) Grade 11, (9) SEE with all 7 provinces, Grade 8. After each paper: `build_paper.py --all`, `bundle_papers.py`, leak check, push, verify `git ls-remote`.
+
+## Session 3 notes (same branch)
+- **Fetch URLs need the `.html` suffix** (the source slugs listed above without it silently return the blog home page: 2373 chars, 0 images). Find slugs with the full feed index: `/tmp/index.py` pages `GET /feeds/posts/default?start-index=N&max-results=150&alt=json` into `/tmp/index.txt` (1152 posts; ~160 Class 12 paper posts); then `grep -i`. The feed `q=` search parameter is ignored. Recreate the script if /tmp is wiped (10 lines).
+- **mathtext needs braces**: `\sqrt{3}` not `\sqrt3`, `\dfrac{\infty}{\infty}`. No `array`, `vmatrix`. A bare `|` in an `@opts` line splits options (write 'for $-1<x<1$' instead of $|x|<1$). Check the build log for `[math] fell back:`; it must be empty.
+- A paper newer than the ones listed exists: **2083 (2026) Compulsory English** (`/2026/04/NEB-Grade-12-Compulsory-English-Exam-Question-Paper-2083-2026.html`). Search the index for `2083` too.
+- The source pages for 2081 papers: image 0 is the cover banner, images 1..n are the exam pages (check `p1.jpg` onward).
