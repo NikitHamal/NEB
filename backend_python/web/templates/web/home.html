@@ -851,9 +851,11 @@
       }
     }
 
-    dialog.addEventListener('wheel', handleDialogWheel, { passive: false });
+    if (dialog) {
+      dialog.addEventListener('wheel', handleDialogWheel, { passive: false });
+      dialog.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
+    }
     window.addEventListener('wheel', handleDialogWheel, { passive: false });
-    dialog.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
     window.addEventListener('touchmove', handleDialogTouchMove, { passive: false });
 
     if (window.location.search.includes('compose=1') || window.location.search.includes('create=1')) {
