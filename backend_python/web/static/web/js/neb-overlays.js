@@ -976,6 +976,20 @@
    */
   var LEGACY_MODAL = '.modal-overlay';
 
+  /* A fixed overlay is only fixed to the viewport while no ancestor carries a
+   * transform, filter or opacity animation. <main> does (the page-enter
+   * spring), which trapped the scrim underneath the sticky top bar and
+   * re-based its position onto the page. Dialogs live on <body>, always. */
+  function liftModal(el) {
+    if (el.parentElement !== document.body) document.body.appendChild(el);
+  }
+  function liftAllModals() {
+    Array.prototype.forEach.call(document.querySelectorAll(LEGACY_MODAL), liftModal);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', liftAllModals);
+  else liftAllModals();
+  document.addEventListener('htmx:afterSwap', liftAllModals);
+
   /* Asking the layout rather than the mechanism. These are toggled three
    * different ways -- .active on the forum and profile, an inline display on
    * study_space and study_lab, the hidden attribute on canvas -- and a rect is
@@ -996,6 +1010,7 @@
 
   function legacyAdopt(el) {
     if (stack.some(function (f) { return f.el === el; })) return;
+    liftModal(el);
     /* Announced as a dialog, which none of them were -- a screen reader read
      * them as part of the page they are covering. */
     var p = panel(el);
