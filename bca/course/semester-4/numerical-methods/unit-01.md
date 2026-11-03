@@ -221,6 +221,90 @@ An alternative is **fixed-point iteration** on x = g₁(x, y), y = g₂(x, y), c
 
 A practical strategy: bracket the root, take a few bisection steps, then finish with Newton or secant. A good program stops when |xₙ₊₁ − xₙ| < ε or |f(xₙ)| < ε, and also after a maximum number of iterations.
 
+## 1.10 Seeing the ideas: Newton's tangent, bracketing and how fast each method converges
+
+Most of the root-finding methods in this unit are geometric ideas before they are formulas. Plate 1.1 pairs the man behind the tangent method with a picture of his iteration, and the figures after it compare bracketing with fast iteration.
+
+```photogrid label="1.1" cols="2" ratio="1.1" caption="Newton's method. (a) Isaac Newton, who described the tangent iteration in the 1670s (Joseph Raphson published the simplified form in 1690). (b) The iteration for f(x) = x^3 - x - 2 from x0 = 2: each tangent line hits the x-axis at the next guess, 1.636364 and then 1.530397, closing in on the root 1.521380."
+@ photo id="bca104/newton" cap="Isaac Newton"
+fit 1.1
+focus 0.5 0.7
+@ svg cap="Tangent steps from x0 = 2"
+f = Fig(300, 250)
+ax = Axes(f, 36, 12, 250, 190, (1.3, 2.1), (-1, 4.5))
+ax.grid(0.2, 1)
+ax.axes("", "")
+g = lambda x: x**3 - x - 2
+gp = lambda x: 3 * x * x - 1
+ax.curve(g, 1.3, 2.1, color=NAVY)
+x = 2.0
+for k in range(2):
+    xn = x - g(x) / gp(x)
+    f.line(ax.X(x), ax.Y(0), ax.X(x), ax.Y(g(x)), color=SLATE, dash=True)
+    f.line(ax.X(x), ax.Y(g(x)), ax.X(xn), ax.Y(0), color=RED, sw=1.8)
+    ax.pt(xn, 0, "x%d = %.4f" % (k + 1, xn), dx=(-4 if k == 0 else -30), dy=(-16 if k == 0 else 30), anchor="start", size=9.5)
+    x = xn
+ax.pt(2.0, 0, "x0 = 2", dx=0, dy=18, anchor="middle", size=9.5)
+f.text(165, 232, "each tangent crosses the axis at the next guess", size=9.5, color=SLATE)
+```
+
+```svgfig label="1.1" caption="Bisection on f(x) = x^3 - x - 2 in [1, 2]. The sign change guarantees a root inside; each midpoint c1 = 1.5, c2 = 1.75, c3 = 1.625, c4 = 1.5625 keeps the half that still has opposite signs at its ends, so the bracket halves every step."
+f = Fig(580, 230)
+ax = Axes(f, 50, 14, 510, 170, (0.9, 2.1), (-3, 5))
+ax.grid(0.2, 1)
+ax.axes("", "")
+g = lambda x: x**3 - x - 2
+ax.curve(g, 0.9, 2.1, color=NAVY)
+ax.hline(0, color=SLATE, dash=False)
+for k, c in enumerate([1.5, 1.75, 1.625, 1.5625]):
+    ax.pt(c, g(c), "c%d" % (k + 1), dx=6, dy=-8 if g(c) > 0 else 16, size=10.5)
+f.text(ax.X(1.62), ax.Y(-2.3), "bracket [1, 2]: f(1) = -2 < 0, f(2) = +4 > 0", size=10, color=TEAL, bold=True)
+```
+
+```svgfig label="1.2" caption="Speed of convergence for x^3 - x - 2 = 0 (error on a log scale, 0 = error of 1, -6 = error of one millionth). Bisection gains a fixed amount per step (linear), false position and fixed-point iteration are also linear but faster, the secant method is superlinear (order 1.62) and Newton is quadratic, needing about 2 steps from x0 = 1.5 where bisection needs 19."
+import math
+f = Fig(580, 230)
+ax = Axes(f, 50, 14, 510, 170, (0, 20), (-10, 0.5))
+ax.grid(4, 2)
+ax.axes("", "")
+g = lambda x: x**3 - x - 2
+gp = lambda x: 3 * x * x - 1
+r = 1.5213797068045676
+def lg(e): return max(-10, math.log10(max(e, 1e-12)))
+a, b = 1.0, 2.0; pts = []
+for n in range(1, 21):
+    c = (a + b) / 2; pts.append((n, lg(abs(c - r))))
+    if g(a) * g(c) < 0: b = c
+    else: a = c
+ax.curve(lambda n: lg(0.5 ** n), 0, 20, color=AMBER, label="bisection", lx=15, ly=-4.2)
+x = 1.5; P = [(0, lg(abs(x - r)))]
+for n in range(1, 5):
+    x = x - g(x) / gp(x); P.append((n, lg(abs(x - r))))
+for (n1, e1), (n2, e2) in zip(P, P[1:]):
+    ax.curve(lambda t, n1=n1, e1=e1, n2=n2, e2=e2: e1 + (e2 - e1) * (t - n1) / (n2 - n1), n1, n2, color=RED, sw=2.4)
+x = 1.5; P = [(0, lg(abs(x - r)))]
+for n in range(1, 10):
+    x = (x + 2) ** (1 / 3); P.append((n, lg(abs(x - r))))
+for (n1, e1), (n2, e2) in zip(P, P[1:]):
+    ax.curve(lambda t, n1=n1, e1=e1, n2=n2, e2=e2: e1 + (e2 - e1) * (t - n1) / (n2 - n1), n1, n2, color=TEAL, sw=2)
+f.text(400, 72, "bisection: halves the error", size=10, color=AMBER, bold=True)
+f.text(210, 110, "fixed point", size=10, color=TEAL, bold=True)
+f.text(190, 176, "Newton (quadratic)", size=10, color=RED, bold=True)
+f.text(306, 206, "iteration number", size=10.5, color=SLATE)
+f.text(306, 222, "log10 of the error", size=10, color=SLATE)
+```
+
+### 1.10.1 Eight reasons engineers need numerical methods
+
+1. **Most equations have no formula.** A polynomial of degree five or higher has no general solving formula, and equations such as cos x = x cannot be solved by algebra at all. Numerical methods still give the root to any accuracy we need. A calculator finds square roots in the same way.
+2. **Real data is a table, not a formula.** Hydrologists in Nepal record the river flow at fixed hours, so they only have numbers. Interpolation, differentiation and integration work directly on such tables. No formula is needed.
+3. **Exact integrals are often impossible.** The area under a curve such as e to the power minus x squared has no elementary answer. The trapezoidal and Simpson rules give it quickly and with a known error. Engineers use them to find the volume of water behind a dam.
+4. **Large systems of equations need computers.** A bridge model or an electrical network leads to hundreds of linear equations. Gauss elimination and iterative methods solve them in seconds. Solving them by hand would take days and would almost surely contain errors.
+5. **Differential equations rarely have closed forms.** Cooling, population growth, vibration and circuit problems lead to equations that cannot be integrated exactly. Euler and Runge-Kutta methods step forward in time and give a usable answer. Weather forecasting is built on this idea.
+6. **Errors can be measured and controlled.** Every method has an error bound or a stopping rule, such as the number of bisection steps n greater than or equal to log2((b - a) / tolerance). We know how accurate the answer is. This is better than a guess.
+7. **Speed and cost.** Newton's method reaches six decimals in two or three steps, where bisection needs nineteen. Choosing a better method saves computer time in programs that run millions of times. This matters in games, simulations and mobile apps.
+8. **Computers use them anyway.** Every scientific calculator, spreadsheet solver and programming library (NumPy, MATLAB) runs these algorithms inside. A student who knows them can choose the right tool and understand when the answer is unreliable. This is the base for data science and engineering software.
+
 ## Formula and fact sheet
 
 - Bisection: c = (a + b)/2; steps n ≥ log₂((b − a)/ε).
@@ -262,3 +346,52 @@ A practical strategy: bracket the root, take a few bisection steps, then finish 
 **9.** For a convex or concave f on the bracket, the chord always crosses the axis on the same side of the root, so one end of the interval never moves and the other creeps up on the root linearly.
 **10.** The two square roots are nearly equal, so their difference cancels the leading digits and leaves few significant ones. Multiply and divide by the conjugate: √10001 − √10000 = 1/(√10001 + √10000) = 0.0049999, which has no subtraction.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Find the root of x^3 - 5x + 1 = 0 lying in [0, 1] by the bisection method (seven iterations). State how many iterations guarantee an error below 10^-3.**
+
+*Check.* f(0) = 1 > 0 and f(1) = -3 < 0, so a root lies in [0, 1] (Figure 1.1 shows the same idea for another function).
+
+| n | a | b | c = (a+b)/2 | f(c) |
+|---|---|---|---|---|
+| 1 | 0 | 1 | 0.500000 | -1.375000 |
+| 2 | 0 | 0.5 | 0.250000 | -0.234375 |
+| 3 | 0 | 0.25 | 0.125000 | +0.376953 |
+| 4 | 0.125 | 0.25 | 0.187500 | +0.069092 |
+| 5 | 0.1875 | 0.25 | 0.218750 | -0.083282 |
+| 6 | 0.1875 | 0.21875 | 0.203125 | -0.007244 |
+| 7 | 0.1875 | 0.203125 | 0.195312 | +0.030888 |
+
+After seven steps the root lies in [0.195312, 0.203125]; the exact root is 0.201640. *Steps needed:* n >= log2((b - a)/epsilon) = log2(1/0.001) = 9.97, so **10 iterations** guarantee an error below 10^-3. *Conclusion:* bisection is slow (linear) but always converges for a valid bracket.
+
+**Q2 (5 marks). Use Newton-Raphson to solve cos x - x = 0 starting with x0 = 1 (three iterations).**
+
+*Formula.* x(n+1) = x(n) - f(x(n))/f'(x(n)) with f(x) = cos x - x and f'(x) = -sin x - 1.
+
+| n | x(n) | f(x(n)) | f'(x(n)) | x(n+1) |
+|---|---|---|---|---|
+| 0 | 1.000000 | -0.459698 | -1.841471 | 0.750364 |
+| 1 | 0.750364 | -0.018923 | -1.681905 | 0.739113 |
+| 2 | 0.739113 | -0.000046 | -1.673633 | 0.739085 |
+| 3 | 0.739085 | -0.000000 | -1.673612 | 0.739085 |
+
+The root is **0.739085** (the correct digits roughly double each step: 0, 1, 3, 6). *Why it is fast:* near a simple root the error satisfies e(n+1) is about [f''/(2f')] e(n)^2 (quadratic convergence, Figure 1.2). *Cautions:* it fails when f'(x) = 0 and may diverge from a poor start. *Conclusion:* Newton is the preferred method when the derivative is available and the start is close.
+
+**Q3 (10 marks). Compare the bisection, false-position, secant, Newton-Raphson and fixed-point methods for solving f(x) = 0. Illustrate with x^3 - x - 2 = 0 and say how you would choose a method.**
+
+*Introduction.* Root-finding methods fall into two families: **bracketing** methods (bisection, false position) that keep a root trapped inside an interval and always converge, and **open** methods (secant, Newton, fixed point) that start from one or two guesses, converge faster but can fail. Plate 1.1 shows Newton's tangent idea; Figure 1.1 shows bisection; Figure 1.2 compares their speeds.
+
+*Methods.* (1) **Bisection:** midpoint of a sign-changing interval; error halves each step; n >= log2((b - a)/epsilon). (2) **False position:** the zero of the chord joining (a, f(a)) and (b, f(b)) replaces the midpoint; often faster but one end may stay fixed. (3) **Secant:** like false position without keeping the bracket, using the last two points; order about 1.62. (4) **Newton-Raphson:** x - f/f'; order 2; needs f'. (5) **Fixed point:** rewrite as x = g(x) and iterate; converges when |g'(x)| < 1 near the root, with linear rate |g'|.
+
+*Experiment.* Solving x^3 - x - 2 = 0 (root 1.521380) to within 10^-6 (error, or residual for false position) needs: bisection on [1, 2] **19** iterations; false position **13**; fixed point x = (x + 2)^(1/3) from 1.5 **6**; secant from 1 and 2 **6**; Newton from 1.5 only **2**.
+
+| Method | Order | Needs bracket | Needs f' | Iterations (this problem) | Main risk |
+|---|---|---|---|---|---|
+| Bisection | 1 (linear, 0.5) | Yes | No | 19 | Slow |
+| False position | 1 | Yes | No | 13 | One end sticks |
+| Fixed point | 1 (rate abs g') | No | No | 6 | May diverge |
+| Secant | about 1.62 | No | No | 6 | May diverge |
+| Newton-Raphson | 2 | No | Yes | 2 | f' = 0, bad start |
+
+*Choice.* Use bisection (or false position) to obtain a safe bracket, then switch to Newton or secant to polish the answer; this hybrid is what library routines such as Brent's method do. Use the secant method when f' is expensive or unavailable. *Conclusion:* there is no best method for every problem; safety and speed trade against each other, and good practice is to combine them.

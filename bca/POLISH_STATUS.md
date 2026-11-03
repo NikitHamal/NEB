@@ -200,6 +200,17 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - U7: Plate 7.1 (meter/register/aisle), Fig 7.1 pricing index, 7.2 break-even 5,256 h, 7.3 series vs parallel availability, 7.4 nines (log bars); 7.7.1 eight FinOps practices; Q1-Q4.
 - No code was changed, so fill_script_outputs.py was NOT run. Helper `/tmp/ins2.py` inserts figures before "K Summary and exercises" (renumbers it) and appends answers.
 
+## BCA 252 numerical-methods (semester-4/numerical-methods) -- [x] POLISHED (session 23), 66 pp (was 43), qa fails=0 warns=1 (p3 near-empty, pre-existing)
+- Photos (bca204/, licence-gated, all viewed): gauss (Jensen 1840), lagrange (LoC portrait), euler (Handmann), runge (Weierstrass album), planimeter (K&E polar planimeter). Reused: bca104 newton, coffee.
+- New sections are numbered after the last numbered section (e.g. 1.10, 2.8, 3.5) and inserted before the unnumbered "Formula and fact sheet"; helper `/tmp/ins3.py`.
+- U1: Plate 1.1 (Newton portrait + tangent-steps SVG), Fig 1.1 bisection, Fig 1.2 convergence speeds (iteration counts from a real run: bisection 19, false position 13, fixed point 6, secant 6, Newton 2); 1.10.1 eight reasons; Q1 bisection x^3-5x+1, Q2 Newton cos x - x, Q3 method comparison (10 marks).
+- U2: Plate 2.1 (Lagrange/Newton/Gauss), Fig 2.1 ln x cubic, 2.2 divided-difference table, 2.3 Runge phenomenon, 2.4 least-squares line; 2.8.1 eight uses; Q1 (ln 3 = 1.12344), Q2 (y = 0.05 + 1.99x), Q3.
+- U3: Plate 3.1 (planimeter + trapezoid SVG), Fig 3.1 Simpson, 3.2 Romberg table, 3.3 derivative errors; 3.5.1 eight uses; Q1 trapezoid 1.89612 vs Simpson 2.00456, Q2 forward vs central, Q3 Romberg.
+- U4: Plate 4.1 (Gauss + conditioning SVG), Fig 4.1 elimination, 4.2 Jacobi vs Gauss-Seidel; 4.7.1 eight uses; Q1-Q3 (all numbers from numpy runs).
+- U5: Plate 5.1 (Euler/Runge/Euler-step SVG), Fig 5.1 Euler vs exact, 5.2 RK4 slopes, 5.3 error bars; 5.9.1 eight uses; Q1 Euler table, Q2 RK4 step, Q3 comparison (Euler 1.72102, Heun 1.794894, RK4 1.797441 vs exact 1.797443).
+- U6: Plate 6.1 (coffee photo + stencil SVG), Fig 6.1 solved plate (42.857, 52.679, ...), 6.2 Gauss-Seidel progress; 6.6.1 eight uses; Q1-Q3 (symmetry solution verified).
+- All numbers recomputed in Python before writing. check_numerical.py was not needed (no code changed); fill_script_outputs.py not run.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -220,5 +231,6 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - [x] Technical Writing polished (session 22, 36 -> 59 pp)
 - [x] Financial Accounting polished (session 22, 37 -> 65 pp)
 - [x] Cloud Computing polished (session 23, 37 -> 65 pp)
-- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Numerical Methods (43), Cyber Security (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] Numerical Methods polished (session 23, 43 -> 66 pp)
+- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Cyber Security and Ethical Hacking (43), then: the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time

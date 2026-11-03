@@ -108,6 +108,66 @@ The iterates approach (67.5000, 75.0000, 75.0000, 82.5) steadily.
 - Direct solution (Gauss elimination, banded LU) costs more memory than iteration for large grids; iterative methods exploit the sparsity (only five nonzeros per row).
 - For **parabolic** (heat) problems, the explicit scheme uᵢʲ⁺¹ = r uᵢ₋₁ʲ + (1 − 2r)uᵢʲ + r uᵢ₊₁ʲ with r = c²Δt/h² is stable only if r ≤ ½; the implicit Crank–Nicolson scheme is stable for all r. Hyperbolic problems need the Courant condition cΔt/h ≤ 1. These are outside the syllabus but explain why time-dependent problems need more care than the steady-state ones here.
 
+## 6.6 Seeing the ideas: the five-point stencil, the solved plate and Gauss-Seidel on the grid
+
+A cup of coffee loses heat to its surroundings; the temperature inside any object settles to a smooth pattern once its boundaries are held steady. That settled pattern obeys Laplace's equation, and the grid methods of this unit compute it.
+
+```photogrid label="6.1" cols="2" ratio="1.2" caption="Heat and the grid. (a) A steaming cup of coffee: heat flows from hot to cold, and once the surfaces are held at fixed temperatures the interior settles to a steady pattern described by Laplace's equation. (b) The five-point stencil: the temperature at a grid point is the average of its four neighbours (plus a source term for Poisson's equation)."
+@ photo id="bca104/coffee" cap="Heat flowing out of a cup"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Five-point stencil"
+f = Fig(300, 240)
+f.circle(150, 120, 20, fill=ROSE, stroke=RED, label="u(i,j)", size=9)
+for (x, y, t) in [(150, 52, "u(i,j+1)"), (150, 188, "u(i,j-1)"), (62, 120, "u(i-1,j)"), (238, 120, "u(i+1,j)")]:
+    f.circle(x, y, 22, fill=BLUE, stroke=NAVY, label=t, size=8)
+    f.line(150, 120, x, y, color=SLATE, sw=1.5)
+f.text(150, 226, "u(i,j) = [N + S + E + W] / 4", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="6.1" caption="A square plate with the top edge held at 100 degrees and the other three edges at 0. The nine interior values from the five-point formula are shown in the cells; the centre is exactly one quarter of the top temperature (25), as symmetry requires."
+f = Fig(580, 272)
+V = [[42.857, 52.679, 42.857], [18.75, 25.0, 18.75], [7.143, 9.821, 7.143]]
+x0, y0, s = 150, 60, 56
+for j in range(5): f.box(x0 + j * s - s, y0 - s, s, s * 0.6, "100", fill=ROSE, stroke=RED, size=10, bold=True)
+for i in range(3):
+    f.box(x0 - s, y0 + i * s, s * 0.6, s, "0", fill=BLUE, stroke=NAVY, size=10, bold=True)
+    f.box(x0 + 3 * s + s * 0.4, y0 + i * s, s * 0.6, s, "0", fill=BLUE, stroke=NAVY, size=10, bold=True)
+    for j in range(3):
+        v = V[i][j]
+        f.box(x0 + j * s, y0 + i * s, s, s, "%.3f" % v, fill=["#fee2e2", "#fef3c7", "#e0f2fe"][i], stroke=SLATE, size=11, bold=True)
+for j in range(5): f.box(x0 + j * s - s, y0 + 3 * s + 4, s, s * 0.35, "0", fill=BLUE, stroke=NAVY, size=10, bold=True)
+f.text(480, 90, "hot edge 100", size=10.5, color=RED, bold=True)
+f.text(480, 140, "other edges 0", size=10.5, color=NAVY, bold=True)
+f.text(480, 190, "heat flows downwards", size=10, color=SLATE)
+```
+
+```svgfig label="6.2" caption="Gauss-Seidel iteration on the plate, starting from zero. The top-centre value u12 (red) and the centre value u22 (teal) approach their exact values 52.679 and 25 over successive sweeps: 31.25, 44.14, 48.68, 50.71, 51.70 and 9.38, 17.19, 21.09, 23.05, 24.02."
+f = Fig(580, 200)
+ax = Axes(f, 50, 14, 510, 150, (0.5, 5.5), (0, 60))
+ax.grid(1, 10)
+ax.axes("", "")
+A = [31.25, 44.14, 48.68, 50.71, 51.70]; B = [9.38, 17.19, 21.09, 23.05, 24.02]
+for S, c in ((A, RED), (B, TEAL)):
+    for k in range(4): ax.curve(lambda t, k=k, S=S: S[k] + (S[k + 1] - S[k]) * (t - k - 1), k + 1, k + 2, color=c, sw=2.4)
+    for k, v in enumerate(S): ax.pt(k + 1, v, "", color=c)
+ax.hline(52.679, color=RED); ax.hline(25, color=TEAL)
+f.text(130, 40, "u12 exact 52.679", size=10, color=RED, bold=True)
+f.text(130, 120, "u22 exact 25", size=10, color=TEAL, bold=True)
+f.text(306, 190, "Gauss-Seidel sweep number", size=10, color=SLATE)
+```
+
+### 6.6.1 Eight uses of Laplace and Poisson equations
+
+1. **Steady heat in a plate or wall.** After enough time the temperature in a wall stops changing and obeys Laplace's equation. Engineers use grid methods to estimate heat loss through brick walls and cooling fins of electronics. This helps in designing warm houses for the Nepali hills.
+2. **Electric potential.** The voltage in the empty space between conductors satisfies Laplace's equation. The grid method gives the potential around chips, cables and insulators. Designers find where the field is strongest and sparks may occur.
+3. **Groundwater and seepage.** Water moving slowly through soil under a dam follows Laplace's equation. The solution shows the pressure and the flow paths. Dam designers use it to avoid leaks and failure.
+4. **Fluid flow.** Ideal flow of a fluid around a pipe bend or a bridge pier can be described by a potential that satisfies Laplace's equation. The grid solution shows speed and pressure. It is the first step before more advanced models.
+5. **Poisson's equation and charge.** If charges or heat sources are present, the equation becomes Poisson's equation. The source term is added to the stencil. Computing the field of a charged body or heat inside an electronic part uses it.
+6. **Deflection of membranes and plates.** The shape of a stretched drum skin under pressure satisfies Poisson's equation. A civil engineer can estimate how a thin slab bends under a load. The same equation appears in many different fields.
+7. **Image processing.** Filling a hole in a photograph can be done by solving Laplace's equation with the edge of the hole as the boundary. The result blends smoothly with its surroundings. Photo-editing tools use this idea.
+8. **Teaching and checking bigger programs.** A simple plate with known boundary values has a solution one can verify by symmetry, as in the exercise here. It is the standard test for larger simulation software. Learning it builds the habit of checking results.
+
 ## Formula and fact sheet
 
 - uₓₓ ≈ (uᵢ₊₁,ⱼ − 2uᵢⱼ + uᵢ₋₁,ⱼ)/h².
@@ -143,3 +203,46 @@ The iterates approach (67.5000, 75.0000, 75.0000, 82.5) steadily.
 **7.** The normal derivative is zero, so the ghost value outside the edge equals the value inside; the neighbour sum includes twice the interior neighbour, e.g. 4uᵢⱼ = 2uᵢ,ⱼ₊₁ + uᵢ₊₁,ⱼ + uᵢ₋₁,ⱼ.
 **8.** Truncation error falls by about 4 (O(h²)); the number of unknowns grows by 4, and the work of an iterative solver by more (the iterations needed also increase).
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). A square plate has its top edge at 100 degrees and the other three edges at 0 degrees. Find the temperatures at the nine interior points of a 4 x 4 mesh using the five-point formula and symmetry.**
+
+*Formula.* For Laplace's equation, u(i,j) = [u(i+1,j) + u(i-1,j) + u(i,j+1) + u(i,j-1)]/4. By left-right symmetry, name the unknowns: top row a, b, a; middle row c, d, c; bottom row e, f, e.
+
+*Equations.* a = (100 + b + c)/4; b = (100 + 2a + d)/4; c = (a + e + d)/4; d = (b + f + 2c)/4; e = (c + f)/4; f = (d + 2e)/4. Solving gives **a = 42.857, b = 52.679, c = 18.750, d = 25.000, e = 7.143, f = 9.821**.
+
+*Check.* a: (100 + 52.679 + 18.75)/4 = 42.857. d: (52.679 + 9.821 + 37.5)/4 = 25. The centre is one quarter of 100, as superposition of the four edges (each contributing 25 at the centre by symmetry) requires (Figure 6.1). *Conclusion:* temperature falls smoothly from the hot edge towards the cold edges.
+
+**Q2 (5 marks). Explain how the Gauss-Seidel iteration is used for the plate problem. Show its early progress.**
+
+*Method.* Start with a guess (all zeros) and sweep through the grid, replacing each interior value by the average of its four neighbours using the newest values; repeat until changes are below a tolerance. The system is diagonally dominant (each unknown has coefficient 4 against four neighbours of 1), so convergence is guaranteed.
+
+| Sweep | u12 (top centre) | u22 (centre) |
+|---|---|---|
+| 1 | 31.25 | 9.38 |
+| 2 | 44.14 | 17.19 |
+| 3 | 48.68 | 21.09 |
+| 4 | 50.71 | 23.05 |
+| 5 | 51.70 | 24.02 |
+| Exact | 52.679 | 25.000 |
+
+The error shrinks by a factor of about two each sweep here (Figure 6.2). *Speed-up:* successive over-relaxation (SOR) with a factor between 1 and 2 converges much faster on fine grids. *Conclusion:* iterative solution is the practical way to solve large grids.
+
+**Q3 (10 marks). Classify second-order partial differential equations. Derive the difference equations for Laplace's and Poisson's equations and explain how a Dirichlet problem is solved numerically.**
+
+*Classification.* For A u_xx + B u_xy + C u_yy + lower terms = 0, the sign of B^2 - 4AC decides the type: **elliptic** if negative (Laplace u_xx + u_yy = 0, Poisson u_xx + u_yy = f; steady state), **parabolic** if zero (heat u_t = c^2 u_xx; diffusion in time), **hyperbolic** if positive (wave u_tt = c^2 u_xx; vibration). This unit treats the elliptic type.
+
+*Difference equations.* Cover the region with a grid of spacing h. Taylor series give u_xx is about [u(i+1,j) - 2u(i,j) + u(i-1,j)]/h^2 and likewise for u_yy, with error O(h^2). Adding them gives for **Laplace**: u(i,j) = [u(i+1,j) + u(i-1,j) + u(i,j+1) + u(i,j-1)]/4, the average of the four neighbours (the stencil of Plate 6.1). For **Poisson**: u(i,j) = [sum of four neighbours - h^2 f(i,j)]/4.
+
+*Dirichlet problem.* The values of u on the boundary are given. Each interior point gives one linear equation, so an n x n interior grid gives n^2 equations (nine for the 3 x 3 plate of Figure 6.1). They are solved by Gauss elimination or by iteration (Gauss-Seidel, SOR; Figure 6.2), the latter being preferred for fine grids.
+
+*Worked Poisson example.* For u_xx + u_yy = -10 on a square with u = 0 on all edges and h = 1, the single interior point of a 3 x 3 grid has 4u = 0 + 0 + 0 + 0 - h^2(-10), so **u = 2.5**. Halving h gives a more accurate answer with more points.
+
+| Type | Example | Physical meaning | Numerical idea |
+|---|---|---|---|
+| Elliptic | Laplace, Poisson | steady state | solve a system on the grid |
+| Parabolic | Heat equation | diffusion | step in time (explicit, Crank-Nicolson) |
+| Hyperbolic | Wave equation | vibration | step in time with a stability limit |
+
+*Accuracy.* The error is O(h^2); halving h cuts it to about a quarter but multiplies the number of unknowns by four. Corner and curved boundaries need special treatment. *Conclusion.* Elliptic problems reduce to large sparse linear systems that links this unit to Unit 4; symmetry checks and a convergence test on the sweeps make the answers trustworthy.

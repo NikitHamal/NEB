@@ -131,6 +131,66 @@ The **power method** finds the **dominant** eigenvalue (largest in magnitude) λ
 The eigenvalue estimates climb towards **2 + √2 = 3.4142**, and the vector towards (−0.7071, 1, −0.7071) ∝ (1, −√2, 1). The Rayleigh quotient vᵀAv/vᵀv of the final vector gives 3.4142, a faster-converging estimate. The smallest eigenvalue can be found by applying the method to A⁻¹ (inverse iteration); shifts find the others.
 :::
 
+## 4.7 Seeing the ideas: elimination, iteration speed and the geometry of ill-conditioning
+
+Carl Friedrich Gauss gave elimination its name, and his portrait opens Plate 4.1. The plate also shows why some systems are dangerous: when two lines are nearly parallel, a tiny change moves their intersection a long way.
+
+```photogrid label="4.1" cols="2" ratio="1.1" caption="Solving linear systems. (a) Carl Friedrich Gauss, whose name is attached to elimination (the method itself appears in the Chinese Nine Chapters about 2,000 years earlier). (b) Geometry of a 2 x 2 system: a well-conditioned pair of lines (left) crosses at a clear angle, so a small error in the data moves the solution a little; a nearly parallel pair (right) crosses at a shallow angle and the solution is unstable."
+@ photo id="bca204/gauss" cap="Gauss"
+fit 1.1
+focus 0.5 0.7
+@ svg cap="Well and badly conditioned"
+f = Fig(300, 240)
+f.text(78, 14, "well-conditioned", size=10.5, color=TEAL, bold=True)
+f.line(14, 190, 142, 40, color=NAVY, sw=2.2); f.line(14, 60, 142, 190, color=RED, sw=2.2)
+f.circle(78, 125, 5, fill=TEAL, stroke=TEAL)
+f.text(78, 214, "clear crossing angle", size=9.5, color=SLATE)
+f.text(228, 14, "ill-conditioned", size=10.5, color=RED, bold=True)
+f.line(160, 150, 290, 98, color=NAVY, sw=2.2); f.line(160, 156, 290, 92, color=RED, sw=2.2)
+f.circle(225, 124, 5, fill=RED, stroke=RED)
+f.text(228, 214, "almost parallel", size=9.5, color=SLATE)
+```
+
+```svgfig label="4.1" caption="Gauss elimination on 10x + y + z = 12, 2x + 10y + z = 13, 2x + 2y + 10z = 14. Multipliers 0.2, 0.2 and 0.18367 reduce the augmented matrix to upper-triangular form, and back substitution gives z = 1, y = 1, x = 1."
+f = Fig(580, 150)
+def M(x, rows, title, fl, st):
+    f.text(x + 70, 14, title, size=10.5, color=st, bold=True)
+    for i, r in enumerate(rows): f.box(x, 22 + i * 34, 140, 28, r, fill=fl, stroke=st, size=10.5)
+M(8, ["10   1   1 | 12", "2   10   1 | 13", "2    2  10 | 14"], "start", BLUE, NAVY)
+M(212, ["10    1    1 | 12", "0   9.8  0.8 | 10.6", "0   1.8  9.8 | 11.6"], "after step 1 (m = 0.2, 0.2)", SAND, AMBER)
+M(416, ["10    1      1 | 12", "0   9.8    0.8 | 10.6", "0    0   9.6531 | 9.6531"], "after step 2 (m = 0.18367)", MINT, TEAL)
+f.arrow([(150, 66), (212, 66)]); f.arrow([(354, 66), (416, 66)])
+f.text(290, 136, "back substitution: z = 9.6531 / 9.6531 = 1, y = (10.6 - 0.8) / 9.8 = 1, x = (12 - 1 - 1) / 10 = 1", size=10, color=TEAL, bold=True)
+```
+
+```svgfig label="4.2" caption="Jacobi versus Gauss-Seidel on the same system, starting from (0, 0, 0). The largest error after each sweep (true answer 1, 1, 1): Jacobi 0.4, 0.1, 0.03, 0.0084; Gauss-Seidel 0.2, 0.0054, 0.00044, 0.00002. Using the newest values makes Gauss-Seidel roughly twice as fast."
+import math
+f = Fig(580, 200)
+ax = Axes(f, 50, 14, 510, 150, (0.5, 4.5), (-5.5, 0))
+ax.grid(1, 1)
+ax.axes("", "")
+J = [0.4, 0.1, 0.03, 0.0084]; G = [0.2, 0.00536, 0.00044, 0.00002]
+for S, c in ((J, AMBER), (G, TEAL)):
+    pts = [(k + 1, math.log10(v)) for k, v in enumerate(S)]
+    for (a, b), (c2, d) in zip(pts, pts[1:]):
+        ax.curve(lambda t, a=a, b=b, c2=c2, d=d: b + (d - b) * (t - a) / (c2 - a), a, c2, color=c, sw=2.4)
+    for a, b in pts: ax.pt(a, b, "", color=c)
+f.text(420, 60, "Jacobi", size=11, color=AMBER, bold=True)
+f.text(200, 150, "Gauss-Seidel", size=11, color=TEAL, bold=True)
+f.text(306, 188, "iteration (vertical axis: log10 of the largest error)", size=10, color=SLATE)
+```
+
+### 4.7.1 Eight uses of linear systems and their numerical solution
+
+1. **Electrical networks.** Kirchhoff's laws turn a circuit with many loops into a set of linear equations. A hydropower grid has thousands of nodes and is solved by computer. Elimination or iteration gives all currents at once.
+2. **Structures and bridges.** Engineers divide a truss or bridge into joints and write force-balance equations for each. The unknown forces in every member come from one big linear system. The same method checks buildings against earthquake loads.
+3. **Economics and planning.** Input-output tables describe how each industry uses the products of others. Solving a linear system shows how much each sector must produce to meet final demand. Governments use it in planning.
+4. **Curve fitting.** The normal equations of least squares are linear equations in the unknown coefficients. Every trend line and calibration uses them. A spreadsheet solves them in a moment.
+5. **Computer graphics.** Moving, rotating and projecting a 3D model involves solving linear systems for the transformation. Games solve millions of such equations per second. Graphics cards are built for it.
+6. **Search and ranking.** The ranking of web pages is an eigenvector problem solved by repeating a matrix multiplication, a method close to the power method. Recommendation systems use the same idea. Linear algebra runs behind the screen.
+7. **Weather and flow simulation.** Dividing the air or a river into small cells gives millions of linked equations, solved by fast iterative methods. Direct elimination would be far too slow. Choosing the right method decides whether a forecast arrives in time.
+8. **Network and traffic analysis.** Flow of traffic, water in a pipe network and data in a computer network follow balance equations. Solving them locates bottlenecks. Planners in Kathmandu can test a road change on paper first.
+
 ## Formula and fact sheet
 
 - Multiplier mᵢₖ = aᵢₖ/aₖₖ; partial pivoting: swap to the largest |aᵢₖ|; det = ±Π pivots.
@@ -169,3 +229,48 @@ The eigenvalue estimates climb towards **2 + √2 = 3.4142**, and the vector tow
 **8.** From the table in Section 4.6, the fourth iteration gives λ ≈ 3.4000 (true 3.4142).
 **9.** Plain elimination repeats the O(n³) work for every new b. LU factorises once (O(n³)) and then each right-hand side costs only O(n²) for the two triangular solves.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Solve 10x + y + z = 12, 2x + 10y + z = 13, 2x + 2y + 10z = 14 by Gauss elimination.**
+
+*Augmented matrix.* [10 1 1 | 12; 2 10 1 | 13; 2 2 10 | 14].
+
+*Step 1 (pivot 10).* m21 = 2/10 = 0.2 and m31 = 0.2: R2 = R2 - 0.2R1 gives [0 9.8 0.8 | 10.6]; R3 = R3 - 0.2R1 gives [0 1.8 9.8 | 11.6].
+
+*Step 2 (pivot 9.8).* m32 = 1.8/9.8 = 0.18367: R3 = R3 - 0.18367R2 gives [0 0 9.6531 | 9.6531] (Figure 4.1).
+
+*Back substitution.* z = 9.6531/9.6531 = **1**; y = (10.6 - 0.8 x 1)/9.8 = **1**; x = (12 - 1 - 1)/10 = **1**. *Check:* 10 + 1 + 1 = 12, 2 + 10 + 1 = 13, 2 + 2 + 10 = 14. *Note:* with a zero or very small pivot, rows must be swapped (partial pivoting) to keep rounding errors small. The work is about n^3/3 multiplications. *Conclusion:* the solution is x = y = z = 1.
+
+**Q2 (5 marks). Solve the same system by the Jacobi and Gauss-Seidel methods (four iterations from zero). State the condition for convergence.**
+
+*Formulas.* x = (12 - y - z)/10, y = (13 - 2x - z)/10, z = (14 - 2x - 2y)/10. Jacobi uses only old values of an iteration; Gauss-Seidel uses each new value immediately.
+
+| Iteration | Jacobi (x, y, z) | Gauss-Seidel (x, y, z) |
+|---|---|---|
+| 1 | 1.2000, 1.3000, 1.4000 | 1.2000, 1.0600, 0.9480 |
+| 2 | 0.9300, 0.9200, 0.9000 | 0.9992, 1.0054, 0.9991 |
+| 3 | 1.0180, 1.0240, 1.0300 | 0.9996, 1.0002, 1.0000 |
+| 4 | 0.9946, 0.9934, 0.9916 | 1.0000, 1.0000, 1.0000 |
+
+Gauss-Seidel is already correct to four decimals after four sweeps, while Jacobi still has an error of 0.008 (Figure 4.2). *Convergence:* guaranteed when the matrix is **strictly diagonally dominant**, that is |a(ii)| > sum of |a(ij)| for j not equal i in every row; here 10 > 2, 10 > 3 and 10 > 4. *Conclusion:* iterative methods suit large sparse systems and Gauss-Seidel is usually about twice as fast.
+
+**Q3 (10 marks). Compare direct and iterative methods for linear systems. Explain LU factorisation and ill-conditioning with an example.**
+
+*Introduction.* To solve Ax = b, **direct methods** (Gauss elimination, Gauss-Jordan, LU) give the answer after a fixed number of operations, while **iterative methods** (Jacobi, Gauss-Seidel) improve a guess until it is accurate enough.
+
+*Direct methods.* Gauss elimination reduces A to upper-triangular form and back-substitutes, with cost about n^3/3. **LU factorisation** writes A = LU with L lower triangular (holding the multipliers, here 0.2, 0.2, 0.18367) and U upper triangular (the reduced matrix). To solve for any b, first solve Ly = b by forward substitution, then Ux = y by back substitution, each costing only n^2. LU is therefore ideal when the same matrix is used with many right-hand sides. Gauss-Jordan continues to a diagonal form and can find an inverse but costs more.
+
+*Iterative methods.* They store only the nonzero entries and need diagonal dominance (Figure 4.2). For a system with a million unknowns, such as a weather grid, they are the only practical choice.
+
+*Ill-conditioning.* A system is ill-conditioned when small changes in the data cause large changes in the solution (Plate 4.1b). Example: x + y = 2 and x + 1.0001y = 2.0001 has the solution x = 1, y = 1. Changing the right side to 2.0002 gives y = 0.0002/0.0001 = 2 and x = 0: a change of 0.0001 in one datum changed the answer from (1, 1) to (0, 2). The condition number is ||A|| x ||A^-1|| = 2.0001 x 20,001, about 40,000, so relative errors in the data can be magnified up to 40,000 times.
+
+| Point | Direct (LU) | Iterative (Gauss-Seidel) |
+|---|---|---|
+| Answer after | Fixed steps | Until tolerance met |
+| Cost | n^3/3 | n^2 per sweep, few sweeps |
+| Memory | Fills in zeros | Keeps matrix sparse |
+| Condition | Works for any nonsingular A | Needs diagonal dominance |
+| Best for | Small and medium systems | Very large sparse systems |
+
+*Conclusion.* Use LU with partial pivoting for ordinary systems, iterative methods for huge sparse ones, and always check the condition number before trusting an answer.

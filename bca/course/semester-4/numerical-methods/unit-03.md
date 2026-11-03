@@ -155,6 +155,73 @@ The exact value is 3 ln 3 − 4 ln 2 = 0.523248.
 Simpson (weights 1, 4, 1): I ≈ (0.5 × 0.5/9) × Σ = **0.524074**, error 0.000826. Trapezoidal: **0.537500**, error 0.014252. Even with only nine points Simpson is accurate to 3 decimals. A smaller step or a Romberg refinement in each direction would improve both.
 :::
 
+## 3.5 Seeing the ideas: areas under curves, Romberg's table and the error of a derivative
+
+Before computers, engineers measured the area of an irregular shape with a mechanical **planimeter**, a hand-driven integrator. Numerical integration does the same job with arithmetic.
+
+```photogrid label="3.1" cols="2" ratio="1.2" caption="Integration by machine and by rule. (a) A Keuffel and Esser polar planimeter in its case: tracing the boundary of a shape with the pointer gives its area on the dial, a mechanical integrator used by surveyors and engineers. (b) The trapezoidal rule on one quarter-wave of sin x with step pi/4: straight tops replace the curve, so the area is slightly underestimated for a concave curve."
+@ photo id="bca204/planimeter" cap="Polar planimeter"
+fit 1.2
+focus 0.5 0.5
+@ svg cap="Trapezoids under sin x"
+f = Fig(300, 230)
+ax = Axes(f, 30, 14, 250, 170, (0, 3.2), (0, 1.2))
+ax.grid(0.8, 0.4)
+ax.axes("", "")
+import math
+h = math.pi / 4
+for k in range(4):
+    x0, x1 = k * h, (k + 1) * h
+    f.poly([(ax.X(x0), ax.Y(0)), (ax.X(x0), ax.Y(math.sin(x0))), (ax.X(x1), ax.Y(math.sin(x1))), (ax.X(x1), ax.Y(0))], fill="#bfdbfe", stroke=NAVY, sw=1.2)
+ax.curve(math.sin, 0, math.pi, color=RED)
+f.text(165, 210, "T = 1.89612 vs exact 2 (error 0.104)", size=10, color=NAVY, bold=True)
+```
+
+```svgfig label="3.1" caption="Simpson's one-third rule fits a parabola through each pair of strips. On the same four strips for the integral of sin x from 0 to pi, the trapezoidal rule gives 1.89612 (error 0.10388) while Simpson gives 2.00456 (error -0.00456), more than twenty times better for the same ordinates 0, 0.70711, 1, 0.70711, 0."
+f = Fig(580, 200)
+ax = Axes(f, 50, 14, 510, 150, (0, 3.2), (0, 1.2))
+ax.grid(0.4, 0.4)
+ax.axes("", "")
+import math
+ax.area(math.sin, 0, math.pi)
+ax.curve(math.sin, 0, math.pi, color=NAVY)
+for k in range(5): ax.pt(k * math.pi / 4, math.sin(k * math.pi / 4), "y%d" % k, dx=0, dy=-10, anchor="middle", size=10)
+f.text(306, 190, "S = (h/3)[y0 + 4(y1 + y3) + 2 y2 + y4] = 2.00456 | weights 1 4 2 4 1", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="3.2" caption="Romberg integration of e^x on [0, 1] (exact value 1.718282). The first column is the trapezoidal rule with 1, 2 and 4 strips; each later column is Richardson extrapolation R(i,j) = R(i,j-1) + [R(i,j-1) - R(i-1,j-1)]/(4^j - 1). Three trapezoid values combine into 1.718283, correct to six decimals."
+f = Fig(580, 168)
+T = [["1.859141"], ["1.753931", "1.718861"], ["1.727222", "1.718319", "1.718283"]]
+H = ["h = 1", "h = 1/2", "h = 1/4"]
+for j, h in enumerate(["trapezoid", "O(h^4)", "O(h^6)"]): f.box(130 + j * 150, 8, 140, 22, h, fill=NAVY, stroke=NAVY, color="#ffffff", bold=True, size=10.5)
+for i, r in enumerate(T):
+    f.box(8, 38 + i * 36, 110, 28, H[i], fill=BLUE, stroke=NAVY, size=10.5)
+    for j, v in enumerate(r):
+        f.box(130 + j * 150, 38 + i * 36, 140, 28, v, fill=[MINT, SAND, ROSE][j], stroke=[TEAL, AMBER, RED][j], size=11, bold=(i == 2 and j == 2))
+f.text(290, 160, "exact value: 1.718282", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="3.3" caption="Error of two derivative formulas for f(x) = e^x at x = 1 (exact 2.71828). Halving h halves the forward-difference error (0.14056 to 0.06910) but quarters the central-difference error (0.00453 to 0.00113), because the forward formula is O(h) and the central formula is O(h^2)."
+f = Fig(580, 180)
+D = [("Forward h = 0.1", 0.14056, AMBER, SAND), ("Forward h = 0.05", 0.0691, AMBER, SAND), ("Central h = 0.1", 0.00453, TEAL, MINT), ("Central h = 0.05", 0.00113, TEAL, MINT)]
+for i, (t, e, st, fl) in enumerate(D):
+    y = 14 + i * 40
+    f.text(120, y + 17, t, size=10.5, color=NAVY, bold=True, anchor="end")
+    f.box(130, y, max(e * 2800, 4), 28, "", fill=fl, stroke=st)
+    f.text(130 + max(e * 2800, 4) + 8, y + 18, "error %.5f" % e, size=10.5, color=SLATE, bold=True, anchor="start")
+```
+
+### 3.5.1 Eight uses of numerical integration and differentiation
+
+1. **Area and volume of irregular shapes.** Land surveyors in Nepal measure a field boundary at fixed intervals, and Simpson's rule gives the area. The same idea gives the volume of earth to cut for a road. No formula for the shape is needed.
+2. **Water in a river or reservoir.** Flow is measured at several depths and widths. Integrating velocity times area gives the discharge in cubic metres per second. Hydropower planning for rivers such as the Kaligandaki depends on this.
+3. **Distance from speed.** A vehicle log gives speed at each minute, and integration adds it into distance travelled. Fitness watches and GPS units do this all day. The trapezoidal rule is enough for such data.
+4. **Work, energy and charge.** The work done by a variable force and the charge stored from a varying current are integrals of measured tables. Engineers use numerical integration when the signal is only a list of readings. Oscilloscopes do this inside.
+5. **Probability and statistics.** The normal distribution has no closed-form integral, so the tables in textbooks were made numerically. Computers still integrate to find probabilities and p-values. This is the root of all statistical software.
+6. **Rates of change from data.** Speed from positions, growth rate from population counts and slope of a sensor curve are numerical derivatives. A central difference gives a good estimate from two neighbouring readings. It is used in control systems and tracking.
+7. **Error control by Romberg and step halving.** Halving the step and extrapolating improves the answer without a formula for the error. We know how many digits to trust. This makes numerical results reliable.
+8. **Solving differential equations.** Euler and Runge-Kutta methods in the next unit are built from the same ideas of stepping and averaging slopes. Understanding integration therefore opens the way to simulation. Weather and engineering models rest on it.
+
 ## Formula and fact sheet
 
 - Forward/backward: O(h); central: [f(x + h) − f(x − h)]/2h, O(h²); f″ ≈ [f(x + h) − 2f(x) + f(x − h)]/h².
@@ -193,3 +260,50 @@ Simpson (weights 1, 4, 1): I ≈ (0.5 × 0.5/9) × Σ = **0.524074**, error 0.00
 **8.** Simpson: 0.524074; exact: 0.523248; error 0.000826 (the trapezoidal rule gives 0.537500).
 **9.** Truncation error falls with h, but round-off grows because f(x + h) − f(x) subtracts nearly equal numbers, then is divided by a tiny h; and measured data carry noise which is amplified by 1/h. Beyond an optimal h the total error increases.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Evaluate the integral of sin x from 0 to pi using the trapezoidal rule and Simpson's one-third rule with four strips. Compare with the exact value.**
+
+*Data.* h = pi/4 = 0.785398; the ordinates are y0 = 0, y1 = 0.70711, y2 = 1, y3 = 0.70711, y4 = 0.
+
+*Trapezoidal rule.* T = (h/2)[y0 + 2(y1 + y2 + y3) + y4] = 0.392699 x [0 + 2(2.41421) + 0] = **1.89612**.
+
+*Simpson's rule.* S = (h/3)[y0 + 4(y1 + y3) + 2 y2 + y4] = 0.261799 x [0 + 4(1.41421) + 2 + 0] = 0.261799 x 7.65685 = **2.00456**.
+
+| Rule | Value | Exact | Error |
+|---|---|---|---|
+| Trapezoidal | 1.89612 | 2 | 0.10388 |
+| Simpson 1/3 | 2.00456 | 2 | -0.00456 |
+
+Simpson is more than twenty times more accurate for the same ordinates (Figure 3.1) because it fits parabolas, not straight lines; its error is of order h^4, against h^2 for the trapezoidal rule. *Condition:* Simpson's 1/3 rule needs an even number of strips. *Conclusion:* use Simpson's rule for smooth functions.
+
+**Q2 (5 marks). Estimate the derivative of e^x at x = 1 by the forward and central difference formulas with h = 0.1 and h = 0.05, and comment on the errors.**
+
+*Formulas.* Forward: f'(x) is about [f(x+h) - f(x)]/h, error O(h). Central: f'(x) is about [f(x+h) - f(x-h)]/(2h), error O(h^2). Exact value e = 2.71828.
+
+| h | Forward | Error | Central | Error |
+|---|---|---|---|---|
+| 0.1 | 2.85884 | 0.14056 | 2.72281 | 0.00453 |
+| 0.05 | 2.78739 | 0.06910 | 2.71941 | 0.00113 |
+
+Halving h halves the forward error (0.14056 to 0.06910) but divides the central error by four (0.00453 to 0.00113), as the orders predict (Figure 3.3). *Warning:* making h extremely small loses accuracy through rounding error in the subtraction. *Conclusion:* prefer the central formula when values on both sides are available.
+
+**Q3 (10 marks). Explain the Newton-Cotes rules and Romberg integration. Apply Romberg's method to the integral of e^x on [0, 1].**
+
+*Introduction.* When an integral has no closed form or the integrand is only a table, we replace f by an interpolating polynomial and integrate that (Plate 3.1 shows an older mechanical way). The resulting formulas are the **Newton-Cotes rules**.
+
+*Rules.* (1) **Trapezoidal:** integral is about (h/2)[y0 + 2(y1 + ... + y(n-1)) + yn], error -(b-a)h^2 f''/12. (2) **Simpson 1/3:** (h/3)[y0 + 4(odd) + 2(even) + yn], n even, error -(b-a)h^4 f''''/180. (3) **Simpson 3/8:** (3h/8)[y0 + 3y1 + 3y2 + 2y3 + ... + yn], n a multiple of 3, same order. Figure 3.1 compares the first two.
+
+*Romberg.* The trapezoidal error expands in even powers of h, so **Richardson extrapolation** removes them one by one: R(i,j) = R(i,j-1) + [R(i,j-1) - R(i-1,j-1)]/(4^j - 1). Start with trapezoid values for h = 1, 1/2, 1/4: T(1) = 0.5(1 + 2.718282) = 1.859141; T(2) = 1.753931; T(4) = 1.727222.
+
+First extrapolation: R(2,1) = 1.753931 + (1.753931 - 1.859141)/3 = **1.718861**; R(3,1) = 1.727222 + (1.727222 - 1.753931)/3 = **1.718319**. Second: R(3,2) = 1.718319 + (1.718319 - 1.718861)/15 = **1.718283**, against the exact e - 1 = 1.718282 (Figure 3.2).
+
+| Rule | Order of error | Needs | Best for |
+|---|---|---|---|
+| Trapezoidal | h^2 | any n | rough data, periodic functions |
+| Simpson 1/3 | h^4 | even n | smooth functions |
+| Simpson 3/8 | h^4 | n multiple of 3 | odd strips |
+| Romberg | h^2, h^4, h^6 ... | halving h | high accuracy by reuse |
+
+*Conclusion.* Romberg integration reaches six correct decimals from only four function evaluations beyond the trapezoid starts, and the difference between successive entries gives a built-in error estimate. Use Simpson for a quick answer and Romberg when high accuracy is required.

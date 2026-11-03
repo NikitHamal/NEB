@@ -172,6 +172,84 @@ Linear interpolation gives s₃ = **1.701838**; the exact slope is 2/sinh 1 = 1.
 
 An alternative is the **finite-difference method**, which replaces y″ by (yᵢ₋₁ − 2yᵢ + yᵢ₊₁)/h² and solves the resulting linear system (Unit 4); it is more robust for hard problems.
 
+## 5.9 Seeing the ideas: stepping along slopes, the four slopes of RK4 and how the methods compare
+
+Euler and Runge are the two names behind this unit. Plate 5.1 shows them, together with a picture of the simplest idea in the unit: follow the slope for a short step, then look again.
+
+```photogrid label="5.1" cols="3" ratio="1.0" caption="Stepping along slopes. (a) Leonhard Euler (1707-1783), who described the method of straight-line steps in 1768. (b) Carl Runge (1856-1927), who published the family of higher-order step methods in 1895 (Kutta completed the fourth-order form in 1901). (c) Euler's steps for y' = x + y, y(0) = 1 with h = 0.2 (red) against the exact curve (blue): each short tangent leaves the exact curve a little further behind, ending at 2.977 against 3.437 at x = 1."
+@ photo id="bca204/euler" cap="Euler"
+fit 1.0
+focus 0.5 0.7
+@ photo id="bca204/runge" cap="Runge"
+fit 1.0
+focus 0.5 0.7
+@ svg cap="Euler steps (h = 0.2)"
+f = Fig(200, 220)
+ax = Axes(f, 14, 10, 176, 170, (0, 1), (1, 3.6))
+ax.grid(0.25, 0.5, labels=False)
+ax.axes("", "")
+import math
+ax.curve(lambda x: 2 * math.exp(x) - x - 1, 0, 1, color=NAVY)
+x, y = 0.0, 1.0
+for k in range(5):
+    yn = y + 0.2 * (x + y)
+    f.line(ax.X(x), ax.Y(y), ax.X(x + 0.2), ax.Y(yn), color=RED, sw=2)
+    ax.pt(x + 0.2, yn, "", color=RED, r=3)
+    x, y = x + 0.2, yn
+f.text(100, 198, "Euler 2.977 at x = 1", size=11, color=RED, bold=True)
+f.text(100, 214, "exact 3.437", size=11, color=NAVY, bold=True)
+```
+
+```svgfig label="5.1" caption="Euler's method for y' = x + y, y(0) = 1, h = 0.1 against the exact solution y = 2e^x - x - 1. Euler (red) always lags because the curve bends upwards; the error grows from 0.0103 at x = 0.1 to 0.0764 at x = 0.5."
+f = Fig(580, 200)
+ax = Axes(f, 50, 14, 510, 150, (0, 0.5), (1, 1.9))
+ax.grid(0.1, 0.2)
+ax.axes("", "")
+import math
+ex = lambda x: 2 * math.exp(x) - x - 1
+ax.curve(ex, 0, 0.5, color=NAVY)
+E = [1.0, 1.1, 1.22, 1.362, 1.5282, 1.72102]
+for k in range(5): f.line(ax.X(0.1 * k), ax.Y(E[k]), ax.X(0.1 * (k + 1)), ax.Y(E[k + 1]), color=RED, sw=2.2)
+for k in range(6): ax.pt(0.1 * k, E[k], "", color=RED, r=3.2)
+ax.pt(0.5, 1.72102, "Euler 1.72102", dx=-8, dy=26, anchor="end", color=RED, size=10)
+ax.pt(0.5, ex(0.5), "exact 1.79744", dx=-8, dy=-10, anchor="end", color=NAVY, size=10)
+f.text(306, 190, "x", size=10, color=SLATE)
+```
+
+```svgfig label="5.2" caption="The four slopes of one Runge-Kutta (RK4) step for y' = x + y from (0, 1) with h = 0.1. k1 = 1 is the slope at the start, k2 = 1.1 and k3 = 1.105 are slopes at the midpoint, and k4 = 1.2105 is the slope at the end; the step uses the weighted average (k1 + 2k2 + 2k3 + k4)/6 = 1.10342, giving y1 = 1.110342, correct to six decimals."
+f = Fig(580, 170)
+K = [("k1 = 1.0000", "slope at start", SAND, AMBER), ("k2 = 1.1000", "slope at midpoint,\nusing k1", BLUE, NAVY), ("k3 = 1.1050", "slope at midpoint,\nusing k2", BLUE, NAVY), ("k4 = 1.2105", "slope at end,\nusing k3", ROSE, RED)]
+for i, (t, s, fl, st) in enumerate(K):
+    x = 8 + i * 146
+    f.box(x, 14, 134, 30, t, fill=fl, stroke=st, bold=True, size=11)
+    f.text(x + 67, 62, s, size=9.5, color=SLATE)
+f.box(8, 98, 564, 30, "y1 = 1 + (0.1/6)(1 + 2 x 1.1 + 2 x 1.105 + 1.2105) = 1 + (0.1/6)(6.6205) = 1.110342", fill=MINT, stroke=TEAL, bold=True, size=11)
+f.text(290, 152, "exact y(0.1) = 2e^0.1 - 0.1 - 1 = 1.110342", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="5.3" caption="Error at x = 0.5 for the same problem and step h = 0.1 (log scale, bar length proportional to log10 of the error). Euler 0.0764, Heun (improved Euler) 0.00255 and RK4 0.0000013: each step up in order gains orders of magnitude for a few more slope evaluations per step."
+import math
+f = Fig(580, 150)
+D = [("Euler (1 slope)", 0.076423, AMBER, SAND), ("Heun (2 slopes)", 0.002549, NAVY, BLUE), ("RK4 (4 slopes)", 0.00000126, TEAL, MINT)]
+for i, (t, e, st, fl) in enumerate(D):
+    y = 12 + i * 44
+    w = (math.log10(e) + 6.5) * 55
+    f.text(120, y + 18, t, size=10.5, color=NAVY, bold=True, anchor="end")
+    f.box(130, y, w, 30, "", fill=fl, stroke=st)
+    f.text(130 + w + 8, y + 19, "error %s" % ("%.4f" % e if e > 1e-4 else "%.1e" % e), size=10.5, color=SLATE, bold=True, anchor="start")
+```
+
+### 5.9.1 Eight uses of numerical methods for differential equations
+
+1. **Weather and climate models.** The atmosphere obeys differential equations that cannot be solved exactly. Computers step them forward in small time steps, using methods of Runge-Kutta type. The forecast for the next week is the result of millions of such steps.
+2. **Motion of vehicles and rockets.** Position, velocity and fuel change together, and each depends on the others. Engineers integrate the equations step by step to test a flight path before building anything. Satellite orbit prediction works the same way.
+3. **Electric circuits.** A circuit with a capacitor or coil is described by a differential equation for charge or current. Simulators such as SPICE solve it numerically for any input signal. Chip designers depend on this.
+4. **Population and epidemic models.** The spread of a disease between susceptible and infected people follows coupled equations. Health planners step them forward to compare outcomes of vaccination or lockdown. Planning during the COVID-19 pandemic used models of this kind.
+5. **Chemical reactions and drug dosage.** Concentrations change at rates that depend on each other. Numerical solution shows how long a medicine stays active in the body. It guides the dose and the time between doses.
+6. **Cooling, heating and mixing.** A cup of tea, a cooling engine and a tank where salt water is mixed all give simple equations that are easy to step. The same method can handle a changing outside temperature, which no formula does. It is a good first exercise.
+7. **Games and animation.** Falling objects, springs and cloth in a game are updated each frame by a small step method. A cheap method such as Euler is fast but can drift, so better methods are used for accuracy. Physics engines are made of these steps.
+8. **Finance.** Option prices and interest-rate models are described by differential equations that rarely have exact solutions. Banks solve them numerically every day. Accuracy and speed both matter.
+
 ## Formula and fact sheet
 
 - Euler: yᵢ₊₁ = yᵢ + h f(xᵢ, yᵢ); global error O(h).
@@ -210,3 +288,55 @@ An alternative is the **finite-difference method**, which replaces y″ by (yᵢ
 **8.** Replace the BVP by y′ = z, z′ = y, y(0) = 0, z(0) = s. Shot 1 (s = 1) gives y(1) = 1.175200, shot 2 (s = 2) gives 2.350400. Interpolating for the target 2 gives s₃ = 1.701838; the exact slope is 1.701836.
 **9.** Repeat with half the step: the results should agree to the required digits (for RK4 the error should shrink about 16-fold), and compare with a known exact solution or a high-accuracy solver where available.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Use Euler's method with h = 0.1 to find y(0.5) for dy/dx = x + y, y(0) = 1, and compare with the exact solution y = 2e^x - x - 1.**
+
+*Formula.* y(n+1) = y(n) + h f(x(n), y(n)) with f = x + y.
+
+| n | x(n) | y(n) | f = x + y | y(n+1) = y + 0.1f | Exact y(n+1) | Error |
+|---|---|---|---|---|---|---|
+| 0 | 0.0 | 1.00000 | 1.00000 | 1.10000 | 1.11034 | 0.01034 |
+| 1 | 0.1 | 1.10000 | 1.20000 | 1.22000 | 1.24281 | 0.02281 |
+| 2 | 0.2 | 1.22000 | 1.42000 | 1.36200 | 1.39972 | 0.03772 |
+| 3 | 0.3 | 1.36200 | 1.66200 | 1.52820 | 1.58365 | 0.05545 |
+| 4 | 0.4 | 1.52820 | 1.92820 | 1.72102 | 1.79744 | 0.07642 |
+
+So Euler gives **y(0.5) = 1.72102** against the exact **1.79744**, an error of 0.0764 (4.3%) (Figure 5.1). Euler is a first-order method: halving h roughly halves the error. *Conclusion:* Euler is simple but needs a very small step for accuracy.
+
+**Q2 (5 marks). Apply one step of the fourth-order Runge-Kutta method to dy/dx = x + y, y(0) = 1, h = 0.1.**
+
+*Formulas.* k1 = f(x0, y0); k2 = f(x0 + h/2, y0 + h k1/2); k3 = f(x0 + h/2, y0 + h k2/2); k4 = f(x0 + h, y0 + h k3); y1 = y0 + (h/6)(k1 + 2k2 + 2k3 + k4).
+
+*Calculation.* k1 = 0 + 1 = **1**. k2 = f(0.05, 1 + 0.05 x 1) = 0.05 + 1.05 = **1.1**. k3 = f(0.05, 1 + 0.05 x 1.1) = 0.05 + 1.055 = **1.105**. k4 = f(0.1, 1 + 0.1 x 1.105) = 0.1 + 1.1105 = **1.2105**. Then y1 = 1 + (0.1/6)(1 + 2.2 + 2.21 + 1.2105) = 1 + (0.1/6)(6.6205) = **1.110342**.
+
+The exact value is 2e^0.1 - 0.1 - 1 = 1.110342, so one RK4 step is correct to six decimals (Figure 5.2), while one Euler step gave 1.1. *Conclusion:* RK4 has error O(h^4) and is the standard general-purpose method.
+
+**Q3 (10 marks). Compare the Taylor, Euler, Heun (improved Euler) and Runge-Kutta methods for the initial value problem y' = f(x, y), y(x0) = y0. Illustrate with y' = x + y, y(0) = 1.**
+
+*Introduction.* Most differential equations have no closed-form solution, so we compute y at the points x0 + h, x0 + 2h, ... by repeated small steps. All methods in this unit are of this kind; they differ in how many slopes they use per step and hence in order and cost (Plate 5.1).
+
+*Taylor series method.* Expand y(x + h) = y + h y' + (h^2/2) y'' + ... using derivatives obtained by differentiating the equation. It is accurate but needs analytic derivatives, so it is used mostly for hand calculation and to start other methods.
+
+*Euler.* y(n+1) = y(n) + h f(x(n), y(n)): follow the tangent for one step. Local error O(h^2), global error O(h): first order.
+
+*Heun (improved Euler).* A predictor-corrector: predict y* = y + h f(x, y), then correct y(n+1) = y + (h/2)[f(x, y) + f(x + h, y*)], averaging the slopes at both ends. Second order.
+
+*Runge-Kutta (RK4).* A weighted average of four slopes per step: y(n+1) = y + (h/6)(k1 + 2k2 + 2k3 + k4) (Figure 5.2). Fourth order: global error O(h^4); no derivatives of f are needed.
+
+*Illustration.* For y' = x + y, y(0) = 1, h = 0.1, the exact value y(0.5) = 1.797443 is approximated as follows.
+
+| Method | Slopes per step | Order | y(0.5) | Error |
+|---|---|---|---|---|
+| Euler | 1 | 1 | 1.721020 | 0.076423 |
+| Heun | 2 | 2 | 1.794894 | 0.002549 |
+| RK4 | 4 | 4 | 1.797441 | 0.0000013 |
+
+Figure 5.3 shows the gain: moving from Euler to RK4 costs four times as many evaluations but reduces the error by a factor of about 60,000.
+
+*Systems and higher-order equations.* A higher-order equation such as y'' = f(x, y, y') is rewritten as a system u' = v, v' = f(x, u, v) and each component is stepped together. *Boundary value problems* are solved by the **shooting method**, adjusting the starting slope until the far boundary is met.
+
+*Stability and step size.* Too large a step can make a method blow up, particularly for stiff problems; the step should be reduced until results stop changing, or an adaptive step controller should be used.
+
+*Conclusion.* Euler is the simplest and least accurate; Heun is a cheap improvement; RK4 is the usual choice because it gives high accuracy at modest cost.

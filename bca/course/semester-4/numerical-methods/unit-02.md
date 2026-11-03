@@ -170,6 +170,112 @@ Fitting a straight line to (x, ln y) gives B = 0.4052 and ln A = 0.5864, so A = 
 
 For y = a + bx + cx² the normal equations are Σy = na + bΣx + cΣx², Σxy = aΣx + bΣx² + cΣx³, Σx²y = aΣx² + bΣx³ + cΣx⁴. For the line data above, solving gives (a, b, c) = (1.4400, 0.7071, 0.0071): the x² coefficient is nearly zero, confirming that the straight line was enough.
 
+## 2.8 Seeing the ideas: one polynomial, divided differences, Runge's warning and the best-fit line
+
+The three people in Plate 2.1 gave their names to the three tools of this unit. The figures that follow show what each tool does on real numbers.
+
+```photogrid label="2.1" cols="3" ratio="1.0" caption="Three founders. (a) Joseph-Louis Lagrange (1736-1813), whose basis-polynomial form of interpolation appeared in the 1790s. (b) Isaac Newton, who built the divided-difference form that lets a new data point be added without redoing the work. (c) Carl Friedrich Gauss, who used least squares in 1801 to recover the lost orbit of the asteroid Ceres from a few noisy observations."
+@ photo id="bca204/lagrange" cap="Lagrange"
+fit 1.0
+focus 0.5 0.7
+@ photo id="bca104/newton" cap="Newton"
+fit 1.0
+focus 0.5 0.7
+@ photo id="bca204/gauss" cap="Gauss"
+fit 1.0
+focus 0.5 0.7
+```
+
+```svgfig label="2.1" caption="Interpolating ln x through the points x = 1, 2, 4, 6. The cubic (red) passes exactly through the four points but is only approximate between them: at x = 3 it gives 1.12342 against the true 1.09861 (error 0.02481), and at x = 5 it gives 1.57725 against 1.60944 (error 0.03219)."
+import math
+f = Fig(580, 230)
+ax = Axes(f, 50, 14, 510, 170, (0.5, 6.5), (-0.5, 2.2))
+ax.grid(1, 0.5)
+ax.axes("", "")
+xs = [1, 2, 4, 6]; ys = [math.log(v) for v in xs]
+def P(t):
+    s = 0
+    for i in range(4):
+        p = ys[i]
+        for j in range(4):
+            if i != j: p *= (t - xs[j]) / (xs[i] - xs[j])
+        s += p
+    return s
+ax.curve(math.log, 0.5, 6.5, color=NAVY)
+ax.curve(P, 0.5, 6.5, color=RED, dash=True)
+for x_, y_ in zip(xs, ys): ax.pt(x_, y_, "", color=NAVY)
+ax.pt(3, P(3), "P(3) = 1.1234", dx=8, dy=14, color=RED, size=10)
+ax.pt(5, P(5), "P(5) = 1.5773", dx=-8, dy=16, color=RED, size=10, anchor="end")
+f.text(120, 38, "ln x (true)", size=10, color=NAVY, bold=True)
+f.text(120, 54, "cubic P(x)", size=10, color=RED, bold=True)
+f.text(306, 222, "data points at x = 1, 2, 4, 6", size=10, color=SLATE)
+```
+
+```svgfig label="2.2" caption="The divided-difference table for the same four points. Each column is made from the column to its left: (right - left) divided by the span of x values. The top diagonal 0, 0.69315, -0.11552, 0.01591 gives the Newton form P(x) = 0 + 0.69315(x-1) - 0.11552(x-1)(x-2) + 0.01591(x-1)(x-2)(x-4)."
+f = Fig(580, 190)
+H = ["x", "f(x)", "1st", "2nd", "3rd"]
+for i, h in enumerate(H): f.box(10 + i * 112, 8, 100, 22, h, fill=NAVY, stroke=NAVY, color="#ffffff", bold=True, size=10.5)
+X = ["1", "2", "4", "6"]; F = ["0.00000", "0.69315", "1.38629", "1.79176"]
+D1 = ["0.69315", "0.34657", "0.20273"]; D2 = ["-0.11552", "-0.03596"]; D3 = ["0.01591"]
+for i in range(4):
+    y = 38 + i * 36
+    f.box(10, y, 100, 28, X[i], fill=BLUE, stroke=NAVY, size=10.5)
+    f.box(122, y, 100, 28, F[i], fill=BLUE, stroke=NAVY, size=10.5)
+for i, v in enumerate(D1): f.box(234, 56 + i * 36, 100, 28, v, fill=MINT, stroke=TEAL, size=10.5)
+for i, v in enumerate(D2): f.box(346, 74 + i * 36, 100, 28, v, fill=SAND, stroke=AMBER, size=10.5)
+f.box(458, 92, 100, 28, "0.01591", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.text(290, 184, "top diagonal = Newton coefficients", size=10.5, color=TEAL, bold=True)
+```
+
+```svgfig label="2.3" caption="Runge's phenomenon. For f(x) = 1/(1 + 25x^2) on [-1, 1], the degree-10 polynomial through 11 equally spaced points (red) wiggles wildly near the ends although it matches at every node; the true curve (blue) is smooth. More points of equal spacing make it worse, which is why splines or Chebyshev nodes are used instead."
+f = Fig(580, 230)
+ax = Axes(f, 50, 14, 510, 170, (-1, 1), (-0.6, 1.4))
+ax.grid(0.5, 0.2)
+ax.axes("", "")
+fn = lambda x: 1 / (1 + 25 * x * x)
+nodes = [-1 + 0.2 * k for k in range(11)]
+def L(t):
+    s = 0
+    for i, xi in enumerate(nodes):
+        p = fn(xi)
+        for j, xj in enumerate(nodes):
+            if i != j: p *= (t - xj) / (xi - xj)
+        s += p
+    return s
+ax.curve(L, -1, 1, color=RED, dash=True)
+ax.curve(fn, -1, 1, color=NAVY)
+for xi in nodes: ax.pt(xi, fn(xi), "", color=NAVY, r=3)
+f.text(150, 60, "true function", size=10, color=NAVY, bold=True)
+f.text(110, 186, "degree-10 interpolant", size=10, color=RED, bold=True)
+f.text(306, 222, "11 equally spaced nodes", size=10, color=SLATE)
+```
+
+```svgfig label="2.4" caption="Least-squares line through five noisy points (1, 2.1), (2, 3.9), (3, 6.2), (4, 7.8), (5, 10.1). The line y = 0.05 + 1.99x minimises the sum of the squared vertical residuals (the red segments), S = 0.107. At x = 6 it predicts 11.99."
+f = Fig(580, 230)
+ax = Axes(f, 50, 14, 510, 170, (0, 7), (0, 14))
+ax.grid(1, 2)
+ax.axes("", "")
+D = [(1, 2.1), (2, 3.9), (3, 6.2), (4, 7.8), (5, 10.1)]
+ax.curve(lambda x: 0.05 + 1.99 * x, 0, 7, color=NAVY)
+for x_, y_ in D:
+    f.line(ax.X(x_), ax.Y(y_), ax.X(x_), ax.Y(0.05 + 1.99 * x_), color=RED, sw=2)
+    ax.pt(x_, y_, "", color=TEAL)
+ax.pt(6, 11.99, "prediction x = 6: 11.99", dx=-8, dy=-12, anchor="end", hollow=True, color=NAVY, size=10)
+f.text(150, 40, "y = 0.05 + 1.99 x", size=11, color=NAVY, bold=True)
+f.text(306, 222, "x", size=10, color=SLATE)
+```
+
+### 2.8.1 Eight uses of interpolation and curve fitting
+
+1. **Filling gaps in tables.** A weather office records temperature every three hours, and interpolation estimates the value at any time between readings. The same idea fills missing rows in a data sheet. It is the first step of most data cleaning.
+2. **Estimating values from old tables.** Before calculators, logarithm and trigonometry tables gave values at fixed steps, and interpolation gave the rest. Engineers still read steam tables and statistical tables this way. The error formula tells how close the answer is.
+3. **Smooth curves in computer graphics.** Splines pass through control points and give smooth roads, fonts and animation paths. A letter in a font file is a few spline pieces. Cubic splines are used because they avoid the wiggles seen in Figure 2.3.
+4. **Image and video resizing.** When a photo is enlarged, the computer must invent the new pixels by interpolating between neighbours. Bilinear and bicubic interpolation are the common methods. Mobile phone zoom depends on them.
+5. **Trend lines and forecasting.** A least-squares line through exam marks, sales or population counts shows the trend and predicts the next value. A Nepali college can project next year's admissions. The residual sum tells how reliable the line is.
+6. **Calibrating instruments.** A sensor gives voltage while the true reading is temperature or pressure. A fitted line or curve converts voltage to the true unit. Every digital thermometer does this inside.
+7. **Numerical integration and differentiation.** Rules such as Simpson's are derived by fitting a polynomial through a few points and integrating it. Interpolation is therefore the base of the next unit. Without it there would be no Newton-Cotes formulas.
+8. **Machine learning and data science.** Linear regression is least squares, and curve fitting underlies many models that learn from noisy data. Understanding it explains overfitting, which is the modern form of Runge's wiggles. The idea of balance between fit and smoothness appears everywhere.
+
 ## Formula and fact sheet
 
 - Error: f(x) − Pₙ(x) = f⁽ⁿ⁺¹⁾(ξ)/(n + 1)! · Π(x − xᵢ).
@@ -211,3 +317,62 @@ For y = a + bx + cx² the normal equations are Σy = na + bΣx + cΣx², Σxy = 
 **9.** Interpolation reproduces the data points exactly and is suited to exact (or very accurate) data; least squares gives a smoother curve that need not pass through any point and is suited to noisy data.
 **10.** For equally spaced nodes, a high-degree interpolating polynomial may oscillate wildly near the interval ends (for example 1/(1 + 25x²)). A spline uses low-degree cubic pieces, so a local change affects only nearby intervals and no big oscillations build up.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Using Newton's divided-difference formula, estimate ln 3 from ln 1, ln 2, ln 4 and ln 6. Estimate the error.**
+
+*Data.* x = 1, 2, 4, 6; f = 0, 0.69315, 1.38629, 1.79176.
+
+| x | f | 1st | 2nd | 3rd |
+|---|---|---|---|---|
+| 1 | 0.00000 | | | |
+| | | 0.69315 | | |
+| 2 | 0.69315 | | -0.11552 | |
+| | | 0.34657 | | 0.01591 |
+| 4 | 1.38629 | | -0.03596 | |
+| | | 0.20273 | | |
+| 6 | 1.79176 | | | |
+
+*Newton form.* P(x) = 0 + 0.69315(x-1) - 0.11552(x-1)(x-2) + 0.01591(x-1)(x-2)(x-4) (Figure 2.2). At x = 3: 0.69315(2) - 0.11552(2)(1) + 0.01591(2)(1)(-1) = 1.38630 - 0.23104 - 0.03182 = **1.12344** (about 1.1234). The true ln 3 = 1.09861, so the actual error is 0.0248.
+
+*Error formula.* f(x) - P(x) = f''''(xi)/4! x (x-1)(x-2)(x-4)(x-6). Here f'''' = -6/x^4 and the product at 3 is 2 x 1 x (-1) x (-3) = 6, so the error magnitude is (6/xi^4)(6/24) = 1.5/xi^4; the observed 0.0248 corresponds to xi = 2.79, inside [1, 6], as the theory requires. *Conclusion:* the estimate is accurate to about two decimals; a closer, centred set of points would be better.
+
+**Q2 (5 marks). Fit a straight line y = a + bx by least squares to (1, 2.1), (2, 3.9), (3, 6.2), (4, 7.8), (5, 10.1) and predict y at x = 6.**
+
+*Normal equations.* Sum y = na + b sum x; sum xy = a sum x + b sum x^2.
+
+| x | y | x^2 | xy |
+|---|---|---|---|
+| 1 | 2.1 | 1 | 2.1 |
+| 2 | 3.9 | 4 | 7.8 |
+| 3 | 6.2 | 9 | 18.6 |
+| 4 | 7.8 | 16 | 31.2 |
+| 5 | 10.1 | 25 | 50.5 |
+| **15** | **30.1** | **55** | **110.2** |
+
+b = (nΣxy - ΣxΣy)/(nΣx² - (Σx)²) = (5 x 110.2 - 15 x 30.1)/(5 x 55 - 225) = (551 - 451.5)/50 = **1.99**. a = (30.1 - 1.99 x 15)/5 = **0.05**. The line is **y = 0.05 + 1.99x** (Figure 2.4). At x = 6: y = 0.05 + 11.94 = **11.99**. The residuals are 0.06, -0.13, 0.18, -0.21, 0.10, so the sum of squares is 0.107. *Conclusion:* the very small S shows a strong linear trend, and the prediction one step outside the data is acceptable because it is an extrapolation of only one unit.
+
+**Q3 (10 marks). Explain polynomial interpolation. Derive the Lagrange and Newton forms, discuss the error and Runge's phenomenon, and compare interpolation with least-squares approximation.**
+
+*Introduction.* Given n + 1 distinct points (x0, y0) ... (xn, yn), **interpolation** finds a function that passes through every point and uses it to estimate values between them. There is exactly **one polynomial of degree at most n** through the points, so the Lagrange and Newton forms are the same polynomial written differently (Plate 2.1 names the founders).
+
+*Lagrange form.* P(x) = sum of yi Li(x), where Li(x) = product over j not equal i of (x - xj)/(xi - xj) equals 1 at xi and 0 at other nodes. It is simple to write, but adding a point means recomputing every term.
+
+*Newton form.* P(x) = f(x0) + f(x0,x1)(x - x0) + f(x0,x1,x2)(x - x0)(x - x1) + ... where the coefficients are divided differences made by the table of Figure 2.2. A new point adds one new term, so the work already done is kept. For equally spaced data the divided differences become forward or backward differences and the Gregory-Newton formulas are used.
+
+*Error.* f(x) - P(x) = f^(n+1)(xi)/(n+1)! x (x - x0)...(x - xn). The product is small near the middle of the data and large near the ends, so interpolate near the centre. In Figure 2.1 the cubic through four points of ln x has error 0.0248 at x = 3 and 0.0322 at x = 5.
+
+*Runge's phenomenon.* Raising the degree with equally spaced nodes does not always improve accuracy: for 1/(1 + 25x^2) the degree-10 interpolant oscillates wildly near the ends (Figure 2.3). Remedies are low-degree piecewise polynomials such as **cubic splines** (continuous first and second derivatives) or Chebyshev-spaced nodes.
+
+*Least squares.* When data are noisy, passing through every point is wrong. Least squares chooses the curve minimising the sum of squared residuals; for a line, b = (nΣxy - ΣxΣy)/(nΣx² - (Σx)²) (Figure 2.4).
+
+| Point | Interpolation | Least-squares fit |
+|---|---|---|
+| Passes through data | Exactly | Not required |
+| Suitable for | Exact tables, noise-free values | Noisy measurements |
+| Degree | Rises with number of points | Chosen by the user (low) |
+| Risk | Oscillation (Runge) | Underfit if model poor |
+| Typical use | Table look-up, graphics | Trend lines, calibration |
+
+*Conclusion.* Use interpolation for accurate tabulated values within the range, using Newton's form for convenience and splines for many points; use least squares for measurement data. Extrapolation is less reliable than interpolation in both cases.
