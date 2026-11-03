@@ -66,3 +66,22 @@ class ViewerCoverTests(TestCase):
     def test_player_partial_has_no_download_link(self):
         out = render_to_string('web/partials/nmp_player.html', {'resource': {'media_type': 'video', 'safe_file_url': '/x.mp4', 'title': 't'}})
         self.assertNotIn('download', out.lower().replace('nodownload', ''))
+
+
+class PdfReaderAssetsTests(TestCase):
+    def test_reader_assets_ship_and_are_wired(self):
+        from pathlib import Path
+        js = Path(__file__).parent / 'static' / 'web' / 'js'
+        for name in ('pdf-reader.js', 'vendor/pdfjs/pdf.min.mjs', 'vendor/pdfjs/pdf.worker.min.mjs'):
+            self.assertTrue((js / name).exists(), name)
+        html = self.client.get('/app/reader/%s/' % make('P', file_url='/media/resources/fixture.pdf').id).content.decode()
+        self.assertIn('web/js/pdf-reader.js', html)
+        self.assertIn('NebPdf', (js / 'resource-viewer.js').read_text())
+
+    def test_menus_are_portaled_and_emoji_follows_focus(self):
+        from pathlib import Path
+        web = Path(__file__).parent
+        self.assertIn('portalMenu(menu)', (web / 'static/web/js/neb-overlays.js').read_text())
+        home = (web / 'templates/web/home.html').read_text(encoding='utf-8')
+        self.assertIn('emojiTarget', home)
+        self.assertNotIn('contentInput.selectionStart', home.split('function insertEmoji')[1].split('if (emojiBtn')[0])
