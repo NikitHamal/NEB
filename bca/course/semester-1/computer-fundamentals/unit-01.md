@@ -83,6 +83,17 @@ f.arrow([(10, 292), (750, 292)], color=NAVY, sw=2)
 f.text(380, 312, "bigger, hotter, slower, costlier   →   smaller, cooler, faster, cheaper, more reliable", size=10, color=NAVY, bold=True)
 ```
 
+```photogrid label="1.1" cols="5" ratio="1.0" caption="Real hardware of the five generations, left to right: (a) a vacuum tube, (b) a power transistor, (c) integrated circuits in DIP packages, (d) a modern microprocessor, (e) a Google TPU board used for AI."
+@ photo id="bca101/vacuum-tube" cap="1st gen: vacuum tube (RCA 808), 1940s-50s"
+focus 0.5 0.55
+@ photo id="bca101/transistor" cap="2nd gen: transistor (2N3055 in a metal can)"
+crop 0.0 0.5 1.0 1.0
+focus 0.5 0.5
+@ photo id="bca101/ic-dip" cap="3rd gen: ICs in DIP packages (small-scale integration)"
+@ photo id="bca101/cpu-i7" cap="4th gen: VLSI microprocessor, Intel Core i7"
+@ photo id="bca101/tpu" cap="5th gen: AI accelerator (Google TPU v3 board)"
+```
+
 ### 1.2.1 First generation (1940–1956): vacuum tubes
 
 - **Technology:** the **vacuum tube**, a glass bulb that works as an electronic switch or amplifier. Data were stored on magnetic drums and punched cards, and programs were written in **machine language** (pure 0s and 1s).
@@ -90,6 +101,12 @@ f.text(380, 312, "bigger, hotter, slower, costlier   →   smaller, cooler, fast
 - **Features:** very large, very slow by today's standard, very expensive and used for one fixed job. A single tube failure could stop the whole machine.
 - **Advantages:** it proved that electronic calculation was possible and was thousands of times faster than a human with a mechanical calculator, so it was ideal for artillery tables and census work.
 - **Limitations:** huge heat and power use, the air conditioning bill was enormous, tubes burned out often, programming in binary was slow and error-prone, and only a few experts could operate it.
+
+```photogrid label="1.2" cols="3" ratio="1.35" caption="First-generation machines in practice: (a) an engineer replaces a failed tube in ENIAC; (b) an IBM 1401 installation, the type of second-generation mainframe that processed Nepal's early census data; (c) a punched card, the input medium of that era."
+@ photo id="bca101/eniac-tube" cap="ENIAC: 17,468 tubes, so a tube failed every day or two"
+@ photo id="bca101/ibm1401" cap="IBM 1401 (1959): transistorised, used for the 2028 BS census"
+@ photo id="bca101/punchcard" cap="Punched card: one hole pattern per character, 80 columns"
+```
 
 ### 1.2.2 Second generation (1956–1963): transistors
 
@@ -247,6 +264,30 @@ A computer has five functional units.
 3. **Memory unit**: holds programs and data (main memory, then secondary storage).
 4. **Output unit**: presents results (monitor, printer, speaker).
 5. **Buses**: the wires joining the units: the **address bus** (one-way, CPU → memory, carries the location), the **data bus** (two-way, carries the value) and the **control bus** (read/write, clock and interrupt signals).
+
+```photogrid label="1.3" cols="2" ratio="1.0" caption="Real hardware behind the anatomy diagram: (a) an ATX-family (micro-ATX) motherboard with numbered parts; (b) a CPU package viewed from above."
+@ photo id="bca101/mobo" cap="Micro-ATX motherboard (ASRock A320M-DVS)"
+mark 0.51 0.65 "1"
+mark 0.79 0.75 "2"
+mark 0.50 0.25 "3"
+mark 0.66 0.17 "4"
+mark 0.87 0.68 "5"
+mark 0.16 0.46 "6"
+mark 0.31 0.48 "7"
+mark 0.31 0.75 "8"
+key 1 CPU socket (AM4)
+key 2 DDR4 RAM slots
+key 3 PCIe x16 slot (graphics card)
+key 4 Chipset under heatsink
+key 5 24-pin ATX power connector
+key 6 Rear I/O ports (VGA, USB, LAN, audio)
+key 7 CMOS battery (CR2032)
+key 8 VRM chokes and capacitors (power to CPU)
+@ photo id="bca101/cpu-i7" cap="CPU: metal heat spreader on top, thousands of contacts below"
+call 0.36 0.93 0.25 0.82 "Heat spreader"
+call 0.64 0.07 0.68 0.15 "Green PCB substrate"
+call 0.50 0.27 0.50 0.40 "Model / speed print"
+```
 
 ```svgfig label="1.2" caption="Computer anatomy: motherboard components and the address, data and control buses."
 f = Fig(760, 500)
