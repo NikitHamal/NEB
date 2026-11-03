@@ -269,6 +269,17 @@ New section in each unit is x.7 (U1 1.7 ... U7 7.7, U3 is 3.6, U5 5.6, U6 6.6) i
 - No new executed code (jQuery/JS blocks in answers use ```html; the three Node outputs in U3 were run in Node 22). Do not run fill_web_outputs.py without checking that it leaves the new blocks alone.
 - QA gotcha: qa_pdf.py FAILS on any `$` or double backslash in non-monospace text (captions, svg text). Put regex with `$` in backticks (code span) and say "dollar anchor" in prose/figures.
 
+## BCA 304 mis-and-e-business (semester-5/mis-and-e-business) -- [x] POLISHED (session 28): all 7 units, 77 pp (was 45), qa fails=0 warns=2 (p3 and a short unit tail), check_mis.py --verify: 113 tokens, 0 absent
+11 new licence-gated `bca304/` photos fetched and viewed (porter, ship, nrb, atm, selfcheck, forklift, tape; atm and tape/forklift partly used); reused bca101 ibm1401/atm-nepal, bca401 serverroom/fingerprint/yubikey/singha/switch.
+- [x] U1: Plate 1.1 3-up (IBM 1401 / Nepal ATM / self-checkout), Fig 1.1 data-information-knowledge-action, 1.2 organisation pyramid, 1.3 systems feeding one database; 1.7.1 eight benefits; Q1-Q2 (5), Q3 (10).
+- [x] U2: Plate 2.1 (Porter portrait + container port), Fig 2.1 five forces (3.95), 2.2 HHI 3250 -> 3550, 2.3 value chain, 2.4 Metcalfe (45/190/4,950); 2.8.1 eight ways; Q1-Q2 (5), Q3 (10).
+- [x] U3: Plate 3.1 (forklift + three flows SVG), Fig 3.1 ERP one database, 3.2 EOQ cost curve (774.6; 15,492), 3.3 reorder point / safety stock (197.4; 1,547.4), 3.4 bullwhip (36.82 / 6.07); 3.6.1 eight ERP benefits; Q1-Q2 (5), Q3 (10).
+- [x] U4: Plate 4.1 (Travan tape + server hall), Fig 4.1 Simon phases, 4.2 EMV bars (410/455/245, EVPI 70), 4.3 decision tree roll-back (360 vs 310), 4.4 ETL data warehouse; 4.8.1 eight BI uses; Q1-Q2 (5), Q3 (10).
+- [x] U5: Plate 5.1 (Nepal Rastra Bank + funnel SVG), Fig 5.1 unit economics (CAC 107.14, 528, 420.86), 5.2 multilateral netting (970 -> 80, 91.8%), 5.3 QR payment path; 5.6.1 eight advantages; Q1-Q2 (5), Q3 (10).
+- [x] U6: Plate 6.1 3-up (fingerprint / YubiKey / password SVG), Fig 6.1 CIA triad, 6.2 ALE (2,00,000 -> 40,000; net 90,000), 6.3 entropy bars, 6.4 RPO 13 h / RTO 4 h; 6.6.1 eight practices; Q1-Q2 (5), Q3 (10).
+- [x] U7: Plate 7.1 (Singha Durbar + switches), Fig 7.1 cumulative cash flow (payback 3.00, 3.98), 7.2 NPV profile (IRR 17.82%), 7.3 TCO (46,00,000 vs 48,50,000; PV 36,37,296 vs 35,28,536), 7.4 break-even (10,000; profit 1,80,000); 7.7.1 eight failure reasons; Q1-Q2 (5), Q3 (10). All numbers recomputed in Python.
+- Known cosmetic: Fig 3.2 point labels sit close together; Fig 3.3 sawtooth is schematic.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -295,5 +306,6 @@ New section in each unit is x.7 (U1 1.7 ... U7 7.7, U3 is 3.6, U5 5.6, U6 6.6) i
 - [x] Computer Graphics and Animation units 5-7 finished (session 26, 60 -> 79 pp)
 - [x] BCA 352 Mobile Programming polished (session 27, 44 -> 90 pp)
 - [x] Web Technology I polished (session 28, 45 -> 85 pp)
-- [~] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] MIS and e-Business polished (session 28, 45 -> 77 pp)
+- [~] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Cryptography and Network Security (45), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
