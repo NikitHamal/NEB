@@ -76,6 +76,85 @@ Nepal's first cyber security policy dates from 2012 and a new **National Cyber S
 
 A computing professional should: know the offences, so never access systems without written permission (an ethical hacker works under **scope and authorisation**); preserve logs and evidence correctly; protect personal data as a duty; respect licences; refuse to build systems for unlawful surveillance or fraud; and report incidents to the right authority. If you are a victim: **do not delete evidence**, take screenshots with URLs and times, change passwords and enable MFA, report to the platform, then to the police cyber bureau (or the nearest police office), and inform your bank at once for financial fraud.
 
+## 4.7 Seeing the ideas: the institutions, the penalty ceilings, the trust chain and the first hour
+
+Law is made real by institutions. Plate 4.1 shows three of them: the Nepal Police Cyber Bureau that receives complaints, the Supreme Court that decides the hardest questions, and the gavel that stands for the judge's final word. Digital evidence travels the same path from a victim's phone to a courtroom.
+
+```photogrid label="4.1" cols="3" ratio="1.25" caption="Where cyber law is enforced. (a) The signboard of the Cyber Bureau of the Nepal Police, Bhotahity, Kathmandu: the office that takes complaints about online fraud, abuse and hacking. (b) The Supreme Court of Nepal: the final authority on how the Electronic Transactions Act and the Constitution are read. (c) A judge's gavel, the symbol of a final judgment. A complaint begins with evidence and ends, if it is serious, with a court order."
+@ photo id="bca-st/cyberbureau" cap="Cyber Bureau, Nepal Police"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bca-st/supremecourt" cap="Supreme Court of Nepal"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bca-st/gavel" cap="The gavel"
+fit 1.25
+focus 0.5 0.5
+```
+
+```svgfig label="4.1" caption="From an offence to a decision. Every step depends on evidence: logs, screenshots, the account used and the device. Evidence that was deleted, edited or never saved cannot be recovered later, which is why victims are told to preserve it first."
+f = Fig(580, 150)
+st = [("1. Incident", "fraud, abuse,\nhacking", ROSE, RED), ("2. Evidence", "screenshots,\nURLs, logs", SAND, AMBER), ("3. Complaint", "Cyber Bureau or\npolice office", BLUE, NAVY), ("4. Investigation", "device, log and\nIP analysis", BLUE, NAVY), ("5. Case", "prosecution\nunder ETA, Code", MINT, TEAL)]
+for i, (t, s, fl, sk) in enumerate(st):
+    x = 6 + i * 115
+    f.box(x, 14, 104, 78, t + "\n" + s, fill=fl, stroke=sk, size=9.6, bold=True)
+    if i < 4:
+        f.arrow([(x + 104, 53), (x + 115, 53)], color=SLATE)
+f.box(6, 106, 568, 36, "Weak points: delay (logs are overwritten), foreign servers (jurisdiction), shared accounts (who typed it?)", fill="#f8fafc", stroke=SLATE, size=10)
+```
+
+```svgfig label="4.2" caption="Maximum penalties of the five tabulated ETA 2063 offences, drawn to scale from the table in section 4.2. Bars show the upper limit; courts set the actual penalty below it according to gravity and intent. The content offence (s. 47) has the longest prison ceiling but a lower fine than the system offences."
+f = Fig(580, 218)
+rows = [("s. 44 source code", 3, 2), ("s. 45 unauthorised access", 3, 2), ("s. 46 damage to system", 3, 2), ("s. 47 illegal material", 5, 1), ("s. 52 computer fraud", 2, 1)]
+f.text(170, 12, "maximum imprisonment (years)", size=9.5, color=NAVY, bold=True)
+f.text(440, 12, "maximum fine (Rs lakh)", size=9.5, color=TEAL, bold=True)
+for i, (n, y, r) in enumerate(rows):
+    yy = 24 + i * 34
+    f.text(6, yy + 15, n, size=9.6, color=SLATE, bold=True, anchor="start")
+    f.box(150, yy + 3, y * 24, 20, "", fill=BLUE, stroke=NAVY)
+    f.text(150 + y * 24 + 6, yy + 14, "%d yr" % y, size=10, color=NAVY, bold=True, anchor="start")
+    f.box(390, yy + 3, r * 40, 20, "", fill=MINT, stroke=TEAL)
+    f.text(390 + r * 40 + 6, yy + 14, "Rs %d,00,000" % r, size=10, color=TEAL, bold=True, anchor="start")
+f.text(290, 204, "Sum of the five ceilings: 16 years and Rs 8,00,000 (theoretical only)", size=10, color=RED, bold=True)
+```
+
+```svgfig label="4.3" caption="The trust chain behind a legally valid digital signature. The Controller of Certification licenses a Certifying Authority; the CA signs a certificate that binds a public key to a named person; the person signs a document with the private key; anyone can verify it with the public key. If the private key leaks, the subscriber must report it so the certificate is revoked."
+f = Fig(580, 196)
+f.box(8, 14, 150, 52, "Controller of\nCertification", fill=NAVY, stroke=NAVY, color="#ffffff", size=10.5, bold=True)
+f.box(215, 14, 150, 52, "Certifying Authority\n(licensed)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(422, 14, 150, 52, "Certificate: name +\npublic key, CA-signed", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.arrow([(158, 40), (215, 40)], color=SLATE, label="licenses", lpos=(186, 30))
+f.arrow([(365, 40), (422, 40)], color=SLATE, label="issues", lpos=(394, 30))
+f.box(8, 108, 170, 52, "Signer: private key\nsigns the document", fill=SAND, stroke=AMBER, size=10, bold=True)
+f.box(205, 108, 170, 52, "Signed record\n(document + signature)", fill="#f8fafc", stroke=SLATE, size=10, bold=True)
+f.box(402, 108, 170, 52, "Verifier: public key\nchecks the signature", fill=MINT, stroke=TEAL, size=10, bold=True)
+f.arrow([(178, 134), (205, 134)], color=SLATE); f.arrow([(375, 134), (402, 134)], color=SLATE)
+f.arrow([(497, 66), (497, 108)], color=TEAL, dash=True)
+f.text(290, 184, "Valid only if the certificate is current, not revoked and chains up to a licensed CA", size=9.6, color=RED, bold=True)
+```
+
+```svgfig label="4.4" caption="The first hour after online fraud. The order matters: save evidence before anything is deleted, stop the loss at the bank, secure the accounts, then report. Each step has a reason, shown beside it."
+f = Fig(580, 214)
+st = [("1. Save evidence", "screenshots with URL, time,\nphone number, transaction ID", SAND, AMBER), ("2. Call the bank", "block card or wallet, ask for a\nhold or recall of the transfer", ROSE, RED), ("3. Secure accounts", "change passwords, switch on MFA,\nlog out other devices", BLUE, NAVY), ("4. Report", "platform, then Cyber Bureau\nor nearest police office", MINT, TEAL)]
+for i, (t, s, fl, sk) in enumerate(st):
+    y = 8 + i * 51
+    f.box(8, y, 150, 42, t, fill=fl, stroke=sk, size=10.6, bold=True)
+    f.box(170, y, 400, 42, s, fill="#f8fafc", stroke=SLATE, size=10.2)
+    if i < 3:
+        f.arrow([(83, y + 42), (83, y + 51)], color=SLATE)
+```
+
+### 4.7.1 Eight duties of a computing professional under Nepali cyber law
+
+1. **Work only with written authorisation.** Access without permission is an offence under section 45 even if the intention is good. A penetration tester therefore signs a scope document naming the systems, dates and methods. A student who tests a college portal without asking can still be charged.
+2. **Protect personal data as a duty.** The Individual Privacy Act 2075 and the Constitution treat data about health, identity and money as private. Collect only what you need and keep it only as long as you need it. A school app that stores citizenship photos on an open folder breaks this duty.
+3. **Preserve logs and evidence.** Digital evidence is easy to change, so keep server logs, backups and records with times. A system administrator who wipes logs after an incident may destroy the proof the police need. Write down who copied what and when.
+4. **Keep private keys and credentials safe.** A digital signature is legally valid only if the key stays under the signer's control. Never share a signing token or a password with a colleague. Report a lost token at once so the certificate is revoked.
+5. **Respect licences and copyright.** The Copyright Act 2059 protects programs and databases. Use open-source code under its licence terms and keep attributions. Copying a competitor's source code can also fall under section 44.
+6. **Do not publish or forward illegal material.** Section 47 covers content that spreads hatred or breaks public morality. Think before you post, and report abuse instead of passing it on. Know that the wording is broad and use judgement and the law's text.
+7. **Refuse to build unlawful systems.** Software that spies on people without a legal basis, or that tricks them out of money, is wrong whoever pays for it. A professional can decline and explain why in writing. Ethics and law point the same way here.
+8. **Report incidents to the right authority.** Tell your organisation, the bank or regulator where money is involved, and the Cyber Bureau where a crime is likely. Early reports limit the damage for others. Keeping silent to protect reputation usually makes the harm worse.
+
 ## Chapter summary
 
 - Cyber law supplies recognition (records, signatures), crime definitions and rights; jurisdiction and evidence are enduring difficulties.
@@ -109,3 +188,70 @@ A computing professional should: know the offences, so never access systems with
 **9.** Preserve evidence (screenshots), contact the bank to block the account or card, change passwords and enable MFA, and report to the police cyber unit.
 **10.** Without authorisation, access is an offence (unauthorised access); authorisation and scope make the test lawful.
 :::
+
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain how the Electronic Transactions Act 2063 gives legal recognition to electronic records and digital signatures. What do the Controller of Certification and a Certifying Authority do?**
+
+*Introduction.* Before the Act, a contract, licence or filing had to be on paper with a handwritten signature to be safe in court. The Electronic Transactions Act 2063 (2008) removed that doubt (section 4.2, Figure 4.3).
+
+1. **Electronic records.** Where the law requires a document in writing, an electronic record is valid if it can be accessed later for reference. This is called functional equivalence. An emailed contract or an online tax filing is therefore enforceable.
+2. **Digital signatures.** A signature made with a private key and verified with the matching public key satisfies a legal requirement for a signature when the Act's conditions are met. The signature shows who signed and that the text has not changed.
+3. **Controller of Certification.** A government office that licenses Certifying Authorities, supervises them and maintains the root of trust for the country.
+4. **Certifying Authority (CA).** A licensed body that issues digital signature certificates, each binding a public key to a named person or organisation.
+5. **Duties of the subscriber.** The key holder must keep the private key safe and report any compromise so that the certificate can be revoked.
+
+| Actor | Role |
+|---|---|
+| Controller of Certification | Licenses and supervises CAs |
+| Certifying Authority | Issues certificates |
+| Subscriber | Signs; protects the private key |
+| Verifier | Checks signature and certificate |
+
+*Example.* A company files its annual return online with a director's digital signature. The office verifies the signature against the CA's certificate and accepts the filing.
+
+*Conclusion.* The Act makes electronic dealings as valid as paper ones, but only when keys and certificates are managed properly.
+
+**Q2 (5 marks). List the computer offences of the ETA 2063 with their maximum penalties. A student logs in to a classmate's account without permission, deletes her files and then posts an insulting message about her. Which offences arise and what is the maximum exposure?**
+
+*Introduction.* The Act's chapter on computer offences sets upper limits; the court chooses the actual penalty (section 4.2 and Figure 4.2).
+
+| Section | Offence | Maximum imprisonment | Maximum fine |
+|---|---|---|---|
+| 44 | Pirating, destroying or altering source code | 3 years | Rs 2,00,000 |
+| 45 | Unauthorised access | 3 years | Rs 2,00,000 |
+| 46 | Damage to a computer or information system | 3 years | Rs 2,00,000 |
+| 47 | Publication of illegal material | 5 years | Rs 1,00,000 |
+| 52 | Computer fraud | 2 years | Rs 1,00,000 |
+
+*Application.* (a) Logging in without permission is **section 45**: up to 3 years and Rs 2,00,000. (b) Deleting her files damages information in a system: **section 46**, up to 3 years and Rs 2,00,000. (c) The insulting post may fall under **section 47** if it is illegal material, up to 5 years and Rs 1,00,000, and also under the Criminal Code on defamation.
+
+*Maximum exposure under the ETA.* Imprisonment 3 + 3 + 5 = **11 years**; fine 2,00,000 + 2,00,000 + 1,00,000 = **Rs 5,00,000**. This is a theoretical ceiling; real penalties are lower and depend on gravity and intent.
+
+*Evidence.* The case would rest on login logs, the IP address, the device and the account history.
+
+*Conclusion.* One act can break several sections, so a professional must treat every access and every post as legally significant.
+
+**Q3 (10 marks). Describe the cyber law framework of Nepal. Explain the need for cyber law, the main statutes, the offences and penalties under the ETA 2063 and the duties of a computing professional.**
+
+*Introduction.* Cyber law is the body of rules that gives legal effect to electronic dealings, defines computer crime and protects rights online. Nepal has no single code; it combines the Constitution, several Acts and a policy (section 4.1).
+
+*Need for cyber law.* Three problems drive it: legal recognition (is an email contract valid?), crime that older laws did not name (unauthorised access, data damage) and rights and duties (privacy, copyright, service providers). Two difficulties remain: jurisdiction, because offenders can be abroad, and evidence, because digital proof is easy to alter.
+
+*The framework (see the table).*
+
+| Source | Contribution |
+|---|---|
+| Constitution 2015 | Freedom of expression, privacy (Article 28), right to information |
+| ETA 2063 | Records, signatures, CAs, computer offences |
+| Individual Privacy Act 2075 | Protects personal information and communications |
+| Copyright Act 2059 | Protects programs and databases |
+| Muluki Criminal Code 2074 | Forgery, defamation and privacy offences applied online |
+| National Cyber Security Policy 2080 | Protects critical information infrastructure; CERT |
+
+*The ETA 2063 in detail.* It recognises electronic records and digital signatures, creates the Controller of Certification and licensed Certifying Authorities, and lists offences: sections 44, 45 and 46 carry up to 3 years and Rs 2,00,000; section 47 up to 5 years and Rs 1,00,000; section 52 up to 2 years and Rs 1,00,000. It also provides for investigation, special tribunals and prosecution of offences abroad that involve a computer in Nepal. Section 47 is criticised because "public morality" and "decent behaviour" are wide terms that can be used against satire and criticism.
+
+*Duties of a professional.* Work only with written authorisation; protect personal data; preserve logs and evidence; guard private keys; respect licences; refuse unlawful systems; report incidents to the right authority (section 4.7.1). A victim should save evidence, call the bank, secure accounts and report to the Cyber Bureau (Figure 4.4).
+
+*Conclusion.* Nepal's framework recognises electronic dealings and punishes misuse, but it is spread across several laws and some terms are broad, so professionals must read the current text and act within authorisation, privacy and licence limits.

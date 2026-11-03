@@ -103,6 +103,91 @@ The signature checks against the original but not against the changed amount; wi
 - **Capacity and sustainability:** train staff, budget for maintenance, avoid vendor lock-in, publish open data.
 - **Measure outcomes:** time, cost, complaints and corruption, not just the number of online forms.
 
+## 5.5 Seeing the ideas: the front desks, the four models, the index, the savings and the signature
+
+e-Governance is delivered at real counters. Plate 5.1 shows two of them, the gate of the Kathmandu Metropolitan City Office and a rural-municipality ward office, and the kind of cash machine that already connects ordinary people to digital payment rails. A service is only "online" when the counter, the network and the citizen's phone all work.
+
+```photogrid label="5.1" cols="3" ratio="1.25" caption="Where governance meets the citizen. (a) The entrance of the Kathmandu Metropolitan City Office, Bagh Durbar: a local government that issues recommendations, registers vital events and collects taxes. (b) A ward office of a rural municipality: the nearest government counter for most Nepalis, often with thin staff and unstable connectivity. (c) A bank ATM in Nepal: payment infrastructure that e-government fees and allowances can ride on."
+@ photo id="bca-st/kmc" cap="Metropolitan City Office"
+fit 1.25
+focus 0.5 0.5
+@ photo id="bca-st/wardoffice" cap="Ward office"
+fit 1.25
+focus 0.5 0.55
+@ photo id="bca101/atm-nepal" cap="Bank ATM"
+fit 1.25
+focus 0.5 0.5
+```
+
+```svgfig label="5.1" caption="The four interaction models of e-government. G2C faces people, G2B faces firms, G2G joins agencies and G2E serves the government's own staff. The examples are typical services, not a list of live systems."
+f = Fig(580, 196)
+c = [("G2C", "Government to Citizen", "certificates,\ntax filing,\nallowances", MINT, TEAL), ("G2B", "to Business", "company\nregistration,\ncustoms, bids", BLUE, NAVY), ("G2G", "between Agencies", "shared data,\ne-file movement,\ntreasury", SAND, AMBER), ("G2E", "to Employees", "payroll,\nleave, training\nrecords", ROSE, RED)]
+f.circle(290, 98, 36, fill="#ffffff", stroke=SLATE, label="Govern-\nment", size=9.5)
+pos = [(6, 6), (334, 6), (6, 108), (334, 108)]
+for (a, b, s, fl, sk), (x, y) in zip(c, pos):
+    f.box(x, y, 240, 82, a + " : " + b + "\n" + s, fill=fl, stroke=sk, size=10.2, bold=True)
+```
+
+```svgfig label="5.2" caption="Four stages of maturity (UN-style). Each stage adds a capability. Moving up needs back-office integration, not only a better website: stage 4 is impossible while each agency keeps its own isolated database."
+f = Fig(580, 210)
+s = [("1 Emerging", "information only:\noffice hours, notices", BLUE, NAVY), ("2 Enhanced", "two-way: download\nforms, e-mail queries", BLUE, NAVY), ("3 Transactional", "complete service and\nfee payment online", MINT, TEAL), ("4 Connected", "one request, many\nagencies, data shared", MINT, TEAL)]
+for i, (t, d, fl, sk) in enumerate(s):
+    x = 8 + i * 142; h = 50 + i * 28; y = 190 - h - 14
+    f.box(x, y, 130, h + 14, "", fill=fl, stroke=sk)
+    f.text(x + 65, y + 16, t, size=10.5, color=sk, bold=True)
+    f.text(x + 65, y + 36, d, size=9.2, color=SLATE)
+f.text(290, 204, "Example: office hours on a website = stage 1; birth registered online, fee paid by wallet, certificate verifiable = stage 3 or 4", size=9, color=RED, bold=True)
+```
+
+```svgfig label="5.3" caption="The EGDI-style index of section 5.1 (invented values). EGDI is the mean of the three components: (0.52 + 0.41 + 0.63) / 3 = 0.520. The weakest component, telecommunication infrastructure at 0.41, shows where investment should go first."
+f = Fig(580, 168)
+rows = [("Online Service Index (OSI)", 0.52, BLUE, NAVY), ("Telecom Infrastructure (TII)", 0.41, ROSE, RED), ("Human Capital (HCI)", 0.63, BLUE, NAVY), ("EGDI = mean of the three", 0.52, MINT, TEAL)]
+for i, (n, v, fl, sk) in enumerate(rows):
+    y = 12 + i * 36
+    f.text(8, y + 14, n, size=10, color=NAVY, bold=True, anchor="start")
+    f.box(220, y, v * 330, 24, "", fill=fl, stroke=sk)
+    f.text(220 + v * 330 + 6, y + 13, "%.2f" % v, size=10.5, color=sk, bold=True, anchor="start")
+f.line(220 + 0.52 * 330, 4, 220 + 0.52 * 330, 156, color=AMBER, dash=True)
+f.text(290, 162, "dashed line = EGDI 0.52; TII is the only component below it by a wide margin", size=9.4, color=SLATE)
+```
+
+```svgfig label="5.4" caption="Citizen time saved by one online service, from section 5.1: 1,20,000 applicants avoid 2 visits of 3.5 hours at Rs 60 an hour. Benefit Rs 5,04,00,000, cost Rs 45,00,000, net Rs 4,59,00,000 (bars to scale in crore rupees). The benefit goes to citizens, the cost to the agency's budget."
+f = Fig(580, 184)
+sc = 320 / 5.04
+def row(i, n, v, fl, sk, lab):
+    y = 12 + i * 46
+    f.text(8, y + 16, n, size=10.5, color=NAVY, bold=True, anchor="start")
+    f.box(130, y, max(v * sc, 3), 30, "", fill=fl, stroke=sk)
+    f.text(130 + v * sc + 8, y + 16, lab, size=10.5, color=sk, bold=True, anchor="start")
+row(0, "Benefit", 5.04, MINT, TEAL, "Rs 5.04 crore")
+row(1, "Cost a year", 0.45, ROSE, RED, "Rs 0.45 crore")
+row(2, "Net benefit", 4.59, BLUE, NAVY, "Rs 4.59 crore")
+f.text(290, 172, "benefit / cost = 5.04 / 0.45 = 11.2 to 1, if every applicant can really use the service", size=9.6, color=SLATE)
+```
+
+```svgfig label="5.5" caption="The toy RSA signature of section 5.3 with the real numbers printed by the program. The signer hashes the message (563523 after reduction mod n) and raises it to the private exponent d, giving 766706. The verifier raises the signature to e and compares with a fresh hash: true for the original, false for the forged amount."
+f = Fig(580, 200)
+f.box(6, 12, 150, 56, "Message\nPay Rs 5,000 to Ram", fill=SAND, stroke=AMBER, size=9.8, bold=True)
+f.box(206, 12, 150, 56, "Hash (SHA-256 mod n)\nh = 563523", fill=BLUE, stroke=NAVY, size=9.8, bold=True)
+f.box(406, 12, 168, 56, "Signature s = h^d mod n\ns = 766706", fill=MINT, stroke=TEAL, size=9.8, bold=True)
+f.arrow([(156, 40), (206, 40)], color=SLATE); f.arrow([(356, 40), (406, 40)], color=SLATE, label="private d", lpos=(381, 30))
+f.box(6, 104, 268, 46, "Verify original: s^e mod n = 563523\nequals fresh hash  =>  True", fill=MINT, stroke=TEAL, size=9.8, bold=True)
+f.box(306, 104, 268, 46, "Verify forged (Rs 50,000): hash differs\ns^e mod n does not match  =>  False", fill=ROSE, stroke=RED, size=9.8, bold=True)
+f.arrow([(490, 68), (490, 104)], color=SLATE, dash=True)
+f.text(290, 176, "n = 1009 x 1013 = 1022117, e = 65537, d = 832193 (toy key; real keys have 2,048 bits or more)", size=9.4, color=SLATE)
+```
+
+### 5.5.1 Eight benefits of e-governance
+
+1. **Faster services.** A citizen who used to wait days for a stamped paper can get a verified document in minutes. Fewer manual steps mean fewer delays. A recommendation letter requested through a ward system can be ready the same day.
+2. **Lower cost for citizens.** Each avoided trip saves bus fare, lost wages and time, as the Rs 5,04,00,000 estimate shows. People in distant hill villages gain the most. The saving is real even when the agency's own budget does not change.
+3. **Transparency.** An online tender portal publishes bids for everyone to see. Records with times and user names are hard to hide. Public procurement becomes easier to monitor and compare.
+4. **Less corruption.** Fewer face-to-face contacts reduce the chance to ask for a small payment. A queue number, a fee receipt and a status page make the process traceable. Complaints can be tied to a record.
+5. **Better data for planning.** Digital records show how many people apply, where and how long they wait. Planners can place staff and money where needs are highest. Social security lists with bank payment reduce ghost beneficiaries.
+6. **Wider access.** A mobile service reaches people who cannot visit an office easily, such as migrant workers, the elderly and persons with disabilities. Apps like the Nagarik App put verified documents in a pocket. Access still needs a phone, a signal and some skill.
+7. **Accountability and trust.** When a service has a published time limit and a digital log, officials can be held to it. Citizens see the status of their file. Trust grows when promises are visible and kept.
+8. **Integration across agencies.** Shared identity and shared standards let agencies reuse data instead of asking for the same copy again and again. This is the once-only principle. It saves effort for the citizen and removes duplicate systems.
+
 ## Chapter summary
 
 - e-Governance covers service delivery, transparency and participation; models are G2C, G2B, G2G and G2E; maturity runs from emerging to connected.
@@ -136,3 +221,73 @@ The signature checks against the original but not against the changed amount; wi
 **9.** Changing the amount changes the SHA-256 digest, so the digest recovered from the signature no longer equals the new one.
 **10.** Government should ask citizens for a given piece of data only once and reuse it; agencies can do that only if their systems can securely exchange the data.
 :::
+
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the four interaction models and the four maturity stages of e-government with Nepali examples.**
+
+*Introduction.* e-Government is the use of ICT by government to deliver services and information. Two classifications describe it: who the service is for (models) and how advanced it is (stages) (section 5.1, Figures 5.1 and 5.2).
+
+1. **G2C (government to citizen).** Certificates, tax filing and allowances, for example verified documents on the Nagarik App.
+2. **G2B (government to business).** Company registration, customs clearance and e-procurement bids.
+3. **G2G (government to government).** Data sharing and electronic file movement between agencies, hosted on shared infrastructure such as the Government Integrated Data Centre.
+4. **G2E (government to employees).** Payroll, leave and training records of staff.
+
+| Stage | Capability | Example |
+|---|---|---|
+| 1 Emerging | Information only | Website with office hours |
+| 2 Enhanced | Two-way: forms, queries | Downloadable application form |
+| 3 Transactional | Full service and payment | Online tax return with fee |
+| 4 Connected | Integrated across agencies | One request, data reused |
+
+*Remark.* Reaching stage 4 needs shared identity, shared standards and a simplified process, not only a nicer website.
+
+*Conclusion.* Models show whom a service serves; stages show how far it has matured; good planning uses both.
+
+**Q2 (5 marks). A country has OSI = 0.52, TII = 0.41 and HCI = 0.63. Compute its EGDI and say what policy follows. A service moves online for 1,20,000 applicants who each avoid 2 visits of 3.5 hours valued at Rs 60 an hour; it costs Rs 45,00,000 a year. Find the net benefit.**
+
+*Introduction.* Indices and cost-benefit estimates turn e-government into numbers that can be compared (section 5.1, Figures 5.3 and 5.4).
+
+*EGDI.* EGDI = (OSI + TII + HCI) / 3 = (0.52 + 0.41 + 0.63) / 3 = 1.56 / 3 = **0.520**.
+
+*Policy.* The weakest component is TII at 0.41, so investment should go first to connectivity (fibre, towers, affordable data) rather than more online forms. Human capital is the strongest at 0.63.
+
+*Cost-benefit.*
+
+| Step | Calculation | Result |
+|---|---|---|
+| Visits avoided | 1,20,000 x 2 | 2,40,000 |
+| Hours saved | 2,40,000 x 3.5 | 8,40,000 |
+| Value | 8,40,000 x Rs 60 | Rs 5,04,00,000 |
+| Net benefit | 5,04,00,000 - 45,00,000 | Rs 4,59,00,000 |
+
+The benefit-cost ratio is 5.04 crore / 0.45 crore = **11.2**.
+
+*Caution.* The benefit goes to citizens while the cost falls on the agency's budget, and the estimate assumes every applicant can use the service. An assisted channel is needed for those who cannot.
+
+*Conclusion.* EGDI shows where to invest; the cost-benefit calculation shows why the project is worth funding.
+
+**Q3 (10 marks). Describe e-governance in Nepal. Explain its concepts, the main building blocks, its benefits, the role of digital signatures and the main challenges, with suitable examples.**
+
+*Introduction.* e-Governance uses ICT not only to deliver services but to improve how government works: transparency, participation and accountability. Nepal is building it on identity, shared hosting, integrated services and local-level systems (sections 5.1 to 5.5).
+
+*Concepts.* Interaction models are G2C, G2B, G2G and G2E; maturity runs from emerging to connected (Figures 5.1, 5.2).
+
+*Building blocks.* (1) **National ID**: a unique number linked to biometric data, kept by the Department of National ID and Civil Registration. (2) **Nagarik App**: verified documents and services on a phone, a G2C front end. (3) **GIDC and government cloud**: shared hosting and disaster recovery with agreed data-exchange standards. (4) **Tax, customs and procurement portals**: online returns, electronic clearance and e-bidding. (5) **Palika systems**: the 753 local governments that deliver most daily services.
+
+| Block | Benefit | Typical weakness |
+|---|---|---|
+| National ID | One trusted identity | Privacy and exclusion |
+| Nagarik App | Documents in one place | Needs smartphone and ID |
+| GIDC | Shared secure hosting | Single point of failure |
+| Procurement portal | Transparency | Bid-rigging outside system |
+| Palika software | Services near people | Systems do not interoperate |
+
+*Benefits.* Faster, cheaper and more transparent services, less corruption, better planning data, wider access, accountability and integration (section 5.5.1).
+
+*Digital signatures.* A hash of the document is signed with the private key; anyone verifies with the public key, and a Certifying Authority licensed by the Controller of Certification binds the key to a name. A changed amount fails verification (Figure 5.5).
+
+*Challenges.* Exclusion of the offline, security of high-value identity databases, non-interoperable systems, privacy and legal basis, digitising bad processes, thin staff and vendor lock-in.
+
+*Conclusion.* Nepal's e-governance is moving from isolated websites toward shared identity and services, but its success depends on connectivity, security, privacy safeguards, simplified procedures and keeping an assisted channel for people who are offline.
