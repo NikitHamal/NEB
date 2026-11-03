@@ -5,10 +5,8 @@
 
 {% block content %}
 <div class="admin-page-header">
-  <div class="admin-eyebrow">Engagement</div>
   <div>
     <h1>Push notifications</h1>
-    <p>Send instant push messages to filtered groups of users and devices.</p>
   </div>
 </div>
 
@@ -208,26 +206,31 @@
     // Handle submit confirmation
     const form = document.getElementById('pushForm');
     if (form) {
+      let confirmed = false;
       form.addEventListener('submit', function(e) {
+        if (confirmed) return;
+        e.preventDefault();
         const titleVal = document.getElementById('title').value.trim();
         const bodyVal = document.getElementById('body').value.trim();
         if (!titleVal || !bodyVal) {
-          e.preventDefault();
-          alert('Please enter title and message.');
+          showSnackbar('Enter a title and a message first.');
           return;
         }
-        
         const countTokensEl = document.getElementById('count-matching-tokens');
         const tokenCount = countTokensEl ? countTokensEl.textContent : '0';
-        if (tokenCount === '0' || tokenCount === '...') {
-          if (!confirm('Target device count is 0. No one will receive this message. Are you sure you want to proceed?')) {
-            e.preventDefault();
-          }
-        } else {
-          if (!confirm(`Are you sure you want to send this push notification to ${tokenCount} devices?`)) {
-            e.preventDefault();
-          }
-        }
+        const nobody = tokenCount === '0' || tokenCount === '...';
+        adminConfirm({
+          title: nobody ? 'No devices match' : 'Send to ' + tokenCount + ' devices?',
+          message: nobody
+            ? 'The target has 0 devices, so nobody will receive this message.'
+            : 'This push notification goes out immediately and cannot be recalled.',
+          confirmLabel: nobody ? 'Send anyway' : 'Send now',
+          tone: nobody ? 'danger' : 'primary'
+        }).then(function(yes) {
+          if (!yes) return;
+          confirmed = true;
+          form.requestSubmit();
+        });
       });
     }
   });
