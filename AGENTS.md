@@ -1936,6 +1936,6 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 ## BCA polish session 31 (Software Engineering, in progress)
 
-- **Done and pushed so far:** BCA 252 Software Engineering units 1-2 (54 -> 67 pp, qa fails=0 warns=1). 15 `bca252/` photos fetched; see `bca/POLISH_STATUS.md` for the unit list and the exact next unit. Same workflow as session 30: `/tmp/w/aN.md` (plate + figures + eight-point section) and `/tmp/w/bN.md` (model answers), `python3 /tmp/ins2.py unit-0N.md aN.md bN.md`, build with `NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/semester-4/software-engineering`. Do not run check_se.py --fill blindly on the new text.
+- **Done and pushed so far:** BCA 252 Software Engineering units 1-4 (54 -> 81 pp, qa fails=0 warns=1). 15 `bca252/` photos fetched; see `bca/POLISH_STATUS.md` for the unit list and the exact next unit. Same workflow as session 30: `/tmp/w/aN.md` (plate + figures + eight-point section) and `/tmp/w/bN.md` (model answers), `python3 /tmp/ins2.py unit-0N.md aN.md bN.md`, build with `NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/semester-4/software-engineering`. Do not run check_se.py --fill blindly on the new text.
 - **Setup:** `/tmp/gitenv.sh` echoing `$NEB_PAT` (out of repo); the clone needs about 2 minutes (run it in the background with nohup, a foreground clone timed out). The PAT pasted in the prompt is not in the repo and must be rotated by the owner.
 
