@@ -124,6 +124,78 @@ The framework lists many initiatives (on the order of eighty) with agencies and 
 Moving a service online helps those connected and can *exclude* everyone else if the counter is closed. Keep an assisted channel (a ward office or help desk) until access is genuinely universal.
 :::
 
+## 3.6 Seeing the ideas: the infrastructure, the three levels, the Lorenz curve and the index
+
+The divide starts with physical infrastructure. Plate 3.1 shows what connectivity is made of: a fibre cable that carries the bandwidth, a router that shares it, a basic handset and a smartphone, the devices at the end of the line.
+
+```photogrid label="3.1" cols="4" ratio="1.0" caption="What access is made of. (a) Optical fibre cable: the backbone that is rich in valleys and thin in remote districts. (b) A broadband router that shares one connection among a home or office. (c) A feature phone: voice and SMS only. (d) A smartphone: the first-level divide is closed only when the device, the data plan and the signal are all present."
+@ photo id="bca101/fibre-cable" cap="Fibre backbone"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca101/router" cap="Broadband router"
+fit 1.0
+focus 0.5 0.5
+@ photo id="bca-st/nokia1100" cap="Feature phone"
+fit 1.0
+focus 0.5 0.45
+@ photo id="bca101/android" cap="Smartphone"
+fit 1.0
+focus 0.5 0.5
+```
+
+```svgfig label="3.1" caption="The three levels of the digital divide. Closing the access gap does not close the skills gap, and closing the skills gap does not guarantee that people gain income, learning or a voice from being online."
+f = Fig(580, 200)
+lv = [("Level 1: ACCESS", "devices, signal, electricity,\naffordability", BLUE, NAVY, 0), ("Level 2: SKILLS AND USE", "digital literacy, language,\nconfidence, trust", SAND, AMBER, 1), ("Level 3: OUTCOMES", "income, education, health,\npolitical voice gained", MINT, TEAL, 2)]
+for t, s, fl, st, i in lv:
+    x = 8 + i * 190
+    f.box(x, 12 + i * 0, 176, 74, t + "\n" + s, fill=fl, stroke=st, size=10, bold=True)
+    if i < 2:
+        f.arrow([(x + 176, 49), (x + 190, 49)], color=RED)
+f.box(8, 102, 564, 42, "Example: a farmer has a smartphone (level 1) but the app is in English and\nshe fears fraud (level 2), so her income does not change (level 3).", fill="#f8fafc", stroke=SLATE, size=9.8)
+f.box(8, 152, 564, 42, "Policy must therefore combine networks, low-cost devices, Nepali-language\ncontent, training and trust-building together.", fill=ROSE, stroke=RED, size=9.8)
+```
+
+```svgfig label="3.2" caption="Lorenz curve of internet users by province (invented example data of section 3.2). The curve bends below the diagonal of perfect equality; the Gini coefficient, the area between them divided by the area under the diagonal, is 0.171. The coarse province grouping hides larger divides inside provinces."
+f = Fig(580, 232)
+X = lambda v: 50 + v * 200
+Y = lambda v: 200 - v * 170
+f.line(50, 200, 250, 200, color=SLATE); f.line(50, 200, 50, 30, color=SLATE)
+f.arrow([(X(0), Y(0)), (X(1), Y(1))], color=SLATE, dash=True)
+cp = [0, .058, .151, .361, .537, .708, .79, 1.0]; cu = [0, .029, .088, .239, .409, .595, .697, 1.0]
+f.arrow([(X(a), Y(b)) for a, b in zip(cp, cu)], color=RED, sw=2.4)
+for a, b in list(zip(cp, cu))[1:-1]:
+    f.circle(X(a), Y(b), 3.4, fill=RED, stroke=RED)
+f.text(150, 216, "cumulative population share (poorest access first)", size=9.5, color=SLATE)
+f.text(150, 24, "cumulative share of internet users", size=9.5, color=SLATE)
+f.text(150, 138, "line of equality", size=9, color=SLATE, bold=True)
+f.box(290, 30, 280, 46, "Gini = 0.171\nlow only because provinces are a coarse unit", fill=MINT, stroke=TEAL, bold=True, size=10.5)
+f.box(290, 88, 280, 54, "Karnali: 5.8% of people, 2.9% of users\nBagmati: 21.0% of people, 30.3% of users", fill=SAND, stroke=AMBER, size=10)
+f.box(290, 154, 280, 46, "Reporting rule: always state the unit of\nanalysis before comparing Gini values", fill=BLUE, stroke=NAVY, size=10)
+```
+
+```svgfig label="3.3" caption="The composite digital divide index (mean of four min-max scores, invented provincial data). Bagmati scores 1.000 and Karnali 0.000. A score of 0 means lowest of these seven provinces, not no access. Publish the indicators and weights with the ranking."
+f = Fig(580, 214)
+rows = [("Bagmati", 1.000, MINT, TEAL), ("Gandaki", 0.681, MINT, TEAL), ("Koshi", 0.520, BLUE, NAVY), ("Lumbini", 0.409, BLUE, NAVY), ("Madhesh", 0.181, SAND, AMBER), ("Sudurpashchim", 0.120, SAND, AMBER), ("Karnali", 0.000, ROSE, RED)]
+for i, (n, v, fl, st) in enumerate(rows):
+    y = 10 + i * 28
+    f.text(8, y + 14, n, size=10, color=NAVY, bold=True, anchor="start")
+    if v > 0:
+        f.box(120, y, v * 320, 22, "", fill=fl, stroke=st)
+    f.text(120 + v * 320 + 6, y + 13, "%.3f" % v, size=10, color=SLATE, bold=True, anchor="start")
+f.text(290, 208, "DDI = mean of (value - min) / (max - min) over internet, broadband, smartphone, skills", size=9.5, color=SLATE)
+```
+
+### 3.6.1 Eight ways to close the digital divide
+
+1. **Extend networks to remote areas.** Fibre, towers and community networks must reach hill and mountain districts. The cost per user is high, so a shared universal service fund helps. Karnali needs connections before apps.
+2. **Make devices and data affordable.** Lower taxes on basic smartphones and cheaper data packs widen access. Instalment plans and refurbished devices help low-income families. Public Wi-Fi in wards and libraries serves those without a plan.
+3. **Provide reliable electricity.** A phone or router is useless without power. Solar charging points in remote schools and health posts keep services running. Power and connectivity must be planned together.
+4. **Teach digital skills.** Schools, campuses and ward offices can offer short practical courses. A volunteer who shows a grandmother how to scan a QR code does real good. Skills lead to safe and confident use.
+5. **Create Nepali and local-language content.** Interfaces, voice assistants and forms in Nepali and mother tongues remove the language barrier. Unicode support must work on cheap phones. People trust what they can read.
+6. **Include women, older people and persons with disabilities.** Design for screen readers, large text and voice. Women-only training groups and safe reporting channels raise confidence. Inclusive design benefits everyone.
+7. **Offer e-services that save time.** Online tax, licence and certificate services give people a reason to join. Service centres with trained staff help those who cannot use them alone. Real benefits drive demand.
+8. **Measure and publish the gaps.** Collect data by province, gender, age and disability, and compute gaps, ratios and indices. Public numbers keep governments accountable. What is measured is more likely to be fixed.
+
 ## Chapter summary
 
 - The divide has three levels (access, skills, outcomes) and many dimensions: geography, income, gender, age, disability, language and caste.
@@ -157,3 +229,67 @@ Moving a service online helps those connected and can *exclude* everyone else if
 **9.** Shared or community connectivity (solar-powered), digital-literacy training, services in local language and offline/USSD, subsidised devices or community access centres.
 **10.** People without access or skills would otherwise be excluded from essential services.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). What is the digital divide? Explain its three levels with Nepali examples.**
+
+*Introduction.* The digital divide is the gap between those who have effective access to digital technologies and those who do not, and between those who benefit from them and those who do not (section 3.1 and Figure 3.1).
+
+1. **First level: access.** Devices, connectivity, electricity and affordability. Example: a remote village in Karnali with thin 4G coverage and costly data.
+2. **Second level: skills and use.** Digital literacy, language, confidence and trust. Example: a farmer who has a smartphone but cannot read the English interface or does not trust mobile money.
+3. **Third level: outcomes.** Who actually gains income, learning, health or political voice. Example: two students with the same phone, only one of whom uses it to learn and earn.
+
+| Level | Barrier | Possible remedy |
+|---|---|---|
+| Access | No signal, cost | Networks, subsidies |
+| Skills | Language, fear | Training, Nepali content |
+| Outcomes | No useful services | E-services, jobs |
+
+*Dimensions.* The gap appears along geography, income, gender, age and disability, language and script, caste and ethnicity, and skills.
+
+*Conclusion.* Closing level 1 does not close levels 2 and 3, so policy must address all three.
+
+**Q2 (5 marks). Explain how the digital divide is measured with gap and ratio. Use the example data to compute the national internet-use rate and compare Bagmati with Karnali.**
+
+*Introduction.* Measurement turns a vague concern into numbers that can be tracked (section 3.2).
+
+*Gap and ratio.* A **gap** is a difference in percentage points and a **ratio** shows relative disadvantage. If 38% of women and 52% of men use the internet, the gap is 14 points and the gender parity index is 38 / 52 = **0.731** (parity is 1.0). Report both, because a 14-point gap means different things at 90% and at 38%.
+
+*Provincial data (invented).* The seven provinces have 29.07 million people, of whom 16.52 million use the internet, a national rate of 16.52 / 29.07 = **56.8%**.
+
+| Indicator | Bagmati | Karnali | Ratio |
+|---|---|---|---|
+| Internet use | 82% | 28% | 2.93 |
+| Fixed broadband per 100 homes | 40 | 4 | 10.0 |
+| Smartphone | 70% | 24% | 2.92 |
+
+*Interpretation.* The national average of 56.8% hides a provincial range from 28% to 82%, so disaggregated data are essential. The Lorenz curve and Gini coefficient (0.171 for provinces) summarise the inequality, but a coarse unit hides divides inside provinces.
+
+**Q3 (10 marks). Explain how a composite digital divide index is built using min-max normalisation. Work out the index for Madhesh from the example data and discuss the limits of such an index.**
+
+*Introduction.* No single indicator captures the digital divide, so analysts combine several into a composite index. Min-max normalisation makes indicators with different units comparable (section 3.2 and Figure 3.3).
+
+*Method.*
+
+1. Choose indicators: internet use, fixed broadband per 100 homes, smartphone share and digital-skills share.
+2. For each indicator, score = (value - minimum) / (maximum - minimum), so the lowest province gets 0 and the highest gets 1.
+3. Average the four scores with equal weights, or with chosen weights.
+4. Rank the units and publish the method.
+
+*Worked example for Madhesh.* Minimum and maximum values come from Karnali and Bagmati.
+
+| Indicator | Value | Min | Max | Score |
+|---|---|---|---|---|
+| Internet use % | 41 | 28 | 82 | (41 - 28) / 54 = 0.241 |
+| Broadband per 100 | 9 | 4 | 40 | (9 - 4) / 36 = 0.139 |
+| Smartphone % | 35 | 24 | 70 | (35 - 24) / 46 = 0.239 |
+| Skills % | 25 | 20 | 68 | (25 - 20) / 48 = 0.104 |
+
+The index is (0.241 + 0.139 + 0.239 + 0.104) / 4 = 0.723 / 4 = **0.181**, which matches the table in section 3.2. Bagmati scores 1.000, Karnali 0.000, Gandaki 0.681, Koshi 0.520, Lumbini 0.409 and Sudurpashchim 0.120, so Madhesh ranks fifth of seven.
+
+*Use.* The index shows where to invest first, here Karnali, Sudurpashchim and Madhesh, and the four columns show what kind of help each needs. For example, Madhesh's broadband score of 0.139 is lower than its internet score of 0.241, which points to fixed-line infrastructure.
+
+*Limits.* Min-max scores are relative: 0 means the lowest of these seven provinces, not no access. Changing the indicators, the weights or the units can change the middle ranks, and province averages hide divides inside provinces. The data in the book are invented for teaching, so real values from NTA and census sources must be used for policy.
+
+*Conclusion.* A composite index is a useful summary if the method is transparent and the user remembers that the scores are relative.

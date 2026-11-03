@@ -212,7 +212,7 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - All numbers recomputed in Python before writing. check_numerical.py was not needed (no code changed); fill_script_outputs.py not run.
 
 ## BCA 401 cyber-security-and-ethical-hacking (semester-7/cyber-security-and-ethical-hacking) -- [x] POLISHED (session 24), 73 pp (was 48), qa fails=0 warns=1 (p31 = short unit-3 tail, natural unit end)
-- Photos (bca401/, 11 new, licence-gated, all viewed): yubikey, fingerprint, enigma, writeblocker, pix, metrocard, ap, cctv, tpm, serverroom, imager, switch, singha (13 files). Reused across units where a physical device repeats (pix, ap, serverroom, cctv).
+- Photos (bca401/, 13 new, licence-gated, all viewed): yubikey, fingerprint, enigma, writeblocker, pix, metrocard, ap, cctv, tpm, serverroom, imager, switch, singha (13 files; 25 SVG figures in total, not 27). Reused across units where a physical device repeats (pix, ap, serverroom, cctv).
 - New sections are numbered after the last numbered section (1.7, 2.7, 3.6, 4.7, 5.7, 6.6, 7.6); Summary renumbered by /tmp/ins.py. Each has "x.y.1 Eight ..." (8 points, 3-4 sentences, Nepali examples).
 - U1: Plate 1.1 (server room / Enigma-K / CCTV), Fig 1.1 CIA triad, 1.2 STRIDE on a DFD, 1.3 5x5 risk matrix; 8 secure-design principles; Q1 CIA, Q2 STRIDE, Q3 (10) risk ranking + CVSS 9.8 arithmetic (ISS 0.9148, impact 5.873, exploitability 3.887).
 - U2: Plate 2.1 (PIX firewall + access point), Fig 2.1 TCP header to scale, 2.2 handshake ladder (2000/1000/2001/1001), 2.3 flag byte (0x12, 0x03); 8 uses of protocol analysis; Q1 handshake, Q2 flags, Q3 (10) service inventory + governance (ports 25, 5432 unapproved).
@@ -222,6 +222,13 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - U6: Plate 6.1 (write blocker + disk imager), Fig 6.1 sensor placement, 6.2 confusion matrix (99/1/999/98,901, precision 9.02%), 6.3 NIST IR cycle, 6.4 hash-chained custody log; 8 IR/forensics practices; Q1 base-rate, Q2 IR lifecycle, Q3 (10) forensics.
 - U7: Plate 7.1 (Singha Durbar, server room, CCTV), Fig 7.1 audit cycle, 7.2 ALE/ROSI (50,000 -> 10,000, ROSI 100%), 7.3 pen-test ROE gate (7 of 9 fields), 7.4 ETA 2063 penalties; 8 audit benefits; Q1 audit vs VA vs pentest vs red team, Q2 ALE/ROSI, Q3 (10) ROE, ethics and Nepal law.
 - check_cybersec.py --verify: 39 tokens, 0 missing. No code was changed. Figure-fit gotchas: svgfig text does not wrap; keep a line under about 17 chars per 90 px box; do not put long labels in 90-px boxes; poly labels need a diamond about 100 px wide.
+
+## BCA 3xx society-and-technology (semester-5/society-and-technology) -- [~] IN PROGRESS (session 24): units 1-3 polished, units 4-7 still to do; 56 pp (was 44), qa fails=0 warns=4 (p3 pre-existing; p38, p44, p55 are short tail pages of the still-unpolished units 4, 5, 7)
+- Photos (bca-st/ new: gutenberg, nokia1100, intel4004; reused bca101: vacuum-tube, android, atm-nepal, fibre-cable, router). Sections end with unnumbered "Chapter summary" + "Practice", so new sections go before "## Chapter summary" (ins.py `sec ... "## Chapter summary" x` leaves the heading unchanged); the new section is numbered after the last numbered section (1.6, 2.6, 3.6).
+- [x] U1: Plate 1.1 4-up (printing press, vacuum tube, Intel 4004, smartphone), Fig 1.1 timeline of information technologies, 1.2 Moore's law log chart (2^25 = 33,554,432; 77,175,193,600); 1.6.1 eight social impacts; Q1 Moore's law, Q2 determinism vs social shaping, Q3 (10) information revolutions and impacts.
+- [x] U2: Plate 2.1 (feature phone, smartphone, ATM), Fig 2.1 TAM, 2.2 Rogers categories, 2.3 logistic S-curve (14.2%, 85.8%, 22.5 pts/yr), 2.4 Bass new adopters (peak year 7 = 56,968; t* = 6.02); 2.6.1 eight barriers; Q1 TAM, Q2 logistic calculation, Q3 (10) Bass model.
+- [x] U3: Plate 3.1 4-up (fibre, router, feature phone, smartphone), Fig 3.1 three levels, 3.2 Lorenz curve (Gini 0.171, re-checked in Python 0.1707), 3.3 composite index bars; 3.6.1 eight ways to close the divide; Q1 three levels, Q2 gap/ratio (0.731, 56.8%, 2.93x), Q3 (10) min-max index for Madhesh = 0.181.
+- [ ] U4 Cyber and IT Law in Nepal, U5 e-Governance, U6 Cyberethics and algorithmic fairness, U7 e-Waste and green computing: not started (Plate + 3-4 figures + eight-point + 3 answers each). No code in this book: fill_script_outputs.py / check script not needed; the example data in unit 3 is invented (stated in captions).
 
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
@@ -245,5 +252,5 @@ Had ZERO figures before (graphs "described in words"). 27 figures/plates, 10 pho
 - [x] Cloud Computing polished (session 23, 37 -> 65 pp)
 - [x] Numerical Methods polished (session 23, 43 -> 66 pp)
 - [x] Cyber Security and Ethical Hacking polished (session 24, 48 -> 73 pp)
-- [ ] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Society and Technology (44), Computer Graphics and Animation (44), Mobile Programming (44), Web Technology I (45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [~] (NEXT SESSION STARTS HERE) finish Society and Technology units 4-7, then polish remaining thin core books by page count: Computer Graphics and Animation (44), Mobile Programming (44), Web Technology I (45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
