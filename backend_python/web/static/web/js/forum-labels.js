@@ -145,9 +145,13 @@
         document.querySelectorAll('[data-reply-card].is-accepted').forEach(function (c) {
           if (c.getAttribute('data-reply-card') !== target.id) paint(c.getAttribute('data-reply-card'), '');
         });
+        var hadAccepted = !!document.querySelector('[data-reply-card].is-accepted');
         paint(target.id, res.d.label);
         setSolved(res.d.postResolved);
         close();
+        if ((res.d.label === 'accepted' || (current.label === 'accepted' && hadAccepted)) && typeof window.refreshReplies === 'function') {
+          window.refreshReplies(target.id, false);
+        }
         var info = res.d.labelInfo;
         toast(info ? 'Marked as ' + info.label.toLowerCase() : 'Label removed');
       })
@@ -169,6 +173,16 @@
     if (!t) return;
     var c = t.closest('[data-reply-card]');
     if (c) c.classList.add('is-revealed');
+  });
+
+  document.addEventListener('click', function (e) {
+    var chip = e.target.closest('[data-solved-chip]');
+    if (!chip) return;
+    var card = document.querySelector('[data-reply-card].is-accepted');
+    if (!card) return;
+    card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    card.classList.add('is-fresh');
+    setTimeout(function () { card.classList.remove('is-fresh'); }, 2400);
   });
 
   window.ForumLabels = { meta: meta, tagsHTML: tagsHTML, open: open, paint: paint };

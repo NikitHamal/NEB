@@ -132,7 +132,7 @@
             </div>
           </div>
 
-          <div class="fp-post-flags"><span class="fl-solved-chip" data-solved-chip{% if not post.isResolved %} hidden{% endif %}><span class="material-symbols-outlined" aria-hidden="true">check_circle</span>Solved</span></div>
+          <div class="fp-post-flags"><button type="button" class="fl-solved-chip" data-solved-chip aria-label="Go to the accepted answer"{% if not post.isResolved %} hidden{% endif %}><span class="material-symbols-outlined" aria-hidden="true">check_circle</span>Solved<span class="material-symbols-outlined fl-solved-go" aria-hidden="true">arrow_downward</span></button></div>
           <h1 class="fp-post-title">{{ post.title }}</h1>
           <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
