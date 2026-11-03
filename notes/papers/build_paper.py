@@ -15,7 +15,7 @@ from weasyprint import HTML, CSS
 
 CONTENT = os.path.join(HERE, "content")
 OUT = os.path.join(HERE, "pdf")
-MARK = re.compile(r"\[\[([\d+]+)\]\]")
+MARK = re.compile(r"\[\[([\d+.]+)\]\]")
 ROMAN = re.compile(r"^\((i{1,3}|iv|v)\)\s")
 PART = re.compile(r"^\(([a-e])\)\s")
 
