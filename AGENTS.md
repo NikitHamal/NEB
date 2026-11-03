@@ -1915,7 +1915,7 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 ## BCA polish session 28 (Web Technology I, in progress)
 
-- **Done and pushed so far:** BCA 203 Web Technology I units 1-4 polished (45 -> 69 pp, qa fails=0). 14 `bca203/` photos, 4 plates, 24 SVG figures, an eight-point section and Q1-Q3 (2 medium + 1 long) per unit; JS outputs verified in Node 22. See `bca/POLISH_STATUS.md`.
+- **Done:** BCA 203 Web Technology I (`semester-3/web-technology-1`) fully POLISHED, all 7 units (45 -> 85 pp, qa fails=0 warns=1). 14 `bca203/` photos, 7 plates, ~40 SVG figures, an eight-point section and Q1-Q3 (2 medium + 1 long) per unit; JS outputs verified in Node 22. See `bca/POLISH_STATUS.md`.
 - **qa_pdf.py gotcha:** any `$` or `\\\\` in non-monospace page text is a FAIL ("leaked TeX"). Put regexes containing `$` in backtick code spans; in captions/figure text say "dollar anchor".
 - **Setup:** `sudo apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 poppler-utils fontconfig`; `pip install --user --break-system-packages uv`; `uv venv --python 3.12 /tmp/v`; `uv pip install --python /tmp/v/bin/python weasyprint pymupdf pypdf markdown pygments pillow numpy requests matplotlib fonttools sympy scipy pandas`; fonts via `bash notes/pipeline/fonts/install.sh`. Credentials via out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT`; the PAT given in the prompt is never written to the repo and must be rotated by the owner.
-- **Next:** Web Technology I units 5-7, then MIS and e-Business, Cryptography and Network Security.
+- **Next:** MIS and e-Business (semester-5, 45 pp), Cryptography and Network Security, then the rest of Semesters II-VIII.

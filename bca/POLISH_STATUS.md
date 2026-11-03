@@ -257,13 +257,16 @@ New section in each unit is x.7 (U1 1.7 ... U7 7.7, U3 is 3.6, U5 5.6, U6 6.6) i
 - check_mobile.py --verify: 34 tokens, 0 missing. No executed code changed.
 - svgfig gotchas this session: a 3-up photogrid `@ svg` cell needs font >= 13 on a 300 px canvas (qa flags 5 pt text); long arrow labels must fit the gap between boxes (about 9 px per char at size 10); right-hand text columns anchored at x >= 440 run off a 580 px canvas; `f.raw('<text transform="rotate(-90 ...)">')` gives clean vertical bracket labels; keep a circle's centre +/- radius inside the canvas (Fig(300, 300) for trilateration).
 
-## BCA 203 web-technology-1 (semester-3/web-technology-1) -- [~] IN PROGRESS (session 28): units 1-4 polished
-14 new licence-gated `bca203/` photos fetched and all viewed in a contact sheet: firstserver (NeXT), imp (ARPANET IMP), racks, tbl, mosaic, netscape, eich, crockford, hakon, inspector, bray, resig, braille, ishihara. Unused so far: tbl, bray, resig, braille, ishihara (reserved for U5-U7).
+## BCA 203 web-technology-1 (semester-3/web-technology-1) -- [x] POLISHED (session 28): all 7 units, 85 pp (was 45), qa fails=0 warns=1 (p3 pre-existing)
+14 new licence-gated `bca203/` photos fetched and all viewed in a contact sheet: firstserver (NeXT), imp (ARPANET IMP), racks, tbl, mosaic, netscape, eich, crockford, hakon, inspector, bray, resig, braille, ishihara. All 14 used (tbl, braille, ishihara in Plate 7.1; bray Plate 5.1; resig Plate 6.1).
 - [x] U1: Plate 1.1 3-up (IMP / NeXT first web server / rack aisle with numbered keys), Fig 1.1 page-load waterfall (220 ms), 1.2 URL anatomy, 1.3 DNS hierarchy, 1.4 HTTP request/response, 1.5 IPv4 /24 vs /26 binary (Python-checked); 1.7.1 eight applications in Nepal; Q1-Q2 (5), Q3 (10) HTTP.
 - [x] U2: Plate 2.1 3-up (Mosaic / Netscape 3 / Firefox inspector screenshots), Fig 2.1 DOM tree, 2.2 semantic layout, 2.3 colspan/rowspan table, 2.4 form controls, 2.5 canvas coordinates; 2.8.1 eight HTML rules; Q1-Q2 (5), Q3 (10) forms.
 - [x] U3: Plate 3.1 (Eich + Crockford + milestones SVG), Fig 3.1 event loop (A D C B, run in Node 22), 3.2 scope chain, 3.3 coercion table, 3.4 event flow, 3.5 array pipeline (56), 3.6 Nepali mobile regex; 3.9.1 eight uses; Q1-Q2 (5), Q3 (10) validation program. Node-verified outputs in `output` fences.
 - [x] U4: Plate 4.1 (Hakon Wium Lie + CSS timeline), Fig 4.1 box model (310 x 210 / 260), 4.2 specificity, 4.3 justify-content arithmetic, 4.4 grid areas (200+180+180+2x20), 4.5 position, 4.6 breakpoints; 4.8.1 eight CSS rules; Q1-Q2 (5), Q3 (10) responsive layout.
-- [ ] U5 XML, U6 jQuery, U7 Layout and design issues: pending (photos reserved: bray, resig, braille, ishihara, racks, tbl).
+- [x] U5 XML: Plate 5.1 (Tim Bray + XML family SVG), Fig 5.1 tree, 5.2 five well-formedness errors, 5.3 parse/validate pipeline, 5.4 namespaces, 5.5 DOM vs SAX, 5.6 XML vs JSON bytes (223 vs 131, gzip 119 vs 98, Python-computed); 5.9.1 eight applications; Q1-Q2 (5), Q3 (10).
+- [x] U6 jQuery: Plate 6.1 (John Resig + timeline), Fig 6.1 selector matches, 6.2 chaining, 6.3 animation queue (1200 ms), 6.4 traversal, 6.5 AJAX request/callback; 6.9.1 eight reasons; Q1-Q2 (5), Q3 (10) AJAX program. Figures write jQuery(...) instead of the dollar shorthand (qa forbids `$` outside code).
+- [x] U7 Layout/design: Plate 7.1 3-up (braille display / Ishihara plates / Tim Berners-Lee 2016), Fig 7.1 fixed/fluid/responsive, 7.2 WCAG contrast ratios (Python-computed), 7.3 page weight 1,360 -> 635 KB (2.72 -> 1.27 s), 7.4 sitemap and 3-click rule, 7.5 search snippet, 7.6 POUR; 7.9.1 eight rules; Q1-Q2 (5), Q3 (10) design issues.
+- No new executed code (jQuery/JS blocks in answers use ```html; the three Node outputs in U3 were run in Node 22). Do not run fill_web_outputs.py without checking that it leaves the new blocks alone.
 - QA gotcha: qa_pdf.py FAILS on any `$` or double backslash in non-monospace text (captions, svg text). Put regex with `$` in backticks (code span) and say "dollar anchor" in prose/figures.
 
 ## Queue
@@ -291,5 +294,6 @@ New section in each unit is x.7 (U1 1.7 ... U7 7.7, U3 is 3.6, U5 5.6, U6 6.6) i
 - [x] Society and Technology units 4-7 finished (session 25, 44 -> 74 pp)
 - [x] Computer Graphics and Animation units 5-7 finished (session 26, 60 -> 79 pp)
 - [x] BCA 352 Mobile Programming polished (session 27, 44 -> 90 pp)
-- [~] (NEXT SESSION STARTS HERE) finish Web Technology I units 5-7 (units 1-4 done, 69 pp so far); then polish remaining thin core books by page count: (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] Web Technology I polished (session 28, 45 -> 85 pp)
+- [~] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
