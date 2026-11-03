@@ -96,7 +96,8 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 12 | Chemistry | 2081 | Technical 9111 (reg. 79, 80) | DONE (12 pp; session 10; source `chemT81`; text paper; Q20 rate law rate = k[M][N]^2, k = 6 L^2 mol^-2 s^-1; Q15 OR heat of combustion -331.4 kcal/mol; copper flow chart drawn, blast furnace figure reused from Chemistry 2081 General) |
 | 12 | Biology | 2081 | Technical 9101 (reg. 79, 80) | DONE (11 pp; session 10; source `bioT81`; text paper; male reproductive figure reused from Biology 2081 General (still the weakest drawing), thyroid and RNA figures drawn) |
 | 12 | Biology | 2080 | Technical 9101 (regular) | DONE (13 pp; session 11; source `bioT80`; text paper, no printed figures; drawn: dicot + monocot T.S., excretory system, semi-conservative replication (replication fork reused from Biology 2080 General); Q16 and Q22 both alternatives answered; Q11 key B stated as an assumption because the printed wording is loose; Q7 key isograft) |
-| 12 | Physics / Chemistry | 2080, 2082 | Technical 9131 / 9111 | queued (Physics 2080 Technical: `2025/09/Physics-Technical-Stream-NEB-Class-12-Question-Paper-2080.html`) |
+| 12 | Physics | 2080 | Technical 9131 (regular; first-two-digits reg. not printed) | DONE (16 pp; session 12; source `phyT80`, 3 exam page images; text paper; 12 drawn solution figures (pendulum, v-t, closed pipe, meter bridge, coil, voltmeter conversion, rod, Xc graph, Millikan graph, Coolidge tube; parabola and full-wave rectifier reused from Physics 2081 Technical); Q16(c) printed 30 degrees gives mu = tan 30 = 0.577 < 1, stated openly in the solution (60 degrees would give 1.73); MCQ 1 'angular momentum ratio' key B stated as an assumption (sqrt2 : 1 with the 2I body first); Physics bundle now 5 papers) |
+| 12 | Physics / Chemistry | 2082 (Physics), 2080 / 2082 (Chemistry) | Technical 9131 / 9111 | queued |
 | 12 | Mathematics | 2082, 2080 | Technical 9121 | queued |
 | 12 | Management / Humanities / Education / Law | 2082-2080 | all | queued |
 | 11 | all science subjects | | | queued |
@@ -163,7 +164,7 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - Underlines in Q1-Q7 were read from zoomed crops of the page images; Q4 underlines: जान्ने, लिई, घडी, तथा, र, उनी, गर्थे (तथा is faint in the source and was kept).
 - Textbook facts used (verified by search): Gorkhe = Bakhat Bahadur Thapa (Pesal builds the 'Gorkhe' antivirus, Satpal's computer is infected); Ek Chihan = Hridaya Chandra Singh Pradhan (Dr Godatprasad, Nanithakun, Shivnaran, Ranjana Devi, Surman Subba); Ghanghasyako Ukalo Katta = Taranath Sharma; Hamilai Bolaunchhan Himchuli = Madhav Prasad Ghimire; Aamako Sapana = Gopal Prasad Rimal; Stephen William Hawking = biography (ALS; 'ashaa raakh ra byasta bana'; parents Isabel and Frank). The Q15(a) poem interpretation (mother's dream / 'Banshuri') is a reading of the stanza, not an official key.
 - Nepali answers are model answers; sample letters/reports use invented names and places. Not reviewed by a Nepali teacher: ask one to check grammar items (Q1 syllable split, Q6 morphology, Q7 karak) before publishing.
-- Leak check done: `git grep ghp_` only matches an existing redaction `sed` in notes/tools/lockpush.sh.
+- Leak check done: a git grep for the token prefix finds nothing in the paper files.
 - Next (in order): Nepali 2081 and 2080 (+ bundle), Physics 2081 general, Chemistry/Biology/CS 2080, English 2082 partial and 2080 'D', Technical stream, Management/Humanities, then Grade 11, SEE (7 provinces), Grade 8.
 
 ## Session 6 notes (same branch)
@@ -214,3 +215,10 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - Built Biology 2080 Technical 9101 (`content/12-bio-2080-9101.md`); Biology bundle refreshed. Running `bundle_papers.py` rewrites every bundle PDF (non-deterministic bytes): `git checkout` the other subjects' bundles unless their contents changed.
 - Visual checks that caught defects this session: matplotlib annotation text overlapping the drawing (give left-hand labels `ha='right'`), legend colliding with a title line, and a numbered list restarting after a table (use a bold paragraph instead of `4.`).
 - Next (in order): Physics / Chemistry Technical 2080 and 2082, Mathematics Technical 2082/2080, Mathematics 2082 other sets and 2080 other sets, English 2080 'D', Management / Humanities / Education / Law, Grade 11, SEE (7 provinces each), Grade 8.
+
+## Session 12 notes (same branch)
+- Fresh sandbox; file-tool root `/app`, symlinks `/app/neb` -> /tmp/NEB, `/app/psrc` -> /tmp/psrc, `/app/view` -> /tmp/view (for page renders). Repo is ~2.3 GB: clone with `--depth 1 --single-branch --branch resources/past-papers-class12 --progress` under `nohup ... &` (a foreground clone is killed by the tool timeout, takes about 3 minutes). Token only through `/tmp/gitenv.sh` (GIT_ASKPASS reading `$NEB_GH_TOKEN`) and `/tmp/gitrc` (outside the repo).
+- `sudo` works in this sandbox; apt / pip / fonts steps from session 4 worked unchanged.
+- `$\text{\AA}$` prints "AA" in mathtext: type the unicode letter Å in plain text instead. Mathtext also needs `\sqrt{3}` inside `\frac{1}{\sqrt{3}}`.
+- Built Physics 2080 Technical 9131 (`content/12-phy-2080-9131.md`). `bundle_papers.py` rewrites every bundle and bundles.json byte counts: after running it, `git checkout` the unrelated bundle PDFs and keep only the changed subject's entry in bundles.json.
+- Next (in order): Chemistry Technical 2080 and 2082, Physics Technical 2082, Mathematics Technical 2082 / 2080, Mathematics 2082 other sets and 2080 other sets, English 2080 'D', Management / Humanities / Education / Law, Grade 11, SEE (7 provinces each), Grade 8.
