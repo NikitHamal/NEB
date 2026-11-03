@@ -57,7 +57,7 @@ Real units (NOT the brief's guess): U1 Intro, U2 Software, U3 OS, U4 DBMS, U5 Ne
 - U5: Fig 5.1 ethical decision flow, Fig 5.2 IP types and licence spectrum; 8 responsibilities (5.8); medium (MIT vs GPL) + long (ethics, IP, ETA 2063; no penalty figures given).
 
 ## BCA 256 project-1 (semester-4/project-1) -- [x] DONE (session 14), qa fails=0
-Project I has no TU topic list, so this is a reconstructed companion handbook (README says so) built around one running example, CampusShelf (invented college library book-issue system). 5 units, about 14,000 words.
+Project I has no TU topic list, so this is a reconstructed companion handbook (README says so) built around one running example, CampusShelf (invented college library book-issue system). 5 units, 16,401 raw words (gen_status count, code listings included), 49 pp.
 - Photos (bca256/, licence-gated, all viewed): pitch (hackathon pitch), kanban (3-column board), scrum (task board), pair (pair programming), poster (poster-session presenter).
 - U1 Scoping: Plate 1.1 (pitch photo + idea-funnel SVG), Fig 1.2 life cycle; feasibility score script (executed); 8 reasons projects fail (1.7); 2 medium + 1 long answers.
 - U2 Planning: Fig 2.1 Gantt to scale (matches critical-path script), Plate 2.1 (3-up kanban/scrum/pair photos with callouts), Fig 2.2 Git branches; critical-path script + real `git` run output; 8 team practices (2.6); 2 medium + 1 long.
