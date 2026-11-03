@@ -121,7 +121,66 @@ Rectify in the **period the error is found**:
 - *Commission* (sale to Ram credited to Shyam): Dr Shyam, Cr Ram. *Principle* (furniture debited to Purchases, Rs 20,000): Dr Furniture 20,000, Cr Purchases 20,000. *Omission:* record the transaction now. *Complete reversal:* debit and credit the amount twice the original.
 - If an error affected profit, adjust profit as well; corrected profit equals reported profit plus or minus the effect of each error, keeping a clear statement of corrected profit.
 
-## 3.7 Summary and exercises
+## 3.7 Seeing the ideas: books of prime entry, the three-column cash book and the hunt for a difference
+
+```photogrid label="3.1" cols="2" ratio="1.0" caption="(a) A bound account book: before computers a business kept separate books for purchases, sales and cash, and the clerk who posted them kept the whole trade readable. (b) The ruled layout of a three-column cash book: cash, bank and discount are three columns on each side, so one page carries the day's money in and out."
+@ photo id="bca403/ledger" cap="Bound account book"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Three-column cash book"
+f = Fig(300, 300)
+f.box(8, 8, 284, 30, "Dr  CASH BOOK  Cr", fill=NAVY, color="#ffffff", bold=True, size=13)
+f.line(150, 38, 150, 250, color=SLATE, sw=2)
+H = [("Disc", 8, 36), ("Cash", 44, 50), ("Bank", 94, 50)]
+for t, x, w in H:
+    f.box(x, 44, w, 22, t, fill=SAND, stroke=AMBER, size=12.5, bold=True)
+    f.box(x + 142, 44, w, 22, t, fill=SAND, stroke=AMBER, size=12.5, bold=True)
+rows = [("Balance b/d", "10,000", "40,000", "Bank (contra)", "6,000", ""), ("Cash (contra)", "", "6,000", "Supplier", "", "9,800"), ("Customer", "", "12,000", "Balance c/d", "4,000", "48,200")]
+for i, r in enumerate(rows):
+    y = 90 + i * 50
+    f.text(12, y, r[0], size=12.5, color=NAVY, bold=True, anchor="start")
+    f.text(12, y + 20, r[1] + "  " + r[2], size=12.5, color=SLATE, anchor="start")
+    f.text(154, y, r[3], size=12.5, color=RED, bold=True, anchor="start")
+    f.text(154, y + 20, r[4] + "  " + r[5], size=12.5, color=SLATE, anchor="start")
+f.text(150, 276, "contra = cash and bank on both sides", size=12.5, color=TEAL, italic=True)
+```
+
+```svgfig label="3.1" caption="Where each transaction is first recorded. High-volume transactions go to subsidiary books, which are totalled and posted to the ledger once a period; the journal proper takes whatever is left (opening entries, adjustments, rectifications)."
+f = Fig(580, 214)
+f.box(8, 90, 120, 46, "Transaction\n+ document", fill=MINT, stroke=TEAL, bold=True, size=11.5)
+B = [("Purchases book", 8), ("Sales book", 52), ("Returns books", 96), ("Cash book", 140), ("Journal proper", 184)]
+for t, y in B:
+    f.box(210, y - 6, 140, 30, t, fill=BLUE if y < 184 else SAND, stroke=NAVY if y < 184 else AMBER, size=11)
+    f.arrow([(128, 113), (210, y + 9)], color=SLATE)
+    f.arrow([(350, y + 9), (420, 113)], color=SLATE)
+f.box(420, 88, 150, 50, "General ledger\n(accounts)", fill=ROSE, stroke=RED, bold=True, size=12)
+```
+
+```svgfig label="3.2" caption="The transposition hunt of 3.5. Sales should be credited 5,400 but 4,500 was posted. Debits exceed credits by 900, which is divisible by 9, the signature of swapped adjacent digits. A suspense credit of 900 balances the books until the error is found and cleared."
+f = Fig(580, 200)
+f.box(14, 14, 168, 44, "Debtor debited 5,400\n(correct)", fill=MINT, stroke=TEAL, size=11.5)
+f.box(14, 74, 168, 44, "Sales credited 4,500\n(digits swapped)", fill=ROSE, stroke=RED, size=11.5)
+f.arrow([(182, 36), (214, 80)], color=SLATE); f.arrow([(182, 96), (214, 90)], color=SLATE)
+f.box(214, 56, 150, 54, "Trial balance\nDr 8,42,500\nCr 8,41,600", fill=SAND, stroke=AMBER, size=11.5)
+f.arrow([(364, 83), (394, 83)], color=SLATE)
+f.box(394, 40, 176, 86, "Difference 900\n900 / 9 = 100\nso suspect a\ntransposition", fill=BLUE, stroke=NAVY, size=11.5)
+f.box(14, 146, 270, 40, "Temporary: Cr Suspense 900", fill="#ffffff", stroke=AMBER, size=11.5, bold=True)
+f.box(300, 146, 270, 40, "Rectify: Dr Suspense 900, Cr Sales 900", fill="#ffffff", stroke=TEAL, size=11.5, bold=True)
+f.arrow([(284, 166), (300, 166)], color=SLATE)
+```
+
+### 3.7.1 Eight good habits of cash-book and trial-balance work
+
+1. **Record cash and bank daily.** The cash book is both a book of original entry and a ledger, so it should be written on the day of each transaction. A shop that records weekly forgets small payments. Daily entries also make theft easy to notice.
+2. **Count the cash each evening.** Compare the cash book balance with the cash in the drawer and note any difference. A shortage of Rs 50 found today is easy to trace, but one found next month is not. This is the oldest and cheapest control.
+3. **Use the imprest system for petty cash.** Give the cashier a fixed float, say Rs 5,000, and refill it by the exact amount spent. Each expense needs a voucher. The reimbursement cheque then equals the vouchers, which keeps small spending honest.
+4. **Show contra entries on both sides.** When Rs 6,000 cash is deposited into the bank, it appears on the debit side in the bank column and on the credit side in the cash column. Writing it on one side only is a common mistake. Mark such lines with the letter C.
+5. **Keep discounts in their own column.** Cash discount allowed to customers and received from suppliers are separate nominal accounts. The totals of the discount columns are posted at the period end. Netting them into the cash amount hides the cost of early payment.
+6. **Total the subsidiary books before posting.** Add the purchases, sales and returns books at the month end, check the totals and post only the totals. One posting instead of many reduces the chance of an error. Nepali shops that issue hundreds of VAT bills a month save hours this way.
+7. **Divide a difference by 9.** If the trial balance is out by an amount divisible by 9, look for a transposition or a slide first. If it equals twice an amount, look for an item posted to the wrong side. A systematic search is faster than rechecking every page.
+8. **Never force the trial balance.** Putting a difference into a suspense account is allowed only as a clearly labelled temporary step. Find the error and rectify it by a proper entry. A forced balance hides a real fault and misleads whoever reads the statements.
+
+## 3.8 Summary and exercises
 
 Subsidiary books keep detail manageable, the triple-column cash book handles cash, bank and discounts together, and the trial balance and suspense account give a first, imperfect line of defence against error.
 
@@ -131,3 +190,68 @@ Subsidiary books keep detail manageable, the triple-column cash book handles cas
 4. A trial balance disagrees by Rs 1,260 (credits larger). Show why a transposition is plausible and prepare the suspense entry.
 5. Furniture costing Rs 30,000 was debited to Purchases. Journalise the correction.
 6. Explain why a bank overdraft is a liability even though it is a bank-column balance.
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). List the errors that a trial balance does not reveal, with an example of each.**
+
+*Introduction.* A trial balance tests only the arithmetic of double entry. If the totals agree, it does **not** prove the books are correct, because some errors leave debits equal to credits.
+
+| Error | Meaning | Example |
+|---|---|---|
+| Omission | transaction not recorded at all | a credit sale of Rs 4,000 never entered |
+| Commission | right amount, wrong account of the same class | sale to Ram credited to Shyam |
+| Principle | wrong class of account | furniture debited to Purchases |
+| Compensating | two errors of equal amount that cancel | Sales over-added by 500 and Rent over-added by 500 |
+| Complete reversal | debit and credit swapped | cash received debited to Cash as credit |
+| Original entry | wrong amount on both sides | Rs 1,500 recorded as 1,050 in the journal |
+
+*Errors that do show up:* a one-sided posting, different amounts on the two sides, a transposition in one posting and wrong addition of an account. *Conclusion:* agreement of the trial balance is necessary but not sufficient evidence of correct books.
+
+**Q2 (5 marks). Prepare a three-column cash book from: opening cash Rs 10,000 and bank Rs 40,000; deposited cash in bank 6,000; received a cheque from a customer 12,000 and banked it; paid a supplier by cheque 9,800 after discount 200.**
+
+*Method.* Cash receipts and the bank column are on the debit side, payments on the credit side; the discount column records discount allowed (debit) and discount received (credit). The deposit is a **contra** entry.
+
+| Dr | Disc | Cash | Bank | Cr | Disc | Cash | Bank |
+|---|---|---|---|---|---|---|---|
+| Balance b/d | | 10,000 | 40,000 | Bank (C) | | 6,000 | |
+| Cash (C) | | | 6,000 | Supplier | 200 | | 9,800 |
+| Customer | | | 12,000 | Balance c/d | | 4,000 | 48,200 |
+| | | 10,000 | 58,000 | | 200 | 10,000 | 58,000 |
+
+Check: cash 10,000 − 6,000 = 4,000; bank 40,000 + 6,000 + 12,000 − 9,800 = 48,200. The discount received of 200 is posted to the Discount Received account (a gain). *Conclusion:* the cash book serves as journal and ledger together, and its two balances must equal the cash in hand and the bank's own figure after reconciliation.
+
+**Q3 (10 marks). Explain the trial balance, its limits and the methods of locating errors. A trial balance shows debits of Rs 8,42,500 and credits of Rs 8,41,600. Find the cause and show the suspense account entries.**
+
+*Introduction.* The **trial balance** lists every ledger balance in a debit and a credit column on a date. Its totals must agree because every entry has equal debits and credits (Figure 3.2).
+
+*Limits.* It does not reveal errors of omission, commission, principle, compensating errors, complete reversal or errors of original entry (Q1).
+
+*Method of locating a difference.*
+
+1. Recheck the addition of the trial balance.
+2. Find the difference and halve it: a difference of twice an amount suggests an item posted to the wrong side.
+3. Check whether the difference is divisible by 9: a transposition (5,400 written as 4,500) or a slide changes a number by a multiple of 9.
+4. Look for an item equal to the difference that was left out of the trial balance.
+5. Recheck the postings and balances of the ledger accounts; then the subsidiary books and their totals.
+6. If the error is still not found by the deadline, place the difference in a **suspense account** and continue.
+
+*Application.* Difference = 8,42,500 − 8,41,600 = **Rs 900**. 900 ÷ 9 = 100, so a transposition is likely. A search finds that a credit sale of Rs 5,400 was debited to the debtor correctly but credited to Sales as 4,500.
+
+*Entries.*
+
+| Step | Entry | Effect |
+|---|---|---|
+| 1. To agree the trial balance | Cr Suspense 900 | credits become 8,42,500 |
+| 2. Rectification | Dr Suspense 900, Cr Sales 900 | Sales is now 2,92,500 and suspense is nil |
+
+*Comparison of error treatment.*
+
+| Error type | Trial balance shows? | Correction |
+|---|---|---|
+| One-sided posting | yes | find and post the other side |
+| Transposition | yes | Dr/Cr Suspense and the correct account |
+| Commission | no | transfer between the two accounts |
+| Principle | no | transfer from wrong to right class |
+
+*Conclusion.* A trial balance is a first check, not a certificate. A systematic search, the divisible-by-9 test and a clearly labelled suspense account locate errors while the books stay in order, and every suspense balance must be cleared to zero before the final accounts.

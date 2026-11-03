@@ -142,7 +142,57 @@ The output shows the trial balance agreeing at Rs 731,000, the same total as the
 A balanced ledger is not a correct ledger. The software prevents arithmetic errors, not errors of principle or commission: posting a sale to the wrong customer still balances. Controls and review remain human responsibilities.
 :::
 
-## 7.9 Summary and exercises
+## 7.9 Seeing the ideas: the ratio dashboard, the DuPont tree and the database ledger
+
+```photogrid label="7.1" cols="2" ratio="1.0" caption="(a) Source code on a screen: a modern ledger is a program with a rule built in, that every entry must balance. (b) The three-table design of the unit's SQLite ledger: an account has a kind, an entry has a narration, and each line belongs to one entry and one account with a debit or a credit, never both."
+@ photo id="bca306/code" cap="Code on a screen"
+fit 1.0
+focus 0.5 0.5
+@ svg cap="Ledger tables"
+f = Fig(300, 300)
+f.box(10, 10, 130, 90, "account\nname (PK)\nkind: asset,\nliability, equity,\nincome, expense", fill=MINT, stroke=TEAL, size=12.5)
+f.box(160, 10, 130, 90, "entry\nid (PK)\nnarration", fill=BLUE, stroke=NAVY, size=12.5)
+f.box(60, 160, 180, 100, "line\nentry_id (FK)\naccount (FK)\ndebit, credit\nCHECK one side is 0", fill=SAND, stroke=AMBER, size=12.5)
+f.arrow([(75, 160), (75, 100)], color=SLATE, label="many", lpos=(100, 132), lsize=12)
+f.arrow([(225, 160), (225, 100)], color=SLATE, label="many", lpos=(250, 132), lsize=12)
+f.text(150, 284, "debits = credits is checked per entry", size=12.5, color=TEAL, italic=True)
+```
+
+```svgfig label="7.1" caption="A ratio dashboard for the worked trader of Unit 6: liquidity, solvency, profitability and activity. Each tile gives the formula and the value, and a comment on what it says about the business."
+f = Fig(580, 262)
+T = [("LIQUIDITY", "Current ratio\nCA / CL = 4.94 / 1.20 lakh", "= 4.12", "Quick ratio = 3.49", MINT, TEAL), ("SOLVENCY", "Debt / equity\n1.20 / 6.49 lakh", "= 0.18", "creditors fund little", BLUE, NAVY), ("PROFITABILITY", "Gross margin 39.29%\nNet margin 18.27%", "ROE 27.58%", "return on owner's money", SAND, AMBER), ("ACTIVITY", "Inventory turnover\nDebtor days", "10.82 times\n74.5 days", "stock 33.7 days", ROSE, RED)]
+for i, (h, a, v, c, fl, st) in enumerate(T):
+    x = 8 + (i % 2) * 288; y = 8 + (i // 2) * 124
+    f.box(x, y, 276, 116, "", fill=fl, stroke=st)
+    f.text(x + 138, y + 18, h, size=12.5, color=st, bold=True)
+    f.text(x + 138, y + 50, a, size=11, color=SLATE)
+    f.text(x + 138, y + 84, v, size=14, color=NAVY, bold=True)
+    f.text(x + 138, y + 106, c, size=10.5, color=st, italic=True)
+```
+
+```svgfig label="7.2" caption="The DuPont tree. Return on equity is the product of three simple ratios, so a low ROE can be traced to margin, turnover or borrowing: 0.1827 x 1.2744 x 1.1849 = 0.2758."
+f = Fig(580, 214)
+f.box(190, 8, 200, 40, "ROE = 27.58%", fill=NAVY, color="#ffffff", bold=True, size=14)
+for x, t, v, fl, st in [(24, "Net margin\nprofit / sales", "18.27%", MINT, TEAL), (210, "Asset turnover\nsales / assets", "1.2744", BLUE, NAVY), (396, "Leverage\nassets / equity", "1.1849", SAND, AMBER)]:
+    f.arrow([(290, 48), (x + 80, 80)], color=SLATE)
+    f.box(x, 80, 160, 50, t, fill=fl, stroke=st, size=11.5)
+    f.box(x + 40, 140, 80, 30, v, fill="#ffffff", stroke=st, bold=True, size=13)
+f.text(204, 156, "x", size=18, color=SLATE, bold=True); f.text(390, 156, "x", size=18, color=SLATE, bold=True)
+f.text(290, 198, "profit per rupee of sales  x  sales per rupee of assets  x  assets per rupee of owner's money", size=10.5, color=SLATE, italic=True)
+```
+
+### 7.9.1 Eight uses of ratio analysis and computerised accounting
+
+1. **Banks judge repayment ability.** A current ratio of 4.12 and a debt-to-equity of 0.18 tell a lender that the firm can pay its short debts and borrows little. These are the first numbers a credit officer reads. A weak ratio can lead to a smaller loan.
+2. **Owners see where profit is made.** Gross margin of 39.29% and net margin of 18.27% show how much of each rupee of sales is kept. A fall in gross margin points at buying cost or pricing, while a fall in net margin points at running costs. The owner knows where to act.
+3. **Managers control working capital.** Inventory turnover of 10.82 times and debtor days of 74.5 show how fast stock sells and money is collected. Debtor days of 74.5 are long, so collection needs attention. Faster collection frees cash without any new sales.
+4. **Investors compare firms.** ROE and earnings per share let an investor compare a bank with a hydropower company on the same scale. Ratios remove the effect of size. They must still be compared within one industry.
+5. **DuPont explains return.** Splitting ROE into margin, turnover and leverage shows whether a high return comes from skill or from risky borrowing. A firm can raise ROE by borrowing, but the risk also rises. This is a diagnostic, not a target.
+6. **Trends reveal problems early.** One year's ratio means little; five years show direction. A current ratio sliding from 3 to 1.2 warns of a cash squeeze. Trend lines are the early-warning system for trouble.
+7. **Software enforces double entry.** A database ledger can reject any entry where debits and credits differ, as the SQLite schema does with its CHECK rule. The trial balance then always agrees, here at Rs 7,31,000. Errors of principle and commission still need people.
+8. **Computerised books save time and give audit trails.** A system such as a Nepali tax-compliant billing package posts a sale to Sales, VAT Output and Debtors at once and keeps a log of who did what. Reports come at a click. The business gains speed, but only if the first entry is correct.
+
+## 7.10 Summary and exercises
 
 Ratios turn statements into evidence about liquidity, solvency, profitability and efficiency; DuPont explains return on equity as margin, turnover and leverage; and a computerised ledger is the same double-entry discipline expressed as tables and constraints.
 
@@ -152,3 +202,63 @@ Ratios turn statements into evidence about liquidity, solvency, profitability an
 4. Why can two firms with identical ROE have different risk?
 5. Extend the SQLite schema with a date column and write a query for the balance of Cash at the end of a given month.
 6. Explain why an accounting system should correct errors by reversing entries rather than by editing history.
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Current assets are Rs 6,00,000 (stock 2,40,000) and current liabilities Rs 3,00,000. Compute the current and quick ratios and comment.**
+
+*Formulae.* Current ratio = current assets ÷ current liabilities. Quick (acid-test) ratio = (current assets − stock) ÷ current liabilities.
+
+*Working.* Current ratio = 6,00,000 ÷ 3,00,000 = **2.0 : 1**. Quick assets = 6,00,000 − 2,40,000 = 3,60,000, so quick ratio = 3,60,000 ÷ 3,00,000 = **1.2 : 1**.
+
+*Comment.* The usual norms are 2 : 1 and 1 : 1. Both are met, so the firm can pay short-term debts even without selling its stock. A very high ratio, such as the 4.12 of the worked trader, would suggest idle cash. The quick ratio is a harsher test because stock may be slow to sell. *Conclusion:* liquidity is satisfactory, and the figures should be compared with the industry and with past years.
+
+**Q2 (5 marks). Explain the DuPont identity with the worked example.**
+
+*Identity.* Return on equity = net margin × asset turnover × financial leverage, that is (profit ÷ sales) × (sales ÷ assets) × (assets ÷ equity) (Figure 7.2).
+
+*Worked trader.* Net profit 1,79,000; sales 9,80,000; assets 7,69,000; equity 6,49,000.
+
+| Factor | Working | Value |
+|---|---|---|
+| Net margin | 1,79,000 ÷ 9,80,000 | 18.27% |
+| Asset turnover | 9,80,000 ÷ 7,69,000 | 1.2744 |
+| Leverage | 7,69,000 ÷ 6,49,000 | 1.1849 |
+| **ROE** | 0.1827 × 1.2744 × 1.1849 | **27.58%** |
+
+*Use.* A firm can raise ROE by improving margin (price, cost control), turnover (using assets harder) or leverage (borrowing). The third raises risk. Here the return comes mainly from margin and turnover, with very little borrowing (debt-to-equity 0.18). *Conclusion:* DuPont shows why ROE is high or low, not only how much it is.
+
+**Q3 (10 marks). Classify financial ratios and explain each class with the worked trader. State the limitations of ratio analysis. How does a computerised ledger enforce double entry?**
+
+*Introduction.* **Ratio analysis** turns the figures of financial statements into relationships that show liquidity, solvency, profitability and efficiency. It is used by owners, lenders and investors (Figure 7.1).
+
+*Classes with the worked trader (balance sheet total Rs 7,69,000).*
+
+| Class | Ratio | Formula | Value | Meaning |
+|---|---|---|---|---|
+| Liquidity | Current | CA ÷ CL = 4,94,000 ÷ 1,20,000 | 4.12 | very comfortable, perhaps idle cash |
+| Liquidity | Quick | (CA − stock − prepaid) ÷ CL | 3.49 | strong |
+| Solvency | Debt to equity | liabilities ÷ equity = 1,20,000 ÷ 6,49,000 | 0.18 | little borrowing |
+| Profitability | Gross margin | 3,85,000 ÷ 9,80,000 | 39.29% | healthy |
+| Profitability | Net margin | 1,79,000 ÷ 9,80,000 | 18.27% | healthy |
+| Profitability | ROE | profit ÷ equity | 27.58% | high |
+| Activity | Inventory turnover | COGS ÷ stock = 5,95,000 ÷ 55,000 average | 10.82 times (33.7 days) | stock moves quickly |
+| Activity | Debtor days | debtors ÷ sales × 365 | 74.5 days | slow collection |
+
+*Limitations.* (1) Ratios are based on historical cost, so inflation distorts them. (2) Accounting policies (FIFO versus average, depreciation method) change the figures. (3) A year-end balance sheet may not represent the whole year, for example seasonal stock. (4) Ratios compare numbers, not quality such as management or customer loyalty. (5) They are useful only against benchmarks: past years, competitors and the industry. (6) Window dressing can improve ratios on one date.
+
+*Computerised ledger.* The unit's database has three tables: account (name and kind), entry (narration) and line (entry, account, debit, credit). A CHECK rule rejects a negative amount or a line with both a debit and a credit. Each entry is verified to have equal total debits and credits before saving, so the trial balance always agrees (Rs 7,31,000 in the example, as in the manual ledger of Unit 2). Reports are queries. The log of who posted what gives an audit trail.
+
+*Caution.* A balanced ledger is not a correct ledger. Posting a sale to the wrong customer still balances. Controls, review and reconciliation (Unit 4) are still needed.
+
+*Comparison of manual and computerised ledgers.*
+
+| Point | Manual | Computerised |
+|---|---|---|
+| Arithmetic errors | possible | prevented by rules |
+| Speed of reports | slow | immediate |
+| Audit trail | handwriting | automatic log |
+| Errors of principle | possible | still possible |
+| Cost | stationery | software and training |
+
+*Conclusion.* Ratios turn statements into evidence, DuPont explains return, and software makes the arithmetic of the books reliable, while correct judgement still has to come from the accountant.
