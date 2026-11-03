@@ -86,7 +86,7 @@
     document.body.style.right = '';
     document.body.style.width = '';
     document.body.style.paddingRight = '';
-    window.scrollTo(0, scrollLock.top);
+    window.scrollTo({ top: scrollLock.top, left: 0, behavior: 'instant' });
   }
 
   function panel(scrim) {

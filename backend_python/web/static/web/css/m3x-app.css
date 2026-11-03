@@ -713,7 +713,7 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
   width: 100%; box-sizing: border-box; padding: 12px 14px; border-radius: 16px; font: inherit; resize: vertical;
   border: 1px solid var(--md-outline-variant); background: var(--md-surface-container-lowest); color: var(--md-on-surface);
 }
-.fp-dialog-input:focus, .fp-dialog-body textarea:focus { outline: 2px solid var(--md-primary); outline-offset: 0; border-color: transparent; }
+:root .fp-dialog-input:focus, :root .fp-dialog-body textarea:focus { outline: 1px solid var(--md-primary); outline-offset: -2px; border-color: var(--md-primary); }
 .fp-dialog-body textarea.fc-field { min-height: 140px; }
 .fp-dialog .neb-dialog-actions { padding: 12px 20px 20px; }
 .fp-dialog .fc-preview { min-height: 140px; padding: 10px 14px; border: 1px solid var(--md-outline-variant); border-radius: 16px; background: var(--md-surface-container-lowest); }
@@ -794,7 +794,7 @@ select option { background: var(--md-surface-container-high); color: var(--md-on
 
 /* ---------- selection, focus, tables ---------- */
 ::selection { background: var(--md-primary-container); color: var(--md-on-primary-container); }
-:focus-visible { outline: 3px solid color-mix(in srgb, var(--md-primary) 70%, transparent); outline-offset: 2px; border-radius: inherit; }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--md-primary) 70%, transparent); outline-offset: 2px; }
 table th { background: var(--md-surface-container-high); color: var(--md-on-surface); }
 table td { color: var(--md-on-surface); border-color: var(--md-outline-variant); }
 
