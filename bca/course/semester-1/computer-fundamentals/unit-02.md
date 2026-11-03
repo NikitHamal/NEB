@@ -38,6 +38,25 @@ Application software is further split into:
 If removing it stops the *computer* from working, it is system software. If removing it only stops *one task* (writing a letter), it is application software.
 :::
 
+```svgfig label="2.1" caption="Classification of computer software with an example under every branch."
+f = Fig(760, 300)
+f.box(300, 14, 160, 40, "SOFTWARE", fill=NAVY, stroke=NAVY, color="#ffffff", size=14, bold=True)
+f.box(110, 96, 190, 40, "System software", fill=MINT, stroke=TEAL, size=13, bold=True)
+f.box(470, 96, 190, 40, "Application software", fill=SAND, stroke=AMBER, size=13, bold=True)
+f.arrow([(380, 54), (380, 76), (205, 76), (205, 96)], color=SLATE)
+f.arrow([(380, 54), (380, 76), (565, 76), (565, 96)], color=SLATE)
+for i, (t, e) in enumerate([("Operating\nsystem", "Windows,\nLinux"), ("Device\ndrivers", "printer,\nGPU driver"), ("Utilities", "antivirus,\nbackup"), ("Language\ntranslators", "compiler,\ninterpreter"), ("Firmware", "UEFI,\nrouter code")]):
+    x = 8 + i * 74
+    f.box(x, 178, 68, 40, t, fill=MINT, stroke=TEAL, size=9.5)
+    f.box(x, 232, 68, 40, e, fill="#ffffff", stroke=TEAL, size=9, color=SLATE)
+    f.arrow([(205, 136), (205, 158), (x + 34, 158), (x + 34, 178)], color=TEAL)
+for i, (t, e) in enumerate([("General\npurpose", "Word,\nbrowser"), ("Custom /\nbespoke", "college\nERP"), ("Packaged\nsuite", "MS Office,\nTally"), ("Web and\nmobile apps", "Fonepay,\nNagarik App")]):
+    x = 392 + i * 91
+    f.box(x, 178, 84, 40, t, fill=SAND, stroke=AMBER, size=9.5)
+    f.box(x, 232, 84, 40, e, fill="#ffffff", stroke=AMBER, size=9, color=SLATE)
+    f.arrow([(565, 136), (565, 158), (x + 42, 158), (x + 42, 178)], color=AMBER)
+```
+
 ## 2.2 Language translators
 
 The CPU executes only **machine code**, binary patterns. Humans write in other languages, so a translator is needed.
@@ -51,6 +70,23 @@ The CPU executes only **machine code**, binary patterns. Humans write in other l
 | Typical languages | x86 / ARM assembly | C, C++, Go, Rust (Java compiles to bytecode) | Python, JavaScript, PHP (usually with a bytecode step in practice) |
 
 The **source program** is what the programmer types; the **object program** is the translator's output. A **linker** joins object files and library code into one executable; a **loader** (part of the OS) places the executable in memory to run. Java and C# sit between the two camps: they compile to *bytecode*, which a virtual machine then interprets or compiles on the fly.
+
+```svgfig label="2.2" caption="From source code to a running process: the compiled path (top) and the interpreted path (bottom)."
+f = Fig(760, 250)
+items = [("Source\ncode (.c)", SLATE, SOFT), ("Compiler", TEAL, MINT), ("Object\nfile (.o)", SLATE, SOFT), ("Linker", AMBER, SAND), ("Executable\n(.exe)", SLATE, SOFT), ("Loader", NAVY, BLUE), ("Running\nprocess", RED, ROSE)]
+for i, (t, c, bg) in enumerate(items):
+    x = 6 + i * 107
+    f.box(x, 40, 90, 52, t, fill=bg, stroke=c, size=10.5, bold=True)
+    if i: f.arrow([(x - 17, 66), (x, 66)], color=SLATE)
+f.text(380, 18, "Compiled language (C, C++): translate once, run many times", size=11, color=TEAL, bold=True)
+f.text(380, 130, "Interpreted language (Python, JavaScript): translate and run line by line", size=11, color=AMBER, bold=True)
+f.box(40, 152, 150, 52, "Source code\n(.py)", fill=SOFT, stroke=SLATE, size=10.5, bold=True)
+f.box(285, 152, 190, 52, "Interpreter\n(reads one statement)", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.box(570, 152, 150, 52, "Output / action", fill=ROSE, stroke=RED, size=10.5, bold=True)
+f.arrow([(190, 178), (285, 178)], color=SLATE)
+f.arrow([(475, 178), (570, 178)], color=SLATE)
+f.arrow([(380, 204), (380, 232), (115, 232), (115, 204)], color=AMBER, label="next statement", lpos=(250, 224))
+```
 
 ## 2.3 Generations of programming languages
 
@@ -122,6 +158,21 @@ Dry run N = 29: I = 2, 3, 4, 5 are tested (5×5 = 25 ≤ 29); none divides 29; I
 :::
 
 The three basic **control structures** are **sequence**, **selection** (if/else) and **iteration** (loops). Every algorithm can be built from these three. **Pseudocode** writes an algorithm in plain structured English without flowchart symbols.
+
+```svgfig label="2.3" caption="Flowchart to test whether a number is even or odd, with the standard symbols named."
+f = Fig(760, 250)
+f.box(20, 100, 110, 44, "Start", fill=MINT, stroke=TEAL, size=12, bold=True, r=22)
+f.box(165, 96, 130, 52, "Read N", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(330, 96, 150, 52, "R = N mod 2", fill=SOFT, stroke=SLATE, size=12, bold=True)
+f.poly([(585, 80), (670, 122), (585, 164), (500, 122)], fill=SAND, stroke=AMBER, label="R = 0 ?", lx=585, ly=122, size=12)
+f.box(500, 200, 170, 36, "Print \"odd\"", fill=ROSE, stroke=RED, size=11.5, bold=True)
+f.box(560, 8, 170, 36, "Print \"even\"", fill=MINT, stroke=TEAL, size=11.5, bold=True)
+f.arrow([(130, 122), (165, 122)]); f.arrow([(295, 122), (330, 122)]); f.arrow([(480, 122), (500, 122)])
+f.arrow([(585, 80), (585, 44)], color=TEAL, label="Yes", lpos=(605, 62))
+f.arrow([(585, 164), (585, 200)], color=RED, label="No", lpos=(605, 182))
+f.text(75, 60, "terminator\n(oval)", size=9, color=SLATE); f.text(230, 60, "input / output\n(parallelogram)", size=9, color=SLATE)
+f.text(405, 60, "process\n(rectangle)", size=9, color=SLATE); f.text(400, 190, "decision (diamond)\nhas two exits: Yes / No", size=9, color=SLATE)
+```
 
 ## 2.5 Software licensing and development basics
 
@@ -195,3 +246,112 @@ Software is built through the **software development life cycle (SDLC)**: requir
 **13.** Software → system (OS, drivers, firmware, utilities, translators) and application (general-purpose, custom, suites); give an example under each branch.
 **14.** The programmer writes source code; the compiler produces an object file; the linker combines object files and libraries into an executable; the loader copies the executable into memory and starts it as a process.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+### Medium questions (5 marks)
+
+**Q3. Differentiate a compiler and an interpreter. (5 marks)**
+
+A **compiler** translates the whole source program into machine code in one pass and saves it as an executable file; an **interpreter** reads, translates and executes the program one statement at a time (Figure 2.2). Because a compiled program is translated once, it starts quickly and runs fast. An interpreted program must be translated again on every run, so it is usually slower, but it can stop at the first error and let the programmer test ideas interactively.
+
+| Point | Compiler | Interpreter |
+|---|---|---|
+| Translation unit | whole program | one statement |
+| Output | object file and executable | no separate file |
+| Speed of execution | fast | slower |
+| Error reporting | all errors after compiling | stops at the first error |
+| Memory use | more during compiling | less |
+| Examples | C, C++, Java (to bytecode) | Python, JavaScript, PHP |
+
+**Example.** A college billing program written in C is compiled once and the `.exe` is given to the accounts office. A Python script that cleans a marks sheet is run directly, edited and run again within seconds. An **assembler** is a third translator that converts assembly language to machine code.
+
+**Q7. Distinguish freeware, shareware and open-source software. (5 marks)**
+
+Software is distributed under a **licence** that states what the user may do. Three common models differ in price and in access to the source code.
+
+1. **Freeware:** free to use for an unlimited time, but the source code is closed and you may not modify or sell it. *Example:* Adobe Acrobat Reader, Google Chrome.
+2. **Shareware:** free to try for a limited time or with limited features; you pay to unlock the full version. *Example:* WinRAR trial, many antivirus programs.
+3. **Open-source software:** the source code is published under a licence (GPL, MIT, Apache) that lets anyone study, change and share it. *Example:* Linux, LibreOffice, Firefox, VLC.
+4. **Proprietary (commercial) software:** paid and closed. *Example:* Microsoft Office, Tally Prime.
+
+| Type | Cost | Source code | Can modify? |
+|---|---|---|---|
+| Freeware | free | closed | no |
+| Shareware | trial, then paid | closed | no |
+| Open source | free or paid support | open | yes |
+| Proprietary | paid | closed | no |
+
+**Nepali example.** Many colleges run Linux servers and LibreOffice to avoid licence cost, while accounts departments buy licensed Tally. Using cracked software is piracy and an offence under Nepal's Copyright Act.
+
+**Q5. Explain the characteristics of a good algorithm with a flowchart. (5 marks)**
+
+An **algorithm** is a finite, ordered list of clear steps that solves a problem. A **flowchart** draws the same steps with standard symbols (Figure 2.3).
+
+1. **Input:** zero or more values are supplied (the number N).
+2. **Output:** at least one result is produced (even or odd).
+3. **Definiteness:** every step is precise and has one meaning, such as "R = N mod 2".
+4. **Finiteness:** the algorithm stops after a limited number of steps.
+5. **Effectiveness:** each step is simple enough to be carried out by hand or by a machine.
+6. **Generality:** it works for every valid input, not only one number.
+
+**Algorithm (even or odd).** Step 1: Start. Step 2: Read N. Step 3: R = N mod 2. Step 4: If R = 0 print "even", else print "odd". Step 5: Stop.
+
+**Flowchart.** Oval (Start) → parallelogram (Read N) → rectangle (R = N mod 2) → diamond (R = 0?) → two exits, Yes to "even" and No to "odd" → oval (Stop). **Dry run:** N = 7 gives R = 1, so the output is **odd**; N = 10 gives R = 0, so the output is **even**.
+
+### Long questions (10 marks)
+
+**Q13. Explain the types of software with a classification chart. (10 marks)**
+
+**Introduction.** **Software** is the set of programs and data that tells the hardware what to do. Without software a computer is only an expensive box of circuits. Software is divided into **system software** and **application software** (Figure 2.1).
+
+**A. System software** manages the hardware and provides a platform on which other programs run.
+
+1. **Operating system:** controls the CPU, memory, files and devices, and gives the user an interface. *Examples:* Windows, Linux, Android.
+2. **Device drivers:** small programs that let the OS talk to one device such as a printer, scanner or graphics card.
+3. **Utility programs:** maintenance tools such as antivirus, backup, disk clean-up and file compression.
+4. **Language translators:** compilers, interpreters and assemblers that convert programs to machine code.
+5. **Firmware:** permanent software stored in a chip, for example the UEFI/BIOS or a router's operating code.
+
+**B. Application software** performs tasks for the user.
+
+6. **General-purpose software:** word processor, spreadsheet, browser, media player; useful to many users.
+7. **Custom (bespoke) software:** written for one organisation, such as a college admission system or a bank's core system.
+8. **Packaged suites:** a set of programs sold together, such as MS Office or Tally Prime.
+9. **Web and mobile applications:** run in a browser or phone, such as Fonepay, ConnectIPS and the Nagarik App.
+
+| Basis | System software | Application software |
+|---|---|---|
+| Purpose | runs and manages the computer | solves a user's task |
+| Depends on | hardware | system software |
+| Starts | when the computer boots | when the user opens it |
+| Needed to run computer? | yes | no |
+| Examples | Linux, drivers, BIOS | Word, Tally, Chrome |
+
+**Conclusion.** System software is the foundation and application software is the visible layer built on it. A computer needs both: the OS to manage the machine and applications to do the user's real work.
+
+**Q14. Explain how a high-level program is converted to a running process. (10 marks)**
+
+**Introduction.** A processor understands only machine code (binary), but people write programs in high-level languages such as C. Several system programs, the **translator, linker and loader**, turn the source code into a running **process** (Figure 2.2).
+
+**Stages**
+
+1. **Editing:** the programmer writes the **source code** (`sum.c`) in a text editor or IDE.
+2. **Preprocessing:** in C, `#include` files are inserted and macros are replaced.
+3. **Compiling:** the **compiler** checks syntax and semantics, reports errors, and translates the code to assembly and then to an **object file** (`sum.o`) containing machine code with unresolved references.
+4. **Assembling:** the **assembler** converts assembly to binary object code when the compiler produces assembly first.
+5. **Linking:** the **linker** joins one or more object files with library code (for example `printf`) and resolves the addresses, producing the **executable** (`sum.exe`).
+6. **Loading:** the **loader**, part of the OS, copies the executable into RAM, sets up the stack and data areas, and sets the program counter to the first instruction.
+7. **Execution:** the CPU runs the instructions in the fetch-decode-execute cycle; the program is now a **process** with a process ID and a state (Ready, Running, Waiting).
+8. **Debugging:** logical errors are found with a debugger, the source is edited, and the cycle repeats.
+
+| Program | Input | Output | Done by |
+|---|---|---|---|
+| Compiler | source code | object code | translator |
+| Linker | object files + libraries | executable | linker |
+| Loader | executable | process in RAM | operating system |
+| Interpreter | source code | immediate results | translator (no file) |
+
+**Types of errors.** *Syntax errors* are found by the compiler, *link errors* by the linker (missing library), and *run-time/logical errors* only when the program runs.
+
+**Conclusion.** Compiled languages pay the translation cost once and then run fast, while interpreted languages skip the separate stages and translate during execution. Understanding these stages explains why a program that compiles may still fail to link or run.

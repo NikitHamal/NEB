@@ -3,11 +3,11 @@
 <!-- COURSE-STATUS -->
 ## BCA course: real status
 
-**36 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (542,135 raw words of study material, counted over the unit files, including code listings and tables):
+**36 of 44 subject slots are written, built and QA-checked; 0 core subjects are not started; 8 slots are projects, internship or electives with no notes planned.** Full per-subject table: [`STATUS.md`](STATUS.md). Done so far (549,776 raw words of study material, counted over the unit files, including code listings and tables):
 
 | Sem | Code | Subject | Words | PDF pages | Status |
 |---|---|---|---|---|---|
-| 1 | BCA 101 | [Computer Fundamentals and Applications](course/semester-1/computer-fundamentals/) | 26,249 | 76 | done |
+| 1 | BCA 101 | [Computer Fundamentals and Applications](course/semester-1/computer-fundamentals/) | 33,890 | 98 | done |
 | 1 | BCA 102 | [Programming in C](course/semester-1/programming-in-c/) | 15,229 | 56 | done |
 | 1 | BCA 103 | [Digital Logic](course/semester-1/digital-logic/) | 9,853 | 29 | done |
 | 1 | BCA 104 | [Mathematics I](course/semester-1/mathematics-1/) | 11,443 | 33 | done |

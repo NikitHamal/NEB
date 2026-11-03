@@ -67,6 +67,39 @@ scheme      host       port      path        query  fragment
 
 **HTTPS** is HTTP over **TLS**: it encrypts traffic and uses a **certificate** to prove the site's identity. The padlock means the connection is encrypted, *not* that the site is honest.
 
+```svgfig label="6.1" caption="DNS resolution of www.example.com.np: the resolver asks root, TLD and authoritative servers in turn (steps 2-4), the answer returns (5), then the browser connects to the IP address (6)."
+f = Fig(760, 320)
+for i, t in enumerate(["1  Browser and OS check their cache", "2  Resolver asks a root server: who runs .np?", "3  Resolver asks the .np TLD server: who runs example.com.np?", "4  Resolver asks the authoritative server: IP of www?", "5  IP address 203.0.113.10 returns to the browser", "6  Browser opens a TCP/TLS connection to that IP"]):
+    f.text(10, 14 + i * 14, t, size=9.5, color=SLATE, anchor="start")
+f.box(10, 130, 110, 56, "Browser +\nOS cache", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(170, 130, 120, 56, "Recursive\nresolver (ISP)", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(400, 110, 120, 44, "Root server ( . )", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(400, 170, 120, 44, "TLD server ( .np )", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(400, 230, 120, 44, "Authoritative\nexample.com.np", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.box(630, 130, 110, 56, "Web server\n203.0.113.10", fill=ROSE, stroke=RED, size=11, bold=True)
+f.arrow([(120, 150), (170, 150)], color=NAVY, label="1", lpos=(145, 142))
+f.arrow([(290, 140), (340, 140), (340, 132), (400, 132)], color=AMBER, label="2", lpos=(370, 124))
+f.arrow([(290, 158), (345, 158), (345, 192), (400, 192)], color=AMBER, label="3", lpos=(372, 184))
+f.arrow([(290, 176), (320, 176), (320, 252), (400, 252)], color=AMBER, label="4", lpos=(360, 244))
+f.arrow([(520, 262), (580, 262), (580, 300), (230, 300), (230, 186)], color=TEAL, label="5", lpos=(400, 293))
+f.arrow([(65, 186), (65, 312), (685, 312), (685, 186)], color=RED, label="6", lpos=(560, 305))
+```
+
+```svgfig label="6.2" caption="HTTPS request-response cycle between a browser (client) and a web server: TCP handshake, TLS handshake, then HTTP."
+f = Fig(760, 330)
+f.box(60, 10, 140, 40, "Browser (client)", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(560, 10, 140, 40, "Web server", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.line(130, 50, 130, 320, color=NAVY, dash=True); f.line(630, 50, 630, 320, color=TEAL, dash=True)
+steps = [("SYN", 1, "TCP: connection request"), ("SYN-ACK", -1, "TCP: server agrees"), ("ACK", 1, "TCP: connection open"), ("ClientHello", 1, "TLS: supported ciphers"), ("ServerHello + certificate", -1, "TLS: proof of identity"), ("Key exchange, Finished", 1, "TLS: shared session key"), ("GET /index.html", 1, "HTTP request (encrypted)"), ("200 OK + HTML", -1, "HTTP response (encrypted)")]
+for i, (t, d, n) in enumerate(steps):
+    y = 76 + i * 33
+    col = AMBER if i < 3 else (TEAL if i < 6 else RED)
+    f.arrow([(130, y), (630, y)] if d == 1 else [(630, y), (130, y)], color=col, label=t, lpos=(380, y - 6), lsize=9)
+    f.text(695 if False else 735, y, "", size=8)
+    f.text(30, y, str(i + 1), size=9, color=col, bold=True)
+f.text(690, 160, "1-3 TCP", size=9, color=AMBER, bold=True); f.text(690, 190, "4-6 TLS", size=9, color=TEAL, bold=True); f.text(690, 270, "7-8 HTTP", size=9, color=RED, bold=True)
+```
+
 ## 6.3 The World Wide Web
 
 The Web is a system of linked **hypertext** documents. Its three pillars: **HTML** (structure), **HTTP** (transfer), **URL** (naming). A **web page** is one document; a **website** is a collection; a **web server** (Apache, Nginx) serves them; a **browser** (Chrome, Firefox, Edge, Safari) fetches and renders them.
@@ -181,3 +214,93 @@ A minimal HTML page:
 **13.** Table of §6.5.
 **14.** Web 1.0 read-only static pages; Web 2.0 interactive, user-generated, social; Web 3.0 semantic/decentralised, with data meaning understood by machines.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+### Medium question (5 marks)
+
+**Q9. List and explain the steps from typing www.example.com to the page appearing. (5 marks)**
+
+1. **Cache check:** the browser and operating system look for a saved IP address of the name. If none is found, a request goes to the **DNS resolver** of the ISP (Figure 6.1).
+2. **DNS lookup:** the resolver asks a root server, then the TLD server (`.com`), then the authoritative server, which returns the IP address. The answer is cached for its time-to-live.
+3. **TCP connection:** the browser opens a connection to port 443 using a three-way handshake (SYN, SYN-ACK, ACK) (Figure 6.2).
+4. **TLS handshake:** the server sends its certificate; the browser checks it and both sides agree on a session key, so everything after is encrypted (HTTPS).
+5. **HTTP request:** the browser sends `GET /` and the server replies with `200 OK` and the HTML.
+6. **Rendering:** the browser reads the HTML, requests the CSS, images and scripts, and draws the page.
+
+| Step | Protocol | Result |
+|---|---|---|
+| Name to address | DNS (UDP 53) | IP address |
+| Connect | TCP | reliable channel |
+| Secure | TLS | encrypted session |
+| Fetch | HTTP | HTML page |
+
+**Example.** Opening a bank's internet-banking page in Kathmandu follows exactly these steps; the padlock in the address bar shows that the TLS step succeeded.
+
+### Long questions (10 marks)
+
+**Q12. Explain how a search engine works. (10 marks)**
+
+**Introduction.** A **search engine** (Google, Bing) is a web application that finds pages related to a user's words from billions of pages in a fraction of a second. It does this by preparing the answers in advance, in three main stages.
+
+1. **Crawling:** programs called **crawlers (spiders, bots)** start from known URLs, download each page and follow its links to discover new pages. A `robots.txt` file tells them which parts to skip.
+2. **Indexing:** the engine analyses each page (words, title, headings, links, language, images) and stores it in an **inverted index**: for every word, a list of the pages containing it. Looking up a word becomes as fast as looking up a book's index.
+3. **Query processing:** the query is cleaned (lower case, spelling correction, stop words removed) and matched with the index to find candidate pages.
+4. **Ranking:** the candidates are scored by relevance (words in the title and body), authority (the PageRank idea that links from good pages count more), freshness, speed, mobile friendliness and user location.
+5. **Results page:** the top results are shown with title, URL and a snippet, plus ads, maps and images.
+6. **Feedback:** clicks and time spent improve later ranking.
+7. **SEO:** website owners improve titles, content and speed to rank higher; dishonest tricks are penalised.
+
+| Stage | Input | Output |
+|---|---|---|
+| Crawl | URL list | raw pages |
+| Index | raw pages | inverted index |
+| Rank | query + index | ordered list |
+
+**Example.** Searching "BCA entrance model question" returns Nepali college and notes sites because their pages contain those words and are linked from other sites.
+
+**Conclusion.** A search engine is fast because crawling and indexing are done before the user searches; only matching and ranking happen at query time.
+
+**Q13. Discuss the common internet security threats and the measures against them. (10 marks)**
+
+**Introduction.** The Internet connects strangers, so data, money and identity are targets. Threats are matched by technical and human safeguards.
+
+1. **Malware:** viruses, worms, trojans, ransomware and spyware. *Measure:* antivirus, updates, no cracked software.
+2. **Phishing:** fake emails, SMS or sites that steal passwords. *Measure:* check the URL, never share OTPs, use two-factor authentication.
+3. **Identity theft and social engineering:** attackers trick people into revealing data. *Measure:* privacy settings, verify callers.
+4. **Denial of service (DoS/DDoS):** a flood of requests makes a site unavailable. *Measure:* filtering, rate limits, CDN.
+5. **Man-in-the-middle and eavesdropping:** data read on open Wi-Fi. *Measure:* HTTPS, VPN, WPA2/WPA3.
+6. **Hacking and SQL injection:** unauthorised access through weak passwords or bugs. *Measure:* strong passwords, patches, input checks, firewalls.
+7. **Cyber bullying and harmful content:** abuse on social media. *Measure:* report, block, awareness.
+8. **Data breach and loss:** stolen or lost data. *Measure:* encryption, backups, access control.
+
+| Threat | Main safeguard |
+|---|---|
+| Malware | antivirus and updates |
+| Phishing | two-factor authentication, alertness |
+| DDoS | traffic filtering |
+| Eavesdropping | HTTPS and VPN |
+
+**Legal note.** Nepal's **Electronic Transactions Act 2063** punishes hacking, data theft and online fraud; victims can report to the Cyber Bureau of Nepal Police.
+
+**Conclusion.** No single tool is enough; safe internet use combines software protection, strong authentication, encryption and informed users.
+
+**Q14. Compare Web 1.0, 2.0 and 3.0. (10 marks)**
+
+**Introduction.** The Web has changed from read-only pages to social and then to intelligent, decentralised services.
+
+| Basis | Web 1.0 (1990s) | Web 2.0 (2000s) | Web 3.0 (emerging) |
+|---|---|---|---|
+| Nature | read-only | read-write, social | read-write-own, semantic |
+| Content by | site owners | users | users and machines |
+| Technology | static HTML | AJAX, CSS, JS, mobile apps | AI, blockchain, semantic web |
+| Control | website owner | large platforms | users and communities |
+| Example | early static sites | Facebook, YouTube, Wikipedia | smart contracts, AI assistants |
+| Data | hosted by owner | held by platforms | user-owned, decentralised |
+
+1. **Web 1.0:** pages were static, like an online brochure, and users only read.
+2. **Web 2.0:** blogs, wikis and social media let users create and share content, and sites became interactive.
+3. **Web 3.0:** data gets meaning, so software understands context; blockchain gives users ownership of data and assets.
+4. **Impact in Nepal:** online newspapers (Web 1.0), Facebook and YouTube creators (Web 2.0), digital wallets and AI chat tools (towards Web 3.0).
+
+**Conclusion.** Each version adds interaction and intelligence; the trend is from owner-controlled to user-centred services.
