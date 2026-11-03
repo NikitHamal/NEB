@@ -80,6 +80,34 @@ Cramer's rule is useful for small systems and for theory (it shows the solution 
 - **Partial pivoting:** choose the largest available pivot in a column to limit rounding error. A system like 0.0001x + y = 1, x + y = 2 solved without pivoting in low precision can give badly wrong x. **Ill-conditioned** systems (nearly parallel lines or planes) amplify small data errors; the **condition number** measures this.
 - **LU decomposition:** factor A = LU (lower × upper triangular) once, then solve many right-hand sides cheaply; **least squares** solves overdetermined systems (more equations than unknowns) by AᵀAX = AᵀB, the basis of linear regression.
 
+## 2.6 Three pictures of a linear system
+
+Every system of two equations in two unknowns is a pair of lines, and the lines can meet in exactly three ways (Figure 2.1). Rank says which: **rank A = rank [A | b] = number of unknowns** gives one solution; **rank A = rank [A | b] < unknowns** gives infinitely many; **rank A < rank [A | b]** gives none. The same trichotomy holds for three planes in space and for systems with thousands of unknowns.
+
+```svgfig label="2.1" caption="Three outcomes for two equations. (a) x + y = 2 and x − y = 0 cross at (1, 1): rank 2 = rank 2, one solution. (b) x + y = 2 and x + y = 2.5 are parallel: rank A = 1 but rank [A|b] = 2, no solution. (c) x + y = 2 and 2x + 2y = 4 are the same line: rank 1 = rank 1 < 2, infinitely many solutions."
+f = Fig(580, 205)
+for k, (title, l2, note) in enumerate([("(a) unique", lambda t: t, "(1, 1)"), ("(b) none", lambda t: 2.5 - t, "parallel"), ("(c) infinite", lambda t: 2 - t, "same line")]):
+    ax = Axes(f, 14 + k * 192, 28, 168, 150, (-1, 4), (-1, 4))
+    ax.grid(1, 1, labels=False)
+    ax.curve(lambda t: 2 - t, -1, 4, color=NAVY, sw=2.4)
+    ax.curve(l2, -1, 4, color=RED, sw=2.4, dash=(k == 2))
+    if k == 0:
+        ax.pt(1, 1, "(1, 1)", dx=8, dy=-10)
+    f.text(98 + k * 192, 16, title, size=11, color=NAVY, bold=True)
+    f.text(98 + k * 192, 194, note, size=10.5, color=SLATE, italic=True)
+```
+
+## 2.7 Eight uses of linear systems
+
+1. **Electric circuits.** Kirchhoff's laws turn a network of resistors into a system of linear equations in the currents. Engineers solve it to size wires and fuses. The Nepal Electricity Authority's load-flow studies are huge systems of this kind.
+2. **Traffic and network flow.** The cars entering and leaving each junction must balance, which gives one equation per junction. Solving the system shows the flow on every road. Ring Road planning in Kathmandu uses the same idea.
+3. **Balancing chemical equations.** The number of atoms of each element on both sides must match, giving a linear system for the coefficients. The solution gives the smallest whole numbers. Chemistry software does this automatically.
+4. **Diet and mixing problems.** A feed mix must supply given amounts of protein, fat and minerals from several ingredients. The unknowns are the quantities. A dairy cooperative uses this to design cattle feed at the lowest cost.
+5. **Curve fitting.** To pass a quadratic through three measured points, write y = ax² + bx + c for each point and solve for a, b, c. Sensors and calibration charts use this daily.
+6. **GPS positioning.** Distances to several satellites give equations whose solution is your position and clock error. Your phone solves such a system many times a second.
+7. **Economic planning.** An input-output model asks how much each industry must produce so that supply meets demand. This is a linear system with a matrix of industry links. Planners solve it with Gaussian elimination.
+8. **Computer graphics and simulation.** Finding where a ray meets a plane, or the shape of a loaded bridge in a simulation, leads to linear systems with thousands of unknowns. Computers solve them with the same elimination steps you learn here, tuned for speed.
+
 ## Formula and fact sheet
 
 - AX = B; augmented [A | B]; three row operations.
@@ -119,3 +147,39 @@ Cramer's rule is useful for small systems and for theory (it shows the solution 
 **9.** From the first two: x = 1, y = 1; the third gives 2(1) + 1 = 3 ✓. **Consistent**, unique solution (1, 1) (rank 2 = rank of the augmented matrix).
 **10.** Elimination is O(n³): 10 times more equations is 1000 times more work, about **1000 s ≈ 17 minutes**.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Solve by Gaussian elimination: x + y + z = 6, 2x − y + z = 3, x + 2y − z = 2.**
+
+*Introduction.* Gaussian elimination reduces the augmented matrix to upper-triangular form by row operations, then back-substitutes.
+
+*Augmented matrix.* [[1, 1, 1 | 6], [2, −1, 1 | 3], [1, 2, −1 | 2]].
+
+*Elimination.* R2 → R2 − 2R1 gives [0, −3, −1 | −9]. R3 → R3 − R1 gives [0, 1, −2 | −4]. Swap to use the simple row: R2 ↔ R3, so [0, 1, −2 | −4] and [0, −3, −1 | −9]. Then R3 → R3 + 3R2 gives [0, 0, −7 | −21].
+
+*Back-substitution.* −7z = −21, so **z = 3**. Then y − 2(3) = −4 gives **y = 2**. Then x + 2 + 3 = 6 gives **x = 1**.
+
+*Check.* 2(1) − 2 + 3 = 3 and 1 + 2(2) − 3 = 2, both correct. *Conclusion.* The unique solution is (x, y, z) = (1, 2, 3); the pivots 1, 1, −7 are all non-zero, so the rank is 3.
+
+**Q2 (10 marks). State and explain the conditions for consistency of a linear system using rank, with an example of each case, and mention Cramer's rule.**
+
+*Introduction.* A system AX = b with n unknowns is **consistent** if it has at least one solution. The rank of a matrix is the number of non-zero rows after elimination (equivalently, the number of independent rows). Rank settles consistency completely.
+
+*The rank test (Rouché–Capelli).*
+
+1. **Compare ranks.** Compute rank A and the rank of the augmented matrix [A | b].
+2. **Inconsistent.** If rank A < rank [A | b], there is no solution. Example: x + y = 2 and 2x + 2y = 5 give rank A = 1 but rank [A | b] = 2.
+3. **Unique solution.** If rank A = rank [A | b] = n, there is exactly one solution. Example: x + y = 2, x − y = 0 gives x = y = 1.
+4. **Infinitely many.** If rank A = rank [A | b] < n, there are n − rank free parameters. Example: x + y = 2 and 2x + 2y = 4 give y = t, x = 2 − t.
+5. **Geometry.** Cases (a), (b) and (c) of Figure 2.1 are lines that meet once, are parallel, or coincide.
+
+*Cramer's rule.* When A is square and det A ≠ 0, xᵢ = det Aᵢ ÷ det A, where Aᵢ has column i replaced by b. For x + y = 2, x − y = 0: det A = −2, det A₁ = det [[2, 1], [0, −1]] = −2, so x = (−2) ÷ (−2) = 1. It is elegant but costly for large systems, where elimination is preferred.
+
+| Rank condition | Meaning | Example |
+|---|---|---|
+| rank A < rank [A\|b] | no solution | x + y = 2, 2x + 2y = 5 |
+| rank A = rank [A\|b] = n | one solution | x + y = 2, x − y = 0 |
+| rank A = rank [A\|b] < n | infinitely many | x + y = 2, 2x + 2y = 4 |
+
+*Conclusion.* Two numbers, rank A and rank [A | b], decide whether a system has no, one or infinitely many solutions, and elimination then finds them.

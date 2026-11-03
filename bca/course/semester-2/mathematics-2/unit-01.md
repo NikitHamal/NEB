@@ -83,6 +83,39 @@ N = [[1, 2, 3], [0, 1, 4], [5, 6, 0]], det N = 1. Cofactors give **N⁻¹ = [[�
 
 **Solving AX = B** by X = A⁻¹B is elegant but in practice Gaussian elimination (Unit 2) is faster and more stable. **Elementary matrices** perform one row operation each; any invertible matrix is a product of them.
 
+## 1.4 The determinant as an area
+
+A 2 × 2 determinant has a picture. Take the matrix A with columns (3, 1) and (1, 2). It sends the unit square to a parallelogram whose sides are those two columns (Figure 1.1). The area of that parallelogram is |det A| = |3·2 − 1·1| = **5**, so A stretches every area by a factor of 5. The sign tells whether the picture is flipped. If the columns point along the same line, as in (2, 1) and (4, 2), the parallelogram collapses to a line segment, the area is 0, det = 0, and the matrix has **no inverse**: a squashed picture cannot be un-squashed.
+
+```svgfig label="1.1" caption="Determinant as area. Left: the matrix with columns (3,1) and (1,2) turns the unit square (light) into a parallelogram of area det = 5. Right: columns (2,1) and (4,2) lie on one line, the parallelogram collapses, det = 0 and the matrix is singular."
+f = Fig(580, 230)
+ox, oy, u = 50, 200, 40
+def P(x, y): return (ox + u * x, oy - u * y)
+f.line(ox, oy, ox + 190, oy, color=SLATE); f.line(ox, oy, ox, oy - 170, color=SLATE)
+f.poly([P(0, 0), P(1, 0), P(1, 1), P(0, 1)], fill="#e2e8f0", stroke=SLATE)
+f.poly([P(0, 0), P(3, 1), P(4, 3), P(1, 2)], fill=BLUE, stroke=NAVY, label="area 5", lx=ox + 100, ly=oy - 80, color=NAVY)
+f.arrow([P(0, 0), P(3, 1)], color=RED); f.arrow([P(0, 0), P(1, 2)], color=TEAL)
+f.text(ox + 122, oy - 22, "(3,1)", size=10.5, color=RED, bold=True); f.text(ox + 14, oy - 92, "(1,2)", size=10.5, color=TEAL, bold=True)
+f.text(ox + 95, oy + 18, "det = 3·2 − 1·1 = 5", size=11, color=NAVY, bold=True)
+ox2 = 340
+f.line(ox2, oy, ox2 + 220, oy, color=SLATE); f.line(ox2, oy, ox2, oy - 170, color=SLATE)
+f.arrow([(ox2, oy), (ox2 + 80, oy - 40)], color=RED); f.arrow([(ox2, oy), (ox2 + 160, oy - 80)], color=TEAL)
+f.text(ox2 + 60, oy - 60, "(2,1)", size=10.5, color=RED, bold=True); f.text(ox2 + 150, oy - 100, "(4,2)", size=10.5, color=TEAL, bold=True)
+f.text(ox2 + 110, oy + 18, "det = 2·2 − 4·1 = 0: area 0", size=11, color=NAVY, bold=True)
+f.text(ox2 + 110, 40, "both columns on one line: singular", size=10.5, color=SLATE, italic=True)
+```
+
+## 1.5 Eight uses of matrices in computing
+
+1. **Computer graphics.** Every rotation, scaling and translation of an image or game object is a matrix multiplied by a coordinate vector. A phone screen applies thousands of such products every frame. Understanding 2 × 2 and 3 × 3 matrices is the first step to 3D graphics.
+2. **Digital images.** A grey-scale photograph is a matrix of brightness numbers. Blurring, sharpening and edge detection are matrix operations on those numbers. Compression methods such as JPEG use matrix transforms to discard detail the eye cannot see.
+3. **Search ranking.** Google's PageRank treats the web as a huge matrix of links and finds its dominant eigenvector (Unit 4). The same idea ranks pages, researchers and social-media accounts. It is a matrix problem with billions of rows.
+4. **Machine learning.** Every layer of a neural network multiplies a weight matrix by an input vector. Training adjusts the matrix entries to reduce error. Fast matrix multiplication on graphics cards is why modern AI is possible.
+5. **Networks and routing.** An adjacency matrix records which towns, routers or villages are connected. Powers of this matrix count the number of routes of a given length. Planners use it for road, fibre and power-grid design.
+6. **Economics and planning.** Input-output tables show how the output of each industry feeds the others. Solving a linear system with the inverse matrix tells a planner how much each sector must produce to meet demand. The Nepal Rastra Bank and planning bodies use such tables.
+7. **Cryptography.** The Hill cipher encrypts blocks of letters by multiplying with a key matrix; decryption needs the inverse matrix modulo 26. It teaches why a determinant of zero makes a key useless.
+8. **Statistics and data tables.** A census table (districts by age group) is a matrix. Totals, averages and correlations come from matrix products. Spreadsheets and databases are everyday matrix tools.
+
 ## Formula and fact sheet
 
 - (AB)ᵢⱼ = Σ aᵢₖ bₖⱼ; AB ≠ BA; (AB)ᵀ = BᵀAᵀ; (AB)⁻¹ = B⁻¹A⁻¹.
@@ -122,3 +155,45 @@ N = [[1, 2, 3], [0, 1, 4], [5, 6, 0]], det N = 1. Cofactors give **N⁻¹ = [[�
 **9.** A² = [[1, 2], [0, 1]], A³ = [[1, 3], [0, 1]], so **Aⁿ = [[1, n], [0, 1]]** (induction: multiply by A).
 **10.** AᵀA = I means Aᵀ is a left inverse of A, and for square matrices a left inverse is the inverse. For R = [[0, −1], [1, 0]], RᵀR = [[0, 1], [−1, 0]]·[[0, −1], [1, 0]] = [[1, 0], [0, 1]] ✓.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Find the inverse of N = [[1, 2, 3], [0, 1, 4], [5, 6, 0]] by the adjoint method.**
+
+*Introduction.* For a square matrix, A⁻¹ = adj(A) ÷ det(A). The inverse exists only when det(A) ≠ 0.
+
+*Step 1: determinant.* Expanding along the first row: det N = 1(1·0 − 4·6) − 2(0·0 − 4·5) + 3(0·6 − 1·5) = −24 + 40 − 15 = **1**. Since det N = 1 ≠ 0, N is invertible.
+
+*Step 2: cofactors.* C11 = −24, C12 = 20, C13 = −5; C21 = 18, C22 = −15, C23 = 4; C31 = 5, C32 = −4, C33 = 1.
+
+*Step 3: adjoint and inverse.* adj N is the transpose of the cofactor matrix, so N⁻¹ = [[−24, 18, 5], [20, −15, −4], [−5, 4, 1]] (the determinant is 1, so no division is needed).
+
+*Check.* Row 1 of N times column 1 of N⁻¹ is 1(−24) + 2(20) + 3(−5) = 1, and row 1 times column 2 is 18 − 30 + 12 = 0, as required for the identity. *Conclusion.* N⁻¹ is the matrix above.
+
+**Q2 (10 marks). Explain the operations on matrices and the properties of the determinant, with examples and the geometric meaning.**
+
+*Introduction.* A matrix is a rectangular array of numbers; operations on matrices model transformations, systems of equations and data tables. The determinant is a single number that records whether a square matrix can be inverted.
+
+*Operations.*
+
+1. **Addition and scalar multiplication** work entry by entry and need equal sizes.
+2. **Multiplication.** (AB)ᵢⱼ is row i of A times column j of B; the inner sizes must match.
+3. **Non-commutative.** For A = [[2, 1], [4, 3]] and B = [[1, 0], [2, 5]], AB = [[4, 5], [10, 15]] but BA = [[2, 1], [24, 17]], so AB ≠ BA in general.
+4. **Transpose.** Rows become columns, and (AB)ᵀ = BᵀAᵀ.
+5. **Inverse.** A⁻¹ exists exactly when det A ≠ 0; for the 2 × 2 case [[a, b], [c, d]]⁻¹ = (1 ÷ (ad − bc)) [[d, −b], [−c, a]].
+
+*Determinant properties.*
+
+6. Swapping two rows changes the sign; a row of zeros or two equal rows gives 0.
+7. Multiplying a row by k multiplies the determinant by k, and det(AB) = det A · det B.
+8. Geometrically |det A| is the factor by which areas (2 × 2) or volumes (3 × 3) are multiplied (Figure 1.1); det = 0 means the transformation squashes space and cannot be undone.
+
+| Property | Rule |
+|---|---|
+| AB versus BA | usually different |
+| (AB)ᵀ | BᵀAᵀ |
+| det(AB) | det A × det B |
+| A invertible | det A ≠ 0 |
+| 2 × 2 inverse | swap diagonal, negate off-diagonal, divide by det |
+
+*Example.* For A = [[3, 1], [1, 2]], det = 5 and A⁻¹ = (1/5)[[2, −1], [−1, 3]]. *Conclusion.* Matrices combine data and transformations; the determinant tells at a glance whether a transformation is reversible.

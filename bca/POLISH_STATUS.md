@@ -107,6 +107,15 @@ Companion handbook (README says the structure is reconstructed; no TU topic list
 - U5 Report/viva: Fig 5.1 report map, Fig 5.2 skills before/after bars, Plate 5.1 (speaker + letter + poster photos); report page budget script (40 pp, ch 4+5 = 40%), skills self-assessment script (2.25 -> 4.00); 12 viva Q&A; 8 habits (5.7); 2 medium + 1 long.
 - Gotchas: square `@ svg` cells inside photogrid need font size >= 12.5 on a 300 px canvas (scale ~0.53) or text drops below 6 pt; always close python fences; heredoc with quoted EOF keeps `\"` literally (run `sed -i 's/\\"/"/g'` on the file); `fill_script_outputs.py` can leave a duplicate trailing fence, check fence count is even.
 
+## BCA 154 mathematics-2 (semester-2/mathematics-2) -- [x] POLISHED (session 18), 34 pp (was 23), qa fails=0
+Math-heavy, so SVG figures and worked answers rather than photographs (no suitable real photo; none claimed).
+- U1: Fig 1.1 determinant as area (det 5 vs singular det 0); 1.5 eight uses of matrices; Q1 (5 marks) adjoint inverse of a 3x3, Q2 (10 marks) matrix operations, determinant properties.
+- U2: Fig 2.1 three line pictures (unique / none / infinite) via Axes; 2.7 eight uses of linear systems; Q1 Gaussian elimination (1,2,3), Q2 rank test + Cramer.
+- U3: Fig 3.1 four subspaces; 3.7 eight uses; Q1 rank/nullity/bases of a 3x3, Q2 independence, basis, dimension, linear maps, kernel/image.
+- U4: Fig 4.1 circle to ellipse with eigen-axes; 4.5 eight uses; Q1 eigen-decomposition of [[2,1],[1,2]] and A^5, Q2 diagonalisation + Markov steady state (5/6, 1/6).
+- U5: Fig 5.1 plane, normal, distance; 5.6 eight uses; Q1 line through two points, Q2 plane through three points, distance 5/7, triangle area 3.5.
+- Every number in the new answers was recomputed with SymPy; `check_math2.py` still prints ALL OK. Not done: no photographs; units 1 to 5 keep their original short Practice answers.
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -118,5 +127,6 @@ Companion handbook (README says the structure is reconstructed; no TU topic list
 - [x] BCA 356 Project III DONE (session 16)
 - [x] BCA 404 Project IV DONE (session 17)
 - [x] BCA 452 Internship DONE (session 18)
-- [ ] (NEXT SESSION STARTS HERE) polish thin core books, in this order: BCA 154 Mathematics II (23 pp), BCA 151 Discrete Structure (34 pp), BCA 153 OOP in Java (41 pp), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
+- [x] BCA 154 Mathematics II polished (session 18, SVG + answers, no photos)
+- [ ] (NEXT SESSION STARTS HERE) polish thin core books, in this order: BCA 151 Discrete Structure (34 pp), BCA 153 OOP in Java (41 pp), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
