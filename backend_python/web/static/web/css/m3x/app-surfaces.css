@@ -54,10 +54,6 @@
 .role-badge { border-radius: 10px; }
 
 /* ---------- footer ---------- */
-.site-footer { background: var(--md-surface-container-low); border-top: 1px solid var(--md-outline-variant); color: var(--md-on-surface-variant); }
-.site-footer-logo, .site-footer-heading { color: var(--md-on-surface); font-family: var(--display); }
-.site-footer a { color: var(--md-on-surface-variant); }
-.site-footer a:hover { color: var(--md-primary); }
 
 /* ---------- selection, focus, tables ---------- */
 ::selection { background: var(--md-primary-container); color: var(--md-on-primary-container); }

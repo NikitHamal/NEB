@@ -136,7 +136,7 @@ a.st-row:hover { background: var(--md-surface-container); text-decoration: none;
   color: var(--md-on-surface-variant);
   line-height: 1.4;
 }
-.st-row > .st-chevron { color: var(--md-outline); flex: none; font-size: 20px; }
+.st-row > .st-chevron { color: var(--md-on-surface-variant); flex: none; font-size: 20px; }
 .st-row .md-switch { flex: none; }
 
 /* A row whose subject is destructive. Only the icon and the title turn: a red

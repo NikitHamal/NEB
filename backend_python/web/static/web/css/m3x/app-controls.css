@@ -1,0 +1,80 @@
+/* m3x app controls: switch, disabled buttons, select, footer, and the two page heroes that used to
+   hard-code their own colours (credits, tools). Everything is a role colour, so a fill and its label
+   can not collapse into one another in either theme. `:root` in front of a selector lifts it over the
+   page stylesheets, which load after this file. */
+
+/* ---------- switch: 52x32 track, thumb grows 16 -> 24 when on and 28 while pressed, a check appears ---------- */
+.md-switch { display: inline-block; flex: none; }
+.md-switch .slider {
+  background: var(--md-surface-container-highest); border: 2px solid var(--md-outline); border-radius: 16px;
+  transition: background-color .25s, border-color .25s;
+}
+.md-switch .slider::before {
+  width: 16px; height: 16px; left: 6px; background: var(--md-outline);
+  transition: transform .45s var(--spring), width .35s var(--spring), height .35s var(--spring), left .35s var(--spring), background-color .2s;
+  transform: translateY(-50%);
+}
+.md-switch .slider::after {
+  content: ""; position: absolute; top: 50%; left: 24px; width: 16px; height: 16px; margin-top: -8px;
+  background: var(--md-primary); opacity: 0; transform: scale(.3);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: opacity .2s, transform .45s var(--spring);
+}
+.md-switch input:checked + .slider { background: var(--md-primary); border-color: var(--md-primary); }
+.md-switch input:checked + .slider::before { width: 24px; height: 24px; left: 20px; transform: translateY(-50%); background: var(--md-on-primary); }
+.md-switch input:checked + .slider::after { opacity: 1; transform: scale(1); }
+.md-switch:active input:not(:disabled) + .slider::before { width: 28px; height: 28px; left: 0; }
+.md-switch:active input:checked:not(:disabled) + .slider::before { left: 16px; }
+.md-switch input:focus-visible + .slider { outline: 2px solid var(--md-primary); outline-offset: 3px; }
+.md-switch input:disabled + .slider { opacity: .38; cursor: not-allowed; }
+
+/* ---------- buttons: a disabled button is still a button, readable, with no alpha-on-alpha ---------- */
+:root :is(.md-btn, button.md-btn):is(:disabled, [disabled], [aria-disabled="true"]) {
+  background: color-mix(in srgb, var(--md-on-surface) 10%, var(--md-surface));
+  color: color-mix(in srgb, var(--md-on-surface) 62%, var(--md-surface));
+  border-color: transparent; cursor: not-allowed; transform: none;
+}
+
+/* ---------- select: one chevron, same field as md-input ---------- */
+select.md-select, select.md-input {
+  -webkit-appearance: none; appearance: none; padding-right: 42px; cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23707a96'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center; background-size: 22px;
+}
+select option { background: var(--md-surface-container-high); color: var(--md-on-surface); }
+
+/* ---------- footer: one tonal capsule, brand on the left, every destination a pill ---------- */
+.site-footer { background: none; border: 0; padding: 28px clamp(12px, 2vw, 16px) 20px; margin-top: 24px; font-size: .8125rem; }
+.site-footer-inner {
+  max-width: 1280px; margin: 0 auto; padding: 14px 14px 14px 20px; text-align: left;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px 28px;
+  background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: var(--md-shape-xxl);
+}
+.site-footer-links { display: flex; flex-wrap: wrap; gap: 4px; }
+.site-footer-links a {
+  padding: 9px 15px; border-radius: 14px; font-weight: 600; color: var(--md-on-surface-variant);
+  transition: border-radius .5s var(--spring), background-color .2s, color .2s, transform .4s var(--spring);
+}
+@media (hover: hover) { .site-footer-links a:hover { border-radius: 20px; background: var(--md-secondary-container); color: var(--md-on-secondary-container); } }
+.site-footer-links a:active { transform: scale(.94); }
+.site-footer-bottom { max-width: 1280px; margin: 12px auto 0; padding: 0; text-align: center; border: 0; }
+.site-footer-bottom p { margin: 0; font-size: .75rem; color: var(--md-on-surface-tertiary); }
+@media (max-width: 768px) {
+  .site-footer { padding-bottom: 96px; }
+  .site-footer-inner { padding: 16px; border-radius: var(--md-shape-xl); }
+}
+
+/* ---------- credits hero: brand ink, white type, balance in a tonal tile ---------- */
+:root .credits-hero { background: var(--ink); color: #fff; border-radius: var(--md-shape-xxl); }
+:root .credits-badge { background: color-mix(in srgb, #fff 14%, transparent); color: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; }
+:root .credits-title { color: #fff; }
+:root .credits-subtitle, :root .credits-balance-sub { color: #dbe5ff; }
+:root .credits-balance-card { background: color-mix(in srgb, #fff 10%, transparent); border-color: color-mix(in srgb, #fff 20%, transparent); border-radius: var(--md-shape-xl); backdrop-filter: none; -webkit-backdrop-filter: none; }
+:root .credits-balance-label { color: #cfdcff; }
+:root .credits-balance-value { color: #fff; }
+:root .credits-whatsapp-btn { background: #0b6b38; color: #fff; }
+
+/* ---------- tools: tags stay in the logo's blue family; the label is always the opposite tone ---------- */
+:root .tools-card-badge { color: var(--tool-on, var(--md-on-primary)); border-radius: 10px; }
+:root .tools-card--green, :root .tools-card--purple { --tool-on: var(--md-surface); }
