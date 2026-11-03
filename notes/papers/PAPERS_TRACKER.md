@@ -49,7 +49,7 @@ Variants per year: General stream (regular + partial), Technical stream, partial
 |---|---|---|---|---|
 | 12 | Physics | 2082 | General | DONE (11 pp, MCQ key + all solutions) |
 | 12 | Chemistry | 2082 | General | DONE (10 pp, MCQ key + all solutions, 2 drawn figures) |
-| 12 | Biology | 2082 | General | sources fetched, not authored |
+| 12 | Biology | 2082 | General | DONE (11 pp, MCQ key + all solutions). Figures are schematic redraws and need an artist/teacher pass; Q20 ear labels A-D (canals, ampulla, utricle, cochlea) were read from a small low-detail figure |
 | 12 | Mathematics | 2082 | Set R (regular 81 / partial 80) | DONE (8 pp, MCQ key + all solutions, simplex tableau) |
 | 12 | Computer Science | 2082 | Regular + Partial | DONE (7 pp, MCQ key + all solutions) |
 | 12 | Compulsory English | 2082 | Regular / Partial | queued |
@@ -70,3 +70,10 @@ library filter on `/app/past-papers/` (`default_type="Past Paper"`) lists them o
 ## Integrity notes
 - Every paper must be checked against its page images before it is marked DONE; the answer keys are ours and must be re-derived.
 - Where the printed figure cannot be read with certainty the solution states its assumption (e.g. Physics 2082 Q20c: two nodes read as the second harmonic).
+
+## Session log
+- Session 1 (this branch, `resources/past-papers-class12`): pipeline + 5 Grade 12 papers (Physics, Chemistry, Computer Science, Mathematics, Biology; all 2082 BS, General/Set R). 4 of the 5 were rebuilt in a fresh clone of the branch (`build_paper.py --all`); the Biology PDF was built after that and pushed in the last commit.
+- Next session, in this order: (1) Compulsory English 2082 (Regular and Partial: two papers), (2) Compulsory Nepali 2082, (3) the 2081 and 2080 papers of Physics, Chemistry, Biology, Mathematics, Computer Science, English, Nepali (each paper page lists the 2081/2080 siblings), (4) the Technical-stream papers (Physics 9131, Chemistry 9111, Biology 9101, Mathematics 9121), (5) Management / Humanities papers, then Grade 11, 10, 8.
+- Not done and not claimed: nothing is uploaded to the live Library. Each PDF has a record in `manifest.json` waiting for an admin upload; until then `/app/past-papers/` stays empty.
+- Known weak spots to improve: biology/physics figures are simple matplotlib redraws; MCQ keys are our own derivations and have had no teacher review; Physics 2082 Q15b and Q19a(ii) state their assumptions in the solution.
+- Other sets/variants of 2082 not yet built: Mathematics has further sets besides Set R (the board prints several sets per year); look for them on the aggregator's year pages and add them as `12-math-<year>-set-<x>`.
