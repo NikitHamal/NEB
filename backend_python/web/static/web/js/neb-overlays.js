@@ -113,6 +113,25 @@
     }
   }
 
+  /* A fixed overlay is only fixed to the window while no ancestor has a
+   * transform, a filter or paint containment -- any of those makes the ancestor
+   * the containing block, and the "fixed" scrim becomes as tall as the page with
+   * its sheet parked far below the fold. The page-enter spring animates main, so
+   * an overlay opened while that is still running (or in a browser where the
+   * animation never advances) hits exactly this. Lifting the scrim to body is
+   * only done in that case: the normal path leaves the markup where it is. */
+  function liftToBody(el) {
+    if (el.parentElement === document.body) return;
+    for (var n = el.parentElement; n && n !== document.body; n = n.parentElement) {
+      var cs = getComputedStyle(n);
+      if (cs.transform !== 'none' || cs.filter !== 'none' || cs.perspective !== 'none' ||
+          /paint|layout|strict|content/.test(cs.contain)) {
+        document.body.appendChild(el);
+        return;
+      }
+    }
+  }
+
   function open(idOrEl, opts) {
     var el = typeof idOrEl === 'string' ? document.getElementById(idOrEl) : idOrEl;
     if (!el || !el.classList.contains('neb-scrim')) return null;
@@ -122,6 +141,7 @@
     var entry = { el: el, restore: document.activeElement, opts: opts || {} };
     stack.push(entry);
     lockScroll();
+    liftToBody(el);
     el.hidden = false;
     el.setAttribute('aria-hidden', 'false');
     /* Now that it has layout, anything that had to be measured can be. */
