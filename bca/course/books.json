@@ -303,5 +303,13 @@
   "credits": 3,
   "accent": "#7C3AED",
   "status": "done"
+ },
+ "semester-6/project-3": {
+  "name": "Project III",
+  "code": "BCA 356",
+  "semester": 6,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }

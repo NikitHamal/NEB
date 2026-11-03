@@ -77,6 +77,16 @@ Companion handbook (README says the structure is reconstructed; no TU topic list
 - Gotchas: `Fig.arrow` takes a list of points (`f.arrow([(x1,y1),(x2,y2)], color=)`), not four numbers; literal `<role>` in prose is stripped as HTML (use square brackets); the Unit 2 API deliberately has no login (Unit 3 adds it conceptually; routes table in 5.2 shows the protected version).
 - Not done: Unit 2 has no photo; Unit 3 login/hash code is not wired into the Unit 2 server (separate self-contained demos).
 
+## BCA 356 project-3 (semester-6/project-3) -- [x] DONE (session 16)
+Companion handbook (README says the structure is reconstructed; no TU topic list). Running example **KhetSense** (invented soil-moisture and weather monitor for a hill-farm cooperative; ESP32 nodes, MQTT-style messages, SQLite analysis, Android offline-first client), different from CampusShelf (Project I) and ClinicQ (Project II). 5 units.
+- Photos (bca356/, licence-gated, all viewed): esp32, rpi, uno, soil, dht22, drip, terrace, phone.
+- U1 Scope/architecture: Fig 1.1 four-layer IoT, Plate 1.1 (3-up ESP32/Pi/Uno), Plate 1.2 (3-up soil probe/DHT22/drip); BOM script (v1 Rs 34,900 over budget, v2 Rs 26,700); 8 reasons sensor projects fail (1.6); 2 medium + 1 long.
+- U2 Sensors/data path: Plate 2.1 (ESP32 photo + wiring SVG), Fig 2.1 calibration plot (Axes); calibration, median filter, QoS0 vs QoS1 loss simulation and battery scripts all executed; 8 rules (2.6); 2 medium + 1 long.
+- U3 Storage/analysis: Fig 3.1 pipeline, Plate 3.1 (terrace photo + advice bands SVG); SQLite constraints script, MAD cleaning, anomaly rules, drying-curve forecast vs persistence (executed); 8 uses (3.7); 2 medium + 1 long.
+- U4 Mobile client: Plate 4.1 (phone photo + 2 wireframe SVGs), Fig 4.1 sync sequence; offline-first sync simulation, stale-label tests (executed); 8 features (4.7); 2 medium + 1 long.
+- U5 Field test/report/viva: Fig 5.1 report map, Plate 5.1 (Pi photo + demo timeline SVG); field-test PASS/FAIL table script (O1 honestly FAILS), report page budget; 12 viva Q&A, illustrative rubric, 8 habits (5.7); 2 medium + 1 long.
+- Gotchas: python fences need a closing ``` (an unclosed fence swallows the unit); no `fill_script_outputs` problems since every block is self-contained; numbers in prose were copied from real runs (seeded, so re-runs match). Calibration figure is drawn with ideal positions (caption says so). No unit-5 real field photo exists (no real deployment).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
@@ -85,5 +95,6 @@ Companion handbook (README says the structure is reconstructed; no TU topic list
 - [x] professional-communication-ethics (BCA 105) DONE (session 13)
 - [x] BCA 256 Project I DONE (session 14)
 - [x] BCA 306 Project II DONE (session 15)
-- [ ] (NEXT SESSION STARTS HERE) BCA 356 Project III (semester-6/project-3; handbook with a third running example, e.g. a mobile/IoT or data-driven system: Android or Flutter client, sensor data, ML or analytics; books.json code BCA 356, 3 credits)
+- [x] BCA 356 Project III DONE (session 16)
+- [ ] (NEXT SESSION STARTS HERE) BCA 404 Project IV (semester-7/project-4; books.json code BCA 404, 3 credits; handbook with a fourth running example, e.g. an AI/data-science or enterprise system with deployment and a final-defence focus), then BCA 452 Internship handbook
 - [ ] remaining non-core slots (BCA 356, 404 projects, 402 SPM if not a core book, 452 internship, 4 electives), then polish semesters II-VIII one book at a time
