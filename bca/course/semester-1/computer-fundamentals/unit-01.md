@@ -465,6 +465,49 @@ The hierarchy works because of **locality of reference**: a program tends to reu
 
 **Secondary memory** keeps data permanently. A **hard disk** stores bits on magnetised platters in tracks and sectors, read by a moving head; capacity is platters × surfaces × tracks × sectors × bytes per sector. An **SSD** has no moving parts (NAND flash), so it is faster, silent and shock-resistant. **Optical discs** (CD about 700 MB, DVD 4.7 GB, Blu-ray 25 GB per layer) are read by laser. **Magnetic tape** is sequential and used for cheap, long-term backup.
 
+```photogrid label="1.4" cols="2" ratio="2.4" caption="Memory and flash storage from fast to slow: (a) an SRAM chip (cache-type memory), (b) a DDR4 DRAM module (main memory), (c) a Samsung NVMe M.2 SSD, (d) a USB pen drive (flash)."
+@ photo id="bca101/sram" cap="SRAM: Hyundai HY6116, 2 KB, six transistors per bit"
+fit 2.4
+call 0.55 0.90 0.60 0.62 "Static RAM chip (DIP)"
+call 0.38 0.10 0.30 0.30 "Pins soldered to board"
+@ photo id="bca101/ram" cap="DRAM: a DDR4 DIMM (G.Skill Ripjaws V)"
+crop 0.08 0.0 0.92 1.0
+fit 2.4
+call 0.50 0.93 0.50 0.62 "DRAM chips under the heat spreader"
+call 0.55 0.08 0.58 0.22 "Gold contacts"
+@ photo id="bca101/nvme" cap="SSD: Samsung 980 PRO, 1 TB, PCIe 4.0 x4"
+fit 2.4
+focus 0.55 0.5
+call 0.45 0.10 0.50 0.35 "Controller + NAND chips"
+call 0.65 0.90 0.88 0.50 "M.2 connector (key M)"
+@ photo id="bca101/pendrive" cap="Pen drive: USB flash, 32 GB"
+fit 2.4
+call 0.45 0.10 0.45 0.40 "Flash chip inside"
+call 0.62 0.90 0.72 0.65 "USB-A connector"
+```
+
+```photogrid label="1.5" cols="3" ratio="1.1" caption="Magnetic and optical storage: (a) an opened hard disk with its platter, spindle and actuator; (b) a removed actuator arm with the read/write head; (c) a DVD, whose rainbow sheen comes from its closely spaced data track."
+@ photo id="bca101/hdd-platter" cap="Opened 2.5-inch hard disk"
+fit 1.1
+mark 0.55 0.64 "1"
+mark 0.25 0.60 "2"
+mark 0.18 0.28 "3"
+mark 0.45 0.28 "4"
+key 1 Platter and spindle motor
+key 2 Actuator arm pivot
+key 3 Voice-coil magnet (moves the arm)
+key 4 Base casting that holds all parts
+@ photo id="bca101/hdd-arm" cap="Actuator arm and head"
+fit 1.1
+call 0.30 0.88 0.16 0.38 "Read/write head on slider"
+call 0.65 0.08 0.60 0.44 "Arm assembly"
+call 0.35 0.18 0.30 0.55 "Flex cable"
+@ photo id="bca101/dvd" cap="DVD: one spiral track of pits and lands"
+fit 1.1
+call 0.50 0.93 0.50 0.50 "Clamping hub / centre hole"
+call 0.50 0.08 0.40 0.30 "Data layer (laser)"
+```
+
 ```svgfig label="1.6" caption="Hard disk geometry: platters, tracks, sectors, heads and cylinders."
 import math
 f = Fig(760, 340)

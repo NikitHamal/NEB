@@ -20,6 +20,6 @@ $PY bca/tools/gen_status.py 2>&1 | tail -2
 cat $d/unit-*.md | wc -w
 git add -A bca AGENTS.md
 if git diff --cached | grep -qE 'ghp_[A-Za-z0-9]{20,}'; then echo "TOKEN LEAK"; exit 4; fi
-git -c user.name="NEBians" -c user.email="iamnikithamal@gmail.com" commit -q -m "$msg"
+git -c user.name="NikitHamal" -c user.email="iamnikithamal@gmail.com" commit -q -m "$msg"
 git push -q origin claude/bca-entrance-complete 2>&1 | tail -2
 git ls-remote origin claude/bca-entrance-complete; git log --oneline | head -1
