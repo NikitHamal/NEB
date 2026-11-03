@@ -49,13 +49,6 @@ impl<T: Send + 'static> Lazy<T> {
         }
     }
 
-    pub fn peek(&self, key: &str) -> Option<Arc<T>> {
-        match self.slots.get(key) {
-            Some(Slot::Ready(v)) => Some(v.clone()),
-            _ => None,
-        }
-    }
-
     pub fn forget(&mut self, key: &str) {
         self.slots.remove(key);
     }

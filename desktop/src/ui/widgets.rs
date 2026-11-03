@@ -19,7 +19,7 @@ pub enum BtnKind {
 }
 
 fn focus_ring(ui: &Ui, th: &Theme, rect: Rect, rounding: f32) {
-    ui.painter().rect_stroke(rect.expand(2.5), Rounding::same(rounding + 2.5), Stroke::new(2.0, th.p.accent));
+    ui.painter().rect_stroke(rect.expand(2.5), Rounding::same(rounding + 2.5), Stroke::new(2.0_f32, th.p.accent));
 }
 
 /// Non-selectable label (safe to put inside clickable cards).
@@ -53,8 +53,8 @@ pub fn button_sized(ui: &mut Ui, th: &Theme, text: &str, kind: BtnKind, icon: Op
     let icon_w = if icon.is_some() { 30.0 } else { 0.0 };
     let w = width.unwrap_or(galley.size().x + icon_w + 48.0);
     let (rect, resp) = ui.allocate_exact_size(vec2(w, h), Sense::click());
-    let hover = ui.ctx().animate_bool_with_time(resp.id.with("hover"), resp.hovered() && enabled, 0.12);
-    let press = ui.ctx().animate_bool_with_time(resp.id.with("press"), resp.is_pointer_button_down_on() && enabled, 0.09);
+    let hover = crate::theme::motion::spring_bool(ui.ctx(), resp.id.with("hover"), resp.hovered() && enabled, crate::theme::motion::FAST).clamp(0.0, 1.0);
+    let press = crate::theme::motion::spring_bool(ui.ctx(), resp.id.with("press"), resp.is_pointer_button_down_on() && enabled, crate::theme::motion::FAST).clamp(0.0, 1.3);
     let p = &th.p;
     let (bg, fg, border) = match kind {
         BtnKind::Primary => (p.accent, p.on_accent, Color32::TRANSPARENT),
@@ -63,17 +63,19 @@ pub fn button_sized(ui: &mut Ui, th: &Theme, text: &str, kind: BtnKind, icon: Op
         BtnKind::Ghost => (Color32::TRANSPARENT, p.accent, Color32::TRANSPARENT),
         BtnKind::Danger => (p.danger_soft, if th.dark { p.on_accent_soft } else { p.danger }, Color32::TRANSPARENT),
     };
+    // M3 disabled: neutral container at 12%, content at 38% (never a faded brand colour)
+    let (bg, fg) = if !enabled && bg != Color32::TRANSPARENT { (p.ink.gamma_multiply(0.12), p.ink.gamma_multiply(0.38)) } else { (bg, fg) };
     // state layer: fg at 8% (hover) / 12% (press) over the container
     let layer = fg.gamma_multiply(0.08 * hover + 0.06 * press);
     let radius = lerp(h / 2.0, spacing::PRESSED_RADIUS, press);
-    let fade = if enabled { 1.0 } else { 0.38 };
+    let fade = if enabled { 1.0 } else if bg == Color32::TRANSPARENT { 0.38 } else { 1.0 };
     let r = rect;
     if bg != Color32::TRANSPARENT {
         ui.painter().rect_filled(r, Rounding::same(radius), bg.gamma_multiply(fade));
     }
     ui.painter().rect_filled(r, Rounding::same(radius), layer);
     if border != Color32::TRANSPARENT {
-        ui.painter().rect_stroke(r, Rounding::same(radius), Stroke::new(1.0, border.gamma_multiply(fade)));
+        ui.painter().rect_stroke(r, Rounding::same(radius), Stroke::new(1.0_f32, border.gamma_multiply(fade)));
     }
     if resp.has_focus() {
         focus_ring(ui, th, r, radius);
@@ -136,7 +138,7 @@ pub fn chip(ui: &mut Ui, th: &Theme, text: &str, selected: bool) -> Response {
     ui.painter().rect_filled(rect, Rounding::same(radius), fill);
     ui.painter().rect_filled(rect, Rounding::same(radius), fg.gamma_multiply(0.08 * hover));
     if !selected {
-        ui.painter().rect_stroke(rect, Rounding::same(radius), Stroke::new(1.0, p.hairline_strong));
+        ui.painter().rect_stroke(rect, Rounding::same(radius), Stroke::new(1.0_f32, p.hairline_strong));
     }
     if resp.has_focus() {
         focus_ring(ui, th, rect, radius);
@@ -168,7 +170,7 @@ pub fn card(ui: &mut Ui, th: &Theme, size: Vec2, pad: f32, contents: impl FnOnce
     let hover = ui.ctx().animate_bool_with_time(resp.id.with("hover"), resp.hovered(), 0.12);
     let fill = crate::theme::mix(th.p.card, th.p.field, hover * 0.8);
     let border = crate::theme::mix(th.p.hairline, th.p.hairline_strong, hover);
-    ui.painter().rect(rect, Rounding::same(spacing::CARD_RADIUS), fill, Stroke::new(1.0, border));
+    ui.painter().rect(rect, Rounding::same(spacing::CARD_RADIUS), fill, Stroke::new(1.0_f32, border));
     if resp.has_focus() {
         focus_ring(ui, th, rect, spacing::CARD_RADIUS);
     }
@@ -186,7 +188,7 @@ pub fn card(ui: &mut Ui, th: &Theme, size: Vec2, pad: f32, contents: impl FnOnce
 pub fn panel_frame(th: &Theme) -> egui::Frame {
     egui::Frame::none()
         .fill(th.p.card)
-        .stroke(Stroke::new(1.0, th.p.hairline))
+        .stroke(Stroke::new(1.0_f32, th.p.hairline))
         .rounding(Rounding::same(spacing::CARD_RADIUS))
         .inner_margin(egui::Margin::same(20.0))
 }
@@ -339,7 +341,7 @@ pub fn text_field(ui: &mut Ui, th: &Theme, text: &mut String, hint: &str, icon: 
     let hover = ui.rect_contains_pointer(rect);
     let bg = if focused { th.p.card } else { crate::theme::mix(th.p.field, th.p.ink, if hover { 0.04 } else { 0.0 }) };
     let border = if focused { th.p.accent } else { Color32::TRANSPARENT };
-    ui.painter().rect(rect, Rounding::same(spacing::PILL), bg, Stroke::new(if focused { 2.0 } else { 1.0 }, border));
+    ui.painter().rect(rect, Rounding::same(spacing::PILL), bg, Stroke::new(if focused { 2.0 } else { 1.0_f32 }, border));
     if ui.interact(rect, id.with("bg"), Sense::click()).clicked() {
         ui.memory_mut(|m| m.request_focus(edit_id));
     }
@@ -376,7 +378,7 @@ pub fn field(ui: &mut Ui, th: &Theme, text: &mut String, label: &str, icon: Opti
     let border = if error { p.danger } else if focused { p.accent } else { p.hairline_strong };
     let fill = if focused { p.card } else { p.field };
     // 1. background
-    ui.painter().rect(rect, Rounding::same(18.0), fill, Stroke::new(if focused || error { 2.0 } else { 1.0 }, border));
+    ui.painter().rect(rect, Rounding::same(18.0), fill, Stroke::new(if focused || error { 2.0 } else { 1.0_f32 }, border));
     if ui.interact(rect, id.with("bg"), Sense::click()).clicked() {
         ui.memory_mut(|m| m.request_focus(edit_id));
     }
@@ -420,13 +422,8 @@ pub fn field(ui: &mut Ui, th: &Theme, text: &mut String, label: &str, icon: Opti
 }
 
 /// Back-arrow + two-line title, the "house screen" header used by Android screens.
-pub fn screen_header(ui: &mut Ui, th: &Theme, title: &str, subtitle: Option<&str>) {
-    ui.vertical(|ui| {
-        heading(ui, th, title, 26.0);
-        if let Some(s) = subtitle {
-            ui.add(Label::new(RichText::new(s).color(th.p.ink_muted)));
-        }
-    });
+pub fn screen_header(ui: &mut Ui, th: &Theme, title: &str) {
+    heading(ui, th, title, 26.0);
     ui.add_space(18.0);
 }
 
@@ -439,7 +436,7 @@ pub fn provider_button(ui: &mut Ui, th: &Theme, text: &str, uri: &'static str, s
     let radius = lerp(h / 2.0, spacing::PRESSED_RADIUS, press);
     ui.painter().rect_filled(rect, Rounding::same(radius), th.p.card);
     ui.painter().rect_filled(rect, Rounding::same(radius), th.p.ink.gamma_multiply(0.06 * hover + 0.06 * press));
-    ui.painter().rect_stroke(rect, Rounding::same(radius), Stroke::new(1.0, th.p.hairline_strong));
+    ui.painter().rect_stroke(rect, Rounding::same(radius), Stroke::new(1.0_f32, th.p.hairline_strong));
     if resp.has_focus() {
         focus_ring(ui, th, rect, radius);
     }
@@ -461,8 +458,8 @@ pub fn or_divider(ui: &mut Ui, th: &Theme, text: &str, width: f32) {
     let g = ui.painter().layout_no_wrap(text.to_owned(), fonts::regular(13.0), th.p.ink_faint);
     let gw = g.size().x;
     let y = rect.center().y;
-    ui.painter().line_segment([egui::pos2(rect.min.x, y), egui::pos2(rect.center().x - gw / 2.0 - 12.0, y)], Stroke::new(1.0, th.p.hairline_strong));
-    ui.painter().line_segment([egui::pos2(rect.center().x + gw / 2.0 + 12.0, y), egui::pos2(rect.max.x, y)], Stroke::new(1.0, th.p.hairline_strong));
+    ui.painter().line_segment([egui::pos2(rect.min.x, y), egui::pos2(rect.center().x - gw / 2.0 - 12.0, y)], Stroke::new(1.0_f32, th.p.hairline_strong));
+    ui.painter().line_segment([egui::pos2(rect.center().x + gw / 2.0 + 12.0, y), egui::pos2(rect.max.x, y)], Stroke::new(1.0_f32, th.p.hairline_strong));
     ui.painter().galley(egui::pos2(rect.center().x - gw / 2.0, y - g.size().y / 2.0), g, th.p.ink_faint);
 }
 
@@ -479,7 +476,7 @@ pub fn text_area(ui: &mut Ui, th: &Theme, text: &mut String, hint: &str, width: 
     let focused = ui.memory(|m| m.has_focus(id));
     let frame = egui::Frame::none()
         .fill(if focused { th.p.card } else { th.p.field })
-        .stroke(Stroke::new(if focused { 2.0 } else { 1.0 }, if focused { th.p.accent } else { th.p.hairline_strong }))
+        .stroke(Stroke::new(if focused { 2.0 } else { 1.0_f32 }, if focused { th.p.accent } else { th.p.hairline_strong }))
         .rounding(Rounding::same(18.0))
         .inner_margin(egui::Margin::symmetric(16.0, 12.0));
     frame

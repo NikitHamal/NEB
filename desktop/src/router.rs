@@ -1,9 +1,27 @@
 //! Screen routing with a back/forward history, mirroring Android's NavHost.
 use crate::data::models::ChapterRef;
 
+/// Sections of the in-app account centre.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, Default)]
+pub enum AccountTab {
+    #[default]
+    Profile,
+    Security,
+    Privacy,
+    Delete,
+}
+
+impl AccountTab {
+    pub const ALL: [AccountTab; 4] = [AccountTab::Profile, AccountTab::Security, AccountTab::Privacy, AccountTab::Delete];
+    pub fn index(self) -> usize {
+        Self::ALL.iter().position(|t| *t == self).unwrap_or(0)
+    }
+}
+
 #[derive(Clone, Debug, PartialEq)]
 pub enum Route {
     Splash,
+    Intro,
     Login,
     EmailAuth,
     Onboarding,
@@ -12,12 +30,15 @@ pub enum Route {
     Category(String),
     Subject { track: String, subject: String },
     Reader(ChapterRef),
+    /// In-app PDF viewer for a downloaded book.
+    Pdf(std::path::PathBuf),
     Search,
     Bookmarks,
     Downloads,
     History,
     Help,
     Legal(String),
+    Account(AccountTab),
     Books,
     People,
     User(String),
@@ -34,7 +55,7 @@ impl Route {
     /// Routes that show the app shell (menu + navigation). Splash and the
     /// sign-in journey run full-bleed, like on Android.
     pub fn has_shell(&self) -> bool {
-        !matches!(self, Route::Splash | Route::Login | Route::EmailAuth | Route::Onboarding | Route::CompleteProfile)
+        !matches!(self, Route::Splash | Route::Intro | Route::Login | Route::EmailAuth | Route::Onboarding | Route::CompleteProfile)
     }
 
     /// Which top-level destination should be highlighted.
@@ -42,9 +63,10 @@ impl Route {
         match self {
             Route::Library | Route::Category(_) | Route::Subject { .. } | Route::Reader(_) => Route::Library,
             Route::Community | Route::Post(_) | Route::User(_) => Route::Community,
-            Route::Profile => Route::Profile,
+            Route::Profile | Route::Account(_) => Route::Profile,
             Route::About | Route::Help | Route::Legal(_) => Route::Settings,
             Route::History => Route::Bookmarks,
+            Route::Pdf(_) => Route::Books,
             other => other.clone(),
         }
     }
@@ -86,13 +108,6 @@ impl Router {
         self.current = to;
         self.back.clear();
         self.forward.clear();
-    }
-
-    pub fn can_back(&self) -> bool {
-        !self.back.is_empty()
-    }
-    pub fn can_forward(&self) -> bool {
-        !self.forward.is_empty()
     }
 
     pub fn back(&mut self) -> bool {

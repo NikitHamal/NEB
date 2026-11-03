@@ -36,7 +36,4 @@ impl<T: Send + 'static> Task<T> {
         }
     }
 
-    pub fn is_running(&self) -> bool {
-        !self.finished
-    }
 }

@@ -10,7 +10,7 @@ use crate::ui::widgets::{self, BtnKind};
 pub fn show(ui: &mut Ui, env: &mut Env) {
     scroll_page(ui, env, "bookmarks", |ui, env| {
         let th = env.theme.clone();
-        widgets::screen_header(ui, &th, "Bookmarks", Some("Chapters you saved. Press Ctrl+B in the reader to save one."));
+        widgets::screen_header(ui, &th, "Bookmarks");
         let items = env.store.s.bookmarks.clone();
         if items.is_empty() {
             widgets::empty_state(ui, &th, Icon::Bookmark, "No bookmarks yet", "Open a chapter and tap the bookmark icon.");

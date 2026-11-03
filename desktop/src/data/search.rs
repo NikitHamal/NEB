@@ -24,6 +24,7 @@ pub struct SearchHit {
     pub chapter: Option<ChapterRef>,
     pub title: String,
     pub snippet: String,
+    #[allow(dead_code)]
     pub score: i32,
 }
 
