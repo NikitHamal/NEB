@@ -323,7 +323,8 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] BCA 355 Distributed System polished (session 30, 54 -> 86 pp)
 - [x] BCA 252 Software Engineering polished (session 31, 54 -> 103 pp)
 - [x] BCA 156 Principles of Management polished (session 32, 50 -> 83 pp)
-- [~] DBMS (BCA 202, session 33, IN PROGRESS: units 1-7 done, NEXT SESSION STARTS AT UNIT 8 Query processing and security; see section below), then the rest of Semesters II-VIII.
+- [x] DBMS (BCA 202, session 33) DONE, 100 pp.
+- [~] Data Structure and Algorithms (BCA 201, session 34, IN PROGRESS, see section at the end).
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
 
 
@@ -375,3 +376,12 @@ Section numbering: new section "N.K Seeing the ideas" is inserted before the fir
 - [x] U7 Procedures/triggers/indexing: Plate 7.1 (catalogue/HDD arm/platter 3-up), Fig 7.1 real EXPLAIN BUFFERS (735 vs 3 blocks on 100,000 rows), 7.2 B+ tree, 7.3 trigger firing, 7.4 round trips; 7.5.1 eight reasons; Q1-Q2, Q3 (10 marks).
 - [x] U8 Query processing + security: Plate 8.1 (tape library/HSM/padlock 3-up), Fig 8.1 three stages, 8.2 join costs on a log scale (10,000,400 vs 1,400), 8.3 defence in depth, 8.4 DAC (real PostgreSQL permission-denied tests) vs MAC, 8.5 symmetric/asymmetric/hash (SHA-256 values computed with hashlib); 8.11.1 eight DBA responsibilities; Q1-Q2, Q3 (10 marks).
 - [x] U9 Transactions: Plate 9.1 (Jim Gray/ATM/booking counter 3-up), Fig 9.1 log + crash, 9.2 lost update with and without lock, 9.3 precedence and wait-for graphs, 9.4 2PL and timestamp example; 9.9.1 eight benefits of ACID; Q1-Q2, Q3 (10 marks). Note: the deadlock text is standard theory, not a captured server message (the live two-session test did not reproduce one).
+
+## BCA 201 data-structure-and-algorithms (semester-3/data-structure-and-algorithms) -- [~] IN PROGRESS (session 34)
+15 licence-gated `bca201/` photos fetched and viewed: euclid (papyrus), knuth, plates, queue, hanoi (magnetic toy), hoare, sorter (IBM 082), mail (pigeonholes), konigsberg (Merian map), dijkstra, ringroad (Kathmandu), adelson, nautilus, chain (coupling), janakpur (Nepal Railway coach). Unused so far (reserved): hanoi U6, nautilus U6, chain+janakpur U5, hoare+sorter U8, mail U9, konigsberg+dijkstra+ringroad U10, adelson U7, euclid reused in U11 if wanted. Reuse bca202/catalog (used U4).
+Section naming: new "N.K Seeing the ideas" before the first of "Formula and fact sheet"/"Chapter summary"; eight-point list N.K.1; model answers "## Model answers (5 and 10 marks)" (Q1-Q2 5 marks 180-250 words, Q3 10 marks 350-500 words). Helpers /tmp/ins2.py, /tmp/view.py, /tmp/wc.py are recreated from AGENTS.md session 34 notes.
+- [x] U1 Intro: Plate 1.1 (Euclid papyrus + Knuth), Fig 1.1 classification tree, 1.2 ADT interface vs implementation, 1.3 growth of cost (log scale, n = 1,000,000); 1.6.1 eight applications; Q1-Q2, Q3.
+- [x] U2 Stack: Plate 2.1 (plates photo + array stack SVG), Fig 2.1 postfix evaluation of 8 2 + 3 * 6 2 / - = 27, 2.2 bracket matching; 2.7.1 eight applications; Q1, Q2 (A+B*(C-D)/E = 14), Q3.
+- [x] U3 Queue: Plate 3.1 (ticket queue + circular queue SVG), Fig 3.1 false overflow, 3.2 priority queue and deque; 3.5.1 eight applications; Q1-Q3.
+- [x] U4 List: Plate 4.1 (bca202/catalog + insert-shift SVG), Fig 4.1 shifts by position (n=6, average 3), 4.2 static vs dynamic; 4.5.1 eight applications; Q1-Q3.
+- [ ] U5 Linked lists (photos chain, janakpur), U6 Recursion (hanoi, nautilus), U7 Trees (adelson), U8 Sorting (hoare, sorter), U9 Searching/hashing (mail), U10 Graphs (konigsberg, dijkstra, ringroad), U11 Algorithms (euclid reuse).
