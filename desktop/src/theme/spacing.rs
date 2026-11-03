@@ -2,7 +2,6 @@
 //! pills 999.
 /// The web scale (`--md-shape-*`): 8 / 12 / 16 / 24 / 32 / 44, pill = 28 (finite on purpose so a
 /// spring overshoot never collapses a pill to a square).
-pub const SHAPE_XS: f32 = 8.0;
 pub const SHAPE_SM: f32 = 12.0;
 pub const SHAPE_MD: f32 = 16.0;
 pub const SHAPE_LG: f32 = 24.0;

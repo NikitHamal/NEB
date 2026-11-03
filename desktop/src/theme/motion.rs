@@ -94,6 +94,3 @@ pub fn reset_enter(ctx: &Context, id: Id) {
     ctx.data_mut(|d| d.remove::<f64>(id));
 }
 
-pub fn lerp(a: f32, b: f32, t: f32) -> f32 {
-    a + (b - a) * t
-}

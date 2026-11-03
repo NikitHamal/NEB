@@ -10,14 +10,13 @@ pub enum Action {
     Back,
     Forward,
     ToggleDark,
-    ZoomIn,
-    ZoomOut,
-    ZoomReset,
     Fullscreen,
     ShowShortcuts,
-    OpenUrl(String),
+    /// Open the in-app Privacy / Terms sheet (works before sign-in).
+    ShowLegal(String),
+    /// Copy a link or address to the clipboard.
+    Copy(String),
     OpenPath(std::path::PathBuf),
-    Toast(String),
     SignOut,
     ResetAll,
     ReloadContent,

@@ -1,7 +1,7 @@
 //! The theme button: one component for every screen, same look and motion as the website's
 //! `.theme-btn` (44px, radius 22 -> 15 on hover -> 13 + scale .9 on press; the sun spins out as
 //! the moon spins in on a spring).
-use egui::{pos2, vec2, Color32, CursorIcon, Painter, Pos2, Rect, Response, Rounding, Sense, Shape, Stroke, Ui};
+use egui::{pos2, vec2, Color32, CursorIcon, Painter, Pos2, Rect, Response, Rounding, Sense, Stroke, Ui};
 
 use crate::theme::{motion, Theme};
 
@@ -10,7 +10,7 @@ fn sun(p: &Painter, c: Pos2, rot: f32, scale: f32, alpha: f32, col: Color32) {
         return;
     }
     let col = col.gamma_multiply(alpha.clamp(0.0, 1.0));
-    let st = Stroke::new(2.0, col);
+    let st = Stroke::new(2.0_f32, col);
     p.circle_stroke(c, 4.0 * scale, st);
     for i in 0..8 {
         let a = rot + i as f32 * std::f32::consts::FRAC_PI_4;
@@ -45,7 +45,7 @@ pub fn paint(ui: &Ui, th: &Theme, rect: Rect, resp: &Response) {
     let bg = crate::theme::mix(th.p.surface_high, th.p.surface_highest, hover);
     ui.painter().rect_filled(r, Rounding::same(radius), bg);
     if resp.has_focus() {
-        ui.painter().rect_stroke(r.expand(2.5), Rounding::same(radius + 2.5), Stroke::new(2.0, th.p.accent));
+        ui.painter().rect_stroke(r.expand(2.5), Rounding::same(radius + 2.5), Stroke::new(2.0_f32, th.p.accent));
     }
     let c = r.center();
     let tau = std::f32::consts::TAU;

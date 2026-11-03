@@ -1,5 +1,6 @@
 //! Reusable widgets: icons, buttons, cards, navigation, menu bar, toasts.
 pub mod avatar;
+pub mod dialog;
 pub mod icons;
 pub mod logo;
 pub mod remote_image;
@@ -7,6 +8,7 @@ pub mod nav;
 pub mod shapes;
 pub mod shapes_data;
 pub mod shortcuts;
+pub mod tabs;
 pub mod theme_toggle;
 pub mod toast;
 pub mod widgets;

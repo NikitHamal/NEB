@@ -25,7 +25,7 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut DownloadsState) {
     }
     scroll_page(ui, env, "downloads", |ui, env| {
         let th = env.theme.clone();
-        widgets::screen_header(ui, &th, "Offline library", Some("Save subjects and books to read without a connection."));
+        widgets::screen_header(ui, &th, "Offline library");
 
         widgets::panel_frame(&th).show(ui, |ui| {
             ui.set_width(ui.available_width());

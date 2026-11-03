@@ -429,7 +429,7 @@ fn reader(ui: &mut Ui, th: &Theme, st: &mut PdfState, eng: &mut PdfEngine, rect:
                             ui.ctx().request_repaint();
                         }
                     }
-                    ui.painter().rect_stroke(r, 0.0, Stroke::new(1.0, th.p.hairline));
+                    ui.painter().rect_stroke(r, 0.0, Stroke::new(1.0_f32, th.p.hairline));
                 }
                 vp
             })

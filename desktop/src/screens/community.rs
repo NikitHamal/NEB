@@ -1,5 +1,6 @@
 //! Community — the forum feed from the live API (`api/posts/`), a thread view with replies,
-//! likes, bookmarks, and a composer. Guests can read; signing in unlocks writing.
+//! likes, bookmarks, and a composer.
+#![allow(dead_code)] // wire/icon sets mirror the server and Material font in full
 use egui::{vec2, Align, Align2, Layout, RichText, Rounding, Sense, Stroke, Ui};
 use serde_json::{json, Value};
 
@@ -297,7 +298,7 @@ fn post_card(ui: &mut Ui, env: &mut Env, st: &mut CommunityState, p: &Post, w: f
     let mut mark = false;
     egui::Frame::none()
         .fill(th.p.card)
-        .stroke(Stroke::new(1.0, th.p.hairline))
+        .stroke(Stroke::new(1.0_f32, th.p.hairline))
         .rounding(Rounding::same(crate::theme::spacing::CARD_RADIUS))
         .inner_margin(egui::Margin::symmetric(20.0, 16.0))
         .show(ui, |ui| {
@@ -366,10 +367,6 @@ pub fn show(ui: &mut Ui, env: &mut Env, st: &mut CommunityState) {
             });
         });
         ui.add_space(14.0);
-        if !env.signed_in() {
-            guest_banner(ui, env, w);
-            ui.add_space(14.0);
-        }
         crate::ui::widgets::flow(ui, |ui| {
             if widgets::chip(ui, &th, "All", st.category.is_none()).clicked() && st.category.is_some() {
                 st.category = None;
@@ -426,31 +423,11 @@ fn skeleton(ui: &mut Ui, th: &crate::theme::Theme, w: f32) {
     ui.ctx().request_repaint();
     let c = crate::theme::mix(th.p.field, th.p.card, t * 0.5);
     ui.painter().rect_filled(rect, Rounding::same(20.0), th.p.card);
-    ui.painter().rect_stroke(rect, Rounding::same(20.0), Stroke::new(1.0, th.p.hairline));
+    ui.painter().rect_stroke(rect, Rounding::same(20.0), Stroke::new(1.0_f32, th.p.hairline));
     ui.painter().circle_filled(rect.min + vec2(38.0, 36.0), 18.0, c);
     for (i, f) in [0.35, 0.8, 0.6].iter().enumerate() {
         ui.painter().rect_filled(egui::Rect::from_min_size(rect.min + vec2(68.0 - if i > 0 { 50.0 } else { 0.0 }, 28.0 + i as f32 * 28.0), vec2((w - 100.0) * f, 12.0)), Rounding::same(6.0), c);
     }
-}
-
-fn guest_banner(ui: &mut Ui, env: &mut Env, w: f32) {
-    let th = env.theme.clone();
-    egui::Frame::none().fill(th.p.accent_soft).rounding(Rounding::same(24.0)).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
-        ui.set_width(w - 38.0);
-        ui.horizontal(|ui| {
-            let r = ui.allocate_exact_size(vec2(26.0, 26.0), Sense::hover()).0;
-            icons::paint(ui.painter(), r, Icon::Person, th.p.on_accent_soft);
-            ui.vertical(|ui| {
-                widgets::label(ui, RichText::new("You're browsing as a guest").font(fonts::bold(14.5)).color(th.p.on_accent_soft));
-                widgets::label(ui, RichText::new("Sign in to like, reply and post.").font(fonts::regular(13.0)).color(th.p.on_accent_soft));
-            });
-            right(ui, |ui| {
-                if widgets::button_sized(ui, &th, "Sign in", BtnKind::Primary, None, None, 40.0).clicked() {
-                    env.act(Action::Replace(Route::Login));
-                }
-            });
-        });
-    });
 }
 
 fn composer_window(ctx: &egui::Context, env: &mut Env, st: &mut CommunityState) {
@@ -466,7 +443,7 @@ fn composer_window(ctx: &egui::Context, env: &mut Env, st: &mut CommunityState) 
         .resizable(false)
         .anchor(Align2::CENTER_CENTER, [0.0, 0.0])
         .fixed_size([ctx.screen_rect().width().min(620.0) - 40.0, 0.0])
-        .frame(egui::Frame::none().fill(th.p.card).rounding(Rounding::same(28.0)).stroke(Stroke::new(1.0, th.p.hairline)).shadow(ctx.style().visuals.window_shadow).inner_margin(egui::Margin::same(24.0)))
+        .frame(egui::Frame::none().fill(th.p.card).rounding(Rounding::same(28.0)).stroke(Stroke::new(1.0_f32, th.p.hairline)).inner_margin(egui::Margin::same(24.0)))
         .show(ctx, |ui| {
             let c = st.composer.as_mut().unwrap();
             let w = ui.available_width();
@@ -612,7 +589,7 @@ pub fn show_post(ui: &mut Ui, env: &mut Env, st: &mut CommunityState, id: &str) 
             });
             return;
         };
-        egui::Frame::none().fill(th.p.card).stroke(Stroke::new(1.0, th.p.hairline)).rounding(Rounding::same(28.0)).inner_margin(egui::Margin::same(24.0)).show(ui, |ui| {
+        egui::Frame::none().fill(th.p.card).stroke(Stroke::new(1.0_f32, th.p.hairline)).rounding(Rounding::same(28.0)).inner_margin(egui::Margin::same(24.0)).show(ui, |ui| {
             ui.set_width(w - 50.0);
             ui.horizontal(|ui| {
                 author_row(ui, env, &p.author, &time_ago(p.created), p.author.len(), &p.photo);
@@ -667,14 +644,13 @@ pub fn show_post(ui: &mut Ui, env: &mut Env, st: &mut CommunityState, id: &str) 
                 });
             });
         } else {
-            guest_banner(ui, env, w);
         }
         ui.add_space(14.0);
         if st.thread.replies.is_empty() {
             widgets::empty_state(ui, &th, Icon::Chat, "No replies yet", "Start the conversation.");
         }
         for r in st.thread.replies.clone() {
-            egui::Frame::none().fill(th.p.card).stroke(Stroke::new(1.0, th.p.hairline)).rounding(Rounding::same(20.0)).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
+            egui::Frame::none().fill(th.p.card).stroke(Stroke::new(1.0_f32, th.p.hairline)).rounding(Rounding::same(20.0)).inner_margin(egui::Margin::symmetric(18.0, 14.0)).show(ui, |ui| {
                 ui.set_width(w - 38.0);
                 author_row(ui, env, &r.author, &time_ago(r.created), r.author.len(), &r.photo);
                 ui.add_space(8.0);
