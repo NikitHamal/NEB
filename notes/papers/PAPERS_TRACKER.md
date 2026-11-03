@@ -83,13 +83,14 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 12 | Compulsory Nepali | 2082, 2081, 2080 | | queued |
 | 12 | Physics | 2081 | General | queued (2080 URL below; 2081 general URL not found on the aggregator, search `dhanrajgurung.com` or the NEB site) |
 | 12 | Chemistry, Biology, Mathematics, CS | 2080 | General / grade increment | queued |
+| 12 | Mathematics | 2080 | General 0081 'H' (reg. 78, 79) | DONE (12 pp; session 5; Q16 Rolle figure is an EXACT crop; Q18 simplex table + feasible-region figure; Q19 both alternatives; Group C full steps) |
 | 12 | Mathematics | 2081 | Regular 0081 'W' | DONE (11 pp; session 3; MCQ sheet + paper transcribed from images; 2 solution figures) |
 | 12 | Physics, Chemistry, Biology, Mathematics | 2082, 2081, 2080 | Technical | queued |
 | 12 | Management / Humanities / Education / Law | 2082-2080 | all | queued |
 | 11 | all science subjects | | | queued |
 | 10, 8 | all | | 7 provinces each | queued |
 
-Bundles built so far (`python3 bundle_papers.py`): Chemistry, Biology, Computer Science, Mathematics, English (2080-2083), Physics (2080-2082). Physics gets a bundle once a second year exists.
+Bundles built so far (`python3 bundle_papers.py`): Chemistry, Biology, Computer Science (2081-2082), Mathematics (2080-2082), English (2080-2083), Physics (2080-2082). Physics gets a bundle once a second year exists.
 
 ### Source index (internal use only; never cite in a PDF). Base `https://www.dhanraj.com.np/`
 2081: `2025/03/Chemistry-General-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Chemistry-General-Stream-MCQ-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Biology-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Biology-MCQs-2081-2024-of-Class-12-NEB`, `.../Computer-Science-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Computer-Science-MCQs-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Compulsory-English-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Mathematics-Question-Paper-2081-2024-for-Regular-Students-of-Class-12-NEB`, `.../Mathematics-MCQs-2081-2024-for-Regular-Students-of-Class-12-NEB`, `.../Mathematics-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Physics-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../chemistry-technical-stream-question-paper-2081-2024-of-class-12-neb`, `.../Biology-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Optional-English-...`, `.../Optional-Nepali-...`; Nepali: `2024/08/nepali-question-paper-2081-2024-of-class12-neb`.
@@ -138,3 +139,11 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - Next: Physics 2081 general (find source), English 2080 'G'/'D', 2082 partial, 2083, Chemistry/Biology/CS 2080, Nepali, Technical, Management/Humanities, then Grade 11, 10 (7 provinces), 8.
 - Also in session 4: English 2083 'C' built (fetched as key `eng80g`/`eng80d` are cached for 2080 'G' and 'D': pages p1.. in /tmp/psrc if still present; URLs: `/2025/08/Compulsory-English-Question-Paper-2080-2023-of-Class-12-NEB-Code-0041G.html`, `/2023/07/Class-12-Compulsory-English-Question-Paper-2080.html`). English bundle is now 2080-2083 (older English bundle files were removed; the bundler does NOT delete stale bundles, `git rm` them by hand).
 - Literature facts verified by search: On Libraries = Oliver Sacks; Human Rights and the Age of Inequality = Samuel Moyn (Croesus, Herodotus, UDHR 10 Dec 1948); Marriage as a Social Institution = Stephen L. Nock (social capital, normative marriage); 'A Day' = Emily Dickinson.
+
+## Session 5 notes (same branch)
+- Fresh sandbox: PAT is read from env var via `/tmp/gitenv.sh` (GIT_ASKPASS), sourced from `/tmp/gitenv.env` (outside the repo). Clone to /tmp/NEB, symlink /app/neb. Fonts/pip/apt steps as in session 4. File-tool paths: `neb/notes/...` and `psrc/...` (symlinks under /app); `read_file` often fails the first time for freshly written files, retry.
+- `build_paper.py`: marks chips `[[n]]` are now converted on plain lines too (e.g. the paragraph after a table inside an `@or` alternative); before that it printed `[[5]]` literally.
+- Built Mathematics 2080 'H' (`content/12-math-2080-set-h.md`, fetched as key `math80`), Mathematics bundle is now 2080-2082 (old 2081-2082 bundle removed by hand).
+- Assumptions stated in the solution: Math 2080 MCQ 9 (sign in front of 1/2 in option D is faint in the print; D read as -1/2 log((x+1)/(x-1))), Q13(a) no repetition (120; 216 if repetition), Q21(b) 'plane' read as the line through the two points, Q22(c) fails at k = 0.
+- Cached for next papers (if /tmp/psrc survives): `nep82`, `nep81`, `nep80` (Compulsory Nepali 2082, 2081, 2080 'B' 0021; Devanagari font Noto Sans Devanagari is installed by pipeline/fonts/install.sh; use `:lang(ne)` / `.deva`).
+- Next: Nepali 2082/2081/2080, Physics 2081 general, Chemistry/Biology/CS 2080, English 2082 partial/2080 'D', Technical, Management/Humanities, then Grade 11, SEE (7 provinces), Grade 8.

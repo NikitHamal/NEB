@@ -102,7 +102,7 @@ def exam_markup(src):
         if buf:
             buf = (buf[0] + "<br>" + s, buf[1])
         else:
-            out.append(ln)
+            out.append(marks(ln))
     flush()
     return "\n".join(out)
 
