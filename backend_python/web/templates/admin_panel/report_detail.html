@@ -19,7 +19,6 @@
 <div class="admin-card" style="margin-bottom:16px;">
   <div class="admin-card-head">
     <div>
-      <div class="admin-eyebrow">Moderation</div>
       <h1 class="md-headline-small" style="margin:0 0 6px;">Report {{ report.id }}</h1>
       <div style="display:flex;gap:8px;flex-wrap:wrap;">
         <span class="admin-status {% if report.status == 'open' %}warn{% elif report.status == 'reviewing' %}info{% elif report.status == 'resolved' %}ok{% else %}neutral{% endif %}">{{ report.status }}</span>
