@@ -287,6 +287,22 @@ under SwiftShader, synchronous), `loadtime.py sim ms` (main-thread long tasks). 
 texture-fetch cost; trust it for ALU-heavy shaders, triangle counts and pass counts.
 
 
+### Landing page rebuilt in Material 3 Expressive (branch `redesign/m3-expressive-landing`)
+
+- The old pixel-key landing is gone. New files: `templates/landing/landing.html` (+ `_mark.html`, `_arrow.html`, `_check.html`),
+  `static/web/css/landing.css`, generated `static/web/css/landing-shapes.css`, `static/web/js/landing.js`,
+  self-hosted `static/web/fonts/landing/{display,body}-latin.woff2` (Bricolage Grotesque instanced to wdth 100 / wght 500-800; Figtree).
+- **Shapes and springs are generated.** `python3 scripts/gen_landing_shapes.py` writes `landing-shapes.css`: nine polygon shapes with an
+  identical point count (so `clip-path` morphs between any two) and `--spring*` easings as `linear()` with cubic-bezier fallbacks.
+  Use `.shp-cookie|sunny|flower|clover|burst|gem|circle|squircle|pebble`; each sets `--shape` and `--alt` (the morph target).
+- **Hard rules, enforced by `LandingDesignRulesTests` in `web/test_landing.py`:** no box/drop/text shadows, no gradients, no Nepali script,
+  no emoji, no "LIVE" badge, no page-count claims (the library is 10k+ pages and growing; a number goes stale, so none is printed).
+- Level picker is radio-driven CSS (works without JS); `landing.css` has tab rules for up to 8 levels. Edit `LEVELS` in `views_landing.py`.
+- Festive themes still work: `themes/_decor.html` renders in the hero, `--pri`/`--gold` follow `--st-accent`/`--st-warm`, and the greeting shows
+  its English line only.
+- Local check: `cd backend_python && DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x python3 manage.py migrate && ... runserver`, then
+  `python3 manage.py test web.test_landing`.
+
 ### Landing page, /app, site themes, query budgets, self-hosted fonts (Oct 18, 2026)
 
 - **`/` is a standalone landing page** (`web/views_landing.py`, `templates/landing/landing.html`,
