@@ -12,7 +12,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 16,
-  "bytes": 273379,
+  "bytes": 273388,
   "id": "12-bio-2081-general"
  },
  {
@@ -28,7 +28,7 @@
   "students": "For regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 202229,
+  "bytes": 202234,
   "id": "12-bio-2082-general"
  },
  {
@@ -44,7 +44,7 @@
   "students": "For the regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 13,
-  "bytes": 234745,
+  "bytes": 234746,
   "id": "12-chem-2081-general"
  },
  {
@@ -60,8 +60,24 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 10,
-  "bytes": 206227,
+  "bytes": 206228,
   "id": "12-chem-2082-general"
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Computer-Science-2081.pdf",
+  "subject": "Computer Science",
+  "grade": "12",
+  "year_bs": "2081",
+  "year_ad": "2024",
+  "stream": "Regular and Grade Increment",
+  "code": "4281",
+  "time": "2 hrs",
+  "marks": "50",
+  "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
+  "category": "Board Exam",
+  "pages": 10,
+  "bytes": 144073,
+  "id": "12-cs-2081-general"
  },
  {
   "file": "NEBians-Past-Paper-Grade-12-Computer-Science-2082.pdf",
@@ -76,7 +92,7 @@
   "students": "For regular and partial students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 7,
-  "bytes": 107539,
+  "bytes": 107544,
   "id": "12-cs-2082-general"
  },
  {
@@ -92,7 +108,7 @@
   "students": "For the students whose first two digits of registration number start from 80 (partial) and 81 (regular)",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 474828,
+  "bytes": 474838,
   "id": "12-math-2082-set-r"
  },
  {
@@ -108,7 +124,7 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 470869,
+  "bytes": 470867,
   "id": "12-phy-2082-general"
  }
 ]
