@@ -67,7 +67,10 @@ impl NebApp {
         env.demo = tour.is_some();
         Self {
             env,
-            router: Router::new(Route::Splash),
+            router: Router::new(match &cli.open_pdf {
+                Some(p) => Route::Pdf(p.clone()),
+                None => Route::Splash,
+            }),
             screens: Screens::default(),
             show_shortcuts: false,
             last_geom: None,
@@ -191,6 +194,7 @@ impl NebApp {
                     self.env.toast("Could not open your browser");
                 }
             }
+            Action::OpenPath(p) if p.extension().is_some_and(|e| e.eq_ignore_ascii_case("pdf")) => self.router.navigate(Route::Pdf(p)),
             Action::OpenPath(p) => {
                 if open::that(&p).is_err() {
                     self.env.toast("Could not open it — no default application found");
@@ -250,7 +254,6 @@ impl NebApp {
         let route = self.router.current.clone();
         let th = self.env.theme.clone();
         if route.has_shell() {
-            ui::menubar::show(ctx, &mut self.env, &route, &self.router);
             if crate::data::content::is_offline() {
                 let mut retry = false;
                 egui::TopBottomPanel::top("offline_banner")
@@ -280,6 +283,8 @@ impl NebApp {
             let sc = &mut self.screens;
             match &route {
                 Route::Splash => screens::splash::show(ui, env, &mut sc.splash),
+                Route::Intro => screens::intro::show(ui, env, &mut sc.intro),
+                Route::Pdf(p) => screens::pdf::show(ui, env, &mut sc.pdf, p),
                 Route::Login => screens::login::show(ui, env, &mut sc.login),
                 Route::EmailAuth => screens::email_auth::show(ui, env, &mut sc.email),
                 Route::CompleteProfile => screens::complete_profile::show(ui, env, &mut sc.complete),
@@ -319,6 +324,7 @@ impl eframe::App for NebApp {
                 self.env.refresh_theme();
             }
         }
+        crate::theme::motion::set_reduced(!self.env.motion());
         self.env.poll();
         self.handle_keys(ctx);
         self.shell(ctx);

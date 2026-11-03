@@ -14,7 +14,7 @@ use crate::data::models::*;
 use crate::data::store::{Store, ThemeMode};
 use crate::data::tasks::Task;
 use crate::router::Route;
-use crate::theme::Theme;
+use crate::theme::{Palette, Theme};
 use crate::ui::logo::Logo;
 use crate::ui::toast::Toasts;
 use crate::ui::LayoutMode;
@@ -38,6 +38,9 @@ pub struct Env {
     pub toasts: Toasts,
     pub logo: Logo,
     pub system_dark: bool,
+    theme_from: crate::theme::Palette,
+    theme_to: crate::theme::Palette,
+    theme_t: f32,
     pub srv: crate::server::ServerState,
     /// Screenshot tour: never talk to the server, use bundled sample data for signed-in screens.
     pub demo: bool,
@@ -69,6 +72,9 @@ impl Env {
             toasts: Toasts::default(),
             logo,
             system_dark,
+            theme_from: Palette::light(),
+            theme_to: Palette::light(),
+            theme_t: 1.0,
             srv: Default::default(),
             demo: false,
             config_dir,
@@ -108,13 +114,23 @@ impl Env {
     pub fn refresh_theme(&mut self) {
         let dark = Self::resolve_dark(&self.store, self.system_dark);
         if dark != self.theme.dark {
-            self.theme = Theme::new(dark);
-            self.theme.apply(&self.ctx);
+            // tween the palette instead of snapping (same switch the web does)
+            self.theme_from = self.theme.p.clone();
+            self.theme_to = Theme::new(dark).p;
+            self.theme.dark = dark;
+            self.theme_t = 0.0;
         }
     }
 
     /// Per-frame housekeeping: finish background jobs.
     pub fn poll(&mut self) {
+        if self.theme_t < 1.0 {
+            let dt = self.ctx.input(|i| i.stable_dt).clamp(0.001, 0.05);
+            self.theme_t = if crate::theme::motion::reduced() { 1.0 } else { (self.theme_t + dt / 0.45).min(1.0) };
+            self.theme.p = self.theme_from.lerp(&self.theme_to, crate::theme::motion::ease_io(self.theme_t));
+            self.theme.apply(&self.ctx);
+            self.ctx.request_repaint();
+        }
         if let Some(t) = self.boot.as_mut() {
             if let Some(res) = t.poll() {
                 self.boot = None;
