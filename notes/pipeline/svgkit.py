@@ -111,3 +111,125 @@ def render(code, name=""):
         raise ValueError("svgfig code must assign a Fig to `f`")
     f.name = name or f.name
     return f.svg()
+
+
+class Axes:
+    """Cartesian plot area inside a Fig: Axes(f, left, top, w, h, (xmin, xmax), (ymin, ymax)).
+
+    ax.grid(dx, dy) / ax.axes(...) draw the frame; ax.curve(fn, a, b) plots y = fn(x) and breaks the
+    line at poles; ax.area(fn, a, b) shades under a curve; ax.pt / ax.hline / ax.vline / ax.tag add marks.
+    """
+
+    def __init__(self, f, left, top, w, h, xr, yr, name=""):
+        self.f, self.l, self.t, self.w, self.h = f, left, top, w, h
+        self.x0, self.x1 = xr
+        self.y0, self.y1 = yr
+
+    def X(self, x):
+        return round(self.l + (x - self.x0) / (self.x1 - self.x0) * self.w, 2)
+
+    def Y(self, y):
+        return round(self.t + self.h - (y - self.y0) / (self.y1 - self.y0) * self.h, 2)
+
+    def grid(self, dx=1, dy=1, labels=True, size=9.5, xfmt=None, yfmt=None):
+        f = self.f
+        fx = xfmt or (lambda v: f"{v:g}")
+        fy = yfmt or (lambda v: f"{v:g}")
+        k = math.ceil(self.x0 / dx - 1e-9)
+        while k * dx <= self.x1 + 1e-9:
+            x = k * dx
+            f.line(self.X(x), self.Y(self.y0), self.X(x), self.Y(self.y1), color="#e2e8f0", sw=0.8)
+            if labels and abs(x) > 1e-9:
+                f.text(self.X(x), self.Y(max(self.y0, min(0, self.y1))) + 13, fx(x), size=size, color=SLATE)
+            k += 1
+        k = math.ceil(self.y0 / dy - 1e-9)
+        while k * dy <= self.y1 + 1e-9:
+            y = k * dy
+            f.line(self.X(self.x0), self.Y(y), self.X(self.x1), self.Y(y), color="#e2e8f0", sw=0.8)
+            if labels and abs(y) > 1e-9:
+                f.text(self.X(max(self.x0, min(0, self.x1))) - 5, self.Y(y) + 3.5, fy(y), size=size, color=SLATE, anchor="end")
+            k += 1
+        return self
+
+    def axes(self, xl="x", yl="y", color=SLATE):
+        f = self.f
+        ya = self.Y(max(self.y0, min(0, self.y1)))
+        xa = self.X(max(self.x0, min(0, self.x1)))
+        f.arrow([(self.X(self.x0), ya), (self.X(self.x1) + 6, ya)], color=color, sw=1.4)
+        f.arrow([(xa, self.Y(self.y0)), (xa, self.Y(self.y1) - 6)], color=color, sw=1.4)
+        f.text(self.X(self.x1) + 4, ya - 7, xl, size=11, color=color, italic=True, anchor="end")
+        f.text(xa + 8, self.Y(self.y1) + 2, yl, size=11, color=color, italic=True, anchor="start")
+        return self
+
+    def _pts(self, fn, a, b, n):
+        segs, cur = [], []
+        lim = (self.y1 - self.y0) * 1.5
+        for i in range(n + 1):
+            x = a + (b - a) * i / n
+            try:
+                y = fn(x)
+                ok = isinstance(y, (int, float)) and abs(y) < 1e6 and self.y0 - lim < y < self.y1 + lim
+            except (ZeroDivisionError, ValueError, OverflowError):
+                ok = False
+            if ok:
+                y = max(self.y0 - lim, min(self.y1 + lim, y))
+                cur.append((self.X(x), self.Y(y)))
+            elif cur:
+                segs.append(cur)
+                cur = []
+        if cur:
+            segs.append(cur)
+        return segs
+
+    def curve(self, fn, a=None, b=None, color=NAVY, sw=2.2, dash=False, n=240, label=None, lx=None, ly=None, lsize=11):
+        a = self.x0 if a is None else a
+        b = self.x1 if b is None else b
+        d = ' stroke-dasharray="6 4"' if dash else ""
+        for seg in self._pts(fn, a, b, n):
+            if len(seg) > 1:
+                p = " ".join(f"{x},{y}" for x, y in seg)
+                self.f.raw(f'<clipPath id="c{id(self)}"><rect x="{self.l}" y="{self.t}" width="{self.w}" height="{self.h}"/></clipPath>'
+                           f'<polyline points="{p}" fill="none" stroke="{color}" stroke-width="{sw}" stroke-linejoin="round" '
+                           f'clip-path="url(#c{id(self)})"{d}/>')
+        if label:
+            self.f.text(lx, ly, label, size=lsize, color=color, bold=True, anchor="start")
+        return self
+
+    def area(self, fn, a, b, fill="#bfdbfe", opacity=0.75, n=120, fn2=None):
+        top = [(self.X(a + (b - a) * i / n), self.Y(fn(a + (b - a) * i / n))) for i in range(n + 1)]
+        g = fn2 or (lambda x: 0)
+        bot = [(self.X(a + (b - a) * i / n), self.Y(g(a + (b - a) * i / n))) for i in range(n, -1, -1)]
+        p = " ".join(f"{x},{y}" for x, y in top + bot)
+        self.f.raw(f'<polygon points="{p}" fill="{fill}" fill-opacity="{opacity}" stroke="none"/>')
+        return self
+
+    def bars(self, fn, a, b, n, mode="left", fill="#fde68a", stroke=AMBER):
+        dx = (b - a) / n
+        for i in range(n):
+            xl = a + i * dx
+            h = fn(xl if mode == "left" else xl + dx if mode == "right" else xl + dx / 2)
+            self.f.raw(f'<rect x="{self.X(xl)}" y="{min(self.Y(h), self.Y(0))}" width="{round(self.X(xl + dx) - self.X(xl), 2)}" '
+                       f'height="{round(abs(self.Y(0) - self.Y(h)), 2)}" fill="{fill}" fill-opacity="0.8" stroke="{stroke}" stroke-width="1"/>')
+        return self
+
+    def pt(self, x, y, label="", r=4.2, color=RED, dx=8, dy=-8, size=10.5, anchor="start", hollow=False):
+        self.f.raw(f'<circle cx="{self.X(x)}" cy="{self.Y(y)}" r="{r}" fill="{"#fff" if hollow else color}" stroke="{color}" stroke-width="1.8"/>')
+        if label:
+            self.f.text(self.X(x) + dx, self.Y(y) + dy, label, size=size, color=color, bold=True, anchor=anchor)
+        return self
+
+    def hline(self, y, x0=None, x1=None, color=AMBER, dash=True, sw=1.4):
+        x0 = self.x0 if x0 is None else x0
+        x1 = self.x1 if x1 is None else x1
+        self.f.line(self.X(x0), self.Y(y), self.X(x1), self.Y(y), color=color, sw=sw, dash=dash)
+        return self
+
+    def vline(self, x, y0=None, y1=None, color=AMBER, dash=True, sw=1.4):
+        y0 = self.y0 if y0 is None else y0
+        y1 = self.y1 if y1 is None else y1
+        self.f.line(self.X(x), self.Y(y0), self.X(x), self.Y(y1), color=color, sw=sw, dash=dash)
+        return self
+
+    def tag(self, x, y, s, size=10.5, color=SLATE, bold=False, anchor="middle"):
+        self.f.text(self.X(x), self.Y(y), s, size=size, color=color, bold=bold, anchor=anchor)
+        return self

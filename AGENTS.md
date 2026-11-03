@@ -1790,3 +1790,12 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 - **Montage viewing:** render PDF pages with pymupdf into one PNG in `/app/_view/` and read it with the File tool; do the bash and the read_file in separate turns (parallel calls race). Delete `/app/_view` before `/app` validation.
 - Next: hardware-workshop, mathematics-1, professional-communication-ethics, then non-core slots.
 - **BCA 106 hardware-workshop is DONE** (session 12; 40 pp, qa fails=0; 11 new bca106/ photos, 4 photo plates + 2 more, 7 SVGs, 8-point sections, 5/10-mark answers in all four units). `call X Y TX TY "text"`: keep labels short and X near 0.5, long labels clip at the cell edge. Next: mathematics-1, professional-communication-ethics.
+
+## BCA polish session 13 (BCA 104 Mathematics I)
+
+- **BCA 104 is DONE** (56 pp, qa fails=0): 22 figures/plates, 14 new `bca104/` photos (portraits, dish, arch, speedometer, dam, coffee, E. coli, spring), 8-point section and 5/10-mark answers (all SymPy-checked) in all six units. See `bca/POLISH_STATUS.md`.
+- **New `Axes` plotting class in `notes/pipeline/svgkit.py`** (available inside every svgfig / `@ svg` cell): `ax = Axes(f, left, top, w, h, (xmin, xmax), (ymin, ymax)); ax.grid(dx, dy).axes("x", "y"); ax.curve(fn, a, b, color=, dash=); ax.area(fn, a, b, fn2=); ax.bars(fn, a, b, n, mode); ax.pt(x, y, label, hollow=); ax.hline/vline; ax.X(x)/ax.Y(y)` for pixel positions. `curve` breaks lines at poles (division errors). Use `Fig.box(..., color=NAVY)` for box text, otherwise light stroke colours give faint text.
+- **Setup in a non-root sandbox:** `sudo` works without a password here. `sudo apt-get update; sudo apt-get install -y libpango-1.0-0 libpangoft2-1.0-0 libharfbuzz-subset0 poppler-utils fontconfig`; `pip install --user --break-system-packages uv`; `uv venv --python 3.12 /tmp/v`; `uv pip install --python /tmp/v/bin/python weasyprint pymupdf pypdf markdown pygments pillow numpy requests matplotlib fonttools sympy`. `build_book.sh` needs `GH_PAT` and a `/tmp/src/<name>` copy; this session edited `bca/course/...` in place and ran `bca/tools/nebpdf.py` + `qa_pdf.py` directly (about 16 s per build).
+- `focus X Y` in photogrid: Y is measured from the bottom, so portraits use about 0.7. Search hits for `assets.py get` may need the exact Commons title (check spelling; "Kaligandaki A" not "Kali Gandaki A").
+- Next: BCA 105 professional-communication-ethics, then non-core slots (256, 356, 403 project, 452, electives), then semesters II-VIII.
+
