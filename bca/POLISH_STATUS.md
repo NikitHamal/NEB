@@ -48,10 +48,19 @@ Real units (NOT the brief's guess): U1 Intro, U2 Software, U3 OS, U4 DBMS, U5 Ne
 - U6 Differential equations: Fig 6.1 slope field, Fig 6.2 method decision chain, Fig 6.3 damping cases, Fig 6.4 cooling + logistic, Plate 6.1 (coffee, E. coli, spring); 8 uses (6.8); 2 medium + 1 long.
 - Every numeric claim in the new answers was recomputed with SymPy; `check_math1.py --verify` prints ALL OK.
 
+## BCA 105 professional-communication-ethics (semester-1/professional-communication-ethics) -- [x] DONE (session 13), 48 pp, qa fails=0
+- Photos (bca105/, licence-gated): phone (candlestick telephone), speaker (conference talk), pen (handwritten letter), scrum (team stand-up briefing). Abstract topics (ethics, IP law) have no suitable photo; SVG used instead. Rejected after viewing: Morse key texture, GPO search hit, CC icon graphic with black alpha artefacts.
+- U1: Fig 1.1 communication process (noise + feedback), Plate 1.1 (3-up telephone/speaker/letter channels); 8 reasons (1.7); medium (verbal vs non-verbal) + long (process, barriers, 7 Cs).
+- U2: Fig 2.1 10-minute talk timeline to scale, Plate 2.1 (speaker photo + poor/good slide SVG); 8 habits (2.6); medium (active listening) + long (presentation).
+- U3: Fig 3.1 annotated email anatomy, Plate 3.1 (letter photo + full-block layout SVG); 8 rules (3.8); medium (plagiarism) + long (email vs letter).
+- U4: Plate 4.1 (team stand-up photo + Tuckman curve SVG), Fig 4.1 Eisenhower matrix; 8 team characteristics (4.7); medium (Tuckman) + long (teamwork, conflict, SBI, time).
+- U5: Fig 5.1 ethical decision flow, Fig 5.2 IP types and licence spectrum; 8 responsibilities (5.8); medium (MIT vs GPL) + long (ethics, IP, ETA 2063; no penalty figures given).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)
 - [x] hardware-workshop DONE (session 12)
 - [x] mathematics-1 (BCA 104) DONE (session 13)
-- [ ] (NEXT SESSION STARTS HERE) professional-communication-ethics (BCA 105)
+- [x] professional-communication-ethics (BCA 105) DONE (session 13)
+- [ ] (NEXT SESSION STARTS HERE) non-core slots: BCA 256 Project I (see bca/course/STATUS.md)
 - [ ] non-core slots (256, 356, 403 project, 452, electives), then semesters II-VIII

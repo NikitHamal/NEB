@@ -34,6 +34,31 @@ A **team** is a small group with a shared goal, complementary skills and mutual 
 
 **Social loafing**: the tendency of some members to reduce effort in groups. Fix it with visible individual tasks, peer review and small subgroups.
 
+```photogrid label="4.1" cols="2" ratio="1.5" caption="Teams. (a) A work crew holds a short stand-up briefing before starting: everyone hears the plan, the risks and who does what. Software teams hold the same daily stand-up. (b) Tuckman's four stages of team development: performance dips during storming and then rises as the team agrees on rules."
+@ photo id="bca105/scrum" cap="A team briefing before work starts"
+fit 1.5
+focus 0.5 0.55
+call 0.5 0.92 0.35 0.62 "Everyone hears the plan"
+@ svg cap="Tuckman's stages: team performance over time"
+import math
+f = Fig(420, 280)
+a = Axes(f, 30, 20, 370, 190, (0, 4), (0, 1.1)); a.axes("time", "performance")
+a.curve(lambda t: 0.35 + 0.3 * t / 1 if t < 1 else (0.65 - 0.25 * math.sin((t - 1) * math.pi) if t < 2 else 0.65 + 0.3 * (1 - math.exp(-(t - 2) * 1.6))), 0, 4, color=NAVY, sw=2.8, n=300)
+for i, (n, c) in enumerate([("Forming", AMBER), ("Storming", RED), ("Norming", TEAL), ("Performing", NAVY)]):
+    f.text(a.X(i + 0.5), 232, n, size=10.5, color=c, bold=True)
+    if i: a.vline(i, 0, 1.1, color="#94a3b8")
+f.text(210, 254, "polite  -  conflict  -  rules and trust  -  results", size=9.5, color=SLATE)
+```
+
+```svgfig label="4.1" caption="The Eisenhower matrix for time management. Sort every task by urgency and importance: do it now, schedule it, delegate it or delete it. Most students waste time in the lower-left box and neglect the upper-right box (studying early, practising skills), which prevents emergencies later."
+f = Fig(700, 280)
+f.box(110, 10, 280, 120, "", fill=ROSE, stroke=RED); f.box(400, 10, 280, 120, "", fill=MINT, stroke=TEAL)
+f.box(110, 140, 280, 120, "", fill=SAND, stroke=AMBER); f.box(400, 140, 280, 120, "", fill=SOFT, stroke=SLATE)
+for x, y, h, t, c in [(250, 34, "1 DO NOW", "urgent + important", RED), (540, 34, "2 SCHEDULE", "important, not urgent", TEAL), (250, 164, "3 DELEGATE / BATCH", "urgent, not important", AMBER), (540, 164, "4 DELETE / LIMIT", "neither", SLATE)]: f.text(x, y, h, size=13, color=c, bold=True); f.text(x, y + 18, t, size=10, color=SLATE, italic=True)
+for x, y, s in [(250, 80, "assignment due tomorrow"), (250, 98, "server down in the lab"), (540, 80, "study plan, exercise, learning C"), (540, 98, "update CV, practise projects"), (250, 210, "most phone calls, some emails"), (250, 228, "a friend's quick request"), (540, 210, "endless scrolling, idle chat"), (540, 228, "unneeded notifications")]: f.text(x, y, s, size=10.5, color=NAVY)
+f.text(100, 75, "URGENT", size=10, color=SLATE, bold=True, anchor="end"); f.text(100, 205, "NOT URGENT", size=10, color=SLATE, bold=True, anchor="end"); f.text(250, 275, "IMPORTANT", size=10, color=SLATE, bold=True); f.text(540, 275, "NOT IMPORTANT", size=10, color=SLATE, bold=True)
+```
+
 ## 4.2 Conflict and negotiation
 
 Conflict is normal; badly handled conflict is the problem. Common sources: unclear roles, unequal workload, different priorities, personality clashes, scarce resources.
@@ -102,6 +127,17 @@ A student has a database assignment due Friday (4 hours of work), a Java lab rep
 
 **Workplace harassment.** Unwelcome sexual, discriminatory or abusive conduct is never acceptable. Nepal's Sexual Harassment at Workplace Prevention Act, 2071 (2014) requires organisations to have a complaint mechanism. Report to the designated committee or HR, and keep a record.
 
+## 4.7 Eight characteristics of an effective team
+
+1. **A shared, clear goal.** Every member can state in one sentence what the team is building and why. The goal is written down together with the "definition of done". Without it, five talented students pull in five directions.
+2. **Clear roles and ownership.** Each task has one owner, such as front end, back end, testing or documentation. People know who decides what, so work is not duplicated or forgotten. A Trello board in the lab makes ownership visible.
+3. **Open and honest communication.** Members report progress and problems early, in plain words. A delay told on day 2 can be solved, but one told on day 14 cannot. Honesty needs a team where nobody is punished for bad news.
+4. **Mutual trust and respect.** Members believe that others will do their work and listen to different opinions. Respect for age, gender, language and ethnic differences, which are many in Nepali classes, strengthens this trust. Trust is built through small kept promises.
+5. **Constructive handling of conflict.** Disagreement about design or deadlines is healthy when it is about the problem, not the person. The team states the issue, listens to every view and agrees on a test or a vote. Hidden conflict does far more damage than open discussion.
+6. **Shared responsibility and accountability.** Success is shared, and so is the blame. Everyone accepts that they are accountable for their part. Peer review and visible tasks reduce social loafing.
+7. **Regular meetings and feedback.** A short daily or weekly stand-up asks: what did I do, what will I do, what blocks me? Feedback is specific, timely and kind. The team reviews its own method after each milestone.
+8. **Skills that complement each other.** A good team mixes a leader, an idea generator, a careful finisher and a specialist. Members learn from each other and cover each other's weak points. Diversity of skills makes the final product stronger than any single member could.
+
 ## Formula and fact sheet
 
 - Tuckman: forming → storming → norming → performing → adjourning.
@@ -144,3 +180,42 @@ A student has a database assignment due Friday (4 hours of work), a Java lab rep
 **9.** Reduced effort by individuals in a group. Reduce it through visible personal tasks, peer review and small subgroups.
 **10.** The best option if negotiation fails, for example another client offering Rs 40,000 for similar work, which you accept if the first client will not go above Rs 35,000.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q (5 marks). Explain Tuckman's stages of team development with a software-project example.**
+
+Bruce Tuckman described how a new group becomes an effective team in four stages (a fifth, *adjourning*, was added later). Performance does not rise in a straight line: it dips when the team argues about how to work (Plate 4.1b).
+
+1. **Forming.** Members meet, are polite and unsure of their roles. They depend on the leader. *Example:* four BCA students are told to build a library system and agree on a group name.
+2. **Storming.** Opinions clash about roles, tools and deadlines. Some members dominate or withdraw, and tension is high. *Example:* two members want PHP and two want Java; one person has done no work.
+3. **Norming.** The team agrees on rules, roles and methods, trust grows and members give feedback. *Example:* they choose Java, split modules, set a weekly stand-up and use Git.
+4. **Performing.** The team works smoothly towards the goal, solves problems itself and delivers quality. *Example:* modules are integrated, tested and demonstrated on time.
+5. **Adjourning.** The project ends; the team reviews and celebrates.
+
+**Role of the leader:** direct in forming, mediate in storming, coach in norming and delegate in performing. **Conclusion:** storming is normal, and a team that handles it openly reaches the performing stage sooner.
+
+**Q (10 marks). Describe how a student team should work together: team roles, conflict handling, feedback using the SBI model, and time management with the Eisenhower matrix.**
+
+**Introduction.** A team is a small group with a shared goal, complementary skills and mutual accountability. Software is almost always made by teams, so teamwork is a professional skill, not an extra.
+
+**1. Roles and practices.** Typical software roles are product owner, project manager or scrum master, developers, UI/UX designer, tester and business analyst. Good practice: agree the goal and definition of done in writing, give each task one owner on a board, hold a short stand-up (*What did I do? What will I do? What blocks me?*), use version control with code review, and report problems early.
+
+**2. Conflict handling.** Conflict is normal, especially in the storming stage. Five common styles are *competing* (win-lose), *collaborating* (win-win), *compromising* (split the difference), *avoiding* and *accommodating*. For important issues the best style is collaboration: separate the person from the problem, listen to each view, state shared interests, list options and agree on a test or a fair rule. Escalate to a supervisor only after the team has tried.
+
+**3. Feedback (SBI model).** Describe the **Situation** (when and where), the **Behaviour** (what was seen, not personality) and the **Impact** (its effect). *Example:* "In Tuesday's stand-up (S), you did not report that the login module was late (B), so the testers waited two days (I). Could you tell us earlier next time?" Feedback should be specific, timely, private for criticism and ends with a request.
+
+**4. Time management (Figure 4.1).**
+
+| Box | Task type | Action |
+|---|---|---|
+| 1 | urgent + important | do now |
+| 2 | important, not urgent | schedule (study, practice) |
+| 3 | urgent, not important | delegate or batch |
+| 4 | neither | delete or limit |
+
+Other tools: a weekly plan, deadlines with buffer time, one task at a time and removing distractions such as notifications.
+
+**5. Effective team characteristics.** Shared goal, clear roles, honest communication, trust, healthy conflict, shared accountability, regular feedback and complementary skills.
+
+**Conclusion.** A team that agrees its goal and roles, handles conflict openly, gives SBI feedback and manages its time with priorities will deliver better software than the same people working alone.
