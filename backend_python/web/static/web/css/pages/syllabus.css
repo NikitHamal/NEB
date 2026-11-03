@@ -40,7 +40,7 @@
 .st-pick-o { padding: 7px 8px; border-radius: 10px; color: var(--md-on-surface); font-size: .8125rem; line-height: 1.35; text-decoration: none; }
 .st-pick-o:hover { background: var(--md-surface-container); }
 .st-pick-o:focus-visible { outline: 2px solid var(--md-primary); outline-offset: -2px; background: var(--md-surface-container); }
-.st-pick-o.is-current { color: var(--syl-c, var(--md-primary)); font-weight: 600; }
+.st-pick-o.is-current { color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); font-weight: 600; }
 
 /* ---------------------------------------------------------------- hub */
 .syl-hub { display: flex; flex-direction: column; gap: 18px; }
@@ -134,7 +134,7 @@
 .syl-subject-card:active { transform: scale(.99); }
 .syl-subject-card:focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
 .syl-card-icon-wrap { display: flex; align-items: center; justify-content: center; }
-.syl-card-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; font-size: 24px; color: var(--syl-c); background: color-mix(in srgb, var(--syl-c) 12%, var(--md-surface)); }
+.syl-card-icon { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 14px; font-size: 24px; color: color-mix(in srgb, var(--syl-c) var(--ink-mix, 58%), var(--md-on-surface)); background: color-mix(in srgb, var(--syl-c) 12%, var(--md-surface)); }
 .syl-card-body { display: flex; flex-direction: column; min-width: 0; gap: 2px; }
 .syl-card-header-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .syl-card-name { font-weight: 600; font-size: 15px; line-height: 1.3; }
@@ -143,13 +143,13 @@
 .syl-card-action { display: flex; align-items: center; gap: 6px; }
 .syl-card-pct { font-size: 12px; font-weight: 600; color: var(--md-on-surface-variant); white-space: nowrap; font-variant-numeric: tabular-nums; }
 .syl-card-arrow { font-size: 18px; color: var(--md-on-surface-variant); opacity: .4; transition: opacity .15s, transform .15s, color .15s; }
-.syl-subject-card:hover .syl-card-arrow { opacity: 1; transform: translateX(2px); color: var(--syl-c, var(--md-primary)); }
+.syl-subject-card:hover .syl-card-arrow { opacity: 1; transform: translateX(2px); color: color-mix(in srgb, var(--syl-c, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface)); }
 .syl-card-bar { position: absolute; left: 16px; right: 16px; bottom: 8px; height: 4px; opacity: 0; transition: opacity .2s; }
 .syl-subject-card.is-started .syl-card-bar { opacity: 1; }
 
 /* ---------------------------------------------------------------- subject */
 .st-head { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(180px, 240px); align-items: center; gap: 18px; padding-bottom: 18px; border-bottom: 1px solid var(--md-outline-variant); }
-.st-head-icon { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 18px; font-size: 30px; color: var(--syl-c); background: color-mix(in srgb, var(--syl-c) 12%, var(--md-surface)); }
+.st-head-icon { width: 56px; height: 56px; display: grid; place-items: center; border-radius: 18px; font-size: 30px; color: color-mix(in srgb, var(--syl-c) var(--ink-mix, 58%), var(--md-on-surface)); background: color-mix(in srgb, var(--syl-c) 12%, var(--md-surface)); }
 .st-title { margin: 0; font-size: clamp(24px, 3vw, 32px); line-height: 1.15; font-weight: 700; letter-spacing: -.01em; color: var(--md-on-surface); }
 .st-sub { margin: 4px 0 0; font-size: 14px; color: var(--md-on-surface-variant); }
 .st-meta { margin: 6px 0 0; font-size: 13px; color: var(--md-on-surface-variant); }
@@ -174,7 +174,7 @@
 .st-next-card[hidden] { display: none; }
 .st-next-card:hover { border-color: var(--md-outline); background: var(--md-surface-container); }
 .st-next-card:first-child { border-color: color-mix(in srgb, var(--syl-c) 45%, var(--md-outline-variant)); }
-.st-next-kicker { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--syl-c); }
+.st-next-kicker { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: color-mix(in srgb, var(--syl-c) var(--ink-mix, 58%), var(--md-on-surface)); }
 .st-next-review .st-next-kicker { color: var(--md-on-surface-variant); }
 .st-next-title { font-weight: 600; font-size: 15px; line-height: 1.35; }
 .st-next-meta { font-size: 12.5px; color: var(--md-on-surface-variant); }
@@ -215,7 +215,7 @@ a.st-unit-title::after { content: ""; position: absolute; inset: 0; }
 .st-unit-track { height: 3px; max-width: 220px; margin-top: 4px; opacity: 0; }
 .st-unit.is-started .st-unit-track { opacity: 1; }
 .st-unit-state { font-size: 12px; font-weight: 600; color: var(--md-on-surface-variant); white-space: nowrap; font-variant-numeric: tabular-nums; }
-.st-unit-state.is-done { color: var(--syl-c); }
+.st-unit-state.is-done { color: color-mix(in srgb, var(--syl-c) var(--ink-mix, 58%), var(--md-on-surface)); }
 .st-unit-state.is-weak { color: var(--md-error, #b3261e); }
 .st-unit-more { width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--md-on-surface-variant); cursor: pointer; }
 .st-unit-more:hover { background: var(--md-surface-container-high); }
@@ -233,7 +233,7 @@ a.st-unit-title::after { content: ""; position: absolute; inset: 0; }
 .st-bank-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
 .st-bank { display: flex; flex-direction: column; gap: 4px; padding: 16px 18px; border-radius: 16px; background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); color: var(--md-on-surface); text-decoration: none; transition: border-color .15s, background .15s; }
 .st-bank:hover { border-color: var(--md-outline); background: var(--md-surface-container); }
-.st-bank-kind { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--syl-c); }
+.st-bank-kind { font-size: 12px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: color-mix(in srgb, var(--syl-c) var(--ink-mix, 58%), var(--md-on-surface)); }
 .st-bank-title { font-weight: 600; font-size: 15px; line-height: 1.4; }
 .st-bank-meta { font-size: 12.5px; color: var(--md-on-surface-variant); line-height: 1.5; }
 .st-bank .st-unit-track { margin-top: 8px; max-width: none; opacity: 1; }

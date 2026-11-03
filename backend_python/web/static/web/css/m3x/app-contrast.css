@@ -1,0 +1,22 @@
+/* Contrast guards. An accent (a subject hue, a creator colour, a tool colour) is a fill, not a
+   text colour: a saturated hue on a light card or a dark card is 2:1. --ink() mixes the accent
+   toward the surface's own text colour, so it reads on whichever theme is active and still
+   looks like the same hue. Use `color: var(--ink-x)` style helpers below, or the same mix inline. */
+:root { --ink-mix: 56%; }
+[data-theme="dark"] { --ink-mix: 62%; }
+
+.rd-chip-subject { color: color-mix(in srgb, var(--subject-color, var(--md-primary)) var(--ink-mix), var(--md-on-surface)); }
+.syl-card-icon { color: color-mix(in srgb, var(--syl-c) var(--ink-mix), var(--md-on-surface)); }
+.syl-card-arrow { opacity: 1; color: var(--md-on-surface-variant); }
+.news-card-dot { opacity: 1; color: var(--md-on-surface-tertiary); }
+
+/* a fill with a hard-coded colour needs a hard-coded label, never a role colour that flips */
+.tools-card-badge { color: var(--tool-on, var(--md-on-primary)); }
+.tools-card--green { --tool-on: #fff; --tool-accent: #11703b; }
+.tools-card--purple { --tool-on: #fff; --tool-accent: #6a2bc4; }
+
+/* the old tools page switched all motion off; motion stays, and only reduced-motion turns it off */
+.tools-page *, .tools-audio-page * { animation: revert !important; transition: revert !important; }
+.tools-page .tools-card:hover, .tools-page .tools-card:focus-visible,
+.tools-audio-page .btn:hover, .tools-audio-page .btn.primary:hover, .tools-audio-page .chunk-btn:hover { transform: revert !important; }
+@media (prefers-reduced-motion: reduce) { .tools-page *, .tools-audio-page * { animation: none !important; transition: none !important; } }

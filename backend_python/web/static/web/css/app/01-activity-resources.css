@@ -474,7 +474,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--subject-color);
+  color: color-mix(in srgb, var(--subject-color) var(--ink-mix, 58%), var(--md-on-surface));
   border: 1px solid color-mix(in srgb, var(--md-on-surface) 8%, transparent);
   font-size: 18px !important;
   font-variation-settings: 'FILL' 1;

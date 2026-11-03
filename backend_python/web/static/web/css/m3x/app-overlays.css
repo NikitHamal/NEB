@@ -1,0 +1,90 @@
+/* m3x overlays: dialogs, menus, dropdowns, popups, sheets, snackbars, scrims.
+   One recipe for every floating surface: container-high tone, 1px outline-variant edge, large
+   corner, no shadow. Entry is a spring from the element that opened it; exit is quick and quiet.
+   Overrides material3/09-overlays.css and app/*, so it loads after them. */
+
+.neb-scrim, .neb-menu-scrim, .neb-fab-scrim {
+  background: color-mix(in srgb, var(--md-inverse-surface) 38%, transparent);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+
+/* ---------- dialogs ---------- */
+.neb-dialog, .subject-pick-dialog, .social-link-dialog, .upload-progress-dialog {
+  background: var(--md-surface-container-high); color: var(--md-on-surface);
+  border: 1px solid var(--md-outline-variant); border-radius: 28px;
+}
+.neb-dialog { transform: scale(.9) translateY(16px); transition: transform .55s var(--spring), opacity .2s; }
+.neb-scrim[data-open] .neb-dialog { transform: none; }
+.neb-scrim[data-closing] .neb-dialog { transform: scale(.96); transition-duration: .18s; }
+.neb-dialog-title { font-family: var(--display); font-weight: 600; letter-spacing: -.02em; }
+.neb-dialog-support { color: var(--md-on-surface-variant); }
+.neb-dialog-icon { border-radius: 16px; background: var(--md-primary-container); color: var(--md-on-primary-container); transition: border-radius .6s var(--spring); }
+.neb-dialog:hover .neb-dialog-icon { border-radius: 50%; }
+.neb-dialog-icon-danger { background: var(--md-error-container); color: var(--md-on-error-container); }
+.neb-dialog-actions { gap: 8px; }
+.neb-dialog-actions .md-btn, .neb-dialog-actions button { min-height: 44px; }
+
+/* ---------- sheets ---------- */
+.neb-sheet, .neb-choice-sheet {
+  background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-bottom: 0;
+  border-radius: 28px 28px 0 0; transition: transform .55s var(--spring);
+}
+.neb-sheet-handle { width: 36px; height: 4px; border-radius: 2px; background: var(--md-outline); opacity: .6; }
+.neb-sheet-title { font-family: var(--display); font-weight: 600; letter-spacing: -.02em; }
+.neb-sheet-close { border-radius: 50%; background: var(--md-surface-container-highest); color: var(--md-on-surface); }
+
+/* ---------- menus (neb-menu, more-menu, fab menu, identity menu, profile dropdown) ---------- */
+.neb-menu, .more-menu, .neb-fab-menu, .fp-identity-menu, .profile-dropdown-menu {
+  background: var(--md-surface-container-high); color: var(--md-on-surface);
+  border: 1px solid var(--md-outline-variant); border-radius: 24px; padding: 8px;
+}
+.neb-menu { transform: scale(.9) translateY(-6px); transition: transform .45s var(--spring), opacity .18s; }
+.profile-dropdown-menu {
+  border-radius: 28px; transform-origin: top right; transform: scale(.88) translateY(-10px);
+  transition: transform .5s var(--spring), opacity .18s, visibility .18s;
+}
+.profile-dropdown-menu.show { transform: none; }
+.neb-menu-item, .more-menu-item, .profile-dropdown-menu a, .neb-fab-menu > * {
+  min-height: 46px; padding: 10px 14px; border-radius: 16px; font-weight: 500; color: var(--md-on-surface);
+  transition: border-radius .45s var(--spring), background-color .15s, color .15s;
+}
+.neb-menu-item .material-symbols-outlined, .more-menu-item .material-symbols-outlined,
+.profile-dropdown-menu a .material-symbols-outlined { color: var(--md-on-surface-variant); }
+.neb-menu-item:hover, .neb-menu-item:focus-visible, .more-menu-item:hover, .profile-dropdown-menu a:hover {
+  background: color-mix(in srgb, var(--md-on-surface) 8%, transparent); border-radius: 22px;
+}
+.neb-menu-item:active, .more-menu-item:active, .profile-dropdown-menu a:active { background: color-mix(in srgb, var(--md-on-surface) 12%, transparent); border-radius: 14px; }
+.neb-menu-item[aria-checked="true"], .profile-dropdown-menu a[aria-current="page"] {
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container); font-weight: 600;
+}
+.neb-menu-item[aria-checked="true"] .material-symbols-outlined { color: var(--md-on-secondary-container); }
+.neb-menu-item-danger, .profile-dropdown-menu .menu-logout, .more-menu-item.danger { color: var(--md-error); }
+.neb-menu-item-danger .material-symbols-outlined, .profile-dropdown-menu .menu-logout .material-symbols-outlined { color: var(--md-error); }
+.neb-menu-item-danger:hover, .profile-dropdown-menu .menu-logout:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+.neb-menu-item-danger:hover .material-symbols-outlined, .profile-dropdown-menu .menu-logout:hover .material-symbols-outlined { color: var(--md-on-error-container); }
+.neb-menu-label { color: var(--md-on-surface-variant); }
+.profile-dropdown-menu .menu-divider, .neb-menu-sep { background: var(--md-outline-variant); margin: 6px 8px; }
+.profile-dropdown-header-link { border-radius: 20px !important; }
+.profile-dropdown-header-link:hover { background: color-mix(in srgb, var(--md-on-surface) 8%, transparent) !important; }
+.profile-dropdown-role { color: var(--md-on-surface-variant); }
+.notif-popup-badge { background: var(--md-error); color: var(--md-on-error); border-radius: 10px; min-width: 20px; text-align: center; font-weight: 700; }
+
+/* ---------- user popup (hover card) ---------- */
+.fp-user-popup { background: var(--md-surface-container-high); border: 1px solid var(--md-outline-variant); border-radius: 28px; color: var(--md-on-surface); }
+.fp-user-popup-bio, .fp-user-popup-meta, .fp-user-popup-username { color: var(--md-on-surface-variant); }
+
+/* ---------- snackbar: a pill from the inverse surface, above the bottom bar on phones ---------- */
+.md-snackbar {
+  background: var(--md-inverse-surface); color: var(--md-inverse-on-surface);
+  border-radius: 18px; padding: 14px 22px; font-weight: 500; max-width: min(92vw, 520px);
+  animation: m3-snack .55s var(--spring) both;
+}
+@keyframes m3-snack { from { opacity: 0; transform: translateX(-50%) translateY(24px) scale(.94); } to { opacity: 1; transform: translateX(-50%); } }
+@media (max-width: 768px) { .md-snackbar { bottom: calc(92px + env(safe-area-inset-bottom)); } }
+
+/* ---------- lightbox / media overlays keep their black scrim ---------- */
+.nebians-lightbox-overlay { background: color-mix(in srgb, #000 88%, transparent); }
+
+@media (prefers-reduced-motion: reduce) {
+  .neb-dialog, .neb-menu, .profile-dropdown-menu, .neb-sheet, .md-snackbar { transition-duration: .01s; animation-duration: .01s; }
+}

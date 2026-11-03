@@ -8,7 +8,7 @@
   .rd-hero-art img.neb-pixel-art{object-position:50% 78%}
   .rd-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
   .rd-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:var(--md-radius-full);font-size:.75rem;font-weight:600}
-  .rd-chip-subject{background:color-mix(in srgb, var(--subject-color, var(--md-primary)) 5%, transparent);color:var(--subject-color, var(--md-primary));border:1px solid color-mix(in srgb, var(--subject-color, var(--md-primary)) 18%, transparent)}
+  .rd-chip-subject{background:color-mix(in srgb, var(--subject-color, var(--md-primary)) 5%, transparent);color: color-mix(in srgb, var(--subject-color, var(--md-primary)) var(--ink-mix, 58%), var(--md-on-surface));border:1px solid color-mix(in srgb, var(--subject-color, var(--md-primary)) 18%, transparent)}
   .rd-chip-type{background:color-mix(in srgb, var(--md-primary) 5%, transparent);color:var(--md-primary);border:1px solid color-mix(in srgb, var(--md-primary) 18%, transparent)}
   .rd-chip-grade{background:color-mix(in srgb, var(--md-outline) 5%, transparent);color:var(--md-on-surface-variant);border:1px solid color-mix(in srgb, var(--md-outline) 18%, transparent)}
   /* PAID sat on a solid #16a34a with white text: 2.9:1 at 12px, and a green

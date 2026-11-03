@@ -228,7 +228,7 @@
 .mkt-tone-accent p, .mkt-tone-accent h2, .mkt-tone-accent h3 { color: var(--creator-on-accent) !important; }
 .mkt-tone-accent .md-btn-filled {
   background: var(--creator-on-accent);
-  color: var(--creator-accent);
+  color: color-mix(in srgb, var(--creator-accent) var(--ink-mix, 58%), var(--md-on-surface));
 }
 .mkt-tone-contrast {
   background: var(--creator-ink) !important;
