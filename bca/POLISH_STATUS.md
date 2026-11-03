@@ -341,6 +341,8 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] U2: Plate 2.1 (Royce/Boehm/Jacobson), Plate 2.2 (scrum/kanban/pair), Fig 2.1 waterfall, 2.2 spiral, 2.3 incremental vs waterfall (120 feature-weeks), 2.4 Scrum sprint, 2.5 model-choice flow; 2.10.1 eight agile advantages; Q1-Q2 (5), Q3-Q4 (10). Book now 67 pp, qa fails=0 warns=1 (p3 pre-existing).
 - [x] U3: Plate 3.1 (Y2K sticker / punched card / two-digit-year SVG), Fig 3.1 RE process, 3.2 use case diagram, 3.3 vague-to-testable NFRs, 3.4 value/cost ranking (4.00..0.50), 3.5 SRS layout, 3.6 payback 2.4 y, ROI 108.3%; 3.8.1 eight SRS characteristics; Q1-Q2 (5), Q3-Q4 (10).
 - [x] U4: Plate 4.1 (Dijkstra / Brooks / Apollo DSKY), Fig 4.1 MVC, 4.2 cohesion + coupling ladders, 4.3 structure chart (Henry-Kafura 1,800), 4.4 level-1 DFD, 4.5 class diagram, 4.6 good vs poor error message; 4.5.1 eight design principles; Q1-Q2 (5), Q3-Q4 (10). Book 81 pp, qa fails=0 warns=2.
-- [ ] U5 .. U8 pending (unused photos: gantt (U8), hopper, y2k/card used in U3, hamilton used U1).
+- [x] U5: Plate 5.1 (COBOL card / PDP-11 / pair programming), Fig 5.1 bad vs good code (VAT 13%: Rs 1,130), 5.2 coding quality pipeline, 5.3 Halstead (n 20, N 57, V 246.3, D 16.5, E 4064, B 0.082, Python-computed); 5.4.1 eight coding rules; Q1-Q2 (5), Q3 (10).
+- [x] U6: Plate 6.1 (moth log / cable tester / Ariane fragment), Fig 6.1 V-model, 6.2 equivalence + BVA, 6.3 CFG clamp(x) V(G)=3 (outputs run in Python), 6.4 reliability (R(100)=0.8187, availability 99.2063%), 6.5 CMM stairs; 6.7.1 eight testing principles; Q1-Q2 (5), Q3-Q4 (10). Book 91 pp, qa fails=0.
+- [ ] U7 .. U8 pending (unused photos: gantt (U8), hopper, y2k/card used in U3, hamilton used U1).
 - QA gotcha: `$` in text fails qa (write "370 million US dollars"). Numbered list after a bold line needs a blank line first.
 
