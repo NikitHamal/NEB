@@ -1942,3 +1942,10 @@ All AI agents working on this codebase must maintain a forward-looking, producti
 
 - **Gotcha (session 31):** /tmp/NEB vanished mid-session once; recover with a sparse clone (`git clone --depth 20 --no-checkout`, sparse paths /AGENTS.md /bca/ /notes/pipeline/ /notes/assets/ /notes/curriculum/ /notes/*.md; about 1.5 min). `spine.py` needs notes/curriculum.
 - **Session 31 result:** BCA 252 Software Engineering fully POLISHED (103 pp). **Next: Principles of Management (50 pp), then DBMS (56 pp).** Numbers in units 5-8 come from Python (token substitution `@key@` in `/tmp/w/aN.md`/`bN.md`; check slack and similar values with an assert before writing).
+
+## BCA polish session 32 (Principles of Management, in progress)
+
+- **Done and pushed:** BCA 156 Principles of Management units 1-3 polished (50 -> 65 pp so far, qa fails=0 warns=1 p3 pre-existing); 16 `bca156/` photos registered. Units 4-6 still to do; see `bca/POLISH_STATUS.md`.
+- **Workflow:** `/tmp/w/aN.md` (plate + svgfig figures + eight-point section) and `/tmp/w/bN.md` (model answers); `/tmp/ins2.py` inserts A before the first "Formula and fact sheet"/"Chapter summary" and appends B (recreate it if /tmp is wiped). Build: `NEB_PY=/tmp/v/bin/python /tmp/v/bin/python bca/tools/nebpdf.py course/semester-2/principles-of-management`.
+- **Gotchas:** `Fig.poly` needs `lx=` and `ly=` when a label is given; SVG cells inside a 3-up photogrid are scaled by roughly 0.5, so draw them on a canvas about 190 px wide or text drops below 6 pt; keep description text clear of the right edge in svgfig (estimate 5.5 px per character at 10.5 pt).
+- **Setup:** the clone is shallow+blobless+sparse (`--depth 1 --filter=blob:none --sparse`, then `git sparse-checkout set bca notes/pipeline notes/assets notes/curriculum`), run in the background. Credentials: out-of-repo `/tmp/gitenv.sh` echoing `$NEB_PAT` via `GIT_ASKPASS` (the PAT is never written to the repo; the owner must rotate the PAT that was pasted in the prompt).

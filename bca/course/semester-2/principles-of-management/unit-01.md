@@ -169,6 +169,82 @@ Mintzberg found that real managerial work is **fragmented and fast**: short burs
 - **Change and uncertainty** — pandemics, political and economic shocks, fast-moving markets.
 - **Work–life balance, well-being and remote work.**
 
+```photogrid label="1.1" cols="3" ratio="0.9" caption="Three kinds of organisation, all needing management. (a) The Nepal Telecom customer head office in Kathmandu: a state-owned company that sells services and must earn revenue. (b) Singha Durbar, the seat of the Government of Nepal, photographed in its early years: a public organisation whose goal is administration and service, not profit. (c) The Tribhuvan University campus at Kirtipur: an educational organisation whose output is graduates and research. Each one has people, goals, a structure and a boundary with its environment, which is exactly the definition of an organisation; only the goals differ."
+@ photo id="bca156/ntc" cap="Company: Nepal Telecom"
+fit 0.9
+focus 0.45 0.45
+call 0.5 0.3 0.45 0.2 "head office"
+@ photo id="bca156/singha" cap="Government: Singha Durbar"
+fit 0.9
+focus 0.5 0.55
+call 0.5 0.5 0.4 0.3 "administration"
+@ photo id="bca156/tu" cap="University: Tribhuvan, Kirtipur"
+fit 0.9
+focus 0.5 0.6
+call 0.62 0.72 0.45 0.35 "campus"
+```
+
+```svgfig label="1.1" caption="An organisation as an open system. Inputs from the environment (people, money, materials, information) are changed by the management process into outputs (goods, services, profit, graduates), and feedback from the environment tells managers whether the goals are being met. Example for a college: students, teachers and fees go in; teaching and assessment is the transformation; passed graduates come out; employer opinion and pass rates are the feedback."
+f = Fig(580, 250)
+f.box(8, 8, 564, 234, "", fill=SOFT, stroke=SLATE, dash=True)
+f.text(20, 24, "Environment: economy, law, technology, society, competitors", size=10.5, color=SLATE, bold=True, anchor="start")
+f.box(25, 70, 140, 90, "INPUTS\npeople, money,\nmaterials,\ninformation", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(220, 70, 140, 90, "TRANSFORMATION\nplanning, organising,\nleading, controlling", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(415, 70, 140, 90, "OUTPUTS\ngoods, services,\nprofit, graduates", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.arrow([(165, 115), (220, 115)], color=SLATE, sw=2)
+f.arrow([(360, 115), (415, 115)], color=SLATE, sw=2)
+f.arrow([(485, 160), (485, 205), (95, 205), (95, 160)], color=RED, sw=1.8, dash=True)
+f.text(290, 198, "FEEDBACK: sales, pass rates, complaints, audit reports", size=10.5, color=RED, bold=True)
+f.text(95, 54, "college: students, fees", size=10, color=NAVY)
+f.text(290, 54, "college: teaching", size=10, color=TEAL)
+f.text(485, 54, "college: graduates", size=10, color=AMBER)
+```
+
+```svgfig label="1.2" caption="The management process as a cycle. Planning sets the goals and the way to reach them; organising arranges people, tasks and resources; leading directs and motivates people; controlling compares results with plans and sends corrections back to planning. The four functions overlap in practice, and every manager at every level uses all four, in different amounts."
+f = Fig(580, 250)
+f.circle(290, 125, 46, fill=NAVY, stroke=NAVY, label="GOALS", size=13, color="#ffffff")
+f.box(215, 10, 150, 46, "1 PLANNING\nwhat and how", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(420, 102, 150, 46, "2 ORGANISING\nwho and with what", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(215, 194, 150, 46, "3 LEADING\nmotivate, direct", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(10, 102, 150, 46, "4 CONTROLLING\ncheck and correct", fill=ROSE, stroke=RED, size=11, bold=True)
+f.arrow([(365, 33), (495, 33), (495, 102)], color=SLATE, sw=2)
+f.arrow([(495, 148), (495, 217), (365, 217)], color=SLATE, sw=2)
+f.arrow([(215, 217), (85, 217), (85, 148)], color=SLATE, sw=2)
+f.arrow([(85, 102), (85, 33), (215, 33)], color=SLATE, sw=2)
+```
+
+```svgfig label="1.3" caption="Levels of management and Katz's skill mix. The pyramid has few top managers and many first-line supervisors. The bars on the right show the usual emphasis (illustrative proportions, not measured data): conceptual skill dominates at the top, technical skill at the bottom, and human skill is needed everywhere."
+f = Fig(580, 260)
+f.poly([(150, 20), (210, 20), (240, 90), (120, 90)], fill=ROSE, stroke=RED, lx=180, ly=55, label="Top", size=12, color=RED)
+f.poly([(120, 94), (240, 94), (270, 164), (90, 164)], fill=SAND, stroke=AMBER, lx=180, ly=129, label="Middle", size=12, color=AMBER)
+f.poly([(90, 168), (270, 168), (300, 238), (60, 238)], fill=MINT, stroke=TEAL, lx=180, ly=203, label="First-line", size=12, color=TEAL)
+f.text(180, 252, "few managers at the top, many at the base", size=10, color=SLATE)
+mix = [("Top", 50, 30, 20, 55), ("Middle", 30, 40, 30, 130), ("First-line", 15, 30, 55, 205)]
+for name, c, h, t, y in mix:
+    f.text(395, y + 11, name, size=10.5, color=SLATE, bold=True, anchor="end")
+    x = 405
+    for v, col, st in [(c, NAVY, NAVY), (h, TEAL, TEAL), (t, AMBER, AMBER)]:
+        f.box(x, y, v * 1.65, 22, str(v) + "%", fill=col, stroke=st, color="#ffffff", size=10, bold=True)
+        x += v * 1.65
+f.box(330, 18, 12, 12, "", fill=NAVY, stroke=NAVY)
+f.text(347, 25, "conceptual", size=10, anchor="start")
+f.box(415, 18, 12, 12, "", fill=TEAL, stroke=TEAL)
+f.text(432, 25, "human", size=10, anchor="start")
+f.box(482, 18, 12, 12, "", fill=AMBER, stroke=AMBER)
+f.text(499, 25, "technical", size=10, anchor="start")
+```
+
+### 1.2.1 Eight reasons why management is important
+
+1. **It gives direction to effort.** Without clear goals, people in an organisation work hard but in different directions. Management turns the vision of a bank, a hospital or a college into targets that everyone understands. For example, a Kathmandu bank that sets a goal of opening 20 new branches in a year can then plan staff, money and premises to match.
+2. **It uses scarce resources well.** People, money, time and machines are always limited, especially in a small economy like Nepal's. Managers decide which use of a resource gives the most output for each rupee spent. A school that shares one computer lab among six classes through a timetable is practising this idea.
+3. **It coordinates many people.** Even a small software company has analysts, programmers, testers and sales staff who depend on each other. Management arranges who does what and when, so that work fits together without gaps or double effort. This is the organising function of Figure 1.2.
+4. **It helps the organisation survive change.** Prices, laws, technology and customer taste keep changing, as the growth of Fonepay and ConnectIPS has changed banking habits. Managers who scan the environment can adjust plans before the change becomes a crisis. Figure 1.1 shows the feedback loop that makes this possible.
+5. **It improves efficiency and effectiveness.** Efficiency means doing things right with little waste, and effectiveness means doing the right things to reach the goal. Good management aims at both, for example by cutting the time to issue a driving licence while still checking each applicant carefully.
+6. **It motivates and develops people.** Employees stay longer and work better when they receive fair pay, recognition and training. A manager who coaches a junior programmer is building the organisation's future skills as well as finishing today's task. Strong leadership is a central part of the process.
+7. **It meets social and legal duties.** Organisations must pay taxes, protect workers and respect the environment, whether they are a hotel in Pokhara or a factory in Biratnagar. Management makes sure these duties are planned for and checked. This protects the organisation's good name.
+8. **It creates growth and stability.** A well-managed organisation earns trust from customers, lenders and employees, which lets it expand safely. Poor management is the commonest reason that small businesses close within a few years. For a developing country, many well-run organisations are the basis of jobs and national income.
+
 ## Formula and fact sheet
 
 - Management = getting things done through people to reach goals; efficiency = right way; effectiveness = right goal.
@@ -210,3 +286,58 @@ Mintzberg found that real managerial work is **fragmented and fast**: short burs
 **9.** Interpersonal (figurehead, leader, liaison), informational (monitor, disseminator, spokesperson), decisional (entrepreneur, disturbance handler, resource allocator, negotiator).
 **10.** E.g. youth emigration and talent retention, technological change (digital payments, AI), workforce diversity and inclusion, ethics and governance, uncertainty (earthquakes, politics, pandemics).
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). Define management and explain its main characteristics.**
+
+*Introduction.* Management is the process of planning, organising, leading and controlling the work of people and the use of resources so that the goals of an organisation are achieved efficiently and effectively. Figure 1.2 shows the four functions as one cycle around the goals.
+
+1. **Goal-oriented.** Management exists to achieve goals, such as profit for a company, service for Nepal Telecom customers or graduates for a university (Plate 1.1).
+2. **Universal.** Banks, ministries, hospitals and colleges all need it, although the goals differ.
+3. **Process of several functions.** Planning, organising, leading and controlling are connected and repeated.
+4. **Multi-level.** Top, middle and first-line managers share the work (Figure 1.3), each with a different emphasis.
+5. **Dynamic and continuous.** It adjusts to a changing environment through feedback (Figure 1.1).
+6. **Art, science and profession.** It uses organised knowledge, personal skill in applying it, and a growing code of professional conduct.
+
+*Conclusion.* Management is not a single act but a continuing, goal-directed process that every organisation needs, and its quality decides whether resources become results.
+
+**Q2 (5 marks). Explain Katz's three managerial skills and how their importance changes with the level of management.**
+
+*Introduction.* Robert Katz (1955) argued that managerial success depends on three skills rather than on personality traits. Figure 1.3 shows how the mix changes along the hierarchy.
+
+1. **Technical skill** is the ability to use the methods, tools and knowledge of a specialised field, for example a supervisor who can repair a machine or a team leader who can review code. It is most important for first-line managers, who guide the daily work.
+2. **Human skill** is the ability to understand, motivate, communicate with and lead people, individually and in groups. It is needed equally at every level because management is work done through people.
+3. **Conceptual skill** is the ability to see the organisation as a whole, to understand how its parts and its environment connect, and to think strategically. A chief executive deciding whether a bank should enter mobile payments is using it, so it is most important at the top.
+
+| Level | Strongest need | Typical example |
+|---|---|---|
+| Top | conceptual | managing director sets strategy |
+| Middle | human and conceptual | branch manager coordinates supervisors |
+| First-line | technical and human | shift supervisor guides staff |
+
+*Conclusion.* A person promoted from technical work must therefore develop human and conceptual skills; the ability that earned the first promotion is rarely enough for the next.
+
+**Q3 (10 marks). Define management and explain the management process (functions) in detail. Discuss the levels of management and the roles a manager plays, with examples from Nepal.**
+
+*Introduction.* Management is the process of working with and through other people to achieve organisational goals efficiently and effectively in a changing environment. It is practised in every organisation, from Nepal Telecom to Tribhuvan University and the Government of Nepal (Plate 1.1). Its work is divided into four connected functions, shown in Figure 1.2, and it is shared among three levels, shown in Figure 1.3.
+
+**The four functions.**
+
+1. **Planning** is deciding in advance what to achieve and how. It includes setting objectives, forecasting, choosing strategies and writing budgets. A college that plans to start a BCA programme must decide intake, staff, labs and fees before the first class.
+2. **Organising** turns the plan into a working structure. The manager divides the work into jobs, groups jobs into departments, assigns authority and responsibility, and arranges staff and resources. The result is an organisation chart in which everyone knows their task and their boss.
+3. **Leading** means influencing people to work willingly for the goals. It covers motivation, communication, leadership style and handling conflict. A manager who explains why a deadline matters and rewards good effort gets better results than one who only gives orders.
+4. **Controlling** measures actual results, compares them with the plan, finds the cause of any deviation and corrects it. Monthly sales reports, budget variance reports and examination result analysis are control tools. The corrections go back into the next plan, so the cycle continues.
+
+**Levels of management.** Top managers (managing director, general manager, campus chief) set the direction and are responsible for the whole organisation. Middle managers (branch or department heads) turn strategy into operating plans and coordinate supervisors. First-line managers (supervisors, team leaders) direct the workers who do the actual tasks. The pyramid shape shows that managers become fewer and the time horizon longer as one moves up.
+
+**Managerial roles (Mintzberg, 1973).** Henry Mintzberg observed real managers and grouped ten roles into three sets. *Interpersonal*: figurehead, leader, liaison. *Informational*: monitor, disseminator, spokesperson. *Decisional*: entrepreneur, disturbance handler, resource allocator, negotiator. A branch manager who welcomes a guest of honour is a figurehead; one who reads daily reports is a monitor; one who settles a staff dispute is a disturbance handler.
+
+| Basis | Top | Middle | First-line |
+|---|---|---|---|
+| Main concern | strategy and goals | tactics and coordination | daily operations |
+| Time horizon | years | months | days and weeks |
+| Strongest skill | conceptual | human and conceptual | technical and human |
+| Nepali example | managing director | branch manager | shift supervisor |
+
+*Conclusion.* Management is a continuous cycle of planning, organising, leading and controlling, carried out at three levels through ten roles. A student who understands these functions can analyse any organisation in Nepal and see where its problems lie, whether in unclear goals, weak structure, poor leadership or missing control.
