@@ -75,9 +75,10 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 12 | Mathematics | 2082 | Set R | DONE (8 pp). Other 2082 sets not yet built |
 | 12 | Computer Science | 2082 | Regular + Partial | DONE (7 pp) |
 | 12 | Computer Science | 2081 | Regular + grade increment 4281 | DONE (10 pp; session 2) |
-| 12 | Compulsory English | 2081 | 0041 'B' | DONE (8 pp; session 3). Two Q3a OR alternative (Human Rights and the Age of Inequality) has NO model answer yet: source text not verified; fill in next session |
-| 12 | Compulsory English | 2082 Regular 0041 'C' | regular (reg. no. 81) | DONE (8 pp; session 3). OR alternatives *On Libraries* (Q2b) has NO model answer yet (source text not verified) |
-| 12 | Compulsory English | 2082 Partial (own reading passage), 2083, 2080 (0041 'G' and old-course 004) | all | queued. Partial page: `/2025/05/Compulsory-English-Question-Paper-2082-2025-of-Class-12-Partial-Students-NEB-PDF-Download.html` (different passage from the regular paper) |
+| 12 | Compulsory English | 2081 | 0041 'B' | DONE (8 pp; session 3). Q3a OR (Human Rights and the Age of Inequality, Samuel Moyn) answered in session 4 |
+| 12 | Compulsory English | 2082 Regular 0041 'C' | regular (reg. no. 81) | DONE (8 pp; session 3). OR alternative *On Libraries* (Oliver Sacks) answered in session 4 |
+| 12 | Compulsory English | 2083 Regular 0041 'C' (reg. 82) | regular | DONE (10 pp; session 4; reading passage 'magical library', table interpretation, letter, essay, grammar all with model answers) |
+| 12 | Compulsory English | 2082 Partial (own reading passage), 2080 (0041 'G', 'D' and old-course 004) | all | queued. Partial page: `/2025/05/Compulsory-English-Question-Paper-2082-2025-of-Class-12-Partial-Students-NEB-PDF-Download.html` (different passage from the regular paper) |
 | 12 | Compulsory Nepali | 2082, 2081, 2080 | | queued |
 | 12 | Physics | 2081 | General | queued (2080 URL below; 2081 general URL not found on the aggregator, search `dhanrajgurung.com` or the NEB site) |
 | 12 | Chemistry, Biology, Mathematics, CS | 2080 | General / grade increment | queued |
@@ -87,7 +88,7 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 11 | all science subjects | | | queued |
 | 10, 8 | all | | 7 provinces each | queued |
 
-Bundles built so far (`python3 bundle_papers.py`): Chemistry, Biology, Computer Science, Mathematics, English (2081-2082), Physics (2080-2082). Physics gets a bundle once a second year exists.
+Bundles built so far (`python3 bundle_papers.py`): Chemistry, Biology, Computer Science, Mathematics, English (2081-2083), Physics (2080-2082). Physics gets a bundle once a second year exists.
 
 ### Source index (internal use only; never cite in a PDF). Base `https://www.dhanraj.com.np/`
 2081: `2025/03/Chemistry-General-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Chemistry-General-Stream-MCQ-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Biology-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Biology-MCQs-2081-2024-of-Class-12-NEB`, `.../Computer-Science-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Computer-Science-MCQs-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Compulsory-English-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Mathematics-Question-Paper-2081-2024-for-Regular-Students-of-Class-12-NEB`, `.../Mathematics-MCQs-2081-2024-for-Regular-Students-of-Class-12-NEB`, `.../Mathematics-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Physics-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../chemistry-technical-stream-question-paper-2081-2024-of-class-12-neb`, `.../Biology-Technical-Stream-Question-Paper-2081-2024-of-Class-12-NEB`, `.../Optional-English-...`, `.../Optional-Nepali-...`; Nepali: `2024/08/nepali-question-paper-2081-2024-of-class12-neb`.
@@ -134,3 +135,5 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - `build_paper.py --all` rewrites every PDF byte-differently; only commit the PDFs whose source changed (`git checkout` the rest).
 - Answer notes: Q19(b)(ii) (S in the galvanometer branch) -> no shift, stated with the reason; Q12 OR (b) assumes the 60 N restoring force acts at the amplitude. The figure in Q20(c)(ii) is labelled v + v_s, so the solution treats a receding source.
 - Next: Physics 2081 general (find source), English 2080 'G'/'D', 2082 partial, 2083, Chemistry/Biology/CS 2080, Nepali, Technical, Management/Humanities, then Grade 11, 10 (7 provinces), 8.
+- Also in session 4: English 2083 'C' built (fetched as key `eng80g`/`eng80d` are cached for 2080 'G' and 'D': pages p1.. in /tmp/psrc if still present; URLs: `/2025/08/Compulsory-English-Question-Paper-2080-2023-of-Class-12-NEB-Code-0041G.html`, `/2023/07/Class-12-Compulsory-English-Question-Paper-2080.html`). English bundle is now 2081-2083 (the old 2081-2082 bundle file was removed).
+- Literature facts verified by search: On Libraries = Oliver Sacks; Human Rights and the Age of Inequality = Samuel Moyn (Croesus, Herodotus, UDHR 10 Dec 1948); Marriage as a Social Institution = Stephen L. Nock (social capital, normative marriage); 'A Day' = Emily Dickinson.
