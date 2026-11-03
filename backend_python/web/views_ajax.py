@@ -83,6 +83,12 @@ def ajax_create_reply(request, post_id):
     result = services.create_reply(user, post_id, content, parent_id,
                                    is_anonymous=is_anonymous, attachments=attachments)
     if result:
+        from . import forum_labels
+        kind = forum_labels.clean_kind(data.get('kind')) if not parent_id else 'comment'
+        if kind != 'comment' and result.get('id'):
+            Reply.objects.filter(pk=result['id']).update(kind=kind)
+            result['kind'] = kind
+            result['kindInfo'] = forum_labels.kind_info(kind)
         _clear_page_cache()
         return JsonResponse(result, status=201)
     return JsonResponse({'error': 'Failed'}, status=500)
