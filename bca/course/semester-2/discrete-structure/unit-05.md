@@ -120,6 +120,46 @@ A tree is uniquely determined by its preorder and inorder sequences together.
 
 **Huffman coding** builds an optimal prefix code tree by repeatedly merging the two least frequent symbols. Frequencies a 45, b 13, c 12, d 16, e 9, f 5 (total 100): merge f + e = 14; merge c + b = 25; merge 14 + d = 30; merge 25 + 30 = 55; merge a + 55 = 100. Codes: a = 0 (1 bit), c = 100, b = 101, d = 111, f = 1100, e = 1101. Average length = 0.45·1 + 0.12·3 + 0.13·3 + 0.16·3 + 0.05·4 + 0.09·4 = **2.24 bits**, against 3 bits for a fixed-length code.
 
+## 5.6 One graph, three answers
+
+The weighted graph of Section 5.4 can be read three ways at once (Figure 5.1). The **red numbers** beside each city are the Dijkstra distances from A. The **thick teal edges** are the minimum spanning tree found by Kruskal and Prim, with total weight 13. The thin grey edges are the ones both algorithms rejected. Notice that the shortest path to F (A–C–B–D–E–F, length 13) and the spanning tree are different things: the tree connects everyone cheaply, while a shortest path serves one pair of cities. Think of A as a district office and the other letters as health posts: the spanning tree is the cheapest cable network, Dijkstra tells you the fastest road from the office to each post.
+
+```svgfig label="5.1" caption="Weighted graph of Section 5.4. Thick teal edges form the minimum spanning tree (1 + 2 + 2 + 3 + 5 = 13). Red numbers are Dijkstra distances from A: B 3, C 2, D 8, E 10, F 13. Grey dashed edges (AB 4, CD 8, CE 10, DF 6) are rejected by Kruskal."
+f = Fig(580, 275)
+P = {"A": (70, 125), "B": (200, 50), "C": (200, 200), "D": (370, 50), "E": (370, 200), "F": (510, 125)}
+E = [("A","B",4,0), ("A","C",2,1), ("B","C",1,1), ("B","D",5,1), ("C","D",8,0), ("C","E",10,0), ("D","E",2,1), ("D","F",6,0), ("E","F",3,1)]
+for u, v, w, t in E:
+    (x1, y1), (x2, y2) = P[u], P[v]
+    if t:
+        f.line(x1, y1, x2, y2, color=TEAL, sw=4.2)
+    else:
+        f.line(x1, y1, x2, y2, color=SLATE, sw=1.3, dash=True)
+for u, v, w, t in E:
+    (x1, y1), (x2, y2) = P[u], P[v]
+    mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+    if (u, v) == ("C", "D"): mx, my = mx + 22, my - 12
+    if (u, v) == ("C", "E"): my = my + 14
+    f.box(mx - 13, my - 10, 26, 20, str(w), fill="#ffffff", stroke=TEAL if t else SLATE, color=NAVY, size=11, bold=True)
+D = {"A": 0, "B": 3, "C": 2, "D": 8, "E": 10, "F": 13}
+for k, (x, y) in P.items():
+    f.circle(x, y, 17, fill=BLUE, stroke=NAVY, sw=2, label=k, size=13, color=NAVY)
+    f.text(x, y + (-27 if y < 100 else 34), "d = " + str(D[k]), size=11.5, color=RED, bold=True)
+f.line(20, 262, 52, 262, color=TEAL, sw=4.2); f.text(58, 262, "in MST (weight 13)", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.line(200, 262, 232, 262, color=SLATE, sw=1.3, dash=True); f.text(262, 262, "rejected edge", size=10.5, color=NAVY, anchor="start", vmid=True)
+f.text(400, 262, "d = shortest distance from A", size=10.5, color=RED, anchor="start", vmid=True, bold=True)
+```
+
+## 5.7 Eight uses of graphs and trees
+
+1. **Maps and navigation.** Road networks are weighted graphs, and Dijkstra-type algorithms find the fastest route. A ride-hailing app in Kathmandu recomputes shortest paths every few seconds as traffic weights change.
+2. **Computer networks.** Routers form a graph, and protocols such as OSPF run a shortest-path algorithm to choose where each packet goes. A spanning tree protocol on a college switch stops loops from flooding the network.
+3. **Social networks.** People are vertices and friendships are edges. Degrees show who is popular, BFS finds how many steps separate two people, and components show separate communities.
+4. **Scheduling and timetables.** Exams, classes or tasks that clash are joined by edges, and a proper colouring gives the time slots. A campus needing 3 colours has a clash-free exam routine in 3 sessions.
+5. **Utility networks.** A minimum spanning tree gives the cheapest cable, pipe or road layout that links every village or ward. Kruskal's 13-unit answer in Figure 5.1 is a toy version of planning a rural electricity grid.
+6. **File systems and data structures.** Folders form a rooted tree, and search trees and heaps keep data ordered for fast lookup. A binary search tree of 1,000,000 records needs only about 20 comparisons when it is balanced.
+7. **Compilers and expressions.** A parser turns an expression such as (3 + 4) × 5 into a tree, and postfix traversal gives the order a stack machine evaluates it. Spreadsheet formulas use the same idea.
+8. **Compression.** Huffman coding builds a tree in which frequent symbols get short codes. In the worked example the average falls to 2.24 bits against 3, a saving of about 25 per cent, which is how ZIP and JPEG shrink files.
+
 ## Formula and fact sheet
 
 - Σdeg = 2E; Kₙ has n(n−1)/2 edges; K_{m,n} has mn.
@@ -162,3 +202,69 @@ A tree is uniquely determined by its preorder and inorder sequences together.
 **9.** Preorder 8, 3, 1, 6, 10, 14. Inorder 1, 3, 6, 8, 10, 14 (sorted, since it is a BST). Postorder 1, 6, 3, 14, 10, 8.
 **10.** l = i + 1 for a full binary tree, so i = **14**; total nodes = 14 + 15 = **29**.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain Kruskal's algorithm and find a minimum spanning tree of the graph in Figure 5.1.**
+
+*Introduction.* A spanning tree of a connected graph with V vertices is a subgraph with V − 1 edges that connects all vertices without a cycle. A minimum spanning tree (MST) is the one with the smallest total weight. Kruskal's algorithm builds it greedily.
+
+*Algorithm.*
+
+1. Sort all edges by weight.
+2. Take the next smallest edge.
+3. Add it if it joins two different components; skip it if it would form a cycle (checked with union–find).
+4. Stop when V − 1 edges are chosen.
+
+*Solution.* Sorted edges: BC 1, AC 2, DE 2, EF 3, AB 4, BD 5, DF 6, CD 8, CE 10. Take BC, AC, DE, EF. AB (4) is skipped because A and B are already joined through C. BD (5) joins {A, B, C} to {D, E, F}, so it is taken. That is 5 = 6 − 1 edges, so we stop.
+
+| Step | Edge | Weight | Decision |
+|---|---|---|---|
+| 1 | BC | 1 | take |
+| 2 | AC | 2 | take |
+| 3 | DE | 2 | take |
+| 4 | EF | 3 | take |
+| 5 | AB | 4 | skip (cycle A-B-C) |
+| 6 | BD | 5 | take |
+
+*Conclusion.* MST weight = 1 + 2 + 2 + 3 + 5 = **13**. Prim's algorithm starting at A gives the same total. Sorting makes Kruskal run in O(E log E).
+
+**Q2 (10 marks). Describe Dijkstra's algorithm, apply it to the graph of Figure 5.1 from A, and explain how it differs from BFS and from a minimum spanning tree.**
+
+*Introduction.* The shortest-path problem asks for the least-weight route from a source to every other vertex of a weighted graph. Dijkstra's algorithm solves it when all weights are non-negative.
+
+*Algorithm.*
+
+1. Set the distance of the source to 0 and all others to infinity.
+2. Pick the unfixed vertex with the smallest tentative distance and fix it.
+3. For each neighbour, relax the edge: if d(u) + w < d(v), replace d(v).
+4. Repeat until every vertex is fixed.
+
+*Working from A.*
+
+| Fixed vertex | B | C | D | E | F |
+|---|---|---|---|---|---|
+| A (0) | 4 | 2 | ∞ | ∞ | ∞ |
+| C (2) | 3 | – | 10 | 12 | ∞ |
+| B (3) | – | – | 8 | 12 | ∞ |
+| D (8) | – | – | – | 10 | 14 |
+| E (10) | – | – | – | – | 13 |
+| F (13) | – | – | – | – | – |
+
+*Result.* Distances from A: B 3, C 2, D 8, E 10, F 13. The shortest path to F is A → C → B → D → E → F, with length 2 + 1 + 5 + 2 + 3 = 13.
+
+*Differences.*
+
+5. **BFS** counts edges, not weights, so it finds the path with the fewest hops (A to F is 3 hops via C, D) even when it is heavier. Dijkstra uses weights.
+6. **MST** connects all vertices at the least total cost (13 here) and has no source. A tree path inside the MST can be longer than the shortest path.
+7. **Negative weights** break Dijkstra because a fixed vertex could later be improved; Bellman–Ford is used instead.
+8. **Cost.** With a priority queue Dijkstra runs in O((V + E) log V).
+
+| Feature | BFS | Dijkstra | MST (Kruskal/Prim) |
+|---|---|---|---|
+| Uses weights | no | yes | yes |
+| Goal | fewest edges | least path weight | least total weight |
+| Needs a source | yes | yes | no |
+| Output | layers | distance table | V − 1 edges |
+
+*Conclusion.* Dijkstra fixes vertices in increasing order of distance and relaxes edges, giving all shortest paths from one source. It answers a different question from BFS or an MST, even on the same graph.
