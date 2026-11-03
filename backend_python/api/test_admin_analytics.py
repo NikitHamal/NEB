@@ -310,6 +310,9 @@ class ReportTests(TestCase):
 
 class AdminViewTests(TestCase):
     def setUp(self):
+        from django.core.cache import cache
+
+        cache.clear()  # reports are cached for 60s; tests must not see each other's
         admin = User.objects.create(id='u_admin', username='admin_test', created_at=1, is_admin=True)
         self.client = Client()
         s = self.client.session

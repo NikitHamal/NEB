@@ -179,6 +179,26 @@ def _rank(rows, total: int, limit: int | None = None) -> list[dict]:
     return out
 
 
+def _spark(values: list[int], w: int = 100, h: int = 32, pad: int = 3) -> dict:
+    """SVG polyline + area points for a tiny trend line (viewBox 0 0 w h)."""
+    n = len(values)
+    if n < 2:
+        return {'line': '', 'area': ''}
+    top = max(values) or 1
+    pts = [(i * w / (n - 1), h - pad - (v / top) * (h - 2 * pad)) for i, v in enumerate(values)]
+    line = ' '.join(f'{x:.1f},{y:.1f}' for x, y in pts)
+    return {'line': line, 'area': f'0,{h} {line} {w},{h}'}
+
+
+def _bars(values: list[int], fulls: list[str]) -> list[dict]:
+    """Bar heights (percent of the tallest) with a hover label for each bucket."""
+    top = max(values) if values else 0
+    return [
+        {'v': v, 'h': (max(round(v / top * 100), 6) if v and top else 0), 'tip': f'{fulls[i]}: {v:,}'}
+        for i, v in enumerate(values)
+    ]
+
+
 # --------------------------------------------------------------------------
 # Query helpers
 # --------------------------------------------------------------------------
@@ -308,7 +328,9 @@ def _entry_groups(entry_qs, *fields):
 
 def _kpis(cur: dict, prev: dict, series: dict, growth: dict) -> list[dict]:
     def card(key, label, icon, value, raw, d, spark=None):
-        return {'key': key, 'label': label, 'icon': icon, 'value': value, 'raw': raw, 'delta': d, 'spark': spark or []}
+        sp = _spark(spark or [])
+        return {'key': key, 'label': label, 'icon': icon, 'value': value, 'raw': raw, 'delta': d,
+                'spark_line': sp['line'], 'spark_area': sp['area']}
 
     return [
         card('visitors', 'Visitors', 'group', fmt_num(cur['visitors']), cur['visitors'],
@@ -483,21 +505,22 @@ def _content(qs) -> dict:
                       'count': r['n'], 'visitors': r['v'], 'visitors_display': fmt_num(r['v'])})
     top_pages = _rank(pages, total_pv, 12)
 
-    def top_titles(page_key, model, limit=6):
+    def top_titles(page_key, model, href, limit=6):
         rows = list(qs.filter(page_key=page_key).values('path').annotate(n=Count('id')).order_by('-n')[:limit * 3])
         ids = {}
         for r in rows:
             ident = r['path'].strip('/').split('/')[-1]
             ids[ident] = ids.get(ident, 0) + r['n']
         titles = dict(model.objects.filter(pk__in=list(ids)).values_list('pk', 'title'))
-        out = [{'name': (titles[i] or 'Untitled')[:90], 'count': n, 'id': i} for i, n in ids.items() if i in titles]
+        out = [{'name': (titles[i] or 'Untitled')[:90], 'count': n, 'id': i, 'href': href.format(i)}
+               for i, n in ids.items() if i in titles]
         return _rank(out, sum(ids.values()), limit)
 
     return {
         'sections': _rank([{'name': k, 'count': v} for k, v in sections.items()], total_pv, 10),
         'pages': top_pages,
-        'threads': top_titles('/app/forum/post/*/', Post),
-        'resources': top_titles('/app/resource/*/', Resource),
+        'threads': top_titles('/app/forum/post/*/', Post, '/app/forum/post/{}/'),
+        'resources': top_titles('/app/resource/*/', Resource, '/app/resource/{}/'),
     }
 
 
@@ -551,7 +574,7 @@ def _donut(rows: list[dict]) -> str:
 # --------------------------------------------------------------------------
 
 def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> dict:
-    ck = f'an:report:v1:{rng["start"]}:{rng["end"]}:{source}'
+    ck = f'an:report:v2:{rng["start"]}:{rng["end"]}:{source}'
     if use_cache:
         hit = cache.get(ck)
         if hit is not None:
@@ -586,7 +609,8 @@ def build_report(rng: dict, source: str = 'all', *, use_cache: bool = True) -> d
         prev_total = model.objects.filter(**{f'{field}__gte': rng['prev_start'], f'{field}__lt': rng['prev_end']}).count()
         total = sum(s)
         growth_cards.append({'key': key, 'label': label, 'icon': icon, 'total': total,
-                             'value': fmt_num(total), 'delta': delta(total, prev_total), 'series': s})
+                             'value': fmt_num(total), 'delta': delta(total, prev_total), 'series': s,
+                             'bars': _bars(s, full)})
 
     total_visits = cur['sessions']
     channels = _channels(entry_qs, total_visits)

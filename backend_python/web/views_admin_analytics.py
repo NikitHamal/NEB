@@ -4,6 +4,7 @@ All numbers come from `nebians.analytics.report`; this module only handles the
 request (range + platform filter), the staff guard and rendering.
 """
 import csv
+from datetime import date
 
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -36,6 +37,10 @@ def admin_analytics(request):
 
     rng, source = _params(request)
     data = analytics_report.build_report(rng, source, use_cache=request.GET.get('refresh') != '1')
+    if rng['key'] == 'custom':
+        range_qs = f'from={rng["from"]}&to={rng["to"]}'
+    else:
+        range_qs = f'range={rng["key"]}'
     return render(request, 'admin_panel/analytics.html', {
         'is_admin': True,
         'active_page': 'analytics',
@@ -43,6 +48,8 @@ def admin_analytics(request):
         'range_chips': RANGE_CHIPS,
         'source_chips': SOURCE_CHIPS,
         'source': source,
+        'range_qs': range_qs,
+        'max_date': date.today().isoformat(),
     })
 
 
