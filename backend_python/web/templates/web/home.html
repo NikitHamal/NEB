@@ -1018,6 +1018,7 @@
       if (!pollPanel) return;
       isPollActive = (typeof forceState === 'boolean') ? forceState : (pollPanel.style.display === 'none');
       pollPanel.style.display = isPollActive ? 'flex' : 'none';
+      if (isPollActive) setTimeout(function () { try { pollPanel.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } catch (e) {} }, 60);
       if (addPollBtn) addPollBtn.classList.toggle('is-active', isPollActive);
       if (isPollActive) {
         renderPollOptions();
@@ -1452,19 +1453,28 @@
       });
     }
 
+    var emojiTarget = null;
+    var emojiForm = document.getElementById('homePostForm');
+    function isTextField(el) {
+      return !!el && (el.tagName === 'TEXTAREA' || (el.tagName === 'INPUT' && /^(text|search|)$/.test(el.type))) && !el.closest('.hf-emoji-popover');
+    }
+    if (emojiForm) {
+      emojiForm.addEventListener('focusin', function (e) { if (isTextField(e.target)) emojiTarget = e.target; });
+    }
+
     function insertEmoji(em) {
-      if (!contentInput) return;
-      var pos = contentInput.selectionStart != null ? contentInput.selectionStart : contentInput.value.length;
-      var end = contentInput.selectionEnd != null ? contentInput.selectionEnd : pos;
-      var val = contentInput.value;
-      contentInput.value = val.slice(0, pos) + em + val.slice(end);
+      var field = (emojiTarget && document.contains(emojiTarget) && emojiTarget.offsetParent !== null) ? emojiTarget : contentInput;
+      if (!field) return;
+      var pos = field.selectionStart != null ? field.selectionStart : field.value.length;
+      var end = field.selectionEnd != null ? field.selectionEnd : pos;
+      var room = field.maxLength > 0 ? field.maxLength - (field.value.length - (end - pos)) : Infinity;
+      if (room < em.length) return;
+      var val = field.value;
+      field.value = val.slice(0, pos) + em + val.slice(end);
       var newPos = pos + em.length;
-      try {
-        contentInput.focus({ preventScroll: true });
-      } catch (e) {
-        contentInput.focus();
-      }
-      contentInput.selectionStart = contentInput.selectionEnd = newPos;
+      try { field.focus({ preventScroll: true }); } catch (e) { field.focus(); }
+      field.selectionStart = field.selectionEnd = newPos;
+      field.dispatchEvent(new Event('input', { bubbles: true }));
       updateCharCounter();
       updateSubmitState();
     }
