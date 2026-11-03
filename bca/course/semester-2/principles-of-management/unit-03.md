@@ -183,6 +183,133 @@ A **problem** is a gap between the actual and the desired state. Types: **struct
 
 **Strategies/techniques**: **fishbone (Ishikawa) diagram** (categories of causes: people, method, machine, material, measurement, environment); **5 Whys**; **Pareto analysis** (about 80 % of effects come from 20 % of causes: if two of ten causes account for 15 of 25 complaints, that is 60 %, so fix those first); **brainstorming**; **trial and error**; **lateral thinking**; **algorithmic** (step-by-step rules) vs **heuristic** (rules of thumb); **PDCA**.
 
+```photogrid label="3.1" cols="3" ratio="0.95" caption="Planning in pictures. (a) Henry L. Gantt (1861-1919), who worked with Taylor and introduced the bar chart that carries his name, the standard way of showing a plan against time. (b) Edmund Hillary and Tenzing Norgay after the first ascent of Mount Everest on 29 May 1953. The British expedition behind them was a model of planning: one clear objective, a staged route with camps, stocked supplies and a fixed time window before the monsoon. (c) A small Gantt chart for a college project, a new campus website, with four tasks laid out over eight weeks; the bars show when each task starts and how long it lasts."
+@ photo id="bca156/gantt" cap="Henry L. Gantt"
+fit 0.95
+focus 0.5 0.35
+@ photo id="bca156/tenzing" cap="Hillary and Tenzing, 1953"
+fit 0.95
+focus 0.5 0.45
+call 0.28 0.35 0.2 0.15 "Hillary"
+call 0.72 0.4 0.78 0.2 "Tenzing"
+@ svg cap="Gantt chart: campus website"
+f = Fig(190, 190)
+tasks = [("Plan", 0, 1), ("Design", 1, 3), ("Build", 3, 6), ("Test", 6, 7), ("Launch", 7, 8)]
+f.line(50, 14, 50, 140, color=SLATE, sw=1.4)
+for w in range(0, 9, 2):
+    x = 50 + w * 16
+    f.line(x, 140, x, 145, color=SLATE)
+    f.text(x, 158, str(w), size=10, color=SLATE)
+f.text(114, 178, "weeks", size=10.5, color=SLATE, bold=True)
+cols = [(BLUE, NAVY), (MINT, TEAL), (SAND, AMBER), (ROSE, RED), (BLUE, NAVY)]
+for i, (n, a, b) in enumerate(tasks):
+    y = 16 + i * 24
+    f.text(45, y + 9, n, size=10, color=SLATE, bold=True, anchor="end", vmid=True)
+    f.box(50 + a * 16, y, (b - a) * 16, 18, "", fill=cols[i][0], stroke=cols[i][1])
+```
+
+```svgfig label="3.1" caption="The hierarchy of plans. Each level is more detailed than the one above it, and each must serve it. A mission states why the organisation exists; objectives state what it will achieve; strategies state how; policies guide decisions; procedures and rules fix routine action; programmes and budgets assign time and money. Example for a private college: mission to give job-ready computing education; objective of 90 percent pass rate in two years; strategy of small classes and lab practice; budget for lab computers."
+f = Fig(580, 270)
+steps = [("Mission and vision", "why we exist", BLUE, NAVY),
+         ("Objectives", "what we will achieve, by when", MINT, TEAL),
+         ("Strategies", "how we will compete and grow", SAND, AMBER),
+         ("Policies", "guides for decisions", ROSE, RED),
+         ("Procedures and rules", "exact steps for routine work", BLUE, NAVY),
+         ("Programmes and budgets", "time, tasks and money", MINT, TEAL)]
+for i, (a, b, fl, st) in enumerate(steps):
+    x = 10 + i * 16
+    y = 8 + i * 42
+    f.box(x, y, 250 + i * 12, 36, a, fill=fl, stroke=st, size=11.5, bold=True)
+    f.text(x + 262 + i * 12, y + 18, b, size=10.5, color=SLATE, anchor="start", vmid=True)
+```
+
+```svgfig label="3.2" caption="A SWOT matrix for a small Nepali software firm. Strengths and weaknesses are internal and under management's control; opportunities and threats are external and can only be anticipated. Good strategy uses strengths to seize opportunities, repairs weaknesses that expose the firm to threats, and chooses where to compete."
+f = Fig(580, 250)
+f.box(10, 10, 280, 105, "", fill=MINT, stroke=TEAL)
+f.text(150, 28, "STRENGTHS (internal)", size=11.5, color=TEAL, bold=True)
+f.text(22, 50, "- skilled, low-cost programmers", size=10.5, anchor="start")
+f.text(22, 68, "- good relations with local banks", size=10.5, anchor="start")
+f.text(22, 86, "- fast delivery of small projects", size=10.5, anchor="start")
+f.box(300, 10, 270, 105, "", fill=ROSE, stroke=RED)
+f.text(435, 28, "WEAKNESSES (internal)", size=11.5, color=RED, bold=True)
+f.text(312, 50, "- small capital, few senior staff", size=10.5, anchor="start")
+f.text(312, 68, "- depends on three big clients", size=10.5, anchor="start")
+f.text(312, 86, "- no formal quality process", size=10.5, anchor="start")
+f.box(10, 125, 280, 115, "", fill=BLUE, stroke=NAVY)
+f.text(150, 143, "OPPORTUNITIES (external)", size=11.5, color=NAVY, bold=True)
+f.text(22, 165, "- growth of digital payments", size=10.5, anchor="start")
+f.text(22, 183, "- government e-services projects", size=10.5, anchor="start")
+f.text(22, 201, "- export of IT services", size=10.5, anchor="start")
+f.box(300, 125, 270, 115, "", fill=SAND, stroke=AMBER)
+f.text(435, 143, "THREATS (external)", size=11.5, color=AMBER, bold=True)
+f.text(312, 165, "- skilled staff migrate abroad", size=10.5, anchor="start")
+f.text(312, 183, "- larger foreign vendors", size=10.5, anchor="start")
+f.text(312, 201, "- unstable power and internet", size=10.5, anchor="start")
+```
+
+```svgfig label="3.3" caption="Break-even chart. Selling price Rs 500 per unit, variable cost Rs 300 per unit, fixed cost Rs 1,20,000. Contribution per unit is 500 - 300 = Rs 200, so break-even is 1,20,000 / 200 = 600 units, or Rs 3,00,000 of sales. Below 600 units the firm loses (shaded left of the crossing); above it every extra unit adds Rs 200 profit. At 800 units the profit is 800 x 200 - 1,20,000 = Rs 40,000, a margin of safety of 200 units (25 percent of sales) above break-even."
+f = Fig(580, 270)
+X = lambda u: 70 + u * 0.46
+Y = lambda v: 225 - v * (190 / 500000)
+f.line(70, 225, 540, 225, color=SLATE, sw=1.6)
+f.line(70, 30, 70, 225, color=SLATE, sw=1.6)
+for u in range(0, 1001, 200):
+    f.line(X(u), 225, X(u), 230, color=SLATE)
+    f.text(X(u), 243, str(u), size=10, color=SLATE)
+for v in range(0, 500001, 100000):
+    f.line(65, Y(v), 70, Y(v), color=SLATE)
+    f.text(62, Y(v), str(v // 1000) + "k", size=10, color=SLATE, anchor="end", vmid=True)
+f.text(305, 262, "units sold", size=10.5, color=SLATE, bold=True)
+f.text(8, 18, "Rs", size=10.5, color=SLATE, bold=True, anchor="start")
+f.line(X(0), Y(120000), X(1000), Y(120000), color=AMBER, sw=1.8, dash=True)
+f.line(X(0), Y(120000), X(1000), Y(420000), color=RED, sw=2.2)
+f.line(X(0), Y(0), X(1000), Y(500000), color=NAVY, sw=2.2)
+f.circle(X(600), Y(300000), 6, fill=SAND, stroke=RED, sw=2)
+f.text(X(600) - 10, Y(300000) - 14, "BEP: 600 units, Rs 3,00,000", size=10.5, color=RED, bold=True, anchor="end")
+f.text(X(1000) - 4, Y(500000) + 14, "revenue", size=10.5, color=NAVY, bold=True, anchor="end")
+f.text(X(1000) - 4, Y(420000) + 16, "total cost", size=10.5, color=RED, bold=True, anchor="end")
+f.text(X(1000) - 4, Y(120000) - 8, "fixed cost 1,20,000", size=10, color=AMBER, bold=True, anchor="end")
+f.text(X(150), Y(70000), "LOSS", size=11, color=RED, bold=True)
+f.text(X(850), Y(180000), "PROFIT", size=11, color=TEAL, bold=True)
+```
+
+```svgfig label="3.4" caption="A decision tree for a college that must choose between a large and a small computer lab. Squares are decisions and circles are chance events. With a 0.6 chance of high demand, the large lab has expected value 0.6 x 30 + 0.4 x (-6) = Rs 15.6 lakh and the small lab 0.6 x 12 + 0.4 x 4 = Rs 8.8 lakh, so the large lab is chosen. With perfect information the college would choose the large lab only when demand is high, giving 0.6 x 30 + 0.4 x 4 = Rs 19.6 lakh; the expected value of perfect information is 19.6 - 15.6 = Rs 4.0 lakh."
+f = Fig(580, 250)
+f.box(10, 100, 70, 40, "Choose\nlab", fill=NAVY, stroke=NAVY, color="#ffffff", size=11, bold=True)
+f.circle(230, 50, 24, fill=MINT, stroke=TEAL, label="15.6", size=11, color=TEAL)
+f.circle(230, 195, 24, fill=SAND, stroke=AMBER, label="8.8", size=11, color=AMBER)
+f.line(80, 120, 150, 50, color=SLATE, sw=1.8)
+f.line(150, 50, 206, 50, color=SLATE, sw=1.8)
+f.line(80, 120, 150, 195, color=SLATE, sw=1.8)
+f.line(150, 195, 206, 195, color=SLATE, sw=1.8)
+f.text(135, 22, "large lab", size=11, color=TEAL, bold=True)
+f.text(135, 224, "small lab", size=11, color=AMBER, bold=True)
+f.line(254, 50, 330, 20, color=SLATE, sw=1.6)
+f.line(254, 50, 330, 80, color=SLATE, sw=1.6)
+f.line(254, 195, 330, 165, color=SLATE, sw=1.6)
+f.line(254, 195, 330, 225, color=SLATE, sw=1.6)
+f.text(290, 22, "high 0.6", size=10, color=SLATE)
+f.text(290, 90, "low 0.4", size=10, color=SLATE)
+f.text(290, 167, "high 0.6", size=10, color=SLATE)
+f.text(290, 235, "low 0.4", size=10, color=SLATE)
+f.box(335, 8, 120, 26, "+ Rs 30 lakh", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(335, 68, 120, 26, "- Rs 6 lakh", fill=ROSE, stroke=RED, size=11, bold=True)
+f.box(335, 153, 120, 26, "+ Rs 12 lakh", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(335, 213, 120, 26, "+ Rs 4 lakh", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(470, 100, 100, 40, "BEST: large\nEV 15.6", fill=BLUE, stroke=NAVY, size=11, bold=True)
+```
+
+### 3.1.1 Eight advantages of planning
+
+1. **It gives the organisation a clear direction.** A written plan states where the organisation wants to be and by when, so that every department pulls the same way. A college with a plan to start a BCA programme in two years can recruit teachers, build a lab and apply for affiliation in the right order. Without such a plan, effort is scattered.
+2. **It reduces uncertainty and risk.** Planning forces managers to forecast demand, costs and possible problems before they happen. Seeing a risk early, such as a power cut during an online examination, allows a generator to be arranged in advance. The future stays uncertain, but surprises become fewer and smaller.
+3. **It helps in using resources economically.** A plan shows how much money, staff and time each activity needs, so none is wasted on low-priority work. A budget for a school picnic or a software project stops spending from running past the funds. This is especially important for small Nepali firms with limited capital.
+4. **It improves coordination.** When all departments follow one plan, their work fits together at the right time. In Figure 3.1 the design team finishes before the building team starts, so no one waits or repeats work. Plans also make clear who depends on whom.
+5. **It supports control.** A plan contains targets, and targets are the standard against which results are measured. If the plan says 600 units must be sold to break even, a manager can see every month whether the firm is above or below that line. Planning and controlling are therefore inseparable.
+6. **It encourages creative and forward thinking.** Writing a plan makes managers ask what could be done better and which new opportunities exist. Using a SWOT matrix (Figure 3.2) often reveals ideas that daily routine hides. It moves the organisation from reacting to leading.
+7. **It improves decision making.** A plan fixes goals and criteria, so decisions can be tested against them. A manager who must choose between a large and a small lab can compare the expected values in Figure 3.4. Reasoned choices are easier to explain and defend.
+8. **It motivates employees.** People work better when they know the goal and their part in it. Planning with staff involvement, as in management by objectives, increases commitment and pride in results. The first ascent of Everest in 1953 shows how a shared, clear objective can unite a large team.
+
 ## Formula and fact sheet
 
 - BEP units = FC ÷ (P − VC); target-profit units = (FC + profit) ÷ contribution; margin of safety = (actual − BEP) ÷ actual.
@@ -225,3 +352,72 @@ A **problem** is a gap between the actual and the desired state. Types: **struct
 **9.** Programmed: routine and rule-based; non-programmed: new and unstructured. Process: define the problem → criteria → alternatives → analyse → select → implement → follow up.
 **10.** Define the gap (assignments are late) → analyse causes with a fishbone (People: poor time management; Method: unclear deadlines; Machine: no computers; Material: no references; Environment: noisy hostel) → choose solutions → implement (staged deadlines) → review.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). What is SWOT analysis? Prepare a SWOT matrix for a small software company in Nepal.**
+
+*Introduction.* SWOT analysis is a strategic planning tool that lists an organisation's internal Strengths and Weaknesses and the external Opportunities and Threats, so that managers can choose strategies that fit both the organisation and its environment. Figure 3.2 shows a completed matrix.
+
+1. **Strengths** are internal advantages such as skilled low-cost programmers, good relations with local banks and quick delivery of small projects.
+2. **Weaknesses** are internal limits such as small capital, dependence on three large clients and the absence of a formal quality process.
+3. **Opportunities** are favourable external trends: the spread of digital payments through ConnectIPS and Fonepay, government e-service projects and the export of IT services.
+4. **Threats** are unfavourable external forces: migration of skilled staff, competition from larger foreign vendors and unreliable power and internet.
+5. **Using the matrix.** Match strengths to opportunities (offer payment-system software to banks), repair weaknesses that meet threats (a quality process to win bigger contracts) and avoid the combinations where weakness meets threat.
+
+*Conclusion.* SWOT is simple but powerful when it is honest and specific; its value lies in the strategies it leads to, not in the list itself.
+
+**Q2 (5 marks). A firm sells a product at Rs 500 per unit. Variable cost is Rs 300 per unit and fixed cost is Rs 1,20,000. Find the break-even point, the units needed for a profit of Rs 80,000, and the margin of safety at 800 units. Explain the assumptions.**
+
+*Introduction.* Break-even analysis finds the sales volume at which total revenue equals total cost, so there is neither profit nor loss. Figure 3.3 plots the situation.
+
+1. **Contribution per unit** = selling price - variable cost = 500 - 300 = Rs 200.
+2. **Break-even units** = fixed cost / contribution = 1,20,000 / 200 = **600 units**; break-even sales = 600 x 500 = **Rs 3,00,000**.
+3. **Units for a target profit of Rs 80,000** = (fixed cost + profit) / contribution = (1,20,000 + 80,000) / 200 = **1,000 units**.
+4. **Profit at 800 units** = 800 x 200 - 1,20,000 = **Rs 40,000**; the margin of safety is 800 - 600 = 200 units, which is 200 / 800 = **25 percent of sales**: sales can fall by that much before a loss appears.
+5. **Assumptions.** Price and variable cost per unit are constant, fixed cost stays fixed over the range, everything produced is sold, and only one product is made.
+
+*Conclusion.* Break-even analysis tells a manager the minimum volume that must be sold; its limits are the simple, straight-line assumptions, which real costs seldom follow exactly.
+
+**Q3 (10 marks). Define planning. Explain the planning process, the types and hierarchy of plans, and the advantages and limitations of planning.**
+
+*Introduction.* Planning is the management function of deciding in advance what is to be done, when, how and by whom, in order to reach chosen goals. It is the first function in Figure 1.2 because organising, leading and controlling all depend on it. Henry Gantt's chart (Plate 3.1) and the carefully staged Everest expedition of 1953 are two well-known pictures of planning.
+
+**The planning process.**
+
+1. **Be aware of opportunities** through environmental scanning and SWOT analysis (Figure 3.2).
+2. **Set objectives**: specific, measurable, achievable, relevant and time-bound (SMART).
+3. **State planning premises**: forecasts and assumptions about the future, such as demand, prices and policy.
+4. **Identify alternatives** that could achieve the objectives.
+5. **Evaluate alternatives** against the objectives and premises, using tools such as break-even analysis and decision trees (Figures 3.3 and 3.4).
+6. **Select the best alternative** and adopt it as the plan.
+7. **Formulate supporting plans**, for example hiring, purchasing and training plans.
+8. **Prepare budgets** that convert plans into money terms, and then implement and review.
+
+**Types of plans.** By time: long-term (over five years), medium-term and short-term (up to one year). By use: *single-use plans* (programmes, projects and budgets for one occasion) and *standing plans* (policies, procedures and rules used repeatedly). By level: strategic plans by top managers, tactical plans by middle managers and operational plans by supervisors.
+
+**Hierarchy of plans.** Figure 3.1 shows the order: mission, objectives, strategies, policies, procedures and rules, and programmes and budgets. Each lower plan must support the one above it.
+
+**Advantages.** Planning gives direction, reduces risk, uses resources economically, coordinates departments, supports control, encourages foresight, improves decisions and motivates staff (section 3.1.1).
+
+**Limitations.** It costs time and money; it depends on forecasts that may be wrong; it can make an organisation rigid; it may be pushed aside by urgent daily problems; and a plan nobody believes in is only paper.
+
+| Basis | Standing plan | Single-use plan |
+|---|---|---|
+| Use | repeated situations | one occasion |
+| Examples | policy, procedure, rule | project, programme, budget |
+| Life | long | ends with the project |
+
+*Conclusion.* Planning does not remove uncertainty, but it prepares an organisation to meet it. Good plans are specific, linked from mission to budget, and reviewed regularly as the environment changes.
+
+**Q4 (5 marks). A college can build a large lab (profit Rs 30 lakh if demand is high, loss Rs 6 lakh if low) or a small lab (profit Rs 12 lakh if high, Rs 4 lakh if low). The chance of high demand is 0.6. Use expected monetary value to decide and find the expected value of perfect information.**
+
+*Introduction.* Under risk, probabilities of outcomes are known, so the manager chooses the alternative with the highest expected monetary value (EMV). Figure 3.4 shows the decision tree.
+
+1. **EMV of the large lab** = 0.6 x 30 + 0.4 x (-6) = 18 - 2.4 = **Rs 15.6 lakh**.
+2. **EMV of the small lab** = 0.6 x 12 + 0.4 x 4 = 7.2 + 1.6 = **Rs 8.8 lakh**.
+3. **Decision**: build the large lab, since 15.6 is greater than 8.8.
+4. **With perfect information** the college would build the large lab when demand is high (30) and the small lab when it is low (4): 0.6 x 30 + 0.4 x 4 = **Rs 19.6 lakh**.
+5. **EVPI** = 19.6 - 15.6 = **Rs 4.0 lakh**, the most the college should pay for a perfect demand survey.
+
+*Conclusion.* The large lab has the higher expected profit, but it also carries the risk of a loss; a risk-averse owner might still choose the small lab.

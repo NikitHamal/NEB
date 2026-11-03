@@ -350,3 +350,11 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - NEXT SESSION STARTS AT: Principles of Management (50 pp), then DBMS (56 pp), then rest of Semesters II-VIII. (unused photos: gantt (U8), hopper, y2k/card used in U3, hamilton used U1).
 - QA gotcha: `$` in text fails qa (write "370 million US dollars"). Numbered list after a bold line needs a blank line first.
 
+
+## BCA 156 principles-of-management (semester-2/principles-of-management) -- [~] IN PROGRESS (session 32)
+16 licence-gated `bca156/` photos registered: taylor, fayol, weber, ford, hawthorne, mayo, maslow, deming, gantt, shewhart, singha, tenzing, ntc, tu, nrb, ohno (nrb unused so far).
+- [x] U1: Plate 1.1 (3-up NTC / Singha Durbar / TU with callouts), Fig 1.1 open system, 1.2 POLC cycle, 1.3 levels pyramid + Katz skill mix (illustrative); 1.2.1 eight reasons; Q1-Q2 (5), Q3 (10).
+- [x] U2: Plate 2.1 (3-up Taylor/Fayol/Weber), Plate 2.2 (3-up Ford line / Hawthorne / Mayo), Fig 2.1 timeline of thought, 2.2 environment layers; 2.5.1 eight reasons for CSR; Q1-Q2 (5), Q3 (10), Q4 (5).
+- [x] U3: Plate 3.1 (Gantt portrait / Hillary-Tenzing / Gantt SVG), Fig 3.1 hierarchy of plans, 3.2 SWOT, 3.3 break-even chart (600 units, Rs 3,00,000, computed), 3.4 decision tree (EMV 15.6 / 8.8, EVPI 4.0 lakh, computed); 3.1.1 eight advantages of planning; Q1-Q2 (5), Q3 (10), Q4 (5).
+- [ ] U4 Organising, [ ] U5 Leading (Maslow, Mayo reuse), [ ] U6 Controlling (Deming, Shewhart, Ohno, nrb).
+- NEXT SESSION STARTS AT: first unchecked unit above (U4), then DBMS (56 pp), then the rest of Semesters II-VIII.

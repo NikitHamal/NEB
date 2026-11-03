@@ -139,6 +139,82 @@ Federal structure with three levels of government; liberalised trade and investm
 
 Ethical decision tests: **Utilitarian** (the greatest good for the greatest number), **rights** (does it respect people's rights?), **justice** (is it fair?), and the practical "**newspaper test**" (would I be comfortable seeing this on the front page?). Organisations encourage ethics through a **code of ethics**, ethics training, whistle-blower protection, ethics committees and **leading by example**.
 
+```photogrid label="2.1" cols="3" ratio="1.0" caption="The three founders of classical management theory. (a) Frederick W. Taylor (1856-1915), American engineer, who studied jobs with a stopwatch and published The Principles of Scientific Management in 1911. (b) Henri Fayol (1841-1925), French mining engineer and director, who described management from the chair of the whole company in General and Industrial Management (1916). (c) Max Weber (1864-1920), German sociologist, who described the rule-based, impersonal organisation he called bureaucracy. Taylor looked at the worker's task, Fayol at the manager's job, and Weber at the structure of the whole organisation."
+@ photo id="bca156/taylor" cap="Taylor: scientific management"
+fit 1.0
+focus 0.5 0.35
+@ photo id="bca156/fayol" cap="Fayol: administrative theory"
+fit 1.0
+focus 0.5 0.4
+@ photo id="bca156/weber" cap="Weber: bureaucracy"
+fit 1.0
+focus 0.5 0.35
+```
+
+```photogrid label="2.2" cols="3" ratio="0.95" caption="From machines to people. (a) Chassis moving through the Ford Highland Park plant, Michigan. Ford's moving assembly line (1913) applied Taylor's ideas of specialised, timed tasks, and cut the assembly time of one car chassis from about twelve hours to under two. (b) The Hawthorne Works of the Western Electric Company at Cicero, Illinois, 1925, a plant of tens of thousands of workers where the famous experiments were held between 1924 and 1932. (c) Elton Mayo (1880-1949), the Harvard researcher whose interpretation of Hawthorne launched the human relations movement: attention, belonging and informal groups affect output as much as pay and physical conditions do."
+@ photo id="bca156/ford" cap="Ford assembly line, 1913"
+fit 0.95
+focus 0.5 0.55
+call 0.3 0.7 0.4 0.6 "moving chassis"
+@ photo id="bca156/hawthorne" cap="Hawthorne Works, 1925"
+fit 0.95
+focus 0.55 0.5
+call 0.5 0.62 0.5 0.55 "factory"
+@ photo id="bca156/mayo" cap="Elton Mayo"
+fit 0.95
+focus 0.5 0.4
+```
+
+```svgfig label="2.1" caption="A timeline of management thought. Each school added a new idea without cancelling the old ones: the classical school stressed efficiency and structure, the human relations and behavioural schools stressed people, management science stressed numbers, systems and contingency theories stressed that organisations are connected wholes and that the best method depends on the situation. The dates are approximate decades in which each school was most influential."
+f = Fig(580, 270)
+f.line(30, 245, 560, 245, color=SLATE, sw=1.6)
+yrs = [1900, 1920, 1940, 1960, 1980, 2000]
+for yv in yrs:
+    x = 30 + (yv - 1890) * 4.8
+    f.line(x, 245, x, 250, color=SLATE)
+    f.text(x, 262, str(yv), size=10, color=SLATE, bold=True)
+rows = [("Classical (Taylor, Fayol, Weber)", 1895, 1935, BLUE, NAVY),
+        ("Human relations (Mayo)", 1925, 1955, MINT, TEAL),
+        ("Behavioural science (Maslow, McGregor)", 1945, 1975, SAND, AMBER),
+        ("Management science", 1940, 1990, ROSE, RED),
+        ("Systems theory", 1950, 1985, BLUE, NAVY),
+        ("Contingency theory", 1965, 1995, MINT, TEAL),
+        ("Emerging: quality, learning, digital", 1980, 2005, SAND, AMBER)]
+for i, (n, a, b, fl, st) in enumerate(rows):
+    y = 10 + i * 32
+    x0 = 30 + (a - 1890) * 4.8
+    x1 = 30 + (b - 1890) * 4.8
+    f.box(x0, y, x1 - x0, 24, "", fill=fl, stroke=st)
+    f.text(x0 + 6, y + 12, n, size=10, color=st, bold=True, anchor="start", vmid=True)
+```
+
+```svgfig label="2.2" caption="Levels of the business environment. The internal environment (owners, board, employees, culture, resources) is inside the organisation's control. The task or micro environment (customers, suppliers, competitors, lenders, regulators) touches it directly. The general or macro environment is shared by all organisations and is summarised as PESTLE: political, economic, social, technological, legal and environmental forces. Examples are for a Nepali commercial bank."
+f = Fig(580, 280)
+f.box(10, 8, 560, 264, "", fill=SOFT, stroke=SLATE, dash=True)
+f.text(290, 26, "GENERAL (MACRO): political, economic, social, technological, legal, environmental", size=10.5, color=SLATE, bold=True)
+f.box(60, 42, 460, 214, "", fill=BLUE, stroke=NAVY)
+f.text(290, 58, "TASK (MICRO): customers, suppliers, competitors, lenders, regulators", size=10.5, color=NAVY, bold=True)
+f.box(130, 74, 320, 170, "", fill=MINT, stroke=TEAL)
+f.text(290, 90, "INTERNAL: owners, board, staff, culture, funds", size=10.5, color=TEAL, bold=True)
+f.box(200, 106, 180, 90, "ORGANISATION\ncommercial bank", fill=NAVY, stroke=NAVY, color="#ffffff", size=12, bold=True)
+f.text(290, 220, "shareholders, employees, branches", size=10, color=TEAL)
+f.text(95, 150, "Nepal Rastra\nBank rules", size=9.5, color=NAVY, bold=True)
+f.text(485, 150, "Fonepay,\ncompeting banks", size=9.5, color=NAVY, bold=True)
+f.text(35, 150, "elections,\nbudget", size=9, color=SLATE)
+f.text(546, 150, "mobile\ntechnology", size=9, color=SLATE)
+```
+
+### 2.5.1 Eight reasons why a business should be socially responsible
+
+1. **It protects the organisation's reputation.** Customers in Nepal talk to each other quickly, and social media spreads news of unfair behaviour in hours. A company known for honest pricing and fair treatment of workers is trusted and chosen more often. Reputation is built slowly and lost fast, so responsibility works like insurance.
+2. **It reduces the risk of legal trouble.** Laws on labour, consumer protection, tax and the environment are enforced more strictly each year. A business that already meets these duties avoids fines, closures and court cases. This saves money and the manager's time.
+3. **It attracts and keeps good employees.** Young graduates choose employers that pay on time, treat staff with respect and contribute to society. A firm known for safe workplaces and training loses fewer staff, which cuts recruitment cost. Employees also work with more pride.
+4. **It builds customer loyalty.** Buyers prefer shops and banks that are honest about products, weights and charges. Loyal customers return and recommend the business, which lowers advertising cost. Simple acts such as clear receipts and fair refunds create this loyalty.
+5. **It improves the community in which the business operates.** A hotel in Pokhara or a factory in Butwal depends on local roads, water and workers. Supporting a school, a health post or a clean-up campaign makes the area better for staff and customers alike. A healthy community is a better market.
+6. **It supports long-term profit.** Spending on waste control, worker safety and quality may reduce profit this year, but it prevents accidents, spoiled products and public anger later. Long-term owners therefore treat responsibility as an investment, not a gift.
+7. **It reduces the need for government control.** When firms regulate themselves through codes of conduct and fair practice, the government has less reason to add strict rules. Voluntary action keeps more freedom for managers. Nepal Rastra Bank directives for banks show what happens when voluntary action is not enough.
+8. **It gives moral satisfaction and national benefit.** Business uses the country's people and resources, so it has a duty to give something back. A responsible firm helps reduce poverty and pollution and shows that profit and honesty can go together. This is the ethical case that sits behind the economic ones.
+
 ## Formula and fact sheet
 
 - Scientific management (Taylor): one best way, time study, piece-rate; classical administration (Fayol): principles; bureaucracy (Weber): rules, hierarchy, merit, impersonality.
@@ -181,3 +257,68 @@ Ethical decision tests: **Utilitarian** (the greatest good for the greatest numb
 **9.** Economic → legal → ethical → philanthropic; approaches: obstructionist, defensive, accommodative, proactive.
 **10.** Moral principles applied to business; builds trust, avoids penalties, supports culture and long-term success. Issues: bribery, false advertising, adulteration, tax evasion, data misuse.
 :::
+
+## Model answers (5 and 10 marks)
+
+**Q1 (5 marks). Explain the principles of Taylor's scientific management and give its contributions and criticisms.**
+
+*Introduction.* Frederick W. Taylor (Plate 2.1a) believed that the best way to do every job could be found by study and measurement rather than by rule of thumb. His book of 1911 set out four principles.
+
+1. **Develop a science for each element of work.** Study the job with a stopwatch, remove useless motions and set a standard method and standard time.
+2. **Scientifically select and train workers.** Choose workers whose ability fits the task and train them in the best method instead of letting them learn by chance.
+3. **Cooperate with workers.** Managers ensure that the work is done according to the science, and reward those who follow it with a higher piece rate (differential piece-rate system).
+4. **Divide work and responsibility.** Managers plan and supervise, workers perform; functional foremen specialise in separate aspects of supervision.
+
+*Contributions.* Time and motion study, standard methods, selection and training, incentive wages and the idea that management is a discipline that can be studied. Ford's assembly line (Plate 2.2a) applied the same ideas.
+
+*Criticisms.* Workers were treated as machines, motives other than money were ignored, and unions feared speed-ups and job loss. It suits routine factory work better than knowledge work.
+
+*Conclusion.* Scientific management raised efficiency greatly, but it saw the worker's hands and not the worker's mind, a gap that the human relations school later filled.
+
+**Q2 (5 marks). Describe the Hawthorne experiments and their conclusions for management.**
+
+*Introduction.* The Hawthorne experiments were a series of studies at the Hawthorne Works of the Western Electric Company (Plate 2.2b) between 1924 and 1932, first by engineers and then by a Harvard team led by Elton Mayo (Plate 2.2c).
+
+1. **Illumination studies (1924-27).** Output rose when light was increased, but also when light was reduced and in the control group. Light was therefore not the main cause.
+2. **Relay assembly test room.** A small group of women was given rest pauses, shorter hours and a friendly supervisor. Output rose steadily and stayed high even when some benefits were later withdrawn, because the women felt special, were consulted and formed a team.
+3. **Interviewing programme.** Thousands of interviews showed that workers' feelings, family worries and relations with supervisors affected morale and output.
+4. **Bank wiring observation room.** Men restricted output to a group norm, showing the power of the informal group over individual behaviour.
+
+*Conclusions.* Workers are social beings, not only economic ones; recognition, participation and belonging motivate; informal groups have their own rules; supervisors' style matters. Later writers criticised the research methods, but the human relations movement (Figure 2.1) changed management practice.
+
+*Conclusion.* A manager must manage people's attitudes as carefully as methods and money.
+
+**Q3 (10 marks). Explain the classical theories of management: scientific management, Fayol's administrative theory and Weber's bureaucracy. Compare them and give their limitations.**
+
+*Introduction.* The classical school, which dominated management thought from about 1895 to 1935 (Figure 2.1), looked for universal principles that would make organisations efficient. It has three branches, each linked to one founder (Plate 2.1).
+
+**1. Scientific management (Taylor).** The focus is the individual worker's task. Time and motion study finds the one best way, workers are selected and trained for it, and a differential piece rate rewards output. Taylor reported that a loader at Bethlehem Steel moved about 47 tons of pig iron a day, against about 12.5 before the method was applied. Frank and Lillian Gilbreth added motion study and Henry Gantt added the task bonus and the Gantt chart.
+
+**2. Administrative theory (Fayol).** The focus is the manager's job. Fayol divided industrial activity into technical, commercial, financial, security, accounting and managerial activities, and described management as planning, organising, commanding, coordinating and controlling. He gave fourteen principles: division of work, authority and responsibility, discipline, unity of command, unity of direction, subordination of individual interest to the general interest, remuneration, centralisation, scalar chain, order, equity, stability of tenure, initiative and esprit de corps. He treated them as flexible guides, not laws.
+
+**3. Bureaucracy (Weber).** The focus is the structure of the whole organisation. An ideal bureaucracy has a clear division of labour, a hierarchy of offices, written rules and records, impersonal relations, selection and promotion by qualification and a career for officials. Government offices such as Singha Durbar are close to this model.
+
+| Basis | Scientific management | Administrative theory | Bureaucracy |
+|---|---|---|---|
+| Founder | Taylor | Fayol | Weber |
+| Focus | worker and task | manager and functions | whole organisation |
+| Level studied | operating floor | top management | structure and rules |
+| Main tool | time and motion study | fourteen principles | rules and hierarchy |
+| Main gain | higher output | a general theory of management | fairness, predictability |
+| Weakness | treats workers as machines | too rigid, little on people | red tape, slow change |
+
+**Limitations of the classical school.** It assumed that people are motivated mainly by money; it ignored informal groups, emotions and the external environment; it pictured the organisation as a closed machine; and its rules sometimes conflict (unity of command against specialised supervision). Today's quick-changing organisations need flexibility that these theories do not give.
+
+*Conclusion.* The classical theories gave management its vocabulary of planning, organising, authority and efficiency, and they still shape factories, banks and government offices. Their weakness was a narrow view of people and change, which the human relations, systems and contingency approaches were developed to correct.
+
+**Q4 (5 marks). Explain the internal, task and general environments of a business with examples from Nepal.**
+
+*Introduction.* The business environment is the set of forces inside and outside an organisation that affect its performance. Figure 2.2 shows three layers.
+
+1. **Internal environment.** Owners, the board, employees, culture and finance, which management can control. For a bank, these are shareholders, staff skills and capital.
+2. **Task (micro) environment.** Customers, suppliers, competitors, lenders and regulators with whom the organisation deals directly. For a commercial bank these include depositors, rival banks, Fonepay and Nepal Rastra Bank.
+3. **Political and legal forces.** Government policy, budgets, elections and laws such as the Companies Act or labour law.
+4. **Economic and social forces.** Inflation, interest rates, remittance flows, the age profile of the population and changing habits such as digital payments.
+5. **Technological and natural forces.** Mobile internet, QR payments, and earthquakes or floods, as the 2015 earthquake showed.
+
+*Conclusion.* Managers cannot control the outer layers but must scan them continuously and adapt their plans.
