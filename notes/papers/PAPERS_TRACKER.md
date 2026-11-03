@@ -95,7 +95,7 @@ Numericals: formula, substitution, answer with unit, one-line check. Every `@or`
 | 12 | Physics | 2081 | Technical 9131 (civil / computer / electrical engineering; reg. 79, 80) | DONE (15 pp; session 10; source `phyT81`; Q20 OR closed-pipe figure is an EXACT crop (3 nodes, 3 antinodes, L = 5 lambda/4); Q18(b) circuit and Q10 graphs are redraws; Q18(b) middle cell has no printed emf: R1 = 16 - E2 and E3 = 13 - E2 derived, numbers given for E2 = 0, stated openly in the solution) |
 | 12 | Chemistry | 2081 | Technical 9111 (reg. 79, 80) | DONE (12 pp; session 10; source `chemT81`; text paper; Q20 rate law rate = k[M][N]^2, k = 6 L^2 mol^-2 s^-1; Q15 OR heat of combustion -331.4 kcal/mol; copper flow chart drawn, blast furnace figure reused from Chemistry 2081 General) |
 | 12 | Biology | 2081 | Technical 9101 (reg. 79, 80) | DONE (11 pp; session 10; source `bioT81`; text paper; male reproductive figure reused from Biology 2081 General (still the weakest drawing), thyroid and RNA figures drawn) |
-| 12 | Biology | 2080 | Technical 9101 | queued (source fetched as `bioT80`: `2025/08/Biology-Question-Paper-2080-2023-of-Class-12-NEB-Technical-Stream-Code-9101-PDF-Download.html`) |
+| 12 | Biology | 2080 | Technical 9101 (regular) | DONE (13 pp; session 11; source `bioT80`; text paper, no printed figures; drawn: dicot + monocot T.S., excretory system, semi-conservative replication (replication fork reused from Biology 2080 General); Q16 and Q22 both alternatives answered; Q11 key B stated as an assumption because the printed wording is loose; Q7 key isograft) |
 | 12 | Physics / Chemistry | 2080, 2082 | Technical 9131 / 9111 | queued (Physics 2080 Technical: `2025/09/Physics-Technical-Stream-NEB-Class-12-Question-Paper-2080.html`) |
 | 12 | Mathematics | 2082, 2080 | Technical 9121 | queued |
 | 12 | Management / Humanities / Education / Law | 2082-2080 | all | queued |
@@ -207,3 +207,10 @@ Blogger search feed works for discovery: `GET /feeds/posts/default?q=<terms>&max
 - Figures reused by regex from an earlier content file (copy the whole ```figure block) saves time: blast furnace, full wave rectifier, male reproductive system.
 - Open points: Physics 9131 Q18(b) middle-cell emf (see above); Chemistry 9111 MCQ 11 (paracetamol chosen; Novalgin is also an antipyretic); MCQ keys and figures have had no teacher review.
 - Next (in order): Biology 2080 Technical (`bioT80` cached), Physics/Chemistry Technical 2080 and 2082, Mathematics Technical 2082/2080, Mathematics 2082 other sets and 2080 other sets, English 2080 'D', Management / Humanities / Education / Law, Grade 11, SEE (7 provinces each), Grade 8.
+
+## Session 11 notes (same branch)
+- Fresh sandbox, third clone of the 3 GB repo (takes about 3 minutes; run `git clone --progress` in the background with nohup, a foreground clone hits the 60 s tool limit). Token only via `/tmp/gitenv.sh` (GIT_ASKPASS, reads `$NEB_GH_TOKEN`); never written to the repo. `ln -sfn /tmp/NEB /app/neb`, `ln -sfn /tmp/psrc /app/psrc`.
+- Toolchain install as in session 10 worked unchanged (apt libpango + fontconfig, pip --user packages, `notes/pipeline/fonts/install.sh`, `fc-cache`).
+- Built Biology 2080 Technical 9101 (`content/12-bio-2080-9101.md`); Biology bundle refreshed. Running `bundle_papers.py` rewrites every bundle PDF (non-deterministic bytes): `git checkout` the other subjects' bundles unless their contents changed.
+- Visual checks that caught defects this session: matplotlib annotation text overlapping the drawing (give left-hand labels `ha='right'`), legend colliding with a title line, and a numbered list restarting after a table (use a bold paragraph instead of `4.`).
+- Next (in order): Physics / Chemistry Technical 2080 and 2082, Mathematics Technical 2082/2080, Mathematics 2082 other sets and 2080 other sets, English 2080 'D', Management / Humanities / Education / Law, Grade 11, SEE (7 provinces each), Grade 8.
