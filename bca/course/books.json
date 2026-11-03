@@ -295,5 +295,13 @@
   "credits": 2,
   "accent": "#7C3AED",
   "status": "done"
+ },
+ "semester-5/project-2": {
+  "name": "Project II",
+  "code": "BCA 306",
+  "semester": 5,
+  "credits": 3,
+  "accent": "#7C3AED",
+  "status": "done"
  }
 }

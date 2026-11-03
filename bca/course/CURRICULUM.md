@@ -39,7 +39,7 @@ Assessment (both curricula): 60 % TU final examination, 40 % internal (assignmen
 | V | BCA 303 | Advanced Java Programming | 3 | **full book** (`semester-5/advanced-java`) |
 | V | BCA 304 | MIS and e-Business | 3 | **full book** (`semester-5/mis-and-e-business`) |
 | V | BCA 305 | Society and Technology | 3 | **full book** (`semester-5/society-and-technology`) |
-| V | BCA 306 | Project II | 3 | project (no notes) |
+| V | BCA 306 | Project II | 3 | **full book** (`semester-5/project-2`) |
 | VI | BCA 351 | Computer Graphics and Animation | 3 | **full book** (`semester-6/computer-graphics`) |
 | VI | BCA 352 | Mobile Programming | 3 | **full book** (`semester-6/mobile-programming`) |
 | VI | BCA 353 | Cryptography and Network Security | 3 | **full book** (`semester-6/cryptography-network-security`) |
