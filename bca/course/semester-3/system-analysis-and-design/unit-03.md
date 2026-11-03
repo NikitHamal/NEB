@@ -123,6 +123,78 @@ A **supertype** has attributes common to all; **subtypes** add their own. `Perso
 
 Instead of starting from nothing, analysts can adopt a **packaged conceptual data model** supplied with an ERP package or sold as a **universal data model** (for example, models for customers, orders, products, parties and accounts). Advantages: saves analysis time, based on industry best practice. Disadvantages: may not match the organisation, must be customised. **Database patterns** (analysis patterns) are reusable small models for recurring structures: *party* (a person or organisation that plays roles such as customer, employee, supplier), *product/catalogue*, *order and order line*, *account and transaction*, *hierarchies* (bill of materials), *time-varying data* (history tables). Using a pattern avoids reinventing and reduces mistakes.
 
+## 3.4 Three models drawn out: context, level-0 and entity-relationship
+
+Requirements are first collected from people (Plate 3.1) and then turned into models that everyone can check. A **context diagram** (Figure 3.1) shows the whole system as one process with its external entities and the data flowing in and out; it fixes the system boundary. A **level-0 diagram** (Figure 3.2) opens that process into its main sub-processes and data stores, using the same inputs and outputs so the two levels balance. A **conceptual data model** (Figure 3.3) shows the things the system must remember and how they relate. The running example is a college library: members borrow books, and the librarian manages stock.
+
+```photogrid label="3.1" cols="2" ratio="1.1" caption="Fact-finding for requirements. (a) An interview is the richest technique: the analyst can follow up answers and read body language. (b) The four main techniques compared."
+@ photo id="bca452/interview" cap="Interview with a user"
+fit 1.1
+@ svg cap="Techniques compared"
+f = Fig(300, 270)
+rows = [("Interview", "rich detail, slow"), ("Questionnaire", "many users, shallow"), ("Observation", "real work, time"), ("Documents", "forms, reports, rules")]
+for i, (a, b) in enumerate(rows):
+    y = 14 + i * 62
+    f.box(8, y, 284, 52, "", fill=[BLUE, "#fde68a", "#bbf7d0", "#fbcfe8"][i], stroke=NAVY)
+    f.text(150, y + 18, a, size=14, color=NAVY, bold=True)
+    f.text(150, y + 38, b, size=13, color=NAVY)
+```
+
+```svgfig label="3.1" caption="Context diagram of the library system. One process, two external entities (rectangles) and four data flows (arrows). Nothing inside the system is shown yet."
+f = Fig(600, 190)
+f.circle(300, 95, 52, fill="#bbf7d0", stroke=TEAL, sw=2.2, label="0\nLibrary\nSystem", size=12, color=NAVY)
+f.box(20, 70, 120, 50, "Member", fill=BLUE, color=NAVY, size=13, bold=True)
+f.box(460, 70, 120, 50, "Librarian", fill=BLUE, color=NAVY, size=13, bold=True)
+f.arrow([(140, 85), (248, 85)], color=NAVY, sw=1.8, label="borrow request", lpos=(194, 72), lsize=10)
+f.arrow([(248, 108), (140, 108)], color=NAVY, sw=1.8, label="issue slip, due date", lpos=(194, 124), lsize=10)
+f.arrow([(460, 85), (352, 85)], color=NAVY, sw=1.8, label="new book details", lpos=(406, 72), lsize=10)
+f.arrow([(352, 108), (460, 108)], color=NAVY, sw=1.8, label="overdue report", lpos=(406, 124), lsize=10)
+```
+
+```svgfig label="3.2" caption="Level-0 DFD. Processes are rounded boxes numbered 1 to 3; D1 and D2 are data stores (open boxes). Every flow touches a process, and the external flows match the context diagram, so the two levels balance."
+f = Fig(600, 260)
+f.box(10, 100, 90, 44, "Member", fill=BLUE, color=NAVY, size=12, bold=True)
+f.box(512, 100, 78, 44, "Librarian", fill=BLUE, color=NAVY, size=12, bold=True)
+f.box(180, 24, 120, 50, "1.0 Issue book", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(180, 176, 120, 50, "2.0 Return book", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=11, bold=True)
+f.box(366, 100, 124, 50, "3.0 Report overdue", fill="#bbf7d0", stroke=TEAL, color=NAVY, size=10.5, bold=True)
+f.box(330, 14, 150, 28, "D1  Books", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.box(330, 210, 150, 28, "D2  Loans", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.arrow([(100, 112), (180, 56)], color=NAVY, sw=1.6, label="request", lpos=(122, 70), lsize=9.5)
+f.arrow([(100, 134), (180, 190)], color=NAVY, sw=1.6, label="book + card", lpos=(120, 186), lsize=9.5)
+f.arrow([(300, 40), (330, 30)], color=SLATE, sw=1.5, both=True)
+f.arrow([(300, 206), (330, 222)], color=SLATE, sw=1.5, both=True)
+f.arrow([(428, 210), (428, 150)], color=SLATE, sw=1.5)
+f.arrow([(490, 125), (512, 122)], color=NAVY, sw=1.6)
+f.text(551, 168, "overdue list", size=10, color=NAVY, bold=True)
+f.text(300, 128, "loan record", size=9.5, color=SLATE)
+```
+
+```svgfig label="3.3" caption="Entity-relationship diagram. A member borrows many books and a book can be borrowed by many members over time (M:N), so the associative entity LOAN (issue date, due date, fine) holds each borrowing. Keys: member_id, book_id, loan_id."
+f = Fig(600, 190)
+f.box(10, 60, 140, 70, "MEMBER\nmember_id\nname, phone", fill=BLUE, color=NAVY, size=11, bold=True)
+f.box(230, 60, 140, 70, "LOAN\nloan_id\nissue, due, fine", fill="#fde68a", stroke=AMBER, color=NAVY, size=11, bold=True)
+f.box(450, 60, 140, 70, "BOOK\nbook_id\ntitle, author", fill=BLUE, color=NAVY, size=11, bold=True)
+f.arrow([(150, 95), (230, 95)], color=NAVY, sw=1.8)
+f.arrow([(450, 95), (370, 95)], color=NAVY, sw=1.8)
+f.text(190, 84, "1 : N", size=11, color=RED, bold=True)
+f.text(410, 84, "N : 1", size=11, color=RED, bold=True)
+f.text(80, 150, "borrows", size=10.5, color=SLATE)
+f.text(520, 150, "is borrowed", size=10.5, color=SLATE)
+f.text(300, 172, "MEMBER M:N BOOK resolved by LOAN", size=11, color=TEAL, bold=True)
+```
+
+## 3.5 Eight benefits of modelling before building
+
+1. **Shared understanding.** A diagram is easier for users and developers to read than pages of text. The librarian can check the library DFD and say at once that a return process is missing.
+2. **Boundary of the system.** The context diagram states what is inside and outside the project. This stops scope creep, where extra features are added without cost or time.
+3. **Early error detection.** Unbalanced flows, a process with no output or a data store nobody reads are spotted on paper. Fixing a drawing costs minutes, while fixing code costs days.
+4. **Logical thinking before technology.** DFDs describe what happens to data, not which software or screen is used. The same model works whether the final system is a website, a mobile app or a desk program.
+5. **Divide and conquer.** A large system is split level by level, so each analyst can study one part. A university system can be handled as admission, examination and fee sub-systems.
+6. **Good database design.** An ER diagram reveals entities, keys and M:N relationships before tables are created. It shows, for example, that LOAN is needed to record each borrowing.
+7. **Better communication with management.** Simple diagrams fit in a report or presentation. A sponsor can see the proposal in one page and decide whether to approve it.
+8. **Reusable documentation.** Models stay valuable for maintenance and for training new staff. Years later a new developer can see how data moves through the system without reading all the code.
+
 ## Formula and fact sheet
 
 - Requirements methods: interview, questionnaire, observation, documents (traditional); JAD, prototyping (contemporary); BPR (radical); user stories (agile).
@@ -159,3 +231,63 @@ Instead of starting from nothing, analysts can adopt a **packaged conceptual dat
 **8.** Doctor(doc_id, name, speciality), Patient(pat_id, name), **Appointment**(date, time, fee) as the associative entity resolving M:N *consults*.
 **9.** Supertype Person (id, name); subtypes Student (roll_no) and Teacher (salary); each inherits id and name.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). What is a data flow diagram? Explain its four symbols and the rules for drawing a correct DFD.**
+
+*Introduction.* A data flow diagram (DFD) is a graphical model that shows how data moves through a system: where it comes from, how it is processed, where it is stored and where it goes (Figures 3.1 and 3.2).
+
+*Symbols.*
+
+1. **Process.** A rounded box (or circle) that transforms data, named with a verb phrase and numbered, for example *1.0 Issue book*.
+2. **Data flow.** An arrow carrying named data between elements.
+3. **Data store.** An open-ended box, such as *D1 Books*, where data rests.
+4. **External entity.** A rectangle outside the system that supplies or receives data, such as *Member*.
+
+*Rules.*
+
+5. Every process has at least one input and one output; no process only consumes or only creates data.
+6. Data cannot flow directly between two entities, between two stores, or between a store and an entity; a process must lie between.
+7. Every flow is named and every store has a name.
+8. Parent and child diagrams must balance: the child's external flows equal the parent's.
+
+| Symbol | Shape | Example |
+|---|---|---|
+| Process | rounded box | 1.0 Issue book |
+| Data flow | arrow | borrow request |
+| Data store | open box | D1 Books |
+| Entity | rectangle | Member |
+
+*Conclusion.* A DFD shows what the system does with data, independent of technology, and balanced levels let large systems be explained step by step.
+
+**Q2 (10 marks). For a college library, draw the context diagram, explain the level-0 DFD, and draw an entity-relationship diagram that includes the many-to-many relationship between members and books.**
+
+*Introduction.* Process modelling (DFD) and data modelling (ERD) are the two main analysis models. The DFD shows data in motion; the ERD shows data at rest.
+
+*Context diagram (Figure 3.1).* The whole system is one process, *0 Library System*. The external entities are the **Member** and the **Librarian**. Flows: *borrow request* and *issue slip with due date* between member and system; *new book details* and *overdue report* between librarian and system.
+
+*Level-0 DFD (Figure 3.2).* The system opens into three processes:
+
+1. **1.0 Issue book:** receives the request, checks the book in **D1 Books**, records the loan in **D2 Loans** and returns the issue slip.
+2. **2.0 Return book:** receives the book and card, updates the loan and the book's availability, and calculates any fine.
+3. **3.0 Report overdue:** reads the loans store and sends the overdue list to the librarian.
+
+The external flows match those of the context diagram, so the two levels are balanced.
+
+*Entity-relationship diagram (Figure 3.3).*
+
+4. **Entities.** MEMBER (member_id, name, phone) and BOOK (book_id, title, author).
+5. **Relationship.** A member may borrow many books over time, and a book is borrowed by many members over time: **M:N**.
+6. **Resolution.** A many-to-many relationship cannot be stored directly in a relational table, so an associative entity **LOAN** (loan_id, member_id, book_id, issue_date, due_date, fine) is created. Now MEMBER 1:N LOAN and BOOK 1:N LOAN.
+7. **Keys.** Primary keys: member_id, book_id, loan_id. Foreign keys in LOAN: member_id, book_id.
+8. **Normalisation.** Member and book details are stored once, so no repeating groups or update anomalies arise.
+
+| Aspect | DFD | ERD |
+|---|---|---|
+| Shows | data in motion | data at rest |
+| Main symbols | process, flow, store, entity | entity, attribute, relationship |
+| Question | What happens to data? | What must be remembered? |
+| Becomes | programs and modules | database tables |
+
+*Conclusion.* The context and level-0 diagrams define the processes and the boundary; the ER diagram with the LOAN entity defines the database. Together they form the logical model from which design begins.
