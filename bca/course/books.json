@@ -319,5 +319,13 @@
   "credits": 3,
   "accent": "#9333EA",
   "status": "done"
+ },
+ "semester-8/internship": {
+  "name": "Internship",
+  "code": "BCA 452",
+  "semester": 8,
+  "credits": 3,
+  "accent": "#0F766E",
+  "status": "done"
  }
 }
