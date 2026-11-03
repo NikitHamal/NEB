@@ -444,8 +444,9 @@ def _render_user_content(value):
             parts.append(text[last:])
         return ''.join(parts)
 
-    md_text = replace_mentions(text)
-    html = md_lib.markdown(md_text, extensions=['nl2br', 'tables', 'sane_lists', 'smarty'], output_format='html5')
+    code_split = re.split(r'(```.*?```|`[^`\n]+`)', text, flags=re.DOTALL)
+    md_text = ''.join(part if i % 2 else replace_mentions(part) for i, part in enumerate(code_split))
+    html = md_lib.markdown(md_text, extensions=['fenced_code', 'nl2br', 'tables', 'sane_lists', 'smarty'], output_format='html5')
 
     html = re.sub(
         r'<a href="/app/profile/([^"]+)/">',
@@ -629,7 +630,7 @@ def markdown_format(value):
     """Render markdown formatting safely without mention replacement."""
     if not value:
         return mark_safe('')
-    html = md_lib.markdown(str(value), extensions=['nl2br', 'tables', 'sane_lists', 'smarty'], output_format='html5')
+    html = md_lib.markdown(str(value), extensions=['fenced_code', 'nl2br', 'tables', 'sane_lists', 'smarty'], output_format='html5')
     html = re.sub(
         r'<a href="(?!/)(https?://[^"]+)"(?![^>]*target=)',
         r'<a href="\1" target="_blank" rel="noopener noreferrer"',
