@@ -193,3 +193,6 @@ Note: the repo is private — unauthenticated `git ls-remote` fails with 'could 
 - File tool root is `/app`; the repo is cloned to `/tmp/NEB` and exposed with `ln -sfn /tmp/NEB /app/neb`. Scratch page images live in `/tmp/psrc`, exposed with `ln -sfn /tmp/psrc /app/psrc`.
 - Git auth: `/tmp/gitenv.sh` (outside the repo) answers GIT_ASKPASS from `$NEB_GH_TOKEN`; export `GIT_ASKPASS=/tmp/gitenv.sh GIT_TERMINAL_PROMPT=0` before git commands. The token is never stored in the repo or `.git/config`.
 - The clone is about 3 GB; run it in the background and poll the log.
+
+## Past-papers sessions: file-tool workaround (session 12)
+The file tool is rooted at `/app`; bash sees everything. Clone shallow to `/tmp/NEB` (background, about 3 min, the repo is over 2 GB): `nohup git clone --depth 1 --single-branch --branch resources/past-papers-class12 --progress <repo> /tmp/NEB &`, then `ln -sfn /tmp/NEB /app/neb` so the file tool can use `neb/...` paths. Remove the symlinks before running any validation in `/app` itself. Credentials come only from an out-of-repo `GIT_ASKPASS` helper (`/tmp/gitenv.sh`, reads `$NEB_GH_TOKEN`); nothing secret is written to the repo or `.git/config`. Full notes: `notes/papers/PAPERS_TRACKER.md`.
