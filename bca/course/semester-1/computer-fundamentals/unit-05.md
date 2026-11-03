@@ -56,6 +56,13 @@ Time to send a 1 MB file (8 × 10⁶ bits) on an 8 Mbps link: 8 × 10⁶ / 8 × 
 | Satellite | unguided | worldwide; high latency (GEO ~250 ms one way) | remote villages, VSAT |
 | Infrared, Bluetooth | unguided | short range | remotes, peripherals |
 
+```photogrid label="5.1" cols="4" ratio="1.15" caption="Real transmission media: (a) coaxial cable with its braided shield, (b) Cat-5e UTP cable with RJ-45 plugs, (c) a fibre-optic cable, (d) a single glass fibre stripped of its coating."
+@ photo id="bca101/coax" cap="Coaxial: copper core, insulation, braid shield"
+@ photo id="bca101/rj45" cap="UTP Cat-5e with RJ-45 connectors (4 twisted pairs)"
+@ photo id="bca101/fibre-cable" cap="Fibre-optic cable: glass strands in a protective jacket"
+@ photo id="bca101/fibre-strand" cap="Bare glass fibre: thinner than a hair, carries light"
+```
+
 **Multiplexing** shares one link among many signals: **FDM** (different frequencies), **TDM** (different time slots), **WDM** (different light colours on fibre). **Switching** moves data through a network: **circuit switching** reserves a dedicated path for the whole call (telephone); **packet switching** cuts data into packets that are routed independently and reassembled (the Internet).
 
 ## 5.3 Network types and topologies
@@ -146,6 +153,12 @@ f.text(380, 316, "Circle = computer / node · shaded box = hub or switch", size=
 | Modem | 1 | digital ↔ analog conversion |
 | Access point | 1–2 | connects wireless clients to a wired network |
 | Firewall | 3–7 | filters traffic by rules |
+
+```photogrid label="5.2" cols="3" ratio="1.25" caption="Common network devices: (a) a five-port Gigabit switch, (b) the inside of a wireless router showing the board and antennas, (c) a 3Com Ethernet network interface card (NIC) with its RJ-45 port."
+@ photo id="bca101/switch" cap="Switch: forwards frames by MAC address (Layer 2)"
+@ photo id="bca101/router" cap="Router: forwards packets by IP address (Layer 3)"
+@ photo id="bca101/nic" cap="NIC: gives the host a MAC address and a cable port"
+```
 
 ## 5.5 Layered models: OSI and TCP/IP
 

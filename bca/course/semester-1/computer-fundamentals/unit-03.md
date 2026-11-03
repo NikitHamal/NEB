@@ -169,6 +169,15 @@ A **file** is a named collection of related data. The OS keeps file **attributes
 
 *Cold boot* = from power-off; *warm boot* = restart without cutting power.
 
+```photogrid label="3.1" cols="4" ratio="1.1" caption="Four user interfaces on real screens: (a) a command line (MS-DOS prompt of Windows 95), (b) a Windows 10 graphical desktop, (c) the Ubuntu GNOME desktop, (d) the touch interface of an Android phone."
+@ photo id="bca101/dos" cap="CLI: type a command such as DIR, press Enter"
+crop 0.0 0.0 1.0 1.0
+@ photo id="bca101/win10b" cap="GUI (WIMP): windows, icons, menus, pointer"
+@ photo id="bca101/ubuntu" cap="GUI on Linux: launcher, top panel, windows"
+@ photo id="bca101/android" cap="Touch UI: icons, gestures, notification bar"
+focus 0.5 0.7
+```
+
 ## 3.7 Some operating systems
 
 | OS | Family | Notes |
