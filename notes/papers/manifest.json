@@ -12,7 +12,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 16,
-  "bytes": 273378,
+  "bytes": 273383,
   "id": "12-bio-2081-general"
  },
  {
@@ -28,7 +28,7 @@
   "students": "For regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 202234,
+  "bytes": 202232,
   "id": "12-bio-2082-general"
  },
  {
@@ -44,7 +44,7 @@
   "students": "For the regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 13,
-  "bytes": 234733,
+  "bytes": 234738,
   "id": "12-chem-2081-general"
  },
  {
@@ -76,7 +76,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 10,
-  "bytes": 144062,
+  "bytes": 144060,
   "id": "12-cs-2081-general"
  },
  {
@@ -92,7 +92,7 @@
   "students": "For regular and partial students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 7,
-  "bytes": 107533,
+  "bytes": 107530,
   "id": "12-cs-2082-general"
  },
  {
@@ -108,7 +108,7 @@
   "students": "For regular and grade increment students whose first two digits of registration number start from 78, 79 and 80",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 108864,
+  "bytes": 108869,
   "id": "12-eng-2081-0041b"
  },
  {
@@ -124,7 +124,7 @@
   "students": "For regular students whose first two digits of registration number start from 81",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 108645,
+  "bytes": 108643,
   "id": "12-eng-2082-0041c"
  },
  {
@@ -140,7 +140,7 @@
   "students": "For regular students whose first two digits of registration number start from 80",
   "category": "Board Exam",
   "pages": 11,
-  "bytes": 618226,
+  "bytes": 618232,
   "id": "12-math-2081-set-w"
  },
  {
@@ -156,8 +156,24 @@
   "students": "For the students whose first two digits of registration number start from 80 (partial) and 81 (regular)",
   "category": "Board Exam",
   "pages": 8,
-  "bytes": 474829,
+  "bytes": 474834,
   "id": "12-math-2082-set-r"
+ },
+ {
+  "file": "NEBians-Past-Paper-Grade-12-Physics-2080-General.pdf",
+  "subject": "Physics",
+  "grade": "12",
+  "year_bs": "2080",
+  "year_ad": "2023",
+  "stream": "General Stream",
+  "code": "1021 'Q'",
+  "time": "3 hrs",
+  "marks": "75",
+  "students": "For general stream students whose first two digits of registration number start from 78 and 79 (new course)",
+  "category": "Board Exam",
+  "pages": 17,
+  "bytes": 585255,
+  "id": "12-phy-2080-general"
  },
  {
   "file": "NEBians-Past-Paper-Grade-12-Physics-2082-General.pdf",
@@ -172,7 +188,7 @@
   "students": "For the regular and partial general stream students whose first two digits of registration number start from 78, 79, 80 and 81",
   "category": "Board Exam",
   "pages": 12,
-  "bytes": 470871,
+  "bytes": 470869,
   "id": "12-phy-2082-general"
  }
 ]
