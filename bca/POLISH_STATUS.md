@@ -322,3 +322,9 @@ New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, albert
 - [x] BCA 353 Cryptography and Network Security polished (session 29, 45 -> 83 pp)
 - [~] (NEXT SESSION STARTS HERE) polish remaining thin core books by page count: Distributed System (54), Software Engineering (54), Principles of Management (50), DBMS (56), then the rest of Semesters II-VIII; (was 45), MIS and e-Business (45), Cryptography and Network Security (45), then the rest of Semesters II-VIII; apply the 5 pillars (photos where physical, SVGs, 8-point sections, 5/10-mark answers)
 - [ ] 3 remaining non-core slots: BCA 402 (SPM, if not core), Elective I/II (BCA 405/406), Elective III/IV (BCA 453/454); the elective subjects are not named in CURRICULUM.md, pick from the TU list there; then polish semesters II-VIII one book at a time
+
+## BCA 355 distributed-system (semester-6/distributed-system) -- [~] IN PROGRESS (session 30)
+- [x] U1: Plate 1.1 (3-up: LHC grid hall / blade chassis / NIC), SVG 1.1 three-tier, 1.2 serial vs parallel availability, 1.3 Chord ring path 3->14; 8 applications (1.8.1); Q1-Q3 (2 medium + 1 long).
+- [x] U2: Plate 2.1 (3-up: switch / first web server / RJ-45), SVG 2.1 TCP handshake, 2.2 RPC stub path, 2.3 queue vs pub-sub; 8 advantages (2.7.1); Q1-Q3. Serialization sizes computed in Python.
+- [x] U3: Plate 3.1 (3-up: caesium clock / Lamport / GPS), SVG 3.1 Cristian, 3.2 Berkeley, 3.3 event diagram with Lamport+vector clocks (simulated); 8 uses (3.7.1); Q1-Q3.
+- [ ] U4-U7 pending. Photos already fetched under bca355/: googledc(exterior only), tokenring, paxos, walls, gray, brewer, hdfail (U4-U7).
