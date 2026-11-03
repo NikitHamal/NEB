@@ -17,6 +17,8 @@ Params
   cc_media_id, cc_input_id           staged media + the hidden file input
   cc_anon_id                         identity chooser
   cc_keydown, cc_autofocus, cc_maxlength
+  cc_fc      'tools' adds the writing toolbar, 'kinds' adds the kind row too (forum_composer.js)
+  cc_max     autogrow cap in px, default 120
 
 Hooks other scripts depend on, so they belong to the component: the field holds
 a bare `textarea`, the send button carries `reply-send-btn` with one Material
@@ -26,7 +28,8 @@ Symbol inside it, and inline tools carry `fp-inline-tool`.{% endcomment %}
   {% include "web/partials/_fp_identity_chooser.html" with fp_anon_id=cc_anon_id %}
   {% endif %}
   <div class="neb-composer-body">
-    <textarea id="{{ cc_textarea_id }}" placeholder="{{ cc_placeholder }}" rows="1" data-autoheight data-autoheight-max="120"
+    <textarea id="{{ cc_textarea_id }}" placeholder="{{ cc_placeholder }}" rows="1" data-autoheight data-autoheight-max="{{ cc_max|default:'120' }}"
+            {% if cc_fc %}data-fc="{{ cc_fc }}" data-fc-key="{{ cc_compose_key|default:cc_id }}" {% endif %}
             {% if cc_keydown %}data-keydown-action="{{ cc_keydown }}" {% endif %}{% if cc_autofocus %}data-neb-autofocus {% endif %}{% if cc_maxlength %}maxlength="{{ cc_maxlength }}" {% endif %}></textarea>
     <div class="neb-composer-actions">
       {% if cc_attach_action %}
