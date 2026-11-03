@@ -136,6 +136,117 @@ img { max-width: 100%; height: auto; }
 HTML `<p id="x" class="note">`. Rules: `p { color: red }` (0,0,0,1), `.note { color: green }` (0,0,1,0), `#x { color: blue }` (0,1,0,0), all with equal importance. The `#x` rule wins: **blue**. Add inline `style="color: black"` (1,0,0,0): **black**. `!important` on the `.note` rule would override all of them except another `!important`.
 :::
 
+## 4.8 Seeing CSS: the box, the cascade and the layout
+
+CSS is a visual language, so its rules are best learned from pictures with numbers on them. The plate shows the person who proposed CSS and a timeline of its versions; the figures show the box model with real sizes, the winner of a specificity contest, flexbox and grid layouts with their arithmetic and the breakpoints of a responsive page.
+
+```photogrid label="4.1" cols="2" ratio="1.25" caption="(a) Hakon Wium Lie, who proposed Cascading Style Sheets in October 1994 while working with Tim Berners-Lee at CERN. His proposal had the word cascading in it from the start: several style sheets (author, reader, browser) are combined by rules. (b) The main versions. Each CSS3 module (flexbox, grid, animations, media queries) is specified and released separately instead of as one large version number."
+@ photo id="bca203/hakon" cap="Hakon Wium Lie"
+fit 1.25
+focus 0.5 0.62
+@ svg cap="CSS timeline"
+f = Fig(330, 264)
+ev = [("1994", "Proposal at CERN"), ("1996", "CSS1: fonts, colour, box"), ("1998", "CSS2: positioning"), ("2011", "CSS 2.1 final"), ("2012", "Media queries, modules"), ("2017", "Grid in all browsers")]
+for i, (y, t) in enumerate(ev):
+    yy = 10 + i * 42
+    f.box(6, yy, 60, 28, y, fill=BLUE, stroke=NAVY, size=12.5, bold=True)
+    f.text(76, yy + 14, t, size=13, color=SLATE, bold=True, anchor="start")
+    if i < 5: f.line(36, yy + 28, 36, yy + 42, color=SLATE)
+```
+
+```svgfig label="4.1" caption="The box model with numbers. For div { width: 200px; height: 100px; padding: 20px; border: 5px solid; margin: 30px; } the content box is 200 x 100. With the default box-sizing: content-box the border box is 200 + 2 x 20 + 2 x 5 = 250 px wide and the space the element occupies, including margins, is 250 + 2 x 30 = 310 px wide and 100 + 40 + 10 + 60 = 210 px high. With box-sizing: border-box the width of 200 px already includes padding and border, so the content shrinks to 200 - 40 - 10 = 150 px. Almost every modern stylesheet starts with * { box-sizing: border-box }."
+f = Fig(580, 232)
+f.box(10, 10, 330, 212, "", fill=SAND, stroke=AMBER, dash=True)
+f.box(40, 40, 270, 152, "", fill="#e2e8f0", stroke=SLATE, sw=4)
+f.box(46, 46, 258, 140, "", fill=MINT, stroke=TEAL)
+f.box(86, 86, 178, 60, "content\n200 x 100", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.text(16, 24, "margin 30", size=10, color=AMBER, bold=True, anchor="start")
+f.text(46, 58, "border 5 / padding 20", size=10, color=TEAL, bold=True, anchor="start")
+f.text(360, 40, "content-box (default)", size=11, color=NAVY, bold=True, anchor="start")
+f.text(360, 60, "border box   = 250 x 150", size=10.5, color=SLATE, anchor="start")
+f.text(360, 78, "with margins = 310 x 210", size=10.5, color=SLATE, anchor="start")
+f.text(360, 112, "border-box (modern)", size=11, color=NAVY, bold=True, anchor="start")
+f.text(360, 132, "width 200 includes padding + border", size=10.5, color=SLATE, anchor="start")
+f.text(360, 150, "content = 200 - 40 - 10 = 150", size=10.5, color=SLATE, anchor="start")
+f.text(360, 186, "Margins of neighbouring blocks may collapse:", size=10, color=RED, bold=True, anchor="start")
+f.text(360, 202, "30 px under 20 px gives 30 px, not 50 px.", size=10, color=RED, bold=True, anchor="start")
+```
+
+```svgfig label="4.2" caption="Specificity decides the winner. Four rules target the same paragraph <p class='note'> inside <div id='intro'>. Specificity is written (ids, classes, elements): p = (0,0,1); .note = (0,1,0); p.note = (0,1,1); #intro p = (1,0,1). Compare left to right, not by adding: one id beats any number of classes. So #intro p wins and the text is red. An inline style attribute beats all four, and !important beats inline; if two rules tie, the later one in the file wins."
+f = Fig(580, 190)
+rules = [("p { color: blue }", "(0,0,1)", 1, NAVY), (".note { color: green }", "(0,1,0)", 10, TEAL), ("p.note { color: orange }", "(0,1,1)", 11, AMBER), ("#intro p { color: red }", "(1,0,1)", 101, RED)]
+for i, (r, s, v, c) in enumerate(rules):
+    y = 14 + i * 36
+    f.text(10, y + 12, r, size=10.5, color=SLATE, bold=True, anchor="start")
+    f.text(200, y + 12, s, size=10.5, color=c, bold=True, anchor="start")
+    f.box(270 + 0, y, 20 + v * 2.6 if v < 100 else 280, 24, "winner" if v == 101 else "", fill=ROSE if v == 101 else SOFT, stroke=c, color=c, size=10.5, bold=True, r=3)
+f.text(10, 176, "Order of strength:  browser default < element < class < id < inline style < !important", size=10, color=NAVY, bold=True, anchor="start")
+```
+
+```svgfig label="4.3" caption="How justify-content places three 60 px items in a 300 px flex container. Free space = 300 - 3 x 60 = 120 px. flex-start leaves all 120 px at the end; center puts 60 px on each side; space-between puts 120 / 2 = 60 px in each of the two gaps; space-around gives each item 120 / 3 = 40 px of space split equally, so 20 px on both sides of an item and 40 px between neighbours; space-evenly makes all four gaps 120 / 4 = 30 px. align-items does the same job on the cross axis."
+f = Fig(580, 232)
+modes = [("flex-start", [0, 60, 120]), ("center", [60, 120, 180]), ("space-between", [0, 120, 240]), ("space-around", [20, 120, 220]), ("space-evenly", [30, 120, 210])]
+for i, (m, xs) in enumerate(modes):
+    y = 10 + i * 44
+    f.text(10, y + 17, m, size=10.5, color=NAVY, bold=True, anchor="start")
+    f.box(150, y, 300, 34, "", fill=SOFT, stroke=SLATE)
+    for x in xs:
+        f.box(150 + x, y + 3, 60, 28, "", fill=BLUE, stroke=NAVY)
+    f.text(462, y + 17, "gaps " + ["0 / 120 end", "60 | 60", "60 | 60", "20 | 40 | 20", "30 each"][i], size=9.5, color=TEAL, bold=True, anchor="start")
+```
+
+```svgfig label="4.4" caption="A page layout in CSS Grid. grid-template-columns: 200px 1fr 1fr in a 600 px container with no gap gives the two flexible columns 200 px each ((600 - 200) / 2). With column-gap: 20px the free space is 600 - 200 - 2 x 20 = 360 px, so each 1fr column becomes 180 px. grid-template-areas names the regions: the header spans all three columns, the sidebar takes the first column and main spans the other two, and the footer spans all three. Flexbox arranges items in one direction; Grid arranges rows and columns together."
+f = Fig(580, 220)
+f.box(10, 10, 560, 34, "header   (spans 3 columns)", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(10, 52, 186, 110, "sidebar\n200 px", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.box(206, 52, 364, 110, "main   (spans 2 columns)\n2 x 1fr", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(10, 170, 560, 34, "footer   (spans 3 columns)", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.text(290, 216, "container 600 px, column-gap 20 px: 200 + 180 + 180 + 2 x 20 = 600", size=10, color=SLATE, bold=True)
+```
+
+```svgfig label="4.5" caption="The position property. static is the normal flow. relative moves the element from where it would have been (top: 20px; left: 30px shifts it 20 px down and 30 px right) but still keeps its old space. absolute removes the element from the flow and places it relative to the nearest ancestor that is positioned (not static), here the card; fixed places it relative to the browser window and it stays when scrolling, as on a sticky header or a chat button; sticky behaves like relative until a scroll threshold and then like fixed."
+f = Fig(580, 200)
+f.box(10, 10, 270, 180, "", fill=SOFT, stroke=SLATE)
+f.text(18, 26, "card  (position: relative)", size=10, color=SLATE, bold=True, anchor="start")
+f.box(24, 40, 90, 34, "static A", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(24, 84, 90, 34, "", fill="#ffffff", stroke=SLATE, dash=True)
+f.box(54, 104, 90, 34, "relative B", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.arrow([(69, 101), (54, 104)], color=TEAL)
+f.box(180, 146, 90, 34, "absolute C", fill=SAND, stroke=AMBER, size=10.5, bold=True)
+f.text(180, 138, "bottom:10px; right:10px", size=9, color=AMBER, bold=True, anchor="start")
+f.box(310, 10, 260, 180, "", fill=SOFT, stroke=SLATE)
+f.text(320, 26, "browser window", size=10, color=SLATE, bold=True, anchor="start")
+f.box(320, 36, 240, 26, "fixed header  (top: 0)", fill=BLUE, stroke=NAVY, size=10.5, bold=True)
+f.box(480, 150, 70, 28, "fixed chat", fill=ROSE, stroke=RED, size=10, bold=True)
+f.text(320, 110, "scrolled content passes under", size=10, color=SLATE, anchor="start")
+f.text(320, 128, "the fixed parts and they stay put.", size=10, color=SLATE, anchor="start")
+```
+
+```svgfig label="4.6" caption="Mobile-first responsive design with two breakpoints. The base CSS is for phones (one column). @media (min-width: 600px) switches to two columns and @media (min-width: 992px) to three. Each rule only adds to the smaller layout. The viewport meta tag, width=device-width, is required, otherwise the phone pretends to be 980 px wide and shows a tiny desktop page."
+f = Fig(580, 170)
+def card(x, w, cols, title):
+    f.box(x, 10, w, 120, "", fill=SOFT, stroke=SLATE)
+    cw = (w - 8 - (cols - 1) * 4) / cols
+    for i in range(cols):
+        f.box(x + 4 + i * (cw + 4), 18, cw, 104, "", fill=BLUE, stroke=NAVY)
+    f.text(x + w / 2, 148, title, size=10.5, color=NAVY, bold=True)
+card(10, 100, 1, "under 600 px: 1 column")
+card(150, 190, 2, "600 px and up: 2 columns")
+card(380, 190, 3, "992 px and up: 3 columns")
+f.text(290, 166, "@media (min-width: 600px)  and  @media (min-width: 992px)", size=9.5, color=TEAL, bold=True)
+```
+
+### 4.8.1 Eight rules for maintainable CSS
+
+1. **Reset the box model first.** Start the stylesheet with box-sizing: border-box for all elements. Then a width of 200 px really means 200 px, and padding does not secretly make columns wider. This single line prevents most layout surprises in a college website with many forms.
+2. **Keep specificity low and flat.** Prefer single class selectors such as .card-title over long chains or ids. Low specificity makes later overrides easy, while high specificity leads to !important wars. A team that follows this can change one button style without breaking ten pages.
+3. **Use relative units.** Write font sizes in rem, widths in percentages or fr and spacing in em or rem. The page then respects the user's browser font size and adapts to different screens. A reader with weak eyesight who enlarges the text in a Nepali news portal still gets a usable layout.
+4. **Name by purpose, not by looks.** A class called .notice-warning stays correct when the colour changes, but .red-text does not. Meaningful names make the HTML readable and the CSS easier to search. Conventions such as BEM (block__element--modifier) help large teams.
+5. **Build mobile-first.** Write the single-column phone layout as the base and add min-width media queries for bigger screens. Most Nepali users open sites on phones, and this method sends them the lightest code. It also forces the designer to decide what is truly important.
+6. **Choose the right layout tool.** Use flexbox for one-dimensional rows or columns such as a navigation bar, and grid for two-dimensional page layouts. Avoid floats and tables for layout. A results page with a header, sidebar and table is a natural grid job.
+7. **Use variables and a small palette.** Define colours, spacing and fonts once as custom properties such as --brand: #1e3a8a. Changing one line then re-themes the entire site. A college that changes its logo colour can update all pages in minutes.
+8. **Check contrast, focus and print.** Text needs enough contrast against its background (at least 4.5 to 1 for normal text), links need a visible focus outline, and a print stylesheet can hide menus. These details make the site usable by everyone, including people with colour-vision problems or in bright sunlight.
+
 ## Formula and fact sheet
 
 - Rule: `selector { property: value; }`. Specificity (inline, id, class, element); later rule wins ties.
@@ -171,3 +282,78 @@ HTML `<p id="x" class="note">`. Rules: `p { color: red }` (0,0,0,1), `.note { co
 **7.** `.row { display: flex; justify-content: space-evenly; }`
 **8.** Design and write CSS for the smallest screen first, then use `min-width` media queries to add layout for larger screens.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Explain the CSS box model. For an element with width 200 px, padding 20 px, border 5 px and margin 30 px, calculate the total horizontal space it occupies in both box-sizing modes.**
+
+*Introduction.* Every element is drawn as a rectangular box made of four layers, from the inside out: content, padding, border and margin (section 4.3, Figure 4.1).
+
+1. **Content** holds the text or image; its size is set by width and height.
+2. **Padding** is transparent space between the content and the border and takes the element's background.
+3. **Border** is the line around the padding, with its own width, style and colour.
+4. **Margin** is the transparent space outside the border that separates the element from its neighbours; vertical margins of adjacent blocks collapse to the larger one.
+5. **Calculation, content-box (default).** Total = 200 + (2 x 20) + (2 x 5) + (2 x 30) = 200 + 40 + 10 + 60 = **310 px**.
+6. **Calculation, border-box.** The width of 200 px already includes padding and border, so the content is 200 - 40 - 10 = 150 px, and the total including margins is 200 + 60 = **260 px**.
+
+| Layer | Size | Counted in content-box width? |
+|---|---|---|
+| Content | 200 px | Yes, it is the width |
+| Padding | 20 px each side | No, it is added |
+| Border | 5 px each side | No, it is added |
+| Margin | 30 px each side | No, it is outside |
+
+*Conclusion.* The same CSS gives 310 px or 260 px depending on box-sizing, which is why modern sheets set border-box for every element.
+
+**Q2 (5 marks). What is the cascade? Explain how the browser resolves conflicting CSS rules using origin, specificity and order, with an example.**
+
+*Introduction.* More than one rule can set the same property on one element, so CSS defines an ordered way to choose a single winner (section 4.2, Figure 4.2).
+
+1. **Origin and importance.** Rules come from the browser default, the user and the author. Author rules beat browser defaults, and a declaration marked !important beats normal ones.
+2. **Specificity.** For equal origin, the more specific selector wins. It is a triple (ids, classes, elements) compared left to right: p is (0,0,1), .note is (0,1,0), #intro p is (1,0,1).
+3. **Inline style.** A style attribute is stronger than any selector in a stylesheet.
+4. **Order.** If specificity ties, the rule written later in the document wins.
+5. **Inheritance.** Properties like color and font-family pass from parent to child when no rule applies; box properties such as margin do not.
+
+```css
+p { color: blue; }
+.note { color: green; }
+#intro p { color: red; }
+```
+
+For `<div id="intro"><p class="note">Hello</p></div>` the three rules apply, and the text is **red** because (1,0,1) beats (0,1,0) and (0,0,1).
+
+*Conclusion.* The cascade is a fixed ranking of origin, specificity and order, so the same page always renders the same way.
+
+**Q3 (10 marks). Explain how a responsive page layout is built with Flexbox, Grid and media queries. Write the CSS for a page with a header, a sidebar, a main area and a footer that becomes a single column on phones.**
+
+*Introduction.* Visitors use screens from 360 px phones to wide monitors, so a page must adapt its layout instead of being fixed at one width. Modern CSS gives three tools: flexbox for one-dimensional arrangement, grid for two-dimensional layout, and media queries for changing the rules at chosen widths (sections 4.6 and 4.7, Figures 4.3, 4.4 and 4.6).
+
+1. **Viewport tag.** The page needs meta name="viewport" content="width=device-width, initial-scale=1"; otherwise phones show a shrunken desktop page.
+2. **Fluid units.** Use percentages, fr, rem and max-width instead of fixed pixel widths, and max-width: 100% for images.
+3. **Flexbox.** display: flex on a container arranges children in a row; justify-content distributes free space on the main axis (Figure 4.3), align-items on the cross axis, and flex-wrap lets items move to the next line. It suits navigation bars and card rows.
+4. **Grid.** display: grid with grid-template-columns and grid-template-areas defines rows and columns together; 200px 1fr 1fr gives a fixed sidebar and two equal flexible columns (Figure 4.4).
+5. **Media queries.** @media (min-width: 768px) { ... } applies rules only above a width, so the base CSS serves phones (mobile-first).
+6. **Breakpoints.** Choose breakpoints where the content breaks, typically near 600 px and 992 px, not at the sizes of particular devices.
+7. **Testing.** Resize the browser and use the device toolbar of the developer tools to check each width.
+8. **Accessibility.** Keep text readable without zooming and keep touch targets about 44 px high.
+
+```css
+* { box-sizing: border-box; }
+.page { display: grid; gap: 16px;
+        grid-template-areas: "head" "side" "main" "foot"; }
+header { grid-area: head; } aside { grid-area: side; }
+main { grid-area: main; }   footer { grid-area: foot; }
+@media (min-width: 768px) {
+  .page { grid-template-columns: 200px 1fr;
+          grid-template-areas: "head head" "side main" "foot foot"; }
+}
+```
+
+| Tool | Dimension | Best for |
+|---|---|---|
+| Flexbox | One (row or column) | Menus, toolbars, card rows |
+| Grid | Two (rows and columns) | Whole-page layout |
+| Media query | Conditions on the screen | Changing layout at breakpoints |
+
+*Conclusion.* A responsive layout starts with a fluid, single-column base and adds grid or flex rules inside media queries; this serves phones first and scales up, with the same HTML for all devices.
