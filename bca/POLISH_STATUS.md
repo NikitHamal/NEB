@@ -270,7 +270,7 @@ New section in each unit is x.7 (U1 1.7 ... U7 7.7, U3 is 3.6, U5 5.6, U6 6.6) i
 - QA gotcha: qa_pdf.py FAILS on any `$` or double backslash in non-monospace text (captions, svg text). Put regex with `$` in backticks (code span) and say "dollar anchor" in prose/figures.
 
 ## BCA 304 mis-and-e-business (semester-5/mis-and-e-business) -- [x] POLISHED (session 28): all 7 units, 77 pp (was 45), qa fails=0 warns=2 (p3 and a short unit tail), check_mis.py --verify: 113 tokens, 0 absent
-11 new licence-gated `bca304/` photos fetched and viewed (porter, ship, nrb, atm, selfcheck, forklift, tape; atm and tape/forklift partly used); reused bca101 ibm1401/atm-nepal, bca401 serverroom/fingerprint/yubikey/singha/switch.
+7 new licence-gated `bca304/` photos fetched and viewed (porter, ship, nrb, selfcheck, forklift, tape, atm - atm registered but unused); reused bca101 ibm1401/atm-nepal, bca401 serverroom/fingerprint/yubikey/singha/switch.
 - [x] U1: Plate 1.1 3-up (IBM 1401 / Nepal ATM / self-checkout), Fig 1.1 data-information-knowledge-action, 1.2 organisation pyramid, 1.3 systems feeding one database; 1.7.1 eight benefits; Q1-Q2 (5), Q3 (10).
 - [x] U2: Plate 2.1 (Porter portrait + container port), Fig 2.1 five forces (3.95), 2.2 HHI 3250 -> 3550, 2.3 value chain, 2.4 Metcalfe (45/190/4,950); 2.8.1 eight ways; Q1-Q2 (5), Q3 (10).
 - [x] U3: Plate 3.1 (forklift + three flows SVG), Fig 3.1 ERP one database, 3.2 EOQ cost curve (774.6; 15,492), 3.3 reorder point / safety stock (197.4; 1,547.4), 3.4 bullwhip (36.82 / 6.07); 3.6.1 eight ERP benefits; Q1-Q2 (5), Q3 (10).
