@@ -86,19 +86,41 @@ class StudyReaderTests(TestCase):
         self.assertEqual(self.client.get('/app/syllabus/12/physics/exam-guide/').status_code, 200)
         self.assertEqual(self.client.get('/app/syllabus/11/physics/unit-99/').status_code, 404)
 
-    def test_crumbs_switch_class_subject_and_unit(self):
-        """The breadcrumb is also the switcher, so every target its popups offer
-        has to be live, and the trigger has to show its own value only."""
-        html = self.client.get('/app/syllabus/11/physics/unit-3/').content.decode()
+    def test_crumbs_switch_class_and_subject(self):
+        """The subject page's breadcrumb is the switcher, so every target its
+        popups offer has to be live, and the trigger shows its own value only.
+        The reader has no crumbs: its left rail carries the units."""
+        html = self.client.get('/app/syllabus/11/physics/').content.decode()
         nav = re.search(r'<nav class="st-crumbs".*?</nav>', html, re.S).group(0)
         self.assertEqual(re.findall(r'aria-label="(Choose [^"]+)"', nav),
-                         ['Choose class', 'Choose subject', 'Choose unit'])
+                         ['Choose class', 'Choose subject'])
         self.assertIn('<a class="st-pick-o is-current" role="menuitem" href="/app/syllabus/11/">Class 11</a>', nav)
         self.assertIn(' href="/app/syllabus/11/physics/">Physics</a>', nav)
-        self.assertIn('>Unit 3 · Kinematics</a>', nav)
         self.assertIn('<span class="st-pick-t">Physics</span>', nav)
         for url in re.findall(r'href="([^"]+)"', nav):
             self.assertEqual(self.client.get(url).status_code, 200, url)
+
+    def test_the_reader_is_a_reading_window(self):
+        """No site bar, its own bar, a units rail and the contents column."""
+        html = self.client.get('/app/syllabus/11/physics/unit-3/').content.decode()
+        self.assertNotIn('class="md-topbar"', html)
+        self.assertNotIn('class="st-crumbs"', html)
+        self.assertIn('class="rd-bar"', html)
+        self.assertIn('data-rd-toc-open', html)
+        self.assertIn('class="rd-units"', html)
+        self.assertIn('data-rd-unit="11/physics/unit3"', html)
+        self.assertIn('aria-current="page"', html)
+        self.assertIn('id="rdToc"', html)
+        self.assertIn('>On this page</p>', html)
+        self.assertIn('data-rd-done', html)
+        self.assertIn('data-rd-units-toggle', html)
+        # class and subject are editable from the bar, with the current value on the trigger
+        self.assertIn('class="rd-picks"', html)
+        self.assertIn('aria-label="Choose class"', html)
+        self.assertIn('aria-label="Choose subject"', html)
+        self.assertIn('<span class="st-pick-t">Class 11</span>', html)
+        self.assertIn('<span class="st-pick-t">Physics</span>', html)
+        self.assertIn('<a class="st-pick-o" role="menuitem" href="/app/syllabus/12/">Class 12</a>', html)
 
     def test_nepali_questions_are_tappable(self):
         page = self.client.get('/app/syllabus/10/nepali/bank-1/')
@@ -302,12 +324,15 @@ class EntranceTrackTests(TestCase):
     def test_track_crumbs_offer_classes_and_tracks(self):
         """Entrance books say "chapter", and the class popup lists the school
         classes and the tracks side by side."""
-        html = self.client.get('/app/syllabus/cee/physics/unit-1/').content.decode()
+        html = self.client.get('/app/syllabus/cee/physics/').content.decode()
         nav = re.search(r'<nav class="st-crumbs".*?</nav>', html, re.S).group(0)
-        self.assertIn('aria-label="Choose chapter"', nav)
+        self.assertIn('aria-label="Choose class"', nav)
         self.assertIn('<a class="st-pick-o is-current" role="menuitem" href="/app/syllabus/cee/">CEE</a>', nav)
         self.assertIn('<a class="st-pick-o" role="menuitem" href="/app/syllabus/11/">Class 11</a>', nav)
-        self.assertIn('>Chapter 1 · Vectors and Kinematics</a>', nav)
+        # the reader's rail keeps the chapter-to-chapter hop, and calls it a chapter
+        unit = self.client.get('/app/syllabus/cee/physics/unit-1/').content.decode()
+        self.assertIn('class="rd-units"', unit)
+        self.assertIn('>All chapters</p>', unit)
 
     def test_api_index_splits_classes_and_tracks(self):
         data = self.client.get('/api/syllabus/v2/').json()
