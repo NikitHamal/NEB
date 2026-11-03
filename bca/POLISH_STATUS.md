@@ -280,6 +280,14 @@ New section in each unit is x.7 (U1 1.7 ... U7 7.7, U3 is 3.6, U5 5.6, U6 6.6) i
 - [x] U7: Plate 7.1 (Singha Durbar + switches), Fig 7.1 cumulative cash flow (payback 3.00, 3.98), 7.2 NPV profile (IRR 17.82%), 7.3 TCO (46,00,000 vs 48,50,000; PV 36,37,296 vs 35,28,536), 7.4 break-even (10,000; profit 1,80,000); 7.7.1 eight failure reasons; Q1-Q2 (5), Q3 (10). All numbers recomputed in Python.
 - Known cosmetic: Fig 3.2 point labels sit close together; Fig 3.3 sawtooth is schematic.
 
+## BCA 353 cryptography-network-security (semester-6/cryptography-network-security) -- [~] IN PROGRESS (session 29): units 1-3 polished
+New photos (notes/assets/crypto353/, licence-gated, all viewed): scytale, alberti (drawing of cipher disk), bombe, lorenz, euler, fermat, gauss, descracker (EFF Deep Crack board), diffie (Diffie + Hellman portraits), zimmermann, hsm (nCipher nShield PCIe card), cerberus, asa (Cisco ASA 5510). Reused: bca401/enigma. Rejected after viewing: chip-and-pin (a pub table), cryptographers panel (unlabelled people).
+- U1: Plate 1.1 (4-up scytale/Alberti/Enigma/Lorenz with callouts), Plate 1.2 (Bombe photo + key-space-in-bits SVG), Fig 1.1 attack model, 1.2 Caesar sliders, 1.3 letter frequencies, 1.4 rail fence; 8 uses of cryptography in Nepal (1.8.1); Q1, Q2 (5 marks), Q3 (10 marks).
+- U2: Plate 2.1 (3-up Euler/Fermat/Gauss), Fig 2.1 clock mod 7, 2.2 Euclid chain + back-substitution, 2.3 power cycles mod 7, 2.4 Miller-Rabin flow + trace for 561, 2.5 CRT rows; 8 uses (2.7.1); Q1 (inverse of 17 mod 3120 = 2753), Q2 (Fermat/Euler), Q3 (primality, 10 marks). All numbers recomputed in Python/sympy.
+- U3: Plate 3.1 (DES cracker board + HSM card), Fig 3.1 Feistel, 3.2 AES round + ShiftRows, 3.3 CBC chain; 8 reasons AES replaced DES (3.7.1); Q1 Feistel, Q2 modes, Q3 AES (10 marks). Search-time numbers: 2^56 / 9e10 keys/s = 9.3 days; 2^128 / 9e10 = 1.2e20 years.
+- Gotchas: each svgfig cell has its own namespace (define A = alphabet in every cell that uses it); Fig arrow lists must END at the target edge (check dashed arrows in the render); qa passes even if an arrow misses its target, so look at the render.
+- Next: units 4-7 (RSA/DH/ECC, hashes/MACs/PKI, Kerberos/TLS/IPsec, firewalls/IDS/VPN/wireless). Unused fetched photos: diffie (U4), zimmermann (U6), cerberus (U6), asa (U7), hsm reuse (U5).
+
 ## Queue
 - [x] BCA 103 digital-logic DONE ( need DIP 74xx / breadboard photos via notes/pipeline/assets.py search)
 - [x] programming-in-c DONE (session 12)

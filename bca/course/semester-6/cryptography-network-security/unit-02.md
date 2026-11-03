@@ -159,6 +159,125 @@ The smallest primitive root of 23 is 5, and the printed list shows all 22 distin
 | Factoring n = pq | sub-exponential, infeasible at 2048 bits | Security of RSA |
 | Discrete logarithm | sub-exponential, infeasible at 2048 bits | Security of DH, ElGamal |
 
+## 2.7 Seeing the arithmetic: portraits, clocks, cycles and chains
+
+Number theory in cryptography is about a few small ideas: clock arithmetic, the Euclidean chain, cycles of powers, the sieve-like tests for primes and the Chinese remainder theorem. The plate introduces three mathematicians whose theorems are used in every RSA key, and the figures draw each idea on small numbers that can be checked by hand.
+
+```photogrid label="2.1" cols="3" ratio="0.85" caption="Three names behind the theorems of this unit. (a) Leonhard Euler (1707-1783), whose totient function and generalisation of Fermat's theorem (a to the power phi(n) is 1 mod n) make RSA decryption work. (b) Pierre de Fermat (1607-1665), who stated that a to the power p-1 is 1 mod p for a prime p, the basis of the Fermat primality test. (c) Carl Friedrich Gauss (1777-1855), who introduced the congruence notation a = b (mod n) in his Disquisitiones Arithmeticae of 1801 and proved results on primitive roots."
+@ photo id="crypto353/euler" cap="Leonhard Euler"
+fit 0.85
+focus 0.5 0.62
+@ photo id="crypto353/fermat" cap="Pierre de Fermat"
+fit 0.85
+focus 0.5 0.62
+@ photo id="crypto353/gauss" cap="Carl Friedrich Gauss"
+fit 0.85
+focus 0.5 0.62
+```
+
+```svgfig label="2.1" caption="Clock arithmetic modulo 7. The numbers 0 to 6 sit on a clock face and adding wraps around: 5 + 4 = 9, which is 2 on this clock, so 5 + 4 = 2 (mod 7). Multiplication wraps too: 3 times 5 = 15 = 1 (mod 7), so 5 is the multiplicative inverse of 3 and 'dividing by 3' means 'multiplying by 5'. Every non-zero number has an inverse here because 7 is prime; modulo 6 the number 3 has none."
+import math
+f = Fig(580, 230)
+cx, cy, R = 120, 115, 80
+for k in range(7):
+    a = -math.pi / 2 + k * 2 * math.pi / 7
+    x, y = cx + R * math.cos(a), cy + R * math.sin(a)
+    f.circle(x, y, 17, fill=(SAND if k in (2, 5, 3) else BLUE), stroke=(AMBER if k in (2, 5, 3) else NAVY), label=str(k), size=13)
+f.text(cx, cy - 4, "mod 7", size=13, color=NAVY, bold=True)
+f.text(cx, cy + 14, "clock", size=11, color=SLATE)
+f.box(260, 20, 300, 58, "Addition wraps\n5 + 4 = 9 = 2 (mod 7)", fill=BLUE, stroke=NAVY, size=12, bold=True)
+f.box(260, 90, 300, 58, "Multiplication wraps\n3 x 5 = 15 = 1 (mod 7)", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.box(260, 160, 300, 58, "Inverse exists when gcd(a, n) = 1\n3 has no inverse mod 6 (gcd = 3)", fill=ROSE, stroke=RED, size=12, bold=True)
+```
+
+```svgfig label="2.2" caption="The Euclidean chain for gcd(1071, 462). Each step replaces the pair (a, b) by (b, a mod b) until the remainder is 0; the last non-zero remainder, 21, is the gcd. Working back up the chain gives the Bezout identity 21 = 7 x 462 - 3 x 1071, which is how the extended algorithm finds modular inverses (check: 3234 - 3213 = 21)."
+f = Fig(580, 210)
+rows = [("1071 = 2 x 462 + 147", BLUE, NAVY), ("462 = 3 x 147 + 21", BLUE, NAVY), ("147 = 7 x 21 + 0", MINT, TEAL)]
+for i, (t, fl, st) in enumerate(rows):
+    f.box(10, 14 + i * 46, 250, 36, t, fill=fl, stroke=st, size=12, bold=True)
+    if i < 2: f.arrow([(135, 50 + i * 46), (135, 60 + i * 46)], color=SLATE)
+f.text(135, 160, "last non-zero remainder: gcd = 21", size=12, color=TEAL, bold=True)
+f.text(300, 30, "Back-substitute:", size=12, color=NAVY, bold=True, anchor="start")
+f.box(300, 42, 270, 30, "21 = 462 - 3 x 147", fill=SAND, stroke=AMBER, size=12, bold=True)
+f.box(300, 82, 270, 30, "21 = 462 - 3 x (1071 - 2 x 462)", fill=SAND, stroke=AMBER, size=12, bold=True)
+f.box(300, 122, 270, 30, "21 = 7 x 462 - 3 x 1071", fill=MINT, stroke=TEAL, size=12, bold=True)
+f.text(435, 178, "x = 7, y = -3 solve 1071y + 462x = 21", size=10.5, color=SLATE)
+```
+
+```svgfig label="2.3" caption="Cycles of powers modulo 7. The powers of 3 visit all six non-zero residues (3, 2, 6, 4, 5, 1) before returning, so 3 is a primitive root of 7 and the order of 3 is 6 = phi(7). The powers of 2 visit only 2, 4, 1, a cycle of length 3, so 2 has order 3, which divides 6 as Euler's theorem requires. Discrete logarithms ask 'which exponent leads from 1 to this value?', easy here and very hard for numbers of 2048 bits."
+import math
+f = Fig(580, 220)
+def ring(cx, cy, R, vals, color, fill, title):
+    n = len(vals)
+    pts = []
+    for k, v in enumerate(vals):
+        a = -math.pi / 2 + k * 2 * math.pi / n
+        pts.append((cx + R * math.cos(a), cy + R * math.sin(a)))
+    for k in range(n):
+        p, q = pts[k], pts[(k + 1) % n]
+        f.line(p[0], p[1], q[0], q[1], color=color, sw=1.4)
+    for k, v in enumerate(vals):
+        f.circle(pts[k][0], pts[k][1], 15, fill=fill, stroke=color, label=str(v), size=12)
+    f.text(cx, cy - 4, title, size=12, color=color, bold=True)
+ring(150, 112, 75, [1, 3, 2, 6, 4, 5], NAVY, BLUE, "powers\nof 3")
+ring(440, 112, 70, [1, 2, 4], TEAL, MINT, "powers\nof 2")
+f.text(150, 210, "3^0..3^5 = 1, 3, 2, 6, 4, 5: order 6", size=11, color=NAVY, bold=True)
+f.text(440, 210, "2^0..2^2 = 1, 2, 4: order 3", size=11, color=TEAL, bold=True)
+```
+
+```svgfig label="2.4" caption="The Miller-Rabin test and a trace for n = 561 = 3 x 11 x 17. Write n - 1 = 2 to the power s times d (560 = 16 x 35), pick a base a and compute x = a^d mod n, then square s - 1 times. If x is 1 at the start or n - 1 at any point the test says 'probably prime'; otherwise n is certainly composite. For a = 2 the values are 263, 166, 67, 1: the sequence reaches 1 from 67, not from 560, and 67 is a non-trivial square root of 1, so 561 is composite. The plain Fermat test cannot tell, because every base coprime to 561 passes it."
+f = Fig(580, 230)
+f.box(10, 10, 170, 40, "n - 1 = 2^s x d\npick base a", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(10, 70, 170, 40, "x = a^d mod n", fill=BLUE, stroke=NAVY, size=11, bold=True)
+f.box(10, 130, 170, 40, "x = 1 or x = n - 1 ?", fill=SAND, stroke=AMBER, size=11, bold=True)
+f.box(10, 188, 170, 36, "square x up to s - 1 times", fill=BLUE, stroke=NAVY, size=11, bold=True)
+for y in (50, 110, 170): f.arrow([(95, y), (95, y + 20 if y < 170 else y + 18)], color=SLATE)
+f.box(215, 120, 120, 40, "yes: probably\nprime", fill=MINT, stroke=TEAL, size=11, bold=True)
+f.arrow([(180, 150), (215, 140)], color=TEAL)
+f.box(215, 188, 120, 36, "hits n - 1: probably\nprime", fill=MINT, stroke=TEAL, size=10.5, bold=True)
+f.arrow([(180, 206), (215, 206)], color=TEAL)
+f.box(215, 66, 120, 40, "never hits n - 1:\ncomposite", fill=ROSE, stroke=RED, size=11, bold=True)
+f.text(375, 24, "Trace: n = 561, a = 2, d = 35, s = 4", size=11.5, color=NAVY, bold=True, anchor="start")
+vals = [("2^35", "263"), ("squared", "166"), ("squared", "67"), ("squared", "1")]
+for i, (a, b) in enumerate(vals):
+    x = 375 + i * 50
+    f.box(x, 40, 44, 34, b, fill=(ROSE if b == "1" else BLUE), stroke=(RED if b == "1" else NAVY), size=12, bold=True)
+    f.text(x + 22, 88, a, size=9.5, color=SLATE)
+f.text(375, 118, "67 x 67 = 4489 = 8 x 561 + 1", size=11, color=RED, bold=True, anchor="start")
+f.text(375, 138, "67 is a square root of 1 that is not", size=10.5, color=SLATE, anchor="start")
+f.text(375, 154, "1 or 560, so 561 cannot be prime.", size=10.5, color=SLATE, anchor="start")
+f.text(375, 184, "Fermat test with base 2 says:", size=10.5, color=SLATE, anchor="start")
+f.text(375, 200, "2^560 = 1 mod 561 (fooled)", size=11, color=AMBER, bold=True, anchor="start")
+```
+
+```svgfig label="2.5" caption="The Chinese remainder theorem on the classic puzzle x = 2 (mod 3), x = 3 (mod 5), x = 2 (mod 7). Each row marks the numbers 0 to 40 that fit one congruence; the marks line up in a single column at 23, and the next solution is 23 + 105 = 128 because 3 x 5 x 7 = 105. RSA decryption uses the same idea to work modulo p and modulo q separately and then combine the two answers, which is about four times faster than working modulo n."
+f = Fig(580, 200)
+rows = [("x = 2 (mod 3)", 3, 2, BLUE, NAVY), ("x = 3 (mod 5)", 5, 3, SAND, AMBER), ("x = 2 (mod 7)", 7, 2, MINT, TEAL)]
+for r, (lab, m, a, fl, st) in enumerate(rows):
+    y = 30 + r * 46
+    f.text(4, y + 4, lab, size=10.5, color=st, bold=True, anchor="start")
+    for x in range(0, 41):
+        px = 120 + x * 11
+        if x % m == a:
+            f.circle(px, y, 5, fill=(RED if x == 23 else st), stroke=(RED if x == 23 else st), sw=1)
+f.line(116, 160, 564, 160, color=SLATE, sw=1)
+for x in range(0, 41, 5):
+    f.text(120 + x * 11, 176, str(x), size=9.5, color=SLATE)
+f.line(120 + 23 * 11, 20, 120 + 23 * 11, 156, color=RED, sw=1.2, dash=True)
+f.text(120 + 23 * 11 + 6, 14, "23: the common solution", size=10.5, color=RED, bold=True, anchor="start")
+```
+
+### 2.7.1 Eight uses of number theory in cryptography
+
+1. **Modular arithmetic keeps numbers small.** Every operation is followed by a remainder, so a 2048-bit calculation never grows beyond 2048 bits. Without this wrap-around, the intermediate results of a modular power would need more memory than any computer has. Clock arithmetic is therefore the working floor of all public-key systems.
+2. **The gcd test checks that an inverse exists.** Before a Hill key, an affine key or an RSA exponent is accepted, we test that gcd is 1. The Euclidean algorithm does this in a few hundred steps even for huge numbers. Saying 'the key is valid' is, in many ciphers, the same as saying 'the gcd is 1'.
+3. **The extended Euclidean algorithm finds private keys.** RSA computes the private exponent d as the inverse of e modulo phi(n). The extended algorithm gives it directly, as in 17 times 2753 = 1 (mod 3120). It needs no guessing or searching.
+4. **Euler's theorem makes decryption work.** Because a to the power phi(n) is 1 modulo n, raising to the power e and then d returns the original message when e times d is 1 modulo phi(n). This is the whole mathematical proof that RSA is correct. It was proved two centuries before computers.
+5. **Fermat's little theorem gives a quick primality filter.** If a to the power n - 1 is not 1 modulo n, then n is certainly not prime. This lets a program discard most composite candidates cheaply when it generates RSA primes. The stronger Miller-Rabin test then removes the rare liars such as 561.
+6. **Primality testing makes key generation practical.** Primes near 2 to the power 1024 are plentiful: about one number in 710 is prime, so a program needs on average a few hundred random tries. Miller-Rabin with 40 random bases makes the chance of error negligible. This is why every phone can create its own keys in a moment.
+7. **Primitive roots and discrete logarithms support Diffie-Hellman and ElGamal.** Powers of a primitive root run through all residues, so g to the power x mod p looks random. Going from x to g to the power x is fast, while recovering x is believed to be hard. This one-way property is used when two apps agree on a secret over an open network.
+8. **The Chinese remainder theorem speeds up and protects computation.** RSA decryption can be done modulo p and modulo q separately and recombined, which is about four times faster, a real saving on a bank's server handling thousands of requests. The same theorem also appears in secret sharing and in the design of fast arithmetic hardware.
+
 ## Chapter summary
 
 - a mod n arithmetic is closed under + − ×; an inverse exists iff gcd(a, n) = 1; the extended Euclidean algorithm finds it (240·(−9) + 46·47 = 2; 7⁻¹ ≡ 15 mod 26).
@@ -191,3 +310,54 @@ The smallest primitive root of 23 is 5, and the printed list shows all 22 distin
 **9.** If gcd(a, n) = 1 then a^φ(n) ≡ 1 (mod n). φ(10) = 4, so 3⁴ ≡ 1 and 3⁴⁰ = (3⁴)¹⁰ ≡ **1** (mod 10).
 **10.** Computing gˣ mod p is fast but recovering x from the result is infeasible for large p, so two parties can publish gˣ values and combine them privately.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Use the extended Euclidean algorithm to find the inverse of 17 modulo 3120 and state where this is used.**
+
+*Introduction.* A number a has an inverse modulo n only if gcd(a, n) = 1, and the extended Euclidean algorithm finds both the gcd and the inverse (section 2.2, Figure 2.2).
+
+1. **Divide.** 3120 = 183 x 17 + 9, then 17 = 1 x 9 + 8, then 9 = 1 x 8 + 1, then 8 = 8 x 1 + 0. The last non-zero remainder is 1, so gcd(17, 3120) = 1 and an inverse exists.
+2. **Back-substitute.** 1 = 9 - 8 = 9 - (17 - 9) = 2 x 9 - 17 = 2 x (3120 - 183 x 17) - 17 = 2 x 3120 - 367 x 17.
+3. **Read off the inverse.** The coefficient of 17 is -367. Add 3120 to make it positive: -367 + 3120 = 2753.
+4. **Check.** 17 x 2753 = 46,801 = 15 x 3120 + 1, so 17 x 2753 = 1 (mod 3120).
+5. **Use.** In RSA with p = 61 and q = 53 we have n = 3233 and phi(n) = 3120. With public exponent e = 17, the private exponent is d = 2753, exactly the value found above.
+
+| Step | Quotient | Remainder |
+|---|---|---|
+| 3120 / 17 | 183 | 9 |
+| 17 / 9 | 1 | 8 |
+| 9 / 8 | 1 | 1 |
+| 8 / 1 | 8 | 0 |
+
+**Q2 (5 marks). State Fermat's little theorem and Euler's theorem with examples and show how they simplify large powers.**
+
+*Introduction.* Both theorems say that powers of a number repeat in a cycle, so a huge exponent can be reduced before computing (section 2.3, Figure 2.3).
+
+1. **Fermat.** If p is prime and p does not divide a, then a to the power p - 1 = 1 (mod p). Example: 3 to the power 6 = 729 = 104 x 7 + 1, so it is 1 modulo 7.
+2. **Euler.** If gcd(a, n) = 1, then a to the power phi(n) = 1 (mod n), where phi(n) counts the numbers up to n that are coprime to n. For n = 10, phi = 4 (the numbers 1, 3, 7, 9) and 3 to the power 4 = 81 = 1 (mod 10).
+3. **Reducing a power.** To find 3 to the power 100 mod 7, note that 100 mod 6 = 4, so the answer is 3 to the power 4 = 81 = **4** (mod 7).
+4. **Relation.** Fermat's theorem is the case n = p of Euler's, because phi(p) = p - 1.
+5. **Use.** The same reduction (exponent modulo phi(n)) is the reason that RSA decryption returns the message.
+
+**Q3 (10 marks). Explain primality testing for cryptography. Describe the Fermat and Miller-Rabin tests with a worked example, and explain why a good test is essential for RSA.**
+
+*Introduction.* RSA and Diffie-Hellman need very large random primes, typically 1024 bits or more. Trial division is hopeless at that size, so programs use fast probabilistic tests that either prove a number composite or say that it is prime with a tiny chance of error (section 2.4, Figure 2.4).
+
+1. **Why primes are plentiful.** The density of primes near N is about 1 over ln N. For N near 2 to the power 1024, ln N is about 710, so about one number in 710 is prime, or one in 355 among odd numbers. A program therefore needs only a few hundred random candidates.
+2. **Fermat test.** Pick a, compute a to the power n - 1 mod n. If the result is not 1, n is certainly composite. If it is 1, n is probably prime. The flaw is that **Carmichael numbers** such as 561 = 3 x 11 x 17 pass for every base coprime to n; for 561 all 320 coprime bases pass.
+3. **Miller-Rabin test.** Write n - 1 = 2 to the power s times d with d odd. Compute x = a to the power d mod n and square it up to s - 1 times. If x = 1 at the start or x = n - 1 at any step, n passes for this base; otherwise n is composite.
+4. **Worked example, n = 561.** Here n - 1 = 560 = 16 x 35, so s = 4 and d = 35. For a = 2 the sequence is 263, 166, 67, 1. It never reaches 560, and it reaches 1 from 67, a non-trivial square root of 1 (67 x 67 = 4489 = 8 x 561 + 1). So 561 is composite, although the Fermat test could not tell.
+5. **Error bound.** For any odd composite n, at most one quarter of the bases are liars, so k random bases leave an error chance of at most 4 to the power -k. With k = 40 this is below 10 to the power -24.
+6. **Key generation loop.** Draw a random odd number of the required size, quick-check small prime divisors, then run Miller-Rabin. Repeat until a number passes.
+
+| Point | Fermat test | Miller-Rabin test |
+|---|---|---|
+| Idea | a to the power n - 1 is 1 | Also checks square roots of 1 |
+| Fooled by Carmichael numbers | Yes (561) | No |
+| Liars among bases | Possibly all | At most 1/4 |
+| Used in practice | As a first filter | As the main test |
+
+*Why it matters for RSA.* If one of the two secret numbers were composite, phi(n) would be computed wrongly and either decryption would fail or n would be easy to factor. A weak primality test could therefore silently produce an insecure key.
+
+*Conclusion.* Miller-Rabin is fast, simple and reliable enough that a phone can generate a key pair in a moment, which is why it is used in every major cryptographic library.
