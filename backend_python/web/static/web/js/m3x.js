@@ -156,5 +156,48 @@
   }
   all('[data-m3-nav]').forEach(pill);
 
+  /* ---- theme: one controller for the landing page and the app ----
+     [data-theme-toggle] buttons call NebTheme.toggle. The change is a circular reveal from the
+     button (View Transitions); without them, or with reduced motion, it just swaps. The choice
+     is stored under localStorage "theme", the same key the head script reads, and posted to
+     /ajax/theme/ when the app is around (CSRF_TOKEN exists), so it follows the reader everywhere. */
+  var themeBtns = all('[data-theme-toggle]');
+  function paintTheme(t) {
+    doc.setAttribute('data-theme', t);
+    themeBtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', t === 'dark' ? 'true' : 'false');
+      b.setAttribute('aria-label', t === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    });
+    var m = document.querySelector('meta[name=theme-color]');
+    if (m) m.content = t === 'dark' ? '#090f1f' : '#f6f8ff';
+    document.dispatchEvent(new CustomEvent('neb:theme-change'));
+  }
+  function setTheme(next, origin) {
+    try { localStorage.setItem('theme', next); } catch (e) {}
+    if (typeof CSRF_TOKEN !== 'undefined') {
+      try {
+        fetch('/ajax/theme/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN }, body: JSON.stringify({ theme: next }) });
+      } catch (e) {}
+    }
+    if (!document.startViewTransition || still || !origin) { paintTheme(next); return; }
+    var r = origin.getBoundingClientRect();
+    var x = r.left + r.width / 2, y = r.top + r.height / 2;
+    var end = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    doc.classList.add('theming');
+    var vt = document.startViewTransition(function () { paintTheme(next); });
+    vt.ready.then(function () {
+      doc.animate({ clipPath: ['circle(0px at ' + x + 'px ' + y + 'px)', 'circle(' + end + 'px at ' + x + 'px ' + y + 'px)'] },
+        { duration: 750, easing: 'cubic-bezier(.2,.8,.2,1)', pseudoElement: '::view-transition-new(root)' });
+    }).catch(function () {});
+    vt.finished.then(function () { doc.classList.remove('theming'); }, function () { doc.classList.remove('theming'); });
+  }
+  window.NebTheme = {
+    get: function () { return doc.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'; },
+    set: setTheme,
+    toggle: function (origin) { setTheme(window.NebTheme.get() === 'dark' ? 'light' : 'dark', origin); }
+  };
+  paintTheme(window.NebTheme.get());
+  themeBtns.forEach(function (b) { b.addEventListener('click', function () { window.NebTheme.toggle(b); }); });
+
   doc.classList.add('m3-ready');
 })();
