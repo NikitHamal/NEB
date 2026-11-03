@@ -140,6 +140,37 @@ Claim: if 3n + 2 is odd then n is odd. Contrapositive: if n is even then 3n + 2 
 Claim: for every integer n, n² + n + 41 is prime. n = 40 gives 40² + 40 + 41 = 1681 = 41², which is composite. The claim is **false**.
 :::
 
+## 1.6 Which proof technique should I try?
+
+Students often stare at a statement without knowing how to start. A short decision chain (Figure 1.1) removes most of the fear. Begin with the **direct proof**: assume the hypothesis and walk to the conclusion. If the conclusion is awkward (for example "n is even") but its negation is easy, try the **contrapositive** (prove ¬q → ¬p). If the statement says something does not exist or cannot be written in a form, assume the opposite and look for a **contradiction**. If it is about all natural numbers n ≥ n₀, use **induction** (Unit 4). To disprove "for all", one **counterexample** is enough.
+
+```svgfig label="1.1" caption="Choosing a proof technique. Start with the direct proof; switch to the contrapositive when the conclusion is hard to reach; use contradiction for 'cannot' and 'does not exist'; use induction for statements about every natural number; use a single counterexample to disprove a 'for all' claim."
+f = Fig(580, 215)
+f.box(10, 80, 100, 52, "Statement\np -> q", fill=BLUE, stroke=NAVY, size=11, color=NAVY, bold=True)
+tech = [("Direct proof", "assume p,\nreach q", 150, 10, SOFT, TEAL), ("Contrapositive", "assume not q,\nreach not p", 150, 80, SOFT, TEAL),
+        ("Contradiction", "assume p and not q,\nreach a falsehood", 150, 150, SOFT, TEAL)]
+for n, d, x, y, fl, s in tech:
+    f.box(x, y, 150, 54, "", fill=fl, stroke=s)
+    f.text(x + 75, y + 17, n, size=11.5, color=NAVY, bold=True)
+    f.text(x + 75, y + 33, d.split("\n")[0], size=9.5, color=NAVY)
+    f.text(x + 75, y + 46, d.split("\n")[1], size=9.5, color=NAVY)
+    f.arrow([(110, 106), (150, y + 27)], color=SLATE)
+f.box(350, 30, 220, 50, "For every n >= n0?\nuse induction", fill="#fde68a", stroke=AMBER, size=11, color=NAVY, bold=True)
+f.box(350, 130, 220, 50, "Claim 'for all' looks false?\nfind one counterexample", fill="#fecaca", stroke=RED, size=11, color=NAVY, bold=True)
+f.arrow([(300, 37), (350, 55)], color=SLATE, dash=True); f.arrow([(300, 177), (350, 155)], color=SLATE, dash=True)
+```
+
+## 1.7 Eight uses of logic in computing
+
+1. **Program conditions.** Every `if`, `while` and `for` test is a proposition built with AND, OR and NOT. Simplifying a condition with De Morgan's laws makes code shorter and less error-prone. A voter-eligibility check (age ≥ 18 AND citizen AND NOT already registered) is pure logic.
+2. **Digital circuits.** Gates implement the connectives, and a processor is millions of them. Minimising a Boolean expression reduces chip area and power. This is the content of Digital Logic and Computer Architecture.
+3. **Database queries.** The WHERE clause of SQL is a logical formula, and quantifiers appear as EXISTS and NOT EXISTS. A query such as "students with no unpaid fee" is a ∀ statement in disguise. Understanding logic helps to write correct queries.
+4. **Search engines.** Boolean search ("Kathmandu AND hostel NOT expensive") is propositional logic over documents. Advanced filters on job and property sites work the same way.
+5. **Program verification.** Preconditions, postconditions and loop invariants are logical statements about a program. Proving them shows the program correct. Aviation and banking software use such proofs.
+6. **Artificial intelligence.** Rule-based and expert systems store knowledge as implications and use modus ponens to derive conclusions. A health-post advice tool might hold rules such as "fever AND rash → refer".
+7. **Software testing.** Test cases are chosen to cover every combination of truth values of the conditions in a program. A truth table tells how many cases a condition with n parts needs, namely 2ⁿ.
+8. **Legal and policy rules.** Eligibility rules for scholarships, loans or ConnectIPS limits are implications with several conditions. Writing them as logic exposes gaps and contradictions before they are coded.
+
 ## Formula and fact sheet
 
 - 2ⁿ rows for n variables; 2^(2ⁿ) truth functions.
@@ -181,3 +212,49 @@ Claim: for every integer n, n² + n + 41 is prime. n = 40 gives 40² + 40 + 41 =
 **9.** **False**: √2 and −√2 are irrational but their sum is 0, rational.
 **10.** 2^(2³) = 2⁸ = **256**.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Show by a truth table that p → q is logically equivalent to its contrapositive ¬q → ¬p, and state the converse and inverse.**
+
+*Introduction.* Two statements are logically equivalent when they have the same truth value for every assignment of their variables. The contrapositive of p → q is ¬q → ¬p.
+
+*Truth table.*
+
+| p | q | p → q | ¬q | ¬p | ¬q → ¬p |
+|---|---|---|---|---|---|
+| T | T | T | F | F | T |
+| T | F | F | T | F | F |
+| F | T | T | F | T | T |
+| F | F | T | T | T | T |
+
+The columns for p → q and ¬q → ¬p are identical (T, F, T, T), so they are equivalent.
+
+*Related forms.* The **converse** q → p and the **inverse** ¬p → ¬q are equivalent to each other but **not** to p → q: with p = F and q = T the original is true while the converse is false.
+
+*Example.* "If it is raining, the road is wet" is equivalent to "if the road is not wet, it is not raining". *Conclusion.* A statement and its contrapositive always agree, which is why a proof of one is a proof of the other.
+
+**Q2 (10 marks). Explain the main proof techniques with one example for each.**
+
+*Introduction.* A proof is a chain of valid inferences from known facts to a conclusion. Different statements suit different techniques (Figure 1.1).
+
+*Techniques.*
+
+1. **Direct proof.** Assume p and derive q. *Example:* the sum of two even numbers is even. Let a = 2m and b = 2n; then a + b = 2(m + n), which is even.
+2. **Contrapositive.** Prove ¬q → ¬p. *Example:* if n² is even then n is even. Suppose n is odd, n = 2k + 1; then n² = 4k² + 4k + 1 is odd. So if n is not even, n² is not even.
+3. **Contradiction.** Assume the negation and reach an absurdity. *Example:* √2 is irrational. Suppose √2 = a/b in lowest terms; then a² = 2b², so a is even, a = 2c, and b² = 2c², so b is even; a and b share the factor 2, a contradiction.
+4. **Induction.** Prove a base case and the step P(k) → P(k + 1). *Example:* 1 + 2 + … + n = n(n + 1)/2 (Unit 4).
+5. **Cases.** Split into exhaustive cases. *Example:* n³ − n is divisible by 3 for every integer n, checking n = 3k, 3k + 1, 3k + 2.
+6. **Counterexample.** To refute "every prime is odd", the single prime 2 suffices.
+7. **Existence proofs.** A constructive proof exhibits the object; a non-constructive proof shows one must exist (the pigeonhole principle, Unit 3).
+8. **Equivalence proofs.** To prove "p if and only if q", prove both p → q and q → p.
+
+| Technique | Start from | Typical use |
+|---|---|---|
+| Direct | p | straightforward implications |
+| Contrapositive | not q | conclusion is a negation or "even" |
+| Contradiction | p and not q | irrationality, non-existence |
+| Induction | base and step | statements about all n |
+| Counterexample | one case | disproving "for all" |
+
+*Conclusion.* Choosing the right technique is half of the proof; the six above cover almost every question in this course.

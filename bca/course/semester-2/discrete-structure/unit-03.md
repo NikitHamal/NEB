@@ -112,6 +112,34 @@ Two dice sum to 7: favourable (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6 of 36
 
 (*Probability and Statistics* in Semester III builds conditional probability, distributions and expectation on this base.)
 
+## 3.8 Pascal's triangle: all the binomial coefficients in one picture
+
+Every number in Pascal's triangle is the sum of the two numbers above it, and row n lists C(n, 0), C(n, 1), …, C(n, n) (Figure 3.1). This single rule explains the identity C(n, r) = C(n − 1, r − 1) + C(n − 1, r): to choose r people from n, either a fixed person is in (choose r − 1 more from n − 1) or out (choose all r from n − 1). Row sums are 2ⁿ, the number of subsets, and row n gives the coefficients in (a + b)ⁿ, so row 4 says (a + b)⁴ = a⁴ + 4a³b + 6a²b² + 4ab³ + b⁴.
+
+```svgfig label="3.1" caption="Pascal's triangle for rows 0 to 6. Each entry is the sum of the two above it (shaded: 3 + 3 = 6 and 6 + 4 = 10). Row n gives C(n,r) and sums to 2^n; the highlighted middle of row 4 is C(4,2) = 6."
+f = Fig(580, 240)
+rows = [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1], [1, 5, 10, 10, 5, 1], [1, 6, 15, 20, 15, 6, 1]]
+for n, r in enumerate(rows):
+    y = 14 + n * 31
+    for k, v in enumerate(r):
+        x = 290 + (k - n / 2) * 52
+        hl = (n, k) in ((3, 1), (3, 2), (4, 2), (4, 1), (5, 2))
+        f.box(x - 22, y, 44, 25, str(v), fill="#fde68a" if hl else (BLUE if n % 2 == 0 else SOFT), stroke=AMBER if hl else NAVY, size=11, color=NAVY, bold=True)
+    f.text(24, y + 13, f"n = {n}", size=10, color=SLATE, anchor="start", vmid=True)
+    f.text(556, y + 13, f"sum {2 ** n}", size=10, color=TEAL, anchor="end", vmid=True, bold=True)
+```
+
+## 3.9 Eight uses of counting
+
+1. **Passwords and security.** The number of passwords of length 8 over 62 symbols is 62⁸, about 2.2 × 10¹⁴. Counting shows why length beats complexity rules, and why PINs of four digits (10,000 possibilities) can be guessed quickly.
+2. **Algorithm analysis.** The running time of a nested loop is a count of how many times the body executes. Counting subsets or permutations explains why brute force becomes impossible: 20! is about 2.4 × 10¹⁸.
+3. **Probability and statistics.** Probability of an event is favourable outcomes divided by all outcomes, both found by counting. Lottery and card odds are combination counts.
+4. **Network and route planning.** The number of ways to visit n towns is (n − 1)!/2 for a round trip. This is why the travelling-salesman problem, for delivery routes among Kathmandu valley shops, is hard.
+5. **Database design.** The number of possible rows, keys or index combinations decides storage and speed. A composite key on three fields with 10, 20 and 30 values allows 6,000 distinct keys.
+6. **Hashing and the pigeonhole principle.** With more keys than table slots, two keys must share a slot. It guarantees that every compression method has files it cannot shrink.
+7. **Error-correcting codes.** Counting the strings within a given distance of a codeword shows how many errors a code can fix. QR codes use this to survive scratches.
+8. **Scheduling and teams.** Counting committees (combinations) and timetables (permutations) tells whether a fair rotation exists. Exam-hall seat plans for TU examinations are permutation problems.
+
 ## Formula and fact sheet
 
 - P(n, r) = n!/(n−r)!; C(n, r) = n!/(r!(n−r)!); with repetition: nʳ and C(n+r−1, r).
@@ -153,3 +181,40 @@ Two dice sum to 7: favourable (1,6), (2,5), (3,4), (4,3), (5,2), (6,1) = 6 of 36
 **9.** Total circular arrangements (8 − 1)! = 5040; together: treat as a block: (7 − 1)! × 2 = 1440; apart = 5040 − 1440 = **3600**.
 **10.** Exactly 3 heads: C(5, 3)/32 = 10/32 = **0.3125**; at least one head: 1 − 1/32 = **31/32 ≈ 0.969**.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). In how many distinct ways can the letters of the word KATHMANDU be arranged? In how many of them do the two A's come together?**
+
+*Introduction.* When some objects repeat, permutations of n objects with repeats are n! divided by the factorial of each repeat count.
+
+*Total arrangements.* KATHMANDU has 9 letters with A repeated twice and every other letter once, so the number is 9! ÷ 2! = 362,880 ÷ 2 = **181,440**.
+
+*A's together.* Treat the two A's as one block. Then there are 8 objects (the block and 7 other letters), all different, so 8! = **40,320** arrangements. The two A's inside the block are identical, so no further factor is needed.
+
+*Check of reasonableness.* 40,320 is a fraction 40,320 ÷ 181,440 = 2/9 of all arrangements, which agrees with the intuition that A's touch about two times in nine. *Conclusion.* There are 181,440 arrangements, of which 40,320 keep the A's together.
+
+**Q2 (10 marks). State the rule of sum and product, permutations and combinations, the pigeonhole principle and inclusion–exclusion, with one worked example each.**
+
+*Introduction.* Counting techniques answer "how many?" without listing. Five tools cover most questions.
+
+*Tools and examples.*
+
+1. **Rule of sum.** If one task can be done in m ways or another in n ways (not both), there are m + n ways. A student may choose one of 5 Java books or 4 C books: 9 ways.
+2. **Rule of product.** Independent choices multiply. A PIN of 4 digits has 10⁴ = 10,000 possibilities.
+3. **Permutations.** Ordered selection, P(n, r) = n! ÷ (n − r)!. Choosing a president, secretary and treasurer from 10 students: P(10, 3) = 720.
+4. **Combinations.** Unordered selection, C(n, r) = n! ÷ (r!(n − r)!). A committee of 3 from 10: C(10, 3) = 120. Since each committee corresponds to 3! = 6 orderings, 720 ÷ 6 = 120.
+5. **"At least one" by complement.** A committee of 3 from 5 men and 4 women with at least one woman: C(9, 3) − C(5, 3) = 84 − 10 = **74**.
+6. **Pigeonhole principle.** If more than k × n objects go into n boxes, some box holds more than k. Among any 13 people, two share a birth month.
+7. **Inclusion–exclusion.** |A ∪ B| = |A| + |B| − |A ∩ B|. Numbers from 1 to 100 divisible by 2 or 3: 50 + 33 − 16 = **67**.
+8. **Derangements.** The number of permutations with no fixed point is Dₙ = n!(1 − 1/1! + 1/2! − … ± 1/n!); D₄ = 24 − 24 + 12 − 4 + 1 = **9**, so if four letters go into four envelopes at random, nine arrangements put every letter in a wrong envelope.
+
+| Task | Formula | Example value |
+|---|---|---|
+| Ordered choice | P(n, r) | P(10, 3) = 720 |
+| Unordered choice | C(n, r) | C(10, 3) = 120 |
+| Row of Pascal | sum = 2ⁿ | row 4 sums to 16 |
+| Union | \|A\| + \|B\| − \|A ∩ B\| | 67 |
+| Derangement | D₄ | 9 |
+
+*Conclusion.* Product, permutation, combination, pigeonhole and inclusion–exclusion solve nearly every counting question; the skill lies in deciding whether order matters and whether the cases overlap.

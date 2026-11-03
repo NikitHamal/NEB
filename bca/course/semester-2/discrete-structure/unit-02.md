@@ -96,6 +96,40 @@ Special functions: **floor** ⌊x⌋, **ceiling** ⌈x⌉, **mod**, **characteri
 
 Two sets have the same cardinality if a bijection exists between them. A set is **countable** if it is finite or has the same size as ℕ. ℤ is countable (list 0, 1, −1, 2, −2, …); ℚ is countable; the set of all finite strings over a finite alphabet is countable (so the set of all programs is countable). **ℝ is uncountable** (Cantor's diagonal argument): any list of reals in (0,1) misses the number whose nth digit differs from the nth digit of the nth number. Consequence: there are more functions ℕ → {0,1} than programs, so some functions are **not computable**.
 
+## 2.5 Three kinds of function in one picture
+
+A function assigns to every element of the domain exactly one element of the codomain. Three questions classify it (Figure 2.1). Is every codomain element hit? If yes it is **surjective** (onto). Does any codomain element get hit twice? If no, it is **injective** (one-to-one). If both hold the function is **bijective**, and only a bijection has an inverse. Counting also becomes easy: between two finite sets of the same size n, there are n! bijections.
+
+```svgfig label="2.1" caption="Mapping diagrams. (a) Injective but not surjective: every input has its own output, but d is never reached. (b) Surjective but not injective: every output is reached, but 1 and 2 share the output a. (c) Bijective: a perfect pairing, so the inverse function exists."
+f = Fig(580, 215)
+def panel(x0, dom, cod, arrows, title, note):
+    f.text(x0 + 70, 14, title, size=11.5, color=NAVY, bold=True)
+    f.box(x0, 26, 50, 150, "", fill=BLUE, stroke=NAVY)
+    f.box(x0 + 90, 26, 50, 150, "", fill=SOFT, stroke=TEAL)
+    pos = lambda n, i: 26 + (i + 0.5) * 150 / n
+    for i, d in enumerate(dom):
+        f.text(x0 + 25, pos(len(dom), i), d, size=12, color=NAVY, bold=True, vmid=True)
+    for i, c in enumerate(cod):
+        f.text(x0 + 115, pos(len(cod), i), c, size=12, color=NAVY, bold=True, vmid=True)
+    for a, b in arrows:
+        f.arrow([(x0 + 40, pos(len(dom), a)), (x0 + 100, pos(len(cod), b))], color=RED)
+    f.text(x0 + 70, 196, note, size=10, color=SLATE, italic=True)
+panel(18, "123", "abcd", [(0, 0), (1, 1), (2, 2)], "(a) injective", "d is missed")
+panel(210, "1234", "abc", [(0, 0), (1, 0), (2, 1), (3, 2)], "(b) surjective", "1 and 2 share a")
+panel(402, "123", "abc", [(0, 1), (1, 2), (2, 0)], "(c) bijective", "inverse exists")
+```
+
+## 2.6 Eight uses of sets, relations and functions
+
+1. **Databases.** A table is a relation, a row is a tuple, and the join of two tables is the composition of relations. SQL's UNION, INTERSECT and EXCEPT are set operations. The structure of a school database is relational algebra at work.
+2. **Hashing and look-up.** A hash function maps keys (names, citizenship numbers) into table slots. It is a function that is intentionally not injective, and collisions are the price. Knowing injectivity explains why collisions must be handled.
+3. **Data types and programming.** A type is a set of values, a function signature is a domain and codomain, and a pure function maps every input to one output. Thinking in sets prevents many type bugs.
+4. **Equivalence and grouping.** An equivalence relation partitions a set into classes. Clustering users, merging duplicate student records and congruence classes mod n use this idea.
+5. **Orderings and scheduling.** A partial order such as "course A must come before B" is a relation. Sorting the courses so that all prerequisites come first is a topological sort. Every timetable system relies on it.
+6. **Encryption and codes.** Encryption must be a bijection, otherwise two messages would share one ciphertext and decryption would be impossible. Checksum and error-detecting codes are functions with chosen properties.
+7. **Counting data.** The size of the power set, 2ⁿ, counts the possible subsets of n features or permissions. A system with 10 permissions has 1,024 possible permission sets.
+8. **Infinite data and limits of computing.** Cardinality shows that there are more real numbers than programs, so some functions cannot be computed at all. This is the first step towards the theory of computation.
+
 ## Formula and fact sheet
 
 - |P(A)| = 2ⁿ; |A × B| = |A||B|; |A ∪ B| = |A| + |B| − |A ∩ B|.
@@ -137,3 +171,47 @@ Two sets have the same cardinality if a bijection exists between them. A set is 
 **9.** 5³ = **125**; injective: 5·4·3 = **60**.
 **10.** Arrange p/q in a grid by numerator p and denominator q; walk the diagonals p + q = 2, 3, 4, … skipping fractions not in lowest terms; every positive rational appears exactly once, giving a bijection with ℕ.
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Show that the relation "a ≡ b (mod 3)" on A = {1, 2, 3, 4, 5, 6} is an equivalence relation and list its classes.**
+
+*Introduction.* A relation is an equivalence relation if it is reflexive, symmetric and transitive. Here a R b means that 3 divides a − b.
+
+*Reflexive.* a − a = 0 is divisible by 3, so a R a for every a.
+
+*Symmetric.* If 3 divides a − b, it divides b − a = −(a − b), so a R b implies b R a.
+
+*Transitive.* If 3 | (a − b) and 3 | (b − c), then 3 divides the sum (a − b) + (b − c) = a − c, so a R c.
+
+*Classes.* The remainders on division by 3 give {1, 4}, {2, 5} and {3, 6}. They are disjoint and cover A, so they form a **partition**; the relation has 3 classes. *Conclusion.* R is an equivalence relation with the three classes above.
+
+**Q2 (10 marks). Define injective, surjective and bijective functions, composition and inverse, with examples; state the number of subsets of a set.**
+
+*Introduction.* A function f: A → B sends each element of A to exactly one element of B. Its type is decided by how it covers B (Figure 2.1).
+
+*Types.*
+
+1. **Injective.** f(x) = f(y) implies x = y. Example: f(x) = 2x on the integers; different inputs give different outputs.
+2. **Surjective.** Every b in B equals f(a) for some a. Example: f(x) = 2x is **not** surjective onto the integers, since 3 is never reached.
+3. **Bijective.** Both. Example: g(x) = x + 3 on the integers.
+4. **Test for finite sets.** An injective map between sets of the same finite size is automatically bijective.
+
+*Composition and inverse.*
+
+5. **Composition.** (g ∘ f)(x) = g(f(x)). With f(x) = 2x and g(x) = x + 3, (g ∘ f)(x) = 2x + 3, whereas (f ∘ g)(x) = 2x + 6, so composition is not commutative.
+6. **Inverse.** Only a bijection has an inverse. For g(x) = x + 3, g⁻¹(x) = x − 3, and g⁻¹(g(x)) = x.
+7. **Composition of bijections** is a bijection, and (g ∘ f)⁻¹ = f⁻¹ ∘ g⁻¹.
+
+*Counting.*
+
+8. **Subsets.** A set of n elements has 2ⁿ subsets, so A = {1, 2, 3} has 8, and there are n! bijections from A to a set of the same size (here 6).
+
+| Type | Condition | Example |
+|---|---|---|
+| Injective | no two inputs share an output | 2x on integers |
+| Surjective | every output is reached | x³ on the reals |
+| Bijective | both | x + 3 |
+| Inverse exists | iff bijective | x − 3 |
+
+*Conclusion.* Injectivity, surjectivity and bijectivity describe how a function covers its codomain, and only bijections can be undone.

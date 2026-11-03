@@ -122,6 +122,39 @@ Algorithms that split a problem of size n into **a** subproblems of size n/b plu
 T(n) = 2T(n/2) + n with n = 2ᵏ: T(n) = 2(2T(n/4) + n/2) + n = 4T(n/4) + 2n = … = 2ᵏT(1) + kn = n·T(1) + n log₂ n. For T(1) = 0: T(n) = n log₂ n. For n = 1024 that is 10,240 comparisons-ish, versus about 10⁶ for an n² method.
 :::
 
+## 4.5 The recursion tree of merge sort
+
+A divide-and-conquer recurrence such as T(n) = 2T(n/2) + n can be read from a picture (Figure 4.1). Sorting 8 items splits them into two halves of 4, then four of 2, then eight of 1: that is 3 splits, so the tree has log₂ 8 + 1 = 4 levels. At every level the merging work adds up to n = 8 (each item is touched once), so the total is n per level × (log₂ n + 1) levels, about **n log n**. The same drawing explains why merge sort beats bubble sort (n²) for large n: for n = 1,000,000 it is roughly 20 million steps against a million million.
+
+```svgfig label="4.1" caption="Recursion tree for T(n) = 2T(n/2) + n with n = 8. Each level does n = 8 units of merge work; there are log2(8) + 1 = 4 levels, so the total is about n log n. Leaves are single items, which need no sorting."
+f = Fig(580, 230)
+lv = [(1, 8), (2, 4), (4, 2), (8, 1)]
+for d, (cnt, size) in enumerate(lv):
+    y = 20 + d * 50
+    w = 540 / cnt
+    for i in range(cnt):
+        x = 20 + i * w + w / 2
+        bw = min(70, w - 8)
+        f.box(x - bw / 2, y, bw, 28, f"size {size}" if bw > 50 else str(size), fill=[BLUE, SOFT, "#fde68a", "#bbf7d0"][d], stroke=NAVY, size=10 if bw > 50 else 10, color=NAVY)
+        if d < 3:
+            for j in (0, 1):
+                nx = 20 + (2 * i + j) * (w / 2) + w / 4
+                f.line(x, y + 28, nx, y + 50, color=SLATE, sw=1.1)
+    f.text(570, y + 14, f"work {cnt} x {size} = 8", size=9.5, color=TEAL, anchor="end", bold=True, vmid=True) if d == 0 else None
+f.text(290, 222, "4 levels x 8 units per level = 32 = 8 x log2(8) + 8: order n log n", size=10.5, color=NAVY, bold=True)
+```
+
+## 4.6 Eight uses of induction and recursion
+
+1. **Proving programs correct.** A loop invariant is proved by induction on the number of iterations: true before the loop, preserved by each pass. This is how binary search and sorting routines are certified.
+2. **Recursive programs.** Factorial, Fibonacci, tree traversal and directory walking are recursive definitions turned into code. Each has a base case and a step that moves toward it, exactly as an induction proof does.
+3. **Divide and conquer.** Merge sort, quicksort and fast multiplication split a problem and combine the answers. Their running times are solved from recurrences like Figure 4.1.
+4. **Algorithm cost.** The recurrence H(n) = 2H(n − 1) + 1 of the Tower of Hanoi gives 2ⁿ − 1 moves, so 10 disks need 1,023 moves and 64 disks are hopeless. Recurrences predict whether a method will finish in a lifetime.
+5. **Data structures.** A binary tree, a linked list and a nested folder are recursive structures: each is either empty or a root with smaller copies. Their algorithms are naturally recursive.
+6. **Growth models.** Compound interest on a deposit, population growth and loan balances satisfy a_n = r·a_(n−1) + d. Solving the recurrence gives a formula for any month. Banks in Nepal compute EMIs this way.
+7. **Dynamic programming.** Shortest paths, edit distance and knapsack problems build the answer for size n from stored answers for smaller sizes. Spell-checkers and DNA matching use it.
+8. **Language and grammars.** Programming-language syntax is defined recursively (an expression is a number or an expression plus an expression). Compilers parse by recursion and check properties by structural induction.
+
 ## Formula and fact sheet
 
 - Induction: base case + (P(k) ⇒ P(k + 1)). Strong induction assumes all earlier cases.
@@ -162,3 +195,43 @@ T(n) = 2T(n/2) + n with n = 2ᵏ: T(n) = 2(2T(n/4) + n/2) + n = 4T(n/4) + 2n = �
 **9.** Base: 14 = 3·2 + 8, 15 = 3·5, 16 = 8·2. Step: for k + 1 ≥ 17, k − 2 ≥ 15 can be written as 3a + 8b by hypothesis; add one 3 to get k + 1. ∎
 **10.** Tₙ = 2ⁿ − 1 = 63 moves. `hanoi(n, from, to, via)`: if n = 0 return; hanoi(n−1, from, via, to); move disc n from → to; hanoi(n−1, via, to, from).
 :::
+
+## Model answers: medium (5 marks) and long (10 marks) questions
+
+**Q1 (5 marks). Prove by mathematical induction that 1 + 3 + 5 + … + (2n − 1) = n² for all n ≥ 1.**
+
+*Introduction.* Induction proves a statement P(n) for every integer n ≥ 1 in two steps: a base case and an inductive step.
+
+*Base case.* For n = 1 the left side is 1 and the right side is 1² = 1, so P(1) is true.
+
+*Inductive hypothesis.* Assume P(k) holds for some k ≥ 1: 1 + 3 + … + (2k − 1) = k².
+
+*Inductive step.* Add the next odd number 2(k + 1) − 1 = 2k + 1 to both sides: 1 + 3 + … + (2k − 1) + (2k + 1) = k² + 2k + 1 = (k + 1)². This is P(k + 1).
+
+*Conclusion.* P(1) is true and P(k) implies P(k + 1), so by the principle of mathematical induction P(n) holds for all n ≥ 1. Check: n = 4 gives 1 + 3 + 5 + 7 = 16 = 4².
+
+**Q2 (10 marks). Solve the recurrence a(n) = 5a(n − 1) − 6a(n − 2) with a(0) = 1, a(1) = 4, and explain how divide-and-conquer recurrences and the Tower of Hanoi recurrence are solved.**
+
+*Introduction.* A recurrence relation defines each term from earlier terms. Linear recurrences with constant coefficients are solved by the characteristic equation.
+
+*Linear recurrence.*
+
+1. **Characteristic equation.** Try a(n) = rⁿ: r² = 5r − 6, so r² − 5r + 6 = 0.
+2. **Roots.** (r − 2)(r − 3) = 0 gives r = 2 and r = 3, distinct.
+3. **General solution.** a(n) = A·2ⁿ + B·3ⁿ.
+4. **Initial conditions.** a(0) = A + B = 1 and a(1) = 2A + 3B = 4. Subtracting twice the first equation from the second gives B = 2, so A = −1.
+5. **Answer.** a(n) = 2·3ⁿ − 2ⁿ. Check: a(2) = 5·4 − 6·1 = 14 and 2·9 − 4 = 14; a(3) = 5·14 − 6·4 = 46 and 2·27 − 8 = 46.
+
+*Other recurrences.*
+
+6. **Tower of Hanoi.** H(n) = 2H(n − 1) + 1 with H(0) = 0 gives H(n) = 2ⁿ − 1; with 10 disks, 1,023 moves.
+7. **Divide and conquer.** T(n) = 2T(n/2) + n (merge sort). Expand the recursion tree (Figure 4.1): log₂ n levels, n work each, so T(n) = Θ(n log n).
+8. **Repeated roots.** If the characteristic equation has a double root r, the solution is (A + Bn)rⁿ.
+
+| Recurrence | Solution | Use |
+|---|---|---|
+| a(n) = 5a(n−1) − 6a(n−2) | 2·3ⁿ − 2ⁿ | linear, distinct roots |
+| H(n) = 2H(n−1) + 1 | 2ⁿ − 1 | Tower of Hanoi |
+| T(n) = 2T(n/2) + n | Θ(n log n) | merge sort |
+
+*Conclusion.* The characteristic equation solves constant-coefficient recurrences exactly; recursion trees give the order of growth of divide-and-conquer algorithms.
