@@ -26,61 +26,29 @@
 {% endblock %}
 
 {% block content %}
-<div class="md-container">
-  <!-- Header + Upload button -->
-  <div class="lib-header-row" style="margin-bottom: 12px;">
-    <h1 class="md-headline-medium-emphasized">{% if page_h1 %}{{ page_h1 }}{% elif current_tab == 'interactive' %}Interactive Learning Lab{% else %}Digital Library{% endif %}</h1>
+<div class="x-page">
+  <div class="x-head">
+    <h1 class="x-title">{% if page_h1 %}{{ page_h1 }}{% elif current_tab == 'interactive' %}Interactive Lab{% else %}Library{% endif %}</h1>
     {% if current_tab != 'interactive' %}
-    <div class="lib-header-actions">
-      <a href="{% url 'web:upload_resource' %}" class="md-btn md-btn-tonal" style="text-decoration:none;">
-        <span class="material-symbols-outlined" style="font-size:20px">upload</span>
-        <span class="md-btn-text-responsive">Upload</span>
-      </a>
-    </div>
+    <a href="{% url 'web:upload_resource' %}" class="x-btn x-btn-tonal"><span class="material-symbols-outlined" aria-hidden="true">upload</span>Upload</a>
     {% endif %}
   </div>
 
-  <!-- Navigation Tabs & Sort Filter -->
-  <div class="subj-tabs-header">
-    {% comment %}
-      LibraryScreen.kt's shelves, on the shared rail. The underline this
-      replaces hovered on a literal rgba(0,74,198,0.04) -- a light-theme blue
-      that stayed a light-theme blue in dark theme, where it read as a smudge.
-    {% endcomment %}
-    <div class="neb-rail" role="tablist" aria-label="Library sections">
-      <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'digital' %}true{% else %}false{% endif %}">
-        <span class="neb-rail-label">Library</span>
-      </a>
-      {% if marketplace_enabled %}
-      <a href="?tab=marketplace"
-        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'marketplace' %}true{% else %}false{% endif %}">
-        <span class="neb-rail-label">Marketplace</span>
-      </a>
-      {% endif %}
-      <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'categories' %}true{% else %}false{% endif %}">
-        <span class="neb-rail-label">Syllabus</span>
-      </a>
-      <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        class="neb-rail-item" role="tab" aria-selected="{% if current_tab == 'interactive' %}true{% else %}false{% endif %}">
-        <span class="neb-rail-label">Interactive</span>
-      </a>
-    </div>
+  <div class="x-toolbar">
+    <nav class="m3-pill x-seg" data-m3-nav aria-label="Library sections">
+      <a href="?tab=digital{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"{% if current_tab == 'digital' or current_tab == 'community' %} aria-current="true"{% endif %}>Library</a>
+      {% if marketplace_enabled %}<a href="?tab=marketplace"{% if current_tab == 'marketplace' %} aria-current="true"{% endif %}>Marketplace</a>{% endif %}
+      <a href="?tab=categories{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"{% if current_tab == 'categories' %} aria-current="true"{% endif %}>Syllabus</a>
+      <a href="?tab=interactive{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"{% if current_tab == 'interactive' %} aria-current="true"{% endif %}>Interactive</a>
+    </nav>
     {% if current_tab == 'digital' or current_tab == 'community' %}
-    <div class="lib-sort-controls">
-      <button type="button" class="lib-filter-btn {% if active_filter_count > 0 %}has-badge{% endif %}" data-neb-open="library-filter-modal" aria-haspopup="dialog">
-        <span class="material-symbols-outlined" style="font-size:18px;">tune</span>
-        <span>Filter</span>
-        {% if active_filter_count > 0 %}
-        <span class="lib-filter-badge">{{ active_filter_count }}</span>
-        {% endif %}
-      </button>
-    </div>
+    <button type="button" class="x-btn x-btn-tonal" data-neb-open="library-filter-modal" aria-haspopup="dialog">
+      <span class="material-symbols-outlined" aria-hidden="true">tune</span>Filter{% if active_filter_count > 0 %}<span class="x-dot">{{ active_filter_count }}</span>{% endif %}
+    </button>
     {% endif %}
   </div>
 
-  <div class="glass-panel lib-glass-panel">
+  <div class="x-lib">
   {% if current_tab == 'interactive' %}
   {% include "web/interactive/_hub_content.html" %}
   {% elif current_tab == 'marketplace' %}
@@ -91,7 +59,7 @@
   <div id="library-main">
     <!-- Active filter chips -->
     {% if current_subjects or current_grades or current_types %}
-    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;align-items:center;">
+    <div class="x-filters">
       {% for s in current_subjects %}
       <a href="{% url 'web:library' %}?tab={{ current_tab }}{% for ss in current_subjects %}{% if ss != s %}&subject={{ ss|urlencode }}{% endif %}{% endfor %}{% for g in current_grades %}&grade={{ g|urlencode }}{% endfor %}{% for t in current_types %}&type={{ t|urlencode }}{% endfor %}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
         class="search-filter-chip"
@@ -117,7 +85,7 @@
       </a>
       {% endfor %}
       <a href="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
-        style="font-size:0.8125rem;color:var(--md-primary);text-decoration:none;font-weight:600;"
+        class="x-clear"
         hx-get="{% url 'web:library' %}?tab={{ current_tab }}{% if current_sort and current_sort != 'relevant' %}&sort={{ current_sort }}{% endif %}"
         hx-target="#library-main" hx-swap="innerHTML" hx-push-url="true">Clear all</a>
     </div>

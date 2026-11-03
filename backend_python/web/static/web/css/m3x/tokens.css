@@ -41,6 +41,9 @@
   --md-surface-container-high: #e2e8f7;
   --md-surface-container-highest: #dae1f3;
   --md-elevated-surface: #ffffff;
+  /* floating surfaces (menus, dialogs, sheets, popovers): white in light, a raised tone in dark */
+  --x-float: #ffffff;
+  --x-float-line: #d3dbef;
   --md-inverse-surface: #1f2840;
   --md-inverse-on-surface: #edf1fc;
   --md-inverse-primary: #b2c5ff;
@@ -139,6 +142,8 @@
   --md-surface-container-high: #1a243c;
   --md-surface-container-highest: #232e48;
   --md-elevated-surface: #1a243c;
+  --x-float: #172036;
+  --x-float-line: #2f3a55;
   --md-inverse-surface: #e3e8f7;
   --md-inverse-on-surface: #1f2840;
   --md-inverse-primary: #0058df;

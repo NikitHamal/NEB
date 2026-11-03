@@ -9,7 +9,6 @@
 {% block nav_news %}md-nav-active{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'web/css/pages/web-news.css' %}?v=20261103d">
 {% endblock %}
 
 {% block bottomnav %}
@@ -17,85 +16,48 @@
 {% endblock %}
 
 {% block content %}
-<div class="md-container news-page">
-  <div class="news-header">
-    <div class="news-header-content">
-      <h1 class="md-headline-large-emphasized">Blog &amp; Updates</h1>
-    </div>
+{% comment %}One card component below (.bcard); the first story of an unfiltered list is the cover (.bhero).{% endcomment %}
+<div class="x-page">
+  <div class="x-head"><h1 class="x-title">Blog</h1></div>
+
+  <nav class="m3-pill x-seg x-cats" data-m3-nav aria-label="Categories">
+    <a href="{% url 'web:news_list' %}"{% if not current_category %} aria-current="true"{% endif %}>All</a>
+    {% for c in categories %}<a href="{% url 'web:news_list' %}?category={{ c.key }}"{% if current_category == c.key %} aria-current="true"{% endif %}>{{ c.label }}</a>{% endfor %}
+  </nav>
+
+  {% if announcements %}
+  {% for a in announcements %}
+    {% if forloop.first and not current_category and not current_tag %}
+    <a href="{% url 'web:news_detail' slug=a.slug %}" class="bhero">
+      <div class="bhero-body">
+        <span class="bhero-kicker"><span class="material-symbols-outlined" aria-hidden="true">{% if a.is_pinned %}push_pin{% else %}{{ a.category_icon }}{% endif %}</span>{% if a.is_pinned %}Pinned{% else %}{{ a.category_label }}{% endif %}</span>
+        <h2 class="bhero-title">{{ a.title }}</h2>
+        {% if a.summary %}<p class="bhero-sum">{{ a.summary }}</p>{% endif %}
+        <div class="bhero-meta"><strong>{{ a.author_name|mention_links_plain }}</strong><span>{{ a.published_at|time_ago }}</span><span>{{ a.view_count|short_number }} views</span></div>
+      </div>
+      <div class="bhero-art">
+        {% if a.cover_image_url %}<img src="{{ a.cover_image_url }}" alt="">{% else %}<div class="neb-art" data-neb-art="banner" data-neb-subject="{{ a.category_art }}" data-neb-seed="news|{{ a.id }}"></div>{% endif %}
+      </div>
+    </a>
+    {% endif %}
+  {% endfor %}
+  <div class="bgrid">
+    {% for a in announcements %}{% if not forloop.first or current_category or current_tag %}
+    <a href="{% url 'web:news_detail' slug=a.slug %}" class="bcard" style="--cc: {{ a.category_color }}">
+      <div class="bcard-art">
+        {% if a.cover_image_url %}<img src="{{ a.cover_image_url }}" alt="" loading="lazy">{% else %}<div class="neb-art" data-neb-art="banner" data-neb-subject="{{ a.category_art }}" data-neb-seed="news|{{ a.id }}"></div>{% endif %}
+      </div>
+      <div class="bcard-body">
+        <span class="bcard-cat"><span class="material-symbols-outlined" aria-hidden="true">{{ a.category_icon }}</span>{{ a.category_label }}</span>
+        <h2 class="bcard-title">{{ a.title }}</h2>
+        {% if a.summary %}<p class="bcard-sum">{{ a.summary }}</p>{% endif %}
+        <div class="bcard-meta"><b>{{ a.author_name|mention_links_plain }}</b><i></i><span>{{ a.published_at|time_ago }}</span><i></i><span><span class="material-symbols-outlined" aria-hidden="true">visibility</span> {{ a.view_count|short_number }}</span></div>
+      </div>
+    </a>
+    {% endif %}{% endfor %}
   </div>
-
-  <div class="news-layout">
-    <div class="news-main glass-panel">
-      <div class="news-filter-bar md-hide-desktop">
-        <a href="{% url 'web:news_list' %}" class="md-chip {% if not current_category %}md-chip-active{% endif %}">All</a>
-        {% for c in categories %}
-        <a href="{% url 'web:news_list' %}?category={{ c.key }}" class="md-chip {% if current_category == c.key %}md-chip-active{% endif %}" style="--chip-color:{{ c.color }}">
-          <span class="material-symbols-outlined" style="font-size:16px;">{{ c.icon }}</span>
-          {{ c.label }}
-        </a>
-        {% endfor %}
-      </div>
-
-      {% if announcements %}
-      <div class="news-list">
-        {% for a in announcements %}
-        <a href="{% url 'web:news_detail' slug=a.slug %}" class="news-card">
-          <div class="news-card-cover">
-            {% if a.cover_image_url %}
-            <img src="{{ a.cover_image_url }}" alt="{{ a.title }}" loading="lazy">
-            {% else %}
-            {% comment %} The drawn banner set the resource cards already use: one scene
-               per category family, a variant per post, day or night with the theme. {% endcomment %}
-            <div class="neb-art" data-neb-art="banner" data-neb-subject="{{ a.category_art }}" data-neb-seed="news|{{ a.id }}"></div>
-            {% endif %}
-          </div>
-          <div class="news-card-body">
-            <h2 class="news-card-title">{{ a.title }}</h2>
-            {% if a.summary %}<p class="news-card-summary">{{ a.summary }}</p>{% endif %}
-            <div class="news-card-meta">
-              {% if a.is_pinned %}
-              <span class="news-card-pin"><span class="material-symbols-outlined" aria-hidden="true">push_pin</span>Pinned</span>
-              <span class="news-card-dot" aria-hidden="true">·</span>
-              {% endif %}
-              <span class="news-card-author">
-                {% if a.author_photo %}<img src="{{ a.author_photo }}" alt="">{% endif %}
-                {{ a.author_name|mention_links_plain }}
-              </span>
-              <span class="news-card-dot" aria-hidden="true">·</span>
-              <span class="news-card-when">{{ a.published_at|time_ago }}</span>
-              <span class="news-card-dot" aria-hidden="true">·</span>
-              <span class="news-card-views"><span class="material-symbols-outlined" aria-hidden="true">visibility</span>{{ a.view_count|short_number }}</span>
-            </div>
-          </div>
-        </a>
-        {% endfor %}
-      </div>
-      {% else %}
-      <div class="empty-state">
-        <span class="material-symbols-outlined">newspaper</span>
-        <h3>No blog posts yet</h3>
-        <p>Check back soon for articles and updates.</p>
-      </div>
-      {% endif %}
-    </div>
-
-    <aside class="news-sidebar glass-panel glass-scroll md-hide-mobile">
-      <div class="news-sidebar-card">
-        <h3>Categories</h3>
-        <div class="news-sidebar-categories">
-          <a href="{% url 'web:news_list' %}" class="news-sidebar-cat {% if not current_category %}active{% endif %}">
-            <span class="material-symbols-outlined">apps</span>
-            <span>All</span>
-          </a>
-          {% for c in categories %}
-          <a href="{% url 'web:news_list' %}?category={{ c.key }}" class="news-sidebar-cat {% if current_category == c.key %}active{% endif %}" style="--cat-color:{{ c.color }}">
-            <span class="material-symbols-outlined">{{ c.icon }}</span>
-            <span>{{ c.label }}</span>
-          </a>
-          {% endfor %}
-        </div>
-      </div>
-    </aside>
-  </div>
+  {% else %}
+  <div class="x-empty"><span class="material-symbols-outlined" aria-hidden="true">newspaper</span><h3>No posts yet</h3></div>
+  {% endif %}
 </div>
 {% endblock %}

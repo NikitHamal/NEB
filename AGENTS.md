@@ -1,4 +1,4 @@
-﻿# NEBians - Project Knowledge Base
+# NEBians - Project Knowledge Base
 
 ## Sandbox tooling workaround (file tool is rooted at /app only)
 
@@ -7,6 +7,15 @@ The file-edit tool cannot see paths outside its workspace root (`/app`); bash ca
 (`/tmp/gitenv.sh` that `echo "$GH_PAT"`) and keep `.git/config` token-free; always run `git diff --cached` before pushing.
 The Django landing needs `pip install --user --break-system-packages` of requirements plus `bleach django-htmx meilisearch gradio_client js2py`;
 run with `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x`. Playwright Chromium needs `sudo apt-get install libnspr4 libnss3 libgbm1 libasound2 ...`.
+
+## Web design system (m3x) -- read before touching templates/CSS
+
+- Tokens: `static/web/css/m3x/tokens.css` (`--md-*` roles, `--x-float` = the white/raised surface for every menu, dialog, sheet, popover). Never hard-code a colour; a fill and its label are always a role pair.
+- App layers (bundled into `m3x-app.css` by `python3 tools/css/bundle.py`; run it after any edit, `--check` must pass): `app-overlays.css` (floating surfaces), `app-controls.css`, `app-screens.css` (x-* controls, `rcard` resource card, `bcard`/`bhero` blog cards, `vw-*` viewer), `app-reader.css` (blog article).
+- One resource card: `templates/components/_resource_card.html` (library, search, related). One theme button: `components/_theme_toggle.html`. Tabs/categories: `<nav class="m3-pill x-seg" data-m3-nav>` with `aria-current` on the active link (sliding indicator from `m3x.js`).
+- Radii are finite (pill = 28px) so hover morphs never hit a square corner. No box-shadow anywhere (`web/test_landing.py` enforces it).
+- Resources are view-only: `resource_detail.html` embeds the file (`#toolbar=0`), the media player has no download link, `web/test_viewer.py` guards it. Raw file URLs still exist server-side; a hard block needs signed, streamed responses.
+- Local run: `DB_ENGINE=sqlite DEBUG=True SECRET_KEY=x python3 manage.py runserver --noreload` (restart after template edits: templates are cached with `--noreload`), `manage.py create_mock_users`, `tools/design/seed_demo.py` for a logged-in session.
 
 ## Coding Conventions
 
