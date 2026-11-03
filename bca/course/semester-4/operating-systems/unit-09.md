@@ -274,7 +274,7 @@ f.text(290, 210, "a and c are concurrent: equal clocks, no message path", size=9
 ## Formula and fact sheet
 
 - Cristian: **T_new = T_s + (T₁ − T₀)/2**. Berkeley: adjustment = average − own time.
-- Lamport: *C = C + 1* per event; on receive *C = max(C, t) + 1*; a → b ⇒ C(a) < C(b).
+- Lamport: `C = C + 1` per event; on receive `C = max(C, t) + 1`; if a happened before b, then `C(a) < C(b)` (the converse is false).
 - Drift: a clock with drift ρ gains or loses ρ seconds per second.
 - RPC cost ≈ 2 × network latency + stub time ≫ local call.
 - Multiprocessor = shared memory; multicomputer = message passing.
