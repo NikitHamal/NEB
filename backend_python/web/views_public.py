@@ -712,7 +712,7 @@ def faq(request):
 
 POPULAR_SEARCHES = (
     ('Physics', 'science'), ('Chemistry', 'experiment'), ('Mathematics', 'calculate'), ('Biology', 'biotech'),
-    ('English', 'translate'), ('Computer Science', 'computer'), ('Past papers', 'history_edu'), ('Notes', 'sticky_note_2'),
+    ('English', 'translate'), ('Computer Science', 'computer'), ('Past papers', 'history_edu'), ('Notes', 'description'),
 )
 
 
