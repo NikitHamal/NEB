@@ -2599,6 +2599,19 @@
   "source": "Wikimedia Commons",
   "title": "BSoD on Windows NT 4 Workstation"
  },
+ "bca251/cardcat": {
+  "author": "Michael Holley Swtpc6800",
+  "bytes": 427303,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca251/cardcat.jpg",
+  "license": "Public domain",
+  "license_url": "",
+  "page": "https://commons.wikimedia.org/wiki/File:Copyright_Card_Catalog_Drawer.jpg",
+  "sha1": "24112e91ededacb5",
+  "source": "Wikimedia Commons",
+  "title": "Copyright Card Catalog Drawer"
+ },
  "bca251/floppy": {
   "author": "Swtpc6800 en:User:Swtpc6800 Michael Holley",
   "bytes": 208411,
@@ -2689,6 +2702,19 @@
   "sha1": "876d2fb82f8649ea",
   "source": "Wikimedia Commons",
   "title": "IBM System 360 Model 91 (1966) console - Computer History Museum (2007-11-10 23.06.26 by Carlo Nardone)"
+ },
+ "bca251/tape729": {
+  "author": "Marcin Wichary",
+  "bytes": 722231,
+  "credit": "Debugging the tape drive",
+  "fetched": "2026-11-03",
+  "file": "bca251/tape729.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:IBM_729_restored.jpg",
+  "sha1": "c606cd93834f1d01",
+  "source": "Wikimedia Commons",
+  "title": "IBM 729 restored"
  },
  "bca251/torvalds": {
   "author": "Beraldo Leal from Natal / RN, Brazil",
