@@ -2625,6 +2625,19 @@
   "source": "Wikimedia Commons",
   "title": "Floppy Disk Drives 8 5 3"
  },
+ "bca251/fprint": {
+  "author": "Siarhei Besarab",
+  "bytes": 1154091,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca251/fprint.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Lenovo_ThinkPad_X220_Fingerprint_Reader_LMP-3_-_external_side.jpg",
+  "sha1": "ca9bfa3b3220a91a",
+  "source": "Wikimedia Commons",
+  "title": "Lenovo ThinkPad X220 Fingerprint Reader LMP-3 - external side"
+ },
  "bca251/gridlock": {
   "author": "Mathias Lück",
   "bytes": 459935,
@@ -2703,6 +2716,19 @@
   "source": "Wikimedia Commons",
   "title": "IBM System 360 Model 91 (1966) console - Computer History Museum (2007-11-10 23.06.26 by Carlo Nardone)"
  },
+ "bca251/securid": {
+  "author": "Mateusz Adamowski , taken with Canon EOS.",
+  "bytes": 254680,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca251/securid.jpg",
+  "license": "CC BY-SA 1.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/1.0",
+  "page": "https://commons.wikimedia.org/wiki/File:RSA-SecurID-Tokens.jpg",
+  "sha1": "3a3ebbab3df1fcf0",
+  "source": "Wikimedia Commons",
+  "title": "RSA-SecurID-Tokens"
+ },
  "bca251/tape729": {
   "author": "Marcin Wichary",
   "bytes": 722231,
@@ -2729,6 +2755,19 @@
   "source": "Wikimedia Commons",
   "title": "Linus Torvalds - Linuxcon2011"
  },
+ "bca251/trojan": {
+  "author": "Kırmızı",
+  "bytes": 528468,
+  "credit": "Own work",
+  "fetched": "2026-11-03",
+  "file": "bca251/trojan.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Truva_Heykeli.jpg",
+  "sha1": "e387a9bfb6b97cc6",
+  "source": "Wikimedia Commons",
+  "title": "Truva Heykeli"
+ },
  "bca251/tux": {
   "author": "User:Kowalski7cc",
   "bytes": 1143284,
@@ -2741,6 +2780,19 @@
   "sha1": "a59613a8e385f701",
   "source": "Wikimedia Commons",
   "title": "Giant Linux kernel tux mascotte at Linux Day 2022 in Milano"
+ },
+ "bca251/yubikey": {
+  "author": "Tony Webster from Minneapolis, Minnesota, United States. Cropped by SUM1 .",
+  "bytes": 955757,
+  "credit": "Hardware Authentication Security Keys (Yubico Yubikey 4 and Feitian MultiPass FIDO)",
+  "fetched": "2026-11-03",
+  "file": "bca251/yubikey.jpg",
+  "license": "CC BY 2.0",
+  "license_url": "https://creativecommons.org/licenses/by/2.0",
+  "page": "https://commons.wikimedia.org/wiki/File:YubiKey_4_and_4C.jpg",
+  "sha1": "023e7d5419f2ae36",
+  "source": "Wikimedia Commons",
+  "title": "YubiKey 4 and 4C"
  },
  "bca252/ariane": {
   "author": "Deadpan",
