@@ -6044,6 +6044,19 @@
   "source": "Wikimedia Commons",
   "title": "JavaFX - Simple 3D scene"
  },
+ "bca303/lanplate": {
+  "author": "Fredquint",
+  "bytes": 347373,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/lanplate.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Australian_Dual_Socket_Outlet_and_LAN_Wall_Plate.jpg",
+  "sha1": "7cf00784c2b3cece",
+  "source": "Wikimedia Commons",
+  "title": "Australian Dual Socket Outlet and LAN Wall Plate"
+ },
  "bca303/lisa": {
   "author": "Timothy Colegrove",
   "bytes": 207561,
@@ -6069,6 +6082,19 @@
   "sha1": "26be58bd55a9b957",
   "source": "Wikimedia Commons",
   "title": "Apple Museum (Prague) Macintosh 128K (1984) - 1"
+ },
+ "bca303/mailboxes": {
+  "author": "Tim Kiser",
+  "bytes": 1283460,
+  "credit": "Own work",
+  "fetched": "2026-11-04",
+  "file": "bca303/mailboxes.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Wall-mounted_mailboxes_at_63%C2%BD_S_Detroit_St,_Xenia,_Ohio_%C2%B7_2025-09-09_(1307).jpg",
+  "sha1": "d4d788aacae3ef21",
+  "source": "Wikimedia Commons",
+  "title": "Wall-mounted mailboxes at 63½ S Detroit St, Xenia, Ohio · 2025-09-09 (1307)"
  },
  "bca303/passbook": {
   "author": "Wainuiomartian",
@@ -6160,6 +6186,19 @@
   "sha1": "7d66310b906fe241",
   "source": "Wikimedia Commons",
   "title": "Swing custom painted screenshot 1"
+ },
+ "bca303/switchboard": {
+  "author": "ID#: Gary Langebartels / FortepanIowa",
+  "bytes": 280579,
+  "credit": "https://fortepan.us/photo/1/FI0003869",
+  "fetched": "2026-11-04",
+  "file": "bca303/switchboard.jpg",
+  "license": "CC BY-SA 4.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/4.0",
+  "page": "https://commons.wikimedia.org/wiki/File:Wisconsin_Bell_Telephone_Company_Switchboard.jpg",
+  "sha1": "6a934a1f324518f4",
+  "source": "Wikimedia Commons",
+  "title": "Wisconsin Bell Telephone Company Switchboard"
  },
  "bca303/toll": {
   "author": "Daniel Case",
