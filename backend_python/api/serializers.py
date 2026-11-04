@@ -405,6 +405,19 @@ class PostSerializer(serializers.ModelSerializer):
         user = getattr(request, 'user', None) if request else None
         return bool(user is not None and isinstance(user, User) and str(user.id) == str(obj.user_id))
 
+    def get_kind(self, obj):
+        return obj.kind or 'comment'
+
+    def get_label(self, obj):
+        return obj.label or ''
+
+    def get_canLabel(self, obj):
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+        if user is None or not isinstance(user, User):
+            return False
+        return bool(user.is_admin or str(user.id) == str(obj.post.user_id))
+
     def get_authorBadgeInfo(self, obj):
         if obj.is_anonymous:
             return None
@@ -501,15 +514,31 @@ class ReplySerializer(serializers.ModelSerializer):
     isBookmarked = serializers.SerializerMethodField()
     authorBadgeInfo = serializers.SerializerMethodField()
     attachments = PostMediaSerializer(source='media', many=True, read_only=True)
+    kind = serializers.SerializerMethodField()
+    label = serializers.SerializerMethodField()
+    canLabel = serializers.SerializerMethodField()
 
     class Meta:
         model = Reply
         fields = [
-            'id', 'postId', 'parentReplyId', 'content',
+            'id', 'postId', 'parentReplyId', 'content', 'kind', 'label', 'canLabel',
             'authorName', 'authorPhotoUrl', 'authorId', 'authorIsBot', 'authorBadgeInfo',
             'thumbsUpCount', 'childCount', 'viewCount', 'createdAt', 'isEdited', 'editedAt',
             'isArchived', 'isAnonymous', 'isOwner', 'isThumbedUp', 'isBookmarked', 'attachments'
         ]
+
+    def get_kind(self, obj):
+        return obj.kind or 'comment'
+
+    def get_label(self, obj):
+        return obj.label or ''
+
+    def get_canLabel(self, obj):
+        request = self.context.get('request')
+        user = getattr(request, 'user', None) if request else None
+        if user is None or not isinstance(user, User):
+            return False
+        return bool(user.is_admin or str(user.id) == str(obj.post.user_id))
 
     def get_isOwner(self, obj):
         request = self.context.get('request')
