@@ -193,7 +193,7 @@ class M3XDesignSystemTests(TestCase):
 
     def test_landing_and_app_share_one_brand_partial_and_one_pill_nav(self):
         root = Path(__file__).resolve().parent / 'templates'
-        for tpl in ('landing/landing.html', 'base.html'):
+        for tpl in ('landing/_nav.html', 'base.html'):
             src = (root / tpl).read_text(encoding='utf-8')
             self.assertIn('components/_brand.html', src, tpl)
             self.assertIn('data-m3-nav', src, tpl)

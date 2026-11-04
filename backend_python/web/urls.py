@@ -23,6 +23,7 @@ app_name = 'web'
 
 urlpatterns = [
     path('', views_landing.landing, name='landing'),
+    path('about/', views_landing.about, name='about'),
     path('app/', views.home, name='home'),
     path('health/', views_monitor.health_check, name='health_check'),
     path('ajax/home/feed/', views.home_feed_more, name='home_feed_more'),
