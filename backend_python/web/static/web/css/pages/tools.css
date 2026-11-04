@@ -173,23 +173,6 @@
 
 @media (max-width: 900px) {
   .tools-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .md-topbar {
-    height: auto;
-    min-height: 64px;
-    flex-wrap: wrap;
-    padding-top: 8px;
-    padding-bottom: 8px;
-  }
-  .md-topbar-brand { flex: 1 1 auto; }
-  .md-topbar-nav {
-    position: static;
-    order: 3;
-    width: 100%;
-    transform: none;
-    overflow-x: auto;
-    justify-content: flex-start;
-  }
-  .md-topbar-actions { margin-left: auto; }
 }
 
 @media (max-width: 600px) {
