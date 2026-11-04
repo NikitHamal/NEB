@@ -791,6 +791,125 @@ select.neb-sel-native {
   .neb-sel, .neb-sel-chev, .neb-sel-item .neb-sel-check { transition: none; }
 }
 
+/* ---- m3x/app-edit.css ---- */
+/* ForumEdit (js/forum-edit.js) and NebAttach (js/forum-attach.js): the in-place editor and the attachment tray. */
+
+/* ---------- the editor takes the card's place ---------- */
+.fe {
+  display: grid; gap: 10px; padding: 12px; margin: 6px 0 10px; box-sizing: border-box; min-width: 0;
+  background: var(--md-surface-container-low); border: 1px solid var(--md-outline-variant); border-radius: 24px;
+  transition: border-color .2s, border-radius .45s var(--spring);
+  animation: fe-in .5s var(--spring) both; transform-origin: top center;
+}
+.fe:focus-within { border-color: var(--md-primary); }
+.fe.is-dropping { outline: 2px dashed var(--md-primary); outline-offset: -6px; background: var(--md-primary-container); }
+.fe.is-leaving { animation: fe-out .18s ease forwards; }
+.fe.is-saving { pointer-events: none; }
+.fe-hidden { display: none !important; }
+.fe-return { animation: fe-in .45s var(--spring) both; }
+@keyframes fe-in { from { opacity: 0; transform: translateY(-8px) scale(.985); } }
+@keyframes fe-out { to { opacity: 0; transform: translateY(-6px) scale(.985); } }
+
+.fe-title-wrap { position: relative; display: block; }
+.fe-title {
+  width: 100%; box-sizing: border-box; min-height: 48px; padding: 0 48px 0 16px; border: 1px solid transparent; border-radius: 16px;
+  background: var(--md-surface-container-high); color: var(--md-on-surface); font: inherit; font-size: 1.0625rem; font-weight: 700;
+  transition: border-color .15s, background-color .15s, border-radius .4s var(--spring);
+}
+.fe-title::placeholder { color: var(--md-on-surface-variant); font-weight: 500; }
+.fe-title:focus { outline: 0; border-color: var(--md-primary); border-radius: 20px; background: var(--md-surface-container-lowest, var(--md-surface)); }
+.fe-count { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: .75rem; font-weight: 700; color: var(--md-error); pointer-events: none; }
+.fe-count:empty { display: none; }
+
+.fe-body { min-width: 0; }
+.fe .fc-host .fc-field, .fe-text {
+  width: 100%; box-sizing: border-box; padding: 12px 14px; border: 1px solid transparent; border-radius: 16px; resize: none;
+  background: var(--md-surface-container-high); color: var(--md-on-surface); font: inherit; font-size: .9375rem; line-height: 1.55;
+  transition: border-color .15s, background-color .15s, border-radius .4s var(--spring);
+}
+.fe .fc-host .fc-field:focus, .fe-text:focus { outline: 0; border-color: var(--md-primary); border-radius: 20px; background: var(--md-surface-container-lowest, var(--md-surface)); }
+.fe .fc-host.is-open .fc-field { min-height: 120px; }
+.fe-post .fc-host.is-open .fc-field { min-height: 180px; }
+.fe .fc-preview { padding: 12px 14px; border-radius: 16px; background: var(--md-surface-container-high); }
+
+.fe-bar { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.fe-status { flex: 1; min-width: 0; font-size: .8125rem; font-weight: 600; color: var(--md-on-surface-variant); }
+.fe-icon {
+  position: relative; width: 40px; height: 40px; display: inline-flex; align-items: center; justify-content: center; flex: none;
+  border: 0; border-radius: 50%; cursor: pointer; background: transparent; color: var(--md-on-surface-variant);
+  transition: background-color .15s, color .15s, border-radius .4s var(--spring), transform .25s var(--spring);
+}
+.fe-icon:hover { background: var(--md-surface-container-highest); color: var(--md-primary); border-radius: 14px; }
+.fe-icon:active { transform: scale(.9); }
+.fe-icon:disabled { opacity: .4; cursor: not-allowed; border-radius: 50%; }
+.fe-badge {
+  position: absolute; top: 2px; right: 0; min-width: 16px; height: 16px; padding: 0 4px; box-sizing: border-box; border-radius: 8px;
+  background: var(--md-primary); color: var(--md-on-primary); font-size: .6875rem; font-weight: 700; line-height: 16px; text-align: center;
+  animation: fe-pop .35s var(--spring) both;
+}
+.fe-badge[hidden] { display: none; }
+@keyframes fe-pop { from { transform: scale(.4); opacity: 0; } }
+.fe-save .material-symbols-outlined { font-size: 18px; margin-right: 6px; }
+.fe-save:disabled { opacity: .6; cursor: default; }
+.fe.is-saving .fe-save .material-symbols-outlined { animation: fe-beat .8s ease-in-out infinite; }
+@keyframes fe-beat { 50% { transform: scale(.6); opacity: .5; } }
+
+/* ---------- the attachment tray ---------- */
+.na { min-width: 0; }
+.na.is-empty { display: none; }
+.na-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.na-live { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.na-row {
+  position: relative; display: flex; align-items: center; gap: 6px; min-height: 56px; padding: 6px 6px 6px 2px; box-sizing: border-box; overflow: hidden;
+  background: var(--md-surface-container-high); border: 1px solid var(--md-outline-variant); border-radius: 18px;
+  transition: border-color .15s, background-color .15s, opacity .2s, scale .2s;
+  animation: na-in .4s var(--spring) both;
+}
+@keyframes na-in { from { opacity: 0; scale: .94; } }
+.na-row.is-leaving { opacity: 0; scale: .94; }
+.na-row.is-dragging { z-index: 3; border-color: var(--md-primary); background: var(--md-surface-container-highest); }
+.na-grip {
+  flex: none; width: 28px; height: 44px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; border-radius: 10px;
+  background: transparent; color: var(--md-on-surface-variant); cursor: grab; touch-action: none;
+  transition: background-color .15s, color .15s;
+}
+.na-grip[hidden] { display: none; }
+.na-grip:hover, .na-grip:focus-visible { background: var(--md-surface-container-highest); color: var(--md-primary); }
+.na-row.is-dragging .na-grip { cursor: grabbing; color: var(--md-primary); }
+.na-grip .material-symbols-outlined { font-size: 20px; }
+.na-thumb {
+  flex: none; width: 44px; height: 44px; border-radius: 12px; overflow: hidden; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+}
+.na-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.na-audio { background: var(--md-tertiary-container); color: var(--md-on-tertiary-container); }
+.na-video { background: var(--md-primary-container); color: var(--md-on-primary-container); }
+.na-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.na-name { font-size: .875rem; font-weight: 600; color: var(--md-on-surface); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.na-meta { font-size: .75rem; color: var(--md-on-surface-variant); text-transform: capitalize; }
+.na-btn {
+  flex: none; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 0; border-radius: 50%;
+  background: transparent; color: var(--md-on-surface-variant); cursor: pointer;
+  transition: background-color .15s, color .15s, border-radius .4s var(--spring), transform .25s var(--spring);
+}
+.na-btn .material-symbols-outlined { font-size: 20px; }
+.na-btn:hover { background: var(--md-surface-container-highest); color: var(--md-primary); border-radius: 12px; }
+.na-btn[data-na="remove"]:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+.na-btn:active { transform: scale(.9); }
+.na-btn:disabled { opacity: .35; cursor: not-allowed; }
+.na-track { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; opacity: 0; transition: opacity .2s; }
+.na-track i { display: block; height: 100%; width: 0; background: var(--md-primary); border-radius: 0 3px 3px 0; transition: width .2s linear; }
+.na-row.is-uploading .na-track { opacity: 1; }
+.na-row.is-uploading .na-thumb { animation: fe-beat 1.2s ease-in-out infinite; }
+
+@media (max-width: 480px) {
+  .fe { padding: 10px; border-radius: 20px; }
+  .na-thumb { width: 40px; height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fe, .fe-return, .na-row, .fe-badge, .fe-title, .fe-text, .na-row.is-uploading .na-thumb, .fe.is-saving .fe-save .material-symbols-outlined { animation: none; transition: none; }
+}
+
 /* ---- m3x/app-forum.css ---- */
 /* m3x forum: the writing tools (.fc), reply kinds and reviewer labels (.fl), and the edit and
    delete dialogs on a thread. Every fill is paired with its own label colour, so nothing can match

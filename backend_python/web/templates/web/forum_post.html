@@ -133,12 +133,16 @@
           </div>
 
           <div class="fp-post-flags"><button type="button" class="fl-solved-chip" data-solved-chip aria-label="Go to the accepted answer"{% if not post.isResolved %} hidden{% endif %}><span class="material-symbols-outlined" aria-hidden="true">check_circle</span>Solved<span class="material-symbols-outlined fl-solved-go" aria-hidden="true">arrow_downward</span></button></div>
+          <div class="fp-post-view" data-post-view data-post-id="{{ post.id }}" data-images="{{ post.images|image_urls_json }}" data-media="{{ post.attachments|json_attr }}">
           <h1 class="fp-post-title">{{ post.title }}</h1>
           <div class="fp-post-body" id="post-content-{{ post.id }}">{{ post.content|mention_links:all_usernames }}</div>
 
           {% with images=post.images %}{% include "web/_forum_post_slider.html" %}{% endwith %}
 
           {% with attachments=post.attachments %}{% include "web/_forum_attachments.html" %}{% endwith %}
+          <script type="text/plain" id="post-original-title">{{ post.title }}</script>
+          <script type="text/plain" id="post-original-content">{{ post.content }}</script>
+          </div>
 
           {% if post.poll %}
           <div class="fp-poll {% if post.poll.pollType == 'mcq' %}fp-poll-mcq{% endif %}" id="poll-{{ post.poll.id }}" data-poll-id="{{ post.poll.id }}" data-user-vote="{{ post.poll.userVote|default:'' }}" data-poll-type="{{ post.poll.pollType }}" data-allow-multiple="{{ post.poll.allowMultiple|default:'false' }}">
@@ -252,39 +256,6 @@
   </div>
 </div>
 
-<!-- Edit Post Modal -->
-<script type="text/plain" id="post-original-title">{{ post.title }}</script>
-<script type="text/plain" id="post-original-content">{{ post.content }}</script>
-<div class="neb-scrim" id="editPostModal" data-neb-close hidden>
-  <div class="neb-dialog fp-dialog" role="dialog" aria-modal="true" aria-labelledby="editPostHeading">
-    <div class="neb-dialog-head"><h2 class="neb-dialog-title" id="editPostHeading">Edit post</h2></div>
-    <div class="fp-dialog-body" data-neb-skip>
-      <label class="fp-dialog-label" for="editPostTitle">Title</label>
-      <input type="text" class="fp-dialog-input" id="editPostTitle" maxlength="300" autocomplete="off">
-      <label class="fp-dialog-label" for="editPostContent">Details</label>
-      <textarea id="editPostContent" rows="6" data-fc="tools" data-fc-nodraft></textarea>
-    </div>
-    <div class="neb-dialog-actions">
-      <button type="button" class="md-btn md-btn-text" data-action="close-edit-post-modal">Cancel</button>
-      <button type="button" class="md-btn md-btn-filled" data-action="submit-edit-post">Save</button>
-    </div>
-  </div>
-</div>
-
-<div class="neb-scrim" id="editReplyModal" data-neb-close hidden>
-  <div class="neb-dialog fp-dialog" role="dialog" aria-modal="true" aria-labelledby="editReplyHeading">
-    <div class="neb-dialog-head"><h2 class="neb-dialog-title" id="editReplyHeading">Edit reply</h2></div>
-    <div class="fp-dialog-body" data-neb-skip>
-      <input type="hidden" id="editReplyId">
-      <textarea id="editReplyContent" rows="5" aria-label="Reply" data-fc="tools" data-fc-nodraft></textarea>
-    </div>
-    <div class="neb-dialog-actions">
-      <button type="button" class="md-btn md-btn-text" data-action="close-edit-reply-modal">Cancel</button>
-      <button type="button" class="md-btn md-btn-filled" data-action="submit-edit-reply">Save</button>
-    </div>
-  </div>
-</div>
-
 {% comment %}
   The thread panel. There used to be two of these -- a right-hand sidebar and
   a bottom sheet, each with its own scrim, its own ids and its own CSS family,
@@ -352,6 +323,8 @@
 {{ label_meta|json_script:"forum-label-meta" }}
 <script src="{% static 'web/js/forum-composer.js' %}"></script>
 <script src="{% static 'web/js/forum-labels.js' %}"></script>
+<script src="{% static 'web/js/forum-attach.js' %}"></script>
+<script src="{% static 'web/js/forum-edit.js' %}"></script>
 <script nonce="{{ csp_nonce }}">
 const POST_ID = '{{ post.id }}';
 const POST_AUTHOR_ID = '{{ post_author_id }}';
@@ -482,29 +455,6 @@ async function toggleFollowBtn(btn, userId) {
   } catch(e) { btn.disabled = false; showSnackbar('Error updating follow.'); }
 }
 
-function startEditPost() {
-  document.getElementById('editPostTitle').value = document.getElementById('post-original-title').textContent;
-  document.getElementById('editPostContent').value = document.getElementById('post-original-content').textContent;
-  if (window.ForumComposer) ForumComposer.reset('editPostContent');
-  NebUI.open('editPostModal');
-}
-function closeEditPostModal() { NebUI.close('editPostModal'); }
-
-async function submitEditPost() {
-  const title = document.getElementById('editPostTitle').value.trim();
-  const content = document.getElementById('editPostContent').value.trim();
-  if (!title || !content) { showSnackbar('Title and content are required.'); return; }
-  try {
-    const r = await fetch('/ajax/edit/post/' + POST_ID + '/', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
-      credentials: 'same-origin', body: JSON.stringify({ title, content })
-    });
-    const d = await r.json();
-    if (d && d.id) { closeEditPostModal(); location.reload(); }
-    else { showSnackbar(d.error || 'Failed to edit post.'); }
-  } catch(e) { showSnackbar('Error editing post.'); }
-}
-
 async function archivePost() {
   try {
     const r = await fetch('/ajax/archive/post/' + POST_ID + '/', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN } });
@@ -517,51 +467,6 @@ async function archivePost() {
 function deletePost() {
   deleteTarget = { type: 'post', id: POST_ID };
   askDelete('Delete this post?', 'The post and all of its replies will be removed. This cannot be undone.');
-}
-
-function startEditReply(replyId) {
-  var card = document.getElementById('reply-card-' + replyId);
-  var raw = card ? card.getAttribute('data-raw-content') : '';
-  var contentEl = document.getElementById('reply-content-' + replyId);
-  var text = raw || '';
-  if (!text) {
-    var tr = document.querySelector('.fp-thread-reply[data-reply-id="' + CSS.escape(replyId) + '"]');
-    if (tr) text = tr.getAttribute('data-reply-content') || '';
-  }
-  if (!text && contentEl) {
-    if (contentEl.querySelector && contentEl.querySelector('.neb-chip')) {
-      try { text = window.InlineMedia ? window.InlineMedia.serializeEditor(contentEl) : contentEl.textContent || ''; } catch(_){ text = contentEl.textContent || ''; }
-    } else {
-      text = contentEl.textContent || '';
-    }
-  }
-  document.getElementById('editReplyId').value = replyId;
-  var ta = document.getElementById('editReplyContent');
-  if (ta) {
-    ta.value = text;
-    if (window.InlineMedia && window.InlineMedia.enhanceTextarea) {
-      try { window.InlineMedia.enhanceTextarea(ta); } catch(_){}
-      if (ta._nebEditor) { try { window.InlineMedia.loadEditor(ta._nebEditor, text); } catch(_){} }
-    }
-  }
-  if (window.ForumComposer) ForumComposer.reset('editReplyContent');
-  NebUI.open('editReplyModal');
-}
-function closeEditReplyModal() { NebUI.close('editReplyModal'); }
-
-async function submitEditReply() {
-  const replyId = document.getElementById('editReplyId').value;
-  const content = document.getElementById('editReplyContent').value.trim();
-  if (!content) { showSnackbar('Content is required.'); return; }
-  try {
-    const r = await fetch('/ajax/edit/reply/' + replyId + '/', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', 'X-CSRFToken': CSRF_TOKEN,  },
-      credentials: 'same-origin', body: JSON.stringify({ content })
-    });
-    const d = await r.json();
-    if (d && d.id) { closeEditReplyModal(); location.reload(); }
-    else { showSnackbar(d.error || 'Failed to edit reply.'); }
-  } catch(e) { showSnackbar('Error editing reply.'); }
 }
 
 async function askDelete(title, message) {
@@ -1208,7 +1113,7 @@ function renderThreadReply(reply, parentInfo, depth) {
   const flState = (reply.label === 'accepted' ? ' is-accepted' : (reply.label === 'spam' ? ' is-spam' : (reply.label === 'incorrect' ? ' is-incorrect' : '')));
   const flTags = window.ForumLabels ? ForumLabels.tagsHTML(reply) : '';
   const flMark = (reply.canLabel && !depth && window.ForumLabels) ? ForumLabels.openerButton(reply) : '';
-  return '<div class="fp-thread-reply' + flState + '" data-reply-card="' + escapeHtml(reply.id) + '" data-label="' + escapeHtml(reply.label || '') + '" data-kind="' + escapeHtml(reply.kind || 'comment') + '" id="thread-reply-' + escapeHtml(reply.id) + '" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '" data-reply-id="' + escapeHtml(reply.id) + '">' +
+  return '<div class="fp-thread-reply' + flState + '" data-reply-card="' + escapeHtml(reply.id) + '" data-label="' + escapeHtml(reply.label || '') + '" data-kind="' + escapeHtml(reply.kind || 'comment') + '" id="thread-reply-' + escapeHtml(reply.id) + '" data-reply-content="' + escapeHtml(reply.content).replace(/"/g, '&quot;') + '" data-media="' + JSON.stringify(reply.attachments || []).replace(/&/g, '&amp;').replace(/"/g, '&quot;') + '" data-reply-id="' + escapeHtml(reply.id) + '">' +
     '<div class="fp-reply-avatar">' + avatarHtml + '</div>' +
     '<div class="fp-reply-main">' +
       '<div class="fp-reply-header">' +
@@ -1342,7 +1247,7 @@ document.querySelectorAll('.modal-overlay').forEach(overlay => {
 (function bindNebComposers(){
   function enhanceAllFP(){
     if (!window.InlineMedia) return;
-    var _ids = ['mainReplyContent','threadTextarea','editPostContent','editReplyContent'];
+    var _ids = ['mainReplyContent','threadTextarea'];
     _ids.forEach(function(id){ var el=document.getElementById(id); if(el) window.InlineMedia.enhanceTextarea(el); });
   }
   if (document.readyState !== 'loading') setTimeout(enhanceAllFP, 60);
@@ -1686,24 +1591,20 @@ registerActions({
   'toggle-bookmark': async function(el) { closeAllMenus(); await toggleBookmark(el.dataset.targetType, el.dataset.targetId, el); },
   'share-post': function(el) { closeAllMenus(); sharePost(el.dataset.postId); },
   'report-content': function(el) { closeAllMenus(); reportContent(el.dataset.targetType, el.dataset.targetId); },
-  'start-edit-post': function() { closeAllMenus(); startEditPost(); },
+  'start-edit-post': function() { closeAllMenus(); ForumEdit.post(POST_ID); },
   'archive-post': function() { closeAllMenus(); archivePost(); },
   'delete-post': function() { closeAllMenus(); deletePost(); },
   'toggle-post-like': function(el) { togglePostLike(el.dataset.postId); },
   'jump-to-replies': function() { jumpToReplies(); },
-  'close-edit-post-modal': function() { closeEditPostModal(); },
-  'submit-edit-post': function() { submitEditPost(); },
   'toggle-follow': async function(el) { await toggleFollowBtn(el, el.dataset.userId); },
   'toggle-reply-like': function(el) { toggleReplyLike(el.dataset.replyId); },
   'open-thread-reply': function(el) { openThreadReply(el.dataset.replyId, el.dataset.authorName, el.dataset.anonymous === '1'); },
   'share-reply': function(el) { closeAllMenus(); shareReply(el.dataset.replyId); },
-  'start-edit-reply': function(el) { closeAllMenus(); startEditReply(el.dataset.replyId); },
+  'start-edit-reply': function(el) { closeAllMenus(); ForumEdit.reply(el.dataset.replyId); },
   'archive-reply': function(el) { closeAllMenus(); archiveReply(el.dataset.replyId); },
   'delete-reply': function(el) { closeAllMenus(); deleteReply(el.dataset.replyId); },
   'open-thread': function(el) { openThread(el.dataset.replyId); },
   'submit-main-reply': function() { submitMainReply(); },
-  'close-edit-reply-modal': function() { closeEditReplyModal(); },
-  'submit-edit-reply': function() { submitEditReply(); },
   'close-delete-confirm-modal': function() { closeDeleteConfirmModal(); },
   'confirm-delete': function() { confirmDelete(); },
   'close-thread': function() { closeThread(); },
