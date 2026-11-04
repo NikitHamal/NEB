@@ -10,15 +10,17 @@ Goal: bring the Android app up to the web's m3x design system (brand blue, Poppi
 - Shared pieces: `ui/components/NebShapeStage.kt` (`NebTone`, `NebGlyphShapes`, `NebMorphBlob`, `drawGlyph`).
 - Forum replies: API replies now carry `kind`, `label`, `canLabel`; `POST /api/replies/<id>/label/`; replies accept `kind`. App: kind chips in the main comment composer, kind and label tags on `CommentCard` (tonal chips, no badge backgrounds elsewhere), a Mark sheet for the discussion author, comment card radius 8dp to 20dp.
 - Landing: community heading is now "Ask what you wonder. Share what you know." (the old 11 pm line described traffic the forum does not have).
+- Cards: `ForumPostCard` is the web `post-card` (24dp radius, outline-variant hairline, `#category` primary-container tag, ghost action row: tonal like pill, comment count, views for the author only, bookmark, share). `WebResourceCard` is the web `rcard` (28dp card, inset 20dp art, type badge, tonal subject and grade tags, avatar + views footer; no scrim, no circle badge). Rail cards in `NebCompactCards.kt` use the same radii and tonal chips; news chips use secondary-container instead of the data colour.
+- Shadows: every `shadowElevation` outside `LiquidGlassNav` is 0.
+- Post composer: poll duration is a row of single-choice chips (`ui/components/NebChoiceChips.kt`) instead of a sheet. Inline images, markdown toolbar, preview and mentions were already in.
 
 ## Not done yet
 
-- Post cards (`PostExtras.kt`, `NebCompactCards.kt`) and resource cards are still the old drawing; the web `rcard`/`bcard` are the reference.
-- Post composer (`CreatePostComposer.kt`): web features not yet ported: writing tools, poll duration chips, inline media.
-- Inline reply composer and `ReplyScreen` do not show the kind chips; only the main thread composer does.
-- Legacy-variant labels in the Mark sheet use the sheet's own title only; no label counts yet.
-- Nothing here has been seen on a device. `compileModernDebugKotlin` and `compileLegacyDebugKotlin` are the only checks. First thing to do on hardware: splash timing, intro blob morph (assumes MaterialShapes polygons live in the unit box), dark theme.
+- Nested replies are always comments (the kind chips live only on the main thread composer, matching the API).
+- Mark sheet shows no label counts yet.
+- Post cards inside profile and search lists use `ForumPostCard`; `WebPostCard` (compact variant) still has the older drawing.
+- Nothing here has been seen on a device. Both `compileModernDebugKotlin` and `compileLegacyDebugKotlin` pass. First thing to do on hardware: splash timing, intro blob morph (assumes MaterialShapes polygons live in the unit box), dark theme.
 
 ## Build
 
-JDK 17 and the Android SDK are installed per session (see `ANDROID_UI_CONTINUITY.md` section 8). Compile both variants.
+JDK 17 and the Android SDK are installed per session (see `ANDROID_UI_CONTINUITY.md` section 8). Compile both variants, one after the other. On a 4 GB box the Kotlin daemon dies when both run in parallel: use `--no-parallel -Pkotlin.compiler.execution.strategy=in-process -Dorg.gradle.jvmargs="-Xmx2800m"`.

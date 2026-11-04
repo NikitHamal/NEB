@@ -539,7 +539,7 @@ private fun SuggestedPostCard(
                     shape = WebPillShape,
                     color = if (liked) MaterialTheme.colorScheme.primary
                     else MaterialTheme.colorScheme.surfaceContainerLowest.copy(alpha = 0.92f),
-                    shadowElevation = 2.dp
+                    shadowElevation = 0.dp
                 ) {
                     Row(
                         modifier = Modifier.padding(horizontal = 9.dp, vertical = 5.dp),

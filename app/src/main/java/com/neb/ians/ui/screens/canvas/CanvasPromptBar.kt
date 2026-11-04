@@ -87,7 +87,7 @@ fun CanvasPromptBar(
         shape = RoundedCornerShape(26.dp),
         color = if (isDark) scheme.surfaceContainerHigh else Color.White,
         border = BorderStroke(1.dp, scheme.outlineVariant.copy(alpha = 0.8f)),
-        shadowElevation = 3.dp
+        shadowElevation = 0.dp
     ) {
         Column(modifier = Modifier.padding(start = 16.dp, end = 8.dp, top = 12.dp, bottom = 8.dp)) {
             BasicTextField(
