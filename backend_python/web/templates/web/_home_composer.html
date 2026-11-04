@@ -12,7 +12,7 @@
       <!-- Identity Picker on Feed Launcher -->
       <div class="hf-identity-picker hf-launcher-identity-picker" id="homeLauncherIdentityPicker">
         <button type="button" class="hf-launcher-identity-trigger" id="homeLauncherIdentityTrigger" aria-haspopup="true" aria-expanded="false" title="Switch identity (Personal or Anonymous)">
-          <span class="hf-launcher-avatar-slot">
+          <span class="hf-launcher-avatar-slot" data-avatar-seed="{{ user.username }}">
             <img id="homeLauncherUserAvatar" class="hf-launcher-avatar-img" src="{{ user.avatar_url }}" alt="{{ user.display_name|default:user.username }}" width="38" height="38" decoding="async">
             <span id="homeLauncherAnonAvatar" class="hf-launcher-avatar-anon" style="display: none;" hidden>
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -131,7 +131,7 @@
         <!-- Identity Picker in Dialog -->
         <div class="hf-identity-picker" id="homeIdentityPicker">
           <button type="button" class="hf-identity-trigger" id="homeIdentityTrigger" aria-haspopup="true" aria-expanded="false" title="Switch identity">
-            <span class="hf-identity-avatar-slot">
+            <span class="hf-identity-avatar-slot" data-avatar-seed="{{ user.username }}">
               <img id="homeTriggerUserAvatar" class="hf-identity-avatar-img" src="{{ user.avatar_url }}" alt="" width="26" height="26" decoding="async">
               <span id="homeTriggerAnonAvatar" class="hf-identity-avatar-anon" style="display: none;" hidden>
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
