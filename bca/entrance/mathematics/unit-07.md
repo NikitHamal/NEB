@@ -41,7 +41,7 @@ assert math.factorial(6) // (math.factorial(3) * math.factorial(2)) == 60 and ma
 f = Fig(780, 320)
 for n in range(9):
     for r in range(n + 1):
-        x = 215 + (r - n / 2) * 44; y = 24 + n * 32
+        x = 240 + (r - n / 2) * 40; y = 24 + n * 32
         hi = (n, r) == (5, 2)
         f.circle(x, y, 15, fill=("#fde68a" if hi else "#dbeafe"), stroke=(RED if hi else NAVY), label=str(math.comb(n, r)), size=(10 if math.comb(n, r) > 9 else 11), color=NAVY, bold=True)
     f.text(10, y + 4, "n=%d" % n, size=10, color=SLATE, anchor="start")
