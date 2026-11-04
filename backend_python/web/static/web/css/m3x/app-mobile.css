@@ -42,8 +42,13 @@
   .neb-menu.neb-menu-sheet .neb-menu-item { min-height: 52px; }
   .more-menu.neb-menu-sheet { inset: auto 0 var(--neb-kb) 0; max-width: none; max-height: min(76dvh, calc(var(--neb-vh) - 24px)); overflow-y: auto; }
   .neb-sheet { max-height: min(90dvh, calc(var(--neb-vh) - 12px)); }
-  .modal-overlay { padding-bottom: var(--neb-kb); }
-  .modal-box { max-height: min(92dvh, calc(var(--neb-vh) - 12px)); }
+  .modal-overlay { padding: 0 0 var(--neb-kb); align-items: flex-end; }
+  .modal-box {
+    width: 100%; max-width: none; margin: 0; max-height: min(92dvh, calc(var(--neb-vh) - 12px));
+    border-radius: 28px 28px 0 0; border-width: 1px 0 0; padding-bottom: env(safe-area-inset-bottom, 0px);
+    transform: translateY(100%); transition: transform .5s var(--spring);
+  }
+  .modal-overlay.active .modal-box { transform: none; }
 }
 
 @media (max-width: 600px) and (prefers-reduced-motion: reduce) {

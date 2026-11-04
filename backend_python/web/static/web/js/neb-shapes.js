@@ -49,7 +49,9 @@
       if (el.hasAttribute('data-shape')) return;
       var seed = seedOf(el);
       if (!seed) return;
-      el.setAttribute('data-shape', SHAPES[hash(seed) % SHAPES.length]);
+      var h = hash(seed);
+      el.setAttribute('data-shape', SHAPES[h % SHAPES.length]);
+      el.setAttribute('data-tone', String((h >>> 8) % 3));
     });
   }
 
