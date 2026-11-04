@@ -170,13 +170,8 @@
             {% endif %}
 
             <!-- Student Subtitle / Role Headline -->
+            {% if not profile_user.is_bot and profile_user.username != 'neby' %}
             <p class="pf-card-headline">
-              {% if profile_user.is_bot or profile_user.username == 'neby' %}
-                <span class="pf-bot-tagline">
-                  <span class="material-symbols-outlined">auto_awesome</span>
-                  {% if agent_persona and agent_persona.tagline %}{{ agent_persona.tagline }}{% else %}Autonomous Agent{% endif %}
-                </span>
-              {% else %}
                 {% if profile_user.role == 'teacher' %}
                   Teacher{% if profile_user.teaching_subjects %}, {{ profile_user.teaching_subjects|comma_space }}{% endif %}{% if profile_user.school %}, {{ profile_user.school }}{% endif %}
                 {% elif profile_user.role == 'institution' %}
@@ -204,28 +199,6 @@
               {% endif %}
             </p>
 
-            {% if profile_user.is_bot or profile_user.username == 'neby' %}
-              <div class="neby-mood-bar">
-                <button type="button" class="neby-mood-pill" data-neby-react="wave">👋 Hi</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="wink">😉 Wink</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="love">❤️ Love</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="kiss">💋 Kiss</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="laugh">😆 Laugh</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="celebrate">🎉 Celebrate</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="cool">😎 Cool</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="surprised">😮 Wow</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="think">🤔 Think</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="read">📖 Read</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="listen">👂 Listen</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="talk">💬 Talk</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="success">✅ Done</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="oops">😅 Oops</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="sad">😢 Sad</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="dizzy">💫 Dizzy</button>
-                <button type="button" class="neby-mood-pill" data-neby-react="sleep">😴 Sleepy</button>
-              </div>
-            {% endif %}
-
             {% comment %} The bio, with no heading over it. A one-paragraph "About" section
                inside a profile is a label for something the reader can already
                see. {% endcomment %}
@@ -244,7 +217,6 @@
                 {% endif %}
               {% endif %}
             </p>
-            {% include "web/_agent_persona_card.html" %}
 
             {% comment %} Where they are, where they study, when they arrived: one wrapped
                line of grey rather than three icon rows stacked vertically. {% endcomment %}
@@ -369,10 +341,6 @@
           <!-- Bot: Try @neby CTA card -->
           <div class="pf-bot-cta-card">
             <div class="pf-bot-cta-content">
-              <div class="pf-bot-cta-eyebrow">
-                <span class="material-symbols-outlined">auto_awesome</span>
-                AI ASSISTANT
-              </div>
               <h3 class="pf-bot-cta-title">Try @neby in your next post</h3>
               <p class="pf-bot-cta-desc">
                 I read every post that mentions me. Drop <code>@neby</code> into a question
