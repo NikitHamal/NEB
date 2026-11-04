@@ -7,6 +7,7 @@ import html, math
 NAVY, SLATE, TEAL, AMBER, RED = "#1e3a8a", "#334155", "#0f766e", "#b45309", "#b91c1c"
 SOFT, BLUE, MINT, SAND, ROSE = "#f8fafc", "#eff6ff", "#ecfdf5", "#fffbeb", "#fef2f2"
 FONT = "Inter, 'DejaVu Sans', Arial, sans-serif"
+MONO = "'JetBrains Mono', 'DejaVu Sans Mono', monospace"
 WARN = []
 
 
@@ -37,7 +38,7 @@ class Fig:
         wt = ' font-weight="700"' if bold else ""
         it = ' font-style="italic"' if italic else ""
         for i, ln in enumerate(lines):
-            self.o.append(f'<text x="{x}" y="{y0 + i * lh:.1f}" font-family="{FONT}" font-size="{size}" '
+            self.o.append(f'<text x="{x}" y="{y0 + i * lh:.1f}" font-family="{MONO if "$" in ln else FONT}" font-size="{size}" '
                           f'fill="{color}" text-anchor="{anchor}"{wt}{it}>{_e(ln)}</text>')
         return self
 
