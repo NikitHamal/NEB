@@ -2526,14 +2526,6 @@ dialog.hf-post-dialog[open] {
   cursor: pointer;
   text-decoration: none;
 }
-.hf-peer-follow:hover { filter: brightness(1.08); }
-/* toggle-follow swaps these two classes on the button it was clicked on, so the
-   followed state is styled off the class the shared handler already sets. */
-.hf-peer-follow.following {
-  background: var(--md-surface-container-high);
-  border: 1px solid var(--md-outline-variant);
-  color: var(--md-on-surface-variant);
-}
 
 /* ── An announcement ─────────────────────────────────────────────────────── */
 .hf-news-card {

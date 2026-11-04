@@ -86,6 +86,7 @@ NAV_GROUPS = (
         ('site_themes', 'admin_site_themes', 'palette', 'Site themes', None),
         ('neby_studio', 'admin_neby_studio', 'mood', 'Neby studio', None),
         ('art_library', 'admin_art_library', 'brush', 'Art library', None),
+        ('dither_art', 'admin_dither_art', 'blur_on', 'Dither arts', None),
     )),
     ('Automation', (
         ('bot', 'admin_bots', 'smart_toy', 'AI bots', None),

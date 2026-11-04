@@ -1421,8 +1421,8 @@ table td { color: var(--md-on-surface); border-color: var(--md-outline-variant);
 
 .vw-cover {
   position: relative; isolation: isolate; display: grid; place-items: center; text-align: center;
-  min-height: clamp(420px, 62vh, 620px); padding: 48px 24px;
-  background: var(--md-surface-container-low) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Cpath d='M24 0H0V24' fill='none' stroke='%230058df' stroke-opacity='.08'/%3E%3C/svg%3E");
+  min-height: clamp(420px, 62vh, 620px); padding: 48px 24px 88px;
+  background: var(--md-surface-container-low);
 }
 .vw-cover[hidden], .vw-reader[hidden] { display: none; }
 .vw-hero { display: flex; flex-direction: column; align-items: center; gap: 14px; max-width: 520px; }
@@ -1450,31 +1450,16 @@ table td { color: var(--md-on-surface); border-color: var(--md-outline-variant);
 }
 .vw-cover-note { margin: -4px 0 0; color: var(--md-on-surface-variant); font-size: .9375rem; word-break: break-word; }
 .vw-cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 10px; }
-.vw-cta .x-btn { --h: 56px; padding: 0 30px; font-size: 1rem; border-radius: 28px; }
+.vw-cta .x-btn { --h: 40px; padding: 0 22px; font-size: .875rem; border-radius: 20px; }
 .vw-cta .x-btn:hover { }
-.vw-read { min-width: 160px; }
+.vw-read { min-width: 0; }
+.vw-cover::before {
+  content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: color-mix(in srgb, var(--sc, var(--md-primary)) 55%, var(--md-on-surface)); opacity: .5;
+  -webkit-mask: url("/static/web/art/dither/cover-dunes-mask.png") center bottom / cover no-repeat;
+          mask: url("/static/web/art/dither/cover-dunes-mask.png") center bottom / cover no-repeat;
+}
 
-.vw-pixels { position: absolute; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
-.vw-pixels i {
-  position: absolute; bottom: -12px; width: 8px; height: 8px; background: var(--md-primary); opacity: 0;
-  animation: vw-rise 7s steps(14) infinite;
-}
-.vw-pixels i:nth-child(1) { left: 8%; animation-delay: 0s; }
-.vw-pixels i:nth-child(2) { left: 18%; animation-delay: 2.1s; width: 12px; height: 12px; background: var(--md-tertiary); }
-.vw-pixels i:nth-child(3) { left: 29%; animation-delay: 4.3s; }
-.vw-pixels i:nth-child(4) { left: 41%; animation-delay: 1.2s; width: 4px; height: 4px; }
-.vw-pixels i:nth-child(5) { left: 53%; animation-delay: 5.1s; background: var(--md-tertiary); }
-.vw-pixels i:nth-child(6) { left: 64%; animation-delay: .6s; width: 12px; height: 12px; }
-.vw-pixels i:nth-child(7) { left: 74%; animation-delay: 3.2s; }
-.vw-pixels i:nth-child(8) { left: 83%; animation-delay: 5.8s; width: 4px; height: 4px; background: var(--md-tertiary); }
-.vw-pixels i:nth-child(9) { left: 91%; animation-delay: 1.8s; }
-.vw-pixels i:nth-child(10) { left: 3%; animation-delay: 3.9s; width: 4px; height: 4px; }
-@keyframes vw-rise {
-  0% { transform: translateY(0); opacity: 0; }
-  12% { opacity: .5; }
-  80% { opacity: .25; }
-  100% { transform: translateY(-460px); opacity: 0; }
-}
 
 /* ---------- reader ---------- */
 .vw-bar { display: flex; align-items: center; gap: 6px; padding: 8px 10px; border-bottom: 1px solid var(--md-outline-variant); background: var(--md-surface-container-lowest); }
@@ -1573,7 +1558,7 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   .vw-parts { grid-template-columns: 1fr; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .vw-sprite, .vw-pixels i { animation: none; }
+  .vw-sprite { animation: none; }
   .vw-sprite, .vw-part, .vw-part-ico, .vw-image img { transition-duration: .01s; }
 }
 
@@ -2150,53 +2135,45 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
 
 /* ---- m3x/app-follow.css ---- */
 /* The Follow button: one component for every place a person can be followed (feed, comments, search,
-   people rail, hover card, profile). Two states, told apart by tone and a glyph, not by a stroke:
-     not following -> filled primary, "+"
-     following     -> tonal secondary, tick
-   The shape is a pill in every state; it presses in on tap but never changes shape. */
+   people rail, hover card, profile). Text only, small, two states told apart by tone:
+     not following -> filled primary "Follow"
+     following     -> neutral tonal "Following" (never primary, never a glyph)
+   A pill in every state; it presses in on tap but never changes shape. */
 
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) {
-  --fh: 34px;
+  --fh: 28px;
   appearance: none; -webkit-appearance: none; box-sizing: border-box; cursor: pointer;
-  display: inline-flex; align-items: center; justify-content: center; gap: 4px; flex: none;
-  height: var(--fh); min-height: var(--fh); padding: 0 14px 0 10px; margin: 0;
-  border: 0 !important; border-radius: 999px; white-space: nowrap;
-  font: 600 .8125rem/1 var(--body, inherit); letter-spacing: .01em; text-decoration: none;
+  display: inline-flex; align-items: center; justify-content: center; flex: none;
+  height: var(--fh); min-height: var(--fh); width: auto; padding: 0 14px; margin: 0; gap: 0;
+  border: 0 !important; border-radius: 14px; white-space: nowrap;
+  font: 600 .75rem/1 var(--body, inherit); letter-spacing: .01em; text-decoration: none;
   background: var(--md-primary); color: var(--md-on-primary);
-  transition: border-radius .5s var(--spring), background-color .2s, color .2s, transform .35s var(--spring);
+  transition: background-color .2s, color .2s, transform .35s var(--spring);
   -webkit-tap-highlight-color: transparent;
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle)::before {
-  content: "add"; font-family: 'Material Symbols Outlined'; font-weight: 400; font-size: 18px; line-height: 1;
-  font-variation-settings: 'wght' 600, 'opsz' 20; font-feature-settings: 'liga'; letter-spacing: 0;
-  transition: transform .4s var(--spring);
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle)::before { content: none !important; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle) > .material-symbols-outlined { display: none; }
+
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):is(.following, :not(.not-following)),
+.profile-page #btnFollowToggle:is(.pf-btn-outlined, .is-requested) {
+  background: var(--md-surface-container-high); color: var(--md-on-surface);
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following,
-.profile-page #btnFollowToggle.pf-btn-outlined {
-  background: var(--md-secondary-container); color: var(--md-on-secondary-container);
+/* a freshly rendered Follow button always carries .not-following; the primary fill is its only other state */
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:not(.following) {
+  background: var(--md-primary); color: var(--md-on-primary);
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following::before,
-.profile-page #btnFollowToggle.pf-btn-outlined::before { content: "check"; }
-.profile-page #btnFollowToggle.is-requested::before { content: "pending"; }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.not-following):not(.following)::before { content: none; }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow):not(.not-following):not(.following) { padding: 0 14px; }
-.profile-page #btnFollowToggle > .material-symbols-outlined { display: none; }
-.profile-page #btnFollowToggle { --fh: 44px; padding: 0 22px 0 16px; gap: 6px; font-size: .9375rem; }
-.profile-page #btnFollowToggle::before { font-size: 20px; }
+
+.profile-page #btnFollowToggle { --fh: 36px; padding: 0 18px; font-size: .8125rem; border-radius: 18px; }
 
 @media (hover: hover) {
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):hover { }
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:hover::before,
-  .profile-page #btnFollowToggle.pf-btn-filled:hover::before { transform: rotate(90deg); }
+  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).not-following:not(.following):hover,
+  .profile-page #btnFollowToggle.pf-btn-filled:hover { background: color-mix(in srgb, var(--md-primary) 86%, var(--md-on-primary)); }
   :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow).following:hover,
-  .profile-page #btnFollowToggle.pf-btn-outlined:hover { background: var(--md-error-container); color: var(--md-on-error-container); }
+  .profile-page #btnFollowToggle.pf-btn-outlined:hover { background: var(--md-surface-container-highest); }
 }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):active { transform: scale(.94); }
-:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):focus-visible { outline: 3px solid color-mix(in srgb, var(--md-primary) 60%, transparent); outline-offset: 2px; }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):active { transform: scale(.95); }
+:is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow, .profile-page #btnFollowToggle):focus-visible { outline: 2px solid var(--md-primary); outline-offset: 2px; }
 :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow)[disabled] { opacity: .6; pointer-events: none; }
-@media (max-width: 480px) {
-  :is(.follow-btn-inline, .follow-btn-small, .hf-peer-follow) { --fh: 32px; padding: 0 12px 0 8px; }
-}
 
 /* ---- m3x/app-contrast.css ---- */
 /* Contrast guards. An accent (a subject hue, a creator colour, a tool colour) is a fill, not a
@@ -2403,3 +2380,21 @@ a.ga-row:hover { background: var(--md-surface-container-high); }
   .rq-vote { width: 48px; height: 60px; }
   .rq-form-row { grid-template-columns: 1fr; }
 }
+
+/* ---- m3x/app-sizing.css ---- */
+/* One size scale for buttons, loaded last. Page actions and dialog actions are 40px, compact controls 32px,
+   follow buttons 28px (app-follow.css). Pills stay finite (radius = half the height). */
+
+.x-btn { --h: 40px; padding: 0 20px; gap: 8px; font-size: .875rem; border-radius: 20px; }
+.x-btn .material-symbols-outlined { font-size: 18px; }
+.x-icon-btn { width: 40px; height: 40px; border-radius: 20px; }
+.x-icon-btn .material-symbols-outlined { font-size: 22px; }
+.md-btn { min-height: 40px; padding: 0 20px; gap: 8px; font-size: .875rem; line-height: 1; }
+.md-btn .material-symbols-outlined { font-size: 18px; }
+.md-btn-small { min-height: 32px; padding: 0 14px; font-size: .8125rem; }
+.neb-dialog-actions .md-btn, .neb-dialog-actions button { min-height: 40px; }
+.neb-sheet .x-btn, .neb-dialog .x-btn { --h: 40px; }
+.ga-sheet .ga-close { align-self: center; min-width: 120px; }
+.profile-page .pf-btn { min-height: 36px; padding: 0 18px; gap: 6px; border-radius: 18px; font-size: .8125rem; }
+.profile-page .pf-btn .material-symbols-outlined { font-size: 18px; }
+.vw-cta .x-btn { --h: 40px; padding: 0 22px; font-size: .875rem; border-radius: 20px; }
