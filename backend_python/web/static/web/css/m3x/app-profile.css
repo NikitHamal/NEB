@@ -116,3 +116,17 @@
   .profile-page .pf-avatar-overlap-wrap { --av: 96px; }
   .profile-page .pf-card-name { font-size: 1.5rem; }
 }
+
+/* ---------- About tab stat tiles: the same tonal tile as the header, no outline ---------- */
+.profile-page .ov-stat {
+  border: 0; border-radius: 20px; padding: 14px 12px;
+  background: var(--md-surface-container); color: var(--md-on-surface);
+  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+}
+.profile-page .ov-stat[data-action]:hover { background: var(--md-secondary-container); border-radius: 28px; }
+.profile-page .ov-stat[data-action]:active { transform: scale(.97); }
+.profile-page .ov-stat-value { font-family: var(--display); }
+.profile-page .ov-stat-label { font-size: .75rem; font-weight: 600; }
+.profile-page .ov-stat.academic { background: var(--md-primary-container); }
+.profile-page .ov-stat.academic .ov-stat-value,
+.profile-page .ov-stat.academic .ov-stat-label { color: var(--md-on-primary-container); }
