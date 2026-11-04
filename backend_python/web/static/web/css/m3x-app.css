@@ -1807,7 +1807,7 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
    stat tiles, and the tab rail below. The same drawing on a phone and a desktop; only the grid
    changes. Prefixed .profile-page so it outranks app/ and pages/profile.css. */
 
-.profile-page { --pf-card: var(--md-surface-container-low); --badge-ring: var(--pf-card); }
+.profile-page { --pf-card: var(--md-surface-container-lowest); --badge-ring: var(--pf-card); }
 .profile-page .pf-compact-card {
   position: relative; background: var(--pf-card); color: var(--md-on-surface);
   border: 1px solid var(--md-outline-variant); border-radius: 32px; padding: 8px 8px 20px; overflow: visible;
@@ -1864,7 +1864,8 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 .profile-page .pf-btn:hover { border-radius: 14px; }
 .profile-page .pf-btn:active { transform: scale(.96); }
 .profile-page .pf-btn-filled { background: var(--md-primary); color: var(--md-on-primary); }
-.profile-page .pf-btn-outlined { background: var(--md-secondary-container); color: var(--md-on-secondary-container); }
+.profile-page .pf-btn-outlined { background: var(--md-surface-container-lowest); color: var(--md-primary); border: 1.5px solid var(--md-outline-variant); }
+.profile-page .pf-btn-outlined:hover { border-color: var(--md-primary); }
 .profile-page .pf-btn .material-symbols-outlined { font-size: 20px; color: inherit; }
 
 .profile-page .pf-card-body { padding: 14px 14px 0; }
@@ -1878,24 +1879,27 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 .profile-page .pf-card-username { color: var(--md-on-surface-variant); font-weight: 500; margin-top: 2px; }
 .profile-page .pf-card-headline { color: var(--md-on-secondary-container); font-weight: 600; margin: 12px 0 0; }
 .profile-page .pf-card-bio { color: var(--md-on-surface); line-height: 1.55; margin: 8px 0 0; }
-.profile-page .pf-meta-flow { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.profile-page .pf-meta-flow { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; }
 .profile-page .pf-meta-item {
-  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 10px; border-radius: 14px;
-  background: var(--md-surface-container); color: var(--md-on-surface-variant); font-size: .8125rem; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 6px; padding: 0; background: none;
+  color: var(--md-on-surface-variant); font-size: .8125rem; font-weight: 500;
 }
 .profile-page .pf-meta-item .material-symbols-outlined { font-size: 18px; color: var(--md-on-surface-variant); }
 .profile-page .pf-meta-item a { color: var(--md-primary); font-weight: 600; text-decoration: none; }
 
-.profile-page .pf-stats-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 16px; }
-.profile-page .pf-stat-col {
-  display: flex; flex-direction: column-reverse; align-items: flex-start; gap: 0; padding: 12px 14px;
-  background: var(--md-surface-container); color: var(--md-on-surface); border-radius: 20px; min-width: 0;
-  transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
+.profile-page .pf-stats-row {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; padding: 0; justify-content: stretch; margin-top: 16px; overflow: hidden;
+  border: 1px solid var(--md-outline-variant); border-radius: 20px; background: var(--md-surface-container-lowest);
 }
+.profile-page .pf-stat-col {
+  display: flex; flex-direction: column-reverse; align-items: center; gap: 0; padding: 12px 8px; min-width: 0; text-align: center;
+  background: none; color: var(--md-on-surface); transition: background-color .15s, transform .3s var(--spring);
+}
+.profile-page .pf-stat-col + .pf-stat-col { border-left: 1px solid var(--md-outline-variant); }
 .profile-page .pf-stat-col[data-action] { cursor: pointer; }
-.profile-page .pf-stat-col[data-action]:hover { background: var(--md-secondary-container); border-radius: 28px; }
+.profile-page .pf-stat-col[data-action]:hover { background: var(--md-primary-container); }
 .profile-page .pf-stat-col[data-action]:active { transform: scale(.97); }
-.profile-page .pf-stat-num { font-family: var(--display); font-size: 1.5rem; font-weight: 700; line-height: 1.2; color: var(--md-on-surface); }
+.profile-page .pf-stat-num { font-family: var(--display); font-size: 1.375rem; font-weight: 700; line-height: 1.2; color: var(--md-on-surface); }
 .profile-page .pf-stat-label { font-size: .75rem; font-weight: 600; letter-spacing: .02em; color: var(--md-on-surface-variant); }
 .profile-page .pf-buttons-row { display: flex; gap: 8px; margin-top: 12px; }
 .profile-page .pf-buttons-row .pf-btn { flex: 1; justify-content: center; }
@@ -1923,17 +1927,59 @@ a.ga-row:hover { border-radius: 16px; background: var(--md-surface-container-hig
 
 /* ---------- About tab stat tiles: the same tonal tile as the header, no outline ---------- */
 .profile-page .ov-stat {
-  border: 0; border-radius: 20px; padding: 14px 12px;
-  background: var(--md-surface-container); color: var(--md-on-surface);
+  border: 1px solid var(--md-outline-variant); border-radius: 20px; padding: 14px 12px;
+  background: var(--md-surface-container-lowest); color: var(--md-on-surface);
   transition: border-radius .5s var(--spring), background-color .15s, transform .3s var(--spring);
 }
-.profile-page .ov-stat[data-action]:hover { background: var(--md-secondary-container); border-radius: 28px; }
+.profile-page .ov-stat[data-action]:hover { background: var(--md-primary-container); border-radius: 28px; }
 .profile-page .ov-stat[data-action]:active { transform: scale(.97); }
 .profile-page .ov-stat-value { font-family: var(--display); }
 .profile-page .ov-stat-label { font-size: .75rem; font-weight: 600; }
 .profile-page .ov-stat.academic { background: var(--md-primary-container); }
 .profile-page .ov-stat.academic .ov-stat-value,
 .profile-page .ov-stat.academic .ov-stat-label { color: var(--md-on-primary-container); }
+
+/* ---- m3x/app-profile-feed.css ---- */
+/* Profile feed cards. The feed belongs to one person, so a card never repeats that person's
+   avatar, name, badge or Follow button: it opens on the category and the time, then the title,
+   a three-line excerpt and the actions. White surface, one stroke, springy corner on hover. */
+.profile-page .activity-list { display: flex; flex-direction: column; gap: 12px; }
+.profile-page .activity-list > .post-card {
+  margin: 0; padding: 18px 20px 10px; background: var(--md-surface-container-lowest);
+  border: 1px solid var(--md-outline-variant); border-radius: 24px;
+  transition: border-radius .55s var(--spring), border-color .2s, transform .3s var(--spring);
+}
+@media (hover: hover) { .profile-page .activity-list > .post-card:hover { border-radius: 30px; border-color: var(--md-outline); } }
+.profile-page .activity-list > .post-card:active { transform: scale(.995); }
+.profile-page .activity-list > .post-card .post-card-header { padding: 0; margin: 0 0 10px; gap: 0; }
+.profile-page #tabPosts .post-card-avatar, .profile-page #tabPosts .post-card-meta-top { display: none !important; }
+.profile-page .activity-list .post-card-meta-bottom { margin: 0 !important; gap: 10px !important; }
+.profile-page .activity-list .post-card-cat {
+  padding: 4px 12px; border-radius: 10px; font-size: .75rem; font-weight: 600;
+  background: var(--md-primary-container); color: var(--md-on-primary-container);
+}
+.profile-page .activity-list .post-card-time { font-size: .8125rem; color: var(--md-on-surface-variant); }
+.profile-page .activity-list .post-card h3 { margin: 0 0 6px; font-family: var(--display); font-size: 1.125rem; font-weight: 700; line-height: 1.3; letter-spacing: -.01em; }
+.profile-page .activity-list .post-card h3 a { color: var(--md-on-surface); text-decoration: none; }
+.profile-page .activity-list .post-card-content {
+  margin: 0; font-size: .9375rem; line-height: 1.55; color: var(--md-on-surface-variant);
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+}
+.profile-page .activity-list .post-card-actions { margin: 12px -8px 0; padding: 0; border: 0; gap: 4px; align-items: center; }
+.profile-page .activity-list .post-card-actions :is(button, a) {
+  min-height: 40px; padding: 0 12px; display: inline-flex; align-items: center; gap: 6px; border: 0; border-radius: 20px;
+  background: none; color: var(--md-on-surface-variant); font-size: .8125rem; font-weight: 600; text-decoration: none;
+  transition: border-radius .5s var(--spring), background-color .15s, color .15s;
+}
+.profile-page .activity-list .post-card-actions :is(button, a) .material-symbols-outlined { font-size: 20px; color: inherit; }
+@media (hover: hover) { .profile-page .activity-list .post-card-actions :is(button, a):hover { background: var(--md-primary-container); color: var(--md-on-primary-container); border-radius: 14px; } }
+.profile-page .activity-list .post-card-actions .liked, .profile-page .activity-list .post-card-actions .bookmark-active { color: var(--md-primary); }
+
+/* tabs scroll sideways instead of clipping the last one */
+.profile-page .neb-rail { overflow-x: auto; scrollbar-width: none; flex-wrap: nowrap; }
+.profile-page .neb-rail::-webkit-scrollbar { display: none; }
+.profile-page .neb-rail-item { flex: none; }
+@media (max-width: 600px) { .profile-page .activity-list > .post-card { padding: 16px 16px 8px; border-radius: 22px; } }
 
 /* ---- m3x/app-fields.css ---- */
 /* One field language. Every text field, picker trigger, select and option card is a white
